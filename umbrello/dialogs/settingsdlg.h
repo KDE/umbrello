@@ -28,6 +28,7 @@
 // app includes
 #include "optionstate.h"
 
+class CodeImportOptionsPage;
 class CodeGenOptionsPage;
 class CodeViewerOptionsPage;
 
@@ -138,6 +139,7 @@ private:
     void setupUIPage();
     void setupGeneralPage();
     void setupClassPage();
+    void setupCodeImportPage();
     void setupCodeGenPage();
     void setupCodeViewerPage(Settings::CodeViewerState options);
     void applyPage( KPageWidgetItem* );
@@ -148,11 +150,12 @@ private:
     UIWidgets m_UiWidgets;
     ClassWidgets m_ClassWidgets;
     Settings::OptionState *m_pOptionState;
+    CodeImportOptionsPage * m_pCodeImportPage;
     CodeGenOptionsPage * m_pCodeGenPage;
     CodeViewerOptionsPage * m_pCodeViewerPage;
 
     bool m_bChangesApplied;
-    KPageWidgetItem *pageCodeViewer, *pageFont, *pageCodeGen, *pageUserInterface, *pageGeneral, *pageClass;
+    KPageWidgetItem *pageCodeViewer, *pageFont, *pageCodeImport, *pageCodeGen, *pageUserInterface, *pageGeneral, *pageClass;
 
 private slots:
     void slotApply();

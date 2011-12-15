@@ -985,6 +985,8 @@ void UMLApp::saveOptions()
     // now write the basic defaults to config
     m_commoncodegenpolicy->writeConfig();
 
+    UmbrelloSettings::setCreateArtifacts(optionState.codeImportState.createArtifacts);
+
     UmbrelloSettings::self()->writeConfig();
 }
 
@@ -1992,6 +1994,9 @@ void UMLApp::readOptionState()
     // Ruby code generation options
     optionState.codeGenerationState.rubyCodeGenerationState.autoGenerateAttributeAccessors = UmbrelloSettings::autoGenerateAttributeAccessorsRuby();
     optionState.codeGenerationState.rubyCodeGenerationState.autoGenerateAssocAccessors = UmbrelloSettings::autoGenerateAssocAccessorsRuby();
+
+    // code importer options
+    optionState.codeImportState.createArtifacts = UmbrelloSettings::createArtifacts();
 
     // general config options will be read when created
 }

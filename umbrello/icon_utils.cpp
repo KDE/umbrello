@@ -191,6 +191,8 @@ QString toString(IconType type)
             return "preferences-desktop-theme";
         case it_Properties_Class:
             return "document-properties";
+        case it_Properties_CodeImport:
+            return "text-x-generic";
         case it_Properties_CodeGeneration:
             return "text-x-generic";
         case it_Properties_CodeViewer:

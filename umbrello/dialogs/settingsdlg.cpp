@@ -12,6 +12,7 @@
 #include "settingsdlg.h"
 
 // app includes
+#include "codeimportoptionspage.h"
 #include "codegenoptionspage.h"
 #include "codevieweroptionspage.h"
 #include "dialog_utils.h"
@@ -41,6 +42,7 @@ SettingsDlg::SettingsDlg( QWidget * parent, Settings::OptionState *state )
     setupFontPage();
     setupUIPage();
     setupClassPage();
+    setupCodeImportPage();
     setupCodeGenPage();
     setupCodeViewerPage(state->codeViewerState);
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
@@ -352,6 +354,17 @@ void SettingsDlg::insertOperationScope( const QString& type, int index )
     m_ClassWidgets.m_pOperationScopeCB->completionObject()->addItem( type );
 }
 
+void SettingsDlg::setupCodeImportPage()
+{
+    //setup code importer settings page
+    KVBox * page = new KVBox();
+    pageCodeImport = new KPageWidgetItem( page,i18n("Code Importer") );
+    pageCodeImport->setHeader( i18n("Code Import Settings") );
+    pageCodeImport->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_CodeImport) );
+    addPage( pageCodeImport );
+    m_pCodeImportPage = new CodeImportOptionsPage(page);
+}
+
 void SettingsDlg::setupCodeGenPage()
 {
     //setup code generation settings page
@@ -399,6 +412,7 @@ void SettingsDlg::slotOk()
     applyPage( pageGeneral);
     applyPage( pageUserInterface );
     applyPage( pageCodeViewer);
+    applyPage( pageCodeImport );
     applyPage( pageCodeGen );
     applyPage( pageFont );
     accept();
@@ -441,7 +455,14 @@ void SettingsDlg::slotDefault()
         m_ClassWidgets.m_pAttribScopeCB->setCurrentIndex(1); // Private
         m_ClassWidgets.m_pOperationScopeCB->setCurrentIndex(0); // Public
     }
-    else if (  current == pageCodeGen || current == pageCodeViewer )
+    else if (  current == pageCodeImport )
+    {
+        m_pCodeImportPage->setDefaults();
+    }
+    else if (  current == pageCodeGen )
+    {
+    }
+    else if ( current == pageCodeViewer )
     {
     }
 }
@@ -488,6 +509,10 @@ void SettingsDlg::applyPage( KPageWidgetItem*item )
         m_pOptionState->classState.showPackage = m_ClassWidgets.showPackageCB->isChecked();
         m_pOptionState->classState.defaultAttributeScope = (Uml::Visibility::Value) m_ClassWidgets.m_pAttribScopeCB->currentIndex();
         m_pOptionState->classState.defaultOperationScope = (Uml::Visibility::Value) m_ClassWidgets.m_pOperationScopeCB->currentIndex();
+    }
+    else if ( item == pageCodeImport )
+    {
+        m_pCodeImportPage->apply();
     }
     else if ( item == pageCodeGen )
     {

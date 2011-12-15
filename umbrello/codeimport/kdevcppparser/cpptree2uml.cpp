@@ -60,6 +60,13 @@ void CppTree2Uml::parseTranslationUnit( TranslationUnitAST* ast )
     TreeParser::parseTranslationUnit( ast );
 }
 
+void CppTree2Uml::parseFile( FileAST* ast )
+{
+    Import_Utils::createUMLObject(UMLObject::ot_Artifact, ast->fileName(),
+                                  0,
+                                  ast->comment());
+}
+
 void CppTree2Uml::parseNamespace( NamespaceAST* ast )
 {
     if (m_clsCnt > 0) {

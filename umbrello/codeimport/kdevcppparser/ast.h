@@ -171,6 +171,7 @@ enum NodeType
     NodeType_TemplateParameter,
     NodeType_TemplateParameterList,
     NodeType_Condition,
+    NodeType_File,
 
     NodeType_Custom = 2000
   };
@@ -420,6 +421,32 @@ public:
 private:
     DeclarationAST( const DeclarationAST& source );
     void operator = ( const DeclarationAST& source );
+};
+
+class FileAST: public DeclarationAST
+{
+public:
+    typedef AUTO_PTR<FileAST> Node;
+    enum { Type = NodeType_File };
+
+    DECLARE_ALLOC( FileAST )
+
+    public:
+    FileAST();
+    
+    QString fileName() { return m_fileName; }
+    void setFileName(QString fileName) { m_fileName = fileName; }
+
+    QList<AST*> nodeList() { return m_nodeList; }
+    void addNode( AST::Node& node );
+
+private:
+    QList<AST*> m_nodeList;
+    QString m_fileName;
+
+private:
+    FileAST( const FileAST& source );
+    void operator = ( const FileAST& source );
 };
 
 class AccessDeclarationAST: public DeclarationAST

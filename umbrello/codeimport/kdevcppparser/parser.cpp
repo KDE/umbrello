@@ -421,12 +421,23 @@ bool Parser::parseTranslationUnit(TranslationUnitAST::Node& node)
 bool Parser::parseDeclaration(DeclarationAST::Node& node)
 {
     //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseDeclaration()";
+    bool firstToken = m_tokenIt == lex->tokenBegin();
 
     QString comment;
     while ((*m_tokenIt) == Token_comment) {
         comment += (*m_tokenIt).text();
         ++m_tokenIt;
     }
+
+    if (firstToken)
+    {
+        FileAST::Node ast = CreateNode<FileAST>();
+        ast->setComment(comment);
+        ast->setFileName(m_driver->currentFileName());
+        node = ast;
+        return true;
+    }
+
     if ((*m_tokenIt).isNull())
         return false;
 

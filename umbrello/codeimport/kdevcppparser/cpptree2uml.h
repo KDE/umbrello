@@ -36,6 +36,7 @@ public:
     // declarations
     //virtual void parseDeclaration( DeclarationAST* );  // use parent method
     //virtual void parseLinkageSpecification( LinkageSpecificationAST* );  // use parent method
+    virtual void parseFile( FileAST* ast );
     virtual void parseNamespace( NamespaceAST* );
     //virtual void parseNamespaceAlias( NamespaceAliasAST* );  // use parent method
     //virtual void parseUsing( UsingAST* );  // use parent method

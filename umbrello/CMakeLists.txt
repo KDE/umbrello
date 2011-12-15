@@ -212,6 +212,7 @@ set(libdialogs_SRCS
     dialogs/classwizard.cpp
     dialogs/codeeditor.cpp
     dialogs/codegenerationpolicypage.cpp
+    dialogs/codeimportoptionspage.cpp
     dialogs/codeviewerdialog.cpp
     dialogs/codevieweroptionspage.cpp
     dialogs/codetextedit.cpp
@@ -249,6 +250,7 @@ kde4_add_ui_files(  libdialogs_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/importprojectdlgbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/umlrolepropertiesbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/diagrampropertiespage.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codeimportoptionspage.ui
 )
 
 set(librefactoring_SRCS

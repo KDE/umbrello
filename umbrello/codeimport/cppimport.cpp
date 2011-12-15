@@ -109,6 +109,7 @@ void CppImport::initialize()
     ms_driver->reset();
     // The driver shall attempt to parse included files.
     ms_driver->setResolveDependencesEnabled( true );
+    // FIXME: port to win32
     // Add some standard include paths
     ms_driver->addIncludePath( "/usr/include" );
     ms_driver->addIncludePath( "/usr/include/c++" );

@@ -47,6 +47,10 @@ void TreeParser::parseDeclaration(DeclarationAST* declaration)
         return;
 
     switch (declaration->nodeType()) {
+    case NodeType_File:
+        parseFile(static_cast<FileAST*>(declaration));
+        break;
+
     case NodeType_LinkageSpecification:
         parseLinkageSpecification(static_cast<LinkageSpecificationAST*>(declaration));
         break;
@@ -87,6 +91,12 @@ void TreeParser::parseDeclaration(DeclarationAST* declaration)
         parseAccessDeclaration(static_cast<AccessDeclarationAST*>(declaration));
         break;
     }
+}
+
+void TreeParser::parseFile(FileAST* decl)
+{
+    //uDebug() << "TreeParser::parseFile()";
+    Q_UNUSED(decl);
 }
 
 void TreeParser::parseLinkageSpecification(LinkageSpecificationAST* ast)

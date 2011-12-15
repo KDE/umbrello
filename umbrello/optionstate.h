@@ -25,6 +25,7 @@ enum Page
     page_font,
     page_UI,
     page_class,
+    page_codeimport,
     page_codegen,
     page_codeview
 };
@@ -126,12 +127,17 @@ struct CodeGenerationState {
     RubyCodeGenerationState rubyCodeGenerationState;
 };
 
+struct CodeImportState {
+    bool createArtifacts;
+};
+
 struct OptionState {
     GeneralState        generalState;
     UIState             uiState;
     ClassState          classState;
     CodeViewerState     codeViewerState;
     CodeGenerationState codeGenerationState;
+    CodeImportState     codeImportState;
 };
 
 OptionState& optionState();
