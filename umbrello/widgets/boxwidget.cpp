@@ -14,11 +14,11 @@
 /**
  * Constructs a BoxWidget.
  *
- * @param view              The parent to this widget.
+ * @param scene              The parent to this widget.
  * @param id                The ID to assign (-1 will prompt a new ID.)
  */
-BoxWidget::BoxWidget(UMLView * view, Uml::IDType id)
-  : UMLWidget(view, id)
+BoxWidget::BoxWidget(UMLScene * scene, Uml::IDType id)
+  : UMLWidget(scene, id)
 {
     setSize(100,80);
     UMLWidget::setBaseType(WidgetBase::wt_Box);

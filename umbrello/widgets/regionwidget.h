@@ -28,10 +28,10 @@ public:
     /**
      * Creates a Region widget.
      *
-     * @param view              The parent of the widget.
+     * @param scene              The parent of the widget.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-    explicit RegionWidget( UMLView * view, Uml::IDType id = Uml::id_None );
+    explicit RegionWidget( UMLScene * scene, Uml::IDType id = Uml::id_None );
 
     /**
      * destructor

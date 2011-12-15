@@ -24,8 +24,8 @@
 #include "listpopupmenu.h"
 #include "object_factory.h"
 
-ClassifierWidget::ClassifierWidget(UMLView * view, UMLClassifier *c)
-  : UMLWidget(view, c)
+ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
+  : UMLWidget(scene, c)
 {
     init();
     if (c != NULL && c->isInterface()) {
@@ -49,7 +49,7 @@ void ClassifierWidget::init()
 {
     WidgetBase::setBaseType(WidgetBase::wt_Class);
 
-    const Settings::OptionState& ops = m_pView->optionState();
+    const Settings::OptionState& ops = m_scene->optionState();
     m_showAccess = ops.classState.showVisibility;
     m_showOperations = ops.classState.showOps;
     m_showPublicOnly = ops.classState.showPublicOnly;
@@ -555,7 +555,7 @@ void ClassifierWidget::paint(QPainter & p, int offsetX, int offsetY)
     if ( UMLWidget::getUseFillColour() )
         p.setBrush( UMLWidget::getFillColor() );
     else
-        p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
+        p.setBrush( m_scene->viewport()->palette().color(QPalette::Background) );
 
     if (classifier()->isInterface() && m_drawAsCircle) {
         drawAsCircle(p, offsetX, offsetY);
@@ -765,7 +765,7 @@ void ClassifierWidget::changeToClass()
     WidgetBase::setBaseType(WidgetBase::wt_Class);
     classifier()->setBaseType(UMLObject::ot_Class);
 
-    const Settings::OptionState& ops = m_pView->optionState();
+    const Settings::OptionState& ops = m_scene->optionState();
     m_showAttributes = ops.classState.showAtts;
     m_showStereotype = ops.classState.showStereoType;
 

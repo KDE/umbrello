@@ -56,19 +56,19 @@ using namespace Uml;
 // this constructor really only for loading from XMI, otherwise it
 // is bad..and shouldn't be allowed as it creates an incomplete
 // associationwidget.
-AssociationWidget::AssociationWidget(UMLView *view)
-        : WidgetBase(view)
+AssociationWidget::AssociationWidget(UMLScene *scene)
+  : WidgetBase(scene)
 {
-    init(view);
+    init();
 }
 
 // the preferred constructor
-AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
+AssociationWidget::AssociationWidget(UMLScene *scene, UMLWidget* pWidgetA,
                                      Uml::AssociationType assocType, UMLWidget* pWidgetB,
                                      UMLObject *umlobject /* = NULL */)
-        : WidgetBase(view)
+  : WidgetBase(scene)
 {
-    init(view);
+    init();
     if (umlobject) {
         setUMLObject(umlobject);
     } else {
@@ -121,7 +121,7 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
     // permits us to have more than one message between two objects.
     if (isCollaboration()) {
         // Create a temporary name to bring on setName()
-        int collabID = m_pView->generateCollaborationId();
+        int collabID = m_scene->generateCollaborationId();
         setName('m' + QString::number(collabID));
     }
 }
@@ -134,10 +134,10 @@ AssociationWidget& AssociationWidget::operator=(const AssociationWidget & Other)
 {
     m_LinePath = Other.m_LinePath;
 
-    m_pView = Other.m_pView;
+    m_scene = Other.m_scene;
 
     if (Other.m_pName) {
-        m_pName = new FloatingTextWidget(m_pView);
+        m_pName = new FloatingTextWidget(m_scene);
         *m_pName = *(Other.m_pName);
     } else {
         m_pName = NULL;
@@ -150,21 +150,21 @@ AssociationWidget& AssociationWidget::operator=(const AssociationWidget & Other)
         lhs.m_nTotalCount = rhs.m_nTotalCount;
 
         if (rhs.m_pMulti) {
-            lhs.m_pMulti = new FloatingTextWidget(m_pView);
+            lhs.m_pMulti = new FloatingTextWidget(m_scene);
             *(lhs.m_pMulti) = *(rhs.m_pMulti);
         } else {
             lhs.m_pMulti = NULL;
         }
 
         if (rhs.m_pRole) {
-            lhs.m_pRole = new FloatingTextWidget(m_pView);
+            lhs.m_pRole = new FloatingTextWidget(m_scene);
             *(lhs.m_pRole) = *(rhs.m_pRole);
         } else {
             lhs.m_pRole = NULL;
         }
 
         if (rhs.m_pChangeWidget) {
-            lhs.m_pChangeWidget = new FloatingTextWidget(m_pView);
+            lhs.m_pChangeWidget = new FloatingTextWidget(m_scene);
             *(lhs.m_pChangeWidget) = *(rhs.m_pChangeWidget);
         } else {
             lhs.m_pChangeWidget = NULL;
@@ -389,13 +389,13 @@ void AssociationWidget::setName(const QString &strName)
             return;
 
         newLabel = true;
-        m_pName = new FloatingTextWidget(m_pView, CalculateNameType(Uml::TextRole::Name), strName);
+        m_pName = new FloatingTextWidget(m_scene, CalculateNameType(Uml::TextRole::Name), strName);
         m_pName->setLink(this);
     } else {
         m_pName->setText(strName);
         if (! FloatingTextWidget::isTextValid(strName)) {
             //m_pName->hide();
-            m_pView->removeWidget(m_pName);
+            m_scene->removeWidget(m_pName);
             m_pName = NULL;
             return;
         }
@@ -404,7 +404,7 @@ void AssociationWidget::setName(const QString &strName)
     setTextPosition(Uml::TextRole::Name);
     if (newLabel) {
         m_pName->setActivated();
-        m_pView->addWidget(m_pName);
+        m_scene->addWidget(m_pName);
     }
 
     m_pName->show();
@@ -430,18 +430,18 @@ void AssociationWidget::setFloatingText(Uml::TextRole tr,
     if (! FloatingTextWidget::isTextValid(text)) {
         if (ft) {
             // Remove preexisting FloatingTextWidget
-            m_pView->removeWidget(ft);  // physically deletes ft
+            m_scene->removeWidget(ft);  // physically deletes ft
             ft = NULL;
         }
         return;
     }
 
     if (ft == NULL) {
-        ft = new FloatingTextWidget(m_pView, tr, text);
+        ft = new FloatingTextWidget(m_scene, tr, text);
         ft->setLink(this);
         ft->activate();
         setTextPosition(tr);
-        m_pView->addWidget(ft);
+        m_scene->addWidget(ft);
     } else {
         bool newLabel = ft->text().isEmpty();
         ft->setText(text);
@@ -520,7 +520,7 @@ void AssociationWidget::setMessageText(FloatingTextWidget *ft)
     QString message;
     if (isCollaboration()) {
         if (m_pObject != NULL) {
-            message = multiplicity(A) + ": " + operationText(m_pView);
+            message = multiplicity(A) + ": " + operationText(m_scene);
         } else {
             message = multiplicity(A) + ": " + getName();
         }
@@ -608,9 +608,9 @@ void AssociationWidget::setChangeWidget(const QString &strChangeWidget, Uml::Rol
             return;
 
         newLabel = true;
-        m_role[role].m_pChangeWidget = new FloatingTextWidget(m_pView, tr, strChangeWidget);
+        m_role[role].m_pChangeWidget = new FloatingTextWidget(m_scene, tr, strChangeWidget);
         m_role[role].m_pChangeWidget->setLink(this);
-        m_pView->addWidget(m_role[role].m_pChangeWidget);
+        m_scene->addWidget(m_role[role].m_pChangeWidget);
         m_role[role].m_pChangeWidget->setPreText("{"); // all types have this
         m_role[role].m_pChangeWidget->setPostText("}"); // all types have this
     } else {
@@ -709,9 +709,9 @@ bool AssociationWidget::activate()
     Uml::AssociationType type = associationType();
 
     if (m_role[A].m_pWidget == NULL)
-        setWidget(m_pView->findWidget(getWidgetID(A)), A);
+        setWidget(m_scene->findWidget(getWidgetID(A)), A);
     if (m_role[B].m_pWidget == NULL)
-        setWidget(m_pView->findWidget(getWidgetID(B)), B);
+        setWidget(m_scene->findWidget(getWidgetID(B)), B);
 
     if(!m_role[A].m_pWidget || !m_role[B].m_pWidget) {
         uDebug() << "Can not make association!";
@@ -736,7 +736,7 @@ bool AssociationWidget::activate()
                 robj.m_pRole->show();
             else
                 robj.m_pRole->hide();
-            if (m_pView->type() == DiagramType::Collaboration)
+            if (m_scene->type() == DiagramType::Collaboration)
                 robj.m_pRole->setUMLObject(robj.m_pWidget->umlObject());
             robj.m_pRole->activate();
         }
@@ -797,13 +797,13 @@ bool AssociationWidget::activate()
 Uml::TextRole AssociationWidget::CalculateNameType(Uml::TextRole defaultRole)
 {
     TextRole result = defaultRole;
-    if( m_pView->type() == DiagramType::Collaboration ) {
+    if( m_scene->type() == DiagramType::Collaboration ) {
         if(m_role[A].m_pWidget == m_role[B].m_pWidget) {
             result = TextRole::Coll_Message;//for now same as other Coll_Message
         } else {
             result = TextRole::Coll_Message;
         }
-    } else if( m_pView->type() == DiagramType::Sequence ) {
+    } else if( m_scene->type() == DiagramType::Sequence ) {
         if(m_role[A].m_pWidget == m_role[B].m_pWidget) {
             result = TextRole::Seq_Message_Self;
         } else {
@@ -874,21 +874,21 @@ void AssociationWidget::cleanup()
             robj.m_pWidget = 0;
         }
         if(robj.m_pRole) {
-            m_pView->removeWidget(robj.m_pRole);
+            m_scene->removeWidget(robj.m_pRole);
             robj.m_pRole = 0;
         }
         if(robj.m_pMulti) {
-            m_pView->removeWidget(robj.m_pMulti);
+            m_scene->removeWidget(robj.m_pMulti);
             robj.m_pMulti = 0;
         }
         if(robj.m_pChangeWidget) {
-            m_pView->removeWidget(robj.m_pChangeWidget);
+            m_scene->removeWidget(robj.m_pChangeWidget);
             robj.m_pChangeWidget = 0;
         }
     }
 
     if(m_pName) {
-        m_pView->removeWidget(m_pName);
+        m_scene->removeWidget(m_pName);
         m_pName = 0;
     }
 
@@ -1166,7 +1166,7 @@ void AssociationWidget::moveEvent(QMoveEvent* me)
         // -> avoid movement during opening
         // -> print warn and stay at old position
         uWarning() << "called during load of XMI for ViewType: "
-            << m_pView->type() << ", and BaseType: " << baseType();
+            << m_scene->type() << ", and BaseType: " << baseType();
         return;
     }
     /*to be here a line segment has moved.
@@ -1504,7 +1504,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y )
         // -> there is something wrong
         // -> avoid movement during opening
         // -> print warn and stay at old position
-        uDebug() << "called during load of XMI for ViewType: " << m_pView->type()
+        uDebug() << "called during load of XMI for ViewType: " << m_scene->type()
             << ", and BaseType: " << baseType();
         return;
     }
@@ -1532,8 +1532,8 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y )
             // safety. We DON'T want to go off the screen
             if(newY < 0)
                 newY = 0;
-            newX = m_pView->snappedX( newX );
-            newY = m_pView->snappedY( newY );
+            newX = m_scene->snappedX( newX );
+            newY = m_scene->snappedY( newY );
             p.setX( newX );
             p.setY( newY );
             m_LinePath.setPoint( i, p );
@@ -2430,7 +2430,7 @@ void AssociationWidget::removeAssocClassLine()
 void AssociationWidget::createAssocClassLine()
 {
     if (m_pAssocClassLine == NULL)
-        m_pAssocClassLine = new UMLSceneLine(m_pView->canvas());
+        m_pAssocClassLine = new UMLSceneLine(m_scene->canvas());
     computeAssocClassLine();
     QPen pen(lineColor(), lineWidth(), Qt::DashLine);
     m_pAssocClassLine->setPen(pen);
@@ -2515,7 +2515,7 @@ void AssociationWidget::mousePressEvent(QMouseEvent * me)
 {
     // clear other selected stuff on the screen of ShiftKey
     if( me->modifiers() != Qt::ShiftModifier )
-        m_pView->clearSelected();
+        m_scene->clearSelected();
 
     m_nMovingPoint = -1;
     //make sure we should be here depending on the button
@@ -2595,7 +2595,7 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me)
         else
             menuType = ListPopupMenu::mt_Association_Selected;
     }
-    m_pMenu = new ListPopupMenu(m_pView, menuType);
+    m_pMenu = new ListPopupMenu(m_scene, menuType);
     m_pMenu->popup(me->globalPos());
     connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
     if (isCollaboration()) 
@@ -2610,7 +2610,7 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me)
  */
 void AssociationWidget::showPropertiesDialog()
 {
-    QPointer<AssocPropDlg> dlg = new AssocPropDlg(static_cast<QWidget*>(m_pView), this );
+    QPointer<AssocPropDlg> dlg = new AssocPropDlg(static_cast<QWidget*>(m_scene), this );
     if (dlg->exec()) {
         QString name = getName();
         QString doc = documentation();
@@ -2639,7 +2639,7 @@ void AssociationWidget::showPropertiesDialog()
         setChangeability(cA, A);
         setChangeability(cB, B);
 
-        m_pView->showDocumentation(this, true);
+        m_scene->showDocumentation(this, true);
     }
     delete dlg;
 }
@@ -2671,7 +2671,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
             // here just in case - remove later after testing
             uDebug() << "mt_Properties: assoctype is " << atype;
         } else {  //standard assoc dialog
-            m_pView->updateDocumentation( false );
+            m_scene->updateDocumentation( false );
             showPropertiesDialog();
         }
         break;
@@ -2680,9 +2680,9 @@ void AssociationWidget::slotMenuSelection(QAction* action)
         if (m_pAssocClassLineSel0)
             removeAssocClassLine();
         else if (getAssociation())
-            m_pView->removeAssocInViewAndDoc(this);
+            m_scene->removeAssocInViewAndDoc(this);
         else
-            m_pView->removeAssoc(this);
+            m_scene->removeAssoc(this);
         break;
 
     case ListPopupMenu::mt_Rename_MultiA:
@@ -2694,12 +2694,12 @@ void AssociationWidget::slotMenuSelection(QAction* action)
             oldText = "";
         newText = KInputDialog::getText(i18n("Multiplicity"),
                                         i18n("Enter multiplicity:"),
-                                        oldText, NULL, m_pView,&v);
+                                        oldText, NULL, m_scene,&v);
         if (newText != oldText) {
             if (FloatingTextWidget::isTextValid(newText)) {
                 setMultiplicity(newText, r);
             } else {
-                m_pView->removeWidget(m_role[r].m_pMulti);
+                m_scene->removeWidget(m_role[r].m_pMulti);
                 m_role[r].m_pMulti = NULL;
             }
         }
@@ -2712,12 +2712,12 @@ void AssociationWidget::slotMenuSelection(QAction* action)
             oldText = "";
         newText = KInputDialog::getText(i18n("Association Name"),
                                         i18n("Enter association name:"),
-                                        oldText, NULL, m_pView, &v);
+                                        oldText, NULL, m_scene, &v);
         if (newText != oldText) {
             if (FloatingTextWidget::isTextValid(newText)) {
                 setName(newText);
             } else {
-                m_pView->removeWidget(m_pName);
+                m_scene->removeWidget(m_pName);
                 m_pName = NULL;
             }
         }
@@ -2732,12 +2732,12 @@ void AssociationWidget::slotMenuSelection(QAction* action)
             oldText = "";
         newText = KInputDialog::getText(i18n("Role Name"),
                                         i18n("Enter role name:"),
-                                        oldText, NULL, m_pView, &v);
+                                        oldText, NULL, m_scene, &v);
         if (newText != oldText) {
             if (FloatingTextWidget::isTextValid(newText)) {
                 setRoleName(newText, r);
             } else {
-                m_pView->removeWidget(m_role[r].m_pRole);
+                m_scene->removeWidget(m_role[r].m_pRole);
                 m_role[r].m_pRole = NULL;
             }
         }
@@ -2746,7 +2746,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Change_Font:
         {
             QFont fnt = font();
-            if( KFontDialog::getFont( fnt, KFontChooser::NoDisplayFlags, m_pView ) )
+            if( KFontDialog::getFont( fnt, KFontChooser::NoDisplayFlags, m_scene ) )
                 lwSetFont(fnt);
         }
         break;
@@ -2754,8 +2754,8 @@ void AssociationWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Change_Font_Selection:
         {
             QFont fnt = font();
-            if( KFontDialog::getFont( fnt, KFontChooser::NoDisplayFlags, m_pView ) ) {
-                m_pView->selectionSetFont( fnt );
+            if( KFontDialog::getFont( fnt, KFontChooser::NoDisplayFlags, m_scene ) ) {
+                m_scene->selectionSetFont( fnt );
                 m_umldoc->setModified(true);
             }
         }
@@ -2765,14 +2765,14 @@ void AssociationWidget::slotMenuSelection(QAction* action)
         {
        /*     QColor newColour;
             if( KColorDialog::getColor(newColour) ) {
-                m_pView->selectionSetLineColor(newColour);
+                m_scene->selectionSetLineColor(newColour);
                 m_umldoc->setModified(true);
             }*/
         }
         break;
 
     case ListPopupMenu::mt_Cut:
-        m_pView->setStartedCut();
+        m_scene->setStartedCut();
         UMLApp::app()->slotEditCut();
         break;
 
@@ -2913,16 +2913,16 @@ void AssociationWidget::mouseMoveEvent(QMouseEvent* me)
     QPoint p = me->pos();
     QPoint oldp = m_LinePath.getPoint(m_nMovingPoint);
 
-    if( m_pView->getSnapToGrid() ) {
-        int newX = m_pView->snappedX( p.x() );
-        int newY = m_pView->snappedY( p.y() );
+    if( m_scene->getSnapToGrid() ) {
+        int newX = m_scene->snappedX( p.x() );
+        int newY = m_scene->snappedY( p.y() );
         p.setX(newX);
         p.setY(newY);
     }
 
     // Prevent the moving vertex from disappearing underneath a widget
     // (else there's no way to get it back.)
-    UMLWidget *onW = m_pView->widgetAt(p);
+    UMLWidget *onW = m_scene->widgetAt(p);
     if (onW && onW->baseType() != WidgetBase::wt_Box) {  // boxes are transparent
         const int pX = p.x();
         const int pY = p.y();
@@ -2949,7 +2949,7 @@ void AssociationWidget::mouseMoveEvent(QMouseEvent* me)
     //move event called now
     QMoveEvent m(p, oldp);
     moveEvent(&m);
-    m_pView->resizeCanvasToItems();
+    m_scene->resizeCanvasToItems();
 }
 
 /**
@@ -2979,7 +2979,7 @@ int AssociationWidget::getRegionCount(AssociationWidget::Region region, Uml::Rol
     if(region == Error)
         return 0;
     int widgetCount = 0;
-    AssociationWidgetList list = m_pView->getAssociationList();
+    AssociationWidgetList list = m_scene->getAssociationList();
     foreach ( AssociationWidget* assocwidget, list ) {
         //don't count this association
         if (assocwidget == this)
@@ -3199,7 +3199,7 @@ void AssociationWidget::updateAssociations(int totalCount,
 {
     if( region == Error )
         return;
-    AssociationWidgetList list = m_pView->getAssociationList();
+    AssociationWidgetList list = m_scene->getAssociationList();
 
     UMLWidget *ownWidget = m_role[role].m_pWidget;
     m_positions_len = 0;
@@ -3350,8 +3350,8 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
         cw = ww * index / totalCount;
     }
 
-    int snapX = m_pView->snappedX(x + cw);
-    int snapY = m_pView->snappedY(y + ch);
+    int snapX = m_scene->snappedX(x + cw);
+    int snapY = m_scene->snappedY(y + ch);
 
     QPoint pt;
     if (angular) {
@@ -3417,10 +3417,10 @@ void AssociationWidget::setSelected(bool _select /* = true */)
     // overwrites the docwindow, but we want the main association doc
     // to win.
     if( _select ) {
-        if( m_pView->getSelectCount() == 0 )
-                m_pView->showDocumentation( this, false );
+        if( m_scene->getSelectCount() == 0 )
+                m_scene->showDocumentation( this, false );
     } else
-        m_pView->updateDocumentation( true );
+        m_scene->updateDocumentation( true );
     qApp->processEvents();
 
     m_LinePath.setSelected( _select );
@@ -3437,7 +3437,7 @@ bool AssociationWidget::onAssocClassLine(const QPoint &point)
 {
     if (m_pAssocClassLine == NULL)
         return false;
-    UMLSceneItemList list = m_pView->canvas()->collisions(point);
+    UMLSceneItemList list = m_scene->canvas()->collisions(point);
     UMLSceneItemList::iterator end(list.end());
     for (UMLSceneItemList::iterator item_it(list.begin()); item_it != end; ++item_it) {
         if (*item_it == m_pAssocClassLine)
@@ -3486,8 +3486,8 @@ void AssociationWidget::moveMidPointsBy( int x, int y )
         QPoint p = m_LinePath.getPoint( i );
         int newX = p.x() + x;
         int newY = p.y() + y;
-        newX = m_pView->snappedX( newX );
-        newY = m_pView->snappedY( newY );
+        newX = m_scene->snappedX( newX );
+        newY = m_scene->snappedY( newY );
         p.setX( newX );
         p.setY( newY );
         m_LinePath.setPoint( i, p );
@@ -3599,7 +3599,7 @@ void AssociationWidget::slotClassifierListItemRemoved(UMLClassifierListItem* obj
         return;
     }
     m_pObject = NULL;
-    m_pView->removeAssoc(this);
+    m_scene->removeAssoc(this);
 }
 
 /**
@@ -3617,9 +3617,9 @@ void AssociationWidget::slotAttributeChanged()
     setRoleName(attr->name(), B);
 }
 
-void AssociationWidget::init (UMLView *view)
+void AssociationWidget::init()
 {
-    WidgetBase::init(view, WidgetBase::wt_Association);
+    WidgetBase::init(WidgetBase::wt_Association);
 
     // pointers to floating text widgets objects owned by this association
     m_pName = 0;
@@ -3660,8 +3660,8 @@ void AssociationWidget::init (UMLView *view)
     m_umldoc = UMLApp::app()->document();
     m_LinePath.setAssociation( this );
 
-    connect(m_pView, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
-    connect(m_pView, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
+    connect(m_scene, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
+    connect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
 }
 
 /**
@@ -4072,7 +4072,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
             if( r == "-1" )
                 return false;
             Uml::TextRole role = Uml::TextRole::Value(r.toInt());
-            FloatingTextWidget *ft = new FloatingTextWidget(m_pView, role, "", Uml::id_Reserved);
+            FloatingTextWidget *ft = new FloatingTextWidget(m_scene, role, "", Uml::id_Reserved);
             if( ! ft->loadFromXMI(element) ) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete ft;
@@ -4150,8 +4150,8 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
  */
 bool AssociationWidget::loadFromXMI( QDomElement & qElement )
 {
-    const MessageWidgetList& messages = m_pView->getMessageList();
-    return loadFromXMI( qElement, m_pView->getWidgetList(), &messages );
+    const MessageWidgetList& messages = m_scene->getMessageList();
+    return loadFromXMI( qElement, m_scene->getWidgetList(), &messages );
 }
 
 

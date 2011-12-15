@@ -38,11 +38,11 @@ public:
     /**
      * Creates an ObjectWidget.
      *
-     * @param view              The parent to this object.
+     * @param scene              The parent to this object.
      * @param o         The object it will be representing.
      * @param lid               The local id for the object.
      */
-    ObjectWidget(UMLView * view, UMLObject *o, Uml::IDType lid = Uml::id_None );
+    ObjectWidget(UMLScene * scene, UMLObject *o, Uml::IDType lid = Uml::id_None );
 
     /**
      * destructor

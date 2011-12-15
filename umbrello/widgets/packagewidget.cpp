@@ -22,8 +22,8 @@
 #include "umlview.h"
 #include "umlobject.h"
 
-PackageWidget::PackageWidget(UMLView * view, UMLPackage *o)
-  : UMLWidget(view, o)
+PackageWidget::PackageWidget(UMLScene * scene, UMLPackage *o)
+  : UMLWidget(scene, o)
 {
     init();
 }
@@ -34,10 +34,10 @@ void PackageWidget::init()
     setSize(100, 30);
     setZ(m_origZ = 1);  // above box but below UMLWidget because may embed widgets
     m_pMenu = 0;
-    //set defaults from m_pView
-    if (m_pView) {
+    //set defaults from m_scene
+    if (m_scene) {
         //check to see if correct
-        const Settings::OptionState& ops = m_pView->optionState();
+        const Settings::OptionState& ops = m_scene->optionState();
         m_showStereotype = ops.classState.showStereoType;
     }
     //maybe loading and this may not be set.
@@ -55,7 +55,7 @@ void PackageWidget::paint(QPainter & p, int offsetX, int offsetY)
     if ( UMLWidget::getUseFillColour() )
         p.setBrush( UMLWidget::getFillColor() );
     else
-        p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
+        p.setBrush( m_scene->viewport()->palette().color(QPalette::Background) );
 
     int w = width();
     int h = height();

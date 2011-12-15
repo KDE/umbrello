@@ -19,6 +19,7 @@
 class UMLClassifier;
 class UMLOperation;
 class FloatingTextWidget;
+class UMLScene;
 class UMLView;
 
 /**
@@ -69,7 +70,7 @@ public:
      */
     virtual void setCustomOpText(const QString &opText) = 0;
 
-    QString operationText(UMLView *view = NULL);
+    QString operationText(UMLView *view = 0);
 
     virtual void resetTextPositions();
 

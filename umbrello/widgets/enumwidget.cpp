@@ -28,11 +28,11 @@
 /**
  * Constructs an instance of EnumWidget.
  *
- * @param view      The parent of this EnumWidget.
+ * @param scene      The parent of this EnumWidget.
  * @param o         The UMLObject this will be representing.
  */
-EnumWidget::EnumWidget(UMLView* view, UMLObject* o)
-  : UMLWidget(view, o),
+EnumWidget::EnumWidget(UMLScene *scene, UMLObject* o)
+  : UMLWidget(scene, o),
 	m_showPackage(false)
 {
     init();
@@ -87,7 +87,7 @@ void EnumWidget::paint(QPainter& p, int offsetX, int offsetY)
     if(UMLWidget::getUseFillColour())
         p.setBrush(UMLWidget::getFillColor());
     else
-        p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
+        p.setBrush( m_scene->viewport()->palette().color(QPalette::Background) );
 
     const int w = width();
     const int h = height();
@@ -258,10 +258,10 @@ void EnumWidget::init()
 {
     UMLWidget::setBaseType(WidgetBase::wt_Enum);
     setSize(100, 30);
-    //set defaults from m_pView
-    if (m_pView) {
+    //set defaults from m_scene
+    if (m_scene) {
         //check to see if correct
-        const Settings::OptionState& ops = m_pView->optionState();
+        const Settings::OptionState& ops = m_scene->optionState();
         m_showPackage = ops.classState.showPackage;
     } else {
         // For completeness only. Not supposed to happen.

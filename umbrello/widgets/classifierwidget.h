@@ -32,10 +32,10 @@ public:
     /**
      * Constructs a ClassifierWidget.
      *
-     * @param view      The parent of this ClassifierWidget.
+     * @param scene      The parent of this ClassifierWidget.
      * @param o The UMLObject to represent.
      */
-    ClassifierWidget(UMLView * view, UMLClassifier * o);
+    ClassifierWidget(UMLScene * scene, UMLClassifier * o);
 
     /**
      * Destructor.

@@ -18,7 +18,7 @@
 #include <QtGui/QPainter>
 
 // fwd decl.
-class UMLView;
+class UMLScene;
 
 /**
  * @short Displays a fork/join plate in a state diagram.
@@ -30,7 +30,7 @@ class ForkJoinWidget : public BoxWidget
 {
 public:
 
-    explicit ForkJoinWidget(UMLView * view, bool drawVertical = false, Uml::IDType id = Uml::id_None);
+    explicit ForkJoinWidget(UMLScene * scene, bool drawVertical = false, Uml::IDType id = Uml::id_None);
     virtual ~ForkJoinWidget();
 
     /**

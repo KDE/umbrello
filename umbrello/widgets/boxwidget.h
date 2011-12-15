@@ -27,7 +27,7 @@
 class BoxWidget : public UMLWidget
 {
 public:
-    explicit BoxWidget(UMLView * view, Uml::IDType id = Uml::id_None);
+    explicit BoxWidget(UMLScene * scene, Uml::IDType id = Uml::id_None);
     virtual ~BoxWidget();
 
     virtual void paint(QPainter & p, int offsetX, int offsetY);

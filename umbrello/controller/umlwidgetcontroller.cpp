@@ -126,7 +126,7 @@ void UMLWidgetController::mousePressEvent(QMouseEvent *me)
 
     m_shiftPressed = false;
 
-    int count = m_widget->m_pView->getSelectCount(true);
+    int count = m_widget->m_scene->getSelectCount(true);
     if (me->button() == Qt::LeftButton) {
         if (m_widget->isSelected() && count > 1) {
             //Single selection is made in release event if the widget wasn't moved
@@ -250,13 +250,13 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me)
 
     // Move any selected associations.
 
-    foreach(AssociationWidget* aw, m_widget->m_pView->getSelectedAssocs()) {
+    foreach(AssociationWidget* aw, m_widget->m_scene->getSelectedAssocs()) {
         if (aw->getSelected()) {
             aw->moveEntireAssoc(diffX, diffY);
         }
     }
 
-    m_widget->m_pView->resizeCanvasToItems();
+    m_widget->m_scene->resizeCanvasToItems();
     updateSelectionBounds(diffX, diffY);
 }
 
@@ -311,7 +311,7 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me)
             m_leftButtonDown = false;
 
             if (!m_moved && !m_resized) {
-                if (!m_shiftPressed && (m_widget->m_pView->getSelectCount(true) > 1)) {
+                if (!m_shiftPressed && (m_widget->m_scene->getSelectCount(true) > 1)) {
                     selectSingle(me);
                 } else if (!m_wasSelected) {
                     deselect(me);
@@ -337,7 +337,7 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me)
 
             if (m_inResizeArea) {
                 m_inResizeArea = false;
-                m_widget->m_pView->setCursor(Qt::ArrowCursor);
+                m_widget->m_scene->setCursor(Qt::ArrowCursor);
             } else {
                 m_inMoveArea = false;
             }
@@ -360,7 +360,7 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me)
     }
 
     //TODO Copied from old code. Does it really work as intended?
-    UMLWidget *bkgnd = m_widget->m_pView->widgetAt(me->pos());
+    UMLWidget *bkgnd = m_widget->m_scene->widgetAt(me->pos());
     if (bkgnd) {
         //uDebug() << "setting Z to " << bkgnd->getZ() + 1;
         m_widget->setZ(bkgnd->getZ() + 1);
@@ -409,10 +409,10 @@ bool UMLWidgetController::isInResizeArea(QMouseEvent *me)
     if (m_widget->m_resizable &&
             me->x() >= (m_widget->getX() + m_widget->width() - m) &&
             me->y() >= (m_widget->getY() + m_widget->height() - m)) {
-        m_widget->m_pView->setCursor(getResizeCursor());
+        m_widget->m_scene->setCursor(getResizeCursor());
         return true;
     } else {
-        m_widget->m_pView->setCursor(Qt::ArrowCursor);
+        m_widget->m_scene->setCursor(Qt::ArrowCursor);
         return false;
     }
 }
@@ -516,8 +516,8 @@ void UMLWidgetController::doMouseDoubleClick(QMouseEvent *)
  */
 void UMLWidgetController::resetSelection()
 {
-    m_widget->m_pView->clearSelected();
-    m_widget->m_pView->resetToolbar();
+    m_widget->m_scene->clearSelected();
+    m_widget->m_scene->resetToolbar();
     m_widget->setSelected(false);
 
     m_wasSelected = false;
@@ -530,7 +530,7 @@ void UMLWidgetController::resetSelection()
  */
 void UMLWidgetController::selectSingle(QMouseEvent *me)
 {
-    m_widget->m_pView->clearSelected();
+    m_widget->m_scene->clearSelected();
 
     //Adds the widget to the selected widgets list, but as it has been cleared
     //only the current widget is selected
@@ -546,7 +546,7 @@ void UMLWidgetController::selectMultiple(QMouseEvent *me)
 {
     m_widget->m_selected = true;
     m_widget->setSelected(m_widget->m_selected);
-    m_widget->m_pView->setSelected(m_widget, me);
+    m_widget->m_scene->setSelected(m_widget, me);
 
     m_wasSelected = true;
 }
@@ -560,7 +560,7 @@ void UMLWidgetController::deselect(QMouseEvent *me)
 {
     m_widget->m_selected = false;
     m_widget->setSelected(m_widget->m_selected);
-    m_widget->m_pView->setSelected(m_widget, me);
+    m_widget->m_scene->setSelected(m_widget, me);
     //m_wasSelected is false implicitly, no need to set it again
 }
 
@@ -621,9 +621,9 @@ int UMLWidgetController::getOldH()
  */
 void UMLWidgetController::setSelectionBounds()
 {
-    if (m_widget->m_pView->getSelectCount() > 0) {
+    if (m_widget->m_scene->getSelectCount() > 0) {
         m_selectedWidgetsList.clear();
-        m_widget->m_pView->getSelectedWidgets(m_selectedWidgetsList, false);
+        m_widget->m_scene->getSelectedWidgets(m_selectedWidgetsList, false);
 
         updateSelectionBounds(1, 1);
     }
@@ -679,7 +679,7 @@ void UMLWidgetController::resize(QMouseEvent *me)
     resizeWidget(newW, newH);
     m_widget->adjustAssocs(m_widget->getX(), m_widget->getY());
 
-    m_widget->m_pView->resizeCanvasToItems();
+    m_widget->m_scene->resizeCanvasToItems();
 }
 
 /**
@@ -811,8 +811,8 @@ QPoint UMLWidgetController::getPosition(QMouseEvent* me)
      */
     int newX = me->x() + m_widget->getX() - m_prevX - m_pressOffsetX;
     int newY = me->y() + m_widget->getY() - m_prevY - m_pressOffsetY;
-    int maxX = m_widget->m_pView->canvas()->width();
-    int maxY = m_widget->m_pView->canvas()->height();
+    int maxX = m_widget->m_scene->canvas()->width();
+    int maxY = m_widget->m_scene->canvas()->height();
 
     m_prevX = newX;
     m_prevY = newY;

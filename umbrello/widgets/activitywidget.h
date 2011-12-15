@@ -47,7 +47,7 @@ public:
         Param
     };
 
-    explicit ActivityWidget( UMLView * view, ActivityType activityType = Normal, Uml::IDType id = Uml::id_None );
+    explicit ActivityWidget( UMLScene * scene, ActivityType activityType = Normal, Uml::IDType id = Uml::id_None );
     virtual ~ActivityWidget();
 
     ActivityType activityType() const;

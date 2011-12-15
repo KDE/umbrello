@@ -31,10 +31,10 @@ public:
     /**
      * Constructs a NodeWidget.
      *
-     * @param view              The parent of this NodeWidget.
+     * @param scene              The parent of this NodeWidget.
      * @param n         The UMLNode this will be representing.
      */
-    NodeWidget(UMLView * view, UMLNode *n );
+    NodeWidget(UMLScene * scene, UMLNode *n );
 
     /**
      * destructor

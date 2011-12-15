@@ -29,8 +29,8 @@
 #include "statedialog.h"
 #include "listpopupmenu.h"
 
-StateWidget::StateWidget(UMLView * view, StateType stateType, Uml::IDType id)
-  : UMLWidget(view, id)
+StateWidget::StateWidget(UMLScene * scene, StateType stateType, Uml::IDType id)
+  : UMLWidget(scene, id)
 {
     UMLWidget::setBaseType(WidgetBase::wt_State);
     m_StateType = stateType;
@@ -232,7 +232,7 @@ void StateWidget::showPropertiesDialog()
     DocWindow *docwindow = UMLApp::app()->docWindow();
     docwindow->updateDocumentation(false);
 
-    QPointer<StateDialog> dialog = new StateDialog(m_pView, this);
+    QPointer<StateDialog> dialog = new StateDialog(m_scene, this);
     if (dialog->exec() && dialog->getChangesMade()) {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->document()->setModified(true);

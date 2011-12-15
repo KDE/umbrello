@@ -20,8 +20,8 @@
  *  @param  view   The parent of the widget.
  *  @param  o      The UMLObject to represent.
  */
-UseCaseWidget::UseCaseWidget(UMLView * view, UMLUseCase *o)
-  : UMLWidget(view, o)
+UseCaseWidget::UseCaseWidget(UMLScene * scene, UMLUseCase *o)
+  : UMLWidget(scene, o)
 {
     UMLWidget::setBaseType(WidgetBase::wt_UseCase);
     //updateComponentSize();  Doing this during loadFromXMI() gives futile updates.

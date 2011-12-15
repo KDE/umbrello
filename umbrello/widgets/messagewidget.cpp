@@ -35,10 +35,10 @@
 #include "uniqueid.h"
 #include "listpopupmenu.h"
 
-MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
+MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, ObjectWidget* b,
                              int y, Uml::Sequence_Message_Type sequenceMessageType,
                              Uml::IDType id /* = Uml::id_None */)
-  : UMLWidget(view, id, new MessageWidgetController(this))
+  : UMLWidget(scene, id, new MessageWidgetController(this))
 {
     init();
     m_pOw[Uml::A] = a;
@@ -58,15 +58,15 @@ MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
     this->activate();
 }
 
-MessageWidget::MessageWidget(UMLView * view, Uml::Sequence_Message_Type seqMsgType, Uml::IDType id)
-  : UMLWidget(view, id, new MessageWidgetController(this))
+MessageWidget::MessageWidget(UMLScene * scene, Uml::Sequence_Message_Type seqMsgType, Uml::IDType id)
+  : UMLWidget(scene, id, new MessageWidgetController(this))
 {
     init();
     m_sequenceMessageType = seqMsgType;
 }
 
-MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, int xclick, int yclick, Uml::Sequence_Message_Type sequenceMessageType, Uml::IDType id /*= Uml::id_None*/)
-  : UMLWidget(view, id, new MessageWidgetController(this))
+MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, int xclick, int yclick, Uml::Sequence_Message_Type sequenceMessageType, Uml::IDType id /*= Uml::id_None*/)
+  : UMLWidget(scene, id, new MessageWidgetController(this))
 {
     init();
     m_pOw[Uml::A] = a;
@@ -463,7 +463,7 @@ void MessageWidget::moveEvent(QMoveEvent* /*m*/)
         return;
     }
     //TODO why this condition?
-/*    if (m_pView->getSelectCount() > 2) {
+/*    if (m_scene->getSelectCount() > 2) {
         return;
     }*/
 
@@ -504,7 +504,7 @@ void MessageWidget::slotWidgetMoved(Uml::IDType id)
     calculateWidget();
     if( !m_pFText )
         return;
-    if (m_pView->getSelectCount(true) > 1)
+    if (m_scene->getSelectCount(true) > 1)
         return;
     setTextPosition();
 }
@@ -522,7 +522,7 @@ void MessageWidget::slotMenuSelection(QAction* action)
     ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
     if(sel == ListPopupMenu::mt_Delete) {
         // This will clean up this widget and the text widget:
-        m_pView -> removeWidget(this);
+        m_scene -> removeWidget(this);
     } else {
 
         UMLWidget::slotMenuSelection( action );
@@ -531,10 +531,10 @@ void MessageWidget::slotMenuSelection(QAction* action)
 
 bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
 {
-    m_pView->resetPastePoint();
+    m_scene->resetPastePoint();
     // UMLWidget::activate(Log);   CHECK: I don't think we need this ?
     if (m_pOw[Uml::A] == NULL) {
-        UMLWidget *pWA = m_pView->findWidget(m_widgetAId);
+        UMLWidget *pWA = m_scene->findWidget(m_widgetAId);
         if (pWA == NULL) {
             uDebug() << "role A object " << ID2STR(m_widgetAId) << " not found";
             return false;
@@ -547,7 +547,7 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
         }
     }
     if (m_pOw[Uml::B] == NULL) {
-        UMLWidget *pWB = m_pView->findWidget(m_widgetBId);
+        UMLWidget *pWB = m_scene->findWidget(m_widgetBId);
         if (pWB == NULL) {
             uDebug() << "role B object " << ID2STR(m_widgetBId) << " not found";
             return false;
@@ -577,7 +577,7 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
         Uml::TextRole tr = Uml::TextRole::Seq_Message;
         if (m_pOw[Uml::A] == m_pOw[Uml::B])
             tr = Uml::TextRole::Seq_Message_Self;
-        m_pFText = new FloatingTextWidget( m_pView, tr, "" );
+        m_pFText = new FloatingTextWidget( m_scene, tr, "" );
         m_pFText->setFont(UMLWidget::font());
     }
     if (op)
@@ -605,7 +605,7 @@ void MessageWidget::setMessageText(FloatingTextWidget *ft)
 {
     if (ft == NULL)
         return;
-    QString displayText = m_SequenceNumber + ": " + operationText(m_pView);
+    QString displayText = m_SequenceNumber + ": " + operationText(m_scene);
     ft->setText(displayText);
     setTextPosition();
 }
@@ -863,7 +863,7 @@ void MessageWidget::cleanup()
 
     UMLWidget::cleanup();
     if (m_pFText) {
-        m_pView->removeWidget(m_pFText);
+        m_scene->removeWidget(m_pFText);
         m_pFText = NULL;
     }
 }
@@ -878,7 +878,7 @@ void MessageWidget::setSelected(bool _select)
     if( !m_selected && !m_pFText -> getSelected() )
         return;
 
-    m_pView -> setSelected( m_pFText, 0 );
+    m_scene -> setSelected( m_pFText, 0 );
     m_pFText -> setSelected( m_selected );
 }
 
@@ -999,7 +999,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
     if ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingtext") {
-            m_pFText = new FloatingTextWidget( m_pView, tr, operationText(m_pView), m_textId );
+            m_pFText = new FloatingTextWidget( m_scene, tr, operationText(m_scene), m_textId );
             if( ! m_pFText->loadFromXMI(element) ) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pFText;

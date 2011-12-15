@@ -43,7 +43,7 @@ public:
      *  @param  view            The parent of the widget.
      *  @param  o               The UMLObject to represent.
      */
-    CategoryWidget(UMLView * view, UMLCategory *o);
+    CategoryWidget(UMLScene * scene, UMLCategory *o);
 
 
     /**

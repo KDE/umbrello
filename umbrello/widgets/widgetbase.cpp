@@ -14,35 +14,35 @@
 #include "optionstate.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "umlview.h"
+#include "umlscene.h"
 #include "umlobject.h"
 
 /**
  * Creates a WidgetBase object.
  *
- * @param view      The view to be displayed on.
+ * @param scene      The view to be displayed on.
  */
-WidgetBase::WidgetBase(UMLView *view) : QObject(view)
+WidgetBase::WidgetBase(UMLScene *scene) 
+  : m_scene(scene)
 {
-    init(view);
+    init();
 }
 
 /**
  * Initialize members.
  */
-void WidgetBase::init(UMLView *view, WidgetType type /* = wt_UMLWidget */)
+void WidgetBase::init(WidgetType type /* = wt_UMLWidget */)
 {
-    m_pView = view;
     m_Type = type;
     m_pObject = NULL;
-    if (m_pView) {
+    if (m_scene) {
         m_usesDiagramLineColour = true;
         m_usesDiagramLineWidth  = true;
-        const Settings::OptionState& optionState = m_pView->optionState();
+        const Settings::OptionState& optionState = m_scene->optionState();
         m_LineColour = optionState.uiState.lineColor;
         m_LineWidth  = optionState.uiState.lineWidth;
     } else {
-        uError() << "WidgetBase constructor: SERIOUS PROBLEM - m_pView is NULL";
+        uError() << "WidgetBase constructor: SERIOUS PROBLEM - m_scene is NULL";
         m_usesDiagramLineColour = false;
         m_usesDiagramLineWidth  = false;
         m_LineColour = QColor("black");
@@ -85,9 +85,9 @@ QLatin1String WidgetBase::baseTypeStr() const
  * Deliver a pointer to the connected UMLView
  * ( needed esp. by event handling of LinePath ).
  */
-UMLView* WidgetBase::umlScene() const
+UMLScene* WidgetBase::umlScene() const
 {
-    return m_pView;
+    return m_scene;
 }
 
 /**
@@ -265,15 +265,15 @@ bool WidgetBase::loadFromXMI( QDomElement & qElement )
     if (lineColor != "none") {
         setLineColor( QColor(lineColor) );
         m_usesDiagramLineColour = false;
-    } else if (m_Type != WidgetBase::wt_Box && m_pView != NULL) {
-        setLineColor( m_pView->getLineColor() );
+    } else if (m_Type != WidgetBase::wt_Box && m_scene != NULL) {
+        setLineColor( m_scene->getLineColor() );
         m_usesDiagramLineColour = true;
     }
     if (lineWidth != "none") {
         setLineWidth( lineWidth.toInt() );
         m_usesDiagramLineWidth = false;
-    } else if ( m_pView ) {
-        setLineWidth( m_pView->getLineWidth() );
+    } else if ( m_scene ) {
+        setLineWidth( m_scene->getLineWidth() );
         m_usesDiagramLineWidth = true;
     }
     return true;

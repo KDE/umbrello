@@ -23,7 +23,7 @@
 class UMLWidgetController;
 
 class UMLObject;
-class UMLView;
+class UMLScene;
 class UMLDoc;
 class ListPopupMenu;
 class IDChangeLog;
@@ -48,21 +48,21 @@ public:
     /**
      * Creates a UMLWidget object.
      *
-     * @param view The view to be displayed on.
+     * @param scene The view to be displayed on.
      * @param o The UMLObject to represent.
      * @param widgetController The UMLWidgetController of this UMLWidget
      */
-    UMLWidget( UMLView * view, UMLObject * o, UMLWidgetController *widgetController = 0 );
+    UMLWidget(UMLScene * scene, UMLObject * o, UMLWidgetController *widgetController = 0 );
 
     /**
      * Creates a UMLWidget object.
      *
-     * @param view The view to be displayed on.
+     * @param scene The view to be displayed on.
      * @param id The id of the widget.
      *  The default value (id_None) will prompt generation of a new ID.
      * @param widgetController The UMLWidgetController of this UMLWidget
      */
-    explicit UMLWidget( UMLView * view, Uml::IDType id = Uml::id_None, UMLWidgetController *widgetController = 0 );
+    explicit UMLWidget(UMLScene * scene, Uml::IDType id = Uml::id_None, UMLWidgetController *widgetController = 0 );
 
     /**
      * Standard deconstructor
@@ -191,7 +191,7 @@ public:
      *
      * @param v The view the widget is on.
      */
-    void setView(UMLView * v);
+    void setScene(UMLScene * v);
 
     /**
      * Activate the object after serializing it from a QDataStream
@@ -311,7 +311,7 @@ public:
 
     /**
      * Sets the size.
-     * If m_pView->getSnapComponentSizeToGrid() is true, then
+     * If m_scene->getSnapComponentSizeToGrid() is true, then
      * set the next larger size that snaps to the grid.
      */
     void setSize(int width,int height);
@@ -710,14 +710,14 @@ public slots:
     /**
      * Captures a color change signal.
      *
-     * @param viewID The id of the object behind the widget.
+     * @param sceneID The id of the object behind the widget.
      */
     virtual void slotColorChanged(Uml::IDType viewID);
 
     /**
      * Captures a linewidth change signal.
      *
-     * @param viewID The id of the object behind the widget.
+     * @param sceneID The id of the object behind the widget.
      */
     virtual void slotLineWidthChanged(Uml::IDType viewID);
 

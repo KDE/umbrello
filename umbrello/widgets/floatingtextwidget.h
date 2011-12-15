@@ -16,7 +16,7 @@
 
 class FloatingTextWidgetController;
 class LinkWidget;
-class UMLView;
+class UMLScene;
 
 /**
  * @short Displays a line of text or an operation.
@@ -51,7 +51,7 @@ public:
     static const int restrictPositionMin = 0;
     static const int restrictPositionMax = 3000;
 
-    explicit FloatingTextWidget(UMLView * view, Uml::TextRole role = Uml::TextRole::Floating,
+    explicit FloatingTextWidget(UMLScene * scene, Uml::TextRole role = Uml::TextRole::Floating,
                                 const QString& text = "", Uml::IDType id = Uml::id_None);
     virtual ~FloatingTextWidget();
 

@@ -15,7 +15,7 @@
 #include <qstring.h>
 
 // forward declarations
-class UMLView;
+class UMLScene;
 class UMLObject;
 class UMLWidget;
 
@@ -28,13 +28,13 @@ namespace Widget_Factory {
     /**
      * Create a UMLWidget in the given view and representing the given document object.
      */
-    UMLWidget *createWidget(UMLView *view, UMLObject *docObj);
+    UMLWidget *createWidget(UMLScene *scene, UMLObject *docObj);
 
     /**
      * Create a UMLWidget according to the given XMI tag.
      */
     UMLWidget* makeWidgetFromXMI(const QString& tag,
-                                 const QString& idStr, UMLView *view);
+                                 const QString& idStr, UMLScene *scene);
 
 }   // end namespace Widget_Factory
 

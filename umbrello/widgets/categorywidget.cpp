@@ -20,8 +20,8 @@
 #include "umlview.h"
 #include "listpopupmenu.h"
 
-CategoryWidget::CategoryWidget(UMLView * view, UMLCategory *o)
-  : UMLWidget(view, o)
+CategoryWidget::CategoryWidget(UMLScene * scene, UMLCategory *o)
+  : UMLWidget(scene, o)
 {
     UMLWidget::setBaseType(WidgetBase::wt_Category);
     //updateComponentSize();  Doing this during loadFromXMI() gives futile updates.

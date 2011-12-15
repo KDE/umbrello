@@ -23,7 +23,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "docwindow.h"
-#include "umlview.h"
+#include "umlscene.h"
 #include "uniqueid.h"
 #include "listpopupmenu.h"
 #include "floatingtextwidget.h"
@@ -32,8 +32,8 @@
 #include <QMouseEvent>
 #include <QPolygon>
 
-PinWidget::PinWidget(UMLView * view, UMLWidget* a, Uml::IDType id)
-  : UMLWidget(view, id)
+PinWidget::PinWidget(UMLScene * scene, UMLWidget* a, Uml::IDType id)
+  : UMLWidget(scene, id)
 {
     init();
     m_pOw = a;
@@ -42,8 +42,8 @@ PinWidget::PinWidget(UMLView * view, UMLWidget* a, Uml::IDType id)
     y = y < getMinY() ? getMinY() : y;
     m_nY = y;
 
-    m_pName = new FloatingTextWidget(view, Uml::TextRole::Floating, "");
-    view->setupNewWidget(m_pName);
+    m_pName = new FloatingTextWidget(scene, Uml::TextRole::Floating, "");
+    scene->setupNewWidget(m_pName);
     m_pName->setX(0);
     m_pName->setY(0);
     this->activate();
@@ -217,7 +217,7 @@ bool PinWidget::loadFromXMI( QDomElement & qElement )
 
     Uml::IDType aId = STR2ID(widgetaid);
 
-    UMLWidget *pWA = m_pView -> findWidget( aId );
+    UMLWidget *pWA = m_scene -> findWidget( aId );
     if (pWA == NULL) {
         uDebug() << "role A object " << ID2STR(aId) << " not found";
         return false;
@@ -228,7 +228,7 @@ bool PinWidget::loadFromXMI( QDomElement & qElement )
     QString textid = qElement.attribute( "textid", "-1" );
     Uml::IDType textId = STR2ID(textid);
     if (textId != Uml::id_None) {
-        UMLWidget *flotext = m_pView -> findWidget( textId );
+        UMLWidget *flotext = m_scene -> findWidget( textId );
         if (flotext != NULL) {
             // This only happens when loading files produced by
             // umbrello-1.3-beta2.
@@ -246,7 +246,7 @@ bool PinWidget::loadFromXMI( QDomElement & qElement )
     if ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingtext") {
-            m_pName = new FloatingTextWidget( m_pView, Uml::TextRole::Floating, m_Text, textId );
+            m_pName = new FloatingTextWidget( m_scene, Uml::TextRole::Floating, m_Text, textId );
             if( ! m_pName->loadFromXMI(element) ) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pName;

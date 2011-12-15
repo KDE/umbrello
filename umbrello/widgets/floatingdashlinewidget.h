@@ -36,10 +36,10 @@ class FloatingDashLineWidget : public UMLWidget {
 public:
     /**
      * Creates a floating dash line.
-     * @param view              The parent of the widget
+     * @param scene              The parent of the widget
      * @param id                The ID to assign (-1 will prompt a new ID)
      */
-    explicit FloatingDashLineWidget(UMLView * view, Uml::IDType id = Uml::id_None);
+    explicit FloatingDashLineWidget(UMLScene * scene, Uml::IDType id = Uml::id_None);
 
     /**
      * destructor

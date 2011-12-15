@@ -14,7 +14,7 @@
 
 #include "umlwidget.h"
 
-class UMLView;
+class UMLScene;
 
 #define ENTITY_MARGIN 5
 
@@ -31,7 +31,7 @@ class EntityWidget : public UMLWidget
 {
     Q_OBJECT
 public:
-    explicit EntityWidget(UMLView* view, UMLObject* o);
+    explicit EntityWidget(UMLScene *scene, UMLObject* o);
     virtual ~EntityWidget();
 
 

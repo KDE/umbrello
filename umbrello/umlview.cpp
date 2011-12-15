@@ -414,7 +414,7 @@ void UMLView::setupNewWidget(UMLWidget *w)
     m_WidgetList.append(w);
     m_pDoc->setModified();
 
-    UMLApp::app()->executeCommand(new CmdCreateWidget(this, w));
+    UMLApp::app()->executeCommand(new CmdCreateWidget(umlScene(), w));
 }
 
 void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome)
@@ -490,7 +490,7 @@ void UMLView::slotObjectCreated(UMLObject* o)
         return;
     }
 
-    UMLWidget* newWidget = Widget_Factory::createWidget(this, o);
+    UMLWidget* newWidget = Widget_Factory::createWidget(umlScene(), o);
 
     if (newWidget == NULL)
         return;
@@ -2051,7 +2051,7 @@ void UMLView::updateContainment(UMLCanvasObject *self)
     if (newParentWidget == NULL)
         return;
     // Create the new containment association.
-    AssociationWidget *a = new AssociationWidget(this, newParentWidget,
+    AssociationWidget *a = new AssociationWidget(umlScene(), newParentWidget,
             Uml::AssociationType::Containment, selfWidget);
     a->calculateEndingPoints();
     a->setActivated(true);
@@ -2163,7 +2163,7 @@ void UMLView::createAutoAssociations(UMLWidget * widget)
             continue;
         }
         // Create the AssociationWidget.
-        assocwidget = new AssociationWidget(this);
+        assocwidget = new AssociationWidget(umlScene());
         assocwidget->setWidget(widgetA, A);
         assocwidget->setWidget(widgetB, B);
         assocwidget->setAssociationType(assocType);
@@ -2200,7 +2200,7 @@ void UMLView::createAutoAssociations(UMLWidget * widget)
                 if (widget->rect().contains(w->rect()))
                     continue;
                 // create the containment AssocWidget
-                AssociationWidget *a = new AssociationWidget(this, widget,
+                AssociationWidget *a = new AssociationWidget(umlScene(), widget,
                         Uml::AssociationType::Containment, w);
                 a->calculateEndingPoints();
                 a->setActivated(true);
@@ -2227,7 +2227,7 @@ void UMLView::createAutoAssociations(UMLWidget * widget)
     if (!breakFlag || pWidget->rect().contains(widget->rect()))
         return;
     // create the containment AssocWidget
-    AssociationWidget *a = new AssociationWidget(this, pWidget, Uml::AssociationType::Containment, widget);
+    AssociationWidget *a = new AssociationWidget(umlScene(), pWidget, Uml::AssociationType::Containment, widget);
     a->calculateEndingPoints();
     a->setActivated(true);
     if (! addAssociation(a))
@@ -2319,7 +2319,7 @@ void UMLView::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute *
             // stereotyped <<CORBAInterface>>, create a UniAssociation widget.
             if (type->stereotype() == "CORBAInterface")
                 assocType = Uml::AssociationType::UniAssociation;
-            AssociationWidget *a = new AssociationWidget(this, widget, assocType, w, attr);
+            AssociationWidget *a = new AssociationWidget(umlScene(), widget, assocType, w, attr);
             a->calculateEndingPoints();
             a->setVisibility(attr->visibility(), B);
             /*
@@ -2349,7 +2349,7 @@ void UMLView::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute *
                     // create an aggregation AssocWidget from the ClassifierWidget
                     // to the widget of the referenced type
                     AssociationWidget *a = new AssociationWidget
-                    (this, widget, Uml::AssociationType::Aggregation, w, attr);
+                    (umlScene(), widget, Uml::AssociationType::Aggregation, w, attr);
                     a->calculateEndingPoints();
                     a->setVisibility(attr->visibility(), B);
                     //a->setChangeability(true, B);
@@ -2431,7 +2431,7 @@ void UMLView::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignKe
 
             // for foreign key contstraint, we need to create the association type Uml::AssociationType::Relationship.
             // The referenced entity is the "1" part (Role A) and the entity holding the relationship is the "many" part. ( Role B)
-            AssociationWidget *a = new AssociationWidget(this, w, assocType, widget);
+            AssociationWidget *a = new AssociationWidget(umlScene(), w, assocType, widget);
             a->setUMLObject(fkConstraint);
             a->calculateEndingPoints();
             //a->setVisibility(attr->getVisibility(), B);
@@ -2624,7 +2624,7 @@ void UMLView::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_FloatText: {
-        FloatingTextWidget* ft = new FloatingTextWidget(this);
+        FloatingTextWidget* ft = new FloatingTextWidget(umlScene());
         ft->showChangeTextDialog();
         //if no text entered delete
         if (!FloatingTextWidget::isTextValid(ft->text())) {
@@ -2722,13 +2722,13 @@ void UMLView::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Initial_State: {
-        StateWidget* state = new StateWidget(this, StateWidget::Initial);
+        StateWidget* state = new StateWidget(umlScene(), StateWidget::Initial);
         setupNewWidget(state);
     }
     break;
 
     case ListPopupMenu::mt_End_State: {
-        StateWidget* state = new StateWidget(this, StateWidget::End);
+        StateWidget* state = new StateWidget(umlScene(), StateWidget::End);
         setupNewWidget(state);
     }
     break;
@@ -2739,7 +2739,7 @@ void UMLView::slotMenuSelection(QAction* action)
                                              i18n("Enter the name of the new state:"),
                                              i18n("new state"), &ok, UMLApp::app());
         if (ok) {
-            StateWidget* state = new StateWidget(this);
+            StateWidget* state = new StateWidget(umlScene());
             state->setName(name);
             setupNewWidget(state);
         }
@@ -2747,20 +2747,20 @@ void UMLView::slotMenuSelection(QAction* action)
     break;
 
     case ListPopupMenu::mt_Initial_Activity: {
-        ActivityWidget* activity = new ActivityWidget(this, ActivityWidget::Initial);
+        ActivityWidget* activity = new ActivityWidget(umlScene(), ActivityWidget::Initial);
         setupNewWidget(activity);
     }
     break;
 
 
     case ListPopupMenu::mt_End_Activity: {
-        ActivityWidget* activity = new ActivityWidget(this, ActivityWidget::End);
+        ActivityWidget* activity = new ActivityWidget(umlScene(), ActivityWidget::End);
         setupNewWidget(activity);
     }
     break;
 
     case ListPopupMenu::mt_Branch: {
-        ActivityWidget* activity = new ActivityWidget(this, ActivityWidget::Branch);
+        ActivityWidget* activity = new ActivityWidget(umlScene(), ActivityWidget::Branch);
         setupNewWidget(activity);
     }
     break;
@@ -2771,7 +2771,7 @@ void UMLView::slotMenuSelection(QAction* action)
                                              i18n("Enter the name of the new activity:"),
                                              i18n("new activity"), &ok, UMLApp::app());
         if (ok) {
-            ActivityWidget* activity = new ActivityWidget(this, ActivityWidget::Normal);
+            ActivityWidget* activity = new ActivityWidget(umlScene(), ActivityWidget::Normal);
             activity->setName(name);
             setupNewWidget(activity);
         }
@@ -3412,7 +3412,7 @@ UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement)
 
     QString tag  = widgetElement.tagName();
     QString idstr  = widgetElement.attribute("xmi.id", "-1");
-    UMLWidget* widget = Widget_Factory::makeWidgetFromXMI(tag, idstr, this);
+    UMLWidget* widget = Widget_Factory::makeWidgetFromXMI(tag, idstr, umlScene());
 
     if (widget == NULL)
         return NULL;
@@ -3433,7 +3433,7 @@ bool UMLView::loadMessagesFromXMI(QDomElement & qElement)
         QString tag = messageElement.tagName();
         if (tag == "messagewidget" ||
                 tag == "UML:MessageWidget") {   // for bkwd compatibility
-            message = new MessageWidget(this, sequence_message_asynchronous,
+            message = new MessageWidget(umlScene(), sequence_message_asynchronous,
                                         Uml::id_Reserved);
             if (!message->loadFromXMI(messageElement)) {
                 delete message;
@@ -3462,7 +3462,7 @@ bool UMLView::loadAssociationsFromXMI(QDomElement & qElement)
         if (tag == "assocwidget" ||
                 tag == "UML:AssocWidget") {  // for bkwd compatibility
             countr++;
-            AssociationWidget *assoc = new AssociationWidget(this);
+            AssociationWidget *assoc = new AssociationWidget(umlScene());
             if (!assoc->loadFromXMI(assocElement)) {
                 uError() << "could not loadFromXMI association widget:"
                     << assoc << ", bad XMI file? Deleting from umlview.";
@@ -3542,7 +3542,7 @@ bool UMLView::loadUisDiagramPresentation(QDomElement & qElement)
             UMLWidget *widget = NULL;
             switch (ot) {
             case UMLObject::ot_Class:
-                widget = new ClassifierWidget(this, static_cast<UMLClassifier*>(o));
+                widget = new ClassifierWidget(umlScene(), static_cast<UMLClassifier*>(o));
                 break;
             case UMLObject::ot_Association: {
                 UMLAssociation *umla = static_cast<UMLAssociation*>(o);
@@ -3557,7 +3557,7 @@ bool UMLView::loadUisDiagramPresentation(QDomElement & qElement)
                 UMLWidget *wB = findWidget(objB->id());
                 if (wA != NULL && wB != NULL) {
                     AssociationWidget *aw =
-                        new AssociationWidget(this, wA, at, wB, umla);
+                        new AssociationWidget(umlScene(), wA, at, wB, umla);
                     aw->syncToModel();
                     m_AssociationList.append(aw);
                 } else {

@@ -14,7 +14,7 @@
 
 #include "umlscene.h"
 
-class UMLView;
+class UMLScene;
 class ObjectWidget;
 
 /**
@@ -114,7 +114,7 @@ protected:
     /**
      * View displayed on.
      */
-    UMLView * m_pView;
+    UMLView * m_scene;
 
     /// The destruction box.
     struct DestructionBox {

@@ -33,8 +33,8 @@
 #include "listpopupmenu.h"
 #include "objectnodedialog.h"
 
-ObjectNodeWidget::ObjectNodeWidget(UMLView * view, ObjectNodeType objectNodeType, Uml::IDType id )
-  : UMLWidget(view, id)
+ObjectNodeWidget::ObjectNodeWidget(UMLScene * scene, ObjectNodeType objectNodeType, Uml::IDType id )
+  : UMLWidget(scene, id)
 {
     UMLWidget::setBaseType( WidgetBase::wt_ObjectNode );
     setObjectNodeType( objectNodeType );
@@ -216,7 +216,7 @@ void ObjectNodeWidget::showPropertiesDialog()
     DocWindow *docwindow = UMLApp::app()->docWindow();
     docwindow->updateDocumentation(false);
 
-    QPointer<ObjectNodeDialog> dialog = new ObjectNodeDialog(m_pView, this);
+    QPointer<ObjectNodeDialog> dialog = new ObjectNodeDialog(m_scene, this);
     if (dialog->exec() && dialog->getChangesMade()) {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->document()->setModified(true);

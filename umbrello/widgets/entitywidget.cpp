@@ -30,11 +30,11 @@
 /**
  * Constructs an EntityWidget.
  *
- * @param view              The parent of this EntityWidget.
+ * @param scene              The parent of this EntityWidget.
  * @param o         The UMLObject this will be representing.
  */
-EntityWidget::EntityWidget(UMLView* view, UMLObject* o)
-  : UMLWidget(view, o)
+EntityWidget::EntityWidget(UMLScene *scene, UMLObject* o)
+  : UMLWidget(scene, o)
 {
     init();
 }
@@ -55,7 +55,7 @@ void EntityWidget::paint(QPainter& p, int offsetX, int offsetY)
     if(UMLWidget::getUseFillColour())
         p.setBrush(UMLWidget::getFillColor());
     else
-        p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
+        p.setBrush( m_scene->viewport()->palette().color(QPalette::Background) );
 
     const int w = width();
     const int h = height();
@@ -252,10 +252,10 @@ void EntityWidget::init()
     UMLWidget::setBaseType(WidgetBase::wt_Entity);
     setSize(100, 30);
 
-    //set defaults from m_pView
-    if (m_pView) {
+    //set defaults from m_scene
+    if (m_scene) {
         //check to see if correct
-        //const Settings::OptionState& ops = m_pView->getOptionState();
+        //const Settings::OptionState& ops = m_scene->getOptionState();
     }
     if (! UMLApp::app()->document()->loading())
         updateComponentSize();

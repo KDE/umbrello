@@ -33,10 +33,10 @@ public:
     /**
      * Constructs a ComponentWidget.
      *
-     * @param view      The parent of this ComponentWidget.
+     * @param scene      The parent of this ComponentWidget.
      * @param c The UMLComponent this will be representing.
      */
-    ComponentWidget(UMLView * view, UMLComponent *c);
+    ComponentWidget(UMLScene * scene, UMLComponent *c);
 
     /**
      * destructor

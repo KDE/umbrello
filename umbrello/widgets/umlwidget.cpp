@@ -42,8 +42,8 @@
 
 using namespace Uml;
 
-UMLWidget::UMLWidget(UMLView * view, UMLObject * o, UMLWidgetController *widgetController /* = 0*/)
-  : WidgetBase(view), UMLSceneRectangle(view->canvas()),
+UMLWidget::UMLWidget(UMLScene * scene, UMLObject * o, UMLWidgetController *widgetController /* = 0*/)
+  : WidgetBase(scene), UMLSceneRectangle(scene->canvas()),
     m_pMenu(0), m_menuIsEmbedded(false)
 {
     if (widgetController) {
@@ -59,8 +59,8 @@ UMLWidget::UMLWidget(UMLView * view, UMLObject * o, UMLWidgetController *widgetC
     }
 }
 
-UMLWidget::UMLWidget(UMLView * view, Uml::IDType id /* = Uml::id_None */, UMLWidgetController *widgetController /* = 0*/)
-  : WidgetBase(view), UMLSceneRectangle(view->canvas()),
+UMLWidget::UMLWidget(UMLScene *scene, Uml::IDType id /* = Uml::id_None */, UMLWidgetController *widgetController /* = 0*/)
+  : WidgetBase(scene), UMLSceneRectangle(scene->canvas()),
     m_pMenu(0)
 {
     if (widgetController) {
@@ -111,7 +111,7 @@ UMLWidget& UMLWidget::operator=(const UMLWidget & other)
     m_startMove = other.m_startMove;
     m_nPosX = other.m_nPosX;
     m_pObject = other.m_pObject;
-    m_pView = other.m_pView;
+    m_scene = other.m_scene;
     m_pMenu = other.m_pMenu;
     m_resizable = other.m_resizable;
     for (unsigned i = 0; i < FT_INVALID; ++i)
@@ -188,10 +188,10 @@ void UMLWidget::updateWidget()
     adjustAssocs(getX(), getY());   //adjust assoc lines.
     switch (m_Type) {
     case WidgetBase::wt_Class:
-        m_pView->createAutoAttributeAssociations(this);
+        m_scene->createAutoAttributeAssociations(this);
         break;
     case WidgetBase::wt_Entity:
-        m_pView->createAutoConstraintAssociations(this);
+        m_scene->createAutoConstraintAssociations(this);
         break;
     default:
         break;
@@ -224,16 +224,16 @@ void UMLWidget::init()
 {
     m_nId = Uml::id_None;
     m_isInstance = false;
-    if (m_pView) {
+    if (m_scene) {
         m_useFillColour = true;
         m_usesDiagramFillColour = true;
         m_usesDiagramUseFillColour = true;
-        const Settings::OptionState& optionState = m_pView->optionState();
+        const Settings::OptionState& optionState = m_scene->optionState();
         m_FillColour = optionState.uiState.fillColor;
         m_Font       = optionState.uiState.font;
         m_showStereotype = optionState.classState.showStereoType;
     } else {
-        uError() << "SERIOUS PROBLEM - m_pView is NULL";
+        uError() << "SERIOUS PROBLEM - m_scene is NULL";
         m_useFillColour = false;
         m_usesDiagramFillColour = false;
         m_usesDiagramUseFillColour = false;
@@ -253,14 +253,14 @@ void UMLWidget::init()
     m_pMenu = 0;
     m_pDoc = UMLApp::app()->document();
     m_nPosX = 0;
-    connect(m_pView, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
-    connect(m_pView, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
+    connect(m_scene, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
+    connect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
 
-    connect(m_pView, SIGNAL(sigColorChanged(Uml::IDType)), this, SLOT(slotColorChanged(Uml::IDType)));
-    connect(m_pView, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
+    connect(m_scene, SIGNAL(sigColorChanged(Uml::IDType)), this, SLOT(slotColorChanged(Uml::IDType)));
+    connect(m_scene, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
 
 
-    // connect( m_pView, SIGNAL(sigColorChanged(int)), this, SLOT(slotColorChanged(int)));
+    // connect( m_scene, SIGNAL(sigColorChanged(int)), this, SLOT(slotColorChanged(int)));
     m_pObject = NULL;
     setZ(m_origZ = 2);  // default for most widgets
 }
@@ -280,7 +280,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Delete:
         //remove self from diagram
-        m_pView->removeWidget(this);
+        m_scene->removeWidget(this);
         break;
 
         //UMLWidgetController::doMouseDoubleClick relies on this implementation
@@ -289,7 +289,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
                 wt == WidgetBase::wt_Package || wt == WidgetBase::wt_Interface || wt == WidgetBase::wt_Datatype ||
                 wt == WidgetBase::wt_Component || wt == WidgetBase::wt_Artifact ||
                 wt == WidgetBase::wt_Node || wt == WidgetBase::wt_Enum || wt == WidgetBase::wt_Entity ||
-                (wt == WidgetBase::wt_Class && m_pView->type() == Uml::DiagramType::Class)) {
+                (wt == WidgetBase::wt_Class && m_scene->type() == Uml::DiagramType::Class)) {
             UMLApp::app()->beginMacro(i18n("Change Properties"));
             showPropertiesDialog();
             UMLApp::app()->endMacro();
@@ -304,24 +304,24 @@ void UMLWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Line_Color:
-        widget = m_pView->getFirstMultiSelectedWidget();
+        widget = m_scene->getFirstMultiSelectedWidget();
         if (widget) {
             newColour = widget->lineColor();
         }
         if (KColorDialog::getColor(newColour)) {
-            m_pView->selectionSetLineColor(newColour);
+            m_scene->selectionSetLineColor(newColour);
             m_pDoc->setModified(true);
 
         }
         break;
 
     case ListPopupMenu::mt_Fill_Color:
-        widget = m_pView->getFirstMultiSelectedWidget();
+        widget = m_scene->getFirstMultiSelectedWidget();
         if (widget) {
             newColour = widget->getFillColor();
         }
         if (KColorDialog::getColor(newColour)) {
-            m_pView->selectionSetFillColor(newColour);
+            m_scene->selectionSetFillColor(newColour);
             m_pDoc->setModified(true);
         }
         break;
@@ -329,7 +329,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Use_Fill_Color:
         m_useFillColour = !m_useFillColour;
         m_usesDiagramUseFillColour = false;
-        m_pView->selectionUseFillColor(m_useFillColour);
+        m_scene->selectionUseFillColor(m_useFillColour);
         break;
     case ListPopupMenu::mt_Show_Attributes_Selection:
     case ListPopupMenu::mt_Show_Operations_Selection:
@@ -340,7 +340,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Show_Packages_Selection:
     case ListPopupMenu::mt_Show_Stereotypes_Selection:
     case ListPopupMenu::mt_Show_Public_Only_Selection:
-        m_pView->selectionToggleShow(sel);
+        m_scene->selectionToggleShow(sel);
         m_pDoc->setModified(true);
         break;
 
@@ -353,20 +353,20 @@ void UMLWidget::slotMenuSelection(QAction* action)
     }
 
     case ListPopupMenu::mt_Delete_Selection:
-        m_pView->deleteSelection();
+        m_scene->deleteSelection();
         break;
 
     case ListPopupMenu::mt_Change_Font:
     case ListPopupMenu::mt_Change_Font_Selection: {
         QFont font = UMLWidget::font();
-        if (KFontDialog::getFont(font, KFontChooser::NoDisplayFlags, m_pView)) {
-            UMLApp::app()->executeCommand(new CmdChangeFontSelection(m_pDoc, m_pView, font));
+        if (KFontDialog::getFont(font, KFontChooser::NoDisplayFlags, m_scene)) {
+            UMLApp::app()->executeCommand(new CmdChangeFontSelection(m_pDoc, m_scene, font));
         }
     }
     break;
 
     case ListPopupMenu::mt_Cut:
-        m_pView->setStartedCut();
+        m_scene->setStartedCut();
         UMLApp::app()->slotEditCut();
         break;
 
@@ -389,7 +389,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
         // In principle we clone all the uml objects.
     {
         UMLObject *pClone = m_pObject->clone();
-        m_pView->addObject(pClone);
+        m_scene->addObject(pClone);
     }
     break;
 
@@ -415,17 +415,17 @@ void UMLWidget::slotWidgetMoved(Uml::IDType /*id*/)
 void UMLWidget::slotColorChanged(Uml::IDType viewID)
 {
     //only change if on the diagram concerned
-    if (m_pView->getID() != viewID) {
+    if (m_scene->getID() != viewID) {
         return;
     }
     if (m_usesDiagramFillColour) {
-        m_FillColour = m_pView->getFillColor();
+        m_FillColour = m_scene->getFillColor();
     }
     if (m_usesDiagramLineColour) {
-        m_LineColour = m_pView->getLineColor();
+        m_LineColour = m_scene->getLineColor();
     }
     if (m_usesDiagramUseFillColour) {
-        m_useFillColour = m_pView->getUseFillColor();
+        m_useFillColour = m_scene->getUseFillColor();
     }
     update();
 }
@@ -433,11 +433,11 @@ void UMLWidget::slotColorChanged(Uml::IDType viewID)
 void UMLWidget::slotLineWidthChanged(Uml::IDType viewID)
 {
     //only change if on the diagram concerned
-    if (m_pView->getID() != viewID) {
+    if (m_scene->getID() != viewID) {
         return;
     }
     if (m_usesDiagramLineWidth) {
-        m_LineWidth = m_pView->getLineWidth();
+        m_LineWidth = m_scene->getLineWidth();
     }
     update();
 }
@@ -524,14 +524,14 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
     setSize(getWidth(), getHeight());
     m_activated = true;
     updateComponentSize();
-    if (m_pView->getPaste()) {
+    if (m_scene->getPaste()) {
         FloatingTextWidget * ft = 0;
-        QPoint point = m_pView->getPastePoint();
+        QPoint point = m_scene->getPastePoint();
         int x = point.x() + getX();
         int y = point.y() + getY();
         x = x < 0 ? 0 : x;
         y = y < 0 ? 0 : y;
-        if (m_pView->type() == Uml::DiagramType::Sequence) {
+        if (m_scene->type() == Uml::DiagramType::Sequence) {
             switch (baseType()) {
             case WidgetBase::wt_Object:
             case WidgetBase::wt_Precondition :
@@ -569,8 +569,8 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
         setX(getX());
         setY(getY());
     }
-    if (m_pView->getPaste())
-        m_pView->createAutoAssociations(this);
+    if (m_scene->getPaste())
+        m_scene->createAutoAssociations(this);
     updateComponentSize();
     return true;
 }
@@ -670,7 +670,7 @@ ListPopupMenu*  UMLWidget::setupPopupMenu(ListPopupMenu* menu)
     m_menuIsEmbedded = false;
     //if in a multi- selection to a specific m_pMenu for that
     // NEW: ask UMLView to count ONLY the widgets and not their floatingtextwidgets
-    int count = m_pView->getSelectCount(true);
+    int count = m_scene->getSelectCount(true);
     //a MessageWidget when selected will select its text widget and vice versa
     //so take that into account for popup menu.
 
@@ -683,10 +683,10 @@ ListPopupMenu*  UMLWidget::setupPopupMenu(ListPopupMenu* menu)
     // if multiple items are selected, we have to check if they all have the same
     // base type
     if (multi == true)
-        unique = m_pView->checkUniqueSelection();
+        unique = m_scene->checkUniqueSelection();
 
     // create the right click context menu
-    m_pMenu = new ListPopupMenu(m_pView, this, multi, unique);
+    m_pMenu = new ListPopupMenu(m_scene, this, multi, unique);
 
     // disable the "view code" menu for simple code generators
     if (UMLApp::app()->isSimpleCodeGeneratorActive())
@@ -746,11 +746,11 @@ void UMLWidget::setSelected(bool _select)
 {
     const WidgetBase::WidgetType wt = m_Type;
     if (_select) {
-        if (m_pView->getSelectCount() == 0) {
+        if (m_scene->getSelectCount() == 0) {
             if (widgetHasUMLObject(wt)) {
-                m_pView->showDocumentation(m_pObject, false);
+                m_scene->showDocumentation(m_pObject, false);
             } else {
-                m_pView->showDocumentation(this, false);
+                m_scene->showDocumentation(this, false);
             }
         }//end if
         /* if (wt != wt_Text && wt != wt_Box) {
@@ -761,12 +761,12 @@ void UMLWidget::setSelected(bool _select)
             setZ(m_origZ);
         } */
         if (m_selected)
-            m_pView->updateDocumentation(true);
+            m_scene->updateDocumentation(true);
     }
     m_selected = _select;
 
     const QPoint pos(getX(), getY());
-    UMLWidget *bkgnd = m_pView->widgetAt(pos);
+    UMLWidget *bkgnd = m_scene->widgetAt(pos);
     if (bkgnd && bkgnd != this && _select) {
         uDebug() << "setting Z to " << bkgnd->getZ() + 1 << ", SelectState: " << _select;
         setZ(bkgnd->getZ() + 1);
@@ -786,24 +786,24 @@ void UMLWidget::slotClearAllSelected()
     setSelected(false);
 }
 
-void UMLWidget::setView(UMLView * v)
+void UMLWidget::setScene(UMLScene * v)
 {
     //remove signals from old view - was probably 0 anyway
-    disconnect(m_pView, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
-    disconnect(m_pView, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
-    disconnect(m_pView, SIGNAL(sigColorChanged(Uml::IDType)), this, SLOT(slotColorChanged(Uml::IDType)));
-    disconnect(m_pView, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
-    m_pView = v;
-    connect(m_pView, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
-    connect(m_pView, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
-    connect(m_pView, SIGNAL(sigColorChanged(Uml::IDType)), this, SLOT(slotColorChanged(Uml::IDType)));
-    connect(m_pView, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
+    disconnect(m_scene, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
+    disconnect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
+    disconnect(m_scene, SIGNAL(sigColorChanged(Uml::IDType)), this, SLOT(slotColorChanged(Uml::IDType)));
+    disconnect(m_scene, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
+    m_scene = v;
+    connect(m_scene, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
+    connect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
+    connect(m_scene, SIGNAL(sigColorChanged(Uml::IDType)), this, SLOT(slotColorChanged(Uml::IDType)));
+    connect(m_scene, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
 }
 
 void UMLWidget::setX(int x)
 {
     if (!m_ignoreSnapToGrid) {
-        x = m_pView->snappedX(x);
+        x = m_scene->snappedX(x);
     }
     UMLSceneItem::setX(x);
 }
@@ -811,7 +811,7 @@ void UMLWidget::setX(int x)
 void UMLWidget::setY(int y)
 {
     if (!m_ignoreSnapToGrid) {
-        y = m_pView->snappedX(y);
+        y = m_scene->snappedX(y);
     }
     UMLSceneItem::setY(y);
 }
@@ -882,15 +882,15 @@ void UMLWidget::setSize(int width, int height)
 {
     // snap to the next larger size that is a multiple of the grid
     if (!m_ignoreSnapComponentSizeToGrid
-            && m_pView->getSnapComponentSizeToGrid()) {
+            && m_scene->getSnapComponentSizeToGrid()) {
         // integer divisions
-        int numX = width / m_pView->getSnapX();
-        int numY = height / m_pView->getSnapY();
+        int numX = width / m_scene->getSnapX();
+        int numY = height / m_scene->getSnapY();
         // snap to the next larger valid value
-        if (width > numX * m_pView->getSnapX())
-            width = (numX + 1) * m_pView->getSnapX();
-        if (height > numY * m_pView->getSnapY())
-            height = (numY + 1) * m_pView->getSnapY();
+        if (width > numX * m_scene->getSnapX())
+            width = (numX + 1) * m_scene->getSnapX();
+        if (height > numY * m_scene->getSnapY())
+            height = (numY + 1) * m_scene->getSnapY();
     }
 
     UMLSceneRectangle::setSize(width, height);

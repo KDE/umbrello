@@ -23,8 +23,8 @@
 // qt includes
 #include <QtGui/QPainter>
 
-FloatingDashLineWidget::FloatingDashLineWidget(UMLView * view, Uml::IDType id)
-  : UMLWidget(view, id)
+FloatingDashLineWidget::FloatingDashLineWidget(UMLScene * scene, Uml::IDType id)
+  : UMLWidget(scene, id)
 {
     UMLWidget::setBaseType(WidgetBase::wt_FloatingDashLine);
     m_resizable = false;

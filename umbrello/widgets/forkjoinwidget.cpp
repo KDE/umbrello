@@ -23,12 +23,12 @@
 /**
  * Constructs a ForkJoinWidget.
  *
- * @param view          The parent to this widget.
+ * @param scene          The parent to this widget.
  * @param drawVertical  Whether to draw the plate horizontally or vertically.
  * @param id            The ID to assign (-1 will prompt a new ID.)
  */
-ForkJoinWidget::ForkJoinWidget(UMLView * view, bool drawVertical, Uml::IDType id)
-  : BoxWidget(view, id), m_drawVertical(drawVertical)
+ForkJoinWidget::ForkJoinWidget(UMLScene * scene, bool drawVertical, Uml::IDType id)
+  : BoxWidget(scene, id), m_drawVertical(drawVertical)
 {
     init();
 }

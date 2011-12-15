@@ -52,11 +52,11 @@ public:
     /**
      * Creates a State widget.
      *
-     * @param view              The parent of the widget.
+     * @param scene              The parent of the widget.
      * @param stateType The type of state.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-    explicit StateWidget( UMLView * view, StateType stateType = Normal, Uml::IDType id = Uml::id_None );
+    explicit StateWidget( UMLScene * scene, StateType stateType = Normal, Uml::IDType id = Uml::id_None );
 
     /**
      * destructor

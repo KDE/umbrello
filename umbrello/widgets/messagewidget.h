@@ -48,7 +48,7 @@ public:
     /**
      * Constructs a MessageWidget.
      *
-     * @param view      The parent to this class.
+     * @param scene      The parent to this class.
      * @param a The role A widget for this message.
      * @param b The role B widget for this message.
      * @param y The vertical position to display this message.
@@ -56,30 +56,30 @@ public:
      * @param id        A unique id used for deleting this object cleanly.
      *              The default (-1) will prompt generation of a new ID.
      */
-    MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
+    MessageWidget(UMLScene * scene, ObjectWidget* a, ObjectWidget* b,
                   int y, Uml::Sequence_Message_Type sequenceMessageType,
                   Uml::IDType id = Uml::id_None);
 
      /**
      * Constructs a MessageWidget.
      *
-     * @param view              The parent to this class.
+     * @param scene              The parent to this class.
      * @param sequenceMessageType The Uml::Sequence_Message_Type of this message widget
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-    MessageWidget(UMLView * view, Uml::Sequence_Message_Type sequenceMessageType, Uml::IDType id = Uml::id_None);
+    MessageWidget(UMLScene * scene, Uml::Sequence_Message_Type sequenceMessageType, Uml::IDType id = Uml::id_None);
 
     /**
      * Constructs a Lost or Found MessageWidget.
      *
-     * @param view              The parent to this class.
+     * @param scene              The parent to this class.
      * @param a The role A widget for this message.
      * @param xclick The horizontal position clicked by the user
      * @param yclick The vertical position clicked by the user
      * @param sequenceMessageType Whether lost or found
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-    MessageWidget(UMLView * view, ObjectWidget* a, int xclick, int yclick, Uml::Sequence_Message_Type sequenceMessageType,
+    MessageWidget(UMLScene * scene, ObjectWidget* a, int xclick, int yclick, Uml::Sequence_Message_Type sequenceMessageType,
                   Uml::IDType id = Uml::id_None);
 
 
@@ -423,7 +423,7 @@ protected:
 
      /**
      * Sets the size.
-     * If m_pView->getSnapComponentSizeToGrid() is true, then
+     * If m_scene->getSnapComponentSizeToGrid() is true, then
      * set the next larger size that snaps to the grid.
      */
 //     void setSize(int width,int height);

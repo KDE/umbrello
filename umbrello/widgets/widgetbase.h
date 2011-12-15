@@ -20,7 +20,7 @@
 
 // forward declarations
 class UMLDoc;
-class UMLView;
+class UMLScene;
 class UMLObject;
 
 /**
@@ -67,7 +67,7 @@ public:
         wt_Category                 // has UMLObject representation
     };
 
-    explicit WidgetBase(UMLView * view);
+    explicit WidgetBase(UMLScene * scene);
     virtual ~WidgetBase();
 
     UMLObject* umlObject() const;
@@ -80,7 +80,7 @@ public:
     void setBaseType(WidgetType type);
     QLatin1String baseTypeStr() const;
 
-    UMLView* umlScene() const;
+    UMLScene* umlScene() const;
     UMLDoc* umlDoc() const;
 
     QString documentation() const;
@@ -102,10 +102,10 @@ public:
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:
-    void init(UMLView *view, WidgetType type = wt_UMLWidget);
+    void init(WidgetType type = wt_UMLWidget);
 
     WidgetType  m_Type;  ///< Type of widget.
-    UMLView    *m_pView;
+    UMLScene   *m_scene;
     UMLObject  *m_pObject;
     QString     m_Doc;   ///< Only used if m_pObject is not set.
 

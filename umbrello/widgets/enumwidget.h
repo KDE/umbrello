@@ -15,7 +15,7 @@
 
 #include "umlwidget.h"
 
-class UMLView;
+class UMLScene;
 
 #define ENUM_MARGIN 5
 
@@ -32,7 +32,7 @@ class EnumWidget : public UMLWidget
 {
     Q_OBJECT
 public:
-    explicit EnumWidget(UMLView* view, UMLObject* o);
+    explicit EnumWidget(UMLScene *scene, UMLObject* o);
     virtual ~EnumWidget();
 
     bool showPackage() const;

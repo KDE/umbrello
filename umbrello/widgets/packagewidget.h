@@ -33,10 +33,10 @@ public:
     /**
      * Constructs a PackageWidget.
      *
-     * @param view              The parent of this PackageWidget.
+     * @param scene              The parent of this PackageWidget.
      * @param o         The UMLObject this will be representing.
      */
-    PackageWidget(UMLView * view, UMLPackage * o);
+    PackageWidget(UMLScene * scene, UMLPackage * o);
 
     /**
      * destructor

@@ -22,8 +22,8 @@
 #include "umldoc.h"
 #include "umlview.h"
 
-NodeWidget::NodeWidget(UMLView * view, UMLNode *n )
-  : UMLWidget(view, n)
+NodeWidget::NodeWidget(UMLScene * scene, UMLNode *n )
+  : UMLWidget(scene, n)
 {
     UMLWidget::setBaseType(WidgetBase::wt_Node);
     setZ(m_origZ = 1);  // above box but below UMLWidget because may embed widgets
@@ -42,7 +42,7 @@ void NodeWidget::paint(QPainter & p, int offsetX, int offsetY)
     if ( UMLWidget::getUseFillColour() ) {
         p.setBrush( UMLWidget::getFillColor() );
     } else {
-        p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
+        p.setBrush( m_scene->viewport()->palette().color(QPalette::Background) );
     }
     const int w = width();
     const int h = height();

@@ -28,8 +28,8 @@
 #include "umlview.h"
 #include "floatingtextwidget.h"
 
-RegionWidget::RegionWidget(UMLView * view, Uml::IDType id)
-        : UMLWidget(view, id) {
+RegionWidget::RegionWidget(UMLScene * scene, Uml::IDType id)
+        : UMLWidget(scene, id) {
      UMLWidget::setBaseType( WidgetBase::wt_Region );
     updateComponentSize();
 }

@@ -24,19 +24,19 @@
 #include "notewidgetcontroller.h"
 #include "notedialog.h"
 #include "umldoc.h"
-#include "umlview.h"
+#include "umlscene.h"
 #include "uml.h"
 
 /**
  * Constructs a NoteWidget.
  *
- * @param view              The parent to this widget.
+ * @param scene              The parent to this widget.
  * @param noteType          The NoteWidget::NoteType of this NoteWidget
  * @param id                The unique id of the widget.
  *                  The default (-1) will prompt a new ID.
  */
-NoteWidget::NoteWidget(UMLView * view, NoteType noteType , Uml::IDType id)
-  : UMLWidget(view, id, new NoteWidgetController(this))
+NoteWidget::NoteWidget(UMLScene * scene, NoteType noteType , Uml::IDType id)
+  : UMLWidget(scene, id, new NoteWidgetController(this))
 {
     UMLWidget::setBaseType(WidgetBase::wt_Note);
     m_diagramLink = Uml::id_None;
@@ -201,7 +201,7 @@ Uml::IDType NoteWidget::getDiagramLink() const
  * Set the ID of the diagram hyperlinked to this note.
  * To switch off the hyperlink, set this to Uml::id_None.
  *
- * @param viewID    ID of an UMLView.
+ * @param sceneID    ID of an UMLView.
  */
 void NoteWidget::setDiagramLink(Uml::IDType viewID)
 {
@@ -278,10 +278,10 @@ void NoteWidget::slotMenuSelection(QAction* action)
     ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
     switch(sel) {
     case ListPopupMenu::mt_Rename:
-        m_pView->updateDocumentation( false );
-        dlg = new NoteDialog( m_pView, this );
+        m_scene->updateDocumentation( false );
+        dlg = new NoteDialog( m_scene, this );
         if( dlg->exec() ) {
-            m_pView->showDocumentation( this, true );
+            m_scene->showDocumentation( this, true );
             doc->setModified(true);
             update();
         }

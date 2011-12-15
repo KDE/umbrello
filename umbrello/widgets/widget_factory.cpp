@@ -60,60 +60,60 @@
 
 namespace Widget_Factory {
 
-UMLWidget *createWidget(UMLView *view, UMLObject *o)
+UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
 {
-    QPoint pos = view->getPos();
+    QPoint pos = scene->getPos();
     int y = pos.y();
-    Uml::DiagramType diagramType = view->type();
+    Uml::DiagramType diagramType = scene->type();
     UMLObject::ObjectType type = o->baseType();
     UMLWidget *newWidget = NULL;
     switch (type) {
     case UMLObject::ot_Actor:
         if (diagramType == Uml::DiagramType::Sequence) {
-            ObjectWidget *ow = new ObjectWidget(view, o, view->getLocalID());
+            ObjectWidget *ow = new ObjectWidget(scene, o, scene->getLocalID());
             ow->setDrawAsActor(true);
             y = ow->topMargin();
             newWidget = ow;
         } else
-            newWidget = new ActorWidget(view, static_cast<UMLActor*>(o));
+            newWidget = new ActorWidget(scene, static_cast<UMLActor*>(o));
         break;
     case UMLObject::ot_UseCase:
-        newWidget = new UseCaseWidget(view, static_cast<UMLUseCase*>(o));
+        newWidget = new UseCaseWidget(scene, static_cast<UMLUseCase*>(o));
         break;
     case UMLObject::ot_Package:
-        newWidget = new PackageWidget(view, static_cast<UMLPackage*>(o));
+        newWidget = new PackageWidget(scene, static_cast<UMLPackage*>(o));
         break;
     case UMLObject::ot_Component:
-        newWidget = new ComponentWidget(view, static_cast<UMLComponent*>(o));
+        newWidget = new ComponentWidget(scene, static_cast<UMLComponent*>(o));
         if (diagramType == Uml::DiagramType::Deployment) {
             newWidget->setIsInstance(true);
         }
         break;
     case UMLObject::ot_Node:
-        newWidget = new NodeWidget(view, static_cast<UMLNode*>(o));
+        newWidget = new NodeWidget(scene, static_cast<UMLNode*>(o));
         break;
     case UMLObject::ot_Artifact:
-        newWidget = new ArtifactWidget(view, static_cast<UMLArtifact*>(o));
+        newWidget = new ArtifactWidget(scene, static_cast<UMLArtifact*>(o));
         break;
     case UMLObject::ot_Datatype:
-        newWidget = new DatatypeWidget(view, static_cast<UMLClassifier*>(o));
+        newWidget = new DatatypeWidget(scene, static_cast<UMLClassifier*>(o));
         break;
     case UMLObject::ot_Enum:
-        newWidget = new EnumWidget(view, static_cast<UMLEnum*>(o));
+        newWidget = new EnumWidget(scene, static_cast<UMLEnum*>(o));
         break;
     case UMLObject::ot_Entity:
-        newWidget = new EntityWidget(view, static_cast<UMLEntity*>(o));
+        newWidget = new EntityWidget(scene, static_cast<UMLEntity*>(o));
         break;
     case UMLObject::ot_Interface:
         if (diagramType == Uml::DiagramType::Sequence || diagramType == Uml::DiagramType::Collaboration) {
-            ObjectWidget *ow = new ObjectWidget(view, o, view->getLocalID() );
+            ObjectWidget *ow = new ObjectWidget(scene, o, scene->getLocalID() );
             if (diagramType == Uml::DiagramType::Sequence) {
                 y = ow->topMargin();
             }
             newWidget = ow;
         } else {
             UMLClassifier *c = static_cast<UMLClassifier*>(o);
-            ClassifierWidget* interfaceWidget = new ClassifierWidget(view, c);
+            ClassifierWidget* interfaceWidget = new ClassifierWidget(scene, c);
             if (diagramType == Uml::DiagramType::Component || diagramType == Uml::DiagramType::Deployment) {
                 interfaceWidget->setDrawAsCircle(true);
             }
@@ -124,12 +124,12 @@ UMLWidget *createWidget(UMLView *view, UMLObject *o)
         //see if we really want an object widget or class widget
         if (diagramType == Uml::DiagramType::Class || diagramType == Uml::DiagramType::Component) {
             UMLClassifier *c = static_cast<UMLClassifier*>(o);
-            ClassifierWidget *cw = new ClassifierWidget(view, c);
+            ClassifierWidget *cw = new ClassifierWidget(scene, c);
             if (diagramType == Uml::DiagramType::Component)
                 cw->setDrawAsCircle(true);
             newWidget = cw;
         } else {
-            ObjectWidget *ow = new ObjectWidget(view, o, view->getLocalID() );
+            ObjectWidget *ow = new ObjectWidget(scene, o, scene->getLocalID() );
             if (diagramType == Uml::DiagramType::Sequence) {
                 y = ow->topMargin();
             }
@@ -137,7 +137,7 @@ UMLWidget *createWidget(UMLView *view, UMLObject *o)
         }
         break;
     case UMLObject::ot_Category:
-        newWidget = new CategoryWidget(view, static_cast<UMLCategory*>(o));
+        newWidget = new CategoryWidget(scene, static_cast<UMLCategory*>(o));
         break;
     default:
         uWarning() << "trying to create an invalid widget";
@@ -175,7 +175,7 @@ bool validateObjType(UMLObject::ObjectType expected, UMLObject* &o, Uml::IDType 
 }
 
 UMLWidget* makeWidgetFromXMI(const QString& tag,
-                             const QString& idStr, UMLView *view)
+                             const QString& idStr, UMLScene *scene)
 {
     UMLWidget *widget = NULL;
 
@@ -184,33 +184,33 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         //FIXME while boxes and texts are just diagram objects, activities and
         // states should be UMLObjects
     if (tag == "statewidget" || tag == "UML:StateWidget") {
-        widget = new StateWidget(view, StateWidget::Normal, Uml::id_Reserved);
+        widget = new StateWidget(scene, StateWidget::Normal, Uml::id_Reserved);
     } else if (tag == "notewidget" || tag == "UML:NoteWidget") {
-        widget = new NoteWidget(view, NoteWidget::Normal, Uml::id_Reserved);
+        widget = new NoteWidget(scene, NoteWidget::Normal, Uml::id_Reserved);
     } else if (tag == "boxwidget") {
-        widget = new BoxWidget(view, Uml::id_Reserved);
+        widget = new BoxWidget(scene, Uml::id_Reserved);
     } else if (tag == "floatingtext" || tag == "UML:FloatingTextWidget") {
-        widget = new FloatingTextWidget(view, Uml::TextRole::Floating, "", Uml::id_Reserved);
+        widget = new FloatingTextWidget(scene, Uml::TextRole::Floating, "", Uml::id_Reserved);
     } else if (tag == "activitywidget" || tag == "UML:ActivityWidget") {
-        widget = new ActivityWidget(view, ActivityWidget::Initial, Uml::id_Reserved);
+        widget = new ActivityWidget(scene, ActivityWidget::Initial, Uml::id_Reserved);
     } else if (tag == "messagewidget") {
-        widget = new MessageWidget(view, Uml::sequence_message_asynchronous, Uml::id_Reserved);
+        widget = new MessageWidget(scene, Uml::sequence_message_asynchronous, Uml::id_Reserved);
     } else if (tag == "forkjoin") {
-        widget = new ForkJoinWidget(view, false, Uml::id_Reserved);
+        widget = new ForkJoinWidget(scene, false, Uml::id_Reserved);
     } else if (tag == "preconditionwidget") {
-        widget = new PreconditionWidget(view, NULL, Uml::id_Reserved);
+        widget = new PreconditionWidget(scene, NULL, Uml::id_Reserved);
     } else if (tag == "combinedFragmentwidget") {
-        widget = new CombinedFragmentWidget(view, CombinedFragmentWidget::Ref, Uml::id_Reserved);
+        widget = new CombinedFragmentWidget(scene, CombinedFragmentWidget::Ref, Uml::id_Reserved);
     } else if (tag == "signalwidget") {
-        widget = new SignalWidget(view, SignalWidget::Send,  Uml::id_Reserved);
+        widget = new SignalWidget(scene, SignalWidget::Send,  Uml::id_Reserved);
     } else if (tag == "floatingdashlinewidget") {
-        widget = new FloatingDashLineWidget(view, Uml::id_Reserved);
+        widget = new FloatingDashLineWidget(scene, Uml::id_Reserved);
     } else if (tag == "objectnodewidget") {
-        widget = new ObjectNodeWidget(view, ObjectNodeWidget::Normal, Uml::id_Reserved);
+        widget = new ObjectNodeWidget(scene, ObjectNodeWidget::Normal, Uml::id_Reserved);
     } else if (tag == "regionwidget") {
-        widget = new RegionWidget(view, Uml::id_Reserved);
+        widget = new RegionWidget(scene, Uml::id_Reserved);
     } else if (tag == "pinwidget") {
-        widget = new PinWidget(view, NULL, Uml::id_Reserved);
+        widget = new PinWidget(scene, NULL, Uml::id_Reserved);
     }
     else
     {
@@ -227,42 +227,42 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
 
         if (tag == "actorwidget" || tag == "UML:ActorWidget") {
             if (validateObjType(UMLObject::ot_Actor, o, id))
-                widget = new ActorWidget(view, static_cast<UMLActor*>(o));
+                widget = new ActorWidget(scene, static_cast<UMLActor*>(o));
         } else if (tag == "usecasewidget" || tag ==  "UML:UseCaseWidget") {
             if (validateObjType(UMLObject::ot_UseCase, o, id))
-                widget = new UseCaseWidget(view, static_cast<UMLUseCase*>(o));
+                widget = new UseCaseWidget(scene, static_cast<UMLUseCase*>(o));
         } else if (tag == "classwidget" || tag == "UML:ClassWidget") {
             if (validateObjType(UMLObject::ot_Class, o, id))
-                widget = new ClassifierWidget(view, static_cast<UMLClassifier*>(o));
+                widget = new ClassifierWidget(scene, static_cast<UMLClassifier*>(o));
         } else if (tag == "packagewidget") {
             if (validateObjType(UMLObject::ot_Package, o, id))
-                widget = new PackageWidget(view, static_cast<UMLPackage*>(o));
+                widget = new PackageWidget(scene, static_cast<UMLPackage*>(o));
         } else if (tag == "componentwidget") {
             if (validateObjType(UMLObject::ot_Component, o, id))
-                widget = new ComponentWidget(view, static_cast<UMLComponent*>(o));
+                widget = new ComponentWidget(scene, static_cast<UMLComponent*>(o));
         } else if (tag == "nodewidget") {
             if (validateObjType(UMLObject::ot_Node, o, id))
-                widget = new NodeWidget(view, static_cast<UMLNode*>(o));
+                widget = new NodeWidget(scene, static_cast<UMLNode*>(o));
         } else if (tag == "artifactwidget") {
             if (validateObjType(UMLObject::ot_Artifact, o, id))
-                widget = new ArtifactWidget(view, static_cast<UMLArtifact*>(o));
+                widget = new ArtifactWidget(scene, static_cast<UMLArtifact*>(o));
         } else if (tag == "interfacewidget") {
             if (validateObjType(UMLObject::ot_Interface, o, id))
-                widget = new ClassifierWidget(view, static_cast<UMLClassifier*>(o));
+                widget = new ClassifierWidget(scene, static_cast<UMLClassifier*>(o));
         } else if (tag == "datatypewidget") {
             if (validateObjType(UMLObject::ot_Datatype, o, id))
-                widget = new DatatypeWidget(view, static_cast<UMLClassifier*>(o));
+                widget = new DatatypeWidget(scene, static_cast<UMLClassifier*>(o));
         } else if (tag == "enumwidget") {
             if (validateObjType(UMLObject::ot_Enum, o, id))
-                widget = new EnumWidget(view, static_cast<UMLEnum*>(o));
+                widget = new EnumWidget(scene, static_cast<UMLEnum*>(o));
         } else if (tag == "entitywidget") {
             if (validateObjType(UMLObject::ot_Entity, o, id))
-                widget = new EntityWidget(view, static_cast<UMLEntity*>(o));
+                widget = new EntityWidget(scene, static_cast<UMLEntity*>(o));
         } else if (tag == "categorywidget") {
             if (validateObjType(UMLObject::ot_Category, o, id))
-                widget = new CategoryWidget(view, static_cast<UMLCategory*>(o));
+                widget = new CategoryWidget(scene, static_cast<UMLCategory*>(o));
         } else if (tag == "objectwidget" || tag == "UML:ObjectWidget") {
-            widget = new ObjectWidget(view, o );
+            widget = new ObjectWidget(scene, o );
         } else {
             uWarning() << "Trying to create an unknown widget:" << tag;
         }

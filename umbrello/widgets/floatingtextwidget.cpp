@@ -42,14 +42,14 @@
 /**
  * Constructs a FloatingTextWidget instance.
  *
- * @param view The parent of this FloatingTextWidget.
+ * @param scene The parent of this FloatingTextWidget.
  * @param role The role this FloatingTextWidget will take up.
  * @param text The main text to display.
  * @param id The ID to assign (-1 will prompt a new ID.)
  */
-FloatingTextWidget::FloatingTextWidget(UMLView * view, Uml::TextRole role,
+FloatingTextWidget::FloatingTextWidget(UMLScene * scene, Uml::TextRole role,
                                        const QString& text, Uml::IDType id)
-  : UMLWidget(view, id, new FloatingTextWidgetController(this))
+  : UMLWidget(scene, id, new FloatingTextWidgetController(this))
 {
     init();
     m_Text = text;
@@ -132,7 +132,7 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Delete:
-        m_pView->removeWidget(this);
+        m_scene->removeWidget(this);
         break;
 
     case ListPopupMenu::mt_New_Operation: // needed by AssociationWidget
@@ -147,7 +147,7 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
                 bool ok = false;
                 QString opText = KInputDialog::getText(i18nc("operation name", "Name"),
                                                        i18n("Enter operation name:"),
-                                                       text(), &ok, m_pView);
+                                                       text(), &ok, m_scene);
                 if (ok)
                     m_linkWidget->setCustomOpText(opText);
                 return;
@@ -171,7 +171,7 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Change_Font:
         {
             QFont font = UMLWidget::font();
-            if( KFontDialog::getFont( font, KFontChooser::NoDisplayFlags, m_pView ) ) {
+            if( KFontDialog::getFont( font, KFontChooser::NoDisplayFlags, m_scene ) ) {
                 if( m_textRole == Uml::TextRole::Floating || m_textRole == Uml::TextRole::Seq_Message ) {
                     setFont( font );
                 } else if (m_linkWidget) {
@@ -217,7 +217,7 @@ void FloatingTextWidget::handleRename()
         t = i18n("ERROR");
     }
     bool ok = false;
-    QString newText = KInputDialog::getText(i18n("Rename"), t, text(), &ok, m_pView, &v);
+    QString newText = KInputDialog::getText(i18n("Rename"), t, text(), &ok, m_scene, &v);
     if (!ok || newText == text())
         return;
 
@@ -260,7 +260,7 @@ void FloatingTextWidget::changeName(const QString& newText)
             MessageWidget *msg = dynamic_cast<MessageWidget*>(m_linkWidget);
             if (msg) {
                 msg->setName(QString());
-                m_pView->removeWidget(this);
+                m_scene->removeWidget(this);
             }
         }
         return;
@@ -300,7 +300,7 @@ void FloatingTextWidget::setText(const QString &t)
         QString seqNum, op;
         m_linkWidget->seqNumAndOp(seqNum, op);
         if (seqNum.length() > 0 || op.length() > 0) {
-            if (! m_pView->getShowOpSig())
+            if (! m_scene->getShowOpSig())
                 op.replace( QRegExp("\\(.*\\)"), "()" );
             m_Text = seqNum.append(": ").append( op );
         } else
@@ -344,7 +344,7 @@ void FloatingTextWidget::setPostText(const QString &t)
 void FloatingTextWidget::showChangeTextDialog()
 {
     bool ok = false;
-    QString newText = KInputDialog::getText(i18n("Change Text"), i18n("Enter new text:"), text(), &ok, m_pView);
+    QString newText = KInputDialog::getText(i18n("Change Text"), i18n("Enter new text:"), text(), &ok, m_scene);
 
     if (ok && newText != text() && isTextValid(newText)) {
         setText( newText );
@@ -372,7 +372,7 @@ void FloatingTextWidget::showOperationDialog()
         return;
     }
 
-    QPointer<SelectOpDlg> selectDlg = new SelectOpDlg(m_pView, c);
+    QPointer<SelectOpDlg> selectDlg = new SelectOpDlg(m_scene, c);
     selectDlg->setSeqNumber( seqNum );
     if (m_linkWidget->operation() == NULL) {
         selectDlg->setCustomOp( opText );

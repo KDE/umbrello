@@ -36,8 +36,8 @@
  */
 static const int sequenceLineMargin = 20;
 
-ObjectWidget::ObjectWidget(UMLView * view, UMLObject *o, Uml::IDType lid)
-  : UMLWidget(view, o)
+ObjectWidget::ObjectWidget(UMLScene * scene, UMLObject *o, Uml::IDType lid)
+  : UMLWidget(scene, o)
 {
     init();
     if( lid != Uml::id_None )
@@ -55,8 +55,8 @@ void ObjectWidget::init()
     m_multipleInstance = false;
     m_drawAsActor = false;
     m_showDestruction = false;
-    if( m_pView != NULL && m_pView->type() == Uml::DiagramType::Sequence ) {
-        m_pLine = new SeqLineWidget( m_pView, this );
+    if( m_scene != NULL && m_scene->type() == Uml::DiagramType::Sequence ) {
+        m_pLine = new SeqLineWidget( m_scene, this );
 
         //Sets specific widget controller for sequence diagrams
         delete m_widgetController;
@@ -95,7 +95,7 @@ void ObjectWidget::slotMenuSelection(QAction* action)
                     i18n("Enter object name:"),
                     m_InstanceName,
                     &ok,
-                    m_pView,
+                    m_scene,
                     validator);
             if (ok) {
                 m_InstanceName = name;
@@ -161,7 +161,7 @@ void ObjectWidget::setDrawAsActor( bool drawAsActor )
 void ObjectWidget::setMultipleInstance(bool multiple)
 {
     //make sure only calling this in relation to an object on a collab. diagram
-    if(m_pView->type() != Uml::DiagramType::Collaboration)
+    if(m_scene->type() != Uml::DiagramType::Collaboration)
         return;
     m_multipleInstance = multiple;
     updateComponentSize();
@@ -205,8 +205,8 @@ void ObjectWidget::moveEvent(QMoveEvent *m)
 
 void ObjectWidget::slotColorChanged(Uml::IDType /*viewID*/)
 {
-    UMLWidget::setFillColour( m_pView->getFillColor() );
-    UMLWidget::setLineColor( m_pView->getLineColor() );
+    UMLWidget::setFillColour( m_scene->getFillColor() );
+    UMLWidget::setLineColor( m_scene->getLineColor() );
 
     if( m_pLine)
         m_pLine->setPen( QPen( UMLWidget::lineColor(), UMLWidget::lineWidth(), Qt::DashLine ) );
@@ -245,7 +245,7 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY)
     if(UMLWidget::getUseFillColour())
         p.setBrush(UMLWidget::getFillColor());
     else
-        p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
+        p.setBrush( m_scene->viewport()->palette().color(QPalette::Background) );
     const int w = width();
     const int h = height();
 

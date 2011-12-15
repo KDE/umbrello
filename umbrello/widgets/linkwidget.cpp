@@ -41,7 +41,7 @@ UMLClassifier *LinkWidget::operationOwner()
  * Return the operation text.
  * When no view parameter is given, the current view
  * is taken instead.
- * @param view   the given view
+ * @param scene   the given view
  * @return the operation text
  */
 QString LinkWidget::operationText(UMLView *view)

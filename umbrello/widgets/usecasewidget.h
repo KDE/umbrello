@@ -43,7 +43,7 @@ class UMLUseCase;
 class UseCaseWidget : public UMLWidget
 {
 public:
-    UseCaseWidget(UMLView * view, UMLUseCase *o);
+    UseCaseWidget(UMLScene * scene, UMLUseCase *o);
     virtual ~UseCaseWidget();
 
     virtual void paint(QPainter & p, int offsetX, int offsetY);

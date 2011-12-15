@@ -28,8 +28,8 @@
 #include "listpopupmenu.h"
 #include "dialog_utils.h"
 
-CombinedFragmentWidget::CombinedFragmentWidget(UMLView * view, CombinedFragmentType combinedfragmentType, Uml::IDType id )
-  : UMLWidget(view, id)
+CombinedFragmentWidget::CombinedFragmentWidget(UMLScene * scene, CombinedFragmentType combinedfragmentType, Uml::IDType id )
+  : UMLWidget(scene, id)
 {
     UMLWidget::setBaseType( WidgetBase::wt_CombinedFragment );
     setCombinedFragmentType( combinedfragmentType );
@@ -193,7 +193,7 @@ void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combi
     // creates a dash line if the combined fragment type is alternative or parallel
     if(m_CombinedFragment == Alt  && m_dashLines.isEmpty())
     {
-        m_dashLines.push_back(new FloatingDashLineWidget(m_pView));
+        m_dashLines.push_back(new FloatingDashLineWidget(m_scene));
         if(m_CombinedFragment == Alt)
         {
             m_dashLines.back()->setText("else");
@@ -203,7 +203,7 @@ void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combi
         m_dashLines.back()->setYMax(getY() + getHeight());
         m_dashLines.back()->setY(getY() + height()/2);
         m_dashLines.back()->setSize(getWidth(), 0);
-        m_pView->setupNewWidget(m_dashLines.back());
+        m_scene->setupNewWidget(m_dashLines.back());
     }
 }
 
@@ -294,7 +294,7 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement )
     while ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingdashlinewidget") {
-            FloatingDashLineWidget * fdlwidget = new FloatingDashLineWidget(m_pView);
+            FloatingDashLineWidget * fdlwidget = new FloatingDashLineWidget(m_scene);
             m_dashLines.push_back(fdlwidget);
             if( !fdlwidget->loadFromXMI(element) ) {
               // Most likely cause: The FloatingTextWidget is empty.
@@ -302,7 +302,7 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement )
                 return false;
             }
             else {
-                m_pView->setupNewWidget(fdlwidget);
+                m_scene->setupNewWidget(fdlwidget);
             }
         } else {
             uError() << "unknown tag " << tag;
@@ -324,7 +324,7 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
     switch (sel) {
           // for alternative or parallel combined fragments
     case ListPopupMenu::mt_AddInteractionOperand:
-        m_dashLines.push_back(new FloatingDashLineWidget(m_pView));
+        m_dashLines.push_back(new FloatingDashLineWidget(m_scene));
         if(m_CombinedFragment == Alt)
         {
             m_dashLines.back()->setText("else");
@@ -334,7 +334,7 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
         m_dashLines.back()->setYMax(getY() + getHeight());
         m_dashLines.back()->setY(getY() + getHeight() / 2);
         m_dashLines.back()->setSize(getWidth(), 0);
-        m_pView->setupNewWidget(m_dashLines.back());
+        m_scene->setupNewWidget(m_dashLines.back());
         break;
 
     case ListPopupMenu::mt_Rename:

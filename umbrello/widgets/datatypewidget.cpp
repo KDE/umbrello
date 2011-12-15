@@ -28,10 +28,11 @@
 /**
  * Constructs an DatatypeWidget.
  *
- * @param view              The parent of this DatatypeWidget.
+ * @param scene              The parent of this DatatypeWidget.
  * @param d         The UMLClassifier this will be representing.
  */
-DatatypeWidget::DatatypeWidget(UMLView* view, UMLClassifier *d) : UMLWidget(view, d)
+DatatypeWidget::DatatypeWidget(UMLScene *scene, UMLClassifier *d) 
+  : UMLWidget(scene, d)
 {
     init();
 }
@@ -52,7 +53,7 @@ void DatatypeWidget::paint(QPainter& p, int offsetX, int offsetY)
     if (UMLWidget::getUseFillColour())  {
         p.setBrush(UMLWidget::getFillColor());
     } else {
-        p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
+        p.setBrush( m_scene->viewport()->palette().color(QPalette::Background) );
     }
 
     int w = width();

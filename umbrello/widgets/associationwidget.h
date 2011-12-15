@@ -24,7 +24,7 @@
 class ListPopupMenu;
 class ClassifierWidget;
 class UMLDoc;
-class UMLView;
+class UMLScene;
 class UMLAssociation;
 class UMLClassifierListItem;
 class UMLAttribute;
@@ -66,20 +66,20 @@ public:
     /**
      * Constructor.
      *
-     * @param view              The parent view of this widget.
+     * @param scene              The parent view of this widget.
      */
-    AssociationWidget(UMLView *view);
+    AssociationWidget(UMLScene *scene);
 
     /**
      * Constructor.
      *
-     * @param view      The parent view of this widget.
+     * @param scene      The parent view of this widget.
      * @param WidgetA   Pointer to the role A widget for the association.
      * @param Type      The AssociationType for this association.
      * @param WidgetB   Pointer to the role B widget for the association.
      * @param umlobject Pointer to the underlying UMLObject (if applicable.)
      */
-    AssociationWidget(UMLView *view, UMLWidget* WidgetA,
+    AssociationWidget(UMLScene *scene, UMLWidget* WidgetA,
                       Uml::AssociationType Type, UMLWidget* WidgetB,
                       UMLObject *umlobject = NULL);
 
@@ -839,7 +839,7 @@ private:
     /**
      * Initialize attributes of this class at construction time.
      */
-    void init (UMLView *view);
+    void init();
 
     /**
      * Auxiliary method for calculateEndingPoints().

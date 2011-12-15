@@ -43,7 +43,7 @@ public:
         PostCondition,
         Transformation
     };
-    explicit NoteWidget(UMLView * view, NoteWidget::NoteType noteType = Normal, Uml::IDType id = Uml::id_None );
+    explicit NoteWidget(UMLScene * scene, NoteWidget::NoteType noteType = Normal, Uml::IDType id = Uml::id_None );
     virtual ~NoteWidget();
 
     void paint(QPainter & p, int offsetX, int offsetY);

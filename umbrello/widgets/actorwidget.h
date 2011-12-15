@@ -42,7 +42,7 @@ class UMLActor;
 class ActorWidget : public UMLWidget
 {
 public:
-    ActorWidget(UMLView * view, UMLActor *o);
+    ActorWidget(UMLScene * scene, UMLActor *o);
     virtual ~ActorWidget();
 
     virtual void paint(QPainter & p, int offsetX, int offsetY);

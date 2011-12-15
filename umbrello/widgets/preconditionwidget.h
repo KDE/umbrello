@@ -41,11 +41,11 @@ public:
     /**
      * Creates a Precondition widget.
      *
-     * @param view              The parent of the widget.
+     * @param scene              The parent of the widget.
      * @param a                 The role A widget for this precondition.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-    PreconditionWidget( UMLView * view, ObjectWidget* a, Uml::IDType id = Uml::id_None );
+    PreconditionWidget( UMLScene * scene, ObjectWidget* a, Uml::IDType id = Uml::id_None );
 
 
     /**

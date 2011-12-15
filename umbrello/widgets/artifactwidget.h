@@ -14,7 +14,7 @@
 
 #include "umlwidget.h"
 
-class UMLView;
+class UMLScene;
 class UMLArtifact;
 
 #define ARTIFACT_MARGIN 5
@@ -32,7 +32,7 @@ class ArtifactWidget : public UMLWidget
 {
 public:
 
-    ArtifactWidget(UMLView *view, UMLArtifact *a);
+    ArtifactWidget(UMLScene *scene, UMLArtifact *a);
     virtual ~ArtifactWidget();
 
     void paint(QPainter& p, int offsetX, int offsetY);

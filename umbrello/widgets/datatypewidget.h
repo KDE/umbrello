@@ -29,7 +29,7 @@ class UMLClassifier;
  */
 class DatatypeWidget : public UMLWidget {
 public:
-    DatatypeWidget(UMLView* view, UMLClassifier *d);
+    DatatypeWidget(UMLScene *scene, UMLClassifier *d);
     virtual ~DatatypeWidget();
 
     void paint(QPainter& p, int offsetX, int offsetY);

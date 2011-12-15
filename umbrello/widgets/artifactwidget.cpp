@@ -19,11 +19,11 @@
 /**
  * Constructs a ArtifactWidget.
  *
- * @param view              The parent of this ArtifactWidget.
+ * @param scene              The parent of this ArtifactWidget.
  * @param a         The Artifact this widget will be representing.
  */
-ArtifactWidget::ArtifactWidget(UMLView *view, UMLArtifact *a)
-  : UMLWidget(view, a)
+ArtifactWidget::ArtifactWidget(UMLScene *scene, UMLArtifact *a)
+  : UMLWidget(scene, a)
 {
     init();
     setSize(100, 30);
@@ -46,7 +46,7 @@ void ArtifactWidget::paint(QPainter& p, int offsetX, int offsetY)
     if ( UMLWidget::getUseFillColour() ) {
         p.setBrush( UMLWidget::getFillColor() );
     } else {
-        p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
+        p.setBrush( m_scene->viewport()->palette().color(QPalette::Background) );
     }
 
     UMLArtifact *umlart = static_cast<UMLArtifact*>(m_pObject);

@@ -36,20 +36,20 @@
 /**
  * Creates a Signal widget.
  *
- * @param view              The parent of the widget.
+ * @param scene              The parent of the widget.
  * @param signalType        The type of Signal.
  * @param id                The ID to assign (-1 will prompt a new ID.)
  */
-SignalWidget::SignalWidget(UMLView * view, SignalType signalType, Uml::IDType id)
-  : UMLWidget(view, id)
+SignalWidget::SignalWidget(UMLScene *scene, SignalType signalType, Uml::IDType id)
+  : UMLWidget(scene, id)
 {
     UMLWidget::setBaseType(WidgetBase::wt_Signal);
     m_signalType = signalType;
     updateComponentSize();
     m_pName = NULL;
     if (signalType == SignalWidget::Time) {
-        m_pName = new FloatingTextWidget(view, Uml::TextRole::Floating,"");
-        view->setupNewWidget(m_pName);
+        m_pName = new FloatingTextWidget(scene, Uml::TextRole::Floating,"");
+        scene->setupNewWidget(m_pName);
         m_pName->setX(0);
         m_pName->setY(0);
     }
@@ -252,7 +252,7 @@ bool SignalWidget::loadFromXMI( QDomElement & qElement )
     if (getSignalType() == Time) {
 
         if (textId != Uml::id_None) {
-            UMLWidget *flotext = m_pView -> findWidget( textId );
+            UMLWidget *flotext = m_scene -> findWidget( textId );
             if (flotext != NULL) {
             // This only happens when loading files produced by
             // umbrello-1.3-beta2.
@@ -270,7 +270,7 @@ bool SignalWidget::loadFromXMI( QDomElement & qElement )
     if ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingtext") {
-            m_pName = new FloatingTextWidget( m_pView, Uml::TextRole::Floating, m_Text, textId );
+            m_pName = new FloatingTextWidget( m_scene, Uml::TextRole::Floating, m_Text, textId );
             if( ! m_pName->loadFromXMI(element) ) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pName;

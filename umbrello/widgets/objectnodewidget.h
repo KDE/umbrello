@@ -46,11 +46,11 @@ public:
     /**
      * Creates a Object Node widget.
      *
-     * @param view              The parent of the widget.
+     * @param scene              The parent of the widget.
      * @param objectNodeType      The type of object node
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-    explicit ObjectNodeWidget( UMLView * view, ObjectNodeType objectNodeType = Normal, Uml::IDType id = Uml::id_None );
+    explicit ObjectNodeWidget( UMLScene * scene, ObjectNodeType objectNodeType = Normal, Uml::IDType id = Uml::id_None );
 
 
     /**

@@ -29,8 +29,8 @@
 // qt includes
 #include <QtGui/QPainter>
 
-PreconditionWidget::PreconditionWidget(UMLView * view, ObjectWidget* a, Uml::IDType id )
-  : UMLWidget(view, id)
+PreconditionWidget::PreconditionWidget(UMLScene * scene, ObjectWidget* a, Uml::IDType id )
+  : UMLWidget(scene, id)
 {
     init();
     m_pOw = a;
@@ -144,7 +144,7 @@ void PreconditionWidget::calculateWidget()
 
 bool PreconditionWidget::activate(IDChangeLog * Log /*= 0*/)
 {
-    m_pView->resetPastePoint();
+    m_scene->resetPastePoint();
     UMLWidget::activate(Log);
     if (m_pOw == NULL) {
         uDebug() << "cannot make precondition";
@@ -192,7 +192,7 @@ void PreconditionWidget::slotWidgetMoved(Uml::IDType id)
         m_nY = getMaxY();
 
     calculateDimensions();
-    if (m_pView->getSelectCount(true) > 1)
+    if (m_scene->getSelectCount(true) > 1)
         return;
 
 }
@@ -239,7 +239,7 @@ bool PreconditionWidget::loadFromXMI( QDomElement & qElement )
 
     Uml::IDType aId = STR2ID(widgetaid);
 
-    UMLWidget *pWA = m_pView -> findWidget( aId );
+    UMLWidget *pWA = m_scene -> findWidget( aId );
     if (pWA == NULL) {
         uDebug() << "role A object " << ID2STR(aId) << " not found";
         return false;

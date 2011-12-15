@@ -54,11 +54,11 @@ public:
     /**
      * Creates a Combined Fragment widget.
      *
-     * @param view              The parent of the widget.
+     * @param scene              The parent of the widget.
      * @param combinedfragmentType      The type of combined fragment.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-    explicit CombinedFragmentWidget( UMLView * view, CombinedFragmentType combinedfragmentType = Ref, Uml::IDType id = Uml::id_None );
+    explicit CombinedFragmentWidget( UMLScene * scene, CombinedFragmentType combinedfragmentType = Ref, Uml::IDType id = Uml::id_None );
 
 
     /**

@@ -37,7 +37,7 @@ public:
         Time
     };
 
-    explicit SignalWidget( UMLView * view, SignalType signalType = Send, Uml::IDType id = Uml::id_None );
+    explicit SignalWidget( UMLScene * scene, SignalType signalType = Send, Uml::IDType id = Uml::id_None );
     virtual ~SignalWidget();
 
     void paint(QPainter & p, int offsetX, int offsetY);

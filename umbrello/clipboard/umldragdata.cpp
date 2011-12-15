@@ -16,7 +16,7 @@
 #include "idchangelog.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "umlview.h"
+#include "umlscene.h"
 #include "umlobject.h"
 #include "folder.h"
 #include "classifier.h"
@@ -687,7 +687,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
     QDomNode associationWidgetNode = associationWidgetsNode.firstChild();
     QDomElement associationWidgetElement = associationWidgetNode.toElement();
     while ( !associationWidgetElement.isNull() ) {
-        AssociationWidget* associationWidget = new AssociationWidget(view);
+        AssociationWidget* associationWidget = new AssociationWidget(view->umlScene());
         if (associationWidget->loadFromXMI(associationWidgetElement, widgets))
             associations.append(associationWidget);
         else {

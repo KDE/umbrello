@@ -19,8 +19,8 @@
 #include "debug_utils.h"
 #include "umlview.h"
 
-ComponentWidget::ComponentWidget(UMLView * view, UMLComponent *c)
-  : UMLWidget(view, c)
+ComponentWidget::ComponentWidget(UMLScene * scene, UMLComponent *c)
+  : UMLWidget(scene, c)
 {
     init();
 }
@@ -30,10 +30,10 @@ void ComponentWidget::init()
     UMLWidget::setBaseType(WidgetBase::wt_Component);
     setSize(100, 30);
     m_pMenu = 0;
-    //set defaults from m_pView
-    if (m_pView) {
+    //set defaults from m_scene
+    if (m_scene) {
         //check to see if correct
-        const Settings::OptionState& ops = m_pView->optionState();
+        const Settings::OptionState& ops = m_scene->optionState();
         m_showStereotype = ops.classState.showStereoType;
     }
     //maybe loading and this may not be set.
@@ -61,7 +61,7 @@ void ComponentWidget::paint(QPainter & p, int offsetX, int offsetY)
     if ( UMLWidget::getUseFillColour() ) {
         p.setBrush( UMLWidget::getFillColor() );
     } else {
-        p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
+        p.setBrush( m_scene->viewport()->palette().color(QPalette::Background) );
     }
 
     const int w = width();
