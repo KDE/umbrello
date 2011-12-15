@@ -177,7 +177,7 @@ void UMLDoc::addView(UMLView *view)
 
     UMLApp * pApp = UMLApp::app();
     if ( pApp->listView() ) {
-        connect(this, SIGNAL(sigObjectRemoved(UMLObject *)), view->umlScene(), SLOT(slotObjectRemoved(UMLObject *)));
+        connect(this, SIGNAL(sigObjectRemoved(UMLObject*)), view->umlScene(), SLOT(slotObjectRemoved(UMLObject*)));
     }
 
     pApp->setCurrentView(view);

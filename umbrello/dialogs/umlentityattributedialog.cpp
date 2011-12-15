@@ -160,7 +160,7 @@ void UMLEntityAttributeDialog::setupDialog()
     insertTypesSorted(m_pEntityAttribute->getTypeName());
 
     m_pNameLE->setFocus();
-    connect( m_pNameLE, SIGNAL(textChanged (QString)), SLOT(slotNameChanged(QString)));
+    connect( m_pNameLE, SIGNAL(textChanged(QString)), SLOT(slotNameChanged(QString)));
     connect( m_pAutoIncrementCB, SIGNAL(clicked(bool)), this, SLOT(slotAutoIncrementStateChanged(bool)));
     slotNameChanged(m_pNameLE->text() );
 }

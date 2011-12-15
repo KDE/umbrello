@@ -1298,7 +1298,7 @@ void UMLApp::slotPrintPreview()
         return;
 
     QPointer<QPrintPreviewDialog> preview = new QPrintPreviewDialog(m_printer,this);
-    connect(preview, SIGNAL(paintRequested(QPrinter *)), this, SLOT(slotPrintPreviewPaintRequested(QPrinter *)));
+    connect(preview, SIGNAL(paintRequested(QPrinter*)), this, SLOT(slotPrintPreviewPaintRequested(QPrinter*)));
     preview->exec();
     delete m_printSettings;
     m_printSettings = 0;
