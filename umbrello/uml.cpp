@@ -40,7 +40,6 @@
 #include "codeimportingwizard.h"
 #include "codeviewerdialog.h"
 #include "diagramprintpage.h"
-#include "importprojectdlg.h"
 #include "settingsdlg.h"
 #include "classimport.h"
 #include "refactoringassistant.h"
@@ -271,18 +270,8 @@ void UMLApp::initActions()
 
     QAction* impWizard = actionCollection()->addAction("importing_wizard");
     impWizard->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Import_Class));
-    impWizard->setText(i18n("NEW Code &Importing Wizard..."));
+    impWizard->setText(i18n("Code &Importing Wizard..."));
     connect(impWizard, SIGNAL(triggered(bool)), this, SLOT(slotImportingWizard()));
-
-    QAction* importClasses = actionCollection()->addAction("import_class");
-    importClasses->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Import_Class));
-    importClasses->setText(i18n("OLD &Import Classes..."));
-    connect(importClasses, SIGNAL(triggered(bool)), this, SLOT(slotImportClasses()));
-
-    QAction* importProject = actionCollection()->addAction("import_project");
-    importProject->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Import_Project));
-    importProject->setText(i18n("OLD Import &Project..."));
-    connect(importProject, SIGNAL(triggered(bool)), this, SLOT(slotImportProject()));
 
     QAction* genWizard = actionCollection()->addAction("generation_wizard");
     genWizard->setText(i18n("&Code Generation Wizard..."));
@@ -2435,52 +2424,6 @@ void UMLApp::importFiles(QStringList* fileList)
         // Setting the modification, but without allowing undo.
         m_doc->setModified(true);
     }
-}
-
-/**
- * Import classes menu selection.
- * TODO: Will be deleted.
- */
-void UMLApp::slotImportClasses()
-{
-    m_doc->setLoading(true);
-    // File selection is separated from invocation of ClassImport::import()
-    // because the user might decide to choose a language different from
-    // the active language (by using the "All Files" option).
-    QString preselectedExtension;
-    const Uml::ProgrammingLanguage pl = m_codegen->language();
-    if (pl == Uml::ProgrammingLanguage::IDL) {
-        preselectedExtension = i18n("*.idl|IDL Files (*.idl)");
-    } else if (pl == Uml::ProgrammingLanguage::Python) {
-        preselectedExtension = i18n("*.py|Python Files (*.py *.pyw)");
-    } else if (pl == Uml::ProgrammingLanguage::Java) {
-        preselectedExtension = i18n("*.java|Java Files (*.java)");
-    } else if (pl == Uml::ProgrammingLanguage::Pascal) {
-        preselectedExtension = i18n("*.pas|Pascal Files (*.pas)");
-    } else if (pl == Uml::ProgrammingLanguage::Ada) {
-        preselectedExtension = i18n("*.ads *.ada|Ada Files (*.ads *.ada)");
-    } else {
-        preselectedExtension = i18n("*.h *.hh *.hpp *.hxx *.H|Header Files (*.h *.hh *.hpp *.hxx *.H)");
-    }
-    preselectedExtension.append("\n*|" + i18n("All Files"));
-    QStringList fileList = KFileDialog::getOpenFileNames(KUrl(), preselectedExtension,
-                           this, i18n("Select Code to Import") );
-    importFiles(&fileList);
-}
-
-/**
- * Import project menu selection.
- * TODO: Will be deleted.
- */
-void UMLApp::slotImportProject()
-{
-    QStringList listFile;
-
-    QPointer<ImportProjectDlg> importDlg = new ImportProjectDlg(&listFile, m_codegen->language(), this);
-    if (importDlg->exec() == KDialog::Accepted) {
-        importFiles(&listFile);
-    }
-    delete importDlg;
 }
 
 /**

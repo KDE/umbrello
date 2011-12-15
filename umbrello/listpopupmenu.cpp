@@ -640,12 +640,6 @@ void ListPopupMenu::insert(MenuType m)
     case mt_Internalize_Folder:
         m_actions[m] = addAction(i18n("Internalize Folder"));
         break;
-    case mt_Import_Classes:
-        m_actions[m] = addAction(Icon_Utils::BarIcon(Icon_Utils::it_Import_Class), i18n("Import Classes..."));
-        break;
-    case mt_Import_Project:
-        m_actions[m] = addAction(Icon_Utils::BarIcon(Icon_Utils::it_Import_Project), i18n("Import Project..."));
-        break;
     case mt_Reset_Label_Positions:
         m_actions[m] = addAction(i18n("Reset Label Positions"));
         break;
@@ -1255,9 +1249,6 @@ void ListPopupMenu::setupMenu(MenuType type)
         addSeparator();
         insert(mt_Paste);
         addSeparator();
-        insert(mt_Import_Classes);
-        insert(mt_Import_Project);
-        addSeparator();
         insert(mt_Expand_All);
         insert(mt_Collapse_All);
         break;
@@ -1303,8 +1294,6 @@ void ListPopupMenu::setupMenu(MenuType type)
     case mt_Logical_Folder:
         insertContainerItems(true);
         insertStdItems();
-        insert(mt_Import_Classes);
-        insert(mt_Import_Project);
         insertSubmodelAction();
         addSeparator();
         insert(mt_Expand_All);
