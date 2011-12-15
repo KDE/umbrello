@@ -174,8 +174,8 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
         if (!Settings::optionState().codeImportState.createArtifacts)
             return 0;
         QFileInfo fi(name);
-        //:TODO: not used? UMLFolder *logicalView = umldoc->rootFolder(Uml::ModelType::Component);
-        UMLObject *o = Object_Factory::createUMLObject(type, fi.fileName(), parentPkg, false);
+        UMLFolder *componentView = umldoc->rootFolder(Uml::ModelType::Component);
+        UMLObject *o = Object_Factory::createUMLObject(type, fi.fileName(), componentView, false);
         UMLArtifact *a = static_cast<UMLArtifact*>(o);
         a->setDrawAsType(UMLArtifact::file);
         a->setDoc(comment);
