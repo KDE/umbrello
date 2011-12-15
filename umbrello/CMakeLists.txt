@@ -223,7 +223,6 @@ set(libdialogs_SRCS
     dialogs/exportallviewsdialog.cpp
     dialogs/notedialog.cpp
     dialogs/objectnodedialog.cpp
-    dialogs/importprojectdlg.cpp
     dialogs/overwritedialogue.cpp
     dialogs/pkgcontentspage.cpp
     dialogs/parmpropdlg.cpp
@@ -247,7 +246,6 @@ kde4_add_ui_files(  libdialogs_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codeviewerdialogbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codevieweroptionsbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/exportallviewsdialogbase.ui
-    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/importprojectdlgbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/umlrolepropertiesbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/diagrampropertiespage.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codeimportoptionspage.ui

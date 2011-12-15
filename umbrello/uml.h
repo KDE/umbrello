@@ -236,8 +236,6 @@ public slots:
     void slotCurrentViewExportImage();
     void slotAllViewsExportImage();
     void slotCurrentViewProperties();
-    void slotImportClasses();
-    void slotImportProject();
     void slotClassWizard();
     void slotAddDefaultDatatypes();
     void slotCurrentViewChanged();

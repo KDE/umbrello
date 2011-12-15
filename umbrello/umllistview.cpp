@@ -409,14 +409,6 @@ void UMLListView::popupMenuSel(QAction* action)
         addNewItem(temp, UMLListViewItem::lvt_CheckConstraint);
         break;
 
-    case ListPopupMenu::mt_Import_Classes:
-        UMLApp::app()->slotImportClasses();
-        break;
-
-    case ListPopupMenu::mt_Import_Project:
-        UMLApp::app()->slotImportProject();
-        break;
-
     case ListPopupMenu::mt_Expand_All:
         expandAll(temp);
         break;
