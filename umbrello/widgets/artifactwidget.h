@@ -31,13 +31,14 @@ class UMLArtifact;
 class ArtifactWidget : public UMLWidget
 {
 public:
-
     ArtifactWidget(UMLScene *scene, UMLArtifact *a);
     virtual ~ArtifactWidget();
 
-    void paint(QPainter& p, int offsetX, int offsetY);
+    virtual void paint(QPainter& p, int offsetX, int offsetY);
 
-    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    // Note: For loading from XMI, the inherited parent method is
+    //       used.
+    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
     QSize calculateSize();
@@ -51,6 +52,7 @@ private:
     void drawAsLibrary(QPainter& p, int offsetX, int offsetY);
     void drawAsTable(QPainter& p, int offsetX, int offsetY);
     void drawAsNormal(QPainter& p, int offsetX, int offsetY);
+
 
     /**
      * The right mouse button menu

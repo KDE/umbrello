@@ -38,7 +38,8 @@ ArtifactWidget::~ArtifactWidget()
 }
 
 /**
- * Overrides standard method
+ * Reimplemented to paint the articraft widget. Some part of specific
+ * drawing is delegeted to private method like drawAsFile..
  */
 void ArtifactWidget::paint(QPainter& p, int offsetX, int offsetY)
 {
@@ -64,6 +65,7 @@ void ArtifactWidget::paint(QPainter& p, int offsetX, int offsetY)
     case UMLArtifact::table:
         return drawAsTable(p, offsetX, offsetY);
         break;
+
     default:
         uWarning() << "Artifact drawn as unknown type";
         break;
