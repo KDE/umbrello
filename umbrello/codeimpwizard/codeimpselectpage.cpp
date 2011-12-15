@@ -33,7 +33,7 @@
 /**
  * Keep the last clicked directory for setting it the next time.
  */
-QString CodeImpSelectPage::s_recentPath = QString();
+QString CodeImpSelectPage::s_recentPath = "";
 
 /**
  * Constructor.
@@ -64,6 +64,8 @@ CodeImpSelectPage::CodeImpSelectPage(QWidget *parent)
     connect(ui_deselectAllButton, SIGNAL(clicked()), this, SLOT(deselectAll()));
 
     setupToolTips();
+    // update file extensions
+    changeLanguage();
 }
 
 /**
