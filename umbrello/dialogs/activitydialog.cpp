@@ -30,8 +30,8 @@
 #include <QtGui/QLabel>
 #include <QtGui/QRadioButton>
 
-ActivityDialog::ActivityDialog( UMLView * pView, ActivityWidget * pWidget )
-        : KPageDialog(pView)
+ActivityDialog::ActivityDialog(QWidget * parent, ActivityWidget * pWidget)
+   : KPageDialog(parent)
 {
     setCaption( i18n("Properties") );
     setButtons( Ok | Apply | Cancel | Help );
@@ -39,7 +39,6 @@ ActivityDialog::ActivityDialog( UMLView * pView, ActivityWidget * pWidget )
     setModal( true );
     setFaceType( KPageDialog::List );
     showButtonSeparator( true );
-    m_pView = pView;
     m_pActivityWidget = pWidget;
     m_bChangesMade = false;
     setupPages();

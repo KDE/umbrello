@@ -42,7 +42,7 @@ public:
     /**
      *   Constructor
      */
-    ActivityDialog( UMLView * pView, ActivityWidget * pWidget );
+    ActivityDialog(QWidget * parent, ActivityWidget * pWidget);
 
     bool getChangesMade() {
         return m_bChangesMade;
