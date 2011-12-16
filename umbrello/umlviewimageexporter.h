@@ -37,8 +37,8 @@ public:
 private:
 
     UMLScene* m_scene;          ///< The scene to export.
-    KUrl      m_imageURL;       ///< The URL used to save the image.
-    QString   m_imageMimeType;  ///< The mime type used to save the image.
+    KUrl     m_imageURL;       ///< The URL used to save the image.
+    QString  m_imageMimeType;  ///< The mime type used to save the image.
 
     bool getParametersFromUser();
 
