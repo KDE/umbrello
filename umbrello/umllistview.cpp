@@ -279,9 +279,10 @@ void UMLListView::keyPressEvent(QKeyEvent *ke)
             foreach(UMLListViewItem *item, itemsSelected) {
                 deleteItem(item);
             }
+        }
 #if 0
         // using keyboard to iterate through the items and showing doc do not work as expected
-        } else if (k == Qt::Key_Up || k == Qt::Key_Down) {
+        else if (k == Qt::Key_Up || k == Qt::Key_Down) {
             UMLListViewItem *current = static_cast<UMLListViewItem*>(currentItem());
             UMLListViewItem *item = static_cast<UMLListViewItem*>((k == Qt::Key_Down) ? current->itemBelow() : current->itemAbove());
             setSelected(current, false);
