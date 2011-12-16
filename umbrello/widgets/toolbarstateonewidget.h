@@ -1,4 +1,5 @@
 /***************************************************************************
+ *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -14,10 +15,6 @@
 #include "toolbarstatepool.h"
 #include "widgetbase.h"
 
-#include <QtGui/QMouseEvent>
-
-class UMLWidget;
-
 /**
  * Sequence tool to create components linked with one object in sequence diagram
  * like precondition.
@@ -28,37 +25,26 @@ class ToolBarStateOneWidget : public ToolBarStatePool
 {
     Q_OBJECT
 public:
-
     ToolBarStateOneWidget(UMLScene *umlScene);
     virtual ~ToolBarStateOneWidget();
-
-    virtual void init();
 
     virtual void cleanBeforeChange();
 
     virtual void mouseMove(UMLSceneMouseEvent* ome);
 
-public slots:
-
+public Q_SLOTS:
     virtual void slotWidgetRemoved(UMLWidget* widget);
 
 protected:
-
     virtual void setCurrentElement();
 
     virtual void mouseReleaseWidget();
-
     virtual void mouseReleaseEmpty();
 
-protected:
-
     void setWidget(UMLWidget* firstObject);
-
     WidgetBase::WidgetType widgetType();
 
     UMLWidget* m_firstObject;  ///< The first object in the message.
-
-    UMLScene * m_umlScene;
 
     /**
      * If there is a current widget, it is true if the press event happened on
@@ -66,6 +52,8 @@ protected:
      */
     bool m_isObjectWidgetLine;
 
+private:
+    virtual void init();
 };
 
 #endif //TOOLBARSTATEONEWIDGET_H

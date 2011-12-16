@@ -1,4 +1,5 @@
 /***************************************************************************
+ *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -11,21 +12,21 @@
 // own header
 #include "toolbarstateonewidget.h"
 
-// local includes
+// app includes
+#include "activitywidget.h"
+#include "dialog_utils.h"
 #include "floatingtextwidget.h"
-#include "pinwidget.h"
-#include "preconditionwidget.h"
 #include "messagewidget.h"
 #include "objectwidget.h"
-#include "activitywidget.h"
+#include "pinwidget.h"
+#include "preconditionwidget.h"
 #include "regionwidget.h"
-#include "umlwidget.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlscene.h"
-#include "dialog_utils.h"
-#include "umlscene.h"
+#include "umlwidget.h"
 
+// kde includes
 #include <klocale.h>
 #include <kmessagebox.h>
 
@@ -39,7 +40,6 @@ using namespace Uml;
 ToolBarStateOneWidget::ToolBarStateOneWidget(UMLScene *umlScene)
   : ToolBarStatePool(umlScene),
     m_firstObject(0),
-    m_umlScene(umlScene),
     m_isObjectWidgetLine(false)
 {
 }
@@ -49,14 +49,6 @@ ToolBarStateOneWidget::ToolBarStateOneWidget(UMLScene *umlScene)
  */
 ToolBarStateOneWidget::~ToolBarStateOneWidget()
 {
-}
-
-/**
- * Goes back to the initial state.
- */
-void ToolBarStateOneWidget::init()
-{
-    ToolBarStatePool::init();
 }
 
 /**
@@ -194,7 +186,6 @@ void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject)
 
     if (umlwidget) {
         m_pUMLScene->setupNewWidget(umlwidget);
-
     }
 
 }
@@ -216,6 +207,14 @@ WidgetBase::WidgetType ToolBarStateOneWidget::widgetType()
     // Shouldn't happen
     Q_ASSERT(0);
     return WidgetBase::wt_Pin;
+}
+
+/**
+ * Goes back to the initial state.
+ */
+void ToolBarStateOneWidget::init()
+{
+    ToolBarStatePool::init();
 }
 
 #include "toolbarstateonewidget.moc"
