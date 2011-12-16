@@ -101,6 +101,8 @@ public:
     virtual bool loadFromXMI( QDomElement & qElement );
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
+    WidgetBase& operator=(const WidgetBase& other);
+
 protected:
     void init(WidgetType type = wt_UMLWidget);
 

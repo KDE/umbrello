@@ -279,4 +279,22 @@ bool WidgetBase::loadFromXMI( QDomElement & qElement )
     return true;
 }
 
+/**
+ * Assignment operator
+ */
+WidgetBase& WidgetBase::operator=(const WidgetBase& other)
+{
+    m_Type = other.m_Type;
+    m_scene = other.m_scene;
+    m_pObject = other.m_pObject;
+    m_Doc = other.m_Doc;
+    m_nId = other.m_nId;
+    m_LineColour = other.m_LineColour;
+    m_LineWidth  = other.m_LineWidth;
+    m_usesDiagramLineColour = other.m_usesDiagramLineColour;
+    m_usesDiagramLineWidth  = other.m_usesDiagramLineWidth;
+
+    return *this;
+}
+
 #include "widgetbase.moc"

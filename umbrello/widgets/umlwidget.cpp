@@ -87,38 +87,39 @@ UMLWidget& UMLWidget::operator=(const UMLWidget & other)
     if (this == &other)
         return *this;
 
+    WidgetBase::operator=(other);
+
     // assign members loaded/saved
     m_useFillColour = other.m_useFillColour;
-    m_nId = other.m_nId;
-    m_Type = other.m_Type;
-    setX(other.getX());
-    setY(other.getY());
-    m_Assocs = other.m_Assocs;
-    m_Font = other.m_Font;
-    UMLSceneRectangle::setSize(other.width(), other.height());
     m_usesDiagramFillColour = other.m_usesDiagramFillColour;
-    m_usesDiagramLineColour = other.m_usesDiagramLineColour;
-    m_usesDiagramLineWidth  = other.m_usesDiagramLineWidth;
     m_usesDiagramUseFillColour = other.m_usesDiagramUseFillColour;
-    m_LineColour = other.m_LineColour;
-    m_LineWidth  = other.m_LineWidth;
     m_FillColour = other.m_FillColour;
+    m_Assocs = other.m_Assocs;
+    m_Text = other.m_Text; //new
+    m_Font = other.m_Font;
     m_isInstance = other.m_isInstance;
     m_instanceName = other.m_instanceName;
+    m_instanceName = other.m_instanceName;
+    m_showStereotype = other.m_showStereotype;
+    setX(other.getX());
+    setY(other.getY());
+    UMLSceneRectangle::setSize(other.width(), other.height());
 
     // assign volatile (non-saved) members
     m_selected = other.m_selected;
     m_startMove = other.m_startMove;
     m_nPosX = other.m_nPosX;
-    m_pObject = other.m_pObject;
-    m_scene = other.m_scene;
+    m_origZ = other.m_origZ;  //new
     m_pMenu = other.m_pMenu;
+    m_menuIsEmbedded = other.m_menuIsEmbedded;
+    m_pDoc = other.m_pDoc;    //new
     m_resizable = other.m_resizable;
     for (unsigned i = 0; i < FT_INVALID; ++i)
         m_pFontMetrics[i] = other.m_pFontMetrics[i];
     m_activated = other.m_activated;
     m_ignoreSnapToGrid = other.m_ignoreSnapToGrid;
     m_ignoreSnapComponentSizeToGrid = other.m_ignoreSnapComponentSizeToGrid;
+    // m_widgetController do not have any settings
     return *this;
 }
 
