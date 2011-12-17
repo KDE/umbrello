@@ -214,6 +214,7 @@ bool UMLListView::eventFilter(QObject *o, QEvent *e)
             m_menu->hide();
             disconnect(m_menu, SIGNAL(triggered(QAction*)), this, SLOT(popupMenuSel(QAction*)));
             delete m_menu;
+            m_menu = 0;
         }
         UMLListViewItem * temp = (UMLListViewItem*)currentItem();
         m_menu = new ListPopupMenu(this, UMLListViewItem::lvt_Model, temp->umlObject());
