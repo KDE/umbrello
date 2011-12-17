@@ -140,7 +140,7 @@ void UMLDoc::init()
  */
 void UMLDoc::createDatatypeFolder()
 {
-    // FIXME: memory leak ?
+    delete m_datatypeRoot;
     m_datatypeRoot = new UMLFolder("Datatypes", "Datatypes");
     m_datatypeRoot->setLocalName(i18n("Datatypes"));
     m_datatypeRoot->setUMLPackage(m_root[Uml::ModelType::Logical]);
@@ -153,6 +153,7 @@ void UMLDoc::createDatatypeFolder()
  */
 UMLDoc::~UMLDoc()
 {
+    delete m_datatypeRoot;
     delete m_pChangeLog;
     m_pChangeLog = 0;
 }
@@ -347,6 +348,7 @@ void UMLDoc::closeDocument()
         }
         // Restore the datatype folder, it has been deleted above.
         createDatatypeFolder();
+        // this creates to much items only Logical View should be created
         listView->init();
         /* Remove any stereotypes.
         if (m_stereoList.count() > 0) {
