@@ -149,7 +149,6 @@ UMLListView::UMLListView(QWidget *parent)
 
     DEBUG_REGISTER(DBG_SRC);
 
-    m_datatypeFolder = 0;
     m_editItem = 0;
     //setup slots/signals
     connect(this, SIGNAL(collapsed(QTreeWidgetItem *)),
@@ -165,6 +164,7 @@ UMLListView::UMLListView(QWidget *parent)
  */
 UMLListView::~UMLListView()
 {
+    delete m_datatypeFolder;
 }
 
 void UMLListView::setTitle(int column, const QString &text)
