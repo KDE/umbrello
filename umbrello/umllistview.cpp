@@ -3105,8 +3105,10 @@ void UMLListView::deleteChildrenOf(UMLListViewItem* parent)
     if (!parent) {
         return;
     }
-    if (parent == m_lv[Uml::ModelType::Logical])
+    if (parent == m_lv[Uml::ModelType::Logical]) {
+        delete m_datatypeFolder;
         m_datatypeFolder = 0;
+    }
     for (int i=0; i < parent->childCount(); i++)
         parent->removeChild(parent->child(i));
 }
