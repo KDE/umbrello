@@ -184,6 +184,26 @@ void UMLListView::slotItemSelectionChanged()
         cancelRename(m_editItem);
 }
 
+/**
+ * Calls updateFolder() on the item to update the icon to open.
+ */
+void UMLListView::slotExpanded(QTreeWidgetItem * item)
+{
+    UMLListViewItem * myItem = static_cast<UMLListViewItem*>(item);
+    if (isExpandable(myItem->type()))
+        myItem->updateFolder();
+}
+
+/**
+ * Calls updateFolder() on the item to update the icon to closed.
+ */
+void UMLListView::slotCollapsed(QTreeWidgetItem * item)
+{
+    UMLListViewItem * myItem = static_cast<UMLListViewItem*>(item);
+    if (isExpandable(myItem->type()))
+        myItem->updateFolder();
+}
+
 bool UMLListView::eventFilter(QObject *o, QEvent *e)
 {
     if (e->type() != QEvent::MouseButtonPress || qstrcmp("QHeader", metaObject()->className()) != 0)
@@ -2126,26 +2146,6 @@ bool UMLListView::isExpandable(UMLListViewItem::ListViewType lvt)
         break;
     }
     return false;
-}
-
-/**
- * Calls updateFolder() on the item to update the icon to open.
- */
-void UMLListView::slotExpanded(UMLListViewItem * item)
-{
-    UMLListViewItem * myItem = static_cast<UMLListViewItem*>(item);
-    if (isExpandable(myItem->type()))
-        myItem->updateFolder();
-}
-
-/**
- * Calls updateFolder() on the item to update the icon to closed.
- */
-void UMLListView::slotCollapsed(UMLListViewItem * item)
-{
-    UMLListViewItem * myItem = static_cast<UMLListViewItem*>(item);
-    if (isExpandable(myItem->type()))
-        myItem->updateFolder();
 }
 
 /**

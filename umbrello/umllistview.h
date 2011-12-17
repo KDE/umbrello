@@ -182,8 +182,6 @@ public slots:
 
     void slotDropped(QDropEvent* de, UMLListViewItem* parent, UMLListViewItem* item);
 
-    void slotExpanded(UMLListViewItem* item);
-    void slotCollapsed(UMLListViewItem* item);
 
     void expandAll(UMLListViewItem *item);
     void collapseAll(UMLListViewItem *item);
@@ -193,6 +191,8 @@ public slots:
 protected slots:
     void slotItemChanged(QTreeWidgetItem *, int);
     void slotItemSelectionChanged();
+    void slotExpanded(QTreeWidgetItem* item);
+    void slotCollapsed(QTreeWidgetItem* item);
 
 private:
 
