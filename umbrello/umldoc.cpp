@@ -140,6 +140,7 @@ void UMLDoc::init()
  */
 void UMLDoc::createDatatypeFolder()
 {
+    // FIXME: memory leak ?
     m_datatypeRoot = new UMLFolder("Datatypes", "Datatypes");
     m_datatypeRoot->setLocalName(i18n("Datatypes"));
     m_datatypeRoot->setUMLPackage(m_root[Uml::ModelType::Logical]);
@@ -346,7 +347,7 @@ void UMLDoc::closeDocument()
         }
         // Restore the datatype folder, it has been deleted above.
         createDatatypeFolder();
-        listView->theDatatypeFolder()->setUMLObject(m_datatypeRoot);
+        listView->init();
         /* Remove any stereotypes.
         if (m_stereoList.count() > 0) {
             UMLStereotype *s;
