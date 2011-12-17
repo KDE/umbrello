@@ -54,7 +54,7 @@ UMLListView* UMLListViewItem::s_pListView = 0;
  */
 UMLListViewItem::UMLListViewItem(UMLListView * parent, const QString &name,
                                  UMLListViewItem::ListViewType t, UMLObject* o)
-  : Q3ListViewItem(parent, name)
+  : QTreeWidgetItem(parent)
 {
     init(parent);
     m_type = t;
@@ -63,7 +63,7 @@ UMLListViewItem::UMLListViewItem(UMLListView * parent, const QString &name,
         m_id = o->id();
     setIcon(Icon_Utils::it_Home);
     setText(name);
-    setRenameEnabled(0, false);
+//    setRenameEnabled(0, false);
 }
 
 /**
@@ -72,7 +72,7 @@ UMLListViewItem::UMLListViewItem(UMLListView * parent, const QString &name,
  * @param parent   The parent to this instance.
  */
 UMLListViewItem::UMLListViewItem(UMLListView * parent)
-  : Q3ListViewItem(parent)
+  : QTreeWidgetItem(parent)
 {
     init(parent);
     if (parent == NULL)
@@ -85,7 +85,7 @@ UMLListViewItem::UMLListViewItem(UMLListView * parent)
  * @param parent   The parent to this instance.
  */
 UMLListViewItem::UMLListViewItem(UMLListViewItem * parent)
-  : Q3ListViewItem(parent)
+  : QTreeWidgetItem(parent)
 {
     init();
 }
@@ -99,7 +99,7 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent)
  * @param o        The object it represents.
  */
 UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, UMLListViewItem::ListViewType t, UMLObject*o)
-  : Q3ListViewItem(parent, name)
+  : QTreeWidgetItem(parent)
 {
     init();
     m_type = t;
@@ -114,7 +114,7 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
         updateObject();
         m_id = o->id();
     }
-    setRenameEnabled(0, !Model_Utils::typeIsRootView(t));
+//    setRenameEnabled(0, !Model_Utils::typeIsRootView(t));
     setText(name);
 }
 
@@ -127,7 +127,7 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
  * @param id       The id of this instance.
  */
 UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, UMLListViewItem::ListViewType t, Uml::IDType id)
-  : Q3ListViewItem(parent, name)
+  : QTreeWidgetItem(parent)
 {
     init();
     m_type = t;
@@ -164,7 +164,7 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
     //  to set pixmap to folder.  doesn't hurt diagrams.
     updateFolder();
     setText(name);
-    setRenameEnabled(0, true);
+    //setRenameEnabled(0, true);
 }
 
 /**
@@ -222,6 +222,12 @@ void UMLListViewItem::deleteChildItem(UMLClassifierListItem *child)
     delete childItem;
 }
 
+void UMLListViewItem::setVisible(bool state)
+{
+    setHidden(!state);
+}
+
+
 /**
  * Returns the id this class represents.
  *
@@ -278,12 +284,12 @@ UMLObject * UMLListViewItem::umlObject() const
  */
 bool UMLListViewItem::isOwnParent(Uml::IDType listViewItemID)
 {
-    Q3ListViewItem *lvi = (Q3ListViewItem*)s_pListView->findItem(listViewItemID);
+    QTreeWidgetItem *lvi = (QTreeWidgetItem*)s_pListView->findItem(listViewItemID);
     if (lvi == NULL) {
         uError() << "ListView->findItem(" << ID2STR(listViewItemID) << ") returns NULL";
         return true;
     }
-    for (Q3ListViewItem *self = (Q3ListViewItem*)this; self; self = self->parent()) {
+    for (QTreeWidgetItem *self = (QTreeWidgetItem*)this; self; self = self->parent()) {
         if (lvi == self)
             return true;
     }
@@ -375,9 +381,9 @@ void UMLListViewItem::updateFolder()
  * Overrides default method.
  * Will call default method but also makes sure correct icon is shown.
  */
-void UMLListViewItem::setOpen(bool open)
+void UMLListViewItem::setOpen(bool expand)
 {
-    Q3ListViewItem::setOpen(open);
+    QTreeWidgetItem::setExpanded(expand);
     updateFolder();
 }
 
@@ -395,7 +401,7 @@ void UMLListViewItem::setText(const QString &newText)
 void UMLListViewItem::setText(int column, const QString &newText)
 {
     m_label = newText;
-    Q3ListViewItem::setText(column, newText);
+    QTreeWidgetItem::setText(column, newText);
 }
 
 /**
@@ -419,8 +425,17 @@ void UMLListViewItem::setCreating( bool creating )
  */
 void UMLListViewItem::setIcon(Icon_Utils::IconType iconType)
 {
-    setPixmap(0, Icon_Utils::SmallIcon(iconType));
+    QPixmap p = Icon_Utils::SmallIcon(iconType);
+    QTreeWidgetItem::setIcon(0,QIcon(p));
 }
+
+void UMLListViewItem::startRename( int )
+{
+    if (m_bCreating) {
+        s_pListView->cancelRename(this);
+    }
+}
+
 
 /**
  * This function is called if the user presses Enter during in-place renaming
@@ -429,14 +444,14 @@ void UMLListViewItem::setIcon(Icon_Utils::IconType iconType)
 void UMLListViewItem::okRename(int col)
 {
     QString oldText = m_label; // copy old name
-    Q3ListViewItem::okRename(col);
+    //QTreeWidgetItem::okRename(col);
     UMLDoc* doc = s_pListView->document();
     if (m_bCreating) {
         m_bCreating = false;
         QString savedLabel = m_label;
         m_label = text(col);
         if (s_pListView->itemRenamed(this, col)) {
-            s_pListView->ensureItemVisible(this);
+//            s_pListView->ensureItemVisible(this);
             doc->setModified(true);
         } else {
             delete this;
@@ -524,7 +539,7 @@ void UMLListViewItem::okRename(int col)
                                Model_Utils::psText(st),
                                i18n("Rename canceled"));
         }
-        Q3ListViewItem::setText(0, m_label);
+        QTreeWidgetItem::setText(0, m_label);
         break;
     }
 
@@ -557,7 +572,7 @@ void UMLListViewItem::okRename(int col)
                                Model_Utils::psText(st),
                                i18n("Rename canceled"));
         }
-        Q3ListViewItem::setText(0, m_label);
+        QTreeWidgetItem::setText(0, m_label);
         break;
     }
 
@@ -588,7 +603,7 @@ void UMLListViewItem::okRename(int col)
                                Model_Utils::psText(st),
                                i18n("Rename canceled"));
         }
-        Q3ListViewItem::setText(0, m_label);
+        QTreeWidgetItem::setText(0, m_label);
         break;
     }
 
@@ -615,7 +630,7 @@ void UMLListViewItem::okRename(int col)
                                Model_Utils::psText(st),
                                i18n("Rename canceled"));
         }
-        Q3ListViewItem::setText(0, m_label);
+        QTreeWidgetItem::setText(0, m_label);
         break;
     }
 
@@ -648,7 +663,7 @@ void UMLListViewItem::okRename(int col)
         KMessageBox::error(0,
                            i18n("Renaming an item of listview type %1 is not yet implemented.", m_type),
                            i18n("Function Not Implemented"));
-        Q3ListViewItem::setText(0, m_label);
+        QTreeWidgetItem::setText(0, m_label);
         break;
     }
     doc->setModified(true);
@@ -662,15 +677,15 @@ void UMLListViewItem::cancelRenameWithMsg()
     KMessageBox::error(0,
                        i18n("The name you entered was invalid.\nRenaming process has been canceled."),
                        i18n("Name Not Valid"));
-    Q3ListViewItem::setText(0, m_label);
+    QTreeWidgetItem::setText(0, m_label);
 }
 
 /**
  * Overrides default method to make public.
  */
-void UMLListViewItem::cancelRename(int col)
+void UMLListViewItem::cancelRename(int)
 {
-    Q3ListViewItem::cancelRename(col);
+    //QTreeWidgetItem::cancelRename(col);
     if (m_bCreating) {
         s_pListView->cancelRename(this);
     }
@@ -681,7 +696,8 @@ void UMLListViewItem::cancelRename(int col)
  * Sort the listview items by type and position within the corresponding list
  * of UMLObjects. If the item does not have an UMLObject then place it last.
  */
-int UMLListViewItem::compare(Q3ListViewItem *other, int col, bool ascending) const
+#if 0
+int UMLListViewItem::compare(QTreeWidgetItem *other, int col, bool ascending) const
 {
     UMLListViewItem *ulvi = static_cast<UMLListViewItem*>(other);
     UMLListViewItem::ListViewType ourType = type();
@@ -767,6 +783,7 @@ int UMLListViewItem::compare(Q3ListViewItem *other, int col, bool ascending) con
     }
     return (myIndex < otherIndex ? -1 : myIndex > otherIndex ? 1 : 0);
 }
+#endif
 
 /**
  * Returns the number of children of the UMLListViewItem
@@ -774,7 +791,7 @@ int UMLListViewItem::compare(Q3ListViewItem *other, int col, bool ascending) con
  */
 int UMLListViewItem::childCount() const
 {
-    return m_nChildren;
+    return QTreeWidgetItem::childCount();
 }
 
 /**
@@ -792,10 +809,9 @@ UMLListViewItem* UMLListViewItem::deepCopy(UMLListViewItem *newParent)
         newItem = new UMLListViewItem(newParent, nm, t, o);
     else
         newItem = new UMLListViewItem(newParent, nm, t, m_id);
-    UMLListViewItem *childItem = static_cast<UMLListViewItem*>(firstChild());
-    while (childItem) {
+    for (int i=0; i < childCount(); i++) {
+        UMLListViewItem *childItem = static_cast<UMLListViewItem*>(child(i));
         childItem->deepCopy(newItem);
-        childItem = static_cast<UMLListViewItem*>(childItem->nextSibling());
     }
     return newItem;
 }
@@ -809,14 +825,13 @@ UMLListViewItem* UMLListViewItem::findUMLObject(const UMLObject *o)
 {
     if (m_object == o)
         return this;
-    UMLListViewItem *childItem = static_cast<UMLListViewItem*>(firstChild());
-    while (childItem) {
-        UMLListViewItem *inner = childItem->findUMLObject(o);
-        if (inner)
-            return inner;
-        childItem = static_cast<UMLListViewItem*>(childItem->nextSibling());
+    for (int i = 0; i < childCount(); i++) {
+        UMLListViewItem *item = static_cast<UMLListViewItem*>(child(i));
+        UMLListViewItem *testItem = item->findUMLObject(o);
+        if (testItem)
+            return testItem;
     }
-    return NULL;
+    return 0;
 }
 
 /**
@@ -846,12 +861,11 @@ UMLListViewItem * UMLListViewItem::findItem(Uml::IDType id)
 {
     if (getID() == id)
         return this;
-    UMLListViewItem *childItem = static_cast<UMLListViewItem*>(firstChild());
-    while (childItem) {
+    for (int i=0; i < childCount(); i++) {
+        UMLListViewItem *childItem = static_cast<UMLListViewItem*>(child(i));
         UMLListViewItem *inner = childItem->findItem(id);
         if (inner)
             return inner;
-        childItem = static_cast<UMLListViewItem*>(childItem->nextSibling());
     }
     return NULL;
 }
@@ -892,10 +906,9 @@ void UMLListViewItem::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     }
     itemElement.setAttribute("open", isOpen());
     QDomElement folderRoot;
-    UMLListViewItem *childItem = static_cast<UMLListViewItem*>(firstChild());
-    while (childItem) {
+    for (int i=0; i < childCount(); i++) {
+        UMLListViewItem *childItem = static_cast<UMLListViewItem*>(child(i));
         childItem->saveToXMI(qDoc, itemElement);
-        childItem = dynamic_cast<UMLListViewItem *>(childItem->nextSibling());
     }
     qElement.appendChild(itemElement);
 }
@@ -926,4 +939,9 @@ bool UMLListViewItem::loadFromXMI(QDomElement& qElement)
         updateObject();
     setOpen((bool)open.toInt());
     return true;
+}
+
+UMLListViewItem* UMLListViewItem::childItem(int i)
+{
+    return static_cast<UMLListViewItem *>(QTreeWidgetItem::child(i));
 }

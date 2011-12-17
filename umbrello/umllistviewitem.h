@@ -11,7 +11,7 @@
 #ifndef UMLLISTVIEWITEM_H
 #define UMLLISTVIEWITEM_H
 
-#include <q3listview.h>
+#include <QtGui/QTreeWidget>
 #include <QtCore/QMap>
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
@@ -24,6 +24,8 @@ class UMLListView;
 class UMLObject;
 class UMLClassifierListItem;
 
+typedef QTreeWidgetItemIterator UMLListViewItemIterator;
+
 /**
  * Items used by the class @ref UMLListView.  This is needed as the type
  * and object information is required to be stored.
@@ -33,7 +35,7 @@ class UMLClassifierListItem;
  * @see    UMLListView
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLListViewItem : public Q3ListViewItem
+class UMLListViewItem : public QTreeWidgetItem
 {
 public:
     enum ListViewType
@@ -111,25 +113,23 @@ public:
     void updateObject();
     void updateFolder();
 
-    void setOpen( bool open );
-
     void setText(int column, const QString &text);
     void setText(const QString &text );
     QString getText() const;
+    void setVisible( bool state );
 
     void setCreating(bool creating);
 
     void setIcon(Icon_Utils::IconType iconType);
 
+    void startRename( int col );
     void cancelRename( int col );
 
     void addClassifierListItem(UMLClassifierListItem *child, UMLListViewItem *childItem);
 
     void deleteChildItem(UMLClassifierListItem *child);
 
-    virtual int compare(Q3ListViewItem *other, int col, bool ascending) const;
-
-    int childCount() const;
+    //virtual int compare(UMLListViewItem *other, int col, bool ascending) const;
 
     UMLListViewItem* deepCopy(UMLListViewItem *newParent);
 
@@ -137,13 +137,19 @@ public:
     UMLListViewItem* findChildObject(UMLClassifierListItem *cli);
     UMLListViewItem* findItem(Uml::IDType id);
 
+    int childCount() const;
+    UMLListViewItem* childItem(int i);
+
     void saveToXMI( QDomDocument& qDoc, QDomElement& qElement);
     bool loadFromXMI(QDomElement& qElement);
+
+    bool isOpen() { return isExpanded(); }
+    void setOpen(bool state);
+    void okRename( int col );
 
 protected:
     void init(UMLListView * parent = 0);
 
-    void okRename( int col );
 
     void cancelRenameWithMsg();
 
@@ -167,7 +173,7 @@ protected:
     UMLObject *        m_object;
     QString            m_label;
     ChildObjectMap     m_comap;
-
+    int                m_childIndex;
 };
 
 #endif

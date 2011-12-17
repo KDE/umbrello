@@ -22,7 +22,7 @@
 #include <QtGui/QTreeWidget>
 #include <QtGui/QTreeWidgetItem>
 
-#include <k3listview.h>
+#include <QTreeWidget>
 
 class QEvent;
 class QMouseEvent;
@@ -47,7 +47,7 @@ class UMLDragData;
  * @author Paul Hensgen    <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLListView : public K3ListView
+class UMLListView : public QTreeWidget
 {
     Q_OBJECT
 public:
@@ -59,12 +59,20 @@ public:
     UMLDoc * document() const;
 
     void init();
+    void clean();
 
     void setView(UMLView* view);
 
     UMLListViewItemList selectedItems();
     UMLListViewItemList selectedItemsRoot();
     int selectedItemsCount();
+    // port qt3
+    void setTitle(int column, const QString &text);
+    int getSelectedItems(UMLListViewItemList &ItemList);
+    int getSelectedItemsRoot(UMLListViewItemList &ItemList);
+
+    void startUpdate();
+    void endUpdate();
 
     UMLListViewItem* createDiagramItem(UMLView *view);
 
@@ -96,8 +104,11 @@ public:
 
     bool isUnique(UMLListViewItem * item, const QString &name);
 
+    void startRename(UMLListViewItem * item);
     void cancelRename(UMLListViewItem * item);
+    void endRename(UMLListViewItem * item);
 
+    void setSelected(UMLListViewItem * item, bool state) { setItemSelected((QTreeWidgetItem*)item,state);  }
     void setStartedCut(bool startedCut);
     void setStartedCopy(bool startedCopy);
     bool startedCopy() const;
@@ -127,10 +138,10 @@ public:
 protected:
 
     bool eventFilter(QObject *o, QEvent *e);
-    void contentsMouseReleaseEvent(QMouseEvent * me);
-    void contentsMousePressEvent(QMouseEvent *me);
-    void contentsMouseMoveEvent(QMouseEvent* me);
-    void contentsMouseDoubleClickEvent(QMouseEvent * me);
+    void mouseReleaseEvent(QMouseEvent * me);
+    void mousePressEvent(QMouseEvent *me);
+    void mouseMoveEvent(QMouseEvent* me);
+    void mouseDoubleClickEvent(QMouseEvent * me);
     void focusOutEvent ( QFocusEvent * fe);
 
     UMLDragData* getDragData();
@@ -169,15 +180,19 @@ public slots:
 
     void popupMenuSel(QAction* action);
 
-    void slotDropped(QDropEvent* de, Q3ListViewItem* parent, Q3ListViewItem* item);
+    void slotDropped(QDropEvent* de, UMLListViewItem* parent, UMLListViewItem* item);
 
-    void slotExpanded(Q3ListViewItem* item);
-    void slotCollapsed(Q3ListViewItem* item);
+    void slotExpanded(UMLListViewItem* item);
+    void slotCollapsed(UMLListViewItem* item);
 
-    void expandAll(Q3ListViewItem *item);
-    void collapseAll(Q3ListViewItem *item);
+    void expandAll(UMLListViewItem *item);
+    void collapseAll(UMLListViewItem *item);
 
     void slotCutSuccessful();
+
+protected slots:
+    void slotItemChanged(QTreeWidgetItem *, int);
+    void slotItemSelectionChanged();
 
 private:
 
@@ -196,7 +211,7 @@ private:
     bool             m_bIgnoreCancelRename;
     bool m_bCreatingChildObject;  ///< when creating an attribute or an operation to stop it adding a second listViewItem
     QPoint m_dragStartPosition;
-
+    UMLListViewItem* m_editItem;
 };
 
 #endif
