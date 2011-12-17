@@ -3115,7 +3115,8 @@ void UMLListView::deleteChildrenOf(UMLListViewItem* parent)
 
 void UMLListView::closeDatatypesFolder()
 {
-    m_datatypeFolder->setOpen(false);
+    if (m_datatypeFolder)
+        m_datatypeFolder->setOpen(false);
 }
 
 /**
