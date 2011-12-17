@@ -333,9 +333,11 @@ void UMLListView::keyPressEvent(QKeyEvent *ke)
             UMLListViewItem *current = static_cast<UMLListViewItem*>(currentItem());
             UMLListViewItem *item = static_cast<UMLListViewItem*>((k == Qt::Key_Down) ? itemBelow(current) : itemAbove(current));
             if (item) {
+                Uml::IDType id = item->getID();
+                UMLObject *o = item->umlObject();
                 setCurrentItem(item);
-                m_doc->changeCurrentView(item->getID());
-                UMLApp::app()->docWindow()->showDocumentation(item->umlObject(), false);
+                m_doc->changeCurrentView(id);
+                UMLApp::app()->docWindow()->showDocumentation(o, false);
             }
         }
         else {
