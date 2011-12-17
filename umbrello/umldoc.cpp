@@ -95,7 +95,8 @@ UMLDoc::UMLDoc()
     m_bTypesAreResolved(false),
     m_pTabPopupMenu(0),
     m_pCurrentRoot(0),
-    m_bClosing(false)
+    m_bClosing(false),
+    m_datatypeRoot(0)
 {
     DEBUG_REGISTER(DBG_SRC);
 }
