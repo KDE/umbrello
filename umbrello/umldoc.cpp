@@ -82,7 +82,8 @@
  * Constructor for the fileclass of the application.
  */
 UMLDoc::UMLDoc()
-  : m_Name(i18n("UML Model")),
+  : m_datatypeRoot(0),
+    m_Name(i18n("UML Model")),
     m_modelID("m1"),
     m_count(0),
     m_modified(false),
@@ -95,8 +96,7 @@ UMLDoc::UMLDoc()
     m_bTypesAreResolved(false),
     m_pTabPopupMenu(0),
     m_pCurrentRoot(0),
-    m_bClosing(false),
-    m_datatypeRoot(0)
+    m_bClosing(false)
 {
     DEBUG_REGISTER(DBG_SRC);
 }

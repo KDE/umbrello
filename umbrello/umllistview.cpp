@@ -110,10 +110,11 @@ protected:
  * @param parent   The parent to this.
  */
 UMLListView::UMLListView(QWidget *parent)
-  : QTreeWidget(parent), m_doc(UMLApp::app()->document()),
+  : QTreeWidget(parent),
     m_rv(0),
     m_datatypeFolder(0),
     m_menu(0),
+    m_doc(UMLApp::app()->document()),
     m_bStartedCut(false),
     m_bStartedCopy(false),
     m_bIgnoreCancelRename(true),
