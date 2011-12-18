@@ -191,6 +191,22 @@ void UMLListViewItem::init(UMLListView * parent)
 }
 
 /**
+ * Returns the signature of items that are operations.
+ * @return signature of an operation item, else an empty string
+ */
+QString UMLListViewItem::toolTip()
+{
+    UMLObject *obj = umlObject();
+    if (obj && obj->baseType() == UMLObject::ot_Operation) {
+        UMLOperation *op = static_cast<UMLOperation*>(obj);
+        return op->toString(Uml::SignatureType::ShowSig);
+    }
+    else {
+        return QString();
+    }
+}
+
+/**
  * Returns the type this instance represents.
  *
  * @return  The type this instance represents.

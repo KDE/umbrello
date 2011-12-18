@@ -22,6 +22,7 @@
 #include <QKeyEvent>
 #include <QDropEvent>
 #include <QMouseEvent>
+#include <QToolTip>
 
 // kde includes
 #include <kfiledialog.h>
@@ -73,37 +74,6 @@
 #include "umlforeignkeyconstraintdialog.h"
 #include "umlcheckconstraintdialog.h"
 
-#ifdef WANT_LVTOOLTIP
-class LVToolTip : public QToolTip
-{
-public:
-    LVToolTip(QWidget* parent) : QToolTip(parent) {}
-    virtual ~LVToolTip() {}
-protected:
-    /**
-     * Reimplemented from QToolTip for internal reasons.
-     * At classifiers, only the method names are shown in the list view -
-     * we use a tooltip for the full signature display.
-     * Once K3ListView's tooltip overriding mechanism works, we can kick
-     * this class out (TODO).
-     */
-    virtual void maybeTip(const QPoint& pos) {
-        UMLListView *lv = UMLApp::app()->listView();
-        UMLListViewItem * item = (UMLListViewItem*)lv->itemAt(pos);
-        if (item == 0)
-            return;
-        UMLObject *obj = item->getUMLObject();
-        if (obj == 0 || obj->getBaseType() != UMLObject::ot_Operation)
-            return;
-        UMLOperation *op = static_cast<UMLOperation*>(obj);
-        QString text = op->toString(Uml::st_ShowSig);
-        QRect rect = lv->itemRect(item);
-        tip(rect, text);
-    }
-};
-#endif
-
-
 /**
  * Constructs the tree view.
  *
@@ -135,15 +105,6 @@ UMLListView::UMLListView(QWidget *parent)
     //add columns and initial items
     //addColumn(m_doc->name());
 
-#ifdef WANT_LVTOOLTIP
-    /* In KDE-3.3, we cannot use K3ListView's builtin mechanism for
-       overriding the tooltips. Instead, see the above class LVToolTip.
-    setShowToolTips( true );
-    setTooltipColumn( 0 );
-     */
-    (void) new LVToolTip(viewport());
-#endif
-
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
         m_lv[i] = 0;
     }
@@ -168,9 +129,14 @@ UMLListView::~UMLListView()
     delete m_datatypeFolder;
 }
 
+/**
+ * Sets the title.
+ * @param column   column in which to write
+ * @param text     the text to write
+ */
 void UMLListView::setTitle(int column, const QString &text)
 {
-    headerItem()->setText(column,text);
+    headerItem()->setText(column, text);
 }
 
 void UMLListView::slotItemChanged(QTreeWidgetItem *, int)
@@ -179,6 +145,9 @@ void UMLListView::slotItemChanged(QTreeWidgetItem *, int)
         cancelRename(m_editItem);
 }
 
+/**
+ * Handlerfor item selection changed signals.
+ */
 void UMLListView::slotItemSelectionChanged()
 {
     if (m_editItem)
@@ -205,6 +174,29 @@ void UMLListView::slotCollapsed(QTreeWidgetItem * item)
         myItem->updateFolder();
 }
 
+/**
+ * Event handler for the tool tip event.
+ * Works only for operations to show the signature.
+ */
+bool UMLListView::event(QEvent *e)
+{
+    if (e->type() == QEvent::ToolTip) {
+        QHelpEvent *helpEvent = static_cast<QHelpEvent *>(e);
+        UMLListViewItem * item = static_cast<UMLListViewItem*>(itemAt(helpEvent->pos()));
+        if (item) {
+            QToolTip::showText(helpEvent->globalPos(), item->toolTip());
+        } else {
+            QToolTip::hideText();
+            e->ignore();
+        }
+        return true;
+    }
+    return QTreeWidget::event(e);
+}
+
+/**
+ * Event filter.
+ */
 bool UMLListView::eventFilter(QObject *o, QEvent *e)
 {
     if (e->type() != QEvent::MouseButtonPress || qstrcmp("QHeader", metaObject()->className()) != 0)
@@ -226,6 +218,10 @@ bool UMLListView::eventFilter(QObject *o, QEvent *e)
     return QTreeWidget::eventFilter(o, e);
 }
 
+/**
+ * Handler for mouse press events.
+ * @param me   the mouse event
+ */
 void UMLListView::mousePressEvent(QMouseEvent *me)
 {
     UMLView *currentView = UMLApp::app()->currentView();
@@ -253,6 +249,7 @@ void UMLListView::mousePressEvent(QMouseEvent *me)
 
         m_dragStartPosition = me->pos();
     }
+
     if (button == Qt::RightButton) {
         if (m_menu != 0) {
             m_menu->hide();
@@ -269,6 +266,10 @@ void UMLListView::mousePressEvent(QMouseEvent *me)
     QTreeWidget::mousePressEvent(me);
 }
 
+/**
+ * Handler for mouse move events.
+ * @param me   the mouse event
+ */
 void UMLListView::mouseMoveEvent(QMouseEvent* me)
 {
     if (!(me->buttons() & Qt::LeftButton))
@@ -282,6 +283,10 @@ void UMLListView::mouseMoveEvent(QMouseEvent* me)
     drag->exec(Qt::CopyAction);
 }
 
+/**
+ * Handler for mouse release event.
+ * @param me   the mouse event
+ */
 void UMLListView::mouseReleaseEvent(QMouseEvent *me)
 {
     if (me->button() != Qt::LeftButton) {
@@ -756,11 +761,13 @@ UMLListViewItem *UMLListView::findFolderForDiagram(Uml::DiagramType dt)
  */
 void UMLListView::slotDiagramCreated(Uml::IDType id)
 {
-    if (m_doc->loading())
+    if (m_doc->loading()) {
         return;
+    }
     UMLView *v = m_doc->findView(id);
-    if (!v)
+    if (!v) {
         return;
+    }
     const Uml::DiagramType dt = v->umlScene()->type();
     UMLListViewItem * temp = 0, *p = findFolderForDiagram(dt);
     temp = new UMLListViewItem(p, v->umlScene()->name(), Model_Utils::convert_DT_LVT(dt), id);
@@ -1113,12 +1120,15 @@ void UMLListView::slotDiagramRemoved(Uml::IDType id)
     UMLApp::app()->docWindow()->updateDocumentation(true);
 }
 
+/**
+ *
+ */
 UMLDragData* UMLListView::getDragData()
 {
-    UMLListViewItemList selecteditems = selectedItems();
+    UMLListViewItemList itemsSelected = selectedItems();
 
     UMLListViewItemList  list;
-    foreach(UMLListViewItem* item, selecteditems) {
+    foreach(UMLListViewItem* item, itemsSelected) {
         UMLListViewItem::ListViewType type = item->type();
         if (!Model_Utils::typeIsCanvasWidget(type) && !Model_Utils::typeIsDiagram(type)
                 && !Model_Utils::typeIsClassifierList(type)) {
@@ -1140,7 +1150,7 @@ UMLDragData* UMLListView::getDragData()
  */
 UMLListViewItem * UMLListView::findUMLObjectInFolder(UMLListViewItem* folder, UMLObject* obj)
 {
-    for (int i=0; i < folder->childCount(); i++) {
+    for (int i=0; i < folder->childCount(); ++i) {
         UMLListViewItem *item = folder->childItem(i);
         switch (item->type()) {
         case UMLListViewItem::lvt_Actor :
@@ -1184,7 +1194,7 @@ UMLListViewItem * UMLListView::findUMLObjectInFolder(UMLListViewItem* folder, UM
  */
 UMLListViewItem * UMLListView::findUMLObject(const UMLObject *p) const
 {
-    for (int i=0; i < topLevelItemCount(); i++) {
+    for (int i=0; i < topLevelItemCount(); ++i) {
         UMLListViewItem *item = static_cast<UMLListViewItem*>(topLevelItem(i));
         UMLListViewItem *testItem = item->findUMLObject(p);
         if (testItem)
@@ -1211,7 +1221,7 @@ void UMLListView::changeIconOf(UMLObject *o, Icon_Utils::IconType to)
 UMLListViewItem* UMLListView::findView(UMLView* v)
 {
     if (!v) {
-        uWarning() << "returning 0";
+        uWarning() << "returning 0 - param is 0.";
         return 0;
     }
     UMLListViewItem* item;
@@ -1274,7 +1284,6 @@ UMLListViewItem* UMLListView::recursiveSearchForView(UMLListViewItem* listViewIt
  */
 UMLListViewItem* UMLListView::findItem(Uml::IDType id)
 {
-
     UMLListViewItem *topLevel = static_cast<UMLListViewItem*>(topLevelItem(0));
     UMLListViewItem *item = topLevel->findItem(id);
     if (item)
@@ -1288,7 +1297,6 @@ UMLListViewItem* UMLListView::findItem(Uml::IDType id)
  * So we must not allocate any memory before freeing the previously allocated one
  * or do connect()s.
  */
-
 void UMLListView::init()
 {
     if (m_rv == 0) {
@@ -1307,12 +1315,14 @@ void UMLListView::init()
             deleteChildrenOf(m_lv[i]);
     }
     UMLFolder *datatypeFolder = m_doc->datatypeFolder();
-    if (!m_datatypeFolder)
+    if (!m_datatypeFolder) {
         m_datatypeFolder = new UMLListViewItem(m_lv[Uml::ModelType::Logical], datatypeFolder->localName(),
                                            UMLListViewItem::lvt_Datatype_Folder, datatypeFolder);
+    }
     m_rv->setOpen(true);
-    for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i)
+    for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
         m_lv[i]->setOpen(true);
+    }
     m_datatypeFolder->setOpen(false);
 
     //setup misc.
@@ -1324,12 +1334,17 @@ void UMLListView::init()
     headerItem()->setHidden(true);
 }
 
+/**
+ * Remove all items and subfolders of the main folders.
+ * Special case: The datatype folder, child of the logical view, is not deleted.
+ */
 void UMLListView::clean()
 {
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i)
         deleteChildrenOf(m_lv[i]);
     //deleteChildrenOf(m_datatypeFolder);
 }
+
 /**
  * Set the current view to the given view.
  *
@@ -1344,6 +1359,9 @@ void UMLListView::setView(UMLView * view)
         setSelected(temp, true);
 }
 
+/**
+ * Event handler for mouse double click.
+ */
 void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
 {
     UMLListViewItem * item = static_cast<UMLListViewItem *>(currentItem());
@@ -1364,14 +1382,15 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
     //else see if an object
     UMLObject * object = item->umlObject();
     //continue only if we are on a UMLObject
-    if (!object)
+    if (!object) {
         return;
-
+    }
 
     UMLObject::ObjectType type = object->baseType();
     int page = ClassPropDlg::page_gen;
-    if (Model_Utils::isClassifierListitem(type))
+    if (Model_Utils::isClassifierListitem(type)) {
         object = (UMLObject *)object->parent();
+    }
     //set what page to show
     switch (type) {
 
@@ -1399,6 +1418,11 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
     item->cancelRename(0);  //double click can cause it to go into rename mode.
 }
 
+/**
+ * Event handler for accepting drag request.
+ * @param event   the drop event
+ * @return success state
+ */
 bool UMLListView::acceptDrag(QDropEvent* event) const
 {
     UMLListViewItem* item = (UMLListViewItem*)itemAt(event->pos());
@@ -1757,10 +1781,10 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, UMLListViewItem::Li
                 // QObject does not permit changing the parent().
                 if (att == 0) {
                     uError() << "moveObject internal error: srcObj "
-                    << srcObj->name() << " is not a UMLAttribute";
+                        << srcObj->name() << " is not a UMLAttribute";
                 } else if (oldParentClassifier->takeItem(att) == -1) {
                     uError() << "moveObject: oldParentClassifier->takeItem(att "
-                    << att->name() << ") returns 0";
+                        << att->name() << ") returns 0";
                 } else {
                     const QString& nm = att->name();
                     UMLAttribute *newAtt = newParentClassifier->createAttribute(nm,
@@ -1852,7 +1876,6 @@ void UMLListView::slotDropped(QDropEvent* de, UMLListViewItem* parent, UMLListVi
 
 /**
  * Get selected items.
- *
  * @return   the list of selected items
  */
 UMLListViewItemList UMLListView::selectedItems()
@@ -1873,8 +1896,7 @@ UMLListViewItemList UMLListView::selectedItems()
 
 /**
  * Get selected items, but only root elements selected (without children).
- *
- * @return   the list of selected items
+ * @return   the list of selected root items
  */
 UMLListViewItemList UMLListView::selectedItemsRoot()
 {
@@ -2022,10 +2044,10 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
 }
 
 /**
- * Determine the parent ListViewItem given a ListView_Type.
+ * Determine the parent ListViewItem given a ListViewType.
  * This parent is used for creating new UMLListViewItems.
  *
- * @param lvt   The ListView_Type for which to lookup the parent.
+ * @param lvt   The ListViewType for which to lookup the parent.
  * @return  Pointer to the parent UMLListViewItem chosen.
  */
 UMLListViewItem* UMLListView::determineParentItem(UMLListViewItem::ListViewType lvt) const
@@ -2088,6 +2110,10 @@ UMLDoc * UMLListView::document() const
     return m_doc;
 }
 
+/**
+ * Event handler for lost focus.
+ * @param fe   the focus event
+ */
 void UMLListView::focusOutEvent(QFocusEvent * fe)
 {
     Qt::FocusReason reason = fe->reason();
@@ -2104,7 +2130,7 @@ void UMLListView::focusOutEvent(QFocusEvent * fe)
  * Determines the root listview type of the given UMLListViewItem.
  * Starts at the given item, compares it against each of the
  * predefined root views (Root, Logical, UseCase, Component,
- * Deployment, EntityRelationship.) Returns the ListView_Type
+ * Deployment, EntityRelationship.) Returns the ListViewType
  * of the matching root view; if no match then continues the
  * search using the item's parent, then grandparent, and so forth.
  * Returns UMLListViewItem::lvt_Unknown if no match at all is found.
@@ -2161,11 +2187,17 @@ void UMLListView::slotCutSuccessful()
     }
 }
 
+/**
+ * TODO: still in use?
+ */
 void UMLListView::startUpdate()
 {
     setSortingEnabled(false);
 }
 
+/**
+ * TODO: still in use?
+ */
 void UMLListView::endUpdate()
 {
     setSortingEnabled(true);
@@ -2742,6 +2774,11 @@ void UMLListView::cancelRename(UMLListViewItem * item)
         m_bIgnoreCancelRename = true;
     }
 }
+
+/**
+ * Renaming of an item has ended.
+ * @param item   the item which was renamed or not
+ */
 void UMLListView::endRename(UMLListViewItem* item)
 {
     // delete pointer first to lock slotItemChanged
@@ -2750,6 +2787,9 @@ void UMLListView::endRename(UMLListViewItem* item)
     item->okRename(0);
 }
 
+/**
+ *
+ */
 void UMLListView::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement listElement = qDoc.createElement("listview");
@@ -2757,6 +2797,9 @@ void UMLListView::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     qElement.appendChild(listElement);
 }
 
+/**
+ *
+ */
 bool UMLListView::loadFromXMI(QDomElement & element)
 {
     /*
@@ -2787,6 +2830,9 @@ bool UMLListView::loadFromXMI(QDomElement & element)
     return true;
 }
 
+/**
+ *
+ */
 bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & element)
 {
     QDomNode node = element.firstChild();
@@ -2883,7 +2929,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
             item = findItem(nID);
             if (item == 0) {
                 uError() << "INTERNAL ERROR: "
-                << "findItem(id " << ID2STR(nID) << ") returns 0";
+                    << "findItem(id " << ID2STR(nID) << ") returns 0";
                 /*
                 if (pObject && pObject->getUMLPackage() &&
                         parent->getType() != UMLListViewItem::lvt_Package) {
@@ -3116,10 +3162,12 @@ void UMLListView::deleteChildrenOf(UMLListViewItem* parent)
         parent->removeChild(parent->child(i));
 }
 
+/**
+ *
+ */
 void UMLListView::closeDatatypesFolder()
 {
-    if (m_datatypeFolder)
-        m_datatypeFolder->setOpen(false);
+    m_datatypeFolder->setOpen(false);
 }
 
 /**
@@ -3152,14 +3200,12 @@ bool UMLListView::deleteItem(UMLListViewItem *temp)
         }
         UMLCanvasObject *canvasObj = dynamic_cast<UMLCanvasObject*>(object);
         if (canvasObj) {
-            /**
-             * We cannot just delete canvasObj here: What if the object
-             * is still being used by others (for example, as a parameter
-             * or return type of an operation) ?
-             * Deletion should not have been permitted in the first place
-             * if the object still has users - but Umbrello is lacking
-             * that logic.
-             */
+            // We cannot just delete canvasObj here: What if the object
+            // is still being used by others (for example, as a parameter
+            // or return type of an operation) ?
+            // Deletion should not have been permitted in the first place
+            // if the object still has users - but Umbrello is lacking
+            // that logic.
             canvasObj->removeAllChildObjects();
         }
         if (object) {
@@ -3175,20 +3221,27 @@ bool UMLListView::deleteItem(UMLListViewItem *temp)
     return true;
 }
 
-
+/**
+ *
+ */
 void UMLListView::dragEnterEvent(QDragEnterEvent* event)
 {
     event->accept();
     QTreeWidget::dragEnterEvent(event);
 }
 
-
+/**
+ *
+ */
 void UMLListView::dragMoveEvent(QDragMoveEvent* event)
 {
     event->accept();
     QTreeWidget::dragMoveEvent( event );
 }
 
+/**
+ *
+ */
 void UMLListView::dropEvent(QDropEvent* event)
 {
     if ( !acceptDrag( event ) ) {
@@ -3208,6 +3261,7 @@ void UMLListView::dropEvent(QDropEvent* event)
 
 /**
  * Set the background color.
+ * @param color   the new background color
  */
 void UMLListView::setBackgroundColor(const QColor & color)
 {

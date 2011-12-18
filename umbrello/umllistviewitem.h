@@ -118,6 +118,8 @@ public:
     QString getText() const;
     void setVisible( bool state );
 
+    QString toolTip();
+
     void setCreating(bool creating);
 
     void setIcon(Icon_Utils::IconType iconType);
@@ -149,7 +151,6 @@ public:
 
 protected:
     void init(UMLListView * parent = 0);
-
 
     void cancelRenameWithMsg();
 

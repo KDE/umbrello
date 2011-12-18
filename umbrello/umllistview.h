@@ -21,8 +21,7 @@
 #include <QtXml/QDomElement>
 #include <QtGui/QTreeWidget>
 #include <QtGui/QTreeWidgetItem>
-
-#include <QTreeWidget>
+#include <QtGui/QTreeWidget>
 
 class QEvent;
 class QMouseEvent;
@@ -133,16 +132,17 @@ public:
     bool loadFromXMI(QDomElement & element);
     bool loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & element);
 
-    friend QDebug operator<< (QDebug out, const UMLListView& view);
+    friend QDebug operator<<(QDebug out, const UMLListView& view);
 
 protected:
 
+    bool event(QEvent *e);
     bool eventFilter(QObject *o, QEvent *e);
     void mouseReleaseEvent(QMouseEvent * me);
     void mousePressEvent(QMouseEvent *me);
     void mouseMoveEvent(QMouseEvent* me);
     void mouseDoubleClickEvent(QMouseEvent * me);
-    void focusOutEvent ( QFocusEvent * fe);
+    void focusOutEvent (QFocusEvent * fe);
 
     UMLDragData* getDragData();
 
@@ -181,7 +181,6 @@ public slots:
     void popupMenuSel(QAction* action);
 
     void slotDropped(QDropEvent* de, UMLListViewItem* parent, UMLListViewItem* item);
-
 
     void expandAll(UMLListViewItem *item);
     void collapseAll(UMLListViewItem *item);
