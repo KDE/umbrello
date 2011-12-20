@@ -137,16 +137,16 @@ protected:
 
     bool event(QEvent *e);
     bool eventFilter(QObject *o, QEvent *e);
-    void mouseReleaseEvent(QMouseEvent * me);
+    void mouseReleaseEvent(QMouseEvent *me);
     void mousePressEvent(QMouseEvent *me);
-    void mouseMoveEvent(QMouseEvent* me);
-    void mouseDoubleClickEvent(QMouseEvent * me);
-    void focusOutEvent (QFocusEvent * fe);
+    void mouseMoveEvent(QMouseEvent *me);
+    void mouseDoubleClickEvent(QMouseEvent *me);
+    void focusOutEvent (QFocusEvent *fe);
 
     UMLDragData* getDragData();
 
     bool acceptDrag(QDropEvent* event) const;
-    void keyPressEvent(QKeyEvent *);
+    void keyPressEvent(QKeyEvent* ke);
     void dragEnterEvent(QDragEnterEvent* event);
     void dragMoveEvent(QDragMoveEvent* event);
     void dropEvent(QDropEvent* event);

@@ -116,7 +116,7 @@ public:
     void setText(int column, const QString &text);
     void setText(const QString &text );
     QString getText() const;
-    void setVisible( bool state );
+    void setVisible(bool state);
 
     QString toolTip();
 
@@ -124,8 +124,9 @@ public:
 
     void setIcon(Icon_Utils::IconType iconType);
 
-    void startRename( int col );
-    void cancelRename( int col );
+    void startRename(int col);
+    void cancelRename(int col);
+    void okRename(int col);
 
     void addClassifierListItem(UMLClassifierListItem *child, UMLListViewItem *childItem);
 
@@ -139,25 +140,20 @@ public:
     UMLListViewItem* findChildObject(UMLClassifierListItem *cli);
     UMLListViewItem* findItem(Uml::IDType id);
 
-    int childCount() const;
     UMLListViewItem* childItem(int i);
 
-    void saveToXMI( QDomDocument& qDoc, QDomElement& qElement);
+    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
     bool loadFromXMI(QDomElement& qElement);
 
     bool isOpen() { return isExpanded(); }
     void setOpen(bool state);
-    void okRename( int col );
+
+    friend QDebug operator<<(QDebug out, const UMLListViewItem& item);
 
 protected:
-    void init(UMLListView * parent = 0);
+    void init();
 
     void cancelRenameWithMsg();
-
-    /**
-     * This list view all the instance of this class are displayed on.
-     */
-    static UMLListView * s_pListView;
 
     /**
      * Auxiliary map of child UMLLisViewItems keyed by UMLClassifierListItem.
@@ -170,11 +166,9 @@ protected:
     bool               m_bCreating;  ///< flag to set the state of creating
     ListViewType       m_type;
     Uml::IDType        m_id;
-    int                m_nChildren;
     UMLObject *        m_object;
     QString            m_label;
     ChildObjectMap     m_comap;
-    int                m_childIndex;
 };
 
 #endif

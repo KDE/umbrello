@@ -11,25 +11,6 @@
 // own header
 #include "umllistview.h"
 
-// qt includes
-#include <QtCore/QPointer>
-#include <QtCore/QRegExp>
-#include <QtCore/QPoint>
-#include <QtCore/QRect>
-#include <QtCore/QEvent>
-#include <QFocusEvent>
-#include <QKeyEvent>
-#include <QDropEvent>
-#include <QMouseEvent>
-#include <QToolTip>
-
-// kde includes
-#include <kfiledialog.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-#include <kinputdialog.h>
-#include <kapplication.h>
-
 // app includes
 #include "actor.h"
 #include "classifier.h"
@@ -56,8 +37,8 @@
 #include "umldoc.h"
 #include "umllistviewitemlist.h"
 #include "umllistviewitem.h"
-#include "umlview.h"
 #include "umlscene.h"
+#include "umlview.h"
 #include "umlviewimageexporter.h"
 #include "usecase.h"
 #include "model_utils.h"
@@ -72,6 +53,25 @@
 #include "umluniqueconstraintdialog.h"
 #include "umlforeignkeyconstraintdialog.h"
 #include "umlcheckconstraintdialog.h"
+
+// kde includes
+#include <kfiledialog.h>
+#include <klocale.h>
+#include <kmessagebox.h>
+#include <kinputdialog.h>
+#include <kapplication.h>
+
+// qt includes
+#include <QtCore/QPointer>
+#include <QtCore/QRegExp>
+#include <QtCore/QPoint>
+#include <QtCore/QRect>
+#include <QtCore/QEvent>
+#include <QtGui/QFocusEvent>
+#include <QtGui/QKeyEvent>
+#include <QtGui/QDropEvent>
+#include <QtGui/QMouseEvent>
+#include <QtGui/QToolTip>
 
 /**
  * Constructs the tree view.
@@ -112,12 +112,11 @@ UMLListView::UMLListView(QWidget *parent)
 
     m_editItem = 0;
     //setup slots/signals
-    connect(this, SIGNAL(collapsed(QTreeWidgetItem*)),
-            this, SLOT(slotCollapsed(QTreeWidgetItem*)));
-    connect(this, SIGNAL(expanded(QTreeWidgetItem*)), this, SLOT(slotExpanded(QTreeWidgetItem*)));
+    connect(this, SIGNAL(itemCollapsed(QTreeWidgetItem*)), this, SLOT(slotCollapsed(QTreeWidgetItem*)));
+    connect(this, SIGNAL(itemExpanded(QTreeWidgetItem*)), this, SLOT(slotExpanded(QTreeWidgetItem*)));
     connect(UMLApp::app(), SIGNAL(sigCutSuccessful()), this, SLOT(slotCutSuccessful()));
-    connect(this,SIGNAL(itemChanged(QTreeWidgetItem*, int)), this, SLOT(slotItemChanged(QTreeWidgetItem*, int)));
-    connect(this,SIGNAL(itemSelectionChanged()), this, SLOT(slotItemSelectionChanged()));
+    connect(this, SIGNAL(itemChanged(QTreeWidgetItem*, int)), this, SLOT(slotItemChanged(QTreeWidgetItem*, int)));
+    connect(this, SIGNAL(itemSelectionChanged()), this, SLOT(slotItemSelectionChanged()));
 }
 
 /**
@@ -138,10 +137,15 @@ void UMLListView::setTitle(int column, const QString &text)
     headerItem()->setText(column, text);
 }
 
-void UMLListView::slotItemChanged(QTreeWidgetItem *, int)
+/**
+ * Handler for item changed signals.
+ */
+void UMLListView::slotItemChanged(QTreeWidgetItem * item, int column)
 {
-    if (m_editItem)
+    if (m_editItem) {
+        DEBUG(DBG_SRC) << item->text(column);
         cancelRename(m_editItem);
+    }
 }
 
 /**
@@ -149,8 +153,9 @@ void UMLListView::slotItemChanged(QTreeWidgetItem *, int)
  */
 void UMLListView::slotItemSelectionChanged()
 {
-    if (m_editItem)
+    if (m_editItem) {
         cancelRename(m_editItem);
+    }
 }
 
 /**
@@ -208,8 +213,8 @@ bool UMLListView::eventFilter(QObject *o, QEvent *e)
             delete m_menu;
             m_menu = 0;
         }
-        UMLListViewItem * temp = (UMLListViewItem*)currentItem();
-        m_menu = new ListPopupMenu(this, UMLListViewItem::lvt_Model, temp->umlObject());
+        UMLListViewItem * currItem = static_cast<UMLListViewItem*>(currentItem());
+        m_menu = new ListPopupMenu(this, UMLListViewItem::lvt_Model, currItem->umlObject());
         m_menu->popup(me->globalPos());
         connect(m_menu, SIGNAL(triggered(QAction*)), this, SLOT(popupMenuSel(QAction*)));
         return true;
@@ -1426,7 +1431,7 @@ bool UMLListView::acceptDrag(QDropEvent* event) const
 {
     UMLListViewItem* item = (UMLListViewItem*)itemAt(event->pos());
     if (!item) {
-        DEBUG(DBG_SRC) << "itemAt(mousePoint) returns 0";
+        DEBUG(DBG_SRC) << "itemAt(mouse position) returns 0";
         return false;
     }
     ((QTreeWidget*)this)->setCurrentItem((QTreeWidgetItem*)item);
@@ -1951,7 +1956,7 @@ UMLListViewItem* UMLListView::createDiagramItem(UMLView *view)
  * CHECK - This is perhaps redundant since the
  *         UMLListViewItemData => UMLListViewItem merge.
  * Creates a new UMLListViewItem from a UMLListViewItem, if
- * parent is null the ListView Decides who is going to be the parent.
+ * parent is null the ListView decides who is going to be the parent.
  */
 UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDChanges,
         UMLListViewItem* parent /*= 0*/)
@@ -2254,7 +2259,7 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
  */
 bool UMLListView::itemRenamed(UMLListViewItem * item, int col)
 {
-    Q_UNUSED(col);
+    DEBUG(DBG_SRC) << item->text(col);
     //if true the item was cancel before this message
     if (m_bIgnoreCancelRename) {
         return true;
@@ -2262,7 +2267,7 @@ bool UMLListView::itemRenamed(UMLListViewItem * item, int col)
     m_bIgnoreCancelRename = true;
     UMLListViewItem * renamedItem = static_cast< UMLListViewItem *>(item) ;
     UMLListViewItem::ListViewType type = renamedItem->type();
-    QString newText = renamedItem->text(0);
+    QString newText = renamedItem->text(col);
     renamedItem->setCreating(false);
 
     // If the type is empty then delete it.
@@ -2619,6 +2624,7 @@ bool UMLListView::createChildUMLObject(UMLListViewItem * item, UMLObject::Object
 UMLView* UMLListView::createDiagram(UMLListViewItem * item, Uml::DiagramType type)
 {
     QString name = item->text(0);
+    DEBUG(DBG_SRC) << name << " / type=" << type.toString();
     UMLView * view = m_doc->findView(type, name);
     if (view) {
         delete item;
@@ -2724,7 +2730,7 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
         UMLPackage *pkg = static_cast<UMLPackage*>(parentItem->umlObject());
         if (pkg == 0) {
             uError() << "internal error - "
-            << "parent listviewitem is package but has no UMLObject";
+                     << "parent listviewitem is package but has no UMLObject";
             return true;
         }
         return (pkg->findObject(name) == 0);
@@ -2751,6 +2757,10 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
     return false;
 }
 
+/**
+ * Renaming of an item has started.
+ * @param item   the item which will be renamed
+ */
 void UMLListView::startRename(UMLListViewItem* item)
 {
     if (m_editItem)
@@ -2763,7 +2773,7 @@ void UMLListView::startRename(UMLListViewItem* item)
 /**
  * Cancel rename event has occurred for the given item.
  */
-void UMLListView::cancelRename(UMLListViewItem * item)
+void UMLListView::cancelRename(UMLListViewItem* item)
 {
     // delete pointer first to lock slotItemChanged
     m_editItem = 0;
@@ -2801,12 +2811,6 @@ void UMLListView::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
  */
 bool UMLListView::loadFromXMI(QDomElement & element)
 {
-    /*
-        deleteChildrenOf( m_ucv );
-        deleteChildrenOf( m_lv );
-        deleteChildrenOf( m_cmpv );
-        deleteChildrenOf( m_dplv );
-     */
     QDomNode node = element.firstChild();
     QDomElement domElement = node.toElement();
     m_doc->writeToStatusBar(i18n("Loading listview..."));
@@ -2931,7 +2935,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                     << "findItem(id " << ID2STR(nID) << ") returns 0";
                 /*
                 if (pObject && pObject->getUMLPackage() &&
-                        parent->getType() != UMLListViewItem::lvt_Package) {
+                        parent->type() != UMLListViewItem::lvt_Package) {
                     // Pre-1.2 file format:
                     // Objects were not nested in their packages.
                     // Synthesize the nesting here.
@@ -2990,14 +2994,14 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
             item = findItem(nID);
             if (item == 0) {
                 DEBUG(DBG_SRC) << "item " << ID2STR(nID) << " (of type "
-                               << lvType << ") does not yet exist...";
+                               << UMLListViewItem::toString(lvType) << ") does not yet exist...";
                 UMLObject* umlObject = parent->umlObject();
                 if (!umlObject) {
-                    DEBUG(DBG_SRC) << "And also the parent->getUMLObject() does not exist";
+                    DEBUG(DBG_SRC) << "And also the parent->umlObject() does not exist";
                     return false;
                 }
                 if (nID == Uml::id_None) {
-                    uWarning() << "lvtype " << lvType << " has id -1";
+                    uWarning() << "lvtype " << UMLListViewItem::toString(lvType) << " has id -1";
                 } else {
                     UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(umlObject);
                     if (classifier) {
@@ -3007,8 +3011,8 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                             label = umlObject->name();
                             item = new UMLListViewItem(parent, label, lvType, umlObject);
                         } else {
-                            DEBUG(DBG_SRC) << "lvtype " << lvType << " child object "
-                                           << ID2STR(nID) << " not found";
+                            DEBUG(DBG_SRC) << "lvtype " << UMLListViewItem::toString(lvType)
+                                           << " child object " << ID2STR(nID) << " not found";
                         }
                     } else {
                         DEBUG(DBG_SRC) << "cast to classifier object failed";
@@ -3039,7 +3043,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                 item = new UMLListViewItem(parent, label, lvType, nID);
             } else {
                 uError() << "INTERNAL ERROR: unexpected listview type "
-                << lvType << " (ID " << ID2STR(nID) << ")";
+                    << UMLListViewItem::toString(lvType) << " (ID " << ID2STR(nID) << ")";
             }
             break;
         }//end switch
@@ -3051,7 +3055,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
             }
         } else {
             uWarning() << "unused list view item " << ID2STR(nID)
-            << " of lvtype " << lvType;
+                       << " of lvtype " << UMLListViewItem::toString(lvType);
         }
         domElement = node.toElement();
     }//end while
@@ -3247,7 +3251,7 @@ void UMLListView::dropEvent(QDropEvent* event)
         event->ignore();
     }
     else {
-        UMLListViewItem* item = (UMLListViewItem*)itemAt(event->pos());
+        UMLListViewItem* item = static_cast<UMLListViewItem*>(itemAt(event->pos()));
         if (!item) {
             DEBUG(DBG_SRC) << "itemAt(mousePoint) returns 0";
             event->ignore();
@@ -3269,5 +3273,28 @@ void UMLListView::setBackgroundColor(const QColor & color)
     setPalette(palette);
 }
 
+/**
+ * Overloading operator for debugging output.
+ */
+QDebug operator<<(QDebug out, const UMLListView& view)
+{
+    UMLListViewItem* header = static_cast<UMLListViewItem*>(view.headerItem());
+    if (header) {
+        out << *header;
+        for(int indx = 0;  indx < header->childCount(); ++indx) {
+            UMLListViewItem* item = static_cast<UMLListViewItem*>(header->child(indx));
+            if (item) {
+                out << indx << " - " << *item << endl;
+            }
+            else {
+                out << indx << " - " << "<null>" << endl;
+            }
+        }
+    }
+    else {
+        out << "<null>";
+    }
+    return out.space();
+}
 
 #include "umllistview.moc"
