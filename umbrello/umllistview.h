@@ -21,7 +21,6 @@
 #include <QtXml/QDomElement>
 #include <QtGui/QTreeWidget>
 #include <QtGui/QTreeWidgetItem>
-#include <QtGui/QTreeWidget>
 
 class QEvent;
 class QMouseEvent;

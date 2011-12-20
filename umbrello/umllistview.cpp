@@ -17,7 +17,6 @@
 #include <QtCore/QPoint>
 #include <QtCore/QRect>
 #include <QtCore/QEvent>
-#include <q3header.h>
 #include <QFocusEvent>
 #include <QKeyEvent>
 #include <QDropEvent>
@@ -113,11 +112,11 @@ UMLListView::UMLListView(QWidget *parent)
 
     m_editItem = 0;
     //setup slots/signals
-    connect(this, SIGNAL(collapsed(QTreeWidgetItem *)),
-            this, SLOT(slotCollapsed(QTreeWidgetItem *)));
-    connect(this, SIGNAL(expanded(QTreeWidgetItem *)), this, SLOT(slotExpanded(QTreeWidgetItem *)));
+    connect(this, SIGNAL(collapsed(QTreeWidgetItem*)),
+            this, SLOT(slotCollapsed(QTreeWidgetItem*)));
+    connect(this, SIGNAL(expanded(QTreeWidgetItem*)), this, SLOT(slotExpanded(QTreeWidgetItem*)));
     connect(UMLApp::app(), SIGNAL(sigCutSuccessful()), this, SLOT(slotCutSuccessful()));
-    connect(this,SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotItemChanged(QTreeWidgetItem *, int)));
+    connect(this,SIGNAL(itemChanged(QTreeWidgetItem*, int)), this, SLOT(slotItemChanged(QTreeWidgetItem*, int)));
     connect(this,SIGNAL(itemSelectionChanged()), this, SLOT(slotItemSelectionChanged()));
 }
 

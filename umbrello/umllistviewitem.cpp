@@ -260,8 +260,7 @@ Uml::IDType UMLListViewItem::getID() const
  * Sets the id this class represents.
  * This only sets the ID locally, not at the UMLObject that is perhaps
  * associated to this UMLListViewItem.
- *
- * @return  The id this class represents.
+ * @param id   the id this class represents
  */
 void UMLListViewItem::setID(Uml::IDType id)
 {
@@ -451,7 +450,6 @@ void UMLListViewItem::startRename( int )
         s_pListView->cancelRename(this);
     }
 }
-
 
 /**
  * This function is called if the user presses Enter during in-place renaming
@@ -875,13 +873,15 @@ UMLListViewItem* UMLListViewItem::findChildObject(UMLClassifierListItem *cli)
  */
 UMLListViewItem * UMLListViewItem::findItem(Uml::IDType id)
 {
-    if (getID() == id)
+    if (getID() == id) {
         return this;
-    for (int i=0; i < childCount(); i++) {
+    }
+    for (int i = 0; i < childCount(); ++i) {
         UMLListViewItem *childItem = static_cast<UMLListViewItem*>(child(i));
         UMLListViewItem *inner = childItem->findItem(id);
-        if (inner)
+        if (inner) {
             return inner;
+        }
     }
     return NULL;
 }
