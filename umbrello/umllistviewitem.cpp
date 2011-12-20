@@ -67,7 +67,7 @@ UMLListViewItem::UMLListViewItem(UMLListView * parent, const QString &name,
         m_id = o->id();
     }
     setIcon(Icon_Utils::it_Home);
-    setText(0, name);
+    setText(name);
 }
 
 /**
@@ -80,7 +80,7 @@ UMLListViewItem::UMLListViewItem(UMLListView * parent)
 {
     init();
     if (parent == 0) {
-        DEBUG(DBG_LVI) << "UMLListViewItem constructor called with a null listview parent";
+        DEBUG(DBG_LVI) << "UMLListViewItem constructor called with a NULL listview parent";
     }
 }
 
@@ -119,7 +119,7 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
         updateObject();
         m_id = o->id();
     }
-    setText(0, name);
+    setText(name);
     if (!Model_Utils::typeIsRootView(t)) {
         setFlags(flags() | Qt::ItemIsEditable);
     }
@@ -170,7 +170,7 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
     //  Constructor also used by folder so just make sure we don't need to
     //  to set pixmap to folder.  doesn't hurt diagrams.
     updateFolder();
-    setText(0, name);
+    setText(name);
     setFlags(flags() | Qt::ItemIsEditable);
 }
 
@@ -200,9 +200,23 @@ void UMLListViewItem::init()
 QString UMLListViewItem::toolTip()
 {
     UMLObject *obj = umlObject();
-    if (obj && obj->baseType() == UMLObject::ot_Operation) {
-        UMLOperation *op = static_cast<UMLOperation*>(obj);
-        return op->toString(Uml::SignatureType::ShowSig);
+    if (obj) {
+        switch (obj->baseType()) {
+            case UMLObject::ot_Class:
+                return obj->doc();
+            case UMLObject::ot_Operation:
+            {
+                UMLOperation *op = static_cast<UMLOperation*>(obj);
+                return op->toString(Uml::SignatureType::ShowSig);
+            }
+            case UMLObject::ot_Attribute:
+            {
+                UMLAttribute *at = static_cast<UMLAttribute*>(obj);
+                return at->toString(Uml::SignatureType::ShowSig);
+            }
+            default:
+                return QString();
+        }
     }
     else {
         return QString();
@@ -307,7 +321,7 @@ bool UMLListViewItem::isOwnParent(Uml::IDType listViewItemID)
     UMLListView* listView = static_cast<UMLListView*>(treeWidget());
     QTreeWidgetItem *lvi = static_cast<QTreeWidgetItem*>(listView->findItem(listViewItemID));
     if (lvi == 0) {
-        uError() << "ListView->findItem(" << ID2STR(listViewItemID) << ") returns 0";
+        uError() << "ListView->findItem(" << ID2STR(listViewItemID) << ") returns NULL";
         return true;
     }
     for (QTreeWidgetItem *self = static_cast<QTreeWidgetItem*>(this); self; self = self->parent()) {
@@ -332,7 +346,7 @@ void UMLListViewItem::updateObject()
         UMLClassifierListItem *pNarrowed = static_cast<UMLClassifierListItem*>(m_object);
         modelObjText = pNarrowed->toString(Uml::SignatureType::SigNoVis);
     }
-    setText(0, modelObjText);
+    setText(modelObjText);
 
     Icon_Utils::IconType icon = Icon_Utils::it_Home;
     switch (ot) {
@@ -404,8 +418,34 @@ void UMLListViewItem::updateFolder()
  */
 void UMLListViewItem::setOpen(bool expand)
 {
-    setExpanded(expand);
+    QTreeWidgetItem::setExpanded(expand);
     updateFolder();
+}
+
+/**
+ * Changes the current text of column 0.
+ */
+void UMLListViewItem::setText(const QString &newText)
+{
+    setText(0, newText);
+}
+
+/**
+ * Changes the current text.
+ */
+void UMLListViewItem::setText(int column, const QString &newText)
+{
+    m_label = newText;
+    QTreeWidgetItem::setText(column, newText);
+}
+
+/**
+ * Returns the current text.
+ * :TODO: not used anywhere
+ */
+QString UMLListViewItem::getText() const
+{
+    return m_label;
 }
 
 /**
@@ -431,7 +471,7 @@ void UMLListViewItem::setIcon(Icon_Utils::IconType iconType)
 void UMLListViewItem::startRename(int col)
 {
     DEBUG(DBG_LVI) << this << " - column=" << col << ", text=" << text(col);
-    m_oldText = text(col);  // keep the old text
+    m_label = text(col);  // keep the old text
     if (m_bCreating) {
         UMLListView* listView = static_cast<UMLListView*>(treeWidget());
         listView->cancelRename(this);
@@ -458,7 +498,7 @@ void UMLListViewItem::okRename(int col)
         return;
     }
     QString newText = text(col);
-    if (newText == m_oldText) {
+    if (newText == m_label) {
         return;
     }
     if (newText.isEmpty()) {
@@ -489,6 +529,7 @@ void UMLListViewItem::okRename(int col)
         }
         UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObject(m_object, newText));
         doc->setModified(true);
+        m_label = newText;
         break;
 
     case lvt_Operation: {
@@ -531,13 +572,13 @@ void UMLListViewItem::okRename(int col)
                     op->addParm(a);
                 }
             }
-            newText = op->toString(Uml::SignatureType::SigNoVis);
+            m_label = op->toString(Uml::SignatureType::SigNoVis);
         } else {
             KMessageBox::error(0,
                                Model_Utils::psText(st),
                                i18n("Rename canceled"));
         }
-        setText(0, m_oldText);
+        setText(m_label);
         break;
     }
 
@@ -564,13 +605,13 @@ void UMLListViewItem::okRename(int col)
             pAtt->setVisibility(vis);
             pAtt->setParmKind(nt.m_direction);
             pAtt->setInitialValue(nt.m_initialValue);
-            newText = pAtt->toString(Uml::SignatureType::SigNoVis);
+            m_label = pAtt->toString(Uml::SignatureType::SigNoVis);
         } else {
             KMessageBox::error(0,
                                Model_Utils::psText(st),
                                i18n("Rename canceled"));
         }
-        setText(0, newText);
+        setText(m_label);
         break;
     }
 
@@ -595,13 +636,13 @@ void UMLListViewItem::okRename(int col)
             UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObject(m_object, name));
 
             UMLEntityConstraint* uec = static_cast<UMLEntityConstraint*>(m_object);
-            newText = uec->toString(Uml::SignatureType::SigNoVis);
+            m_label = uec->toString(Uml::SignatureType::SigNoVis);
         } else {
             KMessageBox::error(0,
                                Model_Utils::psText(st),
                                i18n("Rename canceled"));
         }
-        setText(0, newText);
+        setText(m_label);
         break;
     }
 
@@ -622,13 +663,13 @@ void UMLListViewItem::okRename(int col)
             UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObject(m_object, nt.m_name));
             UMLTemplate *tmpl = static_cast<UMLTemplate*>(m_object);
             tmpl->setType(nt.m_type);
-            newText = tmpl->toString(Uml::SignatureType::SigNoVis);
+            m_label = tmpl->toString(Uml::SignatureType::SigNoVis);
         } else {
             KMessageBox::error(0,
                                Model_Utils::psText(st),
                                i18n("Rename canceled"));
         }
-        setText(0, newText);
+        setText(m_label);
         break;
     }
 
@@ -654,7 +695,7 @@ void UMLListViewItem::okRename(int col)
             return;
         }
         view->umlScene()->setName(newText);
-        setText(0, newText);
+        setText(newText);
         doc->signalDiagramRenamed(view);
         break;
     }
@@ -662,7 +703,7 @@ void UMLListViewItem::okRename(int col)
         KMessageBox::error(0,
                            i18n("Renaming an item of listview type %1 is not yet implemented.", m_type),
                            i18n("Function Not Implemented"));
-        setText(0, m_oldText);
+        setText(m_label);
         break;
     }
     doc->setModified(true);
@@ -677,7 +718,7 @@ void UMLListViewItem::cancelRenameWithMsg()
     KMessageBox::error(0,
                        i18n("The name you entered was invalid.\nRenaming process has been canceled."),
                        i18n("Name Not Valid"));
-    setText(0, m_oldText);
+    setText(m_label);
 }
 
 /**
@@ -770,7 +811,7 @@ int UMLListViewItem::compare(QTreeWidgetItem *other, int col, bool ascending) co
 #endif
         return retval;
     }
-    UMLClassifierListItemList items = ourParent->getFilteredList(thisUmlItem->getBaseType());
+    UMLClassifierListItemList items = ourParent->getFilteredList(thisUmlItem->baseType());
     int myIndex = items.indexOf(thisUmlItem);
     int otherIndex = items.indexOf(otherUmlItem);
     if (myIndex < 0) {
@@ -812,7 +853,7 @@ UMLListViewItem* UMLListViewItem::deepCopy(UMLListViewItem *newParent)
 /**
  * Find the UMLListViewItem that is related to the given UMLObject
  * in the tree rooted at the current UMLListViewItem.
- * Return a pointer to the item or 0 if not found.
+ * Return a pointer to the item or NULL if not found.
  */
 UMLListViewItem* UMLListViewItem::findUMLObject(const UMLObject *o)
 {
@@ -831,7 +872,7 @@ UMLListViewItem* UMLListViewItem::findUMLObject(const UMLObject *o)
  * Find the UMLListViewItem that represents the given UMLClassifierListItem
  * in the children of the current UMLListViewItem.  (Only makes sense if
  * the current UMLListViewItem represents a UMLClassifier.)
- * Return a pointer to the item or 0 if not found.
+ * Return a pointer to the item or NULL if not found.
  */
 UMLListViewItem* UMLListViewItem::findChildObject(UMLClassifierListItem *cli)
 {
@@ -845,10 +886,10 @@ UMLListViewItem* UMLListViewItem::findChildObject(UMLClassifierListItem *cli)
 /**
  * Find the UMLListViewItem of the given ID in the tree rooted at
  * the current UMLListViewItem.
- * Return a pointer to the item or 0 if not found.
+ * Return a pointer to the item or NULL if not found.
  *
  * @param id   The ID to search for.
- * @return The item with the given ID or 0 if not found.
+ * @return The item with the given ID or NULL if not found.
  */
 UMLListViewItem * UMLListViewItem::findItem(Uml::IDType id)
 {
@@ -880,7 +921,7 @@ void UMLListViewItem::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     UMLFolder *extFolder = 0;
     if (m_object == 0) {
         if (! Model_Utils::typeIsDiagram(m_type) && m_type != lvt_View)
-            uError() << text(0) << ": m_object is 0";
+            uError() << text(0) << ": m_object is NULL";
         if (m_type != lvt_View)
             itemElement.setAttribute("label", text(0));
     } else if (m_object->id() == Uml::id_None) {
@@ -918,7 +959,7 @@ bool UMLListViewItem::loadFromXMI(QDomElement& qElement)
     QString label = qElement.attribute("label", "");
     QString open = qElement.attribute("open", "1");
     if (!label.isEmpty())
-        setText(0, label);
+        setText(label);
     else if (id == "-1") {
         uError() << "Item of type " << type << " has neither ID nor label";
         return false;
@@ -938,7 +979,7 @@ bool UMLListViewItem::loadFromXMI(QDomElement& qElement)
 
 UMLListViewItem* UMLListViewItem::childItem(int i)
 {
-    return static_cast<UMLListViewItem *>(child(i));
+    return static_cast<UMLListViewItem*>(child(i));
 }
 
 QString UMLListViewItem::toString(ListViewType type)

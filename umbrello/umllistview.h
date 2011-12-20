@@ -21,7 +21,6 @@
 #include <QtXml/QDomElement>
 #include <QtGui/QTreeWidget>
 #include <QtGui/QTreeWidgetItem>
-#include <QtGui/QTreeWidget>
 
 class QEvent;
 class QMouseEvent;
@@ -69,7 +68,7 @@ public:
     int selectedItemsCount();
 
     void startUpdate();
-    void endUpdate(); 
+    void endUpdate();
 
     UMLListViewItem* createDiagramItem(UMLView *view);
 
@@ -136,16 +135,16 @@ protected:
 
     bool event(QEvent *e);
     bool eventFilter(QObject *o, QEvent *e);
-    void mouseReleaseEvent(QMouseEvent * me);
+    void mouseReleaseEvent(QMouseEvent *me);
     void mousePressEvent(QMouseEvent *me);
-    void mouseMoveEvent(QMouseEvent* me);
-    void mouseDoubleClickEvent(QMouseEvent * me);
-    void focusOutEvent (QFocusEvent * fe);
+    void mouseMoveEvent(QMouseEvent *me);
+    void mouseDoubleClickEvent(QMouseEvent *me);
+    void focusOutEvent (QFocusEvent *fe);
 
     UMLDragData* getDragData();
 
     bool acceptDrag(QDropEvent* event) const;
-    void keyPressEvent(QKeyEvent *);
+    void keyPressEvent(QKeyEvent* ke);
     void dragEnterEvent(QDragEnterEvent* event);
     void dragMoveEvent(QDragMoveEvent* event);
     void dropEvent(QDropEvent* event);
@@ -180,9 +179,6 @@ public slots:
 
     void slotDropped(QDropEvent* de, UMLListViewItem* parent, UMLListViewItem* item);
 
-    void slotExpanded(QTreeWidgetItem* item);
-    void slotCollapsed(QTreeWidgetItem* item);
-
     void expandAll(UMLListViewItem *item);
     void collapseAll(UMLListViewItem *item);
 
@@ -191,6 +187,8 @@ public slots:
 protected slots:
     void slotItemChanged(QTreeWidgetItem *, int);
     void slotItemSelectionChanged();
+    void slotExpanded(QTreeWidgetItem* item);
+    void slotCollapsed(QTreeWidgetItem* item);
 
 private:
 

@@ -113,6 +113,9 @@ public:
     void updateObject();
     void updateFolder();
 
+    void setText(int column, const QString &text);
+    void setText(const QString &text );
+    QString getText() const;
     void setVisible(bool state);
 
     QString toolTip();
@@ -142,6 +145,7 @@ public:
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
     bool loadFromXMI(QDomElement& qElement);
 
+    bool isOpen() { return isExpanded(); }
     void setOpen(bool state);
 
     friend QDebug operator<<(QDebug out, const UMLListViewItem& item);
@@ -163,9 +167,8 @@ protected:
     ListViewType       m_type;
     Uml::IDType        m_id;
     UMLObject *        m_object;
-    QString            m_oldText;
+    QString            m_label;
     ChildObjectMap     m_comap;
-
 };
 
 #endif

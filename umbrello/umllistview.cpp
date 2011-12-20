@@ -37,6 +37,7 @@
 #include "umldoc.h"
 #include "umllistviewitemlist.h"
 #include "umllistviewitem.h"
+#include "umlscene.h"
 #include "umlview.h"
 #include "umlviewimageexporter.h"
 #include "usecase.h"
@@ -52,7 +53,6 @@
 #include "umluniqueconstraintdialog.h"
 #include "umlforeignkeyconstraintdialog.h"
 #include "umlcheckconstraintdialog.h"
-#include "umlscene.h"
 
 // kde includes
 #include <kfiledialog.h>
@@ -129,6 +129,7 @@ UMLListView::UMLListView(QWidget *parent)
  */
 UMLListView::~UMLListView()
 {
+    delete m_datatypeFolder;
 }
 
 /**
@@ -206,6 +207,7 @@ bool UMLListView::eventFilter(QObject *o, QEvent *e)
             m_menu->hide();
             disconnect(m_menu, SIGNAL(triggered(QAction*)), this, SLOT(popupMenuSel(QAction*)));
             delete m_menu;
+            m_menu = 0;
         }
         UMLListViewItem * currItem = static_cast<UMLListViewItem*>(currentItem());
         m_menu = new ListPopupMenu(this, UMLListViewItem::lvt_Model, currItem->umlObject());
@@ -1912,7 +1914,7 @@ UMLListViewItemList UMLListView::selectedItems()
  */
 UMLListViewItemList UMLListView::selectedItemsRoot()
 {
-    UMLListViewItemList  itemList;
+    UMLListViewItemList itemList;
     QTreeWidgetItemIterator it(this);
 
     // iterate through all items of the list view
