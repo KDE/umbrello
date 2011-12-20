@@ -197,9 +197,23 @@ void UMLListViewItem::init(UMLListView * parent)
 QString UMLListViewItem::toolTip()
 {
     UMLObject *obj = umlObject();
-    if (obj && obj->baseType() == UMLObject::ot_Operation) {
-        UMLOperation *op = static_cast<UMLOperation*>(obj);
-        return op->toString(Uml::SignatureType::ShowSig);
+    if (obj) {
+        switch (obj->baseType()) {
+            case UMLObject::ot_Class:
+                return obj->doc();
+            case UMLObject::ot_Operation:
+            {
+                UMLOperation *op = static_cast<UMLOperation*>(obj);
+                return op->toString(Uml::SignatureType::ShowSig);
+            }
+            case UMLObject::ot_Attribute:
+            {
+                UMLAttribute *at = static_cast<UMLAttribute*>(obj);
+                return at->toString(Uml::SignatureType::ShowSig);
+            }
+            default:
+                return QString();
+        }
     }
     else {
         return QString();
