@@ -175,7 +175,10 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
             return 0;
         QFileInfo fi(name);
         UMLFolder *componentView = umldoc->rootFolder(Uml::ModelType::Component);
-        UMLObject *o = Object_Factory::createUMLObject(type, fi.fileName(), componentView, false);
+        UMLObject *o = umldoc->findUMLObjectRaw(componentView, fi.fileName(), type);
+        if (o)
+            return o;
+        o = Object_Factory::createUMLObject(type, fi.fileName(), componentView, false);
         UMLArtifact *a = static_cast<UMLArtifact*>(o);
         a->setDrawAsType(UMLArtifact::file);
         a->setDoc(comment);
