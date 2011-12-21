@@ -815,6 +815,8 @@ UMLObject* UMLDoc::findUMLObject(const QString &name,
     }
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
         UMLObjectList list = m_root[i]->containedObjects();
+        if (list.size() == 0)
+            continue;
         o = Model_Utils::findUMLObject(list, name, type, currentObj);
         if (o) {
             return o;
@@ -825,6 +827,41 @@ UMLObject* UMLDoc::findUMLObject(const QString &name,
         }
     }
     return 0;
+}
+
+/**
+ * Used to find a @ref UMLObject by its type and raw name.
+ *
+ * @param modelType    The Mmdel type in which to search for the object
+ * @param name         The raw name of the @ref UMLObject to find.
+ * @param type         ObjectType of the object to find
+ * @return  Pointer to the UMLObject found, or NULL if not found.
+ */
+UMLObject* UMLDoc::findUMLObjectRaw(Uml::ModelType::Value modelType,
+                                    const QString &name,
+                                    UMLObject::ObjectType type)
+{
+    return findUMLObjectRaw(rootFolder(modelType), name, type);
+}
+
+/**
+ * Used to find a @ref UMLObject by its type and raw name.
+ *
+ * @param folder       The UMLFolder in which to search for the object
+ * @param name         The raw name of the @ref UMLObject to find.
+ * @param type         ObjectType of the object to find
+ * @return  Pointer to the UMLObject found, or NULL if not found.
+ */
+UMLObject* UMLDoc::findUMLObjectRaw(UMLFolder *folder,
+                                    const QString &name,
+                                    UMLObject::ObjectType type)
+{
+    if (folder == 0)
+        return 0;
+    UMLObjectList list = folder->containedObjects();
+    if (list.size() == 0)
+        return 0;
+    return Model_Utils::findUMLObjectRaw(list, name, type, 0);
 }
 
 //:TODO:

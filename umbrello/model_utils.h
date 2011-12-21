@@ -43,6 +43,11 @@ UMLObject* findUMLObject( const UMLObjectList& inList,
                           UMLObject::ObjectType type = UMLObject::ot_UMLObject,
                           UMLObject *currentObj = 0);
 
+UMLObject* findUMLObjectRaw( const UMLObjectList& inList,
+                             const QString& name,
+                             UMLObject::ObjectType type = UMLObject::ot_UMLObject,
+                             UMLObject *currentObj = 0);
+
 void treeViewAddViews(const UMLViewList& viewList);
 void treeViewChangeIcon(UMLObject* object, Icon_Utils::IconType to);
 void treeViewSetCurrentItem(UMLObject* object);
