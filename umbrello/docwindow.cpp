@@ -94,64 +94,6 @@ void DocWindow::showDocumentation( UMLObject * object, bool overwrite )
 }
 
 /**
- * check if the content in the documentation window has been changed
- * @return true when content has been changed
- */
-bool DocWindow::isModified()
-{
-   return m_modified;
-}
-
-/**
- * Call when you wish move changes in the doc window back into the
- * members documentation.
- *
- * If clear is true the doc window will display the documentation
- * for the current project instead of the widget documentation.
- *
- * This is usually called before displaying a properties dialog.
- *
- * @param clear     If true, show the documentation of current project
- * @param startup   If true, no setModified(true) calls will be done and nothing is pushed to the undo stack
- */
-void DocWindow::updateDocumentation( bool clear, bool startup )
-{
-    // the file is marked modified, if the documentation differs
-    // we don't do this on startup/load of a xmi file, because every time
-    // modified is set, we get another undo/redo backup point
-    if (isModified()) {
-        if( m_pUMLObject ) {
-            m_pUMLObject->setDoc( m_pDocTE->toPlainText() );
-        } else if( m_pUMLView ) {
-            m_pUMLView->umlScene()->setDoc( m_pDocTE->toPlainText() );
-        } else if ( m_pUMLWidget ) {
-            m_pUMLWidget->setDocumentation( m_pDocTE->toPlainText() );
-        } else if ( m_pAssocWidget ) {
-            m_pAssocWidget->setDocumentation( m_pDocTE->toPlainText() );
-        } else {
-            m_pUMLDoc->setDocumentation( m_pDocTE->toPlainText() );
-        }
-
-        // now do the setModified call
-        if (startup == false) {
-            m_pUMLDoc->setModified( true );
-        }
-    }
-
-    // we should show the documentation of the whole project
-    // FIXME: this is exactly what newDocumentation() does
-    if( clear ) {
-        m_pDocTE->setText( m_pUMLDoc->documentation() );
-        m_modified = false;
-        m_pUMLObject = 0;
-        m_pUMLView = 0;
-        m_pUMLWidget = 0;
-        m_pAssocWidget = 0;
-        m_Showing = st_Project;
-    }
-}
-
-/**
  * This method is the same as the one for UMLObjects except it
  * displays documentation for a diagram.
  */
@@ -221,6 +163,55 @@ void DocWindow::showDocumentation( AssociationWidget * widget, bool overwrite )
 }
 
 /**
+ * Call when you wish move changes in the doc window back into the
+ * members documentation.
+ *
+ * If clear is true the doc window will display the documentation
+ * for the current project instead of the widget documentation.
+ *
+ * This is usually called before displaying a properties dialog.
+ *
+ * @param clear     If true, show the documentation of current project
+ * @param startup   If true, no setModified(true) calls will be done and nothing is pushed to the undo stack
+ */
+void DocWindow::updateDocumentation( bool clear, bool startup )
+{
+    // the file is marked modified, if the documentation differs
+    // we don't do this on startup/load of a xmi file, because every time
+    // modified is set, we get another undo/redo backup point
+    if (isModified()) {
+        if( m_pUMLObject ) {
+            m_pUMLObject->setDoc( m_pDocTE->toPlainText() );
+        } else if( m_pUMLView ) {
+            m_pUMLView->umlScene()->setDoc( m_pDocTE->toPlainText() );
+        } else if ( m_pUMLWidget ) {
+            m_pUMLWidget->setDocumentation( m_pDocTE->toPlainText() );
+        } else if ( m_pAssocWidget ) {
+            m_pAssocWidget->setDocumentation( m_pDocTE->toPlainText() );
+        } else {
+            m_pUMLDoc->setDocumentation( m_pDocTE->toPlainText() );
+        }
+
+        // now do the setModified call
+        if (startup == false) {
+            m_pUMLDoc->setModified( true );
+        }
+    }
+
+    // we should show the documentation of the whole project
+    // FIXME: this is exactly what newDocumentation() does
+    if( clear ) {
+        m_pDocTE->setText( m_pUMLDoc->documentation() );
+        m_modified = false;
+        m_pUMLObject = 0;
+        m_pUMLView = 0;
+        m_pUMLWidget = 0;
+        m_pAssocWidget = 0;
+        m_Showing = st_Project;
+    }
+}
+
+/**
  *  Re-initializes the class for a new document.
  */
 void DocWindow::newDocumentation( )
@@ -243,6 +234,15 @@ bool DocWindow::isTyping()
         return true;
     else
         return false;
+}
+
+/**
+ * check if the content in the documentation window has been changed
+ * @return true when content has been changed
+ */
+bool DocWindow::isModified()
+{
+   return m_modified;
 }
 
 /**
