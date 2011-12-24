@@ -46,6 +46,8 @@ public:
 public slots:
     void slotAssociationRemoved(AssociationWidget* association);
     void slotWidgetRemoved(UMLWidget* widget);
+
+private slots:
     void slotTextChanged();
 
 private:
