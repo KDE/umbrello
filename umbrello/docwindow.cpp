@@ -273,6 +273,9 @@ void DocWindow::slotWidgetRemoved(UMLWidget* widget)
     }
 }
 
+/**
+ * text from the edit field has been changed
+ */
 void DocWindow::slotTextChanged()
 {
     m_modified = true;
