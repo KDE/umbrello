@@ -227,7 +227,7 @@ void UMLApp::initActions()
 {
     QAction* fileNew = KStandardAction::openNew(this, SLOT(slotFileNew()), actionCollection());
     QAction* fileOpen = KStandardAction::open(this, SLOT(slotFileOpen()), actionCollection());
-    fileOpenRecent = KStandardAction::openRecent(this, SLOT(slotFileOpenRecent(const KUrl&)), actionCollection());
+    fileOpenRecent = KStandardAction::openRecent(this, SLOT(slotFileOpenRecent(KUrl)), actionCollection());
     QAction* fileSave = KStandardAction::save(this, SLOT(slotFileSave()), actionCollection());
     QAction* fileSaveAs = KStandardAction::saveAs(this, SLOT(slotFileSaveAs()), actionCollection());
     QAction* fileClose = KStandardAction::close(this, SLOT(slotFileClose()), actionCollection());
@@ -248,7 +248,7 @@ void UMLApp::initActions()
     createStandardStatusBarAction();
     setStandardToolBarMenuEnabled(true);
 
-    /* QAction* selectAll = */ KStandardAction::selectAll(this,  SLOT( slotSelectAll() ), actionCollection());
+    /* QAction* selectAll = */ KStandardAction::selectAll(this, SLOT(slotSelectAll()), actionCollection());
 
     QAction* fileExportDocbook = actionCollection()->addAction("file_export_docbook");
     fileExportDocbook->setText(i18n("&Export model to DocBook"));
@@ -266,7 +266,7 @@ void UMLApp::initActions()
     addDefDatatypes->setText(i18n("&Add Default Datatypes for Active Language"));
     connect(addDefDatatypes, SIGNAL(triggered(bool)), this, SLOT(slotAddDefaultDatatypes()));
 
-    QAction* preferences = KStandardAction::preferences(this,  SLOT( slotPrefs() ), actionCollection());
+    QAction* preferences = KStandardAction::preferences(this, SLOT(slotPrefs()), actionCollection());
 
     QAction* impWizard = actionCollection()->addAction("importing_wizard");
     impWizard->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Import_Class));
@@ -1552,7 +1552,6 @@ void UMLApp::slotEntityRelationshipDiagram()
  */
 void UMLApp::slotAlignLeft()
 {
- // [PORT]
     currentView()->umlScene()->alignLeft();
 }
 
@@ -1561,7 +1560,6 @@ void UMLApp::slotAlignLeft()
  */
 void UMLApp::slotAlignRight()
 {
- // [PORT]
     currentView()->umlScene()->alignLeft();
 }
 
@@ -1570,7 +1568,6 @@ void UMLApp::slotAlignRight()
  */
 void UMLApp::slotAlignTop()
 {
- // [PORT]
     currentView()->umlScene()->alignTop();
 }
 
@@ -1579,7 +1576,6 @@ void UMLApp::slotAlignTop()
  */
 void UMLApp::slotAlignBottom()
 {
- // [PORT]
     currentView()->umlScene()->alignBottom();
 }
 
@@ -1588,7 +1584,6 @@ void UMLApp::slotAlignBottom()
  */
 void UMLApp::slotAlignVerticalMiddle()
 {
- // [PORT]
     currentView()->umlScene()->alignVerticalMiddle();
 }
 
@@ -1597,7 +1592,6 @@ void UMLApp::slotAlignVerticalMiddle()
  */
 void UMLApp::slotAlignHorizontalMiddle()
 {
- // [PORT]
     currentView()->umlScene()->alignHorizontalMiddle();
 }
 
@@ -1606,7 +1600,6 @@ void UMLApp::slotAlignHorizontalMiddle()
  */
 void UMLApp::slotAlignVerticalDistribute()
 {
- // [PORT]
     currentView()->umlScene()->alignVerticalDistribute();
 }
 
@@ -1615,7 +1608,6 @@ void UMLApp::slotAlignVerticalDistribute()
  */
 void UMLApp::slotAlignHorizontalDistribute()
 {
- // [PORT]
     currentView()->umlScene()->alignHorizontalDistribute();
 }
 
@@ -2307,7 +2299,6 @@ QString UMLApp::activeLanguageScopeSeparator()
  */
 void UMLApp::slotCurrentViewClearDiagram()
 {
- // [PORT]
     currentView()->umlScene()->clearDiagram();
 }
 
@@ -2316,9 +2307,7 @@ void UMLApp::slotCurrentViewClearDiagram()
  */
 void UMLApp::slotCurrentViewToggleSnapToGrid()
 {
- // [PORT]
     currentView()->umlScene()->toggleSnapToGrid();
- // [PORT]
     viewSnapToGrid->setChecked( currentView()->umlScene()->getSnapToGrid() );
 }
 
@@ -2327,9 +2316,7 @@ void UMLApp::slotCurrentViewToggleSnapToGrid()
  */
 void UMLApp::slotCurrentViewToggleShowGrid()
 {
- // [PORT]
     currentView()->umlScene()->toggleShowGrid();
- // [PORT]
     viewShowGrid->setChecked( currentView()->umlScene()->isSnapGridVisible() );
 }
 
@@ -2338,7 +2325,6 @@ void UMLApp::slotCurrentViewToggleShowGrid()
  */
 void UMLApp::slotCurrentViewExportImage()
 {
- // [PORT]
     currentView()->umlScene()->getImageExporter()->exportView();
 }
 
@@ -2355,7 +2341,6 @@ void UMLApp::slotAllViewsExportImage()
  */
 void UMLApp::slotCurrentViewProperties()
 {
- // [PORT]
     currentView()->umlScene()->showPropDialog();
 }
 
@@ -2374,7 +2359,6 @@ void UMLApp::setDiagramMenuItemsState(bool bState)
     viewProperties->setEnabled( bState );
     filePrint->setEnabled( bState );
     if ( currentView() ) {
- // [PORT]
         viewSnapToGrid->setChecked( currentView()->umlScene()->getSnapToGrid() );
  // [PORT]
         viewShowGrid->setChecked( currentView()->umlScene()->isSnapGridVisible() );
@@ -2462,9 +2446,9 @@ void UMLApp::slotCurrentViewChanged()
     UMLView *view = currentView();
     if (view) {
         connect(view->umlScene(), SIGNAL(sigShowGridToggled(bool)),
-                this, SLOT( slotShowGridToggled(bool)));
+                this, SLOT(slotShowGridToggled(bool)));
         connect(view->umlScene(), SIGNAL(sigSnapToGridToggled(bool)),
-                this, SLOT( slotSnapToGridToggled(bool)));
+                this, SLOT(slotSnapToGridToggled(bool)));
     }
 }
 
@@ -2489,7 +2473,6 @@ void UMLApp::slotShowGridToggled(bool gridOn)
  */
 void UMLApp::slotSelectAll()
 {
- // [PORT]
     currentView()->umlScene()->selectAll();
 }
 
@@ -2499,7 +2482,6 @@ void UMLApp::slotSelectAll()
 void UMLApp::slotDeleteSelectedWidget()
 {
     if ( currentView() ) {
- // [PORT]
         currentView()->umlScene()->deleteSelection();
     }
     else {
@@ -2512,7 +2494,6 @@ void UMLApp::slotDeleteSelectedWidget()
  */
 void UMLApp::slotDeleteDiagram()
 {
-    // [PORT]
     m_doc->removeDiagram( currentView()->umlScene()->getID() );
 }
 
