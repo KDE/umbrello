@@ -41,13 +41,14 @@ public:
     void newDocumentation( );
 
     bool isTyping();
+    bool isModified();
 
 public slots:
     void slotAssociationRemoved(AssociationWidget* association);
     void slotWidgetRemoved(UMLWidget* widget);
+    void slotTextChanged();
 
 private:
-
     /**
      * Used internally to know which type of object we are showing
      * documentation for.
@@ -71,6 +72,7 @@ private:
     //visual widgets
     KTextEdit *  m_pDocTE;
 
+    bool m_modified; ///< state of text content
 };
 
 #endif
