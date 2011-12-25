@@ -33,8 +33,8 @@ CodeImpThread::CodeImpThread(QFileInfo file, QObject* parent)
   : //QThread(parent),
     m_file(file)
 {
-    connect(this, SIGNAL(askQuestion(QString, QMessageBox::StandardButton*)),
-            this, SLOT(questionAsked(QString, QMessageBox::StandardButton*)));
+    connect(this, SIGNAL(askQuestion(QString,QMessageBox::StandardButton*)),
+            this, SLOT(questionAsked(QString,QMessageBox::StandardButton*)));
 }
 
 /**
