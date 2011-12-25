@@ -17,7 +17,6 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umllistview.h"
-#include "umllistviewitem.h"
 #include "package.h"
 #include "folder.h"
 #include "stereotype.h"
