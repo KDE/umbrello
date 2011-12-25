@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -31,26 +31,24 @@
  * Constructor.
  */
 DocWindow::DocWindow( UMLDoc * doc, QWidget *parent )
-  : QWidget( parent ),
+  : QWidget(parent),
+    m_pUMLObject(0),
+    m_pUMLView(0),
+    m_pUMLDoc(doc),
+    m_pUMLWidget(0),
+    m_pAssocWidget(0),
+    m_Showing(st_Project),
     m_modified(false)
 {
     //setup visual display
     QVBoxLayout * docLayout = new QVBoxLayout( this );
     m_pDocTE = new KTextEdit( this );
     m_pDocTE->setText( "" );
-    m_modified = false;
     docLayout->addWidget( m_pDocTE);
     docLayout->setMargin(0);
     //m_pDocTE->setWordWrapMode(QTextEdit::WidgetWidth);
 
-    //setup the documentation variables
     //show projects documentation to start
-    m_pUMLDoc = doc;
-    m_Showing = st_Project;
-    m_pUMLObject = 0;
-    m_pUMLView = 0;
-    m_pUMLWidget = 0;
-    m_pAssocWidget = 0;
     updateDocumentation( true, true );
     connect(m_pDocTE, SIGNAL(textChanged()), this, SLOT(slotTextChanged()));
 }
