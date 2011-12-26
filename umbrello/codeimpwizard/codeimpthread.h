@@ -33,13 +33,14 @@ class ClassImport;
  * TODO: For a start it is only a QObject and is used to signals messages.
  * @author Andi Fischer
  */
-class CodeImpThread : public QObject //QThread
+class CodeImpThread : public QObject
 {
     Q_OBJECT
 public:
     explicit CodeImpThread(QFileInfo file, QObject* parent = 0);
     virtual ~CodeImpThread();
 
+public slots:
     virtual void run();
 
     int emitAskQuestion(const QString& question);
@@ -50,6 +51,8 @@ signals:
     void messageToWiz(const QString& file, const QString& text);
     void messageToLog(const QString& file, const QString& text);
     void messageToApp(const QString& text);
+    void finished();
+    void aborted();
 
 private slots:
     void questionAsked(const QString& question, QMessageBox::StandardButton* answer);

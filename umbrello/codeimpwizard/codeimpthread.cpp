@@ -30,7 +30,7 @@
  * @param fileNames   name of imported files
  */
 CodeImpThread::CodeImpThread(QFileInfo file, QObject* parent)
-  : //QThread(parent),
+  : QObject(parent),
     m_file(file)
 {
     connect(this, SIGNAL(askQuestion(QString,QMessageBox::StandardButton*)),
@@ -60,10 +60,12 @@ void CodeImpThread::run()
         emit messageToApp(i18nc("show Ready on status bar", "Ready."));
         emit messageToWiz(m_file.fileName(), "finished");
         emit messageToLog(m_file.fileName(), "...stop import");
+        emit finished();
     }
     else {
         emit messageToWiz(m_file.fileName(), "aborted");
         emit messageToApp(i18n("No code importer for file: %1", fileName));
+        emit aborted();
     }
 }
 
