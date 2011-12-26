@@ -1240,8 +1240,9 @@ UMLListViewItem* UMLListView::findView(UMLView* v)
     }
     for (int i=0; i < item->childCount(); i++) {
         UMLListViewItem* foundItem = recursiveSearchForView(item->childItem(i), type, id);
-        if (foundItem)
+        if (foundItem) {
             return foundItem;
+        }
     }
     uWarning() << "returning 0";
     DEBUG(DBG_SRC) << "but was looking for " << *item;
@@ -1340,8 +1341,9 @@ void UMLListView::init()
  */
 void UMLListView::clean()
 {
-    for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i)
+    for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
         deleteChildrenOf(m_lv[i]);
+    }
     //deleteChildrenOf(m_datatypeFolder);
 }
 
@@ -3181,6 +3183,7 @@ UMLListViewItem *UMLListView::rootView(UMLListViewItem::ListViewType type)
 
 /**
  * Deletes all child-items of @p parent.
+ * Do it in reverse order, because of the index.
  */
 void UMLListView::deleteChildrenOf(UMLListViewItem* parent)
 {
@@ -3191,7 +3194,7 @@ void UMLListView::deleteChildrenOf(UMLListViewItem* parent)
         delete m_datatypeFolder;
         m_datatypeFolder = 0;
     }
-    for (int i=0; i < parent->childCount(); i++)
+    for (int i = parent->childCount() - 1; i >= 0; --i)
         parent->removeChild(parent->child(i));
 }
 
