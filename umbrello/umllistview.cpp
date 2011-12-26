@@ -149,7 +149,7 @@ void UMLListView::slotItemChanged(QTreeWidgetItem * item, int column)
 {
     if (m_editItem) {
         DEBUG(DBG_SRC) << item->text(column);
-        cancelRename(m_editItem);
+        endRename(static_cast<UMLListViewItem*>(item));
     }
 }
 
@@ -158,29 +158,20 @@ void UMLListView::slotItemChanged(QTreeWidgetItem * item, int column)
  */
 void UMLListView::slotItemSelectionChanged()
 {
-    if (m_editItem) {
-        cancelRename(m_editItem);
+    UMLListViewItem* currItem = static_cast<UMLListViewItem*>(currentItem());
+    if (currItem && currItem->isSelected()) {
+        DEBUG(DBG_SRC) << currItem->text(0);
+        if (m_editItem) {
+            if (m_editItem == currItem) {
+                // clicked on the item which is just edited
+                endRename(currItem);
+            }
+            else {
+                // other item was selected during editing
+                cancelRename(m_editItem);
+            }
+        }
     }
-}
-
-/**
- * Calls updateFolder() on the item to update the icon to open.
- */
-void UMLListView::slotExpanded(QTreeWidgetItem * item)
-{
-    UMLListViewItem * myItem = static_cast<UMLListViewItem*>(item);
-    if (isExpandable(myItem->type()))
-        myItem->updateFolder();
-}
-
-/**
- * Calls updateFolder() on the item to update the icon to closed.
- */
-void UMLListView::slotCollapsed(QTreeWidgetItem * item)
-{
-    UMLListViewItem * myItem = static_cast<UMLListViewItem*>(item);
-    if (isExpandable(myItem->type()))
-        myItem->updateFolder();
 }
 
 /**
@@ -240,7 +231,13 @@ void UMLListView::mousePressEvent(QMouseEvent *me)
         clearSelection();
 
     // Get the UMLListViewItem at the point where the mouse pointer was pressed
-    UMLListViewItem * item = (UMLListViewItem*)itemAt(me->pos());
+    UMLListViewItem * item = static_cast<UMLListViewItem*>(itemAt(me->pos()));
+    if (item) {
+        DEBUG(DBG_SRC) << UMLListViewItem::toString(item->type());
+    }
+    else {
+        DEBUG(DBG_SRC) << "item is NULL";
+    }
 
     const Qt::ButtonState button = me->button();
 
@@ -302,7 +299,7 @@ void UMLListView::mouseReleaseEvent(QMouseEvent *me)
         QTreeWidget::mouseReleaseEvent(me);
         return;
     }
-    UMLListViewItem *item = dynamic_cast<UMLListViewItem*>(itemAt(me->pos()));
+    UMLListViewItem *item = static_cast<UMLListViewItem*>(itemAt(me->pos()));
     if (item == 0 || !Model_Utils::typeIsDiagram(item->type())) {
         QTreeWidget::mouseReleaseEvent(me);
         return;
@@ -325,15 +322,6 @@ void UMLListView::keyPressEvent(QKeyEvent *ke)
         // Widgets have been selected in the diagram area,
         // assume they handle the keypress.
         ke->accept();                 // munge and do nothing
-    } else if (m_editItem) {
-        const int k = ke->key();
-        if (k == Qt::Key_Return)
-            endRename(m_editItem);
-        else {
-            QWidget *editor = indexWidget(indexFromItem(m_editItem));
-            if (editor)
-                QCoreApplication::sendEvent(editor,ke);
-        }
     }
     else {
         const int k = ke->key();
@@ -343,19 +331,7 @@ void UMLListView::keyPressEvent(QKeyEvent *ke)
             foreach(UMLListViewItem *item, itemsSelected) {
                 deleteItem(item);
             }
-        }
-        else if (k == Qt::Key_Up || k == Qt::Key_Down) {
-            UMLListViewItem *current = static_cast<UMLListViewItem*>(currentItem());
-            UMLListViewItem *item = static_cast<UMLListViewItem*>((k == Qt::Key_Down) ? itemBelow(current) : itemAbove(current));
-            if (item) {
-                Uml::IDType id = item->getID();
-                UMLObject *o = item->umlObject();
-                setCurrentItem(item);
-                m_doc->changeCurrentView(id);
-                UMLApp::app()->docWindow()->showDocumentation(o, false);
-            }
-        }
-        else {
+        } else  {
             QTreeWidget::keyPressEvent(ke); // let parent handle it
         }
     }
@@ -792,9 +768,9 @@ void UMLListView::slotDiagramCreated(Uml::IDType id)
         return;
     }
     const Uml::DiagramType dt = v->umlScene()->type();
-    UMLListViewItem * temp = 0, *p = findFolderForDiagram(dt);
-    temp = new UMLListViewItem(p, v->umlScene()->name(), Model_Utils::convert_DT_LVT(dt), id);
-    setSelected(temp, true);
+    UMLListViewItem* p = findFolderForDiagram(dt);
+    UMLListViewItem* item = new UMLListViewItem(p, v->umlScene()->name(), Model_Utils::convert_DT_LVT(dt), id);
+    setSelected(item, true);
     UMLApp::app()->docWindow()->showDocumentation(v , false);
 }
 
@@ -1088,13 +1064,13 @@ void UMLListView::childObjectRemoved(UMLClassifierListItem* obj)
  */
 void UMLListView::slotDiagramRenamed(Uml::IDType id)
 {
-    UMLListViewItem* temp;
+    UMLListViewItem* item;
     UMLView* v = m_doc->findView(id);
-    if ((temp = findView(v)) == 0) {
+    if ((item = findView(v)) == 0) {
         uError() << "UMLDoc::findView(" << ID2STR(id) << ") returns 0";
         return;
     }
-    temp->setText(v->name());
+    item->setText(v->name());
 }
 
 /**
@@ -1267,7 +1243,8 @@ UMLListViewItem* UMLListView::findView(UMLView* v)
         if (foundItem)
             return foundItem;
     }
-    uWarning() << "returning 0 at UMLListView::findView";
+    uWarning() << "returning 0";
+    DEBUG(DBG_SRC) << "but was looking for " << *item;
     return 0;
 }
 
@@ -1399,7 +1376,7 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
         UMLApp::app()->docWindow()->updateDocumentation(false);
         pView->umlScene()->showPropDialog();
         UMLApp::app()->docWindow()->showDocumentation(pView, true);
-        item->cancelRename(0);
+//:TODO:delete?        item->cancelRename(0);
         return;
     }
     //else see if an object
@@ -1436,9 +1413,10 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
         break;
     }
 
-    if (object)
+    if (object) {
         object->showPropertiesPagedDialog(page);
-    item->cancelRename(0);  //double click can cause it to go into rename mode.
+    }
+//:TODO:delete?    item->cancelRename(0);  //double click can cause it to go into rename mode.
 }
 
 /**
@@ -1595,7 +1573,7 @@ void UMLListView::addAtContainer(UMLListViewItem *item, UMLListViewItem *parent)
 {
     UMLCanvasObject *o = static_cast<UMLCanvasObject*>(item->umlObject());
     if (o == 0) {
-        DEBUG(DBG_SRC) << item->getText() << ": item's UMLObject is 0";
+        DEBUG(DBG_SRC) << item->text(0) << ": item's UMLObject is 0";
     } else if (Model_Utils::typeIsContainer(parent->type())) {
         /**** TBC: Do this here?
                    If yes then remove that logic at the callers
@@ -1608,7 +1586,7 @@ void UMLListView::addAtContainer(UMLListViewItem *item, UMLListViewItem *parent)
         o->setUMLPackage(pkg);
         pkg->addObject(o);
     } else {
-        uError() << item->getText() << ": parent type is " << parent->type();
+        uError() << item->text(0) << ": parent type is " << parent->type();
     }
     UMLView *currentView = UMLApp::app()->currentView();
     if (currentView)
@@ -1888,7 +1866,7 @@ void UMLListView::slotDropped(QDropEvent* de, UMLListViewItem* parent, UMLListVi
         return;
     }
     UMLListViewItem *newParent = (UMLListViewItem*)item;
-    DEBUG(DBG_SRC) << "newParent->getText() is " << newParent->getText();
+    DEBUG(DBG_SRC) << "slotDropped: newParent->text(0) is " << newParent->text(0);
     UMLDragData::LvTypeAndID_It it(srcList);
     UMLDragData::LvTypeAndID * src = 0;
     while (it.hasNext()) {
@@ -1912,7 +1890,7 @@ UMLListViewItemList UMLListView::selectedItems()
             itemList.append(item);
         }
     }
-    DEBUG(DBG_SRC) << "selected items = " << itemList.count();
+    // DEBUG(DBG_SRC) << "selected items = " << itemList.count();
 
     return itemList;
 }
@@ -1938,7 +1916,6 @@ UMLListViewItemList UMLListView::selectedItemsRoot()
             }
         }
     }
-    DEBUG(DBG_SRC) << "selected items = " << itemList.count();
 
     return itemList;
 }
@@ -2014,13 +1991,13 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
         //it could exist an Item already asocciated if the user chose to reuse an uml object
         if(!(item = findItem(newID))) {
                 pObject = m_doc->findObjectById( IDChanges.findNewID(Data.getID()) );
-                item = new UMLListViewItem(parent, Data.getText(), lvt, pObject);
+                item = new UMLListViewItem(parent, Data.text(0), lvt, pObject);
         } ***/
         pObject = m_doc->findObjectById(Data.getID());
-        item = new UMLListViewItem(parent, Data.getText(), lvt, pObject);
+        item = new UMLListViewItem(parent, Data.text(0), lvt, pObject);
         break;
     case UMLListViewItem::lvt_Datatype_Folder:
-        item = new UMLListViewItem(parent, Data.getText(), lvt);
+        item = new UMLListViewItem(parent, Data.text(0), lvt);
         break;
     case UMLListViewItem::lvt_Attribute:
     case UMLListViewItem::lvt_EntityAttribute:
@@ -2035,7 +2012,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
         Uml::IDType newID = IDChanges.findNewID(Data.getID());
         pObject = pClass->findChildObjectById(newID);
         if (pObject) {
-            item = new UMLListViewItem(parent, Data.getText(), lvt, pObject);
+            item = new UMLListViewItem(parent, Data.text(0), lvt, pObject);
         } else {
             item = 0;
         }
@@ -2113,16 +2090,8 @@ UMLListViewItem* UMLListView::determineParentItem(UMLListViewItem::ListViewType 
  */
 int UMLListView::selectedItemsCount()
 {
-    QTreeWidgetItemIterator it(this);
-    int count = 0;
-    // iterate through all items of the list view
-    for (; *it; ++it) {
-        if ((*it)->isSelected()) {
-            count++;
-        }
-    }
-
-    return count;
+    UMLListViewItemList items = selectedItems();
+    return items.count();
 }
 
 /**
@@ -2198,6 +2167,28 @@ bool UMLListView::isExpandable(UMLListViewItem::ListViewType lvt)
 }
 
 /**
+ * Calls updateFolder() on the item to update the icon to open.
+ */
+void UMLListView::slotExpanded(QTreeWidgetItem * item)
+{
+    UMLListViewItem * myItem = static_cast<UMLListViewItem*>(item);
+    if (isExpandable(myItem->type())) {
+        myItem->updateFolder();
+    }
+}
+
+/**
+ * Calls updateFolder() on the item to update the icon to closed.
+ */
+void UMLListView::slotCollapsed(QTreeWidgetItem * item)
+{
+    UMLListViewItem * myItem = static_cast<UMLListViewItem*>(item);
+    if (isExpandable(myItem->type())) {
+        myItem->updateFolder();
+    }
+}
+
+/**
  *  Connects to the signal that @ref UMLApp emits when a
  *  cut operation is successful.
  */
@@ -2250,13 +2241,14 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
     } else {
         UMLObject::ObjectType ot = Model_Utils::convert_LVT_OT(type);
         if (ot == UMLObject::ot_UMLObject) {
-            DEBUG(DBG_SRC) << "no UMLObject for listview type " << type;
+            DEBUG(DBG_SRC) << "no UMLObject for type " << UMLListViewItem::toString(type);
             return;
         }
         UMLPackage *parentPkg =
             dynamic_cast<UMLPackage*>(parentItem->umlObject());
         if (parentPkg == 0) {
-            uError() << "type " << type << ": parentPkg is 0";
+            uError() << "UMLListView::addNewItem - "
+                     << UMLListViewItem::toString(type) << ": parentPkg is 0";
             return;
         }
         if (Model_Utils::typeIsClassifierList(type)) {
@@ -2265,7 +2257,7 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
         } else {
             name = Model_Utils::uniqObjectName(ot, parentPkg);
         }
-        newItem = new UMLListViewItem(parentItem, name, type, (UMLObject*)0);
+        newItem = new UMLListViewItem(parentItem, name, type, (UMLObject*)parentPkg);
     }
     m_bIgnoreCancelRename = false;
     newItem->setIcon(icon);
