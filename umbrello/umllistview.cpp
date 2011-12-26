@@ -87,22 +87,28 @@ UMLListView::UMLListView(QWidget *parent)
     m_bStartedCut(false),
     m_bStartedCopy(false),
     m_bIgnoreCancelRename(true),
-    m_bCreatingChildObject(false)
+    m_bCreatingChildObject(false),
+    m_dragStartPosition(QPoint()),
+    m_editItem(0)
 {
-    //setup list view
-    //setAcceptDrops(true);
+    // setup list view
+    setAcceptDrops(true);
     //setDropVisualizer(false);
     //setItemsMovable(true);
     //setItemsRenameable(true);
     //setSelectionModeExt(FileManager);
-    //setFocusPolicy(Qt::StrongFocus);
-    //setDragEnabled(true);
+    setFocusPolicy(Qt::StrongFocus);
+    setDragEnabled(true);
     //setColumnWidthMode(0, Manual);
     //setDefaultRenameAction(Accept);
     //setResizeMode(LastColumn);
     //header()->setClickEnabled(true);
     //add columns and initial items
     //addColumn(m_doc->name());
+    setSortingEnabled(true);
+    sortByColumn(0, Qt::AscendingOrder);
+
+    setEditTriggers(QAbstractItemView::EditKeyPressed);
 
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
         m_lv[i] = 0;
@@ -110,7 +116,6 @@ UMLListView::UMLListView(QWidget *parent)
 
     DEBUG_REGISTER(DBG_SRC);
 
-    m_editItem = 0;
     //setup slots/signals
     connect(this, SIGNAL(itemCollapsed(QTreeWidgetItem*)), this, SLOT(slotCollapsed(QTreeWidgetItem*)));
     connect(this, SIGNAL(itemExpanded(QTreeWidgetItem*)), this, SLOT(slotExpanded(QTreeWidgetItem*)));
@@ -2777,11 +2782,19 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
  */
 void UMLListView::startRename(UMLListViewItem* item)
 {
-    if (m_editItem)
-        cancelRename(m_editItem);
-    openPersistentEditor(item,0);
-    m_editItem = item;
-    m_bIgnoreCancelRename = true;
+    if (item) {
+        DEBUG(DBG_SRC) << item->text(0);
+        if (m_editItem) {
+            cancelRename(m_editItem);
+        }
+        item->startRename(0);
+        openPersistentEditor(item, 0);
+        m_editItem = item;
+        m_bIgnoreCancelRename = true;
+    }
+    else {
+        uError() << "Called without an item!";
+    }
 }
 
 /**
@@ -2789,12 +2802,17 @@ void UMLListView::startRename(UMLListViewItem* item)
  */
 void UMLListView::cancelRename(UMLListViewItem* item)
 {
-    // delete pointer first to lock slotItemChanged
-    m_editItem = 0;
-    closePersistentEditor(item,0);
-    if (!m_bIgnoreCancelRename) {
-        delete item;
-        m_bIgnoreCancelRename = true;
+    if (item) {
+        DEBUG(DBG_SRC) << item->text(0);
+        // delete pointer first to lock slotItemChanged
+        m_editItem = 0;
+        closePersistentEditor(item, 0);
+        if (!m_bIgnoreCancelRename) {
+            m_bIgnoreCancelRename = true;
+        }
+    }
+    else {
+        uError() << "Called without an item!";
     }
 }
 
@@ -2804,10 +2822,16 @@ void UMLListView::cancelRename(UMLListViewItem* item)
  */
 void UMLListView::endRename(UMLListViewItem* item)
 {
-    // delete pointer first to lock slotItemChanged
-    m_editItem = 0;
-    closePersistentEditor(item,0);
-    item->okRename(0);
+    if (item) {
+        DEBUG(DBG_SRC) << item->text(0);
+        // delete pointer first to lock slotItemChanged
+        m_editItem = 0;
+        closePersistentEditor(item, 0);
+        item->okRename(0);
+    }
+    else {
+        uError() << "Called without an item!";
+    }
 }
 
 /**
@@ -2980,18 +3004,18 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                 // listview item might be located in a user created folder.
                 // Thanks to Achim Spangler for spotting the problem.
                 UMLListViewItem *itmParent = dynamic_cast<UMLListViewItem*>(item->parent());
-                DEBUG(DBG_SRC) << item->getText() << " parent "
-                               << parent->getText() << " (" << parent << ") != "
-                               << itmParent->getText() << " (" << itmParent << ")";
+                DEBUG(DBG_SRC) << item->text(0) << " parent "
+                               << parent->text(0) << " (" << parent << ") != "
+                               << itmParent->text(0) << " (" << itmParent << ")";
                 if (item == m_datatypeFolder && itmParent == m_lv[Uml::ModelType::Logical]) {
                     DEBUG(DBG_SRC) << "Reparenting the Datatypes folder is prohibited";
                 } else {
                     UMLListViewItem *newItem = moveObject(nID, lvType, parent);
                     item = newItem;
                     if (item) {
-                        DEBUG(DBG_SRC) << "Attempted reparenting of " << item->getText()
-                                       << "(current parent: " << (itmParent ? itmParent->getText() : "0")
-                                       << ", new parent: " << parent->getText() << ")";
+                        DEBUG(DBG_SRC) << "Attempted reparenting of " << item->text(0)
+                                       << "(current parent: " << (itmParent ? itmParent->text(0) : "0")
+                                       << ", new parent: " << parent->text(0) << ")";
                     }
                 }
             }
