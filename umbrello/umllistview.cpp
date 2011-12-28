@@ -1259,9 +1259,6 @@ UMLListViewItem* UMLListView::recursiveSearchForView(UMLListViewItem* listViewIt
 {
     if (!listViewItem)
         return 0;
-    // @TODO check this
-    //if (listViewItem->getType() == type && listViewItem->getID() == id)
-    //    return listViewItem;
 
     if (Model_Utils::typeIsFolder(listViewItem->type())) {
         for (int i=0; i < listViewItem->childCount(); i++) {

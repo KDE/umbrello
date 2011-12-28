@@ -292,6 +292,7 @@ UMLObject* findUMLObjectRaw(const UMLObjectList& inList,
                             UMLObject::ObjectType type /* = ot_UMLObject */,
                             UMLObject *currentObj /*= 0*/)
 {
+    Q_UNUSED(currentObj);
     for (UMLObjectListIt oit(inList); oit.hasNext(); ) {
         UMLObject *obj = oit.next();
         if (obj->name() == name && type == obj->baseType())
@@ -402,7 +403,7 @@ QString treeViewBuildDiagramName(Uml::IDType id)
         // and entity relationship)
         QString name;
         while (listView->rootView(listViewItem->type()) == NULL) {
-            name.insert(0, listViewItem->getText() + '/');
+            name.insert(0, listViewItem->text(0) + '/');
             listViewItem = static_cast<UMLListViewItem*>(listViewItem->parent());
             if (listViewItem == NULL)
                 break;

@@ -83,6 +83,7 @@
  */
 UMLDoc::UMLDoc()
   : m_datatypeRoot(0),
+    m_stereoList(UMLStereotypeList()),
     m_Name(i18n("UML Model")),
     m_modelID("m1"),
     m_count(0),
@@ -156,7 +157,6 @@ UMLDoc::~UMLDoc()
 {
     delete m_datatypeRoot;
     delete m_pChangeLog;
-    m_pChangeLog = 0;
 }
 
 /**
@@ -176,6 +176,7 @@ void UMLDoc::addView(UMLView *view)
         uError() << "view folder is not set";
         return;
     }
+    DEBUG(DBG_SRC) << "to folder " << *f;
     f->addView(view);
 
     UMLApp * pApp = UMLApp::app();
@@ -200,12 +201,13 @@ void UMLDoc::addView(UMLView *view)
  * @param enforceOneView   switch to determine if we have a current view or not.
  *                         most of the time, we DO want this, except when exiting the program.
  */
-void UMLDoc::removeView(UMLView *view , bool enforceCurrentView )
+void UMLDoc::removeView(UMLView *view , bool enforceCurrentView)
 {
     if (!view) {
         uError() << "UMLDoc::removeView(UMLView *view) called with view = 0";
         return;
     }
+    DEBUG(DBG_SRC) << "<" << view->umlScene()->name() << ">";
     if ( UMLApp::app()->listView() ) {
         disconnect(this, SIGNAL(sigObjectRemoved(UMLObject*)),
                    view->umlScene(), SLOT(slotObjectRemoved(UMLObject*)));
@@ -1270,6 +1272,7 @@ bool UMLDoc::closing() const
  */
 UMLView* UMLDoc::createDiagram(UMLFolder *folder, Uml::DiagramType type, bool askForName /*= true */)
 {
+    DEBUG(DBG_SRC) << "folder=" << folder->name() << " / type=" << type.toString();
     bool ok = true;
     QString name,
     dname = uniqueViewName(type);
@@ -1314,7 +1317,7 @@ void UMLDoc::renameDiagram(Uml::IDType id)
 {
     bool ok = false;
 
-    UMLView *view =  findView(id);
+    UMLView *view = findView(id);
     Uml::DiagramType type = view->umlScene()->type();
 
     QString oldName= view->umlScene()->name();
