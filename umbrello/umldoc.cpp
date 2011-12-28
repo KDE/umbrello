@@ -49,7 +49,6 @@
 #include "worktoolbar.h"
 
 // kde includes
-#include <kdeversion.h>
 #include <kio/job.h>
 #include <kio/netaccess.h>
 #include <klocale.h>
@@ -83,7 +82,8 @@
  * Constructor for the fileclass of the application.
  */
 UMLDoc::UMLDoc()
-  : m_stereoList(UMLStereotypeList()),
+  : m_datatypeRoot(0),
+    m_stereoList(UMLStereotypeList()),
     m_Name(i18n("UML Model")),
     m_modelID("m1"),
     m_count(0),
@@ -142,6 +142,7 @@ void UMLDoc::init()
  */
 void UMLDoc::createDatatypeFolder()
 {
+    delete m_datatypeRoot;
     m_datatypeRoot = new UMLFolder("Datatypes", "Datatypes");
     m_datatypeRoot->setLocalName(i18n("Datatypes"));
     m_datatypeRoot->setUMLPackage(m_root[Uml::ModelType::Logical]);
@@ -154,8 +155,8 @@ void UMLDoc::createDatatypeFolder()
  */
 UMLDoc::~UMLDoc()
 {
+    delete m_datatypeRoot;
     delete m_pChangeLog;
-    m_pChangeLog = 0;
 }
 
 /**
@@ -213,14 +214,12 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView)
     }
     view->hide();
     //remove all widgets before deleting view
-    DEBUG(DBG_SRC) << "removing all widgets";  //:TODO:
     view->umlScene()->removeAllWidgets();
     UMLFolder *f = view->umlScene()->folder();
     if (f == 0) {
         uError() << view->umlScene()->name() << ": view->getFolder() returns NULL";
         return;
     }
-    DEBUG(DBG_SRC) << "removing view";  //:TODO:
     f->removeView(view);
     UMLView *currentView = UMLApp::app()->currentView();
     if (currentView == view) {
@@ -233,7 +232,6 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView)
         }
 
         if (!firstView && enforceCurrentView) {  //create a diagram
-            DEBUG(DBG_SRC) << "create diagram";  //:TODO:
             createDiagram(m_root[Uml::ModelType::Logical], Uml::DiagramType::Class, false);
             qApp->processEvents();
             m_root[Uml::ModelType::Logical]->appendViews(viewList);
@@ -323,7 +321,6 @@ bool UMLDoc::saveModified()
  */
 void UMLDoc::closeDocument()
 {
-    DEBUG(DBG_SRC) << "BEGIN";  //:TODO:
     m_bClosing = true;
     UMLApp::app()->setGenerator(Uml::ProgrammingLanguage::Reserved);  // delete the codegen
     m_Doc = "";
@@ -354,7 +351,9 @@ void UMLDoc::closeDocument()
         }
         // Restore the datatype folder, it has been deleted above.
         createDatatypeFolder();
-        listView->theDatatypeFolder()->setUMLObject(m_datatypeRoot);
+        // this creates to much items only Logical View should be created
+        listView->init();
+        // listView->theDatatypeFolder()->setUMLObject(m_datatypeRoot);
         /* Remove any stereotypes.
         if (m_stereoList.count() > 0) {
             UMLStereotype *s;
@@ -366,7 +365,6 @@ void UMLDoc::closeDocument()
     }
     m_bClosing = false;
     m_bTypesAreResolved = false;
-    DEBUG(DBG_SRC) << "END";  //:TODO:
 }
 
 /**
@@ -376,7 +374,6 @@ void UMLDoc::closeDocument()
  */
 bool UMLDoc::newDocument()
 {
-    DEBUG(DBG_SRC) << "BEGIN";
     closeDocument();
     UMLApp::app()->setCurrentView(0);
     m_doc_url.setFileName(i18n("Untitled"));
@@ -398,8 +395,6 @@ bool UMLDoc::newDocument()
     UMLApp::app()->enableUndo(false);
     UMLApp::app()->clearUndoStack();
 
-    DEBUG(DBG_SRC) << "END";
-//:TODO:    DEBUG(DBG_SRC) << *(UMLApp::app()->listView());  //:TODO:DEL
     return true;
 }
 
@@ -823,6 +818,8 @@ UMLObject* UMLDoc::findUMLObject(const QString &name,
     }
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
         UMLObjectList list = m_root[i]->containedObjects();
+        if (list.size() == 0)
+            continue;
         o = Model_Utils::findUMLObject(list, name, type, currentObj);
         if (o) {
             return o;
@@ -833,6 +830,41 @@ UMLObject* UMLDoc::findUMLObject(const QString &name,
         }
     }
     return 0;
+}
+
+/**
+ * Used to find a @ref UMLObject by its type and raw name.
+ *
+ * @param modelType    The Mmdel type in which to search for the object
+ * @param name         The raw name of the @ref UMLObject to find.
+ * @param type         ObjectType of the object to find
+ * @return  Pointer to the UMLObject found, or NULL if not found.
+ */
+UMLObject* UMLDoc::findUMLObjectRaw(Uml::ModelType::Value modelType,
+                                    const QString &name,
+                                    UMLObject::ObjectType type)
+{
+    return findUMLObjectRaw(rootFolder(modelType), name, type);
+}
+
+/**
+ * Used to find a @ref UMLObject by its type and raw name.
+ *
+ * @param folder       The UMLFolder in which to search for the object
+ * @param name         The raw name of the @ref UMLObject to find.
+ * @param type         ObjectType of the object to find
+ * @return  Pointer to the UMLObject found, or NULL if not found.
+ */
+UMLObject* UMLDoc::findUMLObjectRaw(UMLFolder *folder,
+                                    const QString &name,
+                                    UMLObject::ObjectType type)
+{
+    if (folder == 0)
+        return 0;
+    UMLObjectList list = folder->containedObjects();
+    if (list.size() == 0)
+        return 0;
+    return Model_Utils::findUMLObjectRaw(list, name, type, 0);
 }
 
 //:TODO:
@@ -1395,6 +1427,9 @@ void UMLDoc::changeCurrentView(Uml::IDType id)
         pApp->setDiagramMenuItemsState( true );
         setModified(true);
         emit sigCurrentViewChanged();
+//:TODO: when clicking on a tab, documentation of diagram is not upated in docwindow
+//:TODO: following line should fix it, but crashes the application :-(
+//:TODO:        pApp->docWindow()->showDocumentation(view);
     }
     else {
         uWarning() << "New current view was not found with id=" << ID2STR(id) << "!";
@@ -2271,8 +2306,6 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node )
  */
 void UMLDoc::removeAllViews()
 {
-    DEBUG(DBG_SRC) << "BEGIN";
-    m_datatypeRoot->removeAllViews();
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
         m_root[i]->removeAllViews();
     }
@@ -2280,7 +2313,6 @@ void UMLDoc::removeAllViews()
     UMLApp::app()->setCurrentView(0);
     emit sigDiagramChanged(Uml::DiagramType::Undefined);
     UMLApp::app()->setDiagramMenuItemsState(false);
-    DEBUG(DBG_SRC) << "END";
 }
 
 /**
@@ -2782,7 +2814,6 @@ void UMLDoc::addDefaultDatatypes()
     for (QStringList::Iterator it = entries.begin(); it != end; ++it) {
         createDatatype(*it);
     }
-    UMLApp::app()->listView()->closeDatatypesFolder();
 }
 
 /**
@@ -2797,7 +2828,7 @@ void UMLDoc::createDatatype(const QString &name)
     if (!umlobject) {
         Object_Factory::createUMLObject(UMLObject::ot_Datatype, name, m_datatypeRoot);
     }
-    //UMLApp::app()->listView()->closeDatatypesFolder();  //:TODO:checkit - moved to addDefaultDatatypes
+    UMLApp::app()->listView()->closeDatatypesFolder();
 }
 
 /**
@@ -2856,7 +2887,6 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point)
         return;
     }//end switch
 
-    // DEBUG(DBG_SRC) << "create popup for ListViewType " << QLatin1String(ENUM_NAME(UMLListViewItem, ListViewType, type));
     m_pTabPopupMenu = new ListPopupMenu(UMLApp::app()->mainViewWidget(), type, 0);
     m_pTabPopupMenu->popup(point);
     connect(m_pTabPopupMenu, SIGNAL(triggered(QAction*)), view->umlScene(), SLOT(slotMenuSelection(QAction*)));

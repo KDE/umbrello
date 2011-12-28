@@ -345,7 +345,7 @@ void UMLListView::popupMenuSel(QAction* action)
 {
     UMLListViewItem * currItem = static_cast<UMLListViewItem*>(currentItem());
     if (!currItem) {
-        DEBUG(DBG_SRC) << "popupMenuSel invoked without currently selectedItem";
+        DEBUG(DBG_SRC) << "Invoked without currently selectedItem!";
         return;
     }
     UMLListViewItem::ListViewType lvt = currItem->type();
@@ -534,7 +534,7 @@ void UMLListView::popupMenuSel(QAction* action)
             QString folderText = current->text(0);
             folderText.remove(QRegExp("\\s*\\(.*$"));
             folderText.append(" (" + fileName + ')');
-            current->setText(0, folderText);
+            current->setText(folderText);
             break;
         }
 
@@ -550,7 +550,7 @@ void UMLListView::popupMenuSel(QAction* action)
             // Recompute text of the folder
             QString folderText = current->text(0);
             folderText.remove(QRegExp("\\s*\\(.*$"));
-            current->setText(0, folderText);
+            current->setText(folderText);
             break;
         }
 
@@ -651,6 +651,11 @@ void UMLListView::popupMenuSel(QAction* action)
             }
 //:TODO:delete?            currItem->cancelRename(0);
         }
+        // Bug 268469: Changing the package of a class deletes the old widget.
+        // By reloading the current item we are sure to not use a destroyed object
+        currItem = (UMLListViewItem*)currentItem();
+        if (currItem)
+            currItem->cancelRename(0);
         break;
 
     case ListPopupMenu::mt_Logical_Folder:
@@ -1025,7 +1030,7 @@ void UMLListView::childObjectAdded(UMLClassifierListItem* child, UMLClassifier* 
         childItem = parentItem->findChildObject(child);
     }
     if (childItem) {
-        childItem->setText(0, text);
+        childItem->setText(text);
     } else {
         const UMLListViewItem::ListViewType lvt = Model_Utils::convert_OT_LVT(child);
         childItem = new UMLListViewItem(parentItem, text, lvt, child);
@@ -1065,7 +1070,7 @@ void UMLListView::slotDiagramRenamed(Uml::IDType id)
         uError() << "UMLDoc::findView(" << ID2STR(id) << ") returns 0";
         return;
     }
-    item->setText(0, v->umlScene()->name());
+    item->setText(v->umlScene()->name());
 }
 
 /**
@@ -1233,9 +1238,11 @@ UMLListViewItem* UMLListView::findView(UMLView* v)
     } else {
         item = m_lv[Uml::ModelType::Logical];
     }
-    UMLListViewItem* foundItem = recursiveSearchForView(item, type, id);
-    if (foundItem) {
-        return foundItem;
+    for (int i=0; i < item->childCount(); i++) {
+        UMLListViewItem* foundItem = recursiveSearchForView(item->childItem(i), type, id);
+        if (foundItem) {
+            return foundItem;
+        }
     }
     uWarning() << "returning 0";
     DEBUG(DBG_SRC) << "but was looking for " << *item;
@@ -1244,42 +1251,25 @@ UMLListViewItem* UMLListView::findView(UMLView* v)
 
 /**
  * Searches the tree for a diagram (view).
- * Warning: these method may return in some cases the wrong diagram 
+ * Warning: these method may return in some cases the wrong diagram
  * Used by findView().
  */
 UMLListViewItem* UMLListView::recursiveSearchForView(UMLListViewItem* listViewItem,
         UMLListViewItem::ListViewType type, Uml::IDType id)
 {
-    while (listViewItem) {
-        //DEBUG(DBG_SRC) << *listViewItem;
-        if (Model_Utils::typeIsFolder(listViewItem->type())) {
-            for (int i=0; i < listViewItem->childCount(); i++) {
-                UMLListViewItem* child = listViewItem->childItem(i);
-                UMLListViewItem* resultListViewItem = recursiveSearchForView(child, type, id);
-                if (resultListViewItem) {
-                    return resultListViewItem;
-                }
-            }
-        } else {
-            if (listViewItem->type() == type && listViewItem->getID() == id) {
-                return listViewItem;
-            }
+    if (!listViewItem)
+        return 0;
+
+    if (Model_Utils::typeIsFolder(listViewItem->type())) {
+        for (int i=0; i < listViewItem->childCount(); i++) {
+            UMLListViewItem* child = listViewItem->childItem(i);
+            UMLListViewItem* resultListViewItem = recursiveSearchForView(child, type, id);
+            if (resultListViewItem)
+                return resultListViewItem;
         }
-        // next sibling
-        QTreeWidgetItem* parent = listViewItem->parent();
-        if (parent) {
-            int index = parent->indexOfChild(listViewItem);
-            index++;
-            if (index < parent->childCount()) {
-                listViewItem = static_cast<UMLListViewItem*>(parent->child(index));
-            }
-            else {
-                break;
-            }
-        }
-        else {
-            break;
-        }
+    } else {
+        if (listViewItem->type() == type && listViewItem->getID() == id)
+            return listViewItem;
     }
     return 0;
 }
@@ -1313,11 +1303,14 @@ void UMLListView::init()
         //m_rv->setChildIndicatorPolicy(QTreeWidgetItem::DontShowIndicator);
 
         for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
-            Uml::ModelType mt = Uml::ModelType(Uml::ModelType::Value(i));
+            Uml::ModelType mt = Uml::ModelType::Value(i);
             UMLFolder *sysFolder = m_doc->rootFolder(mt);
             UMLListViewItem::ListViewType lvt = Model_Utils::convert_MT_LVT(mt);
             m_lv[i] = new UMLListViewItem(m_rv, sysFolder->localName(), lvt, sysFolder);
         }
+    } else {
+        for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i)
+            deleteChildrenOf(m_lv[i]);
     }
     UMLFolder *datatypeFolder = m_doc->datatypeFolder();
     if (!m_datatypeFolder) {
@@ -1345,17 +1338,10 @@ void UMLListView::init()
  */
 void UMLListView::clean()
 {
-    DEBUG(DBG_SRC) << "BEGIN";
-    disconnect(this, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotItemChanged(QTreeWidgetItem *, int)));
-    disconnect(this, SIGNAL(itemSelectionChanged()), this, SLOT(slotItemSelectionChanged()));
-    clearSelection();
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
         deleteChildrenOf(m_lv[i]);
     }
-    connect(this, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotItemChanged(QTreeWidgetItem *, int)));
-    connect(this, SIGNAL(itemSelectionChanged()), this, SLOT(slotItemSelectionChanged()));
-    DEBUG(DBG_SRC) << "END";
-//:TODO:    DEBUG(DBG_SRC) << *this;  //:TODO:DEL
+    //deleteChildrenOf(m_datatypeFolder);
 }
 
 /**
@@ -2281,7 +2267,7 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
 /**
  * Called for informing the list view that an item was renamed.
  */
-bool UMLListView::itemRenamed(UMLListViewItem * item , int col)
+bool UMLListView::itemRenamed(UMLListViewItem * item, int col)
 {
     DEBUG(DBG_SRC) << item->text(col);
     //if true the item was cancel before this message
@@ -2503,7 +2489,7 @@ UMLObject *UMLListView::createUMLObject(UMLListViewItem * item, UMLObject::Objec
     pkg->addObject(object);
     connectNewObjectsSlots(object);
     item->setUMLObject(object);
-    item->setText(0, name);
+    item->setText(name);
     return object;
 }
 
@@ -2628,7 +2614,7 @@ bool UMLListView::createChildUMLObject(UMLListViewItem * item, UMLObject::Object
     // make changes to the object visible to this umllistviewitem
     connectNewObjectsSlots(newObject);
     item->setUMLObject(newObject);
-    item->setText(0, text);
+    item->setText(text);
     scrollToItem(item);
 
     // as it's a ClassifierListItem add it to the childObjectMap of the parent
@@ -3114,7 +3100,7 @@ void UMLListView::expandAll(UMLListViewItem  *item)
     for (int i = 0; i < item->childCount(); i++)  {
         expandAll(item->childItem(i));
     }
-    item->setOpen(true);
+    item->setExpanded(true);
 }
 
 /**
@@ -3126,7 +3112,7 @@ void UMLListView::collapseAll(UMLListViewItem  *item)
     for (int i = 0; i < item->childCount(); i++)  {
         collapseAll(item->childItem(i));
     }
-    item->setOpen(false);
+    item->setExpanded(false);
 }
 
 /**
@@ -3201,21 +3187,12 @@ void UMLListView::deleteChildrenOf(UMLListViewItem* parent)
     if (!parent) {
         return;
     }
-    DEBUG(DBG_SRC) << parent->text(0) << ":";
-    for (int i = parent->childCount() - 1; i >= 0; --i) {
-        UMLListViewItem* child = static_cast<UMLListViewItem*>(parent->child(i));
-        // if child has children, then delete them first
-        if (child->childCount() > 0) {
-            deleteChildrenOf(child);
-        }
-        // special handling for m_datatypeFolder - do not delete it
-        if (child == m_datatypeFolder) {
-            continue;
-        }
-        DEBUG(DBG_SRC) << "removing " << child->text(0);
-        parent->removeChild(child);
-        delete child;
+    if (parent == m_lv[Uml::ModelType::Logical]) {
+        delete m_datatypeFolder;
+        m_datatypeFolder = 0;
     }
+    for (int i = parent->childCount() - 1; i >= 0; --i)
+        parent->removeChild(parent->child(i));
 }
 
 /**

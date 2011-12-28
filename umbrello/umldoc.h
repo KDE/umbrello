@@ -119,6 +119,14 @@ public:
                              UMLObject::ObjectType type = UMLObject::ot_UMLObject,
                              UMLObject *currentObj = 0);
 
+    UMLObject* findUMLObjectRaw(Uml::ModelType::Value,
+                                const QString &name,
+                                UMLObject::ObjectType type = UMLObject::ot_UMLObject);
+
+    UMLObject* findUMLObjectRaw(UMLFolder *folder,
+                                const QString &name,
+                                UMLObject::ObjectType type = UMLObject::ot_UMLObject);
+
     //:TODO: UMLObject* findObjectByAuxId(const QString &idStr);
 
     UMLClassifier * findUMLClassifier(const QString &name);

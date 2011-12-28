@@ -273,6 +273,34 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
 }
 
 /**
+ * Find the UML object of the given type and name in the passed-in list.
+ * This methods search for the raw name.
+ *
+ * @param inList        List in which to seek the object.
+ * @param name          Name of the object to find.
+ * @param type          ObjectType of the object to find (optional.)
+ *                      When the given type is ot_UMLObject the type is
+ *                      disregarded, i.e. the given name is the only
+ *                      search criterion.
+ * @param currentObj    Object relative to which to search (optional.)
+ *                      If given then the enclosing scope(s) of this
+ *                      object are searched before the global scope.
+ * @return      Pointer to the UMLObject found, or NULL if not found.
+ */
+UMLObject* findUMLObjectRaw(const UMLObjectList& inList,
+                            const QString& name,
+                            UMLObject::ObjectType type /* = ot_UMLObject */,
+                            UMLObject *currentObj /*= 0*/)
+{
+    for (UMLObjectListIt oit(inList); oit.hasNext(); ) {
+        UMLObject *obj = oit.next();
+        if (obj->name() == name && type == obj->baseType())
+            return obj;
+    }
+    return NULL;
+}
+
+/**
  * Add the given list of views to the tree view.
  * @param viewList   the list of views to add
  */
