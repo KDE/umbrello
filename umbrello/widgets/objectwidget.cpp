@@ -50,7 +50,7 @@ const qreal ObjectWidget::SequenceLineMargin = 20;
  * @param lid       The local id for the object.
  */
 ObjectWidget::ObjectWidget(UMLObject *object, const Uml::IDType& lid)
-        : UMLWidget(object)
+  : UMLWidget(object)
 {
     m_baseType = WidgetBase::wt_Object;
     m_localID = lid;
@@ -262,7 +262,9 @@ void ObjectWidget::adjustSequentialLineEnd()
                 lowestMessage = messageHeight;
             }
         }
-        m_sequentialLine->setEndOfLine(lowestMessage + ObjectWidget::SequenceLineMargin);
+        if (m_sequentialLine) {
+            m_sequentialLine->setEndOfLine(lowestMessage + ObjectWidget::SequenceLineMargin);
+        }
     }
 }
 

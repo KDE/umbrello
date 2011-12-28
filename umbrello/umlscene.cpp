@@ -579,7 +579,7 @@ void UMLScene::slotObjectCreated(UMLObject* o)
     //check to see if we want the message
     //may be wanted by someone else e.g. list view
 
-    DEBUG(DBG_SRC) << "with " << *o;  //:TODO:
+    // DEBUG(DBG_SRC) << "with " << *o;  //:TODO:
     if (!m_bCreateObject)  {
         return;
     }
@@ -1094,7 +1094,7 @@ void UMLScene::setUseFillColor(bool ufc)
  */
 QBrush UMLScene::brush() const
 {
-    return QBrush(m_Options.uiState.fillColor);
+    return QBrush();  //:TODO: m_Options.uiState.fillColor);
 }
 
 /**

@@ -34,7 +34,7 @@ class ObjectWidget : public UMLWidget
     Q_PROPERTY(bool showDestruction READ showDestruction WRITE setShowDestruction)
 
 public:
-    ObjectWidget(UMLObject *o, const Uml::IDType &lid = Uml::id_None );
+    ObjectWidget(UMLObject *o, const Uml::IDType &lid = Uml::id_None);
     virtual ~ObjectWidget();
 
     Uml::IDType localID() const {
@@ -52,7 +52,7 @@ public:
     bool drawAsActor() const {
         return m_drawAsActor;
     }
-    void setDrawAsActor( bool drawAsActor );
+    void setDrawAsActor(bool drawAsActor);
 
     /// @retval True if destruction on sequence line is shown.
     bool showDestruction() const {
@@ -82,8 +82,8 @@ public:
     }
     void adjustSequentialLineEnd();
 
-    virtual bool loadFromXMI( QDomElement & qElement );
-    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    virtual bool loadFromXMI(QDomElement & qElement);
+    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *opt, QWidget *w);
     virtual void showPropertiesDialog();
