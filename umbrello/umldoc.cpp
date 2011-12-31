@@ -1,8 +1,8 @@
 /***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
+ *  This program is free software; you can redistribute it and/or modify   *
+ *  it under the terms of the GNU General Public License as published by   *
+ *  the Free Software Foundation; either version 2 of the License, or      *
+ *  (at your option) any later version.                                    *
  *                                                                         *
  *  copyright (C) 2002-2011                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
@@ -14,7 +14,6 @@
 // app includes
 #include "debug_utils.h"
 #include "uniqueid.h"
-#include "associationwidget.h"
 #include "association.h"
 #include "package.h"
 #include "folder.h"
@@ -27,21 +26,17 @@
 #include "attribute.h"
 #include "template.h"
 #include "enumliteral.h"
-#include "entityattribute.h"
 #include "stereotype.h"
 #include "classifierlistitem.h"
 #include "object_factory.h"
 #include "import_rose.h"
 #include "model_utils.h"
-#include "widget_utils.h"
 #include "uml.h"
 #include "umllistview.h"
 #include "umllistviewitem.h"
 #include "umlview.h"
 #include "entityconstraint.h"
 #include "idchangelog.h"
-#include "classpropdlg.h"
-#include "codegenfactory.h"
 #include "listpopupmenu.h"
 #include "cmds.h"
 #include "diagramprintpage.h"
@@ -1426,9 +1421,8 @@ void UMLDoc::changeCurrentView(Uml::IDType id)
         pApp->setDiagramMenuItemsState( true );
         setModified(true);
         emit sigCurrentViewChanged();
-//:TODO: when clicking on a tab, documentation of diagram is not upated in docwindow
-//:TODO: following line should fix it, but crashes the application :-(
-//:TODO:        pApp->docWindow()->showDocumentation(view);
+        // when clicking on a tab, the documentation of diagram is upated in docwindow
+        pApp->docWindow()->showDocumentation(view);
     }
     else {
         uWarning() << "New current view was not found with id=" << ID2STR(id) << "!";
@@ -2886,7 +2880,6 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point)
         return;
     }//end switch
 
-    // DEBUG(DBG_SRC) << "create popup for ListView_Type " << type;
     m_pTabPopupMenu = new ListPopupMenu(UMLApp::app()->mainViewWidget(), type, 0);
     m_pTabPopupMenu->popup(point);
     connect(m_pTabPopupMenu, SIGNAL(triggered(QAction*)), view->umlScene(), SLOT(slotMenuSelection(QAction*)));
