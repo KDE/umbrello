@@ -79,7 +79,6 @@
 #include <QtCore/QRegExp>
 #include <QtCore/QTimer>
 #include <QtGui/QClipboard>
-#include <QtGui/QDialogButtonBox>
 #include <QtGui/QSlider>
 #include <QtGui/QToolButton>
 #include <QtGui/QKeyEvent>
@@ -1268,24 +1267,18 @@ void UMLApp::slotFileClose()
  */
 bool UMLApp::slotPrintSettings()
 {
-    if (m_printSettings)
+    if (m_printSettings) {
         delete m_printSettings;
+    }
     m_printSettings = new DiagramPrintPage(0, m_doc);
 
-    QDialog *d = new QDialog;
-    QVBoxLayout *layout = new QVBoxLayout; 
-    layout->addWidget(m_printSettings);
-
-    QDialogButtonBox *b = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-    connect(b, SIGNAL(accepted()), d, SLOT(accept()));
-    connect(b, SIGNAL(rejected()), d, SLOT(reject()));
-    layout->addWidget(b);
-    d->setLayout(layout);
+    KDialog *d = new KDialog();
+    d->setMainWidget(m_printSettings);
 
     bool result = d->exec() == QDialog::Accepted;
 
     // keep settings
-    layout->removeWidget(m_printSettings);
+    d->setMainWidget(0);
     m_printSettings->setParent(0);
 
     delete d;
@@ -1299,7 +1292,7 @@ void UMLApp::slotPrintPreview()
 {
     slotStatusMsg(i18n("Print Preview..."));
 
-    if(!slotPrintSettings())
+    if (!slotPrintSettings())
         return;
 
     QPointer<QPrintPreviewDialog> preview = new QPrintPreviewDialog(m_printer,this);
