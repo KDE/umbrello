@@ -118,30 +118,35 @@ QMenu* UMLApp::findMenu(const QString& name)
 /**
  * Constructor. Calls all init functions to create the application.
  */
-UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent)
+UMLApp::UMLApp(QWidget* parent)
+  : KXmlGuiWindow(parent),
+    m_langSelect(0),
+    m_zoomSelect(0),
+    m_activeLanguage(Uml::ProgrammingLanguage::Reserved),
+    m_codegen(0),
+    m_commoncodegenpolicy(new CodeGenerationPolicy()),
+    m_policyext(0),
+    m_config(KGlobal::config()),
+    m_view(0),
+    m_doc(new UMLDoc()),
+    m_listView(0),
+    m_pDocWindow(0),
+    m_refactoringAssist(0),
+    m_clipTimer(0),
+    m_copyTimer(0),
+    m_loading(false),
+    m_imageMimeType(QString()),
+    m_settingsDlg(0),
+    m_imageExporterAll(new UMLViewImageExporterAll()),
+    m_xhtmlGenerator(0),
+    m_pUndoStack(new KUndoStack(this)),
+    m_hasBegunMacro(false),
+    m_printSettings(0),
+    m_printer(new QPrinter())
 {
-    s_instance   = this;
-    m_pDocWindow = 0;
-    m_config     = KGlobal::config();
-    m_listView   = 0;
-    m_langSelect = 0;
-    m_zoomSelect = 0;
-    m_loading    = false;
-    m_clipTimer  = 0;
-    m_copyTimer  = 0;
-    m_codegen    = 0;
-    m_policyext  = 0;
-    m_commoncodegenpolicy = 0;
-    m_xhtmlGenerator = 0;
-    m_activeLanguage = Uml::ProgrammingLanguage::Reserved;
-    m_pUndoStack = new KUndoStack(this);
-    m_doc = new UMLDoc();
+    s_instance = this;
     m_doc->init();
-    m_hasBegunMacro = false;
-    m_printSettings = 0;
-    m_printer = new QPrinter;
     m_printer->setFullPage(true);
-    m_dlg = NULL;
 
     readOptionState();
     initActions();
@@ -159,7 +164,6 @@ UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent)
 
     //get a reference to the Code->Active Language and to the Diagram->Zoom menu
     m_langSelect = findMenu(QString("active_lang_menu") );
-
     //in case langSelect hasn't been initialized we create the Popup menu.
     //it will be hidden, but at least we wont crash if someone takes the entry away from the ui.rc file
     if (m_langSelect == NULL) {
@@ -167,7 +171,6 @@ UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent)
     }
 
     m_zoomSelect = findMenu(QString("zoom_menu") );
-
     //in case zoomSelect hasn't been initialized we create the Popup menu.
     //it will be hidden, but at least we wont crash if some one takes the entry away from the ui.rc file
     if (m_zoomSelect == NULL) {
@@ -177,10 +180,6 @@ UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent)
     //connect zoomSelect menu
     connect(m_zoomSelect,SIGNAL(aboutToShow()),this,SLOT(setupZoomMenu()));
     connect(m_zoomSelect,SIGNAL(triggered(QAction*)),this,SLOT(slotSetZoom(QAction*)));
-
-    m_refactoringAssist   = NULL;
-    m_commoncodegenpolicy = new CodeGenerationPolicy();
-    m_imageExporterAll    = new UMLViewImageExporterAll();
 
     setAutoSaveSettings();
     m_toolsbar->setToolButtonStyle(Qt::ToolButtonIconOnly);  // too many items for text, really we want a toolbox widget
@@ -739,7 +738,7 @@ void UMLApp::initStatusBar()
 void UMLApp::initView()
 {
     setCaption(m_doc->url().fileName(),false);
-    m_view = NULL;
+    m_view = 0;
     m_toolsbar = new WorkToolBar(this);
     m_toolsbar->setWindowTitle(i18n("Diagram Toolbar"));
     addToolBar(Qt::TopToolBarArea, m_toolsbar);
@@ -1272,16 +1271,16 @@ bool UMLApp::slotPrintSettings()
     }
     m_printSettings = new DiagramPrintPage(0, m_doc);
 
-    KDialog *d = new KDialog();
-    d->setMainWidget(m_printSettings);
+    QPointer<KDialog> dlg = new KDialog();
+    dlg->setMainWidget(m_printSettings);
 
-    bool result = d->exec() == QDialog::Accepted;
+    bool result = dlg->exec() == QDialog::Accepted;
 
     // keep settings
-    d->setMainWidget(0);
+    dlg->setMainWidget(0);
     m_printSettings->setParent(0);
 
-    delete d;
+    delete dlg;
     return result;
 }
 
@@ -1298,6 +1297,7 @@ void UMLApp::slotPrintPreview()
     QPointer<QPrintPreviewDialog> preview = new QPrintPreviewDialog(m_printer,this);
     connect(preview, SIGNAL(paintRequested(QPrinter*)), this, SLOT(slotPrintPreviewPaintRequested(QPrinter*)));
     preview->exec();
+    delete preview;
     delete m_printSettings;
     m_printSettings = 0;
     resetStatusMsg();
@@ -1755,15 +1755,15 @@ void UMLApp::slotPrefs()
 {
        Settings::OptionState& optionState = Settings::optionState();
 
-       m_dlg = new SettingsDlg(this, &optionState);
-       connect(m_dlg, SIGNAL(applyClicked()), this, SLOT(slotApplyPrefs()));
+       m_settingsDlg = new SettingsDlg(this, &optionState);
+       connect(m_settingsDlg, SIGNAL(applyClicked()), this, SLOT(slotApplyPrefs()));
 
-       if ( m_dlg->exec() == QDialog::Accepted && m_dlg->getChangesApplied() ) {
+       if ( m_settingsDlg->exec() == QDialog::Accepted && m_settingsDlg->getChangesApplied() ) {
            slotApplyPrefs();
        }
 
-       delete m_dlg;
-       m_dlg = NULL;
+       delete m_settingsDlg;
+       m_settingsDlg = 0;
 }
 
 /**
@@ -1771,7 +1771,7 @@ void UMLApp::slotPrefs()
  */
 void UMLApp::slotApplyPrefs()
 {
-    if (m_dlg) {
+    if (m_settingsDlg) {
         // we need this to sync both values
         Settings::OptionState& optionState = Settings::optionState();
         bool stackBrowsing = (m_layout->indexOf(m_tabWidget) != -1);
@@ -1814,7 +1814,7 @@ void UMLApp::slotApplyPrefs()
         }
 
         m_doc->settingsChanged( optionState );
-        const QString plStr = m_dlg->getCodeGenerationLanguage();
+        const QString plStr = m_settingsDlg->getCodeGenerationLanguage();
         Uml::ProgrammingLanguage pl = Uml::ProgrammingLanguage::fromString(plStr);
         setGenerator(pl);
     }
@@ -2732,7 +2732,7 @@ UMLView* UMLApp::currentView() const
  * Sets the default mime type for all diagrams that are exported as images.
  * @param mimeType   the mime type
  */
-void UMLApp::setImageMimeType(QString const & mimeType)
+void UMLApp::setImageMimeType(const QString& mimeType)
 {
     m_imageMimeType = mimeType;
 }
