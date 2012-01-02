@@ -5,19 +5,20 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003 Brian Thomas  <brian.thomas@gsfc.nasa.gov>         *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef CODEEDITOR_H
 #define CODEEDITOR_H
 
-#include <QtCore/QString>
-#include <QtCore/QList>
-#include <QtGui/QTextEdit>
-
 #include "codeviewerstate.h"
 #include "textblocklist.h"
+
+#include <ktextedit.h>
+
+#include <QtCore/QString>
+#include <QtCore/QList>
 
 class CodeViewerDialog;
 class CodeComment;
@@ -62,7 +63,7 @@ public:
 };
 
 
-class CodeEditor : public QTextEdit
+class CodeEditor : public KTextEdit
 {
     Q_OBJECT
 public:

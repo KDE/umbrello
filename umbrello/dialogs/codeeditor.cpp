@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003  Brian Thomas  <brian.thomas@gsfc.nasa.gov>        *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -56,7 +56,7 @@
  * Constructor.
  */
 CodeEditor::CodeEditor(const QString & text, CodeViewerDialog * parent, CodeDocument * doc)
-  : QTextEdit(text, parent)
+  : KTextEdit(text, parent)
 {
     init(parent, doc);
 }
@@ -65,7 +65,7 @@ CodeEditor::CodeEditor(const QString & text, CodeViewerDialog * parent, CodeDocu
  * Constructor.
  */
 CodeEditor::CodeEditor(CodeViewerDialog * parent, CodeDocument * doc)
-  : QTextEdit(parent)
+  : KTextEdit(parent)
 {
     init(parent, doc);
 }
@@ -89,10 +89,7 @@ void CodeEditor::clearText()
 
     // uDebug() << "text block list size=" << m_textBlockList.size();
     while (!m_textBlockList.isEmpty()) {
-        TextBlock* tb = m_textBlockList.takeFirst();
-        if (tb != NULL) {
-            delete tb;
-        }
+        /*;TODO:? delete */ m_textBlockList.takeFirst();
     }
     m_tbInfoMap.clear();
 }
@@ -150,7 +147,7 @@ bool CodeEditor::close()
         updateTextBlockFromText (m_lastTextBlockToBeEdited);
         m_lastTextBlockToBeEdited = 0;
     }
-    return QTextEdit::close();
+    return KTextEdit::close();
 }
 
 /**
@@ -236,7 +233,7 @@ void CodeEditor::keyPressEvent(QKeyEvent * e)
     if ((e->key() == 10) || (e->key() == 13) || (e->text() == "\r\n")) {
         m_newLinePressed = true;
     }
-    QTextEdit::keyPressEvent(e);
+    KTextEdit::keyPressEvent(e);
 }
 
 /**
@@ -302,7 +299,7 @@ void CodeEditor::insertText(const QString & text, TextBlock * parent,
                 }
             }
         }
-        QTextEdit::append(text); // put actual text in. Use insert instead of append so history is preserved?
+        KTextEdit::append(text); // put actual text in. Use insert instead of append so history is preserved?
     }
     else {
         isInsert = true;
@@ -1502,7 +1499,7 @@ void CodeEditor::contentsMouseMoveEvent(QMouseEvent * e)
  * If connections are right, then the UMLObject will send out the modified()
  * signal which will trigger a call to re-generate the appropriate code within
  * the code document. Our burden is to appropriately prepare the tool: we clear
- * out ALL the textblocks in the QTextEdit widget and then re-show them
+ * out ALL the textblocks in the KTextEdit widget and then re-show them
  * after the dialog disappears.
  */
 void CodeEditor::rebuildView(int startCursorPos)
