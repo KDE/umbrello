@@ -493,7 +493,10 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLScene* scene, const QString &
     // make sure the widget sizes will be according to the
     // actually used printer font, important for getDiagramRect()
     // and the actual painting
-    scene->forceUpdateWidgetFontMetrics(&painter);
+//    scene->forceUpdateWidgetFontMetrics(&painter);
+    //Note: The above was commented out because other exportViewTo...
+    //      do not have it and it forces a resize of the widgets,
+    //      which is not correctly implemented for now.
 
     painter.translate(-rect.x(),-rect.y());
     scene->getDiagram(rect, painter);
@@ -503,7 +506,8 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLScene* scene, const QString &
     exportSuccessful = true;
 
     // next painting will most probably be to a different device (i.e. the screen)
-    scene->forceUpdateWidgetFontMetrics(0);
+//    scene->forceUpdateWidgetFontMetrics(0);
+    //Note: See comment above.
 
     DEBUG(DBG_IEM) << "saving to file " << fileName << " successful=" << exportSuccessful;
     return exportSuccessful;
