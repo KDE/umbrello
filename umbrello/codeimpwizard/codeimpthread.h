@@ -24,7 +24,6 @@
 #include <QtCore/QMutex>
 #include <QtCore/QThread>
 #include <QtCore/QWaitCondition>
-#include <QtGui/QMessageBox>
 
 class ClassImport;
 
@@ -47,7 +46,7 @@ public slots:
     void emitMessageToLog(const QString& file, const QString& text);
 
 signals:
-    void askQuestion(const QString& question, QMessageBox::StandardButton* answer);
+    void askQuestion(const QString& question, int& answer);
     void messageToWiz(const QString& file, const QString& text);
     void messageToLog(const QString& file, const QString& text);
     void messageToApp(const QString& text);
@@ -55,7 +54,7 @@ signals:
     void aborted();
 
 private slots:
-    void questionAsked(const QString& question, QMessageBox::StandardButton* answer);
+    void questionAsked(const QString& question, int& answer);
 
 private:
     QFileInfo         m_file;

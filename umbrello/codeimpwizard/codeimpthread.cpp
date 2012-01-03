@@ -24,6 +24,7 @@
 
 // kde includes
 #include <klocale.h>
+#include <kmessagebox.h>
 
 /**
  * Constructor.
@@ -33,8 +34,8 @@ CodeImpThread::CodeImpThread(QFileInfo file, QObject* parent)
   : QObject(parent),
     m_file(file)
 {
-    connect(this, SIGNAL(askQuestion(QString,QMessageBox::StandardButton*)),
-            this, SLOT(questionAsked(QString,QMessageBox::StandardButton*)));
+    connect(this, SIGNAL(askQuestion(QString,int)),
+            this, SLOT(questionAsked(QString,int)));
 }
 
 /**
@@ -72,14 +73,13 @@ void CodeImpThread::run()
 /**
  * Emit a signal to the main gui thread to show a question box.
  * @param question   the text of the question
- * @return   the code of the answer button
+ * @return   the code of the answer button @ref KMessageBox::ButtonCode
  */
 int CodeImpThread::emitAskQuestion(const QString& question)
 {
     int buttonCode = 0;
-    QMessageBox::StandardButton buttonCodeOld;
     //QMutexLocker locker(&m_mutex);
-    emit askQuestion(question, &buttonCodeOld);
+    emit askQuestion(question, buttonCode);
     //m_waitCondition.wait(&m_mutex);
     return buttonCode;
 }
@@ -97,11 +97,11 @@ void CodeImpThread::emitMessageToLog(const QString& file, const QString& text)
 /**
  * Slot for signal askQuestion.
  * @param question   the question to ask
- * @param answer     the pressed answer button code
+ * @param answer     the pressed answer button code @ref KMessageBox::ButtonCode
  */
-void CodeImpThread::questionAsked(const QString& question, QMessageBox::StandardButton* answer)
+void CodeImpThread::questionAsked(const QString& question, int& answer)
 {
     //QMutexLocker locker(&m_mutex);
-    *answer = QMessageBox::question(0, "Question:", question, QMessageBox::Yes|QMessageBox::No);
+    answer = KMessageBox::questionYesNo(0, question, "Question code import:");
     //m_waitCondition.wakeOne();
 }
