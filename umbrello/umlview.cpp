@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -25,7 +25,6 @@
 #include <QtGui/QPrinter>
 #include <QtGui/QColor>
 #include <QtGui/QMatrix>
-#include <q3paintdevicemetrics.h>
 #include <QtGui/QHideEvent>
 #include <QtGui/QCloseEvent>
 #include <QtGui/QDropEvent>
@@ -236,7 +235,6 @@ void UMLView::print(QPrinter *pPrinter, QPainter & pPainter)
     int height, width;
     //get the size of the page
     pPrinter->setFullPage(true);
-    Q3PaintDeviceMetrics metrics(pPrinter);
     QFontMetrics fm = pPainter.fontMetrics(); // use the painter font metrics, not the screen fm!
     int fontHeight  = fm.lineSpacing();
     // fetch printer margins individual for all four page sides, as at least top and bottom are not the same
@@ -272,8 +270,8 @@ void UMLView::print(QPrinter *pPrinter, QPainter & pPainter)
     // force the widgets to update accordingly on paint
     forceUpdateWidgetFontMetrics(&pPainter);
 
-    width = metrics.width() - left - right;
-    height = metrics.height() - top - bottom;
+    width = pPrinter->width() - left - right;
+    height = pPrinter->height() - top - bottom;
 
     //get the smallest rect holding the diagram
     QRect rect = getDiagramRect();
