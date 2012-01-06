@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -35,6 +35,17 @@
 #include "uniqueid.h"
 #include "listpopupmenu.h"
 
+/**
+ * Constructs a MessageWidget.
+ *
+ * @param scene   The parent to this class.
+ * @param a       The role A widget for this message.
+ * @param b       The role B widget for this message.
+ * @param y       The vertical position to display this message.
+ * @param sequenceMessageType Whether synchronous or asynchronous
+ * @param id      A unique id used for deleting this object cleanly.
+ *                The default (-1) will prompt generation of a new ID.
+ */
 MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, ObjectWidget* b,
                              int y, Uml::Sequence_Message_Type sequenceMessageType,
                              Uml::IDType id /* = Uml::id_None */)
@@ -58,14 +69,34 @@ MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, ObjectWidget* b,
     this->activate();
 }
 
-MessageWidget::MessageWidget(UMLScene * scene, Uml::Sequence_Message_Type seqMsgType, Uml::IDType id)
+/**
+ * Constructs a MessageWidget.
+ *
+ * @param scene              The parent to this class.
+ * @param sequenceMessageType The Uml::Sequence_Message_Type of this message widget
+ * @param id                The ID to assign (-1 will prompt a new ID.)
+ */
+MessageWidget::MessageWidget(UMLScene * scene, Uml::Sequence_Message_Type seqMsgType,
+                             Uml::IDType id)
   : UMLWidget(scene, id, new MessageWidgetController(this))
 {
     init();
     m_sequenceMessageType = seqMsgType;
 }
 
-MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, int xclick, int yclick, Uml::Sequence_Message_Type sequenceMessageType, Uml::IDType id /*= Uml::id_None*/)
+/**
+ * Constructs a Lost or Found MessageWidget.
+ *
+ * @param scene  The parent to this class.
+ * @param a      The role A widget for this message.
+ * @param xclick The horizontal position clicked by the user
+ * @param yclick The vertical position clicked by the user
+ * @param sequenceMessageType Whether lost or found
+ * @param id     The ID to assign (-1 will prompt a new ID.)
+ */
+MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, int xclick, int yclick,
+                             Uml::Sequence_Message_Type sequenceMessageType,
+                             Uml::IDType id /*= Uml::id_None*/)
   : UMLWidget(scene, id, new MessageWidgetController(this))
 {
     init();
@@ -89,6 +120,9 @@ MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, int xclick, int 
     this->activate();
 }
 
+/**
+ * Initializes key variables of the class.
+ */
 void MessageWidget::init()
 {
     UMLWidget::setBaseType(WidgetBase::wt_Message);
@@ -100,6 +134,9 @@ void MessageWidget::init()
     setVisible(true);
 }
 
+/**
+ * Standard destructor.
+ */
 MessageWidget::~MessageWidget()
 {
 }
@@ -396,6 +433,9 @@ int MessageWidget::onWidget(const QPoint & p)
     return 1;
 }
 
+/**
+ * Sets the text position relative to the sequence message.
+ */
 void MessageWidget::setTextPosition()
 {
     if (m_pFText == NULL) {
@@ -434,6 +474,16 @@ int MessageWidget::constrainX(int textX, int textWidth, Uml::TextRole tr)
     return result;
 }
 
+/**
+ * Constrains the FloatingTextWidget X and Y values supplied.
+ * Overrides operation from LinkWidget.
+ *
+ * @param textX             Candidate X value (may be modified by the constraint.)
+ * @param textY             Candidate Y value (may be modified by the constraint.)
+ * @param textWidth Width of the text.
+ * @param textHeight        Height of the text.
+ * @param tr                Uml::Text_Role of the text.
+ */
 void MessageWidget::constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
                                      Uml::TextRole tr)
 {
@@ -601,6 +651,12 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     return true;
 }
 
+/**
+ * Overrides operation from LinkWidget.
+ * Required by FloatingTextWidget.
+ *
+ * @param ft   The text widget which to update.
+ */
 void MessageWidget::setMessageText(FloatingTextWidget *ft)
 {
     if (ft == NULL)
@@ -610,34 +666,63 @@ void MessageWidget::setMessageText(FloatingTextWidget *ft)
     setTextPosition();
 }
 
+/**
+ * Overrides operation from LinkWidget.
+ * Required by FloatingTextWidget.
+ *
+ * @param ft        The text widget which to update.
+ * @param newText   The new text to set.
+ */
 void MessageWidget::setText(FloatingTextWidget *ft, const QString &newText)
 {
     ft->setText(newText);
     UMLApp::app()->document()->setModified(true);
 }
 
+/**
+ * Overrides operation from LinkWidget.
+ * Required by FloatingTextWidget.
+ *
+ * @param seqNum    The new sequence number string to set.
+ * @param op        The new operation string to set.
+ */
 void MessageWidget::setSeqNumAndOp(const QString &seqNum, const QString &op)
 {
     setSequenceNumber( seqNum );
     m_CustomOp = op;   ///FIXME m_pOperation
 }
 
-void MessageWidget::setSequenceNumber( const QString &sequenceNumber )
+/**
+ * Write property of QString m_SequenceNumber.
+ */
+void MessageWidget::setSequenceNumber(const QString &sequenceNumber)
 {
     m_SequenceNumber = sequenceNumber;
 }
 
-QString MessageWidget::getSequenceNumber() const
+/**
+ * Read property of QString m_SequenceNumber.
+ */
+QString MessageWidget::sequenceNumber() const
 {
     return m_SequenceNumber;
 }
 
+/**
+ * Implements operation from LinkWidget.
+ * Required by FloatingTextWidget.
+ */
 void MessageWidget::lwSetFont (QFont font)
 {
     UMLWidget::setFont( font );
 }
 
-UMLClassifier *MessageWidget::getOperationOwner()
+/**
+ * Overrides operation from LinkWidget.
+ * Required by FloatingTextWidget.
+ * @todo Move to LinkWidget.
+ */
+UMLClassifier *MessageWidget::operationOwner()
 {
     UMLObject *pObject = m_pOw[Uml::B]->umlObject();
     if (pObject == NULL)
@@ -646,11 +731,19 @@ UMLClassifier *MessageWidget::getOperationOwner()
     return c;
 }
 
+/**
+ * Implements operation from LinkWidget.
+ * Motivated by FloatingTextWidget.
+ */
 UMLOperation *MessageWidget::operation()
 {
     return static_cast<UMLOperation*>(m_pObject);
 }
 
+/**
+ * Implements operation from LinkWidget.
+ * Motivated by FloatingTextWidget.
+ */
 void MessageWidget::setOperation(UMLOperation *op)
 {
     if (m_pObject && m_pFText)
@@ -660,11 +753,19 @@ void MessageWidget::setOperation(UMLOperation *op)
         connect(m_pObject, SIGNAL(modified()), m_pFText, SLOT(setMessageText()));
 }
 
+/**
+ * Overrides operation from LinkWidget.
+ * Required by FloatingTextWidget.
+ */
 QString MessageWidget::customOpText()
 {
     return m_CustomOp;
 }
 
+/**
+ * Overrides operation from LinkWidget.
+ * Required by FloatingTextWidget.
+ */
 void MessageWidget::setCustomOpText(const QString &opText)
 {
     m_CustomOp = opText;
@@ -913,13 +1014,24 @@ int MessageWidget::getMaxY()
     return (height - this->height());
 }
 
-void MessageWidget::setWidget(ObjectWidget * ow, Uml::Role_Type role)
+/**
+ * Sets the related widget on the given side.
+ *
+ * @param ow     The ObjectWidget we are related to.
+ * @param role   The Uml::Role_Type to be set for the ObjectWidget
+ */
+void MessageWidget::setObjectWidget(ObjectWidget * ow, Uml::Role_Type role)
 {
     m_pOw[role] = ow;
     updateResizability();
 }
 
-ObjectWidget* MessageWidget::getWidget(Uml::Role_Type role)
+/**
+ * Returns the related widget on the given side.
+ *
+ * @return  The ObjectWidget we are related to.
+ */
+ObjectWidget* MessageWidget::objectWidget(Uml::Role_Type role)
 {
     return m_pOw[role];
 }
@@ -941,7 +1053,10 @@ void MessageWidget::setyclicked (int yclick)
 //     UMLWidget::setSize(width,height);
 // }
 
-void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+/**
+ * Saves to the "messagewidget" XMI element.
+ */
+void MessageWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement messageElement = qDoc.createElement( "messagewidget" );
     UMLWidget::saveToXMI( qDoc, messageElement );
@@ -968,6 +1083,9 @@ void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     qElement.appendChild( messageElement );
 }
 
+/**
+ * Loads from the "messagewidget" XMI element.
+ */
 bool MessageWidget::loadFromXMI(QDomElement& qElement)
 {
     if ( !UMLWidget::loadFromXMI(qElement) ) {

@@ -1315,8 +1315,8 @@ void UMLView::selectWidgets(int px, int py, int qx, int qy)
             MessageWidget * mw = dynamic_cast<MessageWidget*>(lw);
             if (mw) {
                 makeSelected(mw);
-                makeSelected(mw->getWidget(A));
-                makeSelected(mw->getWidget(B));
+                makeSelected(mw->objectWidget(A));
+                makeSelected(mw->objectWidget(B));
             } else if (t != Uml::TextRole::Floating) {
                 AssociationWidget * a = dynamic_cast<AssociationWidget*>(lw);
                 if (a)
@@ -1324,8 +1324,8 @@ void UMLView::selectWidgets(int px, int py, int qx, int qy)
             }
         } else if (temp->baseType() == WidgetBase::wt_Message) {
             MessageWidget *mw = static_cast<MessageWidget*>(temp);
-            makeSelected(mw->getWidget(A));
-            makeSelected(mw->getWidget(B));
+            makeSelected(mw->objectWidget(A));
+            makeSelected(mw->objectWidget(B));
         }
         if (temp->isVisible()) {
             makeSelected(temp);
@@ -1336,8 +1336,8 @@ void UMLView::selectWidgets(int px, int py, int qx, int qy)
     //now do the same for the messagewidgets
 
     foreach(MessageWidget *w, m_MessageList) {
-        if (w->getWidget(A)->getSelected() &&
-                w->getWidget(B)->getSelected()) {
+        if (w->objectWidget(A)->getSelected() &&
+                w->objectWidget(B)->getSelected()) {
             makeSelected(w);
         }//end if
     }//end foreach
@@ -1625,8 +1625,8 @@ bool UMLView::addWidget(UMLWidget * pWidget, bool isPasteOperation)
             DEBUG(DBG_SRC) << "pMessage is NULL";
             return false;
         }
-        ObjectWidget *objWidgetA = pMessage->getWidget(A);
-        ObjectWidget *objWidgetB = pMessage->getWidget(B);
+        ObjectWidget *objWidgetA = pMessage->objectWidget(A);
+        ObjectWidget *objWidgetB = pMessage->objectWidget(B);
         Uml::IDType waID = objWidgetA->localID();
         Uml::IDType wbID = objWidgetB->localID();
         Uml::IDType newWAID = m_pIDChangesLog->findNewID(waID);
@@ -2907,8 +2907,8 @@ void UMLView::checkSelections()
     foreach(UMLWidget *pTemp , m_SelectedList) {
         if (pTemp->baseType() == WidgetBase::wt_Message && pTemp->getSelected()) {
             MessageWidget * pMessage = static_cast<MessageWidget *>(pTemp);
-            pWA = pMessage->getWidget(A);
-            pWB = pMessage->getWidget(B);
+            pWA = pMessage->objectWidget(A);
+            pWB = pMessage->objectWidget(B);
             if (!pWA->getSelected()) {
                 pWA->setSelectedFlag(true);
                 m_SelectedList.append(pWA);
@@ -3441,7 +3441,7 @@ bool UMLView::loadMessagesFromXMI(QDomElement & qElement)
             FloatingTextWidget *ft = message->floatingTextWidget();
             if (ft)
                 m_WidgetList.append(ft);
-            else if (message->getSequenceMessageType() != sequence_message_creation)
+            else if (message->sequenceMessageType() != sequence_message_creation)
                 DEBUG(DBG_SRC) << "ft is NULL for message " << ID2STR(message->id());
         }
         node = messageElement.nextSibling();
