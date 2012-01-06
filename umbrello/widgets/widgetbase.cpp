@@ -300,8 +300,8 @@ WidgetBase& WidgetBase::operator=(const WidgetBase& other)
 /**
  * Helper function for debug output.
  * Returns the given enum value as string.
- * @param ot   ObjectType of which a string representation is wanted
- * @return   the ObjectType as string
+ * @param wt   WidgetType of which a string representation is wanted
+ * @return   the WidgetType as string
  */
 QString WidgetBase::toString(WidgetType wt)
 {
