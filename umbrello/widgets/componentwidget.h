@@ -27,44 +27,21 @@ class UMLComponent;
  * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ComponentWidget : public UMLWidget {
+class ComponentWidget : public UMLWidget 
+{
 public:
-
-    /**
-     * Constructs a ComponentWidget.
-     *
-     * @param scene      The parent of this ComponentWidget.
-     * @param c The UMLComponent this will be representing.
-     */
     ComponentWidget(UMLScene * scene, UMLComponent *c);
-
-    /**
-     * destructor
-     */
     virtual ~ComponentWidget();
 
-    /**
-     * Overrides standard method
-     */
-    void paint(QPainter& p, int offsetX, int offsetY);
+    virtual void paint(QPainter& p, int offsetX, int offsetY);
 
-    /**
-     * Saves to the "componentwidget" XMI element.
-     */
-    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
-    /**
-     * Overrides method from UMLWidget.
-     */
     QSize calculateSize();
 
 private:
-    /**
-     * Initializes key variables of the class.
-     */
     void init();
-
     /**
      * The right mouse button menu
      */

@@ -11,20 +11,26 @@
 // own header
 #include "componentwidget.h"
 
-// qt/kde includes
-#include <QtGui/QPainter>
-
 // app includes
 #include "component.h"
 #include "debug_utils.h"
 #include "umlview.h"
 
+/**
+ * Constructs a ComponentWidget.
+ *
+ * @param scene      The parent of this ComponentWidget.
+ * @param c The UMLComponent this will be representing.
+ */
 ComponentWidget::ComponentWidget(UMLScene * scene, UMLComponent *c)
   : UMLWidget(scene, c)
 {
     init();
 }
 
+/**
+ * Initializes key variables of the class.
+ */
 void ComponentWidget::init()
 {
     UMLWidget::setBaseType(WidgetBase::wt_Component);
@@ -43,10 +49,17 @@ void ComponentWidget::init()
     }
 }
 
+/**
+ * Destructor.
+ */
 ComponentWidget::~ComponentWidget()
 {
 }
 
+/**
+ * Reimplemented from UMLWidget::paint to paint component
+ * widget.
+ */
 void ComponentWidget::paint(QPainter & p, int offsetX, int offsetY)
 {
     UMLComponent *umlcomp = static_cast<UMLComponent*>(m_pObject);
@@ -108,6 +121,19 @@ void ComponentWidget::paint(QPainter & p, int offsetX, int offsetY)
     }
 }
 
+/**
+ * Saves to the "componentwidget" XMI element.
+ */
+void ComponentWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+{
+    QDomElement conceptElement = qDoc.createElement("componentwidget");
+    UMLWidget::saveToXMI(qDoc, conceptElement);
+    qElement.appendChild(conceptElement);
+}
+
+/**
+ * Overrides method from UMLWidget.
+ */
 QSize ComponentWidget::calculateSize()
 {
     if ( !m_pObject) {
@@ -136,11 +162,3 @@ QSize ComponentWidget::calculateSize()
 
     return QSize(width, height);
 }
-
-void ComponentWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
-{
-    QDomElement conceptElement = qDoc.createElement("componentwidget");
-    UMLWidget::saveToXMI(qDoc, conceptElement);
-    qElement.appendChild(conceptElement);
-}
-
