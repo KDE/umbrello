@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -89,6 +89,7 @@ public:
 
     virtual void setBaseType(ObjectType ot);
     ObjectType baseType() const;
+    QLatin1String baseTypeStr() const;
 
     virtual void setID(Uml::IDType NewID);
     virtual Uml::IDType id() const;

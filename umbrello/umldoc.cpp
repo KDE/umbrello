@@ -2124,7 +2124,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
             }
             else {
                 uError() << "Guess is Uml::ModelType::N_MODELTYPES - package not set correctly for "
-                         << pObject->name() << " / base type " << ot;
+                         << pObject->name() << " / base type " << pObject->baseTypeStr();
                 pkg = m_root[Uml::ModelType::Logical];
             }
         }
