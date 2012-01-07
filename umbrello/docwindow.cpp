@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -110,7 +110,7 @@ void DocWindow::showDocumentation( UMLView * view, bool overwrite )
         return;
     }
     m_pUMLView = view;
-    m_pDocTE->setText( m_pUMLView->umlScene()->getDoc() );
+    m_pDocTE->setText( m_pUMLView->umlScene()->documentation() );
     m_modified = false;
 }
 
@@ -181,7 +181,7 @@ void DocWindow::updateDocumentation( bool clear, bool startup )
         if( m_pUMLObject ) {
             m_pUMLObject->setDoc( m_pDocTE->toPlainText() );
         } else if( m_pUMLView ) {
-            m_pUMLView->umlScene()->setDoc( m_pDocTE->toPlainText() );
+            m_pUMLView->umlScene()->setDocumentation( m_pDocTE->toPlainText() );
         } else if ( m_pUMLWidget ) {
             m_pUMLWidget->setDocumentation( m_pDocTE->toPlainText() );
         } else if ( m_pAssocWidget ) {

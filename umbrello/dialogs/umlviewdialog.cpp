@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -105,7 +105,7 @@ void UMLViewDialog::setupDiagramPropertiesPage()
     m_diagramProperties->ui_gridSpaceX->setValue( m_pView->getSnapX());
     m_diagramProperties->ui_gridSpaceY->setValue( m_pView->getSnapY());
     m_diagramProperties->ui_lineWidth->setValue( m_pView->getLineWidth());
-    m_diagramProperties->ui_documentation->setText(m_pView->getDoc());
+    m_diagramProperties->ui_documentation->setText(m_pView->documentation());
 }
 
 /**
@@ -167,7 +167,7 @@ void UMLViewDialog::applyPage(KPageWidgetItem *item)
     {
         checkName();
         m_pView->setZoom( m_diagramProperties->ui_zoom->value() );
-        m_pView->setDoc( m_diagramProperties->ui_documentation->toPlainText() );
+        m_pView->setDocumentation( m_diagramProperties->ui_documentation->toPlainText() );
         m_pView->setSnapX( m_diagramProperties->ui_gridSpaceX->value() );
         m_pView->setSnapY( m_diagramProperties->ui_gridSpaceY->value() );
         m_pView->setLineWidth( m_diagramProperties->ui_lineWidth->value() );

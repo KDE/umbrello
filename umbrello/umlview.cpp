@@ -215,11 +215,17 @@ UMLView::~UMLView()
     delete canvas();
 }
 
+/**
+ * Return the name of the diagram.
+ */
 QString UMLView::name() const
 {
     return m_Name;
 }
 
+/**
+ * Set the name of the diagram.
+ */
 void UMLView::setName(const QString &name)
 {
     m_Name = name;
@@ -274,7 +280,7 @@ void UMLView::print(QPrinter *pPrinter, QPainter & pPainter)
     height = pPrinter->height() - top - bottom;
 
     //get the smallest rect holding the diagram
-    QRect rect = getDiagramRect();
+    QRect rect = diagramRect();
     //now draw to printer
 
 #if 0
@@ -555,6 +561,9 @@ void UMLView::slotObjectRemoved(UMLObject * o)
     }
 }
 
+/**
+ * Override standard method.
+ */
 void UMLView::dragEnterEvent(QDragEnterEvent *e)
 {
     UMLDragData::LvTypeAndID_List tidList;
@@ -656,12 +665,17 @@ void UMLView::dragEnterEvent(QDragEnterEvent *e)
     }
 }
 
+/**
+ * Override standard method.
+ */
 void UMLView::dragMoveEvent(QDragMoveEvent* e)
 {
     e->accept();
 }
 
-
+/**
+ * Override standard method.
+ */
 void UMLView::dropEvent(QDropEvent *e)
 {
     UMLDragData::LvTypeAndID_List tidList;
@@ -941,7 +955,12 @@ void UMLView::contentsMouseDoubleClickEvent(QMouseEvent* ome)
     m_pToolBarState->mouseDoubleClick(static_cast<UMLSceneMouseEvent*>(ome));
 }
 
-QRect UMLView::getDiagramRect()
+/**
+ * Gets the smallest area to print.
+ *
+ * @return Returns the smallest area to print.
+ */
+QRect UMLView::diagramRect()
 {
     int startx, starty, endx, endy;
     startx = starty = INT_MAX;
@@ -1945,6 +1964,9 @@ void UMLView::getWidgetAssocs(UMLObject* Obj, AssociationWidgetList & Associatio
 
 }
 
+/**
+ * Override standard method.
+ */
 void UMLView::closeEvent(QCloseEvent * e)
 {
     QWidget::closeEvent(e);
@@ -2465,7 +2487,7 @@ void UMLView::findMaxBoundingRectangle(const FloatingTextWidget* ft, int& px, in
 void UMLView::copyAsImage(QPixmap*& pix)
 {
     //get the smallest rect holding the diagram
-    QRect rect = getDiagramRect();
+    QRect rect = diagramRect();
     QPixmap diagram(rect.width(), rect.height());
 
     //only draw what is selected
@@ -2518,7 +2540,7 @@ void UMLView::copyAsImage(QPixmap*& pix)
         findMaxBoundingRectangle(changeB, px, py, qx, qy);
     }//end foreach
 
-    QRect imageRect;  //area with respect to getDiagramRect()
+    QRect imageRect;  //area with respect to diagramRect()
     //i.e. all widgets on the canvas.  Was previously with
     //respect to whole canvas
 
@@ -3082,7 +3104,7 @@ void UMLView::setCanvasSize(int width, int height)
 
 void UMLView::resizeCanvasToItems()
 {
-    QRect canvasSize = getDiagramRect();
+    QRect canvasSize = diagramRect();
     int canvasWidth = canvasSize.right() + 5;
     int canvasHeight = canvasSize.bottom() + 5;
 
@@ -3103,6 +3125,10 @@ void UMLView::resizeCanvasToItems()
     setCanvasSize(canvasWidth, canvasHeight);
 }
 
+/**
+ * Overrides standard method from QWidget to resize canvas when
+ * it's shown.
+ */
 void UMLView::show()
 {
     QWidget::show();

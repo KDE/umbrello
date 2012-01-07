@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -100,25 +100,18 @@ public:
     /**
      * Return the documentation of the diagram.
      */
-    QString getDoc() const {
+    QString documentation() const {
         return m_Documentation;
     }
 
     /**
      * Set the documentation of the diagram.
      */
-    void setDoc( const QString &doc ) {
+    void setDocumentation(const QString &doc) {
         m_Documentation = doc;
     }
 
-    /**
-     * Return the name of the diagram.
-     */
     QString name() const;
-
-    /**
-     * Set the name of the diagram.
-     */
     void setName(const QString &name);
 
     /**
@@ -1047,32 +1040,12 @@ protected:
     // End of methods and members related to loading/saving
     ////////////////////////////////////////////////////////////////////////
 
-    /**
-     * Override standard method.
-     */
     void closeEvent(QCloseEvent * e);
-
-    /**
-     * Override standard method.
-     */
     void dragEnterEvent(QDragEnterEvent* enterEvent);
-
-    /**
-     * Override standard method.
-     */
     void dragMoveEvent(QDragMoveEvent* moveEvent);
-
-    /**
-     * Override standard method.
-     */
     void dropEvent(QDropEvent* dropEvent);
 
-    /**
-     * Gets the smallest area to print.
-     *
-     * @return Returns the smallest area to print.
-     */
-    QRect getDiagramRect();
+    QRect diagramRect();
 
     /**
      * Overrides the standard operation.
@@ -1293,9 +1266,9 @@ private:
     void sortWidgetList(UMLWidgetList &widgetList, Compare comp);
 
 public slots:
-
     void zoomIn();
     void zoomOut();
+    void show();
 
     /**
      * Changes the current tool to the selected tool.
@@ -1337,12 +1310,6 @@ public slots:
      * Called by menu when to show the instance of the view.
      */
     void slotShowView();
-
-    /**
-     * Overrides standard method from QWidget to resize canvas when
-     * it's shown.
-     */
-    void show();
 
     /**
      * Left Alignment
