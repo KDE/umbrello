@@ -36,8 +36,9 @@ class UMLWidget;
  * Accessing the region occupied by specific end is through
  * overloaded [] operator method.
  */
-struct RegionPair
+class RegionPair
 {
+public:
     RegionPair(Uml::Region f = Uml::reg_Error, Uml::Region s = Uml::reg_Error);
     bool isValid() const;
     Uml::Region& operator[](Uml::Role_Type role);
