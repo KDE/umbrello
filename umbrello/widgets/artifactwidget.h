@@ -44,7 +44,6 @@ protected:
     QSize calculateSize();
 
 private:
-    void init();
     QSize calculateIconSize();
     QSize calculateNormalSize();
 

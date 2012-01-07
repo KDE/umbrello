@@ -52,7 +52,7 @@ public:
      * @param o The UMLObject to represent.
      * @param widgetController The UMLWidgetController of this UMLWidget
      */
-    UMLWidget(UMLScene * scene, UMLObject * o, UMLWidgetController *widgetController = 0 );
+    UMLWidget(UMLScene * scene, WidgetType type = wt_UMLWidget, UMLObject * o = 0, UMLWidgetController *widgetController = 0);
 
     /**
      * Creates a UMLWidget object.
@@ -62,7 +62,7 @@ public:
      *  The default value (id_None) will prompt generation of a new ID.
      * @param widgetController The UMLWidgetController of this UMLWidget
      */
-    explicit UMLWidget(UMLScene * scene, Uml::IDType id = Uml::id_None, UMLWidgetController *widgetController = 0 );
+    explicit UMLWidget(UMLScene * scene, WidgetType type = wt_UMLWidget, Uml::IDType id = Uml::id_None, UMLWidgetController *widgetController = 0 );
 
     /**
      * Standard deconstructor

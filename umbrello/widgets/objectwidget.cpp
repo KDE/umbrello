@@ -37,7 +37,7 @@
 static const int sequenceLineMargin = 20;
 
 ObjectWidget::ObjectWidget(UMLScene * scene, UMLObject *o, Uml::IDType lid)
-  : UMLWidget(scene, o)
+  : UMLWidget(scene, WidgetBase::wt_Object, o)
 {
     init();
     if( lid != Uml::id_None )
@@ -49,7 +49,6 @@ ObjectWidget::ObjectWidget(UMLScene * scene, UMLObject *o, Uml::IDType lid)
 
 void ObjectWidget::init()
 {
-    UMLWidget::setBaseType(WidgetBase::wt_Object);
     m_nLocalID = Uml::id_None;
     m_InstanceName = "";
     m_multipleInstance = false;

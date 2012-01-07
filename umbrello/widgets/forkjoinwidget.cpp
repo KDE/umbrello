@@ -28,7 +28,8 @@
  * @param id            The ID to assign (-1 will prompt a new ID.)
  */
 ForkJoinWidget::ForkJoinWidget(UMLScene * scene, bool drawVertical, Uml::IDType id)
-  : BoxWidget(scene, id), m_drawVertical(drawVertical)
+  : BoxWidget(scene, id, WidgetBase::wt_ForkJoin),
+    m_drawVertical(drawVertical)
 {
     init();
 }
@@ -38,7 +39,6 @@ ForkJoinWidget::ForkJoinWidget(UMLScene * scene, bool drawVertical, Uml::IDType 
  */
 void ForkJoinWidget::init()
 {
-    WidgetBase::setBaseType(WidgetBase::wt_ForkJoin);
     UMLWidget::updateComponentSize();
 }
 

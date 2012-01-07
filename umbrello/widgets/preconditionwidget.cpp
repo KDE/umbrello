@@ -30,7 +30,7 @@
 #include <QtGui/QPainter>
 
 PreconditionWidget::PreconditionWidget(UMLScene * scene, ObjectWidget* a, Uml::IDType id )
-  : UMLWidget(scene, id)
+  : UMLWidget(scene, WidgetBase::wt_Precondition, id)
 {
     init();
     m_pOw = a;
@@ -51,7 +51,6 @@ PreconditionWidget::~PreconditionWidget()
 
 void PreconditionWidget::init()
 {
-    UMLWidget::setBaseType(WidgetBase::wt_Precondition);
     m_ignoreSnapToGrid = true;
     m_ignoreSnapComponentSizeToGrid = true;
     m_resizable =  true ;

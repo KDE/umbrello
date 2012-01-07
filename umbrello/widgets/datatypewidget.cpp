@@ -32,9 +32,9 @@
  * @param d         The UMLClassifier this will be representing.
  */
 DatatypeWidget::DatatypeWidget(UMLScene *scene, UMLClassifier *d) 
-  : UMLWidget(scene, d)
+  : UMLWidget(scene, WidgetBase::wt_Datatype, d)
 {
-    init();
+    setSize(100, 30);
 }
 
 /**
@@ -130,14 +130,4 @@ QSize DatatypeWidget::calculateSize()
     width += DATATYPE_MARGIN * 2;
 
     return QSize(width, height);
-}
-
-/**
- * Initializes key variables of the class.
- */
-void DatatypeWidget::init()
-{
-    UMLWidget::setBaseType(WidgetBase::wt_Datatype);
-    setSize(100, 30);
-    m_pMenu = 0;
 }

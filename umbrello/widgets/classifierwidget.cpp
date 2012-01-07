@@ -25,11 +25,11 @@
 #include "object_factory.h"
 
 ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
-  : UMLWidget(scene, c)
+  : UMLWidget(scene, WidgetBase::wt_Class, c)
 {
     init();
     if (c != NULL && c->isInterface()) {
-        WidgetBase::setBaseType(WidgetBase::wt_Interface);
+        setBaseType(WidgetBase::wt_Interface);
         m_showStereotype = true;
         m_showAttributes = false;
         updateSigs();
@@ -47,8 +47,6 @@ const int ClassifierWidget::CIRCLE_SIZE = 30;
 
 void ClassifierWidget::init()
 {
-    WidgetBase::setBaseType(WidgetBase::wt_Class);
-
     const Settings::OptionState& ops = m_scene->optionState();
     m_showAccess = ops.classState.showVisibility;
     m_showOperations = ops.classState.showOps;

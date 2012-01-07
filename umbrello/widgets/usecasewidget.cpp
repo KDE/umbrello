@@ -21,9 +21,8 @@
  *  @param  o      The UMLObject to represent.
  */
 UseCaseWidget::UseCaseWidget(UMLScene * scene, UMLUseCase *o)
-  : UMLWidget(scene, o)
+  : UMLWidget(scene, WidgetBase::wt_UseCase, o)
 {
-    UMLWidget::setBaseType(WidgetBase::wt_UseCase);
     //updateComponentSize();  Doing this during loadFromXMI() gives futile updates.
     //                  Instead, it is done afterwards by UMLWidget::activate()
 }

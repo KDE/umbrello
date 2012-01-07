@@ -57,7 +57,7 @@ using namespace Uml;
 // is bad..and shouldn't be allowed as it creates an incomplete
 // associationwidget.
 AssociationWidget::AssociationWidget(UMLScene *scene)
-  : WidgetBase(scene)
+  : WidgetBase(scene, WidgetBase::wt_Association)
 {
     init();
 }
@@ -66,7 +66,7 @@ AssociationWidget::AssociationWidget(UMLScene *scene)
 AssociationWidget::AssociationWidget(UMLScene *scene, UMLWidget* pWidgetA,
                                      Uml::AssociationType assocType, UMLWidget* pWidgetB,
                                      UMLObject *umlobject /* = NULL */)
-  : WidgetBase(scene)
+  : WidgetBase(scene, WidgetBase::wt_Association)
 {
     init();
     if (umlobject) {
@@ -3619,7 +3619,7 @@ void AssociationWidget::slotAttributeChanged()
 
 void AssociationWidget::init()
 {
-    WidgetBase::init(WidgetBase::wt_Association);
+    WidgetBase::init();
 
     // pointers to floating text widgets objects owned by this association
     m_pName = 0;

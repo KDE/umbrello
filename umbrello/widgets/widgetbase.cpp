@@ -22,8 +22,9 @@
  *
  * @param scene      The view to be displayed on.
  */
-WidgetBase::WidgetBase(UMLScene *scene) 
-  : m_scene(scene)
+WidgetBase::WidgetBase(UMLScene *scene, WidgetType type)
+  : m_scene(scene),
+    m_Type(type)
 {
     init();
 }
@@ -31,9 +32,8 @@ WidgetBase::WidgetBase(UMLScene *scene)
 /**
  * Initialize members.
  */
-void WidgetBase::init(WidgetType type /* = wt_UMLWidget */)
+void WidgetBase::init()
 {
-    m_Type = type;
     m_pObject = NULL;
     if (m_scene) {
         m_usesDiagramLineColour = true;

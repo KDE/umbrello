@@ -33,11 +33,10 @@
  * @param activityType      The type of activity.
  * @param id                The ID to assign (-1 will prompt a new ID.)
  */
-ActivityWidget::ActivityWidget(UMLScene * scene, ActivityType activityType, Uml::IDType id )
-  : UMLWidget(scene, id),
+ActivityWidget::ActivityWidget(UMLScene * scene, ActivityType activityType, Uml::IDType id)
+  : UMLWidget(scene, WidgetBase::wt_Activity, id),
     m_activityType(activityType)
 {
-    UMLWidget::setBaseType( WidgetBase::wt_Activity );
     updateComponentSize();
 }
 

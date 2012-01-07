@@ -23,11 +23,10 @@
 #include "umlview.h"
 
 NodeWidget::NodeWidget(UMLScene * scene, UMLNode *n )
-  : UMLWidget(scene, n)
+  : UMLWidget(scene, WidgetBase::wt_Node, n)
 {
-    UMLWidget::setBaseType(WidgetBase::wt_Node);
-    setZ(m_origZ = 1);  // above box but below UMLWidget because may embed widgets
     setSize(100, 30);
+    setZ(m_origZ = 1);  // above box but below UMLWidget because may embed widgets
     if (n && !UMLApp::app()->document()->loading())
         updateComponentSize();
 }

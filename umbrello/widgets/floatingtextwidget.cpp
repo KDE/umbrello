@@ -47,9 +47,8 @@
  * @param text The main text to display.
  * @param id The ID to assign (-1 will prompt a new ID.)
  */
-FloatingTextWidget::FloatingTextWidget(UMLScene * scene, Uml::TextRole role,
-                                       const QString& text, Uml::IDType id)
-  : UMLWidget(scene, id, new FloatingTextWidgetController(this))
+FloatingTextWidget::FloatingTextWidget(UMLScene * scene, Uml::TextRole role, const QString& text, Uml::IDType id)
+  : UMLWidget(scene, WidgetBase::wt_Text, id, new FloatingTextWidgetController(this))
 {
     init();
     m_Text = text;
@@ -71,7 +70,6 @@ void FloatingTextWidget::init()
     m_Text.clear();
     m_postText.clear();
     m_textRole = Uml::TextRole::Floating;
-    m_Type = WidgetBase::wt_Text;
     // initialize non-saved (i.e. volatile) data
     m_linkWidget = NULL;
     UMLWidget::m_resizable = false;

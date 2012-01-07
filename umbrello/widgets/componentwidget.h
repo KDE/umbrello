@@ -39,9 +39,6 @@ public:
 
 protected:
     QSize calculateSize();
-
-private:
-    void init();
     /**
      * The right mouse button menu
      */
