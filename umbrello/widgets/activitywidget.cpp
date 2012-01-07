@@ -37,11 +37,9 @@
  * @param id                The ID to assign (-1 will prompt a new ID.)
  */
 ActivityWidget::ActivityWidget(ActivityType activityType, Uml::IDType id)
-    : UMLWidget(0),
-      m_activityType(activityType)
+  : UMLWidget(WidgetBase::wt_Activity, id),
+    m_activityType(activityType)
 {
-    m_baseType = WidgetBase::wt_Activity;
-    setID(id);
     createTextItemGroup();
 }
 

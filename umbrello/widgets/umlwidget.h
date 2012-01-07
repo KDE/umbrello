@@ -65,7 +65,8 @@ public:
     static const QSizeF DefaultMinimumSize;
     static const QSizeF DefaultMaximumSize;
 
-    explicit UMLWidget(UMLObject *object);
+    explicit UMLWidget(WidgetType type = wt_UMLWidget, Uml::IDType id = 0);
+    UMLWidget(WidgetType type, UMLObject *object);
     virtual ~UMLWidget();
 
     /// @return The minimum size for this widget.

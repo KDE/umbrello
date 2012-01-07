@@ -51,17 +51,14 @@ const qreal FloatingTextWidget::restrictPositionMax = 3000;
  * @param text the main text to display
  * @param id   the ID to assign (-1 will prompt a new ID)
  */
-FloatingTextWidget::FloatingTextWidget(Uml::TextRole role,
-                                       Uml::IDType id)
-  : UMLWidget(0),
+FloatingTextWidget::FloatingTextWidget(Uml::TextRole role, Uml::IDType id)
+  : UMLWidget(WidgetBase::wt_Text, id),
     m_linkWidget(0),
     m_text(QString()),
     m_preText(QString()),
     m_postText(QString()),
     m_textRole(role)
 {
-    m_baseType = WidgetBase::wt_Text;
-    setID(id);
     setResizable(false);
     // no margin
     setMargin(0);

@@ -23,9 +23,9 @@
  *
  *  @param  o The UMLObject to represent.
  */
-UseCaseWidget::UseCaseWidget(UMLUseCase *o) : UMLWidget(o)
+UseCaseWidget::UseCaseWidget(UMLUseCase *o) 
+  : UMLWidget(WidgetBase::wt_UseCase, o)
 {
-    m_baseType = WidgetBase::wt_UseCase;
     createTextItemGroup();
 }
 

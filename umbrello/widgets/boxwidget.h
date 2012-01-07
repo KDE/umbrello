@@ -28,7 +28,7 @@
 class BoxWidget : public UMLWidget
 {
 public:
-    explicit BoxWidget(Uml::IDType id = Uml::id_None);
+    explicit BoxWidget(Uml::IDType id = Uml::id_None, WidgetType = WidgetBase::wt_Box);
     virtual ~BoxWidget();
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);

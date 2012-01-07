@@ -31,12 +31,10 @@
  * CombinedFragmentWidget.
  */
 FloatingDashLineWidget::FloatingDashLineWidget(QGraphicsItem *parent, Uml::IDType id)
-    : UMLWidget(0),
-      m_yMin(0),
-      m_yMax(1000)
+  : UMLWidget(WidgetBase::wt_FloatingDashLine, id),
+    m_yMin(0),
+    m_yMax(1000)
 {
-    m_baseType = WidgetBase::wt_FloatingDashLine;
-    setID(id);
     setResizable(false);
     setParentItem(parent);
     createTextItemGroup();

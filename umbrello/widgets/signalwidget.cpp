@@ -34,11 +34,9 @@ const QSizeF SignalWidget::MinimumSize(50, 50);
  * @param id                The ID to assign (-1 will prompt a new ID.)
  */
 SignalWidget::SignalWidget(SignalType signalType, Uml::IDType id)
-    : UMLWidget(0)
+  : UMLWidget(WidgetBase::wt_Signal, id)
 {
-    m_baseType = WidgetBase::wt_Signal;
     m_signalType = signalType;
-    setID(id);
     createTextItemGroup();
 }
 

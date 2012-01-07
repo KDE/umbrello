@@ -17,18 +17,14 @@
 #include "textitem.h"
 #include "textitemgroup.h"
 
-// qt/kde includes
-#include <QtGui/QPainter>
-
 /**
  * Constructs a ComponentWidget.
  *
  * @param c The UMLComponent this will be representing.
  */
 ComponentWidget::ComponentWidget(UMLComponent *c)
-    : UMLWidget(c)
+  : UMLWidget(WidgetBase::wt_Component, c)
 {
-    m_baseType = WidgetBase::wt_Component;
     setMargin(10); // override default of 5 for other widgets.
     createTextItemGroup();
 }

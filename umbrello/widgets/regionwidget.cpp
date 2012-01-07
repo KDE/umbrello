@@ -20,10 +20,8 @@ const QSizeF RegionWidget::MinimumSize(90, 45);
  * @param id The ID to assign (-1 will prompt a new ID.)
  */
 RegionWidget::RegionWidget(Uml::IDType id)
-    : UMLWidget(0)
+  : UMLWidget(WidgetBase::wt_Region, id)
 {
-    m_baseType = WidgetBase::wt_Region;
-    setID(id);
     setMinimumSize(RegionWidget::MinimumSize);
 }
 

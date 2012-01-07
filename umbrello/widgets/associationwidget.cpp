@@ -93,7 +93,7 @@ void WidgetRole::initFloatingWidgets(Uml::Role_Type role, AssociationWidget *par
  * Default constructor.
  */
 AssociationWidget::AssociationWidget()
-  : WidgetBase(0)
+  : WidgetBase(WidgetBase::wt_Association)
 {
     init();
 }
@@ -103,7 +103,7 @@ AssociationWidget::AssociationWidget()
  */
 AssociationWidget::AssociationWidget(UMLWidget *widgetA, Uml::AssociationType type,
                                      UMLWidget *widgetB, UMLObject *umlObj)
-  : WidgetBase(0) // Set UMLObject in body
+  : WidgetBase(WidgetBase::wt_Association)
 {
     init();
     const bool doNotNotifyAsSlot = false;
@@ -1742,7 +1742,6 @@ void AssociationWidget::umlObjectChanged(UMLObject *old)
 
 void AssociationWidget::init()
 {
-    m_baseType = WidgetBase::wt_Association;
     m_associationType = Uml::AssociationType::Association;
     m_associationClass = 0;
     m_associationLine = new AssociationLine(this);

@@ -26,10 +26,9 @@ const qreal NodeWidget::DEPTH = 30;  ///< pixels on Z axis
  *
  * @param n The UMLNode this will be representing.
  */
-NodeWidget::NodeWidget(UMLNode *n )
-    : UMLWidget(n)
+NodeWidget::NodeWidget(UMLNode *n)
+  : UMLWidget(WidgetBase::wt_Node, n)
 {
-    m_baseType = WidgetBase::wt_Node;
     createTextItemGroup();
     // above box but below UMLWidget because may embed widgets
     setZValue(1);

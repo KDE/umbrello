@@ -32,11 +32,10 @@
  * Constructs an instance of EnumWidget.
  * @param o The NewUMLObject this will be representing.
  */
-EnumWidget::EnumWidget(UMLObject* o) :
-    UMLWidget(o),
+EnumWidget::EnumWidget(UMLObject* o) 
+  : UMLWidget(WidgetBase::wt_Enum, o),
     m_showPackage(false)
 {
-    m_baseType = WidgetBase::wt_Enum;
     createTextItemGroup();
 }
 

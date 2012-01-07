@@ -26,9 +26,8 @@ const QSizeF ArtifactWidget::MinimumIconSize(50, 50);
  * @param a The Artifact this widget will be representing.
  */
 ArtifactWidget::ArtifactWidget(UMLArtifact *a)
-  : UMLWidget(a)
+  : UMLWidget(WidgetBase::wt_Artifact, a)
 {
-    m_baseType = WidgetBase::wt_Artifact;
     m_cachedTextHeight = 0; // Initialize on first call of sizeHasChanged.
 
     createTextItemGroup();

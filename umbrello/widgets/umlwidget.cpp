@@ -41,13 +41,39 @@ const QSizeF UMLWidget::DefaultMinimumSize(50, 20);
 const QSizeF UMLWidget::DefaultMaximumSize(1000, 1000);
 
 /**
+ * Construct a UMLWidget using an id.
+ *
+ * @param type The type of the object.
+ * @param id   The object id.
+ * @see WidgetBase::WidgetBase()
+ */
+UMLWidget::UMLWidget(WidgetType type, Uml::IDType id)
+  : WidgetBase(type),
+    m_size(20, 20),
+    m_minimumSize(UMLWidget::DefaultMinimumSize),
+    m_maximumSize(UMLWidget::DefaultMaximumSize),
+    m_margin(5.0), // Default margin size
+    m_isInstance(false),
+    m_resizable(true),
+    m_widgetHandle(0),
+    m_mouseMoveEventStore(0)
+{
+    if (id != Uml::id_None) {
+        setID(id);
+    }
+    
+    m_associationSpaceManager = new AssociationSpaceManager(this);
+}
+
+/**
  * Construct a UMLWidget associtated with object.
  *
+ * @param type The type of the object.
  * @param object UMLObject with which widget should be associated.
  * @see WidgetBase::WidgetBase()
  */
-UMLWidget::UMLWidget(UMLObject *object)
-  : WidgetBase(object),
+UMLWidget::UMLWidget(WidgetType type, UMLObject *object)
+  : WidgetBase(type, object),
     m_size(20, 20),
     m_minimumSize(UMLWidget::DefaultMinimumSize),
     m_maximumSize(UMLWidget::DefaultMaximumSize),

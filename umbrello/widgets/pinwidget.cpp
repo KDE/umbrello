@@ -37,13 +37,9 @@ const qreal PinWidget::Size = 10;
  * @param  owner  The widget to which this pin is attached.
  * @param     id  The ID to assign (-1 will prompt a new ID.)
  */
-PinWidget::PinWidget(UMLWidget* owner, Uml::IDType id ):
-    UMLWidget(0)
+PinWidget::PinWidget(UMLWidget* owner, Uml::IDType id)
+  : UMLWidget(WidgetBase::wt_Pin, id)
 {
-    m_baseType = WidgetBase::wt_Pin;
-
-    setID(id);
-
 //:DEPRECATED:    setIgnoreSnapToGrid(true);
 //:DEPRECATED:    setIgnoreSnapComponentSizeToGrid(true);
     setResizable(false);

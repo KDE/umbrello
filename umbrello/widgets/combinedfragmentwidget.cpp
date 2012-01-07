@@ -36,14 +36,10 @@
  * @param combinedfragmentType      The type of combined fragment.
  * @param id                The ID to assign (-1 will prompt a new ID.)
  */
-CombinedFragmentWidget::CombinedFragmentWidget(CombinedFragmentType combinedfragmentType, Uml::IDType id )
-  : UMLWidget(0)
+CombinedFragmentWidget::CombinedFragmentWidget(CombinedFragmentType combinedfragmentType, Uml::IDType id)
+  : UMLWidget(WidgetBase::wt_CombinedFragment, id),
+    m_combinedFragmentType(combinedfragmentType)
 {
-    m_baseType = WidgetBase::wt_CombinedFragment;
-    m_combinedFragmentType = combinedfragmentType;
-
-    setID(id);
-
     // The first group is for fragment "type" text.
     createTextItemGroup();
 

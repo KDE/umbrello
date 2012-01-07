@@ -24,9 +24,9 @@
  *
  *  @param  o The UMLCategory to represent.
  */
-CategoryWidget::CategoryWidget(UMLCategory *o) : UMLWidget(o)
+CategoryWidget::CategoryWidget(UMLCategory *o)
+  : UMLWidget(WidgetBase::wt_Category, o)
 {
-    m_baseType = WidgetBase::wt_Category;
 }
 
 /**

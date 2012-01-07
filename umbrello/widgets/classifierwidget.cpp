@@ -50,7 +50,7 @@ const int ClassifierWidget::InvalidIndex = 99999;
  * @param c The UMLObject to represent.
  */
 ClassifierWidget::ClassifierWidget(UMLClassifier *c)
-  : UMLWidget(c),
+  : UMLWidget(WidgetBase::wt_Class, c),
     m_classAssociationWidget(0)
 {
     createTextItemGroup(); // For header (name, stereotype..)
@@ -72,7 +72,6 @@ ClassifierWidget::ClassifierWidget(UMLClassifier *c)
     m_dummyAttributeItem = m_dummyOperationItem = 0;
     m_lineItem2Index = InvalidIndex;
 
-    m_baseType = WidgetBase::wt_Class;
     // TODO: The following properties should be set using the
     //       OptionState rather than direct defaults.
 

@@ -40,12 +40,10 @@ const QSizeF ObjectNodeWidget::MinimumSize(30, 10);
  * @param objectNodeType      The type of object node
  * @param id                The ID to assign (-1 will prompt a new ID.)
  */
-ObjectNodeWidget::ObjectNodeWidget(ObjectNodeType objectNodeType, Uml::IDType id )
-    : UMLWidget(0)
+ObjectNodeWidget::ObjectNodeWidget(ObjectNodeType objectNodeType, Uml::IDType id)
+  : UMLWidget(WidgetBase::wt_ObjectNode, id)
 {
-    m_baseType = WidgetBase::wt_ObjectNode;
     m_objectNodeType = objectNodeType;
-    setID(id);
     createTextItemGroup();
 }
 

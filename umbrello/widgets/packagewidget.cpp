@@ -23,10 +23,9 @@
 /**
  * Constructs a PackageWidget for a given UMLPackage object.
  */
-PackageWidget::PackageWidget(UMLPackage *o) :
-    UMLWidget(o)
+PackageWidget::PackageWidget(UMLPackage *o) 
+  : UMLWidget(WidgetBase::wt_Package, o)
 {
-    m_baseType = WidgetBase::wt_Package;
     createTextItemGroup();
 }
 

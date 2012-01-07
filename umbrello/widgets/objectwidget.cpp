@@ -50,9 +50,8 @@ const qreal ObjectWidget::SequenceLineMargin = 20;
  * @param lid       The local id for the object.
  */
 ObjectWidget::ObjectWidget(UMLObject *object, const Uml::IDType& lid)
-  : UMLWidget(object)
+  : UMLWidget(WidgetBase::wt_Object, object)
 {
-    m_baseType = WidgetBase::wt_Object;
     m_localID = lid;
     m_multipleInstance = false;
     m_drawAsActor = false;

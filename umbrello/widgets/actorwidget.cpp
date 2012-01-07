@@ -25,9 +25,8 @@ const QSizeF ActorWidget::MinimumSize = QSizeF(20, 40);
  * @param o The Actor class this ActorWidget will display.
  */
 ActorWidget::ActorWidget(UMLActor *a) 
-  : UMLWidget(a)
+  : UMLWidget(WidgetBase::wt_Actor, a)
 {
-    m_baseType = WidgetBase::wt_Actor;
     createTextItemGroup();
     textItemGroupAt(0)->setMargin(0);
     setMargin(0);

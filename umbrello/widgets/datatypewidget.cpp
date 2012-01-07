@@ -20,10 +20,9 @@
 #include <QtGui/QPainter>
 
 /// Constructs a dataTypeWidget representing UMLClassifier \a d
-DatatypeWidget::DatatypeWidget(UMLClassifier *d) :
-    UMLWidget(d)
+DatatypeWidget::DatatypeWidget(UMLClassifier *d) 
+  : UMLWidget(WidgetBase::wt_Datatype, d)
 {
-    m_baseType = WidgetBase::wt_Datatype;
     createTextItemGroup();
 }
 

@@ -38,11 +38,9 @@ const QSizeF StateWidget::MinimumEllipseSize(30, 10);
  * @param id The ID to assign (-1 will prompt a new ID.)
  */
 StateWidget::StateWidget(StateType stateType, Uml::IDType id)
-    : UMLWidget(0)
+  : UMLWidget(WidgetBase::wt_State, id)
 {
-    m_baseType = WidgetBase::wt_State;
     m_stateType = stateType;
-    setID(id);
     createTextItemGroup();
 
     const qreal radius = 18.0;

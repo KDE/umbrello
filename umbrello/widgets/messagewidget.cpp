@@ -50,10 +50,9 @@ const qreal MessageWidget::SelfLoopBoxWidth = 50;
 MessageWidget::MessageWidget(ObjectWidget* a, ObjectWidget* b,
                              Uml::Sequence_Message_Type sequenceMessageType,
                              Uml::IDType id /* = Uml::id_None */)
-    : UMLWidget(0)
+  : UMLWidget(WidgetBase::wt_Message, id)
 {
     init();
-    setID(id);
     m_objectWidgets[Uml::A] = a;
     m_objectWidgets[Uml::B] = b;
 
@@ -68,10 +67,9 @@ MessageWidget::MessageWidget(ObjectWidget* a, ObjectWidget* b,
  */
 MessageWidget::MessageWidget(Uml::Sequence_Message_Type seqMsgType,
                              Uml::IDType id)
-    : UMLWidget(0)
+  : UMLWidget(WidgetBase::wt_Message, id)
 {
     init();
-    setID(id);
     m_objectWidgets[Uml::A] = new ObjectWidget(0);
     m_objectWidgets[Uml::B] = new ObjectWidget(0);
     m_sequenceMessageType = seqMsgType;
@@ -91,7 +89,7 @@ MessageWidget::MessageWidget(Uml::Sequence_Message_Type seqMsgType,
 MessageWidget::MessageWidget(ObjectWidget* a, const QPointF& clickedPos,
                              Uml::Sequence_Message_Type seqMsgType,
                              Uml::IDType id)
-    : UMLWidget(0)
+  : UMLWidget(WidgetBase::wt_Message, id)
 {
     init();
     setID(id);
@@ -107,7 +105,6 @@ MessageWidget::MessageWidget(ObjectWidget* a, const QPointF& clickedPos,
  */
 void MessageWidget::init()
 {
-    m_baseType = WidgetBase::wt_Message;
 //:DEPRECATED:    setIgnoreSnapToGrid(true);
 //:DEPRECATED:    setIgnoreSnapComponentSizeToGrid(true);
     m_objectWidgets[Uml::A] = 0;

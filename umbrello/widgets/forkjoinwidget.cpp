@@ -22,10 +22,9 @@
  * @param id ID of the widget. (-1 for new id)
  */
 ForkJoinWidget::ForkJoinWidget(Qt::Orientation o, Uml::IDType id)
-    : BoxWidget(id),
-      m_orientation(o)
+  : BoxWidget(id, WidgetBase::wt_ForkJoin),
+    m_orientation(o)
 {
-    m_baseType = WidgetBase::wt_ForkJoin;
     setMargin(0);
     setBrush(QBrush(Qt::black));
 }

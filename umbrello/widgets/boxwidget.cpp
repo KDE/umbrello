@@ -15,12 +15,11 @@
  * Constructs a BoxWidget.
  *
  * @param id                The ID to assign (-1 will prompt a new ID.)
+ * @param type              The type of the widget
  */
-BoxWidget::BoxWidget(Uml::IDType id)
-    : UMLWidget(0)
+BoxWidget::BoxWidget(Uml::IDType id, WidgetType type)
+  : UMLWidget(type, id)
 {
-    m_baseType = WidgetBase::wt_Box;
-    setID(id);
     setMinimumSize(QSizeF(20, 20));
     setZValue(-10);
 }

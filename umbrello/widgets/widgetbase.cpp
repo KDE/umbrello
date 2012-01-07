@@ -77,8 +77,9 @@ static QColor awesomeLineColor()
  * The properties encapsulated here are used only if the widget does
  * not have UMLObject representation.
  */
-struct WidgetInterfaceData
+class WidgetInterfaceData
 {
+public:
     WidgetInterfaceData() : id(Uml::id_None)
     {
     }
@@ -100,8 +101,9 @@ struct WidgetInterfaceData
  * @note The widget's visual properties are best to be set by the
  *       Widget_Factory::createWidget method.
  */
-WidgetBase::WidgetBase(UMLObject *object)
+WidgetBase::WidgetBase(WidgetType type, UMLObject *object)
   : QGraphicsObject(),
+    m_baseType(type),
     m_umlObject(object),
     m_lineColor(awesomeLineColor()),
     m_lineWidth(0),

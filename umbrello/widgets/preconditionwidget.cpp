@@ -30,11 +30,9 @@
  * @param id The ID to assign (-1 will prompt a new ID.)
  */
 PreconditionWidget::PreconditionWidget( ObjectWidget* a, Uml::IDType id )
-    : UMLWidget(0),
-      m_objectWidget(a)
+  : UMLWidget(WidgetBase::wt_Precondition, id),
+    m_objectWidget(a)
 {
-    m_baseType = WidgetBase::wt_Precondition;
-    setID(id);
 //:DEPRECATED:    setIgnoreSnapToGrid(true);
 //:DEPRECATED:    setIgnoreSnapComponentSizeToGrid(true);
 

@@ -33,10 +33,9 @@
  *
  * @param o The UMLObject this will be representing.
  */
-EntityWidget::EntityWidget(UMLObject* o) :
-    UMLWidget(o)
+EntityWidget::EntityWidget(UMLObject* o) 
+  : UMLWidget(WidgetBase::wt_Entity, o)
 {
-    m_baseType = WidgetBase::wt_Entity;
     createTextItemGroup();
 }
 

@@ -127,8 +127,8 @@ public:
     };
     Q_DECLARE_FLAGS(UserChange, UserChangeType)
 
-
-    explicit WidgetBase(UMLObject *object);
+    // FIXME: differ from trunk because of different implementations 
+    explicit WidgetBase(WidgetType type = wt_UMLWidget, UMLObject *object = 0);
     virtual ~WidgetBase();
 
     UMLObject* umlObject() const;
