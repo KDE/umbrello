@@ -88,7 +88,7 @@ void ForkJoinWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement fjElement = qDoc.createElement("forkjoin");
     UMLWidget::saveToXMI(qDoc, fjElement);
-    fjElement.  ("drawvertical", m_drawVertical);
+    fjElement.setAttribute("drawvertical", m_drawVertical);
     qElement.appendChild(fjElement);
 }
 
