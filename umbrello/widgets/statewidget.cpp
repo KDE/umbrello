@@ -58,7 +58,7 @@ void StateWidget::paint(QPainter & p, int offsetX, int offsetY)
             const int count = m_Activities.count();
             if( count == 0 ) {
                 p.drawRoundRect(offsetX, offsetY, w, h, (h*40)/w, (w*40)/h);
-                p.setPen(Qt::black);
+                p.setPen(textColor());
                 QFont font = UMLWidget::font();
                 font.setBold( false );
                 p.setFont( font );
@@ -69,7 +69,7 @@ void StateWidget::paint(QPainter & p, int offsetX, int offsetY)
             } else {
                 p.drawRoundRect(offsetX, offsetY, w, h, (h*40)/w, (w*40)/h);
                 textStartY = offsetY + STATE_MARGIN;
-                p.setPen(Qt::black);
+                p.setPen(textColor());
                 QFont font = UMLWidget::font();
                 font.setBold( true );
                 p.setFont( font );
@@ -84,7 +84,7 @@ void StateWidget::paint(QPainter & p, int offsetX, int offsetY)
                 for( QStringList::Iterator it(m_Activities.begin()); it != end; ++it ) {
                     textStartY += fontHeight;
                     p.drawLine( offsetX, linePosY, offsetX + w - 1, linePosY );
-                    p.setPen(Qt::black);
+                    p.setPen(textColor());
                     p.drawText(offsetX + STATE_MARGIN, textStartY, w - STATE_MARGIN * 2 - 1,
                                fontHeight, Qt::AlignCenter, *it);
                     setPenFromSettings(p);

@@ -165,6 +165,18 @@ public:
     void setLineWidth( uint width );
 
     /**
+     * Returns the text color to use.
+     */
+    QColor getTextColor() const;
+
+    /**
+     * Sets the text color.
+     *
+     * @param color  The color to use.
+     */
+    void setTextColor( const QColor &color );
+
+    /**
      * Returns the ID of the diagram.
      */
     Uml::IDType getID() const {

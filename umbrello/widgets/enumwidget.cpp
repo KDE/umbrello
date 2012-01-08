@@ -113,7 +113,7 @@ void EnumWidget::paint(QPainter& p, int offsetX, int offsetY)
     }
 
     p.drawRect(offsetX, offsetY, w, h);
-    p.setPen(QPen(Qt::black));
+    p.setPen(textColor());
 
     QFont font = UMLWidget::font();
     font.setBold(true);
@@ -142,7 +142,7 @@ void EnumWidget::paint(QPainter& p, int offsetX, int offsetY)
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EnumLiteral);
     foreach (enumLiteral , list ) {
         QString text = enumLiteral->name();
-        p.setPen( QPen(Qt::black) );
+        p.setPen(textColor());
         p.drawText(offsetX + ENUM_MARGIN, offsetY + y,
                    fontMetrics.width(text), fontHeight, Qt::AlignVCenter, text);
         y+=fontHeight;

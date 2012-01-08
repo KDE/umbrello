@@ -162,7 +162,7 @@ void ArtifactWidget::drawAsFile(QPainter& p, int offsetX, int offsetY)
     p.drawLine(startX + 40, offsetY + 10, startX + 50, offsetY + 10);
     p.drawLine(startX + 40, offsetY, startX + 50, offsetY + 10);
 
-    p.setPen( QPen(Qt::black) );
+    p.setPen(textColor());
     p.setFont(font);
 
     p.drawText(offsetX, offsetY + h - fontHeight,
@@ -199,7 +199,7 @@ void ArtifactWidget::drawAsLibrary(QPainter& p, int offsetX, int offsetY)
     p.drawLine(startX + 40, offsetY + 10, startX + 50, offsetY + 10);
     p.drawLine(startX + 40, offsetY, startX + 50, offsetY + 10);
 
-    p.setPen( QPen(Qt::black) );
+    p.setPen(textColor());
     p.setFont(font);
 
     p.drawText(offsetX, offsetY + h - fontHeight,
@@ -238,7 +238,7 @@ void ArtifactWidget::drawAsTable(QPainter& p, int offsetX, int offsetY)
     p.drawLine(startX + 10, offsetY, startX + 10, offsetY + iconHeight);
     p.drawLine(startX, offsetY + (iconHeight/4), startX + 50, offsetY + (iconHeight/4));
 
-    p.setPen( QPen(Qt::black) );
+    p.setPen(textColor());
     p.setFont(font);
 
     p.drawText(offsetX, offsetY + h - fontHeight,
@@ -264,7 +264,7 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY)
 
     p.drawRect(offsetX, offsetY, w, h);
 
-    p.setPen( QPen(Qt::black) );
+    p.setPen(textColor());
     p.setFont(font);
 
     if (!stereotype.isEmpty()) {

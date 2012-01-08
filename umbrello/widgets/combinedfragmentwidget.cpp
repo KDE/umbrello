@@ -62,7 +62,7 @@ void CombinedFragmentWidget::paint(QPainter & p, int offsetX, int offsetY)
     int textStartY = (h / 2) - (fontHeight / 2);
     p.drawRect(offsetX, offsetY, w, h );
 
-    p.setPen(Qt::black);
+    p.setPen(textColor());
     p.setFont( UMLWidget::font() );
         QString temp = "loop";
 

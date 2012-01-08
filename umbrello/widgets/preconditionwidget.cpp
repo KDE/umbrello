@@ -88,7 +88,7 @@ void PreconditionWidget::paint(QPainter & p, int /*offsetX*/, int offsetY)
         //int middleX = w / 2;
         int textStartY = (h / 2) - (fontHeight / 2);
         p.drawRoundRect(x, y, w, h, (h * 60) / w, 60);
-        p.setPen(Qt::black);
+        p.setPen(textColor());
         p.setFont( UMLWidget::font() );
         p.drawText(x + PRECONDITION_MARGIN, y + textStartY,
                        w - PRECONDITION_MARGIN * 2, fontHeight, Qt::AlignCenter, precondition_value);

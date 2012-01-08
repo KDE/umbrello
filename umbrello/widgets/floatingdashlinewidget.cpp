@@ -39,7 +39,7 @@ void FloatingDashLineWidget::paint(QPainter & p, int /*offsetX*/, int /*offsetY*
 {
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
-    p.setPen(Qt::black);
+    p.setPen(textColor());
     p.setFont(UMLWidget::font());
     p.drawText(getX() + FLOATING_DASH_LINE_TEXT_MARGIN, getY(),
                getWidth() - FLOATING_DASH_LINE_TEXT_MARGIN * 2, fontHeight,

@@ -53,7 +53,7 @@ void CategoryWidget::paint(QPainter & p, int offsetX, int offsetY)
 
     // draw a circle
     p.drawEllipse(offsetX, offsetY, r, r);
-    p.setPen(Qt::black);
+    p.setPen(textColor());
 
     QString letterType('D');
     switch( static_cast<UMLCategory*>( m_pObject )->getType() ) {

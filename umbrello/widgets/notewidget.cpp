@@ -79,7 +79,7 @@ void NoteWidget::paint(QPainter & p, int offsetX, int offsetY)
         p.drawPolyline(poly);
     p.drawLine(offsetX + w - margin, offsetY, offsetX + w - margin, offsetY + margin);
     p.drawLine(offsetX + w - margin, offsetY + margin, offsetX + w, offsetY + margin);
-    p.setPen(Qt::black);
+    p.setPen(textColor());
     switch(m_noteType) {
     case NoteWidget::PreCondition :
         p.drawText(offsetX, offsetY + margin, w, fontHeight, Qt::AlignCenter, "<< precondition >>");

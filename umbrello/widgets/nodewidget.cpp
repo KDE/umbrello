@@ -66,7 +66,7 @@ void NodeWidget::paint(QPainter & p, int offsetX, int offsetY)
     p.drawRect(offsetX, bodyOffsetY, bodyWidth, bodyHeight);
     p.drawLine(offsetX + w - 1, offsetY, offsetX + bodyWidth - 2, bodyOffsetY + 1);
 
-    p.setPen( QPen(Qt::black) );
+    p.setPen(textColor());
     p.setFont(font);
 
     int lines = 1;

@@ -457,6 +457,18 @@ void UMLWidget::setUseFillColour(bool fc)
     update();
 }
 
+void UMLWidget::setTextColorcmd(const QColor &colour)
+{
+    WidgetBase::setTextColor(colour);
+    update();
+}
+
+void UMLWidget::setTextColor(const QColor &colour)
+{
+    UMLApp::app()->executeCommand(new CmdChangeTextColor(this, colour));
+    update();
+}
+
 void UMLWidget::setLineColorcmd(const QColor &colour)
 {
     WidgetBase::setLineColor(colour);

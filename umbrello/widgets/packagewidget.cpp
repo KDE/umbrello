@@ -71,7 +71,7 @@ void PackageWidget::paint(QPainter & p, int offsetX, int offsetY)
     }
     p.drawRect(offsetX, offsetY + fontHeight - 1, w, h - fontHeight);
 
-    p.setPen( QPen(Qt::black) );
+    p.setPen(textColor());
     p.setFont(font);
 
     int lines = 1;

@@ -88,11 +88,17 @@ public:
     QString documentation() const;
     void setDocumentation(const QString &doc);
 
+    QColor textColor() const;
+    void setTextColor(const QColor &color);
+
     QColor lineColor() const;
     void setLineColor(const QColor &colour);
 
     uint lineWidth() const;
     void setLineWidth(uint width);
+
+    bool usesDiagramTextColor() const;
+    void setUsesDiagramTextColor(bool usesDiagramTextColour);
 
     bool usesDiagramLineColour() const;
     void setUsesDiagramLineColour(bool usesDiagramLineColour);
@@ -121,6 +127,11 @@ protected:
     Uml::IDType m_nId;
 
     /**
+     * Color of the text of the widget. Is saved to XMI.
+     */
+    QColor m_textColor;
+
+    /**
      * Color of the lines of the widget. Is saved to XMI.
      */
     QColor m_LineColour;
@@ -135,7 +146,10 @@ protected:
      * been explicitly set for this widget.
      * These are saved to XMI.
      */
-    bool m_usesDiagramLineColour, m_usesDiagramLineWidth;
+    bool m_usesDiagramTextColor;
+    bool m_usesDiagramLineColour;
+    bool m_usesDiagramLineWidth;
+
 
 };
 

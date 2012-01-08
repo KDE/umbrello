@@ -87,7 +87,7 @@ void SignalWidget::paint(QPainter & p, int offsetX, int offsetY)
             const int fontHeight  = fm.lineSpacing();
             int textStartY = (h / 2) - (fontHeight / 2);
 
-            p.setPen(Qt::black);
+            p.setPen(textColor());
             QFont font = UMLWidget::font();
             font.setBold( false );
             p.setFont( font );
@@ -112,7 +112,7 @@ void SignalWidget::paint(QPainter & p, int offsetX, int offsetY)
             const int fontHeight  = fm.lineSpacing();
             int textStartY = (h / 2) - (fontHeight / 2);
 
-            p.setPen(Qt::black);
+            p.setPen(textColor());
             QFont font = UMLWidget::font();
             font.setBold( false );
             p.setFont( font );
@@ -135,7 +135,7 @@ void SignalWidget::paint(QPainter & p, int offsetX, int offsetY)
             //const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             //const int fontHeight  = fm.lineSpacing();
             //int textStartY = (h / 2) - (fontHeight / 2);
-            p.setPen(Qt::black);
+            p.setPen(textColor());
             QFont font = UMLWidget::font();
             font.setBold( false );
             p.setFont( font );

@@ -28,6 +28,7 @@
 // app includes
 #include "optionstate.h"
 
+class UMLWidgetColorPage;
 class CodeImportOptionsPage;
 class CodeGenOptionsPage;
 class CodeViewerOptionsPage;
@@ -62,12 +63,14 @@ private:
     struct UIWidgets {
         QGroupBox * colorGB;
 
+        QCheckBox * textColorCB;
         QCheckBox * lineColorCB;
         QCheckBox * fillColorCB;
         QCheckBox * lineWidthCB;
         QCheckBox * gridColorCB;
         QCheckBox * bgColorCB;
 
+        KColorButton * textColorB;
         KColorButton * lineColorB;
         KColorButton * fillColorB;
         KColorButton * gridColorB;
@@ -150,6 +153,7 @@ private:
     UIWidgets m_UiWidgets;
     ClassWidgets m_ClassWidgets;
     Settings::OptionState *m_pOptionState;
+    UMLWidgetColorPage * m_pUserInterfacePage;
     CodeImportOptionsPage * m_pCodeImportPage;
     CodeGenOptionsPage * m_pCodeGenPage;
     CodeViewerOptionsPage * m_pCodeViewerPage;
@@ -161,6 +165,7 @@ private slots:
     void slotApply();
     void slotOk();
     void slotDefault();
+    void slotTextCBChecked(bool value);
     void slotLineCBChecked(bool value);
     void slotFillCBChecked(bool value);
     void slotGridCBChecked(bool value);

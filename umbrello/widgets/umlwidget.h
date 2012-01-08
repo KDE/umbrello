@@ -117,6 +117,16 @@ public:
     /**
      * Overrides the method from WidgetBase.
      */
+    void setTextColor(const QColor &colour);
+
+    /**
+     * Overrides the method from WidgetBase.
+     */
+    void setTextColorcmd(const QColor &colour);
+
+    /**
+     * Overrides the method from WidgetBase.
+     */
     void setLineColor(const QColor &colour);
 
     /**

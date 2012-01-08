@@ -80,7 +80,7 @@ void ComponentWidget::paint(QPainter & p, int offsetX, int offsetY)
     p.drawRect(offsetX, offsetY + h/2 - fontHeight/2 - fontHeight, COMPONENT_MARGIN*4, fontHeight);
     p.drawRect(offsetX, offsetY + h/2 + fontHeight/2, COMPONENT_MARGIN*4, fontHeight);
 
-    p.setPen( QPen(Qt::black) );
+    p.setPen(textColor());
     p.setFont(font);
 
     int lines = 1;

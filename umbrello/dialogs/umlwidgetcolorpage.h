@@ -40,6 +40,7 @@ public:
 
 public slots:
 
+    void slotTextButtonClicked();
     void slotLineButtonClicked();
     void slotFillButtonClicked();
     void slotBackgroundButtonClicked();
@@ -53,11 +54,14 @@ protected:
 
     //GUI widgets
     QGroupBox * m_pColorGB;
+    QLabel * m_pTextColorL;
     QLabel * m_pLineColorL, * m_pFillColorL;
     QLabel * m_BackgroundColorL, * m_GridDotColorL;
     QCheckBox * m_pUseFillColorCB;
+    QPushButton * m_pTextDefaultB;
     QPushButton * m_pLineDefaultB, * m_pFillDefaultB;
     QPushButton * m_BackgroundDefaultB, * m_GridDotDefaultB;
+    KColorButton * m_pTextColorB;
     KColorButton * m_pLineColorB, * m_pFillColorB;
     KColorButton * m_BackgroundColorB, * m_GridDotColorB;
 

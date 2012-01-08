@@ -66,7 +66,7 @@ void ActorWidget::paint(QPainter & p, int offsetX, int offsetY)
     p.drawLine(offsetX + middleX - a_width / 2, offsetY + thirdY + thirdY / 2,
                offsetX + middleX + a_width / 2, offsetY + thirdY + thirdY / 2); //arms
     //draw text
-    p.setPen(QPen(Qt::black));
+    p.setPen(textColor());
     p.drawText(offsetX + A_MARGIN, offsetY + h - fontHeight,
                w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
     if(m_selected)

@@ -950,6 +950,18 @@ void UMLView::setLineWidth(uint width)
     canvas()->setAllChanged();
 }
 
+QColor UMLView::getTextColor() const
+{
+    return m_Options.uiState.textColor;
+}
+
+void UMLView::setTextColor(const QColor &color)
+{
+    m_Options.uiState.textColor = color;
+    emit sigColorChanged(getID());
+    canvas()->setAllChanged();
+}
+
 void UMLView::contentsMouseDoubleClickEvent(QMouseEvent* ome)
 {
     m_pToolBarState->mouseDoubleClick(static_cast<UMLSceneMouseEvent*>(ome));

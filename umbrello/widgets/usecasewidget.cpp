@@ -55,7 +55,7 @@ void UseCaseWidget::paint(QPainter & p, int offsetX, int offsetY)
     const int textStartY = (h / 2) - (fontHeight / 2);
 
     p.drawEllipse(offsetX, offsetY, w, h);
-    p.setPen(Qt::black);
+    p.setPen(textColor());
     p.drawText(offsetX + UC_MARGIN, offsetY + textStartY, w - UC_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
     setPenFromSettings(p);
     if(m_selected)

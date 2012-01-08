@@ -63,7 +63,7 @@ void DatatypeWidget::paint(QPainter& p, int offsetX, int offsetY)
     int fontHeight  = fm.lineSpacing();
 
     p.drawRect(offsetX, offsetY, w, h);
-    p.setPen(QPen(Qt::black));
+    p.setPen(textColor());
 
     QFont font = UMLWidget::font();
     font.setBold(true);

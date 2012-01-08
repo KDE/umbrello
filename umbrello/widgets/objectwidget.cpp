@@ -256,7 +256,7 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY)
         multiInstOfst = 10;
     }
     p.drawRect(offsetX, offsetY, w - multiInstOfst, h - multiInstOfst);
-    p.setPen(QPen(Qt::black));
+    p.setPen(textColor());
     p.drawText(offsetX + O_MARGIN, offsetY + O_MARGIN,
                w - O_MARGIN * 2 - multiInstOfst, h - O_MARGIN * 2 - multiInstOfst,
                Qt::AlignCenter, t);
@@ -288,7 +288,7 @@ void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY)
     p.drawLine(middleX - A_WIDTH / 2, offsetY + thirdH + thirdH / 2,
                middleX + A_WIDTH / 2, offsetY + thirdH + thirdH / 2);//arms
     //draw text
-    p.setPen(QPen(Qt::black));
+    p.setPen(textColor());
     QString t = m_InstanceName + " : " + m_pObject->name();
     p.drawText(offsetX + A_MARGIN, offsetY + textStartY,
                w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, t);

@@ -179,7 +179,7 @@ void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
             const int fontHeight  = fm.lineSpacing();
             int textStartY = (h / 2) - (fontHeight / 2);
             p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
-            p.setPen(Qt::black);
+            p.setPen(textColor());
             p.setFont( UMLWidget::font() );
             p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + textStartY,
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
@@ -243,7 +243,7 @@ void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
             const int fontHeight  = fm.lineSpacing();
             int textStartY = (h / 2) - (fontHeight / 2);
             p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
-            p.setPen(Qt::black);
+            p.setPen(textColor());
             p.setFont( UMLWidget::font() );
             p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + textStartY,
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
@@ -270,7 +270,7 @@ void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
             QString postCond= "<<postcondition>> "+postconditionText();
             //int textStartY = (h / 2) - (fontHeight / 2);
             p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
-            p.setPen(Qt::black);
+            p.setPen(textColor());
             p.setFont( UMLWidget::font() );
             p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + fontHeight + 10,
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, preCond);

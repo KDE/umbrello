@@ -38,13 +38,17 @@ void WidgetBase::init()
     if (m_scene) {
         m_usesDiagramLineColour = true;
         m_usesDiagramLineWidth  = true;
+        m_usesDiagramTextColor = true;
         const Settings::OptionState& optionState = m_scene->optionState();
+        m_textColor = optionState.uiState.textColor;
         m_LineColour = optionState.uiState.lineColor;
         m_LineWidth  = optionState.uiState.lineWidth;
     } else {
         uError() << "WidgetBase constructor: SERIOUS PROBLEM - m_scene is NULL";
         m_usesDiagramLineColour = false;
         m_usesDiagramLineWidth  = false;
+        m_usesDiagramTextColor = false;
+        m_textColor =  QColor("black");
         m_LineColour = QColor("black");
         m_LineWidth = 0; // initialize with 0 to have valid start condition
     }
@@ -171,6 +175,25 @@ void WidgetBase::setDocumentation( const QString &doc )
 }
 
 /**
+ * Read property of m_textColor.
+ */
+QColor WidgetBase::textColor() const
+{
+    return m_textColor;
+}
+
+/**
+ * Sets the text color
+ *
+ * @param colour the new text color
+ */
+void WidgetBase::setTextColor(const QColor &color)
+{
+    m_textColor = color;
+    m_usesDiagramTextColor = false;
+}
+
+/**
  * Read property of m_LineColour.
  */
 QColor WidgetBase::lineColor() const
@@ -208,6 +231,20 @@ void WidgetBase::setLineWidth(uint width)
     m_usesDiagramLineWidth = false;
 }
 
+bool WidgetBase::usesDiagramTextColor() const
+{
+    return m_usesDiagramTextColor;
+}
+
+void WidgetBase::setUsesDiagramTextColor(bool status)
+{
+    if (m_usesDiagramTextColor == status) {
+        return;
+    }
+    m_usesDiagramTextColor = status;
+    setTextColor(m_textColor);
+}
+
 /**
  * Returns m_usesDiagramLineColour
  */
@@ -241,6 +278,8 @@ void WidgetBase::setUsesDiagramLineWidth(bool usesDiagramLineWidth)
 
 void WidgetBase::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement )
 {
+    qElement.setAttribute( "textcolor", m_usesDiagramTextColor ? "none" : m_textColor.name() );
+
     if (m_usesDiagramLineColour) {
         qElement.setAttribute( "linecolor", "none" );
     } else {
@@ -275,6 +314,14 @@ bool WidgetBase::loadFromXMI( QDomElement & qElement )
     } else if ( m_scene ) {
         setLineWidth( m_scene->getLineWidth() );
         m_usesDiagramLineWidth = true;
+    }
+    QString textColor = qElement.attribute( "textcolor", "none" );
+    if (textColor != "none") {
+        setTextColor( QColor(textColor) );
+        m_usesDiagramTextColor = false;
+    } else if ( m_scene ) {
+        setTextColor( m_scene->getTextColor() );
+        m_usesDiagramTextColor = true;
     }
     return true;
 }
