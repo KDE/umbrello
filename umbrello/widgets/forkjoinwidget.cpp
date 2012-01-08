@@ -63,6 +63,7 @@ bool ForkJoinWidget::loadFromXMI(QDomElement& qElement)
     if ( !UMLWidget::loadFromXMI(qElement) ) {
         return false;
     }
+    // FIXME: This attribute is incompatible with trunk xmi format !!!
     QString orientation = qElement.attribute("orientation",
                                              QString::number(Qt::Horizontal));
     setOrientation( (Qt::Orientation)orientation.toInt() );
@@ -77,6 +78,7 @@ void ForkJoinWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement fjElement = qDoc.createElement("forkjoin");
     UMLWidget::saveToXMI(qDoc, fjElement);
+    // FIXME: This creates an incompatible xmi format !!!
     fjElement.setAttribute("orientation", m_orientation);
     qElement.appendChild(fjElement);
 }
