@@ -14,12 +14,6 @@
 //app includes
 #include "boxwidget.h"
 
-//qt includes
-#include <QtGui/QPainter>
-
-// fwd decl.
-class UMLScene;
-
 /**
  * @short Displays a fork/join plate in a state diagram.
  * @author Oliver Kellogg  <okellogg@users.sourceforge.net>
@@ -29,36 +23,28 @@ class UMLScene;
 class ForkJoinWidget : public BoxWidget
 {
 public:
-
     explicit ForkJoinWidget(UMLScene * scene, bool drawVertical = false, Uml::IDType id = Uml::id_None);
     virtual ~ForkJoinWidget();
 
-    /**
-     * Set whether to draw the plate vertically.
-     */
-    void setDrawVertical(bool to);
-    /**
-     * Get whether to draw the plate vertically.
-     */
     bool getDrawVertical() const;
+    void setDrawVertical(bool to);
 
-    void slotMenuSelection(QAction* action);
+    virtual void paint(QPainter & p, int offsetX, int offsetY);
 
-    void paint(QPainter & p, int offsetX, int offsetY);
+    virtual bool loadFromXMI(QDomElement & qElement);
+    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-    bool loadFromXMI(QDomElement & qElement);
-    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+public Q_SLOTS:
+    virtual void slotMenuSelection(QAction* action);
 
 protected:
-    void drawSelected(QPainter * p, int offsetX, int offsetY);
-
     QSize calculateSize();
+
+    void drawSelected(QPainter * p, int offsetX, int offsetY);
 
     void constrain(int& width, int& height);
 
 private:
-    void init();
-
     bool m_drawVertical;   ///< whether to draw the plate horizontally or vertically
 };
 
