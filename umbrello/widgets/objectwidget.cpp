@@ -395,7 +395,6 @@ void ObjectWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement objectElement = qDoc.createElement( "objectwidget" );
     UMLWidget::saveToXMI( qDoc, objectElement );
-    objectElement.setAttribute( "instancename", m_InstanceName );
     objectElement.setAttribute( "drawasactor", m_drawAsActor );
     objectElement.setAttribute( "multipleinstance", m_multipleInstance );
     objectElement.setAttribute( "localid", ID2STR(m_nLocalID) );
