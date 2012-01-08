@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -728,7 +728,7 @@ bool AssociationWidget::activate()
                 continue;
             robj.m_pRole->setLink(this);
             TextRole tr = (r == A ? TextRole::RoleAName : TextRole::RoleBName);
-            robj.m_pRole->setRole(tr);
+            robj.m_pRole->setTextRole(tr);
             Uml::Visibility vis = visibility((Uml::Role_Type)r);
             robj.m_pRole->setPreText(vis.toString(true));
 
@@ -744,7 +744,7 @@ bool AssociationWidget::activate()
 
     if( m_pName != NULL ) {
         m_pName->setLink(this);
-        m_pName->setRole( CalculateNameType(TextRole::Name) );
+        m_pName->setTextRole( CalculateNameType(TextRole::Name) );
 
         if ( FloatingTextWidget::isTextValid(m_pName->text()) ) {
             m_pName->show();
@@ -763,7 +763,7 @@ bool AssociationWidget::activate()
                 AssocRules::allowMultiplicity(type, robj.m_pWidget->baseType())) {
             pMulti->setLink(this);
             TextRole tr = (r == A ? TextRole::MultiA : TextRole::MultiB);
-            pMulti->setRole(tr);
+            pMulti->setTextRole(tr);
             if (FloatingTextWidget::isTextValid(pMulti->text()))
                 pMulti->show();
             else
@@ -775,7 +775,7 @@ bool AssociationWidget::activate()
         if (pChangeWidget != NULL ) {
             pChangeWidget->setLink(this);
             TextRole tr = (r == A ? TextRole::ChangeA : TextRole::ChangeB);
-            pChangeWidget->setRole(tr);
+            pChangeWidget->setTextRole(tr);
             if (FloatingTextWidget::isTextValid(pChangeWidget->text()))
                 pChangeWidget->show();
             else

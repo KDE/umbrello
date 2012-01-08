@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -66,18 +66,14 @@ public:
     QString postText() const;
     void setPostText(const QString &t);
 
-//    void setSeqNum(const QString &sn);
-//    QString getSeqNum() const;
-
-//    void setOperation(const QString &op);
-//    QString getOperation() const;
-
     QString displayText() const;
 
     void showChangeTextDialog();
+    void showOperationDialog();
+    virtual void showPropertiesDialog();
 
+    LinkWidget* link() const;
     void setLink(LinkWidget * l);
-    LinkWidget * link() const;
 
     /**
      * Returns whether this is a line of text.
@@ -91,36 +87,27 @@ public:
 
     bool activate( IDChangeLog* ChangeLog = 0 );
 
-    void setRole(Uml::TextRole role);
     Uml::TextRole textRole() const;
+    void setTextRole(Uml::TextRole role);
+
+    void handleRename();
+    void changeName(const QString& newText);
 
     static bool isTextValid(const QString &text);
 
     void paint(QPainter & p, int offsetX, int offsetY);
 
-    void handleRename();
-
-    void changeName(const QString& newText);
-
-    void showOperationDialog();
-    void showPropertiesDialog();
-
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-    bool loadFromXMI( QDomElement & qElement );
+    virtual bool loadFromXMI(QDomElement & qElement);
+    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
 public slots:
-    void slotMenuSelection(QAction* action);
-
+    virtual void slotMenuSelection(QAction* action);
     void setMessageText();
 
 protected:
     QSize calculateSize();
 
 private:
-    void init();
-
-    void resizeEvent(QResizeEvent* re);
-
     /// The association or message widget we may be linked to.
     LinkWidget * m_linkWidget;
 
@@ -136,4 +123,3 @@ private:
 };
 
 #endif
-
