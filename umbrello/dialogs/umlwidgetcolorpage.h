@@ -55,15 +55,21 @@ protected:
     //GUI widgets
     QGroupBox * m_pColorGB;
     QLabel * m_pTextColorL;
-    QLabel * m_pLineColorL, * m_pFillColorL;
-    QLabel * m_BackgroundColorL, * m_GridDotColorL;
+    QLabel * m_pLineColorL;
+    QLabel * m_pFillColorL;
+    QLabel * m_BackgroundColorL;
+    QLabel * m_GridDotColorL;
     QCheckBox * m_pUseFillColorCB;
     QPushButton * m_pTextDefaultB;
-    QPushButton * m_pLineDefaultB, * m_pFillDefaultB;
-    QPushButton * m_BackgroundDefaultB, * m_GridDotDefaultB;
+    QPushButton * m_pLineColorDefaultB;
+    QPushButton * m_pFillDefaultB;
+    QPushButton * m_BackgroundDefaultB;
+    QPushButton * m_GridDotDefaultB;
     KColorButton * m_pTextColorB;
-    KColorButton * m_pLineColorB, * m_pFillColorB;
-    KColorButton * m_BackgroundColorB, * m_GridDotColorB;
+    KColorButton * m_pLineColorB;
+    KColorButton * m_pFillColorB;
+    KColorButton * m_BackgroundColorB;
+    KColorButton * m_GridDotColorB;
 
 private:
     void init();
