@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,7 +12,7 @@
 #define OBJECTNODEDIALOG_H
 
 // local class includes
-#include "umlwidgetcolorpage.h"
+#include "umlwidgetstylepage.h"
 
 // kde class includes
 #include <kpagedialog.h>
@@ -63,7 +63,7 @@ protected:
 
     void setupGeneralPage();
 
-    void setupColorPage();
+    void setupStylePage();
 
     void setupFontPage();
 
@@ -77,9 +77,9 @@ protected:
     KFontChooser * m_pChooser;
 
     /**
-     * Color page
+     * style page
      */
-    UMLWidgetColorPage * m_pColorPage;
+    UMLWidgetStylePage * m_pStylePage;
 
     /**
      * The widget to represent.
@@ -105,7 +105,7 @@ protected:
     }
     m_GenPageWidgets;
 
-    KPageWidgetItem * pageItemGeneral, * pageItemFont, * pageItemColor;
+    KPageWidgetItem * pageItemGeneral, * pageItemFont, * pageItemStyle;
 };
 
 #endif

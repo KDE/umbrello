@@ -28,7 +28,7 @@
 // app includes
 #include "optionstate.h"
 
-class UMLWidgetColorPage;
+class UMLWidgetStylePage;
 class CodeImportOptionsPage;
 class CodeGenOptionsPage;
 class CodeViewerOptionsPage;
@@ -153,7 +153,7 @@ private:
     UIWidgets m_UiWidgets;
     ClassWidgets m_ClassWidgets;
     Settings::OptionState *m_pOptionState;
-    UMLWidgetColorPage * m_pUserInterfacePage;
+    UMLWidgetStylePage * m_pUserInterfacePage;
     CodeImportOptionsPage * m_pCodeImportPage;
     CodeGenOptionsPage * m_pCodeGenPage;
     CodeViewerOptionsPage * m_pCodeViewerPage;

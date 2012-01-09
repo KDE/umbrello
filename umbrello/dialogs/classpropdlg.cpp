@@ -26,7 +26,7 @@
 #include "umldoc.h"
 #include "umlobject.h"
 #include "umlview.h"
-#include "umlwidgetcolorpage.h"
+#include "umlwidgetstylepage.h"
 
 // kde includes
 #include <klocale.h>
@@ -74,7 +74,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget *o)
     m_pDoc = UMLApp::app()->document();
 
     setupGeneralPage();
-    setupColorPage();
+    setupStylePage();
     setupFontPage();
 
     setMinimumSize(340,420);
@@ -117,7 +117,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget *w)
         w->baseType() == WidgetBase::wt_Interface) {
         setupDisplayPage();
     }
-    setupColorPage();
+    setupStylePage();
     setupFontPage();
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
@@ -139,7 +139,7 @@ void ClassPropDlg::init()
     m_pEntityAttributePage = 0;
     m_pEntityConstraintPage = 0;
     m_pOptionsPage = 0;
-    m_pColorPage = 0;
+    m_pStylePage = 0;
     m_pDoc = UMLApp::app()->document();
 }
 
@@ -188,8 +188,8 @@ void ClassPropDlg::slotApply()
     if (m_pOptionsPage) {
         m_pOptionsPage->updateUMLWidget();
     }
-    if (m_pColorPage) {
-        m_pColorPage->updateUMLWidget();
+    if (m_pStylePage) {
+        m_pStylePage->updateUMLWidget();
     }
     if (m_pWidget) {
         m_pWidget->setFont( m_pChooser->font() );
@@ -257,13 +257,13 @@ void ClassPropDlg::setupGeneralPage()
 /**
  * Sets up the page "Color" for the component.
  */
-void ClassPropDlg::setupColorPage()
+void ClassPropDlg::setupStylePage()
 {
-    QFrame * page = createPage( i18nc("widget color page name", "Color"), i18n("Widget Colors"),
+    QFrame * page = createPage( i18nc("widget style page name", "Style"), i18n("Widget Style"),
                                 Icon_Utils::it_Properties_Color );
-    QHBoxLayout * m_pColorLayout = new QHBoxLayout(page);
-    m_pColorPage = new UMLWidgetColorPage(page, m_pWidget);
-    m_pColorLayout->addWidget(m_pColorPage);
+    QHBoxLayout * m_pStyleLayout = new QHBoxLayout(page);
+    m_pStylePage = new UMLWidgetStylePage(page, m_pWidget);
+    m_pStyleLayout->addWidget(m_pStylePage);
 }
 
 /**

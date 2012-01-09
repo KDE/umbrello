@@ -12,7 +12,7 @@
 #define ACTIVITYDIALOG_H
 
 //local class includes
-#include "umlwidgetcolorpage.h"
+#include "umlwidgetstylepage.h"
 
 //kde class includes
 #include <klineedit.h>
@@ -63,7 +63,7 @@ protected:
 
     void setupGeneralPage();
 
-    void setupColorPage();
+    void setupStylePage();
 
     void setupFontPage();
 
@@ -77,9 +77,9 @@ protected:
     KFontChooser * m_pChooser;
 
     /**
-     *   Color page
+     *   style page
      */
-    UMLWidgetColorPage * m_pColorPage;
+    UMLWidgetStylePage * m_pStylePage;
 
     /**
      *   The widget to represent.
@@ -104,7 +104,7 @@ protected:
         QGroupBox * docGB, * generalGB;
     }
     m_GenPageWidgets;
-    KPageWidgetItem *pageItemGeneral,*pageItemFont,*pageItemColor;
+    KPageWidgetItem *pageItemGeneral,*pageItemFont,*pageItemStyle;
 };
 
 #endif

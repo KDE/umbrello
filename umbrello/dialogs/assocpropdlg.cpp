@@ -17,7 +17,7 @@
 #include "classpropdlg.h"
 #include "classgenpage.h"
 #include "debug_utils.h"
-#include "umlwidgetcolorpage.h"
+#include "umlwidgetstylepage.h"
 #include "umlobject.h"
 #include "umldoc.h"
 #include "objectwidget.h"

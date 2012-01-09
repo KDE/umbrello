@@ -14,7 +14,7 @@
 // app includes
 #include "codeimportoptionspage.h"
 #include "codegenoptionspage.h"
-#include "umlwidgetcolorpage.h"
+#include "umlwidgetstylepage.h"
 #include "codevieweroptionspage.h"
 #include "dialog_utils.h"
 #include "debug_utils.h"
@@ -58,7 +58,7 @@ SettingsDlg::~SettingsDlg()
 
 void SettingsDlg::setupUIPage()
 {
-    // FIXME: merge with umlwidgetcolorpage.h, which should be renamed to umlwidgetuipage.h to hold linewidth
+    // FIXME: merge with UMLWidgetStylePage
     //setup UI page
     QWidget * page = new QWidget();
     QVBoxLayout* uiPageLayout = new QVBoxLayout(page);

@@ -239,7 +239,7 @@ set(libdialogs_SRCS
     dialogs/umlroleproperties.cpp
     dialogs/umluniqueconstraintdialog.cpp
     dialogs/umlviewdialog.cpp
-    dialogs/umlwidgetcolorpage.cpp
+    dialogs/umlwidgetstylepage.cpp
 )
 
 kde4_add_ui_files(  libdialogs_SRCS

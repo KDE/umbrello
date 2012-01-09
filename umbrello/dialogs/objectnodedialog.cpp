@@ -55,7 +55,7 @@ ObjectNodeDialog::ObjectNodeDialog( UMLView * pView, ObjectNodeWidget * pWidget 
  */
 void ObjectNodeDialog::slotOk()
 {
-    applyPage( pageItemColor );
+    applyPage( pageItemStyle );
     applyPage( pageItemFont );
     applyPage( pageItemGeneral );
     accept();
@@ -91,7 +91,7 @@ void ObjectNodeDialog::slotHideState()
 void ObjectNodeDialog::setupPages()
 {
     setupGeneralPage();
-    setupColorPage();
+    setupStylePage();
     setupFontPage();
 }
 
@@ -121,9 +121,9 @@ void ObjectNodeDialog::applyPage( KPageWidgetItem *item )
     {
         m_pObjectNodeWidget->setFont( m_pChooser->font() );
     }
-    else if ( item == pageItemColor )
+    else if ( item == pageItemStyle )
     {
-        m_pColorPage->updateUMLWidget();
+        m_pStylePage->updateUMLWidget();
     }
 }
 
@@ -239,18 +239,18 @@ void ObjectNodeDialog::showState()
 }
 
 /**
- * Sets up the color page.
+ * Sets up the style page.
  */
-void ObjectNodeDialog::setupColorPage()
+void ObjectNodeDialog::setupStylePage()
 {
-    QFrame *colorPage = new QFrame();
-    pageItemColor = new KPageWidgetItem( colorPage, i18nc("color page title", "Color") );
-    pageItemColor->setHeader( i18n("Widget Colors") );
-    pageItemColor->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Color) );
-    addPage( pageItemColor );
-    QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
-    m_pColorPage = new UMLWidgetColorPage( colorPage, m_pObjectNodeWidget );
-    m_pColorLayout->addWidget(m_pColorPage);
+    QFrame *stylePage = new QFrame();
+    pageItemStyle = new KPageWidgetItem( stylePage, i18nc("style page title", "Style") );
+    pageItemStyle->setHeader( i18n("Widget Style") );
+    pageItemStyle->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Color) );
+    addPage( pageItemStyle );
+    QHBoxLayout * m_pStyleLayout = new QHBoxLayout(stylePage);
+    m_pStylePage = new UMLWidgetStylePage( stylePage, m_pObjectNodeWidget );
+    m_pStyleLayout->addWidget(m_pStylePage);
 }
 
 #include "objectnodedialog.moc"

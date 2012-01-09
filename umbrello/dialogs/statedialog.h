@@ -12,7 +12,7 @@
 #define STATEDIALOG_H
 
 // local class includes
-#include "umlwidgetcolorpage.h"
+#include "umlwidgetstylepage.h"
 #include "activitypage.h"
 
 // kde class includes
@@ -62,7 +62,7 @@ protected:
 
     void setupGeneralPage();
 
-    void setupColorPage();
+    void setupStylePage();
 
     void setupFontPage();
 
@@ -76,9 +76,9 @@ protected:
     KFontChooser * m_pChooser;
 
     /**
-     * Color page
+     * style page
      */
-    UMLWidgetColorPage * m_pColorPage;
+    UMLWidgetStylePage * m_pStylePage;
 
     /**
      * Activity page.
@@ -108,7 +108,7 @@ protected:
     }
     m_GenPageWidgets;
 
-    KPageWidgetItem *pageColor, *pageActivity, *pageFont, *pageGeneral;
+    KPageWidgetItem *pageStyle, *pageActivity, *pageFont, *pageGeneral;
 };
 
 #endif

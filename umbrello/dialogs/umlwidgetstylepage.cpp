@@ -4,11 +4,11 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-#include "umlwidgetcolorpage.h"
+#include "umlwidgetstylepage.h"
 
 #include "optionstate.h"
 #include "uml.h"
@@ -18,6 +18,7 @@
 
 #include <klocale.h>
 #include <kcolorbutton.h>
+#include <KIntSpinBox>
 
 #include <QtGui/QLayout>
 #include <QtGui/QGroupBox>
@@ -30,7 +31,7 @@
 /**
  *   Constructor - Observe a UMLWidget.
  */
-UMLWidgetColorPage::UMLWidgetColorPage( QWidget *pParent, UMLWidget *pWidget ) : QWidget( pParent )
+UMLWidgetStylePage::UMLWidgetStylePage( QWidget *pParent, UMLWidget *pWidget ) : QWidget( pParent )
 {
     m_pUMLWidget = pWidget;
     m_options = 0;
@@ -39,6 +40,7 @@ UMLWidgetColorPage::UMLWidgetColorPage( QWidget *pParent, UMLWidget *pWidget ) :
     m_pLineColorB->setColor( pWidget->lineColor() );
     m_pFillColorB->setColor( pWidget->getFillColor() );
     m_pUseFillColorCB->setChecked( pWidget->getUseFillColour() );
+    m_lineWidthB->setValue( pWidget->lineWidth() );
 
     if (!m_pUMLWidget) {  //  when we are on the diagram
         UMLView * view = UMLApp::app()->currentView();
@@ -55,7 +57,7 @@ UMLWidgetColorPage::UMLWidgetColorPage( QWidget *pParent, UMLWidget *pWidget ) :
 /**
  *   Constructor - Observe an OptionState structure.
  */
-UMLWidgetColorPage::UMLWidgetColorPage( QWidget * pParent, Settings::OptionState *options ) : QWidget( pParent )
+UMLWidgetStylePage::UMLWidgetStylePage( QWidget * pParent, Settings::OptionState *options ) : QWidget( pParent )
 {
     m_options = options;
     m_pUMLWidget = 0;
@@ -64,17 +66,19 @@ UMLWidgetColorPage::UMLWidgetColorPage( QWidget * pParent, Settings::OptionState
     m_pLineColorB->setColor( m_options->uiState.lineColor );
     m_pFillColorB->setColor( m_options->uiState.fillColor );
     m_pUseFillColorCB->setChecked( m_options->uiState.useFillColor );
-    m_BackgroundColorB->setColor( m_options->uiState.backgroundColor );
     m_GridDotColorB->setColor( m_options->uiState.gridDotColor );
+    m_BackgroundColorB->setColor( m_options->uiState.backgroundColor );
+    m_lineWidthB->setValue( m_options->uiState.lineWidth );
 }
 
-void UMLWidgetColorPage::init()
+void UMLWidgetStylePage::init()
 {
     int margin = fontMetrics().height();
 
     //setup GUI
     QVBoxLayout * topLayout = new QVBoxLayout( this );
     topLayout->setSpacing( 6 );
+    int row = 0;
 
     m_pColorGB = new QGroupBox( i18nc("title of color group", "Color"), this );
     topLayout->addWidget( m_pColorGB );
@@ -82,38 +86,38 @@ void UMLWidgetColorPage::init()
     colorLayout->setMargin( margin );
 
     m_pTextColorL = new QLabel( i18nc("text color", "&Text:"), m_pColorGB );
-    colorLayout->addWidget( m_pTextColorL, 0, 0 );
+    colorLayout->addWidget( m_pTextColorL, row, 0 );
 
     m_pTextColorB = new KColorButton( m_pColorGB );
-    colorLayout->addWidget( m_pTextColorB, 0, 1 );
+    colorLayout->addWidget( m_pTextColorB, row, 1 );
     m_pTextColorL->setBuddy(m_pTextColorB);
 
-    m_pTextDefaultB = new QPushButton( i18nc("default text color button", "&Default"), m_pColorGB) ;
-    colorLayout->addWidget( m_pTextDefaultB, 0, 2 );
+    m_pTextDefaultB = new QPushButton( i18nc("default text color button", "Defaul&t"), m_pColorGB) ;
+    colorLayout->addWidget( m_pTextDefaultB, row, 2 );
 
     m_pLineColorL = new QLabel( i18nc("line color", "&Line:"), m_pColorGB );
-    colorLayout->addWidget( m_pLineColorL, 1, 0 );
+    colorLayout->addWidget( m_pLineColorL, ++row, 0 );
 
     m_pLineColorB = new KColorButton( m_pColorGB );
-    colorLayout->addWidget( m_pLineColorB, 1, 1 );
+    colorLayout->addWidget( m_pLineColorB, row, 1 );
     m_pLineColorL->setBuddy(m_pLineColorB);
 
     m_pLineDefaultB = new QPushButton( i18nc("default line color button", "&Default"), m_pColorGB) ;
-    colorLayout->addWidget( m_pLineDefaultB, 1, 2 );
+    colorLayout->addWidget( m_pLineDefaultB, row, 2 );
 
     m_pFillColorL = new QLabel( i18n("&Fill:"), m_pColorGB );
-    colorLayout->addWidget( m_pFillColorL, 2, 0 );
+    colorLayout->addWidget( m_pFillColorL, ++row, 0 );
 
     m_pFillColorB = new KColorButton( m_pColorGB );
-    colorLayout->addWidget( m_pFillColorB, 2, 1 );
+    colorLayout->addWidget( m_pFillColorB, row, 1 );
     m_pFillColorL->setBuddy(m_pFillColorB);
 
     m_pFillDefaultB = new QPushButton( i18nc("default fill color button", "D&efault"), m_pColorGB );
-    colorLayout->addWidget( m_pFillDefaultB, 2, 2 );
+    colorLayout->addWidget( m_pFillDefaultB, row, 2 );
 
     m_pUseFillColorCB = new QCheckBox( i18n("&Use fill"), m_pColorGB );
     colorLayout->setRowStretch( 3, 2 );
-    colorLayout->addWidget( m_pUseFillColorCB, 3, 0 );
+    colorLayout->addWidget( m_pUseFillColorCB, ++row, 0 );
 
     //connect button signals up
     connect(m_pTextDefaultB, SIGNAL(clicked()), this, SLOT(slotTextButtonClicked())) ;
@@ -122,35 +126,52 @@ void UMLWidgetColorPage::init()
 
     if (!m_pUMLWidget) {  //  when we are on the diagram
         m_BackgroundColorL = new QLabel( i18nc("background color", "&Background:"), m_pColorGB );
-        colorLayout->addWidget( m_BackgroundColorL, 4, 0 );
+        colorLayout->addWidget( m_BackgroundColorL, ++row, 0 );
 
         m_BackgroundColorB = new KColorButton( m_pColorGB );
-        colorLayout->addWidget( m_BackgroundColorB, 4, 1 );
+        colorLayout->addWidget( m_BackgroundColorB, row, 1 );
         m_BackgroundColorL->setBuddy(m_BackgroundColorB);
 
         m_BackgroundDefaultB = new QPushButton( i18nc("default background color button", "De&fault"), m_pColorGB) ;
-        colorLayout->addWidget( m_BackgroundDefaultB, 4, 2 );
+        colorLayout->addWidget( m_BackgroundDefaultB, row, 2 );
 
         m_GridDotColorL = new QLabel( i18nc("grid dot color", "&Grid dot:"), m_pColorGB );
-        colorLayout->addWidget( m_GridDotColorL, 5, 0 );
+        colorLayout->addWidget( m_GridDotColorL, ++row, 0 );
 
         m_GridDotColorB = new KColorButton( m_pColorGB );
-        colorLayout->addWidget( m_GridDotColorB, 5, 1 );
+        colorLayout->addWidget( m_GridDotColorB, row, 1 );
         m_GridDotColorL->setBuddy(m_GridDotColorB);
 
         m_GridDotDefaultB = new QPushButton( i18nc("default grid dot color button", "Def&ault"), m_pColorGB) ;
-        colorLayout->addWidget( m_GridDotDefaultB, 5, 2 );
+        colorLayout->addWidget( m_GridDotDefaultB, row, 2 );
 
         //connect button signals up
         connect(m_BackgroundDefaultB, SIGNAL(clicked()), this, SLOT(slotBackgroundButtonClicked()));
         connect(m_GridDotDefaultB,    SIGNAL(clicked()), this, SLOT(slotGridDotButtonClicked()));
     }
+
+    m_pStyleGB = new QGroupBox( i18nc("title of width group", "Width"), this );
+    topLayout->addWidget( m_pStyleGB );
+    QGridLayout *styleLayout = new QGridLayout( m_pStyleGB );
+    styleLayout->setMargin( margin );
+
+    m_lineWidthL = new QLabel( i18nc("line width", "Line &width:"), m_pStyleGB );
+    styleLayout->addWidget( m_lineWidthL, ++row, 0 );
+
+    m_lineWidthB = new KIntSpinBox( 0, 10, 1, 0, m_pStyleGB );
+    styleLayout->addWidget( m_lineWidthB, row, 1 );
+
+    m_lineWidthDefaultB = new QPushButton( i18nc("default line width button", "Defa&ult"), m_pStyleGB) ;
+    styleLayout->addWidget( m_lineWidthDefaultB, row, 2 );
+
+    //connect button signals up
+    connect(m_lineWidthDefaultB, SIGNAL(clicked()), this, SLOT(slotLineWidthButtonClicked()));
 }
 
 /**
  *   Destructor.
  */
-UMLWidgetColorPage::~UMLWidgetColorPage()
+UMLWidgetStylePage::~UMLWidgetStylePage()
 {
 }
 
@@ -158,7 +179,7 @@ UMLWidgetColorPage::~UMLWidgetColorPage()
  *   Sets the default text color when default text button
  *   clicked.
  */
-void UMLWidgetColorPage::slotTextButtonClicked()
+void UMLWidgetStylePage::slotTextButtonClicked()
 {
     m_pTextColorB->setColor( Settings::optionState().uiState.textColor );
 }
@@ -167,7 +188,7 @@ void UMLWidgetColorPage::slotTextButtonClicked()
  *   Sets the default line color when default line button
  *   clicked.
  */
-void UMLWidgetColorPage::slotLineButtonClicked()
+void UMLWidgetStylePage::slotLineButtonClicked()
 {
     m_pLineColorB->setColor( Settings::optionState().uiState.lineColor );
 }
@@ -176,7 +197,7 @@ void UMLWidgetColorPage::slotLineButtonClicked()
  *   Sets the default fill color when default fill button
  *   clicked.
  */
-void UMLWidgetColorPage::slotFillButtonClicked()
+void UMLWidgetStylePage::slotFillButtonClicked()
 {
     m_pFillColorB->setColor( Settings::optionState().uiState.fillColor );
 }
@@ -185,7 +206,7 @@ void UMLWidgetColorPage::slotFillButtonClicked()
  *   Sets the default fill color when default fill button
  *   clicked.
  */
-void UMLWidgetColorPage::slotBackgroundButtonClicked()
+void UMLWidgetStylePage::slotBackgroundButtonClicked()
 {
     m_BackgroundColorB->setColor( Settings::optionState().uiState.backgroundColor );
 }
@@ -194,21 +215,31 @@ void UMLWidgetColorPage::slotBackgroundButtonClicked()
  *   Sets the default fill color when default fill button
  *   clicked.
  */
-void UMLWidgetColorPage::slotGridDotButtonClicked()
+void UMLWidgetStylePage::slotGridDotButtonClicked()
 {
     m_GridDotColorB->setColor( Settings::optionState().uiState.gridDotColor );
 }
 
 /**
+ *   Sets the default line color when default line button
+ *   clicked.
+ */
+void UMLWidgetStylePage::slotLineWidthButtonClicked()
+{
+    m_lineWidthB->setValue( Settings::optionState().uiState.lineWidth );
+}
+
+/**
  *   Updates the @ref UMLWidget with the dialog properties.
  */
-void UMLWidgetColorPage::updateUMLWidget()
+void UMLWidgetStylePage::updateUMLWidget()
 {
     if (m_pUMLWidget) {
         m_pUMLWidget->setUseFillColour( m_pUseFillColorCB->isChecked() );
         m_pUMLWidget->setTextColor( m_pTextColorB->color() );
         m_pUMLWidget->setLineColor( m_pLineColorB->color() );
         m_pUMLWidget->setFillColour( m_pFillColorB->color() );
+        m_pUMLWidget->setLineWidth( m_lineWidthB->value() );
     }
     else if (m_options) {
         m_options->uiState.useFillColor = m_pUseFillColorCB->isChecked();
@@ -217,6 +248,7 @@ void UMLWidgetColorPage::updateUMLWidget()
         m_options->uiState.fillColor = m_pFillColorB->color();
         m_options->uiState.backgroundColor = m_BackgroundColorB->color();
         m_options->uiState.gridDotColor = m_GridDotColorB->color();
+        m_options->uiState.lineWidth = m_lineWidthB->value();
         UMLApp::app()->currentView()->umlScene()->setOptionState(*m_options);
     }
 
@@ -231,4 +263,4 @@ void UMLWidgetColorPage::updateUMLWidget()
     }
 }
 
-#include "umlwidgetcolorpage.moc"
+#include "umlwidgetstylepage.moc"

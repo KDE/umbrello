@@ -51,7 +51,7 @@ ActivityDialog::ActivityDialog(QWidget * parent, ActivityWidget * pWidget)
  */
 void ActivityDialog::slotOk()
 {
-    applyPage( pageItemColor );
+    applyPage( pageItemStyle );
     applyPage( pageItemFont );
     applyPage( pageItemGeneral );
     accept();
@@ -93,7 +93,7 @@ void ActivityDialog::slotHideActivityParameter()
 void ActivityDialog::setupPages()
 {
     setupGeneralPage();
-    setupColorPage();
+    setupStylePage();
     setupFontPage();
 }
 
@@ -122,9 +122,9 @@ void ActivityDialog::applyPage( KPageWidgetItem *item )
     {
         m_pActivityWidget->setFont( m_pChooser->font() );
     }
-    else if ( item == pageItemColor )
+    else if ( item == pageItemStyle )
     {
-        m_pColorPage->updateUMLWidget();
+        m_pStylePage->updateUMLWidget();
     }
 }
 
@@ -245,18 +245,18 @@ void ActivityDialog::showParameterActivity()
 }
 
 /**
- *   Sets up the color page.
+ *   Sets up the style page.
  */
-void ActivityDialog::setupColorPage()
+void ActivityDialog::setupStylePage()
 {
-    QFrame *colorPage = new QFrame();
-    pageItemColor = new KPageWidgetItem( colorPage, i18nc("widget color page", "Color") );
-    pageItemColor->setHeader( i18n("Widget Colors") );
-    pageItemColor->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Color) );
-    addPage( pageItemColor );
-    QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
-    m_pColorPage = new UMLWidgetColorPage( colorPage, m_pActivityWidget );
-    m_pColorLayout->addWidget(m_pColorPage);
+    QFrame *stylePage = new QFrame();
+    pageItemStyle = new KPageWidgetItem( stylePage, i18nc("widget style page", "Style") );
+    pageItemStyle->setHeader( i18n("Widget Style") );
+    pageItemStyle->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Color) );
+    addPage( pageItemStyle );
+    QHBoxLayout * m_pStyleLayout = new QHBoxLayout(stylePage);
+    m_pStylePage = new UMLWidgetStylePage( stylePage, m_pActivityWidget );
+    m_pStyleLayout->addWidget(m_pStylePage);
 }
 
 #include "activitydialog.moc"

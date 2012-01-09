@@ -58,7 +58,7 @@ void StateDialog::slotOk()
     applyPage( pageGeneral );
     applyPage( pageFont );
     applyPage( pageActivity );
-    applyPage( pageColor );
+    applyPage( pageStyle );
     accept();
 }
 
@@ -79,7 +79,7 @@ void StateDialog::setupPages()
     if ( m_pStateWidget->stateType() == StateWidget::Normal ) {
         setupActivityPage();
     }
-    setupColorPage();
+    setupStylePage();
     setupFontPage();
 }
 
@@ -98,8 +98,8 @@ void StateDialog::applyPage( KPageWidgetItem*item )
             m_pActivityPage->updateActivities();
         }
     }
-    else if ( item == pageColor ) {
-        m_pColorPage->updateUMLWidget();
+    else if ( item == pageStyle ) {
+        m_pStylePage->updateUMLWidget();
     }
     else if ( item == pageFont ) {
         m_pStateWidget->setFont( m_pChooser->font() );
@@ -172,18 +172,18 @@ void StateDialog::setupFontPage()
 }
 
 /**
- * Sets up the color page.
+ * Sets up the style page.
  */
-void StateDialog::setupColorPage()
+void StateDialog::setupStylePage()
 {
-    QFrame * colorPage = new QFrame();
-    pageColor = new KPageWidgetItem( colorPage, i18nc("color page", "Color")  );
-    pageColor->setHeader( i18n("Widget Color") );
-    pageColor->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Color) );
-    addPage( pageColor );
-    QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
-    m_pColorPage = new UMLWidgetColorPage( colorPage, m_pStateWidget );
-    m_pColorLayout->addWidget(m_pColorPage);
+    QFrame * stylePage = new QFrame();
+    pageStyle = new KPageWidgetItem( stylePage, i18nc("style page", "Style")  );
+    pageStyle->setHeader( i18n("Widget Style") );
+    pageStyle->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Color) );
+    addPage( pageStyle );
+    QHBoxLayout * m_pStyleLayout = new QHBoxLayout(stylePage);
+    m_pStylePage = new UMLWidgetStylePage( stylePage, m_pStateWidget );
+    m_pStyleLayout->addWidget(m_pStylePage);
 }
 
 /**

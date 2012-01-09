@@ -18,7 +18,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
-#include "umlwidgetcolorpage.h"
+#include "umlwidgetstylepage.h"
 
 // kde includes
 #include <klocale.h>
@@ -61,7 +61,7 @@ void UMLViewDialog::slotOk()
     applyPage( m_pageGeneralItem );
     applyPage( m_pageDisplayItem );
     applyPage( m_pageFontItem );
-    applyPage( m_pageColorItem );
+    applyPage( m_pageStyleItem );
     accept();
 }
 
@@ -76,7 +76,7 @@ void UMLViewDialog::slotApply()
 void UMLViewDialog::setupPages()
 {
     setupDiagramPropertiesPage();
-    setupColorPage();
+    setupStylePage();
     setupFontPage();
     setupClassPage();
 }
@@ -128,19 +128,19 @@ void UMLViewDialog::setupClassPage()
 }
 
 /**
- * Sets up the color page.
+ * Sets up the style page.
  */
-void UMLViewDialog::setupColorPage()
+void UMLViewDialog::setupStylePage()
 {
-    QFrame * colorPage = new QFrame();
-    m_pageColorItem = new KPageWidgetItem( colorPage, i18nc("diagram colors page", "Color") );
-    m_pageColorItem->setHeader( i18n("Diagram Colors") );
-    m_pageColorItem->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Color) );
-    addPage(m_pageColorItem);
+    QFrame * stylePage = new QFrame();
+    m_pageStyleItem = new KPageWidgetItem( stylePage, i18nc("diagram style page", "Style") );
+    m_pageStyleItem->setHeader( i18n("Diagram Style") );
+    m_pageStyleItem->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Color) );
+    addPage(m_pageStyleItem);
 
-    QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
-    m_pColorPage = new UMLWidgetColorPage( colorPage, &m_options );
-    m_pColorLayout->addWidget(m_pColorPage);
+    QHBoxLayout * m_pStyleLayout = new QHBoxLayout(stylePage);
+    m_pStylePage = new UMLWidgetStylePage( stylePage, &m_options );
+    m_pStyleLayout->addWidget(m_pStylePage);
 }
 
 /**
@@ -176,9 +176,9 @@ void UMLViewDialog::applyPage(KPageWidgetItem *item)
         m_pView->setShowSnapGrid( m_diagramProperties->ui_checkBoxShowGrid->isChecked() );
         m_pView->setShowOpSig( m_diagramProperties->ui_showOpSigs->isChecked() );
     }
-    else if ( item == m_pageColorItem )
+    else if ( item == m_pageStyleItem )
     {
-        m_pColorPage->updateUMLWidget();
+        m_pStylePage->updateUMLWidget();
         m_pView->setUseFillColor( m_options.uiState.useFillColor );
         m_pView->setLineColor( m_options.uiState.lineColor );
         m_pView->setFillColor( m_options.uiState.fillColor );

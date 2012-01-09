@@ -27,7 +27,7 @@ class ConstraintListPage;
 class PkgContentsPage;
 class AssocPage;
 class ClassOptionsPage;
-class UMLWidgetColorPage;
+class UMLWidgetStylePage;
 
 class ObjectWidget;
 class UMLDoc;
@@ -59,7 +59,7 @@ protected slots:
 protected:
     void setupPages(bool assoc = false);
     void setupGeneralPage();
-    void setupColorPage();
+    void setupStylePage();
     void setupDisplayPage();
     void setupAttributesPage();
     void setupOperationsPage();
@@ -84,7 +84,7 @@ private:
     PkgContentsPage*     m_pPkgContentsPage;
     AssocPage*           m_pAssocPage;
     ClassOptionsPage*    m_pOptionsPage;
-    UMLWidgetColorPage*  m_pColorPage;
+    UMLWidgetStylePage*  m_pStylePage;
 
     UMLDoc*              m_pDoc;
     UMLObject*           m_pObject;
