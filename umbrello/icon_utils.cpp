@@ -357,10 +357,10 @@ QString toString(IconType type)
             return "draw-brush";
         case it_Color_Fill:
             return "fill-color";
-        case it_Import_Class:
+        case it_Import_Files:
             return "document-import";
-        case it_Import_Project:
-            return "document-import";
+        case it_Export_Files:
+            return "document-export";
         case it_Export_Picture:
             return "image-x-generic";
         case it_Entity_Attribute:
