@@ -629,7 +629,7 @@ int stringToDirection(QString input, Uml::Parameter_Direction & result)
     int pos = dirx.indexIn(input);
     if (pos == -1)
         return 0;
-    const QString& dirStr = dirx.capturedTexts().first();
+    const QString dirStr = dirx.capturedTexts().first();
     int dirLen = dirStr.length();
     if (input.length() > dirLen && !input[dirLen].isSpace())
         return 0;       // no match after all.
