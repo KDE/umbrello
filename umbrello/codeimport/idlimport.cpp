@@ -178,6 +178,11 @@ bool IDLImport::parseFile(const QString& filename)
         uError() << "could not run preprocessor";
         return false;
     }
+    int exitCode = p.exitCode();
+    if (exitCode  != 0) {
+        uError() << "preprocessor returned error" << exitCode;
+        return false;
+    }
 
     QByteArray out = p.readAllStandardOutput();
     QTextStream data(out);
