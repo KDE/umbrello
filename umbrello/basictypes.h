@@ -329,6 +329,7 @@ namespace Uml
 
 # define STR2ID(id)  qPrintable(id)
 # define ID2STR(id)  QString(id.c_str())
+    QDebug operator<<(QDebug out, IDType &type);
 //    }
 
 }  // end namespace Uml
