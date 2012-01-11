@@ -655,6 +655,12 @@ void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY)
     }
 }
 
+/**
+ * Activate the object after serializing it from a QDataStream
+ *
+ * @param ChangeLog
+ * @return  true for success
+ */
 bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
 {
     if (widgetHasUMLObject(m_Type) && m_pObject == NULL) {
@@ -739,6 +745,10 @@ void UMLWidget::setActivated(bool Active /*=true*/)
     m_activated = Active;
 }
 
+/**
+ * Adds an already created association to the list of
+ * associations that include this UMLWidget
+ */
 void UMLWidget::addAssoc(AssociationWidget* pAssoc)
 {
     if (pAssoc && !m_Assocs.contains(pAssoc)) {
@@ -746,6 +756,10 @@ void UMLWidget::addAssoc(AssociationWidget* pAssoc)
     }
 }
 
+/**
+ * Removes an already created association from the list of
+ * associations that include this UMLWidget
+ */
 void UMLWidget::removeAssoc(AssociationWidget* pAssoc)
 {
     if (pAssoc) {
@@ -753,6 +767,12 @@ void UMLWidget::removeAssoc(AssociationWidget* pAssoc)
     }
 }
 
+/**
+ * Adjusts associations with the given co-ordinates
+ *
+ * @param x The x-coordinate.
+ * @param y The y-coordinate.
+ */
 void UMLWidget::adjustAssocs(int x, int y)
 {
     // 2004-04-30: Achim Spangler
@@ -779,9 +799,14 @@ void UMLWidget::adjustAssocs(int x, int y)
     }
 }
 
+/**
+ * Adjusts all unselected associations with the given co-ordinates
+ *
+ * @param x The x-coordinate.
+ * @param y The y-coordinate.
+ */
 void UMLWidget::adjustUnselectedAssocs(int x, int y)
 {
-
     foreach(AssociationWidget* assocwidget , m_Assocs) {
 
         if (!assocwidget->getSelected())
@@ -902,6 +927,10 @@ int UMLWidget::onWidget(const QPoint & p)
     return (w + h) / 2;
 }
 
+/**
+ * Move the widget by an X and Y offset relative to
+ * the current position.
+ */
 void UMLWidget::moveByLocal(int dx, int dy)
 {
     int newX = getX() + dx;
@@ -930,6 +959,11 @@ void UMLWidget::drawShape(QPainter &p)
     paint(p, getX(), getY());
 }
 
+/**
+ * Sets the state of whether the widget is selected.
+ *
+ * @param _select The state of whether the widget is selected.
+ */
 void UMLWidget::setSelected(bool _select)
 {
     const WidgetBase::WidgetType wt = m_Type;
@@ -977,6 +1011,11 @@ void UMLWidget::slotClearAllSelected()
     setSelected(false);
 }
 
+/**
+ * Sets the view the widget is on.
+ *
+ * @param v The view the widget is on.
+ */
 void UMLWidget::setScene(UMLScene * v)
 {
     //remove signals from old view - was probably 0 anyway
@@ -991,6 +1030,13 @@ void UMLWidget::setScene(UMLScene * v)
     connect(m_scene, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
 }
 
+/**
+ * Sets the x-coordinate.
+ * Currently, the only class that reimplements this method is
+ * ObjectWidget.
+ *
+ * @param x The x-coordinate to be set.
+ */
 void UMLWidget::setX(int x)
 {
     if (!m_ignoreSnapToGrid) {
@@ -999,6 +1045,13 @@ void UMLWidget::setX(int x)
     UMLSceneItem::setX(x);
 }
 
+/**
+ * Sets the y-coordinate.
+ * Currently, the only class that reimplements this method is
+ * ObjectWidget.
+ *
+ * @param y The y-coordinate to be set.
+ */
 void UMLWidget::setY(int y)
 {
     if (!m_ignoreSnapToGrid) {
@@ -1007,6 +1060,11 @@ void UMLWidget::setY(int y)
     UMLSceneItem::setY(y);
 }
 
+/**
+ * Sets the z-coordinate.
+ *
+ * @param z The z-coordinate to be set.
+ */
 void UMLWidget::setZ(int z)
 {
     m_origZ = getZ();
@@ -1082,16 +1140,27 @@ bool UMLWidget::widgetHasUMLObject(WidgetBase::WidgetType type)
     }
 }
 
+/**
+ * Set m_ignoreSnapToGrid.
+ */
 void UMLWidget::setIgnoreSnapToGrid(bool to)
 {
     m_ignoreSnapToGrid = to;
 }
 
+/**
+ * Return the value of m_ignoreSnapToGrid.
+ */
 bool UMLWidget::getIgnoreSnapToGrid() const
 {
     return m_ignoreSnapToGrid;
 }
 
+/**
+ * Sets the size.
+ * If m_scene->getSnapComponentSizeToGrid() is true, then
+ * set the next larger size that snaps to the grid.
+ */
 void UMLWidget::setSize(int width, int height)
 {
     // snap to the next larger size that is a multiple of the grid

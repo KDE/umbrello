@@ -87,11 +87,6 @@ public:
         return false;
     }
 
-    /**
-     * Sets the state of whether the widget is selected.
-     *
-     * @param _select The state of whether the widget is selected.
-     */
     virtual void setSelected(bool _select);
 
     /**
@@ -107,19 +102,8 @@ public:
         m_selected = _select;
     }
 
-    /**
-     * Sets the view the widget is on.
-     *
-     * @param v The view the widget is on.
-     */
     void setScene(UMLScene * v);
 
-    /**
-     * Activate the object after serializing it from a QDataStream
-     *
-     * @param ChangeLog
-     * @return  true for success
-     */
     virtual bool activate(IDChangeLog* ChangeLog = 0);
 
     virtual int onWidget(const QPoint & p);
@@ -149,30 +133,9 @@ public:
         return m_startMove;
     }
 
-    /**
-     * Sets the x-coordinate.
-     * Currently, the only class that reimplements this method is
-     * ObjectWidget.
-     *
-     * @param x The x-coordinate to be set.
-     */
-    virtual void setX( int x );
-
-    /**
-     * Sets the y-coordinate.
-     * Currently, the only class that reimplements this method is
-     * ObjectWidget.
-     *
-     * @param y The y-coordinate to be set.
-     */
-    virtual void setY( int y );
-
-    /**
-     * Sets the z-coordinate.
-     *
-     * @param z The z-coordinate to be set.
-     */
-    virtual void setZ( int z );
+    virtual void setX(int x);
+    virtual void setY(int y);
+    virtual void setZ(int z);
 
     /**
      * Gets the x-coordinate.
@@ -209,39 +172,14 @@ public:
         return UMLSceneRectangle::width();
     }
 
-    /**
-     * Sets the size.
-     * If m_scene->getSnapComponentSizeToGrid() is true, then
-     * set the next larger size that snaps to the grid.
-     */
     void setSize(int width,int height);
 
-    /**
-     * Set m_ignoreSnapToGrid.
-     */
+    bool getIgnoreSnapToGrid() const;
     void setIgnoreSnapToGrid(bool to);
 
-    /**
-     * Return the value of m_ignoreSnapToGrid.
-     */
-    bool getIgnoreSnapToGrid() const;
-
-    /**
-     * Move the widget by an X and Y offset relative to
-     * the current position.
-     */
     void moveByLocal(int dx, int dy);
 
-    /**
-     * Removes an already created association from the list of
-     * associations that include this UMLWidget
-     */
     void removeAssoc(AssociationWidget* pAssoc);
-
-    /**
-     * Adds an already created association to the list of
-     * associations that include this UMLWidget
-     */
     void addAssoc(AssociationWidget* pAssoc);
 
     /**
@@ -319,20 +257,7 @@ public:
 
     virtual ListPopupMenu* setupPopupMenu(ListPopupMenu *menu=0);
 
-    /**
-     * Adjusts associations with the given co-ordinates
-     *
-     * @param x The x-coordinate.
-     * @param y The y-coordinate.
-     */
     virtual void adjustAssocs(int x, int y);
-
-    /**
-     * Adjusts all unselected associations with the given co-ordinates
-     *
-     * @param x The x-coordinate.
-     * @param y The y-coordinate.
-     */
     void adjustUnselectedAssocs(int x, int y);
 
     void setActivated(bool Active = true);
