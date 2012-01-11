@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
 ***************************************************************************/
 
@@ -46,28 +46,25 @@ public:
         //ExitPoint        // Pseudostate
     };
 
-    explicit StateWidget(StateType stateType = Normal, Uml::IDType id = Uml::id_None );
+    explicit StateWidget(StateType stateType = Normal, Uml::IDType id = Uml::id_None);
     virtual ~StateWidget();
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-    /// @return Type of state.
-    StateType stateType() const {
-        return m_stateType;
-    }
-    void setStateType( StateType stateType );
+    StateType stateType() const;
+    void setStateType(StateType stateType);
 
-    bool addActivity( const QString &activity );
-    bool removeActivity( const QString &activity );
-    bool renameActivity( const QString &activity, const QString &newName );
+    bool addActivity(const QString &activity);
+    bool removeActivity(const QString &activity);
+    bool renameActivity(const QString &activity, const QString &newName);
 
     QStringList activities() const;
-    void setActivities( QStringList & list );
+    void setActivities(const QStringList &list);
 
     virtual void showPropertiesDialog();
 
-    virtual bool loadFromXMI( QDomElement & qElement );
-    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    virtual bool loadFromXMI(QDomElement & qElement);
+    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
 protected:
     virtual void updateGeometry();
