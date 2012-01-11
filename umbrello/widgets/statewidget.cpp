@@ -203,7 +203,7 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWi
 /**
  * @return Type of state.
  */
-StateType StateWidget::stateType() const
+StateWidget::StateType StateWidget::stateType() const
 {
     return m_stateType;
 }
@@ -303,7 +303,7 @@ QStringList StateWidget::activities() const
 /**
  * Sets the activities from \a list.
  */
-void StateWidget::setActivities( QStringList & list )
+void StateWidget::setActivities(const QStringList &list)
 {
     const int reqdSize = list.size() + 1; // + 1 for name item
     TextItemGroup *grp = textItemGroupAt(GroupIndex);
