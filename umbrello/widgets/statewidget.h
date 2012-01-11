@@ -29,8 +29,8 @@
  * When the @ref UMLView instance that this class belongs to is destroyed,
  * it will be automatically deleted.
  *
- * The StateWidget class inherits from the @ref UMLWidget class which adds
- * most of the functionality to this class.
+ * The StateWidget class inherits from the @ref UMLWidget class
+ * which adds most of the functionality to this class.
  *
  * @short  A graphical version of a UML State.
  * @author Paul Hensgen <phensgen@techie.com>
@@ -44,9 +44,18 @@ public:
     /// Enumeration that codes the different types of state.
     enum StateType
     {
-        Initial = 0,
+        Initial = 0,     // Pseudostate
         Normal,
-        End
+        End,
+        Fork,            // Pseudostate
+        Join,            // Pseudostate
+        Junction,        // Pseudostate
+        DeepHistory,     // Pseudostate
+        ShallowHistory,  // Pseudostate
+        Choice           // Pseudostate
+        //Terminate        // Pseudostate
+        //EntryPoint       // Pseudostate
+        //ExitPoint        // Pseudostate
     };
 
     explicit StateWidget(UMLScene * scene, StateType stateType = Normal, Uml::IDType id = Uml::id_None);
@@ -54,8 +63,8 @@ public:
 
     void paint(QPainter & p, int offsetX, int offsetY);
 
-    virtual void setName(const QString &strName);
     virtual QString name() const;
+    virtual void setName(const QString &strName);
 
     StateType stateType() const;
     void setStateType(StateType stateType);
