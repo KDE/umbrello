@@ -52,7 +52,7 @@ void CombinedFragmentWidget::paint(QPainter & p, int offsetX, int offsetY)
     setPenFromSettings(p);
 
     if ( m_CombinedFragment == Ref ) {
-        if ( UMLWidget::getUseFillColor() ) {
+        if ( UMLWidget::useFillColor() ) {
             p.setBrush( UMLWidget::fillColor() );
         }
     }

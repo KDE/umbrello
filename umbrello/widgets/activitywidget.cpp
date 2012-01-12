@@ -171,7 +171,7 @@ void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
     {
     case Normal :
         UMLWidget::setPenFromSettings(p);
-        if ( UMLWidget::getUseFillColor() ) {
+        if ( UMLWidget::useFillColor() ) {
             p.setBrush( UMLWidget::fillColor() );
         }
         {
@@ -235,7 +235,7 @@ void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
 
     case Invok :
         UMLWidget::setPenFromSettings(p);
-        if ( UMLWidget::getUseFillColor() ) {
+        if ( UMLWidget::useFillColor() ) {
             p.setBrush( UMLWidget::fillColor() );
         }
         {
@@ -260,7 +260,7 @@ void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
 
     case Param :
         UMLWidget::setPenFromSettings(p);
-        if ( UMLWidget::getUseFillColor() ) {
+        if ( UMLWidget::useFillColor() ) {
             p.setBrush( UMLWidget::fillColor() );
         }
         {

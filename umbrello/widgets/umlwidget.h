@@ -61,7 +61,7 @@ public:
     /**
      * Read property of bool m_useFillColor.
      */
-    bool getUseFillColor() const {
+    bool useFillColor() const {
         return m_useFillColor;
     }
 

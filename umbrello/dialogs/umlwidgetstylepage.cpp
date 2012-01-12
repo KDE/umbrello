@@ -39,7 +39,7 @@ UMLWidgetStylePage::UMLWidgetStylePage( QWidget *pParent, UMLWidget *pWidget ) :
     m_pTextColorB->setColor( pWidget->textColor() );
     m_pLineColorB->setColor( pWidget->lineColor() );
     m_pFillColorB->setColor( pWidget->fillColor() );
-    m_pUseFillColorCB->setChecked( pWidget->getUseFillColor() );
+    m_pUseFillColorCB->setChecked( pWidget->useFillColor() );
     m_lineWidthB->setValue( pWidget->lineWidth() );
 
     if (!m_pUMLWidget) {  //  when we are on the diagram

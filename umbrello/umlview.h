@@ -291,7 +291,7 @@ public:
     /**
      * Returns whether to use the fill/background color
      */
-    bool getUseFillColor() const;
+    bool useFillColor() const;
 
     /**
      * Sets whether to use the fill/background color

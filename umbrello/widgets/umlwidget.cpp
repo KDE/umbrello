@@ -506,7 +506,7 @@ void UMLWidget::slotColorChanged(Uml::IDType viewID)
         m_LineColor = m_scene->getLineColor();
     }
     if (m_usesDiagramUseFillColor) {
-        m_useFillColor = m_scene->getUseFillColor();
+        m_useFillColor = m_scene->useFillColor();
     }
     update();
 }

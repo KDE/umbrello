@@ -71,7 +71,7 @@ void NoteWidget::paint(QPainter & p, int offsetX, int offsetY)
     poly.setPoint(5, offsetX, offsetY);
 
     setPenFromSettings(p);
-    if ( UMLWidget::getUseFillColor() ) {
+    if ( UMLWidget::useFillColor() ) {
         QBrush brush( UMLWidget::fillColor() );
         p.setBrush(brush);
         p.drawPolygon(poly);

@@ -904,7 +904,7 @@ void UMLView::removeWidget(UMLWidget * o)
     m_pDoc->setModified();
 }
 
-bool UMLView::getUseFillColor() const
+bool UMLView::useFillColor() const
 {
     return m_Options.uiState.useFillColor;
 }
