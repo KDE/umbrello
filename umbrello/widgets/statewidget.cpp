@@ -62,7 +62,7 @@ void StateWidget::paint(QPainter & p, int offsetX, int offsetY)
     switch (m_StateType)
     {
     case Normal :
-        if(UMLWidget::getUseFillColour())
+        if(UMLWidget::getUseFillColor())
             p.setBrush(UMLWidget::getFillColor());
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);

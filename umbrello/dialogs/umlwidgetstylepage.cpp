@@ -39,7 +39,7 @@ UMLWidgetStylePage::UMLWidgetStylePage( QWidget *pParent, UMLWidget *pWidget ) :
     m_pTextColorB->setColor( pWidget->textColor() );
     m_pLineColorB->setColor( pWidget->lineColor() );
     m_pFillColorB->setColor( pWidget->getFillColor() );
-    m_pUseFillColorCB->setChecked( pWidget->getUseFillColour() );
+    m_pUseFillColorCB->setChecked( pWidget->getUseFillColor() );
     m_lineWidthB->setValue( pWidget->lineWidth() );
 
     if (!m_pUMLWidget) {  //  when we are on the diagram
@@ -235,10 +235,10 @@ void UMLWidgetStylePage::slotLineWidthButtonClicked()
 void UMLWidgetStylePage::updateUMLWidget()
 {
     if (m_pUMLWidget) {
-        m_pUMLWidget->setUseFillColour( m_pUseFillColorCB->isChecked() );
+        m_pUMLWidget->setUseFillColor( m_pUseFillColorCB->isChecked() );
         m_pUMLWidget->setTextColor( m_pTextColorB->color() );
         m_pUMLWidget->setLineColor( m_pLineColorB->color() );
-        m_pUMLWidget->setFillColour( m_pFillColorB->color() );
+        m_pUMLWidget->setFillColor( m_pFillColorB->color() );
         m_pUMLWidget->setLineWidth( m_lineWidthB->value() );
     }
     else if (m_options) {

@@ -36,20 +36,20 @@ void WidgetBase::init()
 {
     m_pObject = 0;
     if (m_scene) {
-        m_usesDiagramLineColour = true;
+        m_usesDiagramLineColor = true;
         m_usesDiagramLineWidth  = true;
         m_usesDiagramTextColor = true;
         const Settings::OptionState& optionState = m_scene->optionState();
         m_textColor = optionState.uiState.textColor;
-        m_LineColour = optionState.uiState.lineColor;
+        m_LineColor = optionState.uiState.lineColor;
         m_LineWidth  = optionState.uiState.lineWidth;
     } else {
         uError() << "WidgetBase constructor: SERIOUS PROBLEM - m_scene is NULL";
-        m_usesDiagramLineColour = false;
+        m_usesDiagramLineColor = false;
         m_usesDiagramLineWidth  = false;
         m_usesDiagramTextColor = false;
         m_textColor =  QColor("black");
-        m_LineColour = QColor("black");
+        m_LineColor = QColor("black");
         m_LineWidth = 0; // initialize with 0 to have valid start condition
     }
 }
@@ -185,7 +185,7 @@ QColor WidgetBase::textColor() const
 /**
  * Sets the text color
  *
- * @param colour the new text color
+ * @param color the new text color
  */
 void WidgetBase::setTextColor(const QColor &color)
 {
@@ -194,22 +194,22 @@ void WidgetBase::setTextColor(const QColor &color)
 }
 
 /**
- * Read property of m_LineColour.
+ * Read property of m_LineColor.
  */
 QColor WidgetBase::lineColor() const
 {
-    return m_LineColour;
+    return m_LineColor;
 }
 
 /**
- * Sets the line colour
+ * Sets the line color
  *
- * @param colour the new line colour
+ * @param color the new line color
  */
-void WidgetBase::setLineColor(const QColor &colour)
+void WidgetBase::setLineColor(const QColor &color)
 {
-    m_LineColour = colour;
-    m_usesDiagramLineColour = false;
+    m_LineColor = color;
+    m_usesDiagramLineColor = false;
 }
 
 /**
@@ -246,19 +246,19 @@ void WidgetBase::setUsesDiagramTextColor(bool status)
 }
 
 /**
- * Returns m_usesDiagramLineColour
+ * Returns m_usesDiagramLineColor
  */
-bool WidgetBase::usesDiagramLineColour() const
+bool WidgetBase::usesDiagramLineColor() const
 {
-    return m_usesDiagramLineColour;
+    return m_usesDiagramLineColor;
 }
 
 /**
- * Sets m_usesDiagramLineColour
+ * Sets m_usesDiagramLineColor
  */
-void WidgetBase::setUsesDiagramLineColour(bool usesDiagramLineColour)
+void WidgetBase::setUsesDiagramLineColor(bool usesDiagramLineColor)
 {
-    m_usesDiagramLineColour = usesDiagramLineColour;
+    m_usesDiagramLineColor = usesDiagramLineColor;
 }
 
 /**
@@ -280,10 +280,10 @@ void WidgetBase::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement )
 {
     qElement.setAttribute( "textcolor", m_usesDiagramTextColor ? "none" : m_textColor.name() );
 
-    if (m_usesDiagramLineColour) {
+    if (m_usesDiagramLineColor) {
         qElement.setAttribute( "linecolor", "none" );
     } else {
-        qElement.setAttribute( "linecolor", m_LineColour.name() );
+        qElement.setAttribute( "linecolor", m_LineColor.name() );
     }
     if (m_usesDiagramLineWidth) {
         qElement.setAttribute( "linewidth", "none" );
@@ -303,10 +303,10 @@ bool WidgetBase::loadFromXMI( QDomElement & qElement )
     QString lineWidth = qElement.attribute( "linewidth", "none" );
     if (lineColor != "none") {
         setLineColor( QColor(lineColor) );
-        m_usesDiagramLineColour = false;
+        m_usesDiagramLineColor = false;
     } else if (m_Type != WidgetBase::wt_Box && m_scene != NULL) {
         setLineColor( m_scene->getLineColor() );
-        m_usesDiagramLineColour = true;
+        m_usesDiagramLineColor = true;
     }
     if (lineWidth != "none") {
         setLineWidth( lineWidth.toInt() );
@@ -336,9 +336,9 @@ WidgetBase& WidgetBase::operator=(const WidgetBase& other)
     m_pObject = other.m_pObject;
     m_Doc = other.m_Doc;
     m_nId = other.m_nId;
-    m_LineColour = other.m_LineColour;
+    m_LineColor = other.m_LineColor;
     m_LineWidth  = other.m_LineWidth;
-    m_usesDiagramLineColour = other.m_usesDiagramLineColour;
+    m_usesDiagramLineColor = other.m_usesDiagramLineColor;
     m_usesDiagramLineWidth  = other.m_usesDiagramLineWidth;
 
     return *this;

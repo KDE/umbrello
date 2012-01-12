@@ -91,7 +91,7 @@ private:
     UMLWidget*           m_pWidget;
 
     enum Page_Type {
-        pt_Object = 1,    // Show General page + Assoc. page if Class i.e. no colours page
+        pt_Object = 1,    // Show General page + Assoc. page if Class i.e. no colors page
         pt_ObjectWidget,  // Shows pages needed for an ObjectWidget
         pt_Widget         // Shows pages needed for any other widget
     };

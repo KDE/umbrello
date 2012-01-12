@@ -78,7 +78,7 @@ void PreconditionWidget::paint(QPainter & p, int /*offsetX*/, int offsetY)
     }
     setY(y);
     setPenFromSettings(p);
-    if ( UMLWidget::getUseFillColour() ) {
+    if ( UMLWidget::getUseFillColor() ) {
         p.setBrush( UMLWidget::getFillColor() );
     }
     {

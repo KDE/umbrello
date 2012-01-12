@@ -1073,7 +1073,7 @@ void UMLView::moveSelectedBy(int dX, int dY)
 void UMLView::selectionUseFillColor(bool useFC)
 {
     foreach(UMLWidget* temp, m_SelectedList) {
-        temp->setUseFillColour(useFC);
+        temp->setUseFillColor(useFC);
     }
 }
 
@@ -1090,12 +1090,12 @@ void UMLView::selectionSetLineColor(const QColor &color)
     UMLWidget * temp = 0;
     foreach(temp ,  m_SelectedList) {
         temp->setLineColor(color);
-        temp->setUsesDiagramLineColour(false);
+        temp->setUsesDiagramLineColor(false);
     }
     AssociationWidgetList assoclist = getSelectedAssocs();
     foreach(AssociationWidget *aw , assoclist) {
         aw->setLineColor(color);
-        aw->setUsesDiagramLineColour(false);
+        aw->setUsesDiagramLineColor(false);
     }
     UMLApp::app()->endMacro();
 }
@@ -1118,8 +1118,8 @@ void UMLView::selectionSetFillColor(const QColor &color)
     UMLApp::app()->beginMacro(i18n("Change Fill Color"));
 
     foreach(UMLWidget* temp ,  m_SelectedList) {
-        temp->setFillColour(color);
-        temp->setUsesDiagramFillColour(false);
+        temp->setFillColor(color);
+        temp->setUsesDiagramFillColor(false);
     }
     UMLApp::app()->endMacro();
 }

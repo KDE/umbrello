@@ -92,16 +92,16 @@ public:
     void setTextColor(const QColor &color);
 
     QColor lineColor() const;
-    void setLineColor(const QColor &colour);
+    void setLineColor(const QColor &color);
 
     uint lineWidth() const;
     void setLineWidth(uint width);
 
     bool usesDiagramTextColor() const;
-    void setUsesDiagramTextColor(bool usesDiagramTextColour);
+    void setUsesDiagramTextColor(bool usesDiagramTextColor);
 
-    bool usesDiagramLineColour() const;
-    void setUsesDiagramLineColour(bool usesDiagramLineColour);
+    bool usesDiagramLineColor() const;
+    void setUsesDiagramLineColor(bool usesDiagramLineColor);
 
     bool usesDiagramLineWidth() const;
     void setUsesDiagramLineWidth(bool usesDiagramLineWidth);
@@ -134,7 +134,7 @@ protected:
     /**
      * Color of the lines of the widget. Is saved to XMI.
      */
-    QColor m_LineColour;
+    QColor m_LineColor;
 
     /**
      * Width of the lines of the widget. Is saved to XMI.
@@ -142,12 +142,12 @@ protected:
     uint m_LineWidth;
 
     /**
-     * true by default, false if the colours have
+     * true by default, false if the colors have
      * been explicitly set for this widget.
      * These are saved to XMI.
      */
     bool m_usesDiagramTextColor;
-    bool m_usesDiagramLineColour;
+    bool m_usesDiagramLineColor;
     bool m_usesDiagramLineWidth;
 
 

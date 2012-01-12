@@ -204,7 +204,7 @@ void ObjectWidget::moveEvent(QMoveEvent *m)
 
 void ObjectWidget::slotColorChanged(Uml::IDType /*viewID*/)
 {
-    UMLWidget::setFillColour( m_scene->getFillColor() );
+    UMLWidget::setFillColor( m_scene->getFillColor() );
     UMLWidget::setLineColor( m_scene->getLineColor() );
 
     if( m_pLine)
@@ -241,7 +241,7 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY)
     p.setFont( font );
 
     setPenFromSettings(p);
-    if(UMLWidget::getUseFillColour())
+    if(UMLWidget::getUseFillColor())
         p.setBrush(UMLWidget::getFillColor());
     else
         p.setBrush( m_scene->viewport()->palette().color(QPalette::Background) );
@@ -269,7 +269,7 @@ void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY)
     const QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
 
     setPenFromSettings(p);
-    if ( UMLWidget::getUseFillColour() )
+    if ( UMLWidget::getUseFillColor() )
         p.setBrush( UMLWidget::getFillColor() );
     const int w = width();
     const int textStartY = A_HEIGHT + A_MARGIN;
