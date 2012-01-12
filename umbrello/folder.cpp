@@ -180,7 +180,7 @@ UMLView *UMLFolder::findView(Uml::IDType id)
  */
 UMLView *UMLFolder::findView(Uml::DiagramType type, const QString &name, bool searchAllScopes)
 {
-    foreach (UMLView* v, m_diagrams ) {
+    foreach (UMLView* v, m_diagrams) {
         if (v->umlScene()->type() == type && v->umlScene()->name() == name) {
             return v;
         }
