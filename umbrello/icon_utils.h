@@ -68,6 +68,7 @@ namespace Icon_Utils {
         it_Properties_Roles,
         it_Properties_UserInterface,
         it_Properties_Class,
+        it_Properties_CodeImport,
         it_Properties_CodeGeneration,
         it_Properties_CodeViewer,
         it_Properties_Columns,

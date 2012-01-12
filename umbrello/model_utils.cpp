@@ -292,6 +292,7 @@ UMLObject* findUMLObjectRaw(const UMLObjectList& inList,
                             UMLObject::ObjectType type /* = ot_UMLObject */,
                             UMLObject *currentObj /*= 0*/)
 {
+    Q_UNUSED(currentObj);
     for (UMLObjectListIt oit(inList); oit.hasNext(); ) {
         UMLObject *obj = oit.next();
         if (obj->name() == name && type == obj->baseType())
@@ -628,7 +629,7 @@ int stringToDirection(QString input, Uml::Parameter_Direction & result)
     int pos = dirx.indexIn(input);
     if (pos == -1)
         return 0;
-    const QString& dirStr = dirx.capturedTexts().first();
+    const QString dirStr = dirx.capturedTexts().first();
     int dirLen = dirStr.length();
     if (input.length() > dirLen && !input[dirLen].isSpace())
         return 0;       // no match after all.

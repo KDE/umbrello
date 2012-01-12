@@ -49,7 +49,6 @@ class UMLListView : public QTreeWidget
 {
     Q_OBJECT
 public:
-
     UMLListView(QWidget *parent = 0);
     ~UMLListView();
 
@@ -132,7 +131,6 @@ public:
     friend QDebug operator<<(QDebug out, const UMLListView& view);
 
 protected:
-
     bool event(QEvent *e);
     bool eventFilter(QObject *o, QEvent *e);
     void mouseReleaseEvent(QMouseEvent *me);
@@ -191,7 +189,6 @@ protected slots:
     void slotCollapsed(QTreeWidgetItem* item);
 
 private:
-
     UMLListViewItem* recursiveSearchForView(UMLListViewItem* folder,
                                             UMLListViewItem::ListViewType type, Uml::IDType id);
 
