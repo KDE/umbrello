@@ -479,7 +479,7 @@ void LinePath::slotLineWidthChanged( Uml::IDType viewID )
     if(m_pAssociation->umlScene()->getID() != viewID) {
         return;
     }
-    setLineWidth( m_pAssociation->umlScene()->getLineWidth() );
+    setLineWidth( m_pAssociation->umlScene()->lineWidth() );
 }
 
 /**
@@ -573,8 +573,8 @@ QPen LinePath::getPen()
 {
     Uml::AssociationType type = getAssocType();
     if( type == Uml::AssociationType::Dependency || type == Uml::AssociationType::Realization || type == Uml::AssociationType::Anchor )
-        return QPen( lineColor(), getLineWidth(), Qt::DashLine );
-    return QPen( lineColor(), getLineWidth() );
+        return QPen( lineColor(), lineWidth(), Qt::DashLine );
+    return QPen( lineColor(), lineWidth() );
 }
 
 /**
@@ -762,7 +762,7 @@ void LinePath::updateHead()
  */
 void LinePath::growList(LineList &list, int by)
 {
-    QPen pen( lineColor(), getLineWidth() );
+    QPen pen( lineColor(), lineWidth() );
     for (int i = 0; i < by; i++) {
         UMLSceneLine * line = new UMLSceneLine( getScene() );
         line -> setZ( 0 );
@@ -816,7 +816,7 @@ void LinePath::createHeadLines()
         if (!m_pCircle) {
             m_pCircle = new Circle( canvas, 6 );
             m_pCircle->show();
-            m_pCircle->setPen( QPen( lineColor(), getLineWidth() ) );
+            m_pCircle->setPen( QPen( lineColor(), lineWidth() ) );
         }
         break;
     default:
@@ -999,7 +999,7 @@ QColor LinePath::lineColor()
  * This class doesn't hold this information but is a wrapper
  * method to stop calls to undefined variable like m_pAssociation.
  */
-uint LinePath::getLineWidth()
+uint LinePath::lineWidth()
 {
     if( !m_pAssociation )
         return 0;
@@ -1008,7 +1008,7 @@ uint LinePath::getLineWidth()
         return viewLineWidth;
     else {
         uWarning() << "Ignore wrong LineWidth of " << viewLineWidth
-                   << " in LinePath::getLineWidth";
+                   << " in LinePath::lineWidth";
         return 0;
     }
 }
@@ -1178,7 +1178,7 @@ void LinePath::createSubsetSymbol()
     switch( getAssocType() ) {
        case Uml::AssociationType::Child2Category:
            m_pSubsetSymbol = new SubsetSymbol(getScene());
-           m_pSubsetSymbol->setPen( QPen( lineColor(), getLineWidth() ) );
+           m_pSubsetSymbol->setPen( QPen( lineColor(), lineWidth() ) );
            updateSubsetSymbol();
            m_pSubsetSymbol->show();
            break;

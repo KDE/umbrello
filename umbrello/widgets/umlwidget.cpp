@@ -523,7 +523,7 @@ void UMLWidget::slotLineWidthChanged(Uml::IDType viewID)
         return;
     }
     if (m_usesDiagramLineWidth) {
-        m_LineWidth = m_scene->getLineWidth();
+        m_LineWidth = m_scene->lineWidth();
     }
     update();
 }

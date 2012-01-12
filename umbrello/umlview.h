@@ -155,7 +155,7 @@ public:
     /**
      * Returns the line width to use.
      */
-    uint getLineWidth() const;
+    uint lineWidth() const;
 
     /**
      * Sets the line width.

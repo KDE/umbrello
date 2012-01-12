@@ -311,7 +311,7 @@ bool WidgetBase::loadFromXMI( QDomElement & qElement )
         setLineWidth( lineWidth.toInt() );
         m_usesDiagramLineWidth = false;
     } else if ( m_scene ) {
-        setLineWidth( m_scene->getLineWidth() );
+        setLineWidth( m_scene->lineWidth() );
         m_usesDiagramLineWidth = true;
     }
     QString textColor = qElement.attribute( "textcolor", "none" );

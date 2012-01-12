@@ -143,7 +143,7 @@ protected:
     Uml::AssociationType getAssocType() const;
 
     QColor lineColor();
-    uint getLineWidth();
+    uint lineWidth();
 
     void moveSelected( int pointIndex );
 

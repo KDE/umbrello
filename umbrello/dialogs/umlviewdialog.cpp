@@ -104,7 +104,7 @@ void UMLViewDialog::setupDiagramPropertiesPage()
 
     m_diagramProperties->ui_gridSpaceX->setValue( m_pView->getSnapX());
     m_diagramProperties->ui_gridSpaceY->setValue( m_pView->getSnapY());
-    m_diagramProperties->ui_lineWidth->setValue( m_pView->getLineWidth());
+    m_diagramProperties->ui_lineWidth->setValue( m_pView->lineWidth());
     m_diagramProperties->ui_documentation->setText(m_pView->documentation());
 }
 

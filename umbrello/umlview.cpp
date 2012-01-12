@@ -938,7 +938,7 @@ void UMLView::setLineColor(const QColor &color)
     canvas()->setAllChanged();
 }
 
-uint UMLView::getLineWidth() const
+uint UMLView::lineWidth() const
 {
     return m_Options.uiState.lineWidth;
 }
