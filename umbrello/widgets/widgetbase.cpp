@@ -303,7 +303,7 @@ bool WidgetBase::loadFromXMI( QDomElement & qElement )
         setLineColor( QColor(lineColor) );
         m_usesDiagramLineColor = false;
     } else if (m_Type != WidgetBase::wt_Box && m_scene != NULL) {
-        setLineColor( m_scene->getLineColor() );
+        setLineColor( m_scene->lineColor() );
         m_usesDiagramLineColor = true;
     }
     QString lineWidth = qElement.attribute( "linewidth", "none" );

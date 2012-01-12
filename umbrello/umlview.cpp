@@ -926,7 +926,7 @@ void UMLView::setFillColor(const QColor &color)
     canvas()->setAllChanged();
 }
 
-QColor UMLView::getLineColor() const
+QColor UMLView::lineColor() const
 {
     return m_Options.uiState.lineColor;
 }

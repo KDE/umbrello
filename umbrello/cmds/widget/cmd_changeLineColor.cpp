@@ -25,7 +25,7 @@ namespace Uml
         UMLWidget * widget = view->getFirstMultiSelectedWidget();
         m_view = view;
         m_newColor = col;
-        m_oldColor = widget->getLineColor();
+        m_oldColor = widget->lineColor();
     }*/
 
     CmdChangeLineColor::CmdChangeLineColor(UMLWidget *w, const QColor& col)

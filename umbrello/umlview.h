@@ -143,7 +143,7 @@ public:
     /**
      * Returns the line color to use.
      */
-    QColor getLineColor() const;
+    QColor lineColor() const;
 
     /**
      * Sets the line color.
