@@ -57,7 +57,7 @@ void ObjectNodeWidget::paint(QPainter & p, int offsetX, int offsetY)
     setPenFromSettings(p);
 
     if ( UMLWidget::getUseFillColor() ) {
-        p.setBrush( UMLWidget::getFillColor() );
+        p.setBrush( UMLWidget::fillColor() );
     }
 
     p.drawRect(offsetX, offsetY, w, h);

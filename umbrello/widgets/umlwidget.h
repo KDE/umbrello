@@ -73,7 +73,7 @@ public:
 
     void setLineWidth(uint width);
 
-    QColor getFillColor() const;
+    QColor fillColor() const;
     void setFillColor(const QColor &color);
     void setFillColorcmd(const QColor &color);
 

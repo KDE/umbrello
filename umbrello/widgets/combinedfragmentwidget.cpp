@@ -53,7 +53,7 @@ void CombinedFragmentWidget::paint(QPainter & p, int offsetX, int offsetY)
 
     if ( m_CombinedFragment == Ref ) {
         if ( UMLWidget::getUseFillColor() ) {
-            p.setBrush( UMLWidget::getFillColor() );
+            p.setBrush( UMLWidget::fillColor() );
         }
     }
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);

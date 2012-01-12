@@ -914,7 +914,7 @@ void UMLView::setUseFillColor(bool ufc)
     m_Options.uiState.useFillColor = ufc;
 }
 
-QColor UMLView::getFillColor() const
+QColor UMLView::fillColor() const
 {
     return m_Options.uiState.fillColor;
 }

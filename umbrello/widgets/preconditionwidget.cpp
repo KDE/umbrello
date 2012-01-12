@@ -79,7 +79,7 @@ void PreconditionWidget::paint(QPainter & p, int /*offsetX*/, int offsetY)
     setY(y);
     setPenFromSettings(p);
     if ( UMLWidget::getUseFillColor() ) {
-        p.setBrush( UMLWidget::getFillColor() );
+        p.setBrush( UMLWidget::fillColor() );
     }
     {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);

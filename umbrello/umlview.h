@@ -131,7 +131,7 @@ public:
     /**
      * Returns the fill color to use.
      */
-    QColor getFillColor() const;
+    QColor fillColor() const;
 
     /**
      * Set the background color.

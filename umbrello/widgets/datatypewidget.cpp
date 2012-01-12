@@ -51,7 +51,7 @@ void DatatypeWidget::paint(QPainter& p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
     if (UMLWidget::getUseFillColor())  {
-        p.setBrush(UMLWidget::getFillColor());
+        p.setBrush(UMLWidget::fillColor());
     } else {
         p.setBrush( m_scene->viewport()->palette().color(QPalette::Background) );
     }

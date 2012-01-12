@@ -41,7 +41,7 @@ void ActorWidget::paint(QPainter & p, int offsetX, int offsetY)
 {
     UMLWidget::setPenFromSettings(p);
     if( UMLWidget::getUseFillColor() )
-        p.setBrush( UMLWidget::getFillColor() );
+        p.setBrush( UMLWidget::fillColor() );
     const int w = width();
     const int h = height();
     p.setFont( UMLWidget::font() );

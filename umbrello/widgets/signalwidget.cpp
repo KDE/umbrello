@@ -74,7 +74,7 @@ void SignalWidget::paint(QPainter & p, int offsetX, int offsetY)
     {
     case Send :
         if(UMLWidget::getUseFillColor())
-            p.setBrush(UMLWidget::getFillColor());
+            p.setBrush(UMLWidget::fillColor());
         {
 
             a.setPoints( 5, offsetX           ,offsetY,
@@ -99,7 +99,7 @@ void SignalWidget::paint(QPainter & p, int offsetX, int offsetY)
         break;
     case Accept :
         if(UMLWidget::getUseFillColor())
-            p.setBrush(UMLWidget::getFillColor());
+            p.setBrush(UMLWidget::fillColor());
         {
             a.setPoints( 5, offsetX ,      offsetY,
                             offsetX + w/3, (h/2)+offsetY,
@@ -124,7 +124,7 @@ void SignalWidget::paint(QPainter & p, int offsetX, int offsetY)
         break;
     case Time :
         if(UMLWidget::getUseFillColor())
-            p.setBrush(UMLWidget::getFillColor());
+            p.setBrush(UMLWidget::fillColor());
         {
             a.setPoints( 4, offsetX ,    offsetY,
                             offsetX + w, offsetY+h,

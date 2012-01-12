@@ -172,7 +172,7 @@ void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
     case Normal :
         UMLWidget::setPenFromSettings(p);
         if ( UMLWidget::getUseFillColor() ) {
-            p.setBrush( UMLWidget::getFillColor() );
+            p.setBrush( UMLWidget::fillColor() );
         }
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -221,7 +221,7 @@ void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
 
     case Branch :
         UMLWidget::setPenFromSettings(p);
-        p.setBrush( UMLWidget::getFillColor() );
+        p.setBrush( UMLWidget::fillColor() );
         {
             QPolygon array( 4 );
             array[ 0 ] = QPoint( offsetX + w / 2, offsetY );
@@ -236,7 +236,7 @@ void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
     case Invok :
         UMLWidget::setPenFromSettings(p);
         if ( UMLWidget::getUseFillColor() ) {
-            p.setBrush( UMLWidget::getFillColor() );
+            p.setBrush( UMLWidget::fillColor() );
         }
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -261,7 +261,7 @@ void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
     case Param :
         UMLWidget::setPenFromSettings(p);
         if ( UMLWidget::getUseFillColor() ) {
-            p.setBrush( UMLWidget::getFillColor() );
+            p.setBrush( UMLWidget::fillColor() );
         }
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);

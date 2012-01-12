@@ -389,7 +389,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Fill_Color:
         widget = m_scene->getFirstMultiSelectedWidget();
         if (widget) {
-            newColor = widget->getFillColor();
+            newColor = widget->fillColor();
         }
         if (KColorDialog::getColor(newColor)) {
             m_scene->selectionSetFillColor(newColor);
@@ -500,7 +500,7 @@ void UMLWidget::slotColorChanged(Uml::IDType viewID)
         return;
     }
     if (m_usesDiagramFillColor) {
-        m_FillColor = m_scene->getFillColor();
+        m_FillColor = m_scene->fillColor();
     }
     if (m_usesDiagramLineColor) {
         m_LineColor = m_scene->getLineColor();
@@ -620,7 +620,7 @@ void UMLWidget::setFillColorcmd(const QColor &color)
 /**
  * Read property m_FillColor.
  */
-QColor UMLWidget::getFillColor() const
+QColor UMLWidget::fillColor() const
 {
     return  m_FillColor;
 }
