@@ -71,7 +71,7 @@
 #include <QtXml/QDomDocument>
 
 // Update this version when changing the XMI file format
-#define XMI_FILE_VERSION "1.5.8"
+#define XMI_FILE_VERSION "1.5.9"
 
 /**
  * Constructor for the fileclass of the application.
@@ -2125,7 +2125,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
             }
             else {
                 uError() << "Guess is Uml::ModelType::N_MODELTYPES - package not set correctly for "
-                         << pObject->name() << " / base type " << ot;
+                         << pObject->name() << " / base type " << pObject->baseTypeStr();
                 pkg = m_root[Uml::ModelType::Logical];
             }
         }

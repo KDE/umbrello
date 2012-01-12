@@ -378,6 +378,14 @@ UMLObject::ObjectType UMLObject::baseType() const
 }
 
 /**
+ * @return The type used for rtti as string.
+ */
+QLatin1String UMLObject::baseTypeStr() const
+{
+    return QLatin1String(ENUM_NAME(UMLObject, ObjectType, m_BaseType));
+}
+
+/**
  * Set the type of the object.
  *
  * @param ot The ObjectType to set.
