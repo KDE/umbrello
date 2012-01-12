@@ -299,8 +299,6 @@ bool WidgetBase::loadFromXMI( QDomElement & qElement )
     // earlier versions of Umbrello
     QString lineColor = qElement.attribute( "linecolour", "none" );
     lineColor = qElement.attribute( "linecolor", lineColor );
-
-    QString lineWidth = qElement.attribute( "linewidth", "none" );
     if (lineColor != "none") {
         setLineColor( QColor(lineColor) );
         m_usesDiagramLineColor = false;
@@ -308,6 +306,7 @@ bool WidgetBase::loadFromXMI( QDomElement & qElement )
         setLineColor( m_scene->getLineColor() );
         m_usesDiagramLineColor = true;
     }
+    QString lineWidth = qElement.attribute( "linewidth", "none" );
     if (lineWidth != "none") {
         setLineWidth( lineWidth.toInt() );
         m_usesDiagramLineWidth = false;
