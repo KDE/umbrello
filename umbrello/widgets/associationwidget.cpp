@@ -2763,9 +2763,9 @@ void AssociationWidget::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Line_Color:
         {
-       /*     QColor newColour;
-            if( KColorDialog::getColor(newColour) ) {
-                m_scene->selectionSetLineColor(newColour);
+       /*     QColor newColor;
+            if( KColorDialog::getColor(newColor) ) {
+                m_scene->selectionSetLineColor(newColor);
                 m_umldoc->setModified(true);
             }*/
         }
@@ -2852,10 +2852,10 @@ QFont AssociationWidget::font() const
 /**
  * Overrides the method from WidgetBase.
  */
-void AssociationWidget::setLineColor(const QColor &colour)
+void AssociationWidget::setLineColor(const QColor &color)
 {
-    WidgetBase::setLineColor(colour);
-    m_LinePath.setLineColor(colour);
+    WidgetBase::setLineColor(color);
+    m_LinePath.setLineColor(color);
 }
 
 /**

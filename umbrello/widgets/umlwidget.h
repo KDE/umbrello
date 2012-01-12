@@ -56,13 +56,13 @@ public:
 
     bool operator==(const UMLWidget& other) const;
 
-    void setUseFillColour(bool fc);
+    void setUseFillColor(bool fc);
 
     /**
-     * Read property of bool m_useFillColour.
+     * Read property of bool m_useFillColor.
      */
-    bool getUseFillColour() const {
-        return m_useFillColour;
+    bool getUseFillColor() const {
+        return m_useFillColor;
     }
 
     void setTextColor(const QColor &color);
@@ -74,8 +74,8 @@ public:
     void setLineWidth(uint width);
 
     QColor getFillColor() const;
-    void setFillColour(const QColor &color);
-    void setFillColourcmd(const QColor &color);
+    void setFillColor(const QColor &color);
+    void setFillColorcmd(const QColor &color);
 
     /**
      * Returns whether this is a line of text.
@@ -190,31 +190,31 @@ public:
     }
 
     /**
-     * Returns m_usesDiagramFillColour
+     * Returns m_usesDiagramFillColor
      */
-    bool getUsesDiagramFillColour() const {
-        return m_usesDiagramFillColour;
+    bool getUsesDiagramFillColor() const {
+        return m_usesDiagramFillColor;
     }
 
     /**
-     * Returns m_usesDiagramUseFillColour
+     * Returns m_usesDiagramUseFillColor
      */
-    bool getUsesDiagramUseFillColour() const {
-        return m_usesDiagramUseFillColour;
+    bool getUsesDiagramUseFillColor() const {
+        return m_usesDiagramUseFillColor;
     }
 
     /**
-     * Sets m_usesDiagramFillColour
+     * Sets m_usesDiagramFillColor
      */
-    void setUsesDiagramFillColour(bool usesDiagramFillColour) {
-        m_usesDiagramFillColour = usesDiagramFillColour;
+    void setUsesDiagramFillColor(bool usesDiagramFillColor) {
+        m_usesDiagramFillColor = usesDiagramFillColor;
     }
 
     /**
-     * Sets m_usesDiagramUseFillColour
+     * Sets m_usesDiagramUseFillColor
      */
-    void setUsesDiagramUseFillColour(bool usesDiagramUseFillColour) {
-        m_usesDiagramUseFillColour = usesDiagramUseFillColour;
+    void setUsesDiagramUseFillColor(bool usesDiagramUseFillColor) {
+        m_usesDiagramUseFillColor = usesDiagramUseFillColor;
     }
 
     /**
@@ -320,21 +320,21 @@ protected:
     ///////////////// Data Loaded/Saved /////////////////////////////////
 
     /**
-     * This flag indicates if the UMLWidget uses the Diagram FillColour
+     * This flag indicates if the UMLWidget uses the Diagram FillColor
      */
-    bool m_useFillColour;
+    bool m_useFillColor;
 
     /**
-     *  true by default, false if the colours have
+     *  true by default, false if the colors have
      *  been explicitly set for this widget
      */
-    bool m_usesDiagramFillColour;
-    bool m_usesDiagramUseFillColour;
+    bool m_usesDiagramFillColor;
+    bool m_usesDiagramUseFillColor;
 
     /**
      * Color of the background of the widget
      */
-    QColor m_FillColour;
+    QColor m_FillColor;
 
     /**
      * A list of AssociationWidgets between the UMLWidget and other UMLWidgets in the diagram
