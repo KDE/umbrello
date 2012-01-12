@@ -319,7 +319,7 @@ bool WidgetBase::loadFromXMI( QDomElement & qElement )
         setTextColor( QColor(textColor) );
         m_usesDiagramTextColor = false;
     } else if ( m_scene ) {
-        setTextColor( m_scene->getTextColor() );
+        setTextColor( m_scene->textColor() );
         m_usesDiagramTextColor = true;
     }
     return true;

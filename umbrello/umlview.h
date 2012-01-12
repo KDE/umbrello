@@ -167,7 +167,7 @@ public:
     /**
      * Returns the text color to use.
      */
-    QColor getTextColor() const;
+    QColor textColor() const;
 
     /**
      * Sets the text color.
