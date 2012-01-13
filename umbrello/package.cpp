@@ -155,10 +155,11 @@ bool UMLPackage::addObject(UMLObject *pObject)
       QString name = pObject->name();
       QString oldName = name;
       while ( findObject( name ) != NULL  ) {
+         QString prevName = name;
          name = Model_Utils::uniqObjectName(pObject->baseType(),this);
          bool ok = true;
          name = KInputDialog::getText(i18nc("object name", "Name"),
-                                      i18n("An object with the name %1\nalready exists in the package %2.\nPlease enter a new name:", name, this->name()),
+                                      i18n("An object with the name %1\nalready exists in the package %2.\nPlease enter a new name:", prevName, this->name()),
                                       name, &ok, (QWidget*)UMLApp::app());
          if (!ok) {
             name = oldName;
