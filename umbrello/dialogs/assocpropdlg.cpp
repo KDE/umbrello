@@ -97,22 +97,24 @@ void AssocPropDlg::setupPages()
     layout->addWidget( m_pGenPage );
 
     // role page
-    page = createPage( i18nc("role style page name", "Roles"), i18n("Role Settings"), Icon_Utils::it_Properties_Roles );
+    page = createPage( i18nc("role page name", "Roles"), i18n("Role Settings"), Icon_Utils::it_Properties_Roles );
     layout = new QHBoxLayout( page );
     m_pRolePage = new AssocRolePage(umlDoc, page, m_pAssoc ),
     layout->addWidget( m_pRolePage );
 
     // style page
-    page = createPage( i18nc("role style page name", "Style"), i18n("Role Style"), Icon_Utils::it_Properties_Color );
+    page = createPage( i18nc("style page name", "Style"), i18n("Role Style"), Icon_Utils::it_Properties_Color );
     layout = new QHBoxLayout( page );
     m_pStylePage = new UMLWidgetStylePage( page, m_pAssoc );
     layout->addWidget( m_pStylePage );
 
     // font page
     page = createPage( i18nc("font page name", "Font"), i18n("Font Settings"), Icon_Utils::it_Properties_Font );
+    layout = new QHBoxLayout( page );
     m_pChooser = new KFontChooser( page, KFontChooser::NoDisplayFlags, QStringList(), false );
     m_pChooser->setFont( m_pAssoc->font() );
     m_pChooser->setSampleText( "Association font" );
+    layout->addWidget( m_pChooser );
 }
 
 
