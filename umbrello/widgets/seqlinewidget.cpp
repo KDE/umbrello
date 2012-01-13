@@ -17,7 +17,9 @@
 /// The width and height of the destruction box.
 const qreal SeqLineWidget::DestructionBoxSize = 14;
 
-/// @internal Utility method to add line to path if line is non null.
+/**
+ * @internal Utility method to add line to path if line is non null.
+ */
 static void addLineToPath(const QLineF& line, QPainterPath &path)
 {
     if (!line.isNull()) {
@@ -31,8 +33,8 @@ static void addLineToPath(const QLineF& line, QPainterPath &path)
  *
  * @param pObject The ObjectWidget to which this widget belongs to.
  */
-SeqLineWidget::SeqLineWidget( ObjectWidget * pObject ) :
-    QGraphicsItem(pObject), // also make object widget as parent
+SeqLineWidget::SeqLineWidget(ObjectWidget * pObject)
+  : QGraphicsItem(pObject), // also make object widget as parent
     m_objectWidget(pObject),
     m_length(250),
     m_lineColor(pObject->lineColor()),
@@ -41,18 +43,25 @@ SeqLineWidget::SeqLineWidget( ObjectWidget * pObject ) :
     updateDestructionBoxVisibility();
 }
 
+/**
+ * Destructor.
+ */
 SeqLineWidget::~SeqLineWidget()
 {
 }
 
-/// Sets the color of lines drawn.
+/**
+ * Sets the color of lines drawn.
+ */
 void SeqLineWidget::setLineColor(const QColor& col)
 {
     m_lineColor = col;
     update();
 }
 
-/// Sets the width of the lines drawn.
+/**
+ * Sets the width of the lines drawn.
+ */
 void SeqLineWidget::setLineWidth(int w)
 {
     m_lineWidth = w;
@@ -79,7 +88,9 @@ void SeqLineWidget::updateDestructionBoxVisibility()
     updateGeometry();
 }
 
-/// @retval true If \a localPos is inside destruction box.
+/**
+ * @retval true If \a localPos is inside destruction box.
+ */
 bool SeqLineWidget::onDestructionBox(const QPointF& localPos)
 {
     QRectF rect(0, 0,
@@ -89,7 +100,9 @@ bool SeqLineWidget::onDestructionBox(const QPointF& localPos)
     return m_objectWidget->showDestruction() && rect.contains(localPos);
 }
 
-/// Sets the length of the sequential line of this widget to \a len.
+/**
+ * Sets the length of the sequential line of this widget to \a len.
+ */
 void SeqLineWidget::setLength(qreal len)
 {
     m_length = len;
@@ -113,9 +126,9 @@ void SeqLineWidget::setLength(qreal len)
 void SeqLineWidget::setEndOfLine(qreal yPos)
 {
     qreal len = yPos - scenePos().y();
-    if (len > 0.0) {
+//:TODO:    if (len > 0.0) {
         setLength(len);
-    }
+//    }
 }
 
 /**

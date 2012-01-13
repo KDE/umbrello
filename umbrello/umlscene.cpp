@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -58,7 +58,6 @@
 #include "umldragdata.h"
 #include "umllistview.h"
 #include "umllistviewitem.h"
-#include "umllistviewitemlist.h"
 #include "umlobject.h"
 #include "umlobjectlist.h"
 #include "umlrole.h"
@@ -67,7 +66,6 @@
 #include "umlviewimageexporter.h"
 #include "umlwidget.h"
 #include "uniqueid.h"
-#include "usecasewidget.h"
 #include "widget_factory.h"
 #include "widget_utils.h"
 #include "widgetlist_utils.h"
@@ -356,7 +354,7 @@ int UMLScene::generateCollaborationId()
 }
 
 /**
- * contains the implementation for printing functionality
+ * Contains the implementation for printing functionality.
  */
 void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
 {
@@ -814,14 +812,11 @@ void UMLScene::dropEvent(UMLSceneDragDropEvent *e)
  */
 ObjectWidget * UMLScene::onWidgetLine(const QPointF &point) const
 {
-    QList<QGraphicsItem*> itemsAtPoint = items(point);
-    DEBUG(DBG_SRC) << Q_FUNC_INFO << itemsAtPoint;
-    foreach(QGraphicsItem *item, itemsAtPoint) {
-        SeqLineWidget *pLine = dynamic_cast<SeqLineWidget*>(item);
-        if (!pLine) {
-            continue;
-        }
-
+    QGraphicsItem* itemAtPoint = itemAt(point);
+    DEBUG(DBG_SRC) << Q_FUNC_INFO << itemAtPoint;
+    SeqLineWidget *pLine = dynamic_cast<SeqLineWidget*>(itemAtPoint);
+    if (pLine) {
+        DEBUG(DBG_SRC) << "SeqLineWidget found - ObjectWidget = " << pLine->objectWidget();
         return pLine->objectWidget();
     }
     return 0;
@@ -1308,7 +1303,7 @@ void UMLScene::moveSelectedBy(qreal dX, qreal dY)
 void UMLScene::selectionUseFillColor(bool useFC)
 {
     foreach(UMLWidget* temp, selectedWidgets()) {
-        temp->setUseFillColour(useFC);
+        temp->setUseFillColor(useFC);
     }
 }
 
@@ -1364,7 +1359,7 @@ void UMLScene::selectionSetFillColor(const QColor &color)
     UMLApp::app()->beginMacro(i18n("Change Fill Color"));
 
     foreach(UMLWidget* temp ,  selectedWidgets()) {
-        temp->setFillColour(color);
+        temp->setFillColor(color);
         // [PORT] temp->setUsesDiagramFillColour(false);
     }
     UMLApp::app()->endMacro();
@@ -1815,13 +1810,13 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
     }
     if (!isPasteOperation && findWidget(pWidget->id())) {
         uError() << "Not adding (id=" << ID2STR(pWidget->id())
-                 << "/type=" << type << "/name=" << pWidget->name()
+                 << "/type=" << pWidget->baseTypeStr() << "/name=" << pWidget->name()
                  << ") because it is already there";
         return false;
     }
     IDChangeLog * log = m_pDoc->changeLog();
     if (isPasteOperation && (!log || !m_pIDChangesLog)) {
-        uError() << " Cant addWidget to view in paste op because a log is not open";
+        uError() << " Cannot addWidget to view in paste op because a log is not open";
         return false;
     }
     if (!m_pIDChangesLog) {
@@ -1838,7 +1833,7 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
             if (ft)
                 name = ft->displayText();
         }
-        DEBUG(DBG_SRC) << name << " type=" << pWidget->baseType() << "): position ("
+        DEBUG(DBG_SRC) << name << " type=" << pWidget->baseTypeStr() << ": position ("
                        << wX << "," << wY << ") is out of range";
         if (xIsOutOfRange) {
             pWidget->setPos(0, pWidget->pos().y());
@@ -1887,7 +1882,7 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
         //make sure it doesn't already exist.
         if (findWidget(newID)) {
             DEBUG(DBG_SRC) << "Not adding (id=" << ID2STR(pWidget->id())
-                           << "/type=" << pWidget->baseType()
+                           << "/type=" << pWidget->baseTypeStr()
                            << "/name=" << pWidget->name()
                            << ") because it is already there";
             delete pWidget; // Not nice but if _we_ don't do it nobody else will
@@ -3999,17 +3994,17 @@ bool UMLScene::loadMessagesFromXMI(QDomElement & qElement)
             tag == "UML:MessageWidget") {   // for bkwd compatibility
             message = new MessageWidget(sequence_message_asynchronous,
                                         Uml::id_Reserved);
-            addWidget(message);
             if (!message->loadFromXMI(messageElement)) {
                 delete message;
                 return false;
             }
+            addWidget(message);
             m_MessageList.append(message);
             FloatingTextWidget *ft = message->floatingTextWidget();
             if (ft)
                 m_WidgetList.append(ft);
             else if (message->sequenceMessageType() != sequence_message_creation)
-                DEBUG(DBG_SRC) << "ft is NULL for message " << ID2STR(message->id());
+                DEBUG(DBG_SRC) << "floating text is NULL for message " << ID2STR(message->id());
         }
         node = messageElement.nextSibling();
         messageElement = node.toElement();

@@ -452,10 +452,11 @@ bool FloatingTextWidget::isTextValid(const QString &text)
  * Reimplemented from UMLWidget::paint . This method does
  * nothing as the text drawing is handled by TextItemGroup.
  */
-void FloatingTextWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+void FloatingTextWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidget *w)
 {
-    Q_UNUSED(painter);
+    Q_UNUSED(p);
     Q_UNUSED(o);
+    Q_UNUSED(w);
 }
 
 /**
@@ -713,4 +714,3 @@ void FloatingTextWidget::setMessageText()
 }
 
 #include "floatingtextwidget.moc"
-

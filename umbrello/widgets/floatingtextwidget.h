@@ -84,10 +84,10 @@ public:
     bool hasValidText() const;
     static bool isTextValid(const QString &text);
 
-    virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *, QWidget *);
+    virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidget *w);
 
-    virtual bool loadFromXMI( QDomElement & qElement );
-    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    virtual bool loadFromXMI(QDomElement & qElement);
+    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
 protected:
     virtual void updateGeometry();
@@ -120,4 +120,3 @@ private:
 };
 
 #endif
-

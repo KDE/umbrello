@@ -296,7 +296,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
             c = static_cast<ClassifierWidget *>( object );
             makeMultiClassifierPopup(c);
         }
-        insertSubMenuColor(object->getUseFillColour());
+        insertSubMenuColor(object->useFillColor());
         addSeparator();
         insert(mt_Cut);
         insert(mt_Copy);
@@ -325,7 +325,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
     switch (type) {
     case WidgetBase::wt_Actor:
     case WidgetBase::wt_UseCase:
-        insertSubMenuColor(object->getUseFillColour());
+        insertSubMenuColor(object->useFillColor());
         insertStdItems(true, type);
         insert(mt_Rename);
         insert(mt_Change_Font);
@@ -338,7 +338,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
                         static_cast<UMLCategory*>(object->umlObject()));
          m->setTitle(i18n("Category Type"));
          addMenu(m);
-         insertSubMenuColor(object->getUseFillColour());
+         insertSubMenuColor(object->useFillColor());
          insertStdItems(true, type);
          insert(mt_Rename);
          insert(mt_Change_Font);
@@ -351,7 +351,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
 
     case WidgetBase::wt_Enum:
         insertSubMenuNew(mt_Enum);
-        insertSubMenuColor(object->getUseFillColour());
+        insertSubMenuColor(object->useFillColor());
         insertStdItems(true, type);
         insert(mt_Rename);
         insert(mt_Change_Font);
@@ -360,7 +360,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
 
     case WidgetBase::wt_Entity:
         insertSubMenuNew(mt_Entity);
-        insertSubMenuColor(object->getUseFillColour());
+        insertSubMenuColor(object->useFillColor());
         insertStdItems(true, type);
         insert(mt_Rename);
         insert(mt_Change_Font);
@@ -372,7 +372,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
     case WidgetBase::wt_Component:
     case WidgetBase::wt_Node:
     case WidgetBase::wt_Artifact:
-        insertSubMenuColor(object->getUseFillColour());
+        insertSubMenuColor(object->useFillColor());
         insertStdItems(false, type);
         insert(mt_Rename);
         insert(mt_Change_Font);
@@ -382,7 +382,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
     case WidgetBase::wt_Object:
         {
             //Used for sequence diagram and collaboration diagram widgets
-            insertSubMenuColor( object->getUseFillColour() );
+            insertSubMenuColor( object->useFillColor() );
             // [PORT]
             if( object->umlScene() && object->umlScene()->type() == Uml::DiagramType::Sequence ) {
                 addSeparator();
@@ -409,7 +409,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
         break;
 
     case WidgetBase::wt_Note:
-        insertSubMenuColor(object->getUseFillColour());
+        insertSubMenuColor(object->useFillColor());
         addSeparator();
         insert(mt_Cut);
         insert(mt_Copy);
@@ -432,7 +432,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
             if (pState->stateType() == StateWidget::Normal) {
                 insertSubMenuNew(mt_New_Activity);
             }
-            insertSubMenuColor( object->getUseFillColour() );
+            insertSubMenuColor( object->useFillColor() );
             insertStdItems(false, type);
             if (pState->stateType() == StateWidget::Normal) {
                 insert(mt_Rename, i18n("Change State Name..."));
@@ -462,7 +462,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
             if( pActivity->activityType() == ActivityWidget::Normal
               || pActivity->activityType() == ActivityWidget::Invok
               || pActivity->activityType() == ActivityWidget::Param) {
-                insertSubMenuColor( object->getUseFillColour() );
+                insertSubMenuColor( object->useFillColor() );
             }
             insertStdItems(false, type);
             if( pActivity->activityType() == ActivityWidget::Normal
@@ -481,7 +481,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
             if (objWidget->objectNodeType() == ObjectNodeWidget::Buffer
               || objWidget->objectNodeType() == ObjectNodeWidget::Data
               || objWidget->objectNodeType() == ObjectNodeWidget::Flow) {
-                insertSubMenuColor( object->getUseFillColour() );
+                insertSubMenuColor( object->useFillColor() );
             }
             insertStdItems(false, type);
             if (objWidget->objectNodeType() == ObjectNodeWidget::Buffer
@@ -498,7 +498,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
     case WidgetBase::wt_Signal:
     case WidgetBase::wt_FloatingDashLine:
     case WidgetBase::wt_Precondition:
-        insertSubMenuColor(object->getUseFillColour());
+        insertSubMenuColor(object->useFillColor());
         addSeparator();
         insert(mt_Cut);
         insert(mt_Copy);
@@ -517,7 +517,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
             insert(mt_AddInteractionOperand, i18n("Add Interaction Operand"));
             addSeparator();
         }
-        insertSubMenuColor(object->getUseFillColour());
+        insertSubMenuColor(object->useFillColor());
         addSeparator();
         insert(mt_Cut);
         insert(mt_Copy);
@@ -966,7 +966,7 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
 
     makeMultiClassifierPopup(c);
 
-    insertSubMenuColor(c->getUseFillColour());
+    insertSubMenuColor(c->useFillColor());
     insertStdItems(true, type);
     insert(mt_Rename);
     insert(mt_Change_Font);

@@ -272,10 +272,10 @@ public:
     // DEPRECATED SECTION ///////////////////////////////
 
     QColor getFillColor() const;
-    void setFillColour(const QColor& col) { setBrush(QBrush(col)); }
+    void setFillColor(const QColor& col) { setBrush(QBrush(col)); }
 
-    bool getUseFillColour() const { return false; }
-    void setUseFillColour(bool) {}  //:TODO: fix UMLWidgetColorPage
+    bool useFillColor() const { return false; }
+    void setUseFillColor(bool) {}  //:TODO: fix UMLWidgetColorPage
 
     ////////////////////////////////////////////////////////////////////////////////
 

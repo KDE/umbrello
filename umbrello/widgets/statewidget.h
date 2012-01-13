@@ -77,8 +77,7 @@ public Q_SLOTS:
 private:
     static const QSizeF MinimumEllipseSize;
 
-    /// Type of state
-    StateType m_stateType;
+    StateType m_stateType;   ///< Type of state.
 
     enum {
         GroupIndex

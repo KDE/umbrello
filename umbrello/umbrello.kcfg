@@ -261,6 +261,13 @@
          <default>grey</default>
        </entry>
    </group>
+    <group name="Code Importer">
+       <entry name="createArtifacts" type="Bool">
+         <label>Create Artifacts for imported files</label>
+         <whatsthis>Create an artifact in the component view for each imported file</whatsthis>
+         <default>true</default>
+       </entry>
+    </group>
    <group name="Code Generation">
        <entry name="autoGenEmptyConstructors" type="Bool">
          <label>Auto Generate Empty Constructors</label>
