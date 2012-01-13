@@ -546,8 +546,7 @@ void UMLWidget::mouseDoubleClickEvent(QMouseEvent * me)
  */
 void UMLWidget::setUseFillColor(bool fc)
 {
-    m_useFillColor = fc;
-    m_usesDiagramUseFillColor = false;
+    WidgetBase::setUseFillColor(fc);
     update();
 }
 
@@ -612,17 +611,8 @@ void UMLWidget::setFillColor(const QColor &color)
  */
 void UMLWidget::setFillColorcmd(const QColor &color)
 {
-    m_FillColor = color;
-    m_usesDiagramFillColor = false;
+    WidgetBase::setFillColor(color);
     update();
-}
-
-/**
- * Read property m_FillColor.
- */
-QColor UMLWidget::fillColor() const
-{
-    return  m_FillColor;
 }
 
 /**
@@ -1351,19 +1341,10 @@ void UMLWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     WidgetBase::saveToXMI(qDoc, qElement);
     qElement.setAttribute("xmi.id", ID2STR(id()));
     qElement.setAttribute("font", m_Font.toString());
-    qElement.setAttribute("usefillcolor", m_useFillColor);
     qElement.setAttribute("x", getX());
     qElement.setAttribute("y", getY());
     qElement.setAttribute("width", getWidth());
     qElement.setAttribute("height", getHeight());
-    // for consistency the following attributes now use american spelling for "color"
-    qElement.setAttribute("usesdiagramfillcolor", m_usesDiagramFillColor);
-    qElement.setAttribute("usesdiagramusefillcolor", m_usesDiagramUseFillColor);
-    if (m_usesDiagramFillColor) {
-        qElement.setAttribute("fillcolor", "none");
-    } else {
-        qElement.setAttribute("fillcolor", m_FillColor.name());
-    }
     qElement.setAttribute("isinstance", m_isInstance);
     if (!m_instanceName.isEmpty())
         qElement.setAttribute("instancename", m_instanceName);
@@ -1376,22 +1357,10 @@ bool UMLWidget::loadFromXMI(QDomElement & qElement)
     WidgetBase::loadFromXMI(qElement);
     QString id = qElement.attribute("xmi.id", "-1");
     QString font = qElement.attribute("font", "");
-    QString usefillcolor = qElement.attribute("usefillcolor", "1");
     QString x = qElement.attribute("x", "0");
     QString y = qElement.attribute("y", "0");
     QString h = qElement.attribute("height", "0");
     QString w = qElement.attribute("width", "0");
-    /*
-      For the next three *color attributes, there was a mixup of american and english spelling for "color".
-      So first we need to keep backward compatibility and try to retrieve the *colour attribute.
-      Next we overwrite this value if we find a *color, otherwise the former *colour is kept.
-    */
-    QString fillColor = qElement.attribute("fillcolour", "none");
-    fillColor = qElement.attribute("fillcolor", fillColor);
-    QString usesDiagramFillColor = qElement.attribute("usesdiagramfillcolour", "1");
-    usesDiagramFillColor = qElement.attribute("usesdiagramfillcolor", usesDiagramFillColor);
-    QString usesDiagramUseFillColor = qElement.attribute("usesdiagramusefillcolour", "1");
-    usesDiagramUseFillColor = qElement.attribute("usesdiagramusefillcolor", usesDiagramUseFillColor);
 
     m_nId = STR2ID(id);
 
@@ -1404,15 +1373,10 @@ bool UMLWidget::loadFromXMI(QDomElement & qElement)
         << " for widget with xmi.id " << ID2STR(m_nId) << endl;
         //setFont( m_Font );
     }
-    m_useFillColor = (bool)usefillcolor.toInt();
-    m_usesDiagramFillColor = (bool)usesDiagramFillColor.toInt();
-    m_usesDiagramUseFillColor = (bool)usesDiagramUseFillColor.toInt();
+
     setSize(w.toInt(), h.toInt());
     setX(x.toInt());
     setY(y.toInt());
-    if (fillColor != "none") {
-        m_FillColor = QColor(fillColor);
-    }
     QString isinstance = qElement.attribute("isinstance", "0");
     m_isInstance = (bool)isinstance.toInt();
     m_instanceName = qElement.attribute("instancename", "");

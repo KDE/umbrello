@@ -175,7 +175,9 @@ void WidgetBase::setDocumentation( const QString &doc )
 }
 
 /**
- * Read property of m_textColor.
+ * Returns text color
+ *
+ * @return currently used text color
  */
 QColor WidgetBase::textColor() const
 {
@@ -194,7 +196,9 @@ void WidgetBase::setTextColor(const QColor &color)
 }
 
 /**
- * Read property of m_LineColor.
+ * Returns line color
+ *
+ * @return currently used line color
  */
 QColor WidgetBase::lineColor() const
 {
@@ -204,7 +208,7 @@ QColor WidgetBase::lineColor() const
 /**
  * Sets the line color
  *
- * @param color the new line color
+ * @param color   The new line color
  */
 void WidgetBase::setLineColor(const QColor &color)
 {
@@ -213,7 +217,30 @@ void WidgetBase::setLineColor(const QColor &color)
 }
 
 /**
- * Read property of m_LineWidth.
+ * Returns fill color
+ *
+ * @return currently used fill color
+ */
+QColor WidgetBase::fillColor() const
+{
+    return m_FillColor;
+}
+
+/**
+ * Sets the fill color
+ *
+ * @param colour   The new fill color
+ */
+void WidgetBase::setFillColor(const QColor &color)
+{
+    m_FillColor = color;
+    m_usesDiagramFillColor = false;
+}
+
+/**
+ * Returns line width
+ *
+ * @return currently used line with
  */
 uint WidgetBase::lineWidth() const
 {
@@ -223,7 +250,7 @@ uint WidgetBase::lineWidth() const
 /**
  * Sets the line width
  *
- * @param width the new line width
+ * @param width  The new line width
  */
 void WidgetBase::setLineWidth(uint width)
 {
@@ -231,49 +258,129 @@ void WidgetBase::setLineWidth(uint width)
     m_usesDiagramLineWidth = false;
 }
 
+/**
+ * Return state of fill color usage
+ *
+ * @return True if fill color is used
+ */
+bool WidgetBase::useFillColor()
+{
+    return m_useFillColor;
+}
+
+/**
+ * Set state if fill color is used
+ *
+ * @param state  The state to set
+ */
+void WidgetBase::setUseFillColor(bool state)
+{
+    m_useFillColor = state;
+    m_usesDiagramUseFillColor = false;
+}
+
+/**
+ * Returns state if diagram text color is used
+ *
+ * @return True means diagram text color is used
+ */
 bool WidgetBase::usesDiagramTextColor() const
 {
     return m_usesDiagramTextColor;
 }
 
-void WidgetBase::setUsesDiagramTextColor(bool status)
+/**
+ * Set state if diagram text color is used
+ *
+ * @param state  The state to set
+ */
+void WidgetBase::setUsesDiagramTextColor(bool state)
 {
-    if (m_usesDiagramTextColor == status) {
+    if (m_usesDiagramTextColor == state) {
         return;
     }
-    m_usesDiagramTextColor = status;
+    m_usesDiagramTextColor = state;
     setTextColor(m_textColor);
 }
 
 /**
- * Returns m_usesDiagramLineColor
- */
+ * Returns state of diagram line color is used
+ *
+ * @return True means diagrams line color is used
+*/
 bool WidgetBase::usesDiagramLineColor() const
 {
     return m_usesDiagramLineColor;
 }
 
 /**
- * Sets m_usesDiagramLineColor
+ * Set state of diagram line color is used
+ *
+ * @param state  The state to set
  */
-void WidgetBase::setUsesDiagramLineColor(bool usesDiagramLineColor)
+void WidgetBase::setUsesDiagramLineColor(bool state)
 {
-    m_usesDiagramLineColor = usesDiagramLineColor;
+    m_usesDiagramLineColor = state;
 }
 
 /**
- * Returns m_usesDiagramLineWidth
+ * Returns state of diagram fill color is used
+ *
+ * @return True means diagrams fill color is used
+*/
+bool WidgetBase::usesDiagramFillColor() const
+{
+    return m_usesDiagramFillColor;
+}
+
+/**
+ * Set state if diagram fill color is used
+ *
+ * @param state  The state to set
  */
-bool WidgetBase::usesDiagramLineWidth() const {
+void WidgetBase::setUsesDiagramFillColor(bool state)
+{
+    m_usesDiagramFillColor = state;
+}
+
+/**
+ * Returns state of diagram use fill color is used
+ *
+ * @return True means diagrams fill color is used
+*/
+bool WidgetBase::usesDiagramUseFillColor() const
+{
+    return m_usesDiagramUseFillColor;
+}
+
+/**
+ * Set state of diagram use fill color is used
+ *
+ * @param state  The state to set
+ */
+void WidgetBase::setUsesDiagramUseFillColor(bool state)
+{
+    m_usesDiagramUseFillColor = state;
+}
+
+/**
+ * Returns state of diagram line width is used
+ *
+ * @return True means diagrams line width is used
+ */
+bool WidgetBase::usesDiagramLineWidth() const
+{
     return m_usesDiagramLineWidth;
 }
 
 /**
- * Sets m_usesDiagramLineWidth
+ * Set state of diagram line width is used
+ *
+ * @param state  The state to set
  */
-void WidgetBase::setUsesDiagramLineWidth(bool usesDiagramLineWidth)
+void WidgetBase::setUsesDiagramLineWidth(bool state)
 {
-    m_usesDiagramLineWidth = usesDiagramLineWidth;
+    m_usesDiagramLineWidth = state;
 }
 
 void WidgetBase::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement )
@@ -289,6 +396,15 @@ void WidgetBase::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement )
         qElement.setAttribute( "linewidth", "none" );
     } else {
         qElement.setAttribute( "linewidth", m_LineWidth );
+    }
+    qElement.setAttribute("usefillcolor", m_useFillColor);
+    // for consistency the following attributes now use american spelling for "color"
+    qElement.setAttribute("usesdiagramfillcolor", m_usesDiagramFillColor);
+    qElement.setAttribute("usesdiagramusefillcolor", m_usesDiagramUseFillColor);
+    if (m_usesDiagramFillColor) {
+        qElement.setAttribute("fillcolor", "none");
+    } else {
+        qElement.setAttribute("fillcolor", m_FillColor.name());
     }
 }
 
@@ -322,6 +438,27 @@ bool WidgetBase::loadFromXMI( QDomElement & qElement )
         setTextColor( m_scene->textColor() );
         m_usesDiagramTextColor = true;
     }
+    QString usefillcolor = qElement.attribute("usefillcolor", "1");
+    m_useFillColor = (bool)usefillcolor.toInt();
+    /*
+      For the next three *color attributes, there was a mixup of american and english spelling for "color".
+      So first we need to keep backward compatibility and try to retrieve the *colour attribute.
+      Next we overwrite this value if we find a *color, otherwise the former *colour is kept.
+    */
+    QString fillColor = qElement.attribute("fillcolour", "none");
+    fillColor = qElement.attribute("fillcolor", fillColor);
+    if (fillColor != "none") {
+        m_FillColor = QColor(fillColor);
+    }
+
+    QString usesDiagramFillColor = qElement.attribute("usesdiagramfillcolour", "1");
+    usesDiagramFillColor = qElement.attribute("usesdiagramfillcolor", usesDiagramFillColor);
+    m_usesDiagramFillColor = (bool)usesDiagramFillColor.toInt();
+
+    QString usesDiagramUseFillColor = qElement.attribute("usesdiagramusefillcolour", "1");
+    usesDiagramUseFillColor = qElement.attribute("usesdiagramusefillcolor", usesDiagramUseFillColor);
+    m_usesDiagramUseFillColor = (bool)usesDiagramUseFillColor.toInt();
+
     return true;
 }
 
