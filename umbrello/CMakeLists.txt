@@ -220,6 +220,7 @@ set(libdialogs_SRCS
     dialogs/defaultcodegenpolicypage.cpp
     dialogs/diagramprintpage.cpp
     dialogs/dialog_utils.cpp
+    dialogs/dialogbase.cpp
     dialogs/exportallviewsdialog.cpp
     dialogs/notedialog.cpp
     dialogs/objectnodedialog.cpp

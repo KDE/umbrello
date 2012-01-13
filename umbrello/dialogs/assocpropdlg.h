@@ -11,21 +11,22 @@
 #ifndef ASSOCPROPDLG_H
 #define ASSOCPROPDLG_H
 
+#include "dialogbase.h"
 #include "associationwidget.h"
 
 // kde includes
-#include <kpagedialog.h>
 #include <kfontdialog.h>
 
 class AssocRolePage;
 class AssocGenPage;
+class UMLWidgetStylePage;
 
 /**
  * Based off of AssocPropDlg class
  * @author Brian Thomas <Brian.A.Thomas@gsfc.nasa.gov>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class AssocPropDlg : public KPageDialog
+class AssocPropDlg : public DialogBase
 {
     Q_OBJECT
 public:
@@ -46,8 +47,7 @@ public:
     enum Page { page_gen = 0, page_role, page_font };
 
 protected:
-    void setupPages(AssociationWidget * assocWidget);
-    void setupFontPage();
+    void setupPages();
 
 protected slots:
     void slotOk();
@@ -56,6 +56,7 @@ protected slots:
 private:
     AssocGenPage *m_pGenPage;
     AssocRolePage *m_pRolePage;
+    UMLWidgetStylePage *m_pStylePage;
     KFontChooser *m_pChooser;
     AssociationWidget *m_pAssoc;
 

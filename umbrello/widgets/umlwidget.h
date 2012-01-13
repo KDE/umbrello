@@ -58,15 +58,15 @@ public:
 
     void setUseFillColor(bool fc);
 
-    void setTextColor(const QColor &color);
+    virtual void setTextColor(const QColor &color);
     void setTextColorcmd(const QColor &color);
 
-    void setLineColor(const QColor &color);
+    virtual void setLineColor(const QColor &color);
     void setLineColorcmd(const QColor &color);
 
-    void setLineWidth(uint width);
+    virtual void setLineWidth(uint width);
 
-    void setFillColor(const QColor &color);
+    virtual void setFillColor(const QColor &color);
     void setFillColorcmd(const QColor &color);
 
     /**

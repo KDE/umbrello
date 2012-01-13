@@ -2850,6 +2850,33 @@ QFont AssociationWidget::font() const
 }
 
 /**
+ * Set all 'owned' child widgets to this text color.
+ */
+void AssociationWidget::setTextColor(const QColor &color)
+{
+    WidgetBase::setTextColor(color);
+    if( m_pName) {
+        m_pName->setTextColor( color );
+    }
+    if( m_role[A].m_pRole ) {
+        m_role[A].m_pRole->setTextColor( color );
+    }
+    if( m_role[B].m_pRole ) {
+        m_role[B].m_pRole->setTextColor( color );
+    }
+    if( m_role[A].m_pMulti ) {
+        m_role[A].m_pMulti->setTextColor( color );
+    }
+    if( m_role[B].m_pMulti ) {
+        m_role[B].m_pMulti->setTextColor( color );
+    }
+    if( m_role[A].m_pChangeWidget)
+        m_role[A].m_pChangeWidget->setTextColor( color );
+    if( m_role[B].m_pChangeWidget)
+        m_role[B].m_pChangeWidget->setTextColor( color );
+}
+
+/**
  * Overrides the method from WidgetBase.
  */
 void AssociationWidget::setLineColor(const QColor &color)

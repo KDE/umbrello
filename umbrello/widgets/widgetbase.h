@@ -89,16 +89,16 @@ public:
     void setDocumentation(const QString &doc);
 
     QColor textColor() const;
-    void setTextColor(const QColor &color);
+    virtual void setTextColor(const QColor &color);
 
     QColor lineColor() const;
-    void setLineColor(const QColor &color);
+    virtual void setLineColor(const QColor &color);
 
     QColor fillColor() const;
-    void setFillColor(const QColor &color);
+    virtual void setFillColor(const QColor &color);
 
     uint lineWidth() const;
-    void setLineWidth(uint width);
+    virtual void setLineWidth(uint width);
 
     bool useFillColor();
     void setUseFillColor(bool state);

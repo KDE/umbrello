@@ -12,9 +12,10 @@
 
 #include "optionstate.h"
 #include "uml.h"
+#include "umlscene.h"
 #include "umlview.h"
 #include "umlviewcanvas.h"
-#include "umlwidget.h"
+#include "widgetbase.h"
 
 #include <klocale.h>
 #include <kcolorbutton.h>
@@ -31,7 +32,7 @@
 /**
  *   Constructor - Observe a UMLWidget.
  */
-UMLWidgetStylePage::UMLWidgetStylePage( QWidget *pParent, UMLWidget *pWidget ) : QWidget( pParent )
+UMLWidgetStylePage::UMLWidgetStylePage( QWidget *pParent, WidgetBase *pWidget ) : QWidget( pParent )
 {
     m_pUMLWidget = pWidget;
     m_options = 0;

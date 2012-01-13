@@ -469,8 +469,7 @@ void FloatingTextWidget::paint(QPainter & p, int offsetX, int offsetY)
     int w = width();
     int h = height();
     p.setFont( UMLWidget::font() );
-    QColor textColor(50, 50, 50);
-    p.setPen(textColor);
+    p.setPen(textColor());
     p.drawText( offsetX, offsetY,w,h, Qt::AlignCenter, displayText() );
     if(m_selected)
         drawSelected(&p, offsetX, offsetY);

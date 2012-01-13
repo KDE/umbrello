@@ -19,7 +19,7 @@
  * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLWidget;
+class WidgetBase;
 class KColorButton;
 class KIntSpinBox;
 class QLabel;
@@ -32,7 +32,7 @@ class UMLWidgetStylePage : public QWidget
     Q_OBJECT
 public:
 
-    UMLWidgetStylePage( QWidget * pParent, UMLWidget * pWidget );
+    UMLWidgetStylePage( QWidget * pParent, WidgetBase * pWidget );
     UMLWidgetStylePage( QWidget * pParent, Settings::OptionState *options );
 
     virtual ~UMLWidgetStylePage();
@@ -50,7 +50,7 @@ public slots:
 
 protected:
 
-    UMLWidget * m_pUMLWidget;  ///< the widget to set the color for
+    WidgetBase * m_pUMLWidget;  ///< the widget to set the style for
 
     Settings::OptionState * m_options;
 
