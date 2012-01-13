@@ -16,12 +16,11 @@
 #include "activitypage.h"
 
 // kde class includes
-#include <kpagedialog.h>
+#include "dialogbase.h"
 
 //forward declarations
 class UMLView;
 class StateWidget;
-class KFontChooser;
 class KLineEdit;
 class QGroupBox;
 class QLabel;
@@ -32,7 +31,7 @@ class KTextEdit;
  * @author   Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class StateDialog : public KPageDialog
+class StateDialog : public DialogBase
 {
     Q_OBJECT
 
@@ -62,23 +61,9 @@ protected:
 
     void setupGeneralPage();
 
-    void setupStylePage();
-
-    void setupFontPage();
-
     void setupActivityPage();
 
     void applyPage( KPageWidgetItem*item );
-
-    /**
-     * Font chooser widget for font page.
-     */
-    KFontChooser * m_pChooser;
-
-    /**
-     * style page
-     */
-    UMLWidgetStylePage * m_pStylePage;
 
     /**
      * Activity page.

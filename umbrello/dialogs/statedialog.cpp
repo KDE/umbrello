@@ -32,7 +32,7 @@
 #include <QtGui/QHBoxLayout>
 
 StateDialog::StateDialog( UMLView * pView, StateWidget * pWidget )
-    : KPageDialog( pView )
+  : DialogBase( pView )
 {
     setCaption(i18n("Properties") );
     setButtons( Help | Default | Apply | Ok | Cancel );
@@ -79,8 +79,8 @@ void StateDialog::setupPages()
     if ( m_pStateWidget->stateType() == StateWidget::Normal ) {
         setupActivityPage();
     }
-    setupStylePage();
-    setupFontPage();
+    pageStyle = setupStylePage( m_pStateWidget );
+    pageFont = setupFontPage( m_pStateWidget );
 }
 
 /**
@@ -99,10 +99,10 @@ void StateDialog::applyPage( KPageWidgetItem*item )
         }
     }
     else if ( item == pageStyle ) {
-        m_pStylePage->updateUMLWidget();
+        saveStylePageData( m_pStateWidget );
     }
     else if ( item == pageFont ) {
-        m_pStateWidget->setFont( m_pChooser->font() );
+        saveFontPageData( m_pStateWidget );
     }
 }
 
@@ -152,38 +152,6 @@ void StateDialog::setupGeneralPage()
         m_GenPageWidgets.nameLE->setText( "" );
     } else
         m_GenPageWidgets.nameLE->setText( m_pStateWidget->name() );
-}
-
-/**
- * Sets up the font selection page.
- */
-void StateDialog::setupFontPage()
-{
-    if ( !m_pStateWidget ) {
-        return;
-    }
-    KVBox * page = new KVBox();
-    pageFont = new KPageWidgetItem( page,i18n("Font")  );
-    pageFont->setHeader( i18n("Font Settings") );
-    pageFont->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font) );
-    addPage( pageFont );
-    m_pChooser = new KFontChooser( (QWidget*)page, KFontChooser::NoDisplayFlags, QStringList(), 0);
-    m_pChooser->setFont( m_pStateWidget->font() );
-}
-
-/**
- * Sets up the style page.
- */
-void StateDialog::setupStylePage()
-{
-    QFrame * stylePage = new QFrame();
-    pageStyle = new KPageWidgetItem( stylePage, i18nc("style page", "Style")  );
-    pageStyle->setHeader( i18n("Widget Style") );
-    pageStyle->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Color) );
-    addPage( pageStyle );
-    QHBoxLayout * m_pStyleLayout = new QHBoxLayout(stylePage);
-    m_pStylePage = new UMLWidgetStylePage( stylePage, m_pStateWidget );
-    m_pStyleLayout->addWidget(m_pStylePage);
 }
 
 /**
