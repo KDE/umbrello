@@ -12,10 +12,10 @@
 #define CLASSPROPDLG_H
 
 #include "basictypes.h"
+#include "dialogbase.h"
 #include "icon_utils.h"
 
 // kde class includes
-#include <kpagedialog.h>
 #include <kfontdialog.h>
 
 // qt class includes
@@ -39,7 +39,7 @@ class UMLWidget;
  * @version 1.0
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ClassPropDlg : public KPageDialog
+class ClassPropDlg : public DialogBase
 {
     Q_OBJECT
 public:
@@ -100,8 +100,6 @@ private:
 
 private:
     void init();
-
-    QFrame* createPage(const QString& name, const QString& header, Icon_Utils::IconType icon);
 
 };
 

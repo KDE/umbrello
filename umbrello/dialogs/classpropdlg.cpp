@@ -45,7 +45,7 @@
  *  @param assoc     Determines whether to display associations
  */
 ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, bool assoc)
-  : KPageDialog(parent)
+  : DialogBase(parent)
 {
     init();
     m_pWidget = 0;
@@ -65,7 +65,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, bool assoc)
  *  @param  o       The ObjectWidget to display properties of.
  */
 ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget *o)
-  : KPageDialog(parent)
+  : DialogBase(parent)
 {
     init();
     m_pWidget = o;
@@ -89,7 +89,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget *o)
  *  @param  o       The UMLWidget to display properties of.
  */
 ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget *w)
-  : KPageDialog(parent)
+  : DialogBase(parent)
 {
     init();
     m_pWidget = w;
@@ -229,16 +229,6 @@ void ClassPropDlg::setupPages(bool assoc)
     } else {
         m_pAssocPage = 0;
     }
-}
-
-QFrame* ClassPropDlg::createPage(const QString& name, const QString& header, Icon_Utils::IconType icon)
-{
-    QFrame* page = new QFrame();
-    KPageWidgetItem *pageItem = new KPageWidgetItem( page, name );
-    pageItem->setHeader( header );
-    pageItem->setIcon( Icon_Utils::DesktopIcon(icon) );
-    addPage( pageItem );
-    return page;
 }
 
 /**
