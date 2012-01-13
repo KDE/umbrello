@@ -366,6 +366,7 @@ set(libwidgets_SRCS
     widgets/activitywidget.cpp
     widgets/actorwidget.cpp
     widgets/artifactwidget.cpp
+    widgets/associationline.cpp
     widgets/associationwidget.cpp
     widgets/boxwidget.cpp
     widgets/categorywidget.cpp
@@ -435,7 +436,6 @@ set(libumbrello_SRCS
     foreignkeyconstraint.cpp
     icon_utils.cpp
     import_rose.cpp
-    linepath.cpp
     listpopupmenu.cpp
     main.cpp
     model_utils.cpp

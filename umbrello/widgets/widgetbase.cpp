@@ -87,7 +87,7 @@ QLatin1String WidgetBase::baseTypeStr() const
 
 /**
  * Deliver a pointer to the connected UMLView
- * ( needed esp. by event handling of LinePath ).
+ * ( needed esp. by event handling of AssociationLine ).
  */
 UMLScene* WidgetBase::umlScene() const
 {
