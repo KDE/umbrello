@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -34,7 +34,7 @@
 #include <QtGui/QRadioButton>
 
 ObjectNodeDialog::ObjectNodeDialog( UMLView * pView, ObjectNodeWidget * pWidget )
-        : KPageDialog(pView)
+  : DialogBase(pView)
 {
     setCaption( i18n("Properties") );
     setButtons( Ok | Apply | Cancel | Help );
@@ -91,8 +91,8 @@ void ObjectNodeDialog::slotHideState()
 void ObjectNodeDialog::setupPages()
 {
     setupGeneralPage();
-    setupStylePage();
-    setupFontPage();
+    pageItemStyle = setupStylePage( m_pObjectNodeWidget ) ;
+    pageItemFont = setupFontPage( m_pObjectNodeWidget );
 }
 
 /**
@@ -119,11 +119,11 @@ void ObjectNodeDialog::applyPage( KPageWidgetItem *item )
     }
     else if ( item == pageItemFont )
     {
-        m_pObjectNodeWidget->setFont( m_pChooser->font() );
+        saveFontPageData( m_pObjectNodeWidget );
     }
     else if ( item == pageItemStyle )
     {
-        m_pStylePage->updateUMLWidget();
+        saveStylePageData( m_pObjectNodeWidget );
     }
 }
 
@@ -212,20 +212,6 @@ void ObjectNodeDialog::setupGeneralPage()
 }
 
 /**
- * Sets up the font selection page.
- */
-void ObjectNodeDialog::setupFontPage()
-{
-    KVBox *page = new KVBox();
-    pageItemFont = new KPageWidgetItem( page, i18n("Font") );
-    pageItemFont->setHeader( i18n("Font Settings") );
-    pageItemFont->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font) );
-    addPage( pageItemFont );
-    m_pChooser = new KFontChooser( (QWidget*)page, KFontChooser::NoDisplayFlags, QStringList(), 0);
-    m_pChooser->setFont( m_pObjectNodeWidget->font() );
-}
-
-/**
  * Show the State entry text.
  */
 void ObjectNodeDialog::showState()
@@ -236,21 +222,6 @@ void ObjectNodeDialog::showState()
     if (m_pObjectNodeWidget->state() != NULL) {
         m_GenPageWidgets.stateLE->setText(m_pObjectNodeWidget->state());
     }
-}
-
-/**
- * Sets up the style page.
- */
-void ObjectNodeDialog::setupStylePage()
-{
-    QFrame *stylePage = new QFrame();
-    pageItemStyle = new KPageWidgetItem( stylePage, i18nc("style page title", "Style") );
-    pageItemStyle->setHeader( i18n("Widget Style") );
-    pageItemStyle->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Color) );
-    addPage( pageItemStyle );
-    QHBoxLayout * m_pStyleLayout = new QHBoxLayout(stylePage);
-    m_pStylePage = new UMLWidgetStylePage( stylePage, m_pObjectNodeWidget );
-    m_pStyleLayout->addWidget(m_pStylePage);
 }
 
 #include "objectnodedialog.moc"

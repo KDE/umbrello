@@ -12,11 +12,8 @@
 #define OBJECTNODEDIALOG_H
 
 // local class includes
+#include "dialogbase.h"
 #include "umlwidgetstylepage.h"
-
-// kde class includes
-#include <kpagedialog.h>
-#include <kfontdialog.h>
 
 //forward declarations
 class UMLView;
@@ -33,7 +30,7 @@ class KTextEdit;
  *   @author   Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ObjectNodeDialog : public KPageDialog
+class ObjectNodeDialog : public DialogBase
 {
     Q_OBJECT
 
@@ -63,23 +60,9 @@ protected:
 
     void setupGeneralPage();
 
-    void setupStylePage();
-
-    void setupFontPage();
-
     void showState();
 
     void applyPage( KPageWidgetItem * );
-
-    /**
-     * Font chooser widget for font page.
-     */
-    KFontChooser * m_pChooser;
-
-    /**
-     * style page
-     */
-    UMLWidgetStylePage * m_pStylePage;
 
     /**
      * The widget to represent.
