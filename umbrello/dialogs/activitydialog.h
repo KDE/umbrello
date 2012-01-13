@@ -16,8 +16,7 @@
 
 //kde class includes
 #include <klineedit.h>
-#include <kpagedialog.h>
-#include <kfontdialog.h>
+#include <dialogbase.h>
 #include <ktextedit.h>
 
 //forward declarations
@@ -33,7 +32,7 @@ class QRadioButton;
  *   @author   Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ActivityDialog : public KPageDialog
+class ActivityDialog : public DialogBase
 {
     Q_OBJECT
 
@@ -63,23 +62,9 @@ protected:
 
     void setupGeneralPage();
 
-    void setupStylePage();
-
-    void setupFontPage();
-
     void showParameterActivity();
 
     void applyPage( KPageWidgetItem * );
-
-    /**
-     *   Font chooser widget for font page.
-     */
-    KFontChooser * m_pChooser;
-
-    /**
-     *   style page
-     */
-    UMLWidgetStylePage * m_pStylePage;
 
     /**
      *   The widget to represent.

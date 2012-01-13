@@ -18,7 +18,10 @@
 
 //forward declarations
 class QFrame;
-class WidgetBase;
+class UMLWidget;
+class KFontChooser;
+class KPageWidgetItem;
+class UMLWidgetStylePage;
 
 /**
  * Base class for property dialogs
@@ -38,6 +41,16 @@ class DialogBase : public KPageDialog
 public:
     DialogBase(QWidget *parent);
     QFrame* createPage(const QString& name, const QString& header, Icon_Utils::IconType icon);
+    KPageWidgetItem *setupFontPage(UMLWidget *widget);
+    void saveFontPageData(UMLWidget *widget);
+
+    KPageWidgetItem *setupStylePage(UMLWidget *widget);
+    void saveStylePageData(UMLWidget *widget);
+
+protected:
+    KFontChooser *m_fontChooser;
+    UMLWidgetStylePage *m_pStylePage;
+    KPageWidgetItem *m_pageItem;
 
 };
 

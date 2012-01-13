@@ -31,7 +31,7 @@
 #include <QtGui/QRadioButton>
 
 ActivityDialog::ActivityDialog(QWidget * parent, ActivityWidget * pWidget)
-   : KPageDialog(parent)
+   : DialogBase(parent)
 {
     setCaption( i18n("Properties") );
     setButtons( Ok | Apply | Cancel | Help );
@@ -93,8 +93,8 @@ void ActivityDialog::slotHideActivityParameter()
 void ActivityDialog::setupPages()
 {
     setupGeneralPage();
-    setupStylePage();
-    setupFontPage();
+    pageItemStyle = setupStylePage( m_pActivityWidget );
+    pageItemFont = setupFontPage( m_pActivityWidget );
 }
 
 /**
@@ -120,11 +120,11 @@ void ActivityDialog::applyPage( KPageWidgetItem *item )
     }
     else if ( item == pageItemFont )
     {
-        m_pActivityWidget->setFont( m_pChooser->font() );
+        saveFontPageData( m_pActivityWidget );
     }
     else if ( item == pageItemStyle )
     {
-        m_pStylePage->updateUMLWidget();
+        saveStylePageData( m_pActivityWidget );
     }
 }
 
@@ -214,20 +214,6 @@ void ActivityDialog::setupGeneralPage()
 }
 
 /**
- *   Sets up the font selection page.
- */
-void ActivityDialog::setupFontPage()
-{
-    KVBox *page = new KVBox();
-    pageItemFont = new KPageWidgetItem( page, i18n("Font") );
-    pageItemFont->setHeader( i18n("Font Settings") );
-    pageItemFont->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font) );
-    addPage( pageItemFont );
-    m_pChooser = new KFontChooser( (QWidget*)page, KFontChooser::NoDisplayFlags, QStringList(), 0);
-    m_pChooser->setFont( m_pActivityWidget->font() );
-}
-
-/**
  *   Show the Activity Parameter entry text.
  */
 void ActivityDialog::showParameterActivity()
@@ -242,21 +228,6 @@ void ActivityDialog::showParameterActivity()
     if (!m_pActivityWidget->preconditionText().isEmpty()) {
         m_GenPageWidgets.preLE->setText(m_pActivityWidget->preconditionText());
     }
-}
-
-/**
- *   Sets up the style page.
- */
-void ActivityDialog::setupStylePage()
-{
-    QFrame *stylePage = new QFrame();
-    pageItemStyle = new KPageWidgetItem( stylePage, i18nc("widget style page", "Style") );
-    pageItemStyle->setHeader( i18n("Widget Style") );
-    pageItemStyle->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Color) );
-    addPage( pageItemStyle );
-    QHBoxLayout * m_pStyleLayout = new QHBoxLayout(stylePage);
-    m_pStylePage = new UMLWidgetStylePage( stylePage, m_pActivityWidget );
-    m_pStyleLayout->addWidget(m_pStylePage);
 }
 
 #include "activitydialog.moc"
