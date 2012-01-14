@@ -123,7 +123,7 @@ void CodeImpStatusPage::importCode()
     UMLDoc* doc = UMLApp::app()->document();
     doc->setLoading(true);
 
-    ui_textEditLogger->setHtml(i18n("<b>Code import of %1 files:</b><br>", m_files.size()));
+    ui_textEditLogger->setHtml(i18np("<b>Code import of 1 file:</b><br>", "<b>Code import of %1 files:</b><br>", m_files.size()));
     m_index = 0;
     m_workDone = false;
 #ifdef ENABLE_IMPORT_THREAD
