@@ -14,7 +14,6 @@
 // qt includes
 #include <qwmatrix.h> // need for inverseWorldMatrix.map
 
-
 // app includes
 #include "associationwidget.h"
 #include "messagewidget.h"

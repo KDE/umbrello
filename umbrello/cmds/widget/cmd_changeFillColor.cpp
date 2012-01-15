@@ -24,7 +24,7 @@ namespace Uml
         m_color(col)
     {
         setText(i18n("Change fill color : %1", w->name()));
-        m_oldColor = w->getFillColor();
+        m_oldColor = w->fillColor();
     }
 
     CmdChangeFillColor::~CmdChangeFillColor()

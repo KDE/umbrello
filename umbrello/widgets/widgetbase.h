@@ -271,7 +271,7 @@ public:
 
     // DEPRECATED SECTION ///////////////////////////////
 
-    QColor getFillColor() const;
+    QColor fillColor() const;
     void setFillColor(const QColor& col) { setBrush(QBrush(col)); }
 
     bool useFillColor() const { return false; }

@@ -29,9 +29,6 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 
-// qt includes
-
-
 /**
  * Creates a new ToolBarStateAssociation.
  *

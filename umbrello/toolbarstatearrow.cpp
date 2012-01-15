@@ -11,9 +11,6 @@
 // own header
 #include "toolbarstatearrow.h"
 
-// qt includes
-
-
 // app includes
 #include "umlscene.h"
 

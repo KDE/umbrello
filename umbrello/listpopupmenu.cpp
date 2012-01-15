@@ -260,7 +260,7 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type
 
     default:
         uWarning() << "unhandled ListViewType "
-                   << type;  //:TODO: QLatin1String(ENUM_NAME(UMLListViewItem, ListViewType, type));
+                   << UMLListViewItem::toString(type);
         break;
     }
     setupMenu(mt);

@@ -415,7 +415,7 @@ bool UMLAssociation::load( QDomElement & element )
     Uml::IDType roleBObjID = STR2ID(element.attribute( "roleb", "-1" ));
     if (assocType == Uml::AssociationType::Aggregation ||
         assocType == Uml::AssociationType::Composition) {
-        // Flip roles to compensate for changed diamond logic in LinePath.
+        // Flip roles to compensate for changed diamond logic in AssociationLine.
         // For further explanations see AssociationWidget::loadFromXMI.
         Uml::IDType tmp = roleAObjID;
         roleAObjID = roleBObjID;
