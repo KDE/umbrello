@@ -11,8 +11,18 @@
 // own header
 #include "umlviewimageexportermodel.h"
 
-// system includes
-#include <cmath>
+// application specific includes
+#include "debug_utils.h"
+#include "model_utils.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlscene.h"
+#include "umlview.h"
+
+// kde include files
+#include <klocale.h>
+#include <ktemporaryfile.h>
+#include <kio/netaccess.h>
 
 // include files for Qt
 #include <QtGui/QApplication>
@@ -26,18 +36,8 @@
 #include <QtCore/QRegExp>
 #include <QtSvg/QSvgGenerator>
 
-// kde include files
-#include <klocale.h>
-#include <ktemporaryfile.h>
-#include <kio/netaccess.h>
-
-// application specific includes
-#include "debug_utils.h"
-#include "model_utils.h"
-#include "uml.h"
-#include "umldoc.h"
-#include "umlview.h"
-#include "umlscene.h"
+// system includes
+#include <cmath>
 
 #define DBG_IEM "UMLViewImageExporterModel"
 
@@ -351,8 +351,8 @@ bool UMLViewImageExporterModel::exportViewTo(UMLScene* scene, const QString &ima
  *
  * @param scene    The scene to export.
  * @param fileName The name of the file where the image will be saved.
- * @param isEPS The file is an eps file and needs adjusting
- *              of the eps bounding box values.
+ * @param isEPS    The file is an eps file and needs adjusting
+ *                 of the eps bounding box values.
  * @return True if the operation was successful,
  *         false if a problem occurred while exporting.
  */
@@ -519,7 +519,7 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLScene* scene, const QString &
  *
  * @param scene     The scene to export.
  * @param imageType The type of the image the view will be exported to.
- * @param fileName The name of the file where the image will be saved.
+ * @param fileName  The name of the file where the image will be saved.
  * @return True if the operation was successful,
  *         false if a problem occurred while exporting.
  */

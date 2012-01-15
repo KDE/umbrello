@@ -111,7 +111,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
                 UMLObjectList objects = view->umlObjects();
                 foreach (UMLObject* o, objects ) {
                     UMLListViewItem *item = listView->findUMLObject(o);
-                    if(item) {
+                    if (item) {
                         listView->setCurrentItem(item);
                     }
                 }

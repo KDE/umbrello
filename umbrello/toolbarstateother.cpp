@@ -11,10 +11,6 @@
 // own header
 #include "toolbarstateother.h"
 
-// kde includes
-#include <klocale.h>
-#include <kinputdialog.h>
-
 // app includes
 #include "activitywidget.h"
 #include "boxwidget.h"
@@ -37,6 +33,10 @@
 #include "pinwidget.h"
 #include "umlscene.h"
 #include "model_utils.h"  // for ENUM_NAMES only
+
+// kde includes
+#include <klocale.h>
+#include <kinputdialog.h>
 
 #include <QtGui/QMouseEvent>
 
@@ -169,7 +169,6 @@ bool ToolBarStateOther::newWidget()
             break;
 
         case WorkToolBar::tbb_Fork:
-        case WorkToolBar::tbb_StateFork:
             umlWidget = new ForkJoinWidget(m_pUMLScene);
             break;
 
@@ -183,6 +182,30 @@ bool ToolBarStateOther::newWidget()
 
         case WorkToolBar::tbb_End_State:
             umlWidget = new StateWidget(m_pUMLScene, StateWidget::End);
+            break;
+
+        case WorkToolBar::tbb_StateFork:
+            umlWidget = new StateWidget(m_pUMLScene, StateWidget::Fork);
+            break;
+
+        case WorkToolBar::tbb_StateJoin:
+            umlWidget = new StateWidget(m_pUMLScene, StateWidget::Join);
+            break;
+
+        case WorkToolBar::tbb_Junction:
+            umlWidget = new StateWidget(m_pUMLScene, StateWidget::Junction);
+            break;
+
+        case WorkToolBar::tbb_DeepHistory:
+            umlWidget = new StateWidget(m_pUMLScene, StateWidget::DeepHistory);
+            break;
+
+        case WorkToolBar::tbb_ShallowHistory:
+            umlWidget = new StateWidget(m_pUMLScene, StateWidget::ShallowHistory);
+            break;
+
+        case WorkToolBar::tbb_Choice:
+            umlWidget = new StateWidget(m_pUMLScene, StateWidget::Choice);
             break;
 
         case WorkToolBar::tbb_Send_Signal:

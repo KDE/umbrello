@@ -11,10 +11,6 @@
 // own header
 #include "listpopupmenu.h"
 
-// qt/kde includes
-#include <klocale.h>
-#include <kactioncollection.h>
-
 // app includes
 #include "activitywidget.h"
 #include "category.h"
@@ -36,6 +32,10 @@
 #include "umlview.h"
 #include "umlwidget.h"
 #include "widget_utils.h"
+
+// kde includes
+#include <klocale.h>
+#include <kactioncollection.h>
 
 const bool CHECKABLE = true;
 
@@ -241,7 +241,8 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type
         break;
 
     default:
-        uWarning() << "unhandled ListView_Type " << type;
+        uWarning() << "unhandled ListViewType "
+                   << UMLListViewItem::toString(type);
         break;
     }
     setupMenu(mt);
@@ -431,6 +432,8 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
             else {
                 insert(mt_Flip, i18n("Flip Vertical"));
             }
+            m_actions[mt_Fill_Color] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Color_Fill),
+                                                 i18n("Fill Color..."));
         }
         break;
 
@@ -981,7 +984,7 @@ void ListPopupMenu::insertSubMenuColor(bool fc)
  */
 Uml::DiagramType ListPopupMenu::convert_MT_DT(MenuType mt)
 {
-    Uml::DiagramType type =  Uml::DiagramType::Undefined;
+    Uml::DiagramType type = Uml::DiagramType::Undefined;
 
     switch (mt) {
     case mt_UseCase_Diagram:
@@ -1059,6 +1062,21 @@ UMLObject::ObjectType ListPopupMenu::convert_MT_OT(MenuType mt)
 }
 
 /**
+ * Convenience method to extract the ListPopupMenu pointer stored in QAction
+ * objects belonging to ListPopupMenu.
+ */
+ListPopupMenu* ListPopupMenu::menuFromAction(QAction *action)
+{
+    if (action) {
+        QVariant data = action->data();
+        if (qVariantCanConvert<ListPopupMenu*>(data)) {
+            return qvariant_cast<ListPopupMenu*>(data);
+        }
+    }
+    return 0;
+}
+
+/**
  * Shortcut for commonly used sub menu initializations.
  *
  * @param type   The MenuType for which to set up the menu.
@@ -1130,6 +1148,12 @@ void ListPopupMenu::insertSubMenuNew(MenuType type)
             insert(mt_Initial_State, menu, Icon_Utils::SmallIcon(Icon_Utils::it_InitialState), i18n("Initial State"));
             insert(mt_End_State, menu, Icon_Utils::SmallIcon(Icon_Utils::it_EndState), i18n("End State"));
             insert(mt_State, menu, Icon_Utils::SmallIcon(Icon_Utils::it_UseCase), i18nc("add new state", "State..."));
+            insert(mt_Junction, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Junction), i18n("Junction"));
+            insert(mt_DeepHistory, menu, Icon_Utils::SmallIcon(Icon_Utils::it_History_Deep), i18n("Deep History"));
+            insert(mt_ShallowHistory, menu, Icon_Utils::SmallIcon(Icon_Utils::it_History_Shallow), i18n("Shallow History"));
+            insert(mt_Choice, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Choice_Rhomb), i18n("Choice"));
+            insert(mt_StateFork, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Fork_State), i18n("Fork"));
+            insert(mt_StateJoin, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Join), i18n("Join"));
             insert(mt_FloatText, menu);
             break;
         case mt_On_Activity_Diagram:
@@ -1197,7 +1221,7 @@ void ListPopupMenu::insertSubMenuNew(MenuType type)
  */
 void ListPopupMenu::setupMenu(MenuType type)
 {
-    // uDebug() << "ListPopupMenu created for MenuType=" << type;
+    // uDebug() << "ListPopupMenu created for MenuType=" << toString(type);
 
     switch (type) {
     case mt_Logical_View:

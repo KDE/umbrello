@@ -39,7 +39,7 @@
 StateWidget::StateWidget(UMLScene * scene, StateType stateType, Uml::IDType id)
   : UMLWidget(scene, WidgetBase::wt_State, id)
 {
-    m_StateType = stateType;
+    m_stateType = stateType;
     m_Text = "State";
     updateComponentSize();
 }
@@ -59,17 +59,17 @@ void StateWidget::paint(QPainter & p, int offsetX, int offsetY)
     setPenFromSettings(p);
     const int w = width();
     const int h = height();
-    switch (m_StateType)
-    {
-    case Normal :
-        if(UMLWidget::useFillColor())
-            p.setBrush(UMLWidget::fillColor());
+    switch (m_stateType) {
+    case StateWidget::Normal:
         {
+            if (UMLWidget::useFillColor()) {
+                p.setBrush(UMLWidget::fillColor());
+            }
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing();
             int textStartY = (h / 2) - (fontHeight / 2);
             const int count = m_Activities.count();
-            if( count == 0 ) {
+            if (count == 0) {
                 p.drawRoundRect(offsetX, offsetY, w, h, (h*40)/w, (w*40)/h);
                 p.setPen(textColor());
                 QFont font = UMLWidget::font();
@@ -106,11 +106,11 @@ void StateWidget::paint(QPainter & p, int offsetX, int offsetY)
             }//end else
         }
         break;
-    case Initial :
+    case StateWidget::Initial :
         p.setBrush( WidgetBase::lineColor() );
         p.drawEllipse( offsetX, offsetY, w, h );
         break;
-    case End :
+    case StateWidget::End :
         p.setBrush( WidgetBase::lineColor() );
         p.drawEllipse( offsetX, offsetY, w, h );
         p.setBrush( Qt::white );
@@ -118,12 +118,58 @@ void StateWidget::paint(QPainter & p, int offsetX, int offsetY)
         p.setBrush( WidgetBase::lineColor() );
         p.drawEllipse( offsetX + 3, offsetY + 3, w - 6, h - 6 );
         break;
+    case StateWidget::Fork:
+    case StateWidget::Join:
+        {
+            p.setPen(Qt::black);
+            p.setBrush(Qt::black);
+            p.drawRect(rect());
+        }
+        break;
+    case StateWidget::Junction:
+        {
+            p.setPen(Qt::black);
+            p.setBrush(Qt::black);
+            p.drawEllipse(rect());
+        }
+        break;
+    case StateWidget::DeepHistory:
+        {
+            p.setBrush(Qt::white);
+            p.drawEllipse(rect());
+            p.setPen(Qt::black);
+            p.drawText(rect().x() +  3, rect().y() + 13, "H");
+            p.drawText(rect().x() + 11, rect().y() + 12, "*");
+        }
+        break;
+    case StateWidget::ShallowHistory:
+        {
+            p.setBrush(Qt::white);
+            p.drawEllipse(rect());
+            p.setPen(Qt::black);
+            p.drawText(rect().x() + 5, rect().y() + 13, "H");
+        }
+        break;
+    case StateWidget::Choice:
+        {
+            const qreal len = 26.0;
+            const qreal pnt = len / 2.0;
+            const int   x   = rect().x();
+            const int   y   = rect().y();
+            QPolygonF polygon;
+            polygon << QPointF(x + pnt, y) << QPointF(x + len, y + pnt)
+                    << QPointF(x + pnt, y + len) << QPointF(x, y + pnt);
+            p.setBrush(UMLWidget::fillColor());
+            p.drawPolygon(polygon);
+        }
+        break;
     default:
-        uWarning() << "Unknown state type:" << m_StateType;
+        uWarning() << "Unknown state type:" << QLatin1String(ENUM_NAME(StateWidget, StateType, m_stateType));
         break;
     }
-    if(m_selected)
+    if (m_selected) {
         drawSelected(&p, offsetX, offsetY);
+    }
 }
 
 /**
@@ -132,26 +178,46 @@ void StateWidget::paint(QPainter & p, int offsetX, int offsetY)
 QSize StateWidget::calculateSize()
 {
     int width = 10, height = 10;
-    if ( m_StateType == Normal ) {
-        const QFontMetrics &fm = getFontMetrics(FT_BOLD);
-        const int fontHeight  = fm.lineSpacing();
-        int textWidth = fm.width(name());
-        const int count = m_Activities.count();
-        height = fontHeight;
-        if( count > 0 ) {
-            height = fontHeight * ( count + 1);
+    switch (m_stateType) {
+        case StateWidget::Normal:
+        {
+            const QFontMetrics &fm = getFontMetrics(FT_BOLD);
+            const int fontHeight  = fm.lineSpacing();
+            int textWidth = fm.width(name());
+            const int count = m_Activities.count();
+            height = fontHeight;
+            if( count > 0 ) {
+                height = fontHeight * ( count + 1);
 
-            QStringList::Iterator end(m_Activities.end());
-            for( QStringList::Iterator it(m_Activities.begin()); it != end; ++it ) {
-                int w = fm.width( *it );
-                if( w > textWidth )
-                    textWidth = w;
-            }//end for
-        }//end if
-        width = textWidth > STATE_WIDTH?textWidth:STATE_WIDTH;
-        height = height > STATE_HEIGHT?height:STATE_HEIGHT;
-        width += STATE_MARGIN * 2;
-        height += STATE_MARGIN * 2;
+                QStringList::Iterator end(m_Activities.end());
+                for( QStringList::Iterator it(m_Activities.begin()); it != end; ++it ) {
+                    int w = fm.width( *it );
+                    if( w > textWidth )
+                        textWidth = w;
+                }//end for
+            }//end if
+            width = textWidth > STATE_WIDTH?textWidth:STATE_WIDTH;
+            height = height > STATE_HEIGHT?height:STATE_HEIGHT;
+            width += STATE_MARGIN * 2;
+            height += STATE_MARGIN * 2;
+        }
+        case StateWidget::Fork:
+        case StateWidget::Join:
+            width = 8;
+            height = 60;
+            break;
+        case StateWidget::Junction:
+        case StateWidget::DeepHistory:
+        case StateWidget::ShallowHistory:
+            width = 18;
+            height = 18;
+            break;
+        case StateWidget::Choice:
+            width = 25;
+            height = 25;
+            break;
+        default:
+            break;
     }
 
     return QSize(width, height);
@@ -180,7 +246,7 @@ QString StateWidget::name() const
  */
 StateWidget::StateType StateWidget::stateType() const
 {
-    return m_StateType;
+    return m_stateType;
 }
 
 /**
@@ -188,7 +254,7 @@ StateWidget::StateType StateWidget::stateType() const
  */
 void StateWidget::setStateType(StateType stateType)
 {
-    m_StateType = stateType;
+    m_stateType = stateType;
 }
 
 /**
@@ -324,7 +390,7 @@ void StateWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     UMLWidget::saveToXMI( qDoc, stateElement );
     stateElement.setAttribute( "statename", m_Text );
     stateElement.setAttribute( "documentation", m_Doc );
-    stateElement.setAttribute( "statetype", m_StateType );
+    stateElement.setAttribute( "statetype", m_stateType );
     //save states activities
     QDomElement activitiesElement = qDoc.createElement( "Activities" );
 
@@ -348,7 +414,7 @@ bool StateWidget::loadFromXMI(QDomElement & qElement)
     m_Text = qElement.attribute( "statename", "" );
     m_Doc = qElement.attribute( "documentation", "" );
     QString type = qElement.attribute( "statetype", "1" );
-    m_StateType = (StateType)type.toInt();
+    m_stateType = (StateType)type.toInt();
     //load states activities
     QDomNode node = qElement.firstChild();
     QDomElement tempElement = node.toElement();

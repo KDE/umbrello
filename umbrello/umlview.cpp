@@ -2765,6 +2765,42 @@ void UMLView::slotMenuSelection(QAction* action)
     }
     break;
 
+    case ListPopupMenu::mt_Junction: {
+        StateWidget* state = new StateWidget(umlScene(), StateWidget::Junction);
+        setupNewWidget(state);
+    }
+    break;
+
+    case ListPopupMenu::mt_DeepHistory: {
+        StateWidget* state = new StateWidget(umlScene(), StateWidget::DeepHistory);
+        setupNewWidget(state);
+    }
+    break;
+
+    case ListPopupMenu::mt_ShallowHistory: {
+        StateWidget* state = new StateWidget(umlScene(), StateWidget::ShallowHistory);
+        setupNewWidget(state);
+    }
+    break;
+
+    case ListPopupMenu::mt_Choice: {
+        StateWidget* state = new StateWidget(umlScene(), StateWidget::Choice);
+        setupNewWidget(state);
+    }
+    break;
+
+    case ListPopupMenu::mt_StateFork: {
+        StateWidget* state = new StateWidget(umlScene(), StateWidget::Fork);
+        setupNewWidget(state);
+    }
+    break;
+
+    case ListPopupMenu::mt_StateJoin: {
+        StateWidget* state = new StateWidget(umlScene(), StateWidget::Join);
+        setupNewWidget(state);
+    }
+    break;
+
     case ListPopupMenu::mt_State: {
         bool ok = false;
         QString name = KInputDialog::getText(i18n("Enter State Name"),

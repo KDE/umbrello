@@ -325,8 +325,6 @@ void UMLWidget::init()
     connect(m_scene, SIGNAL(sigColorChanged(Uml::IDType)), this, SLOT(slotColorChanged(Uml::IDType)));
     connect(m_scene, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
 
-
-    // connect( m_scene, SIGNAL(sigColorChanged(int)), this, SLOT(slotColorChanged(int)));
     m_pObject = NULL;
     setZ(m_origZ = 2);  // default for most widgets
 }
