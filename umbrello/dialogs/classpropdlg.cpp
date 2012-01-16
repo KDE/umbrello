@@ -71,7 +71,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget *o)
     m_pWidget = o;
     m_Type = pt_ObjectWidget;
     m_pObject = m_pWidget->umlObject();
-    m_pDoc = UMLApp::app()->document();
+    m_doc = UMLApp::app()->document();
 
     setupGeneralPage();
     setupStylePage();
@@ -140,7 +140,7 @@ void ClassPropDlg::init()
     m_pEntityConstraintPage = 0;
     m_pOptionsPage = 0;
     m_pStylePage = 0;
-    m_pDoc = UMLApp::app()->document();
+    m_doc = UMLApp::app()->document();
 }
 
 /**
@@ -240,7 +240,7 @@ void ClassPropDlg::setupGeneralPage()
                                Icon_Utils::it_Properties_General );
     page->setMinimumSize(310, 330);
     QHBoxLayout * topLayout = new QHBoxLayout(page);
-    m_pGenPage = new ClassGenPage(m_pDoc, page, m_pObject);
+    m_pGenPage = new ClassGenPage(m_doc, page, m_pObject);
     topLayout->addWidget(m_pGenPage);
 }
 
@@ -276,7 +276,7 @@ void ClassPropDlg::setupAttributesPage()
 {
     QFrame* page = createPage( i18n("Attributes"), i18n("Attribute Settings"),
                                Icon_Utils::it_Properties_Attributes );
-    m_pAttPage = new ClassifierListPage(page, (UMLClassifier *)m_pObject, m_pDoc, UMLObject::ot_Attribute);
+    m_pAttPage = new ClassifierListPage(page, (UMLClassifier *)m_pObject, m_doc, UMLObject::ot_Attribute);
     QHBoxLayout * attLayout = new QHBoxLayout(page);
     attLayout->addWidget(m_pAttPage);
 }
@@ -288,7 +288,7 @@ void ClassPropDlg::setupOperationsPage()
 {
     QFrame* page = createPage( i18n("Operations"), i18n("Operation Settings"),
                                Icon_Utils::it_Properties_Operations );
-    m_pOpsPage = new ClassifierListPage(page, (UMLClassifier*)m_pObject, m_pDoc, UMLObject::ot_Operation);
+    m_pOpsPage = new ClassifierListPage(page, (UMLClassifier*)m_pObject, m_doc, UMLObject::ot_Operation);
     QHBoxLayout* pOpsLayout = new QHBoxLayout(page);
     pOpsLayout->addWidget(m_pOpsPage);
 }
@@ -300,7 +300,7 @@ void ClassPropDlg::setupTemplatesPage()
 {
     QFrame* page = createPage( i18n("Templates"), i18n("Templates Settings"),
                                Icon_Utils::it_Properties_Templates );
-    m_pTemplatePage = new ClassifierListPage(page, (UMLClassifier *)m_pObject, m_pDoc, UMLObject::ot_Template);
+    m_pTemplatePage = new ClassifierListPage(page, (UMLClassifier *)m_pObject, m_doc, UMLObject::ot_Template);
     QHBoxLayout* templatesLayout = new QHBoxLayout(page);
     templatesLayout->addWidget(m_pTemplatePage);
 }
@@ -312,7 +312,7 @@ void ClassPropDlg::setupEnumLiteralsPage()
 {
     QFrame* page = createPage( i18n("Enum Literals"), i18n("Enum Literals Settings"),
                                Icon_Utils::it_Properties_EnumLiterals );
-    m_pEnumLiteralPage = new ClassifierListPage(page, (UMLClassifier*)m_pObject, m_pDoc, UMLObject::ot_EnumLiteral);
+    m_pEnumLiteralPage = new ClassifierListPage(page, (UMLClassifier*)m_pObject, m_doc, UMLObject::ot_EnumLiteral);
     QHBoxLayout* enumLiteralsLayout = new QHBoxLayout(page);
     enumLiteralsLayout->addWidget(m_pEnumLiteralPage);
 }
@@ -324,7 +324,7 @@ void ClassPropDlg::setupEntityAttributesPage()
 {
     QFrame* page = createPage( i18n("Entity Attributes"), i18n("Entity Attributes Settings"),
                                Icon_Utils::it_Properties_EntityAttributes );
-    m_pEntityAttributePage = new ClassifierListPage(page, (UMLEntity*)m_pObject, m_pDoc, UMLObject::ot_EntityAttribute);
+    m_pEntityAttributePage = new ClassifierListPage(page, (UMLEntity*)m_pObject, m_doc, UMLObject::ot_EntityAttribute);
     QHBoxLayout* entityAttributesLayout = new QHBoxLayout(page);
     entityAttributesLayout->addWidget(m_pEntityAttributePage);
 }
@@ -336,7 +336,7 @@ void ClassPropDlg::setupEntityConstraintsPage()
 {
     QFrame* page = createPage( i18n("Entity Constraints"), i18n("Entity Constraints Settings"),
                                Icon_Utils::it_Properties_EntityConstraints );
-    m_pEntityConstraintPage = new ConstraintListPage(page, (UMLClassifier*)m_pObject, m_pDoc, UMLObject::ot_EntityConstraint );
+    m_pEntityConstraintPage = new ConstraintListPage(page, (UMLClassifier*)m_pObject, m_doc, UMLObject::ot_EntityConstraint );
     QHBoxLayout* entityConstraintsLayout = new QHBoxLayout(page);
     entityConstraintsLayout->addWidget(m_pEntityConstraintPage);
 }
@@ -374,7 +374,7 @@ void ClassPropDlg::setupInstancePages()
                                Icon_Utils::it_Properties_General );
     QHBoxLayout* genLayout = new QHBoxLayout(page);
     page->setMinimumSize(310, 330);
-    m_pGenPage = new ClassGenPage(m_pDoc, page, m_pWidget);
+    m_pGenPage = new ClassGenPage(m_doc, page, m_pWidget);
     genLayout->addWidget(m_pGenPage);
     m_pAssocPage = 0;
 }

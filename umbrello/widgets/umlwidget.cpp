@@ -133,7 +133,7 @@ UMLWidget& UMLWidget::operator=(const UMLWidget & other)
     m_origZ = other.m_origZ;  //new
     m_pMenu = other.m_pMenu;
     m_menuIsEmbedded = other.m_menuIsEmbedded;
-    m_pDoc = other.m_pDoc;    //new
+    m_doc = other.m_doc;    //new
     m_resizable = other.m_resizable;
     for (unsigned i = 0; i < FT_INVALID; ++i)
         m_pFontMetrics[i] = other.m_pFontMetrics[i];
@@ -317,7 +317,7 @@ void UMLWidget::init()
     m_ignoreSnapToGrid = false;
     m_ignoreSnapComponentSizeToGrid = false;
     m_pMenu = 0;
-    m_pDoc = UMLApp::app()->document();
+    m_doc = UMLApp::app()->document();
     m_nPosX = 0;
     connect(m_scene, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
     connect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
@@ -343,7 +343,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
     ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
     switch (sel) {
     case ListPopupMenu::mt_Rename:
-        m_pDoc->renameUMLObject(m_pObject);
+        m_doc->renameUMLObject(m_pObject);
         // adjustAssocs( getX(), getY() );//adjust assoc lines
         break;
 
@@ -379,7 +379,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
         }
         if (KColorDialog::getColor(newColor)) {
             m_scene->selectionSetLineColor(newColor);
-            m_pDoc->setModified(true);
+            m_doc->setModified(true);
 
         }
         break;
@@ -391,7 +391,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
         }
         if (KColorDialog::getColor(newColor)) {
             m_scene->selectionSetFillColor(newColor);
-            m_pDoc->setModified(true);
+            m_doc->setModified(true);
         }
         break;
 
@@ -410,7 +410,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Show_Stereotypes_Selection:
     case ListPopupMenu::mt_Show_Public_Only_Selection:
         m_scene->selectionToggleShow(sel);
-        m_pDoc->setModified(true);
+        m_doc->setModified(true);
         break;
 
     case ListPopupMenu::mt_ViewCode: {
@@ -429,7 +429,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Change_Font_Selection: {
         QFont font = UMLWidget::font();
         if (KFontDialog::getFont(font, KFontChooser::NoDisplayFlags, m_scene)) {
-            UMLApp::app()->executeCommand(new CmdChangeFontSelection(m_pDoc, m_scene, font));
+            UMLApp::app()->executeCommand(new CmdChangeFontSelection(m_doc, m_scene, font));
         }
     }
     break;
@@ -652,7 +652,7 @@ void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY)
 bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
 {
     if (widgetHasUMLObject(m_Type) && m_pObject == NULL) {
-        m_pObject = m_pDoc->findObjectById(m_nId);
+        m_pObject = m_doc->findObjectById(m_nId);
         if (m_pObject == NULL) {
             uError() << "cannot find UMLObject with id=" << ID2STR(m_nId);
             return false;
@@ -771,7 +771,7 @@ void UMLWidget::adjustAssocs(int x, int y)
     //   as file is only partly loaded -> reposition
     //   could be misguided )
     /// @todo avoid trigger of this event during load
-    if (m_pDoc->loading()) {
+    if (m_doc->loading()) {
         // don't recalculate the assocs during load of XMI
         // -> return immediately without action
         return;
@@ -820,7 +820,7 @@ void UMLWidget::showPropertiesDialog()
 
     if (dlg->exec()) {
         docwindow->showDocumentation(umlObject() , true);
-        m_pDoc->setModified(true);
+        m_doc->setModified(true);
     }
     dlg->close(); //wipe from memory
     delete dlg;
@@ -1172,7 +1172,7 @@ void UMLWidget::setSize(int width, int height)
  */
 void UMLWidget::updateComponentSize()
 {
-    if (m_pDoc->loading())
+    if (m_doc->loading())
         return;
     QSize size = calculateSize();
     setSize(size.width(), size.height());
@@ -1270,7 +1270,7 @@ void UMLWidget::setFont(QFont font)
 {
     m_Font = font;
     forceUpdateFontMetrics(0);
-    if (m_pDoc->loading())
+    if (m_doc->loading())
         return;
     update();
 }

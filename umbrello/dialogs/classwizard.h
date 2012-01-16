@@ -32,7 +32,7 @@ public:
     ~ClassWizard();
 
 private:
-    UMLDoc             * m_pDoc;      //< Document currently opened.
+    UMLDoc             * m_doc;      //< Document currently opened.
     UMLClassifier      * m_pClass;    //< Class to create.
 
     ClassGenPage       * m_pGenPage;  //< General class info.

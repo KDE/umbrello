@@ -178,7 +178,7 @@ UMLView::UMLView(UMLFolder *parentFolder)
     // needs a pointer to this object.
     m_pToolBarStateFactory = new ToolBarStateFactory();
     m_pToolBarState = m_pToolBarStateFactory->getState(WorkToolBar::tbb_Arrow, m_scene);
-    m_pDoc = UMLApp::app()->document();
+    m_doc = UMLApp::app()->document();
     m_pFolder = parentFolder;
 
     DEBUG_REGISTER(DBG_SRC);
@@ -416,7 +416,7 @@ void UMLView::setupNewWidget(UMLWidget *w)
     w->slotLineWidthChanged(getID());
     resizeCanvasToItems();
     m_WidgetList.append(w);
-    m_pDoc->setModified();
+    m_doc->setModified();
 
     UMLApp::app()->executeCommand(new CmdCreateWidget(umlScene(), w));
 }
@@ -451,7 +451,7 @@ void UMLView::showEvent(QShowEvent* /*se*/)
     WorkToolBar* tb = theApp->workToolBar();
     connect(tb, SIGNAL(sigButtonChanged(int)), this, SLOT(slotToolBarChanged(int)));
     connect(this, SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
-    connect(m_pDoc, SIGNAL(sigObjectCreated(UMLObject*)),
+    connect(m_doc, SIGNAL(sigObjectCreated(UMLObject*)),
             this, SLOT(slotObjectCreated(UMLObject*)));
     connect(this, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
             UMLApp::app()->docWindow(), SLOT(slotAssociationRemoved(AssociationWidget*)));
@@ -467,7 +467,7 @@ void UMLView::hideEvent(QHideEvent* /*he*/)
     WorkToolBar* tb = theApp->workToolBar();
     disconnect(tb, SIGNAL(sigButtonChanged(int)), this, SLOT(slotToolBarChanged(int)));
     disconnect(this, SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
-    disconnect(m_pDoc, SIGNAL(sigObjectCreated(UMLObject*)), this, SLOT(slotObjectCreated(UMLObject*)));
+    disconnect(m_doc, SIGNAL(sigObjectCreated(UMLObject*)), this, SLOT(slotObjectCreated(UMLObject*)));
     disconnect(this, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
                UMLApp::app()->docWindow(), SLOT(slotAssociationRemoved(AssociationWidget*)));
     disconnect(this, SIGNAL(sigWidgetRemoved(UMLWidget*)),
@@ -594,7 +594,7 @@ void UMLView::dragEnterEvent(QDragEnterEvent *e)
         return;
     }
     //make sure can find UMLObject
-    if (!(temp = m_pDoc->findObjectById(id))) {
+    if (!(temp = m_doc->findObjectById(id))) {
         DEBUG(DBG_SRC) << "object " << ID2STR(id) << " not found";
         e->ignore();
         return;
@@ -707,7 +707,7 @@ void UMLView::dropEvent(QDropEvent *e)
         }
         return;
     }
-    UMLObject* o = m_pDoc->findObjectById(id);
+    UMLObject* o = m_doc->findObjectById(id);
     if (!o) {
         DEBUG(DBG_SRC) << "object id=" << ID2STR(id) << " not found";
         return;
@@ -717,7 +717,7 @@ void UMLView::dropEvent(QDropEvent *e)
 
     slotObjectCreated(o);
 
-    m_pDoc->setModified(true);
+    m_doc->setModified(true);
 }
 
 ObjectWidget * UMLView::onWidgetLine(const QPoint &point)
@@ -901,7 +901,7 @@ void UMLView::removeWidget(UMLWidget * o)
     } else
         m_WidgetList.removeAll(o);
     o->deleteLater();
-    m_pDoc->setModified();
+    m_doc->setModified();
 }
 
 bool UMLView::useFillColor() const
@@ -1058,7 +1058,7 @@ void UMLView::clearSelected()
 {
     m_SelectedList.clear();
     emit sigClearAllSelected();
-    //m_pDoc->enableCutCopy(false);
+    //m_doc->enableCutCopy(false);
 }
 
 //TODO Only used in UMLApp::handleCursorKeyReleaseEvent
@@ -1429,7 +1429,7 @@ UMLViewImageExporter* UMLView::getImageExporter()
 
 void UMLView::slotActivate()
 {
-    m_pDoc->changeCurrentView(getID());
+    m_doc->changeCurrentView(getID());
 }
 
 UMLObjectList UMLView::umlObjects()
@@ -1478,7 +1478,7 @@ void UMLView::activate()
         if (obj->isActivated())
             continue;
 
-        obj->activate(m_pDoc->changeLog());
+        obj->activate(m_doc->changeLog());
         obj->setVisible(true);
 
     }//end foreach
@@ -1562,7 +1562,7 @@ bool UMLView::addWidget(UMLWidget * pWidget, bool isPasteOperation)
             << ") because it is already there";
         return false;
     }
-    IDChangeLog * log = m_pDoc->changeLog();
+    IDChangeLog * log = m_doc->changeLog();
     if (isPasteOperation && (!log || !m_pIDChangesLog)) {
         uError() << " Cant addWidget to view in paste op because a log is not open";
         return false;
@@ -1617,7 +1617,7 @@ bool UMLView::addWidget(UMLWidget * pWidget, bool isPasteOperation)
             newID = id; //don't stop paste
         } else
             pWidget->setID(newID);
-        UMLObject * pObject = m_pDoc->findObjectById(newID);
+        UMLObject * pObject = m_doc->findObjectById(newID);
         if (!pObject) {
             DEBUG(DBG_SRC) << "addWidget: Can not find UMLObject for id " << ID2STR(newID);
             return false;
@@ -1643,7 +1643,7 @@ bool UMLView::addWidget(UMLWidget * pWidget, bool isPasteOperation)
     case WidgetBase::wt_State:
     case WidgetBase::wt_Activity:
     case WidgetBase::wt_ObjectNode: {
-        Uml::IDType newID = m_pDoc->assignNewID(pWidget->id());
+        Uml::IDType newID = m_doc->assignNewID(pWidget->id());
         pWidget->setID(newID);
         if (type != WidgetBase::wt_Message) {
             m_WidgetList.append(pWidget);
@@ -1679,7 +1679,7 @@ bool UMLView::addWidget(UMLWidget * pWidget, bool isPasteOperation)
             ft->setID(UniqueID::gen());
         }
         else {
-            Uml::IDType newTextID = m_pDoc->assignNewID(ft->id());
+            Uml::IDType newTextID = m_doc->assignNewID(ft->id());
             ft->setID(newTextID);
         }
         m_MessageList.append(pMessage);
@@ -1696,7 +1696,7 @@ bool UMLView::addWidget(UMLWidget * pWidget, bool isPasteOperation)
         Uml::IDType nOldLocalID = pObjectWidget->localID();
         m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
         pObjectWidget->setLocalID(nNewLocalID);
-        UMLObject *pObject = m_pDoc->findObjectById(pWidget->id());
+        UMLObject *pObject = m_doc->findObjectById(pWidget->id());
         if (!pObject) {
             DEBUG(DBG_SRC) << "Cannot find UMLObject";
             return false;
@@ -1721,7 +1721,7 @@ bool UMLView::addWidget(UMLWidget * pWidget, bool isPasteOperation)
         Uml::IDType nOldLocalID = pObjectWidget->localID();
         m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
         pObjectWidget->setLocalID(nNewLocalID);
-        UMLObject *pObject = m_pDoc->findObjectById(newID);
+        UMLObject *pObject = m_doc->findObjectById(newID);
         if (!pObject) {
             DEBUG(DBG_SRC) << "Cannot find UMLObject";
             return false;
@@ -1748,7 +1748,7 @@ bool UMLView::addWidget(UMLWidget * pWidget, bool isPasteOperation)
         Uml::IDType nOldLocalID = pObjectWidget->localID();
         m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
         pObjectWidget->setLocalID(nNewLocalID);
-        UMLObject *pObject = m_pDoc->findObjectById(newID);
+        UMLObject *pObject = m_doc->findObjectById(newID);
         if (!pObject) {
             DEBUG(DBG_SRC) << "Cannot find UMLObject";
             return false;
@@ -1777,7 +1777,7 @@ bool UMLView::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
     const Uml::AssociationType assocType = pAssoc->associationType();
 
     if (isPasteOperation) {
-        IDChangeLog * log = m_pDoc->changeLog();
+        IDChangeLog * log = m_doc->changeLog();
 
         if (!log)
             return false;
@@ -1827,7 +1827,7 @@ bool UMLView::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
     }
 
     //make sure valid
-    if (!isPasteOperation && !m_pDoc->loading() &&
+    if (!isPasteOperation && !m_doc->loading() &&
             !AssocRules::allowAssociation(assocType, pWidgetA, pWidgetB, false)) {
         uWarning() << "allowAssociation returns false " << "for AssocType " << assocType;
         return false;
@@ -1907,7 +1907,7 @@ void UMLView::removeAssoc(AssociationWidget* pAssoc)
     pAssoc->cleanup();
     m_AssociationList.removeAll(pAssoc);
     pAssoc->deleteLater();
-    m_pDoc->setModified();
+    m_doc->setModified();
 }
 
 void UMLView::removeAssocInViewAndDoc(AssociationWidget* a)
@@ -1932,7 +1932,7 @@ void UMLView::removeAssocInViewAndDoc(AssociationWidget* a)
         }
     } else {
         // Remove assoc in doc.
-        m_pDoc->removeAssociation(a->getAssociation());
+        m_doc->removeAssociation(a->getAssociation());
         // Remove assoc in view.
         removeAssoc(a);
     }
@@ -2636,7 +2636,7 @@ void UMLView::slotMenuSelection(QAction* action)
     if (m_pMenu != NULL) {  // popup from this class
         sel = m_pMenu->getMenuType(action);
     } else { // popup from umldoc
-        sel = m_pDoc->popupMenuSelection(action);
+        sel = m_doc->popupMenuSelection(action);
     }
     switch (sel) {
     case ListPopupMenu::mt_Undo:
@@ -2734,7 +2734,7 @@ void UMLView::slotMenuSelection(QAction* action)
         if (m_SelectedList.count() &&
                 UMLApp::app()->editCutCopy(true)) {
             deleteSelection();
-            m_pDoc->setModified(true);
+            m_doc->setModified(true);
         }
         break;
 
@@ -2848,21 +2848,21 @@ void UMLView::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_SnapToGrid:
         toggleSnapToGrid();
-        m_pDoc->setModified();
+        m_doc->setModified();
         break;
 
     case ListPopupMenu::mt_ShowSnapGrid:
         toggleShowGrid();
-        m_pDoc->setModified();
+        m_doc->setModified();
         break;
 
     case ListPopupMenu::mt_Properties:
         if (showPropDialog() == true)
-            m_pDoc->setModified();
+            m_doc->setModified();
         break;
 
     case ListPopupMenu::mt_Delete:
-        m_pDoc->removeDiagram(getID());
+        m_doc->removeDiagram(getID());
         break;
 
     case ListPopupMenu::mt_Rename: {
@@ -2872,7 +2872,7 @@ void UMLView::slotMenuSelection(QAction* action)
                                                 name(), &ok, UMLApp::app());
         if (ok) {
             setName(newName);
-            m_pDoc->signalDiagramRenamed(this);
+            m_doc->signalDiagramRenamed(this);
         }
     }
     break;
@@ -2893,7 +2893,7 @@ void UMLView::slotCutSuccessful()
 
 void UMLView::slotShowView()
 {
-    m_pDoc->changeCurrentView(getID());
+    m_doc->changeCurrentView(getID());
 }
 
 QPoint UMLView::getPastePoint()
@@ -3477,8 +3477,8 @@ bool UMLView::loadWidgetsFromXMI(QDomElement & qElement)
 
 UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement)
 {
-    if (!m_pDoc) {
-        uWarning() << "m_pDoc is NULL";
+    if (!m_doc) {
+        uWarning() << "m_doc is NULL";
         return 0L;
     }
 
@@ -3561,8 +3561,8 @@ bool UMLView::loadAssociationsFromXMI(QDomElement & qElement)
 void UMLView::addObject(UMLObject *object)
 {
     m_bCreateObject = true;
-    if (m_pDoc->addUMLObject(object))
-        m_pDoc->signalUMLObjectCreated(object);  // m_bCreateObject is reset by slotObjectCreated()
+    if (m_doc->addUMLObject(object))
+        m_doc->signalUMLObjectCreated(object);  // m_bCreateObject is reset by slotObjectCreated()
     else
         m_bCreateObject = false;
 }
@@ -3605,7 +3605,7 @@ bool UMLView::loadUisDiagramPresentation(QDomElement & qElement)
             e = n.toElement();
         }
         Uml::IDType id = STR2ID(idStr);
-        UMLObject *o = m_pDoc->findObjectById(id);
+        UMLObject *o = m_doc->findObjectById(id);
         if (o == NULL) {
             uError() << "Cannot find object for id " << idStr;
         } else {
@@ -3684,7 +3684,7 @@ bool UMLView::loadUISDiagram(QDomElement & qElement)
                 uError() << "diagram style " << diagramStyle << " is not yet implemented";
                 continue;
             }
-            m_pDoc->setMainViewID(m_nID);
+            m_doc->setMainViewID(m_nID);
             m_Type = Uml::DiagramType::Class;
             UMLListView *lv = UMLApp::app()->listView();
             ulvi = new UMLListViewItem(lv->theLogicalView(), name(),

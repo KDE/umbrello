@@ -787,7 +787,7 @@ void ClassifierWidget::adjustAssocs(int x, int y)
 {
     UMLWidget::adjustAssocs(x, y);
 
-    if (m_pDoc->loading() || m_pAssocWidget == 0) {
+    if (m_doc->loading() || m_pAssocWidget == 0) {
         return;
     }
 

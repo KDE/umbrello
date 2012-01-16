@@ -57,7 +57,7 @@ private:
     QRadioButton * m_pTypeRB;
     KComboBox * m_pTypeCB;
 
-    UMLDoc * m_pDoc;
+    UMLDoc * m_doc;
     Uml::DiagramType m_ViewType;
 
     QList<Uml::IDType> m_nIdList;  //< list containing the IDs of diagrams to print

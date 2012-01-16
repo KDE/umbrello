@@ -130,7 +130,7 @@ UMLApp::UMLApp(QWidget* parent)
     m_view(0),
     m_doc(new UMLDoc()),
     m_listView(0),
-    m_pDocWindow(0),
+    m_docWindow(0),
     m_refactoringAssist(0),
     m_clipTimer(0),
     m_copyTimer(0),
@@ -802,9 +802,9 @@ void UMLApp::initView()
     m_documentationDock = new QDockWidget( i18n("Doc&umentation"), this );
     m_documentationDock->setObjectName("DocumentationDock");
     addDockWidget(Qt::LeftDockWidgetArea, m_documentationDock);
-    m_pDocWindow = new DocWindow(m_doc, m_documentationDock);
-    m_pDocWindow->setObjectName("DOCWINDOW");
-    m_documentationDock->setWidget(m_pDocWindow);
+    m_docWindow = new DocWindow(m_doc, m_documentationDock);
+    m_docWindow->setObjectName("DOCWINDOW");
+    m_documentationDock->setWidget(m_docWindow);
 
     m_doc->setupSignals(); // make sure gets signal from list view
 
@@ -1624,7 +1624,7 @@ WorkToolBar* UMLApp::workToolBar() const
  */
 DocWindow* UMLApp::docWindow() const
 {
-    return m_pDocWindow;
+    return m_docWindow;
 }
 
 /**
@@ -2633,7 +2633,7 @@ void UMLApp::keyReleaseEvent(QKeyEvent *e)
 {
     switch(e->key()) {
     case Qt::Key_Backspace:
-        if (!m_pDocWindow->isTyping()) {
+        if (!m_docWindow->isTyping()) {
             m_toolsbar->setOldTool();
         }
         e->accept();

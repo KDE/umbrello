@@ -220,18 +220,18 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     topLayout->addWidget(m_pButtonGB);
 
     // setup documentation
-    m_pDocGB = new QGroupBox(this);
-    QHBoxLayout * docLayout = new QHBoxLayout(m_pDocGB);
+    m_docGB = new QGroupBox(this);
+    QHBoxLayout * docLayout = new QHBoxLayout(m_docGB);
     docLayout->setMargin(margin);
-    m_pDocGB->setTitle(i18n("Documentation"));
+    m_docGB->setTitle(i18n("Documentation"));
 
-    m_pDoc = new KTextEdit(m_pDocGB);
-    docLayout->addWidget(m_pDoc);
-    topLayout->addWidget(m_pDocGB);
+    m_doc = new KTextEdit(m_docGB);
+    docLayout->addWidget(m_doc);
+    topLayout->addWidget(m_docGB);
 
     // setup fields
     m_pClassNameLE->setText(o->name());
-    m_pDoc->setText(o->doc());
+    m_doc->setText(o->doc());
     Uml::Visibility s = o->visibility();
     if (s == Uml::Visibility::Public)
         m_pPublicRB->setChecked(true);
@@ -247,7 +247,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     m_pStereoTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
     insertStereotypesSorted(m_pObject->stereotype());
 
-    m_pDoc->setLineWrapMode(QTextEdit::WidgetWidth);
+    m_doc->setLineWrapMode(QTextEdit::WidgetWidth);
 }
 
 ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
@@ -299,16 +299,16 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
         m_pNameLayout->addWidget(m_pDeconCB, 2,1);
     }
     // setup documentation
-    m_pDocGB = new QGroupBox(this);
-    topLayout->addWidget(m_pDocGB, 1, 0);
-    QHBoxLayout * docLayout = new QHBoxLayout(m_pDocGB);
+    m_docGB = new QGroupBox(this);
+    topLayout->addWidget(m_docGB, 1, 0);
+    QHBoxLayout * docLayout = new QHBoxLayout(m_docGB);
     docLayout->setMargin(margin);
-    m_pDocGB->setTitle(i18n("Documentation"));
+    m_docGB->setTitle(i18n("Documentation"));
 
-    m_pDoc = new KTextEdit(m_pDocGB);
-    m_pDoc->setLineWrapMode(QTextEdit::WidgetWidth);
-    m_pDoc->setText(o->documentation());
-    docLayout->addWidget(m_pDoc);
+    m_doc = new KTextEdit(m_docGB);
+    m_doc->setLineWrapMode(QTextEdit::WidgetWidth);
+    m_doc->setText(o->documentation());
+    docLayout->addWidget(m_doc);
     if (m_pMultiCB) {
         connect( m_pDrawActorCB, SIGNAL(toggled(bool)), this, SLOT(slotActorToggled(bool)));
     }
@@ -362,16 +362,16 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget)
     m_pNameLayout->addWidget(m_pInstanceLE, 2, 1);
 
     //setup documentation
-    m_pDocGB = new QGroupBox(this);
-    topLayout->addWidget(m_pDocGB, 1, 0);
-    QHBoxLayout* docLayout = new QHBoxLayout(m_pDocGB);
+    m_docGB = new QGroupBox(this);
+    topLayout->addWidget(m_docGB, 1, 0);
+    QHBoxLayout* docLayout = new QHBoxLayout(m_docGB);
     docLayout->setMargin(margin);
-    m_pDocGB->setTitle(i18n("Documentation"));
+    m_docGB->setTitle(i18n("Documentation"));
 
-    m_pDoc = new KTextEdit(m_pDocGB);
-    m_pDoc->setLineWrapMode(QTextEdit::WidgetWidth);
-    m_pDoc->setText(widget->documentation());
-    docLayout->addWidget(m_pDoc);
+    m_doc = new KTextEdit(m_docGB);
+    m_doc->setLineWrapMode(QTextEdit::WidgetWidth);
+    m_doc->setText(widget->documentation());
+    docLayout->addWidget(m_doc);
 }
 
 ClassGenPage::~ClassGenPage()
@@ -411,7 +411,7 @@ void ClassGenPage::updateObject()
     if (m_pObject) {
         QString name = m_pClassNameLE->text();
 
-        m_pObject->setDoc(m_pDoc->toPlainText());
+        m_pObject->setDoc(m_doc->toPlainText());
 
         if (m_pStereoTypeCB) {
             m_pObject->setStereotype(m_pStereoTypeCB->currentText());
@@ -488,7 +488,7 @@ void ClassGenPage::updateObject()
             m_pWidget->setShowDestruction( m_pDeconCB->isChecked() );
         }
         QString name = m_pClassNameLE->text();
-        m_pWidget->setDocumentation(m_pDoc->toPlainText());
+        m_pWidget->setDocumentation(m_doc->toPlainText());
         UMLObject * o = m_pWidget->umlObject();
         UMLObject * old = m_pUmldoc->findUMLObject(name);
         if (old && o != old) {
@@ -501,7 +501,7 @@ void ClassGenPage::updateObject()
     else if (m_pInstanceWidget) {
         m_pInstanceWidget->setInstanceName(m_pInstanceLE->text());
         QString name = m_pClassNameLE->text();
-        m_pInstanceWidget->setDocumentation(m_pDoc->toPlainText());
+        m_pInstanceWidget->setDocumentation(m_doc->toPlainText());
         UMLObject* o = m_pInstanceWidget->umlObject();
         UMLObject* old = m_pUmldoc->findUMLObject(name);
         if (old && o != old) {

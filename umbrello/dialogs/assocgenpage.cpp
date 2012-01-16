@@ -86,9 +86,9 @@ void AssocGenPage::constructWidget()
     QHBoxLayout * docLayout = new QHBoxLayout(docGB);
     docLayout->setMargin(margin);
 
-    m_pDoc = new KTextEdit(docGB);
-    docLayout->addWidget(m_pDoc);
-    m_pDoc->setText(m_pAssociationWidget->documentation());
+    m_doc = new KTextEdit(docGB);
+    docLayout->addWidget(m_doc);
+    m_doc->setText(m_pAssociationWidget->documentation());
     Uml::AssociationType currentType =  m_pAssociationWidget->associationType();
     QString currentTypeAsString = currentType.toStringI18n();
     QLabel *pTypeL = new QLabel(i18n("Type:"), nameGB);
@@ -140,7 +140,7 @@ void AssocGenPage::constructWidget()
 
     m_pTypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
     m_pTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
-    m_pDoc->setWordWrapMode(QTextOption::WordWrap);
+    m_doc->setWordWrapMode(QTextOption::WordWrap);
     nameLayout->addWidget(m_pTypeCB, 1, 1);
 }
 
@@ -155,7 +155,7 @@ void AssocGenPage::updateObject()
         Uml::AssociationType newType = m_AssocTypes[comboBoxItem];
         m_pAssociationWidget->setAssociationType(newType);
         m_pAssociationWidget->setName(m_pAssocNameLE->text());
-        m_pAssociationWidget->setDocumentation(m_pDoc->toPlainText());
+        m_pAssociationWidget->setDocumentation(m_doc->toPlainText());
     }
 }
 

@@ -38,7 +38,7 @@
  */
 DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * doc)
   : QWidget(parent),
-    m_pDoc(doc)
+    m_doc(doc)
 {
     int margin = fontMetrics().height();
     setWindowTitle(i18n("&Diagrams"));
@@ -134,7 +134,7 @@ QString DiagramPrintPage::printUmlDiagram(int sel)
     for (int i = 0; i < m_pSelectLW->count(); ++i) {
         if (isSelected(i)) {
             if (count == sel) {
-                UMLView *view = (UMLView *)m_pDoc->findView(m_nIdList[i]);
+                UMLView *view = (UMLView *)m_doc->findView(m_nIdList[i]);
                 QString sID = QString("%1").arg(ID2STR(view->getID()));
                 return sID;
             }
@@ -185,7 +185,7 @@ bool DiagramPrintPage::isSelected(int index)
  */
 void DiagramPrintPage::slotClicked()
 {
-    UMLViewList list = m_pDoc->viewIterator();
+    UMLViewList list = m_doc->viewIterator();
     QString type;
 
     // clear list with diagrams to print
@@ -242,7 +242,7 @@ void DiagramPrintPage::slotClicked()
  */
 void DiagramPrintPage::slotActivated(int index)
 {
-    UMLViewList list = m_pDoc->viewIterator();
+    UMLViewList list = m_doc->viewIterator();
 
     // combo box entries start from 0 index
     // valid diagram_type enum values start from 1

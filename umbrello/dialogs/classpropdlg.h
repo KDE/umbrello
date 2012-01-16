@@ -86,7 +86,7 @@ private:
     ClassOptionsPage*    m_pOptionsPage;
     UMLWidgetStylePage*  m_pStylePage;
 
-    UMLDoc*              m_pDoc;
+    UMLDoc*              m_doc;
     UMLObject*           m_pObject;
     UMLWidget*           m_pWidget;
 
