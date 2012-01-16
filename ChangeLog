@@ -1,3 +1,19 @@
+Version (since 1.1.2012)
+* Fixed bug: 194897 and therefore also 233705
+* Fixed bug: 197137
+* Fixed bug: 251094
+* Fixed bug: 291401
+* Fixed bug: 287179 and therefore also 280770, 262842, 286449, 274265, 275372, 241915, 257410, 257584
+* Fixed bug: 291557
+* Fixed bug: 243392
+
+Version 2.8.0
+* Code import wizard added.
+
+
+...
+
+
 Version 2.0.0  (First Qt4/KDE4 based version)
 
 * Bugs/wishes from http://bugs.kde.org:
