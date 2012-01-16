@@ -1,18 +1,34 @@
-Version (since 1.1.2012)
-* Fixed bug: 194897 and therefore also 233705
-* Fixed bug: 197137
-* Fixed bug: 251094
-* Fixed bug: 291401
-* Fixed bug: 287179 and therefore also 280770, 262842, 286449, 274265, 275372, 241915, 257410, 257584
-* Fixed bug: 291557
-* Fixed bug: 243392
+Version (since 2012-01-01)
+* loading existing XMI file (194897) and therefore also
+  -  umbrello (2.4.2) crashed while opening solid_design.xmi (233705)
+* generation of classes from files in folder in umbrello (197137) 
+* Umbrello crashed after copy/paste (243392) 
+* Crash when opening file (251094) 
+* Segmentation fault when copy&paste of sequence diagram (287179) and therefore also
+  - Copy and paste or drag and drop of a java datatype between folders (280770) 
+  - crash on copy paste (262842)
+  - Crash when copy/paste, from a class tab to an other, 2 linked tables (286449)
+  - Cut Class and paste as Entity cause crash (274265)
+  - Umbrello crashed when cut/paste (275372)
+  - Copy and paste of a class lets Umbrello crash (241915)
+  - Copy - paste multiple class operations makes umbrello crash (257410)
+  - Umbrello crashes during cut and paste class diagram (257584) 
+* Colour of role text on diagram (e.g. Role B) nearly invisible (291401) 
+* Copy/Paste of activity, state and use case diagram elements do not create new elements (291557) 
+
+Version (since 2011-08-01)
+* Crash on new synchronous message in sequence diagram (168752)
+* Umbrello crashes with SIGSEGV in Object Flow properties 170596)
+* Crash on C++ import with Doxygen: cause Doxygen Braces (228352)
+* crash on new entity (entity relationship model) (259404)
+* Umbrello crashed when changing the Package of a class (268469)
+* Crash when importing Java-Source (288406)
+* Compile error when build against Qt 4.8 (279184)
 
 Version 2.8.0
 * Code import wizard added.
 
-
 ...
-
 
 Version 2.0.0  (First Qt4/KDE4 based version)
 
