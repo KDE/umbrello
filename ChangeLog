@@ -17,16 +17,23 @@ Version (since 2012-01-01)
 * Copy/Paste of activity, state and use case diagram elements do not create new elements (291557) 
 
 Version (since 2011-08-01)
+* Print preview added 
+* made printing border calculation more robust
+* Reuse changed printer settings
+* Show diagram print settings dialog before print or print preview dialog
+* added msvc2010 preprocesser for idl preprocessing
 * Crash on new synchronous message in sequence diagram (168752)
 * Umbrello crashes with SIGSEGV in Object Flow properties 170596)
+* crash fix in case the path does not fit into the package hierachy we cannot check the imports (200721)
+* crash fix on importing idl file (203092)
 * Crash on C++ import with Doxygen: cause Doxygen Braces (228352)
 * crash on new entity (entity relationship model) (259404)
 * Umbrello crashed when changing the Package of a class (268469)
-* Crash when importing Java-Source (288406)
 * Compile error when build against Qt 4.8 (279184)
+* Crash when importing Java-Source (288406)
 
 Version 2.8.0
-* Code import wizard added.
+* Code import wizard added
 
 ...
 
