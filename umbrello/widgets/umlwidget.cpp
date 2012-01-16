@@ -249,7 +249,7 @@ void UMLWidget::updateWidget()
  */
 QSize UMLWidget::calculateSize()
 {
-    return QSize(20, 20);
+    return QSize(getWidth(), getHeight());
 }
 
 /**
