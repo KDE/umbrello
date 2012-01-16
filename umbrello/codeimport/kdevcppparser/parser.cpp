@@ -69,7 +69,6 @@ Parser::Parser(Driver* driver, Lexer* lexer)
         lex(lexer)
 {
     d = new ParserPrivateData();
-
     m_maxProblems = 5;
     objcp = false;
 }
@@ -422,13 +421,33 @@ bool Parser::parseDeclaration(DeclarationAST::Node& node)
 {
     //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseDeclaration()";
 
+    // catch first comment
+    Position ps = m_tokenIt->getStartPosition();
+    if (ps.line == 1 && ps.column == 1)
+    {
+        FileAST::Node ast = CreateNode<FileAST>();
+        ast->setFileName(m_driver->currentFileName());
+        QString comment = (*m_tokenIt).text();
+
+        if ((*m_tokenIt) == Token_comment) {
+            ast->setComment(comment);
+            ++m_tokenIt;
+        }
+        uDebug() << m_driver->currentFileName() << comment;
+        node = ast;
+        return true;
+    }
+
     QString comment;
     while ((*m_tokenIt) == Token_comment) {
         comment += (*m_tokenIt).text();
         ++m_tokenIt;
     }
-    if ((*m_tokenIt).isNull())
+
+    if ((*m_tokenIt).isNull()) {
+        // FIXME: add fetched comment to FileAST
         return false;
+    }
 
     TokenIterator start = m_tokenIt;
     bool success = false;

@@ -47,7 +47,7 @@ ClassImport *ClassImport::createImporterByFileExt(const QString &fileName, CodeI
     else if (fileName.contains(QRegExp("\\.ad[sba]$")))
         classImporter = new AdaImport(thread);
     else if (fileName.endsWith(QLatin1String(".pas")))
-        classImporter = new PascalImport();
+        classImporter = new PascalImport(thread);
     else if (fileName.endsWith(QLatin1String(".cs")))
         classImporter = new CSharpImport(thread);
 #ifndef DISABLE_CPP_IMPORT
@@ -64,28 +64,31 @@ ClassImport *ClassImport::createImporterByFileExt(const QString &fileName, CodeI
  * Import files.  :TODO: can be deleted
  * @param fileNames  List of files to import.
  */
-void ClassImport::importFiles(const QStringList& fileNames)
+bool ClassImport::importFiles(const QStringList& fileNames)
 {
     initialize();
     UMLDoc *umldoc = UMLApp::app()->document();
     uint processedFilesCount = 0;
+    bool result = true;
     foreach (const QString& fileName, fileNames) {
         umldoc->writeToStatusBar(i18n("Importing file: %1 Progress: %2/%3",
                                  fileName, processedFilesCount, fileNames.size()));
-        parseFile(fileName);
+        if (!parseFile(fileName))
+            result = false;
         processedFilesCount++;
     }
-    umldoc->writeToStatusBar(i18nc("ready to status bar", "Ready."));
+    umldoc->writeToStatusBar(result ? i18nc("ready to status bar", "Ready.") : i18nc("failed to status bar", "Failed."));
+    return result;
 }
 
 /**
  * Import files.
  * @param files  List of files to import.
  */
-void ClassImport::importFile(const QString& fileName)
+bool ClassImport::importFile(const QString& fileName)
 {
     initialize();
-    parseFile(fileName);
+    return parseFile(fileName);
 }
 
 /**

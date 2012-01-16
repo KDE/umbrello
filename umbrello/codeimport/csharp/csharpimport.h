@@ -16,7 +16,8 @@
 class UMLObject;
 
 /**
- * C# code import
+ * C# code import.
+ * Grammar of C# can be found at @ref http://msdn.microsoft.com/en-us/library/Aa664812 .
  * @author Andi Fischer (copied from JavaImport)
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */

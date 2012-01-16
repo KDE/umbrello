@@ -28,8 +28,8 @@ public:
     ClassImport(CodeImpThread* thread = 0) : m_thread(thread), m_enabled(true) {}
     virtual ~ClassImport() {}
 
-    void importFiles(const QStringList& fileNames);
-    void importFile(const QString& fileName);
+    bool importFiles(const QStringList& fileNames);
+    bool importFile(const QString& fileName);
 
     /**
      * Return state of the importer. It may be disabled because of 

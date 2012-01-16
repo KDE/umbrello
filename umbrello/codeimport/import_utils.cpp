@@ -13,6 +13,7 @@
 
 // app includes
 #include "association.h"
+#include "artifact.h"
 #include "attribute.h"
 #include "classifier.h"
 #include "debug_utils.h"
@@ -26,6 +27,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umlobject.h"
+#include "umbrellosettings.h"
 
 // kde includes
 #include <kmessagebox.h>
@@ -168,6 +170,21 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
 {
     QString name = inName;
     UMLDoc *umldoc = UMLApp::app()->document();
+    if (type == UMLObject::ot_Artifact) {
+        if (!Settings::optionState().codeImportState.createArtifacts)
+            return 0;
+        QFileInfo fi(name);
+        UMLFolder *componentView = umldoc->rootFolder(Uml::ModelType::Component);
+        UMLObject *o = umldoc->findUMLObjectRaw(componentView, fi.fileName(), type);
+        if (o)
+            return o;
+        o = Object_Factory::createUMLObject(type, fi.fileName(), componentView, false);
+        UMLArtifact *a = static_cast<UMLArtifact*>(o);
+        a->setDrawAsType(UMLArtifact::file);
+        a->setDoc(comment);
+        uDebug() << name << comment;
+        return o;
+    }
     UMLFolder *logicalView = umldoc->rootFolder(Uml::ModelType::Logical);
     if (parentPkg == NULL) {
         // uDebug() << "Import_Utils::createUMLObject(" << name
