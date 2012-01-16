@@ -200,6 +200,7 @@ QSize StateWidget::calculateSize()
             height = height > STATE_HEIGHT?height:STATE_HEIGHT;
             width += STATE_MARGIN * 2;
             height += STATE_MARGIN * 2;
+            break;
         }
         case StateWidget::Fork:
         case StateWidget::Join:
