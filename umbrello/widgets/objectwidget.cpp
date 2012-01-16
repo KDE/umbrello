@@ -42,9 +42,6 @@ ObjectWidget::ObjectWidget(UMLScene * scene, UMLObject *o, Uml::IDType lid)
     init();
     if( lid != Uml::id_None )
         m_nLocalID = lid;
-    //updateComponentSize();
-    //                  Doing this during loadFromXMI() gives futile updates.
-    //                  Instead, it is done afterwards by UMLWidget::activate()
 }
 
 void ObjectWidget::init()

@@ -26,7 +26,6 @@ ArtifactWidget::ArtifactWidget(UMLScene *scene, UMLArtifact *a)
   : UMLWidget(scene, WidgetBase::wt_Artifact, a)
 {
     setSize(100, 30);
-    updateComponentSize();
 }
 
 /**

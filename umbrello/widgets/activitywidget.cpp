@@ -37,7 +37,6 @@ ActivityWidget::ActivityWidget(UMLScene * scene, ActivityType activityType, Uml:
   : UMLWidget(scene, WidgetBase::wt_Activity, id),
     m_activityType(activityType)
 {
-    updateComponentSize();
 }
 
 /**

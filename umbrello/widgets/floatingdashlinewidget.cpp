@@ -28,7 +28,6 @@ FloatingDashLineWidget::FloatingDashLineWidget(UMLScene * scene, Uml::IDType id)
 {
     m_resizable = false;
     m_Text = "";
-    updateComponentSize();
 }
 
 FloatingDashLineWidget::~FloatingDashLineWidget()

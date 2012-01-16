@@ -33,9 +33,6 @@ PackageWidget::PackageWidget(UMLScene * scene, UMLPackage *o)
         const Settings::OptionState& ops = m_scene->optionState();
         m_showStereotype = ops.classState.showStereoType;
     }
-    //maybe loading and this may not be set.
-    if (m_pObject && !UMLApp::app()->document()->loading())
-        updateComponentSize();
 }
 
 PackageWidget::~PackageWidget()

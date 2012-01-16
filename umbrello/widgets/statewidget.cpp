@@ -41,7 +41,6 @@ StateWidget::StateWidget(UMLScene * scene, StateType stateType, Uml::IDType id)
 {
     m_stateType = stateType;
     m_Text = "State";
-    updateComponentSize();
 }
 
 /**

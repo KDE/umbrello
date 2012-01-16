@@ -43,8 +43,6 @@ EntityWidget::EntityWidget(UMLScene *scene, UMLObject* o)
         //check to see if correct
         //const Settings::OptionState& ops = m_scene->getOptionState();
     }
-    if (! UMLApp::app()->document()->loading())
-        updateComponentSize();
 }
 
 /**

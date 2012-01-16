@@ -32,11 +32,6 @@ ComponentWidget::ComponentWidget(UMLScene * scene, UMLComponent *c)
         const Settings::OptionState& ops = m_scene->optionState();
         m_showStereotype = ops.classState.showStereoType;
     }
-    //maybe loading and this may not be set.
-    if (m_pObject) {
-        updateComponentSize();
-        update();
-    }
 }
 
 /**
