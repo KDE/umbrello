@@ -85,7 +85,7 @@ private:
     KComboBox * m_pStereoTypeCB, * m_pPackageCB ;
     QRadioButton * m_pPublicRB, * m_pPrivateRB, * m_pProtectedRB, * m_pImplementationRB;
     QCheckBox * m_pMultiCB, * m_pDrawActorCB, * m_pAbstractCB, * m_pDeconCB;
-    KTextEdit * m_pDoc;
+    KTextEdit * m_doc;
     QGroupBox * m_pDrawAsGB;
     QRadioButton * m_pDefaultRB, * m_pFileRB, * m_pLibraryRB, * m_pTableRB;
     QCheckBox * m_pExecutableCB;

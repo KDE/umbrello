@@ -116,10 +116,10 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * attr)
     QHBoxLayout * docLayout = new QHBoxLayout(m_pDocGB);
     docLayout->setMargin(margin);
 
-    m_pDoc = new KTextEdit(m_pDocGB);
-    m_pDoc->setWordWrapMode(QTextOption::WordWrap);
-    m_pDoc->setText(text);
-    docLayout->addWidget(m_pDoc);
+    m_doc = new KTextEdit(m_pDocGB);
+    m_doc->setWordWrapMode(QTextOption::WordWrap);
+    m_doc->setText(text);
+    docLayout->addWidget(m_doc);
     topLayout->addWidget(m_pDocGB);
 
     // Check the proper Kind radiobutton.
@@ -156,7 +156,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * attr)
     setTabOrder(m_pNameLE, m_pInitialLE);
     setTabOrder(m_pInitialLE, m_pStereoTypeCB);
     setTabOrder(m_pStereoTypeCB, m_pIn);
-    setTabOrder(m_pIn, m_pDoc);
+    setTabOrder(m_pIn, m_doc);
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
     m_pNameLE->setFocus();
 }

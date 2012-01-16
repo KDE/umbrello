@@ -85,7 +85,7 @@ private:
     QToolButton*   m_pDownArrowB;
     QToolButton*   m_pBottomArrowB;
 
-    UMLDoc*        m_pDoc;
+    UMLDoc*        m_doc;
     ListPopupMenu* m_pMenu;
     UMLClassifierListItem* m_pOldListItem;
 

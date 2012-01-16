@@ -418,7 +418,7 @@ private:
     bool m_isActivated;             ///< True if the view was activated after the serialization(load).
     bool m_bPopupShowing;           ///< Status of a popupmenu on view. True - a popup is on view.
     QPointF m_PastePoint;           ///< The offset at which to paste the clipboard.
-    UMLDoc* m_pDoc;                 ///< Pointer to the UMLDoc.
+    UMLDoc* m_doc;                 ///< Pointer to the UMLDoc.
     UMLViewImageExporter* m_pImageExporter;  ///< Used to export the view.
     LayoutGrid*  m_layoutGrid;      ///< layout grid in the background
 

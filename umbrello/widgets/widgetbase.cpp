@@ -985,7 +985,7 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
         QFont newFont = font();
         if (KFontDialog::getFont(newFont, KFontChooser::NoDisplayFlags, 0) == KFontDialog::Accepted) {
             setFont(newFont);
-            //UMLApp::app()->executeCommand(new CmdChangeFontSelection(m_pDoc, m_pView, font));
+            //UMLApp::app()->executeCommand(new CmdChangeFontSelection(m_doc, m_pView, font));
         }
     }
         break;

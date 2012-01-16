@@ -52,7 +52,7 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
 {
     m_itemType = type;
     m_bSigWaiting = false;
-    m_pDoc = doc;
+    m_doc = doc;
     m_pClassifier = classifier;
     m_pMenu = 0;
 
@@ -93,7 +93,7 @@ void ClassifierListPage::setupPage()
     connect(m_pItemListLB, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(slotDoubleClick(QListWidgetItem*)));
     connect(m_pItemListLB, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotRightButtonPressed(QPoint)));
 
-    connect(m_pDoc, SIGNAL(sigObjectCreated(UMLObject*)), this, SLOT(slotListItemCreated(UMLObject*)));
+    connect(m_doc, SIGNAL(sigObjectCreated(UMLObject*)), this, SLOT(slotListItemCreated(UMLObject*)));
 
     connect(m_pTopArrowB, SIGNAL(clicked()), this, SLOT(slotTopClicked()));
     connect(m_pUpArrowB, SIGNAL(clicked()), this, SLOT(slotUpClicked()));
@@ -499,7 +499,7 @@ void ClassifierListPage::slotPopupMenuSel(QAction* action)
                 return;
             }
             m_bSigWaiting = true;
-            m_pDoc->renameChildUMLObject(listItem);
+            m_doc->renameChildUMLObject(listItem);
         }
         break;
 
@@ -709,7 +709,7 @@ void ClassifierListPage::slotDelete()
         UMLClassifierListItem* selectedItem = getItemList().at(currentItemIndex);
         //should really wait for signal back
         //but really shouldn't matter
-        m_pDoc->removeUMLObject(selectedItem);
+        m_doc->removeUMLObject(selectedItem);
         m_pOldListItem = 0;
 
         slotActivateItem(NULL);
