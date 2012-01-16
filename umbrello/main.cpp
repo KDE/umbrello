@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
 {
     KAboutData aboutData( "umbrello", 0, ki18n("Umbrello UML Modeller"),
                           umbrelloVersion(), ki18n(description), KAboutData::License_GPL,
-                          ki18n("(c) 2001 Paul Hensgen, (c) 2002-2006 Umbrello UML Modeller Authors"), KLocalizedString(),
+                          ki18n("(c) 2001 Paul Hensgen, (c) 2002-2012 Umbrello UML Modeller Authors"), KLocalizedString(),
                           "http://uml.sf.net/");
     aboutData.addAuthor(ki18n("Paul Hensgen"),KLocalizedString(), "phensgen@users.sourceforge.net");
     aboutData.addAuthor(ki18n("Umbrello UML Modeller Authors"), KLocalizedString(), "uml-devel@lists.sourceforge.net");
