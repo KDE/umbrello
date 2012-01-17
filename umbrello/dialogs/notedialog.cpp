@@ -35,20 +35,20 @@ NoteDialog::NoteDialog( QWidget * parent, NoteWidget * pNote )
 
     QFrame *frame = new QFrame( this );
     setMainWidget( frame );
-    m_pDocGB = new QGroupBox(i18n("Documentation"), frame);
+    m_docGB = new QGroupBox(i18n("Documentation"), frame);
     QVBoxLayout * mainLayout = new QVBoxLayout(frame);
-    mainLayout->addWidget(m_pDocGB);
+    mainLayout->addWidget(m_docGB);
     mainLayout->setSpacing(10);
     mainLayout->setMargin(margin);
 
-    QHBoxLayout * docLayout = new QHBoxLayout(m_pDocGB);
+    QHBoxLayout * docLayout = new QHBoxLayout(m_docGB);
     docLayout->setSpacing(10);
     docLayout->setMargin(margin);
 
-    m_pDocTE = new KTextEdit( m_pDocGB );
-    m_pDocTE->setFocus();
-    docLayout->addWidget( m_pDocTE );
-    m_pDocTE->setText( pNote->documentation() );
+    m_docTE = new KTextEdit( m_docGB );
+    m_docTE->setFocus();
+    docLayout->addWidget( m_docTE );
+    m_docTE->setText( pNote->documentation() );
     setMinimumSize(330, 160);
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
 }
@@ -59,7 +59,7 @@ NoteDialog::~NoteDialog()
 
 void NoteDialog::slotOk()
 {
-    m_pNoteWidget->setDocumentation( m_pDocTE->toPlainText() );
+    m_pNoteWidget->setDocumentation( m_docTE->toPlainText() );
     accept();
 }
 

@@ -57,7 +57,7 @@ public:
 private:
     KLineEdit *m_pRoleALE, *m_pRoleBLE;
     KComboBox *m_pMultiACB, *m_pMultiBCB;
-    KTextEdit *m_pDocA, *m_pDocB;
+    KTextEdit *m_docA, *m_docB;
     AssociationWidget *m_pAssociationWidget;
     UMLDoc *m_pUmldoc;
     ObjectWidget *m_pWidget;

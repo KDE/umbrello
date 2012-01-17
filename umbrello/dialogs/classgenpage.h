@@ -78,7 +78,7 @@ private:
     UMLWidget * m_pInstanceWidget;
     UMLDoc * m_pUmldoc;
 
-    QGroupBox * m_pDocGB;
+    QGroupBox * m_docGB;
     QGroupBox * m_pButtonGB;
     QLabel * m_pNameL, * m_pInstanceL, * m_pStereoTypeL, * m_pPackageL;
     KLineEdit * m_pClassNameLE, * m_pInstanceLE, * m_pPackageLE;

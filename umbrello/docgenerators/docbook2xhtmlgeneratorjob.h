@@ -34,7 +34,7 @@ class Docbook2XhtmlGeneratorJob : public QThread
      void run();
 
   private:
-     KUrl m_pDocbookUrl;
+     KUrl m_docbookUrl;
 
   signals:
      void xhtmlGenerated(const QString&);

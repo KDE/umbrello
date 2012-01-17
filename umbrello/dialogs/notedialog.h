@@ -45,8 +45,8 @@ public slots:
 
 private:
     //GUI widgets
-    QGroupBox * m_pDocGB;
-    KTextEdit * m_pDocTE;
+    QGroupBox * m_docGB;
+    KTextEdit * m_docTE;
 
     /**
      *  Note widget to show documentation for.

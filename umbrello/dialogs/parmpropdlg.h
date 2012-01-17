@@ -80,7 +80,7 @@ protected slots:
     virtual void slotButtonClicked(int button);
 
 private:
-    QGroupBox * m_pParmGB, * m_pDocGB;
+    QGroupBox * m_pParmGB, * m_docGB;
     QGroupBox *m_pKind;
     QRadioButton * m_pIn, * m_pOut, *m_pInOut;
     QLabel * m_pTypeL, * m_pNameL, * m_pInitialL, * m_pStereoTypeL;

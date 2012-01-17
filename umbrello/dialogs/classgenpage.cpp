@@ -221,14 +221,14 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     topLayout->addWidget(m_pButtonGB);
 
     // setup documentation
-    m_pDocGB = new QGroupBox(this);
-    QHBoxLayout * docLayout = new QHBoxLayout(m_pDocGB);
+    m_docGB = new QGroupBox(this);
+    QHBoxLayout * docLayout = new QHBoxLayout(m_docGB);
     docLayout->setMargin(margin);
-    m_pDocGB->setTitle(i18n("Documentation"));
+    m_docGB->setTitle(i18n("Documentation"));
 
-    m_doc = new KTextEdit(m_pDocGB);
+    m_doc = new KTextEdit(m_docGB);
     docLayout->addWidget(m_doc);
-    topLayout->addWidget(m_pDocGB);
+    topLayout->addWidget(m_docGB);
 
     // setup fields
     m_pClassNameLE->setText(o->name());
@@ -300,13 +300,13 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
         m_pNameLayout->addWidget(m_pDeconCB, 2,1);
     }
     // setup documentation
-    m_pDocGB = new QGroupBox(this);
-    topLayout->addWidget(m_pDocGB, 1, 0);
-    QHBoxLayout * docLayout = new QHBoxLayout(m_pDocGB);
+    m_docGB = new QGroupBox(this);
+    topLayout->addWidget(m_docGB, 1, 0);
+    QHBoxLayout * docLayout = new QHBoxLayout(m_docGB);
     docLayout->setMargin(margin);
-    m_pDocGB->setTitle(i18n("Documentation"));
+    m_docGB->setTitle(i18n("Documentation"));
 
-    m_doc = new KTextEdit(m_pDocGB);
+    m_doc = new KTextEdit(m_docGB);
     m_doc->setLineWrapMode(QTextEdit::WidgetWidth);
     m_doc->setText(o->documentation());
     docLayout->addWidget(m_doc);
@@ -363,13 +363,13 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget)
     m_pNameLayout->addWidget(m_pInstanceLE, 2, 1);
 
     //setup documentation
-    m_pDocGB = new QGroupBox(this);
-    topLayout->addWidget(m_pDocGB, 1, 0);
-    QHBoxLayout* docLayout = new QHBoxLayout(m_pDocGB);
+    m_docGB = new QGroupBox(this);
+    topLayout->addWidget(m_docGB, 1, 0);
+    QHBoxLayout* docLayout = new QHBoxLayout(m_docGB);
     docLayout->setMargin(margin);
-    m_pDocGB->setTitle(i18n("Documentation"));
+    m_docGB->setTitle(i18n("Documentation"));
 
-    m_doc = new KTextEdit(m_pDocGB);
+    m_doc = new KTextEdit(m_docGB);
     m_doc->setLineWrapMode(QTextEdit::WidgetWidth);
     m_doc->setText(widget->documentation());
     docLayout->addWidget(m_doc);
