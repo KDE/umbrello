@@ -15,6 +15,7 @@ Version (since 2012-01-01)
   - Umbrello crashes during cut and paste class diagram (257584) 
 * Colour of role text on diagram (e.g. Role B) nearly invisible (291401) 
 * Copy/Paste of activity, state and use case diagram elements do not create new elements (291557) 
+* Enabling of cut/copy/paste actions is incorrect (70925)
 
 Version (since 2011-08-01)
 * Print preview added 
