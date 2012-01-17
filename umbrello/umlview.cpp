@@ -1374,6 +1374,12 @@ void UMLView::selectWidgets(int px, int py, int qx, int qy)
     }//end foreach
 }
 
+void UMLView::selectWidgets(UMLWidgetList &widgets)
+{
+    foreach ( UMLWidget* widget, widgets )
+        makeSelected(widget);
+}
+
 void  UMLView::getDiagram(const QRect &rect, QPixmap &diagram)
 {
     DEBUG(DBG_SRC) << "rect=" << rect << ", pixmap=" << diagram.rect();

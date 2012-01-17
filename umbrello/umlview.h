@@ -439,6 +439,7 @@ public:
 
     /**
      * Sets a widget to a selected state and adds it to a list of selected widgets.
+     * This method also sets the state of the cut and copy menu entries.
      *
      * @param w The widget to set to selected.
      * @param me The mouse event containing the information about the selection.
@@ -876,6 +877,16 @@ public:
     void selectWidgets(int px, int py, int qx, int qy);
 
     /**
+     * Selects all the widgets of the given association widget.
+     */
+    void selectWidgetsOfAssoc (AssociationWidget * a);
+
+    /**
+     * Selects all the widgets from a list.
+     */
+    void selectWidgets(UMLWidgetList &widgets);
+
+    /**
      * Determine whether on a sequence diagram we have clicked on a line
      * of an Object.
      *
@@ -1082,12 +1093,6 @@ protected:
      * Calls the same method in the current tool bar state.
      */
     void contentsMousePressEvent(QMouseEvent* mouseEvent);
-
-
-    /**
-     * Selects all the widgets of the given association widget.
-     */
-    void selectWidgetsOfAssoc (AssociationWidget * a);
 
     /**
      * Calls setSelected on the given UMLWidget and enters
