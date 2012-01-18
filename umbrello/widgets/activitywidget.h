@@ -75,7 +75,9 @@ public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);
 
 protected:
-    UMLSceneSize minimumSize();
+    virtual UMLSceneSize minimumSize();
+    virtual UMLSceneSize maximumSize();
+
     ActivityType m_activityType; ///< Type of activity.
 
     /**
