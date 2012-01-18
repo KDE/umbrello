@@ -37,12 +37,6 @@ EntityWidget::EntityWidget(UMLScene *scene, UMLObject* o)
   : UMLWidget(scene, WidgetBase::wt_Entity, o)
 {
     setSize(100, 30);
-
-    //set defaults from m_scene
-    if (m_scene) {
-        //check to see if correct
-        //const Settings::OptionState& ops = m_scene->getOptionState();
-    }
 }
 
 /**
