@@ -1238,6 +1238,18 @@ void UMLWidget::updateComponentSize()
     adjustAssocs(getX(), getY());    // adjust assoc lines
 }
 
+/**
+ * clip the size of this widget against the
+ * minimal and maximal limits.
+ */
+void UMLWidget::clipSize()
+{
+    int width = getWidth();
+    int height = getHeight();
+    constrain(width, height);
+    setSize(width, height);
+}
+
 void UMLWidget::setDefaultFontMetrics(UMLWidget::FontType fontType)
 {
     setupFontType(m_Font, fontType);

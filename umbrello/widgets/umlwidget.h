@@ -235,6 +235,8 @@ public:
 
     void updateComponentSize();
 
+    void clipSize();
+
     void forceUpdateFontMetrics(QPainter *painter);
 
     virtual bool loadFromXMI(QDomElement &qElement);
