@@ -124,7 +124,7 @@ void ObjectWidget::slotMenuSelection(QAction* action)
     }
 }
 
-QSize ObjectWidget::calculateSize()
+UMLSceneSize ObjectWidget::minimumSize()
 {
     int width, height;
     const QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);

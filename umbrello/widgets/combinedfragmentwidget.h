@@ -109,7 +109,7 @@ protected:
     /**
      * Overrides method from UMLWidget
      */
-    QSize calculateSize();
+    UMLSceneSize minimumSize();
 
     /**
      * Type of CombinedFragment.

@@ -319,10 +319,10 @@ int ClassifierWidget::displayedOperations()
     return displayedMembers(UMLObject::ot_Operation);
 }
 
-QSize ClassifierWidget::calculateSize()
+UMLSceneSize ClassifierWidget::minimumSize()
 {
     if (!m_pObject) {
-        return UMLWidget::calculateSize();
+        return UMLWidget::minimumSize();
     }
     if (classifier()->isInterface() && m_drawAsCircle) {
         return calculateAsCircleSize();

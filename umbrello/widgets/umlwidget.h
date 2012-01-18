@@ -43,6 +43,9 @@ class UMLWidget : public WidgetBase, public UMLSceneRectangle
 {
     Q_OBJECT
 public:
+    static const UMLSceneSize DefaultMinimumSize;
+    static const UMLSceneSize DefaultMaximumSize;
+
     friend class UMLWidgetController;
 
     explicit UMLWidget(UMLScene * scene, WidgetType type = wt_UMLWidget, UMLObject * o = 0, UMLWidgetController *widgetController = 0);
@@ -253,7 +256,13 @@ protected:
     virtual void drawSelected(QPainter * p, int offsetX, int offsetY);
     virtual void drawShape(QPainter &p);
 
-    virtual QSize calculateSize();
+    virtual UMLSceneSize minimumSize();
+    void setMinimumSize(const UMLSceneSize &size);
+    void setMinimumSize(UMLSceneValue width, UMLSceneValue height);
+
+    virtual UMLSceneSize maximumSize();
+    void setMaximumSize(const UMLSceneSize &size);
+    void setMaximumSize(UMLSceneValue width, UMLSceneValue height);
 
     typedef enum {
         FT_NORMAL = 0,
@@ -326,6 +335,8 @@ protected:
     UMLDoc        *m_doc;  ///< shortcut for UMLApp::app()->getDocument()
     bool           m_resizable;
     QFontMetrics  *m_pFontMetrics[FT_INVALID];
+    UMLSceneSize   m_minimumSize;
+    UMLSceneSize   m_maximumSize;
 
     /**
      * It is true if the Activate Function has been called for this

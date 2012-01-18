@@ -323,7 +323,7 @@ void SignalWidget::slotMenuSelection(QAction* action)
 /**
  * Overrides method from UMLWidget
  */
-QSize SignalWidget::calculateSize()
+UMLSceneSize SignalWidget::minimumSize()
 {
         int width = SIGNAL_WIDTH, height = SIGNAL_HEIGHT;
         const QFontMetrics &fm = getFontMetrics(FT_BOLD);

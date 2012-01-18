@@ -103,10 +103,10 @@ void DatatypeWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 /**
  * Overrides method from UMLWidget.
  */
-QSize DatatypeWidget::calculateSize()
+UMLSceneSize DatatypeWidget::minimumSize()
 {
     if (!m_pObject)  {
-        return UMLWidget::calculateSize();
+        return UMLWidget::minimumSize();
     }
     int width, height;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);

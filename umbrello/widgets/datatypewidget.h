@@ -40,7 +40,7 @@ public:
 public Q_SLOTS:
 
 protected:
-    QSize calculateSize();
+    UMLSceneSize minimumSize();
 
 private:
     /**

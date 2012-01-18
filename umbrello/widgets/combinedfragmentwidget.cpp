@@ -160,7 +160,7 @@ void CombinedFragmentWidget::paint(QPainter & p, int offsetX, int offsetY)
         drawSelected(&p, offsetX, offsetY);
 }
 
-QSize CombinedFragmentWidget::calculateSize()
+UMLSceneSize CombinedFragmentWidget::minimumSize()
 {
     int width = 10, height = 10;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);

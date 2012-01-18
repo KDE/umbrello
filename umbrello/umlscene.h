@@ -33,6 +33,9 @@ QDebug operator<<(QDebug debug, UMLScene *item);
 // base types
 typedef QPoint UMLScenePoint;
 typedef QRect UMLSceneRect;
+typedef QSize UMLSceneSize;
+typedef int UMLSceneValue;
+
 // event types
 typedef QKeyEvent UMLSceneKeyEvent;
 typedef QHoverEvent UMLSceneHoverEvent;

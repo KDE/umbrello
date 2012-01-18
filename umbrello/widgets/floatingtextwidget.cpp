@@ -110,7 +110,7 @@ void FloatingTextWidget::setText(const QString &t)
         m_Text = t;
     }
 
-    QSize s = calculateSize();
+    QSize s = minimumSize();
     setSize(s.width(), s.height());
 
     updateComponentSize();
@@ -156,7 +156,7 @@ QString FloatingTextWidget::displayText() const
 /**
  * Overrides method from UMLWidget.
  */
-QSize FloatingTextWidget::calculateSize()
+UMLSceneSize FloatingTextWidget::minimumSize()
 {
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     int h = fm.lineSpacing();
@@ -599,7 +599,7 @@ void FloatingTextWidget::setMessageText()
 {
     if (m_linkWidget) {
         m_linkWidget->setMessageText(this);
-        QSize s = calculateSize();
+        QSize s = minimumSize();
         setSize(s.width(), s.height());
 
     }

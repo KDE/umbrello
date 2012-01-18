@@ -110,7 +110,7 @@ protected:
     /**
      * Overrides method from UMLWidget
      */
-    QSize calculateSize();
+    UMLSceneSize minimumSize();
 
 
 public slots:

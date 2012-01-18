@@ -74,7 +74,7 @@ void CategoryWidget::paint(QPainter & p, int offsetX, int offsetY)
         drawSelected(&p, offsetX, offsetY);
 }
 
-QSize CategoryWidget::calculateSize()
+UMLSceneSize CategoryWidget::minimumSize()
 {
     const UMLWidget::FontType ft = ( m_pObject->isAbstract() ? FT_BOLD_ITALIC : FT_BOLD );
     const QFontMetrics &fm = UMLWidget::getFontMetrics(ft);

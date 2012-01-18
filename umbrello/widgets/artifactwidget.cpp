@@ -84,10 +84,10 @@ void ArtifactWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 /**
  * Overrides method from UMLWidget.
  */
-QSize ArtifactWidget::calculateSize()
+UMLSceneSize ArtifactWidget::minimumSize()
 {
     if ( !m_pObject) {
-        return UMLWidget::calculateSize();
+        return UMLWidget::minimumSize();
     }
     UMLArtifact *umlart = static_cast<UMLArtifact*>(m_pObject);
     if (umlart->getDrawAsType() == UMLArtifact::defaultDraw) {

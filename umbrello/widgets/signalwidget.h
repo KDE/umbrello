@@ -62,7 +62,7 @@ public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);
 
 protected:
-    QSize calculateSize();
+    UMLSceneSize minimumSize();
 
     /**
      * Save the value of the widget to know how to move the floatingtext

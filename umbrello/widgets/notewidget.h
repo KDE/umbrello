@@ -72,7 +72,7 @@ public Q_SLOTS:
     void slotMenuSelection(QAction* action);
 
 protected:
-    virtual QSize calculateSize();
+    virtual UMLSceneSize minimumSize();
     void drawText(QPainter * p = 0, int offsetX = 0, int offsetY = 0);
     void drawTextWordWrap(QPainter * p = 0, int offsetX = 0, int offsetY = 0);
 

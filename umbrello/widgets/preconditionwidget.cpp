@@ -96,7 +96,7 @@ void PreconditionWidget::paint(QPainter & p, int /*offsetX*/, int offsetY)
         drawSelected(&p, x, y);
 }
 
-QSize PreconditionWidget::calculateSize()
+UMLSceneSize PreconditionWidget::minimumSize()
 {
     int width = 10, height = 10;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -165,7 +165,7 @@ void PreconditionWidget::calculateDimensions()
 
     x1 += w1;
 
-    QSize q = calculateSize();
+    QSize q = minimumSize();
     w = q.width() > width() ? q.width() : width();
     h = q.height() > height() ? q.height() : height();
 

@@ -320,7 +320,7 @@ protected:
     /**
      * Overrides method from UMLWidget.
      */
-    QSize calculateSize();
+    UMLSceneSize minimumSize();
 
     /**
      * Draws the interface as a circle with name underneath.

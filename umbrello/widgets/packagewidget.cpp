@@ -89,10 +89,10 @@ void PackageWidget::paint(QPainter & p, int offsetX, int offsetY)
     }
 }
 
-QSize PackageWidget::calculateSize()
+UMLSceneSize PackageWidget::minimumSize()
 {
     if ( !m_pObject ) {
-        return UMLWidget::calculateSize();
+        return UMLWidget::minimumSize();
     }
 
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);

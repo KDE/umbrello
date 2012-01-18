@@ -119,7 +119,7 @@ void ComponentWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 /**
  * Overrides method from UMLWidget.
  */
-QSize ComponentWidget::calculateSize()
+UMLSceneSize ComponentWidget::minimumSize()
 {
     if ( !m_pObject) {
         return QSize(70, 70);

@@ -38,7 +38,7 @@ public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);
 
 protected:
-    QSize calculateSize();
+    UMLSceneSize minimumSize();
 
     void drawSelected(QPainter * p, int offsetX, int offsetY);
 

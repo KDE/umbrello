@@ -99,12 +99,6 @@ public:
      */
     void mouseMoveEvent(QMouseEvent *me);
 
-protected:
-    /**
-     * Overrides method from UMLWidget
-     */
-     QSize calculateSize();
-
 public slots:
 
     /**
