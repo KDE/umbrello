@@ -301,7 +301,7 @@ UMLSceneSize NoteWidget::minimumSize()
     else {
         // keep width and height unchanged
     }
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }
 
 /**

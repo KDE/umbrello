@@ -81,7 +81,7 @@ UMLSceneSize CategoryWidget::minimumSize()
     const int fontHeight = fm.lineSpacing();
     int radius = UC_RADIUS + fontHeight + UC_MARGIN;
 
-    return QSize(radius, radius);
+    return UMLSceneSize(radius, radius);
 }
 
 void CategoryWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )

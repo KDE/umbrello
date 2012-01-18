@@ -113,9 +113,9 @@ void ForkJoinWidget::slotMenuSelection(QAction* action)
 UMLSceneSize ForkJoinWidget::minimumSize()
 {
     if (m_drawVertical) {
-        return QSize(4, 40);
+        return UMLSceneSize(4, 40);
     } else {
-        return QSize(40, 4);
+        return UMLSceneSize(40, 4);
     }
 }
 

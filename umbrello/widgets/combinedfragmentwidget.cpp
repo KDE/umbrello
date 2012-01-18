@@ -176,7 +176,7 @@ UMLSceneSize CombinedFragmentWidget::minimumSize()
     width += COMBINED_FRAGMENT_MARGIN * 2;
     height += COMBINED_FRAGMENT_MARGIN * 2;
 
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }
 
 CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::combinedFragmentType() const

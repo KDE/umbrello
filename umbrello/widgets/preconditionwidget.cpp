@@ -108,7 +108,7 @@ UMLSceneSize PreconditionWidget::minimumSize()
     width += PRECONDITION_MARGIN * 2;
     height += PRECONDITION_MARGIN * 2;
 
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }
 
 void PreconditionWidget::slotMenuSelection(QAction* action)

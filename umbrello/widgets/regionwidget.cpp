@@ -66,7 +66,7 @@ UMLSceneSize RegionWidget::minimumSize() {
     width  += REGION_MARGIN * 2;
     height += REGION_MARGIN * 2;
 
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }
 
 void RegionWidget::setName(const QString &strName) {

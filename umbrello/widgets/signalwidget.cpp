@@ -341,7 +341,7 @@ UMLSceneSize SignalWidget::minimumSize()
         width  += SIGNAL_MARGIN * 2;
         height += SIGNAL_MARGIN * 2;
 
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }
 
 #include "signalwidget.moc"

@@ -123,7 +123,7 @@ UMLSceneSize NodeWidget::minimumSize()
 
     int height = (2*fontHeight) + DEPTH;
 
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }
 
 void NodeWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)

@@ -115,7 +115,7 @@ UMLSceneSize PackageWidget::minimumSize()
 
     int height = (lines*fontHeight) + fontHeight + (PACKAGE_MARGIN * 2);
 
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }
 
 void PackageWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)

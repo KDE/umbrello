@@ -145,7 +145,7 @@ UMLSceneSize ObjectWidget::minimumSize()
         }
     }//end else drawasactor
 
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }
 
 void ObjectWidget::setDrawAsActor( bool drawAsActor )

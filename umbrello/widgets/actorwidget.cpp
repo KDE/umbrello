@@ -95,7 +95,7 @@ UMLSceneSize ActorWidget::minimumSize()
     int width = textWidth > A_WIDTH ? textWidth : A_WIDTH;
     int height = A_HEIGHT + fontHeight + A_MARGIN;
     width += A_MARGIN * 2;
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }
 
 

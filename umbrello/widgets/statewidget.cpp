@@ -220,7 +220,7 @@ UMLSceneSize StateWidget::minimumSize()
             break;
     }
 
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }
 
 /**

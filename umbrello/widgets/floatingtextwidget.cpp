@@ -161,7 +161,7 @@ UMLSceneSize FloatingTextWidget::minimumSize()
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     int h = fm.lineSpacing();
     int w = fm.width( displayText() );
-    return QSize(w + 8, h + 4);  // give a small margin
+    return UMLSceneSize(w + 8, h + 4);  // give a small margin
 }
 
 /**

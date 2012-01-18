@@ -144,7 +144,7 @@ UMLSceneSize ObjectNodeWidget::minimumSize()
         height += OBJECTNODE_MARGIN * 4;
     }
 
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }
 
 ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::objectNodeType() const

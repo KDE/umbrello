@@ -412,7 +412,7 @@ UMLSceneSize ClassifierWidget::minimumSize()
     // allow for width margin
     width += MARGIN * 2;
 
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }
 
 void ClassifierWidget::slotMenuSelection(QAction* action)

@@ -241,5 +241,5 @@ UMLSceneSize EntityWidget::minimumSize()
     //allow for width margin
     width += ENTITY_MARGIN * 2;
 
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }

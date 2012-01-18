@@ -129,5 +129,5 @@ UMLSceneSize DatatypeWidget::minimumSize()
     //allow for width margin
     width += DATATYPE_MARGIN * 2;
 
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }

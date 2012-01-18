@@ -257,5 +257,5 @@ UMLSceneSize EnumWidget::minimumSize()
     //allow for width margin
     width += ENUM_MARGIN * 2;
 
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }
