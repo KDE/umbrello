@@ -17,6 +17,10 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+// do not work because there are runtime errors reporting that
+// objects derived from QObject could not be called in a different thread
+// #define ENABLE_IMPORT_THREAD
 #include "codeimpstatuspage.h"
 
 // app includes
@@ -40,7 +44,8 @@
  */
 CodeImpStatusPage::CodeImpStatusPage(QWidget *parent)
   : QWizardPage(parent),
-    m_workDone(false)
+    m_workDone(false),
+    m_index(0)
 {
     setTitle(i18n("Status of Code Importing Progress"));
     setSubTitle(i18n("Press the button 'Start import' to start the code import.\nCheck the success state for every class."));
@@ -63,6 +68,9 @@ CodeImpStatusPage::CodeImpStatusPage(QWidget *parent)
  */
 CodeImpStatusPage::~CodeImpStatusPage()
 {
+#ifdef ENABLE_IMPORT_THREAD
+    delete m_thread;
+#endif
 }
 
 /**
@@ -113,31 +121,58 @@ void CodeImpStatusPage::importCode()
     setCommitPage(true);  //:TODO: disable back and cancel button ?
 
     UMLDoc* doc = UMLApp::app()->document();
+    doc->setLoading(true);
 
-    ui_textEditLogger->setHtml(i18n("<b>Code import of %1 files:</b><br>", m_files.size()));
-
-    foreach (const QFileInfo& file, m_files) {
-        messageToLog(file.fileName(), i18n("importing file ..."));
-        CodeImpThread* worker = new CodeImpThread(file);
-        connect(worker, SIGNAL(messageToWiz(QString,QString)), this, SLOT(updateStatus(QString,QString)));
-        connect(worker, SIGNAL(messageToLog(QString,QString)), this, SLOT(messageToLog(QString,QString)));
-        connect(worker, SIGNAL(messageToApp(QString)), this, SLOT(messageToApp(QString)));
-#if 0
-        worker->start();
-uDebug() << "****** starting task for " << file.fileName();
-        worker->wait();  //:TODO: better solution - not blocking
-uDebug() << "****** task done for " << file.fileName();
-#else
-        ClassImport *classImporter = ClassImport::createImporterByFileExt(file.fileName(), worker);
-        QString fileName = file.absoluteFilePath();
-        if (classImporter) {
-            classImporter->importFile(fileName);
-            delete classImporter;
-        }
+    ui_textEditLogger->setHtml(i18np("<b>Code import of 1 file:</b><br>", "<b>Code import of %1 files:</b><br>", m_files.size()));
+    m_index = 0;
+    m_workDone = false;
+#ifdef ENABLE_IMPORT_THREAD
+    m_thread = new QThread;
+    //connect(thread, SIGNAL(started()), this, SLOT(importCodeFile()));
+    connect(m_thread, SIGNAL(finished()), this, SLOT(importCodeFile()));
+    connect(m_thread, SIGNAL(terminated()), this, SLOT(importCodeStop()));
 #endif
-        messageToLog(file.fileName(), i18n("importing file ... DONE<br>"));
-        updateStatus(file.fileName(), i18n("Import Done"));
+    importCodeFile();
+}
+
+void CodeImpStatusPage::importCodeFile()
+{
+    // all files done
+    if (m_index >= m_files.size()) {
+        messageToLog(m_file.fileName(), i18n("importing file ... DONE<br>"));
+        updateStatus(m_file.fileName(), i18n("Import Done"));
+        importCodeFinish();
+        return;
     }
+    // at least one file done
+    else if (m_index > 0) {
+        messageToLog(m_file.fileName(), i18n("importing file ... DONE<br>"));
+        updateStatus(m_file.fileName(), i18n("Import Done"));
+    }
+
+    m_file = m_files.at(m_index++);
+    messageToLog(m_file.fileName(), i18n("importing file ..."));
+    CodeImpThread* worker = new CodeImpThread(m_file);
+    connect(worker, SIGNAL(messageToWiz(QString,QString)), this, SLOT(updateStatus(QString,QString)));
+    connect(worker, SIGNAL(messageToLog(QString,QString)), this, SLOT(messageToLog(QString,QString)));
+    connect(worker, SIGNAL(messageToApp(QString)), this, SLOT(messageToApp(QString)));
+#ifndef ENABLE_IMPORT_THREAD
+    connect(worker, SIGNAL(finished()), this, SLOT(importCodeFile()));
+    connect(worker, SIGNAL(aborted()), this, SLOT(importCodeStop()));
+    worker->run();
+    worker->deleteLater();
+#else
+    worker->moveToThread(m_thread);
+    m_thread->start();
+    QMetaObject::invokeMethod(worker, "run", Qt::QueuedConnection);
+    // FIXME: when to delete worker and m_thread
+#endif
+    uDebug() << "****** starting task for " << m_file.fileName();
+}
+
+void CodeImpStatusPage::importCodeFinish()
+{
+    UMLDoc* doc = UMLApp::app()->document();
     doc->setLoading(false);
     // Modification is set after the import is made, because the file was modified when adding the classes.
     // Allowing undo of the whole class importing. I think it eats a lot of memory.
@@ -147,6 +182,10 @@ uDebug() << "****** task done for " << file.fileName();
     m_workDone = true;
     setFinalPage(true);
     emit completeChanged();
+#ifdef ENABLE_IMPORT_THREAD
+    delete m_thread;
+    m_thread = 0;
+#endif
 }
 
 /**
@@ -162,9 +201,25 @@ void CodeImpStatusPage::messageToApp(const QString& text)
 /**
  * Slot for the stop button. Stops the code import.
  */
-void CodeImpStatusPage::importStop()
+void CodeImpStatusPage::importCodeStop()
 {
-    uDebug() << "TODO: Not yet implemented!";
+    messageToLog(m_file.fileName(), i18n("importing file ... stopped<br>"));
+    updateStatus(m_file.fileName(), i18n("Import stopped"));
+
+    UMLDoc* doc = UMLApp::app()->document();
+    doc->setLoading(false);
+    // Modification is set after the import is made, because the file was modified when adding the classes.
+    // Allowing undo of the whole class importing. I think it eats a lot of memory.
+    // Setting the modification, but without allowing undo.
+    doc->setModified(true);
+
+    m_workDone = true;
+    setFinalPage(true);
+    emit completeChanged();
+#ifdef ENABLE_IMPORT_THREAD
+    delete m_thread;
+    m_thread = 0;
+#endif
 }
 
 /**

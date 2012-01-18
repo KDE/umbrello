@@ -367,7 +367,7 @@ bool UMLClipboard::pasteChildren(UMLListViewItem *parent, IDChangeLog *chgLog)
             uDebug() << "adjusting lvitem(" << ID2STR(oldID)
                 << ") to new UMLObject(" << ID2STR(newID) << ")";
             childItem->setUMLObject(newObj);
-            childItem->setText(0, newObj->name());
+            childItem->setText(newObj->name());
         } else {
             uDebug() << "no UMLObject found for lvitem " << ID2STR(newID);
         }

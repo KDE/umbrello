@@ -24,17 +24,18 @@
 
 // kde includes
 #include <klocale.h>
+#include <kmessagebox.h>
 
 /**
  * Constructor.
  * @param fileNames   name of imported files
  */
 CodeImpThread::CodeImpThread(QFileInfo file, QObject* parent)
-  : //QThread(parent),
+  : QObject(parent),
     m_file(file)
 {
-    connect(this, SIGNAL(askQuestion(QString,QMessageBox::StandardButton*)),
-            this, SLOT(questionAsked(QString,QMessageBox::StandardButton*)));
+    connect(this, SIGNAL(askQuestion(QString,int)),
+            this, SLOT(questionAsked(QString,int)));
 }
 
 /**
@@ -51,33 +52,44 @@ void CodeImpThread::run()
 {
     ClassImport *classImporter = ClassImport::createImporterByFileExt(m_file.fileName(), this);
     QString fileName = m_file.absoluteFilePath();
+
     if (classImporter) {
         emit messageToLog(m_file.fileName(), "start import...");
         emit messageToWiz(m_file.fileName(), "started");
         emit messageToApp(i18n("Importing file: %1", fileName));
-        classImporter->importFile(fileName);
+        // FIXME: ClassImport still uses umldoc->writeToStatusBar for log writing
+
+        if (!classImporter->importFile(fileName)) {
+            emit messageToApp(i18nc("show failed on status bar", "Failed."));
+            emit messageToWiz(m_file.fileName(), "failed");
+            emit messageToLog(m_file.fileName(), "...import failed");
+            emit aborted();
+        }
+        else {
+            emit messageToApp(i18nc("show Ready on status bar", "Ready."));
+            emit messageToWiz(m_file.fileName(), "finished");
+            emit messageToLog(m_file.fileName(), "...import finished");
+            emit finished();
+        }
         delete classImporter;
-        emit messageToApp(i18nc("show Ready on status bar", "Ready."));
-        emit messageToWiz(m_file.fileName(), "finished");
-        emit messageToLog(m_file.fileName(), "...stop import");
     }
     else {
         emit messageToWiz(m_file.fileName(), "aborted");
         emit messageToApp(i18n("No code importer for file: %1", fileName));
+        emit aborted();
     }
 }
 
 /**
  * Emit a signal to the main gui thread to show a question box.
  * @param question   the text of the question
- * @return   the code of the answer button
+ * @return   the code of the answer button @ref KMessageBox::ButtonCode
  */
 int CodeImpThread::emitAskQuestion(const QString& question)
 {
     int buttonCode = 0;
-    QMessageBox::StandardButton buttonCodeOld;
     //QMutexLocker locker(&m_mutex);
-    emit askQuestion(question, &buttonCodeOld);
+    emit askQuestion(question, buttonCode);
     //m_waitCondition.wait(&m_mutex);
     return buttonCode;
 }
@@ -95,11 +107,11 @@ void CodeImpThread::emitMessageToLog(const QString& file, const QString& text)
 /**
  * Slot for signal askQuestion.
  * @param question   the question to ask
- * @param answer     the pressed answer button code
+ * @param answer     the pressed answer button code @ref KMessageBox::ButtonCode
  */
-void CodeImpThread::questionAsked(const QString& question, QMessageBox::StandardButton* answer)
+void CodeImpThread::questionAsked(const QString& question, int& answer)
 {
     //QMutexLocker locker(&m_mutex);
-    *answer = QMessageBox::question(0, "Question:", question, QMessageBox::Yes|QMessageBox::No);
+    answer = KMessageBox::questionYesNo(0, question, "Question code import:");
     //m_waitCondition.wakeOne();
 }
