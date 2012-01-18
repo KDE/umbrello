@@ -324,11 +324,7 @@ void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 void ActivityWidget::constrain(int& width, int& height)
 {
     if (m_activityType == Normal || m_activityType == Invok || m_activityType == Param) {
-        QSize minSize = calculateSize();
-        if (width < minSize.width())
-            width = minSize.width();
-        if (height < minSize.height())
-            height = minSize.height();
+        UMLWidget::constrain(width, height);
         return;
     }
     if (width > height)
@@ -384,7 +380,7 @@ void ActivityWidget::slotMenuSelection(QAction* action)
 /**
  * Overrides method from UMLWidget
  */
-QSize ActivityWidget::calculateSize()
+UMLSceneSize ActivityWidget::minimumSize()
 {
     int width, height;
     if ( m_activityType == Normal || m_activityType == Invok || m_activityType == Param ) {
