@@ -298,7 +298,8 @@ void UMLWidget::init()
         m_usesDiagramUseFillColor = true;
         const Settings::OptionState& optionState = m_scene->optionState();
         m_FillColor = optionState.uiState.fillColor;
-        setFont(optionState.uiState.font);
+        // FIXME: using setFont() here let umbrello hang probably because of doc->loading() not set. 
+        m_Font = optionState.uiState.font;
         m_showStereotype = optionState.classState.showStereoType;
     } else {
         uError() << "SERIOUS PROBLEM - m_scene is NULL";
@@ -1367,6 +1368,8 @@ void UMLWidget::forceUpdateFontMetrics(QPainter *painter)
                 setDefaultFontMetrics((UMLWidget::FontType)i2, *painter);
         }
     }
+    if (m_doc->loading())
+        return;
     // calculate the size, based on the new font metric
     updateComponentSize();
 }
