@@ -530,10 +530,21 @@ void UMLObject::setPackage(const QString &_name)
  *
  * @param pPkg   Pointer to the class' UMLPackage.
  */
-void UMLObject::setUMLPackage(UMLPackage* pPkg)
+bool UMLObject::setUMLPackage(UMLPackage* pPkg)
 {
+    if (pPkg == this) {
+        uDebug() << "setting parent to myself is not allowed";
+        return false;
+    }
+
+    if (pPkg->umlPackage() == this) {
+        uDebug() << "setting parent to an object of which I'm already the parent is not allowed";
+        return false;
+    }
+
     m_pUMLPackage = pPkg;
     emitModified();
+    return true;
 }
 
 /**
