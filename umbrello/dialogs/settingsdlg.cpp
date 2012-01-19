@@ -12,7 +12,9 @@
 #include "settingsdlg.h"
 
 // app includes
+#include "codeimportoptionspage.h"
 #include "codegenoptionspage.h"
+#include "umlwidgetstylepage.h"
 #include "codevieweroptionspage.h"
 #include "dialog_utils.h"
 #include "debug_utils.h"
@@ -23,6 +25,7 @@
 //TODO don't do that, but it's better than hardcoded in the functions body
 #define FILL_COLOR QColor(255, 255, 192) 
 #define LINK_COLOR Qt::red
+#define TEXT_COLOR Qt::black
 
 
 SettingsDlg::SettingsDlg( QWidget * parent, Settings::OptionState *state )
@@ -41,6 +44,7 @@ SettingsDlg::SettingsDlg( QWidget * parent, Settings::OptionState *state )
     setupFontPage();
     setupUIPage();
     setupClassPage();
+    setupCodeImportPage();
     setupCodeGenPage();
     setupCodeViewerPage(state->codeViewerState);
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
@@ -54,6 +58,7 @@ SettingsDlg::~SettingsDlg()
 
 void SettingsDlg::setupUIPage()
 {
+    // FIXME: merge with UMLWidgetStylePage
     //setup UI page
     QWidget * page = new QWidget();
     QVBoxLayout* uiPageLayout = new QVBoxLayout(page);
@@ -71,55 +76,68 @@ void SettingsDlg::setupUIPage()
     
     uiPageLayout->addItem(new QSpacerItem(0, 20, QSizePolicy::Minimum, QSizePolicy::Expanding));
 
+    m_UiWidgets.textColorCB = new QCheckBox( i18n("Custom text color:"), m_UiWidgets.colorGB );
+    colorLayout->addWidget( m_UiWidgets.textColorCB, 0, 0 );
+
+    m_UiWidgets.textColorB = new KColorButton( m_pOptionState->uiState.textColor ,m_UiWidgets.colorGB);
+    //m_UiWidgets.lineColorB->setObjectName( m_UiWidgets.colorGB );
+    colorLayout->addWidget( m_UiWidgets.textColorB, 0, 1 );
+
     m_UiWidgets.lineColorCB = new QCheckBox( i18n("Custom line color:"), m_UiWidgets.colorGB );
-    colorLayout->addWidget( m_UiWidgets.lineColorCB, 0, 0 );
+    colorLayout->addWidget( m_UiWidgets.lineColorCB, 1, 0 );
 
     m_UiWidgets.lineColorB = new KColorButton( m_pOptionState->uiState.lineColor ,m_UiWidgets.colorGB);
     //m_UiWidgets.lineColorB->setObjectName( m_UiWidgets.colorGB );
-    colorLayout->addWidget( m_UiWidgets.lineColorB, 0, 1 );
-    
+    colorLayout->addWidget( m_UiWidgets.lineColorB, 1, 1 );
 
 //     m_UiWidgets.lineDefaultB = new QPushButton( i18n("D&efault Color"), m_UiWidgets.colorGB );
 //     colorLayout->addWidget( m_UiWidgets.lineDefaultB, 0, 2 );
 
     m_UiWidgets.fillColorCB = new QCheckBox( i18n("Custom fill color:"), m_UiWidgets.colorGB );
-    colorLayout->addWidget( m_UiWidgets.fillColorCB, 1, 0 );
-    
+    colorLayout->addWidget( m_UiWidgets.fillColorCB, 2, 0 );
 
     m_UiWidgets.fillColorB = new KColorButton( m_pOptionState->uiState.fillColor,m_UiWidgets.colorGB  );
-    colorLayout->addWidget( m_UiWidgets.fillColorB, 1, 1 );
-    
-    m_UiWidgets.gridColorB = new KColorButton( m_pOptionState->uiState.gridDotColor,m_UiWidgets.colorGB  );
-    colorLayout->addWidget(m_UiWidgets.gridColorB , 0, 3 );
-    
+    colorLayout->addWidget( m_UiWidgets.fillColorB, 2, 1 );
+
     m_UiWidgets.gridColorCB = new QCheckBox( i18n("Custom grid color:"), m_UiWidgets.colorGB );
-    colorLayout->addWidget(m_UiWidgets.gridColorCB , 0, 2 );
-    
+    colorLayout->addWidget(m_UiWidgets.gridColorCB , 3, 0 );
+
+    m_UiWidgets.gridColorB = new KColorButton( m_pOptionState->uiState.gridDotColor,m_UiWidgets.colorGB  );
+    colorLayout->addWidget(m_UiWidgets.gridColorB , 3, 1 );
+
     m_UiWidgets.bgColorCB = new QCheckBox( i18n("Custom background color:"), m_UiWidgets.colorGB );
-    colorLayout->addWidget(m_UiWidgets.bgColorCB , 1, 2 );
-    
-    
+    colorLayout->addWidget(m_UiWidgets.bgColorCB , 4, 0 );
+
     m_UiWidgets.bgColorB = new KColorButton( m_pOptionState->uiState.backgroundColor,m_UiWidgets.colorGB  );
-    colorLayout->addWidget(m_UiWidgets.bgColorB , 1, 3 );
+    colorLayout->addWidget(m_UiWidgets.bgColorB , 4, 1 );
 
     m_UiWidgets.lineWidthCB = new QCheckBox( i18n("Custom line width:"), m_UiWidgets.colorGB );
-    colorLayout->addWidget( m_UiWidgets.lineWidthCB, 2, 0 );
+    colorLayout->addWidget( m_UiWidgets.lineWidthCB, 5, 0 );
 
     m_UiWidgets.lineWidthB = new KIntSpinBox( 0, 10, 1, m_pOptionState->uiState.lineWidth, m_UiWidgets.colorGB );
-    colorLayout->addWidget( m_UiWidgets.lineWidthB, 2, 1 );
+    colorLayout->addWidget( m_UiWidgets.lineWidthB, 5, 1 );
     
     m_UiWidgets.useFillColorCB = new QCheckBox( i18n("&Use fill color"), m_UiWidgets.colorGB );
     //colorLayout->setRowStretch( 3, 2 );
-    colorLayout->addWidget( m_UiWidgets.useFillColorCB,3,0);
+    colorLayout->addWidget( m_UiWidgets.useFillColorCB, 6, 0 );
     m_UiWidgets.useFillColorCB->setChecked( m_pOptionState->uiState.useFillColor );
 
     //connect button signals up
+    connect( m_UiWidgets.textColorCB, SIGNAL(toggled(bool)), this, SLOT(slotTextCBChecked(bool)) );
     connect( m_UiWidgets.lineColorCB, SIGNAL(toggled(bool)), this, SLOT(slotLineCBChecked(bool)) );
     connect( m_UiWidgets.fillColorCB, SIGNAL(toggled(bool)), this, SLOT(slotFillCBChecked(bool)) );
     connect( m_UiWidgets.gridColorCB, SIGNAL(toggled(bool)), this, SLOT(slotGridCBChecked(bool)) );
     connect( m_UiWidgets.bgColorCB, SIGNAL(toggled(bool)), this, SLOT(slotBgCBChecked(bool)) );
     
     //TODO Once the new canvas is complete, so something better, it does not worth it for now
+    if (m_UiWidgets.textColorB->color() == TEXT_COLOR) {
+        m_UiWidgets.textColorCB->setChecked(false);
+        m_UiWidgets.textColorB->setDisabled(true);
+    }
+    else {
+        m_UiWidgets.textColorCB->setChecked(true);
+    }
+
     if (m_UiWidgets.fillColorB->color() == FILL_COLOR) {
         m_UiWidgets.fillColorCB->setChecked(false);
         m_UiWidgets.fillColorB->setDisabled(true);
@@ -352,6 +370,17 @@ void SettingsDlg::insertOperationScope( const QString& type, int index )
     m_ClassWidgets.m_pOperationScopeCB->completionObject()->addItem( type );
 }
 
+void SettingsDlg::setupCodeImportPage()
+{
+    //setup code importer settings page
+    KVBox * page = new KVBox();
+    pageCodeImport = new KPageWidgetItem( page,i18n("Code Importer") );
+    pageCodeImport->setHeader( i18n("Code Import Settings") );
+    pageCodeImport->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_CodeImport) );
+    addPage( pageCodeImport );
+    m_pCodeImportPage = new CodeImportOptionsPage(page);
+}
+
 void SettingsDlg::setupCodeGenPage()
 {
     //setup code generation settings page
@@ -399,6 +428,7 @@ void SettingsDlg::slotOk()
     applyPage( pageGeneral);
     applyPage( pageUserInterface );
     applyPage( pageCodeViewer);
+    applyPage( pageCodeImport );
     applyPage( pageCodeGen );
     applyPage( pageFont );
     accept();
@@ -425,6 +455,7 @@ void SettingsDlg::slotDefault()
     else if ( current == pageUserInterface )
     {
         m_UiWidgets.useFillColorCB->setChecked( true );
+        m_UiWidgets.textColorB->setColor( TEXT_COLOR );
         m_UiWidgets.fillColorB->setColor( FILL_COLOR );
         m_UiWidgets.lineColorB->setColor( LINK_COLOR );
         m_UiWidgets.lineWidthB->setValue( 0 );
@@ -441,7 +472,14 @@ void SettingsDlg::slotDefault()
         m_ClassWidgets.m_pAttribScopeCB->setCurrentIndex(1); // Private
         m_ClassWidgets.m_pOperationScopeCB->setCurrentIndex(0); // Public
     }
-    else if (  current == pageCodeGen || current == pageCodeViewer )
+    else if (  current == pageCodeImport )
+    {
+        m_pCodeImportPage->setDefaults();
+    }
+    else if (  current == pageCodeGen )
+    {
+    }
+    else if ( current == pageCodeViewer )
     {
     }
 }
@@ -472,6 +510,7 @@ void SettingsDlg::applyPage( KPageWidgetItem*item )
     {
         m_pOptionState->uiState.useFillColor = m_UiWidgets.useFillColorCB->isChecked();
         m_pOptionState->uiState.fillColor = m_UiWidgets.fillColorB->color();
+        m_pOptionState->uiState.textColor = m_UiWidgets.textColorB->color();
         m_pOptionState->uiState.lineColor = m_UiWidgets.lineColorB->color();
         m_pOptionState->uiState.lineWidth = m_UiWidgets.lineWidthB->value();
         m_pOptionState->uiState.backgroundColor = m_UiWidgets.bgColorB->color();
@@ -489,6 +528,10 @@ void SettingsDlg::applyPage( KPageWidgetItem*item )
         m_pOptionState->classState.defaultAttributeScope = (Uml::Visibility::Value) m_ClassWidgets.m_pAttribScopeCB->currentIndex();
         m_pOptionState->classState.defaultOperationScope = (Uml::Visibility::Value) m_ClassWidgets.m_pOperationScopeCB->currentIndex();
     }
+    else if ( item == pageCodeImport )
+    {
+        m_pCodeImportPage->apply();
+    }
     else if ( item == pageCodeGen )
     {
         m_pCodeGenPage->apply();
@@ -497,6 +540,17 @@ void SettingsDlg::applyPage( KPageWidgetItem*item )
     {
         m_pCodeViewerPage->apply();
         m_pOptionState->codeViewerState = m_pCodeViewerPage->getOptions();
+    }
+}
+
+void SettingsDlg::slotTextCBChecked(bool value)
+{
+    if (value == false) {
+        m_UiWidgets.textColorB->setColor( TEXT_COLOR );
+        m_UiWidgets.textColorB->setDisabled(true);
+    }
+    else {
+        m_UiWidgets.textColorB->setDisabled(false);
     }
 }
 

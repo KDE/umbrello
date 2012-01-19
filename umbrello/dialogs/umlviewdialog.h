@@ -22,7 +22,7 @@
 class ClassOptionsPage;
 class UMLScene;
 class UMLView;
-class UMLWidgetColorPage;
+class UMLWidgetStylePage;
 class KFontChooser;
 
 /**
@@ -48,7 +48,7 @@ protected:
 
     void setupDiagramPropertiesPage();
     void setupClassPage();
-    void setupColorPage();
+    void setupStylePage();
     void setupFontPage();
 
     void applyPage( KPageWidgetItem* );
@@ -60,8 +60,8 @@ protected:
     KFontChooser*          m_pChooser;
     DiagramPropertiesPage* m_diagramProperties;
     ClassOptionsPage*      m_pOptionsPage;
-    UMLWidgetColorPage*    m_pColorPage;
-    KPageWidgetItem*       m_pageColorItem;
+    UMLWidgetStylePage*    m_pStylePage;
+    KPageWidgetItem*       m_pageStyleItem;
     KPageWidgetItem*       m_pageFontItem;
     KPageWidgetItem*       m_pageDisplayItem;
     KPageWidgetItem*       m_pageGeneralItem;

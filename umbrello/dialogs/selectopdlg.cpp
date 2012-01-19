@@ -31,8 +31,8 @@
 #include <QtGui/QRadioButton>
 #include <QtGui/QGroupBox>
 
-SelectOpDlg::SelectOpDlg(UMLView * parent, UMLClassifier * c)
-        : KDialog( parent)
+SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c)
+   : KDialog(parent)
 {
     setCaption( i18n("Select Operation") );
     setButtons( Ok | Cancel );
@@ -43,7 +43,6 @@ SelectOpDlg::SelectOpDlg(UMLView * parent, UMLClassifier * c)
     QFrame *frame = new QFrame( this );
     setMainWidget( frame );
 
-    m_pView = parent;
     QVBoxLayout * topLayout = new QVBoxLayout(frame);
 
     m_pOpGB = new QGroupBox(i18n("Select Operation"), frame);

@@ -32,7 +32,7 @@
 #include <QtGui/QHBoxLayout>
 
 StateDialog::StateDialog( UMLView * pView, StateWidget * pWidget )
-    : KPageDialog( pView )
+  : DialogBase( pView )
 {
     setCaption(i18n("Properties") );
     setButtons( Help | Default | Apply | Ok | Cancel );
@@ -58,7 +58,7 @@ void StateDialog::slotOk()
     applyPage( pageGeneral );
     applyPage( pageFont );
     applyPage( pageActivity );
-    applyPage( pageColor );
+    applyPage( pageStyle );
     accept();
 }
 
@@ -79,8 +79,8 @@ void StateDialog::setupPages()
     if ( m_pStateWidget->stateType() == StateWidget::Normal ) {
         setupActivityPage();
     }
-    setupColorPage();
-    setupFontPage();
+    pageStyle = setupStylePage( m_pStateWidget );
+    pageFont = setupFontPage( m_pStateWidget );
 }
 
 /**
@@ -98,11 +98,11 @@ void StateDialog::applyPage( KPageWidgetItem*item )
             m_pActivityPage->updateActivities();
         }
     }
-    else if ( item == pageColor ) {
-        m_pColorPage->updateUMLWidget();
+    else if ( item == pageStyle ) {
+        saveStylePageData( m_pStateWidget );
     }
     else if ( item == pageFont ) {
-        m_pStateWidget->setFont( m_pChooser->font() );
+        saveFontPageData( m_pStateWidget );
     }
 }
 
@@ -152,38 +152,6 @@ void StateDialog::setupGeneralPage()
         m_GenPageWidgets.nameLE->setText( "" );
     } else
         m_GenPageWidgets.nameLE->setText( m_pStateWidget->name() );
-}
-
-/**
- * Sets up the font selection page.
- */
-void StateDialog::setupFontPage()
-{
-    if ( !m_pStateWidget ) {
-        return;
-    }
-    KVBox * page = new KVBox();
-    pageFont = new KPageWidgetItem( page,i18n("Font")  );
-    pageFont->setHeader( i18n("Font Settings") );
-    pageFont->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font) );
-    addPage( pageFont );
-    m_pChooser = new KFontChooser( (QWidget*)page, KFontChooser::NoDisplayFlags, QStringList(), 0);
-    m_pChooser->setFont( m_pStateWidget->font() );
-}
-
-/**
- * Sets up the color page.
- */
-void StateDialog::setupColorPage()
-{
-    QFrame * colorPage = new QFrame();
-    pageColor = new KPageWidgetItem( colorPage, i18nc("color page", "Color")  );
-    pageColor->setHeader( i18n("Widget Color") );
-    pageColor->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Color) );
-    addPage( pageColor );
-    QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
-    m_pColorPage = new UMLWidgetColorPage( colorPage, m_pStateWidget );
-    m_pColorLayout->addWidget(m_pColorPage);
 }
 
 /**

@@ -183,6 +183,7 @@ set(libdialogs_SRCS
     dialogs/classwizard.cpp
     dialogs/codeeditor.cpp
     dialogs/codegenerationpolicypage.cpp
+    dialogs/codeimportoptionspage.cpp
     dialogs/codeviewerdialog.cpp
     dialogs/codevieweroptionspage.cpp
     dialogs/codetextedit.cpp
@@ -190,6 +191,7 @@ set(libdialogs_SRCS
     dialogs/defaultcodegenpolicypage.cpp
     dialogs/diagramprintpage.cpp
     dialogs/dialog_utils.cpp
+    dialogs/dialogbase.cpp
     dialogs/exportallviewsdialog.cpp
     dialogs/notedialog.cpp
     dialogs/objectnodedialog.cpp
@@ -209,7 +211,7 @@ set(libdialogs_SRCS
     dialogs/umlroleproperties.cpp
     dialogs/umluniqueconstraintdialog.cpp
     dialogs/umlviewdialog.cpp
-    dialogs/umlwidgetcolorpage.cpp
+    dialogs/umlwidgetstylepage.cpp
 )
 
 kde4_add_ui_files(  libdialogs_SRCS
@@ -218,6 +220,7 @@ kde4_add_ui_files(  libdialogs_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/exportallviewsdialogbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/umlrolepropertiesbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/diagrampropertiespage.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codeimportoptionspage.ui
 )
 
 set(librefactoring_SRCS
@@ -325,6 +328,7 @@ set(libcmds_SRCS
     cmds/widget/cmd_set_txt.cpp
     cmds/cmd_handle_rename.cpp
     cmds/widget/cmd_changeFontSelection.cpp
+    cmds/widget/cmd_changeTextColor.cpp
     cmds/widget/cmd_changeLineColor.cpp
     cmds/widget/cmd_changeFillColor.cpp
     cmds/widget/cmd_changeMulti.cpp

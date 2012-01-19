@@ -40,7 +40,7 @@ public:
      *  @param  parent  The parent to this instance.
      *  @param  c       The concept to get the operations from.
      */
-    SelectOpDlg(UMLView * parent, UMLClassifier * c);
+    SelectOpDlg(QWidget * parent, UMLClassifier * c);
 
     /**
      *  Standard deconstructor.

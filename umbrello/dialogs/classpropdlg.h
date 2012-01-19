@@ -12,10 +12,10 @@
 #define CLASSPROPDLG_H
 
 #include "basictypes.h"
+#include "dialogbase.h"
 #include "icon_utils.h"
 
 // kde class includes
-#include <kpagedialog.h>
 #include <kfontdialog.h>
 
 // qt class includes
@@ -27,7 +27,7 @@ class ConstraintListPage;
 class PkgContentsPage;
 class AssocPage;
 class ClassOptionsPage;
-class UMLWidgetColorPage;
+class UMLWidgetStylePage;
 
 class ObjectWidget;
 class UMLDoc;
@@ -39,7 +39,7 @@ class UMLWidget;
  * @version 1.0
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ClassPropDlg : public KPageDialog
+class ClassPropDlg : public DialogBase
 {
     Q_OBJECT
 public:
@@ -59,7 +59,7 @@ protected slots:
 protected:
     void setupPages(bool assoc = false);
     void setupGeneralPage();
-    void setupColorPage();
+    void setupStylePage();
     void setupDisplayPage();
     void setupAttributesPage();
     void setupOperationsPage();
@@ -84,14 +84,14 @@ private:
     PkgContentsPage*     m_pPkgContentsPage;
     AssocPage*           m_pAssocPage;
     ClassOptionsPage*    m_pOptionsPage;
-    UMLWidgetColorPage*  m_pColorPage;
+    UMLWidgetStylePage*  m_pStylePage;
 
     UMLDoc*              m_doc;
     UMLObject*           m_pObject;
     UMLWidget*           m_pWidget;
 
     enum Page_Type {
-        pt_Object = 1,    // Show General page + Assoc. page if Class i.e. no colours page
+        pt_Object = 1,    // Show General page + Assoc. page if Class i.e. no colors page
         pt_ObjectWidget,  // Shows pages needed for an ObjectWidget
         pt_Widget         // Shows pages needed for any other widget
     };
@@ -100,8 +100,6 @@ private:
 
 private:
     void init();
-
-    QFrame* createPage(const QString& name, const QString& header, Icon_Utils::IconType icon);
 
 };
 

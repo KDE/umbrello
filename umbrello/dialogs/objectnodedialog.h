@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,11 +12,8 @@
 #define OBJECTNODEDIALOG_H
 
 // local class includes
-#include "umlwidgetcolorpage.h"
-
-// kde class includes
-#include <kpagedialog.h>
-#include <kfontdialog.h>
+#include "dialogbase.h"
+#include "umlwidgetstylepage.h"
 
 //forward declarations
 class UMLView;
@@ -33,7 +30,7 @@ class KTextEdit;
  *   @author   Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ObjectNodeDialog : public KPageDialog
+class ObjectNodeDialog : public DialogBase
 {
     Q_OBJECT
 
@@ -63,23 +60,9 @@ protected:
 
     void setupGeneralPage();
 
-    void setupColorPage();
-
-    void setupFontPage();
-
     void showState();
 
     void applyPage( KPageWidgetItem * );
-
-    /**
-     * Font chooser widget for font page.
-     */
-    KFontChooser * m_pChooser;
-
-    /**
-     * Color page
-     */
-    UMLWidgetColorPage * m_pColorPage;
 
     /**
      * The widget to represent.
@@ -105,7 +88,7 @@ protected:
     }
     m_GenPageWidgets;
 
-    KPageWidgetItem * pageItemGeneral, * pageItemFont, * pageItemColor;
+    KPageWidgetItem * pageItemGeneral, * pageItemFont, * pageItemStyle;
 };
 
 #endif

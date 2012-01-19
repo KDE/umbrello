@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2011                                               *
+ *   copyright (C) 2006-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -38,6 +38,8 @@
 
 // system includes
 #include <cmath>
+
+#define DBG_IEM "UMLViewImageExporterModel"
 
 QStringList UMLViewImageExporterModel::s_supportedImageTypesList;
 QStringList UMLViewImageExporterModel::s_supportedMimeTypesList;
@@ -141,6 +143,7 @@ QString UMLViewImageExporterModel::mimeTypeToImageType(const QString& mimeType)
  */
 UMLViewImageExporterModel::UMLViewImageExporterModel()
 {
+    DEBUG_REGISTER(DBG_IEM);
 }
 
 /**
@@ -501,7 +504,7 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLScene* scene, const QString &
     // next painting will most probably be to a different device (i.e. the screen)
     scene->forceUpdateWidgetFontMetrics(0);
 
-    uDebug() << "saving to file " << fileName << " successful=" << exportSuccessful;
+    DEBUG(DBG_IEM) << "saving to file " << fileName << " successful=" << exportSuccessful;
     return exportSuccessful;
 }
 
@@ -528,6 +531,6 @@ bool UMLViewImageExporterModel::exportViewToPixmap(UMLScene* scene, const QStrin
     scene->getDiagram(rect, diagram);
     exportSuccessful = diagram.save(fileName, qPrintable(imageType.toUpper()));
 
-    uDebug() << "saving to file " << fileName << " , imageType=" << imageType << " successful=" << exportSuccessful;
+    DEBUG(DBG_IEM) << "saving to file " << fileName << " , imageType=" << imageType << " successful=" << exportSuccessful;
     return exportSuccessful;
 }

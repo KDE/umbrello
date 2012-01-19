@@ -30,8 +30,8 @@
 #include <QtGui/QLabel>
 #include <QtGui/QRadioButton>
 
-ActivityDialog::ActivityDialog( UMLView * pView, ActivityWidget * pWidget )
-        : KPageDialog(pView)
+ActivityDialog::ActivityDialog(QWidget * parent, ActivityWidget * pWidget)
+   : DialogBase(parent)
 {
     setCaption( i18n("Properties") );
     setButtons( Ok | Apply | Cancel | Help );
@@ -39,7 +39,6 @@ ActivityDialog::ActivityDialog( UMLView * pView, ActivityWidget * pWidget )
     setModal( true );
     setFaceType( KPageDialog::List );
     showButtonSeparator( true );
-    m_pView = pView;
     m_pActivityWidget = pWidget;
     m_bChangesMade = false;
     setupPages();
@@ -52,7 +51,7 @@ ActivityDialog::ActivityDialog( UMLView * pView, ActivityWidget * pWidget )
  */
 void ActivityDialog::slotOk()
 {
-    applyPage( pageItemColor );
+    applyPage( pageItemStyle );
     applyPage( pageItemFont );
     applyPage( pageItemGeneral );
     accept();
@@ -94,8 +93,8 @@ void ActivityDialog::slotHideActivityParameter()
 void ActivityDialog::setupPages()
 {
     setupGeneralPage();
-    setupColorPage();
-    setupFontPage();
+    pageItemStyle = setupStylePage( m_pActivityWidget );
+    pageItemFont = setupFontPage( m_pActivityWidget );
 }
 
 /**
@@ -121,11 +120,11 @@ void ActivityDialog::applyPage( KPageWidgetItem *item )
     }
     else if ( item == pageItemFont )
     {
-        m_pActivityWidget->setFont( m_pChooser->font() );
+        saveFontPageData( m_pActivityWidget );
     }
-    else if ( item == pageItemColor )
+    else if ( item == pageItemStyle )
     {
-        m_pColorPage->updateUMLWidget();
+        saveStylePageData( m_pActivityWidget );
     }
 }
 
@@ -215,20 +214,6 @@ void ActivityDialog::setupGeneralPage()
 }
 
 /**
- *   Sets up the font selection page.
- */
-void ActivityDialog::setupFontPage()
-{
-    KVBox *page = new KVBox();
-    pageItemFont = new KPageWidgetItem( page, i18n("Font") );
-    pageItemFont->setHeader( i18n("Font Settings") );
-    pageItemFont->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font) );
-    addPage( pageItemFont );
-    m_pChooser = new KFontChooser( (QWidget*)page, KFontChooser::NoDisplayFlags, QStringList(), 0);
-    m_pChooser->setFont( m_pActivityWidget->font() );
-}
-
-/**
  *   Show the Activity Parameter entry text.
  */
 void ActivityDialog::showParameterActivity()
@@ -243,21 +228,6 @@ void ActivityDialog::showParameterActivity()
     if (!m_pActivityWidget->preconditionText().isEmpty()) {
         m_GenPageWidgets.preLE->setText(m_pActivityWidget->preconditionText());
     }
-}
-
-/**
- *   Sets up the color page.
- */
-void ActivityDialog::setupColorPage()
-{
-    QFrame *colorPage = new QFrame();
-    pageItemColor = new KPageWidgetItem( colorPage, i18nc("widget color page", "Color") );
-    pageItemColor->setHeader( i18n("Widget Colors") );
-    pageItemColor->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Color) );
-    addPage( pageItemColor );
-    QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
-    m_pColorPage = new UMLWidgetColorPage( colorPage, m_pActivityWidget );
-    m_pColorLayout->addWidget(m_pColorPage);
 }
 
 #include "activitydialog.moc"

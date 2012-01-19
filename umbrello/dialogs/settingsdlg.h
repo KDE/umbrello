@@ -28,6 +28,8 @@
 // app includes
 #include "optionstate.h"
 
+class UMLWidgetStylePage;
+class CodeImportOptionsPage;
 class CodeGenOptionsPage;
 class CodeViewerOptionsPage;
 
@@ -61,12 +63,14 @@ private:
     struct UIWidgets {
         QGroupBox * colorGB;
 
+        QCheckBox * textColorCB;
         QCheckBox * lineColorCB;
         QCheckBox * fillColorCB;
         QCheckBox * lineWidthCB;
         QCheckBox * gridColorCB;
         QCheckBox * bgColorCB;
 
+        KColorButton * textColorB;
         KColorButton * lineColorB;
         KColorButton * fillColorB;
         KColorButton * gridColorB;
@@ -138,6 +142,7 @@ private:
     void setupUIPage();
     void setupGeneralPage();
     void setupClassPage();
+    void setupCodeImportPage();
     void setupCodeGenPage();
     void setupCodeViewerPage(Settings::CodeViewerState options);
     void applyPage( KPageWidgetItem* );
@@ -148,16 +153,19 @@ private:
     UIWidgets m_UiWidgets;
     ClassWidgets m_ClassWidgets;
     Settings::OptionState *m_pOptionState;
+    UMLWidgetStylePage * m_pUserInterfacePage;
+    CodeImportOptionsPage * m_pCodeImportPage;
     CodeGenOptionsPage * m_pCodeGenPage;
     CodeViewerOptionsPage * m_pCodeViewerPage;
 
     bool m_bChangesApplied;
-    KPageWidgetItem *pageCodeViewer, *pageFont, *pageCodeGen, *pageUserInterface, *pageGeneral, *pageClass;
+    KPageWidgetItem *pageCodeViewer, *pageFont, *pageCodeImport, *pageCodeGen, *pageUserInterface, *pageGeneral, *pageClass;
 
 private slots:
     void slotApply();
     void slotOk();
     void slotDefault();
+    void slotTextCBChecked(bool value);
     void slotLineCBChecked(bool value);
     void slotFillCBChecked(bool value);
     void slotGridCBChecked(bool value);

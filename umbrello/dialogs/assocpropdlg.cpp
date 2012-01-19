@@ -17,7 +17,7 @@
 #include "classpropdlg.h"
 #include "classgenpage.h"
 #include "debug_utils.h"
-#include "umlwidgetcolorpage.h"
+#include "umlwidgetstylepage.h"
 #include "umlobject.h"
 #include "umldoc.h"
 #include "objectwidget.h"
@@ -37,7 +37,7 @@
 #include <QtGui/QHBoxLayout>
 
 AssocPropDlg::AssocPropDlg (QWidget *parent, AssociationWidget * assocWidget, int pageNum)
-  : KPageDialog(parent)
+  : DialogBase(parent)
 {
     Q_UNUSED(pageNum);
     setCaption( i18n("Association Properties") );
@@ -51,7 +51,7 @@ AssocPropDlg::AssocPropDlg (QWidget *parent, AssociationWidget * assocWidget, in
     m_pRolePage = 0;
     m_pAssoc = assocWidget;
 
-    setupPages(assocWidget);
+    setupPages();
 
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
@@ -77,56 +77,45 @@ void AssocPropDlg::slotApply()
         m_pRolePage->updateObject();
     }
 
+    if (m_pStylePage) {
+        m_pStylePage->updateUMLWidget();
+    }
+
     if (m_pAssoc) {
         m_pAssoc->lwSetFont( m_pChooser->font() );
     }
 }
 
-// void AssocPropDlg::setupPages (UMLObject * c)
-void AssocPropDlg::setupPages (AssociationWidget *assocWidget)
+void AssocPropDlg::setupPages()
 {
     UMLDoc* umlDoc = UMLApp::app()->document();
 
     // general page
-    QFrame *page = new QFrame();
-    KPageWidgetItem *pageItem = new KPageWidgetItem( page, i18nc("general settings", "General"));
-    pageItem->setHeader( i18n("General Settings") );
-    pageItem->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General) );
-    addPage( pageItem );
-    QHBoxLayout *genLayout = new QHBoxLayout(page);
-    page->setMinimumSize(310, 330);
-    m_pGenPage = new AssocGenPage (umlDoc, page, assocWidget);
-    genLayout->addWidget(m_pGenPage);
+    QFrame *page = createPage( i18nc("general settings", "General"), i18n("General Settings"), Icon_Utils::it_Properties_General );
+    QHBoxLayout *layout = new QHBoxLayout( page );
+    m_pGenPage = new AssocGenPage ( umlDoc, page, m_pAssoc );
+    layout->addWidget( m_pGenPage );
 
     // role page
-    QFrame *newPage = new QFrame();
-    pageItem = new KPageWidgetItem( newPage, i18n("Roles"));
-    pageItem->setHeader( i18n("Role Settings"));
-    pageItem->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Roles) );
-    addPage( pageItem );
-    QHBoxLayout * roleLayout = new QHBoxLayout(newPage);
-    // newPage->setMinimumSize(310, 330);
-    m_pRolePage = new AssocRolePage(umlDoc, newPage, assocWidget);
-    roleLayout->addWidget(m_pRolePage);
+    page = createPage( i18nc("role page name", "Roles"), i18n("Role Settings"), Icon_Utils::it_Properties_Roles );
+    layout = new QHBoxLayout( page );
+    m_pRolePage = new AssocRolePage(umlDoc, page, m_pAssoc ),
+    layout->addWidget( m_pRolePage );
 
-    setupFontPage();
+    // style page
+    page = createPage( i18nc("style page name", "Style"), i18n("Role Style"), Icon_Utils::it_Properties_Color );
+    layout = new QHBoxLayout( page );
+    m_pStylePage = new UMLWidgetStylePage( page, m_pAssoc );
+    layout->addWidget( m_pStylePage );
+
+    // font page
+    page = createPage( i18nc("font page name", "Font"), i18n("Font Settings"), Icon_Utils::it_Properties_Font );
+    layout = new QHBoxLayout( page );
+    m_pChooser = new KFontChooser( page, KFontChooser::NoDisplayFlags, QStringList(), false );
+    m_pChooser->setFont( m_pAssoc->font() );
+    m_pChooser->setSampleText( "Association font" );
+    layout->addWidget( m_pChooser );
 }
 
-void AssocPropDlg::setupFontPage()
-{
-    if ( !m_pAssoc) {
-        return;
-    }
-
-    KVBox *page = new KVBox();
-    KPageWidgetItem* pageItem = new KPageWidgetItem( page, i18n("Font"));
-    pageItem->setHeader( i18n("Font Settings"));
-    pageItem->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font) );
-    addPage( pageItem );
-
-    m_pChooser = new KFontChooser( (QWidget*)page, KFontChooser::NoDisplayFlags, QStringList(), false);
-    m_pChooser->setFont( m_pAssoc->font());
-    m_pChooser->setSampleText(i18n("Association font"));
-}
 
 #include "assocpropdlg.moc"

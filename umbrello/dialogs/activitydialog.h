@@ -12,12 +12,11 @@
 #define ACTIVITYDIALOG_H
 
 //local class includes
-#include "umlwidgetcolorpage.h"
+#include "umlwidgetstylepage.h"
 
 //kde class includes
 #include <klineedit.h>
-#include <kpagedialog.h>
-#include <kfontdialog.h>
+#include <dialogbase.h>
 #include <ktextedit.h>
 
 //forward declarations
@@ -33,7 +32,7 @@ class QRadioButton;
  *   @author   Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ActivityDialog : public KPageDialog
+class ActivityDialog : public DialogBase
 {
     Q_OBJECT
 
@@ -42,7 +41,7 @@ public:
     /**
      *   Constructor
      */
-    ActivityDialog( UMLView * pView, ActivityWidget * pWidget );
+    ActivityDialog(QWidget * parent, ActivityWidget * pWidget);
 
     bool getChangesMade() {
         return m_bChangesMade;
@@ -63,23 +62,9 @@ protected:
 
     void setupGeneralPage();
 
-    void setupColorPage();
-
-    void setupFontPage();
-
     void showParameterActivity();
 
     void applyPage( KPageWidgetItem * );
-
-    /**
-     *   Font chooser widget for font page.
-     */
-    KFontChooser * m_pChooser;
-
-    /**
-     *   Color page
-     */
-    UMLWidgetColorPage * m_pColorPage;
 
     /**
      *   The widget to represent.
@@ -104,7 +89,7 @@ protected:
         QGroupBox * docGB, * generalGB;
     }
     m_GenPageWidgets;
-    KPageWidgetItem *pageItemGeneral,*pageItemFont,*pageItemColor;
+    KPageWidgetItem *pageItemGeneral,*pageItemFont,*pageItemStyle;
 };
 
 #endif
