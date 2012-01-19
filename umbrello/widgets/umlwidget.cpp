@@ -288,13 +288,17 @@ void UMLWidget::init()
     m_isInstance = false;
     setMinimumSize(DefaultMinimumSize);
     setMaximumSize(DefaultMaximumSize);
+    
+    for (int i = 0; i < (int)FT_INVALID; ++i)
+        m_pFontMetrics[(UMLWidget::FontType)i] = 0;
+    
     if (m_scene) {
         m_useFillColor = true;
         m_usesDiagramFillColor = true;
         m_usesDiagramUseFillColor = true;
         const Settings::OptionState& optionState = m_scene->optionState();
         m_FillColor = optionState.uiState.fillColor;
-        m_Font       = optionState.uiState.font;
+        setFont(optionState.uiState.font);
         m_showStereotype = optionState.classState.showStereoType;
     } else {
         uError() << "SERIOUS PROBLEM - m_scene is NULL";
@@ -303,9 +307,6 @@ void UMLWidget::init()
         m_usesDiagramUseFillColor = false;
         m_showStereotype = false;
     }
-
-    for (int i = 0; i < (int)FT_INVALID; ++i)
-        m_pFontMetrics[(UMLWidget::FontType)i] = 0;
 
     m_resizable = true;
 
@@ -1434,13 +1435,12 @@ bool UMLWidget::loadFromXMI(QDomElement & qElement)
     m_nId = STR2ID(id);
 
     if (!font.isEmpty()) {
-        //QFont newFont;
-        m_Font.fromString(font);
-        //setFont(newFont);
+        QFont newFont;
+        newFont.fromString(font);
+        setFont(newFont);
     } else {
         uWarning() << "Using default font " << m_Font.toString()
         << " for widget with xmi.id " << ID2STR(m_nId) << endl;
-        //setFont( m_Font );
     }
 
     setSize(w.toInt(), h.toInt());
