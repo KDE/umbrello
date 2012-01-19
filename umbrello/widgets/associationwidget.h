@@ -560,6 +560,7 @@ public:
      */
     void setUMLObject(UMLObject *obj);
 
+    void clipSize();
     /**
      * Saves this widget to the "assocwidget" XMI element.
      */

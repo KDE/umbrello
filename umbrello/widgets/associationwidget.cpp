@@ -3855,6 +3855,34 @@ void AssociationWidget::setWidget( UMLWidget* widget, Uml::Role_Type role)
     }
 }
 
+void AssociationWidget::clipSize()
+{
+    if( m_pName )
+        m_pName->clipSize();
+
+    if( m_role[A].m_pMulti )
+        m_role[A].m_pMulti->clipSize();
+
+    if( m_role[B].m_pMulti )
+        m_role[B].m_pMulti->clipSize();
+
+    if( m_role[A].m_pRole )
+        m_role[A].m_pRole->clipSize();
+
+    if( m_role[B].m_pRole )
+        m_role[B].m_pRole->clipSize();
+
+    if( m_role[A].m_pChangeWidget )
+        m_role[A].m_pChangeWidget->clipSize();
+
+    if( m_role[B].m_pChangeWidget )
+        m_role[B].m_pChangeWidget->clipSize();
+
+    if (m_pAssocClassWidget)
+        m_pAssocClassWidget->clipSize();
+}
+
+
 /**
  * Saves this widget to the "assocwidget" XMI element.
  */

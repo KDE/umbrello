@@ -3551,6 +3551,7 @@ bool UMLView::loadAssociationsFromXMI(QDomElement & qElement)
                    rest of the diagram might load okay.
                  */
             } else {
+                assoc->clipSize();
                 if (!addAssociation(assoc, false)) {
                     uError() << "Could not addAssociation(" << assoc << ") to umlview, deleting.";
                     //               assoc->cleanup();
