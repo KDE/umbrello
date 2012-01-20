@@ -324,7 +324,10 @@ void UMLListView::keyPressEvent(QKeyEvent *ke)
     }
     else {
         const int k = ke->key();
-        if (k == Qt::Key_Delete || k == Qt::Key_Backspace) {
+        if (k == Qt::Key_F2) {
+            // disable qt default key for item rename, it does not work yet
+            ke->accept();
+        } else if (k == Qt::Key_Delete || k == Qt::Key_Backspace) {
             // delete every selected item
             UMLListViewItemList itemsSelected = selectedItemsRoot();
             foreach(UMLListViewItem *item, itemsSelected) {
