@@ -86,7 +86,6 @@ UMLListView::UMLListView(QWidget *parent)
     m_doc(UMLApp::app()->document()),
     m_bStartedCut(false),
     m_bStartedCopy(false),
-    m_bIgnoreCancelRename(true),
     m_bCreatingChildObject(false),
     m_dragStartPosition(QPoint()),
     m_editItem(0)
@@ -1327,7 +1326,6 @@ void UMLListView::init()
     delete m_menu;
     m_menu = 0;
     m_bStartedCut = m_bStartedCopy = false;
-    m_bIgnoreCancelRename = true;
     m_bCreatingChildObject = false;
     headerItem()->setHidden(true);
 }
@@ -2270,11 +2268,6 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
 bool UMLListView::itemRenamed(UMLListViewItem * item, int col)
 {
     DEBUG(DBG_SRC) << item->text(col);
-    //if true the item was cancel before this message
-    if (m_bIgnoreCancelRename) {
-        return true;
-    }
-    m_bIgnoreCancelRename = true;
     UMLListViewItem * renamedItem = static_cast< UMLListViewItem *>(item) ;
     UMLListViewItem::ListViewType type = renamedItem->type();
     QString newText = renamedItem->text(col);
@@ -2785,7 +2778,6 @@ void UMLListView::startRename(UMLListViewItem* item)
         item->startRename(0);
         openPersistentEditor(item, 0);
         m_editItem = item;
-        m_bIgnoreCancelRename = true;
     }
     else {
         uError() << "Called without an item!";
@@ -2802,9 +2794,6 @@ void UMLListView::cancelRename(UMLListViewItem* item)
         // delete pointer first to lock slotItemChanged
         m_editItem = 0;
         closePersistentEditor(item, 0);
-        if (!m_bIgnoreCancelRename) {
-            m_bIgnoreCancelRename = true;
-        }
     }
     else {
         uError() << "Called without an item!";
