@@ -32,7 +32,8 @@
 /**
  *   Constructor - Observe a UMLWidget.
  */
-UMLWidgetStylePage::UMLWidgetStylePage( QWidget *pParent, WidgetBase *pWidget ) : QWidget( pParent )
+UMLWidgetStylePage::UMLWidgetStylePage( QWidget *pParent, WidgetBase *pWidget )
+  : QWidget( pParent )
 {
     m_pUMLWidget = pWidget;
     m_options = 0;
@@ -58,7 +59,8 @@ UMLWidgetStylePage::UMLWidgetStylePage( QWidget *pParent, WidgetBase *pWidget ) 
 /**
  *   Constructor - Observe an OptionState structure.
  */
-UMLWidgetStylePage::UMLWidgetStylePage( QWidget * pParent, Settings::OptionState *options ) : QWidget( pParent )
+UMLWidgetStylePage::UMLWidgetStylePage( QWidget * pParent, Settings::OptionState *options )
+  : QWidget( pParent )
 {
     m_options = options;
     m_pUMLWidget = 0;

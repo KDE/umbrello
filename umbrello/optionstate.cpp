@@ -35,11 +35,14 @@ namespace Settings {
     void saveToXMI(QDomElement& element, const OptionState& optstate)
     {
         // uistate
-        element.setAttribute("fillcolor",    optstate.uiState.fillColor.name());
-        element.setAttribute("linecolor",    optstate.uiState.lineColor.name());
-        element.setAttribute("linewidth",    optstate.uiState.lineWidth);
-        element.setAttribute("usefillcolor", optstate.uiState.useFillColor);
-        element.setAttribute("font",         optstate.uiState.font.toString());
+        element.setAttribute("usefillcolor",     optstate.uiState.useFillColor);
+        element.setAttribute("fillcolor",        optstate.uiState.fillColor.name());
+        element.setAttribute("linecolor",        optstate.uiState.lineColor.name());
+        element.setAttribute("linewidth",        optstate.uiState.lineWidth);
+        element.setAttribute("textcolor",        optstate.uiState.textColor.name());
+        element.setAttribute("font",             optstate.uiState.font.toString());
+        element.setAttribute("backgroundcolor",  optstate.uiState.backgroundColor.name());
+        element.setAttribute("griddotcolor",     optstate.uiState.gridDotColor.name());
         // classstate
         element.setAttribute("showattsig",       optstate.classState.showAttSig);
         element.setAttribute("showatts",         optstate.classState.showAtts);
@@ -55,11 +58,8 @@ namespace Settings {
     bool loadFromXMI(QDomElement& element, OptionState& optstate)
     {
         // uistate
-        QString font = element.attribute("font", "");
-        if (!font.isEmpty()) {
-            optstate.uiState.font.fromString(font);
-            optstate.uiState.font.setUnderline(false);
-        }
+        QString usefillcolor = element.attribute("usefillcolor", "0");
+        optstate.uiState.useFillColor = (bool)usefillcolor.toInt();
         QString fillcolor = element.attribute("fillcolor", "");
         if (!fillcolor.isEmpty())
             optstate.uiState.fillColor = QColor(fillcolor);
@@ -69,8 +69,20 @@ namespace Settings {
         QString linewidth = element.attribute("linewidth", "");
         if (!linewidth.isEmpty())
             optstate.uiState.lineWidth = linewidth.toInt();
-        QString usefillcolor = element.attribute("usefillcolor", "0");
-        optstate.uiState.useFillColor = (bool)usefillcolor.toInt();
+        QString textColor = element.attribute("textcolor", "");
+        if (!textColor.isEmpty())
+            optstate.uiState.textColor = QColor(textColor);
+        QString font = element.attribute("font", "");
+        if (!font.isEmpty()) {
+            optstate.uiState.font.fromString(font);
+            optstate.uiState.font.setUnderline(false);
+        }
+        QString backgroundColor = element.attribute("backgroundcolor", "");
+        if (!backgroundColor.isEmpty())
+            optstate.uiState.backgroundColor = QColor(backgroundColor);
+        QString gridDotColor = element.attribute("griddotcolor", "");
+        if (!gridDotColor.isEmpty())
+            optstate.uiState.gridDotColor = QColor(gridDotColor);
         // classstate
         QString temp = element.attribute("showattsig", "0");
         optstate.classState.showAttSig = (bool)temp.toInt();
@@ -93,4 +105,3 @@ namespace Settings {
     }
 
 }  // namespace Settings
-

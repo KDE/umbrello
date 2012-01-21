@@ -178,6 +178,7 @@ void UMLViewDialog::applyPage(KPageWidgetItem *item)
     }
     else if ( item == m_pageStyleItem )
     {
+        uDebug() << "setting colors ";
         m_pStylePage->updateUMLWidget();
         m_pView->setUseFillColor( m_options.uiState.useFillColor );
         m_pView->setLineColor( m_options.uiState.lineColor );
@@ -210,23 +211,28 @@ void UMLViewDialog::applyPage(KPageWidgetItem *item)
  */
 void UMLViewDialog::checkName()
 {
-    QString name = m_diagramProperties->ui_diagramName-> text();
-    UMLDoc * pDoc = UMLApp::app()->document();
-    UMLView * pView = pDoc->findView( m_pView->type(), name );
-    if ( name.length() == 0 ) {
+    QString newName = m_diagramProperties->ui_diagramName->text();
+    if ( newName.length() == 0 ) {
         KMessageBox::sorry(this, i18n("The name you have entered is invalid."),
                            i18n("Invalid Name"), 0);
         m_diagramProperties->ui_diagramName->setText( m_pView->name() );
         return;
     }
-    if ( pView && pView != m_pView ) {
-        KMessageBox::sorry(this, i18n("The name you have entered is not unique."),
-                           i18n("Name Not Unique"), 0);
-        m_diagramProperties->ui_diagramName->setText( m_pView->name() );
-        return;
+
+    if (newName != m_pView->name()) {
+        UMLDoc* doc = UMLApp::app()->document();
+        UMLView* view = doc->findView(m_pView->type(), newName);
+        if (view) {
+            KMessageBox::sorry(this, i18n("The name you have entered is not unique."),
+                               i18n("Name Not Unique"), 0);
+            m_diagramProperties->ui_diagramName->setText( m_pView->name() );
+        }
+        else {
+            // uDebug() << "Cannot find view with name " << newName;
+            m_pView->setName( newName );
+            doc->signalDiagramRenamed(m_pView);
+        }
     }
-    m_pView->setName( name );
-    pDoc->signalDiagramRenamed(m_pView);
 }
 
 #include "umlviewdialog.moc"
