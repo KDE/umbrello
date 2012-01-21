@@ -14,7 +14,6 @@
 #include "uml.h"
 #include "umlscene.h"
 #include "umlview.h"
-//:TODO:#include "umlviewcanvas.h"
 #include "widgetbase.h"
 
 #include <klocale.h>
@@ -32,7 +31,8 @@
 /**
  *   Constructor - Observe a UMLWidget.
  */
-UMLWidgetStylePage::UMLWidgetStylePage( QWidget *pParent, WidgetBase *pWidget ) : QWidget( pParent )
+UMLWidgetStylePage::UMLWidgetStylePage( QWidget *pParent, WidgetBase *pWidget )
+  : QWidget( pParent )
 {
     m_pUMLWidget = pWidget;
     m_options = 0;
@@ -46,11 +46,11 @@ UMLWidgetStylePage::UMLWidgetStylePage( QWidget *pParent, WidgetBase *pWidget ) 
     if (!m_pUMLWidget) {  //  when we are on the diagram
         UMLView * view = UMLApp::app()->currentView();
         if (view) {
-//:TODO:            UMLViewCanvas* canvas = dynamic_cast<UMLViewCanvas*>(view->canvas());
-//:TODO:            if (canvas) {
-//:TODO:                m_BackgroundColorB->setColor(canvas->backgroundColor());
-//:TODO:                m_GridDotColorB->setColor(canvas->gridDotColor());
-//:TODO:            }
+            UMLScene* scene = view->umlScene();
+            if (scene) {
+                m_BackgroundColorB->setColor(scene->backgroundBrush().color());
+                m_GridDotColorB->setColor(scene->gridDotColor());
+            }
         }
     }
 }
@@ -58,7 +58,8 @@ UMLWidgetStylePage::UMLWidgetStylePage( QWidget *pParent, WidgetBase *pWidget ) 
 /**
  *   Constructor - Observe an OptionState structure.
  */
-UMLWidgetStylePage::UMLWidgetStylePage( QWidget * pParent, Settings::OptionState *options ) : QWidget( pParent )
+UMLWidgetStylePage::UMLWidgetStylePage( QWidget * pParent, Settings::OptionState *options )
+  : QWidget( pParent )
 {
     m_options = options;
     m_pUMLWidget = 0;
@@ -256,10 +257,11 @@ void UMLWidgetStylePage::updateUMLWidget()
     if (!m_pUMLWidget) {  // when we are on the diagram
         UMLView * view = UMLApp::app()->currentView();
         if (view) {
-//:TODO:            UMLViewCanvas* canvas = dynamic_cast<UMLViewCanvas*>(view->canvas());
-//:TODO:            if (canvas) {
-//:TODO:                canvas->setColors(m_BackgroundColorB->color(), m_GridDotColorB->color());
-//:TODO:            }
+            UMLScene* scene = view->umlScene();
+            if (scene) {
+                scene->setBackgroundBrush(m_BackgroundColorB->color());
+                scene->setGridDotColor(m_GridDotColorB->color());
+            }
         }
     }
 }

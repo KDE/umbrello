@@ -185,9 +185,9 @@ void UMLViewDialog::applyPage(KPageWidgetItem *item)
         m_pScene->setUseFillColor( m_options.uiState.useFillColor );
         m_pScene->setLineColor( m_options.uiState.lineColor );
         m_pScene->setBrush( m_options.uiState.fillColor );
-        //:TODO:
+        m_pScene->setBackgroundBrush(m_options.uiState.backgroundColor);
         m_pScene->setGridDotColor(m_options.uiState.gridDotColor);
-        // gridCrossColor, gridTextColor, gridTextFont, gridTextIsVisible
+        //:TODO: gridCrossColor, gridTextColor, gridTextFont, gridTextIsVisible
     }
     else if ( item == m_pageFontItem )
     {
@@ -226,10 +226,10 @@ void UMLViewDialog::checkName()
 
     if (newName != m_pScene->name()) {
         UMLDoc* doc = UMLApp::app()->document();
-        UMLView* view = doc->findView( m_pScene->type(), newName);
+        UMLView* view = doc->findView(m_pScene->type(), newName);
         if (view) {
             KMessageBox::sorry(this, i18n("The name you have entered is not unique."),
-                              i18n("Name Not Unique"), 0);
+                               i18n("Name Not Unique"), 0);
             m_diagramProperties->ui_diagramName->setText( m_pScene->name() );
         }
         else {

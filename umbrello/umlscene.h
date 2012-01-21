@@ -113,8 +113,8 @@ public:
     QColor gridDotColor() const;
     void setGridDotColor(const QColor &gridColor);
 
-    void setBrush(const QColor &color);
-    QBrush brush() const;
+   void setBrush(const QColor &color);
+   QBrush brush() const;
 
     QColor lineColor() const;
     void setLineColor(const QColor &color);
@@ -458,6 +458,7 @@ signals:
     void sigRemovePopupMenu();
     void sigClearAllSelected();
     void sigLineWidthChanged(Uml::IDType);
+    void sigTextColorChanged(Uml::IDType);
     void sigSnapToGridToggled(bool);
     void sigSnapComponentSizeToGridToggled(bool);
     void sigShowGridToggled(bool);

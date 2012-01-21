@@ -1089,7 +1089,7 @@ void UMLScene::setUseFillColor(bool ufc)
  */
 QBrush UMLScene::brush() const
 {
-    return QBrush();  //:TODO: m_Options.uiState.fillColor);
+    return QBrush(m_Options.uiState.fillColor);
 }
 
 /**
@@ -1156,8 +1156,7 @@ QColor UMLScene::textColor() const
 void UMLScene::setTextColor(const QColor& color)
 {
     m_Options.uiState.textColor = color;
-    // PORT: Apply for widgets.
-    // emit sigTextColorChanged(getID());
+    emit sigTextColorChanged(getID());
 }
 
 /**
@@ -3842,6 +3841,8 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     QString localid = qElement.attribute("localid", "0");
     // option state
     Settings::loadFromXMI(qElement, m_Options);
+    setBackgroundBrush(m_Options.uiState.backgroundColor);
+    setGridDotColor(m_Options.uiState.gridDotColor);
     //misc
     QString showgrid = qElement.attribute("showgrid", "0");
     m_layoutGrid->setVisible((bool)showgrid.toInt());
