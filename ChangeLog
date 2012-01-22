@@ -1,7 +1,8 @@
 Version (since 2012-01-01)
-* loading existing XMI file (194897) and therefore also
+
+* Loading existing XMI file (194897) and therefore also
   -  umbrello (2.4.2) crashed while opening solid_design.xmi (233705)
-* generation of classes from files in folder in umbrello (197137) 
+* Generation of classes from files in folder in umbrello (197137)
 * Umbrello crashed after copy/paste (243392) 
 * Crash when opening file (251094) 
 * Segmentation fault when copy&paste of sequence diagram (287179) and therefore also
@@ -13,28 +14,32 @@ Version (since 2012-01-01)
   - Copy and paste of a class lets Umbrello crash (241915)
   - Copy - paste multiple class operations makes umbrello crash (257410)
   - Umbrello crashes during cut and paste class diagram (257584) 
-* Colour of role text on diagram (e.g. Role B) nearly invisible (291401) 
-* Copy/Paste of activity, state and use case diagram elements do not create new elements (291557) 
+* Color of role text on diagram (e.g. Role B) nearly invisible (291401)
+* Copy/Paste of activity, state and use case diagram elements do not create new elements (291557)
 * Enabling of cut/copy/paste actions is incorrect (70925)
+* New feature: C# code import added.
+* New feature: Drawing of state diagrams with more pseudostates possible.
 
 Version (since 2011-08-01)
-* Print preview added 
-* made printing border calculation more robust
+
+* New feature: Print preview added.
+* Made printing border calculation more robust
 * Reuse changed printer settings
 * Show diagram print settings dialog before print or print preview dialog
-* added msvc2010 preprocesser for idl preprocessing
+* Added msvc2010 preprocesser for idl preprocessing
 * Crash on new synchronous message in sequence diagram (168752)
 * Umbrello crashes with SIGSEGV in Object Flow properties 170596)
-* crash fix in case the path does not fit into the package hierachy we cannot check the imports (200721)
-* crash fix on importing idl file (203092)
+* Crash fix in case the path does not fit into the package hierachy we cannot check the imports (200721)
+* Crash fix on importing idl file (203092)
 * Crash on C++ import with Doxygen: cause Doxygen Braces (228352)
-* crash on new entity (entity relationship model) (259404)
+* Crash on new entity (entity relationship model) (259404)
 * Umbrello crashed when changing the Package of a class (268469)
 * Compile error when build against Qt 4.8 (279184)
 * Crash when importing Java-Source (288406)
 
 Version 2.8.0
-* Code import wizard added
+
+* New feature: Code import wizard added
 
 ...
 
@@ -50,8 +55,8 @@ Version 2.0.0  (First Qt4/KDE4 based version)
 * Implement the UML 2.0 standard (115269)
   - Sequence Diagram
     * Combined Fragments
-      * Operators : Alternative, Option, Break, Parallel, Reference, Negative, Critical
-		Ignore, Consider, Assertion, Loop.
+      * Operators : Alternative, Option, Break, Parallel, Reference, Negative, Critical,
+                    Ignore, Consider, Assertion, Loop.
       * Found / Lost Messages.
   - Sequence Diagram
       * Pre/Post conditions.
