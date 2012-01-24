@@ -262,49 +262,50 @@ bool AssociationLine::removePoint( int pointIndex, const QPoint &point, unsigned
     if ( pointIndex >= count )
         return false;
 
-    /* we don't know if the user clicked on the start- or endpoint of a
-     * line segment */
-    UMLSceneLine * current_line = m_LineList.at( pointIndex );
-    if (abs( current_line -> endPoint().x() - point.x() ) <= delta
-            &&
-            abs( current_line -> endPoint().y() - point.y() ) <= delta)
-    {
-        /* the user clicked on the end point of the line;
-         * we have to make sure that this isn't the last line segment */
-        if (pointIndex >= count - 1)
-            return false;
-
-        /* the next segment will get the starting point from the current one,
-         * which is going to be removed */
-        UMLSceneLine * next_line = m_LineList.at( pointIndex + 1 );
-        QPoint startPoint = current_line -> startPoint();
-        QPoint endPoint = next_line -> endPoint();
-        next_line -> setPoints(startPoint.x(), startPoint.y(),
-                               endPoint.x(), endPoint.y());
-
-    } else
-        if (abs( current_line -> startPoint().x() - point.x() ) <= delta
+    if (!point.isNull()) {
+        /* we don't know if the user clicked on the start- or endpoint of a
+        * line segment */
+        UMLSceneLine * current_line = m_LineList.at( pointIndex );
+        if (abs( current_line -> endPoint().x() - point.x() ) <= delta
                 &&
-                abs( current_line -> startPoint().y() - point.y() ) <= delta)
+                abs( current_line -> endPoint().y() - point.y() ) <= delta)
         {
-            /* the user clicked on the start point of the line;
-             * we have to make sure that this isn't the first line segment */
-            if (pointIndex < 1)
+            /* the user clicked on the end point of the line;
+            * we have to make sure that this isn't the last line segment */
+            if (pointIndex >= count - 1)
                 return false;
 
-            /* the previous segment will get the end point from the current one,
-             * which is going to be removed */
-            UMLSceneLine * previous_line = m_LineList.at( pointIndex - 1 );
-            QPoint startPoint = previous_line -> startPoint();
-            QPoint endPoint = current_line -> endPoint();
-            previous_line -> setPoints(startPoint.x(), startPoint.y(),
-                                       endPoint.x(), endPoint.y());
-        } else {
-            /* the user clicked neither on the start- nor on the end point of
-             * the line; this really shouldn't happen, but just make sure */
-            return false;
-        }
+            /* the next segment will get the starting point from the current one,
+            * which is going to be removed */
+            UMLSceneLine * next_line = m_LineList.at( pointIndex + 1 );
+            QPoint startPoint = current_line -> startPoint();
+            QPoint endPoint = next_line -> endPoint();
+            next_line -> setPoints(startPoint.x(), startPoint.y(),
+                                endPoint.x(), endPoint.y());
 
+        } else
+            if (abs( current_line -> startPoint().x() - point.x() ) <= delta
+                    &&
+                    abs( current_line -> startPoint().y() - point.y() ) <= delta)
+            {
+                /* the user clicked on the start point of the line;
+                * we have to make sure that this isn't the first line segment */
+                if (pointIndex < 1)
+                    return false;
+
+                /* the previous segment will get the end point from the current one,
+                * which is going to be removed */
+                UMLSceneLine * previous_line = m_LineList.at( pointIndex - 1 );
+                QPoint startPoint = previous_line -> startPoint();
+                QPoint endPoint = current_line -> endPoint();
+                previous_line -> setPoints(startPoint.x(), startPoint.y(),
+                                        endPoint.x(), endPoint.y());
+            } else {
+                /* the user clicked neither on the start- nor on the end point of
+                * the line; this really shouldn't happen, but just make sure */
+                return false;
+            }
+    }
     /* remove the segment from the list */
     delete m_LineList.takeAt( pointIndex );
 
