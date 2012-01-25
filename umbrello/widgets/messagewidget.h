@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,10 +13,6 @@
 
 #include "umlwidget.h"
 #include "linkwidget.h"
-#include "idchangelog.h"
-
-#include <QMoveEvent>
-#include <QResizeEvent>
 
 // forward declarations
 class FloatingTextWidget;
@@ -83,7 +79,7 @@ public:
     QString sequenceNumber() const {
         return m_sequenceNumber;
     }
-    void setSequenceNumber( const QString &sequenceNumber );
+    void setSequenceNumber(const QString &sequenceNumber);
 
     /// @return Whether the message is synchronous or asynchronous
     Uml::Sequence_Message_Type sequenceMessageType() const {
@@ -118,8 +114,8 @@ public:
 
     virtual void setupContextMenuActions(ListPopupMenu &menu);
 
-    virtual bool loadFromXMI( QDomElement & qElement );
-    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    virtual bool loadFromXMI(QDomElement & qElement);
+    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
 protected:
     virtual void updateGeometry();

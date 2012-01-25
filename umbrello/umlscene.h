@@ -110,19 +110,19 @@ public:
     QPointF pos() const;
     void setPos(const QPointF &pos);
 
-    QColor gridDotColor() const;
+    const QColor& gridDotColor() const;
     void setGridDotColor(const QColor &gridColor);
 
-   void setBrush(const QColor &color);
-   QBrush brush() const;
+    void setBrush(const QColor &color);
+    const QColor& brush() const;
 
-    QColor lineColor() const;
+    const QColor& lineColor() const;
     void setLineColor(const QColor &color);
 
     uint lineWidth() const;
     void setLineWidth(uint width);
 
-    QColor textColor() const;
+    const QColor& textColor() const;
     void setTextColor(const QColor& color);
 
     bool getSnapToGrid() const;

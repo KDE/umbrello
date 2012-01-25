@@ -22,7 +22,6 @@
 #include "debug_utils.h"
 
 #include <QtGui/QGraphicsScene>
-
 #include <QtGui/QPainter>
 #include <QtCore/QTextStream>
 
@@ -121,7 +120,7 @@ void LayoutGrid::setGridSpacing(int sizeX, int sizeY)
     m_gridSpacingY= sizeY;
 }
 
-QColor LayoutGrid::gridDotColor() const
+const QColor& LayoutGrid::gridDotColor() const
 {
     return m_gridDotColor;
 }
@@ -132,7 +131,7 @@ void LayoutGrid::setGridDotColor(const QColor& color)
     m_gridDotColor = color;
 }
 
-QColor LayoutGrid::gridCrossColor() const
+const QColor& LayoutGrid::gridCrossColor() const
 {
     return m_gridCrossColor;
 }
@@ -143,7 +142,7 @@ void LayoutGrid::setGridCrossColor(const QColor& color)
     m_gridCrossColor = color;
 }
 
-QColor LayoutGrid::textColor() const
+const QColor& LayoutGrid::textColor() const
 {
     return m_textColor;
 }

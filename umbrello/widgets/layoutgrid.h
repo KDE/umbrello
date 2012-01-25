@@ -47,13 +47,13 @@ public:
     int gridSpacingY() const;
     void setGridSpacing(int sizeX, int sizeY);
 
-    QColor gridDotColor() const;
+    const QColor& gridDotColor() const;
     void setGridDotColor(const QColor& color);
 
-    QColor gridCrossColor() const;
+    const QColor& gridCrossColor() const;
     void setGridCrossColor(const QColor& color);
 
-    QColor textColor() const;
+    const QColor& textColor() const;
     void setTextColor(const QColor& color);
 
     QFont textFont() const;

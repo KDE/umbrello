@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -136,16 +136,17 @@ MessageWidget::~MessageWidget()
 }
 
 /**
- * Implements operation from LinkWidget. Required by
- * FloatingTextWidget.
+ * Implements operation from LinkWidget.
+ * Required by FloatingTextWidget.
  */
-void MessageWidget::lwSetFont (QFont font)
+void MessageWidget::lwSetFont(QFont font)
 {
     UMLWidget::setFont(font);
 }
 
 /**
- * Overrides operation from LinkWidget.Required by FloatingTextWidget.
+ * Overrides operation from LinkWidget.
+ * Required by FloatingTextWidget.
  *
  * @todo Move to LinkWidget.
  */
@@ -159,8 +160,8 @@ UMLClassifier *MessageWidget::operationOwner()
 }
 
 /**
- * Implements operation from LinkWidget.  Motivated by
- * FloatingTextWidget.
+ * Implements operation from LinkWidget.
+ * Motivated by FloatingTextWidget.
  */
 UMLOperation *MessageWidget::operation()
 {
@@ -175,8 +176,8 @@ UMLOperation *MessageWidget::operation()
 }
 
 /**
- * Implements operation from LinkWidget.  Motivated by
- * FloatingTextWidget.
+ * Implements operation from LinkWidget.
+ * Motivated by FloatingTextWidget.
  */
 void MessageWidget::setOperation(UMLOperation *op)
 {
@@ -189,8 +190,8 @@ void MessageWidget::setOperation(UMLOperation *op)
 }
 
 /**
- * Overrides operation from LinkWidget.  Required by
- * FloatingTextWidget.
+ * Overrides operation from LinkWidget.
+ * Required by FloatingTextWidget.
  */
 QString MessageWidget::customOpText()
 {
@@ -198,8 +199,8 @@ QString MessageWidget::customOpText()
 }
 
 /**
- * Overrides operation from LinkWidget.  Required by
- * FloatingTextWidget.
+ * Overrides operation from LinkWidget.
+ * Required by FloatingTextWidget.
  */
 void MessageWidget::setCustomOpText(const QString &opText)
 {
@@ -208,8 +209,8 @@ void MessageWidget::setCustomOpText(const QString &opText)
 }
 
 /**
- * Overrides operation from LinkWidget.  Required by
- * FloatingTextWidget.
+ * Overrides operation from LinkWidget.
+ * Required by FloatingTextWidget.
  *
  * @param ft   The text widget which to update.
  */
@@ -224,8 +225,8 @@ void MessageWidget::setMessageText(FloatingTextWidget *ft)
 }
 
 /**
- * Overrides operation from LinkWidget.  Required by
- * FloatingTextWidget.
+ * Overrides operation from LinkWidget.
+ * Required by FloatingTextWidget.
  *
  * @param ft        The text widget which to update.
  * @param newText   The new text to set.
@@ -236,8 +237,8 @@ void MessageWidget::setText(FloatingTextWidget *ft, const QString &newText)
 }
 
 /**
- * Overrides operation from LinkWidget.  Required by
- * FloatingTextWidget.
+ * Overrides operation from LinkWidget.
+ * Required by FloatingTextWidget.
  *
  * @param seqNum   Return this MessageWidget's sequence number string.
  * @param op       Return this MessageWidget's operation string.
@@ -257,8 +258,8 @@ UMLClassifier * MessageWidget::seqNumAndOp(QString& seqNum, QString& op)
 }
 
 /**
- * Overrides operation from LinkWidget. Required by
- * FloatingTextWidget.
+ * Overrides operation from LinkWidget.
+ * Required by FloatingTextWidget.
  *
  * @param seqNum   The new sequence number string to set.
  * @param op       The new operation string to set.
@@ -297,7 +298,7 @@ void MessageWidget::constrainTextPos(qreal &textX, qreal &textY, qreal textWidth
 
 // End of link widget interface methods
 
-void MessageWidget::setSequenceNumber( const QString &sequenceNumber )
+void MessageWidget::setSequenceNumber(const QString &sequenceNumber)
 {
     m_sequenceNumber = sequenceNumber;
     // Update floating widget text.
@@ -512,6 +513,7 @@ void MessageWidget::setupContextMenuActions(ListPopupMenu &menu)
 bool MessageWidget::loadFromXMI(QDomElement& qElement)
 {
     if ( !UMLWidget::loadFromXMI(qElement) ) {
+        uDebug() << "Loading UMLwidget failed!";  //:TODO:
         return false;
     }
 
@@ -534,6 +536,9 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
     Uml::IDType widgetBId = STR2ID(widgetbid);
     Uml::IDType textId    = STR2ID(textid);
 
+    m_objectWidgets[Uml::A]->setLocalID(widgetAId);
+    m_objectWidgets[Uml::B]->setLocalID(widgetBId);
+
     Uml::TextRole tr = Uml::TextRole::Seq_Message;
     if (widgetAId == widgetBId)
         tr = Uml::TextRole::Seq_Message_Self;
@@ -549,7 +554,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
             if( ! m_floatingTextWidget->loadFromXMI(element) ) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_floatingTextWidget;
-                m_floatingTextWidget = NULL;
+                m_floatingTextWidget = 0;
             }
         } else {
             uError() << "unknown tag " << tag;

@@ -154,6 +154,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder)
 UMLScene::~UMLScene()
 {
     delete m_pImageExporter;
+    m_pImageExporter = 0;
     delete m_pIDChangesLog;
     m_pIDChangesLog = 0;
 
@@ -289,7 +290,7 @@ void UMLScene::setPos(const QPointF &pos)
  * Get the color of the grid dots.
  * @return the color of the dots
  */
-QColor UMLScene::gridDotColor() const
+const QColor& UMLScene::gridDotColor() const
 {
     return m_layoutGrid->gridDotColor();
 }
@@ -1086,10 +1087,11 @@ void UMLScene::setUseFillColor(bool ufc)
 
 /**
  * Returns the default brush for diagram widgets.
+ * :TODO: return value has to be QBrush
  */
-QBrush UMLScene::brush() const
+const QColor& UMLScene::brush() const
 {
-    return QBrush(m_Options.uiState.fillColor);
+    return m_Options.uiState.fillColor;
 }
 
 /**
@@ -1105,7 +1107,7 @@ void UMLScene::setBrush(const QColor &color)
 /**
  * Returns the line color to use.
  */
-QColor UMLScene::lineColor() const
+const QColor& UMLScene::lineColor() const
 {
     return m_Options.uiState.lineColor;
 }
@@ -1143,7 +1145,7 @@ void UMLScene::setLineWidth(uint width)
 /**
  * Returns the text color to use.
  */
-QColor UMLScene::textColor() const
+const QColor& UMLScene::textColor() const
 {
     return m_Options.uiState.textColor;
 }

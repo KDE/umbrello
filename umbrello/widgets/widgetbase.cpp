@@ -755,7 +755,8 @@ bool WidgetBase::loadFromXMI(QDomElement &qElement)
         QString usesDiagramUseFillColor = qElement.attribute("usesdiagramusefillcolour", "1");
         usesDiagramUseFillColor = qElement.attribute("usesdiagramusefillcolor", usesDiagramUseFillColor);
         if (usesDiagramUseFillColor.toInt()) {
-            useFillColor = (umlScene()->brush().style() != Qt::NoBrush);
+            QBrush brsh;  //:TODO: = QBrush(umlScene()->brush()); 
+            useFillColor = (brsh.style() != Qt::NoBrush);
         } else {
             useFillColor = (qElement.attribute("usefillcolor", "1").toInt() != 0);
         }
