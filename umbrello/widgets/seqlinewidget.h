@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,7 +13,6 @@
 
 #include "umlscene.h"
 
-class UMLScene;
 class ObjectWidget;
 
 /**
@@ -21,52 +20,20 @@ class ObjectWidget;
  * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class SeqLineWidget : public UMLSceneLine {
+class SeqLineWidget : public UMLSceneLine
+{
 public:
-    /**
-     * Constructor.
-     */
-    SeqLineWidget( UMLView * pView, ObjectWidget * pObject );
+    SeqLineWidget(UMLView * pView, ObjectWidget * pObject);
+    virtual ~SeqLineWidget();
 
-    /**
-     * Destructor.
-     */
-    ~SeqLineWidget();
-
-    /**
-     * Return whether on seq. line.
-     * Takes into account destruction box if shown.
-     *
-     * @param p The point to investigate.
-     * @return  Non-zero if point is on this sequence line.
-     */
     int onWidget(const QPoint & p);
 
-    /**
-     * Return whether on the destruction box.
-     *
-     * @param p The point to investigate.
-     * @return  Non-zero if point is on the destruction box of this sequence line.
-     */
-    int onDestructionBox ( const QPoint & p );
+    int onDestructionBox(const QPoint & p);
 
-
-    /**
-     * Clean up anything before deletion.
-     */
     void cleanup();
 
-    /**
-     * Set up destruction box.
-     */
     void setupDestructionBox();
 
-    /**
-     * Set the start point of the line.
-     *
-     * @param startX    X coordinate of the start point.
-     * @param startY    Y coordinate of the start point.
-     */
     void setStartPoint( int startX, int startY );
 
     /**
@@ -87,35 +54,16 @@ public:
         return m_pObject;
     }
 
-    /**
-     * Sets the y position of the bottom of the vertical line.
-     *
-     * @param yPosition The y coordinate for the bottom of the line.
-     */
     void setEndOfLine(int yPosition);
 
 protected:
-    /**
-     * Clean up destruction box.
-     */
     void cleanupDestructionBox();
 
-    /**
-     * Move destruction box.
-     */
     void moveDestructionBox();
 
-    /**
-     * ObjectWidget associated with this sequence line.
-     */
-    ObjectWidget * m_pObject;
+    ObjectWidget* m_pObject;  ///< ObjectWidget associated with this sequence line
+    UMLView*      m_scene;    ///< view displayed on
 
-    /**
-     * View displayed on.
-     */
-    UMLView * m_scene;
-
-    /// The destruction box.
     struct DestructionBox {
         UMLSceneLine * line1;
         UMLSceneLine * line2;
@@ -127,17 +75,11 @@ protected:
             line2->setPoints( rect.x(), rect.y() + rect.height(),
                               rect.x() + rect.width(), rect.y() );
         }
-    } m_DestructionBox;
+    } m_DestructionBox;  ///< the destruction box
 
-    /**
-     * The length of the line.
-     */
-    int m_nLengthY;
+    int m_nLengthY;  ///< the length of the line
 
-    /**
-     * Margin used for mouse clicks.
-     */
-    static int const m_nMouseDownEpsilonX;
+    static int const m_nMouseDownEpsilonX;   ///< margin used for mouse clicks
 };
 
 #endif
