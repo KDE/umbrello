@@ -63,10 +63,21 @@ protected:
 private:
     static UMLObject* findObject(const QString& name, UMLPackage *parentPkg);
 
-    bool parseStmtUsing();
-    bool parseStmtNamespace();
-    bool parseStmtEnum();
-    bool parseStmtClass(const QString& keyword);
+    bool parseUsingDirectives();
+    bool parseGlobalAttributes();
+    bool parseNamespaceMemberDeclarations();
+    bool parseAttributes();
+
+    // type-declaration
+    bool parseClassDeclaration(const QString& keyword);
+    bool parseStructDeclaration();
+    // bool parseInterfaceDeclaration();
+    bool parseEnumDeclaration();
+    bool parseDelegateDeclaration();
+
+    bool isTypeDeclaration(const QString& keyword);
+    bool isClassModifier(const QString& keyword);
+    bool isCommonModifier(const QString& keyword);
 
 };
 
