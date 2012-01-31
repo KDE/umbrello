@@ -56,6 +56,11 @@ using namespace Uml;
 // this constructor really only for loading from XMI, otherwise it
 // is bad..and shouldn't be allowed as it creates an incomplete
 // associationwidget.
+/**
+  * Constructor.
+  *
+  * @param scene              The parent view of this widget.
+  */
 AssociationWidget::AssociationWidget(UMLScene *scene)
   : WidgetBase(scene, WidgetBase::wt_Association)
 {
@@ -63,6 +68,15 @@ AssociationWidget::AssociationWidget(UMLScene *scene)
 }
 
 // the preferred constructor
+/**
+  * Constructor.
+  *
+  * @param scene      The parent view of this widget.
+  * @param WidgetA   Pointer to the role A widget for the association.
+  * @param Type      The AssociationType for this association.
+  * @param WidgetB   Pointer to the role B widget for the association.
+  * @param umlobject Pointer to the underlying UMLObject (if applicable.)
+  */
 AssociationWidget::AssociationWidget(UMLScene *scene, UMLWidget* pWidgetA,
                                      Uml::AssociationType assocType, UMLWidget* pWidgetB,
                                      UMLObject *umlobject /* = NULL */)
@@ -126,10 +140,16 @@ AssociationWidget::AssociationWidget(UMLScene *scene, UMLWidget* pWidgetA,
     }
 }
 
+/**
+ * Deconstructor.
+ */
 AssociationWidget::~AssociationWidget()
 {
 }
 
+/**
+ * Overrides the assignment operator.
+ */
 AssociationWidget& AssociationWidget::operator=(const AssociationWidget & Other)
 {
     m_LinePath = Other.m_LinePath;
@@ -185,6 +205,9 @@ AssociationWidget& AssociationWidget::operator=(const AssociationWidget & Other)
     return *this;
 }
 
+/**
+ * Overrides the equality test operator.
+ */
 bool AssociationWidget::operator==(const AssociationWidget & Other) const
 {
     if( this == &Other )
@@ -235,11 +258,20 @@ bool AssociationWidget::operator==(const AssociationWidget & Other) const
     return (getName() == Other.getName());
 }
 
+/**
+ * Overrides the != operator.
+ */
 bool AssociationWidget::operator!=(AssociationWidget & Other) const
 {
     return !(*this == Other);
 }
 
+/**
+ * Returns the UMLAssociation representation of this object.
+ *
+ * @return  Pointer to the UMLAssociation that is represented by
+ *          this AsociationWidget.
+ */
 UMLAssociation * AssociationWidget::getAssociation () const
 {
     if (m_pObject == NULL || m_pObject->baseType() != UMLObject::ot_Association)
@@ -247,6 +279,12 @@ UMLAssociation * AssociationWidget::getAssociation () const
     return static_cast<UMLAssociation*>(m_pObject);
 }
 
+/**
+ * Returns the UMLAttribute representation of this object.
+ *
+ * @return  Pointer to the UMLAttribute that is represented by
+ *          this AsociationWidget.
+ */
 UMLAttribute * AssociationWidget::getAttribute () const
 {
     if (m_pObject == NULL)
@@ -1008,7 +1046,11 @@ Uml::AssociationType AssociationWidget::associationType() const
     return umla->getAssocType();
 }
 
-/** Sets the association's type */
+/**
+ * Sets the association's type.
+ *
+ * @param type   The AssociationType to set.
+ */
 void AssociationWidget::setAssociationType(Uml::AssociationType type)
 {
     if (m_pObject && m_pObject->baseType() == UMLObject::ot_Association)
@@ -1089,6 +1131,9 @@ QString AssociationWidget::toString()
     return string;
 }
 
+/**
+ * Adds a break point (if left mouse button).
+ */
 void AssociationWidget::mouseDoubleClickEvent(QMouseEvent * me)
 {
     if (me->button() != Qt::RightButton && me->button() != Qt::LeftButton)
@@ -1716,14 +1761,18 @@ AssociationWidget::Region AssociationWidget::findPointRegion(const QRect& Rect, 
     return result;
 }
 
+/**
+ * Returns a point with interchanged X and Y coordinates.
+ */
 QPoint AssociationWidget::swapXY(const QPoint &p)
 {
     QPoint swapped( p.y(), p.x() );
     return swapped;
 }
 
-/* Returns the total length of the association's AssociationLine:
-   result = segment_1_length + segment_2_length + ..... + segment_n_length
+/**
+ * Returns the total length of the association's AssociationLine:
+ * result = segment_1_length + segment_2_length + ... + segment_n_length
  */
 float AssociationWidget::totalLength()
 {
@@ -1743,11 +1792,13 @@ float AssociationWidget::totalLength()
     return total_length;
 }
 
-
-/** Calculates which point of segment P1P2 has a distance equal to Distance from P1,
-    Lets say such point is P3,  the distance from P1 to P3 must be equal to Distance
-    and if P3 is not a point of the segment P1P2 then the function returns (-1,-1)
-*/
+/**
+ * Calculates which point of segment P1P2 has a distance equal to
+ * Distance from P1.
+ * Let's say such point is PX, the distance from P1 to PX must be equal
+ * to Distance and if PX is not a point of the segment P1P2 then the
+ * function returns (-1,-1).
+ */
 QPoint AssociationWidget::calculatePointAtDistance(const QPoint &P1, const QPoint &P2, float Distance)
 {
     /*
@@ -1863,10 +1914,11 @@ QPoint AssociationWidget::calculatePointAtDistance(const QPoint &P1, const QPoin
     return QPoint(-1, -1);
 }
 
-/** Calculates which point of a perpendicular line to segment P1P2 that contains P2
-    has a distance equal to Distance from P2,
-    Lets say such point is P3,  the distance from P2 to P3 must be equal to Distance
-*/
+/**
+ * Calculates which point of a perpendicular line to segment P1P2 that contains P2
+ *  has a distance equal to Distance from P2,
+ * Lets say such point is P3,  the distance from P2 to P3 must be equal to Distance
+ */
 QPoint AssociationWidget::calculatePointAtDistanceOnPerpendicular(const QPoint &P1, const QPoint &P2, float Distance)
 {
     /*
@@ -1980,9 +2032,11 @@ QPoint AssociationWidget::calculatePointAtDistanceOnPerpendicular(const QPoint &
     return QPoint(-1, -1);  // never reached, just keep compilers happy
 }
 
-/** Calculates the intersection (PS) between line P1P2 and a perpendicular line containing
-    P3, the result is returned in ResultingPoint. and result value represents the distance
-    between ResultingPoint and P3; if this value is negative an error ocurred. */
+/** 
+ * Calculates the intersection (PS) between line P1P2 and a perpendicular line containing
+ * P3, the result is returned in ResultingPoint. and result value represents the distance
+ * between ResultingPoint and P3; if this value is negative an error ocurred. 
+ */
 float AssociationWidget::perpendicularProjection(const QPoint& P1, const QPoint& P2, const QPoint& P3,
         QPoint& ResultingPoint)
 {
@@ -2026,6 +2080,11 @@ float AssociationWidget::perpendicularProjection(const QPoint& P1, const QPoint&
     return distance;
 }
 
+/**
+ * Calculates the position of the text widget depending on the role
+ * that widget is playing.
+ * Returns the point at which to put the widget.
+ */
 QPoint AssociationWidget::calculateTextPosition(Uml::TextRole role)
 {
     const int SPACE = 2;
@@ -2108,6 +2167,9 @@ QPoint AssociationWidget::calculateTextPosition(Uml::TextRole role)
     return p;
 }
 
+/**
+ * Return the mid point between p0 and p1
+ */
 QPoint AssociationWidget::midPoint(const QPoint& p0, const QPoint& p1)
 {
     QPoint midP;
@@ -2122,6 +2184,16 @@ QPoint AssociationWidget::midPoint(const QPoint& p0, const QPoint& p1)
     return midP;
 }
 
+/**
+ * Constrains the FloatingTextWidget X and Y values supplied.
+ * Implements the abstract operation from LinkWidget.
+ *
+ * @param textX       Candidate X value (may be modified by the constraint.)
+ * @param textY       Candidate Y value (may be modified by the constraint.)
+ * @param textWidth   Width of the text.
+ * @param textHeight  Height of the text.
+ * @param tr          Uml::Text_Role of the text.
+ */
 void AssociationWidget::constrainTextPos(int &textX, int &textY,
                                          int textWidth, int textHeight,
                                          Uml::TextRole tr)
@@ -2351,6 +2423,10 @@ void AssociationWidget::setTextPosition(Uml::TextRole role)
     ft->setY( y );
 }
 
+/**
+ * Moves the text widget with the given role by the difference between
+ * the two points.
+ */
 void AssociationWidget::setTextPositionRelatively(Uml::TextRole role, const QPoint &oldPosition)
 {
     bool startMove = false;
@@ -2486,6 +2562,9 @@ void AssociationWidget::computeAssocClassLine()
     m_pAssocClassLine->setPoints(midSegX, midSegY, acwMinX, acwMinY);
 }
 
+/**
+ * Renders the association class connecting line selected.
+ */
 void AssociationWidget::selectAssocClassLine(bool sel /* =true */)
 {
     if (!sel) {
@@ -2511,6 +2590,9 @@ void AssociationWidget::selectAssocClassLine(bool sel /* =true */)
     m_pAssocClassLineSel1 = Widget_Utils::decoratePoint(m_pAssocClassLine->endPoint());
 }
 
+/**
+ * Sets the association to be selected.
+ */
 void AssociationWidget::mousePressEvent(QMouseEvent * me)
 {
     // clear other selected stuff on the screen of ShiftKey
@@ -2534,6 +2616,9 @@ void AssociationWidget::mousePressEvent(QMouseEvent * me)
     setSelected( !m_selected );
 }
 
+/**
+ * Displays the right mouse buttom menu if right button is pressed.
+ */
 void AssociationWidget::mouseReleaseEvent(QMouseEvent * me)
 {
     if(me->button() != Qt::RightButton && me->button() != Qt::LeftButton) {
@@ -2917,6 +3002,9 @@ void AssociationWidget::checkPoints(const QPoint &p)
     }//end for
 }
 
+/**
+ * Moves the break point being dragged.
+ */
 void AssociationWidget::mouseMoveEvent(QMouseEvent* me)
 {
     if( me->buttons() != Qt::LeftButton) {
@@ -3123,7 +3211,17 @@ QPoint AssociationWidget::findIntercept(const QRect &rect, const QPoint &point)
         return QPoint((int)outputY, inputX);  // swap back X and Y
     }
 }
-
+/**
+ * Given a rectangle and a point, findInterceptOnEdge computes the
+ * connecting line between the middle point of the rectangle and
+ * the point, and returns the intercept of this line with the
+ * the edge of the rectangle identified by `region'.
+ * When the region is North or South, the X value is returned (Y is
+ * constant.)
+ * When the region is East or West, the Y value is returned (X is
+ * constant.)
+ * @todo This is buggy. Try replacing by findIntercept()
+ */
 int AssociationWidget::findInterceptOnEdge(const QRect &rect,
         AssociationWidget::Region region,
         const QPoint &point)
@@ -3419,6 +3517,11 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
     }
 }
 
+/**
+ * Sets the state of whether the widget is selected.
+ *
+ * @param _select   The state of whether the widget is selected.
+ */
 void AssociationWidget::setSelected(bool _select /* = true */)
 {
     m_selected = _select;
@@ -3460,6 +3563,12 @@ void AssociationWidget::setSelected(bool _select /* = true */)
     }
 }
 
+/**
+ * Returns true if the given point is on the connecting line to
+ * the association class. Returns false if there is no association
+ * class attached, or if the given point is not on the connecting
+ * line.
+ */
 bool AssociationWidget::onAssocClassLine(const QPoint &point)
 {
     if (m_pAssocClassLine == NULL)
@@ -3473,6 +3582,9 @@ bool AssociationWidget::onAssocClassLine(const QPoint &point)
     return false;
 }
 
+/**
+ * Returns true if the given point is on the Association.
+ */
 bool AssociationWidget::onAssociation(const QPoint & point)
 {
     if (m_LinePath.onLinePath(point) != -1)
@@ -3506,6 +3618,9 @@ void AssociationWidget::slotClearAllSelected()
     setSelected( false );
 }
 
+/**
+ * Moves all the mid points (all expcept start /end ) by the given amount.
+ */
 void AssociationWidget::moveMidPointsBy( int x, int y )
 {
     int pos = m_LinePath.count() - 1;
@@ -3521,6 +3636,9 @@ void AssociationWidget::moveMidPointsBy( int x, int y )
     }
 }
 
+/**
+ * Moves the entire association by the given offset.
+ */
 void AssociationWidget::moveEntireAssoc( int x, int y )
 {
     //TODO: ADD SUPPORT FOR ASSOC. ON SEQ. DIAGRAMS WHEN NOTES BACK IN.
@@ -3530,6 +3648,9 @@ void AssociationWidget::moveEntireAssoc( int x, int y )
     resetTextPositions();
 }
 
+/**
+ * Returns the bounding rectangle of all segments of the association.
+ */
 QRect AssociationWidget::getAssocLineRectangle()
 {
     QRect rectangle;
@@ -3644,6 +3765,9 @@ void AssociationWidget::slotAttributeChanged()
     setRoleName(attr->name(), B);
 }
 
+/**
+ * Initialize attributes of this class at construction time.
+ */
 void AssociationWidget::init()
 {
     WidgetBase::init();
