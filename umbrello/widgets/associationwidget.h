@@ -70,6 +70,37 @@ public:
 
     virtual ~AssociationWidget();
 
+    virtual void setUMLObject(UMLObject *obj);
+
+    //---------- LinkWidget Interface methods implemementation from now on.
+
+    virtual void lwSetFont(QFont font);
+
+    virtual UMLClassifier *getOperationOwner();
+
+    virtual UMLOperation *operation();
+    virtual void setOperation(UMLOperation *op);
+
+    virtual QString customOpText();
+    virtual void setCustomOpText(const QString &opText);
+
+    virtual void resetTextPositions();
+
+    virtual void setMessageText(FloatingTextWidget *ft);
+    virtual void setText(FloatingTextWidget *ft, const QString &newText);
+
+    virtual void showPropertiesDialog();
+
+    virtual UMLClassifier* seqNumAndOp(QString& seqNum, QString& op);
+    virtual void setSeqNumAndOp(const QString &seqNum, const QString &op);
+
+    virtual void calculateNameTextSegment();
+
+    //---------- End LinkWidget Interface methods implemementation.
+
+    UMLAssociation * getAssociation() const;
+    UMLAttribute * getAttribute() const;
+
     AssociationWidget& operator=(const AssociationWidget & Other);
     bool operator==(const AssociationWidget & Other) const;
     bool operator!=(AssociationWidget & Other) const;
@@ -80,15 +111,15 @@ public:
 
     FloatingTextWidget* getMultiWidget(Uml::Role_Type role);
     FloatingTextWidget* getNameWidget();
-    QString getName() const;
-
     FloatingTextWidget* getRoleWidget(Uml::Role_Type role);
     FloatingTextWidget* getTextWidgetByRole(Uml::TextRole tr);
 
-    QString roleName(Uml::Role_Type role) const;
-    QString roleDocumentation(Uml::Role_Type role) const;
-
+    QString getName() const;
     void setName(const QString &strRole);
+
+    QString roleName(Uml::Role_Type role) const;
+    void setRoleName(const QString &strRole, Uml::Role_Type role);
+    QString roleDocumentation(Uml::Role_Type role) const;
 
     QString multiplicity(Uml::Role_Type role) const;
     void setMultiplicity(const QString &strMulti, Uml::Role_Type role);
@@ -143,8 +174,6 @@ public:
 
     void saveIdealTextPositions();
 
-    void calculateNameTextSegment();
-
     void mouseDoubleClickEvent(QMouseEvent * me);
     void mousePressEvent(QMouseEvent * me);
     void mouseReleaseEvent(QMouseEvent * me);
@@ -171,36 +200,12 @@ public:
     virtual void setLineColor(const QColor &colour);
     void setLineWidth(uint width);
 
-    void lwSetFont (QFont font);
-
     FloatingTextWidget* getChangeWidget(Uml::Role_Type role);
-
-    void setRoleName(const QString &strRole, Uml::Role_Type role);
 
     void setRoleDocumentation(const QString &doc, Uml::Role_Type role);
 
-    UMLClassifier *getOperationOwner();
-
-    UMLOperation *operation();
-    void setOperation(UMLOperation *op);
-
-    QString customOpText();
-    void setCustomOpText(const QString &opText);
-
-    void setMessageText(FloatingTextWidget *ft);
-
-    UMLAssociation * getAssociation() const;
-
-    UMLAttribute * getAttribute() const;
-
-    void setText(FloatingTextWidget *ft, const QString &text);
-
-    void resetTextPositions();
-
     void constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
                           Uml::TextRole tr);
-
-    void showPropertiesDialog();
 
     void setIndex(int index, Uml::Role_Type role);
     int getIndex(Uml::Role_Type role) const;
@@ -210,17 +215,11 @@ public:
 
     void setTotalCount(int count);
 
-    void setSeqNumAndOp(const QString &seqNum, const QString &op);
-
-    UMLClassifier * seqNumAndOp(QString& seqNum, QString& op);
-
     void calculateEndingPoints();
 
     void removeAssocClassLine();
 
     void computeAssocClassLine();
-
-    void setUMLObject(UMLObject *obj);
 
     void clipSize();
 
