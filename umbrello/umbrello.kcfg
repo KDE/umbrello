@@ -76,13 +76,47 @@
        <entry name="diagram" type="Enum">
          <label>Diagram To Load at Startup</label>
          <whatsthis>The Diagram to load at startup</whatsthis>
-         <choices name="Uml::DiagramType::Value"></choices>
+         <choices name="Uml::DiagramType::Value">
+            <choice name="Undefined" />
+            <choice name="Class" />
+            <choice name="UseCase" />
+            <choice name="Sequence" />
+            <choice name="Collaboration" />
+            <choice name="State" />
+            <choice name="Activity" />
+            <choice name="Component" />
+            <choice name="Deployment" />
+            <choice name="EntityRelationship" />
+            <choice name="N_DIAGRAMTYPES" />
+         </choices>
          <default>Uml::DiagramType::Class</default>
        </entry>
        <entry name="defaultLanguage" type="Enum">
          <label>Default Language at Startup</label>
          <whatsthis>The Language that Umbrello should start with by default</whatsthis>
-         <choices name="Uml::ProgrammingLanguage::Value"></choices>
+         <choices name="Uml::ProgrammingLanguage::Value">
+            <choice name="ActionScript" />
+            <choice name="Ada" />
+            <choice name="Cpp" />
+            <choice name="CSharp" />
+            <choice name="D" />
+            <choice name="IDL" />
+            <choice name="Java" />
+            <choice name="JavaScript" />
+            <choice name="MySQL" />
+            <choice name="Pascal" />
+            <choice name="Perl" />
+            <choice name="PHP" />
+            <choice name="PHP5" />
+            <choice name="PostgreSQL" />
+            <choice name="Python" />
+            <choice name="Ruby" />
+            <choice name="SQL" />
+            <choice name="Tcl" />
+            <choice name="Vala" />
+            <choice name="XMLSchema" />
+            <choice name="Reserved" />
+         </choices>
          <default>Uml::ProgrammingLanguage::Cpp</default>
        </entry>
        <entry name="lastFile" type="String">
@@ -187,13 +221,25 @@
        <entry name="defaultAttributeScope" type="Enum">
          <label>Default Attribute Scope</label>
          <whatsthis>Default Attribute Scope</whatsthis>
-         <choices name="Uml::Visibility::Value"></choices>
+         <choices name="Uml::Visibility::Value">
+            <choice name="Public" />
+            <choice name="Private" />
+            <choice name="Protected" />
+            <choice name="Implementation" />
+            <choice name="FromParent" />
+         </choices>
          <default>Uml::Visibility::Public</default>
        </entry>
        <entry name="defaultOperationScope" type="Enum">
          <label>Default Operation Scope</label>
          <whatsthis>Default Operation Scope</whatsthis>
-         <choices name="Uml::Visibility::Value"></choices>
+         <choices name="Uml::Visibility::Value">
+            <choice name="Public" />
+            <choice name="Private" />
+            <choice name="Protected" />
+            <choice name="Implementation" />
+            <choice name="FromParent" />
+         </choices>
          <default>Uml::Visibility::Public</default>
        </entry>
    </group>
@@ -277,19 +323,34 @@
        <entry name="commentStyle" type="Enum">
          <label>Comment Style</label>
          <whatsthis>Sets the Style of Comments to be used</whatsthis>
-         <choices name="CodeGenerationPolicy::CommentStyle"></choices>
+         <choices name="CodeGenerationPolicy::CommentStyle">
+            <choice name="SingleLine" />
+            <choice name="MultiLine" />
+         </choices>
          <default>CodeGenerationPolicy::SingleLine</default>
        </entry>
        <entry name="defaultAssocFieldScope" type="Enum">
          <label>Default Association Field Scope</label>
          <whatsthis>Sets the default Association field scope</whatsthis>
-         <choices name="Uml::Visibility::Value"></choices>
+         <choices name="Uml::Visibility::Value">
+            <choice name="Public" />
+            <choice name="Private" />
+            <choice name="Protected" />
+            <choice name="Implementation" />
+            <choice name="FromParent" />
+         </choices>
          <default>Uml::Visibility::FromParent</default>
        </entry>
        <entry name="defaultAttributeAccessorScope" type="Enum">
          <label>Default Attribute Accessor Scope</label>
          <whatsthis>Sets the default attribute accessor scope</whatsthis>
-         <choices name="Uml::Visibility::Value"></choices>
+         <choices name="Uml::Visibility::Value">
+            <choice name="Public" />
+            <choice name="Private" />
+            <choice name="Protected" />
+            <choice name="Implementation" />
+            <choice name="FromParent" />
+         </choices>
          <default>Uml::Visibility::FromParent</default>
        </entry>
        <entry name="forceDoc" type="Bool">
@@ -321,20 +382,32 @@
        <entry name="indentationType" type="Enum">
          <label>Indentation Type</label>
          <whatsthis>The Type of Indentation</whatsthis>
-         <choices name="CodeGenerationPolicy::IndentationType"></choices>
+         <choices name="CodeGenerationPolicy::IndentationType">
+            <choice name="NONE" />
+            <choice name="TAB" />
+            <choice name="SPACE" />
+         </choices>
          <default>CodeGenerationPolicy::SPACE</default>
        </entry>
        <entry name="lineEndingType" type="Enum">
          <label>Line Ending Type</label>
          <whatsthis>The type of line ending ( or new line type )</whatsthis>
-         <choices name="CodeGenerationPolicy::NewLineType"></choices> 
+         <choices name="CodeGenerationPolicy::NewLineType">
+            <choice name="UNIX" />
+            <choice name="DOS" />
+            <choice name="MAC" />
+         </choices>
          <default>CodeGenerationPolicy::UNIX</default>
        </entry>
        <entry name="modnamePolicy" type="Enum">
          <label>Modifier Name Policy</label>
          <whatsthis>Modifier Name Policy</whatsthis>
-         <choices name="CodeGenerationPolicy::ModifyNamePolicy"></choices>
-         <default>CodeGenerationPolicy::Capitalise</default>
+         <choices name="CodeGenerationPolicy::ModifyNamePolicy">
+            <choice name="No" />
+            <choice name="Underscore" />
+            <choice name="Capitalise" />
+          </choices>
+          <default>CodeGenerationPolicy::Capitalise</default>
        </entry>
        <entry name="outputDirectory" type="Path">
          <label>Output Directory</label>
@@ -344,7 +417,12 @@
        <entry name="overwritePolicy" type="Enum">
          <label>Overwrite Policy</label>
          <whatsthis>The policy to be followed when there are name conflicts</whatsthis>
-         <choices name="CodeGenerationPolicy::OverwritePolicy"></choices>
+         <choices name="CodeGenerationPolicy::OverwritePolicy">
+            <choice name="Ok" />
+            <choice name="Ask" />
+            <choice name="Never" />
+            <choice name="Cancel" />
+         </choices>
          <default>CodeGenerationPolicy::Ask</default>
        </entry>
     </group>
