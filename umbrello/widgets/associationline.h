@@ -44,6 +44,47 @@ public:
     AssociationLine();
     ~AssociationLine();
 
+    QPoint point( int pointIndex ) const;
+    bool setPoint( int pointIndex, const QPoint &point );
+    QPoint startPoint() const;
+    QPoint endPoint() const;
+
+    bool insertPoint( int pointIndex, const QPoint &point );
+    bool removePoint( int pointIndex, const QPoint &point = QPoint(), unsigned short delta = 0 );
+
+    int count() const;
+    void cleanup();
+
+    int closestPointIndex( const QPoint &position );
+    bool isPoint( int pointIndex, const QPoint &point, unsigned short delta = 0 );
+
+    bool setEndPoints( const QPoint &start, const QPoint &end );
+
+    bool hasPoints () const;
+    void dumpPoints ();
+
+    bool loadFromXMI( QDomElement & qElement );
+    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+
+    QPen getPen();
+
+    QColor lineColor();
+    void setLineColor( const QColor &color );
+
+    uint lineWidth();
+    void setLineWidth( uint width );
+
+    /**
+     * Returns the Association this class is linked to.
+     */
+    AssociationWidget * getAssociation() {
+        return m_associationWidget;
+    }
+    void setAssociation(AssociationWidget * association);
+
+    Uml::AssociationType getAssocType() const;
+    void setAssocType( Uml::AssociationType type );
+
     bool operator==( const AssociationLine & rhs );
 
     AssociationLine & operator=( const AssociationLine & rhs );
@@ -54,49 +95,15 @@ public:
 
     void setDockRegion( Region region );
 
-    bool hasPoints () const;
-    void dumpPoints ();
-
-    bool setPoint( int pointIndex, const QPoint &point );
-    QPoint point( int pointIndex ) const;
-
-    bool isPoint( int pointIndex, const QPoint &point, unsigned short delta = 0 );
-
-    bool insertPoint( int pointIndex, const QPoint &point );
-    bool removePoint( int pointIndex, const QPoint &point = QPoint(), unsigned short delta = 0 );
-
-    bool setEndPoints( const QPoint &start, const QPoint &end );
-
-    int count() const;
-
-    int closestPointIndex( const QPoint &position );
-
-    void setAssocType( Uml::AssociationType type );
-
-    void update();
-
-    void setAssociation(AssociationWidget * association);
-
-    /**
-     * Returns the Association this class is linked to.
-     */
-    AssociationWidget * getAssociation() {
-        return m_associationWidget;
-    }
-
     void setSelected( bool select );
-
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-    bool loadFromXMI( QDomElement & qElement );
 
     void activate();
 
-    void cleanup();
+    void update();
 
-    QPen getPen();
-
-    void setLineColor( const QColor &color );
-    void setLineWidth( uint width );
+public slots:
+    void slotLineColorChanged( Uml::IDType viewID );
+    void slotLineWidthChanged( Uml::IDType viewID );
 
 protected:
 
@@ -141,11 +148,6 @@ protected:
 
     UMLViewCanvas * getScene();
 
-    Uml::AssociationType getAssocType() const;
-
-    QColor lineColor();
-    uint lineWidth();
-
     void moveSelected( int pointIndex );
 
     void setupSelected();
@@ -155,14 +157,14 @@ protected:
     void createHeadLines();
     void createSubsetSymbol();
 
-    void growList(LineList &list, int by);
-
     void updateHead();
     void updateSubsetSymbol();
 
-    void setupParallelLine();
     void calculateParallelLine();
+    void setupParallelLine();
     void updateParallelLine();
+
+    void growList(LineList &list, int by);
 
     /********Attributes*************/
 
@@ -187,10 +189,6 @@ protected:
     bool m_bHeadCreated;
     bool m_bSubsetSymbolCreated;
     bool m_bParallelLineCreated;
-
-public slots:
-    void slotLineColorChanged( Uml::IDType viewID );
-    void slotLineWidthChanged( Uml::IDType viewID );
 };
 
 #endif
