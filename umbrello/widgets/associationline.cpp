@@ -315,7 +315,7 @@ bool AssociationLine::removePoint( int pointIndex, const QPoint &point, unsigned
 /**
  * Sets the start and end points.
  */
-bool AssociationLine::setStartEndPoints( const QPoint &start, const QPoint &end )
+bool AssociationLine::setEndPoints( const QPoint &start, const QPoint &end )
 {
     int count = m_LineList.count();
     if( count == 0 ) {
@@ -949,7 +949,7 @@ AssociationLine & AssociationLine::operator=( const AssociationLine & rhs )
 
     int count = rhs.m_LineList.count();
     //setup start end points
-    this->setStartEndPoints( rhs.getPoint( 0 ), rhs.getPoint( count) );
+    this->setEndPoints( rhs.getPoint( 0 ), rhs.getPoint( count) );
     //now insert the rest
     for( int i = 1; i < count ; i++ ) {
         this->insertPoint( i, rhs.getPoint ( i ) );
@@ -1132,7 +1132,7 @@ bool AssociationLine::loadFromXMI( QDomElement & qElement )
     y = endElement.attribute( "endy", "0" );
     nY = y.toInt();
     QPoint endPoint( nX, nY );
-    setStartEndPoints( startPoint, endPoint );
+    setEndPoints( startPoint, endPoint );
     QPoint point;
     node = endElement.nextSibling();
     QDomElement element = node.toElement();

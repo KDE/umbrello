@@ -65,7 +65,7 @@ public:
     bool insertPoint( int pointIndex, const QPoint &point );
     bool removePoint( int pointIndex, const QPoint &point = QPoint(), unsigned short delta = 0 );
 
-    bool setStartEndPoints( const QPoint &start, const QPoint &end );
+    bool setEndPoints( const QPoint &start, const QPoint &end );
 
     int count() const;
 

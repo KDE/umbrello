@@ -1598,7 +1598,7 @@ void AssociationWidget::calculateEndingPoints()
 
     int size = m_LinePath.count();
     if(size < 2)
-        m_LinePath.setStartEndPoints( m_role[A].m_OldCorner, m_role[B].m_OldCorner );
+        m_LinePath.setEndPoints( m_role[A].m_OldCorner, m_role[B].m_OldCorner );
 
     // See if an association to self.
     // See if it needs to be set up before we continue:
@@ -1613,12 +1613,12 @@ void AssociationWidget::calculateEndingPoints()
         int w = pWidgetA->getWidth();
         //see if above widget ok to start
         if( y - DISTANCE > 0 ) {
-            m_LinePath.setStartEndPoints( QPoint( x + w / 4, y ) , QPoint( x + w * 3 / 4, y ) );
+            m_LinePath.setEndPoints( QPoint( x + w / 4, y ) , QPoint( x + w * 3 / 4, y ) );
             m_LinePath.insertPoint( 1, QPoint( x + w / 4, y - DISTANCE ) );
             m_LinePath.insertPoint( 2 ,QPoint( x + w * 3 / 4, y - DISTANCE ) );
             m_role[A].m_WidgetRegion = m_role[B].m_WidgetRegion = North;
         } else {
-            m_LinePath.setStartEndPoints( QPoint( x + w / 4, y + h ), QPoint( x + w * 3 / 4, y + h ) );
+            m_LinePath.setEndPoints( QPoint( x + w / 4, y + h ), QPoint( x + w * 3 / 4, y + h ) );
             m_LinePath.insertPoint( 1, QPoint( x + w / 4, y + h + DISTANCE ) );
             m_LinePath.insertPoint( 2, QPoint( x + w * 3 / 4, y + h + DISTANCE ) );
             m_role[A].m_WidgetRegion = m_role[B].m_WidgetRegion = South;
@@ -1637,7 +1637,7 @@ void AssociationWidget::calculateEndingPoints()
         int hb = pWidgetB->getHeight();
         //int wb = pWidgetB->getWidth();
 
-        m_LinePath.setStartEndPoints( QPoint( xa + wa , ya + ha/2 ) , QPoint( xb , yb + hb/2 ) );
+        m_LinePath.setEndPoints( QPoint( xa + wa , ya + ha/2 ) , QPoint( xb , yb + hb/2 ) );
         m_LinePath.insertPoint( 1, QPoint( xa + wa , ya + ha/2 ));
         m_LinePath.insertPoint( 2 ,QPoint( xb , yb + hb/2 ));
         updatePointsException();
@@ -1974,7 +1974,7 @@ void AssociationWidget::updatePointsException ()
     if (abs(p1.y() - p2.y()) <= 10)
         ESPACEY = 15;
 
-    m_LinePath.setStartEndPoints( QPoint( xdeb , ydeb ) , QPoint( xfin , yfin ) );
+    m_LinePath.setEndPoints( QPoint( xdeb , ydeb ) , QPoint( xfin , yfin ) );
     m_LinePath.setPoint( 1, QPoint(p1.x() + ESPACEX,p1.y() + ESPACEY));
     m_LinePath.setPoint( 2 ,QPoint(p2.x() - ESPACEX,p2.y() - ESPACEY));
 
