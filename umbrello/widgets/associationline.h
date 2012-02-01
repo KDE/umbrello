@@ -81,7 +81,7 @@ public:
      * Returns the Association this class is linked to.
      */
     AssociationWidget * getAssociation() {
-        return m_pAssociation;
+        return m_associationWidget;
     }
 
     void setSelected( bool select );
@@ -166,7 +166,7 @@ protected:
 
     /********Attributes*************/
 
-    AssociationWidget* m_pAssociation;  ///< The association we are representing.
+    AssociationWidget* m_associationWidget;  ///< The association we are representing.
     LineList           m_LineList;      ///< Contains all the lines of the association.
     RectList           m_RectList;      ///< Selected boxes list.
     LineList           m_HeadList;      ///< Head lines.

@@ -71,7 +71,7 @@ AssociationLine::AssociationLine()
     m_pSubsetSymbol = 0;
     m_PointArray.resize( 4 );
     m_ParallelLines.resize( 4 );
-    m_pAssociation = 0;
+    m_associationWidget = 0;
     m_bHeadCreated = false;
     m_bSubsetSymbolCreated = false;
     m_bParallelLineCreated = false;
@@ -94,12 +94,12 @@ void AssociationLine::setAssociation(AssociationWidget * association)
     if( !association )
         return;
     cleanup();
-    m_pAssociation = association;
+    m_associationWidget = association;
     createHeadLines();
     createSubsetSymbol();
     if( getAssocType() == Uml::AssociationType::Coll_Message )
         setupParallelLine();
-    UMLView * view =  (UMLView *)m_pAssociation->parent();
+    UMLView * view =  (UMLView *)m_associationWidget->parent();
     if (view) {
         connect(view, SIGNAL(sigColorChanged(Uml::IDType)), this, SLOT(slotLineColorChanged(Uml::IDType)));
         connect(view, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
@@ -433,10 +433,10 @@ void AssociationLine::update()
  */
 void AssociationLine::slotLineColorChanged( Uml::IDType viewID )
 {
-    if(m_pAssociation->umlScene()->getID() != viewID) {
+    if(m_associationWidget->umlScene()->getID() != viewID) {
         return;
     }
-    setLineColor( m_pAssociation->umlScene()->lineColor() );
+    setLineColor( m_associationWidget->umlScene()->lineColor() );
 }
 
 /**
@@ -486,10 +486,10 @@ void AssociationLine::setLineColor( const QColor &color )
  */
 void AssociationLine::slotLineWidthChanged( Uml::IDType viewID )
 {
-    if(m_pAssociation->umlScene()->getID() != viewID) {
+    if(m_associationWidget->umlScene()->getID() != viewID) {
         return;
     }
-    setLineWidth( m_pAssociation->umlScene()->lineWidth() );
+    setLineWidth( m_associationWidget->umlScene()->lineWidth() );
 }
 
 /**
@@ -964,13 +964,13 @@ AssociationLine & AssociationLine::operator=( const AssociationLine & rhs )
  * Will return zero if the Association hasn't been set.
  *
  * This class doesn't hold this information but is a wrapper
- * method to stop calls to undefined variable like m_pAssociation.
+ * method to stop calls to undefined variable like m_associationWidget.
  */
 UMLViewCanvas * AssociationLine::getScene()
 {
-    if( !m_pAssociation )
+    if( !m_associationWidget )
         return 0;
-    const UMLView * view =  m_pAssociation->umlScene();
+    const UMLView * view =  m_associationWidget->umlScene();
     return static_cast<UMLViewCanvas *>(view->canvas());
 }
 
@@ -979,12 +979,12 @@ UMLViewCanvas * AssociationLine::getScene()
  * Returns Uml::AssociationType::Association if association hasn't been set.
  *
  * This class doesn't hold this information but is a wrapper
- * method to stop calls to undefined variable like m_pAssociation.
+ * method to stop calls to undefined variable like m_associationWidget.
  */
 Uml::AssociationType AssociationLine::getAssocType() const 
 {
-    if( m_pAssociation )
-        return m_pAssociation->associationType();
+    if( m_associationWidget )
+        return m_associationWidget->associationType();
     return Uml::AssociationType::Association;
 }
 
@@ -993,13 +993,13 @@ Uml::AssociationType AssociationLine::getAssocType() const
  * Returns black if association not set.
  *
  * This class doesn't hold this information but is a wrapper
- * method to stop calls to undefined variable like m_pAssociation.
+ * method to stop calls to undefined variable like m_associationWidget.
  */
 QColor AssociationLine::lineColor()
 {
-    if( !m_pAssociation )
+    if( !m_associationWidget )
         return Qt::black;
-    return m_pAssociation->lineColor();
+    return m_associationWidget->lineColor();
 }
 
 /**
@@ -1007,13 +1007,13 @@ QColor AssociationLine::lineColor()
  * Returns 0 if association not set.
  *
  * This class doesn't hold this information but is a wrapper
- * method to stop calls to undefined variable like m_pAssociation.
+ * method to stop calls to undefined variable like m_associationWidget.
  */
 uint AssociationLine::lineWidth()
 {
-    if( !m_pAssociation )
+    if( !m_associationWidget )
         return 0;
-    int viewLineWidth = m_pAssociation->lineWidth();
+    int viewLineWidth = m_associationWidget->lineWidth();
     if ( viewLineWidth >= 0 && viewLineWidth <= 10 )
         return viewLineWidth;
     else {
@@ -1028,7 +1028,7 @@ uint AssociationLine::lineWidth()
  */
 void AssociationLine::cleanup()
 {
-    if (m_pAssociation) {
+    if (m_associationWidget) {
         qDeleteAll( m_LineList.begin(), m_LineList.end() );
         m_LineList.clear();
     }
@@ -1052,13 +1052,13 @@ void AssociationLine::cleanup()
     m_pClearPoly = 0;
     m_pSubsetSymbol = 0;
     m_bHeadCreated = m_bParallelLineCreated = m_bSubsetSymbolCreated = false;
-    if (m_pAssociation) {
-        UMLView * view =  (UMLView *)m_pAssociation->parent();
+    if (m_associationWidget) {
+        UMLView * view =  (UMLView *)m_associationWidget->parent();
         if (view) {
             disconnect(view, SIGNAL(sigColorChanged(Uml::IDType)), this, SLOT(slotLineColorChanged(Uml::IDType)));
             disconnect(view, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
         }
-        m_pAssociation = 0;
+        m_associationWidget = 0;
     }
 }
 
@@ -1154,12 +1154,12 @@ bool AssociationLine::loadFromXMI( QDomElement & qElement )
 
 /**
  * Activates the line list.
- * This is needed because the m_pAssociation does not yet
+ * This is needed because the m_associationWidget does not yet
  * exist at the time of the AssociationLine::loadFromXMI call.
  * However, this means that the points in the m_LineList
  * do not have a parent when they are loaded.
  * They need to be reparented by calling AssociationLine::activate()
- * once the m_pAssociation exists.
+ * once the m_associationWidget exists.
  */
 void AssociationLine::activate()
 {
