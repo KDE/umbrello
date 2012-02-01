@@ -60,6 +60,22 @@ void AssociationLine::Circle::drawShape(QPainter& p)
     p.drawEllipse( (int)x() - radius, (int)y() - radius, diameter, diameter);
 }
 
+AssociationLine::SubsetSymbol::SubsetSymbol(UMLViewCanvas* canvas)
+    : UMLSceneEllipse(canvas) {
+    inclination = 0;
+}
+
+void AssociationLine::SubsetSymbol::drawShape(QPainter& p) {
+    p.translate(QPoint( ( int )x(), ( int )y() ) );
+    p.rotate( inclination );
+    int width = 30, height = 20;
+    int startAngle = 90, endAngle = 180;
+    p.drawArc( 0 ,-height/2, width, height, startAngle*16, endAngle*16 );
+    // revert back
+    p.rotate( -inclination );
+    p.translate( QPoint( ( int )-x(), ( int )-y() ) );
+}
+
 /**
  * Constructor.
  */
@@ -1239,22 +1255,6 @@ void AssociationLine::updateSubsetSymbol()
         m_pSubsetSymbol->setX(centrePoint.x());
         m_pSubsetSymbol->setY(centrePoint.y());
     }
-}
-
-AssociationLine::SubsetSymbol::SubsetSymbol(UMLViewCanvas* canvas)
-    : UMLSceneEllipse(canvas) {
-    inclination = 0;
-}
-
-void AssociationLine::SubsetSymbol::drawShape(QPainter& p) {
-    p.translate(QPoint( ( int )x(), ( int )y() ) );
-    p.rotate( inclination );
-    int width = 30, height = 20;
-    int startAngle = 90, endAngle = 180;
-    p.drawArc( 0 ,-height/2, width, height, startAngle*16, endAngle*16 );
-    // revert back
-    p.rotate( -inclination );
-    p.translate( QPoint( ( int )-x(), ( int )-y() ) );
 }
 
 #include "associationline.moc"
