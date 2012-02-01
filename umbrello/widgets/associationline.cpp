@@ -129,7 +129,7 @@ void AssociationLine::setAssociation(AssociationWidget * association)
 /**
  * Returns the point at the point index.
  */
-QPoint AssociationLine::getPoint( int pointIndex ) const 
+QPoint AssociationLine::point( int pointIndex ) const 
 {
     int count = m_LineList.count();
     if( count == 0 || pointIndex > count  || pointIndex < 0)
@@ -615,8 +615,8 @@ void AssociationLine::calculateHead()
     Uml::AssociationType at = getAssocType();
     bool diamond = (at == Uml::AssociationType::Aggregation || at == Uml::AssociationType::Composition);
     if (diamond || at == Uml::AssociationType::Containment) {
-        farPoint = getPoint(1);
-        m_EgdePoint = getPoint(0);
+        farPoint = point(1);
+        m_EgdePoint = point(0);
         if (diamond) {
             arrowAngle *= 1.5;  // wider
             halfLength += 1;    // longer
@@ -630,8 +630,8 @@ void AssociationLine::calculateHead()
             halfLength -= 4;    // shorter
         }
     } else {
-        farPoint = getPoint(size - 1);
-        m_EgdePoint = getPoint(size);
+        farPoint = point(size - 1);
+        m_EgdePoint = point(size);
         // We have an arrow.
         arrowAngle *= 2.0;      // wider
         halfLength += 3;        // longer
@@ -860,8 +860,8 @@ void AssociationLine::calculateParallelLine()
     double ATAN = atan(1.0);
     int lineDist = 10;
     //get  1/8(M) and 7/8(T) point
-    QPoint a = getPoint( midCount - 1 );
-    QPoint b = getPoint( midCount );
+    QPoint a = point( midCount - 1 );
+    QPoint b = point( midCount );
     int mx = ( a.x() + b.x() ) / 2;
     int my = ( a.y() + b.y() ) / 2;
     int tx = ( mx + b.x() ) / 2;
@@ -947,7 +947,7 @@ bool AssociationLine::operator==( const AssociationLine & rhs )
 
     //Check to see if all points at the same position
     for( int i = 0; i< rhs.count() ; i++ ) {
-        if( this->getPoint( i ) != rhs.getPoint( i ) )
+        if( this->point( i ) != rhs.point( i ) )
             return false;
     }
     return true;
@@ -965,10 +965,10 @@ AssociationLine & AssociationLine::operator=( const AssociationLine & rhs )
 
     int count = rhs.m_LineList.count();
     //setup start end points
-    this->setEndPoints( rhs.getPoint( 0 ), rhs.getPoint( count) );
+    this->setEndPoints( rhs.point( 0 ), rhs.point( count) );
     //now insert the rest
     for( int i = 1; i < count ; i++ ) {
-        this->insertPoint( i, rhs.getPoint ( i ) );
+        this->insertPoint( i, rhs.point ( i ) );
     }
     this->setAssocType( rhs.getAssocType() );
 
@@ -1098,30 +1098,30 @@ void AssociationLine::dumpPoints ()
 {
     int count = m_LineList.count();
     for( int i = 1; i < count; i++ ) {
-        QPoint point = getPoint( i );
-        uDebug()<<" * point x:"<<point.x()<<" y:"<<point.y();
+        QPoint p = point( i );
+        uDebug()<<" * point x:"<<p.x()<<" y:"<<p.y();
     }
 }
 
 void AssociationLine::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     int count = m_LineList.count();
-    QPoint point = getPoint( 0 );
+    QPoint p = point( 0 );
     QDomElement lineElement = qDoc.createElement( "linepath" );
     QDomElement startElement = qDoc.createElement( "startpoint" );
-    startElement.setAttribute( "startx", point.x() );
-    startElement.setAttribute( "starty", point.y() );
+    startElement.setAttribute( "startx", p.x() );
+    startElement.setAttribute( "starty", p.y() );
     lineElement.appendChild( startElement );
     QDomElement endElement = qDoc.createElement( "endpoint" );
-    point = getPoint( count );
-    endElement.setAttribute( "endx", point.x() );
-    endElement.setAttribute( "endy", point.y() );
+    p = point( count );
+    endElement.setAttribute( "endx", p.x() );
+    endElement.setAttribute( "endy", p.y() );
     lineElement.appendChild( endElement );
     for( int i = 1; i < count; i++ ) {
         QDomElement pointElement = qDoc.createElement( "point" );
-        point = getPoint( i );
-        pointElement.setAttribute( "x", point.x() );
-        pointElement.setAttribute( "y", point.y() );
+        p = point( i );
+        pointElement.setAttribute( "x", p.x() );
+        pointElement.setAttribute( "y", p.y() );
         lineElement.appendChild( pointElement );
     }
     qElement.appendChild( lineElement );

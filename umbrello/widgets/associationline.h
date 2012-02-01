@@ -58,7 +58,7 @@ public:
     void dumpPoints ();
 
     bool setPoint( int pointIndex, const QPoint &point );
-    QPoint getPoint( int pointIndex ) const;
+    QPoint point( int pointIndex ) const;
 
     bool isPoint( int pointIndex, const QPoint &point, unsigned short delta = 0 );
 

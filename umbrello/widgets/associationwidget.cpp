@@ -452,8 +452,8 @@ void AssociationWidget::calculateNameTextSegment()
     float total_length = 0;
     float smallest_length = 0;
     for(uint i = 0; i < size - 1; ++i) {
-        QPoint pi = m_LinePath.getPoint( i );
-        QPoint pj = m_LinePath.getPoint( i+1 );
+        QPoint pi = m_LinePath.point( i );
+        QPoint pj = m_LinePath.point( i+1 );
         int xtiDiff = xt - pi.x();
         int xtjDiff = xt - pj.x();
         int ytiDiff = yt - pi.y();
@@ -1106,7 +1106,7 @@ void AssociationWidget::setChangeWidget(const QString &strChangeWidget, Uml::Rol
  */
 bool AssociationWidget::linePathStartsAt(const UMLWidget* widget)
 {
-    QPoint lpStart = m_LinePath.getPoint(0);
+    QPoint lpStart = m_LinePath.point(0);
     int startX = lpStart.x();
     int startY = lpStart.y();
     int wX = widget->getX();
@@ -1440,8 +1440,8 @@ void AssociationWidget::mouseDoubleClickEvent(QMouseEvent * me)
     if (! m_LinePath.isPoint(i, mp, POINT_DELTA)) {
         m_LinePath.insertPoint(i + 1, mp);
         if (m_nLinePathSegmentIndex == i) {
-            QPoint segStart = m_LinePath.getPoint(i);
-            QPoint segEnd = m_LinePath.getPoint(i + 2);
+            QPoint segStart = m_LinePath.point(i);
+            QPoint segEnd = m_LinePath.point(i + 2);
             const int midSegX = segStart.x() + (segEnd.x() - segStart.x()) / 2;
             const int midSegY = segStart.y() + (segEnd.y() - segStart.y()) / 2;
             /*
@@ -1648,7 +1648,7 @@ void AssociationWidget::calculateEndingPoints()
     int xB = pWidgetB->getX() + pWidgetB->getWidth() / 2;
     int yB = pWidgetB->getY() + pWidgetB->getHeight() / 2;
     if( size > 2 ) {
-        QPoint p = m_LinePath.getPoint( 1 );
+        QPoint p = m_LinePath.point( 1 );
         xB = p.x();
         yB = p.y();
     }
@@ -1660,7 +1660,7 @@ void AssociationWidget::calculateEndingPoints()
     int xA = pWidgetA->getX() + pWidgetA->getWidth() / 2;
     int yA = pWidgetA->getY() + pWidgetA->getHeight() / 2;
     if (size > 2 ) {
-        QPoint p = m_LinePath.getPoint( size - 2 );
+        QPoint p = m_LinePath.point( size - 2 );
         xA = p.x();
         yA = p.y();
     }
@@ -1855,7 +1855,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y )
     // Assoc to self - move all points:
     if( m_role[A].m_pWidget == m_role[B].m_pWidget) {
         for (int i = 1; i < (int)pos; ++i) {
-            QPoint p = m_LinePath.getPoint( i );
+            QPoint p = m_LinePath.point( i );
             int newX = p.x() - dx;
             int newY = p.y() - dy;
             // safety. We DON'T want to go off the screen
@@ -2067,8 +2067,8 @@ float AssociationWidget::totalLength()
     float total_length = 0;
 
     for(uint i = 0; i < size - 1; ++i) {
-        QPoint pi = m_LinePath.getPoint( i );
-        QPoint pj = m_LinePath.getPoint( i+1 );
+        QPoint pi = m_LinePath.point( i );
+        QPoint pj = m_LinePath.point( i+1 );
         int xi = pi.y();
         int xj = pj.y();
         int yi = pi.x();
@@ -2382,13 +2382,13 @@ QPoint AssociationWidget::calculateTextPosition(Uml::TextRole role)
     UMLWidget *pWidget(0);
 
     if (role == TextRole::MultiA || role == TextRole::ChangeA || role == TextRole::RoleAName) {
-        p = m_LinePath.getPoint( 0 );
-        q = m_LinePath.getPoint( 1 );
+        p = m_LinePath.point( 0 );
+        q = m_LinePath.point( 1 );
         pWidget = m_role[A].m_pWidget;
     } else if (role == TextRole::MultiB || role == TextRole::ChangeB || role == TextRole::RoleBName) {
         const uint lastSegment = m_LinePath.count() - 1;
-        p = m_LinePath.getPoint(lastSegment);
-        q = m_LinePath.getPoint(lastSegment - 1);
+        p = m_LinePath.point(lastSegment);
+        q = m_LinePath.point(lastSegment - 1);
         pWidget = m_role[B].m_pWidget;
     } else if (role != TextRole::Name) {
         uError() << "called with unsupported TextRole " << role;
@@ -2440,11 +2440,11 @@ QPoint AssociationWidget::calculateTextPosition(Uml::TextRole role)
     } else if (role == TextRole::Name) {
 
         calculateNameTextSegment();
-        x = (int)( ( m_LinePath.getPoint(m_unNameLineSegment).x() +
-                     m_LinePath.getPoint(m_unNameLineSegment + 1).x() ) / 2 );
+        x = (int)( ( m_LinePath.point(m_unNameLineSegment).x() +
+                     m_LinePath.point(m_unNameLineSegment + 1).x() ) / 2 );
 
-        y = (int)( ( m_LinePath.getPoint(m_unNameLineSegment).y() +
-                     m_LinePath.getPoint(m_unNameLineSegment + 1).y() ) / 2 );
+        y = (int)( ( m_LinePath.point(m_unNameLineSegment).y() +
+                     m_LinePath.point(m_unNameLineSegment + 1).y() ) / 2 );
     }
 
     if (text) {
@@ -2493,8 +2493,8 @@ void AssociationWidget::constrainTextPos(int &textX, int &textY,
         case TextRole::RoleAName:
         case TextRole::MultiA:
         case TextRole::ChangeA:
-            p0 = m_LinePath.getPoint(0);
-            p1 = m_LinePath.getPoint(1);
+            p0 = m_LinePath.point(0);
+            p1 = m_LinePath.point(1);
             // If we are dealing with a single line then tie the
             // role label to the proper half of the line, i.e.
             // the role label must be closer to the "other"
@@ -2505,8 +2505,8 @@ void AssociationWidget::constrainTextPos(int &textX, int &textY,
         case TextRole::RoleBName:
         case TextRole::MultiB:
         case TextRole::ChangeB:
-            p0 = m_LinePath.getPoint(lastSegment - 1);
-            p1 = m_LinePath.getPoint(lastSegment);
+            p0 = m_LinePath.point(lastSegment - 1);
+            p1 = m_LinePath.point(lastSegment);
             if (lastSegment == 1)
                 p0 = midPoint(p0, p1);
             break;
@@ -2519,8 +2519,8 @@ void AssociationWidget::constrainTextPos(int &textX, int &textY,
                 int minDistSquare = 100000;  // utopian initial value
                 int lpIndex = 0;
                 for (uint i = 0; i < lastSegment; ++i) {
-                    p0 = m_LinePath.getPoint(i);
-                    p1 = m_LinePath.getPoint(i + 1);
+                    p0 = m_LinePath.point(i);
+                    p1 = m_LinePath.point(i + 1);
                     QPoint midP = midPoint(p0, p1);
                     const int deltaX = textCenterX - midP.x();
                     const int deltaY = textCenterY - midP.y();
@@ -2530,8 +2530,8 @@ void AssociationWidget::constrainTextPos(int &textX, int &textY,
                         lpIndex = i;
                     }
                 }
-                p0 = m_LinePath.getPoint(lpIndex);
-                p1 = m_LinePath.getPoint(lpIndex + 1);
+                p0 = m_LinePath.point(lpIndex);
+                p1 = m_LinePath.point(lpIndex + 1);
             }
             break;
         default:
@@ -2788,8 +2788,8 @@ void AssociationWidget::computeAssocClassLine()
         uError() << "m_nLinePathSegmentIndex is not set";
         return;
     }
-    QPoint segStart = m_LinePath.getPoint(m_nLinePathSegmentIndex);
-    QPoint segEnd = m_LinePath.getPoint(m_nLinePathSegmentIndex + 1);
+    QPoint segStart = m_LinePath.point(m_nLinePathSegmentIndex);
+    QPoint segEnd = m_LinePath.point(m_nLinePathSegmentIndex + 1);
     const int midSegX = segStart.x() + (segEnd.x() - segStart.x()) / 2;
     const int midSegY = segStart.y() + (segEnd.y() - segStart.y()) / 2;
 
@@ -2872,9 +2872,9 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me)
     ///@todo: check for non-horizontal / -vertical lines
     if (m_nMovingPoint > 0 && m_nMovingPoint < m_LinePath.count() - 1)
     {
-        QPoint m = m_LinePath.getPoint(m_nMovingPoint);
-        QPoint b = m_LinePath.getPoint(m_nMovingPoint - 1);
-        QPoint a = m_LinePath.getPoint(m_nMovingPoint + 1);
+        QPoint m = m_LinePath.point(m_nMovingPoint);
+        QPoint b = m_LinePath.point(m_nMovingPoint - 1);
+        QPoint a = m_LinePath.point(m_nMovingPoint + 1);
         if ( (b.x() == m.x() && a.x() == m.x()) ||
              (b.y() == m.y() && a.y() == m.y()) )
             m_LinePath.removePoint(m_nMovingPoint, m, POINT_DELTA);
@@ -2892,8 +2892,8 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me)
     //also must be within a certain distance to be a multiplicity menu
     ListPopupMenu::MenuType menuType = ListPopupMenu::mt_Undefined;
     const int DISTANCE = 40;//must be within this many pixels for it to be a multi menu
-    const QPoint lpStart = m_LinePath.getPoint(0);
-    const QPoint lpEnd = m_LinePath.getPoint(m_LinePath.count() - 1);
+    const QPoint lpStart = m_LinePath.point(0);
+    const QPoint lpEnd = m_LinePath.point(m_LinePath.count() - 1);
     const int startXDiff = lpStart.x() - p.x();
     const int startYDiff = lpStart.y() - p.y();
     const int endXDiff = lpEnd.x() - p.x();
@@ -3166,7 +3166,7 @@ void AssociationWidget::checkPoints(const QPoint &p)
     int x, y;
     const int BOUNDARY = 4; // check for pixels around the point
     for (int i = 1; i < size - 1; ++i) {
-        tempPoint = m_LinePath.getPoint( i );
+        tempPoint = m_LinePath.point( i );
         x = tempPoint.x();
         y = tempPoint.y();
         if( x - BOUNDARY <= p.x() && x + BOUNDARY >= p.x() &&
@@ -3201,7 +3201,7 @@ void AssociationWidget::mouseMoveEvent(QMouseEvent* me)
     setSelected();
     //new position for point
     QPoint p = me->pos();
-    QPoint oldp = m_LinePath.getPoint(m_nMovingPoint);
+    QPoint oldp = m_LinePath.point(m_nMovingPoint);
 
     if( m_scene->getSnapToGrid() ) {
         int newX = m_scene->snappedX( p.x() );
@@ -3526,9 +3526,9 @@ void AssociationWidget::updateAssociations(int totalCount,
         AssociationLine *linepath = assocwidget->getLinePath();
         QPoint refpoint;
         if (assocwidget->linePathStartsAt(otherWidget))
-            refpoint = linepath->getPoint(linepath->count() - 2);
+            refpoint = linepath->point(linepath->count() - 2);
         else
-            refpoint = linepath->getPoint(1);
+            refpoint = linepath->point(1);
         // The point is authoritative if we're called for the second time
         // (i.e. role==B) or it is a waypoint on the line path.
         bool pointIsAuthoritative = (role == B || linepath->count() > 2);
@@ -3632,7 +3632,7 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
     int cw = 0;
     if (angular) {
         uint nind = (role == A ? 1 : m_LinePath.count() - 2);
-        QPoint neighbour = m_LinePath.getPoint(nind);
+        QPoint neighbour = m_LinePath.point(nind);
         if (neighbour.x() < x)
             cw = 0;
         else if (neighbour.x() > x + ww)
@@ -3800,7 +3800,7 @@ void AssociationWidget::moveMidPointsBy( int x, int y )
 {
     int pos = m_LinePath.count() - 1;
     for (int i = 1; i < (int)pos; ++i) {
-        QPoint p = m_LinePath.getPoint( i );
+        QPoint p = m_LinePath.point( i );
         int newX = p.x() + x;
         int newY = p.y() + y;
         newX = m_scene->snappedX( newX );
@@ -3842,7 +3842,7 @@ QRect AssociationWidget::getAssocLineRectangle()
     /* go through all points on the linepath */
     for (int i = 0; i < pos; ++i)
     {
-        QPoint p = m_LinePath.getPoint(i);
+        QPoint p = m_LinePath.point(i);
 
         /* the first point is our starting point */
         if (i == 0) {
@@ -4242,7 +4242,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
                 // as IF this ISNT done, then the subsequent call to
                 // widgetMoved will inadvertantly think we have made a
                 // big move in the position of the association when we haven't.
-                QPoint p = m_LinePath.getPoint(0);
+                QPoint p = m_LinePath.point(0);
                 m_role[A].m_OldCorner.setX(p.x());
                 m_role[A].m_OldCorner.setY(p.y());
             }
