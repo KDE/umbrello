@@ -343,11 +343,14 @@ int AssociationLine::count() const
 }
 
 /**
- * Returns -1 if the given point is not on the line.
- * else returns the line segment the point is on.
- * Use the value to insert points at the point position.
+ * Return index of closest point.
+ * 
+ * @param point The point which is to be tested for closeness.
+ *
+ * @retval "Index" of the linepoint closest to the \a point passed.
+ * @retval -1 If no linepoint is closer to passed in \a point.
  */
-int AssociationLine::onLinePath( const QPoint &position )
+int AssociationLine::closestPointIndex( const QPoint &position )
 {
     UMLSceneItemList list = getScene()->collisions( position );
     int index = -1;

@@ -1425,7 +1425,7 @@ void AssociationWidget::mouseDoubleClickEvent(QMouseEvent * me)
 {
     if (me->button() != Qt::RightButton && me->button() != Qt::LeftButton)
         return;
-    int i = m_LinePath.onLinePath(me->pos());
+    int i = m_LinePath.closestPointIndex(me->pos());
     if (i == -1) {
         m_LinePath.setSelected(false);
         return;
@@ -3190,7 +3190,7 @@ void AssociationWidget::mouseMoveEvent(QMouseEvent* me)
     if (m_nMovingPoint == -1)
     {
         //create moving point near the mouse on the line
-        int i = m_LinePath.onLinePath(me->pos());
+        int i = m_LinePath.closestPointIndex(me->pos());
 
         if (i == -1)
             return;
@@ -3762,7 +3762,7 @@ bool AssociationWidget::onAssocClassLine(const QPoint &point)
  */
 bool AssociationWidget::onAssociation(const QPoint & point)
 {
-    if (m_LinePath.onLinePath(point) != -1)
+    if (m_LinePath.closestPointIndex(point) != -1)
         return true;
     return onAssocClassLine(point);
 }

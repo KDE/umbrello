@@ -69,7 +69,7 @@ public:
 
     int count() const;
 
-    int onLinePath( const QPoint &position );
+    int closestPointIndex( const QPoint &position );
 
     void setAssocType( Uml::AssociationType type );
 
