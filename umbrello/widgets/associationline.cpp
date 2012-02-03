@@ -835,7 +835,7 @@ void AssociationLine::moveSelected( int pointIndex )
     }
     if( (int)m_RectList.count() + 1 != lineCount )
         setupSelected();
-    UMLSceneRectangle * rect = 0;
+    UMLSceneRectItem * rect = 0;
     UMLSceneLineItem * line = 0;
     if( pointIndex == lineCount || lineCount == 1) {
         line = m_LineList.last();
@@ -865,13 +865,13 @@ void AssociationLine::setupSelected()
 
     Q_FOREACH( line, m_LineList ) {
         QPoint sp = line -> startPoint();
-        UMLSceneRectangle *rect = Widget_Utils::decoratePoint(sp);
+        UMLSceneRectItem *rect = Widget_Utils::decoratePoint(sp);
         m_RectList.append( rect );
     }
     //special case for last point
     line = m_LineList.last();
     QPoint p = line -> endPoint();
-    UMLSceneRectangle *rect = Widget_Utils::decoratePoint(p);
+    UMLSceneRectItem *rect = Widget_Utils::decoratePoint(p);
     m_RectList.append( rect );
     update();
 }

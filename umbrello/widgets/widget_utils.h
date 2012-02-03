@@ -42,7 +42,7 @@ UMLWidget* findWidget(Uml::IDType id,
  * @param p   the base point
  * @return    the decoration point
  */
-UMLSceneRectangle *decoratePoint(const QPoint& p);
+UMLSceneRectItem *decoratePoint(const QPoint& p);
 
 }
 

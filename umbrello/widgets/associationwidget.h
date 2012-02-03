@@ -416,7 +416,7 @@ private:
     int         m_nLinePathSegmentIndex; ///< anchor for m_pAssocClassLine
     UMLSceneLineItem *m_pAssocClassLine;  ///< used for connecting assoc. class
     /// selection adornment for the endpoints of the assoc. class connecting line
-    UMLSceneRectangle *m_pAssocClassLineSel0, *m_pAssocClassLineSel1;
+    UMLSceneRectItem *m_pAssocClassLineSel0, *m_pAssocClassLineSel1;
 
     ClassifierWidget *m_pAssocClassWidget;  ///< used if we have an assoc. class
 

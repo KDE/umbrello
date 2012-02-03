@@ -49,12 +49,12 @@ UMLWidget* findWidget(Uml::IDType id,
     return NULL;
 }
 
-UMLSceneRectangle *decoratePoint(const QPoint& p)
+UMLSceneRectItem *decoratePoint(const QPoint& p)
 {
     const int SIZE = 4;
     UMLView *currentView = UMLApp::app()->currentView();
-    UMLSceneRectangle *rect;
-    rect = new UMLSceneRectangle(p.x() - SIZE / 2,
+    UMLSceneRectItem *rect;
+    rect = new UMLSceneRectItem(p.x() - SIZE / 2,
                                  p.y() - SIZE / 2,
                                  SIZE, SIZE, currentView->canvas());
     rect->setBrush( QBrush(Qt::blue) );
