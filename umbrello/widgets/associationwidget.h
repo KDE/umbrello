@@ -12,14 +12,12 @@
 #define ASSOCIATIONWIDGET_H
 
 #include "widgetbase.h"
-#include "linkwidget.h"
-#include "umlwidgetlist.h"
-#include "messagewidgetlist.h"
-#include "associationwidgetlist.h"
-#include "associationline.h"
 
-#include <QMouseEvent>
-#include <QMoveEvent>
+#include "associationline.h"
+#include "associationwidgetlist.h"
+#include "linkwidget.h"
+#include "messagewidgetlist.h"
+#include "umlwidgetlist.h"
 
 class ListPopupMenu;
 class ClassifierWidget;
