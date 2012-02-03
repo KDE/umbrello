@@ -20,7 +20,7 @@ class ObjectWidget;
  * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class SeqLineWidget : public UMLSceneLine
+class SeqLineWidget : public UMLSceneLineItem
 {
 public:
     SeqLineWidget(UMLView * pView, ObjectWidget * pObject);
@@ -65,8 +65,8 @@ protected:
     UMLView*      m_scene;    ///< view displayed on
 
     struct DestructionBox {
-        UMLSceneLine * line1;
-        UMLSceneLine * line2;
+        UMLSceneLineItem * line1;
+        UMLSceneLineItem * line2;
         void setLine1Points(QRect rect) {
             line1->setPoints( rect.x(), rect.y(),
                               rect.x() + rect.width(), rect.y() + rect.height() );

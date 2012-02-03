@@ -198,7 +198,7 @@ void ToolBarStateMessages::mouseReleaseEmpty()
         xclick = m_pMouseEvent->x();
         yclick = m_pMouseEvent->y();
 
-        m_messageLine = new UMLSceneLine(m_pUMLScene->canvas());
+        m_messageLine = new UMLSceneLineItem(m_pUMLScene->canvas());
         m_messageLine->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y());
         m_messageLine->setPen(QPen(m_pUMLScene->lineColor(), m_pUMLScene->lineWidth(), Qt::DashLine));
 
@@ -241,7 +241,7 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
         UMLApp::app()->document()->setModified();
     }
     else {
-        m_messageLine = new UMLSceneLine(m_pUMLScene->canvas());
+        m_messageLine = new UMLSceneLineItem(m_pUMLScene->canvas());
         m_messageLine->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y());
         m_messageLine->setPen(QPen(m_pUMLScene->lineColor(), m_pUMLScene->lineWidth(), Qt::DashLine));
 

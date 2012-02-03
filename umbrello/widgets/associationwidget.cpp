@@ -2746,7 +2746,7 @@ void AssociationWidget::removeAssocClassLine()
 void AssociationWidget::createAssocClassLine()
 {
     if (m_pAssocClassLine == NULL)
-        m_pAssocClassLine = new UMLSceneLine(m_scene->canvas());
+        m_pAssocClassLine = new UMLSceneLineItem(m_scene->canvas());
     computeAssocClassLine();
     QPen pen(lineColor(), lineWidth(), Qt::DashLine);
     m_pAssocClassLine->setPen(pen);

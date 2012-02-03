@@ -38,7 +38,7 @@ class AssociationLine : public QObject
     Q_OBJECT
 public:
     // typedefs
-    typedef QList<UMLSceneLine*> LineList;
+    typedef QList<UMLSceneLineItem*> LineList;
     typedef QList<UMLSceneRectangle*> RectList;
 
     AssociationLine();

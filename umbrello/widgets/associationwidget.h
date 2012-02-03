@@ -414,7 +414,7 @@ private:
     QPoint m_oldRoleBPoint;
 
     int         m_nLinePathSegmentIndex; ///< anchor for m_pAssocClassLine
-    UMLSceneLine *m_pAssocClassLine;  ///< used for connecting assoc. class
+    UMLSceneLineItem *m_pAssocClassLine;  ///< used for connecting assoc. class
     /// selection adornment for the endpoints of the assoc. class connecting line
     UMLSceneRectangle *m_pAssocClassLineSel0, *m_pAssocClassLineSel1;
 
