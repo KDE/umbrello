@@ -29,7 +29,7 @@
 #include "uml.h"
 
 AssociationLine::Circle::Circle(UMLViewCanvas * canvas, int radius /* = 0 */)
-        : UMLSceneEllipse(radius * 2, radius * 2, canvas)
+        : UMLSceneEllipseItem(radius * 2, radius * 2, canvas)
 {
 }
 
@@ -45,12 +45,12 @@ void AssociationLine::Circle::setY(int y)
 
 void AssociationLine::Circle::setRadius(int radius)
 {
-    UMLSceneEllipse::setSize(radius * 2, radius * 2);
+    UMLSceneEllipseItem::setSize(radius * 2, radius * 2);
 }
 
 int AssociationLine::Circle::getRadius() const
 {
-    return (UMLSceneEllipse::height() / 2);
+    return (UMLSceneEllipseItem::height() / 2);
 }
 
 void AssociationLine::Circle::drawShape(QPainter& p)
@@ -61,7 +61,7 @@ void AssociationLine::Circle::drawShape(QPainter& p)
 }
 
 AssociationLine::SubsetSymbol::SubsetSymbol(UMLViewCanvas* canvas)
-    : UMLSceneEllipse(canvas) {
+    : UMLSceneEllipseItem(canvas) {
     inclination = 0;
 }
 
