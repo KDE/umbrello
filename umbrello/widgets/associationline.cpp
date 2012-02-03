@@ -983,7 +983,7 @@ void AssociationLine::createHeadLines()
     case Uml::AssociationType::Generalization:
     case Uml::AssociationType::Realization:
         growList(m_HeadList, 3);
-        m_pClearPoly = new UMLScenePolygon( canvas );
+        m_pClearPoly = new UMLScenePolygonItem( canvas );
         m_pClearPoly -> setVisible( true );
         m_pClearPoly -> setBrush( QBrush( Qt::white ) );
         m_pClearPoly -> setZ( -1 );
@@ -992,7 +992,7 @@ void AssociationLine::createHeadLines()
     case Uml::AssociationType::Composition:
     case Uml::AssociationType::Aggregation:
         growList(m_HeadList, 4);
-        m_pClearPoly = new UMLScenePolygon( canvas );
+        m_pClearPoly = new UMLScenePolygonItem( canvas );
         m_pClearPoly -> setVisible( true );
         if( getAssocType() == Uml::AssociationType::Aggregation )
             m_pClearPoly->setBrush( QBrush( Qt::white ) );

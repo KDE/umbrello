@@ -46,7 +46,7 @@ typedef QContextMenuEvent UMLSceneContextMenuEvent;
 typedef Q3CanvasLine UMLSceneLineItem;
 typedef Q3CanvasRectangle UMLSceneRectangle;
 typedef Q3CanvasItem UMLSceneItem;
-typedef Q3CanvasPolygon UMLScenePolygon;
+typedef Q3CanvasPolygon UMLScenePolygonItem;
 typedef Q3CanvasEllipse UMLSceneEllipse;
 typedef Q3CanvasItemList UMLSceneItemList;
 

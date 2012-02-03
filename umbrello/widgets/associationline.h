@@ -181,7 +181,7 @@ protected:
      */
     QPoint m_ArrowPointA, m_ArrowPointB, m_MidPoint, m_EgdePoint;
 
-    UMLScenePolygon* m_pClearPoly;  ///< A polygon object to blank out any lines we don't want to see.
+    UMLScenePolygonItem* m_pClearPoly;  ///< A polygon object to blank out any lines we don't want to see.
     Circle*       m_pCircle;        ///< The transparent circle required by containment associations.
     SubsetSymbol* m_pSubsetSymbol;  ///< The subset notation required by Child to Category associations.
     QPolygon      m_ParallelLines;  ///< Contains the calculated points for the parallel line on a collaboration message to use.
