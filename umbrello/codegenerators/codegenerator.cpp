@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -52,21 +52,15 @@
  * Constructor for a code generator.
  */
 CodeGenerator::CodeGenerator()
-  : QObject(UMLApp::app()->document())
+  : m_applyToAllRemaining(true),
+    m_document(UMLApp::app()->document()),
+    m_lastIDIndex(0)
 {
-    initFields();
-}
-
-/**
- * Constructor for a code generator and then initialize it from an XMI element.
- * FIX: hmm. this should be pure virtual so that implemented in sub-class.
- * @param element   an element from an XMI document
- */
-CodeGenerator::CodeGenerator(QDomElement & element)
-  : QObject(UMLApp::app()->document())
-{
-    initFields();
-    loadFromXMI(element);  // hmm. cannot call this here.. it is 'pure' virtual
+    // initial population of our project generator
+    // CANT Be done here because we would call pure virtual method
+    // of newClassifierDocument (bad!).
+    // We should only call from the child
+    // initFromParentDocument();
 }
 
 /**
@@ -101,11 +95,11 @@ QString CodeGenerator::getUniqueID(CodeDocument * codeDoc)
     else {
         QString prefix = "doc";
         QString id = prefix + "_0";
-        int number = lastIDIndex;
+        int number = m_lastIDIndex;
         for ( ; findCodeDocumentByID(id); ++number) {
             id = prefix + '_' + QString::number(number);
         }
-        lastIDIndex = number;
+        m_lastIDIndex = number;
     }
 
     return id;
@@ -553,7 +547,6 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
             return QString();
             break;
         }
-
         break;
     case CodeGenerationPolicy::Never: //generate similar name
         suffix = 1;
@@ -811,19 +804,6 @@ QString CodeGenerator::formatSourceCode(const QString& code, const QString& inde
         }
     }
     return output;
-}
-
-void CodeGenerator::initFields()
-{
-    m_document = UMLApp::app()->document();
-    m_applyToAllRemaining = true;
-    lastIDIndex = 0;
-
-    // initial population of our project generator
-    // CANT Be done here because we would call pure virtual method
-    // of newClassifierDocument (bad!).
-    // We should only call from the child
-    // initFromParentDocument();
 }
 
 /**

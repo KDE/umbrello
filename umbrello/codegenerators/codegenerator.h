@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -70,8 +70,6 @@ class CodeGenerator : public QObject
     Q_OBJECT
 public:
     CodeGenerator();
-    CodeGenerator(QDomElement & element);
-
     virtual ~CodeGenerator();
 
     bool addCodeDocument(CodeDocument * add_object);
@@ -104,7 +102,7 @@ public:
     // finally implement the CodeGenDialog class -b.t.
 
     void setModifyNamePolicy(CodeGenerationPolicy::ModifyNamePolicy p);
-    CodeGenerationPolicy::ModifyNamePolicy modifyNamePolicy()const;
+    CodeGenerationPolicy::ModifyNamePolicy modifyNamePolicy() const;
 
     void setIncludeHeadings(bool i);
     bool includeHeadings() const;
@@ -122,9 +120,9 @@ public:
 
     QString findFileName(CodeDocument * codeDocument);
 
-    static QString cleanName(const QString &name );
+    static QString cleanName(const QString &name);
 
-    static QString formatDoc(const QString& text, const QString& linePrefix = " *", int lineWidth = 80 );
+    static QString formatDoc(const QString& text, const QString& linePrefix = " *", int lineWidth = 80);
 
     static QString formatSourceCode(const QString& code, const QString& indentation);
 
@@ -176,8 +174,6 @@ protected:
 
     void writeListedCodeDocsToFile(CodeDocumentList * docs);
 
-    static const char * hierarchicalCodeBlockNodeName;
-
     // map of what code documents we currently have in this generator.
     QHash<QString, CodeDocument*> m_codeDocumentDictionary;
 
@@ -202,9 +198,7 @@ private:
     // QMap<CodeDocument*,QString> *m_fileMap;
 
     CodeDocumentList m_codedocumentVector;
-    int lastIDIndex;
-
-    void initFields() ;
+    int m_lastIDIndex;
 
     void loadCodeForOperation(const QString& id, const QDomElement& codeDocElement);
 
@@ -222,4 +216,3 @@ signals:
 };
 
 #endif // CODEGENERATOR_H
-

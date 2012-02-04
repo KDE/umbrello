@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2011                                               *
+ *   copyright (C) 2006-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -30,8 +30,6 @@ class RubyCodeGenerator : public CodeGenerator
 public:
 
     RubyCodeGenerator();
-    RubyCodeGenerator(QDomElement & element);
-
     virtual ~RubyCodeGenerator();
 
     bool getAutoGenerateAttribAccessors();
