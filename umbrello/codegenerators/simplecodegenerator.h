@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -62,8 +62,6 @@ protected:
      */
     QMap<UMLPackage*,QString> m_fileMap;
 
-    UMLDoc *m_doc;  ///< the parent document
-
     /**
      * For some code generators, it does not make much sense to create a
      * directory for each package because that would lead to a rather
@@ -79,10 +77,6 @@ protected:
 
     // override parent method..we need special handling
     void initFromParentDocument();
-
-private:
-
-    void initFields(UMLDoc * doc) ;
 
 public slots:
 
