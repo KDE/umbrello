@@ -212,6 +212,7 @@ public slots:
 signals:
 
     void codeGenerated(UMLClassifier* concept, bool generated);
+    void showGeneratedFile(const QString& filename);
 
 };
 

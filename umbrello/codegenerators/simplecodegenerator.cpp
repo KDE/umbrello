@@ -295,7 +295,7 @@ void SimpleCodeGenerator::writeCodeToFile()
 void SimpleCodeGenerator::writeCodeToFile(UMLClassifierList & concepts)
 {
     m_fileMap.clear(); // ??
-    foreach (UMLClassifier* c, concepts ) {
+    foreach (UMLClassifier* c, concepts) {
         this->writeClass(c); // call the writer for each class.
     }
 }

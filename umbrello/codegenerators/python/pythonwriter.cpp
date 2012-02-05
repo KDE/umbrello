@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2002      Vincent Decorges  <vincent.decorges@eivd.ch>  *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -291,6 +291,7 @@ void PythonWriter::writeClass(UMLClassifier *c)
     //close files and notfiy we are done
     fileh.close();
     emit codeGenerated(c, true);
+    emit showGeneratedFile(fileh.fileName());
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

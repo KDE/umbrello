@@ -57,7 +57,7 @@ CodeGenerator::CodeGenerator()
     m_lastIDIndex(0)
 {
     // initial population of our project generator
-    // CANT Be done here because we would call pure virtual method
+    // CANNOT Be done here because we would call pure virtual method
     // of newClassifierDocument (bad!).
     // We should only call from the child
     // initFromParentDocument();
@@ -337,7 +337,9 @@ void CodeGenerator::syncCodeToDocument()
 // in this 'vanilla' version, we only worry about adding classifier
 // documents
 
-/** These 2 functions check for adding or removing objects to the UMLDocument */
+/**
+ * This function checks for adding objects to the UMLDocument.
+ */
 void CodeGenerator::checkAddUMLObject(UMLObject * obj)
 {
     if (!obj) {
@@ -351,6 +353,9 @@ void CodeGenerator::checkAddUMLObject(UMLObject * obj)
     }
 }
 
+/**
+ * This function checks for removing objects from the UMLDocument.
+ */
 void CodeGenerator::checkRemoveUMLObject(UMLObject * obj)
 {
     if (!obj) {
@@ -427,14 +432,16 @@ void CodeGenerator::writeListedCodeDocsToFile(CodeDocumentList * docs)
             QString filename = findFileName(*it);
             // check that we may open that file for writing
             QFile file;
-            if ( openFile(file,filename) ) {
+            if ( openFile(file, filename) ) {
                 QTextStream stream(&file);
                 stream << (*it)->toString() << endl;
                 file.close();
-                codeGenSuccess = true; // we wrote the code OK
+                codeGenSuccess = true; // we wrote the code - OK
+                emit showGeneratedFile(file.fileName());
             }
             else {
-                uWarning() << "Cannot open file :"<<filename<<" for writing ";
+                uWarning() << "Cannot open file :" << file.fileName() << " for writing!";
+                codeGenSuccess = false;
             }
         }
 
@@ -587,7 +594,7 @@ bool CodeGenerator::openFile(QFile & file, const QString &fileName)
         QDir outputDirectory = UMLApp::app()->commonPolicy()->getOutputDirectory();
         file.setFileName(outputDirectory.absoluteFilePath(fileName));
         if(!file.open(QIODevice::WriteOnly)) {
-            KMessageBox::sorry(0,i18n("Cannot open file %1 for writing. Please make sure the folder exists and you have permissions to write to it.", file.fileName()),i18n("Cannot Open File"));
+            KMessageBox::sorry(0, i18n("Cannot open file %1 for writing. Please make sure the folder exists and you have permissions to write to it.", file.fileName()), i18n("Cannot Open File"));
             return false;
         }
         return true;
