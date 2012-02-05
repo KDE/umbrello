@@ -598,7 +598,7 @@ void UMLListView::popupMenuSel(QAction* action)
             umlType = object->baseType();
 
             if (Model_Utils::typeIsCanvasWidget(lvt)) {
-                object->showProperties(ClassPropDlg::page_gen);
+                object->showPropertiesPagedDialog(ClassPropDlg::page_gen);
             } else if (umlType == UMLObject::ot_EnumLiteral) {
                 // Show the Enum Literal Dialog
                 UMLEnumLiteral* selectedEnumLiteral = static_cast<UMLEnumLiteral*>(object);
@@ -1413,7 +1413,7 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
     }
 
     if (object) {
-        object->showProperties(page);
+        object->showPropertiesPagedDialog(page);
     }
 //:TODO:delete?    item->cancelRename(0);  //double click can cause it to go into rename mode.
 }

@@ -112,7 +112,7 @@ public:
     QString package(const QString& separator = QString(),
                     bool includeRoot = false);
 
-    void setUMLPackage(UMLPackage* pPkg);
+    bool setUMLPackage(UMLPackage* pPkg);
     UMLPackage* umlPackage();
 
     UMLPackageList packages(bool includeRoot = false) const;
@@ -129,7 +129,8 @@ public:
 
     void setInPaste(bool bInPaste = true);
 
-    virtual bool showProperties(int page = 0, bool assoc = false);
+    // FIXME: merge with showPropertiesDialog()
+    virtual bool showPropertiesPagedDialog(int page = 0, bool assoc = false);
 
     virtual bool resolveRef();
 

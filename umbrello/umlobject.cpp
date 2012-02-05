@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -115,7 +115,7 @@ void UMLObject::init()
  * @param assoc   Whether to show association page.
  * @return        True if we modified the object.
  */
-bool UMLObject::showProperties(int page, bool assoc)
+bool UMLObject::showPropertiesPagedDialog(int page, bool assoc)
 {
     Q_UNUSED(page);
     DocWindow *docwindow = UMLApp::app()->docWindow();
@@ -530,10 +530,21 @@ void UMLObject::setPackage(const QString &_name)
  *
  * @param pPkg   Pointer to the class' UMLPackage.
  */
-void UMLObject::setUMLPackage(UMLPackage* pPkg)
+bool UMLObject::setUMLPackage(UMLPackage* pPkg)
 {
+    if (pPkg == this) {
+        uDebug() << "setting parent to myself is not allowed";
+        return false;
+    }
+
+    if (pPkg->umlPackage() == this) {
+        uDebug() << "setting parent to an object of which I'm already the parent is not allowed";
+        return false;
+    }
+
     m_pUMLPackage = pPkg;
     emitModified();
+    return true;
 }
 
 /**
