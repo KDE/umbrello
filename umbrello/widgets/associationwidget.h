@@ -99,7 +99,7 @@ public:
     UMLAssociation * getAssociation() const;
     UMLAttribute * getAttribute() const;
 
-    AssociationWidget& operator=(const AssociationWidget & Other);
+    //AssociationWidget& operator=(const AssociationWidget & Other);
     bool operator==(const AssociationWidget & Other) const;
     bool operator!=(AssociationWidget & Other) const;
 
@@ -163,7 +163,7 @@ public:
      * Returns a pointer to the association widget's line path.
      */
     AssociationLine* getLinePath() {
-        return &m_LinePath;
+        return m_associationLine;
     }
 
     void widgetMoved(UMLWidget* widget, int x, int y);
@@ -370,7 +370,7 @@ private:
      * when the AssociationLine moves but only if the closest segment to the
      * role text moves.
      * This segment is:
-     * m_LinePath[m_unNameLineSegment] -- m_LinePath[m_unNameLineSegment+1]
+     * m_associationLine[m_unNameLineSegment] -- m_associationLine[m_unNameLineSegment+1]
      */
     uint                m_unNameLineSegment;
     UMLDoc * m_umldoc;  ///< just a shorthand for UMLApp::app()->getDocument()
@@ -423,7 +423,7 @@ private:
     /**
      * The definition points for the association line.
      */
-    AssociationLine m_LinePath;
+    AssociationLine *m_associationLine;
 
     // The following items are only used if m_pObject is not set.
     Uml::AssociationType m_AssocType;
