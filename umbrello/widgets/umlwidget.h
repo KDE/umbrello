@@ -135,22 +135,22 @@ public:
     /**
      * Gets the x-coordinate.
      */
-    int getX() const {
-        return (int)UMLSceneItem::x();
+    UMLSceneValue getX() const {
+        return x();
     }
 
     /**
      * Gets the y-coordinate.
      */
-    int getY() const {
-        return (int)UMLSceneItem::y();
+    UMLSceneValue getY() const {
+        return y();
     }
 
     /**
      * Gets the z-coordinate.
      */
-    int getZ() const {
-        return (int)UMLSceneItem::z();
+    UMLSceneValue getZ() const {
+        return z();
     }
 
     /**
