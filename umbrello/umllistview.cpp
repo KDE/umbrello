@@ -325,7 +325,10 @@ void UMLListView::keyPressEvent(QKeyEvent *ke)
     }
     else {
         const int k = ke->key();
-        if (k == Qt::Key_Delete || k == Qt::Key_Backspace) {
+        if (k == Qt::Key_F2) {
+            // disable qt default key for item rename, it does not work yet
+            ke->accept();
+        } else if (k == Qt::Key_Delete || k == Qt::Key_Backspace) {
             // delete every selected item
             UMLListViewItemList itemsSelected = selectedItemsRoot();
             foreach(UMLListViewItem *item, itemsSelected) {
@@ -2256,7 +2259,8 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
         } else {
             name = Model_Utils::uniqObjectName(ot, parentPkg);
         }
-        newItem = new UMLListViewItem(parentItem, name, type, (UMLObject*)parentPkg);
+        newItem = new UMLListViewItem(parentItem, name, type, (UMLObject *)0);
+        createItem(newItem, type);
     }
     m_bIgnoreCancelRename = false;
     newItem->setIcon(icon);
@@ -2306,7 +2310,11 @@ bool UMLListView::itemRenamed(UMLListViewItem * item, int col)
             return false;
         }
     }
+    return createItem(renamedItem, type);
+}
 
+bool UMLListView::createItem(UMLListViewItem *item, UMLListViewItem::ListViewType type)
+{
     switch (type) {
     case UMLListViewItem::lvt_Actor:
     case UMLListViewItem::lvt_Class:
@@ -2331,7 +2339,7 @@ bool UMLListView::itemRenamed(UMLListViewItem * item, int col)
             uError() << "internal error";
             return false;
         }
-        UMLObject *o = createUMLObject(renamedItem, ot);
+        UMLObject *o = createUMLObject(item, ot);
         if (type == UMLListViewItem::lvt_Subsystem)
             o->setStereotype("subsystem");
         else if (Model_Utils::typeIsFolder(type))
@@ -2348,13 +2356,13 @@ bool UMLListView::itemRenamed(UMLListViewItem * item, int col)
     case UMLListViewItem::lvt_ForeignKeyConstraint:
     case UMLListViewItem::lvt_CheckConstraint:
 
-        return createChildUMLObject(renamedItem, Model_Utils::convert_LVT_OT(type));
+        return createChildUMLObject(item, Model_Utils::convert_LVT_OT(type));
         break;
 
     case UMLListViewItem::lvt_PrimaryKeyConstraint: {
 
-        bool result = createChildUMLObject(renamedItem, Model_Utils::convert_LVT_OT(type));
-        UMLObject* obj = renamedItem->umlObject();
+        bool result = createChildUMLObject(item, Model_Utils::convert_LVT_OT(type));
+        UMLObject* obj = item->umlObject();
         UMLUniqueConstraint* uuc = static_cast<UMLUniqueConstraint*>(obj);
         UMLEntity* ent = static_cast<UMLEntity*>(uuc->parent());
         if (ent)
@@ -2365,39 +2373,39 @@ bool UMLListView::itemRenamed(UMLListViewItem * item, int col)
     break;
 
     case UMLListViewItem::lvt_Class_Diagram:
-        createDiagram(renamedItem, Uml::DiagramType::Class);
+        createDiagram(item, Uml::DiagramType::Class);
         break;
 
     case UMLListViewItem::lvt_UseCase_Diagram:
-        createDiagram(renamedItem, Uml::DiagramType::UseCase);
+        createDiagram(item, Uml::DiagramType::UseCase);
         break;
 
     case UMLListViewItem::lvt_Sequence_Diagram:
-        createDiagram(renamedItem, Uml::DiagramType::Sequence);
+        createDiagram(item, Uml::DiagramType::Sequence);
         break;
 
     case UMLListViewItem::lvt_Collaboration_Diagram:
-        createDiagram(renamedItem, Uml::DiagramType::Collaboration);
+        createDiagram(item, Uml::DiagramType::Collaboration);
         break;
 
     case UMLListViewItem::lvt_State_Diagram:
-        createDiagram(renamedItem, Uml::DiagramType::State);
+        createDiagram(item, Uml::DiagramType::State);
         break;
 
     case UMLListViewItem::lvt_Activity_Diagram:
-        createDiagram(renamedItem, Uml::DiagramType::Activity);
+        createDiagram(item, Uml::DiagramType::Activity);
         break;
 
     case UMLListViewItem::lvt_Component_Diagram:
-        createDiagram(renamedItem, Uml::DiagramType::Component);
+        createDiagram(item, Uml::DiagramType::Component);
         break;
 
     case UMLListViewItem::lvt_Deployment_Diagram:
-        createDiagram(renamedItem, Uml::DiagramType::Deployment);
+        createDiagram(item, Uml::DiagramType::Deployment);
         break;
 
     case UMLListViewItem::lvt_EntityRelationship_Diagram:
-        createDiagram(renamedItem, Uml::DiagramType::EntityRelationship);
+        createDiagram(item, Uml::DiagramType::EntityRelationship);
         break;
 
     default:
