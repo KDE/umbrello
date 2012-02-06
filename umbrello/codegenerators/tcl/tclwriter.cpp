@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2005      Rene Meyer <rene.meyer@sturmit.de>            *
- *   copyright (C) 2006-2011                                               *
+ *   copyright (C) 2006-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -138,6 +138,10 @@ void TclWriter::writeClass(UMLClassifier * c)
     }
     // emit done code
     emit codeGenerated(c, true);
+    emit showGeneratedFile(fileh.fileName());
+    if (need_impl) {
+        emit showGeneratedFile(filetcl.fileName());
+    }
 }
 
 void TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)

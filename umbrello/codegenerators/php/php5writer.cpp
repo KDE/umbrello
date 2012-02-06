@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2002      Heiko Nardmann  <h.nardmann@secunet.de>       *
  *                           Thorsten Kunz   <tk AT bytecrash DOT net>     *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -22,7 +22,7 @@
 #include <QtCore/QRegExp>
 #include <QtCore/QTextStream>
 
-static const char *reserved_words[] = {    
+static const char *reserved_words[] = {
     "abs",
     "abstract",
     "acos",
@@ -3135,6 +3135,7 @@ void Php5Writer::writeClass(UMLClassifier *c)
     //close files and notfiy we are done
     filephp.close();
     emit codeGenerated(c, true);
+    emit showGeneratedFile(filephp.fileName());
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

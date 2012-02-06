@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -34,8 +34,13 @@ const bool CPPCodeGenerator::DEFAULT_BUILD_MAKEFILE = false;
  * Basic Constructor.
  */
 CPPCodeGenerator::CPPCodeGenerator()
+  : CodeGenerator(),
+    m_createMakefile(false)
 {
-    initAttributes();
+    UMLApp::app()->setPolicyExt( new CPPCodeGenerationPolicy() );
+
+    // load Classifier documents from parent document
+    //initFromParentDocument();
 }
 
 /**
@@ -377,19 +382,6 @@ void CPPCodeGenerator::checkRemoveUMLObject(UMLObject * obj)
             removeHeaderCodeDocument(hcodeDoc);
     }
 
-}
-
-/**
- * Init all attributes.
- */
-void CPPCodeGenerator::initAttributes()
-{
-    m_createMakefile = false;
-
-    UMLApp::app()->setPolicyExt ( new CPPCodeGenerationPolicy() );
-
-    // load Classifier documents from parent document
-    //initFromParentDocument();
 }
 
 /**

@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>CodeGenStatusPage</class>
- <widget class="QWidget" name="CodeGenStatusPage" >
-  <property name="geometry" >
+ <widget class="QWidget" name="CodeGenStatusPage">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,49 +10,113 @@
     <height>530</height>
    </rect>
   </property>
-  <property name="sizePolicy" >
-   <sizepolicy vsizetype="MinimumExpanding" hsizetype="MinimumExpanding" >
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout">
    <item>
-    <widget class="QTableWidget" name="ui_tableWidgetStatus" >
-     <property name="alternatingRowColors" >
-      <bool>true</bool>
+    <widget class="KTabWidget" name="ui_tabWidget">
+     <property name="currentIndex">
+      <number>1</number>
      </property>
-     <property name="columnCount" >
-      <number>3</number>
-     </property>
-     <column>
-      <property name="text" >
-       <string>Class</string>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
+     <widget class="QWidget" name="ui_statusTab">
+      <attribute name="title">
        <string>Status</string>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
-       <string/>
-      </property>
-     </column>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QTableWidget" name="ui_tableWidgetStatus">
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="columnCount">
+          <number>3</number>
+         </property>
+         <column>
+          <property name="text">
+           <string>Class</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Status</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string/>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="ui_loggerTab">
+      <attribute name="title">
+       <string>Logger</string>
+      </attribute>
+      <widget class="QWidget" name="verticalLayoutWidget_2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>461</width>
+         <height>431</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QTextEdit" name="ui_textEditLogger"/>
+        </item>
+        <item>
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="0" column="0">
+           <widget class="QPushButton" name="ui_pushButtonClear">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Clear</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QPushButton" name="ui_pushButtonExport">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Export...</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" >
+    <layout class="QHBoxLayout">
      <item>
-      <widget class="QPushButton" name="ui_pushButtonGenerate" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+      <widget class="QPushButton" name="ui_pushButtonGenerate">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>Generate</string>
        </property>
       </widget>
@@ -60,6 +125,14 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KTabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>ktabwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

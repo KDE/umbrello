@@ -254,198 +254,54 @@ bool CSharpImport::parseFile(const QString& filename)
 }
 
 /**
- * Parsing the statement 'using'.
- * Keep track of imports so we can resolve classes we are dependent on.
- * @return   success status of parsing
- */
-bool CSharpImport::parseStmtUsing()
-{
-    QString import = advance();
-    log("using " + import);
-    if (import.contains('=')) {
-        //this is an alias to represent the namespace name
-        //:TODO: import = import + advance();
-    }
-    m_imports.append(import);
-
-    // move past ;
-    skipStmt();
-    return true;
-}
-
-/**
- * Parsing the statement 'namespace'.
- * @return   success status of parsing
- */
-bool CSharpImport::parseStmtNamespace()
-{
-    QString m_currentNamespace = advance();
-    log("namespace " + m_currentNamespace);
-    // move past {
-    skipStmt("{");
-    return true;
-}
-
-/**
- * Parsing the statement 'enum'.
- * @return   success status of parsing
- */
-bool CSharpImport::parseStmtEnum()
-{
-    const QString& name = advance();
-    log("enum " + name);
-    UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
-                        name, m_scope[m_scopeIndex], m_comment);
-    UMLEnum *enumType = static_cast<UMLEnum*>(ns);
-    skipStmt("{");
-    while (m_srcIndex < m_source.count() - 1 && advance() != "}") {
-        Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
-        QString next = advance();
-        if (next == "{" || next == "(") {
-            if (! skipToClosing(next[0]))
-                return false;
-            next = advance();
-        }
-        if (next != ",") {
-            if (next == ";") {
-                // @todo handle methods in enum
-                // For now, we cheat (skip them)
-                m_source[m_srcIndex] = '{';
-                if (! skipToClosing('{'))
-                    return false;
-            }
-            break;
-        }
-    }
-    return true;
-}
-
-/**
- * Parsing the statement 'class' or 'interface'.
- * @return   success status of parsing
- */
-bool CSharpImport::parseStmtClass(const QString& keyword)
-{
-    const QString& name = advance();
-    const UMLObject::ObjectType t = (keyword == "class" ? UMLObject::ot_Class : UMLObject::ot_Interface);
-    log(keyword + ' ' + name);
-    UMLObject *ns = Import_Utils::createUMLObject(t, name, m_scope[m_scopeIndex], m_comment);
-    m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
-    m_klass->setAbstract(m_isAbstract);
-    m_klass->setStatic(m_isStatic);
-    m_klass->setVisibility(m_currentAccess);
-    // The UMLObject found by createUMLObject might originally have been created as a
-    // placeholder with a type of class but if is really an interface, then we need to
-    // change it.
-    UMLObject::ObjectType ot = (keyword == "interface" ? UMLObject::ot_Interface : UMLObject::ot_Class);
-    m_klass->setBaseType(ot);
-    m_isAbstract = m_isStatic = false;
-    // if no modifier is specified in an interface, then it means public
-    if (m_klass->isInterface()) {
-        m_defaultCurrentAccess =  Uml::Visibility::Public;
-    }
-
-    if (advance() == ";")    // forward declaration
-        return true;
-
-    if (m_source[m_srcIndex] == "<") {
-        // template args - preliminary, rudimentary implementation
-        // @todo implement all template arg syntax
-        uint start = m_srcIndex;
-        if (! skipToClosing('<')) {
-            uError() << "import C# (" << name << "): template syntax error";
-            return false;
-        }
-        while(1) {
-            const QString arg = m_source[++start];
-            if (! arg.contains(QRegExp("^[A-Za-z_]"))) {
-                uDebug() << "import C# (" << name << "): cannot handle template syntax ("
-                            << arg << ")";
-                break;
-            }
-            /* UMLTemplate *tmpl = */ m_klass->addTemplate(arg);
-            const QString next = m_source[++start];
-            if (next == ">")
-                break;
-            if (next != ",") {
-                uDebug() << "import C# (" << name << "): cannot handle template syntax ("
-                            << next << ")";
-                break;
-            }
-        }
-        advance();  // skip over ">"
-    }
-
-    if (m_source[m_srcIndex] == ":") {   // derivation
-        while (m_srcIndex < m_source.count() - 1 && advance() != "{") {
-            const QString& baseName = m_source[m_srcIndex];
-            // try to resolve the interface we are implementing, if this fails
-            // create a placeholder
-            UMLObject *interface = resolveClass(baseName);
-            if (interface) {
-                Import_Utils::createGeneralization(m_klass, static_cast<UMLClassifier*>(interface));
-            } else {
-                uDebug() << "implementing interface " << baseName
-                            << " is not resolvable. Creating placeholder";
-                Import_Utils::createGeneralization(m_klass, baseName);
-            }
-            if (advance() != ",")
-                break;
-        }
-    }
-
-    if (m_source[m_srcIndex] != "{") {
-        uError() << "ignoring excess chars at " << name
-                    << " (" << m_source[m_srcIndex] << ")";
-        skipStmt("{");
-    }
-    return true;
-}
-
-/**
  * Implement abstract operation from NativeImportBase.
+ * compilation-unit:
+ *     using-directives?  global-attributes?  namespace-member-declarations?
  * @return success status of operation
  */
 bool CSharpImport::parseStmt()
 {
-    const int srcLength = m_source.count();
     const QString& keyword = m_source[m_srcIndex];
     //uDebug() << '"' << keyword << '"';
 
     if (keyword == "using") {
-        return parseStmtUsing();
+        return parseUsingDirectives();
     }
 
     if (keyword == "namespace") {
-        return parseStmtNamespace();
+        return parseNamespaceMemberDeclarations();
     }
 
-//     if (keyword == "package") {
-//         m_currentPackage = advance();
-//         const QString& qualifiedName = m_currentPackage;
-//         const QStringList names = qualifiedName.split('.');
-//         for (QStringList::ConstIterator it = names.begin(); it != names.end(); ++it) {
-//             QString name = (*it);
-//             log(keyword + ' ' + name);
-//             UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
-//                             name, m_scope[m_scopeIndex], m_comment);
-//             m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
-//         }
-//         if (advance() != ";") {
-//             uError() << "unexpected: " << m_source[m_srcIndex];
-//             skipStmt();
-//         }
-//         return true;
-//     }
-
-    if (keyword == "class" || keyword == "interface") {
-        return parseStmtClass(keyword);
+    if (keyword == "[") {
+        return parseAttributes();  //:TODO: more than one
     }
 
-    if (keyword == "enum") {
-        return parseStmtEnum();
+    // type-declaration - class, interface, struct, enum, delegate
+    if (isClassModifier(keyword) || isTypeDeclaration(keyword)) {
+        // more than one modifier possible
+        QString nextKeyword = keyword;
+        while (isClassModifier(nextKeyword)) {
+            nextKeyword = advance();
+        }
+        if (nextKeyword == "class") {
+            return parseClassDeclaration(nextKeyword);
+        }
+        if (nextKeyword == "interface") {
+            return parseClassDeclaration(nextKeyword);
+        }
+        if (nextKeyword == "struct") {
+            return parseStructDeclaration();
+        }
+        if (nextKeyword == "enum") {
+            return parseEnumDeclaration();
+        }
+        if (nextKeyword == "delegate") {
+            return parseDelegateDeclaration();
+        }
     }
 
+
+/*
     if (keyword == "static") {
         m_isStatic = true;
         return true;
@@ -458,29 +314,13 @@ bool CSharpImport::parseStmt()
         return skipToClosing('{');
     }
 
-    if (keyword == "abstract") {
-        m_isAbstract = true;
-        return true;
-    }
-    if (keyword == "public") {
-        m_currentAccess = Uml::Visibility::Public;
-        return true;
-    }
-    if (keyword == "protected") {
-        m_currentAccess = Uml::Visibility::Protected;
-        return true;
-    }
-    if (keyword == "private") {
-        m_currentAccess = Uml::Visibility::Private;
-        return true;
-    }
-
     if ((keyword == "override") ||
             (keyword == "virtual") ||
             (keyword == "sealed")) {
         //:TODO: anything to do here?
         return true;
     }
+*/
 
     if (keyword == "#") {   // preprocessor directives
         QString ppdKeyword = advance();
@@ -517,8 +357,8 @@ bool CSharpImport::parseStmt()
     // of an operation.) Up next is the name of the attribute
     // or operation.
     if (! keyword.contains(QRegExp("^\\w"))) {
-        uError() << "ignoring " << keyword <<
-                 " at " << m_srcIndex << ", " << m_source.count() << " in " << m_klass;  //:TODO: ->name();
+        uError() << "ignoring " << keyword << " at "
+                 << m_srcIndex << ", " << m_source.count() << " in " << m_klass;  //:TODO: ->name();
         return false;
     }
 
@@ -547,7 +387,7 @@ bool CSharpImport::parseStmt()
         // operation
         UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
         m_srcIndex++;
-        while (m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
+        while (m_srcIndex < m_source.count() && m_source[m_srcIndex] != ")") {
             QString typeName = m_source[m_srcIndex];
             if (typeName == "final" || typeName.startsWith("//")) {
                 // ignore the "final" keyword and any comments in method args
@@ -648,6 +488,268 @@ bool CSharpImport::parseStmt()
     } else {
         uError() << "index out of range: ignoring statement " << name;
         skipStmt();
+    }
+    return true;
+}
+
+/**
+ * Parsing the statement 'using'.
+ * Keep track of imports so we can resolve classes we are dependent on.
+ * @return   success status of parsing
+ */
+bool CSharpImport::parseUsingDirectives()
+{
+    QString import = advance();
+    log("using " + import);
+    if (import.contains('=')) {
+        //this is an alias to represent the namespace name
+        //:TODO: import = import + advance();
+    }
+    m_imports.append(import);
+
+    // move past ;
+    skipStmt();
+    return true;
+}
+
+/**
+ * Parsing global attributes.
+ * @return   success status of parsing
+ */
+bool CSharpImport::parseGlobalAttributes()
+{
+    //:TODO:
+    return true;
+}
+
+/**
+ * Parsing the statement 'namespace'.
+ * @return   success status of parsing
+ */
+bool CSharpImport::parseNamespaceMemberDeclarations()
+{
+    QString m_currentNamespace = advance();
+    log("namespace " + m_currentNamespace);
+    // move past {
+    skipStmt("{");
+    return true;
+}
+
+/**
+ * Parsing attributes.
+ * @return   success status of parsing
+ */
+bool CSharpImport::parseAttributes()
+{
+    QString attribute = advance();
+    log("attribute " + attribute);
+    skipStmt("]");
+    return true;
+}
+
+/**
+ * Check if keyword is belonging to a type-declaration.
+ * @return   result of check
+ */
+bool CSharpImport::isTypeDeclaration(const QString& keyword)
+{
+    if ((keyword == "class")     ||
+        (keyword == "struct")    ||
+        (keyword == "interface") ||
+        (keyword == "enum")      ||
+        (keyword == "delegate")) {
+        // log("type-declaration: " + keyword);
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+/**
+ * Check if keyword is a class-modifier.
+ * @return   result of check
+ */
+bool CSharpImport::isClassModifier(const QString& keyword)
+{
+    if (isCommonModifier(keyword)  ||
+        (keyword == "abstract")    ||
+        (keyword == "sealed")) {
+        // log("class-modifier: " + keyword);
+        if (keyword == "abstract") {
+            m_isAbstract = true;
+        }
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+/**
+ * Check if keyword is a interface, struct, enum or delegate modifier.
+ * @return   result of check
+ */
+bool CSharpImport::isCommonModifier(const QString& keyword)
+{
+    if ((keyword == "new")       ||
+        (keyword == "public")    ||
+        (keyword == "protected") ||
+        (keyword == "internal")  ||
+        (keyword == "private")) {
+        if (keyword == "public") {
+            m_currentAccess = Uml::Visibility::Public;
+        }
+        if (keyword == "protected") {
+            m_currentAccess = Uml::Visibility::Protected;
+        }
+        if (keyword == "private") {
+            m_currentAccess = Uml::Visibility::Private;
+        }
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+/**
+ * Parsing the statement 'enum'.
+ * @return   success status of parsing
+ */
+bool CSharpImport::parseEnumDeclaration()
+{
+    const QString& name = advance();
+    log("enum " + name);
+    UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
+                        name, m_scope[m_scopeIndex], m_comment);
+    UMLEnum *enumType = static_cast<UMLEnum*>(ns);
+    skipStmt("{");
+    while (m_srcIndex < m_source.count() - 1 && advance() != "}") {
+        Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
+        QString next = advance();
+        if (next == "{" || next == "(") {
+            if (! skipToClosing(next[0]))
+                return false;
+            next = advance();
+        }
+        if (next != ",") {
+            if (next == ";") {
+                // @todo handle methods in enum
+                // For now, we cheat (skip them)
+                m_source[m_srcIndex] = '{';
+                if (! skipToClosing('{'))
+                    return false;
+            }
+            break;
+        }
+    }
+    return true;
+}
+
+/**
+ * Parsing a struct-declaration.
+ * @return   success status of parsing
+ */
+bool CSharpImport::parseStructDeclaration()
+{
+    const QString& name = advance();
+    log("struct " + name + " --> parsing not yet implemented!");
+    return true;
+}
+
+/**
+ * Parsing a delegate-declaration.
+ * @return   success status of parsing
+ */
+bool CSharpImport::parseDelegateDeclaration()
+{
+    // return-type identifier ( formal-parameter-list? ) ;
+    const QString& returnType = advance();
+    const QString& name = advance();
+    log("delegate " + name + "with return-type " + returnType);
+    skipStmt(";");
+    return true;
+}
+
+/**
+ * Parsing the statement 'class' or 'interface'.
+ * @return   success status of parsing
+ */
+bool CSharpImport::parseClassDeclaration(const QString& keyword)
+{
+    const QString& name = advance();
+    const UMLObject::ObjectType t = (keyword == "class" ? UMLObject::ot_Class : UMLObject::ot_Interface);
+    log(keyword + ' ' + name);
+    UMLObject *ns = Import_Utils::createUMLObject(t, name, m_scope[m_scopeIndex], m_comment);
+    m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
+    m_klass->setAbstract(m_isAbstract);
+    m_klass->setStatic(m_isStatic);
+    m_klass->setVisibility(m_currentAccess);
+    // The UMLObject found by createUMLObject might originally have been created as a
+    // placeholder with a type of class but if is really an interface, then we need to
+    // change it.
+    UMLObject::ObjectType ot = (keyword == "interface" ? UMLObject::ot_Interface : UMLObject::ot_Class);
+    m_klass->setBaseType(ot);
+    m_isAbstract = m_isStatic = false;
+    // if no modifier is specified in an interface, then it means public
+    if (m_klass->isInterface()) {
+        m_defaultCurrentAccess =  Uml::Visibility::Public;
+    }
+
+    if (advance() == ";")    // forward declaration
+        return true;
+
+    if (m_source[m_srcIndex] == "<") {
+        // template args - preliminary, rudimentary implementation
+        // @todo implement all template arg syntax
+        uint start = m_srcIndex;
+        if (! skipToClosing('<')) {
+            uError() << "import C# (" << name << "): template syntax error";
+            return false;
+        }
+        while(1) {
+            const QString arg = m_source[++start];
+            if (! arg.contains(QRegExp("^[A-Za-z_]"))) {
+                uDebug() << "import C# (" << name << "): "
+                         << "cannot handle template syntax (" << arg << ")";
+                break;
+            }
+            /* UMLTemplate *tmpl = */ m_klass->addTemplate(arg);
+            const QString next = m_source[++start];
+            if (next == ">")
+                break;
+            if (next != ",") {
+                uDebug() << "import C# (" << name << "): "
+                         << "cannot handle template syntax (" << next << ")";
+                break;
+            }
+        }
+        advance();  // skip over ">"
+    }
+
+    if (m_source[m_srcIndex] == ":") {   // derivation
+        while (m_srcIndex < m_source.count() - 1 && advance() != "{") {
+            const QString& baseName = m_source[m_srcIndex];
+            // try to resolve the interface we are implementing, if this fails
+            // create a placeholder
+            UMLObject *interface = resolveClass(baseName);
+            if (interface) {
+                Import_Utils::createGeneralization(m_klass, static_cast<UMLClassifier*>(interface));
+            } else {
+                uDebug() << "implementing interface " << baseName
+                         << " is not resolvable. Creating placeholder";
+                Import_Utils::createGeneralization(m_klass, baseName);
+            }
+            if (advance() != ",")
+                break;
+        }
+    }
+
+    if (m_source[m_srcIndex] != "{") {
+        uError() << "ignoring excess chars at " << name
+                 << " (" << m_source[m_srcIndex] << ")";
+        skipStmt("{");
     }
     return true;
 }

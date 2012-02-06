@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      David Hugh-Jones  <hughjonesd@yahoo.co.uk>    *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -488,6 +488,7 @@ void PerlWriter::writeClass(UMLClassifier *c)
   //close files and notify we are done
   fileperl.close();
   emit codeGenerated(c, true);
+  emit showGeneratedFile(fileperl.fileName());
 }
 
 Uml::ProgrammingLanguage PerlWriter::language() const

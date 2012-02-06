@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -52,21 +52,15 @@
  * Constructor for a code generator.
  */
 CodeGenerator::CodeGenerator()
-  : QObject(UMLApp::app()->document())
+  : m_applyToAllRemaining(true),
+    m_document(UMLApp::app()->document()),
+    m_lastIDIndex(0)
 {
-    initFields();
-}
-
-/**
- * Constructor for a code generator and then initialize it from an XMI element.
- * FIX: hmm. this should be pure virtual so that implemented in sub-class.
- * @param element   an element from an XMI document
- */
-CodeGenerator::CodeGenerator(QDomElement & element)
-  : QObject(UMLApp::app()->document())
-{
-    initFields();
-    loadFromXMI(element);  // hmm. cannot call this here.. it is 'pure' virtual
+    // initial population of our project generator
+    // CANNOT Be done here because we would call pure virtual method
+    // of newClassifierDocument (bad!).
+    // We should only call from the child
+    // initFromParentDocument();
 }
 
 /**
@@ -101,11 +95,11 @@ QString CodeGenerator::getUniqueID(CodeDocument * codeDoc)
     else {
         QString prefix = "doc";
         QString id = prefix + "_0";
-        int number = lastIDIndex;
+        int number = m_lastIDIndex;
         for ( ; findCodeDocumentByID(id); ++number) {
             id = prefix + '_' + QString::number(number);
         }
-        lastIDIndex = number;
+        m_lastIDIndex = number;
     }
 
     return id;
@@ -343,7 +337,9 @@ void CodeGenerator::syncCodeToDocument()
 // in this 'vanilla' version, we only worry about adding classifier
 // documents
 
-/** These 2 functions check for adding or removing objects to the UMLDocument */
+/**
+ * This function checks for adding objects to the UMLDocument.
+ */
 void CodeGenerator::checkAddUMLObject(UMLObject * obj)
 {
     if (!obj) {
@@ -357,6 +353,9 @@ void CodeGenerator::checkAddUMLObject(UMLObject * obj)
     }
 }
 
+/**
+ * This function checks for removing objects from the UMLDocument.
+ */
 void CodeGenerator::checkRemoveUMLObject(UMLObject * obj)
 {
     if (!obj) {
@@ -433,14 +432,16 @@ void CodeGenerator::writeListedCodeDocsToFile(CodeDocumentList * docs)
             QString filename = findFileName(*it);
             // check that we may open that file for writing
             QFile file;
-            if ( openFile(file,filename) ) {
+            if ( openFile(file, filename) ) {
                 QTextStream stream(&file);
                 stream << (*it)->toString() << endl;
                 file.close();
-                codeGenSuccess = true; // we wrote the code OK
+                codeGenSuccess = true; // we wrote the code - OK
+                emit showGeneratedFile(file.fileName());
             }
             else {
-                uWarning() << "Cannot open file :"<<filename<<" for writing ";
+                uWarning() << "Cannot open file :" << file.fileName() << " for writing!";
+                codeGenSuccess = false;
             }
         }
 
@@ -553,7 +554,6 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
             return QString();
             break;
         }
-
         break;
     case CodeGenerationPolicy::Never: //generate similar name
         suffix = 1;
@@ -594,7 +594,7 @@ bool CodeGenerator::openFile(QFile & file, const QString &fileName)
         QDir outputDirectory = UMLApp::app()->commonPolicy()->getOutputDirectory();
         file.setFileName(outputDirectory.absoluteFilePath(fileName));
         if(!file.open(QIODevice::WriteOnly)) {
-            KMessageBox::sorry(0,i18n("Cannot open file %1 for writing. Please make sure the folder exists and you have permissions to write to it.", file.fileName()),i18n("Cannot Open File"));
+            KMessageBox::sorry(0, i18n("Cannot open file %1 for writing. Please make sure the folder exists and you have permissions to write to it.", file.fileName()), i18n("Cannot Open File"));
             return false;
         }
         return true;
@@ -811,19 +811,6 @@ QString CodeGenerator::formatSourceCode(const QString& code, const QString& inde
         }
     }
     return output;
-}
-
-void CodeGenerator::initFields()
-{
-    m_document = UMLApp::app()->document();
-    m_applyToAllRemaining = true;
-    lastIDIndex = 0;
-
-    // initial population of our project generator
-    // CANT Be done here because we would call pure virtual method
-    // of newClassifierDocument (bad!).
-    // We should only call from the child
-    // initFromParentDocument();
 }
 
 /**

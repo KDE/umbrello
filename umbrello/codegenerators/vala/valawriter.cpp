@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2009-2011                                               *
+ *   copyright (C) 2009-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -355,6 +355,7 @@ void ValaWriter::writeClass(UMLClassifier *c)
     //close files and notfiy we are done
     filecs.close();
     emit codeGenerated(c, true);
+    emit showGeneratedFile(filecs.fileName());
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

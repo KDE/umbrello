@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2002                                                    *
  *   Luis De la Parra  <luis@delaparra.org>                                *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 #ifndef CODEGENSTATUSPAGE_H
@@ -48,6 +48,9 @@ protected slots:
     void generateCode();
     void classGenerated(UMLClassifier* concept, bool generated);
     void populateStatusList();
+    void showFileGenerated(const QString& filename);
+    void loggerClear();
+    void loggerExport();
 
 };
 

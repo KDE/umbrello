@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2002      Heiko Nardmann  <h.nardmann@secunet.de>       *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -3128,6 +3128,7 @@ void PhpWriter::writeClass(UMLClassifier *c)
     //close files and notfiy we are done
     filephp.close();
     emit codeGenerated(c, true);
+    emit showGeneratedFile(filephp.fileName());
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
