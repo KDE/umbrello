@@ -23,7 +23,8 @@
  * @param scene   The view to be displayed on.
  */
 WidgetBase::WidgetBase(UMLScene *scene, WidgetType type)
-  : m_Type(type),
+  : QObject(scene),
+    m_Type(type),
     m_scene(scene)
 {
     init();
