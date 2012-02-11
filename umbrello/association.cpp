@@ -303,10 +303,10 @@ bool UMLAssociation::load( QDomElement & element )
             continue;
         }
         // Load role A.
-        node = tempElement.firstChild();
-        while (node.isComment())
-            node = node.nextSibling();
-        tempElement = node.toElement();
+        QDomNode nodeA = tempElement.firstChild();
+        while (nodeA.isComment())
+            nodeA = nodeA.nextSibling();
+        tempElement = nodeA.toElement();
         if (tempElement.isNull()) {
             uWarning() << "UML:Association : element (A) is Null";
             return false;
@@ -320,10 +320,10 @@ bool UMLAssociation::load( QDomElement & element )
         if (! getUMLRole(A)->loadFromXMI(tempElement))
             return false;
         // Load role B.
-        node = node.nextSibling();
-        while (node.isComment())
-            node = node.nextSibling();
-        tempElement = node.toElement();
+        QDomNode nodeB = nodeA.nextSibling();
+        while (nodeB.isComment())
+            nodeB = nodeB.nextSibling();
+        tempElement = nodeB.toElement();
         if (tempElement.isNull()) {
             uWarning() << "UML:Association : element (B) is Null";
             return false;
