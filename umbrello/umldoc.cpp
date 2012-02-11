@@ -2136,17 +2136,19 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         UMLObject::ObjectType ot = pObject->baseType();
         // Set the parent root folder.
         UMLPackage *pkg = 0;
-        if (ot == UMLObject::ot_Datatype) {
-            pkg = m_datatypeRoot;
-        } else {
-            Uml::ModelType guess = Model_Utils::guessContainer(pObject);
-            if (guess != Uml::ModelType::N_MODELTYPES) {
-                pkg = m_root[guess];
-            }
-            else {
-                uError() << "Guess is Uml::ModelType::N_MODELTYPES - package not set correctly for "
-                         << pObject->name() << " / base type " << pObject->baseTypeStr();
-                pkg = m_root[Uml::ModelType::Logical];
+        if (ot != UMLObject::ot_Stereotype) {
+            if (ot == UMLObject::ot_Datatype) {
+                pkg = m_datatypeRoot;
+            } else {
+                Uml::ModelType guess = Model_Utils::guessContainer(pObject);
+                if (guess != Uml::ModelType::N_MODELTYPES) {
+                    pkg = m_root[guess];
+                }
+                else {
+                    uError() << "Guess is Uml::ModelType::N_MODELTYPES - package not set correctly for "
+                             << pObject->name() << " / base type " << pObject->baseTypeStr();
+                    pkg = m_root[Uml::ModelType::Logical];
+                }
             }
         }
         pObject->setUMLPackage(pkg);
@@ -2178,7 +2180,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         if (pkg) {
             pkg->addObject(pObject);
         }
-        else {
+        else if (ot != UMLObject::ot_Stereotype) {
             uError() << "Package is NULL for " << pObject->name();
             return false;
         }

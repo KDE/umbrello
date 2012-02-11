@@ -537,6 +537,12 @@ bool UMLObject::setUMLPackage(UMLPackage* pPkg)
         return false;
     }
 
+    if (pPkg == NULL) {
+        // Allow setting to NULL for stereotypes
+        m_pUMLPackage = pPkg;
+        return true;
+    }
+
     if (pPkg->umlPackage() == this) {
         uDebug() << "setting parent to an object of which I'm already the parent is not allowed";
         return false;
