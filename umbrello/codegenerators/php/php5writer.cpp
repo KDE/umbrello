@@ -3022,6 +3022,8 @@ void Php5Writer::writeClass(UMLClassifier *c)
         str.replace(QRegExp("%filename%"),fileName);
         str.replace(QRegExp("%filepath%"),filephp.fileName());
         php<<str<<m_endl;
+    } else {
+        php << "<?php" << m_endl;
     }
 
     //write includes
@@ -3233,7 +3235,11 @@ void Php5Writer::writeOperations(const QString & classname, UMLOperationList &op
                     php << ' ' + formatDoc(at->doc(),"") << m_endl;
                 }
             }//end for : write parameter documentation
-            php << m_indentation << " * @return " << op->getTypeName() << m_endl;
+            QString str = op->getTypeName();
+            if (str.isEmpty()) {
+                str = QString("void");
+            }
+            php << m_indentation << " * @return " << str << m_endl;
             if (op->isAbstract()) php << m_indentation << " * @abstract" << m_endl;
             if (op->isStatic()) php << m_indentation << " * @static" << m_endl;
             switch(op->visibility()) {
