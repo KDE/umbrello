@@ -2,6 +2,7 @@ Version (since 2012-01-01)
 
 * Enabling of cut/copy/paste actions is incorrect (70925)
 * Illegal tag without any parameter is generated (155382)
+* Classes in sub-packages are moved to top level packages on edit (174184)
 * Loading existing XMI file (194897) and therefore also
   -  umbrello (2.4.2) crashed while opening solid_design.xmi (233705)
 * Generation of classes from files in folder in umbrello (197137)

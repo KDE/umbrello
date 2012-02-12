@@ -124,7 +124,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     }
 
     if (t == UMLObject::ot_Class || t == UMLObject::ot_Interface) {
-        m_pPackageL = new QLabel(i18n("Package name:"), this);
+        m_pPackageL = new QLabel(i18n("Package path:"), this);
         m_pNameLayout->addWidget(m_pPackageL, 2, 0);
 
         m_pPackageCB = new KComboBox(this);
@@ -138,6 +138,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
         }
         packages.sort();
         m_pPackageCB->insertItems(-1, packages);
+	QString packagePath = o->package();
         UMLPackage* parentPackage = o->umlPackage();
 
         // if parent package == NULL
@@ -146,7 +147,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
              parentPackage == static_cast<UMLPackage*>(m_pUmldoc->rootFolder(Uml::ModelType::Logical)))
             m_pPackageCB->setEditText( QString() );
         else
-            m_pPackageCB->setEditText(parentPackage->name());
+            m_pPackageCB->setEditText(packagePath);
     }
 
     if (t == UMLObject::ot_Class || t == UMLObject::ot_UseCase ) {
