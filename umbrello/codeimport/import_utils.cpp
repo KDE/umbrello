@@ -198,7 +198,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
         const bool isConst = name.contains(QRegExp("^const "));
         name.remove(QRegExp("^const\\s+"));
         QString typeName(name);
-        const bool isAdorned = typeName.contains( QRegExp("[^\\w:\\. ]") );
+        bool isAdorned = typeName.contains( QRegExp("[^\\w:\\. ]") );
         const bool isPointer = typeName.contains('*');
         const bool isRef = typeName.contains('&');
         typeName.remove(QRegExp("[^\\w:\\. ].*$"));
@@ -212,6 +212,11 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
             QStringList components;
             if (typeName.contains("::")) {
                 components = typeName.split("::");
+            } else if (typeName.contains("...")) {
+		// Java variable length arguments
+	        type = UMLObject::ot_Datatype;
+		parentPkg = umldoc->datatypeFolder();
+		isAdorned = false;
             } else if (typeName.contains(".")) {
                 components = typeName.split('.');
             }
