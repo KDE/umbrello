@@ -1646,7 +1646,13 @@ void UMLApp::setModified(bool modified)
     }
 
     if (m_loading == false)  {
-        setCaption(m_doc->url().fileName(), modified); //add disk icon to taskbar if modified
+        if (m_doc) {
+            DEBUG(DBG_SRC) << m_doc->url().fileName();
+            setCaption(m_doc->url().fileName(), modified); //add disk icon to taskbar if modified
+        }
+        else {
+            DEBUG(DBG_SRC) << "m_doc is NULL!";
+        }
     }
 }
 

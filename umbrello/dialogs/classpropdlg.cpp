@@ -203,7 +203,10 @@ void ClassPropDlg::setupPages(bool assoc)
 {
     setupGeneralPage();
 
-    UMLObject::ObjectType ot = m_pObject->baseType();
+    UMLObject::ObjectType ot = UMLObject::ot_UMLObject;
+    if (m_pObject) {
+        ot = m_pObject->baseType();
+    }
     // add extra pages for class
     if (ot == UMLObject::ot_Class ) {
         setupAttributesPage();

@@ -47,6 +47,10 @@
 ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
   : QWidget(parent), m_pObject(o), m_pWidget(0), m_pInstanceWidget(0), m_pUmldoc(d)
 {
+    if (!m_pObject) {
+        uWarning() << "given UMLObject is NULL!";
+    }
+
     int margin = fontMetrics().height();
 
     setMinimumSize(310,330);
@@ -55,7 +59,10 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
     // setup name
     QString name;
-    UMLObject::ObjectType t = o->baseType();
+    UMLObject::ObjectType t = UMLObject::ot_UMLObject;
+    if (m_pObject) {
+        t = m_pObject->baseType();
+    }
     switch (t) {
     case UMLObject::ot_Class:
         name = i18n("Class &name:");
@@ -117,7 +124,9 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     m_pStereoTypeCB = new KComboBox(true, this);
     m_pNameLayout->addWidget(m_pStereoTypeCB, 1, 1);
 
-    m_pStereoTypeCB->setItemText( m_pStereoTypeCB->currentIndex(), o->stereotype() );
+    if (m_pObject) {
+        m_pStereoTypeCB->setItemText( m_pStereoTypeCB->currentIndex(), m_pObject->stereotype() );
+    }
     m_pStereoTypeL->setBuddy(m_pStereoTypeCB);
 
     if (t == UMLObject::ot_Interface || t == UMLObject::ot_Datatype || t == UMLObject::ot_Enum) {
@@ -139,7 +148,10 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
         }
         packages.sort();
         m_pPackageCB->insertItems(-1, packages);
-        UMLPackage* parentPackage = o->umlPackage();
+        UMLPackage* parentPackage = 0;
+        if (m_pObject) {
+            parentPackage = m_pObject->umlPackage();
+        }
 
         // if parent package == NULL
         // or if the parent package is the Logical View folder
@@ -158,13 +170,17 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
             abstractCaption = i18n("A&bstract use case");
         }
         m_pAbstractCB = new QCheckBox( abstractCaption, this );
-        m_pAbstractCB->setChecked( o->isAbstract() );
+        if (m_pObject) {
+            m_pAbstractCB->setChecked( m_pObject->isAbstract() );
+        }
         m_pNameLayout->addWidget( m_pAbstractCB, 3, 0 );
     }
 
     if (t == UMLObject::ot_Component) {
         m_pExecutableCB = new QCheckBox(i18nc("component is executable", "&Executable"), this);
-        m_pExecutableCB->setChecked( (static_cast<UMLComponent*>(o))->getExecutable() );
+        if (m_pObject) {
+            m_pExecutableCB->setChecked( (static_cast<UMLComponent*>(m_pObject))->getExecutable() );
+        }
         m_pNameLayout->addWidget( m_pExecutableCB, 3, 0 );
     }
 
@@ -188,7 +204,10 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
         topLayout->addWidget(m_pDrawAsGB);
 
-        UMLArtifact::Draw_Type drawAs = (static_cast<UMLArtifact*>(o))->getDrawAsType();
+        UMLArtifact::Draw_Type drawAs = UMLArtifact::defaultDraw;
+        if (m_pObject) {
+            drawAs = (static_cast<UMLArtifact*>(m_pObject))->getDrawAsType();
+        }
 
         if (drawAs == UMLArtifact::file) {
             m_pFileRB->setChecked(true);
@@ -231,9 +250,12 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     topLayout->addWidget(m_docGB);
 
     // setup fields
-    m_pClassNameLE->setText(o->name());
-    m_doc->setText(o->doc());
-    Uml::Visibility s = o->visibility();
+    Uml::Visibility s = Uml::Visibility::Public;
+    if (m_pObject) {
+        m_pClassNameLE->setText(m_pObject->name());
+        m_pDoc->setText(m_pObject->doc());
+        s = m_pObject->visibility();
+    }
     if (s == Uml::Visibility::Public)
         m_pPublicRB->setChecked(true);
     else if (s == Uml::Visibility::Private)
@@ -246,7 +268,9 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     // manage stereotypes
     m_pStereoTypeCB->setDuplicatesEnabled(false);  // only allow one of each type in box
     m_pStereoTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
-    insertStereotypesSorted(m_pObject->stereotype());
+    if (m_pObject) {
+        insertStereotypesSorted(m_pObject->stereotype());
+    }
 
     m_doc->setLineWrapMode(QTextEdit::WidgetWidth);
 }
