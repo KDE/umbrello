@@ -273,7 +273,7 @@ bool JavaImport::parseFile(const QString& filename)
 bool JavaImport::parseStmt()
 {
     const int srcLength = m_source.count();
-    const QString& keyword = m_source[m_srcIndex];
+    QString keyword = m_source[m_srcIndex];
     //uDebug() << '"' << keyword << '"';
     if (keyword == "package") {
         m_currentPackage = advance();
@@ -469,13 +469,28 @@ bool JavaImport::parseStmt()
             uError() << "importJava: too many }";
         return true;
     }
+    if (keyword == "<") {  // @todo generic parameters
+        if (! skipToClosing('<')) {
+            uError() << "importJava(" << keyword << "): template syntax error";
+            return false;
+        }
+        advance();
+        if (m_srcIndex == srcLength)
+            return false;
+	keyword = m_source[m_srcIndex];
+    }
     // At this point, we expect `keyword' to be a type name
     // (of a member of class or interface, or return type
     // of an operation.) Up next is the name of the attribute
     // or operation.
     if (! keyword.contains( QRegExp("^\\w") )) {
-        uError() << "importJava: ignoring " << keyword <<
-            " at " << m_srcIndex << ", " << m_source.count() << " in " << m_klass->name();
+	if (m_klass) {
+            uError() << "importJava: ignoring " << keyword <<
+                " at " << m_srcIndex << ", " << m_source.count() << " in " << m_klass->name();
+	} else {
+            uError() << "importJava: ignoring " << keyword <<
+                " at " << m_srcIndex << ", " << m_source.count() << " (outside class)";
+	}
         return false;
     }
     QString typeName = m_source[m_srcIndex];
