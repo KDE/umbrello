@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -77,7 +77,6 @@ void PinWidget::paint(QPainter & p, int offsetX, int offsetY)
 
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
-    int cas = 0;
 
     if ( (offsetY + height_Activity/2) <= m_pOw->getY() + height_Activity){
         y = m_pOw->getY()-5;
@@ -85,7 +84,6 @@ void PinWidget::paint(QPainter & p, int offsetX, int offsetY)
             //the floating text has not been linked with the signal
             m_pName->setX(x + 5 - m_Text.length()/2);
             m_pName->setY(y -fontHeight);
-            cas = 1;
         }
 
 
@@ -95,7 +93,6 @@ void PinWidget::paint(QPainter & p, int offsetX, int offsetY)
             //the floating text has not been linked with the signal
             m_pName->setX(x + 5 - m_Text.length()/2);
             m_pName->setY(y + fontHeight);
-            cas = 2;
         }
     }
 
@@ -106,7 +103,6 @@ void PinWidget::paint(QPainter & p, int offsetX, int offsetY)
         if (m_pName->getX() == 0 && m_pName->getY() == 0) {
             m_pName->setX(x - m_Text.length());
             m_pName->setY(y - fontHeight);
-            cas = 3;
         }
     } else if (offsetX + width_Activity/4 > m_pOw->getX() + width_Activity/2
          && (offsetY > m_pOw->getY() +5 && offsetY < m_pOw->getY() + height_Activity - 5) ){
@@ -116,7 +112,6 @@ void PinWidget::paint(QPainter & p, int offsetX, int offsetY)
             //the floating text has not been linked with the signal
             m_pName->setX(x + 10);
             m_pName->setY(y - fontHeight);
-            cas = 4;
         }
     }
 

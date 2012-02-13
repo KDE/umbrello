@@ -833,7 +833,8 @@ int PreprocessLexer::macroPrimary()
 int PreprocessLexer::macroMultiplyDivide()
 {
     int result = macroPrimary();
-    int iresult, op;
+    int iresult = 0;
+    int op = 0;
     for (;;) {
         m_source.parse(*gr_whiteSpace);
         if (m_source.parse(

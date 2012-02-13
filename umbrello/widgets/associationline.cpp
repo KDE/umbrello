@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -1126,7 +1126,6 @@ void AssociationLine::calculateParallelLine()
     distX *= distX;
     int distY = ( my - ty );
     distY *= distY;
-    double dist = sqrt( double(distX + distY) );
     double angle = atan2( double(ty - my), double(tx - mx) ) + ( ATAN * 2 );
     //find point from M to start line from.
     double cosx = cos( angle ) * lineDist;
@@ -1137,7 +1136,6 @@ void AssociationLine::calculateParallelLine()
     distX *= distX;
     distY = ( ty - b.y() );
     distY *= distY;
-    dist = sqrt( double(distX + distY) );
     //find point from T to end line
     cosx = cos( angle ) * lineDist;
     siny = sin( angle ) * lineDist;
@@ -1153,7 +1151,7 @@ void AssociationLine::calculateParallelLine()
     siny = ( sin( arrowSlope ) ) * arrowDist;
     m_ParallelLines[ 2 ] = QPoint( pointT.x() - (int)cosx, pointT.y() - (int)siny );
     arrowSlope = angle - ATAN;
-    cosx = ( cos( arrowSlope )  ) * arrowDist;
+    cosx = ( cos( arrowSlope ) ) * arrowDist;
     siny = ( sin( arrowSlope ) ) * arrowDist;
     m_ParallelLines[ 3 ] = QPoint( pointT.x() - (int)cosx, pointT.y() - (int)siny );
 }

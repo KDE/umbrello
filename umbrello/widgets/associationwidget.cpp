@@ -2382,17 +2382,14 @@ QPoint AssociationWidget::calculateTextPosition(Uml::TextRole role)
 
     // used to find out if association end point (p)
     // is at top or bottom edge of widget.
-    UMLWidget *pWidget(0);
 
     if (role == TextRole::MultiA || role == TextRole::ChangeA || role == TextRole::RoleAName) {
         p = m_associationLine->point( 0 );
         q = m_associationLine->point( 1 );
-        pWidget = m_role[A].m_pWidget;
     } else if (role == TextRole::MultiB || role == TextRole::ChangeB || role == TextRole::RoleBName) {
         const uint lastSegment = m_associationLine->count() - 1;
         p = m_associationLine->point(lastSegment);
         q = m_associationLine->point(lastSegment - 1);
-        pWidget = m_role[B].m_pWidget;
     } else if (role != TextRole::Name) {
         uError() << "called with unsupported TextRole " << role;
         return QPoint(-1, -1);

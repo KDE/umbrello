@@ -461,13 +461,14 @@ bool CSharpImport::parseStmt()
         }
         // try to resolve the class type, or create a placeholder if that fails
         UMLObject *type = resolveClass(typeName);
-        UMLObject *o;
         if (type) {
-            o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name,
-                                              static_cast<UMLClassifier*>(type), m_comment, m_isStatic);
+            Import_Utils::insertAttribute(
+                        m_klass, m_currentAccess, name,
+                        static_cast<UMLClassifier*>(type), m_comment, m_isStatic);
         } else {
-            o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name,
-                                              typeName, m_comment, m_isStatic);
+            Import_Utils::insertAttribute(
+                        m_klass, m_currentAccess, name,
+                        typeName, m_comment, m_isStatic);
         }
         // UMLAttribute *attr = static_cast<UMLAttribute*>(o);
         if (nextToken != ",") {

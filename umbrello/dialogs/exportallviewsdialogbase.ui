@@ -57,9 +57,6 @@
        <property name="wordWrap">
         <bool>false</bool>
        </property>
-       <property name="buddy">
-        <cstring>m_imageType</cstring>
-       </property>
       </widget>
      </item>
     </layout>

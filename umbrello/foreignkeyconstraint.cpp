@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -297,20 +297,19 @@ bool UMLForeignKeyConstraint::load( QDomElement & element )
             Uml::IDType keyId = STR2ID(tempElement.attribute("key", ""));
             Uml::IDType valueId = STR2ID(tempElement.attribute("value", ""));
 
-            UMLEntityAttribute* key = NULL , *value = NULL;
-
             UMLEntity* parentEntity = static_cast<UMLEntity*>( parent() );
             UMLObject* keyObj = parentEntity->findChildObjectById(keyId);
-            key = static_cast<UMLEntityAttribute*>(keyObj);
+            UMLEntityAttribute* key = static_cast<UMLEntityAttribute*>(keyObj);
 
             if ( m_ReferencedEntity == NULL ) {
                 // if referenced entity is null, then we won't find its attributes even
                 // save for resolving later
                 m_pEntityAttributeIDMap.insert( key, valueId );
-            } else {
-               UMLObject* valueObj = m_ReferencedEntity->findChildObjectById(valueId);
-               value = static_cast<UMLEntityAttribute*>( valueObj );
             }
+//            else {
+// unused        UMLObject* valueObj = m_ReferencedEntity->findChildObjectById(valueId);
+// unused        UMLEntityAttribute* value = static_cast<UMLEntityAttribute*>(valueObj);
+//            }
 
         } else {
             uWarning() << "unknown child type in UMLUniqueConstraint::load";

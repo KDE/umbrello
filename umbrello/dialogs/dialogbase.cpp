@@ -90,5 +90,6 @@ KPageWidgetItem *DialogBase::setupStylePage(UMLWidget *widget)
  */
 void DialogBase::saveStylePageData(UMLWidget *widget)
 {
+    Q_UNUSED(widget);
     m_pStylePage->updateUMLWidget();
 }
