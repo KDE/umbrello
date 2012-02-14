@@ -525,6 +525,7 @@ void SettingsDlg::applyPage( KPageWidgetItem*item )
         m_pOptionState->classState.showAttSig = m_ClassWidgets.showAttSigCB->isChecked();
         m_pOptionState->classState.showOpSig = m_ClassWidgets.showOpSigCB->isChecked();
         m_pOptionState->classState.showPackage = m_ClassWidgets.showPackageCB->isChecked();
+        m_pOptionState->classState.showPublicOnly = m_ClassWidgets.showPublicOnlyCB->isChecked();
         m_pOptionState->classState.defaultAttributeScope = (Uml::Visibility::Value) m_ClassWidgets.m_pAttribScopeCB->currentIndex();
         m_pOptionState->classState.defaultOperationScope = (Uml::Visibility::Value) m_ClassWidgets.m_pOperationScopeCB->currentIndex();
     }

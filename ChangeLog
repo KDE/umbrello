@@ -6,8 +6,9 @@ Version (since 2012-01-01)
 * Loading existing XMI file (194897) and therefore also
   -  umbrello (2.4.2) crashed while opening solid_design.xmi (233705)
 * Generation of classes from files in folder in umbrello (197137)
-* Crash when Clicking on / Trying to Move Datatype on Simple Diagram (212410)
+* Crash when Clicking on / Trying to Move Datatype on Simple Diagram (202410)
 * Segfault importing Java code - related to variable length parameters (230770)
+* Can't uncheck "Show Public Only" (242545)
 * Umbrello crashed after copy/paste (243392) 
 * Crash when opening file (251094) 
 * Segmentation fault when copy&paste of sequence diagram (287179) and therefore also
