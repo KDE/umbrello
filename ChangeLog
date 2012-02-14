@@ -1,11 +1,13 @@
 Version (since 2012-01-01)
 
 * Enabling of cut/copy/paste actions is incorrect (70925)
-* Illegal tag without any parameter is generated (155382)
+* PHP5 code generation: Illegal tag without any parameter is generated (155382)
 * Classes in sub-packages are moved to top level packages on edit (174184)
 * Loading existing XMI file (194897) and therefore also
   -  umbrello (2.4.2) crashed while opening solid_design.xmi (233705)
 * Generation of classes from files in folder in umbrello (197137)
+* Crash when Clicking on / Trying to Move Datatype on Simple Diagram (212410)
+* Segfault importing Java code - related to variable length parameters (230770)
 * Umbrello crashed after copy/paste (243392) 
 * Crash when opening file (251094) 
 * Segmentation fault when copy&paste of sequence diagram (287179) and therefore also
@@ -19,6 +21,7 @@ Version (since 2012-01-01)
   - Umbrello crashes during cut and paste class diagram (257584) 
 * Color of role text on diagram (e.g. Role B) nearly invisible (291401)
 * Copy/Paste of activity, state and use case diagram elements do not create new elements (291557)
+* Crash on importing templated java source code (293770)
 * New feature: C# code import added.
 * New feature: Drawing of state diagrams with more pseudostates possible.
 
