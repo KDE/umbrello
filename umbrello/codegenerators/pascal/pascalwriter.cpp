@@ -53,7 +53,7 @@ bool PascalWriter::isOOClass(UMLClassifier *c)
     UMLObject::ObjectType ot = c->baseType();
     if (ot == UMLObject::ot_Interface)
         return true;
-    if (ot == UMLObject::ot_Enum)
+    if (ot == UMLObject::ot_Enum || ot == UMLObject::ot_Datatype)
         return false;
     if (ot != UMLObject::ot_Class) {
         uDebug() << "unknown object type " << UMLObject::toString(ot);
@@ -84,7 +84,7 @@ QString PascalWriter::qualifiedName(UMLPackage *p, bool withType, bool byValue)
             retval.append(defaultPackageSuffix);
     } else {
         retval = umlPkg->fullyQualifiedName(".");
-        if (isOOClass(c)) {
+        if (c && isOOClass(c)) {
             retval.append(".");
             retval.append(className);
         }
