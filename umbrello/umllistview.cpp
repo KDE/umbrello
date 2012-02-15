@@ -1246,8 +1246,11 @@ UMLListViewItem* UMLListView::findView(UMLView* v)
             return foundItem;
         }
     }
-    uWarning() << "returning 0";
-    DEBUG(DBG_SRC) << "but was looking for " << *item;
+    if (m_doc->loading()) {
+        DEBUG(DBG_SRC) << "could not find " << v->name() << " in " << *item;
+    } else {
+        uWarning() << "could not find " << v->name() << " in " << *item;
+    }
     return 0;
 }
 
