@@ -171,7 +171,7 @@ void UMLDoc::addView(UMLView *view)
         uError() << "view folder is not set";
         return;
     }
-    DEBUG(DBG_SRC) << "to folder " << *f;
+    DEBUG(DBG_SRC) << view->name() << " to folder " << *f;
     f->addView(view);
 
     UMLApp * pApp = UMLApp::app();
@@ -179,7 +179,9 @@ void UMLDoc::addView(UMLView *view)
         connect(this, SIGNAL(sigObjectRemoved(UMLObject*)), view->umlScene(), SLOT(slotObjectRemoved(UMLObject*)));
     }
 
-    pApp->setCurrentView(view);
+    if ( !m_bLoading || pApp->currentView() == NULL ) {
+        pApp->setCurrentView(view);
+    }
     if ( !m_bLoading ) {
         view->show();
         emit sigDiagramChanged(view->umlScene()->type());
