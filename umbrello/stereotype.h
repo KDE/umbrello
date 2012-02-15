@@ -26,6 +26,12 @@
  * i.e. client code must take care to call incrRefCount() and
  * decrRefCount() as appropriate.
  *
+ * The one and only owner of all stereotypes is the UMLDoc, and the
+ * ownership is specially managed (umlPackage() returns NULL for a
+ * UMLStereotype.) The reason for this special treatment is that
+ * class UMLDoc does not inherit from class UMLPackage, and therefore
+ * setUMLPackage() cannot be used for stereotypes.
+ *
  * @short Sets up stereotype information.
  * @author Jonathan Riddell
  * @author Oliver Kellogg

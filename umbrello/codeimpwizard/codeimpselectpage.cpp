@@ -389,6 +389,7 @@ void CodeImpSelectPage::selectAll()
         QFileInfo fileInfo = model->fileInfo(currIndex);
         if (fileInfo.isDir()) {
             QItemSelectionModel* selectionModel = ui_treeView->selectionModel();
+            Q_UNUSED(selectionModel);
             //...
             if (ui_subdirCheckBox->isChecked()) {
                 //...

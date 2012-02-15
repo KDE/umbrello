@@ -1235,15 +1235,15 @@ TextBlock* CodeEditor::findTextBlockAt(int characterPos)
  */
 bool CodeEditor::isParaEditable(int para)
 {
-    int endLine = 0;
+//:unused:    int endLine = 0;
     if (!m_textBlockList.isEmpty()) {
         TextBlock* lastTb = m_textBlockList.last();
         if (m_tbInfoMap.contains(lastTb)) {
-            TextBlockInfo *tbi = m_tbInfoMap[lastTb];
-            if (tbi && !tbi->m_paraList.isEmpty()) {
-                ParaInfo* pi = tbi->m_paraList.last();
-                endLine = pi->end + 1;
-            }
+//            TextBlockInfo *tbi = m_tbInfoMap[lastTb];
+//            if (tbi && !tbi->m_paraList.isEmpty()) {
+//                ParaInfo* pi = tbi->m_paraList.last();
+//                endLine = pi->end + 1;
+//            }
         }
     }
     if ((para < 0) || (para >= document()->characterCount())) {

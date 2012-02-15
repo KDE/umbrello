@@ -2055,6 +2055,9 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
      */
     emit sigWriteToStatusBar( i18n("Loading UML elements...") );
 
+    // For Umbrello native XMI files, when called from loadFromXMI() we
+    // get here with Element.tagName() == "UML:Model" from the XMI input:
+    // <UML:Model name="UML Model">
     for (QDomNode node = element.firstChild(); !node.isNull();
             node = node.nextSibling()) {
         if (node.isComment()) {
@@ -2063,6 +2066,20 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         QDomElement tempElement = node.toElement();
         QString type = tempElement.tagName();
         if (tagEq(type, "Model")) {
+            // Handling of Umbrello native XMI files:
+            // We get here from a recursive call to loadUMLObjectsFromXMI()
+            // a few lines below, see
+            //       if (tagEq(type, "Namespace.ownedElement") ....
+            // Inside this Namespace.ownedElement envelope there are the
+            // four submodels:
+            // <UML:Model name="Logical View">
+            // <UML:Model name="Use Case View">
+            // <UML:Model name="Component View">
+            // <UML:Model name="Deployment View">
+            // These are ultimately loaded by UMLFolder::loadFromXMI()
+            // Furthermore, in Umbrello native XMI format this
+            // Namespace.ownedElement is the container of all stereotypes
+            // (<UML:Stereotype>).
             bool foundUmbrelloRootFolder = false;
             QString name = tempElement.attribute("name");
             for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
@@ -2077,7 +2094,6 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
                 continue;
             }
         }
-        // From here on, it's support for stereotypes, pre 1.5.5 versions, and foreign files
         if (tagEq(type, "Namespace.ownedElement") ||
                 tagEq(type, "Namespace.contents") ||
                 tagEq(type, "Model")) {
@@ -2085,12 +2101,17 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
             // are ownedElements anyway.
             // Therefore the <UML:Namespace.ownedElement> tag is of no
             // significance.
+            // The tagEq(type, "Namespace.contents") and tagEq(type, "Model")
+            // tests do not become true for Umbrello native files, only for
+            // some foreign XMI files.
             if ( !loadUMLObjectsFromXMI( tempElement ) ) {
                 uWarning() << "failed load on " << type;
                 return false;
             }
             continue;
         }
+        // From here on, it's support for stereotypes, pre 1.5.5 versions,
+        // and foreign files
         if (Model_Utils::isCommonXMIAttribute(type)) {
             continue;
         }
@@ -2116,17 +2137,19 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         UMLObject::ObjectType ot = pObject->baseType();
         // Set the parent root folder.
         UMLPackage *pkg = 0;
-        if (ot == UMLObject::ot_Datatype) {
-            pkg = m_datatypeRoot;
-        } else {
-            Uml::ModelType guess = Model_Utils::guessContainer(pObject);
-            if (guess != Uml::ModelType::N_MODELTYPES) {
-                pkg = m_root[guess];
-            }
-            else {
-                uError() << "Guess is Uml::ModelType::N_MODELTYPES - package not set correctly for "
-                         << pObject->name() << " / base type " << pObject->baseTypeStr();
-                pkg = m_root[Uml::ModelType::Logical];
+        if (ot != UMLObject::ot_Stereotype) {
+            if (ot == UMLObject::ot_Datatype) {
+                pkg = m_datatypeRoot;
+            } else {
+                Uml::ModelType guess = Model_Utils::guessContainer(pObject);
+                if (guess != Uml::ModelType::N_MODELTYPES) {
+                    pkg = m_root[guess];
+                }
+                else {
+                    uError() << "Guess is Uml::ModelType::N_MODELTYPES - package not set correctly for "
+                             << pObject->name() << " / base type " << pObject->baseTypeStr();
+                    pkg = m_root[Uml::ModelType::Logical];
+                }
             }
         }
         pObject->setUMLPackage(pkg);
@@ -2158,7 +2181,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         if (pkg) {
             pkg->addObject(pObject);
         }
-        else {
+        else if (ot != UMLObject::ot_Stereotype) {
             uError() << "Package is NULL for " << pObject->name();
             return false;
         }

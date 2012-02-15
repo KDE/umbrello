@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -539,7 +539,6 @@ QVariant FloatingTextWidget::itemChange(GraphicsItemChange change, const QVarian
 {
     UMLScene *scene = umlScene();
     if (change == ItemPositionChange && scene && scene->isMouseMovingItems()) {
-        QPointF oldPos = pos();
         QPointF newPos = newValue.toPointF();
 
         qreal x = newPos.x();

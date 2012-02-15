@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -115,8 +115,6 @@ void NoteWidget::setDiagramLink(Uml::IDType sceneID)
  */
 void NoteWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    const QSizeF sz = size();
-
     painter->setPen(QPen(lineColor(), lineWidth()));
     painter->setBrush(brush());
 

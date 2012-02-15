@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -106,7 +106,6 @@ bool SeqLineWidget::onDestructionBox(const QPointF& localPos)
 void SeqLineWidget::setLength(qreal len)
 {
     m_length = len;
-    const QPointF p = pos();
     m_sequentialLine.setP1(QPointF(0, 0));
     m_sequentialLine.setP2(QPointF(0, m_length));
 

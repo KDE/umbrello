@@ -253,7 +253,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     Uml::Visibility s = Uml::Visibility::Public;
     if (m_pObject) {
         m_pClassNameLE->setText(m_pObject->name());
-        m_pDoc->setText(m_pObject->doc());
+        m_doc->setText(m_pObject->doc());
         s = m_pObject->visibility();
     }
     if (s == Uml::Visibility::Public)
@@ -261,7 +261,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     else if (s == Uml::Visibility::Private)
         m_pPrivateRB->setChecked(true);
     else if (s == Uml::Visibility::Protected)
-          m_pProtectedRB->setChecked(true);
+        m_pProtectedRB->setChecked(true);
     else
         m_pImplementationRB->setChecked(true);
 

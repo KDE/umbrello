@@ -6,7 +6,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -243,18 +243,18 @@ void CppTree2Uml::parseFunctionDefinition( FunctionDefinitionAST* ast )
         return;
 
     bool isFriend = false;
-    bool isVirtual = false;
+//:unused:    bool isVirtual = false;
     bool isStatic = false;
-    bool isInline = false;
+//:unused:    bool isInline = false;
     bool isConstructor = false;
 
     if( funSpec ){
-        QList<AST*> l = funSpec->nodeList();
-        for( int i = 0; i < l.size(); ++i ) {
-            QString text = l.at(i)->text();
-            if( text == "virtual" ) isVirtual = true;
-            else if( text == "inline" ) isInline = true;
-        }
+//:unused:        QList<AST*> l = funSpec->nodeList();
+//:unused:        for( int i = 0; i < l.size(); ++i ) {
+//:unused:            QString text = l.at(i)->text();
+//:unused:            if( text == "virtual" ) isVirtual = true;
+//:unused:            else if( text == "inline" ) isInline = true;
+//:unused:        }
     }
 
     if( storageSpec ){
@@ -446,21 +446,21 @@ void CppTree2Uml::parseDeclaration2( GroupAST* funSpec, GroupAST* storageSpec,
     }
 
     QString typeName = typeOfDeclaration( typeSpec, d );
-    bool isFriend = false;
+//:unused:    bool isFriend = false;
     bool isStatic = false;
-    //bool isInitialized = decl->initializer() != 0;
+//:unused:    bool isInitialized = decl->initializer() != 0;
 
     if( storageSpec ){
         QList<AST*> l = storageSpec->nodeList();
         for( int i = 0; i < l.size(); ++i ) {
             QString text = l.at(i)->text();
-            if( text == "friend" ) isFriend = true;
-            else if( text == "static" ) isStatic = true;
+            if( text == "static" ) isStatic = true;
+//:unused:            else if( text == "friend" ) isFriend = true;
         }
     }
 
-    Import_Utils::insertAttribute( c, m_currentAccess, id, typeName,
-                                 m_comment, isStatic);
+    Import_Utils::insertAttribute(c, m_currentAccess, id, typeName,
+                                  m_comment, isStatic);
     m_comment = "";
 }
 
@@ -480,19 +480,19 @@ void CppTree2Uml::parseFunctionDeclaration(  GroupAST* funSpec, GroupAST* storag
                                              TypeSpecifierAST * typeSpec, InitDeclaratorAST * decl )
 {
     bool isFriend = false;
-    bool isVirtual = false;
+//:unused:    bool isVirtual = false;
     bool isStatic = false;
-    bool isInline = false;
+//:unused:    bool isInline = false;
     bool isPure = decl->initializer() != 0;
     bool isConstructor = false;
 
     if( funSpec ){
-        QList<AST*> l = funSpec->nodeList();
-        for( int i = 0; i < l.size(); ++i ) {
-            QString text = l.at(i)->text();
-            if( text == "virtual" ) isVirtual = true;
-            else if( text == "inline" ) isInline = true;
-        }
+//:unused:        QList<AST*> l = funSpec->nodeList();
+//:unused:        for( int i = 0; i < l.size(); ++i ) {
+//:unused:            QString text = l.at(i)->text();
+//:unused:            if( text == "virtual" ) isVirtual = true;
+//:unused:            else if( text == "inline" ) isInline = true;
+//:unused:        }
     }
 
     if( storageSpec ){
@@ -521,8 +521,8 @@ void CppTree2Uml::parseFunctionDeclaration(  GroupAST* funSpec, GroupAST* storag
         isConstructor = true;
 
     parseFunctionArguments( d, m );
-    Import_Utils::insertMethod( c, m, m_currentAccess, returnType,
-                              isStatic, isPure, isFriend, isConstructor, m_comment);
+    Import_Utils::insertMethod(c, m, m_currentAccess, returnType,
+                               isStatic, isPure, isFriend, isConstructor, m_comment);
     m_comment = "";
 }
 

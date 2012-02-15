@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2003       Brian Thomas                                 *
  *                            <brian.thomas@gsfc.nasa.gov>                 *
- *   copyright (C) 2004-2011  Umbrello UML Modeller Authors                *
+ *   copyright (C) 2004-2012  Umbrello UML Modeller Authors                *
  *                            <uml-devel@uml.sf.net>                       *
  ***************************************************************************/
 
@@ -508,7 +508,7 @@ void CppWriter::writeAttributeDecls (UMLClassifier *c, Uml::Visibility visibilit
     if (list.count() > 0) {
 
         // write attrib declarations now
-        bool isFirstAttrib = true;
+        // bool isFirstAttrib = true;
         QString documentation;
         foreach (UMLAttribute* at, list ) {
 
@@ -520,7 +520,7 @@ void CppWriter::writeAttributeDecls (UMLClassifier *c, Uml::Visibility visibilit
             //                  if(!isFirstAttrib && (!documentation.isEmpty()||!noPriorDocExists))
             //                          writeBlankLine(stream);
 
-            isFirstAttrib = false;
+            // isFirstAttrib = false;
 
             QString varName = getAttributeVariableName(at);
 

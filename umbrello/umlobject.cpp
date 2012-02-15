@@ -537,6 +537,12 @@ bool UMLObject::setUMLPackage(UMLPackage* pPkg)
         return false;
     }
 
+    if (pPkg == NULL) {
+        // Allow setting to NULL for stereotypes
+        m_pUMLPackage = pPkg;
+        return true;
+    }
+
     if (pPkg->umlPackage() == this) {
         uDebug() << "setting parent to an object of which I'm already the parent is not allowed";
         return false;
@@ -914,18 +920,19 @@ bool UMLObject::loadFromXMI(QDomElement & element)
             return false;
         }
     } else {
-        m_nId = STR2ID(id);
+        Uml::IDType nId = STR2ID(id);
         if (m_BaseType == ot_Role) {
             // Some older Umbrello versions had a problem with xmi.id's
             // of other objects being reused for the UMLRole, see e.g.
             // attachment 21179 at http://bugs.kde.org/147988 .
             // If the xmi.id is already being used then we generate a new one.
-            UMLObject *o = umldoc->findObjectById(m_nId);
+            UMLObject *o = umldoc->findObjectById(nId);
             if (o) {
                 uError() << "loadFromXMI(UMLRole): id " << id
                          << " is already in use!!! Please fix your XMI file.";
             }
         }
+        m_nId = nId;
     }
 
     if (element.hasAttribute("documentation"))  // for bkwd compat.

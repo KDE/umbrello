@@ -148,7 +148,7 @@ void AssociationSpaceManager::remove(AssociationWidget *assoc)
                 break;
             }
         }
-        Q_ASSERT(removed);
+        Q_ASSERT(removed); Q_UNUSED(removed);
     } else {
         RegionPair reg = region(assoc);
         Q_ASSERT(reg.isValid());
