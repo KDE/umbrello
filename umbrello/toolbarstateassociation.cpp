@@ -226,7 +226,7 @@ void ToolBarStateAssociation::setSecondWidget()
         valid = AssocRules::allowAssociation(type, widgetA, widgetB);
     }
     if (valid) {
-        AssociationWidget *temp = new AssociationWidget(m_pUMLScene, widgetA, type, widgetB);
+        AssociationWidget *temp = AssociationWidget::create(m_pUMLScene, widgetA, type, widgetB);
         addAssociationInViewAndDoc(temp);
         if (type == Uml::AssociationType::Containment) {
             UMLListView *lv = UMLApp::app()->listView();

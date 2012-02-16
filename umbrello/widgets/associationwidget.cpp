@@ -53,23 +53,32 @@
 
 using namespace Uml;
 
-// this constructor really only for loading from XMI, otherwise it
-// is bad..and shouldn't be allowed as it creates an incomplete
-// associationwidget.
 /**
-  * Constructor.
+  * Constructor is private because the static create() methods shall
+  * be used for constructing AssociationWidgets.
   *
   * @param scene              The parent view of this widget.
   */
 AssociationWidget::AssociationWidget(UMLScene *scene)
   : WidgetBase(scene, WidgetBase::wt_Association)
 {
-    init();
 }
 
-// the preferred constructor
 /**
-  * Constructor.
+ * This constructor is really only for loading from XMI, otherwise it
+ * should not be allowed as it creates an incomplete associationwidget.
+  *
+  * @param scene              The parent view of this widget.
+ */
+AssociationWidget* AssociationWidget::create(UMLScene *scene)
+{
+    AssociationWidget* instance = new AssociationWidget(scene);
+    instance->init();
+    return instance;
+}
+
+/**
+  * Preferred constructor (static factory method.)
   *
   * @param scene      The parent view of this widget.
   * @param WidgetA   Pointer to the role A widget for the association.
@@ -77,14 +86,15 @@ AssociationWidget::AssociationWidget(UMLScene *scene)
   * @param WidgetB   Pointer to the role B widget for the association.
   * @param umlobject Pointer to the underlying UMLObject (if applicable.)
   */
-AssociationWidget::AssociationWidget(UMLScene *scene, UMLWidget* pWidgetA,
+AssociationWidget* AssociationWidget::create
+                                    (UMLScene *scene, UMLWidget* pWidgetA,
                                      Uml::AssociationType assocType, UMLWidget* pWidgetB,
                                      UMLObject *umlobject /* = NULL */)
-  : WidgetBase(scene, WidgetBase::wt_Association)
 {
-    init();
+    AssociationWidget* instance = new AssociationWidget(scene);
+    instance->init();
     if (umlobject) {
-        setUMLObject(umlobject);
+        instance->setUMLObject(umlobject);
     } else {
         // set up UMLAssociation obj if assoc is represented and both roles are UML objects
         if (Uml::AssociationType::hasUMLRepresentation(assocType)) {
@@ -99,7 +109,8 @@ AssociationWidget::AssociationWidget(UMLScene *scene, UMLWidget* pWidgetA,
                 // done BEFORE creation of the widget, if it mattered to the code.
                 // But lets leave check in here for the time being so that debugging
                 // output is shown, in case there is a collision with code elsewhere.
-                UMLAssociation * myAssoc = m_umldoc->findAssociation( assocType, umlRoleA, umlRoleB, &swap );
+                UMLDoc *doc = UMLApp::app()->document();
+                UMLAssociation *myAssoc = doc->findAssociation( assocType, umlRoleA, umlRoleB, &swap );
                 if (myAssoc != NULL) {
                     if (assocType == Uml::AssociationType::Generalization) {
                         uDebug() << " Ignoring second construction of same generalization";
@@ -112,32 +123,34 @@ AssociationWidget::AssociationWidget(UMLScene *scene, UMLWidget* pWidgetA,
                 }
                 if (myAssoc == NULL)
                     myAssoc = new UMLAssociation( assocType, umlRoleA, umlRoleB );
-                setUMLAssociation(myAssoc);
+                instance->setUMLAssociation(myAssoc);
             }
         }
     }
 
-    setWidget(pWidgetA, A);
-    setWidget(pWidgetB, B);
+    instance->setWidget(pWidgetA, A);
+    instance->setWidget(pWidgetB, B);
 
-    setAssociationType(assocType);
+    instance->setAssociationType(assocType);
 
-    calculateEndingPoints();
+    instance->calculateEndingPoints();
 
     //The AssociationWidget is set to Activated because it already has its side widgets
-    setActivated(true);
+    instance->setActivated(true);
 
     // sync UML meta-data to settings here
-    mergeAssociationDataIntoUMLRepresentation();
+    instance->mergeAssociationDataIntoUMLRepresentation();
 
     // Collaboration messages need a name label because it's that
     // which lets operator== distinguish them, which in turn
     // permits us to have more than one message between two objects.
-    if (isCollaboration()) {
+    if (instance->isCollaboration()) {
         // Create a temporary name to bring on setName()
-        int collabID = m_scene->generateCollaborationId();
-        setName('m' + QString::number(collabID));
+        int collabID = instance->m_scene->generateCollaborationId();
+        instance->setName('m' + QString::number(collabID));
     }
+
+    return instance;
 }
 
 /**

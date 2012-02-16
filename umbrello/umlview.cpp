@@ -2089,8 +2089,9 @@ void UMLView::updateContainment(UMLCanvasObject *self)
     if (newParentWidget == NULL)
         return;
     // Create the new containment association.
-    AssociationWidget *a = new AssociationWidget(umlScene(), newParentWidget,
-            Uml::AssociationType::Containment, selfWidget);
+    AssociationWidget *a = AssociationWidget::create
+                             (umlScene(), newParentWidget,
+                              Uml::AssociationType::Containment, selfWidget);
     a->calculateEndingPoints();
     a->setActivated(true);
     m_AssociationList.append(a);
@@ -2201,7 +2202,7 @@ void UMLView::createAutoAssociations(UMLWidget * widget)
             continue;
         }
         // Create the AssociationWidget.
-        assocwidget = new AssociationWidget(umlScene());
+        assocwidget = AssociationWidget::create(umlScene());
         assocwidget->setWidget(widgetA, A);
         assocwidget->setWidget(widgetB, B);
         assocwidget->setAssociationType(assocType);
@@ -2238,7 +2239,7 @@ void UMLView::createAutoAssociations(UMLWidget * widget)
                 if (widget->rect().contains(w->rect()))
                     continue;
                 // create the containment AssocWidget
-                AssociationWidget *a = new AssociationWidget(umlScene(), widget,
+                AssociationWidget *a = AssociationWidget::create(umlScene(), widget,
                         Uml::AssociationType::Containment, w);
                 a->calculateEndingPoints();
                 a->setActivated(true);
@@ -2265,7 +2266,7 @@ void UMLView::createAutoAssociations(UMLWidget * widget)
     if (!breakFlag || pWidget->rect().contains(widget->rect()))
         return;
     // create the containment AssocWidget
-    AssociationWidget *a = new AssociationWidget(umlScene(), pWidget, Uml::AssociationType::Containment, widget);
+    AssociationWidget *a = AssociationWidget::create(umlScene(), pWidget, Uml::AssociationType::Containment, widget);
     a->calculateEndingPoints();
     a->setActivated(true);
     if (! addAssociation(a))
@@ -2346,18 +2347,17 @@ void UMLView::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute *
     }
     Uml::AssociationType assocType = Uml::AssociationType::Composition;
     UMLWidget *w = findWidget(type->id());
-    AssociationWidget *aw = NULL;
     // if the attribute type has a widget representation on this view
     if (w) {
-        aw = findAssocWidget(widget, w, attr->name());
-        if (aw == NULL &&
+        AssociationWidget *a = findAssocWidget(widget, w, attr->name());
+        if (a == NULL &&
                 // if the current diagram type permits compositions
                 AssocRules::allowAssociation(assocType, widget, w, false)) {
             // Create a composition AssocWidget, or, if the attribute type is
             // stereotyped <<CORBAInterface>>, create a UniAssociation widget.
             if (type->stereotype() == "CORBAInterface")
                 assocType = Uml::AssociationType::UniAssociation;
-            AssociationWidget *a = new AssociationWidget(umlScene(), widget, assocType, w, attr);
+            a = AssociationWidget::create(umlScene(), widget, assocType, w, attr);
             a->calculateEndingPoints();
             a->setVisibility(attr->visibility(), B);
             /*
@@ -2380,14 +2380,14 @@ void UMLView::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute *
             UMLWidget *w = c ? findWidget(c->id()) : 0;
             // if the referenced type has a widget representation on this view
             if (w) {
-                aw = findAssocWidget(widget, w, attr->name());
-                if (aw == NULL &&
+                AssociationWidget *a = findAssocWidget(widget, w, attr->name());
+                if (a == NULL &&
                         // if the current diagram type permits aggregations
                         AssocRules::allowAssociation(Uml::AssociationType::Aggregation, widget, w, false)) {
                     // create an aggregation AssocWidget from the ClassifierWidget
                     // to the widget of the referenced type
-                    AssociationWidget *a = new AssociationWidget
-                    (umlScene(), widget, Uml::AssociationType::Aggregation, w, attr);
+                    a = AssociationWidget::create (umlScene(), widget,
+                                                   Uml::AssociationType::Aggregation, w, attr);
                     a->calculateEndingPoints();
                     a->setVisibility(attr->visibility(), B);
                     //a->setChangeability(true, B);
@@ -2469,7 +2469,7 @@ void UMLView::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignKe
 
             // for foreign key contstraint, we need to create the association type Uml::AssociationType::Relationship.
             // The referenced entity is the "1" part (Role A) and the entity holding the relationship is the "many" part. ( Role B)
-            AssociationWidget *a = new AssociationWidget(umlScene(), w, assocType, widget);
+            AssociationWidget *a = AssociationWidget::create(umlScene(), w, assocType, widget);
             a->setUMLObject(fkConstraint);
             a->calculateEndingPoints();
             //a->setVisibility(attr->getVisibility(), B);
@@ -3541,7 +3541,7 @@ bool UMLView::loadAssociationsFromXMI(QDomElement & qElement)
         if (tag == "assocwidget" ||
                 tag == "UML:AssocWidget") {  // for bkwd compatibility
             countr++;
-            AssociationWidget *assoc = new AssociationWidget(umlScene());
+            AssociationWidget *assoc = AssociationWidget::create(umlScene());
             if (!assoc->loadFromXMI(assocElement)) {
                 uError() << "could not loadFromXMI association widget:"
                     << assoc << ", bad XMI file? Deleting from umlview.";
@@ -3637,7 +3637,7 @@ bool UMLView::loadUisDiagramPresentation(QDomElement & qElement)
                 UMLWidget *wB = findWidget(objB->id());
                 if (wA != NULL && wB != NULL) {
                     AssociationWidget *aw =
-                        new AssociationWidget(umlScene(), wA, at, wB, umla);
+                        AssociationWidget::create(umlScene(), wA, at, wB, umla);
                     aw->syncToModel();
                     m_AssociationList.append(aw);
                 } else {

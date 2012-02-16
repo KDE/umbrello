@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -61,8 +61,9 @@ public:
         Center
     };
 
-    AssociationWidget(UMLScene *scene);
-    AssociationWidget(UMLScene *scene, UMLWidget* WidgetA,
+    static AssociationWidget* create(UMLScene *scene);
+    static AssociationWidget* create
+                     (UMLScene *scene, UMLWidget* WidgetA,
                       Uml::AssociationType Type, UMLWidget* WidgetB,
                       UMLObject *umlobject = NULL);
 
@@ -230,6 +231,12 @@ public:
     void cleanup();
 
 private:
+
+    /**
+     * Constructor is made non accessible:
+     * Users shall use the static create() methods for constructing AssociationWidgets.
+     */
+    AssociationWidget(UMLScene *scene);
 
     void setUMLAssociation (UMLAssociation * assoc);
 
