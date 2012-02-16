@@ -116,7 +116,7 @@ bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc)
 int UMLCanvasObject::removeAssociationEnd(UMLAssociation * assoc)
 {
     if (!hasAssociation(assoc) || !m_List.removeAll(assoc)) {
-        uWarning() << "can not find given assoc in list";
+        uDebug() << "can not find given assoc " << assoc << " in list";
         return -1;
     }
     UMLObject::emitModified();
