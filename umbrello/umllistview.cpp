@@ -146,14 +146,30 @@ void UMLListView::setTitle(int column, const QString &text)
  */
 void UMLListView::slotItemChanged(QTreeWidgetItem * item, int column)
 {
-    if (m_editItem) {
-        DEBUG(DBG_SRC) << item->text(column);
-        endRename(static_cast<UMLListViewItem*>(item));
+    QString text = item->text(column);
+    UMLListViewItem *lvitem = static_cast<UMLListViewItem*>(item);
+
+    if (lvitem->creating()) {
+        DEBUG(DBG_SRC) << "creating text: " << text;
+        UMLObject *o = lvitem->umlObject();
+        if (o && !text.isEmpty()) {
+            // addNewItem() already did the createItem(), therefore
+            // we don't want any further signal or undo stack entry.
+            // In fact, we _cannot_ have signals enabled here because
+            // it gives an endless recursion.
+            blockSignals(true);
+            o->setNameCmd(text);
+            blockSignals(false);
+        }
+        lvitem->setCreating(false);
+    } else if (m_editItem) {
+        DEBUG(DBG_SRC) << "text: " << text;
+        endRename(lvitem);
     }
 }
 
 /**
- * Handlerfor item selection changed signals.
+ * Handler for item selection changed signals.
  */
 void UMLListView::slotItemSelectionChanged()
 {
@@ -2241,6 +2257,8 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
         Uml::DiagramType dt = Model_Utils::convert_LVT_DT(type);
         name = uniqueDiagramName(dt);
         newItem = new UMLListViewItem(parentItem, name, type, Uml::id_None);
+        newItem->setIcon(icon);
+        newItem->setOpen(true);
     } else {
         UMLObject::ObjectType ot = Model_Utils::convert_LVT_OT(type);
         if (ot == UMLObject::ot_UMLObject) {
@@ -2261,11 +2279,12 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
             name = Model_Utils::uniqObjectName(ot, parentPkg);
         }
         newItem = new UMLListViewItem(parentItem, name, type, (UMLObject *)0);
+        newItem->setIcon(icon);
+        newItem->setOpen(true);
+        newItem->setCreating(true);
+        editItem(newItem, 0);
         createItem(newItem, type);
     }
-    newItem->setIcon(icon);
-    newItem->setOpen(true);
-    newItem->setCreating(true);
 }
 
 /**
