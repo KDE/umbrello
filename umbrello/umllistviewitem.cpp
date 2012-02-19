@@ -268,7 +268,6 @@ void UMLListViewItem::setVisible(bool state)
 Uml::IDType UMLListViewItem::getID() const
 {
     if (m_object) {
-        DEBUG(DBG_LVI) << "name=" << m_object->name();  //:TODO:
         return m_object->id();
     }
     return m_id;
@@ -456,6 +455,10 @@ void UMLListViewItem::setCreating( bool creating )
     m_bCreating = creating;
 }
 
+bool UMLListViewItem::creating() const {
+    return m_bCreating;
+}
+
 /**
  * Set the pixmap corresponding to the given IconType.
  */
@@ -472,10 +475,6 @@ void UMLListViewItem::startRename(int col)
 {
     DEBUG(DBG_LVI) << this << " - column=" << col << ", text=" << text(col);
     m_label = text(col);  // keep the old text
-    if (m_bCreating) {
-        UMLListView* listView = static_cast<UMLListView*>(treeWidget());
-        listView->cancelRename(this);
-    }
 }
 
 /**

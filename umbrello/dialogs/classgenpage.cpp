@@ -134,7 +134,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     }
 
     if (t == UMLObject::ot_Class || t == UMLObject::ot_Interface) {
-        m_pPackageL = new QLabel(i18n("Package name:"), this);
+        m_pPackageL = new QLabel(i18n("Package path:"), this);
         m_pNameLayout->addWidget(m_pPackageL, 2, 0);
 
         m_pPackageCB = new KComboBox(this);

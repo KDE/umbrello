@@ -121,6 +121,7 @@ public:
     QString toolTip();
 
     void setCreating(bool creating);
+    bool creating() const;
 
     void setIcon(Icon_Utils::IconType iconType);
 
