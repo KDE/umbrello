@@ -213,10 +213,10 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
             if (typeName.contains("::")) {
                 components = typeName.split("::");
             } else if (typeName.contains("...")) {
-		// Java variable length arguments
-	        type = UMLObject::ot_Datatype;
-		parentPkg = umldoc->datatypeFolder();
-		isAdorned = false;
+                // Java variable length arguments
+                type = UMLObject::ot_Datatype;
+                parentPkg = umldoc->datatypeFolder();
+                isAdorned = false;
             } else if (typeName.contains(".")) {
                 components = typeName.split('.');
             }

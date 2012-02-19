@@ -4,13 +4,12 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "cmd_create_componentdiag.h"
 
-#include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
 
@@ -20,7 +19,9 @@ namespace Uml
 {
 
     CmdCreateComponentDiag::CmdCreateComponentDiag(UMLDoc* doc, const QString& name)
-      : m_pUMLDoc(doc), m_pUMLView(0), m_Name(name)
+      : QUndoCommand(),
+        m_pUMLDoc(doc),
+        m_pUMLView(0)
     {
         setText(i18n("Create component diagram : %1", name));
     }
