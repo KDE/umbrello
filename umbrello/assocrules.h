@@ -14,9 +14,6 @@
 #include "umlobject.h"
 #include "widgetbase.h"
 
-namespace std
-    { class type_info; }
-
 class UMLWidget;
 
 /**
@@ -33,10 +30,8 @@ public:
     ~AssocRules();
 
     static bool allowAssociation( Uml::AssociationType assocType, UMLWidget * widget );
-    static bool allowAssociation( Uml::AssociationType assocType, const std::type_info & );
     static bool allowAssociation( Uml::AssociationType assocType,
-                                  UMLWidget * widgetA, UMLWidget * widgetB,
-                                  bool extendedCheck = true );
+                                  UMLWidget * widgetA, UMLWidget * widgetB);
 
     static bool allowRole( Uml::AssociationType assocType );
 
@@ -54,7 +49,7 @@ private:
         WidgetBase::WidgetType widgetB_type;    ///< type of role B widget
         bool role;                         ///< role text
         bool multiplicity;                 ///< multipliciy text on association
-        bool directional;                  ///< can have an association of same type going between widget each way
+        bool bidirectional;                ///< can have an association of same type going between widget each way
         bool self;                         ///< association to self
     };
 

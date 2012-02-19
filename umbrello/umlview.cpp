@@ -1834,7 +1834,7 @@ bool UMLView::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
 
     //make sure valid
     if (!isPasteOperation && !m_doc->loading() &&
-            !AssocRules::allowAssociation(assocType, pWidgetA, pWidgetB, false)) {
+            !AssocRules::allowAssociation(assocType, pWidgetA, pWidgetB)) {
         uWarning() << "allowAssociation returns false " << "for AssocType " << assocType;
         return false;
     }
@@ -2197,7 +2197,7 @@ void UMLView::createAutoAssociations(UMLWidget * widget)
             continue;
         }
         // Check that the assoc is allowed.
-        if (!AssocRules::allowAssociation(assocType, widgetA, widgetB, false)) {
+        if (!AssocRules::allowAssociation(assocType, widgetA, widgetB)) {
             DEBUG(DBG_SRC) << "not transferring assoc of type " << assocType;
             continue;
         }
@@ -2352,7 +2352,7 @@ void UMLView::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute *
         AssociationWidget *a = findAssocWidget(widget, w, attr->name());
         if (a == NULL &&
                 // if the current diagram type permits compositions
-                AssocRules::allowAssociation(assocType, widget, w, false)) {
+                AssocRules::allowAssociation(assocType, widget, w)) {
             // Create a composition AssocWidget, or, if the attribute type is
             // stereotyped <<CORBAInterface>>, create a UniAssociation widget.
             if (type->stereotype() == "CORBAInterface")
@@ -2383,7 +2383,7 @@ void UMLView::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute *
                 AssociationWidget *a = findAssocWidget(widget, w, attr->name());
                 if (a == NULL &&
                         // if the current diagram type permits aggregations
-                        AssocRules::allowAssociation(Uml::AssociationType::Aggregation, widget, w, false)) {
+                        AssocRules::allowAssociation(Uml::AssociationType::Aggregation, widget, w)) {
                     // create an aggregation AssocWidget from the ClassifierWidget
                     // to the widget of the referenced type
                     a = AssociationWidget::create (umlScene(), widget,
@@ -2465,7 +2465,7 @@ void UMLView::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignKe
         aw = findAssocWidget(widget, w, fkConstraint->name());
         if (aw == NULL &&
                 // if the current diagram type permits relationships
-                AssocRules::allowAssociation(assocType, widget, w, false)) {
+                AssocRules::allowAssociation(assocType, widget, w)) {
 
             // for foreign key contstraint, we need to create the association type Uml::AssociationType::Relationship.
             // The referenced entity is the "1" part (Role A) and the entity holding the relationship is the "many" part. ( Role B)
