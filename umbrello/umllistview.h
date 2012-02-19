@@ -73,7 +73,7 @@ public:
 
     UMLListViewItem* createItem(UMLListViewItem& Data, IDChangeLog& IDChanges,
                                 UMLListViewItem* parent = 0);
-    bool createItem(UMLListViewItem *item, UMLListViewItem::ListViewType type);
+    bool createItem(UMLListViewItem *item);
 
     UMLListViewItem* findFolderForDiagram(Uml::DiagramType dt);
 
