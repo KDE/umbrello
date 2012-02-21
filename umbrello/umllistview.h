@@ -203,6 +203,7 @@ private:
     bool             m_bStartedCut;
     bool             m_bStartedCopy;
     bool m_bCreatingChildObject;  ///< when creating an attribute or an operation to stop it adding a second listViewItem
+    bool m_bRenameInProgress;
     QPoint m_dragStartPosition;
     UMLListViewItem* m_editItem;
 };

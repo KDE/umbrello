@@ -87,6 +87,7 @@ UMLListView::UMLListView(QWidget *parent)
     m_bStartedCut(false),
     m_bStartedCopy(false),
     m_bCreatingChildObject(false),
+    m_bRenameInProgress(false),
     m_dragStartPosition(QPoint()),
     m_editItem(0)
 {
@@ -159,7 +160,7 @@ void UMLListView::slotItemChanged(QTreeWidgetItem * item, int column)
         }
         DEBUG(DBG_SRC) << "creating text: " << text;
         createItem(lvitem);
-    } else {
+    } else if (m_bRenameInProgress) {
         DEBUG(DBG_SRC) << "text: " << text;
         endRename(lvitem);
     }
@@ -173,7 +174,7 @@ void UMLListView::slotItemSelectionChanged()
     UMLListViewItem* currItem = static_cast<UMLListViewItem*>(currentItem());
     if (currItem && currItem->isSelected()) {
         DEBUG(DBG_SRC) << currItem->text(0);
-        if (m_editItem) {
+        if (m_editItem && m_bRenameInProgress) {
             if (m_editItem == currItem) {
                 // clicked on the item which is just edited
                 endRename(currItem);
@@ -1344,6 +1345,7 @@ void UMLListView::init()
     m_menu = 0;
     m_bStartedCut = m_bStartedCopy = false;
     m_bCreatingChildObject = false;
+    m_bRenameInProgress = false;
     headerItem()->setHidden(true);
 }
 
@@ -2240,6 +2242,7 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
         parentItem = m_datatypeFolder;
     }
 
+    blockSignals(true);
     parentItem->setOpen(true);
 
     Icon_Utils::IconType icon = Model_Utils::convert_LVT_IT(type);
@@ -2270,7 +2273,6 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
         }
         m_editItem = new UMLListViewItem(parentItem, name, type, (UMLObject *)0);
     }
-    blockSignals(true);
     m_editItem->setIcon(icon);
     m_editItem->setOpen(true);
     blockSignals(false);
@@ -2284,6 +2286,7 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
 bool UMLListView::itemRenamed(UMLListViewItem * item, int col)
 {
     DEBUG(DBG_SRC) << item->text(col);
+    m_bRenameInProgress = false;
     UMLListViewItem * renamedItem = static_cast< UMLListViewItem *>(item) ;
     UMLListViewItem::ListViewType type = renamedItem->type();
     QString newText = renamedItem->text(col);
@@ -2790,6 +2793,7 @@ void UMLListView::startRename(UMLListViewItem* item)
         if (m_editItem) {
             cancelRename(m_editItem);
         }
+        m_bRenameInProgress = true;
         item->startRename(0);
         openPersistentEditor(item, 0);
         m_editItem = item;
@@ -2804,6 +2808,7 @@ void UMLListView::startRename(UMLListViewItem* item)
  */
 void UMLListView::cancelRename(UMLListViewItem* item)
 {
+    m_bRenameInProgress = false;
     if (item) {
         DEBUG(DBG_SRC) << item->text(0);
         // delete pointer first to lock slotItemChanged
@@ -2821,6 +2826,7 @@ void UMLListView::cancelRename(UMLListViewItem* item)
  */
 void UMLListView::endRename(UMLListViewItem* item)
 {
+    m_bRenameInProgress = false;
     if (item) {
         DEBUG(DBG_SRC) << item->text(0);
         // delete pointer first to lock slotItemChanged
