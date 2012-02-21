@@ -11,6 +11,8 @@ Version (since 2012-01-01)
 * Can't uncheck "Show Public Only" (242545)
 * Umbrello crashed after copy/paste (243392) 
 * Crash when opening file (251094) 
+* Crashes even if an association was drawn (271243)
+* Gratuitous warning messages on loading project file (283744)
 * Segmentation fault when copy&paste of sequence diagram (287179) and therefore also
   - Copy and paste or drag and drop of a java datatype between folders (280770) 
   - crash on copy paste (262842)
