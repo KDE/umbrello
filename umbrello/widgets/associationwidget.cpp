@@ -1223,7 +1223,7 @@ void AssociationWidget::moveEvent(QMoveEvent* me)
 }
 
 
-/** Calculates and sets the first and last point in the Association's LinePath
+/** Calculates and sets the first and last point in the Association's AssociationLine
     Each point is a middle point of its respecting UMLWidget's Bounding rectangle
     or a corner of it
     This method picks which sides to use for the association */
@@ -1246,12 +1246,12 @@ void AssociationWidget::calculateEndingPoints()
      *
      * Each diagonal is defined by two corners of the bounding rectangle
      *
-     * To calculate the first point in the LinePath we have to find out in which
+     * To calculate the first point in the AssociationLine we have to find out in which
      * Region (defined by WidgetA's diagonals) is WidgetB's center
      * (let's call it Region M.) After that the first point will be the middle
      * point of the rectangle's side contained in Region M.
      *
-     * To calculate the last point in the LinePath we repeat the above but
+     * To calculate the last point in the AssociationLine we repeat the above but
      * in the opposite direction (from widgetB to WidgetA)
      */
 
@@ -1475,7 +1475,7 @@ void AssociationWidget::mergeAssociationDataIntoUMLRepresentation()
  * Auxiliary method for widgetMoved():
  * Saves all ideally computed floatingtext positions before doing any
  * kind of change.  This is necessary because a single invocation of
- * calculateEndingPoints() modifies the LinePath ending points on ALL
+ * calculateEndingPoints() modifies the AssociationLine ending points on ALL
  * AssociationWidgets.  This means that if we don't save the old ideal
  * positions then they are irretrievably lost as soon as
  * calculateEndingPoints() is invoked.
@@ -1722,7 +1722,7 @@ QPoint AssociationWidget::swapXY(const QPoint &p)
     return swapped;
 }
 
-/* Returns the total length of the association's LinePath:
+/* Returns the total length of the association's AssociationLine:
    result = segment_1_length + segment_2_length + ..... + segment_n_length
  */
 float AssociationWidget::totalLength()
@@ -2264,7 +2264,7 @@ void AssociationWidget::constrainTextPos(int &textX, int &textY,
 /**
  * Calculates the m_unNameLineSegment value according to the new
  * NameText topleft corner PT.
- * It iterates through all LinePath's segments and for each one
+ * It iterates through all AssociationLine's segments and for each one
  * calculates the sum of PT's distance to the start point + PT's
  * distance to the end point. The segment with the smallest sum will
  * be the RoleTextSegment (if this segment moves then the RoleText
@@ -3223,7 +3223,7 @@ void AssociationWidget::updateAssociations(int totalCount,
             continue;
         // Determine intercept position on the edge indicated by `region'.
         UMLWidget * otherWidget = (inWidgetARegion ? wB : wA);
-        LinePath *linepath = assocwidget->getLinePath();
+        AssociationLine *linepath = assocwidget->getLinePath();
         QPoint refpoint;
         if (assocwidget->linePathStartsAt(otherWidget))
             refpoint = linepath->getPoint(linepath->count() - 2);
@@ -3386,8 +3386,8 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
         m_LinePath.setPoint( 0, pt );
     else {
         m_LinePath.setPoint( m_LinePath.count() - 1, pt );
-        LinePath::Region r = ( region == South || region == North ) ?
-                             LinePath::TopBottom : LinePath::LeftRight;
+        AssociationLine::Region r = ( region == South || region == North ) ?
+                             AssociationLine::TopBottom : AssociationLine::LeftRight;
         m_LinePath.setDockRegion( r );
     }
 }
@@ -3947,7 +3947,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
                 if (aType == AssociationType::Aggregation || aType == AssociationType::Composition) {
                     uWarning()<<" Old Style save file? swapping roles on association widget"<<this;
                     // We have to swap the A and B widgets to compensate
-                    // for the long standing bug in LinePath of drawing
+                    // for the long standing bug in AssociationLine of drawing
                     // the diamond at the wrong end which was fixed
                     // just before the 1.2 release.
                     // The logic here is that the user has understood

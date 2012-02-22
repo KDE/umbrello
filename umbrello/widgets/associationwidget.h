@@ -16,7 +16,7 @@
 #include "umlwidgetlist.h"
 #include "messagewidgetlist.h"
 #include "associationwidgetlist.h"
-#include "linepath.h"
+#include "associationline.h"
 
 #include <QMouseEvent>
 #include <QMoveEvent>
@@ -270,7 +270,7 @@ public:
     /**
      * Returns a pointer to the association widget's line path.
      */
-    LinePath* getLinePath() {
+    AssociationLine* getLinePath() {
         return &m_LinePath;
     }
 
@@ -293,7 +293,7 @@ public:
      * Auxiliary method for widgetMoved():
      * Saves all ideally computed floatingtext positions before doing any
      * kind of change.  This is necessary because a single invocation of
-     * calculateEndingPoints() modifies the LinePath ending points on ALL
+     * calculateEndingPoints() modifies the AssociationLine ending points on ALL
      * AssociationWidgets.  This means that if we don't save the old ideal
      * positions then they are irretrievably lost as soon as
      * calculateEndingPoints() is invoked.
@@ -303,7 +303,7 @@ public:
     /**
      * Calculates the m_unNameLineSegment value according to the new
      * NameText topleft corner PT.
-     * It iterates through all LinePath's segments and for each one
+     * It iterates through all AssociationLine's segments and for each one
      * calculates the sum of PT's distance to the start point + PT's
      * distance to the end point. The segment with the smallest sum will
      * be the RoleTextSegment (if this segment moves then the RoleText
@@ -530,7 +530,7 @@ public:
 
     /**
      * Calculates and sets the first and last point in the association's
-     * LinePath.
+     * AssociationLine.
      * Each point is a middle point of its respective UMLWidget's bounding
      * rectangle.
      * This method picks which sides to use for the association.
@@ -664,7 +664,7 @@ private:
     static QPoint swapXY(const QPoint &p);
 
     /**
-     * Returns the total length of the association's LinePath:
+     * Returns the total length of the association's AssociationLine:
      * result = segment_1_length + segment_2_length + ... + segment_n_length
      */
     float totalLength();
@@ -886,7 +886,7 @@ private:
 
     /**
      * When the association has a Role Floating Text this text should move
-     * when the LinePath moves but only if the closest segment to the
+     * when the AssociationLine moves but only if the closest segment to the
      * role text moves.
      * This segment is:
      * m_LinePath[m_unNameLineSegment] -- m_LinePath[m_unNameLineSegment+1]
@@ -942,7 +942,7 @@ private:
     /**
      * The definition points for the association line.
      */
-    LinePath m_LinePath;
+    AssociationLine m_LinePath;
 
     // The following items are only used if m_pObject is not set.
     Uml::AssociationType m_AssocType;

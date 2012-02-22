@@ -4,12 +4,12 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-#ifndef LINEPATH_H
-#define LINEPATH_H
+#ifndef ASSOCIATIONLINE_H
+#define ASSOCIATIONLINE_H
 
 #include "basictypes.h"
 #include "umlscene.h"
@@ -28,24 +28,25 @@ class QDomDocument;
 class QDomElement;
 class QPainter;
 
-// typedefs
-typedef QList<UMLSceneLine*> LineList;
-typedef QList<UMLSceneRectangle*> RectList;
 
 /**
  * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class LinePath : public QObject
+class AssociationLine : public QObject
 {
     Q_OBJECT
 public:
-    LinePath();
-    ~LinePath();
+    // typedefs
+    typedef QList<UMLSceneLine*> LineList;
+    typedef QList<UMLSceneRectangle*> RectList;
 
-    bool operator==( const LinePath & rhs );
+    AssociationLine();
+    ~AssociationLine();
 
-    LinePath & operator=( const LinePath & rhs );
+    bool operator==( const AssociationLine & rhs );
+
+    AssociationLine & operator=( const AssociationLine & rhs );
 
     enum Region {  ///< Enum to tell whether the line docks top/bottom or left/right.
         TopBottom, LeftRight
