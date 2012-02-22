@@ -24,7 +24,7 @@ namespace Uml
         m_color(col)
     {
         setText(i18n("Change fill color : %1", w->name()));
-        m_oldColor = w->getFillColor();
+        m_oldColor = w->fillColor();
     }
 
     CmdChangeFillColor::~CmdChangeFillColor()
@@ -33,11 +33,11 @@ namespace Uml
 
     void CmdChangeFillColor::redo()
     {
-        m_umlWidget->setFillColourcmd( m_color );
+        m_umlWidget->setFillColorcmd( m_color );
     }
 
     void CmdChangeFillColor::undo()
     {
-        m_umlWidget->setFillColourcmd( m_oldColor );
+        m_umlWidget->setFillColorcmd( m_oldColor );
     }
 }

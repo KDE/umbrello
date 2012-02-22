@@ -89,16 +89,28 @@ public:
     void setDocumentation(const QString &doc);
 
     QColor lineColor() const;
-    void setLineColor(const QColor &colour);
+    void setLineColor(const QColor &color);
+
+    QColor fillColor() const;
+    void setFillColor(const QColor &color);
 
     uint lineWidth() const;
     void setLineWidth(uint width);
 
-    bool usesDiagramLineColour() const;
-    void setUsesDiagramLineColour(bool usesDiagramLineColour);
+    bool useFillColor();
+    void setUseFillColor(bool state);
+
+    bool usesDiagramLineColor() const;
+    void setUsesDiagramLineColor(bool state);
+
+    bool usesDiagramFillColor() const;
+    void setUsesDiagramFillColor(bool state);
+
+    bool usesDiagramUseFillColor() const;
+    void setUsesDiagramUseFillColor(bool state);
 
     bool usesDiagramLineWidth() const;
-    void setUsesDiagramLineWidth(bool usesDiagramLineWidth);
+    void setUsesDiagramLineWidth(bool state);
 
     virtual bool loadFromXMI( QDomElement & qElement );
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
@@ -123,7 +135,12 @@ protected:
     /**
      * Color of the lines of the widget. Is saved to XMI.
      */
-    QColor m_LineColour;
+    QColor m_LineColor;
+
+    /**
+     * Color of the background of the widget
+     */
+    QColor m_FillColor;
 
     /**
      * Width of the lines of the widget. Is saved to XMI.
@@ -131,11 +148,19 @@ protected:
     uint m_LineWidth;
 
     /**
-     * true by default, false if the colours have
+     * This flag indicates if the UMLWidget uses the Diagram FillColour
+     */
+    bool m_useFillColor;
+
+    /**
+     * true by default, false if the colors have
      * been explicitly set for this widget.
      * These are saved to XMI.
      */
-    bool m_usesDiagramLineColour, m_usesDiagramLineWidth;
+    bool m_usesDiagramLineColor;
+    bool m_usesDiagramFillColor;
+    bool m_usesDiagramUseFillColor;
+    bool m_usesDiagramLineWidth;
 
 };
 

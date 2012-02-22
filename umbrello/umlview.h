@@ -131,7 +131,7 @@ public:
     /**
      * Returns the fill color to use.
      */
-    QColor getFillColor() const;
+    QColor fillColor() const;
 
     /**
      * Set the background color.
@@ -143,7 +143,7 @@ public:
     /**
      * Returns the line color to use.
      */
-    QColor getLineColor() const;
+    QColor lineColor() const;
 
     /**
      * Sets the line color.
@@ -155,7 +155,7 @@ public:
     /**
      * Returns the line width to use.
      */
-    uint getLineWidth() const;
+    uint lineWidth() const;
 
     /**
      * Sets the line width.
@@ -279,7 +279,7 @@ public:
     /**
      * Returns whether to use the fill/background color
      */
-    bool getUseFillColor() const;
+    bool useFillColor() const;
 
     /**
      * Sets whether to use the fill/background color

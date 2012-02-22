@@ -393,7 +393,7 @@ public:
     /**
      * Overrides the method from WidgetBase.
      */
-    void setLineColor(const QColor &colour);
+    void setLineColor(const QColor &color);
 
     /**
      * Overrides the method from WidgetBase.

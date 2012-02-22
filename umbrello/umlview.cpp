@@ -904,7 +904,7 @@ void UMLView::removeWidget(UMLWidget * o)
     m_pDoc->setModified();
 }
 
-bool UMLView::getUseFillColor() const
+bool UMLView::useFillColor() const
 {
     return m_Options.uiState.useFillColor;
 }
@@ -914,7 +914,7 @@ void UMLView::setUseFillColor(bool ufc)
     m_Options.uiState.useFillColor = ufc;
 }
 
-QColor UMLView::getFillColor() const
+QColor UMLView::fillColor() const
 {
     return m_Options.uiState.fillColor;
 }
@@ -926,7 +926,7 @@ void UMLView::setFillColor(const QColor &color)
     canvas()->setAllChanged();
 }
 
-QColor UMLView::getLineColor() const
+QColor UMLView::lineColor() const
 {
     return m_Options.uiState.lineColor;
 }
@@ -938,7 +938,7 @@ void UMLView::setLineColor(const QColor &color)
     canvas()->setAllChanged();
 }
 
-uint UMLView::getLineWidth() const
+uint UMLView::lineWidth() const
 {
     return m_Options.uiState.lineWidth;
 }
@@ -1061,7 +1061,7 @@ void UMLView::moveSelectedBy(int dX, int dY)
 void UMLView::selectionUseFillColor(bool useFC)
 {
     foreach(UMLWidget* temp, m_SelectedList) {
-        temp->setUseFillColour(useFC);
+        temp->setUseFillColor(useFC);
     }
 }
 
@@ -1078,12 +1078,12 @@ void UMLView::selectionSetLineColor(const QColor &color)
     UMLWidget * temp = 0;
     foreach(temp ,  m_SelectedList) {
         temp->setLineColor(color);
-        temp->setUsesDiagramLineColour(false);
+        temp->setUsesDiagramLineColor(false);
     }
     AssociationWidgetList assoclist = getSelectedAssocs();
     foreach(AssociationWidget *aw , assoclist) {
         aw->setLineColor(color);
-        aw->setUsesDiagramLineColour(false);
+        aw->setUsesDiagramLineColor(false);
     }
     UMLApp::app()->endMacro();
 }
@@ -1106,8 +1106,8 @@ void UMLView::selectionSetFillColor(const QColor &color)
     UMLApp::app()->beginMacro(i18n("Change Fill Color"));
 
     foreach(UMLWidget* temp ,  m_SelectedList) {
-        temp->setFillColour(color);
-        temp->setUsesDiagramFillColour(false);
+        temp->setFillColor(color);
+        temp->setUsesDiagramFillColor(false);
     }
     UMLApp::app()->endMacro();
 }

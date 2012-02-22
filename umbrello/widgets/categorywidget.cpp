@@ -34,8 +34,8 @@ CategoryWidget::~CategoryWidget()
 void CategoryWidget::paint(QPainter & p, int offsetX, int offsetY)
 {
     UMLWidget::setPenFromSettings(p);
-    if ( UMLWidget::getUseFillColour() )
-        p.setBrush( UMLWidget::getFillColor() );
+    if ( UMLWidget::useFillColor() )
+        p.setBrush( UMLWidget::fillColor() );
     QFont font = UMLWidget::font();
     font.setUnderline(false);
     font.setBold(false);

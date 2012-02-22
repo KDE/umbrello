@@ -131,8 +131,8 @@ void PinWidget::paint(QPainter & p, int offsetX, int offsetY)
 //     }
 
     setPenFromSettings(p);
-    if ( UMLWidget::getUseFillColour() ) {
-        p.setBrush( UMLWidget::getFillColor() );
+    if ( UMLWidget::useFillColor() ) {
+        p.setBrush( UMLWidget::fillColor() );
     }
     p.drawRect(x,y,w, h);
     //make sure it's always above the other

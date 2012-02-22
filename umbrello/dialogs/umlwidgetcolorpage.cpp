@@ -36,8 +36,8 @@ UMLWidgetColorPage::UMLWidgetColorPage( QWidget *pParent, UMLWidget *pWidget ) :
     m_options = 0;
     init();
     m_pLineColorB->setColor( pWidget->lineColor() );
-    m_pFillColorB->setColor( pWidget->getFillColor() );
-    m_pUseFillColorCB->setChecked( pWidget->getUseFillColour() );
+    m_pFillColorB->setColor( pWidget->fillColor() );
+    m_pUseFillColorCB->setChecked( pWidget->useFillColor() );
 
     if (!m_pUMLWidget) {  //  when we are on the diagram
         UMLView * view = UMLApp::app()->currentView();
@@ -183,9 +183,9 @@ void UMLWidgetColorPage::slotGridDotButtonClicked()
 void UMLWidgetColorPage::updateUMLWidget()
 {
     if (m_pUMLWidget) {
-        m_pUMLWidget->setUseFillColour( m_pUseFillColorCB->isChecked() );
+        m_pUMLWidget->setUseFillColor( m_pUseFillColorCB->isChecked() );
         m_pUMLWidget->setLineColor( m_pLineColorB->color() );
-        m_pUMLWidget->setFillColour( m_pFillColorB->color() );
+        m_pUMLWidget->setFillColor( m_pFillColorB->color() );
     }
     else if (m_options) {
         m_options->uiState.useFillColor = m_pUseFillColorCB->isChecked();

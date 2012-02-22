@@ -200,7 +200,7 @@ void ToolBarStateMessages::mouseReleaseEmpty()
 
         m_messageLine = new UMLSceneLine(m_pUMLScene->canvas());
         m_messageLine->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y());
-        m_messageLine->setPen(QPen(m_pUMLScene->getLineColor(), m_pUMLScene->getLineWidth(), Qt::DashLine));
+        m_messageLine->setPen(QPen(m_pUMLScene->lineColor(), m_pUMLScene->lineWidth(), Qt::DashLine));
 
         m_messageLine->setVisible(true);
 
@@ -243,7 +243,7 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
     else {
         m_messageLine = new UMLSceneLine(m_pUMLScene->canvas());
         m_messageLine->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y());
-        m_messageLine->setPen(QPen(m_pUMLScene->getLineColor(), m_pUMLScene->getLineWidth(), Qt::DashLine));
+        m_messageLine->setPen(QPen(m_pUMLScene->lineColor(), m_pUMLScene->lineWidth(), Qt::DashLine));
 
         m_messageLine->setVisible(true);
 

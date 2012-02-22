@@ -255,7 +255,7 @@ void ClassPropDlg::setupGeneralPage()
 }
 
 /**
- * Sets up the page "Color" for the component.
+ * Sets up the page "Style" for the component.
  */
 void ClassPropDlg::setupColorPage()
 {

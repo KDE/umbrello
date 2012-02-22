@@ -111,10 +111,10 @@ UMLWidget& UMLWidget::operator=(const UMLWidget & other)
     WidgetBase::operator=(other);
 
     // assign members loaded/saved
-    m_useFillColour = other.m_useFillColour;
-    m_usesDiagramFillColour = other.m_usesDiagramFillColour;
-    m_usesDiagramUseFillColour = other.m_usesDiagramUseFillColour;
-    m_FillColour = other.m_FillColour;
+    m_useFillColor = other.m_useFillColor;
+    m_usesDiagramFillColor = other.m_usesDiagramFillColor;
+    m_usesDiagramUseFillColor = other.m_usesDiagramUseFillColor;
+    m_FillColor = other.m_FillColor;
     m_Assocs = other.m_Assocs;
     m_Text = other.m_Text; //new
     m_Font = other.m_Font;
@@ -184,7 +184,7 @@ bool UMLWidget::operator==(const UMLWidget& other) const
     // NOTE:  In the comparison tests we are going to do, we don't need these values.
     // They will actually stop things functioning correctly so if you change these, be aware of that.
     /*
-    if(m_useFillColour != other.m_useFillColour)
+    if(m_useFillColor != other.m_useFillColor)
         return false;
     if(m_nId != other.m_nId)
         return false;
@@ -291,18 +291,18 @@ void UMLWidget::init()
     m_menuIsEmbedded = false;
     m_isInstance = false;
     if (m_scene) {
-        m_useFillColour = true;
-        m_usesDiagramFillColour = true;
-        m_usesDiagramUseFillColour = true;
+        m_useFillColor = true;
+        m_usesDiagramFillColor = true;
+        m_usesDiagramUseFillColor = true;
         const Settings::OptionState& optionState = m_scene->optionState();
-        m_FillColour = optionState.uiState.fillColor;
+        m_FillColor = optionState.uiState.fillColor;
         m_Font       = optionState.uiState.font;
         m_showStereotype = optionState.classState.showStereoType;
     } else {
         uError() << "SERIOUS PROBLEM - m_scene is NULL";
-        m_useFillColour = false;
-        m_usesDiagramFillColour = false;
-        m_usesDiagramUseFillColour = false;
+        m_useFillColor = false;
+        m_usesDiagramFillColor = false;
+        m_usesDiagramUseFillColor = false;
         m_showStereotype = false;
     }
 
@@ -338,7 +338,7 @@ void UMLWidget::init()
  */
 void UMLWidget::slotMenuSelection(QAction* action)
 {
-    QColor newColour;
+    QColor newColor;
     const WidgetBase::WidgetType wt = m_Type;
     UMLWidget* widget = 0; // use for select the first object properties (fill, line color)
 
@@ -377,10 +377,10 @@ void UMLWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Line_Color:
         widget = m_scene->getFirstMultiSelectedWidget();
         if (widget) {
-            newColour = widget->lineColor();
+            newColor = widget->lineColor();
         }
-        if (KColorDialog::getColor(newColour)) {
-            m_scene->selectionSetLineColor(newColour);
+        if (KColorDialog::getColor(newColor)) {
+            m_scene->selectionSetLineColor(newColor);
             m_pDoc->setModified(true);
 
         }
@@ -389,18 +389,18 @@ void UMLWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Fill_Color:
         widget = m_scene->getFirstMultiSelectedWidget();
         if (widget) {
-            newColour = widget->getFillColor();
+            newColor = widget->fillColor();
         }
-        if (KColorDialog::getColor(newColour)) {
-            m_scene->selectionSetFillColor(newColour);
+        if (KColorDialog::getColor(newColor)) {
+            m_scene->selectionSetFillColor(newColor);
             m_pDoc->setModified(true);
         }
         break;
 
     case ListPopupMenu::mt_Use_Fill_Color:
-        m_useFillColour = !m_useFillColour;
-        m_usesDiagramUseFillColour = false;
-        m_scene->selectionUseFillColor(m_useFillColour);
+        m_useFillColor = !m_useFillColor;
+        m_usesDiagramUseFillColor = false;
+        m_scene->selectionUseFillColor(m_useFillColor);
         break;
     case ListPopupMenu::mt_Show_Attributes_Selection:
     case ListPopupMenu::mt_Show_Operations_Selection:
@@ -499,14 +499,14 @@ void UMLWidget::slotColorChanged(Uml::IDType viewID)
     if (m_scene->getID() != viewID) {
         return;
     }
-    if (m_usesDiagramFillColour) {
-        m_FillColour = m_scene->getFillColor();
+    if (m_usesDiagramFillColor) {
+        m_FillColor = m_scene->fillColor();
     }
-    if (m_usesDiagramLineColour) {
-        m_LineColour = m_scene->getLineColor();
+    if (m_usesDiagramLineColor) {
+        m_LineColor = m_scene->lineColor();
     }
-    if (m_usesDiagramUseFillColour) {
-        m_useFillColour = m_scene->getUseFillColor();
+    if (m_usesDiagramUseFillColor) {
+        m_useFillColor = m_scene->useFillColor();
     }
     update();
 }
@@ -523,7 +523,7 @@ void UMLWidget::slotLineWidthChanged(Uml::IDType viewID)
         return;
     }
     if (m_usesDiagramLineWidth) {
-        m_LineWidth = m_scene->getLineWidth();
+        m_LineWidth = m_scene->lineWidth();
     }
     update();
 }
@@ -544,10 +544,9 @@ void UMLWidget::mouseDoubleClickEvent(QMouseEvent * me)
  *
  * @param fc the status of using fill color.
  */
-void UMLWidget::setUseFillColour(bool fc)
+void UMLWidget::setUseFillColor(bool fc)
 {
-    m_useFillColour = fc;
-    m_usesDiagramUseFillColour = false;
+    WidgetBase::setUseFillColor(fc);
     update();
 }
 
@@ -582,7 +581,7 @@ void UMLWidget::setLineWidth(uint width)
  *
  * @param color the new fill color
  */
-void UMLWidget::setFillColour(const QColor &color)
+void UMLWidget::setFillColor(const QColor &color)
 {
     UMLApp::app()->executeCommand(new CmdChangeFillColor(this, color));
 }
@@ -592,19 +591,10 @@ void UMLWidget::setFillColour(const QColor &color)
  *
  * @param color the new fill color
  */
-void UMLWidget::setFillColourcmd(const QColor &color)
+void UMLWidget::setFillColorcmd(const QColor &color)
 {
-    m_FillColour = color;
-    m_usesDiagramFillColour = false;
+    WidgetBase::setFillColor(color);
     update();
-}
-
-/**
- * Read property m_FillColour.
- */
-QColor UMLWidget::getFillColor() const
-{
-    return  m_FillColour;
 }
 
 /**
@@ -928,7 +918,7 @@ void UMLWidget::moveByLocal(int dx, int dy)
  */
 void UMLWidget::setPenFromSettings(QPainter & p)
 {
-    p.setPen(QPen(m_LineColour, m_LineWidth));
+    p.setPen(QPen(m_LineColor, m_LineWidth));
 }
 
 /**
@@ -1333,19 +1323,10 @@ void UMLWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     WidgetBase::saveToXMI(qDoc, qElement);
     qElement.setAttribute("xmi.id", ID2STR(id()));
     qElement.setAttribute("font", m_Font.toString());
-    qElement.setAttribute("usefillcolor", m_useFillColour);
     qElement.setAttribute("x", getX());
     qElement.setAttribute("y", getY());
     qElement.setAttribute("width", getWidth());
     qElement.setAttribute("height", getHeight());
-    // for consistency the following attributes now use american spelling for "color"
-    qElement.setAttribute("usesdiagramfillcolor", m_usesDiagramFillColour);
-    qElement.setAttribute("usesdiagramusefillcolor", m_usesDiagramUseFillColour);
-    if (m_usesDiagramFillColour) {
-        qElement.setAttribute("fillcolor", "none");
-    } else {
-        qElement.setAttribute("fillcolor", m_FillColour.name());
-    }
     qElement.setAttribute("isinstance", m_isInstance);
     if (!m_instanceName.isEmpty())
         qElement.setAttribute("instancename", m_instanceName);
@@ -1358,22 +1339,10 @@ bool UMLWidget::loadFromXMI(QDomElement & qElement)
     WidgetBase::loadFromXMI(qElement);
     QString id = qElement.attribute("xmi.id", "-1");
     QString font = qElement.attribute("font", "");
-    QString usefillcolor = qElement.attribute("usefillcolor", "1");
     QString x = qElement.attribute("x", "0");
     QString y = qElement.attribute("y", "0");
     QString h = qElement.attribute("height", "0");
     QString w = qElement.attribute("width", "0");
-    /*
-      For the next three *color attributes, there was a mixup of american and english spelling for "color".
-      So first we need to keep backward compatibility and try to retrieve the *colour attribute.
-      Next we overwrite this value if we find a *color, otherwise the former *colour is kept.
-    */
-    QString fillColour = qElement.attribute("fillcolour", "none");
-    fillColour = qElement.attribute("fillcolor", fillColour);
-    QString usesDiagramFillColour = qElement.attribute("usesdiagramfillcolour", "1");
-    usesDiagramFillColour = qElement.attribute("usesdiagramfillcolor", usesDiagramFillColour);
-    QString usesDiagramUseFillColour = qElement.attribute("usesdiagramusefillcolour", "1");
-    usesDiagramUseFillColour = qElement.attribute("usesdiagramusefillcolor", usesDiagramUseFillColour);
 
     m_nId = STR2ID(id);
 
@@ -1386,15 +1355,10 @@ bool UMLWidget::loadFromXMI(QDomElement & qElement)
         << " for widget with xmi.id " << ID2STR(m_nId) << endl;
         //setFont( m_Font );
     }
-    m_useFillColour = (bool)usefillcolor.toInt();
-    m_usesDiagramFillColour = (bool)usesDiagramFillColour.toInt();
-    m_usesDiagramUseFillColour = (bool)usesDiagramUseFillColour.toInt();
+
     setSize(w.toInt(), h.toInt());
     setX(x.toInt());
     setY(y.toInt());
-    if (fillColour != "none") {
-        m_FillColour = QColor(fillColour);
-    }
     QString isinstance = qElement.attribute("isinstance", "0");
     m_isInstance = (bool)isinstance.toInt();
     m_instanceName = qElement.attribute("instancename", "");

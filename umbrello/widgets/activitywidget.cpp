@@ -171,8 +171,8 @@ void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
     {
     case Normal :
         UMLWidget::setPenFromSettings(p);
-        if ( UMLWidget::getUseFillColour() ) {
-            p.setBrush( UMLWidget::getFillColor() );
+        if ( UMLWidget::useFillColor() ) {
+            p.setBrush( UMLWidget::fillColor() );
         }
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -187,7 +187,7 @@ void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
         break;
 
     case Initial :
-        p.setPen( QPen(m_LineColour, 1) );
+        p.setPen( QPen(m_LineColor, 1) );
         p.setBrush( WidgetBase::lineColor() );
         p.drawEllipse( offsetX, offsetY, w, h );
         break;
@@ -210,7 +210,7 @@ void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
         break;
 
     case End :
-        p.setPen( QPen(m_LineColour, 1) );
+        p.setPen( QPen(m_LineColor, 1) );
         p.setBrush( WidgetBase::lineColor() );
         p.drawEllipse( offsetX, offsetY, w, h );
         p.setBrush( Qt::white );
@@ -221,7 +221,7 @@ void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
 
     case Branch :
         UMLWidget::setPenFromSettings(p);
-        p.setBrush( UMLWidget::getFillColor() );
+        p.setBrush( UMLWidget::fillColor() );
         {
             QPolygon array( 4 );
             array[ 0 ] = QPoint( offsetX + w / 2, offsetY );
@@ -235,8 +235,8 @@ void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
 
     case Invok :
         UMLWidget::setPenFromSettings(p);
-        if ( UMLWidget::getUseFillColour() ) {
-            p.setBrush( UMLWidget::getFillColor() );
+        if ( UMLWidget::useFillColor() ) {
+            p.setBrush( UMLWidget::fillColor() );
         }
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -260,8 +260,8 @@ void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
 
     case Param :
         UMLWidget::setPenFromSettings(p);
-        if ( UMLWidget::getUseFillColour() ) {
-            p.setBrush( UMLWidget::getFillColor() );
+        if ( UMLWidget::useFillColor() ) {
+            p.setBrush( UMLWidget::fillColor() );
         }
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);

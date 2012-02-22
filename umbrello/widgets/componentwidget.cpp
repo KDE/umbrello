@@ -61,8 +61,8 @@ void ComponentWidget::paint(QPainter & p, int offsetX, int offsetY)
         thickerPen.setWidth(2);
         p.setPen(thickerPen);
     }
-    if ( UMLWidget::getUseFillColour() ) {
-        p.setBrush( UMLWidget::getFillColor() );
+    if ( UMLWidget::useFillColor() ) {
+        p.setBrush( UMLWidget::fillColor() );
     } else {
         p.setBrush( m_scene->viewport()->palette().color(QPalette::Background) );
     }

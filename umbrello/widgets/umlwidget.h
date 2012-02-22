@@ -56,23 +56,15 @@ public:
 
     bool operator==(const UMLWidget& other) const;
 
-    void setUseFillColour(bool fc);
-
-    /**
-     * Read property of bool m_useFillColour.
-     */
-    bool getUseFillColour() const {
-        return m_useFillColour;
-    }
+    void setUseFillColor(bool fc);
 
     void setLineColor(const QColor &color);
     void setLineColorcmd(const QColor &color);
 
     void setLineWidth(uint width);
 
-    QColor getFillColor() const;
-    void setFillColour(const QColor &color);
-    void setFillColourcmd(const QColor &color);
+    void setFillColor(const QColor &color);
+    void setFillColorcmd(const QColor &color);
 
     /**
      * Returns whether this is a line of text.
@@ -187,34 +179,6 @@ public:
     }
 
     /**
-     * Returns m_usesDiagramFillColour
-     */
-    bool getUsesDiagramFillColour() const {
-        return m_usesDiagramFillColour;
-    }
-
-    /**
-     * Returns m_usesDiagramUseFillColour
-     */
-    bool getUsesDiagramUseFillColour() const {
-        return m_usesDiagramUseFillColour;
-    }
-
-    /**
-     * Sets m_usesDiagramFillColour
-     */
-    void setUsesDiagramFillColour(bool usesDiagramFillColour) {
-        m_usesDiagramFillColour = usesDiagramFillColour;
-    }
-
-    /**
-     * Sets m_usesDiagramUseFillColour
-     */
-    void setUsesDiagramUseFillColour(bool usesDiagramUseFillColour) {
-        m_usesDiagramUseFillColour = usesDiagramUseFillColour;
-    }
-
-    /**
      * Write property of bool m_isInstance
      */
     void setIsInstance(bool isInstance) {
@@ -315,23 +279,6 @@ protected:
     void init();
 
     ///////////////// Data Loaded/Saved /////////////////////////////////
-
-    /**
-     * This flag indicates if the UMLWidget uses the Diagram FillColour
-     */
-    bool m_useFillColour;
-
-    /**
-     *  true by default, false if the colours have
-     *  been explicitly set for this widget
-     */
-    bool m_usesDiagramFillColour;
-    bool m_usesDiagramUseFillColour;
-
-    /**
-     * Color of the background of the widget
-     */
-    QColor m_FillColour;
 
     /**
      * A list of AssociationWidgets between the UMLWidget and other UMLWidgets in the diagram

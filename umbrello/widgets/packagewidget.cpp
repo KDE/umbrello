@@ -45,8 +45,8 @@ PackageWidget::~PackageWidget()
 void PackageWidget::paint(QPainter & p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
-    if ( UMLWidget::getUseFillColour() )
-        p.setBrush( UMLWidget::getFillColor() );
+    if ( UMLWidget::useFillColor() )
+        p.setBrush( UMLWidget::fillColor() );
     else
         p.setBrush( m_scene->viewport()->palette().color(QPalette::Background) );
 
