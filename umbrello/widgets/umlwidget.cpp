@@ -42,9 +42,9 @@
 
 using namespace Uml;
 
-UMLWidget::UMLWidget(UMLScene * scene, UMLObject * o, UMLWidgetController *widgetController /* = 0*/)
-  : WidgetBase(scene), UMLSceneRectangle(scene->canvas()),
-    m_pMenu(0), m_menuIsEmbedded(false)
+UMLWidget::UMLWidget(UMLScene * scene, WidgetType type, UMLObject * o, UMLWidgetController *widgetController)
+  : WidgetBase(scene, type),
+    UMLSceneRectangle(scene->canvas())
 {
     if (widgetController) {
         m_widgetController = widgetController;
@@ -59,9 +59,9 @@ UMLWidget::UMLWidget(UMLScene * scene, UMLObject * o, UMLWidgetController *widge
     }
 }
 
-UMLWidget::UMLWidget(UMLScene *scene, Uml::IDType id /* = Uml::id_None */, UMLWidgetController *widgetController /* = 0*/)
-  : WidgetBase(scene), UMLSceneRectangle(scene->canvas()),
-    m_pMenu(0)
+UMLWidget::UMLWidget(UMLScene *scene, WidgetType type, Uml::IDType id, UMLWidgetController *widgetController)
+  : WidgetBase(scene, type),
+    UMLSceneRectangle(scene->canvas())
 {
     if (widgetController) {
         m_widgetController = widgetController;
@@ -224,6 +224,8 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me)
 void UMLWidget::init()
 {
     m_nId = Uml::id_None;
+    m_pMenu = 0;
+    m_menuIsEmbedded = false;
     m_isInstance = false;
     if (m_scene) {
         m_useFillColour = true;

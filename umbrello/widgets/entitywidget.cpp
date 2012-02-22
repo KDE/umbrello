@@ -34,9 +34,17 @@
  * @param o         The UMLObject this will be representing.
  */
 EntityWidget::EntityWidget(UMLScene *scene, UMLObject* o)
-  : UMLWidget(scene, o)
+  : UMLWidget(scene, WidgetBase::wt_Entity, o)
 {
-    init();
+    setSize(100, 30);
+
+    //set defaults from m_scene
+    if (m_scene) {
+        //check to see if correct
+        //const Settings::OptionState& ops = m_scene->getOptionState();
+    }
+    if (! UMLApp::app()->document()->loading())
+        updateComponentSize();
 }
 
 /**
@@ -242,21 +250,4 @@ QSize EntityWidget::calculateSize()
     width += ENTITY_MARGIN * 2;
 
     return QSize(width, height);
-}
-
-/**
- * Initializes key variables of the class.
- */
-void EntityWidget::init()
-{
-    UMLWidget::setBaseType(WidgetBase::wt_Entity);
-    setSize(100, 30);
-
-    //set defaults from m_scene
-    if (m_scene) {
-        //check to see if correct
-        //const Settings::OptionState& ops = m_scene->getOptionState();
-    }
-    if (! UMLApp::app()->document()->loading())
-        updateComponentSize();
 }

@@ -41,9 +41,8 @@
  * @param id                The ID to assign (-1 will prompt a new ID.)
  */
 SignalWidget::SignalWidget(UMLScene *scene, SignalType signalType, Uml::IDType id)
-  : UMLWidget(scene, id)
+  : UMLWidget(scene, WidgetBase::wt_Signal, id)
 {
-    UMLWidget::setBaseType(WidgetBase::wt_Signal);
     m_signalType = signalType;
     updateComponentSize();
     m_pName = NULL;

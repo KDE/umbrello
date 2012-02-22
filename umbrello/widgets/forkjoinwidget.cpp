@@ -11,10 +11,6 @@
 // own header
 #include "forkjoinwidget.h"
 
-//qt includes
-#include <qdom.h>
-//kde includes
-#include <kcursor.h>
 //app includes
 #include "debug_utils.h"
 #include "umlview.h"
@@ -28,17 +24,9 @@
  * @param id            The ID to assign (-1 will prompt a new ID.)
  */
 ForkJoinWidget::ForkJoinWidget(UMLScene * scene, bool drawVertical, Uml::IDType id)
-  : BoxWidget(scene, id), m_drawVertical(drawVertical)
+  : BoxWidget(scene, id, WidgetBase::wt_ForkJoin),
+    m_drawVertical(drawVertical)
 {
-    init();
-}
-
-/**
- * Initializes key variables for the class.
- */
-void ForkJoinWidget::init()
-{
-    WidgetBase::setBaseType(WidgetBase::wt_ForkJoin);
     UMLWidget::updateComponentSize();
 }
 
@@ -50,6 +38,77 @@ ForkJoinWidget::~ForkJoinWidget()
 }
 
 /**
+ * Get whether to draw the plate vertically.
+ */
+bool ForkJoinWidget::getDrawVertical() const {
+    return m_drawVertical;
+}
+
+/**
+ * Set whether to draw the plate vertically.
+ */
+void ForkJoinWidget::setDrawVertical(bool to) {
+    m_drawVertical = to;
+    updateComponentSize();
+    UMLWidget::adjustAssocs( getX(), getY() );
+}
+
+/**
+ * Reimplemented from UMLWidget::paint to draw the plate of
+ * fork join.
+ */
+void ForkJoinWidget::paint(QPainter& p, int offsetX, int offsetY)
+{
+    p.fillRect( offsetX, offsetY, width(), height(), QBrush( Qt::black ));
+
+    if (m_selected) {
+        drawSelected(&p, offsetX, offsetY);
+    }
+}
+
+/**
+ * Reimplemented from UMLWidget::loadFromXMI to load widget
+ * info from XMI element - 'forkjoin'.
+ */
+bool ForkJoinWidget::loadFromXMI(QDomElement& qElement)
+{
+    if ( !UMLWidget::loadFromXMI(qElement) ) {
+        return false;
+    }
+    QString drawVertical = qElement.attribute("drawvertical", "0");
+    setDrawVertical( (bool)drawVertical.toInt() );
+    return true;
+}
+
+/**
+ * Reimplemented from UMLWidget::saveToXMI to save widget info
+ * into XMI element - 'forkjoin'.
+ */
+void ForkJoinWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+{
+    QDomElement fjElement = qDoc.createElement("forkjoin");
+    UMLWidget::saveToXMI(qDoc, fjElement);
+    fjElement.setAttribute("drawvertical", m_drawVertical);
+    qElement.appendChild(fjElement);
+}
+
+/**
+ * Reimplemented form UMLWidget::slotMenuSelection to handle
+ * Flip action.
+ */
+void ForkJoinWidget::slotMenuSelection(QAction* action)
+{
+    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
+    switch (sel) {
+    case ListPopupMenu::mt_Flip:
+        setDrawVertical(!m_drawVertical);
+        break;
+    default:
+        break;
+    }
+}
+
+/**
  * Overrides the function from UMLWidget.
  */
 QSize ForkJoinWidget::calculateSize()
@@ -58,18 +117,6 @@ QSize ForkJoinWidget::calculateSize()
         return QSize(4, 40);
     } else {
         return QSize(40, 4);
-    }
-}
-
-/**
- * Draws a slim solid black rectangle.
- */
-void ForkJoinWidget::paint(QPainter& p, int offsetX, int offsetY)
-{
-    p.fillRect( offsetX, offsetY, width(), height(), QBrush( Qt::black ));
-
-    if (m_selected) {
-        drawSelected(&p, offsetX, offsetY);
     }
 }
 
@@ -107,55 +154,3 @@ void ForkJoinWidget::constrain(int& width, int& height)
             width = 100;
     }
 }
-
-/**
- * Overrides the function from UMLWidget.
- *
- * @param action  The action to be executed.
- */
-void ForkJoinWidget::slotMenuSelection(QAction* action)
-{
-    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
-    switch (sel) {
-    case ListPopupMenu::mt_Flip:
-        setDrawVertical(!m_drawVertical);
-        break;
-    default:
-        break;
-    }
-}
-
-void ForkJoinWidget::setDrawVertical(bool to) {
-    m_drawVertical = to;
-    updateComponentSize();
-    UMLWidget::adjustAssocs( getX(), getY() );
-}
-
-bool ForkJoinWidget::getDrawVertical() const {
-    return m_drawVertical;
-}
-
-/**
- * Saves the widget to the "forkjoinwidget" XMI element.
- */
-void ForkJoinWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
-{
-    QDomElement fjElement = qDoc.createElement("forkjoin");
-    UMLWidget::saveToXMI(qDoc, fjElement);
-    fjElement.setAttribute("drawvertical", m_drawVertical);
-    qElement.appendChild(fjElement);
-}
-
-/**
- * Loads the widget from the "forkjoinwidget" XMI element.
- */
-bool ForkJoinWidget::loadFromXMI(QDomElement& qElement)
-{
-    if ( !UMLWidget::loadFromXMI(qElement) ) {
-        return false;
-    }
-    QString drawVertical = qElement.attribute("drawvertical", "0");
-    setDrawVertical( (bool)drawVertical.toInt() );
-    return true;
-}
-

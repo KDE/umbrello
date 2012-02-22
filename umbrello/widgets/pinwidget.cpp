@@ -33,7 +33,7 @@
 #include <QPolygon>
 
 PinWidget::PinWidget(UMLScene * scene, UMLWidget* a, Uml::IDType id)
-  : UMLWidget(scene, id)
+  : UMLWidget(scene, WidgetBase::wt_Pin, id)
 {
     init();
     m_pOw = a;
@@ -55,7 +55,6 @@ PinWidget::~PinWidget()
 
 void PinWidget::init()
 {
-    UMLWidget::setBaseType(WidgetBase::wt_Pin);
     m_ignoreSnapToGrid = true;
     m_ignoreSnapComponentSizeToGrid = true;
     m_resizable =  false ;

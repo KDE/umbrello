@@ -46,9 +46,6 @@ public Q_SLOTS:
 protected:
     QSize calculateSize();
 
-private:
-    void init();
-
 };
 
 #endif

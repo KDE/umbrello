@@ -49,7 +49,7 @@
 MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, ObjectWidget* b,
                              int y, Uml::Sequence_Message_Type sequenceMessageType,
                              Uml::IDType id /* = Uml::id_None */)
-  : UMLWidget(scene, id, new MessageWidgetController(this))
+  : UMLWidget(scene, WidgetBase::wt_Message, id, new MessageWidgetController(this))
 {
     init();
     m_pOw[Uml::A] = a;
@@ -78,7 +78,7 @@ MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, ObjectWidget* b,
  */
 MessageWidget::MessageWidget(UMLScene * scene, Uml::Sequence_Message_Type seqMsgType,
                              Uml::IDType id)
-  : UMLWidget(scene, id, new MessageWidgetController(this))
+  : UMLWidget(scene, WidgetBase::wt_Message, id, new MessageWidgetController(this))
 {
     init();
     m_sequenceMessageType = seqMsgType;
@@ -97,7 +97,7 @@ MessageWidget::MessageWidget(UMLScene * scene, Uml::Sequence_Message_Type seqMsg
 MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, int xclick, int yclick,
                              Uml::Sequence_Message_Type sequenceMessageType,
                              Uml::IDType id /*= Uml::id_None*/)
-  : UMLWidget(scene, id, new MessageWidgetController(this))
+  : UMLWidget(scene, WidgetBase::wt_Message, id, new MessageWidgetController(this))
 {
     init();
     m_pOw[Uml::A] = a;
@@ -125,7 +125,6 @@ MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, int xclick, int 
  */
 void MessageWidget::init()
 {
-    UMLWidget::setBaseType(WidgetBase::wt_Message);
     m_ignoreSnapToGrid = true;
     m_ignoreSnapComponentSizeToGrid = true;
     m_pOw[Uml::A] = m_pOw[Uml::B] = NULL;

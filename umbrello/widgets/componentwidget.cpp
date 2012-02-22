@@ -23,19 +23,9 @@
  * @param c The UMLComponent this will be representing.
  */
 ComponentWidget::ComponentWidget(UMLScene * scene, UMLComponent *c)
-  : UMLWidget(scene, c)
+  : UMLWidget(scene, WidgetBase::wt_Component, c)
 {
-    init();
-}
-
-/**
- * Initializes key variables of the class.
- */
-void ComponentWidget::init()
-{
-    UMLWidget::setBaseType(WidgetBase::wt_Component);
     setSize(100, 30);
-    m_pMenu = 0;
     //set defaults from m_scene
     if (m_scene) {
         //check to see if correct

@@ -34,9 +34,8 @@
 #include "objectnodedialog.h"
 
 ObjectNodeWidget::ObjectNodeWidget(UMLScene * scene, ObjectNodeType objectNodeType, Uml::IDType id )
-  : UMLWidget(scene, id)
+  : UMLWidget(scene, WidgetBase::wt_ObjectNode, id)
 {
-    UMLWidget::setBaseType( WidgetBase::wt_ObjectNode );
     setObjectNodeType( objectNodeType );
     setState("");
     updateComponentSize();

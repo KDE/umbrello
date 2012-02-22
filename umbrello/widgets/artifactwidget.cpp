@@ -23,9 +23,8 @@
  * @param a         The Artifact this widget will be representing.
  */
 ArtifactWidget::ArtifactWidget(UMLScene *scene, UMLArtifact *a)
-  : UMLWidget(scene, a)
+  : UMLWidget(scene, WidgetBase::wt_Artifact, a)
 {
-    init();
     setSize(100, 30);
     updateComponentSize();
 }
@@ -97,15 +96,6 @@ QSize ArtifactWidget::calculateSize()
     } else {
         return calculateIconSize();
     }
-}
-
-/**
- * Initializes key variables of the class.
- */
-void ArtifactWidget::init()
-{
-    UMLWidget::setBaseType( WidgetBase::wt_Artifact );
-    m_pMenu = 0;
 }
 
 /**

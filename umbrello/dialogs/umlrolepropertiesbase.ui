@@ -141,7 +141,7 @@
      </property>
      <layout class="QVBoxLayout" >
       <item>
-       <widget class="Q3TextEdit" name="ui_pDocTE" />
+       <widget class="KTextEdit" name="ui_pDocTE" />
       </item>
      </layout>
     </widget>
@@ -161,9 +161,9 @@
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>Q3TextEdit</class>
-   <extends>Q3Frame</extends>
-   <header>q3textedit.h</header>
+   <class>KTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>ktextedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

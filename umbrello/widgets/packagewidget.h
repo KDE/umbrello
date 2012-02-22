@@ -61,11 +61,6 @@ protected:
 
 private:
     /**
-     * Initializes key variables of the class.
-     */
-    void init();
-
-    /**
      * The right mouse button menu.
      */
     ListPopupMenu* m_pMenu;

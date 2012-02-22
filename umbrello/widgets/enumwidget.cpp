@@ -32,10 +32,21 @@
  * @param o         The UMLObject this will be representing.
  */
 EnumWidget::EnumWidget(UMLScene *scene, UMLObject* o)
-  : UMLWidget(scene, o),
-	m_showPackage(false)
+  : UMLWidget(scene, WidgetBase::wt_Enum, o),
+    m_showPackage(false)
 {
-    init();
+    setSize(100, 30);
+    //set defaults from m_scene
+    if (m_scene) {
+        //check to see if correct
+        const Settings::OptionState& ops = m_scene->optionState();
+        m_showPackage = ops.classState.showPackage;
+    } else {
+        // For completeness only. Not supposed to happen.
+        m_showPackage = false;
+    }
+    if (! UMLApp::app()->document()->loading())
+        updateComponentSize();
 }
 
 /**
@@ -249,24 +260,4 @@ QSize EnumWidget::calculateSize()
     width += ENUM_MARGIN * 2;
 
     return QSize(width, height);
-}
-
-/**
- * Initializes key variables of the class.
- */
-void EnumWidget::init()
-{
-    UMLWidget::setBaseType(WidgetBase::wt_Enum);
-    setSize(100, 30);
-    //set defaults from m_scene
-    if (m_scene) {
-        //check to see if correct
-        const Settings::OptionState& ops = m_scene->optionState();
-        m_showPackage = ops.classState.showPackage;
-    } else {
-        // For completeness only. Not supposed to happen.
-        m_showPackage = false;
-    }
-    if (! UMLApp::app()->document()->loading())
-        updateComponentSize();
 }

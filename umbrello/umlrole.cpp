@@ -162,7 +162,7 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement roleElement = UMLObject::save("UML:AssociationEnd", qDoc);
     if (m_pSecondary)
-        roleElement.setAttribute( "type", ID2STR(m_pSecondary->id()) );
+        roleElement.setAttribute("type", ID2STR(m_pSecondary->id()));
     else
         uError() << "id " << ID2STR(m_nId) << ": m_pSecondary is NULL";
     if (!m_Multi.isEmpty())
@@ -210,7 +210,7 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
             roleElement.setAttribute("changeability", "changeable");
             break;
     }
-    qElement.appendChild( roleElement );
+    qElement.appendChild(roleElement);
 }
 
 /**

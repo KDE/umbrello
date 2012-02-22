@@ -17,13 +17,12 @@
  * @param scene              The parent to this widget.
  * @param id                The ID to assign (-1 will prompt a new ID.)
  */
-BoxWidget::BoxWidget(UMLScene * scene, Uml::IDType id)
-  : UMLWidget(scene, id)
+BoxWidget::BoxWidget(UMLScene * scene, Uml::IDType id, WidgetType type)
+  : UMLWidget(scene, type, id)
 {
     setSize(100,80);
-    UMLWidget::setBaseType(WidgetBase::wt_Box);
-    WidgetBase::m_usesDiagramLineColour = false;  // boxes be black
-    WidgetBase::m_LineColour = QColor("black");
+    m_usesDiagramLineColour = false;  // boxes be black
+    m_LineColour = QColor("black");
     setZ(m_origZ = 0);
 }
 

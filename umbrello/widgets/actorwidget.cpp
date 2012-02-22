@@ -23,9 +23,8 @@
  * @param o      The Actor class this ActorWidget will display.
  */
 ActorWidget::ActorWidget(UMLScene * scene, UMLActor *a)
-  : UMLWidget(scene, a)
+  : UMLWidget(scene, WidgetBase::wt_Actor, a)
 {
-    setBaseType(WidgetBase::wt_Actor);
 }
 
 /**

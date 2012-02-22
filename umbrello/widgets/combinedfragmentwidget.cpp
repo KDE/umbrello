@@ -29,9 +29,8 @@
 #include "dialog_utils.h"
 
 CombinedFragmentWidget::CombinedFragmentWidget(UMLScene * scene, CombinedFragmentType combinedfragmentType, Uml::IDType id )
-  : UMLWidget(scene, id)
+  : UMLWidget(scene, WidgetBase::wt_CombinedFragment, id)
 {
-    UMLWidget::setBaseType( WidgetBase::wt_CombinedFragment );
     setCombinedFragmentType( combinedfragmentType );
     updateComponentSize();
 }

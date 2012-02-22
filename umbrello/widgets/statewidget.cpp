@@ -30,9 +30,8 @@
 #include "listpopupmenu.h"
 
 StateWidget::StateWidget(UMLScene * scene, StateType stateType, Uml::IDType id)
-  : UMLWidget(scene, id)
+  : UMLWidget(scene, WidgetBase::wt_State, id)
 {
-    UMLWidget::setBaseType(WidgetBase::wt_State);
     m_StateType = stateType;
     m_Text = "State";
     updateComponentSize();

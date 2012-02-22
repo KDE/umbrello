@@ -69,7 +69,7 @@ public:
 
     static QString toString(WidgetType wt);
 
-    explicit WidgetBase(UMLScene * scene);
+    explicit WidgetBase(UMLScene * scene, WidgetType type= wt_UMLWidget);
     virtual ~WidgetBase();
 
     UMLObject* umlObject() const;
@@ -106,7 +106,7 @@ public:
     WidgetBase& operator=(const WidgetBase& other);
 
 protected:
-    void init(WidgetType type = wt_UMLWidget);
+    void init();
 
     WidgetType  m_Type;  ///< Type of widget.
     UMLScene   *m_scene;

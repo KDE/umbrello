@@ -51,10 +51,6 @@ protected:
     QSize calculateSize();
 
     bool m_showPackage;
-
-private:
-    void init();
-
 };
 
 #endif
