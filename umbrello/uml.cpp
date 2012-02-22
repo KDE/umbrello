@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -267,15 +267,17 @@ void UMLApp::initActions()
     QAction* preferences = KStandardAction::preferences(this, SLOT(slotPrefs()), actionCollection());
 
     QAction* impWizard = actionCollection()->addAction("importing_wizard");
-    impWizard->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Import_Class));
+    impWizard->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Import_Files));
     impWizard->setText(i18n("Code &Importing Wizard..."));
     connect(impWizard, SIGNAL(triggered(bool)), this, SLOT(slotImportingWizard()));
 
     QAction* genWizard = actionCollection()->addAction("generation_wizard");
+    genWizard->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Export_Files));
     genWizard->setText(i18n("&Code Generation Wizard..."));
     connect(genWizard, SIGNAL(triggered(bool)), this, SLOT(slotExecGenerationWizard()));
 
     QAction* genAll = actionCollection()->addAction("generate_all");
+    genAll->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Export_Files));
     genAll->setText(i18n("&Generate All Code"));
     connect(genAll, SIGNAL(triggered(bool)), this, SLOT(slotGenerateAllCode()));
 

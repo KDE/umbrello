@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -42,6 +42,13 @@
 
 using namespace Uml;
 
+/**
+ * Creates a UMLWidget object.
+ *
+ * @param scene The view to be displayed on.
+ * @param o The UMLObject to represent.
+ * @param widgetController The UMLWidgetController of this UMLWidget
+ */
 UMLWidget::UMLWidget(UMLScene * scene, WidgetType type, UMLObject * o, UMLWidgetController *widgetController)
   : WidgetBase(scene, type),
     UMLSceneRectangle(scene->canvas())
@@ -59,6 +66,14 @@ UMLWidget::UMLWidget(UMLScene * scene, WidgetType type, UMLObject * o, UMLWidget
     }
 }
 
+/**
+ * Creates a UMLWidget object.
+ *
+ * @param scene The view to be displayed on.
+ * @param id The id of the widget.
+ *  The default value (id_None) will prompt generation of a new ID.
+ * @param widgetController The UMLWidgetController of this UMLWidget
+ */
 UMLWidget::UMLWidget(UMLScene *scene, WidgetType type, Uml::IDType id, UMLWidgetController *widgetController)
   : WidgetBase(scene, type),
     UMLSceneRectangle(scene->canvas())
@@ -75,6 +90,9 @@ UMLWidget::UMLWidget(UMLScene *scene, WidgetType type, Uml::IDType id, UMLWidget
         m_nId = id;
 }
 
+/**
+ * Standard destructor.
+ */
 UMLWidget::~UMLWidget()
 {
     //slotRemovePopupMenu();
@@ -82,6 +100,9 @@ UMLWidget::~UMLWidget()
     cleanup();
 }
 
+/**
+ * Assignment operator
+ */
 UMLWidget& UMLWidget::operator=(const UMLWidget & other)
 {
     if (this == &other)
@@ -123,6 +144,9 @@ UMLWidget& UMLWidget::operator=(const UMLWidget & other)
     return *this;
 }
 
+/**
+ * Overload '==' operator
+ */
 bool UMLWidget::operator==(const UMLWidget& other) const
 {
     if (this == &other)
@@ -173,16 +197,31 @@ bool UMLWidget::operator==(const UMLWidget& other) const
      */
 }
 
+/**
+ * Calls the method with the same name in UMLWidgetController.
+ * @see UMLWidgetController#mouseMoveEvent
+ *
+ * @param me The QMouseEvent event.
+ */
 void UMLWidget::mouseMoveEvent(QMouseEvent* me)
 {
     m_widgetController->mouseMoveEvent(me);
 }
 
+/**
+ * Calls the method with the same name in UMLWidgetController.
+ * @see UMLWidgetController#mousePressEvent
+ *
+ * @param me The QMouseEvent event.
+ */
 void UMLWidget::mousePressEvent(QMouseEvent *me)
 {
     m_widgetController->mousePressEvent(me);
 }
 
+/**
+ * When a widget changes this slot captures that signal.
+ */
 void UMLWidget::updateWidget()
 {
     updateComponentSize();
@@ -202,11 +241,26 @@ void UMLWidget::updateWidget()
         update();
 }
 
+/**
+ * Compute the minimum possible width and height.
+ * The default implementation returns width=20, height=20.
+ *
+ * @return QSize(mininum_width, minimum_height)
+ */
 QSize UMLWidget::calculateSize()
 {
     return QSize(20, 20);
 }
 
+/**
+ * Apply possible constraints to the given candidate width and height.
+ * The default implementation calls calculateSize() and
+ * assigns the returned values if they are greater than the
+ * input values.
+ *
+ * @param width  input value, may be modified by the constraint
+ * @param height input value, may be modified by the constraint
+ */
 void UMLWidget::constrain(int& width, int& height)
 {
     const QSize minSize = calculateSize();
@@ -216,11 +270,20 @@ void UMLWidget::constrain(int& width, int& height)
         height = minSize.height();
 }
 
+/**
+ * Calls the method with the same name in UMLWidgetController.
+ * @see UMLWidgetController#mouseReleaseEvent
+ *
+ * @param me The QMouseEvent event.
+ */
 void UMLWidget::mouseReleaseEvent(QMouseEvent *me)
 {
     m_widgetController->mouseReleaseEvent(me);
 }
 
+/**
+ * Initializes key attributes of the class.
+ */
 void UMLWidget::init()
 {
     m_nId = Uml::id_None;
@@ -268,6 +331,11 @@ void UMLWidget::init()
     setZ(m_origZ = 2);  // default for most widgets
 }
 
+/**
+ * Captures any popup menu signals for menus it created.
+ *
+ * @param action The action which has to be executed.
+ */
 void UMLWidget::slotMenuSelection(QAction* action)
 {
     QColor newColour;
@@ -411,10 +479,20 @@ void UMLWidget::slotMenuSelection(QAction* action)
     }
 }
 
+/**
+ * Captures when another widget moves if it is link to it that signal.
+ *
+ * @param id The id of object behind the widget.
+ */
 void UMLWidget::slotWidgetMoved(Uml::IDType /*id*/)
 {
 }
 
+/**
+ * Captures a color change signal.
+ *
+ * @param sceneID The id of the object behind the widget.
+ */
 void UMLWidget::slotColorChanged(Uml::IDType viewID)
 {
     //only change if on the diagram concerned
@@ -433,6 +511,11 @@ void UMLWidget::slotColorChanged(Uml::IDType viewID)
     update();
 }
 
+/**
+ * Captures a linewidth change signal.
+ *
+ * @param sceneID The id of the object behind the widget.
+ */
 void UMLWidget::slotLineWidthChanged(Uml::IDType viewID)
 {
     //only change if on the diagram concerned
@@ -445,11 +528,22 @@ void UMLWidget::slotLineWidthChanged(Uml::IDType viewID)
     update();
 }
 
+/**
+ * Calls the method with the same name in UMLWidgetController.
+ * @see UMLWidgetController#mouseDoubleClickEvent
+ *
+ * @param me The QMouseEvent event.
+ */
 void UMLWidget::mouseDoubleClickEvent(QMouseEvent * me)
 {
     m_widgetController->mouseDoubleClickEvent(me);
 }
 
+/**
+ * Set the status of using fill color.
+ *
+ * @param fc the status of using fill color.
+ */
 void UMLWidget::setUseFillColour(bool fc)
 {
     m_useFillColour = fc;
@@ -457,40 +551,69 @@ void UMLWidget::setUseFillColour(bool fc)
     update();
 }
 
-void UMLWidget::setLineColorcmd(const QColor &colour)
+/**
+ * Overrides the method from WidgetBase.
+ */
+void UMLWidget::setLineColorcmd(const QColor &color)
 {
-    WidgetBase::setLineColor(colour);
+    WidgetBase::setLineColor(color);
     update();
 }
 
-void UMLWidget::setLineColor(const QColor &colour)
+/**
+ * Overrides the method from WidgetBase.
+ */
+void UMLWidget::setLineColor(const QColor &color)
 {
-    UMLApp::app()->executeCommand(new CmdChangeLineColor(this, colour));
+    UMLApp::app()->executeCommand(new CmdChangeLineColor(this, color));
 }
 
+/**
+ * Overrides the method from WidgetBase.
+ */
 void UMLWidget::setLineWidth(uint width)
 {
     WidgetBase::setLineWidth(width);
     update();
 }
 
-void UMLWidget::setFillColour(const QColor &colour)
+/**
+ * Sets the background fill color
+ *
+ * @param color the new fill color
+ */
+void UMLWidget::setFillColour(const QColor &color)
 {
-    UMLApp::app()->executeCommand(new CmdChangeFillColor(this, colour));
+    UMLApp::app()->executeCommand(new CmdChangeFillColor(this, color));
 }
 
-void UMLWidget::setFillColourcmd(const QColor &colour)
+/**
+ * Sets the background fill color
+ *
+ * @param color the new fill color
+ */
+void UMLWidget::setFillColourcmd(const QColor &color)
 {
-    m_FillColour = colour;
+    m_FillColour = color;
     m_usesDiagramFillColour = false;
     update();
 }
 
+/**
+ * Read property m_FillColour.
+ */
 QColor UMLWidget::getFillColor() const
 {
     return  m_FillColour;
 }
 
+/**
+ * Draws that the widget is selected.
+ *
+ * @param p Device on which is the selection is to be drawn.
+ * @param offsetX The x-coordinate for drawing.
+ * @param offsetY The y-coordinate for drawing.
+ */
 void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY)
 {
     int w = width();
@@ -514,6 +637,12 @@ void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY)
     }
 }
 
+/**
+ * Activate the object after serializing it from a QDataStream
+ *
+ * @param ChangeLog
+ * @return  true for success
+ */
 bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
 {
     if (widgetHasUMLObject(m_Type) && m_pObject == NULL) {
@@ -578,17 +707,30 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
     return true;
 }
 
-/** Read property of bool m_activated. */
+/**
+ * Returns true if the Activate method has been called for this instance
+ *
+ * @return The activate status.
+ */
 bool UMLWidget::isActivated()
 {
     return m_activated;
 }
 
+/**
+ * Set the m_activated flag of a widget but does not perform the Activate method
+ *
+ * @param Active Status of activation is to be set.
+ */
 void UMLWidget::setActivated(bool Active /*=true*/)
 {
     m_activated = Active;
 }
 
+/**
+ * Adds an already created association to the list of
+ * associations that include this UMLWidget
+ */
 void UMLWidget::addAssoc(AssociationWidget* pAssoc)
 {
     if (pAssoc && !m_Assocs.contains(pAssoc)) {
@@ -596,6 +738,10 @@ void UMLWidget::addAssoc(AssociationWidget* pAssoc)
     }
 }
 
+/**
+ * Removes an already created association from the list of
+ * associations that include this UMLWidget
+ */
 void UMLWidget::removeAssoc(AssociationWidget* pAssoc)
 {
     if (pAssoc) {
@@ -603,6 +749,12 @@ void UMLWidget::removeAssoc(AssociationWidget* pAssoc)
     }
 }
 
+/**
+ * Adjusts associations with the given co-ordinates
+ *
+ * @param x The x-coordinate.
+ * @param y The y-coordinate.
+ */
 void UMLWidget::adjustAssocs(int x, int y)
 {
     // 2004-04-30: Achim Spangler
@@ -629,9 +781,14 @@ void UMLWidget::adjustAssocs(int x, int y)
     }
 }
 
+/**
+ * Adjusts all unselected associations with the given co-ordinates
+ *
+ * @param x The x-coordinate.
+ * @param y The y-coordinate.
+ */
 void UMLWidget::adjustUnselectedAssocs(int x, int y)
 {
-
     foreach(AssociationWidget* assocwidget , m_Assocs) {
 
         if (!assocwidget->getSelected())
@@ -644,6 +801,9 @@ void UMLWidget::adjustUnselectedAssocs(int x, int y)
     }
 }
 
+/**
+ * Show a properties dialog for a UMLWidget.
+ */
 void UMLWidget::showPropertiesDialog()
 {
     // will already be selected so make sure docWindow updates the doc
@@ -660,7 +820,16 @@ void UMLWidget::showPropertiesDialog()
     delete dlg;
 }
 
-ListPopupMenu*  UMLWidget::setupPopupMenu(ListPopupMenu* menu)
+/**
+ * Starts the popup menu. If menu is non zero,
+ * the widgets popup menu is embedded into another widget. 
+ * The another widget is responsible for calling 
+ * setupPopupMenu(), slotMenuSelection() and 
+ * removePopupMenu() manually.
+ *
+ * @return pointer to the popup menu object
+ */
+ListPopupMenu* UMLWidget::setupPopupMenu(ListPopupMenu* menu)
 {
     slotRemovePopupMenu();
 
@@ -700,6 +869,12 @@ ListPopupMenu*  UMLWidget::setupPopupMenu(ListPopupMenu* menu)
     return m_pMenu;
 }
 
+/**
+ * This slot is entered when an event has occurred on the views display,
+ * most likely a mouse event.  Before it sends out that mouse event all
+ * children should make sure that they don't have a menu active or there
+ * could be more than one popup menu displayed.
+ */
 void UMLWidget::slotRemovePopupMenu()
 {
     if (m_pMenu) {
@@ -711,6 +886,15 @@ void UMLWidget::slotRemovePopupMenu()
     }
 }
 
+/**
+ * Returns 0 if the given point is not in the boundaries of the widget,
+ * else returns a number which is proportional to the size of the widget.
+ *
+ * @param p Point to be checked.
+ *
+ * @return 0 if the given point is not in the boundaries of the widget;
+ *         (width()+height())/2 if the point is within the boundaries.
+ */
 int UMLWidget::onWidget(const QPoint & p)
 {
     const int w = width();
@@ -725,6 +909,10 @@ int UMLWidget::onWidget(const QPoint & p)
     return (w + h) / 2;
 }
 
+/**
+ * Move the widget by an X and Y offset relative to
+ * the current position.
+ */
 void UMLWidget::moveByLocal(int dx, int dy)
 {
     int newX = getX() + dx;
@@ -735,16 +923,29 @@ void UMLWidget::moveByLocal(int dx, int dy)
     adjustAssocs(newX, newY);
 }
 
+/**
+ * Set the pen.
+ */
 void UMLWidget::setPenFromSettings(QPainter & p)
 {
     p.setPen(QPen(m_LineColour, m_LineWidth));
 }
 
+/**
+ * Overrides default method.
+ *
+ * @param p Device on which the shape has to be drawn.
+ */
 void UMLWidget::drawShape(QPainter &p)
 {
     paint(p, getX(), getY());
 }
 
+/**
+ * Sets the state of whether the widget is selected.
+ *
+ * @param _select The state of whether the widget is selected.
+ */
 void UMLWidget::setSelected(bool _select)
 {
     const WidgetBase::WidgetType wt = m_Type;
@@ -784,11 +985,19 @@ void UMLWidget::setSelected(bool _select)
     UMLApp::app()->slotCopyChanged();
 }
 
+/**
+ *   Captures a sigClearAllSelected signal sent by @ref UMLView
+ */
 void UMLWidget::slotClearAllSelected()
 {
     setSelected(false);
 }
 
+/**
+ * Sets the view the widget is on.
+ *
+ * @param v The view the widget is on.
+ */
 void UMLWidget::setScene(UMLScene * v)
 {
     //remove signals from old view - was probably 0 anyway
@@ -803,6 +1012,13 @@ void UMLWidget::setScene(UMLScene * v)
     connect(m_scene, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
 }
 
+/**
+ * Sets the x-coordinate.
+ * Currently, the only class that reimplements this method is
+ * ObjectWidget.
+ *
+ * @param x The x-coordinate to be set.
+ */
 void UMLWidget::setX(int x)
 {
     if (!m_ignoreSnapToGrid) {
@@ -811,6 +1027,13 @@ void UMLWidget::setX(int x)
     UMLSceneItem::setX(x);
 }
 
+/**
+ * Sets the y-coordinate.
+ * Currently, the only class that reimplements this method is
+ * ObjectWidget.
+ *
+ * @param y The y-coordinate to be set.
+ */
 void UMLWidget::setY(int y)
 {
     if (!m_ignoreSnapToGrid) {
@@ -819,12 +1042,23 @@ void UMLWidget::setY(int y)
     UMLSceneItem::setY(y);
 }
 
+/**
+ * Sets the z-coordinate.
+ *
+ * @param z The z-coordinate to be set.
+ */
 void UMLWidget::setZ(int z)
 {
     m_origZ = getZ();
     UMLSceneItem::setZ(z);
 }
 
+/**
+ * Sets the name in the corresponding UMLObject.
+ * Sets the local m_Text if m_pObject is NULL.
+ *
+ * @param strName The name to be set.
+ */
 void UMLWidget::setName(const QString &strName)
 {
     if (m_pObject)
@@ -835,6 +1069,12 @@ void UMLWidget::setName(const QString &strName)
     adjustAssocs(getX(), getY());
 }
 
+/**
+ * Gets the name from the corresponding UMLObject.
+ * Returns the local m_Text if m_pObject is NULL.
+ *
+ * @return The currently set name.
+ */
 QString UMLWidget::name() const
 {
     if (m_pObject)
@@ -842,16 +1082,27 @@ QString UMLWidget::name() const
     return m_Text;
 }
 
+/**
+ * Used to cleanup any other widget it may need to delete.
+ * Used by child classes.  This should be called before deleting a widget of a diagram.
+ */
 void UMLWidget::cleanup()
 {
 }
 
+/**
+ * Tells the widget to snap to grid.
+ * Will use the grid settings of the @ref UMLView it belongs to.
+ */
 void UMLWidget::slotSnapToGrid()
 {
     setX(getX());
     setY(getY());
 }
 
+/**
+ * Returns whether the widget type has an associated UMLObject
+ */
 bool UMLWidget::widgetHasUMLObject(WidgetBase::WidgetType type)
 {
     if (type == WidgetBase::wt_Actor         ||
@@ -871,16 +1122,27 @@ bool UMLWidget::widgetHasUMLObject(WidgetBase::WidgetType type)
     }
 }
 
+/**
+ * Set m_ignoreSnapToGrid.
+ */
 void UMLWidget::setIgnoreSnapToGrid(bool to)
 {
     m_ignoreSnapToGrid = to;
 }
 
+/**
+ * Return the value of m_ignoreSnapToGrid.
+ */
 bool UMLWidget::getIgnoreSnapToGrid() const
 {
     return m_ignoreSnapToGrid;
 }
 
+/**
+ * Sets the size.
+ * If m_scene->getSnapComponentSizeToGrid() is true, then
+ * set the next larger size that snaps to the grid.
+ */
 void UMLWidget::setSize(int width, int height)
 {
     // snap to the next larger size that is a multiple of the grid
@@ -899,6 +1161,9 @@ void UMLWidget::setSize(int width, int height)
     UMLSceneRectangle::setSize(width, height);
 }
 
+/**
+ * Update the size of this widget.
+ */
 void UMLWidget::updateComponentSize()
 {
     if (m_pDoc->loading())
@@ -982,11 +1247,19 @@ void UMLWidget::setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm)
     m_pFontMetrics[fontType] = new QFontMetrics(fm);
 }
 
+/**
+ *  Returns the font the widget is to use.
+ */
 QFont UMLWidget::font() const
 {
     return m_Font;
 }
 
+/**
+ * Sets the font the widget is to use.
+ *
+ * @param font Font to be set.
+ */
 void UMLWidget::setFont(QFont font)
 {
     m_Font = font;
@@ -996,6 +1269,13 @@ void UMLWidget::setFont(QFont font)
     update();
 }
 
+/**
+ * @note For performance Reasons, only FontMetrics for already used
+ *  font types are updated. Not yet used font types will not get a font metric
+ *  and will get the same font metric as if painter was zero.
+ *  This behaviour is acceptable, because diagrams will always be showed on Display
+ *  first before a special painter like a printer device is used.
+ */
 void UMLWidget::forceUpdateFontMetrics(QPainter *painter)
 {
     if (painter == 0) {
@@ -1013,6 +1293,11 @@ void UMLWidget::forceUpdateFontMetrics(QPainter *painter)
     updateComponentSize();
 }
 
+/**
+ * Set the status of whether to show Stereotype.
+ *
+ * @param _status   True if stereotype shall be shown.
+ */
 void UMLWidget::setShowStereotype(bool _status)
 {
     m_showStereotype = _status;
@@ -1020,11 +1305,21 @@ void UMLWidget::setShowStereotype(bool _status)
     update();
 }
 
+/**
+ * Returns the status of whether to show Stereotype.
+ *
+ * @return  True if stereotype is shown.
+ */
 bool UMLWidget::getShowStereotype() const
 {
     return m_showStereotype;
 }
 
+/**
+ * Overrides the standard operation.
+ *
+ * @param me The move event.
+ */
 void UMLWidget::moveEvent(QMoveEvent* /*me*/)
 {
 }
@@ -1108,6 +1403,9 @@ bool UMLWidget::loadFromXMI(QDomElement & qElement)
     return true;
 }
 
+/**
+ * Returns the UMLWdigetController for this widget.
+ */
 UMLWidgetController* UMLWidget::getWidgetController()
 {
     return m_widgetController;

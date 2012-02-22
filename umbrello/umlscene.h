@@ -24,13 +24,16 @@ class UMLScene : public UMLView
 {
 public:
     UMLScene(UMLFolder *parentFolder) : UMLView(parentFolder) {}
+    friend QDebug operator<<(QDebug out, const UMLScene *item);
 };
+
+QDebug operator<<(QDebug debug, UMLScene *item);
 
 /// uml related types - makes it easier to switch to QGraphicsScene types
 // base types
 typedef QPoint UMLScenePoint;
+typedef QRect UMLSceneRect;
 // event types
-typedef QKeyEvent UMLSceneKeyEvent;
 typedef QKeyEvent UMLSceneKeyEvent;
 typedef QHoverEvent UMLSceneHoverEvent;
 typedef QContextMenuEvent UMLSceneContextMenuEvent;

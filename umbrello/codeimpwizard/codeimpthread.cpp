@@ -52,16 +52,26 @@ void CodeImpThread::run()
 {
     ClassImport *classImporter = ClassImport::createImporterByFileExt(m_file.fileName(), this);
     QString fileName = m_file.absoluteFilePath();
+
     if (classImporter) {
         emit messageToLog(m_file.fileName(), "start import...");
         emit messageToWiz(m_file.fileName(), "started");
         emit messageToApp(i18n("Importing file: %1", fileName));
-        classImporter->importFile(fileName);
+        // FIXME: ClassImport still uses umldoc->writeToStatusBar for log writing
+
+        if (!classImporter->importFile(fileName)) {
+            emit messageToApp(i18nc("show failed on status bar", "Failed."));
+            emit messageToWiz(m_file.fileName(), "failed");
+            emit messageToLog(m_file.fileName(), "...import failed");
+            emit aborted();
+        }
+        else {
+            emit messageToApp(i18nc("show Ready on status bar", "Ready."));
+            emit messageToWiz(m_file.fileName(), "finished");
+            emit messageToLog(m_file.fileName(), "...import finished");
+            emit finished();
+        }
         delete classImporter;
-        emit messageToApp(i18nc("show Ready on status bar", "Ready."));
-        emit messageToWiz(m_file.fileName(), "finished");
-        emit messageToLog(m_file.fileName(), "...stop import");
-        emit finished();
     }
     else {
         emit messageToWiz(m_file.fileName(), "aborted");

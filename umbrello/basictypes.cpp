@@ -922,5 +922,11 @@ Changeability::operator Changeability::Value() const
 
 //-----------------------------------------------------------------------------
 
+QDebug operator<<(QDebug out, IDType &type)
+{
+    out.nospace() << "IDType: " << ID2STR(type);
+    return out.space();
+}
+
 
 }  // end namespace Uml

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -45,66 +45,17 @@ class UMLWidget : public WidgetBase, public UMLSceneRectangle
 public:
     friend class UMLWidgetController;
 
-    /**
-     * Creates a UMLWidget object.
-     *
-     * @param scene The view to be displayed on.
-     * @param o The UMLObject to represent.
-     * @param widgetController The UMLWidgetController of this UMLWidget
-     */
-    UMLWidget(UMLScene * scene, WidgetType type = wt_UMLWidget, UMLObject * o = 0, UMLWidgetController *widgetController = 0);
-
-    /**
-     * Creates a UMLWidget object.
-     *
-     * @param scene The view to be displayed on.
-     * @param id The id of the widget.
-     *  The default value (id_None) will prompt generation of a new ID.
-     * @param widgetController The UMLWidgetController of this UMLWidget
-     */
+    explicit UMLWidget(UMLScene * scene, WidgetType type = wt_UMLWidget, UMLObject * o = 0, UMLWidgetController *widgetController = 0);
     explicit UMLWidget(UMLScene * scene, WidgetType type = wt_UMLWidget, Uml::IDType id = Uml::id_None, UMLWidgetController *widgetController = 0 );
-
-    /**
-     * Standard deconstructor
-     */
     virtual ~UMLWidget();
 
-    /**
-     * Copy constructor
-     */
-    UMLWidget(const UMLWidget& other);
+    // Copy constructor - not implemented.
+    // UMLWidget(const UMLWidget& other);
 
-    /**
-     * Assignment operator
-     */
     UMLWidget& operator=(const UMLWidget& other);
 
-    /**
-     * Overload '==' operator
-     */
     bool operator==(const UMLWidget& other) const;
 
-    /**
-     * Calls the method with the same name in UMLWidgetController.
-     * @see UMLWidgetController#mouseReleaseEvent
-     *
-     * @param me The QMouseEvent event.
-     */
-    virtual void mouseReleaseEvent(QMouseEvent * me);
-
-    /**
-     * Calls the method with the same name in UMLWidgetController.
-     * @see UMLWidgetController#mouseDoubleClickEvent
-     *
-     * @param me The QMouseEvent event.
-     */
-    virtual void mouseDoubleClickEvent(QMouseEvent *me);
-
-    /**
-     * Set the status of using fill color.
-     *
-     * @param fc the status of using fill color.
-     */
     void setUseFillColour(bool fc);
 
     /**
@@ -114,47 +65,14 @@ public:
         return m_useFillColour;
     }
 
-    /**
-     * Overrides the method from WidgetBase.
-     */
-    void setLineColor(const QColor &colour);
+    void setLineColor(const QColor &color);
+    void setLineColorcmd(const QColor &color);
 
-    /**
-     * Overrides the method from WidgetBase.
-     */
-    void setLineColorcmd(const QColor &colour);
-
-    /**
-     * Overrides the method from WidgetBase.
-     */
     void setLineWidth(uint width);
 
-    /**
-     * Sets the background fill colour
-     *
-     * @param colour the new fill colour
-     */
-    void setFillColour(const QColor &colour);
-
-    /**
-     * Sets the background fill colour
-     *
-     * @param colour the new fill colour
-     */
-    void setFillColourcmd(const QColor &colour);
-
-    /**
-     * Read property m_FillColour.
-     */
     QColor getFillColor() const;
-
-    /**
-     * Calls the method with the same name in UMLWidgetController.
-     * @see UMLWidgetController#mouseMoveEvent
-     *
-     * @param me The QMouseEvent event.
-     */
-    virtual void mouseMoveEvent(QMouseEvent* me);
+    void setFillColour(const QColor &color);
+    void setFillColourcmd(const QColor &color);
 
     /**
      * Returns whether this is a line of text.
@@ -166,11 +84,6 @@ public:
         return false;
     }
 
-    /**
-     * Sets the state of whether the widget is selected.
-     *
-     * @param _select The state of whether the widget is selected.
-     */
     virtual void setSelected(bool _select);
 
     /**
@@ -186,30 +99,10 @@ public:
         m_selected = _select;
     }
 
-    /**
-     * Sets the view the widget is on.
-     *
-     * @param v The view the widget is on.
-     */
     void setScene(UMLScene * v);
 
-    /**
-     * Activate the object after serializing it from a QDataStream
-     *
-     * @param ChangeLog
-     * @return  true for success
-     */
     virtual bool activate(IDChangeLog* ChangeLog = 0);
 
-    /**
-     * Returns 0 if the given point is not in the boundaries of the widget,
-     * else returns a number which is proportional to the size of the widget.
-     *
-     * @param p Point to be checked.
-     *
-     * @return 0 if the given point is not in the boundaries of the widget;
-     *         (width()+height())/2 if the point is within the boundaries.
-     */
     virtual int onWidget(const QPoint & p);
 
     /**
@@ -222,22 +115,10 @@ public:
      */
     virtual void paint(QPainter & p, int offsetX, int offsetY) = 0;
 
-    /**
-     * Set the pen.
-     */
     void setPenFromSettings(QPainter & p);
 
-    /**
-     * Sets the font the widget is to use.
-     *
-     * @param font Font to be set.
-     */
-    virtual void setFont( QFont font );
-
-    /**
-     *  Returns the font the widget is to use.
-     */
     virtual QFont font() const;
+    virtual void setFont(QFont font);
 
     /**
      * Returns whether we triggered the update of position movement.
@@ -249,30 +130,9 @@ public:
         return m_startMove;
     }
 
-    /**
-     * Sets the x-coordinate.
-     * Currently, the only class that reimplements this method is
-     * ObjectWidget.
-     *
-     * @param x The x-coordinate to be set.
-     */
-    virtual void setX( int x );
-
-    /**
-     * Sets the y-coordinate.
-     * Currently, the only class that reimplements this method is
-     * ObjectWidget.
-     *
-     * @param y The y-coordinate to be set.
-     */
-    virtual void setY( int y );
-
-    /**
-     * Sets the z-coordinate.
-     *
-     * @param z The z-coordinate to be set.
-     */
-    virtual void setZ( int z );
+    virtual void setX(int x);
+    virtual void setY(int y);
+    virtual void setZ(int z);
 
     /**
      * Gets the x-coordinate.
@@ -309,39 +169,14 @@ public:
         return UMLSceneRectangle::width();
     }
 
-    /**
-     * Sets the size.
-     * If m_scene->getSnapComponentSizeToGrid() is true, then
-     * set the next larger size that snaps to the grid.
-     */
     void setSize(int width,int height);
 
-    /**
-     * Set m_ignoreSnapToGrid.
-     */
+    bool getIgnoreSnapToGrid() const;
     void setIgnoreSnapToGrid(bool to);
 
-    /**
-     * Return the value of m_ignoreSnapToGrid.
-     */
-    bool getIgnoreSnapToGrid() const;
-
-    /**
-     * Move the widget by an X and Y offset relative to
-     * the current position.
-     */
     void moveByLocal(int dx, int dy);
 
-    /**
-     * Removes an already created association from the list of
-     * associations that include this UMLWidget
-     */
     void removeAssoc(AssociationWidget* pAssoc);
-
-    /**
-     * Adds an already created association to the list of
-     * associations that include this UMLWidget
-     */
     void addAssoc(AssociationWidget* pAssoc);
 
     /**
@@ -407,165 +242,50 @@ public:
         return m_instanceName;
     }
 
-    /**
-     * Returns the status of whether to show Stereotype.
-     *
-     * @return  True if stereotype is shown.
-     */
     bool getShowStereotype() const;
-
-    /**
-     * Set the status of whether to show Stereotype.
-     *
-     * @param _status             True if stereotype shall be shown.
-     */
     virtual void setShowStereotype(bool _status);
 
-    /**
-     * Show a properties dialog for a UMLWidget.
-     */
     virtual void showPropertiesDialog();
 
-    /**
-     * Returns true if the Activate method has been called for this instance
-     *
-     * @return The activate status.
-     */
     bool isActivated();
 
-    /**
-     * Sets the name in the corresponding UMLObject.
-     * Sets the local m_Text if m_pObject is NULL.
-     *
-     * @param strName The name to be set.
-     */
+    virtual QString name() const;
     virtual void setName(const QString &strName);
 
-    /**
-     * Gets the name from the corresponding UMLObject.
-     * Returns the local m_Text if m_pObject is NULL.
-     *
-     * @return The currently set name.
-     */
-    virtual QString name() const;
-
-    /**
-     * Starts the popup menu. If menu is non zero,
-     * the widgets popup menu is embedded into another widget. 
-     * The another widget is responsible for calling 
-     * setupPopupMenu(), slotMenuSelection() and 
-     * removePopupMenu() manually.
-     *
-     * @return pointer to the popup menu object
-     */
     virtual ListPopupMenu* setupPopupMenu(ListPopupMenu *menu=0);
 
-    /**
-     * Adjusts associations with the given co-ordinates
-     *
-     * @param x The x-coordinate.
-     * @param y The y-coordinate.
-     */
     virtual void adjustAssocs(int x, int y);
-
-    /**
-     * Adjusts all unselected associations with the given co-ordinates
-     *
-     * @param x The x-coordinate.
-     * @param y The y-coordinate.
-     */
     void adjustUnselectedAssocs(int x, int y);
 
-    /**
-     * Set the m_activated flag of a widget but does not perform the Activate method
-     *
-     * @param Active Status of activation is to be set.
-     */
     void setActivated(bool Active = true);
 
-    /**
-     * Used to cleanup any other widget it may need to delete.
-     * Used by child classes.  This should be called before deleting a widget of a diagram.
-     */
     virtual void cleanup();
 
-    /**
-     * Returns whether the widget type has an associated UMLObject
-     */
     static bool widgetHasUMLObject(WidgetBase::WidgetType type);
 
-    /**
-     * Update the size of this widget.
-     */
     void updateComponentSize();
 
-    /**
-     * @note For performance Reasons, only FontMetrics for already used
-     *  font types are updated. Not yet used font types will not get a font metric
-     *  and will get the same font metric as if painter was zero.
-     *  This behaviour is acceptable, because diagrams will always be showed on Display
-     *  first before a special painter like a printer device is used.
-     */
     void forceUpdateFontMetrics(QPainter *painter);
 
-    /**
-     * Calls the method with the same name in UMLWidgetController.
-     * @see UMLWidgetController#mousePressEvent
-     *
-     * @param me The QMouseEvent event.
-     */
-    virtual void mousePressEvent(QMouseEvent *me);
+    virtual bool loadFromXMI(QDomElement &qElement);
+    virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
 
-    /**
-     * Overrides the standard operation.
-     *
-     * @param me The move event.
-     */
-    virtual void moveEvent(QMoveEvent *me);
-
-    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-
-    virtual bool loadFromXMI( QDomElement & qElement );
-
-    /**
-     * Returns the UMLWdigetController for this widget.
-     */
     UMLWidgetController* getWidgetController();
 
+    virtual void mousePressEvent(QMouseEvent *me);
+    virtual void mouseMoveEvent(QMouseEvent* me);
+    virtual void mouseReleaseEvent(QMouseEvent * me);
+    virtual void mouseDoubleClickEvent(QMouseEvent *me);
+
 protected:
-    /**
-     * Apply possible constraints to the given candidate width and height.
-     * The default implementation calls calculateSize() and
-     * assigns the returned values if they are greater than the
-     * input values.
-     *
-     * @param width  input value, may be modified by the constraint
-     * @param height input value, may be modified by the constraint
-     */
+
+    virtual void moveEvent(QMoveEvent *me);
+
     virtual void constrain(int& width, int& height);
 
-    /**
-     * Draws that the widget is selected.
-     *
-     * @param p Device on which is the selection is to be drawn.
-     * @param offsetX The x-coordinate for drawing.
-     * @param offsetY The y-coordinate for drawing.
-     */
     virtual void drawSelected(QPainter * p, int offsetX, int offsetY);
+    virtual void drawShape(QPainter &p);
 
-    /**
-     * Overrides default method.
-     *
-     * @param p Device on which the shape has to be drawn.
-     */
-    virtual void drawShape(QPainter &p );
-
-    /**
-     * Compute the minimum possible width and height.
-     * The default implementation returns width=20, height=20.
-     *
-     * @return QSize(mininum_width, minimum_height)
-     */
     virtual QSize calculateSize();
 
     typedef enum {
@@ -586,15 +306,12 @@ protected:
     virtual void setDefaultFontMetrics(UMLWidget::FontType fontType);
     virtual void setDefaultFontMetrics(UMLWidget::FontType fontType, QPainter &painter);
 
-    /** Returns the font metric used by this object for Text which uses bold/italic fonts*/
+    /** Returns the font metric used by this object for Text which uses bold/italic fonts */
     QFontMetrics &getFontMetrics(UMLWidget::FontType fontType);
     /** set the font metric to use */
     void setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm);
     void setupFontType(QFont &font, UMLWidget::FontType fontType);
 
-    /**
-     * Initializes key attributes of the class.
-     */
     void init();
 
     ///////////////// Data Loaded/Saved /////////////////////////////////
@@ -679,57 +396,14 @@ protected:
 
 public slots:
 
-    /**
-     * This slot is entered when an event has occurred on the views display,
-     * most likely a mouse event.  Before it sends out that mouse event all
-     * children should make sure that they don't have a menu active or there
-     * could be more than one popup menu displayed.
-     */
     virtual void slotRemovePopupMenu();
-
-    /**
-     * When a widget changes this slot captures that signal.
-     */
     virtual void updateWidget();
-
-
-    /**
-     * Captures any popup menu signals for menus it created.
-     *
-     * @param action The action which has to be executed.
-     */
     virtual void slotMenuSelection(QAction* action);
-
-    /**
-     * Captures when another widget moves if it is link to it that signal.
-     *
-     * @param id The id of object behind the widget.
-     */
     virtual void slotWidgetMoved(Uml::IDType id);
-
-    /**
-     * Captures a color change signal.
-     *
-     * @param sceneID The id of the object behind the widget.
-     */
     virtual void slotColorChanged(Uml::IDType viewID);
-
-    /**
-     * Captures a linewidth change signal.
-     *
-     * @param sceneID The id of the object behind the widget.
-     */
     virtual void slotLineWidthChanged(Uml::IDType viewID);
 
-    /**
-     *   Captures a sigClearAllSelected signal sent by @ref UMLView
-     */
     void slotClearAllSelected();
-
-    /**
-     * Tells the widget to snap to grid.
-     * Will use the grid settings of the @ref UMLView it belongs to.
-     */
     void slotSnapToGrid();
 
 signals:

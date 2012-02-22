@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
 ***************************************************************************/
 
@@ -29,8 +29,8 @@
  * When the @ref UMLView instance that this class belongs to is destroyed,
  * it will be automatically deleted.
  *
- * The StateWidget class inherits from the @ref UMLWidget class which adds
- * most of the functionality to this class.
+ * The StateWidget class inherits from the @ref UMLWidget class
+ * which adds most of the functionality to this class.
  *
  * @short  A graphical version of a UML State.
  * @author Paul Hensgen <phensgen@techie.com>
@@ -39,120 +39,59 @@
 class StateWidget : public UMLWidget
 {
     Q_OBJECT
+    Q_ENUMS(StateType)
 public:
-
     /// Enumeration that codes the different types of state.
     enum StateType
     {
-        Initial = 0,
+        Initial = 0,     // Pseudostate
         Normal,
-        End
+        End,
+        Fork,            // Pseudostate
+        Join,            // Pseudostate
+        Junction,        // Pseudostate
+        DeepHistory,     // Pseudostate
+        ShallowHistory,  // Pseudostate
+        Choice           // Pseudostate
+        //Terminate        // Pseudostate
+        //EntryPoint       // Pseudostate
+        //ExitPoint        // Pseudostate
     };
 
-    /**
-     * Creates a State widget.
-     *
-     * @param scene              The parent of the widget.
-     * @param stateType The type of state.
-     * @param id                The ID to assign (-1 will prompt a new ID.)
-     */
-    explicit StateWidget( UMLScene * scene, StateType stateType = Normal, Uml::IDType id = Uml::id_None );
-
-    /**
-     * destructor
-     */
+    explicit StateWidget(UMLScene * scene, StateType stateType = Normal, Uml::IDType id = Uml::id_None);
     virtual ~StateWidget();
 
-    /**
-     * Overrides the standard paint event.
-     */
     void paint(QPainter & p, int offsetX, int offsetY);
 
-    /**
-     * Sets the name of the State.
-     */
+    virtual QString name() const;
     virtual void setName(const QString &strName);
 
-    /**
-     * Returns the name of the State.
-     */
-    virtual QString name() const;
-
-    /**
-     * Returns the type of state.
-     */
     StateType stateType() const;
+    void setStateType(StateType stateType);
 
-    /**
-     * Sets the type of state.
-     */
-    void setStateType( StateType stateType );
+    bool addActivity(const QString &activity);
+    bool removeActivity(const QString &activity);
+    bool renameActivity(const QString &activity, const QString &newName);
 
-    /**
-     * Adds the given activity to the state.
-     */
-    bool addActivity( const QString &activity );
+    QStringList activities() const;
+    void setActivities(const QStringList &list);
 
-    /**
-     * Removes the given activity from the state.
-     */
-    bool removeActivity( const QString &activity );
+    virtual void showPropertiesDialog();
 
-    /**
-     * Renames the given activity.
-     */
-    bool renameActivity( const QString &activity, const QString &newName );
+    static bool isState(WorkToolBar::ToolBar_Buttons tbb,
+                        StateType& resultType);
 
-    /**
-     * Sets the states activities to the ones given.
-     */
-    void setActivities( QStringList & list );
-
-    /**
-     * Returns the list of activities.
-     */
-    QStringList & activities();
-
-    /**
-     * Show a properties dialog for a StateWidget.
-     */
-    void showPropertiesDialog();
-
-    /**
-     * Returns true if the given toolbar button represents a State.
-     *
-     * @param tbb               Input value of type WorkToolBar::ToolBar_Buttons.
-     * @param resultType        Output value, the StateType that corresponds to tbb.
-     *                  Only set if the method returns true.
-     */
-    static bool isState( WorkToolBar::ToolBar_Buttons tbb,
-                         StateType& resultType );
-
-    /**
-     * Creates the "statewidget" XMI element.
-     */
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-
-    /**
-     * Loads a "statewidget" XMI element.
-     */
-    bool loadFromXMI( QDomElement & qElement );
+    virtual bool loadFromXMI(QDomElement & qElement);
+    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
 protected:
-    /**
-     * Overrides method from UMLWidget
-     */
     QSize calculateSize();
 
     StateType   m_StateType;   ///< Type of state.
     QStringList m_Activities;  ///< List of activities for the state.
 
 public slots:
-
-    /**
-     * Captures any popup menu signals for menus it created.
-     */
-    void slotMenuSelection(QAction* action);
+    virtual void slotMenuSelection(QAction* action);
 };
 
 #endif

@@ -4,20 +4,12 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "statewidget.h"
-
-// qt includes
-#include <QtCore/QPointer>
-#include <QtCore/QEvent>
-
-// kde includes
-#include <klocale.h>
-#include <kinputdialog.h>
 
 // app includes
 #include "debug_utils.h"
@@ -29,6 +21,21 @@
 #include "statedialog.h"
 #include "listpopupmenu.h"
 
+// kde includes
+#include <klocale.h>
+#include <kinputdialog.h>
+
+// qt includes
+#include <QtCore/QPointer>
+#include <QtCore/QEvent>
+
+/**
+ * Creates a State widget.
+ *
+ * @param scene       The parent of the widget.
+ * @param stateType   The type of state.
+ * @param id          The ID to assign (-1 will prompt a new ID.)
+ */
 StateWidget::StateWidget(UMLScene * scene, StateType stateType, Uml::IDType id)
   : UMLWidget(scene, WidgetBase::wt_State, id)
 {
@@ -37,10 +44,16 @@ StateWidget::StateWidget(UMLScene * scene, StateType stateType, Uml::IDType id)
     updateComponentSize();
 }
 
+/**
+ * Destructor.
+ */
 StateWidget::~StateWidget()
 {
 }
 
+/**
+ * Overrides the standard paint event.
+ */
 void StateWidget::paint(QPainter & p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
@@ -113,6 +126,9 @@ void StateWidget::paint(QPainter & p, int offsetX, int offsetY)
         drawSelected(&p, offsetX, offsetY);
 }
 
+/**
+ * Overrides method from UMLWidget
+ */
 QSize StateWidget::calculateSize()
 {
     int width = 10, height = 10;
@@ -141,6 +157,9 @@ QSize StateWidget::calculateSize()
     return QSize(width, height);
 }
 
+/**
+ * Sets the name of the State.
+ */
 void StateWidget::setName(const QString &strName)
 {
     m_Text = strName;
@@ -148,21 +167,33 @@ void StateWidget::setName(const QString &strName)
     adjustAssocs( getX(), getY() );
 }
 
+/**
+ * Returns the name of the State.
+ */
 QString StateWidget::name() const
 {
     return m_Text;
 }
 
+/**
+ * Returns the type of state.
+ */
 StateWidget::StateType StateWidget::stateType() const
 {
     return m_StateType;
 }
 
-void StateWidget::setStateType( StateType stateType )
+/**
+ * Sets the type of state.
+ */
+void StateWidget::setStateType(StateType stateType)
 {
     m_StateType = stateType;
 }
 
+/**
+ * Captures any popup menu signals for menus it created.
+ */
 void StateWidget::slotMenuSelection(QAction* action)
 {
     bool ok = false;
@@ -191,13 +222,19 @@ void StateWidget::slotMenuSelection(QAction* action)
     }
 }
 
-bool StateWidget::addActivity( const QString &activity )
+/**
+ * Adds the given activity to the state.
+ */
+bool StateWidget::addActivity(const QString &activity)
 {
     m_Activities.append( activity );
     updateComponentSize();
     return true;
 }
 
+/**
+ * Removes the given activity from the state.
+ */
 bool StateWidget::removeActivity( const QString &activity )
 {
     if( m_Activities.removeAll( activity ) == 0 )
@@ -206,18 +243,27 @@ bool StateWidget::removeActivity( const QString &activity )
     return true;
 }
 
-void StateWidget::setActivities( QStringList & list )
+/**
+ * Sets the states activities to the ones given.
+ */
+void StateWidget::setActivities(const QStringList &list)
 {
     m_Activities = list;
     updateComponentSize();
 }
 
-QStringList & StateWidget::activities()
+/**
+ * Returns the list of activities.
+ */
+QStringList StateWidget::activities() const
 {
     return m_Activities;
 }
 
-bool StateWidget::renameActivity( const QString &activity, const QString &newName )
+/**
+ * Renames the given activity.
+ */
+bool StateWidget::renameActivity(const QString &activity, const QString &newName)
 {
     int index = - 1;
     if( ( index = m_Activities.indexOf( activity ) ) == -1 )
@@ -226,6 +272,9 @@ bool StateWidget::renameActivity( const QString &activity, const QString &newNam
     return true;
 }
 
+/**
+ * Show a properties dialog for a StateWidget.
+ */
 void StateWidget::showPropertiesDialog()
 {
     DocWindow *docwindow = UMLApp::app()->docWindow();
@@ -239,6 +288,13 @@ void StateWidget::showPropertiesDialog()
     delete dialog;
 }
 
+/**
+ * Returns true if the given toolbar button represents a State.
+ *
+ * @param tbb          Input value of type WorkToolBar::ToolBar_Buttons.
+ * @param resultType   Output value, the StateType that corresponds to tbb.
+ *                     Only set if the method returns true.
+ */
 bool StateWidget::isState(WorkToolBar::ToolBar_Buttons tbb, StateType& resultType)
 {
     bool status = true;
@@ -259,7 +315,10 @@ bool StateWidget::isState(WorkToolBar::ToolBar_Buttons tbb, StateType& resultTyp
     return status;
 }
 
-void StateWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+/**
+ * Creates the "statewidget" XMI element.
+ */
+void StateWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement stateElement = qDoc.createElement( "statewidget" );
     UMLWidget::saveToXMI( qDoc, stateElement );
@@ -279,7 +338,10 @@ void StateWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     qElement.appendChild( stateElement );
 }
 
-bool StateWidget::loadFromXMI( QDomElement & qElement )
+/**
+ * Loads a "statewidget" XMI element.
+ */
+bool StateWidget::loadFromXMI(QDomElement & qElement)
 {
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
@@ -307,4 +369,3 @@ bool StateWidget::loadFromXMI( QDomElement & qElement )
 }
 
 #include "statewidget.moc"
-
