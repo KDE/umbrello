@@ -33,6 +33,7 @@
 #include <QtGui/QHBoxLayout>
 #include <QtCore/QFileInfo>
 
+class QThread;
 /**
  * This class is used in the code importing wizard.
  * It represents the second page where files are listed and imported by parsing.
@@ -50,12 +51,19 @@ public:
     bool isComplete() const;
 
 private:
-    QList<QFileInfo> m_files;
+    QList<QFileInfo> m_files; ///< list of files to import
     bool             m_workDone;
+    int              m_index; ///< index in m_files
+    QFileInfo        m_file; ///< current file
+#ifdef ENABLE_IMPORT_THREAD
+    QThread         *m_thread;
+#endif
 
 protected slots:
-    void importCode();
-    void importStop();
+    void importCode(); ///< start importing
+    void importCodeFile(); ///< import single file
+    void importCodeFinish(); ///< finish importing
+    void importCodeStop(); ///< cancel importing
     void updateStatus(const QString& file, const QString& text);
     void messageToLog(const QString& file, const QString& text);
     void messageToApp(const QString& text);

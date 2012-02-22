@@ -1,8 +1,8 @@
 /***************************************************************************
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
+ *  This program is free software; you can redistribute it and/or modify   *
+ *  it under the terms of the GNU General Public License as published by   *
+ *  the Free Software Foundation; either version 2 of the License, or      *
+ *  (at your option) any later version.                                    *
  *                                                                         *
  *  copyright (C) 2002-2011                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
@@ -14,7 +14,6 @@
 // app includes
 #include "debug_utils.h"
 #include "uniqueid.h"
-#include "associationwidget.h"
 #include "association.h"
 #include "package.h"
 #include "folder.h"
@@ -27,21 +26,17 @@
 #include "attribute.h"
 #include "template.h"
 #include "enumliteral.h"
-#include "entityattribute.h"
 #include "stereotype.h"
 #include "classifierlistitem.h"
 #include "object_factory.h"
 #include "import_rose.h"
 #include "model_utils.h"
-#include "widget_utils.h"
 #include "uml.h"
 #include "umllistview.h"
 #include "umllistviewitem.h"
 #include "umlview.h"
 #include "entityconstraint.h"
 #include "idchangelog.h"
-#include "classpropdlg.h"
-#include "codegenfactory.h"
 #include "listpopupmenu.h"
 #include "cmds.h"
 #include "diagramprintpage.h"
@@ -83,6 +78,7 @@
  */
 UMLDoc::UMLDoc()
   : m_datatypeRoot(0),
+    m_stereoList(UMLStereotypeList()),
     m_Name(i18n("UML Model")),
     m_modelID("m1"),
     m_count(0),
@@ -156,7 +152,6 @@ UMLDoc::~UMLDoc()
 {
     delete m_datatypeRoot;
     delete m_pChangeLog;
-    m_pChangeLog = 0;
 }
 
 /**
@@ -176,6 +171,7 @@ void UMLDoc::addView(UMLView *view)
         uError() << "view folder is not set";
         return;
     }
+    DEBUG(DBG_SRC) << "to folder " << *f;
     f->addView(view);
 
     UMLApp * pApp = UMLApp::app();
@@ -200,12 +196,13 @@ void UMLDoc::addView(UMLView *view)
  * @param enforceOneView   switch to determine if we have a current view or not.
  *                         most of the time, we DO want this, except when exiting the program.
  */
-void UMLDoc::removeView(UMLView *view , bool enforceCurrentView )
+void UMLDoc::removeView(UMLView *view , bool enforceCurrentView)
 {
     if (!view) {
         uError() << "UMLDoc::removeView(UMLView *view) called with view = 0";
         return;
     }
+    DEBUG(DBG_SRC) << "<" << view->umlScene()->name() << ">";
     if ( UMLApp::app()->listView() ) {
         disconnect(this, SIGNAL(sigObjectRemoved(UMLObject*)),
                    view->umlScene(), SLOT(slotObjectRemoved(UMLObject*)));
@@ -815,6 +812,8 @@ UMLObject* UMLDoc::findUMLObject(const QString &name,
     }
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
         UMLObjectList list = m_root[i]->containedObjects();
+        if (list.size() == 0)
+            continue;
         o = Model_Utils::findUMLObject(list, name, type, currentObj);
         if (o) {
             return o;
@@ -825,6 +824,41 @@ UMLObject* UMLDoc::findUMLObject(const QString &name,
         }
     }
     return 0;
+}
+
+/**
+ * Used to find a @ref UMLObject by its type and raw name.
+ *
+ * @param modelType    The Mmdel type in which to search for the object
+ * @param name         The raw name of the @ref UMLObject to find.
+ * @param type         ObjectType of the object to find
+ * @return  Pointer to the UMLObject found, or NULL if not found.
+ */
+UMLObject* UMLDoc::findUMLObjectRaw(Uml::ModelType::Value modelType,
+                                    const QString &name,
+                                    UMLObject::ObjectType type)
+{
+    return findUMLObjectRaw(rootFolder(modelType), name, type);
+}
+
+/**
+ * Used to find a @ref UMLObject by its type and raw name.
+ *
+ * @param folder       The UMLFolder in which to search for the object
+ * @param name         The raw name of the @ref UMLObject to find.
+ * @param type         ObjectType of the object to find
+ * @return  Pointer to the UMLObject found, or NULL if not found.
+ */
+UMLObject* UMLDoc::findUMLObjectRaw(UMLFolder *folder,
+                                    const QString &name,
+                                    UMLObject::ObjectType type)
+{
+    if (folder == 0)
+        return 0;
+    UMLObjectList list = folder->containedObjects();
+    if (list.size() == 0)
+        return 0;
+    return Model_Utils::findUMLObjectRaw(list, name, type, 0);
 }
 
 //:TODO:
@@ -1233,6 +1267,7 @@ bool UMLDoc::closing() const
  */
 UMLView* UMLDoc::createDiagram(UMLFolder *folder, Uml::DiagramType type, bool askForName /*= true */)
 {
+    DEBUG(DBG_SRC) << "folder=" << folder->name() << " / type=" << type.toString();
     bool ok = true;
     QString name,
     dname = uniqueViewName(type);
@@ -1277,7 +1312,7 @@ void UMLDoc::renameDiagram(Uml::IDType id)
 {
     bool ok = false;
 
-    UMLView *view =  findView(id);
+    UMLView *view = findView(id);
     Uml::DiagramType type = view->umlScene()->type();
 
     QString oldName= view->umlScene()->name();
@@ -1386,9 +1421,8 @@ void UMLDoc::changeCurrentView(Uml::IDType id)
         pApp->setDiagramMenuItemsState( true );
         setModified(true);
         emit sigCurrentViewChanged();
-//:TODO: when clicking on a tab, documentation of diagram is not upated in docwindow
-//:TODO: following line should fix it, but crashes the application :-(
-//:TODO:        pApp->docWindow()->showDocumentation(view);
+        // when clicking on a tab, the documentation of diagram is upated in docwindow
+        pApp->docWindow()->showDocumentation(view);
     }
     else {
         uWarning() << "New current view was not found with id=" << ID2STR(id) << "!";
@@ -2090,7 +2124,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
             }
             else {
                 uError() << "Guess is Uml::ModelType::N_MODELTYPES - package not set correctly for "
-                         << pObject->name() << " / base type " << ot;
+                         << pObject->name() << " / base type " << pObject->baseTypeStr();
                 pkg = m_root[Uml::ModelType::Logical];
             }
         }
@@ -2846,7 +2880,6 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point)
         return;
     }//end switch
 
-    // DEBUG(DBG_SRC) << "create popup for ListView_Type " << type;
     m_pTabPopupMenu = new ListPopupMenu(UMLApp::app()->mainViewWidget(), type, 0);
     m_pTabPopupMenu->popup(point);
     connect(m_pTabPopupMenu, SIGNAL(triggered(QAction*)), view->umlScene(), SLOT(slotMenuSelection(QAction*)));

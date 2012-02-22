@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -25,12 +25,20 @@
 #include "umlview.h"
 #include "umlwidget.h"
 #include "umlscene.h"
+#include "debug_utils.h"
 
 /**
  * Constructor.
  */
 DocWindow::DocWindow( UMLDoc * doc, QWidget *parent )
-  : QWidget( parent )
+  : QWidget(parent),
+    m_pUMLObject(0),
+    m_pUMLView(0),
+    m_pUMLDoc(doc),
+    m_pUMLWidget(0),
+    m_pAssocWidget(0),
+    m_Showing(st_Project),
+    m_modified(false)
 {
     //setup visual display
     QVBoxLayout * docLayout = new QVBoxLayout( this );
@@ -40,15 +48,9 @@ DocWindow::DocWindow( UMLDoc * doc, QWidget *parent )
     docLayout->setMargin(0);
     //m_pDocTE->setWordWrapMode(QTextEdit::WidgetWidth);
 
-    //setup the documentation variables
     //show projects documentation to start
-    m_pUMLDoc = doc;
-    m_Showing = st_Project;
-    m_pUMLObject = 0;
-    m_pUMLView = 0;
-    m_pUMLWidget = 0;
-    m_pAssocWidget = 0;
     updateDocumentation( true, true );
+    connect(m_pDocTE, SIGNAL(textChanged()), this, SLOT(slotTextChanged()));
 }
 
 /**
@@ -80,90 +82,13 @@ void DocWindow::showDocumentation( UMLObject * object, bool overwrite )
     m_Showing = st_UMLObject;
     if( !object ) {
         m_pDocTE->setText( m_pUMLDoc->documentation() );
+        m_modified = false;
         m_pUMLObject = 0;
         return;
     }
     m_pUMLObject = object;
     m_pDocTE->setText( m_pUMLObject->doc() );
-}
-
-/**
- * Call when you wish move changes in the doc window back into the
- * members documentation.
- *
- * If clear is true the doc window will display the documentation
- * for the current project instead of the widget documentation.
- *
- * This is usually called before displaying a properties dialog.
- *
- * @param clear     If true, show the documentation of current project
- * @param startup   If true, no setModified(true) calls will be done and nothing is pushed to the undo stack
- */
-void DocWindow::updateDocumentation( bool clear, bool startup )
-{
-    bool mark_modified = false;
-    if( m_pUMLObject )
-    {
-        // the file is marked modified, if the documentation differs
-        // we don't do this on startup/load of a xmi file, because every time
-        // modified is set, we get another undo/redo backup point
-        if ( startup == false && m_pDocTE->toPlainText() != m_pUMLObject->doc() ) {
-            mark_modified = true;
-        }
-        m_pUMLObject->setDoc( m_pDocTE->toPlainText() );
-
-    } else if( m_pUMLView ) {
-        // the file is marked modified, if the documentation differs
-        // we don't do this on startup/load of a xmi file, because every time
-        // modified is set, we get another undo/redo backup point
-        if ( startup == false && m_pDocTE->toPlainText() != m_pUMLView->umlScene()->getDoc() ) {
-            mark_modified = true;
-        }
-
-        m_pUMLView->umlScene()->setDoc( m_pDocTE->toPlainText() );
-    } else if ( m_pUMLWidget ) {
-        // the file is marked modified, if the documentation differs
-        // we don't do this on startup/load of a xmi file, because every time
-        // modified is set, we get another undo/redo backup point
-        if ( startup == false && m_pDocTE->toPlainText() != m_pUMLWidget->documentation() ) {
-            mark_modified = true;
-        }
-
-        m_pUMLWidget->setDocumentation( m_pDocTE->toPlainText() );
-    } else if ( m_pAssocWidget ) {
-        // the file is marked modified, if the documentation differs
-        // we don't do this on startup/load of a xmi file, because every time
-        // modified is set, we get another undo/redo backup point
-        if ( startup == false && m_pDocTE->toPlainText() != m_pAssocWidget->documentation() ) {
-            mark_modified = true;
-        }
-
-        m_pAssocWidget->setDocumentation( m_pDocTE->toPlainText() );
-    } else {
-        // the file is marked modified, if the documentation differs
-        // we don't do this on startup/load of a xmi file, because every time
-        // modified is set, we get another undo/redo backup point
-        if ( startup == false && m_pDocTE->toPlainText() != m_pUMLDoc->documentation() ) {
-            mark_modified = true;
-        }
-
-        m_pUMLDoc->setDocumentation( m_pDocTE->toPlainText() );
-    }
-
-    // now do the setModified call
-    if (mark_modified) {
-        m_pUMLDoc->setModified( true );
-    }
-
-    // we should show the documentation of the whole project
-    if( clear ) {
-        m_pDocTE->setText( m_pUMLDoc->documentation() );
-        m_pUMLObject = 0;
-        m_pUMLView = 0;
-        m_pUMLWidget = 0;
-        m_pAssocWidget = 0;
-        m_Showing = st_Project;
-    }
+    m_modified = false;
 }
 
 /**
@@ -181,10 +106,12 @@ void DocWindow::showDocumentation( UMLView * view, bool overwrite )
     if( !view ) {
         m_pDocTE->setText( m_pUMLDoc->documentation() );
         m_pUMLView = 0;
+        m_modified = false;
         return;
     }
     m_pUMLView = view;
-    m_pDocTE->setText( m_pUMLView->umlScene()->getDoc() );
+    m_pDocTE->setText( m_pUMLView->umlScene()->documentation() );
+    m_modified = false;
 }
 
 /**
@@ -202,10 +129,12 @@ void DocWindow::showDocumentation( UMLWidget * widget, bool overwrite )
     if( !widget ) {
         m_pDocTE->setText( m_pUMLDoc->documentation() );
         m_pUMLWidget = 0;
+        m_modified = false;
         return;
     }
     m_pUMLWidget = widget;
     m_pDocTE->setText( m_pUMLWidget->documentation() );
+    m_modified = false;
 }
 
 /**
@@ -223,10 +152,61 @@ void DocWindow::showDocumentation( AssociationWidget * widget, bool overwrite )
     if( !widget ) {
         m_pDocTE->setText( m_pUMLDoc->documentation() );
         m_pAssocWidget = 0;
+        m_modified = false;
         return;
     }
     m_pAssocWidget = widget;
     m_pDocTE->setText( m_pAssocWidget->documentation() );
+    m_modified = false;
+}
+
+/**
+ * Call when you wish move changes in the doc window back into the
+ * members documentation.
+ *
+ * If clear is true the doc window will display the documentation
+ * for the current project instead of the widget documentation.
+ *
+ * This is usually called before displaying a properties dialog.
+ *
+ * @param clear     If true, show the documentation of current project
+ * @param startup   If true, no setModified(true) calls will be done and nothing is pushed to the undo stack
+ */
+void DocWindow::updateDocumentation( bool clear, bool startup )
+{
+    // the file is marked modified, if the documentation differs
+    // we don't do this on startup/load of a xmi file, because every time
+    // modified is set, we get another undo/redo backup point
+    if (isModified()) {
+        if( m_pUMLObject ) {
+            m_pUMLObject->setDoc( m_pDocTE->toPlainText() );
+        } else if( m_pUMLView ) {
+            m_pUMLView->umlScene()->setDocumentation( m_pDocTE->toPlainText() );
+        } else if ( m_pUMLWidget ) {
+            m_pUMLWidget->setDocumentation( m_pDocTE->toPlainText() );
+        } else if ( m_pAssocWidget ) {
+            m_pAssocWidget->setDocumentation( m_pDocTE->toPlainText() );
+        } else {
+            m_pUMLDoc->setDocumentation( m_pDocTE->toPlainText() );
+        }
+
+        // now do the setModified call
+        if (startup == false) {
+            m_pUMLDoc->setModified( true );
+        }
+    }
+
+    // we should show the documentation of the whole project
+    // FIXME: this is exactly what newDocumentation() does
+    if( clear ) {
+        m_pDocTE->setText( m_pUMLDoc->documentation() );
+        m_modified = false;
+        m_pUMLObject = 0;
+        m_pUMLView = 0;
+        m_pUMLWidget = 0;
+        m_pAssocWidget = 0;
+        m_Showing = st_Project;
+    }
 }
 
 /**
@@ -240,6 +220,7 @@ void DocWindow::newDocumentation( )
     m_pAssocWidget = 0;
     m_Showing = st_Project;
     m_pDocTE->setText( m_pUMLDoc->documentation() );
+    m_modified = false;
 }
 
 /**
@@ -251,6 +232,15 @@ bool DocWindow::isTyping()
         return true;
     else
         return false;
+}
+
+/**
+ * check if the content in the documentation window has been changed
+ * @return true when content has been changed
+ */
+bool DocWindow::isModified()
+{
+   return m_modified;
 }
 
 /**
@@ -279,6 +269,14 @@ void DocWindow::slotWidgetRemoved(UMLWidget* widget)
     if (widget == m_pUMLWidget || widget->umlObject() == m_pUMLObject) {
         updateDocumentation(true);
     }
+}
+
+/**
+ * text from the edit field has been changed
+ */
+void DocWindow::slotTextChanged()
+{
+    m_modified = true;
 }
 
 #include "docwindow.moc"

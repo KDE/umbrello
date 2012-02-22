@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -45,68 +45,45 @@ class MessageWidget : public UMLWidget, public LinkWidget
 public:
     friend class MessageWidgetController;
 
-    /**
-     * Constructs a MessageWidget.
-     *
-     * @param scene      The parent to this class.
-     * @param a The role A widget for this message.
-     * @param b The role B widget for this message.
-     * @param y The vertical position to display this message.
-     * @param sequenceMessageType Whether synchronous or asynchronous
-     * @param id        A unique id used for deleting this object cleanly.
-     *              The default (-1) will prompt generation of a new ID.
-     */
     MessageWidget(UMLScene * scene, ObjectWidget* a, ObjectWidget* b,
                   int y, Uml::Sequence_Message_Type sequenceMessageType,
                   Uml::IDType id = Uml::id_None);
-
-     /**
-     * Constructs a MessageWidget.
-     *
-     * @param scene              The parent to this class.
-     * @param sequenceMessageType The Uml::Sequence_Message_Type of this message widget
-     * @param id                The ID to assign (-1 will prompt a new ID.)
-     */
-    MessageWidget(UMLScene * scene, Uml::Sequence_Message_Type sequenceMessageType, Uml::IDType id = Uml::id_None);
-
-    /**
-     * Constructs a Lost or Found MessageWidget.
-     *
-     * @param scene              The parent to this class.
-     * @param a The role A widget for this message.
-     * @param xclick The horizontal position clicked by the user
-     * @param yclick The vertical position clicked by the user
-     * @param sequenceMessageType Whether lost or found
-     * @param id                The ID to assign (-1 will prompt a new ID.)
-     */
-    MessageWidget(UMLScene * scene, ObjectWidget* a, int xclick, int yclick, Uml::Sequence_Message_Type sequenceMessageType,
+    MessageWidget(UMLScene * scene, Uml::Sequence_Message_Type sequenceMessageType,
                   Uml::IDType id = Uml::id_None);
-
-
-    /**
-     * Initializes key variables of the class.
-     */
-    void init();
-
-    /**
-     * Standard deconstructor.
-     */
+    MessageWidget(UMLScene * scene, ObjectWidget* a, int xclick, int yclick,
+                  Uml::Sequence_Message_Type sequenceMessageType,
+                  Uml::IDType id = Uml::id_None);
     virtual ~MessageWidget();
 
-    /**
-     * Write property of QString m_SequenceNumber.
-     */
-    void setSequenceNumber( const QString &sequenceNumber );
+    //---------- LinkWidget Interface methods implemementation from now on.
 
-    /**
-     * Read property of QString m_SequenceNumber.
-     */
-    QString getSequenceNumber() const;
+    virtual void lwSetFont (QFont font);
+    virtual UMLClassifier *operationOwner();
+
+    virtual UMLOperation *operation();
+    virtual void setOperation(UMLOperation *op);
+
+    virtual QString customOpText();
+    virtual void setCustomOpText(const QString &opText);
+
+    virtual void setMessageText(FloatingTextWidget *ft);
+    virtual void setText(FloatingTextWidget *ft, const QString &newText);
+
+    virtual UMLClassifier* seqNumAndOp(QString& seqNum, QString& op);
+    virtual void setSeqNumAndOp(const QString &seqNum, const QString &op);
+
+    virtual void constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
+                          Uml::TextRole tr);
+
+    //---------- End LinkWidget Interface methods implemementation.
+
+    QString sequenceNumber() const;
+    void setSequenceNumber(const QString &sequenceNumber);
 
     /**
      * Returns whether the message is synchronous or asynchronous
      */
-    Uml::Sequence_Message_Type getSequenceMessageType() const {
+    Uml::Sequence_Message_Type sequenceMessageType() const {
         return m_sequenceMessageType;
     }
 
@@ -118,20 +95,8 @@ public:
      */
     bool contains(ObjectWidget * w);
 
-    /**
-     * Returns the related widget on the given side.
-     *
-     * @return  The ObjectWidget we are related to.
-     */
-    ObjectWidget* getWidget(Uml::Role_Type role);
-
-    /**
-     * Sets the related widget on the given side.
-     *
-     * @param ow        The ObjectWidget we are related to.
-     * @param role      The Uml::Role_Type to be set for the ObjectWidget
-     */
-    void setWidget(ObjectWidget * ow, Uml::Role_Type role) ;
+    ObjectWidget* objectWidget(Uml::Role_Type role);
+    void setObjectWidget(ObjectWidget * ow, Uml::Role_Type role) ;
 
     /**
      * Returns the text widget it is related to.
@@ -152,78 +117,6 @@ public:
     }
 
     /**
-     * Implements operation from LinkWidget.
-     * Required by FloatingTextWidget.
-     */
-    void lwSetFont (QFont font);
-
-    /**
-     * Overrides operation from LinkWidget.
-     * Required by FloatingTextWidget.
-     * @todo Move to LinkWidget.
-     */
-    UMLClassifier *getOperationOwner();
-
-    /**
-     * Implements operation from LinkWidget.
-     * Motivated by FloatingTextWidget.
-     */
-    UMLOperation *operation();
-
-    /**
-     * Implements operation from LinkWidget.
-     * Motivated by FloatingTextWidget.
-     */
-    void setOperation(UMLOperation *op);
-
-    /**
-     * Overrides operation from LinkWidget.
-     * Required by FloatingTextWidget.
-     */
-    QString customOpText();
-
-    /**
-     * Overrides operation from LinkWidget.
-     * Required by FloatingTextWidget.
-     */
-    void setCustomOpText(const QString &opText);
-
-    /**
-     * Overrides operation from LinkWidget.
-     * Required by FloatingTextWidget.
-     *
-     * @param ft        The text widget which to update.
-     */
-    void setMessageText(FloatingTextWidget *ft);
-
-    /**
-     * Overrides operation from LinkWidget.
-     * Required by FloatingTextWidget.
-     *
-     * @param ft        The text widget which to update.
-     * @param newText   The new text to set.
-     */
-    void setText(FloatingTextWidget *ft, const QString &newText);
-
-    /**
-     * Overrides operation from LinkWidget.
-     * Required by FloatingTextWidget.
-     *
-     * @param seqNum    The new sequence number string to set.
-     * @param op                The new operation string to set.
-     */
-    void setSeqNumAndOp(const QString &seqNum, const QString &op);
-
-    /**
-     * Overrides operation from LinkWidget.
-     * Required by FloatingTextWidget.
-     *
-     * @param seqNum   Return this MessageWidget's sequence number string.
-     * @param op       Return this MessageWidget's operation string.
-     */
-    UMLClassifier * seqNumAndOp(QString& seqNum, QString& op);
-
-    /**
      * Calculate the geometry of the widget.
      */
     void calculateWidget();
@@ -232,7 +125,7 @@ public:
      * Activates a MessageWidget.  Connects its m_pOw[] pointers
      * to UMLObjects and also send signals about its FloatingTextWidget.
      */
-    bool activate(IDChangeLog * Log = 0);
+    virtual bool activate(IDChangeLog * Log = 0);
 
     /**
      * Calculates the size of the widget by calling
@@ -302,23 +195,7 @@ public:
      */
     void drawFound(QPainter& p, int offsetX, int offsetY);
 
-    /**
-     * Sets the text position relative to the sequence message.
-     */
     void setTextPosition();
-
-    /**
-     * Constrains the FloatingTextWidget X and Y values supplied.
-     * Overrides operation from LinkWidget.
-     *
-     * @param textX             Candidate X value (may be modified by the constraint.)
-     * @param textY             Candidate Y value (may be modified by the constraint.)
-     * @param textWidth Width of the text.
-     * @param textHeight        Height of the text.
-     * @param tr                Uml::Text_Role of the text.
-     */
-    void constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
-                          Uml::TextRole tr);
 
     /**
      * Used to cleanup any other widget it may need to delete.
@@ -358,15 +235,8 @@ public:
      */
     int onWidget(const QPoint & p);
 
-    /**
-     * Saves to the "messagewidget" XMI element.
-     */
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-
-    /**
-     * Loads from the "messagewidget" XMI element.
-     */
-    bool loadFromXMI( QDomElement & qElement );
+    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
+    virtual bool loadFromXMI(QDomElement & qElement);
 
     /**
     * Set the xclicked
@@ -440,6 +310,8 @@ private:
     void moveEvent(QMoveEvent *m);
     void resizeEvent(QResizeEvent *re);
 
+    void init();
+
     ObjectWidget * m_pOw[2];
     FloatingTextWidget * m_pFText;
     int m_nY;
@@ -457,6 +329,7 @@ private:
 public slots:
     void slotWidgetMoved(Uml::IDType id);
     void slotMenuSelection(QAction* action);
+
 signals:
     /**
      * emitted when the message widget is moved up or down

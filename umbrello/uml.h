@@ -128,7 +128,7 @@ public:
     void setCurrentView(UMLView* view);
     UMLView* currentView() const;
 
-    void setImageMimeType(QString const & mimeType);
+    void setImageMimeType(const QString& mimeType);
     QString imageMimeType() const;
 
     bool editCutCopy(bool bFromView);
@@ -182,8 +182,6 @@ protected:
 
     virtual void saveProperties(KConfigGroup & cfg);
     virtual void readProperties(const KConfigGroup & cfg);
-
-    CodeGenerationPolicy * m_commoncodegenpolicy;
 
     void updateLangSelectMenu(Uml::ProgrammingLanguage activeLanguage);
 
@@ -315,6 +313,7 @@ private:
 
     Uml::ProgrammingLanguage  m_activeLanguage;  ///< Active language.
     CodeGenerator*            m_codegen;         ///< Active code generator.
+    CodeGenerationPolicy*     m_commoncodegenpolicy;
     CodeGenPolicyExt*         m_policyext;       ///< Active policy extension.
     // Only used for new code generators ({Cpp,Java,Ruby,D}CodeGenerator).
 
@@ -400,7 +399,7 @@ private:
 
     QString m_imageMimeType;  ///< Default mime type to use for image export.
 
-    SettingsDlg* m_dlg;  ///< The global UML settings dialog.
+    SettingsDlg* m_settingsDlg;  ///< The global UML settings dialog.
 
     UMLViewImageExporterAll* m_imageExporterAll;  ///< Used to export all the views.
 

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -295,6 +295,17 @@ WidgetBase& WidgetBase::operator=(const WidgetBase& other)
     m_usesDiagramLineWidth  = other.m_usesDiagramLineWidth;
 
     return *this;
+}
+
+/**
+ * Helper function for debug output.
+ * Returns the given enum value as string.
+ * @param wt   WidgetType of which a string representation is wanted
+ * @return   the WidgetType as string
+ */
+QString WidgetBase::toString(WidgetType wt)
+{
+    return QLatin1String(ENUM_NAME(WidgetBase, WidgetType, wt));
 }
 
 #include "widgetbase.moc"

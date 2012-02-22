@@ -116,8 +116,10 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
         updateObject();
         m_id = o->id();
     }
-//    setRenameEnabled(0, !Model_Utils::typeIsRootView(t));
     setText(name);
+    if (!Model_Utils::typeIsRootView(t)) {
+        setFlags(flags() | Qt::ItemIsEditable);
+    }
 }
 
 /**
@@ -166,7 +168,7 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
     //  to set pixmap to folder.  doesn't hurt diagrams.
     updateFolder();
     setText(name);
-    //setRenameEnabled(0, true);
+    setFlags(flags() | Qt::ItemIsEditable);
 }
 
 /**

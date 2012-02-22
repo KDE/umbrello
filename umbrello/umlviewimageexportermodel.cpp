@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2011                                               *
+ *   copyright (C) 2006-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -183,7 +183,7 @@ QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, 
     QStringList errors;
 
     UMLViewList views = app->document()->viewIterator();
-    foreach (UMLView *view , views ) {
+    foreach (UMLView *view , views) {
         KUrl url = directory;
         url.addPath(getDiagramFileName(view->umlScene(), imageType, useFolders));
 
@@ -235,7 +235,7 @@ QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &im
         fileName = tmpFile.fileName();
     }
 
-    QRectF rect = scene->getDiagramRect();
+    QRectF rect = scene->diagramRect();
     if (rect.isEmpty()) {
         return i18n("Can not save an empty diagram");
     }
@@ -250,7 +250,7 @@ QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &im
         if (!KIO::NetAccess::upload(tmpFile.fileName(), url, UMLApp::app())) {
             return i18n("There was a problem saving file: %1", url.path());
         }
-    } //!isLocalFile
+    }
 
     return QString();
 }
@@ -265,11 +265,11 @@ QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &im
 QString UMLViewImageExporterModel::getDiagramFileName(UMLScene* scene, const QString &imageType, bool useFolders /* = false */) const
 {
     if (scene) {
-    if (useFolders) {
-        qApp->processEvents();  //:TODO: still needed ???
+        if (useFolders) {
+            qApp->processEvents();  //:TODO: still needed ???
             return Model_Utils::treeViewBuildDiagramName(scene->getID());
-    }
-    else {
+        }
+        else {
             return scene->name() + '.' + imageType.toLower();;
         }
     }
@@ -314,7 +314,7 @@ bool UMLViewImageExporterModel::prepareDirectory(const KUrl &url) const
  *
  * @param scene     The scene to export.
  * @param imageType The type of the image the scene will be exported to.
- * @param fileName The name of the file where the image will be saved.
+ * @param fileName  The name of the file where the image will be saved.
  * @return True if the operation was successful,
  *         false if a problem occurred while exporting.
  */
@@ -388,11 +388,11 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLScene* scene, const QString &
     QPainter *painter = new QPainter(printer);
 
     // make sure the widget sizes will be according to the
-    // actually used printer font, important for getDiagramRect()
+    // actually used printer font, important for diagramRect()
     // and the actual painting
     scene->forceUpdateWidgetFontMetrics(painter);
 
-    QRect rect = scene->getDiagramRect();
+    QRect rect = scene->diagramRect();
     painter->translate(-rect.x(), -rect.y());
     scene->getDiagram(rect, *painter);
 
@@ -482,7 +482,7 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLScene* scene, const QString &
     }
 
     bool exportSuccessful;
-    QRect rect = scene->getDiagramRect();
+    QRect rect = scene->diagramRect();
 
     QSvgGenerator generator;
     generator.setFileName(fileName);
@@ -491,9 +491,12 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLScene* scene, const QString &
     QPainter painter(&generator);
 
     // make sure the widget sizes will be according to the
-    // actually used printer font, important for getDiagramRect()
+    // actually used printer font, important for diagramRect()
     // and the actual painting
-    scene->forceUpdateWidgetFontMetrics(&painter);
+//    scene->forceUpdateWidgetFontMetrics(&painter);
+    //Note: The above was commented out because other exportViewTo...
+    //      do not have it and it forces a resize of the widgets,
+    //      which is not correctly implemented for now.
 
     painter.translate(-rect.x(),-rect.y());
     scene->getDiagram(rect, painter);
@@ -503,7 +506,8 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLScene* scene, const QString &
     exportSuccessful = true;
 
     // next painting will most probably be to a different device (i.e. the screen)
-    scene->forceUpdateWidgetFontMetrics(0);
+//    scene->forceUpdateWidgetFontMetrics(0);
+    //Note: See comment above.
 
     DEBUG(DBG_IEM) << "saving to file " << fileName << " successful=" << exportSuccessful;
     return exportSuccessful;
@@ -527,7 +531,7 @@ bool UMLViewImageExporterModel::exportViewToPixmap(UMLScene* scene, const QStrin
     }
 
     bool exportSuccessful;
-    QRect rect = scene->getDiagramRect();
+    QRect rect = scene->diagramRect();
     QPixmap diagram(rect.width(), rect.height());
     scene->getDiagram(rect, diagram);
     exportSuccessful = diagram.save(fileName, qPrintable(imageType.toUpper()));

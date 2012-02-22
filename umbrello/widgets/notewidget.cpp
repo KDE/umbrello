@@ -4,19 +4,21 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "notewidget.h"
+
 //qt includes
 #include <QtGui/QPainter>
-#include <QtGui/QFrame>
+
 // kde includes
 #include <klocale.h>
 #include <kcolordialog.h>
 #include <kinputdialog.h>
+
 // app includes
 #include "debug_utils.h"
 #include "dialog_utils.h"
@@ -30,22 +32,22 @@
 /**
  * Constructs a NoteWidget.
  *
- * @param scene              The parent to this widget.
- * @param noteType          The NoteWidget::NoteType of this NoteWidget
- * @param id                The unique id of the widget.
- *                  The default (-1) will prompt a new ID.
+ * @param scene      The parent to this widget.
+ * @param noteType   The NoteWidget::NoteType of this NoteWidget
+ * @param id         The unique id of the widget.
+ *                   The default (-1) will prompt a new ID.
  */
 NoteWidget::NoteWidget(UMLScene * scene, NoteType noteType , Uml::IDType id)
-  : UMLWidget(scene, id, new NoteWidgetController(this))
+  : UMLWidget(scene, id, new NoteWidgetController(this)),
+    m_diagramLink(Uml::id_None),
+    m_noteType(noteType)
 {
     UMLWidget::setBaseType(WidgetBase::wt_Note);
-    m_diagramLink = Uml::id_None;
-    m_noteType = noteType;
     setZ(20); //make sure always on top.
 }
 
 /**
- * destructor
+ * Destructor.
  */
 NoteWidget::~NoteWidget()
 {
@@ -105,15 +107,15 @@ void NoteWidget::paint(QPainter & p, int offsetX, int offsetY)
 /**
  * Returns the type of note.
  */
-NoteWidget::NoteType NoteWidget::getNoteType() const
+NoteWidget::NoteType NoteWidget::noteType() const
 {
     return m_noteType;
 }
 
 /**
- * Returns the type of note.
+ * Converts a string to NoteWidget::NoteType.
  */
-NoteWidget::NoteType NoteWidget::getNoteType(const QString& noteType) const
+NoteWidget::NoteType NoteWidget::stringToNoteType(const QString& noteType)
 {
     if (noteType == "Precondition")
         return NoteWidget::PreCondition;
@@ -128,7 +130,7 @@ NoteWidget::NoteType NoteWidget::getNoteType(const QString& noteType) const
 /**
  * Sets the type of note.
  */
-void NoteWidget::setNoteType( NoteType noteType )
+void NoteWidget::setNoteType(NoteType noteType)
 {
     m_noteType = noteType;
 }
@@ -136,33 +138,9 @@ void NoteWidget::setNoteType( NoteType noteType )
 /**
  * Sets the type of note.
  */
-void NoteWidget::setNoteType( const QString& noteType )
+void NoteWidget::setNoteType(const QString& noteType)
 {
-    setNoteType(getNoteType(noteType));
-}
-
-/**
- * Override method from UMLWidget.
- */
-void NoteWidget::setFont(QFont font)
-{
-    UMLWidget::setFont(font);
-}
-
-/**
- * Override method from UMLWidget.
- */
-void NoteWidget::setX( int x )
-{
-    UMLWidget::setX(x);
-}
-
-/**
- * Override method from UMLWidget.
- */
-void NoteWidget::setY( int y )
-{
-    UMLWidget::setY(y);
+    setNoteType(stringToNoteType(noteType));
 }
 
 /**
@@ -192,7 +170,7 @@ void NoteWidget::setDocumentation(const QString &newText)
  * @return  ID of an UMLView, or Uml::id_None if no
  *          hyperlink is set.
  */
-Uml::IDType NoteWidget::getDiagramLink() const
+Uml::IDType NoteWidget::diagramLink() const
 {
     return m_diagramLink;
 }
@@ -217,29 +195,36 @@ void NoteWidget::setDiagramLink(Uml::IDType viewID)
 }
 
 /**
-* Display a dialogBox to allow the user to choose the note's type
-*/
+ * Display a dialog box to allow the user to choose the note's type.
+ */
 void NoteWidget::askForNoteType(UMLWidget* &targetWidget)
 {
-    bool pressedOK = false;
+    /* Deactivated in branches/KDE/4.8 due to message freeze
+    static const QStringList list = QStringList() << i18n("Precondition")
+                                                  << i18n("Postcondition")
+                                                  << i18n("Transformation");
+     *** instead: ***/
     const QStringList list = QStringList() << "Precondition" << "Postcondition" << "Transformation";
-    QString type = KInputDialog::getItem (i18n("Note Type"), i18n("Select the Note Type"), list, 0, false, &pressedOK, UMLApp::app());
+
+    bool pressedOK = false;
+    QString type = KInputDialog::getItem (i18n("Note Type"), i18n("Select the Note Type"), list,
+                                          0, false, &pressedOK, UMLApp::app());
 
     if (pressedOK) {
         dynamic_cast<NoteWidget*>(targetWidget)->setNoteType(type);
     } else {
         targetWidget->cleanup();
         delete targetWidget;
-        targetWidget = NULL;
+        targetWidget = 0;
     }
 }
 
 /**
  * Loads a "notewidget" XMI element.
  */
-bool NoteWidget::loadFromXMI( QDomElement & qElement )
+bool NoteWidget::loadFromXMI(QDomElement & qElement)
 {
-    if( !UMLWidget::loadFromXMI( qElement ) )
+    if (!UMLWidget::loadFromXMI(qElement))
         return false;
     setZ( 20 ); //make sure always on top.
     setDocumentation( qElement.attribute("text", "") );
@@ -254,7 +239,7 @@ bool NoteWidget::loadFromXMI( QDomElement & qElement )
 /**
  * Saves to the "notewidget" XMI element.
  */
-void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+void NoteWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement noteElement = qDoc.createElement( "notewidget" );
     UMLWidget::saveToXMI( qDoc, noteElement );
@@ -269,7 +254,7 @@ void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
  * Will be called when a menu selection has been made from the popup
  * menu.
  *
- * @param action       The action that has been selected.
+ * @param action   The action that has been selected.
  */
 void NoteWidget::slotMenuSelection(QAction* action)
 {
@@ -487,4 +472,3 @@ void NoteWidget::drawTextWordWrap(QPainter * p, int offsetX, int offsetY)
 }
 
 #include "notewidget.moc"
-

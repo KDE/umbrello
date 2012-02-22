@@ -24,7 +24,6 @@
 #include <QtCore/QMutex>
 #include <QtCore/QThread>
 #include <QtCore/QWaitCondition>
-#include <QtGui/QMessageBox>
 
 class ClassImport;
 
@@ -33,26 +32,29 @@ class ClassImport;
  * TODO: For a start it is only a QObject and is used to signals messages.
  * @author Andi Fischer
  */
-class CodeImpThread : public QObject //QThread
+class CodeImpThread : public QObject
 {
     Q_OBJECT
 public:
     explicit CodeImpThread(QFileInfo file, QObject* parent = 0);
     virtual ~CodeImpThread();
 
+public slots:
     virtual void run();
 
     int emitAskQuestion(const QString& question);
     void emitMessageToLog(const QString& file, const QString& text);
 
 signals:
-    void askQuestion(const QString& question, QMessageBox::StandardButton* answer);
+    void askQuestion(const QString& question, int& answer);
     void messageToWiz(const QString& file, const QString& text);
     void messageToLog(const QString& file, const QString& text);
     void messageToApp(const QString& text);
+    void finished();
+    void aborted();
 
 private slots:
-    void questionAsked(const QString& question, QMessageBox::StandardButton* answer);
+    void questionAsked(const QString& question, int& answer);
 
 private:
     QFileInfo         m_file;

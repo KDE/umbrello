@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -25,7 +25,6 @@
 #include <QtGui/QPrinter>
 #include <QtGui/QColor>
 #include <QtGui/QMatrix>
-#include <q3paintdevicemetrics.h>
 #include <QtGui/QHideEvent>
 #include <QtGui/QCloseEvent>
 #include <QtGui/QDropEvent>
@@ -216,11 +215,17 @@ UMLView::~UMLView()
     delete canvas();
 }
 
+/**
+ * Return the name of the diagram.
+ */
 QString UMLView::name() const
 {
     return m_Name;
 }
 
+/**
+ * Set the name of the diagram.
+ */
 void UMLView::setName(const QString &name)
 {
     m_Name = name;
@@ -236,7 +241,6 @@ void UMLView::print(QPrinter *pPrinter, QPainter & pPainter)
     int height, width;
     //get the size of the page
     pPrinter->setFullPage(true);
-    Q3PaintDeviceMetrics metrics(pPrinter);
     QFontMetrics fm = pPainter.fontMetrics(); // use the painter font metrics, not the screen fm!
     int fontHeight  = fm.lineSpacing();
     // fetch printer margins individual for all four page sides, as at least top and bottom are not the same
@@ -272,11 +276,11 @@ void UMLView::print(QPrinter *pPrinter, QPainter & pPainter)
     // force the widgets to update accordingly on paint
     forceUpdateWidgetFontMetrics(&pPainter);
 
-    width = metrics.width() - left - right;
-    height = metrics.height() - top - bottom;
+    width = pPrinter->width() - left - right;
+    height = pPrinter->height() - top - bottom;
 
     //get the smallest rect holding the diagram
-    QRect rect = getDiagramRect();
+    QRect rect = diagramRect();
     //now draw to printer
 
 #if 0
@@ -557,6 +561,9 @@ void UMLView::slotObjectRemoved(UMLObject * o)
     }
 }
 
+/**
+ * Override standard method.
+ */
 void UMLView::dragEnterEvent(QDragEnterEvent *e)
 {
     UMLDragData::LvTypeAndID_List tidList;
@@ -658,12 +665,17 @@ void UMLView::dragEnterEvent(QDragEnterEvent *e)
     }
 }
 
+/**
+ * Override standard method.
+ */
 void UMLView::dragMoveEvent(QDragMoveEvent* e)
 {
     e->accept();
 }
 
-
+/**
+ * Override standard method.
+ */
 void UMLView::dropEvent(QDropEvent *e)
 {
     UMLDragData::LvTypeAndID_List tidList;
@@ -943,7 +955,12 @@ void UMLView::contentsMouseDoubleClickEvent(QMouseEvent* ome)
     m_pToolBarState->mouseDoubleClick(static_cast<UMLSceneMouseEvent*>(ome));
 }
 
-QRect UMLView::getDiagramRect()
+/**
+ * Gets the smallest area to print.
+ *
+ * @return Returns the smallest area to print.
+ */
+QRect UMLView::diagramRect()
 {
     int startx, starty, endx, endy;
     startx = starty = INT_MAX;
@@ -1317,8 +1334,8 @@ void UMLView::selectWidgets(int px, int py, int qx, int qy)
             MessageWidget * mw = dynamic_cast<MessageWidget*>(lw);
             if (mw) {
                 makeSelected(mw);
-                makeSelected(mw->getWidget(A));
-                makeSelected(mw->getWidget(B));
+                makeSelected(mw->objectWidget(A));
+                makeSelected(mw->objectWidget(B));
             } else if (t != Uml::TextRole::Floating) {
                 AssociationWidget * a = dynamic_cast<AssociationWidget*>(lw);
                 if (a)
@@ -1326,8 +1343,8 @@ void UMLView::selectWidgets(int px, int py, int qx, int qy)
             }
         } else if (temp->baseType() == WidgetBase::wt_Message) {
             MessageWidget *mw = static_cast<MessageWidget*>(temp);
-            makeSelected(mw->getWidget(A));
-            makeSelected(mw->getWidget(B));
+            makeSelected(mw->objectWidget(A));
+            makeSelected(mw->objectWidget(B));
         }
         if (temp->isVisible()) {
             makeSelected(temp);
@@ -1338,8 +1355,8 @@ void UMLView::selectWidgets(int px, int py, int qx, int qy)
     //now do the same for the messagewidgets
 
     foreach(MessageWidget *w, m_MessageList) {
-        if (w->getWidget(A)->getSelected() &&
-                w->getWidget(B)->getSelected()) {
+        if (w->objectWidget(A)->getSelected() &&
+                w->objectWidget(B)->getSelected()) {
             makeSelected(w);
         }//end if
     }//end foreach
@@ -1627,8 +1644,8 @@ bool UMLView::addWidget(UMLWidget * pWidget, bool isPasteOperation)
             DEBUG(DBG_SRC) << "pMessage is NULL";
             return false;
         }
-        ObjectWidget *objWidgetA = pMessage->getWidget(A);
-        ObjectWidget *objWidgetB = pMessage->getWidget(B);
+        ObjectWidget *objWidgetA = pMessage->objectWidget(A);
+        ObjectWidget *objWidgetB = pMessage->objectWidget(B);
         Uml::IDType waID = objWidgetA->localID();
         Uml::IDType wbID = objWidgetB->localID();
         Uml::IDType newWAID = m_pIDChangesLog->findNewID(waID);
@@ -1947,6 +1964,9 @@ void UMLView::getWidgetAssocs(UMLObject* Obj, AssociationWidgetList & Associatio
 
 }
 
+/**
+ * Override standard method.
+ */
 void UMLView::closeEvent(QCloseEvent * e)
 {
     QWidget::closeEvent(e);
@@ -2467,7 +2487,7 @@ void UMLView::findMaxBoundingRectangle(const FloatingTextWidget* ft, int& px, in
 void UMLView::copyAsImage(QPixmap*& pix)
 {
     //get the smallest rect holding the diagram
-    QRect rect = getDiagramRect();
+    QRect rect = diagramRect();
     QPixmap diagram(rect.width(), rect.height());
 
     //only draw what is selected
@@ -2520,7 +2540,7 @@ void UMLView::copyAsImage(QPixmap*& pix)
         findMaxBoundingRectangle(changeB, px, py, qx, qy);
     }//end foreach
 
-    QRect imageRect;  //area with respect to getDiagramRect()
+    QRect imageRect;  //area with respect to diagramRect()
     //i.e. all widgets on the canvas.  Was previously with
     //respect to whole canvas
 
@@ -2909,8 +2929,8 @@ void UMLView::checkSelections()
     foreach(UMLWidget *pTemp , m_SelectedList) {
         if (pTemp->baseType() == WidgetBase::wt_Message && pTemp->getSelected()) {
             MessageWidget * pMessage = static_cast<MessageWidget *>(pTemp);
-            pWA = pMessage->getWidget(A);
-            pWB = pMessage->getWidget(B);
+            pWA = pMessage->objectWidget(A);
+            pWB = pMessage->objectWidget(B);
             if (!pWA->getSelected()) {
                 pWA->setSelectedFlag(true);
                 m_SelectedList.append(pWA);
@@ -3084,7 +3104,7 @@ void UMLView::setCanvasSize(int width, int height)
 
 void UMLView::resizeCanvasToItems()
 {
-    QRect canvasSize = getDiagramRect();
+    QRect canvasSize = diagramRect();
     int canvasWidth = canvasSize.right() + 5;
     int canvasHeight = canvasSize.bottom() + 5;
 
@@ -3105,6 +3125,10 @@ void UMLView::resizeCanvasToItems()
     setCanvasSize(canvasWidth, canvasHeight);
 }
 
+/**
+ * Overrides standard method from QWidget to resize canvas when
+ * it's shown.
+ */
 void UMLView::show()
 {
     QWidget::show();
@@ -3443,7 +3467,7 @@ bool UMLView::loadMessagesFromXMI(QDomElement & qElement)
             FloatingTextWidget *ft = message->floatingTextWidget();
             if (ft)
                 m_WidgetList.append(ft);
-            else if (message->getSequenceMessageType() != sequence_message_creation)
+            else if (message->sequenceMessageType() != sequence_message_creation)
                 DEBUG(DBG_SRC) << "ft is NULL for message " << ID2STR(message->id());
         }
         node = messageElement.nextSibling();

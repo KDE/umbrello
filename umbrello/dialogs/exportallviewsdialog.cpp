@@ -4,16 +4,12 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2009                                               *
+ *   copyright (C) 2006-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "exportallviewsdialog.h"
-
-// qt include files
-#include <QtGui/QLayout>
-#include <QtGui/QLabel>
 
 // kde include files
 #include <kfilefiltercombo.h>
@@ -65,7 +61,7 @@ ExportAllViewsDialog::ExportAllViewsDialog(
 
     // reload the strings so the m_imageType tooltip is added
     languageChange();
-    
+
     m_kURL->setMode(KFile::Directory | KFile::ExistingOnly);
 }
 
@@ -86,6 +82,4 @@ void ExportAllViewsDialog::languageChange()
     m_imageType->setToolTip(i18n("The format that the images will be exported to"));
 }
 
-
 #include "exportallviewsdialog.moc"
-

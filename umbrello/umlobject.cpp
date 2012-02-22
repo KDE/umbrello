@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -17,7 +17,6 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umllistview.h"
-#include "umllistviewitem.h"
 #include "package.h"
 #include "folder.h"
 #include "stereotype.h"
@@ -376,6 +375,14 @@ void UMLObject::setDoc(const QString &d)
 UMLObject::ObjectType UMLObject::baseType() const
 {
     return m_BaseType;
+}
+
+/**
+ * @return The type used for rtti as string.
+ */
+QLatin1String UMLObject::baseTypeStr() const
+{
+    return QLatin1String(ENUM_NAME(UMLObject, ObjectType, m_BaseType));
 }
 
 /**
