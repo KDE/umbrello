@@ -87,11 +87,13 @@ public:
 protected:
     QSize calculateSize();
 
-    StateType   m_StateType;   ///< Type of state.
-    QStringList m_Activities;  ///< List of activities for the state.
-
 public slots:
     virtual void slotMenuSelection(QAction* action);
+
+private:
+    StateType   m_stateType;   ///< Type of state.
+    QStringList m_Activities;  ///< List of activities for the state.
+
 };
 
 #endif

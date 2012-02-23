@@ -17,7 +17,6 @@
 #include <QtCore/QObject>
 #include <QtCore/QPoint>
 
-
 class AssociationWidget;
 class MessageWidget;
 class FloatingDashLineWidget;

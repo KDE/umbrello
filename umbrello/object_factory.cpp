@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2006-2011                                                *
+ *  copyright (C) 2006-2012                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -132,7 +132,7 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
             o = new UMLCategory(name, g_predefinedId);
             break;
         default:
-            uWarning() << "error unknown type: " << type;
+            uWarning() << "error unknown type: " << UMLObject::toString(type);
             return NULL;
     }
     o->setUMLPackage(parentPkg);
@@ -170,7 +170,7 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
         } else {
             Uml::ModelType mt = Model_Utils::convert_OT_MT(type);
             uDebug() << "Object_Factory::createUMLObject(" << n << "): "
-                << "parentPkg is not set, assuming Model_Type " << mt;
+                << "parentPkg is not set, assuming Model_Type " << mt.toString();
             parentPkg = doc->rootFolder(mt);
         }
     }
@@ -296,7 +296,7 @@ UMLClassifierListItem* createChildObject(UMLClassifier* parent, UMLObject::Objec
             break;
         }
     default:
-        uDebug() << "ERROR UMLDoc::createChildObject type:" << type;
+        uDebug() << "ERROR UMLDoc::createChildObject type:" << UMLObject::toString(type);
     }
     return static_cast<UMLClassifierListItem*>(returnObject);
 }
@@ -368,4 +368,3 @@ UMLObject* makeObjectFromXMI(const QString& xmiTag,
 }
 
 }  // end namespace Object_Factory
-

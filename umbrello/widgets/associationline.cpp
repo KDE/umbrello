@@ -99,9 +99,15 @@ void AssociationLine::setAssociation(AssociationWidget * association)
     createSubsetSymbol();
     if( getAssocType() == Uml::AssociationType::Coll_Message )
         setupParallelLine();
-    UMLView * view =  (UMLView *)m_pAssociation -> parent();
-    connect(view, SIGNAL(sigColorChanged(Uml::IDType)), this, SLOT(slotLineColorChanged(Uml::IDType)));
-    connect(view, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
+    UMLView * view =  (UMLView *)m_pAssociation->parent();
+    if (view) {
+        connect(view, SIGNAL(sigColorChanged(Uml::IDType)), this, SLOT(slotLineColorChanged(Uml::IDType)));
+        connect(view, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
+    }
+    else {
+        uWarning() << "Parent is null. Can not connect SIGNAL/SLOT.";
+    }
+
 }
 
 /**
@@ -1042,13 +1048,13 @@ void AssociationLine::cleanup()
     m_pClearPoly = 0;
     m_pSubsetSymbol = 0;
     m_bHeadCreated = m_bParallelLineCreated = m_bSubsetSymbolCreated = false;
-    if( m_pAssociation ) {
-        UMLView * view =  (UMLView *)m_pAssociation -> parent();
-        if(view) {
+    if (m_pAssociation) {
+        UMLView * view =  (UMLView *)m_pAssociation->parent();
+        if (view) {
             disconnect(view, SIGNAL(sigColorChanged(Uml::IDType)), this, SLOT(slotLineColorChanged(Uml::IDType)));
             disconnect(view, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
         }
-        m_pAssociation = NULL;
+        m_pAssociation = 0;
     }
 }
 

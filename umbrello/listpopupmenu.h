@@ -224,6 +224,8 @@ public:
     static UMLObject::ObjectType convert_MT_OT(MenuType mt);
     static Uml::DiagramType convert_MT_DT(MenuType mt);
 
+    static ListPopupMenu* menuFromAction(QAction *action);
+
 //    KAction* getAction(MenuType idx);
     QAction* getAction(MenuType idx);
 

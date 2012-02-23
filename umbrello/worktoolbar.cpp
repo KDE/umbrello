@@ -337,7 +337,7 @@ void WorkToolBar::loadPixmaps()
         { tbb_Entity,                   i18n("Entity"),                  Icon_Utils::it_Entity,                  SLOT(slotEntity()) },
         { tbb_DeepHistory,              i18n("Deep History"),            Icon_Utils::it_History_Deep,            SLOT(slotDeepHistory()) },     //NotYetImplemented
         { tbb_ShallowHistory,           i18n("Shallow History"),         Icon_Utils::it_History_Shallow,         SLOT(slotShallowHistory()) },  //NotYetImplemented
-        { tbb_Join,                     i18nc("join states", "Join"),    Icon_Utils::it_Join,                    SLOT(slotJoin()) },            //NotYetImplemented
+        { tbb_StateJoin,                i18nc("join states", "Join"),    Icon_Utils::it_Join,                    SLOT(slotStateJoin()) },       //NotYetImplemented
         { tbb_StateFork,                i18n("Fork"),                    Icon_Utils::it_Fork_State,              SLOT(slotStateFork()) },
         { tbb_Junction,                 i18n("Junction"),                Icon_Utils::it_Junction,                SLOT(slotJunction()) },        //NotYetImplemented
         { tbb_Choice,                   i18nc("state choice", "Choice"), Icon_Utils::it_Choice_Round,            SLOT(slotChoice()) },          //NotYetImplemented
@@ -437,7 +437,7 @@ void WorkToolBar::slotBranch()                   { buttonChanged(tbb_Branch);   
 void WorkToolBar::slotFork()                     { buttonChanged(tbb_Fork);                     }
 void WorkToolBar::slotDeepHistory()              { buttonChanged(tbb_DeepHistory);              }
 void WorkToolBar::slotShallowHistory()           { buttonChanged(tbb_ShallowHistory);           }
-void WorkToolBar::slotJoin()                     { buttonChanged(tbb_Join);                     }
+void WorkToolBar::slotStateJoin()                { buttonChanged(tbb_StateJoin);                }
 void WorkToolBar::slotPin()                      { buttonChanged(tbb_Pin);                      }
 void WorkToolBar::slotStateFork()                { buttonChanged(tbb_StateFork);                }
 void WorkToolBar::slotJunction()                 { buttonChanged(tbb_Junction);                 }
