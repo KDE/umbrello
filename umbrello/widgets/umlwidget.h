@@ -320,7 +320,7 @@ protected:
     int            m_origZ;
     ListPopupMenu *m_pMenu;
     bool           m_menuIsEmbedded;
-    UMLDoc        *m_pDoc;  ///< shortcut for UMLApp::app()->getDocument()
+    UMLDoc        *m_doc;  ///< shortcut for UMLApp::app()->getDocument()
     bool           m_resizable;
     QFontMetrics  *m_pFontMetrics[FT_INVALID];
 

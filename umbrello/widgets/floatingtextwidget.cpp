@@ -56,11 +56,7 @@ FloatingTextWidget::FloatingTextWidget(UMLScene * scene, Uml::TextRole role, con
 {
     m_Text = text;
     UMLWidget::m_resizable = false;
-    if ( ! UMLApp::app()->document()->loading() ) {
-        updateComponentSize();
-        setZ(10); //make sure always on top.
-        update();
-    }
+    setZ(10); //make sure always on top.
 }
 
 /**

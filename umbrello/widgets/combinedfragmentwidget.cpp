@@ -32,7 +32,6 @@ CombinedFragmentWidget::CombinedFragmentWidget(UMLScene * scene, CombinedFragmen
   : UMLWidget(scene, WidgetBase::wt_CombinedFragment, id)
 {
     setCombinedFragmentType( combinedfragmentType );
-    updateComponentSize();
 }
 
 CombinedFragmentWidget::~CombinedFragmentWidget()

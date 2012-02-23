@@ -52,7 +52,7 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
 {
     m_itemType = type;
     m_bSigWaiting = false;
-    m_pDoc = doc;
+    m_doc = doc;
     m_pClassifier = classifier;
     m_pMenu = 0;
 
@@ -82,7 +82,7 @@ void ClassifierListPage::setupPage()
     mainLayout->addWidget(m_pItemListGB);
 
     setupDocumentationGroup(margin);
-    mainLayout->addWidget(m_pDocGB);
+    mainLayout->addWidget(m_docGB);
 
     reloadItemListBox();
 
@@ -93,7 +93,7 @@ void ClassifierListPage::setupPage()
     connect(m_pItemListLB, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(slotDoubleClick(QListWidgetItem*)));
     connect(m_pItemListLB, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotRightButtonPressed(QPoint)));
 
-    connect(m_pDoc, SIGNAL(sigObjectCreated(UMLObject*)), this, SLOT(slotListItemCreated(UMLObject*)));
+    connect(m_doc, SIGNAL(sigObjectCreated(UMLObject*)), this, SLOT(slotListItemCreated(UMLObject*)));
 
     connect(m_pTopArrowB, SIGNAL(clicked()), this, SLOT(slotTopClicked()));
     connect(m_pUpArrowB, SIGNAL(clicked()), this, SLOT(slotUpClicked()));
@@ -215,21 +215,21 @@ void ClassifierListPage::setupActionButtons(const QString& itemType, QVBoxLayout
  */
 void ClassifierListPage::setupDocumentationGroup(int margin)
 {
-    m_pDocGB = new QGroupBox(i18n("Documentation"), this);
-    QVBoxLayout* docLayout = new QVBoxLayout(m_pDocGB);
+    m_docGB = new QGroupBox(i18n("Documentation"), this);
+    QVBoxLayout* docLayout = new QVBoxLayout(m_docGB);
     docLayout->setSpacing(10);
     docLayout->setMargin(margin);
     if (m_itemType == UMLObject::ot_Operation) {
-        m_pDocTE = new KTextEdit();
+        m_docTE = new KTextEdit();
         m_pCodeTE = new CodeTextEdit();
         KTabWidget* tabWidget = new KTabWidget();
-        tabWidget->addTab(m_pDocTE, i18n("Comment"));
+        tabWidget->addTab(m_docTE, i18n("Comment"));
         tabWidget->addTab(m_pCodeTE, i18n("Source Code"));
         docLayout->addWidget(tabWidget);
     }
     else {
-        m_pDocTE = new KTextEdit();
-        docLayout->addWidget(m_pDocTE);
+        m_docTE = new KTextEdit();
+        docLayout->addWidget(m_docTE);
     }
 }
 
@@ -257,13 +257,13 @@ void ClassifierListPage::reloadItemListBox()
  */
 void ClassifierListPage::enableWidgets(bool state)
 {
-    m_pDocTE->setEnabled( state );
+    m_docTE->setEnabled( state );
     if (m_itemType == UMLObject::ot_Operation) {
         m_pCodeTE->setEnabled( state );
     }
     //if disabled clear contents
     if ( !state ) {
-        m_pDocTE->setText( "" );
+        m_docTE->setText( "" );
         if (m_itemType == UMLObject::ot_Operation) {
             m_pCodeTE->setPlainText( "" );
         }
@@ -316,7 +316,7 @@ void ClassifierListPage::slotActivateItem(QListWidgetItem* item)
     //if not first time an item is highlighted
     //save old highlighted item first
     if (m_pOldListItem) {
-        m_pOldListItem->setDoc( m_pDocTE->toPlainText() );
+        m_pOldListItem->setDoc( m_docTE->toPlainText() );
         if (m_itemType == UMLObject::ot_Operation) {
             UMLOperation* op = dynamic_cast<UMLOperation*>(m_pOldListItem);
             op->setSourceCode( m_pCodeTE->toPlainText() );
@@ -351,7 +351,7 @@ void ClassifierListPage::slotActivateItem(QListWidgetItem* item)
 
     if (listItem) {
         //now update screen
-        m_pDocTE->setText( listItem->doc() );
+        m_docTE->setText( listItem->doc() );
         if (m_itemType == UMLObject::ot_Operation) {
             m_pCodeTE->setPlainText( dynamic_cast<UMLOperation*>(listItem)->getSourceCode() );
         }
@@ -499,7 +499,7 @@ void ClassifierListPage::slotPopupMenuSel(QAction* action)
                 return;
             }
             m_bSigWaiting = true;
-            m_pDoc->renameChildUMLObject(listItem);
+            m_doc->renameChildUMLObject(listItem);
         }
         break;
 
@@ -709,7 +709,7 @@ void ClassifierListPage::slotDelete()
         UMLClassifierListItem* selectedItem = getItemList().at(currentItemIndex);
         //should really wait for signal back
         //but really shouldn't matter
-        m_pDoc->removeUMLObject(selectedItem);
+        m_doc->removeUMLObject(selectedItem);
         m_pOldListItem = 0;
 
         slotActivateItem(NULL);
@@ -752,7 +752,7 @@ void ClassifierListPage::saveCurrentItemDocumentation()
 
     UMLClassifierListItem* selectedItem = getItemList().at( currentItemIndex );
     if (selectedItem) {
-        selectedItem->setDoc( m_pDocTE->toPlainText() );
+        selectedItem->setDoc( m_docTE->toPlainText() );
         if (m_itemType == UMLObject::ot_Operation) {
             dynamic_cast<UMLOperation*>(selectedItem)->setSourceCode( m_pCodeTE->toPlainText() );
         }

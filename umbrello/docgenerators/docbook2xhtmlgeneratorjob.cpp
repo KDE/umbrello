@@ -39,7 +39,7 @@ extern int xmlLoadExtDtdDefaultValue;
  * @param parent     Parent object for QThread constructor
  */
 Docbook2XhtmlGeneratorJob::Docbook2XhtmlGeneratorJob(KUrl& docBookUrl, QObject* parent )
-    :QThread(parent),m_pDocbookUrl( docBookUrl )
+    :QThread(parent),m_docbookUrl( docBookUrl )
 {
 }
 
@@ -81,8 +81,8 @@ void Docbook2XhtmlGeneratorJob::run()
   xmlLoadExtDtdDefaultValue = 1;
   uDebug() << "Parsing stylesheet " << tmpXsl.fileName();
   cur = xsltParseStylesheetFile((const xmlChar *)tmpXsl.fileName().toLatin1().constData());
-  uDebug() << "Parsing file " << m_pDocbookUrl.path();
-  doc = xmlParseFile((const char*)(m_pDocbookUrl.path().toUtf8()));
+  uDebug() << "Parsing file " << m_docbookUrl.path();
+  doc = xmlParseFile((const char*)(m_docbookUrl.path().toUtf8()));
   uDebug() << "Applying stylesheet ";
   res = xsltApplyStylesheet(cur, doc, params);
 

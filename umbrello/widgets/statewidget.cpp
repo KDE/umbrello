@@ -41,7 +41,6 @@ StateWidget::StateWidget(UMLScene * scene, StateType stateType, Uml::IDType id)
 {
     m_stateType = stateType;
     m_Text = "State";
-    updateComponentSize();
 }
 
 /**
@@ -200,6 +199,7 @@ QSize StateWidget::calculateSize()
             height = height > STATE_HEIGHT?height:STATE_HEIGHT;
             width += STATE_MARGIN * 2;
             height += STATE_MARGIN * 2;
+            break;
         }
         case StateWidget::Fork:
         case StateWidget::Join:

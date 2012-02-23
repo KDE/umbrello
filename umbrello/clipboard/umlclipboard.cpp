@@ -568,15 +568,20 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
 
         Uml::IDType oldId = widget->id();
         Uml::IDType newId = idchanges->findNewID(oldId);
+        // how should findWidget find ::None id, which is returned for the first entry ?
         if (currentView->findWidget(newId)) {
             uError() << "widget (oldID=" << ID2STR(oldId) << ", newID="
                 << ID2STR(newId) << ") already exists in target view.";
             widgets.removeAll(widget);
             delete widget;
             objectAlreadyExists = true;
-        } else if (! currentView->addWidget(widget, true)) {
-            currentView->endPartialWidgetPaste();
-            return false;
+        } else {
+            if (currentView->type() == Uml::DiagramType::Activity || currentView->type() == Uml::DiagramType::State)
+                widget->setID(doc->assignNewID(widget->id()));
+            if (! currentView->addWidget(widget, true)) {
+                currentView->endPartialWidgetPaste();
+                return false;
+            }
         }
     }
 

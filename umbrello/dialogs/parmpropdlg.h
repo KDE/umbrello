@@ -52,7 +52,7 @@ protected:
      * @return  Returns the documentation.
      */
     QString getDoc() {
-        return m_pDoc->toPlainText();
+        return m_doc->toPlainText();
     }
 
     QString getName() {
@@ -80,13 +80,13 @@ protected slots:
     virtual void slotButtonClicked(int button);
 
 private:
-    QGroupBox * m_pParmGB, * m_pDocGB;
+    QGroupBox * m_pParmGB, * m_docGB;
     QGroupBox *m_pKind;
     QRadioButton * m_pIn, * m_pOut, *m_pInOut;
     QLabel * m_pTypeL, * m_pNameL, * m_pInitialL, * m_pStereoTypeL;
     KComboBox * m_pTypeCB, * m_pStereoTypeCB;
     KLineEdit * m_pNameLE, * m_pInitialLE;
-    KTextEdit * m_pDoc;
+    KTextEdit * m_doc;
     UMLDoc * m_pUmldoc;
     UMLAttribute * m_pAtt;
 };

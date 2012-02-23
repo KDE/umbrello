@@ -42,15 +42,15 @@ DocWindow::DocWindow( UMLDoc * doc, QWidget *parent )
 {
     //setup visual display
     QVBoxLayout * docLayout = new QVBoxLayout( this );
-    m_pDocTE = new KTextEdit( this );
-    m_pDocTE->setText( "" );
-    docLayout->addWidget( m_pDocTE);
+    m_docTE = new KTextEdit( this );
+    m_docTE->setText( "" );
+    docLayout->addWidget( m_docTE);
     docLayout->setMargin(0);
-    //m_pDocTE->setWordWrapMode(QTextEdit::WidgetWidth);
+    //m_docTE->setWordWrapMode(QTextEdit::WidgetWidth);
 
     //show projects documentation to start
     updateDocumentation( true, true );
-    connect(m_pDocTE, SIGNAL(textChanged()), this, SLOT(slotTextChanged()));
+    connect(m_docTE, SIGNAL(textChanged()), this, SLOT(slotTextChanged()));
 }
 
 /**
@@ -81,13 +81,13 @@ void DocWindow::showDocumentation( UMLObject * object, bool overwrite )
         updateDocumentation( true );
     m_Showing = st_UMLObject;
     if( !object ) {
-        m_pDocTE->setText( m_pUMLDoc->documentation() );
+        m_docTE->setText( m_pUMLDoc->documentation() );
         m_modified = false;
         m_pUMLObject = 0;
         return;
     }
     m_pUMLObject = object;
-    m_pDocTE->setText( m_pUMLObject->doc() );
+    m_docTE->setText( m_pUMLObject->doc() );
     m_modified = false;
 }
 
@@ -104,13 +104,13 @@ void DocWindow::showDocumentation( UMLView * view, bool overwrite )
     }
     m_Showing = st_UMLView;
     if( !view ) {
-        m_pDocTE->setText( m_pUMLDoc->documentation() );
+        m_docTE->setText( m_pUMLDoc->documentation() );
         m_pUMLView = 0;
         m_modified = false;
         return;
     }
     m_pUMLView = view;
-    m_pDocTE->setText( m_pUMLView->umlScene()->documentation() );
+    m_docTE->setText( m_pUMLView->umlScene()->documentation() );
     m_modified = false;
 }
 
@@ -127,13 +127,13 @@ void DocWindow::showDocumentation( UMLWidget * widget, bool overwrite )
         updateDocumentation( true );
     m_Showing = st_UMLWidget;
     if( !widget ) {
-        m_pDocTE->setText( m_pUMLDoc->documentation() );
+        m_docTE->setText( m_pUMLDoc->documentation() );
         m_pUMLWidget = 0;
         m_modified = false;
         return;
     }
     m_pUMLWidget = widget;
-    m_pDocTE->setText( m_pUMLWidget->documentation() );
+    m_docTE->setText( m_pUMLWidget->documentation() );
     m_modified = false;
 }
 
@@ -150,13 +150,13 @@ void DocWindow::showDocumentation( AssociationWidget * widget, bool overwrite )
         updateDocumentation( true );
     m_Showing = st_Association;
     if( !widget ) {
-        m_pDocTE->setText( m_pUMLDoc->documentation() );
+        m_docTE->setText( m_pUMLDoc->documentation() );
         m_pAssocWidget = 0;
         m_modified = false;
         return;
     }
     m_pAssocWidget = widget;
-    m_pDocTE->setText( m_pAssocWidget->documentation() );
+    m_docTE->setText( m_pAssocWidget->documentation() );
     m_modified = false;
 }
 
@@ -179,15 +179,15 @@ void DocWindow::updateDocumentation( bool clear, bool startup )
     // modified is set, we get another undo/redo backup point
     if (isModified()) {
         if( m_pUMLObject ) {
-            m_pUMLObject->setDoc( m_pDocTE->toPlainText() );
+            m_pUMLObject->setDoc( m_docTE->toPlainText() );
         } else if( m_pUMLView ) {
-            m_pUMLView->umlScene()->setDocumentation( m_pDocTE->toPlainText() );
+            m_pUMLView->umlScene()->setDocumentation( m_docTE->toPlainText() );
         } else if ( m_pUMLWidget ) {
-            m_pUMLWidget->setDocumentation( m_pDocTE->toPlainText() );
+            m_pUMLWidget->setDocumentation( m_docTE->toPlainText() );
         } else if ( m_pAssocWidget ) {
-            m_pAssocWidget->setDocumentation( m_pDocTE->toPlainText() );
+            m_pAssocWidget->setDocumentation( m_docTE->toPlainText() );
         } else {
-            m_pUMLDoc->setDocumentation( m_pDocTE->toPlainText() );
+            m_pUMLDoc->setDocumentation( m_docTE->toPlainText() );
         }
 
         // now do the setModified call
@@ -199,7 +199,7 @@ void DocWindow::updateDocumentation( bool clear, bool startup )
     // we should show the documentation of the whole project
     // FIXME: this is exactly what newDocumentation() does
     if( clear ) {
-        m_pDocTE->setText( m_pUMLDoc->documentation() );
+        m_docTE->setText( m_pUMLDoc->documentation() );
         m_modified = false;
         m_pUMLObject = 0;
         m_pUMLView = 0;
@@ -219,7 +219,7 @@ void DocWindow::newDocumentation( )
     m_pUMLWidget = 0;
     m_pAssocWidget = 0;
     m_Showing = st_Project;
-    m_pDocTE->setText( m_pUMLDoc->documentation() );
+    m_docTE->setText( m_pUMLDoc->documentation() );
     m_modified = false;
 }
 
@@ -228,7 +228,7 @@ void DocWindow::newDocumentation( )
  */
 bool DocWindow::isTyping()
 {
-    if (m_pDocTE->hasFocus())
+    if (m_docTE->hasFocus())
         return true;
     else
         return false;

@@ -72,7 +72,7 @@ private:
     Showing_Type m_Showing;  ///< Which type of documentation we are showing.
 
     //visual widgets
-    KTextEdit *  m_pDocTE;
+    KTextEdit *  m_docTE;
 
     bool m_modified; ///< state of text content
 };

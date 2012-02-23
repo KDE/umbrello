@@ -74,9 +74,9 @@ private:
 
     void printItemList(const QString &prologue);
 
-    QGroupBox*     m_pDocGB;
+    QGroupBox*     m_docGB;
     QGroupBox*     m_pItemListGB;
-    KTextEdit*     m_pDocTE;
+    KTextEdit*     m_docTE;
     CodeTextEdit*  m_pCodeTE;
     QListWidget*   m_pItemListLB;
 
@@ -85,7 +85,7 @@ private:
     QToolButton*   m_pDownArrowB;
     QToolButton*   m_pBottomArrowB;
 
-    UMLDoc*        m_pDoc;
+    UMLDoc*        m_doc;
     ListPopupMenu* m_pMenu;
     UMLClassifierListItem* m_pOldListItem;
 

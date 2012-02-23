@@ -27,7 +27,6 @@ ForkJoinWidget::ForkJoinWidget(UMLScene * scene, bool drawVertical, Uml::IDType 
   : BoxWidget(scene, id, WidgetBase::wt_ForkJoin),
     m_drawVertical(drawVertical)
 {
-    UMLWidget::updateComponentSize();
 }
 
 /**

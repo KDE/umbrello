@@ -933,7 +933,7 @@ public:
      * Return the UMLDoc pointer
      */
     UMLDoc* getUMLDoc() {
-        return m_pDoc;
+        return m_doc;
     }
 
 protected:
@@ -1172,7 +1172,7 @@ private:
     /**
      * Pointer to the UMLDoc
      */
-    UMLDoc* m_pDoc;
+    UMLDoc* m_doc;
 
     /**
      * The UMLViewImageExporter used to export the view.

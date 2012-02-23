@@ -38,7 +38,6 @@ ObjectNodeWidget::ObjectNodeWidget(UMLScene * scene, ObjectNodeType objectNodeTy
 {
     setObjectNodeType( objectNodeType );
     setState("");
-    updateComponentSize();
 }
 
 ObjectNodeWidget::~ObjectNodeWidget()

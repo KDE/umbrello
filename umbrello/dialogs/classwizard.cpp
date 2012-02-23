@@ -38,7 +38,7 @@
 ClassWizard::ClassWizard(UMLDoc* doc)
     : QWizard( (QWidget*)doc->parent())
 {
-    m_pDoc = doc;
+    m_doc = doc;
     //create a unique class to start with
     UMLObject * pTemp = 0;
     QString name = i18n("new_class");
@@ -48,7 +48,7 @@ ClassWizard::ClassWizard(UMLDoc* doc)
     m_pClass = new UMLClassifier( newName );
     do {
         m_pClass->setName( newName );
-        pTemp = m_pDoc->findUMLObject( newName );
+        pTemp = m_doc->findUMLObject( newName );
         num.setNum( ++i);
         newName = name;
         newName.append("_").append( num );
@@ -82,7 +82,7 @@ QWizardPage* ClassWizard::createGeneralPage()
     m_GeneralPage->setTitle(i18n("New Class"));
     m_GeneralPage->setSubTitle(i18n("Add general info about the new class."));
 
-    m_pGenPage = new ClassGenPage(m_pDoc, this, m_pClass);
+    m_pGenPage = new ClassGenPage(m_doc, this, m_pClass);
 
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(m_pGenPage);
@@ -100,7 +100,7 @@ QWizardPage* ClassWizard::createAttributesPage()
     m_AttributesPage->setTitle(i18n("Class Attributes"));
     m_AttributesPage->setSubTitle(i18n("Add attributes to the new class."));
 
-    m_pAttPage = new ClassifierListPage(this, m_pClass, m_pDoc, UMLObject::ot_Attribute);
+    m_pAttPage = new ClassifierListPage(this, m_pClass, m_doc, UMLObject::ot_Attribute);
 
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(m_pAttPage);
@@ -118,7 +118,7 @@ QWizardPage* ClassWizard::createOperationsPage()
     m_OperationsPage->setTitle(i18n("Class Operations"));
     m_OperationsPage->setSubTitle(i18n("Add operations to the new class."));
 
-    m_pOpPage = new ClassifierListPage(this, m_pClass, m_pDoc, UMLObject::ot_Operation);
+    m_pOpPage = new ClassifierListPage(this, m_pClass, m_doc, UMLObject::ot_Operation);
 
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(m_pOpPage);
@@ -164,8 +164,8 @@ void ClassWizard::accept()
 {
     m_pGenPage->updateObject();
 
-    m_pDoc->addUMLObject(m_pClass);
-    m_pDoc->signalUMLObjectCreated(m_pClass);
+    m_doc->addUMLObject(m_pClass);
+    m_doc->signalUMLObjectCreated(m_pClass);
 
     // call updateObject of General Page again so as to bind to package
     // now that the classifier object is in the document.
@@ -179,7 +179,7 @@ void ClassWizard::accept()
  */
 void ClassWizard::reject()
 {
-    m_pDoc->removeUMLObject(m_pClass);
+    m_doc->removeUMLObject(m_pClass);
     delete m_pClass;
     QWizard::reject();
 }

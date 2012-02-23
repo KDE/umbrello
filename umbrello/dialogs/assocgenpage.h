@@ -53,7 +53,7 @@ private:
        so we can translate both ways */
     QList<Uml::AssociationType> m_AssocTypes;
     QStringList m_AssocTypeStrings;
-    KTextEdit * m_pDoc;
+    KTextEdit * m_doc;
 
     AssociationWidget *m_pAssociationWidget;
     UMLDoc * m_pUmldoc;

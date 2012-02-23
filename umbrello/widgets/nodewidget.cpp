@@ -27,8 +27,6 @@ NodeWidget::NodeWidget(UMLScene * scene, UMLNode *n )
 {
     setSize(100, 30);
     setZ(m_origZ = 1);  // above box but below UMLWidget because may embed widgets
-    if (n && !UMLApp::app()->document()->loading())
-        updateComponentSize();
 }
 
 NodeWidget::~NodeWidget()

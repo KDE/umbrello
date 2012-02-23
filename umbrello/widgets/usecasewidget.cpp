@@ -23,8 +23,6 @@
 UseCaseWidget::UseCaseWidget(UMLScene * scene, UMLUseCase *o)
   : UMLWidget(scene, WidgetBase::wt_UseCase, o)
 {
-    //updateComponentSize();  Doing this during loadFromXMI() gives futile updates.
-    //                  Instead, it is done afterwards by UMLWidget::activate()
 }
 
 /**

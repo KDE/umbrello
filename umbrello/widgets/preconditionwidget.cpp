@@ -37,7 +37,6 @@ PreconditionWidget::PreconditionWidget(UMLScene * scene, ObjectWidget* a, Uml::I
     int y = getY();
     m_nY = y;
     //updateResizability();
-    updateComponentSize();
    // calculateWidget();
     y = y < getMinY() ? getMinY() : y;
     y = y > getMaxY() ? getMaxY() : y;

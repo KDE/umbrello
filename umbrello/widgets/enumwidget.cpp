@@ -45,8 +45,6 @@ EnumWidget::EnumWidget(UMLScene *scene, UMLObject* o)
         // For completeness only. Not supposed to happen.
         m_showPackage = false;
     }
-    if (! UMLApp::app()->document()->loading())
-        updateComponentSize();
 }
 
 /**

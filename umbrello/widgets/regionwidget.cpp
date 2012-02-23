@@ -31,7 +31,6 @@
 RegionWidget::RegionWidget(UMLScene * scene, Uml::IDType id)
   : UMLWidget(scene, WidgetBase::wt_Region, id)
 {
-    updateComponentSize();
 }
 
 RegionWidget::~RegionWidget() {}

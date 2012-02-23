@@ -253,21 +253,21 @@ void AssocRolePage::constructWidget()
     // Document A
     QHBoxLayout * docALayout = new QHBoxLayout(docAGB);
     docALayout->setMargin(margin);
-    m_pDocA = new KTextEdit(docAGB);
-    docALayout->addWidget(m_pDocA);
-    m_pDocA-> setText(m_pAssociationWidget->roleDocumentation(Uml::A));
-    // m_pDocA->setText("<<not implemented yet>>");
-    // m_pDocA->setEnabled(false);
-    m_pDocA->setLineWrapMode(QTextEdit::WidgetWidth);
+    m_docA = new KTextEdit(docAGB);
+    docALayout->addWidget(m_docA);
+    m_docA-> setText(m_pAssociationWidget->roleDocumentation(Uml::A));
+    // m_docA->setText("<<not implemented yet>>");
+    // m_docA->setEnabled(false);
+    m_docA->setLineWrapMode(QTextEdit::WidgetWidth);
 
     // Document B
     QHBoxLayout * docBLayout = new QHBoxLayout(docBGB);
     docBLayout->setMargin(margin);
-    m_pDocB = new KTextEdit(docBGB);
-    docBLayout->addWidget(m_pDocB);
-    m_pDocB->setText(m_pAssociationWidget->roleDocumentation(Uml::B));
-    // m_pDocB->setEnabled(false);
-    m_pDocB->setLineWrapMode(QTextEdit::WidgetWidth);
+    m_docB = new KTextEdit(docBGB);
+    docBLayout->addWidget(m_docB);
+    m_docB->setText(m_pAssociationWidget->roleDocumentation(Uml::B));
+    // m_docB->setEnabled(false);
+    m_docB->setLineWrapMode(QTextEdit::WidgetWidth);
 
     // add group boxes to main layout
     mainLayout->addWidget( propsAGB, 0, 0);
@@ -326,8 +326,8 @@ void AssocRolePage::updateObject()
         else
             m_pAssociationWidget->setChangeability(Uml::Changeability::Changeable, Uml::B);
 
-        m_pAssociationWidget->setRoleDocumentation(m_pDocA->toPlainText(), Uml::A);
-        m_pAssociationWidget->setRoleDocumentation(m_pDocB->toPlainText(), Uml::B);
+        m_pAssociationWidget->setRoleDocumentation(m_docA->toPlainText(), Uml::A);
+        m_pAssociationWidget->setRoleDocumentation(m_docB->toPlainText(), Uml::B);
 
     } //end if m_pAssociationWidget
 }
