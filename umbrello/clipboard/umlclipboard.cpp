@@ -593,6 +593,12 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
         }
     }
 
+    currentView->clearSelected();
+    currentView->selectWidgets(widgets);
+    foreach ( AssociationWidget* assoc, assocs ) {
+        currentView->selectWidgetsOfAssoc(assoc);
+    }
+
     //Activate all the pasted associations and widgets
     currentView->activate();
     currentView->endPartialWidgetPaste();

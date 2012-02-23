@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -324,34 +323,16 @@ void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 void ActivityWidget::constrain(int& width, int& height)
 {
     if (m_activityType == Normal || m_activityType == Invok || m_activityType == Param) {
-        QSize minSize = calculateSize();
-        if (width < minSize.width())
-            width = minSize.width();
-        if (height < minSize.height())
-            height = minSize.height();
+        UMLWidget::constrain(width, height);
         return;
     }
+
     if (width > height)
         width = height;
     else if (height > width)
         height = width;
-    if (m_activityType == Branch) {
-        if (width < 20) {
-            width = 20;
-            height = 20;
-        } else if (width > 50) {
-            width = 50;
-            height = 50;
-        }
-    } else {
-        if (width < 15) {
-            width = 15;
-            height = 15;
-        } else if (width > 30) {
-            width = 30;
-            height = 30;
-        }
-    }
+
+    UMLWidget::constrain(width, height);
 }
 
 /**
@@ -384,15 +365,14 @@ void ActivityWidget::slotMenuSelection(QAction* action)
 /**
  * Overrides method from UMLWidget
  */
-QSize ActivityWidget::calculateSize()
+UMLSceneSize ActivityWidget::minimumSize()
 {
-    int width, height;
     if ( m_activityType == Normal || m_activityType == Invok || m_activityType == Param ) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
 
         int textWidth = fm.width(name());
-        height = fontHeight;
+        int height = fontHeight;
         height = height > ACTIVITY_HEIGHT ? height : ACTIVITY_HEIGHT;
         height += ACTIVITY_MARGIN * 2;
 
@@ -411,14 +391,30 @@ QSize ActivityWidget::calculateSize()
             height += 100;
         }
 
-        width = textWidth > ACTIVITY_WIDTH ? textWidth : ACTIVITY_WIDTH;
+        int width = textWidth > ACTIVITY_WIDTH ? textWidth : ACTIVITY_WIDTH;
 
         width += ACTIVITY_MARGIN * 4;
-
-    } else {
-        width = height = 20;
+        return UMLSceneSize(width, height);
     }
-    return QSize(width, height);
+    else if (m_activityType == Branch) {
+        return UMLSceneSize(20, 20);
+    }
+    return UMLSceneSize(15, 15);
 }
+
+/**
+ * Overrides method from UMLWidget
+ */
+UMLSceneSize ActivityWidget::maximumSize()
+{
+    if (m_activityType == Normal || m_activityType == Invok || m_activityType == Param) {
+        return UMLWidget::maximumSize();
+    }
+    if (m_activityType == Branch) {
+        return UMLSceneSize(50,50);
+    }
+    return UMLSceneSize(30,30);
+}
+
 
 #include "activitywidget.moc"

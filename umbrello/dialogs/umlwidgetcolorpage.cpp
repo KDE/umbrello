@@ -30,7 +30,8 @@
 /**
  *   Constructor - Observe a UMLWidget.
  */
-UMLWidgetColorPage::UMLWidgetColorPage( QWidget *pParent, UMLWidget *pWidget ) : QWidget( pParent )
+UMLWidgetColorPage::UMLWidgetColorPage( QWidget *pParent, UMLWidget *pWidget )
+  : QWidget( pParent )
 {
     m_pUMLWidget = pWidget;
     m_options = 0;
@@ -54,7 +55,8 @@ UMLWidgetColorPage::UMLWidgetColorPage( QWidget *pParent, UMLWidget *pWidget ) :
 /**
  *   Constructor - Observe an OptionState structure.
  */
-UMLWidgetColorPage::UMLWidgetColorPage( QWidget * pParent, Settings::OptionState *options ) : QWidget( pParent )
+UMLWidgetColorPage::UMLWidgetColorPage( QWidget * pParent, Settings::OptionState *options )
+  : QWidget( pParent )
 {
     m_options = options;
     m_pUMLWidget = 0;

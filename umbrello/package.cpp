@@ -133,6 +133,11 @@ bool UMLPackage::addObject(UMLObject *pObject)
         uError() << "is called with a NULL object";
         return false;
     }
+    if (pObject == this) {
+        uError() << "adding myself as child is not allowed";
+        return false;
+    }
+
     if (m_objects.indexOf(pObject) != -1) {
         uDebug() << pObject->name() << " is already there";
         return false;

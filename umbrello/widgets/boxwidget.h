@@ -32,6 +32,7 @@ public:
 
     virtual void paint(QPainter & p, int offsetX, int offsetY);
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+
 };
 
 #endif

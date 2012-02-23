@@ -73,7 +73,7 @@ void UseCaseWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 /**
  * Overrides method from UMLWidget
  */
-QSize UseCaseWidget::calculateSize()
+UMLSceneSize UseCaseWidget::minimumSize()
 {
     const UMLWidget::FontType ft = ( m_pObject->isAbstract() ? FT_BOLD_ITALIC : FT_BOLD );
     const QFontMetrics &fm = UMLWidget::getFontMetrics(ft);
@@ -84,5 +84,5 @@ QSize UseCaseWidget::calculateSize()
 
     width += UC_MARGIN * 2;
 
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }

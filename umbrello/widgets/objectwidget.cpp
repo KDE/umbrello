@@ -124,7 +124,7 @@ void ObjectWidget::slotMenuSelection(QAction* action)
     }
 }
 
-QSize ObjectWidget::calculateSize()
+UMLSceneSize ObjectWidget::minimumSize()
 {
     int width, height;
     const QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
@@ -145,7 +145,7 @@ QSize ObjectWidget::calculateSize()
         }
     }//end else drawasactor
 
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }
 
 void ObjectWidget::setDrawAsActor( bool drawAsActor )

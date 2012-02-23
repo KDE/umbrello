@@ -22,6 +22,12 @@
 #include "umlview.h"
 #include "umlobject.h"
 
+/**
+ * Constructs a PackageWidget.
+ *
+ * @param scene              The parent of this PackageWidget.
+ * @param o         The UMLObject this will be representing.
+ */
 PackageWidget::PackageWidget(UMLScene * scene, UMLPackage *o)
   : UMLWidget(scene, WidgetBase::wt_Package, o)
 {
@@ -35,10 +41,16 @@ PackageWidget::PackageWidget(UMLScene * scene, UMLPackage *o)
     }
 }
 
+/**
+ * Destructor.
+ */
 PackageWidget::~PackageWidget()
 {
 }
 
+/**
+ * Overrides standard method.
+ */
 void PackageWidget::paint(QPainter & p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
@@ -89,10 +101,13 @@ void PackageWidget::paint(QPainter & p, int offsetX, int offsetY)
     }
 }
 
-QSize PackageWidget::calculateSize()
+/**
+ * Overrides method from UMLWidget
+ */
+UMLSceneSize PackageWidget::minimumSize()
 {
     if ( !m_pObject ) {
-        return UMLWidget::calculateSize();
+        return UMLWidget::minimumSize();
     }
 
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
@@ -115,13 +130,15 @@ QSize PackageWidget::calculateSize()
 
     int height = (lines*fontHeight) + fontHeight + (PACKAGE_MARGIN * 2);
 
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }
 
+/**
+ * Saves to the "packagewidget" XMI element.
+ */
 void PackageWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement conceptElement = qDoc.createElement("packagewidget");
     UMLWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
-

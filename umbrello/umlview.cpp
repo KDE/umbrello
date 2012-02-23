@@ -1362,6 +1362,12 @@ void UMLView::selectWidgets(int px, int py, int qx, int qy)
     }//end foreach
 }
 
+void UMLView::selectWidgets(UMLWidgetList &widgets)
+{
+    foreach ( UMLWidget* widget, widgets )
+        makeSelected(widget);
+}
+
 void  UMLView::getDiagram(const QRect &rect, QPixmap &diagram)
 {
     DEBUG(DBG_SRC) << "rect=" << rect << ", pixmap=" << diagram.rect();
@@ -3450,6 +3456,7 @@ bool UMLView::loadWidgetsFromXMI(QDomElement & qElement)
         widget = loadWidgetFromXMI(widgetElement);
         if (widget) {
             m_WidgetList.append(widget);
+            widget->clipSize();
             // In the interest of best-effort loading, in case of a
             // (widget == NULL) we still go on.
             // The individual widget's loadFromXMI method should
@@ -3532,6 +3539,7 @@ bool UMLView::loadAssociationsFromXMI(QDomElement & qElement)
                    rest of the diagram might load okay.
                  */
             } else {
+                assoc->clipSize();
                 if (!addAssociation(assoc, false)) {
                     uError() << "Could not addAssociation(" << assoc << ") to umlview, deleting.";
                     //               assoc->cleanup();

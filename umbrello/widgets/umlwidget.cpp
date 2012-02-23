@@ -42,6 +42,9 @@
 
 using namespace Uml;
 
+const UMLSceneSize UMLWidget::DefaultMinimumSize(50, 20);
+const UMLSceneSize UMLWidget::DefaultMaximumSize(1000, 1000);
+
 /**
  * Creates a UMLWidget object.
  *
@@ -242,32 +245,25 @@ void UMLWidget::updateWidget()
 }
 
 /**
- * Compute the minimum possible width and height.
- * The default implementation returns width=20, height=20.
- *
- * @return QSize(mininum_width, minimum_height)
- */
-QSize UMLWidget::calculateSize()
-{
-    return QSize(getWidth(), getHeight());
-}
-
-/**
  * Apply possible constraints to the given candidate width and height.
- * The default implementation calls calculateSize() and
- * assigns the returned values if they are greater than the
- * input values.
+ * The default implementation limits input values to the bounds returned
+ * by minimumSize()/maximumSize().
  *
  * @param width  input value, may be modified by the constraint
  * @param height input value, may be modified by the constraint
  */
 void UMLWidget::constrain(int& width, int& height)
 {
-    const QSize minSize = calculateSize();
+    UMLSceneSize minSize = minimumSize();
     if (width < minSize.width())
         width = minSize.width();
     if (height < minSize.height())
         height = minSize.height();
+    UMLSceneSize maxSize = maximumSize();
+    if (width > maxSize.width())
+        width = maxSize.width();
+    if (height > maxSize.height())
+        height = maxSize.height();
 }
 
 /**
@@ -290,13 +286,20 @@ void UMLWidget::init()
     m_pMenu = 0;
     m_menuIsEmbedded = false;
     m_isInstance = false;
+    setMinimumSize(DefaultMinimumSize);
+    setMaximumSize(DefaultMaximumSize);
+    
+    for (int i = 0; i < (int)FT_INVALID; ++i)
+        m_pFontMetrics[(UMLWidget::FontType)i] = 0;
+    
     if (m_scene) {
         m_useFillColor = true;
         m_usesDiagramFillColor = true;
         m_usesDiagramUseFillColor = true;
         const Settings::OptionState& optionState = m_scene->optionState();
         m_FillColor = optionState.uiState.fillColor;
-        m_Font       = optionState.uiState.font;
+        // FIXME: using setFont() here let umbrello hang probably because of doc->loading() not set. 
+        m_Font = optionState.uiState.font;
         m_showStereotype = optionState.classState.showStereoType;
     } else {
         uError() << "SERIOUS PROBLEM - m_scene is NULL";
@@ -305,9 +308,6 @@ void UMLWidget::init()
         m_usesDiagramUseFillColor = false;
         m_showStereotype = false;
     }
-
-    for (int i = 0; i < (int)FT_INVALID; ++i)
-        m_pFontMetrics[(UMLWidget::FontType)i] = 0;
 
     m_resizable = true;
 
@@ -930,6 +930,67 @@ void UMLWidget::drawShape(QPainter &p)
 }
 
 /**
+ * Compute the minimum possible width and height.
+ *
+ * @return UMLSceneSize(mininum_width, minimum_height)
+ */
+UMLSceneSize UMLWidget::minimumSize()
+{
+    return m_minimumSize;
+}
+
+/**
+ * This method is used to set the minimum size variable for this
+ * widget.
+ *
+ * @param newSize The size being set as minimum.
+ */
+void UMLWidget::setMinimumSize(const UMLSceneSize& newSize)
+{
+    m_minimumSize = newSize;
+}
+
+void UMLWidget::setMinimumSize(UMLSceneValue width, UMLSceneValue height)
+{
+    m_minimumSize.setWidth(width);
+    m_minimumSize.setHeight(height);
+}
+
+/**
+ * Compute the maximum possible width and height.
+ *
+ * @return maximum size
+ */
+UMLSceneSize UMLWidget::maximumSize()
+{
+    return m_maximumSize;
+}
+
+/**
+ * This method is used to set the maximum size variable for this
+ * widget.
+ *
+ * @param newSize The size being set as maximum.
+ */
+void UMLWidget::setMaximumSize(const UMLSceneSize& newSize)
+{
+    m_maximumSize = newSize;
+}
+
+/**
+ * This method is used to set the maximum size variable for this
+ * widget.
+ *
+ * @param width The width being set as maximum.
+ * @param height The height being set as maximum.
+ */
+void UMLWidget::setMaximumSize(UMLSceneValue width, UMLSceneValue height)
+{
+    m_maximumSize.setWidth(width);
+    m_maximumSize.setHeight(height);
+}
+
+/**
  * Sets the state of whether the widget is selected.
  *
  * @param _select The state of whether the widget is selected.
@@ -1156,9 +1217,21 @@ void UMLWidget::updateComponentSize()
 {
     if (m_doc->loading())
         return;
-    QSize size = calculateSize();
+    QSize size = minimumSize();
     setSize(size.width(), size.height());
     adjustAssocs(getX(), getY());    // adjust assoc lines
+}
+
+/**
+ * clip the size of this widget against the
+ * minimal and maximal limits.
+ */
+void UMLWidget::clipSize()
+{
+    int width = getWidth();
+    int height = getHeight();
+    constrain(width, height);
+    setSize(width, height);
 }
 
 void UMLWidget::setDefaultFontMetrics(UMLWidget::FontType fontType)
@@ -1277,6 +1350,8 @@ void UMLWidget::forceUpdateFontMetrics(QPainter *painter)
                 setDefaultFontMetrics((UMLWidget::FontType)i2, *painter);
         }
     }
+    if (m_doc->loading())
+        return;
     // calculate the size, based on the new font metric
     updateComponentSize();
 }
@@ -1345,13 +1420,12 @@ bool UMLWidget::loadFromXMI(QDomElement & qElement)
     m_nId = STR2ID(id);
 
     if (!font.isEmpty()) {
-        //QFont newFont;
-        m_Font.fromString(font);
-        //setFont(newFont);
+        QFont newFont;
+        newFont.fromString(font);
+        setFont(newFont);
     } else {
         uWarning() << "Using default font " << m_Font.toString()
         << " for widget with xmi.id " << ID2STR(m_nId) << endl;
-        //setFont( m_Font );
     }
 
     setSize(w.toInt(), h.toInt());

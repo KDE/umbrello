@@ -1,5 +1,4 @@
 /***************************************************************************
- *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -87,7 +86,7 @@ void ActorWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 /**
  * Overrides method from UMLWidget.
  */
-QSize ActorWidget::calculateSize() 
+UMLSceneSize ActorWidget::minimumSize()
 {
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
@@ -95,7 +94,7 @@ QSize ActorWidget::calculateSize()
     int width = textWidth > A_WIDTH ? textWidth : A_WIDTH;
     int height = A_HEIGHT + fontHeight + A_MARGIN;
     width += A_MARGIN * 2;
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }
 
 

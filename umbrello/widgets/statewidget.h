@@ -85,7 +85,7 @@ public:
     virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
 protected:
-    QSize calculateSize();
+    UMLSceneSize minimumSize();
 
 public slots:
     virtual void slotMenuSelection(QAction* action);

@@ -119,10 +119,10 @@ void ComponentWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 /**
  * Overrides method from UMLWidget.
  */
-QSize ComponentWidget::calculateSize()
+UMLSceneSize ComponentWidget::minimumSize()
 {
     if ( !m_pObject) {
-        return QSize(70, 70);
+        return UMLSceneSize(70, 70);
     }
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
     const int fontHeight = fm.lineSpacing();
@@ -145,5 +145,5 @@ QSize ComponentWidget::calculateSize()
 
     int height = (2*fontHeight) + (COMPONENT_MARGIN * 3);
 
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }

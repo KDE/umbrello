@@ -73,6 +73,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/xml/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/
   ${CMAKE_CURRENT_SOURCE_DIR}/codeimport/
+  ${CMAKE_CURRENT_SOURCE_DIR}/codeimport/csharp/
   ${CMAKE_CURRENT_SOURCE_DIR}/codeimpwizard/
   ${CMAKE_CURRENT_SOURCE_DIR}/controller/
   ${CMAKE_CURRENT_SOURCE_DIR}/debug/
@@ -289,6 +290,7 @@ set(libcodeimport_SRCS
     codeimport/nativeimportbase.cpp
     codeimport/pascalimport.cpp
     codeimport/pythonimport.cpp
+    codeimport/csharp/csharpimport.cpp
 )
 
 if (WIN32 AND NOT MSVC)

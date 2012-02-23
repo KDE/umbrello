@@ -11,9 +11,6 @@
 // own header
 #include "seqlinewidget.h"
 
-//kde includes
-#include <kcursor.h>
-
 //qt includes
 #include <QtGui/QPainter>
 
@@ -25,7 +22,10 @@
 // class members
 int const SeqLineWidget::m_nMouseDownEpsilonX = 20;
 
-SeqLineWidget::SeqLineWidget( UMLView * pView, ObjectWidget * pObject )
+/**
+ * Constructor.
+ */
+SeqLineWidget::SeqLineWidget(UMLView * pView, ObjectWidget * pObject)
   : UMLSceneLine( pView -> canvas() )
 {
     m_scene = pView;
@@ -38,11 +38,21 @@ SeqLineWidget::SeqLineWidget( UMLView * pView, ObjectWidget * pObject )
     setupDestructionBox();
 }
 
+/**
+ * Destructor.
+ */
 SeqLineWidget::~SeqLineWidget()
 {
 }
 
-int SeqLineWidget::onWidget( const QPoint & p )
+/**
+ * Return whether on seq. line.
+ * Takes into account destruction box if shown.
+ *
+ * @param p The point to investigate.
+ * @return  Non-zero if point is on this sequence line.
+ */
+int SeqLineWidget::onWidget(const QPoint & p)
 {
     int nOnWidget = 0;
     QPoint sp = startPoint();
@@ -57,7 +67,13 @@ int SeqLineWidget::onWidget( const QPoint & p )
     return nOnWidget;
 }
 
-int SeqLineWidget::onDestructionBox ( const QPoint & p )
+/**
+ * Return whether on the destruction box.
+ *
+ * @param p The point to investigate.
+ * @return  Non-zero if point is on the destruction box of this sequence line.
+ */
+int SeqLineWidget::onDestructionBox(const QPoint & p)
 {
     int nOnDestructionBox = 0;
     int x = m_pObject->getX() + m_pObject->getWidth() / 2;
@@ -75,12 +91,21 @@ int SeqLineWidget::onDestructionBox ( const QPoint & p )
     return nOnDestructionBox;
 }
 
+/**
+ * Clean up anything before deletion.
+ */
 void SeqLineWidget::cleanup()
 {
     cleanupDestructionBox();
 }
 
-void SeqLineWidget::setStartPoint( int startX, int startY )
+/**
+ * Set the start point of the line.
+ *
+ * @param startX    X coordinate of the start point.
+ * @param startY    Y coordinate of the start point.
+ */
+void SeqLineWidget::setStartPoint(int startX, int startY)
 {
     int endX = startX;
     int endY = startY + m_nLengthY;
@@ -88,6 +113,9 @@ void SeqLineWidget::setStartPoint( int startX, int startY )
     moveDestructionBox();
 }
 
+/**
+ * Clean up destruction box.
+ */
 void SeqLineWidget::cleanupDestructionBox()
 {
     if ( m_DestructionBox.line1 ) {
@@ -98,6 +126,9 @@ void SeqLineWidget::cleanupDestructionBox()
     }
 }
 
+/**
+ * Set up destruction box.
+ */
 void SeqLineWidget::setupDestructionBox()
 {
     cleanupDestructionBox();
@@ -123,6 +154,9 @@ void SeqLineWidget::setupDestructionBox()
     m_DestructionBox.line2->setZ( 3 );
 }
 
+/**
+ * Move destruction box.
+ */
 void SeqLineWidget::moveDestructionBox()
 {
     if( !m_DestructionBox.line1 ) {
@@ -137,6 +171,11 @@ void SeqLineWidget::moveDestructionBox()
     m_DestructionBox.setLine2Points(rect);
 }
 
+/**
+ * Sets the y position of the bottom of the vertical line.
+ *
+ * @param yPosition The y coordinate for the bottom of the line.
+ */
 void SeqLineWidget::setEndOfLine(int yPosition)
 {
     QPoint sp = startPoint();

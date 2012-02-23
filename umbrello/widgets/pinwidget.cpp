@@ -36,6 +36,9 @@ PinWidget::PinWidget(UMLScene * scene, UMLWidget* a, Uml::IDType id)
   : UMLWidget(scene, WidgetBase::wt_Pin, id)
 {
     init();
+    setMinimumSize(10,10);
+    setMaximumSize(10,10);
+    setSize(10,10);
     m_pOw = a;
     int y = getY();
     m_nY = y;
@@ -142,12 +145,6 @@ void PinWidget::paint(QPainter & p, int offsetX, int offsetY)
     m_pName->updateComponentSize();
     if(m_selected)
          drawSelected(&p, offsetX, offsetY);
-}
-
-QSize PinWidget::calculateSize()
-{
-    setSize(10,10);
-    return QSize(10,10);
 }
 
 void PinWidget::setName(const QString &strName)

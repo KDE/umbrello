@@ -160,7 +160,7 @@ void CombinedFragmentWidget::paint(QPainter & p, int offsetX, int offsetY)
         drawSelected(&p, offsetX, offsetY);
 }
 
-QSize CombinedFragmentWidget::calculateSize()
+UMLSceneSize CombinedFragmentWidget::minimumSize()
 {
     int width = 10, height = 10;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -176,7 +176,7 @@ QSize CombinedFragmentWidget::calculateSize()
     width += COMBINED_FRAGMENT_MARGIN * 2;
     height += COMBINED_FRAGMENT_MARGIN * 2;
 
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }
 
 CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::combinedFragmentType() const

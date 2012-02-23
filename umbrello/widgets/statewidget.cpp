@@ -174,7 +174,7 @@ void StateWidget::paint(QPainter & p, int offsetX, int offsetY)
 /**
  * Overrides method from UMLWidget
  */
-QSize StateWidget::calculateSize()
+UMLSceneSize StateWidget::minimumSize()
 {
     int width = 10, height = 10;
     switch (m_stateType) {
@@ -220,7 +220,7 @@ QSize StateWidget::calculateSize()
             break;
     }
 
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }
 
 /**

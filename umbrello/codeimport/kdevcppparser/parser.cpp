@@ -423,7 +423,7 @@ bool Parser::parseDeclaration(DeclarationAST::Node& node)
 
     // catch first comment
     Position ps = m_tokenIt->getStartPosition();
-    if (ps.line == 1 && ps.column == 1)
+    if (ps.line == 1 && ps.column == 1 && (*m_tokenIt) == Token_comment)
     {
         FileAST::Node ast = CreateNode<FileAST>();
         ast->setFileName(m_driver->currentFileName());

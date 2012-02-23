@@ -27,6 +27,7 @@
 #ifndef DISABLE_CPP_IMPORT
 #include "cppimport.h"
 #endif
+#include "csharpimport.h"
 #include "codeimpthread.h"
 
 /**
@@ -47,6 +48,8 @@ ClassImport *ClassImport::createImporterByFileExt(const QString &fileName, CodeI
         classImporter = new AdaImport(thread);
     else if (fileName.endsWith(QLatin1String(".pas")))
         classImporter = new PascalImport(thread);
+    else if (fileName.endsWith(QLatin1String(".cs")))
+        classImporter = new CSharpImport(thread);
 #ifndef DISABLE_CPP_IMPORT
     else
         classImporter = new CppImport(thread);  // the default.

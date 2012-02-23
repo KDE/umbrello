@@ -330,6 +330,9 @@ void CodeImpSelectPage::changeLanguage()
     case Uml::ProgrammingLanguage::Python:
         m_fileExtensions << "*.py" << "*.pyw";
         break;
+    case Uml::ProgrammingLanguage::CSharp:
+        m_fileExtensions << "*.cs";
+        break;
     default:
         break;
     }

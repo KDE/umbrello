@@ -106,7 +106,7 @@ void ObjectNodeWidget::paint(QPainter & p, int offsetX, int offsetY)
 
 }
 
-QSize ObjectNodeWidget::calculateSize()
+UMLSceneSize ObjectNodeWidget::minimumSize()
 {
     int widthtmp = 10, height = 10,width=10;
     if ( m_ObjectNodeType == Buffer ) {
@@ -144,7 +144,7 @@ QSize ObjectNodeWidget::calculateSize()
         height += OBJECTNODE_MARGIN * 4;
     }
 
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }
 
 ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::objectNodeType() const

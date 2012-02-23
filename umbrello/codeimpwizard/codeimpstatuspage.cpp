@@ -58,7 +58,7 @@ CodeImpStatusPage::CodeImpStatusPage(QWidget *parent)
 
     connect(ui_pushButtonStart, SIGNAL(clicked()), this, SLOT(importCode()));
     ui_pushButtonStop->setEnabled(false);
-    connect(ui_pushButtonStop, SIGNAL(clicked()), this, SLOT(importStop()));
+    connect(ui_pushButtonStop, SIGNAL(clicked()), this, SLOT(importCodeStop()));
     connect(ui_pushButtonClear, SIGNAL(clicked()), this, SLOT(loggerClear()));
     connect(ui_pushButtonExport, SIGNAL(clicked()), this, SLOT(loggerExport()));
 }

@@ -96,11 +96,11 @@ void NodeWidget::paint(QPainter & p, int offsetX, int offsetY)
     }
 }
 
-QSize NodeWidget::calculateSize()
+UMLSceneSize NodeWidget::minimumSize()
 {
     if (m_pObject == NULL) {
         uDebug() << "m_pObject is NULL";
-        return UMLWidget::calculateSize();
+        return UMLWidget::minimumSize();
     }
 
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
@@ -123,7 +123,7 @@ QSize NodeWidget::calculateSize()
 
     int height = (2*fontHeight) + DEPTH;
 
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }
 
 void NodeWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)

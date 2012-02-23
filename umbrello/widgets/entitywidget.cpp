@@ -1,5 +1,4 @@
 /***************************************************************************
- *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -37,12 +36,6 @@ EntityWidget::EntityWidget(UMLScene *scene, UMLObject* o)
   : UMLWidget(scene, WidgetBase::wt_Entity, o)
 {
     setSize(100, 30);
-
-    //set defaults from m_scene
-    if (m_scene) {
-        //check to see if correct
-        //const Settings::OptionState& ops = m_scene->getOptionState();
-    }
 }
 
 /**
@@ -194,10 +187,10 @@ void EntityWidget::slotMenuSelection(QAction* action)
 /**
  * Overrides method from UMLWidget.
  */
-QSize EntityWidget::calculateSize()
+UMLSceneSize EntityWidget::minimumSize()
 {
     if (!m_pObject) {
-        return UMLWidget::calculateSize();
+        return UMLWidget::minimumSize();
     }
 
     int width, height;
@@ -247,5 +240,5 @@ QSize EntityWidget::calculateSize()
     //allow for width margin
     width += ENTITY_MARGIN * 2;
 
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }

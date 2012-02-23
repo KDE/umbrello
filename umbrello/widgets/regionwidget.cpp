@@ -53,7 +53,7 @@ void RegionWidget::paint(QPainter & p, int offsetX, int offsetY)
         drawSelected(&p, offsetX, offsetY);
 }
 
-QSize RegionWidget::calculateSize() {
+UMLSceneSize RegionWidget::minimumSize() {
 
     int width = 10, height = 10;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -66,7 +66,7 @@ QSize RegionWidget::calculateSize() {
     width  += REGION_MARGIN * 2;
     height += REGION_MARGIN * 2;
 
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }
 
 void RegionWidget::setName(const QString &strName) {

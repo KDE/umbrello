@@ -270,7 +270,7 @@ protected:
     /**
      * Overrides method from UMLWidget
      */
-    QSize calculateSize();
+    UMLSceneSize minimumSize();
 
     /**
      * Draw the object as an actor.

@@ -319,10 +319,10 @@ int ClassifierWidget::displayedOperations()
     return displayedMembers(UMLObject::ot_Operation);
 }
 
-QSize ClassifierWidget::calculateSize()
+UMLSceneSize ClassifierWidget::minimumSize()
 {
     if (!m_pObject) {
-        return UMLWidget::calculateSize();
+        return UMLWidget::minimumSize();
     }
     if (classifier()->isInterface() && m_drawAsCircle) {
         return calculateAsCircleSize();
@@ -412,7 +412,7 @@ QSize ClassifierWidget::calculateSize()
     // allow for width margin
     width += MARGIN * 2;
 
-    return QSize(width, height);
+    return UMLSceneSize(width, height);
 }
 
 void ClassifierWidget::slotMenuSelection(QAction* action)

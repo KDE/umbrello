@@ -105,7 +105,7 @@ public slots:
     void setMessageText();
 
 protected:
-    QSize calculateSize();
+    UMLSceneSize minimumSize();
 
 private:
     /// The association or message widget we may be linked to.
