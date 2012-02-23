@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2011                                               *
+ *   copyright (C) 2006-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -230,9 +230,7 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me)
         return;
     }
 
-    bool update = false;
     if (m_lastUpdate.elapsed() > 25) {
-        update = true;
         m_lastUpdate.restart();
 
         m_widget->adjustUnselectedAssocs(m_widget->getX(), m_widget->getY());

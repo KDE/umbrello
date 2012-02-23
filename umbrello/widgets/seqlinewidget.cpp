@@ -26,7 +26,7 @@ int const SeqLineWidget::m_nMouseDownEpsilonX = 20;
  * Constructor.
  */
 SeqLineWidget::SeqLineWidget(UMLView * pView, ObjectWidget * pObject)
-  : UMLSceneLine( pView -> canvas() )
+  : UMLSceneLineItem( pView -> canvas() )
 {
     m_scene = pView;
     m_pObject = pObject;
@@ -109,7 +109,7 @@ void SeqLineWidget::setStartPoint(int startX, int startY)
 {
     int endX = startX;
     int endY = startY + m_nLengthY;
-    UMLSceneLine::setPoints( startX, startY, endX, endY );
+    UMLSceneLineItem::setPoints( startX, startY, endX, endY );
     moveDestructionBox();
 }
 
@@ -141,13 +141,13 @@ void SeqLineWidget::setupDestructionBox()
     rect.setWidth( 14 );
     rect.setHeight( 14 );
 
-    m_DestructionBox.line1 = new UMLSceneLine( m_scene->canvas() );
+    m_DestructionBox.line1 = new UMLSceneLineItem( m_scene->canvas() );
     m_DestructionBox.setLine1Points(rect);
     m_DestructionBox.line1->setVisible( true );
     m_DestructionBox.line1->setPen( QPen(m_pObject->lineColor(), 2) );
     m_DestructionBox.line1->setZ( 3 );
 
-    m_DestructionBox.line2 = new UMLSceneLine( m_scene -> canvas() );
+    m_DestructionBox.line2 = new UMLSceneLineItem( m_scene -> canvas() );
     m_DestructionBox.setLine2Points(rect);
     m_DestructionBox.line2->setVisible( true );
     m_DestructionBox.line2->setPen( QPen(m_pObject->lineColor(), 2) );

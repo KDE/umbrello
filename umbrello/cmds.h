@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -26,11 +25,11 @@
 #include "cmds/cmd_create_seqdiag.h"
 #include "cmds/cmd_create_statediag.h"
 #include "cmds/cmd_create_usecasediag.h"
+#include "cmds/cmd_handle_rename.h"
 #include "cmds/cmd_moveWidget.h"
 #include "cmds/cmd_resizeWidget.h"
-#include "cmds/cmd_set_visibility.h"
 #include "cmds/cmd_set_stereotype.h"
-#include "cmds/cmd_handle_rename.h"
+#include "cmds/cmd_set_visibility.h"
 
 /************************************************************
  * Class Diagram
@@ -46,11 +45,12 @@
 /************************************************************
  * Widgets
  ************************************************************/
-#include "cmds/widget/cmd_changeMulti.h"
-#include "cmds/widget/cmd_create_widget.h"
+#include "cmds/widget/cmd_changeFillColor.h"
 #include "cmds/widget/cmd_changeFontSelection.h"
 #include "cmds/widget/cmd_changeLineColor.h"
-#include "cmds/widget/cmd_changeFillColor.h"
+#include "cmds/widget/cmd_changeMulti.h"
+#include "cmds/widget/cmd_changeTextColor.h"
+#include "cmds/widget/cmd_create_widget.h"
 #include "cmds/widget/cmd_set_name.h"
 #include "cmds/widget/cmd_set_txt.h"
 

@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -48,7 +48,7 @@ void CPPHeaderCodeAccessorMethod::updateContent()
     CodeGenPolicyExt *pe = UMLApp::app()->policyExt();
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
     bool isInlineMethod = policy->getAccessorsAreInline( );
-    Uml::Visibility scope = parentField->getVisibility();
+    // Uml::Visibility scope = parentField->getVisibility();
     QString variableName = cppfield->getFieldName();
     QString itemClassName = cppfield->getTypeName();
     QString text = "";

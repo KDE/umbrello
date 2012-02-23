@@ -39,7 +39,7 @@ class QFontMetrics;
  * @author  Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLWidget : public WidgetBase, public UMLSceneRectangle
+class UMLWidget : public WidgetBase, public UMLSceneRectItem
 {
     Q_OBJECT
 public:
@@ -132,36 +132,36 @@ public:
     /**
      * Gets the x-coordinate.
      */
-    int getX() const {
-        return (int)UMLSceneItem::x();
+    UMLSceneValue getX() const {
+        return x();
     }
 
     /**
      * Gets the y-coordinate.
      */
-    int getY() const {
-        return (int)UMLSceneItem::y();
+    UMLSceneValue getY() const {
+        return y();
     }
 
     /**
      * Gets the z-coordinate.
      */
-    int getZ() const {
-        return (int)UMLSceneItem::z();
+    UMLSceneValue getZ() const {
+        return z();
     }
 
     /**
      * Returns the height of widget.
      */
     int getHeight() const {
-        return UMLSceneRectangle::height();
+        return UMLSceneRectItem::height();
     }
 
     /**
      * Returns the width of the widget.
      */
     int getWidth() const {
-        return UMLSceneRectangle::width();
+        return UMLSceneRectItem::width();
     }
 
     void setSize(int width,int height);

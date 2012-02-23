@@ -54,7 +54,7 @@ const UMLSceneSize UMLWidget::DefaultMaximumSize(1000, 1000);
  */
 UMLWidget::UMLWidget(UMLScene * scene, WidgetType type, UMLObject * o, UMLWidgetController *widgetController)
   : WidgetBase(scene, type),
-    UMLSceneRectangle(scene->canvas())
+    UMLSceneRectItem(scene->canvas())
 {
     if (widgetController) {
         m_widgetController = widgetController;
@@ -79,7 +79,7 @@ UMLWidget::UMLWidget(UMLScene * scene, WidgetType type, UMLObject * o, UMLWidget
  */
 UMLWidget::UMLWidget(UMLScene *scene, WidgetType type, Uml::IDType id, UMLWidgetController *widgetController)
   : WidgetBase(scene, type),
-    UMLSceneRectangle(scene->canvas())
+    UMLSceneRectItem(scene->canvas())
 {
     if (widgetController) {
         m_widgetController = widgetController;
@@ -127,7 +127,7 @@ UMLWidget& UMLWidget::operator=(const UMLWidget & other)
     m_showStereotype = other.m_showStereotype;
     setX(other.getX());
     setY(other.getY());
-    UMLSceneRectangle::setSize(other.width(), other.height());
+    UMLSceneRectItem::setSize(other.width(), other.height());
 
     // assign volatile (non-saved) members
     m_selected = other.m_selected;
@@ -1207,7 +1207,7 @@ void UMLWidget::setSize(int width, int height)
             height = (numY + 1) * m_scene->getSnapY();
     }
 
-    UMLSceneRectangle::setSize(width, height);
+    UMLSceneRectItem::setSize(width, height);
 }
 
 /**

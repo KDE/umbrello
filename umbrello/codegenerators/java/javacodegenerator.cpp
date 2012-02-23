@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -186,20 +186,19 @@ static const char *reserved_words[] = {
 
 /**
  * Constructor.
- * @param elem   the element of the DOM tree
- */
-JavaCodeGenerator::JavaCodeGenerator(QDomElement & elem)
-  : CodeGenerator(elem)
-{
-    init();
-}
-
-/**
- * Constructor.
  */
 JavaCodeGenerator::JavaCodeGenerator()
+  : CodeGenerator()
 {
-    init();
+    // load Classifier documents from parent document
+    //initFromParentDocument();
+
+    // add in an ANT document
+    JavaANTCodeDocument * buildDoc = newANTCodeDocument( );
+    addCodeDocument(buildDoc);
+
+    // set our 'writeout' policy for that code document
+    setCreateANTBuildFile(UmbrelloSettings::buildANTDocumentJava());
 }
 
 /**
@@ -319,22 +318,6 @@ CodeDocument * JavaCodeGenerator::newClassifierCodeDocument(UMLClassifier * clas
     JavaClassifierCodeDocument * doc = new JavaClassifierCodeDocument(classifier);
     doc->initCodeClassFields();
     return doc;
-}
-
-/**
- * Initialize class.
- */
-void JavaCodeGenerator::init()
-{
-    // load Classifier documents from parent document
-    //initFromParentDocument();
-
-    // add in an ANT document
-    JavaANTCodeDocument * buildDoc = newANTCodeDocument( );
-    addCodeDocument(buildDoc);
-
-    // set our 'writeout' policy for that code document
-    setCreateANTBuildFile(UmbrelloSettings::buildANTDocumentJava());
 }
 
 /**

@@ -314,23 +314,6 @@ bool CSharpImport::parseStmt()
         return skipToClosing('{');
     }
 
-    if (keyword == "abstract") {
-        m_isAbstract = true;
-        return true;
-    }
-    if (keyword == "public") {
-        m_currentAccess = Uml::Visibility::Public;
-        return true;
-    }
-    if (keyword == "protected") {
-        m_currentAccess = Uml::Visibility::Protected;
-        return true;
-    }
-    if (keyword == "private") {
-        m_currentAccess = Uml::Visibility::Private;
-        return true;
-    }
-
     if ((keyword == "override") ||
             (keyword == "virtual") ||
             (keyword == "sealed")) {
@@ -478,13 +461,14 @@ bool CSharpImport::parseStmt()
         }
         // try to resolve the class type, or create a placeholder if that fails
         UMLObject *type = resolveClass(typeName);
-        UMLObject *o;
         if (type) {
-            o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name,
-                                              static_cast<UMLClassifier*>(type), m_comment, m_isStatic);
+            Import_Utils::insertAttribute(
+                        m_klass, m_currentAccess, name,
+                        static_cast<UMLClassifier*>(type), m_comment, m_isStatic);
         } else {
-            o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name,
-                                              typeName, m_comment, m_isStatic);
+            Import_Utils::insertAttribute(
+                        m_klass, m_currentAccess, name,
+                        typeName, m_comment, m_isStatic);
         }
         // UMLAttribute *attr = static_cast<UMLAttribute*>(o);
         if (nextToken != ",") {
@@ -527,24 +511,6 @@ bool CSharpImport::parseUsingDirectives()
     // move past ;
     skipStmt();
     return true;
-
-//     if (keyword == "package") {
-//         m_currentPackage = advance();
-//         const QString& qualifiedName = m_currentPackage;
-//         const QStringList names = qualifiedName.split('.');
-//         for (QStringList::ConstIterator it = names.begin(); it != names.end(); ++it) {
-//             QString name = (*it);
-//             log(keyword + ' ' + name);
-//             UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
-//                             name, m_scope[m_scopeIndex], m_comment);
-//             m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
-//         }
-//         if (advance() != ";") {
-//             uError() << "unexpected: " << m_source[m_srcIndex];
-//             skipStmt();
-//         }
-//         return true;
-//     }
 }
 
 /**
@@ -584,7 +550,7 @@ bool CSharpImport::parseAttributes()
 
 /**
  * Check if keyword is belonging to a type-declaration.
- * @return   ...
+ * @return   result of check
  */
 bool CSharpImport::isTypeDeclaration(const QString& keyword)
 {
@@ -603,14 +569,17 @@ bool CSharpImport::isTypeDeclaration(const QString& keyword)
 
 /**
  * Check if keyword is a class-modifier.
- * @return   ...
+ * @return   result of check
  */
 bool CSharpImport::isClassModifier(const QString& keyword)
 {
-    if (isCommonModifier(keyword) ||
+    if (isCommonModifier(keyword)  ||
         (keyword == "abstract")    ||
         (keyword == "sealed")) {
         // log("class-modifier: " + keyword);
+        if (keyword == "abstract") {
+            m_isAbstract = true;
+        }
         return true;
     }
     else {
@@ -620,7 +589,7 @@ bool CSharpImport::isClassModifier(const QString& keyword)
 
 /**
  * Check if keyword is a interface, struct, enum or delegate modifier.
- * @return   ...
+ * @return   result of check
  */
 bool CSharpImport::isCommonModifier(const QString& keyword)
 {
@@ -629,6 +598,15 @@ bool CSharpImport::isCommonModifier(const QString& keyword)
         (keyword == "protected") ||
         (keyword == "internal")  ||
         (keyword == "private")) {
+        if (keyword == "public") {
+            m_currentAccess = Uml::Visibility::Public;
+        }
+        if (keyword == "protected") {
+            m_currentAccess = Uml::Visibility::Protected;
+        }
+        if (keyword == "private") {
+            m_currentAccess = Uml::Visibility::Private;
+        }
         return true;
     }
     else {

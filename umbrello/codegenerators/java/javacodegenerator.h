@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -30,8 +30,6 @@ class JavaCodeGenerator : public CodeGenerator
 public:
 
     JavaCodeGenerator();
-    JavaCodeGenerator(QDomElement & element);
-
     virtual ~JavaCodeGenerator();
 
     void setCreateANTBuildFile(bool buildIt);
@@ -70,9 +68,8 @@ protected:
 
 private:
 
-    void init();
-
     bool m_createANTBuildFile;
+
 };
 
 #endif // JAVACODEGENERATOR_H

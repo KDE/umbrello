@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2011                                               *
+ *   copyright (C) 2005-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -557,10 +557,8 @@ bool AdaImport::parseStmt()
     }
     if (keyword == "task" || keyword == "protected") {
         // Can task and protected objects/types be mapped to UML?
-        bool isType = false;
         QString name = advance();
         if (name == "type") {
-            isType = true;
             name = advance();
         }
         QString next = advance();

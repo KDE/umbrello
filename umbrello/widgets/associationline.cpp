@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -29,7 +29,7 @@
 #include "uml.h"
 
 AssociationLine::Circle::Circle(UMLViewCanvas * canvas, int radius /* = 0 */)
-        : UMLSceneEllipse(radius * 2, radius * 2, canvas)
+        : UMLSceneEllipseItem(radius * 2, radius * 2, canvas)
 {
 }
 
@@ -45,12 +45,12 @@ void AssociationLine::Circle::setY(int y)
 
 void AssociationLine::Circle::setRadius(int radius)
 {
-    UMLSceneEllipse::setSize(radius * 2, radius * 2);
+    UMLSceneEllipseItem::setSize(radius * 2, radius * 2);
 }
 
 int AssociationLine::Circle::getRadius() const
 {
-    return (UMLSceneEllipse::height() / 2);
+    return (UMLSceneEllipseItem::height() / 2);
 }
 
 void AssociationLine::Circle::drawShape(QPainter& p)
@@ -58,6 +58,22 @@ void AssociationLine::Circle::drawShape(QPainter& p)
     int diameter = height();
     int radius = diameter / 2;
     p.drawEllipse( (int)x() - radius, (int)y() - radius, diameter, diameter);
+}
+
+AssociationLine::SubsetSymbol::SubsetSymbol(UMLViewCanvas* canvas)
+    : UMLSceneEllipseItem(canvas) {
+    inclination = 0;
+}
+
+void AssociationLine::SubsetSymbol::drawShape(QPainter& p) {
+    p.translate(QPoint( ( int )x(), ( int )y() ) );
+    p.rotate( inclination );
+    int width = 30, height = 20;
+    int startAngle = 90, endAngle = 180;
+    p.drawArc( 0 ,-height/2, width, height, startAngle*16, endAngle*16 );
+    // revert back
+    p.rotate( -inclination );
+    p.translate( QPoint( ( int )-x(), ( int )-y() ) );
 }
 
 /**
@@ -71,7 +87,7 @@ AssociationLine::AssociationLine()
     m_pSubsetSymbol = 0;
     m_PointArray.resize( 4 );
     m_ParallelLines.resize( 4 );
-    m_pAssociation = 0;
+    m_associationWidget = 0;
     m_bHeadCreated = false;
     m_bSubsetSymbolCreated = false;
     m_bParallelLineCreated = false;
@@ -85,45 +101,21 @@ AssociationLine::~AssociationLine()
 {
 }
 
-/**
- * This will setup the class ready to display the line correctly.
- * This MUST be called before you can use this class.
- */
-void AssociationLine::setAssociation(AssociationWidget * association)
-{
-    if( !association )
-        return;
-    cleanup();
-    m_pAssociation = association;
-    createHeadLines();
-    createSubsetSymbol();
-    if( getAssocType() == Uml::AssociationType::Coll_Message )
-        setupParallelLine();
-    UMLView * view =  (UMLView *)m_pAssociation->parent();
-    if (view) {
-        connect(view, SIGNAL(sigColorChanged(Uml::IDType)), this, SLOT(slotLineColorChanged(Uml::IDType)));
-        connect(view, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
-    }
-    else {
-        uWarning() << "Parent is null. Can not connect SIGNAL/SLOT.";
-    }
-
-}
 
 /**
  * Returns the point at the point index.
  */
-QPoint AssociationLine::getPoint( int pointIndex ) const 
+QPoint AssociationLine::point( int pointIndex ) const 
 {
     int count = m_LineList.count();
     if( count == 0 || pointIndex > count  || pointIndex < 0)
         return QPoint( -1, -1 );
 
     if( pointIndex == count ) {
-        UMLSceneLine * line = m_LineList.last();
+        UMLSceneLineItem * line = m_LineList.last();
         return line -> endPoint();
     }
-    UMLSceneLine * line = m_LineList.at( pointIndex );
+    UMLSceneLineItem * line = m_LineList.at( pointIndex );
     return line -> startPoint();
 }
 
@@ -141,7 +133,7 @@ bool AssociationLine::setPoint( int pointIndex, const QPoint &point )
     }
 
     if( pointIndex == count) {
-        UMLSceneLine * line = m_LineList.last();
+        UMLSceneLineItem * line = m_LineList.last();
         QPoint p = line -> startPoint();
         line -> setPoints( p.x(), p.y(), point.x(), point.y() );
         moveSelected( pointIndex );
@@ -149,14 +141,14 @@ bool AssociationLine::setPoint( int pointIndex, const QPoint &point )
         return true;
     }
     if( pointIndex == 0 ) {
-        UMLSceneLine * line = m_LineList.first();
+        UMLSceneLineItem * line = m_LineList.first();
         QPoint p = line -> endPoint();
         line -> setPoints( point.x(), point.y(), p.x(), p.y() );
         moveSelected( pointIndex );
         update();
         return true;
     }
-    UMLSceneLine * line = m_LineList.at( pointIndex  );
+    UMLSceneLineItem * line = m_LineList.at( pointIndex  );
     QPoint p = line -> endPoint();
     line -> setPoints( point.x(), point.y(), p.x(), p.y() );
     line = m_LineList.at( pointIndex - 1 );
@@ -168,32 +160,19 @@ bool AssociationLine::setPoint( int pointIndex, const QPoint &point )
 }
 
 /**
- * Checks, if we are at an end of the segment or somewhere in the middle.
- * We use the delta, because with the mouse it is hard to find the
- * exactly point.
+ * Shortcut for point(0).
  */
-bool AssociationLine::isPoint( int pointIndex, const QPoint &point, unsigned short delta)
+QPoint AssociationLine::startPoint() const
 {
-    int count = m_LineList.count();
-    if ( pointIndex >= count )
-        return false;
+    return point(0);
+}
 
-    UMLSceneLine * line = m_LineList.at( pointIndex );
-
-    /* check if the given point is the start or end point of the line */
-    if ( (
-                abs( line -> endPoint().x() - point.x() ) <= delta
-                &&
-                abs( line -> endPoint().y() - point.y() ) <= delta
-            ) || (
-                abs( line -> startPoint().x() - point.x() ) <= delta
-                &&
-                abs( line -> startPoint().y() - point.y() ) <= delta
-            ) )
-        return true;
-
-    /* check if the given point is the start or end point of the line */
-    return false;
+/**
+ * Shortcut for point(count()-1).
+ */
+QPoint AssociationLine::endPoint() const
+{
+    return point(count()-1);
 }
 
 /**
@@ -207,11 +186,11 @@ bool AssociationLine::insertPoint( int pointIndex, const QPoint &point )
     const bool bLoading = UMLApp::app()->document()->loading();
 
     if( count == 1 || pointIndex == 1) {
-        UMLSceneLine * first = m_LineList.first();
+        UMLSceneLineItem * first = m_LineList.first();
         QPoint sp = first -> startPoint();
         QPoint ep = first -> endPoint();
         first -> setPoints( sp.x(), sp.y(), point.x(), point.y() );
-        UMLSceneLine * line = new UMLSceneLine( getScene() );
+        UMLSceneLineItem * line = new UMLSceneLineItem( getScene() );
         line -> setZ( -2 );
         line -> setPoints( point.x(), point.y(), ep.x(), ep.y() );
         line -> setPen( getPen() );
@@ -222,11 +201,11 @@ bool AssociationLine::insertPoint( int pointIndex, const QPoint &point )
         return true;
     }
     if( count + 1 == pointIndex ) {
-        UMLSceneLine * before = m_LineList.last();
+        UMLSceneLineItem * before = m_LineList.last();
         QPoint sp = before -> startPoint();
         QPoint ep = before -> endPoint();
         before -> setPoints( sp.x(), sp.y(), point.x(), point.y() );
-        UMLSceneLine * line = new UMLSceneLine( getScene() );
+        UMLSceneLineItem * line = new UMLSceneLineItem( getScene() );
         line -> setPoints( point.x(), point.y(), ep.x(), ep.y() );
         line -> setZ( -2 );
         line -> setPen( getPen() );
@@ -236,11 +215,11 @@ bool AssociationLine::insertPoint( int pointIndex, const QPoint &point )
             setupSelected();
         return true;
     }
-    UMLSceneLine * before = m_LineList.at( pointIndex - 1 );
+    UMLSceneLineItem * before = m_LineList.at( pointIndex - 1 );
     QPoint sp = before -> startPoint();
     QPoint ep = before -> endPoint();
     before -> setPoints( sp.x(), sp.y(), point.x(), point.y() );
-    UMLSceneLine * line = new UMLSceneLine(getScene() );
+    UMLSceneLineItem * line = new UMLSceneLineItem(getScene() );
     line -> setPoints( point.x(), point.y(), ep.x(), ep.y() );
     line -> setZ( -2 );
     line -> setPen( getPen() );
@@ -265,7 +244,7 @@ bool AssociationLine::removePoint( int pointIndex, const QPoint &point, unsigned
     if (!point.isNull()) {
         /* we don't know if the user clicked on the start- or endpoint of a
         * line segment */
-        UMLSceneLine * current_line = m_LineList.at( pointIndex );
+        UMLSceneLineItem * current_line = m_LineList.at( pointIndex );
         if (abs( current_line -> endPoint().x() - point.x() ) <= delta
                 &&
                 abs( current_line -> endPoint().y() - point.y() ) <= delta)
@@ -277,7 +256,7 @@ bool AssociationLine::removePoint( int pointIndex, const QPoint &point, unsigned
 
             /* the next segment will get the starting point from the current one,
             * which is going to be removed */
-            UMLSceneLine * next_line = m_LineList.at( pointIndex + 1 );
+            UMLSceneLineItem * next_line = m_LineList.at( pointIndex + 1 );
             QPoint startPoint = current_line -> startPoint();
             QPoint endPoint = next_line -> endPoint();
             next_line -> setPoints(startPoint.x(), startPoint.y(),
@@ -295,7 +274,7 @@ bool AssociationLine::removePoint( int pointIndex, const QPoint &point, unsigned
 
                 /* the previous segment will get the end point from the current one,
                 * which is going to be removed */
-                UMLSceneLine * previous_line = m_LineList.at( pointIndex - 1 );
+                UMLSceneLineItem * previous_line = m_LineList.at( pointIndex - 1 );
                 QPoint startPoint = previous_line -> startPoint();
                 QPoint endPoint = current_line -> endPoint();
                 previous_line -> setPoints(startPoint.x(), startPoint.y(),
@@ -313,13 +292,111 @@ bool AssociationLine::removePoint( int pointIndex, const QPoint &point, unsigned
 }
 
 /**
+ * Returns the amount of POINTS on the line.
+ * Includes start and end points.
+ */
+int AssociationLine::count() const 
+{
+    return m_LineList.count() + 1;
+}
+
+/**
+ * Removes and item created that are no longer needed.
+ */
+void AssociationLine::cleanup()
+{
+    if (m_associationWidget) {
+        qDeleteAll( m_LineList.begin(), m_LineList.end() );
+        m_LineList.clear();
+    }
+
+    qDeleteAll( m_HeadList.begin(), m_HeadList.end() );
+    m_HeadList.clear();
+
+    qDeleteAll( m_RectList.begin(), m_RectList.end() );
+    m_RectList.clear();
+
+    qDeleteAll( m_ParallelList.begin(), m_ParallelList.end() );
+    m_ParallelList.clear();
+
+    if( m_pClearPoly )
+        delete m_pClearPoly;
+    if( m_pCircle )
+        delete m_pCircle;
+    if( m_pSubsetSymbol )
+        delete m_pSubsetSymbol;
+    m_pCircle = 0;
+    m_pClearPoly = 0;
+    m_pSubsetSymbol = 0;
+    m_bHeadCreated = m_bParallelLineCreated = m_bSubsetSymbolCreated = false;
+    if (m_associationWidget) {
+        UMLView * view =  (UMLView *)m_associationWidget->parent();
+        if (view) {
+            disconnect(view, SIGNAL(sigColorChanged(Uml::IDType)), this, SLOT(slotLineColorChanged(Uml::IDType)));
+            disconnect(view, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
+        }
+        m_associationWidget = 0;
+    }
+}
+
+/**
+ * Return index of closest point.
+ * 
+ * @param point The point which is to be tested for closeness.
+ *
+ * @retval "Index" of the linepoint closest to the \a point passed.
+ * @retval -1 If no linepoint is closer to passed in \a point.
+ */
+int AssociationLine::closestPointIndex( const QPoint &position )
+{
+    UMLSceneItemList list = getScene()->collisions( position );
+    int index = -1;
+
+    UMLSceneItemList::iterator end(list.end());
+    for(UMLSceneItemList::iterator item_it(list.begin()); item_it != end; ++item_it ) {
+        if( ( index = m_LineList.indexOf( (UMLSceneLineItem*)*item_it ) ) != -1 )
+            break;
+    }//end for
+    return index;
+}
+
+/**
+ * Checks, if we are at an end of the segment or somewhere in the middle.
+ * We use the delta, because with the mouse it is hard to find the
+ * exactly point.
+ */
+bool AssociationLine::isPoint( int pointIndex, const QPoint &point, unsigned short delta)
+{
+    int count = m_LineList.count();
+    if ( pointIndex >= count )
+        return false;
+
+    UMLSceneLineItem * line = m_LineList.at( pointIndex );
+
+    /* check if the given point is the start or end point of the line */
+    if ( (
+                abs( line -> endPoint().x() - point.x() ) <= delta
+                &&
+                abs( line -> endPoint().y() - point.y() ) <= delta
+            ) || (
+                abs( line -> startPoint().x() - point.x() ) <= delta
+                &&
+                abs( line -> startPoint().y() - point.y() ) <= delta
+            ) )
+        return true;
+
+    /* check if the given point is the start or end point of the line */
+    return false;
+}
+
+/**
  * Sets the start and end points.
  */
-bool AssociationLine::setStartEndPoints( const QPoint &start, const QPoint &end )
+bool AssociationLine::setEndPoints( const QPoint &start, const QPoint &end )
 {
     int count = m_LineList.count();
     if( count == 0 ) {
-        UMLSceneLine * line = new UMLSceneLine(getScene() );
+        UMLSceneLineItem * line = new UMLSceneLineItem(getScene() );
         line -> setPoints( start.x(), start.y(),end.x(),end.y() );
         line -> setZ( -2 );
         line -> setPen( getPen() );
@@ -333,107 +410,112 @@ bool AssociationLine::setStartEndPoints( const QPoint &start, const QPoint &end 
     return false;
 }
 
-/**
- * Returns the amount of POINTS on the line.
- * Includes start and end points.
- */
-int AssociationLine::count() const 
+bool AssociationLine::hasPoints () const
 {
-    return m_LineList.count() + 1;
+    int count = m_LineList.count();
+    if (count>1)
+        return true;
+    return false;
 }
 
-/**
- * Returns -1 if the given point is not on the line.
- * else returns the line segment the point is on.
- * Use the value to insert points at the point position.
- */
-int AssociationLine::onLinePath( const QPoint &position )
+void AssociationLine::dumpPoints ()
 {
-    UMLSceneItemList list = getScene()->collisions( position );
-    int index = -1;
-
-    UMLSceneItemList::iterator end(list.end());
-    for(UMLSceneItemList::iterator item_it(list.begin()); item_it != end; ++item_it ) {
-        if( ( index = m_LineList.indexOf( (UMLSceneLine*)*item_it ) ) != -1 )
-            break;
-    }//end for
-    return index;
-}
-
-/**
- * Sets the status of whether the line is selected or not.
- */
-void AssociationLine::setSelected( bool select ) 
-{
-    if(select) {
-        setupSelected();
-    }
-    else if(!m_RectList.isEmpty()) {
-        qDeleteAll(m_RectList);
-        m_RectList.clear();
+    int count = m_LineList.count();
+    for( int i = 1; i < count; i++ ) {
+        QPoint p = point( i );
+        uDebug()<<" * point x:"<<p.x()<<" y:"<<p.y();
     }
 }
 
-/**
- * Sets the Association type.
- */
-void AssociationLine::setAssocType( Uml::AssociationType type )
+bool AssociationLine::loadFromXMI( QDomElement & qElement )
 {
-    QList<UMLSceneLine*>::Iterator it = m_LineList.begin();
-    QList<UMLSceneLine*>::Iterator end = m_LineList.end();
+    QDomNode node = qElement.firstChild();
+    QDomElement startElement = node.toElement();
+    if( startElement.isNull() || startElement.tagName() != "startpoint" )
+        return false;
+    QString x = startElement.attribute( "startx", "0" );
+    int nX = x.toInt();
+    QString y = startElement.attribute( "starty", "0" );
+    int nY = y.toInt();
+    QPoint startPoint( nX, nY );
 
-    for( ; it != end; ++it )
-        (*it) -> setPen( getPen() );
-
-    delete m_pClearPoly;
-    m_pClearPoly = 0;
-
-    if( type == Uml::AssociationType::Coll_Message ) {
-        setupParallelLine();
+    node = startElement.nextSibling();
+    QDomElement endElement = node.toElement();
+    if( endElement.isNull() || endElement.tagName() != "endpoint" )
+        return false;
+    x = endElement.attribute( "endx", "0" );
+    nX = x.toInt();
+    y = endElement.attribute( "endy", "0" );
+    nY = y.toInt();
+    QPoint endPoint( nX, nY );
+    setEndPoints( startPoint, endPoint );
+    QPoint point;
+    node = endElement.nextSibling();
+    QDomElement element = node.toElement();
+    int i = 1;
+    while( !element.isNull() ) {
+        if( element.tagName() == "point" ) {
+            x = element.attribute( "x", "0" );
+            y = element.attribute( "y", "0" );
+            point.setX( x.toInt() );
+            point.setY( y.toInt() );
+            insertPoint( i++, point );
+        }
+        node = element.nextSibling();
+        element = node.toElement();
     }
-    else {
-        createHeadLines();
-        createSubsetSymbol();
+
+    return true;
+}
+
+void AssociationLine::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
+    int count = m_LineList.count();
+    QPoint p = point( 0 );
+    QDomElement lineElement = qDoc.createElement( "linepath" );
+    QDomElement startElement = qDoc.createElement( "startpoint" );
+    startElement.setAttribute( "startx", p.x() );
+    startElement.setAttribute( "starty", p.y() );
+    lineElement.appendChild( startElement );
+    QDomElement endElement = qDoc.createElement( "endpoint" );
+    p = point( count );
+    endElement.setAttribute( "endx", p.x() );
+    endElement.setAttribute( "endy", p.y() );
+    lineElement.appendChild( endElement );
+    for( int i = 1; i < count; i++ ) {
+        QDomElement pointElement = qDoc.createElement( "point" );
+        p = point( i );
+        pointElement.setAttribute( "x", p.x() );
+        pointElement.setAttribute( "y", p.y() );
+        lineElement.appendChild( pointElement );
     }
-    update();
+    qElement.appendChild( lineElement );
 }
 
 /**
- * Calls a group of methods to update the line. Used to save you calling multiple methods.
+ * Returns the type of pen to use depending on the type of Association.
  */
-void AssociationLine::update()
+QPen AssociationLine::getPen()
 {
-    if (getAssocType() == Uml::AssociationType::Coll_Message) {
-        if (m_bParallelLineCreated) {
-            calculateParallelLine();
-            updateParallelLine();
-        } else
-            setupParallelLine();
-    } else if (m_bHeadCreated) {
-        calculateHead();
-        updateHead();
-    } else {
-        createHeadLines();
-    }
-
-    if ( m_bSubsetSymbolCreated ) {
-        updateSubsetSymbol();
-    } else {
-        createSubsetSymbol();
-    }
+    Uml::AssociationType type = getAssocType();
+    if( type == Uml::AssociationType::Dependency || type == Uml::AssociationType::Realization || type == Uml::AssociationType::Anchor )
+        return QPen( lineColor(), lineWidth(), Qt::DashLine );
+    return QPen( lineColor(), lineWidth() );
 }
 
+
 /**
- * Sets the line color used by the line.
+ * Returns the Line Color to use.
+ * Returns black if association not set.
  *
- * @param viewID The id of the object behind the widget.
+ * This class doesn't hold this information but is a wrapper
+ * method to stop calls to undefined variable like m_associationWidget.
  */
-void AssociationLine::slotLineColorChanged( Uml::IDType viewID )
+QColor AssociationLine::lineColor()
 {
-    if(m_pAssociation->umlScene()->getID() != viewID) {
-        return;
-    }
-    setLineColor( m_pAssociation->umlScene()->lineColor() );
+    if( !m_associationWidget )
+        return Qt::black;
+    return m_associationWidget->lineColor();
 }
 
 /**
@@ -442,7 +524,7 @@ void AssociationLine::slotLineColorChanged( Uml::IDType viewID )
 void AssociationLine::setLineColor( const QColor &color )
 {
     uint linewidth = 0;
-    UMLSceneLine * line = 0;
+    UMLSceneLineItem * line = 0;
 
     Q_FOREACH( line, m_LineList ) {
         linewidth = line->pen().width();
@@ -477,16 +559,24 @@ void AssociationLine::setLineColor( const QColor &color )
 }
 
 /**
- * Sets the line width used by the line.
+ * Returns the Line Width to use.
+ * Returns 0 if association not set.
  *
- * @param viewID The id of the object behind the widget.
+ * This class doesn't hold this information but is a wrapper
+ * method to stop calls to undefined variable like m_associationWidget.
  */
-void AssociationLine::slotLineWidthChanged( Uml::IDType viewID )
+uint AssociationLine::lineWidth()
 {
-    if(m_pAssociation->umlScene()->getID() != viewID) {
-        return;
+    if( !m_associationWidget )
+        return 0;
+    int viewLineWidth = m_associationWidget->lineWidth();
+    if ( viewLineWidth >= 0 && viewLineWidth <= 10 )
+        return viewLineWidth;
+    else {
+        uWarning() << "Ignore wrong LineWidth of " << viewLineWidth
+                   << " in AssociationLine::lineWidth";
+        return 0;
     }
-    setLineWidth( m_pAssociation->umlScene()->lineWidth() );
 }
 
 /**
@@ -496,7 +586,7 @@ void AssociationLine::slotLineWidthChanged( Uml::IDType viewID )
 void AssociationLine::setLineWidth( uint width )
 {
     QColor linecolor;
-    UMLSceneLine * line = 0;
+    UMLSceneLineItem * line = 0;
 
     Q_FOREACH( line, m_LineList ) {
         linecolor = line->pen().color();
@@ -520,6 +610,219 @@ void AssociationLine::setLineWidth( uint width )
 }
 
 /**
+ * This will setup the class ready to display the line correctly.
+ * This MUST be called before you can use this class.
+ */
+void AssociationLine::setAssociation(AssociationWidget * association)
+{
+    if( !association )
+        return;
+    cleanup();
+    m_associationWidget = association;
+    createHeadLines();
+    createSubsetSymbol();
+    if( getAssocType() == Uml::AssociationType::Coll_Message )
+        setupParallelLine();
+    UMLView * view =  (UMLView *)m_associationWidget->parent();
+    if (view) {
+        connect(view, SIGNAL(sigColorChanged(Uml::IDType)), this, SLOT(slotLineColorChanged(Uml::IDType)));
+        connect(view, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
+    }
+    else {
+        uWarning() << "Parent is null. Can not connect SIGNAL/SLOT.";
+    }
+
+}
+
+/**
+ * Returns the Association type.
+ * Returns Uml::AssociationType::Association if association hasn't been set.
+ *
+ * This class doesn't hold this information but is a wrapper
+ * method to stop calls to undefined variable like m_associationWidget.
+ */
+Uml::AssociationType AssociationLine::getAssocType() const 
+{
+    if( m_associationWidget )
+        return m_associationWidget->associationType();
+    return Uml::AssociationType::Association;
+}
+
+/**
+ * Sets the Association type.
+ */
+void AssociationLine::setAssocType( Uml::AssociationType type )
+{
+    QList<UMLSceneLineItem*>::Iterator it = m_LineList.begin();
+    QList<UMLSceneLineItem*>::Iterator end = m_LineList.end();
+
+    for( ; it != end; ++it )
+        (*it) -> setPen( getPen() );
+
+    delete m_pClearPoly;
+    m_pClearPoly = 0;
+
+    if( type == Uml::AssociationType::Coll_Message ) {
+        setupParallelLine();
+    }
+    else {
+        createHeadLines();
+        createSubsetSymbol();
+    }
+    update();
+}
+
+/**
+ * Equal to (==) operator.
+ */
+bool AssociationLine::operator==( const AssociationLine & rhs ) 
+{
+    if( this->m_LineList.count() != rhs.m_LineList.count() )
+        return false;
+
+    //Check to see if all points at the same position
+    for( int i = 0; i< rhs.count() ; i++ ) {
+        if( this->point( i ) != rhs.point( i ) )
+            return false;
+    }
+    return true;
+}
+
+/**
+ * Copy ( = ) operator.
+ */
+AssociationLine & AssociationLine::operator=( const AssociationLine & rhs )
+{
+    if( this == &rhs )
+        return *this;
+    //clear out the old canvas objects
+    this->cleanup();
+
+    int count = rhs.m_LineList.count();
+    //setup start end points
+    this->setEndPoints( rhs.point( 0 ), rhs.point( count) );
+    //now insert the rest
+    for( int i = 1; i < count ; i++ ) {
+        this->insertPoint( i, rhs.point ( i ) );
+    }
+    this->setAssocType( rhs.getAssocType() );
+
+    return *this;
+}
+
+/**
+ * Tell the line where the line docks.
+ */
+void AssociationLine::setDockRegion( Region region )
+{
+    m_DockRegion = region;
+}
+
+/**
+ * Sets the status of whether the line is selected or not.
+ */
+void AssociationLine::setSelected( bool select ) 
+{
+    if(select) {
+        setupSelected();
+    }
+    else if(!m_RectList.isEmpty()) {
+        qDeleteAll(m_RectList);
+        m_RectList.clear();
+    }
+}
+
+/**
+ * Activates the line list.
+ * This is needed because the m_associationWidget does not yet
+ * exist at the time of the AssociationLine::loadFromXMI call.
+ * However, this means that the points in the m_LineList
+ * do not have a parent when they are loaded.
+ * They need to be reparented by calling AssociationLine::activate()
+ * once the m_associationWidget exists.
+ */
+void AssociationLine::activate()
+{
+    int count = m_LineList.count();
+    if (count == 0)
+        return;
+    UMLViewCanvas * canvas = getScene();
+    if (canvas == NULL)
+        return;
+    for (int i = 0; i < count ; i++) {
+        UMLSceneLineItem *line = m_LineList.at(i);
+        line -> setCanvas( canvas );
+        line -> setPen( getPen() );
+    }
+}
+
+/**
+ * Calls a group of methods to update the line. Used to save you calling multiple methods.
+ */
+void AssociationLine::update()
+{
+    if (getAssocType() == Uml::AssociationType::Coll_Message) {
+        if (m_bParallelLineCreated) {
+            calculateParallelLine();
+            updateParallelLine();
+        } else
+            setupParallelLine();
+    } else if (m_bHeadCreated) {
+        calculateHead();
+        updateHead();
+    } else {
+        createHeadLines();
+    }
+
+    if ( m_bSubsetSymbolCreated ) {
+        updateSubsetSymbol();
+    } else {
+        createSubsetSymbol();
+    }
+}
+
+/**
+ * Sets the line color used by the line.
+ *
+ * @param viewID The id of the object behind the widget.
+ */
+void AssociationLine::slotLineColorChanged( Uml::IDType viewID )
+{
+    if(m_associationWidget->umlScene()->getID() != viewID) {
+        return;
+    }
+    setLineColor( m_associationWidget->umlScene()->lineColor() );
+}
+
+/**
+ * Sets the line width used by the line.
+ *
+ * @param viewID The id of the object behind the widget.
+ */
+void AssociationLine::slotLineWidthChanged( Uml::IDType viewID )
+{
+    if(m_associationWidget->umlScene()->getID() != viewID) {
+        return;
+    }
+    setLineWidth( m_associationWidget->umlScene()->lineWidth() );
+}
+
+/**
+ * Returns the canvas being used.
+ * Will return zero if the Association hasn't been set.
+ *
+ * This class doesn't hold this information but is a wrapper
+ * method to stop calls to undefined variable like m_associationWidget.
+ */
+UMLViewCanvas * AssociationLine::getScene()
+{
+    if( !m_associationWidget )
+        return 0;
+    const UMLView * view =  m_associationWidget->umlScene();
+    return static_cast<UMLViewCanvas *>(view->canvas());
+}
+
+/**
  * Moves the selected canvas widgets.
  */
 void AssociationLine::moveSelected( int pointIndex )
@@ -532,8 +835,8 @@ void AssociationLine::moveSelected( int pointIndex )
     }
     if( (int)m_RectList.count() + 1 != lineCount )
         setupSelected();
-    UMLSceneRectangle * rect = 0;
-    UMLSceneLine * line = 0;
+    UMLSceneRectItem * rect = 0;
+    UMLSceneLineItem * line = 0;
     if( pointIndex == lineCount || lineCount == 1) {
         line = m_LineList.last();
         QPoint p = line -> endPoint();
@@ -558,30 +861,19 @@ void AssociationLine::setupSelected()
 {
     qDeleteAll( m_RectList.begin(), m_RectList.end() );
     m_RectList.clear();
-    UMLSceneLine * line = 0;
+    UMLSceneLineItem * line = 0;
 
     Q_FOREACH( line, m_LineList ) {
         QPoint sp = line -> startPoint();
-        UMLSceneRectangle *rect = Widget_Utils::decoratePoint(sp);
+        UMLSceneRectItem *rect = Widget_Utils::decoratePoint(sp);
         m_RectList.append( rect );
     }
     //special case for last point
     line = m_LineList.last();
     QPoint p = line -> endPoint();
-    UMLSceneRectangle *rect = Widget_Utils::decoratePoint(p);
+    UMLSceneRectItem *rect = Widget_Utils::decoratePoint(p);
     m_RectList.append( rect );
     update();
-}
-
-/**
- * Returns the type of pen to use depending on the type of Association.
- */
-QPen AssociationLine::getPen()
-{
-    Uml::AssociationType type = getAssocType();
-    if( type == Uml::AssociationType::Dependency || type == Uml::AssociationType::Realization || type == Uml::AssociationType::Anchor )
-        return QPen( lineColor(), lineWidth(), Qt::DashLine );
-    return QPen( lineColor(), lineWidth() );
 }
 
 /**
@@ -596,8 +888,8 @@ void AssociationLine::calculateHead()
     Uml::AssociationType at = getAssocType();
     bool diamond = (at == Uml::AssociationType::Aggregation || at == Uml::AssociationType::Composition);
     if (diamond || at == Uml::AssociationType::Containment) {
-        farPoint = getPoint(1);
-        m_EgdePoint = getPoint(0);
+        farPoint = point(1);
+        m_EgdePoint = point(0);
         if (diamond) {
             arrowAngle *= 1.5;  // wider
             halfLength += 1;    // longer
@@ -611,8 +903,8 @@ void AssociationLine::calculateHead()
             halfLength -= 4;    // shorter
         }
     } else {
-        farPoint = getPoint(size - 1);
-        m_EgdePoint = getPoint(size);
+        farPoint = point(size - 1);
+        m_EgdePoint = point(size);
         // We have an arrow.
         arrowAngle *= 2.0;      // wider
         halfLength += 3;        // longer
@@ -671,12 +963,65 @@ void AssociationLine::calculateHead()
 }
 
 /**
+ * Creates the head lines to display the head.
+ */
+void AssociationLine::createHeadLines()
+{
+    qDeleteAll( m_HeadList.begin(), m_HeadList.end() );
+    m_HeadList.clear();
+    UMLViewCanvas * canvas = getScene();
+    switch( getAssocType() ) {
+    case Uml::AssociationType::Activity:
+    case Uml::AssociationType::Exception:
+    case Uml::AssociationType::State:
+    case Uml::AssociationType::Dependency:
+    case Uml::AssociationType::UniAssociation:
+    case Uml::AssociationType::Relationship:
+        growList(m_HeadList, 2);
+        break;
+
+    case Uml::AssociationType::Generalization:
+    case Uml::AssociationType::Realization:
+        growList(m_HeadList, 3);
+        m_pClearPoly = new UMLScenePolygonItem( canvas );
+        m_pClearPoly -> setVisible( true );
+        m_pClearPoly -> setBrush( QBrush( Qt::white ) );
+        m_pClearPoly -> setZ( -1 );
+        break;
+
+    case Uml::AssociationType::Composition:
+    case Uml::AssociationType::Aggregation:
+        growList(m_HeadList, 4);
+        m_pClearPoly = new UMLScenePolygonItem( canvas );
+        m_pClearPoly -> setVisible( true );
+        if( getAssocType() == Uml::AssociationType::Aggregation )
+            m_pClearPoly->setBrush( QBrush( Qt::white ) );
+        else
+            m_pClearPoly -> setBrush( QBrush( lineColor() ) );
+        m_pClearPoly -> setZ( -1 );
+        break;
+
+    case Uml::AssociationType::Containment:
+        growList(m_HeadList, 1);
+        if (!m_pCircle) {
+            m_pCircle = new Circle( canvas, 6 );
+            m_pCircle->show();
+            m_pCircle->setPen( QPen( lineColor(), lineWidth() ) );
+        }
+        break;
+    default:
+        break;
+    }
+    m_bHeadCreated = true;
+}
+
+/**
  * Updates the head lines. Call after calculating the new points.
  */
 void AssociationLine::updateHead()
 {
     int count = m_HeadList.count();
-    UMLSceneLine * line = 0;
+    UMLSceneLineItem * line = 0;
 
     switch( getAssocType() ) {
     case Uml::AssociationType::State:
@@ -762,77 +1107,6 @@ void AssociationLine::updateHead()
 }
 
 /**
- * Create a number of new lines and append them to the given list.
- *
- * @param list  The list into which to append lines.
- * @param by    The number of lines to insert into the given list.
- */
-void AssociationLine::growList(LineList &list, int by)
-{
-    QPen pen( lineColor(), lineWidth() );
-    for (int i = 0; i < by; i++) {
-        UMLSceneLine * line = new UMLSceneLine( getScene() );
-        line -> setZ( 0 );
-        line -> setPen( pen );
-        line -> setVisible( true );
-        list.append( line );
-    }
-}
-
-/**
- * Creates the head lines to display the head.
- */
-void AssociationLine::createHeadLines()
-{
-    qDeleteAll( m_HeadList.begin(), m_HeadList.end() );
-    m_HeadList.clear();
-    UMLViewCanvas * canvas = getScene();
-    switch( getAssocType() ) {
-    case Uml::AssociationType::Activity:
-    case Uml::AssociationType::Exception:
-    case Uml::AssociationType::State:
-    case Uml::AssociationType::Dependency:
-    case Uml::AssociationType::UniAssociation:
-    case Uml::AssociationType::Relationship:
-        growList(m_HeadList, 2);
-        break;
-
-    case Uml::AssociationType::Generalization:
-    case Uml::AssociationType::Realization:
-        growList(m_HeadList, 3);
-        m_pClearPoly = new UMLScenePolygon( canvas );
-        m_pClearPoly -> setVisible( true );
-        m_pClearPoly -> setBrush( QBrush( Qt::white ) );
-        m_pClearPoly -> setZ( -1 );
-        break;
-
-    case Uml::AssociationType::Composition:
-    case Uml::AssociationType::Aggregation:
-        growList(m_HeadList, 4);
-        m_pClearPoly = new UMLScenePolygon( canvas );
-        m_pClearPoly -> setVisible( true );
-        if( getAssocType() == Uml::AssociationType::Aggregation )
-            m_pClearPoly->setBrush( QBrush( Qt::white ) );
-        else
-            m_pClearPoly -> setBrush( QBrush( lineColor() ) );
-        m_pClearPoly -> setZ( -1 );
-        break;
-
-    case Uml::AssociationType::Containment:
-        growList(m_HeadList, 1);
-        if (!m_pCircle) {
-            m_pCircle = new Circle( canvas, 6 );
-            m_pCircle->show();
-            m_pCircle->setPen( QPen( lineColor(), lineWidth() ) );
-        }
-        break;
-    default:
-        break;
-    }
-    m_bHeadCreated = true;
-}
-
-/**
  * Calculates the position of the parallel line.
  */
 void AssociationLine::calculateParallelLine()
@@ -841,8 +1115,8 @@ void AssociationLine::calculateParallelLine()
     double ATAN = atan(1.0);
     int lineDist = 10;
     //get  1/8(M) and 7/8(T) point
-    QPoint a = getPoint( midCount - 1 );
-    QPoint b = getPoint( midCount );
+    QPoint a = point( midCount - 1 );
+    QPoint b = point( midCount );
     int mx = ( a.x() + b.x() ) / 2;
     int my = ( a.y() + b.y() ) / 2;
     int tx = ( mx + b.x() ) / 2;
@@ -852,7 +1126,6 @@ void AssociationLine::calculateParallelLine()
     distX *= distX;
     int distY = ( my - ty );
     distY *= distY;
-    double dist = sqrt( double(distX + distY) );
     double angle = atan2( double(ty - my), double(tx - mx) ) + ( ATAN * 2 );
     //find point from M to start line from.
     double cosx = cos( angle ) * lineDist;
@@ -863,7 +1136,6 @@ void AssociationLine::calculateParallelLine()
     distX *= distX;
     distY = ( ty - b.y() );
     distY *= distY;
-    dist = sqrt( double(distX + distY) );
     //find point from T to end line
     cosx = cos( angle ) * lineDist;
     siny = sin( angle ) * lineDist;
@@ -879,7 +1151,7 @@ void AssociationLine::calculateParallelLine()
     siny = ( sin( arrowSlope ) ) * arrowDist;
     m_ParallelLines[ 2 ] = QPoint( pointT.x() - (int)cosx, pointT.y() - (int)siny );
     arrowSlope = angle - ATAN;
-    cosx = ( cos( arrowSlope )  ) * arrowDist;
+    cosx = ( cos( arrowSlope ) ) * arrowDist;
     siny = ( sin( arrowSlope ) ) * arrowDist;
     m_ParallelLines[ 3 ] = QPoint( pointT.x() - (int)cosx, pointT.y() - (int)siny );
 }
@@ -903,7 +1175,7 @@ void AssociationLine::updateParallelLine()
 {
     if( !m_bParallelLineCreated )
         return;
-    UMLSceneLine * line = 0;
+    UMLSceneLineItem * line = 0;
     QPoint common = m_ParallelLines.at( 0 );
     QPoint p = m_ParallelLines.at( 1 );
     line = m_ParallelList.at( 0 );
@@ -916,261 +1188,6 @@ void AssociationLine::updateParallelLine()
     p = m_ParallelLines.at( 3 );
     line = m_ParallelList.at( 2 );
     line -> setPoints( common.x(), common.y(), p.x(), p.y() );
-}
-
-/**
- * Equal to (==) operator.
- */
-bool AssociationLine::operator==( const AssociationLine & rhs ) 
-{
-    if( this->m_LineList.count() != rhs.m_LineList.count() )
-        return false;
-
-    //Check to see if all points at the same position
-    for( int i = 0; i< rhs.count() ; i++ ) {
-        if( this->getPoint( i ) != rhs.getPoint( i ) )
-            return false;
-    }
-    return true;
-}
-
-/**
- * Copy ( = ) operator.
- */
-AssociationLine & AssociationLine::operator=( const AssociationLine & rhs )
-{
-    if( this == &rhs )
-        return *this;
-    //clear out the old canvas objects
-    this->cleanup();
-
-    int count = rhs.m_LineList.count();
-    //setup start end points
-    this->setStartEndPoints( rhs.getPoint( 0 ), rhs.getPoint( count) );
-    //now insert the rest
-    for( int i = 1; i < count ; i++ ) {
-        this->insertPoint( i, rhs.getPoint ( i ) );
-    }
-    this->setAssocType( rhs.getAssocType() );
-
-    return *this;
-}
-
-/**
- * Returns the canvas being used.
- * Will return zero if the Association hasn't been set.
- *
- * This class doesn't hold this information but is a wrapper
- * method to stop calls to undefined variable like m_pAssociation.
- */
-UMLViewCanvas * AssociationLine::getScene()
-{
-    if( !m_pAssociation )
-        return 0;
-    const UMLView * view =  m_pAssociation->umlScene();
-    return static_cast<UMLViewCanvas *>(view->canvas());
-}
-
-/**
- * Returns the Association type.
- * Returns Uml::AssociationType::Association if association hasn't been set.
- *
- * This class doesn't hold this information but is a wrapper
- * method to stop calls to undefined variable like m_pAssociation.
- */
-Uml::AssociationType AssociationLine::getAssocType() const 
-{
-    if( m_pAssociation )
-        return m_pAssociation->associationType();
-    return Uml::AssociationType::Association;
-}
-
-/**
- * Returns the Line Color to use.
- * Returns black if association not set.
- *
- * This class doesn't hold this information but is a wrapper
- * method to stop calls to undefined variable like m_pAssociation.
- */
-QColor AssociationLine::lineColor()
-{
-    if( !m_pAssociation )
-        return Qt::black;
-    return m_pAssociation->lineColor();
-}
-
-/**
- * Returns the Line Width to use.
- * Returns 0 if association not set.
- *
- * This class doesn't hold this information but is a wrapper
- * method to stop calls to undefined variable like m_pAssociation.
- */
-uint AssociationLine::lineWidth()
-{
-    if( !m_pAssociation )
-        return 0;
-    int viewLineWidth = m_pAssociation->lineWidth();
-    if ( viewLineWidth >= 0 && viewLineWidth <= 10 )
-        return viewLineWidth;
-    else {
-        uWarning() << "Ignore wrong LineWidth of " << viewLineWidth
-                   << " in AssociationLine::lineWidth";
-        return 0;
-    }
-}
-
-/**
- * Removes and item created that are no longer needed.
- */
-void AssociationLine::cleanup()
-{
-    if (m_pAssociation) {
-        qDeleteAll( m_LineList.begin(), m_LineList.end() );
-        m_LineList.clear();
-    }
-
-    qDeleteAll( m_HeadList.begin(), m_HeadList.end() );
-    m_HeadList.clear();
-
-    qDeleteAll( m_RectList.begin(), m_RectList.end() );
-    m_RectList.clear();
-
-    qDeleteAll( m_ParallelList.begin(), m_ParallelList.end() );
-    m_ParallelList.clear();
-
-    if( m_pClearPoly )
-        delete m_pClearPoly;
-    if( m_pCircle )
-        delete m_pCircle;
-    if( m_pSubsetSymbol )
-        delete m_pSubsetSymbol;
-    m_pCircle = 0;
-    m_pClearPoly = 0;
-    m_pSubsetSymbol = 0;
-    m_bHeadCreated = m_bParallelLineCreated = m_bSubsetSymbolCreated = false;
-    if (m_pAssociation) {
-        UMLView * view =  (UMLView *)m_pAssociation->parent();
-        if (view) {
-            disconnect(view, SIGNAL(sigColorChanged(Uml::IDType)), this, SLOT(slotLineColorChanged(Uml::IDType)));
-            disconnect(view, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
-        }
-        m_pAssociation = 0;
-    }
-}
-
-/**
- * Tell the line where the line docks.
- */
-void AssociationLine::setDockRegion( Region region )
-{
-    m_DockRegion = region;
-}
-
-bool AssociationLine::hasPoints () const
-{
-    int count = m_LineList.count();
-    if (count>1)
-        return true;
-    return false;
-}
-
-void AssociationLine::dumpPoints ()
-{
-    int count = m_LineList.count();
-    for( int i = 1; i < count; i++ ) {
-        QPoint point = getPoint( i );
-        uDebug()<<" * point x:"<<point.x()<<" y:"<<point.y();
-    }
-}
-
-void AssociationLine::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
-{
-    int count = m_LineList.count();
-    QPoint point = getPoint( 0 );
-    QDomElement lineElement = qDoc.createElement( "linepath" );
-    QDomElement startElement = qDoc.createElement( "startpoint" );
-    startElement.setAttribute( "startx", point.x() );
-    startElement.setAttribute( "starty", point.y() );
-    lineElement.appendChild( startElement );
-    QDomElement endElement = qDoc.createElement( "endpoint" );
-    point = getPoint( count );
-    endElement.setAttribute( "endx", point.x() );
-    endElement.setAttribute( "endy", point.y() );
-    lineElement.appendChild( endElement );
-    for( int i = 1; i < count; i++ ) {
-        QDomElement pointElement = qDoc.createElement( "point" );
-        point = getPoint( i );
-        pointElement.setAttribute( "x", point.x() );
-        pointElement.setAttribute( "y", point.y() );
-        lineElement.appendChild( pointElement );
-    }
-    qElement.appendChild( lineElement );
-}
-
-bool AssociationLine::loadFromXMI( QDomElement & qElement )
-{
-    QDomNode node = qElement.firstChild();
-    QDomElement startElement = node.toElement();
-    if( startElement.isNull() || startElement.tagName() != "startpoint" )
-        return false;
-    QString x = startElement.attribute( "startx", "0" );
-    int nX = x.toInt();
-    QString y = startElement.attribute( "starty", "0" );
-    int nY = y.toInt();
-    QPoint startPoint( nX, nY );
-
-    node = startElement.nextSibling();
-    QDomElement endElement = node.toElement();
-    if( endElement.isNull() || endElement.tagName() != "endpoint" )
-        return false;
-    x = endElement.attribute( "endx", "0" );
-    nX = x.toInt();
-    y = endElement.attribute( "endy", "0" );
-    nY = y.toInt();
-    QPoint endPoint( nX, nY );
-    setStartEndPoints( startPoint, endPoint );
-    QPoint point;
-    node = endElement.nextSibling();
-    QDomElement element = node.toElement();
-    int i = 1;
-    while( !element.isNull() ) {
-        if( element.tagName() == "point" ) {
-            x = element.attribute( "x", "0" );
-            y = element.attribute( "y", "0" );
-            point.setX( x.toInt() );
-            point.setY( y.toInt() );
-            insertPoint( i++, point );
-        }
-        node = element.nextSibling();
-        element = node.toElement();
-    }
-
-    return true;
-}
-
-/**
- * Activates the line list.
- * This is needed because the m_pAssociation does not yet
- * exist at the time of the AssociationLine::loadFromXMI call.
- * However, this means that the points in the m_LineList
- * do not have a parent when they are loaded.
- * They need to be reparented by calling AssociationLine::activate()
- * once the m_pAssociation exists.
- */
-void AssociationLine::activate()
-{
-    int count = m_LineList.count();
-    if (count == 0)
-        return;
-    UMLViewCanvas * canvas = getScene();
-    if (canvas == NULL)
-        return;
-    for (int i = 0; i < count ; i++) {
-        UMLSceneLine *line = m_LineList.at(i);
-        line -> setCanvas( canvas );
-        line -> setPen( getPen() );
-    }
 }
 
 /**
@@ -1204,7 +1221,7 @@ void AssociationLine::updateSubsetSymbol()
     if ( m_LineList.count() < 1 ) {
         return;
     }
-    UMLSceneLine* firstLine = m_LineList.first();
+    UMLSceneLineItem* firstLine = m_LineList.first();
     QPoint startPoint = firstLine->startPoint();
     QPoint endPoint = firstLine->endPoint();
     QPoint centrePoint;
@@ -1238,20 +1255,22 @@ void AssociationLine::updateSubsetSymbol()
     }
 }
 
-AssociationLine::SubsetSymbol::SubsetSymbol(UMLViewCanvas* canvas)
-    : UMLSceneEllipse(canvas) {
-    inclination = 0;
-}
-
-void AssociationLine::SubsetSymbol::drawShape(QPainter& p) {
-    p.translate(QPoint( ( int )x(), ( int )y() ) );
-    p.rotate( inclination );
-    int width = 30, height = 20;
-    int startAngle = 90, endAngle = 180;
-    p.drawArc( 0 ,-height/2, width, height, startAngle*16, endAngle*16 );
-    // revert back
-    p.rotate( -inclination );
-    p.translate( QPoint( ( int )-x(), ( int )-y() ) );
+/**
+ * Create a number of new lines and append them to the given list.
+ *
+ * @param list  The list into which to append lines.
+ * @param by    The number of lines to insert into the given list.
+ */
+void AssociationLine::growList(LineList &list, int by)
+{
+    QPen pen( lineColor(), lineWidth() );
+    for (int i = 0; i < by; i++) {
+        UMLSceneLineItem * line = new UMLSceneLineItem( getScene() );
+        line -> setZ( 0 );
+        line -> setPen( pen );
+        line -> setVisible( true );
+        list.append( line );
+    }
 }
 
 #include "associationline.moc"

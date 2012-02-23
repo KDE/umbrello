@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2002    Oliver Kellogg <okellogg@users.sourceforge.net> *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -360,8 +360,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
             ada << indent() << "function  Get_" << member;
             if (! at->isStatic())
                 ada << " (Self : access " << name << ")";
-            ada << " return " << at->getTypeName() << ";" << m_endl
-            << m_endl;
+            ada << " return " << at->getTypeName() << ";" << m_endl << m_endl;
         }
     }
 
@@ -494,6 +493,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     ada << indent() << "end " << pkg << ";" << m_endl << m_endl;
     file.close();
     emit codeGenerated(c, true);
+    emit showGeneratedFile(file.fileName());
 }
 
 /**

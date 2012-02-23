@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003 Brian Thomas <brian.thomas@gsfc.nasa.gov>          *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -126,11 +126,12 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
     m_indentLevel--;
     XMLschema<<indent()<<"</"<<makeSchemaTag("schema")<<">"<<m_endl; // finished.. close schema node
 
-    // bookeeping for code generation
-    emit codeGenerated(c, true);
-
     // tidy up. no dangling open files please..
     file.close();
+
+    // bookeeping for code generation
+    emit codeGenerated(c, true);
+    emit showGeneratedFile(file.fileName());
 
     // need to clear HERE, NOT in the destructor because we want each
     // schema that we write to have all related classes.

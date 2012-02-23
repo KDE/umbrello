@@ -38,11 +38,52 @@ class AssociationLine : public QObject
     Q_OBJECT
 public:
     // typedefs
-    typedef QList<UMLSceneLine*> LineList;
-    typedef QList<UMLSceneRectangle*> RectList;
+    typedef QList<UMLSceneLineItem*> LineList;
+    typedef QList<UMLSceneRectItem*> RectList;
 
     AssociationLine();
     ~AssociationLine();
+
+    QPoint point( int pointIndex ) const;
+    bool setPoint( int pointIndex, const QPoint &point );
+    QPoint startPoint() const;
+    QPoint endPoint() const;
+
+    bool insertPoint( int pointIndex, const QPoint &point );
+    bool removePoint( int pointIndex, const QPoint &point = QPoint(), unsigned short delta = 0 );
+
+    int count() const;
+    void cleanup();
+
+    int closestPointIndex( const QPoint &position );
+    bool isPoint( int pointIndex, const QPoint &point, unsigned short delta = 0 );
+
+    bool setEndPoints( const QPoint &start, const QPoint &end );
+
+    bool hasPoints () const;
+    void dumpPoints ();
+
+    bool loadFromXMI( QDomElement & qElement );
+    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+
+    QPen getPen();
+
+    QColor lineColor();
+    void setLineColor( const QColor &color );
+
+    uint lineWidth();
+    void setLineWidth( uint width );
+
+    /**
+     * Returns the Association this class is linked to.
+     */
+    AssociationWidget * getAssociation() {
+        return m_associationWidget;
+    }
+    void setAssociation(AssociationWidget * association);
+
+    Uml::AssociationType getAssocType() const;
+    void setAssocType( Uml::AssociationType type );
 
     bool operator==( const AssociationLine & rhs );
 
@@ -54,49 +95,15 @@ public:
 
     void setDockRegion( Region region );
 
-    bool hasPoints () const;
-    void dumpPoints ();
-
-    bool setPoint( int pointIndex, const QPoint &point );
-    QPoint getPoint( int pointIndex ) const;
-
-    bool isPoint( int pointIndex, const QPoint &point, unsigned short delta = 0 );
-
-    bool insertPoint( int pointIndex, const QPoint &point );
-    bool removePoint( int pointIndex, const QPoint &point = QPoint(), unsigned short delta = 0 );
-
-    bool setStartEndPoints( const QPoint &start, const QPoint &end );
-
-    int count() const;
-
-    int onLinePath( const QPoint &position );
-
-    void setAssocType( Uml::AssociationType type );
-
-    void update();
-
-    void setAssociation(AssociationWidget * association);
-
-    /**
-     * Returns the Association this class is linked to.
-     */
-    AssociationWidget * getAssociation() {
-        return m_pAssociation;
-    }
-
     void setSelected( bool select );
-
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-    bool loadFromXMI( QDomElement & qElement );
 
     void activate();
 
-    void cleanup();
+    void update();
 
-    QPen getPen();
-
-    void setLineColor( const QColor &color );
-    void setLineWidth( uint width );
+public slots:
+    void slotLineColorChanged( Uml::IDType viewID );
+    void slotLineWidthChanged( Uml::IDType viewID );
 
 protected:
 
@@ -105,7 +112,7 @@ protected:
      * We can't use QCanvasEllipse directly for this because it doesn't
      * use the pen, i.e. QCanvasEllipse only draws filled ellipses.
      */
-    class Circle : public UMLSceneEllipse
+    class Circle : public UMLSceneEllipseItem
     {
     public:
         explicit Circle(UMLViewCanvas * canvas, int radius = 0);
@@ -120,7 +127,7 @@ protected:
     /**
      * Draw the subset Symbol
      */
-    class SubsetSymbol : public UMLSceneEllipse
+    class SubsetSymbol : public UMLSceneEllipseItem
     {
     public:
         explicit SubsetSymbol(UMLViewCanvas* canvas);
@@ -141,11 +148,6 @@ protected:
 
     UMLViewCanvas * getScene();
 
-    Uml::AssociationType getAssocType() const;
-
-    QColor lineColor();
-    uint lineWidth();
-
     void moveSelected( int pointIndex );
 
     void setupSelected();
@@ -155,18 +157,18 @@ protected:
     void createHeadLines();
     void createSubsetSymbol();
 
-    void growList(LineList &list, int by);
-
     void updateHead();
     void updateSubsetSymbol();
 
-    void setupParallelLine();
     void calculateParallelLine();
+    void setupParallelLine();
     void updateParallelLine();
+
+    void growList(LineList &list, int by);
 
     /********Attributes*************/
 
-    AssociationWidget* m_pAssociation;  ///< The association we are representing.
+    AssociationWidget* m_associationWidget;  ///< The association we are representing.
     LineList           m_LineList;      ///< Contains all the lines of the association.
     RectList           m_RectList;      ///< Selected boxes list.
     LineList           m_HeadList;      ///< Head lines.
@@ -179,7 +181,7 @@ protected:
      */
     QPoint m_ArrowPointA, m_ArrowPointB, m_MidPoint, m_EgdePoint;
 
-    UMLScenePolygon* m_pClearPoly;  ///< A polygon object to blank out any lines we don't want to see.
+    UMLScenePolygonItem* m_pClearPoly;  ///< A polygon object to blank out any lines we don't want to see.
     Circle*       m_pCircle;        ///< The transparent circle required by containment associations.
     SubsetSymbol* m_pSubsetSymbol;  ///< The subset notation required by Child to Category associations.
     QPolygon      m_ParallelLines;  ///< Contains the calculated points for the parallel line on a collaboration message to use.
@@ -187,10 +189,6 @@ protected:
     bool m_bHeadCreated;
     bool m_bSubsetSymbolCreated;
     bool m_bParallelLineCreated;
-
-public slots:
-    void slotLineColorChanged( Uml::IDType viewID );
-    void slotLineWidthChanged( Uml::IDType viewID );
 };
 
 #endif

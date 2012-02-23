@@ -436,10 +436,9 @@ void UMLListViewItem::setText(int column, const QString &newText)
 }
 
 /**
- * Returns the current text.
- * :TODO: not used anywhere
+ * Returns the saved text.
  */
-QString UMLListViewItem::getText() const
+QString UMLListViewItem::getSavedText() const
 {
     return m_label;
 }
@@ -450,6 +449,10 @@ QString UMLListViewItem::getText() const
 void UMLListViewItem::setCreating( bool creating )
 {
     m_bCreating = creating;
+}
+
+bool UMLListViewItem::creating() const {
+    return m_bCreating;
 }
 
 /**
@@ -468,10 +471,6 @@ void UMLListViewItem::startRename(int col)
 {
     DEBUG(DBG_LVI) << this << " - column=" << col << ", text=" << text(col);
     m_label = text(col);  // keep the old text
-    if (m_bCreating) {
-        UMLListView* listView = static_cast<UMLListView*>(treeWidget());
-        listView->cancelRename(this);
-    }
 }
 
 /**

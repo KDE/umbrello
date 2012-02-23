@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2011                                               *
+ *   copyright (C) 2006-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -53,7 +53,7 @@ bool PascalWriter::isOOClass(UMLClassifier *c)
     UMLObject::ObjectType ot = c->baseType();
     if (ot == UMLObject::ot_Interface)
         return true;
-    if (ot == UMLObject::ot_Enum)
+    if (ot == UMLObject::ot_Enum || ot == UMLObject::ot_Datatype)
         return false;
     if (ot != UMLObject::ot_Class) {
         uDebug() << "unknown object type " << UMLObject::toString(ot);
@@ -84,7 +84,7 @@ QString PascalWriter::qualifiedName(UMLPackage *p, bool withType, bool byValue)
             retval.append(defaultPackageSuffix);
     } else {
         retval = umlPkg->fullyQualifiedName(".");
-        if (isOOClass(c)) {
+        if (c && isOOClass(c)) {
             retval.append(".");
             retval.append(className);
         }
@@ -321,6 +321,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
     pas << "end;" << m_endl << m_endl;
     file.close();
     emit codeGenerated(c, true);
+    emit showGeneratedFile(file.fileName());
 }
 
 void PascalWriter::writeOperation(UMLOperation *op, QTextStream &pas, bool is_comment)

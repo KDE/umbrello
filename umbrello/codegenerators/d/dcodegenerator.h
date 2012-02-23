@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2011                                               *
+ *   copyright (C) 2008-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -29,8 +29,6 @@ class DCodeGenerator : public CodeGenerator
 public:
 
     DCodeGenerator();
-    DCodeGenerator(QDomElement & element);
-
     virtual ~DCodeGenerator();
 
     bool getAutoGenerateAttribAccessors( );
@@ -65,7 +63,6 @@ protected:
 
 private:
 
-    void init();
 };
 
 #endif // DCODEGENERATOR_H

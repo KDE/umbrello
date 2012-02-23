@@ -400,10 +400,14 @@ bool NativeImportBase::parseFile(const QString& filename)
     m_srcIndex = 0;
     initVars();
     QTextStream stream(&file);
+    int lineCount = 0;
     while (! stream.atEnd()) {
         QString line = stream.readLine();
+        lineCount++;
         scan(line);
     }
+    log(nameWithoutPath, "file size: " + QString::number(file.size()) +
+                         " / lines: " + QString::number(lineCount));
     file.close();
     // Parse the QStringList m_source.
     m_klass = NULL;

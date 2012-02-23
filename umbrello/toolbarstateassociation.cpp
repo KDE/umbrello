@@ -117,7 +117,7 @@ void ToolBarStateAssociation::mouseReleaseAssociation()
 
     getCurrentAssociation()->createAssocClassLine(
             static_cast<ClassifierWidget*>(m_firstWidget),
-            getCurrentAssociation()->getLinePath()->onLinePath(m_pMouseEvent->pos()));
+            getCurrentAssociation()->getLinePath()->closestPointIndex(m_pMouseEvent->pos()));
     m_firstWidget->addAssoc( getCurrentAssociation() );
     cleanAssociation();
 }
@@ -186,7 +186,7 @@ void ToolBarStateAssociation::setFirstWidget()
 
     m_firstWidget = widget;
 
-    m_associationLine = new UMLSceneLine(m_pUMLScene->canvas());
+    m_associationLine = new UMLSceneLineItem(m_pUMLScene->canvas());
     m_associationLine->setPoints(pos.x(), pos.y(), pos.x(), pos.y());
     m_associationLine->setPen(QPen(m_pUMLScene->lineColor(), m_pUMLScene->lineWidth(), Qt::DashLine));
 
@@ -226,7 +226,7 @@ void ToolBarStateAssociation::setSecondWidget()
         valid = AssocRules::allowAssociation(type, widgetA, widgetB);
     }
     if (valid) {
-        AssociationWidget *temp = new AssociationWidget(m_pUMLScene, widgetA, type, widgetB);
+        AssociationWidget *temp = AssociationWidget::create(m_pUMLScene, widgetA, type, widgetB);
         addAssociationInViewAndDoc(temp);
         if (type == Uml::AssociationType::Containment) {
             UMLListView *lv = UMLApp::app()->listView();

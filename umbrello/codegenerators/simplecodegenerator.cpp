@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -44,12 +44,20 @@
  * Constructor.
  */
 SimpleCodeGenerator::SimpleCodeGenerator(bool createDirHierarchyForPackages)
+  : CodeGenerator(),
+    m_createDirHierarchyForPackages(createDirHierarchyForPackages),
+    m_indentLevel(0)
 {
-    m_indentLevel = 0;
-    UMLDoc * parentDoc = UMLApp::app()->document();
-    parentDoc->disconnect(this); // disconnect from UMLDoc.. we arent planning to be synced at all
-    m_createDirHierarchyForPackages = createDirHierarchyForPackages;
-    initFields(parentDoc);
+    m_document->disconnect(this); // disconnect from UMLDoc.. we arent planning to be synced at all
+
+    // load Classifier documents from parent document
+    // initFromParentDocument();
+
+    m_fileMap.clear();
+
+    // this really is just being used to sync the internal params
+    // to the codegenpolicy as there are no code documents to really sync.
+    syncCodeToDocument();
 }
 
 /**
@@ -204,7 +212,6 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
             return QString();
             break;
         }
-
         break;
     case CodeGenerationPolicy::Never: //generate similar name
         suffix = 1;
@@ -274,7 +281,7 @@ CodeDocument * SimpleCodeGenerator::newClassifierCodeDocument(UMLClassifier* cla
 void SimpleCodeGenerator::writeCodeToFile()
 {
     m_fileMap.clear(); // need to do this, else just keep getting same directory to write to.
-    UMLClassifierList concepts = m_doc->classesAndInterfaces();
+    UMLClassifierList concepts = m_document->classesAndInterfaces();
     foreach (UMLClassifier* c, concepts ) {
         if (! Model_Utils::isCommonDataType(c->name()))
             this->writeClass(c); // call the writer for each class.
@@ -288,27 +295,9 @@ void SimpleCodeGenerator::writeCodeToFile()
 void SimpleCodeGenerator::writeCodeToFile(UMLClassifierList & concepts)
 {
     m_fileMap.clear(); // ??
-    foreach (UMLClassifier* c, concepts ) {
+    foreach (UMLClassifier* c, concepts) {
         this->writeClass(c); // call the writer for each class.
     }
-}
-
-/**
- * Initialization of fields.
- * @param parentDoc   the parent document
- */
-void SimpleCodeGenerator::initFields(UMLDoc * parentDoc)
-{
-    // load Classifier documents from parent document
-    // initFromParentDocument();
-
-    m_fileMap.clear();
-    m_applyToAllRemaining = true;
-    m_doc = parentDoc;
-
-    // this really is just being used to sync the internal params
-    // to the codegenpolicy as there are no code documents to really sync.
-    syncCodeToDocument();
 }
 
 /**

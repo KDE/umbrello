@@ -265,6 +265,7 @@ private:
         int length() const {return std::distance(m_ptr, m_endPtr);}
         void nextChar() {
             QChar l_current = *m_ptr++;
+            Q_UNUSED(l_current);
         }
         template <typename _RuleT>
         parse_info<CharIterator> parse( _RuleT const& p_rule) {

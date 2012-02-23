@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -19,15 +19,15 @@ namespace Uml
 {
     class CmdCreateUMLObject : public QUndoCommand
     {
-        public:
-            CmdCreateUMLObject(UMLObject* o);
-            ~CmdCreateUMLObject();
+    public:
+        CmdCreateUMLObject(UMLObject* o);
+        ~CmdCreateUMLObject();
 
-            void redo();
-            void undo();
+        void redo();
+        void undo();
 
-        private:
-            UMLObject*  m_obj;
+    private:
+        UMLObject*  m_obj;
     };
 }
 

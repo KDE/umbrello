@@ -34,6 +34,7 @@ QDebug operator<<(QDebug debug, UMLScene *item);
 typedef QPoint UMLScenePoint;
 typedef QRect UMLSceneRect;
 typedef QSize UMLSceneSize;
+typedef QLine UMLSceneLine;
 typedef int UMLSceneValue;
 
 // event types
@@ -42,11 +43,11 @@ typedef QHoverEvent UMLSceneHoverEvent;
 typedef QContextMenuEvent UMLSceneContextMenuEvent;
 //typedef QDragDropEvent UMLSceneDragDropEvent;
 
-typedef Q3CanvasLine UMLSceneLine;
-typedef Q3CanvasRectangle UMLSceneRectangle;
+typedef Q3CanvasLine UMLSceneLineItem;
+typedef Q3CanvasRectangle UMLSceneRectItem;
 typedef Q3CanvasItem UMLSceneItem;
-typedef Q3CanvasPolygon UMLScenePolygon;
-typedef Q3CanvasEllipse UMLSceneEllipse;
+typedef Q3CanvasPolygon UMLScenePolygonItem;
+typedef Q3CanvasEllipse UMLSceneEllipseItem;
 typedef Q3CanvasItemList UMLSceneItemList;
 
 /**

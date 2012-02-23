@@ -115,12 +115,13 @@ public:
 
     void setText(int column, const QString &text);
     void setText(const QString &text );
-    QString getText() const;
+    QString getSavedText() const;
     void setVisible(bool state);
 
     QString toolTip();
 
     void setCreating(bool creating);
+    bool creating() const;
 
     void setIcon(Icon_Utils::IconType iconType);
 

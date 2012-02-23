@@ -33,7 +33,9 @@
 #include "umldoc.h"
 
 //kde includes
+#include <kfiledialog.h>
 #include <klocale.h>
+#include <kmessagebox.h>
 
 //qt includes
 #include <QtGui/QListWidget>
@@ -239,16 +241,12 @@ bool CodeImpStatusPage::isComplete() const
  */
 void CodeImpStatusPage::messageToLog(const QString& file, const QString& text)
 {
-    QString oldText = ui_textEditLogger->toHtml();
-    QString newText('\n');
     if (file.isEmpty()) {
-        newText.append("    " + text);
+        ui_textEditLogger->insertHtml("\n    " + text + "<br>");
     }
     else {
-        newText.append("<b>" + file + ":</b> " + text);
+        ui_textEditLogger->insertHtml("\n<b>" + file + ":</b> " + text + "<br>");
     }
-    oldText.append(newText);
-    ui_textEditLogger->setHtml(oldText);
 }
 
 /**
@@ -298,7 +296,26 @@ void CodeImpStatusPage::loggerClear()
  */
 void CodeImpStatusPage::loggerExport()
 {
-    uDebug() << "TODO: Not yet implemented!";
+    /* Commented out due to message freeze on branches/KDE/4.8
+    const QString caption = i18n("Umbrello Code Import - Logger Export");
+     *** instead (temporary workaround, to be removed) :  */
+    QString caption;
+    /* end temporary workaround */
+    QString fileName = KFileDialog::getSaveFileName(KUrl(), QString(), 0, caption);
+    if (!fileName.isEmpty()) {
+        QFile file(fileName);
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            QTextStream out(&file);
+            out << ui_textEditLogger->toHtml();
+            file.close();
+        }
+        else {
+        /* Commented out due to message freeze on branches/KDE/4.8
+            KMessageBox::error(this, i18n("Cannot open file!"), caption);
+         *** instead (temporary workaround, to be removed) :  */
+            uWarning() << "Cannot open file!";
+        }
+    }
 }
 
 #include "codeimpstatuspage.moc"

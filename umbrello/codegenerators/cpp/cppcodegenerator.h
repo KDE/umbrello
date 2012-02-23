@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -72,8 +72,6 @@ private:
 
     bool             m_createMakefile;
     CodeDocumentList m_headercodedocumentVector;  //< a separate list for recording the header documents
-
-    void initAttributes ( ) ;
 
 public slots:
 

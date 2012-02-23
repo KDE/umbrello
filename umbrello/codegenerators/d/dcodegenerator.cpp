@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2011                                               *
+ *   copyright (C) 2008-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -26,20 +26,12 @@
 
 /**
  * Constructor.
- * @param elem   DOM element
- */
-DCodeGenerator::DCodeGenerator(QDomElement & elem)
-  : CodeGenerator(elem)
-{
-    init();
-}
-
-/**
- * Constructor.
  */
 DCodeGenerator::DCodeGenerator()
+  : CodeGenerator()
 {
-    init();
+    // load Classifier documents from parent document
+    //initFromParentDocument();
 }
 
 /**
@@ -144,15 +136,6 @@ CodeDocument * DCodeGenerator::newClassifierCodeDocument ( UMLClassifier * class
     DClassifierCodeDocument * doc = new DClassifierCodeDocument(classifier);
     doc->initCodeClassFields();
     return doc;
-}
-
-/**
- * Initialization of class.
- */
-void DCodeGenerator::init()
-{
-    // load Classifier documents from parent document
-    //initFromParentDocument();
 }
 
 /**

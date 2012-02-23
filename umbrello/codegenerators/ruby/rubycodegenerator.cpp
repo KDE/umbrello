@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2011                                               *
+ *   copyright (C) 2006-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -28,18 +28,14 @@
 
 /**
  * Constructor.
- * @param elem DOM element
- */
-RubyCodeGenerator::RubyCodeGenerator(QDomElement & elem)
-  : CodeGenerator(elem)
-{
-}
-
-/**
- * Constructor.
  */
 RubyCodeGenerator::RubyCodeGenerator()
+   : CodeGenerator()
 {
+    // These initializations are done in CodeGenFactory::createObject()
+        //UMLApp::app()->setPolicyExt ( new RubyCodeGenerationPolicy(UMLApp::app()->getConfig()) );
+        // load Classifier documents from parent document
+        //initFromParentDocument();
 }
 
 /**
@@ -155,15 +151,6 @@ CodeDocument * RubyCodeGenerator::newClassifierCodeDocument(UMLClassifier * clas
     doc->initCodeClassFields();
     return doc;
 }
-
-/* These initializations are done in CodeGenFactory::createObject()
-void RubyCodeGenerator::initFields()
-{
-    UMLApp::app()->setPolicyExt ( new RubyCodeGenerationPolicy(UMLApp::app()->getConfig()) );
-    // load Classifier documents from parent document
-    initFromParentDocument();
-}
-*/
 
 /**
  * Get list of reserved keywords.
