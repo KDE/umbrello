@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2011                                                *
+ *  copyright (C) 2002-2012                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -721,7 +721,8 @@ void UMLListView::popupMenuSel(QAction* action)
                              << ": current item's UMLObject is not a UMLFolder";
                 }
                 else {
-                    m_doc->createDiagram(f, dt);
+                    QString name = m_doc->createDiagramName(dt);
+                    m_doc->createDiagram(f, dt, name);
                 }
             }
         }

@@ -4,7 +4,7 @@
  *  the Free Software Foundation; either version 2 of the License, or      *
  *  (at your option) any later version.                                    *
  *                                                                         *
- *  copyright (C) 2002-2011                                                *
+ *  copyright (C) 2002-2012                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -64,8 +64,6 @@
 #include <QtCore/QRegExp>
 #include <QtCore/QTextStream>
 #include <QtGui/QPainter>
-#include <QtGui/QLabel>
-#include <QtGui/QUndoStack>
 #include <QtGui/QPrinter>
 #include <QtXml/QDomElement>
 #include <QtXml/QDomDocument>
@@ -229,7 +227,8 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView)
         }
 
         if (!firstView && enforceCurrentView) {  //create a diagram
-            createDiagram(m_root[Uml::ModelType::Logical], Uml::DiagramType::Class, false);
+            QString name = createDiagramName(Uml::DiagramType::Class, false);
+            createDiagram(m_root[Uml::ModelType::Logical], Uml::DiagramType::Class, name);
             qApp->processEvents();
             m_root[Uml::ModelType::Logical]->appendViews(viewList);
             firstView = viewList.first();
@@ -381,7 +380,8 @@ bool UMLDoc::newDocument()
         dt = Uml::DiagramType::Class;
         mt = Uml::ModelType::Logical;
     }
-    createDiagram(m_root[mt], dt, false);
+    QString name = createDiagramName(dt, false);
+    createDiagram(m_root[mt], dt, name);
 
     UMLApp::app()->initGenerator();
 
@@ -1259,48 +1259,69 @@ bool UMLDoc::closing() const
 }
 
 /**
- * Creates a diagram of the given type.
- *
- * @param folder       The folder in which tp create the diagram.
+ * Creates the name of the given diagram type.
  * @param type         The type of diagram to create.
  * @param askForName   If true shows a dialog box asking for name,
  *                     else uses a default name.
- * @return Pointer to the UMLView of the new diagram.
+ * @return             name of the new diagram
  */
-UMLView* UMLDoc::createDiagram(UMLFolder *folder, Uml::DiagramType type, bool askForName /*= true */)
+QString UMLDoc::createDiagramName(Uml::DiagramType type, bool askForName /*= true */)
 {
-    DEBUG(DBG_SRC) << "folder=" << folder->name() << " / type=" << type.toString();
     bool ok = true;
-    QString name,
-    dname = uniqueViewName(type);
+    QString defaultName = uniqueViewName(type);
+    QString name = defaultName;
 
     while (true) {
         if (askForName)  {
-            name = KInputDialog::getText(i18nc("diagram name", "Name"), i18n("Enter name:"), dname, &ok, (QWidget*)UMLApp::app());
-        } else {
-            name = dname;
+            name = KInputDialog::getText(i18nc("diagram name", "Name"), i18n("Enter name:"),
+                                         defaultName, &ok, (QWidget*)UMLApp::app());
         }
         if (!ok)  {
             break;
         }
+
         if (name.length() == 0)  {
             KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("Invalid Name"));
-        } else if (!findView(type, name)) {
-            UMLView* view = new UMLView(folder);
-            view->umlScene()->setOptionState( Settings::optionState() );
-            view->umlScene()->setName( name );
-            view->umlScene()->setType( type );
-            view->umlScene()->setID( UniqueID::gen() );
-            addView(view);
-            emit sigDiagramCreated( view->umlScene()->getID() );
-            setModified(true);
-            UMLApp::app()->enablePrint(true);
-            changeCurrentView( view->umlScene()->getID() );
-            return view;
-        } else {
-            KMessageBox::error(0, i18n("A diagram is already using that name."), i18n("Not a Unique Name"));
         }
-    }//end while
+        else {
+            if (findView(type, name)) {
+                KMessageBox::error(0, i18n("A diagram is already using that name."), i18n("Not a Unique Name"));
+            }
+            else {
+                return name;
+            }
+        }
+    } // end while
+    return QString();
+}
+
+/**
+ * Creates a diagram of the given type.
+ *
+ * @param folder   the folder in which tp create the diagram.
+ * @param type     the type of diagram to create
+ * @param name     if true shows a dialog box asking for name,
+ *                 else uses a default name
+ * @return         pointer to the UMLView of the new diagram
+ */
+UMLView* UMLDoc::createDiagram(UMLFolder *folder, Uml::DiagramType type, const QString& name)
+{
+    DEBUG(DBG_SRC) << "folder=" << folder->name()
+                   << " / type=" << type.toString()
+                   << " / name=" << name;
+    if (name.length() > 0) {
+        UMLView* view = new UMLView(folder);
+        view->umlScene()->setOptionState(Settings::optionState());
+        view->umlScene()->setName(name);
+        view->umlScene()->setType(type);
+        view->umlScene()->setID(UniqueID::gen());
+        addView(view);
+        emit sigDiagramCreated(view->umlScene()->getID());
+        setModified(true);
+        UMLApp::app()->enablePrint(true);
+        changeCurrentView(view->umlScene()->getID());
+        return view;
+    }
     return 0;
 }
 
@@ -1985,7 +2006,8 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
     if (viewToBeSet) {
         changeCurrentView( m_nViewID );
     } else {
-        createDiagram(m_root[Uml::ModelType::Logical], Uml::DiagramType::Class, false);
+        QString name = createDiagramName(Uml::DiagramType::Class, false);
+        createDiagram(m_root[Uml::ModelType::Logical], Uml::DiagramType::Class, name);
         m_pCurrentRoot = m_root[Uml::ModelType::Logical];
     }
     emit sigResetStatusbarProgress();
