@@ -49,7 +49,6 @@
 #include "cmds/widget/cmd_changeFontSelection.h"
 #include "cmds/widget/cmd_changeLineColor.h"
 #include "cmds/widget/cmd_changeMulti.h"
-#include "cmds/widget/cmd_changeTextColor.h"
 #include "cmds/widget/cmd_create_widget.h"
 #include "cmds/widget/cmd_set_name.h"
 #include "cmds/widget/cmd_set_txt.h"
