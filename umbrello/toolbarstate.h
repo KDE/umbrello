@@ -38,7 +38,7 @@ class UMLWidget;
  *
  * In order to handle the events, each main handler has three protected
  * "sub-handlers" named like the main handler with the suffixes "Association",
- * "Wdiget" and "Empty". The events received in the main handlers are delivered
+ * "Widget" and "Empty". The events received in the main handlers are delivered
  * to the suitable handler, depending on if the event happened on an association,
  * on a widget or on an empty space of the diagram. Those methods are the ones to
  * override or extend to specify the behaviour of the toolbar state.

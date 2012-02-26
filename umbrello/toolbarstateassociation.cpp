@@ -199,7 +199,7 @@ void ToolBarStateAssociation::setFirstWidget()
  * Sets the second widget in the association using the current widget and
  * creates the association.
  * If the association between the two widgets using the current type of
- * association, an error is shown and the association cancelled.
+ * association is illegitimate, an error is shown and the association cancelled.
  * Otherwise, the association is created and added to the scene, and the tool
  * is changed to the default tool.
  *
