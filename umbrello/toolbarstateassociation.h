@@ -64,7 +64,7 @@ private:
 
     Uml::AssociationType getAssociationType();
 
-    void addAssociationInViewAndDoc(AssociationWidget* assoc);
+    bool addAssociationInViewAndDoc(AssociationWidget* assoc);
 
     void cleanAssociation();
 

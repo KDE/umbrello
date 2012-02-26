@@ -227,19 +227,20 @@ void ToolBarStateAssociation::setSecondWidget()
     }
     if (valid) {
         AssociationWidget *temp = AssociationWidget::create(m_pUMLScene, widgetA, type, widgetB);
-        addAssociationInViewAndDoc(temp);
-        if (type == Uml::AssociationType::Containment) {
-            UMLListView *lv = UMLApp::app()->listView();
-            UMLObject *newContainer = widgetA->umlObject();
-            UMLObject *objToBeMoved = widgetB->umlObject();
-            if (newContainer && objToBeMoved) {
-                UMLListViewItem *newLVParent = lv->findUMLObject(newContainer);
-                lv->moveObject(objToBeMoved->id(),
-                               Model_Utils::convert_OT_LVT(objToBeMoved),
-                               newLVParent);
+        if (addAssociationInViewAndDoc(temp)) {
+            if (type == Uml::AssociationType::Containment) {
+                UMLListView *lv = UMLApp::app()->listView();
+                UMLObject *newContainer = widgetA->umlObject();
+                UMLObject *objToBeMoved = widgetB->umlObject();
+                if (newContainer && objToBeMoved) {
+                    UMLListViewItem *newLVParent = lv->findUMLObject(newContainer);
+                    lv->moveObject(objToBeMoved->id(),
+                                   Model_Utils::convert_OT_LVT(objToBeMoved),
+                                   newLVParent);
+                }
             }
+            UMLApp::app()->document()->setModified();
         }
-        UMLApp::app()->document()->setModified();
     } else {
         //TODO improve error feedback: tell the user what are the valid type of associations for
         //the second widget using the first widget
@@ -291,24 +292,26 @@ Uml::AssociationType ToolBarStateAssociation::getAssociationType()
  * If the association can't be added, is deleted.
  *
  * @param assoc The AssociationWidget to add.
+ * @return      True on success
  */
-void ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* assoc)
+bool ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* assoc)
 {
     // append in view
     if (m_pUMLScene->addAssociation(assoc, false)) {
         // if view went ok, then append in document
         UMLAssociation *umla = assoc->getAssociation();
-        if (umla == NULL) {
-            // association without model representation in UMLDoc
-            return;
+        if (umla) {
+            // association with model representation in UMLDoc
+            Uml::ModelType m = Model_Utils::convert_DT_MT(m_pUMLScene->type());
+            UMLDoc *umldoc = UMLApp::app()->document();
+            umla->setUMLPackage(umldoc->rootFolder(m));
+            UMLApp::app()->document()->addAssociation(umla);
         }
-        Uml::ModelType m = Model_Utils::convert_DT_MT(m_pUMLScene->type());
-        UMLDoc *umldoc = UMLApp::app()->document();
-        umla->setUMLPackage(umldoc->rootFolder(m));
-        UMLApp::app()->document()->addAssociation(umla);
+        return true;
     } else {
         uError() << "cannot addAssocInViewAndDoc(), deleting";
         delete assoc;
+        return false;
     }
 }
 
