@@ -130,11 +130,7 @@ UMLSceneSize ObjectWidget::minimumSize()
     const QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
     const int fontHeight  = fm.lineSpacing();
     QString objName;
-    if (m_pObject)
-        objName = m_pObject->name();
-    else
-        objName = "1234567";
-    const QString t = m_InstanceName + " : " + objName;
+    const QString t = m_InstanceName + " : " + name();
     const int textWidth = fm.width(t);
     if ( m_drawAsActor ) {
         width = textWidth > A_WIDTH?textWidth:A_WIDTH;
@@ -250,7 +246,7 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY)
     const int w = width();
     const int h = height();
 
-    const QString t = m_InstanceName + " : " + m_pObject->name();
+    const QString t = m_InstanceName + " : " + name();
     int multiInstOfst = 0;
     if ( m_multipleInstance ) {
         p.drawRect(offsetX + 10, offsetY + 10, w - 10, h - 10);
@@ -291,7 +287,7 @@ void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY)
                middleX + A_WIDTH / 2, offsetY + thirdH + thirdH / 2);//arms
     //draw text
     p.setPen(textColor());
-    QString t = m_InstanceName + " : " + m_pObject->name();
+    QString t = m_InstanceName + " : " + name();
     p.drawText(offsetX + A_MARGIN, offsetY + textStartY,
                w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, t);
 }
