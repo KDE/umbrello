@@ -1,3 +1,8 @@
+Version 2.8.2
+
+* New feature: Drawing of state diagrams with more pseudostates possible.
+* Color of role text on diagram (e.g. Role B) nearly invisible (291401)
+
 Version 2.8.1
 
 * PHP5 code generation: Illegal tag without any parameter is generated (155382)
