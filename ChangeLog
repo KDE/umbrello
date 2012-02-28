@@ -1,6 +1,5 @@
-Version (since 2012-01-01)
+Version 2.8.1
 
-* Enabling of cut/copy/paste actions is incorrect (70925)
 * PHP5 code generation: Illegal tag without any parameter is generated (155382)
 * Classes in sub-packages are moved to top level packages on edit (174184)
 * Loading existing XMI file (194897) and therefore also
@@ -8,11 +7,24 @@ Version (since 2012-01-01)
 * Generation of classes from files in folder in umbrello (197137)
 * Crash when Clicking on / Trying to Move Datatype on Simple Diagram (202410)
 * Segfault importing Java code - related to variable length parameters (230770)
+* Segmentation fault when trying to generate code (235703)
 * Can't uncheck "Show Public Only" (242545)
 * Umbrello crashed after copy/paste (243392) 
 * Crash when opening file (251094) 
 * Crashes even if an association was drawn (271243)
 * Gratuitous warning messages on loading project file (283744)
+* Crash on importing templated java source code (293770)
+* New feature: C# code import added.
+
+Version 2.8.0
+
+* New feature: Code import wizard added
+* New feature: Print preview added.
+* Made printing border calculation more robust
+* Reuse changed printer settings
+* Show diagram print settings dialog before print or print preview dialog
+* Added msvc2010 preprocesser for idl preprocessing
+* Enabling of cut/copy/paste actions is incorrect (70925)
 * Segmentation fault when copy&paste of sequence diagram (287179) and therefore also
   - Copy and paste or drag and drop of a java datatype between folders (280770) 
   - crash on copy paste (262842)
@@ -22,19 +34,7 @@ Version (since 2012-01-01)
   - Copy and paste of a class lets Umbrello crash (241915)
   - Copy - paste multiple class operations makes umbrello crash (257410)
   - Umbrello crashes during cut and paste class diagram (257584) 
-* Color of role text on diagram (e.g. Role B) nearly invisible (291401)
 * Copy/Paste of activity, state and use case diagram elements do not create new elements (291557)
-* Crash on importing templated java source code (293770)
-* New feature: C# code import added.
-* New feature: Drawing of state diagrams with more pseudostates possible.
-
-Version (since 2011-08-01)
-
-* New feature: Print preview added.
-* Made printing border calculation more robust
-* Reuse changed printer settings
-* Show diagram print settings dialog before print or print preview dialog
-* Added msvc2010 preprocesser for idl preprocessing
 * Crash on new synchronous message in sequence diagram (168752)
 * Umbrello crashes with SIGSEGV in Object Flow properties 170596)
 * Crash fix in case the path does not fit into the package hierachy we cannot check the imports (200721)
@@ -44,10 +44,17 @@ Version (since 2011-08-01)
 * Umbrello crashed when changing the Package of a class (268469)
 * Compile error when build against Qt 4.8 (279184)
 * Crash when importing Java-Source (288406)
+* Improvements to widgets paste location (291763)
+* Box widgets size could not be reduced  (291837)
+* Widget clipping problem (291894)
 
-Version 2.8.0
+Version 2.7.4 (and previous)
 
-* New feature: Code import wizard added
+* ERD - wrong orientation of relation while entering FK (171280)
+* Fails to compile with boost 1.37.0 (177755)
+* Hangs exporting to EPS and PDF, creates broken files (180031, 185659)
+* Crashed opening specific .xmi file (203118, 238775)
+* Invalid types in PostgreSQL codegenerator (273221)
 
 ...
 

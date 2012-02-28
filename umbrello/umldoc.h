@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -105,7 +105,8 @@ public:
                                      const UMLObject *roleBObj,
                                      bool *swap = 0);
 
-    UMLView* createDiagram(UMLFolder *folder, Uml::DiagramType type, bool askForName = true);
+    QString createDiagramName(Uml::DiagramType type, bool askForName = true);
+    UMLView* createDiagram(UMLFolder *folder, Uml::DiagramType type, const QString& name);
     void removeDiagram(Uml::IDType id);
     void renameDiagram(Uml::IDType id);
 

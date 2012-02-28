@@ -1820,13 +1820,6 @@ bool UMLView::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
         return false;
     }
 
-    //make sure valid
-    if (!isPasteOperation && !m_doc->loading() &&
-            !AssocRules::allowAssociation(assocType, pWidgetA, pWidgetB)) {
-        uWarning() << "allowAssociation returns false " << "for AssocType " << assocType;
-        return false;
-    }
-
     //make sure there isn't already the same assoc
 
     foreach(AssociationWidget* assocwidget, m_AssociationList) {

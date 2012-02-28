@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -19,20 +19,19 @@ namespace Uml
 {
     class CmdResizeWidget : public QUndoCommand
     {
-        public:
-            CmdResizeWidget(UMLWidgetController* wc);
-            ~CmdResizeWidget();
+    public:
+        CmdResizeWidget(UMLWidgetController* wc);
+        ~CmdResizeWidget();
 
-            void redo();
-            void undo();
+        void redo();
+        void undo();
 
-        private:
-            UMLWidgetController*  m_widgetCtrl;
-            int         m_h;
-            int         m_w;
-            int         m_oldH;
-            int         m_oldW;
-            bool        m_already;
+    private:
+        UMLWidgetController*  m_widgetCtrl;
+        int         m_h;
+        int         m_w;
+        int         m_oldH;
+        int         m_oldW;
     };
 }
 

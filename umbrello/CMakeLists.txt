@@ -332,30 +332,19 @@ set(libclipboard_SRCS
 )
 
 set(libcmds_SRCS
-    cmds/cmd_create_activitydiag.cpp
-    cmds/cmd_create_classdiag.cpp
-    cmds/cmd_create_collaborationdiag.cpp
-    cmds/cmd_create_componentdiag.cpp
-    cmds/cmd_create_deploydiag.cpp
-    cmds/cmd_create_entityrelationdiag.cpp
-    cmds/cmd_create_seqdiag.cpp
-    cmds/cmd_create_statediag.cpp
-    cmds/cmd_create_usecasediag.cpp
-
-    cmds/classdiag/cmd_create_class.cpp
+    cmds/cmd_create_diagram.cpp
+    cmds/cmd_handle_rename.cpp
+    cmds/cmd_set_stereotype.cpp
+    cmds/cmd_set_visibility.cpp
 
     cmds/generic/cmd_create_umlobject.cpp
     cmds/generic/cmd_rename_umlobject.cpp
 
     cmds/widget/cmd_create_widget.cpp
-
     cmds/cmd_moveWidget.cpp
     cmds/cmd_resizeWidget.cpp
-    cmds/cmd_set_visibility.cpp
-    cmds/cmd_set_stereotype.cpp
     cmds/widget/cmd_set_name.cpp
     cmds/widget/cmd_set_txt.cpp
-    cmds/cmd_handle_rename.cpp
     cmds/widget/cmd_changeFontSelection.cpp
     cmds/widget/cmd_changeLineColor.cpp
     cmds/widget/cmd_changeFillColor.cpp

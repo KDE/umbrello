@@ -112,17 +112,36 @@ AssociationWidget* AssociationWidget::create
                 UMLDoc *doc = UMLApp::app()->document();
                 UMLAssociation *myAssoc = doc->findAssociation( assocType, umlRoleA, umlRoleB, &swap );
                 if (myAssoc != NULL) {
-                    if (assocType == Uml::AssociationType::Generalization) {
-                        uDebug() << " Ignoring second construction of same generalization";
-                    } else {
-                        uDebug() << " constructing a similar or exact same assoc " <<
-                        "as an already existing assoc (swap=" << swap << ")";
-                        // now, just create a new association anyways
-                        myAssoc = NULL;
+                    switch (assocType) {
+                        case Uml::AssociationType::Generalization:
+                        case Uml::AssociationType::Dependency:
+                        case Uml::AssociationType::Association_Self:
+                        case Uml::AssociationType::Coll_Message_Self:
+                        case Uml::AssociationType::Seq_Message_Self:
+                        case Uml::AssociationType::Containment:
+                        case Uml::AssociationType::Realization:
+                            uDebug() << "Ignoring second construction of same assoctype "
+                                     << assocType << " between " << umlRoleA->name()
+                                     << " and " << umlRoleB->name();
+                            break;
+                        default:
+                            uDebug() << "constructing a similar or exact same assoctype "
+                                     << assocType << " between " << umlRoleA->name() << " and "
+                                     << umlRoleB->name() << "as an already existing assoc (swap="
+                                     << swap << ")";
+                            // now, just create a new association anyways
+                            myAssoc = NULL;
+                            break;
                     }
                 }
-                if (myAssoc == NULL)
+                if (myAssoc == NULL) {
                     myAssoc = new UMLAssociation( assocType, umlRoleA, umlRoleB );
+                    // CHECK: myAssoc is not yet inserted at any parent UMLPackage -
+                    // need to check carefully that all callers do this, lest it be
+                    // orphaned.
+                    // ToolBarStateAssociation::addAssociationInViewAndDoc() is
+                    // okay in this regard.
+                }
                 instance->setUMLAssociation(myAssoc);
             }
         }

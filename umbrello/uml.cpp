@@ -1472,11 +1472,21 @@ void UMLApp::resetStatusMsg()
 }
 
 /**
+ * Helper function to create diagram name and the diagram itself.
+ * @param type   the type of diagram
+ */
+void UMLApp::createDiagram(Uml::DiagramType type)
+{
+    QString diagramName = m_doc->createDiagramName(type);
+    executeCommand(new Uml::CmdCreateDiagram(m_doc, type, diagramName));
+}
+
+/**
  * Create this view.
  */
 void UMLApp::slotClassDiagram()
 {
-    executeCommand(new Uml::CmdCreateClassDiag(m_doc));
+    createDiagram(Uml::DiagramType::Class);
 }
 
 /**
@@ -1484,7 +1494,7 @@ void UMLApp::slotClassDiagram()
  */
 void UMLApp::slotSequenceDiagram()
 {
-    executeCommand(new Uml::CmdCreateSeqDiag(m_doc));
+    createDiagram(Uml::DiagramType::Sequence);
 }
 
 /**
@@ -1492,7 +1502,7 @@ void UMLApp::slotSequenceDiagram()
  */
 void UMLApp::slotCollaborationDiagram()
 {
-    executeCommand(new Uml::CmdCreateCollaborationDiag(m_doc));
+    createDiagram(Uml::DiagramType::Collaboration);
 }
 
 /**
@@ -1500,7 +1510,7 @@ void UMLApp::slotCollaborationDiagram()
  */
 void UMLApp::slotUseCaseDiagram()
 {
-    executeCommand(new Uml::CmdCreateUseCaseDiag(m_doc));
+    createDiagram(Uml::DiagramType::UseCase);
 }
 
 /**
@@ -1508,7 +1518,7 @@ void UMLApp::slotUseCaseDiagram()
  */
 void UMLApp::slotStateDiagram()
 {
-    executeCommand(new Uml::CmdCreateStateDiag(m_doc));
+    createDiagram(Uml::DiagramType::State);
 }
 
 /**
@@ -1516,7 +1526,7 @@ void UMLApp::slotStateDiagram()
  */
 void UMLApp::slotActivityDiagram()
 {
-    executeCommand(new Uml::CmdCreateActivityDiag(m_doc));
+    createDiagram(Uml::DiagramType::Activity);
 }
 
 /**
@@ -1524,7 +1534,7 @@ void UMLApp::slotActivityDiagram()
  */
 void UMLApp::slotComponentDiagram()
 {
-    executeCommand(new Uml::CmdCreateComponentDiag(m_doc));
+    createDiagram(Uml::DiagramType::Component);
 }
 
 /**
@@ -1532,7 +1542,7 @@ void UMLApp::slotComponentDiagram()
  */
 void UMLApp::slotDeploymentDiagram()
 {
-    executeCommand(new Uml::CmdCreateDeployDiag(m_doc));
+    createDiagram(Uml::DiagramType::Deployment);
 }
 
 /**
@@ -1540,7 +1550,7 @@ void UMLApp::slotDeploymentDiagram()
  */
 void UMLApp::slotEntityRelationshipDiagram()
 {
-    executeCommand(new Uml::CmdCreateEntityRelationDiag(m_doc));
+    createDiagram(Uml::DiagramType::EntityRelationship);
 }
 
 /**

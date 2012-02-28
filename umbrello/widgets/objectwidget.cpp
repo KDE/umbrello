@@ -129,7 +129,12 @@ UMLSceneSize ObjectWidget::minimumSize()
     int width, height;
     const QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
     const int fontHeight  = fm.lineSpacing();
-    const QString t = m_InstanceName + " : " + m_pObject->name();
+    QString objName;
+    if (m_pObject)
+        objName = m_pObject->name();
+    else
+        objName = "1234567";
+    const QString t = m_InstanceName + " : " + objName;
     const int textWidth = fm.width(t);
     if ( m_drawAsActor ) {
         width = textWidth > A_WIDTH?textWidth:A_WIDTH;
