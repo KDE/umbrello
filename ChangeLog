@@ -1,7 +1,6 @@
 Version 2.8.2
 
 * New feature: Drawing of state diagrams with more pseudostates possible.
-* Creates many 'new_package_xx' packages on file loading (291159)
 * Color of role text on diagram (e.g. Role B) nearly invisible (291401)
 
 Version 2.8.1
@@ -19,6 +18,7 @@ Version 2.8.1
 * Crash when opening file (251094) 
 * Crashes even if an association was drawn (271243)
 * Gratuitous warning messages on loading project file (283744)
+* Creates many 'new_package_xx' packages on file loading (291159)
 * Crash on importing templated java source code (293770)
 * New feature: C# code import added.
 
