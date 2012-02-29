@@ -1948,9 +1948,36 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
                        tagEq(tag, "Interface")) {
                 // These tests are only for foreign XMI files that
                 // are missing the <Model> tag (e.g. NSUML)
-                QDomElement parentElem = node.toElement();
-                if( !loadUMLObjectsFromXMI( parentElem ) ) {
-                    uWarning() << "failed load on model objects";
+                QString stID = element.attribute("stereotype", "");
+                UMLObject *pObject = Object_Factory::makeObjectFromXMI(tag, stID);
+                if ( !pObject ) {
+                    uWarning() << "Unknown type of umlobject to create: " << tag;
+                    // We want a best effort, therefore this is handled as a
+                    // soft error.
+                    continue;
+                }
+                UMLObject::ObjectType ot = pObject->baseType();
+                // Set the parent root folder.
+                UMLPackage *pkg = 0;
+                if (ot != UMLObject::ot_Stereotype) {
+                    if (ot == UMLObject::ot_Datatype) {
+                        pkg = m_datatypeRoot;
+                    } else {
+                        Uml::ModelType guess = Model_Utils::guessContainer(pObject);
+                        if (guess != Uml::ModelType::N_MODELTYPES) {
+                            pkg = m_root[guess];
+                        }
+                        else {
+                            uError() << "Guess is Uml::ModelType::N_MODELTYPES - package not set correctly for "
+                                     << pObject->name() << " / base type " << pObject->baseTypeStr();
+                            pkg = m_root[Uml::ModelType::Logical];
+                        }
+                    }
+                }
+                pObject->setUMLPackage(pkg);
+                bool status = pObject->loadFromXMI(element);
+                if (!status) {
+                    delete pObject;
                     return false;
                 }
                 seen_UMLObjects = true;
@@ -2202,7 +2229,12 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
             continue;
         }
         if (pkg) {
-            pkg->addObject(pObject);
+            UMLObjectList objects = pkg->containedObjects();
+            if (! objects.contains(pObject)) {
+                DEBUG(DBG_SRC) << "CHECK: adding " << pObject->name()
+                               << " to " << pkg->name();
+                pkg->addObject(pObject);
+            }
         }
         else if (ot != UMLObject::ot_Stereotype) {
             uError() << "Package is NULL for " << pObject->name();
