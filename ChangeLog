@@ -1,4 +1,4 @@
-Version 2.8.2
+Version 2.9.0 (unreleased)
 
 * New feature: Drawing of state diagrams with more pseudostates possible.
 * Color of role text on diagram (e.g. Role B) nearly invisible (291401)
