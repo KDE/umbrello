@@ -1,6 +1,7 @@
 Version 2.8.2
 
 * New feature: Drawing of state diagrams with more pseudostates possible.
+* Creates many 'new_package_xx' packages on file loading (291159)
 * Color of role text on diagram (e.g. Role B) nearly invisible (291401)
 
 Version 2.8.1
