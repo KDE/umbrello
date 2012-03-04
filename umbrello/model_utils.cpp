@@ -302,6 +302,24 @@ UMLObject* findUMLObjectRaw(const UMLObjectList& inList,
 }
 
 /**
+ * Get the root folder of the given UMLObject.
+ */
+UMLPackage* rootPackage(UMLObject* obj)
+{
+    if (obj == NULL)
+        return NULL;
+    UMLPackage* root = obj->umlPackage();
+    if (root == NULL) {
+        root = dynamic_cast<UMLPackage*>(obj);
+    } else {
+        while (root->umlPackage() != NULL) {
+            root = root->umlPackage();
+        }
+    }
+    return root;
+}
+
+/**
  * Add the given list of views to the tree view.
  * @param viewList   the list of views to add
  */

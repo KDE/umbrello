@@ -48,6 +48,8 @@ UMLObject* findUMLObjectRaw( const UMLObjectList& inList,
                              UMLObject::ObjectType type = UMLObject::ot_UMLObject,
                              UMLObject *currentObj = 0);
 
+UMLPackage* rootPackage(UMLObject* obj);
+
 void treeViewAddViews(const UMLViewList& viewList);
 void treeViewChangeIcon(UMLObject* object, Icon_Utils::IconType to);
 void treeViewSetCurrentItem(UMLObject* object);
