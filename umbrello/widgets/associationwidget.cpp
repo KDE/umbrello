@@ -769,6 +769,9 @@ bool AssociationWidget::activate()
 
 /**
  * Set the widget of the given role.
+ * Add this AssociationWidget at the widget.
+ * If this AssociationWidget has an underlying UMLAssociation then set
+ * the widget's underlying UMLObject at the UMLAssociation's role object.
  *
  * @param widget    Pointer to the UMLWidget.
  * @param role      Role for which to set the widget.
@@ -1283,43 +1286,18 @@ void AssociationWidget::setUMLAssociation (UMLAssociation * assoc)
 
         // safety check. Did some num-nuts try to set the existing
         // association again? If so, just bail here
-        if (assoc && umla == assoc)
+        if (umla == assoc)
             return;
 
         //umla->disconnect(this);  //Qt does disconnect automatically upon destruction.
         umla->nrof_parent_widgets--;
 
-        // we are the last "owner" of this association, so delete it
-        // from the parent UMLDoc, and as a stand-alone
-        //DISCUSS: Should we really do this?
-        //    It implies that an association's existence is ONLY
-        //    governed by its existence on at least one diagram.
-        //    OTOH, it might be argued that an association should
-        //    further exist even when it's (temporarily) not present
-        //    on any diagram. This is exactly what cut and paste
-        //    relies on (at least the way it's implemented now)
-        // ANSWER: yes, we *should* do this.
-        //   This only implies that IF an association once 'belonged'
-        //   to one or more parent associationwidgets, then it must 'die' when the
-        //   last widget does. UMLAssociations which never had a parent
-        //   in the first place wont be affected by this code, and can happily
-        //   live on without a parent.
-        //DISCUSS: Sorry Brian, but this breaks cut/paste.
-        //    In particular, cut/paste means that the UMLAssociation _does_
-        //    have the assocwidget parent - the only means of doing a cut/paste
-        //    on the diagram is via the widgets. I.e. in practice there is no
-        //    such thing as an "orphan" UMLAssociation.
-        //    BTW, IMHO the concept of a widget being the parent of a UML object
-        //    is fundamentally flawed. Widgets are pure presentation - they can
-        //    come and go at a whim. If at all, the widgets could be considered
-        //    children of the corresponding UML object.
-        //
         // ANSWER: This is the wrong treatment of cut and paste. Associations that
         // are being cut/n pasted should be serialized to XMI, then reconstituted
         // (IF a paste operation) rather than passing around object pointers. Its
         // just too hard otherwise to prevent problems in the code. Bottom line: we need to
         // delete orphaned associations or we well get code crashes and memory leaks.
-        if (umla->nrof_parent_widgets == 0) {
+        if (umla->nrof_parent_widgets <= 0) {
             //umla->deleteLater();
         }
 
@@ -2768,12 +2746,7 @@ void AssociationWidget::removeAssocClassLine()
 }
 
 /**
- * Creates the association class connecting line using the specified
- * ClassifierWidget.
- *
- * @param classifierWidget The ClassifierWidget to use.
- * @param linePathSegmentIndex The index of the segment where the
- *        association class is created.
+ * Creates the association class connecting line.
  */
 void AssociationWidget::createAssocClassLine()
 {
