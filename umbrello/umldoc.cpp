@@ -1523,6 +1523,10 @@ void UMLDoc::setCurrentRoot(Uml::ModelType rootType)
  */
 void UMLDoc::removeUMLObject(UMLObject* umlobject)
 {
+    if (umlobject == NULL) {
+        uError() << "called with NULL parameter";
+        return;
+    }
     UMLApp::app()->docWindow()->updateDocumentation(true);
     UMLObject::ObjectType type = umlobject->baseType();
 
@@ -1567,6 +1571,33 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject)
         } else {
             UMLPackage* pkg = umlobject->umlPackage();
             if (pkg) {
+                // Remove associations that this object may participate in.
+                UMLCanvasObject *c = dynamic_cast<UMLCanvasObject*>(umlobject);
+                if (c) {
+                    // In the current implementation, all associations live in the
+                    // root folder.
+                    UMLPackage* rootPkg = Model_Utils::rootPackage(c);
+                    if (rootPkg == NULL) {
+                        uError() << umlobject->name() << ": root package is not set !";
+                        return;
+                    }
+                    UMLObjectList rootObjects = rootPkg->containedObjects();
+                    // Store the associations to remove in a buffer because we
+                    // should not remove elements from m_objectList while it is
+                    // being iterated over.
+                    UMLAssociationList assocsToRemove;
+                    foreach (UMLObject *obj , rootObjects) {
+                        if (obj->baseType() == UMLObject::ot_Association) {
+                            UMLAssociation *assoc = static_cast<UMLAssociation*>(obj);
+                            if (c->hasAssociation(assoc)) {
+                                assocsToRemove.append(assoc);
+                            }
+                        }
+                    }
+                    foreach (UMLAssociation *a, assocsToRemove) {
+                        removeAssociation(a, false);
+                    }
+                }
                 pkg->removeObject(umlobject);
             } else {
                 uError() << umlobject->name() << ": parent package is not set !";
