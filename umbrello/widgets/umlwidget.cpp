@@ -776,7 +776,6 @@ void UMLWidget::adjustAssocs(int x, int y)
         // -> return immediately without action
         return;
     }
-    AssociationWidgetListIt assoc_it(m_Assocs);
 
     foreach(AssociationWidget* assocwidget , m_Assocs) {
         assocwidget->saveIdealTextPositions();
