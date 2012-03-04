@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -20,7 +20,8 @@ namespace Uml
 {
 
     CmdResizeWidget::CmdResizeWidget(UMLWidgetController* wc)
-      : m_widgetCtrl(wc), m_already(false)
+      : QUndoCommand(),
+        m_widgetCtrl(wc)
     {
         UMLWidget * w = wc->getWidget();
         setText(i18n("Resize widget : %1", w->name()));
@@ -36,17 +37,20 @@ namespace Uml
 
     void CmdResizeWidget::redo()
     {
-        if (m_already == false) {
-             m_already = true;
-        }
-        else {
+        UMLWidget * w = m_widgetCtrl->getWidget();
+        UMLScene* scene = w->umlScene();
+        if (scene->widgetOnDiagram(w->id())) {
             m_widgetCtrl->resizeWidget(m_w, m_h);
         }
     }
 
     void CmdResizeWidget::undo()
     {
-        m_widgetCtrl->resizeWidget(m_oldW, m_oldH);
+        UMLWidget * w = m_widgetCtrl->getWidget();
+        UMLScene* scene = w->umlScene();
+        if (scene->widgetOnDiagram(w->id())) {
+            m_widgetCtrl->resizeWidget(m_oldW, m_oldH);
+        }
     }
 
 }

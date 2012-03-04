@@ -202,7 +202,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                 UMLObject::ObjectType foundType = obj->baseType();
                 if (nameWithoutFirstPrefix.isEmpty()) {
                     if (type != UMLObject::ot_UMLObject && type != foundType) {
-                        uDebug() << "findUMLObject: type mismatch for "
+                        uDebug() << "type mismatch for "
                             << name << " (seeking type: "
                             << UMLObject::toString(type) << ", found type: "
                             << UMLObject::toString(foundType) << ")";
@@ -226,7 +226,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                     foundType != UMLObject::ot_Class &&
                     foundType != UMLObject::ot_Interface &&
                     foundType != UMLObject::ot_Component) {
-                    uDebug() << "findUMLObject: found \"" << name
+                    uDebug() << "found \"" << name
                         << "\" is not a package (?)";
                     continue;
                 }
@@ -248,7 +248,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
         UMLObject::ObjectType foundType = obj->baseType();
         if (nameWithoutFirstPrefix.isEmpty()) {
             if (type != UMLObject::ot_UMLObject && type != foundType) {
-                uDebug() << "findUMLObject: type mismatch for "
+                uDebug() << "type mismatch for "
                     << name << " (seeking type: "
                     << UMLObject::toString(type) << ", found type: "
                     << UMLObject::toString(foundType) << ")";
@@ -261,7 +261,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
             foundType != UMLObject::ot_Class &&
             foundType != UMLObject::ot_Interface &&
             foundType != UMLObject::ot_Component) {
-            uDebug() << "findUMLObject: found \"" << name
+            uDebug() << "found \"" << name
                 << "\" is not a package (?)";
             continue;
         }

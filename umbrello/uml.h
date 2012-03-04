@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -307,6 +307,8 @@ private:
     void initSavedCodeGenerators();
 
     void importFiles(QStringList* fileList);
+
+    void createDiagram(Uml::DiagramType type);
 
     QMenu* m_langSelect;  ///< For selecting the active language.
     QMenu* m_zoomSelect;  ///< Popup menu for zoom selection.

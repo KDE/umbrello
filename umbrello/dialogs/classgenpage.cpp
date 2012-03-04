@@ -148,8 +148,10 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
         }
         packages.sort();
         m_pPackageCB->insertItems(-1, packages);
+        QString packagePath = "";
         UMLPackage* parentPackage = 0;
         if (m_pObject) {
+            packagePath = m_pObject->package(); 
             parentPackage = m_pObject->umlPackage();
         }
 
@@ -159,7 +161,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
              parentPackage == static_cast<UMLPackage*>(m_pUmldoc->rootFolder(Uml::ModelType::Logical)))
             m_pPackageCB->setEditText( QString() );
         else
-            m_pPackageCB->setEditText(parentPackage->name());
+            m_pPackageCB->setEditText(packagePath);
     }
 
     if (t == UMLObject::ot_Class || t == UMLObject::ot_UseCase ) {

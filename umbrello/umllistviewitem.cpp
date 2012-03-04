@@ -439,10 +439,9 @@ void UMLListViewItem::setText(int column, const QString &newText)
 }
 
 /**
- * Returns the current text.
- * :TODO: not used anywhere
+ * Returns the saved text.
  */
-QString UMLListViewItem::getText() const
+QString UMLListViewItem::getSavedText() const
 {
     return m_label;
 }

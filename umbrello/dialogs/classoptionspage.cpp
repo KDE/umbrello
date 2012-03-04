@@ -14,6 +14,7 @@
 // local includes
 #include "umlview.h"
 #include "classifierwidget.h"
+#include "widgetbase.h"
 
 // kde includes
 #include <klocale.h>

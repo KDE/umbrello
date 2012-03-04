@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2008                                                *
+ *  copyright (C) 2002-2012                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -16,25 +16,12 @@
 
 #include <kundostack.h>
 
-#include "cmds/cmd_create_activitydiag.h"
-#include "cmds/cmd_create_classdiag.h"
-#include "cmds/cmd_create_collaborationdiag.h"
-#include "cmds/cmd_create_componentdiag.h"
-#include "cmds/cmd_create_deploydiag.h"
-#include "cmds/cmd_create_entityrelationdiag.h"
-#include "cmds/cmd_create_seqdiag.h"
-#include "cmds/cmd_create_statediag.h"
-#include "cmds/cmd_create_usecasediag.h"
+#include "cmds/cmd_create_diagram.h"
 #include "cmds/cmd_handle_rename.h"
 #include "cmds/cmd_moveWidget.h"
 #include "cmds/cmd_resizeWidget.h"
 #include "cmds/cmd_set_stereotype.h"
 #include "cmds/cmd_set_visibility.h"
-
-/************************************************************
- * Class Diagram
- ************************************************************/
-#include "cmds/classdiag/cmd_create_class.h"
 
 /************************************************************
  * Generic

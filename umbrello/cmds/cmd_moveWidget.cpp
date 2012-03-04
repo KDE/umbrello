@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -20,7 +20,8 @@ namespace Uml
 {
 
     CmdMoveWidget::CmdMoveWidget(UMLWidgetController* wc)
-      : QUndoCommand(), m_widgetCtrl(wc), m_already(false)
+      : QUndoCommand(),
+        m_widgetCtrl(wc)
     {
         UMLWidget * w = wc->getWidget();
         setText(i18n("Move widget : %1", w->name()));
@@ -61,13 +62,13 @@ namespace Uml
         //widget->getWidgetController()->moveWidgetBy(-diffX, -diffY);
     }
 
-    bool CmdMoveWidget::mergeWith(const QUndoCommand* other)
-    {
-        const CmdMoveWidget* otherCmd = static_cast<const CmdMoveWidget*>(other);
-        if (m_widgetCtrl != otherCmd->m_widgetCtrl)
-            return false;
-        m_x = otherCmd->m_x;
-        m_y = otherCmd->m_y;
-        return true;
-    }
+//    bool CmdMoveWidget::mergeWith(const QUndoCommand* other)
+//    {
+//        const CmdMoveWidget* otherCmd = static_cast<const CmdMoveWidget*>(other);
+//        if (m_widgetCtrl != otherCmd->m_widgetCtrl)
+//            return false;
+//        m_x = otherCmd->m_x;
+//        m_y = otherCmd->m_y;
+//        return true;
+//    }
 }

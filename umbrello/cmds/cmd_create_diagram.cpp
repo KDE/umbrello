@@ -4,42 +4,46 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2012-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-#include "cmd_create_usecasediag.h"
+#include "cmd_create_diagram.h"
 
-#include "uml.h"
+#include "model_utils.h"
 #include "umldoc.h"
 #include "umlview.h"
-#include "umlscene.h"
 
 #include <klocale.h>
 
 namespace Uml
 {
 
-    CmdCreateUseCaseDiag::CmdCreateUseCaseDiag(UMLDoc* doc, const QString& name)
-      : m_pUMLDoc(doc), m_pUMLView(0), m_Name(name)
+    CmdCreateDiagram::CmdCreateDiagram(UMLDoc* doc, Uml::DiagramType type, const QString& name)
+      : QUndoCommand(),
+        m_name(name),
+        m_type(type),
+        m_pUMLDoc(doc),
+        m_pUMLView(0)
     {
-        setText(i18n("Create use case diagram : %1", name));
+        QString msg = i18n("Create diagram %1: %2", DiagramType::toString(type), name);
+        setText(msg);
     }
 
-    CmdCreateUseCaseDiag::~CmdCreateUseCaseDiag()
+    CmdCreateDiagram::~CmdCreateDiagram()
     {
     }
 
-    void CmdCreateUseCaseDiag::redo()
+    void CmdCreateDiagram::redo()
     {
-        UMLFolder* temp = m_pUMLDoc->rootFolder(Uml::ModelType::UseCase);
-        m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::DiagramType::UseCase);
+        Uml::ModelType modelType = Model_Utils::convert_DT_MT(m_type);
+        UMLFolder* folder = m_pUMLDoc->rootFolder(modelType);
+        m_pUMLView = m_pUMLDoc->createDiagram(folder, m_type, m_name);
     }
 
-    void CmdCreateUseCaseDiag::undo()
+    void CmdCreateDiagram::undo()
     {
         if (m_pUMLView) {
-            // [PORT]
             m_pUMLDoc->removeDiagram(m_pUMLView->umlScene()->getID());
         }
     }
