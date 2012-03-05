@@ -479,7 +479,7 @@
        </entry>
        <entry name="vectorIncludeIsGlobal" type="Bool">
          <label>Vector include is global</label>
-         <whatsthis>Enables/Disables global inclusing of vector class</whatsthis>
+         <whatsthis>Enables/Disables global inclusion of vector class</whatsthis>
          <default>true</default>
        </entry>
        <entry name="virtualDestructors" type="Bool">
