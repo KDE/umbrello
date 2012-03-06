@@ -414,59 +414,6 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLScene* scene, const QString &
 }
 
 /**
- * Fix the file 'fileName' to be a valid EPS containing the
- * specified area (rect) of the diagram.
- * Corrects the bounding box.
- *
- * @return True if the operation was successful,
- *         false if a problem occurred while exporting.
- */
-bool UMLViewImageExporterModel::fixEPS(const QString &fileName, const QRect& rect) const
-{
-    // now open the file and make a correct eps out of it
-    QFile epsfile(fileName);
-    if (! epsfile.open(QIODevice::ReadOnly)) {
-        return false;
-    }
-    // read
-    QTextStream ts(&epsfile);
-    QString fileContent = ts.readAll();
-    epsfile.close();
-
-    // read information
-    QRegExp rx("%%BoundingBox:\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)");
-    const int pos = rx.indexIn(fileContent);
-    if (pos < 0) {
-        uError() << fileName << ": cannot find %%BoundingBox";
-        return false;
-    }
-
-    // write new content to file
-    if (! epsfile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-        uError() << fileName << ": cannot open file for writing";
-        return false;
-    }
-
-    // be careful when rounding (ceil/floor) the BB, these roundings
-    // were mainly obtained experimentally...
-    const double epsleft = rx.cap(1).toFloat();
-    const double epstop = rx.cap(4).toFloat();
-    const int left = int(floor(epsleft));
-    const int right = int(ceil(epsleft)) + rect.width();
-    const int top = int(ceil(epstop)) + 1;
-    const int bottom = int(floor(epstop)) - rect.height() + 1;
-
-    // modify content
-    fileContent.replace(pos,rx.cap(0).length(),
-                        QString("%%BoundingBox: %1 %2 %3 %4").arg(left).arg(bottom).arg(right).arg(top));
-
-    ts << fileContent;
-    epsfile.close();
-
-    return true;
-}
-
-/**
  * Exports the view to the file 'fileName' as SVG.
  *
  * @param scene    The scene to export.
@@ -538,4 +485,57 @@ bool UMLViewImageExporterModel::exportViewToPixmap(UMLScene* scene, const QStrin
 
     DEBUG(DBG_IEM) << "saving to file " << fileName << " , imageType=" << imageType << " successful=" << exportSuccessful;
     return exportSuccessful;
+}
+
+/**
+ * Fix the file 'fileName' to be a valid EPS containing the
+ * specified area (rect) of the diagram.
+ * Corrects the bounding box.
+ *
+ * @return True if the operation was successful,
+ *         false if a problem occurred while exporting.
+ */
+bool UMLViewImageExporterModel::fixEPS(const QString &fileName, const QRect& rect) const
+{
+    // now open the file and make a correct eps out of it
+    QFile epsfile(fileName);
+    if (! epsfile.open(QIODevice::ReadOnly)) {
+        return false;
+    }
+    // read
+    QTextStream ts(&epsfile);
+    QString fileContent = ts.readAll();
+    epsfile.close();
+    
+    // read information
+    QRegExp rx("%%BoundingBox:\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)");
+    const int pos = rx.indexIn(fileContent);
+    if (pos < 0) {
+        uError() << fileName << ": cannot find %%BoundingBox";
+        return false;
+    }
+    
+    // write new content to file
+    if (! epsfile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        uError() << fileName << ": cannot open file for writing";
+        return false;
+    }
+    
+    // be careful when rounding (ceil/floor) the BB, these roundings
+    // were mainly obtained experimentally...
+    const double epsleft = rx.cap(1).toFloat();
+    const double epstop = rx.cap(4).toFloat();
+    const int left = int(floor(epsleft));
+    const int right = int(ceil(epsleft)) + rect.width();
+    const int top = int(ceil(epstop)) + 1;
+    const int bottom = int(floor(epstop)) - rect.height() + 1;
+    
+    // modify content
+    fileContent.replace(pos,rx.cap(0).length(),
+                        QString("%%BoundingBox: %1 %2 %3 %4").arg(left).arg(bottom).arg(right).arg(top));
+    
+    ts << fileContent;
+    epsfile.close();
+    
+    return true;
 }

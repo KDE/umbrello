@@ -51,9 +51,9 @@ private:
     bool prepareDirectory(const KUrl &url) const;
 
     bool exportViewTo(UMLScene* scene, const QString &imageType, const QString &fileName) const;
+    bool exportViewToEps(UMLScene* scene, const QString &fileName, bool isEPS) const;
     bool exportViewToSvg(UMLScene* scene, const QString &fileName) const;
     bool exportViewToPixmap(UMLScene* scene, const QString &imageType, const QString &fileName) const;
-    bool exportViewToEps(UMLScene* scene, const QString &fileName, bool isEPS) const;
 
     bool fixEPS(const QString &fileName, const QRect& rect) const;
 
