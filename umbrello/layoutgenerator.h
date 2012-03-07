@@ -12,6 +12,7 @@
 
 #include "associationwidget.h"
 #include "debug_utils.h"
+#include "dotgenerator.h"
 #include "floatingtextwidget.h"
 #include "umlwidget.h"
 
@@ -83,7 +84,7 @@ static QString textViewer()
  *
  * @author Ralf Habacker <ralf.habacker@freenet.de>
  */
-class LayoutGenerator
+class LayoutGenerator : public DotGenerator
 {
 public:
     typedef QHash<QString,QRectF> NodeType;
@@ -273,185 +274,6 @@ public:
         return true;
     }
 
-    /**
-     * Read a layout config file
-     *
-     * @param diagramType String identifing the diagram
-     * @param variant String identifing the variant
-     * @return true on success
-     */
-    bool readConfigFile(QString diagramType, const QString &variant = "default")
-    {
-        QStringList fileNames;
-
-        if (!variant.isEmpty())
-            fileNames << QString("%1-%2.desktop").arg(diagramType).arg(variant);
-        fileNames << QString("%1-default.desktop").arg(diagramType);
-        fileNames << "default.desktop";
-
-        QString configFileName;
-        foreach(const QString &fileName, fileNames) {
-            configFileName = KStandardDirs::locate("data", QString("umbrello/layouts/%1").arg(fileName));
-            if (!configFileName.isEmpty())
-                break;
-        }
-
-        if (configFileName.isEmpty()) {
-            uError() << "could not find layout config file name for diagram type" << diagramType << "and variant" << variant;
-            return false;
-        }
-
-        m_configFileName = configFileName;
-        KDesktopFile desktopFile(configFileName);
-        KConfigGroup edgesRankingAttributes(&desktopFile,"X-UMBRELLO-Edges-Ranking");
-        KConfigGroup edgesVisualAttributes(&desktopFile,"X-UMBRELLO-Edges-Visual");
-        KConfigGroup nodesAttributes(&desktopFile,"X-UMBRELLO-Nodes");
-        KConfigGroup attributes(&desktopFile,"X-UMBRELLO-Attributes");
-        KConfigGroup settings(&desktopFile,"X-UMBRELLO-Settings");
-
-        m_edgeParameters.clear();
-        m_nodeParameters.clear();
-        m_dotParameters.clear();
-
-        foreach(const QString &key, attributes.keyList()) {
-            QString value = attributes.readEntry(key);
-            if (!value.isEmpty())
-                m_dotParameters[key] = value;
-        }
-
-        foreach(const QString &key, nodesAttributes.keyList()) {
-            QString value = nodesAttributes.readEntry(key);
-            m_nodeParameters[key] = value;
-        }
-
-        foreach(const QString &key, edgesRankingAttributes.keyList()) {
-            QString value = edgesRankingAttributes.readEntry(key);
-            if (m_edgeParameters.contains(key)) {
-                m_edgeParameters[key] += ',' + value;
-            } else {
-                m_edgeParameters[key] = value;
-            }
-        }
-
-        foreach(const QString &key, edgesVisualAttributes.keyList()) {
-            QString value = edgesVisualAttributes.readEntry(key);
-            if (m_edgeParameters.contains(key)) {
-                m_edgeParameters[key] += ',' + value;
-            } else {
-                m_edgeParameters[key] = value;
-            }
-        }
-
-        QString value = settings.readEntry("origin");
-        QStringList a = value.split(",");
-        if (a.size() == 2)
-            m_origin = QPointF(a[0].toDouble(), a[1].toDouble());
-        else
-            uError() << "illegal format of entry 'origin'" << value;
-
-#ifdef LAYOUTGENERATOR_DATA_DEBUG
-        uDebug() << m_edgeParameters;
-        uDebug() << m_nodeParameters;
-        uDebug() << m_dotParameters;
-#endif
-        return true;
-    }
-
-    /**
-     * Create dot file using displayed widgets
-     * and associations of the provided scene
-     * @note This method could also be used as a base to export diagrams as dot file
-     *
-     * @param fileName Filename where to create the dot file
-     * @param scene The diagram from which the widget informations are fetched
-     *
-     * @return true if generating finished successfully
-    */
-    bool createDotFile(UMLScene *scene, const QString &fileName, const QString &variant = "default")
-    {
-        QFile file(fileName);
-        if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-            return false;
-
-        QString diagramType = scene->type().toString().toLower();
-        if (!readConfigFile(diagramType, variant))
-            return false;
-
-        QString data;
-        QTextStream out(&data);
-
-        foreach(UMLWidget *widget, scene->getWidgetList()) {
-            QStringList params;
-
-            if (m_nodeParameters.contains("all"))
-                params << m_nodeParameters["all"];
-
-            params  << QString("width=\"%1\"").arg(widget->getWidth()/m_scale)
-                    << QString("height=\"%1\"").arg(widget->getHeight()/m_scale);
-
-            QString type = QString(widget->baseTypeStr()).toLower().remove("wt_");
-            QString key = "type::" + type;
-            QString label = widget->name() + "\\n" + type;
-
-            if (m_nodeParameters.contains(key))
-                params << m_nodeParameters[key];
-            else if (m_nodeParameters.contains("type::default")) {
-                params << m_nodeParameters["type::default"];
-                if (label.isEmpty())
-                    label = type;
-            }
-
-            params << QString("label=\"%1\"").arg(label);
-
-#ifdef LAYOUTGENERATOR_DATA_DEBUG
-            uDebug() << type << params;
-#endif
-            QString id = fixID(ID2STR(widget->id()));
-            if (widget->baseType() != WidgetBase::wt_Text)
-                out << "\"" << id << "\""
-                    << " [" << params.join(",") << "];\n";
-        }
-
-        foreach(AssociationWidget *assoc, scene->getAssociationList()) {
-            QStringList params;
-            QString label;
-            QString type = assoc->associationType().toString().toLower();
-            QString key = "type::" + type;
-            label = type;
-            QString edgeParameters;
-
-            if (m_edgeParameters.contains(key))
-                edgeParameters = m_edgeParameters[key];
-            else if (m_edgeParameters.contains("type::default")) {
-                edgeParameters = m_edgeParameters["type::default"];
-            }
-            params << edgeParameters;
-
-            QString aID = fixID(ID2STR(assoc->getWidgetID(Uml::A)));
-            QString bID = fixID(ID2STR(assoc->getWidgetID(Uml::B)));
-            params << QString("label=\"%1\"").arg(type);
-
-#ifdef LAYOUTGENERATOR_DATA_DEBUG
-            uDebug() << type << params;
-#endif
-            out << "\"" << bID << "\" -> \"" << aID << "\""
-                << " [" << params.join(",") << "];\n";
-        }
-
-        QTextStream o(&file);
-        o << "# generated from " << m_configFileName << "\n";
-        o << "digraph G {\n";
-
-        foreach(const QString &key, m_dotParameters.keys()) {
-            o << "\t" << key << " [" << m_dotParameters[key] << "];\n";
-        }
-
-        o << data << "\n";
-        o << "}\n";
-
-        return true;
-    }
-
 protected:
     /**
      * Return the origin of node based on the bottom/left corner
@@ -496,17 +318,6 @@ protected:
             parseLine(line);
         }
         return true;
-    }
-
-    /**
-     * There are id wrapped with '"', remove it.
-    */
-    QString fixID(const QString &_id)
-    {
-        // FIXME: some widget's ids returned from the list are wrapped with "\"", find and fix them
-        QString id(_id);
-        id.remove("\"");
-        return id;
     }
 
 #ifndef USE_XDOT
@@ -717,12 +528,7 @@ protected:
     NodeType m_nodes;      ///< list of nodes found in parsed dot file
     EdgeType m_edges;      ///< list of edges found in parsed dot file
     double m_scale;        ///< scale factor
-    QString m_executable;  ///< dot executable
-    QString m_configFileName; ///< template filename
-    QHash<QString, QString> m_dotParameters;  ///< contains global graph parameters
-    QHash<QString, QString> m_edgeParameters; ///< contains global edge parameters
-    QHash<QString, QString> m_nodeParameters; ///< contains global node parameters
-    QHash<QString, QPointF> m_edgeLabelPosition; ///< contains global node parameters
+    //QHash<QString, QPointF> m_edgeLabelPosition; ///< contains global node parameters
     QPointF m_origin;
 
     friend QDebug operator<<(QDebug out, LayoutGenerator &c);

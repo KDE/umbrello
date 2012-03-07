@@ -4,39 +4,39 @@ Name=Horizontal Layout
 Comment=Layout which renders Horizontal
 Comment[x-test]=xxHorizontal Layoutxx
 
-[X-UMBRELLO-Nodes]
+[X-UMBRELLO-Dot-Nodes]
 type::class=shape=box
 type::default=shape=box
 
 # for image output
-[X-UMBRELLO-Edges-Visual]
-type::anchor=arrowhead=none
-type::aggregation=arrowhead=odiamond
-type::composition=arrowhead=diamond
-type::dependency=arrowtail=vee,style=dashed,dir=back
-type::uniassociation=arrowtail=vee,dir=back
-type::association=arrowhead=none
-type::generalization=arrowtail=normal,dir=back
-type::realisation=arrowtail=normal,dir=back
-type::default=arrowhead=none
+[X-UMBRELLO-Dot-Edges]
+visual::type::anchor=arrowhead=none,style=dashed
+visual::type::aggregation=arrowtail=odiamond,dir=back
+visual::type::composition=arrowtail=diamond,dir=back
+visual::type::dependency=arrowtail=vee,style=dashed,dir=back
+visual::type::uniassociation=arrowtail=vee,dir=back
+visual::type::association=arrowhead=none
+visual::type::generalization=arrowtail=normal,dir=back
+visual::type::realisation=arrowtail=normal,dir=back
+visual::type::default=arrowhead=none
+# for position ranking
+ranking::type::anchor=constraint=false
+ranking::type::aggregation=weight=0.01
+ranking::type::association=constraint=false
+ranking::type::composition=weight=0.01
+ranking::type::dependency=weight=0.01
+ranking::type::generalization=weight=1.0
+ranking::type::realisation=weight=0.8
+ranking::type::uniassociation=constraint=false
+ranking::type::default=constraint=false
+# id handling
+id::type::aggregation=swap
 
-# for ranking (entries are added)
-[X-UMBRELLO-Edges-Ranking]
-type::anchor=constraint=false
-type::aggregation=weight=0.01
-type::association=constraint=false
-type::composition=weight=0.01
-type::dependency=weight=0.01
-type::generalization=weight=1.0
-type::realisation=weight=0.8
-type::uniassociation=constraint=false
-type::default=constraint=false
-
-[X-UMBRELLO-Attributes]
+[X-UMBRELLO-Dot-Attributes]
 graph=splines=polyline,rankdir=LR,outputorder=nodesfirst,ranksep=1.0,nodesep=0.8
 node=
 edge=
 
-[X-UMBRELLO-Settings]
+[X-UMBRELLO-Dot-Settings]
 origin=50,50
 
