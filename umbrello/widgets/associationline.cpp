@@ -101,11 +101,10 @@ AssociationLine::~AssociationLine()
 {
 }
 
-
 /**
  * Returns the point at the point index.
  */
-QPoint AssociationLine::point( int pointIndex ) const 
+QPoint AssociationLine::point(int pointIndex) const 
 {
     int count = m_LineList.count();
     if( count == 0 || pointIndex > count  || pointIndex < 0)
@@ -113,16 +112,16 @@ QPoint AssociationLine::point( int pointIndex ) const
 
     if( pointIndex == count ) {
         UMLSceneLineItem * line = m_LineList.last();
-        return line -> endPoint();
+        return line->endPoint();
     }
     UMLSceneLineItem * line = m_LineList.at( pointIndex );
-    return line -> startPoint();
+    return line->startPoint();
 }
 
 /**
  * Sets the position of an already set point.
  */
-bool AssociationLine::setPoint( int pointIndex, const QPoint &point )
+bool AssociationLine::setPoint(int pointIndex, const QPoint &point)
 {
     int count = m_LineList.count();
     if( count == 0 || pointIndex > count  || pointIndex < 0)
@@ -134,26 +133,26 @@ bool AssociationLine::setPoint( int pointIndex, const QPoint &point )
 
     if( pointIndex == count) {
         UMLSceneLineItem * line = m_LineList.last();
-        QPoint p = line -> startPoint();
-        line -> setPoints( p.x(), p.y(), point.x(), point.y() );
+        QPoint p = line->startPoint();
+        line->setPoints( p.x(), p.y(), point.x(), point.y() );
         moveSelected( pointIndex );
         update();
         return true;
     }
     if( pointIndex == 0 ) {
         UMLSceneLineItem * line = m_LineList.first();
-        QPoint p = line -> endPoint();
-        line -> setPoints( point.x(), point.y(), p.x(), p.y() );
+        QPoint p = line->endPoint();
+        line->setPoints( point.x(), point.y(), p.x(), p.y() );
         moveSelected( pointIndex );
         update();
         return true;
     }
     UMLSceneLineItem * line = m_LineList.at( pointIndex  );
-    QPoint p = line -> endPoint();
-    line -> setPoints( point.x(), point.y(), p.x(), p.y() );
+    QPoint p = line->endPoint();
+    line->setPoints( point.x(), point.y(), p.x(), p.y() );
     line = m_LineList.at( pointIndex - 1 );
-    p = line -> startPoint();
-    line -> setPoints( p.x(), p.y(), point.x(), point.y() );
+    p = line->startPoint();
+    line->setPoints( p.x(), p.y(), point.x(), point.y() );
     moveSelected( pointIndex );
     update();
     return true;
@@ -178,7 +177,7 @@ QPoint AssociationLine::endPoint() const
 /**
  * Inserts a point at the given index.
  */
-bool AssociationLine::insertPoint( int pointIndex, const QPoint &point )
+bool AssociationLine::insertPoint(int pointIndex, const QPoint &point)
 {
     int count = m_LineList.count();
     if( count == 0 )
@@ -187,14 +186,14 @@ bool AssociationLine::insertPoint( int pointIndex, const QPoint &point )
 
     if( count == 1 || pointIndex == 1) {
         UMLSceneLineItem * first = m_LineList.first();
-        QPoint sp = first -> startPoint();
-        QPoint ep = first -> endPoint();
-        first -> setPoints( sp.x(), sp.y(), point.x(), point.y() );
+        QPoint sp = first->startPoint();
+        QPoint ep = first->endPoint();
+        first->setPoints( sp.x(), sp.y(), point.x(), point.y() );
         UMLSceneLineItem * line = new UMLSceneLineItem( getScene() );
-        line -> setZ( -2 );
-        line -> setPoints( point.x(), point.y(), ep.x(), ep.y() );
-        line -> setPen( getPen() );
-        line -> setVisible( true );
+        line->setZ( -2 );
+        line->setPoints( point.x(), point.y(), ep.x(), ep.y() );
+        line->setPen( pen() );
+        line->setVisible( true );
         m_LineList.insert( 1, line );
         if (!bLoading)
             setupSelected();
@@ -202,28 +201,28 @@ bool AssociationLine::insertPoint( int pointIndex, const QPoint &point )
     }
     if( count + 1 == pointIndex ) {
         UMLSceneLineItem * before = m_LineList.last();
-        QPoint sp = before -> startPoint();
-        QPoint ep = before -> endPoint();
-        before -> setPoints( sp.x(), sp.y(), point.x(), point.y() );
+        QPoint sp = before->startPoint();
+        QPoint ep = before->endPoint();
+        before->setPoints( sp.x(), sp.y(), point.x(), point.y() );
         UMLSceneLineItem * line = new UMLSceneLineItem( getScene() );
-        line -> setPoints( point.x(), point.y(), ep.x(), ep.y() );
-        line -> setZ( -2 );
-        line -> setPen( getPen() );
-        line -> setVisible( true );
+        line->setPoints( point.x(), point.y(), ep.x(), ep.y() );
+        line->setZ( -2 );
+        line->setPen( pen() );
+        line->setVisible( true );
         m_LineList.append( line );
         if (!bLoading)
             setupSelected();
         return true;
     }
     UMLSceneLineItem * before = m_LineList.at( pointIndex - 1 );
-    QPoint sp = before -> startPoint();
-    QPoint ep = before -> endPoint();
-    before -> setPoints( sp.x(), sp.y(), point.x(), point.y() );
+    QPoint sp = before->startPoint();
+    QPoint ep = before->endPoint();
+    before->setPoints( sp.x(), sp.y(), point.x(), point.y() );
     UMLSceneLineItem * line = new UMLSceneLineItem(getScene() );
-    line -> setPoints( point.x(), point.y(), ep.x(), ep.y() );
-    line -> setZ( -2 );
-    line -> setPen( getPen() );
-    line -> setVisible( true );
+    line->setPoints( point.x(), point.y(), ep.x(), ep.y() );
+    line->setZ( -2 );
+    line->setPen( pen() );
+    line->setVisible( true );
     m_LineList.insert( pointIndex, line );
     if (!bLoading)
         setupSelected();
@@ -234,7 +233,7 @@ bool AssociationLine::insertPoint( int pointIndex, const QPoint &point )
  * Removes the point on the line given by the index, at the coordinates
  * given by point with a fuzzy of delta.
  */
-bool AssociationLine::removePoint( int pointIndex, const QPoint &point, unsigned short delta )
+bool AssociationLine::removePoint(int pointIndex, const QPoint &point, unsigned short delta)
 {
     /* get the number of line segments */
     int count = m_LineList.count();
@@ -245,9 +244,9 @@ bool AssociationLine::removePoint( int pointIndex, const QPoint &point, unsigned
         /* we don't know if the user clicked on the start- or endpoint of a
         * line segment */
         UMLSceneLineItem * current_line = m_LineList.at( pointIndex );
-        if (abs( current_line -> endPoint().x() - point.x() ) <= delta
+        if (abs( current_line->endPoint().x() - point.x() ) <= delta
                 &&
-                abs( current_line -> endPoint().y() - point.y() ) <= delta)
+                abs( current_line->endPoint().y() - point.y() ) <= delta)
         {
             /* the user clicked on the end point of the line;
             * we have to make sure that this isn't the last line segment */
@@ -257,15 +256,15 @@ bool AssociationLine::removePoint( int pointIndex, const QPoint &point, unsigned
             /* the next segment will get the starting point from the current one,
             * which is going to be removed */
             UMLSceneLineItem * next_line = m_LineList.at( pointIndex + 1 );
-            QPoint startPoint = current_line -> startPoint();
-            QPoint endPoint = next_line -> endPoint();
-            next_line -> setPoints(startPoint.x(), startPoint.y(),
+            QPoint startPoint = current_line->startPoint();
+            QPoint endPoint = next_line->endPoint();
+            next_line->setPoints(startPoint.x(), startPoint.y(),
                                 endPoint.x(), endPoint.y());
 
         } else
-            if (abs( current_line -> startPoint().x() - point.x() ) <= delta
+            if (abs( current_line->startPoint().x() - point.x() ) <= delta
                     &&
-                    abs( current_line -> startPoint().y() - point.y() ) <= delta)
+                    abs( current_line->startPoint().y() - point.y() ) <= delta)
             {
                 /* the user clicked on the start point of the line;
                 * we have to make sure that this isn't the first line segment */
@@ -275,9 +274,9 @@ bool AssociationLine::removePoint( int pointIndex, const QPoint &point, unsigned
                 /* the previous segment will get the end point from the current one,
                 * which is going to be removed */
                 UMLSceneLineItem * previous_line = m_LineList.at( pointIndex - 1 );
-                QPoint startPoint = previous_line -> startPoint();
-                QPoint endPoint = current_line -> endPoint();
-                previous_line -> setPoints(startPoint.x(), startPoint.y(),
+                QPoint startPoint = previous_line->startPoint();
+                QPoint endPoint = current_line->endPoint();
+                previous_line->setPoints(startPoint.x(), startPoint.y(),
                                         endPoint.x(), endPoint.y());
             } else {
                 /* the user clicked neither on the start- nor on the end point of
@@ -347,7 +346,7 @@ void AssociationLine::cleanup()
  * @retval "Index" of the linepoint closest to the \a point passed.
  * @retval -1 If no linepoint is closer to passed in \a point.
  */
-int AssociationLine::closestPointIndex( const QPoint &position )
+int AssociationLine::closestPointIndex(const QPoint &position)
 {
     UMLSceneItemList list = getScene()->collisions( position );
     int index = -1;
@@ -365,7 +364,7 @@ int AssociationLine::closestPointIndex( const QPoint &position )
  * We use the delta, because with the mouse it is hard to find the
  * exactly point.
  */
-bool AssociationLine::isPoint( int pointIndex, const QPoint &point, unsigned short delta)
+bool AssociationLine::isPoint(int pointIndex, const QPoint &point, unsigned short delta)
 {
     int count = m_LineList.count();
     if ( pointIndex >= count )
@@ -375,13 +374,13 @@ bool AssociationLine::isPoint( int pointIndex, const QPoint &point, unsigned sho
 
     /* check if the given point is the start or end point of the line */
     if ( (
-                abs( line -> endPoint().x() - point.x() ) <= delta
+                abs( line->endPoint().x() - point.x() ) <= delta
                 &&
-                abs( line -> endPoint().y() - point.y() ) <= delta
+                abs( line->endPoint().y() - point.y() ) <= delta
             ) || (
-                abs( line -> startPoint().x() - point.x() ) <= delta
+                abs( line->startPoint().x() - point.x() ) <= delta
                 &&
-                abs( line -> startPoint().y() - point.y() ) <= delta
+                abs( line->startPoint().y() - point.y() ) <= delta
             ) )
         return true;
 
@@ -392,15 +391,15 @@ bool AssociationLine::isPoint( int pointIndex, const QPoint &point, unsigned sho
 /**
  * Sets the start and end points.
  */
-bool AssociationLine::setEndPoints( const QPoint &start, const QPoint &end )
+bool AssociationLine::setEndPoints(const QPoint &start, const QPoint &end)
 {
     int count = m_LineList.count();
     if( count == 0 ) {
         UMLSceneLineItem * line = new UMLSceneLineItem(getScene() );
-        line -> setPoints( start.x(), start.y(),end.x(),end.y() );
-        line -> setZ( -2 );
-        line -> setPen( getPen() );
-        line -> setVisible( true );
+        line->setPoints( start.x(), start.y(),end.x(),end.y() );
+        line->setZ( -2 );
+        line->setPen( pen() );
+        line->setVisible( true );
         m_LineList.append( line );
         return true;
     }
@@ -410,7 +409,7 @@ bool AssociationLine::setEndPoints( const QPoint &start, const QPoint &end )
     return false;
 }
 
-bool AssociationLine::hasPoints () const
+bool AssociationLine::hasPoints() const
 {
     int count = m_LineList.count();
     if (count>1)
@@ -418,7 +417,7 @@ bool AssociationLine::hasPoints () const
     return false;
 }
 
-void AssociationLine::dumpPoints ()
+void AssociationLine::dumpPoints()
 {
     int count = m_LineList.count();
     for( int i = 1; i < count; i++ ) {
@@ -427,7 +426,7 @@ void AssociationLine::dumpPoints ()
     }
 }
 
-bool AssociationLine::loadFromXMI( QDomElement & qElement )
+bool AssociationLine::loadFromXMI(QDomElement & qElement)
 {
     QDomNode node = qElement.firstChild();
     QDomElement startElement = node.toElement();
@@ -468,7 +467,7 @@ bool AssociationLine::loadFromXMI( QDomElement & qElement )
     return true;
 }
 
-void AssociationLine::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+void AssociationLine::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     int count = m_LineList.count();
     QPoint p = point( 0 );
@@ -495,7 +494,7 @@ void AssociationLine::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 /**
  * Returns the type of pen to use depending on the type of Association.
  */
-QPen AssociationLine::getPen()
+QPen AssociationLine::pen()
 {
     Uml::AssociationType type = getAssocType();
     if( type == Uml::AssociationType::Dependency || type == Uml::AssociationType::Realization || type == Uml::AssociationType::Anchor )
@@ -521,7 +520,7 @@ QColor AssociationLine::lineColor()
 /**
  * Sets the line color used by the line.
  */
-void AssociationLine::setLineColor( const QColor &color )
+void AssociationLine::setLineColor(const QColor &color)
 {
     uint linewidth = 0;
     UMLSceneLineItem * line = 0;
@@ -583,7 +582,7 @@ uint AssociationLine::lineWidth()
  * Sets the line width used by the line.
  * @param width   the new width of the line
  */
-void AssociationLine::setLineWidth( uint width )
+void AssociationLine::setLineWidth(uint width)
 {
     QColor linecolor;
     UMLSceneLineItem * line = 0;
@@ -651,13 +650,13 @@ Uml::AssociationType AssociationLine::getAssocType() const
 /**
  * Sets the Association type.
  */
-void AssociationLine::setAssocType( Uml::AssociationType type )
+void AssociationLine::setAssocType(Uml::AssociationType type)
 {
     QList<UMLSceneLineItem*>::Iterator it = m_LineList.begin();
     QList<UMLSceneLineItem*>::Iterator end = m_LineList.end();
 
     for( ; it != end; ++it )
-        (*it) -> setPen( getPen() );
+        (*it)->setPen( pen() );
 
     delete m_pClearPoly;
     m_pClearPoly = 0;
@@ -675,7 +674,7 @@ void AssociationLine::setAssocType( Uml::AssociationType type )
 /**
  * Equal to (==) operator.
  */
-bool AssociationLine::operator==( const AssociationLine & rhs ) 
+bool AssociationLine::operator==(const AssociationLine & rhs) 
 {
     if( this->m_LineList.count() != rhs.m_LineList.count() )
         return false;
@@ -691,7 +690,7 @@ bool AssociationLine::operator==( const AssociationLine & rhs )
 /**
  * Copy ( = ) operator.
  */
-AssociationLine & AssociationLine::operator=( const AssociationLine & rhs )
+AssociationLine & AssociationLine::operator=(const AssociationLine & rhs)
 {
     if( this == &rhs )
         return *this;
@@ -713,7 +712,7 @@ AssociationLine & AssociationLine::operator=( const AssociationLine & rhs )
 /**
  * Tell the line where the line docks.
  */
-void AssociationLine::setDockRegion( Region region )
+void AssociationLine::setDockRegion(Region region)
 {
     m_DockRegion = region;
 }
@@ -721,7 +720,7 @@ void AssociationLine::setDockRegion( Region region )
 /**
  * Sets the status of whether the line is selected or not.
  */
-void AssociationLine::setSelected( bool select ) 
+void AssociationLine::setSelected(bool select) 
 {
     if(select) {
         setupSelected();
@@ -751,8 +750,8 @@ void AssociationLine::activate()
         return;
     for (int i = 0; i < count ; i++) {
         UMLSceneLineItem *line = m_LineList.at(i);
-        line -> setCanvas( canvas );
-        line -> setPen( getPen() );
+        line->setCanvas( canvas );
+        line->setPen( pen() );
     }
 }
 
@@ -786,7 +785,7 @@ void AssociationLine::update()
  *
  * @param viewID The id of the object behind the widget.
  */
-void AssociationLine::slotLineColorChanged( Uml::IDType viewID )
+void AssociationLine::slotLineColorChanged(Uml::IDType viewID)
 {
     if(m_associationWidget->umlScene()->getID() != viewID) {
         return;
@@ -799,7 +798,7 @@ void AssociationLine::slotLineColorChanged( Uml::IDType viewID )
  *
  * @param viewID The id of the object behind the widget.
  */
-void AssociationLine::slotLineWidthChanged( Uml::IDType viewID )
+void AssociationLine::slotLineWidthChanged(Uml::IDType viewID)
 {
     if(m_associationWidget->umlScene()->getID() != viewID) {
         return;
@@ -825,7 +824,7 @@ UMLViewCanvas * AssociationLine::getScene()
 /**
  * Moves the selected canvas widgets.
  */
-void AssociationLine::moveSelected( int pointIndex )
+void AssociationLine::moveSelected(int pointIndex)
 {
     int lineCount = m_LineList.count();
     if( !m_bSelected ) {
@@ -839,19 +838,19 @@ void AssociationLine::moveSelected( int pointIndex )
     UMLSceneLineItem * line = 0;
     if( pointIndex == lineCount || lineCount == 1) {
         line = m_LineList.last();
-        QPoint p = line -> endPoint();
+        QPoint p = line->endPoint();
         rect = m_RectList.last();
-        rect -> setX( p.x() );
-        rect -> setY( p.y() );
-        rect -> setZ( 4 );
+        rect->setX( p.x() );
+        rect->setY( p.y() );
+        rect->setZ( 4 );
         return;
     }
     line = m_LineList.at( pointIndex );
-    QPoint p = line -> startPoint();
+    QPoint p = line->startPoint();
     rect = m_RectList.at( pointIndex );
-    rect -> setX( p.x() );
-    rect -> setY( p.y() );
-    rect -> setZ( 4 );
+    rect->setX( p.x() );
+    rect->setY( p.y() );
+    rect->setZ( 4 );
 }
 
 /**
@@ -864,13 +863,13 @@ void AssociationLine::setupSelected()
     UMLSceneLineItem * line = 0;
 
     Q_FOREACH( line, m_LineList ) {
-        QPoint sp = line -> startPoint();
+        QPoint sp = line->startPoint();
         UMLSceneRectItem *rect = Widget_Utils::decoratePoint(sp);
         m_RectList.append( rect );
     }
     //special case for last point
     line = m_LineList.last();
-    QPoint p = line -> endPoint();
+    QPoint p = line->endPoint();
     UMLSceneRectItem *rect = Widget_Utils::decoratePoint(p);
     m_RectList.append( rect );
     update();
@@ -984,21 +983,21 @@ void AssociationLine::createHeadLines()
     case Uml::AssociationType::Realization:
         growList(m_HeadList, 3);
         m_pClearPoly = new UMLScenePolygonItem( canvas );
-        m_pClearPoly -> setVisible( true );
-        m_pClearPoly -> setBrush( QBrush( Qt::white ) );
-        m_pClearPoly -> setZ( -1 );
+        m_pClearPoly->setVisible( true );
+        m_pClearPoly->setBrush( QBrush( Qt::white ) );
+        m_pClearPoly->setZ( -1 );
         break;
 
     case Uml::AssociationType::Composition:
     case Uml::AssociationType::Aggregation:
         growList(m_HeadList, 4);
         m_pClearPoly = new UMLScenePolygonItem( canvas );
-        m_pClearPoly -> setVisible( true );
+        m_pClearPoly->setVisible( true );
         if( getAssocType() == Uml::AssociationType::Aggregation )
             m_pClearPoly->setBrush( QBrush( Qt::white ) );
         else
-            m_pClearPoly -> setBrush( QBrush( lineColor() ) );
-        m_pClearPoly -> setZ( -1 );
+            m_pClearPoly->setBrush( QBrush( lineColor() ) );
+        m_pClearPoly->setZ( -1 );
         break;
 
     case Uml::AssociationType::Containment:
@@ -1033,10 +1032,10 @@ void AssociationLine::updateHead()
             return;
 
         line = m_HeadList.at( 0 );
-        line -> setPoints( m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointA.x(), m_ArrowPointA.y() );
+        line->setPoints( m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointA.x(), m_ArrowPointA.y() );
 
         line = m_HeadList.at( 1 );
-        line -> setPoints( m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointB.x(), m_ArrowPointB.y() );
+        line->setPoints( m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointB.x(), m_ArrowPointB.y() );
         break;
 
     case Uml::AssociationType::Relationship:
@@ -1064,14 +1063,14 @@ void AssociationLine::updateHead()
         if( count < 3)
             return;
         line = m_HeadList.at( 0 );
-        line -> setPoints( m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointA.x(), m_ArrowPointA.y() );
+        line->setPoints( m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointA.x(), m_ArrowPointA.y() );
 
         line = m_HeadList.at( 1 );
-        line -> setPoints( m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointB.x(), m_ArrowPointB.y() );
+        line->setPoints( m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointB.x(), m_ArrowPointB.y() );
 
         line = m_HeadList.at( 2 );
-        line -> setPoints( m_ArrowPointA.x(), m_ArrowPointA.y(), m_ArrowPointB.x(), m_ArrowPointB.y() );
-        m_pClearPoly -> setPoints( m_PointArray );
+        line->setPoints( m_ArrowPointA.x(), m_ArrowPointA.y(), m_ArrowPointB.x(), m_ArrowPointB.y() );
+        m_pClearPoly->setPoints( m_PointArray );
         break;
 
     case Uml::AssociationType::Composition:
@@ -1079,17 +1078,17 @@ void AssociationLine::updateHead()
         if( count < 4)
             return;
         line = m_HeadList.at( 0 );
-        line -> setPoints( m_PointArray[ 0 ].x(), m_PointArray[ 0 ].y(), m_PointArray[ 1 ].x(), m_PointArray[ 1 ].y() );
+        line->setPoints( m_PointArray[ 0 ].x(), m_PointArray[ 0 ].y(), m_PointArray[ 1 ].x(), m_PointArray[ 1 ].y() );
 
         line = m_HeadList.at( 1 );
-        line -> setPoints( m_PointArray[ 1 ].x(), m_PointArray[ 1 ].y(), m_PointArray[ 2 ].x(), m_PointArray[ 2 ].y() );
+        line->setPoints( m_PointArray[ 1 ].x(), m_PointArray[ 1 ].y(), m_PointArray[ 2 ].x(), m_PointArray[ 2 ].y() );
 
         line = m_HeadList.at( 2 );
-        line -> setPoints( m_PointArray[ 2 ].x(), m_PointArray[ 2 ].y(), m_PointArray[ 3 ].x(), m_PointArray[ 3 ].y() );
+        line->setPoints( m_PointArray[ 2 ].x(), m_PointArray[ 2 ].y(), m_PointArray[ 3 ].x(), m_PointArray[ 3 ].y() );
 
         line = m_HeadList.at( 3 );
-        line -> setPoints( m_PointArray[ 3 ].x(), m_PointArray[ 3 ].y(), m_PointArray[ 0 ].x(), m_PointArray[ 0 ].y() );
-        m_pClearPoly -> setPoints( m_PointArray );
+        line->setPoints( m_PointArray[ 3 ].x(), m_PointArray[ 3 ].y(), m_PointArray[ 0 ].x(), m_PointArray[ 0 ].y() );
+        m_pClearPoly->setPoints( m_PointArray );
         break;
 
     case Uml::AssociationType::Containment:
@@ -1098,8 +1097,8 @@ void AssociationLine::updateHead()
         line = m_HeadList.at( 0 );
         line->setPoints( m_PointArray[ 1 ].x(), m_PointArray[ 1 ].y(),
                          m_PointArray[ 3 ].x(), m_PointArray[ 3 ].y() );
-        m_pCircle -> setX( m_MidPoint.x() );
-        m_pCircle -> setY( m_MidPoint.y() );
+        m_pCircle->setX( m_MidPoint.x() );
+        m_pCircle->setY( m_MidPoint.y() );
         break;
     default:
         break;
@@ -1179,15 +1178,15 @@ void AssociationLine::updateParallelLine()
     QPoint common = m_ParallelLines.at( 0 );
     QPoint p = m_ParallelLines.at( 1 );
     line = m_ParallelList.at( 0 );
-    line -> setPoints( common.x(), common.y(), p.x(), p.y() );
+    line->setPoints( common.x(), common.y(), p.x(), p.y() );
 
     p = m_ParallelLines.at( 2 );
     line = m_ParallelList.at( 1 );
-    line -> setPoints( common.x(), common.y(), p.x(), p.y() );
+    line->setPoints( common.x(), common.y(), p.x(), p.y() );
 
     p = m_ParallelLines.at( 3 );
     line = m_ParallelList.at( 2 );
-    line -> setPoints( common.x(), common.y(), p.x(), p.y() );
+    line->setPoints( common.x(), common.y(), p.x(), p.y() );
 }
 
 /**
@@ -1266,9 +1265,9 @@ void AssociationLine::growList(LineList &list, int by)
     QPen pen( lineColor(), lineWidth() );
     for (int i = 0; i < by; i++) {
         UMLSceneLineItem * line = new UMLSceneLineItem( getScene() );
-        line -> setZ( 0 );
-        line -> setPen( pen );
-        line -> setVisible( true );
+        line->setZ( 0 );
+        line->setPen( pen );
+        line->setVisible( true );
         list.append( line );
     }
 }

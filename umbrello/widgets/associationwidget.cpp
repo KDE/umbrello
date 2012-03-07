@@ -3839,7 +3839,7 @@ QRect AssociationWidget::getAssocLineRectangle()
     int pos = m_associationLine->count();
 
     /* the lines have the width of the pen */
-    uint pen_width = m_associationLine->getPen().width();
+    uint pen_width = m_associationLine->pen().width();
 
     if (pen_width == 0)
         pen_width = 1; // width must be at least 1

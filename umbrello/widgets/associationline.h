@@ -44,35 +44,35 @@ public:
     AssociationLine();
     ~AssociationLine();
 
-    QPoint point( int pointIndex ) const;
-    bool setPoint( int pointIndex, const QPoint &point );
+    QPoint point(int pointIndex) const;
+    bool setPoint(int pointIndex, const QPoint &point);
     QPoint startPoint() const;
     QPoint endPoint() const;
 
-    bool insertPoint( int pointIndex, const QPoint &point );
-    bool removePoint( int pointIndex, const QPoint &point = QPoint(), unsigned short delta = 0 );
+    bool insertPoint(int pointIndex, const QPoint &point);
+    bool removePoint(int pointIndex, const QPoint &point = QPoint(), unsigned short delta = 0);
 
     int count() const;
     void cleanup();
 
-    int closestPointIndex( const QPoint &position );
-    bool isPoint( int pointIndex, const QPoint &point, unsigned short delta = 0 );
+    int closestPointIndex(const QPoint &position);
+    bool isPoint(int pointIndex, const QPoint &point, unsigned short delta = 0);
 
-    bool setEndPoints( const QPoint &start, const QPoint &end );
+    bool setEndPoints(const QPoint &start, const QPoint &end);
 
-    bool hasPoints () const;
-    void dumpPoints ();
+    bool hasPoints() const;
+    void dumpPoints();
 
-    bool loadFromXMI( QDomElement & qElement );
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    bool loadFromXMI(QDomElement & qElement);
+    void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
-    QPen getPen();
+    QPen pen();
 
     QColor lineColor();
-    void setLineColor( const QColor &color );
+    void setLineColor(const QColor &color);
 
     uint lineWidth();
-    void setLineWidth( uint width );
+    void setLineWidth(uint width);
 
     /**
      * Returns the Association this class is linked to.
@@ -83,27 +83,27 @@ public:
     void setAssociation(AssociationWidget * association);
 
     Uml::AssociationType getAssocType() const;
-    void setAssocType( Uml::AssociationType type );
+    void setAssocType(Uml::AssociationType type);
 
-    bool operator==( const AssociationLine & rhs );
+    bool operator==(const AssociationLine & rhs);
 
-    AssociationLine & operator=( const AssociationLine & rhs );
+    AssociationLine & operator=(const AssociationLine & rhs);
 
     enum Region {  ///< Enum to tell whether the line docks top/bottom or left/right.
         TopBottom, LeftRight
     };
 
-    void setDockRegion( Region region );
+    void setDockRegion(Region region);
 
-    void setSelected( bool select );
+    void setSelected(bool select);
 
     void activate();
 
     void update();
 
 public slots:
-    void slotLineColorChanged( Uml::IDType viewID );
-    void slotLineWidthChanged( Uml::IDType viewID );
+    void slotLineColorChanged(Uml::IDType viewID);
+    void slotLineWidthChanged(Uml::IDType viewID);
 
 protected:
 
@@ -148,7 +148,7 @@ protected:
 
     UMLViewCanvas * getScene();
 
-    void moveSelected( int pointIndex );
+    void moveSelected(int pointIndex);
 
     void setupSelected();
 
