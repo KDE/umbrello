@@ -70,11 +70,11 @@ static QString textViewer()
  * It uses the dot executable from the graphviz package for calculation
  * of widget positions.
  *
- * The implementation calls dot with informations from the displayed
- * widgets and associations by creating a temporay dot file based on a
+ * The implementation calls dot with information from the displayed
+ * widgets and associations by creating a temporary dot file based on a
  * layout configure file, which is located in the umbrello/layouts subdir of
  * the "data" resource type. The config file is determined from the
- * type of the currently displayed diagram and the layout choosed by the user.
+ * type of the currently displayed diagram and the layout chosen by the user.
  *
  * Dot creates a file containing the calculated widget positions.
  * The widget positions are retrieved from this file and used to move
@@ -363,7 +363,7 @@ public:
      * @note This method could also be used as a base to export diagrams as dot file
      *
      * @param fileName Filename where to create the dot file
-     * @param scene The diagram from which the widget informations are fetched from
+     * @param scene The diagram from which the widget informations are fetched
      *
      * @return true if generating finished successfully
     */
@@ -456,7 +456,7 @@ protected:
     /**
      * Return the origin of node based on the bottom/left corner
      *
-     * @param id The widget id to to fetch the origin from
+     * @param id The widget id to fetch the origin from
      * @return QPoint instance with the coordinates
      */
     QPoint origin(const QString &id)
@@ -480,7 +480,7 @@ protected:
      * Read generated dot file and extract positions
      * of the contained widgets.
      *
-     * @return true if extracting succeded
+     * @return true if extracting succeeded
     */
     bool readGeneratedDotFile(const QString &fileName)
     {
@@ -520,7 +520,7 @@ protected:
      *   edge sL4cKPpHnJkU sL4cKPpHnJkU 7 8.1253 7.2568 8.2695 7.2687 8.375 7.3127 8.375 7.3889 8.375 7.4377 8.3317 7.4733 8.2627 7.4957 Aggregation 8.8472 7.3889 solid black
      *
      * @param line line in dot plain-ext output format
-     * @return true if line could be parsed successful
+     * @return true if line could be parsed successfully
     */
     bool parseLine(const QString &line)
     {
