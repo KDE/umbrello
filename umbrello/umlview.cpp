@@ -10,6 +10,7 @@
 
 // own header
 #include "umlview.h"
+#include "layoutgenerator.h"
 
 // system includes
 #include <climits>
@@ -2654,6 +2655,19 @@ void UMLView::slotMenuSelection(QAction* action)
         m_pImageExporter->exportView();
         break;
 
+    case ListPopupMenu::mt_Apply_Layout:
+    case ListPopupMenu::mt_Apply_Layout1:
+    case ListPopupMenu::mt_Apply_Layout2:
+    case ListPopupMenu::mt_Apply_Layout3:
+    case ListPopupMenu::mt_Apply_Layout4:
+    case ListPopupMenu::mt_Apply_Layout5:
+    case ListPopupMenu::mt_Apply_Layout6:
+    case ListPopupMenu::mt_Apply_Layout7:
+    case ListPopupMenu::mt_Apply_Layout8:
+    case ListPopupMenu::mt_Apply_Layout9:
+        applyLayout(action->data().toString());
+        break;
+
     case ListPopupMenu::mt_FloatText: {
         FloatingTextWidget* ft = new FloatingTextWidget(umlScene());
         ft->showChangeTextDialog();
@@ -3033,6 +3047,13 @@ void UMLView::clearDiagram()
             i18n("Delete Diagram?"), KGuiItem(i18n("&Delete"), "edit-delete"))) {
         removeAllWidgets();
     }
+}
+
+void UMLView::applyLayout(const QString &variant)
+{
+    LayoutGenerator r;
+    r.generate(umlScene(),variant);
+    r.apply(umlScene());
 }
 
 void UMLView::toggleSnapToGrid()

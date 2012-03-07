@@ -25,6 +25,7 @@
 #include "entity.h"
 #include "category.h"
 #include "docwindow.h"
+#include "layoutgenerator.h"
 #include "listpopupmenu.h"
 #include "template.h"
 #include "operation.h"
@@ -347,6 +348,12 @@ void UMLListView::keyPressEvent(QKeyEvent *ke)
             foreach(UMLListViewItem *item, itemsSelected) {
                 deleteItem(item);
             }
+        } else if (k == Qt::Key_F3) {
+            // prelimary support for layout generator
+            LayoutGenerator r;
+            if (!r.generate(UMLApp::app()->currentView()->umlScene()))
+                return;
+            r.apply(UMLApp::app()->currentView()->umlScene());
         } else  {
             QTreeWidget::keyPressEvent(ke); // let parent handle it
         }

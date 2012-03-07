@@ -1,0 +1,743 @@
+/***************************************************************************
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   copyright (C) 2012                                                    *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
+ ***************************************************************************/
+
+#ifndef LAYOUTGENERATOR_H
+
+#include "associationwidget.h"
+#include "debug_utils.h"
+#include "floatingtextwidget.h"
+#include "umlwidget.h"
+
+// app includes
+#include <KStandardDirs>
+
+// qt includes
+#include <QFile>
+#include <QHash>
+#include <QProcess>
+#include <QRectF>
+#include <QRegExp>
+#include <QString>
+#include <QTemporaryFile>
+#include <QTextStream>
+#include <QtDebug>
+
+#include <KConfigGroup>
+#include <KDesktopFile>
+
+#define LAYOUTGENERATOR_DEBUG
+//#define LAYOUTGENERATOR_DATA_DEBUG
+
+#ifdef LAYOUTGENERATOR_DEBUG
+
+static QString pngViewer()
+{
+#ifdef Q_WS_WIN
+    return "start";
+#else
+#ifdef Q_WS_MAC
+    return "unknown";
+#else
+    return "okular";
+#endif
+#endif
+}
+
+static QString textViewer()
+{
+#ifdef Q_WS_WIN
+    return "start";
+#else
+#ifdef Q_WS_MAC
+    return "unknown";
+#else
+    return "mcedit";
+#endif
+#endif
+}
+#endif
+
+/**
+ * The class LayoutGenerator provides calculated layouts of diagrams.
+ *
+ * It uses the dot executable from the graphviz package for calculation
+ * of widget positions.
+ *
+ * The implementation calls dot with informations from the displayed
+ * widgets and associations by creating a temporay dot file based on a
+ * layout configure file, which is located in the umbrello/layouts subdir of
+ * the "data" resource type. The config file is determined from the
+ * type of the currently displayed diagram and the layout choosed by the user.
+ *
+ * Dot creates a file containing the calculated widget positions.
+ * The widget positions are retrieved from this file and used to move
+ * widgets on the provided diagram. Additional points in association lines
+ * are removed.
+ *
+ * @author Ralf Habacker <ralf.habacker@freenet.de>
+ */
+class LayoutGenerator
+{
+public:
+    typedef QHash<QString,QRectF> NodeType;
+    typedef QList<QPointF> EdgePoints;
+    typedef QHash<QString,EdgePoints> EdgeType;
+
+    /**
+     * constructor
+    */
+    LayoutGenerator()
+    : m_scale(72), m_origin(50,50)
+    {
+    }
+
+    /**
+     * Return state if layout generator is enabled.
+     * It is enabled when the dot application has been found.
+     *
+     * @return true if enabled
+    */
+    bool isEnabled()
+    {
+        if (m_executable.isEmpty())
+            m_executable = KStandardDirs::findExe("dot");
+        return !m_executable.isEmpty();
+    }
+
+    /**
+     * generate layout and apply it to the given diagram.
+     *
+     * @return true if generating succeded
+    */
+    bool generate(UMLScene *scene, const QString &variant = QString())
+    {
+        QTemporaryFile in;
+        QTemporaryFile out;
+        QTemporaryFile xdotOut;
+        if (!isEnabled())
+            return false;
+
+#ifdef LAYOUTGENERATOR_DEBUG
+        in.setAutoRemove(false);
+        out.setAutoRemove(false);
+        xdotOut.setAutoRemove(false);
+#endif
+
+        // generate filenames
+        in.open();
+        in.close();
+        out.open();
+        out.close();
+        xdotOut.open();
+        xdotOut.close();
+
+#ifdef LAYOUTGENERATOR_DEBUG
+        qDebug() << textViewer() << in.fileName();
+        qDebug() << textViewer() << out.fileName();
+        qDebug() << textViewer() << xdotOut.fileName();
+#endif
+
+        if (!createDotFile(scene, in.fileName(), variant))
+            return false;
+
+        QProcess p;
+        QStringList args;
+        args << "-o" << out.fileName() << "-Tplain-ext" << in.fileName();
+        p.start(m_executable, args);
+        p.waitForFinished();
+
+        args.clear();
+        args << "-o" << xdotOut.fileName() << "-Txdot" << in.fileName();
+        p.start(m_executable, args);
+        p.waitForFinished();
+
+#ifdef LAYOUTGENERATOR_DEBUG
+        QTemporaryFile pngFile;
+        pngFile.setAutoRemove(false);
+        pngFile.setFileTemplate(QDir::tempPath() + "/umbrello-layoutgenerator-XXXXXX.png");
+        pngFile.open();
+        pngFile.close();
+        qDebug() << pngViewer() << pngFile.fileName();
+        args.clear();
+        args << "-o" << pngFile.fileName() << "-Tpng" << in.fileName();
+        p.start(m_executable, args);
+        p.waitForFinished();
+#endif
+#ifndef USE_XDOT
+        if (!readGeneratedDotFile(out.fileName()))
+#else
+        if (!readGeneratedDotFile(xdotOut.fileName()))
+#endif
+            return false;
+
+        return true;
+    }
+
+    /**
+     * apply auto layout to the given scene
+     * @param scene
+     * @return true if autolayout has been applied
+     */
+    bool apply(UMLScene *scene)
+    {
+        foreach(AssociationWidget *assoc, scene->getAssociationList()) {
+            AssociationLine *path = assoc->getLinePath();
+            QString type = assoc->associationType().toString().toLower();
+            QString id;
+            //uDebug() << "WidgetName" << assoc->widgetForRole(Uml::A)->name() << assoc->widgetForRole(Uml::B)->name();
+            // associations seems to have the parent in the Uml::B role, so use B for the left dot node
+            id = fixID(ID2STR(assoc->getWidgetID(Uml::B)) + ID2STR(assoc->getWidgetID(Uml::A)));
+
+            // adjust associations not used in the dot file
+            if (!m_edges.contains(id)) {
+                // shorten line path
+                AssociationLine *path = assoc->getLinePath();
+                if (path->count() > 2 && assoc->getWidgetID(Uml::A) != assoc->getWidgetID(Uml::B)) {
+                    while(path->count() > 2)
+                        path->removePoint(1);
+                }
+                continue;
+            }
+
+            EdgePoints &p = m_edges[id];
+            int len = p.size();
+
+            while(path->count() > 1) {
+                path->removePoint(0);
+            }
+            path->setStartEndPoints(QPoint(p[0].x() + m_origin.x(), m_boundingRect.height() - p[0].y() + m_origin.y()), QPoint(p[len-1].x() + m_origin.x(), m_boundingRect.height() - p[len-1].y() + m_origin.y()));
+            // FIXME: set label position
+            //QPointF &l = m_edgeLabelPosition[id];
+            // FIXME: set remaining association line points
+            /*
+            for(int i = 1; i < len-1; i++) {
+                path->insertPoint(i, QPoint(p[i].x()+ m_origin.x(), m_boundingRect.height() - p[i].y() + m_origin.y()));
+            }
+            */
+            /*
+             * here stuff could be added to add more points from informations returned by dot.
+            */
+        }
+
+        foreach(UMLWidget *widget, scene->getWidgetList()) {
+            QString id = ID2STR(widget->id());
+            if (!m_nodes.contains(id))
+                continue;
+            QPoint p = origin(id);
+            widget->setX(p.x());
+            widget->setY(p.y()-widget->getHeight());
+            widget->adjustAssocs(widget->getX(), widget->getY());    // adjust assoc lines
+        }
+
+        foreach(AssociationWidget *assoc, scene->getAssociationList()) {
+            assoc->resetTextPositions();
+            assoc->calculateEndingPoints();
+            if (assoc->getLinePath())
+                assoc->getLinePath()->update();
+        }
+        return true;
+    }
+
+    /**
+     * Return a list of available templates for a given scene type
+     *
+     * @param scene The diagram
+     * @param configFiles will contain the collected list of config files
+     * @return true if collecting succeeds
+     */
+    static bool availableConfigFiles(UMLScene *scene, QHash<QString,QString> &configFiles)
+    {
+        QString diagramType = scene->type().toString().toLower();
+        KStandardDirs dirs;
+
+        QStringList fileNames = dirs.findAllResources("data", QString("umbrello/layouts/%1*.desktop").arg(diagramType));
+        foreach(const QString &fileName, fileNames) {
+            QFileInfo fi(fileName);
+            QString baseName;
+            if (fi.baseName().contains("-"))
+                baseName = fi.baseName().remove(diagramType + "-");
+            else if (fi.baseName() == diagramType)
+                baseName = fi.baseName();
+            else
+                baseName = "default";
+            KDesktopFile desktopFile(fileName);
+            configFiles[baseName] = desktopFile.readName();
+        }
+        return true;
+    }
+
+    /**
+     * Read a layout config file
+     *
+     * @param diagramType String identifing the diagram
+     * @param variant String identifing the variant
+     * @return true on success
+     */
+    bool readConfigFile(QString diagramType, const QString &variant = "default")
+    {
+        QStringList fileNames;
+
+        if (!variant.isEmpty())
+            fileNames << QString("%1-%2.desktop").arg(diagramType).arg(variant);
+        fileNames << QString("%1-default.desktop").arg(diagramType);
+        fileNames << "default.desktop";
+
+        QString configFileName;
+        foreach(const QString &fileName, fileNames) {
+            configFileName = KStandardDirs::locate("data", QString("umbrello/layouts/%1").arg(fileName));
+            if (!configFileName.isEmpty())
+                break;
+        }
+
+        if (configFileName.isEmpty()) {
+            uError() << "could not find layout config file name for diagram type" << diagramType << "and variant" << variant;
+            return false;
+        }
+
+        m_configFileName = configFileName;
+        KDesktopFile desktopFile(configFileName);
+        KConfigGroup edgesRankingAttributes(&desktopFile,"X-UMBRELLO-Edges-Ranking");
+        KConfigGroup edgesVisualAttributes(&desktopFile,"X-UMBRELLO-Edges-Visual");
+        KConfigGroup nodesAttributes(&desktopFile,"X-UMBRELLO-Nodes");
+        KConfigGroup attributes(&desktopFile,"X-UMBRELLO-Attributes");
+        KConfigGroup settings(&desktopFile,"X-UMBRELLO-Settings");
+
+        m_edgeParameters.clear();
+        m_nodeParameters.clear();
+        m_dotParameters.clear();
+
+        foreach(const QString &key, attributes.keyList()) {
+            QString value = attributes.readEntry(key);
+            if (!value.isEmpty())
+                m_dotParameters[key] = value;
+        }
+
+        foreach(const QString &key, nodesAttributes.keyList()) {
+            QString value = nodesAttributes.readEntry(key);
+            m_nodeParameters[key] = value;
+        }
+
+        foreach(const QString &key, edgesRankingAttributes.keyList()) {
+            QString value = edgesRankingAttributes.readEntry(key);
+            if (m_edgeParameters.contains(key)) {
+                m_edgeParameters[key] += ',' + value;
+            } else {
+                m_edgeParameters[key] = value;
+            }
+        }
+
+        foreach(const QString &key, edgesVisualAttributes.keyList()) {
+            QString value = edgesVisualAttributes.readEntry(key);
+            if (m_edgeParameters.contains(key)) {
+                m_edgeParameters[key] += ',' + value;
+            } else {
+                m_edgeParameters[key] = value;
+            }
+        }
+
+        QString value = settings.readEntry("origin");
+        QStringList a = value.split(",");
+        if (a.size() == 2)
+            m_origin = QPointF(a[0].toDouble(), a[1].toDouble());
+        else
+            uError() << "illegal format of entry 'origin'" << value;
+
+#ifdef LAYOUTGENERATOR_DATA_DEBUG
+        uDebug() << m_edgeParameters;
+        uDebug() << m_nodeParameters;
+        uDebug() << m_dotParameters;
+#endif
+        return true;
+    }
+
+    /**
+     * Create dot file using displayed widgets
+     * and associations of the provided scene
+     * @note This method could also be used as a base to export diagrams as dot file
+     *
+     * @param fileName Filename where to create the dot file
+     * @param scene The diagram from which the widget informations are fetched from
+     *
+     * @return true if generating finished successfully
+    */
+    bool createDotFile(UMLScene *scene, const QString &fileName, const QString &variant = "default")
+    {
+        QFile file(fileName);
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+            return false;
+
+        QString diagramType = scene->type().toString().toLower();
+        if (!readConfigFile(diagramType, variant))
+            return false;
+
+        QString data;
+        QTextStream out(&data);
+
+        foreach(UMLWidget *widget, scene->getWidgetList()) {
+            QStringList params;
+
+            if (m_nodeParameters.contains("all"))
+                params << m_nodeParameters["all"];
+
+            params  << QString("width=\"%1\"").arg(widget->getWidth()/m_scale)
+                    << QString("height=\"%1\"").arg(widget->getHeight()/m_scale);
+
+            QString type = QString(widget->baseTypeStr()).toLower().remove("wt_");
+            QString key = "type::" + type;
+            QString label = widget->name() + "\\n" + type;
+
+            if (m_nodeParameters.contains(key))
+                params << m_nodeParameters[key];
+            else if (m_nodeParameters.contains("type::default")) {
+                params << m_nodeParameters["type::default"];
+                if (label.isEmpty())
+                    label = type;
+            }
+
+            params << QString("label=\"%1\"").arg(label);
+
+#ifdef LAYOUTGENERATOR_DATA_DEBUG
+            uDebug() << type << params;
+#endif
+            QString id = fixID(ID2STR(widget->id()));
+            if (widget->baseType() != WidgetBase::wt_Text)
+                out << "\"" << id << "\""
+                    << " [" << params.join(",") << "];\n";
+        }
+
+        foreach(AssociationWidget *assoc, scene->getAssociationList()) {
+            QStringList params;
+            QString label;
+            QString type = assoc->associationType().toString().toLower();
+            QString key = "type::" + type;
+            label = type;
+            QString edgeParameters;
+
+            if (m_edgeParameters.contains(key))
+                edgeParameters = m_edgeParameters[key];
+            else if (m_edgeParameters.contains("type::default")) {
+                edgeParameters = m_edgeParameters["type::default"];
+            }
+            params << edgeParameters;
+
+            QString aID = fixID(ID2STR(assoc->getWidgetID(Uml::A)));
+            QString bID = fixID(ID2STR(assoc->getWidgetID(Uml::B)));
+            params << QString("label=\"%1\"").arg(type);
+
+#ifdef LAYOUTGENERATOR_DATA_DEBUG
+            uDebug() << type << params;
+#endif
+            out << "\"" << bID << "\" -> \"" << aID << "\""
+                << " [" << params.join(",") << "];\n";
+        }
+
+        QTextStream o(&file);
+        o << "# generated from " << m_configFileName << "\n";
+        o << "digraph G {\n";
+
+        foreach(const QString &key, m_dotParameters.keys()) {
+            o << "\t" << key << " [" << m_dotParameters[key] << "];\n";
+        }
+
+        o << data << "\n";
+        o << "}\n";
+
+        return true;
+    }
+
+protected:
+    /**
+     * Return the origin of node based on the bottom/left corner
+     *
+     * @param id The widget id to to fetch the origin from
+     * @return QPoint instance with the coordinates
+     */
+    QPoint origin(const QString &id)
+    {
+        QString key = fixID(id);
+        if (!m_nodes.contains(key)) {
+#ifdef LAYOUTGENERATOR_DATA_DEBUG
+            uDebug() << key;
+#endif
+            return QPoint(0,0);
+        }
+        QRectF &r = m_nodes[key];
+        QPoint p(m_origin.x() + r.x() - r.width()/2, m_boundingRect.height() - r.y() + r.height()/2 + m_origin.y());
+#ifdef LAYOUTGENERATOR_DATA_DEBUG
+        uDebug() << r << p;
+#endif
+        return p;
+    }
+
+    /**
+     * Read generated dot file and extract positions
+     * of the contained widgets.
+     *
+     * @return true if extracting succeded
+    */
+    bool readGeneratedDotFile(const QString &fileName)
+    {
+        QFile file(fileName);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+            return false;
+
+        QTextStream in(&file);
+        while (!in.atEnd()) {
+            QString line = in.readLine();
+            while(line.endsWith(','))
+                line += in.readLine();
+            parseLine(line);
+        }
+        return true;
+    }
+
+    /**
+     * There are id wrapped with '"', remove it.
+    */
+    QString fixID(const QString &_id)
+    {
+        // FIXME: some widget's ids returned from the list are wrapped with "\"", find and fix them
+        QString id(_id);
+        id.remove("\"");
+        return id;
+    }
+
+#ifndef USE_XDOT
+    /**
+     * Parse line from dot generated plain-ext output format
+     *
+     *  The format is documented at http://graphviz.org/content/output-formats#dplain-ext and looks like:
+     *
+     *   graph 1 28.083 10.222
+     *   node ITfDmJvJE00m 8.0833 8.7361 0.86111 0.45833 QObject solid box black lightgrey
+     *   edge sL4cKPpHnJkU sL4cKPpHnJkU 7 8.1253 7.2568 8.2695 7.2687 8.375 7.3127 8.375 7.3889 8.375 7.4377 8.3317 7.4733 8.2627 7.4957 Aggregation 8.8472 7.3889 solid black
+     *
+     * @param line line in dot plain-ext output format
+     * @return true if line could be parsed successful
+    */
+    bool parseLine(const QString &line)
+    {
+        QStringList a = line.split(' ');
+        if (a[0] == "graph") {
+            m_boundingRect = QRectF(0, 0, a[2].toDouble()*m_scale, a[3].toDouble()*m_scale);
+            return true;
+        } else if (a[0] == "node") {
+            QString key = fixID(a[1]);
+            m_nodes[key] = QRectF(a[2].toDouble()*m_scale, a[3].toDouble()*m_scale, a[4].toDouble()*m_scale, a[5].toDouble()*m_scale);
+            return true;
+        } else if (a[0] == "edge") {
+            QString key = fixID(a[1]+a[2]);
+            EdgePoints p;
+            int len = a[3].toInt();
+            for(int i = 0; i < len; i++)
+                p.append(QPointF(a[i*2+4].toDouble()*m_scale, a[i*2+5].toDouble()*m_scale));
+            m_edges[key] = p;
+/*
+            int b = len*2 + 4;
+            m_edgeLabelPosition[key] = QPointF(a[b+1].toDouble()*m_scale, a[b+2].toDouble()*m_scale);
+*/
+            return true;
+        } else if (a[0] == "stop") {
+            return true;
+        }
+        return false;
+    }
+
+#else
+    typedef QMap<QString,QStringList> ParameterList;
+
+    bool splitParameters(QMap<QString,QStringList> &map, const QString &s)
+    {
+        // FIXME: add shape=box without '"'
+        static QRegExp rx("([a-zA-Z_]+)=\"([a-zA-Z0-9.- #]+)\"");
+        static QRegExp rx2("([a-zA-Z_]+)=([a-zA-Z0-9.- #]+)");
+        int pos = 0;
+        int count = 0;
+        /*
+        *        while ((pos = rx2.indexIn(s, pos)) != -1) {
+        *            QString key = rx2.cap(1);
+        *            QString value = rx2.cap(2);
+        *            ++count;
+        *            pos += rx2.matchedLength();
+        *            //qDebug() << key << value;
+        *            if (map.contains(key))
+        *                map[key] << value;
+        *            else
+        *                map[key] = QStringList() << value;
+        }
+        */
+        pos = 0;
+        while ((pos = rx.indexIn(s, pos)) != -1) {
+            QString key = rx.cap(1);
+            QString value = rx.cap(2);
+            ++count;
+            pos += rx.matchedLength();
+            //qDebug() << key << value;
+
+            QStringList data;
+            if (key == "pos") {
+                value.remove("e,");
+                data = value.split(' ');
+        } else if (key.startsWith('_')) {
+            data = value.split(' ');
+        }
+        else if (key == "label")
+            data = QStringList() << value;
+        else
+            data = value.split(',');
+
+        if (map.contains(key))
+            map[key] << data;
+        else
+            map[key] = data;
+        }
+        return true;
+    }
+
+/**
+     *
+    digraph G {
+        graph [splines=polyline, rankdir=BT, outputorder=nodesfirst, ranksep="0.5", nodesep="0.5"];
+        node [label="\N"];
+        graph [bb="0,0,2893,638",
+        _draw_="c 9 -#ffffffff C 9 -#ffffffff P 4 0 -1 0 638 2894 638 2894 -1 ",
+        xdotversion="1.2"];
+        XC0weWhArzOJ [label=note, shape=box, width="2.5833", height="0.86111", pos="93,31", _draw_="c 9 -#000000ff p 4 186 62 0 62 0 0 186 0 ", _ldraw_="F 14.000000 11 -Times-Roman c 9 -#000000ff T 93 27 0 24 4 -note "];
+        sL4cKPpHnJkU -> ITfDmJvJE00m [arrowhead=normal, weight="1.0", label=" ", pos="e,2326.3,600.47 2299.7,543.57 2306.1,557.22 2314.9,575.99 2322.1,591.39", lp="2319,572", _draw_="c 9 -#000000ff B 4 2300 544 2306 557 2315 576 2322 591 ", _hdraw_="S 5 -solid c 9 -#000000ff C 9 -#000000ff P 3 2319 593 2326 600 2325 590 ", _ldraw_="F 14.000000 11 -Times-Roman c 9 -#000000ff T 2319 568 0 4 1 -  "];
+        sL4cKPpHnJkU -> sL4cKPpHnJkU [label=" ", arrowtail=odiamond, dir=back, constraint=false, pos="s,2339.3,516.43 2351.5,516.59 2365.1,517.35 2375,520.16 2375,525 2375,531.2 2358.7,534.06 2339.3,533.57", lp="2377,525", _draw_="c 9 -#000000ff B 7 2351 517 2365 517 2375 520 2375 525 2375 531 2359 534 2339 534 ", _tdraw_="S 5 -solid c 9 -#000000ff p 4 2351 517 2345 521 2339 516 2345 513 ", _ldraw_="F 14.000000 11 -Times-Roman c 9 -#000000ff T 2377 521 0 4 1 -  "];
+    */
+
+    bool parseLine(const QString &line)
+    {
+        static QRegExp m_cols("^[\t ]*(.*)[\t ]*\\[(.*)\\]");
+        static int m_level = -1;
+
+        if (line.contains('{')) {
+            m_level++;
+            return true;
+        }
+        else if (line.contains('}')) {
+            m_level--;
+            return true;
+        }
+        int pos = 0;
+        if (m_cols.indexIn(line, pos) == -1)
+            return false;
+
+        QString keyword = m_cols.cap(1).trimmed();
+        QString attributeString = m_cols.cap(2);
+        uDebug() << keyword << attributeString;
+        ParameterList attributes;
+        splitParameters(attributes, attributeString);
+        uDebug() << attributes;
+
+        if (keyword == "graph") {
+            if (attributes.contains("bb")) {
+                QStringList &a = attributes["bb"];
+                m_boundingRect.setLeft(a[0].toDouble());
+                m_boundingRect.setTop(a[1].toDouble());
+                m_boundingRect.setRight(a[2].toDouble());
+                m_boundingRect.setBottom(a[3].toDouble());
+            }
+        } else if (keyword == "node") {
+            return true;
+        } else if (keyword == "edge") {
+            return true;
+        // transistion
+        } else if (line.contains("->")) {
+            QStringList k = keyword.split(" ");
+            if (k.size() < 3)
+                return false;
+            QString key = fixID(k[0]+k[2]);
+
+            if (attributes.contains("pos")) {
+                QStringList &a = attributes["pos"];
+                EdgePoints points;
+
+                for(int i = 1; i < a.size(); i++) {
+                    QStringList b = a[i].split(',');
+                    QPointF p(b[0].toDouble(), b[1].toDouble());
+                    points.append(p);
+                }
+                QStringList b = a[0].split(',');
+                QPointF p(b[0].toDouble(), b[1].toDouble());
+                points.append(p);
+
+                m_edges[key] = points;
+            }
+            if (0 && attributes.contains("_draw_")) {
+                QStringList &a = attributes["_draw_"];
+                if (a.size() < 5 || (a[3] != "L" && a[3] != "p"))
+                    return false;
+                int size = a[4].toInt();
+                EdgePoints points;
+
+                for(int i = 0; i < size; i++) {
+                    QPointF p(a[i*2+5].toDouble(), a[i*2+6].toDouble());
+                    points.append(p);
+                }
+                m_edges[key] = points;
+            }
+            return true;
+        // single node
+        } else {
+            double scale = 72.0;
+            QRectF f(0, 0, 0, 0);
+            QString id = fixID(keyword);
+            if (attributes.contains("pos")) {
+                QStringList &a = attributes["pos"];
+                QStringList b = a[0].split(",");
+                f.setLeft(b[0].toDouble());
+                f.setTop(b[1].toDouble());
+            }
+            if (attributes.contains("height")) {
+                QStringList &a = attributes["height"];
+                f.setHeight(a[0].toDouble()*scale);
+            }
+
+            if (attributes.contains("width")) {
+                QStringList &a = attributes["width"];
+                f.setWidth(a[0].toDouble()*scale);
+            }
+            uDebug() << "adding" << id << f;
+            m_nodes[id] = f;
+        }
+    return true;
+    }
+#endif
+
+    QRectF m_boundingRect;
+    NodeType m_nodes;      ///< list of nodes found in parsed dot file
+    EdgeType m_edges;      ///< list of edges found in parsed dot file
+    double m_scale;        ///< scale factor
+    QString m_executable;  ///< dot executable
+    QString m_configFileName; ///< template filename
+    QHash<QString, QString> m_dotParameters;  ///< contains global graph parameters
+    QHash<QString, QString> m_edgeParameters; ///< contains global edge parameters
+    QHash<QString, QString> m_nodeParameters; ///< contains global node parameters
+    QHash<QString, QPointF> m_edgeLabelPosition; ///< contains global node parameters
+    QPointF m_origin;
+
+    friend QDebug operator<<(QDebug out, LayoutGenerator &c);
+};
+
+#if 0
+static QDebug operator<<(QDebug out, LayoutGenerator &c)
+{
+    out << "LayoutGenerator:"
+        << "m_boundingRect:" << c.m_boundingRect
+        << "m_nodes:" << c.m_nodes
+        << "m_edges:" << c.m_edges
+        << "m_scale:" << c.m_scale
+        << "m_executable:" << c.m_executable;
+    return out;
+}
+#endif
+#endif

@@ -1,0 +1,37 @@
+[Desktop Entry]
+Type=Service
+Name=UseCase Default Layout
+Comment=Usecase Default Layout
+Comment[x-test]=xxDefault Layoutxx
+
+[X-UMBRELLO-Nodes]
+type::usecase shape=ellipse
+type::actor shape=circle
+type::note shape=box
+type::default=shape=box
+
+# for dot output
+[X-UMBRELLO-Edges-Visual]
+type::anchor=arrowhead=none
+type::aggregation=arrowhead=odiamond
+type::composition=arrowhead=diamond
+type::dependency=arrowtail=vee,style=dashed,dir=back
+type::uniassociation=arrowtail=vee,dir=back
+type::association=arrowhead=none
+type::generalization=arrowtail=normal,dir=back
+type::realisation=arrowtail=normal,dir=back
+type::default=arrowhead=none
+
+# for ranking (entries are added)
+[X-UMBRELLO-Edges-Ranking]
+type::association=weight=1.0
+type::uniassociation=weight=0.1
+type::default=constraint=false
+
+[X-UMBRELLO-Attributes]
+graph=splines=polyline,rankdir=RL,outputorder=nodesfirst,ranksep=1.5,nodesep=0.5
+node=
+edge=
+
+[X-UMBRELLO-Settings]
+origin=50,50

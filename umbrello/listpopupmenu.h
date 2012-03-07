@@ -209,6 +209,16 @@ public:
         mt_Internalize_Folder,                   // Reintegrate separate submodel into main model
 
         mt_AddInteractionOperand,                // add a dash line to an alternative or a parallel combined fragment
+        mt_Apply_Layout,                         // apply automatically created layout
+        mt_Apply_Layout1,                        // apply automatically created layout
+        mt_Apply_Layout2,                        // apply automatically created layout
+        mt_Apply_Layout3,                        // apply automatically created layout
+        mt_Apply_Layout4,                        // apply automatically created layout
+        mt_Apply_Layout5,                        // apply automatically created layout
+        mt_Apply_Layout6,                        // apply automatically created layout
+        mt_Apply_Layout7,                        // apply automatically created layout
+        mt_Apply_Layout8,                        // apply automatically created layout
+        mt_Apply_Layout9,                        // apply automatically created layout
 
         mt_Undefined  =  - 1
     };

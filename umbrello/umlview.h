@@ -806,6 +806,11 @@ public:
     void clearDiagram();
 
     /**
+     * apply an automatic layout
+     */
+    void applyLayout(const QString &actionText);
+
+    /**
      * Changes snap to grid boolean.
      * Called from menus.
      */
