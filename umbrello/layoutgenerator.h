@@ -213,7 +213,7 @@ public:
             while(path->count() > 1) {
                 path->removePoint(0);
             }
-            path->setStartEndPoints(QPoint(p[0].x() + m_origin.x(), m_boundingRect.height() - p[0].y() + m_origin.y()), QPoint(p[len-1].x() + m_origin.x(), m_boundingRect.height() - p[len-1].y() + m_origin.y()));
+            path->setEndPoints(QPoint(p[0].x() + m_origin.x(), m_boundingRect.height() - p[0].y() + m_origin.y()), QPoint(p[len-1].x() + m_origin.x(), m_boundingRect.height() - p[len-1].y() + m_origin.y()));
             // FIXME: set label position
             //QPointF &l = m_edgeLabelPosition[id];
             // FIXME: set remaining association line points
