@@ -2,7 +2,6 @@
 Type=Service
 Name=Horizontal Layout
 Comment=Layout which renders Horizontal
-Comment[x-test]=xxHorizontal Layoutxx
 
 [X-UMBRELLO-Dot-Nodes]
 type::class=shape=box

@@ -2,7 +2,6 @@
 Type=Service
 Name=Vertical Layout
 Comment=Layout which renders vertical
-Comment[x-test]=xxVertical Layoutxx
 
 [X-UMBRELLO-Dot-Nodes]
 type::class=shape=box

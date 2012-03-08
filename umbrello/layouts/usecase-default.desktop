@@ -2,7 +2,6 @@
 Type=Service
 Name=UseCase Default Layout
 Comment=Usecase Default Layout
-Comment[x-test]=xxDefault Layoutxx
 
 [X-UMBRELLO-Dot-Nodes]
 type::usecase shape=ellipse
