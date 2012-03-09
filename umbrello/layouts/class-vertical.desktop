@@ -1,7 +1,15 @@
 [Desktop Entry]
 Type=Service
 Name=Vertical Layout
+Name[pt]=Disposição Vertical
+Name[sv]=Vertikal layout
+Name[uk]=Вертикальне компонування
+Name[x-test]=xxVertical Layoutxx
 Comment=Layout which renders vertical
+Comment[pt]=Uma disposição que representa os itens na vertical
+Comment[sv]=Layout som återger vertikalt
+Comment[uk]=Компонування з вертикальним розташуванням елементів
+Comment[x-test]=xxLayout which renders verticalxx
 
 [X-UMBRELLO-Dot-Nodes]
 type::class=shape=box

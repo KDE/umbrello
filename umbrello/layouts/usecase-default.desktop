@@ -1,7 +1,15 @@
 [Desktop Entry]
 Type=Service
 Name=UseCase Default Layout
+Name[pt]=Disposição de Casos de Uso
+Name[sv]=Standardlayout för användarfall
+Name[uk]=Типове компонування випадку використання
+Name[x-test]=xxUseCase Default Layoutxx
 Comment=Usecase Default Layout
+Comment[pt]=Disposição Predefinida de Casos de Uso
+Comment[sv]=Standardlayout för användarfall
+Comment[uk]=Типове компонування випадку використання
+Comment[x-test]=xxUsecase Default Layoutxx
 
 [X-UMBRELLO-Dot-Nodes]
 type::usecase shape=ellipse

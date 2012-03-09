@@ -1,7 +1,15 @@
 [Desktop Entry]
 Type=Service
 Name=Horizontal Layout
+Name[pt]=Disposição Horizontal
+Name[sv]=Horisontell layout
+Name[uk]=Горизонтальне компонування
+Name[x-test]=xxHorizontal Layoutxx
 Comment=Layout which renders Horizontal
+Comment[pt]=Uma disposição que representa os itens na horizontal
+Comment[sv]=Layout som återger horisontellt
+Comment[uk]=Компонування з горизонтальним розташуванням елементів
+Comment[x-test]=xxLayout which renders Horizontalxx
 
 [X-UMBRELLO-Dot-Nodes]
 type::class=shape=box
