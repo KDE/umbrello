@@ -1,7 +1,9 @@
 Version 2.9.0 (unreleased)
 
 * New feature: Drawing of state diagrams with more pseudostates possible.
+* Cannot anchor note in state diagram (270597)
 * Color of role text on diagram (e.g. Role B) nearly invisible (291401)
+* Junk residual UMLAssociations saved to XMI (293042)
 
 Version 2.8.1
 

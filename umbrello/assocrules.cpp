@@ -147,7 +147,7 @@ bool AssocRules::allowAssociation( Uml::AssociationType assocType,
     WidgetBase::WidgetType widgetTypeB = widgetB->baseType();
     bool bValid = false;
 
-    if ( widgetA->umlObject() == widgetB->umlObject() ) {
+    if (widgetA->umlObject() && widgetA->umlObject() == widgetB->umlObject()) {
         return allowSelf( assocType, widgetTypeA );
     }
 
