@@ -631,7 +631,9 @@ void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY)
     p->fillRect(offsetX + w - s, offsetY, s, s, brush);
 
     // Draw the resize anchor in the lower right corner.
-    if (m_resizable) {
+    // Don't draw it if the widget is so small that the
+    // resize anchor would cover up most of the widget.
+    if (m_resizable && w * h > (s*3) * (s*3)) {
         brush.setColor(Qt::red);
         const int right = offsetX + w;
         const int bottom = offsetY + h;

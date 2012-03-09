@@ -402,11 +402,18 @@ void UMLWidgetController::mouseDoubleClickEvent(QMouseEvent *me)
  */
 bool UMLWidgetController::isInResizeArea(QMouseEvent *me)
 {
-    const int m = 10;
+    int m = 10;
+    const int w = m_widget->width();
+    const int h = m_widget->height();
+
+    // If the widget itself is very small then make the resize area small, too.
+    // Reason: Else it becomes impossible to do a Move instead of Resize.
+    if (w - m < m || h - m < m)
+        m = 2;
 
     if (m_widget->m_resizable &&
-            me->x() >= (m_widget->getX() + m_widget->width() - m) &&
-            me->y() >= (m_widget->getY() + m_widget->height() - m)) {
+            me->x() >= (m_widget->getX() + w - m) &&
+            me->y() >= (m_widget->getY() + h - m)) {
         m_widget->m_scene->setCursor(getResizeCursor());
         return true;
     } else {
