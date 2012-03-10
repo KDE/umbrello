@@ -264,6 +264,12 @@ void UMLWidget::constrain(int& width, int& height)
         width = maxSize.width();
     if (height > maxSize.height())
         height = maxSize.height();
+
+    if (fixedAspectRatio()) {
+        UMLSceneSize size = UMLSceneRectItem::size();
+        float aspectRatio = (float)size.height()/size.width();
+        height = width * aspectRatio;
+    }
 }
 
 /**
@@ -310,6 +316,7 @@ void UMLWidget::init()
     }
 
     m_resizable = true;
+    m_fixedAspectRatio = false;
 
     m_selected = false;
     m_startMove = false;

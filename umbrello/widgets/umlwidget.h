@@ -266,6 +266,16 @@ protected:
     void setMaximumSize(const UMLSceneSize &size);
     void setMaximumSize(UMLSceneValue width, UMLSceneValue height);
 
+    bool fixedAspectRatio()
+    {
+        return m_fixedAspectRatio;
+    }
+
+    void setFixedAspectRatio(bool state)
+    {
+        m_fixedAspectRatio = state;
+    }
+
     typedef enum {
         FT_NORMAL = 0,
         FT_BOLD  = 1,
@@ -351,6 +361,7 @@ protected:
      */
     bool m_ignoreSnapToGrid;
     bool m_ignoreSnapComponentSizeToGrid;
+    bool m_fixedAspectRatio;
 
     /**
      * Controller for user interaction events.

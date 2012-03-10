@@ -86,6 +86,7 @@ public:
 
 protected:
     UMLSceneSize minimumSize();
+    void setAspectRatioMode();
 
 public slots:
     virtual void slotMenuSelection(QAction* action);

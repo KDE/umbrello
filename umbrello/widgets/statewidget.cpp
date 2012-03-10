@@ -40,6 +40,7 @@ StateWidget::StateWidget(UMLScene * scene, StateType stateType, Uml::IDType id)
   : UMLWidget(scene, WidgetBase::wt_State, id)
 {
     m_stateType = stateType;
+    setAspectRatioMode();
     m_Text = "State";
 }
 
@@ -224,6 +225,29 @@ UMLSceneSize StateWidget::minimumSize()
 }
 
 /**
+ * Set the aspect ratio mode.
+ * Some state types have a fixed aspect ratio
+ */
+void StateWidget::setAspectRatioMode()
+{
+    switch (m_stateType) {
+        case StateWidget::Initial:
+        case StateWidget::End:
+        case StateWidget::Choice:
+        case StateWidget::DeepHistory:
+        case StateWidget::ShallowHistory:
+        case StateWidget::Fork:
+        case StateWidget::Join:
+        case StateWidget::Junction:
+            setFixedAspectRatio(true);
+            break;
+        default:
+            setFixedAspectRatio(false);
+            break;
+    }
+}
+
+/**
  * Sets the name of the State.
  */
 void StateWidget::setName(const QString &strName)
@@ -255,6 +279,7 @@ StateWidget::StateType StateWidget::stateType() const
 void StateWidget::setStateType(StateType stateType)
 {
     m_stateType = stateType;
+    setAspectRatioMode();
 }
 
 /**
@@ -415,6 +440,7 @@ bool StateWidget::loadFromXMI(QDomElement & qElement)
     m_Doc = qElement.attribute( "documentation", "" );
     QString type = qElement.attribute( "statetype", "1" );
     m_stateType = (StateType)type.toInt();
+    setAspectRatioMode();
     //load states activities
     QDomNode node = qElement.firstChild();
     QDomElement tempElement = node.toElement();
