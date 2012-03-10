@@ -1,12 +1,16 @@
 [Desktop Entry]
 Type=Service
 Name=Horizontal Layout
+Name[nl]=Horizontale indeling
 Name[pt]=Disposição Horizontal
+Name[pt_BR]=Leiaute horizontal
 Name[sv]=Horisontell layout
 Name[uk]=Горизонтальне компонування
 Name[x-test]=xxHorizontal Layoutxx
 Comment=Layout which renders Horizontal
+Comment[nl]=Indeling die zich horizontaal laat weergeven
 Comment[pt]=Uma disposição que representa os itens na horizontal
+Comment[pt_BR]=Leiaute que representa os itens na horizontal
 Comment[sv]=Layout som återger horisontellt
 Comment[uk]=Компонування з горизонтальним розташуванням елементів
 Comment[x-test]=xxLayout which renders Horizontalxx

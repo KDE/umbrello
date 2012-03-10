@@ -1,12 +1,16 @@
 [Desktop Entry]
 Type=Service
 Name=UseCase Default Layout
+Name[nl]=Standaard indeling van gebruiksgeval
 Name[pt]=Disposição de Casos de Uso
+Name[pt_BR]=Leiaute padrão de casos de uso
 Name[sv]=Standardlayout för användarfall
 Name[uk]=Типове компонування випадку використання
 Name[x-test]=xxUseCase Default Layoutxx
 Comment=Usecase Default Layout
+Comment[nl]=Standaard indeling van gebruiksgeval
 Comment[pt]=Disposição Predefinida de Casos de Uso
+Comment[pt_BR]=Leiaute padrão de casos de uso
 Comment[sv]=Standardlayout för användarfall
 Comment[uk]=Типове компонування випадку використання
 Comment[x-test]=xxUsecase Default Layoutxx
