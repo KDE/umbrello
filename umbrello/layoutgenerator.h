@@ -95,7 +95,6 @@ public:
      * constructor
     */
     LayoutGenerator()
-    : m_scale(72), m_origin(50,50)
     {
     }
 
@@ -527,9 +526,7 @@ protected:
     QRectF m_boundingRect;
     NodeType m_nodes;      ///< list of nodes found in parsed dot file
     EdgeType m_edges;      ///< list of edges found in parsed dot file
-    double m_scale;        ///< scale factor
     //QHash<QString, QPointF> m_edgeLabelPosition; ///< contains global node parameters
-    QPointF m_origin;
 
     friend QDebug operator<<(QDebug out, LayoutGenerator &c);
 };
