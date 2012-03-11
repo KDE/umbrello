@@ -532,7 +532,7 @@ protected:
     QRectF m_boundingRect;
     NodeType m_nodes;      ///< list of nodes found in parsed dot file
     EdgeType m_edges;      ///< list of edges found in parsed dot file
-    //QHash<QString, QPointF> m_edgeLabelPosition; ///< contains global node parameters
+    QHash<QString, QPointF> m_edgeLabelPosition; ///< contains global node parameters
 
     friend QDebug operator<<(QDebug out, LayoutGenerator &c);
 };
