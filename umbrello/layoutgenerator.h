@@ -213,8 +213,14 @@ public:
                 path->removePoint(0);
             }
             path->setEndPoints(QPoint(p[0].x() + m_origin.x(), m_boundingRect.height() - p[0].y() + m_origin.y()), QPoint(p[len-1].x() + m_origin.x(), m_boundingRect.height() - p[len-1].y() + m_origin.y()));
-            // FIXME: set label position
-            //QPointF &l = m_edgeLabelPosition[id];
+
+            // set label position
+            QPointF &l = m_edgeLabelPosition[id];
+            FloatingTextWidget *tw = assoc->getNameWidget();
+            if (tw) {
+                tw->setX((int)(l.x() + m_origin.x()));
+                tw->setY(int(m_boundingRect.height() - l.y() + m_origin.y()));
+            }
             // FIXME: set remaining association line points
             /*
             for(int i = 1; i < len-1; i++) {
@@ -349,10 +355,10 @@ protected:
             for(int i = 0; i < len; i++)
                 p.append(QPointF(a[i*2+4].toDouble()*m_scale, a[i*2+5].toDouble()*m_scale));
             m_edges[key] = p;
-/*
+
             int b = len*2 + 4;
             m_edgeLabelPosition[key] = QPointF(a[b+1].toDouble()*m_scale, a[b+2].toDouble()*m_scale);
-*/
+
             return true;
         } else if (a[0] == "stop") {
             return true;
