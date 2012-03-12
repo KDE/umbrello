@@ -13,6 +13,7 @@
 
 // application specific includes
 #include "debug_utils.h"
+#include "dotgenerator.h"
 #include "model_utils.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -61,6 +62,8 @@ QStringList UMLViewImageExporterModel::supportedImageTypes()
                 s_supportedImageTypesList << format;
         }
         // specific supported formats
+        if (!s_supportedImageTypesList.contains("dot"))
+            s_supportedImageTypesList << "dot";
         if (!s_supportedImageTypesList.contains("eps"))
             s_supportedImageTypesList << "eps";
         if (!s_supportedImageTypesList.contains("svg"))
@@ -103,6 +106,7 @@ QString UMLViewImageExporterModel::imageTypeToMimeType(const QString& imageType)
 {
     const QString imgType = imageType.toLower();
     if (QString("bmp") == imgType) return "image/bmp";
+    if (QString("dot") == imgType) return "image/x-dot";
     if (QString("jpeg") == imgType) return "image/jpeg";
     if (QString("pbm") == imgType) return "image/x-portable-bitmap";
     if (QString("pgm") == imgType) return "image/x-portable-graymap";
@@ -126,6 +130,7 @@ QString UMLViewImageExporterModel::imageTypeToMimeType(const QString& imageType)
 QString UMLViewImageExporterModel::mimeTypeToImageType(const QString& mimeType)
 {
     if (QString("image/bmp") == mimeType) return "bmp";
+    if (QString("image/x-dot") == mimeType) return "dot";
     if (QString("image/jpeg") == mimeType) return "jpeg";
     if (QString("image/x-portable-bitmap") == mimeType) return "pbm";
     if (QString("image/x-portable-graymap") == mimeType) return "pgm";
@@ -329,7 +334,11 @@ bool UMLViewImageExporterModel::exportViewTo(UMLScene* scene, const QString &ima
     scene->clearSelected();
 
     QString imageMimeType = UMLViewImageExporterModel::imageTypeToMimeType(imageType);
-    if (imageMimeType == "image/x-eps") {
+    if (imageMimeType == "image/x-dot") {
+        if (!exportViewToDot(scene, fileName)) {
+            return false;
+        }
+    } else if (imageMimeType == "image/x-eps") {
         if (!exportViewToEps(scene, fileName, true)) {
             return false;
         }
@@ -344,6 +353,28 @@ bool UMLViewImageExporterModel::exportViewTo(UMLScene* scene, const QString &ima
     }
 
     return true;
+}
+
+/**
+ * Exports the view to the file 'fileName' as a dot file.
+ *
+ * @param scene     The scene to export.
+ * @param fileName  The name of the file where the image will be saved.
+ * @return True if the operation was successful,
+ *         false if a problem occurred while exporting.
+ */
+bool UMLViewImageExporterModel::exportViewToDot(UMLScene* scene, const QString &fileName) const
+{
+    if (!scene) {
+        uWarning() << "Scene is null!";
+        return false;
+    }
+
+    DotGenerator dot;
+    bool result = dot.createDotFile(scene, fileName, QLatin1String("export"));
+
+    DEBUG(DBG_IEM) << "saving to file " << fileName << result;
+    return result;
 }
 
 /**

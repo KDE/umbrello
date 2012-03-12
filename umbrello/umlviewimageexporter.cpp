@@ -10,6 +10,7 @@
 
 // own header
 #include "umlviewimageexporter.h"
+#include "umlfiledialog.h"
 
 // application specific includes
 #include "umlviewimageexportermodel.h"
@@ -125,7 +126,7 @@ bool UMLViewImageExporter::getParametersFromUser()
 
     // configure & show the file dialog
     KUrl url;
-    QPointer<KFileDialog> dialog = new KFileDialog(url, QString(), UMLApp::app());
+    QPointer<UMLFileDialog> dialog = new UMLFileDialog(url, QString(), UMLApp::app());
     prepareFileDialog(dialog);
     dialog->exec();
 
@@ -158,7 +159,7 @@ bool UMLViewImageExporter::getParametersFromUser()
  *
  * @param fileDialog The dialog to prepare.
  */
-void UMLViewImageExporter::prepareFileDialog(KFileDialog *fileDialog)
+void UMLViewImageExporter::prepareFileDialog(UMLFileDialog *fileDialog)
 {
     // get all supported mime types
     QStringList mimeTypes = UMLViewImageExporterModel::supportedMimeTypes();
