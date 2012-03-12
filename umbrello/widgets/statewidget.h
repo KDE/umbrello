@@ -13,7 +13,9 @@
 
 #include <QtGui/QPainter>
 #include <QtCore/QStringList>
+#include <QMetaEnum>
 
+#include "debug_utils.h"
 #include "umlwidget.h"
 #include "worktoolbar.h"
 
@@ -67,6 +69,11 @@ public:
     virtual void setName(const QString &strName);
 
     StateType stateType() const;
+    QString stateTypeStr() const
+    {
+        return QLatin1String(ENUM_NAME(StateWidget, StateType, m_stateType));
+    }
+
     void setStateType(StateType stateType);
 
     bool addActivity(const QString &activity);

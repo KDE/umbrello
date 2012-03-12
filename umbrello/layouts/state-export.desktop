@@ -1,0 +1,46 @@
+[Desktop Entry]
+Type=Service
+Name=Export Layout
+Comment=Export Layout (renders vertical)
+Comment[x-test]=xxExport Layoutxx
+
+[X-UMBRELLO-Dot-Nodes]
+type::initial=shape=circle
+type::normal=shape=box,style=rounded
+type::end=shape=doublecircle
+#type::fork=
+#type::join=
+#type::junction=
+#type::deepHistory=
+#type::shallowHistory=
+#type::choice=
+type::default=shape=box
+
+type::default=shape=box
+# FIXME set label 
+
+[X-UMBRELLO-Dot-Edges]
+# for visual representation
+visual::type::state=arrowhead=normal
+visual::type::default=arrowhead=none
+# FIXME set label 
+# for position ranking 
+ranking::type::anchor=weight=0.001
+ranking::type::aggregation=weight=0.001
+ranking::type::association=constraint=false
+ranking::type::composition=weight=0.001
+ranking::type::dependency=weight=0.001
+ranking::type::generalization=weight=1.0
+ranking::type::realisation=weight=0.8
+ranking::type::uniassociation=constraint=false
+ranking::type::default=constraint=false
+# id handling
+id::type::aggregation=swap
+
+[X-UMBRELLO-Dot-Attributes]
+graph=splines=polyline,rankdir=TB,outputorder=nodesfirst,ranksep=0.5,nodesep=0.5
+node=
+edge=
+
+[X-UMBRELLO-Dot-Settings]
+origin=50,50

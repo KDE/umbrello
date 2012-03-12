@@ -12,6 +12,7 @@
 
 // app includes
 #include "associationwidget.h"
+#include "statewidget.h"
 #include "debug_utils.h"
 #include "umlwidget.h"
 
@@ -210,15 +211,18 @@ public:
 
             QString type = QString(widget->baseTypeStr()).toLower().remove("wt_");
             QString key = "type::" + type;
+
+            if (type == "state") {
+                StateWidget *w = static_cast<StateWidget *>(widget);
+                type = w->stateTypeStr().toLower();
+            }
+            key = "type::" + type;
             QString label = widget->name() + "\\n" + type;
 
             if (m_nodeParameters.contains(key))
                 params << m_nodeParameters[key];
-            else if (m_nodeParameters.contains("type::default")) {
+            else if (m_nodeParameters.contains("type::default"))
                 params << m_nodeParameters["type::default"];
-                if (label.isEmpty())
-                    label = type;
-            }
 
             params << QString("label=\"%1\"").arg(label);
 
