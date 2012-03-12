@@ -258,6 +258,7 @@ public:
             assoc->calculateEndingPoints();
             if (assoc->getLinePath())
                 assoc->getLinePath()->update();
+            assoc->resetTextPositions();
         }
         return true;
     }
