@@ -366,7 +366,14 @@ protected:
             m_edges[key] = p;
 
             int b = len*2 + 4;
-            m_edgeLabelPosition[key] = QPointF(a[b+1].toDouble()*m_scale, a[b+2].toDouble()*m_scale);
+            bool ok;
+            double x = a[b+1].toDouble(&ok);
+            if (!ok)
+                return true;
+            double y = a[b+2].toDouble(&ok);
+            if (!ok)
+                return true;
+            m_edgeLabelPosition[key] = QPointF(x*m_scale, y*m_scale);
 
             return true;
         } else if (a[0] == "stop") {
