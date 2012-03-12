@@ -199,10 +199,13 @@ public:
         foreach(AssociationWidget *assoc, scene->getAssociationList()) {
             AssociationLine *path = assoc->getLinePath();
             QString type = assoc->associationType().toString().toLower();
+            QString key = "type::" + type;
+
             QString id;
-            //uDebug() << "WidgetName" << assoc->widgetForRole(Uml::A)->name() << assoc->widgetForRole(Uml::B)->name();
-            // associations seems to have the parent in the Uml::B role, so use B for the left dot node
-            id = fixID(ID2STR(assoc->getWidgetID(Uml::B)) + ID2STR(assoc->getWidgetID(Uml::A)));
+            if (m_edgeParameters.contains("id::" + key) && m_edgeParameters["id::" + key] == "swap")
+                id = fixID(ID2STR(assoc->getWidgetID(Uml::A)) + ID2STR(assoc->getWidgetID(Uml::B)));
+            else
+                id = fixID(ID2STR(assoc->getWidgetID(Uml::B)) + ID2STR(assoc->getWidgetID(Uml::A)));
 
             // adjust associations not used in the dot file
             if (!m_edges.contains(id)) {
