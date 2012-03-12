@@ -166,6 +166,8 @@ public:
         else
             uError() << "illegal format of entry 'origin'" << value;
 
+        m_generator = settings.readEntry("generator","dot");
+
 #ifdef LAYOUTGENERATOR_DATA_DEBUG
         uDebug() << m_edgeParameters;
         uDebug() << m_nodeParameters;
@@ -307,6 +309,7 @@ protected:
     QHash<QString, QString> m_edgeParameters; ///< contains global edge parameters
     QHash<QString, QString> m_nodeParameters; ///< contains global node parameters
     QPointF m_origin;
+    QString m_generator; ///< name of graphviz generator
     bool m_usePosition;
 
     friend QDebug operator<<(QDebug out, DotGenerator &c);

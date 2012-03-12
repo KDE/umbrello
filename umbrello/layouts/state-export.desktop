@@ -44,3 +44,4 @@ edge=
 
 [X-UMBRELLO-Dot-Settings]
 origin=50,50
+generator=neato

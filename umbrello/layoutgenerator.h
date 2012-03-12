@@ -147,15 +147,24 @@ public:
         if (!createDotFile(scene, in.fileName(), variant))
             return false;
 
+        QString executable;
+        if (!m_generator.isEmpty()) {
+            QFileInfo fi(m_executable);
+            QString path = fi.absolutePath();
+            executable = path + "/" + m_generator;
+        }
+        else
+            executable = m_executable;
+
         QProcess p;
         QStringList args;
         args << "-o" << out.fileName() << "-Tplain-ext" << in.fileName();
-        p.start(m_executable, args);
+        p.start(executable, args);
         p.waitForFinished();
 
         args.clear();
         args << "-o" << xdotOut.fileName() << "-Txdot" << in.fileName();
-        p.start(m_executable, args);
+        p.start(executable, args);
         p.waitForFinished();
 
 #ifdef LAYOUTGENERATOR_DEBUG
@@ -167,7 +176,7 @@ public:
         qDebug() << pngViewer() << pngFile.fileName();
         args.clear();
         args << "-o" << pngFile.fileName() << "-Tpng" << in.fileName();
-        p.start(m_executable, args);
+        p.start(executable, args);
         p.waitForFinished();
 #endif
 #ifndef USE_XDOT
