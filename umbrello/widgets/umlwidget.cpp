@@ -485,7 +485,8 @@ void UMLWidget::slotMenuSelection(QAction* action)
 }
 
 /**
- * Captures when another widget moves if it is link to it that signal.
+ * Captures when another widget moves if this widget is linked to it.
+ * @see sigWidgetMoved
  *
  * @param id The id of object behind the widget.
  */
