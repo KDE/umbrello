@@ -1,0 +1,42 @@
+[Desktop Entry]
+Type=Service
+Name=Vertical Layout
+Comment=Layout which renders vertical
+Comment[x-test]=xxVertical Layoutxx
+
+[X-UMBRELLO-Dot-Nodes]
+type::class=shape=box
+type::default=shape=box
+
+# for dot output
+[X-UMBRELLO-Dot-Edges]
+# for visual representation
+visual::type::anchor=arrowhead=none,style=dashed
+visual::type::aggregation=arrowtail=odiamond,dir=back
+visual::type::composition=arrowtail=diamond,dir=back
+visual::type::dependency=arrowtail=vee,style=dashed,dir=back
+visual::type::uniassociation=arrowtail=vee,dir=back
+visual::type::association=arrowhead=none
+visual::type::generalization=arrowtail=normal,dir=back
+visual::type::realisation=arrowtail=normal,dir=back
+visual::type::default=arrowhead=none
+# for position ranking
+ranking::type::anchor=constraint=false
+ranking::type::aggregation=weight=0.001
+ranking::type::association=constraint=false
+ranking::type::composition=weight=0.001
+ranking::type::dependency=weight=0.001
+ranking::type::generalization=weight=1.0
+ranking::type::realisation=weight=0.8
+ranking::type::uniassociation=constraint=false
+ranking::type::default=constraint=false
+# id handling
+id::type::aggregation=swap
+
+[X-UMBRELLO-Dot-Attributes]
+graph=splines=polyline,rankdir=TB,outputorder=nodesfirst,ranksep=0.5,nodesep=0.5
+node=
+edge=
+
+[X-UMBRELLO-Dot-Settings]
+origin=50,50
