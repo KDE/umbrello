@@ -1,8 +1,8 @@
 [Desktop Entry]
 Type=Service
-Name=Vertical Layout
-Comment=Layout which renders vertical
-Comment[x-test]=xxVertical Layoutxx
+Name=Export Layout
+Comment=Export Layout for Class Diagrams
+Comment[x-test]=xxExport Layout for Class Diagramsxx
 
 [X-UMBRELLO-Dot-Nodes]
 type::class=shape=box
