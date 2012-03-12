@@ -176,6 +176,15 @@ public:
         return true;
     }
 
+    bool findItem(QStringList &params, const QString &search)
+    {
+        foreach(const QString &s, params) {
+            if (s.startsWith(search))
+                return true;
+        }
+        return false;
+    }
+
     /**
      * Create dot file using displayed widgets
      * and associations of the provided scene
@@ -203,10 +212,7 @@ public:
             QStringList params;
 
             if (m_nodeParameters.contains("all"))
-                params << m_nodeParameters["all"];
-
-            params  << QString("width=\"%1\"").arg(widget->getWidth()/m_scale)
-                    << QString("height=\"%1\"").arg(widget->getHeight()/m_scale);
+                params << m_nodeParameters["all"].split(',');
 
             if (usePosition())
                 params  << QString("pos=\"%1,%2\"").arg(widget->getX()+widget->getWidth()/2).arg(widget->getY()+widget->getHeight()/2);
@@ -222,11 +228,18 @@ public:
             QString label = widget->name() + "\\n" + type;
 
             if (m_nodeParameters.contains(key))
-                params << m_nodeParameters[key];
+                params << m_nodeParameters[key].split(',');
             else if (m_nodeParameters.contains("type::default"))
-                params << m_nodeParameters["type::default"];
+                params << m_nodeParameters["type::default"].split(',');
 
-            params << QString("label=\"%1\"").arg(label);
+            if (!findItem(params,"label="))
+                params << QString("label=\"%1\"").arg(label);
+
+            if (!findItem(params,"width="))
+                params << QString("width=\"%1\"").arg(widget->getWidth()/m_scale);
+
+            if (!findItem(params,"height="))
+                params << QString("height=\"%1\"").arg(widget->getHeight()/m_scale);
 
 #ifdef DOTGENERATOR_DATA_DEBUG
             uDebug() << type << params;
