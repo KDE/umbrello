@@ -259,10 +259,14 @@ public:
 
             QString headLabel = assoc->roleName(swapId ? Uml::B : Uml::A);
             QString tailLabel = assoc->roleName(swapId ? Uml::A : Uml::B);
+
             if (!headLabel.isEmpty())
                 headLabel.prepend("+");
             if (!tailLabel.isEmpty())
                 tailLabel.prepend("+");
+
+            headLabel += QLatin1String("  ") + assoc->multiplicity(swapId ? Uml::B : Uml::A);
+            tailLabel += QLatin1String("  ") + assoc->multiplicity(swapId ? Uml::A : Uml::B);
 
             QString edgeParameters;
             QStringList params;
