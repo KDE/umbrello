@@ -14,7 +14,7 @@ type::default=shape=box
 visual::type::anchor=arrowhead=none,style=dashed
 visual::type::aggregation=arrowtail=odiamond,dir=back
 visual::type::composition=arrowhead=diamonds
-visual::type::containment=arrowhead=odottee
+visual::type::containment=arrowtail=odottee,dir=back
 visual::type::dependency=arrowtail=vee,style=dashed,dir=back
 visual::type::uniassociation=arrowtail=vee,dir=back
 visual::type::association=arrowhead=none
@@ -26,6 +26,7 @@ ranking::type::anchor=constraint=false
 ranking::type::aggregation=weight=0.001
 ranking::type::association=constraint=false
 ranking::type::composition=weight=0.001
+ranking::type::containment=weight=0.001
 ranking::type::dependency=weight=0.001
 ranking::type::generalization=weight=1.0
 ranking::type::realisation=weight=0.8
@@ -33,6 +34,7 @@ ranking::type::uniassociation=constraint=false
 ranking::type::default=constraint=false
 # id handling
 id::type::aggregation=swap
+id::type::containment=swap
 
 [X-UMBRELLO-Dot-Attributes]
 graph=splines=polyline,rankdir=TB,outputorder=nodesfirst,ranksep=0.5,nodesep=0.5
