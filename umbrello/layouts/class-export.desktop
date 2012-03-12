@@ -14,6 +14,7 @@ type::default=shape=box
 visual::type::anchor=arrowhead=none,style=dashed
 visual::type::aggregation=arrowtail=odiamond,dir=back
 visual::type::composition=arrowhead=diamonds
+visual::type::containment=arrowhead=odottee
 visual::type::dependency=arrowtail=vee,style=dashed,dir=back
 visual::type::uniassociation=arrowtail=vee,dir=back
 visual::type::association=arrowhead=none
