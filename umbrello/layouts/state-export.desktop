@@ -8,34 +8,22 @@ Comment[x-test]=xxExport Layoutxx
 type::initial=shape=circle
 type::normal=shape=box,style=rounded
 type::end=shape=doublecircle
-#type::fork=
-#type::join=
+type::fork=style=filled,shape=box,fillcolor=black,width="0.03",label=""
+type::join=style=filled,shape=box,fillcolor=black,width="0.03",label=""
 #type::junction=
 #type::deepHistory=
 #type::shallowHistory=
-#type::choice=
-type::default=shape=box
-
+type::choice=shape=diamond
 type::default=shape=box
 # FIXME set label 
 
 [X-UMBRELLO-Dot-Edges]
 # for visual representation
 visual::type::state=arrowhead=normal
-visual::type::default=arrowhead=none
-# FIXME set label 
-# for position ranking 
-ranking::type::anchor=weight=0.001
-ranking::type::aggregation=weight=0.001
-ranking::type::association=constraint=false
-ranking::type::composition=weight=0.001
-ranking::type::dependency=weight=0.001
-ranking::type::generalization=weight=1.0
-ranking::type::realisation=weight=0.8
-ranking::type::uniassociation=constraint=false
+#visual::type::default=arrowhead=none,minlen=0.5
 ranking::type::default=constraint=false
 # id handling
-id::type::aggregation=swap
+id::type::state=swap
 
 [X-UMBRELLO-Dot-Attributes]
 graph=splines=polyline,rankdir=TB,outputorder=nodesfirst,ranksep=0.5,nodesep=0.5
