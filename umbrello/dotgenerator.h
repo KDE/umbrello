@@ -251,13 +251,21 @@ public:
         }
 
         foreach(AssociationWidget *assoc, scene->getAssociationList()) {
-            QStringList params;
-            QString label;
             QString type = assoc->associationType().toString().toLower();
             QString key = "type::" + type;
-            label = assoc->getName();
-            QString edgeParameters;
+            bool swapId = m_edgeParameters.contains("id::" + key) && m_edgeParameters["id::" + key] == "swap";
 
+            QString label = assoc->getName();
+
+            QString headLabel = assoc->roleName(swapId ? Uml::B : Uml::A);
+            QString tailLabel = assoc->roleName(swapId ? Uml::A : Uml::B);
+            if (!headLabel.isEmpty())
+                headLabel.prepend("+");
+            if (!tailLabel.isEmpty())
+                tailLabel.prepend("+");
+
+            QString edgeParameters;
+            QStringList params;
             QString rkey = QLatin1String("ranking::") + key;
             if (m_edgeParameters.contains(rkey))
                 edgeParameters = m_edgeParameters[rkey];
@@ -274,20 +282,22 @@ public:
             }
             params << edgeParameters.split(',');
 
-            QString aID = fixID(ID2STR(assoc->getWidgetID(Uml::A)));
-            QString bID = fixID(ID2STR(assoc->getWidgetID(Uml::B)));
             if (!findItem(params,"label="))
                 params << QString("label=\"%1\"").arg(label);
+
+            if (!findItem(params,"headlabel="))
+                params << QString("headlabel=\"%1\"").arg(headLabel);
+
+            if (!findItem(params,"taillabel="))
+                params << QString("taillabel=\"%1\"").arg(tailLabel);
 
 #ifdef DOTGENERATOR_DATA_DEBUG
             uDebug() << type << params;
 #endif
-            if (m_edgeParameters.contains("id::" + key) && m_edgeParameters["id::" + key] == "swap")
-                out << "\"" << aID << "\" -> \"" << bID << "\""
-                    << " [" << params.join(",") << "];\n";
-            else
-                out << "\"" << bID << "\" -> \"" << aID << "\""
-                    << " [" << params.join(",") << "];\n";
+            QString aID = fixID(ID2STR(assoc->getWidgetID(swapId ? Uml::A : Uml::B)));
+            QString bID = fixID(ID2STR(assoc->getWidgetID(swapId ? Uml::B : Uml::A)));
+
+            out << "\"" << aID << "\" -> \"" << bID << "\"" << " [" << params.join(",") << "];\n";
         }
 
         QTextStream o(&file);
