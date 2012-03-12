@@ -252,7 +252,6 @@ public:
         }
 
         foreach(AssociationWidget *assoc, scene->getAssociationList()) {
-            assoc->resetTextPositions();
             assoc->calculateEndingPoints();
             if (assoc->getLinePath())
                 assoc->getLinePath()->update();
