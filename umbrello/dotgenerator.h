@@ -126,7 +126,7 @@ public:
             uError() << "could not find layout config file name for diagram type" << diagramType << "and variant" << variant;
             return false;
         }
-
+        uDebug() << "reading config file" << configFileName;
         m_configFileName = configFileName;
         KDesktopFile desktopFile(configFileName);
         KConfigGroup edgesAttributes(&desktopFile,"X-UMBRELLO-Dot-Edges");
