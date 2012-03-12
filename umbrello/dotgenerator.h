@@ -255,7 +255,7 @@ public:
             QString label;
             QString type = assoc->associationType().toString().toLower();
             QString key = "type::" + type;
-            label = type;
+            label = assoc->getName();
             QString edgeParameters;
 
             QString rkey = QLatin1String("ranking::") + key;
@@ -277,7 +277,7 @@ public:
             QString aID = fixID(ID2STR(assoc->getWidgetID(Uml::A)));
             QString bID = fixID(ID2STR(assoc->getWidgetID(Uml::B)));
             if (!findItem(params,"label="))
-                params << QString("label=\"%1\"").arg(type);
+                params << QString("label=\"%1\"").arg(label);
 
 #ifdef DOTGENERATOR_DATA_DEBUG
             uDebug() << type << params;
