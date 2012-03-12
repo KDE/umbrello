@@ -264,7 +264,7 @@ public:
             else if (m_edgeParameters.contains("ranking::type::default")) {
                 edgeParameters = m_edgeParameters["ranking::type::default"];
             }
-            params << edgeParameters;
+            params << edgeParameters.split(',');
 
             QString vkey = QLatin1String("visual::") + key;
             if (m_edgeParameters.contains(vkey))
@@ -272,11 +272,12 @@ public:
             else if (m_edgeParameters.contains("visual::type::default")) {
                 edgeParameters = m_edgeParameters["visual::type::default"];
             }
-            params << edgeParameters;
+            params << edgeParameters.split(',');
 
             QString aID = fixID(ID2STR(assoc->getWidgetID(Uml::A)));
             QString bID = fixID(ID2STR(assoc->getWidgetID(Uml::B)));
-            params << QString("label=\"%1\"").arg(type);
+            if (!findItem(params,"label="))
+                params << QString("label=\"%1\"").arg(type);
 
 #ifdef DOTGENERATOR_DATA_DEBUG
             uDebug() << type << params;
