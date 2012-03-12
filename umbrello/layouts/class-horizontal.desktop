@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Service
 Name=Horizontal Layout
+Name[es]=Disposición horizontal
 Name[nl]=Horizontale indeling
 Name[pt]=Disposição Horizontal
 Name[pt_BR]=Leiaute horizontal
@@ -8,6 +9,7 @@ Name[sv]=Horisontell layout
 Name[uk]=Горизонтальне компонування
 Name[x-test]=xxHorizontal Layoutxx
 Comment=Layout which renders Horizontal
+Comment[es]=Diseño que se organiza de forma horizontal
 Comment[nl]=Indeling die zich horizontaal laat weergeven
 Comment[pt]=Uma disposição que representa os itens na horizontal
 Comment[pt_BR]=Leiaute que representa os itens na horizontal
