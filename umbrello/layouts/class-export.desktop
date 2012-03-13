@@ -2,7 +2,6 @@
 Type=Service
 Name=Export Layout
 Comment=Export Layout for Class Diagrams
-Comment[x-test]=xxExport Layout for Class Diagramsxx
 
 [X-UMBRELLO-Dot-Nodes]
 type::class=shape=box

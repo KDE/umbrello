@@ -2,7 +2,6 @@
 Type=Service
 Name=Export Layout
 Comment=Export Layout for State Diagrams
-Comment[x-test]=xxExport Layoutxx
 
 [X-UMBRELLO-Dot-Nodes]
 type::initial=shape=circle
