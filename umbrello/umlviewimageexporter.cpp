@@ -10,9 +10,10 @@
 
 // own header
 #include "umlviewimageexporter.h"
-#include "umlfiledialog.h"
 
 // application specific includes
+#include "dotgenerator.h"
+#include "umlfiledialog.h"
 #include "umlviewimageexportermodel.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -163,6 +164,10 @@ void UMLViewImageExporter::prepareFileDialog(UMLFileDialog *fileDialog)
 {
     // get all supported mime types
     QStringList mimeTypes = UMLViewImageExporterModel::supportedMimeTypes();
+
+    QHash<QString,QString> configFiles;
+    if (!DotGenerator::availableConfigFiles(m_scene, configFiles) || configFiles.size() == 0)
+        mimeTypes.removeOne("image/x-dot");
 
     fileDialog->setCaption(i18n("Save As"));
     fileDialog->setOperationMode(KFileDialog::Saving);
