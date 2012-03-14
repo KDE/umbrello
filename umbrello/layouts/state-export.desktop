@@ -1,7 +1,15 @@
 [Desktop Entry]
 Type=Service
 Name=Export Layout
+Name[nl]=Indeling exporteren
+Name[pt_BR]=Exportar leiaute
+Name[uk]=Компонування експортованих даних
+Name[x-test]=xxExport Layoutxx
 Comment=Export Layout for State Diagrams
+Comment[nl]=Indeling voor statusdiagrammen exporteren
+Comment[pt_BR]=Exportar leiaute para diagramas de estado
+Comment[uk]=Компонування для експортування діаграм станів
+Comment[x-test]=xxExport Layout for State Diagramsxx
 
 [X-UMBRELLO-Dot-Nodes]
 type::initial=shape=circle
