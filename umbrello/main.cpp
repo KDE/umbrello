@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
 
 bool getShowGUI(KCmdLineArgs *args)
 {
-    if (args->getOptionList("export").size() > 0) {
+    if (args->getOptionList("export").size() > 0 || args->isSet("export-formats")) {
         return false;
     }
     return true;
