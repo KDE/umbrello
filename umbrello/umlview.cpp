@@ -487,11 +487,12 @@ void UMLView::hideEvent(QHideEvent* /*he*/)
 
 void UMLView::slotObjectCreated(UMLObject* o)
 {
+    DEBUG(DBG_SRC) << "view=" << name() << " / object=" << o->name();
     m_bPaste = false;
     //check to see if we want the message
     //may be wanted by someone else e.g. list view
 
-    if (!m_bCreateObject)  {
+    if (!m_bCreateObject) {
         return;
     }
 
@@ -838,7 +839,7 @@ UMLWidget * UMLView::findWidget(Uml::IDType id)
 AssociationWidget * UMLView::findAssocWidget(Uml::IDType id)
 {
     foreach(AssociationWidget* obj , m_AssociationList) {
-        UMLAssociation* umlassoc = obj->getAssociation();
+        UMLAssociation* umlassoc = obj->association();
         if (umlassoc && umlassoc->id() == id) {
             return obj;
         }
@@ -1932,7 +1933,7 @@ void UMLView::removeAssocInViewAndDoc(AssociationWidget* a)
         }
     } else {
         // Remove assoc in doc.
-        m_doc->removeAssociation(a->getAssociation());
+        m_doc->removeAssociation(a->association());
         // Remove assoc in view.
         removeAssoc(a);
     }

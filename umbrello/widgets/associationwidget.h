@@ -75,7 +75,7 @@ public:
 
     virtual void lwSetFont(QFont font);
 
-    virtual UMLClassifier *getOperationOwner();
+    virtual UMLClassifier *operationOwner();
 
     virtual UMLOperation *operation();
     virtual void setOperation(UMLOperation *op);
@@ -97,8 +97,8 @@ public:
 
     //---------- End LinkWidget Interface methods implemementation.
 
-    UMLAssociation * getAssociation() const;
-    UMLAttribute * getAttribute() const;
+    UMLAssociation* association() const;
+    UMLAttribute* attribute() const;
 
     //AssociationWidget& operator=(const AssociationWidget & Other);
     bool operator==(const AssociationWidget & Other) const;

@@ -533,7 +533,7 @@ void ClassifierWidget::setClassAssocWidget(AssociationWidget *assocwidget)
     m_pAssocWidget = assocwidget;
     UMLAssociation *umlassoc = NULL;
     if (assocwidget)
-        umlassoc = assocwidget->getAssociation();
+        umlassoc = assocwidget->association();
     classifier()->setClassAssoc(umlassoc);
 }
 

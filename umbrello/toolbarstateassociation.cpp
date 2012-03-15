@@ -299,7 +299,7 @@ bool ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* asso
     // append in view
     if (m_pUMLScene->addAssociation(assoc, false)) {
         // if view went ok, then append in document
-        UMLAssociation *umla = assoc->getAssociation();
+        UMLAssociation *umla = assoc->association();
         if (umla) {
             // association with model representation in UMLDoc
             Uml::ModelType m = Model_Utils::convert_DT_MT(m_pUMLScene->type());
