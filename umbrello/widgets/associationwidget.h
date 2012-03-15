@@ -108,18 +108,20 @@ public:
 
     void setWidget(UMLWidget* widget, Uml::Role_Type role);
 
-    FloatingTextWidget* getMultiWidget(Uml::Role_Type role);
-    FloatingTextWidget* getNameWidget();
-    FloatingTextWidget* getRoleWidget(Uml::Role_Type role);
-    FloatingTextWidget* getTextWidgetByRole(Uml::TextRole tr);
+    FloatingTextWidget* textWidgetByRole(Uml::TextRole tr) const;
 
     QString getName() const;
     void setName(const QString &strRole);
 
+    FloatingTextWidget* nameWidget() const;
+    FloatingTextWidget* roleWidget(Uml::Role_Type role) const;
     QString roleName(Uml::Role_Type role) const;
     void setRoleName(const QString &strRole, Uml::Role_Type role);
-    QString roleDocumentation(Uml::Role_Type role) const;
 
+    QString roleDocumentation(Uml::Role_Type role) const;
+    void setRoleDocumentation(const QString &doc, Uml::Role_Type role);
+
+    FloatingTextWidget* multiplicityWidget(Uml::Role_Type role) const;
     QString multiplicity(Uml::Role_Type role) const;
     void setMultiplicity(const QString &strMulti, Uml::Role_Type role);
 
@@ -141,7 +143,6 @@ public:
     bool isCollaboration();
 
     Uml::AssociationType associationType() const;
-
     void setAssociationType(Uml::AssociationType type);
 
     QString toString();
@@ -200,8 +201,6 @@ public:
     void setLineWidth(uint width);
 
     FloatingTextWidget* getChangeWidget(Uml::Role_Type role);
-
-    void setRoleDocumentation(const QString &doc, Uml::Role_Type role);
 
     void constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
                           Uml::TextRole tr);

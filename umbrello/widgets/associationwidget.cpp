@@ -791,7 +791,7 @@ void AssociationWidget::setWidget( UMLWidget* widget, Uml::Role_Type role)
  *
  * @return  Pointer to the multiplicity FloatingTextWidget object.
  */
-FloatingTextWidget* AssociationWidget::getMultiWidget(Uml::Role_Type role)
+FloatingTextWidget* AssociationWidget::multiplicityWidget(Uml::Role_Type role) const
 {
     return m_role[role].m_pMulti;
 }
@@ -801,7 +801,7 @@ FloatingTextWidget* AssociationWidget::getMultiWidget(Uml::Role_Type role)
  *
  * @return  Pointer to the FloatingTextWidget name widget.
  */
-FloatingTextWidget* AssociationWidget::getNameWidget()
+FloatingTextWidget* AssociationWidget::nameWidget() const
 {
     return m_pName;
 }
@@ -811,7 +811,7 @@ FloatingTextWidget* AssociationWidget::getNameWidget()
  *
  * @return  Pointer to the role's FloatingTextWidget widget.
  */
-FloatingTextWidget* AssociationWidget::getRoleWidget(Uml::Role_Type role)
+FloatingTextWidget* AssociationWidget::roleWidget(Uml::Role_Type role) const
 {
     return m_role[role].m_pRole;
 }
@@ -829,7 +829,7 @@ FloatingTextWidget* AssociationWidget::getChangeWidget(Uml::Role_Type role)
  *
  * @return  Pointer to the text role's FloatingTextWidget widget.
  */
-FloatingTextWidget* AssociationWidget::getTextWidgetByRole(Uml::TextRole tr)
+FloatingTextWidget* AssociationWidget::textWidgetByRole(Uml::TextRole tr) const
 {
     switch (tr) {
         case Uml::TextRole::MultiA:
@@ -1788,15 +1788,15 @@ void AssociationWidget::mergeAssociationDataIntoUMLRepresentation()
     //uml->init();
 
     // floating text widgets
-    FloatingTextWidget *text = getNameWidget();
+    FloatingTextWidget *text = nameWidget();
     if (text)
         m_pObject->setName(text->text());
 
-    text = getRoleWidget(A);
+    text = roleWidget(A);
     if (text && umlassoc)
         umlassoc->setRoleName(text->text(), A);
 
-    text = getRoleWidget(B);
+    text = roleWidget(B);
     if (text) {
         if (umlassoc)
             umlassoc->setRoleName(text->text(), B);
@@ -1804,11 +1804,11 @@ void AssociationWidget::mergeAssociationDataIntoUMLRepresentation()
             umlattr->setName(text->text());
     }
 
-    text = getMultiWidget(A);
+    text = multiplicityWidget(A);
     if (text && umlassoc)
         umlassoc->setMulti(text->text(), A);
 
-    text = getMultiWidget(B);
+    text = multiplicityWidget(B);
     if (text && umlassoc)
         umlassoc->setMulti(text->text(), B);
 
@@ -2405,7 +2405,7 @@ QPoint AssociationWidget::calculateTextPosition(Uml::TextRole role)
         return QPoint(-1, -1);
     }
 
-    FloatingTextWidget *text = getTextWidgetByRole(role);
+    FloatingTextWidget *text = textWidgetByRole(role);
     int textW = 0, textH = 0;
     if (text) {
         textW = text->width();
@@ -2656,7 +2656,7 @@ void AssociationWidget::setTextPosition(Uml::TextRole role)
     if (startMove) {
         return;
     }
-    FloatingTextWidget *ft = getTextWidgetByRole(role);
+    FloatingTextWidget *ft = textWidgetByRole(role);
     if (ft == NULL)
         return;
     QPoint pos = calculateTextPosition(role);
@@ -2698,7 +2698,7 @@ void AssociationWidget::setTextPositionRelatively(Uml::TextRole role, const QPoi
     if (startMove) {
         return;
     }
-    FloatingTextWidget *ft = getTextWidgetByRole(role);
+    FloatingTextWidget *ft = textWidgetByRole(role);
     if (ft == NULL)
         return;
     int ftX = ft->getX();
@@ -4339,6 +4339,5 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement )
     const MessageWidgetList& messages = m_scene->getMessageList();
     return loadFromXMI( qElement, m_scene->getWidgetList(), &messages );
 }
-
 
 #include "associationwidget.moc"

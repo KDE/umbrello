@@ -229,7 +229,7 @@ public:
 
             // set label position
             QPointF &l = m_edgeLabelPosition[id];
-            FloatingTextWidget *tw = assoc->getNameWidget();
+            FloatingTextWidget *tw = assoc->nameWidget();
             if (tw) {
                 tw->setX((int)(l.x() + m_origin.x()));
                 tw->setY(int(m_boundingRect.height() - l.y() + m_origin.y()));

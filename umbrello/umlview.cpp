@@ -1301,10 +1301,10 @@ void UMLView::selectWidgetsOfAssoc(AssociationWidget * a)
     makeSelected(a->widgetForRole(A));
     makeSelected(a->widgetForRole(B));
     //select all the text
-    makeSelected(a->getMultiWidget(A));
-    makeSelected(a->getMultiWidget(B));
-    makeSelected(a->getRoleWidget(A));
-    makeSelected(a->getRoleWidget(B));
+    makeSelected(a->multiplicityWidget(A));
+    makeSelected(a->multiplicityWidget(B));
+    makeSelected(a->roleWidget(A));
+    makeSelected(a->roleWidget(B));
     makeSelected(a->getChangeWidget(A));
     makeSelected(a->getChangeWidget(B));
 }
@@ -1845,11 +1845,11 @@ bool UMLView::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
 
     m_AssociationList.append(pAssoc);
 
-    FloatingTextWidget *ft[5] = { pAssoc->getNameWidget(),
-                                  pAssoc->getRoleWidget(A),
-                                  pAssoc->getRoleWidget(B),
-                                  pAssoc->getMultiWidget(A),
-                                  pAssoc->getMultiWidget(B)
+    FloatingTextWidget *ft[5] = { pAssoc->nameWidget(),
+                                  pAssoc->roleWidget(A),
+                                  pAssoc->roleWidget(B),
+                                  pAssoc->multiplicityWidget(A),
+                                  pAssoc->multiplicityWidget(B)
                                 };
     for (int i = 0; i < 5; i++) {
         FloatingTextWidget *flotxt = ft[i];
@@ -2539,10 +2539,10 @@ void UMLView::copyAsImage(QPixmap*& pix)
     foreach(AssociationWidget *a , m_AssociationList) {
         if (! a->getSelected())
             continue;
-        const FloatingTextWidget* multiA = const_cast<FloatingTextWidget*>(a->getMultiWidget(A));
-        const FloatingTextWidget* multiB = const_cast<FloatingTextWidget*>(a->getMultiWidget(B));
-        const FloatingTextWidget* roleA = const_cast<FloatingTextWidget*>(a->getRoleWidget(A));
-        const FloatingTextWidget* roleB = const_cast<FloatingTextWidget*>(a->getRoleWidget(B));
+        const FloatingTextWidget* multiA = const_cast<FloatingTextWidget*>(a->multiplicityWidget(A));
+        const FloatingTextWidget* multiB = const_cast<FloatingTextWidget*>(a->multiplicityWidget(B));
+        const FloatingTextWidget* roleA = const_cast<FloatingTextWidget*>(a->roleWidget(A));
+        const FloatingTextWidget* roleB = const_cast<FloatingTextWidget*>(a->roleWidget(B));
         const FloatingTextWidget* changeA = const_cast<FloatingTextWidget*>(a->getChangeWidget(A));
         const FloatingTextWidget* changeB = const_cast<FloatingTextWidget*>(a->getChangeWidget(B));
         findMaxBoundingRectangle(multiA, px, py, qx, qy);
