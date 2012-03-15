@@ -25,8 +25,11 @@ class DotGenerator
 public:
     DotGenerator();
 
-    void setUsePosition(bool state);
     bool usePosition();
+    void setUsePosition(bool state);
+
+    bool useFullNodeLabels();
+    void setUseFullNodeLabels(bool state);
 
     static bool availableConfigFiles(UMLScene *scene, QHash<QString,QString> &configFiles);
     bool readConfigFile(QString diagramType, const QString &variant = "default");
@@ -46,6 +49,7 @@ protected:
     QPointF m_origin;
     QString m_generator; ///< name of graphviz generator
     bool m_usePosition; ///< use position tag from dot (not used yet)
+    bool m_useFullNodeLabels; ///< use full node labels
 
     friend QDebug operator<<(QDebug out, DotGenerator &c);
 };

@@ -96,6 +96,7 @@ public:
     */
     LayoutGenerator()
     {
+        setUseFullNodeLabels(false);
     }
 
     /**
