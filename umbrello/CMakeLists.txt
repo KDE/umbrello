@@ -418,6 +418,7 @@ set(libumbrello_SRCS
     cmdlineexportallviewsevent.cpp
     codeaccessormethod.cpp
     component.cpp
+    dotgenerator.cpp
     docwindow.cpp
     entity.cpp
     entityattribute.cpp
