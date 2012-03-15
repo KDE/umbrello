@@ -18,9 +18,14 @@
 #include "debug_utils.h"
 #include "umlwidget.h"
 
+// kde includes
+#include <KConfigGroup>
+#include <KDesktopFile>
+#include <KStandardDirs>
+
 // qt includes
 #include <QFile>
-#include <QHash>
+#include <QPaintEngine>
 #include <QProcess>
 #include <QRectF>
 #include <QRegExp>
@@ -29,16 +34,96 @@
 #include <QTextStream>
 #include <QtDebug>
 
-// kde includes
-#include <KConfigGroup>
-#include <KDesktopFile>
-#include <KStandardDirs>
+/**
+ * dot specific paint engine
+ */
+class DotPaintEngine : public QPaintEngine
+{
+public:
+    DotPaintEngine(PaintEngineFeatures caps = 0 ) {}
+    virtual ~DotPaintEngine() {}
+    virtual bool begin (QPaintDevice * pdev)
+    {
+        return true;
+    }
+    virtual void drawEllipse(const QRectF & rect) {}
+    virtual void drawEllipse(const QRect & rect) {}
+    virtual void drawImage(const QRectF & rectangle, const QImage & image, const QRectF & sr, Qt::ImageConversionFlags flags = Qt::AutoColor) {}
+    virtual void drawLines(const QLineF * lines, int lineCount) {}
+    virtual void drawLines(const QLine * lines, int lineCount) {}
+    virtual void drawwPath(const QPainterPath & path) {}
+    virtual void drawPixmap(const QRectF & r, const QPixmap & pm, const QRectF & sr) {}
+    virtual void drawPoints(const QPointF * points, int pointCount) {}
+    virtual void drawPoints(const QPoint * points, int pointCount) {}
+    virtual void drawPolygon(const QPointF * points, int pointCount, PolygonDrawMode mode) {}
+    virtual void drawPolygon(const QPoint * points, int pointCount, PolygonDrawMode mode) {}
+    virtual void drawRects(const QRectF * rects, int rectCount) {}
+    virtual void drawRects(const QRect * rects, int rectCount) {}
+    virtual void drawTextItem(const QPointF & p, const QTextItem & textItem)
+    {
+        m_data << textItem.text();
+    }
+    virtual void drawTiledPixmap(const QRectF & rect, const QPixmap & pixmap, const QPointF & p) {}
+    virtual bool end()
+    {
+        return true;
+    }
+    virtual Type type() const
+    {
+        return QPaintEngine::User;
+    }
+    virtual void updateState(const QPaintEngineState & state) {}
+
+    QStringList m_data;
+};
+
+/**
+ * dot specific paint device
+ */
+class DotPaintDevice : public QPaintDevice
+{
+public:
+    DotPaintDevice() : m_engine(new DotPaintEngine)
+    {
+    }
+
+    ~DotPaintDevice()
+    {
+        delete m_engine;
+    }
+
+    virtual QPaintEngine* paintEngine() const
+    {
+        return m_engine;
+    }
+
+    QStringList &data()
+    {
+        return m_engine->m_data;
+    }
+
+protected:
+    virtual int metric(PaintDeviceMetric metric) const
+    {
+        switch(metric) {
+            case QPaintDevice::PdmDpiX: return 1;
+            case QPaintDevice::PdmDpiY: return 1;
+            case QPaintDevice::PdmWidth: return 100;
+            case QPaintDevice::PdmHeight: return 100;
+            default: return 0;
+        }
+        return 0;
+    }
+
+    DotPaintEngine *m_engine;
+};
+
 #define DOTGENERATOR_DEBUG
 /**
  * constructor
  */
 DotGenerator::DotGenerator()
-    : m_scale(72),
+  : m_scale(72),
     m_usePosition(false)
 {
 }
@@ -202,8 +287,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
 
         QString type = QString(widget->baseTypeStr()).toLower().remove("wt_");
         QString key = "type::" + type;
-        QString label = widget->name();
-        
+
         if (type == "state") {
             StateWidget *w = static_cast<StateWidget *>(widget);
             type = w->stateTypeStr().toLower();
@@ -211,6 +295,17 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
 
         key = "type::" + type;
 
+        QString label;
+        if (type == "class") {
+            ClassifierWidget *c = static_cast<ClassifierWidget *>(widget);
+            DotPaintDevice d;
+            QPainter p(&d);
+            c->paint(p, 0, 0);
+            label = d.data().join("\\n");
+        }
+        else
+            label = widget->name();
+    
         if (m_nodeParameters.contains(key))
             params << m_nodeParameters[key].split(',');
         else if (m_nodeParameters.contains("type::default"))
