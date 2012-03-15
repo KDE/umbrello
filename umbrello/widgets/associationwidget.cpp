@@ -718,7 +718,7 @@ bool AssociationWidget::activate()
 
     if( m_pName != NULL ) {
         m_pName->setLink(this);
-        m_pName->setTextRole( CalculateNameType(TextRole::Name) );
+        m_pName->setTextRole( calculateNameType(TextRole::Name) );
 
         if ( FloatingTextWidget::isTextValid(m_pName->text()) ) {
             m_pName->show();
@@ -883,7 +883,7 @@ void AssociationWidget::setName(const QString &strName)
             return;
 
         newLabel = true;
-        m_pName = new FloatingTextWidget(m_scene, CalculateNameType(Uml::TextRole::Name), strName);
+        m_pName = new FloatingTextWidget(m_scene, calculateNameType(Uml::TextRole::Name), strName);
         m_pName->setLink(this);
     } else {
         m_pName->setText(strName);
@@ -1156,8 +1156,10 @@ bool AssociationWidget::linePathStartsAt(const UMLWidget* widget)
     return result;
 }
 
-/** This function calculates which role should be set for the m_pName FloatingTextWidget */
-Uml::TextRole AssociationWidget::CalculateNameType(Uml::TextRole defaultRole)
+/**
+ * This function calculates which role should be set for the m_pName FloatingTextWidget.
+ */
+Uml::TextRole AssociationWidget::calculateNameType(Uml::TextRole defaultRole)
 {
     TextRole result = defaultRole;
     if( m_scene->type() == DiagramType::Collaboration ) {
@@ -4081,9 +4083,9 @@ void AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
  * the UMLView for these widgets.)
  * Required for clipboard operations.
  */
-bool AssociationWidget::loadFromXMI( QDomElement & qElement,
-                                     const UMLWidgetList& widgets,
-                                     const MessageWidgetList* pMessages )
+bool AssociationWidget::loadFromXMI(QDomElement & qElement,
+                                    const UMLWidgetList& widgets,
+                                    const MessageWidgetList* pMessages)
 {
     WidgetBase::loadFromXMI(qElement);
 

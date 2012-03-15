@@ -221,11 +221,10 @@ public:
 
     void clipSize();
 
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-    bool loadFromXMI( QDomElement & qElement );
-
-    bool loadFromXMI( QDomElement & qElement, const UMLWidgetList& widgets,
-                      const MessageWidgetList* pMessages = NULL);
+    bool loadFromXMI(QDomElement & qElement, const UMLWidgetList& widgets,
+                     const MessageWidgetList* pMessages = NULL);
+    virtual bool loadFromXMI(QDomElement & qElement);
+    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
     void cleanup();
 
@@ -249,7 +248,7 @@ private:
 
     void moveEvent(QMoveEvent *me);
 
-    Uml::TextRole CalculateNameType(Uml::TextRole defaultRoleType);
+    Uml::TextRole calculateNameType(Uml::TextRole defaultRoleType);
 
     bool isPointInsideBoundaries(int PosX, int PosY, QPoint & SPoint,
                                  uint & StartSegmentIndex, uint & EndSegmentIndex);
