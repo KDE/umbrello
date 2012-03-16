@@ -651,13 +651,13 @@ Uml::Changeability AssociationWidget::changeability(Uml::Role_Type role) const
     return association()->changeability(role);
 }
 
-void AssociationWidget::setChangeability(Uml::Changeability c, Uml::Role_Type role)
+void AssociationWidget::setChangeability(Uml::Changeability value, Uml::Role_Type role)
 {
-    m_widgetRole[role].changeability = c;
+    m_widgetRole[role].changeability = value;
     if (association()) {
-        association()->setChangeability(c, role);
+        association()->setChangeability(value, role);
     } else {
-        m_widgetRole[role].changeabilityWidget->setText(c.toString());
+        m_widgetRole[role].changeabilityWidget->setText(value.toString());
     }
 }
 

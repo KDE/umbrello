@@ -205,6 +205,7 @@ set(libdialogs_SRCS
     dialogs/umlcheckconstraintdialog.cpp
     dialogs/umlentityattributedialog.cpp
     dialogs/umlforeignkeyconstraintdialog.cpp
+    dialogs/umlfiledialog.cpp
     dialogs/umloperationdialog.cpp
     dialogs/umltemplatedialog.cpp
     dialogs/umlroledialog.cpp
@@ -482,6 +483,10 @@ install( FILES
     docgenerators/docbook2xhtml.xsl
     docgenerators/xmi.css
     docgenerators/common.ent
+    DESTINATION ${DATA_INSTALL_DIR}/umbrello )
+
+install( DIRECTORY
+    layouts
     DESTINATION ${DATA_INSTALL_DIR}/umbrello )
 
 kde4_install_icons( ${ICON_INSTALL_DIR} )

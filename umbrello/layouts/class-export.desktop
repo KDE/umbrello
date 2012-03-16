@@ -1,0 +1,56 @@
+[Desktop Entry]
+Type=Service
+Name=Export Layout
+Name[nl]=Indeling exporteren
+Name[pt]=Exportar a Disposição
+Name[pt_BR]=Exportar leiaute
+Name[sv]=Exportera layout
+Name[uk]=Компонування експортованих даних
+Name[x-test]=xxExport Layoutxx
+Comment=Export Layout for Class Diagrams
+Comment[nl]=Indeling voor klassediagrammen exporteren
+Comment[pt]=Exportar a Disposição dos Diagramas de Classes
+Comment[pt_BR]=Exportar leiaute para diagramas de classe
+Comment[sv]=Exportera layout av klassdiagram
+Comment[uk]=Компонування для експортування діаграм класів
+Comment[x-test]=xxExport Layout for Class Diagramsxx
+
+[X-UMBRELLO-Dot-Nodes]
+type::class=shape=box
+type::default=shape=box
+
+# for dot output
+[X-UMBRELLO-Dot-Edges]
+# for visual representation
+visual::type::anchor=arrowhead=none,style=dashed
+visual::type::aggregation=arrowtail=odiamond,dir=back
+visual::type::composition=arrowhead=diamonds
+visual::type::containment=arrowtail=odottee,dir=back
+visual::type::dependency=arrowtail=vee,style=dashed,dir=back
+visual::type::uniassociation=arrowtail=vee,dir=back
+visual::type::association=arrowhead=none
+visual::type::generalization=arrowtail=normal,dir=back
+visual::type::realisation=arrowtail=normal,dir=back
+visual::type::default=arrowhead=none
+# for position ranking
+ranking::type::anchor=constraint=false
+ranking::type::aggregation=weight=0.001
+ranking::type::association=constraint=false
+ranking::type::composition=weight=0.001
+ranking::type::containment=weight=0.001
+ranking::type::dependency=weight=0.001
+ranking::type::generalization=weight=1.0
+ranking::type::realisation=weight=0.8
+ranking::type::uniassociation=constraint=false
+ranking::type::default=constraint=false
+# id handling
+id::type::aggregation=swap
+id::type::containment=swap
+
+[X-UMBRELLO-Dot-Attributes]
+graph=splines=polyline,rankdir=TB,outputorder=nodesfirst,ranksep=0.5,nodesep=0.5
+node=
+edge=
+
+[X-UMBRELLO-Dot-Settings]
+origin=50,50

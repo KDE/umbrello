@@ -37,6 +37,7 @@
 #include "foreignkeyconstraint.h"
 #include "forkjoinwidget.h"
 #include "idchangelog.h"
+#include "layoutgenerator.h"
 #include "layoutgrid.h"
 #include "listpopupmenu.h"
 #include "messagewidget.h"
@@ -3093,6 +3094,19 @@ void UMLScene::slotMenuSelection(QAction* action)
         m_pImageExporter->exportView();
         break;
 
+    case ListPopupMenu::mt_Apply_Layout:
+    case ListPopupMenu::mt_Apply_Layout1:
+    case ListPopupMenu::mt_Apply_Layout2:
+    case ListPopupMenu::mt_Apply_Layout3:
+    case ListPopupMenu::mt_Apply_Layout4:
+    case ListPopupMenu::mt_Apply_Layout5:
+    case ListPopupMenu::mt_Apply_Layout6:
+    case ListPopupMenu::mt_Apply_Layout7:
+    case ListPopupMenu::mt_Apply_Layout8:
+    case ListPopupMenu::mt_Apply_Layout9:
+        applyLayout(action->data().toString());
+        break;
+
     case ListPopupMenu::mt_FloatText:
         {
             FloatingTextWidget* ft = new FloatingTextWidget();
@@ -3598,6 +3612,16 @@ void UMLScene::clearDiagram()
                                                                     KGuiItem(i18n("&Delete"), "edit-delete"))) {
         removeAllWidgets();
     }
+}
+
+/**
+ * Apply an automatic layout.
+ */
+void UMLScene::applyLayout(const QString &variant)
+{
+    LayoutGenerator r;
+    r.generate(this, variant);
+    r.apply(this);
 }
 
 /**

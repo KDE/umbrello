@@ -11,6 +11,9 @@
 #ifndef STATEWIDGET_H
 #define STATEWIDGET_H
 
+#include <QMetaEnum>
+
+#include "debug_utils.h"
 #include "umlwidget.h"
 
 /**
@@ -52,6 +55,11 @@ public:
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
     StateType stateType() const;
+    QString stateTypeStr() const
+    {
+        return QLatin1String(ENUM_NAME(StateWidget, StateType, m_stateType));
+    }
+
     void setStateType(StateType stateType);
 
     bool addActivity(const QString &activity);

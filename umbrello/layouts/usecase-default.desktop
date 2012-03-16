@@ -1,0 +1,49 @@
+[Desktop Entry]
+Type=Service
+Name=UseCase Default Layout
+Name[es]=Diseño por omisión de casos de uso
+Name[nl]=Standaard indeling van gebruiksgeval
+Name[pt]=Disposição de Casos de Uso
+Name[pt_BR]=Leiaute padrão de casos de uso
+Name[sv]=Standardlayout för användarfall
+Name[uk]=Типове компонування випадку використання
+Name[x-test]=xxUseCase Default Layoutxx
+Comment=Usecase Default Layout
+Comment[es]=Diseño por omisión de casos de uso
+Comment[nl]=Standaard indeling van gebruiksgeval
+Comment[pt]=Disposição Predefinida de Casos de Uso
+Comment[pt_BR]=Leiaute padrão de casos de uso
+Comment[sv]=Standardlayout för användarfall
+Comment[uk]=Типове компонування випадку використання
+Comment[x-test]=xxUsecase Default Layoutxx
+
+[X-UMBRELLO-Dot-Nodes]
+type::usecase shape=ellipse
+type::actor shape=circle
+type::note shape=box
+type::default=shape=box
+
+# for dot output
+[X-UMBRELLO-Dot-Edges]
+# for visual representation
+visual::type::anchor=arrowhead=none,style=dashed
+visual::type::aggregation=arrowtail=odiamond,dir=back
+visual::type::composition=arrowtail=diamond,dir=back
+visual::type::dependency=arrowtail=vee,style=dashed,dir=back
+visual::type::uniassociation=arrowtail=vee,dir=back
+visual::type::association=arrowhead=none
+visual::type::generalization=arrowtail=normal,dir=back
+visual::type::realisation=arrowtail=normal,dir=back
+visual::type::default=arrowhead=none
+# for position ranking
+ranking::type::association=weight=1.0
+ranking::type::uniassociation=weight=0.1
+ranking::type::default=constraint=false
+
+[X-UMBRELLO-Dot-Attributes]
+graph=splines=polyline,rankdir=RL,outputorder=nodesfirst,ranksep=1.5,nodesep=0.5
+node=
+edge=
+
+[X-UMBRELLO-Dot-Settings]
+origin=50,50

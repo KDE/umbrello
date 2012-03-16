@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
 
         if (args->isSet("export-formats")) {
             foreach(const QString& type, UMLViewImageExporterModel::supportedImageTypes())
-                fprintf(stderr, "%s\n", qPrintable(type));
+                fprintf(stdout, "%s\n", qPrintable(type));
             return 0;
         }
         // export option
@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
 
 bool getShowGUI(KCmdLineArgs *args)
 {
-    if (args->getOptionList("export").size() > 0) {
+    if (args->getOptionList("export").size() > 0 || args->isSet("export-formats")) {
         return false;
     }
     return true;

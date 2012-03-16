@@ -11,11 +11,14 @@
 #ifndef UMLVIEWIMAGEEXPORTER_H
 #define UMLVIEWIMAGEEXPORTER_H
 
+#include "umlviewimageexportermodel.h"
+
 #include <QtCore/QString>
+
 #include <kurl.h>
 
 class UMLScene;
-class KFileDialog;
+class UMLFileDialog;
 
 /**
  * Exports the scene as an image.
@@ -43,7 +46,7 @@ private:
     bool getParametersFromUser();
 
     bool prepareExport();
-    void prepareFileDialog(KFileDialog *fileDialog);
+    void prepareFileDialog(UMLFileDialog *fileDialog);
 
 };
 

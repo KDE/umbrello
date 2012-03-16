@@ -279,6 +279,8 @@ public:
 
     void clearDiagram();
 
+    void applyLayout(const QString &actionText);
+
     void toggleSnapToGrid();
     void toggleSnapComponentSizeToGrid();
     void toggleShowGrid();
