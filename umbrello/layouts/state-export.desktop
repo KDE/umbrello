@@ -31,15 +31,15 @@ type::default=shape=box
 # for visual representation
 visual::type::state=arrowhead=normal,label=""
 #visual::type::default=arrowhead=none,minlen=0.5
-ranking::type::default=constraint=false
+ranking::type::default=len=2
 # id handling
 id::type::state=swap
 
 [X-UMBRELLO-Dot-Attributes]
-graph=splines=polyline,rankdir=TB,outputorder=nodesfirst,ranksep=0.5,nodesep=0.5
+graph=splines=polyline,model=mds,normalize=yes
 node=
 edge=
 
 [X-UMBRELLO-Dot-Settings]
 origin=50,50
-generator=circo
+generator=neato
