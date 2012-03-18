@@ -1612,7 +1612,7 @@ void UMLListView::addAtContainer(UMLListViewItem *item, UMLListViewItem *parent)
     }
     UMLView *currentView = UMLApp::app()->currentView();
     if (currentView)
-        currentView->updateContainment(o);
+        currentView->umlScene()->updateContainment(o);
 }
 
 /**
@@ -1777,7 +1777,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, UMLListViewItem::Li
             }
             UMLView *currentView = UMLApp::app()->currentView();
             if (currentView)
-                currentView->updateContainment(o);
+                currentView->umlScene()->updateContainment(o);
         }
         break;
     case UMLListViewItem::lvt_Attribute:

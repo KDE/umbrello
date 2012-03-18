@@ -57,7 +57,7 @@ UMLSceneRectItem *decoratePoint(const QPoint& p)
     rect = new UMLSceneRectItem(p.x() - SIZE / 2,
                                  p.y() - SIZE / 2,
                                  SIZE, SIZE);
-    rect->setCanvas(currentView->canvas());
+    rect->setCanvas(currentView->umlScene()->canvas());
     rect->setBrush( QBrush(Qt::blue) );
     rect->setPen( QPen(Qt::blue) );
     rect->setVisible(true);
