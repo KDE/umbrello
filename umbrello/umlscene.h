@@ -43,11 +43,7 @@ typedef QHoverEvent UMLSceneHoverEvent;
 typedef QContextMenuEvent UMLSceneContextMenuEvent;
 //typedef QDragDropEvent UMLSceneDragDropEvent;
 
-typedef Q3CanvasLine UMLSceneLineItem;
-typedef Q3CanvasRectangle UMLSceneRectItem;
 typedef Q3CanvasItem UMLSceneItem;
-typedef Q3CanvasPolygon UMLScenePolygonItem;
-typedef Q3CanvasEllipse UMLSceneEllipseItem;
 typedef Q3CanvasItemList UMLSceneItemList;
 
 /**
@@ -62,6 +58,52 @@ public:
     }
 
     UMLScenePoint scenePos() { return pos(); }
+};
+
+class UMLSceneLineItem : public Q3CanvasLine
+{
+public:
+    UMLSceneLineItem()
+      : Q3CanvasLine(0)
+    {
+    }
+};
+
+class UMLSceneRectItem : public Q3CanvasRectangle
+{
+public:
+    UMLSceneRectItem()
+      : Q3CanvasRectangle(0)
+    {
+    }
+
+    UMLSceneRectItem(int x, int y, int w, int h)
+      : Q3CanvasRectangle(x, y, w, h, 0)
+    {
+    }
+};
+
+class UMLScenePolygonItem : public Q3CanvasPolygon
+{
+public:
+    UMLScenePolygonItem()
+      : Q3CanvasPolygon(0)
+    {
+    }
+};
+
+class UMLSceneEllipseItem : public Q3CanvasEllipse
+{
+public:
+    UMLSceneEllipseItem()
+    : Q3CanvasEllipse(0)
+    {
+    }
+
+    UMLSceneEllipseItem(int width, int height)
+    : Q3CanvasEllipse(width, height, 0)
+    {
+    }
 };
 
 #endif

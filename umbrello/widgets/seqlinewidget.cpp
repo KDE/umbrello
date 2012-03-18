@@ -26,8 +26,9 @@ int const SeqLineWidget::m_nMouseDownEpsilonX = 20;
  * Constructor.
  */
 SeqLineWidget::SeqLineWidget(UMLView * pView, ObjectWidget * pObject)
-  : UMLSceneLineItem( pView -> canvas() )
+  : UMLSceneLineItem()
 {
+    setCanvas(pView -> canvas());
     m_scene = pView;
     m_pObject = pObject;
     setPen( QPen( m_pObject->lineColor(), 0, Qt::DashLine ) );
@@ -141,13 +142,15 @@ void SeqLineWidget::setupDestructionBox()
     rect.setWidth( 14 );
     rect.setHeight( 14 );
 
-    m_DestructionBox.line1 = new UMLSceneLineItem( m_scene->canvas() );
+    m_DestructionBox.line1 = new UMLSceneLineItem;
+    m_DestructionBox.line1->setCanvas(m_scene->canvas());
     m_DestructionBox.setLine1Points(rect);
     m_DestructionBox.line1->setVisible( true );
     m_DestructionBox.line1->setPen( QPen(m_pObject->lineColor(), 2) );
     m_DestructionBox.line1->setZ( 3 );
 
-    m_DestructionBox.line2 = new UMLSceneLineItem( m_scene -> canvas() );
+    m_DestructionBox.line2 = new UMLSceneLineItem;
+    m_DestructionBox.line2->setCanvas(m_scene->canvas());
     m_DestructionBox.setLine2Points(rect);
     m_DestructionBox.line2->setVisible( true );
     m_DestructionBox.line2->setPen( QPen(m_pObject->lineColor(), 2) );

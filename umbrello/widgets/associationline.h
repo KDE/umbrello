@@ -115,7 +115,7 @@ protected:
     class Circle : public UMLSceneEllipseItem
     {
     public:
-        explicit Circle(UMLViewCanvas * canvas, int radius = 0);
+        explicit Circle(int radius = 0);
         void setRadius(int radius);
         int getRadius() const;
         void setX(int x);
@@ -130,7 +130,7 @@ protected:
     class SubsetSymbol : public UMLSceneEllipseItem
     {
     public:
-        explicit SubsetSymbol(UMLViewCanvas* canvas);
+        explicit SubsetSymbol();
 
         /**
          * Sets the Inclination of the Subset Symbol w.r.t horizontal x axis

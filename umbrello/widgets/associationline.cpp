@@ -28,8 +28,8 @@
 #include "umldoc.h"
 #include "uml.h"
 
-AssociationLine::Circle::Circle(UMLViewCanvas * canvas, int radius /* = 0 */)
-        : UMLSceneEllipseItem(radius * 2, radius * 2, canvas)
+AssociationLine::Circle::Circle(int radius /* = 0 */)
+  : UMLSceneEllipseItem(radius * 2, radius * 2)
 {
 }
 
@@ -60,8 +60,9 @@ void AssociationLine::Circle::drawShape(QPainter& p)
     p.drawEllipse( (int)x() - radius, (int)y() - radius, diameter, diameter);
 }
 
-AssociationLine::SubsetSymbol::SubsetSymbol(UMLViewCanvas* canvas)
-    : UMLSceneEllipseItem(canvas) {
+AssociationLine::SubsetSymbol::SubsetSymbol()
+  : UMLSceneEllipseItem()
+{
     inclination = 0;
 }
 
@@ -189,7 +190,8 @@ bool AssociationLine::insertPoint(int pointIndex, const QPoint &point)
         QPoint sp = first->startPoint();
         QPoint ep = first->endPoint();
         first->setPoints( sp.x(), sp.y(), point.x(), point.y() );
-        UMLSceneLineItem * line = new UMLSceneLineItem( getScene() );
+        UMLSceneLineItem * line = new UMLSceneLineItem;
+        line->setCanvas(getScene());
         line->setZ( -2 );
         line->setPoints( point.x(), point.y(), ep.x(), ep.y() );
         line->setPen( pen() );
@@ -204,7 +206,8 @@ bool AssociationLine::insertPoint(int pointIndex, const QPoint &point)
         QPoint sp = before->startPoint();
         QPoint ep = before->endPoint();
         before->setPoints( sp.x(), sp.y(), point.x(), point.y() );
-        UMLSceneLineItem * line = new UMLSceneLineItem( getScene() );
+        UMLSceneLineItem * line = new UMLSceneLineItem;
+        line->setCanvas(getScene());
         line->setPoints( point.x(), point.y(), ep.x(), ep.y() );
         line->setZ( -2 );
         line->setPen( pen() );
@@ -218,7 +221,8 @@ bool AssociationLine::insertPoint(int pointIndex, const QPoint &point)
     QPoint sp = before->startPoint();
     QPoint ep = before->endPoint();
     before->setPoints( sp.x(), sp.y(), point.x(), point.y() );
-    UMLSceneLineItem * line = new UMLSceneLineItem(getScene() );
+    UMLSceneLineItem * line = new UMLSceneLineItem;
+    line->setCanvas(getScene());
     line->setPoints( point.x(), point.y(), ep.x(), ep.y() );
     line->setZ( -2 );
     line->setPen( pen() );
@@ -395,7 +399,8 @@ bool AssociationLine::setEndPoints(const QPoint &start, const QPoint &end)
 {
     int count = m_LineList.count();
     if( count == 0 ) {
-        UMLSceneLineItem * line = new UMLSceneLineItem(getScene() );
+        UMLSceneLineItem * line = new UMLSceneLineItem;
+        line->setCanvas(getScene());
         line->setPoints( start.x(), start.y(),end.x(),end.y() );
         line->setZ( -2 );
         line->setPen( pen() );
@@ -982,7 +987,8 @@ void AssociationLine::createHeadLines()
     case Uml::AssociationType::Generalization:
     case Uml::AssociationType::Realization:
         growList(m_HeadList, 3);
-        m_pClearPoly = new UMLScenePolygonItem( canvas );
+        m_pClearPoly = new UMLScenePolygonItem;
+        m_pClearPoly->setCanvas(canvas);
         m_pClearPoly->setVisible( true );
         m_pClearPoly->setBrush( QBrush( Qt::white ) );
         m_pClearPoly->setZ( -1 );
@@ -991,7 +997,8 @@ void AssociationLine::createHeadLines()
     case Uml::AssociationType::Composition:
     case Uml::AssociationType::Aggregation:
         growList(m_HeadList, 4);
-        m_pClearPoly = new UMLScenePolygonItem( canvas );
+        m_pClearPoly = new UMLScenePolygonItem;
+        m_pClearPoly->setCanvas(canvas);
         m_pClearPoly->setVisible( true );
         if( getAssocType() == Uml::AssociationType::Aggregation )
             m_pClearPoly->setBrush( QBrush( Qt::white ) );
@@ -1003,7 +1010,8 @@ void AssociationLine::createHeadLines()
     case Uml::AssociationType::Containment:
         growList(m_HeadList, 1);
         if (!m_pCircle) {
-            m_pCircle = new Circle( canvas, 6 );
+            m_pCircle = new Circle( 6 );
+            m_pCircle->setCanvas( canvas );
             m_pCircle->show();
             m_pCircle->setPen( QPen( lineColor(), lineWidth() ) );
         }
@@ -1200,7 +1208,8 @@ void AssociationLine::createSubsetSymbol()
 
     switch( getAssocType() ) {
        case Uml::AssociationType::Child2Category:
-           m_pSubsetSymbol = new SubsetSymbol(getScene());
+           m_pSubsetSymbol = new SubsetSymbol;
+           m_pSubsetSymbol->setCanvas(getScene());
            m_pSubsetSymbol->setPen( QPen( lineColor(), lineWidth() ) );
            updateSubsetSymbol();
            m_pSubsetSymbol->show();
@@ -1264,7 +1273,8 @@ void AssociationLine::growList(LineList &list, int by)
 {
     QPen pen( lineColor(), lineWidth() );
     for (int i = 0; i < by; i++) {
-        UMLSceneLineItem * line = new UMLSceneLineItem( getScene() );
+        UMLSceneLineItem * line = new UMLSceneLineItem;
+        line->setCanvas(getScene());
         line->setZ( 0 );
         line->setPen( pen );
         line->setVisible( true );

@@ -84,7 +84,8 @@ void ToolBarStateArrow::mousePressEmpty()
         m_startPosition = m_pMouseEvent->pos();
 
         for (int i = 0; i < 4; i++) {
-            UMLSceneLineItem* line = new UMLSceneLineItem(m_pUMLScene->canvas());
+            UMLSceneLineItem* line = new UMLSceneLineItem;
+            line->setCanvas((m_pUMLScene->canvas()));
             line->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(),
                             m_pMouseEvent->x(), m_pMouseEvent->y());
             line->setPen(QPen(QColor("grey"), 0, Qt::DotLine));
