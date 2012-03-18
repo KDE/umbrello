@@ -4,17 +4,17 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef CATEGORYWIDGET_H
 #define CATEGORYWIDGET_H
+
 #include "umlwidget.h"
 
 #define UC_MARGIN 5
 #define UC_RADIUS 30
-
 
 class UMLCategory;
 
@@ -33,48 +33,22 @@ class UMLCategory;
  * @author Sharan Rao
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class CategoryWidget : public UMLWidget {
+class CategoryWidget : public UMLWidget
+{
+    Q_OBJECT
 public:
-
-    /**
-     *  Creates a Category widget.
-     *
-     *  @param  view            The parent of the widget.
-     *  @param  o               The UMLObject to represent.
-     */
     CategoryWidget(UMLScene * scene, UMLCategory *o);
-
-
-    /**
-     *  destructor
-     */
     virtual ~CategoryWidget();
 
-    /**
-    *   Overrides the standard paint event.
-    */
     void paint(QPainter & p, int offsetX, int offsetY);
 
-    /**
-    *   Saves this Category to file.
-    */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-
     // For loading we can use the loadFromXMI() inherited from UMLWidget.
 
 protected:
-    /**
-     * Overrides method from UMLWidget
-     */
     UMLSceneSize minimumSize();
 
 public slots:
-    /**
-     * Will be called when a menu selection has been made from the
-     * popup menu.
-     *
-     * @param action    The action that has been selected.
-     */
     void slotMenuSelection(QAction* action);
 
 };

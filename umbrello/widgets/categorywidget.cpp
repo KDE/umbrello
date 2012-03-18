@@ -4,15 +4,12 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header file
 #include "categorywidget.h"
-
-// system includes
-#include <QtGui/QPainter>
 
 // local includes
 #include "category.h"
@@ -20,15 +17,30 @@
 #include "umlview.h"
 #include "listpopupmenu.h"
 
+// system includes
+#include <QtGui/QPainter>
+
+/**
+ *  Creates a Category widget.
+ *
+ *  @param  view   The parent of the widget.
+ *  @param  o      The UMLObject to represent.
+ */
 CategoryWidget::CategoryWidget(UMLScene * scene, UMLCategory *o)
   : UMLWidget(scene, WidgetBase::wt_Category, o)
 {
 }
 
+/**
+ *  Destructor.
+ */
 CategoryWidget::~CategoryWidget()
 {
 }
 
+/**
+ *   Overrides the standard paint event.
+ */
 void CategoryWidget::paint(QPainter & p, int offsetX, int offsetY)
 {
     UMLWidget::setPenFromSettings(p);
@@ -74,6 +86,9 @@ void CategoryWidget::paint(QPainter & p, int offsetX, int offsetY)
         drawSelected(&p, offsetX, offsetY);
 }
 
+/**
+ * Overrides method from UMLWidget.
+ */
 UMLSceneSize CategoryWidget::minimumSize()
 {
     const UMLWidget::FontType ft = ( m_pObject->isAbstract() ? FT_BOLD_ITALIC : FT_BOLD );
@@ -84,6 +99,9 @@ UMLSceneSize CategoryWidget::minimumSize()
     return UMLSceneSize(radius, radius);
 }
 
+/**
+ * Saves this Category to file.
+ */
 void CategoryWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement categoryElement = qDoc.createElement( "categorywidget" );
@@ -91,6 +109,12 @@ void CategoryWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     qElement.appendChild( categoryElement );
 }
 
+/**
+ * Will be called when a menu selection has been made from the
+ * popup menu.
+ *
+ * @param action    The action that has been selected.
+ */
 void CategoryWidget::slotMenuSelection(QAction* action)
 {
     UMLCategory* catObj = static_cast<UMLCategory*>(m_pObject);

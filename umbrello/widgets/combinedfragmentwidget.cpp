@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -28,12 +28,22 @@
 #include "listpopupmenu.h"
 #include "dialog_utils.h"
 
+/**
+ * Creates a Combined Fragment widget.
+ *
+ * @param scene              The parent of the widget.
+ * @param combinedfragmentType      The type of combined fragment.
+ * @param id                The ID to assign (-1 will prompt a new ID.)
+ */
 CombinedFragmentWidget::CombinedFragmentWidget(UMLScene * scene, CombinedFragmentType combinedfragmentType, Uml::IDType id )
   : UMLWidget(scene, WidgetBase::wt_CombinedFragment, id)
 {
     setCombinedFragmentType( combinedfragmentType );
 }
 
+/**
+ *  Destructor.
+ */
 CombinedFragmentWidget::~CombinedFragmentWidget()
 {
     for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines.begin() ; it!=m_dashLines.end() ; ++it) {
@@ -41,6 +51,9 @@ CombinedFragmentWidget::~CombinedFragmentWidget()
     }
 }
 
+/**
+ * Overrides the standard paint event.
+ */
 void CombinedFragmentWidget::paint(QPainter & p, int offsetX, int offsetY)
 {
     int w = width();
@@ -160,6 +173,9 @@ void CombinedFragmentWidget::paint(QPainter & p, int offsetX, int offsetY)
         drawSelected(&p, offsetX, offsetY);
 }
 
+/**
+ * Overrides method from UMLWidget.
+ */
 UMLSceneSize CombinedFragmentWidget::minimumSize()
 {
     int width = 10, height = 10;
@@ -179,11 +195,17 @@ UMLSceneSize CombinedFragmentWidget::minimumSize()
     return UMLSceneSize(width, height);
 }
 
+/**
+ * Returns the type of combined fragment.
+ */
 CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::combinedFragmentType() const
 {
     return m_CombinedFragment;
 }
 
+/**
+ * Sets the type of combined fragment.
+ */
 void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combinedfragmentType )
 {
     m_CombinedFragment = combinedfragmentType;
@@ -205,6 +227,9 @@ void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combi
     }
 }
 
+/**
+ * Returns the type of combined fragment.
+ */
 CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::combinedFragmentType(const QString& type) const
 {
     if(type == "Reference")
@@ -230,11 +255,17 @@ CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::combinedFra
     return (CombinedFragmentWidget::Ref);
 }
 
+/**
+ * Sets the type of combined fragment.
+ */
 void CombinedFragmentWidget::setCombinedFragmentType( const QString& combinedfragmentType )
 {
     setCombinedFragmentType(combinedFragmentType(combinedfragmentType) );
 }
 
+/**
+ * ...
+ */
 void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, const QString& dialogTitle,
     const QString& dialogPrompt, const QString& defaultName)
 {
@@ -260,6 +291,9 @@ void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, cons
     }
 }
 
+/**
+ * Saves the widget to the "combinedFragmentwidget" XMI element.
+ */
 void CombinedFragmentWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement combinedFragmentElement = qDoc.createElement( "combinedFragmentwidget" );
@@ -276,6 +310,9 @@ void CombinedFragmentWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElem
     qElement.appendChild( combinedFragmentElement );
 }
 
+/**
+ * Loads the widget from the "CombinedFragmentwidget" XMI element.
+ */
 bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement )
 {
     if( !UMLWidget::loadFromXMI( qElement ) )
@@ -314,6 +351,11 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement )
     return true;
 }
 
+/**
+ * Overrides the function from UMLWidget.
+ *
+ * @param action  The command to be executed.
+ */
 void CombinedFragmentWidget::slotMenuSelection(QAction* action)
 {
     bool ok = false;
@@ -355,4 +397,3 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
 }
 
 #include "combinedfragmentwidget.moc"
-

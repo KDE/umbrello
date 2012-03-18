@@ -26,7 +26,9 @@ class UMLClassifier;
  * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class DatatypeWidget : public UMLWidget {
+class DatatypeWidget : public UMLWidget
+{
+    Q_OBJECT
 public:
     DatatypeWidget(UMLScene *scene, UMLClassifier *d);
     virtual ~DatatypeWidget();

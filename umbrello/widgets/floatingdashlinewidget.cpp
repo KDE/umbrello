@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 // own header
@@ -23,6 +23,11 @@
 // qt includes
 #include <QtGui/QPainter>
 
+/**
+ * Creates a floating dash line.
+ * @param scene   The parent of the widget
+ * @param id      The ID to assign (-1 will prompt a new ID)
+ */
 FloatingDashLineWidget::FloatingDashLineWidget(UMLScene * scene, Uml::IDType id)
   : UMLWidget(scene, WidgetBase::wt_FloatingDashLine, id)
 {
@@ -30,10 +35,16 @@ FloatingDashLineWidget::FloatingDashLineWidget(UMLScene * scene, Uml::IDType id)
     m_Text = "";
 }
 
+/**
+ * Destructor.
+ */
 FloatingDashLineWidget::~FloatingDashLineWidget()
 {
 }
 
+/**
+ * Overrides the standard paint event.
+ */
 void FloatingDashLineWidget::paint(QPainter & p, int /*offsetX*/, int /*offsetY*/)
 {
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -49,18 +60,24 @@ void FloatingDashLineWidget::paint(QPainter & p, int /*offsetX*/, int /*offsetY*
         drawSelected(&p, getX(), getY());
 }
 
+/**
+ * Sets m_text.
+ */
 void FloatingDashLineWidget::setText(const QString& text)
 {
     m_Text = text;
 }
 
+/**
+ * Returns true if the given point is near the floatingdashline.
+ */
 bool FloatingDashLineWidget::onLine(const QPoint &point)
 {
- /*check if the given point is the start or end point of the line */
+    // check if the given point is the start or end point of the line
     if (( (abs( getY() + getHeight() - point.y() )) <= POINT_DELTA) || (abs( getY() - point.y() ) <= POINT_DELTA)) {
         return true;
     }
-    /* check if the given point is the start or end point of the line */
+    // check if the given point is the start or end point of the line
    return false;
 }
 
@@ -81,32 +98,50 @@ void FloatingDashLineWidget::slotMenuSelection(QAction* action)
     }
 }
 
+/**
+ * Overrides the setY method.
+ */
 void FloatingDashLineWidget::setY(int y)
 {
     if(y >= m_yMin + FLOATING_DASH_LINE_MARGIN && y <= m_yMax - FLOATING_DASH_LINE_MARGIN)
         UMLWidget::setY(y);
 }
 
+/**
+ * Sets m_yMin.
+ */
 void FloatingDashLineWidget::setYMin(int yMin)
 {
     m_yMin = yMin;
 }
 
+/**
+ * Sets m_yMax.
+ */
 void FloatingDashLineWidget::setYMax(int yMax)
 {
     m_yMax = yMax;
 }
 
-int FloatingDashLineWidget::getYMin()
+/**
+ * Returns m_yMin.
+ */
+int FloatingDashLineWidget::getYMin() const
 {
     return m_yMin;
 }
 
-int FloatingDashLineWidget::getDiffY()
+/**
+ * Returns the difference between the y-coordinate of the dash line and m_yMin.
+ */
+int FloatingDashLineWidget::getDiffY() const
 {
-    return (getY() - m_yMin);
+    return (getY() - getYMin());
 }
 
+/**
+ * Creates the "floatingdashline" XMI element.
+ */
 void FloatingDashLineWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement textElement = qDoc.createElement( "floatingdashlinewidget" );
@@ -119,6 +154,9 @@ void FloatingDashLineWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElem
     qElement.appendChild( textElement );
 }
 
+/**
+ * Loads the "floatingdashline" XMI element.
+ */
 bool FloatingDashLineWidget::loadFromXMI( QDomElement & qElement )
 {
     if( !UMLWidget::loadFromXMI( qElement ) ) {
