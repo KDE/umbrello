@@ -117,7 +117,7 @@ void ToolBarStateAssociation::mouseReleaseAssociation()
 
     getCurrentAssociation()->createAssocClassLine(
             static_cast<ClassifierWidget*>(m_firstWidget),
-            getCurrentAssociation()->getLinePath()->closestPointIndex(m_pMouseEvent->pos()));
+            getCurrentAssociation()->associationLine()->closestPointIndex(m_pMouseEvent->pos()));
     m_firstWidget->addAssoc( getCurrentAssociation() );
     cleanAssociation();
 }

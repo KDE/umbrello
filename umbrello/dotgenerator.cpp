@@ -299,7 +299,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
     QString data;
     QTextStream out(&data);
 
-    foreach(UMLWidget *widget, scene->getWidgetList()) {
+    foreach(UMLWidget *widget, scene->widgetList()) {
         QStringList params;
 
         if (m_nodeParameters.contains("all"))
@@ -352,7 +352,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
                 << " [" << params.join(",") << "];\n";
     }
 
-    foreach(AssociationWidget *assoc, scene->getAssociationList()) {
+    foreach(AssociationWidget *assoc, scene->associationList()) {
         QString type = assoc->associationType().toString().toLower();
         QString key = "type::" + type;
         bool swapId = m_edgeParameters.contains("id::" + key) && m_edgeParameters["id::" + key] == "swap";

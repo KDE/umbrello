@@ -180,7 +180,7 @@ void ToolBarStateMessages::mouseReleaseEmpty()
         MessageWidget* message = new MessageWidget(m_pUMLScene, m_firstObject,xclick, yclick, msgType);
 
         cleanMessage();
-        m_pUMLScene->getMessageList().append(message);
+        m_pUMLScene->messageList().append(message);
         xclick = 0;
         yclick = 0;
 
@@ -189,7 +189,7 @@ void ToolBarStateMessages::mouseReleaseEmpty()
         //Shouldn't it cancel also the whole creation?
         ft->showOperationDialog();
         message->setTextPosition();
-        m_pUMLScene->getWidgetList().append(ft);
+        m_pUMLScene->widgetList().append(ft);
 
         UMLApp::app()->document()->setModified();
     }
@@ -226,7 +226,7 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
     if (msgType ==  Uml::sequence_message_found && xclick!=0 && yclick!=0) {
         MessageWidget* message = new MessageWidget(m_pUMLScene, m_firstObject,xclick, yclick, msgType);
         cleanMessage();
-        m_pUMLScene->getMessageList().append(message);
+        m_pUMLScene->messageList().append(message);
 
         xclick = 0;
         yclick = 0;
@@ -236,7 +236,7 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
         //Shouldn't it cancel also the whole creation?
         ft->showOperationDialog();
         message->setTextPosition();
-        m_pUMLScene->getWidgetList().append(ft);
+        m_pUMLScene->widgetList().append(ft);
 
         UMLApp::app()->document()->setModified();
     }
@@ -284,14 +284,14 @@ void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageTy
 
     cleanMessage();
 
-    m_pUMLScene->getMessageList().append(message);
+    m_pUMLScene->messageList().append(message);
 
     FloatingTextWidget *ft = message->floatingTextWidget();
     //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
     //Shouldn't it cancel also the whole creation?
     ft->showOperationDialog();
     message->setTextPosition();
-    m_pUMLScene->getWidgetList().append(ft);
+    m_pUMLScene->widgetList().append(ft);
 
     UMLApp::app()->document()->setModified();
 }

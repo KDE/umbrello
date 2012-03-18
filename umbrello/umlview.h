@@ -335,21 +335,21 @@ public:
     /**
      * Returns a reference to the association list.
      */
-    AssociationWidgetList& getAssociationList() {
+    AssociationWidgetList& associationList() {
         return m_AssociationList;
     }
 
     /**
      * Returns a reference to the widget list.
      */
-    UMLWidgetList& getWidgetList() {
+    UMLWidgetList& widgetList() {
         return m_WidgetList;
     }
 
     /**
      * Returns a reference to the message list.
      */
-    MessageWidgetList& getMessageList() {
+    MessageWidgetList& messageList() {
         return m_MessageList;
     }
 

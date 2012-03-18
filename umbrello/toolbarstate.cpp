@@ -478,7 +478,7 @@ void ToolBarState::setMouseEvent(UMLSceneMouseEvent* ome, const QEvent::Type &ty
  */
 MessageWidget* ToolBarState::getMessageAt(const QPoint& pos)
 {
-    foreach (  MessageWidget* message, m_pUMLScene->getMessageList() ) {
+    foreach (  MessageWidget* message, m_pUMLScene->messageList() ) {
         if (message->isVisible() && message->onWidget(pos)) {
             return message;
         }
@@ -497,7 +497,7 @@ MessageWidget* ToolBarState::getMessageAt(const QPoint& pos)
  */
 AssociationWidget* ToolBarState::getAssociationAt(const QPoint& pos)
 {
-    foreach ( AssociationWidget* association, m_pUMLScene->getAssociationList() ) {
+    foreach ( AssociationWidget* association, m_pUMLScene->associationList() ) {
         if (association->onAssociation(pos)) {
             return association;
         }
@@ -517,7 +517,7 @@ FloatingDashLineWidget* ToolBarState::getFloatingLineAt(const QPoint& pos)
 {
     FloatingDashLineWidget* floatingline = 0;
 
-    foreach ( UMLWidget* widget, m_pUMLScene->getWidgetList() ) {
+    foreach ( UMLWidget* widget, m_pUMLScene->widgetList() ) {
         if (widget->baseType() == WidgetBase::wt_FloatingDashLine){
             if (dynamic_cast<FloatingDashLineWidget*>(widget)->onLine(pos)) {
                 floatingline = dynamic_cast<FloatingDashLineWidget*>(widget);

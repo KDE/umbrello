@@ -1305,8 +1305,8 @@ void UMLView::selectWidgetsOfAssoc(AssociationWidget * a)
     makeSelected(a->multiplicityWidget(B));
     makeSelected(a->roleWidget(A));
     makeSelected(a->roleWidget(B));
-    makeSelected(a->getChangeWidget(A));
-    makeSelected(a->getChangeWidget(B));
+    makeSelected(a->changeabilityWidget(A));
+    makeSelected(a->changeabilityWidget(B));
 }
 
 void UMLView::selectWidgets(int px, int py, int qx, int qy)
@@ -2543,8 +2543,8 @@ void UMLView::copyAsImage(QPixmap*& pix)
         const FloatingTextWidget* multiB = const_cast<FloatingTextWidget*>(a->multiplicityWidget(B));
         const FloatingTextWidget* roleA = const_cast<FloatingTextWidget*>(a->roleWidget(A));
         const FloatingTextWidget* roleB = const_cast<FloatingTextWidget*>(a->roleWidget(B));
-        const FloatingTextWidget* changeA = const_cast<FloatingTextWidget*>(a->getChangeWidget(A));
-        const FloatingTextWidget* changeB = const_cast<FloatingTextWidget*>(a->getChangeWidget(B));
+        const FloatingTextWidget* changeA = const_cast<FloatingTextWidget*>(a->changeabilityWidget(A));
+        const FloatingTextWidget* changeB = const_cast<FloatingTextWidget*>(a->changeabilityWidget(B));
         findMaxBoundingRectangle(multiA, px, py, qx, qy);
         findMaxBoundingRectangle(multiB, px, py, qx, qy);
         findMaxBoundingRectangle(roleA, px, py, qx, qy);

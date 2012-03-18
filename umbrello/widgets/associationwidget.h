@@ -74,7 +74,6 @@ public:
     //---------- LinkWidget Interface methods implemementation from now on.
 
     virtual void lwSetFont(QFont font);
-
     virtual UMLClassifier *operationOwner();
 
     virtual UMLOperation *operation();
@@ -93,6 +92,9 @@ public:
     virtual UMLClassifier* seqNumAndOp(QString& seqNum, QString& op);
     virtual void setSeqNumAndOp(const QString &seqNum, const QString &op);
 
+    void constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
+                          Uml::TextRole tr);
+
     virtual void calculateNameTextSegment();
 
     //---------- End LinkWidget Interface methods implemementation.
@@ -110,26 +112,27 @@ public:
 
     FloatingTextWidget* textWidgetByRole(Uml::TextRole tr) const;
 
+    FloatingTextWidget* nameWidget() const;
     QString getName() const;
     void setName(const QString &strRole);
 
-    FloatingTextWidget* nameWidget() const;
     FloatingTextWidget* roleWidget(Uml::Role_Type role) const;
     QString roleName(Uml::Role_Type role) const;
     void setRoleName(const QString &strRole, Uml::Role_Type role);
 
     QString roleDocumentation(Uml::Role_Type role) const;
-    void setRoleDocumentation(const QString &doc, Uml::Role_Type role);
+    void setRoleDocumentation(const QString& doc, Uml::Role_Type role);
 
     FloatingTextWidget* multiplicityWidget(Uml::Role_Type role) const;
     QString multiplicity(Uml::Role_Type role) const;
     void setMultiplicity(const QString &strMulti, Uml::Role_Type role);
 
     Uml::Visibility visibility(Uml::Role_Type role) const;
-    void setVisibility(Uml::Visibility visibility, Uml::Role_Type role );
+    void setVisibility(Uml::Visibility value, Uml::Role_Type role );
 
+    FloatingTextWidget* changeabilityWidget(Uml::Role_Type role) const;
     Uml::Changeability changeability(Uml::Role_Type role) const;
-    void setChangeability (Uml::Changeability value, Uml::Role_Type role);
+    void setChangeability(Uml::Changeability value, Uml::Role_Type role);
 
     Uml::IDType getWidgetID(Uml::Role_Type role) const;
     UMLWidget* widgetForRole(Uml::Role_Type role) const;
@@ -161,12 +164,7 @@ public:
         return m_selected;
     }
 
-    /**
-     * Returns a pointer to the association widget's line path.
-     */
-    AssociationLine* getLinePath() {
-        return m_associationLine;
-    }
+    AssociationLine* associationLine() const;
 
     void widgetMoved(UMLWidget* widget, int x, int y);
 
@@ -200,11 +198,6 @@ public:
     virtual void setLineColor(const QColor &colour);
     void setLineWidth(uint width);
 
-    FloatingTextWidget* getChangeWidget(Uml::Role_Type role);
-
-    void constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
-                          Uml::TextRole tr);
-
     void setIndex(int index, Uml::Role_Type role);
     int getIndex(Uml::Role_Type role) const;
 
@@ -227,6 +220,15 @@ public:
     virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
     void cleanup();
+
+public slots:
+    void slotMenuSelection(QAction* action);
+    void slotRemovePopupMenu();
+    void slotClearAllSelected();
+    void slotClassifierListItemRemoved(UMLClassifierListItem* obj);
+    void slotAttributeChanged();
+
+    void syncToModel();
 
 private:
 
@@ -433,13 +435,6 @@ private:
     // The following items are only used if m_pObject is not set.
     Uml::AssociationType m_AssocType;
 
-public slots:
-    void slotMenuSelection(QAction* action);
-    void slotRemovePopupMenu();
-    void slotClearAllSelected();
-    void slotClassifierListItemRemoved(UMLClassifierListItem* obj);
-    void slotAttributeChanged();
-
-    void syncToModel();
 };
+
 #endif

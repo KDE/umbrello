@@ -197,8 +197,8 @@ public:
      */
     bool apply(UMLScene *scene)
     {
-        foreach(AssociationWidget *assoc, scene->getAssociationList()) {
-            AssociationLine *path = assoc->getLinePath();
+        foreach(AssociationWidget *assoc, scene->associationList()) {
+            AssociationLine *path = assoc->associationLine();
             QString type = assoc->associationType().toString().toLower();
             QString key = "type::" + type;
 
@@ -211,7 +211,7 @@ public:
             // adjust associations not used in the dot file
             if (!m_edges.contains(id)) {
                 // shorten line path
-                AssociationLine *path = assoc->getLinePath();
+                AssociationLine *path = assoc->associationLine();
                 if (path->count() > 2 && assoc->getWidgetID(Uml::A) != assoc->getWidgetID(Uml::B)) {
                     while(path->count() > 2)
                         path->removePoint(1);
@@ -245,7 +245,7 @@ public:
             */
         }
 
-        foreach(UMLWidget *widget, scene->getWidgetList()) {
+        foreach(UMLWidget *widget, scene->widgetList()) {
             QString id = ID2STR(widget->id());
             if (!m_nodes.contains(id))
                 continue;
@@ -255,10 +255,10 @@ public:
             widget->adjustAssocs(widget->getX(), widget->getY());    // adjust assoc lines
         }
 
-        foreach(AssociationWidget *assoc, scene->getAssociationList()) {
+        foreach(AssociationWidget *assoc, scene->associationList()) {
             assoc->calculateEndingPoints();
-            if (assoc->getLinePath())
-                assoc->getLinePath()->update();
+            if (assoc->associationLine())
+                assoc->associationLine()->update();
             assoc->resetTextPositions();
         }
         return true;

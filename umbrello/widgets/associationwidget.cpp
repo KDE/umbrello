@@ -652,6 +652,14 @@ bool AssociationWidget::operator!=(AssociationWidget & Other) const
 }
 
 /**
+ * Returns a pointer to the association widget's line path.
+ */
+AssociationLine* AssociationWidget::associationLine() const
+{
+    return m_associationLine;
+}
+
+/**
  * Activates the AssociationWidget after a load.
  *
  * @return  true for success
@@ -819,7 +827,7 @@ FloatingTextWidget* AssociationWidget::roleWidget(Uml::Role_Type role) const
 /**
  * Return the given role's changeability FloatingTextWidget widget.
  */
-FloatingTextWidget* AssociationWidget::getChangeWidget(Uml::Role_Type role)
+FloatingTextWidget* AssociationWidget::changeabilityWidget(Uml::Role_Type role) const
 {
     return m_role[role].m_pChangeWidget;
 }
@@ -3276,7 +3284,7 @@ int AssociationWidget::getRegionCount(AssociationWidget::Region region, Uml::Rol
     if(region == Error)
         return 0;
     int widgetCount = 0;
-    AssociationWidgetList list = m_scene->getAssociationList();
+    AssociationWidgetList list = m_scene->associationList();
     foreach ( AssociationWidget* assocwidget, list ) {
         //don't count this association
         if (assocwidget == this)
@@ -3506,7 +3514,7 @@ void AssociationWidget::updateAssociations(int totalCount,
 {
     if( region == Error )
         return;
-    AssociationWidgetList list = m_scene->getAssociationList();
+    AssociationWidgetList list = m_scene->associationList();
 
     UMLWidget *ownWidget = m_role[role].m_pWidget;
     m_positions_len = 0;
@@ -3530,7 +3538,7 @@ void AssociationWidget::updateAssociations(int totalCount,
             continue;
         // Determine intercept position on the edge indicated by `region'.
         UMLWidget * otherWidget = (inWidgetARegion ? wB : wA);
-        AssociationLine *linepath = assocwidget->getLinePath();
+        AssociationLine *linepath = assocwidget->associationLine();
         QPoint refpoint;
         if (assocwidget->linePathStartsAt(otherWidget))
             refpoint = linepath->point(linepath->count() - 2);
@@ -4338,8 +4346,8 @@ bool AssociationWidget::loadFromXMI(QDomElement & qElement,
  */
 bool AssociationWidget::loadFromXMI( QDomElement & qElement )
 {
-    const MessageWidgetList& messages = m_scene->getMessageList();
-    return loadFromXMI( qElement, m_scene->getWidgetList(), &messages );
+    const MessageWidgetList& messages = m_scene->messageList();
+    return loadFromXMI( qElement, m_scene->widgetList(), &messages );
 }
 
 #include "associationwidget.moc"
