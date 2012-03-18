@@ -19,9 +19,9 @@ Comment[x-test]=xxExport Layout for State Diagramsxx
 type::initial=shape=circle
 type::normal=shape=box,style=rounded
 type::end=shape=doublecircle
-type::fork=style=filled,shape=box,fillcolor=black,width="0.1",label=""
-type::join=style=filled,shape=box,fillcolor=black,width="0.1",label=""
-type::junction=shape=circle,fillcolor=black,width="0.4",label=""
+type::fork=shape=box,style=filled,fillcolor=black,width="0.1",label=""
+type::join=shape=box,style=filled,fillcolor=black,width="0.1",label=""
+type::junction=shape=circle,style=filled,fillcolor=black,width="0.4",label=""
 type::deephistory=shape=circle,width="0.4",label="H*"
 type::shallowhistory=shape=circle,width="0.4",label="H"
 type::choice=shape=diamond
@@ -31,15 +31,15 @@ type::default=shape=box
 # for visual representation
 visual::type::state=arrowhead=normal,label=""
 #visual::type::default=arrowhead=none,minlen=0.5
-ranking::type::default=constraint=false
+ranking::type::default=len=2
 # id handling
 id::type::state=swap
 
 [X-UMBRELLO-Dot-Attributes]
-graph=splines=polyline,rankdir=TB,outputorder=nodesfirst,ranksep=0.5,nodesep=0.5
+graph=splines=polyline,model=mds,normalize=yes
 node=
 edge=
 
 [X-UMBRELLO-Dot-Settings]
 origin=50,50
-generator=circo
+generator=neato

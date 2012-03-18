@@ -42,6 +42,7 @@ protected:
 
 public Q_SLOTS:
     void slotMenuSelection(QAction* action);
+
 };
 
 #endif

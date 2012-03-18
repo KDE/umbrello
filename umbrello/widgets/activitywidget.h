@@ -74,7 +74,6 @@ public:
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 public Q_SLOTS:
-
     virtual void slotMenuSelection(QAction* action);
 
 protected:
