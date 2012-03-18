@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -47,7 +47,6 @@ ObjectWidget::ObjectWidget(UMLScene * scene, UMLObject *o, Uml::IDType lid)
 void ObjectWidget::init()
 {
     m_nLocalID = Uml::id_None;
-    m_InstanceName = "";
     m_multipleInstance = false;
     m_drawAsActor = false;
     m_showDestruction = false;
@@ -89,12 +88,12 @@ void ObjectWidget::slotMenuSelection(QAction* action)
             QString name = KInputDialog::getText
                    (i18n("Rename Object"),
                     i18n("Enter object name:"),
-                    m_InstanceName,
+                    m_instanceName,
                     &ok,
                     m_scene,
                     validator);
             if (ok) {
-                m_InstanceName = name;
+                m_instanceName = name;
                 updateComponentSize();
                 moveEvent( 0 );
                 update();
@@ -130,7 +129,7 @@ UMLSceneSize ObjectWidget::minimumSize()
     const QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
     const int fontHeight  = fm.lineSpacing();
     QString objName;
-    const QString t = m_InstanceName + " : " + name();
+    const QString t = m_instanceName + " : " + name();
     const int textWidth = fm.width(t);
     if ( m_drawAsActor ) {
         width = textWidth > A_WIDTH?textWidth:A_WIDTH;
@@ -246,7 +245,7 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY)
     const int w = width();
     const int h = height();
 
-    const QString t = m_InstanceName + " : " + name();
+    const QString t = m_instanceName + " : " + name();
     int multiInstOfst = 0;
     if ( m_multipleInstance ) {
         p.drawRect(offsetX + 10, offsetY + 10, w - 10, h - 10);
@@ -287,7 +286,7 @@ void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY)
                middleX + A_WIDTH / 2, offsetY + thirdH + thirdH / 2);//arms
     //draw text
     p.setPen(textColor());
-    QString t = m_InstanceName + " : " + name();
+    QString t = m_instanceName + " : " + name();
     p.drawText(offsetX + A_MARGIN, offsetY + textStartY,
                w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, t);
 }
@@ -404,7 +403,6 @@ bool ObjectWidget::loadFromXMI( QDomElement & qElement )
 {
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
-    m_InstanceName = qElement.attribute( "instancename", "" );
     QString draw = qElement.attribute( "drawasactor", "0" );
     QString multi = qElement.attribute( "multipleinstance", "0" );
     QString localid = qElement.attribute( "localid", "0" );

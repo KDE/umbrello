@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -74,24 +74,6 @@ public:
      */
     Uml::IDType localID() const {
         return m_nLocalID;
-    }
-
-    /**
-     * Returns the instance name.
-     *
-     * @return  The instance name.
-     */
-    QString instanceName() const {
-        return m_InstanceName;
-    }
-
-    /**
-     * Sets the instance name.
-     *
-     * @param name              The name to set the instance name to.
-     */
-    void setInstanceName(const QString &name) {
-        m_InstanceName = name;
     }
 
     /**
@@ -292,12 +274,7 @@ protected:
      */
     void tabDown();
 
-    // Data loaded/saved:
-
-    /**
-     * Instance name of object.
-     */
-    QString m_InstanceName;
+    // Additional data loaded/saved:
 
     /**
      * Local ID used on views.  Needed as a it can represent a class
