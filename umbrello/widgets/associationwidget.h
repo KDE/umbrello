@@ -134,7 +134,7 @@ public:
     Uml::Changeability changeability(Uml::Role_Type role) const;
     void setChangeability(Uml::Changeability value, Uml::Role_Type role);
 
-    Uml::IDType getWidgetID(Uml::Role_Type role) const;
+    Uml::IDType widgetIDForRole(Uml::Role_Type role) const;
     UMLWidget* widgetForRole(Uml::Role_Type role) const;
 
     bool setWidgets(UMLWidget* widgetA, Uml::AssociationType assocType, UMLWidget* widgetB);

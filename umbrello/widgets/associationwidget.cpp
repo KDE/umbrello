@@ -614,10 +614,10 @@ bool AssociationWidget::operator==(const AssociationWidget & Other) const
     if (associationType() != Other.associationType())
         return false;
 
-    if (getWidgetID(A) != Other.getWidgetID(A))
+    if (widgetIDForRole(A) != Other.widgetIDForRole(A))
         return false;
 
-    if (getWidgetID(B) != Other.getWidgetID(B))
+    if (widgetIDForRole(B) != Other.widgetIDForRole(B))
         return false;
 
     if (widgetForRole(A)->baseType() == WidgetBase::wt_Object &&
@@ -691,9 +691,9 @@ bool AssociationWidget::activate()
     Uml::AssociationType type = associationType();
 
     if (m_role[A].m_pWidget == NULL)
-        setWidget(m_scene->findWidget(getWidgetID(A)), A);
+        setWidget(m_scene->findWidget(widgetIDForRole(A)), A);
     if (m_role[B].m_pWidget == NULL)
-        setWidget(m_scene->findWidget(getWidgetID(B)), B);
+        setWidget(m_scene->findWidget(widgetIDForRole(B)), B);
 
     if(!m_role[A].m_pWidget || !m_role[B].m_pWidget) {
         uDebug() << "Can not make association!";
@@ -1395,7 +1395,7 @@ void AssociationWidget::setAssociationType(Uml::AssociationType type)
 /**
  * Gets the ID of the given role widget.
  */
-Uml::IDType AssociationWidget::getWidgetID(Uml::Role_Type role) const
+Uml::IDType AssociationWidget::widgetIDForRole(Uml::Role_Type role) const
 {
     if (m_role[role].m_pWidget == NULL) {
         if (m_pObject && m_pObject->baseType() == UMLObject::ot_Association) {
@@ -4047,8 +4047,8 @@ void AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
             assocElement.setAttribute( "documentation", m_Doc );
         }
     }
-    assocElement.setAttribute( "widgetaid", ID2STR(getWidgetID(A)) );
-    assocElement.setAttribute( "widgetbid", ID2STR(getWidgetID(B)) );
+    assocElement.setAttribute( "widgetaid", ID2STR(widgetIDForRole(A)) );
+    assocElement.setAttribute( "widgetbid", ID2STR(widgetIDForRole(B)) );
     assocElement.setAttribute( "indexa", m_role[A].m_nIndex );
     assocElement.setAttribute( "indexb", m_role[B].m_nIndex );
     assocElement.setAttribute( "totalcounta", m_role[A].m_nTotalCount );

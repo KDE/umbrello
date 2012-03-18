@@ -400,8 +400,8 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
 #ifdef DOTGENERATOR_DATA_DEBUG
         uDebug() << type << params;
 #endif
-        QString aID = fixID(ID2STR(assoc->getWidgetID(swapId ? Uml::A : Uml::B)));
-        QString bID = fixID(ID2STR(assoc->getWidgetID(swapId ? Uml::B : Uml::A)));
+        QString aID = fixID(ID2STR(assoc->widgetIDForRole(swapId ? Uml::A : Uml::B)));
+        QString bID = fixID(ID2STR(assoc->widgetIDForRole(swapId ? Uml::B : Uml::A)));
 
         out << "\"" << aID << "\" -> \"" << bID << "\"" << " [" << params.join(",") << "];\n";
     }

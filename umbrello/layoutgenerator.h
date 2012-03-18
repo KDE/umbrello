@@ -204,15 +204,15 @@ public:
 
             QString id;
             if (m_edgeParameters.contains("id::" + key) && m_edgeParameters["id::" + key] == "swap")
-                id = fixID(ID2STR(assoc->getWidgetID(Uml::A)) + ID2STR(assoc->getWidgetID(Uml::B)));
+                id = fixID(ID2STR(assoc->widgetIDForRole(Uml::A)) + ID2STR(assoc->widgetIDForRole(Uml::B)));
             else
-                id = fixID(ID2STR(assoc->getWidgetID(Uml::B)) + ID2STR(assoc->getWidgetID(Uml::A)));
+                id = fixID(ID2STR(assoc->widgetIDForRole(Uml::B)) + ID2STR(assoc->widgetIDForRole(Uml::A)));
 
             // adjust associations not used in the dot file
             if (!m_edges.contains(id)) {
                 // shorten line path
                 AssociationLine *path = assoc->associationLine();
-                if (path->count() > 2 && assoc->getWidgetID(Uml::A) != assoc->getWidgetID(Uml::B)) {
+                if (path->count() > 2 && assoc->widgetIDForRole(Uml::A) != assoc->widgetIDForRole(Uml::B)) {
                     while(path->count() > 2)
                         path->removePoint(1);
                 }

@@ -858,8 +858,8 @@ AssociationWidget * UMLView::findAssocWidget(UMLWidget *pWidgetA,
                 testType != Uml::AssociationType::Aggregation &&
                 testType != Uml::AssociationType::Relationship)
             continue;
-        if (pWidgetA->id() == assoc->getWidgetID(A) &&
-                pWidgetB->id() == assoc->getWidgetID(B) &&
+        if (pWidgetA->id() == assoc->widgetIDForRole(A) &&
+                pWidgetB->id() == assoc->widgetIDForRole(B) &&
                 assoc->roleName(Uml::B) == roleNameB)
             return assoc;
     }
@@ -873,8 +873,8 @@ AssociationWidget * UMLView::findAssocWidget(Uml::AssociationType at,
         Uml::AssociationType testType = assoc->associationType();
         if (testType != at)
             continue;
-        if (pWidgetA->id() == assoc->getWidgetID(A) &&
-                pWidgetB->id() == assoc->getWidgetID(B))
+        if (pWidgetA->id() == assoc->widgetIDForRole(A) &&
+                pWidgetB->id() == assoc->widgetIDForRole(B))
             return assoc;
     }
     return 0;
@@ -1793,17 +1793,17 @@ bool UMLView::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
         Uml::IDType ida = Uml::id_None, idb = Uml::id_None;
         if (type() == Uml::DiagramType::Collaboration || type() == Uml::DiagramType::Sequence) {
             //check local log first
-            ida = m_pIDChangesLog->findNewID(pAssoc->getWidgetID(A));
-            idb = m_pIDChangesLog->findNewID(pAssoc->getWidgetID(B));
+            ida = m_pIDChangesLog->findNewID(pAssoc->widgetIDForRole(A));
+            idb = m_pIDChangesLog->findNewID(pAssoc->widgetIDForRole(B));
             //if either is still not found and assoc type is anchor
             //we are probably linking to a notewidet - else an error
             if (ida == Uml::id_None && assocType == Uml::AssociationType::Anchor)
-                ida = log->findNewID(pAssoc->getWidgetID(A));
+                ida = log->findNewID(pAssoc->widgetIDForRole(A));
             if (idb == Uml::id_None && assocType == Uml::AssociationType::Anchor)
-                idb = log->findNewID(pAssoc->getWidgetID(B));
+                idb = log->findNewID(pAssoc->widgetIDForRole(B));
         } else {
-            Uml::IDType oldIdA = pAssoc->getWidgetID(A);
-            Uml::IDType oldIdB = pAssoc->getWidgetID(B);
+            Uml::IDType oldIdA = pAssoc->widgetIDForRole(A);
+            Uml::IDType oldIdB = pAssoc->widgetIDForRole(B);
             ida = log->findNewID(oldIdA);
             if (ida == Uml::id_None) {  // happens after a cut
                 if (oldIdA == Uml::id_None)
@@ -1827,8 +1827,8 @@ bool UMLView::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
         pAssoc->setWidget(findWidget(idb), B);
     }
 
-    UMLWidget * pWidgetA = findWidget(pAssoc->getWidgetID(A));
-    UMLWidget * pWidgetB = findWidget(pAssoc->getWidgetID(B));
+    UMLWidget * pWidgetA = findWidget(pAssoc->widgetIDForRole(A));
+    UMLWidget * pWidgetB = findWidget(pAssoc->widgetIDForRole(B));
     //make sure valid widget ids
     if (!pWidgetA || !pWidgetB) {
         return false;
