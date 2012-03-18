@@ -191,7 +191,7 @@ bool AssociationLine::insertPoint(int pointIndex, const QPoint &point)
         QPoint ep = first->endPoint();
         first->setPoints( sp.x(), sp.y(), point.x(), point.y() );
         UMLSceneLineItem * line = new UMLSceneLineItem;
-        line->setCanvas(getScene());
+        line->setCanvas(canvas());
         line->setZ( -2 );
         line->setPoints( point.x(), point.y(), ep.x(), ep.y() );
         line->setPen( pen() );
@@ -207,7 +207,7 @@ bool AssociationLine::insertPoint(int pointIndex, const QPoint &point)
         QPoint ep = before->endPoint();
         before->setPoints( sp.x(), sp.y(), point.x(), point.y() );
         UMLSceneLineItem * line = new UMLSceneLineItem;
-        line->setCanvas(getScene());
+        line->setCanvas(canvas());
         line->setPoints( point.x(), point.y(), ep.x(), ep.y() );
         line->setZ( -2 );
         line->setPen( pen() );
@@ -222,7 +222,7 @@ bool AssociationLine::insertPoint(int pointIndex, const QPoint &point)
     QPoint ep = before->endPoint();
     before->setPoints( sp.x(), sp.y(), point.x(), point.y() );
     UMLSceneLineItem * line = new UMLSceneLineItem;
-    line->setCanvas(getScene());
+    line->setCanvas(canvas());
     line->setPoints( point.x(), point.y(), ep.x(), ep.y() );
     line->setZ( -2 );
     line->setPen( pen() );
@@ -352,7 +352,7 @@ void AssociationLine::cleanup()
  */
 int AssociationLine::closestPointIndex(const QPoint &position)
 {
-    UMLSceneItemList list = getScene()->collisions( position );
+    UMLSceneItemList list = canvas()->collisions( position );
     int index = -1;
 
     UMLSceneItemList::iterator end(list.end());
@@ -400,7 +400,7 @@ bool AssociationLine::setEndPoints(const QPoint &start, const QPoint &end)
     int count = m_LineList.count();
     if( count == 0 ) {
         UMLSceneLineItem * line = new UMLSceneLineItem;
-        line->setCanvas(getScene());
+        line->setCanvas(canvas());
         line->setPoints( start.x(), start.y(),end.x(),end.y() );
         line->setZ( -2 );
         line->setPen( pen() );
@@ -750,12 +750,11 @@ void AssociationLine::activate()
     int count = m_LineList.count();
     if (count == 0)
         return;
-    UMLViewCanvas * canvas = getScene();
-    if (canvas == NULL)
+    if (canvas() == NULL)
         return;
     for (int i = 0; i < count ; i++) {
         UMLSceneLineItem *line = m_LineList.at(i);
-        line->setCanvas( canvas );
+        line->setCanvas( canvas() );
         line->setPen( pen() );
     }
 }
@@ -818,7 +817,7 @@ void AssociationLine::slotLineWidthChanged(Uml::IDType viewID)
  * This class doesn't hold this information but is a wrapper
  * method to stop calls to undefined variable like m_associationWidget.
  */
-UMLViewCanvas * AssociationLine::getScene()
+UMLViewCanvas * AssociationLine::canvas()
 {
     if( !m_associationWidget )
         return 0;
@@ -973,7 +972,6 @@ void AssociationLine::createHeadLines()
 {
     qDeleteAll( m_HeadList.begin(), m_HeadList.end() );
     m_HeadList.clear();
-    UMLViewCanvas * canvas = getScene();
     switch( getAssocType() ) {
     case Uml::AssociationType::Activity:
     case Uml::AssociationType::Exception:
@@ -988,7 +986,7 @@ void AssociationLine::createHeadLines()
     case Uml::AssociationType::Realization:
         growList(m_HeadList, 3);
         m_pClearPoly = new UMLScenePolygonItem;
-        m_pClearPoly->setCanvas(canvas);
+        m_pClearPoly->setCanvas( canvas() );
         m_pClearPoly->setVisible( true );
         m_pClearPoly->setBrush( QBrush( Qt::white ) );
         m_pClearPoly->setZ( -1 );
@@ -998,7 +996,7 @@ void AssociationLine::createHeadLines()
     case Uml::AssociationType::Aggregation:
         growList(m_HeadList, 4);
         m_pClearPoly = new UMLScenePolygonItem;
-        m_pClearPoly->setCanvas(canvas);
+        m_pClearPoly->setCanvas( canvas() );
         m_pClearPoly->setVisible( true );
         if( getAssocType() == Uml::AssociationType::Aggregation )
             m_pClearPoly->setBrush( QBrush( Qt::white ) );
@@ -1011,7 +1009,7 @@ void AssociationLine::createHeadLines()
         growList(m_HeadList, 1);
         if (!m_pCircle) {
             m_pCircle = new Circle( 6 );
-            m_pCircle->setCanvas( canvas );
+            m_pCircle->setCanvas( canvas() );
             m_pCircle->show();
             m_pCircle->setPen( QPen( lineColor(), lineWidth() ) );
         }
@@ -1209,7 +1207,7 @@ void AssociationLine::createSubsetSymbol()
     switch( getAssocType() ) {
        case Uml::AssociationType::Child2Category:
            m_pSubsetSymbol = new SubsetSymbol;
-           m_pSubsetSymbol->setCanvas(getScene());
+           m_pSubsetSymbol->setCanvas(canvas());
            m_pSubsetSymbol->setPen( QPen( lineColor(), lineWidth() ) );
            updateSubsetSymbol();
            m_pSubsetSymbol->show();
@@ -1274,7 +1272,7 @@ void AssociationLine::growList(LineList &list, int by)
     QPen pen( lineColor(), lineWidth() );
     for (int i = 0; i < by; i++) {
         UMLSceneLineItem * line = new UMLSceneLineItem;
-        line->setCanvas(getScene());
+        line->setCanvas(canvas());
         line->setZ( 0 );
         line->setPen( pen );
         line->setVisible( true );

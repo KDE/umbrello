@@ -146,7 +146,7 @@ protected:
         int inclination;
     };
 
-    UMLViewCanvas * getScene();
+    UMLViewCanvas * canvas();
 
     void moveSelected(int pointIndex);
 
