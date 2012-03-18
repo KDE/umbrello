@@ -511,7 +511,8 @@ install( FILES
 
 install( DIRECTORY
     layouts
-    DESTINATION ${DATA_INSTALL_DIR}/umbrello )
+    DESTINATION ${DATA_INSTALL_DIR}/umbrello
+    PATTERN .svn EXCLUDE )
 
 kde4_install_icons( ${ICON_INSTALL_DIR} )
 
