@@ -364,9 +364,18 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
     foreach(AssociationWidget *assoc, scene->associationList()) {
         QString type = assoc->associationType().toString().toLower();
         QString key = "type::" + type;
-        bool swapId = m_edgeParameters.contains("id::" + key) && m_edgeParameters["id::" + key] == "swap";
+        bool swapId = false;
 
-        QString label = assoc->getName();
+        if (m_edgeParameters.contains("id::" + key))
+            swapId = m_edgeParameters["id::" + key] == "swap";
+        else if (m_edgeParameters.contains("id::type::default"))
+            swapId = m_edgeParameters["id::type::default"] == "swap";
+
+        QString label;
+        if (!useFullNodeLabels())
+            label = assoc->getName() + "\\n" + type;
+        else
+            label = assoc->getName();
 
         QString headLabel = assoc->roleName(swapId ? Uml::B : Uml::A);
         QString tailLabel = assoc->roleName(swapId ? Uml::A : Uml::B);
