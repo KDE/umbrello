@@ -1,0 +1,48 @@
+[Desktop Entry]
+Type=Service
+Name=Export Layout
+Comment=Export Layout for Activity Diagrams
+
+[X-UMBRELLO-Dot-Nodes]
+# FIXME: graphviz dot not have appropriate node shape yet
+type::accept=shape=trapezium
+type::branch=shape=diamond
+type::end=shape=doublecircle
+type::final=shape=circle,label="+"
+type::forkjoin=shape=box,style=filled,fillcolor=black,width="0.1",label=""
+type::initial=shape=circle
+type::invok=shape=box
+type::normal=shape=box,style=rounded
+# FIXME: add line below the text
+type::objectnode=shape=box
+type::param=shape=box
+type::pin=shape=box,width="0.1",height="0.1"
+type::region=shape=box,style="dashed,rounded"
+# FIXME: graphviz dot not have appropriate node shape yet
+type::send=shape=parallelogram
+# FIXME: graphviz dot not have appropriate node shape yet
+type::time=shape=box
+# all other
+type::default=shape=box
+
+[X-UMBRELLO-Dot-Edges]
+# for visual representation
+visual::type::anchor=arrowhead=none,style=dashed
+visual::type::exception=label="exception"
+visual::type::state=arrowhead=normal
+ranking::type::default=len=1.5
+# id handling
+id::type::default=swap
+
+[X-UMBRELLO-Dot-Attributes]
+graph=overlap=false
+node=
+edge=
+
+[X-UMBRELLO-Dot-Settings]
+origin=50,50
+generator=neato
+
+# see http://www.graphviz.org/pdf/dotguide.pdf
+# see http://www.graphviz.org/pdf/neatoguide.pdf
+# for dot/neato attribute details 
