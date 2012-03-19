@@ -205,6 +205,14 @@ SignalWidget::SignalType SignalWidget::getSignalType() const
 }
 
 /**
+ * Returns the type string of Signal.
+ */
+QString SignalWidget::signalTypeStr() const
+{
+    return QLatin1String(ENUM_NAME(SignalWidget, SignalType, m_signalType));
+}
+
+/**
  * Sets the type of Signal.
  */
 void SignalWidget::setSignalType( SignalType signalType )

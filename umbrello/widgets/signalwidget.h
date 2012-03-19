@@ -11,6 +11,8 @@
 #ifndef SIGNALWIDGET_H
 #define SIGNALWIDGET_H
 
+#include <QMetaEnum>
+
 #include "floatingtextwidget.h"
 #include "linkwidget.h"
 #include "umlwidget.h"
@@ -27,6 +29,7 @@
 class SignalWidget : public UMLWidget
 {
     Q_OBJECT
+    Q_ENUMS(SignalType)
 public:
     /// Enumeration that codes the different types of signal.
     enum SignalType
@@ -48,6 +51,7 @@ public:
     virtual QString getName() const;
 
     SignalType getSignalType() const;
+    QString signalTypeStr() const;
     void setSignalType( SignalType signalType );
 
     virtual void  showPropertiesDialog();

@@ -11,6 +11,8 @@
 #ifndef ACTIVITYWIDGET_H
 #define ACTIVITYWIDGET_H
 
+#include <QMetaEnum>
+
 #include "umlwidget.h"
 #include "worktoolbar.h"
 
@@ -33,7 +35,7 @@
 class ActivityWidget : public UMLWidget
 {
     Q_OBJECT
-
+    Q_ENUMS(ActivityType)
 public:
     enum ActivityType
     {
@@ -50,6 +52,7 @@ public:
     virtual ~ActivityWidget();
 
     ActivityType activityType() const;
+    QString activityTypeStr() const;
     void setActivityType( ActivityType activityType );
 
     static bool isActivity( WorkToolBar::ToolBar_Buttons tbb,

@@ -274,6 +274,14 @@ StateWidget::StateType StateWidget::stateType() const
 }
 
 /**
+ * Returns the type string of state.
+ */
+QString StateWidget::stateTypeStr() const
+{
+    return QLatin1String(ENUM_NAME(StateWidget, StateType, m_stateType));
+}
+
+/**
  * Sets the type of state.
  */
 void StateWidget::setStateType(StateType stateType)

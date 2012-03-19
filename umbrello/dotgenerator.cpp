@@ -12,8 +12,10 @@
 #include "dotgenerator.h"
 
 // app includes
+#include "activitywidget.h"
 #include "associationwidget.h"
 #include "classifierwidget.h"
+#include "signalwidget.h"
 #include "statewidget.h"
 #include "debug_utils.h"
 #include "umlwidget.h"
@@ -309,19 +311,26 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
             params  << QString("pos=\"%1,%2\"").arg(widget->getX()+widget->getWidth()/2).arg(widget->getY()+widget->getHeight()/2);
 
         QString type = QString(widget->baseTypeStr()).toLower().remove("wt_");
-        QString key = "type::" + type;
 
         if (type == "state") {
             StateWidget *w = static_cast<StateWidget *>(widget);
             type = w->stateTypeStr().toLower();
         }
+        else if (type == "activity") {
+            ActivityWidget *w = static_cast<ActivityWidget *>(widget);
+            type = w->activityTypeStr().toLower();
+        }
+        else if (type == "signal") {
+            SignalWidget *w = static_cast<SignalWidget *>(widget);
+            type = w->signalTypeStr().toLower();
+        }
 
-        key = "type::" + type;
+        QString key = "type::" + type;
 
         QString label;
 
         if (!useFullNodeLabels())
-            label = widget->name();
+            label = widget->name() + "\\n" + type;
         else {
             DotPaintDevice d;
             QPainter p(&d);
