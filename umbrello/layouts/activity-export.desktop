@@ -1,6 +1,13 @@
 [Desktop Entry]
 Type=Service
 Name=Export Layout
+Name[es]=Exportar disposición
+Name[nl]=Indeling exporteren
+Name[pt]=Exportar a Disposição
+Name[pt_BR]=Exportar leiaute
+Name[sv]=Exportera layout
+Name[uk]=Компонування експортованих даних
+Name[x-test]=xxExport Layoutxx
 Comment=Export Layout for Activity Diagrams
 
 [X-UMBRELLO-Dot-Nodes]
@@ -45,4 +52,4 @@ generator=neato
 
 # see http://www.graphviz.org/pdf/dotguide.pdf
 # see http://www.graphviz.org/pdf/neatoguide.pdf
-# for dot/neato attribute details 
+# for dot/neato attribute details
