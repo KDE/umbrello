@@ -9,6 +9,10 @@ Name[sv]=Exportera layout
 Name[uk]=Компонування експортованих даних
 Name[x-test]=xxExport Layoutxx
 Comment=Export Layout for Activity Diagrams
+Comment[pt]=Exportar a Disposição dos Diagramas de Actividades
+Comment[pt_BR]=Exportar leiaute para diagramas de atividades
+Comment[uk]=Компонування для експортування діаграм дій
+Comment[x-test]=xxExport Layout for Activity Diagramsxx
 
 [X-UMBRELLO-Dot-Nodes]
 # FIXME: graphviz dot not have appropriate node shape yet
