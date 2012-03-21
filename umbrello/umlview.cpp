@@ -232,11 +232,17 @@ void UMLView::setName(const QString &name)
     m_Name = name;
 }
 
+/**
+ * Used for creating unique name of collaboration messages.
+ */
 int UMLView::generateCollaborationId()
 {
     return ++m_nCollaborationId;
 }
 
+/**
+ * contains the implementation for printing functionality
+ */
 void UMLView::print(QPrinter *pPrinter, QPainter & pPainter)
 {
     int height, width;
@@ -406,6 +412,10 @@ void UMLView::print(QPrinter *pPrinter, QPainter & pPainter)
     forceUpdateWidgetFontMetrics(0);
 }
 
+/**
+ * Initialize and announce a newly created widget.
+ * Auxiliary to contentsMouseReleaseEvent().
+ */
 void UMLView::setupNewWidget(UMLWidget *w)
 {
     w->setX(m_Pos.x());
@@ -422,11 +432,19 @@ void UMLView::setupNewWidget(UMLWidget *w)
     UMLApp::app()->executeCommand(new CmdCreateWidget(umlScene(), w));
 }
 
+/**
+ * Overrides the standard operation.
+ * Calls the same method in the current tool bar state.
+ */
 void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome)
 {
     m_pToolBarState->mouseRelease(static_cast<UMLSceneMouseEvent*>(ome));
 }
 
+/**
+ * Changes the current tool to the selected tool.
+ * The current tool is cleaned and the selected tool initialized.
+ */
 void UMLView::slotToolBarChanged(int c)
 {
     m_pToolBarState->cleanBeforeChange();
@@ -436,6 +454,9 @@ void UMLView::slotToolBarChanged(int c)
     m_bPaste = false;
 }
 
+/**
+ * Overrides the standard operation.
+ */
 void UMLView::showEvent(QShowEvent* /*se*/)
 {
 
@@ -462,6 +483,9 @@ void UMLView::showEvent(QShowEvent* /*se*/)
 
 }
 
+/**
+ * Overrides the standard operation.
+ */
 void UMLView::hideEvent(QHideEvent* /*he*/)
 {
     UMLApp* theApp = UMLApp::app();
@@ -722,6 +746,13 @@ void UMLView::dropEvent(QDropEvent *e)
     m_doc->setModified(true);
 }
 
+/**
+ * Determine whether on a sequence diagram we have clicked on a line
+ * of an Object.
+ *
+ * @return The widget thats line was clicked on.
+ *  Returns 0 if no line was clicked on.
+ */
 ObjectWidget * UMLView::onWidgetLine(const QPoint &point)
 {
     foreach(UMLWidget* obj, m_WidgetList) {
@@ -740,6 +771,13 @@ ObjectWidget * UMLView::onWidgetLine(const QPoint &point)
     return 0;
 }
 
+/**
+ * Determine whether on a sequence diagram we have clicked on
+ * the destruction box of an Object.
+ *
+ * @return The widget thats destruction box was clicked on.
+ *  Returns 0 if no destruction box was clicked on.
+ */
 ObjectWidget * UMLView::onWidgetDestructionBox(const QPoint &point)
 {
     foreach(UMLWidget* obj,  m_WidgetList) {
@@ -758,6 +796,13 @@ ObjectWidget * UMLView::onWidgetDestructionBox(const QPoint &point)
     return 0;
 }
 
+/**
+ * Tests the given point against all widgets and returns the
+ * widget for which the point is within its bounding rectangle.
+ * In case of multiple matches, returns the smallest widget.
+ * Returns NULL if the point is not inside any widget.
+ * Does not use or modify the m_pOnWidget member.
+ */
 UMLWidget *UMLView::widgetAt(const QPoint& p)
 {
     int relativeSize = 10000;  // start with an arbitrary large number
@@ -775,6 +820,10 @@ UMLWidget *UMLView::widgetAt(const QPoint& p)
     return retObj;
 }
 
+/**
+ * Sees if a message is relevant to the given widget.  If it does delete it.
+ * @param w The widget to check messages against.
+ */
 void UMLView::checkMessages(ObjectWidget * w)
 {
     if (type() != Uml::DiagramType::Sequence)
@@ -794,6 +843,13 @@ void UMLView::checkMessages(ObjectWidget * w)
     }
 }
 
+/**
+ * Returns whether a widget is already on the diagram.
+ *
+ * @param id The id of the widget to check for.
+ *
+ * @return Returns true if the widget is already on the diagram, false if not.
+ */
 bool UMLView::widgetOnDiagram(Uml::IDType id)
 {
 
@@ -810,12 +866,22 @@ bool UMLView::widgetOnDiagram(Uml::IDType id)
     return false;
 }
 
+/**
+ * Overrides the standard operation.
+ * Calls the same method in the current tool bar state.
+ */
 void UMLView::contentsMouseMoveEvent(QMouseEvent* ome)
 {
     m_pToolBarState->mouseMove(static_cast<UMLSceneMouseEvent*>(ome));
 }
 
-// search both our UMLWidget AND MessageWidget lists
+/**
+ * Finds a widget with the given ID.
+ *
+ * @param id The ID of the widget to find.
+ *
+ * @return Returns the widget found, returns 0 if no widget found.
+ */
 UMLWidget * UMLView::findWidget(Uml::IDType id)
 {
     foreach(UMLWidget* obj, m_WidgetList) {
@@ -836,6 +902,13 @@ UMLWidget * UMLView::findWidget(Uml::IDType id)
     return 0;
 }
 
+/**
+ * Finds an association widget with the given ID.
+ *
+ * @param id The ID of the widget to find.
+ *
+ * @return Returns the widget found, returns 0 if no widget found.
+ */
 AssociationWidget * UMLView::findAssocWidget(Uml::IDType id)
 {
     foreach(AssociationWidget* obj , m_AssociationList) {
@@ -847,6 +920,18 @@ AssociationWidget * UMLView::findAssocWidget(Uml::IDType id)
     return 0;
 }
 
+/**
+ * Finds an association widget with the given widgets and the given role B name.
+ * Considers the following association types:
+ *  at_Association, at_UniAssociation, at_Composition, at_Aggregation
+ * This is used for seeking an attribute association.
+ *
+ * @param pWidgetA  Pointer to the UMLWidget of role A.
+ * @param pWidgetB  Pointer to the UMLWidget of role B.
+ * @param roleNameB Name at the B side of the association (the attribute name)
+ *
+ * @return Returns the widget found, returns 0 if no widget found.
+ */
 AssociationWidget * UMLView::findAssocWidget(UMLWidget *pWidgetA,
         UMLWidget *pWidgetB, const QString& roleNameB)
 {
@@ -866,6 +951,15 @@ AssociationWidget * UMLView::findAssocWidget(UMLWidget *pWidgetA,
     return 0;
 }
 
+/**
+ * Finds an association widget with the given type and widgets.
+ *
+ * @param at  The AssociationType of the widget to find.
+ * @param pWidgetA Pointer to the UMLWidget of role A.
+ * @param pWidgetB Pointer to the UMLWidget of role B.
+ *
+ * @return Returns the widget found, returns 0 if no widget found.
+ */
 AssociationWidget * UMLView::findAssocWidget(Uml::AssociationType at,
         UMLWidget *pWidgetA, UMLWidget *pWidgetB)
 {
@@ -880,6 +974,11 @@ AssociationWidget * UMLView::findAssocWidget(Uml::AssociationType at,
     return 0;
 }
 
+/**
+ * Remove a widget from view.
+ *
+ * @param o  The widget to remove.
+ */
 void UMLView::removeWidget(UMLWidget * o)
 {
     if (!o)
@@ -906,21 +1005,35 @@ void UMLView::removeWidget(UMLWidget * o)
     m_doc->setModified();
 }
 
+/**
+ * Returns whether to use the fill/background color
+ */
 bool UMLView::useFillColor() const
 {
     return m_Options.uiState.useFillColor;
 }
 
+/**
+ * Sets whether to use the fill/background color
+ */
 void UMLView::setUseFillColor(bool ufc)
 {
     m_Options.uiState.useFillColor = ufc;
 }
 
+/**
+ * Returns the fill color to use.
+ */
 QColor UMLView::fillColor() const
 {
     return m_Options.uiState.fillColor;
 }
 
+/**
+ * Set the background color.
+ *
+ * @param color  The color to use.
+ */
 void UMLView::setFillColor(const QColor &color)
 {
     m_Options.uiState.fillColor = color;
@@ -928,11 +1041,19 @@ void UMLView::setFillColor(const QColor &color)
     canvas()->setAllChanged();
 }
 
+/**
+ * Returns the line color to use.
+ */
 QColor UMLView::lineColor() const
 {
     return m_Options.uiState.lineColor;
 }
 
+/**
+ * Sets the line color.
+ *
+ * @param color  The color to use.
+ */
 void UMLView::setLineColor(const QColor &color)
 {
     m_Options.uiState.lineColor = color;
@@ -940,11 +1061,19 @@ void UMLView::setLineColor(const QColor &color)
     canvas()->setAllChanged();
 }
 
+/**
+ * Returns the line width to use.
+ */
 uint UMLView::lineWidth() const
 {
     return m_Options.uiState.lineWidth;
 }
 
+/**
+ * Sets the line width.
+ *
+ * @param width  The width to use.
+ */
 void UMLView::setLineWidth(uint width)
 {
     m_Options.uiState.lineWidth = width;
@@ -952,11 +1081,19 @@ void UMLView::setLineWidth(uint width)
     canvas()->setAllChanged();
 }
 
+/**
+ * Returns the text color to use.
+ */
 QColor UMLView::textColor() const
 {
     return m_Options.uiState.textColor;
 }
 
+/**
+ * Sets the text color.
+ *
+ * @param color  The color to use.
+ */
 void UMLView::setTextColor(const QColor &color)
 {
     m_Options.uiState.textColor = color;
@@ -964,6 +1101,10 @@ void UMLView::setTextColor(const QColor &color)
     canvas()->setAllChanged();
 }
 
+/**
+ * Override standard method.
+ * Calls the same method in the current tool bar state.
+ */
 void UMLView::contentsMouseDoubleClickEvent(QMouseEvent* ome)
 {
     m_pToolBarState->mouseDoubleClick(static_cast<UMLSceneMouseEvent*>(ome));
@@ -1038,6 +1179,13 @@ QRect UMLView::diagramRect()
     return QRect(startx, starty,  endx - startx, endy - starty);
 }
 
+/**
+ * Sets a widget to a selected state and adds it to a list of selected widgets.
+ * This method also sets the state of the cut and copy menu entries.
+ *
+ * @param w The widget to set to selected.
+ * @param me The mouse event containing the information about the selection.
+ */
 void UMLView::setSelected(UMLWidget * w, QMouseEvent * me)
 {
     Q_UNUSED(me);
@@ -1056,6 +1204,9 @@ void UMLView::setSelected(UMLWidget * w, QMouseEvent * me)
     UMLApp::app()->slotCopyChanged();
 }
 
+/**
+ *  Clear the selected widgets list.
+ */
 void UMLView::clearSelected()
 {
     m_SelectedList.clear();
@@ -1063,7 +1214,13 @@ void UMLView::clearSelected()
     //m_doc->enableCutCopy(false);
 }
 
-//TODO Only used in UMLApp::handleCursorKeyReleaseEvent
+/**
+ * Move all the selected widgets by a relative X and Y offset.
+ *
+ * @param dX The distance to move horizontally.
+ * @param dY The distance to move vertically.
+ * TODO Only used in UMLApp::handleCursorKeyReleaseEvent
+ */
 void UMLView::moveSelectedBy(int dX, int dY)
 {
     // DEBUG(DBG_SRC) << "********** m_SelectedList count=" << m_SelectedList.count();
@@ -1072,6 +1229,11 @@ void UMLView::moveSelectedBy(int dX, int dY)
     }
 }
 
+/**
+ * Set the useFillColor variable to all selected widgets
+ *
+ * @param useFC The state to set the widget to.
+ */
 void UMLView::selectionUseFillColor(bool useFC)
 {
     foreach(UMLWidget* temp, m_SelectedList) {
@@ -1079,6 +1241,9 @@ void UMLView::selectionUseFillColor(bool useFC)
     }
 }
 
+/**
+ * Set the font for all the currently selected items.
+ */
 void UMLView::selectionSetFont(const QFont &font)
 {
     foreach(UMLWidget* temp, m_SelectedList) {
@@ -1086,6 +1251,9 @@ void UMLView::selectionSetFont(const QFont &font)
     }
 }
 
+/**
+ * Set the line color for all the currently selected items.
+ */
 void UMLView::selectionSetLineColor(const QColor &color)
 {
     UMLApp::app()->beginMacro(i18n("Change Line Color"));
@@ -1102,6 +1270,9 @@ void UMLView::selectionSetLineColor(const QColor &color)
     UMLApp::app()->endMacro();
 }
 
+/**
+ * Set the line width for all the currently selected items.
+ */
 void UMLView::selectionSetLineWidth(uint width)
 {
     foreach(UMLWidget* temp , m_SelectedList) {
@@ -1115,6 +1286,9 @@ void UMLView::selectionSetLineWidth(uint width)
     }
 }
 
+/**
+ * Set the fill color for all the currently selected items.
+ */
 void UMLView::selectionSetFillColor(const QColor &color)
 {
     UMLApp::app()->beginMacro(i18n("Change Fill Color"));
@@ -1126,6 +1300,9 @@ void UMLView::selectionSetFillColor(const QColor &color)
     UMLApp::app()->endMacro();
 }
 
+/**
+ * Toggles the show setting sel of all selected items.
+ */
 void UMLView::selectionToggleShow(int sel)
 {
     // loop through all selected items
@@ -1179,6 +1356,9 @@ void UMLView::selectionToggleShow(int sel)
     }
 }
 
+/**
+ * Delete the selected widgets list and the widgets in it.
+ */
 void UMLView::deleteSelection()
 {
     /*
@@ -1227,17 +1407,29 @@ void UMLView::deleteSelection()
     m_SelectedList.clear();
 }
 
+/**
+ * Selects all widgets
+ */
 void UMLView::selectAll()
 {
     selectWidgets(0, 0, canvas()->width(), canvas()->height());
 }
 
+/**
+ * Return a unique ID for the diagram.  Used by the @ref ObjectWidget class.
+ *
+ * @return Return a unique ID for the diagram.
+ */
 Uml::IDType UMLView::getLocalID()
 {
     m_nLocalID = UniqueID::gen();
     return m_nLocalID;
 }
 
+/**
+ * Returns true if this diagram resides in an externalized folder.
+ * CHECK: It is probably cleaner to move this to the UMLListViewItem.
+ */
 bool UMLView::isSavedInSeparateFile()
 {
     if (optionState().generalState.tabdiagrams) {
@@ -1269,6 +1461,10 @@ bool UMLView::isSavedInSeparateFile()
     return !folderFile.isEmpty();
 }
 
+/**
+ * Override standard method.
+ * Calls the same method in the current tool bar state.
+ */
 void UMLView::contentsMousePressEvent(QMouseEvent* ome)
 {
     m_pToolBarState->mousePress(static_cast<UMLSceneMouseEvent*>(ome));
@@ -1283,6 +1479,11 @@ void UMLView::contentsMousePressEvent(QMouseEvent* ome)
     m_bChildDisplayedDoc = false;
 }
 
+/**
+ * Calls setSelected on the given UMLWidget and enters
+ * it into the m_SelectedList while making sure it is
+ * there only once.
+ */
 void UMLView::makeSelected(UMLWidget * uw)
 {
     if (uw == NULL)
@@ -1292,6 +1493,9 @@ void UMLView::makeSelected(UMLWidget * uw)
     m_SelectedList.append(uw);
 }
 
+/**
+ * Selects all the widgets of the given association widget.
+ */
 void UMLView::selectWidgetsOfAssoc(AssociationWidget * a)
 {
     if (!a)
@@ -1309,6 +1513,9 @@ void UMLView::selectWidgetsOfAssoc(AssociationWidget * a)
     makeSelected(a->changeabilityWidget(B));
 }
 
+/**
+ * Selects all the widgets within an internally kept rectangle.
+ */
 void UMLView::selectWidgets(int px, int py, int qx, int qy)
 {
     clearSelected();
@@ -1376,12 +1583,21 @@ void UMLView::selectWidgets(int px, int py, int qx, int qy)
     }//end foreach
 }
 
+/**
+ * Selects all the widgets from a list.
+ */
 void UMLView::selectWidgets(UMLWidgetList &widgets)
 {
     foreach ( UMLWidget* widget, widgets )
         makeSelected(widget);
 }
 
+/**
+ * Returns the PNG picture of the paste operation.
+ *
+ * @param rect the area of the diagram to copy
+ * @param diagram the class to store PNG picture of the paste operation.
+ */
 void  UMLView::getDiagram(const QRect &rect, QPixmap &diagram)
 {
     DEBUG(DBG_SRC) << "rect=" << rect << ", pixmap=" << diagram.rect();
@@ -1395,6 +1611,9 @@ void  UMLView::getDiagram(const QRect &rect, QPixmap &diagram)
     output.drawPixmap(QPoint(0, 0), pixmap, rect);
 }
 
+/**
+ * Paint diagram to the paint device
+ */
 void  UMLView::getDiagram(const QRect &area, QPainter &painter)
 {
     DEBUG(DBG_SRC) << "area=" << area << ", painter=" << painter.window();
@@ -1430,16 +1649,27 @@ void  UMLView::getDiagram(const QRect &area, QPainter &painter)
     }
 }
 
+/**
+ * Returns the imageExporter used to export the view.
+ *
+ * @return The imageExporter used to export the view.
+ */
 UMLViewImageExporter* UMLView::getImageExporter()
 {
     return m_pImageExporter;
 }
 
+/**
+ * makes this view the active view by asking the document to show us
+ */
 void UMLView::slotActivate()
 {
     m_doc->changeCurrentView(getID());
 }
 
+/**
+ * Returns a List of all the UMLObjects(Use Cases, Concepts and Actors) in the View
+ */
 UMLObjectList UMLView::umlObjects()
 {
     UMLObjectList list;
@@ -1464,6 +1694,9 @@ UMLObjectList UMLView::umlObjects()
     return list;
 }
 
+/**
+ * Activate all the objects and associations after a load from the clipboard
+ */
 void UMLView::activate()
 {
     //Activate Regular widgets then activate  messages
@@ -1507,6 +1740,14 @@ void UMLView::activate()
     }
 }
 
+/**
+ * Return the amount of widgets selected.
+ *
+ * @param filterText  When true, do NOT count floating text widgets that
+ *                    belong to other widgets (i.e. only count tr_Floating.)
+ *                    Default: Count all widgets.
+ * @return  Number of widgets selected.
+ */
 int UMLView::getSelectCount(bool filterText) const
 {
     if (!filterText)
@@ -1525,7 +1766,14 @@ int UMLView::getSelectCount(bool filterText) const
     return counter;
 }
 
-
+/**
+ * Fills the List with all the selected widgets from the diagram
+ * The list can be filled with all the selected widgets, or be filtered to prevent
+ * text widgets other than tr_Floating to be append.
+ *
+ * @param WidgetList The UMLWidgetList to fill.
+ * @param filterText Don't append the text, unless their role is tr_Floating
+ */
 bool UMLView::getSelectedWidgets(UMLWidgetList &WidgetList, bool filterText /*= true*/)
 {
     foreach(UMLWidget* temp, m_SelectedList) {
@@ -1540,6 +1788,9 @@ bool UMLView::getSelectedWidgets(UMLWidgetList &WidgetList, bool filterText /*= 
     return true;
 }
 
+/**
+ * Returns a list with all the selected associations from the diagram
+ */
 AssociationWidgetList UMLView::getSelectedAssocs()
 {
     AssociationWidgetList assocWidgetList;
@@ -1551,6 +1802,10 @@ AssociationWidgetList UMLView::getSelectedAssocs()
     return assocWidgetList;
 }
 
+/**
+ * Adds a widget to the view from the given data.
+ * Use this method when pasting.
+ */
 bool UMLView::addWidget(UMLWidget * pWidget, bool isPasteOperation)
 {
     if (!pWidget) {
@@ -1775,7 +2030,10 @@ bool UMLView::addWidget(UMLWidget * pWidget, bool isPasteOperation)
     return true;
 }
 
-// Add the association, and its child widgets to this view
+/**
+ * Adds an association to the view from the given data.
+ * Use this method when pasting.
+ */
 bool UMLView::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
 {
 
@@ -1862,6 +2120,9 @@ bool UMLView::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
     return true;
 }
 
+/**
+ * Activate the view after a load a new file
+ */
 void UMLView::activateAfterLoad(bool bUseLog)
 {
     if (m_bActivated)
@@ -1898,6 +2159,12 @@ void UMLView::endPartialWidgetPaste()
     m_bPaste = false;
 }
 
+/**
+ * Removes a AssociationWidget from a diagram
+ * Physically deletes the AssociationWidget passed in.
+ *
+ * @param pAssoc  Pointer to the AssociationWidget.
+ */
 void UMLView::removeAssoc(AssociationWidget* pAssoc)
 {
     if (!pAssoc)
@@ -1911,6 +2178,10 @@ void UMLView::removeAssoc(AssociationWidget* pAssoc)
     m_doc->setModified();
 }
 
+/**
+ * Removes an AssociationWidget from the association list
+ * and removes the corresponding UMLAssociation from the current UMLDoc.
+ */
 void UMLView::removeAssocInViewAndDoc(AssociationWidget* a)
 {
     // For umbrello 1.2, UMLAssociations can only be removed in two ways:
@@ -1940,7 +2211,9 @@ void UMLView::removeAssocInViewAndDoc(AssociationWidget* a)
 }
 
 /**
- * Removes all the associations related to Widget.
+ * Removes all the associations related to Widget
+ *
+ * @param pWidget  Pointer to the widget to remove.
  */
 void UMLView::removeAssociations(UMLWidget* Widget)
 {
@@ -1951,6 +2224,11 @@ void UMLView::removeAssociations(UMLWidget* Widget)
     }
 }
 
+/**
+ * Removes all the associations related to Widget
+ *
+ * @param pWidget  Pointer to the widget to remove.
+ */
 void UMLView::selectAssociations(bool bSelect)
 {
     foreach(AssociationWidget* assocwidget, m_AssociationList) {
@@ -1964,6 +2242,9 @@ void UMLView::selectAssociations(bool bSelect)
     }//end foreach
 }
 
+/**
+ * Fills Associations with all the associations that includes a widget related to object
+ */
 void UMLView::getWidgetAssocs(UMLObject* Obj, AssociationWidgetList & Associations)
 {
     if (! Obj)
@@ -1985,6 +2266,9 @@ void UMLView::closeEvent(QCloseEvent * e)
     QWidget::closeEvent(e);
 }
 
+/**
+ * Removes All the associations of the diagram
+ */
 void UMLView::removeAllAssociations()
 {
     //Remove All association widgets
@@ -2000,6 +2284,9 @@ void UMLView::removeAllAssociations()
     }
 }
 
+/**
+ * Removes All the widgets of the diagram
+ */
 void UMLView::removeAllWidgets()
 {
     // Remove widgets.
@@ -2020,29 +2307,49 @@ void UMLView::removeAllWidgets()
 
 }
 
+/**
+ *  Calls the same method in the DocWindow.
+ */
 void UMLView::showDocumentation(UMLObject * object, bool overwrite)
 {
     UMLApp::app()->docWindow()->showDocumentation(object, overwrite);
     m_bChildDisplayedDoc = true;
 }
 
+/**
+ *  Calls the same method in the DocWindow.
+ */
 void UMLView::showDocumentation(UMLWidget * widget, bool overwrite)
 {
     UMLApp::app()->docWindow()->showDocumentation(widget, overwrite);
     m_bChildDisplayedDoc = true;
 }
 
+/**
+ *  Calls the same method in the DocWindow.
+ */
 void UMLView::showDocumentation(AssociationWidget * widget, bool overwrite)
 {
     UMLApp::app()->docWindow()->showDocumentation(widget, overwrite);
     m_bChildDisplayedDoc = true;
 }
 
+/**
+ *  Calls the same method in the DocWindow.
+ */
 void UMLView::updateDocumentation(bool clear)
 {
     UMLApp::app()->docWindow()->updateDocumentation(clear);
 }
 
+/**
+ * Refreshes containment association, i.e. removes possible old
+ * containment and adds new containment association if applicable.
+ *
+ * @param self  Pointer to the contained object for which
+ *   the association to the containing object is
+ *   recomputed.
+ */
 void UMLView::updateContainment(UMLCanvasObject *self)
 {
     if (self == NULL)
@@ -2092,6 +2399,11 @@ void UMLView::updateContainment(UMLCanvasObject *self)
     m_AssociationList.append(a);
 }
 
+/**
+ * Creates automatically any Associations that the given @ref UMLWidget
+ * may have on any diagram.  This method is used when you just add the UMLWidget
+ * to a diagram.
+ */
 void UMLView::createAutoAssociations(UMLWidget * widget)
 {
     if (widget == NULL ||
@@ -2268,6 +2580,12 @@ void UMLView::createAutoAssociations(UMLWidget * widget)
         delete a;
 }
 
+/**
+ * If the m_Type of the given widget is Uml::wt_Class then
+ * iterate through the class' attributes and create an
+ * association to each attribute type widget that is present
+ * on the current diagram.
+ */
 void UMLView::createAutoAttributeAssociations(UMLWidget *widget)
 {
     if (widget == NULL || m_Type != Uml::DiagramType::Class || !m_Options.classState.showAttribAssocs)
@@ -2332,6 +2650,10 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget)
     }
 }
 
+/**
+ * Create an association with the attribute attr associated with the UMLWidget
+ * widget if the UMLClassifier type is present on the current diagram.
+ */
 void UMLView::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute *attr,
         UMLWidget *widget /*, UMLClassifier * klass*/)
 {
@@ -2477,6 +2799,24 @@ void UMLView::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignKe
 
 }
 
+/**
+ * Find the maximum bounding rectangle of FloatingTextWidget widgets.
+ * Auxiliary to copyAsImage().
+ *
+ * @param ft Pointer to the FloatingTextWidget widget to consider.
+ * @param px  X coordinate of lower left corner. This value will be
+ *            updated if the X coordinate of the lower left corner
+ *            of ft is smaller than the px value passed in.
+ * @param py  Y coordinate of lower left corner. This value will be
+ *            updated if the Y coordinate of the lower left corner
+ *            of ft is smaller than the py value passed in.
+ * @param qx  X coordinate of upper right corner. This value will be
+ *            updated if the X coordinate of the upper right corner
+ *            of ft is larger than the qx value passed in.
+ * @param qy  Y coordinate of upper right corner. This value will be
+ *            updated if the Y coordinate of the upper right corner
+ *            of ft is larger than the qy value passed in.
+ */
 void UMLView::findMaxBoundingRectangle(const FloatingTextWidget* ft, int& px, int& py, int& qx, int& qy)
 {
     if (ft == NULL || !ft->isVisible())
@@ -2497,6 +2837,9 @@ void UMLView::findMaxBoundingRectangle(const FloatingTextWidget* ft, int& px, in
         qy = y1;
 }
 
+/**
+ * Returns the PNG picture of the paste operation.
+ */
 void UMLView::copyAsImage(QPixmap*& pix)
 {
     //get the smallest rect holding the diagram
@@ -2568,6 +2911,10 @@ void UMLView::copyAsImage(QPixmap*& pix)
     m_bDrawSelectedOnly = false;
 }
 
+/**
+ * Sets the popup menu to use when clicking on a diagram background
+ * (rather than a widget or listView).
+ */
 void UMLView::setMenu()
 {
     slotRemovePopupMenu();
@@ -2622,6 +2969,12 @@ void UMLView::setMenu()
     }
 }
 
+/**
+ * This slot is entered when an event has occurred on the views display,
+ * most likely a mouse event.  Before it sends out that mouse event everyone
+ * that displays a menu on the views surface (widgets and this) should remove any
+ * menu.  This stops more than one menu being displayed.
+ */
 void UMLView::slotRemovePopupMenu()
 {
     if (m_pMenu) {
@@ -2631,6 +2984,10 @@ void UMLView::slotRemovePopupMenu()
     }
 }
 
+/**
+ * When a menu selection has been made on the menu
+ * that this view created, this method gets called.
+ */
 void UMLView::slotMenuSelection(QAction* action)
 {
     ListPopupMenu::MenuType sel = ListPopupMenu::mt_Undefined;
@@ -2897,6 +3254,13 @@ void UMLView::slotMenuSelection(QAction* action)
     }
 }
 
+/**
+ * Connects to the signal that @ref UMLApp emits when a cut operation
+ * is successful.
+ * If the view or a child started the operation the flag m_bStartedCut will
+ * be set and we can carry out any operation that is needed, like deleting the selected
+ * widgets for the cut operation.
+ */
 void UMLView::slotCutSuccessful()
 {
     if (m_bStartedCut) {
@@ -2905,11 +3269,20 @@ void UMLView::slotCutSuccessful()
     }
 }
 
+/**
+ * Called by menu when to show the instance of the view.
+ */
 void UMLView::slotShowView()
 {
     m_doc->changeCurrentView(getID());
 }
 
+/**
+ * Returns the offset point at which to place the paste from clipboard.
+ * Just add the amount to your co-ords.
+ * Only call this straight after the event, the value won't stay valid.
+ * Should only be called by Assoc widgets at the moment. no one else needs it.
+ */
 QPoint UMLView::getPastePoint()
 {
     QPoint point = m_PastePoint;
@@ -2918,11 +3291,17 @@ QPoint UMLView::getPastePoint()
     return point;
 }
 
+/**
+ * Reset the paste point.
+ */
 void UMLView::resetPastePoint()
 {
     m_PastePoint = m_Pos;
 }
 
+/**
+ * Returns the input coordinate with possible grid-snap applied.
+ */
 int UMLView::snappedX(int x)
 {
     if (getSnapToGrid()) {
@@ -2935,6 +3314,9 @@ int UMLView::snappedX(int x)
     return x;
 }
 
+/**
+ * Returns the input coordinate with possible grid-snap applied.
+ */
 int UMLView::snappedY(int y)
 {
     if (getSnapToGrid()) {
@@ -2947,6 +3329,9 @@ int UMLView::snappedY(int y)
     return y;
 }
 
+/**
+ * Shows the properties dialog for the view.
+ */
 bool UMLView::showPropDialog()
 {
     bool success = false;
@@ -2958,11 +3343,17 @@ bool UMLView::showPropDialog()
     return success;
 }
 
+/**
+ * Returns the font to use
+ */
 QFont UMLView::getFont() const
 {
     return m_Options.uiState.font;
 }
 
+/**
+ * Sets the font for the view and optionally all the widgets on the view.
+ */
 void UMLView::setFont(QFont font, bool changeAllWidgets /* = false */)
 {
     m_Options.uiState.font = font;
@@ -2973,6 +3364,9 @@ void UMLView::setFont(QFont font, bool changeAllWidgets /* = false */)
     }
 }
 
+/**
+ * Sets some options for all the @ref ClassifierWidget on the view.
+ */
 void UMLView::setClassWidgetOptions(ClassOptionsPage * page)
 {
     foreach(UMLWidget* pWidget , m_WidgetList) {
@@ -2984,6 +3378,11 @@ void UMLView::setClassWidgetOptions(ClassOptionsPage * page)
     }
 }
 
+/**
+ * Call before copying/cutting selected widgets.  This will make sure
+ * any associations/message selected will make sure both the widgets
+ * widgets they are connected to are selected.
+ */
 void UMLView::checkSelections()
 {
     UMLWidget * pWA = 0, * pWB = 0;
@@ -3021,6 +3420,12 @@ void UMLView::checkSelections()
     }//end foreach
 }
 
+/**
+ * This function checks if the currently selected items have all the same
+ * type (class, interface, ...). If true, the selection is unique and true
+ * will be returned.
+ * If there are no items selected, the function will return always true.
+ */
 bool UMLView::checkUniqueSelection()
 {
     // if there are no selected items, we return true
@@ -3041,6 +3446,10 @@ bool UMLView::checkUniqueSelection()
     return true; // selected items are unique
 }
 
+/**
+ * Asks for confirmation and clears everything on the diagram.
+ * Called from menus.
+ */
 void UMLView::clearDiagram()
 {
     if (KMessageBox::Continue == KMessageBox::warningContinueCancel(this, i18n("You are about to delete "
@@ -3050,6 +3459,9 @@ void UMLView::clearDiagram()
     }
 }
 
+/**
+ * apply an automatic layout
+ */
 void UMLView::applyLayout(const QString &variant)
 {
     LayoutGenerator r;
@@ -3057,27 +3469,45 @@ void UMLView::applyLayout(const QString &variant)
     r.apply(umlScene());
 }
 
+/**
+ * Changes snap to grid boolean.
+ * Called from menus.
+ */
 void UMLView::toggleSnapToGrid()
 {
     setSnapToGrid(!getSnapToGrid());
 }
 
+/**
+ * Changes snap to grid for component size boolean.
+ * Called from menus.
+ */
 void UMLView::toggleSnapComponentSizeToGrid()
 {
     setSnapComponentSizeToGrid(!getSnapComponentSizeToGrid());
 }
 
+/**
+ *  Changes show grid boolean.
+ * Called from menus.
+ */
 void UMLView::toggleShowGrid()
 {
     setShowSnapGrid(!getShowSnapGrid());
 }
 
+/**
+ *  Sets whether to snap to grid.
+ */
 void UMLView::setSnapToGrid(bool bSnap)
 {
     m_bUseSnapToGrid = bSnap;
     emit sigSnapToGridToggled(getSnapToGrid());
 }
 
+/**
+ * Sets whether to snap to grid for component size.
+ */
 void UMLView::setSnapComponentSizeToGrid(bool bSnap)
 {
     m_bUseSnapComponentSizeToGrid = bSnap;
@@ -3085,11 +3515,17 @@ void UMLView::setSnapComponentSizeToGrid(bool bSnap)
     emit sigSnapComponentSizeToGridToggled(getSnapComponentSizeToGrid());
 }
 
+/**
+ *  Returns whether to show snap grid or not.
+ */
 bool UMLView::getShowSnapGrid() const
 {
     return m_bShowSnapGrid;
 }
 
+/**
+ * Sets whether to show snap grid.
+ */
 void UMLView::setShowSnapGrid(bool bShow)
 {
     m_bShowSnapGrid = bShow;
@@ -3097,11 +3533,17 @@ void UMLView::setShowSnapGrid(bool bShow)
     emit sigShowGridToggled(getShowSnapGrid());
 }
 
+/**
+ * Returns whether to show operation signatures.
+ */
 bool UMLView::getShowOpSig() const
 {
     return m_Options.classState.showOpSig;
 }
 
+/**
+ * Sets whether to show operation signatures.
+ */
 void UMLView::setShowOpSig(bool bShowOpSig)
 {
     m_Options.classState.showOpSig = bShowOpSig;
@@ -3158,12 +3600,19 @@ void UMLView::zoomOut()
     setZoom((int)(wm.m11()*100.0));
 }
 
+/**
+ * Changes the zoom to the currently set level (now loaded from file)
+ * Called from UMLApp::slotUpdateViews()
+ */
 void UMLView::fileLoaded()
 {
     setZoom(zoom());
     resizeCanvasToItems();
 }
 
+/**
+ * Sets the diagram width and height in pixels
+ */
 void UMLView::setCanvasSize(int width, int height)
 {
     setCanvasWidth(width);
@@ -3171,6 +3620,9 @@ void UMLView::setCanvasSize(int width, int height)
     canvas()->resize(width, height);
 }
 
+/**
+ * Sets the size of the canvas to just fit on all the items
+ */
 void UMLView::resizeCanvasToItems()
 {
     QRect canvasSize = diagramRect();
@@ -3204,6 +3656,9 @@ void UMLView::show()
     resizeCanvasToItems();
 }
 
+/**
+ * Updates the size of all components in this view.
+ */
 void UMLView::updateComponentSizes()
 {
     // update sizes of all components
@@ -3229,6 +3684,9 @@ void UMLView::forceUpdateWidgetFontMetrics(QPainter * painter)
     }
 }
 
+/**
+ * Creates the "diagram" tag and fills it with the contents of the diagram.
+ */
 void UMLView::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement viewElement = qDoc.createElement("diagram");
@@ -3316,6 +3774,9 @@ void UMLView::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     qElement.appendChild(viewElement);
 }
 
+/**
+ * Loads the "diagram" tag.
+ */
 bool UMLView::loadFromXMI(QDomElement & qElement)
 {
     QString id = qElement.attribute("xmi.id", "-1");
@@ -3497,6 +3958,9 @@ bool UMLView::loadWidgetsFromXMI(QDomElement & qElement)
     return true;
 }
 
+/**
+ * Loads a "widget" element from XMI, used by loadFromXMI() and the clipboard.
+ */
 UMLWidget* UMLView::loadWidgetFromXMI(QDomElement& widgetElement)
 {
     if (!m_doc) {
@@ -3581,6 +4045,9 @@ bool UMLView::loadAssociationsFromXMI(QDomElement & qElement)
     return true;
 }
 
+/**
+ * Add an object to the application, and update the view.
+ */
 void UMLView::addObject(UMLObject *object)
 {
     m_bCreateObject = true;
@@ -3685,6 +4152,9 @@ bool UMLView::loadUisDiagramPresentation(QDomElement & qElement)
     return true;
 }
 
+/**
+ * Loads the "UISDiagram" tag of Unisys.IntegratePlus.2 generated files.
+ */
 bool UMLView::loadUISDiagram(QDomElement & qElement)
 {
     QString idStr = qElement.attribute("xmi.id", "");
@@ -3721,6 +4191,9 @@ bool UMLView::loadUISDiagram(QDomElement & qElement)
     return true;
 }
 
+/**
+ * Left Alignment
+ */
 void UMLView::alignLeft()
 {
     UMLWidgetList widgetList;
@@ -3736,6 +4209,9 @@ void UMLView::alignLeft()
     }
 }
 
+/**
+ * Right Alignment
+ */
 void UMLView::alignRight()
 {
     UMLWidgetList widgetList;
@@ -3750,6 +4226,9 @@ void UMLView::alignRight()
     }
 }
 
+/**
+ * Top Alignment
+ */
 void UMLView::alignTop()
 {
     UMLWidgetList widgetList;
@@ -3765,6 +4244,9 @@ void UMLView::alignTop()
     }
 }
 
+/**
+ * Bottom Alignment
+ */
 void UMLView::alignBottom()
 {
     UMLWidgetList widgetList;
@@ -3779,6 +4261,9 @@ void UMLView::alignBottom()
     }
 }
 
+/**
+ * Vertical Middle Alignment
+ */
 void UMLView::alignVerticalMiddle()
 {
     UMLWidgetList widgetList;
@@ -3796,6 +4281,9 @@ void UMLView::alignVerticalMiddle()
     }
 }
 
+/**
+ * Horizontal Middle Alignment
+ */
 void UMLView::alignHorizontalMiddle()
 {
     UMLWidgetList widgetList;
@@ -3813,6 +4301,9 @@ void UMLView::alignHorizontalMiddle()
     }
 }
 
+/**
+ * Vertical Distribute Alignment
+ */
 void UMLView::alignVerticalDistribute()
 {
     UMLWidgetList widgetList;
@@ -3841,6 +4332,9 @@ void UMLView::alignVerticalDistribute()
     }
 }
 
+/**
+ * Horizontal Distribute Alignment
+ */
 void UMLView::alignHorizontalDistribute()
 {
     UMLWidgetList widgetList;
@@ -3870,16 +4364,35 @@ void UMLView::alignHorizontalDistribute()
 
 }
 
+/**
+ * Returns true if the first widget's X is smaller than second's.
+ * Used for sorting the UMLWidgetList.
+ *
+ * @param widget1 The widget to compare.
+ * @param widget2 The widget to compare with.
+ */
 bool UMLView::hasWidgetSmallerX(const UMLWidget* widget1, const UMLWidget* widget2)
 {
     return widget1->getX() < widget2->getX();
 }
 
+/**
+ * Returns true if the first widget's Y is smaller than second's.
+ * Used for sorting the UMLWidgetList.
+ *
+ * @param widget1 The widget to compare.
+ * @param widget2 The widget to compare with.
+ */
 bool UMLView::hasWidgetSmallerY(const UMLWidget* widget1, const UMLWidget* widget2)
 {
     return widget1->getY() < widget2->getY();
 }
 
+/**
+ * Looks for the smallest x-value of the given UMLWidgets.
+ *
+ * @param widgetList A list with UMLWidgets.
+ */
 int UMLView::getSmallestX(const UMLWidgetList &widgetList)
 {
     UMLWidgetListIt it(widgetList);
@@ -3900,6 +4413,11 @@ int UMLView::getSmallestX(const UMLWidgetList &widgetList)
     return smallestX;
 }
 
+/**
+ * Looks for the smallest y-value of the given UMLWidgets.
+ *
+ * @param widgetList A list with UMLWidgets.
+ */
 int UMLView::getSmallestY(const UMLWidgetList &widgetList)
 {
 
@@ -3922,6 +4440,11 @@ int UMLView::getSmallestY(const UMLWidgetList &widgetList)
     return smallestY;
 }
 
+/**
+ * Looks for the biggest x-value of the given UMLWidgets.
+ *
+ * @param widgetList A list with UMLWidgets.
+ */
 int UMLView::getBiggestX(const UMLWidgetList &widgetList)
 {
     if (widgetList.isEmpty())
@@ -3944,6 +4467,11 @@ int UMLView::getBiggestX(const UMLWidgetList &widgetList)
     return biggestX;
 }
 
+/**
+ * Looks for the biggest y-value of the given UMLWidgets.
+ *
+ * @param widgetList A list with UMLWidgets.
+ */
 int UMLView::getBiggestY(const UMLWidgetList &widgetList)
 {
     if (widgetList.isEmpty())
@@ -3966,6 +4494,11 @@ int UMLView::getBiggestY(const UMLWidgetList &widgetList)
     return biggestY;
 }
 
+/**
+ * Returns the sum of the heights of the given UMLWidgets
+ *
+ * @param widgetList A list with UMLWidgets.
+ */
 int UMLView::getHeightsSum(const UMLWidgetList &widgetList)
 {
     int heightsSum = 0;
@@ -3977,6 +4510,11 @@ int UMLView::getHeightsSum(const UMLWidgetList &widgetList)
     return heightsSum;
 }
 
+/**
+ * Returns the sum of the widths of the given UMLWidgets.
+ *
+ * @param widgetList A list with UMLWidgets.
+ */
 int UMLView::getWidthsSum(const UMLWidgetList &widgetList)
 {
     int widthsSum = 0;
@@ -3988,6 +4526,17 @@ int UMLView::getWidthsSum(const UMLWidgetList &widgetList)
     return widthsSum;
 }
 
+/**
+ * Sorts the given UMLWidgetList based on the Compare function.
+ * The list is cleared and all the widgets are added again in order.
+ *
+ * The comp function gets two const UMLWidget* params and returns
+ * a boolean telling if the first widget was smaller than the second,
+ * whatever the "smaller" concept is depending on the sorting to do.
+ *
+ * @param widgetList The list with the widgets to order.
+ * @param comp The comp function to compare the widgets.
+ */
 template<typename Compare>
 void UMLView::sortWidgetList(UMLWidgetList &widgetList, Compare comp)
 {
