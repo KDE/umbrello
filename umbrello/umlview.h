@@ -74,8 +74,6 @@ public:
     /**
      * Hack for reducing the difference
      * between the new QGraphicsScreen port.
-     * TODO: Check if we should pass an UMLScene instead of an UMLView
-     *       at places where we see "view->umlScene()->doSomething()".
      */
     UMLScene* umlScene() {
         return m_scene;
