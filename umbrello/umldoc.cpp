@@ -69,7 +69,7 @@
 #include <QtXml/QDomDocument>
 
 // Update this version when changing the XMI file format
-#define XMI_FILE_VERSION "1.5.9"
+#define XMI_FILE_VERSION "1.6.0"
 
 /**
  * Constructor for the fileclass of the application.
