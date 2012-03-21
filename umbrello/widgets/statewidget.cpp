@@ -40,6 +40,7 @@ StateWidget::StateWidget(UMLScene * scene, StateType stateType, Uml::IDType id)
   : UMLWidget(scene, WidgetBase::wt_State, id)
 {
     m_stateType = stateType;
+    m_drawVertical = true;
     setAspectRatioMode();
     m_Text = "State";
 }
@@ -204,8 +205,13 @@ UMLSceneSize StateWidget::minimumSize()
         }
         case StateWidget::Fork:
         case StateWidget::Join:
-            width = 8;
-            height = 60;
+            if (m_drawVertical) {
+                width = 8;
+                height = 60;
+            } else {
+                width = 60;
+                height = 8;
+            }
             break;
         case StateWidget::Junction:
         case StateWidget::DeepHistory:
@@ -222,6 +228,26 @@ UMLSceneSize StateWidget::minimumSize()
     }
 
     return UMLSceneSize(width, height);
+}
+
+/**
+ * Overrides method from UMLWidget
+ */
+UMLSceneSize StateWidget::maximumSize()
+{
+    switch (m_stateType) {
+        case StateWidget::Initial:
+        case StateWidget::End:
+        case StateWidget::Junction:
+        case StateWidget::DeepHistory:
+        case StateWidget::ShallowHistory:
+        case StateWidget::Choice:
+            return UMLSceneSize(35, 35);
+            break;
+        default:
+            break;
+    }
+    return UMLWidget::maximumSize();
 }
 
 /**
@@ -316,6 +342,10 @@ void StateWidget::slotMenuSelection(QAction* action)
             addActivity( nameNew );
         break;
 
+    case ListPopupMenu::mt_Flip:
+        setDrawVertical(!m_drawVertical);
+        break;
+
     default:
         UMLWidget::slotMenuSelection(action);
     }
@@ -372,6 +402,22 @@ bool StateWidget::renameActivity(const QString &activity, const QString &newName
 }
 
 /**
+ * Get whether to draw a fork or join vertically.
+ */
+bool StateWidget::drawVertical() const {
+    return m_drawVertical;
+}
+
+/**
+ * Set whether to draw a fork or join vertically.
+ */
+void StateWidget::setDrawVertical(bool to) {
+    m_drawVertical = to;
+    updateComponentSize();
+    UMLWidget::adjustAssocs( getX(), getY() );
+}
+
+/**
  * Show a properties dialog for a StateWidget.
  */
 void StateWidget::showPropertiesDialog()
@@ -424,6 +470,8 @@ void StateWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     stateElement.setAttribute( "statename", m_Text );
     stateElement.setAttribute( "documentation", m_Doc );
     stateElement.setAttribute( "statetype", m_stateType );
+    if (m_stateType == Fork || m_stateType == Join)
+        stateElement.setAttribute("drawvertical", m_drawVertical);
     //save states activities
     QDomElement activitiesElement = qDoc.createElement( "Activities" );
 
@@ -449,6 +497,8 @@ bool StateWidget::loadFromXMI(QDomElement & qElement)
     QString type = qElement.attribute( "statetype", "1" );
     m_stateType = (StateType)type.toInt();
     setAspectRatioMode();
+    QString drawVertical = qElement.attribute("drawvertical", "1");
+    m_drawVertical = (bool)drawVertical.toInt();
     //load states activities
     QDomNode node = qElement.firstChild();
     QDomElement tempElement = node.toElement();

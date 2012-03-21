@@ -78,6 +78,9 @@ public:
     QStringList activities() const;
     void setActivities(const QStringList &list);
 
+    bool drawVertical() const;
+    void setDrawVertical(bool to = true);
+
     virtual void showPropertiesDialog();
 
     static bool isState(WorkToolBar::ToolBar_Buttons tbb,
@@ -88,6 +91,7 @@ public:
 
 protected:
     UMLSceneSize minimumSize();
+    UMLSceneSize maximumSize();
     void setAspectRatioMode();
 
 public slots:
@@ -95,6 +99,7 @@ public slots:
 
 private:
     StateType   m_stateType;   ///< Type of state.
+    bool m_drawVertical;   ///< whether to draw the fork/join horizontally or vertically
     QStringList m_Activities;  ///< List of activities for the state.
 
 };

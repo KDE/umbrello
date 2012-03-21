@@ -5,6 +5,7 @@ Version 2.9.0 (unreleased)
 * Color of role text on diagram (e.g. Role B) nearly invisible (291401)
 * Junk residual UMLAssociations saved to XMI (293042)
 * Problems with widget moving/resizing in state diagrams (295605)
+* State diagram deep/shallow history widget resizing problem (296331)
 
 Version 2.8.1
 

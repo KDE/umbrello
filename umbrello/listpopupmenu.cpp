@@ -416,10 +416,21 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
             }
             insertSubMenuColor( object->useFillColor() );
             insertStdItems(false, type);
-            if (pState->stateType() == StateWidget::Normal) {
-                insert(mt_Rename, i18n("Change State Name..."));
-                insert(mt_Change_Font);
-                insert(mt_Properties);
+            switch (pState->stateType()) {
+	        case StateWidget::Normal:
+                    insert(mt_Rename, i18n("Change State Name..."));
+                    insert(mt_Change_Font);
+                    insert(mt_Properties);
+		    break;
+	        case StateWidget::Fork:
+	        case StateWidget::Join:
+                    if (pState->drawVertical())
+                        insert(mt_Flip, i18n("Flip Horizontal"));
+                    else
+                        insert(mt_Flip, i18n("Flip Vertical"));
+		    break;
+		default:
+		    break;
             }
         }
         break;
