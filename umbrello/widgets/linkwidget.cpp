@@ -44,15 +44,15 @@ UMLClassifier *LinkWidget::operationOwner()
  * @param scene   the given view
  * @return the operation text
  */
-QString LinkWidget::operationText(UMLView *view)
+QString LinkWidget::operationText(UMLScene *scene)
 {
     UMLOperation *op = operation();
     if (op == NULL)
         return customOpText();
-    if (view == NULL)
-        view = UMLApp::app()->currentView();
+    if (scene == NULL)
+        scene = UMLApp::app()->currentView()->umlScene();
     Uml::SignatureType sigType;
-    if (view && view->getShowOpSig())
+    if (scene && scene->getShowOpSig())
         sigType = Uml::SignatureType::SigNoVis;
     else
         sigType = Uml::SignatureType::NoSigNoVis;

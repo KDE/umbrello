@@ -25,11 +25,11 @@ int const SeqLineWidget::m_nMouseDownEpsilonX = 20;
 /**
  * Constructor.
  */
-SeqLineWidget::SeqLineWidget(UMLView * pView, ObjectWidget * pObject)
-  : UMLSceneLineItem()
+SeqLineWidget::SeqLineWidget(UMLScene *scene, ObjectWidget * pObject)
+  : UMLSceneLineItem(),
+    m_scene(scene)
 {
-    setCanvas(pView -> canvas());
-    m_scene = pView;
+    setCanvas(scene->canvas());
     m_pObject = pObject;
     setPen( QPen( m_pObject->lineColor(), 0, Qt::DashLine ) );
     setZ( 0 );

@@ -26,7 +26,7 @@
 #include "notewidgetcontroller.h"
 #include "notedialog.h"
 #include "umldoc.h"
-#include "umlscene.h"
+#include "umlview.h"
 #include "uml.h"
 
 /**
@@ -188,7 +188,7 @@ void NoteWidget::setDiagramLink(Uml::IDType viewID)
         uError() << "no view found for viewID " << ID2STR(viewID);
         return;
     }
-    QString linkText("Diagram: " + view->name());
+    QString linkText("Diagram: " + view->umlScene()->name());
     setDocumentation(linkText);
     m_diagramLink = viewID;
 }

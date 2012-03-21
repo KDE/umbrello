@@ -214,7 +214,7 @@ void ObjectNodeWidget::showPropertiesDialog()
     DocWindow *docwindow = UMLApp::app()->docWindow();
     docwindow->updateDocumentation(false);
 
-    QPointer<ObjectNodeDialog> dialog = new ObjectNodeDialog(m_scene, this);
+    QPointer<ObjectNodeDialog> dialog = new ObjectNodeDialog(UMLApp::app()->currentView(), this);
     if (dialog->exec() && dialog->getChangesMade()) {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->document()->setModified(true);

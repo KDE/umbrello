@@ -19,12 +19,12 @@
  *@author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLView;
+class UMLScene;
 
 class UMLViewCanvas : public Q3Canvas
 {
 public:
-    UMLViewCanvas(UMLView * pView,const Settings::OptionState& option);
+    UMLViewCanvas(UMLScene * scene,const Settings::OptionState& option);
     virtual ~UMLViewCanvas();
 
     void setColors(const QColor& backColor, const QColor& gridColor);
@@ -34,7 +34,7 @@ protected:
 
     virtual void drawBackground(QPainter & painter, const QRect & clip);
 
-    UMLView * m_pView;      ///< The view the canvas is associated with.
+    UMLScene *m_scene;      ///< The view the canvas is associated with.
     QColor    m_gridColor;  ///< Color for the grid dots.
 };
 

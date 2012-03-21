@@ -23,7 +23,7 @@ class ObjectWidget;
 class SeqLineWidget : public UMLSceneLineItem
 {
 public:
-    SeqLineWidget(UMLView * pView, ObjectWidget * pObject);
+    SeqLineWidget(UMLScene *scene, ObjectWidget * pObject);
     virtual ~SeqLineWidget();
 
     int onWidget(const QPoint & p);
@@ -62,7 +62,7 @@ protected:
     void moveDestructionBox();
 
     ObjectWidget* m_pObject;  ///< ObjectWidget associated with this sequence line
-    UMLView*      m_scene;    ///< view displayed on
+    UMLScene*     m_scene;    ///< scene displayed on
 
     struct DestructionBox {
         UMLSceneLineItem * line1;

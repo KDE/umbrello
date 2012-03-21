@@ -821,8 +821,8 @@ UMLViewCanvas * AssociationLine::canvas()
 {
     if( !m_associationWidget )
         return 0;
-    const UMLView * view =  m_associationWidget->umlScene();
-    return static_cast<UMLViewCanvas *>(view->canvas());
+    const UMLScene * scene =  m_associationWidget->umlScene();
+    return static_cast<UMLViewCanvas *>(scene->canvas());
 }
 
 /**

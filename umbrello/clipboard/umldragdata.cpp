@@ -16,7 +16,7 @@
 #include "idchangelog.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "umlscene.h"
+#include "umlview.h"
 #include "umlobject.h"
 #include "folder.h"
 #include "classifier.h"
@@ -153,7 +153,7 @@ void UMLDragData::setUMLDataClip2(UMLObjectList& objects, UMLListViewItemList& u
     xmiclip.appendChild(viewsTag);
 
     foreach( UMLView* view, diagrams ) {
-        view->saveToXMI(domDoc, viewsTag);
+        view->umlScene()->saveToXMI(domDoc, viewsTag);
     }
 
     QDomElement itemsTag = domDoc.createElement("umllistviewitems");

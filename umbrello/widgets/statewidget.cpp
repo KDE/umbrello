@@ -425,7 +425,7 @@ void StateWidget::showPropertiesDialog()
     DocWindow *docwindow = UMLApp::app()->docWindow();
     docwindow->updateDocumentation(false);
 
-    QPointer<StateDialog> dialog = new StateDialog(m_scene, this);
+    QPointer<StateDialog> dialog = new StateDialog(m_scene->view(), this);
     if (dialog->exec() && dialog->getChangesMade()) {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->document()->setModified(true);

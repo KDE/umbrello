@@ -21,9 +21,9 @@
 /**
  * Constructor
  */
-UMLViewCanvas::UMLViewCanvas(UMLView * pView,const Settings::OptionState& option) : Q3Canvas(pView)
+UMLViewCanvas::UMLViewCanvas(UMLScene * scene,const Settings::OptionState& option) : Q3Canvas(scene->canvas())
 {
-    m_pView = pView;
+    m_scene = scene;
 
     QPalette palette;
     setColors(palette.base().color(), option.uiState.gridDotColor);
@@ -58,10 +58,10 @@ void UMLViewCanvas::drawBackground(QPainter & painter, const QRect & clip)
 {
     Q_UNUSED(clip);
 //?    UMLViewCanvas::drawBackground( painter, clip );
-    if( m_pView->getShowSnapGrid() ) {
+    if( m_scene->getShowSnapGrid() ) {
         painter.setPen( m_gridColor );
-        int gridX = m_pView->getSnapX();
-        int gridY = m_pView->getSnapY();
+        int gridX = m_scene->getSnapX();
+        int gridY = m_scene->getSnapY();
         int numX = width() / gridX;
         int numY = height() / gridY;
         for( int x = 0; x <= numX; x++ )
