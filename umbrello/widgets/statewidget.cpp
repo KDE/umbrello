@@ -139,8 +139,15 @@ void StateWidget::paint(QPainter & p, int offsetX, int offsetY)
             p.setBrush(Qt::white);
             p.drawEllipse(rect());
             p.setPen(Qt::black);
-            p.drawText(rect().x() +  3, rect().y() + 13, "H");
-            p.drawText(rect().x() + 11, rect().y() + 12, "*");
+            p.setFont( UMLWidget::font() );
+            const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+            const int fontHeight  = fm.lineSpacing() / 2;
+            const int xStar = fm.boundingRect("H").width();
+            const int yStar = fontHeight / 4;
+            p.drawText(offsetX + (w / 6),
+                       offsetY + (h / 4) + fontHeight, "H");
+            p.drawText(offsetX + (w / 6) + xStar,
+                       offsetY + (h / 4) + fontHeight - yStar, "*");
         }
         break;
     case StateWidget::ShallowHistory:
@@ -148,7 +155,11 @@ void StateWidget::paint(QPainter & p, int offsetX, int offsetY)
             p.setBrush(Qt::white);
             p.drawEllipse(rect());
             p.setPen(Qt::black);
-            p.drawText(rect().x() + 5, rect().y() + 13, "H");
+            p.setFont( UMLWidget::font() );
+            const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+            const int fontHeight  = fm.lineSpacing() / 2;
+            p.drawText(offsetX + (w / 6),
+                       offsetY + (h / 4) + fontHeight, "H");
         }
         break;
     case StateWidget::Choice:
@@ -214,10 +225,15 @@ UMLSceneSize StateWidget::minimumSize()
             }
             break;
         case StateWidget::Junction:
-        case StateWidget::DeepHistory:
-        case StateWidget::ShallowHistory:
             width = 18;
             height = 18;
+            break;
+        case StateWidget::DeepHistory:
+        case StateWidget::ShallowHistory:
+            {
+                const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+                width = height = fm.lineSpacing();
+            }
             break;
         case StateWidget::Choice:
             width = 25;
@@ -239,10 +255,16 @@ UMLSceneSize StateWidget::maximumSize()
         case StateWidget::Initial:
         case StateWidget::End:
         case StateWidget::Junction:
-        case StateWidget::DeepHistory:
-        case StateWidget::ShallowHistory:
         case StateWidget::Choice:
             return UMLSceneSize(35, 35);
+            break;
+        case StateWidget::DeepHistory:
+        case StateWidget::ShallowHistory:
+            {
+                const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+                const int fontHeight  = fm.lineSpacing();
+                return UMLSceneSize(fontHeight + 10, fontHeight + 10);
+            }
             break;
         default:
             break;
