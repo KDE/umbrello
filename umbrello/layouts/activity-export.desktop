@@ -10,8 +10,10 @@ Name[uk]=Компонування експортованих даних
 Name[x-test]=xxExport Layoutxx
 Comment=Export Layout for Activity Diagrams
 Comment[es]=Exportar disposición de diagramas de actividad
+Comment[nl]=Indeling voor activiteitsdiagrammen exporteren
 Comment[pt]=Exportar a Disposição dos Diagramas de Actividades
 Comment[pt_BR]=Exportar leiaute para diagramas de atividades
+Comment[sv]=Exportera layout av aktivitetsdiagram
 Comment[uk]=Компонування для експортування діаграм дій
 Comment[x-test]=xxExport Layout for Activity Diagramsxx
 
