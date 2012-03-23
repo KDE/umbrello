@@ -35,16 +35,16 @@ visual::type::generalization=arrowtail=normal,dir=back
 visual::type::realisation=arrowtail=normal,dir=back
 visual::type::default=arrowhead=none
 # for position ranking
-ranking::type::anchor=constraint=false
+ranking::type::anchor=weight=0.001
 ranking::type::aggregation=weight=0.001
-ranking::type::association=constraint=false
+ranking::type::association=weight=0.001
 ranking::type::composition=weight=0.001
 ranking::type::containment=weight=0.001
 ranking::type::dependency=weight=0.001
 ranking::type::generalization=weight=1.0
 ranking::type::realisation=weight=0.8
-ranking::type::uniassociation=constraint=false
-ranking::type::default=constraint=false
+ranking::type::uniassociation=weight=0.001
+ranking::type::default=weight=0.001
 # id handling
 id::type::aggregation=swap
 id::type::containment=swap
