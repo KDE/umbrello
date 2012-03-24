@@ -31,7 +31,7 @@ visual::type::containment=arrowtail=odottee,dir=back
 visual::type::dependency=arrowtail=vee,style=dashed,dir=back
 visual::type::uniassociation=arrowtail=vee,dir=back
 visual::type::association=arrowhead=none
-visual::type::generalization=arrowtail=normal,dir=back
+visual::type::generalization=arrowtail=onormal,dir=back
 visual::type::realisation=arrowtail=normal,dir=back
 visual::type::default=arrowhead=none
 # for position ranking
