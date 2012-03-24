@@ -546,7 +546,7 @@ void UMLWidget::slotLineColorChanged(Uml::IDType viewID)
 
     if (m_usesDiagramLineColor) {
         m_LineColor = m_scene->lineColor();
-        setLineColor( m_lineColor );
+        setLineColor( m_LineColor );
     }
     update();
 }
