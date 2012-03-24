@@ -54,7 +54,6 @@
 #include "umlobject.h"
 #include "docwindow.h"
 #include "umlrole.h"
-#include "umlviewcanvas.h"
 #include "classoptionspage.h"
 #include "umlviewdialog.h"
 #include "idchangelog.h"
@@ -154,7 +153,6 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     m_pImageExporter = new UMLViewImageExporter(this);
 
     //setup graphical items
-    setCanvas(new UMLViewCanvas(this,m_Options));
     // don't set the quite frequent update rate for each
     // diagram, as that causes also an update of invisible
     // diagrams, which can cost high CPU load for many
@@ -209,11 +207,6 @@ UMLScene::~UMLScene()
 
     delete m_pToolBarStateFactory;
     m_pToolBarStateFactory = NULL;
-
-    // Qt Doc for QCanvasView::~QCanvasView () states:
-    // "Destroys the canvas view. The associated canvas is not deleted."
-    // we should do it now
-    delete canvas();
 }
 
 /**
@@ -1098,7 +1091,29 @@ void UMLScene::setTextColor(const QColor &color)
 {
     m_Options.uiState.textColor = color;
     emit sigColorChanged(getID());
-    canvas()->setAllChanged();
+    setAllChanged();
+}
+
+/**
+ * return grid dot color
+ *
+ * @return Color
+ */
+QColor UMLScene::gridDotColor() const
+{
+    return m_Options.uiState.gridDotColor;
+}
+
+/**
+ * set grid dot color
+ *
+ * @param color grid dot color
+ */
+void UMLScene::setGridDotColor(const QColor& color)
+{
+    m_Options.uiState.gridDotColor = color;
+    emit sigColorChanged(getID());
+    setAllChanged();
 }
 
 /**
@@ -3637,6 +3652,24 @@ void UMLScene::forceUpdateWidgetFontMetrics(QPainter * painter)
 }
 
 /**
+ * Sets the color of the background and the grid dots.
+ */
+void UMLScene::drawBackground(QPainter & painter, const QRect & clip)
+{
+    Q_UNUSED(clip);
+    if( getShowSnapGrid() ) {
+        painter.setPen( gridDotColor() );
+        int gridX = getSnapX();
+        int gridY = getSnapY();
+        int numX = view()->width() / gridX;
+        int numY = view()->height() / gridY;
+        for( int x = 0; x <= numX; x++ )
+            for( int y = 0; y < numY; y++ )
+                painter.drawPoint( x * gridX, y * gridY );
+    }
+}
+
+/**
  * Creates the "diagram" tag and fills it with the contents of the diagram.
  */
 void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
@@ -3652,15 +3685,8 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     viewElement.setAttribute("linewidth", m_Options.uiState.lineWidth);
     viewElement.setAttribute("usefillcolor", m_Options.uiState.useFillColor);
     viewElement.setAttribute("font", m_Options.uiState.font.toString());
-    QString backgroundColor = m_Options.uiState.backgroundColor.name();
-    QString gridDotColor    = m_Options.uiState.gridDotColor.name();
-    UMLViewCanvas* canvs = dynamic_cast<UMLViewCanvas*>(canvas());
-    if (canvs) {
-        backgroundColor = canvs->backgroundColor().name();
-        gridDotColor    = canvs->gridDotColor().name();
-    }
-    viewElement.setAttribute("backgroundcolor", backgroundColor);
-    viewElement.setAttribute("griddotcolor",    gridDotColor);
+    viewElement.setAttribute("backgroundcolor", m_Options.uiState.backgroundColor.name());
+    viewElement.setAttribute("griddotcolor", m_Options.uiState.gridDotColor.name());
     //optionstate classstate
     viewElement.setAttribute("showattsig", m_Options.classState.showAttSig);
     viewElement.setAttribute("showatts", m_Options.classState.showAtts);
@@ -3849,13 +3875,6 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
         m_Options.uiState.backgroundColor = QColor(backgroundColor);
     if (!gridDotColor.isEmpty())
         m_Options.uiState.gridDotColor = QColor(gridDotColor);
-    if (!backgroundColor.isEmpty() & !gridDotColor.isEmpty()) {
-        UMLViewCanvas* canvs = dynamic_cast<UMLViewCanvas*>(canvas());
-        if (canvs) {
-            DEBUG(DBG_SRC) << "Set background color to [" << backgroundColor << "] and grid dot color to [" << gridDotColor << "]";
-            canvs->setColors(QColor(backgroundColor), QColor(gridDotColor));
-        }
-    }
     m_nLocalID = STR2ID(localid);
 
     QDomNode node = qElement.firstChild();

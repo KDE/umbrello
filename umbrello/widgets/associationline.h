@@ -17,7 +17,6 @@
 #include <QtCore/QObject>
 #include <QtCore/QList>
 #include <QtCore/QPoint>
-#include <umlviewcanvas.h>
 
 /* how many pixels a user could click around a point */
 #define POINT_DELTA 5
@@ -146,7 +145,7 @@ protected:
         int inclination;
     };
 
-    UMLViewCanvas * canvas();
+    Q3Canvas * canvas();
 
     void moveSelected(int pointIndex);
 

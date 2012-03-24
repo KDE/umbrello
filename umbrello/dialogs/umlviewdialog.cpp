@@ -167,22 +167,23 @@ void UMLViewDialog::applyPage(KPageWidgetItem *item)
     {
         checkName();
         m_pView->setZoom( m_diagramProperties->ui_zoom->value() );
-        m_pView->setDocumentation( m_diagramProperties->ui_documentation->toPlainText() );
-        m_pView->setSnapX( m_diagramProperties->ui_gridSpaceX->value() );
-        m_pView->setSnapY( m_diagramProperties->ui_gridSpaceY->value() );
-        m_pView->setLineWidth( m_diagramProperties->ui_lineWidth->value() );
-        m_pView->setSnapToGrid( m_diagramProperties->ui_snapToGrid->isChecked() );
-        m_pView->setSnapComponentSizeToGrid( m_diagramProperties->ui_snapComponentSizeToGrid->isChecked() );
-        m_pView->setShowSnapGrid( m_diagramProperties->ui_checkBoxShowGrid->isChecked() );
-        m_pView->setShowOpSig( m_diagramProperties->ui_showOpSigs->isChecked() );
+        m_pView->umlScene()->setDocumentation( m_diagramProperties->ui_documentation->toPlainText() );
+        m_pView->umlScene()->setSnapX( m_diagramProperties->ui_gridSpaceX->value() );
+        m_pView->umlScene()->setSnapY( m_diagramProperties->ui_gridSpaceY->value() );
+        m_pView->umlScene()->setLineWidth( m_diagramProperties->ui_lineWidth->value() );
+        m_pView->umlScene()->setSnapToGrid( m_diagramProperties->ui_snapToGrid->isChecked() );
+        m_pView->umlScene()->setSnapComponentSizeToGrid( m_diagramProperties->ui_snapComponentSizeToGrid->isChecked() );
+        m_pView->umlScene()->setShowSnapGrid( m_diagramProperties->ui_checkBoxShowGrid->isChecked() );
+        m_pView->umlScene()->setShowOpSig( m_diagramProperties->ui_showOpSigs->isChecked() );
     }
     else if ( item == m_pageStyleItem )
     {
         uDebug() << "setting colors ";
         m_pStylePage->updateUMLWidget();
-        m_pView->setUseFillColor( m_options.uiState.useFillColor );
-        m_pView->setLineColor( m_options.uiState.lineColor );
-        m_pView->setFillColor( m_options.uiState.fillColor );
+        m_pView->umlScene()->setUseFillColor( m_options.uiState.useFillColor );
+        m_pView->umlScene()->setLineColor( m_options.uiState.lineColor );
+        m_pView->umlScene()->setFillColor( m_options.uiState.fillColor );
+        m_pView->umlScene()->setGridDotColor( m_options.uiState.gridDotColor );
     }
     else if ( item == m_pageFontItem )
     {

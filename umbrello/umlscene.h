@@ -10,16 +10,14 @@
 #ifndef UMLSCENE_H
 #define UMLSCENE_H
 
-#include "umlscene.h"
-
 #include <QMouseEvent>
 #include <QKeyEvent>
 
 // system includes
 #include <kurl.h>
 #include <qdom.h>
-#include <umlviewcanvas.h>
 #include <QtGui/QPixmap>
+#include <Q3Canvas>
 
 //local includes
 #include "umlobjectlist.h"
@@ -143,6 +141,9 @@ public:
     QColor textColor() const;
     void setTextColor( const QColor &color );
 
+    QColor gridDotColor() const;
+    void setGridDotColor( const QColor& color );
+
     /**
      * Returns the ID of the diagram.
      */
@@ -225,7 +226,7 @@ public:
 
     bool useFillColor() const;
     void setUseFillColor(bool ufc);
-
+    
     QFont getFont() const;
     void setFont(QFont font, bool changeAllWidgets = false);
 
@@ -631,6 +632,8 @@ protected:
     void findMaxBoundingRectangle(const FloatingTextWidget* ft,
                                   int& px, int& py, int& qx, int& qy);
     void forceUpdateWidgetFontMetrics(QPainter *painter);
+
+    virtual void drawBackground(QPainter & painter, const QRect & clip);
 
     /**
      * Used for creating unique name of collaboration messages.

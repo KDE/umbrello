@@ -14,7 +14,6 @@
 #include "uml.h"
 #include "umlscene.h"
 #include "umlview.h"
-#include "umlviewcanvas.h"
 #include "widgetbase.h"
 
 #include <klocale.h>
@@ -47,11 +46,8 @@ UMLWidgetStylePage::UMLWidgetStylePage( QWidget *pParent, WidgetBase *pWidget )
     if (!m_pUMLWidget) {  //  when we are on the diagram
         UMLView * view = UMLApp::app()->currentView();
         if (view) {
-            UMLViewCanvas* canvas = dynamic_cast<UMLViewCanvas*>(view->canvas());
-            if (canvas) {
-                m_BackgroundColorB->setColor(canvas->backgroundColor());
-                m_GridDotColorB->setColor(canvas->gridDotColor());
-            }
+            m_BackgroundColorB->setColor(view->umlScene()->backgroundColor());
+            m_GridDotColorB->setColor(view->umlScene()->gridDotColor());
         }
     }
 }
@@ -258,10 +254,8 @@ void UMLWidgetStylePage::updateUMLWidget()
     if (!m_pUMLWidget) {  // when we are on the diagram
         UMLView * view = UMLApp::app()->currentView();
         if (view) {
-            UMLViewCanvas* canvas = dynamic_cast<UMLViewCanvas*>(view->canvas());
-            if (canvas) {
-                canvas->setColors(m_BackgroundColorB->color(), m_GridDotColorB->color());
-            }
+            view->umlScene()->setBackgroundColor(m_BackgroundColorB->color());
+            view->umlScene()->setGridDotColor(m_GridDotColorB->color());
         }
     }
 }
