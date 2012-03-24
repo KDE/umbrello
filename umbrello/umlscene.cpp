@@ -95,7 +95,6 @@
 #include "model_utils.h"
 #include "object_factory.h"
 #include "umlwidget.h"
-#include "toolbarstatefactory.h"
 #include "cmds.h"
 #include "entity.h"
 #include "foreignkeyconstraint.h"
@@ -138,7 +137,6 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     //m_MessageList.setAutoDelete( true );
 
     //Setup up booleans
-    m_bChildDisplayedDoc = false;
     m_bPaste = false;
     m_bActivated = false;
     m_bCreateObject = false;
@@ -173,10 +171,6 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     connect(UMLApp::app(), SIGNAL(sigCutSuccessful()),
             this, SLOT(slotCutSuccessful()));
 
-    // Create the ToolBarState factory. This class is not a singleton, because it
-    // needs a pointer to this object.
-    m_pToolBarStateFactory = new ToolBarStateFactory();
-    m_pToolBarState = m_pToolBarStateFactory->getState(WorkToolBar::tbb_Arrow, this);
     m_doc = UMLApp::app()->document();
     m_pFolder = parentFolder;
 
@@ -204,9 +198,6 @@ UMLScene::~UMLScene()
     // on deletion of each removed widget
     blockSignals(true);
     removeAllWidgets();
-
-    delete m_pToolBarStateFactory;
-    m_pToolBarStateFactory = NULL;
 }
 
 /**
@@ -427,28 +418,6 @@ void UMLScene::setupNewWidget(UMLWidget *w)
 
 /**
  * Overrides the standard operation.
- * Calls the same method in the current tool bar state.
- */
-void UMLScene::contentsMouseReleaseEvent(QMouseEvent* ome)
-{
-    m_pToolBarState->mouseRelease(static_cast<UMLSceneMouseEvent*>(ome));
-}
-
-/**
- * Changes the current tool to the selected tool.
- * The current tool is cleaned and the selected tool initialized.
- */
-void UMLScene::slotToolBarChanged(int c)
-{
-    m_pToolBarState->cleanBeforeChange();
-    m_pToolBarState = m_pToolBarStateFactory->getState((WorkToolBar::ToolBar_Buttons)c, this);
-    m_pToolBarState->init();
-
-    m_bPaste = false;
-}
-
-/**
- * Overrides the standard operation.
  */
 void UMLScene::showEvent(QShowEvent* /*se*/)
 {
@@ -462,18 +431,12 @@ void UMLScene::showEvent(QShowEvent* /*se*/)
      setUpdatePeriod(20);
 # endif
 
-    UMLApp* theApp = UMLApp::app();
-    WorkToolBar* tb = theApp->workToolBar();
-    connect(tb, SIGNAL(sigButtonChanged(int)), this, SLOT(slotToolBarChanged(int)));
-    connect(this, SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
     connect(m_doc, SIGNAL(sigObjectCreated(UMLObject*)),
             this, SLOT(slotObjectCreated(UMLObject*)));
     connect(this, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
             UMLApp::app()->docWindow(), SLOT(slotAssociationRemoved(AssociationWidget*)));
     connect(this, SIGNAL(sigWidgetRemoved(UMLWidget*)),
             UMLApp::app()->docWindow(), SLOT(slotWidgetRemoved(UMLWidget*)));
-    resetToolbar();
-
 }
 
 /**
@@ -481,10 +444,6 @@ void UMLScene::showEvent(QShowEvent* /*se*/)
  */
 void UMLScene::hideEvent(QHideEvent* /*he*/)
 {
-    UMLApp* theApp = UMLApp::app();
-    WorkToolBar* tb = theApp->workToolBar();
-    disconnect(tb, SIGNAL(sigButtonChanged(int)), this, SLOT(slotToolBarChanged(int)));
-    disconnect(this, SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
     disconnect(m_doc, SIGNAL(sigObjectCreated(UMLObject*)), this, SLOT(slotObjectCreated(UMLObject*)));
     disconnect(this, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
                UMLApp::app()->docWindow(), SLOT(slotAssociationRemoved(AssociationWidget*)));
@@ -860,15 +819,6 @@ bool UMLScene::widgetOnDiagram(Uml::IDType id)
 }
 
 /**
- * Overrides the standard operation.
- * Calls the same method in the current tool bar state.
- */
-void UMLScene::contentsMouseMoveEvent(QMouseEvent* ome)
-{
-    m_pToolBarState->mouseMove(static_cast<UMLSceneMouseEvent*>(ome));
-}
-
-/**
  * Finds a widget with the given ID.
  *
  * @param id The ID of the widget to find.
@@ -1117,15 +1067,6 @@ void UMLScene::setGridDotColor(const QColor& color)
 }
 
 /**
- * Override standard method.
- * Calls the same method in the current tool bar state.
- */
-void UMLScene::contentsMouseDoubleClickEvent(QMouseEvent* ome)
-{
-    m_pToolBarState->mouseDoubleClick(static_cast<UMLSceneMouseEvent*>(ome));
-}
-
-/**
  * Gets the smallest area to print.
  *
  * @return Returns the smallest area to print.
@@ -1212,7 +1153,7 @@ void UMLScene::setSelected(UMLWidget * w, QMouseEvent * me)
 
     // if count == 1, widget will update the doc window with their data when selected
     if (count == 2)
-        updateDocumentation(true);  //clear doc window
+        view()->updateDocumentation(true);  //clear doc window
 
     /* selection changed, we have to make sure the copy and paste items
      * are correctly enabled/disabled */
@@ -1474,24 +1415,6 @@ bool UMLScene::isSavedInSeparateFile()
     }
     QString folderFile = modelFolder->folderFile();
     return !folderFile.isEmpty();
-}
-
-/**
- * Override standard method.
- * Calls the same method in the current tool bar state.
- */
-void UMLScene::contentsMousePressEvent(QMouseEvent* ome)
-{
-    m_pToolBarState->mousePress(static_cast<UMLSceneMouseEvent*>(ome));
-    //TODO should be managed by widgets when are selected. Right now also has some
-    //problems, such as clicking on a widget, and clicking to move that widget shows
-    //documentation of the diagram instead of keeping the widget documentation.
-    //When should diagram documentation be shown? When clicking on an empty
-    //space in the diagram with arrow tool?
-    if (!m_bChildDisplayedDoc) {
-        UMLApp::app()->docWindow()->showDocumentation(this->view(), true);
-    }
-    m_bChildDisplayedDoc = false;
 }
 
 /**
@@ -2312,41 +2235,6 @@ void UMLScene::removeAllWidgets()
         delete m_WidgetList.takeFirst();
     }
 
-}
-
-/**
- *  Calls the same method in the DocWindow.
- */
-void UMLScene::showDocumentation(UMLObject * object, bool overwrite)
-{
-    UMLApp::app()->docWindow()->showDocumentation(object, overwrite);
-    m_bChildDisplayedDoc = true;
-}
-
-/**
- *  Calls the same method in the DocWindow.
- */
-void UMLScene::showDocumentation(UMLWidget * widget, bool overwrite)
-{
-    UMLApp::app()->docWindow()->showDocumentation(widget, overwrite);
-    m_bChildDisplayedDoc = true;
-}
-
-/**
- *  Calls the same method in the DocWindow.
- */
-void UMLScene::showDocumentation(AssociationWidget * widget, bool overwrite)
-{
-    UMLApp::app()->docWindow()->showDocumentation(widget, overwrite);
-    m_bChildDisplayedDoc = true;
-}
-
-/**
- *  Calls the same method in the DocWindow.
- */
-void UMLScene::updateDocumentation(bool clear)
-{
-    UMLApp::app()->docWindow()->updateDocumentation(clear);
 }
 
 /**

@@ -33,8 +33,6 @@ class IDChangeLog;
 class FloatingTextWidget;
 class ListPopupMenu;
 class ObjectWidget;
-class ToolBarState;
-class ToolBarStateFactory;
 class UMLFolder;
 class UMLApp;
 class UMLDoc;
@@ -335,13 +333,6 @@ public:
     void setMenu();
 
     /**
-     * Reset the toolbar.
-     */
-    void resetToolbar() {
-        emit sigResetToolBar();
-    }
-
-    /**
      * Returns the status on whether in a paste state.
      *
      * @return Returns the status on whether in a paste state.
@@ -379,11 +370,6 @@ public:
     void removeAllAssociations();
 
     void removeAllWidgets();
-
-    void showDocumentation( UMLObject * object, bool overwrite );
-    void showDocumentation( UMLWidget * widget, bool overwrite );
-    void showDocumentation( AssociationWidget * widget, bool overwrite );
-    void updateDocumentation( bool clear );
 
     void getDiagram(const QRect &rect, QPixmap & diagram);
     void getDiagram(const QRect &area, QPainter & painter);
@@ -622,11 +608,6 @@ protected:
 
     QRect diagramRect();
 
-    void contentsMouseReleaseEvent(QMouseEvent* mouseEvent);
-    void contentsMouseMoveEvent(QMouseEvent* mouseEvent);
-    void contentsMouseDoubleClickEvent(QMouseEvent* mouseEvent);
-    void contentsMousePressEvent(QMouseEvent* mouseEvent);
-
     void makeSelected (UMLWidget * uw);
     void updateComponentSizes();
     void findMaxBoundingRectangle(const FloatingTextWidget* ft,
@@ -660,16 +641,6 @@ protected:
      * The folder in which this UMLView is contained
      */
     UMLFolder *m_pFolder;
-
-    /**
-     * set to true when a child has used the showDocumentation method,
-     * thus when one clicks on a child widget.
-     * Reset to false when clicking in an empty region of the view.
-     */
-    bool m_bChildDisplayedDoc;
-
-    ToolBarStateFactory* m_pToolBarStateFactory;
-    ToolBarState* m_pToolBarState;
 
     /**
      * LocalID Changes Log for paste actions
@@ -728,7 +699,6 @@ protected:
 public slots:
     void show();
 
-    void slotToolBarChanged(int c);
     void slotObjectCreated(UMLObject * o);
     void slotObjectRemoved(UMLObject * o);
     void slotMenuSelection(QAction* action);
@@ -747,7 +717,6 @@ public slots:
     void alignHorizontalDistribute();
 
 signals:
-    void sigResetToolBar();
     void sigColorChanged( Uml::IDType );
     void sigRemovePopupMenu();
     void sigClearAllSelected();

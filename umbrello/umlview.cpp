@@ -13,6 +13,10 @@
 #include "umlscene.h"
 #include "uml.h"
 
+// application specific includes
+#include "docwindow.h"
+#include "toolbarstatefactory.h"
+
 /**
  * Constructor
  */
@@ -22,6 +26,10 @@ UMLView::UMLView(UMLFolder *parentFolder)
     m_nZoom(100)
 {
     setCanvas(m_scene);
+    // Create the ToolBarState factory. This class is not a singleton, because it
+    // needs a pointer to this object.
+    m_pToolBarStateFactory = new ToolBarStateFactory();
+    m_pToolBarState = m_pToolBarStateFactory->getState(WorkToolBar::tbb_Arrow, this->umlScene());
 }
 
 /**
@@ -29,6 +37,8 @@ UMLView::UMLView(UMLFolder *parentFolder)
  */
 UMLView::~UMLView()
 {
+    delete m_pToolBarStateFactory;
+    m_pToolBarStateFactory = NULL;
 }
 
 /**
@@ -78,6 +88,129 @@ void UMLView::zoomOut()
 void UMLView::closeEvent(QCloseEvent * e)
 {
     QWidget::closeEvent(e);
+}
+
+/**
+ * Overrides the standard operation.
+ * Calls the same method in the current tool bar state.
+ */
+void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome)
+{
+    m_pToolBarState->mouseRelease(static_cast<UMLSceneMouseEvent*>(ome));
+}
+
+/**
+ * Overrides the standard operation.
+ * Calls the same method in the current tool bar state.
+ */
+void UMLView::contentsMouseMoveEvent(QMouseEvent* ome)
+{
+    m_pToolBarState->mouseMove(static_cast<UMLSceneMouseEvent*>(ome));
+}
+
+/**
+ * Override standard method.
+ * Calls the same method in the current tool bar state.
+ */
+void UMLView::contentsMouseDoubleClickEvent(QMouseEvent* ome)
+{
+    m_pToolBarState->mouseDoubleClick(static_cast<UMLSceneMouseEvent*>(ome));
+}
+
+
+/**
+ * Overrides the standard operation.
+ */
+void UMLView::showEvent(QShowEvent* se)
+{
+    UMLApp* theApp = UMLApp::app();
+    WorkToolBar* tb = theApp->workToolBar();
+    connect(tb, SIGNAL(sigButtonChanged(int)), this, SLOT(slotToolBarChanged(int)));
+    connect(this, SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
+
+    umlScene()->showEvent(se);
+    resetToolbar();
+}
+
+/**
+ * Overrides the standard operation.
+ */
+void UMLView::hideEvent(QHideEvent* he)
+{
+    UMLApp* theApp = UMLApp::app();
+    WorkToolBar* tb = theApp->workToolBar();
+    disconnect(tb, SIGNAL(sigButtonChanged(int)), this, SLOT(slotToolBarChanged(int)));
+    disconnect(this, SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
+
+    umlScene()->hideEvent(he);
+}
+
+/**
+ * Override standard method.
+ * Calls the same method in the current tool bar state.
+ */
+void UMLView::contentsMousePressEvent(QMouseEvent* ome)
+{
+    m_pToolBarState->mousePress(static_cast<UMLSceneMouseEvent*>(ome));
+    //TODO should be managed by widgets when are selected. Right now also has some
+    //problems, such as clicking on a widget, and clicking to move that widget shows
+    //documentation of the diagram instead of keeping the widget documentation.
+    //When should diagram documentation be shown? When clicking on an empty
+    //space in the diagram with arrow tool?
+    if (!m_bChildDisplayedDoc) {
+        UMLApp::app()->docWindow()->showDocumentation(this, true);
+    }
+    m_bChildDisplayedDoc = false;
+}
+
+/**
+ * Changes the current tool to the selected tool.
+ * The current tool is cleaned and the selected tool initialized.
+ */
+void UMLView::slotToolBarChanged(int c)
+{
+    m_pToolBarState->cleanBeforeChange();
+    m_pToolBarState = m_pToolBarStateFactory->getState((WorkToolBar::ToolBar_Buttons)c, umlScene());
+    m_pToolBarState->init();
+
+    umlScene()->setPaste(false);
+    m_bChildDisplayedDoc = false;
+}
+
+
+/**
+ *  Calls the same method in the DocWindow.
+ */
+void UMLView::showDocumentation(UMLObject * object, bool overwrite)
+{
+    UMLApp::app()->docWindow()->showDocumentation(object, overwrite);
+    m_bChildDisplayedDoc = true;
+}
+
+/**
+ *  Calls the same method in the DocWindow.
+ */
+void UMLView::showDocumentation(UMLWidget * widget, bool overwrite)
+{
+    UMLApp::app()->docWindow()->showDocumentation(widget, overwrite);
+    m_bChildDisplayedDoc = true;
+}
+
+/**
+ *  Calls the same method in the DocWindow.
+ */
+void UMLView::showDocumentation(AssociationWidget * widget, bool overwrite)
+{
+    UMLApp::app()->docWindow()->showDocumentation(widget, overwrite);
+    m_bChildDisplayedDoc = true;
+}
+
+/**
+ *  Calls the same method in the DocWindow.
+ */
+void UMLView::updateDocumentation(bool clear)
+{
+    UMLApp::app()->docWindow()->updateDocumentation(clear);
 }
 
 #include "umlview.moc"

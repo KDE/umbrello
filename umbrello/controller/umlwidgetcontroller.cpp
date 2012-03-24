@@ -522,7 +522,7 @@ void UMLWidgetController::doMouseDoubleClick(QMouseEvent *)
 void UMLWidgetController::resetSelection()
 {
     m_widget->m_scene->clearSelected();
-    m_widget->m_scene->resetToolbar();
+    m_widget->m_scene->view()->resetToolbar();
     m_widget->setSelected(false);
 
     m_wasSelected = false;

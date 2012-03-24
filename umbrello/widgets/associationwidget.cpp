@@ -419,7 +419,7 @@ void AssociationWidget::showPropertiesDialog()
         setChangeability(cA, A);
         setChangeability(cB, B);
 
-        m_scene->showDocumentation(this, true);
+        m_scene->view()->showDocumentation(this, true);
     }
     delete dlg;
 }
@@ -2973,7 +2973,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
             // here just in case - remove later after testing
             uDebug() << "mt_Properties: assoctype is " << atype;
         } else {  //standard assoc dialog
-            m_scene->updateDocumentation( false );
+            m_scene->view()->updateDocumentation( false );
             showPropertiesDialog();
         }
         break;
@@ -3740,9 +3740,9 @@ void AssociationWidget::setSelected(bool _select /* = true */)
     // to win.
     if( _select ) {
         if( m_scene->getSelectCount() == 0 )
-                m_scene->showDocumentation( this, false );
+                m_scene->view()->showDocumentation( this, false );
     } else
-        m_scene->updateDocumentation( true );
+        m_scene->view()->updateDocumentation( true );
     qApp->processEvents();
 
     m_associationLine->setSelected( _select );
