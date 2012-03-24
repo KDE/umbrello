@@ -183,6 +183,7 @@ void UMLViewDialog::applyPage(KPageWidgetItem *item)
         m_pView->umlScene()->setUseFillColor( m_options.uiState.useFillColor );
         m_pView->umlScene()->setLineColor( m_options.uiState.lineColor );
         m_pView->umlScene()->setFillColor( m_options.uiState.fillColor );
+        m_pView->umlScene()->setBackgroundColor( m_options.uiState.backgroundColor );
         m_pView->umlScene()->setGridDotColor( m_options.uiState.gridDotColor );
     }
     else if ( item == m_pageFontItem )

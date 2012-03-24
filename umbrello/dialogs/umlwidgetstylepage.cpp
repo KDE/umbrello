@@ -250,14 +250,6 @@ void UMLWidgetStylePage::updateUMLWidget()
         m_options->uiState.lineWidth = m_lineWidthB->value();
         UMLApp::app()->currentView()->umlScene()->setOptionState(*m_options);
     }
-
-    if (!m_pUMLWidget) {  // when we are on the diagram
-        UMLView * view = UMLApp::app()->currentView();
-        if (view) {
-            view->umlScene()->setBackgroundColor(m_BackgroundColorB->color());
-            view->umlScene()->setGridDotColor(m_GridDotColorB->color());
-        }
-    }
 }
 
 #include "umlwidgetstylepage.moc"
