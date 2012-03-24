@@ -12,7 +12,7 @@
 
 #include "assocpropdlg.h"
 #include "debug_utils.h"
-#include "umlview.h"
+#include "umlscene.h"
 
 #include <klocale.h>
 
@@ -26,10 +26,10 @@
  *  @param  v       The view the UMLObject being represented.
  *  @param  o       The UMLObject being represented
  */
-AssocPage::AssocPage(QWidget *parent, UMLView * v, UMLObject * o) : QWidget(parent)
+AssocPage::AssocPage(QWidget *parent, UMLScene * s, UMLObject * o) : QWidget(parent)
 {
     m_pObject = o;
-    m_pView = v;
+    m_pScene = s;
     int margin = fontMetrics().height();
 
     QHBoxLayout * mainLayout = new QHBoxLayout(this);
@@ -89,7 +89,7 @@ void AssocPage::fillListBox()
 {
     m_List.clear();
     m_pAssocLW->clear();
-    m_pView->umlScene()->getWidgetAssocs(m_pObject, m_List);
+    m_pScene->getWidgetAssocs(m_pObject, m_List);
     int i = 0;
     foreach( AssociationWidget* assocwidget, m_List ) {
         if( assocwidget->associationType() != Uml::AssociationType::Anchor) {
@@ -126,7 +126,7 @@ void AssocPage::slotPopupMenuSel(QAction* action)
     ListPopupMenu::MenuType id = m_pMenu->getMenuType(action);
     switch (id) {
     case ListPopupMenu::mt_Delete:
-        m_pView->umlScene()->removeAssocInViewAndDoc(a);
+        m_pScene->removeAssocInViewAndDoc(a);
         fillListBox();
         break;
 

@@ -19,9 +19,9 @@
 #include "associationwidget.h"
 #include "listpopupmenu.h"
 
+class UMLScene;
 class QGroupBox;
 class QListWidget;
-class UMLView;
 
 /**
  * Displays a page on the tabbed dialog window of @ref ClassPropDlg.
@@ -36,12 +36,12 @@ class AssocPage : public QWidget
     Q_OBJECT
 
 public:
-    AssocPage(QWidget *parent, UMLView * v, UMLObject * o);
+    AssocPage(QWidget *parent, UMLScene * scene, UMLObject * o);
     ~AssocPage();
 
 private:
     UMLObject * m_pObject;
-    UMLView * m_pView;
+    UMLScene * m_pScene;
     QListWidget * m_pAssocLW;
     QGroupBox * m_pAssocGB;
     AssociationWidgetList m_List;
