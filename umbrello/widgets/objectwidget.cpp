@@ -199,7 +199,7 @@ void ObjectWidget::moveEvent(QMoveEvent *m)
     }
 }
 
-void ObjectWidget::slotColorChanged(Uml::IDType /*viewID*/)
+void ObjectWidget::slotFillColorChanged(Uml::IDType /*viewID*/)
 {
     UMLWidget::setFillColor( m_scene->fillColor() );
     UMLWidget::setLineColor( m_scene->lineColor() );

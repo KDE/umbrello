@@ -717,12 +717,12 @@ public slots:
     void alignHorizontalDistribute();
 
 signals:
-    void sigColorChanged( Uml::IDType );
+    void sigFillColorChanged( Uml::IDType );
     void sigLineColorChanged( Uml::IDType );
     void sigTextColorChanged( Uml::IDType );
+    void sigLineWidthChanged( Uml::IDType );
     void sigRemovePopupMenu();
     void sigClearAllSelected();
-    void sigLineWidthChanged( Uml::IDType );
     void sigSnapToGridToggled(bool);
     void sigSnapComponentSizeToGridToggled(bool);
     void sigShowGridToggled(bool);

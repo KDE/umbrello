@@ -331,7 +331,7 @@ void UMLWidget::init()
     connect(m_scene, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
     connect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
 
-    connect(m_scene, SIGNAL(sigColorChanged(Uml::IDType)), this, SLOT(slotColorChanged(Uml::IDType)));
+    connect(m_scene, SIGNAL(sigFillColorChanged(Uml::IDType)), this, SLOT(slotFillColorChanged(Uml::IDType)));
     connect(m_scene, SIGNAL(sigLineColorChanged(Uml::IDType)), this, SLOT(slotLineColorChanged(Uml::IDType)));
     connect(m_scene, SIGNAL(sigTextColorChanged(Uml::IDType)), this, SLOT(slotTextColorChanged(Uml::IDType)));
     connect(m_scene, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
@@ -503,7 +503,7 @@ void UMLWidget::slotWidgetMoved(Uml::IDType /*id*/)
  *
  * @param sceneID The id of the object behind the widget.
  */
-void UMLWidget::slotColorChanged(Uml::IDType viewID)
+void UMLWidget::slotFillColorChanged(Uml::IDType viewID)
 {
     //only change if on the diagram concerned
     if (m_scene->getID() != viewID) {
@@ -1113,13 +1113,13 @@ void UMLWidget::setScene(UMLScene * v)
     //remove signals from old view - was probably 0 anyway
     disconnect(m_scene, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
     disconnect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
-    disconnect(m_scene, SIGNAL(sigColorChanged(Uml::IDType)), this, SLOT(slotColorChanged(Uml::IDType)));
+    disconnect(m_scene, SIGNAL(sigFillColorChanged(Uml::IDType)), this, SLOT(slotFillColorChanged(Uml::IDType)));
     disconnect(m_scene, SIGNAL(sigTextColorChanged(Uml::IDType)), this, SLOT(slotTextColorChanged(Uml::IDType)));
     disconnect(m_scene, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
     m_scene = v;
     connect(m_scene, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
     connect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
-    connect(m_scene, SIGNAL(sigColorChanged(Uml::IDType)), this, SLOT(slotColorChanged(Uml::IDType)));
+    connect(m_scene, SIGNAL(sigFillColorChanged(Uml::IDType)), this, SLOT(slotFillColorChanged(Uml::IDType)));
     connect(m_scene, SIGNAL(sigTextColorChanged(Uml::IDType)), this, SLOT(slotTextColorChanged(Uml::IDType)));
     connect(m_scene, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
 }

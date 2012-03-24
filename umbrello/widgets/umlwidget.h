@@ -374,7 +374,7 @@ public slots:
     virtual void updateWidget();
     virtual void slotMenuSelection(QAction* action);
     virtual void slotWidgetMoved(Uml::IDType id);
-    virtual void slotColorChanged(Uml::IDType viewID);
+    virtual void slotFillColorChanged(Uml::IDType viewID);
     virtual void slotLineColorChanged(Uml::IDType viewID);
     virtual void slotTextColorChanged(Uml::IDType viewID);
     virtual void slotLineWidthChanged(Uml::IDType viewID);

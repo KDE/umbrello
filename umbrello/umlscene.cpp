@@ -407,7 +407,7 @@ void UMLScene::setupNewWidget(UMLWidget *w)
     w->setVisible(true);
     w->setActivated();
     w->setFont(getFont());
-    w->slotColorChanged(getID());
+    w->slotFillColorChanged(getID());
     w->slotTextColorChanged(getID());
     w->slotLineWidthChanged(getID());
     resizeCanvasToItems();
@@ -481,7 +481,7 @@ void UMLScene::slotObjectCreated(UMLObject* o)
     newWidget->setVisible(true);
     newWidget->setActivated();
     newWidget->setFont(getFont());
-    newWidget->slotColorChanged(getID());
+    newWidget->slotFillColorChanged(getID());
     newWidget->slotTextColorChanged(getID());
     newWidget->slotLineWidthChanged(getID());
     newWidget->updateComponentSize();
@@ -941,7 +941,7 @@ void UMLScene::removeWidget(UMLWidget * o)
     m_SelectedList.removeAll(o);
     disconnect(this, SIGNAL(sigRemovePopupMenu()), o, SLOT(slotRemovePopupMenu()));
     disconnect(this, SIGNAL(sigClearAllSelected()), o, SLOT(slotClearAllSelected()));
-    disconnect(this, SIGNAL(sigColorChanged(Uml::IDType)), o, SLOT(slotColorChanged(Uml::IDType)));
+    disconnect(this, SIGNAL(sigFillColorChanged(Uml::IDType)), o, SLOT(slotFillColorChanged(Uml::IDType)));
     disconnect(this, SIGNAL(sigLineColorChanged(Uml::IDType)), o, SLOT(slotLineColorChanged(Uml::IDType)));
     disconnect(this, SIGNAL(sigTextColorChanged(Uml::IDType)), o, SLOT(slotTextColorChanged(Uml::IDType)));
     if (t == WidgetBase::wt_Message) {
@@ -984,7 +984,7 @@ QColor UMLScene::fillColor() const
 void UMLScene::setFillColor(const QColor &color)
 {
     m_Options.uiState.fillColor = color;
-    emit sigColorChanged(getID());
+    emit sigFillColorChanged(getID());
     setAllChanged();
 }
 

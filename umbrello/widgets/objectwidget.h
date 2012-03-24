@@ -237,7 +237,7 @@ public slots:
     /**
      * Handles a color change signal.
      */
-    virtual void slotColorChanged(Uml::IDType viewID);
+    virtual void slotFillColorChanged(Uml::IDType viewID);
 
     /**
      * Called when a message widget with an end on this object has
