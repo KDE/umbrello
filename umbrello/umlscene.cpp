@@ -1066,7 +1066,7 @@ QColor UMLScene::gridDotColor() const
 void UMLScene::setGridDotColor(const QColor& color)
 {
     m_Options.uiState.gridDotColor = color;
-    emit sigColorChanged(getID());
+    emit sigGridColorChanged(getID());
     setAllChanged();
 }
 

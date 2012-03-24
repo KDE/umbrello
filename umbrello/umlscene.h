@@ -718,6 +718,7 @@ public slots:
 
 signals:
     void sigFillColorChanged( Uml::IDType );
+    void sigGridColorChanged( Uml::IDType );
     void sigLineColorChanged( Uml::IDType );
     void sigTextColorChanged( Uml::IDType );
     void sigLineWidthChanged( Uml::IDType );
