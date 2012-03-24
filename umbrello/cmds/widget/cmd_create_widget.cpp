@@ -33,7 +33,7 @@ namespace Uml
     }
 
     /**
-     * Create the UMLObject.
+     * Create the UMLWidget.
      */
     void CmdCreateWidget::redo()
     {
@@ -41,7 +41,7 @@ namespace Uml
     }
 
     /**
-     * Suppress the UMLObject.
+     * Suppress the UMLWidget.
      */
     void CmdCreateWidget::undo()
     {
