@@ -408,6 +408,7 @@ void UMLScene::setupNewWidget(UMLWidget *w)
     w->setActivated();
     w->setFont(getFont());
     w->slotColorChanged(getID());
+    w->slotTextColorChanged(getID());
     w->slotLineWidthChanged(getID());
     resizeCanvasToItems();
     m_WidgetList.append(w);
@@ -481,6 +482,7 @@ void UMLScene::slotObjectCreated(UMLObject* o)
     newWidget->setActivated();
     newWidget->setFont(getFont());
     newWidget->slotColorChanged(getID());
+    newWidget->slotTextColorChanged(getID());
     newWidget->slotLineWidthChanged(getID());
     newWidget->updateComponentSize();
 
@@ -940,6 +942,7 @@ void UMLScene::removeWidget(UMLWidget * o)
     disconnect(this, SIGNAL(sigRemovePopupMenu()), o, SLOT(slotRemovePopupMenu()));
     disconnect(this, SIGNAL(sigClearAllSelected()), o, SLOT(slotClearAllSelected()));
     disconnect(this, SIGNAL(sigColorChanged(Uml::IDType)), o, SLOT(slotColorChanged(Uml::IDType)));
+    disconnect(this, SIGNAL(sigTextColorChanged(Uml::IDType)), o, SLOT(slotTextColorChanged(Uml::IDType)));
     if (t == WidgetBase::wt_Message) {
         m_MessageList.removeAll(static_cast<MessageWidget*>(o));
     } else
@@ -1040,7 +1043,7 @@ QColor UMLScene::textColor() const
 void UMLScene::setTextColor(const QColor &color)
 {
     m_Options.uiState.textColor = color;
-    emit sigColorChanged(getID());
+    emit sigTextColorChanged(getID());
     setAllChanged();
 }
 

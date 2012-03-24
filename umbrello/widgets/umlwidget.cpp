@@ -332,6 +332,7 @@ void UMLWidget::init()
     connect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
 
     connect(m_scene, SIGNAL(sigColorChanged(Uml::IDType)), this, SLOT(slotColorChanged(Uml::IDType)));
+    connect(m_scene, SIGNAL(sigTextColorChanged(Uml::IDType)), this, SLOT(slotTextColorChanged(Uml::IDType)));
     connect(m_scene, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
 
     m_pObject = NULL;
@@ -516,6 +517,20 @@ void UMLWidget::slotColorChanged(Uml::IDType viewID)
     if (m_usesDiagramUseFillColor) {
         m_useFillColor = m_scene->useFillColor();
     }
+    update();
+}
+
+/**
+ * Captures a text color change signal.
+ *
+ * @param sceneID The id of the object behind the widget.
+ */
+void UMLWidget::slotTextColorChanged(Uml::IDType viewID)
+{
+    //only change if on the diagram concerned
+    if (m_scene->getID() != viewID)
+        return;
+    setTextColor( m_scene->textColor() );
     update();
 }
 
@@ -1082,11 +1097,13 @@ void UMLWidget::setScene(UMLScene * v)
     disconnect(m_scene, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
     disconnect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
     disconnect(m_scene, SIGNAL(sigColorChanged(Uml::IDType)), this, SLOT(slotColorChanged(Uml::IDType)));
+    disconnect(m_scene, SIGNAL(sigTextColorChanged(Uml::IDType)), this, SLOT(slotTextColorChanged(Uml::IDType)));
     disconnect(m_scene, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
     m_scene = v;
     connect(m_scene, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
     connect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
     connect(m_scene, SIGNAL(sigColorChanged(Uml::IDType)), this, SLOT(slotColorChanged(Uml::IDType)));
+    connect(m_scene, SIGNAL(sigTextColorChanged(Uml::IDType)), this, SLOT(slotTextColorChanged(Uml::IDType)));
     connect(m_scene, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
 }
 
