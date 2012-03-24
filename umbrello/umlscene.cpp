@@ -942,6 +942,7 @@ void UMLScene::removeWidget(UMLWidget * o)
     disconnect(this, SIGNAL(sigRemovePopupMenu()), o, SLOT(slotRemovePopupMenu()));
     disconnect(this, SIGNAL(sigClearAllSelected()), o, SLOT(slotClearAllSelected()));
     disconnect(this, SIGNAL(sigColorChanged(Uml::IDType)), o, SLOT(slotColorChanged(Uml::IDType)));
+    disconnect(this, SIGNAL(sigLineColorChanged(Uml::IDType)), o, SLOT(slotLineColorChanged(Uml::IDType)));
     disconnect(this, SIGNAL(sigTextColorChanged(Uml::IDType)), o, SLOT(slotTextColorChanged(Uml::IDType)));
     if (t == WidgetBase::wt_Message) {
         m_MessageList.removeAll(static_cast<MessageWidget*>(o));
@@ -1003,7 +1004,7 @@ QColor UMLScene::lineColor() const
 void UMLScene::setLineColor(const QColor &color)
 {
     m_Options.uiState.lineColor = color;
-    emit sigColorChanged(getID());
+    emit sigLineColorChanged(getID());
     setAllChanged();
 }
 

@@ -332,6 +332,7 @@ void UMLWidget::init()
     connect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
 
     connect(m_scene, SIGNAL(sigColorChanged(Uml::IDType)), this, SLOT(slotColorChanged(Uml::IDType)));
+    connect(m_scene, SIGNAL(sigLineColorChanged(Uml::IDType)), this, SLOT(slotLineColorChanged(Uml::IDType)));
     connect(m_scene, SIGNAL(sigTextColorChanged(Uml::IDType)), this, SLOT(slotTextColorChanged(Uml::IDType)));
     connect(m_scene, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
 
@@ -511,9 +512,6 @@ void UMLWidget::slotColorChanged(Uml::IDType viewID)
     if (m_usesDiagramFillColor) {
         m_FillColor = m_scene->fillColor();
     }
-    if (m_usesDiagramLineColor) {
-        m_LineColor = m_scene->lineColor();
-    }
     if (m_usesDiagramUseFillColor) {
         m_useFillColor = m_scene->useFillColor();
     }
@@ -531,6 +529,25 @@ void UMLWidget::slotTextColorChanged(Uml::IDType viewID)
     if (m_scene->getID() != viewID)
         return;
     setTextColor( m_scene->textColor() );
+    update();
+}
+
+
+/**
+ * Captures a line color change signal.
+ *
+ * @param sceneID The id of the object behind the widget.
+ */
+void UMLWidget::slotLineColorChanged(Uml::IDType viewID)
+{
+    //only change if on the diagram concerned
+    if (m_scene->getID() != viewID)
+        return;
+
+    if (m_usesDiagramLineColor) {
+        m_LineColor = m_scene->lineColor();
+        setLineColor( m_lineColor );
+    }
     update();
 }
 
