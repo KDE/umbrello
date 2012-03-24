@@ -180,14 +180,6 @@ void UMLViewDialog::applyPage(KPageWidgetItem *item)
     {
         uDebug() << "setting colors ";
         m_pStylePage->updateUMLWidget();
-        /* FIXME: updateUMLWidget uses UMLScene::setOptions() to set back m_options
-         * into UMLScene (as also done for m_pageDisplayItem below) so theoretical
-         * the following code would be obsolate.
-         * The problems is that setOptions() do not signal UMLScene that options has
-         * been changed. There is a signal UMLscene::sigColorChanged(), but this signal
-         * is limited to color only changes. There is no common way to say UMLScene, that
-         * one or all options has been changed.
-         */
         m_pView->umlScene()->setLineWidth( m_options.uiState.lineWidth );
         m_pView->umlScene()->setUseFillColor( m_options.uiState.useFillColor );
         m_pView->umlScene()->setTextColor( m_options.uiState.textColor );
