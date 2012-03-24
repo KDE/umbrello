@@ -495,7 +495,7 @@ void UMLListView::popupMenuSel(QAction* action)
         break;
 
     case ListPopupMenu::mt_Export_Image:
-        m_doc->findView(currItem->getID())->getImageExporter()->exportView();
+        m_doc->findView(currItem->getID())->umlScene()->getImageExporter()->exportView();
         break;
 
     case ListPopupMenu::mt_Externalize_Folder:
@@ -1092,7 +1092,7 @@ void UMLListView::slotDiagramRenamed(Uml::IDType id)
         uError() << "UMLDoc::findView(" << ID2STR(id) << ") returns 0";
         return;
     }
-    item->setText(v->name());
+    item->setText(v->umlScene()->name());
 }
 
 /**
@@ -1267,9 +1267,9 @@ UMLListViewItem* UMLListView::findView(UMLView* v)
         }
     }
     if (m_doc->loading()) {
-        DEBUG(DBG_SRC) << "could not find " << v->name() << " in " << *item;
+        DEBUG(DBG_SRC) << "could not find " << v->umlScene()->name() << " in " << *item;
     } else {
-        uWarning() << "could not find " << v->name() << " in " << *item;
+        uWarning() << "could not find " << v->umlScene()->name() << " in " << *item;
     }
     return 0;
 }

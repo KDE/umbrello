@@ -78,16 +78,16 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
     if (fromView) {
         m_type = clip4;
         UMLView *view = UMLApp::app()->currentView();
-        view->checkSelections();
-        if(!view->getSelectedWidgets(m_WidgetList)) {
+        view->umlScene()->checkSelections();
+        if(!view->umlScene()->getSelectedWidgets(m_WidgetList)) {
             return 0;
         }
         //if there is no selected widget then there is no copy action
         if (!m_WidgetList.count()) {
             return 0;
         }
-        m_AssociationList = view->getSelectedAssocs();
-        view->copyAsImage(png);
+        m_AssociationList = view->umlScene()->getSelectedAssocs();
+        view->umlScene()->copyAsImage(png);
 
     } else { //if the copy action is being performed from the ListView
         UMLListViewItemList itemsSelected = listView->selectedItems();
@@ -108,7 +108,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
             //For each selected view select all the Actors, USe Cases and Concepts
             //widgets in the ListView
             foreach (UMLView* view, m_ViewList ) {
-                UMLObjectList objects = view->umlObjects();
+                UMLObjectList objects = view->umlScene()->umlObjects();
                 foreach (UMLObject* o, objects ) {
                     UMLListViewItem *item = listView->findUMLObject(o);
                     if (item) {
@@ -140,7 +140,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
         if (png) {
             UMLView *view = UMLApp::app()->currentView();
             data = new UMLDragData(m_ObjectList, m_WidgetList,
-                               m_AssociationList, *png, view->type());
+                                   m_AssociationList, *png, view->umlScene()->type());
         } else {
             return 0;
         }
@@ -576,7 +576,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
             delete widget;
             objectAlreadyExists = true;
         } else {
-            if (currentView->umlScene()->type() == Uml::DiagramType::Activity || currentView->type() == Uml::DiagramType::State)
+            if (currentView->umlScene()->type() == Uml::DiagramType::Activity || currentView->umlScene()->type() == Uml::DiagramType::State)
                 widget->setID(doc->assignNewID(widget->id()));
             if (! currentView->umlScene()->addWidget(widget, true)) {
                 currentView->umlScene()->endPartialWidgetPaste();

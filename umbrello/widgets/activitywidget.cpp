@@ -152,7 +152,7 @@ void ActivityWidget::showPropertiesDialog()
     DocWindow *docwindow = UMLApp::app()->docWindow();
     docwindow->updateDocumentation(false);
 
-    QPointer<ActivityDialog> dialog = new ActivityDialog(umlScene(), this);
+    QPointer<ActivityDialog> dialog = new ActivityDialog(umlScene()->view(), this);
     if (dialog->exec() && dialog->getChangesMade()) {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->document()->setModified(true);

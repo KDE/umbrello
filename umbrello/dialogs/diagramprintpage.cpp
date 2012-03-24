@@ -135,7 +135,7 @@ QString DiagramPrintPage::printUmlDiagram(int sel)
         if (isSelected(i)) {
             if (count == sel) {
                 UMLView *view = (UMLView *)m_doc->findView(m_nIdList[i]);
-                QString sID = QString("%1").arg(ID2STR(view->getID()));
+                QString sID = QString("%1").arg(ID2STR(view->umlScene()->getID()));
                 return sID;
             }
             count++;
@@ -226,7 +226,7 @@ void DiagramPrintPage::slotClicked()
         m_pSelectLW->setEnabled(true);
         m_pSelectLW->clear();
         foreach ( UMLView * view , list) {
-            if(view->type() == m_ViewType) {
+            if(view->umlScene()->type() == m_ViewType) {
                 m_pSelectLW->addItem(view->umlScene()->name());
                 m_nIdList.append(view->umlScene()->getID());
             }
@@ -252,7 +252,7 @@ void DiagramPrintPage::slotActivated(int index)
 
     m_nIdList.clear();
     foreach (UMLView * view , list) {
-        if (view->type() == m_ViewType) {
+        if (view->umlScene()->type() == m_ViewType) {
             m_pSelectLW->addItem(view->umlScene()->name());
             m_nIdList.append(view->umlScene()->getID());
         }

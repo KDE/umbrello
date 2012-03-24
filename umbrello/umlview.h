@@ -23,7 +23,7 @@
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLView : public UMLScene
+class UMLView : public Q3CanvasView
 {
     Q_OBJECT
 public:
@@ -37,6 +37,31 @@ public:
     UMLScene* umlScene() {
         return m_scene;
     }
+
+    /**
+    * Returns the zoom of the diagram.
+    */
+    int zoom() const {
+        return m_nZoom;
+    }
+
+    void setZoom(int zoom);
+
+    int currentZoom();
+
+public slots:
+    void zoomIn();
+    void zoomOut();
+
+protected:
+    virtual void closeEvent(QCloseEvent * e);
+
+    UMLScene *m_scene;
+
+    /**
+     * The zoom level in percent, default 100
+     */
+    int m_nZoom;
 };
 
 #endif // UMLVIEW_H

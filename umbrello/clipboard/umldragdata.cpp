@@ -435,7 +435,7 @@ bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
         }
         UMLFolder *f = static_cast<UMLFolder*>(po);
         UMLView* view = new UMLView(f);
-        view->loadFromXMI(diagramElement);
+        view->umlScene()->loadFromXMI(diagramElement);
         diagrams.append(view);
         diagramNode = diagramNode.nextSibling();
         diagramElement = diagramNode.toElement();
@@ -674,7 +674,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
     UMLView *view = UMLApp::app()->currentView();
     while ( !widgetElement.isNull() ) {
 
-        UMLWidget* widget = view->loadWidgetFromXMI(widgetElement);
+        UMLWidget* widget = view->umlScene()->loadWidgetFromXMI(widgetElement);
         if (widget)
             widgets.append(widget);
 

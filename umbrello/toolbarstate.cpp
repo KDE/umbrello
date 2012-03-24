@@ -20,7 +20,7 @@
 #include "floatingdashlinewidget.h"
 #include "objectwidget.h"
 #include "uml.h"
-#include "umlscene.h"
+#include "umlview.h"
 #include "umlwidget.h"
 
 /**
@@ -38,7 +38,7 @@ ToolBarState::~ToolBarState()
  */
 void ToolBarState::init()
 {
-    m_pUMLScene->viewport()->setMouseTracking(false);
+    m_pUMLScene->view()->viewport()->setMouseTracking(false);
     m_pMouseEvent = 0;
     m_currentWidget = 0;
     m_currentAssociation = 0;
@@ -77,7 +77,7 @@ void ToolBarState::mousePress(UMLSceneMouseEvent* ome)
 {
     setMouseEvent(ome, QEvent::MouseButtonPress);
 
-    m_pUMLScene->viewport()->setMouseTracking(true);
+    m_pUMLScene->view()->viewport()->setMouseTracking(true);
 
     //TODO Doesn't another way of emiting the signal exist? A method only for
     //that seems a bit dirty.
@@ -117,7 +117,7 @@ void ToolBarState::mouseRelease(UMLSceneMouseEvent* ome)
     // TODO, should only be available in this state?
     m_pUMLScene->setPos(m_pMouseEvent->pos());
 
-    m_pUMLScene->viewport()->setMouseTracking(false);
+    m_pUMLScene->view()->viewport()->setMouseTracking(false);
 
     if (getCurrentWidget()) {
         mouseReleaseWidget();
@@ -189,18 +189,18 @@ void ToolBarState::mouseMove(UMLSceneMouseEvent* ome)
     //Scrolls the view
     int vx = ome->x();
     int vy = ome->y();
-    int contsX = m_pUMLScene->contentsX();
-    int contsY = m_pUMLScene->contentsY();
-    int visw = m_pUMLScene->visibleWidth();
-    int vish = m_pUMLScene->visibleHeight();
+    int contsX = m_pUMLScene->view()->contentsX();
+    int contsY = m_pUMLScene->view()->contentsY();
+    int visw = m_pUMLScene->view()->visibleWidth();
+    int vish = m_pUMLScene->view()->visibleHeight();
     int dtr = visw - (vx-contsX);
     int dtb = vish - (vy-contsY);
     int dtt =  (vy-contsY);
     int dtl =  (vx-contsX);
-    if (dtr < 30) m_pUMLScene->scrollBy(30-dtr,0);
-    if (dtb < 30) m_pUMLScene->scrollBy(0,30-dtb);
-    if (dtl < 30) m_pUMLScene->scrollBy(-(30-dtl),0);
-    if (dtt < 30) m_pUMLScene->scrollBy(0,-(30-dtt));
+    if (dtr < 30) m_pUMLScene->view()->scrollBy(30-dtr,0);
+    if (dtb < 30) m_pUMLScene->view()->scrollBy(0,30-dtb);
+    if (dtl < 30) m_pUMLScene->view()->scrollBy(-(30-dtl),0);
+    if (dtt < 30) m_pUMLScene->view()->scrollBy(0,-(30-dtt));
 }
 
 /**
@@ -463,7 +463,7 @@ void ToolBarState::setMouseEvent(UMLSceneMouseEvent* ome, const QEvent::Type &ty
 {
     delete m_pMouseEvent;
 
-    m_pMouseEvent = new UMLSceneMouseEvent(type, m_pUMLScene->inverseWorldMatrix().map(ome->pos()),
+    m_pMouseEvent = new UMLSceneMouseEvent(type, m_pUMLScene->view()->inverseWorldMatrix().map(ome->pos()),
                                     ome->button(),ome->buttons(),ome->modifiers());
 }
 

@@ -335,7 +335,7 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me)
 
             if (m_inResizeArea) {
                 m_inResizeArea = false;
-                m_widget->m_scene->setCursor(Qt::ArrowCursor);
+                m_widget->m_scene->view()->setCursor(Qt::ArrowCursor);
             } else {
                 m_inMoveArea = false;
             }
@@ -414,10 +414,10 @@ bool UMLWidgetController::isInResizeArea(QMouseEvent *me)
     if (m_widget->m_resizable &&
             me->x() >= (m_widget->getX() + w - m) &&
             me->y() >= (m_widget->getY() + h - m)) {
-        m_widget->m_scene->setCursor(getResizeCursor());
+        m_widget->m_scene->view()->setCursor(getResizeCursor());
         return true;
     } else {
-        m_widget->m_scene->setCursor(Qt::ArrowCursor);
+        m_widget->m_scene->view()->setCursor(Qt::ArrowCursor);
         return false;
     }
 }
@@ -816,8 +816,8 @@ QPoint UMLWidgetController::getPosition(QMouseEvent* me)
      */
     int newX = me->x() + m_widget->getX() - m_prevX - m_pressOffsetX;
     int newY = me->y() + m_widget->getY() - m_prevY - m_pressOffsetY;
-    int maxX = m_widget->m_scene->canvas()->width();
-    int maxY = m_widget->m_scene->canvas()->height();
+    int maxX = m_widget->m_scene->width();
+    int maxY = m_widget->m_scene->height();
 
     m_prevX = newX;
     m_prevY = newY;

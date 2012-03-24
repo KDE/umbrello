@@ -437,7 +437,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Change_Font:
     case ListPopupMenu::mt_Change_Font_Selection: {
         QFont font = UMLWidget::font();
-        if (KFontDialog::getFont(font, KFontChooser::NoDisplayFlags, m_scene)) {
+        if (KFontDialog::getFont(font, KFontChooser::NoDisplayFlags, m_scene->view())) {
             UMLApp::app()->executeCommand(new CmdChangeFontSelection(m_doc, m_scene->view(), font));
         }
     }
@@ -875,7 +875,7 @@ ListPopupMenu* UMLWidget::setupPopupMenu(ListPopupMenu* menu)
         unique = m_scene->checkUniqueSelection();
 
     // create the right click context menu
-    m_pMenu = new ListPopupMenu(m_scene, this, multi, unique);
+    m_pMenu = new ListPopupMenu(m_scene->view(), this, multi, unique);
 
     // disable the "view code" menu for simple code generators
     if (UMLApp::app()->isSimpleCodeGeneratorActive())

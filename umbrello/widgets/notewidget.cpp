@@ -259,7 +259,7 @@ void NoteWidget::slotMenuSelection(QAction* action)
     switch(sel) {
     case ListPopupMenu::mt_Rename:
         m_scene->updateDocumentation( false );
-        dlg = new NoteDialog( m_scene, this );
+        dlg = new NoteDialog( m_scene->view(), this );
         if( dlg->exec() ) {
             m_scene->showDocumentation( this, true );
             doc->setModified(true);

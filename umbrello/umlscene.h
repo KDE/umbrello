@@ -62,7 +62,7 @@ class UMLScene;
  * The UMLScene class inherits from Q3CanvasView and
  * in the future from QGraphicsScene.
  */
-class UMLScene : public Q3CanvasView
+class UMLScene : public Q3Canvas
 {
     Q_OBJECT
 public:
@@ -71,6 +71,11 @@ public:
 
     UMLScene(UMLFolder *parentFolder, UMLView *view=0);
     virtual ~UMLScene();
+
+    Q3Canvas *canvas()
+    {
+        return this;
+    }
 
     // Accessors and other methods dealing with loaded/saved data
     /**
@@ -151,15 +156,6 @@ public:
     void setID( Uml::IDType id ) {
         m_nID = id;
     }
-
-    /**
-     * Returns the zoom of the diagram.
-     */
-    int zoom() const {
-        return m_nZoom;
-    }
-
-    void setZoom(int zoom);
 
     /**
      * Returns the height of the diagram.
@@ -276,8 +272,6 @@ public:
 
     // End of accessors and methods that only deal with loaded/saved data
     ////////////////////////////////////////////////////////////////////////
-
-    int currentZoom();
 
     void print(QPrinter *pPrinter, QPainter & pPainter);
 
@@ -426,7 +420,7 @@ public:
      */
     void setSnapX( int x) {
         m_nSnapX = x;
-        canvas() -> setAllChanged();
+        Q3Canvas::setAllChanged();
     }
 
     /**
@@ -434,7 +428,7 @@ public:
      */
     void setSnapY( int y) {
         m_nSnapY = y;
-        canvas() -> setAllChanged();
+        Q3Canvas::setAllChanged();
     }
 
     bool showPropDialog();
@@ -608,11 +602,6 @@ protected:
     bool m_isOpen;
 
     /**
-     * The zoom level in percent, default 100
-     */
-    int m_nZoom;
-
-    /**
      * Width of canvas in pixels
      */
     int m_nCanvasWidth;
@@ -663,11 +652,6 @@ protected:
      * The view to which this scene is related
      */
     UMLView *m_view;
-
-    /**
-     * The scene to which this view is related
-     */
-    UMLScene *m_scene;
 
     /**
      * The folder in which this UMLView is contained
@@ -739,8 +723,6 @@ protected:
     void sortWidgetList(UMLWidgetList &widgetList, Compare comp);
 
 public slots:
-    void zoomIn();
-    void zoomOut();
     void show();
 
     void slotToolBarChanged(int c);

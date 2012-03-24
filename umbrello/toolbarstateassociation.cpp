@@ -21,7 +21,7 @@
 #include "model_utils.h"
 #include "uml.h"
 #include "umlobject.h"
-#include "umlscene.h"
+#include "umlview.h"
 #include "umldoc.h"
 #include "umlwidget.h"
 #include "umllistview.h"
@@ -193,7 +193,7 @@ void ToolBarStateAssociation::setFirstWidget()
 
     m_associationLine->setVisible(true);
 
-    m_pUMLScene->viewport()->setMouseTracking(true);
+    m_pUMLScene->view()->viewport()->setMouseTracking(true);
 }
 
 /**

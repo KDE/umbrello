@@ -89,7 +89,7 @@ void AssocPage::fillListBox()
 {
     m_List.clear();
     m_pAssocLW->clear();
-    m_pView->getWidgetAssocs(m_pObject, m_List);
+    m_pView->umlScene()->getWidgetAssocs(m_pObject, m_List);
     int i = 0;
     foreach( AssociationWidget* assocwidget, m_List ) {
         if( assocwidget->associationType() != Uml::AssociationType::Anchor) {
@@ -126,7 +126,7 @@ void AssocPage::slotPopupMenuSel(QAction* action)
     ListPopupMenu::MenuType id = m_pMenu->getMenuType(action);
     switch (id) {
     case ListPopupMenu::mt_Delete:
-        m_pView->removeAssocInViewAndDoc(a);
+        m_pView->umlScene()->removeAssocInViewAndDoc(a);
         fillListBox();
         break;
 

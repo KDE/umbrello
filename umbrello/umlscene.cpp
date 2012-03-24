@@ -10,6 +10,7 @@
 
 // own header
 #include "umlscene.h"
+#include "umlview.h"
 #include "layoutgenerator.h"
 
 // system includes
@@ -114,14 +115,12 @@ using namespace Uml;
  * Constructor
  */
 UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
-  : Q3CanvasView(UMLApp::app()->mainViewWidget()),
-    m_nLocalID(Uml::id_None),
+  : m_nLocalID(Uml::id_None),
     m_nID(Uml::id_None),
     m_Type(Uml::DiagramType::Undefined),
     m_Name(QString()),
     m_Documentation(QString()),
-    m_view(view),
-    m_scene(this)
+    m_view(view)
 {
     // Initialize loaded/saved data
     m_bUseSnapToGrid = false;
@@ -130,11 +129,9 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     m_isOpen = true;
     m_nSnapX = 10;
     m_nSnapY = 10;
-    m_nZoom = 100;
     m_nCanvasWidth = UMLScene::defaultCanvasSize;
     m_nCanvasHeight = UMLScene::defaultCanvasSize;
     m_nCollaborationId = 0;
-    m_scene = this;
 
     // Initialize other data
     //m_AssociationList.setAutoDelete( true );
@@ -154,7 +151,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     m_pIDChangesLog = 0;
     m_pMenu = 0;
 
-    m_pImageExporter = new UMLViewImageExporter(m_scene);
+    m_pImageExporter = new UMLViewImageExporter(this);
 
     //setup graphical items
     setCanvas(new UMLViewCanvas(this,m_Options));
@@ -164,14 +161,14 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     // diagrams.
     // Instead: set the updatePeriod to 20 on Show event,
     //          and switch update back off on Hide event
-    canvas()->setUpdatePeriod(-1);
-    resizeContents(defaultCanvasSize, defaultCanvasSize);
-    canvas()->resize(defaultCanvasSize, defaultCanvasSize);
-    setAcceptDrops(true);
-    viewport()->setAcceptDrops(true);
-    setDragAutoScroll(false);
+    setUpdatePeriod(-1);
+    resize(defaultCanvasSize, defaultCanvasSize);
+    view->resizeContents(defaultCanvasSize, defaultCanvasSize);
+    view->setAcceptDrops(true);
+    view->viewport()->setAcceptDrops(true);
+    view->setDragAutoScroll(false);
 
-    viewport()->setMouseTracking(false);
+    view->viewport()->setMouseTracking(false);
 
     //setup signals
     connect(this, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
@@ -181,7 +178,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     // Create the ToolBarState factory. This class is not a singleton, because it
     // needs a pointer to this object.
     m_pToolBarStateFactory = new ToolBarStateFactory();
-    m_pToolBarState = m_pToolBarStateFactory->getState(WorkToolBar::tbb_Arrow, m_scene);
+    m_pToolBarState = m_pToolBarStateFactory->getState(WorkToolBar::tbb_Arrow, this);
     m_doc = UMLApp::app()->document();
     m_pFolder = parentFolder;
 
@@ -451,7 +448,7 @@ void UMLScene::contentsMouseReleaseEvent(QMouseEvent* ome)
 void UMLScene::slotToolBarChanged(int c)
 {
     m_pToolBarState->cleanBeforeChange();
-    m_pToolBarState = m_pToolBarStateFactory->getState((WorkToolBar::ToolBar_Buttons)c, m_scene);
+    m_pToolBarState = m_pToolBarStateFactory->getState((WorkToolBar::ToolBar_Buttons)c, this);
     m_pToolBarState->init();
 
     m_bPaste = false;
@@ -465,11 +462,11 @@ void UMLScene::showEvent(QShowEvent* /*se*/)
 
 # ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
     //uWarning() << "Show Event for " << name();
-    canvas()->setDoubleBuffering(true);
+    setDoubleBuffering(true);
     // as the diagram gets now visible again,
     // the update of the diagram elements shall be
     // at the normal value of 20
-    canvas()-> setUpdatePeriod(20);
+     setUpdatePeriod(20);
 # endif
 
     UMLApp* theApp = UMLApp::app();
@@ -503,12 +500,12 @@ void UMLScene::hideEvent(QHideEvent* /*he*/)
 
 # ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
     //uWarning() << "Hide Event for " << name();
-    canvas()->setDoubleBuffering(false);
+    setDoubleBuffering(false);
     // a periodic update of all - also invisible - diagrams
     // can cause a very high CPU load if more than 100diagrams
     // are inside a project - and this without any need
     // => switch the update off for hidden diagrams
-    canvas()->setUpdatePeriod(-1);
+    setUpdatePeriod(-1);
 # endif
 }
 
@@ -742,7 +739,7 @@ void UMLScene::dropEvent(QDropEvent *e)
         return;
     }
     m_bCreateObject = true;
-    m_Pos = (e->pos() * 100) / m_nZoom;
+    m_Pos = (e->pos() * 100) / view()->zoom();
 
     slotObjectCreated(o);
 
@@ -1041,7 +1038,7 @@ void UMLScene::setFillColor(const QColor &color)
 {
     m_Options.uiState.fillColor = color;
     emit sigColorChanged(getID());
-    canvas()->setAllChanged();
+    setAllChanged();
 }
 
 /**
@@ -1061,7 +1058,7 @@ void UMLScene::setLineColor(const QColor &color)
 {
     m_Options.uiState.lineColor = color;
     emit sigColorChanged(getID());
-    canvas()->setAllChanged();
+    setAllChanged();
 }
 
 /**
@@ -1081,7 +1078,7 @@ void UMLScene::setLineWidth(uint width)
 {
     m_Options.uiState.lineWidth = width;
     emit sigLineWidthChanged(getID());
-    canvas()->setAllChanged();
+    setAllChanged();
 }
 
 /**
@@ -1415,7 +1412,7 @@ void UMLScene::deleteSelection()
  */
 void UMLScene::selectAll()
 {
-    selectWidgets(0, 0, canvas()->width(), canvas()->height());
+    selectWidgets(0, 0, width(), height());
 }
 
 /**
@@ -1609,7 +1606,7 @@ void  UMLScene::getDiagram(const QRect &rect, QPixmap &diagram)
     QPixmap pixmap(width, height);
     QPainter painter(&pixmap);
     painter.fillRect(0, 0, width, height, Qt::white);
-    getDiagram(canvas()->rect(), painter);
+    getDiagram(view()->rect(), painter);
     QPainter output(&diagram);
     output.drawPixmap(QPoint(0, 0), pixmap, rect);
 }
@@ -1638,11 +1635,11 @@ void  UMLScene::getDiagram(const QRect &area, QPainter &painter)
     bool showSnapGrid = getShowSnapGrid();
     setShowSnapGrid(false);
 
-    canvas()->drawArea(area, &painter);
+    drawArea(area, &painter);
 
     setShowSnapGrid(showSnapGrid);
 
-    canvas()->setAllChanged();
+    setAllChanged();
     //select again
     foreach(UMLWidget* widget, m_SelectedList) {
         widget->setSelected(true);
@@ -2141,7 +2138,7 @@ void UMLScene::activateAfterLoad(bool bUseLog)
         endPartialWidgetPaste();
     }
     resizeCanvasToItems();
-    setZoom(zoom());
+    m_view->setZoom(view()->zoom());
     m_bActivated = true;
 }
 
@@ -2259,14 +2256,6 @@ void UMLScene::getWidgetAssocs(UMLObject* Obj, AssociationWidgetList & Associati
             Associations.append(assocwidget);
     }//end foreach
 
-}
-
-/**
- * Override standard method.
- */
-void UMLScene::closeEvent(QCloseEvent * e)
-{
-    QWidget::closeEvent(e);
 }
 
 /**
@@ -2966,9 +2955,9 @@ void UMLScene::setMenu()
     }//end switch
     if (menu != ListPopupMenu::mt_Undefined) {
         // DEBUG(DBG_SRC) << "create popup for MenuType " << ListPopupMenu::toString(menu);
-        m_pMenu = new ListPopupMenu(this, menu, this->view());
+        m_pMenu = new ListPopupMenu(view(), menu, view());
         connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
-        m_pMenu->popup(mapToGlobal(contentsToViewport(worldMatrix().map(m_Pos))));
+        m_pMenu->popup(view()->mapToGlobal(view()->contentsToViewport(view()->worldMatrix().map(m_Pos))));
     }
 }
 
@@ -3339,7 +3328,7 @@ int UMLScene::snappedY(int y)
 bool UMLScene::showPropDialog()
 {
     bool success = false;
-    QPointer<UMLViewDialog> dlg = new UMLViewDialog(parentWidget(), view());
+    QPointer<UMLViewDialog> dlg = new UMLViewDialog(view(), view());
     if (dlg->exec() == QDialog::Accepted) {
         success = true;
     }
@@ -3456,7 +3445,7 @@ bool UMLScene::checkUniqueSelection()
  */
 void UMLScene::clearDiagram()
 {
-    if (KMessageBox::Continue == KMessageBox::warningContinueCancel(this, i18n("You are about to delete "
+    if (KMessageBox::Continue == KMessageBox::warningContinueCancel(this->view(), i18n("You are about to delete "
             "the entire diagram.\nAre you sure?"),
             i18n("Delete Diagram?"), KGuiItem(i18n("&Delete"), "edit-delete"))) {
         removeAllWidgets();
@@ -3533,7 +3522,7 @@ bool UMLScene::getShowSnapGrid() const
 void UMLScene::setShowSnapGrid(bool bShow)
 {
     m_bShowSnapGrid = bShow;
-    canvas()->setAllChanged();
+    setAllChanged();
     emit sigShowGridToggled(getShowSnapGrid());
 }
 
@@ -3564,53 +3553,12 @@ void UMLScene::setIsOpen(bool isOpen)
 }
 
 /**
- * Sets the zoom of the diagram.
- */
-void UMLScene::setZoom(int zoom)
-{
-    if (zoom < 10) {
-        zoom = 10;
-    } else if (zoom > 500) {
-        zoom = 500;
-    }
-
-    QMatrix wm;
-    wm.scale(zoom / 100.0, zoom / 100.0);
-    setWorldMatrix(wm);
-
-    m_nZoom = currentZoom();
-    resizeCanvasToItems();
-}
-
-/**
- * return the current zoom factor
- */
-int UMLScene::currentZoom()
-{
-    return (int)(worldMatrix().m11()*100.0);
-}
-
-void UMLScene::zoomIn()
-{
-    QMatrix wm = worldMatrix();
-    wm.scale(1.5, 1.5); // adjust zooming step here
-    setZoom((int)(wm.m11()*100.0));
-}
-
-void UMLScene::zoomOut()
-{
-    QMatrix wm = worldMatrix();
-    wm.scale(2.0 / 3.0, 2.0 / 3.0); //adjust zooming step here
-    setZoom((int)(wm.m11()*100.0));
-}
-
-/**
  * Changes the zoom to the currently set level (now loaded from file)
  * Called from UMLApp::slotUpdateViews()
  */
 void UMLScene::fileLoaded()
 {
-    setZoom(zoom());
+    m_view->setZoom(m_view->zoom());
     resizeCanvasToItems();
 }
 
@@ -3621,7 +3569,7 @@ void UMLScene::setCanvasSize(int width, int height)
 {
     setCanvasWidth(width);
     setCanvasHeight(height);
-    canvas()->resize(width, height);
+    resize(width, height);
 }
 
 /**
@@ -3636,8 +3584,8 @@ void UMLScene::resizeCanvasToItems()
     //Find out the bottom right visible pixel and size to at least that
     int contentsX, contentsY;
     int contentsWMX, contentsWMY;
-    viewportToContents(viewport()->width(), viewport()->height(), contentsX, contentsY);
-    inverseWorldMatrix().map(contentsX, contentsY, &contentsWMX, &contentsWMY);
+    view()->viewportToContents(view()->viewport()->width(), view()->viewport()->height(), contentsX, contentsY);
+    view()->inverseWorldMatrix().map(contentsX, contentsY, &contentsWMX, &contentsWMY);
 
     if (canvasWidth < contentsWMX) {
         canvasWidth = contentsWMX;
@@ -3656,7 +3604,7 @@ void UMLScene::resizeCanvasToItems()
  */
 void UMLScene::show()
 {
-    QWidget::show();
+    view()->show();
     resizeCanvasToItems();
 }
 
@@ -3730,7 +3678,8 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     viewElement.setAttribute("snapcsgrid", m_bUseSnapComponentSizeToGrid);
     viewElement.setAttribute("snapx", m_nSnapX);
     viewElement.setAttribute("snapy", m_nSnapY);
-    viewElement.setAttribute("zoom", m_nZoom);
+    // FIXME: move to UMLView
+    viewElement.setAttribute("zoom", view()->zoom());
     viewElement.setAttribute("canvasheight", m_nCanvasHeight);
     viewElement.setAttribute("canvaswidth", m_nCanvasWidth);
     viewElement.setAttribute("isopen", isOpen());
@@ -3840,7 +3789,7 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     m_nSnapY = snapy.toInt();
 
     QString zoom = qElement.attribute("zoom", "100");
-    m_nZoom = zoom.toInt();
+    view()->setZoom(zoom.toInt());
 
     QString height = qElement.attribute("canvasheight", QString("%1").arg(UMLScene::defaultCanvasSize));
     m_nCanvasHeight = height.toInt();

@@ -44,7 +44,7 @@ namespace Uml
     void CmdCreateDiagram::undo()
     {
         if (m_pUMLView) {
-            m_pUMLDoc->removeDiagram(m_pUMLView->getID());
+            m_pUMLDoc->removeDiagram(m_pUMLView->umlScene()->getID());
         }
     }
 

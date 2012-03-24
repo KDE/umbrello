@@ -817,12 +817,11 @@ void AssociationLine::slotLineWidthChanged(Uml::IDType viewID)
  * This class doesn't hold this information but is a wrapper
  * method to stop calls to undefined variable like m_associationWidget.
  */
-UMLViewCanvas * AssociationLine::canvas()
+Q3Canvas* AssociationLine::canvas()
 {
     if( !m_associationWidget )
         return 0;
-    const UMLScene * scene =  m_associationWidget->umlScene();
-    return static_cast<UMLViewCanvas *>(scene->canvas());
+    return m_associationWidget->umlScene();
 }
 
 /**
