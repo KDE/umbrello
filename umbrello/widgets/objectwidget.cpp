@@ -334,7 +334,7 @@ void ObjectWidget::setEndLine(int yPosition)
 
 int ObjectWidget::getEndLineY()
 {
-    int y = this -> getY() + getHeight();
+    int y = this -> getY() + height();
     if( m_pLine)
         y += m_pLine -> getLineLength();
     if ( m_showDestruction )
@@ -363,7 +363,7 @@ void ObjectWidget::slotMessageMoved()
 {
     int lowestMessage = 0;
     foreach ( MessageWidget* message, messageWidgetList ) {
-        int messageHeight = message->getY() + message->getHeight();
+        int messageHeight = message->getY() + message->height();
         if (lowestMessage < messageHeight) {
             lowestMessage = messageHeight;
         }
@@ -375,7 +375,7 @@ bool ObjectWidget::messageOverlap(int y, MessageWidget* messageWidget)
 {
     foreach ( MessageWidget* message , messageWidgetList ) {
         const int msgY = message->getY();
-        const int msgHeight = msgY + message->getHeight();
+        const int msgHeight = msgY + message->height();
         if (y >= msgY && y <= msgHeight && message != messageWidget) {
             return true;
         }

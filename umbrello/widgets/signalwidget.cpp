@@ -143,7 +143,7 @@ void SignalWidget::paint(QPainter & p, int offsetX, int offsetY)
         }
         if (m_pName->getX() == 0 && m_pName->getY() == 0) {
             //the floating text has not been linked with the signal
-            m_pName->setX(offsetX + w/2 - m_pName->getWidth()/2);
+            m_pName->setX(offsetX + w/2 - m_pName->width()/2);
             m_pName->setY(offsetY + h);
         }
         m_pName->setVisible( ( m_pName->text().length() > 0 ) );

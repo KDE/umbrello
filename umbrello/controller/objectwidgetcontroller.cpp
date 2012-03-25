@@ -68,7 +68,7 @@ QCursor ObjectWidgetController::getResizeCursor()
 void ObjectWidgetController::resizeWidget(int newW, int newH)
 {
     Q_UNUSED(newH);
-    m_widget->setSize(newW, m_widget->getHeight());
+    m_widget->setSize(newW, m_widget->height());
 }
 
 /**
@@ -82,7 +82,7 @@ void ObjectWidgetController::mousePressEvent(QMouseEvent *me)
 
     if (pLine->onDestructionBox(me->pos())) {
         m_isOnDestructionBox = true;
-        m_oldX = dynamic_cast<ObjectWidget*>(m_widget)->getX() + dynamic_cast<ObjectWidget*>(m_widget)->getWidth() / 2;
+        m_oldX = dynamic_cast<ObjectWidget*>(m_widget)->getX() + dynamic_cast<ObjectWidget*>(m_widget)->width() / 2;
         m_oldY = dynamic_cast<ObjectWidget*>(m_widget)->getEndLineY() - 10;
     }
 

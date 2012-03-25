@@ -63,14 +63,14 @@ void PreconditionWidget::paint(QPainter & p, int /*offsetX*/, int offsetY)
     int w = width();
     int h = height();
 
-    int x = m_pOw->getX() + m_pOw->getWidth() / 2;
+    int x = m_pOw->getX() + m_pOw->width() / 2;
     x -= w/2;
     setX(x);
     int y = offsetY;
 
     //test if y isn't above the object
-    if (y <= m_pOw->getY() + m_pOw->getHeight() ) {
-        y = m_pOw->getY() + m_pOw->getHeight() + 15;
+    if (y <= m_pOw->getY() + m_pOw->height() ) {
+        y = m_pOw->getY() + m_pOw->height() + 15;
     }
     if (y + h >= m_pOw->getEndLineY()) {
         y = m_pOw->getEndLineY() - h;
@@ -161,7 +161,7 @@ void PreconditionWidget::calculateDimensions()
     int w = 0;
     int h = 0;
     int x1 = m_pOw->getX();
-    int w1 = m_pOw->getWidth() / 2;
+    int w1 = m_pOw->width() / 2;
 
     x1 += w1;
 
@@ -201,7 +201,7 @@ int PreconditionWidget::getMinY()
         return 0;
     }
 
-    int heightA = m_pOw->getY() + m_pOw->getHeight();
+    int heightA = m_pOw->getY() + m_pOw->height();
     int height = heightA;
     return height;
 }

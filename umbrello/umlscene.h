@@ -308,7 +308,7 @@ public:
 
     void selectAll();
 
-    Uml::IDType getLocalID();
+    Uml::IDType localID();
 
     bool widgetOnDiagram(Uml::IDType id);
 

@@ -129,7 +129,7 @@ void MessageWidgetController::moveWidgetBy(int diffX, int diffY)
     m_messageWidget->setY(newY);
 
     if (m_messageWidget->m_sequenceMessageType == Uml::sequence_message_creation) {
-        const int objWidgetHalfHeight = m_messageWidget->m_pOw[Uml::B]->getHeight() / 2;
+        const int objWidgetHalfHeight = m_messageWidget->m_pOw[Uml::B]->height() / 2;
         m_messageWidget->m_pOw[Uml::B]->UMLWidget::setY(newY - objWidgetHalfHeight);
     }
 
@@ -182,7 +182,7 @@ int MessageWidgetController::constrainPositionY(int diffY)
 
     int minY = m_messageWidget->getMinY();
     if (m_messageWidget->m_pFText && !m_messageWidget->m_pFText->displayText().isEmpty()) {
-        minY += m_messageWidget->m_pFText->getHeight();
+        minY += m_messageWidget->m_pFText->height();
     }
 
     if (newY < minY) {

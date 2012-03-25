@@ -757,10 +757,10 @@ int UMLWidgetController::getBiggestX(const UMLWidgetList &widgetList)
             if (widget == NULL)
                 break;
             biggestX = widget->getX();
-            biggestX += widget->getWidth();
+            biggestX += widget->width();
         } else {
-            if (biggestX < widget->getX() + widget->getWidth())
-                biggestX = widget->getX() + widget->getWidth();
+            if (biggestX < widget->getX() + widget->width())
+                biggestX = widget->getX() + widget->width();
         }
         i++;
     }
@@ -784,10 +784,10 @@ int UMLWidgetController::getBiggestY(const UMLWidgetList &widgetList)
             if (widget == NULL)
                 break;
             biggestY = widget->getY();
-            biggestY += widget->getHeight();
+            biggestY += widget->height();
         } else {
-            if (biggestY < widget->getY() + widget->getHeight())
-                biggestY = widget->getY() + widget->getHeight();
+            if (biggestY < widget->getY() + widget->height())
+                biggestY = widget->getY() + widget->height();
         }
         i++;
     }
@@ -879,7 +879,7 @@ void UMLWidgetController::showPopupMenu(QMouseEvent *me)
  */
 bool UMLWidgetController::wasSizeChanged()
 {
-    return m_oldW != m_widget->getWidth() || m_oldH != m_widget->getHeight();
+    return m_oldW != m_widget->width() || m_oldH != m_widget->height();
 }
 
 /**

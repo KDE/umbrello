@@ -156,14 +156,14 @@ public:
     /**
      * Returns the height of widget.
      */
-    int getHeight() const {
+    int height() const {
         return UMLSceneRectItem::height();
     }
 
     /**
      * Returns the width of the widget.
      */
-    int getWidth() const {
+    int width() const {
         return UMLSceneRectItem::width();
     }
 

@@ -137,7 +137,7 @@ void CombinedFragmentWidget::paint(QPainter & p, int offsetX, int offsetY)
                     (*it)->setX(getX());
                     old_Y = (*it)->getYMin();
                     (*it)->setYMin(getY());
-                    (*it)->setYMax(getY() + getHeight());
+                    (*it)->setYMax(getY() + height());
                     (*it)->setY(getY() + (*it)->getY() - old_Y);
                     (*it)->setSize(w, 0);
                 }
@@ -154,7 +154,7 @@ void CombinedFragmentWidget::paint(QPainter & p, int offsetX, int offsetY)
                         (*it)->setX(getX());
                         old_Y = (*it)->getYMin();
                         (*it)->setYMin(getY());
-                        (*it)->setYMax(getY() + getHeight());
+                        (*it)->setYMax(getY() + height());
                         (*it)->setY(getY() + (*it)->getY() - old_Y);
                         (*it)->setSize(w, 0);
                     }
@@ -220,9 +220,9 @@ void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combi
         }
         m_dashLines.back()->setX(getX());
         m_dashLines.back()->setYMin(getY());
-        m_dashLines.back()->setYMax(getY() + getHeight());
+        m_dashLines.back()->setYMax(getY() + height());
         m_dashLines.back()->setY(getY() + height()/2);
-        m_dashLines.back()->setSize(getWidth(), 0);
+        m_dashLines.back()->setSize(width(), 0);
         m_scene->setupNewWidget(m_dashLines.back());
     }
 }
@@ -371,9 +371,9 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
         }
         m_dashLines.back()->setX(getX());
         m_dashLines.back()->setYMin(getY());
-        m_dashLines.back()->setYMax(getY() + getHeight());
-        m_dashLines.back()->setY(getY() + getHeight() / 2);
-        m_dashLines.back()->setSize(getWidth(), 0);
+        m_dashLines.back()->setYMax(getY() + height());
+        m_dashLines.back()->setY(getY() + height() / 2);
+        m_dashLines.back()->setSize(width(), 0);
         m_scene->setupNewWidget(m_dashLines.back());
         break;
 

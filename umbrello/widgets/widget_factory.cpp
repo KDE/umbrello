@@ -57,9 +57,13 @@
 #include "pinwidget.h"
 #include "categorywidget.h"
 #include "cmds.h"
+#include "umlscene.h"
 
 namespace Widget_Factory {
 
+/**
+ * Create a UMLWidget in the given view and representing the given document object.
+ */
 UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
 {
     QPoint pos = scene->getPos();
@@ -70,7 +74,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
     switch (type) {
     case UMLObject::ot_Actor:
         if (diagramType == Uml::DiagramType::Sequence) {
-            ObjectWidget *ow = new ObjectWidget(scene, o, scene->getLocalID());
+            ObjectWidget *ow = new ObjectWidget(scene, o, scene->localID());
             ow->setDrawAsActor(true);
             y = ow->topMargin();
             newWidget = ow;
@@ -106,7 +110,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
         break;
     case UMLObject::ot_Interface:
         if (diagramType == Uml::DiagramType::Sequence || diagramType == Uml::DiagramType::Collaboration) {
-            ObjectWidget *ow = new ObjectWidget(scene, o, scene->getLocalID() );
+            ObjectWidget *ow = new ObjectWidget(scene, o, scene->localID() );
             if (diagramType == Uml::DiagramType::Sequence) {
                 y = ow->topMargin();
             }
@@ -129,7 +133,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
                 cw->setDrawAsCircle(true);
             newWidget = cw;
         } else {
-            ObjectWidget *ow = new ObjectWidget(scene, o, scene->getLocalID() );
+            ObjectWidget *ow = new ObjectWidget(scene, o, scene->localID() );
             if (diagramType == Uml::DiagramType::Sequence) {
                 y = ow->topMargin();
             }
@@ -155,7 +159,7 @@ bool validateObjType(UMLObject::ObjectType expected, UMLObject* &o, Uml::IDType 
 {
     if (o == NULL) {
         uDebug() << "Widget_Factory::validateObjType: creating new object of type "
-                 << expected << endl;
+                 << expected;
         QString artificialName = "LOST_" + ID2STR(id);
         o = Object_Factory::createUMLObject(expected, artificialName, NULL, false);
         if (o == NULL)
@@ -174,6 +178,9 @@ bool validateObjType(UMLObject::ObjectType expected, UMLObject* &o, Uml::IDType 
     return false;
 }
 
+/**
+ * Create a UMLWidget according to the given XMI tag.
+ */
 UMLWidget* makeWidgetFromXMI(const QString& tag,
                              const QString& idStr, UMLScene *scene)
 {
@@ -222,7 +229,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         UMLObject *o = umldoc->findObjectById(id);
         if (o == NULL) {
             uDebug() << "makeWidgetFromXMI: cannot find object with id "
-                << ID2STR(id) << endl;
+                << ID2STR(id);
         }
 
         if (tag == "actorwidget" || tag == "UML:ActorWidget") {
@@ -271,3 +278,4 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
 }
 
 }   // end namespace Widget_Factory
+

@@ -70,8 +70,8 @@ void PinWidget::paint(QPainter & p, int offsetX, int offsetY)
 {
     int w = 10;
     int h = 10;
-    int width_Activity = m_pOw->getWidth();
-    int height_Activity = m_pOw->getHeight();
+    int width_Activity = m_pOw->width();
+    int height_Activity = m_pOw->height();
     int y = 0;
     int x = m_pOw->getX() + (width_Activity/2);
 
@@ -154,7 +154,7 @@ int PinWidget::getMinY()
     if (!m_pOw) {
         return 0;
     }
-    int heightA = m_pOw->getY() + m_pOw->getHeight();
+    int heightA = m_pOw->getY() + m_pOw->height();
     return heightA;
 }
 

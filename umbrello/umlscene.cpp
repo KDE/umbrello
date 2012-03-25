@@ -1084,8 +1084,8 @@ QRect UMLScene::diagramRect()
     foreach(UMLWidget* obj, m_WidgetList) {
         if (! obj->isVisible())
             continue;
-        int objEndX = (int)obj->getX() + obj->getWidth();   //:TODO: double
-        int objEndY = (int)obj->getY() + obj->getHeight();  //:TODO: double
+        int objEndX = (int)obj->getX() + obj->width();   //:TODO: double
+        int objEndY = (int)obj->getY() + obj->height();  //:TODO: double
         int objStartX = (int)obj->getX();  //:TODO: double
         int objStartY = (int)obj->getY();  //:TODO: double
         if (startx >= objStartX)
@@ -1380,7 +1380,7 @@ void UMLScene::selectAll()
  *
  * @return Return a unique ID for the diagram.
  */
-Uml::IDType UMLScene::getLocalID()
+Uml::IDType UMLScene::localID()
 {
     m_nLocalID = UniqueID::gen();
     return m_nLocalID;
@@ -1481,8 +1481,8 @@ void UMLScene::selectWidgets(int px, int py, int qx, int qy)
     foreach(UMLWidget* temp , m_WidgetList) {
         int x = temp->getX();
         int y = temp->getY();
-        int w = temp->getWidth();
-        int h = temp->getHeight();
+        int w = temp->width();
+        int h = temp->height();
         QRect rect2(x, y, w, h);
 
         //see if any part of widget is in the rectangle
@@ -1897,7 +1897,7 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
             DEBUG(DBG_SRC) << "pObjectWidget is NULL";
             return false;
         }
-        Uml::IDType nNewLocalID = getLocalID();
+        Uml::IDType nNewLocalID = localID();
         Uml::IDType nOldLocalID = pObjectWidget->localID();
         m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
         pObjectWidget->setLocalID(nNewLocalID);
@@ -1922,7 +1922,7 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
             return false;
         }
         pObjectWidget->setID(newID);
-        Uml::IDType nNewLocalID = getLocalID();
+        Uml::IDType nNewLocalID = localID();
         Uml::IDType nOldLocalID = pObjectWidget->localID();
         m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
         pObjectWidget->setLocalID(nNewLocalID);
@@ -1949,7 +1949,7 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
             return false;
         }
         pObjectWidget->setID(newID);
-        Uml::IDType nNewLocalID = getLocalID();
+        Uml::IDType nNewLocalID = localID();
         Uml::IDType nOldLocalID = pObjectWidget->localID();
         m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
         pObjectWidget->setLocalID(nNewLocalID);
@@ -2723,8 +2723,8 @@ void UMLScene::findMaxBoundingRectangle(const FloatingTextWidget* ft, int& px, i
 
     int x = ft->getX();
     int y = ft->getY();
-    int x1 = x + ft->getWidth() - 1;
-    int y1 = y + ft->getHeight() - 1;
+    int x1 = x + ft->width() - 1;
+    int y1 = y + ft->height() - 1;
 
     if (px == -1 || x < px)
         px = x;
@@ -4085,7 +4085,7 @@ void UMLScene::alignRight()
     int biggestX = getBiggestX(widgetList);
 
     foreach(UMLWidget *widget , widgetList) {
-        widget->setX(biggestX - widget->getWidth());
+        widget->setX(biggestX - widget->width());
         widget->adjustAssocs(widget->getX(), widget->getY());
     }
 }
@@ -4120,7 +4120,7 @@ void UMLScene::alignBottom()
     int biggestY = getBiggestY(widgetList);
 
     foreach(UMLWidget *widget , widgetList) {
-        widget->setY(biggestY - widget->getHeight());
+        widget->setY(biggestY - widget->height());
         widget->adjustAssocs(widget->getX(), widget->getY());
     }
 }
@@ -4140,7 +4140,7 @@ void UMLScene::alignVerticalMiddle()
     int middle = int((biggestX - smallestX) / 2) + smallestX;
 
     foreach(UMLWidget *widget , widgetList) {
-        widget->setX(middle - int(widget->getWidth() / 2));
+        widget->setX(middle - int(widget->width() / 2));
         widget->adjustAssocs(widget->getX(), widget->getY());
     }
 }
@@ -4160,7 +4160,7 @@ void UMLScene::alignHorizontalMiddle()
     int middle = int((biggestY - smallestY) / 2) + smallestY;
 
     foreach(UMLWidget *widget , widgetList) {
-        widget->setY(middle - int(widget->getHeight() / 2));
+        widget->setY(middle - int(widget->height() / 2));
         widget->adjustAssocs(widget->getX(), widget->getY());
     }
 }
@@ -4188,7 +4188,7 @@ void UMLScene::alignVerticalDistribute()
         if (i == 1) {
             widgetPrev = widget;
         } else {
-            widget->setY(widgetPrev->getY() + widgetPrev->getHeight() + distance);
+            widget->setY(widgetPrev->getY() + widgetPrev->height() + distance);
             widget->adjustAssocs(widget->getX(), widget->getY());
             widgetPrev = widget;
         }
@@ -4219,7 +4219,7 @@ void UMLScene::alignHorizontalDistribute()
         if (i == 1) {
             widgetPrev = widget;
         } else {
-            widget->setX(widgetPrev->getX() + widgetPrev->getWidth() + distance);
+            widget->setX(widgetPrev->getX() + widgetPrev->width() + distance);
             widget->adjustAssocs(widget->getX(), widget->getY());
             widgetPrev = widget;
         }
@@ -4320,10 +4320,10 @@ int UMLScene::getBiggestX(const UMLWidgetList &widgetList)
     foreach(UMLWidget *widget , widgetList) {
         if (i == 1) {
             biggestX = widget->getX();
-            biggestX += widget->getWidth();
+            biggestX += widget->width();
         } else {
-            if (biggestX < widget->getX() + widget->getWidth())
-                biggestX = widget->getX() + widget->getWidth();
+            if (biggestX < widget->getX() + widget->width())
+                biggestX = widget->getX() + widget->width();
         }
         i++;
     }
@@ -4347,10 +4347,10 @@ int UMLScene::getBiggestY(const UMLWidgetList &widgetList)
     foreach(UMLWidget *widget , widgetList) {
         if (i == 1) {
             biggestY = widget->getY();
-            biggestY += widget->getHeight();
+            biggestY += widget->height();
         } else {
-            if (biggestY < widget->getY() + widget->getHeight())
-                biggestY = widget->getY() + widget->getHeight();
+            if (biggestY < widget->getY() + widget->height())
+                biggestY = widget->getY() + widget->height();
         }
         i++;
     }
@@ -4368,7 +4368,7 @@ int UMLScene::getHeightsSum(const UMLWidgetList &widgetList)
     int heightsSum = 0;
 
     foreach(UMLWidget *widget , widgetList) {
-        heightsSum += widget->getHeight();
+        heightsSum += widget->height();
     }
 
     return heightsSum;
@@ -4384,7 +4384,7 @@ int UMLScene::getWidthsSum(const UMLWidgetList &widgetList)
     int widthsSum = 0;
 
     foreach(UMLWidget *widget , widgetList) {
-        widthsSum += widget->getWidth();
+        widthsSum += widget->width();
     }
 
     return widthsSum;

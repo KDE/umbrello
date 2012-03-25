@@ -703,7 +703,7 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
         }
     }
     setFont(m_Font);
-    setSize(getWidth(), getHeight());
+    setSize(width(), height());
     m_activated = true;
     updateComponentSize();
     if (m_scene->getPaste()) {
@@ -1291,10 +1291,10 @@ void UMLWidget::updateComponentSize()
  */
 void UMLWidget::clipSize()
 {
-    int width = getWidth();
-    int height = getHeight();
-    constrain(width, height);
-    setSize(width, height);
+    int clipWidth = width();
+    int clipHeight = height();
+    constrain(clipWidth, clipHeight);
+    setSize(clipWidth, clipHeight);
 }
 
 void UMLWidget::setDefaultFontMetrics(UMLWidget::FontType fontType)
@@ -1461,8 +1461,8 @@ void UMLWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     qElement.setAttribute("font", m_Font.toString());
     qElement.setAttribute("x", getX());
     qElement.setAttribute("y", getY());
-    qElement.setAttribute("width", getWidth());
-    qElement.setAttribute("height", getHeight());
+    qElement.setAttribute("width", width());
+    qElement.setAttribute("height", height());
     qElement.setAttribute("isinstance", m_isInstance);
     if (!m_instanceName.isEmpty())
         qElement.setAttribute("instancename", m_instanceName);

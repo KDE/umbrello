@@ -1155,8 +1155,8 @@ bool AssociationWidget::linePathStartsAt(const UMLWidget* widget)
     int startY = lpStart.y();
     int wX = widget->getX();
     int wY = widget->getY();
-    int wWidth = widget->getWidth();
-    int wHeight = widget->getHeight();
+    int wWidth = widget->width();
+    int wHeight = widget->height();
     bool result = (startX >= wX && startX <= wX + wWidth &&
                    startY >= wY && startY <= wY + wHeight);
     return result;
@@ -1630,8 +1630,8 @@ void AssociationWidget::calculateEndingPoints()
         const int DISTANCE = 50;
         int x = pWidgetA->getX();
         int y = pWidgetA->getY();
-        int h = pWidgetA->getHeight();
-        int w = pWidgetA->getWidth();
+        int h = pWidgetA->height();
+        int w = pWidgetA->width();
         //see if above widget ok to start
         if( y - DISTANCE > 0 ) {
             m_associationLine->setEndPoints( QPoint( x + w / 4, y ) , QPoint( x + w * 3 / 4, y ) );
@@ -1650,13 +1650,13 @@ void AssociationWidget::calculateEndingPoints()
     if (associationType() == AssociationType::Exception && size < 4) {
         int xa = pWidgetA->getX();
         int ya = pWidgetA->getY();
-        int ha = pWidgetA->getHeight();
-        int wa = pWidgetA->getWidth();
+        int ha = pWidgetA->height();
+        int wa = pWidgetA->width();
 
         int xb = pWidgetB->getX();
         int yb = pWidgetB->getY();
-        int hb = pWidgetB->getHeight();
-        //int wb = pWidgetB->getWidth();
+        int hb = pWidgetB->height();
+        //int wb = pWidgetB->width();
 
         m_associationLine->setEndPoints( QPoint( xa + wa , ya + ha/2 ) , QPoint( xb , yb + hb/2 ) );
         m_associationLine->insertPoint( 1, QPoint( xa + wa , ya + ha/2 ));
@@ -1666,8 +1666,8 @@ void AssociationWidget::calculateEndingPoints()
     }
     // If the line has more than one segment change the values to calculate
     // from widget to point 1.
-    int xB = pWidgetB->getX() + pWidgetB->getWidth() / 2;
-    int yB = pWidgetB->getY() + pWidgetB->getHeight() / 2;
+    int xB = pWidgetB->getX() + pWidgetB->width() / 2;
+    int yB = pWidgetB->getY() + pWidgetB->height() / 2;
     if( size > 2 ) {
         QPoint p = m_associationLine->point( 1 );
         xB = p.x();
@@ -1678,8 +1678,8 @@ void AssociationWidget::calculateEndingPoints()
     // Now do the same for widgetB.
     // If the line has more than one segment change the values to calculate
     // from widgetB to the last point away from it.
-    int xA = pWidgetA->getX() + pWidgetA->getWidth() / 2;
-    int yA = pWidgetA->getY() + pWidgetA->getHeight() / 2;
+    int xA = pWidgetA->getX() + pWidgetA->width() / 2;
+    int yA = pWidgetA->getY() + pWidgetA->height() / 2;
     if (size > 2 ) {
         QPoint p = m_associationLine->point( size - 2 );
         xA = p.x();
@@ -1696,7 +1696,7 @@ void AssociationWidget::doUpdates(int otherX, int otherY, Uml::Role_Type role)
     Region oldRegion = m_role[role].m_WidgetRegion;
     UMLWidget *pWidget = m_role[role].m_pWidget;
     QRect rc(pWidget->getX(), pWidget->getY(),
-             pWidget->getWidth(), pWidget->getHeight());
+             pWidget->width(), pWidget->height());
     Region& region = m_role[role].m_WidgetRegion;  // alias for brevity
     region = findPointRegion( rc, otherX, otherY);
     // Move some regions to the standard ones.
@@ -1941,13 +1941,13 @@ void AssociationWidget::updatePointsException ()
 
     int xa = pWidgetA->getX();
     int ya = pWidgetA->getY();
-    int ha = pWidgetA->getHeight();
-    int wa = pWidgetA->getWidth();
+    int ha = pWidgetA->height();
+    int wa = pWidgetA->width();
 
     int xb = pWidgetB->getX();
     int yb = pWidgetB->getY();
-    int hb = pWidgetB->getHeight();
-    int wb = pWidgetB->getWidth();
+    int hb = pWidgetB->height();
+    int wb = pWidgetB->width();
     int xmil, ymil;
     int xdeb, ydeb;
     int xfin, yfin;
@@ -3233,8 +3233,8 @@ void AssociationWidget::mouseMoveEvent(QMouseEvent* me)
         const int pY = p.y();
         const int wX = onW->getX();
         const int wY = onW->getY();
-        const int wWidth = onW->getWidth();
-        const int wHeight = onW->getHeight();
+        const int wWidth = onW->width();
+        const int wHeight = onW->height();
         if (pX > wX && pX < wX + wWidth) {
             const int midX = wX + wWidth / 2;
             if (pX <= midX)
@@ -3550,8 +3550,8 @@ void AssociationWidget::updateAssociations(int totalCount,
         if (! pointIsAuthoritative) {
             // If the point is not authoritative then we use the other
             // widget's center.
-            refpoint.setX(otherWidget->getX() + otherWidget->getWidth() / 2);
-            refpoint.setY(otherWidget->getY() + otherWidget->getHeight() / 2);
+            refpoint.setX(otherWidget->getX() + otherWidget->width() / 2);
+            refpoint.setY(otherWidget->getY() + otherWidget->height() / 2);
         }
         int intercept = findInterceptOnEdge(ownWidget->rect(), region, refpoint);
         if (intercept < 0) {
@@ -3640,8 +3640,8 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
     int y = pWidget->getY();
     robj.m_OldCorner.setX(x);
     robj.m_OldCorner.setY(y);
-    int ww = pWidget->getWidth();
-    int wh = pWidget->getHeight();
+    int ww = pWidget->width();
+    int wh = pWidget->height();
     const bool angular = Settings::optionState().generalState.angularlines;
     int ch = 0;
     int cw = 0;

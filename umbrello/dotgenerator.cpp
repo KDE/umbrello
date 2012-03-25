@@ -308,7 +308,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
             params << m_nodeParameters["all"].split(',');
 
         if (usePosition())
-            params  << QString("pos=\"%1,%2\"").arg(widget->getX()+widget->getWidth()/2).arg(widget->getY()+widget->getHeight()/2);
+            params  << QString("pos=\"%1,%2\"").arg(widget->getX()+widget->width()/2).arg(widget->getY()+widget->height()/2);
 
         QString type = QString(widget->baseTypeStr()).toLower().remove("wt_");
 
@@ -347,10 +347,10 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
             params << QString("label=\"%1\"").arg(label);
 
         if (!findItem(params,"width="))
-            params << QString("width=\"%1\"").arg(widget->getWidth()/m_scale);
+            params << QString("width=\"%1\"").arg(widget->width()/m_scale);
 
         if (!findItem(params,"height="))
-            params << QString("height=\"%1\"").arg(widget->getHeight()/m_scale);
+            params << QString("height=\"%1\"").arg(widget->height()/m_scale);
 
 #ifdef DOTGENERATOR_DATA_DEBUG
         uDebug() << type << params;
