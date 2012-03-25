@@ -167,8 +167,7 @@ void UMLViewDialog::applyPage(KPageWidgetItem *item)
     if ( item == m_pageGeneralItem )
     {
         checkName();
-        // [PORT]
-        // m_pScene->setZoom( m_diagramProperties->ui_zoom->value() );
+//:TODO:        m_pScene->setZoom( m_diagramProperties->ui_zoom->value() );
         m_pScene->setDocumentation( m_diagramProperties->ui_documentation->toPlainText() );
         m_pScene->setSnapSpacing( m_diagramProperties->ui_gridSpaceX->value(),
                                   m_diagramProperties->ui_gridSpaceY->value() );

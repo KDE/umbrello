@@ -50,6 +50,22 @@ ActivityWidget::~ActivityWidget()
 }
 
 /**
+ * Returns the type of activity.
+ */
+ActivityWidget::ActivityType ActivityWidget::activityType() const
+{
+    return m_activityType;
+}
+
+/**
+ * Returns the type string of activity.
+ */
+QString ActivityWidget::activityTypeStr() const
+{
+    return QLatin1String(ENUM_NAME(ActivityWidget, ActivityType, m_activityType));
+}
+
+/**
  * Sets the type of activity.
  */
 void ActivityWidget::setActivityType( ActivityType activityType )

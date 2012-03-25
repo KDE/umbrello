@@ -13,7 +13,6 @@
 // app includes
 #include "uml.h"
 #include "umldoc.h"
-#include "umlview.h"
 #include "package.h"
 #include "umlobject.h"
 

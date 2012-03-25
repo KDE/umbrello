@@ -12,8 +12,10 @@
 #include "dotgenerator.h"
 
 // app includes
+#include "activitywidget.h"
 #include "associationwidget.h"
 #include "classifierwidget.h"
+#include "signalwidget.h"
 #include "statewidget.h"
 #include "debug_utils.h"
 #include "umlwidget.h"
@@ -26,7 +28,6 @@
 // qt includes
 #include <QFile>
 #include <QPaintEngine>
-#include <QPointF>
 #include <QProcess>
 #include <QRectF>
 #include <QRegExp>
@@ -310,19 +311,26 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
             params  << QString("pos=\"%1,%2\"").arg(widget->pos().x()+widget->width()/2).arg(widget->pos().y()+widget->height()/2);
 
         QString type = QString(widget->baseTypeStr()).toLower().remove("wt_");
-        QString key = "type::" + type;
 
         if (type == "state") {
             StateWidget *w = static_cast<StateWidget *>(widget);
             type = w->stateTypeStr().toLower();
         }
+        else if (type == "activity") {
+            ActivityWidget *w = static_cast<ActivityWidget *>(widget);
+            type = w->activityTypeStr().toLower();
+        }
+        else if (type == "signal") {
+            SignalWidget *w = static_cast<SignalWidget *>(widget);
+            type = w->signalTypeStr().toLower();
+        }
 
-        key = "type::" + type;
+        QString key = "type::" + type;
 
         QString label;
 
         if (!useFullNodeLabels())
-            label = widget->name();
+            label = widget->name() + "\\n" + type;
         else {
             DotPaintDevice d;
             QPainter p(&d);
@@ -356,9 +364,18 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
     foreach(AssociationWidget *assoc, scene->associationList()) {
         QString type = assoc->associationType().toString().toLower();
         QString key = "type::" + type;
-        bool swapId = m_edgeParameters.contains("id::" + key) && m_edgeParameters["id::" + key] == "swap";
+        bool swapId = false;
 
-        QString label = assoc->name();
+        if (m_edgeParameters.contains("id::" + key))
+            swapId = m_edgeParameters["id::" + key] == "swap";
+        else if (m_edgeParameters.contains("id::type::default"))
+            swapId = m_edgeParameters["id::type::default"] == "swap";
+
+        QString label;
+        if (!useFullNodeLabels())
+            label = assoc->name() + "\\n" + type;
+        else
+            label = assoc->name();
 
         QString headLabel = assoc->roleName(swapId ? Uml::B : Uml::A);
         QString tailLabel = assoc->roleName(swapId ? Uml::A : Uml::B);

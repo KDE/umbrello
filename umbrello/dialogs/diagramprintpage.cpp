@@ -17,9 +17,8 @@
 #include "model_utils.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "umlview.h"
-#include "umlviewlist.h"
 #include "umlscene.h"
+#include "umlviewlist.h"
 
 // kde includes
 #include <kcombobox.h>

@@ -58,6 +58,22 @@ void SignalWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QW
 }
 
 /**
+ * Returns the type of Signal.
+ */
+SignalWidget::SignalType SignalWidget::signalType() const
+{
+    return m_signalType;
+}
+
+/**
+ * Returns the type string of Signal.
+ */
+QString SignalWidget::signalTypeStr() const
+{
+    return QLatin1String(ENUM_NAME(SignalWidget, SignalType, m_signalType));
+}
+
+/**
  * Sets the signaltype of widget to \a signalType.
  */
 void SignalWidget::setSignalType( SignalType signalType )

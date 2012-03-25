@@ -49,10 +49,8 @@ public:
     explicit ActivityWidget(ActivityType activityType = Normal, Uml::IDType id = Uml::id_None );
     virtual ~ActivityWidget();
 
-    /// @return Type of activity.
-    ActivityType activityType() const {
-        return m_activityType;
-    }
+    ActivityType activityType() const;
+    QString activityTypeStr() const;
     void setActivityType( ActivityType activityType );
 
     /// This method get the name of the preText attribute

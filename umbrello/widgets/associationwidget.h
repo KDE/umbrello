@@ -11,9 +11,10 @@
 #ifndef ASSOCIATIONWIDGET_H
 #define ASSOCIATIONWIDGET_H
 
+#include "associationline.h"
+#include "associationwidgetlist.h"
 #include "linkwidget.h"
 #include "messagewidgetlist.h"
-#include "umlobject.h"
 #include "umlwidgetlist.h"
 #include "widgetbase.h"
 

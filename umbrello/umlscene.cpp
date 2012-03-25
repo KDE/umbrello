@@ -103,7 +103,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder)
   : QGraphicsScene(0, 0, DEFAULT_CANVAS_SIZE, DEFAULT_CANVAS_SIZE),
     m_nLocalID(Uml::id_None),
     m_nID(Uml::id_None),
-    m_Type(DiagramType::Undefined),
+    m_Type(Uml::DiagramType::Undefined),
     m_Name(QString()),
     m_Documentation(QString()),
     m_Options(Settings::optionState()),

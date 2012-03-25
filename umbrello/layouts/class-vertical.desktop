@@ -31,11 +31,11 @@ visual::type::containment=arrowtail=odottee,dir=back
 visual::type::dependency=arrowtail=vee,style=dashed,dir=back
 visual::type::uniassociation=arrowtail=vee,dir=back
 visual::type::association=arrowhead=none
-visual::type::generalization=arrowtail=normal,dir=back
+visual::type::generalization=arrowtail=onormal,dir=back
 visual::type::realisation=arrowtail=normal,dir=back
 visual::type::default=arrowhead=none
 # for position ranking
-ranking::type::anchor=constraint=false
+ranking::type::anchor=weight=0.001
 ranking::type::aggregation=weight=0.001
 ranking::type::association=weight=0.001
 ranking::type::composition=weight=0.001
@@ -44,7 +44,7 @@ ranking::type::dependency=weight=0.001
 ranking::type::generalization=weight=1.0
 ranking::type::realisation=weight=0.8
 ranking::type::uniassociation=weight=0.001
-ranking::type::default=constraint=false
+ranking::type::default=weight=0.001
 # id handling
 id::type::aggregation=swap
 id::type::containment=swap

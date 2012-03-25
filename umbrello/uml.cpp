@@ -2376,7 +2376,6 @@ void UMLApp::setDiagramMenuItemsState(bool bState)
     filePrint->setEnabled( bState );
     if ( currentView() ) {
         viewSnapToGrid->setChecked( currentView()->umlScene()->getSnapToGrid() );
- // [PORT]
         viewShowGrid->setChecked( currentView()->umlScene()->isSnapGridVisible() );
     }
 }

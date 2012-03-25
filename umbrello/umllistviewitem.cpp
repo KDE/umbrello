@@ -28,7 +28,6 @@
 #include "uniqueid.h"
 #include "uml.h"
 #include "cmds.h"
-#include "umlscene.h"
 
 // kde includes
 #include <klocale.h>

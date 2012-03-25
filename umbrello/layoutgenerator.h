@@ -10,7 +10,6 @@
 
 #ifndef LAYOUTGENERATOR_H
 
-#include "associationline.h"
 #include "associationwidget.h"
 #include "debug_utils.h"
 #include "dotgenerator.h"
@@ -261,6 +260,7 @@ public:
 //:TODO:            assoc->calculateEndingPoints();
             if (assoc->associationLine())
                 assoc->associationLine()->update();
+            assoc->resetTextPositions();
         }
         return true;
     }

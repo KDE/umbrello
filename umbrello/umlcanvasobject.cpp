@@ -101,10 +101,9 @@ bool UMLCanvasObject::addAssociationEnd(UMLAssociation* assoc)
  */
 bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc)
 {
-    if (m_List.count(assoc) > 0) {
-        return true;
-    }
-    return false;
+    uint cnt = m_List.count(assoc);
+    uDebug() << "count is " << cnt;
+    return (cnt > 0);
 }
 
 /**
@@ -119,6 +118,7 @@ int UMLCanvasObject::removeAssociationEnd(UMLAssociation * assoc)
         uDebug() << "can not find given assoc " << assoc << " in list";
         return -1;
     }
+    UMLApp::app()->document()->removeAssociation(assoc, false);
     UMLObject::emitModified();
     emit sigAssociationEndRemoved(assoc);
     return m_List.count();
