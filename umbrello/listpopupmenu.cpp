@@ -1734,7 +1734,7 @@ void ListPopupMenu::setupDiagramMenu(UMLView* view)
     insert(mt_SnapToGrid, i18n("Snap to Grid"), CHECKABLE);
     setActionChecked(mt_SnapToGrid, view->umlScene()->getSnapToGrid() );
     insert(mt_ShowSnapGrid, i18n("Show Grid"), CHECKABLE);
-    setActionChecked(mt_ShowSnapGrid, view->umlScene()->getShowSnapGrid() );
+    setActionChecked(mt_ShowSnapGrid, view->umlScene()->isSnapGridVisible() );
     insert(mt_Properties);
 }
 

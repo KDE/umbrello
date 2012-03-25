@@ -11,13 +11,12 @@
 #ifndef ASSOCIATIONWIDGET_H
 #define ASSOCIATIONWIDGET_H
 
-#include "widgetbase.h"
-
 #include "associationline.h"
 #include "associationwidgetlist.h"
 #include "linkwidget.h"
 #include "messagewidgetlist.h"
 #include "umlwidgetlist.h"
+#include "widgetbase.h"
 
 class ListPopupMenu;
 class ClassifierWidget;
@@ -113,7 +112,7 @@ public:
     FloatingTextWidget* textWidgetByRole(Uml::TextRole tr) const;
 
     FloatingTextWidget* nameWidget() const;
-    QString getName() const;
+    QString name() const;
     void setName(const QString &strRole);
 
     FloatingTextWidget* roleWidget(Uml::Role_Type role) const;

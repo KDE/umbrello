@@ -191,13 +191,14 @@ void DiagramPrintPage::slotClicked()
     // clear list with diagrams to print
     m_nIdList.clear();
 
+    UMLScene *currentScene = UMLApp::app()->currentView()->umlScene();
     if (m_pCurrentRB->isChecked()) {
         m_pTypeCB->setEnabled(false);
         m_pSelectLW->setEnabled(false);
         m_pSelectLW->clear();
-        m_pSelectLW->addItem(UMLApp::app()->currentView()->umlScene()->name());
+        m_pSelectLW->addItem(currentScene->name());
         m_pSelectLW->setCurrentRow(0);
-        m_nIdList.append(UMLApp::app()->currentView()->umlScene()->getID());
+        m_nIdList.append(currentScene->getID());
     }
 
     if (m_pAllRB->isChecked()) {

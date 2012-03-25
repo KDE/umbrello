@@ -1574,12 +1574,12 @@ void  UMLScene::getDiagram(const QRect &area, QPainter &painter)
     }
 
     // we don't want to get the grid
-    bool showSnapGrid = getShowSnapGrid();
-    setShowSnapGrid(false);
+    bool showSnapGrid = isSnapGridVisible();
+    setSnapGridVisible(false);
 
     drawArea(area, &painter);
 
-    setShowSnapGrid(showSnapGrid);
+    setSnapGridVisible(showSnapGrid);
 
     setAllChanged();
     //select again
@@ -3235,7 +3235,7 @@ int UMLScene::snappedY(int y)
 bool UMLScene::showPropDialog()
 {
     bool success = false;
-    QPointer<UMLViewDialog> dlg = new UMLViewDialog(view(), view());
+    QPointer<UMLViewDialog> dlg = new UMLViewDialog(view(), this);
     if (dlg->exec() == QDialog::Accepted) {
         success = true;
     }
@@ -3393,7 +3393,7 @@ void UMLScene::toggleSnapComponentSizeToGrid()
  */
 void UMLScene::toggleShowGrid()
 {
-    setShowSnapGrid(!getShowSnapGrid());
+    setSnapGridVisible(!isSnapGridVisible());
 }
 
 /**
@@ -3418,7 +3418,7 @@ void UMLScene::setSnapComponentSizeToGrid(bool bSnap)
 /**
  *  Returns whether to show snap grid or not.
  */
-bool UMLScene::getShowSnapGrid() const
+bool UMLScene::isSnapGridVisible() const
 {
     return m_bShowSnapGrid;
 }
@@ -3426,11 +3426,11 @@ bool UMLScene::getShowSnapGrid() const
 /**
  * Sets whether to show snap grid.
  */
-void UMLScene::setShowSnapGrid(bool bShow)
+void UMLScene::setSnapGridVisible(bool bShow)
 {
     m_bShowSnapGrid = bShow;
     setAllChanged();
-    emit sigShowGridToggled(getShowSnapGrid());
+    emit sigShowGridToggled(isSnapGridVisible());
 }
 
 /**
@@ -3549,7 +3549,7 @@ void UMLScene::forceUpdateWidgetFontMetrics(QPainter * painter)
 void UMLScene::drawBackground(QPainter & painter, const QRect & clip)
 {
     Q_UNUSED(clip);
-    if( getShowSnapGrid() ) {
+    if( isSnapGridVisible() ) {
         painter.setPen( gridDotColor() );
         int gridX = getSnapX();
         int gridY = getSnapY();

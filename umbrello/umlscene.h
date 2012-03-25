@@ -217,8 +217,8 @@ public:
     int snappedX(int x);
     int snappedY(int y);
 
-    bool getShowSnapGrid() const;
-    void setShowSnapGrid( bool bShow );
+    bool isSnapGridVisible() const;
+    void setSnapGridVisible(bool bShow);
 
     void setSnapComponentSizeToGrid( bool bSnap );
 

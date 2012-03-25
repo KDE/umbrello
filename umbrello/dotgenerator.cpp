@@ -373,9 +373,9 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
 
         QString label;
         if (!useFullNodeLabels())
-            label = assoc->getName() + "\\n" + type;
+            label = assoc->name() + "\\n" + type;
         else
-            label = assoc->getName();
+            label = assoc->name();
 
         QString headLabel = assoc->roleName(swapId ? Uml::B : Uml::A);
         QString tailLabel = assoc->roleName(swapId ? Uml::A : Uml::B);

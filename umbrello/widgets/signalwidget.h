@@ -50,7 +50,7 @@ public:
     virtual void setName(const QString &strName);
     virtual QString getName() const;
 
-    SignalType getSignalType() const;
+    SignalType signalType() const;
     QString signalTypeStr() const;
     void setSignalType( SignalType signalType );
 

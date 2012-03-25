@@ -20,6 +20,7 @@
 #include "ui_diagrampropertiespage.h"
 
 class ClassOptionsPage;
+class UMLScene;
 class UMLView;
 class UMLWidgetStylePage;
 class KFontChooser;
@@ -39,7 +40,7 @@ class UMLViewDialog : public KPageDialog
 {
     Q_OBJECT
 public:
-    UMLViewDialog(QWidget * pParent, UMLView * pView);
+    UMLViewDialog(QWidget * pParent, UMLScene * pScene);
     ~UMLViewDialog();
 
 protected:
@@ -54,7 +55,7 @@ protected:
 
     void checkName();
 
-    UMLView*               m_pView;   ///< the view to represent
+    UMLScene*              m_pScene;  ///< the scene to represent
     Settings::OptionState  m_options;
     KFontChooser*          m_pChooser;
     DiagramPropertiesPage* m_diagramProperties;

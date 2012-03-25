@@ -293,7 +293,7 @@ void AssociationWidget::setOperation(UMLOperation *op)
  */
 QString AssociationWidget::customOpText()
 {
-    return getName();
+    return name();
 }
 
 /**
@@ -347,10 +347,10 @@ void AssociationWidget::setMessageText(FloatingTextWidget *ft)
         if (m_pObject != NULL) {
             message = multiplicity(A) + ": " + operationText(m_scene);
         } else {
-            message = multiplicity(A) + ": " + getName();
+            message = multiplicity(A) + ": " + name();
         }
     } else {
-        message = getName();
+        message = name();
     }
     ft->setText(message);
 }
@@ -392,20 +392,18 @@ void AssociationWidget::showPropertiesDialog()
 {
     QPointer<AssocPropDlg> dlg = new AssocPropDlg(static_cast<QWidget*>(m_scene->view()), this );
     if (dlg->exec()) {
-        QString name = getName();
-        QString doc = documentation();
         QString roleADoc = roleDocumentation(A), roleBDoc = roleDocumentation(B);
         QString rnA = roleName(A), rnB = roleName(B);
         QString ma = multiplicity(A), mb = multiplicity(B);
         Uml::Visibility vA = visibility(A), vB = visibility(B);
         Uml::Changeability cA = changeability(A), cB = changeability(B);
         //rules built into these functions to stop updating incorrect values
-        setName(name);
+        setName(name());
 
         setRoleName(rnA, A);
         setRoleName(rnB, B);
 
-        setDocumentation(doc);
+        setDocumentation(documentation());
 
         setRoleDocumentation(roleADoc, A);
         setRoleDocumentation(roleBDoc, B);
@@ -434,7 +432,7 @@ void AssociationWidget::showPropertiesDialog()
 UMLClassifier *AssociationWidget::seqNumAndOp(QString& seqNum, QString& op)
 {
     seqNum = multiplicity(A);
-    op = getName();
+    op = name();
     UMLObject *o = widgetForRole(B)->umlObject();
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
     return c;
@@ -640,7 +638,7 @@ bool AssociationWidget::operator==(const AssociationWidget & Other) const
     // Here we depend on the messages having names, and the names must be different.
     // That is the reason why collaboration messages have strange initial names like
     // "m29997" or similar.
-    return (getName() == Other.getName());
+    return (name() == Other.name());
 }
 
 /**
@@ -866,7 +864,7 @@ FloatingTextWidget* AssociationWidget::textWidgetByRole(Uml::TextRole tr) const
  *
  * @return  Text of the FloatingTextWidget name widget.
  */
-QString AssociationWidget::getName() const
+QString AssociationWidget::name() const
 {
     if (m_pName == NULL)
         return QString();

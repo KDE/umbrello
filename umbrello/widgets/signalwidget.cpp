@@ -183,7 +183,7 @@ void SignalWidget::setName(const QString &strName)
 {
     m_Text = strName;
     updateComponentSize();
-    if (getSignalType() == SignalWidget::Time) {
+    if (signalType() == SignalWidget::Time) {
         m_pName->setText(m_Text);
     }
 }
@@ -199,7 +199,7 @@ QString SignalWidget::getName() const
 /**
  * Returns the type of Signal.
  */
-SignalWidget::SignalType SignalWidget::getSignalType() const
+SignalWidget::SignalType SignalWidget::signalType() const
 {
     return m_signalType;
 }
@@ -255,7 +255,7 @@ bool SignalWidget::loadFromXMI( QDomElement & qElement )
     Uml::IDType textId = STR2ID(textid);
 
     setSignalType((SignalType)type.toInt());
-    if (getSignalType() == Time) {
+    if (signalType() == Time) {
 
         if (textId != Uml::id_None) {
             UMLWidget *flotext = m_scene -> findWidget( textId );
