@@ -1717,20 +1717,26 @@ void ListPopupMenu::setupDiagramMenu(UMLView* view)
     insert(mt_Clear, Icon_Utils::SmallIcon(Icon_Utils::it_Clear), i18n("Clear Diagram"));
     insert(mt_Export_Image);
     addSeparator();
-    QHash<QString, QString> configFiles;
     QList<MenuType> types;
     types << mt_Apply_Layout << mt_Apply_Layout1 << mt_Apply_Layout2 << mt_Apply_Layout3 << mt_Apply_Layout4 << mt_Apply_Layout5 << mt_Apply_Layout6 << mt_Apply_Layout7 << mt_Apply_Layout8 << mt_Apply_Layout9;
-    if (LayoutGenerator::availableConfigFiles(view->umlScene(), configFiles)) {
-        int i = 0;
-        foreach(const QString &key, configFiles.keys()) {
-            if (i >= types.size())
-                break;
-            insert(types[i], QPixmap(), i18n("apply '%1'").arg(configFiles[key]));
-            getAction(types[i])->setData(QVariant(key));
-            i++;
+    LayoutGenerator generator;
+    if (generator.isEnabled()) {
+        QHash<QString, QString> configFiles;
+        if (LayoutGenerator::availableConfigFiles(view->umlScene(), configFiles)) {
+            int i = 0;
+            foreach(const QString &key, configFiles.keys()) {
+                if (i >= types.size())
+                    break;
+                insert(types[i], QPixmap(), i18n("apply '%1'").arg(configFiles[key]));
+                getAction(types[i])->setData(QVariant(key));
+                i++;
+            }
+            addSeparator();
         }
     }
-    addSeparator();
+    else {
+        uWarning() << "Could not add autolayout entries because graphviz installation has not been found.";
+    }
     insert(mt_SnapToGrid, i18n("Snap to Grid"), CHECKABLE);
     setActionChecked(mt_SnapToGrid, view->umlScene()->getSnapToGrid() );
     insert(mt_ShowSnapGrid, i18n("Show Grid"), CHECKABLE);
