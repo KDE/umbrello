@@ -48,6 +48,14 @@ UMLView::~UMLView()
 }
 
 /**
+ * Getter for the scene.
+ */
+UMLScene* UMLView::umlScene() const
+{
+    return qobject_cast<UMLScene*>(scene());
+}
+
+/**
  * Sets the zoom of the diagram.
  */
 void UMLView::setZoom(int zoom)
@@ -287,14 +295,6 @@ void UMLView::hideEvent(QHideEvent* /*he*/)
 void UMLView::closeEvent(QCloseEvent * e)
 {
     QWidget::closeEvent(e);
-}
-
-/**
- * Getter for the scene.
- */
-UMLScene* UMLView::umlScene() const
-{
-    return qobject_cast<UMLScene*>(scene());
 }
 
 /**

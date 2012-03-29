@@ -36,6 +36,7 @@ public:
     UMLView(UMLFolder *f );
     virtual ~UMLView();
 
+    UMLScene* umlScene() const;
     int zoom() const { return m_nZoom; }
     void setZoom(int zoom);
     int currentZoom();
@@ -43,16 +44,15 @@ public:
     void hideEvent(QHideEvent *he);
     void showEvent(QShowEvent *se);
 
-    UMLScene* umlScene() const;
+
 
 protected:
-    void closeEvent(QCloseEvent * e);
-
     void setCenter(const QPointF& centerPoint);
     QPointF center();
 
     virtual void wheelEvent(QWheelEvent* event);
     virtual void resizeEvent(QResizeEvent* event);
+    void closeEvent(QCloseEvent * e);
 
     QPointF m_currentCenterPoint;  ///< holds the current centerpoint for the view, used for panning and zooming
     QPoint  m_lastPanPoint;        ///< from panning the view
