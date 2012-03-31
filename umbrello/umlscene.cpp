@@ -150,7 +150,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder)
 }
 
 /**
- * Destructor.
+ * Destructor
  */
 UMLScene::~UMLScene()
 {
@@ -187,6 +187,21 @@ UMLFolder* UMLScene::folder() const
 void UMLScene::setFolder(UMLFolder *folder)
 {
     m_pFolder = folder;
+}
+
+/**
+ * Returns the active view(the view with focus) associated with this scene.
+ * \note This currently simply returns the first view in the views() list as
+ * multiple views are yet to be implemented.
+ * \todo Implement this appropriately later.
+ */
+UMLView* UMLScene::activeView() const
+{
+    UMLView *view = 0;
+    if(!views().isEmpty()) {
+        view = dynamic_cast<UMLView*>(views().first());
+    }
+    return view;
 }
 
 /**
@@ -254,24 +269,6 @@ void UMLScene::setID(Uml::IDType id)
 }
 
 /**
- * Returns the open state.
- * @return   when true diagram is shown to the user
- */
-bool UMLScene::isOpen() const
-{
-    return m_isOpen;
-}
-
-/**
- * Sets the flag 'isOpen'.
- * @param isOpen   flag indicating that the diagram is shown to the user
- */
-void UMLScene::setIsOpen(bool isOpen)
-{
-    m_isOpen = isOpen;
-}
-
-/**
  * Returns the position of the diagram.
  */
 QPointF UMLScene::pos() const
@@ -288,8 +285,85 @@ void UMLScene::setPos(const QPointF &pos)
 }
 
 /**
- * Get the color of the grid dots.
- * @return the color of the dots
+ * Returns the default brush for diagram widgets.
+ * :TODO: return value has to be QBrush
+ */
+const QColor& UMLScene::brush() const
+{
+    return m_Options.uiState.fillColor;
+}
+
+/**
+ * Defines the color or pattern that is used for filling shapes.
+ * @param color  The color to use.
+ */
+void UMLScene::setBrush(const QColor &color)
+{
+    m_Options.uiState.fillColor = color;
+    emit sigColorChanged(getID());
+}
+
+/**
+ * Returns the line color to use.
+ */
+const QColor& UMLScene::lineColor() const
+{
+    return m_Options.uiState.lineColor;
+}
+
+/**
+ * Sets the line color.
+ *
+ * @param color  The color to use.
+ */
+void UMLScene::setLineColor(const QColor &color)
+{
+    m_Options.uiState.lineColor = color;
+    emit sigColorChanged(getID());
+}
+
+/**
+ * Returns the line width to use.
+ */
+uint UMLScene::lineWidth() const
+{
+    return m_Options.uiState.lineWidth;
+}
+
+/**
+ * Sets the line width.
+ *
+ * @param width  The width to use.
+ */
+void UMLScene::setLineWidth(uint width)
+{
+    m_Options.uiState.lineWidth = width;
+    emit sigLineWidthChanged(getID());
+}
+
+/**
+ * Returns the text color to use.
+ */
+const QColor& UMLScene::textColor() const
+{
+    return m_Options.uiState.textColor;
+}
+
+/**
+ * Sets the text color.
+ *
+ * @param color  The color to use.
+ */
+void UMLScene::setTextColor(const QColor& color)
+{
+    m_Options.uiState.textColor = color;
+    emit sigTextColorChanged(getID());
+}
+
+/**
+ * return grid dot color
+ *
+ * @return Color
  */
 const QColor& UMLScene::gridDotColor() const
 {
@@ -297,10 +371,11 @@ const QColor& UMLScene::gridDotColor() const
 }
 
 /**
- * Set the color of the grid dots.
- * @param gridColor   the color of the dots
+ * set grid dot color
+ *
+ * @param color grid dot color
  */
-void UMLScene::setGridDotColor(const QColor &gridColor)
+void UMLScene::setGridDotColor(const QColor& gridColor)
 {
     m_layoutGrid->setGridDotColor(gridColor);
     m_layoutGrid->setGridCrossColor(gridColor);
@@ -308,19 +383,19 @@ void UMLScene::setGridDotColor(const QColor &gridColor)
 }
 
 /**
- * Return whether we are currently creating an object.
+ * Returns the options being used.
  */
-bool UMLScene::getCreateObject() const
+const Settings::OptionState& UMLScene::optionState() const
 {
-    return m_bCreateObject;
+    return m_Options;
 }
 
 /**
- * Set whether we are currently creating an object.
+ * Sets the options to be used.
  */
-void UMLScene::setCreateObject(bool bCreate)
+void UMLScene::setOptionState(const Settings::OptionState& options)
 {
-    m_bCreateObject = bCreate;
+    m_Options = options;
 }
 
 /**
@@ -353,6 +428,24 @@ MessageWidgetList& UMLScene::messageList()
 int UMLScene::generateCollaborationId()
 {
     return ++m_nCollaborationId;
+}
+
+/**
+ * Returns the open state.
+ * @return   when true diagram is shown to the user
+ */
+bool UMLScene::isOpen() const
+{
+    return m_isOpen;
+}
+
+/**
+ * Sets the flag 'isOpen'.
+ * @param isOpen   flag indicating that the diagram is shown to the user
+ */
+void UMLScene::setIsOpen(bool isOpen)
+{
+    m_isOpen = isOpen;
 }
 
 /**
@@ -545,6 +638,22 @@ void UMLScene::setupNewWidget(UMLWidget *w)
     m_doc->setModified();
 
     UMLApp::app()->executeCommand(new CmdCreateWidget(this, w));
+}
+
+/**
+ * Return whether we are currently creating an object.
+ */
+bool UMLScene::getCreateObject() const
+{
+    return m_bCreateObject;
+}
+
+/**
+ * Set whether we are currently creating an object.
+ */
+void UMLScene::setCreateObject(bool bCreate)
+{
+    m_bCreateObject = bCreate;
 }
 
 /**
@@ -1087,79 +1196,13 @@ void UMLScene::setUseFillColor(bool ufc)
 }
 
 /**
- * Returns the default brush for diagram widgets.
- * :TODO: return value has to be QBrush
- */
-const QColor& UMLScene::brush() const
-{
-    return m_Options.uiState.fillColor;
-}
-
-/**
- * Defines the color or pattern that is used for filling shapes.
- * @param color  The color to use.
- */
-void UMLScene::setBrush(const QColor &color)
-{
-    m_Options.uiState.fillColor = color;
-    emit sigColorChanged(getID());
-}
-
-/**
- * Returns the line color to use.
- */
-const QColor& UMLScene::lineColor() const
-{
-    return m_Options.uiState.lineColor;
-}
-
-/**
- * Sets the line color.
+ * Gets the smallest area to print.
  *
- * @param color  The color to use.
+ * @return Returns the smallest area to print.
  */
-void UMLScene::setLineColor(const QColor &color)
+QRectF UMLScene::diagramRect()
 {
-    m_Options.uiState.lineColor = color;
-    emit sigColorChanged(getID());
-}
-
-/**
- * Returns the line width to use.
- */
-uint UMLScene::lineWidth() const
-{
-    return m_Options.uiState.lineWidth;
-}
-
-/**
- * Sets the line width.
- *
- * @param width  The width to use.
- */
-void UMLScene::setLineWidth(uint width)
-{
-    m_Options.uiState.lineWidth = width;
-    emit sigLineWidthChanged(getID());
-}
-
-/**
- * Returns the text color to use.
- */
-const QColor& UMLScene::textColor() const
-{
-    return m_Options.uiState.textColor;
-}
-
-/**
- * Sets the text color.
- *
- * @param color  The color to use.
- */
-void UMLScene::setTextColor(const QColor& color)
-{
-    m_Options.uiState.textColor = color;
-    emit sigTextColorChanged(getID());
+    return itemsBoundingRect();
 }
 
 /**
@@ -1207,16 +1250,6 @@ void UMLScene::mouseDoubleClickEvent(UMLSceneMouseEvent* ome)
         }
         ome->accept();
     }
-}
-
-/**
- * Gets the smallest area to print.
- *
- * @return Returns the smallest area to print.
- */
-QRectF UMLScene::diagramRect()
-{
-    return itemsBoundingRect();
 }
 
 /**
@@ -2933,44 +2966,11 @@ void UMLScene::copyAsImage(QPixmap*& pix)
 }
 
 /**
- * Returns the active view(the view with focus) associated with this scene.
- * \note This currently simply returns the first view in the views() list as
- * multiple views are yet to be implemented.
- * \todo Implement this appropriately later.
- */
-UMLView* UMLScene::activeView() const
-{
-    UMLView *view = 0;
-    if(!views().isEmpty()) {
-        view = dynamic_cast<UMLView*>(views().first());
-    }
-    return view;
-}
-
-/**
  * Reset the toolbar.
  */
 void UMLScene::resetToolbar()
 {
     emit sigResetToolBar();
-}
-
-/**
- * Returns the status on whether in a paste state.
- *
- * @return Returns the status on whether in a paste state.
- */
-bool UMLScene::getPaste() const
-{
-    return m_bPaste;
-}
-
-/**
- * Sets the status on whether in a paste state.
- */
-void UMLScene::setPaste(bool paste)
-{
-    m_bPaste = paste;
 }
 
 /**
@@ -3051,6 +3051,24 @@ void UMLScene::setMenu(const QPoint& pos)
         //QPoint point = m_Pos.toPoint();
         m_pMenu->popup(pos);
     }
+}
+
+/**
+ * Returns the status on whether in a paste state.
+ *
+ * @return Returns the status on whether in a paste state.
+ */
+bool UMLScene::getPaste() const
+{
+    return m_bPaste;
+}
+
+/**
+ * Sets the status on whether in a paste state.
+ */
+void UMLScene::setPaste(bool paste)
+{
+    m_bPaste = paste;
 }
 
 /**
@@ -3717,22 +3735,6 @@ bool UMLScene::getShowOpSig() const
 void UMLScene::setShowOpSig(bool bShowOpSig)
 {
     m_Options.classState.showOpSig = bShowOpSig;
-}
-
-/**
- * Returns the options being used.
- */
-const Settings::OptionState& UMLScene::optionState() const
-{
-    return m_Options;
-}
-
-/**
- * Sets the options to be used.
- */
-void UMLScene::setOptionState(const Settings::OptionState& options)
-{
-    m_Options = options;
 }
 
 /**

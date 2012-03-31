@@ -90,6 +90,8 @@ public:
     UMLScene(UMLFolder *parentFolder);
     virtual ~UMLScene();
 
+    UMLView* activeView() const;
+
     // Accessors and other methods dealing with loaded/saved data
 
     UMLFolder* folder() const; 
@@ -110,9 +112,6 @@ public:
     QPointF pos() const;
     void setPos(const QPointF &pos);
 
-    const QColor& gridDotColor() const;
-    void setGridDotColor(const QColor &gridColor);
-
     void setBrush(const QColor &color);
     const QColor& brush() const;
 
@@ -124,6 +123,9 @@ public:
 
     const QColor& textColor() const;
     void setTextColor(const QColor& color);
+
+    const QColor& gridDotColor() const;
+    void setGridDotColor(const QColor &gridColor);
 
     bool getSnapToGrid() const;
     void setSnapToGrid(bool bSnap);
@@ -206,8 +208,6 @@ public:
 
     bool isSavedInSeparateFile();
 
-    UMLView* activeView() const;
-
     void setMenu(const QPoint& pos);
 
     void resetToolbar();
@@ -257,7 +257,7 @@ public:
     void removeAssocInViewAndDoc(AssociationWidget* assoc);
 
     bool addWidget(UMLWidget * pWidget , bool isPasteOperation = false);
-
+    
     QPointF getPastePoint();
     void resetPastePoint();
 
@@ -368,8 +368,6 @@ protected:
     void dragMoveEvent(UMLSceneDragDropEvent *moveEvent);
     void dropEvent(UMLSceneDragDropEvent *dropEvent);
 
-    QRectF diagramRect();
-
     void mouseReleaseEvent(UMLSceneMouseEvent* mouseEvent);
     void mouseMoveEvent(UMLSceneMouseEvent* mouseEvent);
     void mouseDoubleClickEvent(UMLSceneMouseEvent* mouseEvent);
@@ -383,6 +381,8 @@ protected:
     bool isArrowMode();
 
     void selectWidgetsOfAssoc (AssociationWidget * a);
+
+    QRectF diagramRect();
 
     void makeSelected (UMLWidget * uw);
 
@@ -457,10 +457,10 @@ public slots:
 signals:
     void sigResetToolBar();
     void sigColorChanged(Uml::IDType);
+    void sigTextColorChanged(Uml::IDType);
+    void sigLineWidthChanged(Uml::IDType);
     void sigRemovePopupMenu();
     void sigClearAllSelected();
-    void sigLineWidthChanged(Uml::IDType);
-    void sigTextColorChanged(Uml::IDType);
     void sigSnapToGridToggled(bool);
     void sigSnapComponentSizeToGridToggled(bool);
     void sigShowGridToggled(bool);
