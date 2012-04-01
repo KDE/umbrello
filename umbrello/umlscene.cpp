@@ -1208,7 +1208,7 @@ void UMLScene::setUseFillColor(bool ufc)
  *
  * @return Returns the smallest area to print.
  */
-QRectF UMLScene::diagramRect()
+UMLSceneRect UMLScene::diagramRect()
 {
     return itemsBoundingRect();
 }
@@ -1219,7 +1219,7 @@ QRectF UMLScene::diagramRect()
  * @param atPos   the mouse position on the scene
  * @return true if there is a widget or an association line
  */
-bool UMLScene::isWidgetOrAssociation(const QPointF& atPos)
+bool UMLScene::isWidgetOrAssociation(const UMLScenePoint& atPos)
 {
     UMLWidget* widget = widgetAt(atPos);
     if (widget) {
@@ -1617,7 +1617,7 @@ void UMLScene::selectWidgetsOfAssoc(AssociationWidget * a)
 void UMLScene::selectWidgets(qreal px, qreal py, qreal qx, qreal qy)
 {
     clearSelected();
-    QRectF rect = QRectF(QPointF(px, py), QPointF(qx, qy)).normalized();
+    UMLSceneRect rect = UMLSceneRect(UMLScenePoint(px, py), UMLScenePoint(qx, qy)).normalized();
     QPainterPath path;
     path.addRect(rect);
     setSelectionArea(path);
@@ -1626,7 +1626,7 @@ void UMLScene::selectWidgets(qreal px, qreal py, qreal qx, qreal qy)
 /**
  * Paint diagram to the paint device
  */
-void  UMLScene::getDiagram(const QRectF &rect, QPixmap & diagram)
+void  UMLScene::getDiagram(const UMLSceneRect &rect, QPixmap & diagram)
 {
     QPixmap pixmap(rect.x() + rect.width(), rect.y() + rect.height());
     QPainter painter(&pixmap);
@@ -1638,7 +1638,7 @@ void  UMLScene::getDiagram(const QRectF &rect, QPixmap & diagram)
 /**
  * Paint diagram to the paint device
  */
-void  UMLScene::getDiagram(const QRectF &area, QPainter & painter)
+void  UMLScene::getDiagram(const UMLSceneRect &area, QPainter & painter)
 {
     DEBUG(DBG_SRC) << "area=" << area << ", painter=" << painter.window();
     //TODO unselecting and selecting later doesn't work now as the selection is
@@ -3361,7 +3361,7 @@ void UMLScene::slotShowView()
  * Only call this straight after the event, the value won't stay valid.
  * Should only be called by Assoc widgets at the moment. no one else needs it.
  */
-QPointF UMLScene::getPastePoint()
+UMLScenePoint UMLScene::getPastePoint()
 {
     return m_PastePoint - m_Pos;
 }
@@ -3748,7 +3748,7 @@ void UMLScene::fileLoaded()
  */
 void UMLScene::resizeCanvasToItems()
 {
-    QRectF rect = itemsBoundingRect();
+    UMLSceneRect rect = itemsBoundingRect();
     //Make sure (0,0) is in the topLeft
     rect.setTopLeft(QPointF(0, 0));
     setSceneRect(rect);

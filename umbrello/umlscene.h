@@ -376,7 +376,7 @@ protected:
 
     void selectWidgetsOfAssoc (AssociationWidget * a);
 
-    QRectF diagramRect();
+    UMLSceneRect diagramRect();
 
     void makeSelected (UMLWidget * uw);
 
@@ -425,7 +425,7 @@ private:
                                          UMLForeignKeyConstraint* fkConstraint,
                                          UMLWidget* widget);
 
-    bool isWidgetOrAssociation(const QPointF& atPos);
+    bool isWidgetOrAssociation(const UMLScenePoint& atPos);
 
 public slots:
     void slotToolBarChanged(int c);
