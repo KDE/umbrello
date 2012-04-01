@@ -3588,7 +3588,7 @@ void UMLScene::applyLayout(const QString &variant)
  */
 void UMLScene::toggleSnapToGrid()
 {
-    setSnapToGrid(!getSnapToGrid());
+    setSnapToGrid(!snapToGrid());
 }
 
 /**
@@ -3597,7 +3597,7 @@ void UMLScene::toggleSnapToGrid()
  */
 void UMLScene::toggleSnapComponentSizeToGrid()
 {
-    setSnapComponentSizeToGrid(!getSnapComponentSizeToGrid());
+    setSnapComponentSizeToGrid(!snapComponentSizeToGrid());
 }
 
 /**
@@ -3612,7 +3612,7 @@ void UMLScene::toggleShowGrid()
 /**
  * Return whether to use snap to grid.
  */
-bool UMLScene::getSnapToGrid() const
+bool UMLScene::snapToGrid() const
 {
     return m_bUseSnapToGrid;
 }
@@ -3623,13 +3623,13 @@ bool UMLScene::getSnapToGrid() const
 void UMLScene::setSnapToGrid(bool bSnap)
 {
     m_bUseSnapToGrid = bSnap;
-    emit sigSnapToGridToggled(getSnapToGrid());
+    emit sigSnapToGridToggled(snapToGrid());
 }
 
 /**
  * Return whether to use snap to grid for component size.
  */
-bool UMLScene::getSnapComponentSizeToGrid() const
+bool UMLScene::snapComponentSizeToGrid() const
 {
     return m_bUseSnapComponentSizeToGrid;
 }
@@ -3641,13 +3641,13 @@ void UMLScene::setSnapComponentSizeToGrid(bool bSnap)
 {
     m_bUseSnapComponentSizeToGrid = bSnap;
     updateComponentSizes();
-    emit sigSnapComponentSizeToGridToggled(getSnapComponentSizeToGrid());
+    emit sigSnapComponentSizeToGridToggled(snapComponentSizeToGrid());
 }
 
 /**
  * Returns the x grid size.
  */
-int UMLScene::getSnapX() const
+int UMLScene::snapX() const
 {
     return m_layoutGrid->gridSpacingX();
 }
@@ -3655,7 +3655,7 @@ int UMLScene::getSnapX() const
 /**
  * Returns the y grid size.
  */
-int UMLScene::getSnapY() const
+int UMLScene::snapY() const
 {
     return m_layoutGrid->gridSpacingY();
 }
@@ -3674,8 +3674,8 @@ void UMLScene::setSnapSpacing(int x, int y)
 qreal UMLScene::snappedX(qreal _x)
 {
     int x = (int)_x;
-    if (getSnapToGrid()) {
-        int gridX = getSnapX();
+    if (snapToGrid()) {
+        int gridX = snapX();
         int modX = x % gridX;
         x -= modX;
         if (modX >= gridX / 2)
@@ -3690,8 +3690,8 @@ qreal UMLScene::snappedX(qreal _x)
 qreal UMLScene::snappedY(qreal _y)
 {
     int y = (int)_y;
-    if (getSnapToGrid()) {
-        int gridY = getSnapY();
+    if (snapToGrid()) {
+        int gridY = snapY();
         int modY = y % gridY;
         y -= modY;
         if (modY >= gridY / 2)

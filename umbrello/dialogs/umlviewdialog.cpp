@@ -100,11 +100,11 @@ void UMLViewDialog::setupDiagramPropertiesPage()
     m_diagramProperties->ui_showOpSigs->setChecked( m_pScene->getShowOpSig() );
 
     m_diagramProperties->ui_checkBoxShowGrid->setChecked(m_pScene->isSnapGridVisible());
-    m_diagramProperties->ui_snapToGrid->setChecked(m_pScene->getSnapToGrid());
-    m_diagramProperties->ui_snapComponentSizeToGrid->setChecked(m_pScene->getSnapComponentSizeToGrid());
+    m_diagramProperties->ui_snapToGrid->setChecked(m_pScene->snapToGrid());
+    m_diagramProperties->ui_snapComponentSizeToGrid->setChecked(m_pScene->snapComponentSizeToGrid());
 
-    m_diagramProperties->ui_gridSpaceX->setValue( m_pScene->getSnapX());
-    m_diagramProperties->ui_gridSpaceY->setValue( m_pScene->getSnapY());
+    m_diagramProperties->ui_gridSpaceX->setValue( m_pScene->snapX());
+    m_diagramProperties->ui_gridSpaceY->setValue( m_pScene->snapY());
     m_diagramProperties->ui_lineWidth->setValue( m_pScene->lineWidth());
     m_diagramProperties->ui_documentation->setText(m_pScene->documentation());
 }

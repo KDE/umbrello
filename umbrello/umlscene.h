@@ -127,14 +127,14 @@ public:
     const QColor& gridDotColor() const;
     void setGridDotColor(const QColor &gridColor);
 
-    bool getSnapToGrid() const;
+    bool snapToGrid() const;
     void setSnapToGrid(bool bSnap);
 
-    bool getSnapComponentSizeToGrid() const;
+    bool snapComponentSizeToGrid() const;
     void setSnapComponentSizeToGrid(bool bSnap);
 
-    int getSnapX() const;
-    int getSnapY() const;
+    int snapX() const;
+    int snapY() const;
     void setSnapSpacing(int x, int y);
 
     qreal snappedX(qreal x);
