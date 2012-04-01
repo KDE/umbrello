@@ -662,7 +662,7 @@ void UMLScene::setupNewWidget(UMLWidget *w)
     w->setY(m_Pos.y());
     w->setVisible(true);
     w->setActivated();
-    w->setFont(getFont());
+    w->setFont(font());
     w->slotFillColorChanged(ID());
     w->slotTextColorChanged(ID());
     w->slotLineWidthChanged(ID());
@@ -756,7 +756,7 @@ void UMLScene::slotObjectCreated(UMLObject* o)
 
     newWidget->setVisible(true);
     newWidget->setActivated();
-    newWidget->setFont(getFont());
+    newWidget->setFont(font());
     newWidget->slotFillColorChanged(ID());
     newWidget->slotTextColorChanged(ID());
     newWidget->slotLineWidthChanged(ID());
@@ -3447,7 +3447,7 @@ bool UMLScene::showPropDialog()
 /**
  * Returns the font to use
  */
-QFont UMLScene::getFont() const
+QFont UMLScene::font() const
 {
     return m_Options.uiState.font;
 }
