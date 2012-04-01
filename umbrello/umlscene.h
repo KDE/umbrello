@@ -248,11 +248,11 @@ public:
 
     UMLViewImageExporter* getImageExporter();
 
-    bool addAssociation(AssociationWidget* pAssoc , bool isPasteOperation = false);
+    bool addAssociation(AssociationWidget* pAssoc, bool isPasteOperation = false);
 
     void removeAssocInViewAndDoc(AssociationWidget* assoc);
 
-    bool addWidget(UMLWidget * pWidget , bool isPasteOperation = false);
+    bool addWidget(UMLWidget * pWidget, bool isPasteOperation = false);
     
     UMLScenePoint getPastePoint();
     void resetPastePoint();
