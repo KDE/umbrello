@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2011                                               *
+ *   copyright (C) 2005-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -15,15 +15,14 @@
 #include "debug_utils.h"
 #include "listpopupmenu.h"
 
-
 /**
  * Constructs a ForkJoinWidget.
- * @param o The orientation of ForkJoinWidget.
- * @param id ID of the widget. (-1 for new id)
+ * @param ori   The orientation of ForkJoinWidget.
+ * @param id    ID of the widget. (-1 for new id)
  */
-ForkJoinWidget::ForkJoinWidget(Qt::Orientation o, Uml::IDType id)
+ForkJoinWidget::ForkJoinWidget(Qt::Orientation ori, Uml::IDType id)
   : BoxWidget(id, WidgetBase::wt_ForkJoin),
-    m_orientation(o)
+    m_orientation(ori)
 {
     setMargin(0);
     setBrush(QBrush(Qt::black));
@@ -37,11 +36,19 @@ ForkJoinWidget::~ForkJoinWidget()
 }
 
 /**
- * Sets the orientation of this widget to \a o.
+ * Get whether to draw the plate vertically or horizontally.
  */
-void ForkJoinWidget::setOrientation(Qt::Orientation o)
+Qt::Orientation ForkJoinWidget::orientation() const
 {
-    m_orientation = o;
+    return m_orientation;
+}
+
+/**
+ * Set whether to draw the plate vertically or horizontally.
+ */
+void ForkJoinWidget::setOrientation(Qt::Orientation ori)
+{
+    m_orientation = ori;
     updateGeometry();
 }
 
@@ -63,10 +70,16 @@ bool ForkJoinWidget::loadFromXMI(QDomElement& qElement)
     if ( !UMLWidget::loadFromXMI(qElement) ) {
         return false;
     }
-    // FIXME: This attribute is incompatible with trunk xmi format !!!
-    QString orientation = qElement.attribute("orientation",
-                                             QString::number(Qt::Horizontal));
-    setOrientation( (Qt::Orientation)orientation.toInt() );
+
+    QString drawVerticalStr = qElement.attribute("drawvertical", "0");
+    bool drawVertical = (bool)drawVerticalStr.toInt();
+    if (drawVertical) {
+        setOrientation(Qt::Vertical);
+    }
+    else {
+        setOrientation(Qt::Horizontal);
+    }
+
     return true;
 }
 
@@ -78,8 +91,11 @@ void ForkJoinWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement fjElement = qDoc.createElement("forkjoin");
     UMLWidget::saveToXMI(qDoc, fjElement);
-    // FIXME: This creates an incompatible xmi format !!!
-    fjElement.setAttribute("orientation", m_orientation);
+    bool drawVertical = true;
+    if (m_orientation == Qt::Horizontal) {
+        drawVertical = false;
+    }
+    fjElement.setAttribute("drawvertical", drawVertical);
     qElement.appendChild(fjElement);
 }
 

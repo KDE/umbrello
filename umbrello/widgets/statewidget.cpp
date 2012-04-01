@@ -41,6 +41,7 @@ StateWidget::StateWidget(StateType stateType, Uml::IDType id)
   : UMLWidget(WidgetBase::wt_State, id)
 {
     m_stateType = stateType;
+    m_drawVertical = true;
     createTextItemGroup();
 
     const qreal radius = 18.0;
@@ -70,9 +71,10 @@ StateWidget::StateWidget(StateType stateType, Uml::IDType id)
         break;
     case StateWidget::Fork:
     case StateWidget::Join:
-        {
-            const QSizeF sz = QSizeF(8, 60);
-            setSize(sz);
+        if (m_drawVertical) {
+            setSize(QSizeF(8, 60));
+        } else {
+            setSize(QSize(60, 8));
         }
         break;
     case StateWidget::Junction:
@@ -201,7 +203,8 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWi
 }
 
 /**
- * @return Type of state.
+ * Returns the type of state.
+ * @return StateType
  */
 StateWidget::StateType StateWidget::stateType() const
 {
@@ -209,7 +212,15 @@ StateWidget::StateType StateWidget::stateType() const
 }
 
 /**
- * Sets the StateType of this widget to \a stateType.
+ * Returns the type string of state.
+ */
+QString StateWidget::stateTypeStr() const
+{
+    return QLatin1String(ENUM_NAME(StateWidget, StateType, m_stateType));
+}
+
+/**
+ * Sets the type of state.
  */
 void StateWidget::setStateType(StateType stateType)
 {
@@ -317,6 +328,23 @@ void StateWidget::setActivities(const QStringList &list)
 }
 
 /**
+ * Get whether to draw a fork or join vertically.
+ */
+bool StateWidget::drawVertical() const
+{
+    return m_drawVertical;
+}
+
+/**
+ * Set whether to draw a fork or join vertically.
+ */
+void StateWidget::setDrawVertical(bool to)
+{
+    m_drawVertical = to;
+    UMLWidget::updateGeometry();
+}
+
+/**
  * Reimplemented from WidgetBase::showPropertiesDialog to show
  * appropriate dialog for this widget.
  */
@@ -330,6 +358,7 @@ void StateWidget::showPropertiesDialog()
         docwindow->showDocumentation(this, true);
         UMLApp::app()->document()->setModified(true);
     }
+    delete dialog;
 }
 
 /**
@@ -400,14 +429,14 @@ void StateWidget::updateGeometry()
     switch (m_stateType) {
     case StateWidget::Fork:
     case StateWidget::Join:
-/*        if (m_orientation == Qt::Horizontal) {
+        if (m_drawVertical) {
+            setMinimumSize(QSizeF(4, 40));
+            setMaximumSize(QSizeF(10, 100));
+        }
+        else {
             setMinimumSize(QSizeF(40, 4));
             setMaximumSize(QSizeF(100, 10));
         }
-        else {*/
-            setMinimumSize(QSizeF(4, 40));
-            setMaximumSize(QSizeF(10, 100));
-//        }
         break;
     case StateWidget::Normal:
         {
@@ -491,8 +520,8 @@ void StateWidget::slotMenuSelection(QAction* action)
         uError() << "Action's data field does not contain ListPopupMenu pointer";
         return;
     }
-    ListPopupMenu::MenuType sel = menu->getMenuType(action);
 
+    ListPopupMenu::MenuType sel = menu->getMenuType(action);
     switch( sel ) {
     case ListPopupMenu::mt_Rename:
         text = KInputDialog::getText( i18n("Enter State Name"),
@@ -501,6 +530,10 @@ void StateWidget::slotMenuSelection(QAction* action)
         if ( ok && !text.isEmpty()) {
             setName( text );
         }
+        break;
+
+    case ListPopupMenu::mt_Properties:
+        showPropertiesDialog();
         break;
 
     case ListPopupMenu::mt_New_Activity:
@@ -512,8 +545,8 @@ void StateWidget::slotMenuSelection(QAction* action)
         }
         break;
 
-    case ListPopupMenu::mt_Properties:
-        showPropertiesDialog();
+    case ListPopupMenu::mt_Flip:
+        setDrawVertical(!m_drawVertical);
         break;
 
     default:

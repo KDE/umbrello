@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2009                                               *
+ *   copyright (C) 2005-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -28,15 +28,11 @@ class ForkJoinWidget : public BoxWidget
     Q_OBJECT
     Q_PROPERTY(Qt::Orientation orientation READ orientation WRITE setOrientation)
 public:
-
-    explicit ForkJoinWidget(Qt::Orientation o = Qt::Horizontal, Uml::IDType id = Uml::id_None);
+    explicit ForkJoinWidget(Qt::Orientation ori = Qt::Horizontal, Uml::IDType id = Uml::id_None);
     virtual ~ForkJoinWidget();
 
-    /// @return Whether to draw plate vertically or not.
-    Qt::Orientation orientation() const {
-        return m_orientation;
-    }
-    void setOrientation(Qt::Orientation o);
+    Qt::Orientation orientation() const;
+    void setOrientation(Qt::Orientation ori);
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
@@ -50,8 +46,7 @@ protected:
     virtual void updateGeometry();
 
 private:
-    /// whether to draw the plate horizontally or vertically
-    Qt::Orientation m_orientation;
+    Qt::Orientation m_orientation;   ///< whether to draw the plate horizontally or vertically
 };
 
 #endif

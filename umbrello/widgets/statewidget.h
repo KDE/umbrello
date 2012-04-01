@@ -55,11 +55,7 @@ public:
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
     StateType stateType() const;
-    QString stateTypeStr() const
-    {
-        return QLatin1String(ENUM_NAME(StateWidget, StateType, m_stateType));
-    }
-
+    QString stateTypeStr() const;
     void setStateType(StateType stateType);
 
     bool addActivity(const QString &activity);
@@ -68,6 +64,9 @@ public:
 
     QStringList activities() const;
     void setActivities(const QStringList &list);
+
+    bool drawVertical() const;
+    void setDrawVertical(bool to = true);
 
     virtual void showPropertiesDialog();
 
@@ -85,7 +84,8 @@ public Q_SLOTS:
 private:
     static const QSizeF MinimumEllipseSize;
 
-    StateType m_stateType;   ///< Type of state.
+    StateType m_stateType;    ///< Type of state.
+    bool      m_drawVertical; ///< whether to draw the fork/join horizontally or vertically
 
     enum {
         GroupIndex

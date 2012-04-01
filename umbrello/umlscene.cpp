@@ -476,7 +476,7 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
     bottom += 2;
 
     if (pPrinter->orientation() == QPrinter::Landscape) {
-        // we are printing in LANDSCAPE -->swap marginX and marginY
+        // we are printing in LANDSCAPE --> swap marginX and marginY
         uint right_old = right;
         // the DiagramRight side is printed at PrintersTop
         right = top;
@@ -518,14 +518,14 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
         // tile vertically
         offsetY = pageY * height + rect.y();
         heightY = (pageY + 1) * height > rect.height()
-            ? rect.height() - pageY * height
-            : height;
+                  ? rect.height() - pageY * height
+                  : height;
         for (int pageX = 0; pageX < numPagesX; ++pageX) {
             // tile horizontally
             offsetX = pageX * width + rect.x();
             widthX = (pageX + 1) * width > rect.width()
-                ? rect.width() - pageX * width
-                : width;
+                     ? rect.width() - pageX * width
+                     : width;
 
             // make sure the part of the diagram is painted at the correct
             // place in the printout
@@ -579,8 +579,8 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
     double dScaleX = (double)rect.width() / (double)width;
     double dScaleY = (double)drawHeight / (double)height;
     // select the scaling factor so that the larger dimension
-    // fits on the printer page->use the larger scaling factor
-    //->the virtual diagram window has some additional space at the
+    // fits on the printer page -> use the larger scaling factor
+    // -> the virtual diagram window has some additional space at the
     // shorter dimension
     double dScaleUse = (dScaleX > dScaleY) ? dScaleX : dScaleY;
 
@@ -598,8 +598,8 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
     pPainter.setWindow(rect.x(), rect.y(), windowWidth, windowHeight);
 
     // set viewport - the physical mapping
-    // -->Qt's QPainter will map all drawed elements from diagram area (window)
-    //     to printer area (viewport)
+    // --> Qt's QPainter will map all drawed elements from diagram area ( window )
+    //     to printer area ( viewport )
     pPainter.setViewport(left, top, width, height);
 
     // get Diagram
@@ -1067,14 +1067,9 @@ UMLWidget * UMLScene::findWidget(Uml::IDType id)
 }
 
 /**
- * Finds an association widget with the given widgets and the given role B name.
- * Considers the following association types:
- *  at_Association, at_UniAssociation, at_Composition, at_Aggregation
- * This is used for seeking an attribute association.
+ * Finds an association widget with the given ID.
  *
- * @param pWidgetA  Pointer to the UMLWidget of role A.
- * @param pWidgetB  Pointer to the UMLWidget of role B.
- * @param roleNameB Name at the B side of the association (the attribute name)
+ * @param id The ID of the widget to find.
  *
  * @return Returns the widget found, returns 0 if no widget found.
  */
@@ -1644,6 +1639,7 @@ void  UMLScene::getDiagram(const QRectF &rect, QPixmap & diagram)
  */
 void  UMLScene::getDiagram(const QRectF &area, QPainter & painter)
 {
+    DEBUG(DBG_SRC) << "area=" << area << ", painter=" << painter.window();
     //TODO unselecting and selecting later doesn't work now as the selection is
     //cleared in UMLViewImageExporter. Check if the anything else than the
     //following is needed and, if it works, remove the clearSelected in
@@ -1673,7 +1669,7 @@ void  UMLScene::getDiagram(const QRectF &area, QPainter & painter)
     foreach(UMLWidget* widget , selected) {
         widget->setSelected(true);
     }
-    foreach(AssociationWidget* association , selectedAssociationsList) {
+    foreach(AssociationWidget* association, selectedAssociationsList) {
         association->setSelected(true);
     }
 }
@@ -1744,7 +1740,7 @@ void UMLScene::activate()
     }//end foreach
 
     //Activate Message widgets
-    foreach(UMLWidget* obj , m_MessageList) {
+    foreach(UMLWidget* obj, m_MessageList) {
         //If this MessageWidget is already activated then skip it
         // [PORT]
         // if (obj->isActivated())
@@ -1757,7 +1753,7 @@ void UMLScene::activate()
 
     // Activate all association widgets
 
-    foreach(AssociationWidget* aw , m_AssociationList) {
+    foreach(AssociationWidget* aw, m_AssociationList) {
         if (aw->activate()) {
             aw->setVisible(true);
         } else {
@@ -1925,7 +1921,7 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
         }
         m_WidgetList.append(pWidget);
     }
-        break;
+    break;
 
     case WidgetBase::wt_Message:
     case WidgetBase::wt_Note:
@@ -1975,7 +1971,7 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
         }
         m_MessageList.append(pMessage);
     }
-        break;
+    break;
 
     case WidgetBase::wt_Object: {
         ObjectWidget* pObjectWidget = static_cast<ObjectWidget*>(pWidget);
@@ -1995,7 +1991,7 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
         pWidget->setUMLObject(pObject);
         m_WidgetList.append(pWidget);
     }
-        break;
+    break;
 
     case WidgetBase::wt_Precondition: {
         ObjectWidget* pObjectWidget = static_cast<ObjectWidget*>(pWidget);
@@ -2020,7 +2016,7 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
         pWidget->setUMLObject(pObject);
         m_WidgetList.append(pWidget);
     }
-        break;
+    break;
 
     case WidgetBase::wt_Pin:
     case WidgetBase::wt_CombinedFragment:
@@ -2047,7 +2043,7 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
         pWidget->setUMLObject(pObject);
         m_WidgetList.append(pWidget);
     }
-        break;
+    break;
 
     default:
         DEBUG(DBG_SRC) << "Trying to add an invalid widget type";
@@ -2062,7 +2058,7 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
  * Add the association, and its child widgets to this view from the given data.
  * Use this method when pasting.
  */
-bool UMLScene::addAssociation(AssociationWidget* pAssoc , bool isPasteOperation)
+bool UMLScene::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
 {
     if (!pAssoc) {
         return false;
@@ -2320,8 +2316,6 @@ void UMLScene::removeAllAssociations()
         removeAssoc(assocwidget);
     }
 
-    // Porting to QList from QPtrList which doesn't support autodelete
-    //m_AssociationList.clear();
     qDeleteAll(m_AssociationList);
     m_AssociationList.clear();
 }
@@ -2811,7 +2805,6 @@ void UMLScene::createAutoConstraintAssociations(UMLWidget *widget)
         }
 
         createAutoConstraintAssociation(refEntity , fkc , widget);
-
     }
 }
 
@@ -3074,8 +3067,8 @@ void UMLScene::setPaste(bool paste)
 /**
  * This slot is entered when an event has occurred on the views display,
  * most likely a mouse event.  Before it sends out that mouse event everyone
- * that displays a menu on the views surface (widgets and this) thould remove any
- * menu.  This stops more than one menu bieing displayed.
+ * that displays a menu on the views surface (widgets and this) should remove any
+ * menu.  This stops more than one menu being displayed.
  */
 void UMLScene::slotRemovePopupMenu()
 {
@@ -3469,6 +3462,9 @@ QFont UMLScene::getFont() const
     return m_Options.uiState.font;
 }
 
+/**
+ * Sets the font for the view and optionally all the widgets on the view.
+ */
 void UMLScene::setFont(QFont font, bool changeAllWidgets /* = false */)
 {
     m_Options.uiState.font = font;

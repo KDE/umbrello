@@ -122,8 +122,10 @@ public:
         QTemporaryFile in;
         QTemporaryFile out;
         QTemporaryFile xdotOut;
-        if (!isEnabled())
+        if (!isEnabled()) {
+            uWarning() << "Could not apply autolayout because graphviz installation has not been found.";
             return false;
+        }
 
 #ifdef LAYOUTGENERATOR_DEBUG
         in.setAutoRemove(false);

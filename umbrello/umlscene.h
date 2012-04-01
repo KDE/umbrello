@@ -228,9 +228,7 @@ public:
     void beginPartialWidgetPaste();
 
     void removeAssoc(AssociationWidget* pAssoc);
-
     void removeAssociations(UMLWidget* pWidget);
-
     void selectAssociations(bool bSelect);
 
     void getWidgetAssocs(UMLObject* Obj, AssociationWidgetList & Associations);
@@ -295,7 +293,6 @@ public:
     virtual bool loadFromXMI(QDomElement & qElement);
 
     bool loadUISDiagram(QDomElement & qElement);
-
     UMLWidget* loadWidgetFromXMI(QDomElement& widgetElement);
 
     void addObject(UMLObject *object);
@@ -427,7 +424,6 @@ private:
     void createAutoAttributeAssociation(UMLClassifier *type,
                                         UMLAttribute *attr,
                                         UMLWidget *widget);
-
     void createAutoConstraintAssociation(UMLEntity* refEntity,
                                          UMLForeignKeyConstraint* fkConstraint,
                                          UMLWidget* widget);
