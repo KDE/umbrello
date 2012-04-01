@@ -79,14 +79,14 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
         m_type = clip4;
         UMLView *view = UMLApp::app()->currentView();
         view->umlScene()->checkSelections();
-        if(!view->umlScene()->getSelectedWidgets(m_WidgetList)) {
+        if(!view->umlScene()->selectedWidgets(m_WidgetList)) {
             return 0;
         }
         //if there is no selected widget then there is no copy action
         if (!m_WidgetList.count()) {
             return 0;
         }
-        m_AssociationList = view->umlScene()->getSelectedAssocs();
+        m_AssociationList = view->umlScene()->selectedAssocs();
         view->umlScene()->copyAsImage(png);
 
     } else { //if the copy action is being performed from the ListView

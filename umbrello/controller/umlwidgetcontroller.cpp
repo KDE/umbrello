@@ -248,7 +248,7 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me)
 
     // Move any selected associations.
 
-    foreach(AssociationWidget* aw, m_widget->m_scene->getSelectedAssocs()) {
+    foreach(AssociationWidget* aw, m_widget->m_scene->selectedAssocs()) {
         if (aw->getSelected()) {
             aw->moveEntireAssoc(diffX, diffY);
         }
@@ -628,7 +628,7 @@ void UMLWidgetController::setSelectionBounds()
 {
     if (m_widget->m_scene->getSelectCount() > 0) {
         m_selectedWidgetsList.clear();
-        m_widget->m_scene->getSelectedWidgets(m_selectedWidgetsList, false);
+        m_widget->m_scene->selectedWidgets(m_selectedWidgetsList, false);
 
         updateSelectionBounds(1, 1);
     }

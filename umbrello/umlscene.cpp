@@ -291,7 +291,7 @@ void UMLScene::setID(Uml::IDType id)
 /**
  * Returns the position of the diagram.
  */
-UMLScenePoint UMLScene::getPos() const
+UMLScenePoint UMLScene::pos() const
 {
     return m_Pos;
 }
@@ -1404,7 +1404,7 @@ void UMLScene::selectionSetLineColor(const QColor &color)
         temp->setLineColor(color);
         temp->setUsesDiagramLineColor(false);
     }
-    AssociationWidgetList assoclist = getSelectedAssocs();
+    AssociationWidgetList assoclist = selectedAssocs();
     foreach(AssociationWidget *aw , assoclist) {
         aw->setLineColor(color);
         aw->setUsesDiagramLineColor(false);
@@ -1421,7 +1421,7 @@ void UMLScene::selectionSetLineWidth(uint width)
         temp->setLineWidth(width);
         temp->setUsesDiagramLineWidth(false);
     }
-    AssociationWidgetList assoclist = getSelectedAssocs();
+    AssociationWidgetList assoclist = selectedAssocs();
     foreach(AssociationWidget *aw , assoclist) {
         aw->setLineWidth(width);
         aw->setUsesDiagramLineWidth(false);
@@ -1749,7 +1749,7 @@ void  UMLScene::getDiagram(const QRect &area, QPainter &painter)
     foreach(UMLWidget* widget, m_SelectedList) {
         widget->setSelected(false);
     }
-    AssociationWidgetList selectedAssociationsList = getSelectedAssocs();
+    AssociationWidgetList selectedAssociationsList = selectedAssocs();
 
     foreach(AssociationWidget* association, selectedAssociationsList) {
         association->setSelected(false);
@@ -1899,7 +1899,7 @@ int UMLScene::getSelectCount(bool filterText) const
  * @param WidgetList The UMLWidgetList to fill.
  * @param filterText Don't append the text, unless their role is tr_Floating
  */
-bool UMLScene::getSelectedWidgets(UMLWidgetList &WidgetList, bool filterText /*= true*/)
+bool UMLScene::selectedWidgets(UMLWidgetList &WidgetList, bool filterText /*= true*/)
 {
     foreach(UMLWidget* temp, m_SelectedList) {
         if (filterText && temp->baseType() == WidgetBase::wt_Text) {
@@ -1916,7 +1916,7 @@ bool UMLScene::getSelectedWidgets(UMLWidgetList &WidgetList, bool filterText /*=
 /**
  * Returns a list with all the selected associations from the diagram
  */
-AssociationWidgetList UMLScene::getSelectedAssocs()
+AssociationWidgetList UMLScene::selectedAssocs()
 {
     AssociationWidgetList assocWidgetList;
 
@@ -4326,7 +4326,7 @@ bool UMLScene::loadUISDiagram(QDomElement & qElement)
 void UMLScene::alignLeft()
 {
     UMLWidgetList widgetList;
-    getSelectedWidgets(widgetList);
+    selectedWidgets(widgetList);
     if (widgetList.isEmpty())
         return;
 
@@ -4344,7 +4344,7 @@ void UMLScene::alignLeft()
 void UMLScene::alignRight()
 {
     UMLWidgetList widgetList;
-    getSelectedWidgets(widgetList);
+    selectedWidgets(widgetList);
     if (widgetList.isEmpty())
         return;
     int biggestX = getBiggestX(widgetList);
@@ -4361,7 +4361,7 @@ void UMLScene::alignRight()
 void UMLScene::alignTop()
 {
     UMLWidgetList widgetList;
-    getSelectedWidgets(widgetList);
+    selectedWidgets(widgetList);
     if (widgetList.isEmpty())
         return;
 
@@ -4379,7 +4379,7 @@ void UMLScene::alignTop()
 void UMLScene::alignBottom()
 {
     UMLWidgetList widgetList;
-    getSelectedWidgets(widgetList);
+    selectedWidgets(widgetList);
     if (widgetList.isEmpty())
         return;
     int biggestY = getBiggestY(widgetList);
@@ -4396,7 +4396,7 @@ void UMLScene::alignBottom()
 void UMLScene::alignVerticalMiddle()
 {
     UMLWidgetList widgetList;
-    getSelectedWidgets(widgetList);
+    selectedWidgets(widgetList);
     if (widgetList.isEmpty())
         return;
 
@@ -4416,7 +4416,7 @@ void UMLScene::alignVerticalMiddle()
 void UMLScene::alignHorizontalMiddle()
 {
     UMLWidgetList widgetList;
-    getSelectedWidgets(widgetList);
+    selectedWidgets(widgetList);
     if (widgetList.isEmpty())
         return;
 
@@ -4436,7 +4436,7 @@ void UMLScene::alignHorizontalMiddle()
 void UMLScene::alignVerticalDistribute()
 {
     UMLWidgetList widgetList;
-    getSelectedWidgets(widgetList);
+    selectedWidgets(widgetList);
     if (widgetList.isEmpty())
         return;
 
@@ -4467,7 +4467,7 @@ void UMLScene::alignVerticalDistribute()
 void UMLScene::alignHorizontalDistribute()
 {
     UMLWidgetList widgetList;
-    getSelectedWidgets(widgetList);
+    selectedWidgets(widgetList);
     if (widgetList.isEmpty())
         return;
 

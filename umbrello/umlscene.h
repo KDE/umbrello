@@ -110,7 +110,7 @@ public:
     Uml::IDType getID() const;
     void setID(Uml::IDType id);
 
-    UMLScenePoint getPos() const;
+    UMLScenePoint pos() const;
     void setPos(const UMLScenePoint &pos);
 
     const QColor& fillColor() const;
@@ -245,9 +245,9 @@ public:
 
     void activate();
 
-    AssociationWidgetList getSelectedAssocs();
+    AssociationWidgetList selectedAssocs();
 
-    bool getSelectedWidgets(UMLWidgetList& WidgetList, bool filterText = true);
+    bool selectedWidgets(UMLWidgetList& WidgetList, bool filterText = true);
 
     void activateAfterLoad( bool bUseLog = false );
 
