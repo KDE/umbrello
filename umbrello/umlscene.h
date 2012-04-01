@@ -151,7 +151,7 @@ public:
     QFont getFont() const;
     void setFont(QFont font, bool changeAllWidgets = false);
 
-    bool getShowOpSig() const;
+    bool showOpSig() const;
     void setShowOpSig(bool bShowOpSig);
 
     const Settings::OptionState& optionState() const;

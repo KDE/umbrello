@@ -99,7 +99,7 @@ void FloatingTextWidget::setText(const QString &t)
         QString seqNum, op;
         m_linkWidget->seqNumAndOp(seqNum, op);
         if (seqNum.length() > 0 || op.length() > 0) {
-            if (! m_scene->getShowOpSig())
+            if (! m_scene->showOpSig())
                 op.replace( QRegExp("\\(.*\\)"), "()" );
             m_Text = seqNum.append(": ").append( op );
         }

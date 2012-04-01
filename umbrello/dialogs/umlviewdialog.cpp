@@ -97,7 +97,7 @@ void UMLViewDialog::setupDiagramPropertiesPage()
 
     m_diagramProperties->ui_diagramName->setText( m_pScene->name() );
     m_diagramProperties->ui_zoom->setValue(m_pScene->view()->currentZoom());
-    m_diagramProperties->ui_showOpSigs->setChecked( m_pScene->getShowOpSig() );
+    m_diagramProperties->ui_showOpSigs->setChecked( m_pScene->showOpSig() );
 
     m_diagramProperties->ui_checkBoxShowGrid->setChecked(m_pScene->isSnapGridVisible());
     m_diagramProperties->ui_snapToGrid->setChecked(m_pScene->snapToGrid());
