@@ -127,8 +127,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     m_isOpen = true;
     m_nSnapX = 10;
     m_nSnapY = 10;
-    m_nCanvasWidth = UMLScene::defaultCanvasSize;
-    m_nCanvasHeight = UMLScene::defaultCanvasSize;
+    setSize(UMLScene::defaultCanvasSize, UMLScene::defaultCanvasSize);
     m_nCollaborationId = 0;
 
     // Initialize other data
@@ -405,6 +404,14 @@ void UMLScene::setGridDotColor(const QColor& color)
     m_Options.uiState.gridDotColor = color;
     emit sigGridColorChanged(getID());
     setAllChanged();
+}
+
+/**
+ * Sets the diagram width and height in pixels
+ */
+void UMLScene::setSize(int width, int height)
+{
+    resize(width, height);
 }
 
 /**
@@ -3735,16 +3742,6 @@ void UMLScene::fileLoaded()
 }
 
 /**
- * Sets the diagram width and height in pixels
- */
-void UMLScene::setCanvasSize(int width, int height)
-{
-    setCanvasWidth(width);
-    setCanvasHeight(height);
-    resize(width, height);
-}
-
-/**
  * Sets the size of the canvas to just fit on all the items
  */
 void UMLScene::resizeCanvasToItems()
@@ -3767,7 +3764,7 @@ void UMLScene::resizeCanvasToItems()
         canvasHeight = contentsWMY;
     }
 
-    setCanvasSize(canvasWidth, canvasHeight);
+    setSize(canvasWidth, canvasHeight);
 }
 
 /**
@@ -3863,8 +3860,8 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     viewElement.setAttribute("snapy", m_nSnapY);
     // FIXME: move to UMLView
     viewElement.setAttribute("zoom", view()->zoom());
-    viewElement.setAttribute("canvasheight", m_nCanvasHeight);
-    viewElement.setAttribute("canvaswidth", m_nCanvasWidth);
+    viewElement.setAttribute("canvasheight", height());
+    viewElement.setAttribute("canvaswidth", width());
     viewElement.setAttribute("isopen", isOpen());
 
     //now save all the widgets
@@ -3975,10 +3972,11 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     view()->setZoom(zoom.toInt());
 
     QString height = qElement.attribute("canvasheight", QString("%1").arg(UMLScene::defaultCanvasSize));
-    m_nCanvasHeight = height.toInt();
+    int h = height.toInt();
 
     QString width = qElement.attribute("canvaswidth", QString("%1").arg(UMLScene::defaultCanvasSize));
-    m_nCanvasWidth = width.toInt();
+    int w= width.toInt();
+    setSize(w, h);
 
     QString isOpen = qElement.attribute("isopen", "1");
     m_isOpen = (bool)isOpen.toInt();

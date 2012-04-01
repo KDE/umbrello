@@ -128,26 +128,7 @@ public:
     const QColor& gridDotColor() const;
     void setGridDotColor(const QColor &gridColor);
 
-    /**
-     * Returns the height of the diagram.
-     */
-    int getCanvasHeight() const {
-        return m_nCanvasHeight;
-    }
-
-    /**
-     * Sets the height of the diagram.
-     */
-    void setCanvasHeight(int height) {
-        m_nCanvasHeight = height;
-    }
-
-    /**
-     * Returns the width of the diagram.
-     */
-    int getCanvasWidth() const {
-        return m_nCanvasWidth;
-    }
+    void setSize(int width, int height);
 
     bool snapToGrid() const;
     void setSnapToGrid(bool bSnap);
@@ -299,8 +280,6 @@ public:
 
     void fileLoaded();
 
-    void setCanvasSize(int width, int height);
-
     void resizeCanvasToItems();
 
     /**
@@ -428,16 +407,6 @@ protected:
      * Determines whether the view is shown to the user, i.e. opened in a tab.
      */
     bool m_isOpen;
-
-    /**
-     * Width of canvas in pixels
-     */
-    int m_nCanvasWidth;
-
-    /**
-     * Height of canvas in pixels
-     */
-    int m_nCanvasHeight;
 
     // End of methods and members related to loading/saving
     ////////////////////////////////////////////////////////////////////////
