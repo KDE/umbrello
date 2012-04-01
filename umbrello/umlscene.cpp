@@ -144,7 +144,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     m_bPopupShowing = false;
     m_bStartedCut = false;
     //clear pointers
-    m_PastePoint = QPoint(0, 0);
+    m_PastePoint = UMLScenePoint(0, 0);
     m_pIDChangesLog = 0;
     m_pMenu = 0;
 
@@ -981,7 +981,7 @@ void UMLScene::dropEvent(QDropEvent *e)
  * @return The widget thats line was clicked on.
  *  Returns 0 if no line was clicked on.
  */
-ObjectWidget * UMLScene::onWidgetLine(const QPoint &point) const
+ObjectWidget * UMLScene::onWidgetLine(const UMLScenePoint &point) const
 {
     foreach(UMLWidget* obj, m_WidgetList) {
         ObjectWidget *ow = dynamic_cast<ObjectWidget*>(obj);
@@ -1006,7 +1006,7 @@ ObjectWidget * UMLScene::onWidgetLine(const QPoint &point) const
  * @return The widget thats destruction box was clicked on.
  *  Returns 0 if no destruction box was clicked on.
  */
-ObjectWidget * UMLScene::onWidgetDestructionBox(const QPoint &point) const
+ObjectWidget * UMLScene::onWidgetDestructionBox(const UMLScenePoint &point) const
 {
     foreach(UMLWidget* obj,  m_WidgetList) {
         ObjectWidget *ow = dynamic_cast<ObjectWidget*>(obj);
@@ -1039,7 +1039,7 @@ UMLWidget* UMLScene::getFirstMultiSelectedWidget() const
  * Returns NULL if the point is not inside any widget.
  * Does not use or modify the m_pOnWidget member.
  */
-UMLWidget *UMLScene::widgetAt(const QPoint& p)
+UMLWidget *UMLScene::widgetAt(const UMLScenePoint& p)
 {
     int relativeSize = 10000;  // start with an arbitrary large number
     UMLWidget  *retObj = NULL;
@@ -3398,9 +3398,9 @@ void UMLScene::slotShowView()
  * Only call this straight after the event, the value won't stay valid.
  * Should only be called by Assoc widgets at the moment. no one else needs it.
  */
-QPoint UMLScene::getPastePoint()
+UMLScenePoint UMLScene::getPastePoint()
 {
-    QPoint point = m_PastePoint;
+    UMLScenePoint point = m_PastePoint;
     point.setX(point.x() - m_Pos.x());
     point.setY(point.y() - m_Pos.y());
     return point;

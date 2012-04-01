@@ -215,7 +215,7 @@ public:
     void setSelected(UMLWidget * w, QMouseEvent * me);
     void clearSelected();
 
-    void moveSelectedBy(int dX, int dY);
+    void moveSelectedBy(UMLSceneValue dX, UMLSceneValue dY);
 
     int getSelectCount(bool filterText = false) const;
 
@@ -264,8 +264,8 @@ public:
 
     void removeAllWidgets();
 
-    void getDiagram(const QRect &rect, QPixmap & diagram);
-    void getDiagram(const QRect &area, QPainter & painter);
+    void getDiagram(const UMLSceneRect &rect, QPixmap & diagram);
+    void getDiagram(const UMLSceneRect &area, QPainter & painter);
 
     void copyAsImage(QPixmap*& pix);
 
@@ -277,7 +277,7 @@ public:
 
     bool addWidget(UMLWidget * pWidget, bool isPasteOperation = false);
 
-    QPoint getPastePoint();
+    UMLScenePoint getPastePoint();
     void resetPastePoint();
 
     void setStartedCut();
@@ -326,16 +326,16 @@ public:
 
     void addObject(UMLObject *object);
 
-    void selectWidgets(int px, int py, int qx, int qy);
-    void selectWidgetsOfAssoc (AssociationWidget * a);
+    void selectWidgets(UMLSceneValue px, UMLSceneValue py, UMLSceneValue qx, UMLSceneValue qy);
+    void selectWidgetsOfAssoc(AssociationWidget * a);
     void selectWidgets(UMLWidgetList &widgets);
 
-    ObjectWidget * onWidgetLine(const QPoint &point) const;
-    ObjectWidget * onWidgetDestructionBox(const QPoint &point) const;
+    ObjectWidget * onWidgetLine(const UMLScenePoint &point) const;
+    ObjectWidget * onWidgetDestructionBox(const UMLScenePoint &point) const;
 
     UMLWidget* getFirstMultiSelectedWidget() const;
 
-    UMLWidget *widgetAt(const QPoint& p);
+    UMLWidget *widgetAt(const UMLScenePoint& p);
 
     void setupNewWidget(UMLWidget *w);
 
@@ -518,7 +518,7 @@ protected:
     /**
      * The offset at which to paste the clipboard.
      */
-    QPoint m_PastePoint;
+    UMLScenePoint m_PastePoint;
 
     /**
      * Pointer to the UMLDoc
