@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Service
 Name=UseCase Default Layout
+Name[ca]=Disposició per omissió de casos d'ús
 Name[es]=Diseño por omisión de casos de uso
 Name[nl]=Standaard indeling van gebruiksgeval
 Name[pt]=Disposição de Casos de Uso
@@ -9,6 +10,7 @@ Name[sv]=Standardlayout för användarfall
 Name[uk]=Типове компонування випадку використання
 Name[x-test]=xxUseCase Default Layoutxx
 Comment=Usecase Default Layout
+Comment[ca]=Disposició per omissió de casos d'ús
 Comment[es]=Diseño por omisión de casos de uso
 Comment[nl]=Standaard indeling van gebruiksgeval
 Comment[pt]=Disposição Predefinida de Casos de Uso

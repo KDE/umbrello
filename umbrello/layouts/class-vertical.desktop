@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Service
 Name=Vertical Layout
+Name[ca]=Disposició vertical
 Name[es]=Disposición vertical
 Name[nl]=Verticale indeling
 Name[pt]=Disposição Vertical
@@ -9,6 +10,7 @@ Name[sv]=Vertikal layout
 Name[uk]=Вертикальне компонування
 Name[x-test]=xxVertical Layoutxx
 Comment=Layout which renders vertical
+Comment[ca]=DIsposició que renderitza verticalment
 Comment[es]=Diseño que se organiza de forma vertical
 Comment[nl]=Indeling die zich verticaal laat weergeven
 Comment[pt]=Uma disposição que representa os itens na vertical

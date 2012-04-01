@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Service
 Name=Export Layout
+Name[ca]=Exporta la disposició
 Name[es]=Exportar disposición
 Name[nl]=Indeling exporteren
 Name[pt]=Exportar a Disposição
@@ -9,6 +10,7 @@ Name[sv]=Exportera layout
 Name[uk]=Компонування експортованих даних
 Name[x-test]=xxExport Layoutxx
 Comment=Export Layout for Class Diagrams
+Comment[ca]=Exporta la disposició dels diagrames de classe
 Comment[es]=Exportar disposición de diagramas de clase
 Comment[nl]=Indeling voor klassediagrammen exporteren
 Comment[pt]=Exportar a Disposição dos Diagramas de Classes
