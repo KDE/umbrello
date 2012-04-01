@@ -959,6 +959,18 @@ ObjectWidget * UMLScene::onWidgetDestructionBox(const QPointF &point) const
 }
 
 /**
+ * Return pointer to the first selected widget (for multi-selection)
+ */
+UMLWidget* UMLScene::getFirstMultiSelectedWidget() const
+{
+    UMLWidgetList list = selectedWidgets();
+    if(list.isEmpty()) {
+        return 0;
+    }
+    return list.first();
+}
+
+/**
  * Tests the given point against all widgets and returns the
  * widget for which the point is within its bounding rectangle.
  * In case of multiple matches, returns the smallest widget.
@@ -1288,18 +1300,6 @@ UMLWidgetList UMLScene::selectedWidgets() const
         }
     }
     return list;
-}
-
-/**
- * Return pointer to the first selected widget (for multi-selection)
- */
-UMLWidget* UMLScene::getFirstMultiSelectedWidget() const
-{
-    UMLWidgetList list = selectedWidgets();
-    if(list.isEmpty()) {
-        return 0;
-    }
-    return list.first();
 }
 
 /**
@@ -3383,62 +3383,6 @@ void UMLScene::setStartedCut()
 }
 
 /**
- * Returns the x grid size.
- */
-int UMLScene::getSnapX() const
-{
-    return m_layoutGrid->gridSpacingX();
-}
-
-/**
- * Returns the y grid size.
- */
-int UMLScene::getSnapY() const
-{
-    return m_layoutGrid->gridSpacingY();
-}
-
-/**
- * Sets the grid size in x and y.
- */
-void UMLScene::setSnapSpacing(int x, int y)
-{
-    m_layoutGrid->setGridSpacing(x, y);
-}
-
-/**
- * Returns the input coordinate with possible grid-snap applied.
- */
-qreal UMLScene::snappedX(qreal _x)
-{
-    int x = (int)_x;
-    if (getSnapToGrid()) {
-        int gridX = getSnapX();
-        int modX = x % gridX;
-        x -= modX;
-        if (modX >= gridX / 2)
-            x += gridX;
-    }
-    return x;
-}
-
-/**
- * Returns the input coordinate with possible grid-snap applied.
- */
-qreal UMLScene::snappedY(qreal _y)
-{
-    int y = (int)_y;
-    if (getSnapToGrid()) {
-        int gridY = getSnapY();
-        int modY = y % gridY;
-        y -= modY;
-        if (modY >= gridY / 2)
-            y += gridY;
-    }
-    return y;
-}
-
-/**
  * Shows the properties dialog for the view.
  */
 bool UMLScene::showPropDialog()
@@ -3698,6 +3642,62 @@ void UMLScene::setSnapComponentSizeToGrid(bool bSnap)
     m_bUseSnapComponentSizeToGrid = bSnap;
     updateComponentSizes();
     emit sigSnapComponentSizeToGridToggled(getSnapComponentSizeToGrid());
+}
+
+/**
+ * Returns the x grid size.
+ */
+int UMLScene::getSnapX() const
+{
+    return m_layoutGrid->gridSpacingX();
+}
+
+/**
+ * Returns the y grid size.
+ */
+int UMLScene::getSnapY() const
+{
+    return m_layoutGrid->gridSpacingY();
+}
+
+/**
+ * Sets the grid size in x and y.
+ */
+void UMLScene::setSnapSpacing(int x, int y)
+{
+    m_layoutGrid->setGridSpacing(x, y);
+}
+
+/**
+ * Returns the input coordinate with possible grid-snap applied.
+ */
+qreal UMLScene::snappedX(qreal _x)
+{
+    int x = (int)_x;
+    if (getSnapToGrid()) {
+        int gridX = getSnapX();
+        int modX = x % gridX;
+        x -= modX;
+        if (modX >= gridX / 2)
+            x += gridX;
+    }
+    return x;
+}
+
+/**
+ * Returns the input coordinate with possible grid-snap applied.
+ */
+qreal UMLScene::snappedY(qreal _y)
+{
+    int y = (int)_y;
+    if (getSnapToGrid()) {
+        int gridY = getSnapY();
+        int modY = y % gridY;
+        y -= modY;
+        if (modY >= gridY / 2)
+            y += gridY;
+    }
+    return y;
 }
 
 /**

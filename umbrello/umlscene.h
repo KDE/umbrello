@@ -172,10 +172,8 @@ public:
     UMLWidget* findWidget(Uml::IDType id);
 
     AssociationWidget* findAssocWidget(Uml::IDType id);
-
     AssociationWidget* findAssocWidget(Uml::AssociationType at,
                                        UMLWidget *pWidgetA, UMLWidget *pWidgetB);
-
     AssociationWidget* findAssocWidget(UMLWidget *pWidgetA,
                                        UMLWidget *pWidgetB, const QString& roleNameB);
 
@@ -335,7 +333,6 @@ protected:
     bool loadWidgetsFromXMI(QDomElement & qElement);
     bool loadMessagesFromXMI(QDomElement & qElement);
     bool loadAssociationsFromXMI(QDomElement & qElement);
-
     bool loadUisDiagramPresentation(QDomElement & qElement);
 
     /**
