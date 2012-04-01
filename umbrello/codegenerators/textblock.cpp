@@ -422,7 +422,7 @@ QDebug operator<<(QDebug os, const TextBlock& obj)
        << ", writeOutText=" << (obj.getWriteOutText() ? "true" : "false")
        << ", canDelete=" << (obj.canDelete() ? "true" : "false")
        << ", indentationLevel=" << obj.getIndentationLevel()
-       << ", parentDocument id=" << (obj.getParentDocument() ? obj.getParentDocument()->getID() : "null")
+       << ", parentDocument id=" << (obj.getParentDocument() ? obj.getParentDocument()->ID() : "null")
        << ", text=" << obj.getText();
     return os.space();
 }

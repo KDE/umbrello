@@ -286,7 +286,7 @@ bool UMLUniqueConstraint::removeEntityAttribute(UMLEntityAttribute* attr)
      * The attribute may already be removed from the Entity when this function
      * is called. So checking this is not right
      *
-     * if ( owningParent->findChildObjectById( attr->getID() ) == NULL ) {
+     * if ( owningParent->findChildObjectById( attr->ID() ) == NULL ) {
      *    uError()
      *        << " parent " << owningParent->getName()
      *        << " does not contain attribute " << attr->getName();

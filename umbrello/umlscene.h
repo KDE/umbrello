@@ -93,7 +93,7 @@ public:
 
     // Accessors and other methods dealing with loaded/saved data
 
-    UMLFolder* folder() const; 
+    UMLFolder* folder() const;
     void setFolder(UMLFolder *folder);
 
     QString documentation() const;
@@ -105,7 +105,7 @@ public:
     Uml::DiagramType type() const;
     void setType(Uml::DiagramType type);
 
-    Uml::IDType getID() const;
+    Uml::IDType ID() const;
     void setID(Uml::IDType id);
 
     UMLScenePoint pos() const;
@@ -455,23 +455,25 @@ QDebug operator<<(QDebug debug, UMLScene *item);
 
 /**
   qt3 migration wrapper for QMouseEvent
-*/ 
-class  UMLSceneMouseEvent : public QMouseEvent 
+*/
+class  UMLSceneMouseEvent : public QMouseEvent
 {
 public:
-    UMLSceneMouseEvent(Type type, const QPoint & position, Qt::MouseButton button, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers) 
-     : QMouseEvent(type, position, button, buttons, modifiers)
+    UMLSceneMouseEvent(Type type, const QPoint & position, Qt::MouseButton button, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers)
+        : QMouseEvent(type, position, button, buttons, modifiers)
     {
     }
 
-    UMLScenePoint scenePos() { return pos(); }
+    UMLScenePoint scenePos() {
+        return pos();
+    }
 };
 
 class UMLSceneLineItem : public Q3CanvasLine
 {
 public:
     UMLSceneLineItem()
-      : Q3CanvasLine(0)
+        : Q3CanvasLine(0)
     {
     }
 };
@@ -480,12 +482,12 @@ class UMLSceneRectItem : public Q3CanvasRectangle
 {
 public:
     UMLSceneRectItem()
-      : Q3CanvasRectangle(0)
+        : Q3CanvasRectangle(0)
     {
     }
 
     UMLSceneRectItem(int x, int y, int w, int h)
-      : Q3CanvasRectangle(x, y, w, h, 0)
+        : Q3CanvasRectangle(x, y, w, h, 0)
     {
     }
 };
@@ -494,7 +496,7 @@ class UMLScenePolygonItem : public Q3CanvasPolygon
 {
 public:
     UMLScenePolygonItem()
-      : Q3CanvasPolygon(0)
+        : Q3CanvasPolygon(0)
     {
     }
 };
@@ -503,12 +505,12 @@ class UMLSceneEllipseItem : public Q3CanvasEllipse
 {
 public:
     UMLSceneEllipseItem()
-    : Q3CanvasEllipse(0)
+        : Q3CanvasEllipse(0)
     {
     }
 
     UMLSceneEllipseItem(int width, int height)
-    : Q3CanvasEllipse(width, height, 0)
+        : Q3CanvasEllipse(width, height, 0)
     {
     }
 };

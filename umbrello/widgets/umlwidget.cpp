@@ -506,7 +506,7 @@ void UMLWidget::slotWidgetMoved(Uml::IDType /*id*/)
 void UMLWidget::slotFillColorChanged(Uml::IDType viewID)
 {
     //only change if on the diagram concerned
-    if (m_scene->getID() != viewID) {
+    if (m_scene->ID() != viewID) {
         return;
     }
     if (m_usesDiagramFillColor) {
@@ -526,7 +526,7 @@ void UMLWidget::slotFillColorChanged(Uml::IDType viewID)
 void UMLWidget::slotTextColorChanged(Uml::IDType viewID)
 {
     //only change if on the diagram concerned
-    if (m_scene->getID() != viewID)
+    if (m_scene->ID() != viewID)
         return;
     setTextColor( m_scene->textColor() );
     update();
@@ -541,7 +541,7 @@ void UMLWidget::slotTextColorChanged(Uml::IDType viewID)
 void UMLWidget::slotLineColorChanged(Uml::IDType viewID)
 {
     //only change if on the diagram concerned
-    if (m_scene->getID() != viewID)
+    if (m_scene->ID() != viewID)
         return;
 
     if (m_usesDiagramLineColor) {
@@ -559,7 +559,7 @@ void UMLWidget::slotLineColorChanged(Uml::IDType viewID)
 void UMLWidget::slotLineWidthChanged(Uml::IDType viewID)
 {
     //only change if on the diagram concerned
-    if (m_scene->getID() != viewID) {
+    if (m_scene->ID() != viewID) {
         return;
     }
     if (m_usesDiagramLineWidth) {

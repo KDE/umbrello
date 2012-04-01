@@ -274,7 +274,7 @@ void UMLScene::setType(Uml::DiagramType type)
 /**
  * Returns the ID of the diagram.
  */
-Uml::IDType UMLScene::getID() const
+Uml::IDType UMLScene::ID() const
 {
     return m_nID;
 }
@@ -319,7 +319,7 @@ const QColor& UMLScene::fillColor() const
 void UMLScene::setFillColor(const QColor &color)
 {
     m_Options.uiState.fillColor = color;
-    emit sigFillColorChanged(getID());
+    emit sigFillColorChanged(ID());
     setAllChanged();
 }
 
@@ -339,7 +339,7 @@ const QColor& UMLScene::lineColor() const
 void UMLScene::setLineColor(const QColor &color)
 {
     m_Options.uiState.lineColor = color;
-    emit sigLineColorChanged(getID());
+    emit sigLineColorChanged(ID());
     setAllChanged();
 }
 
@@ -359,7 +359,7 @@ uint UMLScene::lineWidth() const
 void UMLScene::setLineWidth(uint width)
 {
     m_Options.uiState.lineWidth = width;
-    emit sigLineWidthChanged(getID());
+    emit sigLineWidthChanged(ID());
     setAllChanged();
 }
 
@@ -379,7 +379,7 @@ const QColor& UMLScene::textColor() const
 void UMLScene::setTextColor(const QColor &color)
 {
     m_Options.uiState.textColor = color;
-    emit sigTextColorChanged(getID());
+    emit sigTextColorChanged(ID());
     setAllChanged();
 }
 
@@ -401,7 +401,7 @@ const QColor& UMLScene::gridDotColor() const
 void UMLScene::setGridDotColor(const QColor& color)
 {
     m_Options.uiState.gridDotColor = color;
-    emit sigGridColorChanged(getID());
+    emit sigGridColorChanged(ID());
     setAllChanged();
 }
 
@@ -663,9 +663,9 @@ void UMLScene::setupNewWidget(UMLWidget *w)
     w->setVisible(true);
     w->setActivated();
     w->setFont(getFont());
-    w->slotFillColorChanged(getID());
-    w->slotTextColorChanged(getID());
-    w->slotLineWidthChanged(getID());
+    w->slotFillColorChanged(ID());
+    w->slotTextColorChanged(ID());
+    w->slotLineWidthChanged(ID());
     resizeCanvasToItems();
     m_WidgetList.append(w);
     m_doc->setModified();
@@ -757,9 +757,9 @@ void UMLScene::slotObjectCreated(UMLObject* o)
     newWidget->setVisible(true);
     newWidget->setActivated();
     newWidget->setFont(getFont());
-    newWidget->slotFillColorChanged(getID());
-    newWidget->slotTextColorChanged(getID());
-    newWidget->slotLineWidthChanged(getID());
+    newWidget->slotFillColorChanged(ID());
+    newWidget->slotTextColorChanged(ID());
+    newWidget->slotLineWidthChanged(ID());
     newWidget->updateComponentSize();
 
     if (m_Type == Uml::DiagramType::Sequence) {
@@ -1794,7 +1794,7 @@ UMLViewImageExporter* UMLScene::getImageExporter()
  */
 void UMLScene::slotActivate()
 {
-    m_doc->changeCurrentView(getID());
+    m_doc->changeCurrentView(ID());
 }
 
 /**
@@ -3353,7 +3353,7 @@ void UMLScene::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Delete:
-        m_doc->removeDiagram(getID());
+        m_doc->removeDiagram(ID());
         break;
 
     case ListPopupMenu::mt_Rename:
@@ -3395,7 +3395,7 @@ void UMLScene::slotCutSuccessful()
  */
 void UMLScene::slotShowView()
 {
-    m_doc->changeCurrentView(getID());
+    m_doc->changeCurrentView(ID());
 }
 
 /**

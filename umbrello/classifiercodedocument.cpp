@@ -641,12 +641,12 @@ ClassifierCodeDocument::findCodeClassFieldFromParentID (Uml::IDType id,
     {
         CodeClassField * cf = *it;
         if(role_id == -1) { // attribute-based
-            if (STR2ID(cf->getID()) == id)
+            if (STR2ID(cf->ID()) == id)
                 return cf;
         } else { // association(role)-based
             const Uml::Role_Type r = (Uml::Role_Type)role_id;
             UMLRole * role = dynamic_cast<UMLRole *>(cf->getParentObject());
-            if(role && STR2ID(cf->getID()) == id && role->role() == r)
+            if(role && STR2ID(cf->ID()) == id && role->role() == r)
                 return cf;
         }
     }

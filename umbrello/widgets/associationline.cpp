@@ -787,7 +787,7 @@ void AssociationLine::update()
  */
 void AssociationLine::slotLineColorChanged(Uml::IDType viewID)
 {
-    if(m_associationWidget->umlScene()->getID() != viewID) {
+    if(m_associationWidget->umlScene()->ID() != viewID) {
         return;
     }
     setLineColor( m_associationWidget->umlScene()->lineColor() );
@@ -800,7 +800,7 @@ void AssociationLine::slotLineColorChanged(Uml::IDType viewID)
  */
 void AssociationLine::slotLineWidthChanged(Uml::IDType viewID)
 {
-    if(m_associationWidget->umlScene()->getID() != viewID) {
+    if(m_associationWidget->umlScene()->ID() != viewID) {
         return;
     }
     setLineWidth( m_associationWidget->umlScene()->lineWidth() );

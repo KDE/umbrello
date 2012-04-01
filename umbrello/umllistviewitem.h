@@ -103,7 +103,7 @@ public:
     ListViewType type() const;
 
     void setID(Uml::IDType id);
-    Uml::IDType getID() const;
+    Uml::IDType ID() const;
 
     void setUMLObject(UMLObject * obj);
     UMLObject * umlObject() const;

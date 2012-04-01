@@ -235,7 +235,7 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView)
         }
 
         if ( firstView ) {
-            changeCurrentView( firstView->umlScene()->getID() );
+            changeCurrentView( firstView->umlScene()->ID() );
             UMLApp::app()->setDiagramMenuItemsState(true);
         }
     }
@@ -1316,10 +1316,10 @@ UMLView* UMLDoc::createDiagram(UMLFolder *folder, Uml::DiagramType type, const Q
         view->umlScene()->setType(type);
         view->umlScene()->setID(UniqueID::gen());
         addView(view);
-        emit sigDiagramCreated(view->umlScene()->getID());
+        emit sigDiagramCreated(view->umlScene()->ID());
         setModified(true);
         UMLApp::app()->enablePrint(true);
-        changeCurrentView(view->umlScene()->getID());
+        changeCurrentView(view->umlScene()->ID());
         return view;
     }
     return 0;
@@ -1770,7 +1770,7 @@ void UMLDoc::saveToXMI(QIODevice& file)
     Uml::IDType viewID = Uml::id_None;
     UMLView *currentView = UMLApp::app()->currentView();
     if (currentView) {
-        viewID = currentView->umlScene()->getID();
+        viewID = currentView->umlScene()->ID();
     }
     docElement.setAttribute( "viewid", ID2STR(viewID) );
     docElement.setAttribute( "documentation", m_Doc );
@@ -2088,7 +2088,7 @@ void UMLDoc::resolveTypes()
        UMLFolder *obj = m_root[i];
 #ifdef VERBOSE_DEBUGGING
         DEBUG(DBG_SRC) << "UMLDoc: invoking resolveRef() for " << obj->getName()
-                       << " (id=" << ID2STR(obj->getID()) << ")";
+                       << " (id=" << ID2STR(obj->ID()) << ")";
 #endif
         obj->resolveRef();
     }
@@ -2781,7 +2781,7 @@ bool UMLDoc::addUMLView(UMLView * pView )
     if (i) { //If name was modified
         pView->umlScene()->setName(name);
     }
-    Uml::IDType result = assignNewID(pView->umlScene()->getID());
+    Uml::IDType result = assignNewID(pView->umlScene()->ID());
     pView->umlScene()->setID(result);
 
     pView->umlScene()->activateAfterLoad( true );
@@ -2895,7 +2895,7 @@ void UMLDoc::signalDiagramRenamed(UMLView* view)
         if (optionState.generalState.tabdiagrams) {
             UMLApp::app()->tabWidget()->setTabText( UMLApp::app()->tabWidget()->indexOf(view), view->umlScene()->name() );
         }
-        emit sigDiagramRenamed( view->umlScene()->getID() );
+        emit sigDiagramRenamed( view->umlScene()->ID() );
     }
     else {
       uError() << "Cannot signal diagram renamed - view is NULL!";

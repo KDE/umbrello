@@ -139,7 +139,7 @@ void CodeDocument::setID ( const QString &new_id )
  * Get the value of m_ID.
  * @return   the value of m_ID
  */
-QString CodeDocument::getID ( ) const
+QString CodeDocument::ID ( ) const
 {
     return m_ID;
 }
@@ -366,7 +366,7 @@ void CodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomElement & docEl
         pkgId = m_package->id();
     docElement.setAttribute("package", ID2STR(pkgId));
     docElement.setAttribute("writeOutCode", getWriteOutCode() ? "true" : "false");
-    docElement.setAttribute("id", getID());
+    docElement.setAttribute("id", ID());
 
     // set the a header
     // which we will store in its own separate child node block
@@ -521,7 +521,7 @@ TextBlock * CodeDocument::findCodeClassFieldTextBlockByTag ( const QString &tag 
 
 QDebug operator<<(QDebug os, const CodeDocument& obj)
 {
-    os.nospace() << "CodeDocument: id=" << obj.getID()
+    os.nospace() << "CodeDocument: id=" << obj.ID()
        << " , file=" << obj.getFileName();  //:TODO: add all attributes
     return os.space();
 }

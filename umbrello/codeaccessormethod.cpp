@@ -127,7 +127,7 @@ void CodeAccessorMethod::setAttributesOnNode(QDomDocument & doc, QDomElement & e
 
     // set local class attributes
     elem.setAttribute("accessType",getType());
-    elem.setAttribute("classfield_id",getParentClassField()->getID());
+    elem.setAttribute("classfield_id",getParentClassField()->ID());
 }
 
 /**

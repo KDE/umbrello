@@ -141,7 +141,7 @@ UMLObject * CodeParameter::getParentObject ( )
 
 // need to get the ID of the parent object
 // this is kind of broken for UMLRoles.
-QString CodeParameter::getID ()
+QString CodeParameter::ID ()
 {
     UMLRole * role = dynamic_cast<UMLRole*>(m_parentObject);
     if(role)
@@ -162,7 +162,7 @@ QString CodeParameter::getID ()
 void CodeParameter::setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement)
 {
     // set local attributes
-    blockElement.setAttribute("parent_id",getID());
+    blockElement.setAttribute("parent_id",ID());
 
     // setting ID's takes special treatment
     // as UMLRoles arent properly stored in the XMI right now.

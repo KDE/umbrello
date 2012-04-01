@@ -827,7 +827,7 @@ QDomElement UMLObject::save(const QString &tag, QDomDocument & qDoc)
         qElement.setAttribute("comment", m_Doc);    //CHECK: uml13.dtd compliance
 #ifdef XMI_FLAT_PACKAGES
     if (m_pUMLPackage)             //FIXME: uml13.dtd compliance
-        qElement.setAttribute("package", m_pUMLPackage->getID());
+        qElement.setAttribute("package", m_pUMLPackage->ID());
 #endif
     QString visibility = m_Vis.toString(false);
     qElement.setAttribute("visibility", visibility);
