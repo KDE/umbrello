@@ -146,7 +146,7 @@ public:
     bool useFillColor() const;
     void setUseFillColor(bool ufc);
 
-    QFont getFont() const;
+    QFont font() const;
     void setFont(QFont font, bool changeAllWidgets = false);
 
     bool showOpSig() const;

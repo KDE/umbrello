@@ -3402,7 +3402,7 @@ bool UMLScene::showPropDialog()
 /**
  * Returns the font to use
  */
-QFont UMLScene::getFont() const
+QFont UMLScene::font() const
 {
     return m_Options.uiState.font;
 }
