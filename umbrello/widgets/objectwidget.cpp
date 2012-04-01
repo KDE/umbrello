@@ -306,6 +306,7 @@ void ObjectWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     objectElement.setAttribute( "multipleinstance", m_multipleInstance );
     objectElement.setAttribute( "localid", ID2STR(m_localID) );
     objectElement.setAttribute( "decon", m_showDestruction );
+    // FIXME: trunk sets "instancename" too
     qElement.appendChild( objectElement );
 }
 

@@ -109,8 +109,8 @@ public:
     Uml::IDType getID() const;
     void setID(Uml::IDType id);
 
-    QPointF pos() const;
-    void setPos(const QPointF &pos);
+    UMLScenePoint pos() const;
+    void setPos(const UMLScenePoint &pos);
 
     void setBrush(const QColor &color);
     const QColor& brush() const;
@@ -143,7 +143,7 @@ public:
     bool isSnapGridVisible() const;
     void setSnapGridVisible(bool bShow);
 
-    bool getUseFillColor() const;
+    bool useFillColor() const;
     void setUseFillColor(bool ufc);
 
     QFont getFont() const;
@@ -185,7 +185,7 @@ public:
 
     void clearSelected();
 
-    void moveSelectedBy(qreal dX, qreal dY);
+    void moveSelectedBy(UMLSceneValue dX, UMLSceneValue dY);
 
     int getSelectCount(bool filterText = false) const;
 
@@ -241,8 +241,8 @@ public:
 
     void updateDocumentation(bool clear);
 
-    void getDiagram(const QRectF &rect, QPixmap & diagram);
-    void getDiagram(const QRectF &area, QPainter & painter);
+    void getDiagram(const UMLSceneRect &rect, QPixmap & diagram);
+    void getDiagram(const UMLSceneRect &area, QPainter & painter);
 
     void copyAsImage(QPixmap*& pix);
 
@@ -254,7 +254,7 @@ public:
 
     bool addWidget(UMLWidget * pWidget , bool isPasteOperation = false);
     
-    QPointF getPastePoint();
+    UMLScenePoint getPastePoint();
     void resetPastePoint();
 
     void setStartedCut();
@@ -295,14 +295,14 @@ public:
 
     void addObject(UMLObject *object);
 
-    void selectWidgets(qreal px, qreal py, qreal qx, qreal qy);
+    void selectWidgets(UMLSceneValue px, UMLSceneValue py, UMLSceneValue qx, UMLSceneValue qy);
 
-    ObjectWidget * onWidgetLine(const QPointF &point) const;
-    ObjectWidget * onWidgetDestructionBox(const QPointF &point) const;
+    ObjectWidget * onWidgetLine(const UMLScenePoint &point) const;
+    ObjectWidget * onWidgetDestructionBox(const UMLScenePoint &point) const;
 
     UMLWidget* getFirstMultiSelectedWidget() const;
 
-    UMLWidget* widgetAt(const QPointF& p);
+    UMLWidget* widgetAt(const UMLScenePoint& p);
 
     void setupNewWidget(UMLWidget *w);
 

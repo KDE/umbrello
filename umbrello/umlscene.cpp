@@ -1189,7 +1189,7 @@ void UMLScene::removeWidget(UMLWidget * o)
 /**
  * Returns whether to use the fill/background color
  */
-bool UMLScene::getUseFillColor() const
+bool UMLScene::useFillColor() const
 {
     return m_Options.uiState.useFillColor;
 }
