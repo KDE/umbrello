@@ -3721,7 +3721,7 @@ void UMLScene::setSnapGridVisible(bool bShow)
 /**
  * Returns whether to show operation signatures.
  */
-bool UMLScene::getShowOpSig() const
+bool UMLScene::showOpSig() const
 {
     return m_Options.classState.showOpSig;
 }

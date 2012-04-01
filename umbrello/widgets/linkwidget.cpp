@@ -53,7 +53,7 @@ QString LinkWidget::operationText(UMLScene *scene)
     if (scene == NULL)
         scene = UMLApp::app()->currentView()->umlScene();
     Uml::SignatureType sigType;
-    if (scene && scene->getShowOpSig())
+    if (scene && scene->showOpSig())
         sigType = Uml::SignatureType::SigNoVis;
     else
         sigType = Uml::SignatureType::NoSigNoVis;
