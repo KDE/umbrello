@@ -351,20 +351,12 @@ public:
 
     int generateCollaborationId();
 
-    /**
-     * Return the UMLDoc pointer
-     */
-    UMLDoc* getUMLDoc() {
-        return m_doc;
-    }
-
 protected:
     // Methods and members related to loading/saving
 
     bool loadWidgetsFromXMI(QDomElement & qElement);
     bool loadMessagesFromXMI(QDomElement & qElement);
     bool loadAssociationsFromXMI(QDomElement & qElement);
-
     bool loadUisDiagramPresentation(QDomElement & qElement);
 
     /**
