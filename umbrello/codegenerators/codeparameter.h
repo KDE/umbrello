@@ -60,7 +60,7 @@ public:
     CodeComment * getComment();
 
     // the id of this parameter is the same as the parent UMLObject id.
-    QString getID();
+    QString ID();
 
     virtual void updateContent() = 0;
 

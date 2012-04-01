@@ -50,7 +50,7 @@ public:
     virtual QString getPath ( );
 
     void setID ( const QString &new_id);
-    QString getID ( ) const;
+    QString ID ( ) const;
 
     void setWriteOutCode ( bool new_var );
     bool getWriteOutCode ( );

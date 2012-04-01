@@ -480,7 +480,7 @@ UMLObject* UMLAssociation::getObject(Uml::Role_Type role) const
 
 /**
  * Returns the ID of the UMLObject assigned to the given role.
- * Shorthand for getObject(role)->getID().
+ * Shorthand for getObject(role)->ID().
  * @return  ID of the UMLObject in the given role.
  */
 Uml::IDType UMLAssociation::getObjectId(Uml::Role_Type role) const

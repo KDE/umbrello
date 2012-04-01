@@ -91,7 +91,7 @@ bool CPPCodeGenerator::getCreateProjectMakefile()
  */
 bool CPPCodeGenerator::addHeaderCodeDocument(CPPHeaderCodeDocument * doc)
 {
-    QString tag = doc->getID();
+    QString tag = doc->ID();
 
     // assign a tag if one doesn't already exist
     if (tag.isEmpty()) {
@@ -113,7 +113,7 @@ bool CPPCodeGenerator::addHeaderCodeDocument(CPPHeaderCodeDocument * doc)
  */
 bool CPPCodeGenerator::removeHeaderCodeDocument(CPPHeaderCodeDocument * remove_object)
 {
-    QString tag = remove_object->getID();
+    QString tag = remove_object->ID();
     if (!(tag.isEmpty()))
         m_codeDocumentDictionary.remove(tag);
     else

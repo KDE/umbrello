@@ -320,8 +320,8 @@ void UMLListView::mouseReleaseEvent(QMouseEvent *me)
     }
     // Switch to diagram on mouse release - not on mouse press
     // because the user might intend a drag-to-note.
-    m_doc->changeCurrentView(item->getID());
-    UMLApp::app()->docWindow()->showDocumentation(m_doc->findView(item->getID()), false);
+    m_doc->changeCurrentView(item->ID());
+    UMLApp::app()->docWindow()->showDocumentation(m_doc->findView(item->ID()), false);
     QTreeWidget::mouseReleaseEvent(me);
 }
 
@@ -495,7 +495,7 @@ void UMLListView::popupMenuSel(QAction* action)
         break;
 
     case ListPopupMenu::mt_Export_Image:
-        m_doc->findView(currItem->getID())->umlScene()->getImageExporter()->exportView();
+        m_doc->findView(currItem->ID())->umlScene()->getImageExporter()->exportView();
         break;
 
     case ListPopupMenu::mt_Externalize_Folder:
@@ -601,7 +601,7 @@ void UMLListView::popupMenuSel(QAction* action)
     case ListPopupMenu::mt_Properties:
         // first check if we are on a diagram
         if (Model_Utils::typeIsDiagram(lvt)) {
-            UMLView * pView = m_doc->findView(currItem->getID());
+            UMLView * pView = m_doc->findView(currItem->ID());
             if (!pView) {
                 return;
             }
@@ -1248,7 +1248,7 @@ UMLListViewItem* UMLListView::findView(UMLView* v)
     UMLListViewItem* item;
     Uml::DiagramType dType = v->umlScene()->type();
     UMLListViewItem::ListViewType type = Model_Utils::convert_DT_LVT(dType);
-    Uml::IDType id = v->umlScene()->getID();
+    Uml::IDType id = v->umlScene()->ID();
     if (dType == Uml::DiagramType::UseCase) {
         item = m_lv[Uml::ModelType::UseCase];
     } else if (dType == Uml::DiagramType::Component) {
@@ -1293,7 +1293,7 @@ UMLListViewItem* UMLListView::recursiveSearchForView(UMLListViewItem* listViewIt
                 return resultListViewItem;
         }
     } else {
-        if (listViewItem->type() == type && listViewItem->getID() == id)
+        if (listViewItem->type() == type && listViewItem->ID() == id)
             return listViewItem;
     }
     return 0;
@@ -1394,7 +1394,7 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
     //see if on view
     UMLListViewItem::ListViewType lvType = item->type();
     if (Model_Utils::typeIsDiagram(lvType)) {
-        UMLView * pView = m_doc->findView(item->getID());
+        UMLView * pView = m_doc->findView(item->ID());
         if (!pView)
             return;
         UMLApp::app()->docWindow()->updateDocumentation(false);
@@ -1966,7 +1966,7 @@ UMLListViewItem* UMLListView::createDiagramItem(UMLView *view)
         parent = determineParentItem(lvt);
         lvt = Model_Utils::convert_DT_LVT(view->umlScene()->type());
     }
-    UMLListViewItem *item = new UMLListViewItem(parent, view->umlScene()->name(), lvt, view->umlScene()->getID());
+    UMLListViewItem *item = new UMLListViewItem(parent, view->umlScene()->name(), lvt, view->umlScene()->ID());
     return item;
 }
 
@@ -2008,14 +2008,14 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
     case UMLListViewItem::lvt_Deployment_Folder:
     case UMLListViewItem::lvt_EntityRelationship_Folder:
         /***
-        int newID = IDChanges.findNewID(Data.getID());
+        int newID = IDChanges.findNewID(Data.ID());
         //if there is no ListViewItem associated with the new ID,
         //it could exist an Item already asocciated if the user chose to reuse an uml object
         if(!(item = findItem(newID))) {
-                pObject = m_doc->findObjectById( IDChanges.findNewID(Data.getID()) );
+                pObject = m_doc->findObjectById( IDChanges.findNewID(Data.ID()) );
                 item = new UMLListViewItem(parent, Data.text(0), lvt, pObject);
         } ***/
-        pObject = m_doc->findObjectById(Data.getID());
+        pObject = m_doc->findObjectById(Data.ID());
         item = new UMLListViewItem(parent, Data.text(0), lvt, pObject);
         break;
     case UMLListViewItem::lvt_Datatype_Folder:
@@ -2031,7 +2031,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
     case UMLListViewItem::lvt_ForeignKeyConstraint:
     case UMLListViewItem::lvt_CheckConstraint: {
         UMLClassifier *pClass =  static_cast<UMLClassifier*>(parent->umlObject());
-        Uml::IDType newID = IDChanges.findNewID(Data.getID());
+        Uml::IDType newID = IDChanges.findNewID(Data.ID());
         pObject = pClass->findChildObjectById(newID);
         if (pObject) {
             item = new UMLListViewItem(parent, Data.text(0), lvt, pObject);
@@ -2049,7 +2049,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
     case UMLListViewItem::lvt_Component_Diagram:
     case UMLListViewItem::lvt_Deployment_Diagram:
     case UMLListViewItem::lvt_EntityRelationship_Diagram: {
-        Uml::IDType newID = IDChanges.findNewID(Data.getID());
+        Uml::IDType newID = IDChanges.findNewID(Data.ID());
         UMLView* v = m_doc->findView(newID);
         if (v == 0) {
             return 0;
@@ -2676,10 +2676,10 @@ UMLView* UMLListView::createDiagram(UMLListViewItem * item, Uml::DiagramType typ
     view->umlScene()->setID(UniqueID::gen());
     m_doc->addView(view);
     view->umlScene()->setOptionState(Settings::optionState());
-    item->setID(view->umlScene()->getID());
+    item->setID(view->umlScene()->ID());
     item->setText(0, name);
     view->umlScene()->activate();
-    m_doc->changeCurrentView(view->umlScene()->getID());
+    m_doc->changeCurrentView(view->umlScene()->ID());
 
     return view;
 }
@@ -2994,7 +2994,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                     UMLListViewItem *pkgItem = findUMLObject(umlpkg);
                     if (pkgItem == 0) {
                         DEBUG(DBG_SRC) << "synthesizing ListViewItem for package "
-                                       << ID2STR(umlpkg->getID());
+                                       << ID2STR(umlpkg->ID());
                         pkgItem = new UMLListViewItem(parent, umlpkg->getName(),
                                                       UMLListViewItem::lvt_Package, umlpkg);
                         pkgItem->setOpen(true);
@@ -3237,7 +3237,7 @@ bool UMLListView::deleteItem(UMLListViewItem *temp)
     UMLObject *object = temp->umlObject();
     UMLListViewItem::ListViewType lvt = temp->type();
     if (Model_Utils::typeIsDiagram(lvt)) {
-        m_doc->removeDiagram(temp->getID());
+        m_doc->removeDiagram(temp->ID());
     } else if (temp == m_datatypeFolder) {
         // we can't delete the datatypeFolder because umbrello will crash without a special handling
         return false;

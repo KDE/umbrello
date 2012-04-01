@@ -106,7 +106,7 @@ public:
     Uml::DiagramType type() const;
     void setType(Uml::DiagramType type);
 
-    Uml::IDType getID() const;
+    Uml::IDType ID() const;
     void setID(Uml::IDType id);
 
     UMLScenePoint pos() const;

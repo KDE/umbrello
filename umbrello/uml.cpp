@@ -2509,7 +2509,7 @@ void UMLApp::slotDeleteSelectedWidget()
  */
 void UMLApp::slotDeleteDiagram()
 {
-    m_doc->removeDiagram( currentView()->umlScene()->getID() );
+    m_doc->removeDiagram( currentView()->umlScene()->ID() );
 }
 
 /**
@@ -2734,7 +2734,7 @@ void UMLApp::setCurrentView(UMLView* view)
     }
     DEBUG(DBG_SRC) << "name=" << view->umlScene()->name()
                    << ", isOpen=" << view->umlScene()->isOpen()
-                   << ", id=" << ID2STR(view->umlScene()->getID());
+                   << ", id=" << ID2STR(view->umlScene()->ID());
 }
 
 /**
@@ -2774,7 +2774,7 @@ void UMLApp::slotTabChanged(QWidget* tab)
 {
     UMLView* view = ( UMLView* )tab;
     if (view) {
-        m_doc->changeCurrentView( view->umlScene()->getID() );
+        m_doc->changeCurrentView( view->umlScene()->ID() );
     }
 }
 

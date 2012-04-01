@@ -298,7 +298,7 @@ void UMLClipboard::checkItemForCopyType(UMLListViewItem* item, bool & withDiagra
     } else if ( Model_Utils::typeIsDiagram(type) ) {
         withDiagrams = true;
         onlyAttsOps = false;
-        view = doc->findView( item->getID() );
+        view = doc->findView( item->ID() );
         m_ViewList.append( view );
     } else if ( Model_Utils::typeIsFolder(type) ) {
         onlyAttsOps = false;
@@ -354,7 +354,7 @@ bool UMLClipboard::pasteChildren(UMLListViewItem *parent, IDChangeLog *chgLog)
     UMLListView *listView = UMLApp::app()->listView();
     for (int i = 0; i < parent->childCount(); i++) {
         UMLListViewItem *childItem = static_cast<UMLListViewItem*>(parent->child(i));
-        Uml::IDType oldID = childItem->getID();
+        Uml::IDType oldID = childItem->ID();
         Uml::IDType newID = chgLog->findNewID(oldID);
         UMLListViewItem *shouldNotExist = listView->findItem(newID);
         if (shouldNotExist) {

@@ -255,7 +255,7 @@ void UMLScene::setType(Uml::DiagramType type)
 /**
  * Returns the ID of the diagram.
  */
-Uml::IDType UMLScene::getID() const
+Uml::IDType UMLScene::ID() const
 {
     return m_nID;
 }
@@ -300,7 +300,7 @@ const QColor& UMLScene::brush() const
 void UMLScene::setBrush(const QColor &color)
 {
     m_Options.uiState.fillColor = color;
-    emit sigColorChanged(getID());
+    emit sigColorChanged(ID());
 }
 
 /**
@@ -319,7 +319,7 @@ const QColor& UMLScene::lineColor() const
 void UMLScene::setLineColor(const QColor &color)
 {
     m_Options.uiState.lineColor = color;
-    emit sigColorChanged(getID());
+    emit sigColorChanged(ID());
 }
 
 /**
@@ -338,7 +338,7 @@ uint UMLScene::lineWidth() const
 void UMLScene::setLineWidth(uint width)
 {
     m_Options.uiState.lineWidth = width;
-    emit sigLineWidthChanged(getID());
+    emit sigLineWidthChanged(ID());
 }
 
 /**
@@ -357,7 +357,7 @@ const QColor& UMLScene::textColor() const
 void UMLScene::setTextColor(const QColor& color)
 {
     m_Options.uiState.textColor = color;
-    emit sigTextColorChanged(getID());
+    emit sigTextColorChanged(ID());
 }
 
 /**
@@ -1690,7 +1690,7 @@ UMLViewImageExporter* UMLScene::getImageExporter()
  */
 void UMLScene::slotActivate()
 {
-    m_doc->changeCurrentView(getID());
+    m_doc->changeCurrentView(ID());
 }
 
 /**
@@ -3310,7 +3310,7 @@ void UMLScene::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Delete:
-        m_doc->removeDiagram(getID());
+        m_doc->removeDiagram(ID());
         break;
 
     case ListPopupMenu::mt_Rename:
@@ -3352,7 +3352,7 @@ void UMLScene::slotCutSuccessful()
  */
 void UMLScene::slotShowView()
 {
-    m_doc->changeCurrentView(getID());
+    m_doc->changeCurrentView(ID());
 }
 
 /**

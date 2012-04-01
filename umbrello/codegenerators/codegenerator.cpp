@@ -79,7 +79,7 @@ CodeGenerator::~CodeGenerator()
  */
 QString CodeGenerator::getUniqueID(CodeDocument * codeDoc)
 {
-    QString id = codeDoc->getID();
+    QString id = codeDoc->ID();
 
     // does this document already exist? then just return its present id
     if (!id.isEmpty() && findCodeDocumentByID(id)) {
@@ -126,7 +126,7 @@ CodeDocument * CodeGenerator::findCodeDocumentByID(const QString &tag)
  */
 bool CodeGenerator::addCodeDocument(CodeDocument * doc)
 {
-    QString tag = doc->getID();
+    QString tag = doc->ID();
 
     // assign a tag if one doesn't already exist
     if (tag.isEmpty()) {
@@ -151,7 +151,7 @@ bool CodeGenerator::addCodeDocument(CodeDocument * doc)
  */
 bool CodeGenerator::removeCodeDocument(CodeDocument * remove_object)
 {
-    QString tag = remove_object->getID();
+    QString tag = remove_object->ID();
     if (!(tag.isEmpty())) {
         m_codeDocumentDictionary.remove(tag);
     }

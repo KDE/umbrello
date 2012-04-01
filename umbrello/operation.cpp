@@ -591,8 +591,8 @@ bool UMLOperation::load( QDomElement & element )
         /*
         CodeGenerator* codegen = UMLApp::app()->getGenerator();
         if (codegen) {
-            uDebug() << "CodeDocument searching with id=" << ID2STR(UMLObject::getID());
-            CodeDocument* codeDoc = codegen->findCodeDocumentByID(ID2STR(UMLObject::getID()));
+            uDebug() << "CodeDocument searching with id=" << ID2STR(UMLObject::ID());
+            CodeDocument* codeDoc = codegen->findCodeDocumentByID(ID2STR(UMLObject::ID()));
             if (codeDoc) {
                 uDebug() << "CodeDocument found:\n" << codeDoc;
             }

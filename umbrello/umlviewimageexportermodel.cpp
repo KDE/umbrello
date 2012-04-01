@@ -272,7 +272,7 @@ QString UMLViewImageExporterModel::getDiagramFileName(UMLScene* scene, const QSt
     if (scene) {
         if (useFolders) {
             qApp->processEvents();  //:TODO: still needed ???
-            return Model_Utils::treeViewBuildDiagramName(scene->getID());
+            return Model_Utils::treeViewBuildDiagramName(scene->ID());
         }
         else {
             return scene->name() + '.' + imageType.toLower();;

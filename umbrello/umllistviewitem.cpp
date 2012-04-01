@@ -264,7 +264,7 @@ void UMLListViewItem::setVisible(bool state)
  *
  * @return  The id this class represents.
  */
-Uml::IDType UMLListViewItem::getID() const
+Uml::IDType UMLListViewItem::ID() const
 {
     if (m_object) {
         return m_object->id();
@@ -678,13 +678,13 @@ void UMLListViewItem::okRename(int col)
     case lvt_Activity_Diagram:
     case lvt_Component_Diagram:
     case lvt_Deployment_Diagram: {
-        UMLView *view = doc->findView(getID());
+        UMLView *view = doc->findView(ID());
         if (view == 0) {
             cancelRenameWithMsg();
             return;
         }
         UMLView *anotherView = doc->findView(view->umlScene()->type(), newText);
-        if (anotherView && anotherView->umlScene()->getID() == getID()) {
+        if (anotherView && anotherView->umlScene()->ID() == ID()) {
             anotherView = 0;
         }
         if (anotherView) {
@@ -890,7 +890,7 @@ UMLListViewItem* UMLListViewItem::findChildObject(UMLClassifierListItem *cli)
  */
 UMLListViewItem * UMLListViewItem::findItem(Uml::IDType id)
 {
-    if (getID() == id) {
+    if (ID() == id) {
         return this;
     }
     for (int i = 0; i < childCount(); ++i) {
@@ -909,7 +909,7 @@ UMLListViewItem * UMLListViewItem::findItem(Uml::IDType id)
 void UMLListViewItem::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement itemElement = qDoc.createElement("listitem");
-    Uml::IDType id = getID();
+    Uml::IDType id = ID();
     QString idStr = ID2STR(id);
     //DEBUG(DBG_LVI) << "id = " << idStr << ", type = " << m_type;
     if (id != Uml::id_None)
@@ -1086,7 +1086,7 @@ QDebug operator<<(QDebug out, const UMLListViewItem& item)
 {
     out.nospace() << "UMLListViewItem: " << item.text(0)
         << ", type=" << UMLListViewItem::toString(item.type())
-        << ", id=" << ID2STR(item.getID())
+        << ", id=" << ID2STR(item.ID())
         << ", children=" << item.childCount();
     return out.space();
 }

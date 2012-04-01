@@ -327,7 +327,7 @@ void treeViewAddViews(const UMLViewList& viewList)
 {
     UMLListView* tree = UMLApp::app()->listView();
     foreach (UMLView* v,  viewList) {
-        if (tree->findItem(v->umlScene()->getID()) != NULL) {
+        if (tree->findItem(v->umlScene()->ID()) != NULL) {
             continue;
         }
         tree->createDiagramItem(v);
