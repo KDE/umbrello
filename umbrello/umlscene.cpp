@@ -271,7 +271,7 @@ void UMLScene::setID(Uml::IDType id)
 /**
  * Returns the position of the diagram.
  */
-QPointF UMLScene::pos() const
+UMLScenePoint UMLScene::pos() const
 {
     return m_Pos;
 }
@@ -279,7 +279,7 @@ QPointF UMLScene::pos() const
 /**
  * Sets the position of the diagram.
  */
-void UMLScene::setPos(const QPointF &pos)
+void UMLScene::setPos(const UMLScenePoint &pos)
 {
     m_Pos = pos;
 }
@@ -684,6 +684,7 @@ void UMLScene::slotToolBarChanged(int c)
  */
 void UMLScene::slotObjectCreated(UMLObject* o)
 {
+    DEBUG(DBG_SRC) << "view=" << name() << " / object=" << o->name();
     m_bPaste = false;
     //check to see if we want the message
     //may be wanted by someone else e.g. list view
@@ -706,33 +707,33 @@ void UMLScene::slotObjectCreated(UMLObject* o)
     m_bCreateObject = false;
 
     switch (o->baseType()) {
-    case UMLObject::ot_Actor:
-    case UMLObject::ot_UseCase:
-    case UMLObject::ot_Class:
-    case UMLObject::ot_Package:
-    case UMLObject::ot_Component:
-    case UMLObject::ot_Node:
-    case UMLObject::ot_Artifact:
-    case UMLObject::ot_Interface:
-    case UMLObject::ot_Enum:
-    case UMLObject::ot_Entity:
-    case UMLObject::ot_Datatype:
-    case UMLObject::ot_Category:
-        createAutoAssociations(newWidget);
-        // We need to invoke createAutoAttributeAssociations()
-        // on all other widgets again because the newly created
-        // widget might saturate some latent attribute assocs.
-        foreach(UMLWidget* w,  m_WidgetList) {
-            if (w != newWidget) {
-                createAutoAttributeAssociations(w);
+        case UMLObject::ot_Actor:
+        case UMLObject::ot_UseCase:
+        case UMLObject::ot_Class:
+        case UMLObject::ot_Package:
+        case UMLObject::ot_Component:
+        case UMLObject::ot_Node:
+        case UMLObject::ot_Artifact:
+        case UMLObject::ot_Interface:
+        case UMLObject::ot_Enum:
+        case UMLObject::ot_Entity:
+        case UMLObject::ot_Datatype:
+        case UMLObject::ot_Category:
+            createAutoAssociations(newWidget);
+            // We need to invoke createAutoAttributeAssociations()
+            // on all other widgets again because the newly created
+            // widget might saturate some latent attribute assocs.
+            foreach(UMLWidget* w,  m_WidgetList) {
+                if (w != newWidget) {
+                    createAutoAttributeAssociations(w);
 
-                if (o->baseType() == UMLObject::ot_Entity)
-                    createAutoConstraintAssociations(w);
+                    if (o->baseType() == UMLObject::ot_Entity)
+                        createAutoConstraintAssociations(w);
+                }
             }
-        }
-        break;
-    default:
-        break;
+            break;
+        default:
+            break;
     }
     resizeCanvasToItems();
 }
@@ -921,7 +922,7 @@ void UMLScene::dropEvent(UMLSceneDragDropEvent *e)
  * @return The widget thats line was clicked on.
  *  Returns 0 if no line was clicked on.
  */
-ObjectWidget * UMLScene::onWidgetLine(const QPointF &point) const
+ObjectWidget * UMLScene::onWidgetLine(const UMLScenePoint &point) const
 {
     QGraphicsItem* itemAtPoint = itemAt(point);
     DEBUG(DBG_SRC) << Q_FUNC_INFO << itemAtPoint;
@@ -940,7 +941,7 @@ ObjectWidget * UMLScene::onWidgetLine(const QPointF &point) const
  * @return The widget thats destruction box was clicked on.
  *  Returns 0 if no destruction box was clicked on.
  */
-ObjectWidget * UMLScene::onWidgetDestructionBox(const QPointF &point) const
+ObjectWidget * UMLScene::onWidgetDestructionBox(const UMLScenePoint &point) const
 {
     foreach(UMLWidget* obj,  m_WidgetList) {
         ObjectWidget *ow = dynamic_cast<ObjectWidget*>(obj);
@@ -977,7 +978,7 @@ UMLWidget* UMLScene::getFirstMultiSelectedWidget() const
  * Returns NULL if the point is not inside any widget.
  * Does not use or modify the m_pOnWidget member.
  */
-UMLWidget *UMLScene::widgetAt(const QPointF& p)
+UMLWidget *UMLScene::widgetAt(const UMLScenePoint& p)
 {
     qreal metric = 99990.0;
     UMLWidget  *retWid = 0;
@@ -1937,7 +1938,7 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
             return true;
         }
         // CHECK
-        // Handling of wt_Message:
+        // Handling of WidgetBase::wt_Message:
         MessageWidget *pMessage = static_cast<MessageWidget *>(pWidget);
         if (pMessage == NULL) {
             DEBUG(DBG_SRC) << "pMessage is NULL";

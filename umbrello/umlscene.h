@@ -388,7 +388,7 @@ protected:
     void forceUpdateWidgetFontMetrics(QPainter *painter);
 
     int m_nCollaborationId;  ///< Used for creating unique name of collaboration messages.
-    QPointF m_Pos;
+    UMLScenePoint m_Pos;
     bool m_bCreateObject;
     bool m_bDrawSelectedOnly;
     bool m_bPaste;
@@ -413,8 +413,8 @@ private:
     IDChangeLog * m_pIDChangesLog;  ///< LocalID Changes Log for paste actions
     bool m_isActivated;             ///< True if the view was activated after the serialization(load).
     bool m_bPopupShowing;           ///< Status of a popupmenu on view. True - a popup is on view.
-    QPointF m_PastePoint;           ///< The offset at which to paste the clipboard.
-    UMLDoc* m_doc;                 ///< Pointer to the UMLDoc.
+    UMLScenePoint m_PastePoint;     ///< The offset at which to paste the clipboard.
+    UMLDoc* m_doc;                  ///< Pointer to the UMLDoc.
     UMLViewImageExporter* m_pImageExporter;  ///< Used to export the view.
     LayoutGrid*  m_layoutGrid;      ///< layout grid in the background
 
