@@ -10,28 +10,26 @@
 #ifndef UMLSCENE_H
 #define UMLSCENE_H
 
-#include <QMouseEvent>
-#include <QKeyEvent>
-
-// system includes
-#include <kurl.h>
-#include <qdom.h>
-#include <QtGui/QPixmap>
-#include <Q3Canvas>
-
-//local includes
-#include "umlobjectlist.h"
-#include "umlwidgetlist.h"
+// local includes
 #include "associationwidgetlist.h"
 #include "messagewidgetlist.h"
 #include "optionstate.h"
+#include "umlobjectlist.h"
+#include "umlwidgetlist.h"
 #include "worktoolbar.h"
+
+// Qt includes
+#include <QMouseEvent>
+#include <QKeyEvent>
+#include <QtGui/QPixmap>
+#include <Q3Canvas>
+#include <QtXml/QDomDocument>
 
 // forward declarations
 class ClassOptionsPage;
 class IDChangeLog;
-class FloatingTextWidget;
 class ListPopupMenu;
+class FloatingTextWidget;
 class ObjectWidget;
 class UMLFolder;
 class UMLApp;
@@ -95,7 +93,7 @@ public:
 
     // Accessors and other methods dealing with loaded/saved data
 
-    UMLFolder *folder() const;
+    UMLFolder* folder() const; 
     void setFolder(UMLFolder *folder);
 
     QString documentation() const;
@@ -120,10 +118,10 @@ public:
     void setLineColor(const QColor &color);
 
     uint lineWidth() const;
-    void setLineWidth(uint width );
+    void setLineWidth(uint width);
 
     const QColor& textColor() const;
-    void setTextColor(const QColor &color);
+    void setTextColor(const QColor& color);
 
     const QColor& gridDotColor() const;
     void setGridDotColor(const QColor &gridColor);
@@ -293,7 +291,6 @@ public:
     virtual bool loadFromXMI(QDomElement & qElement);
 
     bool loadUISDiagram(QDomElement & qElement);
-
     UMLWidget* loadWidgetFromXMI(QDomElement& widgetElement);
 
     void addObject(UMLObject *object);
@@ -307,7 +304,7 @@ public:
 
     UMLWidget* getFirstMultiSelectedWidget() const;
 
-    UMLWidget *widgetAt(const UMLScenePoint& p);
+    UMLWidget* widgetAt(const UMLScenePoint& p);
 
     void setupNewWidget(UMLWidget *w);
 
@@ -337,76 +334,25 @@ protected:
      */
     Uml::IDType m_nLocalID;
 
-    /**
-     * The ID of the view.  Allocated by @ref UMLDoc
-     */
-    Uml::IDType m_nID;
+    Uml::IDType m_nID;                ///< The ID of the view. Allocated by @ref UMLDoc.
+    Uml::DiagramType m_Type;          ///< The type of diagram to represent.
+    QString m_Name;                   ///< The name of the diagram.
+    QString m_Documentation;          ///< The documentation of the diagram.
+    Settings::OptionState m_Options;  ///< Options used by view.
 
-    /**
-     * The type of diagram to represent.
-     */
-    Uml::DiagramType m_Type;
+    MessageWidgetList m_MessageList;  ///< All the message widgets on the diagram.
+    UMLWidgetList m_WidgetList;       ///< All the UMLWidgets on the diagram.
+    AssociationWidgetList m_AssociationList;  ///< All the AssociationWidgets on the diagram.
 
-    /**
-     * The name of the diagram.
-     */
-    QString m_Name;
+    bool m_bUseSnapToGrid;  ///< Flag to use snap to grid. The default is off.
+    bool m_bUseSnapComponentSizeToGrid;  ///< Flag to use snap to grid for component size. The default is off.
+    bool m_isOpen;  ///< Flag is set to true when diagram is open, i.e. shown to the user.
 
-    /**
-     * The documentation of the diagram.
-     */
-    QString m_Documentation;
-
-    /**
-     * Options used by view
-     */
-    Settings::OptionState m_Options;
-
-    /**
-     * Contains all the message widgets on the diagram.
-     */
-    MessageWidgetList m_MessageList;
-
-    /**
-     * Contains all the UMLWidgets on the diagram.
-     */
-    UMLWidgetList m_WidgetList;
-
-    /**
-     * Contains all the AssociationWidgets on the diagram.
-     */
-    AssociationWidgetList m_AssociationList;
-
-    /**
-     * The snap to grid x size.
-     */
-    int m_nSnapX;
-
-    /**
-     * The snap to grid y size.
-     */
-    int m_nSnapY;
-
-    /**
-     * Determines whether to use snap to grid.  The default is off.
-     */
-    bool m_bUseSnapToGrid;
-
-    /**
-     * Determines whether to use snap to grid for component
-     * size.  The default is off.
-     */
-    bool m_bUseSnapComponentSizeToGrid;
-
-    /**
-     * Determines whether to show the snap grid.  The default will be on if the grid is on.
-     */
-    bool m_bShowSnapGrid;
-
-    /**
-     * Determines whether the view is shown to the user, i.e. opened in a tab.
-     */
-    bool m_isOpen;
+    int m_nSnapX;  ///< The snap to grid x size.
+    int m_nSnapY;  ///< The snap to grid y size.
+    bool m_bShowSnapGrid;  ///< Determines whether to show the snap grid. The default will be on if the grid is on.
+    int m_nCanvasWidth;    ///< Width of canvas in pixels.
+    int m_nCanvasHeight;   ///< Height of canvas in pixels.
 
     // End of methods and members related to loading/saving
     ////////////////////////////////////////////////////////////////////////
@@ -419,75 +365,38 @@ protected:
     QRect diagramRect();
 
     void makeSelected(UMLWidget * uw);
+
     void updateComponentSizes();
+
     void findMaxBoundingRectangle(const FloatingTextWidget* ft,
                                   int& px, int& py, int& qx, int& qy);
     void forceUpdateWidgetFontMetrics(QPainter *painter);
 
     virtual void drawBackground(QPainter & painter, const QRect & clip);
 
-    /**
-     * Used for creating unique name of collaboration messages.
-     */
-    int m_nCollaborationId;
-
+    int m_nCollaborationId;  ///< Used for creating unique name of collaboration messages.
     UMLScenePoint m_Pos;
-    bool m_bCreateObject, m_bDrawSelectedOnly, m_bPaste;
+    bool m_bCreateObject;
+    bool m_bDrawSelectedOnly;
+    bool m_bPaste;
     ListPopupMenu * m_pMenu;
+    bool m_bStartedCut;  ///< Flag if view/children started cut operation.
     UMLWidgetList m_SelectedList;
 
-    /**
-     *  Flag if view/children started cut operation.
-     */
-    bool m_bStartedCut;
-
 protected:
-    /**
-     * The view to which this scene is related
-     */
-    UMLView *m_view;
+    UMLView *m_view;   ///< The view to which this scene is related.
+    UMLFolder *m_pFolder;  ///< The folder in which this UMLView is contained.
 
-    /**
-     * The folder in which this UMLView is contained
-     */
-    UMLFolder *m_pFolder;
-
-    /**
-     * LocalID Changes Log for paste actions
-     */
-    IDChangeLog * m_pIDChangesLog;
-
-    /**
-     * 
-     * True if the view was activated after the serialization(load)
-     */
-    bool m_bActivated;
-
-    /**
-     * Status of a popupmenu on view.
-     * true - a popup is on view
-     */
-    bool m_bPopupShowing;
-
-    /**
-     * The offset at which to paste the clipboard.
-     */
-    UMLScenePoint m_PastePoint;
-
-    /**
-     * Pointer to the UMLDoc
-     */
-    UMLDoc* m_doc;
-
-    /**
-     * The UMLViewImageExporter used to export the view.
-     */
-    UMLViewImageExporter* m_pImageExporter;
+    IDChangeLog * m_pIDChangesLog;  ///< LocalID Changes Log for paste actions
+    bool m_isActivated;             ///< True if the view was activated after the serialization(load).
+    bool m_bPopupShowing;           ///< Status of a popupmenu on view. True - a popup is on view.
+    UMLScenePoint m_PastePoint;     ///< The offset at which to paste the clipboard.
+    UMLDoc* m_doc;                  ///< Pointer to the UMLDoc.
+    UMLViewImageExporter* m_pImageExporter;  ///< Used to export the view.
 
     void createAutoAttributeAssociation(UMLClassifier *type,
                                         UMLAttribute *attr,
                                         UMLWidget *widget);
-
     void createAutoConstraintAssociation(UMLEntity* refEntity,
                                          UMLForeignKeyConstraint* fkConstraint,
                                          UMLWidget* widget);

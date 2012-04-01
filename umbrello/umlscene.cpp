@@ -137,7 +137,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
 
     //Setup up booleans
     m_bPaste = false;
-    m_bActivated = false;
+    m_isActivated = false;
     m_bCreateObject = false;
     m_bDrawSelectedOnly = false;
     m_bPopupShowing = false;
@@ -303,7 +303,6 @@ void UMLScene::setPos(const UMLScenePoint &pos)
     m_Pos = pos;
 }
 
-/**
 /**
  * Returns the fill color to use.
  */
@@ -2257,7 +2256,7 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
  */
 void UMLScene::activateAfterLoad(bool bUseLog)
 {
-    if (m_bActivated)
+    if (m_isActivated)
         return;
     if (bUseLog) {
         beginPartialWidgetPaste();
@@ -2271,7 +2270,7 @@ void UMLScene::activateAfterLoad(bool bUseLog)
     }
     resizeCanvasToItems();
     m_view->setZoom(view()->zoom());
-    m_bActivated = true;
+    m_isActivated = true;
 }
 
 void UMLScene::beginPartialWidgetPaste()
@@ -3590,7 +3589,7 @@ void UMLScene::toggleSnapComponentSizeToGrid()
 }
 
 /**
- *  Changes show grid boolean.
+ * Changes show grid boolean.
  * Called from menus.
  */
 void UMLScene::toggleShowGrid()
