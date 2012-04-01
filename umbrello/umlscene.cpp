@@ -199,6 +199,48 @@ UMLScene::~UMLScene()
 }
 
 /**
+ * Return the UMLFolder in which this diagram lives.
+ */
+UMLFolder *UMLScene::folder() const
+{
+    return m_pFolder;
+}
+
+/**
+ * Set the UMLFolder in which this diagram lives.
+ */
+void UMLScene::setFolder(UMLFolder *folder)
+{
+    m_pFolder = folder;
+}
+
+UMLView *UMLScene::view()
+{
+    return m_view;
+}
+
+void UMLScene::setView(UMLView *view)
+{
+    m_view = view;
+}
+
+/**
+ * Return the documentation of the diagram.
+ */
+QString UMLScene::documentation() const
+{
+    return m_Documentation;
+}
+
+/**
+ * Set the documentation of the diagram.
+ */
+void UMLScene::setDocumentation(const QString &doc)
+{
+    m_Documentation = doc;
+}
+
+/**
  * Return the name of the diagram.
  */
 QString UMLScene::name() const
@@ -215,11 +257,220 @@ void UMLScene::setName(const QString &name)
 }
 
 /**
+ * Returns the type of the diagram.
+ */
+Uml::DiagramType UMLScene::type() const
+{
+    return m_Type;
+}
+
+/**
+ * Set the type of diagram.
+ */
+void UMLScene::setType(Uml::DiagramType type)
+{
+    m_Type = type;
+}
+
+/**
+ * Returns the ID of the diagram.
+ */
+Uml::IDType UMLScene::getID() const
+{
+    return m_nID;
+}
+
+/**
+ * Sets the ID of the diagram.
+ */
+void UMLScene::setID(Uml::IDType id)
+{
+    m_nID = id;
+}
+
+/**
+ * Returns the position of the diagram.
+ */
+UMLScenePoint UMLScene::getPos() const
+{
+    return m_Pos;
+}
+
+/**
+ * Sets the position of the diagram.
+ */
+void UMLScene::setPos(const UMLScenePoint &pos)
+{
+    m_Pos = pos;
+}
+
+/**
+/**
+ * Returns the fill color to use.
+ */
+const QColor& UMLScene::fillColor() const
+{
+    return m_Options.uiState.fillColor;
+}
+
+/**
+ * Set the background color.
+ *
+ * @param color  The color to use.
+ */
+void UMLScene::setFillColor(const QColor &color)
+{
+    m_Options.uiState.fillColor = color;
+    emit sigFillColorChanged(getID());
+    setAllChanged();
+}
+
+/**
+ * Returns the line color to use.
+ */
+const QColor& UMLScene::lineColor() const
+{
+    return m_Options.uiState.lineColor;
+}
+
+/**
+ * Sets the line color.
+ *
+ * @param color  The color to use.
+ */
+void UMLScene::setLineColor(const QColor &color)
+{
+    m_Options.uiState.lineColor = color;
+    emit sigLineColorChanged(getID());
+    setAllChanged();
+}
+
+/**
+ * Returns the line width to use.
+ */
+uint UMLScene::lineWidth() const
+{
+    return m_Options.uiState.lineWidth;
+}
+
+/**
+ * Sets the line width.
+ *
+ * @param width  The width to use.
+ */
+void UMLScene::setLineWidth(uint width)
+{
+    m_Options.uiState.lineWidth = width;
+    emit sigLineWidthChanged(getID());
+    setAllChanged();
+}
+
+/**
+ * Returns the text color to use.
+ */
+const QColor& UMLScene::textColor() const
+{
+    return m_Options.uiState.textColor;
+}
+
+/**
+ * Sets the text color.
+ *
+ * @param color  The color to use.
+ */
+void UMLScene::setTextColor(const QColor &color)
+{
+    m_Options.uiState.textColor = color;
+    emit sigTextColorChanged(getID());
+    setAllChanged();
+}
+
+/**
+ * return grid dot color
+ *
+ * @return Color
+ */
+const QColor& UMLScene::gridDotColor() const
+{
+    return m_Options.uiState.gridDotColor;
+}
+
+/**
+ * set grid dot color
+ *
+ * @param color grid dot color
+ */
+void UMLScene::setGridDotColor(const QColor& color)
+{
+    m_Options.uiState.gridDotColor = color;
+    emit sigGridColorChanged(getID());
+    setAllChanged();
+}
+
+/**
+ * Returns the options being used.
+ */
+const Settings::OptionState& UMLScene::optionState() const
+{
+    return m_Options;
+}
+
+/**
+ * Sets the options to be used.
+ */
+void UMLScene::setOptionState( const Settings::OptionState& options)
+{
+    m_Options = options;
+}
+
+/**
+ * Returns a reference to the association list.
+ */
+AssociationWidgetList& UMLScene::associationList()
+{
+    return m_AssociationList;
+}
+
+/**
+ * Returns a reference to the widget list.
+ */
+UMLWidgetList& UMLScene::widgetList()
+{
+    return m_WidgetList;
+}
+
+/**
+ * Returns a reference to the message list.
+ */
+MessageWidgetList& UMLScene::messageList()
+{
+    return m_MessageList;
+}
+
+/**
  * Used for creating unique name of collaboration messages.
  */
 int UMLScene::generateCollaborationId()
 {
     return ++m_nCollaborationId;
+}
+
+/**
+ * Returns the open state.
+ * @return   when true diagram is shown to the user
+ */
+bool UMLScene::isOpen() const
+{
+    return m_isOpen;
+}
+
+/**
+ * Sets the flag 'isOpen'.
+ * @param isOpen   flag indicating that the diagram is shown to the user
+ */
+void UMLScene::setIsOpen(bool isOpen)
+{
+    m_isOpen = isOpen;
 }
 
 /**
@@ -230,6 +481,7 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
     int height, width;
     //get the size of the page
     pPrinter->setFullPage(true);
+
     QFontMetrics fm = pPainter.fontMetrics(); // use the painter font metrics, not the screen fm!
     int fontHeight  = fm.lineSpacing();
     // fetch printer margins individual for all four page sides, as at least top and bottom are not the same
@@ -413,6 +665,22 @@ void UMLScene::setupNewWidget(UMLWidget *w)
     m_doc->setModified();
 
     UMLApp::app()->executeCommand(new CmdCreateWidget(this->view(), w));
+}
+
+/**
+ * Return whether we are currently creating an object.
+ */
+bool UMLScene::getCreateObject() const
+{
+    return m_bCreateObject;
+}
+
+/**
+ * Set whether we are currently creating an object.
+ */
+void UMLScene::setCreateObject(bool bCreate)
+{
+    m_bCreateObject = bCreate;
 }
 
 /**
@@ -713,7 +981,7 @@ void UMLScene::dropEvent(QDropEvent *e)
  * @return The widget thats line was clicked on.
  *  Returns 0 if no line was clicked on.
  */
-ObjectWidget * UMLScene::onWidgetLine(const QPoint &point)
+ObjectWidget * UMLScene::onWidgetLine(const QPoint &point) const
 {
     foreach(UMLWidget* obj, m_WidgetList) {
         ObjectWidget *ow = dynamic_cast<ObjectWidget*>(obj);
@@ -738,7 +1006,7 @@ ObjectWidget * UMLScene::onWidgetLine(const QPoint &point)
  * @return The widget thats destruction box was clicked on.
  *  Returns 0 if no destruction box was clicked on.
  */
-ObjectWidget * UMLScene::onWidgetDestructionBox(const QPoint &point)
+ObjectWidget * UMLScene::onWidgetDestructionBox(const QPoint &point) const
 {
     foreach(UMLWidget* obj,  m_WidgetList) {
         ObjectWidget *ow = dynamic_cast<ObjectWidget*>(obj);
@@ -754,6 +1022,14 @@ ObjectWidget * UMLScene::onWidgetDestructionBox(const QPoint &point)
             return ow;
     }
     return 0;
+}
+
+/**
+ * Return pointer to the first selected widget (for multi-selection)
+ */
+UMLWidget* UMLScene::getFirstMultiSelectedWidget() const
+{
+    return m_SelectedList.first();
 }
 
 /**
@@ -974,108 +1250,6 @@ bool UMLScene::useFillColor() const
 void UMLScene::setUseFillColor(bool ufc)
 {
     m_Options.uiState.useFillColor = ufc;
-}
-
-/**
- * Returns the fill color to use.
- */
-QColor UMLScene::fillColor() const
-{
-    return m_Options.uiState.fillColor;
-}
-
-/**
- * Set the background color.
- *
- * @param color  The color to use.
- */
-void UMLScene::setFillColor(const QColor &color)
-{
-    m_Options.uiState.fillColor = color;
-    emit sigFillColorChanged(getID());
-    setAllChanged();
-}
-
-/**
- * Returns the line color to use.
- */
-QColor UMLScene::lineColor() const
-{
-    return m_Options.uiState.lineColor;
-}
-
-/**
- * Sets the line color.
- *
- * @param color  The color to use.
- */
-void UMLScene::setLineColor(const QColor &color)
-{
-    m_Options.uiState.lineColor = color;
-    emit sigLineColorChanged(getID());
-    setAllChanged();
-}
-
-/**
- * Returns the line width to use.
- */
-uint UMLScene::lineWidth() const
-{
-    return m_Options.uiState.lineWidth;
-}
-
-/**
- * Sets the line width.
- *
- * @param width  The width to use.
- */
-void UMLScene::setLineWidth(uint width)
-{
-    m_Options.uiState.lineWidth = width;
-    emit sigLineWidthChanged(getID());
-    setAllChanged();
-}
-
-/**
- * Returns the text color to use.
- */
-QColor UMLScene::textColor() const
-{
-    return m_Options.uiState.textColor;
-}
-
-/**
- * Sets the text color.
- *
- * @param color  The color to use.
- */
-void UMLScene::setTextColor(const QColor &color)
-{
-    m_Options.uiState.textColor = color;
-    emit sigTextColorChanged(getID());
-    setAllChanged();
-}
-
-/**
- * return grid dot color
- *
- * @return Color
- */
-QColor UMLScene::gridDotColor() const
-{
-    return m_Options.uiState.gridDotColor;
-}
-
-/**
- * set grid dot color
- *
- * @param color grid dot color
- */
-void UMLScene::setGridDotColor(const QColor& color)
-{
-    m_Options.uiState.gridDotColor = color;
-    emit sigGridColorChanged(getID());
-    setAllChanged();
 }
 
 /**
@@ -2879,6 +3053,24 @@ void UMLScene::setMenu()
 }
 
 /**
+ * Returns the status on whether in a paste state.
+ *
+ * @return Returns the status on whether in a paste state.
+ */
+bool UMLScene::getPaste() const
+{
+    return m_bPaste;
+}
+
+/**
+ * Sets the status on whether in a paste state.
+ */
+void UMLScene::setPaste(bool paste)
+{
+    m_bPaste = paste;
+}
+
+/**
  * This slot is entered when an event has occurred on the views display,
  * most likely a mouse event.  Before it sends out that mouse event everyone
  * that displays a menu on the views surface (widgets and this) should remove any
@@ -3223,33 +3415,12 @@ void UMLScene::resetPastePoint()
 }
 
 /**
- * Returns the input coordinate with possible grid-snap applied.
+ * Called by the view or any of its children when they start a cut
+ * operation.
  */
-int UMLScene::snappedX(int x)
+void UMLScene::setStartedCut()
 {
-    if (getSnapToGrid()) {
-        int gridX = getSnapX();
-        int modX = x % gridX;
-        x -= modX;
-        if (modX >= gridX / 2)
-            x += gridX;
-    }
-    return x;
-}
-
-/**
- * Returns the input coordinate with possible grid-snap applied.
- */
-int UMLScene::snappedY(int y)
-{
-    if (getSnapToGrid()) {
-        int gridY = getSnapY();
-        int modY = y % gridY;
-        y -= modY;
-        if (modY >= gridY / 2)
-            y += gridY;
-    }
-    return y;
+    m_bStartedCut = true;
 }
 
 /**
@@ -3384,7 +3555,7 @@ void UMLScene::clearDiagram()
 }
 
 /**
- * apply an automatic layout
+ * Apply an automatic layout.
  */
 void UMLScene::applyLayout(const QString &variant)
 {
@@ -3421,12 +3592,28 @@ void UMLScene::toggleShowGrid()
 }
 
 /**
+ * Return whether to use snap to grid.
+ */
+bool UMLScene::getSnapToGrid() const
+{
+    return m_bUseSnapToGrid;
+}
+
+/**
  *  Sets whether to snap to grid.
  */
 void UMLScene::setSnapToGrid(bool bSnap)
 {
     m_bUseSnapToGrid = bSnap;
     emit sigSnapToGridToggled(getSnapToGrid());
+}
+
+/**
+ * Return whether to use snap to grid for component size.
+ */
+bool UMLScene::getSnapComponentSizeToGrid() const
+{
+    return m_bUseSnapComponentSizeToGrid;
 }
 
 /**
@@ -3437,6 +3624,70 @@ void UMLScene::setSnapComponentSizeToGrid(bool bSnap)
     m_bUseSnapComponentSizeToGrid = bSnap;
     updateComponentSizes();
     emit sigSnapComponentSizeToGridToggled(getSnapComponentSizeToGrid());
+}
+
+/**
+ * Returns the x grid size.
+ */
+int UMLScene::getSnapX() const
+{
+    return m_nSnapX;
+}
+
+/**
+ * Returns the y grid size.
+ */
+int UMLScene::getSnapY() const
+{
+    return m_nSnapY;
+}
+
+/**
+ * Sets the x grid size.
+ */
+void UMLScene::setSnapX(int x)
+{
+    m_nSnapX = x;
+    Q3Canvas::setAllChanged();
+}
+
+/**
+ * Sets the y grid size.
+ */
+void UMLScene::setSnapY(int y)
+{
+    m_nSnapY = y;
+    Q3Canvas::setAllChanged();
+}
+
+/**
+ * Returns the input coordinate with possible grid-snap applied.
+ */
+int UMLScene::snappedX(int x)
+{
+    if (getSnapToGrid()) {
+        int gridX = getSnapX();
+        int modX = x % gridX;
+        x -= modX;
+        if (modX >= gridX / 2)
+            x += gridX;
+    }
+    return x;
+}
+
+/**
+ * Returns the input coordinate with possible grid-snap applied.
+ */
+int UMLScene::snappedY(int y)
+{
+    if (getSnapToGrid()) {
+        int gridY = getSnapY();
+        int modY = y % gridY;
+        y -= modY;
+        if (modY >= gridY / 2)
+            y += gridY;
+    }
+    return y;
 }
 
 /**
@@ -3471,16 +3722,6 @@ bool UMLScene::getShowOpSig() const
 void UMLScene::setShowOpSig(bool bShowOpSig)
 {
     m_Options.classState.showOpSig = bShowOpSig;
-}
-
-bool UMLScene::isOpen() const
-{
-    return m_isOpen;
-}
-
-void UMLScene::setIsOpen(bool isOpen)
-{
-    m_isOpen = isOpen;
 }
 
 /**

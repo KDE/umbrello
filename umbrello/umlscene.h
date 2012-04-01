@@ -53,6 +53,23 @@ class QPrinter;
 class QShowEvent;
 class UMLScene;
 
+/// uml related types - makes it easier to switch to QGraphicsScene types
+// base types
+typedef QPoint UMLScenePoint;
+typedef QRect UMLSceneRect;
+typedef QSize UMLSceneSize;
+typedef QLine UMLSceneLine;
+typedef int UMLSceneValue;
+
+// event types
+typedef QKeyEvent UMLSceneKeyEvent;
+typedef QHoverEvent UMLSceneHoverEvent;
+typedef QContextMenuEvent UMLSceneContextMenuEvent;
+//typedef QDragDropEvent UMLSceneDragDropEvent;
+
+typedef Q3CanvasItem UMLSceneItem;
+typedef Q3CanvasItemList UMLSceneItemList;
+
 /**
  * UMLScene instances represent diagrams.
  * The UMLScene class inherits from Q3CanvasView and
@@ -73,88 +90,43 @@ public:
         return this;
     }
 
+    UMLView *view();
+    void setView(UMLView *view);
+
     // Accessors and other methods dealing with loaded/saved data
-    /**
-     * Return the UMLFolder in which this diagram lives.
-     */
-    UMLFolder *folder() {
-        return m_pFolder;
-    }
 
-    /**
-     * Set the UMLFolder in which this diagram lives.
-     */
-    void setFolder(UMLFolder *folder) {
-        m_pFolder = folder;
-    }
+    UMLFolder *folder() const;
+    void setFolder(UMLFolder *folder);
 
-    UMLView *view() {
-        return m_view;
-    }
-
-    void setView(UMLView *view) {
-        m_view = view;
-    }
-
-    /**
-     * Return the documentation of the diagram.
-     */
-    QString documentation() const {
-        return m_Documentation;
-    }
-
-    /**
-     * Set the documentation of the diagram.
-     */
-    void setDocumentation(const QString &doc) {
-        m_Documentation = doc;
-    }
+    QString documentation() const;
+    void setDocumentation(const QString &doc);
 
     QString name() const;
     void setName(const QString &name);
 
-    /**
-     * Returns the type of the diagram.
-     */
-    Uml::DiagramType type() const {
-        return m_Type;
-    }
+    Uml::DiagramType type() const;
+    void setType(Uml::DiagramType type);
 
-    /**
-     * Set the type of diagram.
-     */
-    void setType( Uml::DiagramType type ) {
-        m_Type = type;
-    }
+    Uml::IDType getID() const;
+    void setID(Uml::IDType id);
 
-    QColor fillColor() const;
-    void setFillColor( const QColor &color );
+    UMLScenePoint getPos() const;
+    void setPos(const UMLScenePoint &pos);
 
-    QColor lineColor() const;
-    void setLineColor( const QColor &color );
+    const QColor& fillColor() const;
+    void setFillColor(const QColor &color);
+
+    const QColor& lineColor() const;
+    void setLineColor(const QColor &color);
 
     uint lineWidth() const;
-    void setLineWidth( uint width );
+    void setLineWidth(uint width );
 
-    QColor textColor() const;
-    void setTextColor( const QColor &color );
+    const QColor& textColor() const;
+    void setTextColor(const QColor &color);
 
-    QColor gridDotColor() const;
-    void setGridDotColor( const QColor& color );
-
-    /**
-     * Returns the ID of the diagram.
-     */
-    Uml::IDType getID() const {
-        return m_nID;
-    }
-
-    /**
-     * Sets the ID of the diagram.
-     */
-    void setID( Uml::IDType id ) {
-        m_nID = id;
-    }
+    const QColor& gridDotColor() const;
+    void setGridDotColor(const QColor &gridColor);
 
     /**
      * Returns the height of the diagram.
@@ -184,35 +156,16 @@ public:
         m_nCanvasWidth = width;
     }
 
-    /**
-     * Return whether to use snap to grid.
-     */
-    bool getSnapToGrid() const {
-        return m_bUseSnapToGrid;
-    }
+    bool getSnapToGrid() const;
+    void setSnapToGrid(bool bSnap);
 
-    void setSnapToGrid( bool bSnap );
+    bool getSnapComponentSizeToGrid() const;
+    void setSnapComponentSizeToGrid(bool bSnap);
 
-    /**
-     * Return whether to use snap to grid for component size.
-     */
-    bool getSnapComponentSizeToGrid() const {
-        return m_bUseSnapComponentSizeToGrid;
-    }
-
-    /**
-     * Returns the x grid size.
-     */
-    int getSnapX() const {
-        return m_nSnapX;
-    }
-
-    /**
-     * Returns the y grid size.
-     */
-    int getSnapY() const {
-        return m_nSnapY;
-    }
+    int getSnapX() const;
+    int getSnapY() const;
+    void setSnapX(int x);
+    void setSnapY(int y);
 
     int snappedX(int x);
     int snappedY(int y);
@@ -220,51 +173,21 @@ public:
     bool isSnapGridVisible() const;
     void setSnapGridVisible(bool bShow);
 
-    void setSnapComponentSizeToGrid( bool bSnap );
-
     bool useFillColor() const;
     void setUseFillColor(bool ufc);
-    
+
     QFont getFont() const;
     void setFont(QFont font, bool changeAllWidgets = false);
 
     bool getShowOpSig() const;
     void setShowOpSig(bool bShowOpSig);
 
-    /**
-     * Returns the options being used.
-     */
-    const Settings::OptionState& optionState() const {
-        return m_Options;
-    }
+    const Settings::OptionState& optionState() const;
+    void setOptionState(const Settings::OptionState& options);
 
-    /**
-     * Sets the options to be used.
-     */
-    void setOptionState( const Settings::OptionState& options) {
-        m_Options = options;
-    }
-
-    /**
-     * Returns a reference to the association list.
-     */
-    AssociationWidgetList& associationList() {
-        return m_AssociationList;
-    }
-
-    /**
-     * Returns a reference to the widget list.
-     */
-    UMLWidgetList& widgetList() {
-        return m_WidgetList;
-    }
-
-    /**
-     * Returns a reference to the message list.
-     */
-    MessageWidgetList& messageList() {
-        return m_MessageList;
-    }
+    AssociationWidgetList& associationList();
+    UMLWidgetList& widgetList();
+    MessageWidgetList& messageList();
 
     bool isOpen() const;
     void setIsOpen(bool isOpen);
@@ -313,39 +236,10 @@ public:
 
     bool isSavedInSeparateFile();
 
-    /**
-     * Get the pos variable.  Used internally to keep track of the cursor.
-     */
-    QPoint & getPos() {
-        return m_Pos;
-    }
-
-    /**
-     * Set the pos variable.  Used internally to keep track of the cursor.
-     *
-     * @param _pos The position to set to.
-     */
-    void setPos(const QPoint &_pos) {
-        m_Pos = _pos;
-    }
-
     void setMenu();
 
-    /**
-     * Returns the status on whether in a paste state.
-     *
-     * @return Returns the status on whether in a paste state.
-     */
-    bool getPaste() const {
-        return m_bPaste;
-    }
-
-    /**
-     * Sets the status on whether in a paste state.
-     */
-    void setPaste(bool paste) {
-        m_bPaste = paste;
-    }
+    bool getPaste() const;
+    void setPaste(bool paste);
 
     UMLObjectList umlObjects();
 
@@ -377,44 +271,22 @@ public:
 
     UMLViewImageExporter* getImageExporter();
 
-    bool addAssociation(AssociationWidget* pAssoc , bool isPasteOperation = false);
+    bool addAssociation(AssociationWidget* pAssoc, bool isPasteOperation = false);
 
     void removeAssocInViewAndDoc(AssociationWidget* assoc);
 
-    bool addWidget( UMLWidget * pWidget , bool isPasteOperation = false);
+    bool addWidget(UMLWidget * pWidget, bool isPasteOperation = false);
 
     QPoint getPastePoint();
     void resetPastePoint();
 
-    /**
-     * Called by the view or any of its children when they start a cut
-     * operation.
-     */
-    void setStartedCut() {
-        m_bStartedCut = true;
-    }
+    void setStartedCut();
 
-    void createAutoAssociations( UMLWidget * widget );
+    void createAutoAssociations(UMLWidget * widget);
     void createAutoAttributeAssociations(UMLWidget *widget);
     void createAutoConstraintAssociations(UMLWidget* widget);
 
     void updateContainment(UMLCanvasObject *self);
-
-    /**
-     * Sets the x grid size.
-     */
-    void setSnapX( int x) {
-        m_nSnapX = x;
-        Q3Canvas::setAllChanged();
-    }
-
-    /**
-     * Sets the y grid size.
-     */
-    void setSnapY( int y) {
-        m_nSnapY = y;
-        Q3Canvas::setAllChanged();
-    }
 
     bool showPropDialog();
 
@@ -449,6 +321,7 @@ public:
     virtual bool loadFromXMI(QDomElement & qElement);
 
     bool loadUISDiagram(QDomElement & qElement);
+
     UMLWidget* loadWidgetFromXMI(QDomElement& widgetElement);
 
     void addObject(UMLObject *object);
@@ -457,33 +330,17 @@ public:
     void selectWidgetsOfAssoc (AssociationWidget * a);
     void selectWidgets(UMLWidgetList &widgets);
 
-    ObjectWidget * onWidgetLine( const QPoint &point );
-    ObjectWidget * onWidgetDestructionBox(const QPoint &point );
+    ObjectWidget * onWidgetLine(const QPoint &point) const;
+    ObjectWidget * onWidgetDestructionBox(const QPoint &point) const;
 
-    /**
-     * Return pointer to the first selected widget (for multi-selection)
-     */
-    UMLWidget* getFirstMultiSelectedWidget() {
-        return m_SelectedList.first();
-    }
+    UMLWidget* getFirstMultiSelectedWidget() const;
 
     UMLWidget *widgetAt(const QPoint& p);
 
     void setupNewWidget(UMLWidget *w);
 
-    /**
-     * Return whether we are currently creating an object.
-     */
-    bool getCreateObject() const {
-        return m_bCreateObject;
-    }
-
-    /**
-     * Set whether we are currently creating an object.
-     */
-    void setCreateObject(bool bCreate) {
-        m_bCreateObject = bCreate;
-    }
+    bool getCreateObject() const;
+    void setCreateObject(bool bCreate);
 
     /**
      * Emit the sigRemovePopupMenu Qt signal.
@@ -607,7 +464,7 @@ protected:
 
     QRect diagramRect();
 
-    void makeSelected (UMLWidget * uw);
+    void makeSelected(UMLWidget * uw);
     void updateComponentSizes();
     void findMaxBoundingRectangle(const FloatingTextWidget* ft,
                                   int& px, int& py, int& qx, int& qy);
@@ -620,7 +477,7 @@ protected:
      */
     int m_nCollaborationId;
 
-    QPoint m_Pos;
+    UMLScenePoint m_Pos;
     bool m_bCreateObject, m_bDrawSelectedOnly, m_bPaste;
     ListPopupMenu * m_pMenu;
     UMLWidgetList m_SelectedList;
@@ -676,6 +533,7 @@ protected:
     void createAutoAttributeAssociation(UMLClassifier *type,
                                         UMLAttribute *attr,
                                         UMLWidget *widget);
+
     void createAutoConstraintAssociation(UMLEntity* refEntity,
                                          UMLForeignKeyConstraint* fkConstraint,
                                          UMLWidget* widget);
@@ -716,11 +574,11 @@ public slots:
     void alignHorizontalDistribute();
 
 signals:
-    void sigFillColorChanged( Uml::IDType );
-    void sigGridColorChanged( Uml::IDType );
-    void sigLineColorChanged( Uml::IDType );
-    void sigTextColorChanged( Uml::IDType );
-    void sigLineWidthChanged( Uml::IDType );
+    void sigFillColorChanged(Uml::IDType);
+    void sigGridColorChanged(Uml::IDType);
+    void sigLineColorChanged(Uml::IDType);
+    void sigTextColorChanged(Uml::IDType);
+    void sigLineWidthChanged(Uml::IDType);
     void sigRemovePopupMenu();
     void sigClearAllSelected();
     void sigSnapToGridToggled(bool);
@@ -731,23 +589,6 @@ signals:
 };
 
 QDebug operator<<(QDebug debug, UMLScene *item);
-
-/// uml related types - makes it easier to switch to QGraphicsScene types
-// base types
-typedef QPoint UMLScenePoint;
-typedef QRect UMLSceneRect;
-typedef QSize UMLSceneSize;
-typedef QLine UMLSceneLine;
-typedef int UMLSceneValue;
-
-// event types
-typedef QKeyEvent UMLSceneKeyEvent;
-typedef QHoverEvent UMLSceneHoverEvent;
-typedef QContextMenuEvent UMLSceneContextMenuEvent;
-//typedef QDragDropEvent UMLSceneDragDropEvent;
-
-typedef Q3CanvasItem UMLSceneItem;
-typedef Q3CanvasItemList UMLSceneItemList;
 
 /**
   qt3 migration wrapper for QMouseEvent
