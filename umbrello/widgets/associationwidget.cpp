@@ -3218,7 +3218,7 @@ void AssociationWidget::mouseMoveEvent(QMouseEvent* me)
     QPoint p = me->pos();
     QPoint oldp = m_associationLine->point(m_nMovingPoint);
 
-    if( m_scene->getSnapToGrid() ) {
+    if( m_scene->snapToGrid() ) {
         int newX = m_scene->snappedX( p.x() );
         int newY = m_scene->snappedY( p.y() );
         p.setX(newX);

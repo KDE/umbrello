@@ -1252,22 +1252,22 @@ bool UMLWidget::getIgnoreSnapToGrid() const
 
 /**
  * Sets the size.
- * If m_scene->getSnapComponentSizeToGrid() is true, then
+ * If m_scene->snapComponentSizeToGrid() is true, then
  * set the next larger size that snaps to the grid.
  */
 void UMLWidget::setSize(int width, int height)
 {
     // snap to the next larger size that is a multiple of the grid
     if (!m_ignoreSnapComponentSizeToGrid
-            && m_scene->getSnapComponentSizeToGrid()) {
+            && m_scene->snapComponentSizeToGrid()) {
         // integer divisions
-        int numX = width / m_scene->getSnapX();
-        int numY = height / m_scene->getSnapY();
+        int numX = width / m_scene->snapX();
+        int numY = height / m_scene->snapY();
         // snap to the next larger valid value
-        if (width > numX * m_scene->getSnapX())
-            width = (numX + 1) * m_scene->getSnapX();
-        if (height > numY * m_scene->getSnapY())
-            height = (numY + 1) * m_scene->getSnapY();
+        if (width > numX * m_scene->snapX())
+            width = (numX + 1) * m_scene->snapX();
+        if (height > numY * m_scene->snapY())
+            height = (numY + 1) * m_scene->snapY();
     }
 
     UMLSceneRectItem::setSize(width, height);

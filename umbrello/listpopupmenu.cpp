@@ -1738,7 +1738,7 @@ void ListPopupMenu::setupDiagramMenu(UMLView* view)
         uWarning() << "Could not add autolayout entries because graphviz installation has not been found.";
     }
     insert(mt_SnapToGrid, i18n("Snap to Grid"), CHECKABLE);
-    setActionChecked(mt_SnapToGrid, view->umlScene()->getSnapToGrid() );
+    setActionChecked(mt_SnapToGrid, view->umlScene()->snapToGrid() );
     insert(mt_ShowSnapGrid, i18n("Show Grid"), CHECKABLE);
     setActionChecked(mt_ShowSnapGrid, view->umlScene()->isSnapGridVisible() );
     insert(mt_Properties);

@@ -149,21 +149,14 @@ public:
         return m_nCanvasWidth;
     }
 
-    /**
-     * Sets the height of the diagram.
-     */
-    void setCanvasWidth(int width) {
-        m_nCanvasWidth = width;
-    }
-
-    bool getSnapToGrid() const;
+    bool snapToGrid() const;
     void setSnapToGrid(bool bSnap);
 
-    bool getSnapComponentSizeToGrid() const;
+    bool snapComponentSizeToGrid() const;
     void setSnapComponentSizeToGrid(bool bSnap);
 
-    int getSnapX() const;
-    int getSnapY() const;
+    int snapX() const;
+    int snapY() const;
     void setSnapX(int x);
     void setSnapY(int y);
 
