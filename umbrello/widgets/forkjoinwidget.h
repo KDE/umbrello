@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2009                                               *
+ *   copyright (C) 2005-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -16,18 +16,22 @@
 
 /**
  * @short Displays a fork/join plate in a state diagram.
+ *
  * @author Oliver Kellogg  <okellogg@users.sourceforge.net>
+ *
  * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ForkJoinWidget : public BoxWidget
 {
+    Q_OBJECT
+    Q_PROPERTY(Qt::Orientation orientation READ orientation WRITE setOrientation)
 public:
-    explicit ForkJoinWidget(UMLScene * scene, bool drawVertical = false, Uml::IDType id = Uml::id_None);
+    explicit ForkJoinWidget(UMLScene * scene, Qt::Orientation ori = Qt::Horizontal, Uml::IDType id = Uml::id_None);
     virtual ~ForkJoinWidget();
 
-    bool getDrawVertical() const;
-    void setDrawVertical(bool to);
+    Qt::Orientation orientation() const;
+    void setOrientation(Qt::Orientation ori);
 
     virtual void paint(QPainter & p, int offsetX, int offsetY);
 
@@ -45,7 +49,7 @@ protected:
     void constrain(int& width, int& height);
 
 private:
-    bool m_drawVertical;   ///< whether to draw the plate horizontally or vertically
+    Qt::Orientation m_orientation;   ///< whether to draw the plate horizontally or vertically
 };
 
 #endif

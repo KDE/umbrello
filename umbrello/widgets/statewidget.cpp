@@ -13,13 +13,13 @@
 
 // app includes
 #include "debug_utils.h"
+#include "docwindow.h"
+#include "listpopupmenu.h"
+#include "statedialog.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "docwindow.h"
-#include "umlwidget.h"
 #include "umlview.h"
-#include "statedialog.h"
-#include "listpopupmenu.h"
+#include "umlwidget.h"
 
 // kde includes
 #include <klocale.h>
@@ -27,7 +27,6 @@
 
 // qt includes
 #include <QtCore/QPointer>
-#include <QtCore/QEvent>
 
 /**
  * Creates a State widget.
@@ -315,6 +314,7 @@ QString StateWidget::name() const
 
 /**
  * Returns the type of state.
+ * @return StateType
  */
 StateWidget::StateType StateWidget::stateType() const
 {
@@ -426,14 +426,16 @@ bool StateWidget::renameActivity(const QString &activity, const QString &newName
 /**
  * Get whether to draw a fork or join vertically.
  */
-bool StateWidget::drawVertical() const {
+bool StateWidget::drawVertical() const
+{
     return m_drawVertical;
 }
 
 /**
  * Set whether to draw a fork or join vertically.
  */
-void StateWidget::setDrawVertical(bool to) {
+void StateWidget::setDrawVertical(bool to)
+{
     m_drawVertical = to;
     updateComponentSize();
     UMLWidget::adjustAssocs( getX(), getY() );

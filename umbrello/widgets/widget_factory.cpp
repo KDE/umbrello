@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2011                                               *
+ *   copyright (C) 2006-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -203,7 +203,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
     } else if (tag == "messagewidget") {
         widget = new MessageWidget(scene, Uml::sequence_message_asynchronous, Uml::id_Reserved);
     } else if (tag == "forkjoin") {
-        widget = new ForkJoinWidget(scene, false, Uml::id_Reserved);
+        widget = new ForkJoinWidget(scene, Qt::Vertical, Uml::id_Reserved);
     } else if (tag == "preconditionwidget") {
         widget = new PreconditionWidget(scene, NULL, Uml::id_Reserved);
     } else if (tag == "combinedFragmentwidget") {

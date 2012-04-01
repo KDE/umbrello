@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2011                                               *
+ *   copyright (C) 2005-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -19,13 +19,13 @@
 /**
  * Constructs a ForkJoinWidget.
  *
- * @param scene          The parent to this widget.
- * @param drawVertical  Whether to draw the plate horizontally or vertically.
- * @param id            The ID to assign (-1 will prompt a new ID.)
+ * @param scene   The parent to this widget.
+ * @param ori     Whether to draw the plate horizontally or vertically.
+ * @param id      The ID to assign (-1 will prompt a new ID.)
  */
-ForkJoinWidget::ForkJoinWidget(UMLScene * scene, bool drawVertical, Uml::IDType id)
+ForkJoinWidget::ForkJoinWidget(UMLScene * scene, Qt::Orientation ori, Uml::IDType id)
   : BoxWidget(scene, id, WidgetBase::wt_ForkJoin),
-    m_drawVertical(drawVertical)
+    m_orientation(ori)
 {
 }
 
@@ -37,17 +37,19 @@ ForkJoinWidget::~ForkJoinWidget()
 }
 
 /**
- * Get whether to draw the plate vertically.
+ * Get whether to draw the plate vertically or horizontally.
  */
-bool ForkJoinWidget::getDrawVertical() const {
-    return m_drawVertical;
+Qt::Orientation ForkJoinWidget::orientation() const
+{
+    return m_orientation;
 }
 
 /**
- * Set whether to draw the plate vertically.
+ * Set whether to draw the plate vertically or horizontally.
  */
-void ForkJoinWidget::setDrawVertical(bool to) {
-    m_drawVertical = to;
+void ForkJoinWidget::setOrientation(Qt::Orientation ori)
+{
+    m_orientation = ori;
     updateComponentSize();
     UMLWidget::adjustAssocs( getX(), getY() );
 }
@@ -74,8 +76,16 @@ bool ForkJoinWidget::loadFromXMI(QDomElement& qElement)
     if ( !UMLWidget::loadFromXMI(qElement) ) {
         return false;
     }
-    QString drawVertical = qElement.attribute("drawvertical", "0");
-    setDrawVertical( (bool)drawVertical.toInt() );
+
+    QString drawVerticalStr = qElement.attribute("drawvertical", "0");
+    bool drawVertical = (bool)drawVerticalStr.toInt();
+    if (drawVertical) {
+        setOrientation(Qt::Vertical);
+    }
+    else {
+        setOrientation(Qt::Horizontal);
+    }
+
     return true;
 }
 
@@ -87,7 +97,11 @@ void ForkJoinWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement fjElement = qDoc.createElement("forkjoin");
     UMLWidget::saveToXMI(qDoc, fjElement);
-    fjElement.setAttribute("drawvertical", m_drawVertical);
+    bool drawVertical = true;
+    if (m_orientation == Qt::Horizontal) {
+        drawVertical = false;
+    }
+    fjElement.setAttribute("drawvertical", drawVertical);
     qElement.appendChild(fjElement);
 }
 
@@ -100,7 +114,15 @@ void ForkJoinWidget::slotMenuSelection(QAction* action)
     ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
     switch (sel) {
     case ListPopupMenu::mt_Flip:
-        setDrawVertical(!m_drawVertical);
+        switch (m_orientation) {
+        case Qt::Vertical:
+            setOrientation(Qt::Horizontal);
+            break;
+        case Qt::Horizontal:
+        default:
+            setOrientation(Qt::Vertical);
+            break;
+        }
         break;
     default:
         break;
@@ -112,7 +134,7 @@ void ForkJoinWidget::slotMenuSelection(QAction* action)
  */
 UMLSceneSize ForkJoinWidget::minimumSize()
 {
-    if (m_drawVertical) {
+    if (m_orientation == Qt::Vertical) {
         return UMLSceneSize(4, 40);
     } else {
         return UMLSceneSize(40, 4);
@@ -133,7 +155,7 @@ void ForkJoinWidget::drawSelected(QPainter *, int /*offsetX*/, int /*offsetY*/)
  */
 void ForkJoinWidget::constrain(int& width, int& height)
 {
-    if (m_drawVertical) {
+    if (m_orientation == Qt::Vertical) {
         if (width < 4)
             width = 4;
         else if (width > 10)

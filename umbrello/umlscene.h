@@ -297,11 +297,10 @@ public:
     int getSelectCount(bool filterText = false) const;
 
     void selectionUseFillColor(bool useFC);
-    void selectionSetFont( const QFont &font );
-    void selectionSetLineColor( const QColor &color );
-    void selectionSetLineWidth( uint width );
-    void selectionSetFillColor( const QColor &color );
-
+    void selectionSetFont(const QFont &font);
+    void selectionSetLineColor(const QColor &color);
+    void selectionSetLineWidth(uint width);
+    void selectionSetFillColor(const QColor &color);
     void selectionToggleShow(int sel);
 
     void deleteSelection();
@@ -378,7 +377,7 @@ public:
 
     UMLViewImageExporter* getImageExporter();
 
-    bool addAssociation( AssociationWidget* pAssoc , bool isPasteOperation = false);
+    bool addAssociation(AssociationWidget* pAssoc , bool isPasteOperation = false);
 
     void removeAssocInViewAndDoc(AssociationWidget* assoc);
 
@@ -397,7 +396,6 @@ public:
 
     void createAutoAssociations( UMLWidget * widget );
     void createAutoAttributeAssociations(UMLWidget *widget);
-
     void createAutoConstraintAssociations(UMLWidget* widget);
 
     void updateContainment(UMLCanvasObject *self);
@@ -420,7 +418,7 @@ public:
 
     bool showPropDialog();
 
-    void setClassWidgetOptions( ClassOptionsPage * page );
+    void setClassWidgetOptions(ClassOptionsPage * page);
 
     void checkSelections();
 
@@ -447,8 +445,8 @@ public:
 
     // Load/Save interface:
 
-    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-    virtual bool loadFromXMI( QDomElement & qElement );
+    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
+    virtual bool loadFromXMI(QDomElement & qElement);
 
     bool loadUISDiagram(QDomElement & qElement);
     UMLWidget* loadWidgetFromXMI(QDomElement& widgetElement);
@@ -506,9 +504,10 @@ public:
 protected:
     // Methods and members related to loading/saving
 
-    bool loadWidgetsFromXMI( QDomElement & qElement );
-    bool loadMessagesFromXMI( QDomElement & qElement );
-    bool loadAssociationsFromXMI( QDomElement & qElement );
+    bool loadWidgetsFromXMI(QDomElement & qElement);
+    bool loadMessagesFromXMI(QDomElement & qElement);
+    bool loadAssociationsFromXMI(QDomElement & qElement);
+
     bool loadUisDiagramPresentation(QDomElement & qElement);
 
     /**

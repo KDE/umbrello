@@ -231,6 +231,7 @@ void UMLFolder::removeAllViews()
         // from a view, it also causes any UMLAssociations that lack parent
         // association widgets (but once had them) to remove themselves from
         // this document.
+        uDebug() << "removing " << v->umlScene()->name();
         UMLApp::app()->document()->removeView(v, false);
     }
 
