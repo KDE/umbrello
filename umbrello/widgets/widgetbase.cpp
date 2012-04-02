@@ -505,7 +505,7 @@ void WidgetBase::setUsesDiagramFont(bool status)
     }
     m_usesDiagramFont = status;
     if (status && umlScene()) {
-        QFont f = umlScene()->getFont();
+        QFont f = umlScene()->font();
         if (f != font()) {
             setFont(f);
         }
@@ -627,7 +627,7 @@ bool WidgetBase::activate()
         setBrush(brush);
 
         m_usesDiagramFont = m_loadData.value("usesDiagramFont", true).toBool();
-        QFont font = scene->getFont();
+        QFont font = scene->font();
         if (!m_usesDiagramFont) {
             font = m_loadData.value("font").value<QFont>();
         }
