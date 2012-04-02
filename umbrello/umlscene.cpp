@@ -1176,12 +1176,15 @@ AssociationWidget * UMLScene::findAssocWidget(UMLWidget *pWidgetA,
                 testType != Uml::AssociationType::UniAssociation &&
                 testType != Uml::AssociationType::Composition &&
                 testType != Uml::AssociationType::Aggregation &&
-                testType != Uml::AssociationType::Relationship)
+                testType != Uml::AssociationType::Relationship) {
             continue;
-        if (pWidgetA->id() == assoc->widgetIDForRole(A) &&
-                pWidgetB->id() == assoc->widgetIDForRole(B) &&
-                assoc->roleName(Uml::B) == roleNameB)
+        }
+
+        if (pWidgetA->id() == assoc->widgetIDForRole(Uml::A) &&
+                pWidgetB->id() == assoc->widgetIDForRole(Uml::B) &&
+                assoc->roleName(Uml::B) == roleNameB) {
             return assoc;
+        }
     }
     return 0;
 }
@@ -1200,11 +1203,14 @@ AssociationWidget * UMLScene::findAssocWidget(Uml::AssociationType at,
 {
     foreach(AssociationWidget* assoc, m_AssociationList) {
         Uml::AssociationType testType = assoc->associationType();
-        if (testType != at)
+        if (testType != at) {
             continue;
-        if (pWidgetA->id() == assoc->widgetIDForRole(A) &&
-                pWidgetB->id() == assoc->widgetIDForRole(B))
+        }
+
+        if (pWidgetA->id() == assoc->widgetIDForRole(Uml::A) &&
+                pWidgetB->id() == assoc->widgetIDForRole(Uml::B)) {
             return assoc;
+        }
     }
     return 0;
 }
@@ -1240,7 +1246,7 @@ void UMLScene::removeWidget(UMLWidget * o)
     } else
         m_WidgetList.removeAll(o);
     o->deleteLater();
-    m_doc->setModified();
+    m_doc->setModified(true);
 }
 
 /**
@@ -1530,7 +1536,7 @@ void UMLScene::deleteSelection()
 
     // Delete any selected associations.
     foreach(AssociationWidget* assocwidget, m_AssociationList) {
-        if (assocwidget-> getSelected())
+        if (assocwidget->getSelected())
             removeAssoc(assocwidget);
         // MARK
     }
