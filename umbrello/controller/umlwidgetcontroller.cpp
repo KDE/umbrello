@@ -129,7 +129,7 @@ void UMLWidgetController::mousePressEvent(UMLSceneMouseEvent *me)
 
     m_shiftPressed = false;
 
-    int count = m_widget->umlScene()->getSelectCount(true);
+    int count = m_widget->umlScene()->selectedCount(true);
     if (me->button() == Qt::LeftButton) {
         if (m_widget->isSelected() && count > 1) {
             //Single selection is made in release event if the widget wasn't moved
@@ -314,7 +314,7 @@ void UMLWidgetController::mouseReleaseEvent(UMLSceneMouseEvent *me)
             m_leftButtonDown = false;
 
             if (!m_moved && !m_resized) {
-                if (!m_shiftPressed && (m_widget->umlScene()->getSelectCount(true) > 1)) {
+                if (!m_shiftPressed && (m_widget->umlScene()->selectedCount(true) > 1)) {
                     selectSingle(me);
                 } else if (!m_wasSelected) {
                     deselect(me);
@@ -632,7 +632,7 @@ qreal UMLWidgetController::getOldH()
  */
 void UMLWidgetController::setSelectionBounds()
 {
-    if (m_widget->umlScene()->getSelectCount() > 0) {
+    if (m_widget->umlScene()->selectedCount() > 0) {
         m_selectedWidgetsList.clear();
         m_widget->umlScene()->getSelectedWidgets(m_selectedWidgetsList, false);
 

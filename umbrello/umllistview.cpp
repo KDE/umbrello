@@ -332,7 +332,7 @@ void UMLListView::mouseReleaseEvent(QMouseEvent *me)
 void UMLListView::keyPressEvent(QKeyEvent *ke)
 {
     UMLView *view = UMLApp::app()->currentView();
-    if (view && view->umlScene()->getSelectCount()) {
+    if (view && view->umlScene()->selectedCount()) {
         // Widgets have been selected in the diagram area,
         // assume they handle the keypress.
         ke->accept();                 // munge and do nothing
