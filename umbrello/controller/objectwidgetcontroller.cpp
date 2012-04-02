@@ -78,7 +78,7 @@ void ObjectWidgetController::mousePressEvent(QMouseEvent *me)
 {
     UMLWidgetController::mousePressEvent(me);
     m_isOnDestructionBox = false;
-    SeqLineWidget * pLine = dynamic_cast<ObjectWidget*>(m_widget)->getSeqLine();
+    SeqLineWidget * pLine = dynamic_cast<ObjectWidget*>(m_widget)->sequentialLine();
 
     if (pLine->onDestructionBox(me->pos())) {
         m_isOnDestructionBox = true;
@@ -138,7 +138,7 @@ void ObjectWidgetController::moveDestructionBy(int diffY)
 {
     // endLine = length of the life line + diffY - 10 to center on the destruction box
     int endLine = dynamic_cast<ObjectWidget *>(m_widget)->getEndLineY() + diffY - 10;
-    SeqLineWidget * pLine = dynamic_cast<ObjectWidget *>(m_widget)->getSeqLine();
+    SeqLineWidget * pLine = dynamic_cast<ObjectWidget *>(m_widget)->sequentialLine();
     pLine->setEndOfLine(endLine);
     m_oldY = endLine;
 }

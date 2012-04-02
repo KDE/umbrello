@@ -994,7 +994,7 @@ ObjectWidget * UMLScene::onWidgetLine(const UMLScenePoint &point) const
         ObjectWidget *ow = dynamic_cast<ObjectWidget*>(obj);
         if (ow == NULL)
             continue;
-        SeqLineWidget *pLine = ow->getSeqLine();
+        SeqLineWidget *pLine = ow->sequentialLine();
         if (pLine == NULL) {
             uError() << "SeqLineWidget of " << ow->name()
             << " (id=" << ID2STR(ow->localID()) << ") is NULL";
@@ -1019,7 +1019,7 @@ ObjectWidget * UMLScene::onWidgetDestructionBox(const UMLScenePoint &point) cons
         ObjectWidget *ow = dynamic_cast<ObjectWidget*>(obj);
         if (ow == NULL)
             continue;
-        SeqLineWidget *pLine = ow->getSeqLine();
+        SeqLineWidget *pLine = ow->sequentialLine();
         if (pLine == NULL) {
             uError() << "SeqLineWidget of " << ow->name()
                      << " (id=" << ID2STR(ow->localID()) << ") is NULL";

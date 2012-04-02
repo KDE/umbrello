@@ -216,7 +216,7 @@ public:
      * Returns a non NULL pointer if this ObjectWidget is part of a
      * sequence diagram.
      */
-    SeqLineWidget *getSeqLine();
+    SeqLineWidget *sequentialLine();
 
     /**
      * Saves to the "objectwidget" XMI element.

@@ -383,7 +383,7 @@ bool ObjectWidget::messageOverlap(int y, MessageWidget* messageWidget)
     return false;
 }
 
-SeqLineWidget *ObjectWidget::getSeqLine()
+SeqLineWidget *ObjectWidget::sequentialLine()
 {
     return m_pLine;
 }
