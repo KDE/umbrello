@@ -1543,15 +1543,14 @@ void UMLScene::deleteSelection()
 
     // we also have to remove selected messages from sequence diagrams
 
-    /* loop through all messages and check the selection state */
+    // loop through all messages and check the selection state
     foreach(MessageWidget* cur_msgWgt, m_MessageList) {
         if (cur_msgWgt->isSelected()) {
             removeWidget(cur_msgWgt);  // Remove message - it is selected.
         }
     }
 
-    // sometimes we miss one widget, so call this function again to remove it as
-    // well
+    // sometimes we miss one widget, so call this function again to remove it as well
     if (m_SelectedList.count() != 0)
         deleteSelection();
 
@@ -2263,8 +2262,9 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
  */
 void UMLScene::activateAfterLoad(bool bUseLog)
 {
-    if (m_isActivated)
+    if (m_isActivated) {
         return;
+    }
     if (bUseLog) {
         beginPartialWidgetPaste();
     }
@@ -2350,7 +2350,7 @@ void UMLScene::removeAssocInViewAndDoc(AssociationWidget* a)
 }
 
 /**
- * Removes all the associations related to Widget
+ * Removes all the associations related to Widget.
  *
  * @param pWidget  Pointer to the widget to remove.
  */
@@ -2364,9 +2364,9 @@ void UMLScene::removeAssociations(UMLWidget* Widget)
 }
 
 /**
- * Removes all the associations related to Widget
+ * Sets each association as selected if the widgets it associates are selected
  *
- * @param pWidget  Pointer to the widget to remove.
+ * @param bSelect  True to select, false for unselect
  */
 void UMLScene::selectAssociations(bool bSelect)
 {
@@ -3717,8 +3717,8 @@ bool UMLScene::isSnapGridVisible() const
 void UMLScene::setSnapGridVisible(bool bShow)
 {
     m_bShowSnapGrid = bShow;
+    emit sigShowGridToggled(bShow);
     setAllChanged();
-    emit sigShowGridToggled(isSnapGridVisible());
 }
 
 /**

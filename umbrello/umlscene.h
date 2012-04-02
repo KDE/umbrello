@@ -12,8 +12,10 @@
 
 // local includes
 #include "associationwidgetlist.h"
+#include "basictypes.h"
 #include "messagewidgetlist.h"
 #include "optionstate.h"
+#include "umlobject.h"
 #include "umlobjectlist.h"
 #include "umlwidgetlist.h"
 #include "worktoolbar.h"
