@@ -10,12 +10,73 @@
 
 // own header
 #include "umlscene.h"
-#include "umlview.h"
-#include "layoutgenerator.h"
 
-// system includes
-#include <climits>
-#include <math.h>
+// application specific includes
+#include "activitywidget.h"
+#include "actorwidget.h"
+#include "artifactwidget.h"
+#include "association.h"
+#include "associationwidget.h"
+#include "assocrules.h"
+#include "attribute.h"
+#include "boxwidget.h"
+#include "classifier.h"
+#include "classifierwidget.h"
+#include "classoptionspage.h"
+#include "cmds.h"
+#include "componentwidget.h"
+#include "datatypewidget.h"
+#include "debug_utils.h"
+#include "docwindow.h"
+#include "entity.h"
+#include "entitywidget.h"
+#include "enumwidget.h"
+#include "floatingtextwidget.h"
+#include "folder.h"
+#include "foreignkeyconstraint.h"
+#include "forkjoinwidget.h"
+#include "idchangelog.h"
+#include "layoutgenerator.h"
+#include "listpopupmenu.h"
+#include "messagewidget.h"
+#include "model_utils.h"
+#include "notewidget.h"
+#include "object_factory.h"
+#include "objectnodewidget.h"
+#include "objectwidget.h"
+#include "package.h"
+#include "packagewidget.h"
+#include "pinwidget.h"
+#include "seqlinewidget.h"
+#include "signalwidget.h"
+#include "statewidget.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umldragdata.h"
+#include "umllistview.h"
+#include "umllistviewitem.h"
+#include "umllistviewitemlist.h"
+#include "umlobject.h"
+#include "umlobjectlist.h"
+#include "umlrole.h"
+#include "umlview.h"
+#include "umlviewdialog.h"
+#include "umlviewimageexporter.h"
+#include "umlwidget.h"
+#include "uniqueid.h"
+#include "usecasewidget.h"
+
+
+#include "widget_factory.h"
+
+//kde include files
+#include <ktemporaryfile.h>
+#include <kio/netaccess.h>
+#include <kmessagebox.h>
+#include <kcursor.h>
+#include <kfiledialog.h>
+#include <kinputdialog.h>
+#include <klocale.h>
 
 // include files for Qt
 #include <QtCore/QPointer>
@@ -35,69 +96,9 @@
 #include <QtGui/QMouseEvent>
 #include <QtDebug>
 
-//kde include files
-#include <ktemporaryfile.h>
-#include <kio/netaccess.h>
-#include <kmessagebox.h>
-#include <kcursor.h>
-#include <kfiledialog.h>
-#include <kinputdialog.h>
-#include <klocale.h>
-
-// application specific includes
-#include "assocrules.h"
-#include "debug_utils.h"
-#include "umlviewimageexporter.h"
-#include "listpopupmenu.h"
-#include "uml.h"
-#include "umldoc.h"
-#include "umlobject.h"
-#include "docwindow.h"
-#include "umlrole.h"
-#include "classoptionspage.h"
-#include "umlviewdialog.h"
-#include "idchangelog.h"
-#include "umldragdata.h"
-#include "widget_factory.h"
-#include "floatingtextwidget.h"
-#include "classifierwidget.h"
-#include "classifier.h"
-#include "packagewidget.h"
-#include "package.h"
-#include "folder.h"
-#include "componentwidget.h"
-#include "nodewidget.h"
-#include "artifactwidget.h"
-#include "datatypewidget.h"
-#include "enumwidget.h"
-#include "entitywidget.h"
-#include "actorwidget.h"
-#include "usecasewidget.h"
-#include "notewidget.h"
-#include "boxwidget.h"
-#include "associationwidget.h"
-#include "objectwidget.h"
-#include "messagewidget.h"
-#include "statewidget.h"
-#include "signalwidget.h"
-#include "forkjoinwidget.h"
-#include "activitywidget.h"
-#include "objectnodewidget.h"
-#include "pinwidget.h"
-#include "seqlinewidget.h"
-#include "uniqueid.h"
-#include "umllistviewitemlist.h"
-#include "umllistviewitem.h"
-#include "umllistview.h"
-#include "umlobjectlist.h"
-#include "association.h"
-#include "attribute.h"
-#include "model_utils.h"
-#include "object_factory.h"
-#include "umlwidget.h"
-#include "cmds.h"
-#include "entity.h"
-#include "foreignkeyconstraint.h"
+// system includes
+#include <climits>
+#include <math.h>
 
 // control the manual DoubleBuffering of QCanvas
 // with a define, so that this memory X11 effect can
