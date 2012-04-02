@@ -280,11 +280,6 @@ public:
 
     void resizeCanvasToItems();
 
-    /**
-     * The width and height of a diagram canvas in pixels.
-     */
-    static const int defaultCanvasSize;
-
     // Load/Save interface:
 
     virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
@@ -383,7 +378,9 @@ protected:
     bool m_bStartedCut;  ///< Flag if view/children started cut operation.
     UMLWidgetList m_SelectedList;
 
-protected:
+private:
+    static const UMLSceneValue defaultCanvasSize;  ///< The width and height of a diagram canvas in pixels.
+
     UMLView *m_view;   ///< The view to which this scene is related.
     UMLFolder *m_pFolder;  ///< The folder in which this UMLView is contained.
 

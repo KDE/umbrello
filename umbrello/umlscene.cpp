@@ -105,7 +105,7 @@
 #define MANUAL_CONTROL_DOUBLE_BUFFERING
 
 // static members
-const int UMLScene::defaultCanvasSize = 1300;
+const UMLSceneValue UMLScene::defaultCanvasSize = 1300;
 
 using namespace Uml;
 
