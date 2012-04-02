@@ -92,7 +92,7 @@
 #include <cmath>  // for ceil
 
 // static members
-const qreal UMLScene::DEFAULT_CANVAS_SIZE = 1300;
+const UMLSceneValue UMLScene::defaultCanvasSize = 1300;
 
 using namespace Uml;
 
@@ -100,7 +100,7 @@ using namespace Uml;
  * Constructor.
  */
 UMLScene::UMLScene(UMLFolder *parentFolder)
-  : QGraphicsScene(0, 0, DEFAULT_CANVAS_SIZE, DEFAULT_CANVAS_SIZE),
+  : QGraphicsScene(0, 0, defaultCanvasSize, defaultCanvasSize),
     m_nLocalID(Uml::id_None),
     m_nID(Uml::id_None),
     m_Type(Uml::DiagramType::Undefined),

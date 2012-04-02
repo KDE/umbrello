@@ -396,8 +396,7 @@ protected:
     bool m_bStartedCut;  ///< Flag if view/children started cut operation.
 
 private:
-
-    static const qreal DEFAULT_CANVAS_SIZE;  ///< The default size of a diagram in pixels.
+    static const UMLSceneValue defaultCanvasSize;  ///< The default size of a diagram in pixels.
 
     UMLFolder *m_pFolder;  ///< The folder in which this UMLScene is contained.
 
