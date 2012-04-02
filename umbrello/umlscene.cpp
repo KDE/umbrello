@@ -1087,10 +1087,10 @@ UMLWidget * UMLScene::findWidget(Uml::IDType id)
  */
 AssociationWidget * UMLScene::findAssocWidget(Uml::IDType id)
 {
-    foreach(AssociationWidget* wid , m_AssociationList) {
-        UMLAssociation* umlassoc = wid->association();
+    foreach(AssociationWidget* obj , m_AssociationList) {
+        UMLAssociation* umlassoc = obj->association();
         if (umlassoc && umlassoc->id() == id) {
-            return wid;
+            return obj;
         }
     }
     return 0;
@@ -1461,7 +1461,7 @@ void UMLScene::deleteSelection()
 
     foreach(UMLWidget* temp ,  selectedWidgets()) {
         if (temp->baseType() == WidgetBase::wt_Text &&
-            ((FloatingTextWidget *)temp)->textRole() != TextRole::Floating) {
+                ((FloatingTextWidget *)temp)->textRole() != Uml::TextRole::Floating) {
             temp->hide();
 
         } else {
@@ -2261,6 +2261,8 @@ void UMLScene::removeAssocInViewAndDoc(AssociationWidget* a)
 
 /**
  * Removes all the associations related to Widget.
+ *
+ * @param pWidget  Pointer to the widget to remove.
  */
 void UMLScene::removeAssociations(UMLWidget* Widget)
 {
@@ -2273,6 +2275,8 @@ void UMLScene::removeAssociations(UMLWidget* Widget)
 
 /**
  * Sets each association as selected if the widgets it associates are selected
+ *
+ * @param bSelect  True to select, false for unselect
  */
 void UMLScene::selectAssociations(bool bSelect)
 {
@@ -2843,7 +2847,7 @@ void UMLScene::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignK
  * Find the maximum bounding rectangle of FloatingTextWidget widgets.
  * Auxiliary to copyAsImage().
  *
- * @param ft Poqrealer to the FloatingTextWidget widget to consider.
+ * @param ft Pointer to the FloatingTextWidget widget to consider.
  * @param px  X coordinate of lower left corner. This value will be
  *            updated if the X coordinate of the lower left corner
  *            of ft is smaller than the px value passed in.

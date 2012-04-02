@@ -16,8 +16,8 @@
 #include "basictypes.h"
 #include "messagewidgetlist.h"
 #include "optionstate.h"
-#include "umlobjectlist.h"
 #include "umlobject.h"
+#include "umlobjectlist.h"
 #include "umlwidgetlist.h"
 
 // Qt includes
