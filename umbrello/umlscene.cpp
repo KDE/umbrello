@@ -1536,7 +1536,7 @@ void UMLScene::deleteSelection()
 
     // Delete any selected associations.
     foreach(AssociationWidget* assocwidget, m_AssociationList) {
-        if (assocwidget->getSelected())
+        if (assocwidget->isSelected())
             removeAssoc(assocwidget);
         // MARK
     }
@@ -1545,7 +1545,7 @@ void UMLScene::deleteSelection()
 
     /* loop through all messages and check the selection state */
     foreach(MessageWidget* cur_msgWgt, m_MessageList) {
-        if (cur_msgWgt->getSelected() == true) {
+        if (cur_msgWgt->isSelected()) {
             removeWidget(cur_msgWgt);  // Remove message - it is selected.
         }
     }
@@ -1713,8 +1713,8 @@ void UMLScene::selectWidgets(int px, int py, int qx, int qy)
     //now do the same for the messagewidgets
 
     foreach(MessageWidget *w, m_MessageList) {
-        if (w->objectWidget(A)->getSelected() &&
-                w->objectWidget(B)->getSelected()) {
+        if (w->objectWidget(A)->isSelected() &&
+                w->objectWidget(B)->isSelected()) {
             makeSelected(w);
         }//end if
     }//end foreach
@@ -1934,7 +1934,7 @@ AssociationWidgetList UMLScene::selectedAssocs()
     AssociationWidgetList assocWidgetList;
 
     foreach(AssociationWidget* assocwidget, m_AssociationList) {
-        if (assocwidget->getSelected())
+        if (assocwidget->isSelected())
             assocWidgetList.append(assocwidget);
     }
     return assocWidgetList;
@@ -2976,7 +2976,7 @@ void UMLScene::copyAsImage(QPixmap*& pix)
     //This needs to be reimplemented to increase the rectangle
     //if a part of any association is not included
     foreach(AssociationWidget *a , m_AssociationList) {
-        if (! a->getSelected())
+        if (! a->isSelected())
             continue;
         const FloatingTextWidget* multiA = const_cast<FloatingTextWidget*>(a->multiplicityWidget(A));
         const FloatingTextWidget* multiB = const_cast<FloatingTextWidget*>(a->multiplicityWidget(B));
@@ -3496,15 +3496,15 @@ void UMLScene::checkSelections()
     UMLWidget * pWA = 0, * pWB = 0;
     //check messages
     foreach(UMLWidget *pTemp , m_SelectedList) {
-        if (pTemp->baseType() == WidgetBase::wt_Message && pTemp->getSelected()) {
+        if (pTemp->baseType() == WidgetBase::wt_Message && pTemp->isSelected()) {
             MessageWidget * pMessage = static_cast<MessageWidget *>(pTemp);
             pWA = pMessage->objectWidget(A);
             pWB = pMessage->objectWidget(B);
-            if (!pWA->getSelected()) {
+            if (!pWA->isSelected()) {
                 pWA->setSelectedFlag(true);
                 m_SelectedList.append(pWA);
             }
-            if (!pWB->getSelected()) {
+            if (!pWB->isSelected()) {
                 pWB->setSelectedFlag(true);
                 m_SelectedList.append(pWB);
             }
@@ -3513,14 +3513,14 @@ void UMLScene::checkSelections()
     //check Associations
 
     foreach(AssociationWidget *pAssoc , m_AssociationList) {
-        if (pAssoc->getSelected()) {
+        if (pAssoc->isSelected()) {
             pWA = pAssoc->widgetForRole(A);
             pWB = pAssoc->widgetForRole(B);
-            if (!pWA->getSelected()) {
+            if (!pWA->isSelected()) {
                 pWA->setSelectedFlag(true);
                 m_SelectedList.append(pWA);
             }
-            if (!pWB->getSelected()) {
+            if (!pWB->isSelected()) {
                 pWB->setSelectedFlag(true);
                 m_SelectedList.append(pWB);
             }

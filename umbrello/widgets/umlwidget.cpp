@@ -840,12 +840,12 @@ void UMLWidget::adjustUnselectedAssocs(int x, int y)
 {
     foreach(AssociationWidget* assocwidget , m_Assocs) {
 
-        if (!assocwidget->getSelected())
+        if (!assocwidget->isSelected())
             assocwidget->saveIdealTextPositions();
     }
 
     foreach(AssociationWidget* assocwidget , m_Assocs) {
-        if (!assocwidget->getSelected())
+        if (!assocwidget->isSelected())
             assocwidget->widgetMoved(this, x, y);
     }
 }

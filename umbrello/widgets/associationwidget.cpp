@@ -1892,40 +1892,40 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y )
             m_associationLine->setPoint( i, p );
         }
 
-        if ( m_pName && !m_pName->getSelected() ) {
+        if ( m_pName && !m_pName->isSelected() ) {
             setTextPositionRelatively(TextRole::Name, m_oldNamePoint);
         }
 
     }//end if widgetA = widgetB
     else if (m_role[A].m_pWidget==widget) {
-        if (m_pName && m_unNameLineSegment == 0 && !m_pName->getSelected() ) {
+        if (m_pName && m_unNameLineSegment == 0 && !m_pName->isSelected() ) {
             //only calculate position and move text if the segment it is on is moving
             setTextPositionRelatively(TextRole::Name, m_oldNamePoint);
         }
     }//end if widgetA moved
     else if (m_role[B].m_pWidget==widget) {
-        if (m_pName && (m_unNameLineSegment == pos-1) && !m_pName->getSelected() ) {
+        if (m_pName && (m_unNameLineSegment == pos-1) && !m_pName->isSelected() ) {
             //only calculate position and move text if the segment it is on is moving
             setTextPositionRelatively(TextRole::Name, m_oldNamePoint);
         }
     }//end if widgetB moved
 
-    if ( m_role[A].m_pRole && !m_role[A].m_pRole->getSelected() ) {
+    if ( m_role[A].m_pRole && !m_role[A].m_pRole->isSelected() ) {
         setTextPositionRelatively(TextRole::RoleAName, m_oldRoleAPoint);
     }
-    if ( m_role[B].m_pRole && !m_role[B].m_pRole->getSelected() ) {
+    if ( m_role[B].m_pRole && !m_role[B].m_pRole->isSelected() ) {
         setTextPositionRelatively(TextRole::RoleBName, m_oldRoleBPoint);
     }
-    if ( m_role[A].m_pMulti && !m_role[A].m_pMulti->getSelected() ) {
+    if ( m_role[A].m_pMulti && !m_role[A].m_pMulti->isSelected() ) {
         setTextPositionRelatively(TextRole::MultiA, m_oldMultiAPoint);
     }
-    if ( m_role[B].m_pMulti && !m_role[B].m_pMulti->getSelected() ) {
+    if ( m_role[B].m_pMulti && !m_role[B].m_pMulti->isSelected() ) {
         setTextPositionRelatively(TextRole::MultiB, m_oldMultiBPoint);
     }
-    if ( m_role[A].m_pChangeWidget && !m_role[A].m_pChangeWidget->getSelected() ) {
+    if ( m_role[A].m_pChangeWidget && !m_role[A].m_pChangeWidget->isSelected() ) {
         setTextPositionRelatively(TextRole::ChangeA, m_oldChangeAPoint);
     }
-    if ( m_role[B].m_pChangeWidget && !m_role[B].m_pChangeWidget->getSelected() ) {
+    if ( m_role[B].m_pChangeWidget && !m_role[B].m_pChangeWidget->isSelected() ) {
         setTextPositionRelatively(TextRole::ChangeB, m_oldChangeBPoint);
     }
 }//end method widgetMoved
@@ -3705,6 +3705,16 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
                              AssociationLine::TopBottom : AssociationLine::LeftRight;
         m_associationLine->setDockRegion( r );
     }
+}
+
+/**
+ * Returns the state of whether the widget is selected.
+ *
+ * @return  Returns the state of whether the widget is selected.
+ */
+bool AssociationWidget::isSelected() const
+{
+    return m_selected;
 }
 
 /**

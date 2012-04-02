@@ -249,7 +249,7 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me)
     // Move any selected associations.
 
     foreach(AssociationWidget* aw, m_widget->m_scene->selectedAssocs()) {
-        if (aw->getSelected()) {
+        if (aw->isSelected()) {
             aw->moveEntireAssoc(diffX, diffY);
         }
     }

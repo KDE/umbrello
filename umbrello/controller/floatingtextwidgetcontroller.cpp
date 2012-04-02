@@ -96,7 +96,7 @@ void FloatingTextWidgetController::moveWidgetBy(int diffX, int diffY)
         return;
 
     if (m_floatingTextWidget->textRole() == Uml::TextRole::Seq_Message
-                    && ((MessageWidget*)m_floatingTextWidget->link())->getSelected()) {
+                    && ((MessageWidget*)m_floatingTextWidget->link())->isSelected()) {
         return;
     }
 

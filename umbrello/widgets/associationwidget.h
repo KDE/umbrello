@@ -152,16 +152,8 @@ public:
     bool isActivated();
     void setActivated(bool active /*=true*/);
 
+    bool isSelected() const;
     void setSelected(bool _select = true);
-
-    /**
-     * Returns the state of whether the widget is selected.
-     *
-     * @return  Returns the state of whether the widget is selected.
-     */
-    bool getSelected() const {
-        return m_selected;
-    }
 
     AssociationLine* associationLine() const;
 

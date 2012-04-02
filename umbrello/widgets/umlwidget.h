@@ -89,7 +89,7 @@ public:
      *
      * @return Returns the state of whether the widget is selected.
      */
-    bool getSelected() const {
+    bool isSelected() const {
         return m_selected;
     }
 

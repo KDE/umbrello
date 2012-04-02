@@ -973,9 +973,9 @@ void MessageWidget::setSelected(bool _select)
     UMLWidget::setSelected( _select );
     if( !m_pFText || m_pFText->displayText().isEmpty())
         return;
-    if( m_selected && m_pFText -> getSelected() )
+    if( m_selected && m_pFText->isSelected() )
         return;
-    if( !m_selected && !m_pFText -> getSelected() )
+    if( !m_selected && !m_pFText->isSelected() )
         return;
 
     m_scene -> setSelected( m_pFText, 0 );
