@@ -512,7 +512,7 @@ void MessageWidget::moveEvent(QMoveEvent* /*m*/)
         return;
     }
     //TODO why this condition?
-/*    if (m_scene->getSelectCount() > 2) {
+/*    if (m_scene->selectedCount() > 2) {
         return;
     }*/
 
@@ -553,7 +553,7 @@ void MessageWidget::slotWidgetMoved(Uml::IDType id)
     calculateWidget();
     if( !m_pFText )
         return;
-    if (m_scene->getSelectCount(true) > 1)
+    if (m_scene->selectedCount(true) > 1)
         return;
     setTextPosition();
 }

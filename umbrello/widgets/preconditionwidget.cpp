@@ -190,7 +190,7 @@ void PreconditionWidget::slotWidgetMoved(Uml::IDType id)
         m_nY = getMaxY();
 
     calculateDimensions();
-    if (m_scene->getSelectCount(true) > 1)
+    if (m_scene->selectedCount(true) > 1)
         return;
 
 }

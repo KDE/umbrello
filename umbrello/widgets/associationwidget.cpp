@@ -3737,7 +3737,7 @@ void AssociationWidget::setSelected(bool _select /* = true */)
     // overwrites the docwindow, but we want the main association doc
     // to win.
     if( _select ) {
-        if( m_scene->getSelectCount() == 0 )
+        if( m_scene->selectedCount() == 0 )
                 m_scene->view()->showDocumentation( this, false );
     } else
         m_scene->view()->updateDocumentation( true );

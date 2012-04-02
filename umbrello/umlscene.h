@@ -189,7 +189,7 @@ public:
 
     void moveSelectedBy(UMLSceneValue dX, UMLSceneValue dY);
 
-    int getSelectCount(bool filterText = false) const;
+    int selectedCount(bool filterText = false) const;
 
     void selectionUseFillColor(bool useFC);
     void selectionSetFont(const QFont &font);

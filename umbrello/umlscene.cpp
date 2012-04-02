@@ -1879,7 +1879,7 @@ void UMLScene::activate()
  *                    Default: Count all widgets.
  * @return  Number of widgets selected.
  */
-int UMLScene::getSelectCount(bool filterText) const
+int UMLScene::selectedCount(bool filterText) const
 {
     if (!filterText)
         return m_SelectedList.count();

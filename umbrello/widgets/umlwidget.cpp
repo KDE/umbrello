@@ -891,7 +891,7 @@ ListPopupMenu* UMLWidget::setupPopupMenu(ListPopupMenu* menu)
     m_menuIsEmbedded = false;
     //if in a multi- selection to a specific m_pMenu for that
     // NEW: ask UMLView to count ONLY the widgets and not their floatingtextwidgets
-    int count = m_scene->getSelectCount(true);
+    int count = m_scene->selectedCount(true);
     //a MessageWidget when selected will select its text widget and vice versa
     //so take that into account for popup menu.
 
@@ -1060,7 +1060,7 @@ void UMLWidget::setSelected(bool _select)
 {
     const WidgetBase::WidgetType wt = m_Type;
     if (_select) {
-        if (m_scene->getSelectCount() == 0) {
+        if (m_scene->selectedCount() == 0) {
             if (widgetHasUMLObject(wt)) {
                 m_scene->view()->showDocumentation(m_pObject, false);
             } else {

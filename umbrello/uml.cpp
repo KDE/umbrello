@@ -1411,7 +1411,7 @@ void UMLApp::slotEditCut()
     slotStatusMsg(i18n("Cutting selection..."));
     //FIXME bug 59774 this fromview isn't very reliable.
     //when cutting diagrams it is set to true even though it shouldn't be
-    bool fromview = (currentView() && currentView()->umlScene()->getSelectCount());
+    bool fromview = (currentView() && currentView()->umlScene()->selectedCount());
     if ( editCutCopy(fromview) ) {
         emit sigCutSuccessful();
         slotDeleteSelectedWidget();
@@ -1426,7 +1426,7 @@ void UMLApp::slotEditCut()
 void UMLApp::slotEditCopy()
 {
     slotStatusMsg(i18n("Copying selection to clipboard..."));
-    bool  fromview = (currentView() && currentView()->umlScene()->getSelectCount());
+    bool  fromview = (currentView() && currentView()->umlScene()->selectedCount());
     editCutCopy( fromview );
     resetStatusMsg();
     m_doc->setModified( true );
@@ -1750,7 +1750,7 @@ void UMLApp::slotClipDataChanged()
  */
 void UMLApp::slotCopyChanged()
 {
-    if (m_listView->selectedItemsCount() || (currentView() && currentView()->umlScene()->getSelectCount())) {
+    if (m_listView->selectedItemsCount() || (currentView() && currentView()->umlScene()->selectedCount())) {
         editCopy->setEnabled(true);
         editCut->setEnabled(true);
     }
@@ -2603,7 +2603,7 @@ void UMLApp::handleCursorKeyReleaseEvent(QKeyEvent* e)
 {
     // in case we have selected something in the diagram, move it by one pixel
     // to the direction pointed by the cursor key
-    if (m_view == NULL || !m_view->umlScene()->getSelectCount() || e->modifiers() != Qt::AltModifier) {
+    if (m_view == NULL || !m_view->umlScene()->selectedCount() || e->modifiers() != Qt::AltModifier) {
         e->ignore();
         return;
     }
