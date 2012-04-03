@@ -150,9 +150,9 @@ void UMLWidget::setMaximumSize(const UMLSceneSize& newSize, SizeHintOption optio
  *
  * @param size The new size (minimumSize < size < maximumSize)
  */
-void UMLWidget::setSize(const QSizeF &size)
+void UMLWidget::setSize(const UMLSceneSize &size)
 {
-    const QSizeF oldSize = m_size;
+    const UMLSceneSize oldSize = m_size;
 
     // Satisfy (minimumSize < size < maximumSize) requirement.
     m_size = minimumSize().expandedTo(size);
@@ -310,7 +310,7 @@ bool UMLWidget::loadFromXMI(QDomElement &qElement)
 
     m_loadData.insert("id", qElement.attribute("xmi.id", "-1"));
 
-    QSizeF size;
+    UMLSceneSize size;
     size.setWidth(qElement.attribute("width", "0").toDouble());
     size.setHeight(qElement.attribute("height", "0").toDouble());
     m_loadData.insert("size", size);
@@ -330,7 +330,7 @@ void UMLWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
     WidgetBase::saveToXMI(qDoc, qElement);
 
     qElement.setAttribute("xmi.id", ID2STR(id()));
-    const QSizeF sz = size();
+    const UMLSceneSize sz = size();
     qElement.setAttribute("width", sz.width());
     qElement.setAttribute("height", sz.height());
     qElement.setAttribute("isinstance", m_isInstance);

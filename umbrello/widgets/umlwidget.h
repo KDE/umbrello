@@ -42,9 +42,9 @@ class TextItemGroup;
 class UMLWidget : public WidgetBase
 {
     Q_OBJECT
-    Q_PROPERTY(QSizeF minimumSize READ minimumSize WRITE setMinimumSize DESIGNABLE false)
-    Q_PROPERTY(QSizeF maximumSize READ maximumSize WRITE setMaximumSize DESIGNABLE false)
-    Q_PROPERTY(QSizeF size READ size WRITE setSize)
+    Q_PROPERTY(UMLSceneSize minimumSize READ minimumSize WRITE setMinimumSize DESIGNABLE false)
+    Q_PROPERTY(UMLSceneSize maximumSize READ maximumSize WRITE setMaximumSize DESIGNABLE false)
+    Q_PROPERTY(UMLSceneSize size READ size WRITE setSize)
     Q_PROPERTY(bool resizable READ isResizable WRITE setResizable DESIGNABLE false)
     Q_PROPERTY(QRectF rect READ rect DESIGNABLE false)
     Q_PROPERTY(double margin READ margin WRITE setMargin)
@@ -81,12 +81,12 @@ public:
     void setMaximumSize(const UMLSceneSize& newSize, SizeHintOption option = DontAddMargin);
 
     /// @return The current size of this widget.
-    QSizeF size() const {
+    UMLSceneSize size() const {
         return m_size;
     }
-    void setSize(const QSizeF &size);
+    void setSize(const UMLSceneSize &size);
     void setSize(qreal width, qreal height) {
-        setSize(QSizeF(width, height));
+        setSize(UMLSceneSize(width, height));
     }
 
     /// @return Height of widget.
@@ -188,10 +188,10 @@ protected Q_SLOTS:
 
 private:
     /// Current size of the widget.
-    QSizeF m_size;
+    UMLSceneSize m_size;
 
-    QSizeF m_minimumSize;
-    QSizeF m_maximumSize;
+    UMLSceneSize m_minimumSize;
+    UMLSceneSize m_maximumSize;
 
     /// Margin for this widget.
     qreal m_margin;
