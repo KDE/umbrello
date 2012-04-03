@@ -3885,10 +3885,10 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     QString snapy = qElement.attribute("snapy", "10");
     m_layoutGrid->setGridSpacing(snapx.toInt(), snapy.toInt());
 
-    QString height = qElement.attribute("canvasheight", QString("%1").arg(DEFAULT_CANVAS_SIZE));
+    QString height = qElement.attribute("canvasheight", QString("%1").arg(defaultCanvasSize));
     qreal canvasHeight = height.toDouble();
 
-    QString width = qElement.attribute("canvaswidth", QString("%1").arg(DEFAULT_CANVAS_SIZE));
+    QString width = qElement.attribute("canvaswidth", QString("%1").arg(defaultCanvasSize));
     qreal canvasWidth = width.toDouble();
     setSceneRect(0, 0, canvasWidth, canvasHeight);
 
