@@ -62,6 +62,7 @@ class UMLView;
 // base types
 typedef QPointF UMLScenePoint;
 typedef QRectF UMLSceneRect;
+typedef QSizeF UMLSceneSize;
 typedef qreal UMLSceneValue;
 // event types
 typedef QGraphicsSceneMouseEvent UMLSceneMouseEvent;

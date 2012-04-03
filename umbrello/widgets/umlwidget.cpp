@@ -37,8 +37,8 @@
 #include <QtCore/QPointer>
 #include <QtGui/QDialog>
 
-const QSizeF UMLWidget::DefaultMinimumSize(50, 20);
-const QSizeF UMLWidget::DefaultMaximumSize(1000, 1000);
+const UMLSceneSize UMLWidget::DefaultMinimumSize(50, 20);
+const UMLSceneSize UMLWidget::DefaultMaximumSize(1000, 1000);
 
 /**
  * Construct a UMLWidget using an id.
@@ -108,7 +108,7 @@ UMLWidget::~UMLWidget()
  * the geometry. The geometry should be explicitly updated using
  * WidgetBase::updateGeometry()
  */
-void UMLWidget::setMinimumSize(const QSizeF& newSize, SizeHintOption option)
+void UMLWidget::setMinimumSize(const UMLSceneSize& newSize, SizeHintOption option)
 {
     m_minimumSize = newSize;
     if (option == AddMargin) {
@@ -131,7 +131,7 @@ void UMLWidget::setMinimumSize(const QSizeF& newSize, SizeHintOption option)
  * the geometry. The geometry should be explicitly updated using
  * WidgetBase::updateGeometry()
  */
-void UMLWidget::setMaximumSize(const QSizeF& newSize, SizeHintOption option)
+void UMLWidget::setMaximumSize(const UMLSceneSize& newSize, SizeHintOption option)
 {
     m_maximumSize = newSize;
     if (option == AddMargin) {

@@ -53,7 +53,6 @@ class UMLWidget : public WidgetBase
     Q_PROPERTY(bool showStereotype READ showStereotype WRITE setShowStereotype)
 
 public:
-
     /**
      * This enum presents options for @ref setMinimumSize and @ref
      * setMaximumSize methods.
@@ -62,24 +61,24 @@ public:
         DontAddMargin,
         AddMargin ///< adds 2 * margin() to width and height
     };
-    static const QSizeF DefaultMinimumSize;
-    static const QSizeF DefaultMaximumSize;
+    static const UMLSceneSize DefaultMinimumSize;
+    static const UMLSceneSize DefaultMaximumSize;
 
     explicit UMLWidget(WidgetType type = wt_UMLWidget, Uml::IDType id = 0);
     UMLWidget(WidgetType type, UMLObject *object);
     virtual ~UMLWidget();
 
     /// @return The minimum size for this widget.
-    QSizeF minimumSize() const {
+    UMLSceneSize minimumSize() const {
         return m_minimumSize;
     }
-    void setMinimumSize(const QSizeF& newSize, SizeHintOption option = DontAddMargin);
+    void setMinimumSize(const UMLSceneSize& newSize, SizeHintOption option = DontAddMargin);
 
     /// @return The maximum size for this widget.
-    QSizeF maximumSize() const {
+    UMLSceneSize maximumSize() const {
         return m_maximumSize;
     }
-    void setMaximumSize(const QSizeF& newSize, SizeHintOption option = DontAddMargin);
+    void setMaximumSize(const UMLSceneSize& newSize, SizeHintOption option = DontAddMargin);
 
     /// @return The current size of this widget.
     QSizeF size() const {
