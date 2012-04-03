@@ -11,11 +11,12 @@
 #ifndef UMLVIEWIMAGEEXPORTERMODEL_H
 #define UMLVIEWIMAGEEXPORTERMODEL_H
 
+#include "umlscene.h"
+
 #include <QtCore/QStringList>
 #include <QtCore/QRect>
 
 // forward declarations
-class UMLScene;
 class KUrl;
 
 /**
@@ -56,7 +57,7 @@ private:
     bool exportViewToSvg(UMLScene* scene, const QString &fileName) const;
     bool exportViewToPixmap(UMLScene* scene, const QString &imageType, const QString &fileName) const;
 
-    bool fixEPS(const QString &fileName, const QRect& rect) const;
+    bool fixEPS(const QString &fileName, const UMLSceneRect& rect) const;
 
     static QStringList s_supportedImageTypesList;
     static QStringList s_supportedMimeTypesList;
