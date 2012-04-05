@@ -72,16 +72,6 @@ public:
     virtual void setFillColor(const QColor &color);
     void setFillColorcmd(const QColor &color);
 
-    /**
-     * Returns whether this is a line of text.
-     * Used for transparency in printing.
-     *
-     * @return always false
-     */
-    virtual bool isText() {
-        return false;
-    }
-
     virtual void setSelected(bool _select);
 
     /**

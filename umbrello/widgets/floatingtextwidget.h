@@ -75,16 +75,6 @@ public:
     LinkWidget* link() const;
     void setLink(LinkWidget * l);
 
-    /**
-     * Returns whether this is a line of text.
-     * Used for transparency in printing.
-     *
-     * @return Returns whether this is a line of text.
-     */
-    bool isText() {
-        return true;
-    }
-
     bool activate( IDChangeLog* ChangeLog = 0 );
 
     Uml::TextRole textRole() const;
