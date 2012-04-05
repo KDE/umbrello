@@ -158,17 +158,17 @@ public:
     }
 
     /**
-     * Write property of bool m_isInstance
-     */
-    void setIsInstance(bool isInstance) {
-        m_isInstance = isInstance;
-    }
-
-    /**
      * Read property of bool m_isInstance
      */
     bool isInstance() const {
         return m_isInstance;
+    }
+
+    /**
+     * Write property of bool m_isInstance
+     */
+    void setIsInstance(bool isInstance) {
+        m_isInstance = isInstance;
     }
 
     /**
