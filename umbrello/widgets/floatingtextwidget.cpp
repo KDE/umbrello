@@ -41,8 +41,8 @@
 #include <QtGui/QValidator>
 
 
-const qreal FloatingTextWidget::restrictPositionMin = 0;
-const qreal FloatingTextWidget::restrictPositionMax = 3000;
+const UMLSceneValue FloatingTextWidget::restrictPositionMin = 0;
+const UMLSceneValue FloatingTextWidget::restrictPositionMax = 3000;
 
 /**
  * Constructs a FloatingTextWidget instance.

@@ -49,8 +49,8 @@ public:
         max limits => if x or y is outside of interval, the position
         is reset ( e.g. by AssociationWidget::resetTextPositions() )
      */
-    static const qreal restrictPositionMin;
-    static const qreal restrictPositionMax;
+    static const UMLSceneValue restrictPositionMin;
+    static const UMLSceneValue restrictPositionMax;
 
 
     explicit FloatingTextWidget(Uml::TextRole role = Uml::TextRole::Floating,
