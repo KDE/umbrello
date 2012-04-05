@@ -2709,8 +2709,8 @@ void AssociationWidget::setTextPositionRelatively(Uml::TextRole role, const QPoi
     FloatingTextWidget *ft = textWidgetByRole(role);
     if (ft == NULL)
         return;
-    int ftX = ft->x();
-    int ftY = ft->y();
+    UMLSceneValue ftX = ft->x();
+    UMLSceneValue ftY = ft->y();
     if ( (ftX < 0 || ftX > FloatingTextWidget::restrictPositionMax) ||
             (ftY < 0 || ftY > FloatingTextWidget::restrictPositionMax) ) {
         uDebug() << "blocked because the FloatingTextWidget original position ("
@@ -2721,8 +2721,8 @@ void AssociationWidget::setTextPositionRelatively(Uml::TextRole role, const QPoi
     QPoint pos = calculateTextPosition(role);
     int relX = pos.x() - oldPosition.x();
     int relY = pos.y() - oldPosition.y();
-    int ftNewX = ftX + relX;
-    int ftNewY = ftY + relY;
+    UMLSceneValue ftNewX = ftX + relX;
+    UMLSceneValue ftNewY = ftY + relY;
     if ( (ftNewX < 0 || ftNewX > FloatingTextWidget::restrictPositionMax) ||
             (ftNewY < 0 || ftNewY > FloatingTextWidget::restrictPositionMax) ) {
         uDebug() << "blocked because the FloatingTextWidget new position ("

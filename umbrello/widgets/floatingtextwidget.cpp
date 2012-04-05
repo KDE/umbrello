@@ -39,6 +39,10 @@
 #include <QtGui/QPainter>
 #include <QtGui/QValidator>
 
+
+const UMLSceneValue FloatingTextWidget::restrictPositionMin = 0;
+const UMLSceneValue FloatingTextWidget::restrictPositionMax = 3000;
+
 /**
  * Constructs a FloatingTextWidget instance.
  *

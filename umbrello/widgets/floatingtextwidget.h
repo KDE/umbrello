@@ -48,8 +48,8 @@ public:
         max limits => if x or y is outside of interval, the position
         is reset ( e.g. by AssociationWidget::resetTextPositions() )
      */
-    static const int restrictPositionMin = 0;
-    static const int restrictPositionMax = 3000;
+    static const UMLSceneValue restrictPositionMin;
+    static const UMLSceneValue restrictPositionMax;
 
     explicit FloatingTextWidget(UMLScene * scene, Uml::TextRole role = Uml::TextRole::Floating,
                                 const QString& text = "", Uml::IDType id = Uml::id_None);
