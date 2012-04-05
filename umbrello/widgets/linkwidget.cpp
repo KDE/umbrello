@@ -16,7 +16,7 @@
 #include "operation.h"
 #include "uml.h"
 #include "umlobject.h"
-#include "umlscene.h"
+#include "umlview.h"
 
 LinkWidget::LinkWidget()
 {
