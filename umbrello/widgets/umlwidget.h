@@ -128,30 +128,13 @@ public:
         return m_startMove;
     }
 
-    virtual void setX(int x);
-    virtual void setY(int y);
-    virtual void setZ(int z);
+    UMLSceneValue getX() const;
+    UMLSceneValue getY() const;
+    UMLSceneValue getZ() const;
 
-    /**
-     * Gets the x-coordinate.
-     */
-    UMLSceneValue getX() const {
-        return x();
-    }
-
-    /**
-     * Gets the y-coordinate.
-     */
-    UMLSceneValue getY() const {
-        return y();
-    }
-
-    /**
-     * Gets the z-coordinate.
-     */
-    UMLSceneValue getZ() const {
-        return z();
-    }
+    virtual void setX(UMLSceneValue x);
+    virtual void setY(UMLSceneValue y);
+    virtual void setZ(UMLSceneValue z);
 
     /**
      * Returns the height of widget.
@@ -341,7 +324,7 @@ protected:
     bool m_selected, m_startMove;
 
     int            m_nPosX;
-    int            m_origZ;
+    UMLSceneValue  m_origZ;
     ListPopupMenu *m_pMenu;
     bool           m_menuIsEmbedded;
     UMLDoc        *m_doc;  ///< shortcut for UMLApp::app()->getDocument()

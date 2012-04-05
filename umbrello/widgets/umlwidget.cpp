@@ -1125,13 +1125,32 @@ void UMLWidget::setScene(UMLScene * v)
 }
 
 /**
+ * Gets the x-coordinate.
+ */
+UMLSceneValue UMLWidget::getX() const {
+    return UMLSceneRectItem::x();
+}
+/**
+ * Gets the y-coordinate.
+ */
+UMLSceneValue UMLWidget::getY() const {
+    return UMLSceneRectItem::y();
+}
+/**
+ * Gets the z-coordinate.
+ */
+UMLSceneValue UMLWidget::getZ() const {
+    return UMLSceneRectItem::z();
+}
+
+/**
  * Sets the x-coordinate.
  * Currently, the only class that reimplements this method is
  * ObjectWidget.
  *
  * @param x The x-coordinate to be set.
  */
-void UMLWidget::setX(int x)
+void UMLWidget::setX(UMLSceneValue x)
 {
     if (!m_ignoreSnapToGrid) {
         x = m_scene->snappedX(x);
@@ -1146,7 +1165,7 @@ void UMLWidget::setX(int x)
  *
  * @param y The y-coordinate to be set.
  */
-void UMLWidget::setY(int y)
+void UMLWidget::setY(UMLSceneValue y)
 {
     if (!m_ignoreSnapToGrid) {
         y = m_scene->snappedX(y);
@@ -1159,7 +1178,7 @@ void UMLWidget::setY(int y)
  *
  * @param z The z-coordinate to be set.
  */
-void UMLWidget::setZ(int z)
+void UMLWidget::setZ(UMLSceneValue z)
 {
     m_origZ = getZ();
     UMLSceneItem::setZ(z);
