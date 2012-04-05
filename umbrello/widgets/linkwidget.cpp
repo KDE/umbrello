@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,11 +12,11 @@
 #include "linkwidget.h"
 
 // app includes
-#include "umlview.h"
-#include "umlobject.h"
 #include "classifier.h"
 #include "operation.h"
 #include "uml.h"
+#include "umlobject.h"
+#include "umlview.h"
 
 LinkWidget::LinkWidget()
 {
@@ -39,9 +39,9 @@ UMLClassifier *LinkWidget::operationOwner()
 
 /**
  * Return the operation text.
- * When no view parameter is given, the current view
+ * When no scene parameter is given, the scene of the current view
  * is taken instead.
- * @param scene   the given view
+ * @param scene   the given scene
  * @return the operation text
  */
 QString LinkWidget::operationText(UMLScene *scene)

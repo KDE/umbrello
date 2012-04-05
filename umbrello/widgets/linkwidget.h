@@ -14,13 +14,12 @@
 #include <QtGui/QFont>
 
 #include "basictypes.h"
+#include "umlscene.h"
 
 // forward declarations
 class UMLClassifier;
 class UMLOperation;
 class FloatingTextWidget;
-class UMLScene;
-class UMLView;
 
 /**
  * This is an interface realized by AssociationWidget and MessageWidget.
@@ -70,7 +69,7 @@ public:
      */
     virtual void setCustomOpText(const QString &opText) = 0;
 
-    QString operationText(UMLScene *scene= 0);
+    QString operationText(UMLScene *scene = 0);
 
     virtual void resetTextPositions();
 
@@ -100,8 +99,8 @@ public:
      * Abstract operation implemented by inheriting classes.
      * Motivated by FloatingTextWidget::mouseMoveEvent()
      */
-    virtual void constrainTextPos(int &textX, int &textY,
-                                  int textWidth, int textHeight,
+    virtual void constrainTextPos(UMLSceneValue &textX, UMLSceneValue &textY,
+                                  UMLSceneValue textWidth, UMLSceneValue textHeight,
                                   Uml::TextRole tr) = 0;
 
     virtual void calculateNameTextSegment();
