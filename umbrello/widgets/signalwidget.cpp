@@ -141,7 +141,7 @@ void SignalWidget::paint(QPainter & p, int offsetX, int offsetY)
 
             setPenFromSettings(p);
         }
-        if (m_pName->getX() == 0 && m_pName->getY() == 0) {
+        if (m_pName->x() == 0 && m_pName->y() == 0) {
             //the floating text has not been linked with the signal
             m_pName->setX(offsetX + w/2 - m_pName->width()/2);
             m_pName->setY(offsetY + h);
@@ -163,7 +163,7 @@ void SignalWidget::paint(QPainter & p, int offsetX, int offsetY)
  */
 void SignalWidget::setX(int newX)
 {
-    m_oldX = getX();
+    m_oldX = x();
     UMLWidget::setX(newX);
 }
 
@@ -172,7 +172,7 @@ void SignalWidget::setX(int newX)
  */
 void SignalWidget::setY(int newY)
 {
-    m_oldY = getY();
+    m_oldY = y();
     UMLWidget::setY(newY);
 }
 
@@ -233,11 +233,11 @@ void SignalWidget::showPropertiesDialog()
 void SignalWidget::mouseMoveEvent(QMouseEvent* me)
 {
     UMLWidget::mouseMoveEvent(me);
-    int diffX = m_oldX - getX();
-    int diffY = m_oldY - getY();
+    int diffX = m_oldX - x();
+    int diffY = m_oldY - y();
     if (m_pName!=NULL) {
-        m_pName->setX(m_pName->getX() - diffX);
-        m_pName->setY(m_pName->getY() - diffY);
+        m_pName->setX(m_pName->x() - diffX);
+        m_pName->setY(m_pName->y() - diffY);
     }
 }
 

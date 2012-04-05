@@ -77,8 +77,8 @@ int SeqLineWidget::onWidget(const QPoint & p)
 int SeqLineWidget::onDestructionBox(const QPoint & p)
 {
     int nOnDestructionBox = 0;
-    int x = m_pObject->getX() + m_pObject->width() / 2;
-    int y = m_pObject->getY() + m_pObject->height() + m_nLengthY;
+    int x = m_pObject->x() + m_pObject->width() / 2;
+    int y = m_pObject->y() + m_pObject->height() + m_nLengthY;
 
     //see if on destruction box
     if( !m_pObject->showDestruction() ) {
@@ -137,8 +137,8 @@ void SeqLineWidget::setupDestructionBox()
         return;
     }
     QRect rect;
-    rect.setX( m_pObject->getX() + m_pObject->width() / 2 - 10 );
-    rect.setY( m_pObject->getY() + m_pObject->height() + m_nLengthY );
+    rect.setX( m_pObject->x() + m_pObject->width() / 2 - 10 );
+    rect.setY( m_pObject->y() + m_pObject->height() + m_nLengthY );
     rect.setWidth( 14 );
     rect.setHeight( 14 );
 
@@ -166,8 +166,8 @@ void SeqLineWidget::moveDestructionBox()
         return;
     }
     QRect rect;
-    rect.setX( m_pObject->getX() + m_pObject->width() / 2 - 7 );
-    rect.setY( m_pObject->getY() + m_pObject->height() + m_nLengthY - 7 );
+    rect.setX( m_pObject->x() + m_pObject->width() / 2 - 7 );
+    rect.setY( m_pObject->y() + m_pObject->height() + m_nLengthY - 7 );
     rect.setWidth( 14 );
     rect.setHeight( 14 );
     m_DestructionBox.setLine1Points(rect);
@@ -183,12 +183,12 @@ void SeqLineWidget::setEndOfLine(int yPosition)
 {
     QPoint sp = startPoint();
     int newY = yPosition;
-    m_nLengthY = yPosition - m_pObject->getY() - m_pObject->height();
+    m_nLengthY = yPosition - m_pObject->y() - m_pObject->height();
     // normally the managing Objectwidget is responsible for the call of this function
     // but to be sure - make a double check _against current position_
     if ( m_nLengthY < 0 ) {
         m_nLengthY = 0;
-        newY = m_pObject->getY() + m_pObject->height();
+        newY = m_pObject->y() + m_pObject->height();
     }
     setPoints( sp.x(), sp.y(), sp.x(), newY );
     moveDestructionBox();

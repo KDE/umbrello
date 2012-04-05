@@ -308,7 +308,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
             params << m_nodeParameters["all"].split(',');
 
         if (usePosition())
-            params  << QString("pos=\"%1,%2\"").arg(widget->getX()+widget->width()/2).arg(widget->getY()+widget->height()/2);
+            params  << QString("pos=\"%1,%2\"").arg(widget->x()+widget->width()/2).arg(widget->y()+widget->height()/2);
 
         QString type = QString(widget->baseTypeStr()).toLower().remove("wt_");
 

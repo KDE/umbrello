@@ -128,9 +128,9 @@ public:
         return m_startMove;
     }
 
-    UMLSceneValue getX() const;
-    UMLSceneValue getY() const;
-    UMLSceneValue getZ() const;
+    UMLSceneValue x() const;
+    UMLSceneValue y() const;
+    UMLSceneValue z() const;
 
     virtual void setX(UMLSceneValue x);
     virtual void setY(UMLSceneValue y);

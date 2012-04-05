@@ -51,13 +51,13 @@ void FloatingDashLineWidget::paint(QPainter & p, int /*offsetX*/, int /*offsetY*
     const int fontHeight  = fm.lineSpacing();
     p.setPen(textColor());
     p.setFont(UMLWidget::font());
-    p.drawText(getX() + FLOATING_DASH_LINE_TEXT_MARGIN, getY(),
+    p.drawText(x() + FLOATING_DASH_LINE_TEXT_MARGIN, y(),
                width() - FLOATING_DASH_LINE_TEXT_MARGIN * 2, fontHeight,
                Qt::AlignLeft, '[' + m_Text + ']');
     p.setPen(QPen(UMLWidget::lineColor(), 0, Qt::DashLine));
-    p.drawLine(getX(), getY(), getX() + width(), getY());
+    p.drawLine(x(), y(), x() + width(), y());
     if(m_selected)
-        drawSelected(&p, getX(), getY());
+        drawSelected(&p, x(), y());
 }
 
 /**
@@ -74,7 +74,7 @@ void FloatingDashLineWidget::setText(const QString& text)
 bool FloatingDashLineWidget::onLine(const QPoint &point)
 {
     // check if the given point is the start or end point of the line
-    if (( (abs( getY() + height() - point.y() )) <= POINT_DELTA) || (abs( getY() - point.y() ) <= POINT_DELTA)) {
+    if (( (abs( y() + height() - point.y() )) <= POINT_DELTA) || (abs( y() - point.y() ) <= POINT_DELTA)) {
         return true;
     }
     // check if the given point is the start or end point of the line
@@ -136,7 +136,7 @@ int FloatingDashLineWidget::getYMin() const
  */
 int FloatingDashLineWidget::getDiffY() const
 {
-    return (getY() - getYMin());
+    return (y() - getYMin());
 }
 
 /**
@@ -147,7 +147,7 @@ void FloatingDashLineWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElem
     QDomElement textElement = qDoc.createElement( "floatingdashlinewidget" );
     UMLWidget::saveToXMI( qDoc, textElement );
     textElement.setAttribute( "text", m_Text );
-    textElement.setAttribute( "y", getY() );
+    textElement.setAttribute( "y", y() );
     textElement.setAttribute( "minY", m_yMin );
     textElement.setAttribute( "maxY", m_yMax );
 

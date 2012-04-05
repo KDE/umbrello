@@ -82,7 +82,7 @@ void ObjectWidgetController::mousePressEvent(QMouseEvent *me)
 
     if (pLine->onDestructionBox(me->pos())) {
         m_isOnDestructionBox = true;
-        m_oldX = dynamic_cast<ObjectWidget*>(m_widget)->getX() + dynamic_cast<ObjectWidget*>(m_widget)->width() / 2;
+        m_oldX = dynamic_cast<ObjectWidget*>(m_widget)->x() + dynamic_cast<ObjectWidget*>(m_widget)->width() / 2;
         m_oldY = dynamic_cast<ObjectWidget*>(m_widget)->getEndLineY() - 10;
     }
 
@@ -124,7 +124,7 @@ void ObjectWidgetController::mouseMoveEvent(QMouseEvent* me)
 void ObjectWidgetController::moveWidgetBy(int diffX, int diffY)
 {
     Q_UNUSED(diffY);
-    m_widget->setX(m_widget->getX() + diffX);
+    m_widget->setX(m_widget->x() + diffX);
 }
 
 /**

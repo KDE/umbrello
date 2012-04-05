@@ -301,7 +301,7 @@ void StateWidget::setName(const QString &strName)
 {
     m_Text = strName;
     updateComponentSize();
-    adjustAssocs( getX(), getY() );
+    adjustAssocs( x(), y() );
 }
 
 /**
@@ -438,7 +438,7 @@ void StateWidget::setDrawVertical(bool to)
 {
     m_drawVertical = to;
     updateComponentSize();
-    UMLWidget::adjustAssocs( getX(), getY() );
+    UMLWidget::adjustAssocs( x(), y() );
 }
 
 /**

@@ -202,8 +202,8 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me)
     }
 
     QPoint position = getPosition(me);
-    int diffX = position.x() - m_widget->getX();
-    int diffY = position.y() - m_widget->getY();
+    int diffX = position.x() - m_widget->x();
+    int diffY = position.y() - m_widget->y();
 
     if ((me->modifiers() & Qt::ShiftModifier) && (me->modifiers() & Qt::ControlModifier)) {
         //Move in Y axis
@@ -233,7 +233,7 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me)
     if (m_lastUpdate.elapsed() > 25) {
         m_lastUpdate.restart();
 
-        m_widget->adjustUnselectedAssocs(m_widget->getX(), m_widget->getY());
+        m_widget->adjustUnselectedAssocs(m_widget->x(), m_widget->y());
     }
 
     foreach(UMLWidget* widget , m_selectedWidgetsList) {
@@ -268,7 +268,7 @@ void UMLWidgetController::widgetMoved()
 
     foreach(UMLWidget* widget , m_selectedWidgetsList) {
 
-        widget->adjustAssocs(widget->getX(), widget->getY());
+        widget->adjustAssocs(widget->x(), widget->y());
     }
 
     m_widget->m_startMove = false;
@@ -360,8 +360,8 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me)
     //TODO Copied from old code. Does it really work as intended?
     UMLWidget *bkgnd = m_widget->m_scene->widgetAt(me->pos());
     if (bkgnd) {
-        //uDebug() << "setting Z to " << bkgnd->getZ() + 1;
-        m_widget->setZ(bkgnd->getZ() + 1);
+        //uDebug() << "setting Z to " << bkgnd->z() + 1;
+        m_widget->setZ(bkgnd->z() + 1);
     } else {
         m_widget->setZ(0);
     }
@@ -412,8 +412,8 @@ bool UMLWidgetController::isInResizeArea(QMouseEvent *me)
         m = 2;
 
     if (m_widget->m_resizable &&
-            me->x() >= (m_widget->getX() + w - m) &&
-            me->y() >= (m_widget->getY() + h - m)) {
+            me->x() >= (m_widget->x() + w - m) &&
+            me->y() >= (m_widget->y() + h - m)) {
         m_widget->m_scene->view()->setCursor(getResizeCursor());
         return true;
     } else {
@@ -469,8 +469,8 @@ void UMLWidgetController::resizeWidget(int newW, int newH)
  */
 void UMLWidgetController::moveWidgetBy(int diffX, int diffY)
 {
-    m_widget->setX(m_widget->getX() + diffX);
-    m_widget->setY(m_widget->getY() + diffY);
+    m_widget->setX(m_widget->x() + diffX);
+    m_widget->setY(m_widget->y() + diffY);
 }
 
 /**
@@ -583,11 +583,11 @@ void UMLWidgetController::deselect(QMouseEvent *me)
  */
 void UMLWidgetController::saveWidgetValues(QMouseEvent *me)
 {
-    m_pressOffsetX = me->x() - m_widget->getX();
-    m_pressOffsetY = me->y() - m_widget->getY();
+    m_pressOffsetX = me->x() - m_widget->x();
+    m_pressOffsetY = me->y() - m_widget->y();
 
-    m_prevX = m_oldX = m_widget->getX();
-    m_prevY = m_oldY = m_widget->getY();
+    m_prevX = m_oldX = m_widget->x();
+    m_prevY = m_oldY = m_widget->y();
 
     m_oldW = m_widget->width();
     m_oldH = m_widget->height();
@@ -669,8 +669,8 @@ void UMLWidgetController::resize(QMouseEvent *me)
 
     m_resized = true;
 
-    int newW = m_oldW + me->x() - m_widget->getX() - m_pressOffsetX;
-    int newH = m_oldH + me->y() - m_widget->getY() - m_pressOffsetY;
+    int newW = m_oldW + me->x() - m_widget->x() - m_pressOffsetX;
+    int newH = m_oldH + me->y() - m_widget->y() - m_pressOffsetY;
 
     if ((me->modifiers() & Qt::ShiftModifier) && (me->modifiers() & Qt::ControlModifier)) {
         //Move in Y axis
@@ -682,7 +682,7 @@ void UMLWidgetController::resize(QMouseEvent *me)
 
     m_widget->constrain(newW, newH);
     resizeWidget(newW, newH);
-    m_widget->adjustAssocs(m_widget->getX(), m_widget->getY());
+    m_widget->adjustAssocs(m_widget->x(), m_widget->y());
 
     m_widget->m_scene->resizeCanvasToItems();
 }
@@ -702,10 +702,10 @@ int UMLWidgetController::getSmallestX(const UMLWidgetList &widgetList)
         if (i == 1) {
             if (widget == NULL)
                 break;
-            smallestX = widget->getX();
+            smallestX = widget->x();
         } else {
-            if (smallestX > widget->getX())
-                smallestX = widget->getX();
+            if (smallestX > widget->x())
+                smallestX = widget->x();
         }
         i++;
     }
@@ -728,10 +728,10 @@ int UMLWidgetController::getSmallestY(const UMLWidgetList &widgetList)
         if (i == 1) {
             if (widget == NULL)
                 break;
-            smallestY = widget->getY();
+            smallestY = widget->y();
         } else {
-            if (smallestY > widget->getY())
-                smallestY = widget->getY();
+            if (smallestY > widget->y())
+                smallestY = widget->y();
 
         }
         i++;
@@ -756,11 +756,11 @@ int UMLWidgetController::getBiggestX(const UMLWidgetList &widgetList)
         if (i == 1) {
             if (widget == NULL)
                 break;
-            biggestX = widget->getX();
+            biggestX = widget->x();
             biggestX += widget->width();
         } else {
-            if (biggestX < widget->getX() + widget->width())
-                biggestX = widget->getX() + widget->width();
+            if (biggestX < widget->x() + widget->width())
+                biggestX = widget->x() + widget->width();
         }
         i++;
     }
@@ -783,11 +783,11 @@ int UMLWidgetController::getBiggestY(const UMLWidgetList &widgetList)
         if (i == 1) {
             if (widget == NULL)
                 break;
-            biggestY = widget->getY();
+            biggestY = widget->y();
             biggestY += widget->height();
         } else {
-            if (biggestY < widget->getY() + widget->height())
-                biggestY = widget->getY() + widget->height();
+            if (biggestY < widget->y() + widget->height())
+                biggestY = widget->y() + widget->height();
         }
         i++;
     }
@@ -808,35 +808,35 @@ QPoint UMLWidgetController::getPosition(QMouseEvent* me)
 {
     /*
     uDebug() << "me->x=" << me->x()
-        << " m_widget->getX=" << m_widget->getX() << ", m_oldX=" << m_oldX
+        << " m_widget->getX=" << m_widget->x() << ", m_oldX=" << m_oldX
         << ", m_pressOffsetX=" << m_pressOffsetX << endl;
     uDebug() << "me->y=" << me->y()
-        << " m_widget->getY=" << m_widget->getY() << ", m_oldY=" << m_oldY
+        << " m_widget->getY=" << m_widget->y() << ", m_oldY=" << m_oldY
         << ", m_pressOffsetY=" << m_pressOffsetY << endl;
      */
-    int newX = me->x() + m_widget->getX() - m_prevX - m_pressOffsetX;
-    int newY = me->y() + m_widget->getY() - m_prevY - m_pressOffsetY;
+    int newX = me->x() + m_widget->x() - m_prevX - m_pressOffsetX;
+    int newY = me->y() + m_widget->y() - m_prevY - m_pressOffsetY;
     int maxX = m_widget->m_scene->width();
     int maxY = m_widget->m_scene->height();
 
     m_prevX = newX;
     m_prevY = newY;
 
-    if (newX + (m_minSelectedX - m_widget->getX()) < 0) {
+    if (newX + (m_minSelectedX - m_widget->x()) < 0) {
         //uDebug() << "got into cond.1";
-        newX = m_widget->getX() - m_minSelectedX;
+        newX = m_widget->x() - m_minSelectedX;
     }
-    if (newY + (m_minSelectedY - m_widget->getY()) < 0) {
+    if (newY + (m_minSelectedY - m_widget->y()) < 0) {
         //uDebug() << "got into cond.2";
-        newY = m_widget->getY() - m_minSelectedY;
+        newY = m_widget->y() - m_minSelectedY;
     }
-    if (newX + (m_maxSelectedX - m_widget->getX()) > maxX) {
+    if (newX + (m_maxSelectedX - m_widget->x()) > maxX) {
         //uDebug() << "got into cond.3";
-        newX = maxX - (m_maxSelectedX - m_widget->getX());
+        newX = maxX - (m_maxSelectedX - m_widget->x());
     }
-    if (newY + (m_maxSelectedY - m_widget->getY()) > maxY) {
+    if (newY + (m_maxSelectedY - m_widget->y()) > maxY) {
         //uDebug() << "got into cond.4";
-        newY = maxY - (m_maxSelectedY - m_widget->getY());
+        newY = maxY - (m_maxSelectedY - m_widget->y());
     }
     return QPoint(newX, newY);
 }
@@ -851,8 +851,8 @@ QPoint UMLWidgetController::getPosition(QMouseEvent* me)
 QPoint UMLWidgetController::getPositionDifference(QMouseEvent* me)
 {
     QPoint newPoint = getPosition(me);
-    const int diffX = newPoint.x() - m_widget->getX();
-    const int diffY = newPoint.y() - m_widget->getY();
+    const int diffX = newPoint.x() - m_widget->x();
+    const int diffY = newPoint.y() - m_widget->y();
     return QPoint(diffX, diffY);
 }
 
@@ -890,5 +890,5 @@ bool UMLWidgetController::wasSizeChanged()
  */
 bool UMLWidgetController::wasPositionChanged()
 {
-    return m_oldX != m_widget->getX() || m_oldY != m_widget->getY();
+    return m_oldX != m_widget->x() || m_oldY != m_widget->y();
 }

@@ -51,7 +51,7 @@ void ForkJoinWidget::setOrientation(Qt::Orientation ori)
 {
     m_orientation = ori;
     updateComponentSize();
-    UMLWidget::adjustAssocs( getX(), getY() );
+    UMLWidget::adjustAssocs( x(), y() );
 }
 
 /**

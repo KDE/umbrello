@@ -122,7 +122,7 @@ void ActivityWidget::setPreconditionText(const QString& aPreText)
 {
     m_preconditionText = aPreText;
     updateComponentSize();
-    adjustAssocs( getX(), getY() );
+    adjustAssocs( x(), y() );
 }
 
 /**
@@ -140,7 +140,7 @@ void ActivityWidget::setPostconditionText(const QString& aPostText)
 {
     m_postconditionText = aPostText;
     updateComponentSize();
-    adjustAssocs( getX(), getY() );
+    adjustAssocs( x(), y() );
 }
 
 /**

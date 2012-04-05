@@ -127,8 +127,8 @@ UMLWidget& UMLWidget::operator=(const UMLWidget & other)
     m_instanceName = other.m_instanceName;
     m_instanceName = other.m_instanceName;
     m_showStereotype = other.m_showStereotype;
-    setX(other.getX());
-    setY(other.getY());
+    setX(other.x());
+    setY(other.y());
     UMLSceneRectItem::setSize(other.width(), other.height());
 
     // assign volatile (non-saved) members
@@ -230,7 +230,7 @@ void UMLWidget::mousePressEvent(QMouseEvent *me)
 void UMLWidget::updateWidget()
 {
     updateComponentSize();
-    adjustAssocs(getX(), getY());   //adjust assoc lines.
+    adjustAssocs(x(), y());   //adjust assoc lines.
     switch (m_Type) {
     case WidgetBase::wt_Class:
         m_scene->createAutoAttributeAssociations(this);
@@ -355,7 +355,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
     switch (sel) {
     case ListPopupMenu::mt_Rename:
         m_doc->renameUMLObject(m_pObject);
-        // adjustAssocs( getX(), getY() );//adjust assoc lines
+        // adjustAssocs( x(), y() );//adjust assoc lines
         break;
 
     case ListPopupMenu::mt_Delete:
@@ -380,7 +380,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
         } else {
             uWarning() << "making properties dialog for unknown widget type";
         }
-        // adjustAssocs( getX(), getY() );//adjust assoc lines
+        // adjustAssocs( x(), y() );//adjust assoc lines
         break;
 
     case ListPopupMenu::mt_Line_Color:
@@ -709,20 +709,20 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
     if (m_scene->getPaste()) {
         FloatingTextWidget * ft = 0;
         QPoint point = m_scene->getPastePoint();
-        int x = point.x() + getX();
-        int y = point.y() + getY();
+        int x = point.x() + this->x();
+        int y = point.y() + this->y();
         x = x < 0 ? 0 : x;
         y = y < 0 ? 0 : y;
         if (m_scene->type() == Uml::DiagramType::Sequence) {
             switch (baseType()) {
             case WidgetBase::wt_Object:
             case WidgetBase::wt_Precondition :
-                setY(getY());
+                setY(this->y());
                 setX(x);
                 break;
 
             case WidgetBase::wt_Message:
-                setY(getY());
+                setY(this->y());
                 setX(x);
                 break;
 
@@ -730,10 +730,10 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
                 ft = static_cast<FloatingTextWidget *>(this);
                 if (ft->textRole() == Uml::TextRole::Seq_Message) {
                     setX(x);
-                    setY(getY());
+                    setY(this->y());
                 } else {
-                    setX(getX());
-                    setY(getY());
+                    setX(this->x());
+                    setY(this->y());
                 }
                 break;
 
@@ -748,8 +748,8 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
         }
     }//end if pastepoint
     else {
-        setX(getX());
-        setY(getY());
+        setX(this->x());
+        setY(this->y());
     }
     if (m_scene->getPaste())
         m_scene->createAutoAssociations(this);
@@ -948,9 +948,9 @@ int UMLWidget::onWidget(const QPoint & p)
 {
     const int w = width();
     const int h = height();
-    const int left = getX();
+    const int left = x();
     const int right = left + w;
-    const int top = getY();
+    const int top = y();
     const int bottom = top + h;
     if (p.x() < left || p.x() > right ||
             p.y() < top || p.y() > bottom)   // Qt coord.sys. origin in top left corner
@@ -964,8 +964,8 @@ int UMLWidget::onWidget(const QPoint & p)
  */
 void UMLWidget::moveByLocal(int dx, int dy)
 {
-    int newX = getX() + dx;
-    int newY = getY() + dy;
+    int newX = x() + dx;
+    int newY = y() + dy;
     setX(newX);
     setY(newY);
     // uDebug() << "********** x=" << newX << " / y=" << newY;
@@ -987,7 +987,7 @@ void UMLWidget::setPenFromSettings(QPainter & p)
  */
 void UMLWidget::drawShape(QPainter &p)
 {
-    paint(p, getX(), getY());
+    paint(p, x(), y());
 }
 
 /**
@@ -1079,11 +1079,11 @@ void UMLWidget::setSelected(bool _select)
     }
     m_selected = _select;
 
-    const QPoint pos(getX(), getY());
+    const QPoint pos(x(), y());
     UMLWidget *bkgnd = m_scene->widgetAt(pos);
     if (bkgnd && bkgnd != this && _select) {
-        uDebug() << "setting Z to " << bkgnd->getZ() + 1 << ", SelectState: " << _select;
-        setZ(bkgnd->getZ() + 1);
+        uDebug() << "setting Z to " << bkgnd->z() + 1 << ", SelectState: " << _select;
+        setZ(bkgnd->z() + 1);
     } else {
         setZ(m_origZ);
     }
@@ -1127,19 +1127,19 @@ void UMLWidget::setScene(UMLScene * v)
 /**
  * Gets the x-coordinate.
  */
-UMLSceneValue UMLWidget::getX() const {
+UMLSceneValue UMLWidget::x() const {
     return UMLSceneRectItem::x();
 }
 /**
  * Gets the y-coordinate.
  */
-UMLSceneValue UMLWidget::getY() const {
+UMLSceneValue UMLWidget::y() const {
     return UMLSceneRectItem::y();
 }
 /**
  * Gets the z-coordinate.
  */
-UMLSceneValue UMLWidget::getZ() const {
+UMLSceneValue UMLWidget::z() const {
     return UMLSceneRectItem::z();
 }
 
@@ -1180,7 +1180,7 @@ void UMLWidget::setY(UMLSceneValue y)
  */
 void UMLWidget::setZ(UMLSceneValue z)
 {
-    m_origZ = getZ();
+    m_origZ = this->z();
     UMLSceneItem::setZ(z);
 }
 
@@ -1197,7 +1197,7 @@ void UMLWidget::setName(const QString &strName)
     else
         m_Text = strName;
     updateComponentSize();
-    adjustAssocs(getX(), getY());
+    adjustAssocs(x(), y());
 }
 
 /**
@@ -1227,8 +1227,8 @@ void UMLWidget::cleanup()
  */
 void UMLWidget::slotSnapToGrid()
 {
-    setX(getX());
-    setY(getY());
+    setX(x());
+    setY(y());
 }
 
 /**
@@ -1301,7 +1301,7 @@ void UMLWidget::updateComponentSize()
         return;
     QSize size = minimumSize();
     setSize(size.width(), size.height());
-    adjustAssocs(getX(), getY());    // adjust assoc lines
+    adjustAssocs(x(), y());    // adjust assoc lines
 }
 
 /**
@@ -1478,8 +1478,8 @@ void UMLWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     WidgetBase::saveToXMI(qDoc, qElement);
     qElement.setAttribute("xmi.id", ID2STR(id()));
     qElement.setAttribute("font", m_Font.toString());
-    qElement.setAttribute("x", getX());
-    qElement.setAttribute("y", getY());
+    qElement.setAttribute("x", x());
+    qElement.setAttribute("y", y());
     qElement.setAttribute("width", width());
     qElement.setAttribute("height", height());
     qElement.setAttribute("isinstance", m_isInstance);

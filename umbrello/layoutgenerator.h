@@ -254,7 +254,7 @@ public:
             QPoint p = origin(id);
             widget->setX(p.x());
             widget->setY(p.y()-widget->height());
-            widget->adjustAssocs(widget->getX(), widget->getY());    // adjust assoc lines
+            widget->adjustAssocs(widget->x(), widget->y());    // adjust assoc lines
         }
 
         foreach(AssociationWidget *assoc, scene->associationList()) {

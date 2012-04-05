@@ -24,7 +24,7 @@
 #include "listpopupmenu.h"
 #include "objectwidget.h"
 #include "classifier.h"
-#include "uniqueid.h"
+#include "uniqueid.h"   
 
 // qt includes
 #include <QtGui/QPainter>
@@ -34,13 +34,15 @@ PreconditionWidget::PreconditionWidget(UMLScene * scene, ObjectWidget* a, Uml::I
 {
     init();
     m_pOw = a;
-    int y = getY();
-    m_nY = y;
     //updateResizability();
-   // calculateWidget();
-    y = y < getMinY() ? getMinY() : y;
-    y = y > getMaxY() ? getMaxY() : y;
-    m_nY = y;
+    // calculateWidget();
+    if (y() < getMinY())
+        m_nY = getMinY();
+    else if (y() > getMaxY())
+        m_nY = getMaxY();
+    else
+        m_nY = y();
+
     this->activate();
 }
 
@@ -63,14 +65,14 @@ void PreconditionWidget::paint(QPainter & p, int /*offsetX*/, int offsetY)
     int w = width();
     int h = height();
 
-    int x = m_pOw->getX() + m_pOw->width() / 2;
+    int x = m_pOw->x() + m_pOw->width() / 2;
     x -= w/2;
     setX(x);
     int y = offsetY;
 
     //test if y isn't above the object
-    if (y <= m_pOw->getY() + m_pOw->height() ) {
-        y = m_pOw->getY() + m_pOw->height() + 15;
+    if (y <= m_pOw->y() + m_pOw->height() ) {
+        y = m_pOw->y() + m_pOw->height() + 15;
     }
     if (y + h >= m_pOw->getEndLineY()) {
         y = m_pOw->getEndLineY() - h;
@@ -160,7 +162,7 @@ void PreconditionWidget::calculateDimensions()
     int x = 0;
     int w = 0;
     int h = 0;
-    int x1 = m_pOw->getX();
+    int x1 = m_pOw->x();
     int w1 = m_pOw->width() / 2;
 
     x1 += w1;
@@ -183,7 +185,7 @@ void PreconditionWidget::slotWidgetMoved(Uml::IDType id)
         uDebug() << "id=" << ID2STR(id) << ": ignoring for idA=" << ID2STR(idA);
         return;
     }
-    m_nY = getY();
+    m_nY = y();
     if (m_nY < getMinY())
         m_nY = getMinY();
     if (m_nY > getMaxY())
@@ -201,7 +203,7 @@ int PreconditionWidget::getMinY()
         return 0;
     }
 
-    int heightA = m_pOw->getY() + m_pOw->height();
+    int heightA = m_pOw->y() + m_pOw->height();
     int height = heightA;
     return height;
 }

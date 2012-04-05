@@ -126,19 +126,19 @@ void CombinedFragmentWidget::paint(QPainter & p, int offsetX, int offsetY)
                 {
                      temp = '[' + combined_fragment_value + ']';
             p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY + 20,w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, temp);
-                    if (m_dashLines.size() == 1 && m_dashLines.first()->getY() < offsetY + 20 + fontHeight )
+                    if (m_dashLines.size() == 1 && m_dashLines.first()->y() < offsetY + 20 + fontHeight )
                         m_dashLines.first()->setY(offsetY + h/2);
                 }
                 p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
             w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "alt");
                 // dash lines
-                m_dashLines.first()->paint(p,getX(),getY());
+                m_dashLines.first()->paint(p,x(),y());
                 for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines.begin() ; it!=m_dashLines.end() ; ++it) {
-                    (*it)->setX(getX());
+                    (*it)->setX(x());
                     old_Y = (*it)->getYMin();
-                    (*it)->setYMin(getY());
-                    (*it)->setYMax(getY() + height());
-                    (*it)->setY(getY() + (*it)->getY() - old_Y);
+                    (*it)->setYMin(y());
+                    (*it)->setYMax(y() + height());
+                    (*it)->setY(y() + (*it)->y() - old_Y);
                     (*it)->setSize(w, 0);
                 }
 
@@ -149,13 +149,13 @@ void CombinedFragmentWidget::paint(QPainter & p, int offsetX, int offsetY)
             w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "parallel");
                 // dash lines
                 if (m_dashLines.size() != 0) {
-                    m_dashLines.first()->paint(p,getX(),getY());
+                    m_dashLines.first()->paint(p,x(),y());
                     for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines.begin() ; it!=m_dashLines.end() ; ++it) {
-                        (*it)->setX(getX());
+                        (*it)->setX(x());
                         old_Y = (*it)->getYMin();
-                        (*it)->setYMin(getY());
-                        (*it)->setYMax(getY() + height());
-                        (*it)->setY(getY() + (*it)->getY() - old_Y);
+                        (*it)->setYMin(y());
+                        (*it)->setYMax(y() + height());
+                        (*it)->setY(y() + (*it)->y() - old_Y);
                         (*it)->setSize(w, 0);
                     }
                 }
@@ -218,10 +218,10 @@ void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combi
         {
             m_dashLines.back()->setText("else");
         }
-        m_dashLines.back()->setX(getX());
-        m_dashLines.back()->setYMin(getY());
-        m_dashLines.back()->setYMax(getY() + height());
-        m_dashLines.back()->setY(getY() + height()/2);
+        m_dashLines.back()->setX(x());
+        m_dashLines.back()->setYMin(y());
+        m_dashLines.back()->setYMax(y() + height());
+        m_dashLines.back()->setY(y() + height()/2);
         m_dashLines.back()->setSize(width(), 0);
         m_scene->setupNewWidget(m_dashLines.back());
     }
@@ -369,10 +369,10 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
         {
             m_dashLines.back()->setText("else");
         }
-        m_dashLines.back()->setX(getX());
-        m_dashLines.back()->setYMin(getY());
-        m_dashLines.back()->setYMax(getY() + height());
-        m_dashLines.back()->setY(getY() + height() / 2);
+        m_dashLines.back()->setX(x());
+        m_dashLines.back()->setYMin(y());
+        m_dashLines.back()->setYMax(y() + height());
+        m_dashLines.back()->setY(y() + height() / 2);
         m_dashLines.back()->setSize(width(), 0);
         m_scene->setupNewWidget(m_dashLines.back());
         break;

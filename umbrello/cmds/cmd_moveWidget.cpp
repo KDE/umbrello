@@ -25,8 +25,8 @@ namespace Uml
     {
         UMLWidget * w = wc->getWidget();
         setText(i18n("Move widget : %1", w->name()));
-        m_x = w->getX();
-        m_y = w->getY();
+        m_x = w->x();
+        m_y = w->y();
         m_oldX = wc->getOldX();
         m_oldY = wc->getOldY();
     }
@@ -56,7 +56,7 @@ namespace Uml
         //w->setX(m_oldX);
         //w->setY(m_oldY);
 
-        //m_widgetCtrl->moveWidget(w->getX() - m_oldX, w->getY() - m_oldY);
+        //m_widgetCtrl->moveWidget(w->x() - m_oldX, w->y() - m_oldY);
         //m_widgetCtrl->moveWidget(-10,-10);
         //m_widgetCtrl->moveWidget(-diffX,-diffY);
         //widget->getWidgetController()->moveWidgetBy(-diffX, -diffY);

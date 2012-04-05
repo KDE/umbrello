@@ -50,7 +50,7 @@ void MessageWidgetController::saveWidgetValues(QMouseEvent *me)
 {
     UMLWidgetController::saveWidgetValues(me);
 
-    m_unconstrainedPositionY = m_widget->getY();
+    m_unconstrainedPositionY = m_widget->y();
 }
 
 /**
@@ -78,7 +78,7 @@ void MessageWidgetController::resizeWidget(int newW, int newH)
     if (m_messageWidget->sequenceMessageType() == Uml::sequence_message_creation)
         m_messageWidget->setSize(m_messageWidget->width(), newH);
     else {
-        int x1 = m_messageWidget->m_pOw[Uml::A]->getX();
+        int x1 = m_messageWidget->m_pOw[Uml::A]->x();
         int x2 = m_messageWidget->getxclicked();
         int diffX = 0;
         if (x1 < x2) {
@@ -119,7 +119,7 @@ void MessageWidgetController::moveWidgetBy(int diffX, int diffY)
     int newY = constrainPositionY(diffY);
 
     if (m_unconstrainedPositionY != newY) {
-        if (m_unconstrainedPositionY > m_messageWidget->getY()) {
+        if (m_unconstrainedPositionY > m_messageWidget->y()) {
             newY = m_unconstrainedPositionY;
         } else {
             return;
@@ -148,7 +148,7 @@ void MessageWidgetController::moveWidgetBy(int diffX, int diffY)
 void MessageWidgetController::constrainMovementForAllWidgets(int &diffX, int &diffY)
 {
     diffX = 0;
-    diffY = constrainPositionY(diffY) - m_widget->getY();
+    diffY = constrainPositionY(diffY) - m_widget->y();
 }
 
 /**
@@ -178,7 +178,7 @@ void MessageWidgetController::doMouseDoubleClick(QMouseEvent* me)
  */
 int MessageWidgetController::constrainPositionY(int diffY)
 {
-    int newY = m_widget->getY() + diffY;
+    int newY = m_widget->y() + diffY;
 
     int minY = m_messageWidget->getMinY();
     if (m_messageWidget->m_pFText && !m_messageWidget->m_pFText->displayText().isEmpty()) {

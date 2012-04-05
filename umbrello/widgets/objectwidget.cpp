@@ -191,11 +191,7 @@ void ObjectWidget::moveEvent(QMoveEvent *m)
     Q_UNUSED(m)
     emit sigWidgetMoved( m_nLocalID );
     if (m_pLine) {
-        const int x = getX();    // for debugging: gdb has a problem evaluating getX() etc
-        const int w = width();
-        const int y = getY();
-        const int h = height();
-        m_pLine->setStartPoint(x + w / 2, y + h);
+        m_pLine->setStartPoint(x() + width() / 2, y() + height());
     }
 }
 
@@ -293,20 +289,20 @@ void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY)
 
 void ObjectWidget::tabUp()
 {
-    int newY = getY() - height();
+    int newY = y() - height();
     if (newY < topMargin())
         newY = topMargin();
     setY( newY );
     moveEvent( 0 );
-    adjustAssocs( getX(), newY);
+    adjustAssocs( x(), newY);
 }
 
 void ObjectWidget::tabDown()
 {
-    int newY = getY() + height();
+    int newY = y() + height();
     setY( newY );
     moveEvent( 0 );
-    adjustAssocs( getX(), newY);
+    adjustAssocs( x(), newY);
 }
 
 int ObjectWidget::topMargin()
@@ -316,8 +312,7 @@ int ObjectWidget::topMargin()
 
 bool ObjectWidget::canTabUp()
 {
-    int y = getY();
-    return (y > topMargin());
+    return (y() > topMargin());
 }
 
 void ObjectWidget::setShowDestruction( bool bShow )
@@ -334,7 +329,7 @@ void ObjectWidget::setEndLine(int yPosition)
 
 int ObjectWidget::getEndLineY()
 {
-    int y = this -> getY() + height();
+    int y = this -> y() + height();
     if( m_pLine)
         y += m_pLine -> getLineLength();
     if ( m_showDestruction )
@@ -363,7 +358,7 @@ void ObjectWidget::slotMessageMoved()
 {
     int lowestMessage = 0;
     foreach ( MessageWidget* message, messageWidgetList ) {
-        int messageHeight = message->getY() + message->height();
+        int messageHeight = message->y() + message->height();
         if (lowestMessage < messageHeight) {
             lowestMessage = messageHeight;
         }
@@ -374,7 +369,7 @@ void ObjectWidget::slotMessageMoved()
 bool ObjectWidget::messageOverlap(int y, MessageWidget* messageWidget)
 {
     foreach ( MessageWidget* message , messageWidgetList ) {
-        const int msgY = message->getY();
+        const int msgY = message->y();
         const int msgHeight = msgY + message->height();
         if (y >= msgY && y <= msgHeight && message != messageWidget) {
             return true;

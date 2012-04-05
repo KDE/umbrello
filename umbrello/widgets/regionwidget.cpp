@@ -72,7 +72,7 @@ UMLSceneSize RegionWidget::minimumSize() {
 void RegionWidget::setName(const QString &strName) {
     m_Text = strName;
     updateComponentSize();
-    adjustAssocs( getX(), getY() );
+    adjustAssocs( x(), y() );
 }
 
 QString RegionWidget::getName() const {

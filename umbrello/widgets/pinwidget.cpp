@@ -40,10 +40,7 @@ PinWidget::PinWidget(UMLScene * scene, UMLWidget* a, Uml::IDType id)
     setMaximumSize(10,10);
     setSize(10,10);
     m_pOw = a;
-    int y = getY();
-    m_nY = y;
-    y = y < getMinY() ? getMinY() : y;
-    m_nY = y;
+    m_nY = y() < getMinY() ? getMinY() : y();
 
     m_pName = new FloatingTextWidget(scene, Uml::TextRole::Floating, "");
     scene->setupNewWidget(m_pName);
@@ -73,56 +70,56 @@ void PinWidget::paint(QPainter & p, int offsetX, int offsetY)
     int width_Activity = m_pOw->width();
     int height_Activity = m_pOw->height();
     int y = 0;
-    int x = m_pOw->getX() + (width_Activity/2);
+    int x = m_pOw->x() + (width_Activity/2);
 
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
 
-    if ( (offsetY + height_Activity/2) <= m_pOw->getY() + height_Activity){
-        y = m_pOw->getY()-5;
-        if (m_pName->getX() == 0 && m_pName->getY() == 0) {
+    if ( (offsetY + height_Activity/2) <= m_pOw->y() + height_Activity){
+        y = m_pOw->y()-5;
+        if (m_pName->x() == 0 && m_pName->y() == 0) {
             //the floating text has not been linked with the signal
             m_pName->setX(x + 5 - m_Text.length()/2);
             m_pName->setY(y -fontHeight);
         }
 
 
-    } else if((offsetY + height_Activity/2) > m_pOw->getY() + height_Activity){
-       y = (m_pOw->getY() + height_Activity)-5;
-        if (m_pName->getX() == 0 && m_pName->getY() == 0) {
+    } else if((offsetY + height_Activity/2) > m_pOw->y() + height_Activity){
+       y = (m_pOw->y() + height_Activity)-5;
+        if (m_pName->x() == 0 && m_pName->y() == 0) {
             //the floating text has not been linked with the signal
             m_pName->setX(x + 5 - m_Text.length()/2);
             m_pName->setY(y + fontHeight);
         }
     }
 
-    if (offsetX + width_Activity/4 <= m_pOw->getX() + width_Activity/2
-         && (offsetY > m_pOw->getY() +5 && offsetY < m_pOw->getY() + height_Activity - 5) ){
-        x = m_pOw->getX() -5;
-        y = m_pOw->getY() + (height_Activity/2) -5;
-        if (m_pName->getX() == 0 && m_pName->getY() == 0) {
+    if (offsetX + width_Activity/4 <= m_pOw->x() + width_Activity/2
+         && (offsetY > m_pOw->y() +5 && offsetY < m_pOw->y() + height_Activity - 5) ){
+        x = m_pOw->x() -5;
+        y = m_pOw->y() + (height_Activity/2) -5;
+        if (m_pName->x() == 0 && m_pName->y() == 0) {
             m_pName->setX(x - m_Text.length());
             m_pName->setY(y - fontHeight);
         }
-    } else if (offsetX + width_Activity/4 > m_pOw->getX() + width_Activity/2
-         && (offsetY > m_pOw->getY() +5 && offsetY < m_pOw->getY() + height_Activity - 5) ){
-        x = m_pOw->getX() + width_Activity -5;
-        y = m_pOw->getY() + (height_Activity/2) -5;
-        if (m_pName->getX() == 0 && m_pName->getY() == 0) {
+    } else if (offsetX + width_Activity/4 > m_pOw->x() + width_Activity/2
+         && (offsetY > m_pOw->y() +5 && offsetY < m_pOw->y() + height_Activity - 5) ){
+        x = m_pOw->x() + width_Activity -5;
+        y = m_pOw->y() + (height_Activity/2) -5;
+        if (m_pName->x() == 0 && m_pName->y() == 0) {
             //the floating text has not been linked with the signal
             m_pName->setX(x + 10);
             m_pName->setY(y - fontHeight);
         }
     }
 
-    m_oldX = getX();
+    m_oldX = this->x();
     setX(x);
-    m_oldY = getY();
+    m_oldY = this->y();
     setY(y);
 
 //test if y isn't above the object
-//     if ( y <= m_pOw[Uml::A]->getY() + height_Activity-5 && x == m_pOw[Uml::A]->getX() + (width_Activity/2) ) {
-//         y = m_pOw[Uml::A]->getY() + height_Activity + 15;
+//     if ( y <= m_pOw[Uml::A]->y() + height_Activity-5 && x == m_pOw[Uml::A]->x() + (width_Activity/2) ) {
+//         y = m_pOw[Uml::A]->y() + height_Activity + 15;
 //     }
 //     if (y + h >= m_pOw[Uml::A]->getEndLineY()) {
 //         y = m_pOw[Uml::A]->getEndLineY() - h;
@@ -154,18 +151,18 @@ int PinWidget::getMinY()
     if (!m_pOw) {
         return 0;
     }
-    int heightA = m_pOw->getY() + m_pOw->height();
+    int heightA = m_pOw->y() + m_pOw->height();
     return heightA;
 }
 
 void PinWidget::mouseMoveEvent(QMouseEvent* me)
 {
     UMLWidget::mouseMoveEvent(me);
-    int diffX = m_oldX - getX();
-    int diffY = m_oldY - getY();
+    int diffX = m_oldX - x();
+    int diffY = m_oldY - y();
     if (m_pName!=NULL && !( m_pName->text() ).isEmpty()) {
-        m_pName->setX(m_pName->getX() - diffX);
-        m_pName->setY(m_pName->getY() - diffY);
+        m_pName->setX(m_pName->x() - diffX);
+        m_pName->setY(m_pName->y() - diffY);
     }
 }
 

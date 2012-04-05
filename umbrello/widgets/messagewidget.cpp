@@ -206,12 +206,12 @@ void MessageWidget::drawArrow(QPainter& p, int x, int y, int w,
 
 void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY)
 {
-    int x1 = m_pOw[Uml::A]->getX();
-    int x2 = m_pOw[Uml::B]->getX();
+    int x1 = m_pOw[Uml::A]->x();
+    int x2 = m_pOw[Uml::B]->x();
     int w = width() - 1;
     int h = height();
 
-    bool messageOverlaps = m_pOw[Uml::A] -> messageOverlap( getY(), this );
+    bool messageOverlaps = m_pOw[Uml::A] -> messageOverlap( y(), this );
 
     if(m_pOw[Uml::A] == m_pOw[Uml::B]) {
         p.fillRect( offsetX, offsetY, 17, h,  QBrush(Qt::white) );              //box
@@ -262,12 +262,12 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY)
 
 void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY)
 {
-    int x1 = m_pOw[Uml::A]->getX();
-    int x2 = m_pOw[Uml::B]->getX();
+    int x1 = m_pOw[Uml::A]->x();
+    int x2 = m_pOw[Uml::B]->x();
     int w = width() - 1;
     int h = height() - 1;
-    bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( getY(), this );
-    //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( getY(), this );
+    bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( y(), this );
+    //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( y(), this );
 
     if(m_pOw[Uml::A] == m_pOw[Uml::B]) {
         if (messageOverlapsA)  {
@@ -306,12 +306,12 @@ void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY)
 
 void MessageWidget::drawCreation(QPainter& p, int offsetX, int offsetY)
 {
-    int x1 = m_pOw[Uml::A]->getX();
-    int x2 = m_pOw[Uml::B]->getX();
+    int x1 = m_pOw[Uml::A]->x();
+    int x2 = m_pOw[Uml::B]->x();
     int w = width() - 1;
     //int h = height() - 1;
-    bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( getY(), this );
-    //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( getY(), this );
+    bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( y(), this );
+    //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( y(), this );
 
     const int lineY = offsetY + 4;
     if (x1 < x2) {
@@ -337,7 +337,7 @@ void MessageWidget::drawCreation(QPainter& p, int offsetX, int offsetY)
 
 void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY)
 {
-    int x1 = m_pOw[Uml::A]->getX();
+    int x1 = m_pOw[Uml::A]->x();
     int x2 = xclicked;
     int w1 = m_pOw[Uml::A]->width() / 2;
     x1 += w1;
@@ -345,8 +345,8 @@ void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY)
     int w = width() ;
 
     int h = 10;
-    bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( getY(), this );
-    //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( getY(), this );
+    bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( y(), this );
+    //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( y(), this );
 
     if(x1 < x2) {
         if (messageOverlapsA)  {
@@ -375,13 +375,13 @@ void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY)
 
 void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY)
 {
-    int x1 = m_pOw[Uml::A]->getX();
+    int x1 = m_pOw[Uml::A]->x();
     int x2 = xclicked;
     int w = width() ;
 
     int h = 10;
-    bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( getY(), this );
-    //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( getY(), this );
+    bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( y(), this );
+    //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( y(), this );
 
     if(x1 < x2) {
         if (messageOverlapsA)  {
@@ -417,12 +417,12 @@ int MessageWidget::onWidget(const QPoint & p)
     }
     // Synchronous message:
     // Consists of top arrow (call) and bottom arrow (return.)
-    if (p.x() < getX() || p.x() > getX() + width())
+    if (p.x() < x() || p.x() > x() + width())
         return 0;
     const int tolerance = 5;  // pixels
     const int pY = p.y();
-    const int topArrowY = getY() + 3;
-    const int bottomArrowY = getY() + height() - 3;
+    const int topArrowY = y() + 3;
+    const int bottomArrowY = y() + height() - 3;
     if (pY < topArrowY - tolerance || pY > bottomArrowY + tolerance)
         return 0;
     if (height() <= 2 * tolerance)
@@ -445,8 +445,8 @@ void MessageWidget::setTextPosition()
         return;
     }
     m_pFText->updateComponentSize();
-    int ftX = constrainX(m_pFText->getX(), m_pFText->width(), m_pFText->textRole());
-    int ftY = getY() - m_pFText->height();
+    int ftX = constrainX(m_pFText->x(), m_pFText->width(), m_pFText->textRole());
+    int ftY = y() - m_pFText->height();
     m_pFText->setX( ftX );
     m_pFText->setY( ftY );
 }
@@ -454,16 +454,16 @@ void MessageWidget::setTextPosition()
 int MessageWidget::constrainX(int textX, int textWidth, Uml::TextRole tr)
 {
     int result = textX;
-    const int minTextX = getX() + 5;
+    const int minTextX = x() + 5;
     if (textX < minTextX || tr == Uml::TextRole::Seq_Message_Self) {
         result = minTextX;
     } else {
         ObjectWidget *objectAtRight = NULL;
-        if (m_pOw[Uml::B]->getX() > m_pOw[Uml::A]->getX())
+        if (m_pOw[Uml::B]->x() > m_pOw[Uml::A]->x())
             objectAtRight = m_pOw[Uml::B];
         else
             objectAtRight = m_pOw[Uml::A];
-        const int objRight_seqLineX = objectAtRight->getX() + objectAtRight->width() / 2;
+        const int objRight_seqLineX = objectAtRight->x() + objectAtRight->width() / 2;
         const int maxTextX = objRight_seqLineX - textWidth - 5;
         if (maxTextX <= minTextX)
             result = minTextX;
@@ -545,7 +545,7 @@ void MessageWidget::slotWidgetMoved(Uml::IDType id)
             << ", idB=" << ID2STR(idB);
         return;
     }
-    m_nY = getY();
+    m_nY = y();
     if (m_nY < getMinY())
         m_nY = getMinY();
     if (m_nY > getMaxY())
@@ -801,7 +801,7 @@ void MessageWidget::calculateDimensions()
         uWarning() << "Unknown message type";
     }
     if (! UMLApp::app()->document()->loading()) {
-        adjustAssocs( getX(), getY() );  // adjust assoc lines
+        adjustAssocs( x(), y() );  // adjust assoc lines
     }
 }
 
@@ -809,8 +809,8 @@ void MessageWidget::calculateDimensionsSynchronous()
 {
     int x = 0;
 
-    int x1 = m_pOw[Uml::A]->getX();
-    int x2 = m_pOw[Uml::B]->getX();
+    int x1 = m_pOw[Uml::A]->x();
+    int x2 = m_pOw[Uml::B]->x();
     int w1 = m_pOw[Uml::A]->width() / 2;
     int w2 = m_pOw[Uml::B]->width() / 2;
     x1 += w1;
@@ -843,8 +843,8 @@ void MessageWidget::calculateDimensionsAsynchronous()
 {
     int x = 0;
 
-    int x1 = m_pOw[Uml::A]->getX();
-    int x2 = m_pOw[Uml::B]->getX();
+    int x1 = m_pOw[Uml::A]->x();
+    int x2 = m_pOw[Uml::B]->x();
     int w1 = m_pOw[Uml::A]->width() / 2;
     int w2 = m_pOw[Uml::B]->width() / 2;
     x1 += w1;
@@ -877,8 +877,8 @@ void MessageWidget::calculateDimensionsCreation()
 {
     int x = 0;
 
-    int x1 = m_pOw[Uml::A]->getX();
-    int x2 = m_pOw[Uml::B]->getX();
+    int x1 = m_pOw[Uml::A]->x();
+    int x2 = m_pOw[Uml::B]->x();
     int w1 = m_pOw[Uml::A]->width() / 2;
     int w2 = m_pOw[Uml::B]->width();
     x1 += w1;
@@ -897,7 +897,7 @@ void MessageWidget::calculateDimensionsCreation()
     x += 1;
     widgetWidth -= 2;
     m_nPosX = x;
-    m_nY = m_pOw[Uml::B]->getY() + m_pOw[Uml::B]->height() / 2;
+    m_nY = m_pOw[Uml::B]->y() + m_pOw[Uml::B]->height() / 2;
     setSize(widgetWidth, widgetHeight);
 }
 
@@ -905,7 +905,7 @@ void MessageWidget::calculateDimensionsLost()
 {
     int x = 0;
 
-    int x1 = m_pOw[Uml::A]->getX();
+    int x1 = m_pOw[Uml::A]->x();
     int x2 = xclicked;
     int w1 = m_pOw[Uml::A]->width() / 2;
 
@@ -929,7 +929,7 @@ void MessageWidget::calculateDimensionsFound()
 {
     int x = 0;
 
-    int x1 = m_pOw[Uml::A]->getX();
+    int x1 = m_pOw[Uml::A]->x();
     int x2 = xclicked;
     int w1 = m_pOw[Uml::A]->width() / 2;
     x1 += w1;
@@ -988,10 +988,10 @@ int MessageWidget::getMinY()
         return 0;
     }
     if (m_sequenceMessageType == Uml::sequence_message_creation) {
-        return m_pOw[Uml::A]->getY() + m_pOw[Uml::A]->height();
+        return m_pOw[Uml::A]->y() + m_pOw[Uml::A]->height();
     }
-    int heightA = m_pOw[Uml::A]->getY() + m_pOw[Uml::A]->height();
-    int heightB = m_pOw[Uml::B]->getY() + m_pOw[Uml::B]->height();
+    int heightA = m_pOw[Uml::A]->y() + m_pOw[Uml::A]->height();
+    int heightB = m_pOw[Uml::B]->y() + m_pOw[Uml::B]->height();
     int height = heightA;
     if( heightA < heightB ) {
         height = heightB;
