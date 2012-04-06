@@ -12,6 +12,7 @@
 #define UMLVIEWIMAGEEXPORTERMODEL_H
 
 #include "umlscene.h"
+
 #include <QtCore/QStringList>
 #include <QtCore/QRect>
 

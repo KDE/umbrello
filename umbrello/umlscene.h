@@ -95,7 +95,7 @@ public:
 
     // Accessors and other methods dealing with loaded/saved data
 
-    UMLFolder* folder() const; 
+    UMLFolder* folder() const;
     void setFolder(UMLFolder *folder);
 
     QString documentation() const;
@@ -254,7 +254,7 @@ public:
     void removeAssocInViewAndDoc(AssociationWidget* assoc);
 
     bool addWidget(UMLWidget * pWidget, bool isPasteOperation = false);
-    
+
     UMLScenePoint getPastePoint();
     void resetPastePoint();
 
@@ -327,8 +327,6 @@ public:
 protected:
     virtual void contextMenuEvent(UMLSceneContextMenuEvent * event);
 
-    void drawBackground(QPainter *p, const QRectF& rect);
-
     // Methods and members related to loading/saving
 
     bool loadWidgetsFromXMI(QDomElement & qElement);
@@ -387,6 +385,8 @@ protected:
                                   qreal& px, qreal& py, qreal& qx, qreal& qy);
 
     void forceUpdateWidgetFontMetrics(QPainter *painter);
+
+    void drawBackground(QPainter *p, const QRectF& rect);
 
     int m_nCollaborationId;  ///< Used for creating unique name of collaboration messages.
     UMLScenePoint m_Pos;
