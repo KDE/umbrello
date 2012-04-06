@@ -126,7 +126,7 @@ public:
     void setTextColor(const QColor& color);
 
     const QColor& gridDotColor() const;
-    void setGridDotColor(const QColor &gridColor);
+    void setGridDotColor(const QColor& color);
 
     bool snapToGrid() const;
     void setSnapToGrid(bool bSnap);
@@ -379,7 +379,7 @@ protected:
 
     UMLSceneRect diagramRect();
 
-    void makeSelected (UMLWidget * uw);
+    void makeSelected(UMLWidget* uw);
 
     void updateComponentSizes();
 

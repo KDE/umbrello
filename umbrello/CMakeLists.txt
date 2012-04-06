@@ -3,6 +3,35 @@ add_subdirectory( headings )
 
 add_definitions(-DQT3_SUPPORT_WARNINGS)
 
+#### get subversion revision number ###
+
+MESSAGE(STATUS "\n")
+UNSET(SVN_FILE CACHE)
+find_file(SVN_FILE .svn ${CMAKE_CURRENT_SOURCE_DIR} NO_DEFAULT_PATH)
+if(SVN_FILE)
+    MESSAGE(STATUS "SVN used: ${SVN_FILE}.")
+    find_package(Subversion)
+    if(Subversion_FOUND)
+        # extract working copy information for SOURCE_DIR into MY_XXX variables
+        Subversion_WC_INFO(${CMAKE_CURRENT_SOURCE_DIR} MY)
+        set(SUBVERSION_REVISION ${MY_WC_LAST_CHANGED_REV})
+        MESSAGE(STATUS "SVN Revision: ${MY_WC_LAST_CHANGED_REV}")
+    else(Subversion_FOUND)
+        set(SUBVERSION_REVISION 0)
+        MESSAGE(STATUS "SVN Revision: 0 - no package Subversion available!")
+    endif(Subversion_FOUND)
+else(SVN_FILE)
+    MESSAGE(STATUS "SVN not used.")
+    set(SUBVERSION_REVISION 0)
+    MESSAGE(STATUS "SVN Revision: 0 - not yet implemented!")
+endif(SVN_FILE)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/revision.h.in ${CMAKE_CURRENT_BINARY_DIR}/revision.temp)
+execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                ${CMAKE_CURRENT_BINARY_DIR}/revision.temp ${CMAKE_CURRENT_BINARY_DIR}/revision.h)
+file(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/revision.temp)
+
+########### set variables #############
+
 # Some definitions for experimental code or debugging
 #add_definitions(-DWANT_LVTOOLTIP)                # umllistiew
 #add_definitions(-DXMI_FLAT_PACKAGES)             # umlobject
@@ -438,8 +467,8 @@ set(libumbrello_SRCS
     umlobject.cpp
     umlobjectlist.cpp
     umlrole.cpp
-    umlview.cpp
     umlscene.cpp
+    umlview.cpp
     umlviewimageexporter.cpp
     umlviewimageexporterall.cpp
     umlviewimageexportermodel.cpp
@@ -488,7 +517,8 @@ install( FILES
 
 install( DIRECTORY
     layouts
-    DESTINATION ${DATA_INSTALL_DIR}/umbrello )
+    DESTINATION ${DATA_INSTALL_DIR}/umbrello
+    PATTERN .svn EXCLUDE )
 
 kde4_install_icons( ${ICON_INSTALL_DIR} )
 

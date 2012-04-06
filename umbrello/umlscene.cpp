@@ -149,7 +149,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder)
 }
 
 /**
- * Destructor
+ * Destructor.
  */
 UMLScene::~UMLScene()
 {
@@ -177,7 +177,7 @@ UMLScene::~UMLScene()
  */
 UMLFolder* UMLScene::folder() const
 {
-     return m_pFolder;
+    return m_pFolder;
 }
  
 /**
@@ -374,11 +374,11 @@ const QColor& UMLScene::gridDotColor() const
  *
  * @param color grid dot color
  */
-void UMLScene::setGridDotColor(const QColor& gridColor)
+void UMLScene::setGridDotColor(const QColor& color)
 {
-    m_layoutGrid->setGridDotColor(gridColor);
-    m_layoutGrid->setGridCrossColor(gridColor);
-    m_layoutGrid->setTextColor(gridColor);
+    m_layoutGrid->setGridDotColor(color);
+    m_layoutGrid->setGridCrossColor(color);
+    m_layoutGrid->setTextColor(color);
 }
 
 /**
@@ -1480,7 +1480,7 @@ void UMLScene::deleteSelection()
     // we also have to remove selected messages from sequence diagrams
 
     // loop through all messages and check the selection state
-    foreach(MessageWidget* cur_msgWgt , m_MessageList) {
+    foreach(MessageWidget* cur_msgWgt, m_MessageList) {
         if (cur_msgWgt->isSelected()) {
             removeWidget(cur_msgWgt);  // Remove message - it is selected.
         }
@@ -1583,7 +1583,7 @@ bool UMLScene::isArrowMode()
  * it into the m_SelectedList while making sure it is
  * there only once.
  */
-void UMLScene::makeSelected(UMLWidget * uw)
+void UMLScene::makeSelected(UMLWidget* uw)
 {
     if (uw) {
         uw->setSelected(true);
@@ -3267,7 +3267,6 @@ void UMLScene::slotMenuSelection(QAction* action)
             setupNewWidget(activity);
         }
         break;
-
 
     case ListPopupMenu::mt_End_Activity:
         {
