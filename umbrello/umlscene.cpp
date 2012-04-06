@@ -3246,6 +3246,46 @@ void UMLScene::slotMenuSelection(QAction* action)
         }
         break;
 
+    case ListPopupMenu::mt_DeepHistory:
+        {
+            StateWidget* state = new StateWidget(StateWidget::DeepHistory);
+            addItem(state);
+            setupNewWidget(state);
+        }
+        break;
+
+    case ListPopupMenu::mt_ShallowHistory:
+        {
+            StateWidget* state = new StateWidget(StateWidget::ShallowHistory);
+            addItem(state);
+            setupNewWidget(state);
+        }
+        break;
+
+    case ListPopupMenu::mt_Choice:
+        {
+            StateWidget* state = new StateWidget(StateWidget::Choice);
+            addItem(state);
+            setupNewWidget(state);
+        }
+        break;
+
+    case ListPopupMenu::mt_StateFork:
+        {
+            StateWidget* state = new StateWidget(StateWidget::Fork);
+            addItem(state);
+            setupNewWidget(state);
+        }
+        break;
+
+    case ListPopupMenu::mt_StateJoin:
+        {
+            StateWidget* state = new StateWidget(StateWidget::Join);
+            addItem(state);
+            setupNewWidget(state);
+        }
+        break;
+
     case ListPopupMenu::mt_State:
         {
             bool ok = false;
