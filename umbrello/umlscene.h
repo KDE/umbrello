@@ -176,17 +176,17 @@ public:
 
     void checkMessages(ObjectWidget * w);
 
-    UMLWidget * findWidget(Uml::IDType id);
+    UMLWidget* findWidget(Uml::IDType id);
 
-    AssociationWidget * findAssocWidget(Uml::IDType id);
-    AssociationWidget * findAssocWidget(Uml::AssociationType at,
-                                        UMLWidget *pWidgetA, UMLWidget *pWidgetB);
-    AssociationWidget * findAssocWidget(UMLWidget *pWidgetA,
-                                        UMLWidget *pWidgetB, const QString& roleNameB);
+    AssociationWidget* findAssocWidget(Uml::IDType id);
+    AssociationWidget* findAssocWidget(Uml::AssociationType at,
+                                       UMLWidget *pWidgetA, UMLWidget *pWidgetB);
+    AssociationWidget* findAssocWidget(UMLWidget *pWidgetA,
+                                       UMLWidget *pWidgetB, const QString& roleNameB);
 
-    void removeWidget(UMLWidget * o);
+    void removeWidget(UMLWidget *o);
 
-    void setSelected(UMLWidget * w, QMouseEvent * me);
+    void setSelected(UMLWidget *w, QMouseEvent *me);
     void clearSelected();
 
     void moveSelectedBy(UMLSceneValue dX, UMLSceneValue dY);
@@ -223,7 +223,7 @@ public:
 
     bool selectedWidgets(UMLWidgetList& WidgetList, bool filterText = true);
 
-    void activateAfterLoad( bool bUseLog = false );
+    void activateAfterLoad(bool bUseLog = false);
 
     void endPartialWidgetPaste();
     void beginPartialWidgetPaste();
@@ -359,9 +359,9 @@ protected:
     void dragMoveEvent(QDragMoveEvent* moveEvent);
     void dropEvent(QDropEvent* dropEvent);
 
-    QRect diagramRect();
+    UMLSceneRect diagramRect();
 
-    void makeSelected(UMLWidget * uw);
+    void makeSelected(UMLWidget* uw);
 
     void updateComponentSizes();
 

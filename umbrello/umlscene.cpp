@@ -55,7 +55,6 @@
 #include "umldragdata.h"
 #include "umllistview.h"
 #include "umllistviewitem.h"
-#include "umllistviewitemlist.h"
 #include "umlobject.h"
 #include "umlobjectlist.h"
 #include "umlrole.h"
@@ -64,9 +63,6 @@
 #include "umlviewimageexporter.h"
 #include "umlwidget.h"
 #include "uniqueid.h"
-#include "usecasewidget.h"
-
-
 #include "widget_factory.h"
 
 //kde include files
@@ -377,7 +373,7 @@ const QColor& UMLScene::textColor() const
  *
  * @param color  The color to use.
  */
-void UMLScene::setTextColor(const QColor &color)
+void UMLScene::setTextColor(const QColor& color)
 {
     m_Options.uiState.textColor = color;
     emit sigTextColorChanged(ID());
@@ -425,7 +421,7 @@ const Settings::OptionState& UMLScene::optionState() const
 /**
  * Sets the options to be used.
  */
-void UMLScene::setOptionState( const Settings::OptionState& options)
+void UMLScene::setOptionState(const Settings::OptionState& options)
 {
     m_Options = options;
 }
@@ -481,7 +477,7 @@ void UMLScene::setIsOpen(bool isOpen)
 }
 
 /**
- * contains the implementation for printing functionality
+ * Contains the implementation for printing functionality.
  */
 void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
 {
@@ -1270,7 +1266,7 @@ void UMLScene::setUseFillColor(bool ufc)
  *
  * @return Returns the smallest area to print.
  */
-QRect UMLScene::diagramRect()
+UMLSceneRect UMLScene::diagramRect()
 {
     int startx, starty, endx, endy;
     startx = starty = INT_MAX;
@@ -1341,7 +1337,7 @@ QRect UMLScene::diagramRect()
  * @param w The widget to set to selected.
  * @param me The mouse event containing the information about the selection.
  */
-void UMLScene::setSelected(UMLWidget * w, QMouseEvent * me)
+void UMLScene::setSelected(UMLWidget *w, QMouseEvent *me)
 {
     Q_UNUSED(me);
     //only add if wasn't in list
