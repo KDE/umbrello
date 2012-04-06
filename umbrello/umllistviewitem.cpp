@@ -64,7 +64,6 @@ UMLListViewItem::UMLListViewItem(UMLListView * parent, const QString &name,
     }
     setIcon(Icon_Utils::it_Home);
     setText(name);
-//    setRenameEnabled(0, false);
 }
 
 /**

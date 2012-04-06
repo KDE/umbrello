@@ -295,24 +295,6 @@ void StateWidget::setAspectRatioMode()
 }
 
 /**
- * Sets the name of the State.
- */
-void StateWidget::setName(const QString &strName)
-{
-    m_Text = strName;
-    updateComponentSize();
-    adjustAssocs( x(), y() );
-}
-
-/**
- * Returns the name of the State.
- */
-QString StateWidget::name() const
-{
-    return m_Text;
-}
-
-/**
  * Returns the type of state.
  * @return StateType
  */

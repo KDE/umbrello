@@ -64,9 +64,6 @@ public:
 
     void paint(QPainter & p, int offsetX, int offsetY);
 
-    virtual QString name() const;
-    virtual void setName(const QString &strName);
-
     StateType stateType() const;
     QString stateTypeStr() const;
     void setStateType(StateType stateType);
