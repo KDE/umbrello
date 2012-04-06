@@ -30,9 +30,10 @@
 #include "statewidget.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "umlscene.h"
 #include "umlview.h"
-#include "umlwidget.h"
 #include "widget_utils.h"
+#include "widgetbase.h"
 
 // kde includes
 #include <klocale.h>
@@ -53,6 +54,23 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, UMLView * view)
     m_TriggerObject.m_View = view;
     m_TriggerObjectType = tot_View;
     setupMenu(type);
+    setupActionsData();
+}
+
+/**
+ * Constructs the popup menu for a WidgetBase with customized menu type.
+ *
+ * @param parent   The parent to ListPopupMenu.
+ * @param type     The type of menu to display.
+ * @param object   The WidgetBase object.
+ */
+ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, WidgetBase *widget)
+  : KMenu(parent)
+{
+    m_TriggerObject.m_Widget = widget;
+    m_TriggerObjectType = tot_Widget;
+    setupMenu(type);
+    setupActionsData();
 }
 
 /**
@@ -247,18 +265,19 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type
         break;
     }
     setupMenu(mt);
+    setupActionsData();
 }
 
 /**
  * Constructs the popup menu for a canvas widget.
  *
  * @param parent   The parent to ListPopupMenu.
- * @param object   The UMLWidget to represent a menu for.
+ * @param object   The WidgetBase to represent a menu for.
  * @param multi    True if multiple items are selected.
  * @param unique   True if multiple selected items all have
  *                 the same type (e.g. Class, Interface)
  */
-ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
+ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
                              bool multi, bool unique)
   : KMenu(parent)
 {
@@ -268,7 +287,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     //make menu for logical view
     if (!object)
         return;
-    UMLWidget::WidgetType type = object->baseType();
+    WidgetBase::WidgetType type = object->baseType();
     // uDebug() << "ListPopupMenu created with multi=" << multi << " , unique="
     //          << unique << " for WidgetType=" << type;
 
@@ -572,6 +591,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     setActionEnabled( mt_Cut, bCutState );
     setActionEnabled( mt_Copy, bCutState );
     setActionEnabled( mt_Paste, false );
+    setupActionsData();
 }
 
 /**

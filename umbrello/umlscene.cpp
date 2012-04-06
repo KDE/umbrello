@@ -107,7 +107,7 @@ const UMLSceneValue UMLScene::defaultCanvasSize = 1300;
 using namespace Uml;
 
 /**
- * Constructor
+ * Constructor.
  */
 UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
   : m_nLocalID(Uml::id_None),
@@ -162,7 +162,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
 
     view->viewport()->setMouseTracking(false);
 
-    //setup signals
+    // setup signals
     connect(this, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
     connect(UMLApp::app(), SIGNAL(sigCutSuccessful()),
             this, SLOT(slotCutSuccessful()));
@@ -174,7 +174,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
 }
 
 /**
- * Destructor
+ * Destructor.
  */
 UMLScene::~UMLScene()
 {
@@ -197,7 +197,7 @@ UMLScene::~UMLScene()
 /**
  * Return the UMLFolder in which this diagram lives.
  */
-UMLFolder *UMLScene::folder() const
+UMLFolder* UMLScene::folder() const
 {
     return m_pFolder;
 }
@@ -1164,7 +1164,7 @@ AssociationWidget * UMLScene::findAssocWidget(Uml::IDType id)
  * @return Returns the widget found, returns 0 if no widget found.
  */
 AssociationWidget * UMLScene::findAssocWidget(UMLWidget *pWidgetA,
-        UMLWidget *pWidgetB, const QString& roleNameB)
+                                              UMLWidget *pWidgetB, const QString& roleNameB)
 {
     foreach(AssociationWidget* assoc, m_AssociationList) {
         const Uml::AssociationType testType = assoc->associationType();
@@ -1195,7 +1195,7 @@ AssociationWidget * UMLScene::findAssocWidget(UMLWidget *pWidgetA,
  * @return Returns the widget found, returns 0 if no widget found.
  */
 AssociationWidget * UMLScene::findAssocWidget(Uml::AssociationType at,
-        UMLWidget *pWidgetA, UMLWidget *pWidgetB)
+                                              UMLWidget *pWidgetA, UMLWidget *pWidgetB)
 {
     foreach(AssociationWidget* assoc, m_AssociationList) {
         Uml::AssociationType testType = assoc->associationType();
@@ -1746,7 +1746,7 @@ void  UMLScene::getDiagram(const QRect &rect, QPixmap &diagram)
 /**
  * Paint diagram to the paint device
  */
-void  UMLScene::getDiagram(const QRect &area, QPainter &painter)
+void  UMLScene::getDiagram(const UMLSceneRect &area, QPainter & painter)
 {
     DEBUG(DBG_SRC) << "area=" << area << ", painter=" << painter.window();
     //TODO unselecting and selecting later doesn't work now as the selection is
@@ -2747,7 +2747,7 @@ void UMLScene::createAutoAttributeAssociations(UMLWidget *widget)
  * widget if the UMLClassifier type is present on the current diagram.
  */
 void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute *attr,
-        UMLWidget *widget /*, UMLClassifier * klass*/)
+                                              UMLWidget *widget /*, UMLClassifier * klass*/)
 {
     if (type == NULL) {
         // DEBUG(DBG_SRC) << klass->getName() << ": type is NULL for "

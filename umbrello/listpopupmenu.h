@@ -24,7 +24,6 @@
 class UMLView;
 class ClassifierWidget;
 class UMLCategory;
-class UMLWidget;
 
 /**
  * A popup menu that depending on what type it is set to will
@@ -226,8 +225,9 @@ public:
     static QString toString(MenuType menu);
 
     explicit ListPopupMenu(QWidget* parent, MenuType type = mt_Undefined, UMLView* view = 0);
+    explicit ListPopupMenu(QWidget* parent, MenuType type, WidgetBase *widget);
     ListPopupMenu(QWidget* parent, UMLListViewItem::ListViewType type, UMLObject* object);
-    ListPopupMenu(QWidget* parent, UMLWidget* object, bool multi = false, bool unique = false);
+    ListPopupMenu(QWidget* parent, WidgetBase* object, bool multi = false, bool unique = false);
 
     ~ListPopupMenu();
 
@@ -277,7 +277,7 @@ private:
     union TriggerObject {  ///< The List Popup Menu is triggered either by right clicking on the View, a ListViewItem (Object), or a widget.
         UMLView* m_View;
         UMLObject* m_Object;
-        UMLWidget* m_Widget;
+        WidgetBase* m_Widget;
     };
 
     enum TriggerObjectType {  ///< Enum to keep track on TriggerObject Type.
