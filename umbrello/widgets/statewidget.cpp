@@ -175,7 +175,7 @@ void StateWidget::paint(QPainter & p, int offsetX, int offsetY)
         }
         break;
     default:
-        uWarning() << "Unknown state type:" << QLatin1String(ENUM_NAME(StateWidget, StateType, m_stateType));
+        uWarning() << "Unknown state type: " << stateTypeStr();
         break;
     }
     if (m_selected) {

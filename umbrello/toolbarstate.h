@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -117,9 +117,9 @@ protected:
 
     void setMouseEvent(UMLSceneMouseEvent* ome, const QEvent::Type &type);
 
-    AssociationWidget* getAssociationAt(const QPoint& pos);
-    MessageWidget* getMessageAt(const QPoint& pos);
-    FloatingDashLineWidget* getFloatingLineAt(const QPoint& pos);
+    AssociationWidget* getAssociationAt(const UMLScenePoint& pos);
+    MessageWidget* getMessageAt(const UMLScenePoint& pos);
+    FloatingDashLineWidget* getFloatingLineAt(const UMLScenePoint& pos);
 
     UMLScene* m_pUMLScene;  ///< The UMLScene.
 

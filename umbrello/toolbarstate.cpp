@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -476,14 +476,14 @@ void ToolBarState::setMouseEvent(UMLSceneMouseEvent* ome, const QEvent::Type &ty
  * @return The MessageWidget at the specified position, or null if there is none.
  * @todo Better handling for messages at the same point
  */
-MessageWidget* ToolBarState::getMessageAt(const QPoint& pos)
+MessageWidget* ToolBarState::getMessageAt(const UMLScenePoint& pos)
 {
     foreach (  MessageWidget* message, m_pUMLScene->messageList() ) {
         if (message->isVisible() && message->onWidget(pos)) {
             return message;
         }
-    }
 
+    }
     return 0;
 }
 
@@ -495,7 +495,7 @@ MessageWidget* ToolBarState::getMessageAt(const QPoint& pos)
  * @return The AssociationWidget at the specified position, or null if there is none.
  * @todo Better handling for associations at the same point
  */
-AssociationWidget* ToolBarState::getAssociationAt(const QPoint& pos)
+AssociationWidget* ToolBarState::getAssociationAt(const UMLScenePoint& pos)
 {
     foreach ( AssociationWidget* association, m_pUMLScene->associationList() ) {
         if (association->onAssociation(pos)) {
@@ -513,7 +513,7 @@ AssociationWidget* ToolBarState::getAssociationAt(const QPoint& pos)
  * @param pos The position to get the floatingLine.
  * @return The MessageWidget at the specified position, or null if there is none.
  */
-FloatingDashLineWidget* ToolBarState::getFloatingLineAt(const QPoint& pos)
+FloatingDashLineWidget* ToolBarState::getFloatingLineAt(const UMLScenePoint& pos)
 {
     FloatingDashLineWidget* floatingline = 0;
 
