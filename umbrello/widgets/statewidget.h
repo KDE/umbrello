@@ -16,7 +16,6 @@
 #include <QMetaEnum>
 
 #include "umlwidget.h"
-#include "worktoolbar.h"
 
 #define STATE_MARGIN 5
 #define STATE_WIDTH 30
@@ -79,9 +78,6 @@ public:
     void setDrawVertical(bool to = true);
 
     virtual void showPropertiesDialog();
-
-    static bool isState(WorkToolBar::ToolBar_Buttons tbb,
-                        StateType& resultType);
 
     virtual bool loadFromXMI(QDomElement & qElement);
     virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);

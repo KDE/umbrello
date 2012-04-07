@@ -440,33 +440,6 @@ void StateWidget::showPropertiesDialog()
 }
 
 /**
- * Returns true if the given toolbar button represents a State.
- *
- * @param tbb          Input value of type WorkToolBar::ToolBar_Buttons.
- * @param resultType   Output value, the StateType that corresponds to tbb.
- *                     Only set if the method returns true.
- */
-bool StateWidget::isState(WorkToolBar::ToolBar_Buttons tbb, StateType& resultType)
-{
-    bool status = true;
-    switch (tbb) {
-    case WorkToolBar::tbb_Initial_State:
-        resultType = Initial;
-        break;
-    case WorkToolBar::tbb_State:
-        resultType = Normal;
-        break;
-    case WorkToolBar::tbb_End_State:
-        resultType = End;
-        break;
-    default:
-        status = false;
-        break;
-    }
-    return status;
-}
-
-/**
  * Creates the "statewidget" XMI element.
  */
 void StateWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
