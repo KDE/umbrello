@@ -38,10 +38,10 @@ const QSizeF StateWidget::MinimumEllipseSize(30, 10);
  * @param id The ID to assign (-1 will prompt a new ID.)
  */
 StateWidget::StateWidget(StateType stateType, Uml::IDType id)
-  : UMLWidget(WidgetBase::wt_State, id)
+  : UMLWidget(WidgetBase::wt_State, id),
+    m_stateType(stateType),
+    m_drawVertical(true)
 {
-    m_stateType = stateType;
-    m_drawVertical = true;
     createTextItemGroup();
 
     const qreal radius = 18.0;
@@ -110,7 +110,7 @@ StateWidget::StateWidget(StateType stateType, Uml::IDType id)
         }
         break;
     default:
-        uWarning() << "Unknown state type:" << QLatin1String(ENUM_NAME(StateWidget, StateType, m_stateType));
+        uWarning() << "Unknown state type:" << stateTypeStr();
         break;
     }
 
@@ -197,7 +197,7 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWi
         }
         break;
     default:
-        uWarning() << "Unknown state type:" << QLatin1String(ENUM_NAME(StateWidget, StateType, m_stateType));
+        uWarning() << "Unknown state type: " << stateTypeStr();
         break;
     }
 }
@@ -341,7 +341,7 @@ bool StateWidget::drawVertical() const
 void StateWidget::setDrawVertical(bool to)
 {
     m_drawVertical = to;
-    UMLWidget::updateGeometry();
+    updateGeometry();
 }
 
 /**
@@ -426,6 +426,8 @@ void StateWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
  */
 void StateWidget::updateGeometry()
 {
+    const qreal radius = 18.0;
+
     switch (m_stateType) {
     case StateWidget::Fork:
     case StateWidget::Join:
@@ -436,6 +438,34 @@ void StateWidget::updateGeometry()
         else {
             setMinimumSize(QSizeF(40, 4));
             setMaximumSize(QSizeF(100, 10));
+        }
+        break;
+    case StateWidget::Initial:
+        {
+            const QSizeF sz = QSizeF(radius, radius);
+            setMinimumSize(sz);
+            setMaximumSize(sz);
+        }
+        break;
+    case StateWidget::End:
+        {
+            const QSizeF sz = QSizeF(radius, radius);
+            setMinimumSize(sz);
+            setMaximumSize(sz);
+        }
+        break;
+    case StateWidget::DeepHistory:
+        {
+            const QSizeF sz = QSizeF(radius, radius);
+            setMinimumSize(sz);
+            setMaximumSize(sz);
+        }
+        break;
+    case StateWidget::ShallowHistory:
+        {
+            const QSizeF sz = QSizeF(radius, radius);
+            setMinimumSize(sz);
+            setMaximumSize(sz);
         }
         break;
     case StateWidget::Normal:

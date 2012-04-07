@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -482,7 +482,7 @@ void ToolBarState::setMouseEvent(UMLSceneMouseEvent* ome, const QEvent::Type &ty
  * @return The MessageWidget at the specified position, or null if there is none.
  * @todo Better handling for messages at the same point
  */
-MessageWidget* ToolBarState::getMessageAt(const QPointF& pos)
+MessageWidget* ToolBarState::getMessageAt(const UMLScenePoint& pos)
 {
     QList<QGraphicsItem*> collisions = m_pUMLScene->items(pos);
 
@@ -504,7 +504,7 @@ MessageWidget* ToolBarState::getMessageAt(const QPointF& pos)
  * @return The AssociationWidget at the specified position, or null if there is none.
  * @todo Better handling for associations at the same point
  */
-AssociationWidget* ToolBarState::getAssociationAt(const QPointF& pos)
+AssociationWidget* ToolBarState::getAssociationAt(const UMLScenePoint& pos)
 {
     QList<QGraphicsItem*> collisions = m_pUMLScene->items(pos);
 
@@ -525,7 +525,7 @@ AssociationWidget* ToolBarState::getAssociationAt(const QPointF& pos)
  * @param pos The position to get the floatingLine.
  * @return The MessageWidget at the specified position, or null if there is none.
  */
-FloatingDashLineWidget* ToolBarState::getFloatingLineAt(const QPointF& pos)
+FloatingDashLineWidget* ToolBarState::getFloatingLineAt(const UMLScenePoint& pos)
 {
     QList<QGraphicsItem*> collisions = m_pUMLScene->items(pos);
 

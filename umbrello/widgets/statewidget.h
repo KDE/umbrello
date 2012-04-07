@@ -84,7 +84,7 @@ public Q_SLOTS:
 private:
     static const QSizeF MinimumEllipseSize;
 
-    StateType m_stateType;    ///< Type of state.
+    StateType m_stateType;    ///< type of state
     bool      m_drawVertical; ///< whether to draw the fork/join horizontally or vertically
 
     enum {
