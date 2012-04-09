@@ -763,7 +763,7 @@ bool AssociationWidget::activate()
     }
 
     // Prepare the association class line if needed.
-    if (m_pAssocClassWidget && !m_pAssocClassLine) {
+    if (m_associationClass && !m_pAssocClassLine) {
         createAssocClassLine();
     }
 
@@ -2744,9 +2744,9 @@ void AssociationWidget::removeAssocClassLine()
         delete m_pAssocClassLine;
         m_pAssocClassLine = NULL;
     }
-    if (m_pAssocClassWidget) {
-        m_pAssocClassWidget->setClassAssocWidget(NULL);
-        m_pAssocClassWidget = NULL;
+    if (m_associationClass) {
+        m_associationClass->setClassAssocWidget(NULL);
+        m_associationClass = NULL;
     }
 }
 
@@ -2782,8 +2782,8 @@ void AssociationWidget::createAssocClassLine(ClassifierWidget* classifier,
         return;
     }
 
-    m_pAssocClassWidget = classifier;
-    m_pAssocClassWidget->setClassAssocWidget(this);
+    m_associationClass = classifier;
+    m_associationClass->setClassAssocWidget(this);
 
     createAssocClassLine();
 }
@@ -2794,7 +2794,7 @@ void AssociationWidget::createAssocClassLine(ClassifierWidget* classifier,
  */
 void AssociationWidget::computeAssocClassLine()
 {
-    if (m_pAssocClassWidget == NULL || m_pAssocClassLine == NULL)
+    if (m_associationClass == NULL || m_pAssocClassLine == NULL)
         return;
     if (m_nLinePathSegmentIndex < 0) {
         uError() << "m_nLinePathSegmentIndex is not set";
@@ -2806,7 +2806,7 @@ void AssociationWidget::computeAssocClassLine()
     const int midSegY = segStart.y() + (segEnd.y() - segStart.y()) / 2;
 
     QPoint segmentMidPoint(midSegX, midSegY);
-    QRect classRectangle = m_pAssocClassWidget->rect();
+    QRect classRectangle = m_associationClass->rect();
     QPoint cwEdgePoint = findIntercept(classRectangle, segmentMidPoint);
     int acwMinX = cwEdgePoint.x();
     int acwMinY = cwEdgePoint.y();
@@ -3958,7 +3958,7 @@ void AssociationWidget::init()
     m_nLinePathSegmentIndex = -1;
     m_associationLine = new AssociationLine;
     m_associationLine->setAssociation( this );
-    m_pAssocClassWidget = NULL;
+    m_associationClass = NULL;
     m_pAssocClassLine = NULL;
     m_pAssocClassLineSel0 = m_pAssocClassLineSel1 = NULL;
 
@@ -4026,8 +4026,8 @@ void AssociationWidget::clipSize()
     if( m_role[B].changeabilityWidget )
         m_role[B].changeabilityWidget->clipSize();
 
-    if (m_pAssocClassWidget)
-        m_pAssocClassWidget->clipSize();
+    if (m_associationClass)
+        m_associationClass->clipSize();
 }
 
 
@@ -4083,8 +4083,8 @@ void AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     if( m_role[B].changeabilityWidget )
         m_role[B].changeabilityWidget->saveToXMI( qDoc, assocElement );
 
-    if (m_pAssocClassWidget) {
-        QString acid = ID2STR(m_pAssocClassWidget->id());
+    if (m_associationClass) {
+        QString acid = ID2STR(m_associationClass->id());
         assocElement.setAttribute("assocclass", acid);
         assocElement.setAttribute("aclsegindex", m_nLinePathSegmentIndex);
     }
@@ -4242,8 +4242,8 @@ bool AssociationWidget::loadFromXMI(QDomElement & qElement,
         Uml::IDType acid = STR2ID(assocclassid);
         UMLWidget *w = Widget_Utils::findWidget(acid, widgets);
         if (w) {
-            m_pAssocClassWidget = static_cast<ClassifierWidget*>(w);
-            m_pAssocClassWidget->setClassAssocWidget(this);
+            m_associationClass = static_cast<ClassifierWidget*>(w);
+            m_associationClass->setClassAssocWidget(this);
             // Preparation of the assoc class line is done in activate()
             QString aclsegindex = qElement.attribute("aclsegindex", "0");
             m_nLinePathSegmentIndex = aclsegindex.toInt();

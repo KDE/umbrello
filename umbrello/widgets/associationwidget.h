@@ -222,6 +222,7 @@ public slots:
     void syncToModel();
 
 private:
+    void init();
 
     /**
      * Constructor is made non accessible:
@@ -303,8 +304,6 @@ private:
 
     int getRegionCount(Region region, Uml::Role_Type role);
 
-    void init();
-
     void doUpdates(int otherX, int otherY, Uml::Role_Type role);
 
     void setChangeWidget(const QString &strChangeWidget, Uml::Role_Type role);
@@ -379,8 +378,8 @@ private:
     UMLSceneRectItem *m_pAssocClassLineSel0;
     UMLSceneRectItem *m_pAssocClassLineSel1;
 
-    ClassifierWidget *m_pAssocClassWidget;  ///< used if we have an assoc. class
-    AssociationLine *m_associationLine;  ///< the definition points for the association line
+    AssociationLine *m_associationLine;      ///< the definition points for the association line
+    ClassifierWidget *m_associationClass;    ///< used if we have an assoc. class
     Uml::AssociationType m_associationType;  ///< is only used if m_pObject is not set
 
 };
