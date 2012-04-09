@@ -227,22 +227,22 @@ void AssociationWidget::lwSetFont (QFont font)
     if( m_pName) {
         m_pName->setFont( font );
     }
-    if( m_role[A].m_pRole ) {
-        m_role[A].m_pRole->setFont( font );
+    if( m_role[A].roleWidget ) {
+        m_role[A].roleWidget->setFont( font );
     }
-    if( m_role[B].m_pRole ) {
-        m_role[B].m_pRole->setFont( font );
+    if( m_role[B].roleWidget ) {
+        m_role[B].roleWidget->setFont( font );
     }
-    if( m_role[A].m_pMulti ) {
-        m_role[A].m_pMulti->setFont( font );
+    if( m_role[A].multiplicityWidget ) {
+        m_role[A].multiplicityWidget->setFont( font );
     }
-    if( m_role[B].m_pMulti ) {
-        m_role[B].m_pMulti->setFont( font );
+    if( m_role[B].multiplicityWidget ) {
+        m_role[B].multiplicityWidget->setFont( font );
     }
-    if( m_role[A].m_pChangeWidget)
-        m_role[A].m_pChangeWidget->setFont( font );
-    if( m_role[B].m_pChangeWidget)
-        m_role[B].m_pChangeWidget->setFont( font );
+    if( m_role[A].changeabilityWidget)
+        m_role[A].changeabilityWidget->setFont( font );
+    if( m_role[B].changeabilityWidget)
+        m_role[B].changeabilityWidget->setFont( font );
 }
 
 /**
@@ -308,25 +308,25 @@ void AssociationWidget::setCustomOpText(const QString &opText)
  */
 void AssociationWidget::resetTextPositions()
 {
-    if (m_role[A].m_pMulti) {
+    if (m_role[A].multiplicityWidget) {
         setTextPosition( TextRole::MultiA );
     }
-    if (m_role[B].m_pMulti) {
+    if (m_role[B].multiplicityWidget) {
         setTextPosition( TextRole::MultiB );
     }
-    if (m_role[A].m_pChangeWidget) {
+    if (m_role[A].changeabilityWidget) {
         setTextPosition( TextRole::ChangeA );
     }
-    if (m_role[B].m_pChangeWidget) {
+    if (m_role[B].changeabilityWidget) {
         setTextPosition( TextRole::ChangeB );
     }
     if (m_pName) {
         setTextPosition( TextRole::Name );
     }
-    if (m_role[A].m_pRole) {
+    if (m_role[A].roleWidget) {
         setTextPosition( TextRole::RoleAName );
     }
-    if (m_role[B].m_pRole) {
+    if (m_role[B].roleWidget) {
         setTextPosition( TextRole::RoleBName );
     }
 }
@@ -549,28 +549,28 @@ AssociationWidget& AssociationWidget::operator=(const AssociationWidget & Other)
         lhs.m_nIndex = rhs.m_nIndex;
         lhs.m_nTotalCount = rhs.m_nTotalCount;
 
-        if (rhs.m_pMulti) {
-            lhs.m_pMulti = new FloatingTextWidget(m_scene);
-            *(lhs.m_pMulti) = *(rhs.m_pMulti);
+        if (rhs.multiplicityWidget) {
+            lhs.multiplicityWidget = new FloatingTextWidget(m_scene);
+            *(lhs.multiplicityWidget) = *(rhs.multiplicityWidget);
         } else {
-            lhs.m_pMulti = NULL;
+            lhs.multiplicityWidget = NULL;
         }
 
-        if (rhs.m_pRole) {
-            lhs.m_pRole = new FloatingTextWidget(m_scene);
-            *(lhs.m_pRole) = *(rhs.m_pRole);
+        if (rhs.roleWidget) {
+            lhs.roleWidget = new FloatingTextWidget(m_scene);
+            *(lhs.roleWidget) = *(rhs.roleWidget);
         } else {
-            lhs.m_pRole = NULL;
+            lhs.roleWidget = NULL;
         }
 
-        if (rhs.m_pChangeWidget) {
-            lhs.m_pChangeWidget = new FloatingTextWidget(m_scene);
-            *(lhs.m_pChangeWidget) = *(rhs.m_pChangeWidget);
+        if (rhs.changeabilityWidget) {
+            lhs.changeabilityWidget = new FloatingTextWidget(m_scene);
+            *(lhs.changeabilityWidget) = *(rhs.changeabilityWidget);
         } else {
-            lhs.m_pChangeWidget = NULL;
+            lhs.changeabilityWidget = NULL;
         }
 
-        lhs.m_pWidget = rhs.m_pWidget;
+        lhs.umlWidget = rhs.umlWidget;
         lhs.m_OldCorner = rhs.m_OldCorner;
         lhs.m_WidgetRegion = rhs.m_WidgetRegion;
     }
@@ -686,12 +686,12 @@ bool AssociationWidget::activate()
 
     Uml::AssociationType type = associationType();
 
-    if (m_role[A].m_pWidget == NULL)
+    if (m_role[A].umlWidget == NULL)
         setWidget(m_scene->findWidget(widgetIDForRole(A)), A);
-    if (m_role[B].m_pWidget == NULL)
+    if (m_role[B].umlWidget == NULL)
         setWidget(m_scene->findWidget(widgetIDForRole(B)), B);
 
-    if(!m_role[A].m_pWidget || !m_role[B].m_pWidget) {
+    if(!m_role[A].umlWidget || !m_role[B].umlWidget) {
         uDebug() << "Can not make association!";
         return false;
     }
@@ -702,21 +702,21 @@ bool AssociationWidget::activate()
     if (AssocRules::allowRole(type)) {
         for (unsigned r = A; r <= B; ++r) {
             WidgetRole& robj = m_role[r];
-            if (robj.m_pRole == NULL)
+            if (robj.roleWidget == NULL)
                 continue;
-            robj.m_pRole->setLink(this);
+            robj.roleWidget->setLink(this);
             TextRole tr = (r == A ? TextRole::RoleAName : TextRole::RoleBName);
-            robj.m_pRole->setTextRole(tr);
+            robj.roleWidget->setTextRole(tr);
             Uml::Visibility vis = visibility((Uml::Role_Type)r);
-            robj.m_pRole->setPreText(vis.toString(true));
+            robj.roleWidget->setPreText(vis.toString(true));
 
-            if (FloatingTextWidget::isTextValid(robj.m_pRole->text()))
-                robj.m_pRole->show();
+            if (FloatingTextWidget::isTextValid(robj.roleWidget->text()))
+                robj.roleWidget->show();
             else
-                robj.m_pRole->hide();
+                robj.roleWidget->hide();
             if (m_scene->type() == DiagramType::Collaboration)
-                robj.m_pRole->setUMLObject(robj.m_pWidget->umlObject());
-            robj.m_pRole->activate();
+                robj.roleWidget->setUMLObject(robj.umlWidget->umlObject());
+            robj.roleWidget->activate();
         }
     }
 
@@ -736,9 +736,9 @@ bool AssociationWidget::activate()
     for (unsigned r = A; r <= B; ++r) {
         WidgetRole& robj = m_role[r];
 
-        FloatingTextWidget* pMulti = robj.m_pMulti;
+        FloatingTextWidget* pMulti = robj.multiplicityWidget;
         if (pMulti != NULL &&
-                AssocRules::allowMultiplicity(type, robj.m_pWidget->baseType())) {
+                AssocRules::allowMultiplicity(type, robj.umlWidget->baseType())) {
             pMulti->setLink(this);
             TextRole tr = (r == A ? TextRole::MultiA : TextRole::MultiB);
             pMulti->setTextRole(tr);
@@ -749,7 +749,7 @@ bool AssociationWidget::activate()
             pMulti->activate();
         }
 
-        FloatingTextWidget* pChangeWidget = robj.m_pChangeWidget;
+        FloatingTextWidget* pChangeWidget = robj.changeabilityWidget;
         if (pChangeWidget != NULL ) {
             pChangeWidget->setLink(this);
             TextRole tr = (r == A ? TextRole::ChangeA : TextRole::ChangeB);
@@ -782,9 +782,9 @@ bool AssociationWidget::activate()
  */
 void AssociationWidget::setWidget( UMLWidget* widget, Uml::Role_Type role)
 {
-    m_role[role].m_pWidget = widget;
+    m_role[role].umlWidget = widget;
     if (widget) {
-        m_role[role].m_pWidget->addAssoc(this);
+        m_role[role].umlWidget->addAssoc(this);
         if (m_pObject && m_pObject->baseType() == UMLObject::ot_Association)
             association()->setObject(widget->umlObject(), role);
     }
@@ -797,7 +797,7 @@ void AssociationWidget::setWidget( UMLWidget* widget, Uml::Role_Type role)
  */
 FloatingTextWidget* AssociationWidget::multiplicityWidget(Uml::Role_Type role) const
 {
-    return m_role[role].m_pMulti;
+    return m_role[role].multiplicityWidget;
 }
 
 /**
@@ -817,7 +817,7 @@ FloatingTextWidget* AssociationWidget::nameWidget() const
  */
 FloatingTextWidget* AssociationWidget::roleWidget(Uml::Role_Type role) const
 {
-    return m_role[role].m_pRole;
+    return m_role[role].roleWidget;
 }
 
 /**
@@ -825,7 +825,7 @@ FloatingTextWidget* AssociationWidget::roleWidget(Uml::Role_Type role) const
  */
 FloatingTextWidget* AssociationWidget::changeabilityWidget(Uml::Role_Type role) const
 {
-    return m_role[role].m_pChangeWidget;
+    return m_role[role].changeabilityWidget;
 }
 
 /**
@@ -837,20 +837,20 @@ FloatingTextWidget* AssociationWidget::textWidgetByRole(Uml::TextRole tr) const
 {
     switch (tr) {
         case Uml::TextRole::MultiA:
-            return m_role[A].m_pMulti;
+            return m_role[A].multiplicityWidget;
         case Uml::TextRole::MultiB:
-            return m_role[B].m_pMulti;
+            return m_role[B].multiplicityWidget;
         case Uml::TextRole::Name:
         case Uml::TextRole::Coll_Message:
             return m_pName;
         case Uml::TextRole::RoleAName:
-            return m_role[A].m_pRole;
+            return m_role[A].roleWidget;
         case Uml::TextRole::RoleBName:
-            return m_role[B].m_pRole;
+            return m_role[B].roleWidget;
         case Uml::TextRole::ChangeA:
-            return m_role[A].m_pChangeWidget;
+            return m_role[A].changeabilityWidget;
         case Uml::TextRole::ChangeB:
-            return m_role[B].m_pChangeWidget;
+            return m_role[B].changeabilityWidget;
         default:
             break;
     }
@@ -915,9 +915,9 @@ void AssociationWidget::setName(const QString &strName)
  */
 QString AssociationWidget::roleName(Uml::Role_Type role) const
 {
-    if (m_role[role].m_pRole == NULL)
+    if (m_role[role].roleWidget == NULL)
         return QString();
-    return m_role[role].m_pRole->text();
+    return m_role[role].roleWidget->text();
 }
 
 /**
@@ -935,15 +935,15 @@ void AssociationWidget::setRoleName(const QString &strRole, Uml::Role_Type role)
     }
 
     TextRole tr = (role == A ? TextRole::RoleAName : TextRole::RoleBName);
-    setFloatingText(tr, strRole, m_role[role].m_pRole);
-    if (m_role[role].m_pRole) {
+    setFloatingText(tr, strRole, m_role[role].roleWidget);
+    if (m_role[role].roleWidget) {
         Uml::Visibility vis = visibility(role);
-        if (FloatingTextWidget::isTextValid(m_role[role].m_pRole->text())) {
-            m_role[role].m_pRole->setPreText(vis.toString(true));
-            //m_role[role].m_pRole->show();
+        if (FloatingTextWidget::isTextValid(m_role[role].roleWidget->text())) {
+            m_role[role].roleWidget->setPreText(vis.toString(true));
+            //m_role[role].roleWidget->show();
         } else {
-            m_role[role].m_pRole->setPreText("");
-            //m_role[role].m_pRole->hide();
+            m_role[role].roleWidget->setPreText("");
+            //m_role[role].roleWidget->hide();
         }
     }
 
@@ -960,7 +960,7 @@ void AssociationWidget::setRoleDocumentation(const QString &doc, Uml::Role_Type 
     if (m_pObject && m_pObject->baseType() == UMLObject::ot_Association)
         association()->setRoleDoc(doc, role);
     else
-        m_role[role].m_RoleDoc = doc;
+        m_role[role].roleDocumentation = doc;
 }
 
 /**
@@ -1023,9 +1023,9 @@ void AssociationWidget::setFloatingText(Uml::TextRole tr,
  */
 QString AssociationWidget::multiplicity(Uml::Role_Type role) const
 {
-    if (m_role[role].m_pMulti == NULL)
+    if (m_role[role].multiplicityWidget == NULL)
         return QString();
-    return m_role[role].m_pMulti->text();
+    return m_role[role].multiplicityWidget->text();
 }
 
 /**
@@ -1036,7 +1036,7 @@ void AssociationWidget::setMultiplicity(const QString& text, Uml::Role_Type role
 {
     TextRole tr = (role == Uml::A ? TextRole::MultiA : TextRole::MultiB);
 
-    setFloatingText(tr, text, m_role[role].m_pMulti);
+    setFloatingText(tr, text, m_role[role].multiplicityWidget);
 
     if (m_pObject && m_pObject->baseType() == UMLObject::ot_Association)
         association()->setMulti(text, role);
@@ -1053,7 +1053,7 @@ Uml::Visibility AssociationWidget::visibility(Uml::Role_Type role) const
     const UMLAttribute *attr = attribute();
     if (attr)
         return attr->visibility();
-    return m_role[role].m_Visibility;
+    return m_role[role].visibility;
 }
 
 /**
@@ -1071,11 +1071,11 @@ void AssociationWidget::setVisibility(Uml::Visibility value, Uml::Role_Type role
         else if (ot == UMLObject::ot_Attribute)
             attribute()->setVisibility(value);
     }
-    m_role[role].m_Visibility = value;
+    m_role[role].visibility = value;
     // update role pre-text attribute as appropriate
-    if (m_role[role].m_pRole) {
+    if (m_role[role].roleWidget) {
         QString scopeString = value.toString(true);
-        m_role[role].m_pRole->setPreText(scopeString);
+        m_role[role].roleWidget->setPreText(scopeString);
     }
 }
 
@@ -1085,7 +1085,7 @@ void AssociationWidget::setVisibility(Uml::Visibility value, Uml::Role_Type role
 Uml::Changeability AssociationWidget::changeability(Uml::Role_Type role) const
 {
     if (m_pObject == NULL || m_pObject->baseType() != UMLObject::ot_Association)
-        return m_role[role].m_Changeability;
+        return m_role[role].changeability;
     UMLAssociation *umla = static_cast<UMLAssociation*>(m_pObject);
     return umla->changeability(role);
 }
@@ -1100,7 +1100,7 @@ void AssociationWidget::setChangeability(Uml::Changeability value, Uml::Role_Typ
     QString changeString = Uml::Changeability::toString(value);
     if (m_pObject && m_pObject->baseType() == UMLObject::ot_Association)  // update our model object
         association()->setChangeability(value, role);
-    m_role[role].m_Changeability = value;
+    m_role[role].changeability = value;
     // update our string representation
     setChangeWidget(changeString, role);
 }
@@ -1114,33 +1114,33 @@ void AssociationWidget::setChangeWidget(const QString &strChangeWidget, Uml::Rol
     bool newLabel = false;
     TextRole tr = (role == A ? TextRole::ChangeA : TextRole::ChangeB);
 
-    if(!m_role[role].m_pChangeWidget) {
+    if(!m_role[role].changeabilityWidget) {
         // Don't construct the FloatingTextWidget if the string is empty.
         if (strChangeWidget.isEmpty())
             return;
 
         newLabel = true;
-        m_role[role].m_pChangeWidget = new FloatingTextWidget(m_scene, tr, strChangeWidget);
-        m_role[role].m_pChangeWidget->setLink(this);
-        m_scene->addWidget(m_role[role].m_pChangeWidget);
-        m_role[role].m_pChangeWidget->setPreText("{"); // all types have this
-        m_role[role].m_pChangeWidget->setPostText("}"); // all types have this
+        m_role[role].changeabilityWidget = new FloatingTextWidget(m_scene, tr, strChangeWidget);
+        m_role[role].changeabilityWidget->setLink(this);
+        m_scene->addWidget(m_role[role].changeabilityWidget);
+        m_role[role].changeabilityWidget->setPreText("{"); // all types have this
+        m_role[role].changeabilityWidget->setPostText("}"); // all types have this
     } else {
-        if (m_role[role].m_pChangeWidget->text().isEmpty()) {
+        if (m_role[role].changeabilityWidget->text().isEmpty()) {
             newLabel = true;
         }
-        m_role[role].m_pChangeWidget->setText(strChangeWidget);
+        m_role[role].changeabilityWidget->setText(strChangeWidget);
     }
-    m_role[role].m_pChangeWidget->setActivated();
+    m_role[role].changeabilityWidget->setActivated();
 
     if (newLabel) {
         setTextPosition( tr );
     }
 
-    if(FloatingTextWidget::isTextValid(m_role[role].m_pChangeWidget->text()))
-        m_role[role].m_pChangeWidget->show();
+    if(FloatingTextWidget::isTextValid(m_role[role].changeabilityWidget->text()))
+        m_role[role].changeabilityWidget->show();
     else
-        m_role[role].m_pChangeWidget->hide();
+        m_role[role].changeabilityWidget->hide();
 }
 
 /**
@@ -1167,13 +1167,13 @@ Uml::TextRole AssociationWidget::calculateNameType(Uml::TextRole defaultRole)
 {
     TextRole result = defaultRole;
     if( m_scene->type() == DiagramType::Collaboration ) {
-        if(m_role[A].m_pWidget == m_role[B].m_pWidget) {
+        if(m_role[A].umlWidget == m_role[B].umlWidget) {
             result = TextRole::Coll_Message;//for now same as other Coll_Message
         } else {
             result = TextRole::Coll_Message;
         }
     } else if( m_scene->type() == DiagramType::Sequence ) {
-        if(m_role[A].m_pWidget == m_role[B].m_pWidget) {
+        if(m_role[A].umlWidget == m_role[B].umlWidget) {
             result = TextRole::Seq_Message_Self;
         } else {
             result = TextRole::Seq_Message;
@@ -1190,7 +1190,7 @@ Uml::TextRole AssociationWidget::calculateNameType(Uml::TextRole defaultRole)
  */
 UMLWidget* AssociationWidget::widgetForRole(Uml::Role_Type role) const
 {
-    return m_role[role].m_pWidget;
+    return m_role[role].umlWidget;
 }
 
 /**
@@ -1207,8 +1207,8 @@ bool AssociationWidget::setWidgets( UMLWidget* widgetA,
     //if the association already has a WidgetB or WidgetA associated, then
     //it cannot be changed to other widget, that would require a  deletion
     //of the association and the creation of a new one
-    if ((m_role[A].m_pWidget && (m_role[A].m_pWidget != widgetA)) ||
-            (m_role[B].m_pWidget && (m_role[B].m_pWidget != widgetB))) {
+    if ((m_role[A].umlWidget && (m_role[A].umlWidget != widgetA)) ||
+            (m_role[B].umlWidget && (m_role[B].umlWidget != widgetB))) {
         return false;
     }
     setWidget(widgetA, A);
@@ -1223,7 +1223,7 @@ bool AssociationWidget::setWidgets( UMLWidget* widgetA,
     false */
 bool AssociationWidget::checkAssoc(UMLWidget * widgetA, UMLWidget *widgetB)
 {
-    return (widgetA == m_role[A].m_pWidget && widgetB == m_role[B].m_pWidget);
+    return (widgetA == m_role[A].umlWidget && widgetB == m_role[B].umlWidget);
 }
 
 /** CleansUp all the association's data in the related widgets  */
@@ -1238,21 +1238,21 @@ void AssociationWidget::cleanup()
     for (unsigned r = A; r <= B; ++r) {
         WidgetRole& robj = m_role[r];
 
-        if(robj.m_pWidget) {
-            robj.m_pWidget->removeAssoc(this);
-            robj.m_pWidget = 0;
+        if(robj.umlWidget) {
+            robj.umlWidget->removeAssoc(this);
+            robj.umlWidget = 0;
         }
-        if(robj.m_pRole) {
-            m_scene->removeWidget(robj.m_pRole);
-            robj.m_pRole = 0;
+        if(robj.roleWidget) {
+            m_scene->removeWidget(robj.roleWidget);
+            robj.roleWidget = 0;
         }
-        if(robj.m_pMulti) {
-            m_scene->removeWidget(robj.m_pMulti);
-            robj.m_pMulti = 0;
+        if(robj.multiplicityWidget) {
+            m_scene->removeWidget(robj.multiplicityWidget);
+            robj.multiplicityWidget = 0;
         }
-        if(robj.m_pChangeWidget) {
-            m_scene->removeWidget(robj.m_pChangeWidget);
-            robj.m_pChangeWidget = 0;
+        if(robj.changeabilityWidget) {
+            m_scene->removeWidget(robj.changeabilityWidget);
+            robj.changeabilityWidget = 0;
         }
     }
 
@@ -1323,17 +1323,16 @@ void AssociationWidget::setUMLAssociation (UMLAssociation * assoc)
 
 }
 
-
 /** Returns true if the Widget is either at the starting or ending side of the association */
 bool AssociationWidget::contains(UMLWidget* widget)
 {
-    return (widget == m_role[A].m_pWidget || widget == m_role[B].m_pWidget);
+    return (widget == m_role[A].umlWidget || widget == m_role[B].umlWidget);
 }
 
 /**
  * Returns true if this AssociationWidget represents a collaboration message.
  */
-bool AssociationWidget::isCollaboration()
+bool AssociationWidget::isCollaboration() const
 {
     Uml::AssociationType at = associationType();
     return (at == AssociationType::Coll_Message || at == AssociationType::Coll_Message_Self);
@@ -1369,19 +1368,19 @@ void AssociationWidget::setAssociationType(Uml::AssociationType type)
     // NB We do not physically delete the floatingtext widgets here because
     // those widgets are also stored in the UMLView::m_WidgetList.
     if( !AssocRules::allowMultiplicity(type, widgetForRole(A)->baseType()) ) {
-        if (m_role[A].m_pMulti) {
-            m_role[A].m_pMulti->setName("");
+        if (m_role[A].multiplicityWidget) {
+            m_role[A].multiplicityWidget->setName("");
         }
-        if (m_role[B].m_pMulti) {
-            m_role[B].m_pMulti->setName("");
+        if (m_role[B].multiplicityWidget) {
+            m_role[B].multiplicityWidget->setName("");
         }
     }
     if( !AssocRules::allowRole( type ) ) {
-        if (m_role[A].m_pRole) {
-            m_role[A].m_pRole->setName("");
+        if (m_role[A].roleWidget) {
+            m_role[A].roleWidget->setName("");
         }
-        if (m_role[B].m_pRole) {
-            m_role[B].m_pRole->setName("");
+        if (m_role[B].roleWidget) {
+            m_role[B].roleWidget->setName("");
         }
         setRoleDocumentation("", A);
         setRoleDocumentation("", B);
@@ -1393,45 +1392,45 @@ void AssociationWidget::setAssociationType(Uml::AssociationType type)
  */
 Uml::IDType AssociationWidget::widgetIDForRole(Uml::Role_Type role) const
 {
-    if (m_role[role].m_pWidget == NULL) {
+    if (m_role[role].umlWidget == NULL) {
         if (m_pObject && m_pObject->baseType() == UMLObject::ot_Association) {
             UMLAssociation *umla = static_cast<UMLAssociation*>(m_pObject);
             return umla->getObjectId(role);
         }
-        uError() << "m_pWidget is NULL";
+        uError() << "umlWidget is NULL";
         return Uml::id_None;
     }
-    if (m_role[role].m_pWidget->baseType() == WidgetBase::wt_Object)
-        return static_cast<ObjectWidget*>(m_role[role].m_pWidget)->localID();
-    Uml::IDType id = m_role[role].m_pWidget->id();
+    if (m_role[role].umlWidget->baseType() == WidgetBase::wt_Object)
+        return static_cast<ObjectWidget*>(m_role[role].umlWidget)->localID();
+    Uml::IDType id = m_role[role].umlWidget->id();
     return id;
 }
 
 /**
  * Returns a QString Object representing this AssociationWidget.
  */
-QString AssociationWidget::toString()
+QString AssociationWidget::toString() const
 {
     QString string;
 
-    if(m_role[A].m_pWidget) {
-        string = m_role[A].m_pWidget->name();
+    if(m_role[A].umlWidget) {
+        string = m_role[A].umlWidget->name();
     }
     string.append(":");
 
-    if(m_role[A].m_pRole) {
-        string += m_role[A].m_pRole->text();
+    if(m_role[A].roleWidget) {
+        string += m_role[A].roleWidget->text();
     }
     string.append(":");
     string.append( AssociationType::toString(associationType()) );
     string.append(":");
-    if(m_role[B].m_pWidget) {
-        string += m_role[B].m_pWidget->name();
+    if(m_role[B].umlWidget) {
+        string += m_role[B].umlWidget->name();
     }
 
     string.append(":");
-    if(m_role[B].m_pRole) {
-        string += m_role[B].m_pRole->text();
+    if(m_role[B].roleWidget) {
+        string += m_role[B].roleWidget->text();
     }
 
     return string;
@@ -1545,16 +1544,16 @@ void AssociationWidget::moveEvent(QMoveEvent* me)
     if ( m_nMovingPoint == 1 || (m_nMovingPoint == pos-1) ) {
         calculateEndingPoints();
     }
-    if (m_role[A].m_pChangeWidget && (m_nMovingPoint == 1)) {
+    if (m_role[A].changeabilityWidget && (m_nMovingPoint == 1)) {
         setTextPositionRelatively(TextRole::ChangeA, oldChangeAPoint);
     }
-    if (m_role[B].m_pChangeWidget && (m_nMovingPoint == 1)) {
+    if (m_role[B].changeabilityWidget && (m_nMovingPoint == 1)) {
         setTextPositionRelatively(TextRole::ChangeB, oldChangeBPoint);
     }
-    if (m_role[A].m_pMulti && (m_nMovingPoint == 1)) {
+    if (m_role[A].multiplicityWidget && (m_nMovingPoint == 1)) {
         setTextPositionRelatively(TextRole::MultiA, oldMultiAPoint);
     }
-    if (m_role[B].m_pMulti && (m_nMovingPoint == pos-1)) {
+    if (m_role[B].multiplicityWidget && (m_nMovingPoint == pos-1)) {
         setTextPositionRelatively(TextRole::MultiB, oldMultiBPoint);
     }
 
@@ -1565,10 +1564,10 @@ void AssociationWidget::moveEvent(QMoveEvent* me)
         }
     }
 
-    if (m_role[A].m_pRole) {
+    if (m_role[A].roleWidget) {
         setTextPositionRelatively(TextRole::RoleAName, oldRoleAPoint);
     }
-    if (m_role[B].m_pRole) {
+    if (m_role[B].roleWidget) {
         setTextPositionRelatively(TextRole::RoleBName, oldRoleBPoint);
     }
 }
@@ -1606,8 +1605,8 @@ void AssociationWidget::calculateEndingPoints()
      * in the opposite direction (from widgetB to WidgetA)
      */
 
-    UMLWidget *pWidgetA = m_role[A].m_pWidget;
-    UMLWidget *pWidgetB = m_role[B].m_pWidget;
+    UMLWidget *pWidgetA = m_role[A].umlWidget;
+    UMLWidget *pWidgetB = m_role[B].umlWidget;
     if (!pWidgetA || !pWidgetB)
         return;
     m_role[A].m_OldCorner.setX( pWidgetA->x() );
@@ -1692,7 +1691,7 @@ void AssociationWidget::doUpdates(int otherX, int otherY, Uml::Role_Type role)
 {
     // Find widget region.
     Region oldRegion = m_role[role].m_WidgetRegion;
-    UMLWidget *pWidget = m_role[role].m_pWidget;
+    UMLWidget *pWidget = m_role[role].umlWidget;
     QRect rc(pWidget->x(), pWidget->y(),
              pWidget->width(), pWidget->height());
     Region& region = m_role[role].m_WidgetRegion;  // alias for brevity
@@ -1872,7 +1871,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y )
         calculateEndingPoints();
 
     // Assoc to self - move all points:
-    if( m_role[A].m_pWidget == m_role[B].m_pWidget) {
+    if( m_role[A].umlWidget == m_role[B].umlWidget) {
         for (int i = 1; i < (int)pos; ++i) {
             QPoint p = m_associationLine->point( i );
             int newX = p.x() - dx;
@@ -1895,35 +1894,35 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y )
         }
 
     }//end if widgetA = widgetB
-    else if (m_role[A].m_pWidget==widget) {
+    else if (m_role[A].umlWidget==widget) {
         if (m_pName && m_unNameLineSegment == 0 && !m_pName->isSelected() ) {
             //only calculate position and move text if the segment it is on is moving
             setTextPositionRelatively(TextRole::Name, m_oldNamePoint);
         }
     }//end if widgetA moved
-    else if (m_role[B].m_pWidget==widget) {
+    else if (m_role[B].umlWidget==widget) {
         if (m_pName && (m_unNameLineSegment == pos-1) && !m_pName->isSelected() ) {
             //only calculate position and move text if the segment it is on is moving
             setTextPositionRelatively(TextRole::Name, m_oldNamePoint);
         }
     }//end if widgetB moved
 
-    if ( m_role[A].m_pRole && !m_role[A].m_pRole->isSelected() ) {
+    if ( m_role[A].roleWidget && !m_role[A].roleWidget->isSelected() ) {
         setTextPositionRelatively(TextRole::RoleAName, m_oldRoleAPoint);
     }
-    if ( m_role[B].m_pRole && !m_role[B].m_pRole->isSelected() ) {
+    if ( m_role[B].roleWidget && !m_role[B].roleWidget->isSelected() ) {
         setTextPositionRelatively(TextRole::RoleBName, m_oldRoleBPoint);
     }
-    if ( m_role[A].m_pMulti && !m_role[A].m_pMulti->isSelected() ) {
+    if ( m_role[A].multiplicityWidget && !m_role[A].multiplicityWidget->isSelected() ) {
         setTextPositionRelatively(TextRole::MultiA, m_oldMultiAPoint);
     }
-    if ( m_role[B].m_pMulti && !m_role[B].m_pMulti->isSelected() ) {
+    if ( m_role[B].multiplicityWidget && !m_role[B].multiplicityWidget->isSelected() ) {
         setTextPositionRelatively(TextRole::MultiB, m_oldMultiBPoint);
     }
-    if ( m_role[A].m_pChangeWidget && !m_role[A].m_pChangeWidget->isSelected() ) {
+    if ( m_role[A].changeabilityWidget && !m_role[A].changeabilityWidget->isSelected() ) {
         setTextPositionRelatively(TextRole::ChangeA, m_oldChangeAPoint);
     }
-    if ( m_role[B].m_pChangeWidget && !m_role[B].m_pChangeWidget->isSelected() ) {
+    if ( m_role[B].changeabilityWidget && !m_role[B].changeabilityWidget->isSelected() ) {
         setTextPositionRelatively(TextRole::ChangeB, m_oldChangeBPoint);
     }
 }//end method widgetMoved
@@ -1934,8 +1933,8 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y )
  */
 void AssociationWidget::updatePointsException ()
 {
-    UMLWidget *pWidgetA = m_role[A].m_pWidget;
-    UMLWidget *pWidgetB = m_role[B].m_pWidget;
+    UMLWidget *pWidgetA = m_role[A].umlWidget;
+    UMLWidget *pWidgetB = m_role[B].umlWidget;
 
     int xa = pWidgetA->x();
     int ya = pWidgetA->y();
@@ -2497,8 +2496,8 @@ QPoint AssociationWidget::midPoint(const QPoint& p0, const QPoint& p1)
  * @param textHeight  Height of the text.
  * @param tr          Uml::Text_Role of the text.
  */
-void AssociationWidget::constrainTextPos(int &textX, int &textY,
-                                         int textWidth, int textHeight,
+void AssociationWidget::constrainTextPos(UMLSceneValue &textX, UMLSceneValue &textY,
+                                         UMLSceneValue textWidth, UMLSceneValue textHeight,
                                          Uml::TextRole tr)
 {
     const int textCenterX = textX + textWidth / 2;
@@ -2645,17 +2644,17 @@ void AssociationWidget::constrainTextPos(int &textX, int &textY,
 void AssociationWidget::setTextPosition(Uml::TextRole role)
 {
     bool startMove = false;
-    if( m_role[A].m_pMulti && m_role[A].m_pMulti->getStartMove() )
+    if( m_role[A].multiplicityWidget && m_role[A].multiplicityWidget->getStartMove() )
         startMove = true;
-    else if( m_role[B].m_pMulti && m_role[B].m_pMulti->getStartMove() )
+    else if( m_role[B].multiplicityWidget && m_role[B].multiplicityWidget->getStartMove() )
         startMove = true;
-    else if( m_role[A].m_pChangeWidget && m_role[A].m_pChangeWidget->getStartMove() )
+    else if( m_role[A].changeabilityWidget && m_role[A].changeabilityWidget->getStartMove() )
         startMove = true;
-    else if( m_role[B].m_pChangeWidget && m_role[B].m_pChangeWidget->getStartMove() )
+    else if( m_role[B].changeabilityWidget && m_role[B].changeabilityWidget->getStartMove() )
         startMove = true;
-    else if( m_role[A].m_pRole  && m_role[A].m_pRole->getStartMove() )
+    else if( m_role[A].roleWidget  && m_role[A].roleWidget->getStartMove() )
         startMove = true;
-    else if( m_role[B].m_pRole  && m_role[B].m_pRole->getStartMove() )
+    else if( m_role[B].roleWidget  && m_role[B].roleWidget->getStartMove() )
         startMove = true;
     else if( m_pName && m_pName->getStartMove() )
         startMove = true;
@@ -2686,17 +2685,17 @@ void AssociationWidget::setTextPosition(Uml::TextRole role)
 void AssociationWidget::setTextPositionRelatively(Uml::TextRole role, const QPoint &oldPosition)
 {
     bool startMove = false;
-    if( m_role[A].m_pMulti && m_role[A].m_pMulti->getStartMove() )
+    if( m_role[A].multiplicityWidget && m_role[A].multiplicityWidget->getStartMove() )
         startMove = true;
-    else if( m_role[B].m_pMulti && m_role[B].m_pMulti->getStartMove() )
+    else if( m_role[B].multiplicityWidget && m_role[B].multiplicityWidget->getStartMove() )
         startMove = true;
-    else if( m_role[A].m_pChangeWidget && m_role[A].m_pChangeWidget->getStartMove() )
+    else if( m_role[A].changeabilityWidget && m_role[A].changeabilityWidget->getStartMove() )
         startMove = true;
-    else if( m_role[B].m_pChangeWidget && m_role[B].m_pChangeWidget->getStartMove() )
+    else if( m_role[B].changeabilityWidget && m_role[B].changeabilityWidget->getStartMove() )
         startMove = true;
-    else if( m_role[A].m_pRole  && m_role[A].m_pRole->getStartMove() )
+    else if( m_role[A].roleWidget  && m_role[A].roleWidget->getStartMove() )
         startMove = true;
-    else if( m_role[B].m_pRole  && m_role[B].m_pRole->getStartMove() )
+    else if( m_role[B].roleWidget  && m_role[B].roleWidget->getStartMove() )
         startMove = true;
     else if( m_pName && m_pName->getStartMove() )
         startMove = true;
@@ -2986,8 +2985,8 @@ void AssociationWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Rename_MultiA:
         r = Uml::A;   // fall through
     case ListPopupMenu::mt_Rename_MultiB:
-        if (m_role[r].m_pMulti)
-            oldText = m_role[r].m_pMulti->text();
+        if (m_role[r].multiplicityWidget)
+            oldText = m_role[r].multiplicityWidget->text();
         else
             oldText = "";
         newText = KInputDialog::getText(i18n("Multiplicity"),
@@ -2997,8 +2996,8 @@ void AssociationWidget::slotMenuSelection(QAction* action)
             if (FloatingTextWidget::isTextValid(newText)) {
                 setMultiplicity(newText, r);
             } else {
-                m_scene->removeWidget(m_role[r].m_pMulti);
-                m_role[r].m_pMulti = NULL;
+                m_scene->removeWidget(m_role[r].multiplicityWidget);
+                m_role[r].multiplicityWidget = NULL;
             }
         }
         break;
@@ -3024,8 +3023,8 @@ void AssociationWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Rename_RoleAName:
         r = Uml::A;   // fall through
     case ListPopupMenu::mt_Rename_RoleBName:
-        if (m_role[r].m_pRole)
-            oldText = m_role[r].m_pRole->text();
+        if (m_role[r].roleWidget)
+            oldText = m_role[r].roleWidget->text();
         else
             oldText = "";
         newText = KInputDialog::getText(i18n("Role Name"),
@@ -3035,8 +3034,8 @@ void AssociationWidget::slotMenuSelection(QAction* action)
             if (FloatingTextWidget::isTextValid(newText)) {
                 setRoleName(newText, r);
             } else {
-                m_scene->removeWidget(m_role[r].m_pRole);
-                m_role[r].m_pRole = NULL;
+                m_scene->removeWidget(m_role[r].roleWidget);
+                m_role[r].roleWidget = NULL;
             }
         }
         break;
@@ -3102,22 +3101,22 @@ QFont AssociationWidget::font() const
 {
     QFont font;
 
-    if( m_role[A].m_pRole )
-        font = m_role[A].m_pRole->font( );
-    else    if( m_role[B].m_pRole)
-        font = m_role[B].m_pRole->font( );
-    else    if( m_role[A].m_pMulti )
-        font = m_role[A].m_pMulti->font( );
-    else    if( m_role[B].m_pMulti )
-        font = m_role[B].m_pMulti->font( );
-    else    if( m_role[A].m_pChangeWidget)
-        font = m_role[A].m_pChangeWidget->font( );
-    else    if( m_role[B].m_pChangeWidget)
-        font = m_role[B].m_pChangeWidget->font( );
+    if( m_role[A].roleWidget )
+        font = m_role[A].roleWidget->font( );
+    else    if( m_role[B].roleWidget)
+        font = m_role[B].roleWidget->font( );
+    else    if( m_role[A].multiplicityWidget )
+        font = m_role[A].multiplicityWidget->font( );
+    else    if( m_role[B].multiplicityWidget )
+        font = m_role[B].multiplicityWidget->font( );
+    else    if( m_role[A].changeabilityWidget)
+        font = m_role[A].changeabilityWidget->font( );
+    else    if( m_role[B].changeabilityWidget)
+        font = m_role[B].changeabilityWidget->font( );
     else    if( m_pName)
         font = m_pName->font( );
     else
-        font = m_role[A].m_pWidget->font();
+        font = m_role[A].umlWidget->font();
 
     return font;
 }
@@ -3131,22 +3130,22 @@ void AssociationWidget::setTextColor(const QColor &color)
     if( m_pName) {
         m_pName->setTextColor( color );
     }
-    if( m_role[A].m_pRole ) {
-        m_role[A].m_pRole->setTextColor( color );
+    if( m_role[A].roleWidget ) {
+        m_role[A].roleWidget->setTextColor( color );
     }
-    if( m_role[B].m_pRole ) {
-        m_role[B].m_pRole->setTextColor( color );
+    if( m_role[B].roleWidget ) {
+        m_role[B].roleWidget->setTextColor( color );
     }
-    if( m_role[A].m_pMulti ) {
-        m_role[A].m_pMulti->setTextColor( color );
+    if( m_role[A].multiplicityWidget ) {
+        m_role[A].multiplicityWidget->setTextColor( color );
     }
-    if( m_role[B].m_pMulti ) {
-        m_role[B].m_pMulti->setTextColor( color );
+    if( m_role[B].multiplicityWidget ) {
+        m_role[B].multiplicityWidget->setTextColor( color );
     }
-    if( m_role[A].m_pChangeWidget)
-        m_role[A].m_pChangeWidget->setTextColor( color );
-    if( m_role[B].m_pChangeWidget)
-        m_role[B].m_pChangeWidget->setTextColor( color );
+    if( m_role[A].changeabilityWidget)
+        m_role[A].changeabilityWidget->setTextColor( color );
+    if( m_role[B].changeabilityWidget)
+        m_role[B].changeabilityWidget->setTextColor( color );
 }
 
 /**
@@ -3266,9 +3265,9 @@ void AssociationWidget::mouseMoveEvent(QMouseEvent* me)
  */
 AssociationWidget::Region AssociationWidget::getWidgetRegion(AssociationWidget * widget) const
 {
-    if(widget->widgetForRole(A) == m_role[A].m_pWidget)
+    if(widget->widgetForRole(A) == m_role[A].umlWidget)
         return m_role[A].m_WidgetRegion;
-    if(widget->widgetForRole(B) == m_role[B].m_pWidget)
+    if(widget->widgetForRole(B) == m_role[B].umlWidget)
         return m_role[B].m_WidgetRegion;
     return Error;
 }
@@ -3289,17 +3288,17 @@ int AssociationWidget::getRegionCount(AssociationWidget::Region region, Uml::Rol
             continue;
         const WidgetRole& otherA = assocwidget->m_role[A];
         const WidgetRole& otherB = assocwidget->m_role[B];
-        const UMLWidget *a = otherA.m_pWidget;
-        const UMLWidget *b = otherB.m_pWidget;
+        const UMLWidget *a = otherA.umlWidget;
+        const UMLWidget *b = otherB.umlWidget;
         /*
         //don't count associations to self if both of their end points are on the same region
         //they are different and placement won't interfere with them
         if( a == b && otherA.m_WidgetRegion == otherB.m_WidgetRegion )
                 continue;
          */
-        if (m_role[role].m_pWidget == a && region == otherA.m_WidgetRegion)
+        if (m_role[role].umlWidget == a && region == otherA.m_WidgetRegion)
             widgetCount++;
-        else if (m_role[role].m_pWidget == b && region == otherB.m_WidgetRegion)
+        else if (m_role[role].umlWidget == b && region == otherB.m_WidgetRegion)
             widgetCount++;
     }//end foreach
     return widgetCount;
@@ -3514,15 +3513,15 @@ void AssociationWidget::updateAssociations(int totalCount,
         return;
     AssociationWidgetList list = m_scene->associationList();
 
-    UMLWidget *ownWidget = m_role[role].m_pWidget;
+    UMLWidget *ownWidget = m_role[role].umlWidget;
     m_positions_len = 0;
     m_ordered.clear();
     // we order the AssociationWidget list by region and x/y value
     foreach ( AssociationWidget* assocwidget, list ) {
         WidgetRole *roleA = &assocwidget->m_role[A];
         WidgetRole *roleB = &assocwidget->m_role[B];
-        UMLWidget *wA = roleA->m_pWidget;
-        UMLWidget *wB = roleB->m_pWidget;
+        UMLWidget *wA = roleA->umlWidget;
+        UMLWidget *wB = roleB->umlWidget;
         // Skip self associations.
         if (wA == wB)
             continue;
@@ -3589,9 +3588,9 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
         return;
     // If the association is to self and the line ends are on the same region then
     // use a different calculation.
-    if (m_role[A].m_pWidget == m_role[B].m_pWidget &&
+    if (m_role[A].umlWidget == m_role[B].umlWidget &&
             m_role[A].m_WidgetRegion == m_role[B].m_WidgetRegion) {
-        UMLWidget * pWidget = m_role[A].m_pWidget;
+        UMLWidget * pWidget = m_role[A].umlWidget;
         int x = pWidget->x();
         int y = pWidget->y();
         int wh = pWidget->height();
@@ -3630,7 +3629,7 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
     }
 
     WidgetRole& robj = m_role[role];
-    UMLWidget * pWidget = robj.m_pWidget;
+    UMLWidget * pWidget = robj.umlWidget;
 
     robj.m_nIndex = index;
     robj.m_nTotalCount = totalCount;
@@ -3725,18 +3724,18 @@ void AssociationWidget::setSelected(bool _select /* = true */)
     m_selected = _select;
     if( m_pName)
         m_pName->setSelected( _select );
-    if( m_role[A].m_pRole )
-        m_role[A].m_pRole->setSelected( _select );
-    if( m_role[B].m_pRole )
-        m_role[B].m_pRole->setSelected( _select );
-    if( m_role[A].m_pMulti )
-        m_role[A].m_pMulti->setSelected( _select );
-    if( m_role[B].m_pMulti )
-        m_role[B].m_pMulti->setSelected( _select );
-    if( m_role[A].m_pChangeWidget)
-        m_role[A].m_pChangeWidget->setSelected( _select );
-    if( m_role[B].m_pChangeWidget)
-        m_role[B].m_pChangeWidget->setSelected( _select );
+    if( m_role[A].roleWidget )
+        m_role[A].roleWidget->setSelected( _select );
+    if( m_role[B].roleWidget )
+        m_role[B].roleWidget->setSelected( _select );
+    if( m_role[A].multiplicityWidget )
+        m_role[A].multiplicityWidget->setSelected( _select );
+    if( m_role[B].multiplicityWidget )
+        m_role[B].multiplicityWidget->setSelected( _select );
+    if( m_role[A].changeabilityWidget)
+        m_role[A].changeabilityWidget->setSelected( _select );
+    if( m_role[B].changeabilityWidget)
+        m_role[B].changeabilityWidget->setSelected( _select );
 
     // Why call the following ? It makes sense only if there is  a long operation going on.
     qApp->processEvents();
@@ -3930,14 +3929,14 @@ void AssociationWidget::init()
 
     // pointers to floating text widgets objects owned by this association
     m_pName = 0;
-    m_role[A].m_pChangeWidget = 0;
-    m_role[B].m_pChangeWidget = 0;
-    m_role[A].m_pMulti = 0;
-    m_role[B].m_pMulti = 0;
-    m_role[A].m_pRole = 0;
-    m_role[B].m_pRole = 0;
-    m_role[A].m_pWidget = 0;
-    m_role[B].m_pWidget = 0;
+    m_role[A].changeabilityWidget = 0;
+    m_role[B].changeabilityWidget = 0;
+    m_role[A].multiplicityWidget = 0;
+    m_role[B].multiplicityWidget = 0;
+    m_role[A].roleWidget = 0;
+    m_role[B].roleWidget = 0;
+    m_role[A].umlWidget = 0;
+    m_role[B].umlWidget = 0;
 
     // associationwidget attributes
     m_role[A].m_WidgetRegion = Error;
@@ -3946,10 +3945,10 @@ void AssociationWidget::init()
     m_role[B].m_nIndex = 0;
     m_role[A].m_nTotalCount = 0;
     m_role[B].m_nTotalCount = 0;
-    m_role[A].m_Visibility = Uml::Visibility::Public;
-    m_role[B].m_Visibility = Uml::Visibility::Public;
-    m_role[A].m_Changeability = Uml::Changeability::Changeable;
-    m_role[B].m_Changeability = Uml::Changeability::Changeable;
+    m_role[A].visibility = Uml::Visibility::Public;
+    m_role[B].visibility = Uml::Visibility::Public;
+    m_role[A].changeability = Uml::Changeability::Changeable;
+    m_role[B].changeability = Uml::Changeability::Changeable;
     m_positions_len = 0;
     m_activated = false;
     m_unNameLineSegment = 0;
@@ -4009,23 +4008,23 @@ void AssociationWidget::clipSize()
     if( m_pName )
         m_pName->clipSize();
 
-    if( m_role[A].m_pMulti )
-        m_role[A].m_pMulti->clipSize();
+    if( m_role[A].multiplicityWidget )
+        m_role[A].multiplicityWidget->clipSize();
 
-    if( m_role[B].m_pMulti )
-        m_role[B].m_pMulti->clipSize();
+    if( m_role[B].multiplicityWidget )
+        m_role[B].multiplicityWidget->clipSize();
 
-    if( m_role[A].m_pRole )
-        m_role[A].m_pRole->clipSize();
+    if( m_role[A].roleWidget )
+        m_role[A].roleWidget->clipSize();
 
-    if( m_role[B].m_pRole )
-        m_role[B].m_pRole->clipSize();
+    if( m_role[B].roleWidget )
+        m_role[B].roleWidget->clipSize();
 
-    if( m_role[A].m_pChangeWidget )
-        m_role[A].m_pChangeWidget->clipSize();
+    if( m_role[A].changeabilityWidget )
+        m_role[A].changeabilityWidget->clipSize();
 
-    if( m_role[B].m_pChangeWidget )
-        m_role[B].m_pChangeWidget->clipSize();
+    if( m_role[B].changeabilityWidget )
+        m_role[B].changeabilityWidget->clipSize();
 
     if (m_pAssocClassWidget)
         m_pAssocClassWidget->clipSize();
@@ -4045,13 +4044,13 @@ void AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     }
     assocElement.setAttribute( "type", m_associationType );
     if (association() == NULL) {
-        assocElement.setAttribute( "visibilityA", m_role[A].m_Visibility);
-        assocElement.setAttribute( "visibilityB", m_role[B].m_Visibility);
-        assocElement.setAttribute( "changeabilityA", m_role[A].m_Changeability);
-        assocElement.setAttribute( "changeabilityB", m_role[B].m_Changeability);
+        assocElement.setAttribute( "visibilityA", m_role[A].visibility);
+        assocElement.setAttribute( "visibilityB", m_role[B].visibility);
+        assocElement.setAttribute( "changeabilityA", m_role[A].changeability);
+        assocElement.setAttribute( "changeabilityB", m_role[B].changeability);
         if (m_pObject == NULL) {
-            assocElement.setAttribute( "roleAdoc", m_role[A].m_RoleDoc);
-            assocElement.setAttribute( "roleBdoc", m_role[B].m_RoleDoc);
+            assocElement.setAttribute( "roleAdoc", m_role[A].roleDocumentation);
+            assocElement.setAttribute( "roleBdoc", m_role[B].roleDocumentation);
             assocElement.setAttribute( "documentation", m_Doc );
         }
     }
@@ -4066,23 +4065,23 @@ void AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     if( m_pName )
         m_pName->saveToXMI( qDoc, assocElement );
 
-    if( m_role[A].m_pMulti )
-        m_role[A].m_pMulti->saveToXMI( qDoc, assocElement );
+    if( m_role[A].multiplicityWidget )
+        m_role[A].multiplicityWidget->saveToXMI( qDoc, assocElement );
 
-    if( m_role[B].m_pMulti )
-        m_role[B].m_pMulti->saveToXMI( qDoc, assocElement );
+    if( m_role[B].multiplicityWidget )
+        m_role[B].multiplicityWidget->saveToXMI( qDoc, assocElement );
 
-    if( m_role[A].m_pRole )
-        m_role[A].m_pRole->saveToXMI( qDoc, assocElement );
+    if( m_role[A].roleWidget )
+        m_role[A].roleWidget->saveToXMI( qDoc, assocElement );
 
-    if( m_role[B].m_pRole )
-        m_role[B].m_pRole->saveToXMI( qDoc, assocElement );
+    if( m_role[B].roleWidget )
+        m_role[B].roleWidget->saveToXMI( qDoc, assocElement );
 
-    if( m_role[A].m_pChangeWidget )
-        m_role[A].m_pChangeWidget->saveToXMI( qDoc, assocElement );
+    if( m_role[A].changeabilityWidget )
+        m_role[A].changeabilityWidget->saveToXMI( qDoc, assocElement );
 
-    if( m_role[B].m_pChangeWidget )
-        m_role[B].m_pChangeWidget->saveToXMI( qDoc, assocElement );
+    if( m_role[B].changeabilityWidget )
+        m_role[B].changeabilityWidget->saveToXMI( qDoc, assocElement );
 
     if (m_pAssocClassWidget) {
         QString acid = ID2STR(m_pAssocClassWidget->id());
@@ -4289,23 +4288,23 @@ bool AssociationWidget::loadFromXMI(QDomElement & qElement,
 
             switch( role ) {
             case Uml::TextRole::MultiA:
-                m_role[A].m_pMulti = ft;
+                m_role[A].multiplicityWidget = ft;
                 if(oldStyleLoad)
-                    setMultiplicity(m_role[A].m_pMulti->text(), A);
+                    setMultiplicity(m_role[A].multiplicityWidget->text(), A);
                 break;
 
             case Uml::TextRole::MultiB:
-                m_role[B].m_pMulti = ft;
+                m_role[B].multiplicityWidget = ft;
                 if(oldStyleLoad)
-                    setMultiplicity(m_role[B].m_pMulti->text(), B);
+                    setMultiplicity(m_role[B].multiplicityWidget->text(), B);
                 break;
 
             case Uml::TextRole::ChangeA:
-                m_role[A].m_pChangeWidget = ft;
+                m_role[A].changeabilityWidget = ft;
                 break;
 
             case Uml::TextRole::ChangeB:
-                m_role[B].m_pChangeWidget = ft;
+                m_role[B].changeabilityWidget = ft;
                 break;
 
             case Uml::TextRole::Name:
@@ -4326,11 +4325,11 @@ bool AssociationWidget::loadFromXMI(QDomElement & qElement,
                 break;
 
             case Uml::TextRole::RoleAName:
-                m_role[A].m_pRole = ft;
+                m_role[A].roleWidget = ft;
                 setRoleName( ft->text(), A );
                 break;
             case Uml::TextRole::RoleBName:
-                m_role[B].m_pRole = ft;
+                m_role[B].roleWidget = ft;
                 setRoleName( ft->text(), B );
                 break;
             default:

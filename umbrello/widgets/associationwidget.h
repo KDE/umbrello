@@ -91,8 +91,9 @@ public:
     virtual UMLClassifier* seqNumAndOp(QString& seqNum, QString& op);
     virtual void setSeqNumAndOp(const QString &seqNum, const QString &op);
 
-    void constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
-                          Uml::TextRole tr);
+    virtual void constrainTextPos(UMLSceneValue &textX, UMLSceneValue &textY,
+                                  UMLSceneValue textWidth, UMLSceneValue textHeight,
+                                  Uml::TextRole tr);
 
     virtual void calculateNameTextSegment();
 
@@ -145,9 +146,9 @@ public:
     Uml::AssociationType associationType() const;
     void setAssociationType(Uml::AssociationType type);
 
-    bool isCollaboration();
+    bool isCollaboration() const;
 
-    QString toString();
+    QString toString() const;
 
     bool isActivated();
     void setActivated(bool active /*=true*/);
@@ -178,7 +179,6 @@ public:
     void selectAssocClassLine(bool sel = true);
 
     void moveMidPointsBy(int x, int y);
-
     void moveEntireAssoc(int x, int y);
 
     QRect getAssocLineRectangle();
@@ -234,9 +234,7 @@ private:
     void mergeAssociationDataIntoUMLRepresentation();
 
     static Region findPointRegion(const QRect& Rect, int PosX, int PosY);
-
     static int findInterceptOnEdge(const QRect &rect, Region region, const QPoint &point);
-
     static QPoint findIntercept(const QRect &rect, const QPoint &point);
 
     void moveEvent(QMoveEvent *me);
@@ -251,7 +249,6 @@ private:
     float totalLength();
 
     static QPoint calculatePointAtDistance(const QPoint &P1, const QPoint &P2, float Distance);
-
     static QPoint calculatePointAtDistanceOnPerpendicular(const QPoint &P1, const QPoint &P2, float Distance);
 
     static float perpendicularProjection(const QPoint& P1, const QPoint& P2, const QPoint& P3, QPoint& ResultingPoint);
@@ -261,7 +258,6 @@ private:
     QPoint calculateTextPosition(Uml::TextRole role);
 
     void setTextPosition(Uml::TextRole role);
-
     void setTextPositionRelatively(Uml::TextRole role, const QPoint &oldPosition);
 
     Region getWidgetRegion(AssociationWidget * widget) const;
@@ -279,56 +275,22 @@ private:
      */
     struct WidgetRole {
 
-        /**
-         * This is a pointer to the Floating Text widget at the role's side
-         * of the association.
-         * This FloatingTextWidget displays the information regarding multiplicity.
-         */
-        FloatingTextWidget* m_pMulti;
+        FloatingTextWidget* multiplicityWidget;   ///< information regarding multiplicity
+        FloatingTextWidget* changeabilityWidget;  ///< information regarding changeability
+        FloatingTextWidget* roleWidget;           ///< role's label of this association
 
-        /**
-         * This is a pointer to the Floating Text widget at the role's side
-         * of the association.
-         * This FloatingTextWidget displays the information regarding changeability.
-         */
-        FloatingTextWidget* m_pChangeWidget;
+        UMLWidget* umlWidget;    ///< UMLWidget at this role's side of this association
 
-        /**
-         * This member holds a pointer to the floating text that displays
-         * the role's label of this association.
-         */
-        FloatingTextWidget* m_pRole;
+        QPoint m_OldCorner;      ///< old top left corner before moving
+        Region m_WidgetRegion;   ///< region of this role's widget
 
-        /**
-         * This member holds a pointer to the UMLWidget at this role's side
-         * of the association.
-         */
-        UMLWidget* m_pWidget;
-
-        /**
-         * This role's old top left corner before moving.
-         */
-        QPoint m_OldCorner;
-
-        /**
-         * The region of this role's widget.
-         */
-        Region m_WidgetRegion;
-
-        /**
-         * The index of where the line is on the region for this role.
-         */
-        int m_nIndex;
-
-        /**
-         * The total amount of associations on the region this role's line is on.
-         */
-        int m_nTotalCount;
+        int m_nIndex;        ///< the index of where the line is on the region for this role
+        int m_nTotalCount;   ///< total amount of associations on the region this role's line is on
 
         // The following items are only used if m_pObject is not set.
-        Uml::Visibility m_Visibility;
-        Uml::Changeability m_Changeability;
-        QString m_RoleDoc;
+        Uml::Visibility      visibility;
+        Uml::Changeability   changeability;
+        QString              roleDocumentation;
 
     } m_role[2];
 
@@ -371,7 +333,7 @@ private:
      * m_associationLine[m_unNameLineSegment] -- m_associationLine[m_unNameLineSegment+1]
      */
     uint                m_unNameLineSegment;
-    UMLDoc * m_umldoc;  ///< just a shorthand for UMLApp::app()->getDocument()
+    UMLDoc              *m_umldoc;  ///< just a shorthand for UMLApp::app()->getDocument()
     ListPopupMenu       *m_pMenu;
     bool                m_selected;
     int                 m_nMovingPoint;
@@ -414,17 +376,12 @@ private:
     int         m_nLinePathSegmentIndex; ///< anchor for m_pAssocClassLine
     UMLSceneLineItem *m_pAssocClassLine;  ///< used for connecting assoc. class
     /// selection adornment for the endpoints of the assoc. class connecting line
-    UMLSceneRectItem *m_pAssocClassLineSel0, *m_pAssocClassLineSel1;
+    UMLSceneRectItem *m_pAssocClassLineSel0;
+    UMLSceneRectItem *m_pAssocClassLineSel1;
 
     ClassifierWidget *m_pAssocClassWidget;  ///< used if we have an assoc. class
-
-    /**
-     * The definition points for the association line.
-     */
-    AssociationLine *m_associationLine;
-
-    // The following items are only used if m_pObject is not set.
-    Uml::AssociationType m_associationType;
+    AssociationLine *m_associationLine;  ///< the definition points for the association line
+    Uml::AssociationType m_associationType;  ///< is only used if m_pObject is not set
 
 };
 
