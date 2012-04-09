@@ -30,7 +30,7 @@
 // qt includes
 #include <QtCore/QPointer>
 
-const QSizeF StateWidget::MinimumEllipseSize(30, 10);
+const QSizeF StateWidget::MinimumEllipseSize(50, 30);
 
 /**
  * Creates a State widget.
@@ -43,77 +43,7 @@ StateWidget::StateWidget(StateType stateType, Uml::IDType id)
     m_drawVertical(true)
 {
     createTextItemGroup();
-
-    const qreal radius = 18.0;
-
-    switch (m_stateType) {
-    case StateWidget::Normal:
-        {
-            const QSizeF sz = QSizeF(90, 60);
-            setSize(sz);
-        }
-        break;
-    case StateWidget::Initial:
-        {
-            const QSizeF sz = QSizeF(radius, radius);
-            setMinimumSize(sz);
-            setMaximumSize(sz);
-            setSize(sz);
-        }
-        break;
-    case StateWidget::End:
-        {
-            const QSizeF sz = QSizeF(radius, radius);
-            setMinimumSize(sz);
-            setMaximumSize(sz);
-            setSize(sz);
-        }
-        break;
-    case StateWidget::Fork:
-    case StateWidget::Join:
-        if (m_drawVertical) {
-            setSize(QSizeF(8, 60));
-        } else {
-            setSize(QSize(60, 8));
-        }
-        break;
-    case StateWidget::Junction:
-        {
-            const QSizeF sz = QSizeF(radius, radius);
-            setMinimumSize(sz);
-            setMaximumSize(sz);
-            setSize(sz);
-        }
-        break;
-    case StateWidget::DeepHistory:
-        {
-            const QSizeF sz = QSizeF(radius, radius);
-            setMinimumSize(sz);
-            setMaximumSize(sz);
-            setSize(sz);
-        }
-        break;
-    case StateWidget::ShallowHistory:
-        {
-            const QSizeF sz = QSizeF(radius, radius);
-            setMinimumSize(sz);
-            setMaximumSize(sz);
-            setSize(sz);
-        }
-        break;
-    case StateWidget::Choice:
-        {
-            const qreal len = 25.0;
-            const QSizeF sz = QSizeF(len, len);
-            setMinimumSize(sz);
-            setSize(sz);
-        }
-        break;
-    default:
-        uWarning() << "Unknown state type:" << stateTypeStr();
-        break;
-    }
-
+    updateGeometry();
 }
 
 /**
@@ -232,7 +162,7 @@ void StateWidget::setStateType(StateType stateType)
  * Adds an activity to this widget.
  * @return true on success
  */
-bool StateWidget::addActivity( const QString &activity )
+bool StateWidget::addActivity(const QString &activity)
 {
     TextItemGroup *grp = textItemGroupAt(GroupIndex);
     grp->appendTextItem(new TextItem(activity));
@@ -244,7 +174,7 @@ bool StateWidget::addActivity( const QString &activity )
  * Removes an \a activity from this widget if it exists
  * @return true on success
  */
-bool StateWidget::removeActivity( const QString &activity )
+bool StateWidget::removeActivity(const QString &activity)
 {
     int removedCount = 0;
     TextItemGroup *grp = textItemGroupAt(GroupIndex);
@@ -276,7 +206,7 @@ bool StateWidget::removeActivity( const QString &activity )
  * Renames an \a activity to \a newName.
  * @return true on success.
  */
-bool StateWidget::renameActivity( const QString &activity, const QString &newName )
+bool StateWidget::renameActivity(const QString &activity, const QString &newName)
 {
     bool renamed = false;
     TextItemGroup *grp = textItemGroupAt(GroupIndex);
@@ -298,20 +228,6 @@ bool StateWidget::renameActivity( const QString &activity, const QString &newNam
 }
 
 /**
- * @return The activity texts as a QStringList.
- */
-QStringList StateWidget::activities() const
-{
-    QStringList retVal;
-    TextItemGroup *grp = textItemGroupAt(GroupIndex);
-    int sz = grp->textItemCount();
-    for (int i = StateWidget::ActivityStartIndex; i < sz; ++i) {
-        retVal << grp->textItemAt(i)->text();
-    }
-    return retVal;
-}
-
-/**
  * Sets the activities from \a list.
  */
 void StateWidget::setActivities(const QStringList &list)
@@ -325,6 +241,20 @@ void StateWidget::setActivities(const QStringList &list)
     }
 
     updateGeometry();
+}
+
+/**
+ * @return The activity texts as a QStringList.
+ */
+QStringList StateWidget::activities() const
+{
+    QStringList retVal;
+    TextItemGroup *grp = textItemGroupAt(GroupIndex);
+    int sz = grp->textItemCount();
+    for (int i = StateWidget::ActivityStartIndex; i < sz; ++i) {
+        retVal << grp->textItemAt(i)->text();
+    }
+    return retVal;
 }
 
 /**
@@ -362,19 +292,51 @@ void StateWidget::showPropertiesDialog()
 }
 
 /**
+ * Reimplemented from WidgetBase::saveToXMI to save StateWidget info
+ * into XMI.
+ */
+void StateWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
+{
+    QDomElement stateElement = qDoc.createElement("statewidget");
+    UMLWidget::saveToXMI(qDoc, stateElement);
+
+    stateElement.setAttribute("statename", name());
+    stateElement.setAttribute("documentation", documentation());
+    stateElement.setAttribute("statetype", m_stateType);
+    if (m_stateType == Fork || m_stateType == Join)
+        stateElement.setAttribute("drawvertical", m_drawVertical);
+
+    //save states activities
+    QDomElement activitiesElement = qDoc.createElement("Activities");
+    TextItemGroup *grp = textItemGroupAt(GroupIndex);
+    for (int i = StateWidget::ActivityStartIndex; i < grp->textItemCount(); ++i) {
+        QDomElement tempElement = qDoc.createElement("Activity");
+        tempElement.setAttribute("name", grp->textItemAt(i)->text());
+        activitiesElement.appendChild(tempElement);
+    }//end for
+    stateElement.appendChild(activitiesElement);
+
+    qElement.appendChild(stateElement);
+}
+
+/**
  * Reimplemented from WidgetBase::loadFromXMI to load StateWidget
  * from XMI element.
  */
-bool StateWidget::loadFromXMI( QDomElement & qElement )
+bool StateWidget::loadFromXMI(QDomElement & qElement)
 {
-    if ( !UMLWidget::loadFromXMI( qElement ) ) {
+    if ( !UMLWidget::loadFromXMI(qElement) ) {
         return false;
     }
 
-    setName(qElement.attribute( "statename", "" ));
-    setDocumentation(qElement.attribute( "documentation", "" ));
-    QString type = qElement.attribute( "statetype", "1" );
+    setName(qElement.attribute("statename", ""));
+    setDocumentation(qElement.attribute("documentation", ""));
+    QString type = qElement.attribute("statetype", "1");
     setStateType(static_cast<StateType>(type.toInt()));
+    if (m_stateType == Fork || m_stateType == Join) {
+        QString drawVerticalStr = qElement.attribute("drawvertical", "0");
+        setDrawVertical((bool)drawVerticalStr.toInt());
+    }
 
     //load states activities
     QDomNode node = qElement.firstChild();
@@ -384,7 +346,7 @@ bool StateWidget::loadFromXMI( QDomElement & qElement )
         QDomElement activityElement = node.toElement();
         while ( !activityElement.isNull() ) {
             if ( activityElement.tagName() == "Activity" ) {
-                QString name = activityElement.attribute( "name", "" );
+                QString name = activityElement.attribute("name", "");
                 if ( !name.isEmpty() ) {
                     addActivity(name);
                 }
@@ -397,31 +359,6 @@ bool StateWidget::loadFromXMI( QDomElement & qElement )
 }
 
 /**
- * Reimplemented from WidgetBase::saveToXMI to save StateWidget info
- * into XMI.
- */
-void StateWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
-{
-    QDomElement stateElement = qDoc.createElement( "statewidget" );
-    UMLWidget::saveToXMI( qDoc, stateElement );
-
-    stateElement.setAttribute( "statename", name());
-    stateElement.setAttribute( "documentation", documentation() );
-    stateElement.setAttribute( "statetype", m_stateType );
-    //save states activities
-    QDomElement activitiesElement = qDoc.createElement( "Activities" );
-
-    TextItemGroup *grp = textItemGroupAt(GroupIndex);
-    for (int i = StateWidget::ActivityStartIndex; i < grp->textItemCount(); ++i) {
-        QDomElement tempElement = qDoc.createElement( "Activity" );
-        tempElement.setAttribute( "name", grp->textItemAt(i)->text());
-        activitiesElement.appendChild( tempElement );
-    }//end for
-    stateElement.appendChild( activitiesElement );
-    qElement.appendChild( stateElement );
-}
-
-/**
  * Reimplementation from WidgetBase.
  */
 void StateWidget::updateGeometry()
@@ -429,15 +366,15 @@ void StateWidget::updateGeometry()
     const qreal radius = 18.0;
 
     switch (m_stateType) {
-    case StateWidget::Fork:
-    case StateWidget::Join:
-        if (m_drawVertical) {
-            setMinimumSize(QSizeF(4, 40));
-            setMaximumSize(QSizeF(10, 100));
-        }
-        else {
-            setMinimumSize(QSizeF(40, 4));
-            setMaximumSize(QSizeF(100, 10));
+    case StateWidget::Normal:
+        {
+            TextItemGroup *grp = textItemGroupAt(GroupIndex);
+            if (grp->minimumSize().width() < StateWidget::MinimumEllipseSize.width()) {
+                setMinimumSize(StateWidget::MinimumEllipseSize);
+            }
+            else {
+                setMinimumSize(grp->minimumSize());
+            }
         }
         break;
     case StateWidget::Initial:
@@ -445,6 +382,7 @@ void StateWidget::updateGeometry()
             const QSizeF sz = QSizeF(radius, radius);
             setMinimumSize(sz);
             setMaximumSize(sz);
+            setSize(sz);
         }
         break;
     case StateWidget::End:
@@ -452,6 +390,27 @@ void StateWidget::updateGeometry()
             const QSizeF sz = QSizeF(radius, radius);
             setMinimumSize(sz);
             setMaximumSize(sz);
+            setSize(sz);
+        }
+        break;
+    case StateWidget::Fork:
+    case StateWidget::Join:
+        {
+            QSizeF sz = QSizeF(60, 8);
+            if (m_drawVertical) {
+                sz = QSizeF(8, 60);
+            }
+            setMinimumSize(sz);
+            setMaximumSize(sz);
+            setSize(sz);
+        }
+        break;
+    case StateWidget::Junction:
+        {
+            const QSizeF sz = QSizeF(radius, radius);
+            setMinimumSize(sz);
+            setMaximumSize(sz);
+            setSize(sz);
         }
         break;
     case StateWidget::DeepHistory:
@@ -459,6 +418,7 @@ void StateWidget::updateGeometry()
             const QSizeF sz = QSizeF(radius, radius);
             setMinimumSize(sz);
             setMaximumSize(sz);
+            setSize(sz);
         }
         break;
     case StateWidget::ShallowHistory:
@@ -466,15 +426,20 @@ void StateWidget::updateGeometry()
             const QSizeF sz = QSizeF(radius, radius);
             setMinimumSize(sz);
             setMaximumSize(sz);
+            setSize(sz);
         }
         break;
-    case StateWidget::Normal:
+    case StateWidget::Choice:
         {
-            TextItemGroup *grp = textItemGroupAt(GroupIndex);
-            setMinimumSize(grp->minimumSize());
+            const qreal len = 25.0;
+            const QSizeF sz = QSizeF(len, len);
+            setMinimumSize(sz);
+            setMaximumSize(sz);
+            setSize(sz);
         }
         break;
     default:
+        uWarning() << "Unknown state type:" << stateTypeStr();
         setMinimumSize(StateWidget::MinimumEllipseSize);
         break;
     }

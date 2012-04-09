@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "associationspacemanager.h"
+
 #include "associationline.h"
 #include "associationwidget.h"
 #include "debug_utils.h"
@@ -85,7 +86,7 @@ AssociationSpaceManager::AssociationSpaceManager(UMLWidget *widget)
  * This method is used to register the AssociationWidget associatied with this
  * UMLWidget along specified region passed for space distribution management.
  *
- * @param  assoc  The AssociationWidget to be registered.
+ * @param assoc   The AssociationWidget to be registered.
  * @param regions The regions with which the AssociationWidget has to be
  *                registered. regions[role(assoc)] is where the destination
  *                region should be specified. (for self associatons both roles
@@ -97,7 +98,7 @@ AssociationSpaceManager::AssociationSpaceManager(UMLWidget *widget)
  * @note Refer @ref RegionPair to understand why pair is used.
  */
 void AssociationSpaceManager::add(AssociationWidget *assoc,
-        const RegionPair& regions)
+                                  const RegionPair& regions)
 {
     if (!regions.isValid()) {
         uDebug() << "Invalid regions, so not adding";

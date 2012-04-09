@@ -8,8 +8,10 @@
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
+// own header
 #include "associationwidget.h"
 
+// app includes
 #include "association.h"
 #include "associationline.h"
 #include "assocpropdlg.h"
@@ -30,13 +32,16 @@
 #include "umlview.h"
 #include "widget_utils.h"
 
+// kde includes
 #include <kinputdialog.h>
 #include <klocale.h>
 #include <kcolordialog.h>
 
+// qt includes
 #include <QtCore/QPointer>
 #include <QtGui/QRegExpValidator>
 
+// system includes
 #include <cmath>
 
 /**
@@ -231,6 +236,11 @@ void AssociationWidget::lwSetFont(QFont font)
     WidgetBase::setFont(font);
 }
 
+/**
+ * Overrides operation from LinkWidget.
+ * Required by FloatingTextWidget.
+ * @todo Move to LinkWidget.
+ */
 UMLClassifier *AssociationWidget::operationOwner()
 {
     Uml::Role_Type role = isCollaboration() ? Uml::B : Uml::A;
@@ -243,26 +253,46 @@ UMLClassifier *AssociationWidget::operationOwner()
     return c;
 }
 
+/**
+ * Implements operation from LinkWidget.
+ * Motivated by FloatingTextWidget.
+ */
 UMLOperation *AssociationWidget::operation()
 {
     return dynamic_cast<UMLOperation*>(umlObject());
 }
 
+/**
+ * Implements operation from LinkWidget.
+ * Motivated by FloatingTextWidget.
+ */
 void AssociationWidget::setOperation(UMLOperation *op)
 {
     setUMLObject(op);
 }
 
+/**
+ * Overrides operation from LinkWidget.
+ * Required by FloatingTextWidget.
+ */
 QString AssociationWidget::customOpText()
 {
     return name();
 }
 
+/**
+ * Overrides operation from LinkWidget.
+ * Required by FloatingTextWidget.
+ */
 void AssociationWidget::setCustomOpText(const QString &opText)
 {
     setName(opText);
 }
 
+/**
+ * Calls setTextPosition on all the labels.
+ * Overrides operation from LinkWidget.
+ */
 void AssociationWidget::resetTextPositions()
 {
     DEBUG(DBG_SRC) << "called";
@@ -289,26 +319,38 @@ void AssociationWidget::resetTextPositions()
     }
 }
 
+/**
+ * Overrides operation from LinkWidget.
+ * Required by FloatingTextWidget.
+ *
+ * @param ft        The text widget which to update.
+ */
 void AssociationWidget::setMessageText(FloatingTextWidget *ft)
 {
-    QString msg;
+    QString message;
     if (isCollaboration()) {
         if (umlObject()) {
-            msg = multiplicity(Uml::A) + QLatin1String(": ") +
-                LinkWidget::operationText(umlScene());
+            message = multiplicity(Uml::A) + QLatin1String(": ") +
+                          LinkWidget::operationText(umlScene());
         } else {
-            msg = multiplicity(Uml::A) + QLatin1String(": ") +
-                name();
+            message = multiplicity(Uml::A) + QLatin1String(": ") +
+                          name();
         }
     } else {
-        msg = name();
+        message = name();
     }
-    ft->setText(msg);
+    ft->setText(message);
 }
 
+/**
+ * Sets the text of the given FloatingTextWidget.
+ * Overrides operation from LinkWidget.
+ * Required by FloatingTextWidget.
+ */
 void AssociationWidget::setText(FloatingTextWidget *ft, const QString &text)
 {
-    switch (ft->textRole()) {
+    Uml::TextRole role = ft->textRole();
+    switch (role) {
         case Uml::TextRole::Name:
             setName(text);
             break;
@@ -325,6 +367,7 @@ void AssociationWidget::setText(FloatingTextWidget *ft, const QString &text)
             setMultiplicity(text, Uml::B);
             break;
         default:
+            uWarning() << "Unhandled TextRole: " << role.toString();
             break;
     }
 }
@@ -373,6 +416,13 @@ UMLClassifier* AssociationWidget::seqNumAndOp(QString& seqNum, QString& op)
     return dynamic_cast<UMLClassifier*>(widgetForRole(Uml::B)->umlObject());
 }
 
+/**
+ * Overrides operation from LinkWidget.
+ * Required by FloatingTextWidget.
+ *
+ * @param seqNum    The new sequence number string to set.
+ * @param op                The new operation string to set.
+ */
 void AssociationWidget::setSeqNumAndOp(const QString &seqNum, const QString &op)
 {
     if (!op.isEmpty()) {
@@ -671,6 +721,11 @@ FloatingTextWidget* AssociationWidget::roleWidget(Uml::Role_Type role) const
     return m_widgetRole[role].roleWidget;
 }
 
+/**
+ * Return the given role's FloatingTextWidget widget text.
+ *
+ * @return  The name set at the FloatingTextWidget.
+ */
 QString AssociationWidget::roleName(Uml::Role_Type role) const
 {
     if (association()) {
@@ -679,6 +734,12 @@ QString AssociationWidget::roleName(Uml::Role_Type role) const
     return m_widgetRole[role].roleWidget->text();
 }
 
+/**
+ * Sets the text to the FloatingTextWidget that display the Role text of this
+ * association.
+ * For this function to work properly, the associated widget
+ *  should already be set.
+ */
 void AssociationWidget::setRoleName(const QString &strRole, Uml::Role_Type role)
 {
     //if the association is not supposed to have a Role FloatingTextWidget
@@ -696,6 +757,9 @@ void AssociationWidget::setRoleName(const QString &strRole, Uml::Role_Type role)
     m_widgetRole[role].roleWidget->setPreText(visibility(role).toString(true));
 }
 
+/**
+ * Returns the given role's documentation.
+ */
 QString AssociationWidget::roleDocumentation(Uml::Role_Type role) const
 {
     UMLAssociation *umlAssoc = association();
@@ -851,6 +915,11 @@ Uml::AssociationType AssociationWidget::associationType() const
     return static_cast<UMLAssociation*>(umlObject())->getAssocType();
 }
 
+/**
+ * Sets the association's type.
+ *
+ * @param type   The AssociationType to set.
+ */
 void AssociationWidget::setAssociationType(Uml::AssociationType type)
 {
     m_associationType = type;
@@ -1029,13 +1098,19 @@ QPainterPath AssociationWidget::shape() const
     return m_associationLine->shape();
 }
 
+/**
+ *
+ */
 void AssociationWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     m_associationLine->paint(painter, option, widget);
 }
 
+/**
+ *
+ */
 bool AssociationWidget::loadFromXMI(QDomElement& qElement, const UMLWidgetList &widgets,
-        const MessageWidgetList* pMessages)
+                                    const MessageWidgetList* pMessages)
 {
     if (!WidgetBase::loadFromXMI(qElement)) {
         return false;
@@ -1296,6 +1371,9 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement, const UMLWidgetList &
     return true;
 }
 
+/**
+ *
+ */
 bool AssociationWidget::loadFromXMI(QDomElement& element)
 {
     UMLScene *scene = umlScene();
@@ -1308,6 +1386,9 @@ bool AssociationWidget::loadFromXMI(QDomElement& element)
     return loadFromXMI(element, widgetList, &messageList);
 }
 
+/**
+ *
+ */
 void AssociationWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 {
     QDomElement assocElement = qDoc.createElement("assocwidget");

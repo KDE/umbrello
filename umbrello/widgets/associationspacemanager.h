@@ -62,7 +62,7 @@ private:
  */
 class AssociationSpaceManager : public QObject
 {
-    Q_OBJECT;
+    Q_OBJECT
 public:
     AssociationSpaceManager(UMLWidget *widget);
 

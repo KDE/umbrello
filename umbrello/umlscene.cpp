@@ -1295,7 +1295,7 @@ UMLWidgetList UMLScene::selectedWidgets() const
     UMLWidgetList list;
     foreach(QGraphicsItem *item, selectedItems()) {
         UMLWidget *wid = dynamic_cast<UMLWidget*>(item);
-        if(wid) {
+        if (wid) {
             list << wid;
         }
     }
@@ -1353,7 +1353,7 @@ void UMLScene::selectionSetFont(const QFont &font)
 void UMLScene::selectionSetLineColor(const QColor &color)
 {
     UMLApp::app()->beginMacro(i18n("Change Line Color"));
-    foreach(UMLWidget *temp ,  selectedWidgets()) {
+    foreach(UMLWidget *temp, selectedWidgets()) {
         temp->setLineColor(color);
         // [PORT] temp->setUsesDiagramLineColour(false);
     }
@@ -1370,7 +1370,7 @@ void UMLScene::selectionSetLineColor(const QColor &color)
  */
 void UMLScene::selectionSetLineWidth(uint width)
 {
-    foreach(UMLWidget* temp , selectedWidgets()) {
+    foreach(UMLWidget* temp, selectedWidgets()) {
         temp->setLineWidth(width);
         // [PORT] temp->setUsesDiagramLineWidth(false);
     }
@@ -1388,7 +1388,7 @@ void UMLScene::selectionSetFillColor(const QColor &color)
 {
     UMLApp::app()->beginMacro(i18n("Change Fill Color"));
 
-    foreach(UMLWidget* temp ,  selectedWidgets()) {
+    foreach(UMLWidget* temp,  selectedWidgets()) {
         temp->setFillColor(color);
         // [PORT] temp->setUsesDiagramFillColour(false);
     }
@@ -1401,7 +1401,7 @@ void UMLScene::selectionSetFillColor(const QColor &color)
 void UMLScene::selectionToggleShow(int sel)
 {
     // loop through all selected items
-    foreach(UMLWidget *temp , selectedWidgets()) {
+    foreach(UMLWidget *temp, selectedWidgets()) {
         WidgetBase::WidgetType type = temp->baseType();
         ClassifierWidget *cw = dynamic_cast<ClassifierWidget*>(temp);
 
@@ -1459,22 +1459,21 @@ void UMLScene::deleteSelection()
     //  Don't delete text widget that are connect to associations as these will
     //  be cleaned up by the associations.
 
-    foreach(UMLWidget* temp ,  selectedWidgets()) {
-        if (temp->baseType() == WidgetBase::wt_Text &&
-                ((FloatingTextWidget *)temp)->textRole() != Uml::TextRole::Floating) {
-            temp->hide();
-
+    foreach(UMLWidget* widget, selectedWidgets()) {
+        if (widget->baseType() == WidgetBase::wt_Text &&
+                static_cast<FloatingTextWidget*>(widget)->textRole() != Uml::TextRole::Floating) {
+            widget->hide();
         } else {
-            removeWidget(temp);
+            removeWidget(widget);
         }
 
     }
 
     // Delete any selected associations.
     foreach(AssociationWidget* assocwidget, m_AssociationList) {
-        if (assocwidget->isSelected())
+        if (assocwidget->isSelected()) {
             removeAssoc(assocwidget);
-        // MARK
+        }
     }
 
     // we also have to remove selected messages from sequence diagrams
@@ -1486,9 +1485,9 @@ void UMLScene::deleteSelection()
         }
     }
 
-    // sometimes we miss one widget, so call this function again to remove it as well
-    if (!selectedWidgets().isEmpty())
-        deleteSelection();
+//???    // sometimes we miss one widget, so call this function again to remove it as well
+//???    if (!selectedWidgets().isEmpty())
+//???        deleteSelection();
 
 }
 
@@ -1776,8 +1775,7 @@ int UMLScene::selectedCount(bool filterText) const
     if (!filterText)
         return selectedWidgets().count();
     int counter = 0;
-    const UMLWidget * temp = 0;
-    foreach(temp, selectedWidgets()) {
+    foreach(UMLWidget* temp, selectedWidgets()) {
         if (temp->baseType() == WidgetBase::wt_Text) {
             const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(temp);
             if (ft->textRole() == TextRole::Floating)
@@ -2900,7 +2898,7 @@ void UMLScene::copyAsImage(QPixmap*& pix)
     qreal px = -1, py = -1, qx = -1, qy = -1;
 
     //first get the smallest rect holding the widgets
-    foreach(UMLWidget* temp , selectedWidgets()) {
+    foreach(UMLWidget* temp, selectedWidgets()) {
         qreal x = temp->x();
         qreal y = temp->y();
         qreal x1 = x + temp->width() - 1;
