@@ -321,42 +321,8 @@ void StateWidget::setStateType(StateType stateType)
 }
 
 /**
- * Captures any popup menu signals for menus it created.
- */
-void StateWidget::slotMenuSelection(QAction* action)
-{
-    bool ok = false;
-    QString nameNew = name();
-
-    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
-    switch( sel ) {
-    case ListPopupMenu::mt_Rename:
-        nameNew = KInputDialog::getText( i18n("Enter State Name"), i18n("Enter the name of the new state:"), name(), &ok );
-        if( ok && nameNew.length() > 0 )
-            setName( nameNew );
-        break;
-
-    case ListPopupMenu::mt_Properties:
-        showPropertiesDialog();
-        break;
-
-    case ListPopupMenu::mt_New_Activity:
-        nameNew = KInputDialog::getText( i18n("Enter Activity"), i18n("Enter the name of the new activity:"), i18n("new activity"), &ok );
-        if( ok && nameNew.length() > 0 )
-            addActivity( nameNew );
-        break;
-
-    case ListPopupMenu::mt_Flip:
-        setDrawVertical(!m_drawVertical);
-        break;
-
-    default:
-        UMLWidget::slotMenuSelection(action);
-    }
-}
-
-/**
- * Adds the given activity to the state.
+ * Adds an activity to this widget.
+ * @return true on success
  */
 bool StateWidget::addActivity(const QString &activity)
 {
@@ -368,11 +334,23 @@ bool StateWidget::addActivity(const QString &activity)
 /**
  * Removes the given activity from the state.
  */
-bool StateWidget::removeActivity( const QString &activity )
+bool StateWidget::removeActivity(const QString &activity)
 {
     if( m_Activities.removeAll( activity ) == 0 )
         return false;
     updateComponentSize();
+    return true;
+}
+
+/**
+ * Renames the given activity.
+ */
+bool StateWidget::renameActivity(const QString &activity, const QString &newName)
+{
+    int index = - 1;
+    if( ( index = m_Activities.indexOf( activity ) ) == -1 )
+        return false;
+    m_Activities[ index ] = newName;
     return true;
 }
 
@@ -391,18 +369,6 @@ void StateWidget::setActivities(const QStringList &list)
 QStringList StateWidget::activities() const
 {
     return m_Activities;
-}
-
-/**
- * Renames the given activity.
- */
-bool StateWidget::renameActivity(const QString &activity, const QString &newName)
-{
-    int index = - 1;
-    if( ( index = m_Activities.indexOf( activity ) ) == -1 )
-        return false;
-    m_Activities[ index ] = newName;
-    return true;
 }
 
 /**
@@ -495,6 +461,48 @@ bool StateWidget::loadFromXMI(QDomElement & qElement)
         }//end while
     }//end if
     return true;
+}
+
+/**
+ * Captures any popup menu signals for menus it created.
+ */
+void StateWidget::slotMenuSelection(QAction* action)
+{
+    bool ok = false;
+    QString nameNew = name();
+
+    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
+    switch( sel ) {
+    case ListPopupMenu::mt_Rename:
+        nameNew = KInputDialog::getText( i18n("Enter State Name"),
+                                         i18n("Enter the name of the new state:"),
+                                         name(), &ok );
+        if ( ok && nameNew.length() > 0 ) {
+            setName( nameNew );
+        }
+        break;
+
+    case ListPopupMenu::mt_Properties:
+        showPropertiesDialog();
+        break;
+
+    case ListPopupMenu::mt_New_Activity:
+        nameNew = KInputDialog::getText( i18n("Enter Activity"),
+                                         i18n("Enter the name of the new activity:"),
+                                         i18n("new activity"), &ok );
+        if ( ok && nameNew.length() > 0 ) {
+            addActivity( nameNew );
+        }
+        break;
+
+    case ListPopupMenu::mt_Flip:
+        setDrawVertical(!m_drawVertical);
+        break;
+
+    default:
+        UMLWidget::slotMenuSelection(action);
+        break;
+    }
 }
 
 #include "statewidget.moc"
