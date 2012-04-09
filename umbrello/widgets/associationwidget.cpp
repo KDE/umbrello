@@ -11,45 +11,43 @@
 // own header
 #include "associationwidget.h"
 
-// system includes
-#include <cstdlib>
-#include <cmath>
+// app includes
+#include "association.h"
+#include "assocpropdlg.h"
+#include "assocrules.h"
+#include "attribute.h"
+#include "classifier.h"
+#include "classifierwidget.h"
+#include "debug_utils.h"
+#include "entity.h"
+#include "floatingtextwidget.h"
+#include "listpopupmenu.h"
+#include "messagewidget.h"
+#include "objectwidget.h"
+#include "operation.h"
+#include "optionstate.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlscene.h"
+#include "umlview.h"
+#include "umlwidget.h"
+//#include "umlrole.h"
+#include "widget_utils.h"
+
+// kde includes
+#include <kinputdialog.h>
+#include <klocale.h>
+#include <kcolordialog.h>
 
 // qt includes
 #include <QtCore/QPointer>
 #include <QtGui/QRegExpValidator>
+#include <QtGui/QApplication>
 #include <QtGui/QMouseEvent>
 #include <QtGui/QMoveEvent>
-#include <QtGui/QApplication>
 
-// kde includes
-#include <klocale.h>
-#include <kinputdialog.h>
-#include <kcolordialog.h>
-
-// app includes
-#include "activitywidget.h"
-#include "debug_utils.h"
-#include "uml.h"
-#include "umlview.h"
-#include "umldoc.h"
-#include "umlwidget.h"
-#include "messagewidget.h"
-#include "umlrole.h"
-#include "listpopupmenu.h"
-#include "classifierwidget.h"
-#include "classifier.h"
-#include "entity.h"
-#include "attribute.h"
-#include "operation.h"
-#include "association.h"
-#include "assocrules.h"
-#include "floatingtextwidget.h"
-#include "objectwidget.h"
-#include "model_utils.h"
-#include "widget_utils.h"
-#include "assocpropdlg.h"
-#include "optionstate.h"
+// system includes
+#include <cmath>
 
 using namespace Uml;
 
@@ -173,7 +171,7 @@ AssociationWidget* AssociationWidget::create
 }
 
 /**
- * Deconstructor.
+ * Destructor.
  */
 AssociationWidget::~AssociationWidget()
 {
