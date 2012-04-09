@@ -31,7 +31,6 @@
 #include "umlscene.h"
 #include "umlview.h"
 #include "umlwidget.h"
-//#include "umlrole.h"
 #include "widget_utils.h"
 
 // kde includes
@@ -362,22 +361,23 @@ void AssociationWidget::setText(FloatingTextWidget *ft, const QString &text)
 {
     Uml::TextRole role = ft->textRole();
     switch (role) {
-        case TextRole::Name:
+        case Uml::TextRole::Name:
             setName(text);
             break;
-        case TextRole::RoleAName:
-            setRoleName(text, A);
+        case Uml::TextRole::RoleAName:
+            setRoleName(text, Uml::A);
             break;
-        case TextRole::RoleBName:
-            setRoleName(text, B);
+        case Uml::TextRole::RoleBName:
+            setRoleName(text, Uml::B);
             break;
-        case TextRole::MultiA:
-            setMultiplicity(text, A);
+        case Uml::TextRole::MultiA:
+            setMultiplicity(text, Uml::A);
             break;
-        case TextRole::MultiB:
-            setMultiplicity(text, B);
+        case Uml::TextRole::MultiB:
+            setMultiplicity(text, Uml::B);
             break;
         default:
+            uWarning() << "Unhandled TextRole: " << role.toString();
             break;
     }
 }
@@ -427,9 +427,9 @@ void AssociationWidget::showPropertiesDialog()
  * @param seqNum    Return this AssociationWidget's sequence number string.
  * @param op        Return this AssociationWidget's operation string.
  */
-UMLClassifier *AssociationWidget::seqNumAndOp(QString& seqNum, QString& op)
+UMLClassifier* AssociationWidget::seqNumAndOp(QString& seqNum, QString& op)
 {
-    seqNum = multiplicity(A);
+    seqNum = multiplicity(Uml::A);
     op = name();
     UMLObject *o = widgetForRole(B)->umlObject();
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
@@ -447,7 +447,7 @@ void AssociationWidget::setSeqNumAndOp(const QString &seqNum, const QString &op)
 {
     if (! op.isEmpty())
         setName(op);
-    setMultiplicity(seqNum, A);
+    setMultiplicity(seqNum, Uml::A);
 }
 
 /**
@@ -503,7 +503,7 @@ void AssociationWidget::calculateNameTextSegment()
  * @return  Pointer to the UMLAssociation that is represented by
  *          this AsociationWidget.
  */
-UMLAssociation * AssociationWidget::association() const
+UMLAssociation* AssociationWidget::association() const
 {
     if (m_pObject == NULL || m_pObject->baseType() != UMLObject::ot_Association)
         return NULL;
@@ -516,7 +516,7 @@ UMLAssociation * AssociationWidget::association() const
  * @return  Pointer to the UMLAttribute that is represented by
  *          this AsociationWidget.
  */
-UMLAttribute * AssociationWidget::attribute() const
+UMLAttribute* AssociationWidget::attribute() const
 {
     if (m_pObject == NULL)
         return NULL;
@@ -663,7 +663,7 @@ AssociationLine* AssociationWidget::associationLine() const
 bool AssociationWidget::activate()
 {
     if (m_pObject == NULL &&
-        AssociationType::hasUMLRepresentation(m_AssocType)) {
+        AssociationType::hasUMLRepresentation(m_associationType)) {
         UMLObject *myObj = m_umldoc->findObjectById(m_nId);
         if (myObj == NULL) {
             uError() << "cannot find UMLObject " << ID2STR(m_nId);
@@ -676,7 +676,7 @@ bool AssociationWidget::activate()
                 m_associationLine->setAssocType( myAssoc->getAssocType() );
             } else {
                 setUMLObject(myObj);
-                setAssociationType(m_AssocType);
+                setAssociationType(m_associationType);
             }
         }
     }
@@ -1032,14 +1032,14 @@ QString AssociationWidget::multiplicity(Uml::Role_Type role) const
  * Sets the text in the FloatingTextWidget representing the multiplicity
  * at the given side of the association.
  */
-void AssociationWidget::setMultiplicity(const QString &strMulti, Uml::Role_Type role)
+void AssociationWidget::setMultiplicity(const QString& text, Uml::Role_Type role)
 {
-    TextRole tr = (role == A ? TextRole::MultiA : TextRole::MultiB);
+    TextRole tr = (role == Uml::A ? TextRole::MultiA : TextRole::MultiB);
 
-    setFloatingText(tr, strMulti, m_role[role].m_pMulti);
+    setFloatingText(tr, text, m_role[role].m_pMulti);
 
     if (m_pObject && m_pObject->baseType() == UMLObject::ot_Association)
-        association()->setMulti(strMulti, role);
+        association()->setMulti(text, role);
 }
 
 /**
@@ -1347,7 +1347,7 @@ bool AssociationWidget::isCollaboration()
 Uml::AssociationType AssociationWidget::associationType() const
 {
     if (m_pObject == NULL || m_pObject->baseType() != UMLObject::ot_Association)
-        return m_AssocType;
+        return m_associationType;
     UMLAssociation *umla = static_cast<UMLAssociation*>(m_pObject);
     return umla->getAssocType();
 }
@@ -1361,7 +1361,7 @@ void AssociationWidget::setAssociationType(Uml::AssociationType type)
 {
     if (m_pObject && m_pObject->baseType() == UMLObject::ot_Association)
         association()->setAssociationType(type);
-    m_AssocType = type;
+    m_associationType = type;
     m_associationLine->setAssocType(type);
     // If the association new type is not supposed to have Multiplicity
     // FloatingTexts and a Role FloatingTextWidget then set the texts
@@ -3965,7 +3965,7 @@ void AssociationWidget::init()
 
     // Initialize local members.
     // These are only used if we don't have a UMLAssociation attached.
-    m_AssocType = Uml::AssociationType::Association;
+    m_associationType = Uml::AssociationType::Association;
     m_umldoc = UMLApp::app()->document();
 
     connect(m_scene, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
@@ -4043,7 +4043,7 @@ void AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     if (m_pObject) {
         assocElement.setAttribute( "xmi.id", ID2STR(m_pObject->id()) );
     }
-    assocElement.setAttribute( "type", m_AssocType );
+    assocElement.setAttribute( "type", m_associationType );
     if (association() == NULL) {
         assocElement.setAttribute( "visibilityA", m_role[A].m_Visibility);
         assocElement.setAttribute( "visibilityB", m_role[B].m_Visibility);

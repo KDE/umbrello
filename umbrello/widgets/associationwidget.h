@@ -23,8 +23,8 @@ class ClassifierWidget;
 class UMLDoc;
 class UMLScene;
 class UMLAssociation;
-class UMLClassifierListItem;
 class UMLAttribute;
+class UMLClassifierListItem;
 class UMLOperation;
 
 /**
@@ -124,10 +124,10 @@ public:
 
     FloatingTextWidget* multiplicityWidget(Uml::Role_Type role) const;
     QString multiplicity(Uml::Role_Type role) const;
-    void setMultiplicity(const QString &strMulti, Uml::Role_Type role);
+    void setMultiplicity(const QString& text, Uml::Role_Type role);
 
     Uml::Visibility visibility(Uml::Role_Type role) const;
-    void setVisibility(Uml::Visibility value, Uml::Role_Type role );
+    void setVisibility(Uml::Visibility value, Uml::Role_Type role);
 
     FloatingTextWidget* changeabilityWidget(Uml::Role_Type role) const;
     Uml::Changeability changeability(Uml::Role_Type role) const;
@@ -142,10 +142,10 @@ public:
 
     bool contains(UMLWidget* widget);
 
-    bool isCollaboration();
-
     Uml::AssociationType associationType() const;
     void setAssociationType(Uml::AssociationType type);
+
+    bool isCollaboration();
 
     QString toString();
 
@@ -159,17 +159,17 @@ public:
 
     void widgetMoved(UMLWidget* widget, int x, int y);
 
-    void updatePointsException ();
+    void updatePointsException();
 
     void saveIdealTextPositions();
 
-    void mouseDoubleClickEvent(QMouseEvent * me);
-    void mousePressEvent(QMouseEvent * me);
-    void mouseReleaseEvent(QMouseEvent * me);
-    void mouseMoveEvent(QMouseEvent * me);
+    void mouseDoubleClickEvent(QMouseEvent* me);
+    void mousePressEvent(QMouseEvent* me);
+    void mouseReleaseEvent(QMouseEvent* me);
+    void mouseMoveEvent(QMouseEvent* me);
 
-    bool onAssociation(const QPoint & point);
-    bool onAssocClassLine(const QPoint & point);
+    bool onAssociation(const QPoint& point);
+    bool onAssocClassLine(const QPoint& point);
 
     void createAssocClassLine();
     void createAssocClassLine(ClassifierWidget* classifierWidget,
@@ -177,16 +177,16 @@ public:
 
     void selectAssocClassLine(bool sel = true);
 
-    void moveMidPointsBy( int x, int y );
+    void moveMidPointsBy(int x, int y);
 
-    void moveEntireAssoc( int x, int y );
+    void moveEntireAssoc(int x, int y);
 
     QRect getAssocLineRectangle();
 
     QFont font() const;
 
     virtual void setTextColor(const QColor &color);
-    virtual void setLineColor(const QColor &colour);
+    virtual void setLineColor(const QColor &color);
     void setLineWidth(uint width);
 
     void setIndex(int index, Uml::Role_Type role);
@@ -229,7 +229,7 @@ private:
      */
     AssociationWidget(UMLScene *scene);
 
-    void setUMLAssociation (UMLAssociation * assoc);
+    void setUMLAssociation(UMLAssociation * assoc);
 
     void mergeAssociationDataIntoUMLRepresentation();
 
@@ -424,7 +424,7 @@ private:
     AssociationLine *m_associationLine;
 
     // The following items are only used if m_pObject is not set.
-    Uml::AssociationType m_AssocType;
+    Uml::AssociationType m_associationType;
 
 };
 
