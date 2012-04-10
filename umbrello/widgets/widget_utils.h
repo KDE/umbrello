@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,17 +12,15 @@
 #define WIDGET_UTILS_H
 
 #include "basictypes.h"
-#include "umlwidgetlist.h"
 #include "messagewidgetlist.h"
+#include "umlscene.h"
+#include "umlwidgetlist.h"
 
 #include <QtCore/QPoint>
 #include <QtXml/QDomDocument>
 #include <QtGui/QBrush>
 #include <QtGui/QPen>
 #include <QtGui/QFont>
-
-// forward declarations
-class QGraphicsRectItem;
 
 /**
  * General purpose widget utilities.
@@ -34,7 +32,7 @@ namespace Widget_Utils
                           const UMLWidgetList& widgets,
                           const MessageWidgetList* messages = 0);
 
-    QGraphicsRectItem *decoratePoint(const QPointF& p);
+    UMLSceneRectItem* decoratePoint(const UMLScenePoint& p);
 
     void drawCrossInEllipse(QPainter *p, const QRectF& ellipse);
     void drawTriangledRect(QPainter *painter, const QRectF& rect, const QSizeF& triSize);

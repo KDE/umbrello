@@ -12,7 +12,7 @@
 #ifndef MESSAGEWIDGETLIST_H
 #define MESSAGEWIDGETLIST_H
 
-#include <qlist.h>
+#include <QtCore/QList>
 
 class MessageWidget;
 

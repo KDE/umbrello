@@ -68,7 +68,7 @@ namespace Widget_Utils
      * @param p   the base point
      * @return    the decoration point
      */
-    QGraphicsRectItem *decoratePoint(const QPointF& p)
+    UMLSceneRectItem* decoratePoint(const UMLScenePoint& p)
     {
         const int SIZE = 4;
         UMLView *currentView = UMLApp::app()->currentView();
