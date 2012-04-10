@@ -75,6 +75,14 @@ void ActivityWidget::setActivityType( ActivityType activityType )
 }
 
 /**
+ * This method get the name of the preText attribute.
+ */
+QString ActivityWidget::preconditionText() const
+{
+    return m_preconditionText;
+}
+
+/**
  * This method set the name of the preText attribute
  */
 void ActivityWidget::setPreconditionText(const QString& aPreText)
@@ -83,7 +91,15 @@ void ActivityWidget::setPreconditionText(const QString& aPreText)
     updateTextItemGroups();
 }
 
- /**
+/**
+ * This method get the name of the postText attribute.
+ */
+QString ActivityWidget::postconditionText() const
+{
+    return m_postconditionText;
+}
+
+/**
  * This method set the name of the postText attribute
  */
 void ActivityWidget::setPostconditionText(const QString& aPostText)
@@ -139,7 +155,7 @@ void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *, QWidge
         Widget_Utils::drawCrossInEllipse(p, r);
         break;
 
-    case End :
+    case End:
     {
         p->setBrush(Qt::NoBrush);
         qreal adj = lineWidth() + 1;
@@ -151,7 +167,7 @@ void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *, QWidge
         break;
     }
 
-    case Branch :
+    case Branch:
     {
         QPolygonF array(4);
         array[0] = QPointF(w / 2, 0);
@@ -162,7 +178,7 @@ void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *, QWidge
     }
     break;
 
-    case Invok :
+    case Invok:
         p->drawRoundRect(r, (h * 60) / w, 60);
         {
             qreal x = w - (w/5);
@@ -175,7 +191,7 @@ void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *, QWidge
         }
         break;
 
-    case Param :
+    case Param:
         p->drawRoundRect(r, (h * 60) / w, 60);
         break;
     }
@@ -184,7 +200,7 @@ void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *, QWidge
 /**
  * Loads the widget from the "activitywidget" XMI element.
  */
-bool ActivityWidget::loadFromXMI( QDomElement & qElement ) 
+bool ActivityWidget::loadFromXMI(QDomElement& qElement)
 {
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;

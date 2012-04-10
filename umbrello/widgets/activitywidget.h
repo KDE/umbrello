@@ -53,16 +53,10 @@ public:
     QString activityTypeStr() const;
     void setActivityType( ActivityType activityType );
 
-    /// This method get the name of the preText attribute
-    QString preconditionText() const {
-        return m_preconditionText;
-    }
+    QString preconditionText() const;
     void setPreconditionText(const QString&);
 
-    /// This method get the name of the postText attribute
-    QString postconditionText() const {
-        return m_postconditionText;
-    }
+    QString postconditionText() const;
     void setPostconditionText(const QString&);
 
     virtual void showPropertiesDialog();
