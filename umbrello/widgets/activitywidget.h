@@ -58,14 +58,13 @@ public:
     static bool isActivity( WorkToolBar::ToolBar_Buttons tbb,
                             ActivityType& resultType );
 
-    QString preconditionText();
+    QString preconditionText() const;
     void setPreconditionText(const QString&);
 
-    QString postconditionText();
+    QString postconditionText() const;
     void setPostconditionText(const QString&);
 
     virtual void showPropertiesDialog();
-
     virtual void paint(QPainter & p, int offsetX, int offsetY);
 
     virtual bool loadFromXMI( QDomElement & qElement );

@@ -108,9 +108,9 @@ bool ActivityWidget::isActivity(WorkToolBar::ToolBar_Buttons tbb,
 }
 
 /**
- * This method get the name of the preText attribute
+ * This method get the name of the preText attribute.
  */
-QString ActivityWidget::preconditionText()
+QString ActivityWidget::preconditionText() const
 {
     return m_preconditionText;
 }
@@ -126,14 +126,14 @@ void ActivityWidget::setPreconditionText(const QString& aPreText)
 }
 
 /**
- * This method get the name of the postText attribute
+ * This method get the name of the postText attribute.
  */
-QString ActivityWidget::postconditionText()
+QString ActivityWidget::postconditionText() const
 {
-    return m_postconditionText ;
+    return m_postconditionText;
 }
 
- /**
+/**
  * This method set the name of the postText attribute
  */
 void ActivityWidget::setPostconditionText(const QString& aPostText)
@@ -175,7 +175,7 @@ void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
 
     switch ( m_activityType )
     {
-    case Normal :
+    case Normal:
         UMLWidget::setPenFromSettings(p);
         if ( UMLWidget::useFillColor() ) {
             p.setBrush( UMLWidget::fillColor() );
@@ -192,14 +192,13 @@ void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
         }
         break;
 
-    case Initial :
+    case Initial:
         p.setPen( QPen(m_LineColor, 1) );
         p.setBrush( WidgetBase::lineColor() );
         p.drawEllipse( offsetX, offsetY, w, h );
         break;
 
-    case Final :
-
+    case Final:
         UMLWidget::setPenFromSettings(p);
         p.setBrush( Qt::white );
         pen.setWidth( 2 );
@@ -215,7 +214,7 @@ void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
         }
         break;
 
-    case End :
+    case End:
         p.setPen( QPen(m_LineColor, 1) );
         p.setBrush( WidgetBase::lineColor() );
         p.drawEllipse( offsetX, offsetY, w, h );
@@ -225,7 +224,7 @@ void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
         p.drawEllipse( offsetX + 3, offsetY + 3, w - 6, h - 6 );
         break;
 
-    case Branch :
+    case Branch:
         UMLWidget::setPenFromSettings(p);
         p.setBrush( UMLWidget::fillColor() );
         {
@@ -239,7 +238,7 @@ void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
         }
         break;
 
-    case Invok :
+    case Invok:
         UMLWidget::setPenFromSettings(p);
         if ( UMLWidget::useFillColor() ) {
             p.setBrush( UMLWidget::fillColor() );
@@ -264,7 +263,7 @@ void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
         p.drawLine((int)(x + 10),(int)(y + 10), (int)(x + 10), (int)(y + 20));
         break;
 
-    case Param :
+    case Param:
         UMLWidget::setPenFromSettings(p);
         if ( UMLWidget::useFillColor() ) {
             p.setBrush( UMLWidget::fillColor() );
@@ -288,14 +287,14 @@ void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
 
         break;
     }
-    if(m_selected)
+    if (m_selected)
         drawSelected(&p, offsetX, offsetY);
 }
 
 /**
  * Loads the widget from the "activitywidget" XMI element.
  */
-bool ActivityWidget::loadFromXMI( QDomElement & qElement )
+bool ActivityWidget::loadFromXMI(QDomElement& qElement)
 {
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
