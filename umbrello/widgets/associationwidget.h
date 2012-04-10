@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2009-2012                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -46,6 +46,26 @@ struct WidgetRole
     void initFloatingWidgets(Uml::Role_Type role, AssociationWidget *parent);
 };
 
+/**
+ * This class represents an association inside a diagram.
+ *
+ * Associations exist not only between UML objects. For example, when a Note is
+ * attached to a UML object, the Note itself is not a UML object.
+ * This class supports both kinds of associations. An association where one or
+ * both roles are not a UML object is called a "pure widget association".
+ *
+ * An AssociationWidget where both roles are UML objects has a corresponding
+ * UMLAssociation. The UMLAssociation can be retrieved using the getAssociation
+ * method.
+ * A pure widget association does not have a corresponding UMLAssociation.
+ * The getAssociation method returns NULL in this case.
+ *
+ *
+ * @author Gustavo Madrigal
+ * @author Gopala Krishna
+ * @short This class represents an association inside a diagram.
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ */
 class AssociationWidget : public WidgetBase, public LinkWidget
 {
     Q_OBJECT
@@ -78,7 +98,8 @@ public:
     virtual UMLClassifier* seqNumAndOp(QString& seqNum, QString& op);
     virtual void setSeqNumAndOp(const QString &seqNum, const QString &op);
 
-    virtual void constrainTextPos(qreal &textX, qreal &textY, qreal textWidth, qreal textHeight,
+    virtual void constrainTextPos(UMLSceneValue &textX, UMLSceneValue &textY,
+                                  UMLSceneValue textWidth, UMLSceneValue textHeight,
                                   Uml::TextRole tr);
 
     virtual void calculateNameTextSegment();
@@ -182,7 +203,7 @@ private:
 
     AssociationLine *m_associationLine;
     ClassifierWidget *m_associationClass;
-    WidgetRole m_widgetRole[2];
+    WidgetRole m_role[2];
     FloatingTextWidget *m_nameWidget;
     int m_nameSegmentIndex;
 
