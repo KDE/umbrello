@@ -1316,6 +1316,9 @@ void UMLWidget::clipSize()
     setSize(clipWidth, clipHeight);
 }
 
+/**
+ * Template Method, override this to set the default font metric.
+ */
 void UMLWidget::setDefaultFontMetrics(UMLWidget::FontType fontType)
 {
     setupFontType(m_Font, fontType);
@@ -1369,6 +1372,9 @@ void UMLWidget::setupFontType(QFont &font, UMLWidget::FontType fontType)
     }
 }
 
+/**
+ * Template Method, override this to set the default font metric.
+ */
 void UMLWidget::setDefaultFontMetrics(UMLWidget::FontType fontType, QPainter &painter)
 {
     setupFontType(m_Font, fontType);
@@ -1376,6 +1382,10 @@ void UMLWidget::setDefaultFontMetrics(UMLWidget::FontType fontType, QPainter &pa
     setFontMetrics(fontType, painter.fontMetrics());
 }
 
+/**
+ * Returns the font metric used by this object for Text
+ * which uses bold/italic fonts.
+ */
 QFontMetrics &UMLWidget::getFontMetrics(UMLWidget::FontType fontType)
 {
     if (m_pFontMetrics[fontType] == 0) {
@@ -1384,6 +1394,9 @@ QFontMetrics &UMLWidget::getFontMetrics(UMLWidget::FontType fontType)
     return *m_pFontMetrics[fontType];
 }
 
+/**
+ * Set the font metric to use.
+ */
 void UMLWidget::setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm)
 {
     delete m_pFontMetrics[fontType];

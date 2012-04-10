@@ -25,17 +25,9 @@
 WidgetBase::WidgetBase(UMLScene *scene, WidgetType type)
   : QObject(scene),
     m_Type(type),
-    m_scene(scene)
+    m_scene(scene),
+    m_pObject(0)
 {
-    init();
-}
-
-/**
- * Initialize members.
- */
-void WidgetBase::init()
-{
-    m_pObject = 0;
     if (m_scene) {
         m_usesDiagramLineColor = true;
         m_usesDiagramLineWidth  = true;
@@ -120,9 +112,9 @@ UMLObject* WidgetBase::umlObject() const
  *
  * @param o The object to represent.
  */
-void WidgetBase::setUMLObject(UMLObject * o)
+void WidgetBase::setUMLObject(UMLObject *obj)
 {
-    m_pObject = o;
+    m_pObject = obj;
 }
 
 /**

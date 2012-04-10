@@ -3915,7 +3915,7 @@ void AssociationWidget::slotAttributeChanged()
 {
     UMLAttribute *attr = attribute();
     if (attr == NULL) {
-        uError() << "getAttribute returns NULL";
+        uError() << "attribute() returns NULL";
         return;
     }
     setVisibility(attr->visibility(), B);
@@ -3927,8 +3927,6 @@ void AssociationWidget::slotAttributeChanged()
  */
 void AssociationWidget::init()
 {
-    WidgetBase::init();
-
     // pointers to floating text widgets objects owned by this association
     m_pName = 0;
     m_role[A].changeabilityWidget = 0;

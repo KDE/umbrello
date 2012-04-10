@@ -73,7 +73,7 @@ public:
     virtual ~WidgetBase();
 
     UMLObject* umlObject() const;
-    virtual void setUMLObject(UMLObject * o);
+    virtual void setUMLObject(UMLObject *obj);
 
     Uml::IDType id() const;
     void setID(Uml::IDType id);
@@ -86,16 +86,16 @@ public:
     UMLDoc* umlDoc() const;
 
     QString documentation() const;
-    void setDocumentation(const QString &doc);
+    void setDocumentation(const QString& doc);
 
     QColor textColor() const;
-    virtual void setTextColor(const QColor &color);
+    virtual void setTextColor(const QColor& color);
 
     QColor lineColor() const;
-    virtual void setLineColor(const QColor &color);
+    virtual void setLineColor(const QColor& color);
 
     QColor fillColor() const;
-    virtual void setFillColor(const QColor &color);
+    virtual void setFillColor(const QColor& color);
 
     uint lineWidth() const;
     virtual void setLineWidth(uint width);
@@ -124,8 +124,6 @@ public:
     WidgetBase& operator=(const WidgetBase& other);
 
 protected:
-    void init();
-
     WidgetType  m_Type;  ///< Type of widget.
     UMLScene   *m_scene;
     UMLObject  *m_pObject;

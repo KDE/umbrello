@@ -261,15 +261,10 @@ protected:
         FT_INVALID = 8
     } FontType;
 
-    /** Template Method, override this to set the default
-     *  font metric.
-     */
     virtual void setDefaultFontMetrics(UMLWidget::FontType fontType);
     virtual void setDefaultFontMetrics(UMLWidget::FontType fontType, QPainter &painter);
 
-    /** Returns the font metric used by this object for Text which uses bold/italic fonts */
     QFontMetrics &getFontMetrics(UMLWidget::FontType fontType);
-    /** set the font metric to use */
     void setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm);
     void setupFontType(QFont &font, UMLWidget::FontType fontType);
 
@@ -289,25 +284,11 @@ protected:
      */
     QString m_Text;
 
-    /**
-     *  The font the widget will use.
-     */
-    QFont m_Font;
+    QFont m_Font;   ///< the font the widget will use
 
-    /**
-     * Holds whether this widget is a component instance (i.e. on a deployment diagram)
-     */
-    bool m_isInstance;
-
-    /**
-     * The instance name (used if on a deployment diagram)
-     */
-    QString m_instanceName;
-
-    /**
-     * Should the stereotype be displayed
-     */
-    bool m_showStereotype;
+    QString m_instanceName;  ///< instance name (used if on a deployment diagram)
+    bool m_isInstance;       ///< holds whether this widget is a component instance (i.e. on a deployment diagram)
+    bool m_showStereotype;   ///< should the stereotype be displayed
 
     ///////////////// End of Data Loaded/Saved //////////////////////////
 

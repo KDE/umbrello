@@ -4,45 +4,31 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef WIDGET_UTILS_H
 #define WIDGET_UTILS_H
 
-#include <QtCore/QPoint>
-
 #include "basictypes.h"
-#include "umlwidgetlist.h"
 #include "messagewidgetlist.h"
 #include "umlscene.h"
+#include "umlwidgetlist.h"
+
+#include <QtCore/QPoint>
 
 /**
  * General purpose widget utilities.
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-namespace Widget_Utils {
+namespace Widget_Utils
+{
+    UMLWidget* findWidget(Uml::IDType id,
+                          const UMLWidgetList& widgets,
+                          const MessageWidgetList* messages = 0);
 
-/**
- * Find the widget identified by the given ID in the given widget
- * or message list.
- *
- * @param id            The unique ID to find.
- * @param widgets       The UMLWidgetList to search in.
- * @param pMessages     Optional pointer to a MessageWidgetList to
- *                      search in.
- */
-UMLWidget* findWidget(Uml::IDType id,
-                      const UMLWidgetList& widgets,
-                      const MessageWidgetList* pMessages = NULL);
-
-/**
- * Creates the decoration point.
- * @param p   the base point
- * @return    the decoration point
- */
-UMLSceneRectItem *decoratePoint(const QPoint& p);
+    UMLSceneRectItem* decoratePoint(const UMLScenePoint& p);
 
 }
 
