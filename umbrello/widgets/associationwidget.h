@@ -224,6 +224,10 @@ public slots:
 private:
     void init();
 
+    QPoint calculateTextPosition(Uml::TextRole role);
+    void setTextPosition(Uml::TextRole role);
+    void setTextPositionRelatively(Uml::TextRole role, const QPoint &oldPosition);
+
     /**
      * Constructor is made non accessible:
      * Users shall use the static create() methods for constructing AssociationWidgets.
@@ -256,18 +260,9 @@ private:
 
     static QPoint midPoint(const QPoint& p0, const QPoint& p1);
 
-    QPoint calculateTextPosition(Uml::TextRole role);
-
-    void setTextPosition(Uml::TextRole role);
-    void setTextPositionRelatively(Uml::TextRole role, const QPoint &oldPosition);
-
     Region getWidgetRegion(AssociationWidget * widget) const;
 
-    /**
-     * This is a pointer to the Floating Text widget which displays the
-     * name of this association.
-     */
-    FloatingTextWidget* m_pName;
+    FloatingTextWidget* m_pName;  ///< displays the name of this association
 
     /**
      * The WidgetRole struct gathers all information pertaining to the role.
@@ -293,7 +288,7 @@ private:
         Uml::Changeability   changeability;
         QString              roleDocumentation;
 
-    } m_role[2];
+    };
 
     void setFloatingText(Uml::TextRole tr, const QString &text, FloatingTextWidget* &ft);
 
@@ -381,6 +376,7 @@ private:
     AssociationLine *m_associationLine;      ///< the definition points for the association line
     ClassifierWidget *m_associationClass;    ///< used if we have an assoc. class
     Uml::AssociationType m_associationType;  ///< is only used if m_pObject is not set
+    WidgetRole  m_role[2];
 
 };
 

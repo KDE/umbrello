@@ -196,7 +196,7 @@ void AssociationWidget::setUMLObject(UMLObject *obj)
             setUMLAssociation(dynamic_cast<UMLAssociation*>(obj));
             break;
         case UMLObject::ot_Operation:
-            setOperation(dynamic_cast<UMLOperation *>(obj));
+            setOperation(dynamic_cast<UMLOperation*>(obj));
             break;
         case UMLObject::ot_Attribute:
             klass = static_cast<UMLClassifier*>(obj->parent());
@@ -214,8 +214,10 @@ void AssociationWidget::setUMLObject(UMLObject *obj)
             ent = static_cast<UMLEntity*>(obj->parent());
             connect(ent, SIGNAL(entityConstraintRemoved(UMLClassifierListItem*)),
                     this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
+            break;
         default:
-            uError() << "UMLAssociation constructor: cannot associate UMLObject of type " << ot;
+            uError() << "cannot associate UMLObject of type " << UMLObject::toString(ot);
+            break;
     }
 }
 
