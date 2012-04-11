@@ -246,9 +246,11 @@ void AssociationWidget::lwSetFont(QFont font)
  */
 UMLClassifier *AssociationWidget::operationOwner()
 {
-    Uml::Role_Type role = isCollaboration() ? Uml::B : Uml::A;
+    Uml::Role_Type role = (isCollaboration() ? Uml::B : Uml::A);
     UMLObject *o = widgetForRole(role)->umlObject();
-    if (!o) return 0;
+    if (!o) {
+        return 0;
+    }
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
     if (!c) {
         uError() << "widgetForRole(" << role << ") is not a classifier";
@@ -1873,7 +1875,7 @@ void AssociationWidget::init()
     DEBUG_REGISTER(DBG_SRC);
 }
 
-void AssociationWidget::setFloatingText(Uml::TextRole tr, const QString& text, FloatingTextWidget* ft)
+void AssociationWidget::setFloatingText(Uml::TextRole role, const QString& text, FloatingTextWidget* ft)
 {
     if (! FloatingTextWidget::isTextValid(text)) {
         // FloatingTextWidgets are no longer deleted/reconstructed to make it easier.
@@ -1883,10 +1885,10 @@ void AssociationWidget::setFloatingText(Uml::TextRole tr, const QString& text, F
     }
 
     ft->setText(text);
-    setTextPosition(tr);
+    setTextPosition(role);
 }
 
-QPointF AssociationWidget::calculateTextPosition(Uml::TextRole role)
+UMLScenePoint AssociationWidget::calculateTextPosition(Uml::TextRole role)
 {
     const qreal SPACE = 2;
     QPointF p(-1, -1), q(-1, -1);
@@ -1974,18 +1976,18 @@ QPointF AssociationWidget::calculateTextPosition(Uml::TextRole role)
     return p;
 }
 
-void AssociationWidget::setTextPosition(Uml::TextRole tr)
+void AssociationWidget::setTextPosition(Uml::TextRole role)
 {
     bool startMove = false;
     //TODO: Check startMove removal
     if (startMove) {
         return;
     }
-    FloatingTextWidget *ft = textWidgetByRole(tr);
+    FloatingTextWidget *ft = textWidgetByRole(role);
     if (!ft) {
         return;
     }
-    QPointF pos = calculateTextPosition(tr);
+    QPointF pos = calculateTextPosition(role);
     if ( (pos.x() < 0.0 || pos.x() > FloatingTextWidget::restrictPositionMax) ||
             (pos.y() < 0.0 || pos.y() > FloatingTextWidget::restrictPositionMax) ) {
         DEBUG(DBG_SRC) << "(x=" << pos.x() << " , y=" << pos.y() << ") "

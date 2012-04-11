@@ -133,6 +133,12 @@ public:
     Uml::Changeability changeability(Uml::Role_Type role) const;
     void setChangeability(Uml::Changeability value, Uml::Role_Type role);
 
+    Uml::IDType widgetIDForRole(Uml::Role_Type role) const;
+    UMLWidget* widgetForRole(Uml::Role_Type role) const;
+    void setWidgetForRole(UMLWidget *widget, Uml::Role_Type role);
+
+    void setWidgets(UMLWidget *widgetA, UMLWidget *widgetB);
+
     bool associates(UMLWidget *a, UMLWidget *b) const;
     bool containsWidget(UMLWidget *widget) const;
 
@@ -141,12 +147,6 @@ public:
 
     ClassifierWidget* associationClass() const;
     void setAssociationClass(ClassifierWidget *classifier);
-
-    UMLWidget* widgetForRole(Uml::Role_Type role) const;
-    void setWidgetForRole(UMLWidget *widget, Uml::Role_Type role);
-    void setWidgets(UMLWidget *widgetA, UMLWidget *widgetB);
-
-    Uml::IDType widgetIDForRole(Uml::Role_Type role) const;
 
     Uml::AssociationType associationType() const;
     void setAssociationType(Uml::AssociationType type);
@@ -194,20 +194,22 @@ protected:
 
 private:
     void init();
-    void setFloatingText(Uml::TextRole tr, const QString& text, FloatingTextWidget* ft);
-    QPointF calculateTextPosition(Uml::TextRole tr);
-    void setTextPosition(Uml::TextRole tr);
+
+    UMLScenePoint calculateTextPosition(Uml::TextRole role);
+    void setTextPosition(Uml::TextRole role);
+    void setFloatingText(Uml::TextRole role, const QString& text, FloatingTextWidget* ft);
+
     void updateNameWidgetRole();
 
     friend class AssociationLine;
 
     AssociationLine *m_associationLine;
     ClassifierWidget *m_associationClass;
+    Uml::AssociationType m_associationType;
     WidgetRole m_role[2];
     FloatingTextWidget *m_nameWidget;
     int m_nameSegmentIndex;
 
-    Uml::AssociationType m_associationType;
     bool m_slotUMLObjectDataChangedFirstCall;
 };
 
