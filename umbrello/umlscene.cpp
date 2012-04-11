@@ -2214,8 +2214,8 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
         // cant do this anymore.. may cause problem for pasting
         //      pAssoc->setWidgetID(ida, A);
         //      pAssoc->setWidgetID(idb, B);
-        pAssoc->setWidget(findWidget(ida), A);
-        pAssoc->setWidget(findWidget(idb), B);
+        pAssoc->setWidgetForRole(findWidget(ida), A);
+        pAssoc->setWidgetForRole(findWidget(idb), B);
     }
 
     UMLWidget * pWidgetA = findWidget(pAssoc->widgetIDForRole(A));
@@ -2601,8 +2601,8 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
         }
         // Create the AssociationWidget.
         assocwidget = AssociationWidget::create(this);
-        assocwidget->setWidget(widgetA, A);
-        assocwidget->setWidget(widgetB, B);
+        assocwidget->setWidgetForRole(widgetA, A);
+        assocwidget->setWidgetForRole(widgetB, B);
         assocwidget->setAssociationType(assocType);
         assocwidget->setUMLObject(assoc);
         // Call calculateEndingPoints() before setting the FloatingTexts

@@ -106,10 +106,6 @@ public:
     bool operator==(const AssociationWidget & Other) const;
     bool operator!=(AssociationWidget & Other) const;
 
-    bool activate();
-
-    void setWidget(UMLWidget* widget, Uml::Role_Type role);
-
     FloatingTextWidget* textWidgetByRole(Uml::TextRole tr) const;
 
     FloatingTextWidget* nameWidget() const;
@@ -136,6 +132,7 @@ public:
 
     Uml::IDType widgetIDForRole(Uml::Role_Type role) const;
     UMLWidget* widgetForRole(Uml::Role_Type role) const;
+    void setWidgetForRole(UMLWidget* widget, Uml::Role_Type role);
 
     bool setWidgets(UMLWidget* widgetA, Uml::AssociationType assocType, UMLWidget* widgetB);
 
@@ -157,6 +154,8 @@ public:
     void setSelected(bool _select = true);
 
     AssociationLine* associationLine() const;
+
+    virtual bool activate();
 
     void widgetMoved(UMLWidget* widget, int x, int y);
 
@@ -224,9 +223,10 @@ public slots:
 private:
     void init();
 
-    QPoint calculateTextPosition(Uml::TextRole role);
+    UMLScenePoint calculateTextPosition(Uml::TextRole role);
     void setTextPosition(Uml::TextRole role);
     void setTextPositionRelatively(Uml::TextRole role, const QPoint &oldPosition);
+    void setFloatingText(Uml::TextRole role, const QString& text, FloatingTextWidget* &ft);
 
     /**
      * Constructor is made non accessible:
@@ -262,8 +262,6 @@ private:
 
     Region getWidgetRegion(AssociationWidget * widget) const;
 
-    FloatingTextWidget* m_pName;  ///< displays the name of this association
-
     /**
      * The WidgetRole struct gathers all information pertaining to the role.
      * The AssociationWidget class contains two WidgetRole objects, one for each
@@ -290,8 +288,6 @@ private:
 
     };
 
-    void setFloatingText(Uml::TextRole tr, const QString &text, FloatingTextWidget* &ft);
-
     void updateRegionLineCount(int index, int totalCount,
                                AssociationWidget::Region region, Uml::Role_Type role);
 
@@ -313,11 +309,7 @@ private:
     int m_positions_len;              ///< auxiliary variable for updateAssociations()
     AssociationWidgetList m_ordered;  ///< auxiliary variable for updateAssociations()
 
-    /**
-     * Flag which is true if the activate method has been called for this
-     * class instance.
-     */
-    bool m_activated;
+    bool m_activated;   ///< flag which is true if the activate method has been called for this class instance
 
     /**
      * When the association has a Role Floating Text this text should move
@@ -377,6 +369,7 @@ private:
     ClassifierWidget *m_associationClass;    ///< used if we have an assoc. class
     Uml::AssociationType m_associationType;  ///< is only used if m_pObject is not set
     WidgetRole  m_role[2];
+    FloatingTextWidget* m_nameWidget;  ///< displays the name of this association
 
 };
 
