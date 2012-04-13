@@ -315,23 +315,23 @@ void AssociationWidget::resetTextPositions()
     if (m_role[A].multiplicityWidget) {
         setTextPosition( TextRole::MultiA );
     }
-    if (m_role[B].multiplicityWidget) {
-        setTextPosition( TextRole::MultiB );
+    if (m_role[Uml::B].multiplicityWidget) {
+        setTextPosition( Uml::TextRole::MultiB );
     }
-    if (m_role[A].changeabilityWidget) {
-        setTextPosition( TextRole::ChangeA );
+    if (m_role[Uml::A].changeabilityWidget) {
+        setTextPosition( Uml::TextRole::ChangeA );
     }
-    if (m_role[B].changeabilityWidget) {
-        setTextPosition( TextRole::ChangeB );
+    if (m_role[Uml::B].changeabilityWidget) {
+        setTextPosition( Uml::TextRole::ChangeB );
     }
     if (m_nameWidget) {
-        setTextPosition( TextRole::Name );
+        setTextPosition( Uml::TextRole::Name );
     }
-    if (m_role[A].roleWidget) {
-        setTextPosition( TextRole::RoleAName );
+    if (m_role[Uml::A].roleWidget) {
+        setTextPosition( Uml::TextRole::RoleAName );
     }
-    if (m_role[B].roleWidget) {
-        setTextPosition( TextRole::RoleBName );
+    if (m_role[Uml::B].roleWidget) {
+        setTextPosition( Uml::TextRole::RoleBName );
     }
 }
 
@@ -1412,25 +1412,27 @@ Uml::IDType AssociationWidget::widgetIDForRole(Uml::Role_Type role) const
 QString AssociationWidget::toString() const
 {
     QString string;
+    static const QChar colon(':');
 
-    if(m_role[A].umlWidget) {
-        string = m_role[A].umlWidget->name();
+    if (widgetForRole(Uml::A)) {
+        string = widgetForRole(Uml::A)->name();
     }
-    string.append(":");
+    string.append(colon);
 
-    if(m_role[A].roleWidget) {
-        string += m_role[A].roleWidget->text();
+    if (m_role[Uml::A].roleWidget) {
+        string += m_role[Uml::A].roleWidget->text();
     }
-    string.append(":");
-    string.append( AssociationType::toString(associationType()) );
-    string.append(":");
-    if(m_role[B].umlWidget) {
-        string += m_role[B].umlWidget->name();
+    string.append(colon);
+    string.append(associationType().toStringI18n());
+    string.append(colon);
+
+    if (widgetForRole(Uml::B)) {
+        string += widgetForRole(Uml::B)->name();
     }
 
-    string.append(":");
-    if(m_role[B].roleWidget) {
-        string += m_role[B].roleWidget->text();
+    string.append(colon);
+    if (m_role[Uml::B].roleWidget) {
+        string += m_role[Uml::B].roleWidget->text();
     }
 
     return string;
@@ -3060,11 +3062,11 @@ void AssociationWidget::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Line_Color:
         {
-       /*     QColor newColor;
+            QColor newColor;
             if( KColorDialog::getColor(newColor) ) {
                 m_scene->selectionSetLineColor(newColor);
                 m_umldoc->setModified(true);
-            }*/
+            }
         }
         break;
 
@@ -3087,6 +3089,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
 
     default:
         uDebug() << "MenuType " << ListPopupMenu::toString(sel) << " not implemented";
+        break;
     }//end switch
 }
 
@@ -3920,54 +3923,6 @@ void AssociationWidget::slotAttributeChanged()
     setRoleName(attr->name(), B);
 }
 
-/**
- * Initialize attributes of this class at construction time.
- */
-void AssociationWidget::init()
-{
-    // pointers to floating text widgets objects owned by this association
-    m_nameWidget = 0;
-    m_role[A].changeabilityWidget = 0;
-    m_role[B].changeabilityWidget = 0;
-    m_role[A].multiplicityWidget = 0;
-    m_role[B].multiplicityWidget = 0;
-    m_role[A].roleWidget = 0;
-    m_role[B].roleWidget = 0;
-    m_role[A].umlWidget = 0;
-    m_role[B].umlWidget = 0;
-
-    // associationwidget attributes
-    m_role[A].m_WidgetRegion = Error;
-    m_role[B].m_WidgetRegion = Error;
-    m_role[A].m_nIndex = 0;
-    m_role[B].m_nIndex = 0;
-    m_role[A].m_nTotalCount = 0;
-    m_role[B].m_nTotalCount = 0;
-    m_role[A].visibility = Uml::Visibility::Public;
-    m_role[B].visibility = Uml::Visibility::Public;
-    m_role[A].changeability = Uml::Changeability::Changeable;
-    m_role[B].changeability = Uml::Changeability::Changeable;
-    m_positions_len = 0;
-    m_activated = false;
-    m_unNameLineSegment = 0;
-    m_pMenu = 0;
-    m_selected = false;
-    m_nMovingPoint = -1;
-    m_nLinePathSegmentIndex = -1;
-    m_associationLine = new AssociationLine;
-    m_associationLine->setAssociation( this );
-    m_associationClass = NULL;
-    m_pAssocClassLine = NULL;
-    m_pAssocClassLineSel0 = m_pAssocClassLineSel1 = NULL;
-
-    // Initialize local members.
-    // These are only used if we don't have a UMLAssociation attached.
-    m_associationType = Uml::AssociationType::Association;
-    m_umldoc = UMLApp::app()->document();
-
-    connect(m_scene, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
-    connect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
-}
 
 /**
  * Sets the Association line index for the given role.
@@ -4028,58 +3983,113 @@ void AssociationWidget::clipSize()
         m_associationClass->clipSize();
 }
 
+/**
+ * Initialize attributes of this class at construction time.
+ */
+void AssociationWidget::init()
+{
+    // pointers to floating text widgets objects owned by this association
+    m_nameWidget = 0;
+    m_role[A].changeabilityWidget = 0;
+    m_role[B].changeabilityWidget = 0;
+    m_role[A].multiplicityWidget = 0;
+    m_role[B].multiplicityWidget = 0;
+    m_role[A].roleWidget = 0;
+    m_role[B].roleWidget = 0;
+    m_role[A].umlWidget = 0;
+    m_role[B].umlWidget = 0;
+
+    // associationwidget attributes
+    m_role[A].m_WidgetRegion = Error;
+    m_role[B].m_WidgetRegion = Error;
+    m_role[A].m_nIndex = 0;
+    m_role[B].m_nIndex = 0;
+    m_role[A].m_nTotalCount = 0;
+    m_role[B].m_nTotalCount = 0;
+    m_role[A].visibility = Uml::Visibility::Public;
+    m_role[B].visibility = Uml::Visibility::Public;
+    m_role[A].changeability = Uml::Changeability::Changeable;
+    m_role[B].changeability = Uml::Changeability::Changeable;
+    m_positions_len = 0;
+    m_activated = false;
+    m_unNameLineSegment = 0;
+    m_pMenu = 0;
+    m_selected = false;
+    m_nMovingPoint = -1;
+    m_nLinePathSegmentIndex = -1;
+    m_associationLine = new AssociationLine;
+    m_associationLine->setAssociation( this );
+    m_associationClass = NULL;
+    m_pAssocClassLine = NULL;
+    m_pAssocClassLineSel0 = m_pAssocClassLineSel1 = NULL;
+
+    // Initialize local members.
+    // These are only used if we don't have a UMLAssociation attached.
+    m_associationType = Uml::AssociationType::Association;
+    m_umldoc = UMLApp::app()->document();
+
+    connect(m_scene, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
+    connect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
+}
 
 /**
  * Saves this widget to the "assocwidget" XMI element.
  */
-void AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+void AssociationWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 {
-    QDomElement assocElement = qDoc.createElement( "assocwidget" );
+    QDomElement assocElement = qDoc.createElement("assocwidget");
 
     WidgetBase::saveToXMI(qDoc, assocElement);
     if (m_pObject) {
-        assocElement.setAttribute( "xmi.id", ID2STR(m_pObject->id()) );
+        assocElement.setAttribute("xmi.id", ID2STR(m_pObject->id()));
     }
-    assocElement.setAttribute( "type", m_associationType );
-    if (association() == NULL) {
-        assocElement.setAttribute( "visibilityA", m_role[A].visibility);
-        assocElement.setAttribute( "visibilityB", m_role[B].visibility);
-        assocElement.setAttribute( "changeabilityA", m_role[A].changeability);
-        assocElement.setAttribute( "changeabilityB", m_role[B].changeability);
+    assocElement.setAttribute("type", associationType());
+    if (!association()) {
+        assocElement.setAttribute("visibilityA", visibility(Uml::A));
+        assocElement.setAttribute("visibilityB", visibility(Uml::B));
+        assocElement.setAttribute("changeabilityA", changeability(Uml::A));
+        assocElement.setAttribute("changeabilityB", changeability(Uml::B));
         if (m_pObject == NULL) {
-            assocElement.setAttribute( "roleAdoc", m_role[A].roleDocumentation);
-            assocElement.setAttribute( "roleBdoc", m_role[B].roleDocumentation);
-            assocElement.setAttribute( "documentation", m_Doc );
+            assocElement.setAttribute("roleAdoc", roleDocumentation(Uml::A));
+            assocElement.setAttribute("roleBdoc", roleDocumentation(Uml::B));
+            assocElement.setAttribute("documentation", documentation());
         }
     }
-    assocElement.setAttribute( "widgetaid", ID2STR(widgetIDForRole(A)) );
-    assocElement.setAttribute( "widgetbid", ID2STR(widgetIDForRole(B)) );
-    assocElement.setAttribute( "indexa", m_role[A].m_nIndex );
-    assocElement.setAttribute( "indexb", m_role[B].m_nIndex );
-    assocElement.setAttribute( "totalcounta", m_role[A].m_nTotalCount );
-    assocElement.setAttribute( "totalcountb", m_role[B].m_nTotalCount );
-    m_associationLine->saveToXMI( qDoc, assocElement );
+    assocElement.setAttribute("widgetaid", ID2STR(widgetIDForRole(Uml::A)));
+    assocElement.setAttribute("widgetbid", ID2STR(widgetIDForRole(Uml::B)));
+    assocElement.setAttribute("indexa", m_role[A].m_nIndex);
+    assocElement.setAttribute("indexb", m_role[B].m_nIndex);
+    assocElement.setAttribute("totalcounta", m_role[A].m_nTotalCount);
+    assocElement.setAttribute("totalcountb", m_role[B].m_nTotalCount);
+    m_associationLine->saveToXMI(qDoc, assocElement);
 
-    if( m_nameWidget )
-        m_nameWidget->saveToXMI( qDoc, assocElement );
+    if (m_nameWidget) {
+        m_nameWidget->saveToXMI(qDoc, assocElement);
+    }
 
-    if( m_role[A].multiplicityWidget )
-        m_role[A].multiplicityWidget->saveToXMI( qDoc, assocElement );
+    if (multiplicityWidget(Uml::A)) {
+        multiplicityWidget(Uml::A)->saveToXMI(qDoc, assocElement);
+    }
 
-    if( m_role[B].multiplicityWidget )
-        m_role[B].multiplicityWidget->saveToXMI( qDoc, assocElement );
+    if (multiplicityWidget(Uml::B)) {
+        multiplicityWidget(Uml::B)->saveToXMI(qDoc, assocElement);
+    }
 
-    if( m_role[A].roleWidget )
-        m_role[A].roleWidget->saveToXMI( qDoc, assocElement );
+    if (roleWidget(Uml::A)) {
+        roleWidget(Uml::A)->saveToXMI(qDoc, assocElement);
+    }
 
-    if( m_role[B].roleWidget )
-        m_role[B].roleWidget->saveToXMI( qDoc, assocElement );
+    if (roleWidget(Uml::B)) {
+        roleWidget(Uml::B)->saveToXMI(qDoc, assocElement);
+    }
 
-    if( m_role[A].changeabilityWidget )
-        m_role[A].changeabilityWidget->saveToXMI( qDoc, assocElement );
+    if (changeabilityWidget(Uml::A)) {
+        changeabilityWidget(Uml::A)->saveToXMI(qDoc, assocElement);
+    }
 
-    if( m_role[B].changeabilityWidget )
-        m_role[B].changeabilityWidget->saveToXMI( qDoc, assocElement );
+    if (changeabilityWidget(Uml::B)) {
+        changeabilityWidget(Uml::B)->saveToXMI(qDoc, assocElement);
+    }
 
     if (m_associationClass) {
         QString acid = ID2STR(m_associationClass->id());
@@ -4087,18 +4097,18 @@ void AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
         assocElement.setAttribute("aclsegindex", m_nLinePathSegmentIndex);
     }
 
-    qElement.appendChild( assocElement );
+    qElement.appendChild(assocElement);
 }
 
 /**
- * Same as above, but uses the supplied widgetList for resolving
+ * Uses the supplied widgetList for resolving
  * the role A and role B widgets. (The other loadFromXMI() queries
  * the UMLView for these widgets.)
  * Required for clipboard operations.
  */
-bool AssociationWidget::loadFromXMI(QDomElement & qElement,
+bool AssociationWidget::loadFromXMI(QDomElement& qElement,
                                     const UMLWidgetList& widgets,
-                                    const MessageWidgetList* pMessages)
+                                    const MessageWidgetList* messages)
 {
     WidgetBase::loadFromXMI(qElement);
 
@@ -4107,12 +4117,12 @@ bool AssociationWidget::loadFromXMI(QDomElement & qElement,
     QString widgetbid = qElement.attribute( "widgetbid", "-1" );
     Uml::IDType aId = STR2ID(widgetaid);
     Uml::IDType bId = STR2ID(widgetbid);
-    UMLWidget *pWidgetA = Widget_Utils::findWidget( aId, widgets, pMessages );
+    UMLWidget *pWidgetA = Widget_Utils::findWidget( aId, widgets, messages );
     if (!pWidgetA) {
         uError() << "cannot find widget for roleA id " << ID2STR(aId);
         return false;
     }
-    UMLWidget *pWidgetB = Widget_Utils::findWidget( bId, widgets, pMessages );
+    UMLWidget *pWidgetB = Widget_Utils::findWidget( bId, widgets, messages );
     if (!pWidgetB) {
         uError() << "cannot find widget for roleB id " << ID2STR(bId);
         return false;
@@ -4344,15 +4354,22 @@ bool AssociationWidget::loadFromXMI(QDomElement & qElement,
 }
 
 /**
- * Same as above, but uses the supplied widgetList for resolving
- * the role A and role B widgets. (The other loadFromXMI() queries
- * the UMLView for these widgets.)
- * Required for clipboard operations.
+ * Queries the UMLView for resolving the role A and role B widgets.
+ * ....
  */
-bool AssociationWidget::loadFromXMI( QDomElement & qElement )
+bool AssociationWidget::loadFromXMI(QDomElement& qElement)
 {
-    const MessageWidgetList& messages = m_scene->messageList();
-    return loadFromXMI( qElement, m_scene->widgetList(), &messages );
+    UMLScene *scene = umlScene();
+    if (scene) {
+        const UMLWidgetList& widgetList = scene->widgetList();
+        const MessageWidgetList& messageList = scene->messageList();
+        return loadFromXMI(qElement, widgetList, &messageList);
+    }
+    else {
+        DEBUG(DBG_SRC) << "This isn't on UMLScene yet, so can neither fetch"
+            "messages nor widgets on umlscene";
+        return false;
+    }
 }
 
 #include "associationwidget.moc"

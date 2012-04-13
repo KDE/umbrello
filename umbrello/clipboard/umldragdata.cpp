@@ -688,7 +688,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
     QDomElement associationWidgetElement = associationWidgetNode.toElement();
     while ( !associationWidgetElement.isNull() ) {
         AssociationWidget* associationWidget = AssociationWidget::create(view->umlScene());
-        if (associationWidget->loadFromXMI(associationWidgetElement, widgets))
+        if (associationWidget->loadFromXMI(associationWidgetElement, widgets, 0))
             associations.append(associationWidget);
         else {
             //associationWidget->cleanup();
