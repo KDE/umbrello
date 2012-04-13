@@ -135,7 +135,7 @@ public:
 
     Uml::IDType widgetIDForRole(Uml::Role_Type role) const;
     UMLWidget* widgetForRole(Uml::Role_Type role) const;
-    void setWidgetForRole(UMLWidget *widget, Uml::Role_Type role);
+    void setWidgetForRole(UMLWidget* widget, Uml::Role_Type role);
 
     void setWidgets(UMLWidget *widgetA, UMLWidget *widgetB);
 
@@ -162,9 +162,9 @@ public:
     virtual QPainterPath shape() const;
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
 
-    bool loadFromXMI(QDomElement& element, const UMLWidgetList &list,
+    bool loadFromXMI(QDomElement& qElement, const UMLWidgetList& widgets,
                      const MessageWidgetList* messages);
-    virtual bool loadFromXMI(QDomElement& element);
+    virtual bool loadFromXMI(QDomElement& qElement);
     virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
 
     virtual void contextMenu(const QPointF& pos, Qt::KeyboardModifiers modifiers, const QPoint& screenPos);
