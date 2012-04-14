@@ -2747,7 +2747,7 @@ void AssociationWidget::removeAssocClassLine()
         m_pAssocClassLine = NULL;
     }
     if (m_associationClass) {
-        m_associationClass->setClassAssocWidget(NULL);
+        m_associationClass->setClassAssociationWidget(NULL);
         m_associationClass = NULL;
     }
 }
@@ -2785,7 +2785,7 @@ void AssociationWidget::createAssocClassLine(ClassifierWidget* classifier,
     }
 
     m_associationClass = classifier;
-    m_associationClass->setClassAssocWidget(this);
+    m_associationClass->setClassAssociationWidget(this);
 
     createAssocClassLine();
 }
@@ -4110,19 +4110,21 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
                                     const UMLWidgetList& widgets,
                                     const MessageWidgetList* messages)
 {
-    WidgetBase::loadFromXMI(qElement);
+    if (!WidgetBase::loadFromXMI(qElement)) {
+        return false;
+    }
 
     // load child widgets first
-    QString widgetaid = qElement.attribute( "widgetaid", "-1" );
-    QString widgetbid = qElement.attribute( "widgetbid", "-1" );
+    QString widgetaid = qElement.attribute("widgetaid", "-1");
+    QString widgetbid = qElement.attribute("widgetbid", "-1");
     Uml::IDType aId = STR2ID(widgetaid);
     Uml::IDType bId = STR2ID(widgetbid);
-    UMLWidget *pWidgetA = Widget_Utils::findWidget( aId, widgets, messages );
+    UMLWidget *pWidgetA = Widget_Utils::findWidget(aId, widgets, messages);
     if (!pWidgetA) {
         uError() << "cannot find widget for roleA id " << ID2STR(aId);
         return false;
     }
-    UMLWidget *pWidgetB = Widget_Utils::findWidget( bId, widgets, messages );
+    UMLWidget *pWidgetB = Widget_Utils::findWidget(bId, widgets, messages);
     if (!pWidgetB) {
         uError() << "cannot find widget for roleB id " << ID2STR(bId);
         return false;
@@ -4130,10 +4132,10 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
     setWidgetForRole(pWidgetA, A);
     setWidgetForRole(pWidgetB, B);
 
-    QString type = qElement.attribute( "type", "-1" );
+    QString type = qElement.attribute("type", "-1");
     Uml::AssociationType aType = Uml::AssociationType::Value(type.toInt());
 
-    QString id = qElement.attribute( "xmi.id", "-1" );
+    QString id = qElement.attribute("xmi.id", "-1");
     bool oldStyleLoad = false;
     if (id == "-1") {
         // xmi.id not present, ergo either a pure widget association,
@@ -4143,7 +4145,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
         // Create the UMLAssociation if both roles are UML objects;
         // else load the info locally.
 
-        if (AssociationType::hasUMLRepresentation(aType)) {
+        if (Uml::AssociationType::hasUMLRepresentation(aType)) {
             // lack of an association in our widget AND presence of
             // both uml objects for each role clearly identifies this
             // as reading in an old-school file. Note it as such, and
@@ -4170,8 +4172,8 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
                     UMLWidget *tmpWidget = pWidgetA;
                     pWidgetA = pWidgetB;
                     pWidgetB = tmpWidget;
-                    setWidgetForRole(pWidgetA, A);
-                    setWidgetForRole(pWidgetB, B);
+                    setWidgetForRole(pWidgetA, Uml::A);
+                    setWidgetForRole(pWidgetB, Uml::B);
                     umlRoleA = pWidgetA->umlObject();
                     umlRoleB = pWidgetB->umlObject();
                 }
@@ -4180,22 +4182,24 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
             }
         }
 
-        setDocumentation( qElement.attribute("documentation", "") );
-        setRoleDocumentation( qElement.attribute("roleAdoc", ""), A );
-        setRoleDocumentation( qElement.attribute("roleBdoc", ""), B );
+        setDocumentation(qElement.attribute("documentation", ""));
+        setRoleDocumentation(qElement.attribute("roleAdoc", ""), Uml::A);
+        setRoleDocumentation(qElement.attribute("roleBdoc", ""), Uml::B);
 
         // visibility defaults to Public if it cant set it here..
-        QString visibilityA = qElement.attribute( "visibilityA", "0");
+        QString visibilityA = qElement.attribute("visibilityA", "0");
         int vis = visibilityA.toInt();
-        if (vis >= 200)  // bkwd compat.
+        if (vis >= 200) {  // bkwd compat.
             vis -= 200;
-        setVisibility((Uml::Visibility::Value)vis, A);
+        }
+        setVisibility((Uml::Visibility::Value)vis, Uml::A);
 
-        QString visibilityB = qElement.attribute( "visibilityB", "0");
+        QString visibilityB = qElement.attribute("visibilityB", "0");
         vis = visibilityB.toInt();
-        if (vis >= 200)  // bkwd compat.
+        if (vis >= 200) { // bkwd compat.
             vis -= 200;
-        setVisibility((Uml::Visibility::Value)vis, B);
+        }
+        setVisibility((Uml::Visibility::Value)vis, Uml::B);
 
         // Changeability defaults to "Changeable" if it cant set it here..
         QString changeabilityA = qElement.attribute( "changeabilityA", "0");
@@ -4251,7 +4255,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
         UMLWidget *w = Widget_Utils::findWidget(acid, widgets);
         if (w) {
             m_associationClass = static_cast<ClassifierWidget*>(w);
-            m_associationClass->setClassAssocWidget(this);
+            m_associationClass->setClassAssociationWidget(this);
             // Preparation of the assoc class line is done in activate()
             QString aclsegindex = qElement.attribute("aclsegindex", "0");
             m_nLinePathSegmentIndex = aclsegindex.toInt();
@@ -4263,7 +4267,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
     //now load child elements
     QDomNode node = qElement.firstChild();
     QDomElement element = node.toElement();
-    while( !element.isNull() ) {
+    while(!element.isNull()) {
         QString tag = element.tagName();
         if( tag == "linepath" ) {
             if( !m_associationLine->loadFromXMI( element ) )

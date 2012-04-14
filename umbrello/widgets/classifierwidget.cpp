@@ -4,26 +4,37 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "classifierwidget.h"
-// qt/kde includes
-#include <QtGui/QPainter>
+
 // app includes
+#include "associationwidget.h"
 #include "classifier.h"
 #include "debug_utils.h"
-#include "operation.h"
-#include "template.h"
-#include "associationwidget.h"
-#include "umlview.h"
-#include "umldoc.h"
-#include "uml.h"
 #include "listpopupmenu.h"
 #include "object_factory.h"
+#include "operation.h"
+#include "template.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlview.h"
 
+// qt/kde includes
+#include <QtGui/QPainter>
+
+const int ClassifierWidget::MARGIN = 5;
+const int ClassifierWidget::CIRCLE_SIZE = 30;
+
+/**
+ * Constructs a ClassifierWidget.
+ *
+ * @param scene      The parent of this ClassifierWidget.
+ * @param o The UMLObject to represent.
+ */
 ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
   : UMLWidget(scene, WidgetBase::wt_Class, c)
 {
@@ -36,15 +47,18 @@ ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
     }
 }
 
+/**
+ * Destructor.
+ */
 ClassifierWidget::~ClassifierWidget()
 {
     if (m_pAssocWidget)
         m_pAssocWidget->removeAssocClassLine();
 }
 
-const int ClassifierWidget::MARGIN = 5;
-const int ClassifierWidget::CIRCLE_SIZE = 30;
-
+/**
+ * Initializes key variables of the class.
+ */
 void ClassifierWidget::init()
 {
     const Settings::OptionState& ops = m_scene->optionState();
@@ -75,6 +89,9 @@ void ClassifierWidget::init()
     setShowAttSigs( ops.classState.showAttSig );
 }
 
+/**
+ * Updates m_ShowOpSigs to match m_showVisibility.
+ */
 void ClassifierWidget::updateSigs()
 {
     //turn on scope
@@ -106,6 +123,9 @@ void ClassifierWidget::updateSigs()
     update();
 }
 
+/**
+ * Toggles the status of whether to show StereoType.
+ */
 void ClassifierWidget::toggleShowStereotype()
 {
     m_showStereotype = !m_showStereotype;
@@ -114,11 +134,21 @@ void ClassifierWidget::toggleShowStereotype()
     update();
 }
 
+/**
+ * Return the status of showing operations.
+ *
+ * @return  Return the status of showing operations.
+ */
 bool ClassifierWidget::getShowOps() const
 {
     return m_showOperations;
 }
 
+/**
+ *  Set the status of whether to show Operations
+ *
+ * @param _show   True if operations shall be shown.
+ */
 void ClassifierWidget::setShowOps(bool _show)
 {
     m_showOperations = _show;
@@ -127,6 +157,9 @@ void ClassifierWidget::setShowOps(bool _show)
     update();
 }
 
+/**
+ * Toggles the status of showing operations.
+ */
 void ClassifierWidget::toggleShowOps()
 {
     m_showOperations = !m_showOperations;
@@ -135,11 +168,17 @@ void ClassifierWidget::toggleShowOps()
     update();
 }
 
+/**
+ * Return true if public operations/attributes are shown only.
+ */
 bool ClassifierWidget::getShowPublicOnly() const
 {
     return m_showPublicOnly;
 }
 
+/**
+ * Set whether to show public operations/attributes only.
+ */
 void ClassifierWidget::setShowPublicOnly(bool _status)
 {
     m_showPublicOnly = _status;
@@ -147,6 +186,9 @@ void ClassifierWidget::setShowPublicOnly(bool _status)
     update();
 }
 
+/**
+ * Toggle whether to show public operations/attributes only.
+ */
 void ClassifierWidget::toggleShowPublicOnly()
 {
     m_showPublicOnly = !m_showPublicOnly;
@@ -154,11 +196,21 @@ void ClassifierWidget::toggleShowPublicOnly()
     update();
 }
 
+/**
+ * Returns the status of whether to show visibility.
+ *
+ * @return  True if visibility is shown.
+ */
 bool ClassifierWidget::getShowVisibility() const
 {
     return m_showAccess;
 }
 
+/**
+ * Set the status of whether to show visibility
+ *
+ * @param _visibility    True if visibility shall be shown.
+ */
 void ClassifierWidget::setShowVisibility(bool _visibility)
 {
     m_showAccess = _visibility;
@@ -167,6 +219,9 @@ void ClassifierWidget::setShowVisibility(bool _visibility)
     update();
 }
 
+/**
+ * Toggles the status of whether to show visibility
+ */
 void ClassifierWidget::toggleShowVisibility()
 {
     m_showAccess = !m_showAccess;
@@ -175,11 +230,21 @@ void ClassifierWidget::toggleShowVisibility()
     update();
 }
 
+/**
+ * Return the status of showing operation signatures.
+ *
+ * @return  Status of showing operation signatures.
+ */
 Uml::SignatureType ClassifierWidget::operationSignatureType() const
 {
     return m_ShowOpSigs;
 }
 
+/**
+ * Set the status of whether to show Operation signature
+ *
+ * @param _show   True if operation signatures shall be shown.
+ */
 void ClassifierWidget::setShowOpSigs(bool _status)
 {
     if( !_status ) {
@@ -195,6 +260,9 @@ void ClassifierWidget::setShowOpSigs(bool _status)
     update();
 }
 
+/**
+ * Toggles the status of showing operation signatures.
+ */
 void ClassifierWidget::toggleShowOpSigs()
 {
     if (m_ShowOpSigs == Uml::SignatureType::ShowSig || m_ShowOpSigs == Uml::SignatureType::SigNoVis) {
@@ -212,11 +280,21 @@ void ClassifierWidget::toggleShowOpSigs()
     update();
 }
 
+/**
+ * Returns the status of whether to show Package.
+ *
+ * @return  True if package is shown.
+ */
 bool ClassifierWidget::getShowPackage() const
 {
     return m_showPackage;
 }
 
+/**
+ * Set the status of whether to show Package.
+ *
+ * @param _status   True if package shall be shown.
+ */
 void ClassifierWidget::setShowPackage(bool _status)
 {
     m_showPackage = _status;
@@ -224,6 +302,9 @@ void ClassifierWidget::setShowPackage(bool _status)
     update();
 }
 
+/**
+ * Toggles the status of whether to show package.
+ */
 void ClassifierWidget::toggleShowPackage()
 {
     m_showPackage = !m_showPackage;
@@ -232,6 +313,11 @@ void ClassifierWidget::toggleShowPackage()
     update();
 }
 
+/**
+ * Set the type of signature to display for an Operation
+ *
+ * @param sig   Type of signature to display for an operation.
+ */
 void ClassifierWidget::setOpSignature(Uml::SignatureType sig)
 {
     m_ShowOpSigs = sig;
@@ -240,6 +326,12 @@ void ClassifierWidget::setOpSignature(Uml::SignatureType sig)
     update();
 }
 
+/**
+ * Sets whether to show attributes.
+ * Only applies when m_pObject->getBaseType() is ot_Class.
+ *
+ * @param _show   True if attributes shall be shown.
+ */
 void ClassifierWidget::setShowAtts(bool _show)
 {
     m_showAttributes = _show;
@@ -249,6 +341,12 @@ void ClassifierWidget::setShowAtts(bool _show)
     update();
 }
 
+/**
+ * Sets the type of signature to display for an attribute.
+ * Only applies when m_pObject->getBaseType() is ot_Class.
+ *
+ * @param sig   Type of signature to display for an attribute.
+ */
 void ClassifierWidget::setAttSignature(Uml::SignatureType sig)
 {
     m_ShowAttSigs = sig;
@@ -257,6 +355,23 @@ void ClassifierWidget::setAttSignature(Uml::SignatureType sig)
     update();
 }
 
+/**
+ * Returns whether to show attributes.
+ * Only applies when m_pObject->getBaseType() is ot_Class.
+ *
+ * @return   True if attributes are shown.
+ */
+bool ClassifierWidget::getShowAtts() const
+{
+    return m_showAttributes;
+}
+
+/**
+ * Sets whether to show attribute signature
+ * Only applies when m_pObject->getBaseType() is ot_Class.
+ *
+ * @param _show   True if attribute signatures shall be shown.
+ */
 void ClassifierWidget::setShowAttSigs(bool _status)
 {
     if( !_status ) {
@@ -275,6 +390,10 @@ void ClassifierWidget::setShowAttSigs(bool _status)
     update();
 }
 
+/**
+ * Toggles whether to show attributes.
+ * Only applies when m_pObject->getBaseType() is ot_Class.
+ */
 void ClassifierWidget::toggleShowAtts()
 {
     m_showAttributes = !m_showAttributes;
@@ -283,6 +402,21 @@ void ClassifierWidget::toggleShowAtts()
     update();
 }
 
+/**
+ * Returns whether to show attribute signatures.
+ * Only applies when m_pObject->getBaseType() is ot_Class.
+ *
+ * @return  Status of how attribute signatures are shown.
+ */
+Uml::SignatureType ClassifierWidget::attributeSignatureType() const
+{
+    return m_ShowAttSigs;
+}
+
+/**
+ * Toggles whether to show attribute signatures.
+ * Only applies when m_pObject->getBaseType() is ot_Class.
+ */
 void ClassifierWidget::toggleShowAttSigs()
 {
     if (m_ShowAttSigs == Uml::SignatureType::ShowSig ||
@@ -301,6 +435,10 @@ void ClassifierWidget::toggleShowAttSigs()
     update();
 }
 
+/**
+ * Return the number of displayed members of the given ObjectType.
+ * Takes into consideration m_showPublicOnly but not other settings.
+ */
 int ClassifierWidget::displayedMembers(UMLObject::ObjectType ot)
 {
     int count = 0;
@@ -312,6 +450,9 @@ int ClassifierWidget::displayedMembers(UMLObject::ObjectType ot)
     return count;
 }
 
+/**
+ * Return the number of displayed operations.
+ */
 int ClassifierWidget::displayedOperations()
 {
     if (!m_showOperations)
@@ -319,6 +460,9 @@ int ClassifierWidget::displayedOperations()
     return displayedMembers(UMLObject::ot_Operation);
 }
 
+/**
+ * Overrides method from UMLWidget.
+ */
 UMLSceneSize ClassifierWidget::minimumSize()
 {
     if (!m_pObject) {
@@ -415,6 +559,12 @@ UMLSceneSize ClassifierWidget::minimumSize()
     return UMLSceneSize(width, height);
 }
 
+/**
+ * Will be called when a menu selection has been made from the
+ * popup menu.
+ *
+ * @param action   The action that has been selected.
+ */
 void ClassifierWidget::slotMenuSelection(QAction* action)
 {
     ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
@@ -492,6 +642,12 @@ void ClassifierWidget::slotMenuSelection(QAction* action)
     }
 }
 
+/**
+ * Calculcates the size of the templates box in the top left
+ * if it exists, returns QSize(0,0) if it doesn't.
+ *
+ * @return  QSize of the templates flap.
+ */
 QSize ClassifierWidget::calculateTemplatesBoxSize()
 {
     UMLTemplateList list = classifier()->getTemplateList();
@@ -521,6 +677,9 @@ QSize ClassifierWidget::calculateTemplatesBoxSize()
     return QSize(width, height);
 }
 
+/**
+ * Return the number of displayed attributes.
+ */
 int ClassifierWidget::displayedAttributes()
 {
     if (!m_showAttributes)
@@ -528,7 +687,11 @@ int ClassifierWidget::displayedAttributes()
     return displayedMembers(UMLObject::ot_Attribute);
 }
 
-void ClassifierWidget::setClassAssocWidget(AssociationWidget *assocwidget)
+/**
+ * Set the AssociationWidget when this ClassWidget acts as
+ * an association class.
+ */
+void ClassifierWidget::setClassAssociationWidget(AssociationWidget *assocwidget)
 {
     m_pAssocWidget = assocwidget;
     UMLAssociation *umlassoc = NULL;
@@ -537,16 +700,28 @@ void ClassifierWidget::setClassAssocWidget(AssociationWidget *assocwidget)
     classifier()->setClassAssoc(umlassoc);
 }
 
-AssociationWidget *ClassifierWidget::getClassAssocWidget()
+/**
+ * Return the AssociationWidget when this classifier acts as
+ * an association class (else return NULL.)
+ */
+AssociationWidget *ClassifierWidget::getClassAssocWidget() const
 {
     return m_pAssocWidget;
 }
 
+/**
+ * Return the UMLClassifier which this ClassifierWidget
+ * represents.
+ */
 UMLClassifier *ClassifierWidget::classifier()
 {
     return static_cast<UMLClassifier*>(m_pObject);
 }
 
+/**
+ * Overrides standard method.
+ * Auxiliary to reimplementations in the derived classes.
+ */
 void ClassifierWidget::paint(QPainter & p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
@@ -669,6 +844,10 @@ void ClassifierWidget::paint(QPainter & p, int offsetX, int offsetY)
         UMLWidget::drawSelected(&p, offsetX, offsetY);
 }
 
+/**
+ * Draws the interface as a circle with name underneath.
+ * Only applies when m_pObject->getBaseType() is ot_Interface.
+ */
 void ClassifierWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY)
 {
     int w = width();
@@ -694,6 +873,10 @@ void ClassifierWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY)
     }
 }
 
+/**
+ * Calculates the size of the object when drawn as a circle.
+ * Only applies when m_pObject->getBaseType() is ot_Interface.
+ */
 QSize ClassifierWidget::calculateAsCircleSize()
 {
     const QFontMetrics &fm = UMLWidget::getFontMetrics(UMLWidget::FT_ITALIC_UNDERLINE);
@@ -716,6 +899,17 @@ QSize ClassifierWidget::calculateAsCircleSize()
     return QSize(width, height);
 }
 
+/**
+ * Auxiliary method for draw() of child classes:
+ * Draw the attributes or operations.
+ *
+ * @param p          QPainter to paint to.
+ * @param ot         Object type to draw, either ot_Attribute or ot_Operation.
+ * @param sigType    Governs details of the member display.
+ * @param x          X coordinate at which to draw the texts.
+ * @param y          Y coordinate at which text drawing commences.
+ * @param fontHeight The font height.
+ */
 void ClassifierWidget::drawMembers(QPainter & p, UMLObject::ObjectType ot, Uml::SignatureType sigType,
                                    int x, int y, int fontHeight)
 {
@@ -738,6 +932,12 @@ void ClassifierWidget::drawMembers(QPainter & p, UMLObject::ObjectType ot, Uml::
     }
 }
 
+/**
+ * Sets whether to draw as circle.
+ * Only applies when m_pObject->getBaseType() is ot_Interface.
+ *
+ * @param drawAsCircle   True if widget shall be drawn as circle.
+ */
 void ClassifierWidget::setDrawAsCircle(bool drawAsCircle)
 {
     m_drawAsCircle = drawAsCircle;
@@ -745,11 +945,21 @@ void ClassifierWidget::setDrawAsCircle(bool drawAsCircle)
     update();
 }
 
+/**
+ * Returns whether to draw as circle.
+ * Only applies when m_pObject->getBaseType() is ot_Interface.
+ *
+ * @return   True if widget is drawn as circle.
+ */
 bool ClassifierWidget::getDrawAsCircle() const
 {
     return m_drawAsCircle;
 }
 
+/**
+ * Toggles whether to draw as circle.
+ * Only applies when m_pObject->getBaseType() is ot_Interface.
+ */
 void ClassifierWidget::toggleDrawAsCircle()
 {
     m_drawAsCircle = !m_drawAsCircle;
@@ -758,6 +968,11 @@ void ClassifierWidget::toggleDrawAsCircle()
     update();
 }
 
+/**
+ * Changes this classifier from an interface to a class.
+ * Attributes and stereotype visibility is got from the view OptionState.
+ * This widget is also updated.
+ */
 void ClassifierWidget::changeToClass()
 {
     WidgetBase::setBaseType(WidgetBase::wt_Class);
@@ -771,6 +986,11 @@ void ClassifierWidget::changeToClass()
     update();
 }
 
+/**
+ * Changes this classifier from a class to an interface.
+ * Attributes are hidden and stereotype is shown.
+ * This widget is also updated.
+ */
 void ClassifierWidget::changeToInterface()
 {
     WidgetBase::setBaseType(WidgetBase::wt_Interface);
@@ -783,6 +1003,16 @@ void ClassifierWidget::changeToInterface()
     update();
 }
 
+/**
+ * Extends base method to adjust also the association of a class
+ * association.
+ * Executes the base method and then, if file isn't loading and the
+ * classifier acts as a class association, the association position is
+ * updated.
+ *
+ * @param x The x-coordinate.
+ * @param y The y-coordinate.
+ */
 void ClassifierWidget::adjustAssocs(int x, int y)
 {
     UMLWidget::adjustAssocs(x, y);
@@ -794,6 +1024,9 @@ void ClassifierWidget::adjustAssocs(int x, int y)
     m_pAssocWidget->computeAssocClassLine();
 }
 
+/**
+ * Creates the "classwidget" or "interfacewidget" XML element.
+ */
 void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement conceptElement;
@@ -817,6 +1050,9 @@ void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     qElement.appendChild( conceptElement );
 }
 
+/**
+ * Loads the "classwidget" or "interfacewidget" XML element.
+ */
 bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
 {
     if (!UMLWidget::loadFromXMI(qElement))
@@ -841,4 +1077,3 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
 
     return true;
 }
-
