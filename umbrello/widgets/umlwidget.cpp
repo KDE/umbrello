@@ -539,6 +539,12 @@ void UMLWidget::mouseMoveEvent(UMLSceneMouseEvent *e)
         }
     }
 
+    // reset text positions of associations while moving
+    foreach (AssociationWidget *assoc,
+            m_associationSpaceManager->associationWidgets()) {
+        assoc->resetTextPositions();
+    }
+
     m_mouseMoveEventStore->setLastPos(m_mouseMoveEventStore->pos());
     m_mouseMoveEventStore->setLastScenePos(m_mouseMoveEventStore->scenePos());
     m_mouseMoveEventStore->setLastScreenPos(m_mouseMoveEventStore->screenPos());
