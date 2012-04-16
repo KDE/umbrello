@@ -78,10 +78,10 @@ AssociationWidget* AssociationWidget::create(UMLScene *scene)
   * Preferred constructor (static factory method.)
   *
   * @param scene      The parent view of this widget.
-  * @param WidgetA   Pointer to the role A widget for the association.
-  * @param Type      The AssociationType for this association.
-  * @param WidgetB   Pointer to the role B widget for the association.
-  * @param umlobject Pointer to the underlying UMLObject (if applicable.)
+  * @param WidgetA    Pointer to the role A widget for the association.
+  * @param Type       The AssociationType for this association.
+  * @param WidgetB    Pointer to the role B widget for the association.
+  * @param umlobject  Pointer to the underlying UMLObject (if applicable.)
   */
 AssociationWidget* AssociationWidget::create
                                     (UMLScene *scene, UMLWidget* pWidgetA,
@@ -1219,14 +1219,18 @@ bool AssociationWidget::setWidgets( UMLWidget* widgetA,
     return true;
 }
 
-/** Returns true if this association associates WidgetA to WidgetB, otherwise it returns
-    false */
+/**
+ * Returns true if this association associates WidgetA to WidgetB,
+ * otherwise it returns false.
+ */
 bool AssociationWidget::checkAssoc(UMLWidget * widgetA, UMLWidget *widgetB)
 {
     return (widgetA == m_role[A].umlWidget && widgetB == m_role[B].umlWidget);
 }
 
-/** CleansUp all the association's data in the related widgets  */
+/**
+ * CleansUp all the association's data in the related widgets.
+ */
 void AssociationWidget::cleanup()
 {
     //let any other associations know we are going so they can tidy their positions up
@@ -1729,13 +1733,17 @@ void AssociationWidget::doUpdates(int otherX, int otherY, Uml::Role_Type role)
     updateAssociations( regionCount, region, role );
 }
 
-/** Read property of bool m_activated. */
+/**
+ * Read property of bool m_activated.
+ */
 bool AssociationWidget::isActivated()
 {
     return m_activated;
 }
 
-/** Set the m_activated flag of a widget but does not perform the Activate method */
+/**
+ * Set the m_activated flag of a widget but does not perform the Activate method.
+ */
 void AssociationWidget::setActivated(bool active /*=true*/)
 {
     m_activated = active;
@@ -1866,7 +1874,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y )
     uint size = m_associationLine->count();
     uint pos = size - 1;
     if (associationType() == AssociationType::Exception) {
-        updatePointsException ();
+        updatePointsException();
         setTextPosition( TextRole::Name );
     }
     else
@@ -1933,7 +1941,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y )
  * Adjusts the points of the association exception.
  * Method called when a widget was moved by widgetMoved(widget,x,y)
  */
-void AssociationWidget::updatePointsException ()
+void AssociationWidget::updatePointsException()
 {
     UMLWidget *pWidgetA = m_role[A].umlWidget;
     UMLWidget *pWidgetB = m_role[B].umlWidget;
@@ -2081,23 +2089,23 @@ QPoint AssociationWidget::swapXY(const QPoint &p)
  * Returns the total length of the association's AssociationLine:
  * result = segment_1_length + segment_2_length + ... + segment_n_length
  */
-float AssociationWidget::totalLength()
-{
-    uint size = m_associationLine->count();
-    float total_length = 0;
+//float AssociationWidget::totalLength()
+//{
+//    uint size = m_associationLine->count();
+//    float total_length = 0;
 
-    for(uint i = 0; i < size - 1; ++i) {
-        QPoint pi = m_associationLine->point( i );
-        QPoint pj = m_associationLine->point( i+1 );
-        int xi = pi.y();
-        int xj = pj.y();
-        int yi = pi.x();
-        int yj = pj.x();
-        total_length +=  sqrt( double(((xj - xi)*(xj - xi)) + ((yj - yi)*(yj - yi))) );
-    }
+//    for(uint i = 0; i < size - 1; ++i) {
+//        QPoint pi = m_associationLine->point( i );
+//        QPoint pj = m_associationLine->point( i+1 );
+//        int xi = pi.y();
+//        int xj = pj.y();
+//        int yi = pi.x();
+//        int yj = pj.x();
+//        total_length +=  sqrt( double(((xj - xi)*(xj - xi)) + ((yj - yi)*(yj - yi))) );
+//    }
 
-    return total_length;
-}
+//    return total_length;
+//}
 
 /**
  * Calculates which point of segment P1P2 has a distance equal to
@@ -3266,14 +3274,14 @@ void AssociationWidget::mouseMoveEvent(QMouseEvent* me)
  * region for the same widget will mean the lines will need to be
  * spread out across the region.
  */
-AssociationWidget::Region AssociationWidget::getWidgetRegion(AssociationWidget * widget) const
-{
-    if(widget->widgetForRole(A) == m_role[A].umlWidget)
-        return m_role[A].m_WidgetRegion;
-    if(widget->widgetForRole(B) == m_role[B].umlWidget)
-        return m_role[B].m_WidgetRegion;
-    return Error;
-}
+//AssociationWidget::Region AssociationWidget::getWidgetRegion(AssociationWidget * widget) const
+//{
+//    if(widget->widgetForRole(A) == m_role[A].umlWidget)
+//        return m_role[A].m_WidgetRegion;
+//    if(widget->widgetForRole(B) == m_role[B].umlWidget)
+//        return m_role[B].m_WidgetRegion;
+//    return Error;
+//}
 
 /**
  * Returns the number of lines there are on the given region for
@@ -3851,7 +3859,7 @@ void AssociationWidget::moveEntireAssoc( int x, int y )
 /**
  * Returns the bounding rectangle of all segments of the association.
  */
-QRect AssociationWidget::getAssocLineRectangle()
+QRect AssociationWidget::boundingRect()
 {
     QRect rectangle;
 
@@ -3938,22 +3946,6 @@ void AssociationWidget::setIndex(int index, Uml::Role_Type role)
 int AssociationWidget::getIndex(Uml::Role_Type role) const
 {
     return m_role[role].m_nIndex;
-}
-
-/**
- * Sets the total count on the Association region for widgetB.
- */
-void AssociationWidget::setTotalCount(int count, Uml::Role_Type role)
-{
-    m_role[role].m_nTotalCount = count;
-}
-
-/**
- * Returns the total count on the Association region.
- */
-int AssociationWidget::getTotalCount(Uml::Role_Type role) const
-{
-    return  m_role[role].m_nTotalCount;
 }
 
 void AssociationWidget::clipSize()

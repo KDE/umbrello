@@ -156,6 +156,7 @@ public:
     AssociationLine* associationLine() const;
 
     virtual bool activate();
+    QRect boundingRect();
 
     void widgetMoved(UMLWidget* widget, int x, int y);
 
@@ -180,8 +181,6 @@ public:
     void moveMidPointsBy(int x, int y);
     void moveEntireAssoc(int x, int y);
 
-    QRect getAssocLineRectangle();
-
     QFont font() const;
 
     virtual void setTextColor(const QColor &color);
@@ -191,15 +190,9 @@ public:
     void setIndex(int index, Uml::Role_Type role);
     int getIndex(Uml::Role_Type role) const;
 
-    void setTotalCount(int count, Uml::Role_Type role);
-    int getTotalCount(Uml::Role_Type role) const;
-
-    void setTotalCount(int count);
-
     void calculateEndingPoints();
 
     void removeAssocClassLine();
-
     void computeAssocClassLine();
 
     void clipSize();
@@ -246,12 +239,12 @@ private:
 
     Uml::TextRole calculateNameType(Uml::TextRole defaultRoleType);
 
-    bool isPointInsideBoundaries(int PosX, int PosY, QPoint & SPoint,
-                                 uint & StartSegmentIndex, uint & EndSegmentIndex);
+//    bool isPointInsideBoundaries(int PosX, int PosY, QPoint & SPoint,
+//                                 uint & StartSegmentIndex, uint & EndSegmentIndex);
 
     static QPoint swapXY(const QPoint &p);
 
-    float totalLength();
+//    float totalLength();
 
     static QPoint calculatePointAtDistance(const QPoint &P1, const QPoint &P2, float Distance);
     static QPoint calculatePointAtDistanceOnPerpendicular(const QPoint &P1, const QPoint &P2, float Distance);
@@ -260,7 +253,7 @@ private:
 
     static QPoint midPoint(const QPoint& p0, const QPoint& p1);
 
-    Region getWidgetRegion(AssociationWidget * widget) const;
+//    Region getWidgetRegion(AssociationWidget * widget) const;
 
     /**
      * The WidgetRole struct gathers all information pertaining to the role.
@@ -324,40 +317,13 @@ private:
     bool                m_selected;
     int                 m_nMovingPoint;
 
-    /**
-     * Position of Name floatingtext saved by saveIdealTextPositions()
-     */
-    QPoint m_oldNamePoint;
-    /**
-     * Position of role A multiplicity floatingtext saved by
-     * saveIdealTextPositions()
-     */
-    QPoint m_oldMultiAPoint;
-    /**
-     * Position of role B multiplicity floatingtext saved by
-     * saveIdealTextPositions()
-     */
-    QPoint m_oldMultiBPoint;
-    /**
-     * Position of role A changeability floatingtext saved by
-     * saveIdealTextPositions()
-     */
-    QPoint m_oldChangeAPoint;
-    /**
-     * Position of role B changeability floatingtext saved by
-     * saveIdealTextPositions()
-     */
-    QPoint m_oldChangeBPoint;
-    /**
-     * Position of role A name floatingtext saved by
-     * saveIdealTextPositions()
-     */
-    QPoint m_oldRoleAPoint;
-    /**
-     * Position of role B name floatingtext saved by
-     * saveIdealTextPositions()
-     */
-    QPoint m_oldRoleBPoint;
+    QPoint m_oldNamePoint;    ///< Position of name floatingtext saved by saveIdealTextPositions()
+    QPoint m_oldMultiAPoint;  ///< Position of role A multiplicity floatingtext saved by saveIdealTextPositions()
+    QPoint m_oldMultiBPoint;  ///< Position of role B multiplicity floatingtext saved by saveIdealTextPositions()
+    QPoint m_oldChangeAPoint; ///< Position of role A changeability floatingtext saved by saveIdealTextPositions()
+    QPoint m_oldChangeBPoint; ///< Position of role B changeability floatingtext saved by saveIdealTextPositions()
+    QPoint m_oldRoleAPoint;   ///< Position of role A name floatingtext saved by saveIdealTextPositions()
+    QPoint m_oldRoleBPoint;   ///< Position of role B name floatingtext saved by saveIdealTextPositions()
 
     int         m_nLinePathSegmentIndex; ///< anchor for m_pAssocClassLine
     UMLSceneLineItem *m_pAssocClassLine;  ///< used for connecting assoc. class

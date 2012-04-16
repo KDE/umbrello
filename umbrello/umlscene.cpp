@@ -1307,7 +1307,7 @@ UMLSceneRect UMLScene::diagramRect()
 
     foreach(AssociationWidget* assoc_obj, m_AssociationList) {
         // get the rectangle around all segments of the assoc
-        rect = assoc_obj->getAssocLineRectangle();
+        rect = assoc_obj->boundingRect();
 
         if (startx >= rect.x())
             startx = rect.x();
