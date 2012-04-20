@@ -89,7 +89,7 @@ void ClassOptionsPage::setupPage()
     m_pShowVisibilityCB->setChecked(m_pWidget->visualProperty(ClassifierWidget::ShowVisibility));
     visibilityLayout->addWidget(m_pShowVisibilityCB, 0, 1);
 
-    sigtype = m_pWidget->operationSignatureType();
+    sigtype = m_pWidget->operationSignature();
     if (sigtype == Uml::SignatureType::NoSig || sigtype == Uml::SignatureType::NoSigNoVis)
         sig = false;
     else
@@ -114,7 +114,7 @@ void ClassOptionsPage::setupPage()
         visibilityLayout->addWidget(m_pShowStereotypeCB, 2, 1);
 
         m_pShowAttSigCB = new QCheckBox(i18n("Attr&ibute signature"), m_pVisibilityGB);
-        sigtype = m_pWidget->attributeSignatureType();
+        sigtype = m_pWidget->attributeSignature();
         if (sigtype == Uml::SignatureType::NoSig || sigtype == Uml::SignatureType::NoSigNoVis)
             sig = false;
         else

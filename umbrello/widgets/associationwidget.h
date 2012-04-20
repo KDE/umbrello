@@ -170,7 +170,7 @@ public:
     virtual void contextMenu(const QPointF& pos, Qt::KeyboardModifiers modifiers, const QPoint& screenPos);
 
 public Q_SLOTS:
-    virtual void slotMenuSelection(QAction *trigger);
+    virtual void slotMenuSelection(QAction* action);
 
 protected Q_SLOTS:
     virtual void slotUMLObjectDataChanged();

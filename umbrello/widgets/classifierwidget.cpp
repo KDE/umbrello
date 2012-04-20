@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -47,7 +47,7 @@ const int ClassifierWidget::InvalidIndex = 99999;
 /**
  * Constructs a ClassifierWidget.
  *
- * @param c The UMLObject to represent.
+ * @param c   The UMLObject to represent.
  */
 ClassifierWidget::ClassifierWidget(UMLClassifier *c)
   : UMLWidget(WidgetBase::wt_Class, c),
@@ -79,8 +79,8 @@ ClassifierWidget::ClassifierWidget(UMLClassifier *c)
     // properties are not set.
     m_visualProperties = ShowOperations | ShowVisibility | ShowAttributes;
 
-    m_attributeSignatureType = Uml::SignatureType::ShowSig;
-    m_operationSignatureType = Uml::SignatureType::ShowSig;
+    m_attributeSignature = Uml::SignatureType::ShowSig;
+    m_operationSignature = Uml::SignatureType::ShowSig;
 
     // Check if this widget is representing an interface and set
     // properties corresponding to that if it is.
@@ -113,6 +113,14 @@ UMLClassifier *ClassifierWidget::classifier() const
 }
 
 /**
+ * @return the visual properties
+ */
+ClassifierWidget::VisualProperties ClassifierWidget::visualProperties() const
+{
+    return m_visualProperties;
+}
+
+/**
  * Set an OR combination of properties stored in \a properties on this
  * widget.
  */
@@ -137,13 +145,13 @@ void ClassifierWidget::setVisualProperties(VisualProperties properties)
 bool ClassifierWidget::visualProperty(VisualProperty property) const
 {
     if (property == ShowAttributeSignature) {
-        return (m_attributeSignatureType == Uml::SignatureType::ShowSig
-                || m_attributeSignatureType == Uml::SignatureType::SigNoVis);
+        return (m_attributeSignature == Uml::SignatureType::ShowSig
+                || m_attributeSignature == Uml::SignatureType::SigNoVis);
     }
 
     else if(property == ShowOperationSignature) {
-        return (m_operationSignatureType == Uml::SignatureType::ShowSig
-                || m_operationSignatureType == Uml::SignatureType::SigNoVis);
+        return (m_operationSignature == Uml::SignatureType::ShowSig
+                || m_operationSignature == Uml::SignatureType::SigNoVis);
     }
 
     return m_visualProperties.testFlag(property);
@@ -165,11 +173,11 @@ void ClassifierWidget::setVisualProperty(VisualProperty property, bool enable)
 
     if (property == ShowAttributeSignature) {
         if (!enable) {
-            m_attributeSignatureType = visualProperty(ShowVisibility) ?
+            m_attributeSignature = visualProperty(ShowVisibility) ?
                 Uml::SignatureType::NoSig : Uml::SignatureType::NoSigNoVis;
         }
         else {
-            m_attributeSignatureType = visualProperty(ShowVisibility) ?
+            m_attributeSignature = visualProperty(ShowVisibility) ?
                 Uml::SignatureType::ShowSig : Uml::SignatureType::SigNoVis;
         }
         updateTextItemGroups();
@@ -177,11 +185,11 @@ void ClassifierWidget::setVisualProperty(VisualProperty property, bool enable)
 
     else if (property == ShowOperationSignature) {
         if (!enable) {
-            m_operationSignatureType = visualProperty(ShowVisibility) ?
+            m_operationSignature = visualProperty(ShowVisibility) ?
                 Uml::SignatureType::NoSig : Uml::SignatureType::NoSigNoVis;
         }
         else {
-            m_operationSignatureType = visualProperty(ShowVisibility) ?
+            m_operationSignature = visualProperty(ShowVisibility) ?
                 Uml::SignatureType::ShowSig : Uml::SignatureType::SigNoVis;
         }
         updateTextItemGroups();
@@ -228,12 +236,12 @@ void ClassifierWidget::toggleVisualProperty(VisualProperty property)
 {
     bool oppositeStatus;
     if (property == ShowOperationSignature) {
-        oppositeStatus = !(m_operationSignatureType == Uml::SignatureType::ShowSig
-                           || m_operationSignatureType == Uml::SignatureType::SigNoVis);
+        oppositeStatus = !(m_operationSignature == Uml::SignatureType::ShowSig
+                           || m_operationSignature == Uml::SignatureType::SigNoVis);
     }
     else if (property == ShowAttributeSignature) {
-        oppositeStatus = !(m_attributeSignatureType == Uml::SignatureType::ShowSig
-                           || m_attributeSignatureType == Uml::SignatureType::SigNoVis);
+        oppositeStatus = !(m_attributeSignature == Uml::SignatureType::ShowSig
+                           || m_attributeSignature == Uml::SignatureType::SigNoVis);
     }
     else {
         oppositeStatus = !visualProperty(property);
@@ -253,12 +261,28 @@ bool ClassifierWidget::shouldDrawAsCircle() const
 }
 
 /**
+ * @return The Uml::SignatureType value for the attributes.
+ */
+Uml::SignatureType ClassifierWidget::attributeSignature() const
+{
+    return m_attributeSignature;
+}
+
+/**
  * Set's the attribute signature type to \a sigType.
  */
 void ClassifierWidget::setAttributeSignature(Uml::SignatureType sigType)
 {
-    m_attributeSignatureType = sigType;
+    m_attributeSignature = sigType;
     updateSignatureTypes();
+}
+
+/**
+ * @return The Uml::SignatureType value for the operations.
+ */
+Uml::SignatureType ClassifierWidget::operationSignature() const
+{
+    return m_operationSignature;
 }
 
 /**
@@ -266,7 +290,7 @@ void ClassifierWidget::setAttributeSignature(Uml::SignatureType sigType)
  */
 void ClassifierWidget::setOperationSignature(Uml::SignatureType sigType)
 {
-    m_operationSignatureType = sigType;
+    m_operationSignature = sigType;
     updateSignatureTypes();
 }
 
@@ -325,6 +349,15 @@ void ClassifierWidget::setClassAssociationWidget(AssociationWidget *assocwidget)
 }
 
 /**
+ * Return the AssociationWidget when this classifier acts as
+ * an association class (else return NULL.)
+ */
+AssociationWidget *ClassifierWidget::classAssociationWidget() const
+{
+    return m_classAssociationWidget;
+}
+
+/**
  * Extends base method to adjust also the association of a class
  * association.  Executes the base method and then, if file isn't
  * loading and the classifier acts as a class association, the
@@ -378,9 +411,9 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
     setVisualProperty(ShowAttributes, (bool)showatts.toInt());
     setVisualProperty(ShowOperations, (bool)showops.toInt());
     setVisualProperty(ShowPublicOnly, (bool)showpubliconly.toInt());
-    setVisualProperty(ShowPackage, (bool)showpackage.toInt());
+    setVisualProperty(ShowPackage,    (bool)showpackage.toInt());
     setVisualProperty(ShowVisibility, (bool)showscope.toInt());
-    setVisualProperty(DrawAsCircle, (bool)drawascircle.toInt());
+    setVisualProperty(DrawAsCircle,   (bool)drawascircle.toInt());
 
     setAttributeSignature(Uml::SignatureType::Value(showattsigs.toInt()));
     setOperationSignature(Uml::SignatureType::Value(showopsigs.toInt()));
@@ -405,13 +438,13 @@ void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 
     conceptElement.setAttribute("showoperations", visualProperty(ShowOperations));
     conceptElement.setAttribute("showpubliconly", visualProperty(ShowPublicOnly));
-    conceptElement.setAttribute("showopsigs", m_operationSignatureType);
-    conceptElement.setAttribute("showpackage", visualProperty(ShowPackage));
-    conceptElement.setAttribute("showscope", visualProperty(ShowVisibility));
+    conceptElement.setAttribute("showopsigs",     m_operationSignature);
+    conceptElement.setAttribute("showpackage",    visualProperty(ShowPackage));
+    conceptElement.setAttribute("showscope",      visualProperty(ShowVisibility));
 
     if (! umlc->isInterface()) {
         conceptElement.setAttribute("showattributes", visualProperty(ShowAttributes));
-        conceptElement.setAttribute("showattsigs", m_attributeSignatureType);
+        conceptElement.setAttribute("showattsigs",    m_attributeSignature);
     }
 
     if (umlc->isInterface() || umlc->isAbstract()) {
@@ -686,7 +719,7 @@ void ClassifierWidget::updateTextItemGroups()
         TextItem *item = attribOpGroup->textItemAt(attribStartIndex + i);
         item->setItalic(obj->isAbstract());
         item->setUnderline(obj->isStatic());
-        item->setText(obj->toString(m_attributeSignatureType));
+        item->setText(obj->toString(m_attributeSignature));
 
         bool v = !shouldDrawAsCircle()
             && ( !visualProperty(ShowPublicOnly)
@@ -729,7 +762,7 @@ void ClassifierWidget::updateTextItemGroups()
         TextItem *item = attribOpGroup->textItemAt(opStartIndex + i);
         item->setItalic(obj->isAbstract());
         item->setUnderline(obj->isStatic());
-        item->setText(obj->toString(m_operationSignatureType));
+        item->setText(obj->toString(m_operationSignature));
 
         bool v = !shouldDrawAsCircle()
             && ( !visualProperty(ShowPublicOnly)
@@ -762,31 +795,31 @@ void ClassifierWidget::updateSignatureTypes()
     //turn on scope
     if (visualProperty(ShowVisibility)) {
         // Take care of operation first
-        if (m_operationSignatureType == Uml::SignatureType::NoSigNoVis) {
-            m_operationSignatureType = Uml::SignatureType::NoSig;
-        } else if (m_operationSignatureType == Uml::SignatureType::SigNoVis) {
-            m_operationSignatureType = Uml::SignatureType::ShowSig;
+        if (m_operationSignature == Uml::SignatureType::NoSigNoVis) {
+            m_operationSignature = Uml::SignatureType::NoSig;
+        } else if (m_operationSignature == Uml::SignatureType::SigNoVis) {
+            m_operationSignature = Uml::SignatureType::ShowSig;
         }
         // Now take care of attributes
-        if (m_attributeSignatureType == Uml::SignatureType::NoSigNoVis)
-            m_attributeSignatureType = Uml::SignatureType::NoSig;
-        else if (m_attributeSignatureType == Uml::SignatureType::SigNoVis)
-            m_attributeSignatureType = Uml::SignatureType::ShowSig;
+        if (m_attributeSignature == Uml::SignatureType::NoSigNoVis)
+            m_attributeSignature = Uml::SignatureType::NoSig;
+        else if (m_attributeSignature == Uml::SignatureType::SigNoVis)
+            m_attributeSignature = Uml::SignatureType::ShowSig;
 
     }
     //turn off scope
     else {
         // Take care of operations first
-        if (m_operationSignatureType == Uml::SignatureType::ShowSig) {
-            m_operationSignatureType = Uml::SignatureType::SigNoVis;
-        } else if (m_operationSignatureType == Uml::SignatureType::NoSig) {
-            m_operationSignatureType = Uml::SignatureType::NoSigNoVis;
+        if (m_operationSignature == Uml::SignatureType::ShowSig) {
+            m_operationSignature = Uml::SignatureType::SigNoVis;
+        } else if (m_operationSignature == Uml::SignatureType::NoSig) {
+            m_operationSignature = Uml::SignatureType::NoSigNoVis;
         }
         // Now take care of attributes.
-        if (m_attributeSignatureType == Uml::SignatureType::ShowSig)
-            m_attributeSignatureType = Uml::SignatureType::SigNoVis;
-        else if(m_attributeSignatureType == Uml::SignatureType::NoSig)
-            m_attributeSignatureType = Uml::SignatureType::NoSigNoVis;
+        if (m_attributeSignature == Uml::SignatureType::ShowSig)
+            m_attributeSignature = Uml::SignatureType::SigNoVis;
+        else if(m_attributeSignature == Uml::SignatureType::NoSig)
+            m_attributeSignature = Uml::SignatureType::NoSigNoVis;
     }
 
     updateTextItemGroups();

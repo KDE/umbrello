@@ -1144,6 +1144,9 @@ bool AssociationWidget::activate()
     return WidgetBase::activate();
 }
 
+/**
+ * Returns the bounding rectangle of all segments of the association.
+ */
 QRectF AssociationWidget::boundingRect() const
 {
     return m_associationLine->boundingRect();
