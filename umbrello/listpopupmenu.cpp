@@ -311,7 +311,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
         if (unique) {
             if (type == WidgetBase::wt_Interface) {
                 insert(mt_DrawAsCircle_Selection, i18n("Draw as Circle"), CHECKABLE);
-                setActionChecked(mt_DrawAsCircle_Selection, c->getDrawAsCircle());
+                setActionChecked(mt_DrawAsCircle_Selection, c->visualProperty(ClassifierWidget::DrawAsCircle));
                 insert(mt_ChangeToClass_Selection, i18n("Change into Class"));
             } else if (type == WidgetBase::wt_Class) {
                 UMLClassifier *umlc = c->classifier();
@@ -935,29 +935,29 @@ void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
     if (type == WidgetBase::wt_Class) {
         cls = static_cast<ClassifierWidget*>(c);
         insert(mt_Show_Attributes_Selection, show, i18n("Attributes"), CHECKABLE);
-        setActionChecked(mt_Show_Attributes_Selection, cls->getShowAtts());
+        setActionChecked(mt_Show_Attributes_Selection, cls->visualProperty(ClassifierWidget::ShowAttributes));
     }
     insert(mt_Show_Operations_Selection, show, i18n("Operations"), CHECKABLE);
-    setActionChecked(mt_Show_Operations_Selection, c->getShowOps());
+    setActionChecked(mt_Show_Operations_Selection, c->visualProperty(ClassifierWidget::ShowOperations));
     insert(mt_Show_Public_Only_Selection, show, i18n("Public Only"), CHECKABLE);
-    setActionChecked(mt_Show_Public_Only_Selection, c->getShowPublicOnly());
+    setActionChecked(mt_Show_Public_Only_Selection, c->visualProperty(ClassifierWidget::ShowPublicOnly));
     insert(mt_Visibility_Selection, show, i18n("Visibility"), CHECKABLE);
-    setActionChecked(mt_Visibility_Selection, c->getShowVisibility());
+    setActionChecked(mt_Visibility_Selection, c->visualProperty(ClassifierWidget::ShowVisibility));
     insert(mt_Show_Operation_Signature_Selection, show, i18n("Operation Signature"), CHECKABLE);
-    bool sig = (c->operationSignatureType() == Uml::SignatureType::SigNoVis ||
-                c->operationSignatureType() == Uml::SignatureType::ShowSig);
+    bool sig = (c->operationSignature() == Uml::SignatureType::SigNoVis ||
+                c->operationSignature() == Uml::SignatureType::ShowSig);
     setActionChecked(mt_Show_Operation_Signature_Selection, sig);
     if (type == WidgetBase::wt_Class) {
         insert(mt_Show_Attribute_Signature_Selection, show, i18n("Attribute Signature"), CHECKABLE);
-        sig = (cls->attributeSignatureType() == Uml::SignatureType::SigNoVis ||
-               cls->attributeSignatureType() == Uml::SignatureType::ShowSig);
+        sig = (cls->attributeSignature() == Uml::SignatureType::SigNoVis ||
+               cls->attributeSignature() == Uml::SignatureType::ShowSig);
         setActionChecked(mt_Show_Attribute_Signature_Selection, sig);
     }
     insert(mt_Show_Packages_Selection, show, i18n("Package"), CHECKABLE);
-    setActionChecked(mt_Show_Packages_Selection, c->getShowPackage());
+    setActionChecked(mt_Show_Packages_Selection, c->visualProperty(ClassifierWidget::ShowPackage));
     if (type == WidgetBase::wt_Class) {
         insert(mt_Show_Stereotypes_Selection, show, i18n("Stereotype"), CHECKABLE);
-        setActionChecked(mt_Show_Stereotypes_Selection, cls->getShowStereotype());
+        setActionChecked(mt_Show_Stereotypes_Selection, cls->visualProperty(ClassifierWidget::ShowStereotype));
     }
     addMenu(show);
 }
@@ -984,7 +984,7 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
     insert(mt_Change_Font);
     if (type == WidgetBase::wt_Interface) {
         insert(mt_DrawAsCircle, i18n("Draw as Circle"), CHECKABLE);
-        setActionChecked(mt_DrawAsCircle, c->getDrawAsCircle());
+        setActionChecked(mt_DrawAsCircle, c->visualProperty(ClassifierWidget::DrawAsCircle));
         insert(mt_ChangeToClass, i18n("Change into Class"));
     } else {
         insert(mt_Refactoring, Icon_Utils::SmallIcon(Icon_Utils::it_Refactor), i18n("Refactor"));

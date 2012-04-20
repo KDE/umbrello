@@ -82,14 +82,14 @@ void ClassOptionsPage::setupPage()
     visibilityLayout->setRowStretch(3, 1);
 
     m_pShowOpsCB = new QCheckBox(i18n("Operatio&ns"), m_pVisibilityGB);
-    m_pShowOpsCB->setChecked(m_pWidget->getShowOps());
+    m_pShowOpsCB->setChecked(m_pWidget->visualProperty(ClassifierWidget::ShowOperations));
     visibilityLayout->addWidget(m_pShowOpsCB, 0, 0);
 
     m_pShowVisibilityCB = new QCheckBox(i18n("&Visibility"), m_pVisibilityGB);
-    m_pShowVisibilityCB->setChecked(m_pWidget->getShowVisibility());
+    m_pShowVisibilityCB->setChecked(m_pWidget->visualProperty(ClassifierWidget::ShowVisibility));
     visibilityLayout->addWidget(m_pShowVisibilityCB, 0, 1);
 
-    sigtype = m_pWidget->operationSignatureType();
+    sigtype = m_pWidget->operationSignature();
     if (sigtype == Uml::SignatureType::NoSig || sigtype == Uml::SignatureType::NoSigNoVis)
         sig = false;
     else
@@ -99,22 +99,22 @@ void ClassOptionsPage::setupPage()
     visibilityLayout->addWidget(m_pShowOpSigCB, 1, 0);
 
     m_pShowPackageCB = new QCheckBox(i18n("Pac&kage"), m_pVisibilityGB);
-    m_pShowPackageCB->setChecked(m_pWidget->getShowPackage());
+    m_pShowPackageCB->setChecked(m_pWidget->visualProperty(ClassifierWidget::ShowPackage));
     visibilityLayout->addWidget(m_pShowPackageCB, 1, 1);
 
     WidgetBase::WidgetType type = m_pWidget->baseType();
 
     if (type == WidgetBase::wt_Class) {
         m_pShowAttsCB = new QCheckBox(i18n("Att&ributes"), m_pVisibilityGB);
-        m_pShowAttsCB->setChecked(m_pWidget->getShowAtts());
+        m_pShowAttsCB->setChecked(m_pWidget->visualProperty(ClassifierWidget::ShowAttributes));
         visibilityLayout->addWidget(m_pShowAttsCB, 2, 0);
 
         m_pShowStereotypeCB = new QCheckBox(i18n("Stereot&ype"), m_pVisibilityGB);
-        m_pShowStereotypeCB->setChecked(m_pWidget->getShowStereotype());
+        m_pShowStereotypeCB->setChecked(m_pWidget->visualProperty(ClassifierWidget::ShowStereotype));
         visibilityLayout->addWidget(m_pShowStereotypeCB, 2, 1);
 
         m_pShowAttSigCB = new QCheckBox(i18n("Attr&ibute signature"), m_pVisibilityGB);
-        sigtype = m_pWidget->attributeSignatureType();
+        sigtype = m_pWidget->attributeSignature();
         if (sigtype == Uml::SignatureType::NoSig || sigtype == Uml::SignatureType::NoSigNoVis)
             sig = false;
         else
@@ -123,13 +123,13 @@ void ClassOptionsPage::setupPage()
         visibilityLayout->addWidget(m_pShowAttSigCB, 3, 0);
 
         m_pShowPublicOnlyCB = new QCheckBox(i18n("&Public Only"), m_pVisibilityGB);
-        m_pShowPublicOnlyCB->setChecked(m_pWidget->getShowPublicOnly());
+        m_pShowPublicOnlyCB->setChecked(m_pWidget->visualProperty(ClassifierWidget::ShowPublicOnly));
         visibilityLayout->addWidget(m_pShowPublicOnlyCB, 3, 1);
 
 
     } else if (type == WidgetBase::wt_Interface) {
         m_pDrawAsCircleCB = new QCheckBox(i18n("Draw as circle"), m_pVisibilityGB);
-        m_pDrawAsCircleCB->setChecked( m_pWidget->getDrawAsCircle() );
+        m_pDrawAsCircleCB->setChecked( m_pWidget->visualProperty(ClassifierWidget::DrawAsCircle) );
         visibilityLayout->addWidget(m_pDrawAsCircleCB, 2, 0);
     }
 }
@@ -205,19 +205,19 @@ void ClassOptionsPage::updateUMLWidget()
  */
 void ClassOptionsPage::updateWidget()
 {
-    m_pWidget->setShowPackage( m_pShowPackageCB->isChecked() );
-    m_pWidget->setShowVisibility( m_pShowVisibilityCB->isChecked() );
-    m_pWidget->setShowOps( m_pShowOpsCB->isChecked() );
-    m_pWidget->setShowOpSigs( m_pShowOpSigCB->isChecked() );
+    m_pWidget->setVisualProperty( ClassifierWidget::ShowPackage, m_pShowPackageCB->isChecked() );
+    m_pWidget->setVisualProperty( ClassifierWidget::ShowVisibility, m_pShowVisibilityCB->isChecked() );
+    m_pWidget->setVisualProperty( ClassifierWidget::ShowOperations, m_pShowOpsCB->isChecked() );
+    m_pWidget->setVisualProperty( ClassifierWidget::ShowOperationSignature, m_pShowOpSigCB->isChecked() );
     WidgetBase::WidgetType type = m_pWidget->baseType();
     if (type == WidgetBase::wt_Class) {
-        m_pWidget->setShowStereotype( m_pShowStereotypeCB->isChecked() );
-        m_pWidget->setShowAtts( m_pShowAttsCB->isChecked() );
-        m_pWidget->setShowAttSigs( m_pShowAttSigCB->isChecked() );
-        m_pWidget->setShowPublicOnly( m_pShowPublicOnlyCB->isChecked() );
+        m_pWidget->setVisualProperty( ClassifierWidget::ShowStereotype, m_pShowStereotypeCB->isChecked() );
+        m_pWidget->setVisualProperty( ClassifierWidget::ShowAttributes, m_pShowAttsCB->isChecked() );
+        m_pWidget->setVisualProperty( ClassifierWidget::ShowAttributeSignature, m_pShowAttSigCB->isChecked() );
+        m_pWidget->setVisualProperty( ClassifierWidget::ShowPublicOnly, m_pShowPublicOnlyCB->isChecked() );
     } else if (type == WidgetBase::wt_Interface) {
         if (m_pDrawAsCircleCB)
-            m_pWidget->setDrawAsCircle( m_pDrawAsCircleCB->isChecked() );
+            m_pWidget->setVisualProperty( ClassifierWidget::DrawAsCircle, m_pDrawAsCircleCB->isChecked() );
     }
 }
 
