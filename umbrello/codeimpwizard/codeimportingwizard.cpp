@@ -36,11 +36,6 @@
 #include <QtGui/QWizardPage>
 
 /**
- * Constant value for the fixed size of the wizard pages.
- */
-const QSize CodeImportingWizard::c_pageSize = QSize(520, 530);
-
-/**
  * Constructor. Sets up the wizard and loads the wizard pages.
  * Each wizard page has its own class.
  * @param classList   the list of classes, which have to be generated
@@ -72,7 +67,6 @@ CodeImportingWizard::~CodeImportingWizard()
 QWizardPage* CodeImportingWizard::createSelectionPage()
 {
     m_SelectionPage = new CodeImpSelectPage(this);
-    m_SelectionPage->setFixedSize(c_pageSize);
     return m_SelectionPage;
 }
 
@@ -84,7 +78,6 @@ QWizardPage* CodeImportingWizard::createSelectionPage()
 QWizardPage* CodeImportingWizard::createStatusPage()
 {
     m_StatusPage = new CodeImpStatusPage(this);
-    m_StatusPage->setFixedSize(c_pageSize);
     return m_StatusPage;
 }
 
