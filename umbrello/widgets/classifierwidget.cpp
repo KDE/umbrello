@@ -271,9 +271,9 @@ Uml::SignatureType ClassifierWidget::attributeSignature() const
 /**
  * Set's the attribute signature type to \a sigType.
  */
-void ClassifierWidget::setAttributeSignature(Uml::SignatureType sigType)
+void ClassifierWidget::setAttributeSignature(Uml::SignatureType sig)
 {
-    m_attributeSignature = sigType;
+    m_attributeSignature = sig;
     updateSignatureTypes();
 }
 
@@ -288,9 +288,9 @@ Uml::SignatureType ClassifierWidget::operationSignature() const
 /**
  * Set's the operation signature type to \a sigType.
  */
-void ClassifierWidget::setOperationSignature(Uml::SignatureType sigType)
+void ClassifierWidget::setOperationSignature(Uml::SignatureType sig)
 {
-    m_operationSignature = sigType;
+    m_operationSignature = sig;
     updateSignatureTypes();
 }
 

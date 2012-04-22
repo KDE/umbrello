@@ -103,21 +103,17 @@ private:
     void updateSignatureTypes();
     void calculateTemplateDrawing();
     void calculateClassifierDrawing();
+    void invalidateDummies();
 
-    VisualProperties m_visualProperties;
+    VisualProperties   m_visualProperties;
     Uml::SignatureType m_attributeSignature;  ///< Loaded/saved item.
     Uml::SignatureType m_operationSignature;  ///< Loaded/saved item.
+    AssociationWidget *m_classAssociationWidget;  ///< related AssociationWidget in case this classifier acts as an association class
 
     /**
      * Size of circle when interface is rendered as such
      */
     static const qreal CircleMinimumRadius;
-
-    /**
-     * The related AssociationWidget in case this classifier acts as
-     * an association class
-     */
-    AssociationWidget *m_classAssociationWidget;
 
     enum {
         HeaderGroupIndex=0,
@@ -132,8 +128,6 @@ private:
     QRectF m_classifierRect;
     QRectF m_templateRect;
     QLineF m_classifierLines[2];
-
-    void invalidateDummies();
 
     int m_lineItem2Index;
     TextItem *m_dummyAttributeItem;
