@@ -10,6 +10,7 @@
 
 #include "umlwidgetstylepage.h"
 
+#include "debug_utils.h"
 #include "optionstate.h"
 #include "uml.h"
 #include "umlscene.h"
@@ -31,11 +32,11 @@
 /**
  *   Constructor - Observe a UMLWidget.
  */
-UMLWidgetStylePage::UMLWidgetStylePage( QWidget *pParent, WidgetBase *pWidget )
-  : QWidget( pParent )
+UMLWidgetStylePage::UMLWidgetStylePage(QWidget *pParent, WidgetBase *pWidget)
+  : QWidget(pParent),
+    m_pUMLWidget(pWidget),
+    m_options(0)
 {
-    m_pUMLWidget = pWidget;
-    m_options = 0;
     init();
     m_pTextColorB->setColor( pWidget->textColor() );
     m_pLineColorB->setColor( pWidget->lineColor() );
@@ -46,8 +47,11 @@ UMLWidgetStylePage::UMLWidgetStylePage( QWidget *pParent, WidgetBase *pWidget )
     if (!m_pUMLWidget) {  //  when we are on the diagram
         UMLView * view = UMLApp::app()->currentView();
         if (view) {
-            m_BackgroundColorB->setColor(view->umlScene()->backgroundColor());
-            m_GridDotColorB->setColor(view->umlScene()->gridDotColor());
+            UMLScene* scene = view->umlScene();
+            if (scene) {
+                m_BackgroundColorB->setColor(scene->backgroundColor());
+                m_GridDotColorB->setColor(scene->gridDotColor());
+            }
         }
     }
 }
@@ -55,11 +59,11 @@ UMLWidgetStylePage::UMLWidgetStylePage( QWidget *pParent, WidgetBase *pWidget )
 /**
  *   Constructor - Observe an OptionState structure.
  */
-UMLWidgetStylePage::UMLWidgetStylePage( QWidget * pParent, Settings::OptionState *options )
-  : QWidget( pParent )
+UMLWidgetStylePage::UMLWidgetStylePage(QWidget * pParent, Settings::OptionState *options)
+  : QWidget(pParent),
+    m_pUMLWidget(0),
+    m_options(options)
 {
-    m_options = options;
-    m_pUMLWidget = 0;
     init();
     m_pTextColorB->setColor( m_options->uiState.textColor );
     m_pLineColorB->setColor( m_options->uiState.lineColor );
@@ -249,6 +253,18 @@ void UMLWidgetStylePage::updateUMLWidget()
         m_options->uiState.gridDotColor = m_GridDotColorB->color();
         m_options->uiState.lineWidth = m_lineWidthB->value();
         UMLApp::app()->currentView()->umlScene()->setOptionState(*m_options);
+    }
+
+    if (!m_pUMLWidget) {  // when we are on the diagram
+        UMLView * view = UMLApp::app()->currentView();
+        if (view) {
+            UMLScene* scene = view->umlScene();
+            if (scene) {
+                uDebug() << "Setting background and grid dot color.";
+                scene->setBackgroundColor(m_BackgroundColorB->color());
+                scene->setGridDotColor(m_GridDotColorB->color());
+            }
+        }
     }
 }
 

@@ -100,14 +100,13 @@ private Q_SLOTS:
     void slotShowOperations(bool state);
 
 private:
+    void updateSignatureTypes();
     QSize calculateTemplatesBoxSize();
 
     UMLSceneSize minimumSize();
 
     void drawAsCircle(QPainter& p, int offsetX, int offsetY);
     QSize calculateAsCircleSize();
-
-    void updateSignatureTypes();
 
     int displayedMembers(UMLObject::ObjectType ot);
     void drawMembers(QPainter & p, UMLObject::ObjectType ot, Uml::SignatureType sigType,
