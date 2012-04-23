@@ -66,7 +66,7 @@ private:
 
     Uml::AssociationType getAssociationType();
 
-    void addAssociationInViewAndDoc(AssociationWidget* assoc);
+    bool addAssociationInViewAndDoc(AssociationWidget* assoc);
 
     void cleanAssociation();
 
@@ -79,7 +79,7 @@ private:
      * The association line shown while the first widget is selected and the
      * second one wasn't selected yet.
      */
-    QGraphicsLineItem* m_associationLine;
+    UMLSceneLineItem* m_associationLine;
 
 };
 

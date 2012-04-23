@@ -195,7 +195,7 @@ void ToolBarStateAssociation::setFirstWidget()
  * Sets the second widget in the association using the current widget and
  * creates the association.
  * If the association between the two widgets using the current type of
- * association, an error is shown and the association cancelled.
+ * association is illegitimate, an error is shown and the association cancelled.
  * Otherwise, the association is created and added to the scene, and the tool
  * is changed to the default tool.
  *
@@ -283,24 +283,26 @@ Uml::AssociationType ToolBarStateAssociation::getAssociationType()
  * If the association can't be added, is deleted.
  *
  * @param assoc The AssociationWidget to add.
+ * @return      True on success
  */
-void ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* assoc)
+bool ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* assoc)
 {
     // append in view
     if (m_pUMLScene->addAssociation(assoc, false)) {
         // if view went ok, then append in document
         UMLAssociation *umla = assoc->association();
-        if (!umla) {
-            // association without model representation in UMLDoc
-            return;
+        if (umla) {
+            // association with model representation in UMLDoc
+            Uml::ModelType m = Model_Utils::convert_DT_MT(m_pUMLScene->type());
+            UMLDoc *umldoc = UMLApp::app()->document();
+            umla->setUMLPackage(umldoc->rootFolder(m));
+            umldoc->addAssociation(umla);
         }
-        Uml::ModelType m = Model_Utils::convert_DT_MT(m_pUMLScene->type());
-        UMLDoc *umldoc = UMLApp::app()->document();
-        umla->setUMLPackage(umldoc->rootFolder(m));
-        umldoc->addAssociation(umla);
+        return true;
     } else {
         uError() << "cannot addAssocInViewAndDoc(), deleting";
         delete assoc;
+        return false;
     }
 }
 
