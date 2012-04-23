@@ -306,7 +306,7 @@ bool ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* asso
             Uml::ModelType m = Model_Utils::convert_DT_MT(m_pUMLScene->type());
             UMLDoc *umldoc = UMLApp::app()->document();
             umla->setUMLPackage(umldoc->rootFolder(m));
-            UMLApp::app()->document()->addAssociation(umla);
+            umldoc->addAssociation(umla);
         }
         return true;
     } else {

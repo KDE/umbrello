@@ -109,18 +109,19 @@ void ToolBarStateMessages::setCurrentElement()
 {
     m_isObjectWidgetLine = false;
 
-    ObjectWidget* objectWidgetLine = m_pUMLScene->onWidgetLine(m_pMouseEvent->pos());
+    ObjectWidget* objectWidgetLine = m_pUMLScene->onWidgetLine(m_pMouseEvent->scenePos());
     if (objectWidgetLine) {
+        qDebug() << Q_FUNC_INFO << "Object detected";
         setCurrentWidget(objectWidgetLine);
         m_isObjectWidgetLine = true;
         return;
     }
-
+    qDebug() << Q_FUNC_INFO << "Object NOT detected";
     //commit 515177 fixed a setting creation messages only working properly at 100% zoom
     //However, the applied patch doesn't seem to be necessary no more, so it was removed
     //The widgets weren't got from UMLView, but from a method in this class similarto the
     //one in UMLView but containing special code to handle the zoom
-    UMLWidget *widget = m_pUMLScene->widgetAt(m_pMouseEvent->pos());
+    UMLWidget *widget = m_pUMLScene->widgetAt(m_pMouseEvent->scenePos());
     if (widget) {
         setCurrentWidget(widget);
         return;
@@ -174,8 +175,8 @@ void ToolBarStateMessages::mouseReleaseEmpty()
     Uml::Sequence_Message_Type msgType = getMessageType();
 
     if (m_firstObject && msgType ==  Uml::sequence_message_lost) {
-        xclick = m_pMouseEvent->x();
-        yclick = m_pMouseEvent->y();
+        xclick = m_pMouseEvent->scenePos().x();
+        yclick = m_pMouseEvent->scenePos().y();
 
         MessageWidget* message = new MessageWidget(m_pUMLScene, m_firstObject,xclick, yclick, msgType);
 
@@ -195,8 +196,8 @@ void ToolBarStateMessages::mouseReleaseEmpty()
     }
 
     else if (!m_firstObject && msgType == Uml::sequence_message_found && xclick == 0 && yclick == 0) {
-        xclick = m_pMouseEvent->x();
-        yclick = m_pMouseEvent->y();
+        xclick = m_pMouseEvent->scenePos().x();
+        yclick = m_pMouseEvent->scenePos().y();
 
         m_messageLine = new UMLSceneLineItem;
         m_messageLine->setCanvas(m_pUMLScene->canvas());

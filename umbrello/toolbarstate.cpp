@@ -84,7 +84,7 @@ void ToolBarState::mousePress(UMLSceneMouseEvent* ome)
     m_pUMLScene->emitRemovePopupMenu();
 
     // TODO: Check who needs this.
-    m_pUMLScene->setPos(m_pMouseEvent->pos());
+    m_pUMLScene->setPos(m_pMouseEvent->scenePos());
 
     //TODO check why
     m_pUMLScene->setPaste(false);
@@ -115,7 +115,7 @@ void ToolBarState::mouseRelease(UMLSceneMouseEvent* ome)
 
     // Set the position of the mouse
     // TODO, should only be available in this state?
-    m_pUMLScene->setPos(m_pMouseEvent->pos());
+    m_pUMLScene->setPos(m_pMouseEvent->scenePos());
 
     m_pUMLScene->view()->viewport()->setMouseTracking(false);
 
@@ -146,8 +146,8 @@ void ToolBarState::mouseDoubleClick(UMLSceneMouseEvent* ome)
 {
     setMouseEvent(ome, QEvent::MouseButtonDblClick);
 
-    UMLWidget* currentWidget = m_pUMLScene->widgetAt(m_pMouseEvent->pos());
-    AssociationWidget* currentAssociation = getAssociationAt(m_pMouseEvent->pos());
+    UMLWidget* currentWidget = m_pUMLScene->widgetAt(m_pMouseEvent->scenePos());
+    AssociationWidget* currentAssociation = getAssociationAt(m_pMouseEvent->scenePos());
     if (currentWidget) {
         setCurrentWidget(currentWidget);
         mouseDoubleClickWidget();
@@ -256,7 +256,7 @@ ToolBarState::ToolBarState(UMLScene *umlScene)
 void ToolBarState::setCurrentElement()
 {
     // Check associations.
-    AssociationWidget* association = getAssociationAt(m_pMouseEvent->pos());
+    AssociationWidget* association = getAssociationAt(m_pMouseEvent->scenePos());
     if (association) {
         setCurrentAssociation(association);
         return;
@@ -264,27 +264,27 @@ void ToolBarState::setCurrentElement()
 
     // Check messages.
     //TODO check why message widgets are treated different
-    MessageWidget* message = getMessageAt(m_pMouseEvent->pos());
+    MessageWidget* message = getMessageAt(m_pMouseEvent->scenePos());
     if (message) {
         setCurrentWidget(message);
         return;
     }
 
     //TODO check why message widgets are treated different
-    FloatingDashLineWidget* floatingline = getFloatingLineAt(m_pMouseEvent->pos());
+    FloatingDashLineWidget* floatingline = getFloatingLineAt(m_pMouseEvent->scenePos());
     if (floatingline) {
         setCurrentWidget(floatingline);
         return;
     }
 
-    ObjectWidget* objectWidgetLine = m_pUMLScene->onWidgetDestructionBox(m_pMouseEvent->pos());
+    ObjectWidget* objectWidgetLine = m_pUMLScene->onWidgetDestructionBox(m_pMouseEvent->scenePos());
     if (objectWidgetLine) {
         setCurrentWidget(objectWidgetLine);
         return;
     }
 
     // Check widgets.
-    UMLWidget *widget = m_pUMLScene->widgetAt(m_pMouseEvent->pos());
+    UMLWidget *widget = m_pUMLScene->widgetAt(m_pMouseEvent->scenePos());
     if (widget) {
         setCurrentWidget(widget);
         return;

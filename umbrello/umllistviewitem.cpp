@@ -57,6 +57,9 @@ UMLListViewItem::UMLListViewItem(UMLListView * parent, const QString &name,
   : QTreeWidgetItem(parent)
 {
     init();
+    if (parent == 0) {
+        DEBUG(DBG_LVI) << "UMLListViewItem constructor called with a null listview parent";
+    }
     m_type = t;
     m_object = o;
     if (o) {

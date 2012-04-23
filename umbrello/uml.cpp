@@ -1655,7 +1655,13 @@ void UMLApp::setModified(bool modified)
     }
 
     if (m_loading == false)  {
-        setCaption(m_doc->url().fileName(), modified); //add disk icon to taskbar if modified
+        if (m_doc) {
+            DEBUG(DBG_SRC) << m_doc->url().fileName();
+            setCaption(m_doc->url().fileName(), modified); //add disk icon to taskbar if modified
+        }
+        else {
+            DEBUG(DBG_SRC) << "m_doc is NULL!";
+        }
     }
 }
 
@@ -1833,7 +1839,7 @@ void UMLApp::slotApplyPrefs()
 }
 
 /**
- * Returns the undo state.
+ * Returns the undo state. Is used for popupmenu of a view.
  *
  * @return  True if Undo is enabled.
  */
@@ -1845,7 +1851,7 @@ bool UMLApp::isUndoEnabled() const
 /**
  * Returns the redo state.
  *
- * @return  True if Redo is enabled.
+ * @return  True if Redo is enabled. Is used for popupmenu of a view.
  */
 bool UMLApp::isRedoEnabled() const
 {
@@ -2262,7 +2268,7 @@ void UMLApp::setLang_xmlschema()
  */
 void UMLApp::setActiveLanguage(Uml::ProgrammingLanguage pl)
 {
-    updateLangSelectMenu(pl);
+    //updateLangSelectMenu(pl);  //:TODO:checkit - is already called in setGenerator
     setGenerator(pl);
 }
 
@@ -2921,7 +2927,7 @@ void UMLApp::clearUndoStack()
 }
 
 /**
- * Undo last command
+ * Undo last command. Is called from popupmenu of a view.
  */
 void UMLApp::undo()
 {
@@ -2939,7 +2945,7 @@ void UMLApp::undo()
 }
 
 /**
- * Redo last 'undoed' command
+ * Redo last 'undoed' command. Is called from popupmenu of a view.
  */
 void UMLApp::redo()
 {
