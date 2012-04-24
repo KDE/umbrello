@@ -49,7 +49,6 @@ private:
     CodeImpSelectPage  *m_SelectionPage;
     CodeImpStatusPage  *m_StatusPage;
 
-    static const QSize c_pageSize;
 };
 
 #endif
