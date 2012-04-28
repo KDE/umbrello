@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -31,12 +31,13 @@
  * @param umlScene The UMLScene to use.
  */
 ToolBarStateMessages::ToolBarStateMessages(UMLScene *umlScene)
-  : ToolBarStatePool(umlScene)
+  : ToolBarStatePool(umlScene),
+    m_firstObject(0),
+    m_messageLine(0),
+    m_isObjectWidgetLine(false),
+    xclick(0),
+    yclick(0)
 {
-    m_firstObject = 0;
-    m_messageLine = 0;
-    xclick = 0;
-    yclick = 0;
 }
 
 /**
@@ -112,12 +113,12 @@ void ToolBarStateMessages::setCurrentElement()
 
     ObjectWidget* objectWidgetLine = m_pUMLScene->onWidgetLine(m_pMouseEvent->scenePos());
     if (objectWidgetLine) {
-        qDebug() << Q_FUNC_INFO << "Object detected";
+        uDebug() << Q_FUNC_INFO << "Object detected";
         setCurrentWidget(objectWidgetLine);
         m_isObjectWidgetLine = true;
         return;
     }
-    qDebug() << Q_FUNC_INFO << "Object NOT detected";
+    uDebug() << Q_FUNC_INFO << "Object NOT detected";
     //commit 515177 fixed a setting creation messages only working properly at 100% zoom
     //However, the applied patch doesn't seem to be necessary no more, so it was removed
     //The widgets weren't got from UMLView, but from a method in this class similarto the
@@ -190,7 +191,7 @@ void ToolBarStateMessages::mouseReleaseEmpty()
         xclick = m_pMouseEvent->scenePos().x();
         yclick = m_pMouseEvent->scenePos().y();
 
-        m_messageLine = new QGraphicsLineItem();
+        m_messageLine = new UMLSceneLineItem();
         m_pUMLScene->addItem(m_messageLine);
         qreal x = m_pMouseEvent->scenePos().x(), y = m_pMouseEvent->scenePos().y();
         m_messageLine->setLine(x, y, x, y);
@@ -219,12 +220,11 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
         MessageWidget* message = new MessageWidget(m_firstObject, QPointF(xclick, yclick), msgType);
         setupMessageWidget(message);
         cleanMessage();
-
         xclick = 0;
         yclick = 0;
     }
     else {
-        m_messageLine = new QGraphicsLineItem();
+        m_messageLine = new UMLSceneLineItem();
         m_pUMLScene->addItem(m_messageLine);
         qreal x = m_pMouseEvent->scenePos().x();
         qreal y = m_pMouseEvent->scenePos().y();
@@ -261,14 +261,12 @@ void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageTy
     if (messageType == CreationMessage) {
         msgType = Uml::sequence_message_creation;
         y = m_messageLine->line().p1().y();
-
     }
 
     MessageWidget* message = new MessageWidget(m_firstObject,
                                                secondObject, msgType);
     message->setPos(message->pos().x(), y);
     setupMessageWidget(message);
-
     cleanMessage();
 }
 

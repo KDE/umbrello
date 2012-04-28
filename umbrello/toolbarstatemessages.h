@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,7 +14,6 @@
 #include "basictypes.h"
 #include "toolbarstatepool.h"
 
-class QGraphicsLineItem;
 class MessageWidget;
 class ObjectWidget;
 
@@ -100,7 +99,7 @@ protected:
      * The message line shown while the first widget is selected and the
      * second one wasn't selected yet.
      */
-    QGraphicsLineItem* m_messageLine;
+    UMLSceneLineItem* m_messageLine;
 
     /**
      * If there is a current widget, it is true if the press event happened on
@@ -114,8 +113,8 @@ private:
     /**
      * x and y clicked for lost and found messages
      */
-    qreal xclick;
-    qreal yclick;
+    UMLSceneValue xclick;
+    UMLSceneValue yclick;
 
 };
 
