@@ -11,6 +11,7 @@ Name[sv]=Horisontell layout
 Name[tr]=Yatay Düzen
 Name[uk]=Горизонтальне компонування
 Name[x-test]=xxHorizontal Layoutxx
+Name[zh_TW]=水平佈局
 Comment=Layout which renders Horizontal
 Comment[ca]=DIsposició que renderitza horitzontalment
 Comment[es]=Diseño que se organiza de forma horizontal
@@ -21,6 +22,7 @@ Comment[pt_BR]=Leiaute que representa os itens na horizontal
 Comment[sv]=Layout som återger horisontellt
 Comment[uk]=Компонування з горизонтальним розташуванням елементів
 Comment[x-test]=xxLayout which renders Horizontalxx
+Comment[zh_TW]=水平繪製的佈局
 
 [X-UMBRELLO-Dot-Nodes]
 type::class=shape=box
