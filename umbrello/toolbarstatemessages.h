@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,6 +14,7 @@
 #include "basictypes.h"
 #include "toolbarstatepool.h"
 
+class MessageWidget;
 class ObjectWidget;
 
 /**
@@ -107,12 +108,13 @@ protected:
     bool m_isObjectWidgetLine;
 
 private:
+    void setupMessageWidget(MessageWidget *msg);
 
     /**
      * x and y clicked for lost and found messages
      */
-    int xclick;
-    int yclick;
+    UMLSceneValue xclick;
+    UMLSceneValue yclick;
 
 };
 
