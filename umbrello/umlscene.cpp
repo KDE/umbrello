@@ -1032,7 +1032,7 @@ ObjectWidget * UMLScene::onWidgetDestructionBox(const UMLScenePoint &point) cons
  */
 UMLWidget* UMLScene::getFirstMultiSelectedWidget() const
 {
-    return m_SelectedList.first();
+    return m_selectedList.first();
 }
 
 /**
@@ -1077,7 +1077,7 @@ void UMLScene::checkMessages(ObjectWidget * w)
         removeAssociations(obj);
         obj->cleanup();
         //make sure not in selected list
-        m_SelectedList.removeAll(obj);
+        m_selectedList.removeAll(obj);
         m_MessageList.removeAll(obj);
         obj->deleteLater();
     }
@@ -1231,7 +1231,7 @@ void UMLScene::removeWidget(UMLWidget * o)
     }
 
     o->cleanup();
-    m_SelectedList.removeAll(o);
+    m_selectedList.removeAll(o);
     disconnect(this, SIGNAL(sigRemovePopupMenu()), o, SLOT(slotRemovePopupMenu()));
     disconnect(this, SIGNAL(sigClearAllSelected()), o, SLOT(slotClearAllSelected()));
     disconnect(this, SIGNAL(sigFillColorChanged(Uml::IDType)), o, SLOT(slotFillColorChanged(Uml::IDType)));
@@ -1341,18 +1341,34 @@ void UMLScene::setSelected(UMLWidget *w, QMouseEvent *me)
 {
     Q_UNUSED(me);
     //only add if wasn't in list
-    if (!m_SelectedList.removeAll(w))
-        m_SelectedList.append(w);
-    int count = m_SelectedList.count();
+    if (!m_selectedList.removeAll(w))
+        m_selectedList.append(w);
+    int count = m_selectedList.count();
     //only call once - if we select more, no need to keep clearing  window
 
     // if count == 1, widget will update the doc window with their data when selected
     if (count == 2)
         view()->updateDocumentation(true);  //clear doc window
 
-    /* selection changed, we have to make sure the copy and paste items
-     * are correctly enabled/disabled */
+    // selection changed, we have to make sure the copy and paste items
+    // are correctly enabled/disabled
     UMLApp::app()->slotCopyChanged();
+}
+
+/**
+ * Returns a list of selected widgets.
+ *
+ * This method walks over all the selected items
+ * and adds them to the list.
+ * Finally it returns this list.
+ */
+UMLWidgetList UMLScene::selectedWidgets() const
+{
+    UMLWidgetList list;
+    foreach(UMLWidget* item, m_selectedList) {
+        list << item;
+    }
+    return list;
 }
 
 /**
@@ -1360,7 +1376,7 @@ void UMLScene::setSelected(UMLWidget *w, QMouseEvent *me)
  */
 void UMLScene::clearSelected()
 {
-    m_SelectedList.clear();
+    m_selectedList.clear();
     emit sigClearAllSelected();
     //m_doc->enableCutCopy(false);
 }
@@ -1374,8 +1390,8 @@ void UMLScene::clearSelected()
  */
 void UMLScene::moveSelectedBy(int dX, int dY)
 {
-    // DEBUG(DBG_SRC) << "********** m_SelectedList count=" << m_SelectedList.count();
-    foreach(UMLWidget *w, m_SelectedList) {
+    // DEBUG(DBG_SRC) << "********** m_selectedList count=" << m_selectedList.count();
+    foreach(UMLWidget *w, m_selectedList) {
         w->moveByLocal(dX, dY);
     }
 }
@@ -1387,7 +1403,7 @@ void UMLScene::moveSelectedBy(int dX, int dY)
  */
 void UMLScene::selectionUseFillColor(bool useFC)
 {
-    foreach(UMLWidget* temp, m_SelectedList) {
+    foreach(UMLWidget* temp, m_selectedList) {
         temp->setUseFillColor(useFC);
     }
 }
@@ -1397,7 +1413,7 @@ void UMLScene::selectionUseFillColor(bool useFC)
  */
 void UMLScene::selectionSetFont(const QFont &font)
 {
-    foreach(UMLWidget* temp, m_SelectedList) {
+    foreach(UMLWidget* temp, m_selectedList) {
         temp->setFont(font);
     }
 }
@@ -1409,7 +1425,7 @@ void UMLScene::selectionSetLineColor(const QColor &color)
 {
     UMLApp::app()->beginMacro(i18n("Change Line Color"));
     UMLWidget * temp = 0;
-    foreach(temp ,  m_SelectedList) {
+    foreach(temp,  m_selectedList) {
         temp->setLineColor(color);
         temp->setUsesDiagramLineColor(false);
     }
@@ -1426,7 +1442,7 @@ void UMLScene::selectionSetLineColor(const QColor &color)
  */
 void UMLScene::selectionSetLineWidth(uint width)
 {
-    foreach(UMLWidget* temp , m_SelectedList) {
+    foreach(UMLWidget* temp, m_selectedList) {
         temp->setLineWidth(width);
         temp->setUsesDiagramLineWidth(false);
     }
@@ -1444,7 +1460,7 @@ void UMLScene::selectionSetFillColor(const QColor &color)
 {
     UMLApp::app()->beginMacro(i18n("Change Fill Color"));
 
-    foreach(UMLWidget* temp ,  m_SelectedList) {
+    foreach(UMLWidget* temp,  m_selectedList) {
         temp->setFillColor(color);
         temp->setUsesDiagramFillColor(false);
     }
@@ -1457,7 +1473,7 @@ void UMLScene::selectionSetFillColor(const QColor &color)
 void UMLScene::selectionToggleShow(int sel)
 {
     // loop through all selected items
-    foreach(UMLWidget *temp , m_SelectedList) {
+    foreach(UMLWidget *temp, m_selectedList) {
         WidgetBase::WidgetType type = temp->baseType();
         ClassifierWidget *cw = dynamic_cast<ClassifierWidget*>(temp);
 
@@ -1515,13 +1531,13 @@ void UMLScene::deleteSelection()
     //  Don't delete text widget that are connect to associations as these will
     //  be cleaned up by the associations.
 
-    foreach(UMLWidget* temp,  m_SelectedList) {
+    foreach(UMLWidget* temp,  m_selectedList) {
         if (temp->baseType() == WidgetBase::wt_Text &&
                 ((FloatingTextWidget *)temp)->textRole() != Uml::TextRole::Floating) {
             // Porting from Q3PtrList to QList
-            //m_SelectedList.remove(); // remove advances the iterator to the next position,
-            //m_SelectedList.prev();      // let's allow for statement do the advancing
-            m_SelectedList.removeAt(m_SelectedList.indexOf(temp));
+            //m_selectedList.remove(); // remove advances the iterator to the next position,
+            //m_selectedList.prev();      // let's allow for statement do the advancing
+            m_selectedList.removeAt(m_selectedList.indexOf(temp));
             temp->hide();
 
         } else {
@@ -1547,11 +1563,11 @@ void UMLScene::deleteSelection()
     }
 
     // sometimes we miss one widget, so call this function again to remove it as well
-    if (m_SelectedList.count() != 0)
+    if (m_selectedList.count() != 0)
         deleteSelection();
 
     //make sure list empty - it should be anyway, just a check.
-    m_SelectedList.clear();
+    m_selectedList.clear();
 }
 
 /**
@@ -1613,7 +1629,7 @@ bool UMLScene::isSavedInSeparateFile()
 
 /**
  * Calls setSelected on the given UMLWidget and enters
- * it into the m_SelectedList while making sure it is
+ * it into the m_selectedList while making sure it is
  * there only once.
  */
 void UMLScene::makeSelected(UMLWidget * uw)
@@ -1621,8 +1637,8 @@ void UMLScene::makeSelected(UMLWidget * uw)
     if (uw == NULL)
         return;
     uw->setSelected(true);
-    m_SelectedList.removeAll(uw);  // make sure not in there
-    m_SelectedList.append(uw);
+    m_selectedList.removeAll(uw);  // make sure not in there
+    m_selectedList.append(uw);
 }
 
 /**
@@ -1720,7 +1736,7 @@ void UMLScene::selectWidgets(int px, int py, int qx, int qy)
  */
 void UMLScene::selectWidgets(UMLWidgetList &widgets)
 {
-    foreach ( UMLWidget* widget, widgets )
+    foreach (UMLWidget* widget, widgets)
         makeSelected(widget);
 }
 
@@ -1754,7 +1770,7 @@ void  UMLScene::getDiagram(const UMLSceneRect &area, QPainter & painter)
     //following is needed and, if it works, remove the clearSelected in
     //UMLSceneImageExporter and UMLSceneImageExporterModel
 
-    foreach(UMLWidget* widget, m_SelectedList) {
+    foreach(UMLWidget* widget, m_selectedList) {
         widget->setSelected(false);
     }
     AssociationWidgetList selectedAssociationsList = selectedAssocs();
@@ -1773,7 +1789,7 @@ void  UMLScene::getDiagram(const UMLSceneRect &area, QPainter & painter)
 
     setAllChanged();
     //select again
-    foreach(UMLWidget* widget, m_SelectedList) {
+    foreach(UMLWidget* widget, m_selectedList) {
         widget->setSelected(true);
     }
     foreach(AssociationWidget* association, selectedAssociationsList) {
@@ -1884,10 +1900,10 @@ void UMLScene::activate()
 int UMLScene::selectedCount(bool filterText) const
 {
     if (!filterText)
-        return m_SelectedList.count();
+        return m_selectedList.count();
     int counter = 0;
     const UMLWidget * temp = 0;
-    foreach(temp, m_SelectedList) {
+    foreach(temp, m_selectedList) {
         if (temp->baseType() == WidgetBase::wt_Text) {
             const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(temp);
             if (ft->textRole() == TextRole::Floating)
@@ -1904,21 +1920,23 @@ int UMLScene::selectedCount(bool filterText) const
  * The list can be filled with all the selected widgets, or be filtered to prevent
  * text widgets other than tr_Floating to be append.
  *
- * @param WidgetList The UMLWidgetList to fill.
  * @param filterText Don't append the text, unless their role is tr_Floating
+ * @return           The UMLWidgetList to fill.
  */
-bool UMLScene::selectedWidgets(UMLWidgetList &WidgetList, bool filterText /*= true*/)
+UMLWidgetList UMLScene::selectedWidgetsExt(bool filterText /*= true*/)
 {
-    foreach(UMLWidget* temp, m_SelectedList) {
-        if (filterText && temp->baseType() == WidgetBase::wt_Text) {
-            const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(temp);
+    UMLWidgetList widgetList;
+
+    foreach(UMLWidget* widgt, m_selectedList) {
+        if (filterText && widgt->baseType() == WidgetBase::wt_Text) {
+            const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(widgt);
             if (ft->textRole() == Uml::TextRole::Floating)
-                WidgetList.append(temp);
+                widgetList.append(widgt);
         } else {
-            WidgetList.append(temp);
+            widgetList.append(widgt);
         }
-    }//end for
-    return true;
+    }
+    return widgetList;
 }
 
 /**
@@ -2947,7 +2965,7 @@ void UMLScene::copyAsImage(QPixmap*& pix)
     int px = -1, py = -1, qx = -1, qy = -1;
 
     //first get the smallest rect holding the widgets
-    foreach(UMLWidget* temp , m_SelectedList) {
+    foreach(UMLWidget* temp , m_selectedList) {
         int x = temp->x();
         int y = temp->y();
         int x1 = x + temp->width() - 1;
@@ -3213,7 +3231,7 @@ void UMLScene::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Cut:
         //FIXME make this work for diagram's right click menu
-        if (m_SelectedList.count() &&
+        if (m_selectedList.count() &&
                 UMLApp::app()->editCutCopy(true)) {
             deleteSelection();
             m_doc->setModified(true);
@@ -3222,7 +3240,7 @@ void UMLScene::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Copy:
         //FIXME make this work for diagram's right click menu
-        m_SelectedList.count() && UMLApp::app()->editCutCopy(true);
+        m_selectedList.count() && UMLApp::app()->editCutCopy(true);
         break;
 
     case ListPopupMenu::mt_Paste:
@@ -3491,18 +3509,18 @@ void UMLScene::checkSelections()
 {
     UMLWidget * pWA = 0, * pWB = 0;
     //check messages
-    foreach(UMLWidget *pTemp , m_SelectedList) {
+    foreach(UMLWidget *pTemp , m_selectedList) {
         if (pTemp->baseType() == WidgetBase::wt_Message && pTemp->isSelected()) {
             MessageWidget * pMessage = static_cast<MessageWidget *>(pTemp);
             pWA = pMessage->objectWidget(A);
             pWB = pMessage->objectWidget(B);
             if (!pWA->isSelected()) {
                 pWA->setSelectedFlag(true);
-                m_SelectedList.append(pWA);
+                m_selectedList.append(pWA);
             }
             if (!pWB->isSelected()) {
                 pWB->setSelectedFlag(true);
-                m_SelectedList.append(pWB);
+                m_selectedList.append(pWB);
             }
         }//end if
     }//end for
@@ -3514,11 +3532,11 @@ void UMLScene::checkSelections()
             pWB = pAssoc->widgetForRole(B);
             if (!pWA->isSelected()) {
                 pWA->setSelectedFlag(true);
-                m_SelectedList.append(pWA);
+                m_selectedList.append(pWA);
             }
             if (!pWB->isSelected()) {
                 pWB->setSelectedFlag(true);
-                m_SelectedList.append(pWB);
+                m_selectedList.append(pWB);
             }
         }//end if
     }//end foreach
@@ -3533,15 +3551,15 @@ void UMLScene::checkSelections()
 bool UMLScene::checkUniqueSelection()
 {
     // if there are no selected items, we return true
-    if (m_SelectedList.count() <= 0)
+    if (m_selectedList.count() <= 0)
         return true;
 
     // get the first item and its base type
-    UMLWidget * pTemp = (UMLWidget *) m_SelectedList.first();
+    UMLWidget * pTemp = (UMLWidget *) m_selectedList.first();
     WidgetBase::WidgetType tmpType = pTemp->baseType();
 
     // check all selected items, if they have the same BaseType
-    foreach(pTemp , m_SelectedList) {
+    foreach(pTemp, m_selectedList) {
         if (pTemp->baseType() != tmpType) {
             return false; // the base types are different, the list is not unique
         }
@@ -4325,8 +4343,7 @@ bool UMLScene::loadUISDiagram(QDomElement & qElement)
  */
 void UMLScene::alignLeft()
 {
-    UMLWidgetList widgetList;
-    selectedWidgets(widgetList);
+    UMLWidgetList widgetList = selectedWidgetsExt();
     if (widgetList.isEmpty())
         return;
 
@@ -4343,8 +4360,7 @@ void UMLScene::alignLeft()
  */
 void UMLScene::alignRight()
 {
-    UMLWidgetList widgetList;
-    selectedWidgets(widgetList);
+    UMLWidgetList widgetList = selectedWidgetsExt();
     if (widgetList.isEmpty())
         return;
     int biggestX = getBiggestX(widgetList);
@@ -4360,8 +4376,7 @@ void UMLScene::alignRight()
  */
 void UMLScene::alignTop()
 {
-    UMLWidgetList widgetList;
-    selectedWidgets(widgetList);
+    UMLWidgetList widgetList = selectedWidgetsExt();
     if (widgetList.isEmpty())
         return;
 
@@ -4378,8 +4393,7 @@ void UMLScene::alignTop()
  */
 void UMLScene::alignBottom()
 {
-    UMLWidgetList widgetList;
-    selectedWidgets(widgetList);
+    UMLWidgetList widgetList = selectedWidgetsExt();
     if (widgetList.isEmpty())
         return;
     int biggestY = getBiggestY(widgetList);
@@ -4395,8 +4409,7 @@ void UMLScene::alignBottom()
  */
 void UMLScene::alignVerticalMiddle()
 {
-    UMLWidgetList widgetList;
-    selectedWidgets(widgetList);
+    UMLWidgetList widgetList = selectedWidgetsExt();
     if (widgetList.isEmpty())
         return;
 
@@ -4415,8 +4428,7 @@ void UMLScene::alignVerticalMiddle()
  */
 void UMLScene::alignHorizontalMiddle()
 {
-    UMLWidgetList widgetList;
-    selectedWidgets(widgetList);
+    UMLWidgetList widgetList = selectedWidgetsExt();
     if (widgetList.isEmpty())
         return;
 
@@ -4435,8 +4447,7 @@ void UMLScene::alignHorizontalMiddle()
  */
 void UMLScene::alignVerticalDistribute()
 {
-    UMLWidgetList widgetList;
-    selectedWidgets(widgetList);
+    UMLWidgetList widgetList = selectedWidgetsExt();
     if (widgetList.isEmpty())
         return;
 
@@ -4466,8 +4477,7 @@ void UMLScene::alignVerticalDistribute()
  */
 void UMLScene::alignHorizontalDistribute()
 {
-    UMLWidgetList widgetList;
-    selectedWidgets(widgetList);
+    UMLWidgetList widgetList = selectedWidgetsExt();
     if (widgetList.isEmpty())
         return;
 

@@ -628,7 +628,7 @@ void UMLWidgetController::setSelectionBounds()
 {
     if (m_widget->m_scene->selectedCount() > 0) {
         m_selectedWidgetsList.clear();
-        m_widget->m_scene->selectedWidgets(m_selectedWidgetsList, false);
+        m_selectedWidgetsList = m_widget->m_scene->selectedWidgetsExt(false);
 
         updateSelectionBounds(1, 1);
     }

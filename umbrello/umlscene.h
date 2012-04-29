@@ -187,6 +187,7 @@ public:
     void removeWidget(UMLWidget *o);
 
     void setSelected(UMLWidget *w, QMouseEvent *me);
+    UMLWidgetList selectedWidgets() const;
     void clearSelected();
 
     void moveSelectedBy(UMLSceneValue dX, UMLSceneValue dY);
@@ -220,8 +221,7 @@ public:
     void activate();
 
     AssociationWidgetList selectedAssocs();
-
-    bool selectedWidgets(UMLWidgetList& WidgetList, bool filterText = true);
+    UMLWidgetList selectedWidgetsExt(bool filterText = true);
 
     void activateAfterLoad(bool bUseLog = false);
 
@@ -293,8 +293,8 @@ public:
     void addObject(UMLObject *object);
 
     void selectWidgets(UMLSceneValue px, UMLSceneValue py, UMLSceneValue qx, UMLSceneValue qy);
-    void selectWidgetsOfAssoc(AssociationWidget * a);
     void selectWidgets(UMLWidgetList &widgets);
+    void selectWidgetsOfAssoc(AssociationWidget * a);
 
     ObjectWidget * onWidgetLine(const UMLScenePoint &point) const;
     ObjectWidget * onWidgetDestructionBox(const UMLScenePoint &point) const;
@@ -378,7 +378,7 @@ protected:
     bool m_bPaste;
     ListPopupMenu * m_pMenu;
     bool m_bStartedCut;  ///< Flag if view/children started cut operation.
-    UMLWidgetList m_SelectedList;
+    UMLWidgetList m_selectedList;
 
 private:
     static const UMLSceneValue defaultCanvasSize;  ///< The width and height of a diagram canvas in pixels.
