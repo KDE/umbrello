@@ -1622,6 +1622,15 @@ void UMLScene::selectWidgets(qreal px, qreal py, qreal qx, qreal qy)
 }
 
 /**
+ * Selects all the widgets from a list.
+ */
+void UMLScene::selectWidgets(UMLWidgetList &widgets)
+{
+    foreach (UMLWidget* widget, widgets)
+        makeSelected(widget);
+}
+
+/**
  * Paint diagram to the paint device
  */
 void  UMLScene::getDiagram(const UMLSceneRect &rect, QPixmap & diagram)

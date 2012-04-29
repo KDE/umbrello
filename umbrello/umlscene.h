@@ -181,9 +181,7 @@ public:
     void removeWidget(UMLWidget *o);
 
     void setSelected(UMLWidget *w, UMLSceneMouseEvent *me);
-
     UMLWidgetList selectedWidgets() const;
-
     void clearSelected();
 
     void moveSelectedBy(UMLSceneValue dX, UMLSceneValue dY);
@@ -297,6 +295,8 @@ public:
     void addObject(UMLObject *object);
 
     void selectWidgets(UMLSceneValue px, UMLSceneValue py, UMLSceneValue qx, UMLSceneValue qy);
+    void selectWidgets(UMLWidgetList &widgets);
+    void selectWidgetsOfAssoc (AssociationWidget * a);
 
     ObjectWidget * onWidgetLine(const UMLScenePoint &point) const;
     ObjectWidget * onWidgetDestructionBox(const UMLScenePoint &point) const;
@@ -372,8 +372,6 @@ protected:
      */
     bool m_isMouseMovingItems;
     bool isArrowMode();
-
-    void selectWidgetsOfAssoc (AssociationWidget * a);
 
     UMLSceneRect diagramRect();
 
