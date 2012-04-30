@@ -15,23 +15,23 @@
 #include <QtGui/QFont>
 
 class UMLDoc;
-class UMLView;
+class UMLScene;
 
 namespace Uml
 {
     class CmdChangeFontSelection: public QUndoCommand
     {
         public:
-            CmdChangeFontSelection(UMLDoc* doc, UMLView* view, QFont fon);
+            CmdChangeFontSelection(UMLDoc* doc, UMLScene* scene, QFont fon);
 
             void undo();
             void redo();
 
         private:
-            UMLDoc*  m_doc;
-            UMLView* m_view;
-            QFont    m_newFont;
-            QFont    m_oldFont;
+            UMLDoc*   m_doc;
+            UMLScene* m_scene;
+            QFont     m_newFont;
+            QFont     m_oldFont;
     };
 }
 

@@ -667,7 +667,7 @@ void UMLScene::setupNewWidget(UMLWidget *w)
     m_WidgetList.append(w);
     m_doc->setModified();
 
-    UMLApp::app()->executeCommand(new CmdCreateWidget(this->view(), w));
+    UMLApp::app()->executeCommand(new CmdCreateWidget(this, w));
 }
 
 /**

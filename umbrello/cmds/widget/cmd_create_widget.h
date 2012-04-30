@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,21 +14,21 @@
 #include <QtGui/QUndoCommand>
 
 class UMLWidget;
-class UMLView;
+class UMLScene;
 
 namespace Uml
 {
     class CmdCreateWidget : public QUndoCommand
     {
         public:
-            CmdCreateWidget(UMLView* view, UMLWidget* widget);
+            CmdCreateWidget(UMLScene* scene, UMLWidget* widget);
             ~CmdCreateWidget();
 
             void redo();
             void undo();
 
         private:
-            UMLView*    m_view;
+            UMLScene*   m_scene;
             UMLWidget*  m_widget;
     };
 }
