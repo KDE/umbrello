@@ -12,7 +12,7 @@
 
 // app includes
 #include "umldoc.h"
-#include "umlview.h"
+#include "umlscene.h"
 #include "umlwidget.h"
 
 // kde includes
@@ -20,25 +20,25 @@
 
 namespace Uml
 {
-    CmdChangeFontSelection::CmdChangeFontSelection(UMLDoc* doc, UMLView* view, QFont fon)
+    CmdChangeFontSelection::CmdChangeFontSelection(UMLDoc* doc, UMLScene* scene, QFont fon)
     {
-        UMLWidget * widget = view->umlScene()->getFirstMultiSelectedWidget();
+        UMLWidget * widget = scene->getFirstMultiSelectedWidget();
         setText(i18n("Change font : %1", widget->name()));
         m_doc = doc;
-        m_view = view;
+        m_scene = scene;
         m_newFont = fon;
         m_oldFont = widget->font();
     }
 
     void CmdChangeFontSelection::undo()
     {
-        m_view->umlScene()->selectionSetFont( m_oldFont );
+        m_scene->selectionSetFont( m_oldFont );
         m_doc->setModified(true);
     }
 
     void CmdChangeFontSelection::redo()
     {
-        m_view->umlScene()->selectionSetFont( m_newFont );
+        m_scene->selectionSetFont( m_newFont );
         m_doc->setModified(true);
     }
 
