@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -29,7 +29,7 @@ namespace Uml
 
     CmdCreateWidget::~CmdCreateWidget()
     {
-        //m_view->removeWidget(m_widget);
+        //m_scene->removeWidget(m_widget);
     }
 
     /**
