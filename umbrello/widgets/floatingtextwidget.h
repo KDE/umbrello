@@ -30,7 +30,6 @@ class UMLScene;
  * The differences between all these different uses will be the popup menu
  * that is associated with it.
  *
- * @short Displays a line of text or an operation.
  * @author Paul Hensgen <phensgen@techie.com>
  * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org

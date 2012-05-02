@@ -90,11 +90,10 @@
 #include <QtGui/QShowEvent>
 #include <QtGui/QDragEnterEvent>
 #include <QtGui/QMouseEvent>
-#include <QtDebug>
 
 // system includes
 #include <climits>
-#include <math.h>
+#include <cmath>
 
 // control the manual DoubleBuffering of QCanvas
 // with a define, so that this memory X11 effect can
@@ -115,34 +114,31 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     m_Type(Uml::DiagramType::Undefined),
     m_Name(QString()),
     m_Documentation(QString()),
-    m_view(view)
+    m_bUseSnapToGrid(false),
+    m_bUseSnapComponentSizeToGrid(false),
+    m_isOpen(true),
+    m_nSnapX(10),
+    m_nSnapY(10),
+    m_bShowSnapGrid(false),
+    m_nCollaborationId(0),
+    m_bPaste(false),
+    m_pMenu(0),
+    m_view(view),
+    m_pFolder(parentFolder),
+    m_pIDChangesLog(0),
+    m_isActivated(false),
+    m_bPopupShowing(false)
 {
-    // Initialize loaded/saved data
-    m_bUseSnapToGrid = false;
-    m_bUseSnapComponentSizeToGrid = false;
-    m_bShowSnapGrid = false;
-    m_isOpen = true;
-    m_nSnapX = 10;
-    m_nSnapY = 10;
+    //m_AssociationList.setAutoDelete(true);
+    //m_WidgetList.setAutoDelete(true);
+    //m_MessageList.setAutoDelete(true);
+
     setSize(UMLScene::defaultCanvasSize, UMLScene::defaultCanvasSize);
-    m_nCollaborationId = 0;
 
-    // Initialize other data
-    //m_AssociationList.setAutoDelete( true );
-    //m_WidgetList.setAutoDelete( true );
-    //m_MessageList.setAutoDelete( true );
-
-    //Setup up booleans
-    m_bPaste = false;
-    m_isActivated = false;
     m_bCreateObject = false;
     m_bDrawSelectedOnly = false;
-    m_bPopupShowing = false;
     m_bStartedCut = false;
-    //clear pointers
     m_PastePoint = UMLScenePoint(0, 0);
-    m_pIDChangesLog = 0;
-    m_pMenu = 0;
 
     m_pImageExporter = new UMLViewImageExporter(this);
 
@@ -168,7 +164,6 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
             this, SLOT(slotCutSuccessful()));
 
     m_doc = UMLApp::app()->document();
-    m_pFolder = parentFolder;
 
     DEBUG_REGISTER(DBG_SRC);
 }
@@ -748,8 +743,9 @@ void UMLScene::slotObjectCreated(UMLObject* o)
 
     UMLWidget* newWidget = Widget_Factory::createWidget(this, o);
 
-    if (newWidget == NULL)
+    if (!newWidget) {
         return;
+    }
 
     newWidget->setVisible(true);
     newWidget->setActivated();
@@ -1045,18 +1041,18 @@ UMLWidget* UMLScene::getFirstMultiSelectedWidget() const
 UMLWidget *UMLScene::widgetAt(const UMLScenePoint& p)
 {
     int relativeSize = 10000;  // start with an arbitrary large number
-    UMLWidget  *retObj = NULL;
+    UMLWidget  *retWid = 0;
     UMLWidgetListIt it(m_WidgetList);
-    foreach(UMLWidget* obj,  m_WidgetList) {
-        const int s = obj->onWidget(p);
+    foreach(UMLWidget* wid, m_WidgetList) {
+        const int s = wid->onWidget(p);
         if (!s)
             continue;
         if (s < relativeSize) {
             relativeSize = s;
-            retObj = obj;
+            retWid = wid;
         }
     }
-    return retObj;
+    return retWid;
 }
 
 /**
@@ -1071,8 +1067,9 @@ void UMLScene::checkMessages(ObjectWidget * w)
 
     MessageWidgetListIt it(m_MessageList);
     foreach(MessageWidget *obj , m_MessageList) {
-        if (! obj->contains(w))
+        if (! obj->contains(w)) {
             continue;
+        }
         //make sure message doesn't have any associations
         removeAssociations(obj);
         obj->cleanup();
@@ -1632,13 +1629,13 @@ bool UMLScene::isSavedInSeparateFile()
  * it into the m_selectedList while making sure it is
  * there only once.
  */
-void UMLScene::makeSelected(UMLWidget * uw)
+void UMLScene::makeSelected(UMLWidget* uw)
 {
-    if (uw == NULL)
-        return;
-    uw->setSelected(true);
-    m_selectedList.removeAll(uw);  // make sure not in there
-    m_selectedList.append(uw);
+    if (uw) {
+        uw->setSelected(true);
+        m_selectedList.removeAll(uw);  // make sure not in there
+        m_selectedList.append(uw);
+    }
 }
 
 /**

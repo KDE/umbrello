@@ -28,6 +28,8 @@
  * @short Non-graphical management of objects and diagrams of a Folder
  * @author Oliver Kellogg
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ *
+ * TODO: This whole class needs a relook regarding view/scene.
  */
 class UMLFolder : public UMLPackage
 {
