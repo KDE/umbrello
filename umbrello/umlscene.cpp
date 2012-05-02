@@ -179,7 +179,7 @@ UMLFolder* UMLScene::folder() const
 {
     return m_pFolder;
 }
- 
+
 /**
  * Set the UMLFolder in which this diagram lives.
  */
@@ -210,7 +210,7 @@ QString UMLScene::documentation() const
 {
     return m_Documentation;
 }
- 
+
 /**
  * Set the documentation of the diagram.
  */
@@ -242,7 +242,7 @@ Uml::DiagramType UMLScene::type() const
 {
     return m_Type;
 }
- 
+
 /**
  * Set the type of diagram.
  */
@@ -689,7 +689,7 @@ void UMLScene::slotObjectCreated(UMLObject* o)
     //may be wanted by someone else e.g. list view
 
     // DEBUG(DBG_SRC) << "with " << *o;  //:TODO:
-    if (!m_bCreateObject)  {
+    if (!m_bCreateObject) {
         return;
     }
 
@@ -981,7 +981,7 @@ UMLWidget *UMLScene::widgetAt(const UMLScenePoint& p)
 {
     qreal metric = 99990.0;
     UMLWidget  *retWid = 0;
-    foreach(UMLWidget* wid,  m_WidgetList) {
+    foreach(UMLWidget* wid, m_WidgetList) {
         if (wid->contains(wid->mapFromScene(p)) == false) {
             continue;
         }
