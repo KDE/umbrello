@@ -1136,9 +1136,9 @@ AssociationWidget * UMLScene::findAssocWidget(UMLWidget *pWidgetA,
  *  at_Association, at_UniAssociation, at_Composition, at_Aggregation
  * This is used for seeking an attribute association.
  *
- * @param pWidgetA  Pointer to the UMLWidget of role A.
- * @param pWidgetB  Pointer to the UMLWidget of role B.
- * @param roleNameB Name at the B side of the association (the attribute name)
+ * @param at  The AssociationType of the widget to find.
+ * @param pWidgetA Pointer to the UMLWidget of role A.
+ * @param pWidgetB Pointer to the UMLWidget of role B.
  *
  * @return Returns the widget found, returns 0 if no widget found.
  */
@@ -1796,6 +1796,14 @@ int UMLScene::selectedCount(bool filterText) const
     return counter;
 }
 
+/**
+ * Fills the List with all the selected widgets from the diagram
+ * The list can be filled with all the selected widgets, or be filtered to prevent
+ * text widgets other than tr_Floating to be append.
+ *
+ * @param filterText Don't append the text, unless their role is tr_Floating
+ * @return           The UMLWidgetList to fill.
+ */
 UMLWidgetList UMLScene::selectedWidgetsExt(bool filterText /*= true*/)
 {
     UMLWidgetList widgetList;
@@ -1803,7 +1811,7 @@ UMLWidgetList UMLScene::selectedWidgetsExt(bool filterText /*= true*/)
     foreach(UMLWidget* widgt, selectedWidgets()) {
         if (filterText && widgt->baseType() == WidgetBase::wt_Text) {
             const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(widgt);
-            if (ft->textRole() == TextRole::Floating)
+            if (ft->textRole() == Uml::TextRole::Floating)
                 widgetList.append(widgt);
         } else {
             widgetList.append(widgt);
@@ -2690,11 +2698,11 @@ void UMLScene::createAutoAttributeAssociations(UMLWidget *widget)
          * creates Aggregation/Composition to the template parameters.
          * The current solution uses Dependency instead, see handling of template
          * instantiation at Import_Utils::createUMLObject().
-         UMLClassifierList templateList = attr->getTemplateParams();
-         for (UMLClassifierListIt it(templateList); it.current(); ++it) {
-         createAutoAttributeAssociation(it,attr,widget);
-         }
-        */
+        UMLClassifierList templateList = attr->getTemplateParams();
+        for (UMLClassifierListIt it(templateList); it.current(); ++it) {
+            createAutoAttributeAssociation(it,attr,widget);
+        }
+         */
     }
 }
 
@@ -3998,15 +4006,15 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     }
 
     if (!widgetsLoaded) {
-        uWarning() << "failed umlview load on widgets";
+        uWarning() << "failed UMLScene load on widgets";
         return false;
     }
     if (!messagesLoaded) {
-        uWarning() << "failed umlview load on messages";
+        uWarning() << "failed UMLScene load on messages";
         return false;
     }
     if (!associationsLoaded) {
-        uWarning() << "failed umlview load on associations";
+        uWarning() << "failed UMLScene load on associations";
         return false;
     }
     return true;
@@ -4106,10 +4114,10 @@ bool UMLScene::loadAssociationsFromXMI(QDomElement & qElement)
                 /* return false;
                    Returning false here is a little harsh when the
                    rest of the diagram might load okay.
-                */
+                 */
             } else {
                 if (!addAssociation(assoc, false)) {
-                    uError() << "Could not addAssociation(" << (void*)assoc << ") to umlview, deleting.";
+                    uError() << "Could not addAssociation(" << assoc << ") to UMLScene, deleting.";
                     //               assoc->cleanup();
                     delete assoc;
                     //return false; // soften error.. may not be that bad
