@@ -64,6 +64,8 @@
 #include "umlwidget.h"
 #include "uniqueid.h"
 #include "widget_factory.h"
+#include "widget_utils.h"
+#include "widgetlist_utils.h"
 
 //kde include files
 #include <ktemporaryfile.h>
@@ -121,8 +123,11 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     m_nSnapY(10),
     m_bShowSnapGrid(false),
     m_nCollaborationId(0),
+    m_bCreateObject(false),
+    m_bDrawSelectedOnly(false),
     m_bPaste(false),
     m_pMenu(0),
+    m_bStartedCut(false),
     m_view(view),
     m_pFolder(parentFolder),
     m_pIDChangesLog(0),
@@ -135,9 +140,6 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
 
     setSize(UMLScene::defaultCanvasSize, UMLScene::defaultCanvasSize);
 
-    m_bCreateObject = false;
-    m_bDrawSelectedOnly = false;
-    m_bStartedCut = false;
     m_PastePoint = UMLScenePoint(0, 0);
 
     m_pImageExporter = new UMLViewImageExporter(this);
@@ -1528,26 +1530,23 @@ void UMLScene::deleteSelection()
     //  Don't delete text widget that are connect to associations as these will
     //  be cleaned up by the associations.
 
-    foreach(UMLWidget* temp,  m_selectedList) {
-        if (temp->baseType() == WidgetBase::wt_Text &&
-                ((FloatingTextWidget *)temp)->textRole() != Uml::TextRole::Floating) {
-            // Porting from Q3PtrList to QList
-            //m_selectedList.remove(); // remove advances the iterator to the next position,
-            //m_selectedList.prev();      // let's allow for statement do the advancing
-            m_selectedList.removeAt(m_selectedList.indexOf(temp));
-            temp->hide();
+    foreach(UMLWidget* widget, m_selectedList) {
+        if (widget->baseType() == WidgetBase::wt_Text &&
+                ((FloatingTextWidget *)widget)->textRole() != Uml::TextRole::Floating) {
+            m_selectedList.removeAt(m_selectedList.indexOf(widget));
+            widget->hide();
 
         } else {
-            removeWidget(temp);
+            removeWidget(widget);
         }
 
     }
 
     // Delete any selected associations.
     foreach(AssociationWidget* assocwidget, m_AssociationList) {
-        if (assocwidget->isSelected())
+        if (assocwidget->isSelected()) {
             removeAssoc(assocwidget);
-        // MARK
+        }
     }
 
     // we also have to remove selected messages from sequence diagrams
@@ -2193,33 +2192,36 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
     if (isPasteOperation) {
         IDChangeLog * log = m_doc->changeLog();
 
-        if (!log)
+        if (!log) {
             return false;
+        }
 
         Uml::IDType ida = Uml::id_None, idb = Uml::id_None;
         if (type() == DiagramType::Collaboration || type() == DiagramType::Sequence) {
             //check local log first
-            ida = m_pIDChangesLog->findNewID(pAssoc->widgetIDForRole(A));
-            idb = m_pIDChangesLog->findNewID(pAssoc->widgetIDForRole(B));
+            ida = m_pIDChangesLog->findNewID(pAssoc->widgetIDForRole(Uml::A));
+            idb = m_pIDChangesLog->findNewID(pAssoc->widgetIDForRole(Uml::B));
             //if either is still not found and assoc type is anchor
             //we are probably linking to a notewidet - else an error
             if (ida == Uml::id_None && assocType == Uml::AssociationType::Anchor)
-                ida = log->findNewID(pAssoc->widgetIDForRole(A));
+                ida = log->findNewID(pAssoc->widgetIDForRole(Uml::A));
             if (idb == Uml::id_None && assocType == Uml::AssociationType::Anchor)
-                idb = log->findNewID(pAssoc->widgetIDForRole(B));
+                idb = log->findNewID(pAssoc->widgetIDForRole(Uml::B));
         } else {
             Uml::IDType oldIdA = pAssoc->widgetIDForRole(Uml::A);
             Uml::IDType oldIdB = pAssoc->widgetIDForRole(Uml::B);
             ida = log->findNewID(oldIdA);
             if (ida == Uml::id_None) {  // happens after a cut
-                if (oldIdA == Uml::id_None)
+                if (oldIdA == Uml::id_None) {
                     return false;
+                }
                 ida = oldIdA;
             }
             idb = log->findNewID(oldIdB);
             if (idb == Uml::id_None) {  // happens after a cut
-                if (oldIdB == Uml::id_None)
+                if (oldIdB == Uml::id_None) {
                     return false;
+                }
                 idb = oldIdB;
             }
         }
@@ -2229,12 +2231,12 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
         // cant do this anymore.. may cause problem for pasting
         //      pAssoc->setWidgetID(ida, A);
         //      pAssoc->setWidgetID(idb, B);
-        pAssoc->setWidgetForRole(findWidget(ida), A);
-        pAssoc->setWidgetForRole(findWidget(idb), B);
+        pAssoc->setWidgetForRole(findWidget(ida), Uml::A);
+        pAssoc->setWidgetForRole(findWidget(idb), Uml::B);
     }
 
-    UMLWidget * pWidgetA = findWidget(pAssoc->widgetIDForRole(A));
-    UMLWidget * pWidgetB = findWidget(pAssoc->widgetIDForRole(B));
+    UMLWidget * pWidgetA = findWidget(pAssoc->widgetIDForRole(Uml::A));
+    UMLWidget * pWidgetB = findWidget(pAssoc->widgetIDForRole(Uml::B));
     //make sure valid widget ids
     if (!pWidgetA || !pWidgetB) {
         return false;
@@ -3525,8 +3527,8 @@ void UMLScene::checkSelections()
 
     foreach(AssociationWidget *pAssoc , m_AssociationList) {
         if (pAssoc->isSelected()) {
-            pWA = pAssoc->widgetForRole(A);
-            pWB = pAssoc->widgetForRole(B);
+            pWA = pAssoc->widgetForRole(Uml::A);
+            pWB = pAssoc->widgetForRole(Uml::B);
             if (!pWA->isSelected()) {
                 pWA->setSelectedFlag(true);
                 m_selectedList.append(pWA);
@@ -3584,7 +3586,7 @@ void UMLScene::clearDiagram()
 void UMLScene::applyLayout(const QString &variant)
 {
     LayoutGenerator r;
-    r.generate(this,variant);
+    r.generate(this, variant);
     r.apply(this);
 }
 
@@ -3800,7 +3802,6 @@ void UMLScene::show()
 void UMLScene::updateComponentSizes()
 {
     // update sizes of all components
-
     foreach(UMLWidget *obj , m_WidgetList) {
         obj->updateComponentSize();
     }
@@ -3883,27 +3884,28 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 
     //now save all the widgets
     QDomElement widgetElement = qDoc.createElement("widgets");
-    foreach(UMLWidget *widget , m_WidgetList) {
+    foreach(UMLWidget *widget, m_WidgetList) {
         // Having an exception is bad I know, but gotta work with
         // system we are given.
         // We DON'T want to record any text widgets which are belonging
         // to associations as they are recorded later in the "associations"
         // section when each owning association is dumped. -b.t.
-        if ((widget->baseType() != WidgetBase::wt_Text && widget->baseType() != WidgetBase::wt_FloatingDashLine) ||
-                static_cast<FloatingTextWidget*>(widget)->link() == NULL)
+        if ((widget->baseType() != WidgetBase::wt_Text &&
+             widget->baseType() != WidgetBase::wt_FloatingDashLine) ||
+             static_cast<FloatingTextWidget*>(widget)->link() == NULL)
             widget->saveToXMI(qDoc, widgetElement);
     }
     viewElement.appendChild(widgetElement);
     //now save the message widgets
     QDomElement messageElement = qDoc.createElement("messages");
-    foreach(UMLWidget* widget , m_MessageList) {
+    foreach(UMLWidget* widget, m_MessageList) {
         widget->saveToXMI(qDoc, messageElement);
     }
     viewElement.appendChild(messageElement);
     //now save the associations
     QDomElement assocElement = qDoc.createElement("associations");
     if (m_AssociationList.count()) {
-        // We guard against ( m_AssociationList.count() == 0 ) because
+        // We guard against (m_AssociationList.count() == 0) because
         // this code could be reached as follows:
         //  ^  UMLScene::saveToXMI()
         //  ^  UMLDoc::saveToXMI()
@@ -3916,7 +3918,7 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
         //
         AssociationWidgetListIt a_it(m_AssociationList);
         AssociationWidget * assoc = 0;
-        foreach(assoc , m_AssociationList) {
+        foreach(assoc, m_AssociationList) {
             assoc->saveToXMI(qDoc, assocElement);
         }
     }
@@ -4134,7 +4136,7 @@ bool UMLScene::loadMessagesFromXMI(QDomElement & qElement)
     while (!messageElement.isNull()) {
         QString tag = messageElement.tagName();
         if (tag == "messagewidget" ||
-                tag == "UML:MessageWidget") {   // for bkwd compatibility
+            tag == "UML:MessageWidget") {   // for bkwd compatibility
             message = new MessageWidget(this, sequence_message_asynchronous,
                                         Uml::id_Reserved);
             if (!message->loadFromXMI(messageElement)) {
@@ -4146,7 +4148,7 @@ bool UMLScene::loadMessagesFromXMI(QDomElement & qElement)
             if (ft)
                 m_WidgetList.append(ft);
             else if (message->sequenceMessageType() != sequence_message_creation)
-                DEBUG(DBG_SRC) << "ft is NULL for message " << ID2STR(message->id());
+                DEBUG(DBG_SRC) << "floating text is NULL for message " << ID2STR(message->id());
         }
         node = messageElement.nextSibling();
         messageElement = node.toElement();
@@ -4162,7 +4164,7 @@ bool UMLScene::loadAssociationsFromXMI(QDomElement & qElement)
     while (!assocElement.isNull()) {
         QString tag = assocElement.tagName();
         if (tag == "assocwidget" ||
-                tag == "UML:AssocWidget") {  // for bkwd compatibility
+            tag == "UML:AssocWidget") {  // for bkwd compatibility
             countr++;
             AssociationWidget *assoc = AssociationWidget::create(this);
             if (!assoc->loadFromXMI(assocElement)) {
@@ -4344,7 +4346,7 @@ void UMLScene::alignLeft()
     if (widgetList.isEmpty())
         return;
 
-    int smallestX = getSmallestX(widgetList);
+    qreal smallestX = WidgetList_Utils::getSmallestX(widgetList);
 
     foreach(UMLWidget *widget , widgetList) {
         widget->setX(smallestX);
@@ -4360,7 +4362,7 @@ void UMLScene::alignRight()
     UMLWidgetList widgetList = selectedWidgetsExt();
     if (widgetList.isEmpty())
         return;
-    int biggestX = getBiggestX(widgetList);
+    qreal biggestX = WidgetList_Utils::getBiggestX(widgetList);
 
     foreach(UMLWidget *widget , widgetList) {
         widget->setX(biggestX - widget->width());
@@ -4377,7 +4379,7 @@ void UMLScene::alignTop()
     if (widgetList.isEmpty())
         return;
 
-    int smallestY = getSmallestY(widgetList);
+    qreal smallestY = WidgetList_Utils::getSmallestY(widgetList);
 
     foreach(UMLWidget *widget , widgetList) {
         widget->setY(smallestY);
@@ -4393,7 +4395,7 @@ void UMLScene::alignBottom()
     UMLWidgetList widgetList = selectedWidgetsExt();
     if (widgetList.isEmpty())
         return;
-    int biggestY = getBiggestY(widgetList);
+    qreal biggestY = WidgetList_Utils::getBiggestY(widgetList);
 
     foreach(UMLWidget *widget , widgetList) {
         widget->setY(biggestY - widget->height());
@@ -4410,9 +4412,9 @@ void UMLScene::alignVerticalMiddle()
     if (widgetList.isEmpty())
         return;
 
-    int smallestX = getSmallestX(widgetList);
-    int biggestX = getBiggestX(widgetList);
-    int middle = int((biggestX - smallestX) / 2) + smallestX;
+    qreal smallestX = WidgetList_Utils::getSmallestX(widgetList);
+    qreal biggestX = WidgetList_Utils::getBiggestX(widgetList);
+    qreal middle = int((biggestX - smallestX) / 2) + smallestX;
 
     foreach(UMLWidget *widget , widgetList) {
         widget->setX(middle - int(widget->width() / 2));
@@ -4429,9 +4431,9 @@ void UMLScene::alignHorizontalMiddle()
     if (widgetList.isEmpty())
         return;
 
-    int smallestY = getSmallestY(widgetList);
-    int biggestY = getBiggestY(widgetList);
-    int middle = int((biggestY - smallestY) / 2) + smallestY;
+    qreal smallestY = WidgetList_Utils::getSmallestY(widgetList);
+    qreal biggestY = WidgetList_Utils::getBiggestY(widgetList);
+    qreal middle = int((biggestY - smallestY) / 2) + smallestY;
 
     foreach(UMLWidget *widget , widgetList) {
         widget->setY(middle - int(widget->height() / 2));
@@ -4448,12 +4450,12 @@ void UMLScene::alignVerticalDistribute()
     if (widgetList.isEmpty())
         return;
 
-    int smallestY = getSmallestY(widgetList);
-    int biggestY = getBiggestY(widgetList);
-    int heightsSum = getHeightsSum(widgetList);
-    int distance = int(((biggestY - smallestY) - heightsSum) / (widgetList.count() - 1.0) + 0.5);
+    qreal smallestY = WidgetList_Utils::getSmallestY(widgetList);
+    qreal biggestY = WidgetList_Utils::getBiggestY(widgetList);
+    qreal heightsSum = WidgetList_Utils::getHeightsSum(widgetList);
+    qreal distance = int(((biggestY - smallestY) - heightsSum) / (widgetList.count() - 1.0) + 0.5);
 
-    sortWidgetList(widgetList, hasWidgetSmallerY);
+    sortWidgetList(widgetList, Widget_Utils::hasSmallerY);
 
     int i = 1;
     UMLWidget* widgetPrev = NULL;
@@ -4478,12 +4480,12 @@ void UMLScene::alignHorizontalDistribute()
     if (widgetList.isEmpty())
         return;
 
-    int smallestX = getSmallestX(widgetList);
-    int biggestX = getBiggestX(widgetList);
-    int widthsSum = getWidthsSum(widgetList);
-    int distance = int(((biggestX - smallestX) - widthsSum) / (widgetList.count() - 1.0) + 0.5);
+    qreal smallestX = WidgetList_Utils::getSmallestX(widgetList);
+    qreal biggestX = WidgetList_Utils::getBiggestX(widgetList);
+    qreal widthsSum = WidgetList_Utils::getWidthsSum(widgetList);
+    qreal distance = int(((biggestX - smallestX) - widthsSum) / (widgetList.count() - 1.0) + 0.5);
 
-    sortWidgetList(widgetList, hasWidgetSmallerX);
+    sortWidgetList(widgetList, Widget_Utils::hasSmallerX);
 
     int i = 1;
     UMLWidget* widgetPrev = NULL;
@@ -4498,168 +4500,6 @@ void UMLScene::alignHorizontalDistribute()
         i++;
     }
 
-}
-
-/**
- * Returns true if the first widget's X is smaller than second's.
- * Used for sorting the UMLWidgetList.
- *
- * @param widget1 The widget to compare.
- * @param widget2 The widget to compare with.
- */
-bool UMLScene::hasWidgetSmallerX(const UMLWidget* widget1, const UMLWidget* widget2)
-{
-    return widget1->x() < widget2->x();
-}
-
-/**
- * Returns true if the first widget's Y is smaller than second's.
- * Used for sorting the UMLWidgetList.
- *
- * @param widget1 The widget to compare.
- * @param widget2 The widget to compare with.
- */
-bool UMLScene::hasWidgetSmallerY(const UMLWidget* widget1, const UMLWidget* widget2)
-{
-    return widget1->y() < widget2->y();
-}
-
-/**
- * Looks for the smallest x-value of the given UMLWidgets.
- *
- * @param widgetList A list with UMLWidgets.
- */
-int UMLScene::getSmallestX(const UMLWidgetList &widgetList)
-{
-    UMLWidgetListIt it(widgetList);
-
-    int smallestX = 0;
-
-    int i = 1;
-    foreach(UMLWidget *widget ,  widgetList) {
-        if (i == 1) {
-            smallestX = widget->x();
-        } else {
-            if (smallestX > widget->x())
-                smallestX = widget->x();
-        }
-        i++;
-    }
-
-    return smallestX;
-}
-
-/**
- * Looks for the smallest y-value of the given UMLWidgets.
- *
- * @param widgetList A list with UMLWidgets.
- */
-int UMLScene::getSmallestY(const UMLWidgetList &widgetList)
-{
-
-    if (widgetList.isEmpty())
-        return -1;
-
-    int smallestY = 0;
-
-    int i = 1;
-    foreach(UMLWidget *widget ,  widgetList) {
-        if (i == 1) {
-            smallestY = widget->y();
-        } else {
-            if (smallestY > widget->y())
-                smallestY = widget->y();
-        }
-        i++;
-    }
-
-    return smallestY;
-}
-
-/**
- * Looks for the biggest x-value of the given UMLWidgets.
- *
- * @param widgetList A list with UMLWidgets.
- */
-int UMLScene::getBiggestX(const UMLWidgetList &widgetList)
-{
-    if (widgetList.isEmpty())
-        return -1;
-
-    int biggestX = 0;
-
-    int i = 1;
-    foreach(UMLWidget *widget , widgetList) {
-        if (i == 1) {
-            biggestX = widget->x();
-            biggestX += widget->width();
-        } else {
-            if (biggestX < widget->x() + widget->width())
-                biggestX = widget->x() + widget->width();
-        }
-        i++;
-    }
-
-    return biggestX;
-}
-
-/**
- * Looks for the biggest y-value of the given UMLWidgets.
- *
- * @param widgetList A list with UMLWidgets.
- */
-int UMLScene::getBiggestY(const UMLWidgetList &widgetList)
-{
-    if (widgetList.isEmpty())
-        return -1;
-
-    int biggestY = 0;
-
-    int i = 1;
-    foreach(UMLWidget *widget , widgetList) {
-        if (i == 1) {
-            biggestY = widget->y();
-            biggestY += widget->height();
-        } else {
-            if (biggestY < widget->y() + widget->height())
-                biggestY = widget->y() + widget->height();
-        }
-        i++;
-    }
-
-    return biggestY;
-}
-
-/**
- * Returns the sum of the heights of the given UMLWidgets
- *
- * @param widgetList A list with UMLWidgets.
- */
-int UMLScene::getHeightsSum(const UMLWidgetList &widgetList)
-{
-    int heightsSum = 0;
-
-    foreach(UMLWidget *widget , widgetList) {
-        heightsSum += widget->height();
-    }
-
-    return heightsSum;
-}
-
-/**
- * Returns the sum of the widths of the given UMLWidgets.
- *
- * @param widgetList A list with UMLWidgets.
- */
-int UMLScene::getWidthsSum(const UMLWidgetList &widgetList)
-{
-    int widthsSum = 0;
-
-    foreach(UMLWidget *widget , widgetList) {
-        widthsSum += widget->width();
-    }
-
-    return widthsSum;
 }
 
 /**

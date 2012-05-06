@@ -77,4 +77,26 @@ UMLSceneRectItem* decoratePoint(const UMLScenePoint& p)
     return rect;
 }
 
+/**
+ * Returns true if the first widget's X is smaller than second's.
+ * Used for sorting the UMLWidgetList.
+ * @param widget1 The widget to compare.
+ * @param widget2 The widget to compare with.
+ */
+bool hasSmallerX(const UMLWidget* widget1, const UMLWidget* widget2)
+{
+    return widget1->x() < widget2->x();
+}
+
+/**
+ * Returns true if the first widget's Y is smaller than second's.
+ * Used for sorting the UMLWidgetList.
+ * @param widget1 The widget to compare.
+ * @param widget2 The widget to compare with.
+ */
+bool hasSmallerY(const UMLWidget* widget1, const UMLWidget* widget2)
+{
+    return widget1->y() < widget2->y();
+}
+
 }  // namespace Widget_Utils
