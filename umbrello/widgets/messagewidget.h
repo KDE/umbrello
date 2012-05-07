@@ -129,8 +129,8 @@ public:
 
     /**
      * Calculates the size of the widget by calling
-     * calculateDimenstionsSynchronous(),
-     * calculateDimenstionsAsynchronous(), or
+     * calculateDimensionsSynchronous(),
+     * calculateDimensionsAsynchronous(), or
      * calculateDimensionsCreation()
      */
     void calculateDimensions();
