@@ -1750,7 +1750,7 @@ void  UMLScene::getDiagram(const QRect &rect, QPixmap &diagram)
     QPixmap pixmap(width, height);
     QPainter painter(&pixmap);
     painter.fillRect(0, 0, width, height, Qt::white);
-    getDiagram(view()->rect(), painter);
+    getDiagram(canvas()->rect(), painter);
     QPainter output(&diagram);
     output.drawPixmap(QPoint(0, 0), pixmap, rect);
 }
