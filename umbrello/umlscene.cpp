@@ -1358,7 +1358,7 @@ void UMLScene::selectionSetLineColor(const QColor &color)
         // [PORT] temp->setUsesDiagramLineColour(false);
     }
     AssociationWidgetList assoclist = selectedAssocs();
-    foreach(AssociationWidget *aw , assoclist) {
+    foreach(AssociationWidget *aw, assoclist) {
         aw->setLineColor(color);
         // [PORT] aw->setUsesDiagramLineColour(false);
     }
@@ -1579,7 +1579,7 @@ bool UMLScene::isArrowMode()
 
 /**
  * Calls setSelected on the given UMLWidget and enters
- * it into the m_SelectedList while making sure it is
+ * it into the m_selectedList while making sure it is
  * there only once.
  */
 void UMLScene::makeSelected(UMLWidget* uw)
@@ -1631,10 +1631,13 @@ void UMLScene::selectWidgets(UMLWidgetList &widgets)
 }
 
 /**
- * Paint diagram to the paint device
+ * Returns the PNG picture of the paste operation.
+ * @param rect the area of the diagram to copy
+ * @param diagram the class to store PNG picture of the paste operation.
  */
-void  UMLScene::getDiagram(const UMLSceneRect &rect, QPixmap & diagram)
+void  UMLScene::getDiagram(const UMLSceneRect &rect, QPixmap &diagram)
 {
+    DEBUG(DBG_SRC) << "rect=" << rect << ", pixmap=" << diagram.rect();
     QPixmap pixmap(rect.x() + rect.width(), rect.y() + rect.height());
     QPainter painter(&pixmap);
     getDiagram(sceneRect(), painter);
@@ -1645,7 +1648,7 @@ void  UMLScene::getDiagram(const UMLSceneRect &rect, QPixmap & diagram)
 /**
  * Paint diagram to the paint device
  */
-void  UMLScene::getDiagram(const UMLSceneRect &area, QPainter & painter)
+void  UMLScene::getDiagram(const UMLSceneRect &area, QPainter &painter)
 {
     DEBUG(DBG_SRC) << "area=" << area << ", painter=" << painter.window();
     //TODO unselecting and selecting later doesn't work now as the selection is
@@ -1654,12 +1657,12 @@ void  UMLScene::getDiagram(const UMLSceneRect &area, QPainter & painter)
     //UMLViewImageExporter and UMLViewImageExporterModel
 
     UMLWidgetList selected = selectedWidgets();
-    foreach(UMLWidget* widget , selected) {
+    foreach(UMLWidget* widget, selected) {
         widget->setSelected(false);
     }
     AssociationWidgetList selectedAssociationsList = selectedAssocs();
 
-    foreach(AssociationWidget* association , selectedAssociationsList) {
+    foreach(AssociationWidget* association, selectedAssociationsList) {
         association->setSelected(false);
     }
 
@@ -1674,7 +1677,7 @@ void  UMLScene::getDiagram(const UMLSceneRect &area, QPainter & painter)
     setSnapGridVisible(showSnapGrid);
 
     //select again
-    foreach(UMLWidget* widget , selected) {
+    foreach(UMLWidget* widget, selected) {
         widget->setSelected(true);
     }
     foreach(AssociationWidget* association, selectedAssociationsList) {
@@ -2079,7 +2082,7 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
         return false;
     }
     addItem(pAssoc);
-    const Uml::AssociationType assoType = pAssoc->associationType();
+    const Uml::AssociationType assocType = pAssoc->associationType();
 
     if (isPasteOperation) {
         IDChangeLog * log = m_doc->changeLog();
@@ -2097,9 +2100,9 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
             idb = m_pIDChangesLog->findNewID(pAssoc->widgetIDForRole(Uml::B));
             //if either is still not found and assoc type is anchor
             //we are probably linking to a notewidet - else an error
-            if (ida == Uml::id_None && assoType == Uml::AssociationType::Anchor)
+            if (ida == Uml::id_None && assocType == Uml::AssociationType::Anchor)
                 ida = log->findNewID(pAssoc->widgetIDForRole(Uml::A));
-            if (idb == Uml::id_None && assoType == Uml::AssociationType::Anchor)
+            if (idb == Uml::id_None && assocType == Uml::AssociationType::Anchor)
                 idb = log->findNewID(pAssoc->widgetIDForRole(Uml::B));
         } else {
             Uml::IDType oldIdA = pAssoc->widgetIDForRole(Uml::A);
@@ -2142,8 +2145,8 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
 
     //make sure valid
     if (!isPasteOperation && !m_doc->loading() &&
-        !AssocRules::allowAssociation(assoType, pWidgetA, pWidgetB)) {
-        uWarning() << "allowAssociation returns false " << "for AssocType " << assoType;
+        !AssocRules::allowAssociation(assocType, pWidgetA, pWidgetB)) {
+        uWarning() << "allowAssociation returns false " << "for AssocType " << assocType;
         removeItem(pAssoc);
         return false;
     }
@@ -4109,7 +4112,7 @@ bool UMLScene::loadAssociationsFromXMI(QDomElement & qElement)
             addItem(assoc);
             if (!assoc->loadFromXMI(assocElement)) {
                 uError() << "could not loadFromXMI association widget:"
-                         << (void*)assoc << ", bad XMI file? Deleting from umlview.";
+                         << assoc << ", bad XMI file? Deleting from umlview.";
                 delete assoc;
                 /* return false;
                    Returning false here is a little harsh when the
@@ -4118,7 +4121,7 @@ bool UMLScene::loadAssociationsFromXMI(QDomElement & qElement)
             } else {
                 if (!addAssociation(assoc, false)) {
                     uError() << "Could not addAssociation(" << assoc << ") to UMLScene, deleting.";
-                    //               assoc->cleanup();
+                    //assoc->cleanup();
                     delete assoc;
                     //return false; // soften error.. may not be that bad
                 }
@@ -4208,7 +4211,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
                     m_AssociationList.append(aw);
                 } else {
                     uError() << "cannot create assocwidget from ("
-                             << (void*)wA << ", " << (void*)wB << ")";
+                             << wA << ", " << wB << ")";
                 }
                 break;
             }
@@ -4255,7 +4258,7 @@ bool UMLScene::loadUISDiagram(QDomElement & qElement)
         if (tag == "uisDiagramName") {
             setName(elem.text());
             if (ulvi)
-                ulvi->setText(0, name());
+                ulvi->setText(name());
         } else if (tag == "uisDiagramStyle") {
             QString diagramStyle = elem.text();
             if (diagramStyle != "ClassDiagram") {

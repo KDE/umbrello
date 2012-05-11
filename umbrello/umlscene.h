@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -296,7 +296,7 @@ public:
 
     void selectWidgets(UMLSceneValue px, UMLSceneValue py, UMLSceneValue qx, UMLSceneValue qy);
     void selectWidgets(UMLWidgetList &widgets);
-    void selectWidgetsOfAssoc (AssociationWidget * a);
+    void selectWidgetsOfAssoc(AssociationWidget *a);
 
     ObjectWidget * onWidgetLine(const UMLScenePoint &point) const;
     ObjectWidget * onWidgetDestructionBox(const UMLScenePoint &point) const;
