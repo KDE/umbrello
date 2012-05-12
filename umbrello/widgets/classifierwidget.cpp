@@ -825,6 +825,12 @@ void ClassifierWidget::updateSignatureTypes()
     updateTextItemGroups();
 }
 
+/**
+ * Will be called when a menu selection has been made from the
+ * popup menu.
+ *
+ * @param action   The action that has been selected.
+ */
 void ClassifierWidget::slotMenuSelection(QAction* action)
 {
     ListPopupMenu *menu = ListPopupMenu::menuFromAction(action);
