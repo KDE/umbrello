@@ -1423,13 +1423,12 @@ void UMLScene::selectionSetFont(const QFont &font)
 void UMLScene::selectionSetLineColor(const QColor &color)
 {
     UMLApp::app()->beginMacro(i18n("Change Line Color"));
-    UMLWidget * temp = 0;
-    foreach(temp,  m_selectedList) {
+    foreach(UMLWidget *temp,  m_selectedList) {
         temp->setLineColor(color);
         temp->setUsesDiagramLineColor(false);
     }
     AssociationWidgetList assoclist = selectedAssocs();
-    foreach(AssociationWidget *aw , assoclist) {
+    foreach(AssociationWidget *aw, assoclist) {
         aw->setLineColor(color);
         aw->setUsesDiagramLineColor(false);
     }
@@ -1532,7 +1531,7 @@ void UMLScene::deleteSelection()
 
     foreach(UMLWidget* widget, m_selectedList) {
         if (widget->baseType() == WidgetBase::wt_Text &&
-                ((FloatingTextWidget *)widget)->textRole() != Uml::TextRole::Floating) {
+                static_cast<FloatingTextWidget*>(widget)->textRole() != Uml::TextRole::Floating) {
             m_selectedList.removeAt(m_selectedList.indexOf(widget));
             widget->hide();
 
@@ -1738,11 +1737,10 @@ void UMLScene::selectWidgets(UMLWidgetList &widgets)
 
 /**
  * Returns the PNG picture of the paste operation.
- *
  * @param rect the area of the diagram to copy
  * @param diagram the class to store PNG picture of the paste operation.
  */
-void  UMLScene::getDiagram(const QRect &rect, QPixmap &diagram)
+void  UMLScene::getDiagram(const UMLSceneRect &rect, QPixmap &diagram)
 {
     DEBUG(DBG_SRC) << "rect=" << rect << ", pixmap=" << diagram.rect();
     const int width  = rect.x() + rect.width();
@@ -1758,7 +1756,7 @@ void  UMLScene::getDiagram(const QRect &rect, QPixmap &diagram)
 /**
  * Paint diagram to the paint device
  */
-void  UMLScene::getDiagram(const UMLSceneRect &area, QPainter & painter)
+void  UMLScene::getDiagram(const UMLSceneRect &area, QPainter &painter)
 {
     DEBUG(DBG_SRC) << "area=" << area << ", painter=" << painter.window();
     //TODO unselecting and selecting later doesn't work now as the selection is
@@ -1898,8 +1896,7 @@ int UMLScene::selectedCount(bool filterText) const
     if (!filterText)
         return m_selectedList.count();
     int counter = 0;
-    const UMLWidget * temp = 0;
-    foreach(temp, m_selectedList) {
+    foreach(UMLWidget* temp, m_selectedList) {
         if (temp->baseType() == WidgetBase::wt_Text) {
             const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(temp);
             if (ft->textRole() == TextRole::Floating)
@@ -2616,6 +2613,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
                            << "of type " << assocType;
             continue;
         }
+
         // Create the AssociationWidget.
         assocwidget = AssociationWidget::create(this);
         assocwidget->setWidgetForRole(widgetA, A);
@@ -2777,8 +2775,8 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
     if (w) {
         AssociationWidget *a = findAssocWidget(widget, w, attr->name());
         if (a == NULL &&
-                // if the current diagram type permits compositions
-                AssocRules::allowAssociation(assocType, widget, w)) {
+            // if the current diagram type permits compositions
+            AssocRules::allowAssociation(assocType, widget, w)) {
             // Create a composition AssocWidget, or, if the attribute type is
             // stereotyped <<CORBAInterface>>, create a UniAssociation widget.
             if (type->stereotype() == "CORBAInterface")
@@ -2890,8 +2888,8 @@ void UMLScene::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignK
     if (w) {
         aw = findAssocWidget(widget, w, fkConstraint->name());
         if (aw == NULL &&
-                // if the current diagram type permits relationships
-                AssocRules::allowAssociation(assocType, widget, w)) {
+            // if the current diagram type permits relationships
+            AssocRules::allowAssociation(assocType, widget, w)) {
 
             // for foreign key contstraint, we need to create the association type Uml::AssociationType::Relationship.
             // The referenced entity is the "1" part (Role A) and the entity holding the relationship is the "many" part. ( Role B)
@@ -2964,7 +2962,7 @@ void UMLScene::copyAsImage(QPixmap*& pix)
     int px = -1, py = -1, qx = -1, qy = -1;
 
     //first get the smallest rect holding the widgets
-    foreach(UMLWidget* temp , m_selectedList) {
+    foreach(UMLWidget* temp, m_selectedList) {
         int x = temp->x();
         int y = temp->y();
         int x1 = x + temp->width() - 1;
@@ -2991,12 +2989,18 @@ void UMLScene::copyAsImage(QPixmap*& pix)
     foreach(AssociationWidget *a , m_AssociationList) {
         if (! a->isSelected())
             continue;
-        const FloatingTextWidget* multiA = const_cast<FloatingTextWidget*>(a->multiplicityWidget(A));
-        const FloatingTextWidget* multiB = const_cast<FloatingTextWidget*>(a->multiplicityWidget(B));
-        const FloatingTextWidget* roleA = const_cast<FloatingTextWidget*>(a->roleWidget(A));
-        const FloatingTextWidget* roleB = const_cast<FloatingTextWidget*>(a->roleWidget(B));
-        const FloatingTextWidget* changeA = const_cast<FloatingTextWidget*>(a->changeabilityWidget(A));
-        const FloatingTextWidget* changeB = const_cast<FloatingTextWidget*>(a->changeabilityWidget(B));
+        const FloatingTextWidget* multiA =
+            const_cast<FloatingTextWidget*>(a->multiplicityWidget(Uml::A));
+        const FloatingTextWidget* multiB =
+            const_cast<FloatingTextWidget*>(a->multiplicityWidget(Uml::B));
+        const FloatingTextWidget* roleA =
+            const_cast<FloatingTextWidget*>(a->roleWidget(Uml::A));
+        const FloatingTextWidget* roleB =
+            const_cast<FloatingTextWidget*>(a->roleWidget(Uml::B));
+        const FloatingTextWidget* changeA =
+            const_cast<FloatingTextWidget*>(a->changeabilityWidget(Uml::A));
+        const FloatingTextWidget* changeB =
+            const_cast<FloatingTextWidget*>(a->changeabilityWidget(Uml::B));
         findMaxBoundingRectangle(multiA, px, py, qx, qy);
         findMaxBoundingRectangle(multiB, px, py, qx, qy);
         findMaxBoundingRectangle(roleA, px, py, qx, qy);
@@ -3508,7 +3512,7 @@ void UMLScene::checkSelections()
 {
     UMLWidget * pWA = 0, * pWB = 0;
     //check messages
-    foreach(UMLWidget *pTemp , m_selectedList) {
+    foreach(UMLWidget *pTemp, m_selectedList) {
         if (pTemp->baseType() == WidgetBase::wt_Message && pTemp->isSelected()) {
             MessageWidget * pMessage = static_cast<MessageWidget *>(pTemp);
             pWA = pMessage->objectWidget(A);
@@ -3525,7 +3529,7 @@ void UMLScene::checkSelections()
     }//end for
     //check Associations
 
-    foreach(AssociationWidget *pAssoc , m_AssociationList) {
+    foreach(AssociationWidget *pAssoc, m_AssociationList) {
         if (pAssoc->isSelected()) {
             pWA = pAssoc->widgetForRole(Uml::A);
             pWB = pAssoc->widgetForRole(Uml::B);
@@ -3562,7 +3566,7 @@ bool UMLScene::checkUniqueSelection()
         if (pTemp->baseType() != tmpType) {
             return false; // the base types are different, the list is not unique
         }
-    } // for ( through all selected items )
+    } // for (through all selected items)
 
     return true; // selected items are unique
 }
@@ -4169,7 +4173,7 @@ bool UMLScene::loadAssociationsFromXMI(QDomElement & qElement)
             AssociationWidget *assoc = AssociationWidget::create(this);
             if (!assoc->loadFromXMI(assocElement)) {
                 uError() << "could not loadFromXMI association widget:"
-                    << assoc << ", bad XMI file? Deleting from UMLScene.";
+                         << assoc << ", bad XMI file? Deleting from UMLScene.";
                 delete assoc;
                 /* return false;
                    Returning false here is a little harsh when the
@@ -4179,7 +4183,7 @@ bool UMLScene::loadAssociationsFromXMI(QDomElement & qElement)
                 assoc->clipSize();
                 if (!addAssociation(assoc, false)) {
                     uError() << "Could not addAssociation(" << assoc << ") to UMLScene, deleting.";
-                    //               assoc->cleanup();
+                    //assoc->cleanup();
                     delete assoc;
                     //return false; // soften error.. may not be that bad
                 }
@@ -4270,7 +4274,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
                     m_AssociationList.append(aw);
                 } else {
                     uError() << "cannot create assocwidget from ("
-                        << wA << ", " << wB << ")";
+                             << wA << ", " << wB << ")";
                 }
                 break;
             }
@@ -4287,7 +4291,8 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
                 uError() << "Cannot create widget of type " << ot;
             }
             if (widget) {
-                DEBUG(DBG_SRC) << "Widget: x=" << x << ", y=" << y << ", w=" << w << ", h=" << h;
+                DEBUG(DBG_SRC) << "Widget: x=" << x << ", y=" << y
+                               << ", w=" << w << ", h=" << h;
                 widget->setX(x);
                 widget->setY(y);
                 widget->setSize(w, h);
@@ -4455,7 +4460,7 @@ void UMLScene::alignVerticalDistribute()
     qreal heightsSum = WidgetList_Utils::getHeightsSum(widgetList);
     qreal distance = int(((biggestY - smallestY) - heightsSum) / (widgetList.count() - 1.0) + 0.5);
 
-    sortWidgetList(widgetList, Widget_Utils::hasSmallerY);
+    qSort(widgetList.begin(), widgetList.end(), Widget_Utils::hasSmallerY);
 
     int i = 1;
     UMLWidget* widgetPrev = NULL;
@@ -4485,7 +4490,7 @@ void UMLScene::alignHorizontalDistribute()
     qreal widthsSum = WidgetList_Utils::getWidthsSum(widgetList);
     qreal distance = int(((biggestX - smallestX) - widthsSum) / (widgetList.count() - 1.0) + 0.5);
 
-    sortWidgetList(widgetList, Widget_Utils::hasSmallerX);
+    qSort(widgetList.begin(), widgetList.end(), Widget_Utils::hasSmallerX);
 
     int i = 1;
     UMLWidget* widgetPrev = NULL;
@@ -4502,37 +4507,8 @@ void UMLScene::alignHorizontalDistribute()
 
 }
 
-/**
- * Sorts the given UMLWidgetList based on the Compare function.
- * The list is cleared and all the widgets are added again in order.
- *
- * The comp function gets two const UMLWidget* params and returns
- * a boolean telling if the first widget was smaller than the second,
- * whatever the "smaller" concept is depending on the sorting to do.
- *
- * @param widgetList The list with the widgets to order.
- * @param comp The comp function to compare the widgets.
- */
-template<typename Compare>
-void UMLScene::sortWidgetList(UMLWidgetList &widgetList, Compare comp)
-{
-    QVector<UMLWidget*> widgetVector;
-
-    for (UMLWidgetList::iterator it = widgetList.begin(); it != widgetList.end(); ++it) {
-        widgetVector.push_back(*it);
-    }
-    qSort(widgetVector.begin(), widgetVector.end(), comp);
-
-    widgetList.clear();
-
-    for (QVector<UMLWidget*>::iterator it = widgetVector.begin(); it != widgetVector.end(); ++it) {
-        widgetList.append(*it);
-    }
-}
-
 QDebug operator<<(QDebug out, UMLScene *item)
 {
     out.nospace() << "UMLScene: " << static_cast<UMLScene *>(item);
     return out;
 }
-

@@ -4,9 +4,10 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
+
 #ifndef UMLSCENE_H
 #define UMLSCENE_H
 
@@ -294,7 +295,7 @@ public:
 
     void selectWidgets(UMLSceneValue px, UMLSceneValue py, UMLSceneValue qx, UMLSceneValue qy);
     void selectWidgets(UMLWidgetList &widgets);
-    void selectWidgetsOfAssoc(AssociationWidget * a);
+    void selectWidgetsOfAssoc(AssociationWidget *a);
 
     ObjectWidget * onWidgetLine(const UMLScenePoint &point) const;
     ObjectWidget * onWidgetDestructionBox(const UMLScenePoint &point) const;
@@ -399,21 +400,6 @@ private:
     void createAutoConstraintAssociation(UMLEntity* refEntity,
                                          UMLForeignKeyConstraint* fkConstraint,
                                          UMLWidget* widget);
-
-    static bool hasWidgetSmallerX(const UMLWidget* widget1, const UMLWidget* widget2);
-    static bool hasWidgetSmallerY(const UMLWidget* widget1, const UMLWidget* widget2);
-
-    int getSmallestX(const UMLWidgetList &widgetList);
-    int getSmallestY(const UMLWidgetList &widgetList);
-
-    int getBiggestX(const UMLWidgetList &widgetList);
-    int getBiggestY(const UMLWidgetList &widgetList);
-
-    int getHeightsSum(const UMLWidgetList &widgetList);
-    int getWidthsSum(const UMLWidgetList &widgetList);
-
-    template<typename Compare>
-    void sortWidgetList(UMLWidgetList &widgetList, Compare comp);
 
 public slots:
     void show();
