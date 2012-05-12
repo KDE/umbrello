@@ -80,14 +80,11 @@
 #include <QtCore/QPointer>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
-#include <QtCore/QVector>
 #include <QtGui/QPixmap>
 #include <QtGui/QPainter>
 #include <QtGui/QPrinter>
 #include <QtGui/QColor>
-#include <QtGui/QMatrix>
 #include <QtGui/QHideEvent>
-#include <QtGui/QCloseEvent>
 #include <QtGui/QDropEvent>
 #include <QtGui/QShowEvent>
 #include <QtGui/QDragEnterEvent>
@@ -1044,7 +1041,6 @@ UMLWidget *UMLScene::widgetAt(const UMLScenePoint& p)
 {
     int relativeSize = 10000;  // start with an arbitrary large number
     UMLWidget  *retWid = 0;
-    UMLWidgetListIt it(m_WidgetList);
     foreach(UMLWidget* wid, m_WidgetList) {
         const int s = wid->onWidget(p);
         if (!s)

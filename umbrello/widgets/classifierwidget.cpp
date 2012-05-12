@@ -478,89 +478,6 @@ UMLSceneSize ClassifierWidget::minimumSize()
 }
 
 /**
- * Will be called when a menu selection has been made from the
- * popup menu.
- *
- * @param action   The action that has been selected.
- */
-void ClassifierWidget::slotMenuSelection(QAction* action)
-{
-    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
-    switch (sel) {
-    case ListPopupMenu::mt_Attribute:
-    case ListPopupMenu::mt_Operation:
-    case ListPopupMenu::mt_Template:
-        {
-            UMLObject::ObjectType ot = ListPopupMenu::convert_MT_OT(sel);
-            if (Object_Factory::createChildObject(classifier(), ot)) {
-                updateComponentSize();
-                update();
-                UMLApp::app()->document()->setModified();
-            }
-            break;
-        }
-    case ListPopupMenu::mt_Show_Operations:
-    case ListPopupMenu::mt_Show_Operations_Selection:
-        toggleVisualProperty(ShowOperations);
-        break;
-
-    case ListPopupMenu::mt_Show_Attributes:
-    case ListPopupMenu::mt_Show_Attributes_Selection:
-        toggleVisualProperty(ShowAttributes);
-        break;
-
-    case ListPopupMenu::mt_Show_Public_Only:
-    case ListPopupMenu::mt_Show_Public_Only_Selection:
-        toggleVisualProperty(ShowPublicOnly);
-        break;
-
-    case ListPopupMenu::mt_Show_Operation_Signature:
-    case ListPopupMenu::mt_Show_Operation_Signature_Selection:
-        toggleVisualProperty(ShowOperationSignature);
-        break;
-
-    case ListPopupMenu::mt_Show_Attribute_Signature:
-    case ListPopupMenu::mt_Show_Attribute_Signature_Selection:
-        toggleVisualProperty(ShowAttributeSignature);
-        break;
-
-    case ListPopupMenu::mt_Visibility:
-    case ListPopupMenu::mt_Visibility_Selection:
-        toggleVisualProperty(ShowVisibility);
-        break;
-
-    case ListPopupMenu::mt_Show_Packages:
-    case ListPopupMenu::mt_Show_Packages_Selection:
-        toggleVisualProperty(ShowPackage);
-        break;
-
-    case ListPopupMenu::mt_Show_Stereotypes:
-    case ListPopupMenu::mt_Show_Stereotypes_Selection:
-        toggleVisualProperty(ShowStereotype);
-        break;
-
-    case ListPopupMenu::mt_DrawAsCircle:
-    case ListPopupMenu::mt_DrawAsCircle_Selection:
-        toggleVisualProperty(DrawAsCircle);
-        break;
-
-    case ListPopupMenu::mt_ChangeToClass:
-    case ListPopupMenu::mt_ChangeToClass_Selection:
-        changeToClass();
-        break;
-
-    case ListPopupMenu::mt_ChangeToInterface:
-    case ListPopupMenu::mt_ChangeToInterface_Selection:
-        changeToInterface();
-        break;
-
-    default:
-        UMLWidget::slotMenuSelection(action);
-        break;
-    }
-}
-
-/**
  * Calculcates the size of the templates box in the top left
  * if it exists, returns QSize(0,0) if it doesn't.
  *
@@ -614,7 +531,6 @@ int ClassifierWidget::displayedOperations()
         return 0;
     return displayedMembers(UMLObject::ot_Operation);
 }
-
 
 /**
  * Set the AssociationWidget when this ClassWidget acts as
@@ -1001,6 +917,89 @@ void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     if (umlc->isInterface() || umlc->isAbstract())
         conceptElement.setAttribute("drawascircle", visualProperty(DrawAsCircle));
     qElement.appendChild( conceptElement );
+}
+
+/**
+ * Will be called when a menu selection has been made from the
+ * popup menu.
+ *
+ * @param action   The action that has been selected.
+ */
+void ClassifierWidget::slotMenuSelection(QAction* action)
+{
+    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
+    switch (sel) {
+    case ListPopupMenu::mt_Attribute:
+    case ListPopupMenu::mt_Operation:
+    case ListPopupMenu::mt_Template:
+        {
+            UMLObject::ObjectType ot = ListPopupMenu::convert_MT_OT(sel);
+            if (Object_Factory::createChildObject(classifier(), ot)) {
+                updateComponentSize();
+                update();
+                UMLApp::app()->document()->setModified();
+            }
+            break;
+        }
+    case ListPopupMenu::mt_Show_Operations:
+    case ListPopupMenu::mt_Show_Operations_Selection:
+        toggleVisualProperty(ShowOperations);
+        break;
+
+    case ListPopupMenu::mt_Show_Attributes:
+    case ListPopupMenu::mt_Show_Attributes_Selection:
+        toggleVisualProperty(ShowAttributes);
+        break;
+
+    case ListPopupMenu::mt_Show_Public_Only:
+    case ListPopupMenu::mt_Show_Public_Only_Selection:
+        toggleVisualProperty(ShowPublicOnly);
+        break;
+
+    case ListPopupMenu::mt_Show_Operation_Signature:
+    case ListPopupMenu::mt_Show_Operation_Signature_Selection:
+        toggleVisualProperty(ShowOperationSignature);
+        break;
+
+    case ListPopupMenu::mt_Show_Attribute_Signature:
+    case ListPopupMenu::mt_Show_Attribute_Signature_Selection:
+        toggleVisualProperty(ShowAttributeSignature);
+        break;
+
+    case ListPopupMenu::mt_Visibility:
+    case ListPopupMenu::mt_Visibility_Selection:
+        toggleVisualProperty(ShowVisibility);
+        break;
+
+    case ListPopupMenu::mt_Show_Packages:
+    case ListPopupMenu::mt_Show_Packages_Selection:
+        toggleVisualProperty(ShowPackage);
+        break;
+
+    case ListPopupMenu::mt_Show_Stereotypes:
+    case ListPopupMenu::mt_Show_Stereotypes_Selection:
+        toggleVisualProperty(ShowStereotype);
+        break;
+
+    case ListPopupMenu::mt_DrawAsCircle:
+    case ListPopupMenu::mt_DrawAsCircle_Selection:
+        toggleVisualProperty(DrawAsCircle);
+        break;
+
+    case ListPopupMenu::mt_ChangeToClass:
+    case ListPopupMenu::mt_ChangeToClass_Selection:
+        changeToClass();
+        break;
+
+    case ListPopupMenu::mt_ChangeToInterface:
+    case ListPopupMenu::mt_ChangeToInterface_Selection:
+        changeToInterface();
+        break;
+
+    default:
+        UMLWidget::slotMenuSelection(action);
+        break;
+    }
 }
 
 /**

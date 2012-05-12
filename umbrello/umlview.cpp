@@ -38,7 +38,7 @@ UMLView::UMLView(UMLFolder *parentFolder)
 UMLView::~UMLView()
 {
     delete m_pToolBarStateFactory;
-    m_pToolBarStateFactory = NULL;
+    m_pToolBarStateFactory = 0;
 }
 
 /**
@@ -51,17 +51,17 @@ void UMLView::setZoom(int zoom)
     } else if (zoom > 500) {
         zoom = 500;
     }
-    
+
     QMatrix wm;
     wm.scale(zoom / 100.0, zoom / 100.0);
     setWorldMatrix(wm);
-    
+
     m_nZoom = currentZoom();
     m_scene->resizeCanvasToItems();
 }
 
 /**
- * return the current zoom factor
+ * Return the current zoom factor.
  */
 int UMLView::currentZoom()
 {
@@ -176,7 +176,6 @@ void UMLView::slotToolBarChanged(int c)
     umlScene()->setPaste(false);
     m_bChildDisplayedDoc = false;
 }
-
 
 /**
  *  Calls the same method in the DocWindow.
