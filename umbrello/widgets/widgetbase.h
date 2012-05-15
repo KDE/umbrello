@@ -79,7 +79,6 @@ public:
     void setID(Uml::IDType id);
 
     WidgetType baseType() const;
-    void setBaseType(WidgetType type);
     QLatin1String baseTypeStr() const;
 
     UMLScene* umlScene() const;
@@ -88,17 +87,23 @@ public:
     QString documentation() const;
     void setDocumentation(const QString& doc);
 
-    QColor textColor() const;
-    virtual void setTextColor(const QColor& color);
-
     QColor lineColor() const;
     virtual void setLineColor(const QColor& color);
+
+    uint lineWidth() const;
+    virtual void setLineWidth(uint width);
+
+    QColor textColor() const;
+    virtual void setTextColor(const QColor& color);
 
     QColor fillColor() const;
     virtual void setFillColor(const QColor& color);
 
-    uint lineWidth() const;
-    virtual void setLineWidth(uint width);
+    bool usesDiagramLineColor() const;
+    void setUsesDiagramLineColor(bool state);
+
+    bool usesDiagramLineWidth() const;
+    void setUsesDiagramLineWidth(bool state);
 
     bool useFillColor();
     void setUseFillColor(bool state);
@@ -106,25 +111,19 @@ public:
     bool usesDiagramTextColor() const;
     void setUsesDiagramTextColor(bool state);
 
-    bool usesDiagramLineColor() const;
-    void setUsesDiagramLineColor(bool state);
-
     bool usesDiagramFillColor() const;
     void setUsesDiagramFillColor(bool state);
 
     bool usesDiagramUseFillColor() const;
     void setUsesDiagramUseFillColor(bool state);
 
-    bool usesDiagramLineWidth() const;
-    void setUsesDiagramLineWidth(bool state);
-
-    virtual bool loadFromXMI( QDomElement & qElement );
-    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    virtual bool loadFromXMI(QDomElement &qElement);
+    virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
 
     WidgetBase& operator=(const WidgetBase& other);
 
 protected:
-    WidgetType  m_Type;  ///< Type of widget.
+    WidgetType  m_baseType;  ///< Type of widget.
     UMLScene   *m_scene;
     UMLObject  *m_pObject;
     QString     m_Doc;   ///< Only used if m_pObject is not set.
@@ -171,7 +170,6 @@ protected:
     bool m_usesDiagramFillColor;
     bool m_usesDiagramUseFillColor;
     bool m_usesDiagramLineWidth;
-
 
 };
 

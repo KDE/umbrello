@@ -96,7 +96,7 @@ UMLWidget::UMLWidget(UMLScene *scene, WidgetType type, Uml::IDType id, UMLWidget
 }
 
 /**
- * Standard destructor.
+ * Destructor.
  */
 UMLWidget::~UMLWidget()
 {
@@ -157,7 +157,7 @@ bool UMLWidget::operator==(const UMLWidget& other) const
     if (this == &other)
         return true;
 
-    if (m_Type != other.m_Type) {
+    if (m_baseType != other.m_baseType) {
         return false;
     }
 
@@ -231,7 +231,7 @@ void UMLWidget::updateWidget()
 {
     updateComponentSize();
     adjustAssocs(x(), y());   //adjust assoc lines.
-    switch (m_Type) {
+    switch (m_baseType) {
     case WidgetBase::wt_Class:
         m_scene->createAutoAttributeAssociations(this);
         break;
@@ -348,7 +348,7 @@ void UMLWidget::init()
 void UMLWidget::slotMenuSelection(QAction* action)
 {
     QColor newColor;
-    const WidgetBase::WidgetType wt = m_Type;
+    const WidgetBase::WidgetType wt = m_baseType;
     UMLWidget* widget = 0; // use for select the first object properties (fill, line color)
 
     ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
@@ -695,7 +695,7 @@ void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY)
  */
 bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
 {
-    if (widgetHasUMLObject(m_Type) && m_pObject == NULL) {
+    if (widgetHasUMLObject(m_baseType) && m_pObject == NULL) {
         m_pObject = m_doc->findObjectById(m_nId);
         if (m_pObject == NULL) {
             uError() << "cannot find UMLObject with id=" << ID2STR(m_nId);
@@ -1058,7 +1058,7 @@ void UMLWidget::setMaximumSize(UMLSceneValue width, UMLSceneValue height)
  */
 void UMLWidget::setSelected(bool _select)
 {
-    const WidgetBase::WidgetType wt = m_Type;
+    const WidgetBase::WidgetType wt = m_baseType;
     if (_select) {
         if (m_scene->selectedCount() == 0) {
             if (widgetHasUMLObject(wt)) {
@@ -1454,11 +1454,11 @@ void UMLWidget::forceUpdateFontMetrics(QPainter *painter)
 /**
  * Set the status of whether to show Stereotype.
  *
- * @param _status   True if stereotype shall be shown.
+ * @param flag   True if stereotype shall be shown.
  */
-void UMLWidget::setShowStereotype(bool _status)
+void UMLWidget::setShowStereotype(bool flag)
 {
-    m_showStereotype = _status;
+    m_showStereotype = flag;
     updateComponentSize();
     update();
 }
@@ -1468,7 +1468,7 @@ void UMLWidget::setShowStereotype(bool _status)
  *
  * @return  True if stereotype is shown.
  */
-bool UMLWidget::getShowStereotype() const
+bool UMLWidget::showStereotype() const
 {
     return m_showStereotype;
 }

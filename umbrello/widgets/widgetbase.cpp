@@ -24,7 +24,7 @@
  */
 WidgetBase::WidgetBase(UMLScene *scene, WidgetType type)
   : QObject(scene),
-    m_Type(type),
+    m_baseType(type),
     m_scene(scene),
     m_pObject(0)
 {
@@ -55,19 +55,11 @@ WidgetBase::~WidgetBase()
 }
 
 /**
- * Set property m_Type.
- */
-void WidgetBase::setBaseType(WidgetBase::WidgetType type)
-{
-    m_Type = type;
-}
-
-/**
- * Read property of m_Type.
+ * Read property of m_baseType.
  */
 WidgetBase::WidgetType WidgetBase::baseType() const
 {
-    return m_Type;
+    return m_baseType;
 }
 
 /**
@@ -75,7 +67,7 @@ WidgetBase::WidgetType WidgetBase::baseType() const
  */
 QLatin1String WidgetBase::baseTypeStr() const
 {
-    return QLatin1String(ENUM_NAME(WidgetBase, WidgetType, m_Type));
+    return QLatin1String(ENUM_NAME(WidgetBase, WidgetType, m_baseType));
 }
 
 /**
@@ -411,7 +403,7 @@ bool WidgetBase::loadFromXMI( QDomElement & qElement )
     if (lineColor != "none") {
         setLineColor( QColor(lineColor) );
         m_usesDiagramLineColor = false;
-    } else if (m_Type != WidgetBase::wt_Box && m_scene != NULL) {
+    } else if (m_baseType != WidgetBase::wt_Box && m_scene != NULL) {
         setLineColor( m_scene->lineColor() );
         m_usesDiagramLineColor = true;
     }
@@ -460,7 +452,7 @@ bool WidgetBase::loadFromXMI( QDomElement & qElement )
  */
 WidgetBase& WidgetBase::operator=(const WidgetBase& other)
 {
-    m_Type = other.m_Type;
+    m_baseType = other.m_baseType;
     m_scene = other.m_scene;
     m_pObject = other.m_pObject;
     m_Doc = other.m_Doc;

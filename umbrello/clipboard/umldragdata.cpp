@@ -16,6 +16,7 @@
 #include "idchangelog.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "umlscene.h"
 #include "umlview.h"
 #include "umlobject.h"
 #include "folder.h"
@@ -672,9 +673,10 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
     }
 
     UMLView *view = UMLApp::app()->currentView();
+    UMLScene *scene = view->umlScene();
     while ( !widgetElement.isNull() ) {
 
-        UMLWidget* widget = view->umlScene()->loadWidgetFromXMI(widgetElement);
+        UMLWidget* widget = scene->loadWidgetFromXMI(widgetElement);
         if (widget)
             widgets.append(widget);
 

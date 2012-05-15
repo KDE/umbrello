@@ -185,8 +185,8 @@ public:
         return m_instanceName;
     }
 
-    bool getShowStereotype() const;
-    virtual void setShowStereotype(bool _status);
+    bool showStereotype() const;
+    virtual void setShowStereotype(bool flag);
 
     virtual void showPropertiesDialog();
 
