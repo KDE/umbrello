@@ -162,19 +162,19 @@ public:
     void setBrush(const QBrush& brush);
 
     bool usesDiagramLineColor() const;
-    void setUsesDiagramLineColor(bool status);
+    void setUsesDiagramLineColor(bool state);
 
     bool usesDiagramLineWidth() const;
-    void setUsesDiagramLineWidth(bool status);
+    void setUsesDiagramLineWidth(bool state);
 
     bool usesDiagramBrush() const;
-    void setUsesDiagramBrush(bool status);
+    void setUsesDiagramBrush(bool state);
 
     bool usesDiagramFont() const;
-    void setUsesDiagramFont(bool status);
+    void setUsesDiagramFont(bool state);
 
     bool usesDiagramTextColor() const;
-    void setUsesDiagramTextColor(bool status);
+    void setUsesDiagramTextColor(bool state);
 
     QFont font() const;
     void setFont(const QFont& font);

@@ -441,13 +441,13 @@ bool WidgetBase::usesDiagramLineColor() const
     return m_usesDiagramLineColor;
 }
 
-void WidgetBase::setUsesDiagramLineColor(bool status)
+void WidgetBase::setUsesDiagramLineColor(bool state)
 {
-    if (m_usesDiagramLineColor == status) {
+    if (m_usesDiagramLineColor == state) {
         return;
     }
-    m_usesDiagramLineColor = status;
-    if (status && umlScene()) {
+    m_usesDiagramLineColor = state;
+    if (state && umlScene()) {
         QColor color = umlScene()->lineColor();
         if (color != lineColor()) {
             setLineColor(color);
@@ -460,13 +460,13 @@ bool WidgetBase::usesDiagramLineWidth() const
     return m_usesDiagramLineWidth;
 }
 
-void WidgetBase::setUsesDiagramLineWidth(bool status)
+void WidgetBase::setUsesDiagramLineWidth(bool state)
 {
-    if (m_usesDiagramLineWidth == status) {
+    if (m_usesDiagramLineWidth == state) {
         return;
     }
-    m_usesDiagramLineWidth = status;
-    if (status && umlScene()) {
+    m_usesDiagramLineWidth = state;
+    if (state && umlScene()) {
         uint lw = umlScene()->lineWidth();
         if (lw != lineWidth()) {
             setLineWidth(lw);
@@ -479,13 +479,13 @@ bool WidgetBase::usesDiagramBrush() const
     return m_usesDiagramBrush;
 }
 
-void WidgetBase::setUsesDiagramBrush(bool status)
+void WidgetBase::setUsesDiagramBrush(bool state)
 {
-    if (status == m_usesDiagramBrush) {
+    if (state == m_usesDiagramBrush) {
         return;
     }
-    m_usesDiagramBrush = status;
-    if (status && umlScene()) {
+    m_usesDiagramBrush = state;
+    if (state && umlScene()) {
         QBrush b = umlScene()->brush();
         if (b != brush()) {
             setBrush(b);
@@ -498,13 +498,13 @@ bool WidgetBase::usesDiagramFont() const
     return m_usesDiagramFont;
 }
 
-void WidgetBase::setUsesDiagramFont(bool status)
+void WidgetBase::setUsesDiagramFont(bool state)
 {
-    if (status == m_usesDiagramFont) {
+    if (state == m_usesDiagramFont) {
         return;
     }
-    m_usesDiagramFont = status;
-    if (status && umlScene()) {
+    m_usesDiagramFont = state;
+    if (state && umlScene()) {
         QFont f = umlScene()->font();
         if (f != font()) {
             setFont(f);
@@ -517,13 +517,13 @@ bool WidgetBase::usesDiagramTextColor() const
     return m_usesDiagramTextColor;
 }
 
-void WidgetBase::setUsesDiagramTextColor(bool status)
+void WidgetBase::setUsesDiagramTextColor(bool state)
 {
-    if (m_usesDiagramTextColor == status) {
+    if (m_usesDiagramTextColor == state) {
         return;
     }
-    m_usesDiagramTextColor = status;
-    if (status && umlScene()) {
+    m_usesDiagramTextColor = state;
+    if (state && umlScene()) {
         QColor color = umlScene()->textColor();
         if (color != textColor()) {
             setTextColor(color);
