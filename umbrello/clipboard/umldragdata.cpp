@@ -360,7 +360,6 @@ bool UMLDragData::decodeClip1(const QMimeData* mimeData, UMLObjectList& objects)
 bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
                           UMLListViewItemList& umlListViewItems, UMLViewList& diagrams)
 {
-    Q_UNUSED(diagrams);
     if ( !mimeData->hasFormat("application/x-uml-clip2") ) {
         return false;
     }
@@ -435,13 +434,10 @@ bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
             uError() << "Bad parent for view.";
             return false;
         }
-        // [PORT]
-#if 0
         UMLFolder *f = static_cast<UMLFolder*>(po);
         UMLView* view = new UMLView(f);
-        view->loadFromXMI(diagramElement);
+        view->umlScene()->loadFromXMI(diagramElement);
         diagrams.append(view);
-#endif
         diagramNode = diagramNode.nextSibling();
         diagramElement = diagramNode.toElement();
     }
