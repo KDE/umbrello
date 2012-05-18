@@ -693,7 +693,6 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
         if (associationWidget->loadFromXMI(associationWidgetElement, widgets, 0))
             associations.append(associationWidget);
         else {
-            //associationWidget->cleanup();
             delete associationWidget;
         }
         associationWidgetNode = associationWidgetNode.nextSibling();

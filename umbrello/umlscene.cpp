@@ -3669,19 +3669,11 @@ int UMLScene::snapY() const
 }
 
 /**
- * Sets the x grid size.
+ * Sets the x and y grid size.
  */
-void UMLScene::setSnapX(int x)
+void UMLScene::setSnapSpacing(int x, int y)
 {
     m_nSnapX = x;
-    Q3Canvas::setAllChanged();
-}
-
-/**
- * Sets the y grid size.
- */
-void UMLScene::setSnapY(int y)
-{
     m_nSnapY = y;
     Q3Canvas::setAllChanged();
 }
@@ -4179,7 +4171,6 @@ bool UMLScene::loadAssociationsFromXMI(QDomElement & qElement)
                 assoc->clipSize();
                 if (!addAssociation(assoc, false)) {
                     uError() << "Could not addAssociation(" << assoc << ") to UMLScene, deleting.";
-                    //assoc->cleanup();
                     delete assoc;
                     //return false; // soften error.. may not be that bad
                 }

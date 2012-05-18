@@ -139,8 +139,7 @@ public:
 
     int snapX() const;
     int snapY() const;
-    void setSnapX(int x);
-    void setSnapY(int y);
+    void setSnapSpacing(int x, int y);
 
     int snappedX(int x);
     int snappedY(int y);

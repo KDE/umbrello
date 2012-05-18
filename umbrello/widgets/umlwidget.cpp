@@ -230,7 +230,6 @@ void UMLWidget::mousePressEvent(QMouseEvent *me)
 void UMLWidget::updateWidget()
 {
     updateComponentSize();
-    adjustAssocs(x(), y());   //adjust assoc lines.
     switch (m_baseType) {
     case WidgetBase::wt_Class:
         m_scene->createAutoAttributeAssociations(this);
@@ -355,7 +354,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
     switch (sel) {
     case ListPopupMenu::mt_Rename:
         m_doc->renameUMLObject(m_pObject);
-        // adjustAssocs( x(), y() );//adjust assoc lines
+        // adjustAssocs( x(), y() );  // adjust assoc lines
         break;
 
     case ListPopupMenu::mt_Delete:
@@ -380,7 +379,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
         } else {
             uWarning() << "making properties dialog for unknown widget type";
         }
-        // adjustAssocs( x(), y() );//adjust assoc lines
+        // adjustAssocs( x(), y() );  // adjust assoc lines
         break;
 
     case ListPopupMenu::mt_Line_Color:
@@ -1197,7 +1196,6 @@ void UMLWidget::setName(const QString &strName)
     else
         m_Text = strName;
     updateComponentSize();
-    adjustAssocs(x(), y());
 }
 
 /**

@@ -169,8 +169,8 @@ void UMLViewDialog::applyPage(KPageWidgetItem *item)
         checkName();
 //:TODO:        m_pScene->setZoom( m_diagramProperties->ui_zoom->value() );
         m_pScene->setDocumentation( m_diagramProperties->ui_documentation->toPlainText() );
-        m_pScene->setSnapX( m_diagramProperties->ui_gridSpaceX->value() );
-        m_pScene->setSnapY( m_diagramProperties->ui_gridSpaceY->value() );
+        m_pScene->setSnapSpacing( m_diagramProperties->ui_gridSpaceX->value(),
+                                  m_diagramProperties->ui_gridSpaceY->value() );
         m_pScene->setLineWidth( m_diagramProperties->ui_lineWidth->value() );
         m_pScene->setSnapToGrid( m_diagramProperties->ui_snapToGrid->isChecked() );
         m_pScene->setSnapComponentSizeToGrid( m_diagramProperties->ui_snapComponentSizeToGrid->isChecked() );
@@ -181,13 +181,14 @@ void UMLViewDialog::applyPage(KPageWidgetItem *item)
     {
         uDebug() << "setting colors ";
         m_pStylePage->updateUMLWidget();
-        m_pScene->setLineWidth( m_options.uiState.lineWidth );
-        m_pScene->setUseFillColor( m_options.uiState.useFillColor );
-        m_pScene->setTextColor( m_options.uiState.textColor );
-        m_pScene->setLineColor( m_options.uiState.lineColor );
-        m_pScene->setFillColor( m_options.uiState.fillColor );
-        m_pScene->setBackgroundColor( m_options.uiState.backgroundColor );
-        m_pScene->setGridDotColor( m_options.uiState.gridDotColor );
+        m_pScene->setLineWidth(m_options.uiState.lineWidth);
+        m_pScene->setUseFillColor(m_options.uiState.useFillColor);
+        m_pScene->setTextColor(m_options.uiState.textColor);
+        m_pScene->setLineColor(m_options.uiState.lineColor);
+        m_pScene->setFillColor(m_options.uiState.fillColor);
+        m_pScene->setBackgroundColor(m_options.uiState.backgroundColor);
+        m_pScene->setGridDotColor(m_options.uiState.gridDotColor);
+        //:TODO: gridCrossColor, gridTextColor, gridTextFont, gridTextIsVisible
     }
     else if ( item == m_pageFontItem )
     {

@@ -72,7 +72,6 @@ void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
         targetWidget->setName(name);
     }
     else {
-        targetWidget->cleanup();
         delete targetWidget;
         targetWidget = NULL;
     }
