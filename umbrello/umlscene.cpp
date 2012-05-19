@@ -2237,8 +2237,6 @@ void UMLScene::removeAssoc(AssociationWidget* pAssoc)
 
     emit sigAssociationRemoved(pAssoc);
 
-    // [PORT]
-    // pAssoc->cleanup();
     m_AssociationList.removeAll(pAssoc);
     pAssoc->deleteLater();
     m_doc->setModified();
@@ -4121,7 +4119,6 @@ bool UMLScene::loadAssociationsFromXMI(QDomElement & qElement)
             } else {
                 if (!addAssociation(assoc, false)) {
                     uError() << "Could not addAssociation(" << assoc << ") to UMLScene, deleting.";
-                    //assoc->cleanup();
                     delete assoc;
                     //return false; // soften error.. may not be that bad
                 }

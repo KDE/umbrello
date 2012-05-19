@@ -17,7 +17,6 @@
 #include <QtCore/QList>
 
 class UMLScene;
-class QGraphicsLineItem;
 
 /**
  * Arrow tool for select, move and resize widgets and associations.

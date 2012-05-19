@@ -23,6 +23,7 @@
 #include "umldoc.h"
 #include "umllistview.h"
 #include "umlobjectlist.h"
+#include "umlscene.h"
 #include "umlview.h"
 #include "model_utils.h"
 #include "uniqueid.h"

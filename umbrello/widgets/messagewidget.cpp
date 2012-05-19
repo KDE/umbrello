@@ -298,6 +298,15 @@ void MessageWidget::constrainTextPos(qreal &textX, qreal &textY, qreal textWidth
 
 // End of link widget interface methods
 
+/**
+ * Getter for property m_sequenceNumber.
+ * @return sequence number as string
+ */
+QString MessageWidget::sequenceNumber() const
+{
+    return m_sequenceNumber;
+}
+
 void MessageWidget::setSequenceNumber(const QString &sequenceNumber)
 {
     m_sequenceNumber = sequenceNumber;

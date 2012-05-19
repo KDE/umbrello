@@ -181,9 +181,11 @@ void UMLViewDialog::applyPage(KPageWidgetItem *item)
     {
         uDebug() << "setting colors ";
         m_pStylePage->updateUMLWidget();
-        m_pScene->setUseFillColor( m_options.uiState.useFillColor );
-        m_pScene->setLineColor( m_options.uiState.lineColor );
-        m_pScene->setBrush( m_options.uiState.fillColor );
+        m_pScene->setLineWidth(m_options.uiState.lineWidth);
+        m_pScene->setUseFillColor(m_options.uiState.useFillColor);
+        m_pScene->setTextColor(m_options.uiState.textColor);
+        m_pScene->setLineColor(m_options.uiState.lineColor);
+        m_pScene->setBrush(m_options.uiState.fillColor);
         m_pScene->setBackgroundBrush(m_options.uiState.backgroundColor);
         m_pScene->setGridDotColor(m_options.uiState.gridDotColor);
         //:TODO: gridCrossColor, gridTextColor, gridTextFont, gridTextIsVisible

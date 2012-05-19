@@ -75,10 +75,7 @@ public:
 
     //---------- End LinkWidget Interface methods implemementation.
 
-    /// @return The sequence number of this widget.
-    QString sequenceNumber() const {
-        return m_sequenceNumber;
-    }
+    QString sequenceNumber() const;
     void setSequenceNumber(const QString &sequenceNumber);
 
     /// @return Whether the message is synchronous or asynchronous
@@ -114,8 +111,8 @@ public:
 
     virtual void setupContextMenuActions(ListPopupMenu &menu);
 
-    virtual bool loadFromXMI(QDomElement & qElement);
     virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
+    virtual bool loadFromXMI(QDomElement & qElement);
 
 protected:
     virtual void updateGeometry();
@@ -135,9 +132,9 @@ private:
 
     void drawSynchronous(QPainter *painter);
     void drawAsynchronous(QPainter *painter);
-    void drawFound(QPainter *painter);
-    void drawLost(QPainter *painter);
     void drawCreation(QPainter *painter);
+    void drawLost(QPainter *painter);
+    void drawFound(QPainter *painter);
 
     void init();
 

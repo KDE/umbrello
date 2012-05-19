@@ -33,8 +33,7 @@ public:
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-    // Note: For loading from XMI, the inherited parent method is
-    //       used.
+    // Note: For loading from XMI, the inherited parent method is used.
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:

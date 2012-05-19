@@ -165,38 +165,6 @@ bool AssocRules::allowAssociation( Uml::AssociationType assocType,
         }
     }
 
-    return bValid;
-
-/* TODO:
-   - Check the below code
-   - Check its callers - example: On making a Containment from a Package to a Class,
-     the assoc is already inserted in widgetB->associationWidgetList()
-     when we get here. The assoc SHOULD NOT already be there - therefore the
-     precondition of the below tests is not met, thus they fail, and
-     toolbarstateassociation.cpp:311 says "delete assoc" - but that's too late
-     because the assoc is already being referenced. Valgrind report:
-Invalid read of size 4
-   at 0x82EA890: AssociationWidget::getTextWidgetByRole(Uml::TextRole) (associationwidget.cpp:819)
-   by 0x82EE799: AssociationWidget::calculateTextPosition(Uml::TextRole) (associationwidget.cpp:2411)
-   by 0x82EEC23: AssociationWidget::saveIdealTextPositions() (associationwidget.cpp:1833)
-   by 0x832E676: UMLWidget::adjustAssocs(int, int) (umlwidget.cpp:782)
-   by 0x832CDF8: UMLWidget::updateComponentSize() (umlwidget.cpp:1240)
-   by 0x832CEC1: UMLWidget::updateWidget() (umlwidget.cpp:230)
-   by 0x832DAC2: UMLWidget::qt_metacall(QMetaObject::Call, int, void**) (umlwidget.moc:86)
-   by 0x598D863: QMetaObject::activate(QObject*, int, int, void**) (in /usr/lib/libQtCore.so.4.5.3)
-   by 0x598E584: QMetaObject::activate(QObject*, QMetaObject const*, int, void**) (in /usr/lib/libQtCore.so.4.5.3)
-   by 0x83F6168: UMLObject::modified() (umlobject.moc:122)
-   by 0x83F61FD: UMLObject::setUMLPackage(UMLPackage*) (umlobject.cpp:552)
-   by 0x83E2341: UMLListView::moveObject(std::string, UMLListViewItem::ListViewType, UMLListViewItem*) (umllistview.cpp:1772)
- Address 0x68e6e24 is 92 bytes inside a block of size 708 free'd
-   at 0x40265BD: operator delete(void*) (in /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so)
-   by 0x83A6BE4: ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget*) (toolbarstateassociation.cpp:311)
-   by 0x83A6DA1: ToolBarStateAssociation::setSecondWidget() (toolbarstateassociation.cpp:230)
-   by 0x83A70DF: ToolBarStateAssociation::mouseReleaseWidget() (toolbarstateassociation.cpp:149)
-   by 0x83A5255: ToolBarState::mouseRelease(UMLSceneMouseEvent*) (toolbarstate.cpp:123)
- */
-
-#if 0
     if (!bValid) {
         return false;
     }
@@ -328,7 +296,6 @@ Invalid read of size 4
         break;
     }
     return false;
-#endif
 }
 
 /**

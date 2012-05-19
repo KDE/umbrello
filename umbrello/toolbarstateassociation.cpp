@@ -20,9 +20,10 @@
 #include "folder.h"
 #include "model_utils.h"
 #include "uml.h"
+#include "umldoc.h"
 #include "umlobject.h"
 #include "umlscene.h"
-#include "umldoc.h"
+#include "umlview.h"
 #include "umlwidget.h"
 
 // kde includes
@@ -35,10 +36,10 @@
  * @param umlScene The UMLScene to use.
  */
 ToolBarStateAssociation::ToolBarStateAssociation(UMLScene *umlScene)
-  : ToolBarStatePool(umlScene)
+  : ToolBarStatePool(umlScene),
+    m_firstWidget(0),
+    m_associationLine(0)
 {
-    m_firstWidget = 0;
-    m_associationLine = 0;
 }
 
 /**
@@ -223,15 +224,16 @@ void ToolBarStateAssociation::setSecondWidget()
     }
     if (valid) {
         AssociationWidget *temp = new AssociationWidget(widgetA, type, widgetB);
-        addAssociationInViewAndDoc(temp);
-        if (type == Uml::AssociationType::Containment) {
-            UMLObject *newContainer = widgetA->umlObject();
-            UMLObject *objToBeMoved = widgetB->umlObject();
-            if (newContainer && objToBeMoved) {
-                Model_Utils::treeViewMoveObjectTo(newContainer, objToBeMoved);
+        if (addAssociationInViewAndDoc(temp)) {
+            if (type == Uml::AssociationType::Containment) {
+                UMLObject *newContainer = widgetA->umlObject();
+                UMLObject *objToBeMoved = widgetB->umlObject();
+                if (newContainer && objToBeMoved) {
+                    Model_Utils::treeViewMoveObjectTo(newContainer, objToBeMoved);
+                }
             }
+            UMLApp::app()->document()->setModified();
         }
-        UMLApp::app()->document()->setModified();
     } else {
         //TODO improve error feedback: tell the user what are the valid type of associations for
         //the second widget using the first widget

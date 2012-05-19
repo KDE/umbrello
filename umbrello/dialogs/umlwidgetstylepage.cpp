@@ -10,6 +10,7 @@
 
 #include "umlwidgetstylepage.h"
 
+#include "debug_utils.h"
 #include "optionstate.h"
 #include "uml.h"
 #include "umlscene.h"
@@ -259,6 +260,7 @@ void UMLWidgetStylePage::updateUMLWidget()
         if (view) {
             UMLScene* scene = view->umlScene();
             if (scene) {
+                uDebug() << "Setting background and grid dot color.";
                 scene->setBackgroundBrush(m_BackgroundColorB->color());
                 scene->setGridDotColor(m_GridDotColorB->color());
             }

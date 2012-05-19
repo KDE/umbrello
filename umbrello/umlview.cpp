@@ -23,16 +23,16 @@
 /**
  * Constructor
  */
-UMLView::UMLView(UMLFolder *f)
-  : QGraphicsView(UMLApp::app()->mainViewWidget())
+UMLView::UMLView(UMLFolder *parentFolder)
+  : QGraphicsView(UMLApp::app()->mainViewWidget()),
+    m_nZoom(100)
 {
-    m_nZoom = 100;
     setAcceptDrops(true);
     setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     setDragMode(RubberBandDrag);
     // [PORT] For now the following is used. Shd check for creation of
     // new scene later.
-    UMLScene *scene = new UMLScene(f);
+    UMLScene *scene = new UMLScene(parentFolder);
     setScene(scene);
     setSceneRect(scene->sceneRect());
 
@@ -292,9 +292,9 @@ void UMLView::hideEvent(QHideEvent* /*he*/)
 /**
  * Override standard method.
  */
-void UMLView::closeEvent(QCloseEvent * e)
+void UMLView::closeEvent(QCloseEvent* ce)
 {
-    QWidget::closeEvent(e);
+    QWidget::closeEvent(ce);
 }
 
 /**

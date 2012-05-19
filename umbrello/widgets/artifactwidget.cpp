@@ -49,34 +49,29 @@ void ArtifactWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, 
     painter->setPen(QPen(lineColor(), lineWidth()));
     painter->setBrush(brush());
 
-    if(umlObject()) {
+    if (umlObject()) {
         UMLArtifact *umlart = static_cast<UMLArtifact*>(umlObject());
         UMLArtifact::Draw_Type drawType = umlart->getDrawAsType();
-
         switch (drawType) {
         case UMLArtifact::defaultDraw:
             drawAsNormal(painter);
             break;
-
         case UMLArtifact::file:
             drawAsFile(painter);
             break;
-
         case UMLArtifact::library:
             drawAsLibrary(painter);
             break;
-
         case UMLArtifact::table:
             drawAsTable(painter);
             break;
-
         default:
             uWarning() << "Artifact drawn as unknown type";
             break;
         }
     }
     else {
-        uWarning() << "Cannot draw as there is no UMLArtifact for this widget";
+        uWarning() << "Cannot draw as there is no UMLArtifact for this widget.";
     }
 }
 

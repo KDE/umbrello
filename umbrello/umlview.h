@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -16,8 +16,8 @@
 class QHideEvent;
 class QCloseEvent;
 class QShowEvent;
-class UMLScene;
 class UMLFolder;
+class UMLScene;
 
 /**
  * UMLView instances represent diagrams.
@@ -33,35 +33,35 @@ class UMLView : public QGraphicsView
 {
     Q_OBJECT
 public:
-    UMLView(UMLFolder *f );
+    UMLView(UMLFolder *parentFolder);
     virtual ~UMLView();
 
     UMLScene* umlScene() const;
+
     int zoom() const { return m_nZoom; }
     void setZoom(int zoom);
     int currentZoom();
-
-    void hideEvent(QHideEvent *he);
-    void showEvent(QShowEvent *se);
-
-
-
-protected:
-    void setCenter(const QPointF& centerPoint);
-    QPointF center();
-
-    virtual void wheelEvent(QWheelEvent* event);
-    virtual void resizeEvent(QResizeEvent* event);
-    void closeEvent(QCloseEvent * e);
-
-    QPointF m_currentCenterPoint;  ///< holds the current centerpoint for the view, used for panning and zooming
-    QPoint  m_lastPanPoint;        ///< from panning the view
-    int     m_nZoom;               ///< zoom level in percent, default 100
 
 public slots:
     void zoomIn();
     void zoomOut();
     void show();
+
+protected:
+    virtual void closeEvent(QCloseEvent* ce);
+
+    void setCenter(const QPointF& centerPoint);
+    QPointF center();
+
+    virtual void wheelEvent(QWheelEvent* event);
+    virtual void resizeEvent(QResizeEvent* event);
+    void hideEvent(QHideEvent *he);
+    void showEvent(QShowEvent *se);
+
+    QPointF m_currentCenterPoint;  ///< holds the current centerpoint for the view, used for panning and zooming
+    QPoint  m_lastPanPoint;        ///< from panning the view
+    int     m_nZoom;               ///< zoom level in percent, default 100
+
 };
 
 #endif // UMLVIEW_H
