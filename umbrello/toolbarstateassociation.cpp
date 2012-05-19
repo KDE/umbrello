@@ -20,11 +20,11 @@
 #include "folder.h"
 #include "model_utils.h"
 #include "uml.h"
-#include "umlobject.h"
-#include "umlview.h"
 #include "umldoc.h"
+#include "umlobject.h"
+#include "umlscene.h"
+#include "umlview.h"
 #include "umlwidget.h"
-#include "umllistview.h"
 
 // kde includes
 #include <klocale.h>
@@ -36,10 +36,10 @@
  * @param umlScene The UMLScene to use.
  */
 ToolBarStateAssociation::ToolBarStateAssociation(UMLScene *umlScene)
-  : ToolBarStatePool(umlScene)
+  : ToolBarStatePool(umlScene),
+    m_firstWidget(0),
+    m_associationLine(0)
 {
-    m_firstWidget = 0;
-    m_associationLine = 0;
 }
 
 /**
@@ -230,14 +230,10 @@ void ToolBarStateAssociation::setSecondWidget()
         AssociationWidget *temp = AssociationWidget::create(m_pUMLScene, widgetA, type, widgetB);
         if (addAssociationInViewAndDoc(temp)) {
             if (type == Uml::AssociationType::Containment) {
-                UMLListView *lv = UMLApp::app()->listView();
                 UMLObject *newContainer = widgetA->umlObject();
                 UMLObject *objToBeMoved = widgetB->umlObject();
                 if (newContainer && objToBeMoved) {
-                    UMLListViewItem *newLVParent = lv->findUMLObject(newContainer);
-                    lv->moveObject(objToBeMoved->id(),
-                                   Model_Utils::convert_OT_LVT(objToBeMoved),
-                                   newLVParent);
+                    Model_Utils::treeViewMoveObjectTo(newContainer, objToBeMoved);
                 }
             }
             UMLApp::app()->document()->setModified();

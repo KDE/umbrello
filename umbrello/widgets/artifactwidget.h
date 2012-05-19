@@ -35,27 +35,21 @@ public:
 
     virtual void paint(QPainter& p, int offsetX, int offsetY);
 
-    // Note: For loading from XMI, the inherited parent method is
-    //       used.
+    // Note: For loading from XMI, the inherited parent method is used.
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
     UMLSceneSize minimumSize();
 
 private:
-    QSize calculateIconSize();
-    QSize calculateNormalSize();
-
     void drawAsFile(QPainter& p, int offsetX, int offsetY);
     void drawAsLibrary(QPainter& p, int offsetX, int offsetY);
     void drawAsTable(QPainter& p, int offsetX, int offsetY);
     void drawAsNormal(QPainter& p, int offsetX, int offsetY);
 
+    QSize calculateIconSize();
+    QSize calculateNormalSize();
 
-    /**
-     * The right mouse button menu
-     */
-    ListPopupMenu* m_pMenu;
 };
 
 #endif

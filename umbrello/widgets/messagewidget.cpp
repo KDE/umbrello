@@ -11,29 +11,27 @@
 // onw header
 #include "messagewidget.h"
 
+//app includes
+#include "classifier.h"
+#include "debug_utils.h"
+#include "floatingtextwidget.h"
+#include "messagewidgetcontroller.h"
+#include "listpopupmenu.h"
+#include "objectwidget.h"
+#include "operation.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlview.h"
+#include "uniqueid.h"
+
 //qt includes
-#include <QMouseEvent>
 #include <QPolygon>
 #include <QMoveEvent>
 #include <QResizeEvent>
 #include <QtGui/QPainter>
-//kde includes
-#include <kcursor.h>
-#include <kmessagebox.h>
-#include <klocale.h>
 
-//app includes
-#include "classifier.h"
-#include "debug_utils.h"
-#include "messagewidgetcontroller.h"
-#include "floatingtextwidget.h"
-#include "objectwidget.h"
-#include "operation.h"
-#include "umlview.h"
-#include "umldoc.h"
-#include "uml.h"
-#include "uniqueid.h"
-#include "listpopupmenu.h"
+//kde includes
+#include <klocale.h>
 
 /**
  * Constructs a MessageWidget.
@@ -140,6 +138,10 @@ MessageWidget::~MessageWidget()
 {
 }
 
+/**
+ * Update the UMLWidget::m_resizable flag according to the
+ * charactersitics of this message.
+ */
 void MessageWidget::updateResizability()
 {
     if (m_sequenceMessageType == Uml::sequence_message_synchronous ||
@@ -149,6 +151,9 @@ void MessageWidget::updateResizability()
         UMLWidget::m_resizable = false;
 }
 
+/**
+ * Calls drawSynchronous() or drawAsynchronous().
+ */
 void MessageWidget::paint(QPainter& p, int offsetX, int offsetY)
 {
     if(!m_pOw[Uml::A] || !m_pOw[Uml::B]) {
@@ -170,6 +175,10 @@ void MessageWidget::paint(QPainter& p, int offsetX, int offsetY)
     }
 }
 
+/**
+ * Draw a solid (triangular) arrowhead pointing in the given direction.
+ * The direction can be either Qt::LeftArrow or Qt::RightArrow.
+ */
 void MessageWidget::drawSolidArrowhead(QPainter& p, int x, int y, Qt::ArrowType direction)
 {
     int arrowheadExtentX = 4;
@@ -182,6 +191,12 @@ void MessageWidget::drawSolidArrowhead(QPainter& p, int x, int y, Qt::ArrowType 
     p.drawPolygon(points);
 }
 
+/**
+ * Draw an arrow pointing in the given direction.
+ * The arrow head is not solid, i.e. it is made up of two lines
+ * like so:  --->
+ * The direction can be either Qt::LeftArrow or Qt::RightArrow.
+ */
 void MessageWidget::drawArrow(QPainter& p, int x, int y, int w,
                               Qt::ArrowType direction, bool useDottedLine /* = false */)
 {
@@ -204,6 +219,11 @@ void MessageWidget::drawArrow(QPainter& p, int x, int y, int w,
     p.drawLine(x, y, x + w, y);
 }
 
+/**
+ * Draws the calling arrow with filled in arrowhead, the
+ * timeline box and the returning arrow with a dashed line and
+ * stick arrowhead.
+ */
 void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY)
 {
     int x1 = m_pOw[Uml::A]->x();
@@ -260,6 +280,9 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY)
     }
 }
 
+/**
+ * Draws a solid arrow line and a stick arrow head.
+ */
 void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY)
 {
     int x1 = m_pOw[Uml::A]->x();
@@ -304,6 +327,11 @@ void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY)
         drawSelected(&p, offsetX, offsetY);
 }
 
+/**
+ * Draws a solid arrow line and a stick arrow head to the
+ * edge of the target object widget instead of to the
+ * sequence line.
+ */
 void MessageWidget::drawCreation(QPainter& p, int offsetX, int offsetY)
 {
     int x1 = m_pOw[Uml::A]->x();
@@ -335,6 +363,10 @@ void MessageWidget::drawCreation(QPainter& p, int offsetX, int offsetY)
 }
 
 
+/**
+ * Draws a solid arrow line and a stick arrow head
+ * and a circle
+ */
 void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY)
 {
     int x1 = m_pOw[Uml::A]->x();
@@ -373,6 +405,9 @@ void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY)
         drawSelected(&p, offsetX, offsetY);
 }
 
+/**
+ * Draws a circle and a solid arrow line and a stick arrow head.
+ */
 void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY)
 {
     int x1 = m_pOw[Uml::A]->x();
@@ -410,6 +445,16 @@ void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY)
 
 }
 
+/**
+ * Overrides operation from UMLWidget.
+ *
+ * @param p Point to be checked.
+ *
+ * @return Non-zero if the point is on a part of the MessageWidget.
+ *         NB In case of a synchronous message, the empty space
+ *         between call line and return line does not count, i.e. if
+ *         the point is located in that space the function returns 0.
+ */
 int MessageWidget::onWidget(const QPoint & p)
 {
     if (m_sequenceMessageType != Uml::sequence_message_synchronous) {
@@ -451,6 +496,10 @@ void MessageWidget::setTextPosition()
     m_pFText->setY( ftY );
 }
 
+/**
+ * Returns the textX arg with constraints applied.
+ * Auxiliary to setTextPosition() and constrainTextPos().
+ */
 int MessageWidget::constrainX(int textX, int textWidth, Uml::TextRole tr)
 {
     int result = textX;
@@ -477,11 +526,11 @@ int MessageWidget::constrainX(int textX, int textWidth, Uml::TextRole tr)
  * Constrains the FloatingTextWidget X and Y values supplied.
  * Overrides operation from LinkWidget.
  *
- * @param textX             Candidate X value (may be modified by the constraint.)
- * @param textY             Candidate Y value (may be modified by the constraint.)
- * @param textWidth Width of the text.
- * @param textHeight        Height of the text.
- * @param tr                Uml::Text_Role of the text.
+ * @param textX        candidate X value (may be modified by the constraint)
+ * @param textY        candidate Y value (may be modified by the constraint)
+ * @param textWidth    width of the text
+ * @param textHeight   height of the text
+ * @param tr           Uml::TextRole of the text
  */
 void MessageWidget::constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
                                      Uml::TextRole tr)
@@ -497,12 +546,16 @@ void MessageWidget::constrainTextPos(int &textX, int &textY, int textWidth, int 
 //     setY( textY + textHeight );   // NB: side effect
 }
 
+/**
+ * Shortcut for calling m_pFText->setLink() followed by
+ * this->setTextPosition().
+ */
 void MessageWidget::setLinkAndTextPos()
 {
-    if (m_pFText == NULL)
-        return;
-    m_pFText->setLink(this);
-    setTextPosition();
+    if (m_pFText) {
+        m_pFText->setLink(this);
+        setTextPosition();
+    }
 }
 
 void MessageWidget::moveEvent(QMoveEvent* /*m*/)
@@ -525,6 +578,9 @@ void MessageWidget::resizeEvent(QResizeEvent* /*re*/)
 {
 }
 
+/**
+ * Calculate the geometry of the widget.
+ */
 void MessageWidget::calculateWidget()
 {
     setMessageText(m_pFText);
@@ -558,6 +614,12 @@ void MessageWidget::slotWidgetMoved(Uml::IDType id)
     setTextPosition();
 }
 
+/**
+ * Check to see if the given ObjectWidget is involved in the message.
+ *
+ * @param w The ObjectWidget to check for.
+ * @return  true - if is contained, false - not contained.
+ */
 bool MessageWidget::contains(ObjectWidget * w)
 {
     if(m_pOw[Uml::A] == w || m_pOw[Uml::B] == w)
@@ -578,6 +640,10 @@ void MessageWidget::slotMenuSelection(QAction* action)
     }
 }
 
+/**
+ * Activates a MessageWidget.  Connects its m_pOw[] pointers
+ * to UMLObjects and also send signals about its FloatingTextWidget.
+ */
 bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
 {
     m_scene->resetPastePoint();
@@ -785,6 +851,12 @@ UMLClassifier * MessageWidget::seqNumAndOp(QString& seqNum, QString& op)
     return c;
 }
 
+/**
+ * Calculates the size of the widget by calling
+ * calculateDimensionsSynchronous(),
+ * calculateDimensionsAsynchronous(), or
+ * calculateDimensionsCreation()
+ */
 void MessageWidget::calculateDimensions()
 {
     if (m_sequenceMessageType == Uml::sequence_message_synchronous) {
@@ -805,6 +877,9 @@ void MessageWidget::calculateDimensions()
     }
 }
 
+/**
+ * Calculates and sets the size of the widget for a synchronous message.
+ */
 void MessageWidget::calculateDimensionsSynchronous()
 {
     int x = 0;
@@ -839,6 +914,9 @@ void MessageWidget::calculateDimensionsSynchronous()
     setSize(widgetWidth, widgetHeight);
 }
 
+/**
+ * Calculates and sets the size of the widget for an asynchronous message.
+ */
 void MessageWidget::calculateDimensionsAsynchronous()
 {
     int x = 0;
@@ -873,6 +951,9 @@ void MessageWidget::calculateDimensionsAsynchronous()
     setSize(widgetWidth, widgetHeight);
 }
 
+/**
+ * Calculates and sets the size of the widget for a creation message.
+ */
 void MessageWidget::calculateDimensionsCreation()
 {
     int x = 0;
@@ -901,6 +982,9 @@ void MessageWidget::calculateDimensionsCreation()
     setSize(widgetWidth, widgetHeight);
 }
 
+/**
+ * Calculates and sets the size of the widget for a lost message.
+ */
 void MessageWidget::calculateDimensionsLost()
 {
     int x = 0;
@@ -925,6 +1009,9 @@ void MessageWidget::calculateDimensionsLost()
     setSize(widgetWidth, widgetHeight);
 }
 
+/**
+ * Calculates and sets the size of the widget for a found message.
+ */
 void MessageWidget::calculateDimensionsFound()
 {
     int x = 0;
@@ -950,6 +1037,9 @@ void MessageWidget::calculateDimensionsFound()
     setSize(widgetWidth, widgetHeight);
 }
 
+/**
+ * Used to cleanup any other widget it may need to delete.
+ */
 void MessageWidget::cleanup()
 {
     if (m_pOw[Uml::A]) {
@@ -968,6 +1058,11 @@ void MessageWidget::cleanup()
     }
 }
 
+/**
+ * Sets the state of whether the widget is selected.
+ *
+ * @param _select   True if the widget is selected.
+ */
 void MessageWidget::setSelected(bool _select)
 {
     UMLWidget::setSelected( _select );
@@ -982,6 +1077,11 @@ void MessageWidget::setSelected(bool _select)
     m_pFText -> setSelected( m_selected );
 }
 
+/**
+ * Returns the minimum height this widget should be set at on
+ * a sequence diagrams.  Takes into account the widget positions
+ * it is related to.
+ */
 int MessageWidget::getMinY()
 {
     if (!m_pOw[Uml::A] || !m_pOw[Uml::B]) {
@@ -999,6 +1099,11 @@ int MessageWidget::getMinY()
     return height;
 }
 
+/**
+ * Returns the maximum height this widget should be set at on
+ * a sequence diagrams.  Takes into account the widget positions
+ * it is related to.
+ */
 int MessageWidget::getMaxY()
 {
     if( !m_pOw[Uml::A] || !m_pOw[Uml::B] ) {
@@ -1035,22 +1140,22 @@ ObjectWidget* MessageWidget::objectWidget(Uml::Role_Type role)
     return m_pOw[role];
 }
 
-void MessageWidget::setxclicked (int xclick)
+/**
+ * Set the xclicked
+ */
+void MessageWidget::setxclicked(int xclick)
 {
     xclicked = xclick;
 }
 
 
-void MessageWidget::setyclicked (int yclick)
+/**
+ * Set the yclicked
+ */
+void MessageWidget::setyclicked(int yclick)
 {
     yclicked = yclick;
 }
-
-// void  MessageWidget::setSize(int width,int height);
-// {
-//
-//     UMLWidget::setSize(width,height);
-// }
 
 /**
  * Saves to the "messagewidget" XMI element.

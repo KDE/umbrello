@@ -11,10 +11,15 @@
 #ifndef UMLVIEW_H
 #define UMLVIEW_H
 
-#include "umlscene.h"
+#include <Q3CanvasView>
 
+class AssociationWidget;
 class ToolBarState;
 class ToolBarStateFactory;
+class UMLFolder;
+class UMLObject;
+class UMLScene;
+class UMLWidget;
 
 /**
  * UMLView instances represent diagrams.
@@ -33,20 +38,9 @@ public:
     UMLView(UMLFolder *parentFolder);
     virtual ~UMLView();
 
-    /**
-     * Hack for reducing the difference
-     * between the new QGraphicsScreen port.
-     */
-    UMLScene* umlScene() {
-        return m_scene;
-    }
+    UMLScene* umlScene() const;
 
-    /**
-    * Returns the zoom of the diagram.
-    */
-    int zoom() const {
-        return m_nZoom;
-    }
+    int zoom() const ;
     void setZoom(int zoom);
     int currentZoom();
 
@@ -71,7 +65,7 @@ public slots:
     void slotToolBarChanged(int c);
 
 protected:
-    virtual void closeEvent(QCloseEvent * e);
+    virtual void closeEvent(QCloseEvent* ce);
 
     void contentsMouseReleaseEvent(QMouseEvent* mouseEvent);
     void contentsMouseMoveEvent(QMouseEvent* mouseEvent);

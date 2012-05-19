@@ -32,13 +32,10 @@
 #include "objectnodewidget.h"
 #include "pinwidget.h"
 #include "umlscene.h"
-#include "model_utils.h"  // for ENUM_NAMES only
 
 // kde includes
 #include <klocale.h>
 #include <kinputdialog.h>
-
-#include <QtGui/QMouseEvent>
 
 using namespace Uml;
 

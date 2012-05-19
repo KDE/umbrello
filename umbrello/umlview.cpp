@@ -10,12 +10,12 @@
 
 // own header
 #include "umlview.h"
-#include "umlscene.h"
-#include "uml.h"
 
 // application specific includes
 #include "docwindow.h"
 #include "toolbarstatefactory.h"
+#include "umlscene.h"
+#include "uml.h"
 
 /**
  * Constructor
@@ -39,6 +39,23 @@ UMLView::~UMLView()
 {
     delete m_pToolBarStateFactory;
     m_pToolBarStateFactory = 0;
+}
+
+/**
+ * Hack for reducing the difference
+ * between the new QGraphicsScreen port.
+ */
+UMLScene* UMLView::umlScene() const
+{
+    return m_scene;
+}
+
+/**
+ * Returns the zoom of the diagram.
+ */
+int UMLView::zoom() const
+{
+    return m_nZoom;
 }
 
 /**
@@ -85,9 +102,9 @@ void UMLView::zoomOut()
 /**
  * Override standard method.
  */
-void UMLView::closeEvent(QCloseEvent * e)
+void UMLView::closeEvent(QCloseEvent* ce)
 {
-    QWidget::closeEvent(e);
+    QWidget::closeEvent(ce);
 }
 
 /**

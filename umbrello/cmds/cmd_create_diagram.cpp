@@ -12,6 +12,7 @@
 
 #include "model_utils.h"
 #include "umldoc.h"
+#include "umlscene.h"
 #include "umlview.h"
 
 #include <klocale.h>

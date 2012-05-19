@@ -572,6 +572,7 @@ void UMLApp::slotZoomFit()
         scale = scaleH;
     }
     setZoom(scale);
+    //currentView()->centerOn(...);
 }
 
 /**

@@ -19,7 +19,7 @@
 /**
  * Constructs a ArtifactWidget.
  *
- * @param scene              The parent of this ArtifactWidget.
+ * @param scene     The parent of this ArtifactWidget.
  * @param a         The Artifact this widget will be representing.
  */
 ArtifactWidget::ArtifactWidget(UMLScene *scene, UMLArtifact *a)
@@ -48,25 +48,29 @@ void ArtifactWidget::paint(QPainter& p, int offsetX, int offsetY)
         p.setBrush( m_scene->view()->viewport()->palette().color(QPalette::Background) );
     }
 
-    UMLArtifact *umlart = static_cast<UMLArtifact*>(m_pObject);
-    UMLArtifact::Draw_Type drawType = umlart->getDrawAsType();
-    switch (drawType) {
-    case UMLArtifact::defaultDraw:
-        return drawAsNormal(p, offsetX, offsetY);
-        break;
-    case UMLArtifact::file:
-        return drawAsFile(p, offsetX, offsetY);
-        break;
-    case UMLArtifact::library:
-        return drawAsLibrary(p, offsetX, offsetY);
-        break;
-    case UMLArtifact::table:
-        return drawAsTable(p, offsetX, offsetY);
-        break;
-
-    default:
-        uWarning() << "Artifact drawn as unknown type";
-        break;
+    if (umlObject()) {
+        UMLArtifact *umlart = static_cast<UMLArtifact*>(m_pObject);
+        UMLArtifact::Draw_Type drawType = umlart->getDrawAsType();
+        switch (drawType) {
+        case UMLArtifact::defaultDraw:
+            drawAsNormal(p, offsetX, offsetY);
+            break;
+        case UMLArtifact::file:
+            drawAsFile(p, offsetX, offsetY);
+            break;
+        case UMLArtifact::library:
+            drawAsLibrary(p, offsetX, offsetY);
+            break;
+        case UMLArtifact::table:
+            drawAsTable(p, offsetX, offsetY);
+            break;
+        default:
+            uWarning() << "Artifact drawn as unknown type";
+            break;
+        }
+    }
+    else {
+        uWarning() << "Cannot draw as there is no UMLArtifact for this widget.";
     }
 }
 

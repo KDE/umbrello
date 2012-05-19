@@ -73,26 +73,18 @@ public:
     virtual void setSeqNumAndOp(const QString &seqNum, const QString &op);
 
     virtual void constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
-                          Uml::TextRole tr);
+                                  Uml::TextRole tr);
 
     //---------- End LinkWidget Interface methods implemementation.
 
     QString sequenceNumber() const;
     void setSequenceNumber(const QString &sequenceNumber);
 
-    /**
-     * Returns whether the message is synchronous or asynchronous
-     */
+    /// @return Whether the message is synchronous or asynchronous
     Uml::Sequence_Message_Type sequenceMessageType() const {
         return m_sequenceMessageType;
     }
 
-    /**
-     * Check to see if the given ObjectWidget is involved in the message.
-     *
-     * @param w The ObjectWidget to check for.
-     * @return  true - if is contained, false - not contained.
-     */
     bool contains(ObjectWidget * w);
 
     ObjectWidget* objectWidget(Uml::Role_Type role);
@@ -116,141 +108,39 @@ public:
         m_pFText = f;
     }
 
-    /**
-     * Calculate the geometry of the widget.
-     */
     void calculateWidget();
 
-    /**
-     * Activates a MessageWidget.  Connects its m_pOw[] pointers
-     * to UMLObjects and also send signals about its FloatingTextWidget.
-     */
     virtual bool activate(IDChangeLog * Log = 0);
 
-    /**
-     * Calculates the size of the widget by calling
-     * calculateDimensionsSynchronous(),
-     * calculateDimensionsAsynchronous(), or
-     * calculateDimensionsCreation()
-     */
     void calculateDimensions();
-
-    /**
-     * Calculates and sets the size of the widget for a synchronous message
-     */
     void calculateDimensionsSynchronous();
-
-    /**
-     * Calculates and sets the size of the widget for an asynchronous message
-     */
     void calculateDimensionsAsynchronous();
-
-    /**
-     * Calculates and sets the size of the widget for a creation message
-     */
     void calculateDimensionsCreation();
-
-    /**
-     * Calculates and sets the size of the widget for a lost message
-     */
     void calculateDimensionsLost();
-
-    /**
-     * Calculates and sets the size of the widget for a found message
-     */
     void calculateDimensionsFound();
 
-    /**
-     * Calls drawSynchronous() or drawAsynchronous()
-     */
     void paint(QPainter& p, int offsetX, int offsetY);
-
-    /**
-     * Draws the calling arrow with filled in arrowhead, the
-     * timeline box and the returning arrow with a dashed line and
-     * stick arrowhead.
-     */
-    void drawSynchronous(QPainter& p, int offsetX, int offsetY);
-
-    /**
-     * Draws a solid arrow line and a stick arrow head.
-     */
-    void drawAsynchronous(QPainter& p, int offsetX, int offsetY);
-
-    /**
-     * Draws a solid arrow line and a stick arrow head to the
-     * edge of the target object widget instead of to the
-     * sequence line.
-     */
-    void drawCreation(QPainter& p, int offsetX, int offsetY);
-
-     /**
-     * Draws a solid arrow line and a stick arrow head
-     * and a circle
-     */
-    void drawLost(QPainter& p, int offsetX, int offsetY);
-
-     /**
-     * Draws a circle and a solid arrow line and a stick arrow head
-     */
-    void drawFound(QPainter& p, int offsetX, int offsetY);
 
     void setTextPosition();
 
-    /**
-     * Used to cleanup any other widget it may need to delete.
-     */
     void cleanup();
 
-    /**
-     * Sets the state of whether the widget is selected.
-     *
-     * @param _select   True if the widget is selected.
-     */
     void setSelected(bool _select);
 
-    /**
-     * Returns the minimum height this widget should be set at on
-     * a sequence diagrams.  Takes into account the widget positions
-     * it is related to.
-     */
     int getMinY();
-
-    /**
-     * Returns the maximum height this widget should be set at on
-     * a sequence diagrams.  Takes into account the widget positions
-     * it is related to.
-     */
     int getMaxY();
 
-    /**
-     * Overrides operation from UMLWidget.
-     *
-     * @param p Point to be checked.
-     *
-     * @return Non-zero if the point is on a part of the MessageWidget.
-     *         NB In case of a synchronous message, the empty space
-     *         between call line and return line does not count, i.e. if
-     *         the point is located in that space the function returns 0.
-     */
     int onWidget(const QPoint & p);
 
     virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
     virtual bool loadFromXMI(QDomElement & qElement);
 
-    /**
-    * Set the xclicked
-    */
-    void setxclicked (int xclick);
+    void setxclicked(int xclick);
+    void setyclicked(int yclick);
 
     /**
-    * Set the xclicked
-    */
-    void setyclicked (int yclick);
-
-    /**
-    * Return the xclicked
-    */
+     * Return the xclicked
+     */
     int getxclicked() const {
         return xclicked;
     }
@@ -258,45 +148,21 @@ public:
     ListPopupMenu* setupPopupMenu(ListPopupMenu *menu = 0);
 
 protected:
-    /**
-     * Shortcut for calling m_pFText->setLink() followed by
-     * this->setTextPosition().
-     */
     void setLinkAndTextPos();
 
-    /**
-     * Returns the textX arg with constraints applied.
-     * Auxiliary to setTextPosition() and constrainTextPos().
-     */
     int constrainX(int textX, int textWidth, Uml::TextRole tr);
 
-    /**
-     * Draw an arrow pointing in the given direction.
-     * The arrow head is not solid, i.e. it is made up of two lines
-     * like so:  --->
-     * The direction can be either Qt::LeftArrow or Qt::RightArrow.
-     */
     static void drawArrow( QPainter& p, int x, int y, int w,
                            Qt::ArrowType direction, bool useDottedLine = false );
-
-    /**
-     * Draw a solid (triangular) arrowhead pointing in the given direction.
-     * The direction can be either Qt::LeftArrow or Qt::RightArrow.
-     */
     static void drawSolidArrowhead(QPainter& p, int x, int y, Qt::ArrowType direction);
 
-    /**
-     * Update the UMLWidget::m_resizable flag according to the
-     * charactersitics of this message.
-     */
     void updateResizability();
 
-     /**
-     * Sets the size.
-     * If m_scene->getSnapComponentSizeToGrid() is true, then
-     * set the next larger size that snaps to the grid.
-     */
-//     void setSize(int width,int height);
+    void drawSynchronous(QPainter& p, int offsetX, int offsetY);
+    void drawAsynchronous(QPainter& p, int offsetX, int offsetY);
+    void drawCreation(QPainter& p, int offsetX, int offsetY);
+    void drawLost(QPainter& p, int offsetX, int offsetY);
+    void drawFound(QPainter& p, int offsetX, int offsetY);
 
     // Data loaded/saved
     QString m_SequenceNumber;
