@@ -71,7 +71,8 @@ void UMLViewImageExporter::exportView()
 
     // export the view
     app->document()->writeToStatusBar(i18n("Exporting view..."));
-    QString error = UMLViewImageExporterModel().exportView(m_scene,
+    UMLViewImageExporterModel theExporter;
+    QString error = theExporter.exportView(m_scene,
                             UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType), m_imageURL);
     if (!error.isNull()) {
         KMessageBox::error(app, i18n("An error happened when exporting the image:\n") + error);
