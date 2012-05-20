@@ -73,7 +73,7 @@ typedef Q3CanvasItemList UMLSceneItemList;
 
 /**
  * UMLScene instances represent diagrams.
- * The UMLScene class inherits from Q3CanvasView and
+ * The UMLScene class inherits from Q3Canvas and
  * in the future from QGraphicsScene.
  */
 class UMLScene : public Q3Canvas
