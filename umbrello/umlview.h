@@ -66,6 +66,8 @@ public slots:
 
 protected:
     virtual void closeEvent(QCloseEvent* ce);
+    void contentsDragEnterEvent(QDragEnterEvent* mouseEvent);
+    void contentsDropEvent(QDropEvent* mouseEvent);
 
     void contentsMouseReleaseEvent(QMouseEvent* mouseEvent);
     void contentsMouseMoveEvent(QMouseEvent* mouseEvent);

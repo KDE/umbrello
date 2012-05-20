@@ -12,6 +12,12 @@
 #include "umlview.h"
 
 // application specific includes
+#include "debug_utils.h"
+#include "model_utils.h"
+#include "umldoc.h"
+#include "umlwidget.h"
+#include "notewidget.h"
+#include "umldragdata.h"
 #include "docwindow.h"
 #include "toolbarstatefactory.h"
 #include "umlscene.h"
@@ -105,6 +111,167 @@ void UMLView::zoomOut()
 void UMLView::closeEvent(QCloseEvent* ce)
 {
     QWidget::closeEvent(ce);
+}
+
+/**
+ * Override standard method - Q3CanvasView specific.
+ * Superceded by UMLScene::dragEnterEvent() - to be removed when transition
+ * to QGraphicsView is complete
+ */
+void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
+    UMLDragData::LvTypeAndID_List tidList;
+    if(!UMLDragData::getClip3TypeAndID(e->mimeData(), tidList)) {
+        return;
+    }
+    UMLDragData::LvTypeAndID_It tidIt(tidList);
+    if (!tidIt.hasNext()) {
+        DEBUG(DBG_SRC) << "UMLDragData::getClip3TypeAndID returned empty list";
+        return;
+    }
+    UMLDragData::LvTypeAndID * tid = tidIt.next();
+    if (!tid) {
+        kDebug() << "UMLView::contentsDragEnterEvent: "
+                  << "UMLDragData::getClip3TypeAndID returned empty list" << endl;
+        return;
+    }
+    UMLListViewItem::ListViewType lvtype = tid->type;
+    Uml::IDType id = tid->id;
+
+    Uml::DiagramType diagramType = umlScene()->type();
+
+    UMLObject* temp = 0;
+    //if dragging diagram - might be a drag-to-note
+    if (Model_Utils::typeIsDiagram(lvtype)) {
+        e->accept(true);
+        return;
+    }
+    //can't drag anything onto state/activity diagrams
+    if( diagramType == Uml::DiagramType::State || diagramType == Uml::DiagramType::Activity) {
+        e->accept(false);
+        return;
+    }
+    UMLDoc *pDoc = UMLApp::app()->document();
+    //make sure can find UMLObject
+    if( !(temp = pDoc->findObjectById(id) ) ) {
+        kDebug() << "object " << ID2STR(id) << " not found" << endl;
+        e->accept(false);
+        return;
+    }
+    //make sure dragging item onto correct diagram
+    // concept - class,seq,coll diagram
+    // actor,usecase - usecase diagram
+    UMLObject::ObjectType ot = temp->baseType();
+    bool bAccept = true;
+    switch (diagramType) {
+        case Uml::DiagramType::UseCase:
+            if ((umlScene()->widgetOnDiagram(id) && ot == UMLObject::ot_Actor) ||
+                (ot != UMLObject::ot_Actor && ot != UMLObject::ot_UseCase))
+                bAccept = false;
+            break;
+        case Uml::DiagramType::Class:
+            if (umlScene()->widgetOnDiagram(id) ||
+                (ot != UMLObject::ot_Class &&
+                 ot != UMLObject::ot_Package &&
+                 ot != UMLObject::ot_Interface &&
+                 ot != UMLObject::ot_Enum &&
+                 ot != UMLObject::ot_Datatype)) {
+                bAccept = false;
+            }
+            break;
+        case Uml::DiagramType::Sequence:
+        case Uml::DiagramType::Collaboration:
+            if (ot != UMLObject::ot_Class &&
+                ot != UMLObject::ot_Interface &&
+                ot != UMLObject::ot_Actor)
+                bAccept = false;
+            break;
+        case Uml::DiagramType::Deployment:
+            if (umlScene()->widgetOnDiagram(id))
+                bAccept = false;
+            else if (ot != UMLObject::ot_Interface &&
+                     ot != UMLObject::ot_Package &&
+                     ot != UMLObject::ot_Component &&
+                     ot != UMLObject::ot_Class &&
+                     ot != UMLObject::ot_Node)
+                bAccept = false;
+            else if (ot == UMLObject::ot_Package &&
+                     temp->stereotype() != "subsystem")
+                bAccept = false;
+            break;
+        case Uml::DiagramType::Component:
+            if (umlScene()->widgetOnDiagram(id) ||
+                (ot != UMLObject::ot_Interface &&
+                 ot != UMLObject::ot_Package &&
+                 ot != UMLObject::ot_Component &&
+                 ot != UMLObject::ot_Artifact &&
+                 ot != UMLObject::ot_Class))
+                bAccept = false;
+            if (ot == UMLObject::ot_Class && !temp->isAbstract())
+                bAccept = false;
+            break;
+        case Uml::DiagramType::EntityRelationship:
+            if (ot != UMLObject::ot_Entity)
+                bAccept = false;
+            break;
+        default:
+            break;
+    }
+    e->accept(bAccept);
+}
+
+/**
+ * Override standard method - Q3CanvasView specific.
+ * Superceded by UMLScene::dropEvent() - to be removed when transition to
+ * QGraphicsView is complete.
+ */
+void UMLView::contentsDropEvent(QDropEvent *e) {
+    UMLDragData::LvTypeAndID_List tidList;
+    if( !UMLDragData::getClip3TypeAndID(e->mimeData(), tidList) ) {
+        return;
+    }
+    UMLDragData::LvTypeAndID_It tidIt(tidList);
+    if (!tidIt.hasNext()) {
+        DEBUG(DBG_SRC) << "UMLDragData::getClip3TypeAndID returned empty list";
+        return;
+    }
+    UMLDragData::LvTypeAndID * tid = tidIt.next();
+    if (!tid) {
+        kDebug() << "UMLView::contentsDropEvent: "
+                  << "UMLDragData::getClip3TypeAndID returned empty list" << endl;
+        return;
+    }
+    UMLListViewItem::ListViewType lvtype = tid->type;
+    Uml::IDType id = tid->id;
+
+    if (Model_Utils::typeIsDiagram(lvtype)) {
+        bool breakFlag = false;
+        UMLWidgetList widgets = umlScene()->widgetList();
+        UMLWidget* w = 0;
+        foreach (w, widgets) {
+            if (w->baseType() == WidgetBase::wt_Note && w->onWidget(e->pos())) {
+                breakFlag = true;
+                break;
+            }
+        }
+        if (breakFlag) {
+            NoteWidget *note = static_cast<NoteWidget*>(w);
+            note->setDiagramLink(id);
+        }
+        return;
+    }
+    UMLDoc *pDoc = UMLApp::app()->document();
+    UMLObject* o = pDoc->findObjectById(id);
+    if( !o ) {
+        kDebug() << "UMLView::contentsDropEvent: object id=" << ID2STR(id)
+                  << " not found" << endl;
+        return;
+    }
+    umlScene()->setCreateObject(true);
+    umlScene()->setPos( (e->pos() * 100 ) / m_nZoom );
+
+    umlScene()->slotObjectCreated(o);
+
+    pDoc -> setModified(true);
 }
 
 /**
