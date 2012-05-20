@@ -178,11 +178,13 @@ void UMLListView::slotItemSelectionChanged()
         if (m_editItem && m_bRenameInProgress) {
             if (m_editItem == currItem) {
                 // clicked on the item which is just edited
+                DEBUG(DBG_SRC) << "performing endRename";
                 endRename(currItem);
             }
             else {
                 // other item was selected during editing
                 cancelRename(m_editItem);
+                DEBUG(DBG_SRC) << "performing cancelRename";
             }
         }
     }
@@ -292,12 +294,17 @@ void UMLListView::mousePressEvent(QMouseEvent *me)
  */
 void UMLListView::mouseMoveEvent(QMouseEvent* me)
 {
-    if (!(me->buttons() & Qt::LeftButton))
+    if (!(me->buttons() & Qt::LeftButton)) {
+        DEBUG(DBG_SRC) << "not LeftButton (no action)";
         return;
+    }
     if ((me->pos() - m_dragStartPosition).manhattanLength()
-            < QApplication::startDragDistance())
+            < QApplication::startDragDistance()) {
+        DEBUG(DBG_SRC) << "pos change since dragStart is below startDragDistance threshold (no action)";
         return;
+    }
 
+    DEBUG(DBG_SRC) << "initiating drag";
     QDrag* drag = new QDrag(this);
     drag->setMimeData(getDragData());
     drag->exec(Qt::CopyAction);
@@ -1582,7 +1589,7 @@ bool UMLListView::acceptDrag(QDropEvent* event) const
         }
     }
 
-    //DEBUG(DBG_SRC) << "dstType = " << dstType << ", accept=" << accept;
+    DEBUG(DBG_SRC) << "dstType = " << dstType << ", accept=" << accept;
     return accept;
 }
 
