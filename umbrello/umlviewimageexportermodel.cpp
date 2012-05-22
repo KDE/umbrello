@@ -508,13 +508,15 @@ bool UMLViewImageExporterModel::exportViewToPixmap(UMLScene* scene, const QStrin
         return false;
     }
 
-    bool exportSuccessful;
     UMLSceneRect rect = scene->diagramRect();
     QPixmap diagram(rect.width(), rect.height());
     scene->getDiagram(rect, diagram);
-    exportSuccessful = diagram.save(fileName, qPrintable(imageType.toUpper()));
-
-    DEBUG(DBG_IEM) << "saving to file " << fileName << " , imageType=" << imageType << " successful=" << exportSuccessful;
+    bool exportSuccessful = diagram.save(fileName, qPrintable(imageType.toUpper()));
+    DEBUG(DBG_IEM) << "saving to file " << fileName
+                   << " , imageType=" << imageType
+                   << " , width=" << rect.width()
+                   << " , height=" << rect.height()
+                   << " , successful=" << exportSuccessful;
     return exportSuccessful;
 }
 

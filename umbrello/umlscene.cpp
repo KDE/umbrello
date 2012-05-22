@@ -2095,7 +2095,6 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
         Uml::IDType ida = Uml::id_None, idb = Uml::id_None;
         if (type() == DiagramType::Collaboration || type() == DiagramType::Sequence) {
             //check local log first
-
             ida = m_pIDChangesLog->findNewID(pAssoc->widgetIDForRole(Uml::A));
             idb = m_pIDChangesLog->findNewID(pAssoc->widgetIDForRole(Uml::B));
             //if either is still not found and assoc type is anchor
@@ -2331,7 +2330,6 @@ void UMLScene::getWidgetAssocs(UMLObject* Obj, AssociationWidgetList & Associati
 void UMLScene::removeAllAssociations()
 {
     //Remove All association widgets
-
     foreach(AssociationWidget* assocwidget, m_AssociationList) {
         removeAssoc(assocwidget);
     }
@@ -2360,14 +2358,13 @@ void UMLScene::removeAllWidgets()
             removeWidget(temp);
         }
     }
-    // Porting to QList from QPtrList which doesn't support autodelete
-    //m_WidgetList.clear();
-    qDeleteAll(m_AssociationList);
-    m_AssociationList.clear();
+
+    qDeleteAll(m_WidgetList);
+    m_WidgetList.clear();
 }
 
 /**
- *  Calls the same method in the DocWindow.
+ * Calls the same method in the DocWindow.
  */
 void UMLScene::showDocumentation(UMLObject * object, bool overwrite)
 {
@@ -2376,7 +2373,7 @@ void UMLScene::showDocumentation(UMLObject * object, bool overwrite)
 }
 
 /**
- *  Calls the same method in the DocWindow.
+ * Calls the same method in the DocWindow.
  */
 void UMLScene::showDocumentation(UMLWidget * widget, bool overwrite)
 {
@@ -2385,7 +2382,7 @@ void UMLScene::showDocumentation(UMLWidget * widget, bool overwrite)
 }
 
 /**
- *  Calls the same method in the DocWindow.
+ * Calls the same method in the DocWindow.
  */
 void UMLScene::showDocumentation(AssociationWidget * widget, bool overwrite)
 {
@@ -2394,7 +2391,7 @@ void UMLScene::showDocumentation(AssociationWidget * widget, bool overwrite)
 }
 
 /**
- *  Calls the same method in the DocWindow.
+ * Calls the same method in the DocWindow.
  */
 void UMLScene::updateDocumentation(bool clear)
 {
