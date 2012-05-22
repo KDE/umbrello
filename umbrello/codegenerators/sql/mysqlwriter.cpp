@@ -161,6 +161,7 @@ void MySQLWriter::printCheckConstraints(QTextStream& sql,UMLClassifierListItemLi
     sql<<"-- CHECK Constraints are not supported in Mysql ( as of version 5.x )";
     sql<<m_endl;
     sql<<"-- But it'll parse the statements without error ";
+    sql<<m_endl;
 
     // call base class
     SQLWriter::printCheckConstraints( sql, constrList );

@@ -2,6 +2,8 @@ Version 2.9.0 (unreleased)
 
 * New feature: Drawing of state diagrams with more pseudostates possible.
 * Cannot anchor note in state diagram (270597)
+* Missing newline in MySQL codegenerator results in output being partially
+  commented out on some models (275164)
 * Color of role text on diagram (e.g. Role B) nearly invisible (291401)
 * Junk residual UMLAssociations saved to XMI (293042)
 * Problems with widget moving/resizing in state diagrams (295605)
