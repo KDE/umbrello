@@ -1,4 +1,4 @@
-Version 2.9.0 (unreleased)
+Version 2.9.0
 
 * New feature: Drawing of state diagrams with more pseudostates possible.
 * Cannot anchor note in state diagram (270597)
