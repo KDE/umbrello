@@ -72,7 +72,7 @@ QStringList PostgreSQLWriter::defaultDatatypes()
     l.append( "time without time zone" );
     l.append( "time with time zone" );
     l.append( "timestamp without time zone" );
-    l.append( "time with time zone" );
+    l.append( "timestamp with time zone" );
 
     return l;
 }

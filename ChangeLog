@@ -2,6 +2,7 @@ Version 2.9.0 (unreleased)
 
 * New feature: Drawing of state diagrams with more pseudostates possible.
 * Cannot anchor note in state diagram (270597)
+* Mistype in PostgreSQL codegenerator (275158)
 * Missing newline in MySQL codegenerator results in output being partially
   commented out on some models (275164)
 * Color of role text on diagram (e.g. Role B) nearly invisible (291401)
