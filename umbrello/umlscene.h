@@ -162,6 +162,7 @@ public:
     AssociationWidgetList& associationList();
     UMLWidgetList& widgetList();
     MessageWidgetList& messageList();
+    UMLObjectList umlObjects();
 
     bool isOpen() const;
     void setIsOpen(bool isOpen);
@@ -215,8 +216,6 @@ public:
 
     bool getPaste() const;
     void setPaste(bool paste);
-
-    UMLObjectList umlObjects();
 
     void activate();
 
