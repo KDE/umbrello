@@ -14,7 +14,6 @@
 // app includes
 #include "activitydialog.h"
 #include "debug_utils.h"
-#include "docwindow.h"
 #include "listpopupmenu.h"
 #include "pinwidget.h"
 #include "textitem.h"
@@ -114,12 +113,11 @@ void ActivityWidget::setPostconditionText(const QString& aPostText)
  */
 void ActivityWidget::showPropertiesDialog()
 {
-    DocWindow *docwindow = UMLApp::app()->docWindow();
-    docwindow->updateDocumentation(false);
+    umlScene()->updateDocumentation(false);
 
     QPointer<ActivityDialog> dialog = new ActivityDialog(umlScene()->activeView(), this);
     if (dialog->exec() && dialog->getChangesMade()) {
-        docwindow->showDocumentation(this, true);
+        umlScene()->showDocumentation(this, true);
         UMLApp::app()->document()->setModified(true);
     }
     delete dialog;

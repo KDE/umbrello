@@ -15,7 +15,6 @@
 #include "debug_utils.h"
 #include "dialog_utils.h"
 #include "objectnodedialog.h"
-#include "docwindow.h"
 #include "listpopupmenu.h"
 #include "textitem.h"
 #include "textitemgroup.h"
@@ -96,12 +95,11 @@ void ObjectNodeWidget::setState(const QString& state)
  */
 void ObjectNodeWidget::showPropertiesDialog()
 {
-    DocWindow *docwindow = UMLApp::app()->docWindow();
-    docwindow->updateDocumentation(false);
+    umlScene()->updateDocumentation(false);
 
     QPointer<ObjectNodeDialog> dialog = new ObjectNodeDialog(umlScene()->activeView(), this);
     if (dialog->exec() && dialog->getChangesMade()) {
-        docwindow->showDocumentation(this, true);
+        umlScene()->showDocumentation(this, true);
         UMLApp::app()->document()->setModified(true);
     }
     delete dialog;

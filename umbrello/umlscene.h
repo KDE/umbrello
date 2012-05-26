@@ -159,6 +159,7 @@ public:
     AssociationWidgetList& associationList();
     UMLWidgetList& widgetList();
     MessageWidgetList& messageList();
+    UMLObjectList umlObjects();
 
     bool isOpen() const;
     void setIsOpen(bool isOpen);
@@ -212,8 +213,6 @@ public:
     bool getPaste() const;
     void setPaste(bool paste);
 
-    UMLObjectList umlObjects();
-
     void activate();
 
     AssociationWidgetList selectedAssocs();
@@ -234,9 +233,10 @@ public:
 
     void removeAllWidgets();
 
-    void showDocumentation(UMLObject * object, bool overwrite);
-    void showDocumentation(UMLWidget * widget, bool overwrite);
-    void showDocumentation(AssociationWidget * widget, bool overwrite);
+    void showDocumentation(bool overwrite = false);
+    void showDocumentation(UMLObject* object, bool overwrite = false);
+    void showDocumentation(UMLWidget* widget, bool overwrite = false);
+    void showDocumentation(AssociationWidget* widget, bool overwrite = false);
 
     void updateDocumentation(bool clear);
 
@@ -304,6 +304,7 @@ public:
     UMLWidget* getFirstMultiSelectedWidget() const;
 
     UMLWidget* widgetAt(const UMLScenePoint& p);
+    AssociationWidget* associationAt(const UMLScenePoint& p);
 
     void setupNewWidget(UMLWidget *w);
 
@@ -398,13 +399,6 @@ private:
     static const UMLSceneValue defaultCanvasSize;  ///< The default size of a diagram in pixels.
 
     UMLFolder *m_pFolder;  ///< The folder in which this UMLScene is contained.
-
-    /**
-     * set to true when a child has used the showDocumentation method,
-     * thus when one clicks on a child widget.
-     * Reset to false when clicking in an empty region of the view.
-     */
-    bool m_bChildDisplayedDoc;
 
     ToolBarStateFactory* m_pToolBarStateFactory;
     ToolBarState* m_pToolBarState;

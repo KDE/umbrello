@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -20,7 +20,6 @@
 
 // qt includes
 #include <QtGui/QGraphicsLineItem>
-
 #include <QtGui/QGraphicsScene>
 #include <QtGui/QPainter>
 #include <QtGui/QStyleOptionGraphicsItem>
@@ -559,7 +558,6 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
     startPoint = m_associationWidget->mapFromScene(startPoint);
 
     node = startElement.nextSibling();
-
     QDomElement endElement = node.toElement();
     if(endElement.isNull() || endElement.tagName() != "endpoint") {
         return false;

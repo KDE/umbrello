@@ -17,7 +17,7 @@ class AssociationWidget;
 class KTextEdit;
 class UMLObject;
 class UMLDoc;
-class UMLView;
+class UMLScene;
 class UMLWidget;
 
 /**
@@ -32,7 +32,7 @@ public:
     ~DocWindow();
 
     void showDocumentation( UMLObject * object, bool overwrite = false );
-    void showDocumentation( UMLView * view, bool overwrite = false );
+    void showDocumentation( UMLScene * scene, bool overwrite = false );
     void showDocumentation( UMLWidget * widget, bool overwrite = false );
     void showDocumentation( AssociationWidget * widget, bool overwrite = false );
 
@@ -57,14 +57,14 @@ private:
      */
     enum Showing_Type {
         st_Project,
-        st_UMLView,
+        st_UMLScene,
         st_UMLObject,
         st_UMLWidget,
         st_Association
     };
 
     UMLObject * m_pUMLObject;  ///< The UMLObject we are going to show documentation.
-    UMLView *   m_pUMLView;    ///< The UMLView we are going to show documentation.
+    UMLScene *  m_pUMLScene;   ///< The UMLScene we are going to show documentation.
     UMLDoc *    m_pUMLDoc;     ///< The Project we are going to show documentation.
     UMLWidget * m_pUMLWidget;  ///< The UMLWidget we are going to show documentation.
     AssociationWidget * m_pAssocWidget;  ///< The association we are going to show documentation.

@@ -14,7 +14,6 @@
 // local includes
 #include "classpropdlg.h"
 #include "debug_utils.h"
-#include "docwindow.h"
 #include "listpopupmenu.h"
 #include "preconditionwidget.h"
 #include "seqlinewidget.h"
@@ -332,12 +331,11 @@ void ObjectWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QW
  */
 void ObjectWidget::showPropertiesDialog()
 {
-    DocWindow *docwindow = UMLApp::app()->docWindow();
-    docwindow->updateDocumentation(false);
+    umlScene()->updateDocumentation(false);
 
     QPointer<ClassPropDlg> dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
     if (dlg->exec()) {
-        docwindow->showDocumentation(this, true);
+        umlScene()->showDocumentation(this, true);
         UMLApp::app()->document()->setModified(true);
     }
     delete dlg;

@@ -28,8 +28,8 @@
 #include "operation.h"
 #include "umldoc.h"
 #include "umlscene.h"
-#include "umlwidget.h"
 #include "umlview.h"
+#include "umlwidget.h"
 #include "widget_utils.h"
 
 // kde includes
@@ -407,9 +407,7 @@ void AssociationWidget::showPropertiesDialog()
         setChangeability(changeability(Uml::A), Uml::A);
         setChangeability(changeability(Uml::B), Uml::B);
 
-        if (umlScene()) {
-            umlScene()->showDocumentation(this, true);
-        }
+        umlScene()->showDocumentation(this, true);
     }
     delete dlg;
 }
@@ -1396,6 +1394,9 @@ QVariant AssociationWidget::attributeChange(WidgetAttributeChange change, const 
 void AssociationWidget::mousePressEvent(UMLSceneMouseEvent *event)
 {
     setSelected(true);
+    // and show association documentation in doc window
+    umlScene()->showDocumentation(this, true);
+
     m_associationLine->mousePressEvent(event);
 }
 

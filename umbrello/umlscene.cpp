@@ -117,7 +117,6 @@ UMLScene::UMLScene(UMLFolder *parentFolder)
     m_pMenu(0),
     m_bStartedCut(false),
     m_pFolder(parentFolder),
-    m_bChildDisplayedDoc(false),
     m_pIDChangesLog(0),
     m_isActivated(false),
     m_bPopupShowing(false)
@@ -975,9 +974,8 @@ UMLWidget* UMLScene::getFirstMultiSelectedWidget() const
  * widget for which the point is within its bounding rectangle.
  * In case of multiple matches, returns the smallest widget.
  * Returns NULL if the point is not inside any widget.
- * Does not use or modify the m_pOnWidget member.
  */
-UMLWidget *UMLScene::widgetAt(const UMLScenePoint& p)
+UMLWidget* UMLScene::widgetAt(const UMLScenePoint& p)
 {
     qreal metric = 99990.0;
     UMLWidget  *retWid = 0;
@@ -994,6 +992,21 @@ UMLWidget *UMLScene::widgetAt(const UMLScenePoint& p)
         }
     }
     return retWid;
+}
+
+/**
+ * Tests the given point against all associations and returns the
+ * association widget for which the point is within its bounding rectangle.
+ * Returns NULL if the point is not inside any association.
+ */
+AssociationWidget* UMLScene::associationAt(const UMLScenePoint& p)
+{
+    AssociationWidget* widget = 0;
+    QGraphicsItem* item = itemAt(p, QTransform());
+    if (item) {
+        widget = dynamic_cast<AssociationWidget*>(item);
+    }
+    return widget;
 }
 
 /**
@@ -1214,7 +1227,6 @@ UMLSceneRect UMLScene::diagramRect()
 
 /**
  * Check if at the given point is a widget or an association widget.
- * This is rather an ugly hack, because of the usage of metaobject.
  * @param atPos   the mouse position on the scene
  * @return true if there is a widget or an association line
  */
@@ -1225,16 +1237,9 @@ bool UMLScene::isWidgetOrAssociation(const UMLScenePoint& atPos)
         return true;
     }
 
-    QGraphicsItem* item = itemAt(atPos, QTransform());
-    if (item) {
-        QGraphicsObject* gObject = item->toGraphicsObject();
-        if (gObject) {
-            const QMetaObject* mObject = gObject->metaObject();
-            if (mObject) {
-                DEBUG(DBG_SRC) << "QGraphicsItem of class " << mObject->className();
-                return (QString("AssociationWidget") == QString(mObject->className()));
-            }
-        }
+    AssociationWidget* association = associationAt(atPos);
+    if (association) {
+        return true;
     }
     return false;
 }
@@ -1555,20 +1560,34 @@ bool UMLScene::isSavedInSeparateFile()
  * Override standard method.
  * Calls the same method in the current tool bar state.
  */
-void UMLScene::mousePressEvent(UMLSceneMouseEvent* ome)
+void UMLScene::mousePressEvent(UMLSceneMouseEvent* event)
 {
-    m_pToolBarState->mousePress(ome);
+    m_pToolBarState->mousePress(event);
 
     //TODO should be managed by widgets when are selected. Right now also has some
     //problems, such as clicking on a widget, and clicking to move that widget shows
     //documentation of the diagram instead of keeping the widget documentation.
     //When should diagram documentation be shown? When clicking on an empty
     //space in the diagram with arrow tool?
-    if (!m_bChildDisplayedDoc) {
-        // [PORT]
-        // UMLApp::app()->docWindow()->showDocumentation(this, true);
+    UMLWidget* widget = widgetAt(event->scenePos());
+    if (widget) {
+        DEBUG(DBG_SRC) << "widget = " << widget->name() << " / type = " << widget->baseTypeStr();
+        showDocumentation(widget, true);
     }
-    m_bChildDisplayedDoc = false;
+    else {
+        AssociationWidget* association = associationAt(event->scenePos());
+        if (association) {
+            DEBUG(DBG_SRC) << "widget = " << association->name() << " / type = " << association->baseTypeStr();
+            showDocumentation(association, true);
+        }
+        //:TODO: else if (clicking on other elements with documentation) {
+        //:TODO: showDocumentation(umlObject, true);
+        else {
+            // clicking on an empty space in the diagram with arrow tool
+            showDocumentation(true);
+            event->accept();
+        }
+    }
 }
 
 bool UMLScene::isArrowMode()
@@ -1594,19 +1613,19 @@ void UMLScene::makeSelected(UMLWidget* uw)
  */
 void UMLScene::selectWidgetsOfAssoc(AssociationWidget * a)
 {
-    if (!a)
-        return;
-    a->setSelected(true);
-    //select the two widgets
-    makeSelected(a->widgetForRole(Uml::A));
-    makeSelected(a->widgetForRole(Uml::B));
-    //select all the text
-    makeSelected(a->multiplicityWidget(Uml::A));
-    makeSelected(a->multiplicityWidget(Uml::B));
-    makeSelected(a->roleWidget(Uml::A));
-    makeSelected(a->roleWidget(Uml::B));
-    makeSelected(a->changeabilityWidget(Uml::A));
-    makeSelected(a->changeabilityWidget(Uml::B));
+    if (a) {
+        a->setSelected(true);
+        //select the two widgets
+        makeSelected(a->widgetForRole(Uml::A));
+        makeSelected(a->widgetForRole(Uml::B));
+        //select all the text
+        makeSelected(a->multiplicityWidget(Uml::A));
+        makeSelected(a->multiplicityWidget(Uml::B));
+        makeSelected(a->roleWidget(Uml::A));
+        makeSelected(a->roleWidget(Uml::B));
+        makeSelected(a->changeabilityWidget(Uml::A));
+        makeSelected(a->changeabilityWidget(Uml::B));
+    }
 }
 
 /**
@@ -2366,28 +2385,33 @@ void UMLScene::removeAllWidgets()
 /**
  * Calls the same method in the DocWindow.
  */
-void UMLScene::showDocumentation(UMLObject * object, bool overwrite)
+void UMLScene::showDocumentation(bool overwrite)
+{
+    UMLApp::app()->docWindow()->showDocumentation(this, overwrite);
+}
+
+/**
+ * Calls the same method in the DocWindow.
+ */
+void UMLScene::showDocumentation(UMLObject* object, bool overwrite)
 {
     UMLApp::app()->docWindow()->showDocumentation(object, overwrite);
-    m_bChildDisplayedDoc = true;
 }
 
 /**
  * Calls the same method in the DocWindow.
  */
-void UMLScene::showDocumentation(UMLWidget * widget, bool overwrite)
+void UMLScene::showDocumentation(UMLWidget* widget, bool overwrite)
 {
     UMLApp::app()->docWindow()->showDocumentation(widget, overwrite);
-    m_bChildDisplayedDoc = true;
 }
 
 /**
  * Calls the same method in the DocWindow.
  */
-void UMLScene::showDocumentation(AssociationWidget * widget, bool overwrite)
+void UMLScene::showDocumentation(AssociationWidget* widget, bool overwrite)
 {
     UMLApp::app()->docWindow()->showDocumentation(widget, overwrite);
-    m_bChildDisplayedDoc = true;
 }
 
 /**
@@ -3896,7 +3920,6 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
         //  ^  UMLApp::newDocument()
         //  ^  main()
         //
-        AssociationWidgetListIt a_it(m_AssociationList);
         AssociationWidget * assoc = 0;
         foreach(assoc, m_AssociationList) {
             assoc->saveToXMI(qDoc, assocElement);
