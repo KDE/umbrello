@@ -11,21 +11,20 @@
 // own header
 #include "docwindow.h"
 
-// qt includes
-#include <QtGui/QVBoxLayout>
+// local includes
+#include "associationwidget.h"
+#include "debug_utils.h"
+#include "umldoc.h"
+#include "umlobject.h"
+#include "umlscene.h"
+#include "umlwidget.h"
 
 // kde includes
 #include <ktextedit.h>
 #include <klocale.h>
 
-// local includes
-#include "associationwidget.h"
-#include "umldoc.h"
-#include "umlobject.h"
-#include "umlview.h"
-#include "umlwidget.h"
-#include "umlscene.h"
-#include "debug_utils.h"
+// qt includes
+#include <QtGui/QVBoxLayout>
 
 /**
  * Constructor.
@@ -33,7 +32,7 @@
 DocWindow::DocWindow( UMLDoc * doc, QWidget *parent )
   : QWidget(parent),
     m_pUMLObject(0),
-    m_pUMLView(0),
+    m_pUMLScene(0),
     m_pUMLDoc(doc),
     m_pUMLWidget(0),
     m_pAssocWidget(0),
@@ -95,22 +94,22 @@ void DocWindow::showDocumentation( UMLObject * object, bool overwrite )
  * This method is the same as the one for UMLObjects except it
  * displays documentation for a diagram.
  */
-void DocWindow::showDocumentation( UMLView * view, bool overwrite )
+void DocWindow::showDocumentation( UMLScene * scene, bool overwrite )
 {
-    if( view == m_pUMLView && !overwrite )
+    if( scene == m_pUMLScene && !overwrite )
         return;
-    if( view != m_pUMLView ) {
+    if( scene != m_pUMLScene ) {
         updateDocumentation( true );
     }
-    m_Showing = st_UMLView;
-    if( !view ) {
+    m_Showing = st_UMLScene;
+    if( !scene ) {
         m_docTE->setText( m_pUMLDoc->documentation() );
-        m_pUMLView = 0;
+        m_pUMLScene = 0;
         m_modified = false;
         return;
     }
-    m_pUMLView = view;
-    m_docTE->setText( m_pUMLView->umlScene()->documentation() );
+    m_pUMLScene = scene;
+    m_docTE->setText( m_pUMLScene->documentation() );
     m_modified = false;
 }
 
@@ -180,8 +179,8 @@ void DocWindow::updateDocumentation( bool clear, bool startup )
     if (isModified()) {
         if( m_pUMLObject ) {
             m_pUMLObject->setDoc( m_docTE->toPlainText() );
-        } else if( m_pUMLView ) {
-            m_pUMLView->umlScene()->setDocumentation( m_docTE->toPlainText() );
+        } else if( m_pUMLScene ) {
+            m_pUMLScene->setDocumentation( m_docTE->toPlainText() );
         } else if ( m_pUMLWidget ) {
             m_pUMLWidget->setDocumentation( m_docTE->toPlainText() );
         } else if ( m_pAssocWidget ) {
@@ -197,15 +196,8 @@ void DocWindow::updateDocumentation( bool clear, bool startup )
     }
 
     // we should show the documentation of the whole project
-    // FIXME: this is exactly what newDocumentation() does
-    if( clear ) {
-        m_docTE->setText( m_pUMLDoc->documentation() );
-        m_modified = false;
-        m_pUMLObject = 0;
-        m_pUMLView = 0;
-        m_pUMLWidget = 0;
-        m_pAssocWidget = 0;
-        m_Showing = st_Project;
+    if (clear) {
+        newDocumentation();
     }
 }
 
@@ -214,7 +206,7 @@ void DocWindow::updateDocumentation( bool clear, bool startup )
  */
 void DocWindow::newDocumentation( )
 {
-    m_pUMLView = 0;
+    m_pUMLScene = 0;
     m_pUMLObject = 0;
     m_pUMLWidget = 0;
     m_pAssocWidget = 0;
@@ -244,7 +236,7 @@ bool DocWindow::isModified()
 }
 
 /**
- * An association was removed from the UMLView.
+ * An association was removed from the UMLScene.
  * If the association removed was the association which documentation is
  * being shown, m_pAssocWidget is set to 0.
  */
@@ -260,7 +252,7 @@ void DocWindow::slotAssociationRemoved(AssociationWidget* association)
 }
 
 /**
- * A widget was removed from the UMLView.
+ * A widget was removed from the UMLScene.
  * If the association removed was the association which documentation is
  * being shown, m_pUMLWidget is set to 0.
  */

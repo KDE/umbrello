@@ -13,7 +13,6 @@
 
 // app includes
 #include "debug_utils.h"
-#include "docwindow.h"
 #include "listpopupmenu.h"
 #include "statedialog.h"
 #include "uml.h"
@@ -394,12 +393,11 @@ void StateWidget::setDrawVertical(bool to)
  */
 void StateWidget::showPropertiesDialog()
 {
-    DocWindow *docwindow = UMLApp::app()->docWindow();
-    docwindow->updateDocumentation(false);
+    umlScene()->updateDocumentation(false);
 
     QPointer<StateDialog> dialog = new StateDialog(m_scene->view(), this);
     if (dialog->exec() && dialog->getChangesMade()) {
-        docwindow->showDocumentation(this, true);
+        umlScene()->showDocumentation(this, true);
         UMLApp::app()->document()->setModified(true);
     }
     delete dialog;

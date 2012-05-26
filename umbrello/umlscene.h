@@ -53,6 +53,7 @@ class QMouseEvent;
 class QPrinter;
 class QShowEvent;
 class UMLScene;
+class UMLSceneMouseEvent;
 
 /// uml related types - makes it easier to switch to QGraphicsScene types
 // base types
@@ -237,6 +238,13 @@ public:
 
     void removeAllWidgets();
 
+    void showDocumentation(bool overwrite = false);
+    void showDocumentation(UMLObject* object, bool overwrite = false);
+    void showDocumentation(UMLWidget* widget, bool overwrite = false);
+    void showDocumentation(AssociationWidget* widget, bool overwrite = false);
+
+    void updateDocumentation(bool clear);
+
     void getDiagram(const UMLSceneRect &rect, QPixmap & diagram);
     void getDiagram(const UMLSceneRect &area, QPainter & painter);
 
@@ -301,6 +309,7 @@ public:
     UMLWidget* getFirstMultiSelectedWidget() const;
 
     UMLWidget* widgetAt(const UMLScenePoint& p);
+    AssociationWidget* associationAt(const UMLScenePoint& p);
 
     void setupNewWidget(UMLWidget *w);
 
@@ -315,6 +324,8 @@ public:
     }
 
     int generateCollaborationId();
+
+    void mousePressEvent(UMLSceneMouseEvent* event);
 
 protected:
     // Methods and members related to loading/saving
@@ -358,6 +369,8 @@ protected:
     void dragMoveEvent(QDragMoveEvent* moveEvent);
     void dropEvent(QDropEvent* dropEvent);
 
+//    void mousePressEvent(UMLSceneMouseEvent* event);  // made public for now
+
     UMLSceneRect diagramRect();
 
     void makeSelected(UMLWidget* uw);
@@ -380,7 +393,7 @@ protected:
     UMLWidgetList m_selectedList;
 
 private:
-    static const UMLSceneValue defaultCanvasSize;  ///< The width and height of a diagram canvas in pixels.
+    static const UMLSceneValue defaultCanvasSize;  ///< The default size of a diagram in pixels.
 
     UMLView *m_view;   ///< The view to which this scene is related.
     UMLFolder *m_pFolder;  ///< The folder in which this UMLView is contained.

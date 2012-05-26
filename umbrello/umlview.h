@@ -13,7 +13,6 @@
 
 #include <Q3CanvasView>
 
-class AssociationWidget;
 class ToolBarState;
 class ToolBarStateFactory;
 class UMLFolder;
@@ -44,11 +43,6 @@ public:
     void setZoom(int zoom);
     int currentZoom();
 
-    void showDocumentation( UMLObject * object, bool overwrite );
-    void showDocumentation( UMLWidget * widget, bool overwrite );
-    void showDocumentation( AssociationWidget * widget, bool overwrite );
-    void updateDocumentation( bool clear );
-
     /**
      * Reset the toolbar.
      */
@@ -76,25 +70,10 @@ protected:
     void hideEvent(QHideEvent *he);
     void showEvent(QShowEvent *se);
 
-    /**
-     * Pointer to scene
-     */
-    UMLScene *m_scene;
-
-    /**
-     * The zoom level in percent, default 100
-     */
-    int m_nZoom;
-
+    UMLScene *m_scene;  ///< pointer to scene
+    int m_nZoom;        ///< zoom level in percent, default 100
     ToolBarStateFactory* m_pToolBarStateFactory;
     ToolBarState* m_pToolBarState;
-
-    /**
-     * set to true when a child has used the showDocumentation method,
-     * thus when one clicks on a child widget.
-     * Reset to false when clicking in an empty region of the view.
-     */
-    bool m_bChildDisplayedDoc;
 };
 
 #endif // UMLVIEW_H

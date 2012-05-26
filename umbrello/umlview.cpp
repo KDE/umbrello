@@ -118,7 +118,8 @@ void UMLView::closeEvent(QCloseEvent* ce)
  * Superceded by UMLScene::dragEnterEvent() - to be removed when transition
  * to QGraphicsView is complete
  */
-void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
+void UMLView::contentsDragEnterEvent(QDragEnterEvent *e)
+{
     UMLDragData::LvTypeAndID_List tidList;
     if(!UMLDragData::getClip3TypeAndID(e->mimeData(), tidList)) {
         return;
@@ -130,8 +131,8 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
     }
     UMLDragData::LvTypeAndID * tid = tidIt.next();
     if (!tid) {
-        kDebug() << "UMLView::contentsDragEnterEvent: "
-                  << "UMLDragData::getClip3TypeAndID returned empty list" << endl;
+        uDebug() << "UMLView::contentsDragEnterEvent: "
+                 << "UMLDragData::getClip3TypeAndID returned empty list";
         return;
     }
     UMLListViewItem::ListViewType lvtype = tid->type;
@@ -142,19 +143,19 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
     UMLObject* temp = 0;
     //if dragging diagram - might be a drag-to-note
     if (Model_Utils::typeIsDiagram(lvtype)) {
-        e->accept(true);
+        e->setAccepted(true);
         return;
     }
     //can't drag anything onto state/activity diagrams
     if( diagramType == Uml::DiagramType::State || diagramType == Uml::DiagramType::Activity) {
-        e->accept(false);
+        e->setAccepted(false);
         return;
     }
     UMLDoc *pDoc = UMLApp::app()->document();
     //make sure can find UMLObject
     if( !(temp = pDoc->findObjectById(id) ) ) {
         kDebug() << "object " << ID2STR(id) << " not found" << endl;
-        e->accept(false);
+        e->setAccepted(false);
         return;
     }
     //make sure dragging item onto correct diagram
@@ -216,7 +217,7 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e) {
         default:
             break;
     }
-    e->accept(bAccept);
+    e->setAccepted(bAccept);
 }
 
 /**
@@ -341,10 +342,7 @@ void UMLView::contentsMousePressEvent(QMouseEvent* ome)
     //documentation of the diagram instead of keeping the widget documentation.
     //When should diagram documentation be shown? When clicking on an empty
     //space in the diagram with arrow tool?
-    if (!m_bChildDisplayedDoc) {
-        UMLApp::app()->docWindow()->showDocumentation(this, true);
-    }
-    m_bChildDisplayedDoc = false;
+    umlScene()->mousePressEvent(static_cast<UMLSceneMouseEvent*>(ome));
 }
 
 /**
@@ -358,42 +356,6 @@ void UMLView::slotToolBarChanged(int c)
     m_pToolBarState->init();
 
     umlScene()->setPaste(false);
-    m_bChildDisplayedDoc = false;
-}
-
-/**
- *  Calls the same method in the DocWindow.
- */
-void UMLView::showDocumentation(UMLObject * object, bool overwrite)
-{
-    UMLApp::app()->docWindow()->showDocumentation(object, overwrite);
-    m_bChildDisplayedDoc = true;
-}
-
-/**
- *  Calls the same method in the DocWindow.
- */
-void UMLView::showDocumentation(UMLWidget * widget, bool overwrite)
-{
-    UMLApp::app()->docWindow()->showDocumentation(widget, overwrite);
-    m_bChildDisplayedDoc = true;
-}
-
-/**
- *  Calls the same method in the DocWindow.
- */
-void UMLView::showDocumentation(AssociationWidget * widget, bool overwrite)
-{
-    UMLApp::app()->docWindow()->showDocumentation(widget, overwrite);
-    m_bChildDisplayedDoc = true;
-}
-
-/**
- *  Calls the same method in the DocWindow.
- */
-void UMLView::updateDocumentation(bool clear)
-{
-    UMLApp::app()->docWindow()->updateDocumentation(clear);
 }
 
 #include "umlview.moc"

@@ -80,8 +80,8 @@
 #include <QtCore/QPointer>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
-#include <QtGui/QPixmap>
 #include <QtGui/QPainter>
+#include <QtGui/QPixmap>
 #include <QtGui/QPrinter>
 #include <QtGui/QColor>
 #include <QtGui/QHideEvent>
@@ -91,7 +91,6 @@
 #include <QtGui/QMouseEvent>
 
 // system includes
-#include <climits>
 #include <cmath>
 
 // control the manual DoubleBuffering of QCanvas
@@ -685,7 +684,6 @@ void UMLScene::setCreateObject(bool bCreate)
  */
 void UMLScene::showEvent(QShowEvent* /*se*/)
 {
-
 # ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
     //uWarning() << "Show Event for " << name();
     setDoubleBuffering(true);
@@ -1035,11 +1033,10 @@ UMLWidget* UMLScene::getFirstMultiSelectedWidget() const
  * widget for which the point is within its bounding rectangle.
  * In case of multiple matches, returns the smallest widget.
  * Returns NULL if the point is not inside any widget.
- * Does not use or modify the m_pOnWidget member.
  */
-UMLWidget *UMLScene::widgetAt(const UMLScenePoint& p)
+UMLWidget* UMLScene::widgetAt(const UMLScenePoint& p)
 {
-    int relativeSize = 10000;  // start with an arbitrary large number
+    qreal relativeSize = 99990.0;  // start with an arbitrary large number
     UMLWidget  *retWid = 0;
     foreach(UMLWidget* wid, m_WidgetList) {
         const int s = wid->onWidget(p);
@@ -1051,6 +1048,21 @@ UMLWidget *UMLScene::widgetAt(const UMLScenePoint& p)
         }
     }
     return retWid;
+}
+
+/**
+ * Tests the given point against all associations and returns the
+ * association widget for which the point is within its bounding rectangle.
+ * Returns NULL if the point is not inside any association.
+ */
+AssociationWidget* UMLScene::associationAt(const UMLScenePoint& p)
+{
+    AssociationWidget* widget = 0;
+//    QGraphicsItem* item = itemAt(p, QTransform());
+//    if (item) {
+//        widget = dynamic_cast<AssociationWidget*>(item);
+//    }
+    return widget;
 }
 
 /**
@@ -1343,7 +1355,7 @@ void UMLScene::setSelected(UMLWidget *w, QMouseEvent *me)
 
     // if count == 1, widget will update the doc window with their data when selected
     if (count == 2)
-        view()->updateDocumentation(true);  //clear doc window
+        updateDocumentation(true);  //clear doc window
 
     // selection changed, we have to make sure the copy and paste items
     // are correctly enabled/disabled
@@ -1619,6 +1631,33 @@ bool UMLScene::isSavedInSeparateFile()
 }
 
 /**
+ * Override standard method.
+ * Calls the same method in the current tool bar state.
+ */
+void UMLScene::mousePressEvent(UMLSceneMouseEvent* event)
+{
+    UMLWidget* widget = widgetAt(event->scenePos());
+    if (widget) {
+        DEBUG(DBG_SRC) << "widget = " << widget->name() << " / type = " << widget->baseTypeStr();
+        showDocumentation(widget, true);
+    }
+    else {
+        AssociationWidget* association = associationAt(event->scenePos());
+        if (association) {
+            DEBUG(DBG_SRC) << "widget = " << association->name() << " / type = " << association->baseTypeStr();
+            showDocumentation(association, true);
+        }
+        //:TODO: else if (clicking on other elements with documentation) {
+        //:TODO: showDocumentation(umlObject, true);
+        else {
+            // clicking on an empty space in the diagram with arrow tool
+            showDocumentation(true);
+            event->accept();
+        }
+    }
+}
+
+/**
  * Calls setSelected on the given UMLWidget and enters
  * it into the m_selectedList while making sure it is
  * there only once.
@@ -1637,19 +1676,19 @@ void UMLScene::makeSelected(UMLWidget* uw)
  */
 void UMLScene::selectWidgetsOfAssoc(AssociationWidget * a)
 {
-    if (!a)
-        return;
-    a->setSelected(true);
-    //select the two widgets
-    makeSelected(a->widgetForRole(Uml::A));
-    makeSelected(a->widgetForRole(Uml::B));
-    //select all the text
-    makeSelected(a->multiplicityWidget(Uml::A));
-    makeSelected(a->multiplicityWidget(Uml::B));
-    makeSelected(a->roleWidget(Uml::A));
-    makeSelected(a->roleWidget(Uml::B));
-    makeSelected(a->changeabilityWidget(Uml::A));
-    makeSelected(a->changeabilityWidget(Uml::B));
+    if (a) {
+        a->setSelected(true);
+        //select the two widgets
+        makeSelected(a->widgetForRole(Uml::A));
+        makeSelected(a->widgetForRole(Uml::B));
+        //select all the text
+        makeSelected(a->multiplicityWidget(Uml::A));
+        makeSelected(a->multiplicityWidget(Uml::B));
+        makeSelected(a->roleWidget(Uml::A));
+        makeSelected(a->roleWidget(Uml::B));
+        makeSelected(a->changeabilityWidget(Uml::A));
+        makeSelected(a->changeabilityWidget(Uml::B));
+    }
 }
 
 /**
@@ -2411,7 +2450,6 @@ void UMLScene::getWidgetAssocs(UMLObject* Obj, AssociationWidgetList & Associati
 void UMLScene::removeAllAssociations()
 {
     //Remove All association widgets
-
     foreach(AssociationWidget* assocwidget, m_AssociationList) {
         removeAssoc(assocwidget);
     }
@@ -2434,12 +2472,49 @@ void UMLScene::removeAllWidgets()
             removeWidget(temp);
         }
     }
-    // Porting to QList from QPtrList which doesn't support autodelete
-    //m_WidgetList.clear();
-    while (!m_WidgetList.empty()) {
-        delete m_WidgetList.takeFirst();
-    }
 
+    qDeleteAll(m_WidgetList);
+    m_WidgetList.clear();
+}
+
+/**
+ * Calls the same method in the DocWindow.
+ */
+void UMLScene::showDocumentation(bool overwrite)
+{
+    UMLApp::app()->docWindow()->showDocumentation(this, overwrite);
+}
+
+/**
+ * Calls the same method in the DocWindow.
+ */
+void UMLScene::showDocumentation(UMLObject* object, bool overwrite)
+{
+    UMLApp::app()->docWindow()->showDocumentation(object, overwrite);
+}
+
+/**
+ * Calls the same method in the DocWindow.
+ */
+void UMLScene::showDocumentation(UMLWidget* widget, bool overwrite)
+{
+    UMLApp::app()->docWindow()->showDocumentation(widget, overwrite);
+}
+
+/**
+ * Calls the same method in the DocWindow.
+ */
+void UMLScene::showDocumentation(AssociationWidget* widget, bool overwrite)
+{
+    UMLApp::app()->docWindow()->showDocumentation(widget, overwrite);
+}
+
+/**
+ * Calls the same method in the DocWindow.
+ */
+void UMLScene::updateDocumentation(bool clear)
+{
+    UMLApp::app()->docWindow()->updateDocumentation(clear);
 }
 
 /**
@@ -2684,7 +2759,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
 }
 
 /**
- * If the m_Type of the given widget is Uml::wt_Class then
+ * If the m_Type of the given widget is WidgetBase::wt_Class then
  * iterate through the class' attributes and create an
  * association to each attribute type widget that is present
  * on the current diagram.
@@ -3669,7 +3744,7 @@ int UMLScene::snapY() const
 }
 
 /**
- * Sets the x and y grid size.
+ * Sets the grid size in x and y.
  */
 void UMLScene::setSnapSpacing(int x, int y)
 {
@@ -3908,7 +3983,6 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
         //  ^  UMLApp::newDocument()
         //  ^  main()
         //
-        AssociationWidgetListIt a_it(m_AssociationList);
         AssociationWidget * assoc = 0;
         foreach(assoc, m_AssociationList) {
             assoc->saveToXMI(qDoc, assocElement);
@@ -4127,6 +4201,7 @@ bool UMLScene::loadMessagesFromXMI(QDomElement & qElement)
     QDomElement messageElement = node.toElement();
     while (!messageElement.isNull()) {
         QString tag = messageElement.tagName();
+        DEBUG(DBG_SRC) << "tag = " << tag;
         if (tag == "messagewidget" ||
             tag == "UML:MessageWidget") {   // for bkwd compatibility
             message = new MessageWidget(this, sequence_message_asynchronous,

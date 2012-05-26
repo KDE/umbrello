@@ -11,22 +11,21 @@
 // own header
 #include "associationline.h"
 
-// system includes
-#include <cstdlib>
-#include <cmath>
-
-// qt includes
-#include <QtXml/QDomDocument>
-#include <QtGui/QPainter>
-
 // application includes
 #include "associationwidget.h"
-#include "activitywidget.h"
 #include "debug_utils.h"
 #include "widget_utils.h"
 #include "umlview.h"
 #include "umldoc.h"
 #include "uml.h"
+
+// qt includes
+#include <QtGui/QPainter>
+#include <QtXml/QDomDocument>
+
+// system includes
+#include <cstdlib>
+#include <cmath>
 
 AssociationLine::Circle::Circle(int radius /* = 0 */)
   : UMLSceneEllipseItem(radius * 2, radius * 2)
@@ -66,7 +65,8 @@ AssociationLine::SubsetSymbol::SubsetSymbol()
     inclination = 0;
 }
 
-void AssociationLine::SubsetSymbol::drawShape(QPainter& p) {
+void AssociationLine::SubsetSymbol::drawShape(QPainter& p)
+{
     p.translate(QPoint( ( int )x(), ( int )y() ) );
     p.rotate( inclination );
     int width = 30, height = 20;
@@ -428,12 +428,16 @@ void AssociationLine::dumpPoints()
     }
 }
 
-bool AssociationLine::loadFromXMI(QDomElement & qElement)
+/**
+ * Loads AssociationLine information saved in \a qElement XMI element.
+ */
+bool AssociationLine::loadFromXMI(QDomElement &qElement)
 {
     QDomNode node = qElement.firstChild();
     QDomElement startElement = node.toElement();
-    if( startElement.isNull() || startElement.tagName() != "startpoint" )
+    if(startElement.isNull() || startElement.tagName() != "startpoint") {
         return false;
+    }
     QString x = startElement.attribute( "startx", "0" );
     int nX = x.toInt();
     QString y = startElement.attribute( "starty", "0" );
@@ -442,8 +446,9 @@ bool AssociationLine::loadFromXMI(QDomElement & qElement)
 
     node = startElement.nextSibling();
     QDomElement endElement = node.toElement();
-    if( endElement.isNull() || endElement.tagName() != "endpoint" )
+    if(endElement.isNull() || endElement.tagName() != "endpoint") {
         return false;
+    }
     x = endElement.attribute( "endx", "0" );
     nX = x.toInt();
     y = endElement.attribute( "endy", "0" );
@@ -454,8 +459,8 @@ bool AssociationLine::loadFromXMI(QDomElement & qElement)
     node = endElement.nextSibling();
     QDomElement element = node.toElement();
     int i = 1;
-    while( !element.isNull() ) {
-        if( element.tagName() == "point" ) {
+    while(!element.isNull()) {
+        if(element.tagName() == "point") {
             x = element.attribute( "x", "0" );
             y = element.attribute( "y", "0" );
             point.setX( x.toInt() );
@@ -469,7 +474,11 @@ bool AssociationLine::loadFromXMI(QDomElement & qElement)
     return true;
 }
 
-void AssociationLine::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
+/**
+ * Saves association line information into XMI element named "linepath".
+ * @note Stored as linepath for backwared compatibility
+ */
+void AssociationLine::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 {
     int count = m_LineList.count();
     QPoint p = point( 0 );

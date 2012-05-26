@@ -241,8 +241,10 @@ bool UMLListView::eventFilter(QObject *o, QEvent *e)
 void UMLListView::mousePressEvent(QMouseEvent *me)
 {
     UMLView *currentView = UMLApp::app()->currentView();
-    if (currentView)
-        currentView->umlScene()->clearSelected();
+    Q_ASSERT(currentView);
+    UMLScene *scene = currentView->umlScene();
+    Q_ASSERT(scene);
+    scene->clearSelected();
     if (me->modifiers() != Qt::ShiftModifier)
         clearSelection();
 
@@ -258,16 +260,16 @@ void UMLListView::mousePressEvent(QMouseEvent *me)
     const Qt::ButtonState button = me->button();
 
     if (!item || (button != Qt::RightButton && button != Qt::LeftButton)) {
-        UMLApp::app()->docWindow()->updateDocumentation(true);
+        scene->updateDocumentation(true);
         return;
     }
 
     if (button == Qt::LeftButton) {
         UMLObject *o = item->umlObject();
         if (o)
-            UMLApp::app()->docWindow()->showDocumentation(o, false);
+            scene->showDocumentation(o, false);
         else
-            UMLApp::app()->docWindow()->updateDocumentation(true);
+            scene->updateDocumentation(true);
 
         m_dragStartPosition = me->pos();
     }
@@ -328,7 +330,8 @@ void UMLListView::mouseReleaseEvent(QMouseEvent *me)
     // Switch to diagram on mouse release - not on mouse press
     // because the user might intend a drag-to-note.
     m_doc->changeCurrentView(item->ID());
-    UMLApp::app()->docWindow()->showDocumentation(m_doc->findView(item->ID()), false);
+    UMLView *view = m_doc->findView(item->ID());
+    view->umlScene()->showDocumentation(false);
     QTreeWidget::mouseReleaseEvent(me);
 }
 
@@ -609,12 +612,11 @@ void UMLListView::popupMenuSel(QAction* action)
         // first check if we are on a diagram
         if (Model_Utils::typeIsDiagram(lvt)) {
             UMLView * pView = m_doc->findView(currItem->ID());
-            if (!pView) {
-                return;
+            if (pView) {
+                pView->umlScene()->updateDocumentation(false);
+                pView->umlScene()->showPropDialog();
+                pView->umlScene()->showDocumentation(true);
             }
-            UMLApp::app()->docWindow()->updateDocumentation(false);
-            pView->umlScene()->showPropDialog();
-            UMLApp::app()->docWindow()->showDocumentation(pView, true);
             return;
         }
 
@@ -793,14 +795,16 @@ void UMLListView::slotDiagramCreated(Uml::IDType id)
         return;
     }
     UMLView *v = m_doc->findView(id);
-    if (!v) {
-        return;
+    if (v) {
+        UMLScene *scene = v->umlScene();
+        if (scene) {
+            const Uml::DiagramType dt = scene->type();
+            UMLListViewItem* p = findFolderForDiagram(dt);
+            UMLListViewItem* item = new UMLListViewItem(p, scene->name(), Model_Utils::convert_DT_LVT(dt), id);
+            setSelected(item, true);
+            scene->showDocumentation(false);
+        }
     }
-    const Uml::DiagramType dt = v->umlScene()->type();
-    UMLListViewItem* p = findFolderForDiagram(dt);
-    UMLListViewItem* item = new UMLListViewItem(p, v->umlScene()->name(), Model_Utils::convert_DT_LVT(dt), id);
-    setSelected(item, true);
-    UMLApp::app()->docWindow()->showDocumentation(v , false);
 }
 
 /**
@@ -1402,11 +1406,11 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
     UMLListViewItem::ListViewType lvType = item->type();
     if (Model_Utils::typeIsDiagram(lvType)) {
         UMLView * pView = m_doc->findView(item->ID());
-        if (!pView)
-            return;
-        UMLApp::app()->docWindow()->updateDocumentation(false);
-        pView->umlScene()->showPropDialog();
-        UMLApp::app()->docWindow()->showDocumentation(pView, true);
+        if (pView) {
+            pView->umlScene()->updateDocumentation(false);
+            pView->umlScene()->showPropDialog();
+            pView->umlScene()->showDocumentation(true);
+        }
         return;
     }
     //else see if an object

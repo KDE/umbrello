@@ -1061,9 +1061,9 @@ void UMLWidget::setSelected(bool _select)
     if (_select) {
         if (m_scene->selectedCount() == 0) {
             if (widgetHasUMLObject(wt)) {
-                m_scene->view()->showDocumentation(m_pObject, false);
+                m_scene->showDocumentation(m_pObject, false);
             } else {
-                m_scene->view()->showDocumentation(this, false);
+                m_scene->showDocumentation(this, false);
             }
         }//end if
         /* if (wt != wt_Text && wt != wt_Box) {
@@ -1074,7 +1074,7 @@ void UMLWidget::setSelected(bool _select)
             setZ(m_origZ);
         } */
         if (m_selected)
-            m_scene->view()->updateDocumentation(true);
+            m_scene->updateDocumentation(true);
     }
     m_selected = _select;
 

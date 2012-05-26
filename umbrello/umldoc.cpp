@@ -1438,14 +1438,15 @@ void UMLDoc::changeCurrentView(Uml::IDType id)
     UMLApp* pApp = UMLApp::app();
     UMLView* view = findView(id);
     if (view) {
-        view->umlScene()->setIsOpen(true);
+        UMLScene* scene = view->umlScene();
+        scene->setIsOpen(true);
         pApp->setCurrentView(view);
-        emit sigDiagramChanged(view->umlScene()->type());
+        emit sigDiagramChanged(scene->type());
         pApp->setDiagramMenuItemsState( true );
         setModified(true);
         emit sigCurrentViewChanged();
         // when clicking on a tab, the documentation of diagram is upated in docwindow
-        pApp->docWindow()->showDocumentation(view);
+        scene->showDocumentation();
     }
     else {
         uWarning() << "New current view was not found with id=" << ID2STR(id) << "!";
