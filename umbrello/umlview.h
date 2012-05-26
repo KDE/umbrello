@@ -21,10 +21,8 @@ class UMLScene;
 
 /**
  * UMLView instances represent diagrams.
- * The UMLApp instance manages a QWidgetStack of UMLView instances.
- * The visible diagram is at the top of stack.
- * The UMLView class inherits from QCanvasView and it owns the
- * objects displayed on its related QCanvas (see m_WidgetList.)
+ * The UMLApp instance manages the UMLView instances.
+ * The UMLView class inherits from QGraphicsView.
  *
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
@@ -38,7 +36,7 @@ public:
 
     UMLScene* umlScene() const;
 
-    int zoom() const { return m_nZoom; }
+    int zoom() const ;
     void setZoom(int zoom);
     int currentZoom();
 
@@ -60,7 +58,11 @@ protected:
 
     QPointF m_currentCenterPoint;  ///< holds the current centerpoint for the view, used for panning and zooming
     QPoint  m_lastPanPoint;        ///< from panning the view
-    int     m_nZoom;               ///< zoom level in percent, default 100
+
+    /**
+     * The zoom level in percent, default 100
+     */
+    int m_nZoom;
 
 };
 

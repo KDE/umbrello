@@ -56,6 +56,14 @@ UMLScene* UMLView::umlScene() const
 }
 
 /**
+ * Returns the zoom of the diagram.
+ */
+int UMLView::zoom() const
+{
+    return m_nZoom;
+}
+
+/**
  * Sets the zoom of the diagram.
  */
 void UMLView::setZoom(int zoom)
