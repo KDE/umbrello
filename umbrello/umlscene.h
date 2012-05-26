@@ -80,7 +80,8 @@ typedef QGraphicsEllipseItem UMLSceneEllipse;
 
 /**
  * UMLScene instances represent diagrams.
- * The UMLScene class inherits from QGraphicsScene.
+ * The UMLScene class inherits from QGraphicsScene and it owns the
+ * objects displayed (see m_WidgetList.)
  */
 class UMLScene : public QGraphicsScene
 {
