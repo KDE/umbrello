@@ -11,24 +11,25 @@
 // own header file
 #include "objectwidget.h"
 
-// system includes
-#include <QtCore/QPointer>
-#include <QtGui/QPainter>
-#include <QtGui/QValidator>
+// local includes
+#include "classpropdlg.h"
+#include "debug_utils.h"
+#include "listpopupmenu.h"
+#include "objectwidgetcontroller.h"
+#include "seqlinewidget.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlobject.h"
+#include "umlview.h"
+
+// kde includes
 #include <klocale.h>
 #include <kinputdialog.h>
 
-// local includes
-#include "debug_utils.h"
-#include "objectwidgetcontroller.h"
-#include "seqlinewidget.h"
-#include "umlview.h"
-#include "umldoc.h"
-#include "uml.h"
-#include "umlobject.h"
-#include "listpopupmenu.h"
-#include "docwindow.h"
-#include "classpropdlg.h"
+// qt includes
+#include <QtCore/QPointer>
+#include <QtGui/QPainter>
+#include <QtGui/QValidator>
 
 /**
  * The number of pixels margin between the lowest message
@@ -215,11 +216,10 @@ void ObjectWidget::cleanup()
 
 void ObjectWidget::showPropertiesDialog()
 {
-    DocWindow *docwindow = UMLApp::app()->docWindow();
-    docwindow->updateDocumentation(false);
+    umlScene()->updateDocumentation(false);
     QPointer<ClassPropDlg> dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
     if (dlg->exec()) {
-        docwindow->showDocumentation(this, true);
+        umlScene()->showDocumentation(this, true);
         UMLApp::app()->document()->setModified(true);
     }
     dlg->close();

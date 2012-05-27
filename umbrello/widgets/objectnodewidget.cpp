@@ -11,27 +11,23 @@
 // own header
 #include "objectnodewidget.h"
 
-// qt includes
-#include <QtCore/QPointer>
-#include <QtGui/QPainter>
+// app includes
+#include "debug_utils.h"
+#include "dialog_utils.h"
+#include "listpopupmenu.h"
+#include "objectnodedialog.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlview.h"
 
 // kde includes
 #include <klocale.h>
 #include <kinputdialog.h>
 #include <kdialog.h>
-#include <kcombobox.h>
 
-#include <cmath>
-
-// app includes
-#include "debug_utils.h"
-#include "dialog_utils.h"
-#include "uml.h"
-#include "umldoc.h"
-#include "docwindow.h"
-#include "umlview.h"
-#include "listpopupmenu.h"
-#include "objectnodedialog.h"
+// qt includes
+#include <QtCore/QPointer>
+#include <QtGui/QPainter>
 
 ObjectNodeWidget::ObjectNodeWidget(UMLScene * scene, ObjectNodeType objectNodeType, Uml::IDType id )
   : UMLWidget(scene, WidgetBase::wt_ObjectNode, id)
@@ -211,12 +207,11 @@ void ObjectNodeWidget::slotMenuSelection(QAction* action)
 
 void ObjectNodeWidget::showPropertiesDialog()
 {
-    DocWindow *docwindow = UMLApp::app()->docWindow();
-    docwindow->updateDocumentation(false);
+    umlScene()->updateDocumentation(false);
 
     QPointer<ObjectNodeDialog> dialog = new ObjectNodeDialog(UMLApp::app()->currentView(), this);
     if (dialog->exec() && dialog->getChangesMade()) {
-        docwindow->showDocumentation(this, true);
+        umlScene()->showDocumentation(this, true);
         UMLApp::app()->document()->setModified(true);
     }
     delete dialog;

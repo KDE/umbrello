@@ -8,37 +8,36 @@
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-// own header file
 #include "umlwidget.h"
-// qt includes
-#include <QtCore/QPointer>
-#include <QtGui/QPainter>
-#include <QtGui/QColor>
-#include <QtGui/QMouseEvent>
+
+// local includes
+#include "associationwidget.h"
+#include "classifier.h"
+#include "classpropdlg.h"
+#include "cmds.h"
+#include "debug_utils.h"
+#include "floatingtextwidget.h"
+#include "idchangelog.h"
+#include "listpopupmenu.h"
+#include "settingsdlg.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlobject.h"
+#include "umlview.h"
+#include "umlwidgetcontroller.h"
+#include "uniqueid.h"
+
 // kde includes
 #include <kcolordialog.h>
 #include <kfontdialog.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-// local includes
-#include "debug_utils.h"
-#include "umlwidgetcontroller.h"
-#include "umlobject.h"
-#include "classifier.h"
-#include "uniqueid.h"
-#include "uml.h"
-#include "umldoc.h"
-#include "umlview.h"
-#include "umlclassifierlistitemlist.h"
-#include "listpopupmenu.h"
-#include "associationwidget.h"
-#include "settingsdlg.h"
-#include "codedocument.h"
-#include "floatingtextwidget.h"
-#include "docwindow.h"
-#include "classpropdlg.h"
-#include "idchangelog.h"
-#include "cmds.h"
+
+// qt includes
+#include <QtCore/QPointer>
+#include <QtGui/QPainter>
+#include <QtGui/QColor>
+#include <QtGui/QMouseEvent>
 
 using namespace Uml;
 
@@ -856,12 +855,11 @@ void UMLWidget::showPropertiesDialog()
 {
     // will already be selected so make sure docWindow updates the doc
     // back it the widget
-    DocWindow *docwindow = UMLApp::app()->docWindow();
-    docwindow->updateDocumentation(false);
+    umlScene()->updateDocumentation(false);
     QPointer<ClassPropDlg> dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
 
     if (dlg->exec()) {
-        docwindow->showDocumentation(umlObject() , true);
+        umlScene()->showDocumentation(umlObject() , true);
         m_doc->setModified(true);
     }
     dlg->close(); //wipe from memory
