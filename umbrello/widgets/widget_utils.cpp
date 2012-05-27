@@ -13,6 +13,7 @@
 
 // app includes
 #include "debug_utils.h"
+#include "messagewidget.h"
 #include "objectwidget.h"
 #include "uml.h"
 #include "umlview.h"
@@ -37,7 +38,6 @@ UMLWidget* findWidget(Uml::IDType id,
                       const UMLWidgetList& widgets,
                       const MessageWidgetList* messages /* = 0 */)
 {
-    UMLWidgetListIt it(widgets);
     foreach (UMLWidget* obj, widgets) {
         if (obj->baseType() == WidgetBase::wt_Object) {
             if (static_cast<ObjectWidget *>(obj)->localID() == id)
@@ -47,12 +47,11 @@ UMLWidget* findWidget(Uml::IDType id,
         }
     }
 
-    if (messages == 0)
-        return 0;
-
-    foreach (UMLWidget* obj, *messages) {
-        if (obj->id() == id)
-            return obj;
+    if (messages) {
+        foreach (UMLWidget* obj, *messages) {
+            if (obj->id() == id)
+                return obj;
+        }
     }
     return 0;
 }

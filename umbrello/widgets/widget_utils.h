@@ -16,8 +16,6 @@
 #include "umlscene.h"
 #include "umlwidgetlist.h"
 
-#include <QtCore/QPoint>
-
 /**
  * General purpose widget utilities.
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
