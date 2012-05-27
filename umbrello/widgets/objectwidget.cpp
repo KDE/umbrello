@@ -15,6 +15,7 @@
 #include "classpropdlg.h"
 #include "debug_utils.h"
 #include "listpopupmenu.h"
+#include "messagewidget.h"
 #include "objectwidgetcontroller.h"
 #include "seqlinewidget.h"
 #include "uml.h"
@@ -31,42 +32,102 @@
 #include <QtGui/QPainter>
 #include <QtGui/QValidator>
 
+#define O_MARGIN 5
+#define O_WIDTH 40
+#define A_WIDTH 20
+#define A_HEIGHT 40
+#define A_MARGIN 5
+
 /**
  * The number of pixels margin between the lowest message
  * and the bottom of the vertical line
  */
 static const int sequenceLineMargin = 20;
 
+/**
+ * Creates an ObjectWidget.
+ *
+ * @param scene   The parent to this object.
+ * @param o       The object it will be representing.
+ * @param lid     The local id for the object.
+ */
 ObjectWidget::ObjectWidget(UMLScene * scene, UMLObject *o, Uml::IDType lid)
-  : UMLWidget(scene, WidgetBase::wt_Object, o)
-{
-    init();
-    if( lid != Uml::id_None )
-        m_nLocalID = lid;
-}
-
-void ObjectWidget::init()
+  : UMLWidget(scene, WidgetBase::wt_Object, o),
+    m_multipleInstance(false),
+    m_drawAsActor(false),
+    m_showDestruction(false)
 {
     m_nLocalID = Uml::id_None;
-    m_multipleInstance = false;
-    m_drawAsActor = false;
-    m_showDestruction = false;
     if( m_scene != NULL && m_scene->type() == Uml::DiagramType::Sequence ) {
         m_pLine = new SeqLineWidget( m_scene, this );
-
         //Sets specific widget controller for sequence diagrams
         delete m_widgetController;
         m_widgetController = new ObjectWidgetController(this);
     } else {
-        m_pLine = NULL;
+        m_pLine = 0;
     }
+    if( lid != Uml::id_None )
+        m_nLocalID = lid;
 }
 
+/**
+ * Destructor.
+ */
 ObjectWidget::~ObjectWidget()
 {
 }
 
-void ObjectWidget::paint(QPainter & p , int offsetX, int offsetY)
+/**
+ * Sets the local id of the object.
+ *
+ * @param id   The local id of the object.
+ */
+void ObjectWidget::setLocalID(Uml::IDType id)
+{
+    m_nLocalID = id;
+}
+
+/**
+ * Returns the local ID for this object.  This ID is used so that
+ * many objects of the same @ref UMLObject instance can be on the
+ * same diagram.
+ *
+ * @return  The local ID.
+ */
+Uml::IDType ObjectWidget::localID() const
+{
+    return m_nLocalID;
+}
+
+/**
+ * Sets whether representing a multi-instance object.
+ *
+ * @param multiple  Object state. true- multi, false - single.
+ */
+void ObjectWidget::setMultipleInstance(bool multiple)
+{
+    //make sure only calling this in relation to an object on a collab. diagram
+    if(m_scene->type() != Uml::DiagramType::Collaboration)
+        return;
+    m_multipleInstance = multiple;
+    updateComponentSize();
+    update();
+}
+
+/**
+ * Returns whether object is representing a multi-object.
+ *
+ * @return  True if object is representing a multi-object.
+ */
+bool ObjectWidget::multipleInstance() const
+{
+    return m_multipleInstance;
+}
+
+/**
+ * Override default method.
+ */
+void ObjectWidget::paint(QPainter & p, int offsetX, int offsetY)
 {
     if ( m_drawAsActor )
         drawActor( p, offsetX, offsetY );
@@ -78,6 +139,9 @@ void ObjectWidget::paint(QPainter & p , int offsetX, int offsetY)
         drawSelected(&p, offsetX, offsetY);
 }
 
+/**
+ * Handles a popup menu selection.
+ */
 void ObjectWidget::slotMenuSelection(QAction* action)
 {
     ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
@@ -124,12 +188,14 @@ void ObjectWidget::slotMenuSelection(QAction* action)
     }
 }
 
+/**
+ * Overrides method from UMLWidget
+ */
 UMLSceneSize ObjectWidget::minimumSize()
 {
     int width, height;
     const QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
     const int fontHeight  = fm.lineSpacing();
-    QString objName;
     const QString t = m_instanceName + " : " + name();
     const int textWidth = fm.width(t);
     if ( m_drawAsActor ) {
@@ -149,22 +215,30 @@ UMLSceneSize ObjectWidget::minimumSize()
     return UMLSceneSize(width, height);
 }
 
-void ObjectWidget::setDrawAsActor( bool drawAsActor )
+/**
+ * Sets whether to draw as an Actor.
+ *
+ * @param drawAsActor   True if widget shall be drawn as an actor.
+ */
+void ObjectWidget::setDrawAsActor(bool drawAsActor)
 {
     m_drawAsActor = drawAsActor;
     updateComponentSize();
 }
 
-void ObjectWidget::setMultipleInstance(bool multiple)
+/**
+ * Returns whether to draw as an Actor or not.
+ *
+ * @return  True if widget is drawn as an actor.
+ */
+bool ObjectWidget::drawAsActor() const
 {
-    //make sure only calling this in relation to an object on a collab. diagram
-    if(m_scene->type() != Uml::DiagramType::Collaboration)
-        return;
-    m_multipleInstance = multiple;
-    updateComponentSize();
-    update();
+    return m_drawAsActor;
 }
 
+/**
+ * Activate the object after serializing it from a QDataStream
+ */
 bool ObjectWidget::activate(IDChangeLog* ChangeLog /*= 0*/)
 {
     if (! UMLWidget::activate(ChangeLog))
@@ -175,18 +249,33 @@ bool ObjectWidget::activate(IDChangeLog* ChangeLog /*= 0*/)
     return true;
 }
 
-void ObjectWidget::setX( int x )
+/**
+ * Sets the x-coordinate.
+ * Reimplements the method from UMLWidget.
+ *
+ * @param x The x-coordinate to be set.
+ */
+void ObjectWidget::setX(int x)
 {
     UMLWidget::setX(x);
     moveEvent(0);
 }
 
-void ObjectWidget::setY( int y )
+/**
+ * Sets the y-coordinate.
+ * Reimplements the method from UMLWidget.
+ *
+ * @param y The y-coordinate to be set.
+ */
+void ObjectWidget::setY(int y)
 {
     UMLWidget::setY(y);
     moveEvent(0);
 }
 
+/**
+ * Overrides the standard operation.
+ */
 void ObjectWidget::moveEvent(QMoveEvent *m)
 {
     Q_UNUSED(m)
@@ -196,6 +285,9 @@ void ObjectWidget::moveEvent(QMoveEvent *m)
     }
 }
 
+/**
+ * Handles a color change signal.
+ */
 void ObjectWidget::slotFillColorChanged(Uml::IDType /*viewID*/)
 {
     UMLWidget::setFillColor( m_scene->fillColor() );
@@ -205,15 +297,21 @@ void ObjectWidget::slotFillColorChanged(Uml::IDType /*viewID*/)
         m_pLine->setPen( QPen( UMLWidget::lineColor(), UMLWidget::lineWidth(), Qt::DashLine ) );
 }
 
+/**
+ * Used to cleanup any other widget it may need to delete.
+ */
 void ObjectWidget::cleanup()
 {
     UMLWidget::cleanup();
     if( m_pLine ) {
-        m_pLine -> cleanup();
+        m_pLine->cleanup();
         delete m_pLine;
     }
 }
 
+/**
+ * Show a properties dialog for an ObjectWidget.
+ */
 void ObjectWidget::showPropertiesDialog()
 {
     umlScene()->updateDocumentation(false);
@@ -226,6 +324,9 @@ void ObjectWidget::showPropertiesDialog()
     delete dlg;
 }
 
+/**
+ * Draw the object as an object (default).
+ */
 void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY)
 {
     QFont oldFont = p.font();
@@ -257,6 +358,9 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY)
     p.setFont( oldFont );
 }
 
+/**
+ * Draw the object as an actor.
+ */
 void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY)
 {
     const QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
@@ -287,6 +391,9 @@ void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY)
                w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, t);
 }
 
+/**
+ * Move the object up on a sequence diagram.
+ */
 void ObjectWidget::tabUp()
 {
     int newY = y() - height();
@@ -297,6 +404,9 @@ void ObjectWidget::tabUp()
     adjustAssocs( x(), newY);
 }
 
+/**
+ * Move the object down on a sequence diagram.
+ */
 void ObjectWidget::tabDown()
 {
     int newY = y() + height();
@@ -305,59 +415,110 @@ void ObjectWidget::tabDown()
     adjustAssocs( x(), newY);
 }
 
+/**
+ * Returns the top margin constant (Y axis value)
+ *
+ * @return  Y coordinate of the space between the diagram top
+ *          and the upper edge of the ObjectWidget.
+ */
 int ObjectWidget::topMargin()
 {
     return 80 - height();
 }
 
+/**
+ * Returns whether or not the widget can be moved vertically up.
+ *
+ * @return  True if widget can be moved upwards vertically.
+ */
 bool ObjectWidget::canTabUp()
 {
     return (y() > topMargin());
 }
 
-void ObjectWidget::setShowDestruction( bool bShow )
+/**
+ * Sets whether to show deconstruction on sequence line.
+ *
+ * @param bShow   True if destruction on line shall be shown.
+ */
+void ObjectWidget::setShowDestruction(bool bShow)
 {
     m_showDestruction = bShow;
     if( m_pLine )
-        m_pLine -> setupDestructionBox();
+        m_pLine->setupDestructionBox();
 }
 
+/**
+ * Returns whether to show deconstruction on sequence line.
+ *
+ * @return  True if destruction on sequence line is shown.
+ */
+bool ObjectWidget::showDestruction() const
+{
+    return m_showDestruction;
+}
+
+/**
+ * Sets the y position of the bottom of the vertical line.
+ *
+ * @param yPosition The y coordinate for the bottom of the line.
+ */
 void ObjectWidget::setEndLine(int yPosition)
 {
     m_pLine->setEndOfLine(yPosition);
 }
 
+/**
+ * Returns the end Y co-ord of the sequence line.
+ *
+ * @return  Y coordinate of the endpoint of the sequence line.
+ */
 int ObjectWidget::getEndLineY()
 {
-    int y = this -> y() + height();
+    int y = this->y() + height();
     if( m_pLine)
-        y += m_pLine -> getLineLength();
+        y += m_pLine->getLineLength();
     if ( m_showDestruction )
         y += 10;
     return y;
 }
 
+/**
+ * Add a message widget to the list.
+ *
+ * @param message   Pointer to the MessageWidget to add.
+ */
 void ObjectWidget::messageAdded(MessageWidget* message)
 {
-    if ( messageWidgetList.count(message) ) {
+    if ( m_messages.count(message) ) {
         uError() << message->name() << ": duplicate entry !";
         return ;
     }
-    messageWidgetList.append(message);
+    m_messages.append(message);
 }
 
+/**
+ * Remove a message widget from the list.
+ *
+ * @param message   Pointer to the MessageWidget to remove.
+ */
 void ObjectWidget::messageRemoved(MessageWidget* message)
 {
-    if ( messageWidgetList.removeAll(message) == false ) {
+    if ( m_messages.removeAll(message) == false ) {
         uError() << message->name() << ": missing entry !";
         return ;
     }
 }
 
+/**
+ * Called when a message widget with an end on this object has
+ * moved up or down.
+ * Sets the bottom of the line to a nice position.
+ */
 void ObjectWidget::slotMessageMoved()
 {
     int lowestMessage = 0;
-    foreach ( MessageWidget* message, messageWidgetList ) {
+    foreach (MessageWidget* message, m_messages) {
         int messageHeight = message->y() + message->height();
         if (lowestMessage < messageHeight) {
             lowestMessage = messageHeight;
@@ -366,9 +527,16 @@ void ObjectWidget::slotMessageMoved()
     m_pLine->setEndOfLine(lowestMessage + sequenceLineMargin);
 }
 
+/**
+ * Returns whether a message is overlapping with another message.
+ * Used by MessageWidget::draw() methods.
+ *
+ * @param y               top of your message
+ * @param messageWidget   pointer to your message so it doesn't check against itself
+ */
 bool ObjectWidget::messageOverlap(int y, MessageWidget* messageWidget)
 {
-    foreach ( MessageWidget* message , messageWidgetList ) {
+    foreach (MessageWidget* message, m_messages) {
         const int msgY = message->y();
         const int msgHeight = msgY + message->height();
         if (y >= msgY && y <= msgHeight && message != messageWidget) {
@@ -378,12 +546,20 @@ bool ObjectWidget::messageOverlap(int y, MessageWidget* messageWidget)
     return false;
 }
 
-SeqLineWidget *ObjectWidget::sequentialLine()
+/**
+ * Return the SeqLineWidget.
+ * Returns a non NULL pointer if this ObjectWidget is part of a
+ * sequence diagram.
+ */
+SeqLineWidget *ObjectWidget::sequentialLine() const
 {
     return m_pLine;
 }
 
-void ObjectWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+/**
+ * Saves to the "objectwidget" XMI element.
+ */
+void ObjectWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement objectElement = qDoc.createElement( "objectwidget" );
     UMLWidget::saveToXMI( qDoc, objectElement );
@@ -394,7 +570,10 @@ void ObjectWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     qElement.appendChild( objectElement );
 }
 
-bool ObjectWidget::loadFromXMI( QDomElement & qElement )
+/**
+ * Loads from a "objectwidget" XMI element.
+ */
+bool ObjectWidget::loadFromXMI(QDomElement& qElement)
 {
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
