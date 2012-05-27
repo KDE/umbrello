@@ -29,17 +29,34 @@
 #include <QtCore/QPointer>
 #include <QtGui/QPainter>
 
-ObjectNodeWidget::ObjectNodeWidget(UMLScene * scene, ObjectNodeType objectNodeType, Uml::IDType id )
+#define OBJECTNODE_MARGIN 5
+#define OBJECTNODE_WIDTH 30
+#define OBJECTNODE_HEIGHT 10
+
+/**
+ * Creates a Object Node widget.
+ *
+ * @param scene            The parent of the widget.
+ * @param objectNodeType   The type of object node
+ * @param id               The ID to assign (-1 will prompt a new ID.)
+ */
+ObjectNodeWidget::ObjectNodeWidget(UMLScene * scene, ObjectNodeType objectNodeType, Uml::IDType id)
   : UMLWidget(scene, WidgetBase::wt_ObjectNode, id)
 {
-    setObjectNodeType( objectNodeType );
+    setObjectNodeType(objectNodeType);
     setState("");
 }
 
+/**
+ * Destructor.
+ */
 ObjectNodeWidget::~ObjectNodeWidget()
 {
 }
 
+/**
+ * Overrides the standard paint event.
+ */
 void ObjectNodeWidget::paint(QPainter & p, int offsetX, int offsetY)
 {
     int w = width();
@@ -58,7 +75,7 @@ void ObjectNodeWidget::paint(QPainter & p, int offsetX, int offsetY)
     p.drawRect(offsetX, offsetY, w, h);
     p.setFont( UMLWidget::font() );
 
-    switch ( m_ObjectNodeType )
+    switch ( m_objectNodeType )
     {
     case Normal : break;
     case Buffer :
@@ -102,10 +119,13 @@ void ObjectNodeWidget::paint(QPainter & p, int offsetX, int offsetY)
 
 }
 
+/**
+ * Overrides method from UMLWidget.
+ */
 UMLSceneSize ObjectNodeWidget::minimumSize()
 {
     int widthtmp = 10, height = 10,width=10;
-    if ( m_ObjectNodeType == Buffer ) {
+    if ( m_objectNodeType == Buffer ) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
         const int textWidth = fm.width("<< centrelBuffer >>");
@@ -116,7 +136,7 @@ UMLSceneSize ObjectNodeWidget::minimumSize()
         height = height > OBJECTNODE_HEIGHT ? height : OBJECTNODE_HEIGHT;
         width += OBJECTNODE_MARGIN * 2;
         height += OBJECTNODE_MARGIN * 2 + 5;
-    } else if ( m_ObjectNodeType == Data ) {
+    } else if ( m_objectNodeType == Data ) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
         const int textWidth = fm.width("<< datastore >>");
@@ -127,7 +147,7 @@ UMLSceneSize ObjectNodeWidget::minimumSize()
         height = height > OBJECTNODE_HEIGHT ? height : OBJECTNODE_HEIGHT;
         width += OBJECTNODE_MARGIN * 2;
         height += OBJECTNODE_MARGIN * 2 + 5;
-    } else if ( m_ObjectNodeType == Flow ) {
+    } else if ( m_objectNodeType == Flow ) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
         const int textWidth = fm.width('[' + state() + ']');
@@ -143,11 +163,18 @@ UMLSceneSize ObjectNodeWidget::minimumSize()
     return UMLSceneSize(width, height);
 }
 
+/**
+ * Returns the type of object node.
+ */
 ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::objectNodeType() const
 {
-    return m_ObjectNodeType;
+    return m_objectNodeType;
 }
 
+/**
+ * Returns the type of object node.
+ * TODO: static, rename to "toObjectNodeType(...).
+ */
 ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::objectNodeType(const QString& type) const
 {
     if (type == "Central buffer")
@@ -161,39 +188,57 @@ ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::objectNodeType(const QString&
     return ObjectNodeWidget::Flow;
 }
 
-void ObjectNodeWidget::setObjectNodeType( ObjectNodeType objectNodeType )
+/**
+ * Sets the type of object node.
+ */
+void ObjectNodeWidget::setObjectNodeType(ObjectNodeType objectNodeType)
 {
-    m_ObjectNodeType = objectNodeType;
+    m_objectNodeType = objectNodeType;
     UMLWidget::m_resizable = true;
 }
 
-void ObjectNodeWidget::setObjectNodeType( const QString& type )
+/**
+ * Sets the type of object node.
+ */
+void ObjectNodeWidget::setObjectNodeType(const QString& type)
 {
-   setObjectNodeType(ObjectNodeWidget::objectNodeType(type) );
+   setObjectNodeType(ObjectNodeWidget::objectNodeType(type));
 }
 
+/**
+ * Sets the state of an object node when it's an objectflow.
+ */
 void ObjectNodeWidget::setState(const QString& state)
 {
-    m_State = state;
+    m_state = state;
     updateComponentSize();
 }
 
-QString ObjectNodeWidget::state()
+/**
+ * Returns the state of object node.
+ */
+QString ObjectNodeWidget::state() const
 {
-    return m_State;
+    return m_state;
 }
 
+/**
+ * Captures any popup menu signals for menus it created.
+ */
 void ObjectNodeWidget::slotMenuSelection(QAction* action)
 {
     bool ok = false;
-    QString name = m_Text;
+    QString text = name();
 
     ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
     switch( sel ) {
     case ListPopupMenu::mt_Rename:
-        name = KInputDialog::getText( i18n("Enter Object Node Name"), i18n("Enter the name of the object node :"), m_Text, &ok );
-        if( ok && name.length() > 0 )
-            m_Text = name;
+        text = KInputDialog::getText( i18n("Enter Object Node Name"),
+                                      i18n("Enter the name of the object node :"),
+                                      name(), &ok );
+        if (ok && !text.isEmpty()) {
+            setName(text);
+        }
         break;
 
     case ListPopupMenu::mt_Properties:
@@ -205,6 +250,9 @@ void ObjectNodeWidget::slotMenuSelection(QAction* action)
     }
 }
 
+/**
+ * Show a properties dialog for an ObjectNodeWidget.
+ */
 void ObjectNodeWidget::showPropertiesDialog()
 {
     umlScene()->updateDocumentation(false);
@@ -217,29 +265,38 @@ void ObjectNodeWidget::showPropertiesDialog()
     delete dialog;
 }
 
-void ObjectNodeWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+/**
+ * Saves the widget to the "objectnodewidget" XMI element.
+ */
+void ObjectNodeWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement objectNodeElement = qDoc.createElement( "objectnodewidget" );
     UMLWidget::saveToXMI( qDoc, objectNodeElement );
     objectNodeElement.setAttribute( "objectnodename", m_Text );
     objectNodeElement.setAttribute( "documentation", m_Doc );
-    objectNodeElement.setAttribute( "objectnodetype", m_ObjectNodeType );
-    objectNodeElement.setAttribute( "objectnodestate", m_State );
+    objectNodeElement.setAttribute( "objectnodetype", m_objectNodeType );
+    objectNodeElement.setAttribute( "objectnodestate", m_state );
     qElement.appendChild( objectNodeElement );
 }
 
-bool ObjectNodeWidget::loadFromXMI( QDomElement & qElement )
+/**
+ * Loads the widget from the "objectnodewidget" XMI element.
+ */
+bool ObjectNodeWidget::loadFromXMI(QDomElement& qElement)
 {
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
     m_Text = qElement.attribute( "objectnodename", "" );
     m_Doc = qElement.attribute( "documentation", "" );
     QString type = qElement.attribute( "objectnodetype", "1" );
-    m_State = qElement.attribute("objectnodestate","");
+    m_state = qElement.attribute("objectnodestate","");
     setObjectNodeType( (ObjectNodeType)type.toInt() );
     return true;
 }
 
+/**
+ * Open a dialog box to select the objectNode type (Data, Buffer or Flow).
+ */
 void ObjectNodeWidget::askForObjectNodeType(UMLWidget* &targetWidget)
 {
     bool pressedOK = false;
@@ -266,6 +323,10 @@ void ObjectNodeWidget::askForObjectNodeType(UMLWidget* &targetWidget)
     }
 }
 
+/**
+ * Open a dialog box to input the state of the widget.
+ * This box is shown only if m_objectNodeType = Flow.
+ */
 void ObjectNodeWidget::askStateForWidget()
 {
     bool pressedOK = false;
