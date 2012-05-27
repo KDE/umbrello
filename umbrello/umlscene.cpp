@@ -1058,6 +1058,7 @@ UMLWidget* UMLScene::widgetAt(const UMLScenePoint& p)
 AssociationWidget* UMLScene::associationAt(const UMLScenePoint& p)
 {
     AssociationWidget* widget = 0;
+    Q_UNUSED(p);  //:TODO:
 //    QGraphicsItem* item = itemAt(p, QTransform());
 //    if (item) {
 //        widget = dynamic_cast<AssociationWidget*>(item);
@@ -3057,21 +3058,15 @@ void UMLScene::copyAsImage(QPixmap*& pix)
     //get each type of associations
     //This needs to be reimplemented to increase the rectangle
     //if a part of any association is not included
-    foreach(AssociationWidget *a , m_AssociationList) {
+    foreach(AssociationWidget *a, m_AssociationList) {
         if (! a->isSelected())
             continue;
-        const FloatingTextWidget* multiA =
-            const_cast<FloatingTextWidget*>(a->multiplicityWidget(Uml::A));
-        const FloatingTextWidget* multiB =
-            const_cast<FloatingTextWidget*>(a->multiplicityWidget(Uml::B));
-        const FloatingTextWidget* roleA =
-            const_cast<FloatingTextWidget*>(a->roleWidget(Uml::A));
-        const FloatingTextWidget* roleB =
-            const_cast<FloatingTextWidget*>(a->roleWidget(Uml::B));
-        const FloatingTextWidget* changeA =
-            const_cast<FloatingTextWidget*>(a->changeabilityWidget(Uml::A));
-        const FloatingTextWidget* changeB =
-            const_cast<FloatingTextWidget*>(a->changeabilityWidget(Uml::B));
+        const FloatingTextWidget* multiA = a->multiplicityWidget(Uml::A);
+        const FloatingTextWidget* multiB = a->multiplicityWidget(Uml::B);
+        const FloatingTextWidget* roleA = a->roleWidget(Uml::A);
+        const FloatingTextWidget* roleB = a->roleWidget(Uml::B);
+        const FloatingTextWidget* changeA = a->changeabilityWidget(Uml::A);
+        const FloatingTextWidget* changeB = a->changeabilityWidget(Uml::B);
         findMaxBoundingRectangle(multiA, px, py, qx, qy);
         findMaxBoundingRectangle(multiB, px, py, qx, qy);
         findMaxBoundingRectangle(roleA, px, py, qx, qy);
