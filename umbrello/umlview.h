@@ -58,11 +58,7 @@ protected:
 
     QPointF m_currentCenterPoint;  ///< holds the current centerpoint for the view, used for panning and zooming
     QPoint  m_lastPanPoint;        ///< from panning the view
-
-    /**
-     * The zoom level in percent, default 100
-     */
-    int m_nZoom;
+    int     m_nZoom;               ///< zoom level in percent, default 100
 
 };
 

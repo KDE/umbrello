@@ -219,7 +219,7 @@ void ObjectNodeWidget::slotMenuSelection(QAction* action)
         text = KInputDialog::getText( i18n("Enter Object Node Name"),
                                       i18n("Enter the name of the object node :"),
                                       name(), &ok );
-        if( ok && !text.isEmpty()) {
+        if (ok && !text.isEmpty()) {
             setName(text);
         }
         break;

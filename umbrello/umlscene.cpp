@@ -2924,7 +2924,6 @@ void UMLScene::findMaxBoundingRectangle(const FloatingTextWidget* ft, qreal& px,
 void UMLScene::copyAsImage(QPixmap*& pix)
 {
     //get the smallest rect holding the diagram
-    // [PORT]
     QRect rect = diagramRect().toRect();
     QPixmap diagram(rect.width(), rect.height());
 
@@ -2961,21 +2960,15 @@ void UMLScene::copyAsImage(QPixmap*& pix)
     //get each type of associations
     //This needs to be reimplemented to increase the rectangle
     //if a part of any association is not included
-    foreach(AssociationWidget *a , m_AssociationList) {
+    foreach(AssociationWidget *a, m_AssociationList) {
         if (! a->isSelected())
             continue;
-        const FloatingTextWidget* multiA =
-            const_cast<const FloatingTextWidget*>(a->multiplicityWidget(Uml::A));
-        const FloatingTextWidget* multiB =
-            const_cast<const FloatingTextWidget*>(a->multiplicityWidget(Uml::B));
-        const FloatingTextWidget* roleA =
-            const_cast<const FloatingTextWidget*>(a->roleWidget(Uml::A));
-        const FloatingTextWidget* roleB =
-            const_cast<const FloatingTextWidget*>(a->roleWidget(Uml::B));
-        const FloatingTextWidget* changeA =
-            const_cast<const FloatingTextWidget*>(a->changeabilityWidget(Uml::A));
-        const FloatingTextWidget* changeB =
-            const_cast<const FloatingTextWidget*>(a->changeabilityWidget(Uml::B));
+        const FloatingTextWidget* multiA = a->multiplicityWidget(Uml::A);
+        const FloatingTextWidget* multiB = a->multiplicityWidget(Uml::B);
+        const FloatingTextWidget* roleA = a->roleWidget(Uml::A);
+        const FloatingTextWidget* roleB = a->roleWidget(Uml::B);
+        const FloatingTextWidget* changeA = a->changeabilityWidget(Uml::A);
+        const FloatingTextWidget* changeB = a->changeabilityWidget(Uml::B);
         findMaxBoundingRectangle(multiA, px, py, qx, qy);
         findMaxBoundingRectangle(multiB, px, py, qx, qy);
         findMaxBoundingRectangle(roleA, px, py, qx, qy);
@@ -3896,7 +3889,7 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
         // section when each owning association is dumped. -b.t.
         if ((widget->baseType() != WidgetBase::wt_Text &&
              widget->baseType() != WidgetBase::wt_FloatingDashLine) ||
-            static_cast<FloatingTextWidget*>(widget)->link() == NULL)
+             static_cast<FloatingTextWidget*>(widget)->link() == NULL)
             widget->saveToXMI(qDoc, widgetElement);
     }
     viewElement.appendChild(widgetElement);

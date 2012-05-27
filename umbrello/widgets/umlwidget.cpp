@@ -24,7 +24,6 @@
 #include "associationwidget.h"
 #include "classpropdlg.h"
 #include "debug_utils.h"
-#include "docwindow.h"
 #include "listpopupmenu.h"
 #include "textitemgroup.h"
 #include "textitem.h"
@@ -225,11 +224,10 @@ void UMLWidget::showPropertiesDialog()
 {
     // will already be selected so make sure docWindow updates the doc
     // back it the widget
-    DocWindow *docwindow = UMLApp::app()->docWindow();
-    docwindow->updateDocumentation(false);
+    umlScene()->updateDocumentation(false);
     QPointer<ClassPropDlg> dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
     if (dlg->exec()) {
-        docwindow->showDocumentation(umlObject() , true);
+        umlScene()->showDocumentation(umlObject() , true);
         umlDoc()->setModified(true);
     }
     dlg->close();
