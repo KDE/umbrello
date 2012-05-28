@@ -4000,38 +4000,10 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     QString type = qElement.attribute("type", "0");
     m_Documentation = qElement.attribute("documentation", "");
     QString localid = qElement.attribute("localid", "0");
-    //optionstate uistate
-    QString font = qElement.attribute("font", "");
-    if (!font.isEmpty()) {
-        m_Options.uiState.font.fromString(font);
-        m_Options.uiState.font.setUnderline(false);
-    }
-    QString fillcolor = qElement.attribute("fillcolor", "");
-    QString linecolor = qElement.attribute("linecolor", "");
-    QString linewidth = qElement.attribute("linewidth", "");
-    QString usefillcolor = qElement.attribute("usefillcolor", "0");
-    QString backgroundColor = qElement.attribute("backgroundcolor", "");
-    QString gridDotColor = qElement.attribute("griddotcolor", "");
-    m_Options.uiState.useFillColor = (bool)usefillcolor.toInt();
-    //optionstate classstate
-    QString temp = qElement.attribute("showattsig", "0");
-    m_Options.classState.showAttSig = (bool)temp.toInt();
-    temp = qElement.attribute("showatts", "0");
-    m_Options.classState.showAtts = (bool)temp.toInt();
-    temp = qElement.attribute("showopsig", "0");
-    m_Options.classState.showOpSig = (bool)temp.toInt();
-    temp = qElement.attribute("showops", "0");
-    m_Options.classState.showOps = (bool)temp.toInt();
-    temp = qElement.attribute("showpackage", "0");
-    m_Options.classState.showPackage = (bool)temp.toInt();
-    temp = qElement.attribute("showattribassocs", "0");
-    m_Options.classState.showAttribAssocs = (bool)temp.toInt();
-    temp = qElement.attribute("showscope", "0");
-    m_Options.classState.showVisibility = (bool)temp.toInt();
-    temp = qElement.attribute("showstereotype", "0");
-    m_Options.classState.showStereoType = (bool)temp.toInt();
-    temp = qElement.attribute("showpubliconly", "0");
-    m_Options.classState.showPublicOnly = (bool)temp.toInt();
+    // option state
+    Settings::loadFromXMI(qElement, m_Options);
+    setBackgroundColor(m_Options.uiState.backgroundColor);
+    setGridDotColor(m_Options.uiState.gridDotColor);
     //misc
     QString showgrid = qElement.attribute("showgrid", "0");
     m_bShowSnapGrid = (bool)showgrid.toInt();
@@ -4100,16 +4072,6 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     } else {
         m_Type = Uml::DiagramType::Value(nType);
     }
-    if (!fillcolor.isEmpty())
-        m_Options.uiState.fillColor = QColor(fillcolor);
-    if (!linecolor.isEmpty())
-        m_Options.uiState.lineColor = QColor(linecolor);
-    if (!linewidth.isEmpty())
-        m_Options.uiState.lineWidth = linewidth.toInt();
-    if (!backgroundColor.isEmpty())
-        m_Options.uiState.backgroundColor = QColor(backgroundColor);
-    if (!gridDotColor.isEmpty())
-        m_Options.uiState.gridDotColor = QColor(gridDotColor);
     m_nLocalID = STR2ID(localid);
 
     QDomNode node = qElement.firstChild();

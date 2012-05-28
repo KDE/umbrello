@@ -100,6 +100,8 @@ namespace Settings {
         optstate.classState.showVisibility = (bool)temp.toInt();
         temp = element.attribute("showstereotype", "0");
         optstate.classState.showStereoType = (bool)temp.toInt();
+        temp = element.attribute("showpubliconly" "0");
+        optstate.classState.showPublicOnly = (bool)temp.toInt();
 
         return true;
     }
