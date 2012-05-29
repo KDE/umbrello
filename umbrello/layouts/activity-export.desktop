@@ -12,6 +12,7 @@ Name[pt_BR]=Exportar leiaute
 Name[sv]=Exportera layout
 Name[uk]=Компонування експортованих даних
 Name[x-test]=xxExport Layoutxx
+Name[zh_CN]=导出布局
 Name[zh_TW]=匯出佈局
 Comment=Export Layout for Activity Diagrams
 Comment[ca]=Exporta la disposició dels diagrames d'activitat
@@ -24,6 +25,7 @@ Comment[pt_BR]=Exportar leiaute para diagramas de atividades
 Comment[sv]=Exportera layout av aktivitetsdiagram
 Comment[uk]=Компонування для експортування діаграм дій
 Comment[x-test]=xxExport Layout for Activity Diagramsxx
+Comment[zh_CN]=导出活动图布局
 Comment[zh_TW]=活動圖片的匯出佈局
 
 [X-UMBRELLO-Dot-Nodes]

@@ -12,6 +12,7 @@ Name[pt_BR]=Exportar leiaute
 Name[sv]=Exportera layout
 Name[uk]=Компонування експортованих даних
 Name[x-test]=xxExport Layoutxx
+Name[zh_CN]=导出布局
 Name[zh_TW]=匯出佈局
 Comment=Export Layout for Class Diagrams
 Comment[ca]=Exporta la disposició dels diagrames de classe
@@ -24,6 +25,7 @@ Comment[pt_BR]=Exportar leiaute para diagramas de classe
 Comment[sv]=Exportera layout av klassdiagram
 Comment[uk]=Компонування для експортування діаграм класів
 Comment[x-test]=xxExport Layout for Class Diagramsxx
+Comment[zh_CN]=导出类图布局
 Comment[zh_TW]=類別圖片的匯出佈局
 
 [X-UMBRELLO-Dot-Nodes]
