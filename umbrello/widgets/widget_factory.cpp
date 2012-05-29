@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2011                                               *
+ *   copyright (C) 2006-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -15,7 +15,6 @@
 #include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "umlview.h"
 #include "object_factory.h"
 #include "floatingtextwidget.h"
 #include "classifierwidget.h"
@@ -56,7 +55,6 @@
 #include "objectnodewidget.h"
 #include "pinwidget.h"
 #include "categorywidget.h"
-#include "cmds.h"
 #include "umlscene.h"
 
 namespace Widget_Factory {
@@ -154,6 +152,13 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
     return newWidget;
 }
 
+/**
+ * Create UMLObject with given object type and id.
+ * @param expected   expected object type
+ * @param o          reference to object
+ * @param id         id of object
+ * @return success status if valid object was created
+ */
 bool validateObjType(UMLObject::ObjectType expected, UMLObject* &o, Uml::IDType id)
 {
     if (o == NULL) {
@@ -183,12 +188,12 @@ bool validateObjType(UMLObject::ObjectType expected, UMLObject* &o, Uml::IDType 
 UMLWidget* makeWidgetFromXMI(const QString& tag,
                              const QString& idStr, UMLScene *scene)
 {
-    UMLWidget *widget = NULL;
+    UMLWidget *widget = 0;
 
-        // Loading of widgets which do NOT represent any UMLObject,
-        // just graphic stuff with no real model information
-        //FIXME while boxes and texts are just diagram objects, activities and
-        // states should be UMLObjects
+    // Loading of widgets which do NOT represent any UMLObject,
+    // just graphic stuff with no real model information
+    //FIXME while boxes and texts are just diagram objects, activities and
+    // states should be UMLObjects
     if (tag == "statewidget" || tag == "UML:StateWidget") {
         widget = new StateWidget(StateWidget::Normal, Uml::id_Reserved);
     } else if (tag == "notewidget" || tag == "UML:NoteWidget") {
@@ -218,10 +223,8 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
     } else if (tag == "pinwidget") {
         widget = new PinWidget(NULL, Uml::id_Reserved);
     }
-    else
+    else  // Loading of widgets which represent an UMLObject
     {
-        // Loading of widgets which represent an UMLObject
-
         // Find the UMLObject and create the Widget to represent it
         Uml::IDType id = STR2ID(idStr);
         UMLDoc *umldoc = UMLApp::app()->document();
@@ -274,12 +277,11 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         }
     }
 
-    if(widget) {
-        uDebug() << "Added";
+    if (widget) {
+        uDebug() << "Added tag=" << tag << " / idStr=" << idStr;
         scene->addItem(widget);
     }
     return widget;
 }
 
 }   // end namespace Widget_Factory
-

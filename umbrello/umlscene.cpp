@@ -83,9 +83,8 @@
 #include <QtAlgorithms>  // for qSort
 #include <QtGui/QAction>
 #include <QtGui/QPainter>
-#include <QtGui/QPrinter>
 #include <QtGui/QPixmap>
-
+#include <QtGui/QPrinter>
 
 // system includes
 #include <cmath>  // for ceil
@@ -127,8 +126,6 @@ UMLScene::UMLScene(UMLFolder *parentFolder)
 
     m_pImageExporter = new UMLViewImageExporter(this);
 
-    DEBUG_REGISTER(DBG_SRC);
-
     // setup signals
     connect(this, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
     connect(UMLApp::app(), SIGNAL(sigCutSuccessful()),
@@ -139,12 +136,15 @@ UMLScene::UMLScene(UMLFolder *parentFolder)
     // needs a pointer to this object.
     m_pToolBarStateFactory = new ToolBarStateFactory();
     m_pToolBarState = m_pToolBarStateFactory->getState(WorkToolBar::tbb_Arrow, this);
+
     m_doc = UMLApp::app()->document();
 
     // settings for background
     setBackgroundBrush(QColor(195, 195, 195));
     m_layoutGrid = new LayoutGrid();
     addItem(m_layoutGrid);
+
+    DEBUG_REGISTER(DBG_SRC);
 }
 
 /**
@@ -3875,6 +3875,8 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     viewElement.setAttribute("snapcsgrid", m_bUseSnapComponentSizeToGrid);
     viewElement.setAttribute("snapx", m_layoutGrid->gridSpacingX());
     viewElement.setAttribute("snapy", m_layoutGrid->gridSpacingY());
+    // FIXME: move to UMLView
+    viewElement.setAttribute("zoom", activeView()->zoom());
     viewElement.setAttribute("canvasheight", height());
     viewElement.setAttribute("canvaswidth", width());
     viewElement.setAttribute("isopen", isOpen());
@@ -3952,6 +3954,9 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     QString snapx = qElement.attribute("snapx", "10");
     QString snapy = qElement.attribute("snapy", "10");
     m_layoutGrid->setGridSpacing(snapx.toInt(), snapy.toInt());
+
+    QString zoom = qElement.attribute("zoom", "100");
+    activeView()->setZoom(zoom.toInt());
 
     QString height = qElement.attribute("canvasheight", QString("%1").arg(defaultCanvasSize));
     qreal canvasHeight = height.toDouble();

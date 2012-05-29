@@ -11,6 +11,7 @@ Name[pt_BR]=Leiaute padrão de casos de uso
 Name[sv]=Standardlayout för användarfall
 Name[uk]=Типове компонування випадку використання
 Name[x-test]=xxUseCase Default Layoutxx
+Name[zh_CN]=用例默认布局
 Name[zh_TW]=UseCase 預設佈局
 Comment=Usecase Default Layout
 Comment[ca]=Disposició per omissió de casos d'ús
@@ -23,6 +24,7 @@ Comment[pt_BR]=Leiaute padrão de casos de uso
 Comment[sv]=Standardlayout för användarfall
 Comment[uk]=Типове компонування випадку використання
 Comment[x-test]=xxUsecase Default Layoutxx
+Comment[zh_CN]=用例默认布局
 Comment[zh_TW]=Usecase 預設佈局
 
 [X-UMBRELLO-Dot-Nodes]
