@@ -3913,24 +3913,8 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     viewElement.setAttribute("name", name());
     viewElement.setAttribute("type", m_Type);
     viewElement.setAttribute("documentation", m_Documentation);
-    //optionstate uistate
-    viewElement.setAttribute("fillcolor", m_Options.uiState.fillColor.name());
-    viewElement.setAttribute("linecolor", m_Options.uiState.lineColor.name());
-    viewElement.setAttribute("linewidth", m_Options.uiState.lineWidth);
-    viewElement.setAttribute("usefillcolor", m_Options.uiState.useFillColor);
-    viewElement.setAttribute("font", m_Options.uiState.font.toString());
-    viewElement.setAttribute("backgroundcolor", m_Options.uiState.backgroundColor.name());
-    viewElement.setAttribute("griddotcolor", m_Options.uiState.gridDotColor.name());
-    //optionstate classstate
-    viewElement.setAttribute("showattsig", m_Options.classState.showAttSig);
-    viewElement.setAttribute("showatts", m_Options.classState.showAtts);
-    viewElement.setAttribute("showopsig", m_Options.classState.showOpSig);
-    viewElement.setAttribute("showops", m_Options.classState.showOps);
-    viewElement.setAttribute("showpackage", m_Options.classState.showPackage);
-    viewElement.setAttribute("showattribassocs", m_Options.classState.showAttribAssocs);
-    viewElement.setAttribute("showpubliconly", m_Options.classState.showPublicOnly);
-    viewElement.setAttribute("showscope", m_Options.classState.showVisibility);
-    viewElement.setAttribute("showstereotype", m_Options.classState.showStereoType);
+    //option state
+    Settings::saveToXMI(viewElement, m_Options);
     //misc
     viewElement.setAttribute("localid", ID2STR(m_nLocalID));
     viewElement.setAttribute("showgrid", m_bShowSnapGrid);
