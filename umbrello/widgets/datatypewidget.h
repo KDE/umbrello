@@ -43,12 +43,6 @@ public Q_SLOTS:
 protected:
     UMLSceneSize minimumSize();
 
-private:
-    /**
-     * The right mouse button menu.
-     */
-    ListPopupMenu* m_pMenu;
-
 };
 
 #endif
