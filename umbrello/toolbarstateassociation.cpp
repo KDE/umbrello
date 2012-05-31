@@ -117,7 +117,7 @@ void ToolBarStateAssociation::mouseReleaseAssociation()
         return;
     }
 
-    getCurrentAssociation()->setAssociationClass(
+    currentAssociation()->setAssociationClass(
             static_cast<ClassifierWidget*>(m_firstWidget));
     cleanAssociation();
 }
@@ -168,7 +168,7 @@ void ToolBarStateAssociation::mouseReleaseEmpty()
  */
 void ToolBarStateAssociation::setFirstWidget()
 {
-    UMLWidget* widget = getCurrentWidget();
+    UMLWidget* widget = currentWidget();
     Uml::AssociationType type = getAssociationType();
 
     if (!AssocRules::allowAssociation(type, widget)) {
@@ -208,7 +208,7 @@ void ToolBarStateAssociation::setSecondWidget()
 {
     Uml::AssociationType type = getAssociationType();
     UMLWidget* widgetA = m_firstWidget;
-    UMLWidget* widgetB = getCurrentWidget();
+    UMLWidget* widgetB = currentWidget();
     WidgetBase::WidgetType at = widgetA->baseType();
     bool valid = true;
     if (type == Uml::AssociationType::Generalization) {

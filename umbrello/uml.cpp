@@ -230,15 +230,19 @@ void UMLApp::initActions()
     QAction* fileSaveAs = KStandardAction::saveAs(this, SLOT(slotFileSaveAs()), actionCollection());
     QAction* fileClose = KStandardAction::close(this, SLOT(slotFileClose()), actionCollection());
     filePrint = KStandardAction::print(this, SLOT(slotFilePrint()), actionCollection());
-    filePrint->setPriority(QAction::LowPriority);  // icon only
     printPreview = KStandardAction::printPreview(this, SLOT(slotPrintPreview()), actionCollection());
+#if QT_VERSION >= 0x040600
+    filePrint->setPriority(QAction::LowPriority);  // icon only
     printPreview->setPriority(QAction::LowPriority);  // icon only
+#endif
     QAction* fileQuit = KStandardAction::quit(this, SLOT(slotFileQuit()), actionCollection());
 
     editUndo = m_pUndoStack->createUndoAction(actionCollection());
     editRedo = m_pUndoStack->createRedoAction(actionCollection());
+#if QT_VERSION >= 0x040600
     editUndo->setPriority(QAction::LowPriority);   // icon only
     editRedo->setPriority(QAction::LowPriority);   // icon only
+#endif
 
     disconnect( m_pUndoStack, SIGNAL(undoTextChanged(QString)), editUndo, 0 );
     disconnect( m_pUndoStack, SIGNAL(redoTextChanged(QString)), editRedo, 0 );

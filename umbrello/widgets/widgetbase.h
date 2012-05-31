@@ -96,6 +96,8 @@ public:
         wt_Category                 // has UMLObject representation
     };
 
+    static QString toString(WidgetType wt);
+
     /**
      * This enumeration is used by WidgetBase::attributeChange() to
      * identify which attribute has changed.

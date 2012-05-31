@@ -1471,7 +1471,6 @@ void UMLScene::deleteSelection()
         } else {
             removeWidget(widget);
         }
-
     }
 
     // Delete any selected associations.
@@ -3457,6 +3456,7 @@ void UMLScene::setStartedCut()
 
 /**
  * Shows the properties dialog for the view.
+ * FIXME belongs to UMLView
  */
 bool UMLScene::showPropDialog()
 {
@@ -3637,10 +3637,9 @@ void UMLScene::slotSceneRectChanged(const QRectF& rect)
 void UMLScene::clearDiagram()
 {
     if (KMessageBox::Continue == KMessageBox::warningContinueCancel(activeView(),
-                                                                    i18n("You are about to delete "
-                                                                         "the entire diagram.\nAre you sure?"),
-                                                                    i18n("Delete Diagram?"),
-                                                                    KGuiItem(i18n("&Delete"), "edit-delete"))) {
+                                     i18n("You are about to delete the entire diagram.\nAre you sure?"),
+                                     i18n("Delete Diagram?"),
+                                     KGuiItem(i18n("&Delete"), "edit-delete"))) {
         removeAllWidgets();
     }
 }

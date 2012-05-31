@@ -854,6 +854,17 @@ void WidgetBase::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 }
 
 /**
+ * Helper function for debug output.
+ * Returns the given enum value as string.
+ * @param wt   WidgetType of which a string representation is wanted
+ * @return   the WidgetType as string
+ */
+QString WidgetBase::toString(WidgetType wt)
+{
+    return QLatin1String(ENUM_NAME(WidgetBase, WidgetType, wt));
+}
+
+/**
  * @return Whether the widget type has an associated UMLObject
  */
 bool WidgetBase::widgetHasUMLObject(WidgetType type)
