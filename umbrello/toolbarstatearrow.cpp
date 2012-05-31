@@ -53,7 +53,7 @@ void ToolBarStateArrow::init()
  */
 void ToolBarStateArrow::mousePressAssociation()
 {
-    getCurrentAssociation()->mousePressEvent(m_pMouseEvent);
+    currentAssociation()->mousePressEvent(m_pMouseEvent);
 }
 
 /**
@@ -62,7 +62,7 @@ void ToolBarStateArrow::mousePressAssociation()
  */
 void ToolBarStateArrow::mousePressWidget()
 {
-    getCurrentWidget()->mousePressEvent(m_pMouseEvent);
+    currentWidget()->mousePressEvent(m_pMouseEvent);
 }
 
 /**
@@ -102,7 +102,7 @@ void ToolBarStateArrow::mousePressEmpty()
  */
 void ToolBarStateArrow::mouseReleaseAssociation()
 {
-    getCurrentAssociation()->mouseReleaseEvent(m_pMouseEvent);
+    currentAssociation()->mouseReleaseEvent(m_pMouseEvent);
 }
 
 /**
@@ -111,7 +111,7 @@ void ToolBarStateArrow::mouseReleaseAssociation()
  */
 void ToolBarStateArrow::mouseReleaseWidget()
 {
-    getCurrentWidget()->mouseReleaseEvent(m_pMouseEvent);
+    currentWidget()->mouseReleaseEvent(m_pMouseEvent);
 }
 
 /**
@@ -136,7 +136,7 @@ void ToolBarStateArrow::mouseReleaseEmpty()
  */
 void ToolBarStateArrow::mouseDoubleClickAssociation()
 {
-    getCurrentAssociation()->mouseDoubleClickEvent(m_pMouseEvent);
+    currentAssociation()->mouseDoubleClickEvent(m_pMouseEvent);
 }
 
 /**
@@ -145,7 +145,7 @@ void ToolBarStateArrow::mouseDoubleClickAssociation()
  */
 void ToolBarStateArrow::mouseDoubleClickWidget()
 {
-    getCurrentWidget()->mouseDoubleClickEvent(m_pMouseEvent);
+    currentWidget()->mouseDoubleClickEvent(m_pMouseEvent);
 }
 
 /**
@@ -155,7 +155,7 @@ void ToolBarStateArrow::mouseDoubleClickWidget()
  */
 void ToolBarStateArrow::mouseMoveAssociation()
 {
-    getCurrentAssociation()->mouseMoveEvent(m_pMouseEvent);
+    currentAssociation()->mouseMoveEvent(m_pMouseEvent);
 }
 
 /**
@@ -165,7 +165,7 @@ void ToolBarStateArrow::mouseMoveAssociation()
  */
 void ToolBarStateArrow::mouseMoveWidget()
 {
-    getCurrentWidget()->mouseMoveEvent(m_pMouseEvent);
+    currentWidget()->mouseMoveEvent(m_pMouseEvent);
 }
 
 /**
@@ -215,13 +215,13 @@ void ToolBarStateArrow::changeTool()
  * right button to cancel the movement and the little widget getting the
  * event, thus not canceling the movement in the big widget.
  */
-void ToolBarStateArrow::setCurrentWidget(UMLWidget* currentWidget)
+void ToolBarStateArrow::setCurrentWidget(UMLWidget* widget)
 {
-    if (currentWidget != 0 && getCurrentWidget() != 0) {
+    if (widget != 0 && currentWidget() != 0) {
         return;
     }
 
-    ToolBarState::setCurrentWidget(currentWidget);
+    ToolBarState::setCurrentWidget(widget);
 }
 
 #include "toolbarstatearrow.moc"

@@ -1052,18 +1052,18 @@ UMLWidget* UMLScene::widgetAt(const UMLScenePoint& p)
 
 /**
  * Tests the given point against all associations and returns the
- * association widget for which the point is within its bounding rectangle.
+ * association widget for which the point is on the line.
  * Returns NULL if the point is not inside any association.
+ * CHECK: This is the same method as in ToolBarState.
  */
 AssociationWidget* UMLScene::associationAt(const UMLScenePoint& p)
 {
-    AssociationWidget* widget = 0;
-    Q_UNUSED(p);  //:TODO:
-//    QGraphicsItem* item = itemAt(p, QTransform());
-//    if (item) {
-//        widget = dynamic_cast<AssociationWidget*>(item);
-//    }
-    return widget;
+    foreach (AssociationWidget* association, associationList()) {
+        if (association->onAssociation(p)) {
+            return association;
+        }
+    }
+    return 0;
 }
 
 /**
@@ -1365,18 +1365,10 @@ void UMLScene::setSelected(UMLWidget *w, QMouseEvent *me)
 
 /**
  * Returns a list of selected widgets.
- *
- * This method walks over all the selected items
- * and adds them to the list.
- * Finally it returns this list.
  */
 UMLWidgetList UMLScene::selectedWidgets() const
 {
-    UMLWidgetList list;
-    foreach(UMLWidget* item, m_selectedList) {
-        list << item;
-    }
-    return list;
+    return m_selectedList;
 }
 
 /**
@@ -1399,7 +1391,7 @@ void UMLScene::clearSelected()
 void UMLScene::moveSelectedBy(int dX, int dY)
 {
     // DEBUG(DBG_SRC) << "********** m_selectedList count=" << m_selectedList.count();
-    foreach(UMLWidget *w, m_selectedList) {
+    foreach(UMLWidget *w, selectedWidgets()) {
         w->moveByLocal(dX, dY);
     }
 }
@@ -1411,7 +1403,7 @@ void UMLScene::moveSelectedBy(int dX, int dY)
  */
 void UMLScene::selectionUseFillColor(bool useFC)
 {
-    foreach(UMLWidget* temp, m_selectedList) {
+    foreach(UMLWidget* temp, selectedWidgets()) {
         temp->setUseFillColor(useFC);
     }
 }
@@ -1421,7 +1413,7 @@ void UMLScene::selectionUseFillColor(bool useFC)
  */
 void UMLScene::selectionSetFont(const QFont &font)
 {
-    foreach(UMLWidget* temp, m_selectedList) {
+    foreach(UMLWidget* temp, selectedWidgets()) {
         temp->setFont(font);
     }
 }
@@ -1432,7 +1424,7 @@ void UMLScene::selectionSetFont(const QFont &font)
 void UMLScene::selectionSetLineColor(const QColor &color)
 {
     UMLApp::app()->beginMacro(i18n("Change Line Color"));
-    foreach(UMLWidget *temp,  m_selectedList) {
+    foreach(UMLWidget *temp, selectedWidgets()) {
         temp->setLineColor(color);
         temp->setUsesDiagramLineColor(false);
     }
@@ -1449,7 +1441,7 @@ void UMLScene::selectionSetLineColor(const QColor &color)
  */
 void UMLScene::selectionSetLineWidth(uint width)
 {
-    foreach(UMLWidget* temp, m_selectedList) {
+    foreach(UMLWidget* temp, selectedWidgets()) {
         temp->setLineWidth(width);
         temp->setUsesDiagramLineWidth(false);
     }
@@ -1467,7 +1459,7 @@ void UMLScene::selectionSetFillColor(const QColor &color)
 {
     UMLApp::app()->beginMacro(i18n("Change Fill Color"));
 
-    foreach(UMLWidget* temp,  m_selectedList) {
+    foreach(UMLWidget* temp, selectedWidgets()) {
         temp->setFillColor(color);
         temp->setUsesDiagramFillColor(false);
     }
@@ -1480,7 +1472,7 @@ void UMLScene::selectionSetFillColor(const QColor &color)
 void UMLScene::selectionToggleShow(int sel)
 {
     // loop through all selected items
-    foreach(UMLWidget *temp, m_selectedList) {
+    foreach(UMLWidget *temp, selectedWidgets()) {
         WidgetBase::WidgetType type = temp->baseType();
         ClassifierWidget *cw = dynamic_cast<ClassifierWidget*>(temp);
 
@@ -1538,7 +1530,7 @@ void UMLScene::deleteSelection()
     //  Don't delete text widget that are connect to associations as these will
     //  be cleaned up by the associations.
 
-    foreach(UMLWidget* widget, m_selectedList) {
+    foreach(UMLWidget* widget, selectedWidgets()) {
         if (widget->baseType() == WidgetBase::wt_Text &&
                 static_cast<FloatingTextWidget*>(widget)->textRole() != Uml::TextRole::Floating) {
             m_selectedList.removeAt(m_selectedList.indexOf(widget));
@@ -1547,7 +1539,6 @@ void UMLScene::deleteSelection()
         } else {
             removeWidget(widget);
         }
-
     }
 
     // Delete any selected associations.
@@ -1800,7 +1791,8 @@ void  UMLScene::getDiagram(const UMLSceneRect &area, QPainter &painter)
     //following is needed and, if it works, remove the clearSelected in
     //UMLSceneImageExporter and UMLSceneImageExporterModel
 
-    foreach(UMLWidget* widget, m_selectedList) {
+    UMLWidgetList selected = selectedWidgets();
+    foreach(UMLWidget* widget, selected) {
         widget->setSelected(false);
     }
     AssociationWidgetList selectedAssociationsList = selectedAssocs();
@@ -1819,7 +1811,7 @@ void  UMLScene::getDiagram(const UMLSceneRect &area, QPainter &painter)
 
     setAllChanged();
     //select again
-    foreach(UMLWidget* widget, m_selectedList) {
+    foreach(UMLWidget* widget, selected) {
         widget->setSelected(true);
     }
     foreach(AssociationWidget* association, selectedAssociationsList) {
@@ -1930,9 +1922,9 @@ void UMLScene::activate()
 int UMLScene::selectedCount(bool filterText) const
 {
     if (!filterText)
-        return m_selectedList.count();
+        return selectedWidgets().count();
     int counter = 0;
-    foreach(UMLWidget* temp, m_selectedList) {
+    foreach(UMLWidget* temp, selectedWidgets()) {
         if (temp->baseType() == WidgetBase::wt_Text) {
             const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(temp);
             if (ft->textRole() == TextRole::Floating)
@@ -1956,7 +1948,7 @@ UMLWidgetList UMLScene::selectedWidgetsExt(bool filterText /*= true*/)
 {
     UMLWidgetList widgetList;
 
-    foreach(UMLWidget* widgt, m_selectedList) {
+    foreach(UMLWidget* widgt, selectedWidgets()) {
         if (filterText && widgt->baseType() == WidgetBase::wt_Text) {
             const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(widgt);
             if (ft->textRole() == Uml::TextRole::Floating)
@@ -3300,7 +3292,7 @@ void UMLScene::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Cut:
         //FIXME make this work for diagram's right click menu
-        if (m_selectedList.count() &&
+        if (selectedWidgets().count() &&
                 UMLApp::app()->editCutCopy(true)) {
             deleteSelection();
             m_doc->setModified(true);
@@ -3309,7 +3301,7 @@ void UMLScene::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Copy:
         //FIXME make this work for diagram's right click menu
-        m_selectedList.count() && UMLApp::app()->editCutCopy(true);
+        selectedWidgets().count() && UMLApp::app()->editCutCopy(true);
         break;
 
     case ListPopupMenu::mt_Paste:
@@ -3454,7 +3446,7 @@ void UMLScene::slotMenuSelection(QAction* action)
                                                     name(), &ok, UMLApp::app());
             if (ok) {
                 setName(newName);
-                m_doc->signalDiagramRenamed(this->view());
+                m_doc->signalDiagramRenamed(view());
             }
         }
         break;
@@ -3578,7 +3570,7 @@ void UMLScene::checkSelections()
 {
     UMLWidget * pWA = 0, * pWB = 0;
     //check messages
-    foreach(UMLWidget *pTemp, m_selectedList) {
+    foreach(UMLWidget *pTemp, selectedWidgets()) {
         if (pTemp->baseType() == WidgetBase::wt_Message && pTemp->isSelected()) {
             MessageWidget * pMessage = static_cast<MessageWidget *>(pTemp);
             pWA = pMessage->objectWidget(A);
@@ -3620,15 +3612,15 @@ void UMLScene::checkSelections()
 bool UMLScene::checkUniqueSelection()
 {
     // if there are no selected items, we return true
-    if (m_selectedList.count() <= 0)
+    if (selectedWidgets().isEmpty())
         return true;
 
     // get the first item and its base type
-    UMLWidget * pTemp = (UMLWidget *) m_selectedList.first();
+    UMLWidget * pTemp = (UMLWidget *) selectedWidgets().first();
     WidgetBase::WidgetType tmpType = pTemp->baseType();
 
     // check all selected items, if they have the same BaseType
-    foreach(pTemp, m_selectedList) {
+    foreach(pTemp, selectedWidgets()) {
         if (pTemp->baseType() != tmpType) {
             return false; // the base types are different, the list is not unique
         }
@@ -3643,9 +3635,10 @@ bool UMLScene::checkUniqueSelection()
  */
 void UMLScene::clearDiagram()
 {
-    if (KMessageBox::Continue == KMessageBox::warningContinueCancel(this->view(), i18n("You are about to delete "
-            "the entire diagram.\nAre you sure?"),
-            i18n("Delete Diagram?"), KGuiItem(i18n("&Delete"), "edit-delete"))) {
+    if (KMessageBox::Continue == KMessageBox::warningContinueCancel(view(),
+                                     i18n("You are about to delete the entire diagram.\nAre you sure?"),
+                                     i18n("Delete Diagram?"),
+                                     KGuiItem(i18n("&Delete"), "edit-delete"))) {
         removeAllWidgets();
     }
 }

@@ -15,7 +15,6 @@
 
 #include <QtCore/QEvent>
 #include <QtCore/QObject>
-#include <QtCore/QPoint>
 
 class AssociationWidget;
 class MessageWidget;
@@ -71,26 +70,23 @@ class ToolBarState: public QObject
 {
     Q_OBJECT
 public:
-
     virtual ~ToolBarState();
 
     virtual void init();
 
     virtual void cleanBeforeChange();
 
-    virtual void mousePress(UMLSceneMouseEvent *ome);
+    virtual void mousePress(UMLSceneMouseEvent* ome);
     virtual void mouseRelease(UMLSceneMouseEvent* ome);
     virtual void mouseDoubleClick(UMLSceneMouseEvent* ome);
     virtual void mouseMove(UMLSceneMouseEvent* ome);
 
 public slots:
-
     virtual void slotAssociationRemoved(AssociationWidget* association);
     virtual void slotWidgetRemoved(UMLWidget* widget);
 
 protected:
-
-    ToolBarState(UMLScene *umlScene);
+    ToolBarState(UMLScene* umlScene);
 
     virtual void setCurrentElement();
 
@@ -109,31 +105,26 @@ protected:
 
     virtual void changeTool();
 
-    virtual UMLWidget* getCurrentWidget() const;
-    virtual void setCurrentWidget(UMLWidget* currentWidget);
+    virtual UMLWidget* currentWidget() const;
+    virtual void setCurrentWidget(UMLWidget* widget);
 
-    virtual AssociationWidget* getCurrentAssociation() const;
-    virtual void setCurrentAssociation(AssociationWidget* currentAssociation);
+    virtual AssociationWidget* currentAssociation() const;
+    virtual void setCurrentAssociation(AssociationWidget* association);
 
     void setMouseEvent(UMLSceneMouseEvent* ome, const QEvent::Type &type);
 
-    AssociationWidget* getAssociationAt(const UMLScenePoint& pos);
-    MessageWidget* getMessageAt(const UMLScenePoint& pos);
-    FloatingDashLineWidget* getFloatingLineAt(const UMLScenePoint& pos);
+    AssociationWidget* associationAt(const UMLScenePoint& pos);
+    MessageWidget* messageAt(const UMLScenePoint& pos);
+    FloatingDashLineWidget* floatingLineAt(const UMLScenePoint& pos);
 
-    UMLScene* m_pUMLScene;  ///< The UMLScene.
-
-    /**
-     * The mouse event currently in use.
-     * This event is the equivalent of the received event after transforming it
-     * using the inverse world matrix in the UMLScene.
-     */
-    UMLSceneMouseEvent* m_pMouseEvent;
+    UMLScene*           m_pUMLScene;           ///< The UMLScene.
+    UMLSceneMouseEvent* m_pMouseEvent;         ///< The mouse event currently in use.
+    // This event is the equivalent of the received event after transforming it
+    // using the inverse world matrix in the UMLScene.
 
 private:
-
-    UMLWidget*         m_currentWidget;       ///< The widget currently in use, if any.
-    AssociationWidget* m_currentAssociation;  ///< The association currently in use, if any.
+    UMLWidget*          m_currentWidget;       ///< The widget currently in use, if any.
+    AssociationWidget*  m_currentAssociation;  ///< The association currently in use, if any.
 
 };
 

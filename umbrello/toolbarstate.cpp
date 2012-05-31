@@ -91,9 +91,9 @@ void ToolBarState::mousePress(UMLSceneMouseEvent* ome)
 
     setCurrentElement();
 
-    if (getCurrentWidget()) {
+    if (currentWidget()) {
         mousePressWidget();
-    } else if (getCurrentAssociation()) {
+    } else if (currentAssociation()) {
         mousePressAssociation();
     } else {
         mousePressEmpty();
@@ -119,10 +119,10 @@ void ToolBarState::mouseRelease(UMLSceneMouseEvent* ome)
 
     m_pUMLScene->view()->viewport()->setMouseTracking(false);
 
-    if (getCurrentWidget()) {
+    if (currentWidget()) {
         mouseReleaseWidget();
         setCurrentWidget(0);
-    } else if (getCurrentAssociation()) {
+    } else if (currentAssociation()) {
         mouseReleaseAssociation();
         setCurrentAssociation(0);
     } else {
@@ -147,7 +147,7 @@ void ToolBarState::mouseDoubleClick(UMLSceneMouseEvent* ome)
     setMouseEvent(ome, QEvent::MouseButtonDblClick);
 
     UMLWidget* currentWidget = m_pUMLScene->widgetAt(m_pMouseEvent->scenePos());
-    AssociationWidget* currentAssociation = getAssociationAt(m_pMouseEvent->scenePos());
+    AssociationWidget* currentAssociation = associationAt(m_pMouseEvent->scenePos());
     if (currentWidget) {
         setCurrentWidget(currentWidget);
         mouseDoubleClickWidget();
@@ -178,9 +178,9 @@ void ToolBarState::mouseMove(UMLSceneMouseEvent* ome)
 {
     setMouseEvent(ome, QEvent::MouseMove);
 
-    if (getCurrentWidget()) {
+    if (currentWidget()) {
         mouseMoveWidget();
-    } else if (getCurrentAssociation()) {
+    } else if (currentAssociation()) {
         mouseMoveAssociation();
     } else {
         mouseMoveEmpty();
@@ -211,7 +211,7 @@ void ToolBarState::mouseMove(UMLSceneMouseEvent* ome)
  */
 void ToolBarState::slotAssociationRemoved(AssociationWidget* association)
 {
-    if (association == getCurrentAssociation()) {
+    if (association == currentAssociation()) {
         setCurrentAssociation(0);
     }
 }
@@ -224,7 +224,7 @@ void ToolBarState::slotAssociationRemoved(AssociationWidget* association)
  */
 void ToolBarState::slotWidgetRemoved(UMLWidget* widget)
 {
-    if (widget == getCurrentWidget()) {
+    if (widget == currentWidget()) {
         setCurrentWidget(0);
     }
 }
@@ -239,9 +239,9 @@ void ToolBarState::slotWidgetRemoved(UMLWidget* widget)
  */
 ToolBarState::ToolBarState(UMLScene *umlScene)
   : QObject(umlScene),
-    m_pUMLScene(umlScene)
+    m_pUMLScene(umlScene),
+    m_pMouseEvent(0)
 {
-    m_pMouseEvent = NULL;
     init();
 }
 
@@ -256,7 +256,7 @@ ToolBarState::ToolBarState(UMLScene *umlScene)
 void ToolBarState::setCurrentElement()
 {
     // Check associations.
-    AssociationWidget* association = getAssociationAt(m_pMouseEvent->scenePos());
+    AssociationWidget* association = associationAt(m_pMouseEvent->scenePos());
     if (association) {
         setCurrentAssociation(association);
         return;
@@ -264,14 +264,14 @@ void ToolBarState::setCurrentElement()
 
     // Check messages.
     //TODO check why message widgets are treated different
-    MessageWidget* message = getMessageAt(m_pMouseEvent->scenePos());
+    MessageWidget* message = messageAt(m_pMouseEvent->scenePos());
     if (message) {
         setCurrentWidget(message);
         return;
     }
 
     //TODO check why message widgets are treated different
-    FloatingDashLineWidget* floatingline = getFloatingLineAt(m_pMouseEvent->scenePos());
+    FloatingDashLineWidget* floatingline = floatingLineAt(m_pMouseEvent->scenePos());
     if (floatingline) {
         setCurrentWidget(floatingline);
         return;
@@ -408,7 +408,7 @@ void ToolBarState::changeTool()
  *
  * @return The widget currently in use.
  */
-UMLWidget* ToolBarState::getCurrentWidget() const
+UMLWidget* ToolBarState::currentWidget() const
 {
     return m_currentWidget;
 }
@@ -420,11 +420,11 @@ UMLWidget* ToolBarState::getCurrentWidget() const
  * Default implementation is set the specified widget, although this
  * behaviour can be overridden in subclasses if needed.
  *
- * @param currentWidget The widget to be set.
+ * @param widget The widget to be set.
  */
-void ToolBarState::setCurrentWidget(UMLWidget* currentWidget)
+void ToolBarState::setCurrentWidget(UMLWidget* widget)
 {
-    m_currentWidget = currentWidget;
+    m_currentWidget = widget;
 }
 
 /**
@@ -432,7 +432,7 @@ void ToolBarState::setCurrentWidget(UMLWidget* currentWidget)
  *
  * @return The association currently in use.
  */
-AssociationWidget* ToolBarState::getCurrentAssociation() const
+AssociationWidget* ToolBarState::currentAssociation() const
 {
     return m_currentAssociation;
 }
@@ -444,11 +444,11 @@ AssociationWidget* ToolBarState::getCurrentAssociation() const
  * Default implementation is set the specified association, although this
  * behaviour can be overridden in subclasses if needed.
  *
- * @param currentAssociation The association to be set.
+ * @param association The association to be set.
  */
-void ToolBarState::setCurrentAssociation(AssociationWidget* currentAssociation)
+void ToolBarState::setCurrentAssociation(AssociationWidget* association)
 {
-    m_currentAssociation = currentAssociation;
+    m_currentAssociation = association;
 }
 
 /**
@@ -476,13 +476,12 @@ void ToolBarState::setMouseEvent(UMLSceneMouseEvent* ome, const QEvent::Type &ty
  * @return The MessageWidget at the specified position, or null if there is none.
  * @todo Better handling for messages at the same point
  */
-MessageWidget* ToolBarState::getMessageAt(const UMLScenePoint& pos)
+MessageWidget* ToolBarState::messageAt(const UMLScenePoint& pos)
 {
-    foreach (  MessageWidget* message, m_pUMLScene->messageList() ) {
+    foreach (MessageWidget* message, m_pUMLScene->messageList()) {
         if (message->isVisible() && message->onWidget(pos)) {
             return message;
         }
-
     }
     return 0;
 }
@@ -495,14 +494,13 @@ MessageWidget* ToolBarState::getMessageAt(const UMLScenePoint& pos)
  * @return The AssociationWidget at the specified position, or null if there is none.
  * @todo Better handling for associations at the same point
  */
-AssociationWidget* ToolBarState::getAssociationAt(const UMLScenePoint& pos)
+AssociationWidget* ToolBarState::associationAt(const UMLScenePoint& pos)
 {
-    foreach ( AssociationWidget* association, m_pUMLScene->associationList() ) {
+    foreach (AssociationWidget* association, m_pUMLScene->associationList()) {
         if (association->onAssociation(pos)) {
             return association;
         }
     }
-
     return 0;
 }
 
@@ -513,11 +511,11 @@ AssociationWidget* ToolBarState::getAssociationAt(const UMLScenePoint& pos)
  * @param pos The position to get the floatingLine.
  * @return The MessageWidget at the specified position, or null if there is none.
  */
-FloatingDashLineWidget* ToolBarState::getFloatingLineAt(const UMLScenePoint& pos)
+FloatingDashLineWidget* ToolBarState::floatingLineAt(const UMLScenePoint& pos)
 {
     FloatingDashLineWidget* floatingline = 0;
 
-    foreach ( UMLWidget* widget, m_pUMLScene->widgetList() ) {
+    foreach (UMLWidget* widget, m_pUMLScene->widgetList()) {
         if (widget->baseType() == WidgetBase::wt_FloatingDashLine){
             if (dynamic_cast<FloatingDashLineWidget*>(widget)->onLine(pos)) {
                 floatingline = dynamic_cast<FloatingDashLineWidget*>(widget);
@@ -529,4 +527,3 @@ FloatingDashLineWidget* ToolBarState::getFloatingLineAt(const UMLScenePoint& pos
 }
 
 #include "toolbarstate.moc"
-

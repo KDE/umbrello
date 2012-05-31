@@ -127,14 +127,14 @@ void ToolBarStateOneWidget::mouseReleaseWidget()
     }
 
     if (m_pMouseEvent->button() != Qt::LeftButton ||(
-                getCurrentWidget()->baseType() != WidgetBase::wt_Object &&
-                getCurrentWidget()->baseType() != WidgetBase::wt_Activity &&
-                getCurrentWidget()->baseType() != WidgetBase::wt_Region)) {
+                currentWidget()->baseType() != WidgetBase::wt_Object &&
+                currentWidget()->baseType() != WidgetBase::wt_Activity &&
+                currentWidget()->baseType() != WidgetBase::wt_Region)) {
         return;
     }
 
     if (!m_firstObject && type == WidgetBase::wt_Pin) {
-        setWidget(getCurrentWidget());
+        setWidget(currentWidget());
         return ;
     }
 
@@ -143,7 +143,7 @@ void ToolBarStateOneWidget::mouseReleaseWidget()
     }
 
     if (!m_firstObject) {
-        setWidget(getCurrentWidget());
+        setWidget(currentWidget());
     }
 
 }
