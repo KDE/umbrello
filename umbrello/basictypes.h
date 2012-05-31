@@ -294,17 +294,17 @@ namespace Uml
      * Enumeration used for stating where a line is on a widget.
      * @note Do not change this ordering, as we use these values in for loop.
      */
-//     enum Region {
-//         Error = 0,
-//         West,
-//         North,
-//         East,
-//         South,
-//         NorthWest,
-//         NorthEast,
-//         SouthEast,
-//         SouthWest
-//     };
+    enum Region {
+        reg_Error = 0,
+        reg_West,
+        reg_North,
+        reg_East,
+        reg_South,
+        reg_NorthWest,
+        reg_NorthEast,
+        reg_SouthEast,
+        reg_SouthWest
+    };
 
     /**
      * 
