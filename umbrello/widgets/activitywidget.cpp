@@ -224,7 +224,9 @@ void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
 
     case Branch:
         UMLWidget::setPenFromSettings(p);
-        p.setBrush( UMLWidget::fillColor() );
+        if ( UMLWidget::useFillColor() ) {
+			p.setBrush( UMLWidget::fillColor() );
+		}
         {
             QPolygon array( 4 );
             array[ 0 ] = QPoint( offsetX + w / 2, offsetY );
