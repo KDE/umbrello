@@ -32,7 +32,6 @@ include_directories(
     ${CMAKE_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
     ${KDE4_INCLUDES}
-    ${KDEPIMLIBS_INCLUDE_DIR}
 )
 
 macro_display_feature_log()
