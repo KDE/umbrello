@@ -54,7 +54,8 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, UMLView * view)
     m_TriggerObject.m_View = view;
     m_TriggerObjectType = tot_View;
     setupMenu(type);
-    setupActionsData();
+    // FIXME soc-branch contextMenuEvent
+    //setupActionsData();
 }
 
 /**
@@ -70,7 +71,8 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, WidgetBase *widget)
     m_TriggerObject.m_Widget = widget;
     m_TriggerObjectType = tot_Widget;
     setupMenu(type);
-    setupActionsData();
+    // FIXME soc-branch contextMenuEvent
+    //setupActionsData();
 }
 
 /**
