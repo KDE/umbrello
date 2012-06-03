@@ -1295,8 +1295,7 @@ void UMLWidget::updateComponentSize()
 {
     if (m_doc->loading())
         return;
-    QSize size = minimumSize();
-    setSize(size.width(), size.height());
+    setSize(width(), height());
     adjustAssocs(x(), y());    // adjust assoc lines
 }
 
