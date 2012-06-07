@@ -1049,6 +1049,16 @@ void UMLWidget::setMaximumSize(UMLSceneValue width, UMLSceneValue height)
 }
 
 /**
+ * calculate content related size of widget.
+ *
+ * @return calculated widget size
+ */
+UMLSceneSize UMLWidget::calculateSize()
+{
+    return UMLSceneSize(width(), height());
+}
+
+/**
  * Sets the state of whether the widget is selected.
  *
  * @param _select The state of whether the widget is selected.
@@ -1295,7 +1305,11 @@ void UMLWidget::updateComponentSize()
 {
     if (m_doc->loading())
         return;
-    setSize(width(), height());
+    QSize size = calculateSize();
+    int clipWidth = size.width();
+    int clipHeight = size.height();
+    constrain(clipWidth, clipHeight);
+    setSize(clipWidth, clipHeight);
     adjustAssocs(x(), y());    // adjust assoc lines
 }
 

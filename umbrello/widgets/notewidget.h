@@ -73,6 +73,7 @@ public Q_SLOTS:
 
 protected:
     virtual UMLSceneSize minimumSize();
+    virtual UMLSceneSize calculateSize();
     void drawText(QPainter * p = 0, int offsetX = 0, int offsetY = 0);
     void drawTextWordWrap(QPainter * p = 0, int offsetX = 0, int offsetY = 0);
 

@@ -239,6 +239,8 @@ protected:
     void setMaximumSize(const UMLSceneSize &size);
     void setMaximumSize(UMLSceneValue width, UMLSceneValue height);
 
+    virtual UMLSceneSize calculateSize();
+
     bool fixedAspectRatio()
     {
         return m_fixedAspectRatio;

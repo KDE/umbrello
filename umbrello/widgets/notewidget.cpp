@@ -298,8 +298,43 @@ UMLSceneSize NoteWidget::minimumSize()
         width = textWidth > widthtemp ? textWidth : widthtemp;
         width += 10;
     }
+    return UMLSceneSize(width, height);
+}
+
+/**
+ * Overrides method from UMLWidget.
+ */
+
+/**
+ * calculate content related size of widget.
+ * Overrides method from UMLWidget.
+ */
+UMLSceneSize NoteWidget::calculateSize()
+{
+    int width = this->width();
+    int height = this->height();
+    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+    const int fontHeight  = fm.lineSpacing();
+    const int margin = fm.width("W");
+    QSize size = fm.size (0, documentation());
+    const int textWidth = size.width();
+    const int textHeight = size.height();
+    if (m_noteType == PreCondition) {
+        const int widthtemp = fm.width("<< precondition >>");
+        width = textWidth > widthtemp ? textWidth : widthtemp;
+        width += 2 * margin;
+    }
+    else if (m_noteType == PostCondition) {
+        const int widthtemp = fm.width("<< postcondition >>");
+        width = textWidth > widthtemp ? textWidth : widthtemp;
+        width += 2 * margin;
+    }
+    else if (m_noteType == Transformation) {
+        const int widthtemp = fm.width("<< transformation >>");
+        width = textWidth > widthtemp ? textWidth : widthtemp;
+        width += 2 * margin;
+    }
     else {
-        // keep width and height unchanged
     }
     return UMLSceneSize(width, height);
 }
