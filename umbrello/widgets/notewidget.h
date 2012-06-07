@@ -55,9 +55,6 @@ public:
     void setNoteType(NoteType noteType);
     void setNoteType(const QString& noteType);
 
-    QString documentation() const;
-    void setDocumentation(const QString &newText);
-
     Uml::IDType diagramLink() const;
     void setDiagramLink(Uml::IDType viewID);
 

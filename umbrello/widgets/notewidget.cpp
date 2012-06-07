@@ -143,27 +143,6 @@ void NoteWidget::setNoteType(const QString& noteType)
 }
 
 /**
- * Returns the text in the box.
- *
- * @return  The text in the box.
- */
-QString NoteWidget::documentation() const
-{
-    return m_Text;
-}
-
-/**
- * Sets the note documentation.
- *
- * @param newText   The text to set the documentation to.
- */
-void NoteWidget::setDocumentation(const QString &newText)
-{
-    m_Text = newText;
-    update();
-}
-
-/**
  * Return the ID of the diagram hyperlinked to this note.
  *
  * @return  ID of an UMLView, or Uml::id_None if no
@@ -282,7 +261,7 @@ UMLSceneSize NoteWidget::minimumSize()
     int width = 60;
     int height = 30;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const int textWidth = fm.width(m_Text);
+    const int textWidth = fm.width(documentation());
     if (m_noteType == PreCondition) {
         const int widthtemp = fm.width("<< precondition >>");
         width = textWidth > widthtemp ? textWidth : widthtemp;
