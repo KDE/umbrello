@@ -13,12 +13,9 @@
 
 #include "umlwidget.h"
 
-#include <QPainter>
-
-#define REGION_MARGIN 5
-#define REGION_WIDTH 90
-#define REGION_HEIGHT 45
-
+/**
+ * Represents a rectangular region on Activity diagram.
+ */
 class RegionWidget: public UMLWidget
 {
     Q_OBJECT
@@ -29,7 +26,6 @@ public:
     void paint(QPainter& p, int offsetX, int offsetY);
 
     virtual void setName(const QString& strName);
-    virtual QString getName() const;
 
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
     bool loadFromXMI(QDomElement& qElement);

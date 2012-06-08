@@ -4,36 +4,46 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "preconditionwidget.h"
 
-// kde includes
-#include <klocale.h>
-#include <kinputdialog.h>
-
 // app includes
 #include "debug_utils.h"
-#include "uml.h"
-#include "umldoc.h"
-#include "docwindow.h"
-#include "umlview.h"
 #include "listpopupmenu.h"
 #include "objectwidget.h"
-#include "classifier.h"
 #include "uniqueid.h"   
+#include "uml.h"
+
+// kde includes
+#include <kinputdialog.h>
+#include <klocale.h>
 
 // qt includes
-#include <QtGui/QPainter>
+#include <QPainter>
 
-PreconditionWidget::PreconditionWidget(UMLScene * scene, ObjectWidget* a, Uml::IDType id )
-  : UMLWidget(scene, WidgetBase::wt_Precondition, id)
+#define PRECONDITION_MARGIN 5
+#define PRECONDITION_WIDTH 30
+#define PRECONDITION_HEIGHT 10
+
+/**
+ * Creates a Precondition widget.
+ *
+ * @param scene   The parent of the widget.
+ * @param a       The role A widget for this precondition.
+ * @param id      The ID to assign (-1 will prompt a new ID).
+ */
+PreconditionWidget::PreconditionWidget(UMLScene* scene, ObjectWidget* a, Uml::IDType id)
+  : UMLWidget(scene, WidgetBase::wt_Precondition, id),
+    m_pOw(a)
 {
-    init();
-    m_pOw = a;
+    m_ignoreSnapToGrid = true;
+    m_ignoreSnapComponentSizeToGrid = true;
+    m_resizable =  true ;
+    setVisible(true);
     //updateResizability();
     // calculateWidget();
     if (y() < getMinY())
@@ -43,24 +53,20 @@ PreconditionWidget::PreconditionWidget(UMLScene * scene, ObjectWidget* a, Uml::I
     else
         m_nY = y();
 
-    this->activate();
+    activate();
 }
 
+/**
+ * Destructor.
+ */
 PreconditionWidget::~PreconditionWidget()
 {
 }
 
-void PreconditionWidget::init()
-{
-    m_ignoreSnapToGrid = true;
-    m_ignoreSnapComponentSizeToGrid = true;
-    m_resizable =  true ;
-    m_pOw = NULL;
-    m_nY = 0;
-    setVisible(true);
-}
-
-void PreconditionWidget::paint(QPainter & p, int /*offsetX*/, int offsetY)
+/**
+ * Overrides the standard paint event.
+ */
+void PreconditionWidget::paint(QPainter& p, int /*offsetX*/, int offsetY)
 {
     int w = width();
     int h = height();
@@ -98,6 +104,9 @@ void PreconditionWidget::paint(QPainter & p, int /*offsetX*/, int offsetY)
         drawSelected(&p, x, y);
 }
 
+/**
+ * Overrides method from UMLWidget.
+ */
 UMLSceneSize PreconditionWidget::minimumSize()
 {
     int width = 10, height = 10;
@@ -113,6 +122,9 @@ UMLSceneSize PreconditionWidget::minimumSize()
     return UMLSceneSize(width, height);
 }
 
+/**
+ * Captures any popup menu signals for menus it created.
+ */
 void PreconditionWidget::slotMenuSelection(QAction* action)
 {
     bool ok = false;
@@ -132,6 +144,9 @@ void PreconditionWidget::slotMenuSelection(QAction* action)
     }
 }
 
+/**
+ * Calculate the geometry of the widget.
+ */
 void PreconditionWidget::calculateWidget()
 {
     calculateDimensions();
@@ -142,6 +157,11 @@ void PreconditionWidget::calculateWidget()
     setY(m_nY);
 }
 
+/**
+ * Activates a PreconditionWidget.  Connects the WidgetMoved signal from
+ * its m_pOw pointer so that PreconditionWidget can adjust to the move of
+ * the object widget.
+ */
 bool PreconditionWidget::activate(IDChangeLog * Log /*= 0*/)
 {
     m_scene->resetPastePoint();
@@ -157,6 +177,9 @@ bool PreconditionWidget::activate(IDChangeLog * Log /*= 0*/)
     return true;
 }
 
+/**
+ * Calculates the size of the widget.
+ */
 void PreconditionWidget::calculateDimensions()
 {
     int x = 0;
@@ -178,6 +201,9 @@ void PreconditionWidget::calculateDimensions()
     setSize(w,h);
 }
 
+/**
+ * Slot when widget is moved.
+ */
 void PreconditionWidget::slotWidgetMoved(Uml::IDType id)
 {
     const Uml::IDType idA = m_pOw->localID();
@@ -194,9 +220,13 @@ void PreconditionWidget::slotWidgetMoved(Uml::IDType id)
     calculateDimensions();
     if (m_scene->selectedCount(true) > 1)
         return;
-
 }
 
+/**
+ * Returns the minimum height this widget should be set at on
+ * a sequence diagrams. Takes into account the widget positions
+ * it is related to.
+ */
 int PreconditionWidget::getMinY()
 {
     if (!m_pOw) {
@@ -208,6 +238,11 @@ int PreconditionWidget::getMinY()
     return height;
 }
 
+/**
+ * Returns the maximum height this widget should be set at on
+ * a sequence diagrams. Takes into account the widget positions
+ * it is related to.
+ */
 int PreconditionWidget::getMaxY()
 {
     if( !m_pOw) {
@@ -219,7 +254,10 @@ int PreconditionWidget::getMaxY()
     return (height - this->height());
 }
 
-void PreconditionWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+/**
+ * Saves the widget to the "preconditionwidget" XMI element.
+ */
+void PreconditionWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement preconditionElement = qDoc.createElement( "preconditionwidget" );
     UMLWidget::saveToXMI( qDoc, preconditionElement );
@@ -229,7 +267,10 @@ void PreconditionWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement 
     qElement.appendChild( preconditionElement );
 }
 
-bool PreconditionWidget::loadFromXMI( QDomElement & qElement )
+/**
+ * Loads the widget from the "preconditionwidget" XMI element.
+ */
+bool PreconditionWidget::loadFromXMI(QDomElement& qElement)
 {
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
@@ -254,6 +295,4 @@ bool PreconditionWidget::loadFromXMI( QDomElement & qElement )
     return true;
 }
 
-
 #include "preconditionwidget.moc"
-

@@ -18,6 +18,10 @@
 // kde includes
 #include <klocale.h>
 
+#define REGION_MARGIN 5
+#define REGION_WIDTH 90
+#define REGION_HEIGHT 45
+
 /**
  * Creates a Region widget.
  *
@@ -64,7 +68,7 @@ UMLSceneSize RegionWidget::minimumSize()
     int width = 10, height = 10;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
-    int textWidth = fm.width(getName());
+    int textWidth = fm.width(name());
 
     height  = fontHeight;
     width   = textWidth > REGION_WIDTH?textWidth:REGION_WIDTH;
@@ -88,10 +92,10 @@ void RegionWidget::setName(const QString& strName)
 /**
  * Returns the name of the Region.
  */
-QString RegionWidget::getName() const
-{
-    return m_Text;
-}
+//QString RegionWidget::getName() const
+//{
+//    return m_Text;
+//}
 
 /**
  * Creates the "REGIONwidget" XMI element.

@@ -11,58 +11,63 @@
 // own header
 #include "pinwidget.h"
 
-// qt includes
-#include <QtGui/QPainter>
-
-// kde includes
-#include <klocale.h>
-#include <kinputdialog.h>
-
 // app includes
 #include "debug_utils.h"
-#include "uml.h"
-#include "umldoc.h"
-#include "docwindow.h"
+#include "floatingtextwidget.h"
+#include "listpopupmenu.h"
 #include "umlscene.h"
 #include "uniqueid.h"
-#include "listpopupmenu.h"
-#include "floatingtextwidget.h"
 
-//Added by qt3to4:
+// kde includes
+#include <kinputdialog.h>
+#include <klocale.h>
+
+// qt includes
 #include <QMouseEvent>
-#include <QPolygon>
+#include <QPainter>
 
-PinWidget::PinWidget(UMLScene * scene, UMLWidget* a, Uml::IDType id)
-  : UMLWidget(scene, WidgetBase::wt_Pin, id)
+#define PIN_MARGIN 5
+#define PIN_WIDTH 1
+#define PIN_HEIGHT 1
+
+/**
+ * Creates a Pin widget.
+ *
+ * @param scene   The parent of the widget.
+ * @param a       The widget to which this pin is attached.
+ * @param id      The ID to assign (-1 will prompt a new ID).
+ */
+PinWidget::PinWidget(UMLScene* scene, UMLWidget* a, Uml::IDType id)
+  : UMLWidget(scene, WidgetBase::wt_Pin, id),
+    m_pOw(a)
 {
-    init();
+    m_ignoreSnapToGrid = true;
+    m_ignoreSnapComponentSizeToGrid = true;
+    m_resizable = false;
     setMinimumSize(10,10);
     setMaximumSize(10,10);
     setSize(10,10);
-    m_pOw = a;
     m_nY = y() < getMinY() ? getMinY() : y();
 
     m_pName = new FloatingTextWidget(scene, Uml::TextRole::Floating, "");
     scene->setupNewWidget(m_pName);
     m_pName->setX(0);
     m_pName->setY(0);
-    this->activate();
+
+    activate();
+    setVisible(true);
 }
 
+/**
+ * Destructor.
+ */
 PinWidget::~PinWidget()
 {
 }
 
-void PinWidget::init()
-{
-    m_ignoreSnapToGrid = true;
-    m_ignoreSnapComponentSizeToGrid = true;
-    m_resizable =  false ;
-    m_pOw = NULL;
-    m_nY = 0;
-    setVisible(true);
-}
-
+/**
+ * Overrides the standard paint event.
+ */
 void PinWidget::paint(QPainter & p, int offsetX, int offsetY)
 {
     int w = 10;
@@ -139,6 +144,9 @@ void PinWidget::paint(QPainter & p, int offsetX, int offsetY)
          drawSelected(&p, offsetX, offsetY);
 }
 
+/**
+ * Sets the name of the pin.
+ */
 void PinWidget::setName(const QString &strName)
 {
     m_Text = strName;
@@ -146,6 +154,11 @@ void PinWidget::setName(const QString &strName)
     m_pName->setText(m_Text);
 }
 
+/**
+ * Returns the minimum height this widget should be set at on
+ * a sequence diagrams.  Takes into account the widget positions
+ * it is related to.
+ */
 int PinWidget::getMinY()
 {
     if (!m_pOw) {
@@ -155,6 +168,9 @@ int PinWidget::getMinY()
     return heightA;
 }
 
+/**
+ * Overrides mouseMoveEvent.
+ */
 void PinWidget::mouseMoveEvent(QMouseEvent* me)
 {
     UMLWidget::mouseMoveEvent(me);
@@ -166,6 +182,9 @@ void PinWidget::mouseMoveEvent(QMouseEvent* me)
     }
 }
 
+/**
+ * Captures any popup menu signals for menus it created.
+ */
 void PinWidget::slotMenuSelection(QAction* action)
 {
     bool ok = false;
@@ -184,7 +203,10 @@ void PinWidget::slotMenuSelection(QAction* action)
     }
 }
 
-void PinWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+/**
+ * Saves the widget to the "pinwidget" XMI element.
+ */
+void PinWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement PinElement = qDoc.createElement( "pinwidget" );
     PinElement.setAttribute( "widgetaid", ID2STR(m_pOw->id()) );
@@ -196,8 +218,10 @@ void PinWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     qElement.appendChild( PinElement );
 }
 
-
-bool PinWidget::loadFromXMI( QDomElement & qElement )
+/**
+ * Loads the widget from the "pinwidget" XMI element.
+ */
+bool PinWidget::loadFromXMI(QDomElement& qElement)
 {
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
@@ -228,7 +252,7 @@ bool PinWidget::loadFromXMI( QDomElement & qElement )
         textId = UniqueID::gen();
     }
 
-      //now load child elements
+    //now load child elements
     QDomNode node = qElement.firstChild();
     QDomElement element = node.toElement();
     if ( !element.isNull() ) {
