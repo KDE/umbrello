@@ -112,6 +112,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     m_Type(Uml::DiagramType::Undefined),
     m_Name(QString()),
     m_Documentation(QString()),
+    m_Options(Settings::optionState()),
     m_bUseSnapToGrid(false),
     m_bUseSnapComponentSizeToGrid(false),
     m_isOpen(true),

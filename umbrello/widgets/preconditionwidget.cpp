@@ -38,7 +38,7 @@
  */
 PreconditionWidget::PreconditionWidget(UMLScene* scene, ObjectWidget* a, Uml::IDType id)
   : UMLWidget(scene, WidgetBase::wt_Precondition, id),
-    m_pOw(a)
+    m_objectWidget(a)
 {
     m_ignoreSnapToGrid = true;
     m_ignoreSnapComponentSizeToGrid = true;
@@ -46,10 +46,10 @@ PreconditionWidget::PreconditionWidget(UMLScene* scene, ObjectWidget* a, Uml::ID
     setVisible(true);
     //updateResizability();
     // calculateWidget();
-    if (y() < getMinY())
-        m_nY = getMinY();
-    else if (y() > getMaxY())
-        m_nY = getMaxY();
+    if (y() < minY())
+        m_nY = minY();
+    else if (y() > maxY())
+        m_nY = maxY();
     else
         m_nY = y();
 
@@ -71,17 +71,17 @@ void PreconditionWidget::paint(QPainter& p, int /*offsetX*/, int offsetY)
     int w = width();
     int h = height();
 
-    int x = m_pOw->x() + m_pOw->width() / 2;
+    int x = m_objectWidget->x() + m_objectWidget->width() / 2;
     x -= w/2;
     setX(x);
     int y = offsetY;
 
     //test if y isn't above the object
-    if (y <= m_pOw->y() + m_pOw->height() ) {
-        y = m_pOw->y() + m_pOw->height() + 15;
+    if (y <= m_objectWidget->y() + m_objectWidget->height() ) {
+        y = m_objectWidget->y() + m_objectWidget->height() + 15;
     }
-    if (y + h >= m_pOw->getEndLineY()) {
-        y = m_pOw->getEndLineY() - h;
+    if (y + h >= m_objectWidget->getEndLineY()) {
+        y = m_objectWidget->getEndLineY() - h;
     }
     setY(y);
     setPenFromSettings(p);
@@ -123,28 +123,6 @@ UMLSceneSize PreconditionWidget::minimumSize()
 }
 
 /**
- * Captures any popup menu signals for menus it created.
- */
-void PreconditionWidget::slotMenuSelection(QAction* action)
-{
-    bool ok = false;
-    QString name = m_Text;
-
-    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
-    switch( sel ) {
-    case ListPopupMenu::mt_Rename:
-        name = KInputDialog::getText( i18n("Enter Precondition Name"), i18n("Enter the precondition :"), m_Text, &ok );
-        if( ok && name.length() > 0 )
-            m_Text = name;
-        calculateWidget();
-        break;
-
-    default:
-        UMLWidget::slotMenuSelection(action);
-    }
-}
-
-/**
  * Calculate the geometry of the widget.
  */
 void PreconditionWidget::calculateWidget()
@@ -159,19 +137,19 @@ void PreconditionWidget::calculateWidget()
 
 /**
  * Activates a PreconditionWidget.  Connects the WidgetMoved signal from
- * its m_pOw pointer so that PreconditionWidget can adjust to the move of
+ * its m_objectWidget pointer so that PreconditionWidget can adjust to the move of
  * the object widget.
  */
 bool PreconditionWidget::activate(IDChangeLog * Log /*= 0*/)
 {
     m_scene->resetPastePoint();
     UMLWidget::activate(Log);
-    if (m_pOw == NULL) {
+    if (m_objectWidget == NULL) {
         uDebug() << "cannot make precondition";
         return false;
     }
 
-    connect(m_pOw, SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
+    connect(m_objectWidget, SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
 
     calculateDimensions();
     return true;
@@ -185,8 +163,8 @@ void PreconditionWidget::calculateDimensions()
     int x = 0;
     int w = 0;
     int h = 0;
-    int x1 = m_pOw->x();
-    int w1 = m_pOw->width() / 2;
+    int x1 = m_objectWidget->x();
+    int w1 = m_objectWidget->width() / 2;
 
     x1 += w1;
 
@@ -206,16 +184,16 @@ void PreconditionWidget::calculateDimensions()
  */
 void PreconditionWidget::slotWidgetMoved(Uml::IDType id)
 {
-    const Uml::IDType idA = m_pOw->localID();
+    const Uml::IDType idA = m_objectWidget->localID();
     if (idA != id ) {
         uDebug() << "id=" << ID2STR(id) << ": ignoring for idA=" << ID2STR(idA);
         return;
     }
     m_nY = y();
-    if (m_nY < getMinY())
-        m_nY = getMinY();
-    if (m_nY > getMaxY())
-        m_nY = getMaxY();
+    if (m_nY < minY())
+        m_nY = minY();
+    if (m_nY > maxY())
+        m_nY = maxY();
 
     calculateDimensions();
     if (m_scene->selectedCount(true) > 1)
@@ -227,15 +205,12 @@ void PreconditionWidget::slotWidgetMoved(Uml::IDType id)
  * a sequence diagrams. Takes into account the widget positions
  * it is related to.
  */
-int PreconditionWidget::getMinY()
+int PreconditionWidget::minY() const
 {
-    if (!m_pOw) {
-        return 0;
+    if (m_objectWidget) {
+        return m_objectWidget->y() + m_objectWidget->height();
     }
-
-    int heightA = m_pOw->y() + m_pOw->height();
-    int height = heightA;
-    return height;
+    return 0;
 }
 
 /**
@@ -243,15 +218,37 @@ int PreconditionWidget::getMinY()
  * a sequence diagrams. Takes into account the widget positions
  * it is related to.
  */
-int PreconditionWidget::getMaxY()
+int PreconditionWidget::maxY() const
 {
-    if( !m_pOw) {
-        return 0;
+    if (m_objectWidget) {
+        return ((int)m_objectWidget->getEndLineY() - height());
     }
+    return 0;
+}
 
-    int heightA = (int)m_pOw->getEndLineY();
-    int height = heightA;
-    return (height - this->height());
+/**
+ * Captures any popup menu signals for menus it created.
+ */
+void PreconditionWidget::slotMenuSelection(QAction* action)
+{
+    bool ok = false;
+    QString text = name();
+
+    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
+    switch( sel ) {
+    case ListPopupMenu::mt_Rename:
+        text = KInputDialog::getText( i18n("Enter Precondition Name"),
+                                      i18n("Enter the precondition :"),
+                                      text, &ok );
+        if( ok && !text.isEmpty() ) {
+            setName(text);
+        }
+        calculateWidget();
+        break;
+
+    default:
+        UMLWidget::slotMenuSelection(action);
+    }
 }
 
 /**
@@ -261,9 +258,10 @@ void PreconditionWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement preconditionElement = qDoc.createElement( "preconditionwidget" );
     UMLWidget::saveToXMI( qDoc, preconditionElement );
-    preconditionElement.setAttribute( "widgetaid", ID2STR(m_pOw->localID()) );
-    preconditionElement.setAttribute( "preconditionname", m_Text );
-    preconditionElement.setAttribute( "documentation", m_Doc );
+
+    preconditionElement.setAttribute( "widgetaid", ID2STR(m_objectWidget->localID()) );
+    preconditionElement.setAttribute( "preconditionname", name() );
+    preconditionElement.setAttribute( "documentation", documentation() );
     qElement.appendChild( preconditionElement );
 }
 
@@ -275,19 +273,13 @@ bool PreconditionWidget::loadFromXMI(QDomElement& qElement)
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
     QString widgetaid = qElement.attribute( "widgetaid", "-1" );
-    m_Text = qElement.attribute( "preconditionname", "" );
-    m_Doc = qElement.attribute( "documentation", "" );
+    setName(qElement.attribute( "preconditionname", "" ));
+    setDocumentation(qElement.attribute( "documentation", "" ));
 
     Uml::IDType aId = STR2ID(widgetaid);
 
-    UMLWidget *pWA = m_scene -> findWidget( aId );
-    if (pWA == NULL) {
-        uDebug() << "role A object " << ID2STR(aId) << " not found";
-        return false;
-    }
-
-    m_pOw = dynamic_cast<ObjectWidget*>(pWA);
-    if (m_pOw == NULL) {
+    m_objectWidget = dynamic_cast<ObjectWidget*>(umlScene()->findWidget( aId ));
+    if (!m_objectWidget) {
         uDebug() << "role A widget " << ID2STR(aId) << " is not an ObjectWidget";
         return false;
     }

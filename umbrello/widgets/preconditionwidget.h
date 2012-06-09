@@ -16,6 +16,8 @@
 class ObjectWidget;
 
 /**
+ * @short  A graphical version of a UML Precondition (new in UML 2.0).
+ *
  * This class is the graphical version of a UML Precondition.  A PreconditionWidget is created
  * by a @ref UMLView.  An PreconditionWidget belongs to only one @ref UMLView instance.
  * When the @ref UMLView instance that this class belongs to, it will be automatically deleted.
@@ -23,8 +25,8 @@ class ObjectWidget;
  * The PreconditionWidget class inherits from the @ref UMLWidget class which adds most of the functionality
  * to this class.
  *
- * @short  A graphical version of a UML Precondition (new in UML 2.0).
  * @author Florence Mattler <florence.mattler@libertysurf.fr>
+ *
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class PreconditionWidget : public UMLWidget
@@ -34,15 +36,15 @@ public:
     PreconditionWidget(UMLScene* scene, ObjectWidget* a, Uml::IDType id = Uml::id_None);
     virtual ~PreconditionWidget();
 
+    int minY() const;
+    int maxY() const;
+
     void paint(QPainter& p, int offsetX, int offsetY);
 
     bool activate(IDChangeLog* Log = 0);
 
-    int getMinY();
-    int getMaxY();
-
-    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
-    bool loadFromXMI(QDomElement& qElement);
+    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    virtual bool loadFromXMI(QDomElement& qElement);
 
 public slots:
     void slotMenuSelection(QAction* action);
@@ -55,7 +57,7 @@ private:
     void calculateWidget();
     void calculateDimensions();
 
-    ObjectWidget* m_pOw;
+    ObjectWidget* m_objectWidget;
     int m_nY;
 };
 

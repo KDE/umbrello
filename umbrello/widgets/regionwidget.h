@@ -25,8 +25,6 @@ public:
 
     void paint(QPainter& p, int offsetX, int offsetY);
 
-    virtual void setName(const QString& strName);
-
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
     bool loadFromXMI(QDomElement& qElement);
 
