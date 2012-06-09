@@ -30,9 +30,13 @@ set(Boost_MINIMUM_VERSION 1.33.1)
 find_package(Boost REQUIRED)
 
 add_definitions (${QT_DEFINITIONS} ${KDE4_DEFINITIONS} -DQT3_SUPPORT)
-include_directories (${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} ${KDE4_INCLUDES} )
+include_directories(
+    ${CMAKE_SOURCE_DIR}
+    ${CMAKE_BINARY_DIR}
+    ${KDE4_INCLUDES}
+)
 
-#kde4_no_enable_final(umbrello)
+macro_display_feature_log()
 
 add_subdirectory(umbrello)
 

@@ -146,8 +146,15 @@ License:
 Includes:
 ---------
  29.) Include own header first (checked by Krazy [6]).
- 30.) Use QtModule/QClass in angle brackets (checked by Krazy [6]).
- 31.) Use KDE/KClass in angle brackets (checked by Krazy [6]).
+ 30.) Include Qt QClasses in angle brackets (checked by Krazy [6]).
+      But do not add the QtModule like QtGui, because this will change
+      in Qt5 and compilation will break.
+          Example:
+              #include <QtGui/QMenu>  // wrong
+              #include <QMenu>        // correct
+ 31.) Include KDE KClasses in angle brackets (checked by Krazy [6]).
+          Example:
+              #include <kmessagebox.h>
  32.) Do not add a path to the include statement.
           Example:
               #include "../uml.h"  // wrong

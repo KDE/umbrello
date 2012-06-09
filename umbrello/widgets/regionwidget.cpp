@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -17,7 +17,7 @@ const QSizeF RegionWidget::MinimumSize(90, 45);
 /**
  * Creates a Region widget.
  *
- * @param id The ID to assign (-1 will prompt a new ID.)
+ * @param id   The ID to assign (-1 will prompt a new ID).
  */
 RegionWidget::RegionWidget(Uml::IDType id)
   : UMLWidget(WidgetBase::wt_Region, id)
@@ -48,26 +48,27 @@ void RegionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QW
 }
 
 /**
- * Loads region widget from XMI element.
+ * Saves region widget to XMI element.
  */
-bool RegionWidget::loadFromXMI( QDomElement & qElement )
+void RegionWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
-    if( !UMLWidget::loadFromXMI( qElement ) )
-        return false;
-    setName(qElement.attribute( "regionname", "" ));
-    setDocumentation(qElement.attribute( "documentation", "" ));
-    return true;
+    QDomElement regionElement = qDoc.createElement("regionwidget");
+    UMLWidget::saveToXMI(qDoc, regionElement);
+    regionElement.setAttribute("regionname", name());
+    regionElement.setAttribute("documentation", documentation());
+
+    qElement.appendChild(regionElement);
 }
 
 /**
- * Saves region widget to XMI element.
+ * Loads region widget from XMI element.
  */
-void RegionWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+bool RegionWidget::loadFromXMI(QDomElement& qElement)
 {
-    QDomElement regionElement = qDoc.createElement( "regionwidget" );
-    UMLWidget::saveToXMI( qDoc, regionElement );
-    regionElement.setAttribute( "regionname", name() );
-    regionElement.setAttribute( "documentation", documentation() );
-
-    qElement.appendChild( regionElement );
+    if (!UMLWidget::loadFromXMI(qElement)) {
+        return false;
+    }
+    setName(qElement.attribute("regionname", ""));
+    setDocumentation(qElement.attribute("documentation", ""));
+    return true;
 }

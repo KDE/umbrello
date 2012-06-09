@@ -27,15 +27,15 @@
  */
 class PinWidget : public UMLWidget
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     PinWidget( UMLWidget* a, Uml::IDType id = Uml::id_None );
     virtual ~PinWidget();
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *w);
 
-    virtual bool loadFromXMI( QDomElement & qElement );
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    virtual bool loadFromXMI( QDomElement & qElement );
 
     void updatePosition(const QPointF& reference);
 

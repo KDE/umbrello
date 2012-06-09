@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -28,20 +28,23 @@ class ObjectWidget;
  */
 class PreconditionWidget : public UMLWidget
 {
-Q_OBJECT
-
+    Q_OBJECT
 public:
-    PreconditionWidget( ObjectWidget* a, Uml::IDType id = Uml::id_None );
+    PreconditionWidget(ObjectWidget* a, Uml::IDType id = Uml::id_None);
     virtual ~PreconditionWidget();
 
     qreal minY() const;
     qreal maxY() const;
 
-    void alignToObjectLine();
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *w);
 
-    virtual bool loadFromXMI( QDomElement & qElement );
-    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    void alignToObjectLine();
+
+    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    virtual bool loadFromXMI(QDomElement& qElement);
+
+public Q_SLOTS:
+    virtual void slotMenuSelection(QAction* action);
 
 protected:
     virtual void updateGeometry();
@@ -49,11 +52,9 @@ protected:
     virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant& value);
 
-public Q_SLOTS:
-    virtual void slotMenuSelection(QAction* action);
-
 private:
-    ObjectWidget * m_objectWidget;
+    ObjectWidget* m_objectWidget;
+
 };
 
 #endif

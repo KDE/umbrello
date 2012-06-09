@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -20,8 +20,8 @@
 #include "umlscene.h"
 
 // kde includes
-#include <klocale.h>
 #include <kinputdialog.h>
+#include <klocale.h>
 
 /**
  * Creates a Precondition widget.
@@ -29,7 +29,7 @@
  * @param a  The role A widget for this precondition.
  * @param id The ID to assign (-1 will prompt a new ID.)
  */
-PreconditionWidget::PreconditionWidget( ObjectWidget* a, Uml::IDType id )
+PreconditionWidget::PreconditionWidget(ObjectWidget* a, Uml::IDType id)
   : UMLWidget(WidgetBase::wt_Precondition, id),
     m_objectWidget(a)
 {
@@ -112,47 +112,6 @@ void PreconditionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem
     painter->setBrush(brush());
 
     painter->drawRoundedRect(r, r.height() * 60, r.width());
-}
-
-/**
- * Reimplemented from UMLWidget::loadFromXMI to load
- * PreconditionWidget data from XMI into this widget.
- */
-bool PreconditionWidget::loadFromXMI( QDomElement & qElement )
-{
-    if( !UMLWidget::loadFromXMI( qElement ) )
-        return false;
-    QString widgetaid = qElement.attribute( "widgetaid", "-1" );
-    setName(qElement.attribute( "preconditionname", "" ));
-    setDocumentation(qElement.attribute( "documentation", "" ));
-
-    Uml::IDType aId = STR2ID(widgetaid);
-
-    m_objectWidget = dynamic_cast<ObjectWidget*>(umlScene()->findWidget( aId ));
-    if (!m_objectWidget) {
-        uDebug() << "role A widget " << ID2STR(aId) << " is not an ObjectWidget";
-        return false;
-    }
-
-    setParentItem(m_objectWidget);
-    updateGeometry(); // ensure constraint satisfaction
-
-    return true;
-}
-
-/**
- * Reimplemented form UMLWidget::saveToXMI to save this
- * PreconditionWidget data into 'preconditionwidget' XMI element.
- */
-void PreconditionWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
-{
-    QDomElement preconditionElement = qDoc.createElement( "preconditionwidget" );
-    UMLWidget::saveToXMI( qDoc, preconditionElement );
-
-    preconditionElement.setAttribute( "widgetaid", ID2STR(m_objectWidget->localID()) );
-    preconditionElement.setAttribute( "preconditionname", name() );
-    preconditionElement.setAttribute( "documentation", documentation() );
-    qElement.appendChild( preconditionElement );
 }
 
 /**
@@ -252,6 +211,47 @@ void PreconditionWidget::slotMenuSelection(QAction* action)
     default:
         UMLWidget::slotMenuSelection(action);
     }
+}
+
+/**
+ * Reimplemented form UMLWidget::saveToXMI to save this
+ * PreconditionWidget data into 'preconditionwidget' XMI element.
+ */
+void PreconditionWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+{
+    QDomElement preconditionElement = qDoc.createElement( "preconditionwidget" );
+    UMLWidget::saveToXMI( qDoc, preconditionElement );
+
+    preconditionElement.setAttribute( "widgetaid", ID2STR(m_objectWidget->localID()) );
+    preconditionElement.setAttribute( "preconditionname", name() );
+    preconditionElement.setAttribute( "documentation", documentation() );
+    qElement.appendChild( preconditionElement );
+}
+
+/**
+ * Reimplemented from UMLWidget::loadFromXMI to load
+ * PreconditionWidget data from XMI into this widget.
+ */
+bool PreconditionWidget::loadFromXMI(QDomElement& qElement)
+{
+    if( !UMLWidget::loadFromXMI( qElement ) )
+        return false;
+    QString widgetaid = qElement.attribute( "widgetaid", "-1" );
+    setName(qElement.attribute( "preconditionname", "" ));
+    setDocumentation(qElement.attribute( "documentation", "" ));
+
+    Uml::IDType aId = STR2ID(widgetaid);
+
+    m_objectWidget = dynamic_cast<ObjectWidget*>(umlScene()->findWidget( aId ));
+    if (!m_objectWidget) {
+        uDebug() << "role A widget " << ID2STR(aId) << " is not an ObjectWidget";
+        return false;
+    }
+
+    setParentItem(m_objectWidget);
+    updateGeometry(); // ensure constraint satisfaction
+
+    return true;
 }
 
 #include "preconditionwidget.moc"

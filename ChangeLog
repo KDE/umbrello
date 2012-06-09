@@ -1,3 +1,76 @@
+Version 2.9.0
+
+* New feature: Drawing of state diagrams with more pseudostates possible.
+* Cannot anchor note in state diagram (270597)
+* Mistype in PostgreSQL codegenerator (275158)
+* Missing newline in MySQL codegenerator results in output being partially
+  commented out on some models (275164)
+* Color of role text on diagram (e.g. Role B) nearly invisible (291401)
+* Junk residual UMLAssociations saved to XMI (293042)
+* Problems with widget moving/resizing in state diagrams (295605)
+* State diagram deep/shallow history widget resizing problem (296331)
+
+Version 2.8.1
+
+* PHP5 code generation: Illegal tag without any parameter is generated (155382)
+* Classes in sub-packages are moved to top level packages on edit (174184)
+* Loading existing XMI file (194897) and therefore also
+  -  umbrello (2.4.2) crashed while opening solid_design.xmi (233705)
+* Generation of classes from files in folder in umbrello (197137)
+* Crash when Clicking on / Trying to Move Datatype on Simple Diagram (202410)
+* Segfault importing Java code - related to variable length parameters (230770)
+* Segmentation fault when trying to generate code (235703)
+* Can't uncheck "Show Public Only" (242545)
+* Umbrello crashed after copy/paste (243392) 
+* Crash when opening file (251094) 
+* Crashes even if an association was drawn (271243)
+* Gratuitous warning messages on loading project file (283744)
+* Creates many 'new_package_xx' packages on file loading (291159)
+* Crash on importing templated java source code (293770)
+* New feature: C# code import added.
+
+Version 2.8.0
+
+* New feature: Code import wizard added
+* New feature: Print preview added.
+* Made printing border calculation more robust
+* Reuse changed printer settings
+* Show diagram print settings dialog before print or print preview dialog
+* Added msvc2010 preprocesser for idl preprocessing
+* Enabling of cut/copy/paste actions is incorrect (70925)
+* Segmentation fault when copy&paste of sequence diagram (287179) and therefore also
+  - Copy and paste or drag and drop of a java datatype between folders (280770) 
+  - crash on copy paste (262842)
+  - Crash when copy/paste, from a class tab to an other, 2 linked tables (286449)
+  - Cut Class and paste as Entity cause crash (274265)
+  - Umbrello crashed when cut/paste (275372)
+  - Copy and paste of a class lets Umbrello crash (241915)
+  - Copy - paste multiple class operations makes umbrello crash (257410)
+  - Umbrello crashes during cut and paste class diagram (257584) 
+* Copy/Paste of activity, state and use case diagram elements do not create new elements (291557)
+* Crash on new synchronous message in sequence diagram (168752)
+* Umbrello crashes with SIGSEGV in Object Flow properties 170596)
+* Crash fix in case the path does not fit into the package hierachy we cannot check the imports (200721)
+* Crash fix on importing idl file (203092)
+* Crash on C++ import with Doxygen: cause Doxygen Braces (228352)
+* Crash on new entity (entity relationship model) (259404)
+* Umbrello crashed when changing the Package of a class (268469)
+* Compile error when build against Qt 4.8 (279184)
+* Crash when importing Java-Source (288406)
+* Improvements to widgets paste location (291763)
+* Box widgets size could not be reduced  (291837)
+* Widget clipping problem (291894)
+
+Version 2.7.4 (and previous)
+
+* ERD - wrong orientation of relation while entering FK (171280)
+* Fails to compile with boost 1.37.0 (177755)
+* Hangs exporting to EPS and PDF, creates broken files (180031, 185659)
+* Crashed opening specific .xmi file (203118, 238775)
+* Invalid types in PostgreSQL codegenerator (273221)
+
+...
+
 Version 2.0.0  (First Qt4/KDE4 based version)
 
 * Bugs/wishes from http://bugs.kde.org:
@@ -10,8 +83,8 @@ Version 2.0.0  (First Qt4/KDE4 based version)
 * Implement the UML 2.0 standard (115269)
   - Sequence Diagram
     * Combined Fragments
-      * Operators : Alternative, Option, Break, Parallel, Reference, Negative, Critical
-		Ignore, Consider, Assertion, Loop.
+      * Operators : Alternative, Option, Break, Parallel, Reference, Negative, Critical,
+                    Ignore, Consider, Assertion, Loop.
       * Found / Lost Messages.
   - Sequence Diagram
       * Pre/Post conditions.
