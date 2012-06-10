@@ -36,5 +36,6 @@ include_directories(
 
 macro_display_feature_log()
 
-add_subdirectory( umbrello )
-
+if(LIBXSLT_FOUND AND LIBXML2_FOUND AND Boost_FOUND)
+    add_subdirectory( umbrello )
+endif(LIBXSLT_FOUND AND LIBXML2_FOUND AND Boost_FOUND)
