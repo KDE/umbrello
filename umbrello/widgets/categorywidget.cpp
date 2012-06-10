@@ -29,6 +29,7 @@
 CategoryWidget::CategoryWidget(UMLScene * scene, UMLCategory *o)
   : UMLWidget(scene, WidgetBase::wt_Category, o)
 {
+    m_fixedAspectRatio = true;
 }
 
 /**
