@@ -36,6 +36,8 @@ include_directories(
 
 macro_display_feature_log()
 
+KDE4_NO_ENABLE_FINAL(umbrello)
+
 if(LIBXSLT_FOUND AND LIBXML2_FOUND AND Boost_FOUND)
     add_subdirectory( umbrello )
 endif(LIBXSLT_FOUND AND LIBXML2_FOUND AND Boost_FOUND)
