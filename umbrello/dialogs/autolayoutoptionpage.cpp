@@ -37,6 +37,7 @@ AutoLayoutOptionPage::AutoLayoutOptionPage(QWidget* parent)
     setupUi(this);
     m_autoDotPath->setChecked( Settings::optionState().autoLayoutState.autoDotPath );
     m_dotPath->setText( Settings::optionState().autoLayoutState.dotPath );
+    m_showExportLayout->setChecked( Settings::optionState().autoLayoutState.showExportLayout );
     connect( m_autoDotPath, SIGNAL(toggled(bool)), this, SLOT(slotAutoDotPathCBClicked(bool)) );
 
     if (Settings::optionState().autoLayoutState.autoDotPath) {
@@ -58,6 +59,7 @@ AutoLayoutOptionPage::~AutoLayoutOptionPage()
 void AutoLayoutOptionPage::setDefaults()
 {
     m_autoDotPath->setChecked(true);
+    m_showExportLayout->setChecked(false);
 }
 
 /**
@@ -66,9 +68,9 @@ void AutoLayoutOptionPage::setDefaults()
  */
 void AutoLayoutOptionPage::apply()
 {
-    // FIXME use autoLayoutState
     Settings::optionState().autoLayoutState.autoDotPath = m_autoDotPath->isChecked();
     Settings::optionState().autoLayoutState.dotPath = m_autoDotPath->isChecked() ? "" : m_dotPath->text();
+    Settings::optionState().autoLayoutState.showExportLayout = m_showExportLayout->isChecked();
     emit applyClicked();
 }
 

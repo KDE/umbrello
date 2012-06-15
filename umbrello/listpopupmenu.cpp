@@ -1749,6 +1749,8 @@ void ListPopupMenu::setupDiagramMenu(UMLView* view)
             foreach(const QString &key, configFiles.keys()) {
                 if (i >= types.size())
                     break;
+                if (key == "export" && !Settings::optionState().autoLayoutState.showExportLayout )
+                    continue;
                 insert(types[i], QPixmap(), i18n("apply '%1'",configFiles[key]));
                 getAction(types[i])->setData(QVariant(key));
                 i++;

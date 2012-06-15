@@ -134,6 +134,7 @@ struct CodeImportState {
 struct AutoLayoutState {
     bool autoDotPath;  ///< determine path to dot executable automatically
     QString dotPath;  ///< path to dot executable
+    bool showExportLayout;  ///< flag for display export layout
 };
 
 struct OptionState {
