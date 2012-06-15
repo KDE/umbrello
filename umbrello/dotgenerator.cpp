@@ -127,7 +127,8 @@ protected:
 DotGenerator::DotGenerator()
   : m_scale(72),
     m_usePosition(false),
-    m_useFullNodeLabels(true)
+    m_useFullNodeLabels(true),
+    m_generator("dot")
 {
 }
 
@@ -467,12 +468,11 @@ QString DotGenerator::fixID(const QString &_id)
 #if 0
 static QDebug operator<<(QDebug out, LayoutGenerator &c)
 {
-    out << "LayoutGenerator:"
+    out << "DotGenerator:"
         << "m_boundingRect:" << c.m_boundingRect
         << "m_nodes:" << c.m_nodes
         << "m_edges:" << c.m_edges
         << "m_scale:" << c.m_scale
-        << "m_executable:" << c.m_executable;
     return out;
 }
 #endif

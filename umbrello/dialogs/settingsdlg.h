@@ -29,6 +29,7 @@
 #include "optionstate.h"
 
 class UMLWidgetStylePage;
+class AutoLayoutOptionPage;
 class CodeImportOptionsPage;
 class CodeGenOptionsPage;
 class CodeViewerOptionsPage;
@@ -145,6 +146,7 @@ private:
     void setupCodeImportPage();
     void setupCodeGenPage();
     void setupCodeViewerPage(Settings::CodeViewerState options);
+    void setupAutoLayoutPage();
     void applyPage( KPageWidgetItem* );
 
     //private attributes
@@ -154,12 +156,13 @@ private:
     ClassWidgets m_ClassWidgets;
     Settings::OptionState *m_pOptionState;
     UMLWidgetStylePage * m_pUserInterfacePage;
+    AutoLayoutOptionPage * m_pAutoLayoutPage;
     CodeImportOptionsPage * m_pCodeImportPage;
     CodeGenOptionsPage * m_pCodeGenPage;
     CodeViewerOptionsPage * m_pCodeViewerPage;
 
     bool m_bChangesApplied;
-    KPageWidgetItem *pageCodeViewer, *pageFont, *pageCodeImport, *pageCodeGen, *pageUserInterface, *pageGeneral, *pageClass;
+    KPageWidgetItem *pageCodeViewer, *pageFont, *pageCodeImport, *pageCodeGen, *pageUserInterface, *pageGeneral, *pageClass, *pageAutoLayout;
 
 private slots:
     void slotApply();

@@ -14,12 +14,15 @@
 #include "debug_utils.h"
 #include "dotgenerator.h"
 #include "floatingtextwidget.h"
+#include "optionstate.h"
 #include "umlwidget.h"
 
 // app includes
 #include <KStandardDirs>
 
 // qt includes
+#include <QDesktopServices>
+#include <QDir>
 #include <QFile>
 #include <QHash>
 #include <QProcess>
@@ -107,9 +110,41 @@ public:
     */
     bool isEnabled()
     {
-        if (m_executable.isEmpty())
-            m_executable = KStandardDirs::findExe("dot");
-        return !m_executable.isEmpty();
+        Settings::OptionState& optionState = Settings::optionState();
+        if (optionState.autoLayoutState.autoDotPath) {
+            m_dotPath = currentDotPath();
+        }
+        else if (!optionState.autoLayoutState.dotPath.isEmpty()) {
+            m_dotPath = optionState.autoLayoutState.dotPath;
+        }
+        return !m_dotPath.isEmpty();
+    }
+
+    /**
+     * Return the path where dot is installed.
+     *
+     * @return string with dot path
+     */
+    static QString currentDotPath()
+    {
+        QString executable = KStandardDirs::findExe("dot");
+        if (!executable.isEmpty()) {
+            QFileInfo fi(executable);
+            return fi.absolutePath();
+        }
+#ifdef Q_OS_WIN
+        // search for dot installation
+        QString appDir(qgetenv("ProgramFiles"));
+        QDir dir(appDir);
+        dir.setFilter(QDir::Dirs);
+        dir.setNameFilters(QStringList() << "Graphviz*");
+        dir.setSorting(QDir::Reversed);
+        QFileInfoList list = dir.entryInfoList();
+        if (list.size() > 0) {
+            return list.at(0).absoluteFilePath();
+        }
+#endif
+        return QString();
     }
 
     /**
@@ -150,14 +185,7 @@ public:
         if (!createDotFile(scene, in.fileName(), variant))
             return false;
 
-        QString executable;
-        if (!m_generator.isEmpty()) {
-            QFileInfo fi(m_executable);
-            QString path = fi.absolutePath();
-            executable = path + "/" + m_generator;
-        }
-        else
-            executable = m_executable;
+        QString executable = m_dotPath + "/" + m_generator;
 
         QProcess p;
         QStringList args;
@@ -555,6 +583,7 @@ protected:
     NodeType m_nodes;      ///< list of nodes found in parsed dot file
     EdgeType m_edges;      ///< list of edges found in parsed dot file
     QHash<QString, QPointF> m_edgeLabelPosition; ///< contains global node parameters
+    QString m_dotPath;     ///< contains path to dot executable
 
     friend QDebug operator<<(QDebug out, LayoutGenerator &c);
 };

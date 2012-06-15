@@ -12,6 +12,7 @@
 #include "settingsdlg.h"
 
 // app includes
+#include "autolayoutoptionpage.h"
 #include "codeimportoptionspage.h"
 #include "codegenoptionspage.h"
 #include "umlwidgetstylepage.h"
@@ -19,7 +20,9 @@
 #include "dialog_utils.h"
 #include "debug_utils.h"
 #include "icon_utils.h"
+#include "layoutgenerator.h"
 
+#include <kfiledialog.h>
 #include <kvbox.h>
 
 //TODO don't do that, but it's better than hardcoded in the functions body
@@ -47,6 +50,7 @@ SettingsDlg::SettingsDlg( QWidget * parent, Settings::OptionState *state )
     setupCodeImportPage();
     setupCodeGenPage();
     setupCodeViewerPage(state->codeViewerState);
+    setupAutoLayoutPage();
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
     connect(this,SIGNAL(defaultClicked()),this,SLOT(slotDefault()));
@@ -415,6 +419,16 @@ void SettingsDlg::setupFontPage()
     m_FontWidgets.chooser->setFont( m_pOptionState->uiState.font );
 }
 
+void SettingsDlg::setupAutoLayoutPage()
+{
+    KVBox * page = new KVBox();
+    pageAutoLayout = new KPageWidgetItem( page,i18n("Auto Layout")  );
+    pageAutoLayout->setHeader( i18n("Auto Layout Settings") );
+    pageAutoLayout->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font) );
+    addPage( pageAutoLayout );
+    m_pAutoLayoutPage = new AutoLayoutOptionPage( page );
+}
+
 void SettingsDlg::slotApply()
 {
     applyPage( currentPage() );
@@ -431,6 +445,7 @@ void SettingsDlg::slotOk()
     applyPage( pageCodeImport );
     applyPage( pageCodeGen );
     applyPage( pageFont );
+    applyPage( pageAutoLayout );
     accept();
 }
 
@@ -481,6 +496,10 @@ void SettingsDlg::slotDefault()
     }
     else if ( current == pageCodeViewer )
     {
+    }
+    else if ( current == pageAutoLayout )
+    {
+        m_pAutoLayoutPage->setDefaults();
     }
 }
 
@@ -541,6 +560,10 @@ void SettingsDlg::applyPage( KPageWidgetItem*item )
     {
         m_pCodeViewerPage->apply();
         m_pOptionState->codeViewerState = m_pCodeViewerPage->getOptions();
+    }
+    else if ( item == pageAutoLayout )
+    {
+        m_pAutoLayoutPage->apply();
     }
 }
 

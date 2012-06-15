@@ -44,6 +44,16 @@
          <whatsthis>Enables/Disables Support for footer printing</whatsthis>
          <default>true</default>
        </entry>
+      <entry name="autoDotPath" type="bool">
+        <label>Automatic Dot Path</label>
+        <whatsthis>determine automatically the path of dot executable</whatsthis>
+        <default>true</default>
+      </entry>
+      <entry name="dotPath" type="String">
+         <label>Dot Path</label>
+         <whatsthis>set path to dot executable (optional)</whatsthis>
+         <default></default>
+       </entry>
        <entry name="autosave" type="Bool">
          <label>Auto Save</label>
          <whatsthis>Enables/Disables Auto Saving at Regular Intervals</whatsthis>

@@ -198,6 +198,7 @@ set(libdocgenerator_SRCS
 )
 
 set(libdialogs_SRCS
+    dialogs/autolayoutoptionpage.cpp
     dialogs/activitydialog.cpp
     dialogs/activitypage.cpp
     dialogs/assocgenpage.cpp
@@ -245,6 +246,7 @@ set(libdialogs_SRCS
 )
 
 kde4_add_ui_files(  libdialogs_SRCS
+    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/autolayoutoptionpage.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codeviewerdialogbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codevieweroptionsbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/exportallviewsdialogbase.ui
