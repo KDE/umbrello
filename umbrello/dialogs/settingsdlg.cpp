@@ -315,7 +315,7 @@ void SettingsDlg::setupAutoLayoutPage()
     KVBox * page = new KVBox();
     pageAutoLayout = new KPageWidgetItem( page,i18n("Auto Layout")  );
     pageAutoLayout->setHeader( i18n("Auto Layout Settings") );
-    pageAutoLayout->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font) );
+    pageAutoLayout->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_AutoLayout) );
     addPage( pageAutoLayout );
     m_pAutoLayoutPage = new AutoLayoutOptionPage( page );
 }

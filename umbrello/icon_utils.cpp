@@ -199,6 +199,8 @@ QString toString(IconType type)
             return "text-x-generic";
         case it_Properties_Columns:
             return "preferences-other";
+        case it_Properties_AutoLayout:
+            return "preferences-other";
         case it_Diagram_Activity:
             return "umbrello_diagram_activity";
         case it_Diagram_Class:
