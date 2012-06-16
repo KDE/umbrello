@@ -212,6 +212,7 @@ namespace Icon_Utils {
         it_Align_VerticalDistribute,
         it_Align_HorizontalDistribute,
         it_Code_Gen_Wizard,
+        it_Properties_AutoLayout,
         N_ICONTYPES    // must remain last
     };
 

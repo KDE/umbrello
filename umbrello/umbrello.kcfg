@@ -539,5 +539,22 @@
           <default>true</default>
        </entry>
     </group>    
+    <group name="Auto Layout">
+        <entry name="autoDotPath" type="bool">
+            <label>Automatic Dot Path</label>
+            <whatsthis>determine automatically the path of dot executable</whatsthis>
+            <default>true</default>
+        </entry>
+        <entry name="dotPath" type="String">
+            <label>Dot Path</label>
+            <whatsthis>set path to dot executable (optional)</whatsthis>
+            <default></default>
+        </entry>
+        <entry name="showExportLayout" type="bool">
+            <label>Show Export Layout</label>
+            <whatsthis>show export layout</whatsthis>
+            <default>false</default>
+        </entry>
+    </group>
 </kcfg>
 

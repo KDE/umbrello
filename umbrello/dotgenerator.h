@@ -41,7 +41,6 @@ protected:
     QString fixID(const QString &_id);
 
     double m_scale;        ///< scale factor
-    QString m_executable;  ///< dot executable
     QString m_configFileName; ///< template filename
     QHash<QString, QString> m_dotParameters;  ///< contains global graph parameters
     QHash<QString, QString> m_edgeParameters; ///< contains global edge parameters

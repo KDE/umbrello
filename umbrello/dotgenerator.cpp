@@ -42,30 +42,32 @@
 class DotPaintEngine : public QPaintEngine
 {
 public:
-    DotPaintEngine(PaintEngineFeatures caps = 0 ) {}
+    DotPaintEngine(PaintEngineFeatures caps = 0) { Q_UNUSED(caps) }
     virtual ~DotPaintEngine() {}
     virtual bool begin (QPaintDevice * pdev)
     {
+        Q_UNUSED(pdev)
         return true;
     }
-    virtual void drawEllipse(const QRectF & rect) {}
-    virtual void drawEllipse(const QRect & rect) {}
-    virtual void drawImage(const QRectF & rectangle, const QImage & image, const QRectF & sr, Qt::ImageConversionFlags flags = Qt::AutoColor) {}
-    virtual void drawLines(const QLineF * lines, int lineCount) {}
-    virtual void drawLines(const QLine * lines, int lineCount) {}
-    virtual void drawwPath(const QPainterPath & path) {}
-    virtual void drawPixmap(const QRectF & r, const QPixmap & pm, const QRectF & sr) {}
-    virtual void drawPoints(const QPointF * points, int pointCount) {}
-    virtual void drawPoints(const QPoint * points, int pointCount) {}
-    virtual void drawPolygon(const QPointF * points, int pointCount, PolygonDrawMode mode) {}
-    virtual void drawPolygon(const QPoint * points, int pointCount, PolygonDrawMode mode) {}
-    virtual void drawRects(const QRectF * rects, int rectCount) {}
-    virtual void drawRects(const QRect * rects, int rectCount) {}
+    virtual void drawEllipse(const QRectF & rect) { Q_UNUSED(rect) }
+    virtual void drawEllipse(const QRect & rect) { Q_UNUSED(rect) }
+    virtual void drawImage(const QRectF & rectangle, const QImage & image, const QRectF & sr, Qt::ImageConversionFlags flags = Qt::AutoColor) { Q_UNUSED(rectangle) Q_UNUSED(image) Q_UNUSED(sr) Q_UNUSED(flags) }
+    virtual void drawLines(const QLineF * lines, int lineCount) { Q_UNUSED(lines) Q_UNUSED(lineCount) }
+    virtual void drawLines(const QLine * lines, int lineCount) { Q_UNUSED(lines) Q_UNUSED(lineCount) }
+    virtual void drawwPath(const QPainterPath & path) { Q_UNUSED(path) }
+    virtual void drawPixmap(const QRectF & r, const QPixmap & pm, const QRectF & sr) { Q_UNUSED(r) Q_UNUSED(pm) Q_UNUSED(sr) }
+    virtual void drawPoints(const QPointF * points, int pointCount) { Q_UNUSED(points) Q_UNUSED(pointCount) }
+    virtual void drawPoints(const QPoint * points, int pointCount) { Q_UNUSED(points) Q_UNUSED(pointCount) }
+    virtual void drawPolygon(const QPointF * points, int pointCount, PolygonDrawMode mode) { Q_UNUSED(points) Q_UNUSED(pointCount) Q_UNUSED(mode) }
+    virtual void drawPolygon(const QPoint * points, int pointCount, PolygonDrawMode mode) { Q_UNUSED(points) Q_UNUSED(pointCount) Q_UNUSED(mode) }
+    virtual void drawRects(const QRectF * rects, int rectCount) { Q_UNUSED(rects) Q_UNUSED(rectCount) }
+    virtual void drawRects(const QRect * rects, int rectCount) { Q_UNUSED(rects) Q_UNUSED(rectCount) }
     virtual void drawTextItem(const QPointF & p, const QTextItem & textItem)
     {
+        Q_UNUSED(p)
         m_data << textItem.text();
     }
-    virtual void drawTiledPixmap(const QRectF & rect, const QPixmap & pixmap, const QPointF & p) {}
+    virtual void drawTiledPixmap(const QRectF & rect, const QPixmap & pixmap, const QPointF & p) { Q_UNUSED(rect) Q_UNUSED(pixmap) Q_UNUSED(p) }
     virtual bool end()
     {
         return true;
@@ -74,7 +76,7 @@ public:
     {
         return QPaintEngine::User;
     }
-    virtual void updateState(const QPaintEngineState & state) {}
+    virtual void updateState(const QPaintEngineState & state) { Q_UNUSED(state) }
 
     QStringList m_data;
 };
@@ -126,6 +128,7 @@ protected:
  */
 DotGenerator::DotGenerator()
   : m_scale(72),
+    m_generator("dot"),
     m_usePosition(false),
     m_useFullNodeLabels(true)
 {
@@ -467,12 +470,11 @@ QString DotGenerator::fixID(const QString &_id)
 #if 0
 static QDebug operator<<(QDebug out, LayoutGenerator &c)
 {
-    out << "LayoutGenerator:"
+    out << "DotGenerator:"
         << "m_boundingRect:" << c.m_boundingRect
         << "m_nodes:" << c.m_nodes
         << "m_edges:" << c.m_edges
         << "m_scale:" << c.m_scale
-        << "m_executable:" << c.m_executable;
     return out;
 }
 #endif

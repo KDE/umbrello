@@ -4,20 +4,20 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef UMLLISTVIEWITEM_H
 #define UMLLISTVIEWITEM_H
 
-#include <QtGui/QTreeWidget>
-#include <QtCore/QMap>
-#include <QtXml/QDomDocument>
-#include <QtXml/QDomElement>
-
 #include "basictypes.h"
 #include "icon_utils.h"
+
+#include <QDomDocument>
+#include <QDomElement>
+#include <QMap>
+#include <QTreeWidget>
 
 // forward declarations
 class UMLListView;
@@ -97,7 +97,6 @@ public:
     UMLListViewItem(UMLListViewItem * parent);
     UMLListViewItem(UMLListViewItem * parent, const QString &name, ListViewType t, UMLObject* o = 0);
     UMLListViewItem(UMLListViewItem * parent, const QString &name, ListViewType t, Uml::IDType id);
-
     ~UMLListViewItem();
 
     ListViewType type() const;
@@ -170,6 +169,7 @@ protected:
     UMLObject *        m_object;
     QString            m_label;
     ChildObjectMap     m_comap;
+
 };
 
 #endif

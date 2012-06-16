@@ -29,9 +29,11 @@
 #include "optionstate.h"
 
 class UMLWidgetStylePage;
+class AutoLayoutOptionPage;
 class CodeImportOptionsPage;
 class CodeGenOptionsPage;
 class CodeViewerOptionsPage;
+class GeneralOptionPage;
 
 /**
  * @author Paul Hensgen
@@ -54,7 +56,6 @@ public:
     QString getCodeGenerationLanguage();
 
 protected:
-    void insertDiagram( const QString& type, int index = -1 );
     void insertAttribScope( const QString& type, int index = -1 );
     void insertOperationScope( const QString& type, int index = -1 );
 
@@ -80,35 +81,6 @@ private:
         QCheckBox * useFillColorCB;
     }
     ;//end struct UIWidgets
-
-    struct GeneralWidgets {
-        QGroupBox * miscGB;
-        QGroupBox * autosaveGB;
-        QGroupBox * startupGB;
-
-        KIntSpinBox * timeISB;
-        KComboBox * diagramKB;
-        KComboBox * languageKB;
-
-        QCheckBox * undoCB;
-        QCheckBox * tabdiagramsCB;
-        QCheckBox * newcodegenCB;
-        QCheckBox * angularLinesCB;
-        QCheckBox * footerPrintingCB;
-        QCheckBox * autosaveCB;
-        QCheckBox * loadlastCB;
-
-        // Allow definition of Suffix for autosave
-        // ( Default: ".xmi" )
-        KLineEdit * autosaveSuffixT;
-        QLabel    * autosaveSuffixL;
-        // End AutoSave Suffix
-
-        QLabel * startL;
-        QLabel * autosaveL;
-        QLabel * defaultLanguageL;
-    }
-    ;//end struct GeneralWidgets
 
     struct ClassWidgets {
         QGroupBox * visibilityGB;
@@ -145,21 +117,24 @@ private:
     void setupCodeImportPage();
     void setupCodeGenPage();
     void setupCodeViewerPage(Settings::CodeViewerState options);
+    void setupAutoLayoutPage();
     void applyPage( KPageWidgetItem* );
 
     //private attributes
     FontWidgets m_FontWidgets;
-    GeneralWidgets m_GeneralWidgets;
     UIWidgets m_UiWidgets;
     ClassWidgets m_ClassWidgets;
     Settings::OptionState *m_pOptionState;
     UMLWidgetStylePage * m_pUserInterfacePage;
+    AutoLayoutOptionPage * m_pAutoLayoutPage;
     CodeImportOptionsPage * m_pCodeImportPage;
     CodeGenOptionsPage * m_pCodeGenPage;
     CodeViewerOptionsPage * m_pCodeViewerPage;
+    GeneralOptionPage * m_pGeneralPage;
 
     bool m_bChangesApplied;
-    KPageWidgetItem *pageCodeViewer, *pageFont, *pageCodeImport, *pageCodeGen, *pageUserInterface, *pageGeneral, *pageClass;
+    KPageWidgetItem *pageCodeViewer, *pageFont, *pageCodeImport, *pageCodeGen,
+                    *pageUserInterface, *pageClass, *pageAutoLayout, *pageGeneral;
 
 private slots:
     void slotApply();
@@ -170,7 +145,6 @@ private slots:
     void slotFillCBChecked(bool value);
     void slotGridCBChecked(bool value);
     void slotBgCBChecked(bool value);
-    void slotAutosaveCBClicked();
 };
 
 #endif

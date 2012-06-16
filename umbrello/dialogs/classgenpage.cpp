@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -47,7 +47,10 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
   : QWidget(parent),
     m_pObject(o), m_pWidget(0), m_pInstanceWidget(0), m_pUmldoc(d)
 {
-    Q_ASSERT_X(m_pObject, "ClassGenPage::ClassGenPage", "Given UMLObject is NULL.");
+    if (!m_pObject) {
+        uWarning() << "Given UMLObject is NULL.";
+        return;
+    }
 
     int margin = fontMetrics().height();
 
@@ -56,7 +59,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     topLayout->setSpacing(6);
 
     // setup name
-    QString name;
+    QString name = QString();
     UMLObject::ObjectType t = m_pObject->baseType();
     switch (t) {
     case UMLObject::ot_Class:
@@ -93,6 +96,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
         name = i18n("Entity &name:");
         break;
     default:
+        name = "<unknown> &name:";
         uWarning() << "creating class gen page for unknown widget type";
         break;
     }
@@ -192,7 +196,6 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
         topLayout->addWidget(m_pDrawAsGB);
 
         UMLArtifact::Draw_Type drawAs = (static_cast<UMLArtifact*>(o))->getDrawAsType();
-
         if (drawAs == UMLArtifact::file) {
             m_pFileRB->setChecked(true);
         } else if (drawAs == UMLArtifact::library) {
@@ -236,15 +239,21 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     // setup fields
     m_pClassNameLE->setText(m_pObject->name());
     m_doc->setText(m_pObject->doc());
-    Uml::Visibility s = m_pObject->visibility();
-    if (s == Uml::Visibility::Public)
+
+    switch (m_pObject->visibility()) {
+    case Uml::Visibility::Public:
         m_pPublicRB->setChecked(true);
-    else if (s == Uml::Visibility::Private)
+        break;
+    case Uml::Visibility::Private:
         m_pPrivateRB->setChecked(true);
-    else if (s == Uml::Visibility::Protected)
+        break;
+    case Uml::Visibility::Protected:
         m_pProtectedRB->setChecked(true);
-    else
+        break;
+    default:
         m_pImplementationRB->setChecked(true);
+        break;
+    }
 
     // manage stereotypes
     m_pStereoTypeCB->setDuplicatesEnabled(false);  // only allow one of each type in box
@@ -258,7 +267,10 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
   : QWidget(parent),
     m_pObject(0), m_pWidget(o), m_pInstanceWidget(0), m_pUmldoc(d)
 {
-    Q_ASSERT_X(m_pWidget, "ClassGenPage::ClassGenPage", "Given ObjectWidget is NULL.");
+    if (!m_pWidget) {
+        uWarning() << "Given ObjectWidget is NULL.";
+        return;
+    }
 
     m_pDeconCB = 0;
     m_pMultiCB = 0;

@@ -892,6 +892,9 @@ void UMLApp::saveOptions()
     UmbrelloSettings::setNewcodegen( optionState.generalState.newcodegen );
     UmbrelloSettings::setAngularlines( optionState.generalState.angularlines );
     UmbrelloSettings::setFooterPrinting( optionState.generalState.footerPrinting );
+    UmbrelloSettings::setAutoDotPath( optionState.autoLayoutState.autoDotPath );
+    UmbrelloSettings::setDotPath( optionState.autoLayoutState.dotPath );
+    UmbrelloSettings::setShowExportLayout( optionState.autoLayoutState.showExportLayout );
     UmbrelloSettings::setAutosave( optionState.generalState.autosave );
     UmbrelloSettings::setTime(  optionState.generalState.time );
     UmbrelloSettings::setAutosavetime( optionState.generalState.autosavetime );
@@ -1925,6 +1928,9 @@ void UMLApp::readOptionState()
     optionState.generalState.newcodegen = UmbrelloSettings::newcodegen();
     optionState.generalState.angularlines = UmbrelloSettings::angularlines();
     optionState.generalState.footerPrinting =  UmbrelloSettings::footerPrinting();
+    optionState.autoLayoutState.autoDotPath =  UmbrelloSettings::autoDotPath();
+    optionState.autoLayoutState.dotPath =  UmbrelloSettings::dotPath();
+    optionState.autoLayoutState.showExportLayout =  UmbrelloSettings::showExportLayout();
     optionState.generalState.autosave =  UmbrelloSettings::autosave();
     optionState.generalState.time =  UmbrelloSettings::time(); //old autosavetime value kept for compatibility
     optionState.generalState.autosavetime =  UmbrelloSettings::autosavetime();

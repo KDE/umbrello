@@ -131,6 +131,12 @@ struct CodeImportState {
     bool createArtifacts;
 };
 
+struct AutoLayoutState {
+    bool autoDotPath;  ///< determine path to dot executable automatically
+    QString dotPath;  ///< path to dot executable
+    bool showExportLayout;  ///< flag for display export layout
+};
+
 struct OptionState {
     GeneralState        generalState;
     UIState             uiState;
@@ -138,6 +144,7 @@ struct OptionState {
     CodeViewerState     codeViewerState;
     CodeGenerationState codeGenerationState;
     CodeImportState     codeImportState;
+    AutoLayoutState     autoLayoutState;
 };
 
 OptionState& optionState();
