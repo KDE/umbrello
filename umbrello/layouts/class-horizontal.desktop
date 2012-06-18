@@ -9,6 +9,10 @@ Name[nl]=Horizontale indeling
 Name[pl]=Układ poziomy
 Name[pt]=Disposição Horizontal
 Name[pt_BR]=Leiaute horizontal
+Name[sr]=Водоравни распоред
+Name[sr@ijekavian]=Водоравни распоред
+Name[sr@ijekavianlatin]=Vodoravni raspored
+Name[sr@latin]=Vodoravni raspored
 Name[sv]=Horisontell layout
 Name[tr]=Yatay Düzen
 Name[uk]=Горизонтальне компонування
@@ -24,9 +28,14 @@ Comment[nl]=Indeling die zich horizontaal laat weergeven
 Comment[pl]=Układ, który wyświetla poziomo
 Comment[pt]=Uma disposição que representa os itens na horizontal
 Comment[pt_BR]=Leiaute que representa os itens na horizontal
+Comment[sr]=Распоред који исцртава водоравно
+Comment[sr@ijekavian]=Распоред који исцртава водоравно
+Comment[sr@ijekavianlatin]=Raspored koji iscrtava vodoravno
+Comment[sr@latin]=Raspored koji iscrtava vodoravno
 Comment[sv]=Layout som återger horisontellt
 Comment[uk]=Компонування з горизонтальним розташуванням елементів
 Comment[x-test]=xxLayout which renders Horizontalxx
+Comment[zh_CN]=水平显示的布局
 Comment[zh_TW]=水平繪製的佈局
 
 [X-UMBRELLO-Dot-Nodes]
