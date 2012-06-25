@@ -17,28 +17,34 @@
 #include <QtGui/QWidget>
 
 class ClassifierWidget;
+class KComboBox;
 class QCheckBox;
 class QGroupBox;
+class QLabel;
 
 /**
- * A dialog page to display options for a @ref UMLWidget and its
- * children.  This is not normally called by you.  It is used by
- * the @ref ClassPropDlg.
+ * A dialog page to display options for class related options.
+ * This dialog is either embedded into @ref SettingsDlg,
+ * @ref UMLViewDialog and @ref ClassPropDlg
  *
- * @short A dialog page to display the options for a UMLWidget.
+ * @short A dialog page to display the class related options.
  * @author Paul Hensgen <phensgen@techie.com>
  * @see ClassPropDlg
+ * @see SettingsDlg
+ * @see UMLViewDialog
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ClassOptionsPage : public QWidget
 {
 public:
     ClassOptionsPage(QWidget* pParent, ClassifierWidget* pWidget);
-    ClassOptionsPage(QWidget* pParent, Settings::OptionState *options);
+    ClassOptionsPage(QWidget* pParent, Settings::OptionState *options, bool isDiagram=true);
     virtual ~ClassOptionsPage();
 
+    void setDefaults();
+    void apply();
+
     void setWidget( ClassifierWidget * pWidget );
-    void updateUMLWidget();
 
 protected:
     void init();
@@ -46,18 +52,28 @@ protected:
     void setupPage();
     void setupClassPageOption();
 
-    void updateWidget();
-    void updateOptionState();
+    void applyWidget();
+    void applyOptionState();
+
+    void insertAttribScope( const QString& type, int index = -1 );
+    void insertOperationScope( const QString& type, int index = -1 );
 
     //GUI widgets
-    QGroupBox * m_pVisibilityGB;
-    QCheckBox * m_pShowVisibilityCB, * m_pShowAttSigCB;
-    QCheckBox * m_pShowOpSigCB, * m_pShowAttsCB, * m_pShowOpsCB;
-    QCheckBox * m_pShowStereotypeCB, * m_pShowPackageCB, * m_pShowPublicOnlyCB;
-    QCheckBox * m_pShowAttribAssocsCB;
-    QCheckBox * m_pDrawAsCircleCB;
+    QGroupBox * m_visibilityGB;
+    QCheckBox * m_showVisibilityCB, * m_showAttSigCB;
+    QCheckBox * m_showOpSigCB, * m_showAttsCB, * m_showOpsCB;
+    QCheckBox * m_showStereotypeCB, * m_showPackageCB, * m_showPublicOnlyCB;
+    QCheckBox * m_showAttribAssocsCB;
+    QCheckBox * m_drawAsCircleCB;
+
+    QGroupBox * m_scopeGB;
+    QLabel * m_attributeLabel;
+    QLabel * m_operationLabel;
+    KComboBox * m_attribScopeCB;
+    KComboBox * m_operationScopeCB;
 
     ClassifierWidget* m_pWidget; ///< The classifier widget to represent in the dialog page.
     Settings::OptionState *m_options; ///< The OptionState structure to represent in the dialog page.
+    bool m_isDiagram; ///< Flag indicating that page is for diagram property dialog
 };
 #endif

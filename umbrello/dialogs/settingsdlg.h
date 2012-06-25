@@ -30,6 +30,7 @@
 
 class UMLWidgetStylePage;
 class AutoLayoutOptionPage;
+class ClassOptionsPage;
 class CodeImportOptionsPage;
 class CodeGenOptionsPage;
 class CodeViewerOptionsPage;
@@ -56,8 +57,6 @@ public:
     QString getCodeGenerationLanguage();
 
 protected:
-    void insertAttribScope( const QString& type, int index = -1 );
-    void insertOperationScope( const QString& type, int index = -1 );
 
 private:
     //private structs
@@ -82,29 +81,6 @@ private:
     }
     ;//end struct UIWidgets
 
-    struct ClassWidgets {
-        QGroupBox * visibilityGB;
-        QGroupBox * scopeGB;
-
-        QCheckBox * showVisibilityCB;
-        QCheckBox * showAttsCB;
-        QCheckBox * showOpsCB;
-        QCheckBox * showStereotypeCB;
-        QCheckBox * showAttSigCB;
-        QCheckBox * showPackageCB;
-        QCheckBox * showPublicOnlyCB;
-
-        QCheckBox * showOpSigCB;
-
-        QLabel * attributeLabel;
-        QLabel * operationLabel;
-
-        KComboBox * m_pAttribScopeCB;
-        KComboBox * m_pOperationScopeCB;
-
-    }
-    ;//end struct ClassWidgets
-
     struct FontWidgets {
         KFontChooser * chooser;
     };
@@ -123,7 +99,6 @@ private:
     //private attributes
     FontWidgets m_FontWidgets;
     UIWidgets m_UiWidgets;
-    ClassWidgets m_ClassWidgets;
     Settings::OptionState *m_pOptionState;
     UMLWidgetStylePage * m_pUserInterfacePage;
     AutoLayoutOptionPage * m_pAutoLayoutPage;
@@ -131,6 +106,7 @@ private:
     CodeGenOptionsPage * m_pCodeGenPage;
     CodeViewerOptionsPage * m_pCodeViewerPage;
     GeneralOptionPage * m_pGeneralPage;
+    ClassOptionsPage * m_pClassPage;
 
     bool m_bChangesApplied;
     KPageWidgetItem *pageCodeViewer, *pageFont, *pageCodeImport, *pageCodeGen,

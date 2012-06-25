@@ -3557,7 +3557,7 @@ void UMLScene::setClassWidgetOptions(ClassOptionsPage * page)
         WidgetBase::WidgetType wt = pWidget->baseType();
         if (wt == WidgetBase::wt_Class || wt == WidgetBase::wt_Interface) {
             page->setWidget(static_cast<ClassifierWidget *>(pWidget));
-            page->updateUMLWidget();
+            page->apply();
         }
     }
 }
