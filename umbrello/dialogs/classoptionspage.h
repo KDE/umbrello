@@ -33,38 +33,20 @@ class QGroupBox;
 class ClassOptionsPage : public QWidget
 {
 public:
-
-    /**
-     * Constructor - observe and modify a Widget
-     */
     ClassOptionsPage(QWidget* pParent, ClassifierWidget* pWidget);
-
-    /**
-     * Constructor - observe and modify an OptionState structure
-     */
-    ClassOptionsPage(QWidget* pParent, Settings::OptionState *options );
-
-    /**
-     * destructor
-     */
+    ClassOptionsPage(QWidget* pParent, Settings::OptionState *options);
     virtual ~ClassOptionsPage();
 
+    void setWidget( ClassifierWidget * pWidget );
     void updateUMLWidget();
 
-    void setWidget( ClassifierWidget * pWidget ) {
-        m_pWidget = pWidget;
-    }
-
 protected:
-
     void init();
 
     void setupPage();
-
     void setupClassPageOption();
 
     void updateWidget();
-
     void updateOptionState();
 
     //GUI widgets
@@ -75,15 +57,7 @@ protected:
     QCheckBox * m_pShowAttribAssocsCB;
     QCheckBox * m_pDrawAsCircleCB;
 
-    /**
-     * The classifier widget to represent in the dialog page.
-     */
-    ClassifierWidget* m_pWidget;
-
-    /**
-     * The OptionState structure to represent in the dialog page.
-     */
-    Settings::OptionState *m_options;
-
+    ClassifierWidget* m_pWidget; ///< The classifier widget to represent in the dialog page.
+    Settings::OptionState *m_options; ///< The OptionState structure to represent in the dialog page.
 };
 #endif

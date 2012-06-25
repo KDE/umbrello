@@ -25,6 +25,9 @@
 #include <QtGui/QGridLayout>
 #include <QtGui/QGroupBox>
 
+/**
+ * Constructor - observe and modify a Widget
+ */
 ClassOptionsPage::ClassOptionsPage(QWidget* pParent, ClassifierWidget* pWidget)
   : QWidget(pParent)
 {
@@ -34,6 +37,9 @@ ClassOptionsPage::ClassOptionsPage(QWidget* pParent, ClassifierWidget* pWidget)
     setupPage();
 }
 
+/**
+ * Constructor - observe and modify an OptionState structure
+ */
 ClassOptionsPage::ClassOptionsPage(QWidget* pParent, Settings::OptionState *options)
   : QWidget(pParent)
 {
@@ -43,22 +49,30 @@ ClassOptionsPage::ClassOptionsPage(QWidget* pParent, Settings::OptionState *opti
 }
 
 /**
- * Initialize optional items
+ * Destructor
  */
-void ClassOptionsPage::init()
-{
-    m_options = NULL;
-    m_pWidget = NULL;
-    m_pShowStereotypeCB = NULL;
-    m_pShowAttsCB = NULL;
-    m_pShowAttSigCB = NULL;
-    m_pShowAttribAssocsCB = NULL;
-    m_pShowPublicOnlyCB = NULL;
-    m_pDrawAsCircleCB = NULL;
-}
-
 ClassOptionsPage::~ClassOptionsPage()
 {
+}
+
+/**
+ * Set related uml widget
+ */
+void ClassOptionsPage::setWidget( ClassifierWidget * pWidget )
+{
+    m_pWidget = pWidget;
+}
+
+/**
+ * Updates the widget with the dialog page properties.
+ */
+void ClassOptionsPage::updateUMLWidget()
+{
+    if (m_pWidget) {
+        updateWidget();
+    } else if (m_options) {
+        updateOptionState();
+    }
 }
 
 /**
@@ -189,18 +203,6 @@ void ClassOptionsPage::setupClassPageOption()
 }
 
 /**
- * Updates the widget with the dialog page properties.
- */
-void ClassOptionsPage::updateUMLWidget()
-{
-    if (m_pWidget) {
-        updateWidget();
-    } else if (m_options) {
-        updateOptionState();
-    }
-}
-
-/**
  * Sets the ClassifierWidget's properties to those selected in this dialog page.
  */
 void ClassOptionsPage::updateWidget()
@@ -239,4 +241,19 @@ void ClassOptionsPage::updateOptionState()
         m_options->classState.showAttSig = m_pShowAttSigCB->isChecked();
     m_options->classState.showOpSig = m_pShowOpSigCB->isChecked();
     m_options->classState.showPublicOnly = m_pShowPublicOnlyCB->isChecked();
+}
+
+/**
+ * Initialize optional items
+ */
+void ClassOptionsPage::init()
+{
+    m_options = NULL;
+    m_pWidget = NULL;
+    m_pShowStereotypeCB = NULL;
+    m_pShowAttsCB = NULL;
+    m_pShowAttSigCB = NULL;
+    m_pShowAttribAssocsCB = NULL;
+    m_pShowPublicOnlyCB = NULL;
+    m_pDrawAsCircleCB = NULL;
 }
