@@ -200,7 +200,7 @@ void UMLViewDialog::applyPage(KPageWidgetItem *item)
         if ( m_pScene->type() != Uml::DiagramType::Class ) {
             return;
         }
-        m_pOptionsPage->updateUMLWidget();
+        m_pOptionsPage->apply();
         m_pScene->setClassWidgetOptions( m_pOptionsPage );
         //       sig = m_pTempWidget->getShowOpSigs();
         //       showSig = !( sig == Uml::st_NoSig || sig == Uml::st_NoSigNoVis );

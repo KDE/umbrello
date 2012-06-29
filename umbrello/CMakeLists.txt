@@ -345,7 +345,6 @@ set(libcmds_SRCS
     cmds/generic/cmd_rename_umlobject.cpp
 
     cmds/widget/cmd_create_widget.cpp
-
 #    cmds/cmd_moveWidget.cpp
 #    cmds/cmd_resizeWidget.cpp
     cmds/widget/cmd_set_name.cpp

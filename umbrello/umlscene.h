@@ -21,19 +21,19 @@
 #include "umlwidgetlist.h"
 
 // Qt includes
-#include <QtGui/QGraphicsScene>
-#include <QtGui/QGraphicsSceneMouseEvent>
-//#include <QtGui/QGraphicsSceneKeyEvent>
-#include <QtGui/QGraphicsSceneDragDropEvent>
-#include <QtGui/QGraphicsSceneContextMenuEvent>
-#include <QtGui/QGraphicsSceneHoverEvent>
+#include <QGraphicsScene>
+#include <QGraphicsSceneMouseEvent>
+//#include <QGraphicsSceneKeyEvent>
+#include <QGraphicsSceneDragDropEvent>
+#include <QGraphicsSceneContextMenuEvent>
+#include <QGraphicsSceneHoverEvent>
 
-#include <QtGui/QGraphicsLineItem>
-#include <QtGui/QGraphicsRectItem>
-#include <QtGui/QGraphicsPolygonItem>
-#include <QtGui/QGraphicsEllipseItem>
+#include <QGraphicsLineItem>
+#include <QGraphicsRectItem>
+#include <QGraphicsPolygonItem>
+#include <QGraphicsEllipseItem>
 
-#include <QtXml/QDomDocument>
+#include <QDomDocument>
 
 // forward declarations
 class QAction;

@@ -11,18 +11,23 @@
 // own header
 #include "toolbarstate.h"
 
-// qt includes
-#include <qwmatrix.h> // need for inverseWorldMatrix.map
-
 // app includes
 #include "associationwidget.h"
+#include "debug_utils.h"
 #include "messagewidget.h"
 #include "floatingdashlinewidget.h"
 #include "objectwidget.h"
 #include "uml.h"
 #include "umlscene.h"
+#include "umlview.h"
 #include "umlwidget.h"
 #include "worktoolbar.h"
+
+// qt includes
+#include <QWMatrix> // need for inverseWorldMatrix.map
+#include <QScrollBar>  //:TODO: remove
+
+static int mouseCount = 0;
 
 /**
  * Destroys this ToolBarState.
@@ -154,7 +159,7 @@ void ToolBarState::mouseDoubleClick(UMLSceneMouseEvent* ome)
 }
 
 /**
- * Handler for mouse double click events.
+ * Handler for mouse move events.
  * Events are delivered to the specific methods, depending on where the cursor
  * was pressed. It uses the current widget or association set in press event,
  * if any.
@@ -178,24 +183,32 @@ void ToolBarState::mouseMove(UMLSceneMouseEvent* ome)
         mouseMoveEmpty();
     }
 
-    // [PORT]
-#if 0
-    //Scrolls the view
-    int vx = ome->x();
-    int vy = ome->y();
-    int contsX = m_pUMLScene->contentsX();
-    int contsY = m_pUMLScene->contentsY();
-    int visw = m_pUMLScene->visibleWidth();
-    int vish = m_pUMLScene->visibleHeight();
-    int dtr = visw - (vx-contsX);
-    int dtb = vish - (vy-contsY);
-    int dtt =  (vy-contsY);
-    int dtl =  (vx-contsX);
-    if (dtr < 30) m_pUMLScene->scrollBy(30-dtr,0);
-    if (dtb < 30) m_pUMLScene->scrollBy(0,30-dtb);
-    if (dtl < 30) m_pUMLScene->scrollBy(-(30-dtl),0);
-    if (dtt < 30) m_pUMLScene->scrollBy(0,-(30-dtt));
-#endif
+    // scrolls the view
+    int vx = ome->scenePos().x();
+    int vy = ome->scenePos().y();
+    UMLView* view = m_pUMLScene->activeView();
+//    QRectF maxArea = view->sceneRect();
+    QRectF visibleArea = view->mapToScene(view->rect()).boundingRect();
+    int dtr = visibleArea.x() + visibleArea.width() - vx;   // delta right
+    int dtb = visibleArea.y() + visibleArea.height() - vy;  // delta bottom
+    int dtt = vy - visibleArea.y();        // delta top
+    int dtl = vx - visibleArea.x();        // delta left
+//    uDebug() << "mouse [x, y] = [ " << vx << ", " << vy << "] / "
+//             << "visibleArea [x, y, w, h] = [ " << visibleArea.x() << ", " << visibleArea.y() << ", " << visibleArea.width() << ", " << visibleArea.height() << "] / "
+//             << "maxArea [x, y, w, h] = [ " << maxArea.x() << ", " << maxArea.y() << ", " << maxArea.width() << ", " << maxArea.height() << "] / "
+//             << "delta right=" << dtr << ", bottom=" << dtb << ", top=" << dtt << ", left=" << dtl;
+    if (dtr < 30) { uDebug() << "translate RIGHT";  view->ensureVisible(vx, vy, 0.1 /*30-dtr*/, 0, 2, 2); }
+    if (dtb < 30) {
+        mouseCount++;
+        uDebug() << "translate BOTTOM " << mouseCount;
+//        view->ensureVisible(vx, vy, 0, 0.1 /*30-dtb*/, 2,  2);
+        if (mouseCount > 30) {
+            view->verticalScrollBar()->triggerAction(QAbstractSlider::SliderSingleStepAdd);
+            mouseCount = 0;
+        }
+    }
+    if (dtl < 30) { uDebug() << "translate LEFT";   view->ensureVisible(vx, vy, -0.1 /*-(30-dtl)*/, 0, 2, 2); }
+    if (dtt < 30) { uDebug() << "translate TOP";    view->ensureVisible(vx, vy, 0, -0.1 /*-(30-dtt)*/, 2, 2); }
 }
 
 /**

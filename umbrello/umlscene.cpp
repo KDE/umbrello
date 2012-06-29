@@ -1144,10 +1144,7 @@ AssociationWidget * UMLScene::findAssocWidget(UMLWidget *pWidgetA,
 }
 
 /**
- * Finds an association widget with the given widgets and the given role B name.
- * Considers the following association types:
- *  at_Association, at_UniAssociation, at_Composition, at_Aggregation
- * This is used for seeking an attribute association.
+ * Finds an association widget with the given type and widgets.
  *
  * @param at  The AssociationType of the widget to find.
  * @param pWidgetA Pointer to the UMLWidget of role A.
@@ -1393,7 +1390,7 @@ void UMLScene::selectionSetFillColor(const QColor &color)
 {
     UMLApp::app()->beginMacro(i18n("Change Fill Color"));
 
-    foreach(UMLWidget* temp,  selectedWidgets()) {
+    foreach(UMLWidget* temp, selectedWidgets()) {
         temp->setFillColor(color);
         // [PORT] temp->setUsesDiagramFillColour(false);
     }
@@ -1656,7 +1653,9 @@ void UMLScene::selectWidgets(UMLWidgetList &widgets)
 void  UMLScene::getDiagram(const UMLSceneRect &rect, QPixmap &diagram)
 {
     DEBUG(DBG_SRC) << "rect=" << rect << ", pixmap=" << diagram.rect();
-    QPixmap pixmap(rect.x() + rect.width(), rect.y() + rect.height());
+    const int width  = rect.x() + rect.width();
+    const int height = rect.y() + rect.height();
+    QPixmap pixmap(width, height);
     QPainter painter(&pixmap);
     getDiagram(sceneRect(), painter);
     QPainter output(&diagram);
@@ -2757,8 +2756,8 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
             a->associationLine()->calculateEndPoints();
             a->setVisibility(attr->visibility(), B);
             /*
-              if (assocType == at_Aggregation || assocType == at_UniAssociation)
-              a->setMulti("0..1", B);
+            if (assocType == Uml::AssociationType::Aggregation || assocType == Uml::AssociationType::UniAssociation)
+            a->setMulti("0..1", B);
             */
             a->setRoleName(attr->name(), B);
             a->setActivatedFlag(true);
@@ -3501,7 +3500,7 @@ void UMLScene::setClassWidgetOptions(ClassOptionsPage * page)
         WidgetBase::WidgetType wt = pWidget->baseType();
         if (wt == WidgetBase::wt_Class || wt == WidgetBase::wt_Interface) {
             page->setWidget(static_cast<ClassifierWidget *>(pWidget));
-            page->updateUMLWidget();
+            page->apply();
         }
     }
 }

@@ -13,6 +13,7 @@
 
 // app includes
 #include "autolayoutoptionpage.h"
+#include "classoptionspage.h"
 #include "codeimportoptionspage.h"
 #include "codegenoptionspage.h"
 #include "umlwidgetstylepage.h"
@@ -179,90 +180,7 @@ void SettingsDlg::setupClassPage()
     pageClass->setHeader( i18n("Class Settings") );
     pageClass->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Class) );
     addPage( pageClass );
-
-    m_ClassWidgets.visibilityGB = new QGroupBox( i18n("Visibility"), page );
-
-    QGridLayout * visibilityLayout = new QGridLayout( m_ClassWidgets.visibilityGB );
-    visibilityLayout->setSpacing( spacingHint() );
-    visibilityLayout->setMargin(  fontMetrics().height()  );
-
-    m_ClassWidgets.showVisibilityCB = new QCheckBox(i18n("Show &visibility"), m_ClassWidgets.visibilityGB);
-    m_ClassWidgets.showVisibilityCB->setChecked(  m_pOptionState->classState.showVisibility );
-    visibilityLayout->addWidget( m_ClassWidgets.showVisibilityCB, 0, 0 );
-
-    m_ClassWidgets.showAttsCB = new QCheckBox( i18n("Show attributes"), m_ClassWidgets.visibilityGB );
-    m_ClassWidgets.showAttsCB->setChecked(  m_pOptionState->classState.showAtts );
-    visibilityLayout->addWidget( m_ClassWidgets.showAttsCB, 0, 1 );
-
-    m_ClassWidgets.showOpsCB = new QCheckBox( i18n("Show operations"), m_ClassWidgets.visibilityGB );
-    m_ClassWidgets.showOpsCB->setChecked(  m_pOptionState->classState.showOps );
-    visibilityLayout->addWidget( m_ClassWidgets.showOpsCB, 1, 0 );
-
-    m_ClassWidgets.showStereotypeCB = new QCheckBox( i18n("Show stereot&ype"), m_ClassWidgets.visibilityGB );
-    m_ClassWidgets.showStereotypeCB->setChecked(  m_pOptionState->classState.showStereoType );
-    visibilityLayout->addWidget( m_ClassWidgets.showStereotypeCB, 1, 1 );
-
-    m_ClassWidgets.showAttSigCB = new QCheckBox(i18n("Show attribute signature"), m_ClassWidgets.visibilityGB);
-    m_ClassWidgets.showAttSigCB->setChecked(   m_pOptionState->classState.showAttSig );
-    visibilityLayout->addWidget( m_ClassWidgets.showAttSigCB, 2, 0 );
-
-    m_ClassWidgets.showPackageCB = new QCheckBox(i18n("Show package"), m_ClassWidgets.visibilityGB);
-    m_ClassWidgets.showPackageCB->setChecked(  m_pOptionState->classState.showPackage );
-    visibilityLayout->addWidget( m_ClassWidgets.showPackageCB, 2, 1 );
-
-    m_ClassWidgets.showOpSigCB = new QCheckBox( i18n("Show operation signature"), m_ClassWidgets.visibilityGB );
-    m_ClassWidgets.showOpSigCB->setChecked(  m_pOptionState->classState.showOpSig );
-    visibilityLayout->addWidget( m_ClassWidgets.showOpSigCB, 3, 0 );
-
-    m_ClassWidgets.showPublicOnlyCB = new QCheckBox( i18n("Show Public Only"), m_ClassWidgets.visibilityGB );
-    m_ClassWidgets.showPublicOnlyCB->setChecked(  m_pOptionState->classState.showPublicOnly );
-    visibilityLayout->addWidget( m_ClassWidgets.showPublicOnlyCB, 3, 1 );
-    visibilityLayout->setRowStretch( 3, 1 );
-
-    m_ClassWidgets.scopeGB = new QGroupBox( i18n("Starting Scope"), page );
-    QGridLayout * scopeLayout = new QGridLayout( m_ClassWidgets.scopeGB );
-    scopeLayout->setSpacing( spacingHint() );
-    scopeLayout->setMargin(  fontMetrics().height()  );
-
-    m_ClassWidgets.attributeLabel = new QLabel( i18n("Default attribute scope:"), m_ClassWidgets.scopeGB);
-    scopeLayout->addWidget( m_ClassWidgets.attributeLabel, 0, 0 );
-
-    m_ClassWidgets.operationLabel = new QLabel( i18n("Default operation scope:"), m_ClassWidgets.scopeGB);
-    scopeLayout->addWidget( m_ClassWidgets.operationLabel, 1, 0 );
-
-    m_ClassWidgets.m_pAttribScopeCB = new KComboBox(m_ClassWidgets.scopeGB);
-    insertAttribScope( tr2i18n( "Public" ) );
-    insertAttribScope( tr2i18n( "Private" ) );
-    insertAttribScope( tr2i18n( "Protected" ) );
-    m_ClassWidgets.m_pAttribScopeCB->setCurrentIndex(m_pOptionState->classState.defaultAttributeScope);
-    m_ClassWidgets.m_pAttribScopeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
-    scopeLayout->addWidget( m_ClassWidgets.m_pAttribScopeCB, 0, 1 );
-
-    m_ClassWidgets.m_pOperationScopeCB = new KComboBox(m_ClassWidgets.scopeGB);
-    insertOperationScope( tr2i18n( "Public" ) );
-    insertOperationScope( tr2i18n( "Private" ) );
-    insertOperationScope( tr2i18n( "Protected" ) );
-    m_ClassWidgets.m_pOperationScopeCB->setCurrentIndex(m_pOptionState->classState.defaultOperationScope);
-    m_ClassWidgets.m_pOperationScopeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
-    scopeLayout->addWidget( m_ClassWidgets.m_pOperationScopeCB, 1, 1 );
-}
-
-/**
- * Inserts @p type into the type-combobox as well as its completion object.
- */
-void SettingsDlg::insertAttribScope( const QString& type, int index )
-{
-    m_ClassWidgets.m_pAttribScopeCB->insertItem( index, type );
-    m_ClassWidgets.m_pAttribScopeCB->completionObject()->addItem( type );
-}
-
-/**
- * Inserts @p type into the type-combobox as well as its completion object.
- */
-void SettingsDlg::insertOperationScope( const QString& type, int index )
-{
-    m_ClassWidgets.m_pOperationScopeCB->insertItem( index, type );
-    m_ClassWidgets.m_pOperationScopeCB->completionObject()->addItem( type );
+    m_pClassPage = new ClassOptionsPage(page, m_pOptionState, false);
 }
 
 void SettingsDlg::setupCodeImportPage()
@@ -363,15 +281,7 @@ void SettingsDlg::slotDefault()
     }
     else if ( current == pageClass )
     {
-        m_ClassWidgets.showVisibilityCB->setChecked( false );
-        m_ClassWidgets.showAttsCB->setChecked( true );
-        m_ClassWidgets.showOpsCB->setChecked( true );
-        m_ClassWidgets.showStereotypeCB->setChecked( false );
-        m_ClassWidgets.showAttSigCB->setChecked( false );
-        m_ClassWidgets.showOpSigCB->setChecked( false );
-        m_ClassWidgets.showPackageCB->setChecked( false );
-        m_ClassWidgets.m_pAttribScopeCB->setCurrentIndex(1); // Private
-        m_ClassWidgets.m_pOperationScopeCB->setCurrentIndex(0); // Public
+        m_pClassPage->setDefaults();
     }
     else if (  current == pageCodeImport )
     {
@@ -412,16 +322,7 @@ void SettingsDlg::applyPage( KPageWidgetItem*item )
     }
     else if ( item == pageClass )
     {
-        m_pOptionState->classState.showVisibility = m_ClassWidgets.showVisibilityCB->isChecked();
-        m_pOptionState->classState.showAtts = m_ClassWidgets.showAttsCB->isChecked();
-        m_pOptionState->classState.showOps = m_ClassWidgets.showOpsCB->isChecked();
-        m_pOptionState->classState.showStereoType = m_ClassWidgets.showStereotypeCB->isChecked();
-        m_pOptionState->classState.showAttSig = m_ClassWidgets.showAttSigCB->isChecked();
-        m_pOptionState->classState.showOpSig = m_ClassWidgets.showOpSigCB->isChecked();
-        m_pOptionState->classState.showPackage = m_ClassWidgets.showPackageCB->isChecked();
-        m_pOptionState->classState.showPublicOnly = m_ClassWidgets.showPublicOnlyCB->isChecked();
-        m_pOptionState->classState.defaultAttributeScope = (Uml::Visibility::Value) m_ClassWidgets.m_pAttribScopeCB->currentIndex();
-        m_pOptionState->classState.defaultOperationScope = (Uml::Visibility::Value) m_ClassWidgets.m_pOperationScopeCB->currentIndex();
+        m_pClassPage->apply();
     }
     else if ( item == pageCodeImport )
     {
