@@ -245,6 +245,17 @@ Token& Token::operator=(Token const & p)
     return *this;
 }
 
+QDebug operator<<(QDebug out, const Token &t)
+{
+    out << "Token("
+    << "type:" << t.type()
+    << "text:" << t.text()
+    << "start:" << t.getStartPosition()
+    << "end:" << t.getEndPosition()
+    << ")";
+    return out;
+}
+
 Token Lexer::Source::createToken(int type, CharIterator start,
                                  CharIterator end) const
 {
