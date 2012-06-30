@@ -39,11 +39,11 @@
 #include <kcolordialog.h>
 
 // qt includes
-#include <QtCore/QPointer>
-#include <QtGui/QRegExpValidator>
-#include <QtGui/QApplication>
-#include <QtGui/QMouseEvent>
-#include <QtGui/QMoveEvent>
+#include <QPointer>
+#include <QRegExpValidator>
+#include <QApplication>
+#include <QMouseEvent>
+#include <QMoveEvent>
 
 // system includes
 #include <cmath>
@@ -392,7 +392,7 @@ void AssociationWidget::setText(FloatingTextWidget *ft, const QString &text)
  */
 void AssociationWidget::showPropertiesDialog()
 {
-    QPointer<AssocPropDlg> dlg = new AssocPropDlg(static_cast<QWidget*>(m_scene->view()), this );
+    QPointer<AssocPropDlg> dlg = new AssocPropDlg(static_cast<QWidget*>(m_scene->activeView()), this);
     if (dlg->exec()) {
         //rules built into these functions to stop updating incorrect values
         setName(name());
@@ -2942,7 +2942,7 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me)
         else
             menuType = ListPopupMenu::mt_Association_Selected;
     }
-    m_pMenu = new ListPopupMenu(m_scene->view(), menuType);
+    m_pMenu = new ListPopupMenu(m_scene->activeView(), menuType);
     m_pMenu->popup(me->globalPos());
     connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
     if (isCollaboration()) 
@@ -3001,7 +3001,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
             oldText = "";
         newText = KInputDialog::getText(i18n("Multiplicity"),
                                         i18n("Enter multiplicity:"),
-                                        oldText, NULL, m_scene->view(),&v);
+                                        oldText, NULL, m_scene->activeView(),&v);
         if (newText != oldText) {
             if (FloatingTextWidget::isTextValid(newText)) {
                 setMultiplicity(newText, r);
@@ -3019,7 +3019,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
             oldText = "";
         newText = KInputDialog::getText(i18n("Association Name"),
                                         i18n("Enter association name:"),
-                                        oldText, NULL, m_scene->view(), &v);
+                                        oldText, NULL, m_scene->activeView(), &v);
         if (newText != oldText) {
             if (FloatingTextWidget::isTextValid(newText)) {
                 setName(newText);
@@ -3039,7 +3039,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
             oldText = "";
         newText = KInputDialog::getText(i18n("Role Name"),
                                         i18n("Enter role name:"),
-                                        oldText, NULL, m_scene->view(), &v);
+                                        oldText, NULL, m_scene->activeView(), &v);
         if (newText != oldText) {
             if (FloatingTextWidget::isTextValid(newText)) {
                 setRoleName(newText, r);
@@ -3053,7 +3053,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Change_Font:
         {
             QFont fnt = font();
-            if( KFontDialog::getFont( fnt, KFontChooser::NoDisplayFlags, m_scene->view() ) )
+            if( KFontDialog::getFont( fnt, KFontChooser::NoDisplayFlags, m_scene->activeView() ) )
                 lwSetFont(fnt);
         }
         break;
@@ -3061,7 +3061,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Change_Font_Selection:
         {
             QFont fnt = font();
-            if( KFontDialog::getFont( fnt, KFontChooser::NoDisplayFlags, m_scene->view() ) ) {
+            if( KFontDialog::getFont( fnt, KFontChooser::NoDisplayFlags, m_scene->activeView() ) ) {
                 m_scene->selectionSetFont( fnt );
                 m_umldoc->setModified(true);
             }

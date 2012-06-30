@@ -34,11 +34,10 @@
 #include <klocale.h>
 
 // qt includes
-#include <QtCore/QPointer>
-#include <QtCore/QRegExp>
-#include <QtGui/QPainter>
-#include <QtGui/QValidator>
-
+#include <QPointer>
+#include <QRegExp>
+#include <QPainter>
+#include <QValidator>
 
 const UMLSceneValue FloatingTextWidget::restrictPositionMin = 0;
 const UMLSceneValue FloatingTextWidget::restrictPositionMax = 3000;
@@ -184,7 +183,7 @@ void FloatingTextWidget::setTextcmd(const QString &t)
 void FloatingTextWidget::showChangeTextDialog()
 {
     bool ok = false;
-    QString newText = KInputDialog::getText(i18n("Change Text"), i18n("Enter new text:"), text(), &ok, m_scene->view());
+    QString newText = KInputDialog::getText(i18n("Change Text"), i18n("Enter new text:"), text(), &ok, m_scene->activeView());
 
     if (ok && newText != text() && isTextValid(newText)) {
         setText(newText);
@@ -212,7 +211,7 @@ void FloatingTextWidget::showOperationDialog()
         return;
     }
 
-    QPointer<SelectOpDlg> selectDlg = new SelectOpDlg(m_scene->view(), c);
+    QPointer<SelectOpDlg> selectDlg = new SelectOpDlg(m_scene->activeView(), c);
     selectDlg->setSeqNumber(seqNum);
     if (m_linkWidget->operation() == 0) {
         selectDlg->setCustomOp(opText);
@@ -377,7 +376,7 @@ void FloatingTextWidget::handleRename()
         t = i18n("ERROR");
     }
     bool ok = false;
-    QString newText = KInputDialog::getText(i18n("Rename"), t, text(), &ok, m_scene->view(), &v);
+    QString newText = KInputDialog::getText(i18n("Rename"), t, text(), &ok, m_scene->activeView(), &v);
     if (!ok || newText == text()) {
         return;
     }
@@ -550,7 +549,7 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
                 bool ok = false;
                 QString opText = KInputDialog::getText(i18nc("operation name", "Name"),
                                                        i18n("Enter operation name:"),
-                                                       text(), &ok, m_scene->view());
+                                                       text(), &ok, m_scene->activeView());
                 if (ok)
                     m_linkWidget->setCustomOpText(opText);
                 return;
@@ -574,7 +573,7 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Change_Font:
         {
             QFont fnt = font();
-            if(KFontDialog::getFont(fnt, KFontChooser::NoDisplayFlags, m_scene->view()) ) {
+            if(KFontDialog::getFont(fnt, KFontChooser::NoDisplayFlags, m_scene->activeView()) ) {
                 if(m_textRole == Uml::TextRole::Floating || m_textRole == Uml::TextRole::Seq_Message) {
                     setFont(fnt);
                 } else if (m_linkWidget) {

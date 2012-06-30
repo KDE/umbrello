@@ -11,9 +11,6 @@
 // own header
 #include "toolbarstate.h"
 
-// qt includes
-#include <qwmatrix.h> // need for inverseWorldMatrix.map
-
 // app includes
 #include "associationwidget.h"
 #include "messagewidget.h"
@@ -22,6 +19,9 @@
 #include "uml.h"
 #include "umlview.h"
 #include "umlwidget.h"
+
+// qt includes
+#include <QWMatrix> // need for inverseWorldMatrix.map
 
 /**
  * Destroys this ToolBarState.
@@ -38,7 +38,7 @@ ToolBarState::~ToolBarState()
  */
 void ToolBarState::init()
 {
-    m_pUMLScene->view()->viewport()->setMouseTracking(false);
+    m_pUMLScene->activeView()->viewport()->setMouseTracking(false);
     m_pMouseEvent = 0;
     m_currentWidget = 0;
     m_currentAssociation = 0;
@@ -77,7 +77,7 @@ void ToolBarState::mousePress(UMLSceneMouseEvent* ome)
 {
     setMouseEvent(ome, QEvent::MouseButtonPress);
 
-    m_pUMLScene->view()->viewport()->setMouseTracking(true);
+    m_pUMLScene->activeView()->viewport()->setMouseTracking(true);
 
     //TODO Doesn't another way of emiting the signal exist? A method only for
     //that seems a bit dirty.
@@ -117,7 +117,7 @@ void ToolBarState::mouseRelease(UMLSceneMouseEvent* ome)
     // TODO, should only be available in this state?
     m_pUMLScene->setPos(m_pMouseEvent->scenePos());
 
-    m_pUMLScene->view()->viewport()->setMouseTracking(false);
+    m_pUMLScene->activeView()->viewport()->setMouseTracking(false);
 
     if (currentWidget()) {
         mouseReleaseWidget();
@@ -162,7 +162,7 @@ void ToolBarState::mouseDoubleClick(UMLSceneMouseEvent* ome)
 }
 
 /**
- * Handler for mouse double click events.
+ * Handler for mouse move events.
  * Events are delivered to the specific methods, depending on where the cursor
  * was pressed. It uses the current widget or association set in press event,
  * if any.
@@ -189,18 +189,18 @@ void ToolBarState::mouseMove(UMLSceneMouseEvent* ome)
     //Scrolls the view
     int vx = ome->x();
     int vy = ome->y();
-    int contsX = m_pUMLScene->view()->contentsX();
-    int contsY = m_pUMLScene->view()->contentsY();
-    int visw = m_pUMLScene->view()->visibleWidth();
-    int vish = m_pUMLScene->view()->visibleHeight();
+    int contsX = m_pUMLScene->activeView()->contentsX();
+    int contsY = m_pUMLScene->activeView()->contentsY();
+    int visw = m_pUMLScene->activeView()->visibleWidth();
+    int vish = m_pUMLScene->activeView()->visibleHeight();
     int dtr = visw - (vx-contsX);
     int dtb = vish - (vy-contsY);
     int dtt =  (vy-contsY);
     int dtl =  (vx-contsX);
-    if (dtr < 30) m_pUMLScene->view()->scrollBy(30-dtr,0);
-    if (dtb < 30) m_pUMLScene->view()->scrollBy(0,30-dtb);
-    if (dtl < 30) m_pUMLScene->view()->scrollBy(-(30-dtl),0);
-    if (dtt < 30) m_pUMLScene->view()->scrollBy(0,-(30-dtt));
+    if (dtr < 30) m_pUMLScene->activeView()->scrollBy(30-dtr,0);
+    if (dtb < 30) m_pUMLScene->activeView()->scrollBy(0,30-dtb);
+    if (dtl < 30) m_pUMLScene->activeView()->scrollBy(-(30-dtl),0);
+    if (dtt < 30) m_pUMLScene->activeView()->scrollBy(0,-(30-dtt));
 }
 
 /**
@@ -463,7 +463,7 @@ void ToolBarState::setMouseEvent(UMLSceneMouseEvent* ome, const QEvent::Type &ty
 {
     delete m_pMouseEvent;
 
-    m_pMouseEvent = new UMLSceneMouseEvent(type, m_pUMLScene->view()->inverseWorldMatrix().map(ome->pos()),
+    m_pMouseEvent = new UMLSceneMouseEvent(type, m_pUMLScene->activeView()->inverseWorldMatrix().map(ome->pos()),
                                     ome->button(),ome->buttons(),ome->modifiers());
 }
 

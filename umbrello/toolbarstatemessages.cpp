@@ -197,7 +197,7 @@ void ToolBarStateMessages::mouseReleaseEmpty()
 
         m_messageLine->setVisible(true);
 
-        m_pUMLScene->view()->viewport()->setMouseTracking(true);
+        m_pUMLScene->activeView()->viewport()->setMouseTracking(true);
     }
     else {
         cleanMessage();
@@ -231,7 +231,7 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
 
         m_messageLine->setVisible(true);
 
-        m_pUMLScene->view()->viewport()->setMouseTracking(true);
+        m_pUMLScene->activeView()->viewport()->setMouseTracking(true);
     }
 }
 

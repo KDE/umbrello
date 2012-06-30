@@ -77,18 +77,18 @@
 #include <klocale.h>
 
 // include files for Qt
-#include <QtCore/QPointer>
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtGui/QPainter>
-#include <QtGui/QPixmap>
-#include <QtGui/QPrinter>
-#include <QtGui/QColor>
-#include <QtGui/QHideEvent>
-#include <QtGui/QDropEvent>
-#include <QtGui/QShowEvent>
-#include <QtGui/QDragEnterEvent>
-#include <QtGui/QMouseEvent>
+#include <QPointer>
+#include <QString>
+#include <QStringList>
+#include <QPainter>
+#include <QPixmap>
+#include <QPrinter>
+#include <QColor>
+#include <QHideEvent>
+#include <QDropEvent>
+#include <QShowEvent>
+#include <QDragEnterEvent>
+#include <QMouseEvent>
 
 // system includes
 #include <cmath>
@@ -204,14 +204,12 @@ void UMLScene::setFolder(UMLFolder *folder)
     m_pFolder = folder;
 }
 
-UMLView *UMLScene::view()
+/**
+ * Returns the active view associated with this scene.
+ */
+UMLView* UMLScene::activeView() const
 {
     return m_view;
-}
-
-void UMLScene::setView(UMLView *view)
-{
-    m_view = view;
 }
 
 /**
@@ -964,7 +962,7 @@ void UMLScene::dropEvent(QDropEvent *e)
         return;
     }
     m_bCreateObject = true;
-    m_Pos = (e->pos() * 100) / view()->zoom();
+    m_Pos = (e->pos() * 100) / activeView()->zoom();
 
     slotObjectCreated(o);
 
@@ -2315,7 +2313,7 @@ void UMLScene::activateAfterLoad(bool bUseLog)
         endPartialWidgetPaste();
     }
     resizeCanvasToItems();
-    m_view->setZoom(view()->zoom());
+    m_view->setZoom(activeView()->zoom());
     m_isActivated = true;
 }
 
@@ -3135,9 +3133,9 @@ void UMLScene::setMenu()
     }//end switch
     if (menu != ListPopupMenu::mt_Undefined) {
         // DEBUG(DBG_SRC) << "create popup for MenuType " << ListPopupMenu::toString(menu);
-        m_pMenu = new ListPopupMenu(view(), menu, view());
+        m_pMenu = new ListPopupMenu(activeView(), menu, activeView());
         connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
-        m_pMenu->popup(view()->mapToGlobal(view()->contentsToViewport(view()->worldMatrix().map(m_Pos))));
+        m_pMenu->popup(activeView()->mapToGlobal(activeView()->contentsToViewport(activeView()->worldMatrix().map(m_Pos))));
     }
 }
 
@@ -3447,7 +3445,7 @@ void UMLScene::slotMenuSelection(QAction* action)
                                                     name(), &ok, UMLApp::app());
             if (ok) {
                 setName(newName);
-                m_doc->signalDiagramRenamed(view());
+                m_doc->signalDiagramRenamed(activeView());
             }
         }
         break;
@@ -3519,7 +3517,7 @@ void UMLScene::setStartedCut()
 bool UMLScene::showPropDialog()
 {
     bool success = false;
-    QPointer<UMLViewDialog> dlg = new UMLViewDialog(view(), this);
+    QPointer<UMLViewDialog> dlg = new UMLViewDialog(activeView(), this);
     if (dlg->exec() == QDialog::Accepted) {
         success = true;
     }
@@ -3636,7 +3634,7 @@ bool UMLScene::checkUniqueSelection()
  */
 void UMLScene::clearDiagram()
 {
-    if (KMessageBox::Continue == KMessageBox::warningContinueCancel(view(),
+    if (KMessageBox::Continue == KMessageBox::warningContinueCancel(activeView(),
                                      i18n("You are about to delete the entire diagram.\nAre you sure?"),
                                      i18n("Delete Diagram?"),
                                      KGuiItem(i18n("&Delete"), "edit-delete"))) {
@@ -3828,8 +3826,8 @@ void UMLScene::resizeCanvasToItems()
     //Find out the bottom right visible pixel and size to at least that
     int contentsX, contentsY;
     int contentsWMX, contentsWMY;
-    view()->viewportToContents(view()->viewport()->width(), view()->viewport()->height(), contentsX, contentsY);
-    view()->inverseWorldMatrix().map(contentsX, contentsY, &contentsWMX, &contentsWMY);
+    activeView()->viewportToContents(activeView()->viewport()->width(), activeView()->viewport()->height(), contentsX, contentsY);
+    activeView()->inverseWorldMatrix().map(contentsX, contentsY, &contentsWMX, &contentsWMY);
 
     if (canvasWidth < contentsWMX) {
         canvasWidth = contentsWMX;
@@ -3848,7 +3846,7 @@ void UMLScene::resizeCanvasToItems()
  */
 void UMLScene::show()
 {
-    view()->show();
+    activeView()->show();
     resizeCanvasToItems();
 }
 
@@ -3889,8 +3887,8 @@ void UMLScene::drawBackground(QPainter & painter, const QRect & clip)
         painter.setPen( gridDotColor() );
         int gridX = snapX();
         int gridY = snapY();
-        int numX = view()->width() / gridX;
-        int numY = view()->height() / gridY;
+        int numX = activeView()->width() / gridX;
+        int numY = activeView()->height() / gridY;
         for( int x = 0; x <= numX; x++ )
             for( int y = 0; y < numY; y++ )
                 painter.drawPoint( x * gridX, y * gridY );
@@ -3917,7 +3915,7 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     viewElement.setAttribute("snapx", m_nSnapX);
     viewElement.setAttribute("snapy", m_nSnapY);
     // FIXME: move to UMLView
-    viewElement.setAttribute("zoom", view()->zoom());
+    viewElement.setAttribute("zoom", activeView()->zoom());
     viewElement.setAttribute("canvasheight", height());
     viewElement.setAttribute("canvaswidth", width());
     viewElement.setAttribute("isopen", isOpen());
@@ -3999,7 +3997,7 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     m_nSnapY = snapy.toInt();
 
     QString zoom = qElement.attribute("zoom", "100");
-    view()->setZoom(zoom.toInt());
+    activeView()->setZoom(zoom.toInt());
 
     QString height = qElement.attribute("canvasheight", QString("%1").arg(UMLScene::defaultCanvasSize));
     int h = height.toInt();
@@ -4504,8 +4502,14 @@ void UMLScene::alignHorizontalDistribute()
 
 }
 
-QDebug operator<<(QDebug out, UMLScene *item)
+/**
+ * Overloading operator for debugging output.
+ */
+QDebug operator<<(QDebug dbg, UMLScene *item)
 {
-    out.nospace() << "UMLScene: " << static_cast<UMLScene *>(item);
-    return out;
+    dbg.nospace() << "UMLScene: " << item->name()
+                  << " / type=" << item->type().toString()
+                  << " / id=" << ID2STR(item->ID())
+                  << " / isOpen=" << item->isOpen();
+    return dbg.space();
 }

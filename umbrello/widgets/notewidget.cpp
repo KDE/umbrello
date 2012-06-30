@@ -11,14 +11,6 @@
 // own header
 #include "notewidget.h"
 
-//qt includes
-#include <QtGui/QPainter>
-
-// kde includes
-#include <klocale.h>
-#include <kcolordialog.h>
-#include <kinputdialog.h>
-
 // app includes
 #include "debug_utils.h"
 #include "dialog_utils.h"
@@ -28,6 +20,14 @@
 #include "umldoc.h"
 #include "umlview.h"
 #include "uml.h"
+
+// kde includes
+#include <klocale.h>
+#include <kcolordialog.h>
+#include <kinputdialog.h>
+
+// qt includes
+#include <QPainter>
 
 /**
  * Constructs a NoteWidget.
@@ -238,7 +238,7 @@ void NoteWidget::slotMenuSelection(QAction* action)
     switch(sel) {
     case ListPopupMenu::mt_Rename:
         m_scene->updateDocumentation( false );
-        dlg = new NoteDialog( m_scene->view(), this );
+        dlg = new NoteDialog( m_scene->activeView(), this );
         if( dlg->exec() ) {
             m_scene->showDocumentation( this, true );
             doc->setModified(true);

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -193,7 +193,7 @@ void ToolBarStateAssociation::setFirstWidget()
 
     m_associationLine->setVisible(true);
 
-    m_pUMLScene->view()->viewport()->setMouseTracking(true);
+    m_pUMLScene->activeView()->viewport()->setMouseTracking(true);
 }
 
 /**

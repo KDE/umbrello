@@ -28,8 +28,8 @@
 #include <kvbox.h>
 
 // qt includes
-#include <QtGui/QFrame>
-#include <QtGui/QHBoxLayout>
+#include <QFrame>
+#include <QHBoxLayout>
 
 /**
  * Constructor.
@@ -96,7 +96,7 @@ void UMLViewDialog::setupDiagramPropertiesPage()
     m_diagramProperties = new DiagramPropertiesPage(page);
 
     m_diagramProperties->ui_diagramName->setText( m_pScene->name() );
-    m_diagramProperties->ui_zoom->setValue(m_pScene->view()->currentZoom());
+    m_diagramProperties->ui_zoom->setValue(m_pScene->activeView()->currentZoom());
     m_diagramProperties->ui_showOpSigs->setChecked( m_pScene->showOpSig() );
 
     m_diagramProperties->ui_checkBoxShowGrid->setChecked(m_pScene->isSnapGridVisible());
@@ -236,7 +236,7 @@ void UMLViewDialog::checkName()
         else {
             // uDebug() << "Cannot find view with name " << newName;
             m_pScene->setName( newName );
-            doc->signalDiagramRenamed(m_pScene->view());
+            doc->signalDiagramRenamed(m_pScene->activeView());
         }
     }
 }

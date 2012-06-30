@@ -28,9 +28,9 @@
 #include <kinputdialog.h>
 
 // qt includes
-#include <QtCore/QPointer>
-#include <QtGui/QPainter>
-#include <QtGui/QValidator>
+#include <QPointer>
+#include <QPainter>
+#include <QValidator>
 
 #define O_MARGIN 5
 #define O_WIDTH 40
@@ -155,7 +155,7 @@ void ObjectWidget::slotMenuSelection(QAction* action)
                     i18n("Enter object name:"),
                     m_instanceName,
                     &ok,
-                    m_scene->view(),
+                    m_scene->activeView(),
                     validator);
             if (ok) {
                 m_instanceName = name;
@@ -338,7 +338,7 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY)
     if(UMLWidget::useFillColor())
         p.setBrush(UMLWidget::fillColor());
     else
-        p.setBrush( m_scene->view()->viewport()->palette().color(QPalette::Background) );
+        p.setBrush(m_scene->activeView()->viewport()->palette().color(QPalette::Background));
     const int w = width();
     const int h = height();
 

@@ -4,15 +4,12 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "datatypewidget.h"
-
-// qt/kde includes
-#include <QtGui/QPainter>
 
 // app includes
 #include "classifier.h"
@@ -22,14 +19,16 @@
 #include "umldoc.h"
 #include "umlview.h"
 
-#define CIRCLE_SIZE 30
+// qt includes
+#include <QPainter>
 
+#define CIRCLE_SIZE 30
 
 /**
  * Constructs an DatatypeWidget.
  *
- * @param scene              The parent of this DatatypeWidget.
- * @param d         The UMLClassifier this will be representing.
+ * @param scene   The parent of this DatatypeWidget.
+ * @param d       The UMLClassifier this will be representing.
  */
 DatatypeWidget::DatatypeWidget(UMLScene *scene, UMLClassifier *d) 
   : UMLWidget(scene, WidgetBase::wt_Datatype, d)
@@ -53,7 +52,7 @@ void DatatypeWidget::paint(QPainter& p, int offsetX, int offsetY)
     if (UMLWidget::useFillColor())  {
         p.setBrush(UMLWidget::fillColor());
     } else {
-        p.setBrush( m_scene->view()->viewport()->palette().color(QPalette::Background) );
+        p.setBrush( m_scene->activeView()->viewport()->palette().color(QPalette::Background) );
     }
 
     int w = width();

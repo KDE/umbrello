@@ -25,7 +25,7 @@
 #include <kinputdialog.h>
 
 // qt includes
-#include <QtCore/QPointer>
+#include <QPointer>
 
 /**
  * Creates a State widget.
@@ -395,7 +395,7 @@ void StateWidget::showPropertiesDialog()
 {
     umlScene()->updateDocumentation(false);
 
-    QPointer<StateDialog> dialog = new StateDialog(m_scene->view(), this);
+    QPointer<StateDialog> dialog = new StateDialog(m_scene->activeView(), this);
     if (dialog->exec() && dialog->getChangesMade()) {
         umlScene()->showDocumentation(this, true);
         UMLApp::app()->document()->setModified(true);

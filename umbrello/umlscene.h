@@ -81,7 +81,6 @@ class UMLScene : public Q3Canvas
 {
     Q_OBJECT
 public:
-    friend QDebug operator<<(QDebug out, const UMLScene *item);
     friend class UMLViewImageExporterModel;
 
     UMLScene(UMLFolder *parentFolder, UMLView *view=0);
@@ -92,8 +91,7 @@ public:
         return this;
     }
 
-    UMLView *view();
-    void setView(UMLView *view);
+    UMLView* activeView() const;
 
     // Accessors and other methods dealing with loaded/saved data
 
@@ -447,11 +445,11 @@ signals:
     void sigWidgetRemoved(UMLWidget*);
 };
 
-QDebug operator<<(QDebug debug, UMLScene *item);
+QDebug operator<<(QDebug dbg, UMLScene *item);
 
 /**
-  qt3 migration wrapper for QMouseEvent
-*/
+ * Qt3 migration wrapper for QMouseEvent.
+ */
 class  UMLSceneMouseEvent : public QMouseEvent
 {
 public:

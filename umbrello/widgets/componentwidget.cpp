@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -59,7 +59,7 @@ void ComponentWidget::paint(QPainter & p, int offsetX, int offsetY)
     if ( UMLWidget::useFillColor() ) {
         p.setBrush( UMLWidget::fillColor() );
     } else {
-        p.setBrush( m_scene->view()->viewport()->palette().color(QPalette::Background) );
+        p.setBrush( m_scene->activeView()->viewport()->palette().color(QPalette::Background) );
     }
 
     const int w = width();

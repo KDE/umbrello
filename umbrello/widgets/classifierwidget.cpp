@@ -24,7 +24,7 @@
 #include "umlview.h"
 
 // qt includes
-#include <QtGui/QPainter>
+#include <QPainter>
 
 const int ClassifierWidget::MARGIN = 5;
 const int ClassifierWidget::CIRCLE_SIZE = 30;
@@ -564,7 +564,7 @@ void ClassifierWidget::paint(QPainter & p, int offsetX, int offsetY)
     if ( UMLWidget::useFillColor() )
         p.setBrush( UMLWidget::fillColor() );
     else
-        p.setBrush( m_scene->view()->viewport()->palette().color(QPalette::Background) );
+        p.setBrush( m_scene->activeView()->viewport()->palette().color(QPalette::Background) );
 
     if (classifier()->isInterface() && visualProperty(DrawAsCircle)) {
         drawAsCircle(p, offsetX, offsetY);

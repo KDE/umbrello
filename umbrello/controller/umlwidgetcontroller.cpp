@@ -11,14 +11,6 @@
 // own header
 #include "umlwidgetcontroller.h"
 
-// qt includes
-#include <QtCore/QEvent>
-#include <QtCore/QPoint>
-
-// kde includes
-#include <kcursor.h>
-#include <klocale.h>
-
 // app includes
 #include "umlwidget.h"
 #include "umlwidgetlist.h"
@@ -29,6 +21,14 @@
 #include "listpopupmenu.h"
 #include "associationwidget.h"
 #include "cmds.h"
+
+// kde includes
+#include <kcursor.h>
+#include <klocale.h>
+
+// qt includes
+#include <QEvent>
+#include <QPoint>
 
 /**
  * Constructor for UMLWidgetController.
@@ -335,7 +335,7 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me)
 
             if (m_inResizeArea) {
                 m_inResizeArea = false;
-                m_widget->m_scene->view()->setCursor(Qt::ArrowCursor);
+                m_widget->m_scene->activeView()->setCursor(Qt::ArrowCursor);
             } else {
                 m_inMoveArea = false;
             }
@@ -414,10 +414,10 @@ bool UMLWidgetController::isInResizeArea(QMouseEvent *me)
     if (m_widget->m_resizable &&
             me->x() >= (m_widget->x() + w - m) &&
             me->y() >= (m_widget->y() + h - m)) {
-        m_widget->m_scene->view()->setCursor(getResizeCursor());
+        m_widget->m_scene->activeView()->setCursor(getResizeCursor());
         return true;
     } else {
-        m_widget->m_scene->view()->setCursor(Qt::ArrowCursor);
+        m_widget->m_scene->activeView()->setCursor(Qt::ArrowCursor);
         return false;
     }
 }
@@ -522,7 +522,7 @@ void UMLWidgetController::doMouseDoubleClick(QMouseEvent *)
 void UMLWidgetController::resetSelection()
 {
     m_widget->m_scene->clearSelected();
-    m_widget->m_scene->view()->resetToolbar();
+    m_widget->m_scene->activeView()->resetToolbar();
     m_widget->setSelected(false);
 
     m_wasSelected = false;

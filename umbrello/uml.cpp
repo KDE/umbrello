@@ -2746,9 +2746,7 @@ void UMLApp::setCurrentView(UMLView* view)
     if (lvitem) {
         m_listView->setCurrentItem(lvitem);
     }
-    DEBUG(DBG_SRC) << "name=" << view->umlScene()->name()
-                   << ", isOpen=" << view->umlScene()->isOpen()
-                   << ", id=" << ID2STR(view->umlScene()->ID());
+    DEBUG(DBG_SRC) << view->umlScene();
 }
 
 /**

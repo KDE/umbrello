@@ -1083,11 +1083,11 @@ QString UMLListViewItem::toString(ListViewType type)
 /**
  * Overloading operator for debugging output.
  */
-QDebug operator<<(QDebug out, const UMLListViewItem& item)
+QDebug operator<<(QDebug dbg, const UMLListViewItem& item)
 {
-    out.nospace() << "UMLListViewItem: " << item.text(0)
+    dbg.nospace() << "UMLListViewItem: " << item.text(0)
         << ", type=" << UMLListViewItem::toString(item.type())
         << ", id=" << ID2STR(item.ID())
         << ", children=" << item.childCount();
-    return out.space();
+    return dbg.space();
 }

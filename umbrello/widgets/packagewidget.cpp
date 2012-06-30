@@ -4,15 +4,12 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "packagewidget.h"
-
-// qt/kde includes
-#include <QtGui/QPainter>
 
 // app includes
 #include "debug_utils.h"
@@ -22,11 +19,14 @@
 #include "umlview.h"
 #include "umlobject.h"
 
+// qt includes
+#include <QPainter>
+
 /**
  * Constructs a PackageWidget.
  *
- * @param scene              The parent of this PackageWidget.
- * @param o         The UMLObject this will be representing.
+ * @param scene   The parent of this PackageWidget.
+ * @param o       The UMLObject this will be representing.
  */
 PackageWidget::PackageWidget(UMLScene * scene, UMLPackage *o)
   : UMLWidget(scene, WidgetBase::wt_Package, o)
@@ -57,7 +57,7 @@ void PackageWidget::paint(QPainter & p, int offsetX, int offsetY)
     if ( UMLWidget::useFillColor() )
         p.setBrush( UMLWidget::fillColor() );
     else
-        p.setBrush( m_scene->view()->viewport()->palette().color(QPalette::Background) );
+        p.setBrush( m_scene->activeView()->viewport()->palette().color(QPalette::Background) );
 
     int w = width();
     int h = height();
