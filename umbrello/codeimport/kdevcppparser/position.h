@@ -41,6 +41,7 @@ workaround for the following msvc error
 #include <boost/spirit/include/classic.hpp>
 #include <QString>
 #include <QChar>
+#include <QDebug>
 
 typedef boost::spirit::classic::file_position_base<std::basic_string<QChar> > Position;
 typedef std::basic_string<QChar> PositionFilename;
