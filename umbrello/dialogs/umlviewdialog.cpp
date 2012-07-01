@@ -28,8 +28,8 @@
 #include <kvbox.h>
 
 // qt includes
-#include <QtGui/QFrame>
-#include <QtGui/QHBoxLayout>
+#include <QFrame>
+#include <QHBoxLayout>
 
 /**
  * Constructor.

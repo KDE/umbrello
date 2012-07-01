@@ -20,18 +20,21 @@
 #ifndef TEXTITEM_H
 #define TEXTITEM_H
 
-#include "umlscene.h"
+#include <QBrush>
+#include <QFont>
+#include <QGraphicsTextItem>
 
-#include <QtGui/QBrush>
-#include <QtGui/QFont>
+class QGraphicsItem;
+class QGraphicsSceneContextMenuEvent;
+class QGraphicsSceneHoverEvent;
+class QStyleOptionGraphicsItem;
 
 class TextItem : public QGraphicsTextItem
 {
     Q_OBJECT
 public:
-
     TextItem(const QString& text, QGraphicsItem *parent = 0);
-    ~TextItem();
+    virtual ~TextItem();
 
     Qt::Alignment alignment() const;
     void setAlignment(Qt::Alignment align);
@@ -63,12 +66,10 @@ public:
 
     void setFont(QFont font);
 
-
     QBrush hoverBrush() const {
         return m_hoverBrush;
     }
     void setHoverBrush(const QBrush& brush);
-
 
     QBrush backgroundBrush() const {
         return m_backgroundBrush;
@@ -86,15 +87,14 @@ public:
     void updateVisibility();
 
 protected:
-    void hoverEnterEvent(UMLSceneHoverEvent *event);
-    void hoverLeaveEvent(UMLSceneHoverEvent *event);
-    void contextMenuEvent(UMLSceneContextMenuEvent *event);
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
 private:
     QBrush m_hoverBrush;
     QBrush m_backgroundBrush;
-
-    bool m_explicitVisiblity;
+    bool   m_explicitVisiblity;
 };
 
 #endif //TEXTITEM_H

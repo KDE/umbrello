@@ -20,12 +20,10 @@
 #ifndef EXPANDERBOX_H
 #define EXPANDERBOX_H
 
-#include "umlscene.h"
-#include <QtCore/QObject>
-
-#include <QtGui/QBrush>
-#include <QtGui/QGraphicsObject>
-#include <QtGui/QPen>
+#include <QBrush>
+#include <QGraphicsObject>
+#include <QObject>
+#include <QPen>
 
 /**
  * This is a simple item which displays a box with +/- on it and
@@ -36,7 +34,7 @@
  */
 class ExpanderBox : public QGraphicsObject
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     ExpanderBox(bool expanded = false, QGraphicsItem *parent = 0);
     virtual ~ExpanderBox();
@@ -77,13 +75,12 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *opt, QWidget*);
 
 signals:
-
     void expansionToggled(bool currentState);
 
 protected:
-    virtual void mousePressEvent(UMLSceneMouseEvent *event);
-    virtual void mouseMoveEvent(UMLSceneMouseEvent *event);
-    virtual void mouseReleaseEvent(UMLSceneMouseEvent *event);
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
 private:
     static const qreal Size;
@@ -91,7 +88,6 @@ private:
     bool m_expanded;
     QPen m_pen;
     QBrush m_brush;
-
     QRectF m_boundingRect;
     QPainterPath m_shape;
 };

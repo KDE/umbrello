@@ -19,8 +19,8 @@
 
 #include "expanderbox.h"
 
-
-#include <QtGui/QPainter>
+#include <QGraphicsSceneMouseEvent>
+#include <QPainter>
 
 /// The size for all ExpanderBox
 const qreal ExpanderBox::Size = 10;
@@ -37,12 +37,16 @@ ExpanderBox::ExpanderBox(bool expanded, QGraphicsItem *parent) :
     setPen(QPen(Qt::black, 1)); // sets boundingrect.
 }
 
-/// Destructor
+/**
+ * Destructor.
+ */
 ExpanderBox::~ExpanderBox()
 {
 }
 
-/// Sets the current expanded state to \a exp and updates.
+/**
+ * Sets the current expanded state to \a exp and updates.
+ */
 void ExpanderBox::setExpanded(bool exp)
 {
     if (m_expanded != exp) {
@@ -105,7 +109,7 @@ void ExpanderBox::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWi
  * Reimplemented from QGraphicsItem::mousePressEvent to toggle current
  * state on left click and also emit the signal @ref expansionToggled
  */
-void ExpanderBox::mousePressEvent(UMLSceneMouseEvent *event)
+void ExpanderBox::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->buttons().testFlag(Qt::LeftButton)) {
         m_expanded = !m_expanded;
@@ -121,7 +125,7 @@ void ExpanderBox::mousePressEvent(UMLSceneMouseEvent *event)
 /**
  * Reimplemented from QGraphicsItem::mouseMoveEvent to ignore it.
  */
-void ExpanderBox::mouseMoveEvent(UMLSceneMouseEvent *event)
+void ExpanderBox::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     event->ignore();
 }
@@ -129,7 +133,7 @@ void ExpanderBox::mouseMoveEvent(UMLSceneMouseEvent *event)
 /**
  * Reimplemented from QGraphicsItem::mouseReleaseEvent to ignore it.
  */
-void ExpanderBox::mouseReleaseEvent(UMLSceneMouseEvent *event)
+void ExpanderBox::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     event->ignore();
 }

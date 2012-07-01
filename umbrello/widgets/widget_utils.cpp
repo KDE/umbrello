@@ -12,18 +12,18 @@
 #include "widget_utils.h"
 
 // app includes
+#include "debug_utils.h"
 #include "objectwidget.h"
+#include "messagewidget.h"
 #include "uml.h"
 #include "umlscene.h"
 #include "umlview.h"
 #include "umlwidget.h"
 
 // qt includes
-#include <QtCore/QBuffer>
-#include <QtGui/QBrush>
-#include <QtGui/QImageReader>
-#include <QtGui/QPen>
-#include <QtGui/QPolygonF>
+#include <QBuffer>
+#include <QImageReader>
+#include <QPolygonF>
 
 // c++ include
 #include <cmath>
@@ -35,16 +35,15 @@ namespace Widget_Utils
      * Find the widget identified by the given ID in the given widget
      * or message list.
      *
-     * @param id            The unique ID to find.
-     * @param widgets       The UMLWidgetList to search in.
-     * @param pMessages     Optional pointer to a MessageWidgetList to
-     *                      search in.
+     * @param id         The unique ID to find.
+     * @param widgets    The UMLWidgetList to search in.
+     * @param messages   Optional pointer to a MessageWidgetList to search in.
      */
     UMLWidget* findWidget(Uml::IDType id,
                           const UMLWidgetList& widgets,
                           const MessageWidgetList* messages /* = 0 */)
     {
-        foreach ( UMLWidget* obj , widgets ) {
+        foreach (UMLWidget* obj, widgets) {
             if (obj->baseType() == WidgetBase::wt_Object) {
                 if (static_cast<ObjectWidget *>(obj)->localID() == id)
                     return obj;
@@ -54,12 +53,11 @@ namespace Widget_Utils
         }
 
         if (messages) {
-            foreach ( UMLWidget* obj , *messages ) {
-                if( obj->id() == id )
+            foreach (UMLWidget* obj, *messages) {
+                if (obj->id() == id)
                     return obj;
             }
         }
-
         return NULL;
     }
 

@@ -18,7 +18,7 @@
 #include "umldoc.h"
 #include "worktoolbar.h"
 
-#include <QtGui/QMouseEvent>
+#include <QMouseEvent>
 
 /**
  * Constructor
@@ -40,7 +40,7 @@ UMLView::UMLView(UMLFolder *parentFolder)
 }
 
 /**
- * Destructor
+ * Destructor.
  */
 UMLView::~UMLView()
 {

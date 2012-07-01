@@ -16,11 +16,11 @@
 #include "umlscene.h"
 #include "umlwidgetlist.h"
 
-#include <QtCore/QPoint>
-#include <QtXml/QDomDocument>
-#include <QtGui/QBrush>
-#include <QtGui/QPen>
-#include <QtGui/QFont>
+#include <QBrush>
+#include <QDomDocument>
+#include <QFont>
+#include <QPen>
+#include <QPoint>
 
 /**
  * General purpose widget utilities.

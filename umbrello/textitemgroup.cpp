@@ -22,12 +22,10 @@
 #include "debug_utils.h"
 #include "textitem.h"
 
-#include <QtGui/QGraphicsScene>
-
 const qreal TextItemGroup::NoLineBreak = -1;
 
-TextItemGroup::TextItemGroup(QGraphicsItem *parent) :
-    m_parentItem(parent),
+TextItemGroup::TextItemGroup(QGraphicsItem *parent)
+  : m_parentItem(parent),
     m_lineBreakageWidth(TextItemGroup::NoLineBreak),
     m_margin(0),
     m_alignment(Qt::AlignCenter),

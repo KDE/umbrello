@@ -20,13 +20,13 @@
 #ifndef TEXTITEMGROUP_H
 #define TEXTITEMGROUP_H
 
-#include <QtCore/QList>
-#include <QtCore/QPointF>
-#include <QtCore/QRectF>
-#include <QtCore/QSizeF>
-#include <QtGui/QBrush>
-#include <QtGui/QColor>
-#include <QtGui/QFont>
+#include <QBrush>
+#include <QColor>
+#include <QFont>
+#include <QList>
+#include <QPointF>
+#include <QRectF>
+#include <QSizeF>
 
 class QGraphicsItem;
 class TextItem;
@@ -37,7 +37,7 @@ public:
     static const qreal NoLineBreak;
 
     TextItemGroup(QGraphicsItem *parent = 0);
-    ~TextItemGroup();
+    virtual ~TextItemGroup();
 
     QGraphicsItem* parentItem() const {
         return m_parentItem;
@@ -115,13 +115,11 @@ private:
     QRectF m_groupGeometry;
     qreal m_lineBreakageWidth;
     qreal m_margin;
-
     Qt::Alignment m_alignment;
     QColor m_textColor;
     QBrush m_hoverBrush;
     QBrush m_backgroundBrush;
     QFont m_font;
 };
-
 
 #endif //TEXTITEMGROUP_H

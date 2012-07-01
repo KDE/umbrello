@@ -11,7 +11,7 @@
 #ifndef UMLVIEW_H
 #define UMLVIEW_H
 
-#include <QtGui/QGraphicsView>
+#include <QGraphicsView>
 
 class QHideEvent;
 class QCloseEvent;

@@ -20,8 +20,7 @@
 #ifndef WIDGETHANDLE_H
 #define WIDGETHANDLE_H
 
-#include "umlscene.h"
-#include <QtGui/QGraphicsItem>
+#include <QGraphicsItem>
 
 class UMLWidget;
 
@@ -60,23 +59,22 @@ public:
     void paint(QPainter *p, const QStyleOptionGraphicsItem *opt, QWidget *w);
 
 protected:
-    void mousePressEvent(UMLSceneMouseEvent *event);
-    void mouseMoveEvent(UMLSceneMouseEvent *event);
-    void mouseReleaseEvent(UMLSceneMouseEvent *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
-    void hoverEnterEvent(UMLSceneHoverEvent *event);
-    void hoverMoveEvent(UMLSceneHoverEvent *event);
-    void hoverLeaveEvent(UMLSceneHoverEvent *event);
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+    void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 
 private:
     bool isActive() const;
     void calcResizeHandles();
-    void handleCursorChange(UMLSceneHoverEvent *event);
+    void handleCursorChange(QGraphicsSceneHoverEvent *event);
 
     UMLWidget *m_widget;
     QRectF m_boundingRect;
     QPainterPath m_shape;
-
     QRectF m_resizeHandles[8];
     ResizeHandle m_pressedHandle;
 };

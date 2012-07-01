@@ -19,10 +19,11 @@
 
 #include "textitem.h"
 
-#include <QtGui/QPainter>
-#include <QtGui/QStyleOptionGraphicsItem>
-#include <QtGui/QTextDocument>
-#include <QtGui/QTextOption>
+#include <QGraphicsSceneContextMenuEvent>
+#include <QPainter>
+#include <QStyleOptionGraphicsItem>
+#include <QTextDocument>
+#include <QTextOption>
 
 // Inline and other documentation BEGIN
 
@@ -96,15 +97,15 @@
  *
  * @param parent The parent of this item.
  */
-TextItem::TextItem(const QString& text, QGraphicsItem *parent) :
-    QGraphicsTextItem(text, parent),
+TextItem::TextItem(const QString& text, QGraphicsItem *parent)
+  : QGraphicsTextItem(text, parent),
     m_explicitVisiblity(true)
 {
     setAcceptHoverEvents(false);
 }
 
 /**
- * Destructor
+ * Destructor.
  */
 TextItem::~TextItem()
 {
@@ -274,17 +275,17 @@ void TextItem::updateVisibility()
     setVisible(actual);
 }
 
-void TextItem::hoverEnterEvent(UMLSceneHoverEvent *)
+void TextItem::hoverEnterEvent(QGraphicsSceneHoverEvent *)
 {
     update();
 }
 
-void TextItem::hoverLeaveEvent(UMLSceneHoverEvent *)
+void TextItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
 {
     update();
 }
 
-void TextItem::contextMenuEvent(UMLSceneContextMenuEvent *event)
+void TextItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     event->ignore();
 }
