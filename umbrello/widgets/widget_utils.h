@@ -16,6 +16,12 @@
 #include "umlscene.h"
 #include "umlwidgetlist.h"
 
+#include <QBrush>
+#include <QDomDocument>
+#include <QFont>
+#include <QPen>
+#include <QPoint>
+
 /**
  * General purpose widget utilities.
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
@@ -27,6 +33,27 @@ namespace Widget_Utils
                           const MessageWidgetList* messages = 0);
 
     UMLSceneRectItem* decoratePoint(const UMLScenePoint& p);
+
+    void drawCrossInEllipse(QPainter *p, const QRectF& ellipse);
+    void drawTriangledRect(QPainter *painter, const QRectF& rect, const QSizeF& triSize);
+    void drawArrowHead(QPainter *painter, const QPointF& arrowPos,
+                       const QSizeF& arrowSize, Qt::ArrowType arrowType,
+                       bool solid = false);
+    void drawRoundedRect(QPainter *painter, const QRectF& rect, qreal xRadius,
+            qreal yRadius, Uml::Corners corners);
+
+    QString pointToString(const QPointF& point);
+    QPointF stringToPoint(const QString& str);
+
+    bool loadPixmapFromXMI(QDomElement &qElement, QPixmap &pixmap);
+    void savePixmapToXMI(QDomDocument &qDoc, QDomElement &qElement, const QPixmap& pixmap);
+
+    bool loadGradientFromXMI(QDomElement &qElement, QGradient *&gradient);
+    void saveGradientToXMI(QDomDocument &qDoc, QDomElement &qElement, const QGradient *gradient);
+
+    bool loadBrushFromXMI(QDomElement &qElement, QBrush &brush);
+    void saveBrushToXMI(QDomDocument &qDoc, QDomElement &qElement,
+                        const QBrush& brush);
 
     bool hasSmallerX(const UMLWidget* widget1, const UMLWidget* widget2);
     bool hasSmallerY(const UMLWidget* widget1, const UMLWidget* widget2);
