@@ -454,4 +454,6 @@ signals:
     void sigWidgetRemoved(UMLWidget*);
 };
 
+QDebug operator<<(QDebug dbg, UMLScene *item);
+
 #endif // UMLSCENE_H

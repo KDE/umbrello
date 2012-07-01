@@ -148,8 +148,6 @@ public:
     bool isOpen() { return isExpanded(); }
     void setOpen(bool state);
 
-    friend QDebug operator<<(QDebug out, const UMLListViewItem& item);
-
 protected:
     void init();
 
@@ -171,5 +169,7 @@ protected:
     ChildObjectMap     m_comap;
 
 };
+
+QDebug operator<<(QDebug dbg, const UMLListViewItem& item);
 
 #endif

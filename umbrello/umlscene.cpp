@@ -81,10 +81,10 @@
 
 // include files for Qt
 #include <QtAlgorithms>  // for qSort
-#include <QtGui/QAction>
-#include <QtGui/QPainter>
-#include <QtGui/QPixmap>
-#include <QtGui/QPrinter>
+#include <QAction>
+#include <QPainter>
+#include <QPixmap>
+#include <QPrinter>
 
 // system includes
 #include <cmath>  // for ceil
@@ -4473,4 +4473,14 @@ void UMLScene::alignHorizontalDistribute()
     //TODO: Push stored cmds to stack.
 }
 
-#include "umlscene.moc"
+/**
+ * Overloading operator for debugging output.
+ */
+QDebug operator<<(QDebug dbg, UMLScene *item)
+{
+    dbg.nospace() << "UMLScene: " << item->name()
+                  << " / type=" << item->type().toString()
+                  << " / id=" << ID2STR(item->ID())
+                  << " / isOpen=" << item->isOpen();
+    return dbg.space();
+}
