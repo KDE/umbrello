@@ -71,7 +71,7 @@ public:
                      const QString& str = QString())
     { m_preprocessLexer.addSkipWord( word, skipType, str); }
 
-    void setSource( const QString& source, PositionFilename const& p_filename);
+    bool setSource( const QString& source, PositionFilename const& p_filename);
     void setRecordComments( bool record );
     Position currentPosition() const { return m_source.get_currentPosition(); }
 
@@ -83,7 +83,7 @@ public:
     Position const& getTokenPosition(const Token& token) const;
     TokenIterator tokenBegin() const {return m_tokens.begin();}
 private:
-    void tokenize();
+    bool tokenize();
     void nextToken(Token& token);
     bool recordComments() const;
     void reset();
