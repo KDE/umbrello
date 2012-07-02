@@ -131,25 +131,29 @@ void CodeImpStatusPage::importCode()
 #ifdef ENABLE_IMPORT_THREAD
     m_thread = new QThread;
     //connect(thread, SIGNAL(started()), this, SLOT(importCodeFile()));
-    connect(m_thread, SIGNAL(finished()), this, SLOT(importCodeFile()));
+    connect(m_thread, SIGNAL(finished(bool)), this, SLOT(importCodeFile(bool)));
     connect(m_thread, SIGNAL(terminated()), this, SLOT(importCodeStop()));
 #endif
     importCodeFile();
 }
 
-void CodeImpStatusPage::importCodeFile()
+void CodeImpStatusPage::importCodeFile(bool noError)
 {
+    if (m_index > 0) {
+        if (noError) {
+            messageToLog(m_file.fileName(), i18n("importing file ... DONE<br>"));
+            updateStatus(m_file.fileName(), i18n("Import Done"));
+        }
+        else {
+            messageToLog(m_file.fileName(), i18n("importing file ... FAILED<br>"));
+            updateStatus(m_file.fileName(), i18n("Import Failed"));
+        }
+    }
+
     // all files done
     if (m_index >= m_files.size()) {
-        messageToLog(m_file.fileName(), i18n("importing file ... DONE<br>"));
-        updateStatus(m_file.fileName(), i18n("Import Done"));
         importCodeFinish();
         return;
-    }
-    // at least one file done
-    else if (m_index > 0) {
-        messageToLog(m_file.fileName(), i18n("importing file ... DONE<br>"));
-        updateStatus(m_file.fileName(), i18n("Import Done"));
     }
 
     m_file = m_files.at(m_index++);
@@ -159,7 +163,7 @@ void CodeImpStatusPage::importCodeFile()
     connect(worker, SIGNAL(messageToLog(QString,QString)), this, SLOT(messageToLog(QString,QString)));
     connect(worker, SIGNAL(messageToApp(QString)), this, SLOT(messageToApp(QString)));
 #ifndef ENABLE_IMPORT_THREAD
-    connect(worker, SIGNAL(finished()), this, SLOT(importCodeFile()));
+    connect(worker, SIGNAL(finished(bool)), this, SLOT(importCodeFile(bool)));
     connect(worker, SIGNAL(aborted()), this, SLOT(importCodeStop()));
     worker->run();
     worker->deleteLater();

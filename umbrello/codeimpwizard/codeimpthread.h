@@ -50,8 +50,9 @@ signals:
     void messageToWiz(const QString& file, const QString& text);
     void messageToLog(const QString& file, const QString& text);
     void messageToApp(const QString& text);
-    void finished();
     void aborted();
+    void failed();
+    void finished(bool noError);
 
 private slots:
     void questionAsked(const QString& question, int& answer);
