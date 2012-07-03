@@ -12,9 +12,6 @@
 #define TOOLBARSTATEARROW_H
 
 #include "toolbarstate.h"
-#include "worktoolbar.h"
-
-#include <QtCore/QList>
 
 class UMLScene;
 
@@ -31,7 +28,6 @@ class ToolBarStateArrow : public ToolBarState
 {
     Q_OBJECT
 public:
-
     ToolBarStateArrow(UMLScene *umlScene);
 
     // We just forward events back to UMLScene, which handles the
