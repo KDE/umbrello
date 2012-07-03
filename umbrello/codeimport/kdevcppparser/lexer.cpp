@@ -245,6 +245,17 @@ Token& Token::operator=(Token const & p)
     return *this;
 }
 
+QDebug operator<<(QDebug out, const Token &t)
+{
+    out << "Token("
+    << "type:" << t.type()
+    << "text:" << t.text()
+    << "start:" << t.getStartPosition()
+    << "end:" << t.getEndPosition()
+    << ")";
+    return out;
+}
+
 Token Lexer::Source::createToken(int type, CharIterator start,
                                  CharIterator end) const
 {
@@ -313,13 +324,14 @@ Lexer::~Lexer()
 {
 }
 
-void Lexer::setSource(const QString& source,
+bool Lexer::setSource(const QString& source,
                       PositionFilename const& p_filename)
 {
     reset();
     m_preprocessLexer.setSource(source, p_filename);
     m_source.set_filename(p_filename);
-    tokenize();
+    return tokenize();
+
 }
 
 void Lexer::reset()
@@ -386,9 +398,10 @@ void Lexer::nextToken(Token& tk)
         m_source.set_startLine(false);
 }
 
-void Lexer::tokenize()
+bool Lexer::tokenize()
 {
-    m_preprocessLexer.preprocess();
+    if (!m_preprocessLexer.preprocess())
+        return false;
 #if 0
     QByteArray l_tmp = m_preprocessLexer.preprocessedString().toAscii();
     for (int i = 0; i < l_tmp.size(); ++i)
@@ -410,6 +423,7 @@ void Lexer::tokenize()
 
     Token tk = m_source.createToken(Token_eof, m_source.get_ptr());
     m_tokens.push_back(tk);
+    return true;
 }
 
 void Lexer::handleDirective(const QString& directive)

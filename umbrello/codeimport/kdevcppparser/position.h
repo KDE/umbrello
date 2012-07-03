@@ -41,6 +41,7 @@ workaround for the following msvc error
 #include <boost/spirit/include/classic.hpp>
 #include <QString>
 #include <QChar>
+#include <QDebug>
 
 typedef boost::spirit::classic::file_position_base<std::basic_string<QChar> > Position;
 typedef std::basic_string<QChar> PositionFilename;
@@ -48,6 +49,16 @@ typedef std::basic_string<QChar> PositionFilename;
 inline PositionFilename QString2PositionFilename( QString const& p)
 {
     return p.data();
+}
+
+inline QDebug operator<<(QDebug out, Position const &p)
+{
+    out << "Position("
+        //<< "file" << p.file
+        << "line:" << p.line
+        << "column:" << p.column
+        << ")";
+    return out;
 }
 
 inline bool operator<( Position const& p1, Position const& p2)
