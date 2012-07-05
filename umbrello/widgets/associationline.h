@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,17 +13,16 @@
 
 #include "umlscene.h"
 
-#include <QtGui/QBrush>
-#include <QtGui/QGraphicsObject>
-#include <QtGui/QPen>
+#include <QBrush>
+#include <QGraphicsObject>
+#include <QPen>
 
-// Forward declarations
+// forward declarations
 class AssociationWidget;
 class QDomDocument;
 class QDomElement;
 class UMLWidget;
 class RegionPair;
-
 
 typedef QPair<QPointF, QPointF> SymbolEndPoints;
 
@@ -112,12 +111,12 @@ class AssociationLine : public QGraphicsObject
         AssociationLine(AssociationWidget *assoc);
         virtual ~AssociationLine();
 
-        QPointF point(int index) const;
-        void setPoint(int index, const QPointF& point);
-        QPointF startPoint() const;
-        QPointF endPoint() const;
+        UMLScenePoint point(int index) const;
+        void setPoint(int index, const UMLScenePoint& point);
+        UMLScenePoint startPoint() const;
+        UMLScenePoint endPoint() const;
 
-        void insertPoint(int index, const QPointF& point);
+        void insertPoint(int index, const UMLScenePoint& point);
         void removePoint(int index);
 
         int count() const;
@@ -125,13 +124,13 @@ class AssociationLine : public QGraphicsObject
 
         void optimizeLinePoints();
 
-        int closestPointIndex(const QPointF& point, qreal delta = AssociationLine::Delta) const;
+        int closestPointIndex(const UMLScenePoint& point, qreal delta = AssociationLine::Delta) const;
         int segmentIndex(const QPointF& point, qreal delta = AssociationLine::Delta) const;
 
         bool isEndPointIndex(int index) const;
         bool isEndSegmentIndex(int index) const;
 
-        void setEndPoints(const QPointF &start, const QPointF &end);
+        void setEndPoints(const UMLScenePoint &start, const UMLScenePoint &end);
 
         bool loadFromXMI(QDomElement &qElement);
         void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);

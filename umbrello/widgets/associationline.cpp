@@ -330,7 +330,7 @@ AssociationLine::~AssociationLine()
  * Returns the point with a given index.
  * @return point at given index
  */
-QPointF AssociationLine::point(int index) const
+UMLScenePoint AssociationLine::point(int index) const
 {
     if ((index < 0) | (index > m_points.size() - 1)) {
         uError() << "Index " << index << " out of range [0.." << m_points.size() - 1 << "].";
@@ -344,7 +344,7 @@ QPointF AssociationLine::point(int index) const
  * Sets the point value at given index to \a point.  Also changes
  * the bounding rect appropriately.
  */
-void AssociationLine::setPoint(int index, const QPointF& point)
+void AssociationLine::setPoint(int index, const UMLScenePoint &point)
 {
     if (m_points.at(index) == point) {
         return; // Nothing to change
@@ -357,7 +357,7 @@ void AssociationLine::setPoint(int index, const QPointF& point)
 /**
  * Shortcut for point(0).
  */
-QPointF AssociationLine::startPoint() const
+UMLScenePoint AssociationLine::startPoint() const
 {
     return m_points.at(0);
 }
@@ -365,7 +365,7 @@ QPointF AssociationLine::startPoint() const
 /**
  * Shortcut for point(count()-1).
  */
-QPointF AssociationLine::endPoint() const
+UMLScenePoint AssociationLine::endPoint() const
 {
     return m_points.at(m_points.size()-1);
 }
@@ -374,7 +374,7 @@ QPointF AssociationLine::endPoint() const
  * Inserts the passed in \a point at the \a index passed in and
  * recalculates the bounding rect.
  */
-void AssociationLine::insertPoint(int index, const QPointF& point)
+void AssociationLine::insertPoint(int index, const UMLScenePoint &point)
 {
     m_associationWidget->prepareGeometryChange();
     m_points.insert(index, point);
@@ -517,7 +517,7 @@ bool AssociationLine::isEndSegmentIndex(int index) const
 /**
  * Sets the start and end points to passed parameters.
  */
-void AssociationLine::setEndPoints(const QPointF& start, const QPointF& end)
+void AssociationLine::setEndPoints(const UMLScenePoint &start, const UMLScenePoint &end)
 {
     int size = m_points.size();
 
