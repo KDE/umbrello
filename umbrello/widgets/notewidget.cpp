@@ -14,8 +14,8 @@
 // app includes
 #include "debug_utils.h"
 #include "dialog_utils.h"
-#include "notedialog.h"
 #include "listpopupmenu.h"
+#include "notedialog.h"
 #include "textitem.h"
 #include "textitemgroup.h"
 #include "uml.h"
@@ -24,14 +24,14 @@
 #include "umlview.h"
 #include "widget_utils.h"
 
-// qt includes
-#include <QtCore/QSizeF>
-#include <QtGui/QPainter>
-#include <QtGui/QPolygonF>
-
 // kde includes
 #include <kinputdialog.h>
 #include <klocale.h>
+
+// qt includes
+#include <QPainter>
+#include <QPolygonF>
+#include <QSizeF>
 
 /**
  * Constructs a NoteWidget.
@@ -85,7 +85,7 @@ void NoteWidget::setNoteType(NoteType noteType)
  * to NoteWidget::NoteType.
  * Provided for convenience.
  */
-void NoteWidget::setNoteType( const QString& noteType )
+void NoteWidget::setNoteType(const QString& noteType)
 {
     NoteType type = NoteWidget::stringToNoteType(noteType);
     setNoteType(type);
@@ -147,7 +147,7 @@ void NoteWidget::askForNoteType(UMLWidget* &targetWidget)
  * Reimplemented from UMLWidget::saveToXMI to save note widget
  * into XMI.
  */
-void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+void NoteWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement noteElement = qDoc.createElement( "notewidget" );
     UMLWidget::saveToXMI( qDoc, noteElement );
@@ -163,7 +163,7 @@ void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
  * Reimplemented from UMLWidget::loadFromXMI to load note
  * widget info from XMI.
  */
-bool NoteWidget::loadFromXMI( QDomElement & qElement )
+bool NoteWidget::loadFromXMI(QDomElement& qElement)
 {
     if ( !UMLWidget::loadFromXMI(qElement))
         return false;

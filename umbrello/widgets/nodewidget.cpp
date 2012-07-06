@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -16,8 +16,8 @@
 #include "textitem.h"
 #include "textitemgroup.h"
 
-// qt/kde includes
-#include <QtGui/QPolygonF>
+// qt includes
+#include <QPolygonF>
 
 const qreal NodeWidget::DEPTH = 30;  ///< pixels on Z axis
 
@@ -154,4 +154,3 @@ QVariant NodeWidget::attributeChange(WidgetAttributeChange change, const QVarian
 
     return UMLWidget::attributeChange(change, oldValue);
 }
-

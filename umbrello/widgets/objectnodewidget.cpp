@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -28,16 +28,16 @@
 #include <kinputdialog.h>
 
 // qt includes
-#include <QtCore/QPointer>
-#include <QtGui/QPainter>
+#include <QPointer>
+#include <QPainter>
 
 const QSizeF ObjectNodeWidget::MinimumSize(30, 10);
 
 /**
  * Creates a Object Node widget.
  *
- * @param objectNodeType      The type of object node
- * @param id                The ID to assign (-1 will prompt a new ID.)
+ * @param objectNodeType   The type of object node
+ * @param id               The ID to assign (-1 will prompt a new ID.)
  */
 ObjectNodeWidget::ObjectNodeWidget(ObjectNodeType objectNodeType, Uml::IDType id)
   : UMLWidget(WidgetBase::wt_ObjectNode, id)
@@ -53,6 +53,9 @@ ObjectNodeWidget::~ObjectNodeWidget()
 {
 }
 
+/**
+ * Overrides the standard paint event.
+ */
 void ObjectNodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     painter->setPen(QPen(lineColor(), lineWidth()));
@@ -61,7 +64,9 @@ void ObjectNodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     painter->drawLine(m_objectFlowLine);
 }
 
-/// Helper to convert a string to ObjectNodeType
+/**
+ * Helper to convert a string to ObjectNodeType.
+ */
 ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::stringToObjectNodeType(const QString& objectNodeType)
 {
     if (objectNodeType == "Central buffer")
@@ -75,18 +80,38 @@ ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::stringToObjectNodeType(const 
     return ObjectNodeWidget::Flow;
 }
 
-/// Sets the object node type and updates texts.
-void ObjectNodeWidget::setObjectNodeType( ObjectNodeType objectNodeType )
+/**
+ * Returns the type of object node.
+ */
+ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::objectNodeType() const
+{
+    return m_objectNodeType;
+}
+
+/**
+ * Sets the object node type and updates texts.
+ */
+void ObjectNodeWidget::setObjectNodeType(ObjectNodeType objectNodeType)
 {
     m_objectNodeType = objectNodeType;
     updateTextItemGroups();
 }
 
-/// Sets the state of an object node when it's an objectflow.
+/**
+ * Sets the state of an object node when it's an objectflow.
+ */
 void ObjectNodeWidget::setState(const QString& state)
 {
     m_state = state;
     updateTextItemGroups();
+}
+
+/**
+ * @return the state of object node. (when objectFlow)
+ */
+QString ObjectNodeWidget::state() const
+{
+    return m_state;
 }
 
 /**

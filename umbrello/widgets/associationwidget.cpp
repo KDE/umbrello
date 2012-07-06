@@ -38,8 +38,8 @@
 #include <kcolordialog.h>
 
 // qt includes
-#include <QtCore/QPointer>
-#include <QtGui/QRegExpValidator>
+#include <QPointer>
+#include <QRegExpValidator>
 
 // system includes
 #include <cmath>

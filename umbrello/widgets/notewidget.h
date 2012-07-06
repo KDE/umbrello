@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -28,7 +28,7 @@
  */
 class NoteWidget : public UMLWidget
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     /// This enum type is used to specifity the type of note.
     enum NoteType

@@ -58,6 +58,9 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
     painter->drawRects(m_rects, 3);
 }
 
+/**
+ * Saves to the "componentwidget" XMI element.
+ */
 void ComponentWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement conceptElement = qDoc.createElement("componentwidget");

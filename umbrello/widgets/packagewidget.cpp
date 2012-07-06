@@ -4,21 +4,21 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "packagewidget.h"
 
-// qt/kde includes
-#include <QtGui/QPainter>
-
 // app includes
 #include "package.h"
 #include "textitem.h"
 #include "textitemgroup.h"
 #include "uml.h"
+
+// qt includes
+#include <QPainter>
 
 /**
  * Constructs a PackageWidget for a given UMLPackage object.
@@ -34,17 +34,6 @@ PackageWidget::PackageWidget(UMLPackage *o)
  */
 PackageWidget::~PackageWidget()
 {
-}
-
-/**
- * Reimplemented from UMLWidget::saveToXMI to save
- * PackageWidget info into XMI.
- */
-void PackageWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
-{
-    QDomElement conceptElement = qDoc.createElement("packagewidget");
-    UMLWidget::saveToXMI(qDoc, conceptElement);
-    qElement.appendChild(conceptElement);
 }
 
 /**
@@ -128,4 +117,15 @@ QVariant PackageWidget::attributeChange(WidgetAttributeChange change, const QVar
     }
 
     return UMLWidget::attributeChange(change, oldValue);
+}
+
+/**
+ * Reimplemented from UMLWidget::saveToXMI to save
+ * PackageWidget info into XMI.
+ */
+void PackageWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+{
+    QDomElement conceptElement = qDoc.createElement("packagewidget");
+    UMLWidget::saveToXMI(qDoc, conceptElement);
+    qElement.appendChild(conceptElement);
 }

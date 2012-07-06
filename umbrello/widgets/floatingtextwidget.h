@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -29,7 +29,6 @@ class UMLScene;
  * The differences between all these different uses will be the popup menu
  * that is associated with it.
  *
- *
  * @author Paul Hensgen <phensgen@techie.com>
  * @author Gopala Krishna
  * @see UMLWidget
@@ -52,9 +51,8 @@ public:
     static const UMLSceneValue restrictPositionMin;
     static const UMLSceneValue restrictPositionMax;
 
-
     explicit FloatingTextWidget(Uml::TextRole role = Uml::TextRole::Floating,
-            Uml::IDType id = Uml::id_None);
+                                Uml::IDType id = Uml::id_None);
     virtual ~FloatingTextWidget();
 
     QString text() const;
@@ -86,8 +84,12 @@ public:
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidget *w);
 
-    virtual bool loadFromXMI(QDomElement & qElement);
-    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
+    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    virtual bool loadFromXMI(QDomElement& qElement);
+
+public Q_SLOTS:
+    virtual void slotMenuSelection(QAction* action);
+    void setMessageText();
 
 protected:
     virtual void updateGeometry();
@@ -97,10 +99,6 @@ protected:
     virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
     virtual void contextMenuEvent(UMLSceneContextMenuEvent *event);
-
-public Q_SLOTS:
-    virtual void slotMenuSelection(QAction* action);
-    void setMessageText();
 
 private:
     /// The association or message widget we may be linked to.

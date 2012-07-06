@@ -39,15 +39,9 @@ public:
     explicit EnumWidget(UMLObject* o);
     virtual ~EnumWidget();
 
-    ///  @return True if package is shown , false otherwise.
-    bool showPackage() const {
-        return m_showPackage;
-    }
+    bool showPackage() const;
     void setShowPackage(bool b);
-    /// Toggles the status of package show.
-    void toggleShowPackage() {
-        setShowPackage(!m_showPackage);
-    }
+    void toggleShowPackage();
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *widget);
 
@@ -55,7 +49,7 @@ public:
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 public Q_SLOTS:
-    virtual void slotMenuSelection(QAction *action);
+    virtual void slotMenuSelection(QAction* action);
 
 protected:
     virtual void updateGeometry();

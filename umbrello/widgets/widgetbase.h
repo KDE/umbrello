@@ -23,16 +23,14 @@
 #include "basictypes.h"
 #include "umlscene.h"
 
-#include <QtCore/QObject>
-
-#include <QtGui/QAction>
-#include <QtGui/QBrush>
-#include <QtGui/QFont>
-#include <QtGui/QGraphicsObject>
-#include <QtGui/QPainter>
-#include <QtGui/QPen>
-
-#include <QtXml/QDomDocument>
+#include <QAction>
+#include <QBrush>
+#include <QDomDocument>
+#include <QFont>
+#include <QGraphicsObject>
+#include <QObject>
+#include <QPainter>
+#include <QPen>
 
 // Forward delcarations
 class UMLObject;

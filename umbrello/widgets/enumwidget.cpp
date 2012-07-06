@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -47,14 +47,30 @@ EnumWidget::~EnumWidget()
 }
 
 /**
- * Set whether to show package or not.
+ * @return True if package is shown , false otherwise.
+ */
+bool EnumWidget::showPackage() const
+{
+    return m_showPackage;
+}
+
+/**
+ * Set the status of whether to show package.
  *
- * @param _status             True if package shall be shown.
+ * @param _status   True if package shall be shown.
  */
 void EnumWidget::setShowPackage(bool _status)
 {
     m_showPackage = _status;
     updateTextItemGroups();
+}
+
+/**
+ * Toggles the status of package show.
+ */
+void EnumWidget::toggleShowPackage()
+{
+    setShowPackage(!m_showPackage);
 }
 
 /**
@@ -76,7 +92,7 @@ void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWid
  */
 bool EnumWidget::loadFromXMI( QDomElement & qElement )
 {
-    if( !UMLWidget::loadFromXMI(qElement) ) {
+    if ( !UMLWidget::loadFromXMI(qElement) ) {
         return false;
     }
     bool show = bool(qElement.attribute("showpackage", "0").toInt());
@@ -102,7 +118,7 @@ void EnumWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement )
  *
  * @param action       The action that has been selected.
  */
-void EnumWidget::slotMenuSelection(QAction *action)
+void EnumWidget::slotMenuSelection(QAction* action)
 {
     ListPopupMenu *menu = ListPopupMenu::menuFromAction(action);
     if (!menu) {

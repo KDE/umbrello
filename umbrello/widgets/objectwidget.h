@@ -12,12 +12,16 @@
 #define OBJECTWIDGET_H
 
 #include "messagewidgetlist.h"
-#include "messagewidget.h"
+#include "umlwidget.h"
 
+class MessageWidget;
 class SeqLineWidget;
 
 /**
  * Displays an instance UMLObject of a concept.
+ *
+ * The local ID is needed as it can represent a class
+ * that has many objects representing it.
  *
  * @short Displays an instance of a Concept.
  * @author Paul Hensgen <phensgen@techie.com>
@@ -37,28 +41,17 @@ public:
     ObjectWidget(UMLObject *o, const Uml::IDType &lid = Uml::id_None);
     virtual ~ObjectWidget();
 
-    Uml::IDType localID() const {
-        return m_localID;
-    }
     void setLocalID(const Uml::IDType& id);
+    Uml::IDType localID() const;
 
-    /// @retval True if this represents multiple instances of an object.
-    bool multipleInstance() const {
-        return m_multipleInstance;
-    }
     void setMultipleInstance(bool multiple);
+    bool multipleInstance() const;
 
-    /// @retval True if widget is drawn as an actor.
-    bool drawAsActor() const {
-        return m_drawAsActor;
-    }
     void setDrawAsActor(bool drawAsActor);
+    bool drawAsActor() const;
 
-    /// @retval True if destruction on sequence line is shown.
-    bool showDestruction() const {
-        return m_showDestruction;
-    }
-    void setShowDestruction( bool bShow );
+    void setShowDestruction(bool bShow);
+    bool showDestruction() const;
 
     qreal topMargin() const;
     bool canTabUp() const;
@@ -76,14 +69,11 @@ public:
 
     bool messageOverlap(qreal y, MessageWidget* messageWidget) const;
 
-    /// @return The SeqLineWidget of this ObjectWidget
-    SeqLineWidget *sequentialLine() const {
-        return m_sequentialLine;
-    }
+    SeqLineWidget *sequentialLine() const;
     void adjustSequentialLineEnd();
 
-    virtual bool loadFromXMI(QDomElement & qElement);
-    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
+    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    virtual bool loadFromXMI(QDomElement& qElement);
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *opt, QWidget *w);
     virtual void showPropertiesDialog();
@@ -104,39 +94,16 @@ private:
     static const QSizeF ActorSize;
     static const qreal SequenceLineMargin;
 
-    SeqLineWidget * m_sequentialLine;
-    QPainterPath m_objectWidgetPath;
+    SeqLineWidget* m_sequentialLine;
+    QPainterPath   m_objectWidgetPath;
 
-    // Data loaded/saved:
+    Uml::IDType m_localID;    ///< local ID used on views
 
-    /**
-     * Local ID used on views.  Needed as a it can represent a class
-     * that has many objects representing it.
-     */
-    Uml::IDType m_localID;
+    bool m_multipleInstance;  ///< draw an object as a multiple object instance
+    bool m_drawAsActor;       ///< object should be drawn as an Actor or an Object
+    bool m_showDestruction;   ///< show object destruction on sequence diagram line
 
-    /**
-     * Determines whether to draw an object as a multiple object
-     * instance.
-     */
-    bool m_multipleInstance;
-
-    /**
-     * Determines whether the object should be drawn as an Actor or
-     * an Object.
-     */
-    bool m_drawAsActor;
-
-    /**
-     * Determines whether to show object destruction on sequence
-     * diagram line.
-     */
-    bool m_showDestruction;
-
-    /**
-     * A list of the message widgets with an end on this widget.
-     */
-    MessageWidgetList m_messages;
+    MessageWidgetList m_messages;   ///< message widgets with an end on this widget
 };
 
 #endif

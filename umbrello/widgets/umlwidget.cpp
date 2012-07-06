@@ -33,8 +33,8 @@
 #include "widgethandle.h"
 #include "widget_utils.h"
 
-#include <QtCore/QPointer>
-#include <QtGui/QDialog>
+#include <QDialog>
+#include <QPointer>
 
 const UMLSceneSize UMLWidget::DefaultMinimumSize(50, 20);
 const UMLSceneSize UMLWidget::DefaultMaximumSize(1000, 1000);

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -21,13 +21,12 @@
 #include "umlview.h"
 #include "uniqueid.h"
 
-// qt includes
-#include <QtCore/QTimer>
-
-
 // kde includes
-#include <klocale.h>
 #include <kinputdialog.h>
+#include <klocale.h>
+
+// qt includes
+#include <QTimer>
 
 const qreal PinWidget::Size = 10;
 
@@ -80,84 +79,6 @@ void PinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidg
     painter->setBrush(brush());
 
     painter->drawRect(rect());
-}
-
-/**
- * Reimplemented from UMLWidget::loadFromXMI to load PinWidget
- * from XMI element.
- */
-bool PinWidget::loadFromXMI( QDomElement & qElement )
-{
-    if (!UMLWidget::loadFromXMI(qElement)) {
-        return false;
-    }
-    QString widgetaid = qElement.attribute( "widgetaid", "-1" );
-
-    Uml::IDType aId = STR2ID(widgetaid);
-
-    UMLWidget *pWA = umlScene()->findWidget( aId );
-    if (pWA == 0) {
-        uDebug() << "role A object " << ID2STR(aId) << " not found";
-        return false;
-    }
-
-    m_ownerWidget = pWA;
-    setParentItem(m_ownerWidget);
-
-    QString textid = qElement.attribute( "textid", "-1" );
-    Uml::IDType textId = STR2ID(textid);
-    if (textId != Uml::id_None) {
-        UMLWidget *flotext = umlScene()->findWidget( textId );
-        if (flotext != 0) {
-            // This only happens when loading files produced by
-            // umbrello-1.3-beta2.
-            m_nameFloatingTextWiget = static_cast<FloatingTextWidget*>(flotext);
-            return true;
-        }
-    }
-    else {
-        // no textid stored->get unique new one
-        textId = UniqueID::gen();
-    }
-
-    //now load child elements
-    QDomNode node = qElement.firstChild();
-    QDomElement element = node.toElement();
-    if ( !element.isNull() ) {
-        QString tag = element.tagName();
-        if (tag == "floatingtext") {
-            m_nameFloatingTextWiget = new FloatingTextWidget( Uml::TextRole::Floating, textId );
-            m_nameFloatingTextWiget->setText(name());
-            // Set it as parent so that it moves with moving of PinWidget.
-            m_nameFloatingTextWiget->setParentItem(this);
-
-            if( ! m_nameFloatingTextWiget->loadFromXMI(element) ) {
-                // Most likely cause: The FloatingTextWidget is empty.
-                delete m_nameFloatingTextWiget;
-                m_nameFloatingTextWiget = 0;
-            }
-        } else {
-            uError() << "unknown tag " << tag;
-        }
-    }
-
-    return true;
-}
-
-/**
- * Reimplemented from UMLWidget::saveToXMI to save PinWidget
- * data into 'pinwidget' XMI element.
- */
-void PinWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
-{
-    QDomElement PinElement = qDoc.createElement( "pinwidget" );
-    PinElement.setAttribute( "widgetaid", ID2STR(m_ownerWidget->id()));
-    UMLWidget::saveToXMI( qDoc, PinElement );
-    if (m_nameFloatingTextWiget && !m_nameFloatingTextWiget->text().isEmpty()) {
-        PinElement.setAttribute( "textid", ID2STR(m_nameFloatingTextWiget->id()) );
-        m_nameFloatingTextWiget->saveToXMI( qDoc, PinElement );
-    }
-    qElement.appendChild( PinElement );
 }
 
 /**
@@ -283,6 +204,84 @@ void PinWidget::setInitialPosition()
     if (m_ownerWidget) {
         updatePosition(pos());
     }
+}
+
+/**
+ * Reimplemented from UMLWidget::saveToXMI to save PinWidget
+ * data into 'pinwidget' XMI element.
+ */
+void PinWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+{
+    QDomElement PinElement = qDoc.createElement( "pinwidget" );
+    PinElement.setAttribute( "widgetaid", ID2STR(m_ownerWidget->id()));
+    UMLWidget::saveToXMI( qDoc, PinElement );
+    if (m_nameFloatingTextWiget && !m_nameFloatingTextWiget->text().isEmpty()) {
+        PinElement.setAttribute( "textid", ID2STR(m_nameFloatingTextWiget->id()) );
+        m_nameFloatingTextWiget->saveToXMI( qDoc, PinElement );
+    }
+    qElement.appendChild( PinElement );
+}
+
+/**
+ * Reimplemented from UMLWidget::loadFromXMI to load PinWidget
+ * from XMI element.
+ */
+bool PinWidget::loadFromXMI(QDomElement& qElement)
+{
+    if (!UMLWidget::loadFromXMI(qElement)) {
+        return false;
+    }
+    QString widgetaid = qElement.attribute( "widgetaid", "-1" );
+
+    Uml::IDType aId = STR2ID(widgetaid);
+
+    UMLWidget *pWA = umlScene()->findWidget( aId );
+    if (pWA == 0) {
+        uDebug() << "role A object " << ID2STR(aId) << " not found";
+        return false;
+    }
+
+    m_ownerWidget = pWA;
+    setParentItem(m_ownerWidget);
+
+    QString textid = qElement.attribute( "textid", "-1" );
+    Uml::IDType textId = STR2ID(textid);
+    if (textId != Uml::id_None) {
+        UMLWidget *flotext = umlScene()->findWidget( textId );
+        if (flotext != 0) {
+            // This only happens when loading files produced by
+            // umbrello-1.3-beta2.
+            m_nameFloatingTextWiget = static_cast<FloatingTextWidget*>(flotext);
+            return true;
+        }
+    }
+    else {
+        // no textid stored->get unique new one
+        textId = UniqueID::gen();
+    }
+
+    //now load child elements
+    QDomNode node = qElement.firstChild();
+    QDomElement element = node.toElement();
+    if ( !element.isNull() ) {
+        QString tag = element.tagName();
+        if (tag == "floatingtext") {
+            m_nameFloatingTextWiget = new FloatingTextWidget( Uml::TextRole::Floating, textId );
+            m_nameFloatingTextWiget->setText(name());
+            // Set it as parent so that it moves with moving of PinWidget.
+            m_nameFloatingTextWiget->setParentItem(this);
+
+            if( ! m_nameFloatingTextWiget->loadFromXMI(element) ) {
+                // Most likely cause: The FloatingTextWidget is empty.
+                delete m_nameFloatingTextWiget;
+                m_nameFloatingTextWiget = 0;
+            }
+        } else {
+            uError() << "unknown tag " << tag;
+        }
+    }
+
+    return true;
 }
 
 #include "pinwidget.moc"

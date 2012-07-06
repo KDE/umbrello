@@ -19,13 +19,13 @@
 #include "umlwidget.h"
 
 // qt includes
-#include <QtGui/QGraphicsLineItem>
-#include <QtGui/QGraphicsScene>
-#include <QtGui/QPainter>
-#include <QtGui/QStyleOptionGraphicsItem>
-#include <QtXml/QDomDocument>
-#include <QtXml/QDomNode>
-#include <QtXml/QDomNodeList>
+#include <QDomDocument>
+#include <QDomNode>
+#include <QDomNodeList>
+#include <QGraphicsLineItem>
+#include <QGraphicsScene>
+#include <QPainter>
+#include <QStyleOptionGraphicsItem>
 
 #define DBG_ASS "AssociationLine"
 

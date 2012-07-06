@@ -33,6 +33,7 @@ public:
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+
 };
 
 #endif

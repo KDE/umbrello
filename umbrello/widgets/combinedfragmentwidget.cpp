@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -28,7 +28,7 @@
 #include <klocale.h>
 
 // qt includes
-#include <QtGui/QPolygonF>
+#include <QPolygonF>
 
 /**
  * Creates a Combined Fragment widget.
@@ -195,6 +195,27 @@ bool CombinedFragmentWidget::activate()
 }
 
 /**
+ * Reimplemented from UMLWidget::saveToXMI to save widget data
+ * into 'combinedfragmentwidget' XMI element.
+ */
+void CombinedFragmentWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
+    QDomElement combinedFragmentElement = qDoc.createElement( "combinedFragmentwidget" );
+    UMLWidget::saveToXMI( qDoc, combinedFragmentElement );
+
+    combinedFragmentElement.setAttribute( "combinedFragmentname", name() );
+    combinedFragmentElement.setAttribute( "documentation", documentation() );
+    combinedFragmentElement.setAttribute( "CombinedFragmenttype", combinedFragmentType() );
+
+    // save the corresponding floating dash lines
+    foreach (FloatingDashLineWidget *flWid, m_dashLines) {
+        flWid->saveToXMI( qDoc, combinedFragmentElement );
+    }
+
+    qElement.appendChild( combinedFragmentElement );
+}
+
+/**
  * Reimplemented from UMLWidget::loadFromXMI to load
  * CombinedFragmentWidget data from XMI.
  *
@@ -236,27 +257,6 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement )
     setCombinedFragmentType( (CombinedFragmentType)type.toInt() );
 
     return true;
-}
-
-/**
- * Reimplemented from UMLWidget::saveToXMI to save widget data
- * into 'combinedfragmentwidget' XMI element.
- */
-void CombinedFragmentWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
-{
-    QDomElement combinedFragmentElement = qDoc.createElement( "combinedFragmentwidget" );
-    UMLWidget::saveToXMI( qDoc, combinedFragmentElement );
-
-    combinedFragmentElement.setAttribute( "combinedFragmentname", name() );
-    combinedFragmentElement.setAttribute( "documentation", documentation() );
-    combinedFragmentElement.setAttribute( "CombinedFragmenttype", combinedFragmentType() );
-
-    // save the corresponding floating dash lines
-    foreach (FloatingDashLineWidget *flWid, m_dashLines) {
-        flWid->saveToXMI( qDoc, combinedFragmentElement );
-    }
-
-    qElement.appendChild( combinedFragmentElement );
 }
 
 /**

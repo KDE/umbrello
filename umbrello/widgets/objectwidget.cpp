@@ -15,6 +15,7 @@
 #include "classpropdlg.h"
 #include "debug_utils.h"
 #include "listpopupmenu.h"
+#include "messagewidget.h"
 #include "preconditionwidget.h"
 #include "seqlinewidget.h"
 #include "textitem.h"
@@ -30,8 +31,8 @@
 #include <kinputdialog.h>
 
 // qt includes
-#include <QtCore/QPointer>
-#include <QtGui/QValidator>
+#include <QPointer>
+#include <QValidator>
 
 /// Size used for drawing Actor
 const QSizeF ObjectWidget::ActorSize = QSizeF(20, 40);
@@ -82,6 +83,14 @@ void ObjectWidget::setLocalID(const Uml::IDType& id)
 }
 
 /**
+ * Returns the local ID.
+ */
+Uml::IDType ObjectWidget::localID() const
+{
+    return m_localID;
+}
+
+/**
  * Sets whether this ObjectWidget represents multiple instance.
  */
 void ObjectWidget::setMultipleInstance(bool multiple)
@@ -95,6 +104,14 @@ void ObjectWidget::setMultipleInstance(bool multiple)
 }
 
 /**
+ * @retval True if this represents multiple instances of an object.
+ */
+bool ObjectWidget::multipleInstance() const
+{
+    return m_multipleInstance;
+}
+
+/**
  * Sets whether the object should be drawn as an actor or just a
  * rectangle.
  */
@@ -102,6 +119,14 @@ void ObjectWidget::setDrawAsActor( bool drawAsActor )
 {
     m_drawAsActor = drawAsActor;
     updateGeometry();
+}
+
+/**
+ * @retval True if widget is drawn as an actor.
+ */
+bool ObjectWidget::drawAsActor() const
+{
+    return m_drawAsActor;
 }
 
 /**
@@ -116,6 +141,14 @@ void ObjectWidget::setShowDestruction( bool bShow )
 }
 
 /**
+ * @retval True if destruction on sequence line is shown.
+ */
+bool ObjectWidget::showDestruction() const
+{
+    return m_showDestruction;
+}
+
+/**
  * @return Y coordinate of the space between the diagram top and
  *         the upper edge of the ObjectWidget.
  */
@@ -124,7 +157,9 @@ qreal ObjectWidget::topMargin() const
     return 80 - size().height();
 }
 
-/// @retval True if widget can be moved upwards vertically.
+/**
+ * @retval True if widget can be moved upwards vertically.
+ */
 bool ObjectWidget::canTabUp() const
 {
     qreal y = pos().y();
@@ -187,7 +222,9 @@ void ObjectWidget::alignPreconditionWidgets()
     }
 }
 
-/// @return The 'X' coordinate corresponding to sequential line.
+/**
+ * @return The 'X' coordinate corresponding to sequential line.
+ */
 qreal ObjectWidget::sequentialLineX() const
 {
     if (m_sequentialLine) {
@@ -247,6 +284,14 @@ bool ObjectWidget::messageOverlap(qreal y, MessageWidget* messageWidget) const
 }
 
 /**
+ * @return The SeqLineWidget of this ObjectWidget
+ */
+SeqLineWidget *ObjectWidget::sequentialLine() const
+{
+    return m_sequentialLine;
+}
+
+/**
  * Adjusts the end of sequential line to nice position to accomodate
  * the MessageWidgets nicely.
  */
@@ -264,49 +309,6 @@ void ObjectWidget::adjustSequentialLineEnd()
             m_sequentialLine->setEndOfLine(lowestMessage + ObjectWidget::SequenceLineMargin);
         }
     }
-}
-
-/**
- * Reimplemented from UMLWidget::loadFromXMI to load
- * ObjectWidget from XMI.
- *
- * @note Instance name is loaded from UMLWidget::loadFromXMI
- */
-bool ObjectWidget::loadFromXMI( QDomElement & qElement )
-{
-    if( !UMLWidget::loadFromXMI( qElement ) )
-        return false;
-
-    QString draw = qElement.attribute( "drawasactor", "0" );
-    QString multi = qElement.attribute( "multipleinstance", "0" );
-    QString localid = qElement.attribute( "localid", "0" );
-    QString decon = qElement.attribute( "decon", "0" );
-
-    setDrawAsActor((bool)draw.toInt());
-    setMultipleInstance((bool)draw.toInt());
-    setLocalID(STR2ID(localid));
-    setShowDestruction((bool)decon.toInt());
-
-    return true;
-}
-
-/**
- * Reimplemented from UMLWidget::saveToXMI to save ObjectWidget
- * data into 'objectwidget' XMI element.
- *
- * @note Instance name is saved by UMLWidget::saveToXMI
- */
-void ObjectWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
-{
-    QDomElement objectElement = qDoc.createElement( "objectwidget" );
-    UMLWidget::saveToXMI( qDoc, objectElement );
-
-    objectElement.setAttribute( "drawasactor", m_drawAsActor );
-    objectElement.setAttribute( "multipleinstance", m_multipleInstance );
-    objectElement.setAttribute( "localid", ID2STR(m_localID) );
-    objectElement.setAttribute( "decon", m_showDestruction );
-    // FIXME: trunk sets "instancename" too
-    qElement.appendChild( objectElement );
 }
 
 /**
@@ -585,6 +587,49 @@ void ObjectWidget::tabDown()
 {
     moveBy(0, size().height());
     adjustSequentialLineEnd();
+}
+
+/**
+ * Reimplemented from UMLWidget::saveToXMI to save ObjectWidget
+ * data into 'objectwidget' XMI element.
+ *
+ * @note Instance name is saved by UMLWidget::saveToXMI
+ */
+void ObjectWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+{
+    QDomElement objectElement = qDoc.createElement( "objectwidget" );
+    UMLWidget::saveToXMI( qDoc, objectElement );
+
+    objectElement.setAttribute( "drawasactor", m_drawAsActor );
+    objectElement.setAttribute( "multipleinstance", m_multipleInstance );
+    objectElement.setAttribute( "localid", ID2STR(m_localID) );
+    objectElement.setAttribute( "decon", m_showDestruction );
+    // FIXME: trunk sets "instancename" too
+    qElement.appendChild( objectElement );
+}
+
+/**
+ * Reimplemented from UMLWidget::loadFromXMI to load
+ * ObjectWidget from XMI.
+ *
+ * @note Instance name is loaded from UMLWidget::loadFromXMI
+ */
+bool ObjectWidget::loadFromXMI(QDomElement& qElement)
+{
+    if( !UMLWidget::loadFromXMI( qElement ) )
+        return false;
+
+    QString draw = qElement.attribute( "drawasactor", "0" );
+    QString multi = qElement.attribute( "multipleinstance", "0" );
+    QString localid = qElement.attribute( "localid", "0" );
+    QString decon = qElement.attribute( "decon", "0" );
+
+    setDrawAsActor((bool)draw.toInt());
+    setMultipleInstance((bool)draw.toInt());
+    setLocalID(STR2ID(localid));
+    setShowDestruction((bool)decon.toInt());
+
+    return true;
 }
 
 #include "objectwidget.moc"

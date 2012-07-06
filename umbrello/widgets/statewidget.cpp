@@ -27,7 +27,7 @@
 #include <kinputdialog.h>
 
 // qt includes
-#include <QtCore/QPointer>
+#include <QPointer>
 
 const QSizeF StateWidget::MinimumEllipseSize(50, 30);
 
@@ -506,7 +506,7 @@ QVariant StateWidget::attributeChange(WidgetAttributeChange change, const QVaria
 void StateWidget::slotMenuSelection(QAction* action)
 {
     bool ok = false;
-    QString text = name();
+    QString nameNew = name();
 
     ListPopupMenu *menu = ListPopupMenu::menuFromAction(action);
     if (!menu) {
@@ -517,11 +517,11 @@ void StateWidget::slotMenuSelection(QAction* action)
     ListPopupMenu::MenuType sel = menu->getMenuType(action);
     switch( sel ) {
     case ListPopupMenu::mt_Rename:
-        text = KInputDialog::getText( i18n("Enter State Name"),
-                                      i18n("Enter the name of the new state:"),
-                                      name(), &ok );
-        if ( ok && !text.isEmpty()) {
-            setName( text );
+        nameNew = KInputDialog::getText( i18n("Enter State Name"),
+                                         i18n("Enter the name of the new state:"),
+                                         name(), &ok );
+        if ( ok && !nameNew.isEmpty()) {
+            setName( nameNew );
         }
         break;
 
@@ -530,11 +530,11 @@ void StateWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_New_Activity:
-        text = KInputDialog::getText( i18n("Enter Activity"),
-                                      i18n("Enter the name of the new activity:"),
-                                      i18n("new activity"), &ok );
-        if ( ok && !text.isEmpty()) {
-            addActivity( text );
+        nameNew = KInputDialog::getText( i18n("Enter Activity"),
+                                         i18n("Enter the name of the new activity:"),
+                                         i18n("new activity"), &ok );
+        if ( ok && !nameNew.isEmpty()) {
+            addActivity( nameNew );
         }
         break;
 

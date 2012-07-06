@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -17,7 +17,7 @@
 #include "textitemgroup.h"
 
 // qt includes
-#include <QtGui/QPainter>
+#include <QPainter>
 
 /// Constructs a dataTypeWidget representing UMLClassifier \a d
 DatatypeWidget::DatatypeWidget(UMLClassifier *d) 
@@ -26,7 +26,9 @@ DatatypeWidget::DatatypeWidget(UMLClassifier *d)
     createTextItemGroup();
 }
 
-/// Destructor
+/**
+ * Destructor.
+ */
 DatatypeWidget::~DatatypeWidget()
 {
 }

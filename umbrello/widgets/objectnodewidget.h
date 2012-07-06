@@ -35,25 +35,18 @@ public:
         Buffer,
         Flow
     };
+    static ObjectNodeType stringToObjectNodeType(const QString& objectNodeType);
 
-    explicit ObjectNodeWidget( ObjectNodeType objectNodeType = Normal, Uml::IDType id = Uml::id_None );
+    explicit ObjectNodeWidget(ObjectNodeType objectNodeType = Normal, Uml::IDType id = Uml::id_None);
     virtual ~ObjectNodeWidget();
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-    /// Returns the type of object node.
-    ObjectNodeType objectNodeType() const {
-        return m_objectNodeType;
-    }
-    static ObjectNodeType stringToObjectNodeType(const QString& objectNodeType);
+    void setObjectNodeType(ObjectNodeType objectNodeType);
+    ObjectNodeType objectNodeType() const;
 
-    void setObjectNodeType( ObjectNodeType objectNodeType );
-
-    /// @return the state of object node. (when objectFlow)
-    QString state() const {
-        return m_state;
-    }
     void setState(const QString& state);
+    QString state() const;
 
     virtual void showPropertiesDialog();
 
@@ -77,9 +70,9 @@ private:
     };
     static const QSizeF MinimumSize;
 
-    ObjectNodeType m_objectNodeType;
-    QString m_state;
-    QLineF m_objectFlowLine;
+    ObjectNodeType m_objectNodeType;  ///< type of object node
+    QString        m_state;           ///< state of object node when it's an objectFlow
+    QLineF         m_objectFlowLine;
 };
 
 #endif

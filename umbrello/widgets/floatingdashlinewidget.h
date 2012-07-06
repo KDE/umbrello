@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -47,8 +47,8 @@ public:
     }
     void setYMax(qreal y);
 
-    virtual bool loadFromXMI( QDomElement & qElement );
-    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    virtual bool loadFromXMI(QDomElement& qElement);
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);
@@ -62,10 +62,8 @@ protected:
 private:
     void ensureConstraintRequirement();
 
-    /// @ref yMin
-    qreal m_yMin;
-    /// @ref yMax
-    qreal m_yMax;
+    qreal m_yMin;  ///< @ref yMin
+    qreal m_yMax;  ///< @ref yMax
 };
 
 #endif
