@@ -372,4 +372,6 @@ inline void PreprocessLexer::setRecordComments( bool record )
     m_recordComments = record;
 }
 
+extern PreprocessLexer::CharRule gr_escapeSequence;
+
 #endif

@@ -168,8 +168,7 @@ struct charLiteral :
         definition(charLiteral const& self) {
             main =
                 (!ch_p('L') >> ch_p('\'')
-                 >> *((anychar_p - '\'' - '\\')
-                      | (ch_p('\\') >> (ch_p('\'') | '\\')))
+                 >> *((anychar_p - '\'' - '\\') | gr_escapeSequence)
                  >> '\'')
                 [ self.result_ = construct_<Token>(Token_char_literal, arg1, arg2)];
         }
@@ -965,6 +964,15 @@ int PreprocessLexer::macroExpression()
     m_source.parse(*gr_whiteSpace);
     return macroLogicalOr();
 }
+
+Token tk;
+PreprocessLexer::CharRule gr_simpleEscapeSequence = (ch_p('\\') >> (ch_p('\\') | '"' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '0' ))[assign_a(tk)];
+PreprocessLexer::CharRule gr_octalDigit = (ch_p('0') | '1' | '2' | '3' | '4' | '5' | '6' | '7')[assign_a(tk)];
+PreprocessLexer::CharRule gr_digit = (ch_p('0') | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9');
+PreprocessLexer::CharRule gr_hexDigit = (gr_digit | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f')[assign_a(tk)];
+PreprocessLexer::CharRule gr_octalEscapeSequence = (ch_p('\\') >> gr_octalDigit >> *gr_octalDigit)[assign_a(tk)];
+PreprocessLexer::CharRule gr_hexEscapeSequence = (ch_p('\\') >> ch_p('x') >> gr_hexDigit >> gr_hexDigit)[assign_a(tk)];
+PreprocessLexer::CharRule gr_escapeSequence = gr_simpleEscapeSequence | gr_octalEscapeSequence | gr_hexEscapeSequence;
 
 // *IMPORTANT* please, don't include preprocesslexer.moc here, because
 // PreprocessLexer isn't a QObject class!!  if you have problem while

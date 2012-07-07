@@ -28,6 +28,7 @@
 #include <QtCore/QRegExp>
 #include <QtCore/QMap>
 #include <QtCore/QList>
+#include <QtCore/QChar>
 
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
@@ -174,8 +175,7 @@ struct charLiteral :
         definition(charLiteral const& self) {
             main =
                 (!ch_p('L') >> ch_p('\'')
-                 >> *((anychar_p - '\'' - '\\')
-                 | (ch_p('\\') >> (ch_p('\'') | '\\' | 'n' | '0')))
+                 >> *((anychar_p - '\'' - '\\') | gr_escapeSequence )
                  >> '\'')
                 [ self.result_ = construct_<Token>(Token_char_literal, arg1, arg2)];
         }
@@ -210,7 +210,7 @@ struct DependencyClosure
 };
 
 Lexer::CharRule gr_stringLiteral =
-    ch_p('"') >> *((anychar_p - '"' - '\\') | str_p("\\\"") | "\\\\" | "\\n") >> '"';
+    ch_p('"') >> *((anychar_p - '"' - '\\') | gr_escapeSequence ) >> '"';
 Lexer::CharRule gr_whiteSpace = blank_p | (ch_p('\\') >> eol_p);
 Lexer::CharRule gr_lineComment = (str_p("//") >> (*(anychar_p - eol_p)));
 Lexer::CharRule gr_multiLineComment = confix_p("/*", *anychar_p, "*/");
