@@ -206,6 +206,7 @@ public:
     QString const& preprocessedString() const {return m_preprocessedString;}
 private:
     static int toInt( const Token& token );
+    void dumpToFile();
 
     void addDependence( std::pair<QString, int> const& p_wordAndScope) const {
         m_driver->addDependence(m_driver->currentFileName(),

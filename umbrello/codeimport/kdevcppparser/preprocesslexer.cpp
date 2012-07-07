@@ -28,6 +28,9 @@
 #include <QtCore/QRegExp>
 #include <QtCore/QMap>
 #include <QtCore/QList>
+#include <QtCore/QFile>
+#include <QtCore/QDir>
+#include <QtCore/QCoreApplication>
 
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
@@ -35,6 +38,8 @@
 #include <boost/spirit/include/phoenix1_functions.hpp>
 
 #include "assignFunctor.hpp"
+
+#define PREPROCESSLEXER_DEBUG
 
 #ifdef Q_CC_MSVC
 template <class _Tp>
@@ -578,13 +583,35 @@ void PreprocessLexer::output(CharIterator p_first, CharIterator p_last)
         m_preprocessedString += *p_first;
 }
 
+/**
+ * dump preprocess file to temporay location
+ */
+void PreprocessLexer::dumpToFile()
+{
+    QString tempPath = QDir::tempPath() + QString("/umbrello-%1").arg(QCoreApplication::applicationPid());
+    QDir d(tempPath);
+    if (!d.exists())
+        d.mkdir(tempPath);
+
+    QString fileName = tempPath + '/' + currentPosition().file.toString().replace('/','-');
+    fileName = fileName.replace("/-","/");
+    QFile f(fileName);
+    if (f.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream out(&f);
+        out << m_preprocessedString;
+    }
+}
+
 bool PreprocessLexer::preprocess()
 {
     for (;;) {
         Position start = currentPosition();
         nextLine();
         if (currentPosition() == start) {
-            uError() << "failed to preprocess file" << start;
+#ifdef PREPROCESSLEXER_DEBUG
+            dumpToFile();
+#endif
+            uError() << "preprocess failed" << start;
             return false;
         }
 
