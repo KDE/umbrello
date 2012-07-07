@@ -43,33 +43,108 @@ workaround for the following msvc error
 #include <QChar>
 #include <QDebug>
 
-typedef boost::spirit::classic::file_position_base<std::basic_string<QChar> > Position;
-typedef std::basic_string<QChar> PositionFilename;
+typedef std::basic_string<QChar> PositionFilenameType;
 
-inline PositionFilename QString2PositionFilename( QString const& p)
+class PositionFilename : public PositionFilenameType
 {
-    return p.data();
+public:
+    PositionFilename()
+    {
+    }
+
+    PositionFilename(const QString &p) : PositionFilenameType(p.data())
+    {
+    }
+
+    QString toString() const
+    {
+        QString result;
+        for(unsigned int i = 0; i < size(); i++)
+            result.append(at(i));
+        return result;
+    }
+};
+
+inline QDebug operator<<(QDebug out, const PositionFilename &p)
+{
+    out << p.toString();
+    return out;
 }
+
+typedef boost::spirit::classic::file_position_base<PositionFilename> PositionType;
+
+class Position : public PositionType
+{
+public:
+    Position()
+    {
+    }
+
+    Position(const PositionFilename &p) : PositionType(p)
+    {
+    }
+
+    Position(const Position &p) : PositionType(p)
+    {
+    }
+
+    Position(const PositionType &p) : PositionType(p)
+    {
+    }
+
+    bool operator<(Position const& p) const
+    {
+        assert( file == p.file);
+        return( (line < p.line) || ( (line == p.line) && (column < p.column)));
+    }
+
+    bool operator>=(Position const& p) const
+    {
+        return !(*this < p);
+    }
+};
 
 inline QDebug operator<<(QDebug out, Position const &p)
 {
     out << "Position("
-        //<< "file" << p.file
-        << "line:" << p.line
-        << "column:" << p.column
+        << "file" << p.file
+        << "line" << p.line
+        << "column" << p.column
         << ")";
     return out;
 }
 
-inline bool operator<( Position const& p1, Position const& p2)
-{
-    assert( p1.file == p2.file);
-    return( (p1.line < p2.line) || ( (p1.line == p2.line) && (p1.column < p2.column)));
-}
+typedef boost::spirit::classic::position_iterator<QChar const*, PositionType> CharIteratorType;
 
-inline bool operator>=( Position const& p1, Position const& p2)
+class CharIterator : public CharIteratorType
 {
-    return !(p1 < p2);
-}
+public:
+    CharIterator()
+    { 
+    }
+
+    CharIterator(const QChar *a, const QChar *b, Position p) : CharIteratorType(a,b,p)
+    {
+    }
+
+    CharIterator(const PositionType &p) : CharIteratorType(0, 0, p)
+    {
+    }
+/*
+    CharIterator(PositionType p) : CharIteratorType(0, 0, p)
+    {
+    }
+*/
+    const Position &get_position() const
+    {
+        return static_cast<const Position&>(CharIteratorType::get_position());
+    }
+
+    void set_position(Position const& p)
+    {
+        CharIteratorType::set_position(p);
+    }
+};
+
 
 #endif

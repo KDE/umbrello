@@ -234,8 +234,7 @@ bool Driver::parseFile( const QString& fileName, bool onlyPreProcess, bool force
     lexer = &lex;
     setupLexer( &lex );
 
-    if (!lex.setSource( sourceProvider()->contents(fileName),
-                   QString2PositionFilename( fileName)))
+    if (!lex.setSource( sourceProvider()->contents(fileName), fileName))
         return false;
 
     if( !onlyPreProcess ){

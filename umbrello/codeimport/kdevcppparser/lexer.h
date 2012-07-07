@@ -49,7 +49,6 @@ using boost::spirit::classic::rule;
 using boost::spirit::classic::scanner;
 using boost::spirit::classic::ext::skip_rule_parser;
 
-typedef boost::spirit::classic::position_iterator<QChar const*> CharIterator;
 typedef rule<scanner<CharIterator> > SkipRule;
 typedef skip_rule_parser<SkipRule, CharIterator> CharParser;
 typedef scanner<CharIterator> CharScanner;
