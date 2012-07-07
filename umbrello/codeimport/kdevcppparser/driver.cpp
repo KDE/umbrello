@@ -211,7 +211,7 @@ QList < Problem > Driver::problems( const QString & fileName ) const
     return QList<Problem>();
 }
 
-void Driver::parseFile( const QString& fileName, bool onlyPreProcess, bool force )
+bool Driver::parseFile( const QString& fileName, bool onlyPreProcess, bool force )
 {
     QFileInfo fileInfo( fileName );
     QString absoluteFilePath = fileInfo.absoluteFilePath();
@@ -222,7 +222,7 @@ void Driver::parseFile( const QString& fileName, bool onlyPreProcess, bool force
         takeTranslationUnit( absoluteFilePath );
     } else if( it != m_parsedUnits.end() && *it != 0 ){
         // file already processed
-        return;
+        return true;
     }
 
     m_dependences.remove( fileName );
@@ -234,8 +234,9 @@ void Driver::parseFile( const QString& fileName, bool onlyPreProcess, bool force
     lexer = &lex;
     setupLexer( &lex );
 
-    lex.setSource( sourceProvider()->contents(fileName),
-                   QString2PositionFilename( fileName));
+    if (!lex.setSource( sourceProvider()->contents(fileName),
+                   QString2PositionFilename( fileName)))
+        return false;
 
     if( !onlyPreProcess ){
         Parser parser( this, &lex );
@@ -249,6 +250,7 @@ void Driver::parseFile( const QString& fileName, bool onlyPreProcess, bool force
 
     m_currentFileName.clear();
     lexer = 0;
+    return true;
 }
 
 void Driver::setupLexer( Lexer * lexer )

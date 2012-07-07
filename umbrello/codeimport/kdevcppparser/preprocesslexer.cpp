@@ -579,16 +579,23 @@ void PreprocessLexer::output(CharIterator p_first, CharIterator p_last)
         m_preprocessedString += *p_first;
 }
 
-void PreprocessLexer::preprocess()
+bool PreprocessLexer::preprocess()
 {
     for (;;) {
+        Position start = currentPosition();
         nextLine();
+        if (currentPosition() == start) {
+            uError() << "failed to preprocess file" << start;
+            return false;
+        }
+
         if (m_source.currentChar().isNull())
             break;
     }
 
     Token tk = m_source.createToken(Token_eof, m_source.get_ptr());
     m_preprocessedString += tk.text();
+    return true;
 }
 
 void PreprocessLexer::addSkipWord(const QString& word, SkipType skipType, const QString& str)

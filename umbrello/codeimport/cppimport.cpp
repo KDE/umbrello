@@ -133,7 +133,8 @@ bool CppImport::parseFile(const QString& fileName)
 {
     if (ms_seenFiles.indexOf(fileName) != -1)
         return true;
-    ms_driver->parseFile( fileName );
+    if (!ms_driver->parseFile( fileName ))
+        return false;
     feedTheModel(fileName);
     return true;
 }

@@ -201,7 +201,7 @@ public:
 
     void addSkipWord( const QString& word, SkipType skipType = SkipWord,
                       const QString& str = QString() );
-    void preprocess();
+    bool preprocess();
     void setSource( const QString& source, PositionFilename const& p_filename);
     void setRecordComments( bool record );
     QString const& preprocessedString() const {return m_preprocessedString;}

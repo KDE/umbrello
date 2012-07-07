@@ -170,7 +170,7 @@ public:
 
     virtual void reset();
 
-    virtual void parseFile( const QString& fileName, bool onlyPreProcesss=false, bool force=false );
+    virtual bool parseFile( const QString& fileName, bool onlyPreProcesss=false, bool force=false );
     virtual void fileParsed( const QString& fileName );
     virtual void addDependence( const QString& fileName, const Dependence& dep );
     virtual void addMacro( const Macro& macro) {m_macroManager.addMacro( macro);}
