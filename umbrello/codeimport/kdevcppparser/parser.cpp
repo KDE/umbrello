@@ -433,7 +433,7 @@ bool Parser::parseDeclaration(DeclarationAST::Node& node)
             ast->setComment(comment);
             ++m_tokenIt;
         }
-        uDebug() << m_driver->currentFileName() << comment;
+        //uDebug() << m_driver->currentFileName() << comment;
         node = ast;
         return true;
     }
