@@ -43,7 +43,6 @@ using boost::spirit::classic::rule;
 using boost::spirit::classic::scanner;
 using boost::spirit::classic::ext::skip_rule_parser;
 
-typedef boost::spirit::classic::position_iterator<QChar const*> CharIterator;
 typedef rule<scanner<CharIterator> > SkipRule;
 typedef skip_rule_parser<SkipRule, CharIterator> CharParser;
 typedef scanner<CharIterator> CharScanner;
@@ -207,6 +206,7 @@ public:
     QString const& preprocessedString() const {return m_preprocessedString;}
 private:
     static int toInt( const Token& token );
+    void dumpToFile();
 
     void addDependence( std::pair<QString, int> const& p_wordAndScope) const {
         m_driver->addDependence(m_driver->currentFileName(),
@@ -371,5 +371,7 @@ inline void PreprocessLexer::setRecordComments( bool record )
 {
     m_recordComments = record;
 }
+
+extern PreprocessLexer::CharRule gr_escapeSequence;
 
 #endif
