@@ -803,7 +803,13 @@ void PreprocessLexer::processDefine()
             Token tk;
             nextToken(tk);
 
-            if (tk.type() != -1) {
+            if (tk == '#') {
+                nextToken(tk);
+                if (tk.type() != -1) {
+                    body += '"' + tk.text() + '"';
+                }
+            }
+            else if (tk.type() != -1) {
                 QString s = tk.text();
                 body += s;
             }
