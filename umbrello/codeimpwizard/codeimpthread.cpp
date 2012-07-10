@@ -61,15 +61,15 @@ void CodeImpThread::run()
 
         if (!classImporter->importFile(fileName)) {
             emit messageToApp(i18nc("show failed on status bar", "Failed."));
-            emit messageToWiz(m_file.fileName(), "failed");
+            emit messageToWiz(m_file.fileName(), "");
             emit messageToLog(m_file.fileName(), "...import failed");
-            emit aborted();
+            emit finished(false);
         }
         else {
             emit messageToApp(i18nc("show Ready on status bar", "Ready."));
             emit messageToWiz(m_file.fileName(), "finished");
             emit messageToLog(m_file.fileName(), "...import finished");
-            emit finished();
+            emit finished(true);
         }
         delete classImporter;
     }
