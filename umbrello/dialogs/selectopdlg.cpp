@@ -31,6 +31,11 @@
 #include <QtGui/QRadioButton>
 #include <QtGui/QGroupBox>
 
+bool caseInsensitiveLessThan(const UMLOperation *s1, const UMLOperation *s2)
+{
+    return s1->name().toLower() < s2->name().toLower();
+}
+
 SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c)
    : KDialog(parent)
 {
@@ -73,6 +78,7 @@ SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c)
     mainLayout->addWidget(m_pOpLE, 2, 1);
 
     UMLOperationList list = c->getOpList(true);
+    qSort(list.begin(), list.end(), caseInsensitiveLessThan);
     foreach (UMLOperation* obj, list ) {
         insertOperation( obj->toString(Uml::SignatureType::SigNoVis), list.count() );
     }
