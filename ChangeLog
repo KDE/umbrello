@@ -1,6 +1,24 @@
 Version 2.9.0
 
 * New feature: Drawing of state diagrams with more pseudostates possible.
+* New feature: Export diagrams to graphviz dot format
+* New feature: Auto layout of diagrams using external dot generator
+* unsorted operation list in add message widget property dialog of sequence diagrams (303263)
+* Assertion on c++ import (303222)
+* umbrello fails to parse escape sequences in c++ preprocessor statements (303137)
+* umbrello freezes on c++ import (302671)
+* Segfault importing Java code (230770)
+* Crash on new synchronous message in sequence diagram (168752)
+* Segmentation fault when copy&paste of sequence diagram (287179)
+* Hypergraphic and hierarchy links (67062)
+* umbrello hangs on import of qatomic_x86_64.h (302384)
+* layout generator auto detection (301969)
+* category widget drawing problem (301595)
+* Note widgets get resized when printing (152757)
+* Note widget text is not editable through doc window (301181)
+* umbrello crashs when importing templated java source code (293770)
+* activity diagram, branch/merge: background fill not disabled (165799)
+* Umbrello crashed when changing the Package of a class (268469)
 * Cannot anchor note in state diagram (270597)
 * Mistype in PostgreSQL codegenerator (275158)
 * Missing newline in MySQL codegenerator results in output being partially
