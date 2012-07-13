@@ -953,7 +953,7 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
     case ListPopupMenu::mt_Fill_Color:
         widget = umlScene()->getFirstMultiSelectedWidget();
         if (widget) {
-            newColour = widget->fillColor();
+            newColour = widget->brush().color();
         }
         if (KColorDialog::getColor(newColour)) {
             umlScene()->selectionSetFillColor(newColour);
@@ -1240,19 +1240,5 @@ void WidgetBase::setShape(const QPainterPath& path)
     }
     update();
 }
-
-
-
-///////////////////////////////SOME DEPRECATED STUFF///////////////
-
-QColor WidgetBase::fillColor() const
-{
-    QBrush b = brush();
-    if (b.gradient() || b.style() == Qt::TexturePattern || b.style() == Qt::NoBrush) {
-        return QColor(Qt::transparent);
-    }
-    return b.color();
-}
-
 
 #include "widgetbase.moc"

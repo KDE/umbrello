@@ -21,13 +21,13 @@
 #include <kcolorbutton.h>
 #include <KIntSpinBox>
 
-#include <QtGui/QLayout>
-#include <QtGui/QGroupBox>
-#include <QtGui/QLabel>
-#include <QtGui/QPushButton>
-#include <QtGui/QCheckBox>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QGridLayout>
+#include <QCheckBox>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QLabel>
+#include <QLayout>
+#include <QPushButton>
+#include <QVBoxLayout>
 
 /**
  *   Constructor - Observe a UMLWidget.
@@ -40,8 +40,8 @@ UMLWidgetStylePage::UMLWidgetStylePage(QWidget *pParent, WidgetBase *pWidget)
     init();
     m_pTextColorB->setColor( pWidget->textColor() );
     m_pLineColorB->setColor( pWidget->lineColor() );
-    m_pFillColorB->setColor( pWidget->fillColor() );
-    m_pUseFillColorCB->setChecked( pWidget->useFillColor() );
+    m_pFillColorB->setColor( pWidget->brush().color() );
+    m_pUseFillColorCB->setChecked( (pWidget->brush().style() != Qt::NoBrush) );
     m_lineWidthB->setValue( pWidget->lineWidth() );
 
     if (!m_pUMLWidget) {  //  when we are on the diagram
@@ -238,10 +238,14 @@ void UMLWidgetStylePage::slotLineWidthButtonClicked()
 void UMLWidgetStylePage::updateUMLWidget()
 {
     if (m_pUMLWidget) {
-        m_pUMLWidget->setUseFillColor( m_pUseFillColorCB->isChecked() );
         m_pUMLWidget->setTextColor( m_pTextColorB->color() );
         m_pUMLWidget->setLineColor( m_pLineColorB->color() );
-        m_pUMLWidget->setFillColor( m_pFillColorB->color() );
+        if (m_pUseFillColorCB->isChecked()) {
+            m_pUMLWidget->setBrush( QBrush(m_pFillColorB->color()) );
+        }
+        else {
+            m_pUMLWidget->setBrush(Qt::NoBrush);
+        }
         m_pUMLWidget->setLineWidth( m_lineWidthB->value() );
     }
     else if (m_options) {

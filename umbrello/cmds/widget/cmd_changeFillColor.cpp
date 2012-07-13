@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -24,7 +24,7 @@ namespace Uml
         m_color(col)
     {
         setText(i18n("Change fill color : %1", w->name()));
-        m_oldColor = w->fillColor();
+        m_oldColor = w->brush().color();
     }
 
     CmdChangeFillColor::~CmdChangeFillColor()
@@ -33,11 +33,11 @@ namespace Uml
 
     void CmdChangeFillColor::redo()
     {
-        m_umlWidget->setFillColor( m_color );
+        m_umlWidget->setBrush(QBrush(m_color));
     }
 
     void CmdChangeFillColor::undo()
     {
-        m_umlWidget->setFillColor( m_oldColor );
+        m_umlWidget->setBrush(QBrush(m_oldColor));
     }
 }

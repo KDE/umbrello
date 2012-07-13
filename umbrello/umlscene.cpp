@@ -1334,8 +1334,10 @@ void UMLScene::moveSelectedBy(qreal dX, qreal dY)
  */
 void UMLScene::selectionUseFillColor(bool useFC)
 {
-    foreach(UMLWidget* temp, selectedWidgets()) {
-        temp->setUseFillColor(useFC);
+    foreach(UMLWidget* widget, selectedWidgets()) {
+        if (!useFC) {
+            widget->setBrush(Qt::NoBrush);
+        }
     }
 }
 
@@ -1390,8 +1392,8 @@ void UMLScene::selectionSetFillColor(const QColor &color)
 {
     UMLApp::app()->beginMacro(i18n("Change Fill Color"));
 
-    foreach(UMLWidget* temp, selectedWidgets()) {
-        temp->setFillColor(color);
+    foreach(UMLWidget* widget, selectedWidgets()) {
+        widget->setBrush(QBrush(color));
         // [PORT] temp->setUsesDiagramFillColour(false);
     }
     UMLApp::app()->endMacro();

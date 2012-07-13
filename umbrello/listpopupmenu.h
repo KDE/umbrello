@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -19,7 +19,7 @@
 #include <kmenu.h>
 // #include <kaction.h>
 
-#include <QtCore/QHash>
+#include <QHash>
 
 class UMLView;
 class ClassifierWidget;
@@ -266,7 +266,7 @@ private:
     KMenu* makeCategoryTypeMenu(UMLCategory* category);
 
     void insertSubMenuNew(MenuType type);
-    void insertSubMenuColor(bool fc);
+    void insertSubMenuColor(WidgetBase* w);
 
     void setupDiagramMenu(UMLView* view);
     void setupMenu(MenuType type);

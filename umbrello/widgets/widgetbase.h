@@ -33,12 +33,12 @@
 #include <QPen>
 
 // Forward delcarations
+class IDChangeLog;
+class ListPopupMenu;
+class UMLDoc;
 class UMLObject;
 class UMLScene;
-class UMLDoc;
 class WidgetInterfaceData;
-class ListPopupMenu;
-class IDChangeLog;
 
 /**
  * @short The base class for UML widgets that appear on UML diagrams.
@@ -220,7 +220,6 @@ protected:
 
     QRectF m_boundingRect;
     QPainterPath m_shape;
-
     QPointF m_itemPositionChangePos;
 
     /**
@@ -231,23 +230,15 @@ protected:
      * WidgetBase::loadFromXMI
      */
     QVariantMap m_loadData;
-    // Property that will be saved.
     WidgetType m_baseType;
 
 private:
     UMLObject *m_umlObject;
-
-    // Properties that will be saved.
-
     QColor m_lineColor;
     uint m_lineWidth;
-
     QColor m_textColor;
-
     QBrush m_brush;
     QFont m_font;
-
-    // End of properties that will be saved.
 
     /**
      * This flag is used to hold whether a widget is partially constructed (due to
@@ -265,20 +256,7 @@ private:
     bool m_usesDiagramTextColor:1;
 
     // Disable the copy constructor and assignment operator.
-    Q_DISABLE_COPY(WidgetBase);
-
-public:
-
-    // DEPRECATED SECTION ///////////////////////////////
-
-    QColor fillColor() const;
-    void setFillColor(const QColor& col) { setBrush(QBrush(col)); }
-
-    bool useFillColor() const { return false; }
-    void setUseFillColor(bool) {}  //:TODO: fix UMLWidgetColorPage
-
-    ////////////////////////////////////////////////////////////////////////////////
-
+    Q_DISABLE_COPY(WidgetBase)
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(WidgetBase::UserChange)
