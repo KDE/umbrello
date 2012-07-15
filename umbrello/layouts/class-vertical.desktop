@@ -2,6 +2,7 @@
 Type=Service
 Name=Vertical Layout
 Name[ca]=Disposició vertical
+Name[da]=Lodret layout
 Name[es]=Disposición vertical
 Name[et]=Püstine paigutus
 Name[fr]=Disposition verticale
@@ -23,6 +24,7 @@ Name[zh_CN]=垂直布局
 Name[zh_TW]=垂直佈局
 Comment=Layout which renders vertical
 Comment[ca]=DIsposició que renderitza verticalment
+Comment[da]=Layout som renderer lodret
 Comment[es]=Diseño que se organiza de forma vertical
 Comment[et]=Püstiselt renderdatud paigutus
 Comment[fr]=Disposition permettant un rendu vertical
