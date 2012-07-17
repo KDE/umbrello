@@ -593,8 +593,7 @@ void PreprocessLexer::dumpToFile()
     if (!d.exists())
         d.mkdir(tempPath);
 
-    QString fileName = tempPath + '/' + currentPosition().file.toString().replace('/','-');
-    fileName = fileName.replace("/-","/");
+    QString fileName = tempPath + '/' + currentPosition().file.toString().replace(QRegExp("[/:mn]"), "-");
     QFile f(fileName);
     if (f.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QTextStream out(&f);
@@ -803,7 +802,13 @@ void PreprocessLexer::processDefine()
             Token tk;
             nextToken(tk);
 
-            if (tk.type() != -1) {
+            if (tk == '#') {
+                nextToken(tk);
+                if (tk.type() != -1) {
+                    body += '"' + tk.text() + '"';
+                }
+            }
+            else if (tk.type() != -1) {
                 QString s = tk.text();
                 body += s;
             }

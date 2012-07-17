@@ -517,6 +517,11 @@ bool WidgetBase::usesDiagramTextColor() const
     return m_usesDiagramTextColor;
 }
 
+/**
+ * Set state if diagram text color is used
+ *
+ * @param state  The state to set
+ */
 void WidgetBase::setUsesDiagramTextColor(bool state)
 {
     if (m_usesDiagramTextColor == state) {
