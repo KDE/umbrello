@@ -138,9 +138,9 @@ namespace Widget_Utils
         painter->drawPolygon(poly);
 
         // Now draw the triangle base and height edges.
-        QLineF heightEdge(poly[1], poly[1] + QPointF(0, triSize.height()));
+        UMLSceneLine heightEdge(poly[1], poly[1] + QPointF(0, triSize.height()));
         painter->drawLine(heightEdge);
-        QLineF baseEdge(heightEdge.p2(), poly[2]);
+        UMLSceneLine baseEdge(heightEdge.p2(), poly[2]);
         painter->drawLine(baseEdge);
     }
 
