@@ -124,10 +124,10 @@ public:
     /**
      * @return The margin from the rect() left for good visual appeal.
      */
-    qreal margin() const {
+    UMLSceneValue margin() const {
         return m_margin;
     }
-    void setMargin(qreal margin);
+    void setMargin(UMLSceneValue margin);
 
     /// @return The instance name for this widget.
     QString instanceName() const {
@@ -194,7 +194,7 @@ private:
     UMLSceneSize m_maximumSize;
 
     /// Margin for this widget.
-    qreal m_margin;
+    UMLSceneValue m_margin;
 
     /// Manages the alignment of AssociationWidget's.
     AssociationSpaceManager *m_associationSpaceManager;
