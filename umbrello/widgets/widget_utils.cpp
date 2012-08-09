@@ -126,7 +126,7 @@ namespace Widget_Utils
      * @param triSize The size of the triange in the top-right corner.
      */
     void drawTriangledRect(QPainter *painter,
-                           const QRectF& rect, const QSizeF& triSize)
+                           const UMLSceneRect& rect, const UMLSceneSize& triSize)
     {
         // Draw outer boundary defined by polygon "poly".
         QPolygonF poly(5);
