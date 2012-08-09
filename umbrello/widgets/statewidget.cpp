@@ -326,7 +326,7 @@ void StateWidget::setStateType(StateType stateType)
 bool StateWidget::addActivity(const QString &activity)
 {
     m_Activities.append( activity );
-    updateComponentSize();
+    updateGeometry();
     return true;
 }
 
@@ -337,7 +337,7 @@ bool StateWidget::removeActivity(const QString &activity)
 {
     if( m_Activities.removeAll( activity ) == 0 )
         return false;
-    updateComponentSize();
+    updateGeometry();
     return true;
 }
 
@@ -359,7 +359,7 @@ bool StateWidget::renameActivity(const QString &activity, const QString &newName
 void StateWidget::setActivities(const QStringList &list)
 {
     m_Activities = list;
-    updateComponentSize();
+    updateGeometry();
 }
 
 /**
@@ -384,7 +384,7 @@ bool StateWidget::drawVertical() const
 void StateWidget::setDrawVertical(bool to)
 {
     m_drawVertical = to;
-    updateComponentSize();
+    updateGeometry();
     UMLWidget::adjustAssocs( x(), y() );
 }
 

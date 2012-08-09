@@ -147,7 +147,7 @@ void SignalWidget::paint(QPainter & p, int offsetX, int offsetY)
             m_pName->setY(offsetY + h);
         }
         m_pName->setVisible( ( m_pName->text().length() > 0 ) );
-        m_pName->updateComponentSize();
+        m_pName->updateGeometry();
 
         break;
     default:
@@ -182,7 +182,7 @@ void SignalWidget::setY(int newY)
 void SignalWidget::setName(const QString &strName)
 {
     m_Text = strName;
-    updateComponentSize();
+    updateGeometry();
     if (signalType() == SignalWidget::Time) {
         m_pName->setText(m_Text);
     }

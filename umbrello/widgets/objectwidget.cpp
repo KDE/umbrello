@@ -110,7 +110,7 @@ void ObjectWidget::setMultipleInstance(bool multiple)
     if(m_scene->type() != Uml::DiagramType::Collaboration)
         return;
     m_multipleInstance = multiple;
-    updateComponentSize();
+    updateGeometry();
     update();
 }
 
@@ -159,7 +159,7 @@ void ObjectWidget::slotMenuSelection(QAction* action)
                     validator);
             if (ok) {
                 m_instanceName = name;
-                updateComponentSize();
+                updateGeometry();
                 moveEvent( 0 );
                 update();
                 UMLApp::app()->document()->setModified(true);
@@ -169,7 +169,7 @@ void ObjectWidget::slotMenuSelection(QAction* action)
         }
     case ListPopupMenu::mt_Properties:
         showPropertiesDialog();
-        updateComponentSize();
+        updateGeometry();
         moveEvent( 0 );
         update();
         break;
@@ -223,7 +223,7 @@ UMLSceneSize ObjectWidget::minimumSize()
 void ObjectWidget::setDrawAsActor(bool drawAsActor)
 {
     m_drawAsActor = drawAsActor;
-    updateComponentSize();
+    updateGeometry();
 }
 
 /**

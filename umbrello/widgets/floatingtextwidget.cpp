@@ -116,7 +116,7 @@ void FloatingTextWidget::setText(const QString &t)
     QSize s = minimumSize();
     setSize(s.width(), s.height());
 
-    updateComponentSize();
+    updateGeometry();
     update();
 }
 
@@ -127,7 +127,7 @@ void FloatingTextWidget::setText(const QString &t)
 void FloatingTextWidget::setPreText(const QString &t)
 {
     m_preText = t;
-    updateComponentSize();
+    updateGeometry();
     update();
 }
 
@@ -138,7 +138,7 @@ void FloatingTextWidget::setPreText(const QString &t)
 void FloatingTextWidget::setPostText(const QString &t)
 {
     m_postText = t;
-    updateComponentSize();
+    updateGeometry();
     update();
 }
 
@@ -188,7 +188,7 @@ void FloatingTextWidget::showChangeTextDialog()
     if (ok && newText != text() && isTextValid(newText)) {
         setText(newText);
         setVisible(!text().isEmpty());
-        updateComponentSize();
+        updateGeometry();
         update();
     }
     if (!isTextValid(newText))
@@ -436,7 +436,7 @@ void FloatingTextWidget::changeName(const QString& newText)
     }
 
     setVisible(true);
-    updateComponentSize();
+    updateGeometry();
     update();
 }
 

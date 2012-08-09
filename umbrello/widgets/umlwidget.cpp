@@ -228,7 +228,7 @@ void UMLWidget::mousePressEvent(QMouseEvent *me)
  */
 void UMLWidget::updateWidget()
 {
-    updateComponentSize();
+    updateGeometry();
     switch (m_baseType) {
     case WidgetBase::wt_Class:
         m_scene->createAutoAttributeAssociations(this);
@@ -703,7 +703,7 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
     setFont(m_Font);
     setSize(width(), height());
     m_activated = true;
-    updateComponentSize();
+    updateGeometry();
     if (m_scene->getPaste()) {
         FloatingTextWidget * ft = 0;
         QPoint point = m_scene->getPastePoint();
@@ -751,7 +751,7 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
     }
     if (m_scene->getPaste())
         m_scene->createAutoAssociations(this);
-    updateComponentSize();
+    updateGeometry();
     return true;
 }
 
@@ -1203,7 +1203,7 @@ void UMLWidget::setName(const QString &strName)
         m_pObject->setName(strName);
     else
         m_Text = strName;
-    updateComponentSize();
+    updateGeometry();
 }
 
 /**
@@ -1301,7 +1301,7 @@ void UMLWidget::setSize(int width, int height)
 /**
  * Update the size of this widget.
  */
-void UMLWidget::updateComponentSize()
+void UMLWidget::updateGeometry()
 {
     if (m_doc->loading())
         return;
@@ -1457,7 +1457,7 @@ void UMLWidget::forceUpdateFontMetrics(QPainter *painter)
     if (m_doc->loading())
         return;
     // calculate the size, based on the new font metric
-    updateComponentSize();
+    updateGeometry();
 }
 
 /**
@@ -1468,7 +1468,7 @@ void UMLWidget::forceUpdateFontMetrics(QPainter *painter)
 void UMLWidget::setShowStereotype(bool flag)
 {
     m_showStereotype = flag;
-    updateComponentSize();
+    updateGeometry();
     update();
 }
 

@@ -749,7 +749,7 @@ void UMLScene::slotObjectCreated(UMLObject* o)
     newWidget->slotFillColorChanged(ID());
     newWidget->slotTextColorChanged(ID());
     newWidget->slotLineWidthChanged(ID());
-    newWidget->updateComponentSize();
+    newWidget->updateGeometry();
 
     if (m_Type == Uml::DiagramType::Sequence) {
         // Set proper position on the sequence line widget which is
@@ -2286,7 +2286,7 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
     for (int i = 0; i < 5; i++) {
         FloatingTextWidget *flotxt = ft[i];
         if (flotxt) {
-            flotxt->updateComponentSize();
+            flotxt->updateGeometry();
             addWidget(flotxt);
         }
     }
@@ -3857,7 +3857,7 @@ void UMLScene::updateComponentSizes()
 {
     // update sizes of all components
     foreach(UMLWidget *obj , m_WidgetList) {
-        obj->updateComponentSize();
+        obj->updateGeometry();
     }
 }
 

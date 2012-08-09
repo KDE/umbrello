@@ -66,7 +66,7 @@ QString ActivityWidget::activityTypeStr() const
 void ActivityWidget::setActivityType( ActivityType activityType )
 {
     m_activityType = activityType;
-    updateComponentSize();
+    updateGeometry();
     UMLWidget::m_resizable = true;
 }
 
@@ -120,7 +120,7 @@ QString ActivityWidget::preconditionText() const
 void ActivityWidget::setPreconditionText(const QString& aPreText)
 {
     m_preconditionText = aPreText;
-    updateComponentSize();
+    updateGeometry();
     adjustAssocs( x(), y() );
 }
 
@@ -138,7 +138,7 @@ QString ActivityWidget::postconditionText() const
 void ActivityWidget::setPostconditionText(const QString& aPostText)
 {
     m_postconditionText = aPostText;
-    updateComponentSize();
+    updateGeometry();
     adjustAssocs( x(), y() );
 }
 

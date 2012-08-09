@@ -211,7 +211,7 @@ void ObjectNodeWidget::setObjectNodeType(const QString& type)
 void ObjectNodeWidget::setState(const QString& state)
 {
     m_state = state;
-    updateComponentSize();
+    updateGeometry();
 }
 
 /**

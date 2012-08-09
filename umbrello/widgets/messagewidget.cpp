@@ -489,7 +489,7 @@ void MessageWidget::setTextPosition()
     if (m_pFText->displayText().isEmpty()) {
         return;
     }
-    m_pFText->updateComponentSize();
+    m_pFText->updateGeometry();
     int ftX = constrainX(m_pFText->x(), m_pFText->width(), m_pFText->textRole());
     int ftY = y() - m_pFText->height();
     m_pFText->setX( ftX );

@@ -71,7 +71,7 @@ bool EnumWidget::showPackage() const
 void EnumWidget::setShowPackage(bool _status)
 {
     m_showPackage = _status;
-    updateComponentSize();
+    updateGeometry();
     update();
 }
 
@@ -81,7 +81,7 @@ void EnumWidget::setShowPackage(bool _status)
 void EnumWidget::toggleShowPackage()
 {
     m_showPackage = !m_showPackage;
-    updateComponentSize();
+    updateGeometry();
     update();
 }
 

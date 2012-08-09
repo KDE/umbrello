@@ -267,7 +267,7 @@ void ClassifierWidget::updateSignatureTypes()
         else if(m_attributeSignature == Uml::SignatureType::NoSig)
             m_attributeSignature = Uml::SignatureType::NoSigNoVis;
     }
-    updateComponentSize();
+    updateGeometry();
     update();
 }
 
@@ -292,7 +292,7 @@ void ClassifierWidget::setAttributeSignature(Uml::SignatureType sig)
 {
     m_attributeSignature = sig;
     updateSignatureTypes();
-    updateComponentSize();
+    updateGeometry();
     update();
 }
 
@@ -313,7 +313,7 @@ void ClassifierWidget::setOperationSignature(Uml::SignatureType sig)
 {
     m_operationSignature = sig;
     updateSignatureTypes();
-    updateComponentSize();
+    updateGeometry();
     update();
 }
 
@@ -337,7 +337,7 @@ void ClassifierWidget::setShowAttSigs(bool _status)
         m_attributeSignature = Uml::SignatureType::SigNoVis;
     if (UMLApp::app()->document()->loading())
         return;
-    updateComponentSize();
+    updateGeometry();
     update();
 }
 
@@ -359,7 +359,7 @@ void ClassifierWidget::toggleShowAttSigs()
     } else {
         m_attributeSignature = Uml::SignatureType::SigNoVis;
     }
-    updateComponentSize();
+    updateGeometry();
     update();
 }
 
@@ -779,7 +779,7 @@ void ClassifierWidget::drawMembers(QPainter & p, UMLObject::ObjectType ot, Uml::
 void ClassifierWidget::setDrawAsCircle(bool drawAsCircle)
 {
     setVisualProperty(DrawAsCircle, drawAsCircle);
-    updateComponentSize();
+    updateGeometry();
     update();
 }
 
@@ -802,7 +802,7 @@ void ClassifierWidget::toggleDrawAsCircle()
 {
     toggleVisualProperty(DrawAsCircle);
     updateSignatureTypes();
-    updateComponentSize();
+    updateGeometry();
     update();
 }
 
@@ -820,7 +820,7 @@ void ClassifierWidget::changeToClass()
     setVisualProperty(ShowAttributes, ops.classState.showAtts);
     setVisualProperty(ShowStereotype, ops.classState.showStereoType);
 
-    updateComponentSize();
+    updateGeometry();
     update();
 }
 
@@ -837,7 +837,7 @@ void ClassifierWidget::changeToInterface()
     setVisualProperty(ShowAttributes, false);
     setVisualProperty(ShowStereotype, true);
 
-    updateComponentSize();
+    updateGeometry();
     update();
 }
 
@@ -935,7 +935,7 @@ void ClassifierWidget::slotMenuSelection(QAction* action)
         {
             UMLObject::ObjectType ot = ListPopupMenu::convert_MT_OT(sel);
             if (Object_Factory::createChildObject(classifier(), ot)) {
-                updateComponentSize();
+                updateGeometry();
                 update();
                 UMLApp::app()->document()->setModified();
             }

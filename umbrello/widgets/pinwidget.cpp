@@ -139,7 +139,7 @@ void PinWidget::paint(QPainter & p, int offsetX, int offsetY)
     setZ(20);
     setPenFromSettings(p);
     m_pName->setVisible(( m_pName->text().length() > 0 ));
-    m_pName->updateComponentSize();
+    m_pName->updateGeometry();
     if(m_selected)
          drawSelected(&p, offsetX, offsetY);
 }
@@ -150,7 +150,7 @@ void PinWidget::paint(QPainter & p, int offsetX, int offsetY)
 void PinWidget::setName(const QString &strName)
 {
     m_Text = strName;
-    updateComponentSize();
+    updateGeometry();
     m_pName->setText(m_Text);
 }
 
