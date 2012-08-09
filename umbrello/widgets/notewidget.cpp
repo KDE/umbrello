@@ -144,22 +144,6 @@ void NoteWidget::askForNoteType(UMLWidget* &targetWidget)
 }
 
 /**
- * Reimplemented from UMLWidget::saveToXMI to save note widget
- * into XMI.
- */
-void NoteWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
-{
-    QDomElement noteElement = qDoc.createElement( "notewidget" );
-    UMLWidget::saveToXMI( qDoc, noteElement );
-    noteElement.setAttribute("text", documentation());
-    if (m_diagramLink != Uml::id_None) {
-        noteElement.setAttribute( "diagramlink", ID2STR(m_diagramLink) );
-    }
-    noteElement.setAttribute( "noteType", m_noteType);
-    qElement.appendChild(noteElement);
-}
-
-/**
  * Reimplemented from UMLWidget::loadFromXMI to load note
  * widget info from XMI.
  */
@@ -175,6 +159,22 @@ bool NoteWidget::loadFromXMI(QDomElement& qElement)
     QString type = qElement.attribute("noteType", "");
     setNoteType( (NoteType)type.toInt() );
     return true;
+}
+
+/**
+ * Reimplemented from UMLWidget::saveToXMI to save note widget
+ * into XMI.
+ */
+void NoteWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+{
+    QDomElement noteElement = qDoc.createElement( "notewidget" );
+    UMLWidget::saveToXMI( qDoc, noteElement );
+    noteElement.setAttribute("text", documentation());
+    if (m_diagramLink != Uml::id_None) {
+        noteElement.setAttribute( "diagramlink", ID2STR(m_diagramLink) );
+    }
+    noteElement.setAttribute( "noteType", m_noteType);
+    qElement.appendChild(noteElement);
 }
 
 /**
