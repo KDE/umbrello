@@ -44,8 +44,8 @@ PinWidget::PinWidget(UMLScene* scene, UMLWidget* a, Uml::IDType id)
     m_ignoreSnapToGrid = true;
     m_ignoreSnapComponentSizeToGrid = true;
     m_resizable = false;
-    setMinimumSize(10,10);
-    setMaximumSize(10,10);
+    setMinimumSize(UMLSceneSize(10,10));
+    setMaximumSize(UMLSceneSize(10,10));
     setSize(10,10);
     m_nY = y() < getMinY() ? getMinY() : y();
 

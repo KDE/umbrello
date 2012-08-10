@@ -59,6 +59,12 @@ public:
 
     bool operator==(const UMLWidget& other) const;
 
+    virtual UMLSceneSize minimumSize();
+    void setMinimumSize(const UMLSceneSize &size);
+
+    virtual UMLSceneSize maximumSize();
+    void setMaximumSize(const UMLSceneSize &size);
+
     void setUseFillColor(bool fc);
 
     virtual void setTextColor(const QColor &color);
@@ -230,14 +236,6 @@ protected:
 
     virtual void drawSelected(QPainter * p, int offsetX, int offsetY);
     virtual void drawShape(QPainter &p);
-
-    virtual UMLSceneSize minimumSize();
-    void setMinimumSize(const UMLSceneSize &size);
-    void setMinimumSize(UMLSceneValue width, UMLSceneValue height);
-
-    virtual UMLSceneSize maximumSize();
-    void setMaximumSize(const UMLSceneSize &size);
-    void setMaximumSize(UMLSceneValue width, UMLSceneValue height);
 
     virtual UMLSceneSize calculateSize();
 

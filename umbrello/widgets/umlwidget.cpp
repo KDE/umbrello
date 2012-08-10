@@ -202,6 +202,48 @@ bool UMLWidget::operator==(const UMLWidget& other) const
 }
 
 /**
+ * Compute the minimum possible width and height.
+ *
+ * @return UMLSceneSize(mininum_width, minimum_height)
+ */
+UMLSceneSize UMLWidget::minimumSize()
+{
+    return m_minimumSize;
+}
+
+/**
+ * This method is used to set the minimum size variable for this
+ * widget.
+ *
+ * @param newSize The size being set as minimum.
+ */
+void UMLWidget::setMinimumSize(const UMLSceneSize& newSize)
+{
+    m_minimumSize = newSize;
+}
+
+/**
+ * Compute the maximum possible width and height.
+ *
+ * @return maximum size
+ */
+UMLSceneSize UMLWidget::maximumSize()
+{
+    return m_maximumSize;
+}
+
+/**
+ * This method is used to set the maximum size variable for this
+ * widget.
+ *
+ * @param newSize The size being set as maximum.
+ */
+void UMLWidget::setMaximumSize(const UMLSceneSize& newSize)
+{
+    m_maximumSize = newSize;
+}
+
+/**
  * Calls the method with the same name in UMLWidgetController.
  * @see UMLWidgetController#mouseMoveEvent
  *
@@ -985,67 +1027,6 @@ void UMLWidget::setPenFromSettings(QPainter & p)
 void UMLWidget::drawShape(QPainter &p)
 {
     paint(p, x(), y());
-}
-
-/**
- * Compute the minimum possible width and height.
- *
- * @return UMLSceneSize(mininum_width, minimum_height)
- */
-UMLSceneSize UMLWidget::minimumSize()
-{
-    return m_minimumSize;
-}
-
-/**
- * This method is used to set the minimum size variable for this
- * widget.
- *
- * @param newSize The size being set as minimum.
- */
-void UMLWidget::setMinimumSize(const UMLSceneSize& newSize)
-{
-    m_minimumSize = newSize;
-}
-
-void UMLWidget::setMinimumSize(UMLSceneValue width, UMLSceneValue height)
-{
-    m_minimumSize.setWidth(width);
-    m_minimumSize.setHeight(height);
-}
-
-/**
- * Compute the maximum possible width and height.
- *
- * @return maximum size
- */
-UMLSceneSize UMLWidget::maximumSize()
-{
-    return m_maximumSize;
-}
-
-/**
- * This method is used to set the maximum size variable for this
- * widget.
- *
- * @param newSize The size being set as maximum.
- */
-void UMLWidget::setMaximumSize(const UMLSceneSize& newSize)
-{
-    m_maximumSize = newSize;
-}
-
-/**
- * This method is used to set the maximum size variable for this
- * widget.
- *
- * @param width The width being set as maximum.
- * @param height The height being set as maximum.
- */
-void UMLWidget::setMaximumSize(UMLSceneValue width, UMLSceneValue height)
-{
-    m_maximumSize.setWidth(width);
-    m_maximumSize.setHeight(height);
 }
 
 /**
