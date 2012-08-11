@@ -78,6 +78,7 @@ ranking::type::uniassociation=weight=0.001
 ranking::type::default=weight=0.001
 # id handling
 id::type::aggregation=swap
+id::type::composition=swap
 id::type::containment=swap
 
 [X-UMBRELLO-Dot-Attributes]
