@@ -350,7 +350,7 @@ set(libcmds_SRCS
     cmds/widget/cmd_changeTextColor.cpp
     cmds/widget/cmd_changeLineColor.cpp
     cmds/widget/cmd_changeFillColor.cpp
-    cmds/widget/cmd_changeMulti.cpp
+    cmds/widget/cmd_changeMultiplicity.cpp
     cmds/widget/cmd_create_widget.cpp
     cmds/widget/cmd_set_name.cpp
     cmds/widget/cmd_set_txt.cpp
