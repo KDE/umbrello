@@ -510,14 +510,14 @@ void JavaWriter::writeAssociationDecls(UMLAssociationList associations, Uml::IDT
             if (printRoleB)
             {
                 QString fieldClassName = cleanName(getUMLObjectName(a->getObject(Uml::B)));
-                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::B), a->getMulti(Uml::B), a->getRoleDoc(Uml::B), a->getVisibility(Uml::B), java);
+                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::B), a->getMultiplicity(Uml::B), a->getRoleDoc(Uml::B), a->getVisibility(Uml::B), java);
             }
 
             // print RoleA decl
             if (printRoleA)
             {
                 QString fieldClassName = cleanName(getUMLObjectName(a->getObject(Uml::A)));
-                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::A), a->getMulti(Uml::A), a->getRoleDoc(Uml::A), a->getVisibility(Uml::A), java);
+                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::A), a->getMultiplicity(Uml::A), a->getRoleDoc(Uml::A), a->getVisibility(Uml::A), java);
             }
         }
     }
@@ -579,7 +579,7 @@ void JavaWriter::writeAssociationMethods (UMLAssociationList associations, UMLCl
                     QString fieldClassName = getUMLObjectName(a->getObject(Uml::B));
                     writeAssociationRoleMethod(fieldClassName,
                                                a->getRoleName(Uml::B),
-                                               a->getMulti(Uml::B), a->getRoleDoc(Uml::B),
+                                               a->getMultiplicity(Uml::B), a->getRoleDoc(Uml::B),
                                                a->getVisibility(Uml::B),
                                                a->changeability(Uml::B), java);
                 }
@@ -591,7 +591,7 @@ void JavaWriter::writeAssociationMethods (UMLAssociationList associations, UMLCl
                 if (!a->getRoleName(Uml::A).isEmpty()) {
                     QString fieldClassName = getUMLObjectName(a->getObject(Uml::A));
                     writeAssociationRoleMethod(fieldClassName, a->getRoleName(Uml::A),
-                                               a->getMulti(Uml::A),
+                                               a->getMultiplicity(Uml::A),
                                                a->getRoleDoc(Uml::A),
                                                a->getVisibility(Uml::A),
                                                a->changeability(Uml::A),

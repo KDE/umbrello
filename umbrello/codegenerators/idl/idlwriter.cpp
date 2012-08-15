@@ -87,9 +87,9 @@ void IDLWriter::computeAssocTypeAndRole(UMLAssociation *a, UMLClassifier *c,
     typeName = cleanName(other->name());
     QString multiplicity;
     if (IAmRoleA)
-        multiplicity = a->getMulti(Uml::B);
+        multiplicity = a->getMultiplicity(Uml::B);
     else
-        multiplicity = a->getMulti(Uml::A);
+        multiplicity = a->getMultiplicity(Uml::A);
     if (!multiplicity.isEmpty() && multiplicity != "1")
         typeName.append("Vector");
     // Construct the member name:
@@ -303,7 +303,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
     foreach (UMLAssociation *a, assocs ) {
         if (! assocTypeIsMappableToAttribute(a->getAssocType()))
             continue;
-        QString multiplicity = a->getMulti(Uml::A);
+        QString multiplicity = a->getMultiplicity(Uml::A);
         if (multiplicity.isEmpty() || multiplicity == "1")
             continue;
         if (!didComment) {

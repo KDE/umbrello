@@ -1039,7 +1039,7 @@ void AssociationWidget::setMultiplicity(const QString& text, Uml::Role_Type role
     setFloatingText(tr, text, m_role[role].multiplicityWidget);
 
     if (m_pObject && m_pObject->baseType() == UMLObject::ot_Association)
-        association()->setMulti(text, role);
+        association()->setMultiplicity(text, role);
 }
 
 /**
@@ -1774,8 +1774,8 @@ void AssociationWidget::syncToModel()
     setVisibility(uml->getVisibility(B), B);
     setChangeability(uml->changeability(A), A);
     setChangeability(uml->changeability(B), B);
-    setMultiplicity(uml->getMulti(A), A);
-    setMultiplicity(uml->getMulti(B), B);
+    setMultiplicity(uml->getMultiplicity(A), A);
+    setMultiplicity(uml->getMultiplicity(B), B);
 
     uml->blockSignals(false);
 }
@@ -1821,11 +1821,11 @@ void AssociationWidget::mergeAssociationDataIntoUMLRepresentation()
 
     text = multiplicityWidget(A);
     if (text && umlassoc)
-        umlassoc->setMulti(text->text(), A);
+        umlassoc->setMultiplicity(text->text(), A);
 
     text = multiplicityWidget(B);
     if (text && umlassoc)
-        umlassoc->setMulti(text->text(), B);
+        umlassoc->setMultiplicity(text->text(), B);
 
     // unblock
     m_pObject->blockSignals(false);

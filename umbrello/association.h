@@ -60,8 +60,8 @@ public:
     void setChangeability(Uml::Changeability value, Uml::Role_Type role);
     Uml::Changeability changeability(Uml::Role_Type role) const;
 
-    void setMulti(const QString &multi, Uml::Role_Type role);
-    QString getMulti(Uml::Role_Type role) const;
+    void setMultiplicity(const QString &multi, Uml::Role_Type role);
+    QString getMultiplicity(Uml::Role_Type role) const;
 
     void setRoleName(const QString &roleName, Uml::Role_Type role);
     QString getRoleName(Uml::Role_Type role) const;

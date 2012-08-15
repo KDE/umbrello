@@ -3068,7 +3068,7 @@ void PhpWriter::writeClass(UMLClassifier *c)
             //which container to use.
             //:UNUSED: UMLObject *o = a->getObject(Uml::A);
             //:UNUSED: QString typeName = cleanName(o->name());
-            if (a->getMulti(Uml::A).isEmpty())  {
+            if (a->getMultiplicity(Uml::A).isEmpty())  {
                 php << m_indentation << "var $m_" << ";" << m_endl;
             } else {
                 php << m_indentation << "var $m_" << "Vector = array();" << m_endl;
@@ -3082,7 +3082,7 @@ void PhpWriter::writeClass(UMLClassifier *c)
             // see comment on Aggregation about multiplicity...
             //:UNUSED: UMLObject *o = a->getObject(Uml::A);
             //:UNUSED: QString typeName = cleanName(o->name());
-            if (a->getMulti(Uml::A).isEmpty())  {
+            if (a->getMultiplicity(Uml::A).isEmpty())  {
                 php << m_indentation << "var $m_" << ";" << m_endl;
             } else {
                 php << m_indentation << "var $m_" << "Vector = array();" << m_endl;

@@ -517,7 +517,7 @@ void TclWriter::writeAssociationDecl(UMLAssociationList associations,
                 QString fieldClassName =
                     cleanName(getUMLObjectName(a->getObject(Uml::B)));
                 writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::B),
-                                         a->getMulti(Uml::B), a->getRoleDoc(Uml::B),
+                                         a->getMultiplicity(Uml::B), a->getRoleDoc(Uml::B),
                                          permitScope.toString());
             }
             // print RoleA decl
@@ -525,7 +525,7 @@ void TclWriter::writeAssociationDecl(UMLAssociationList associations,
                 QString fieldClassName =
                     cleanName(getUMLObjectName(a->getObject(Uml::A)));
                 writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::A),
-                                         a->getMulti(Uml::A), a->getRoleDoc(Uml::A),
+                                         a->getMultiplicity(Uml::A), a->getRoleDoc(Uml::A),
                                          permitScope.toString());
             }
             // reset for next association in our loop
@@ -802,14 +802,14 @@ void TclWriter::writeAssociationSource(UMLAssociationList associations,
             QString fieldClassName =
                 cleanName(getUMLObjectName(a->getObject(Uml::B)));
             writeAssociationRoleSource(fieldClassName, a->getRoleName(Uml::B),
-                                       a->getMulti(Uml::B));
+                                       a->getMultiplicity(Uml::B));
         }
         // print RoleA source
         if (printRoleA && a->getVisibility(Uml::A) == Uml::Visibility::Public) {
             QString fieldClassName =
                 cleanName(getUMLObjectName(a->getObject(Uml::A)));
             writeAssociationRoleSource(fieldClassName, a->getRoleName(Uml::A),
-                                       a->getMulti(Uml::A));
+                                       a->getMultiplicity(Uml::A));
         }
         // reset for next association in our loop
         printRoleA = false;

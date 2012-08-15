@@ -435,8 +435,8 @@ bool UMLAssociation::load( QDomElement & element )
     else
         return false;
 
-    setMulti(element.attribute( "multia", "" ), A);
-    setMulti(element.attribute( "multib", "" ), B);
+    setMultiplicity(element.attribute( "multia", "" ), A);
+    setMultiplicity(element.attribute( "multib", "" ), B);
 
     setRoleName(element.attribute( "namea", "" ), A);
     setRoleName(element.attribute( "nameb", "" ), B);
@@ -531,7 +531,7 @@ Uml::Visibility UMLAssociation::getVisibility(Uml::Role_Type role) const
  * Returns the multiplicity assigned to the given role.
  * @return  The multiplicity assigned to the given role.
  */
-QString UMLAssociation::getMulti(Uml::Role_Type role) const
+QString UMLAssociation::getMultiplicity(Uml::Role_Type role) const
 {
     return m_pRole[role]->multiplicity();
 }
@@ -633,7 +633,7 @@ void UMLAssociation::setChangeability(Uml::Changeability value, Uml::Role_Type r
  * @param multi    The multiplicity of the given role.
  * @param role     The Uml::Role_Type to which the multiplicity is being applied
  */
-void UMLAssociation::setMulti(const QString &multi, Uml::Role_Type role)
+void UMLAssociation::setMultiplicity(const QString &multi, Uml::Role_Type role)
 {
     UMLApp::app()->executeCommand(new CmdChangeMultiplicity(m_pRole[role], multi));
     //m_pRole[role]->setMultiplicity(multi);

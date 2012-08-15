@@ -673,14 +673,14 @@ void CppWriter::writeAssociationDecls(UMLAssociationList associations, Uml::Visi
             {
 
                 QString fieldClassName = cleanName(umlObjectName(a->getObject(Uml::B)));
-                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::B), a->getMulti(Uml::B), a->getRoleDoc(Uml::B), h);
+                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::B), a->getMultiplicity(Uml::B), a->getRoleDoc(Uml::B), h);
             }
 
             // print RoleA decl
             if (printRoleA && a->getVisibility(Uml::A) == permitScope)
             {
                 QString fieldClassName = cleanName(umlObjectName(a->getObject(Uml::A)));
-                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::A), a->getMulti(Uml::A), a->getRoleDoc(Uml::A), h);
+                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::A), a->getMultiplicity(Uml::A), a->getRoleDoc(Uml::A), h);
             }
 
             // reset for next association in our loop
@@ -769,7 +769,7 @@ void CppWriter::writeAssociationMethods (UMLAssociationList associations,
                                                isHeaderMethod,
                                                writeMethodBody,
                                                a->getRoleName(Uml::B),
-                                               a->getMulti(Uml::B), a->getRoleDoc(Uml::B),
+                                               a->getMultiplicity(Uml::B), a->getRoleDoc(Uml::B),
                                                a->changeability(Uml::B), stream);
                 }
             }
@@ -783,7 +783,7 @@ void CppWriter::writeAssociationMethods (UMLAssociationList associations,
                                                isHeaderMethod,
                                                writeMethodBody,
                                                a->getRoleName(Uml::A),
-                                               a->getMulti(Uml::A),
+                                               a->getMultiplicity(Uml::A),
                                                a->getRoleDoc(Uml::A),
                                                a->changeability(Uml::A),
                                                stream);

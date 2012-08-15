@@ -670,7 +670,7 @@ void CSharpWriter::writeAssociatedAttributes(UMLAssociationList &associated, UML
         QString roleDoc = a->getRoleDoc(Uml::B);
 
         //FIXME:is this simple condition enough?
-        if (a->getMulti(Uml::B).isEmpty() || a->getMulti(Uml::B) == "1")  {
+        if (a->getMultiplicity(Uml::B).isEmpty() || a->getMultiplicity(Uml::B) == "1")  {
             // normal attribute
             writeAttribute(roleDoc, a->getVisibility(Uml::B), false, typeName, roleName, "", ( a->getVisibility(Uml::B) != Uml::Visibility::Private), cs);
         } else {
