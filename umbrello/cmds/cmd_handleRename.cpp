@@ -8,7 +8,7 @@
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-#include "cmd_handle_rename.h"
+#include "cmd_handleRename.h"
 
 #include "floatingtextwidget.h"
 

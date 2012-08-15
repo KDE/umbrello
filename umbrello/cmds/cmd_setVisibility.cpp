@@ -4,48 +4,39 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-#include "cmd_create_widget.h"
+#include "cmd_setVisibility.h"
 
 // app includes
-#include "umlwidget.h"
-#include "umlscene.h"
+#include "umlobject.h"
 
-// kde includes
 #include <klocale.h>
 
 namespace Uml
 {
 
-    CmdCreateWidget::CmdCreateWidget(UMLScene* scene, UMLWidget* widget)
-      : m_scene(scene),
-        m_widget(widget)
+    CmdSetVisibility::CmdSetVisibility(UMLObject * obj, Uml::Visibility visibility)
+      : m_visibility(visibility), m_umlObject(obj)
     {
-        setText(i18n("Create widget : %1", widget->name()));
+        setText(i18n("Change visibility : %1", obj->name()));
+        m_oldVisibility = obj->visibility();
     }
 
-    CmdCreateWidget::~CmdCreateWidget()
+    CmdSetVisibility::~CmdSetVisibility()
     {
-        //m_scene->removeWidget(m_widget);
     }
 
-    /**
-     * Create the UMLWidget.
-     */
-    void CmdCreateWidget::redo()
+    void CmdSetVisibility::redo()
     {
-        m_widget->setVisible(true);
+        m_umlObject->setVisibilityCmd(m_visibility);
     }
 
-    /**
-     * Suppress the UMLWidget.
-     */
-    void CmdCreateWidget::undo()
+    void CmdSetVisibility::undo()
     {
-        m_widget->setVisible(false);
+        m_umlObject->setVisibilityCmd(m_oldVisibility);
     }
 
 }

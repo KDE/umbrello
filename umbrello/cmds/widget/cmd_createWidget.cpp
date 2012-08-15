@@ -4,39 +4,48 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-#include "cmd_set_stereotype.h"
+#include "cmd_createWidget.h"
 
 // app includes
-#include "umlobject.h"
+#include "umlwidget.h"
+#include "umlscene.h"
 
+// kde includes
 #include <klocale.h>
 
 namespace Uml
 {
 
-    CmdSetStereotype::CmdSetStereotype(UMLObject * obj, const QString& stereo)
-        : m_stereo(stereo), m_umlObject(obj)
+    CmdCreateWidget::CmdCreateWidget(UMLScene* scene, UMLWidget* widget)
+      : m_scene(scene),
+        m_widget(widget)
     {
-        m_oldStereo = obj->stereotype();
-        setText(i18n("Set stereotype : %1 to %2", m_oldStereo, stereo));
+        setText(i18n("Create widget : %1", widget->name()));
     }
 
-    CmdSetStereotype::~CmdSetStereotype()
+    CmdCreateWidget::~CmdCreateWidget()
     {
+        //m_scene->removeWidget(m_widget);
     }
 
-    void CmdSetStereotype::redo()
+    /**
+     * Create the UMLWidget.
+     */
+    void CmdCreateWidget::redo()
     {
-        m_umlObject->setStereotypeCmd(m_stereo);
+        m_widget->setVisible(true);
     }
 
-    void CmdSetStereotype::undo()
+    /**
+     * Suppress the UMLWidget.
+     */
+    void CmdCreateWidget::undo()
     {
-        m_umlObject->setStereotypeCmd(m_oldStereo);
+        m_widget->setVisible(false);
     }
 
 }

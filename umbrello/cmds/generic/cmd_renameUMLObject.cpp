@@ -8,7 +8,7 @@
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-#include "cmd_set_name.h"
+#include "cmd_renameUMLObject.h"
 
 // app includes
 #include "umlobject.h"
@@ -19,25 +19,25 @@
 namespace Uml
 {
 
-    CmdSetName::CmdSetName(UMLObject * obj, const QString& name)
-      : m_umlObject(obj), m_name(name)
+    CmdRenameUMLObject::CmdRenameUMLObject(UMLObject* o, const QString& name)
+      : m_obj(o), m_name(name)
     {
-        setText(i18n("Set name : %1 to %2", obj->name(), name));
-        m_oldname = obj->name();
+        setText(i18n("Rename object : %1 to %2", o->name(), name));
+        m_oldname = o->name();
     }
 
-    CmdSetName::~CmdSetName()
+    CmdRenameUMLObject::~CmdRenameUMLObject()
     {
     }
 
-    void CmdSetName::redo()
+    void CmdRenameUMLObject::redo()
     {
-        m_umlObject->setNameCmd(m_name);
+        m_obj->setNameCmd(m_name);
     }
 
-    void CmdSetName::undo()
+    void CmdRenameUMLObject::undo()
     {
-        m_umlObject->setNameCmd(m_oldname);
+        m_obj->setNameCmd(m_oldname);
     }
 
 }

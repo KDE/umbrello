@@ -8,7 +8,7 @@
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-#include "cmd_set_txt.h"
+#include "cmd_setTxt.h"
 
 // app includes
 #include "debug_utils.h"

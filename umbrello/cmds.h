@@ -16,18 +16,18 @@
 
 #include <kundostack.h>
 
-#include "cmds/cmd_create_diagram.h"
-#include "cmds/cmd_handle_rename.h"
+#include "cmds/cmd_createDiagram.h"
+#include "cmds/cmd_handleRename.h"
 #include "cmds/cmd_moveWidget.h"
 #include "cmds/cmd_resizeWidget.h"
-#include "cmds/cmd_set_stereotype.h"
-#include "cmds/cmd_set_visibility.h"
+#include "cmds/cmd_setStereotype.h"
+#include "cmds/cmd_setVisibility.h"
 
 /************************************************************
  * Generic
  ************************************************************/
-#include "cmds/generic/cmd_create_umlobject.h"
-#include "cmds/generic/cmd_rename_umlobject.h"
+#include "cmds/generic/cmd_createUMLObject.h"
+#include "cmds/generic/cmd_renameUMLObject.h"
 
 /************************************************************
  * Widgets
@@ -37,8 +37,8 @@
 #include "cmds/widget/cmd_changeLineColor.h"
 #include "cmds/widget/cmd_changeMultiplicity.h"
 #include "cmds/widget/cmd_changeTextColor.h"
-#include "cmds/widget/cmd_create_widget.h"
-#include "cmds/widget/cmd_set_name.h"
-#include "cmds/widget/cmd_set_txt.h"
+#include "cmds/widget/cmd_createWidget.h"
+#include "cmds/widget/cmd_setName.h"
+#include "cmds/widget/cmd_setTxt.h"
 
 #endif

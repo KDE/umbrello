@@ -8,7 +8,7 @@
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-#include "cmd_create_diagram.h"
+#include "cmd_createDiagram.h"
 
 #include "model_utils.h"
 #include "umldoc.h"

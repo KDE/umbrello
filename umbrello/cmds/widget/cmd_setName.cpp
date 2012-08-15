@@ -8,35 +8,36 @@
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-#include "cmd_set_visibility.h"
+#include "cmd_setName.h"
 
 // app includes
 #include "umlobject.h"
 
+// kde includes
 #include <klocale.h>
 
 namespace Uml
 {
 
-    CmdSetVisibility::CmdSetVisibility(UMLObject * obj, Uml::Visibility visibility)
-      : m_visibility(visibility), m_umlObject(obj)
+    CmdSetName::CmdSetName(UMLObject * obj, const QString& name)
+      : m_umlObject(obj), m_name(name)
     {
-        setText(i18n("Change visibility : %1", obj->name()));
-        m_oldVisibility = obj->visibility();
+        setText(i18n("Set name : %1 to %2", obj->name(), name));
+        m_oldname = obj->name();
     }
 
-    CmdSetVisibility::~CmdSetVisibility()
+    CmdSetName::~CmdSetName()
     {
     }
 
-    void CmdSetVisibility::redo()
+    void CmdSetName::redo()
     {
-        m_umlObject->setVisibilityCmd(m_visibility);
+        m_umlObject->setNameCmd(m_name);
     }
 
-    void CmdSetVisibility::undo()
+    void CmdSetName::undo()
     {
-        m_umlObject->setVisibilityCmd(m_oldVisibility);
+        m_umlObject->setNameCmd(m_oldname);
     }
 
 }
