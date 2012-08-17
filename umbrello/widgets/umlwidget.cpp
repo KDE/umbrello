@@ -550,10 +550,10 @@ void UMLWidget::slotFillColorChanged(Uml::IDType viewID)
         return;
     }
     if (m_usesDiagramFillColor) {
-        m_FillColor = m_scene->fillColor();
+        WidgetBase::setFillColor(m_scene->fillColor());
     }
     if (m_usesDiagramUseFillColor) {
-        m_useFillColor = m_scene->useFillColor();
+        WidgetBase::setUseFillColor(m_scene->useFillColor());
     }
     update();
 }
@@ -568,7 +568,7 @@ void UMLWidget::slotTextColorChanged(Uml::IDType viewID)
     //only change if on the diagram concerned
     if (m_scene->ID() != viewID)
         return;
-    setTextColor( m_scene->textColor() );
+    WidgetBase::setTextColor(m_scene->textColor());
     update();
 }
 
@@ -585,8 +585,7 @@ void UMLWidget::slotLineColorChanged(Uml::IDType viewID)
         return;
 
     if (m_usesDiagramLineColor) {
-        m_LineColor = m_scene->lineColor();
-        setLineColor( m_LineColor );
+        WidgetBase::setLineColor(m_scene->lineColor());
     }
     update();
 }
@@ -603,7 +602,7 @@ void UMLWidget::slotLineWidthChanged(Uml::IDType viewID)
         return;
     }
     if (m_usesDiagramLineWidth) {
-        m_LineWidth = m_scene->lineWidth();
+        WidgetBase::setLineWidth(m_scene->lineWidth());
     }
     update();
 }
