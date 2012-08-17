@@ -2561,8 +2561,6 @@ void UMLScene::updateContainment(UMLCanvasObject *self)
     AssociationWidget *a = AssociationWidget::create
                              (this, newParentWidget,
                               Uml::AssociationType::Containment, selfWidget);
-    a->calculateEndingPoints();
-    a->setActivated(true);
     m_AssociationList.append(a);
 }
 
@@ -2744,8 +2742,6 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
         return;
     // create the containment AssocWidget
     AssociationWidget *a = AssociationWidget::create(this, pWidget, Uml::AssociationType::Containment, widget);
-    a->calculateEndingPoints();
-    a->setActivated(true);
     if (! addAssociation(a))
         delete a;
 }
@@ -2845,7 +2841,6 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
             if (type->stereotype() == "CORBAInterface")
                 assocType = Uml::AssociationType::UniAssociation;
             a = AssociationWidget::create(this, widget, assocType, w, attr);
-            a->calculateEndingPoints();
             a->setVisibility(attr->visibility(), B);
             /*
             if (assocType == Uml::AssociationType::Aggregation || assocType == Uml::AssociationType::UniAssociation)
@@ -2875,7 +2870,6 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
                     // to the widget of the referenced type
                     a = AssociationWidget::create (this, widget,
                                                    Uml::AssociationType::Aggregation, w, attr);
-                    a->calculateEndingPoints();
                     a->setVisibility(attr->visibility(), B);
                     //a->setChangeability(true, B);
                     a->setMultiplicity("0..1", B);
@@ -2958,7 +2952,6 @@ void UMLScene::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignK
             // The referenced entity is the "1" part (Role A) and the entity holding the relationship is the "many" part. ( Role B)
             AssociationWidget *a = AssociationWidget::create(this, w, assocType, widget);
             a->setUMLObject(fkConstraint);
-            a->calculateEndingPoints();
             //a->setVisibility(attr->getVisibility(), B);
             a->setRoleName(fkConstraint->name(), B);
             a->setActivated(true);
