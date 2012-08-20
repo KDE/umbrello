@@ -26,9 +26,9 @@ public:
     SeqLineWidget(UMLScene *scene, ObjectWidget * pObject);
     virtual ~SeqLineWidget();
 
-    int onWidget(const QPoint & p);
+    int onWidget(const UMLScenePoint & p);
 
-    int onDestructionBox(const QPoint & p);
+    int onDestructionBox(const UMLScenePoint & p);
 
     void cleanup();
 

@@ -53,7 +53,7 @@ SeqLineWidget::~SeqLineWidget()
  * @param p The point to investigate.
  * @return  Non-zero if point is on this sequence line.
  */
-int SeqLineWidget::onWidget(const QPoint & p)
+int SeqLineWidget::onWidget(const UMLScenePoint & p)
 {
     int nOnWidget = 0;
     UMLScenePoint sp = startPoint();
@@ -74,7 +74,7 @@ int SeqLineWidget::onWidget(const QPoint & p)
  * @param p The point to investigate.
  * @return  Non-zero if point is on the destruction box of this sequence line.
  */
-int SeqLineWidget::onDestructionBox(const QPoint & p)
+int SeqLineWidget::onDestructionBox(const UMLScenePoint & p)
 {
     int nOnDestructionBox = 0;
     int x = m_pObject->x() + m_pObject->width() / 2;

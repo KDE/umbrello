@@ -11,6 +11,7 @@
 #ifndef FLOATINGTEXTWIDGETCONTROLLER_H
 #define FLOATINGTEXTWIDGETCONTROLLER_H
 
+#include "umlscene.h"
 #include "umlwidgetcontroller.h"
 
 class FloatingTextWidget;
@@ -54,7 +55,7 @@ protected:
 
 private:
 
-    QPoint constrainPosition(int diffX, int diffY);
+    UMLScenePoint constrainPosition(int diffX, int diffY);
 
     /**
      * The floating text widget which uses the controller.

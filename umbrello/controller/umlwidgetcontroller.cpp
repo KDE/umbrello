@@ -201,7 +201,7 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me)
         setSelectionBounds();
     }
 
-    QPoint position = getPosition(me);
+    UMLScenePoint position = getPosition(me);
     int diffX = position.x() - m_widget->x();
     int diffY = position.y() - m_widget->y();
 

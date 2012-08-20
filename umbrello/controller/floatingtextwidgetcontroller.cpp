@@ -102,7 +102,7 @@ void FloatingTextWidgetController::moveWidgetBy(int diffX, int diffY)
 
     m_unconstrainedPositionX += diffX;
     m_unconstrainedPositionY += diffY;
-    QPoint constrainedPosition = constrainPosition(diffX, diffY);
+    UMLScenePoint constrainedPosition = constrainPosition(diffX, diffY);
 
     int newX = constrainedPosition.x();
     int newY = constrainedPosition.y();
@@ -157,7 +157,7 @@ void FloatingTextWidgetController::moveWidgetBy(int diffX, int diffY)
  */
 void FloatingTextWidgetController::constrainMovementForAllWidgets(int &diffX, int &diffY)
 {
-    QPoint constrainedPosition = constrainPosition(diffX, diffY);
+    UMLScenePoint constrainedPosition = constrainPosition(diffX, diffY);
 
     diffX = constrainedPosition.x() - m_floatingTextWidget->x();
     diffY = constrainedPosition.y() - m_floatingTextWidget->y();
@@ -173,9 +173,9 @@ void FloatingTextWidgetController::constrainMovementForAllWidgets(int &diffX, in
  *
  * @param diffX The difference between current X position and new X position.
  * @param diffY The difference between current Y position and new Y position.
- * @return A QPoint with the constrained new position.
+ * @return A UMLScenePoint with the constrained new position.
  */
-QPoint FloatingTextWidgetController::constrainPosition(int diffX, int diffY)
+UMLScenePoint FloatingTextWidgetController::constrainPosition(int diffX, int diffY)
 {
     UMLSceneValue newX = m_floatingTextWidget->x() + diffX;
     UMLSceneValue newY = m_floatingTextWidget->y() + diffY;
@@ -186,6 +186,6 @@ QPoint FloatingTextWidgetController::constrainPosition(int diffX, int diffY)
                     m_floatingTextWidget->textRole());
     }
 
-    return QPoint(newX, newY);
+    return UMLScenePoint(newX, newY);
 }
 

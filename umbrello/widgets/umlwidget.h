@@ -232,7 +232,7 @@ protected:
 
     virtual void moveEvent(QMoveEvent *me);
 
-    virtual void constrain(int& width, int& height);
+    virtual void constrain(UMLSceneValue& width, UMLSceneValue& height);
 
     virtual void drawSelected(QPainter * p, int offsetX, int offsetY);
     virtual void drawShape(QPainter &p);
