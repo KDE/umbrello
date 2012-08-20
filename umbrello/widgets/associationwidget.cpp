@@ -1536,13 +1536,13 @@ void AssociationWidget::moveEvent(QMoveEvent* me)
     */
     //first see if either the first or last segments moved, else no need to recalculate their point positions
 
-    QPoint oldNamePoint = calculateTextPosition(TextRole::Name);
-    QPoint oldMultiAPoint = calculateTextPosition(TextRole::MultiA);
-    QPoint oldMultiBPoint = calculateTextPosition(TextRole::MultiB);
-    QPoint oldChangeAPoint = calculateTextPosition(TextRole::ChangeA);
-    QPoint oldChangeBPoint = calculateTextPosition(TextRole::ChangeB);
-    QPoint oldRoleAPoint = calculateTextPosition(TextRole::RoleAName);
-    QPoint oldRoleBPoint = calculateTextPosition(TextRole::RoleBName);
+    UMLScenePoint oldNamePoint = calculateTextPosition(TextRole::Name);
+    UMLScenePoint oldMultiAPoint = calculateTextPosition(TextRole::MultiA);
+    UMLScenePoint oldMultiBPoint = calculateTextPosition(TextRole::MultiB);
+    UMLScenePoint oldChangeAPoint = calculateTextPosition(TextRole::ChangeA);
+    UMLScenePoint oldChangeBPoint = calculateTextPosition(TextRole::ChangeB);
+    UMLScenePoint oldRoleAPoint = calculateTextPosition(TextRole::RoleAName);
+    UMLScenePoint oldRoleBPoint = calculateTextPosition(TextRole::RoleBName);
 
     m_associationLine->setPoint( m_nMovingPoint, me->pos() );
     int pos = m_associationLine->count() - 1;//set to last point for widget b

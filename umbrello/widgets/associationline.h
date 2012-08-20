@@ -43,21 +43,21 @@ public:
     AssociationLine();
     ~AssociationLine();
 
-    QPoint point(int pointIndex) const;
-    bool setPoint(int pointIndex, const QPoint &point);
-    QPoint startPoint() const;
-    QPoint endPoint() const;
+    UMLScenePoint point(int pointIndex) const;
+    bool setPoint(int pointIndex, const UMLScenePoint &point);
+    UMLScenePoint startPoint() const;
+    UMLScenePoint endPoint() const;
 
-    bool insertPoint(int pointIndex, const QPoint &point);
-    bool removePoint(int pointIndex, const QPoint &point = QPoint(), unsigned short delta = 0);
+    bool insertPoint(int pointIndex, const UMLScenePoint &point);
+    bool removePoint(int pointIndex, const UMLScenePoint &point = UMLScenePoint(), unsigned short delta = 0);
 
     int count() const;
     void cleanup();
 
-    int closestPointIndex(const QPoint &position);
-    bool isPoint(int pointIndex, const QPoint &point, unsigned short delta = 0);
+    int closestPointIndex(const UMLScenePoint &position);
+    bool isPoint(int pointIndex, const UMLScenePoint &point, unsigned short delta = 0);
 
-    bool setEndPoints(const QPoint &start, const QPoint &end);
+    bool setEndPoints(const UMLScenePoint &start, const UMLScenePoint &end);
 
     bool hasPoints() const;
     void dumpPoints();
@@ -178,7 +178,7 @@ protected:
     /**
      *   Contains calculated points used to draw the line head.
      */
-    QPoint m_ArrowPointA, m_ArrowPointB, m_MidPoint, m_EgdePoint;
+    UMLScenePoint m_ArrowPointA, m_ArrowPointB, m_MidPoint, m_EgdePoint;
 
     UMLScenePolygonItem* m_pClearPoly;  ///< A polygon object to blank out any lines we don't want to see.
     Circle*       m_pCircle;        ///< The transparent circle required by containment associations.

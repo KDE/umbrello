@@ -177,8 +177,8 @@ void FloatingTextWidgetController::constrainMovementForAllWidgets(int &diffX, in
  */
 QPoint FloatingTextWidgetController::constrainPosition(int diffX, int diffY)
 {
-    int newX = m_floatingTextWidget->x() + diffX;
-    int newY = m_floatingTextWidget->y() + diffY;
+    UMLSceneValue newX = m_floatingTextWidget->x() + diffX;
+    UMLSceneValue newY = m_floatingTextWidget->y() + diffY;
 
     if (m_floatingTextWidget->link()) {
         m_floatingTextWidget->link()->constrainTextPos(newX, newY,
