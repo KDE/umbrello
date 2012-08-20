@@ -168,7 +168,7 @@ void PreconditionWidget::calculateDimensions()
 
     x1 += w1;
 
-    QSize q = minimumSize();
+    UMLSceneSize q = minimumSize();
     w = q.width() > width() ? q.width() : width();
     h = q.height() > height() ? q.height() : height();
 

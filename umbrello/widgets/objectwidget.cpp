@@ -255,7 +255,7 @@ bool ObjectWidget::activate(IDChangeLog* ChangeLog /*= 0*/)
  *
  * @param x The x-coordinate to be set.
  */
-void ObjectWidget::setX(int x)
+void ObjectWidget::setX(UMLSceneValue x)
 {
     UMLWidget::setX(x);
     moveEvent(0);
@@ -267,7 +267,7 @@ void ObjectWidget::setX(int x)
  *
  * @param y The y-coordinate to be set.
  */
-void ObjectWidget::setY(int y)
+void ObjectWidget::setY(UMLSceneValue y)
 {
     UMLWidget::setY(y);
     moveEvent(0);

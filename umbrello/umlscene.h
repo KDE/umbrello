@@ -447,6 +447,12 @@ signals:
 
 QDebug operator<<(QDebug dbg, UMLScene *item);
 
+class UMLScenePolygon : public QPolygon
+{
+public:
+    UMLScenePolygon() {}
+};
+
 /**
  * Qt3 migration wrapper for QMouseEvent.
  */

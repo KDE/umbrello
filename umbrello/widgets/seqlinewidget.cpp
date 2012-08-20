@@ -56,8 +56,8 @@ SeqLineWidget::~SeqLineWidget()
 int SeqLineWidget::onWidget(const QPoint & p)
 {
     int nOnWidget = 0;
-    QPoint sp = startPoint();
-    QPoint ep = endPoint();
+    UMLScenePoint sp = startPoint();
+    UMLScenePoint ep = endPoint();
     //see if on widget ( for message creation )
     if( sp.x() - m_nMouseDownEpsilonX < p.x()
             && ep.x() + m_nMouseDownEpsilonX > p.x()
@@ -181,7 +181,7 @@ void SeqLineWidget::moveDestructionBox()
  */
 void SeqLineWidget::setEndOfLine(int yPosition)
 {
-    QPoint sp = startPoint();
+    UMLScenePoint sp = startPoint();
     int newY = yPosition;
     m_nLengthY = yPosition - m_pObject->y() - m_pObject->height();
     // normally the managing Objectwidget is responsible for the call of this function

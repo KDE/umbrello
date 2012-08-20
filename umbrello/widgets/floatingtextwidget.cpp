@@ -113,7 +113,7 @@ void FloatingTextWidget::setText(const QString &t)
         m_Text = t;
     }
 
-    QSize s = minimumSize();
+    UMLSceneSize s = minimumSize();
     setSize(s.width(), s.height());
 
     updateGeometry();
@@ -602,7 +602,7 @@ void FloatingTextWidget::setMessageText()
 {
     if (m_linkWidget) {
         m_linkWidget->setMessageText(this);
-        QSize s = minimumSize();
+        UMLSceneSize s = minimumSize();
         setSize(s.width(), s.height());
 
     }

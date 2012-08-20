@@ -35,8 +35,8 @@ public:
     ObjectWidget(UMLScene * scene, UMLObject *o, Uml::IDType lid = Uml::id_None);
     virtual ~ObjectWidget();
 
-    virtual void setX(int x);
-    virtual void setY(int y);
+    virtual void setX(UMLSceneValue x);
+    virtual void setY(UMLSceneValue y);
 
     void setLocalID(Uml::IDType id);
     Uml::IDType localID() const;
