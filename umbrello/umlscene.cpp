@@ -1627,13 +1627,13 @@ bool UMLScene::isSavedInSeparateFile()
  */
 void UMLScene::mousePressEvent(UMLSceneMouseEvent* event)
 {
-    UMLWidget* widget = widgetAt(event->scenePos());
+    UMLWidget* widget = widgetAt(event->pos());
     if (widget) {
         DEBUG(DBG_SRC) << "widget = " << widget->name() << " / type = " << widget->baseTypeStr();
         showDocumentation(widget, true);
     }
     else {
-        AssociationWidget* association = associationAt(event->scenePos());
+        AssociationWidget* association = associationAt(event->pos());
         if (association) {
             DEBUG(DBG_SRC) << "widget = " << association->name() << " / type = " << association->baseTypeStr();
             showDocumentation(association, true);

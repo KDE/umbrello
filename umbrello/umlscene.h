@@ -72,8 +72,12 @@ public:
 typedef QKeyEvent UMLSceneKeyEvent;
 typedef QHoverEvent UMLSceneHoverEvent;
 typedef QContextMenuEvent UMLSceneContextMenuEvent;
-//typedef QDragDropEvent UMLSceneDragDropEvent;
+typedef QDropEvent UMLSceneDragDropEvent;
+typedef QDragEnterEvent UMLSceneDragEnterEvent;
+typedef QDragMoveEvent UMLSceneDragMoveEvent;
+typedef QMouseEvent UMLSceneMoveEvent;
 
+#if 0
 /**
  * Qt3 migration wrapper for QMouseEvent.
  */
@@ -89,6 +93,9 @@ public:
         return pos();
     }
 };
+#else
+#define UMLSceneMouseEvent QMouseEvent 
+#endif
 
 typedef Q3CanvasItem UMLSceneItem;
 typedef Q3CanvasItemList UMLSceneItemList;

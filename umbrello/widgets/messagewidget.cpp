@@ -558,7 +558,7 @@ void MessageWidget::setLinkAndTextPos()
     }
 }
 
-void MessageWidget::moveEvent(QMoveEvent* /*m*/)
+void MessageWidget::moveEvent(UMLSceneMoveEvent* /*m*/)
 {
     //uDebug() << "m_pFText is " << m_pFText;
     if (!m_pFText) {

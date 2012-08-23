@@ -11,6 +11,7 @@
 #ifndef UMLVIEW_H
 #define UMLVIEW_H
 
+#include "umlscene.h"
 #include <Q3CanvasView>
 
 class ToolBarState;

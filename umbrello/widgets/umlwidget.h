@@ -229,7 +229,7 @@ public:
     virtual void mouseDoubleClickEvent(UMLSceneMouseEvent *me);
 
 protected:
-    virtual void moveEvent(UMLSceneMouseEvent *me);
+    virtual void moveEvent(UMLSceneMoveEvent *me);
 
     virtual void constrain(UMLSceneValue& width, UMLSceneValue& height);
 
