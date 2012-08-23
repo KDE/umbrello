@@ -339,7 +339,7 @@ set(libcmds_SRCS
     cmds/cmd_createDiagram.cpp
     cmds/cmd_handleRename.cpp
     #cmds/cmd_moveWidget.cpp
-    cmds/cmd_resizeWidget.cpp
+    #cmds/cmd_resizeWidget.cpp
     cmds/cmd_setStereotype.cpp
     cmds/cmd_setVisibility.cpp
 

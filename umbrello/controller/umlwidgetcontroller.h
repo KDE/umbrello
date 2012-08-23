@@ -11,11 +11,12 @@
 #ifndef UMLWIDGETCONTROLLER_H
 #define UMLWIDGETCONTROLLER_H
 
-// qt includes
-#include <QtCore/QDateTime>
-
 // app includes
 #include "umlwidgetlist.h"
+#include "umlscene.h"
+
+// qt includes
+#include <QtCore/QDateTime>
 
 class QCursor;
 class QPointF;
