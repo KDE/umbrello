@@ -813,7 +813,7 @@ void UMLScene::slotObjectRemoved(UMLObject * o)
 /**
  * Override standard method.
  */
-void UMLScene::dragEnterEvent(QDragEnterEvent *e)
+void UMLScene::dragEnterEvent(UMLSceneDragEnterEvent *e)
 {
     UMLDragData::LvTypeAndID_List tidList;
     if (!UMLDragData::getClip3TypeAndID(e->mimeData(), tidList)) {
@@ -917,7 +917,7 @@ void UMLScene::dragEnterEvent(QDragEnterEvent *e)
 /**
  * Override standard method.
  */
-void UMLScene::dragMoveEvent(QDragMoveEvent* e)
+void UMLScene::dragMoveEvent(UMLSceneDragMoveEvent* e)
 {
     e->accept();
 }
@@ -925,7 +925,7 @@ void UMLScene::dragMoveEvent(QDragMoveEvent* e)
 /**
  * Override standard method.
  */
-void UMLScene::dropEvent(QDropEvent *e)
+void UMLScene::dropEvent(UMLSceneDragDropEvent *e)
 {
     UMLDragData::LvTypeAndID_List tidList;
     if (!UMLDragData::getClip3TypeAndID(e->mimeData(), tidList)) {
@@ -1310,7 +1310,7 @@ UMLSceneRect UMLScene::diagramRect()
     // now we need another look at the associations,
     // because they are no UMLWidgets
 
-    QRect rect;
+    UMLSceneRect rect;
 
     foreach(AssociationWidget* assoc_obj, m_AssociationList) {
         // get the rectangle around all segments of the assoc
@@ -1334,7 +1334,7 @@ UMLSceneRect UMLScene::diagramRect()
        endy += 20;
     */
 
-    return QRect(startx, starty,  endx - startx, endy - starty);
+    return UMLSceneRect (startx, starty,  endx - startx, endy - starty);
 }
 
 /**
@@ -1685,11 +1685,11 @@ void UMLScene::selectWidgetsOfAssoc(AssociationWidget * a)
 /**
  * Selects all the widgets within an internally kept rectangle.
  */
-void UMLScene::selectWidgets(int px, int py, int qx, int qy)
+void UMLScene::selectWidgets(UMLSceneValue px, UMLSceneValue py, UMLSceneValue qx, UMLSceneValue qy)
 {
     clearSelected();
 
-    QRect rect;
+    UMLSceneRect  rect;
     if (px <= qx) {
         rect.setLeft(px);
         rect.setRight(qx);
@@ -1710,7 +1710,7 @@ void UMLScene::selectWidgets(int px, int py, int qx, int qy)
         int y = temp->y();
         int w = temp->width();
         int h = temp->height();
-        QRect rect2(x, y, w, h);
+        UMLSceneRect  rect2(x, y, w, h);
 
         //see if any part of widget is in the rectangle
         if (!rect.intersects(rect2))
@@ -3006,7 +3006,7 @@ void UMLScene::findMaxBoundingRectangle(const FloatingTextWidget* ft, UMLSceneVa
 void UMLScene::copyAsImage(QPixmap*& pix)
 {
     //get the smallest rect holding the diagram
-    QRect rect = diagramRect();
+    UMLSceneRect rect = diagramRect();
     QPixmap diagram(rect.width(), rect.height());
 
     //only draw what is selected
@@ -3059,7 +3059,7 @@ void UMLScene::copyAsImage(QPixmap*& pix)
         findMaxBoundingRectangle(changeB, px, py, qx, qy);
     }//end foreach
 
-    QRect imageRect;  //area with respect to diagramRect()
+    UMLSceneRect imageRect;  //area with respect to diagramRect()
     //i.e. all widgets on the canvas.  Was previously with
     //respect to whole canvas
 

@@ -455,7 +455,7 @@ void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY)
  *         between call line and return line does not count, i.e. if
  *         the point is located in that space the function returns 0.
  */
-int MessageWidget::onWidget(const QPoint & p)
+UMLSceneValue MessageWidget::onWidget(const UMLScenePoint& p)
 {
     if (m_sequenceMessageType != Uml::sequence_message_synchronous) {
         return UMLWidget::onWidget(p);

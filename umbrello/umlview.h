@@ -63,10 +63,10 @@ protected:
     void contentsDragEnterEvent(QDragEnterEvent* mouseEvent);
     void contentsDropEvent(QDropEvent* mouseEvent);
 
-    void contentsMouseReleaseEvent(QMouseEvent* mouseEvent);
-    void contentsMouseMoveEvent(QMouseEvent* mouseEvent);
-    void contentsMouseDoubleClickEvent(QMouseEvent* mouseEvent);
-    void contentsMousePressEvent(QMouseEvent* mouseEvent);
+    void contentsMouseReleaseEvent(UMLSceneMouseEvent* mouseEvent);
+    void contentsMouseMoveEvent(UMLSceneMouseEvent* mouseEvent);
+    void contentsMouseDoubleClickEvent(UMLSceneMouseEvent* mouseEvent);
+    void contentsMousePressEvent(UMLSceneMouseEvent* mouseEvent);
     void hideEvent(QHideEvent *he);
     void showEvent(QShowEvent *se);
 

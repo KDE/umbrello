@@ -431,9 +431,9 @@ protected:
     ////////////////////////////////////////////////////////////////////////
 
     void closeEvent(QCloseEvent * e);
-    void dragEnterEvent(QDragEnterEvent* enterEvent);
-    void dragMoveEvent(QDragMoveEvent* moveEvent);
-    void dropEvent(QDropEvent* dropEvent);
+    void dragEnterEvent(UMLSceneDragEnterEvent* enterEvent);
+    void dragMoveEvent(UMLSceneDragMoveEvent* moveEvent);
+    void dropEvent(UMLSceneDragDropEvent* dropEvent);
 
 //    void mousePressEvent(UMLSceneMouseEvent* event);  // made public for now
 

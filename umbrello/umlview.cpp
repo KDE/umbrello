@@ -80,7 +80,7 @@ void UMLView::setZoom(int zoom)
     setWorldMatrix(wm);
 
     m_nZoom = currentZoom();
-    m_scene->resizeCanvasToItems();
+    umlScene()->resizeCanvasToItems();
 }
 
 /**
@@ -279,7 +279,7 @@ void UMLView::contentsDropEvent(QDropEvent *e) {
  * Overrides the standard operation.
  * Calls the same method in the current tool bar state.
  */
-void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome)
+void UMLView::contentsMouseReleaseEvent(UMLSceneMouseEvent* ome)
 {
     m_pToolBarState->mouseRelease(static_cast<UMLSceneMouseEvent*>(ome));
 }
@@ -288,18 +288,18 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome)
  * Overrides the standard operation.
  * Calls the same method in the current tool bar state.
  */
-void UMLView::contentsMouseMoveEvent(QMouseEvent* ome)
+void UMLView::contentsMouseMoveEvent(UMLSceneMouseEvent* ome)
 {
-    m_pToolBarState->mouseMove(static_cast<UMLSceneMouseEvent*>(ome));
+    m_pToolBarState->mouseMove(ome);
 }
 
 /**
  * Override standard method.
  * Calls the same method in the current tool bar state.
  */
-void UMLView::contentsMouseDoubleClickEvent(QMouseEvent* ome)
+void UMLView::contentsMouseDoubleClickEvent(UMLSceneMouseEvent* ome)
 {
-    m_pToolBarState->mouseDoubleClick(static_cast<UMLSceneMouseEvent*>(ome));
+    m_pToolBarState->mouseDoubleClick(ome);
 }
 
 
@@ -334,15 +334,15 @@ void UMLView::hideEvent(QHideEvent* he)
  * Override standard method.
  * Calls the same method in the current tool bar state.
  */
-void UMLView::contentsMousePressEvent(QMouseEvent* ome)
+void UMLView::contentsMousePressEvent(UMLSceneMouseEvent* ome)
 {
-    m_pToolBarState->mousePress(static_cast<UMLSceneMouseEvent*>(ome));
+    m_pToolBarState->mousePress(ome);
     //TODO should be managed by widgets when are selected. Right now also has some
     //problems, such as clicking on a widget, and clicking to move that widget shows
     //documentation of the diagram instead of keeping the widget documentation.
     //When should diagram documentation be shown? When clicking on an empty
     //space in the diagram with arrow tool?
-    umlScene()->mousePressEvent(static_cast<UMLSceneMouseEvent*>(ome));
+    umlScene()->mousePressEvent(ome);
 }
 
 /**

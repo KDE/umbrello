@@ -130,7 +130,7 @@ public:
     int getMinY();
     int getMaxY();
 
-    int onWidget(const QPoint & p);
+    UMLSceneValue onWidget(const UMLScenePoint & p);
 
     virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
     virtual bool loadFromXMI(QDomElement & qElement);

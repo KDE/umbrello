@@ -254,7 +254,7 @@ void UMLWidgetController::mouseMoveEvent(UMLSceneMouseEvent* me)
         }
     }
 
-    m_widget->m_scene->resizeCanvasToItems();
+    m_widget->umlScene()->resizeCanvasToItems();
     updateSelectionBounds(diffX, diffY);
 }
 

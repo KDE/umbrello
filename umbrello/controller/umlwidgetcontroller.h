@@ -18,10 +18,7 @@
 // qt includes
 #include <QtCore/QDateTime>
 
-
 class QCursor;
-class QPoint;
-
 class UMLWidget;
 
 /**

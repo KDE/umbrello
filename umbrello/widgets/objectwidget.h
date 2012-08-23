@@ -48,7 +48,7 @@ public:
 
     void paint(QPainter & p, int offsetX, int offsetY);
 
-    virtual void moveEvent(QMoveEvent *m);
+    virtual void moveEvent(UMLSceneMoveEvent *m);
 
     void cleanup();
 

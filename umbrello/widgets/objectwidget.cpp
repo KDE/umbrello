@@ -276,7 +276,7 @@ void ObjectWidget::setY(UMLSceneValue y)
 /**
  * Overrides the standard operation.
  */
-void ObjectWidget::moveEvent(QMoveEvent *m)
+void ObjectWidget::moveEvent(UMLSceneMoveEvent *m)
 {
     Q_UNUSED(m)
     emit sigWidgetMoved( m_nLocalID );

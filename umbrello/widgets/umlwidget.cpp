@@ -746,7 +746,7 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
     updateGeometry();
     if (m_scene->getPaste()) {
         FloatingTextWidget * ft = 0;
-        QPoint point = m_scene->getPastePoint();
+        UMLScenePoint point = m_scene->getPastePoint();
         int x = point.x() + this->x();
         int y = point.y() + this->y();
         x = x < 0 ? 0 : x;
@@ -1466,7 +1466,7 @@ bool UMLWidget::showStereotype() const
  *
  * @param me The move event.
  */
-void UMLWidget::moveEvent(QMoveEvent* /*me*/)
+void UMLWidget::moveEvent(UMLSceneMouseEvent* /*me*/)
 {
 }
 
