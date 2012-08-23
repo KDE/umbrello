@@ -10,7 +10,7 @@
 
  /* Created by Bouchikhi Mohamed-Amine */
 
-#include "cmd_changeMulti.h"
+#include "cmd_changeMultiplicity.h"
 
 // app includes
 #include "umlrole.h"
@@ -20,14 +20,14 @@
 
 namespace Uml
 {
-    CmdChangeMulti::CmdChangeMulti(UMLRole *role, const QString &multi)
+    CmdChangeMultiplicity::CmdChangeMultiplicity(UMLRole *role, const QString &multi)
       : m_umlRole(role), m_newMulti(multi)
     {
         setText(i18n("Change multiplicity : %1 to %2", role->name(), multi));
         m_oldMulti = m_umlRole->multiplicity();
     }
 
-    void CmdChangeMulti::undo()
+    void CmdChangeMultiplicity::undo()
     {
         if (!m_oldMulti.isEmpty()) {
             m_umlRole->setMultiplicity(m_oldMulti);
@@ -37,7 +37,7 @@ namespace Uml
         }
     }
 
-    void CmdChangeMulti::redo()
+    void CmdChangeMultiplicity::redo()
     {
         m_umlRole->setMultiplicity(m_newMulti);
     }

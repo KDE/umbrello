@@ -10,8 +10,8 @@
 
  /* Created By Bouchikhi Mohamed-Amine */
 
-#ifndef CMD_CHANGEMULTI_H
-#define CMD_CHANGEMULTI_H
+#ifndef CMD_CHANGEMULTIPLICITY_H
+#define CMD_CHANGEMULTIPLICITY_H
 
 #include <QtGui/QUndoCommand>
 
@@ -19,10 +19,10 @@ class UMLRole;
 
 namespace Uml
 {
-    class CmdChangeMulti : public QUndoCommand
+    class CmdChangeMultiplicity : public QUndoCommand
     {
     public:
-        CmdChangeMulti(UMLRole *role, const QString &multi);
+        CmdChangeMultiplicity(UMLRole *role, const QString &multi);
         void redo();
         void undo();
 
