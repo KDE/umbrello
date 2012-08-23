@@ -53,7 +53,6 @@ class QMouseEvent;
 class QPrinter;
 class QShowEvent;
 class UMLScene;
-class UMLSceneMouseEvent;
 
 /// uml related types - makes it easier to switch to QGraphicsScene types
 // base types
@@ -63,14 +62,83 @@ typedef QSize UMLSceneSize;
 typedef QLine UMLSceneLine;
 typedef int UMLSceneValue;
 
+class UMLScenePolygon : public QPolygon
+{
+public:
+    UMLScenePolygon() {}
+};
+
 // event types
 typedef QKeyEvent UMLSceneKeyEvent;
 typedef QHoverEvent UMLSceneHoverEvent;
 typedef QContextMenuEvent UMLSceneContextMenuEvent;
 //typedef QDragDropEvent UMLSceneDragDropEvent;
 
+/**
+ * Qt3 migration wrapper for QMouseEvent.
+ */
+class  UMLSceneMouseEvent : public QMouseEvent
+{
+public:
+    UMLSceneMouseEvent(Type type, const QPoint & position, Qt::MouseButton button, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers)
+    : QMouseEvent(type, position, button, buttons, modifiers)
+    {
+    }
+    
+    UMLScenePoint scenePos() {
+        return pos();
+    }
+};
+
 typedef Q3CanvasItem UMLSceneItem;
 typedef Q3CanvasItemList UMLSceneItemList;
+
+
+class UMLSceneLineItem : public Q3CanvasLine
+{
+public:
+    UMLSceneLineItem()
+    : Q3CanvasLine(0)
+    {
+    }
+};
+
+class UMLSceneRectItem : public Q3CanvasRectangle
+{
+public:
+    UMLSceneRectItem()
+    : Q3CanvasRectangle(0)
+    {
+    }
+    
+    UMLSceneRectItem(int x, int y, int w, int h)
+    : Q3CanvasRectangle(x, y, w, h, 0)
+    {
+    }
+};
+
+class UMLScenePolygonItem : public Q3CanvasPolygon
+{
+public:
+    UMLScenePolygonItem()
+    : Q3CanvasPolygon(0)
+    {
+    }
+};
+
+class UMLSceneEllipseItem : public Q3CanvasEllipse
+{
+public:
+    UMLSceneEllipseItem()
+    : Q3CanvasEllipse(0)
+    {
+    }
+    
+    UMLSceneEllipseItem(int width, int height)
+    : Q3CanvasEllipse(width, height, 0)
+    {
+    }
+};
 
 /**
  * UMLScene instances represent diagrams.
@@ -446,73 +514,5 @@ signals:
 };
 
 QDebug operator<<(QDebug dbg, UMLScene *item);
-
-class UMLScenePolygon : public QPolygon
-{
-public:
-    UMLScenePolygon() {}
-};
-
-/**
- * Qt3 migration wrapper for QMouseEvent.
- */
-class  UMLSceneMouseEvent : public QMouseEvent
-{
-public:
-    UMLSceneMouseEvent(Type type, const QPoint & position, Qt::MouseButton button, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers)
-        : QMouseEvent(type, position, button, buttons, modifiers)
-    {
-    }
-
-    UMLScenePoint scenePos() {
-        return pos();
-    }
-};
-
-class UMLSceneLineItem : public Q3CanvasLine
-{
-public:
-    UMLSceneLineItem()
-        : Q3CanvasLine(0)
-    {
-    }
-};
-
-class UMLSceneRectItem : public Q3CanvasRectangle
-{
-public:
-    UMLSceneRectItem()
-        : Q3CanvasRectangle(0)
-    {
-    }
-
-    UMLSceneRectItem(int x, int y, int w, int h)
-        : Q3CanvasRectangle(x, y, w, h, 0)
-    {
-    }
-};
-
-class UMLScenePolygonItem : public Q3CanvasPolygon
-{
-public:
-    UMLScenePolygonItem()
-        : Q3CanvasPolygon(0)
-    {
-    }
-};
-
-class UMLSceneEllipseItem : public Q3CanvasEllipse
-{
-public:
-    UMLSceneEllipseItem()
-        : Q3CanvasEllipse(0)
-    {
-    }
-
-    UMLSceneEllipseItem(int width, int height)
-        : Q3CanvasEllipse(width, height, 0)
-    {
-    }
-};
 
 #endif
