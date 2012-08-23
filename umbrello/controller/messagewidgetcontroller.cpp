@@ -44,9 +44,9 @@ MessageWidgetController::~MessageWidgetController()
  * Saves the values of the widget needed for move/resize.
  * Calls parent method and then saves the value of m_unconstrainedPositionY
  *
- * @param me The QMouseEvent to get the offset from.
+ * @param me The UMLSceneMouseEvent to get the offset from.
  */
-void MessageWidgetController::saveWidgetValues(QMouseEvent *me)
+void MessageWidgetController::saveWidgetValues(UMLSceneMouseEvent *me)
 {
     UMLWidgetController::saveWidgetValues(me);
 
@@ -156,9 +156,9 @@ void MessageWidgetController::constrainMovementForAllWidgets(int &diffX, int &di
  * Executes the action for double click in the widget.
  * Shows the dialog to select the operation of the message.
  *
- * @param me The QMouseEvent which triggered the double click event.
+ * @param me The UMLSceneMouseEvent which triggered the double click event.
  */
-void MessageWidgetController::doMouseDoubleClick(QMouseEvent* me)
+void MessageWidgetController::doMouseDoubleClick(UMLSceneMouseEvent* me)
 {
     Q_UNUSED(me);
     if (m_messageWidget->m_pFText != NULL) {

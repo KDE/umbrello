@@ -230,7 +230,7 @@ void SignalWidget::showPropertiesDialog()
 /**
  * Overrides mouseMoveEvent.
  */
-void SignalWidget::mouseMoveEvent(QMouseEvent* me)
+void SignalWidget::mouseMoveEvent(UMLSceneMouseEvent* me)
 {
     UMLWidget::mouseMoveEvent(me);
     int diffX = m_oldX - x();

@@ -42,8 +42,6 @@
 #include <QPointer>
 #include <QRegExpValidator>
 #include <QApplication>
-#include <QMouseEvent>
-#include <QMoveEvent>
 
 // system includes
 #include <cmath>
@@ -1445,7 +1443,7 @@ QString AssociationWidget::toString() const
 /**
  * Adds a break point (if left mouse button).
  */
-void AssociationWidget::mouseDoubleClickEvent(QMouseEvent * me)
+void AssociationWidget::mouseDoubleClickEvent(UMLSceneMouseEvent * me)
 {
     if (me->button() != Qt::RightButton && me->button() != Qt::LeftButton)
         return;
@@ -2855,7 +2853,7 @@ void AssociationWidget::selectAssocClassLine(bool sel /* =true */)
 /**
  * Sets the association to be selected.
  */
-void AssociationWidget::mousePressEvent(QMouseEvent * me)
+void AssociationWidget::mousePressEvent(UMLSceneMouseEvent * me)
 {
     // clear other selected stuff on the screen of ShiftKey
     if( me->modifiers() != Qt::ShiftModifier )
@@ -2881,7 +2879,7 @@ void AssociationWidget::mousePressEvent(QMouseEvent * me)
 /**
  * Displays the right mouse buttom menu if right button is pressed.
  */
-void AssociationWidget::mouseReleaseEvent(QMouseEvent * me)
+void AssociationWidget::mouseReleaseEvent(UMLSceneMouseEvent * me)
 {
     if(me->button() != Qt::RightButton && me->button() != Qt::LeftButton) {
         setSelected( false );
@@ -3203,7 +3201,7 @@ void AssociationWidget::checkPoints(const UMLScenePoint &p)
 /**
  * Moves the break point being dragged.
  */
-void AssociationWidget::mouseMoveEvent(QMouseEvent* me)
+void AssociationWidget::mouseMoveEvent(UMLSceneMouseEvent* me)
 {
     if( me->buttons() != Qt::LeftButton) {
         return;

@@ -34,7 +34,7 @@ public:
 
 protected:
 
-    virtual void doMouseDoubleClick(QMouseEvent *me);
+    virtual void doMouseDoubleClick(UMLSceneMouseEvent *me);
 
 private:
 

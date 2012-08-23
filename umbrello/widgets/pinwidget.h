@@ -44,7 +44,7 @@ public:
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
     bool loadFromXMI(QDomElement& qElement);
 
-    void mouseMoveEvent(QMouseEvent* me);
+    void mouseMoveEvent(UMLSceneMouseEvent* me);
 
 public slots:
     void slotMenuSelection(QAction* action);

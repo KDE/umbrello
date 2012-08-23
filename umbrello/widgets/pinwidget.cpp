@@ -23,7 +23,6 @@
 #include <klocale.h>
 
 // qt includes
-#include <QMouseEvent>
 #include <QPainter>
 
 #define PIN_MARGIN 5
@@ -171,7 +170,7 @@ int PinWidget::getMinY()
 /**
  * Overrides mouseMoveEvent.
  */
-void PinWidget::mouseMoveEvent(QMouseEvent* me)
+void PinWidget::mouseMoveEvent(UMLSceneMouseEvent* me)
 {
     UMLWidget::mouseMoveEvent(me);
     int diffX = m_oldX - x();

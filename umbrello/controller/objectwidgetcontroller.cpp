@@ -74,7 +74,7 @@ void ObjectWidgetController::resizeWidget(int newW, int newH)
 /**
  * Overrides the standard operation.
  */
-void ObjectWidgetController::mousePressEvent(QMouseEvent *me)
+void ObjectWidgetController::mousePressEvent(UMLSceneMouseEvent *me)
 {
     UMLWidgetController::mousePressEvent(me);
     m_isOnDestructionBox = false;
@@ -91,7 +91,7 @@ void ObjectWidgetController::mousePressEvent(QMouseEvent *me)
 /**
  * Overrides the standard operation.
  */
-void ObjectWidgetController::mouseMoveEvent(QMouseEvent* me)
+void ObjectWidgetController::mouseMoveEvent(UMLSceneMouseEvent* me)
 {
     if (!m_leftButtonDown)
         return;

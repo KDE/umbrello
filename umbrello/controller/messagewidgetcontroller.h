@@ -52,7 +52,7 @@ public:
 
 protected:
 
-    virtual void saveWidgetValues(QMouseEvent *me);
+    virtual void saveWidgetValues(UMLSceneMouseEvent *me);
 
     virtual QCursor getResizeCursor();
 
@@ -62,7 +62,7 @@ protected:
 
     virtual void constrainMovementForAllWidgets(int &diffX, int &diffY);
 
-    virtual void doMouseDoubleClick(QMouseEvent *me);
+    virtual void doMouseDoubleClick(UMLSceneMouseEvent *me);
 
 private:
 

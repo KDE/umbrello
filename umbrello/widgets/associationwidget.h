@@ -164,10 +164,10 @@ public:
 
     void saveIdealTextPositions();
 
-    void mouseDoubleClickEvent(QMouseEvent* me);
-    void mousePressEvent(QMouseEvent* me);
-    void mouseReleaseEvent(QMouseEvent* me);
-    void mouseMoveEvent(QMouseEvent* me);
+    void mouseDoubleClickEvent(UMLSceneMouseEvent* me);
+    void mousePressEvent(UMLSceneMouseEvent* me);
+    void mouseReleaseEvent(UMLSceneMouseEvent* me);
+    void mouseMoveEvent(UMLSceneMouseEvent* me);
 
     bool onAssociation(const UMLScenePoint& point);
     bool onAssocClassLine(const UMLScenePoint& point);

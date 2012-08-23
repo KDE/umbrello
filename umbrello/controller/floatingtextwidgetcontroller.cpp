@@ -45,9 +45,9 @@ FloatingTextWidgetController::~FloatingTextWidgetController()
  * Calls parent method and then saves the value of m_unconstrainedPositionX/Y
  * and m_movementDirectionX/Y.
  *
- * @param me The QMouseEvent to get the offset from.
+ * @param me The UMLSceneMouseEvent to get the offset from.
  */
-void FloatingTextWidgetController::saveWidgetValues(QMouseEvent *me)
+void FloatingTextWidgetController::saveWidgetValues(UMLSceneMouseEvent *me)
 {
     UMLWidgetController::saveWidgetValues(me);
 
@@ -62,10 +62,10 @@ void FloatingTextWidgetController::saveWidgetValues(QMouseEvent *me)
  * FloatingTextWidgets can't be resized, so this method always returns false.
  * Cursor isn't changed.
  *
- * @param me The QMouseEVent to check.
+ * @param me The UMLSceneMouseEvent to check.
  * @return true if the mouse is in resize area, false otherwise.
  */
-bool FloatingTextWidgetController::isInResizeArea(QMouseEvent* me)
+bool FloatingTextWidgetController::isInResizeArea(UMLSceneMouseEvent* me)
 {
     Q_UNUSED(me);
     return false;

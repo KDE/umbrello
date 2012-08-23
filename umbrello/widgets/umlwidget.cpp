@@ -37,7 +37,6 @@
 #include <QPointer>
 #include <QPainter>
 #include <QColor>
-#include <QMouseEvent>
 
 using namespace Uml;
 
@@ -247,9 +246,9 @@ void UMLWidget::setMaximumSize(const UMLSceneSize& newSize)
  * Calls the method with the same name in UMLWidgetController.
  * @see UMLWidgetController#mouseMoveEvent
  *
- * @param me The QMouseEvent event.
+ * @param me The UMLSceneMouseEvent event.
  */
-void UMLWidget::mouseMoveEvent(QMouseEvent* me)
+void UMLWidget::mouseMoveEvent(UMLSceneMouseEvent* me)
 {
     m_widgetController->mouseMoveEvent(me);
 }
@@ -258,9 +257,9 @@ void UMLWidget::mouseMoveEvent(QMouseEvent* me)
  * Calls the method with the same name in UMLWidgetController.
  * @see UMLWidgetController#mousePressEvent
  *
- * @param me The QMouseEvent event.
+ * @param me The UMLSceneMouseEvent event.
  */
-void UMLWidget::mousePressEvent(QMouseEvent *me)
+void UMLWidget::mousePressEvent(UMLSceneMouseEvent *me)
 {
     m_widgetController->mousePressEvent(me);
 }
@@ -318,9 +317,9 @@ void UMLWidget::constrain(int& width, int& height)
  * Calls the method with the same name in UMLWidgetController.
  * @see UMLWidgetController#mouseReleaseEvent
  *
- * @param me The QMouseEvent event.
+ * @param me The UMLSceneMouseEvent event.
  */
-void UMLWidget::mouseReleaseEvent(QMouseEvent *me)
+void UMLWidget::mouseReleaseEvent(UMLSceneMouseEvent *me)
 {
     m_widgetController->mouseReleaseEvent(me);
 }
@@ -611,9 +610,9 @@ void UMLWidget::slotLineWidthChanged(Uml::IDType viewID)
  * Calls the method with the same name in UMLWidgetController.
  * @see UMLWidgetController#mouseDoubleClickEvent
  *
- * @param me The QMouseEvent event.
+ * @param me The UMLSceneMouseEvent event.
  */
-void UMLWidget::mouseDoubleClickEvent(QMouseEvent * me)
+void UMLWidget::mouseDoubleClickEvent(UMLSceneMouseEvent * me)
 {
     m_widgetController->mouseDoubleClickEvent(me);
 }

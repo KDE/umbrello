@@ -38,9 +38,9 @@ NoteWidgetController::~NoteWidgetController()
  * Executes the action for double click in the widget.
  * Shows the dialog to change the text of the note.
  *
- * @param me The QMouseEvent which triggered the double click event.
+ * @param me The UMLSceneMouseEvent which triggered the double click event.
  */
-void NoteWidgetController::doMouseDoubleClick(QMouseEvent* me)
+void NoteWidgetController::doMouseDoubleClick(UMLSceneMouseEvent* me)
 {
     Q_UNUSED(me);
     //TODO Copied from old code. What it does?

@@ -11,14 +11,15 @@
 #ifndef UMLWIDGETCONTROLLER_H
 #define UMLWIDGETCONTROLLER_H
 
+// app includes
+#include "umlscene.h"
+#include "umlwidgetlist.h"
+
 // qt includes
 #include <QtCore/QDateTime>
 
-// app includes
-#include "umlwidgetlist.h"
 
 class QCursor;
-class QMouseEvent;
 class QPoint;
 
 class UMLWidget;
@@ -69,10 +70,10 @@ public:
     UMLWidgetController(UMLWidget *widget);
     virtual ~UMLWidgetController();
 
-    virtual void mousePressEvent(QMouseEvent *me);
-    virtual void mouseMoveEvent(QMouseEvent* me);
-    virtual void mouseReleaseEvent(QMouseEvent * me);
-    virtual void mouseDoubleClickEvent(QMouseEvent *me);
+    virtual void mousePressEvent(UMLSceneMouseEvent *me);
+    virtual void mouseMoveEvent(UMLSceneMouseEvent* me);
+    virtual void mouseReleaseEvent(UMLSceneMouseEvent * me);
+    virtual void mouseDoubleClickEvent(UMLSceneMouseEvent *me);
 
     virtual void widgetMoved();
 
@@ -91,28 +92,28 @@ public:
 
 protected:
 
-    virtual void saveWidgetValues(QMouseEvent *me);
+    virtual void saveWidgetValues(UMLSceneMouseEvent *me);
 
-    virtual bool isInResizeArea(QMouseEvent *me);
+    virtual bool isInResizeArea(UMLSceneMouseEvent *me);
 
     virtual QCursor getResizeCursor();
 
     virtual void constrainMovementForAllWidgets(int &diffX, int &diffY);
 
-    virtual void doMouseDoubleClick(QMouseEvent *me);
+    virtual void doMouseDoubleClick(UMLSceneMouseEvent *me);
 
     void resetSelection();
 
-    void selectSingle(QMouseEvent *me);
-    void selectMultiple(QMouseEvent *me);
+    void selectSingle(UMLSceneMouseEvent *me);
+    void selectMultiple(UMLSceneMouseEvent *me);
 
-    void deselect(QMouseEvent *me);
+    void deselect(UMLSceneMouseEvent *me);
 
     void setSelectionBounds();
 
     void updateSelectionBounds(int diffX, int diffY);
 
-    void resize(QMouseEvent *me);
+    void resize(UMLSceneMouseEvent *me);
 
     int getSmallestX(const UMLWidgetList &widgetList);
     int getSmallestY(const UMLWidgetList &widgetList);
@@ -120,10 +121,10 @@ protected:
     int getBiggestX(const UMLWidgetList &widgetList);
     int getBiggestY(const UMLWidgetList &widgetList);
 
-    QPoint getPosition(QMouseEvent *me);
-    QPoint getPositionDifference(QMouseEvent *me);
+    QPoint getPosition(UMLSceneMouseEvent *me);
+    QPoint getPositionDifference(UMLSceneMouseEvent *me);
 
-    void showPopupMenu(QMouseEvent *me);
+    void showPopupMenu(UMLSceneMouseEvent *me);
 
     bool wasSizeChanged();
     bool wasPositionChanged();

@@ -56,7 +56,7 @@ public:
 
     virtual void  showPropertiesDialog();
 
-    void mouseMoveEvent(QMouseEvent *me);
+    void mouseMoveEvent(UMLSceneMouseEvent *me);
 
     virtual bool loadFromXMI( QDomElement & qElement );
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );

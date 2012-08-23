@@ -223,10 +223,10 @@ public:
 
     UMLWidgetController* getWidgetController();
 
-    virtual void mousePressEvent(QMouseEvent *me);
-    virtual void mouseMoveEvent(QMouseEvent* me);
-    virtual void mouseReleaseEvent(QMouseEvent * me);
-    virtual void mouseDoubleClickEvent(QMouseEvent *me);
+    virtual void mousePressEvent(UMLSceneMouseEvent *me);
+    virtual void mouseMoveEvent(UMLSceneMouseEvent* me);
+    virtual void mouseReleaseEvent(UMLSceneMouseEvent * me);
+    virtual void mouseDoubleClickEvent(UMLSceneMouseEvent *me);
 
 protected:
 

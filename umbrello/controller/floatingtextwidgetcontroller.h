@@ -45,9 +45,9 @@ public:
 
 protected:
 
-    virtual void saveWidgetValues(QMouseEvent *me);
+    virtual void saveWidgetValues(UMLSceneMouseEvent *me);
 
-    virtual bool isInResizeArea(QMouseEvent *me);
+    virtual bool isInResizeArea(UMLSceneMouseEvent *me);
 
     virtual void moveWidgetBy(int diffX, int diffY);
 
