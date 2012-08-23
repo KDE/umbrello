@@ -20,8 +20,9 @@
 #ifndef UMLWIDGET_H
 #define UMLWIDGET_H
 
-#include "widgetbase.h"
 #include "associationwidgetlist.h"
+#include "umlscene.h"
+#include "widgetbase.h"
 
 class AssociationSpaceManager;
 class AssociationWidget;

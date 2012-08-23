@@ -67,11 +67,13 @@ typedef QLineF UMLSceneLine;
 typedef qreal UMLSceneValue;
 typedef QPolygonF UMLScenePolygon;
 // event types
-typedef QGraphicsSceneMouseEvent UMLSceneMouseEvent;
+#define UMLSceneMouseEvent QGraphicsSceneMouseEvent
 //typedef QGraphicsSceneKeyEvent UMLSceneKeyEvent;
 typedef QGraphicsSceneHoverEvent UMLSceneHoverEvent;
 typedef QGraphicsSceneContextMenuEvent UMLSceneContextMenuEvent;
 typedef QGraphicsSceneDragDropEvent UMLSceneDragDropEvent;
+typedef QGraphicsSceneDragDropEvent UMLSceneDragEnterEvent;
+typedef QGraphicsSceneDragDropEvent UMLSceneDragMoveEvent;
 
 typedef QGraphicsLineItem UMLSceneLineItem;
 typedef QGraphicsRectItem UMLSceneRectItem;

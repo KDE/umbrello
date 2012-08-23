@@ -338,8 +338,8 @@ set(libclipboard_SRCS
 set(libcmds_SRCS
     cmds/cmd_create_diagram.cpp
     cmds/cmd_handle_rename.cpp
-    cmds/cmd_moveWidget.cpp
-    cmds/cmd_resizeWidget.cpp
+    #cmds/cmd_moveWidget.cpp
+    #cmds/cmd_resizeWidget.cpp
     cmds/cmd_set_stereotype.cpp
     cmds/cmd_set_visibility.cpp
 

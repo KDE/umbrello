@@ -3760,7 +3760,7 @@ UMLSceneValue UMLScene::snappedX(UMLSceneValue _x)
 /**
  * Returns the input coordinate with possible grid-snap applied.
  */
-UMLSceneValue UMLScene::snappedY(UMLSceneValue y)
+UMLSceneValue UMLScene::snappedY(UMLSceneValue _y)
 {
     int y = (int)_y;
     if (snapToGrid()) {
