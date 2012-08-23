@@ -1141,7 +1141,7 @@ void UMLWidget::setX(UMLSceneValue x)
     if (!m_ignoreSnapToGrid) {
         x = m_scene->snappedX(x);
     }
-    UMLSceneItem::setX(x);
+    UMLSceneRectItem::setX(x);
 }
 
 /**
@@ -1156,7 +1156,7 @@ void UMLWidget::setY(UMLSceneValue y)
     if (!m_ignoreSnapToGrid) {
         y = m_scene->snappedX(y);
     }
-    UMLSceneItem::setY(y);
+    UMLSceneRectItem::setY(y);
 }
 
 /**
@@ -1167,7 +1167,7 @@ void UMLWidget::setY(UMLSceneValue y)
 void UMLWidget::setZ(UMLSceneValue z)
 {
     m_origZ = this->z();
-    UMLSceneItem::setZ(z);
+    UMLSceneRectItem::setZ(z);
 }
 
 /**
