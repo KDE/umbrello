@@ -79,7 +79,7 @@ void ToolBarStateMessages::mouseMove(UMLSceneMouseEvent* ome)
     ToolBarStatePool::mouseMove(ome);
 
     if (m_messageLine) {
-        QPoint sp = m_messageLine->startPoint();
+        UMLScenePoint sp = m_messageLine->startPoint();
         m_messageLine->setPoints(sp.x(), sp.y(), m_pMouseEvent->x(), m_pMouseEvent->y());
     }
 }

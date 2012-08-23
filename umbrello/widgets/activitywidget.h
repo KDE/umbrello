@@ -70,7 +70,7 @@ public:
     virtual bool loadFromXMI( QDomElement & qElement );
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-    void constrain(int& width, int& height);
+    void constrain(UMLSceneValue& width, UMLSceneValue& height);
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);

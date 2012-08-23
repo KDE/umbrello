@@ -153,7 +153,7 @@ void ForkJoinWidget::drawSelected(QPainter *, int /*offsetX*/, int /*offsetY*/)
 /**
  * Reimplement method from UMLWidget.
  */
-void ForkJoinWidget::constrain(int& width, int& height)
+void ForkJoinWidget::constrain(UMLSceneValue& width, UMLSceneValue& height)
 {
     if (m_orientation == Qt::Vertical) {
         if (width < 4)

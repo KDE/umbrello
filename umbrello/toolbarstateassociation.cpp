@@ -80,7 +80,7 @@ void ToolBarStateAssociation::mouseMove(UMLSceneMouseEvent* ome)
     ToolBarStatePool::mouseMove(ome);
 
     if (m_associationLine) {
-        QPoint sp = m_associationLine->startPoint();
+        UMLScenePoint sp = m_associationLine->startPoint();
         m_associationLine->setPoints(sp.x(), sp.y(), m_pMouseEvent->x(), m_pMouseEvent->y());
     }
 }

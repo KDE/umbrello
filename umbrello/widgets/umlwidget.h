@@ -97,7 +97,7 @@ public:
 
     virtual bool activate(IDChangeLog* ChangeLog = 0);
 
-    virtual int onWidget(const QPoint & p);
+    virtual UMLSceneValue onWidget(const UMLScenePoint & p);
 
     /**
      * Draws the UMLWidget on the given paint device
@@ -142,11 +142,11 @@ public:
     /**
      * Returns the width of the widget.
      */
-    int width() const {
-        return UMLSceneRectItem::width();
+    UMLSceneValue width() const {
+        return UMLSceneRectItem::rect().width();
     }
 
-    void setSize(int width,int height);
+    void setSize(UMLSceneValue width,UMLSceneValue height);
 
     bool getIgnoreSnapToGrid() const;
     void setIgnoreSnapToGrid(bool to);

@@ -98,7 +98,7 @@ protected:
 
     virtual QCursor getResizeCursor();
 
-    virtual void constrainMovementForAllWidgets(int &diffX, int &diffY);
+    virtual void constrainMovementForAllWidgets(UMLSceneValue &diffX, UMLSceneValue &diffY);
 
     virtual void doMouseDoubleClick(UMLSceneMouseEvent *me);
 

@@ -202,8 +202,8 @@ void UMLWidgetController::mouseMoveEvent(UMLSceneMouseEvent* me)
     }
 
     UMLScenePoint position = getPosition(me);
-    int diffX = position.x() - m_widget->x();
-    int diffY = position.y() - m_widget->y();
+    UMLSceneValue diffX = position.x() - m_widget->x();
+    UMLSceneValue diffY = position.y() - m_widget->y();
 
     if ((me->modifiers() & Qt::ShiftModifier) && (me->modifiers() & Qt::ControlModifier)) {
         //Move in Y axis
@@ -490,7 +490,7 @@ void UMLWidgetController::moveWidgetBy(int diffX, int diffY)
  * @param diffX The difference between current X position and new X position.
  * @param diffY The difference between current Y position and new Y position.
  */
-void UMLWidgetController::constrainMovementForAllWidgets(int &diffX, int &diffY)
+void UMLWidgetController::constrainMovementForAllWidgets(UMLSceneValue &diffX, UMLSceneValue &diffY)
 {
     Q_UNUSED(diffX); Q_UNUSED(diffY);
 }

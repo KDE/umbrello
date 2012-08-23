@@ -72,7 +72,7 @@ public:
     virtual UMLClassifier* seqNumAndOp(QString& seqNum, QString& op);
     virtual void setSeqNumAndOp(const QString &seqNum, const QString &op);
 
-    virtual void constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
+    virtual void constrainTextPos(UMLSceneValue &textX, UMLSceneValue &textY, UMLSceneValue textWidth, UMLSceneValue textHeight,
                                   Uml::TextRole tr);
 
     //---------- End LinkWidget Interface methods implemementation.

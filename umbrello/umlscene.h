@@ -196,7 +196,7 @@ public:
     const QColor& gridDotColor() const;
     void setGridDotColor(const QColor& color);
 
-    void setSize(int width, int height);
+    void setSize(UMLSceneValue width, UMLSceneValue height);
 
     bool snapToGrid() const;
     void setSnapToGrid(bool bSnap);
@@ -208,8 +208,8 @@ public:
     int snapY() const;
     void setSnapSpacing(int x, int y);
 
-    int snappedX(int x);
-    int snappedY(int y);
+    UMLSceneValue snappedX(UMLSceneValue x);
+    UMLSceneValue snappedY(UMLSceneValue y);
 
     bool isSnapGridVisible() const;
     void setSnapGridVisible(bool bShow);
@@ -444,7 +444,7 @@ protected:
     void updateComponentSizes();
 
     void findMaxBoundingRectangle(const FloatingTextWidget* ft,
-                                  int& px, int& py, int& qx, int& qy);
+                                  UMLSceneValue& px, UMLSceneValue& py, UMLSceneValue& qx, UMLSceneValue& qy);
     void forceUpdateWidgetFontMetrics(QPainter *painter);
 
     virtual void drawBackground(QPainter & painter, const QRect & clip);

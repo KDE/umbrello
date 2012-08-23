@@ -293,7 +293,7 @@ void UMLWidget::updateWidget()
  * @param width  input value, may be modified by the constraint
  * @param height input value, may be modified by the constraint
  */
-void UMLWidget::constrain(int& width, int& height)
+void UMLWidget::constrain(UMLSceneValue& width, UMLSceneValue& height)
 {
     UMLSceneSize minSize = minimumSize();
     if (width < minSize.width())
@@ -1259,7 +1259,7 @@ bool UMLWidget::getIgnoreSnapToGrid() const
  * If m_scene->snapComponentSizeToGrid() is true, then
  * set the next larger size that snaps to the grid.
  */
-void UMLWidget::setSize(int width, int height)
+void UMLWidget::setSize(UMLSceneValue width, UMLSceneValue height)
 {
     // snap to the next larger size that is a multiple of the grid
     if (!m_ignoreSnapComponentSizeToGrid
@@ -1284,9 +1284,9 @@ void UMLWidget::updateGeometry()
 {
     if (m_doc->loading())
         return;
-    QSize size = calculateSize();
-    int clipWidth = size.width();
-    int clipHeight = size.height();
+    UMLSceneSize size = calculateSize();
+    UMLSceneValue clipWidth = size.width();
+    UMLSceneValue clipHeight = size.height();
     constrain(clipWidth, clipHeight);
     setSize(clipWidth, clipHeight);
     adjustAssocs(x(), y());    // adjust assoc lines
@@ -1298,8 +1298,8 @@ void UMLWidget::updateGeometry()
  */
 void UMLWidget::clipSize()
 {
-    int clipWidth = width();
-    int clipHeight = height();
+    UMLSceneValue clipWidth = width();
+    UMLSceneValue clipHeight = height();
     constrain(clipWidth, clipHeight);
     setSize(clipWidth, clipHeight);
 }

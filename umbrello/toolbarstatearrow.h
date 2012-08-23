@@ -61,7 +61,7 @@ protected:
     /**
      * The start position of the selection rectangle.
      */
-    QPoint m_startPosition;
+    UMLScenePoint m_startPosition;
 
 };
 

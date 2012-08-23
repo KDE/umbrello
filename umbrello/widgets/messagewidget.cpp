@@ -532,13 +532,13 @@ int MessageWidget::constrainX(int textX, int textWidth, Uml::TextRole tr)
  * @param textHeight   height of the text
  * @param tr           Uml::TextRole of the text
  */
-void MessageWidget::constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
+void MessageWidget::constrainTextPos(UMLSceneValue &textX, UMLSceneValue &textY, UMLSceneValue textWidth, UMLSceneValue textHeight,
                                      Uml::TextRole tr)
 {
     textX = constrainX(textX, textWidth, tr);
     // Constrain Y.
-    const int minTextY = getMinY();
-    const int maxTextY = getMaxY() - textHeight - 5;
+    const UMLSceneValue minTextY = getMinY();
+    const UMLSceneValue maxTextY = getMaxY() - textHeight - 5;
     if (textY < minTextY)
         textY = minTextY;
     else if (textY > maxTextY)

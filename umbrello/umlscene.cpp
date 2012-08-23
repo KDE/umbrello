@@ -623,7 +623,7 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
     pPainter.setViewport(left, top, width, height);
 
     // get Diagram
-    getDiagram(QRect(rect.x(), rect.y(), windowWidth, diagramHeight), pPainter);
+    getDiagram(UMLSceneRect (rect.x(), rect.y(), windowWidth, diagramHeight), pPainter);
 
     if (isFooter) {
         //draw foot note
@@ -1387,7 +1387,7 @@ void UMLScene::clearSelected()
  * @param dX The distance to move horizontally.
  * @param dY The distance to move vertically.
  */
-void UMLScene::moveSelectedBy(int dX, int dY)
+void UMLScene::moveSelectedBy(UMLSceneValue dX, UMLSceneValue dY)
 {
     // DEBUG(DBG_SRC) << "********** m_selectedList count=" << m_selectedList.count();
     foreach(UMLWidget *w, selectedWidgets()) {
@@ -2980,15 +2980,15 @@ void UMLScene::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignK
  *            updated if the Y coordinate of the upper right corner
  *            of ft is larger than the qy value passed in.
  */
-void UMLScene::findMaxBoundingRectangle(const FloatingTextWidget* ft, int& px, int& py, int& qx, int& qy)
+void UMLScene::findMaxBoundingRectangle(const FloatingTextWidget* ft, UMLSceneValue& px, UMLSceneValue& py, UMLSceneValue& qx, UMLSceneValue& qy)
 {
     if (ft == NULL || !ft->isVisible())
         return;
 
-    int x = ft->x();
-    int y = ft->y();
-    int x1 = x + ft->width() - 1;
-    int y1 = y + ft->height() - 1;
+    UMLSceneValue x = ft->x();
+    UMLSceneValue y = ft->y();
+    UMLSceneValue x1 = x + ft->width() - 1;
+    UMLSceneValue y1 = y + ft->height() - 1;
 
     if (px == -1 || x < px)
         px = x;
@@ -3015,14 +3015,14 @@ void UMLScene::copyAsImage(QPixmap*& pix)
     getDiagram(rect, diagram);
 
     //now get the selection cut
-    int px = -1, py = -1, qx = -1, qy = -1;
+    UMLSceneValue px = -1, py = -1, qx = -1, qy = -1;
 
     //first get the smallest rect holding the widgets
     foreach(UMLWidget* temp, m_selectedList) {
-        int x = temp->x();
-        int y = temp->y();
-        int x1 = x + temp->width() - 1;
-        int y1 = y + temp->height() - 1;
+        UMLSceneValue x = temp->x();
+        UMLSceneValue y = temp->y();
+        UMLSceneValue x1 = x + temp->width() - 1;
+        UMLSceneValue y1 = y + temp->height() - 1;
         if (px == -1 || x < px) {
             px = x;
         }
@@ -3730,14 +3730,15 @@ void UMLScene::setSnapSpacing(int x, int y)
 {
     m_nSnapX = x;
     m_nSnapY = y;
-    Q3Canvas::setAllChanged();
+    setAllChanged();
 }
 
 /**
  * Returns the input coordinate with possible grid-snap applied.
  */
-int UMLScene::snappedX(int x)
+UMLSceneValue UMLScene::snappedX(UMLSceneValue _x)
 {
+    int x = (int)_x;
     if (snapToGrid()) {
         int gridX = snapX();
         int modX = x % gridX;
@@ -3751,8 +3752,9 @@ int UMLScene::snappedX(int x)
 /**
  * Returns the input coordinate with possible grid-snap applied.
  */
-int UMLScene::snappedY(int y)
+UMLSceneValue UMLScene::snappedY(UMLSceneValue _y)
 {
+    int y = (int)_y;
     if (snapToGrid()) {
         int gridY = snapY();
         int modY = y % gridY;
