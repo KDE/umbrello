@@ -1077,7 +1077,7 @@ void UMLScene::checkMessages(ObjectWidget * w)
 
     MessageWidgetListIt it(m_MessageList);
     foreach(MessageWidget *obj , m_MessageList) {
-        if (! obj->contains(w)) {
+        if (! obj->hasObjectWidget(w)) {
             continue;
         }
         //make sure message doesn't have any associations

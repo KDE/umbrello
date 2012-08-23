@@ -85,7 +85,7 @@ public:
         return m_sequenceMessageType;
     }
 
-    bool contains(ObjectWidget * w);
+    bool hasObjectWidget(ObjectWidget * w);
 
     ObjectWidget* objectWidget(Uml::Role_Type role);
     void setObjectWidget(ObjectWidget * ow, Uml::Role_Type role) ;

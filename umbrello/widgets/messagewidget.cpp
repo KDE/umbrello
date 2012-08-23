@@ -620,7 +620,7 @@ void MessageWidget::slotWidgetMoved(Uml::IDType id)
  * @param w The ObjectWidget to check for.
  * @return  true - if is contained, false - not contained.
  */
-bool MessageWidget::contains(ObjectWidget * w)
+bool MessageWidget::hasObjectWidget(ObjectWidget * w)
 {
     if(m_pOw[Uml::A] == w || m_pOw[Uml::B] == w)
         return true;
