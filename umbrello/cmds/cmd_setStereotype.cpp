@@ -8,36 +8,35 @@
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-#include "cmd_rename_umlobject.h"
+#include "cmd_setStereotype.h"
 
 // app includes
 #include "umlobject.h"
 
-// kde includes
 #include <klocale.h>
 
 namespace Uml
 {
 
-    CmdRenameUMLObject::CmdRenameUMLObject(UMLObject* o, const QString& name)
-      : m_obj(o), m_name(name)
+    CmdSetStereotype::CmdSetStereotype(UMLObject * obj, const QString& stereo)
+        : m_stereo(stereo), m_umlObject(obj)
     {
-        setText(i18n("Rename object : %1 to %2", o->name(), name));
-        m_oldname = o->name();
+        m_oldStereo = obj->stereotype();
+        setText(i18n("Set stereotype : %1 to %2", m_oldStereo, stereo));
     }
 
-    CmdRenameUMLObject::~CmdRenameUMLObject()
+    CmdSetStereotype::~CmdSetStereotype()
     {
     }
 
-    void CmdRenameUMLObject::redo()
+    void CmdSetStereotype::redo()
     {
-        m_obj->setNameCmd(m_name);
+        m_umlObject->setStereotypeCmd(m_stereo);
     }
 
-    void CmdRenameUMLObject::undo()
+    void CmdSetStereotype::undo()
     {
-        m_obj->setNameCmd(m_oldname);
+        m_umlObject->setStereotypeCmd(m_oldStereo);
     }
 
 }
