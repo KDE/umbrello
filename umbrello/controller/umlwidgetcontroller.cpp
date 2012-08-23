@@ -204,9 +204,9 @@ void UMLWidgetController::mouseMoveEvent(UMLSceneMouseEvent* me)
         setSelectionBounds();
     }
 
-    QPointF position = getPosition(me);
-    qreal diffX = position.x() - m_widget->getX();
-    qreal diffY = position.y() - m_widget->getY();
+    UMLScenePoint position = getPosition(me);
+    UMLSceneValue diffX = position.x() - m_widget->x();
+    UMLSceneValue diffY = position.y() - m_widget->y();
 
     if ((me->modifiers() & Qt::ShiftModifier) && (me->modifiers() & Qt::ControlModifier)) {
         //Move in Y axis

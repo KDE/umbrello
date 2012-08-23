@@ -601,7 +601,7 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
     pPainter.setViewport(left, top, width, height);
 
     // get Diagram
-    getDiagram(QRect(rect.x(), rect.y(), windowWidth, diagramHeight), pPainter);
+    getDiagram(UMLSceneRect (rect.x(), rect.y(), windowWidth, diagramHeight), pPainter);
 
     if (isFooter) {
         //draw foot note
@@ -652,15 +652,6 @@ bool UMLScene::getCreateObject() const
 void UMLScene::setCreateObject(bool bCreate)
 {
     m_bCreateObject = bCreate;
-}
-
-/**
- * Overrides the standard operation.
- * Calls the same method in the current tool bar state.
- */
-void UMLScene::mouseReleaseEvent(UMLSceneMouseEvent* ome)
-{
-    m_pToolBarState->mouseRelease(ome);
 }
 
 /**
@@ -756,7 +747,7 @@ void UMLScene::slotObjectRemoved(UMLObject * o)
 /**
  * Override standard method.
  */
-void UMLScene::dragEnterEvent(UMLSceneDragDropEvent *e)
+void UMLScene::dragEnterEvent(UMLSceneDragEnterEvent *e)
 {
     UMLDragData::LvTypeAndID_List tidList;
     if (!UMLDragData::getClip3TypeAndID(e->mimeData(), tidList)) {
@@ -860,7 +851,7 @@ void UMLScene::dragEnterEvent(UMLSceneDragDropEvent *e)
 /**
  * Override standard method.
  */
-void UMLScene::dragMoveEvent(UMLSceneDragDropEvent* e)
+void UMLScene::dragMoveEvent(UMLSceneDragMoveEvent* e)
 {
     e->accept();
 }
@@ -911,6 +902,78 @@ void UMLScene::dropEvent(UMLSceneDragDropEvent *e)
     slotObjectCreated(o);
 
     m_doc->setModified(true);
+}
+
+/**
+ * Overrides the standard operation.
+ * Calls the same method in the current tool bar state.
+ */
+void UMLScene::mouseMoveEvent(UMLSceneMouseEvent* ome)
+{
+    m_pToolBarState->mouseMove(ome);
+}
+
+/**
+ * Override standard method.
+ * Calls the same method in the current tool bar state.
+ */
+void UMLScene::mousePressEvent(UMLSceneMouseEvent* event)
+{
+    m_pToolBarState->mousePress(event);
+
+    //TODO should be managed by widgets when are selected. Right now also has some
+    //problems, such as clicking on a widget, and clicking to move that widget shows
+    //documentation of the diagram instead of keeping the widget documentation.
+    //When should diagram documentation be shown? When clicking on an empty
+    //space in the diagram with arrow tool?
+    UMLWidget* widget = widgetAt(event->scenePos());
+    if (widget) {
+        DEBUG(DBG_SRC) << "widget = " << widget->name() << " / type = " << widget->baseTypeStr();
+        showDocumentation(widget, true);
+    }
+    else {
+        AssociationWidget* association = associationAt(event->scenePos());
+        if (association) {
+            DEBUG(DBG_SRC) << "widget = " << association->name() << " / type = " << association->baseTypeStr();
+            showDocumentation(association, true);
+        }
+        //:TODO: else if (clicking on other elements with documentation) {
+        //:TODO: showDocumentation(umlObject, true);
+        else {
+            // clicking on an empty space in the diagram with arrow tool
+            showDocumentation(true);
+            event->accept();
+        }
+    }
+}
+
+/**
+ * Override standard method.
+ * Calls the same method in the current tool bar state.
+ */
+void UMLScene::mouseDoubleClickEvent(UMLSceneMouseEvent* ome)
+{
+    m_pToolBarState->mouseDoubleClick(ome);
+
+    if (isWidgetOrAssociation(ome->scenePos())) {
+        ome->ignore();
+    }
+    else {
+        // show properties dialog of the scene
+        if (showPropDialog() == true) {
+            m_doc->setModified();
+        }
+        ome->accept();
+    }
+}
+
+/**
+ * Overrides the standard operation.
+ * Calls the same method in the current tool bar state.
+ */
+void UMLScene::mouseReleaseEvent(UMLSceneMouseEvent* ome)
+{
+    m_pToolBarState->mouseRelease(ome);
 }
 
 /**
@@ -1053,15 +1116,6 @@ bool UMLScene::widgetOnDiagram(Uml::IDType id)
     }
 
     return false;
-}
-
-/**
- * Overrides the standard operation.
- * Calls the same method in the current tool bar state.
- */
-void UMLScene::mouseMoveEvent(UMLSceneMouseEvent* ome)
-{
-    m_pToolBarState->mouseMove(ome);
 }
 
 /**
@@ -1239,26 +1293,6 @@ bool UMLScene::isWidgetOrAssociation(const UMLScenePoint& atPos)
         return true;
     }
     return false;
-}
-
-/**
- * Override standard method.
- * Calls the same method in the current tool bar state.
- */
-void UMLScene::mouseDoubleClickEvent(UMLSceneMouseEvent* ome)
-{
-    m_pToolBarState->mouseDoubleClick(ome);
-
-    if (isWidgetOrAssociation(ome->scenePos())) {
-        ome->ignore();
-    }
-    else {
-        // show properties dialog of the scene
-        if (showPropDialog() == true) {
-            m_doc->setModified();
-        }
-        ome->accept();
-    }
 }
 
 /**
@@ -1554,40 +1588,6 @@ bool UMLScene::isSavedInSeparateFile()
     return !folderFile.isEmpty();
 }
 
-/**
- * Override standard method.
- * Calls the same method in the current tool bar state.
- */
-void UMLScene::mousePressEvent(UMLSceneMouseEvent* event)
-{
-    m_pToolBarState->mousePress(event);
-
-    //TODO should be managed by widgets when are selected. Right now also has some
-    //problems, such as clicking on a widget, and clicking to move that widget shows
-    //documentation of the diagram instead of keeping the widget documentation.
-    //When should diagram documentation be shown? When clicking on an empty
-    //space in the diagram with arrow tool?
-    UMLWidget* widget = widgetAt(event->scenePos());
-    if (widget) {
-        DEBUG(DBG_SRC) << "widget = " << widget->name() << " / type = " << widget->baseTypeStr();
-        showDocumentation(widget, true);
-    }
-    else {
-        AssociationWidget* association = associationAt(event->scenePos());
-        if (association) {
-            DEBUG(DBG_SRC) << "widget = " << association->name() << " / type = " << association->baseTypeStr();
-            showDocumentation(association, true);
-        }
-        //:TODO: else if (clicking on other elements with documentation) {
-        //:TODO: showDocumentation(umlObject, true);
-        else {
-            // clicking on an empty space in the diagram with arrow tool
-            showDocumentation(true);
-            event->accept();
-        }
-    }
-}
-
 bool UMLScene::isArrowMode()
 {
     return m_pToolBarState ==
@@ -1691,7 +1691,7 @@ void  UMLScene::getDiagram(const UMLSceneRect &area, QPainter &painter)
 
     // TODO: Check if this render method is identical to cavnas()->drawArea()
     // [PORT]
-    render(&painter, QRectF(), area, Qt::KeepAspectRatio);
+    render(&painter, UMLSceneRect(), area, Qt::KeepAspectRatio);
 
     setSnapGridVisible(showSnapGrid);
 
@@ -3744,7 +3744,7 @@ void UMLScene::setSnapSpacing(int x, int y)
 /**
  * Returns the input coordinate with possible grid-snap applied.
  */
-qreal UMLScene::snappedX(qreal _x)
+UMLSceneValue UMLScene::snappedX(UMLSceneValue _x)
 {
     int x = (int)_x;
     if (snapToGrid()) {
@@ -3760,7 +3760,7 @@ qreal UMLScene::snappedX(qreal _x)
 /**
  * Returns the input coordinate with possible grid-snap applied.
  */
-qreal UMLScene::snappedY(qreal _y)
+UMLSceneValue UMLScene::snappedY(UMLSceneValue y)
 {
     int y = (int)_y;
     if (snapToGrid()) {

@@ -65,6 +65,7 @@ typedef QRectF UMLSceneRect;
 typedef QSizeF UMLSceneSize;
 typedef QLineF UMLSceneLine;
 typedef qreal UMLSceneValue;
+typedef QPolygonF UMLScenePolygon;
 // event types
 typedef QGraphicsSceneMouseEvent UMLSceneMouseEvent;
 //typedef QGraphicsSceneKeyEvent UMLSceneKeyEvent;
@@ -75,7 +76,7 @@ typedef QGraphicsSceneDragDropEvent UMLSceneDragDropEvent;
 typedef QGraphicsLineItem UMLSceneLineItem;
 typedef QGraphicsRectItem UMLSceneRectItem;
 //typedef QGraphicsSceneItem UMLSceneItem;
-typedef QGraphicsPolygonItem UMLScenePolygon;
+typedef QGraphicsPolygonItem UMLScenePolygonItem;
 typedef QGraphicsEllipseItem UMLSceneEllipse;
 //typedef QGraphicsSceneItemList UMLSceneItemList;
 
@@ -140,8 +141,8 @@ public:
     int snapY() const;
     void setSnapSpacing(int x, int y);
 
-    qreal snappedX(qreal x);
-    qreal snappedY(qreal y);
+    UMLSceneValue snappedX(UMLSceneValue x);
+    UMLSceneValue snappedY(UMLSceneValue y);
 
     bool isSnapGridVisible() const;
     void setSnapGridVisible(bool bShow);
@@ -328,8 +329,6 @@ public:
     void setIsMouseMovingItems(bool b);
 
 protected:
-    virtual void contextMenuEvent(UMLSceneContextMenuEvent * event);
-
     // Methods and members related to loading/saving
 
     bool loadWidgetsFromXMI(QDomElement & qElement);
@@ -364,10 +363,11 @@ protected:
     void dragMoveEvent(UMLSceneDragDropEvent *moveEvent);
     void dropEvent(UMLSceneDragDropEvent *dropEvent);
 
-    void mouseReleaseEvent(UMLSceneMouseEvent* mouseEvent);
     void mouseMoveEvent(UMLSceneMouseEvent* mouseEvent);
-    void mouseDoubleClickEvent(UMLSceneMouseEvent* mouseEvent);
     void mousePressEvent(UMLSceneMouseEvent* mouseEvent);
+    void mouseDoubleClickEvent(UMLSceneMouseEvent* mouseEvent);
+    void mouseReleaseEvent(UMLSceneMouseEvent* mouseEvent);
+    virtual void contextMenuEvent(UMLSceneContextMenuEvent * event);
 
     /**
      * This variable is set/reset by items which would call
@@ -383,11 +383,10 @@ protected:
     void updateComponentSizes();
 
     void findMaxBoundingRectangle(const FloatingTextWidget* ft,
-                                  qreal& px, qreal& py, qreal& qx, qreal& qy);
-
+                                  UMLSceneValue& px, UMLSceneValue& py, UMLSceneValue& qx, UMLSceneValue& qy);
     void forceUpdateWidgetFontMetrics(QPainter *painter);
 
-    void drawBackground(QPainter *p, const QRectF& rect);
+    void drawBackground(QPainter *p, const UMLSceneRect& rect);
 
     int m_nCollaborationId;  ///< Used for creating unique name of collaboration messages.
     UMLScenePoint m_Pos;

@@ -52,7 +52,7 @@ UMLView::~UMLView()
  */
 UMLScene* UMLView::umlScene() const
 {
-    return qobject_cast<UMLScene*>(scene());
+    return m_scene;
 }
 
 /**
@@ -105,66 +105,16 @@ void UMLView::zoomOut()
 }
 
 /**
- * Sets the current centerpoint.  Also updates the scene's center point.
- * Unlike centerOn, which has no way of getting the floating point center
- * back, setCenter() stores the center point.  It also handles the special
- * sidebar case.  This function will claim the centerPoint to sceneRec ie.
- * the centerPoint must be within the sceneRec.
+ * Overrides standard method from QWidget to resize canvas when
+ * it's shown.
  */
-void UMLView::setCenter(const QPointF& centerPoint)
+void UMLView::show()
 {
-    // get the rectangle of the visible area in scene coords
-    QRectF visibleArea = mapToScene(rect()).boundingRect();
-
-    // get the scene area
-    QRectF sceneBounds = sceneRect();
-
-    double boundX = visibleArea.width() / 2.0;
-    double boundY = visibleArea.height() / 2.0;
-    double boundWidth = sceneBounds.width() - 2.0 * boundX;
-    double boundHeight = sceneBounds.height() - 2.0 * boundY;
-
-    // the max boundary that the centerPoint can be to
-    QRectF bounds(boundX, boundY, boundWidth, boundHeight);
-
-    if (bounds.contains(centerPoint)) {
-        // we are within the bounds
-        m_currentCenterPoint = centerPoint;
-    } else {
-        // we need to clamp or use the center of the screen
-        if(visibleArea.contains(sceneBounds)) {
-            // use the center of scene ie. we can see the whole scene
-            m_currentCenterPoint = sceneBounds.center();
-        } else {
-
-            m_currentCenterPoint = centerPoint;
-
-            // we need to clamp the center. The centerPoint is too large
-            if (centerPoint.x() > bounds.x() + bounds.width()) {
-                m_currentCenterPoint.setX(bounds.x() + bounds.width());
-            } else if (centerPoint.x() < bounds.x()) {
-                m_currentCenterPoint.setX(bounds.x());
-            }
-
-            if (centerPoint.y() > bounds.y() + bounds.height()) {
-                m_currentCenterPoint.setY(bounds.y() + bounds.height());
-            } else if (centerPoint.y() < bounds.y()) {
-                m_currentCenterPoint.setY(bounds.y());
-            }
-
-        }
-    }
-    // update the scrollbars
-    centerOn(m_currentCenterPoint);
+    QWidget::show();
+    umlScene()->resizeCanvasToItems();
 }
 
-/**
- * Get the center.
- */
-QPointF UMLView::center()
-{
-    return m_currentCenterPoint;
-}
+
 
 /**
  * Handles when the mouse button is pressed.
@@ -306,13 +256,65 @@ void UMLView::closeEvent(QCloseEvent* ce)
 }
 
 /**
- * Overrides standard method from QWidget to resize canvas when
- * it's shown.
+ * Sets the current centerpoint.  Also updates the scene's center point.
+ * Unlike centerOn, which has no way of getting the floating point center
+ * back, setCenter() stores the center point.  It also handles the special
+ * sidebar case.  This function will claim the centerPoint to sceneRec ie.
+ * the centerPoint must be within the sceneRec.
  */
-void UMLView::show()
+void UMLView::setCenter(const QPointF& centerPoint)
 {
-    QWidget::show();
-    umlScene()->resizeCanvasToItems();
+    // get the rectangle of the visible area in scene coords
+    QRectF visibleArea = mapToScene(rect()).boundingRect();
+
+    // get the scene area
+    QRectF sceneBounds = sceneRect();
+
+    double boundX = visibleArea.width() / 2.0;
+    double boundY = visibleArea.height() / 2.0;
+    double boundWidth = sceneBounds.width() - 2.0 * boundX;
+    double boundHeight = sceneBounds.height() - 2.0 * boundY;
+
+    // the max boundary that the centerPoint can be to
+    QRectF bounds(boundX, boundY, boundWidth, boundHeight);
+
+    if (bounds.contains(centerPoint)) {
+        // we are within the bounds
+        m_currentCenterPoint = centerPoint;
+    } else {
+        // we need to clamp or use the center of the screen
+        if(visibleArea.contains(sceneBounds)) {
+            // use the center of scene ie. we can see the whole scene
+            m_currentCenterPoint = sceneBounds.center();
+        } else {
+
+            m_currentCenterPoint = centerPoint;
+
+            // we need to clamp the center. The centerPoint is too large
+            if (centerPoint.x() > bounds.x() + bounds.width()) {
+                m_currentCenterPoint.setX(bounds.x() + bounds.width());
+            } else if (centerPoint.x() < bounds.x()) {
+                m_currentCenterPoint.setX(bounds.x());
+            }
+
+            if (centerPoint.y() > bounds.y() + bounds.height()) {
+                m_currentCenterPoint.setY(bounds.y() + bounds.height());
+            } else if (centerPoint.y() < bounds.y()) {
+                m_currentCenterPoint.setY(bounds.y());
+            }
+
+        }
+    }
+    // update the scrollbars
+    centerOn(m_currentCenterPoint);
+}
+
+/**
+ * Get the center.
+ */
+QPointF UMLView::center()
+{
+    return m_currentCenterPoint;
 }
 
 #include "umlview.moc"

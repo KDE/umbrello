@@ -13,8 +13,8 @@
 
 #include <QGraphicsView>
 
-class QHideEvent;
 class QCloseEvent;
+class QHideEvent;
 class QShowEvent;
 class UMLFolder;
 class UMLScene;
@@ -46,20 +46,19 @@ public slots:
     void show();
 
 protected:
-    virtual void closeEvent(QCloseEvent* ce);
-
-    void setCenter(const QPointF& centerPoint);
-    QPointF center();
-
     virtual void wheelEvent(QWheelEvent* event);
     virtual void resizeEvent(QResizeEvent* event);
-    void hideEvent(QHideEvent *he);
-    void showEvent(QShowEvent *se);
+    virtual void showEvent(QShowEvent *se);
+    virtual void hideEvent(QHideEvent *he);
+    virtual void closeEvent(QCloseEvent* ce);
 
+	void setCenter(const QPointF& centerPoint);
+    QPointF center();
+
+    UMLScene *m_scene;  ///< pointer to scene
     QPointF m_currentCenterPoint;  ///< holds the current centerpoint for the view, used for panning and zooming
     QPoint  m_lastPanPoint;        ///< from panning the view
-    int     m_nZoom;               ///< zoom level in percent, default 100
-
+    int m_nZoom;        ///< zoom level in percent, default 100
 };
 
 #endif // UMLVIEW_H
