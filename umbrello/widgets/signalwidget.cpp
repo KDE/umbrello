@@ -161,7 +161,7 @@ void SignalWidget::paint(QPainter & p, int offsetX, int offsetY)
 /**
  * Overrides the UMLWidget method.
  */
-void SignalWidget::setX(int newX)
+void SignalWidget::setX(UMLSceneValue newX)
 {
     m_oldX = x();
     UMLWidget::setX(newX);
@@ -170,7 +170,7 @@ void SignalWidget::setX(int newX)
 /**
  * Overrides the UMLWidget method.
  */
-void SignalWidget::setY(int newY)
+void SignalWidget::setY(UMLSceneValue newY)
 {
     m_oldY = y();
     UMLWidget::setY(newY);

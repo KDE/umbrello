@@ -101,7 +101,7 @@ void FloatingDashLineWidget::slotMenuSelection(QAction* action)
 /**
  * Overrides the setY method.
  */
-void FloatingDashLineWidget::setY(int y)
+void FloatingDashLineWidget::setY(UMLSceneValue y)
 {
     if(y >= m_yMin + FLOATING_DASH_LINE_MARGIN && y <= m_yMax - FLOATING_DASH_LINE_MARGIN)
         UMLWidget::setY(y);
@@ -110,7 +110,7 @@ void FloatingDashLineWidget::setY(int y)
 /**
  * Sets m_yMin.
  */
-void FloatingDashLineWidget::setYMin(int yMin)
+void FloatingDashLineWidget::setYMin(UMLSceneValue yMin)
 {
     m_yMin = yMin;
 }
@@ -118,7 +118,7 @@ void FloatingDashLineWidget::setYMin(int yMin)
 /**
  * Sets m_yMax.
  */
-void FloatingDashLineWidget::setYMax(int yMax)
+void FloatingDashLineWidget::setYMax(UMLSceneValue yMax)
 {
     m_yMax = yMax;
 }
@@ -126,7 +126,7 @@ void FloatingDashLineWidget::setYMax(int yMax)
 /**
  * Returns m_yMin.
  */
-int FloatingDashLineWidget::getYMin() const
+UMLSceneValue FloatingDashLineWidget::getYMin() const
 {
     return m_yMin;
 }
@@ -134,7 +134,7 @@ int FloatingDashLineWidget::getYMin() const
 /**
  * Returns the difference between the y-coordinate of the dash line and m_yMin.
  */
-int FloatingDashLineWidget::getDiffY() const
+UMLSceneValue FloatingDashLineWidget::getDiffY() const
 {
     return (y() - getYMin());
 }

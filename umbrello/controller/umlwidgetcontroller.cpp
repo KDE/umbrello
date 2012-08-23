@@ -445,7 +445,7 @@ QCursor UMLWidgetController::getResizeCursor()
  * @param newW The new width for the widget.
  * @param newH The new height for the widget.
  */
-void UMLWidgetController::resizeWidget(int newW, int newH)
+void UMLWidgetController::resizeWidget(UMLSceneValue newW, UMLSceneValue newH)
 {
     m_widget->setSize(newW, newH);
 }
@@ -467,7 +467,7 @@ void UMLWidgetController::resizeWidget(int newW, int newH)
  * @param diffX The difference between current X position and new X position.
  * @param diffY The difference between current Y position and new Y position.
  */
-void UMLWidgetController::moveWidgetBy(int diffX, int diffY)
+void UMLWidgetController::moveWidgetBy(UMLSceneValue diffX, UMLSceneValue diffY)
 {
     m_widget->setX(m_widget->x() + diffX);
     m_widget->setY(m_widget->y() + diffY);

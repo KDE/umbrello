@@ -65,7 +65,7 @@ QCursor ObjectWidgetController::getResizeCursor()
  * @param newW The new width for the widget.
  * @param newH The new height for the widget (isn't used).
  */
-void ObjectWidgetController::resizeWidget(int newW, int newH)
+void ObjectWidgetController::resizeWidget(UMLSceneValue newW, UMLSceneValue newH)
 {
     Q_UNUSED(newH);
     m_widget->setSize(newW, m_widget->height());
@@ -121,7 +121,7 @@ void ObjectWidgetController::mouseMoveEvent(UMLSceneMouseEvent* me)
  * @param diffY The difference between current Y position and new Y position
  *                          (isn't used).
  */
-void ObjectWidgetController::moveWidgetBy(int diffX, int diffY)
+void ObjectWidgetController::moveWidgetBy(UMLSceneValue diffX, UMLSceneValue diffY)
 {
     Q_UNUSED(diffY);
     m_widget->setX(m_widget->x() + diffX);
@@ -134,10 +134,10 @@ void ObjectWidgetController::moveWidgetBy(int diffX, int diffY)
  *
  * @param diffY The difference between current Y position and new Y position
  */
-void ObjectWidgetController::moveDestructionBy(int diffY)
+void ObjectWidgetController::moveDestructionBy(UMLSceneValue diffY)
 {
     // endLine = length of the life line + diffY - 10 to center on the destruction box
-    int endLine = dynamic_cast<ObjectWidget *>(m_widget)->getEndLineY() + diffY - 10;
+    UMLSceneValue endLine = dynamic_cast<ObjectWidget *>(m_widget)->getEndLineY() + diffY - 10;
     SeqLineWidget * pLine = dynamic_cast<ObjectWidget *>(m_widget)->sequentialLine();
     pLine->setEndOfLine(endLine);
     m_oldY = endLine;
@@ -151,7 +151,7 @@ void ObjectWidgetController::moveDestructionBy(int diffY)
  * @param diffX The difference between current X position and new X position.
  * @param diffY The difference between current Y position and new Y position.
  */
-void ObjectWidgetController::constrainMovementForAllWidgets(int& diffX, int& diffY)
+void ObjectWidgetController::constrainMovementForAllWidgets(UMLSceneValue& diffX, UMLSceneValue& diffY)
 {
     Q_UNUSED(diffX);
     diffY = 0;

@@ -49,13 +49,13 @@ protected:
 
     virtual bool isInResizeArea(UMLSceneMouseEvent *me);
 
-    virtual void moveWidgetBy(int diffX, int diffY);
+    virtual void moveWidgetBy(UMLSceneValue diffX, UMLSceneValue diffY);
 
-    virtual void constrainMovementForAllWidgets(int &diffX, int &diffY);
+    virtual void constrainMovementForAllWidgets(UMLSceneValue &diffX, UMLSceneValue &diffY);
 
 private:
 
-    UMLScenePoint constrainPosition(int diffX, int diffY);
+    UMLScenePoint constrainPosition(UMLSceneValue diffX, UMLSceneValue diffY);
 
     /**
      * The floating text widget which uses the controller.

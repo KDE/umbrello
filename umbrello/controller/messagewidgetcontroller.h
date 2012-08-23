@@ -56,17 +56,17 @@ protected:
 
     virtual QCursor getResizeCursor();
 
-    virtual void resizeWidget(int newW, int newH);
+    virtual void resizeWidget(UMLSceneValue newW, UMLSceneValue newH);
 
-    virtual void moveWidgetBy(int diffX, int diffY);
+    virtual void moveWidgetBy(UMLSceneValue diffX, UMLSceneValue diffY);
 
-    virtual void constrainMovementForAllWidgets(int &diffX, int &diffY);
+    virtual void constrainMovementForAllWidgets(UMLSceneValue &diffX, UMLSceneValue &diffY);
 
     virtual void doMouseDoubleClick(UMLSceneMouseEvent *me);
 
 private:
 
-    int constrainPositionY(int diffY);
+    int constrainPositionY(UMLSceneValue diffY);
 
     /**
      * The message widget which uses the controller.

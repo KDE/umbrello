@@ -73,7 +73,7 @@ QCursor MessageWidgetController::getResizeCursor()
  * @param newW The new width for the widget (isn't used).
  * @param newH The new height for the widget.
  */
-void MessageWidgetController::resizeWidget(int newW, int newH)
+void MessageWidgetController::resizeWidget(UMLSceneValue newW, UMLSceneValue newH)
 {
     if (m_messageWidget->sequenceMessageType() == Uml::sequence_message_creation)
         m_messageWidget->setSize(m_messageWidget->width(), newH);
@@ -112,11 +112,11 @@ void MessageWidgetController::resizeWidget(int newW, int newH)
  *                          (isn't used).
  * @param diffY The difference between current Y position and new Y position.
  */
-void MessageWidgetController::moveWidgetBy(int diffX, int diffY)
+void MessageWidgetController::moveWidgetBy(UMLSceneValue diffX, UMLSceneValue diffY)
 {
     Q_UNUSED(diffX);
     m_unconstrainedPositionY += diffY;
-    int newY = constrainPositionY(diffY);
+    UMLSceneValue newY = constrainPositionY(diffY);
 
     if (m_unconstrainedPositionY != newY) {
         if (m_unconstrainedPositionY > m_messageWidget->y()) {
@@ -129,7 +129,7 @@ void MessageWidgetController::moveWidgetBy(int diffX, int diffY)
     m_messageWidget->setY(newY);
 
     if (m_messageWidget->m_sequenceMessageType == Uml::sequence_message_creation) {
-        const int objWidgetHalfHeight = m_messageWidget->m_pOw[Uml::B]->height() / 2;
+        const UMLSceneValue objWidgetHalfHeight = m_messageWidget->m_pOw[Uml::B]->height() / 2;
         m_messageWidget->m_pOw[Uml::B]->UMLWidget::setY(newY - objWidgetHalfHeight);
     }
 
@@ -145,7 +145,7 @@ void MessageWidgetController::moveWidgetBy(int diffX, int diffY)
  * @param diffX The difference between current X position and new X position.
  * @param diffY The difference between current Y position and new Y position.
  */
-void MessageWidgetController::constrainMovementForAllWidgets(int &diffX, int &diffY)
+void MessageWidgetController::constrainMovementForAllWidgets(UMLSceneValue &diffX, UMLSceneValue &diffY)
 {
     diffX = 0;
     diffY = constrainPositionY(diffY) - m_widget->y();
@@ -176,11 +176,11 @@ void MessageWidgetController::doMouseDoubleClick(UMLSceneMouseEvent* me)
  * @param diffY The difference between current Y position and new Y position.
  * @return The new Y position, constrained.
  */
-int MessageWidgetController::constrainPositionY(int diffY)
+int MessageWidgetController::constrainPositionY(UMLSceneValue diffY)
 {
-    int newY = m_widget->y() + diffY;
+    UMLSceneValue newY = m_widget->y() + diffY;
 
-    int minY = m_messageWidget->getMinY();
+    UMLSceneValue minY = m_messageWidget->getMinY();
     if (m_messageWidget->m_pFText && !m_messageWidget->m_pFText->displayText().isEmpty()) {
         minY += m_messageWidget->m_pFText->height();
     }

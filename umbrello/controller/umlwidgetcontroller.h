@@ -81,9 +81,9 @@ public:
 
     void insertSaveValues(int _oldX, int _oldY, int X, int Y);
 
-    virtual void moveWidgetBy(int diffX, int diffY);
+    virtual void moveWidgetBy(UMLSceneValue diffX, UMLSceneValue diffY);
 
-    virtual void resizeWidget(int newW, int newH);
+    virtual void resizeWidget(UMLSceneValue newW, UMLSceneValue newH);
 
     virtual UMLWidget* getWidget();
 

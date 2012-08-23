@@ -90,7 +90,7 @@ bool FloatingTextWidgetController::isInResizeArea(UMLSceneMouseEvent* me)
  * @param diffX The difference between current X position and new X position.
  * @param diffY The difference between current Y position and new Y position.
  */
-void FloatingTextWidgetController::moveWidgetBy(int diffX, int diffY)
+void FloatingTextWidgetController::moveWidgetBy(UMLSceneValue diffX, UMLSceneValue diffY)
 {
     if (m_floatingTextWidget->textRole() == Uml::TextRole::Seq_Message_Self)
         return;
@@ -155,7 +155,7 @@ void FloatingTextWidgetController::moveWidgetBy(int diffX, int diffY)
  * @param diffX The difference between current X position and new X position.
  * @param diffY The difference between current Y position and new Y position.
  */
-void FloatingTextWidgetController::constrainMovementForAllWidgets(int &diffX, int &diffY)
+void FloatingTextWidgetController::constrainMovementForAllWidgets(UMLSceneValue &diffX, UMLSceneValue &diffY)
 {
     UMLScenePoint constrainedPosition = constrainPosition(diffX, diffY);
 
@@ -175,7 +175,7 @@ void FloatingTextWidgetController::constrainMovementForAllWidgets(int &diffX, in
  * @param diffY The difference between current Y position and new Y position.
  * @return A UMLScenePoint with the constrained new position.
  */
-UMLScenePoint FloatingTextWidgetController::constrainPosition(int diffX, int diffY)
+UMLScenePoint FloatingTextWidgetController::constrainPosition(UMLSceneValue diffX, UMLSceneValue diffY)
 {
     UMLSceneValue newX = m_floatingTextWidget->x() + diffX;
     UMLSceneValue newY = m_floatingTextWidget->y() + diffY;

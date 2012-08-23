@@ -44,8 +44,8 @@ public:
 
     void paint(QPainter & p, int offsetX, int offsetY);
 
-    void setX(int newX);
-    void setY(int newY);
+    void setX(UMLSceneValue newX);
+    void setY(UMLSceneValue newY);
 
     virtual void setName(const QString &strName);
     virtual QString getName() const;
