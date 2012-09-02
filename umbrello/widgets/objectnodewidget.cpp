@@ -57,7 +57,7 @@ ObjectNodeWidget::~ObjectNodeWidget()
 /**
  * Overrides the standard paint event.
  */
-void ObjectNodeWidget::paint(QPainter & p, int offsetX, int offsetY)
+void ObjectNodeWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
     int w = width();
     int h = height();

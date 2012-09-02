@@ -46,7 +46,7 @@ DatatypeWidget::~DatatypeWidget()
 /**
  * Overrides standard method.
  */
-void DatatypeWidget::paint(QPainter& p, int offsetX, int offsetY)
+void DatatypeWidget::draw(QPainter& p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
     if (UMLWidget::useFillColor())  {

@@ -61,7 +61,7 @@ public:
     explicit StateWidget(UMLScene * scene, StateType stateType = Normal, Uml::IDType id = Uml::id_None);
     virtual ~StateWidget();
 
-    void paint(QPainter & p, int offsetX, int offsetY);
+    void draw(QPainter & p, int offsetX, int offsetY);
 
     StateType stateType() const;
     QString stateTypeStr() const;

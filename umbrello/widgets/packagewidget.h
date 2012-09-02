@@ -32,7 +32,7 @@ public:
     PackageWidget(UMLScene * scene, UMLPackage * o);
     virtual ~PackageWidget();
 
-    void paint(QPainter& p, int offsetX, int offsetY);
+    void draw(QPainter& p, int offsetX, int offsetY);
 
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 

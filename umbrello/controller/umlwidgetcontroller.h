@@ -68,7 +68,7 @@ public:
     virtual ~UMLWidgetController();
 
     virtual void mousePressEvent(UMLSceneMouseEvent *me);
-    virtual void mouseMoveEvent(UMLSceneMouseEvent* me);
+    virtual void mouseMoveEvent(UMLSceneMouseEvent *me);
     virtual void mouseReleaseEvent(UMLSceneMouseEvent * me);
     virtual void mouseDoubleClickEvent(UMLSceneMouseEvent *me);
 
@@ -118,8 +118,8 @@ protected:
     int getBiggestX(const UMLWidgetList &widgetList);
     int getBiggestY(const UMLWidgetList &widgetList);
 
-    QPoint getPosition(UMLSceneMouseEvent *me);
-    QPoint getPositionDifference(UMLSceneMouseEvent *me);
+    UMLScenePoint getPosition(UMLSceneMouseEvent *me);
+    UMLScenePoint getPositionDifference(UMLSceneMouseEvent *me);
 
     void showPopupMenu(UMLSceneMouseEvent *me);
 

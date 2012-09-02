@@ -48,7 +48,7 @@ EntityWidget::~EntityWidget()
 /**
  * Draws the entity as a rectangle with a box underneith with a list of literals
  */
-void EntityWidget::paint(QPainter& p, int offsetX, int offsetY)
+void EntityWidget::draw(QPainter& p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
     if(UMLWidget::useFillColor())

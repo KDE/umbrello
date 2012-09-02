@@ -37,7 +37,7 @@ public:
     explicit FloatingDashLineWidget(UMLScene * scene, Uml::IDType id = Uml::id_None);
     ~FloatingDashLineWidget();
 
-    void paint(QPainter & p, int offsetX, int offsetY);
+    void draw(QPainter & p, int offsetX, int offsetY);
 
     void slotMenuSelection(QAction* action);
 

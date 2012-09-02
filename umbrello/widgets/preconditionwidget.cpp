@@ -66,7 +66,7 @@ PreconditionWidget::~PreconditionWidget()
 /**
  * Overrides the standard paint event.
  */
-void PreconditionWidget::paint(QPainter& p, int /*offsetX*/, int offsetY)
+void PreconditionWidget::draw(QPainter& p, int /*offsetX*/, int offsetY)
 {
     int w = width();
     int h = height();

@@ -154,7 +154,7 @@ void MessageWidget::updateResizability()
 /**
  * Calls drawSynchronous() or drawAsynchronous().
  */
-void MessageWidget::paint(QPainter& p, int offsetX, int offsetY)
+void MessageWidget::draw(QPainter& p, int offsetX, int offsetY)
 {
     if(!m_pOw[Uml::A] || !m_pOw[Uml::B]) {
         return;
@@ -558,7 +558,7 @@ void MessageWidget::setLinkAndTextPos()
     }
 }
 
-void MessageWidget::moveEvent(UMLSceneMoveEvent* /*m*/)
+void MessageWidget::moveEvent(UMLSceneMouseEvent* /*m*/)
 {
     //uDebug() << "m_pFText is " << m_pFText;
     if (!m_pFText) {

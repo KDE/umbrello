@@ -119,7 +119,7 @@ public:
     void calculateDimensionsLost();
     void calculateDimensionsFound();
 
-    void paint(QPainter& p, int offsetX, int offsetY);
+    void draw(QPainter& p, int offsetX, int offsetY);
 
     void setTextPosition();
 
@@ -173,7 +173,7 @@ protected:
     Uml::Sequence_Message_Type m_sequenceMessageType;
 
 private:
-    void moveEvent(UMLSceneMoveEvent *m);
+    void moveEvent(UMLSceneMouseEvent *m);
     void resizeEvent(QResizeEvent *re);
 
     void init();

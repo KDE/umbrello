@@ -45,7 +45,7 @@ FloatingDashLineWidget::~FloatingDashLineWidget()
 /**
  * Overrides the standard paint event.
  */
-void FloatingDashLineWidget::paint(QPainter & p, int /*offsetX*/, int /*offsetY*/)
+void FloatingDashLineWidget::draw(QPainter & p, int /*offsetX*/, int /*offsetY*/)
 {
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();

@@ -25,8 +25,11 @@
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QtGui/QPixmap>
-#include <Q3Canvas>
+#include <QGraphicsScene>
+#include <qgraphicsitem.h>
 #include <QtXml/QDomDocument>
+#include <QGraphicsSceneMouseEvent>
+#include <QGraphicsPolygonItem>
 
 // forward declarations
 class ClassOptionsPage;
@@ -44,6 +47,8 @@ class UMLViewImageExporter;
 class UMLForeignKeyConstraint;
 class UMLEntity;
 class UMLView;
+class ToolBarState;
+class ToolBarStateFactory;
 
 class QCloseEvent;
 class QDragEnterEvent;
@@ -56,95 +61,199 @@ class UMLScene;
 
 /// uml related types - makes it easier to switch to QGraphicsScene types
 // base types
-typedef QPoint UMLScenePoint;
-typedef QRect UMLSceneRect;
-typedef QSize UMLSceneSize;
-typedef QLine UMLSceneLine;
-typedef int UMLSceneValue;
+typedef QPointF UMLScenePoint;
+typedef QRectF UMLSceneRect;
+typedef QSizeF UMLSceneSize;
+typedef QLineF UMLSceneLine;
+typedef qreal UMLSceneValue;
 
-class UMLScenePolygon : public QPolygon
+class UMLScenePolygon : public QPolygonF
 {
 public:
     UMLScenePolygon() {}
+    void setPoint(int index, const UMLScenePoint &p)
+    {
+        replace(index, p);
+    }
 };
 
 // event types
 typedef QKeyEvent UMLSceneKeyEvent;
-typedef QHoverEvent UMLSceneHoverEvent;
-typedef QContextMenuEvent UMLSceneContextMenuEvent;
-typedef QDropEvent UMLSceneDragDropEvent;
-typedef QDragEnterEvent UMLSceneDragEnterEvent;
-typedef QDragMoveEvent UMLSceneDragMoveEvent;
-typedef QMouseEvent UMLSceneMoveEvent;
-
-#if 0
+typedef QGraphicsSceneHoverEvent UMLSceneHoverEvent;
+typedef QGraphicsSceneContextMenuEvent UMLSceneContextMenuEvent;
+typedef QGraphicsSceneDragDropEvent UMLSceneDragDropEvent;
+typedef QGraphicsSceneDragDropEvent UMLSceneDragEnterEvent;
+typedef QGraphicsSceneDragDropEvent UMLSceneDragMoveEvent;
 /**
  * Qt3 migration wrapper for QMouseEvent.
  */
-class  UMLSceneMouseEvent : public QMouseEvent
+#if 0
+class  UMLSceneMouseEvent : public QGraphicsSceneMouseEvent
 {
 public:
-    UMLSceneMouseEvent(Type type, const QPoint & position, Qt::MouseButton button, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers)
-    : QMouseEvent(type, position, button, buttons, modifiers)
+    UMLSceneMouseEvent(Type type, const UMLScenePoint& position, Qt::MouseButton button, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers)
+     : QGraphicsSceneMouseEvent(type)
+    {
+        Q_UNUSED(position);
+        Q_UNUSED(button);
+        Q_UNUSED(buttons);
+        Q_UNUSED(modifiers);
+        //( position, button, buttons, modifiers)
+    }
+    UMLSceneMouseEvent(Type type)
+     : QGraphicsSceneMouseEvent(type)
     {
     }
-    
-    UMLScenePoint scenePos() {
-        return pos();
+
+    QPoint globalPos() {
+        return screenPos();
+    }
+
+    UMLSceneValue x() const
+    {
+        return pos().x();
+    }
+
+    UMLSceneValue y() const
+    {
+        return pos().y();
     }
 };
 #else
-#define UMLSceneMouseEvent QMouseEvent 
+#define UMLSceneMouseEvent QGraphicsSceneMouseEvent
 #endif
 
-typedef Q3CanvasItem UMLSceneItem;
-typedef Q3CanvasItemList UMLSceneItemList;
-
-
-class UMLSceneLineItem : public Q3CanvasLine
+class UMLSceneMoveEvent : public QGraphicsSceneMoveEvent
 {
 public:
-    UMLSceneLineItem()
-    : Q3CanvasLine(0)
+    UMLSceneMoveEvent() {}
+
+    UMLScenePoint pos()
     {
+        return newPos();
     }
 };
 
-class UMLSceneRectItem : public Q3CanvasRectangle
+// Qt3 migration wrapper for QGraphicsScene items 
+typedef QGraphicsItem UMLSceneItem;
+typedef QList<QGraphicsItem*> UMLSceneItemList;
+
+class UMLSceneLineItem : public QGraphicsLineItem
+{
+public:
+    UMLSceneLineItem()
+    : QGraphicsLineItem(0)
+    {
+    }
+
+    void setPoints(UMLSceneValue x1, UMLSceneValue y1, UMLSceneValue x2, UMLSceneValue y2)
+    {
+        setLine(x1, y1, x2, y2);
+    }
+
+    UMLScenePoint startPoint()
+    {
+        return line().p1();
+    }
+    
+    UMLScenePoint endPoint()
+    {
+        return line().p2();
+    }
+
+    void setZ(UMLSceneValue z)
+    {
+        setZValue(z);
+    }
+
+    void setCanvas(QGraphicsScene *scene)
+    {
+        scene->addItem(this);
+    }
+};
+
+class UMLSceneRectItem : public QGraphicsRectItem
 {
 public:
     UMLSceneRectItem()
-    : Q3CanvasRectangle(0)
+    : QGraphicsRectItem(0)
     {
     }
     
     UMLSceneRectItem(int x, int y, int w, int h)
-    : Q3CanvasRectangle(x, y, w, h, 0)
+    : QGraphicsRectItem(x, y, w, h, 0)
     {
+    }
+
+    UMLSceneValue z() const
+    {
+        return zValue();
+    }
+
+    void setZ(UMLSceneValue z)
+    {
+        setZValue(z);
+    }
+
+    UMLSceneSize size() const
+    {
+        return rect().size();
+    }
+
+    void setSize(UMLSceneValue w, UMLSceneValue h)
+    {
+        setRect(rect().x(), rect().y(), w, h);
+    }
+
+    void setCanvas(QGraphicsScene *scene)
+    {
+        scene->addItem(this);
     }
 };
 
-class UMLScenePolygonItem : public Q3CanvasPolygon
+class UMLScenePolygonItem : public QGraphicsPolygonItem
 {
 public:
     UMLScenePolygonItem()
-    : Q3CanvasPolygon(0)
+    : QGraphicsPolygonItem(0)
     {
     }
+
+    void setZ(UMLSceneValue z)
+    {
+        setZValue(z);
+    }
+
+    void setPoints(const UMLScenePolygon &p)
+    {
+        setPolygon(p);
+    }
+
+    void setCanvas(QGraphicsScene *scene)
+    {
+        scene->addItem(this);
+    }
+
 };
 
-class UMLSceneEllipseItem : public Q3CanvasEllipse
+class UMLSceneEllipseItem : public QGraphicsEllipseItem
 {
 public:
     UMLSceneEllipseItem()
-    : Q3CanvasEllipse(0)
+    : QGraphicsEllipseItem(0)
     {
     }
-    
+
     UMLSceneEllipseItem(int width, int height)
-    : Q3CanvasEllipse(width, height, 0)
+    : QGraphicsEllipseItem(0, 0, width, height, 0)
     {
     }
+
+    void setCanvas(QGraphicsScene *scene)
+    {
+        scene->addItem(this);
+    }
+
 };
 
 /**
@@ -152,7 +261,7 @@ public:
  * The UMLScene class inherits from Q3Canvas and
  * in the future from QGraphicsScene.
  */
-class UMLScene : public Q3Canvas
+class UMLScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
@@ -161,7 +270,7 @@ public:
     UMLScene(UMLFolder *parentFolder, UMLView *view=0);
     virtual ~UMLScene();
 
-    Q3Canvas *canvas()
+    UMLScene *canvas()
     {
         return this;
     }
@@ -261,7 +370,7 @@ public:
 
     void removeWidget(UMLWidget *o);
 
-    void setSelected(UMLWidget *w, QMouseEvent *me);
+    void setSelected(UMLWidget *w, UMLSceneMouseEvent *me);
     UMLWidgetList selectedWidgets() const;
     void clearSelected();
 
@@ -287,6 +396,7 @@ public:
     bool isSavedInSeparateFile();
 
     void setMenu();
+    void resetToolbar();
 
     bool getPaste() const;
     void setPaste(bool paste);
@@ -398,9 +508,11 @@ public:
 
     int generateCollaborationId();
 
-    void mousePressEvent(UMLSceneMouseEvent* event);
+    UMLSceneItemList collisions(const UMLScenePoint &p);
 
 protected:
+
+    void setAllChanged() {}
     // Methods and members related to loading/saving
 
     bool loadWidgetsFromXMI(QDomElement & qElement);
@@ -442,7 +554,10 @@ protected:
     void dragMoveEvent(UMLSceneDragMoveEvent* moveEvent);
     void dropEvent(UMLSceneDragDropEvent* dropEvent);
 
-//    void mousePressEvent(UMLSceneMouseEvent* event);  // made public for now
+    void mouseMoveEvent(UMLSceneMouseEvent* mouseEvent);
+    void mousePressEvent(UMLSceneMouseEvent* mouseEvent);
+    void mouseDoubleClickEvent(UMLSceneMouseEvent* mouseEvent);
+    void mouseReleaseEvent(UMLSceneMouseEvent* mouseEvent);
 
     UMLSceneRect diagramRect();
 
@@ -454,7 +569,7 @@ protected:
                                   UMLSceneValue& px, UMLSceneValue& py, UMLSceneValue& qx, UMLSceneValue& qy);
     void forceUpdateWidgetFontMetrics(QPainter *painter);
 
-    virtual void drawBackground(QPainter & painter, const QRect & clip);
+    virtual void drawBackground(QPainter *painter, const UMLSceneRect & clip);
 
     int m_nCollaborationId;  ///< Used for creating unique name of collaboration messages.
     UMLScenePoint m_Pos;
@@ -477,6 +592,8 @@ private:
     UMLScenePoint m_PastePoint;     ///< The offset at which to paste the clipboard.
     UMLDoc* m_doc;                  ///< Pointer to the UMLDoc.
     UMLViewImageExporter* m_pImageExporter;  ///< Used to export the view.
+    ToolBarState *m_pToolBarState;
+    ToolBarStateFactory *m_pToolBarStateFactory;
 
     void createAutoAttributeAssociation(UMLClassifier *type,
                                         UMLAttribute *attr,
@@ -485,9 +602,12 @@ private:
                                          UMLForeignKeyConstraint* fkConstraint,
                                          UMLWidget* widget);
 
+    bool isWidgetOrAssociation(const UMLScenePoint& atPos);
+
 public slots:
     void show();
 
+    void slotToolBarChanged(int c);
     void slotObjectCreated(UMLObject * o);
     void slotObjectRemoved(UMLObject * o);
     void slotMenuSelection(QAction* action);
@@ -506,6 +626,8 @@ public slots:
     void alignHorizontalDistribute();
 
 signals:
+    void sigResetToolBar();
+
     void sigFillColorChanged(Uml::IDType);
     void sigGridColorChanged(Uml::IDType);
     void sigLineColorChanged(Uml::IDType);

@@ -80,7 +80,7 @@ void ToolBarStateMessages::mouseMove(UMLSceneMouseEvent* ome)
 
     if (m_messageLine) {
         UMLScenePoint sp = m_messageLine->startPoint();
-        m_messageLine->setPoints(sp.x(), sp.y(), m_pMouseEvent->x(), m_pMouseEvent->y());
+        m_messageLine->setPoints(sp.x(), sp.y(), m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y());
     }
 }
 
@@ -110,7 +110,7 @@ void ToolBarStateMessages::setCurrentElement()
 {
     m_isObjectWidgetLine = false;
 
-    ObjectWidget* objectWidgetLine = m_pUMLScene->onWidgetLine(m_pMouseEvent->pos());
+    ObjectWidget* objectWidgetLine = m_pUMLScene->onWidgetLine(m_pMouseEvent->scenePos());
     if (objectWidgetLine) {
         uDebug() << Q_FUNC_INFO << "Object detected";
         setCurrentWidget(objectWidgetLine);
@@ -122,7 +122,7 @@ void ToolBarStateMessages::setCurrentElement()
     //However, the applied patch doesn't seem to be necessary no more, so it was removed
     //The widgets weren't got from UMLView, but from a method in this class similarto the
     //one in UMLView but containing special code to handle the zoom
-    UMLWidget *widget = m_pUMLScene->widgetAt(m_pMouseEvent->pos());
+    UMLWidget *widget = m_pUMLScene->widgetAt(m_pMouseEvent->scenePos());
     if (widget) {
         setCurrentWidget(widget);
         return;
@@ -176,8 +176,8 @@ void ToolBarStateMessages::mouseReleaseEmpty()
     Uml::Sequence_Message_Type msgType = getMessageType();
 
     if (m_firstObject && msgType ==  Uml::sequence_message_lost) {
-        xclick = m_pMouseEvent->pos().x();
-        yclick = m_pMouseEvent->pos().y();
+        xclick = m_pMouseEvent->scenePos().x();
+        yclick = m_pMouseEvent->scenePos().y();
 
         MessageWidget* message = new MessageWidget(m_pUMLScene, m_firstObject, xclick, yclick, msgType);
         setupMessageWidget(message);
@@ -187,12 +187,12 @@ void ToolBarStateMessages::mouseReleaseEmpty()
     }
 
     else if (!m_firstObject && msgType == Uml::sequence_message_found && xclick == 0 && yclick == 0) {
-        xclick = m_pMouseEvent->pos().x();
-        yclick = m_pMouseEvent->pos().y();
+        xclick = m_pMouseEvent->scenePos().x();
+        yclick = m_pMouseEvent->scenePos().y();
 
         m_messageLine = new UMLSceneLineItem();
         m_messageLine->setCanvas(m_pUMLScene->canvas());
-        m_messageLine->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y());
+        m_messageLine->setPoints(m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y(), m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y());
         m_messageLine->setPen(QPen(m_pUMLScene->lineColor(), m_pUMLScene->lineWidth(), Qt::DashLine));
 
         m_messageLine->setVisible(true);
@@ -226,7 +226,7 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
     else {
         m_messageLine = new UMLSceneLineItem();
         m_messageLine->setCanvas(m_pUMLScene->canvas());
-        m_messageLine->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y());
+        m_messageLine->setPoints(m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y(), m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y());
         m_messageLine->setPen(QPen(m_pUMLScene->lineColor(), m_pUMLScene->lineWidth(), Qt::DashLine));
 
         m_messageLine->setVisible(true);
@@ -257,7 +257,7 @@ void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageTy
     }
     //TODO shouldn't start position in the first widget be used also for normal messages
     //and not only for creation?
-    int y = m_pMouseEvent->y();
+    UMLSceneValue y = m_pMouseEvent->scenePos().y();
     if (messageType == CreationMessage) {
         msgType = Uml::sequence_message_creation;
         y = m_messageLine->startPoint().y();

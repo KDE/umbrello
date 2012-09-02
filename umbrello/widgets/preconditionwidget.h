@@ -39,7 +39,7 @@ public:
     int minY() const;
     int maxY() const;
 
-    void paint(QPainter& p, int offsetX, int offsetY);
+    void draw(QPainter& p, int offsetX, int offsetY);
 
     bool activate(IDChangeLog* Log = 0);
 

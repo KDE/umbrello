@@ -90,7 +90,7 @@ public:
     virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
     virtual bool loadFromXMI(QDomElement & qElement);
 
-    virtual void paint(QPainter & p, int offsetX, int offsetY);
+    virtual void draw(QPainter & p, int offsetX, int offsetY);
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);

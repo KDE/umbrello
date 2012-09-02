@@ -34,7 +34,7 @@ public:
     virtual ~EntityWidget();
 
 
-    virtual void paint(QPainter& p, int offsetX, int offsetY);
+    virtual void draw(QPainter& p, int offsetX, int offsetY);
 
     // UMLWidget::loadFromXMI is used to load this widget.
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);

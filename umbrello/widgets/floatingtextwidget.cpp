@@ -463,7 +463,7 @@ bool FloatingTextWidget::isTextValid(const QString &text)
 /**
  * Overrides default method
  */
-void FloatingTextWidget::paint(QPainter & p, int offsetX, int offsetY)
+void FloatingTextWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
     int w = width();
     int h = height();

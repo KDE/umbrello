@@ -53,7 +53,7 @@ StateWidget::~StateWidget()
 /**
  * Overrides the standard paint event.
  */
-void StateWidget::paint(QPainter & p, int offsetX, int offsetY)
+void StateWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
     const int w = width();

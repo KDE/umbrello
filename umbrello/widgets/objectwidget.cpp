@@ -127,7 +127,7 @@ bool ObjectWidget::multipleInstance() const
 /**
  * Override default method.
  */
-void ObjectWidget::paint(QPainter & p, int offsetX, int offsetY)
+void ObjectWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
     if ( m_drawAsActor )
         drawActor( p, offsetX, offsetY );
@@ -276,7 +276,7 @@ void ObjectWidget::setY(UMLSceneValue y)
 /**
  * Overrides the standard operation.
  */
-void ObjectWidget::moveEvent(UMLSceneMoveEvent *m)
+void ObjectWidget::moveEvent(UMLSceneMouseEvent *m)
 {
     Q_UNUSED(m)
     emit sigWidgetMoved( m_nLocalID );

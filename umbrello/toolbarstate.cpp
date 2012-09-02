@@ -13,6 +13,7 @@
 
 // app includes
 #include "associationwidget.h"
+#include "debug_utils.h"
 #include "messagewidget.h"
 #include "floatingdashlinewidget.h"
 #include "objectwidget.h"
@@ -22,6 +23,7 @@
 
 // qt includes
 #include <QWMatrix> // need for inverseWorldMatrix.map
+#include <QScrollBar>
 
 /**
  * Destroys this ToolBarState.
@@ -84,7 +86,7 @@ void ToolBarState::mousePress(UMLSceneMouseEvent* ome)
     m_pUMLScene->emitRemovePopupMenu();
 
     // TODO: Check who needs this.
-    m_pUMLScene->setPos(m_pMouseEvent->pos());
+    m_pUMLScene->setPos(m_pMouseEvent->scenePos());
 
     //TODO check why
     m_pUMLScene->setPaste(false);
@@ -115,7 +117,7 @@ void ToolBarState::mouseRelease(UMLSceneMouseEvent* ome)
 
     // Set the position of the mouse
     // TODO, should only be available in this state?
-    m_pUMLScene->setPos(m_pMouseEvent->pos());
+    m_pUMLScene->setPos(m_pMouseEvent->scenePos());
 
     m_pUMLScene->activeView()->viewport()->setMouseTracking(false);
 
@@ -146,8 +148,8 @@ void ToolBarState::mouseDoubleClick(UMLSceneMouseEvent* ome)
 {
     setMouseEvent(ome, QEvent::MouseButtonDblClick);
 
-    UMLWidget* currentWidget = m_pUMLScene->widgetAt(m_pMouseEvent->pos());
-    AssociationWidget* currentAssociation = associationAt(m_pMouseEvent->pos());
+    UMLWidget* currentWidget = m_pUMLScene->widgetAt(m_pMouseEvent->scenePos());
+    AssociationWidget* currentAssociation = associationAt(m_pMouseEvent->scenePos());
     if (currentWidget) {
         setCurrentWidget(currentWidget);
         mouseDoubleClickWidget();
@@ -176,6 +178,8 @@ void ToolBarState::mouseDoubleClick(UMLSceneMouseEvent* ome)
  */
 void ToolBarState::mouseMove(UMLSceneMouseEvent* ome)
 {
+	static int mouseCount = 0;
+
     setMouseEvent(ome, QEvent::MouseMove);
 
     if (currentWidget()) {
@@ -186,21 +190,32 @@ void ToolBarState::mouseMove(UMLSceneMouseEvent* ome)
         mouseMoveEmpty();
     }
 
-    //Scrolls the view
-    int vx = ome->x();
-    int vy = ome->y();
-    int contsX = m_pUMLScene->activeView()->contentsX();
-    int contsY = m_pUMLScene->activeView()->contentsY();
-    int visw = m_pUMLScene->activeView()->visibleWidth();
-    int vish = m_pUMLScene->activeView()->visibleHeight();
-    int dtr = visw - (vx-contsX);
-    int dtb = vish - (vy-contsY);
-    int dtt =  (vy-contsY);
-    int dtl =  (vx-contsX);
-    if (dtr < 30) m_pUMLScene->activeView()->scrollBy(30-dtr,0);
-    if (dtb < 30) m_pUMLScene->activeView()->scrollBy(0,30-dtb);
-    if (dtl < 30) m_pUMLScene->activeView()->scrollBy(-(30-dtl),0);
-    if (dtt < 30) m_pUMLScene->activeView()->scrollBy(0,-(30-dtt));
+    // scrolls the view
+    int vx = ome->scenePos().x();
+    int vy = ome->scenePos().y();
+    UMLView* view = m_pUMLScene->activeView();
+//    QRectF maxArea = view->sceneRect();
+    QRectF visibleArea = view->mapToScene(view->rect()).boundingRect();
+    int dtr = visibleArea.x() + visibleArea.width() - vx;   // delta right
+    int dtb = visibleArea.y() + visibleArea.height() - vy;  // delta bottom
+    int dtt = vy - visibleArea.y();        // delta top
+    int dtl = vx - visibleArea.x();        // delta left
+//    uDebug() << "mouse [x, y] = [ " << vx << ", " << vy << "] / "
+//             << "visibleArea [x, y, w, h] = [ " << visibleArea.x() << ", " << visibleArea.y() << ", " << visibleArea.width() << ", " << visibleArea.height() << "] / "
+//             << "maxArea [x, y, w, h] = [ " << maxArea.x() << ", " << maxArea.y() << ", " << maxArea.width() << ", " << maxArea.height() << "] / "
+//             << "delta right=" << dtr << ", bottom=" << dtb << ", top=" << dtt << ", left=" << dtl;
+    if (dtr < 30) { uDebug() << "translate RIGHT";  view->ensureVisible(vx, vy, 0.1 /*30-dtr*/, 0, 2, 2); }
+    if (dtb < 30) {
+        mouseCount++;
+        uDebug() << "translate BOTTOM " << mouseCount;
+//        view->ensureVisible(vx, vy, 0, 0.1 /*30-dtb*/, 2,  2);
+        if (mouseCount > 30) {
+            view->verticalScrollBar()->triggerAction(QAbstractSlider::SliderSingleStepAdd);
+            mouseCount = 0;
+        }
+    }
+    if (dtl < 30) { uDebug() << "translate LEFT";   view->ensureVisible(vx, vy, -0.1 /*-(30-dtl)*/, 0, 2, 2); }
+    if (dtt < 30) { uDebug() << "translate TOP";    view->ensureVisible(vx, vy, 0, -0.1 /*-(30-dtt)*/, 2, 2); }
 }
 
 /**
@@ -256,7 +271,7 @@ ToolBarState::ToolBarState(UMLScene *umlScene)
 void ToolBarState::setCurrentElement()
 {
     // Check associations.
-    AssociationWidget* association = associationAt(m_pMouseEvent->pos());
+    AssociationWidget* association = associationAt(m_pMouseEvent->scenePos());
     if (association) {
         setCurrentAssociation(association);
         return;
@@ -264,27 +279,27 @@ void ToolBarState::setCurrentElement()
 
     // Check messages.
     //TODO check why message widgets are treated different
-    MessageWidget* message = messageAt(m_pMouseEvent->pos());
+    MessageWidget* message = messageAt(m_pMouseEvent->scenePos());
     if (message) {
         setCurrentWidget(message);
         return;
     }
 
     //TODO check why message widgets are treated different
-    FloatingDashLineWidget* floatingline = floatingLineAt(m_pMouseEvent->pos());
+    FloatingDashLineWidget* floatingline = floatingLineAt(m_pMouseEvent->scenePos());
     if (floatingline) {
         setCurrentWidget(floatingline);
         return;
     }
 
-    ObjectWidget* objectWidgetLine = m_pUMLScene->onWidgetDestructionBox(m_pMouseEvent->pos());
+    ObjectWidget* objectWidgetLine = m_pUMLScene->onWidgetDestructionBox(m_pMouseEvent->scenePos());
     if (objectWidgetLine) {
         setCurrentWidget(objectWidgetLine);
         return;
     }
 
     // Check widgets.
-    UMLWidget *widget = m_pUMLScene->widgetAt(m_pMouseEvent->pos());
+    UMLWidget *widget = m_pUMLScene->widgetAt(m_pMouseEvent->scenePos());
     if (widget) {
         setCurrentWidget(widget);
         return;
@@ -463,8 +478,18 @@ void ToolBarState::setMouseEvent(UMLSceneMouseEvent* ome, const QEvent::Type &ty
 {
     delete m_pMouseEvent;
 
-    m_pMouseEvent = new UMLSceneMouseEvent(type, m_pUMLScene->activeView()->inverseWorldMatrix().map(ome->pos()),
-                                    ome->button(),ome->buttons(),ome->modifiers());
+    uDebug() << "[PORT] Check if scenePos works like view->inverseWorldMatrix().map()";
+    // Using copy constructor here.
+    m_pMouseEvent = new UMLSceneMouseEvent(type);
+    m_pMouseEvent->setPos(ome->pos());
+    m_pMouseEvent->setScenePos(ome->scenePos());
+    m_pMouseEvent->setScreenPos(ome->screenPos());
+    m_pMouseEvent->setLastPos(ome->lastPos());
+    m_pMouseEvent->setLastScenePos(ome->lastScenePos());
+    m_pMouseEvent->setLastScreenPos(ome->lastScreenPos());
+    m_pMouseEvent->setButtons(ome->buttons());
+    m_pMouseEvent->setButton(ome->button());
+    m_pMouseEvent->setModifiers(ome->modifiers());
 }
 
 /**

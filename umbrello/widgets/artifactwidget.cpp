@@ -39,7 +39,7 @@ ArtifactWidget::~ArtifactWidget()
  * Reimplemented to paint the articraft widget. Some part of specific
  * drawing is delegeted to private method like drawAsFile..
  */
-void ArtifactWidget::paint(QPainter& p, int offsetX, int offsetY)
+void ArtifactWidget::draw(QPainter& p, int offsetX, int offsetY)
 {
     UMLWidget::setPenFromSettings(p);
     if ( UMLWidget::useFillColor() ) {

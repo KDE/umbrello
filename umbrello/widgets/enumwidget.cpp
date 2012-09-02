@@ -89,7 +89,7 @@ void EnumWidget::toggleShowPackage()
  * Draws the enum as a rectangle with a box underneith with a list of literals
  * Reimplemented from UMLWidget::paint
  */
-void EnumWidget::paint(QPainter& p, int offsetX, int offsetY)
+void EnumWidget::draw(QPainter& p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
     if(UMLWidget::useFillColor())

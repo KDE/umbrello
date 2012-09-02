@@ -33,7 +33,7 @@ public:
     DatatypeWidget(UMLScene *scene, UMLClassifier *d);
     virtual ~DatatypeWidget();
 
-    void paint(QPainter& p, int offsetX, int offsetY);
+    void draw(QPainter& p, int offsetX, int offsetY);
 
     bool loadFromXMI(QDomElement& qElement);
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);

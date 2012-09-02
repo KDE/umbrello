@@ -45,7 +45,7 @@ ComponentWidget::~ComponentWidget()
  * Reimplemented from UMLWidget::paint to paint component
  * widget.
  */
-void ComponentWidget::paint(QPainter & p, int offsetX, int offsetY)
+void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
     UMLComponent *umlcomp = static_cast<UMLComponent*>(m_pObject);
     if (umlcomp == NULL)

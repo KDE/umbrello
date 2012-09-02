@@ -51,10 +51,9 @@ const UMLSceneSize UMLWidget::DefaultMaximumSize(1000, 1000);
  * @param widgetController The UMLWidgetController of this UMLWidget
  */
 UMLWidget::UMLWidget(UMLScene * scene, WidgetType type, UMLObject * o, UMLWidgetController *widgetController)
-  : WidgetBase(scene, type),
-    UMLSceneRectItem()
+  : WidgetBase(scene, type)
 {
-    setCanvas(scene->canvas());
+    scene->addItem(this);
     if (widgetController) {
         m_widgetController = widgetController;
     } else {
@@ -77,10 +76,9 @@ UMLWidget::UMLWidget(UMLScene * scene, WidgetType type, UMLObject * o, UMLWidget
  * @param widgetController The UMLWidgetController of this UMLWidget
  */
 UMLWidget::UMLWidget(UMLScene *scene, WidgetType type, Uml::IDType id, UMLWidgetController *widgetController)
-  : WidgetBase(scene, type),
-    UMLSceneRectItem()
+  : WidgetBase(scene, type)
 {
-    setCanvas(scene->canvas());
+    scene->addItem(this);
     if (widgetController) {
         m_widgetController = widgetController;
     } else {
@@ -981,19 +979,25 @@ void UMLWidget::slotRemovePopupMenu()
  * @return 0 if the given point is not in the boundaries of the widget;
  *         (width()+height())/2 if the point is within the boundaries.
  */
-int UMLWidget::onWidget(const QPoint & p)
+UMLSceneValue UMLWidget::onWidget(const UMLScenePoint & p)
 {
-    const int w = width();
-    const int h = height();
-    const int left = x();
-    const int right = left + w;
-    const int top = y();
-    const int bottom = top + h;
+    const UMLSceneValue w = width();
+    const UMLSceneValue h = height();
+    const UMLSceneValue left = x();
+    const UMLSceneValue right = left + w;
+    const UMLSceneValue top = y();
+    const UMLSceneValue bottom = top + h;
     if (p.x() < left || p.x() > right ||
             p.y() < top || p.y() > bottom)   // Qt coord.sys. origin in top left corner
         return 0;
     return (w + h) / 2;
 }
+
+void UMLWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    draw(*painter, 0, 0);
+}
+
 
 /**
  * Move the widget by an X and Y offset relative to
@@ -1024,7 +1028,7 @@ void UMLWidget::setPenFromSettings(QPainter & p)
  */
 void UMLWidget::drawShape(QPainter &p)
 {
-    paint(p, x(), y());
+    draw(p, x(), y());
 }
 
 /**

@@ -84,7 +84,7 @@ public:
 
     static bool isTextValid(const QString &text);
 
-    void paint(QPainter & p, int offsetX, int offsetY);
+    void draw(QPainter & p, int offsetX, int offsetY);
 
     virtual bool loadFromXMI(QDomElement & qElement);
     virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);

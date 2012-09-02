@@ -1326,7 +1326,7 @@ void AssociationWidget::setUMLAssociation (UMLAssociation * assoc)
 }
 
 /** Returns true if the Widget is either at the starting or ending side of the association */
-bool AssociationWidget::contains(UMLWidget* widget)
+bool AssociationWidget::hasWidget(UMLWidget* widget)
 {
     return (widget == m_role[A].umlWidget || widget == m_role[B].umlWidget);
 }
@@ -1447,14 +1447,14 @@ void AssociationWidget::mouseDoubleClickEvent(UMLSceneMouseEvent * me)
 {
     if (me->button() != Qt::RightButton && me->button() != Qt::LeftButton)
         return;
-    int i = m_associationLine->closestPointIndex(me->pos());
+    int i = m_associationLine->closestPointIndex(me->scenePos());
     if (i == -1) {
         m_associationLine->setSelected(false);
         return;
     }
     if (me->button() != Qt::LeftButton)
         return;
-    const UMLScenePoint mp(me->pos());
+    const UMLScenePoint mp(me->scenePos());
     if (associationType() == AssociationType::Exception ){
         return;
     }
@@ -1542,7 +1542,7 @@ void AssociationWidget::moveEvent(QMoveEvent* me)
     UMLScenePoint oldRoleAPoint = calculateTextPosition(TextRole::RoleAName);
     UMLScenePoint oldRoleBPoint = calculateTextPosition(TextRole::RoleBName);
 
-    m_associationLine->setPoint( m_nMovingPoint, me->pos() );
+    m_associationLine->setPoint( m_nMovingPoint, umlScene()->views()[0]->mapToScene(me->pos()) );
     int pos = m_associationLine->count() - 1;//set to last point for widget b
 
     if ( m_nMovingPoint == 1 || (m_nMovingPoint == pos-1) ) {
@@ -2863,7 +2863,7 @@ void AssociationWidget::mousePressEvent(UMLSceneMouseEvent * me)
     //make sure we should be here depending on the button
     if(me->button() != Qt::RightButton && me->button() != Qt::LeftButton)
         return;
-    UMLScenePoint mep = me->pos();
+    UMLScenePoint mep = me->scenePos();
     // See if `mep' is on the connecting line to the association class
     if (onAssocClassLine(mep)) {
         m_selected = true;
@@ -2900,7 +2900,7 @@ void AssociationWidget::mouseReleaseEvent(UMLSceneMouseEvent * me)
             m_associationLine->removePoint(m_nMovingPoint, m, POINT_DELTA);
     }
     m_nMovingPoint = -1;
-    const UMLScenePoint p = me->pos();
+    const UMLScenePoint p = me->scenePos();
 
     if (me->button() != Qt::RightButton) {
         return;
@@ -2941,7 +2941,7 @@ void AssociationWidget::mouseReleaseEvent(UMLSceneMouseEvent * me)
             menuType = ListPopupMenu::mt_Association_Selected;
     }
     m_pMenu = new ListPopupMenu(m_scene->activeView(), menuType);
-    m_pMenu->popup(me->globalPos());
+    m_pMenu->popup(me->screenPos());
     connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
     if (isCollaboration()) 
         m_nameWidget->setupPopupMenu(m_pMenu);
@@ -3211,17 +3211,17 @@ void AssociationWidget::mouseMoveEvent(UMLSceneMouseEvent* me)
     if (m_nMovingPoint == -1)
     {
         //create moving point near the mouse on the line
-        int i = m_associationLine->closestPointIndex(me->pos());
+        int i = m_associationLine->closestPointIndex(me->scenePos());
 
         if (i == -1)
             return;
-        m_associationLine->insertPoint( i + 1, me->pos() );
+        m_associationLine->insertPoint( i + 1, me->scenePos() );
         m_nMovingPoint = i + 1;
     }
 
     setSelected();
     //new position for point
-    UMLScenePoint p = me->pos();
+    UMLScenePoint p = me->scenePos();
     UMLScenePoint oldp = m_associationLine->point(m_nMovingPoint);
 
     if( m_scene->snapToGrid() ) {
@@ -3258,8 +3258,8 @@ void AssociationWidget::mouseMoveEvent(UMLSceneMouseEvent* me)
     }
 
     //move event called now
-    QMoveEvent m(p, oldp);
-    moveEvent(&m);
+    //QMoveEvent m(p, oldp);
+    //moveEvent(&m);
     m_scene->resizeCanvasToItems();
 }
 

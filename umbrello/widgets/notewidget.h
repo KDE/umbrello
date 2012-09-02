@@ -58,7 +58,7 @@ public:
     Uml::IDType diagramLink() const;
     void setDiagramLink(Uml::IDType viewID);
 
-    virtual void paint(QPainter & p, int offsetX, int offsetY);
+    virtual void draw(QPainter & p, int offsetX, int offsetY);
 
     void askForNoteType(UMLWidget* &targetWidget);
 

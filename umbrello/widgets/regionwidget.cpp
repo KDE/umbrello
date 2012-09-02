@@ -43,7 +43,7 @@ RegionWidget::~RegionWidget()
 /**
  * Overrides the standard paint event.
  */
-void RegionWidget::paint(QPainter& p, int offsetX, int offsetY)
+void RegionWidget::draw(QPainter& p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
     const int w = width();

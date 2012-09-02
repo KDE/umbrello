@@ -36,7 +36,7 @@ ActorWidget::~ActorWidget()
 /**
  * Overrides the standard paint event.
  */
-void ActorWidget::paint(QPainter & p, int offsetX, int offsetY)
+void ActorWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
     UMLWidget::setPenFromSettings(p);
     if( UMLWidget::useFillColor() )

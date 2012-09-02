@@ -138,7 +138,7 @@ public:
 
     bool checkAssoc(UMLWidget *widgetA, UMLWidget *widgetB);
 
-    bool contains(UMLWidget* widget);
+    bool hasWidget(UMLWidget* widget);
 
     Uml::AssociationType associationType() const;
     void setAssociationType(Uml::AssociationType type);

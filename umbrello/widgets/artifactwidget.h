@@ -33,7 +33,7 @@ public:
     ArtifactWidget(UMLScene *scene, UMLArtifact *a);
     virtual ~ArtifactWidget();
 
-    virtual void paint(QPainter& p, int offsetX, int offsetY);
+    virtual void draw(QPainter& p, int offsetX, int offsetY);
 
     // Note: For loading from XMI, the inherited parent method is used.
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);

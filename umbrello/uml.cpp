@@ -561,12 +561,12 @@ void UMLApp::slotZoomSliderMoved(int value)
 void UMLApp::slotZoomFit()
 {
     currentView()->setZoom(100);  // bring it first to the original values
-    DEBUG(DBG_SRC) << "canvas width=" << currentView()->umlScene()->width()
+    DEBUG(DBG_SRC) << "viewport width=" << currentView()->viewport()->width()
+                   << ", height=" << currentView()->viewport()->height();
+    DEBUG(DBG_SRC) << "scene width=" << currentView()->umlScene()->width()
                    << ", height=" << currentView()->umlScene()->height();
-    DEBUG(DBG_SRC) << "visible width=" << currentView()->visibleWidth()
-                   << ", height=" << currentView()->visibleHeight();
-    int scaleW = ceil(100.0 * currentView()->visibleWidth() / currentView()->umlScene()->width());
-    int scaleH = ceil(100.0 * currentView()->visibleHeight() / currentView()->umlScene()->height());
+    int scaleW = ceil(100.0 * currentView()->viewport()->width() / currentView()->umlScene()->width());
+    int scaleH = ceil(100.0 * currentView()->viewport()->height() / currentView()->umlScene()->height());
     DEBUG(DBG_SRC) << "scale width: " << scaleW << ", height: " << scaleH;
     int scale = 100;
     if (scaleW < scaleH) {
@@ -576,7 +576,7 @@ void UMLApp::slotZoomFit()
         scale = scaleH;
     }
     setZoom(scale);
-    //currentView()->centerOn(...);
+    currentView()->centerOn(currentView()->viewport()->width()/2.0, currentView()->viewport()->height()/2.0);
 }
 
 /**

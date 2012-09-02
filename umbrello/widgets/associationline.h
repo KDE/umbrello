@@ -145,7 +145,7 @@ protected:
         int inclination;
     };
 
-    Q3Canvas * canvas();
+    UMLScene *canvas();
 
     void moveSelected(int pointIndex);
 

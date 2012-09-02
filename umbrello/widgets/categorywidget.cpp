@@ -42,7 +42,7 @@ CategoryWidget::~CategoryWidget()
 /**
  *   Overrides the standard paint event.
  */
-void CategoryWidget::paint(QPainter & p, int offsetX, int offsetY)
+void CategoryWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
     UMLWidget::setPenFromSettings(p);
     if ( UMLWidget::useFillColor() )

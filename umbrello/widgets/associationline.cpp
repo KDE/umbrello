@@ -44,17 +44,17 @@ void AssociationLine::Circle::setY(int y)
 
 void AssociationLine::Circle::setRadius(int radius)
 {
-    UMLSceneEllipseItem::setSize(radius * 2, radius * 2);
+    UMLSceneEllipseItem::setRect(x(), y(), radius * 2, radius * 2);
 }
 
 int AssociationLine::Circle::getRadius() const
 {
-    return (UMLSceneEllipseItem::height() / 2);
+    return rect().height() / 2;
 }
 
 void AssociationLine::Circle::drawShape(QPainter& p)
 {
-    int diameter = height();
+    int diameter = rect().height();
     int radius = diameter / 2;
     p.drawEllipse( (int)x() - radius, (int)y() - radius, diameter, diameter);
 }
@@ -822,7 +822,7 @@ void AssociationLine::slotLineWidthChanged(Uml::IDType viewID)
  * This class doesn't hold this information but is a wrapper
  * method to stop calls to undefined variable like m_associationWidget.
  */
-Q3Canvas* AssociationLine::canvas()
+UMLScene* AssociationLine::canvas()
 {
     if( !m_associationWidget )
         return 0;

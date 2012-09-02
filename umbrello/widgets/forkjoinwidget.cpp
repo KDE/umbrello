@@ -58,7 +58,7 @@ void ForkJoinWidget::setOrientation(Qt::Orientation ori)
  * Reimplemented from UMLWidget::paint to draw the plate of
  * fork join.
  */
-void ForkJoinWidget::paint(QPainter& p, int offsetX, int offsetY)
+void ForkJoinWidget::draw(QPainter& p, int offsetX, int offsetY)
 {
     p.fillRect( offsetX, offsetY, width(), height(), QBrush( Qt::black ));
 

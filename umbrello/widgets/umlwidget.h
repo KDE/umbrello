@@ -107,7 +107,8 @@ public:
      * @param offsetY y position to start the drawing.
      *
      */
-    virtual void paint(QPainter & p, int offsetX, int offsetY) = 0;
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void draw(QPainter & p, int offsetX, int offsetY) = 0;
 
     void setPenFromSettings(QPainter & p);
 
@@ -136,7 +137,7 @@ public:
      * Returns the height of widget.
      */
     int height() const {
-        return UMLSceneRectItem::height();
+        return UMLSceneRectItem::rect().height();
     }
 
     /**
@@ -223,13 +224,22 @@ public:
 
     UMLWidgetController* getWidgetController();
 
+    virtual void mouseMoveEvent(UMLSceneMouseEvent * me);
     virtual void mousePressEvent(UMLSceneMouseEvent *me);
-    virtual void mouseMoveEvent(UMLSceneMouseEvent* me);
-    virtual void mouseReleaseEvent(UMLSceneMouseEvent * me);
     virtual void mouseDoubleClickEvent(UMLSceneMouseEvent *me);
+    virtual void mouseReleaseEvent(UMLSceneMouseEvent * me);
 
-protected:
-    virtual void moveEvent(UMLSceneMoveEvent *me);
+    UMLScene* canvas() const
+    {
+        return umlScene();
+    }
+
+    void setCanvas(UMLScene *scene)
+    {
+        scene->addItem(this);
+    }
+
+    virtual void moveEvent(UMLSceneMouseEvent *me);
 
     virtual void constrain(UMLSceneValue& width, UMLSceneValue& height);
 

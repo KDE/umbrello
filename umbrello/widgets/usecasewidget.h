@@ -45,7 +45,7 @@ public:
     UseCaseWidget(UMLScene * scene, UMLUseCase *o);
     virtual ~UseCaseWidget();
 
-    virtual void paint(QPainter & p, int offsetX, int offsetY);
+    virtual void draw(QPainter & p, int offsetX, int offsetY);
 
     // For loading we can use the loadFromXMI() inherited from
     // UMLWidget.

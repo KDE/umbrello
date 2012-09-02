@@ -23,7 +23,7 @@ public:
     explicit RegionWidget(UMLScene* scene, Uml::IDType id = Uml::id_None);
     virtual ~RegionWidget();
 
-    void paint(QPainter& p, int offsetX, int offsetY);
+    void draw(QPainter& p, int offsetX, int offsetY);
 
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
     bool loadFromXMI(QDomElement& qElement);

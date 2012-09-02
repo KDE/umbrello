@@ -49,7 +49,7 @@ UMLWidgetStylePage::UMLWidgetStylePage(QWidget *pParent, WidgetBase *pWidget)
         if (view) {
             UMLScene* scene = view->umlScene();
             if (scene) {
-                m_BackgroundColorB->setColor(scene->backgroundColor());
+                m_BackgroundColorB->setColor(scene->backgroundBrush().color());
                 m_GridDotColorB->setColor(scene->gridDotColor());
             }
         }
@@ -261,7 +261,7 @@ void UMLWidgetStylePage::updateUMLWidget()
             UMLScene* scene = view->umlScene();
             if (scene) {
                 uDebug() << "Setting background and grid dot color.";
-                scene->setBackgroundColor(m_BackgroundColorB->color());
+                scene->setBackgroundBrush(m_BackgroundColorB->color());
                 scene->setGridDotColor(m_GridDotColorB->color());
             }
         }

@@ -35,7 +35,7 @@ public:
     PinWidget(UMLScene* scene, UMLWidget* a, Uml::IDType id = Uml::id_None);
     virtual ~PinWidget();
 
-    virtual void paint(QPainter & p, int offsetX, int offsetY);
+    virtual void draw(QPainter & p, int offsetX, int offsetY);
 
     virtual void setName(const QString &strName);
 

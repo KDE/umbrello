@@ -54,7 +54,7 @@ public:
     explicit CombinedFragmentWidget( UMLScene * scene, CombinedFragmentType combinedfragmentType = Ref, Uml::IDType id = Uml::id_None );
     virtual ~CombinedFragmentWidget();
 
-    void paint(QPainter & p, int offsetX, int offsetY);
+    void draw(QPainter & p, int offsetX, int offsetY);
 
     CombinedFragmentType combinedFragmentType() const;
     CombinedFragmentType combinedFragmentType(const QString& combinedfragmentType) const;

@@ -558,7 +558,7 @@ AssociationWidget *ClassifierWidget::classAssociationWidget() const
  * Overrides standard method.
  * Auxiliary to reimplementations in the derived classes.
  */
-void ClassifierWidget::paint(QPainter & p, int offsetX, int offsetY)
+void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
     if ( UMLWidget::useFillColor() )

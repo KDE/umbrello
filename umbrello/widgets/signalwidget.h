@@ -42,7 +42,7 @@ public:
     explicit SignalWidget( UMLScene * scene, SignalType signalType = Send, Uml::IDType id = Uml::id_None );
     virtual ~SignalWidget();
 
-    void paint(QPainter & p, int offsetX, int offsetY);
+    void draw(QPainter & p, int offsetX, int offsetY);
 
     void setX(UMLSceneValue newX);
     void setY(UMLSceneValue newY);

@@ -67,7 +67,7 @@ PinWidget::~PinWidget()
 /**
  * Overrides the standard paint event.
  */
-void PinWidget::paint(QPainter & p, int offsetX, int offsetY)
+void PinWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
     int w = 10;
     int h = 10;

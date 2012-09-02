@@ -50,6 +50,8 @@
 #include "seqlinewidget.h"
 #include "signalwidget.h"
 #include "statewidget.h"
+#include "toolbarstatefactory.h"
+#include "toolbarstate.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umldragdata.h"
@@ -77,6 +79,7 @@
 #include <klocale.h>
 
 // include files for Qt
+#include <QPainter>
 #include <QPointer>
 #include <QString>
 #include <QStringList>
@@ -84,22 +87,19 @@
 #include <QPixmap>
 #include <QPrinter>
 #include <QColor>
+/*
 #include <QHideEvent>
 #include <QDropEvent>
 #include <QShowEvent>
 #include <QDragEnterEvent>
 #include <QMouseEvent>
+*/
 
 // system includes
 #include <cmath>
 
-// control the manual DoubleBuffering of QCanvas
-// with a define, so that this memory X11 effect can
-// be tested more easily
-#define MANUAL_CONTROL_DOUBLE_BUFFERING
-
 // static members
-const UMLSceneValue UMLScene::defaultCanvasSize = 1300;
+const UMLSceneValue UMLScene::defaultCanvasSize = 5000;
 
 using namespace Uml;
 
@@ -107,7 +107,8 @@ using namespace Uml;
  * Constructor.
  */
 UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
-  : m_nLocalID(Uml::id_None),
+  : QGraphicsScene(0, 0, defaultCanvasSize, defaultCanvasSize),
+    m_nLocalID(Uml::id_None),
     m_nID(Uml::id_None),
     m_Type(Uml::DiagramType::Undefined),
     m_Name(QString()),
@@ -135,32 +136,18 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     //m_WidgetList.setAutoDelete(true);
     //m_MessageList.setAutoDelete(true);
 
-    setSize(UMLScene::defaultCanvasSize, UMLScene::defaultCanvasSize);
-
     m_PastePoint = UMLScenePoint(0, 0);
 
     m_pImageExporter = new UMLViewImageExporter(this);
-
-    //setup graphical items
-    // don't set the quite frequent update rate for each
-    // diagram, as that causes also an update of invisible
-    // diagrams, which can cost high CPU load for many
-    // diagrams.
-    // Instead: set the updatePeriod to 20 on Show event,
-    //          and switch update back off on Hide event
-    setUpdatePeriod(-1);
-    resize(defaultCanvasSize, defaultCanvasSize);
-    view->resizeContents(defaultCanvasSize, defaultCanvasSize);
-    view->setAcceptDrops(true);
-    view->viewport()->setAcceptDrops(true);
-    view->setDragAutoScroll(false);
-
-    view->viewport()->setMouseTracking(false);
 
     // setup signals
     connect(this, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
     connect(UMLApp::app(), SIGNAL(sigCutSuccessful()),
             this, SLOT(slotCutSuccessful()));
+    // Create the ToolBarState factory. This class is not a singleton, because it
+    // needs a pointer to this object.
+    m_pToolBarStateFactory = new ToolBarStateFactory();
+    m_pToolBarState = m_pToolBarStateFactory->getState(WorkToolBar::tbb_Arrow, this);
 
     m_doc = UMLApp::app()->document();
 
@@ -186,6 +173,9 @@ UMLScene::~UMLScene()
     // on deletion of each removed widget
     blockSignals(true);
     removeAllWidgets();
+
+    delete m_pToolBarStateFactory;
+    m_pToolBarStateFactory = 0;
 }
 
 /**
@@ -309,7 +299,6 @@ void UMLScene::setFillColor(const QColor &color)
 {
     m_Options.uiState.fillColor = color;
     emit sigFillColorChanged(ID());
-    setAllChanged();
 }
 
 /**
@@ -329,7 +318,6 @@ void UMLScene::setLineColor(const QColor &color)
 {
     m_Options.uiState.lineColor = color;
     emit sigLineColorChanged(ID());
-    setAllChanged();
 }
 
 /**
@@ -349,7 +337,6 @@ void UMLScene::setLineWidth(uint width)
 {
     m_Options.uiState.lineWidth = width;
     emit sigLineWidthChanged(ID());
-    setAllChanged();
 }
 
 /**
@@ -369,7 +356,6 @@ void UMLScene::setTextColor(const QColor& color)
 {
     m_Options.uiState.textColor = color;
     emit sigTextColorChanged(ID());
-    setAllChanged();
 }
 
 /**
@@ -391,15 +377,14 @@ void UMLScene::setGridDotColor(const QColor& color)
 {
     m_Options.uiState.gridDotColor = color;
     emit sigGridColorChanged(ID());
-    setAllChanged();
 }
 
 /**
  * Sets the diagram width and height in pixels
  */
-void UMLScene::setSize(int width, int height)
+void UMLScene::setSize(UMLSceneValue width, UMLSceneValue height)
 {
-    resize(width, height);
+   setSceneRect(sceneRect().x(), sceneRect().y(), width, height);
 }
 
 /**
@@ -516,7 +501,7 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
     height = pPrinter->height() - top - bottom;
 
     //get the smallest rect holding the diagram
-    QRect rect = diagramRect();
+    QRect rect = diagramRect().toRect();
     //now draw to printer
 
 #if 0
@@ -526,7 +511,7 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
 
     // clip away everything outside of the margin
     pPainter.setClipRect(marginX, marginY,
-                         width, metrics.height() - marginY * 2);
+                         width, pPrinter->height() - marginY * 2);
 
     //loop until all of the picture is printed
     int numPagesX = (int)ceil((double)rect.width() / (double)width);
@@ -647,7 +632,10 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
  */
 void UMLScene::setupNewWidget(UMLWidget *w)
 {
-    w->setX(m_Pos.x());
+    if(w->scene() != this) {
+        addItem(w);
+    }
+	w->setX(m_Pos.x());
     w->setY(m_Pos.y());
     w->setVisible(true);
     w->setActivated();
@@ -683,15 +671,6 @@ void UMLScene::setCreateObject(bool bCreate)
  */
 void UMLScene::showEvent(QShowEvent* /*se*/)
 {
-# ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
-    //uWarning() << "Show Event for " << name();
-    setDoubleBuffering(true);
-    // as the diagram gets now visible again,
-    // the update of the diagram elements shall be
-    // at the normal value of 20
-     setUpdatePeriod(20);
-# endif
-
     connect(m_doc, SIGNAL(sigObjectCreated(UMLObject*)),
             this, SLOT(slotObjectCreated(UMLObject*)));
     connect(this, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
@@ -710,16 +689,19 @@ void UMLScene::hideEvent(QHideEvent* /*he*/)
                UMLApp::app()->docWindow(), SLOT(slotAssociationRemoved(AssociationWidget*)));
     disconnect(this, SIGNAL(sigWidgetRemoved(UMLWidget*)),
                UMLApp::app()->docWindow(), SLOT(slotWidgetRemoved(UMLWidget*)));
+}
 
-# ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
-    //uWarning() << "Hide Event for " << name();
-    setDoubleBuffering(false);
-    // a periodic update of all - also invisible - diagrams
-    // can cause a very high CPU load if more than 100diagrams
-    // are inside a project - and this without any need
-    // => switch the update off for hidden diagrams
-    setUpdatePeriod(-1);
-# endif
+/**
+ * Changes the current tool to the selected tool.
+ * The current tool is cleaned and the selected tool initialized.
+ */
+void UMLScene::slotToolBarChanged(int c)
+{
+    m_pToolBarState->cleanBeforeChange();
+    m_pToolBarState = m_pToolBarStateFactory->getState((WorkToolBar::ToolBar_Buttons)c, this);
+    m_pToolBarState->init();
+
+    m_bPaste = false;
 }
 
 /**
@@ -758,8 +740,11 @@ void UMLScene::slotObjectCreated(UMLObject* o)
         if (ow)
             ow->moveEvent(NULL);
     }
-    m_bCreateObject = false;
     m_WidgetList.append(newWidget);
+    addItem(newWidget);
+    newWidget->activate();
+
+    m_bCreateObject = false;
 
     switch (o->baseType()) {
         case UMLObject::ot_Actor:
@@ -945,7 +930,7 @@ void UMLScene::dropEvent(UMLSceneDragDropEvent *e)
         bool breakFlag = false;
         UMLWidget* w = 0;
         foreach(w ,  m_WidgetList) {
-            if (w->baseType() == WidgetBase::wt_Note && w->onWidget(e->pos())) {
+            if (w->baseType() == WidgetBase::wt_Note && w->onWidget(e->scenePos())) {
                 breakFlag = true;
                 break;
             }
@@ -962,11 +947,83 @@ void UMLScene::dropEvent(UMLSceneDragDropEvent *e)
         return;
     }
     m_bCreateObject = true;
-    m_Pos = (e->pos() * 100) / activeView()->zoom();
+    m_Pos = e->scenePos();
 
     slotObjectCreated(o);
 
     m_doc->setModified(true);
+}
+
+/**
+ * Overrides the standard operation.
+ * Calls the same method in the current tool bar state.
+ */
+void UMLScene::mouseMoveEvent(UMLSceneMouseEvent* ome)
+{
+    m_pToolBarState->mouseMove(ome);
+}
+
+/**
+ * Override standard method.
+ * Calls the same method in the current tool bar state.
+ */
+void UMLScene::mousePressEvent(UMLSceneMouseEvent* event)
+{
+    m_pToolBarState->mousePress(event);
+
+    //TODO should be managed by widgets when are selected. Right now also has some
+    //problems, such as clicking on a widget, and clicking to move that widget shows
+    //documentation of the diagram instead of keeping the widget documentation.
+    //When should diagram documentation be shown? When clicking on an empty
+    //space in the diagram with arrow tool?
+    UMLWidget* widget = widgetAt(event->scenePos());
+    if (widget) {
+        DEBUG(DBG_SRC) << "widget = " << widget->name() << " / type = " << widget->baseTypeStr();
+        showDocumentation(widget, true);
+    }
+    else {
+        AssociationWidget* association = associationAt(event->scenePos());
+        if (association) {
+            DEBUG(DBG_SRC) << "widget = " << association->name() << " / type = " << association->baseTypeStr();
+            showDocumentation(association, true);
+        }
+        //:TODO: else if (clicking on other elements with documentation) {
+        //:TODO: showDocumentation(umlObject, true);
+        else {
+            // clicking on an empty space in the diagram with arrow tool
+            showDocumentation(true);
+            event->accept();
+        }
+    }
+}
+
+/**
+ * Override standard method.
+ * Calls the same method in the current tool bar state.
+ */
+void UMLScene::mouseDoubleClickEvent(UMLSceneMouseEvent* ome)
+{
+    m_pToolBarState->mouseDoubleClick(ome);
+
+    if (isWidgetOrAssociation(ome->scenePos())) {
+        ome->ignore();
+    }
+    else {
+        // show properties dialog of the scene
+        if (showPropDialog() == true) {
+            m_doc->setModified();
+        }
+        ome->accept();
+    }
+}
+
+/**
+ * Overrides the standard operation.
+ * Calls the same method in the current tool bar state.
+ */
+void UMLScene::mouseReleaseEvent(UMLSceneMouseEvent* ome)
+{
+    m_pToolBarState->mouseRelease(ome);
 }
 
 /**
@@ -1338,13 +1395,32 @@ UMLSceneRect UMLScene::diagramRect()
 }
 
 /**
+ * Check if at the given point is a widget or an association widget.
+ * @param atPos   the mouse position on the scene
+ * @return true if there is a widget or an association line
+ */
+bool UMLScene::isWidgetOrAssociation(const UMLScenePoint& atPos)
+{
+    UMLWidget* widget = widgetAt(atPos);
+    if (widget) {
+        return true;
+    }
+
+    AssociationWidget* association = associationAt(atPos);
+    if (association) {
+        return true;
+    }
+    return false;
+}
+
+/**
  * Sets a widget to a selected state and adds it to a list of selected widgets.
  * This method also sets the state of the cut and copy menu entries.
  *
  * @param w The widget to set to selected.
  * @param me The mouse event containing the information about the selection.
  */
-void UMLScene::setSelected(UMLWidget *w, QMouseEvent *me)
+void UMLScene::setSelected(UMLWidget *w, UMLSceneMouseEvent *me)
 {
     Q_UNUSED(me);
     //only add if wasn't in list
@@ -1621,31 +1697,9 @@ bool UMLScene::isSavedInSeparateFile()
     return !folderFile.isEmpty();
 }
 
-/**
- * Override standard method.
- * Calls the same method in the current tool bar state.
- */
-void UMLScene::mousePressEvent(UMLSceneMouseEvent* event)
+UMLSceneItemList UMLScene::collisions(const UMLScenePoint &p)
 {
-    UMLWidget* widget = widgetAt(event->pos());
-    if (widget) {
-        DEBUG(DBG_SRC) << "widget = " << widget->name() << " / type = " << widget->baseTypeStr();
-        showDocumentation(widget, true);
-    }
-    else {
-        AssociationWidget* association = associationAt(event->pos());
-        if (association) {
-            DEBUG(DBG_SRC) << "widget = " << association->name() << " / type = " << association->baseTypeStr();
-            showDocumentation(association, true);
-        }
-        //:TODO: else if (clicking on other elements with documentation) {
-        //:TODO: showDocumentation(umlObject, true);
-        else {
-            // clicking on an empty space in the diagram with arrow tool
-            showDocumentation(true);
-            event->accept();
-        }
-    }
+    return items(p);
 }
 
 /**
@@ -1774,7 +1828,7 @@ void  UMLScene::getDiagram(const UMLSceneRect &rect, QPixmap &diagram)
     QPixmap pixmap(width, height);
     QPainter painter(&pixmap);
     painter.fillRect(0, 0, width, height, Qt::white);
-    getDiagram(canvas()->rect(), painter);
+    getDiagram(sceneRect(), painter);
     QPainter output(&diagram);
     output.drawPixmap(QPoint(0, 0), pixmap, rect);
 }
@@ -1804,7 +1858,9 @@ void  UMLScene::getDiagram(const UMLSceneRect &area, QPainter &painter)
     bool showSnapGrid = isSnapGridVisible();
     setSnapGridVisible(false);
 
-    drawArea(area, &painter);
+    uDebug() << "TODO: Check if this render method is identical to cavnas()->drawArea()";
+    // [PORT]
+    render(&painter, UMLSceneRect(), area, Qt::KeepAspectRatio);
 
     setSnapGridVisible(showSnapGrid);
 
@@ -2394,7 +2450,7 @@ void UMLScene::removeAssocInViewAndDoc(AssociationWidget* a)
 void UMLScene::removeAssociations(UMLWidget* Widget)
 {
     foreach(AssociationWidget* assocwidget, m_AssociationList) {
-        if (assocwidget->contains(Widget)) {
+        if (assocwidget->hasWidget(Widget)) {
             removeAssoc(assocwidget);
         }
     }
@@ -3075,6 +3131,14 @@ void UMLScene::copyAsImage(QPixmap*& pix)
 }
 
 /**
+ * Reset the toolbar.
+ */
+void UMLScene::resetToolbar()
+{
+    emit sigResetToolBar();
+}
+
+/**
  * Sets the popup menu to use when clicking on a diagram background
  * (rather than a widget or listView).
  */
@@ -3128,7 +3192,8 @@ void UMLScene::setMenu()
         // DEBUG(DBG_SRC) << "create popup for MenuType " << ListPopupMenu::toString(menu);
         m_pMenu = new ListPopupMenu(activeView(), menu, activeView());
         connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
-        m_pMenu->popup(activeView()->mapToGlobal(activeView()->contentsToViewport(activeView()->worldMatrix().map(m_Pos))));
+		//activeView()->mapToGlobal(activeView()->contentsToViewport(activeView()->worldMatrix().map(m_Pos))));
+        m_pMenu->popup(pos().toPoint());
     }
 }
 
@@ -3814,25 +3879,10 @@ void UMLScene::fileLoaded()
  */
 void UMLScene::resizeCanvasToItems()
 {
-    QRect canvasSize = diagramRect();
-    int canvasWidth = canvasSize.right() + 5;
-    int canvasHeight = canvasSize.bottom() + 5;
-
-    //Find out the bottom right visible pixel and size to at least that
-    int contentsX, contentsY;
-    int contentsWMX, contentsWMY;
-    activeView()->viewportToContents(activeView()->viewport()->width(), activeView()->viewport()->height(), contentsX, contentsY);
-    activeView()->inverseWorldMatrix().map(contentsX, contentsY, &contentsWMX, &contentsWMY);
-
-    if (canvasWidth < contentsWMX) {
-        canvasWidth = contentsWMX;
-    }
-
-    if (canvasHeight < contentsWMY) {
-        canvasHeight = contentsWMY;
-    }
-
-    setSize(canvasWidth, canvasHeight);
+    UMLSceneRect rect = itemsBoundingRect();
+    //Make sure (0,0) is in the topLeft
+    rect.setTopLeft(QPointF(0, 0));
+    setSceneRect(rect);
 }
 
 /**
@@ -3875,18 +3925,18 @@ void UMLScene::forceUpdateWidgetFontMetrics(QPainter * painter)
 /**
  * Sets the color of the background and the grid dots.
  */
-void UMLScene::drawBackground(QPainter & painter, const QRect & clip)
+void UMLScene::drawBackground(QPainter *painter, const UMLSceneRect  & clip)
 {
     Q_UNUSED(clip);
     if( isSnapGridVisible() ) {
-        painter.setPen( gridDotColor() );
+        painter->setPen( gridDotColor() );
         int gridX = snapX();
         int gridY = snapY();
         int numX = activeView()->width() / gridX;
         int numY = activeView()->height() / gridY;
         for( int x = 0; x <= numX; x++ )
             for( int y = 0; y < numY; y++ )
-                painter.drawPoint( x * gridX, y * gridY );
+                painter->drawPoint( x * gridX, y * gridY );
     }
 }
 
@@ -3973,7 +4023,7 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     QString localid = qElement.attribute("localid", "0");
     // option state
     Settings::loadFromXMI(qElement, m_Options);
-    setBackgroundColor(m_Options.uiState.backgroundColor);
+    setBackgroundBrush(m_Options.uiState.backgroundColor);
     setGridDotColor(m_Options.uiState.gridDotColor);
     //misc
     QString showgrid = qElement.attribute("showgrid", "0");
@@ -4263,8 +4313,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
                     aw->syncToModel();
                     m_AssociationList.append(aw);
                 } else {
-                    uError() << "cannot create assocwidget from ("
-                             << wA << ", " << wB << ")";
+                    uError() << "cannot create assocwidget from (" ; //<< wA << ", " << wB << ")";
                 }
                 break;
             }
@@ -4286,6 +4335,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
                 widget->setX(x);
                 widget->setY(y);
                 widget->setSize(w, h);
+                addItem(widget);
                 m_WidgetList.append(widget);
             }
         }

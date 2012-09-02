@@ -12,6 +12,7 @@
 #define OBJECTWIDGET_H
 
 #include "messagewidgetlist.h"
+#include "umlscene.h"
 #include "umlwidget.h"
 
 class MessageWidget;
@@ -46,9 +47,9 @@ public:
 
     bool activate(IDChangeLog* ChangeLog = 0);
 
-    void paint(QPainter & p, int offsetX, int offsetY);
+    void draw(QPainter & p, int offsetX, int offsetY);
 
-    virtual void moveEvent(UMLSceneMoveEvent *m);
+    virtual void moveEvent(UMLSceneMouseEvent *m);
 
     void cleanup();
 

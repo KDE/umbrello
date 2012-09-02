@@ -41,7 +41,7 @@ public:
     explicit ObjectNodeWidget(UMLScene * scene, ObjectNodeType objectNodeType = Normal, Uml::IDType id = Uml::id_None);
     virtual ~ObjectNodeWidget();
 
-    void paint(QPainter & p, int offsetX, int offsetY);
+    void draw(QPainter & p, int offsetX, int offsetY);
 
     ObjectNodeType objectNodeType() const;
     ObjectNodeType objectNodeType(const QString& type) const;

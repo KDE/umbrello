@@ -464,7 +464,7 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLScene* scene, const QString &
 
     QSvgGenerator generator;
     generator.setFileName(fileName);
-    generator.setSize(rect.size());
+    generator.setSize(rect.toRect().size());
     generator.setViewBox(QRect(0, 0, rect.width(), rect.height()));
     QPainter painter(&generator);
 

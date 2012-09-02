@@ -186,7 +186,7 @@ void UMLViewDialog::applyPage(KPageWidgetItem *item)
         m_pScene->setTextColor(m_options.uiState.textColor);
         m_pScene->setLineColor(m_options.uiState.lineColor);
         m_pScene->setFillColor(m_options.uiState.fillColor);
-        m_pScene->setBackgroundColor(m_options.uiState.backgroundColor);
+        m_pScene->setBackgroundBrush(m_options.uiState.backgroundColor);
         m_pScene->setGridDotColor(m_options.uiState.gridDotColor);
         //:TODO: gridCrossColor, gridTextColor, gridTextFont, gridTextIsVisible
     }

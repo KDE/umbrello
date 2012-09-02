@@ -21,6 +21,7 @@
 #include "listpopupmenu.h"
 #include "associationwidget.h"
 #include "cmds.h"
+#include "debug_utils.h"
 
 // kde includes
 #include <kcursor.h>
@@ -28,7 +29,6 @@
 
 // qt includes
 #include <QEvent>
-#include <QPoint>
 
 /**
  * Constructor for UMLWidgetController.
@@ -334,7 +334,7 @@ void UMLWidgetController::mouseReleaseEvent(UMLSceneMouseEvent *me)
             }
 
             if (m_inResizeArea) {
-                m_inResizeArea = false;
+                m_inResizeArea = false; 
                 m_widget->m_scene->activeView()->setCursor(Qt::ArrowCursor);
             } else {
                 m_inMoveArea = false;
@@ -345,6 +345,7 @@ void UMLWidgetController::mouseReleaseEvent(UMLSceneMouseEvent *me)
             m_rightButtonDown = false;
             showPopupMenu(me);
         } else if (m_leftButtonDown) {
+#ifdef Q3CANVAS_IMPLEMENTATION
             //Cancel move/edit
             UMLSceneMouseEvent move(UMLSceneMouseEvent::MouseMove,
                              QPoint(m_oldX + m_pressOffsetX, m_oldY + m_pressOffsetY),
@@ -354,11 +355,26 @@ void UMLWidgetController::mouseReleaseEvent(UMLSceneMouseEvent *me)
                                 QPoint(m_oldX + m_pressOffsetX, m_oldY + m_pressOffsetY),
                                 Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
             mouseReleaseEvent(&release);
+#endif
+#ifdef QGRAPHICS_IMPLEMENTATION
+            UMLSceneMouseEvent move = new UMLSceneMouseEvent(type);
+            move->setPos(me->pos());
+            move->setScenePosome->scenePos());
+            move->setScreenPos(me->screenPos());
+            move->setLastPos(me->lastPos());
+            move->setLastScenePos(me->lastScenePos());
+            move->setLastScreenPos(me->lastScreenPos());
+            move->setButtons(me->buttons());
+            move->setButton(me->button());
+            move->setModifiers(me->modifiers());
+            mouseMoveEvent(&move);
+            mouseReleaseEvent(&move);
+#endif
         }
     }
 
     //TODO Copied from old code. Does it really work as intended?
-    UMLWidget *bkgnd = m_widget->m_scene->widgetAt(me->pos());
+    UMLWidget *bkgnd = m_widget->m_scene->widgetAt(me->scenePos());
     if (bkgnd) {
         //uDebug() << "setting Z to " << bkgnd->z() + 1;
         m_widget->setZ(bkgnd->z() + 1);
@@ -412,8 +428,8 @@ bool UMLWidgetController::isInResizeArea(UMLSceneMouseEvent *me)
         m = 2;
 
     if (m_widget->m_resizable &&
-            me->x() >= (m_widget->x() + w - m) &&
-            me->y() >= (m_widget->y() + h - m)) {
+            me->scenePos().x() >= (m_widget->x() + w - m) &&
+            me->scenePos().y() >= (m_widget->y() + h - m)) {
         m_widget->m_scene->activeView()->setCursor(getResizeCursor());
         return true;
     } else {
@@ -522,7 +538,7 @@ void UMLWidgetController::doMouseDoubleClick(UMLSceneMouseEvent *)
 void UMLWidgetController::resetSelection()
 {
     m_widget->m_scene->clearSelected();
-    m_widget->m_scene->activeView()->resetToolbar();
+    m_widget->m_scene->resetToolbar();
     m_widget->setSelected(false);
 
     m_wasSelected = false;
@@ -549,8 +565,7 @@ void UMLWidgetController::selectSingle(UMLSceneMouseEvent *me)
  */
 void UMLWidgetController::selectMultiple(UMLSceneMouseEvent *me)
 {
-    m_widget->m_selected = true;
-    m_widget->setSelected(m_widget->m_selected);
+    m_widget->setSelected(true);
     m_widget->m_scene->setSelected(m_widget, me);
 
     m_wasSelected = true;
@@ -563,8 +578,7 @@ void UMLWidgetController::selectMultiple(UMLSceneMouseEvent *me)
  */
 void UMLWidgetController::deselect(UMLSceneMouseEvent *me)
 {
-    m_widget->m_selected = false;
-    m_widget->setSelected(m_widget->m_selected);
+    m_widget->setSelected(false);
     m_widget->m_scene->setSelected(m_widget, me);
     //m_wasSelected is false implicitly, no need to set it again
 }
@@ -583,8 +597,8 @@ void UMLWidgetController::deselect(UMLSceneMouseEvent *me)
  */
 void UMLWidgetController::saveWidgetValues(UMLSceneMouseEvent *me)
 {
-    m_pressOffsetX = me->x() - m_widget->x();
-    m_pressOffsetY = me->y() - m_widget->y();
+    m_pressOffsetX = me->scenePos().x() - m_widget->x();
+    m_pressOffsetY = me->scenePos().y() - m_widget->y();
 
     m_prevX = m_oldX = m_widget->x();
     m_prevY = m_oldY = m_widget->y();
@@ -669,8 +683,8 @@ void UMLWidgetController::resize(UMLSceneMouseEvent *me)
 
     m_resized = true;
 
-    int newW = m_oldW + me->x() - m_widget->x() - m_pressOffsetX;
-    int newH = m_oldH + me->y() - m_widget->y() - m_pressOffsetY;
+    UMLSceneValue newW = m_oldW + me->scenePos().x() - m_widget->x() - m_pressOffsetX;
+    UMLSceneValue newH = m_oldH + me->scenePos().y() - m_widget->y() - m_pressOffsetY;
 
     if ((me->modifiers() & Qt::ShiftModifier) && (me->modifiers() & Qt::ControlModifier)) {
         //Move in Y axis
@@ -802,9 +816,9 @@ int UMLWidgetController::getBiggestY(const UMLWidgetList &widgetList)
  * mouse press offset m_pressOffset{X,Y}.
  *
  * @param me The UMLSceneMouseEvent for which to get the adjusted position.
- * @return A QPoint with the adjusted position.
+ * @return A UMLScenePoint with the adjusted position.
  */
-QPoint UMLWidgetController::getPosition(UMLSceneMouseEvent* me)
+UMLScenePoint UMLWidgetController::getPosition(UMLSceneMouseEvent* me)
 {
     /*
     uDebug() << "me->x=" << me->x()
@@ -814,10 +828,10 @@ QPoint UMLWidgetController::getPosition(UMLSceneMouseEvent* me)
         << " m_widget->getY=" << m_widget->y() << ", m_oldY=" << m_oldY
         << ", m_pressOffsetY=" << m_pressOffsetY << endl;
      */
-    int newX = me->x() + m_widget->x() - m_prevX - m_pressOffsetX;
-    int newY = me->y() + m_widget->y() - m_prevY - m_pressOffsetY;
-    int maxX = m_widget->m_scene->width();
-    int maxY = m_widget->m_scene->height();
+    UMLSceneValue newX = me->scenePos().x() + m_widget->x() - m_prevX - m_pressOffsetX;
+    UMLSceneValue newY = me->scenePos().y() + m_widget->y() - m_prevY - m_pressOffsetY;
+    UMLSceneValue maxX = m_widget->m_scene->width();
+    UMLSceneValue maxY = m_widget->m_scene->height();
 
     m_prevX = newX;
     m_prevY = newY;
@@ -838,22 +852,22 @@ QPoint UMLWidgetController::getPosition(UMLSceneMouseEvent* me)
         //uDebug() << "got into cond.4";
         newY = maxY - (m_maxSelectedY - m_widget->y());
     }
-    return QPoint(newX, newY);
+    return UMLScenePoint(newX, newY);
 }
 
 /**
- * Returns a QPoint with the new X and Y position difference of the mouse event
+ * Returns a UMLScenePoint with the new X and Y position difference of the mouse event
  * respect to the position of the widget.
  *
  * @param me The UMLSceneMouseEvent to get the position to compare.
- * @return A QPoint with the position difference.
+ * @return A UMLScenePoint with the position difference.
  */
-QPoint UMLWidgetController::getPositionDifference(UMLSceneMouseEvent* me)
+UMLScenePoint UMLWidgetController::getPositionDifference(UMLSceneMouseEvent* me)
 {
-    QPoint newPoint = getPosition(me);
+    UMLScenePoint newPoint = getPosition(me);
     const int diffX = newPoint.x() - m_widget->x();
     const int diffY = newPoint.y() - m_widget->y();
-    return QPoint(diffX, diffY);
+    return UMLScenePoint(diffX, diffY);
 }
 
 /**
@@ -868,7 +882,7 @@ void UMLWidgetController::showPopupMenu(UMLSceneMouseEvent *me)
         return;
     }
     ListPopupMenu* menu = m_widget->setupPopupMenu();
-    menu->popup(me->globalPos());
+    menu->popup(me->screenPos());
 }
 
 /**

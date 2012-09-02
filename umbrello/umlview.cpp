@@ -13,43 +13,38 @@
 
 // application specific includes
 #include "debug_utils.h"
-#include "model_utils.h"
-#include "umldoc.h"
-#include "umlwidget.h"
-#include "notewidget.h"
-#include "umldragdata.h"
 #include "docwindow.h"
-#include "toolbarstatefactory.h"
-#include "umlscene.h"
+#include "model_utils.h"
+#include "notewidget.h"
 #include "uml.h"
+#include "umldoc.h"
+#include "umldragdata.h"
+#include "umlscene.h"
+#include "umlwidget.h"
 
 /**
  * Constructor
  */
 UMLView::UMLView(UMLFolder *parentFolder)
-  : Q3CanvasView(UMLApp::app()->mainViewWidget()),
+  : QGraphicsView(UMLApp::app()->mainViewWidget()),
     m_scene(new UMLScene(parentFolder, this)),
     m_nZoom(100)
 {
-    setCanvas(m_scene);
-    // Create the ToolBarState factory. This class is not a singleton, because it
-    // needs a pointer to this object.
-    m_pToolBarStateFactory = new ToolBarStateFactory();
-    m_pToolBarState = m_pToolBarStateFactory->getState(WorkToolBar::tbb_Arrow, this->umlScene());
+    setAcceptDrops(true);
+    setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    setDragMode(NoDrag);
+    setScene(m_scene);
 }
-
 /**
- * Destructor
+ * Destructor.
  */
 UMLView::~UMLView()
 {
-    delete m_pToolBarStateFactory;
-    m_pToolBarStateFactory = 0;
+    //TODO: Check if the scene shd be deleted
 }
 
 /**
- * Hack for reducing the difference
- * between the new QGraphicsScreen port.
+ * Getter for the scene.
  */
 UMLScene* UMLView::umlScene() const
 {
@@ -77,7 +72,7 @@ void UMLView::setZoom(int zoom)
 
     QMatrix wm;
     wm.scale(zoom / 100.0, zoom / 100.0);
-    setWorldMatrix(wm);
+    setMatrix(wm);
 
     m_nZoom = currentZoom();
     umlScene()->resizeCanvasToItems();
@@ -88,29 +83,21 @@ void UMLView::setZoom(int zoom)
  */
 int UMLView::currentZoom()
 {
-    return (int)(worldMatrix().m11()*100.0);
+    return (int)(matrix().m11()*100.0);
 }
 
 void UMLView::zoomIn()
 {
-    QMatrix wm = worldMatrix();
+    QMatrix wm = matrix();
     wm.scale(1.5, 1.5); // adjust zooming step here
     setZoom((int)(wm.m11()*100.0));
 }
 
 void UMLView::zoomOut()
 {
-    QMatrix wm = worldMatrix();
+    QMatrix wm = matrix();
     wm.scale(2.0 / 3.0, 2.0 / 3.0); //adjust zooming step here
     setZoom((int)(wm.m11()*100.0));
-}
-
-/**
- * Override standard method.
- */
-void UMLView::closeEvent(QCloseEvent* ce)
-{
-    QWidget::closeEvent(ce);
 }
 
 /**
@@ -118,7 +105,7 @@ void UMLView::closeEvent(QCloseEvent* ce)
  * Superceded by UMLScene::dragEnterEvent() - to be removed when transition
  * to QGraphicsView is complete
  */
-void UMLView::contentsDragEnterEvent(QDragEnterEvent *e)
+void UMLView::dragEnterEvent(QDragEnterEvent *e)
 {
     UMLDragData::LvTypeAndID_List tidList;
     if(!UMLDragData::getClip3TypeAndID(e->mimeData(), tidList)) {
@@ -225,7 +212,7 @@ void UMLView::contentsDragEnterEvent(QDragEnterEvent *e)
  * Superceded by UMLScene::dropEvent() - to be removed when transition to
  * QGraphicsView is complete.
  */
-void UMLView::contentsDropEvent(QDropEvent *e) {
+void UMLView::dropEvent(QDropEvent *e) {
     UMLDragData::LvTypeAndID_List tidList;
     if( !UMLDragData::getClip3TypeAndID(e->mimeData(), tidList) ) {
         return;
@@ -249,7 +236,7 @@ void UMLView::contentsDropEvent(QDropEvent *e) {
         UMLWidgetList widgets = umlScene()->widgetList();
         UMLWidget* w = 0;
         foreach (w, widgets) {
-            if (w->baseType() == WidgetBase::wt_Note && w->onWidget(e->pos())) {
+            if (w->baseType() == WidgetBase::wt_Note && w->onWidget(mapToScene(e->pos()))) {
                 breakFlag = true;
                 break;
             }
@@ -268,7 +255,7 @@ void UMLView::contentsDropEvent(QDropEvent *e) {
         return;
     }
     umlScene()->setCreateObject(true);
-    umlScene()->setPos( (e->pos() * 100 ) / m_nZoom );
+    umlScene()->setPos( (mapToScene(e->pos()) * 100 ) / m_nZoom );
 
     umlScene()->slotObjectCreated(o);
 
@@ -276,30 +263,56 @@ void UMLView::contentsDropEvent(QDropEvent *e) {
 }
 
 /**
- * Overrides the standard operation.
- * Calls the same method in the current tool bar state.
+ * Zoom the view in and out.
  */
-void UMLView::contentsMouseReleaseEvent(UMLSceneMouseEvent* ome)
+void UMLView::wheelEvent(QWheelEvent* event)
 {
-    m_pToolBarState->mouseRelease(static_cast<UMLSceneMouseEvent*>(ome));
+    // get the position of the mouse before scaling, in scene coords
+    QPointF pointBeforeScale(mapToScene(event->pos()));
+
+    // get the original screen centerpoint
+    QPointF screenCenter = center();
+
+    // scale the view ie. do the zoom
+    double scaleFactor = 1.15;
+    if (event->delta() > 0) {
+        // zoom in
+        if (currentZoom() < 500) {
+            scale(scaleFactor, scaleFactor);
+        }
+    } else {
+        // zooming out
+        if (currentZoom() > 10) {
+            scale(1.0 / scaleFactor, 1.0 / scaleFactor);
+        }
+    }
+
+    // get the position after scaling, in scene coords
+    QPointF pointAfterScale(mapToScene(event->pos()));
+
+    // get the offset of how the screen moved
+    QPointF offset = pointBeforeScale - pointAfterScale;
+
+    // adjust to the new center for correct zooming
+    QPointF newCenter = screenCenter + offset;
+    setCenter(newCenter);
+
+    DEBUG(DBG_SRC) << "currentZoom=" << currentZoom();
+    UMLApp::app()->slotZoomSliderMoved(currentZoom());
 }
 
 /**
- * Overrides the standard operation.
- * Calls the same method in the current tool bar state.
+ * Need to update the center so there is no jolt in the
+ * interaction after resizing the widget.
  */
-void UMLView::contentsMouseMoveEvent(UMLSceneMouseEvent* ome)
+void UMLView::resizeEvent(QResizeEvent* event)
 {
-    m_pToolBarState->mouseMove(ome);
-}
+    // get the rectangle of the visible area in scene coords
+    QRectF visibleArea = mapToScene(rect()).boundingRect();
+    setCenter(visibleArea.center());
 
-/**
- * Override standard method.
- * Calls the same method in the current tool bar state.
- */
-void UMLView::contentsMouseDoubleClickEvent(UMLSceneMouseEvent* ome)
-{
-    m_pToolBarState->mouseDoubleClick(ome);
+    // call the subclass resize so the scrollbars are updated correctly
+    QGraphicsView::resizeEvent(event);
 }
 
 
@@ -310,11 +323,13 @@ void UMLView::showEvent(QShowEvent* se)
 {
     UMLApp* theApp = UMLApp::app();
     WorkToolBar* tb = theApp->workToolBar();
-    connect(tb, SIGNAL(sigButtonChanged(int)), this, SLOT(slotToolBarChanged(int)));
-    connect(this, SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
+    UMLScene *us = umlScene();
+    connect(tb, SIGNAL(sigButtonChanged(int)), us, SLOT(slotToolBarChanged(int)));
+    connect(us, SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
+
 
     umlScene()->showEvent(se);
-    resetToolbar();
+    us->resetToolbar();
 }
 
 /**
@@ -324,38 +339,81 @@ void UMLView::hideEvent(QHideEvent* he)
 {
     UMLApp* theApp = UMLApp::app();
     WorkToolBar* tb = theApp->workToolBar();
-    disconnect(tb, SIGNAL(sigButtonChanged(int)), this, SLOT(slotToolBarChanged(int)));
-    disconnect(this, SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
+    UMLScene *us = umlScene();
+    disconnect(tb, SIGNAL(sigButtonChanged(int)), us, SLOT(slotToolBarChanged(int)));
+    disconnect(us, SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
 
-    umlScene()->hideEvent(he);
+    us->hideEvent(he);
 }
 
 /**
  * Override standard method.
- * Calls the same method in the current tool bar state.
  */
-void UMLView::contentsMousePressEvent(UMLSceneMouseEvent* ome)
+void UMLView::closeEvent(QCloseEvent* ce)
 {
-    m_pToolBarState->mousePress(ome);
-    //TODO should be managed by widgets when are selected. Right now also has some
-    //problems, such as clicking on a widget, and clicking to move that widget shows
-    //documentation of the diagram instead of keeping the widget documentation.
-    //When should diagram documentation be shown? When clicking on an empty
-    //space in the diagram with arrow tool?
-    umlScene()->mousePressEvent(ome);
+    QWidget::closeEvent(ce);
 }
 
 /**
- * Changes the current tool to the selected tool.
- * The current tool is cleaned and the selected tool initialized.
+ * Sets the current centerpoint.  Also updates the scene's center point.
+ * Unlike centerOn, which has no way of getting the floating point center
+ * back, setCenter() stores the center point.  It also handles the special
+ * sidebar case.  This function will claim the centerPoint to sceneRec ie.
+ * the centerPoint must be within the sceneRec.
  */
-void UMLView::slotToolBarChanged(int c)
+void UMLView::setCenter(const QPointF& centerPoint)
 {
-    m_pToolBarState->cleanBeforeChange();
-    m_pToolBarState = m_pToolBarStateFactory->getState((WorkToolBar::ToolBar_Buttons)c, umlScene());
-    m_pToolBarState->init();
+    // get the rectangle of the visible area in scene coords
+    QRectF visibleArea = mapToScene(rect()).boundingRect();
 
-    umlScene()->setPaste(false);
+    // get the scene area
+    QRectF sceneBounds = sceneRect();
+
+    double boundX = visibleArea.width() / 2.0;
+    double boundY = visibleArea.height() / 2.0;
+    double boundWidth = sceneBounds.width() - 2.0 * boundX;
+    double boundHeight = sceneBounds.height() - 2.0 * boundY;
+
+    // the max boundary that the centerPoint can be to
+    QRectF bounds(boundX, boundY, boundWidth, boundHeight);
+
+    if (bounds.contains(centerPoint)) {
+        // we are within the bounds
+        m_currentCenterPoint = centerPoint;
+    } else {
+        // we need to clamp or use the center of the screen
+        if(visibleArea.contains(sceneBounds)) {
+            // use the center of scene ie. we can see the whole scene
+            m_currentCenterPoint = sceneBounds.center();
+        } else {
+
+            m_currentCenterPoint = centerPoint;
+
+            // we need to clamp the center. The centerPoint is too large
+            if (centerPoint.x() > bounds.x() + bounds.width()) {
+                m_currentCenterPoint.setX(bounds.x() + bounds.width());
+            } else if (centerPoint.x() < bounds.x()) {
+                m_currentCenterPoint.setX(bounds.x());
+            }
+
+            if (centerPoint.y() > bounds.y() + bounds.height()) {
+                m_currentCenterPoint.setY(bounds.y() + bounds.height());
+            } else if (centerPoint.y() < bounds.y()) {
+                m_currentCenterPoint.setY(bounds.y());
+            }
+
+        }
+    }
+    // update the scrollbars
+    centerOn(m_currentCenterPoint);
+}
+
+/**
+ * Get the center.
+ */
+QPointF UMLView::center()
+{
+    return m_currentCenterPoint;
 }
 
 #include "umlview.moc"

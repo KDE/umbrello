@@ -20,6 +20,7 @@
 #include "seqlinewidget.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "umlscene.h"
 #include "umlview.h"
 #include "umlwidget.h"
 #include "umlwidgetlist.h"
@@ -80,7 +81,7 @@ void ObjectWidgetController::mousePressEvent(UMLSceneMouseEvent *me)
     m_isOnDestructionBox = false;
     SeqLineWidget * pLine = dynamic_cast<ObjectWidget*>(m_widget)->sequentialLine();
 
-    if (pLine->onDestructionBox(me->pos())) {
+    if (pLine->onDestructionBox(me->scenePos())) {
         m_isOnDestructionBox = true;
         m_oldX = dynamic_cast<ObjectWidget*>(m_widget)->x() + dynamic_cast<ObjectWidget*>(m_widget)->width() / 2;
         m_oldY = dynamic_cast<ObjectWidget*>(m_widget)->getEndLineY() - 10;
@@ -101,7 +102,7 @@ void ObjectWidgetController::mouseMoveEvent(UMLSceneMouseEvent* me)
         return;
     }
 
-    int diffY = me->y() - m_oldY;
+    int diffY = me->scenePos().y() - m_oldY;
 
     if (m_isOnDestructionBox) {
         moveDestructionBy (diffY);

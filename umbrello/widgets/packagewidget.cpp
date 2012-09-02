@@ -51,7 +51,7 @@ PackageWidget::~PackageWidget()
 /**
  * Overrides standard method.
  */
-void PackageWidget::paint(QPainter & p, int offsetX, int offsetY)
+void PackageWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
     if ( UMLWidget::useFillColor() )

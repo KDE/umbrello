@@ -90,14 +90,14 @@ void ToolBarStateOneWidget::slotWidgetRemoved(UMLWidget* widget)
 void ToolBarStateOneWidget::setCurrentElement()
 {
     m_isObjectWidgetLine = false;
-    ObjectWidget* objectWidgetLine = m_pUMLScene->onWidgetLine(m_pMouseEvent->pos());
+    ObjectWidget* objectWidgetLine = m_pUMLScene->onWidgetLine(m_pMouseEvent->scenePos());
     if (objectWidgetLine) {
         setCurrentWidget(objectWidgetLine);
         m_isObjectWidgetLine = true;
         return;
     }
 
-    UMLWidget *widget = m_pUMLScene->widgetAt(m_pMouseEvent->pos());
+    UMLWidget *widget = m_pUMLScene->widgetAt(m_pMouseEvent->scenePos());
     if (widget) {
         setCurrentWidget(widget);
         return;

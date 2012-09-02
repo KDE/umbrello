@@ -81,7 +81,7 @@ void ToolBarStateAssociation::mouseMove(UMLSceneMouseEvent* ome)
 
     if (m_associationLine) {
         UMLScenePoint sp = m_associationLine->startPoint();
-        m_associationLine->setPoints(sp.x(), sp.y(), m_pMouseEvent->x(), m_pMouseEvent->y());
+        m_associationLine->setPoints(sp.x(), sp.y(), m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y());
     }
 }
 
@@ -117,7 +117,7 @@ void ToolBarStateAssociation::mouseReleaseAssociation()
 
     currentAssociation()->createAssocClassLine(
             static_cast<ClassifierWidget*>(m_firstWidget),
-            currentAssociation()->associationLine()->closestPointIndex(m_pMouseEvent->pos()));
+            currentAssociation()->associationLine()->closestPointIndex(m_pMouseEvent->scenePos()));
     m_firstWidget->addAssoc( currentAssociation() );
     cleanAssociation();
 }
