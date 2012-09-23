@@ -34,9 +34,12 @@
 // forward declarations
 class ClassOptionsPage;
 class IDChangeLog;
+class LayoutGrid;
 class ListPopupMenu;
 class FloatingTextWidget;
 class ObjectWidget;
+class ToolBarState;
+class ToolBarStateFactory;
 class UMLFolder;
 class UMLApp;
 class UMLDoc;
@@ -47,8 +50,6 @@ class UMLViewImageExporter;
 class UMLForeignKeyConstraint;
 class UMLEntity;
 class UMLView;
-class ToolBarState;
-class ToolBarStateFactory;
 
 class QCloseEvent;
 class QDragEnterEvent;
@@ -512,7 +513,6 @@ public:
 
 protected:
 
-    void setAllChanged() {}
     // Methods and members related to loading/saving
 
     bool loadWidgetsFromXMI(QDomElement & qElement);
@@ -539,12 +539,6 @@ protected:
     bool m_bUseSnapToGrid;  ///< Flag to use snap to grid. The default is off.
     bool m_bUseSnapComponentSizeToGrid;  ///< Flag to use snap to grid for component size. The default is off.
     bool m_isOpen;  ///< Flag is set to true when diagram is open, i.e. shown to the user.
-
-    int m_nSnapX;  ///< The snap to grid x size.
-    int m_nSnapY;  ///< The snap to grid y size.
-    bool m_bShowSnapGrid;  ///< Determines whether to show the snap grid. The default will be on if the grid is on.
-    int m_nCanvasWidth;    ///< Width of canvas in pixels.
-    int m_nCanvasHeight;   ///< Height of canvas in pixels.
 
     // End of methods and members related to loading/saving
     ////////////////////////////////////////////////////////////////////////
@@ -586,14 +580,15 @@ private:
     UMLView *m_view;   ///< The view to which this scene is related.
     UMLFolder *m_pFolder;  ///< The folder in which this UMLView is contained.
 
+    ToolBarStateFactory* m_pToolBarStateFactory;
+    ToolBarState* m_pToolBarState;
     IDChangeLog * m_pIDChangesLog;  ///< LocalID Changes Log for paste actions
     bool m_isActivated;             ///< True if the view was activated after the serialization(load).
     bool m_bPopupShowing;           ///< Status of a popupmenu on view. True - a popup is on view.
     UMLScenePoint m_PastePoint;     ///< The offset at which to paste the clipboard.
     UMLDoc* m_doc;                  ///< Pointer to the UMLDoc.
     UMLViewImageExporter* m_pImageExporter;  ///< Used to export the view.
-    ToolBarState *m_pToolBarState;
-    ToolBarStateFactory *m_pToolBarStateFactory;
+    LayoutGrid*  m_layoutGrid;      ///< layout grid in the background
 
     void createAutoAttributeAssociation(UMLClassifier *type,
                                         UMLAttribute *attr,
@@ -644,4 +639,4 @@ signals:
 
 QDebug operator<<(QDebug dbg, UMLScene *item);
 
-#endif
+#endif // UMLSCENE_H

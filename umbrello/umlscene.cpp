@@ -37,6 +37,7 @@
 #include "forkjoinwidget.h"
 #include "idchangelog.h"
 #include "layoutgenerator.h"
+#include "layoutgrid.h"
 #include "listpopupmenu.h"
 #include "messagewidget.h"
 #include "model_utils.h"
@@ -96,7 +97,7 @@
 */
 
 // system includes
-#include <cmath>
+#include <cmath>  // for ceil
 
 // static members
 const UMLSceneValue UMLScene::defaultCanvasSize = 5000;
@@ -117,9 +118,6 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     m_bUseSnapToGrid(false),
     m_bUseSnapComponentSizeToGrid(false),
     m_isOpen(true),
-    m_nSnapX(10),
-    m_nSnapY(10),
-    m_bShowSnapGrid(false),
     m_nCollaborationId(0),
     m_bCreateObject(false),
     m_bDrawSelectedOnly(false),
@@ -150,6 +148,11 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     m_pToolBarState = m_pToolBarStateFactory->getState(WorkToolBar::tbb_Arrow, this);
 
     m_doc = UMLApp::app()->document();
+
+//    // settings for background
+//    setBackgroundBrush(QColor(195, 195, 195));
+    m_layoutGrid = new LayoutGrid();
+    addItem(m_layoutGrid);
 
     DEBUG_REGISTER(DBG_SRC);
 }
@@ -1610,7 +1613,6 @@ void UMLScene::deleteSelection()
                 static_cast<FloatingTextWidget*>(widget)->textRole() != Uml::TextRole::Floating) {
             m_selectedList.removeAt(m_selectedList.indexOf(widget));
             widget->hide();
-
         } else {
             removeWidget(widget);
         }
@@ -1864,7 +1866,6 @@ void  UMLScene::getDiagram(const UMLSceneRect &area, QPainter &painter)
 
     setSnapGridVisible(showSnapGrid);
 
-    setAllChanged();
     //select again
     foreach(UMLWidget* widget, selected) {
         widget->setSelected(true);
@@ -3777,7 +3778,7 @@ void UMLScene::setSnapComponentSizeToGrid(bool bSnap)
  */
 int UMLScene::snapX() const
 {
-    return m_nSnapX;
+    return m_layoutGrid->gridSpacingX();
 }
 
 /**
@@ -3785,7 +3786,7 @@ int UMLScene::snapX() const
  */
 int UMLScene::snapY() const
 {
-    return m_nSnapY;
+    return m_layoutGrid->gridSpacingY();
 }
 
 /**
@@ -3793,9 +3794,7 @@ int UMLScene::snapY() const
  */
 void UMLScene::setSnapSpacing(int x, int y)
 {
-    m_nSnapX = x;
-    m_nSnapY = y;
-    setAllChanged();
+    m_layoutGrid->setGridSpacing(x, y);
 }
 
 /**
@@ -3835,7 +3834,7 @@ UMLSceneValue UMLScene::snappedY(UMLSceneValue _y)
  */
 bool UMLScene::isSnapGridVisible() const
 {
-    return m_bShowSnapGrid;
+    return m_layoutGrid->isVisible();
 }
 
 /**
@@ -3843,9 +3842,8 @@ bool UMLScene::isSnapGridVisible() const
  */
 void UMLScene::setSnapGridVisible(bool bShow)
 {
-    m_bShowSnapGrid = bShow;
+    m_layoutGrid->setVisible(bShow);
     emit sigShowGridToggled(bShow);
-    setAllChanged();
 }
 
 /**
@@ -3954,11 +3952,11 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     Settings::saveToXMI(viewElement, m_Options);
     //misc
     viewElement.setAttribute("localid", ID2STR(m_nLocalID));
-    viewElement.setAttribute("showgrid", m_bShowSnapGrid);
+    viewElement.setAttribute("showgrid", m_layoutGrid->isVisible());
     viewElement.setAttribute("snapgrid", m_bUseSnapToGrid);
     viewElement.setAttribute("snapcsgrid", m_bUseSnapComponentSizeToGrid);
-    viewElement.setAttribute("snapx", m_nSnapX);
-    viewElement.setAttribute("snapy", m_nSnapY);
+    viewElement.setAttribute("snapx", m_layoutGrid->gridSpacingX());
+    viewElement.setAttribute("snapy", m_layoutGrid->gridSpacingY());
     // FIXME: move to UMLView
     viewElement.setAttribute("zoom", activeView()->zoom());
     viewElement.setAttribute("canvasheight", height());
@@ -4027,7 +4025,7 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     setGridDotColor(m_Options.uiState.gridDotColor);
     //misc
     QString showgrid = qElement.attribute("showgrid", "0");
-    m_bShowSnapGrid = (bool)showgrid.toInt();
+    m_layoutGrid->setVisible((bool)showgrid.toInt());
 
     QString snapgrid = qElement.attribute("snapgrid", "0");
     m_bUseSnapToGrid = (bool)snapgrid.toInt();
@@ -4036,10 +4034,8 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     m_bUseSnapComponentSizeToGrid = (bool)snapcsgrid.toInt();
 
     QString snapx = qElement.attribute("snapx", "10");
-    m_nSnapX = snapx.toInt();
-
     QString snapy = qElement.attribute("snapy", "10");
-    m_nSnapY = snapy.toInt();
+    m_layoutGrid->setGridSpacing(snapx.toInt(), snapy.toInt());
 
     QString zoom = qElement.attribute("zoom", "100");
     activeView()->setZoom(zoom.toInt());

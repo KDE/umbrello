@@ -373,6 +373,7 @@ set(libwidgets_SRCS
     widgets/floatingdashlinewidget.cpp
     widgets/floatingtextwidget.cpp
     widgets/forkjoinwidget.cpp
+    widgets/layoutgrid.cpp
     widgets/linkwidget.cpp
     widgets/messagewidget.cpp
     widgets/nodewidget.cpp
