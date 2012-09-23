@@ -150,7 +150,7 @@ void AdaWriter::computeAssocTypeAndRole(UMLClassifier *c,
     const Uml::AssociationType assocType = a->getAssocType();
     if (assocType != Uml::AssociationType::Aggregation && assocType != Uml::AssociationType::Composition)
         return;
-    const QString multi = a->getMulti(Uml::B);
+    const QString multi = a->getMultiplicity(Uml::B);
     bool hasNonUnityMultiplicity = (!multi.isEmpty() && multi != "1");
     hasNonUnityMultiplicity &= !multi.contains(QRegExp("^1 *\\.\\. *1$"));
     roleName = cleanName(a->getRoleName(Uml::B));

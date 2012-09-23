@@ -673,7 +673,7 @@ FloatingTextWidget* AssociationWidget::multiplicityWidget(Uml::Role_Type role) c
 QString AssociationWidget::multiplicity(Uml::Role_Type role) const
 {
     if (association()) {
-        return association()->getMulti(role);
+        return association()->getMultiplicity(role);
     }
     return m_role[role].multiplicityWidget->text();
 }
@@ -685,7 +685,7 @@ void AssociationWidget::setMultiplicity(const QString& text, Uml::Role_Type role
     // will eventually signal this particular widget of text change and
     // this widget will react to that change.
     if (association()) {
-        association()->setMulti(text, role);
+        association()->setMultiplicity(text, role);
     } else {
         Uml::TextRole tr = (role == Uml::A ? Uml::TextRole::MultiA : Uml::TextRole::MultiB);
         setFloatingText(tr, text, m_role[role].multiplicityWidget);

@@ -583,7 +583,7 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
                     // ONLY write out IF there is a rolename given
                     // otherwise it is not meant to be declared
                     if (!a->getRoleName(Uml::A).isEmpty() || noRoleNameOK )
-                        writeAssociationRoleDecl(classifierA, a->getMulti(Uml::A), XMLschema);
+                        writeAssociationRoleDecl(classifierA, a->getMultiplicity(Uml::A), XMLschema);
                 }
             }
         }

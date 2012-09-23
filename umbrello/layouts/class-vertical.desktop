@@ -2,14 +2,21 @@
 Type=Service
 Name=Vertical Layout
 Name[ca]=Disposició vertical
+Name[da]=Lodret layout
+Name[de]=Vertikales Layout
 Name[es]=Disposición vertical
 Name[et]=Püstine paigutus
+Name[fr]=Disposition verticale
+Name[hu]=Függőleges elrendezés
 Name[it]=Disposizione verticale
+Name[kk]=Тік орналасуы
+Name[lt]=Vertikalus išdėstymas
 Name[nl]=Verticale indeling
 Name[pa]=ਵਰਟੀਕਲ ਲੇਆਉਟ
 Name[pl]=Układ pionowy
 Name[pt]=Disposição Vertical
 Name[pt_BR]=Leiaute vertical
+Name[sk]=Zvislé rozloženie
 Name[sr]=Усправни распоред
 Name[sr@ijekavian]=Усправни распоред
 Name[sr@ijekavianlatin]=Uspravni raspored
@@ -22,18 +29,25 @@ Name[zh_CN]=垂直布局
 Name[zh_TW]=垂直佈局
 Comment=Layout which renders vertical
 Comment[ca]=DIsposició que renderitza verticalment
+Comment[da]=Layout som renderer lodret
+Comment[de]=Layout, das vertikal gerendert wird
 Comment[es]=Diseño que se organiza de forma vertical
 Comment[et]=Püstiselt renderdatud paigutus
+Comment[fr]=Disposition permettant un rendu vertical
+Comment[hu]=Elrendezés, amely függőlegesen jelenít meg
 Comment[it]=Disposizione che rende in verticale
+Comment[kk]=Бір үстінен бір орналасуы
 Comment[nl]=Indeling die zich verticaal laat weergeven
 Comment[pl]=Układ, który wyświetla pionowo
 Comment[pt]=Uma disposição que representa os itens na vertical
 Comment[pt_BR]=Leiaute que representa os itens na vertical
+Comment[sk]=Rozloženie, ktoré renderuje zvislo
 Comment[sr]=Распоред који исцртава усправно
 Comment[sr@ijekavian]=Распоред који исцртава усправно
 Comment[sr@ijekavianlatin]=Raspored koji iscrtava uspravno
 Comment[sr@latin]=Raspored koji iscrtava uspravno
 Comment[sv]=Layout som återger vertikalt
+Comment[tr]=Dikey hazırlanan düzen
 Comment[uk]=Компонування з вертикальним розташуванням елементів
 Comment[x-test]=xxLayout which renders verticalxx
 Comment[zh_CN]=垂直显示的布局
@@ -69,6 +83,7 @@ ranking::type::uniassociation=weight=0.001
 ranking::type::default=weight=0.001
 # id handling
 id::type::aggregation=swap
+id::type::composition=swap
 id::type::containment=swap
 
 [X-UMBRELLO-Dot-Attributes]

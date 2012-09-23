@@ -107,7 +107,7 @@ void PascalWriter::computeAssocTypeAndRole
 {
     roleName = a->getRoleName(Uml::A);
     if (roleName.isEmpty()) {
-        if (a->getMulti(Uml::A).isEmpty()) {
+        if (a->getMultiplicity(Uml::A).isEmpty()) {
             roleName = "M_";
             roleName.append(typeName);
         } else {
@@ -119,7 +119,7 @@ void PascalWriter::computeAssocTypeAndRole
     if (c == NULL)
         return;
     typeName = cleanName(c->name());
-    if (! a->getMulti(Uml::A).isEmpty())
+    if (! a->getMultiplicity(Uml::A).isEmpty())
         typeName.append("_Array_Access");
 }
 

@@ -2,32 +2,47 @@
 Type=Service
 Name=Export Layout
 Name[ca]=Exporta la disposició
+Name[da]=Eksportér layout
+Name[de]=Layout exportieren
 Name[es]=Exportar disposición
 Name[et]=Paigutuse eksport
+Name[fr]=Disposition de l'exportation
+Name[hu]=Exportálás elrendezés
 Name[it]=Disposizione di esportazione
+Name[kk]=Экпорттың орналасуы
+Name[lt]=Eksportuoti išdėstymą
 Name[nl]=Indeling exporteren
 Name[pa]=ਲੇਆਉਟ ਐਕਸਪੋਰਟ
 Name[pl]=Eksportuj układ
 Name[pt]=Exportar a Disposição
 Name[pt_BR]=Exportar leiaute
+Name[sk]=Exportovať rozloženie
 Name[sr]=Извези распоред
 Name[sr@ijekavian]=Извези распоред
 Name[sr@ijekavianlatin]=Izvezi raspored
 Name[sr@latin]=Izvezi raspored
 Name[sv]=Exportera layout
+Name[tr]=Düzeni Dışarıya Aktar
 Name[uk]=Компонування експортованих даних
 Name[x-test]=xxExport Layoutxx
 Name[zh_CN]=导出布局
 Name[zh_TW]=匯出佈局
 Comment=Export Layout for Class Diagrams
 Comment[ca]=Exporta la disposició dels diagrames de classe
+Comment[da]=Eksportér layout for klassediagrammer
+Comment[de]=Layout für Klassendiagramme exportieren
 Comment[es]=Exportar disposición de diagramas de clase
 Comment[et]=Klassiskeemide paigutuse eksport
+Comment[fr]=Disposition de l'exportation pour les diagrammes de classes
+Comment[hu]=Exportálás elrendezés az osztály diagramokhoz
 Comment[it]=Disposizione di esportazione per i diagrammi di classe
+Comment[kk]=Клас диаграмма үшін экспорттың орналасуы
+Comment[lt]=Eksportuoti išdėstymą Klasių diagramoms
 Comment[nl]=Indeling voor klassediagrammen exporteren
 Comment[pl]=Eksportuj układ dla diagramów klas
 Comment[pt]=Exportar a Disposição dos Diagramas de Classes
 Comment[pt_BR]=Exportar leiaute para diagramas de classe
+Comment[sk]=Exportovať rozloženie pre diagramy tried
 Comment[sr]=Извези распоред за дијаграме класа
 Comment[sr@ijekavian]=Извези распоред за дијаграме класа
 Comment[sr@ijekavianlatin]=Izvezi raspored za dijagrame klasa
@@ -68,6 +83,7 @@ ranking::type::uniassociation=weight=0.001
 ranking::type::default=weight=0.001
 # id handling
 id::type::aggregation=swap
+id::type::composition=swap
 id::type::containment=swap
 
 [X-UMBRELLO-Dot-Attributes]

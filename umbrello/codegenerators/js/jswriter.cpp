@@ -203,8 +203,8 @@ void JSWriter::writeAssociation(QString& classname, UMLAssociationList& assocLis
             }
 
             bool okCvt;
-            int nMulti = a->getMulti(role).toInt(&okCvt,10);
-            bool isNotMulti = a->getMulti(role).isEmpty() || (okCvt && nMulti == 1);
+            int nMulti = a->getMultiplicity(role).toInt(&okCvt,10);
+            bool isNotMulti = a->getMultiplicity(role).isEmpty() || (okCvt && nMulti == 1);
 
             QString typeName(cleanName(a->getObject(role)->name()));
 
