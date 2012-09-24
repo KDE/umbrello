@@ -27,13 +27,18 @@
  */
 UMLView::UMLView(UMLFolder *parentFolder)
   : QGraphicsView(UMLApp::app()->mainViewWidget()),
-    m_scene(new UMLScene(parentFolder, this)),
     m_nZoom(100)
 {
     setAcceptDrops(true);
     setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-    setDragMode(NoDrag);
-    setScene(m_scene);
+    setDragMode(NoDrag); //:TODO: RubberBandDrag);
+    // [PORT] For now the following is used. Shd check for creation of
+    // new scene later.
+    UMLScene *scene = new UMLScene(parentFolder, this);
+    setScene(scene);
+    setSceneRect(scene->sceneRect());
+
+    DEBUG_REGISTER(DBG_SRC);
 }
 
 /**
@@ -46,10 +51,11 @@ UMLView::~UMLView()
 
 /**
  * Getter for the scene.
+ * TODO: Should be removed. Use scene() instead.
  */
 UMLScene* UMLView::umlScene() const
 {
-    return m_scene;
+    return static_cast<UMLScene*>(scene());
 }
 
 /**
