@@ -3222,7 +3222,7 @@ void AssociationWidget::mouseMoveEvent(UMLSceneMouseEvent* me)
     setSelected();
     //new position for point
     UMLScenePoint p = me->scenePos();
-    UMLScenePoint oldp = m_associationLine->point(m_nMovingPoint);
+    //:TODO: UMLScenePoint oldp = m_associationLine->point(m_nMovingPoint);
 
     if( m_scene->snapToGrid() ) {
         int newX = m_scene->snappedX( p.x() );
@@ -3257,9 +3257,9 @@ void AssociationWidget::mouseMoveEvent(UMLSceneMouseEvent* me)
         }
     }
 
-    //move event called now
-    //QMoveEvent m(p, oldp);
-    //moveEvent(&m);
+    // move event called now
+    //:TODO: QMoveEvent m(p, oldp);
+    //:TODO: moveEvent(&m);
     m_scene->resizeCanvasToItems();
 }
 
