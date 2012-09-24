@@ -52,10 +52,9 @@ protected:
     virtual void hideEvent(QHideEvent *he);
     virtual void closeEvent(QCloseEvent* ce);
 
-	void setCenter(const QPointF& centerPoint);
+    void setCenter(const QPointF& centerPoint);
     QPointF center();
 
-    UMLScene *m_scene;  ///< pointer to scene
     QPointF m_currentCenterPoint;  ///< holds the current centerpoint for the view, used for panning and zooming
     QPoint  m_lastPanPoint;        ///< from panning the view
     int m_nZoom;        ///< zoom level in percent, default 100

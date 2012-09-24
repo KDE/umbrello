@@ -49,10 +49,11 @@ UMLView::~UMLView()
 
 /**
  * Getter for the scene.
+ * TODO: Should be removed. Use scene() instead.
  */
 UMLScene* UMLView::umlScene() const
 {
-    return m_scene;
+    return static_cast<UMLScene*>(scene());
 }
 
 /**
