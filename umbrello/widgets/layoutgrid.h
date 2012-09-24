@@ -26,6 +26,7 @@
 
 class QGraphicsScene;
 class QStyleOptionGraphicsItem;
+class UMLScene;
 
 /**
  * @author Andi Fischer
@@ -35,7 +36,7 @@ class QStyleOptionGraphicsItem;
 class LayoutGrid : public QGraphicsItem
 {
 public:
-    LayoutGrid(QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
+    LayoutGrid(QGraphicsItem *parent = 0, UMLScene *scene = 0);
     ~LayoutGrid();
 
     QRectF boundingRect() const;

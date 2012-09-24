@@ -20,6 +20,7 @@
 #include "layoutgrid.h"
 
 #include "debug_utils.h"
+#include "umlscene.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
@@ -29,11 +30,11 @@
 /**
  * Constructor.
  */
-LayoutGrid::LayoutGrid(QGraphicsItem *parent, QGraphicsScene *scene)
+LayoutGrid::LayoutGrid(QGraphicsItem *parent, UMLScene *scene)
   : QGraphicsItem(parent, scene),
     m_gridSpacingX(25),
     m_gridSpacingY(25),
-    m_gridRect(QRect(0, 0, 1000, 1000)),
+    m_gridRect(scene->sceneRect().toRect()),
     m_textFont(QFont()),
     m_gridDotColor(Qt::gray),
     m_gridCrossColor(Qt::gray),
@@ -63,8 +64,8 @@ void LayoutGrid::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, 
     Q_UNUSED(item); Q_UNUSED(widget);
     DEBUG("LayoutGrid") << "painting...";
     if (m_isVisible) {
-        for(int x = m_gridRect.left(); x < m_gridRect.right(); x = x + m_gridSpacingX) {
-            for(int y = m_gridRect.top(); y < m_gridRect.bottom(); y = y + m_gridSpacingY) {
+        for(int x = m_gridRect.left(); x < m_gridRect.right(); x += m_gridSpacingX) {
+            for(int y = m_gridRect.top(); y < m_gridRect.bottom(); y += m_gridSpacingY) {
                 if (x % 100 == 0 && y % 100 == 0) {
                     // cross
                     painter->setPen(m_gridCrossColor);
