@@ -3943,24 +3943,6 @@ void UMLScene::forceUpdateWidgetFontMetrics(QPainter * painter)
 }
 
 /**
- * Sets the color of the background and the grid dots.
- */
-void UMLScene::drawBackground(QPainter *painter, const UMLSceneRect  & clip)
-{
-    Q_UNUSED(clip);
-    if( isSnapGridVisible() ) {
-        painter->setPen( gridDotColor() );
-        int gridX = snapX();
-        int gridY = snapY();
-        int numX = activeView()->width() / gridX;
-        int numY = activeView()->height() / gridY;
-        for( int x = 0; x <= numX; x++ )
-            for( int y = 0; y < numY; y++ )
-                painter->drawPoint( x * gridX, y * gridY );
-    }
-}
-
-/**
  * Creates the "diagram" tag and fills it with the contents of the diagram.
  */
 void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
