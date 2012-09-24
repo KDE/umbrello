@@ -291,7 +291,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
         return;
     WidgetBase::WidgetType type = object->baseType();
     // uDebug() << "ListPopupMenu created with multi=" << multi << " , unique="
-    //          << unique << " for WidgetType=" << type;
+    //          << unique << " for WidgetType=" << WidgetBase::toString(type);
 
     if (multi) {
         ClassifierWidget *c = NULL;
@@ -585,7 +585,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
         }
         break;
     default:
-        uWarning() << "unhandled WidgetType " << type;
+        uWarning() << "unhandled WidgetType " << WidgetBase::toString(type);
         break;
     }//end switch
 

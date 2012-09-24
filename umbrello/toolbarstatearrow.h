@@ -29,7 +29,6 @@ class ToolBarStateArrow : public ToolBarState
 {
     Q_OBJECT
 public:
-
     ToolBarStateArrow(UMLScene *umlScene);
     virtual ~ToolBarStateArrow();
 

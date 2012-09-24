@@ -368,7 +368,7 @@ void UMLScene::setTextColor(const QColor& color)
  */
 const QColor& UMLScene::gridDotColor() const
 {
-    return m_Options.uiState.gridDotColor;
+    return m_layoutGrid->gridDotColor();
 }
 
 /**
@@ -378,8 +378,9 @@ const QColor& UMLScene::gridDotColor() const
  */
 void UMLScene::setGridDotColor(const QColor& color)
 {
-    m_Options.uiState.gridDotColor = color;
-    emit sigGridColorChanged(ID());
+    m_layoutGrid->setGridDotColor(color);
+    m_layoutGrid->setGridCrossColor(color);
+    m_layoutGrid->setTextColor(color);
 }
 
 /**
@@ -3140,10 +3141,29 @@ void UMLScene::resetToolbar()
 }
 
 /**
+ * Event handler for context menu events.
+ */
+void UMLScene::contextMenuEvent(UMLSceneContextMenuEvent* contextMenuEvent)
+{
+    UMLWidget* widget = widgetAt(contextMenuEvent->scenePos());
+    if (widget) {
+        DEBUG(DBG_SRC) << "widget = " << widget->name() << " / type = " << widget->baseTypeStr();
+//:TODO:        widget->contextMenuEvent(contextMenuEvent);
+    }
+    else {
+        // set the position for the eventually created widget
+        setPos(contextMenuEvent->scenePos());
+
+        setMenu(contextMenuEvent->screenPos());
+        contextMenuEvent->accept();
+    }
+}
+
+/**
  * Sets the popup menu to use when clicking on a diagram background
  * (rather than a widget or listView).
  */
-void UMLScene::setMenu()
+void UMLScene::setMenu(const QPoint& pos)
 {
     slotRemovePopupMenu();
     ListPopupMenu::MenuType menu = ListPopupMenu::mt_Undefined;
@@ -3193,8 +3213,10 @@ void UMLScene::setMenu()
         // DEBUG(DBG_SRC) << "create popup for MenuType " << ListPopupMenu::toString(menu);
         m_pMenu = new ListPopupMenu(activeView(), menu, activeView());
         connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
-		//activeView()->mapToGlobal(activeView()->contentsToViewport(activeView()->worldMatrix().map(m_Pos))));
-        m_pMenu->popup(pos().toPoint());
+
+        // [PORT] Calculate using activeView once its implementation is done.
+        //QPoint point = m_Pos.toPoint();
+        m_pMenu->popup(pos);
     }
 }
 
@@ -3351,7 +3373,7 @@ void UMLScene::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Cut:
         //FIXME make this work for diagram's right click menu
         if (selectedWidgets().count() &&
-                UMLApp::app()->editCutCopy(true)) {
+            UMLApp::app()->editCutCopy(true)) {
             deleteSelection();
             m_doc->setModified(true);
         }

@@ -13,10 +13,11 @@
 
 #include "basictypes.h"
 
-#include <QtCore/QObject>
-#include <QtGui/QColor>
-#include <QtGui/QPainter>
-#include <QtXml/QDomDocument>
+#include <QColor>
+#include <QDomDocument>
+#include <QGraphicsObject>
+#include <QObject>
+#include <QPainter>
 
 // forward declarations
 class UMLDoc;

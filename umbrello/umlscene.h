@@ -396,7 +396,8 @@ public:
 
     bool isSavedInSeparateFile();
 
-    void setMenu();
+    void setMenu(const QPoint& pos);
+
     void resetToolbar();
 
     bool getPaste() const;
@@ -512,7 +513,6 @@ public:
     UMLSceneItemList collisions(const UMLScenePoint &p);
 
 protected:
-
     // Methods and members related to loading/saving
 
     bool loadWidgetsFromXMI(QDomElement & qElement);
@@ -552,6 +552,7 @@ protected:
     void mousePressEvent(UMLSceneMouseEvent* mouseEvent);
     void mouseDoubleClickEvent(UMLSceneMouseEvent* mouseEvent);
     void mouseReleaseEvent(UMLSceneMouseEvent* mouseEvent);
+    virtual void contextMenuEvent(UMLSceneContextMenuEvent * contextMenuEvent);
 
     UMLSceneRect diagramRect();
 

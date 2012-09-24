@@ -35,6 +35,7 @@ UMLView::UMLView(UMLFolder *parentFolder)
     setDragMode(NoDrag);
     setScene(m_scene);
 }
+
 /**
  * Destructor.
  */
