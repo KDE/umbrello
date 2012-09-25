@@ -24,10 +24,10 @@
 // Qt includes
 #include <QMouseEvent>
 #include <QKeyEvent>
-#include <QtGui/QPixmap>
+#include <QPixmap>
 #include <QGraphicsScene>
-#include <qgraphicsitem.h>
-#include <QtXml/QDomDocument>
+#include <QGraphicsItem>
+#include <QDomDocument>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsPolygonItem>
 
@@ -85,44 +85,8 @@ typedef QGraphicsSceneContextMenuEvent UMLSceneContextMenuEvent;
 typedef QGraphicsSceneDragDropEvent UMLSceneDragDropEvent;
 typedef QGraphicsSceneDragDropEvent UMLSceneDragEnterEvent;
 typedef QGraphicsSceneDragDropEvent UMLSceneDragMoveEvent;
-/**
- * Qt3 migration wrapper for QMouseEvent.
- */
-#if 0
-class  UMLSceneMouseEvent : public QGraphicsSceneMouseEvent
-{
-public:
-    UMLSceneMouseEvent(Type type, const UMLScenePoint& position, Qt::MouseButton button, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers)
-     : QGraphicsSceneMouseEvent(type)
-    {
-        Q_UNUSED(position);
-        Q_UNUSED(button);
-        Q_UNUSED(buttons);
-        Q_UNUSED(modifiers);
-        //( position, button, buttons, modifiers)
-    }
-    UMLSceneMouseEvent(Type type)
-     : QGraphicsSceneMouseEvent(type)
-    {
-    }
 
-    QPoint globalPos() {
-        return screenPos();
-    }
-
-    UMLSceneValue x() const
-    {
-        return pos().x();
-    }
-
-    UMLSceneValue y() const
-    {
-        return pos().y();
-    }
-};
-#else
 #define UMLSceneMouseEvent QGraphicsSceneMouseEvent
-#endif
 
 class UMLSceneMoveEvent : public QGraphicsSceneMoveEvent
 {
@@ -259,8 +223,8 @@ public:
 
 /**
  * UMLScene instances represent diagrams.
- * The UMLScene class inherits from Q3Canvas and
- * in the future from QGraphicsScene.
+ * The UMLScene class inherits from QGraphicsScene and it owns the
+ * objects displayed (see m_WidgetList.)
  */
 class UMLScene : public QGraphicsScene
 {
@@ -543,16 +507,15 @@ protected:
     // End of methods and members related to loading/saving
     ////////////////////////////////////////////////////////////////////////
 
-    void closeEvent(QCloseEvent * e);
-    void dragEnterEvent(UMLSceneDragEnterEvent* enterEvent);
-    void dragMoveEvent(UMLSceneDragMoveEvent* moveEvent);
+    void dragEnterEvent(UMLSceneDragDropEvent* enterEvent);
+    void dragMoveEvent(UMLSceneDragDropEvent* moveEvent);
     void dropEvent(UMLSceneDragDropEvent* dropEvent);
 
     void mouseMoveEvent(UMLSceneMouseEvent* mouseEvent);
     void mousePressEvent(UMLSceneMouseEvent* mouseEvent);
     void mouseDoubleClickEvent(UMLSceneMouseEvent* mouseEvent);
     void mouseReleaseEvent(UMLSceneMouseEvent* mouseEvent);
-    virtual void contextMenuEvent(UMLSceneContextMenuEvent * contextMenuEvent);
+    virtual void contextMenuEvent(UMLSceneContextMenuEvent* contextMenuEvent);
 
     UMLSceneRect diagramRect();
 

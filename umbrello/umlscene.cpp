@@ -1482,8 +1482,8 @@ void UMLScene::moveSelectedBy(UMLSceneValue dX, UMLSceneValue dY)
  */
 void UMLScene::selectionUseFillColor(bool useFC)
 {
-    foreach(UMLWidget* temp, selectedWidgets()) {
-        temp->setUseFillColor(useFC);
+    foreach(UMLWidget* widget, selectedWidgets()) {
+        widget->setUseFillColor(useFC);
     }
 }
 
@@ -1538,9 +1538,9 @@ void UMLScene::selectionSetFillColor(const QColor &color)
 {
     UMLApp::app()->beginMacro(i18n("Change Fill Color"));
 
-    foreach(UMLWidget* temp, selectedWidgets()) {
-        temp->setFillColor(color);
-        temp->setUsesDiagramFillColor(false);
+    foreach(UMLWidget* widget, selectedWidgets()) {
+        widget->setFillColor(color);
+        widget->setUsesDiagramFillColor(false);
     }
     UMLApp::app()->endMacro();
 }
