@@ -361,15 +361,15 @@ protected:
     // End of methods and members related to loading/saving
     ////////////////////////////////////////////////////////////////////////
 
-    void dragEnterEvent(UMLSceneDragDropEvent *enterEvent);
-    void dragMoveEvent(UMLSceneDragDropEvent *moveEvent);
-    void dropEvent(UMLSceneDragDropEvent *dropEvent);
+    void dragEnterEvent(UMLSceneDragDropEvent* enterEvent);
+    void dragMoveEvent(UMLSceneDragDropEvent* moveEvent);
+    void dropEvent(UMLSceneDragDropEvent* dropEvent);
 
     void mouseMoveEvent(UMLSceneMouseEvent* mouseEvent);
     void mousePressEvent(UMLSceneMouseEvent* mouseEvent);
     void mouseDoubleClickEvent(UMLSceneMouseEvent* mouseEvent);
     void mouseReleaseEvent(UMLSceneMouseEvent* mouseEvent);
-    virtual void contextMenuEvent(UMLSceneContextMenuEvent * event);
+    virtual void contextMenuEvent(UMLSceneContextMenuEvent* contextMenuEvent);
 
     /**
      * This variable is set/reset by items which would call
@@ -388,7 +388,7 @@ protected:
                                   UMLSceneValue& px, UMLSceneValue& py, UMLSceneValue& qx, UMLSceneValue& qy);
     void forceUpdateWidgetFontMetrics(QPainter *painter);
 
-    void drawBackground(QPainter *p, const UMLSceneRect& rect);
+//:TODO:    void drawBackground(QPainter *p, const UMLSceneRect& rect);
 
     int m_nCollaborationId;  ///< Used for creating unique name of collaboration messages.
     UMLScenePoint m_Pos;

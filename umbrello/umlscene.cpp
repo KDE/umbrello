@@ -1301,7 +1301,7 @@ bool UMLScene::isWidgetOrAssociation(const UMLScenePoint& atPos)
  * @param w The widget to set to selected.
  * @param me The mouse event containing the information about the selection.
  */
-void UMLScene::setSelected(UMLWidget * w, UMLSceneMouseEvent * me)
+void UMLScene::setSelected(UMLWidget *w, UMLSceneMouseEvent *me)
 {
     Q_UNUSED(me);
     int count = selectedItems().count();
@@ -1659,6 +1659,7 @@ void  UMLScene::getDiagram(const UMLSceneRect &rect, QPixmap &diagram)
     const int height = rect.y() + rect.height();
     QPixmap pixmap(width, height);
     QPainter painter(&pixmap);
+    painter.fillRect(0, 0, width, height, Qt::white);
     getDiagram(sceneRect(), painter);
     QPainter output(&diagram);
     output.drawPixmap(QPoint(0, 0), pixmap, rect);
@@ -3003,19 +3004,19 @@ void UMLScene::resetToolbar()
 /**
  * Event handler for context menu events.
  */
-void UMLScene::contextMenuEvent(UMLSceneContextMenuEvent * event)
+void UMLScene::contextMenuEvent(UMLSceneContextMenuEvent* contextMenuEvent)
 {
-    UMLWidget* widget = widgetAt(event->scenePos());
+    UMLWidget* widget = widgetAt(contextMenuEvent->scenePos());
     if (widget) {
         DEBUG(DBG_SRC) << "widget = " << widget->name() << " / type = " << widget->baseTypeStr();
-        widget->contextMenuEvent(event);
+        widget->contextMenuEvent(contextMenuEvent);
     }
     else {
         // set the position for the eventually created widget
-        setPos(event->scenePos());
+        setPos(contextMenuEvent->scenePos());
 
-        setMenu(event->screenPos());
-        event->accept();
+        setMenu(contextMenuEvent->screenPos());
+        contextMenuEvent->accept();
     }
 }
 
@@ -3615,10 +3616,10 @@ void UMLScene::setIsMouseMovingItems(bool status)
     m_isMouseMovingItems = status;
 }
 
-void UMLScene::drawBackground(QPainter *p, const QRectF &rect)
-{
-    QGraphicsScene::drawBackground(p, rect);
-}
+//:TODO:void UMLScene::drawBackground(QPainter *p, const QRectF &rect)
+//:TODO:{
+//:TODO:    QGraphicsScene::drawBackground(p, rect);
+//:TODO:}
 
 /**
  * Slot for signale sceneRectChanged.
