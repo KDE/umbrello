@@ -189,7 +189,7 @@ void ToolBarState::mouseMove(UMLSceneMouseEvent* ome)
     } else {
         mouseMoveEmpty();
     }
-
+#if 0
     // scrolls the view
     int vx = ome->scenePos().x();
     int vy = ome->scenePos().y();
@@ -216,6 +216,7 @@ void ToolBarState::mouseMove(UMLSceneMouseEvent* ome)
     }
     if (dtl < 30) { uDebug() << "translate LEFT";   view->ensureVisible(vx, vy, -0.1 /*-(30-dtl)*/, 0, 2, 2); }
     if (dtt < 30) { uDebug() << "translate TOP";    view->ensureVisible(vx, vy, 0, -0.1 /*-(30-dtt)*/, 2, 2); }
+#endif
 }
 
 /**
