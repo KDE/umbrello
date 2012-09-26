@@ -3616,11 +3616,6 @@ void UMLScene::setIsMouseMovingItems(bool status)
     m_isMouseMovingItems = status;
 }
 
-//:TODO:void UMLScene::drawBackground(QPainter *p, const QRectF &rect)
-//:TODO:{
-//:TODO:    QGraphicsScene::drawBackground(p, rect);
-//:TODO:}
-
 /**
  * Slot for signale sceneRectChanged.
  * Optimize the drawing of the layout grid.

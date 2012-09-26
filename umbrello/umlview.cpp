@@ -115,8 +115,6 @@ void UMLView::show()
     umlScene()->resizeCanvasToItems();
 }
 
-
-
 /**
  * Handles when the mouse button is pressed.
  */

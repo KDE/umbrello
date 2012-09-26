@@ -27,7 +27,6 @@
 class AssociationSpaceManager;
 class AssociationWidget;
 class WidgetHandle;
-class UMLWidgetController;
 class TextItemGroup;
 
 /**

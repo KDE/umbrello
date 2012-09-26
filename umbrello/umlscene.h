@@ -68,7 +68,6 @@ typedef qreal UMLSceneValue;
 typedef QPolygonF UMLScenePolygon;
 // event types
 #define UMLSceneMouseEvent QGraphicsSceneMouseEvent
-//typedef QGraphicsSceneKeyEvent UMLSceneKeyEvent;
 typedef QGraphicsSceneHoverEvent UMLSceneHoverEvent;
 typedef QGraphicsSceneContextMenuEvent UMLSceneContextMenuEvent;
 typedef QGraphicsSceneDragDropEvent UMLSceneDragDropEvent;
@@ -387,8 +386,6 @@ protected:
     void findMaxBoundingRectangle(const FloatingTextWidget* ft,
                                   UMLSceneValue& px, UMLSceneValue& py, UMLSceneValue& qx, UMLSceneValue& qy);
     void forceUpdateWidgetFontMetrics(QPainter *painter);
-
-//:TODO:    void drawBackground(QPainter *p, const UMLSceneRect& rect);
 
     int m_nCollaborationId;  ///< Used for creating unique name of collaboration messages.
     UMLScenePoint m_Pos;
