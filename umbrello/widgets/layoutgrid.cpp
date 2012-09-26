@@ -21,6 +21,7 @@
 
 #include "debug_utils.h"
 #include "umlscene.h"
+#include "umlview.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
@@ -42,7 +43,7 @@ LayoutGrid::LayoutGrid(QGraphicsItem *parent, UMLScene *scene)
     m_isVisible(false),
     m_isTextVisible(false)
 {
-    DEBUG_REGISTER_DISABLED("LayoutGrid");
+    DEBUG_REGISTER("LayoutGrid");
 
     m_coordLabel = new QGraphicsTextItem(QString("0, 0"), this);
 }
@@ -64,27 +65,41 @@ void LayoutGrid::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, 
     Q_UNUSED(item); Q_UNUSED(widget);
     DEBUG("LayoutGrid") << "painting...";
     if (m_isVisible) {
+        painter->setPen(Qt::black);
+        painter->setFont(m_textFont);
+        QGraphicsView *view = scene()->views()[0];
+        QRectF rect = view->mapToScene(view->viewport()->geometry()).boundingRect();
+        DEBUG("LayoutGrid") << view->viewport()->geometry() << rect << rect.width()/m_gridSpacingX << rect.height()/m_gridSpacingY << rect.width()/m_gridSpacingX * rect.height()/m_gridSpacingY;
+        bool showDots1 = rect.width() <= 1000;
+        bool showDots2 = rect.width() <= 2000;
+        bool showDots4 = rect.width() <= 4000;
+        bool showDots5 = rect.width() <= 5000;
+
         for(int x = m_gridRect.left(); x < m_gridRect.right(); x += m_gridSpacingX) {
             for(int y = m_gridRect.top(); y < m_gridRect.bottom(); y += m_gridSpacingY) {
+                // limit to visible area
+                if (x <= rect.left() || y < rect.top() || x >= rect.right() || y >= rect.bottom())
+                    continue;
                 if (x % 100 == 0 && y % 100 == 0) {
                     // cross
-                    painter->setPen(m_gridCrossColor);
                     painter->drawLine(x, y-2, x, y+2);
                     painter->drawLine(x-2, y, x+2, y);
                     // text
                     if (m_isTextVisible) {
-                        painter->setPen(m_textColor);
-                        painter->setFont(m_textFont);
-                        QString pointString;
-                        QTextStream stream(&pointString);
-                        stream << "(" << x << "," << y << ")";
-                        painter->drawText(x, y, pointString);
+                        painter->drawText(x,y, QString("%1,%2").arg(x).arg(y));
                     }
-                } else {
-                    // dot
-                    painter->setPen(m_gridDotColor);
-                    painter->setBrush(QBrush(m_gridDotColor));
-                    painter->drawEllipse(x, y, 1, 1);
+                } else if (showDots1){
+                    //painter->drawEllipse(x, y, 1, 1);
+                    painter->drawPoint(x, y);
+                } else if (showDots2) {
+                    if (x % (m_gridSpacingX*2) == 0 && y % (m_gridSpacingY*2) == 0)
+                        painter->drawPoint(x, y);
+                } else if (showDots4) {
+                    if (x % (m_gridSpacingX*4) == 0 && y % (m_gridSpacingY*4) == 0)
+                        painter->drawPoint(x, y);
+                } else if (showDots5) {
+                    if (x % (m_gridSpacingX*8) == 0 && y % (m_gridSpacingY*8) == 0)
+                        painter->drawPoint(x, y);
                 }
             }
         }
