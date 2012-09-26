@@ -40,7 +40,14 @@ public:
     ~LayoutGrid();
 
     QRectF boundingRect() const;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget);
+
+    void paint(QPainter *painter, const QRectF &rect);
+    void paintLineGrid(QPainter *painter, const QRectF &rect);
+    void paintEllipses(QPainter *painter, const QRectF &rect);
+    void paintPoints(QPainter *painter, const QRectF &rect);
+    void paintPointsLevelOfDetail(QPainter *painter, const QRectF &rect);
+
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget);
 
     QRect gridRect() const;
     void setGridRect(const QRect& rect);

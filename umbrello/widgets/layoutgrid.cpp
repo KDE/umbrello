@@ -27,6 +27,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QPainter>
 #include <QTextStream>
+#include <QVarLengthArray>
 
 /**
  * Constructor.
@@ -60,14 +61,51 @@ QRectF LayoutGrid::boundingRect() const
     return QRectF(m_gridRect);
 }
 
-#if 0
-void LayoutGrid::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
+void LayoutGrid::paint(QPainter *painter, const QRectF &rect)
 {
-    Q_UNUSED(item); Q_UNUSED(widget);
+    // speed top 1
+    paintLineGrid(painter, rect);
+    // speed top 2
+    //paintPointsLevelOfDetail(painter, rect);
+    // speed top 3
+    //paintPoints(painter, rect);
+    // speed top 4
+    //paintEllipses(painter, rect);
+}
+
+void LayoutGrid::paintLineGrid(QPainter *painter, const QRectF &rect)
+{
+    if (!isVisible())
+        return;
+
+    QGraphicsView *view = scene()->views()[0];
+    QRectF visibleSceneRect = view->mapToScene(view->viewport()->geometry()).boundingRect();
+
+    int gridSizeX = gridSpacingX();
+    int gridSizeY = gridSpacingY();
+
+    qreal left = int(rect.left()) - (int(rect.left()) % gridSizeX);
+    qreal top = int(rect.top()) - (int(rect.top()) % gridSizeY);
+
+    QVarLengthArray<QLineF, 200> lines;
+
+    for (qreal x = left; x < rect.right(); x += gridSizeX)
+        lines.append(QLineF(x, rect.top(), x, rect.bottom()));
+    for (qreal y = top; y < rect.bottom(); y += gridSizeY)
+        lines.append(QLineF(rect.left(), y, rect.right(), y));
+
+    qDebug() << lines.size();
+
+    painter->setPen(m_gridDotColor);
+    painter->drawLines(lines.data(), lines.size());
+}
+
+void LayoutGrid::paintEllipses(QPainter *painter, const QRectF &rect)
+{
     DEBUG("LayoutGrid") << "painting...";
     if (m_isVisible) {
-        for(int x = m_gridRect.left(); x < m_gridRect.right(); x += m_gridSpacingX) {
-            for(int y = m_gridRect.top(); y < m_gridRect.bottom(); y += m_gridSpacingY) {
+        for(int x = rect.left(); x < rect.right(); x += m_gridSpacingX) {
+            for(int y = rect.top(); y < rect.bottom(); y += m_gridSpacingY) {
                 if (x % 100 == 0 && y % 100 == 0) {
                     // cross
                     painter->setPen(m_gridCrossColor);
@@ -92,7 +130,7 @@ void LayoutGrid::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, 
         }
     }
 }
-#else
+
 /**
  * 1. try: speed up painting by
  *    - moving pen/font setting out of loop
@@ -101,20 +139,19 @@ void LayoutGrid::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, 
  *
  * Remaining problem: On low zoom levels drawing is still very slow
  */
-void LayoutGrid::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
+void LayoutGrid::paintPoints(QPainter *painter, const QRectF &rect)
 {
-    Q_UNUSED(item); Q_UNUSED(widget);
     DEBUG("LayoutGrid") << "painting...";
     if (m_isVisible) {
         painter->setPen(Qt::black);
         painter->setFont(m_textFont);
         QGraphicsView *view = scene()->views()[0];
-        QRectF rect = view->mapToScene(view->viewport()->geometry()).boundingRect();
+        QRectF visibleSceneRect = view->mapToScene(view->viewport()->geometry()).boundingRect();
 
-        for(int x = m_gridRect.left(); x < m_gridRect.right(); x += m_gridSpacingX) {
-            for(int y = m_gridRect.top(); y < m_gridRect.bottom(); y += m_gridSpacingY) {
+        for(int x = rect.left(); x < rect.right(); x += m_gridSpacingX) {
+            for(int y = rect.top(); y < rect.bottom(); y += m_gridSpacingY) {
                 // limit to visible area
-                if (x <= rect.left() || y < rect.top() || x >= rect.right() || y >= rect.bottom())
+                if (x <= visibleSceneRect.left() || y < visibleSceneRect.top() || x >= visibleSceneRect.right() || y >= visibleSceneRect.bottom())
                     continue;
                 if (x % 100 == 0 && y % 100 == 0) {
                     // cross
@@ -131,60 +168,65 @@ void LayoutGrid::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, 
         }
     }
 }
-#endif
-#if 0
+
 /**
  * 2. try: speed painting on low zoom levels by
  *    - reducing the numbers of dots for lower zoom levels
  *
  * Remaining problem: grid is not aligned to '+' dots for some zoom levels
  */
-void LayoutGrid::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
+void LayoutGrid::paintPointsLevelOfDetail(QPainter *painter, const QRectF &rect)
 {
-    Q_UNUSED(item); Q_UNUSED(widget);
     DEBUG("LayoutGrid") << "painting...";
     if (m_isVisible) {
         painter->setPen(Qt::black);
         painter->setFont(m_textFont);
         QGraphicsView *view = scene()->views()[0];
-        QRectF rect = view->mapToScene(view->viewport()->geometry()).boundingRect();
+        QRectF visibleSceneRect = view->mapToScene(view->viewport()->geometry()).boundingRect();
         DEBUG("LayoutGrid") << view->viewport()->geometry() << rect << rect.width()/m_gridSpacingX << rect.height()/m_gridSpacingY << rect.width()/m_gridSpacingX * rect.height()/m_gridSpacingY;
         bool showDots1 = rect.width() <= 1000;
         bool showDots2 = rect.width() <= 2000;
         bool showDots4 = rect.width() <= 4000;
         bool showDots5 = rect.width() <= 5000;
-
+        QVarLengthArray<QLineF, 60000> lines;
+        QVarLengthArray<QPointF, 60000> points;
         for(int x = m_gridRect.left(); x < m_gridRect.right(); x += m_gridSpacingX) {
             for(int y = m_gridRect.top(); y < m_gridRect.bottom(); y += m_gridSpacingY) {
                 // limit to visible area
-                if (x <= rect.left() || y < rect.top() || x >= rect.right() || y >= rect.bottom())
+                if (x <= visibleSceneRect.left() || y < visibleSceneRect.top() || x >= visibleSceneRect.right() || y >= visibleSceneRect.bottom())
                     continue;
                 if (x % 100 == 0 && y % 100 == 0) {
                     // cross
-                    painter->drawLine(x, y-2, x, y+2);
-                    painter->drawLine(x-2, y, x+2, y);
+                    lines.append(QLineF(x, y-2, x, y+2));
+                    lines.append(QLineF(x-2, y, x+2, y));
                     // text
                     if (m_isTextVisible) {
                         painter->drawText(x,y, QString("%1,%2").arg(x).arg(y));
                     }
                 } else if (showDots1){
                     //painter->drawEllipse(x, y, 1, 1);
-                    painter->drawPoint(x, y);
+                    points.append(QPointF(x, y));
                 } else if (showDots2) {
                     if (x % (m_gridSpacingX*2) == 0 && y % (m_gridSpacingY*2) == 0)
-                        painter->drawPoint(x, y);
+                        points.append(QPointF(x, y));
                 } else if (showDots4) {
                     if (x % (m_gridSpacingX*4) == 0 && y % (m_gridSpacingY*4) == 0)
-                        painter->drawPoint(x, y);
+                        points.append(QPointF(x, y));
                 } else if (showDots5) {
                     if (x % (m_gridSpacingX*8) == 0 && y % (m_gridSpacingY*8) == 0)
-                        painter->drawPoint(x, y);
+                        points.append(QPointF(x, y));
                 }
             }
         }
+        painter->drawLines(lines.data(), lines.size());
+        painter->drawPoints(points.data(), points.size());
     }
 }
-#endif
+
+void LayoutGrid::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
+{
+    // doc says drawing grid in scene background should be faster
+}
 
 QRect LayoutGrid::gridRect() const
 {

@@ -152,7 +152,6 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
 //    // settings for background
 //    setBackgroundBrush(QColor(195, 195, 195));
     m_layoutGrid = new LayoutGrid(0, this);
-    addItem(m_layoutGrid);
 
     DEBUG_REGISTER(DBG_SRC);
 }
@@ -3940,6 +3939,14 @@ void UMLScene::forceUpdateWidgetFontMetrics(QPainter * painter)
     foreach(UMLWidget *obj, m_WidgetList) {
         obj->forceUpdateFontMetrics(painter);
     }
+}
+
+/**
+ * Overrides standard method from QGraphicsScene drawing the background.
+ */
+void UMLScene::drawBackground(QPainter *painter, const QRectF &rect)
+{
+    m_layoutGrid->paint(painter, rect);
 }
 
 /**

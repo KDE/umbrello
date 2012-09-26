@@ -527,6 +527,8 @@ protected:
                                   UMLSceneValue& px, UMLSceneValue& py, UMLSceneValue& qx, UMLSceneValue& qy);
     void forceUpdateWidgetFontMetrics(QPainter *painter);
 
+    virtual void drawBackground(QPainter *painter, const QRectF &rect);
+
     int m_nCollaborationId;  ///< Used for creating unique name of collaboration messages.
     UMLScenePoint m_Pos;
     bool m_bCreateObject;
