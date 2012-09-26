@@ -41,7 +41,7 @@
 using namespace Uml;
 
 const UMLSceneSize UMLWidget::DefaultMinimumSize(50, 20);
-const UMLSceneSize UMLWidget::DefaultMaximumSize(1000, 1000);
+const UMLSceneSize UMLWidget::DefaultMaximumSize(1000, 5000);
 
 /**
  * Creates a UMLWidget object.
