@@ -43,7 +43,7 @@ LayoutGrid::LayoutGrid(QGraphicsItem *parent, UMLScene *scene)
     m_isVisible(false),
     m_isTextVisible(false)
 {
-    DEBUG_REGISTER("LayoutGrid");
+    DEBUG_REGISTER_DISABLED("LayoutGrid");
 
     m_coordLabel = new QGraphicsTextItem(QString("0, 0"), this);
 }
@@ -60,6 +60,85 @@ QRectF LayoutGrid::boundingRect() const
     return QRectF(m_gridRect);
 }
 
+#if 0
+void LayoutGrid::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
+{
+    Q_UNUSED(item); Q_UNUSED(widget);
+    DEBUG("LayoutGrid") << "painting...";
+    if (m_isVisible) {
+        for(int x = m_gridRect.left(); x < m_gridRect.right(); x += m_gridSpacingX) {
+            for(int y = m_gridRect.top(); y < m_gridRect.bottom(); y += m_gridSpacingY) {
+                if (x % 100 == 0 && y % 100 == 0) {
+                    // cross
+                    painter->setPen(m_gridCrossColor);
+                    painter->drawLine(x, y-2, x, y+2);
+                    painter->drawLine(x-2, y, x+2, y);
+                    // text
+                    if (m_isTextVisible) {
+                        painter->setPen(m_textColor);
+                        painter->setFont(m_textFont);
+                        QString pointString;
+                        QTextStream stream(&pointString);
+                        stream << "(" << x << "," << y << ")";
+                        painter->drawText(x, y, pointString);
+                    }
+                } else {
+                    // dot
+                    painter->setPen(m_gridDotColor);
+                    painter->setBrush(QBrush(m_gridDotColor));
+                    painter->drawEllipse(x, y, 1, 1);
+                }
+            }
+        }
+    }
+}
+#else
+/**
+ * 1. try: speed up painting by
+ *    - moving pen/font setting out of loop
+ *    - using drawPoint instead of drawEllipse (and black pen)
+ *    - draw grid points only in visible area
+ *
+ * Remaining problem: On low zoom levels drawing is still very slow
+ */
+void LayoutGrid::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
+{
+    Q_UNUSED(item); Q_UNUSED(widget);
+    DEBUG("LayoutGrid") << "painting...";
+    if (m_isVisible) {
+        painter->setPen(Qt::black);
+        painter->setFont(m_textFont);
+        QGraphicsView *view = scene()->views()[0];
+        QRectF rect = view->mapToScene(view->viewport()->geometry()).boundingRect();
+
+        for(int x = m_gridRect.left(); x < m_gridRect.right(); x += m_gridSpacingX) {
+            for(int y = m_gridRect.top(); y < m_gridRect.bottom(); y += m_gridSpacingY) {
+                // limit to visible area
+                if (x <= rect.left() || y < rect.top() || x >= rect.right() || y >= rect.bottom())
+                    continue;
+                if (x % 100 == 0 && y % 100 == 0) {
+                    // cross
+                    painter->drawLine(x, y-2, x, y+2);
+                    painter->drawLine(x-2, y, x+2, y);
+                    // text
+                    if (m_isTextVisible) {
+                        painter->drawText(x,y, QString("%1,%2").arg(x).arg(y));
+                    }
+                } else {
+                    painter->drawPoint(x, y);
+                }
+            }
+        }
+    }
+}
+#endif
+#if 0
+/**
+ * 2. try: speed painting on low zoom levels by
+ *    - reducing the numbers of dots for lower zoom levels
+ *
+ * Remaining problem: grid is not aligned to '+' dots for some zoom levels
+ */
 void LayoutGrid::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
 {
     Q_UNUSED(item); Q_UNUSED(widget);
@@ -105,6 +184,7 @@ void LayoutGrid::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, 
         }
     }
 }
+#endif
 
 QRect LayoutGrid::gridRect() const
 {
