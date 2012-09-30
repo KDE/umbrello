@@ -479,7 +479,7 @@ void ToolBarState::setMouseEvent(UMLSceneMouseEvent* ome, const QEvent::Type &ty
 {
     delete m_pMouseEvent;
 
-    uDebug() << "[PORT] Check if scenePos works like view->inverseWorldMatrix().map()";
+    //:TODO: uDebug() << "[PORT] Check if scenePos works like view->inverseWorldMatrix().map()";
     // Using copy constructor here.
     m_pMouseEvent = new UMLSceneMouseEvent(type);
     m_pMouseEvent->setPos(ome->pos());

@@ -13,8 +13,7 @@
 
 // app includes
 #include "associationwidget.h"
-#include "uml.h"
-#include "umlview.h"
+#include "umlscene.h"
 #include "umlwidget.h"
 
 /**

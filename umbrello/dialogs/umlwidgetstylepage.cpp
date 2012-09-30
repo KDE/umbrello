@@ -21,13 +21,13 @@
 #include <kcolorbutton.h>
 #include <KIntSpinBox>
 
-#include <QtGui/QLayout>
-#include <QtGui/QGroupBox>
-#include <QtGui/QLabel>
-#include <QtGui/QPushButton>
-#include <QtGui/QCheckBox>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QGridLayout>
+#include <QCheckBox>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QLabel>
+#include <QLayout>
+#include <QPushButton>
+#include <QVBoxLayout>
 
 /**
  *   Constructor - Observe a UMLWidget.
