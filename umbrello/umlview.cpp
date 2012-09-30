@@ -13,9 +13,9 @@
 
 #include "debug_utils.h"
 #include "docwindow.h"
-#include "umlscene.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "umlscene.h"
 #include "worktoolbar.h"
 
 #include <QMouseEvent>

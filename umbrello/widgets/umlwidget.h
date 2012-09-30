@@ -110,6 +110,7 @@ public:
     bool isResizable() const {
         return m_resizable;
     }
+
     /**
      * Shorthand for QRectF(QPointF(0, 0), size()); The rect() area is
      * where all the widget painting should go.

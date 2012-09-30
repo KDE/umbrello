@@ -1163,7 +1163,6 @@ void AssociationWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem*
     m_associationLine->paint(painter, option, widget);
 }
 
-
 /**
  * Handles the selection from the popup menu.
  */

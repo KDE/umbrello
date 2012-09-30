@@ -4124,7 +4124,7 @@ bool UMLScene::loadAssociationsFromXMI(QDomElement & qElement)
             addItem(assoc);
             if (!assoc->loadFromXMI(assocElement)) {
                 uError() << "could not loadFromXMI association widget:"
-                         << assoc << ", bad XMI file? Deleting from umlview.";
+                         << assoc << ", bad XMI file? Deleting from UMLScene.";
                 delete assoc;
                 /* return false;
                    Returning false here is a little harsh when the

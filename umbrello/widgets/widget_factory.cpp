@@ -64,7 +64,7 @@ namespace Widget_Factory {
  */
 UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
 {
-    QPointF pos = scene->pos();
+    UMLScenePoint pos = scene->pos();
     qreal y = pos.y();
     Uml::DiagramType diagramType = scene->type();
     UMLObject::ObjectType type = o->baseType();
@@ -108,7 +108,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
         break;
     case UMLObject::ot_Interface:
         if (diagramType == Uml::DiagramType::Sequence || diagramType == Uml::DiagramType::Collaboration) {
-            ObjectWidget *ow = new ObjectWidget( o, scene->localID() );
+            ObjectWidget *ow = new ObjectWidget(o, scene->localID());
             if (diagramType == Uml::DiagramType::Sequence) {
                 y = ow->topMargin();
             }
@@ -207,7 +207,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
     } else if (tag == "messagewidget") {
         widget = new MessageWidget(Uml::sequence_message_asynchronous, Uml::id_Reserved);
     } else if (tag == "forkjoin") {
-        widget = new ForkJoinWidget(Qt::Horizontal, Uml::id_Reserved);
+        widget = new ForkJoinWidget(Qt::Vertical, Uml::id_Reserved);
     } else if (tag == "preconditionwidget") {
         widget = new PreconditionWidget(NULL, Uml::id_Reserved);
     } else if (tag == "combinedFragmentwidget") {
@@ -271,7 +271,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
             if (validateObjType(UMLObject::ot_Category, o, id))
                 widget = new CategoryWidget(static_cast<UMLCategory*>(o));
         } else if (tag == "objectwidget" || tag == "UML:ObjectWidget") {
-            widget = new ObjectWidget( o );
+            widget = new ObjectWidget(o);
         } else {
             uWarning() << "Trying to create an unknown widget:" << tag;
         }

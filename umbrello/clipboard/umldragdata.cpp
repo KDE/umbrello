@@ -29,9 +29,9 @@
 #include "model_utils.h"
 
 // qt includes
-#include <QtCore/QTextStream>
-#include <QtXml/QDomDocument>
-#include <QtGui/QPixmap>
+#include <QDomDocument>
+#include <QPixmap>
+#include <QTextStream>
 
 /**
  *  Constructor.
