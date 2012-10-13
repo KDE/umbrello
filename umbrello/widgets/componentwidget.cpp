@@ -47,7 +47,7 @@ ComponentWidget::~ComponentWidget()
  */
 void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
-    UMLComponent *umlcomp = static_cast<UMLComponent*>(m_pObject);
+    UMLComponent *umlcomp = static_cast<UMLComponent*>(m_umlObject);
     if (umlcomp == NULL)
         return;
     setPenFromSettings(p);
@@ -69,7 +69,7 @@ void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY)
     const QFontMetrics &fm = getFontMetrics(FT_BOLD);
     const int fontHeight = fm.lineSpacing();
     QString nameStr = name();
-    const QString stereotype = m_pObject->stereotype();
+    const QString stereotype = m_umlObject->stereotype();
 
     p.drawRect(offsetX + 2*COMPONENT_MARGIN, offsetY, w - 2*COMPONENT_MARGIN, h);
     p.drawRect(offsetX, offsetY + h/2 - fontHeight/2 - fontHeight, COMPONENT_MARGIN*4, fontHeight);
@@ -83,7 +83,7 @@ void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY)
     if (!stereotype.isEmpty()) {
         p.drawText(offsetX + (COMPONENT_MARGIN*4), offsetY + (h/2) - fontHeight,
                    w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter,
-                   m_pObject->stereotype(true));
+                   m_umlObject->stereotype(true));
         lines = 2;
     }
 
@@ -121,13 +121,13 @@ void ComponentWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
  */
 UMLSceneSize ComponentWidget::minimumSize()
 {
-    if ( !m_pObject) {
+    if ( !m_umlObject) {
         return UMLSceneSize(70, 70);
     }
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
     const int fontHeight = fm.lineSpacing();
 
-    QString name = m_pObject->name();
+    QString name = m_umlObject->name();
     if ( UMLWidget::isInstance() ) {
         name = UMLWidget::instanceName() + " : " + name;
     }
@@ -135,8 +135,8 @@ UMLSceneSize ComponentWidget::minimumSize()
     int width = fm.width(name);
 
     int stereoWidth = 0;
-    if (!m_pObject->stereotype().isEmpty()) {
-        stereoWidth = fm.width(m_pObject->stereotype(true));
+    if (!m_umlObject->stereotype().isEmpty()) {
+        stereoWidth = fm.width(m_umlObject->stereotype(true));
     }
     if (stereoWidth > width)
         width = stereoWidth;

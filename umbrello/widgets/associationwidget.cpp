@@ -270,7 +270,7 @@ UMLClassifier *AssociationWidget::operationOwner()
  */
 UMLOperation *AssociationWidget::operation()
 {
-    return dynamic_cast<UMLOperation*>(m_pObject);
+    return dynamic_cast<UMLOperation*>(m_umlObject);
 }
 
 /**
@@ -279,11 +279,11 @@ UMLOperation *AssociationWidget::operation()
  */
 void AssociationWidget::setOperation(UMLOperation *op)
 {
-    if (m_pObject)
-        disconnect(m_pObject, SIGNAL(modified()), m_nameWidget, SLOT(setMessageText()));
-    m_pObject = op;
-    if (m_pObject)
-        connect(m_pObject, SIGNAL(modified()), m_nameWidget, SLOT(setMessageText()));
+    if (m_umlObject)
+        disconnect(m_umlObject, SIGNAL(modified()), m_nameWidget, SLOT(setMessageText()));
+    m_umlObject = op;
+    if (m_umlObject)
+        connect(m_umlObject, SIGNAL(modified()), m_nameWidget, SLOT(setMessageText()));
 }
 
 /**
@@ -343,7 +343,7 @@ void AssociationWidget::setMessageText(FloatingTextWidget *ft)
 {
     QString message;
     if (isCollaboration()) {
-        if (m_pObject != NULL) {
+        if (m_umlObject != NULL) {
             message = multiplicity(A) + ": " + operationText(m_scene);
         } else {
             message = multiplicity(A) + ": " + name();
@@ -503,9 +503,9 @@ void AssociationWidget::calculateNameTextSegment()
  */
 UMLAssociation* AssociationWidget::association() const
 {
-    if (m_pObject == NULL || m_pObject->baseType() != UMLObject::ot_Association)
+    if (m_umlObject == NULL || m_umlObject->baseType() != UMLObject::ot_Association)
         return NULL;
-    return static_cast<UMLAssociation*>(m_pObject);
+    return static_cast<UMLAssociation*>(m_umlObject);
 }
 
 /**
@@ -516,12 +516,12 @@ UMLAssociation* AssociationWidget::association() const
  */
 UMLAttribute* AssociationWidget::attribute() const
 {
-    if (m_pObject == NULL)
+    if (m_umlObject == NULL)
         return NULL;
-    UMLObject::ObjectType ot = m_pObject->baseType();
+    UMLObject::ObjectType ot = m_umlObject->baseType();
     if (ot != UMLObject::ot_Attribute && ot != UMLObject::ot_EntityAttribute)
         return NULL;
-    return static_cast<UMLAttribute*>(m_pObject);
+    return static_cast<UMLAttribute*>(m_umlObject);
 }
 
 #if 0
@@ -596,13 +596,13 @@ bool AssociationWidget::operator==(const AssociationWidget & Other) const
     if ( association() == NULL && Other.association() == NULL )
         return false;
 
-    if( !m_pObject || !Other.m_pObject ) {
-        if( !Other.m_pObject && m_pObject )
+    if( !m_umlObject || !Other.m_umlObject ) {
+        if( !Other.m_umlObject && m_umlObject )
             return false;
-        if( Other.m_pObject && !m_pObject )
+        if( Other.m_umlObject && !m_umlObject )
             return false;
 
-    } else if( m_pObject != Other.m_pObject )
+    } else if( m_umlObject != Other.m_umlObject )
         return false;
 
     if (associationType() != Other.associationType())
@@ -660,7 +660,7 @@ AssociationLine* AssociationWidget::associationLine() const
  */
 bool AssociationWidget::activate()
 {
-    if (m_pObject == NULL &&
+    if (m_umlObject == NULL &&
         AssociationType::hasUMLRepresentation(m_associationType)) {
         UMLObject *myObj = m_umldoc->findObjectById(m_nId);
         if (myObj == NULL) {
@@ -783,7 +783,7 @@ void AssociationWidget::setWidgetForRole(UMLWidget* widget, Uml::Role_Type role)
     m_role[role].umlWidget = widget;
     if (widget) {
         m_role[role].umlWidget->addAssoc(this);
-        if (m_pObject && m_pObject->baseType() == UMLObject::ot_Association)
+        if (m_umlObject && m_umlObject->baseType() == UMLObject::ot_Association)
             association()->setObject(widget->umlObject(), role);
     }
 }
@@ -946,7 +946,7 @@ void AssociationWidget::setRoleName(const QString &strRole, Uml::Role_Type role)
     }
 
     // set attribute of UMLAssociation associated with this associationwidget
-    if (m_pObject && m_pObject->baseType() == UMLObject::ot_Association)
+    if (m_umlObject && m_umlObject->baseType() == UMLObject::ot_Association)
         association()->setRoleName(strRole, role);
 }
 
@@ -955,7 +955,7 @@ void AssociationWidget::setRoleName(const QString &strRole, Uml::Role_Type role)
  */
 void AssociationWidget::setRoleDocumentation(const QString &doc, Uml::Role_Type role)
 {
-    if (m_pObject && m_pObject->baseType() == UMLObject::ot_Association)
+    if (m_umlObject && m_umlObject->baseType() == UMLObject::ot_Association)
         association()->setRoleDoc(doc, role);
     else
         m_role[role].roleDocumentation = doc;
@@ -966,9 +966,9 @@ void AssociationWidget::setRoleDocumentation(const QString &doc, Uml::Role_Type 
  */
 QString AssociationWidget::roleDocumentation(Uml::Role_Type role) const
 {
-    if (m_pObject == NULL || m_pObject->baseType() != UMLObject::ot_Association)
+    if (m_umlObject == NULL || m_umlObject->baseType() != UMLObject::ot_Association)
         return QString();
-    UMLAssociation *umla = static_cast<UMLAssociation*>(m_pObject);
+    UMLAssociation *umla = static_cast<UMLAssociation*>(m_umlObject);
     return umla->getRoleDoc(role);
 }
 
@@ -1036,7 +1036,7 @@ void AssociationWidget::setMultiplicity(const QString& text, Uml::Role_Type role
 
     setFloatingText(tr, text, m_role[role].multiplicityWidget);
 
-    if (m_pObject && m_pObject->baseType() == UMLObject::ot_Association)
+    if (m_umlObject && m_umlObject->baseType() == UMLObject::ot_Association)
         association()->setMultiplicity(text, role);
 }
 
@@ -1061,9 +1061,9 @@ void AssociationWidget::setVisibility(Uml::Visibility value, Uml::Role_Type role
 {
     if (value == visibility(role))
         return;
-    if (m_pObject) {
+    if (m_umlObject) {
         // update our model object
-        const UMLObject::ObjectType ot = m_pObject->baseType();
+        const UMLObject::ObjectType ot = m_umlObject->baseType();
         if (ot == UMLObject::ot_Association)
             association()->setVisibility(value, role);
         else if (ot == UMLObject::ot_Attribute)
@@ -1082,9 +1082,9 @@ void AssociationWidget::setVisibility(Uml::Visibility value, Uml::Role_Type role
  */
 Uml::Changeability AssociationWidget::changeability(Uml::Role_Type role) const
 {
-    if (m_pObject == NULL || m_pObject->baseType() != UMLObject::ot_Association)
+    if (m_umlObject == NULL || m_umlObject->baseType() != UMLObject::ot_Association)
         return m_role[role].changeability;
-    UMLAssociation *umla = static_cast<UMLAssociation*>(m_pObject);
+    UMLAssociation *umla = static_cast<UMLAssociation*>(m_umlObject);
     return umla->changeability(role);
 }
 
@@ -1096,7 +1096,7 @@ void AssociationWidget::setChangeability(Uml::Changeability value, Uml::Role_Typ
     if (value == changeability(role))
         return;
     QString changeString = Uml::Changeability::toString(value);
-    if (m_pObject && m_pObject->baseType() == UMLObject::ot_Association)  // update our model object
+    if (m_umlObject && m_umlObject->baseType() == UMLObject::ot_Association)  // update our model object
         association()->setChangeability(value, role);
     m_role[role].changeability = value;
     // update our string representation
@@ -1263,7 +1263,7 @@ void AssociationWidget::cleanup()
         m_nameWidget = 0;
     }
 
-    if (m_pObject && m_pObject->baseType() == UMLObject::ot_Association) {
+    if (m_umlObject && m_umlObject->baseType() == UMLObject::ot_Association) {
         /*
            We do not remove the UMLAssociation from the document.
            Why? - Well, for example we might be in the middle of
@@ -1289,7 +1289,7 @@ void AssociationWidget::cleanup()
 /** set our internal umlAssociation */
 void AssociationWidget::setUMLAssociation (UMLAssociation * assoc)
 {
-    if (m_pObject && m_pObject->baseType() == UMLObject::ot_Association) {
+    if (m_umlObject && m_umlObject->baseType() == UMLObject::ot_Association) {
         UMLAssociation *umla = association();
 
         // safety check. Did some num-nuts try to set the existing
@@ -1309,11 +1309,11 @@ void AssociationWidget::setUMLAssociation (UMLAssociation * assoc)
             //umla->deleteLater();
         }
 
-        m_pObject = NULL;
+        m_umlObject = NULL;
     }
 
     if(assoc) {
-        m_pObject = assoc;
+        m_umlObject = assoc;
 
         // move counter to "0" from "-1" (which means, no assocwidgets)
         if(assoc->nrof_parent_widgets < 0)
@@ -1347,9 +1347,9 @@ bool AssociationWidget::isCollaboration() const
  */
 Uml::AssociationType AssociationWidget::associationType() const
 {
-    if (m_pObject == NULL || m_pObject->baseType() != UMLObject::ot_Association)
+    if (m_umlObject == NULL || m_umlObject->baseType() != UMLObject::ot_Association)
         return m_associationType;
-    UMLAssociation *umla = static_cast<UMLAssociation*>(m_pObject);
+    UMLAssociation *umla = static_cast<UMLAssociation*>(m_umlObject);
     return umla->getAssocType();
 }
 
@@ -1360,7 +1360,7 @@ Uml::AssociationType AssociationWidget::associationType() const
  */
 void AssociationWidget::setAssociationType(Uml::AssociationType type)
 {
-    if (m_pObject && m_pObject->baseType() == UMLObject::ot_Association)
+    if (m_umlObject && m_umlObject->baseType() == UMLObject::ot_Association)
         association()->setAssociationType(type);
     m_associationType = type;
     m_associationLine->setAssocType(type);
@@ -1395,8 +1395,8 @@ void AssociationWidget::setAssociationType(Uml::AssociationType type)
 Uml::IDType AssociationWidget::widgetIDForRole(Uml::Role_Type role) const
 {
     if (m_role[role].umlWidget == NULL) {
-        if (m_pObject && m_pObject->baseType() == UMLObject::ot_Association) {
-            UMLAssociation *umla = static_cast<UMLAssociation*>(m_pObject);
+        if (m_umlObject && m_umlObject->baseType() == UMLObject::ot_Association) {
+            UMLAssociation *umla = static_cast<UMLAssociation*>(m_umlObject);
             return umla->getObjectId(role);
         }
         uError() << "umlWidget is NULL";
@@ -1793,7 +1793,7 @@ void AssociationWidget::mergeAssociationDataIntoUMLRepresentation()
         return;
 
     // block emit modified signal, or we get a horrible loop
-    m_pObject->blockSignals(true);
+    m_umlObject->blockSignals(true);
 
     // would be desirable to do the following
     // so that we can be sure its back to initial state
@@ -1803,7 +1803,7 @@ void AssociationWidget::mergeAssociationDataIntoUMLRepresentation()
     // floating text widgets
     FloatingTextWidget *text = nameWidget();
     if (text)
-        m_pObject->setName(text->text());
+        m_umlObject->setName(text->text());
 
     text = roleWidget(A);
     if (text && umlassoc)
@@ -1826,7 +1826,7 @@ void AssociationWidget::mergeAssociationDataIntoUMLRepresentation()
         umlassoc->setMultiplicity(text->text(), B);
 
     // unblock
-    m_pObject->blockSignals(false);
+    m_umlObject->blockSignals(false);
 }
 
 /**
@@ -3906,11 +3906,11 @@ UMLSceneRect AssociationWidget::boundingRect()
  */
 void AssociationWidget::slotClassifierListItemRemoved(UMLClassifierListItem* obj)
 {
-    if (obj != m_pObject) {
-        uDebug() << "obj=" << obj << ": m_pObject=" << m_pObject;
+    if (obj != m_umlObject) {
+        uDebug() << "obj=" << obj << ": m_umlObject=" << m_umlObject;
         return;
     }
-    m_pObject = NULL;
+    m_umlObject = NULL;
     m_scene->removeAssoc(this);
 }
 
@@ -4030,8 +4030,8 @@ void AssociationWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
     QDomElement assocElement = qDoc.createElement("assocwidget");
 
     WidgetBase::saveToXMI(qDoc, assocElement);
-    if (m_pObject) {
-        assocElement.setAttribute("xmi.id", ID2STR(m_pObject->id()));
+    if (m_umlObject) {
+        assocElement.setAttribute("xmi.id", ID2STR(m_umlObject->id()));
     }
     assocElement.setAttribute("type", associationType());
     if (!association()) {
@@ -4039,7 +4039,7 @@ void AssociationWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
         assocElement.setAttribute("visibilityB", visibility(Uml::B));
         assocElement.setAttribute("changeabilityA", changeability(Uml::A));
         assocElement.setAttribute("changeabilityB", changeability(Uml::B));
-        if (m_pObject == NULL) {
+        if (m_umlObject == NULL) {
             assocElement.setAttribute("roleAdoc", roleDocumentation(Uml::A));
             assocElement.setAttribute("roleBdoc", roleDocumentation(Uml::B));
             assocElement.setAttribute("documentation", documentation());
@@ -4144,7 +4144,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
             // with older files isn't important anymore. -b.t.
             UMLObject* umlRoleA = pWidgetA->umlObject();
             UMLObject* umlRoleB = pWidgetB->umlObject();
-            if (!m_pObject && umlRoleA && umlRoleB)
+            if (!m_umlObject && umlRoleA && umlRoleB)
             {
                 oldStyleLoad = true; // flag for further special config below
                 if (aType == AssociationType::Aggregation || aType == AssociationType::Composition) {
@@ -4203,7 +4203,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
     } else {
 
         // we should disconnect any prior association (can this happen??)
-        if (m_pObject && m_pObject->baseType() == UMLObject::ot_Association)
+        if (m_umlObject && m_umlObject->baseType() == UMLObject::ot_Association)
         {
             UMLAssociation *umla = association();
             umla->disconnect(this);

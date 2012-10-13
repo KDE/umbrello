@@ -18,7 +18,7 @@
 #include "listpopupmenu.h"
 
 // system includes
-#include <QtGui/QPainter>
+#include <QPainter>
 
 /**
  *  Creates a Category widget.
@@ -50,7 +50,7 @@ void CategoryWidget::draw(QPainter & p, int offsetX, int offsetY)
     QFont font = UMLWidget::font();
     font.setUnderline(false);
     font.setBold(false);
-    font.setItalic( m_pObject->isAbstract() );
+    font.setItalic( m_umlObject->isAbstract() );
     p.setFont( font );
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
@@ -67,7 +67,7 @@ void CategoryWidget::draw(QPainter & p, int offsetX, int offsetY)
     p.setPen(textColor());
 
     QString letterType('D');
-    switch( static_cast<UMLCategory*>( m_pObject )->getType() ) {
+    switch( static_cast<UMLCategory*>( m_umlObject )->getType() ) {
        case UMLCategory::ct_Disjoint_Specialisation:
            letterType = 'D';
            break;
@@ -92,7 +92,7 @@ void CategoryWidget::draw(QPainter & p, int offsetX, int offsetY)
  */
 UMLSceneSize CategoryWidget::minimumSize()
 {
-    const UMLWidget::FontType ft = ( m_pObject->isAbstract() ? FT_BOLD_ITALIC : FT_BOLD );
+    const UMLWidget::FontType ft = ( m_umlObject->isAbstract() ? FT_BOLD_ITALIC : FT_BOLD );
     const QFontMetrics &fm = UMLWidget::getFontMetrics(ft);
     const int fontHeight = fm.lineSpacing();
     int radius = UC_RADIUS + fontHeight + UC_MARGIN;
@@ -118,7 +118,7 @@ void CategoryWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
  */
 void CategoryWidget::slotMenuSelection(QAction* action)
 {
-    UMLCategory* catObj = static_cast<UMLCategory*>(m_pObject);
+    UMLCategory* catObj = static_cast<UMLCategory*>(m_umlObject);
     ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
     switch(sel) {
       case ListPopupMenu::mt_DisjointSpecialisation:

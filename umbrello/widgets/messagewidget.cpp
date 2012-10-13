@@ -25,10 +25,10 @@
 #include "uniqueid.h"
 
 //qt includes
-#include <QPolygon>
 #include <QMoveEvent>
+#include <QPainter>
+#include <QPolygon>
 #include <QResizeEvent>
-#include <QtGui/QPainter>
 
 //kde includes
 #include <klocale.h>
@@ -802,7 +802,7 @@ UMLClassifier *MessageWidget::operationOwner()
  */
 UMLOperation *MessageWidget::operation()
 {
-    return static_cast<UMLOperation*>(m_pObject);
+    return static_cast<UMLOperation*>(m_umlObject);
 }
 
 /**
@@ -811,11 +811,11 @@ UMLOperation *MessageWidget::operation()
  */
 void MessageWidget::setOperation(UMLOperation *op)
 {
-    if (m_pObject && m_pFText)
-        disconnect(m_pObject, SIGNAL(modified()), m_pFText, SLOT(setMessageText()));
-    m_pObject = op;
-    if (m_pObject && m_pFText)
-        connect(m_pObject, SIGNAL(modified()), m_pFText, SLOT(setMessageText()));
+    if (m_umlObject && m_pFText)
+        disconnect(m_umlObject, SIGNAL(modified()), m_pFText, SLOT(setMessageText()));
+    m_umlObject = op;
+    if (m_umlObject && m_pFText)
+        connect(m_umlObject, SIGNAL(modified()), m_pFText, SLOT(setMessageText()));
 }
 
 /**

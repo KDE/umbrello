@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -43,7 +43,7 @@ void UseCaseWidget::draw(QPainter & p, int offsetX, int offsetY)
     QFont font = UMLWidget::font();
     font.setUnderline(false);
     font.setBold(false);
-    font.setItalic( m_pObject->isAbstract() );
+    font.setItalic( m_umlObject->isAbstract() );
     p.setFont( font );
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
@@ -75,7 +75,7 @@ void UseCaseWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
  */
 UMLSceneSize UseCaseWidget::minimumSize()
 {
-    const UMLWidget::FontType ft = ( m_pObject->isAbstract() ? FT_BOLD_ITALIC : FT_BOLD );
+    const UMLWidget::FontType ft = ( m_umlObject->isAbstract() ? FT_BOLD_ITALIC : FT_BOLD );
     const QFontMetrics &fm = UMLWidget::getFontMetrics(ft);
     const int fontHeight = fm.lineSpacing();
     const int textWidth = fm.width(name());

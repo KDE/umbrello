@@ -34,9 +34,9 @@
 #include <kmessagebox.h>
 
 // qt includes
-#include <QPointer>
-#include <QPainter>
 #include <QColor>
+#include <QPainter>
+#include <QPointer>
 
 using namespace Uml;
 
@@ -60,10 +60,10 @@ UMLWidget::UMLWidget(UMLScene * scene, WidgetType type, UMLObject * o, UMLWidget
         m_widgetController = new UMLWidgetController(this);
     }
     init();
-    m_pObject = o;
-    if (m_pObject) {
-        connect(m_pObject, SIGNAL(modified()), this, SLOT(updateWidget()));
-        m_nId = m_pObject->id();
+    m_umlObject = o;
+    if (m_umlObject) {
+        connect(m_umlObject, SIGNAL(modified()), this, SLOT(updateWidget()));
+        m_nId = m_umlObject->id();
     }
 }
 
@@ -115,7 +115,7 @@ UMLWidget& UMLWidget::operator=(const UMLWidget & other)
     m_useFillColor = other.m_useFillColor;
     m_usesDiagramFillColor = other.m_usesDiagramFillColor;
     m_usesDiagramUseFillColor = other.m_usesDiagramUseFillColor;
-    m_FillColor = other.m_FillColor;
+    m_fillColor = other.m_fillColor;
     m_Assocs = other.m_Assocs;
     m_Text = other.m_Text; //new
     m_Font = other.m_Font;
@@ -342,7 +342,7 @@ void UMLWidget::init()
         m_usesDiagramFillColor = true;
         m_usesDiagramUseFillColor = true;
         const Settings::OptionState& optionState = m_scene->optionState();
-        m_FillColor = optionState.uiState.fillColor;
+        m_fillColor = optionState.uiState.fillColor;
         // FIXME: using setFont() here let umbrello hang probably because of doc->loading() not set. 
         m_Font = optionState.uiState.font;
         m_showStereotype = optionState.classState.showStereoType;
@@ -373,7 +373,7 @@ void UMLWidget::init()
     connect(m_scene, SIGNAL(sigTextColorChanged(Uml::IDType)), this, SLOT(slotTextColorChanged(Uml::IDType)));
     connect(m_scene, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
 
-    m_pObject = NULL;
+    m_umlObject = 0;
     setZ(m_origZ = 2);  // default for most widgets
 }
 
@@ -391,7 +391,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
     ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
     switch (sel) {
     case ListPopupMenu::mt_Rename:
-        m_doc->renameUMLObject(m_pObject);
+        m_doc->renameUMLObject(m_umlObject);
         // adjustAssocs( x(), y() );  // adjust assoc lines
         break;
 
@@ -412,7 +412,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
             UMLApp::app()->endMacro();
         } else if (wt == wt_Object) {
             UMLApp::app()->beginMacro(i18n("Change Properties"));
-            m_pObject->showPropertiesPagedDialog();
+            m_umlObject->showPropertiesPagedDialog();
             UMLApp::app()->endMacro();
         } else {
             uWarning() << "making properties dialog for unknown widget type";
@@ -462,7 +462,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_ViewCode: {
-        UMLClassifier *c = dynamic_cast<UMLClassifier*>(m_pObject);
+        UMLClassifier *c = dynamic_cast<UMLClassifier*>(m_umlObject);
         if (c) {
             UMLApp::app()->viewCodeDocument(c);
         }
@@ -497,15 +497,15 @@ void UMLWidget::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Refactoring:
         //check if we are operating on a classifier, or some other kind of UMLObject
-        if (dynamic_cast<UMLClassifier*>(m_pObject)) {
-            UMLApp::app()->refactor(static_cast<UMLClassifier*>(m_pObject));
+        if (dynamic_cast<UMLClassifier*>(m_umlObject)) {
+            UMLApp::app()->refactor(static_cast<UMLClassifier*>(m_umlObject));
         }
         break;
 
     case ListPopupMenu::mt_Clone:
         // In principle we clone all the uml objects.
     {
-        UMLObject *pClone = m_pObject->clone();
+        UMLObject *pClone = m_umlObject->clone();
         m_scene->addObject(pClone);
     }
     break;
@@ -731,9 +731,9 @@ void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY)
  */
 bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
 {
-    if (widgetHasUMLObject(m_baseType) && m_pObject == NULL) {
-        m_pObject = m_doc->findObjectById(m_nId);
-        if (m_pObject == NULL) {
+    if (widgetHasUMLObject(m_baseType) && m_umlObject == NULL) {
+        m_umlObject = m_doc->findObjectById(m_nId);
+        if (m_umlObject == NULL) {
             uError() << "cannot find UMLObject with id=" << ID2STR(m_nId);
             return false;
         }
@@ -1019,7 +1019,7 @@ void UMLWidget::moveByLocal(int dx, int dy)
  */
 void UMLWidget::setPenFromSettings(QPainter & p)
 {
-    p.setPen(QPen(m_LineColor, m_LineWidth));
+    p.setPen(QPen(m_lineColor, m_lineWidth));
 }
 
 /**
@@ -1053,7 +1053,7 @@ void UMLWidget::setSelected(bool _select)
     if (_select) {
         if (m_scene->selectedCount() == 0) {
             if (widgetHasUMLObject(wt)) {
-                m_scene->showDocumentation(m_pObject, false);
+                m_scene->showDocumentation(m_umlObject, false);
             } else {
                 m_scene->showDocumentation(this, false);
             }
@@ -1177,14 +1177,14 @@ void UMLWidget::setZ(UMLSceneValue z)
 
 /**
  * Sets the name in the corresponding UMLObject.
- * Sets the local m_Text if m_pObject is NULL.
+ * Sets the local m_Text if m_umlObject is NULL.
  *
  * @param strName The name to be set.
  */
 void UMLWidget::setName(const QString &strName)
 {
-    if (m_pObject)
-        m_pObject->setName(strName);
+    if (m_umlObject)
+        m_umlObject->setName(strName);
     else
         m_Text = strName;
     updateGeometry();
@@ -1192,14 +1192,14 @@ void UMLWidget::setName(const QString &strName)
 
 /**
  * Gets the name from the corresponding UMLObject.
- * Returns the local m_Text if m_pObject is NULL.
+ * Returns the local m_Text if m_umlObject is NULL.
  *
  * @return The currently set name.
  */
 QString UMLWidget::name() const
 {
-    if (m_pObject)
-        return m_pObject->name();
+    if (m_umlObject)
+        return m_umlObject->name();
     return m_Text;
 }
 

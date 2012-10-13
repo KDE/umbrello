@@ -21,8 +21,8 @@
 
 // forward declarations
 class UMLDoc;
-class UMLScene;
 class UMLObject;
+class UMLScene;
 
 /**
  * @short       Common base class for UMLWidget and AssociationWidget
@@ -126,35 +126,21 @@ public:
 protected:
     WidgetType  m_baseType;  ///< Type of widget.
     UMLScene   *m_scene;
-    UMLObject  *m_pObject;
-    QString     m_Doc;   ///< Only used if m_pObject is not set.
+    UMLObject  *m_umlObject;
+    QString     m_Doc;   ///< Only used if m_umlObject is not set.
 
     /**
      * This ID is only used when the widget does not have a
-     * corresponding UMLObject (i.e. the m_pObject pointer is NULL.)
+     * corresponding UMLObject (i.e. the m_umlObject pointer is NULL.)
      * For UMLObjects, the ID from the UMLObject is used.
      */
     Uml::IDType m_nId;
 
-    /**
-     * Color of the text of the widget. Is saved to XMI.
-     */
-    QColor m_textColor;
+    QColor m_textColor;  ///< Color of the text of the widget. Is saved to XMI.
+    QColor m_lineColor;  ///< Color of the lines of the widget. Is saved to XMI.
+    QColor m_fillColor;  ///< color of the background of the widget
 
-    /**
-     * Color of the lines of the widget. Is saved to XMI.
-     */
-    QColor m_LineColor;
-
-    /**
-     * Color of the background of the widget
-     */
-    QColor m_FillColor;
-
-    /**
-     * Width of the lines of the widget. Is saved to XMI.
-     */
-    uint m_LineWidth;
+    uint m_lineWidth;  ///< Width of the lines of the widget. Is saved to XMI.
 
     /**
      * This flag indicates if the UMLWidget uses the Diagram FillColour

@@ -68,11 +68,11 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY)
     p.setFont(font);
 
     int lines = 1;
-    if (m_pObject) {
-        QString stereotype = m_pObject->stereotype();
+    if (m_umlObject) {
+        QString stereotype = m_umlObject->stereotype();
         if (!stereotype.isEmpty()) {
             p.drawText(offsetX, bodyOffsetY + (bodyHeight/2) - fontHeight,
-                       bodyWidth, fontHeight, Qt::AlignCenter, m_pObject->stereotype(true));
+                       bodyWidth, fontHeight, Qt::AlignCenter, m_umlObject->stereotype(true));
             lines = 2;
         }
     }
@@ -98,15 +98,15 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY)
 
 UMLSceneSize NodeWidget::minimumSize()
 {
-    if (m_pObject == NULL) {
-        uDebug() << "m_pObject is NULL";
+    if (m_umlObject == NULL) {
+        uDebug() << "m_umlObject is NULL";
         return UMLWidget::minimumSize();
     }
 
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
     const int fontHeight  = fm.lineSpacing();
 
-    QString name = m_pObject->name();
+    QString name = m_umlObject->name();
     if ( UMLWidget::isInstance() ) {
         name = UMLWidget::instanceName() + " : " + name;
     }
@@ -114,8 +114,8 @@ UMLSceneSize NodeWidget::minimumSize()
     int width = fm.width(name);
 
     int tempWidth = 0;
-    if (!m_pObject->stereotype().isEmpty()) {
-        tempWidth = fm.width(m_pObject->stereotype(true));
+    if (!m_umlObject->stereotype().isEmpty()) {
+        tempWidth = fm.width(m_umlObject->stereotype(true));
     }
     if (tempWidth > width)
         width = tempWidth;

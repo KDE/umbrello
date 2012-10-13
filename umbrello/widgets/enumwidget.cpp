@@ -104,7 +104,7 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY)
     const int fontHeight  = fm.lineSpacing();
     QString name;
     if ( m_showPackage ) {
-        name = m_pObject->fullyQualifiedName();
+        name = m_umlObject->fullyQualifiedName();
     } else {
         name = this->name();
     }
@@ -117,9 +117,9 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY)
     p.setFont(font);
     p.drawText(offsetX + ENUM_MARGIN, offsetY,
                w - ENUM_MARGIN * 2,fontHeight,
-               Qt::AlignCenter, m_pObject->stereotype(true));
+               Qt::AlignCenter, m_umlObject->stereotype(true));
 
-    font.setItalic( m_pObject->isAbstract() );
+    font.setItalic( m_umlObject->isAbstract() );
     p.setFont(font);
     p.drawText(offsetX + ENUM_MARGIN, offsetY + fontHeight,
                w - ENUM_MARGIN * 2, fontHeight, Qt::AlignCenter, name);
@@ -134,7 +134,7 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY)
     p.drawLine(offsetX, offsetY + y, offsetX + w - 1, offsetY + y);
 
     QFontMetrics fontMetrics(font);
-    UMLClassifier *classifier = (UMLClassifier*)m_pObject;
+    UMLClassifier *classifier = (UMLClassifier*)m_umlObject;
     UMLClassifierListItem* enumLiteral = 0;
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EnumLiteral);
     foreach (enumLiteral , list ) {
@@ -187,7 +187,7 @@ void EnumWidget::slotMenuSelection(QAction* action)
 {
     ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
     if (sel == ListPopupMenu::mt_EnumLiteral) {
-        if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(m_pObject),
+        if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(m_umlObject),
                                               UMLObject::ot_EnumLiteral) )  {
             /* I don't know why it works without these calls:
             updateComponentSize();
@@ -205,7 +205,7 @@ void EnumWidget::slotMenuSelection(QAction* action)
  */
 UMLSceneSize EnumWidget::minimumSize()
 {
-    if (!m_pObject) {
+    if (!m_umlObject) {
         return UMLWidget::minimumSize();
     }
 
@@ -221,7 +221,7 @@ UMLSceneSize EnumWidget::minimumSize()
     int lines = 1;//always have one line - for name
     lines++; //for the stereotype
 
-    const int numberOfEnumLiterals = ((UMLEnum*)m_pObject)->enumLiterals();
+    const int numberOfEnumLiterals = ((UMLEnum*)m_umlObject)->enumLiterals();
 
     height = width = 0;
     //set the height of the enum
@@ -236,16 +236,16 @@ UMLSceneSize EnumWidget::minimumSize()
     //now set the width of the concept
     //set width to name to start with
     if (m_showPackage)  {
-        width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_pObject->fullyQualifiedName()).width();
+        width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_umlObject->fullyQualifiedName()).width();
     } else {
         width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(name()).width();
     }
-    int w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->stereotype(true)).width();
+    int w = getFontMetrics(FT_BOLD).boundingRect(m_umlObject->stereotype(true)).width();
 
 
     width = w > width?w:width;
 
-    UMLClassifier *classifier = (UMLClassifier*)m_pObject;
+    UMLClassifier *classifier = (UMLClassifier*)m_umlObject;
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EnumLiteral);
     UMLClassifierListItem* listItem = 0;
     foreach (listItem , list ) {

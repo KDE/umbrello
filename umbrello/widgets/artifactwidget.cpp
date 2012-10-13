@@ -49,7 +49,7 @@ void ArtifactWidget::draw(QPainter& p, int offsetX, int offsetY)
     }
 
     if (umlObject()) {
-        UMLArtifact *umlart = static_cast<UMLArtifact*>(m_pObject);
+        UMLArtifact *umlart = static_cast<UMLArtifact*>(m_umlObject);
         UMLArtifact::Draw_Type drawType = umlart->getDrawAsType();
         switch (drawType) {
         case UMLArtifact::defaultDraw:
@@ -90,10 +90,10 @@ void ArtifactWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
  */
 UMLSceneSize ArtifactWidget::minimumSize()
 {
-    if ( !m_pObject) {
+    if ( !m_umlObject) {
         return UMLWidget::minimumSize();
     }
-    UMLArtifact *umlart = static_cast<UMLArtifact*>(m_pObject);
+    UMLArtifact *umlart = static_cast<UMLArtifact*>(m_umlObject);
     if (umlart->getDrawAsType() == UMLArtifact::defaultDraw) {
         return calculateNormalSize();
     } else {
@@ -109,7 +109,7 @@ QSize ArtifactWidget::calculateIconSize()
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
     const int fontHeight  = fm.lineSpacing();
 
-    int width = fm.width( m_pObject->name() );
+    int width = fm.width( m_umlObject->name() );
 
     width = width<50 ? 50 : width;
 
@@ -126,11 +126,11 @@ QSize ArtifactWidget::calculateNormalSize()
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
     const int fontHeight  = fm.lineSpacing();
 
-    int width = fm.width( m_pObject->name() );
+    int width = fm.width( m_umlObject->name() );
 
     int tempWidth = 0;
-    if(!m_pObject->stereotype().isEmpty()) {
-        tempWidth = fm.width( m_pObject->stereotype(true) );
+    if(!m_umlObject->stereotype().isEmpty()) {
+        tempWidth = fm.width( m_umlObject->stereotype(true) );
     }
     width = tempWidth>width ? tempWidth : width;
     width += ARTIFACT_MARGIN * 2;
@@ -263,7 +263,7 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY)
     font.setBold(true);
     const QFontMetrics &fm = getFontMetrics(FT_BOLD);
     const int fontHeight  = fm.lineSpacing();
-    QString stereotype = m_pObject->stereotype();
+    QString stereotype = m_umlObject->stereotype();
 
     p.drawRect(offsetX, offsetY, w, h);
 
@@ -272,7 +272,7 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY)
 
     if (!stereotype.isEmpty()) {
         p.drawText(offsetX + ARTIFACT_MARGIN, offsetY + (h/2) - fontHeight,
-                   w, fontHeight, Qt::AlignCenter, m_pObject->stereotype(true));
+                   w, fontHeight, Qt::AlignCenter, m_umlObject->stereotype(true));
     }
 
     int lines;

@@ -69,7 +69,7 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY)
     const int fontHeight  = fm.lineSpacing();
 
     p.drawRect(offsetX, offsetY, 50, fontHeight);
-    if (m_pObject->stereotype() == "subsystem") {
+    if (m_umlObject->stereotype() == "subsystem") {
         const int fHalf = fontHeight / 2;
         const int symY = offsetY + fHalf;
         const int symX = offsetX + 38;
@@ -84,11 +84,11 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY)
     p.setFont(font);
 
     int lines = 1;
-    if (m_pObject != NULL) {
-        QString stereotype = m_pObject->stereotype();
+    if (m_umlObject != NULL) {
+        QString stereotype = m_umlObject->stereotype();
         if (!stereotype.isEmpty()) {
             p.drawText(offsetX, offsetY + fontHeight + PACKAGE_MARGIN,
-                       w, fontHeight, Qt::AlignCenter, m_pObject->stereotype(true));
+                       w, fontHeight, Qt::AlignCenter, m_umlObject->stereotype(true));
             lines = 2;
         }
     }
@@ -106,7 +106,7 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY)
  */
 UMLSceneSize PackageWidget::minimumSize()
 {
-    if ( !m_pObject ) {
+    if ( !m_umlObject ) {
         return UMLWidget::minimumSize();
     }
 
@@ -115,11 +115,11 @@ UMLSceneSize PackageWidget::minimumSize()
 
     int lines = 1;
 
-    int width = fm.width( m_pObject->name() );
+    int width = fm.width( m_umlObject->name() );
 
     int tempWidth = 0;
-    if (!m_pObject->stereotype().isEmpty()) {
-        tempWidth = fm.width(m_pObject->stereotype(true));
+    if (!m_umlObject->stereotype().isEmpty()) {
+        tempWidth = fm.width(m_umlObject->stereotype(true));
         lines = 2;
     }
     if (tempWidth > width)

@@ -26,7 +26,7 @@ WidgetBase::WidgetBase(UMLScene *scene, WidgetType type)
   : QObject(scene),
     m_baseType(type),
     m_scene(scene),
-    m_pObject(0)
+    m_umlObject(0)
 {
     if (m_scene) {
         m_usesDiagramLineColor = true;
@@ -34,16 +34,16 @@ WidgetBase::WidgetBase(UMLScene *scene, WidgetType type)
         m_usesDiagramTextColor = true;
         const Settings::OptionState& optionState = m_scene->optionState();
         m_textColor = optionState.uiState.textColor;
-        m_LineColor = optionState.uiState.lineColor;
-        m_LineWidth  = optionState.uiState.lineWidth;
+        m_lineColor = optionState.uiState.lineColor;
+        m_lineWidth  = optionState.uiState.lineWidth;
     } else {
         uError() << "WidgetBase constructor: SERIOUS PROBLEM - m_scene is NULL";
         m_usesDiagramLineColor = false;
         m_usesDiagramLineWidth  = false;
         m_usesDiagramTextColor = false;
         m_textColor =  QColor("black");
-        m_LineColor = QColor("black");
-        m_LineWidth = 0; // initialize with 0 to have valid start condition
+        m_lineColor = QColor("black");
+        m_lineWidth = 0; // initialize with 0 to have valid start condition
     }
 }
 
@@ -96,7 +96,7 @@ UMLDoc* WidgetBase::umlDoc() const
  */
 UMLObject* WidgetBase::umlObject() const
 {
-    return m_pObject;
+    return m_umlObject;
 }
 
 /**
@@ -106,7 +106,7 @@ UMLObject* WidgetBase::umlObject() const
  */
 void WidgetBase::setUMLObject(UMLObject *obj)
 {
-    m_pObject = obj;
+    m_umlObject = obj;
 }
 
 /**
@@ -114,11 +114,11 @@ void WidgetBase::setUMLObject(UMLObject *obj)
  */
 void WidgetBase::setID(Uml::IDType id)
 {
-    if (m_pObject) {
-        if (m_pObject->id() != Uml::id_None)
-            uWarning() << "changing old UMLObject " << ID2STR(m_pObject->id())
+    if (m_umlObject) {
+        if (m_umlObject->id() != Uml::id_None)
+            uWarning() << "changing old UMLObject " << ID2STR(m_umlObject->id())
                 << " to " << ID2STR(id);
-        m_pObject->setID(id);
+        m_umlObject->setID(id);
     }
     m_nId = id;
 }
@@ -128,20 +128,20 @@ void WidgetBase::setID(Uml::IDType id)
  */
 Uml::IDType WidgetBase::id() const
 {
-    if (m_pObject)
-        return m_pObject->id();
+    if (m_umlObject)
+        return m_umlObject->id();
     return m_nId;
 }
 
 /**
  * Used by some child classes to get documentation.
  *
- * @return  The documentation from the UMLObject (if m_pObject is set.)
+ * @return  The documentation from the UMLObject (if m_umlObject is set.)
  */
 QString WidgetBase::documentation() const
 {
-    if (m_pObject)
-        return m_pObject->doc();
+    if (m_umlObject)
+        return m_umlObject->doc();
     return m_Doc;
 }
 
@@ -149,12 +149,12 @@ QString WidgetBase::documentation() const
  * Used by some child classes to set documentation.
  *
  * @param doc   The documentation to be set in the UMLObject
- *              (if m_pObject is set.)
+ *              (if m_umlObject is set.)
  */
 void WidgetBase::setDocumentation( const QString &doc )
 {
-    if (m_pObject)
-        m_pObject->setDoc( doc );
+    if (m_umlObject)
+        m_umlObject->setDoc( doc );
     else
         m_Doc = doc;
 }
@@ -187,7 +187,7 @@ void WidgetBase::setTextColor(const QColor &color)
  */
 QColor WidgetBase::lineColor() const
 {
-    return m_LineColor;
+    return m_lineColor;
 }
 
 /**
@@ -197,7 +197,7 @@ QColor WidgetBase::lineColor() const
  */
 void WidgetBase::setLineColor(const QColor &color)
 {
-    m_LineColor = color;
+    m_lineColor = color;
     m_usesDiagramLineColor = false;
 }
 
@@ -208,7 +208,7 @@ void WidgetBase::setLineColor(const QColor &color)
  */
 QColor WidgetBase::fillColor() const
 {
-    return m_FillColor;
+    return m_fillColor;
 }
 
 /**
@@ -218,7 +218,7 @@ QColor WidgetBase::fillColor() const
  */
 void WidgetBase::setFillColor(const QColor &color)
 {
-    m_FillColor = color;
+    m_fillColor = color;
     m_usesDiagramFillColor = false;
 }
 
@@ -229,7 +229,7 @@ void WidgetBase::setFillColor(const QColor &color)
  */
 uint WidgetBase::lineWidth() const
 {
-    return m_LineWidth;
+    return m_lineWidth;
 }
 
 /**
@@ -239,7 +239,7 @@ uint WidgetBase::lineWidth() const
  */
 void WidgetBase::setLineWidth(uint width)
 {
-    m_LineWidth = width;
+    m_lineWidth = width;
     m_usesDiagramLineWidth = false;
 }
 
@@ -375,12 +375,12 @@ void WidgetBase::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement )
     if (m_usesDiagramLineColor) {
         qElement.setAttribute( "linecolor", "none" );
     } else {
-        qElement.setAttribute( "linecolor", m_LineColor.name() );
+        qElement.setAttribute( "linecolor", m_lineColor.name() );
     }
     if (m_usesDiagramLineWidth) {
         qElement.setAttribute( "linewidth", "none" );
     } else {
-        qElement.setAttribute( "linewidth", m_LineWidth );
+        qElement.setAttribute( "linewidth", m_lineWidth );
     }
     qElement.setAttribute("usefillcolor", m_useFillColor);
     // for consistency the following attributes now use american spelling for "color"
@@ -389,7 +389,7 @@ void WidgetBase::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement )
     if (m_usesDiagramFillColor) {
         qElement.setAttribute("fillcolor", "none");
     } else {
-        qElement.setAttribute("fillcolor", m_FillColor.name());
+        qElement.setAttribute("fillcolor", m_fillColor.name());
     }
 }
 
@@ -433,7 +433,7 @@ bool WidgetBase::loadFromXMI( QDomElement & qElement )
     QString fillColor = qElement.attribute("fillcolour", "none");
     fillColor = qElement.attribute("fillcolor", fillColor);
     if (fillColor != "none") {
-        m_FillColor = QColor(fillColor);
+        m_fillColor = QColor(fillColor);
     }
 
     QString usesDiagramFillColor = qElement.attribute("usesdiagramfillcolour", "1");
@@ -454,11 +454,11 @@ WidgetBase& WidgetBase::operator=(const WidgetBase& other)
 {
     m_baseType = other.m_baseType;
     m_scene = other.m_scene;
-    m_pObject = other.m_pObject;
+    m_umlObject = other.m_umlObject;
     m_Doc = other.m_Doc;
     m_nId = other.m_nId;
-    m_LineColor = other.m_LineColor;
-    m_LineWidth  = other.m_LineWidth;
+    m_lineColor = other.m_lineColor;
+    m_lineWidth  = other.m_lineWidth;
     m_usesDiagramLineColor = other.m_usesDiagramLineColor;
     m_usesDiagramLineWidth  = other.m_usesDiagramLineWidth;
 

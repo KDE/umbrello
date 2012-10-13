@@ -91,7 +91,7 @@ ClassifierWidget::~ClassifierWidget()
  */
 UMLClassifier *ClassifierWidget::classifier() const
 {
-    return static_cast<UMLClassifier*>(m_pObject);
+    return static_cast<UMLClassifier*>(m_umlObject);
 }
 
 /**
@@ -273,7 +273,7 @@ void ClassifierWidget::updateSignatureTypes()
 
 /**
  * Returns whether to show attribute signatures.
- * Only applies when m_pObject->getBaseType() is ot_Class.
+ * Only applies when m_umlObject->getBaseType() is ot_Class.
  *
  * @return  Status of how attribute signatures are shown.
  */
@@ -284,7 +284,7 @@ Uml::SignatureType ClassifierWidget::attributeSignature() const
 
 /**
  * Sets the type of signature to display for an attribute.
- * Only applies when m_pObject->getBaseType() is ot_Class.
+ * Only applies when m_umlObject->getBaseType() is ot_Class.
  *
  * @param sig   Type of signature to display for an attribute.
  */
@@ -319,7 +319,7 @@ void ClassifierWidget::setOperationSignature(Uml::SignatureType sig)
 
 /**
  * Sets whether to show attribute signature
- * Only applies when m_pObject->getBaseType() is ot_Class.
+ * Only applies when m_umlObject->getBaseType() is ot_Class.
  *
  * @param _show   True if attribute signatures shall be shown.
  */
@@ -343,7 +343,7 @@ void ClassifierWidget::setShowAttSigs(bool _status)
 
 /**
  * Toggles whether to show attribute signatures.
- * Only applies when m_pObject->getBaseType() is ot_Class.
+ * Only applies when m_umlObject->getBaseType() is ot_Class.
  */
 void ClassifierWidget::toggleShowAttSigs()
 {
@@ -383,7 +383,7 @@ int ClassifierWidget::displayedMembers(UMLObject::ObjectType ot)
  */
 UMLSceneSize ClassifierWidget::minimumSize()
 {
-    if (!m_pObject) {
+    if (!m_umlObject) {
         return UMLWidget::minimumSize();
     }
     if (classifier()->isInterface() && visualProperty(DrawAsCircle)) {
@@ -396,11 +396,11 @@ UMLSceneSize ClassifierWidget::minimumSize()
     int width = 0, height = 0;
 
     // consider stereotype
-    if (m_showStereotype && !m_pObject->stereotype().isEmpty()) {
+    if (m_showStereotype && !m_umlObject->stereotype().isEmpty()) {
         height += fontHeight;
         // ... width
         const QFontMetrics &bfm = UMLWidget::getFontMetrics(UMLWidget::FT_BOLD);
-        const int stereoWidth = bfm.size(0,m_pObject->stereotype(true)).width();
+        const int stereoWidth = bfm.size(0,m_umlObject->stereotype(true)).width();
         if (stereoWidth > width)
             width = stereoWidth;
     }
@@ -410,10 +410,10 @@ UMLSceneSize ClassifierWidget::minimumSize()
     // ... width
     QString displayedName;
     if (visualProperty(ShowPackage))
-        displayedName = m_pObject->fullyQualifiedName();
+        displayedName = m_umlObject->fullyQualifiedName();
     else
-        displayedName = m_pObject->name();
-    const UMLWidget::FontType nft = (m_pObject->isAbstract() ? FT_BOLD_ITALIC : FT_BOLD);
+        displayedName = m_umlObject->name();
+    const UMLWidget::FontType nft = (m_umlObject->isAbstract() ? FT_BOLD_ITALIC : FT_BOLD);
     const int nameWidth = UMLWidget::getFontMetrics(nft).size(0,displayedName).width();
     if (nameWidth > width)
         width = nameWidth;
@@ -618,7 +618,7 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY)
 
     // draw stereotype
     font.setBold(true);
-    QString stereo = m_pObject->stereotype();
+    QString stereo = m_umlObject->stereotype();
     /* if no stereotype is given we don't want to show the empty << >> */
     const bool showStereotype = (m_showStereotype && !stereo.isEmpty());
     const bool showNameOnly = (!visualProperty(ShowOperations) &&
@@ -629,7 +629,7 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY)
         nameHeight = h;
     } else if (showStereotype) {
         p.setFont(font);
-        stereo = m_pObject->stereotype(true);
+        stereo = m_umlObject->stereotype(true);
         p.drawText(textX, m_bodyOffsetY, textWidth, fontHeight, Qt::AlignCenter, stereo);
         m_bodyOffsetY += fontHeight;
     }
@@ -637,11 +637,11 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY)
     // draw name
     QString name;
     if (visualProperty(ShowPackage)) {
-        name = m_pObject->fullyQualifiedName();
+        name = m_umlObject->fullyQualifiedName();
     } else {
         name = this->name();
     }
-    font.setItalic( m_pObject->isAbstract() );
+    font.setItalic( m_umlObject->isAbstract() );
     p.setFont(font);
     p.drawText(textX, m_bodyOffsetY, textWidth, nameHeight, Qt::AlignCenter, name);
     if (!showNameOnly) {
@@ -684,7 +684,7 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY)
 
 /**
  * Draws the interface as a circle with name underneath.
- * Only applies when m_pObject->getBaseType() is ot_Interface.
+ * Only applies when m_umlObject->getBaseType() is ot_Interface.
  */
 void ClassifierWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY)
 {
@@ -694,7 +694,7 @@ void ClassifierWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY)
     const int fontHeight  = fm.lineSpacing();
     QString name;
     if (visualProperty(ShowPackage)) {
-        name = m_pObject->fullyQualifiedName();
+        name = m_umlObject->fullyQualifiedName();
     } else {
         name = this->name();
     }
@@ -713,7 +713,7 @@ void ClassifierWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY)
 
 /**
  * Calculates the size of the object when drawn as a circle.
- * Only applies when m_pObject->getBaseType() is ot_Interface.
+ * Only applies when m_umlObject->getBaseType() is ot_Interface.
  */
 QSize ClassifierWidget::calculateAsCircleSize()
 {
@@ -725,9 +725,9 @@ QSize ClassifierWidget::calculateAsCircleSize()
     int width = CIRCLE_SIZE;
     QString displayedName;
     if (visualProperty(ShowPackage)) {
-        displayedName = m_pObject->fullyQualifiedName();
+        displayedName = m_umlObject->fullyQualifiedName();
     } else {
-        displayedName = m_pObject->name();
+        displayedName = m_umlObject->name();
     }
     const int nameWidth = fm.size(0,displayedName).width();
     if (nameWidth > width)
@@ -772,7 +772,7 @@ void ClassifierWidget::drawMembers(QPainter & p, UMLObject::ObjectType ot, Uml::
 
 /**
  * Sets whether to draw as circle.
- * Only applies when m_pObject->getBaseType() is ot_Interface.
+ * Only applies when m_umlObject->getBaseType() is ot_Interface.
  *
  * @param drawAsCircle   True if widget shall be drawn as circle.
  */
@@ -785,7 +785,7 @@ void ClassifierWidget::setDrawAsCircle(bool drawAsCircle)
 
 /**
  * Returns whether to draw as circle.
- * Only applies when m_pObject->getBaseType() is ot_Interface.
+ * Only applies when m_umlObject->getBaseType() is ot_Interface.
  *
  * @return   True if widget is drawn as circle.
  */
@@ -796,7 +796,7 @@ bool ClassifierWidget::getDrawAsCircle() const
 
 /**
  * Toggles whether to draw as circle.
- * Only applies when m_pObject->getBaseType() is ot_Interface.
+ * Only applies when m_umlObject->getBaseType() is ot_Interface.
  */
 void ClassifierWidget::toggleDrawAsCircle()
 {

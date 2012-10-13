@@ -14,20 +14,20 @@
 /**
  * Constructs a BoxWidget.
  *
- * @param scene              The parent to this widget.
- * @param id                The ID to assign (-1 will prompt a new ID.)
+ * @param scene   The parent to this widget.
+ * @param id      The ID to assign (-1 will prompt a new ID.)
  */
 BoxWidget::BoxWidget(UMLScene * scene, Uml::IDType id, WidgetType type)
   : UMLWidget(scene, type, id)
 {
     setSize(100,80);
     m_usesDiagramLineColor = false;  // boxes be black
-    m_LineColor = QColor("black");
+    m_lineColor = QColor("black");
     setZ(m_origZ = 0);
 }
 
 /**
- * destructor
+ * Destructor.
  */
 BoxWidget::~BoxWidget()
 {

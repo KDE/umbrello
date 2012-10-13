@@ -69,9 +69,9 @@ void DatatypeWidget::draw(QPainter& p, int offsetX, int offsetY)
     p.setFont(font);
     p.drawText(offsetX + DATATYPE_MARGIN, offsetY,
                w - DATATYPE_MARGIN* 2,fontHeight,
-               Qt::AlignCenter, m_pObject->stereotype(true));
+               Qt::AlignCenter, m_umlObject->stereotype(true));
 
-    font.setItalic( m_pObject->isAbstract() );
+    font.setItalic( m_umlObject->isAbstract() );
     p.setFont(font);
     p.drawText(offsetX + DATATYPE_MARGIN, offsetY + fontHeight,
                w - DATATYPE_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
@@ -104,7 +104,7 @@ void DatatypeWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
  */
 UMLSceneSize DatatypeWidget::minimumSize()
 {
-    if (!m_pObject)  {
+    if (!m_umlObject)  {
         return UMLWidget::minimumSize();
     }
     int width, height;
@@ -120,8 +120,8 @@ UMLSceneSize DatatypeWidget::minimumSize()
     //now set the width of the concept
     //set width to name to start with
     //set width to name to start with
-    width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_pObject->fullyQualifiedName()).width();
-    int w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->stereotype(true)).width();
+    width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_umlObject->fullyQualifiedName()).width();
+    int w = getFontMetrics(FT_BOLD).boundingRect(m_umlObject->stereotype(true)).width();
 
     width = w > width?w:width;
 

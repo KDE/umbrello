@@ -191,7 +191,7 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY)
         break;
 
     case Initial:
-        p.setPen( QPen(m_LineColor, 1) );
+        p.setPen( QPen(WidgetBase::lineColor(), 1) );
         p.setBrush( WidgetBase::lineColor() );
         p.drawEllipse( offsetX, offsetY, w, h );
         break;
@@ -213,7 +213,7 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY)
         break;
 
     case End:
-        p.setPen( QPen(m_LineColor, 1) );
+        p.setPen( QPen(WidgetBase::lineColor(), 1) );
         p.setBrush( WidgetBase::lineColor() );
         p.drawEllipse( offsetX, offsetY, w, h );
         p.setBrush( Qt::white );
