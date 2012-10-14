@@ -1393,12 +1393,12 @@ void UMLScene::selectionSetLineColor(const QColor &color)
     UMLApp::app()->beginMacro(i18n("Change Line Color"));
     foreach(UMLWidget *temp, selectedWidgets()) {
         temp->setLineColor(color);
-        // [PORT] temp->setUsesDiagramLineColour(false);
+        temp->setUsesDiagramLineColor(false);
     }
     AssociationWidgetList assoclist = selectedAssocs();
     foreach(AssociationWidget *aw, assoclist) {
         aw->setLineColor(color);
-        // [PORT] aw->setUsesDiagramLineColour(false);
+        aw->setUsesDiagramLineColor(false);
     }
     UMLApp::app()->endMacro();
 }
@@ -1410,12 +1410,12 @@ void UMLScene::selectionSetLineWidth(uint width)
 {
     foreach(UMLWidget* temp, selectedWidgets()) {
         temp->setLineWidth(width);
-        // [PORT] temp->setUsesDiagramLineWidth(false);
+        temp->setUsesDiagramLineWidth(false);
     }
     AssociationWidgetList assoclist = selectedAssocs();
     foreach(AssociationWidget *aw , assoclist) {
         aw->setLineWidth(width);
-        // [PORT] aw->setUsesDiagramLineWidth(false);
+        aw->setUsesDiagramLineWidth(false);
     }
 }
 
@@ -1428,7 +1428,7 @@ void UMLScene::selectionSetFillColor(const QColor &color)
 
     foreach(UMLWidget* widget, selectedWidgets()) {
         widget->setBrush(QBrush(color));
-        // [PORT] temp->setUsesDiagramFillColour(false);
+        // [PORT] widget->setUsesDiagramBrush(false);
     }
     UMLApp::app()->endMacro();
 }

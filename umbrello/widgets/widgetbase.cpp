@@ -512,6 +512,11 @@ void WidgetBase::setUsesDiagramFont(bool state)
     }
 }
 
+/**
+ * Returns state if diagram text color is used
+ *
+ * @return True means diagram text color is used
+ */
 bool WidgetBase::usesDiagramTextColor() const
 {
     return m_usesDiagramTextColor;

@@ -32,7 +32,7 @@
 #include <QPainter>
 #include <QPen>
 
-// forward delcarations
+// forward declarations
 class IDChangeLog;
 class ListPopupMenu;
 class UMLDoc;
