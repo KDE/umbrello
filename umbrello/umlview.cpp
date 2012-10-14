@@ -108,6 +108,16 @@ void UMLView::zoomOut()
 }
 
 /**
+ * Overrides standard method from QWidget to resize canvas when
+ * it's shown.
+ */
+void UMLView::show()
+{
+    QWidget::show();
+    umlScene()->resizeCanvasToItems();
+}
+
+/**
  * Override standard method - Q3CanvasView specific.
  * Superceded by UMLScene::dragEnterEvent() - to be removed when transition
  * to QGraphicsView is complete

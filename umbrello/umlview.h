@@ -45,6 +45,7 @@ public:
 public slots:
     void zoomIn();
     void zoomOut();
+    void show();
 
 protected:
     void dragEnterEvent(QDragEnterEvent* mouseEvent);

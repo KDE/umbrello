@@ -35,7 +35,7 @@ namespace Widget_Utils
     UMLSceneRectItem* decoratePoint(const UMLScenePoint& p);
 
     void drawCrossInEllipse(QPainter *p, const QRectF& ellipse);
-    void drawTriangledRect(QPainter *painter, const QRectF& rect, const QSizeF& triSize);
+    void drawTriangledRect(QPainter *painter, const UMLSceneRect& rect, const UMLSceneSize& triSize);
     void drawArrowHead(QPainter *painter, const QPointF& arrowPos,
                        const QSizeF& arrowSize, Qt::ArrowType arrowType,
                        bool solid = false);

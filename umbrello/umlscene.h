@@ -564,8 +564,6 @@ private:
     bool isWidgetOrAssociation(const UMLScenePoint& atPos);
 
 public slots:
-    void show();
-
     void slotToolBarChanged(int c);
     void slotObjectCreated(UMLObject * o);
     void slotObjectRemoved(UMLObject * o);

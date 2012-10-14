@@ -127,7 +127,7 @@ namespace Widget_Utils
      * @param triSize The size of the triange in the top-right corner.
      */
     void drawTriangledRect(QPainter *painter,
-                           const QRectF& rect, const QSizeF& triSize)
+                           const UMLSceneRect& rect, const UMLSceneSize& triSize)
     {
         // Draw outer boundary defined by polygon "poly".
         QPolygonF poly(5);
@@ -139,9 +139,9 @@ namespace Widget_Utils
         painter->drawPolygon(poly);
 
         // Now draw the triangle base and height edges.
-        QLineF heightEdge(poly[1], poly[1] + QPointF(0, triSize.height()));
+        UMLSceneLine heightEdge(poly[1], poly[1] + QPointF(0, triSize.height()));
         painter->drawLine(heightEdge);
-        QLineF baseEdge(heightEdge.p2(), poly[2]);
+        UMLSceneLine baseEdge(heightEdge.p2(), poly[2]);
         painter->drawLine(baseEdge);
     }
 

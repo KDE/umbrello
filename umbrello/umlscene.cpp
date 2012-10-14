@@ -3905,16 +3905,6 @@ void UMLScene::resizeCanvasToItems()
 }
 
 /**
- * Overrides standard method from QWidget to resize canvas when
- * it's shown.
- */
-void UMLScene::show()
-{
-    activeView()->show();
-    resizeCanvasToItems();
-}
-
-/**
  * Updates the size of all components in this view.
  */
 void UMLScene::updateComponentSizes()
@@ -4404,6 +4394,7 @@ void UMLScene::alignLeft()
         widget->setX(smallestX);
         widget->adjustAssocs(widget->x(), widget->y());
     }
+    //TODO: Push stored cmds to stack.
 }
 
 /**
@@ -4420,6 +4411,7 @@ void UMLScene::alignRight()
         widget->setX(biggestX - widget->width());
         widget->adjustAssocs(widget->x(), widget->y());
     }
+    //TODO: Push stored cmds to stack.
 }
 
 /**
@@ -4437,6 +4429,7 @@ void UMLScene::alignTop()
         widget->setY(smallestY);
         widget->adjustAssocs(widget->x(), widget->y());
     }
+    //TODO: Push stored cmds to stack.
 }
 
 /**
@@ -4453,6 +4446,7 @@ void UMLScene::alignBottom()
         widget->setY(biggestY - widget->height());
         widget->adjustAssocs(widget->x(), widget->y());
     }
+    //TODO: Push stored cmds to stack.
 }
 
 /**
@@ -4472,6 +4466,7 @@ void UMLScene::alignVerticalMiddle()
         widget->setX(middle - int(widget->width() / 2));
         widget->adjustAssocs(widget->x(), widget->y());
     }
+    //TODO: Push stored cmds to stack.
 }
 
 /**
@@ -4491,6 +4486,7 @@ void UMLScene::alignHorizontalMiddle()
         widget->setY(middle - int(widget->height() / 2));
         widget->adjustAssocs(widget->x(), widget->y());
     }
+    //TODO: Push stored cmds to stack.
 }
 
 /**
@@ -4521,6 +4517,7 @@ void UMLScene::alignVerticalDistribute()
         }
         i++;
     }
+    //TODO: Push stored cmds to stack.
 }
 
 /**
@@ -4551,7 +4548,7 @@ void UMLScene::alignHorizontalDistribute()
         }
         i++;
     }
-
+    //TODO: Push stored cmds to stack.
 }
 
 /**
