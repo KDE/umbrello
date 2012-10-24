@@ -1,3 +1,14 @@
+Version 2.10.0
+
+* New feature: Line based grid drawing
+* migrate remaining qt3 classes to qt4 (290952)
+* clicking undo twice in a row crashes Umbrello (119868)
+* Umbrello crashes after undo action (266789)
+* Segfault when loading a saved document (180145)
+* unsorted operation list in add message widget property dialog of sequence diagrams (303263)
+* Assertion on c++ import (303222)
+* umbrello fails to parse escape sequences in c++ preprocessor statements (303137)
+
 Version 2.9.0
 
 * New feature: Drawing of state diagrams with more pseudostates possible.
