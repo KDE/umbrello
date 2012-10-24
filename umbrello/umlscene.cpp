@@ -459,170 +459,36 @@ void UMLScene::setIsOpen(bool isOpen)
  */
 void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
 {
-    int height, width;
-    //get the size of the page
-    pPrinter->setFullPage(true);
-
-    QFontMetrics fm = pPainter.fontMetrics(); // use the painter font metrics, not the screen fm!
-    int fontHeight  = fm.lineSpacing();
-    // fetch printer margins individual for all four page sides, as at least top and bottom are not the same
-    int left, right, top, bottom;
-    QRect paper = pPrinter->paperRect();
-    QRect page  = pPrinter->pageRect();
-    top = page.top() - paper.top();
-    left = page.left() - paper.left();
-    bottom = paper.bottom() - page.bottom();
-    right = paper.right() - page.right();
-    DEBUG(DBG_SRC) << "margin: top=" << QString().setNum(top) << " left=" << QString().setNum(left)
-                   << " bottom=" << QString().setNum(bottom) << " right=" << QString().setNum(right);
-    // give a little extra space at each side
-    left += 2;
-    right += 2;
-    top += 2;
-    bottom += 2;
-
-    if (pPrinter->orientation() == QPrinter::Landscape) {
-        // we are printing in LANDSCAPE --> swap marginX and marginY
-        uint right_old = right;
-        // the DiagramRight side is printed at PrintersTop
-        right = top;
-        // the DiagramTop side is printed at PrintersLeft
-        top = left;
-        // the DiagramLeft side is printed at PrintersBottom
-        left = bottom;
-        // the DiagramBottom side is printed at PrintersRight
-        bottom = right_old;
-    }
+    bool isFooter = optionState().generalState.footerPrinting;
 
     // The printer will probably use a different font with different font metrics,
     // force the widgets to update accordingly on paint
     forceUpdateWidgetFontMetrics(&pPainter);
 
-    width = pPrinter->width() - left - right;
-    height = pPrinter->height() - top - bottom;
+    UMLSceneRect source = diagramRect();
+    QRect page = pPrinter->pageRect();
 
-    //get the smallest rect holding the diagram
-    QRect rect = diagramRect().toRect();
-    //now draw to printer
-
-#if 0
-    int offsetX = 0, offsetY = 0, widthX = 0, heightY = 0;
-    // respect the margin
-    pPainter.translate(marginX, marginY);
-
-    // clip away everything outside of the margin
-    pPainter.setClipRect(marginX, marginY,
-                         width, pPrinter->height() - marginY * 2);
-
-    //loop until all of the picture is printed
-    int numPagesX = (int)ceil((double)rect.width() / (double)width);
-    int numPagesY = (int)ceil((double)rect.height() / (double)height);
-    int page = 0;
-
-    // print the canvas to multiple pages
-    for (int pageY = 0; pageY < numPagesY; ++pageY) {
-        // tile vertically
-        offsetY = pageY * height + rect.y();
-        heightY = (pageY + 1) * height > rect.height()
-                  ? rect.height() - pageY * height
-                  : height;
-        for (int pageX = 0; pageX < numPagesX; ++pageX) {
-            // tile horizontally
-            offsetX = pageX * width + rect.x();
-            widthX = (pageX + 1) * width > rect.width()
-                     ? rect.width() - pageX * width
-                     : width;
-
-            // make sure the part of the diagram is painted at the correct
-            // place in the printout
-            pPainter.translate(-offsetX, -offsetY);
-            getDiagram(QRect(offsetX, offsetY, widthX, heightY),
-                       pPainter);
-            // undo the translation so the coordinates for the painter
-            // correspond to the page again
-            pPainter.translate(offsetX, offsetY);
-
-            //draw foot note
-            QString string = i18n("Diagram: %2 Page %1", page + 1, name());
-            QColor textColor(50, 50, 50);
-            pPainter.setPen(textColor);
-            pPainter.drawLine(0, height + 2, width, height + 2);
-            pPainter.drawText(0, height + 4, width, fontHeight, Qt::AlignLeft, string);
-
-            if (pageX + 1 < numPagesX || pageY + 1 < numPagesY) {
-                pPrinter->newPage();
-                page++;
-            }
-        }
-    }
-#else
-    // be gentle - as described in Qt-Doc "The Coordinate System"
-    pPainter.save();
-
-    int diagramHeight = rect.height();
-    // + 4+fontHeight between diagram and footline as space-buffer
-    // + 2            between line and foot-text
-    // + 1            for foot-line
-    // + fontHeight   for foot-text
-    // ==============
-    // (2*fontHeight) + 7
-    int footHeight;
-    int footTop;
-    int drawHeight;
-    bool isFooter = optionState().generalState.footerPrinting;
-    if (isFooter) {
-        footHeight = (2 * fontHeight) + 7;
-        footTop    = rect.y() + diagramHeight  + 4 + fontHeight;
-        drawHeight = diagramHeight  + footHeight;
-    } else {
-        footHeight = 0;
-        footTop    = rect.y() + diagramHeight;
-        drawHeight = diagramHeight;
-    }
-
-    // set window of painter to dimensions of diagram
-    // set window to viewport relation so that x:y isn't changed
-    double dScaleX = (double)rect.width() / (double)width;
-    double dScaleY = (double)drawHeight / (double)height;
-    // select the scaling factor so that the larger dimension
-    // fits on the printer page -> use the larger scaling factor
-    // -> the virtual diagram window has some additional space at the
-    // shorter dimension
-    double dScaleUse = (dScaleX > dScaleY) ? dScaleX : dScaleY;
-
-    int windowWidth  = (int)ceil(dScaleUse * width);
-    int windowHeight = (int)ceil(dScaleUse * height);
-#ifdef DEBUG_PRINTING
-    DEBUG(DBG_SRC) << "drawHeight: " << drawHeight << ", width: " << rect.width()
-                   << "\nPageHeight: " << height << ", PageWidht: " << width
-                   << "\nScaleY: " << dScaleY << ", ScaleX: " << dScaleX
-                   << "\ndScaleUse: " << dScaleUse
-                   << "\nVirtualSize: Width: " << windowWidth << ", Height: " << windowHeight
-                   << "\nFoot Top: " << footTop;
-#endif
-    // set virtual drawing area window - where diagram fits 100% in
-    pPainter.setWindow(rect.x(), rect.y(), windowWidth, windowHeight);
-
-    // set viewport - the physical mapping
-    // --> Qt's QPainter will map all drawed elements from diagram area ( window )
-    //     to printer area ( viewport )
-    pPainter.setViewport(left, top, width, height);
-
-    // get Diagram
-    getDiagram(UMLSceneRect (rect.x(), rect.y(), windowWidth, diagramHeight), pPainter);
+    // use the painter font metrics, not the screen fm!
+    QFontMetrics fm = pPainter.fontMetrics(); 
+    int fontHeight  = fm.lineSpacing();
 
     if (isFooter) {
-        //draw foot note
+        int margin = 3 + 3 * fontHeight;
+        page.adjust(0,0,0,-margin);
+    }
+
+    getDiagram(pPainter, UMLSceneRect(source), UMLSceneRect(page));
+
+    //draw foot note
+    if (isFooter) {
+        page.adjust(0,0,0,fontHeight);
         QString string = i18n("Diagram: %2 Page %1", 1, name());
         QColor textColor(50, 50, 50);
         pPainter.setPen(textColor);
-        pPainter.drawLine(rect.x(), footTop    , windowWidth, footTop);
-        pPainter.drawText(rect.x(), footTop + 3, windowWidth, fontHeight, Qt::AlignLeft, string);
+        pPainter.drawLine(page.left(), page.bottom()    , page.right(), page.bottom());
+        pPainter.drawText(page.left(), page.bottom() + 3, page.right(), 2*fontHeight, Qt::AlignLeft, string);
     }
-    // now restore scaling
-    pPainter.restore();
 
-#endif
     // next painting will most probably be to a different device (i.e. the screen)
     forceUpdateWidgetFontMetrics(0);
 }
@@ -1817,10 +1683,10 @@ void UMLScene::selectWidgets(UMLWidgetList &widgets)
 
 /**
  * Returns the PNG picture of the paste operation.
- * @param rect the area of the diagram to copy
  * @param diagram the class to store PNG picture of the paste operation.
+ * @param rect the area of the diagram to copy
  */
-void  UMLScene::getDiagram(const UMLSceneRect &rect, QPixmap &diagram)
+void  UMLScene::getDiagram(QPixmap &diagram, const UMLSceneRect &rect)
 {
     DEBUG(DBG_SRC) << "rect=" << rect << ", pixmap=" << diagram.rect();
     const int width  = rect.x() + rect.width();
@@ -1828,17 +1694,19 @@ void  UMLScene::getDiagram(const UMLSceneRect &rect, QPixmap &diagram)
     QPixmap pixmap(width, height);
     QPainter painter(&pixmap);
     painter.fillRect(0, 0, width, height, Qt::white);
-    getDiagram(sceneRect(), painter);
+    getDiagram(painter, sceneRect());
     QPainter output(&diagram);
     output.drawPixmap(QPoint(0, 0), pixmap, rect);
 }
 
 /**
  * Paint diagram to the paint device
+ * @param source the area of the diagram to copy
+ * @param target the rect where to paint into
  */
-void  UMLScene::getDiagram(const UMLSceneRect &area, QPainter &painter)
+void  UMLScene::getDiagram(QPainter &painter, const UMLSceneRect &source, const UMLSceneRect &target)
 {
-    DEBUG(DBG_SRC) << "area=" << area << ", painter=" << painter.window();
+    DEBUG(DBG_SRC) << "painter=" << painter.window() << ", source=" << source << ", target=" << target;
     //TODO unselecting and selecting later doesn't work now as the selection is
     //cleared in UMLSceneImageExporter. Check if the anything else than the
     //following is needed and, if it works, remove the clearSelected in
@@ -1860,7 +1728,7 @@ void  UMLScene::getDiagram(const UMLSceneRect &area, QPainter &painter)
 
     uDebug() << "TODO: Check if this render method is identical to cavnas()->drawArea()";
     // [PORT]
-    render(&painter, UMLSceneRect(), area, Qt::KeepAspectRatio);
+    render(&painter, target, source, Qt::KeepAspectRatio);
 
     setSnapGridVisible(showSnapGrid);
 
@@ -3067,7 +2935,7 @@ void UMLScene::copyAsImage(QPixmap*& pix)
     //only draw what is selected
     m_bDrawSelectedOnly = true;
     selectAssociations(true);
-    getDiagram(rect, diagram);
+    getDiagram(diagram, rect);
 
     //now get the selection cut
     UMLSceneValue px = -1, py = -1, qx = -1, qy = -1;

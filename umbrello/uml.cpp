@@ -146,7 +146,7 @@ UMLApp::UMLApp(QWidget* parent)
 {
     s_instance = this;
     m_doc->init();
-    m_printer->setFullPage(true);
+    m_printer->setFullPage(false);
 
     readOptionState();
     initActions();
