@@ -151,7 +151,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
 
 //    // settings for background
 //    setBackgroundBrush(QColor(195, 195, 195));
-    m_layoutGrid = new LayoutGrid(0, this);
+    m_layoutGrid = new LayoutGrid(this);
 
     DEBUG_REGISTER(DBG_SRC);
 }
@@ -378,8 +378,6 @@ const QColor& UMLScene::gridDotColor() const
 void UMLScene::setGridDotColor(const QColor& color)
 {
     m_layoutGrid->setGridDotColor(color);
-    m_layoutGrid->setGridCrossColor(color);
-    m_layoutGrid->setTextColor(color);
 }
 
 /**

@@ -1,5 +1,6 @@
 /***************************************************************************
  * Copyright (C) 2011 by Andi Fischer <andi.fischer@hispeed.ch>            *
+ * Copyright (C) 2012 by Ralf Habacker <ralf.habacker@freenet.de>          *
  *                                                                         *
  * This is free software; you can redistribute it and/or modify            *
  * it under the terms of the GNU General Public License as published by    *
@@ -22,33 +23,23 @@
 
 #include <QColor>
 #include <QFont>
-#include <QGraphicsItem>
 
-class QGraphicsScene;
-class QStyleOptionGraphicsItem;
 class UMLScene;
+class QRectF;
 
 /**
  * @author Andi Fischer
  * This class handles the layout grid, which is drawn in the background
  * of the scene. It is used only in UMLScene.
  */
-class LayoutGrid : public QGraphicsItem
+class LayoutGrid
 {
 public:
-    LayoutGrid(QGraphicsItem *parent = 0, UMLScene *scene = 0);
+    LayoutGrid(UMLScene *scene);
     ~LayoutGrid();
 
-    QRectF boundingRect() const;
-
     void paint(QPainter *painter, const QRectF &rect);
-    void paintLineGrid(QPainter *painter, const QRectF &rect);
-    void paintEllipses(QPainter *painter, const QRectF &rect);
-    void paintPoints(QPainter *painter, const QRectF &rect);
-    void paintPointsLevelOfDetail(QPainter *painter, const QRectF &rect);
-
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget);
-
+    
     QRect gridRect() const;
     void setGridRect(const QRect& rect);
 
@@ -74,21 +65,12 @@ public:
     bool isTextVisible() const;
     void setTextVisible(bool visible);
 
-protected:
-     void mousePressEvent(QGraphicsSceneMouseEvent *event);
-     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-
 private:
+    UMLScene           *m_scene;
     int                 m_gridSpacingX;
     int                 m_gridSpacingY;
-    QRect               m_gridRect;
-    QFont               m_textFont;
     QColor              m_gridDotColor;
-    QColor              m_gridCrossColor;
-    QColor              m_textColor;
     bool                m_isVisible;
-    bool                m_isTextVisible;
-    QGraphicsTextItem*  m_coordLabel;
 };
 
 #endif  // LAYOUTGRID_H
