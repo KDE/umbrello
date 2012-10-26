@@ -1,6 +1,7 @@
 Version 2.10.0
 
 * New feature: Line based grid drawing
+* no classes displayed after xmi file loading (309007)
 * wrong origin of classes in print page preview (308959)
 * migrate remaining qt3 classes to qt4 (290952)
 * clicking undo twice in a row crashes Umbrello (119868)

@@ -2235,8 +2235,7 @@ void UMLScene::activateAfterLoad(bool bUseLog)
     if (bUseLog) {
         endPartialWidgetPaste();
     }
-    resizeCanvasToItems();
-    m_view->setZoom(activeView()->zoom());
+    m_view->centerOn(0, 0);
     m_isActivated = true;
 }
 
