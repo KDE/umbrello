@@ -1,6 +1,7 @@
 Version 2.10.0
 
 * New feature: Line based grid drawing
+* some state diagram widgets could not be added (309064)
 * no classes displayed after xmi file loading (309007)
 * wrong origin of classes in print page preview (308959)
 * migrate remaining qt3 classes to qt4 (290952)

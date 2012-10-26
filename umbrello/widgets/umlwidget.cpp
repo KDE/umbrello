@@ -306,7 +306,7 @@ void UMLWidget::constrain(UMLSceneValue& width, UMLSceneValue& height)
 
     if (fixedAspectRatio()) {
         UMLSceneSize size = UMLSceneRectItem::size();
-        float aspectRatio = (float)size.height()/size.width();
+        float aspectRatio = size.width() > 0 ? (float)size.height()/size.width() : 1;
         height = width * aspectRatio;
     }
 }
