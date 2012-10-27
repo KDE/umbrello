@@ -21,7 +21,7 @@
 #include "listpopupmenu.h"
 
 // qt includes
-#include <QtGui/QPainter>
+#include <QPainter>
 
 /**
  * Creates a floating dash line.

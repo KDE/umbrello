@@ -26,7 +26,7 @@
 #include <klocale.h>
 
 // qt includes
-#include <QtCore/QRegExp>
+#include <QRegExp>
 
 using namespace Uml;
 

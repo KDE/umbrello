@@ -14,7 +14,7 @@
 
 #include "codeaccessormethod.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 class CodeClassField;
 

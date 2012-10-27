@@ -27,8 +27,8 @@
 #include <klocale.h>
 
 // qt includes
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QWizardPage>
+#include <QVBoxLayout>
+#include <QWizardPage>
 
 /**
  * Constructor. Sets up the wizard and loads the wizard pages.

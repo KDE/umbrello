@@ -21,8 +21,8 @@
 #include <kcombobox.h>
 
 // qt includes
-#include <QtGui/QCheckBox>
-#include <QtGui/QLabel>
+#include <QCheckBox>
+#include <QLabel>
 
 CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage( QWidget *parent, const char *name, CPPCodeGenerationPolicy * policy )
   : CodeGenerationPolicyPage(parent, name, policy)

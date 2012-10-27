@@ -20,8 +20,8 @@
 #include "uml.h"
 
 // qt includes
-#include <QtCore/QRegExp>
-#include <QtCore/QDateTime>
+#include <QDateTime>
+#include <QRegExp>
 
 /**
  * Constructor.

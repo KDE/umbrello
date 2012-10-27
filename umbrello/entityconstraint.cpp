@@ -17,7 +17,7 @@
 #include "uml.h"
 
 // qt includes
-#include <QtCore/QRegExp>
+#include <QRegExp>
 
 /**
  * Sets up a constraint.

@@ -11,7 +11,7 @@
 #ifndef CMD_MOVEWIDGET_H
 #define CMD_MOVEWIDGET_H
 
-#include <QtGui/QUndoCommand>
+#include <QUndoCommand>
 
 class UMLWidgetController;
 

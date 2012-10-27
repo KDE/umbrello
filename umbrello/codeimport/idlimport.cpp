@@ -27,9 +27,9 @@
 #include <KStandardDirs>
 
 // qt includes
-#include <QtCore/QProcess>
-#include <QtCore/QStringList>
-#include <QtCore/QRegExp>
+#include <QProcess>
+#include <QRegExp>
+#include <QStringList>
 
 #include <stdio.h>
 

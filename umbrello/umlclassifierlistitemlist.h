@@ -4,14 +4,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef UMLCLASSIFIERLISTITEMLIST_H
 #define UMLCLASSIFIERLISTITEMLIST_H
 
-#include <QtCore/QList>
+#include <QList>
 
 // forward declaration
 class UMLClassifierListItem;

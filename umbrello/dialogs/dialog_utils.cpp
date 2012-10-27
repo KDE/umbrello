@@ -22,9 +22,9 @@
 #include <klineedit.h>
 
 // qt includes
-#include <QtGui/QGridLayout>
-#include <QtGui/QLabel>
-#include <QtGui/QLineEdit>
+#include <QGridLayout>
+#include <QLabel>
+#include <QLineEdit>
 
 namespace Dialog_Utils {
 

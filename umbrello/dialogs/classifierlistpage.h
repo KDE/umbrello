@@ -16,7 +16,7 @@
 #include "umlobject.h"
 
 //qt  includes
-#include <QtGui/QWidget>
+#include <QWidget>
 
 class CodeTextEdit;
 class ListPopupMenu;

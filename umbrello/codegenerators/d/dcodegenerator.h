@@ -19,7 +19,7 @@
 #include "dcodegenerationpolicy.h"
 #include "umldoc.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 class CodeViewerDialog;
 

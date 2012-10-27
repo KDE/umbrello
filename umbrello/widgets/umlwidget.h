@@ -11,14 +11,14 @@
 #ifndef UMLWIDGET_H
 #define UMLWIDGET_H
 
-#include <QtCore/QDateTime>
-#include <QtGui/QFont>
-
 #include "basictypes.h"
 #include "widgetbase.h"
 #include "associationwidgetlist.h"
 #include "optionstate.h"
 #include "umlscene.h"
+
+#include <QDateTime>
+#include <QFont>
 
 class UMLWidgetController;
 

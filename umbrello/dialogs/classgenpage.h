@@ -11,7 +11,7 @@
 #ifndef CLASSGENPAGE_H
 #define CLASSGENPAGE_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 
 class QGroupBox;
 class QLabel;

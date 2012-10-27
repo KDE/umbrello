@@ -35,18 +35,18 @@
 #include <kdialogbuttonbox.h>
 
 //qt includes
-#include <QtCore/QPointer>
-#include <QtGui/QLayout>
-#include <QtGui/QGroupBox>
-#include <QtGui/QListWidget>
-#include <QtGui/QPushButton>
-#include <QtGui/QRadioButton>
-#include <QtGui/QLabel>
-#include <QtGui/QCheckBox>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QGridLayout>
-#include <QtGui/QToolButton>
+#include <QCheckBox>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QLayout>
+#include <QListWidget>
+#include <QPointer>
+#include <QPushButton>
+#include <QRadioButton>
+#include <QToolButton>
+#include <QVBoxLayout>
 
 /**
  * Constructor.

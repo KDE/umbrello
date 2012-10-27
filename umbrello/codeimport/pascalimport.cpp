@@ -23,7 +23,7 @@
 #include "umldoc.h"
 
 // qt includes
-#include <QtCore/QRegExp>
+#include <QRegExp>
 
 #include <stdio.h>
 

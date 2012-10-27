@@ -17,7 +17,7 @@
 #include "umlview.h"
 #include "listpopupmenu.h"
 
-// system includes
+// qt includes
 #include <QPainter>
 
 /**

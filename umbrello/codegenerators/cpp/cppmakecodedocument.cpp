@@ -11,7 +11,7 @@
 
 #include "cppcodegenerator.h"
 
-#include <QtCore/QRegExp>
+#include <QRegExp>
 
 const char * CPPMakefileCodeDocument::DOCUMENT_ID_VALUE = "Makefile_DOC";
 

@@ -14,8 +14,8 @@
 #include "basictypes.h"
 #include "umlobject.h"
 
-#include <QtXml/QDomElement>
-#include <QtXml/QDomDocument>
+#include <QDomDocument>
+#include <QDomElement>
 
 class UMLRole;
 

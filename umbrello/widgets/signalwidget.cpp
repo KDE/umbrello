@@ -29,16 +29,15 @@
 #include <kinputdialog.h>
 
 // qt includes
-#include <QtCore/QEvent>
-#include <QtGui/QPolygon>
-
+#include <QEvent>
+#include <QPolygon>
 
 /**
  * Creates a Signal widget.
  *
- * @param scene              The parent of the widget.
- * @param signalType        The type of Signal.
- * @param id                The ID to assign (-1 will prompt a new ID.)
+ * @param scene        The parent of the widget.
+ * @param signalType   The type of Signal.
+ * @param id           The ID to assign (-1 will prompt a new ID.)
  */
 SignalWidget::SignalWidget(UMLScene *scene, SignalType signalType, Uml::IDType id)
   : UMLWidget(scene, WidgetBase::wt_Signal, id)

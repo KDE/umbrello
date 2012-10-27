@@ -13,8 +13,8 @@
 
 #include "umlscene.h"
 
-#include <QtCore/QStringList>
-#include <QtCore/QRect>
+#include <QStringList>
+#include <QRect>
 
 // forward declarations
 class KUrl;

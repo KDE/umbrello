@@ -11,11 +11,11 @@
 #ifndef ADAIMPORT_H
 #define ADAIMPORT_H
 
-#include <QtCore/QMap>
-#include <QtCore/QStringList>
-
 #include "nativeimportbase.h"
 #include "umlobjectlist.h"
+
+#include <QMap>
+#include <QStringList>
 
 /**
  * Ada code import

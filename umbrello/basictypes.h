@@ -20,7 +20,7 @@
 #ifndef BASICTYPES_H
 #define BASICTYPES_H
 
-#include <QtCore/QString>
+#include <QString>
 #include <string>
 
 /**

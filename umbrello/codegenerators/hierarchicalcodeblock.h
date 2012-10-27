@@ -16,8 +16,8 @@
 #include "codeblockwithcomments.h"
 #include "codeclassfieldlist.h"
 
-#include <QtCore/QMap>
-#include <QtCore/QString>
+#include <QMap>
+#include <QString>
 
 class HierarchicalCodeBlock : public CodeBlockWithComments, public CodeGenObjectWithTextBlocks
 {

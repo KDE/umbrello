@@ -14,8 +14,8 @@
 
 #include "basictypes.h"
 
-#include <QtCore/QObject>
-#include <QtCore/QDir>
+#include <QDir>
+#include <QObject>
 
 class QWidget;
 class CodeGenerationPolicyPage;

@@ -11,7 +11,7 @@
 #ifndef CODEGEN_UTILS_H
 #define CODEGEN_UTILS_H
 
-#include <QtCore/QStringList>
+#include <QStringList>
 
 namespace Codegen_Utils {
 

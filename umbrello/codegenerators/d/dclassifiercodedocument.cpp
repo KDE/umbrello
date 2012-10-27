@@ -33,7 +33,7 @@
 #include "uml.h"
 
 // qt includes
-#include <QtCore/QRegExp>
+#include <QRegExp>
 
 DClassifierCodeDocument::DClassifierCodeDocument ( UMLClassifier * concept )
         : ClassifierCodeDocument (concept)

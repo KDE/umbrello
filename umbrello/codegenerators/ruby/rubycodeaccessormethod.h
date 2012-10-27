@@ -16,7 +16,7 @@
 #include "codeaccessormethod.h"
 #include "rubycodeclassfield.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 class RubyCodeAccessorMethod : public CodeAccessorMethod
 {

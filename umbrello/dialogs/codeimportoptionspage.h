@@ -20,7 +20,7 @@
 #ifndef CODEIMPORTOPTIONSPAGE_H
 #define CODEIMPORTOPTIONSPAGE_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 #include "ui_codeimportoptionspage.h"
 
 /**

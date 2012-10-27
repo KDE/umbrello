@@ -13,7 +13,7 @@
 
 #include "basictypes.h"
 
-#include <QtGui/QUndoCommand>
+#include <QUndoCommand>
 
 class UMLDoc;
 class UMLView;

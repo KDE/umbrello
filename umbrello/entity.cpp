@@ -33,7 +33,7 @@
 #include <kmessagebox.h>
 
 // qt includes
-#include <QtCore/QPointer>
+#include <QPointer>
 
 /**
  * Constructor.

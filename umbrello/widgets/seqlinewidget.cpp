@@ -11,13 +11,13 @@
 // own header
 #include "seqlinewidget.h"
 
-//qt includes
-#include <QtGui/QPainter>
-
 //app includes
 #include "umlview.h"
 #include "objectwidget.h"
 #include "messagewidget.h"
+
+//qt includes
+#include <QPainter>
 
 // class members
 int const SeqLineWidget::m_nMouseDownEpsilonX = 20;

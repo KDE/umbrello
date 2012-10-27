@@ -15,7 +15,7 @@
 #include "codeviewerstate.h"
 #include "codegenerationpolicy.h"
 
-#include <QtXml/QDomElement>
+#include <QDomElement>
 
 namespace Settings {
 

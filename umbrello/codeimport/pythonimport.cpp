@@ -25,7 +25,7 @@
 #include "umlpackagelist.h"
 
 // qt includes
-#include <QtCore/QRegExp>
+#include <QRegExp>
 
 /**
  * Constructor.

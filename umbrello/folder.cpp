@@ -26,7 +26,7 @@
 #include <kmessagebox.h>
 
 // qt includes
-#include <QtCore/QFile>
+#include <QFile>
 
 /**
  * Sets up a Folder.

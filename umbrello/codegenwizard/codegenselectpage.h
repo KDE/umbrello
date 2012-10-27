@@ -10,12 +10,12 @@
 #ifndef CODEGENSELECTPAGE_H
 #define CODEGENSELECTPAGE_H
 
-// qt includes
-#include <QtGui/QWizardPage>
-
 // app includes
 #include "ui_codegenselectpage.h"
 #include "umlclassifierlist.h"
+
+// qt includes
+#include <QWizardPage>
 
 /**
  * @author Luis De la Parra

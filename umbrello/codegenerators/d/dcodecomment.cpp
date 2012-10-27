@@ -13,7 +13,7 @@
 #include "dcodecomment.h"
 
 // qt/kde includes
-#include <QtCore/QRegExp>
+#include <QRegExp>
 
 DCodeComment::DCodeComment ( CodeDocument * doc, const QString & text )
         : CodeComment (doc, text)

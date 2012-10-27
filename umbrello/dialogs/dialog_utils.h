@@ -11,7 +11,7 @@
 #ifndef DIALOG_UTILS_H
 #define DIALOG_UTILS_H
 
-#include <QtCore/QString>
+#include <QString>
 
 class QGroupBox;
 class QGridLayout;

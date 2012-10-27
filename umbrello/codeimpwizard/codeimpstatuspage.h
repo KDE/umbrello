@@ -28,10 +28,10 @@
 #include <kled.h>
 
 // qt includes
-#include <QtGui/QWizardPage>
-#include <QtGui/QSpacerItem>
-#include <QtGui/QHBoxLayout>
-#include <QtCore/QFileInfo>
+#include <QFileInfo>
+#include <QHBoxLayout>
+#include <QSpacerItem>
+#include <QWizardPage>
 
 class QThread;
 /**

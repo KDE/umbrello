@@ -20,15 +20,15 @@
 #include <KDialog>
 #include <KIntSpinBox>
 #include <KLineEdit>
+#include <KLocale>
 
 // qt includes
-#include <KLocale>
-#include <QtGui/QGroupBox>
-#include <QtGui/QCheckBox>
-#include <QtGui/QPushButton>
-#include <QtGui/QLabel>
-#include <QtGui/QRadioButton>
-#include <QtGui/QGridLayout>
+#include <QCheckBox>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QLabel>
+#include <QPushButton>
+#include <QRadioButton>
 
 /**
  * Constructor.general

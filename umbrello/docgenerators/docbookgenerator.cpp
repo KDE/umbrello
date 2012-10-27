@@ -24,10 +24,10 @@
 #include <kio/netaccess.h>
 #include <kio/job.h>
 
-#include <QtGui/QApplication>
-#include <QtCore/QFile>
-#include <QtCore/QRegExp>
-#include <QtCore/QTextStream>
+#include <QApplication>
+#include <QFile>
+#include <QRegExp>
+#include <QTextStream>
 
 /**
  * Constructor.

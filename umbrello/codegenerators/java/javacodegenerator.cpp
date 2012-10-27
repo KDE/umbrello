@@ -24,7 +24,7 @@
 #include <kmessagebox.h>
 
 // qt includes
-#include <QtCore/QRegExp>
+#include <QRegExp>
 
 static const char *reserved_words[] = {
     "abstract",

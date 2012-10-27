@@ -40,8 +40,8 @@
 #include <klocale.h>
 
 // qt includes
-#include <QtGui/QPixmap>
-#include <QtCore/QMimeData>
+#include <QMimeData>
+#include <QPixmap>
 
 /**
  * Constructor.

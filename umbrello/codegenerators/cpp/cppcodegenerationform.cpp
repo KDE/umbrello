@@ -18,9 +18,9 @@
 #include <kmessagebox.h>
 
 // qt includes
-#include <QtCore/QRegExp>
-#include <QtGui/QLabel>
-#include <QtGui/QListWidget>
+#include <QLabel>
+#include <QListWidget>
+#include <QRegExp>
 
 /**
  * Constructor.

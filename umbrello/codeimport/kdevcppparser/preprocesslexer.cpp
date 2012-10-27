@@ -25,12 +25,12 @@
 
 #include <klocale.h>
 
-#include <QtCore/QRegExp>
-#include <QtCore/QMap>
-#include <QtCore/QList>
-#include <QtCore/QFile>
-#include <QtCore/QDir>
-#include <QtCore/QCoreApplication>
+#include <QCoreApplication>
+#include <QDir>
+#include <QFile>
+#include <QList>
+#include <QMap>
+#include <QRegExp>
 
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
@@ -67,7 +67,7 @@ using phoenix::var;
 SkipRule PreprocessLexer::m_SkipRule = nothing_p;
 
 #if defined( KDEVELOP_BGPARSER )
-#include <QtCore/QThread>
+#include <QThread>
 
 class KDevTread: public QThread
 {

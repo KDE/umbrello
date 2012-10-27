@@ -23,7 +23,7 @@
 #include "ast.h"
 #include "lexer.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 struct ParserPrivateData;
 

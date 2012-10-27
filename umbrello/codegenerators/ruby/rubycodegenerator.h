@@ -19,7 +19,7 @@
 #include "rubycodegenerationpolicy.h"
 #include "umldoc.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 class CodeBlockWithComments;
 class CodeViewerDialog;

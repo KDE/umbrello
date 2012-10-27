@@ -27,9 +27,9 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 
-#include <QtCore/QFile>
-#include <QtCore/QRegExp>
-#include <QtCore/QTextStream>
+#include <QFile>
+#include <QRegExp>
+#include <QTextStream>
 
 const QString PascalWriter::defaultPackageSuffix = "_Holder";
 

@@ -17,8 +17,8 @@
 
 #include <ktextedit.h>
 
-#include <QtCore/QString>
-#include <QtCore/QList>
+#include <QList>
+#include <QString>
 
 class CodeViewerDialog;
 class CodeComment;

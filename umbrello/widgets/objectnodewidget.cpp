@@ -26,8 +26,8 @@
 #include <kdialog.h>
 
 // qt includes
-#include <QtCore/QPointer>
-#include <QtGui/QPainter>
+#include <QPainter>
+#include <QPointer>
 
 #define OBJECTNODE_MARGIN 5
 #define OBJECTNODE_WIDTH 30

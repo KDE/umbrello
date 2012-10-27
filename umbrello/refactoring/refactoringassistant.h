@@ -12,10 +12,10 @@
 #ifndef REFACTORING_ASSISTANT_H
 #define REFACTORING_ASSISTANT_H
 
-#include <QtGui/QTreeWidget>
-#include <QtGui/QDropEvent>
-
 #include "icon_utils.h"
+
+#include <QDropEvent>
+#include <QTreeWidget>
 
 class QPoint;
 class QMenu;

@@ -11,10 +11,10 @@
 #ifndef LINKWIDGET_H
 #define LINKWIDGET_H
 
-#include <QtGui/QFont>
-
 #include "basictypes.h"
 #include "umlscene.h"
+
+#include <QFont>
 
 // forward declarations
 class UMLClassifier;

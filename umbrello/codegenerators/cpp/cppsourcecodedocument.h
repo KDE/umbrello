@@ -14,7 +14,7 @@
 #include "classifiercodedocument.h"
 #include "hierarchicalcodeblock.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 /**
  * A CPP UMLClassifier Source Code Document.

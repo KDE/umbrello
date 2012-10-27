@@ -21,7 +21,7 @@
 #include "rubycodeclassfield.h"
 #include "rubycodeoperation.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 class RubyClassDeclarationBlock;
 class RubyCodeGenerationPolicy;

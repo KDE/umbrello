@@ -10,19 +10,19 @@
 
 #include "umlcheckconstraintdialog.h"
 
-// qt includes
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QLabel>
+#include "uml.h"
+#include "umldoc.h"
+#include "checkconstraint.h"
 
 // kde includes
 #include <klocale.h>
 #include <ktextedit.h>
 #include <klineedit.h>
 
-#include "uml.h"
-#include "umldoc.h"
-#include "checkconstraint.h"
+// qt includes
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QVBoxLayout>
 
 UMLCheckConstraintDialog::UMLCheckConstraintDialog(QWidget* parent, UMLCheckConstraint* pCheckConstraint)
   : KDialog(parent)

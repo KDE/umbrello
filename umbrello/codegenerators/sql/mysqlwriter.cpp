@@ -18,8 +18,8 @@
 
 #include <klocale.h>
 
-#include <QtCore/QList>
-#include <QtCore/QTextStream>
+#include <QList>
+#include <QTextStream>
 
 MySQLWriter::MySQLWriter()
 {

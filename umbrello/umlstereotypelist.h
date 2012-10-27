@@ -4,14 +4,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef UMLSTEREOTYPELIST_H
 #define UMLSTEREOTYPELIST_H
 
-#include <QtCore/QList>
+#include <QList>
 
 // forward declaration
 class UMLStereotype;

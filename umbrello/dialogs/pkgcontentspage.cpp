@@ -18,10 +18,9 @@
 
 #include <klocale.h>
 
-#include <QtCore/QPointer>
-#include <QtGui/QLayout>
-#include <QtGui/QHBoxLayout>
-
+#include <QHBoxLayout>
+#include <QLayout>
+#include <QPointer>
 
 /**
  * Constructs an instance of PkgContentsPage.

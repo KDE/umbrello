@@ -14,9 +14,9 @@
 #include "basictypes.h"
 #include "umlscene.h"
 
-#include <QtCore/QObject>
-#include <QtCore/QList>
-#include <QtCore/QPoint>
+#include <QList>
+#include <QObject>
+#include <QPoint>
 
 /* how many pixels a user could click around a point */
 #define POINT_DELTA 5

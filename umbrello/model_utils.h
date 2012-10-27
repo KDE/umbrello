@@ -19,8 +19,8 @@
 #include "icon_utils.h"
 #include "widgetbase.h"
 
-#include <QtCore/QString>
-#include <QtCore/QLinkedList>
+#include <QLinkedList>
+#include <QString>
 
 // forward declarations
 class UMLClassifier;

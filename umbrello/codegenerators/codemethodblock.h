@@ -16,7 +16,7 @@
 #include "ownedcodeblock.h"
 #include "codeblockwithcomments.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 class ClassifierCodeDocument;
 

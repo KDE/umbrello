@@ -11,7 +11,7 @@
 #ifndef CODEACCESSORMETHODLIST_H
 #define CODEACCESSORMETHODLIST_H
 
-#include <QtCore/QList>
+#include <QList>
 
 // forward declarations
 class CodeAccessorMethod;

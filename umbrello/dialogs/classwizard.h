@@ -12,7 +12,7 @@
 #define CLASSWIZARD_H
 
 // qt includes
-#include <QtGui/QWizard>
+#include <QWizard>
 
 class QWizardPage;
 class ClassifierListPage;

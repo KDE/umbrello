@@ -11,7 +11,7 @@
 #ifndef UMLCLASSIFIERLIST_H
 #define UMLCLASSIFIERLIST_H
 
-#include <QtCore/QList>
+#include <QList>
 
 // forward declaration
 class UMLClassifier;

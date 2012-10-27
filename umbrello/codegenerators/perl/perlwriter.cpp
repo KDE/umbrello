@@ -18,11 +18,11 @@
 #include "umldoc.h"
 #include "uml.h"
 
-#include <QtCore/QRegExp>
-#include <QtCore/QString>
-#include <QtCore/QDir>
-#include <QtCore/QDateTime>
-#include <QtCore/QTextStream>
+#include <QDateTime>
+#include <QDir>
+#include <QRegExp>
+#include <QString>
+#include <QTextStream>
 
 static const char *reserved_words[] = {
     "abs",

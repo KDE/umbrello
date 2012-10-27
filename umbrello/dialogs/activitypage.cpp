@@ -19,14 +19,14 @@
 #include <klocale.h>
 #include <kdialogbuttonbox.h>
 
-#include <QtCore/QStringList>
-#include <QtGui/QLayout>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QGridLayout>
-#include <QtGui/QGroupBox>
-#include <QtGui/QPushButton>
-#include <QtGui/QToolButton>
+#include <QHBoxLayout>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QLayout>
+#include <QPushButton>
+#include <QStringList>
+#include <QToolButton>
+#include <QVBoxLayout>
 
 /**
  * Constructor.

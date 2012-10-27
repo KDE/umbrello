@@ -35,10 +35,10 @@
 #include <kmessagebox.h>
 
 // qt includes
-#include <QtCore/QTextStream>
-#include <QtCore/QFile>
-#include <QtCore/QRegExp>
-#include <QtGui/QDrag>
+#include <QDrag>
+#include <QFile>
+#include <QRegExp>
+#include <QTextStream>
 
 // system includes
 #include <cstdlib>

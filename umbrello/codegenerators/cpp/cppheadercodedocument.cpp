@@ -40,7 +40,7 @@
 #include "uml.h"
 
 // qt includes
-#include <QtCore/QRegExp>
+#include <QRegExp>
 
 CPPHeaderCodeDocument::CPPHeaderCodeDocument ( UMLClassifier * concept )
         : ClassifierCodeDocument (concept)

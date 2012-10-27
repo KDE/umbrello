@@ -12,8 +12,8 @@
 #define ACTIVITYPAGE_H
 
 //qt includes
-#include <QtGui/QWidget>
-#include <QtGui/QListWidgetItem>
+#include <QListWidgetItem>
+#include <QWidget>
 
 class StateWidget;
 class ListPopupMenu;

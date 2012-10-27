@@ -11,19 +11,19 @@
 #ifndef ASSOCGENPAGE_H
 #define ASSOCGENPAGE_H
 
-//quicktime class includes
-#include <QtGui/QWidget>
-#include <QtCore/QList>
-
-#include <klineedit.h>
-#include <ktextedit.h>
-
 //my class includes
 #include "association.h"
 #include "umlobject.h"
 #include "objectwidget.h"
 #include "umldoc.h"
 #include "associationwidget.h"
+
+#include <klineedit.h>
+#include <ktextedit.h>
+
+//qt class includes
+#include <QList>
+#include <QWidget>
 
 class KComboBox;
 

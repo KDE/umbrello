@@ -14,7 +14,7 @@
 
 #include "codecomment.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 /**
  * A CPP code comment. There is only a single styles of comments:

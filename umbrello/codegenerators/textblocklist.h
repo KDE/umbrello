@@ -4,14 +4,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef TEXTBLOCKLIST_H
 #define TEXTBLOCKLIST_H
 
-#include <QtCore/QList>
+#include <QList>
 
 // forward declarations
 class TextBlock;

@@ -16,7 +16,7 @@
 #include "classifierlistpage.h"
 
 //qt  includes
-#include <QtGui/QWidget>
+#include <QWidget>
 
 class KAction;
 class KMenu;

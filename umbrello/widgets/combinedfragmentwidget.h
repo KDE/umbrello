@@ -11,11 +11,11 @@
 #ifndef COMBINEDFRAGMENTWIDGET_H
 #define COMBINEDFRAGMENTWIDGET_H
 
-#include <QtCore/QList>
-
 #include "umlwidget.h"
 #include "worktoolbar.h"
 #include "floatingdashlinewidget.h"
+
+#include <QList>
 
 #define COMBINED_FRAGMENT_MARGIN 5
 #define COMBINED_FRAGMENT_WIDTH 100

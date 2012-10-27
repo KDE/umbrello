@@ -24,9 +24,9 @@
 #include "umltemplatelist.h"
 
 // qt includes
-#include <QtCore/QFile>
-#include <QtCore/QTextStream>
-#include <QtCore/QRegExp>
+#include <QFile>
+#include <QRegExp>
+#include <QTextStream>
 
 /**
  * Constructor, initialises a couple of variables.

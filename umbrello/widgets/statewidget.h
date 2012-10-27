@@ -11,11 +11,11 @@
 #ifndef STATEWIDGET_H
 #define STATEWIDGET_H
 
-#include <QtGui/QPainter>
-#include <QtCore/QStringList>
-#include <QMetaEnum>
-
 #include "umlwidget.h"
+
+#include <QMetaEnum>
+#include <QPainter>
+#include <QStringList>
 
 #define STATE_MARGIN 5
 #define STATE_WIDTH 30

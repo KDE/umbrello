@@ -32,8 +32,8 @@
 #include "codegenfactory.h"
 
 // qt includes
-#include <QtCore/QList>
-#include <QtCore/QRegExp>
+#include <QList>
+#include <QRegExp>
 
 /**
  * Empty Constructor.

@@ -26,7 +26,7 @@
 
 #include "codetexthighlighter.h"
 
-#include <QtGui/QPainter>
+#include <QPainter>
 
 /**
  * Constructor.

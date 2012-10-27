@@ -11,10 +11,10 @@
 #ifndef PETALNODE__H
 #define PETALNODE__H
 
-#include <QtCore/QString>
-#include <QtCore/QPair>
-#include <QtCore/QList>
-#include <QtCore/QStringList>
+#include <QList>
+#include <QPair>
+#include <QString>
+#include <QStringList>
 
 /**
  * Rose petal node - parse tree for model import

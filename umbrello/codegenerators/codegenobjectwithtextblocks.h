@@ -15,7 +15,7 @@
 #include "codeaccessormethod.h"
 #include "textblocklist.h"
 
-#include <QtCore/QMap>
+#include <QMap>
 
 class CodeBlock;
 class CodeBlockWithComments;

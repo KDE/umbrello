@@ -23,7 +23,7 @@
 
 #include <klocale.h>
 
-#include <QtCore/QRegExp>
+#include <QRegExp>
 
 namespace Uml
 {

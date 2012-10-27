@@ -22,8 +22,8 @@
 
 // qt/kde includes
 #include <klocale.h>
-#include <QtCore/QString>
-#include <QtGui/QTabWidget>
+#include <QString>
+#include <QTabWidget>
 
 CodeViewerDialog::CodeViewerDialog ( QWidget* parent, CodeDocument * doc,
                                      Settings::CodeViewerState state,

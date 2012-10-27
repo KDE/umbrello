@@ -38,8 +38,8 @@
 #include <klocale.h>
 
 // qt includes
-#include <QtCore/QRegExp>
-#include <QtCore/QStringList>
+#include <QRegExp>
+#include <QStringList>
 
 namespace Model_Utils {
 

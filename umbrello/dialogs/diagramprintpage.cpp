@@ -25,11 +25,11 @@
 #include <klocale.h>
 
 // qt includes
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QListWidget>
-#include <QtGui/QRadioButton>
-#include <QtGui/QGroupBox>
+#include <QGroupBox>
+#include <QHBoxLayout>
+#include <QListWidget>
+#include <QRadioButton>
+#include <QVBoxLayout>
 
 /**
  *  Constructs the diagram print page.

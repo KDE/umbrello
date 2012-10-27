@@ -15,7 +15,7 @@
 
 #include "codeoperation.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 class RubyClassifierCodeDocument;
 

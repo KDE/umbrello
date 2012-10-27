@@ -11,13 +11,15 @@
 
 // own header
 #include "dcodedocumentation.h"
-// qt/kde includes
-#include <QtCore/QRegExp>
+
 // app includes
 #include "codedocument.h"
 #include "codegenerator.h"
 #include "codegenerationpolicy.h"
 #include "uml.h"
+
+// qt/kde includes
+#include <QRegExp>
 
 DCodeDocumentation::DCodeDocumentation(CodeDocument * doc, const QString & text)
   : CodeComment(doc, text)

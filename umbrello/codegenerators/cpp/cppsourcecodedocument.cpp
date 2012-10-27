@@ -31,7 +31,7 @@
 #include "uml.h"
 
 // qt includes
-#include <QtCore/QRegExp>
+#include <QRegExp>
 
 CPPSourceCodeDocument::CPPSourceCodeDocument ( UMLClassifier * concept )
         : ClassifierCodeDocument (concept)

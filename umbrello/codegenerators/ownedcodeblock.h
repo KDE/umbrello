@@ -5,16 +5,16 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef OWNEDCODEBLOCK_H
 #define OWNEDCODEBLOCK_H
 
-#include <QtXml/QDomDocument>
-#include <QtXml/QDomElement>
-#include <QtCore/QObject>
+#include <QDomDocument>
+#include <QDomElement>
+#include <QObject>
 
 class TextBlock;
 class UMLObject;

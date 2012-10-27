@@ -15,7 +15,7 @@
 
 #include "codeclassfielddeclarationblock.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 class RubyCodeClassFieldDeclarationBlock : public CodeClassFieldDeclarationBlock
 {

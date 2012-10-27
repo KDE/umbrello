@@ -20,8 +20,8 @@
 #include "uml.h"
 
 // qt includes
-#include <QtGui/QPainter>
-#include <QtXml/QDomDocument>
+#include <QDomDocument>
+#include <QPainter>
 
 // system includes
 #include <cstdlib>

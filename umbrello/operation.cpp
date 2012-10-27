@@ -27,7 +27,7 @@
 #include <klocale.h>
 
 // qt includes
-#include <QtCore/QRegExp>
+#include <QRegExp>
 
 /**
  * Constructs an UMLOperation.

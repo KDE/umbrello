@@ -12,9 +12,9 @@
 #ifndef TEXTBLOCK_H
 #define TEXTBLOCK_H
 
-#include <QtXml/QDomDocument>
-#include <QtXml/QDomElement>
-#include <QtCore/QObject>
+#include <QDomDocument>
+#include <QDomElement>
+#include <QObject>
 
 class CodeDocument;
 

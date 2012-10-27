@@ -22,8 +22,8 @@
 #include <klocale.h>
 
 // qt include files
-#include <QtGui/QAction>
-#include <QtGui/QToolButton>
+#include <QAction>
+#include <QToolButton>
 
 /**
  * Creates a work tool bar.

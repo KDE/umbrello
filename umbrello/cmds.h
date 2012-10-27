@@ -11,8 +11,8 @@
 #ifndef CMDS_H
 #define CMDS_H
 
-#include <QtGui/QUndoCommand>
-#include <QtGui/QUndoStack>
+#include <QUndoCommand>
+#include <QUndoStack>
 
 #include <kundostack.h>
 

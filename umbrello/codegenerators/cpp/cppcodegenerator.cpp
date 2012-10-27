@@ -26,7 +26,7 @@
 #include <kconfig.h>
 
 // qt includes
-#include <QtCore/QRegExp>
+#include <QRegExp>
 
 const bool CPPCodeGenerator::DEFAULT_BUILD_MAKEFILE = false;
 

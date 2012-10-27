@@ -12,10 +12,10 @@
 #ifndef DCLASSDECLARATIONBLOCK_H
 #define DCLASSDECLARATIONBLOCK_H
 
-#include <QtCore/QString>
-
 #include "dclassifiercodedocument.h"
 #include "ownedhierarchicalcodeblock.h"
+
+#include <QString>
 
 class DClassDeclarationBlock : public OwnedHierarchicalCodeBlock
 {

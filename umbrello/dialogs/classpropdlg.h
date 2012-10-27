@@ -19,7 +19,7 @@
 #include <kfontdialog.h>
 
 // qt class includes
-#include <QtGui/QFrame>
+#include <QFrame>
 
 class ClassGenPage;
 class ClassifierListPage;

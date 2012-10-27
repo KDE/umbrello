@@ -15,7 +15,7 @@
 
 #include "codecomment.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 class RubyClassifierCodeDocument;
 

@@ -23,7 +23,7 @@
 #include <kpagedialog.h>
 
 //qt  includes
-#include <QtCore/QList>
+#include <QList>
 
 class UMLDoc;
 class UMLForeignKeyConstraint;

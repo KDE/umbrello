@@ -11,13 +11,13 @@
 #ifndef ASSOCPAGE_H
 #define ASSOCPAGE_H
 
-#include <QtGui/QWidget>
-#include <QtGui/QListWidgetItem>
-
 #include "umlobject.h"
 #include "associationwidgetlist.h"
 #include "associationwidget.h"
 #include "listpopupmenu.h"
+
+#include <QListWidgetItem>
+#include <QWidget>
 
 class UMLScene;
 class QGroupBox;

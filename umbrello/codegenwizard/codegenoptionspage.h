@@ -12,13 +12,13 @@
 #ifndef CODEGENOPTIONSPAGE_H
 #define CODEGENOPTIONSPAGE_H
 
-// qt includes
-#include <QtGui/QWizardPage>
-
 // app includes
 #include "ui_codegenoptionspage.h"
 #include "basictypes.h"
 #include "codegenerationpolicy.h"
+
+// qt includes
+#include <QWizardPage>
 
 class QRadioButton;
 class CodeGenerationPolicy;

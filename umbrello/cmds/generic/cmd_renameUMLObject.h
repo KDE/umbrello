@@ -11,7 +11,7 @@
 #ifndef CMD_RENAME_UMLOBJECT_H
 #define CMD_RENAME_UMLOBJECT_H
 
-#include <QtGui/QUndoCommand>
+#include <QUndoCommand>
 
 class UMLObject;
 

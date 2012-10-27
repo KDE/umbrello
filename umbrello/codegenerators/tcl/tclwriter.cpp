@@ -26,9 +26,9 @@
 #include "umldoc.h"
 
 // qt includes
-#include <QtCore/QFile>
-#include <QtCore/QTextStream>
-#include <QtCore/QRegExp>
+#include <QFile>
+#include <QRegExp>
+#include <QTextStream>
 
 static const char *reserved_words[] = {
     "body",

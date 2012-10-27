@@ -20,8 +20,8 @@
 #include <kapplication.h>
 
 // qt includes
-#include <QtCore/QStringList>
-#include <QtGui/QCloseEvent>
+#include <QCloseEvent>
+#include <QStringList>
 
 const QEvent::Type CmdLineExportAllViewsEvent::type_ =
     (QEvent::Type)QEvent::registerEventType(QEvent::User + 1);

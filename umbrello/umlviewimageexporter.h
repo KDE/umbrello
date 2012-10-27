@@ -13,9 +13,9 @@
 
 #include "umlviewimageexportermodel.h"
 
-#include <QtCore/QString>
-
 #include <kurl.h>
+
+#include <QString>
 
 class UMLScene;
 class UMLFileDialog;

@@ -34,7 +34,6 @@
 #include <QString>
 #include <QTemporaryFile>
 #include <QTextStream>
-#include <QtDebug>
 
 /**
  * dot specific paint engine

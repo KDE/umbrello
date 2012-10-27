@@ -11,8 +11,9 @@
 #ifndef CPPIMPORT_H
 #define CPPIMPORT_H
 
-#include <QtCore/QString>
 #include "classimport.h"
+
+#include <QString>
 
 class CppDriver;
 

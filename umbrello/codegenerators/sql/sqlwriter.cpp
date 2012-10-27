@@ -27,10 +27,10 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 
-#include <QtCore/QFile>
-#include <QtCore/QTextStream>
-#include <QtCore/QRegExp>
-#include <QtCore/QList>
+#include <QFile>
+#include <QList>
+#include <QRegExp>
+#include <QTextStream>
 
 static const char *reserved_words[] = {
     "access",

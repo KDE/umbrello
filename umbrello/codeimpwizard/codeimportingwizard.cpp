@@ -32,8 +32,8 @@
 #include <kmessagebox.h>
 
 // qt includes
-#include <QtCore/QFileInfo>
-#include <QtGui/QWizardPage>
+#include <QFileInfo>
+#include <QWizardPage>
 
 /**
  * Constructor. Sets up the wizard and loads the wizard pages.

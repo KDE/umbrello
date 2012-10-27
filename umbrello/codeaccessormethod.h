@@ -12,8 +12,8 @@
 #ifndef CODEACCESSORMETHOD_H
 #define CODEACCESSORMETHOD_H
 
-#include <QtCore/QString>
 #include "codemethodblock.h"
+#include <QString>
 
 class CodeClassField;
 

@@ -20,7 +20,7 @@
 #ifndef PREPROCESSLEXER_H
 #define PREPROCESSLEXER_H
 
-#include <QtCore/QChar>
+#include <QChar>
 
 namespace boost { namespace spirit { namespace classic { namespace impl {
   bool isalnum_( QChar const& c);
@@ -34,9 +34,9 @@ namespace boost { namespace spirit { namespace classic { namespace impl {
 #include "driver.h"
 #include "skip_rule.hpp"
 
-#include <QtCore/QString>
-#include <QtCore/QMap>
-#include <QtCore/QPair>
+#include <QMap>
+#include <QPair>
+#include <QString>
 
 using boost::spirit::classic::parse_info;
 using boost::spirit::classic::rule;

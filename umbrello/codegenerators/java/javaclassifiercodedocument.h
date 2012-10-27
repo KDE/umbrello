@@ -19,7 +19,7 @@
 #include "javacodeclassfield.h"
 #include "javacodeoperation.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 class JavaClassDeclarationBlock;
 class JavaCodeGenerationPolicy;

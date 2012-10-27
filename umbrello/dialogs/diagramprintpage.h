@@ -14,7 +14,7 @@
 #include "basictypes.h"
 #include "umlview.h"
 
-#include <QtCore/QList>
+#include <QList>
 
 class QListWidget;
 class QRadioButton;

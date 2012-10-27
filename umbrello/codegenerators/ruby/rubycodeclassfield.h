@@ -15,7 +15,7 @@
 
 #include "codeclassfield.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 class ClassifierCodeDocument;
 

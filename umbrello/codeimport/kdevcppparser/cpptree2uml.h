@@ -14,7 +14,7 @@
 #include "tree_parser.h"
 #include "model_utils.h"
 
-#include <QtCore/QStringList>
+#include <QStringList>
 
 // fwd decls
 class CodeImpThread;

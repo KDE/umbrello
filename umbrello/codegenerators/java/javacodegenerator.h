@@ -20,7 +20,7 @@
 #include "javacodegenerationpolicy.h"
 #include "umldoc.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 class CodeViewerDialog;
 

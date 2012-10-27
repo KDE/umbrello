@@ -16,8 +16,8 @@
 
 #include <klocale.h>
 
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QGroupBox>
+#include <QGroupBox>
+#include <QHBoxLayout>
 
 /**
  *  Constructs an instance of AssocPage.

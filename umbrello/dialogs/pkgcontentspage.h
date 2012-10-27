@@ -13,9 +13,9 @@
 #include "listpopupmenu.h"
 #include "package.h"
 
-#include <QtGui/QWidget>
-#include <QtGui/QGroupBox>
-#include <QtGui/QListWidget>
+#include <QGroupBox>
+#include <QListWidget>
+#include <QWidget>
 
 class QListWidgetItem;
 

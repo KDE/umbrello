@@ -22,13 +22,13 @@
 #include <klocale.h>
 
 //qt includes
-#include <QtGui/QFrame>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QGridLayout>
-#include <QtGui/QCheckBox>
-#include <QtGui/QGroupBox>
-#include <QtGui/QLabel>
-#include <QtGui/QRadioButton>
+#include <QCheckBox>
+#include <QFrame>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QRadioButton>
 
 ActivityDialog::ActivityDialog(QWidget * parent, ActivityWidget * pWidget)
    : DialogBase(parent)

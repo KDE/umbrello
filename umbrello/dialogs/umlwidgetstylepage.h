@@ -13,7 +13,7 @@
 
 #include "optionstate.h"
 
-#include <QtGui/QWidget>
+#include <QWidget>
 
 /**
  * @author Paul Hensgen

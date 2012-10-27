@@ -34,13 +34,13 @@
 #include <kvbox.h>
 #include <kmessagebox.h>
 
-#include <QtGui/QLabel>
-#include <QtGui/QGridLayout>
-#include <QtGui/QGroupBox>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QApplication>
-#include <QtGui/QTreeWidget>
+#include <QApplication>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QTreeWidget>
+#include <QVBoxLayout>
 
 typedef QPair<UMLEntityAttribute*, UMLEntityAttribute*> EntityAttributePair;
 

@@ -19,7 +19,7 @@
 #include <kdialog.h>
 
 //qt  includes
-#include <QtGui/QWidget>
+#include <QWidget>
 
 class UMLDoc;
 class UMLUniqueConstraint;

@@ -11,8 +11,8 @@
 #ifndef CMD_CHANGETEXTCOLOR_H
 #define CMD_CHANGETEXTCOLOR_H
 
-#include <QtGui/QUndoCommand>
-#include <QtGui/QColor>
+#include <QColor>
+#include <QUndoCommand>
 
 class UMLWidget;
 

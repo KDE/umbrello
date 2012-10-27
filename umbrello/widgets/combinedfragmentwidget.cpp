@@ -11,14 +11,6 @@
 // own header
 #include "combinedfragmentwidget.h"
 
-// qt includes
-#include <QtGui/QPainter>
-#include <QtCore/QString>
-
-// kde includes
-#include <klocale.h>
-#include <kinputdialog.h>
-
 // app includes
 #include "debug_utils.h"
 #include "uml.h"
@@ -27,6 +19,14 @@
 #include "umlview.h"
 #include "listpopupmenu.h"
 #include "dialog_utils.h"
+
+// kde includes
+#include <klocale.h>
+#include <kinputdialog.h>
+
+// qt includes
+#include <QPainter>
+#include <QString>
 
 /**
  * Creates a Combined Fragment widget.

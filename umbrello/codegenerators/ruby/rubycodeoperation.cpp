@@ -19,8 +19,8 @@
 #include "rubycodegenerator.h"
 #include "uml.h"
 
-// qt/kde includes
-#include <QtCore/QRegExp>
+// qt includes
+#include <QRegExp>
 
 RubyCodeOperation::RubyCodeOperation ( RubyClassifierCodeDocument * doc, UMLOperation *parent, const QString & body, const QString & comment )
         : CodeOperation (doc, parent, body, comment)

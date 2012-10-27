@@ -11,8 +11,8 @@
 #ifndef CODEVIEWERSTATE_H
 #define CODEVIEWERSTATE_H
 
-#include <QtGui/QColor>
-#include <QtGui/QFont>
+#include <QColor>
+#include <QFont>
 
 namespace Settings {
 

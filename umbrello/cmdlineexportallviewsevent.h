@@ -11,8 +11,8 @@
 #ifndef CMDLINEEXPORTALLVIEWSEVENT_H
 #define CMDLINEEXPORTALLVIEWSEVENT_H
 
-#include <QtCore/QEvent>
 #include <kurl.h>
+#include <QEvent>
 
 /**
  * This class provides an event that is posted to the UMLApp when the "export all views"

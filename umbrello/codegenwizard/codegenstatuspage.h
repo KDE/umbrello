@@ -22,10 +22,9 @@
 #include <kled.h>
 
 // qt includes
-#include <QtGui/QWizardPage>
-#include <QtGui/QSpacerItem>
-#include <QtGui/QHBoxLayout>
-
+#include <QHBoxLayout>
+#include <QSpacerItem>
+#include <QWizardPage>
 
 /**
  * @author Luis De la Parra

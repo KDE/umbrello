@@ -15,7 +15,7 @@
 #include "hierarchicalcodeblock.h"
 #include "umlattributelist.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 class CodeDocument;
 class UMLAttribute;

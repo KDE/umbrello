@@ -13,7 +13,7 @@
 
 #include "umlobject.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 class UMLPackage;
 class UMLClassifier;

@@ -25,11 +25,11 @@
 #include <klocale.h>
 
 // qt includes
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QGridLayout>
-#include <QtGui/QLabel>
-#include <QtGui/QRadioButton>
-#include <QtGui/QGroupBox>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QLabel>
+#include <QRadioButton>
+#include <QVBoxLayout>
 
 bool caseInsensitiveLessThan(const UMLOperation *s1, const UMLOperation *s2)
 {

@@ -25,9 +25,9 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 
-#include <QtGui/QApplication>
-#include <QtGui/QMenu>
-#include <QtCore/QPoint>
+#include <QApplication>
+#include <QMenu>
+#include <QPoint>
 
 /**
  * Constructor.

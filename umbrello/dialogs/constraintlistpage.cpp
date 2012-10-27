@@ -30,9 +30,9 @@
 #include <kmenu.h>
 #include <kpushbutton.h>
 
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QApplication>
+#include <QApplication>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 
 /**
  *  Sets up the ConstraintListPage

@@ -30,10 +30,10 @@ class IDLWriter : public SimpleCodeGenerator
 {
 public:
 
-    IDLWriter ();
-    virtual ~IDLWriter ();
+    IDLWriter();
+    virtual ~IDLWriter();
 
-    virtual void writeClass (UMLClassifier *c);
+    virtual void writeClass(UMLClassifier *c);
 
     virtual Uml::ProgrammingLanguage language() const;
 

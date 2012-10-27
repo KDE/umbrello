@@ -31,13 +31,13 @@
 #include <ktabwidget.h>
 #include <ktextedit.h>
 
-#include <QtGui/QApplication>
-#include <QtGui/QGroupBox>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QListWidget>
-#include <QtGui/QPushButton>
-#include <QtGui/QToolButton>
-#include <QtGui/QVBoxLayout>
+#include <QApplication>
+#include <QGroupBox>
+#include <QHBoxLayout>
+#include <QListWidget>
+#include <QPushButton>
+#include <QToolButton>
+#include <QVBoxLayout>
 
 /**
  *  Sets up the ClassifierListPage.

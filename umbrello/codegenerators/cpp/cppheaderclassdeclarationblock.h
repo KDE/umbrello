@@ -15,7 +15,7 @@
 #include "cppheadercodedocument.h"
 #include "ownedhierarchicalcodeblock.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 class CPPHeaderClassDeclarationBlock : public OwnedHierarchicalCodeBlock
 {
