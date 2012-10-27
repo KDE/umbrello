@@ -18,7 +18,7 @@
 #include "uml.h"
 
 // qt includes
-#include <QtCore/QRegExp>
+#include <QRegExp>
 
 JavaCodeDocumentation::JavaCodeDocumentation(JavaClassifierCodeDocument * doc, const QString & text)
   : CodeComment(doc, text)

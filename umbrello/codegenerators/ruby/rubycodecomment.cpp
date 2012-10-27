@@ -12,7 +12,7 @@
 
 #include "rubycodecomment.h"
 
-#include <QtCore/QRegExp>
+#include <QRegExp>
 
 RubyCodeComment::RubyCodeComment(CodeDocument * doc, const QString & text)
         : CodeComment(doc, text)

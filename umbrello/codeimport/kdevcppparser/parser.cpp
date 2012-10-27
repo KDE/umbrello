@@ -24,12 +24,12 @@
 #include "errors.h"
 #include "debug_utils.h"
 
-// qt support
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-
 // kde support
 #include <klocale.h>
+
+// qt support
+#include <QString>
+#include <QStringList>
 
 bool Parser::advance(int tk, char const* descr)
 {

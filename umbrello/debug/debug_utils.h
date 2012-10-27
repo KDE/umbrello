@@ -21,7 +21,7 @@
 #ifndef DEBUG_UTILS_H
 #define DEBUG_UTILS_H
 
-#include <QtGui/QTreeWidget>
+#include <QTreeWidget>
 
 /**
  * @short The singleton class for switching on or off debug messages.

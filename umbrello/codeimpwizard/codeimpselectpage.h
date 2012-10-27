@@ -21,8 +21,8 @@
 #define CODEIMPSELECTPAGE_H
 
 // qt includes
-#include <QtCore/QFileInfo>
-#include <QtGui/QWizardPage>
+#include <QFileInfo>
+#include <QWizardPage>
 
 // app includes
 #include "ui_codeimpselectpage.h"

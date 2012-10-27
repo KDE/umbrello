@@ -20,11 +20,11 @@
 #include <klocale.h>
 
 // qt includes
-#include <QtCore/QString>
-#include <QtCore/QTextStream>
-#include <QtCore/QStringList>
-#include <QtCore/QRegExp>
-#include <QtGui/QMessageBox>
+#include <QMessageBox>
+#include <QRegExp>
+#include <QString>
+#include <QStringList>
+#include <QTextStream>
 
 namespace Import_Rose {
 

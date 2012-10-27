@@ -11,7 +11,7 @@
 #ifndef CMD_HANDLE_RENAME_H
 #define CMD_HANDLE_RENAME_H
 
-#include <QtGui/QUndoCommand>
+#include <QUndoCommand>
 
 class FloatingTextWidget;
 

@@ -25,8 +25,8 @@
 #ifndef CODETEXTEDIT_H
 #define CODETEXTEDIT_H
 
-#include <QtGui/QPlainTextEdit>
-#include <QtCore/QObject>
+#include <QObject>
+#include <QPlainTextEdit>
 
 class QPaintEvent;
 class QResizeEvent;

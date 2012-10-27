@@ -16,7 +16,7 @@
 #include "classifiercodedocument.h"
 #include "hierarchicalcodeblock.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 class CPPHeaderClassDeclarationBlock;
 

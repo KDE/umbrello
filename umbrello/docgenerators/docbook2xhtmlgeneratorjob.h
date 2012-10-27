@@ -11,7 +11,7 @@
 #ifndef DOCBOOK2XHTMLGENERATORJOB_H
 #define DOCBOOK2XHTMLGENERATORJOB_H
 
-#include <QtCore/QThread>
+#include <QThread>
 
 #include <kurl.h>
 

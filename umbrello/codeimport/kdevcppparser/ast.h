@@ -22,8 +22,8 @@
 
 #include "position.h"
 #include <memory>
-#include <QtCore/QString>
-#include <QtCore/QList>
+#include <QList>
+#include <QString>
 
 #if defined( Q_OS_WIN32 ) || defined( Q_CC_SUN )
 

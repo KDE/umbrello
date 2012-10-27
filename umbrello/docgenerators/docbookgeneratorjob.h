@@ -11,7 +11,7 @@
 #ifndef DOCBOOKGENERATORJOB_H
 #define DOCBOOKGENERATORJOB_H
 
-#include <QtCore/QThread>
+#include <QThread>
 
 /**
  * This class is used to generate docbook from the document.

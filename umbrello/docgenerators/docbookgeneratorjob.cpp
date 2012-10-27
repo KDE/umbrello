@@ -29,7 +29,7 @@
 #include <kstandarddirs.h>
 #include <klocale.h>
 
-#include <QtCore/QTextOStream>
+#include <QTextOStream>
 
 extern int xmlLoadExtDtdDefaultValue;
 

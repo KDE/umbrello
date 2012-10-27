@@ -19,8 +19,8 @@
 #include "operation.h"
 #include "umldoc.h"
 
-#include <QtCore/QRegExp>
-#include <QtCore/QTextStream>
+#include <QRegExp>
+#include <QTextStream>
 
 static const char *reserved_words[] = {
     "abs",

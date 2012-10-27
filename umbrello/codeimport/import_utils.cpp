@@ -34,8 +34,8 @@
 #include <klocale.h>
 
 // qt includes
-#include <QtCore/QMap>
-#include <QtCore/QRegExp>
+#include <QMap>
+#include <QRegExp>
 
 namespace Import_Utils {
 

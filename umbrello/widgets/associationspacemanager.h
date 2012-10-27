@@ -22,10 +22,10 @@
 
 #include "basictypes.h"
 
-#include <QtCore/QObject>
-#include <QtCore/QMap>
-#include <QtCore/QPointF>
-#include <QtCore/QSet>
+#include <QMap>
+#include <QObject>
+#include <QPointF>
+#include <QSet>
 
 class AssociationWidget;
 class UMLWidget;

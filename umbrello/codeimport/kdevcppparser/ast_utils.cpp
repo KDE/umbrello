@@ -14,8 +14,8 @@
 #include "ast.h"
 #include "debug_utils.h"
 
-#include <QtCore/QStringList>
-#include <QtCore/QRegExp>
+#include <QRegExp>
+#include <QStringList>
 
 #include <klocale.h>
 

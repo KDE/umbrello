@@ -11,7 +11,7 @@
 #ifndef CLASSIMPORT_H
 #define CLASSIMPORT_H
 
-#include <QtCore/QStringList>
+#include <QStringList>
 
 class CodeImpThread;
 

@@ -12,7 +12,7 @@
 #ifndef UMLOBJECTLIST_H
 #define UMLOBJECTLIST_H
 
-#include <QtCore/QList>
+#include <QList>
 
 // forward declarations
 class UMLObject;

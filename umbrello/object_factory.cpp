@@ -46,9 +46,9 @@
 #include <kinputdialog.h>
 
 // qt includes
-#include <QtCore/QRegExp>
-#include <QtCore/QStringList>
-#include <QtGui/QApplication>
+#include <QApplication>
+#include <QRegExp>
+#include <QStringList>
 
 namespace Object_Factory {
 

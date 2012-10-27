@@ -14,7 +14,7 @@
 #include "basictypes.h"
 #include "umlattributelist.h"
 
-#include <QtCore/QStringList>
+#include <QStringList>
 
 class UMLObject;
 class UMLClassifier;

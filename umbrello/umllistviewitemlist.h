@@ -19,7 +19,7 @@
 #ifndef UMLLISTVIEWITEMLIST_H
 #define UMLLISTVIEWITEMLIST_H
 
-#include <QtCore/QList>
+#include <QList>
 
 class UMLListViewItem;
 

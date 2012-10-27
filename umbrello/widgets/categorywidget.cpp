@@ -17,7 +17,7 @@
 #include "listpopupmenu.h"
 
 // qt includes
-#include <QtGui/QPainter>
+#include <QPainter>
 
 /**
  *  Creates a Category widget.

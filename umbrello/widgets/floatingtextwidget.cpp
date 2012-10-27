@@ -36,9 +36,9 @@
 #include <klocale.h>
 
 // qt includes
-#include <QtCore/QPointer>
-#include <QtCore/QRegExp>
-#include <QtGui/QValidator>
+#include <QPointer>
+#include <QRegExp>
+#include <QValidator>
 
 
 const UMLSceneValue FloatingTextWidget::restrictPositionMin = 0;

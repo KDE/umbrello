@@ -20,7 +20,7 @@
 #ifndef TEST_H
 #define TEST_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 // THIS IS USED TO ONLY TEST FEATURES OF THE PORT
 class UMLScene;

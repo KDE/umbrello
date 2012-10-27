@@ -11,7 +11,7 @@
 #ifndef CMD_SETVISIBILITY_H
 #define CMD_SETVISIBILITY_H
 
-#include <QtGui/QUndoCommand>
+#include <QUndoCommand>
 
 #include "basictypes.h"
 

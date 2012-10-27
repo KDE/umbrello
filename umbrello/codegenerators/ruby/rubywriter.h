@@ -17,7 +17,7 @@
 #include "umlattributelist.h"
 #include "umloperationlist.h"
 
-#include <QtCore/QStringList>
+#include <QStringList>
 
 
 /**

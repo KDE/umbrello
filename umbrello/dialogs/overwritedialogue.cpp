@@ -11,14 +11,14 @@
 // own header
 #include "overwritedialogue.h"
 
-// qt/kde includes
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QCheckBox>
-#include <QtGui/QLayout>
-#include <QtGui/QLabel>
-
+// kde includes
 #include <klocale.h>
 
+// qt includes
+#include <QCheckBox>
+#include <QLabel>
+#include <QLayout>
+#include <QVBoxLayout>
 
 /**
  * Constructor sets up the dialog, adding checkbox and label.

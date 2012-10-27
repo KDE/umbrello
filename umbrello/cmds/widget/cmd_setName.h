@@ -11,7 +11,7 @@
 #ifndef CMD_SETNAME_H
 #define CMD_SETNAME_H
 
-#include <QtGui/QUndoCommand>
+#include <QUndoCommand>
 
 class UMLObject;
 

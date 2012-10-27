@@ -14,8 +14,8 @@
 #include "basictypes.h"
 #include "classimport.h"
 
-#include <QtCore/QString>
-#include <QtCore/QStringList>
+#include <QString>
+#include <QStringList>
 
 class UMLPackage;
 class UMLClassifier;

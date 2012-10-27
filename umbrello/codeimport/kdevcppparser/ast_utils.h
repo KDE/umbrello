@@ -12,7 +12,7 @@
 #ifndef AST_UTILS_H
 #define AST_UTILS_H
 
-#include <QtCore/QString>
+#include <QString>
 
 class AST;
 class DeclaratorAST;

@@ -13,8 +13,8 @@
 
 #include "umlscene.h"
 
-#include <QtCore/QEvent>
-#include <QtCore/QObject>
+#include <QEvent>
+#include <QObject>
 
 class AssociationWidget;
 class MessageWidget;

@@ -18,8 +18,7 @@
 #include "uml.h"
 
 // qt includes
-#include <QtCore/QRegExp>
-
+#include <QRegExp>
 
 /**
  * Sets up an association.

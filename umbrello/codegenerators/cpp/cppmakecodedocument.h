@@ -14,7 +14,7 @@
 
 #include "codedocument.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 /**
  * class CPPMakefileCodeDocument

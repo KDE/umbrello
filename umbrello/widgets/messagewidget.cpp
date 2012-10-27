@@ -25,7 +25,7 @@
 #include "widget_utils.h"
 
 //qt includes
-#include <QtCore/QTimer>
+#include <QTimer>
 
 //kde includes
 #include <klocale.h>

@@ -11,7 +11,7 @@
 
 #include "javacodecomment.h"
 
-#include <QtCore/QRegExp>
+#include <QRegExp>
 
 JavaCodeComment::JavaCodeComment ( CodeDocument * doc, const QString & text )
         : CodeComment (doc, text)

@@ -20,10 +20,10 @@
 #ifndef CODEIMPTHREAD_H
 #define CODEIMPTHREAD_H
 
-#include <QtCore/QFileInfo>
-#include <QtCore/QMutex>
-#include <QtCore/QThread>
-#include <QtCore/QWaitCondition>
+#include <QFileInfo>
+#include <QMutex>
+#include <QThread>
+#include <QWaitCondition>
 
 class ClassImport;
 

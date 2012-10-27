@@ -11,7 +11,7 @@
 #ifndef UMLENTITYLIST_H
 #define UMLENTITYLIST_H
 
-#include <QtCore/QList>
+#include <QList>
 
 // forward declaration
 class UMLEntity;

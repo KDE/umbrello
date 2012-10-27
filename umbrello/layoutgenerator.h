@@ -18,6 +18,8 @@
 #include "umlwidget.h"
 
 // app includes
+#include <KConfigGroup>
+#include <KDesktopFile>
 #include <KStandardDirs>
 
 // qt includes
@@ -31,10 +33,6 @@
 #include <QString>
 #include <QTemporaryFile>
 #include <QTextStream>
-#include <QtDebug>
-
-#include <KConfigGroup>
-#include <KDesktopFile>
 
 #define LAYOUTGENERATOR_DEBUG
 //#define LAYOUTGENERATOR_DATA_DEBUG

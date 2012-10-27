@@ -22,7 +22,7 @@
 #include <kinputdialog.h>
 
 // qt includes
-#include <QtGui/QPolygonF>
+#include <QPolygonF>
 
 /// Minimum size for signal widget.
 const QSizeF SignalWidget::MinimumSize(50, 50);

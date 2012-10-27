@@ -22,12 +22,12 @@
 #include <kmessagebox.h>
 
 // qt includes
-#include <QtGui/QLayout>
-#include <QtGui/QLabel>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QGridLayout>
-#include <QtGui/QGroupBox>
+#include <QHBoxLayout>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QLabel>
+#include <QLayout>
+#include <QVBoxLayout>
 
 /**
  *  Sets up the AssocGenPage.

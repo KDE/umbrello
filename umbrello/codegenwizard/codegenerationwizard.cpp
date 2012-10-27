@@ -13,13 +13,6 @@
 // own header
 #include "codegenerationwizard.h"
 
-// qt includes
-#include <QtGui/QWizardPage>
-
-// kde includes
-#include <klocale.h>
-#include <kmessagebox.h>
-
 // local includes
 #include "codegenselectpage.h"
 #include "codegenoptionspage.h"
@@ -27,6 +20,13 @@
 #include "classifier.h"
 #include "icon_utils.h"
 #include "uml.h"
+
+// kde includes
+#include <klocale.h>
+#include <kmessagebox.h>
+
+// qt includes
+#include <QWizardPage>
 
 const QSize CodeGenerationWizard::c_pageSize = QSize(520, 530);
 

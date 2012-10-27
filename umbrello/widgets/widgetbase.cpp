@@ -63,11 +63,6 @@ static QBrush awesomeBrush()
     }
     return brush;
 }
-
-static QColor awesomeLineColor()
-{
-    return QColor(80, 80, 0);
-}
 ////////////////////////////////////////////////
 
 /**
@@ -105,7 +100,7 @@ WidgetBase::WidgetBase(WidgetType type, UMLObject *object)
   : QGraphicsObject(),
     m_baseType(type),
     m_umlObject(object),
-    m_lineColor(awesomeLineColor()),
+    m_lineColor(QColor(80, 80, 0)),
     m_lineWidth(0),
     m_brush(awesomeBrush()),
     m_activated(false),
@@ -364,7 +359,10 @@ void WidgetBase::setLineColor(const QColor& color)
     attributeChange(LineColorHasChanged, oldColor);
 }
 
-/// @return The width of the lines drawn in the widget.
+/**
+ * Returns the width of the lines drawn in the widget.
+ * @return currently used line width
+ */
 uint WidgetBase::lineWidth() const
 {
     return m_lineWidth;
@@ -389,7 +387,10 @@ void WidgetBase::setLineWidth(uint lw)
     attributeChange(LineWidthHasChanged, oldWidth);
 }
 
-/// @return Font color used to draw font.
+/**
+ * Returns the color of the font drawn in the widget.
+ * @return currently used font color
+ */
 QColor WidgetBase::textColor() const
 {
     return m_textColor;

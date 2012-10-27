@@ -14,7 +14,7 @@
 
 #include "codecomment.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 /**
   * A class representing a D code comment.

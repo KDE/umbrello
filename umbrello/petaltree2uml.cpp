@@ -31,7 +31,7 @@
 #include "umllistviewitem.h"
 
 // qt includes
-#include <QtCore/QRegExp>
+#include <QRegExp>
 
 namespace Import_Rose {
 

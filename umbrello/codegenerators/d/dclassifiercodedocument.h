@@ -12,14 +12,14 @@
 #ifndef DCLASSIFIERCODEDOCUMENT_H
 #define DCLASSIFIERCODEDOCUMENT_H
 
-#include <QtCore/QString>
-
 #include "codeclassfieldlist.h"
 #include "classifiercodedocument.h"
 #include "classifier.h"
 #include "hierarchicalcodeblock.h"
 #include "dcodeclassfield.h"
 #include "dcodeoperation.h"
+
+#include <QString>
 
 class DClassDeclarationBlock;
 class DCodeGenerationPolicy;

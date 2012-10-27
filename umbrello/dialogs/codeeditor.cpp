@@ -41,16 +41,16 @@
 #include <kmenu.h>
 
 // qt includes
-#include <QtGui/QMouseEvent>
-#include <QtGui/QKeyEvent>
-#include <QtGui/QKeySequence>
-#include <QtGui/QMenu>
-#include <QtGui/QColor>
-#include <QtGui/QLabel>
-#include <QtGui/QBrush>
-#include <QtGui/QLayout>
-#include <QtCore/QPointer>
-#include <QtCore/QRegExp>
+#include <QBrush>
+#include <QColor>
+#include <QKeyEvent>
+#include <QKeySequence>
+#include <QLabel>
+#include <QLayout>
+#include <QMenu>
+#include <QMouseEvent>
+#include <QPointer>
+#include <QRegExp>
 
 /**
  * Constructor.

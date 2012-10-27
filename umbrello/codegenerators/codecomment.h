@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,7 +14,7 @@
 
 #include "textblock.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 /**
  * Text which will be comments. These should be bracketed by what ever code type
@@ -24,16 +24,11 @@ class CodeComment : public TextBlock
 {
 public:
 
-    explicit CodeComment ( CodeDocument * doc, const QString & comment = "");
+    explicit CodeComment(CodeDocument * doc, const QString & comment = "");
+    virtual ~CodeComment();
 
-    /**
-     * Empty Destructor.
-     */
-    virtual ~CodeComment ( );
-
-    virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
-
-    virtual void loadFromXMI ( QDomElement & root );
+    virtual void saveToXMI(QDomDocument & doc, QDomElement & root);
+    virtual void loadFromXMI(QDomElement & root);
 
 protected:
 

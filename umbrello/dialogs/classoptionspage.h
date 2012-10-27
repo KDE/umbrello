@@ -14,7 +14,7 @@
 
 #include "optionstate.h"
 
-#include <QtGui/QWidget>
+#include <QWidget>
 
 class ClassifierWidget;
 class KComboBox;

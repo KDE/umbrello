@@ -11,8 +11,8 @@
 #ifndef CMD_CHANGEFONTSELECTION_H
 #define CMD_CHANGEFONTSELECTION_H
 
-#include <QtGui/QUndoCommand>
-#include <QtGui/QFont>
+#include <QFont>
+#include <QUndoCommand>
 
 class UMLDoc;
 class UMLScene;

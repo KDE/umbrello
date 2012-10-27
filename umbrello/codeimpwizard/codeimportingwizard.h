@@ -21,7 +21,7 @@
 #define CODEIMPORTINGWIZARD_H
 
 // qt includes
-#include <QtGui/QWizard>
+#include <QWizard>
 
 class QFileInfo;
 class QWizardPage;

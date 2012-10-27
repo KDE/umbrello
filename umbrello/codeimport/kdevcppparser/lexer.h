@@ -37,9 +37,9 @@ namespace boost { namespace spirit { namespace classic { namespace impl {
 #include "position.h"
 
 #include <list>
-#include <QtCore/QString>
-#include <QtCore/QMap>
-#include <QtCore/QPair>
+#include <QMap>
+#include <QPair>
+#include <QString>
 #include <assert.h>
 
 #include "skip_rule.hpp"

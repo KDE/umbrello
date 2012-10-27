@@ -17,7 +17,7 @@
 #include "umlattributelist.h"
 #include "umlassociationlist.h"
 
-#include <QtCore/QStringList>
+#include <QStringList>
 
 class QFile;
 class QTextStream;

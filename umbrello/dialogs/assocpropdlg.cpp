@@ -31,10 +31,10 @@
 #include <kvbox.h>
 
 // qt includes
-#include <QtGui/QLayout>
-#include <QtGui/QLabel>
-#include <QtGui/QFrame>
-#include <QtGui/QHBoxLayout>
+#include <QFrame>
+#include <QLabel>
+#include <QLayout>
+#include <QHBoxLayout>
 
 AssocPropDlg::AssocPropDlg (QWidget *parent, AssociationWidget * assocWidget, int pageNum)
   : DialogBase(parent)

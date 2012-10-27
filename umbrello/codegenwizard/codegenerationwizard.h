@@ -12,11 +12,11 @@
 #ifndef CODEGENERATIONWIZARD_H
 #define CODEGENERATIONWIZARD_H
 
-// qt includes
-#include <QtGui/QWizard>
-
 // app includes
 #include "umlclassifierlist.h"
+
+// qt includes
+#include <QWizard>
 
 class QWizardPage;
 class QListWidget;

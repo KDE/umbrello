@@ -30,13 +30,13 @@
 #include "umlview.h"
 #include "widget_utils.h"
 
-#include <QtCore/QBuffer>
-#include <QtCore/QMetaObject>
-#include <QtCore/QMetaProperty>
-#include <QtCore/QTime>
-#include <QtCore/QTimerEvent>
-#include <QtGui/QApplication>
-#include <QtGui/QLabel>
+#include <QBuffer>
+#include <QMetaObject>
+#include <QMetaProperty>
+#include <QTime>
+#include <QTimerEvent>
+#include <QApplication>
+#include <QLabel>
 
 #include <kdebug.h>
 

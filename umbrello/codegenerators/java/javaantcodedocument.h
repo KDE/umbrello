@@ -14,9 +14,9 @@
 
 #include "codedocument.h"
 
-#include <QtCore/QString>
-#include <QtXml/QDomDocument>
-#include <QtXml/QDomElement>
+#include <QDomDocument>
+#include <QDomElement>
+#include <QString>
 
 /**
  * class JavaANTCodeDocument

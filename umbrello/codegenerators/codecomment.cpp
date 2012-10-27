@@ -18,6 +18,9 @@ CodeComment::CodeComment(CodeDocument * doc, const QString & comment)
 {
 }
 
+/**
+ * Empty Destructor.
+ */
 CodeComment::~CodeComment()
 {
 }

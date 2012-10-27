@@ -27,9 +27,9 @@
 #include <kio/netaccess.h>
 
 // Qt include files
-#include <QtCore/QPointer>
-#include <QtCore/QString>
-#include <QtCore/QStringList>
+#include <QPointer>
+#include <QString>
+#include <QStringList>
 
 /**
  * Constructor for UMLViewImageExporter.

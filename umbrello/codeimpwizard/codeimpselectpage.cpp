@@ -28,7 +28,7 @@
 #include <klocale.h>
 
 // qt includes
-#include <QtGui/QFileSystemModel>
+#include <QFileSystemModel>
 
 /**
  * Keep the last clicked directory for setting it the next time.

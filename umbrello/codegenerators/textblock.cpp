@@ -19,8 +19,8 @@
 #include "uml.h"
 
 // qt includes
-#include <QtCore/QTextStream>
-#include <QtCore/QRegExp>
+#include <QRegExp>
+#include <QTextStream>
 
 /**
  * Constructor.

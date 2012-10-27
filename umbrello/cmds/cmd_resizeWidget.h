@@ -11,7 +11,7 @@
 #ifndef CMD_RESIZEWIDGET_H
 #define CMD_RESIZEWIDGET_H
 
-#include <QtGui/QUndoCommand>
+#include <QUndoCommand>
 
 class UMLWidgetController;
 

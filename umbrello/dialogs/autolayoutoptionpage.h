@@ -13,7 +13,7 @@
 
 #include "ui_autolayoutoptionpage.h"
 
-#include <QtGui/QWidget>
+#include <QWidget>
 
 /**
  * A dialog page to display auto layouts options

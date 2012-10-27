@@ -4,20 +4,12 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2011                                               *
+ *   copyright (C) 2006-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "umlwidgetcontroller.h"
-
-// qt includes
-#include <QtCore/QEvent>
-#include <QtCore/QPoint>
-
-// kde includes
-#include <kcursor.h>
-#include <klocale.h>
 
 // app includes
 #include "umlwidget.h"
@@ -30,6 +22,14 @@
 #include "associationwidget.h"
 #include "cmds.h"
 #include "umlscene.h"
+
+// kde includes
+#include <kcursor.h>
+#include <klocale.h>
+
+// qt includes
+#include <QEvent>
+#include <QPoint>
 
 using namespace Uml;
 

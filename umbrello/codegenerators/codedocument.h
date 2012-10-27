@@ -12,12 +12,12 @@
 #ifndef CODEDOCUMENT_H
 #define CODEDOCUMENT_H
 
-#include <QtCore/QObject>
-#include <QtCore/QMap>
-#include <QtCore/QString>
-
 #include "codegenobjectwithtextblocks.h"
 #include "hierarchicalcodeblock.h"
+
+#include <QMap>
+#include <QObject>
+#include <QString>
 
 class CodeBlockWithComments;
 class CodeComment;

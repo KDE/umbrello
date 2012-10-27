@@ -13,7 +13,7 @@
 
 #include "basictypes.h"
 
-#include <QtCore/QVector>
+#include <QVector>
 
 /**
  * This class contains all the ID translations done for each

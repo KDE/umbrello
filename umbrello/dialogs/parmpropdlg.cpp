@@ -26,14 +26,14 @@
 #include <kmessagebox.h>
 
 // qt includes
-#include <QtGui/QLayout>
-#include <QtGui/QLabel>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QGridLayout>
-#include <QtGui/QGroupBox>
-#include <QtGui/QComboBox>
-#include <QtGui/QRadioButton>
+#include <QComboBox>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QLayout>
+#include <QRadioButton>
+#include <QVBoxLayout>
 
 /**
  * Constructs a ParmPropDlg.

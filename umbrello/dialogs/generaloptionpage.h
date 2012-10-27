@@ -11,7 +11,7 @@
 #ifndef GENERALOPTIONPAGE_H
 #define GENERALOPTIONPAGE_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 
 class KIntSpinBox;
 class KLineEdit;

@@ -16,11 +16,11 @@
 
 #include <klocale.h>
 
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QGroupBox>
+#include <QGroupBox>
+#include <QHBoxLayout>
 
 /**
- *  Constructs an instance of AssocPage.
+ * Constructs an instance of AssocPage.
  *
  *  @param  parent  The parent of the page
  *  @param  v       The view the UMLObject being represented.

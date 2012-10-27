@@ -24,7 +24,7 @@
 #include "uml.h"
 
 // qt includes
-#include <QtCore/QRegExp>
+#include <QRegExp>
 
 CodeClassField::CodeClassField ( ClassifierCodeDocument * doc , UMLRole * role)
         : CodeParameter ( doc , (UMLObject*) role)

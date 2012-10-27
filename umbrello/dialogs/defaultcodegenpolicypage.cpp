@@ -13,7 +13,7 @@
 #include "defaultcodegenpolicypage.h"
 
 // qt/kde includes
-#include <QtGui/QLabel>
+#include <QLabel>
 #include <klocale.h>
 
 /**

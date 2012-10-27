@@ -11,7 +11,7 @@
 #ifndef SEQLINEWIDGET_H
 #define SEQLINEWIDGET_H
 
-#include <QtGui/QGraphicsItem>
+#include <QGraphicsItem>
 
 class ObjectWidget;
 

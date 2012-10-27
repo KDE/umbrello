@@ -38,7 +38,7 @@
 #include <kmessagebox.h>
 
 // qt includes
-#include <QtCore/QPointer>
+#include <QPointer>
 
 using namespace Uml;
 

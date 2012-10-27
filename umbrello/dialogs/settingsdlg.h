@@ -10,12 +10,8 @@
 #ifndef SETTINGSDLG_H
 #define SETTINGSDLG_H
 
-// qt includes
-#include <QtGui/QGroupBox>
-#include <QtGui/QCheckBox>
-#include <QtGui/QPushButton>
-#include <QtGui/QLabel>
-#include <QtGui/QRadioButton>
+// app includes
+#include "optionstate.h"
 
 // kde includes
 #include <kcombobox.h>
@@ -25,8 +21,12 @@
 #include <knuminput.h>
 #include <klineedit.h>
 
-// app includes
-#include "optionstate.h"
+// qt includes
+#include <QCheckBox>
+#include <QGroupBox>
+#include <QLabel>
+#include <QPushButton>
+#include <QRadioButton>
 
 class UMLWidgetStylePage;
 class AutoLayoutOptionPage;

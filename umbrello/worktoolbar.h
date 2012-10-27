@@ -15,9 +15,9 @@
 
 #include <ktoolbar.h>
 
-#include <QtCore/QMap>
-#include <QtGui/QPixmap>
-#include <QtGui/QCursor>
+#include <QCursor>
+#include <QMap>
+#include <QPixmap>
 
 class QMainWindow;
 class QAction;

@@ -15,10 +15,10 @@
 #include "umlpackagelist.h"
 
 //qt includes
-#include <QtCore/QObject>
-#include <QtCore/QString>
-#include <QtXml/QDomDocument>
-#include <QtXml/QDomElement>
+#include <QDomDocument>
+#include <QDomElement>
+#include <QObject>
+#include <QString>
 
 class UMLStereotype;
 

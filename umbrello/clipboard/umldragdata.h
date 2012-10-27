@@ -19,8 +19,8 @@
 #include "umlviewlist.h"
 #include "umlwidgetlist.h"
 
-#include <QtCore/QList>
-#include <QtCore/QMimeData>
+#include <QList>
+#include <QMimeData>
 
 class UMLListView;
 class UMLClassifier;

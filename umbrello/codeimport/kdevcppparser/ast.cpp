@@ -21,7 +21,7 @@
 
 #include "debug_utils.h"
 
-#include <QtCore/QStringList>
+#include <QStringList>
 
 QString nodeTypeToString( int type )
 {

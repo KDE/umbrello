@@ -11,7 +11,7 @@
 #ifndef CODEGENPOLICYEXT_H
 #define CODEGENPOLICYEXT_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class QWidget;
 class KConfig;

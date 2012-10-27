@@ -24,7 +24,7 @@
 #include <klocale.h>
 
 // qt includes
-#include <QtGui/QVBoxLayout>
+#include <QVBoxLayout>
 
 /**
  * Constructor.

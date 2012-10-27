@@ -11,7 +11,7 @@
 #ifndef CMD_SETTXT_H
 #define CMD_SETTXT_H
 
-#include <QtGui/QUndoCommand>
+#include <QUndoCommand>
 
 class FloatingTextWidget;
 

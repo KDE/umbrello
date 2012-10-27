@@ -24,8 +24,8 @@
 
 #include <kicon.h>
 
-#include <QtGui/QCursor>
-#include <QtGui/QPixmap>
+#include <QCursor>
+#include <QPixmap>
 
 /**
  * This class is a gateway to KIconLoader for for handling all the

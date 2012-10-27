@@ -15,7 +15,7 @@
 #include "codemethodblock.h"
 #include "operation.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 /**
  *

@@ -30,7 +30,7 @@
 #include "association.h"
 
 // qt includes
-#include <QtCore/QMap>
+#include <QMap>
 
 // static members
 CppDriver * CppImport::ms_driver;

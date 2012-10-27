@@ -16,7 +16,7 @@
 #include "entityconstraint.h"
 
 // qt includes
-#include <QtCore/QMap>
+#include <QMap>
 
 //forward declarations
 class UMLEntityAttribute;

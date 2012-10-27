@@ -5,14 +5,14 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2001      Gustavo Madrigal <gmadrigal@nextphere.com>    *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2012                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef UMLWIDGETLIST_H
 #define UMLWIDGETLIST_H
 
-#include <QtCore/QList>
+#include <QList>
 
 class UMLWidget;
 

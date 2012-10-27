@@ -63,16 +63,16 @@
 #include <kapplication.h>
 
 // qt includes
-#include <QtCore/QPointer>
-#include <QtCore/QRegExp>
-#include <QtCore/QPoint>
-#include <QtCore/QRect>
-#include <QtCore/QEvent>
-#include <QtGui/QFocusEvent>
-#include <QtGui/QKeyEvent>
-#include <QtGui/QDropEvent>
-#include <QtGui/QMouseEvent>
-#include <QtGui/QToolTip>
+#include <QDropEvent>
+#include <QEvent>
+#include <QFocusEvent>
+#include <QKeyEvent>
+#include <QMouseEvent>
+#include <QPointer>
+#include <QRegExp>
+#include <QPoint>
+#include <QRect>
+#include <QToolTip>
 
 /**
  * Constructs the tree view.

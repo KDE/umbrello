@@ -11,7 +11,7 @@
 #ifndef CMD_SETSTEREOTYPE_H
 #define CMD_SETSTEREOTYPE_H
 
-#include <QtGui/QUndoCommand>
+#include <QUndoCommand>
 
 class UMLObject;
 

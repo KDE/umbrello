@@ -11,18 +11,18 @@
 #ifndef ASSOCROLEPAGE_H
 #define ASSOCROLEPAGE_H
 
-// qt includes
-#include <QtGui/QWidget>
-
-#include <klineedit.h>
-#include <kcombobox.h>
-#include <ktextedit.h>
-
 // app includes
 #include "umlobject.h"
 #include "objectwidget.h"
 #include "umldoc.h"
 #include "associationwidget.h"
+
+#include <klineedit.h>
+#include <kcombobox.h>
+#include <ktextedit.h>
+
+// qt includes
+#include <QWidget>
 
 class QRadioButton;
 

@@ -29,14 +29,14 @@
 #include <kmessagebox.h>
 
 // qt includes
-#include <QtGui/QGroupBox>
-#include <QtGui/QLayout>
-#include <QtGui/QCheckBox>
-#include <QtGui/QRadioButton>
-#include <QtGui/QLabel>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QGridLayout>
+#include <QCheckBox>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QLayout>
+#include <QRadioButton>
+#include <QVBoxLayout>
 
 UMLAttributeDialog::UMLAttributeDialog( QWidget * pParent, UMLAttribute * pAttribute )
         : KDialog( pParent)

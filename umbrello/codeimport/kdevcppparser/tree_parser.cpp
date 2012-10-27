@@ -21,7 +21,7 @@
 
 #include "debug_utils.h"
 
-#include <QtCore/QList>
+#include <QList>
 
 TreeParser::TreeParser()
 {

@@ -11,18 +11,18 @@
 // own header
 #include "codegenselectpage.h"
 
-//qt includes
-#include <QtGui/QListWidget>
-
-//kde includes
-#include <klocale.h>
-
 // app includes
 #include "folder.h"
 #include "umldoc.h"
 #include "uml.h"
 #include "classifier.h"
 #include "entity.h"
+
+//kde includes
+#include <klocale.h>
+
+//qt includes
+#include <QListWidget>
 
 /**
  * Constructor. 

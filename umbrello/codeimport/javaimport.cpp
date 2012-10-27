@@ -25,10 +25,10 @@
 #include "umlpackagelist.h"
 
 // qt includes
-#include <QtCore/QFile>
-#include <QtCore/QTextStream>
-#include <QtCore/QStringList>
-#include <QtCore/QRegExp>
+#include <QFile>
+#include <QRegExp>
+#include <QStringList>
+#include <QTextStream>
 
 QStringList JavaImport::s_filesAlreadyParsed;
 int JavaImport::s_parseDepth = 0;

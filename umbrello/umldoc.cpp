@@ -57,16 +57,16 @@
 #include <kapplication.h>
 
 // qt includes
-#include <QtCore/QTimer>
-#include <QtCore/QDateTime>
-#include <QtCore/QBuffer>
-#include <QtCore/QDir>
-#include <QtCore/QRegExp>
-#include <QtCore/QTextStream>
-#include <QtGui/QPainter>
-#include <QtGui/QPrinter>
-#include <QtXml/QDomElement>
-#include <QtXml/QDomDocument>
+#include <QBuffer>
+#include <QDateTime>
+#include <QDir>
+#include <QDomDocument>
+#include <QDomElement>
+#include <QPainter>
+#include <QPrinter>
+#include <QRegExp>
+#include <QTextStream>
+#include <QTimer>
 
 // Update this version when changing the XMI file format
 #define XMI_FILE_VERSION "1.6.1"

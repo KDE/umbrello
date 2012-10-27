@@ -15,7 +15,7 @@
 #include <kurl.h>
 #include <ktempdir.h>
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class UMLDoc;
 

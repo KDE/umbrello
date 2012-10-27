@@ -17,10 +17,10 @@
 #include "icon_utils.h"
 #include "umlobject.h"
 
-#include <QtXml/QDomDocument>
-#include <QtXml/QDomElement>
-#include <QtGui/QTreeWidget>
-#include <QtGui/QTreeWidgetItem>
+#include <QDomDocument>
+#include <QDomElement>
+#include <QTreeWidget>
+#include <QTreeWidgetItem>
 
 class QEvent;
 class QMouseEvent;

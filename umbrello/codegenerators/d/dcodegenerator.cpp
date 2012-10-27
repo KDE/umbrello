@@ -12,17 +12,18 @@
 // own header
 #include "dcodegenerator.h"
 
-// qt/kde includes
-#include <QtCore/QRegExp>
-
-#include <kconfig.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-
 // local includes
 #include "codeviewerdialog.h"
 #include "dcodecomment.h"
 #include "uml.h"
+
+// kde includes
+#include <kconfig.h>
+#include <klocale.h>
+#include <kmessagebox.h>
+
+// qt includes
+#include <QRegExp>
 
 /**
  * Constructor.

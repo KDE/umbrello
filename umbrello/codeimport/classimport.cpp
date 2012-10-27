@@ -11,10 +11,6 @@
 // own header
 #include "classimport.h"
 
-// qt/kde includes
-#include <QtCore/QRegExp>
-#include <klocale.h>
-
 // app includes
 #include "debug_utils.h"
 #include "umldoc.h"
@@ -29,6 +25,12 @@
 #endif
 #include "csharpimport.h"
 #include "codeimpthread.h"
+
+// kde includes
+#include <klocale.h>
+
+// qt includes
+#include <QRegExp>
 
 /**
  * Factory method.

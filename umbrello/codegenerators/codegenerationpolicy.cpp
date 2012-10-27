@@ -24,10 +24,10 @@
 #include <kstandarddirs.h>
 
 // qt includes
-#include <QtCore/QStringList>
-#include <QtCore/QRegExp>
-#include <QtCore/QTextStream>
-#include <QtCore/QDateTime>
+#include <QDateTime>
+#include <QRegExp>
+#include <QStringList>
+#include <QTextStream>
 
 using namespace std;
 

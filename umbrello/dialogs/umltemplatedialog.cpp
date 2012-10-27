@@ -25,12 +25,12 @@
 #include <kmessagebox.h>
 
 // qt includes
-#include <QtGui/QLayout>
-#include <QtGui/QGroupBox>
-#include <QtGui/QComboBox>
-#include <QtGui/QLabel>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QGridLayout>
+#include <QComboBox>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QLabel>
+#include <QLayout>
+#include <QVBoxLayout>
 
 UMLTemplateDialog::UMLTemplateDialog(QWidget* pParent, UMLTemplate* pTemplate)
         : KDialog( pParent)

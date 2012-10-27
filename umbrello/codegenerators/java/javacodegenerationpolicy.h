@@ -15,7 +15,7 @@
 #include "codegenpolicyext.h"
 #include "codegenerationpolicy.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 class KConfig;
 class CodeGenerationPolicyPage;

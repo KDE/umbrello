@@ -13,7 +13,7 @@
 #define DOCBOOKGENERATOR_H
 
 #include <kurl.h>
-#include <QtCore/QObject>
+#include <QObject>
 
 class UMLDoc;
 class DocbookGeneratorJob;

@@ -12,7 +12,7 @@
 #ifndef CODEVIEWEROPTIONSPAGE_H
 #define CODEVIEWEROPTIONSPAGE_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 #include "ui_codevieweroptionsbase.h"
 #include "codeviewerstate.h"
 

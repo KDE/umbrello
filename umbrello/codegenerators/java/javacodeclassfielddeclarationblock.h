@@ -14,7 +14,7 @@
 
 #include "codeclassfielddeclarationblock.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 class JavaCodeClassFieldDeclarationBlock : public CodeClassFieldDeclarationBlock
 {

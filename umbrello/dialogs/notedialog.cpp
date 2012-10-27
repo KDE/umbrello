@@ -17,9 +17,9 @@
 #include <ktextedit.h>
 
 // qt includes
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QGroupBox>
+#include <QGroupBox>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 
 NoteDialog::NoteDialog( QWidget * parent, NoteWidget * pNote )
   : KDialog(parent)

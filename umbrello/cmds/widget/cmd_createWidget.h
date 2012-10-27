@@ -11,7 +11,7 @@
 #ifndef CMD_CREATE_WIDGET_H
 #define CMD_CREATE_WIDGET_H
 
-#include <QtGui/QUndoCommand>
+#include <QUndoCommand>
 
 class UMLWidget;
 class UMLScene;

@@ -13,7 +13,7 @@
 #include "cppcodecomment.h"
 
 // qt includes
-#include <QtCore/QRegExp>
+#include <QRegExp>
 
 
 CPPCodeComment::CPPCodeComment ( CodeDocument * doc, const QString & text )

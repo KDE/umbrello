@@ -11,7 +11,7 @@
 #ifndef CODEDOCUMENTLIST_H
 #define CODEDOCUMENTLIST_H
 
-#include <QtCore/QList>
+#include <QList>
 
 // forward declarations
 class CodeDocument;

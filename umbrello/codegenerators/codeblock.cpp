@@ -14,7 +14,7 @@
 #include "codedocument.h"
 #include "debug_utils.h"
 
-#include <QtCore/QTextStream>
+#include <QTextStream>
 
 /**
  * Constructor.

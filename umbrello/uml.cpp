@@ -75,23 +75,23 @@
 #include <kstatusbar.h>
 
 // qt includes
-#include <QtCore/QPointer>
-#include <QtCore/QRegExp>
-#include <QtCore/QTimer>
-#include <QtGui/QClipboard>
-#include <QtGui/QSlider>
-#include <QtGui/QToolButton>
-#include <QtGui/QKeyEvent>
-#include <QtGui/QMenu>
-#include <QtGui/QMenuItem>
-#include <QtGui/QDockWidget>
-#include <QtGui/QStackedWidget>
-#include <QtGui/QPrinter>
-#include <QtGui/QPrintDialog>
-#include <QtGui/QPrintPreviewDialog>
-#include <QtGui/QUndoView>
-#include <QtGui/QPushButton>
-#include <QtGui/QLabel>
+#include <QClipboard>
+#include <QDockWidget>
+#include <QKeyEvent>
+#include <QLabel>
+#include <QMenu>
+#include <QMenuItem>
+#include <QPointer>
+#include <QPrinter>
+#include <QPrintDialog>
+#include <QPrintPreviewDialog>
+#include <QPushButton>
+#include <QRegExp>
+#include <QSlider>
+#include <QStackedWidget>
+#include <QTimer>
+#include <QToolButton>
+#include <QUndoView>
 
 #include <cmath>
 

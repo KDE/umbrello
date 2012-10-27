@@ -23,9 +23,9 @@
 
 #include <kmessagebox.h>
 
-#include <QtCore/QFile>
-#include <QtCore/QRegExp>
-#include <QtCore/QTextStream>
+#include <QFile>
+#include <QRegExp>
+#include <QTextStream>
 
 IDLWriter::IDLWriter() : SimpleCodeGenerator(false)
 {

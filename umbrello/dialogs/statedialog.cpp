@@ -25,11 +25,11 @@
 #include <ktextedit.h>
 
 // qt includes
-#include <QtGui/QLabel>
-#include <QtGui/QFrame>
-#include <QtGui/QGridLayout>
-#include <QtGui/QGroupBox>
-#include <QtGui/QHBoxLayout>
+#include <QFrame>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QHBoxLayout>
+#include <QLabel>
 
 StateDialog::StateDialog( UMLView * pView, StateWidget * pWidget )
   : DialogBase( pView )

@@ -11,7 +11,7 @@
 #ifndef DOCWINDOW_H
 #define DOCWINDOW_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 
 class AssociationWidget;
 class KTextEdit;

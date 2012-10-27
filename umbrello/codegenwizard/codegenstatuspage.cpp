@@ -32,7 +32,7 @@
 #include <kmessagebox.h>
 
 //qt includes
-#include <QtGui/QListWidget>
+#include <QListWidget>
 
 /**
  * Constructor.

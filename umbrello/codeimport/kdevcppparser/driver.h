@@ -23,10 +23,10 @@
 #include "ast.h"
 #include "position.h"
 
-#include <QtCore/QPair>
-#include <QtCore/QStringList>
-#include <QtCore/QMap>
-#include <QtCore/QList>
+#include <QList>
+#include <QMap>
+#include <QPair>
+#include <QStringList>
 
 #include <list>
 #include <map>

@@ -19,9 +19,9 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 
-#include <QtCore/QFile>
-#include <QtCore/QTextStream>
-#include <QtCore/QRegExp>
+#include <QFile>
+#include <QRegExp>
+#include <QTextStream>
 
 // Constructor
 XMLSchemaWriter::XMLSchemaWriter()

@@ -15,7 +15,7 @@
 #include "javaclassifiercodedocument.h"
 #include "ownedhierarchicalcodeblock.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 class JavaClassDeclarationBlock : public OwnedHierarchicalCodeBlock
 {

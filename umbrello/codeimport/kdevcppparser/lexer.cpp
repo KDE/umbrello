@@ -25,10 +25,10 @@
 
 #include <klocale.h>
 
-#include <QtCore/QRegExp>
-#include <QtCore/QMap>
-#include <QtCore/QList>
-#include <QtCore/QChar>
+#include <QChar>
+#include <QList>
+#include <QMap>
+#include <QRegExp>
 
 #include <boost/bind.hpp>
 #include <boost/function.hpp>

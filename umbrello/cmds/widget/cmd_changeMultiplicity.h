@@ -13,7 +13,7 @@
 #ifndef CMD_CHANGEMULTIPLICITY_H
 #define CMD_CHANGEMULTIPLICITY_H
 
-#include <QtGui/QUndoCommand>
+#include <QUndoCommand>
 
 class UMLRole;
 

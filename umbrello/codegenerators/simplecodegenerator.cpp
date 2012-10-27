@@ -32,10 +32,10 @@
 #include <kapplication.h>
 
 // qt includes
-#include <QtCore/QDateTime>
-#include <QtCore/QDir>
-#include <QtCore/QPointer>
-#include <QtCore/QRegExp>
+#include <QDateTime>
+#include <QDir>
+#include <QPointer>
+#include <QRegExp>
 
 // system includes
 #include <cstdlib> //to get the user name

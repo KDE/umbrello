@@ -26,16 +26,16 @@
 #include <kio/netaccess.h>
 
 // include files for Qt
-#include <QtGui/QApplication>
-#include <QtGui/QImageWriter>
-#include <QtCore/QRect>
-#include <QtGui/QImage>
-#include <QtGui/QPicture>
-#include <QtGui/QPainter>
-#include <QtGui/QPrinter>
-#include <QtCore/QDir>
-#include <QtCore/QRegExp>
-#include <QtSvg/QSvgGenerator>
+#include <QApplication>
+#include <QDir>
+#include <QImage>
+#include <QImageWriter>
+#include <QPainter>
+#include <QPicture>
+#include <QPrinter>
+#include <QRect>
+#include <QRegExp>
+#include <QSvgGenerator>
 
 // system includes
 #include <cmath>

@@ -25,10 +25,10 @@
 #include "template.h"
 
 // qt includes
-#include <QtCore/QFileInfo>
-#include <QtCore/QDir>
-#include <QtCore/QRegExp>
-#include <QtCore/QList>
+#include <QDir>
+#include <QFileInfo>
+#include <QList>
+#include <QRegExp>
 
 CppTree2Uml::CppTree2Uml(const QString& fileName, CodeImpThread* thread)
     : m_anon( 0 ), m_nsCnt( 0 ), m_clsCnt( 0 ), m_thread( thread )

@@ -16,7 +16,7 @@
 #include "rubyclassifiercodedocument.h"
 #include "ownedhierarchicalcodeblock.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 class RubyClassDeclarationBlock : public OwnedHierarchicalCodeBlock
 {

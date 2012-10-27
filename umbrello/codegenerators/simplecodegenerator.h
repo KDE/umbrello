@@ -15,9 +15,9 @@
 #include "basictypes.h"
 #include "codegenerator.h"
 
-#include <QtCore/QStringList>
-#include <QtCore/QString>
-#include <QtCore/QMap>
+#include <QMap>
+#include <QString>
+#include <QStringList>
 
 class UMLDoc;
 

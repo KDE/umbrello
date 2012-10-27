@@ -31,8 +31,8 @@
 #include <klocale.h>
 
 // qt includes
-#include <QtCore/QPointer>
-#include <QtGui/QApplication>
+#include <QApplication>
+#include <QPointer>
 
 using namespace Uml;
 

@@ -29,9 +29,9 @@
 #include "codegenerationpolicy.h"
 
 // qt includes
-#include <QtCore/QFile>
-#include <QtCore/QTextStream>
-#include <QtCore/QRegExp>
+#include <QFile>
+#include <QRegExp>
+#include <QTextStream>
 
 // 3-14-2003: this code developed from the javawriter with parts of the
 // original cppwriter by Luis De la Parra Blum

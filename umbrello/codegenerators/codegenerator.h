@@ -20,9 +20,9 @@
 #include "codedocumentlist.h"
 #include "codeviewerstate.h"
 
-#include <QtCore/QHash>
-#include <QtCore/QList>
-#include <QtCore/QDir>
+#include <QDir>
+#include <QHash>
+#include <QList>
 
 class UMLDoc;
 class UMLObject;

@@ -24,7 +24,7 @@
 #ifndef KJSLOOKUP_H
 #define KJSLOOKUP_H
 
-#include <QtCore/QString>
+#include <QString>
 
   /**
    * An entry in a hash table.

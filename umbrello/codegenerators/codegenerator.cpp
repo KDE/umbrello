@@ -37,13 +37,13 @@
 #include <kapplication.h>
 
 // qt includes
-#include <QtCore/QDateTime>
-#include <QtCore/QDir>
-#include <QtCore/QPointer>
-#include <QtCore/QRegExp>
-#include <QtCore/QTextStream>
-#include <QtXml/QDomDocument>
-#include <QtXml/QDomElement>
+#include <QDateTime>
+#include <QDir>
+#include <QDomDocument>
+#include <QDomElement>
+#include <QPointer>
+#include <QRegExp>
+#include <QTextStream>
 
 // system includes
 #include <cstdlib>  // to get the user name

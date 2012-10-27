@@ -25,8 +25,8 @@
 #include <kmessagebox.h>
 
 // Qt include files 
-#include <QtCore/QString>
-#include <QtCore/QStringList>
+#include <QString>
+#include <QStringList>
 
 /**
  * Constructor for UMLViewImageExporterAll

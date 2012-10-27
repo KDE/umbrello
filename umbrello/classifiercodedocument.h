@@ -17,10 +17,6 @@
 #ifndef CLASSIFIERCODEDOCUMENT_H
 #define CLASSIFIERCODEDOCUMENT_H
 
-#include <QtCore/QMap>
-#include <QtCore/QList>
-#include <QtCore/QString>
-
 #include "classifier.h"
 #include "codeaccessormethod.h"
 #include "codedocument.h"
@@ -28,6 +24,10 @@
 #include "codeclassfield.h"
 #include "codeclassfieldlist.h"
 #include "umlassociationlist.h"
+
+#include <QMap>
+#include <QList>
+#include <QString>
 
 class UMLRole;
 
