@@ -132,6 +132,8 @@ public:
     const QColor& gridDotColor() const;
     void setGridDotColor(const QColor& color);
 
+    void setSize(UMLSceneValue width, UMLSceneValue height);
+
     bool snapToGrid() const;
     void setSnapToGrid(bool bSnap);
 
@@ -244,8 +246,8 @@ public:
 
     void updateDocumentation(bool clear);
 
-    void getDiagram(const UMLSceneRect &rect, QPixmap & diagram);
-    void getDiagram(const UMLSceneRect &area, QPainter & painter);
+    void getDiagram(QPixmap & diagram, const UMLSceneRect &rect);
+    void getDiagram(QPainter &painter, const UMLSceneRect &source, const UMLSceneRect &target = UMLSceneRect());
 
     void copyAsImage(QPixmap*& pix);
 

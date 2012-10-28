@@ -425,7 +425,7 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLScene* scene, const QString &
 
     UMLSceneRect rect = scene->diagramRect();
     painter->translate(-rect.x(), -rect.y());
-    scene->getDiagram(rect, *painter);
+    scene->getDiagram(*painter, rect);
 
     int resolution = printer->resolution();
 
@@ -477,7 +477,7 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLScene* scene, const QString &
     //      which is not correctly implemented for now.
 
     painter.translate(-rect.x(),-rect.y());
-    scene->getDiagram(rect, painter);
+    scene->getDiagram(painter, rect);
     painter.end();
 
     //FIXME: Determine the status of svg generation.
@@ -510,7 +510,7 @@ bool UMLViewImageExporterModel::exportViewToPixmap(UMLScene* scene, const QStrin
 
     UMLSceneRect rect = scene->diagramRect();
     QPixmap diagram(rect.width(), rect.height());
-    scene->getDiagram(rect, diagram);
+    scene->getDiagram(diagram, rect);
     bool exportSuccessful = diagram.save(fileName, qPrintable(imageType.toUpper()));
     DEBUG(DBG_IEM) << "saving to file " << fileName
                    << " , imageType=" << imageType
