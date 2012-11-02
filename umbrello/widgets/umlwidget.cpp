@@ -244,9 +244,9 @@ void UMLWidget::setMaximumSize(const UMLSceneSize& newSize)
  * Calls the method with the same name in UMLWidgetController.
  * @see UMLWidgetController#mouseMoveEvent
  *
- * @param me The UMLSceneMouseEvent event.
+ * @param me The QGraphicsSceneMouseEvent event.
  */
-void UMLWidget::mouseMoveEvent(UMLSceneMouseEvent* me)
+void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 {
     m_widgetController->mouseMoveEvent(me);
 }
@@ -255,9 +255,9 @@ void UMLWidget::mouseMoveEvent(UMLSceneMouseEvent* me)
  * Calls the method with the same name in UMLWidgetController.
  * @see UMLWidgetController#mousePressEvent
  *
- * @param me The UMLSceneMouseEvent event.
+ * @param me The QGraphicsSceneMouseEvent event.
  */
-void UMLWidget::mousePressEvent(UMLSceneMouseEvent *me)
+void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *me)
 {
     m_widgetController->mousePressEvent(me);
 }
@@ -315,9 +315,9 @@ void UMLWidget::constrain(UMLSceneValue& width, UMLSceneValue& height)
  * Calls the method with the same name in UMLWidgetController.
  * @see UMLWidgetController#mouseReleaseEvent
  *
- * @param me The UMLSceneMouseEvent event.
+ * @param me The QGraphicsSceneMouseEvent event.
  */
-void UMLWidget::mouseReleaseEvent(UMLSceneMouseEvent *me)
+void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
 {
     m_widgetController->mouseReleaseEvent(me);
 }
@@ -608,9 +608,9 @@ void UMLWidget::slotLineWidthChanged(Uml::IDType viewID)
  * Calls the method with the same name in UMLWidgetController.
  * @see UMLWidgetController#mouseDoubleClickEvent
  *
- * @param me The UMLSceneMouseEvent event.
+ * @param me The QGraphicsSceneMouseEvent event.
  */
-void UMLWidget::mouseDoubleClickEvent(UMLSceneMouseEvent * me)
+void UMLWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent * me)
 {
     m_widgetController->mouseDoubleClickEvent(me);
 }
@@ -1471,7 +1471,7 @@ bool UMLWidget::showStereotype() const
  *
  * @param me The move event.
  */
-void UMLWidget::moveEvent(UMLSceneMouseEvent* /*me*/)
+void UMLWidget::moveEvent(QGraphicsSceneMouseEvent* /*me*/)
 {
 }
 

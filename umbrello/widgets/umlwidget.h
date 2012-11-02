@@ -224,10 +224,10 @@ public:
 
     UMLWidgetController* getWidgetController();
 
-    virtual void mouseMoveEvent(UMLSceneMouseEvent * me);
-    virtual void mousePressEvent(UMLSceneMouseEvent *me);
-    virtual void mouseDoubleClickEvent(UMLSceneMouseEvent *me);
-    virtual void mouseReleaseEvent(UMLSceneMouseEvent * me);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * me);
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *me);
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *me);
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * me);
 
     UMLScene* canvas() const
     {
@@ -239,7 +239,7 @@ public:
         scene->addItem(this);
     }
 
-    virtual void moveEvent(UMLSceneMouseEvent *me);
+    virtual void moveEvent(QGraphicsSceneMouseEvent *me);
 
     virtual void constrain(UMLSceneValue& width, UMLSceneValue& height);
 

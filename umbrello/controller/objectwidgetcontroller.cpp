@@ -11,10 +11,6 @@
 // own header
 #include "objectwidgetcontroller.h"
 
-// kde includes
-#include <kcursor.h>
-#include <klocale.h>
-
 // app includes
 #include "objectwidget.h"
 #include "seqlinewidget.h"
@@ -28,6 +24,10 @@
 #include "classifierwidget.h"
 #include "associationwidget.h"
 #include "messagewidget.h"
+
+// kde includes
+#include <kcursor.h>
+#include <klocale.h>
 
 /**
  * Constructor for ObjectWidgetController.
@@ -75,7 +75,7 @@ void ObjectWidgetController::resizeWidget(UMLSceneValue newW, UMLSceneValue newH
 /**
  * Overrides the standard operation.
  */
-void ObjectWidgetController::mousePressEvent(UMLSceneMouseEvent *me)
+void ObjectWidgetController::mousePressEvent(QGraphicsSceneMouseEvent *me)
 {
     UMLWidgetController::mousePressEvent(me);
     m_isOnDestructionBox = false;
@@ -92,7 +92,7 @@ void ObjectWidgetController::mousePressEvent(UMLSceneMouseEvent *me)
 /**
  * Overrides the standard operation.
  */
-void ObjectWidgetController::mouseMoveEvent(UMLSceneMouseEvent* me)
+void ObjectWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 {
     if (!m_leftButtonDown)
         return;

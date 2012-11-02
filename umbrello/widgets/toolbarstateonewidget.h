@@ -30,7 +30,7 @@ public:
     virtual void cleanBeforeChange();
 
 	// FIXME: obsolate
-    virtual void mouseMove(UMLSceneMouseEvent* ome);
+    virtual void mouseMove(QGraphicsSceneMouseEvent* ome);
 
 public Q_SLOTS:
     virtual void slotWidgetRemoved(UMLWidget* widget);

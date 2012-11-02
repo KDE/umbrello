@@ -49,7 +49,7 @@ public:
 
     void draw(QPainter & p, int offsetX, int offsetY);
 
-    virtual void moveEvent(UMLSceneMouseEvent *m);
+    virtual void moveEvent(QGraphicsSceneMouseEvent *m);
 
     void cleanup();
 

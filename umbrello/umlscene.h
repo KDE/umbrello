@@ -86,8 +86,6 @@ typedef QGraphicsSceneDragDropEvent UMLSceneDragDropEvent;
 typedef QGraphicsSceneDragDropEvent UMLSceneDragEnterEvent;
 typedef QGraphicsSceneDragDropEvent UMLSceneDragMoveEvent;
 
-#define UMLSceneMouseEvent QGraphicsSceneMouseEvent
-
 // Qt3 migration wrapper for QGraphicsScene items 
 typedef QGraphicsItem UMLSceneItem;
 typedef QList<QGraphicsItem*> UMLSceneItemList;
@@ -299,7 +297,7 @@ public:
 
     void removeWidget(UMLWidget *o);
 
-    void setSelected(UMLWidget *w, UMLSceneMouseEvent *me);
+    void setSelected(UMLWidget *w, QGraphicsSceneMouseEvent *me);
     UMLWidgetList selectedWidgets() const;
     void clearSelected();
 
@@ -475,10 +473,10 @@ protected:
     void dragMoveEvent(UMLSceneDragDropEvent* moveEvent);
     void dropEvent(UMLSceneDragDropEvent* dropEvent);
 
-    void mouseMoveEvent(UMLSceneMouseEvent* mouseEvent);
-    void mousePressEvent(UMLSceneMouseEvent* mouseEvent);
-    void mouseDoubleClickEvent(UMLSceneMouseEvent* mouseEvent);
-    void mouseReleaseEvent(UMLSceneMouseEvent* mouseEvent);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent);
+    void mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* mouseEvent);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent);
     virtual void contextMenuEvent(UMLSceneContextMenuEvent* contextMenuEvent);
 
     UMLSceneRect diagramRect();

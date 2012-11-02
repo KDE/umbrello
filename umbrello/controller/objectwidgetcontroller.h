@@ -42,8 +42,8 @@ protected:
 
     virtual void resizeWidget(UMLSceneValue newW, UMLSceneValue newH);
 
-    virtual void mousePressEvent(UMLSceneMouseEvent *me);
-    virtual void mouseMoveEvent(UMLSceneMouseEvent *me);
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *me);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *me);
 
     virtual void moveWidgetBy(UMLSceneValue diffX, UMLSceneValue diffY);
 

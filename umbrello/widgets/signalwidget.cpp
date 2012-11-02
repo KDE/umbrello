@@ -229,7 +229,7 @@ void SignalWidget::showPropertiesDialog()
 /**
  * Overrides mouseMoveEvent.
  */
-void SignalWidget::mouseMoveEvent(UMLSceneMouseEvent* me)
+void SignalWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 {
     UMLWidget::mouseMoveEvent(me);
     int diffX = m_oldX - x();

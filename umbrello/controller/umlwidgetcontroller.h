@@ -67,10 +67,10 @@ public:
     UMLWidgetController(UMLWidget *widget);
     virtual ~UMLWidgetController();
 
-    virtual void mousePressEvent(UMLSceneMouseEvent *me);
-    virtual void mouseMoveEvent(UMLSceneMouseEvent *me);
-    virtual void mouseReleaseEvent(UMLSceneMouseEvent * me);
-    virtual void mouseDoubleClickEvent(UMLSceneMouseEvent *me);
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *me);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *me);
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * me);
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *me);
 
     virtual void widgetMoved();
 
@@ -89,28 +89,28 @@ public:
 
 protected:
 
-    virtual void saveWidgetValues(UMLSceneMouseEvent *me);
+    virtual void saveWidgetValues(QGraphicsSceneMouseEvent *me);
 
-    virtual bool isInResizeArea(UMLSceneMouseEvent *me);
+    virtual bool isInResizeArea(QGraphicsSceneMouseEvent *me);
 
     virtual QCursor getResizeCursor();
 
     virtual void constrainMovementForAllWidgets(UMLSceneValue &diffX, UMLSceneValue &diffY);
 
-    virtual void doMouseDoubleClick(UMLSceneMouseEvent *me);
+    virtual void doMouseDoubleClick(QGraphicsSceneMouseEvent *me);
 
     void resetSelection();
 
-    void selectSingle(UMLSceneMouseEvent *me);
-    void selectMultiple(UMLSceneMouseEvent *me);
+    void selectSingle(QGraphicsSceneMouseEvent *me);
+    void selectMultiple(QGraphicsSceneMouseEvent *me);
 
-    void deselect(UMLSceneMouseEvent *me);
+    void deselect(QGraphicsSceneMouseEvent *me);
 
     void setSelectionBounds();
 
     void updateSelectionBounds(int diffX, int diffY);
 
-    void resize(UMLSceneMouseEvent *me);
+    void resize(QGraphicsSceneMouseEvent *me);
 
     int getSmallestX(const UMLWidgetList &widgetList);
     int getSmallestY(const UMLWidgetList &widgetList);
@@ -118,10 +118,10 @@ protected:
     int getBiggestX(const UMLWidgetList &widgetList);
     int getBiggestY(const UMLWidgetList &widgetList);
 
-    UMLScenePoint getPosition(UMLSceneMouseEvent *me);
-    UMLScenePoint getPositionDifference(UMLSceneMouseEvent *me);
+    UMLScenePoint getPosition(QGraphicsSceneMouseEvent *me);
+    UMLScenePoint getPositionDifference(QGraphicsSceneMouseEvent *me);
 
-    void showPopupMenu(UMLSceneMouseEvent *me);
+    void showPopupMenu(QGraphicsSceneMouseEvent *me);
 
     bool wasSizeChanged();
     bool wasPositionChanged();

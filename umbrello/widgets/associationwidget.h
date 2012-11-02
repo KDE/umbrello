@@ -164,10 +164,10 @@ public:
 
     void saveIdealTextPositions();
 
-    void mouseDoubleClickEvent(UMLSceneMouseEvent* me);
-    void mousePressEvent(UMLSceneMouseEvent* me);
-    void mouseReleaseEvent(UMLSceneMouseEvent* me);
-    void mouseMoveEvent(UMLSceneMouseEvent* me);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* me);
+    void mousePressEvent(QGraphicsSceneMouseEvent* me);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent* me);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent* me);
 
     bool onAssociation(const UMLScenePoint& point);
     bool onAssocClassLine(const UMLScenePoint& point);

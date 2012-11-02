@@ -173,7 +173,7 @@ protected:
     Uml::Sequence_Message_Type m_sequenceMessageType;
 
 private:
-    void moveEvent(UMLSceneMouseEvent *m);
+    void moveEvent(QGraphicsSceneMouseEvent *m);
     void resizeEvent(QResizeEvent *re);
 
     void init();

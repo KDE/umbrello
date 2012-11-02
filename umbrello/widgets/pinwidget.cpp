@@ -170,7 +170,7 @@ int PinWidget::getMinY()
 /**
  * Overrides mouseMoveEvent.
  */
-void PinWidget::mouseMoveEvent(UMLSceneMouseEvent* me)
+void PinWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 {
     UMLWidget::mouseMoveEvent(me);
     int diffX = m_oldX - x();
