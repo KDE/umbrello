@@ -76,10 +76,7 @@ typedef QGraphicsSceneDragDropEvent UMLSceneDragMoveEvent;
 
 typedef QGraphicsLineItem UMLSceneLineItem;
 typedef QGraphicsRectItem UMLSceneRectItem;
-//typedef QGraphicsSceneItem UMLSceneItem;
-typedef QGraphicsPolygonItem UMLScenePolygonItem;
 typedef QGraphicsEllipseItem UMLSceneEllipse;
-//typedef QGraphicsSceneItemList UMLSceneItemList;
 
 /**
  * UMLScene instances represent diagrams.
