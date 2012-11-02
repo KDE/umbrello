@@ -88,17 +88,6 @@ typedef QGraphicsSceneDragDropEvent UMLSceneDragMoveEvent;
 
 #define UMLSceneMouseEvent QGraphicsSceneMouseEvent
 
-class UMLSceneMoveEvent : public QGraphicsSceneMoveEvent
-{
-public:
-    UMLSceneMoveEvent() {}
-
-    UMLScenePoint pos()
-    {
-        return newPos();
-    }
-};
-
 // Qt3 migration wrapper for QGraphicsScene items 
 typedef QGraphicsItem UMLSceneItem;
 typedef QList<QGraphicsItem*> UMLSceneItemList;
@@ -174,31 +163,6 @@ public:
     {
         scene->addItem(this);
     }
-};
-
-class UMLScenePolygonItem : public QGraphicsPolygonItem
-{
-public:
-    UMLScenePolygonItem()
-    : QGraphicsPolygonItem(0)
-    {
-    }
-
-    void setZ(UMLSceneValue z)
-    {
-        setZValue(z);
-    }
-
-    void setPoints(const UMLScenePolygon &p)
-    {
-        setPolygon(p);
-    }
-
-    void setCanvas(QGraphicsScene *scene)
-    {
-        scene->addItem(this);
-    }
-
 };
 
 class UMLSceneEllipseItem : public QGraphicsEllipseItem

@@ -989,24 +989,24 @@ void AssociationLine::createHeadLines()
     case Uml::AssociationType::Generalization:
     case Uml::AssociationType::Realization:
         growList(m_HeadList, 3);
-        m_pClearPoly = new UMLScenePolygonItem;
-        m_pClearPoly->setCanvas( canvas() );
+        m_pClearPoly = new QGraphicsPolygonItem;
+        canvas()->addItem(m_pClearPoly);
         m_pClearPoly->setVisible( true );
         m_pClearPoly->setBrush( QBrush( Qt::white ) );
-        m_pClearPoly->setZ( -1 );
+        m_pClearPoly->setZValue( -1 );
         break;
 
     case Uml::AssociationType::Composition:
     case Uml::AssociationType::Aggregation:
         growList(m_HeadList, 4);
-        m_pClearPoly = new UMLScenePolygonItem;
-        m_pClearPoly->setCanvas( canvas() );
+        m_pClearPoly = new QGraphicsPolygonItem;
+        canvas()->addItem(m_pClearPoly);
         m_pClearPoly->setVisible( true );
         if( getAssocType() == Uml::AssociationType::Aggregation )
             m_pClearPoly->setBrush( QBrush( Qt::white ) );
         else
             m_pClearPoly->setBrush( QBrush( lineColor() ) );
-        m_pClearPoly->setZ( -1 );
+        m_pClearPoly->setZValue( -1 );
         break;
 
     case Uml::AssociationType::Containment:
@@ -1080,7 +1080,7 @@ void AssociationLine::updateHead()
 
         line = m_HeadList.at( 2 );
         line->setPoints( m_ArrowPointA.x(), m_ArrowPointA.y(), m_ArrowPointB.x(), m_ArrowPointB.y() );
-        m_pClearPoly->setPoints( m_PointArray );
+        m_pClearPoly->setPolygon( m_PointArray );
         break;
 
     case Uml::AssociationType::Composition:
@@ -1098,7 +1098,7 @@ void AssociationLine::updateHead()
 
         line = m_HeadList.at( 3 );
         line->setPoints( m_PointArray[ 3 ].x(), m_PointArray[ 3 ].y(), m_PointArray[ 0 ].x(), m_PointArray[ 0 ].y() );
-        m_pClearPoly->setPoints( m_PointArray );
+        m_pClearPoly->setPolygon( m_PointArray );
         break;
 
     case Uml::AssociationType::Containment:
