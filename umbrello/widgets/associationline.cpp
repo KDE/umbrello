@@ -736,7 +736,7 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 /**
  * Determines the active point or segment, the latter being given more priority.
  */
-void AssociationLine::mousePressEvent(UMLSceneMouseEvent *event)
+void AssociationLine::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     DEBUG(DBG_ASS) << "at " << event->pos();
     if (event->buttons() & Qt::LeftButton) {
@@ -761,7 +761,7 @@ void AssociationLine::mousePressEvent(UMLSceneMouseEvent *event)
 /**
  * Moves the point or line if active.
  */
-void AssociationLine::mouseMoveEvent(UMLSceneMouseEvent *event)
+void AssociationLine::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     if (m_activePointIndex != -1) {
         setPoint(m_activePointIndex, event->pos());
@@ -780,7 +780,7 @@ void AssociationLine::mouseMoveEvent(UMLSceneMouseEvent *event)
 /**
  * Reset active indices and also push undo command.
  */
-void AssociationLine::mouseReleaseEvent(UMLSceneMouseEvent *event)
+void AssociationLine::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->buttons() & Qt::LeftButton) {
         m_activeSegmentIndex = -1;
@@ -791,7 +791,7 @@ void AssociationLine::mouseReleaseEvent(UMLSceneMouseEvent *event)
 /**
  * Inserts a new point at double click position.
  */
-void AssociationLine::mouseDoubleClickEvent(UMLSceneMouseEvent *event)
+void AssociationLine::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     DEBUG(DBG_ASS) << "at " << event->pos();
     event->accept();

@@ -781,7 +781,7 @@ void UMLScene::dropEvent(UMLSceneDragDropEvent *e)
  * Overrides the standard operation.
  * Calls the same method in the current tool bar state.
  */
-void UMLScene::mouseMoveEvent(UMLSceneMouseEvent* ome)
+void UMLScene::mouseMoveEvent(QGraphicsSceneMouseEvent* ome)
 {
     m_pToolBarState->mouseMove(ome);
 }
@@ -790,7 +790,7 @@ void UMLScene::mouseMoveEvent(UMLSceneMouseEvent* ome)
  * Override standard method.
  * Calls the same method in the current tool bar state.
  */
-void UMLScene::mousePressEvent(UMLSceneMouseEvent* event)
+void UMLScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
     m_pToolBarState->mousePress(event);
 
@@ -824,7 +824,7 @@ void UMLScene::mousePressEvent(UMLSceneMouseEvent* event)
  * Override standard method.
  * Calls the same method in the current tool bar state.
  */
-void UMLScene::mouseDoubleClickEvent(UMLSceneMouseEvent* ome)
+void UMLScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* ome)
 {
     m_pToolBarState->mouseDoubleClick(ome);
 
@@ -844,7 +844,7 @@ void UMLScene::mouseDoubleClickEvent(UMLSceneMouseEvent* ome)
  * Overrides the standard operation.
  * Calls the same method in the current tool bar state.
  */
-void UMLScene::mouseReleaseEvent(UMLSceneMouseEvent* ome)
+void UMLScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* ome)
 {
     m_pToolBarState->mouseRelease(ome);
 }
@@ -1174,7 +1174,7 @@ bool UMLScene::isWidgetOrAssociation(const UMLScenePoint& atPos)
  * @param w The widget to set to selected.
  * @param me The mouse event containing the information about the selection.
  */
-void UMLScene::setSelected(UMLWidget *w, UMLSceneMouseEvent *me)
+void UMLScene::setSelected(UMLWidget *w, QGraphicsSceneMouseEvent *me)
 {
     Q_UNUSED(me);
     int count = selectedItems().count();
@@ -3451,7 +3451,7 @@ bool UMLScene::checkUniqueSelection()
     return true; // selected items are unique
 }
 
-void UMLScene::callBaseMouseMethod(UMLSceneMouseEvent *event)
+void UMLScene::callBaseMouseMethod(QGraphicsSceneMouseEvent *event)
 {
     switch(event->type())
     {

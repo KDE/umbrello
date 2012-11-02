@@ -426,7 +426,7 @@ void UMLWidget::contextMenuEvent(UMLSceneContextMenuEvent * event)
  * This is implemented by reusing QGraphicsItem::mousePressEvent, but by
  * customizing the data stored in the event.
  */
-void UMLWidget::mousePressEvent(UMLSceneMouseEvent *event)
+void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     // inform scene that item is not yet being moved using mouse
     umlScene()->setIsMouseMovingItems(false);
@@ -445,14 +445,14 @@ void UMLWidget::mousePressEvent(UMLSceneMouseEvent *event)
  * Reimplemented to call UMLScene::setItemMovingUsingMouse to true and also handle
  * modifier based X constrained or Y constrained movement.
  */
-void UMLWidget::mouseMoveEvent(UMLSceneMouseEvent *e)
+void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 {
     // Now inform scene that item is being moved using mouse.
     umlScene()->setIsMouseMovingItems(true);
 
     bool beganMoveNow = (!m_mouseMoveEventStore);
     if (!m_mouseMoveEventStore)  {
-        m_mouseMoveEventStore = new UMLSceneMouseEvent();
+        m_mouseMoveEventStore = new QGraphicsSceneMouseEvent();
 
         m_mouseMoveEventStore->setPos(e->pos());
         m_mouseMoveEventStore->setScenePos(e->scenePos());
@@ -551,7 +551,7 @@ void UMLWidget::mouseMoveEvent(UMLSceneMouseEvent *e)
 /**
  * Reimplemented to call UMLScene::setItemMovingUsingMouse to false.
  */
-void UMLWidget::mouseReleaseEvent(UMLSceneMouseEvent *event)
+void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     // inform scene that item is not yet being moved using mouse
     umlScene()->setIsMouseMovingItems(false);
@@ -568,7 +568,7 @@ void UMLWidget::mouseReleaseEvent(UMLSceneMouseEvent *event)
  * Event handler for mouse double clicks.
  * The properties dialog is shown.
  */
-void UMLWidget::mouseDoubleClickEvent(UMLSceneMouseEvent *event)
+void UMLWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
         showPropertiesDialog();

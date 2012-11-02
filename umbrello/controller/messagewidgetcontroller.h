@@ -52,7 +52,7 @@ public:
 
 protected:
 
-    virtual void saveWidgetValues(UMLSceneMouseEvent *me);
+    virtual void saveWidgetValues(QGraphicsSceneMouseEvent *me);
 
     virtual QCursor getResizeCursor();
 
@@ -62,7 +62,7 @@ protected:
 
     virtual void constrainMovementForAllWidgets(qreal &diffX, qreal &diffY);
 
-    virtual void doMouseDoubleClick(UMLSceneMouseEvent *me);
+    virtual void doMouseDoubleClick(QGraphicsSceneMouseEvent *me);
 
 private:
 

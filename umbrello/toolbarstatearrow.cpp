@@ -24,22 +24,22 @@ ToolBarStateArrow::ToolBarStateArrow(UMLScene *umlScene)
 {
 }
 
-void ToolBarStateArrow::mousePress(UMLSceneMouseEvent *ome)
+void ToolBarStateArrow::mousePress(QGraphicsSceneMouseEvent *ome)
 {
     m_pUMLScene->callBaseMouseMethod(ome);
 }
 
-void ToolBarStateArrow::mouseMove(UMLSceneMouseEvent *ome)
+void ToolBarStateArrow::mouseMove(QGraphicsSceneMouseEvent *ome)
 {
     m_pUMLScene->callBaseMouseMethod(ome);
 }
 
-void ToolBarStateArrow::mouseRelease(UMLSceneMouseEvent *ome)
+void ToolBarStateArrow::mouseRelease(QGraphicsSceneMouseEvent *ome)
 {
     m_pUMLScene->callBaseMouseMethod(ome);
 }
 
-void ToolBarStateArrow::mouseDoubleClick(UMLSceneMouseEvent *ome)
+void ToolBarStateArrow::mouseDoubleClick(QGraphicsSceneMouseEvent *ome)
 {
     m_pUMLScene->callBaseMouseMethod(ome);
 }

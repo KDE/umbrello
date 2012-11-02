@@ -68,7 +68,7 @@ public Q_SLOTS:
     void slotMenuSelection(QAction* action);
 
 protected:
-    virtual void mouseDoubleClickEvent(UMLSceneMouseEvent *event);
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     virtual void updateGeometry();
     virtual void updateTextItemGroups();
     virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);

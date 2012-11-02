@@ -75,7 +75,7 @@ void ToolBarStateAssociation::cleanBeforeChange()
  * It executes the base method and then updates the position of the
  * association line, if any.
  */
-void ToolBarStateAssociation::mouseMove(UMLSceneMouseEvent* ome)
+void ToolBarStateAssociation::mouseMove(QGraphicsSceneMouseEvent* ome)
 {
     ToolBarStatePool::mouseMove(ome);
 

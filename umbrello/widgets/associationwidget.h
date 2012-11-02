@@ -181,10 +181,10 @@ protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant& value);
     virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
-    virtual void mousePressEvent(UMLSceneMouseEvent *event);
-    virtual void mouseMoveEvent(UMLSceneMouseEvent *event);
-    virtual void mouseReleaseEvent(UMLSceneMouseEvent *event);
-    virtual void mouseDoubleClickEvent(UMLSceneMouseEvent *event);
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
     virtual void hoverEnterEvent(UMLSceneHoverEvent *event);
     virtual void hoverMoveEvent(UMLSceneHoverEvent *event);

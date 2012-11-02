@@ -78,7 +78,7 @@ void ToolBarState::cleanBeforeChange()
  * @param ome The received event.
  * @see setCurrentElement()
  */
-void ToolBarState::mousePress(UMLSceneMouseEvent* ome)
+void ToolBarState::mousePress(QGraphicsSceneMouseEvent* ome)
 {
     setMouseEvent(ome, QEvent::MouseButtonPress);
 
@@ -108,7 +108,7 @@ void ToolBarState::mousePress(UMLSceneMouseEvent* ome)
  *
  * @param ome The received event.
  */
-void ToolBarState::mouseRelease(UMLSceneMouseEvent* ome)
+void ToolBarState::mouseRelease(QGraphicsSceneMouseEvent* ome)
 {
     setMouseEvent(ome, QEvent::MouseButtonRelease);
 
@@ -139,7 +139,7 @@ void ToolBarState::mouseRelease(UMLSceneMouseEvent* ome)
  *
  * @param ome The received event.
  */
-void ToolBarState::mouseDoubleClick(UMLSceneMouseEvent* ome)
+void ToolBarState::mouseDoubleClick(QGraphicsSceneMouseEvent* ome)
 {
     setMouseEvent(ome, QEvent::MouseButtonDblClick);
 
@@ -171,7 +171,7 @@ void ToolBarState::mouseDoubleClick(UMLSceneMouseEvent* ome)
  *
  * @param ome The received event.
  */
-void ToolBarState::mouseMove(UMLSceneMouseEvent* ome)
+void ToolBarState::mouseMove(QGraphicsSceneMouseEvent* ome)
 {
     setMouseEvent(ome, QEvent::MouseMove);
 
@@ -468,13 +468,13 @@ void ToolBarState::setCurrentAssociation(AssociationWidget* association)
  * @param ome The mouse event to transform.
  * @param type The type of the event.
  */
-void ToolBarState::setMouseEvent(UMLSceneMouseEvent* ome, const QEvent::Type &type)
+void ToolBarState::setMouseEvent(QGraphicsSceneMouseEvent* ome, const QEvent::Type &type)
 {
     delete m_pMouseEvent;
 
     // [PORT] Check if scenePos works like view->inverseWorldMatrix().map()
     // Using copy constructor here.
-    m_pMouseEvent = new UMLSceneMouseEvent(type);
+    m_pMouseEvent = new QGraphicsSceneMouseEvent(type);
     m_pMouseEvent->setPos(ome->pos());
     m_pMouseEvent->setScenePos(ome->scenePos());
     m_pMouseEvent->setScreenPos(ome->screenPos());

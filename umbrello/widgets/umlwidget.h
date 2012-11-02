@@ -166,10 +166,10 @@ protected:
     virtual void updateGeometry();
     virtual void setResizable(bool resizable);
 
-    virtual void mousePressEvent(UMLSceneMouseEvent *event);
-    virtual void mouseMoveEvent(UMLSceneMouseEvent *event);
-    virtual void mouseReleaseEvent(UMLSceneMouseEvent *event);
-    virtual void mouseDoubleClickEvent(UMLSceneMouseEvent *event);
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
@@ -212,7 +212,7 @@ private:
     /// Widget handle for this widget (for resizing)
     WidgetHandle *m_widgetHandle;
 
-    UMLSceneMouseEvent *m_mouseMoveEventStore;
+    QGraphicsSceneMouseEvent *m_mouseMoveEventStore;
 
     // Disable copy constructor and operator=
     Q_DISABLE_COPY(UMLWidget);

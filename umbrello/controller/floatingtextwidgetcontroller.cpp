@@ -45,9 +45,9 @@ FloatingTextWidgetController::~FloatingTextWidgetController()
  * Calls parent method and then saves the value of m_unconstrainedPositionX/Y
  * and m_movementDirectionX/Y.
  *
- * @param me The UMLSceneMouseEvent to get the offset from.
+ * @param me The QGraphicsSceneMouseEvent to get the offset from.
  */
-void FloatingTextWidgetController::saveWidgetValues(UMLSceneMouseEvent *me)
+void FloatingTextWidgetController::saveWidgetValues(QGraphicsSceneMouseEvent *me)
 {
     UMLWidgetController::saveWidgetValues(me);
 
@@ -65,7 +65,7 @@ void FloatingTextWidgetController::saveWidgetValues(UMLSceneMouseEvent *me)
  * @param me The QMouseEVent to check.
  * @return true if the mouse is in resize area, false otherwise.
  */
-bool FloatingTextWidgetController::isInResizeArea(UMLSceneMouseEvent* me)
+bool FloatingTextWidgetController::isInResizeArea(QGraphicsSceneMouseEvent* me)
 {
     Q_UNUSED(me);
     return false;

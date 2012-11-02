@@ -67,7 +67,6 @@ typedef QLineF UMLSceneLine;
 typedef qreal UMLSceneValue;
 typedef QPolygonF UMLScenePolygon;
 // event types
-#define UMLSceneMouseEvent QGraphicsSceneMouseEvent
 typedef QGraphicsSceneHoverEvent UMLSceneHoverEvent;
 typedef QGraphicsSceneContextMenuEvent UMLSceneContextMenuEvent;
 typedef QGraphicsSceneDragDropEvent UMLSceneDragDropEvent;
@@ -184,7 +183,7 @@ public:
 
     void removeWidget(UMLWidget *o);
 
-    void setSelected(UMLWidget *w, UMLSceneMouseEvent *me);
+    void setSelected(UMLWidget *w, QGraphicsSceneMouseEvent *me);
     UMLWidgetList selectedWidgets() const;
     void clearSelected();
 
@@ -323,7 +322,7 @@ public:
 
     int generateCollaborationId();
 
-    void callBaseMouseMethod(UMLSceneMouseEvent *event);
+    void callBaseMouseMethod(QGraphicsSceneMouseEvent *event);
 
     bool isMouseMovingItems() const;
     void setIsMouseMovingItems(bool b);
@@ -363,10 +362,10 @@ protected:
     void dragMoveEvent(UMLSceneDragDropEvent* moveEvent);
     void dropEvent(UMLSceneDragDropEvent* dropEvent);
 
-    void mouseMoveEvent(UMLSceneMouseEvent* mouseEvent);
-    void mousePressEvent(UMLSceneMouseEvent* mouseEvent);
-    void mouseDoubleClickEvent(UMLSceneMouseEvent* mouseEvent);
-    void mouseReleaseEvent(UMLSceneMouseEvent* mouseEvent);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent);
+    void mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* mouseEvent);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent);
     virtual void contextMenuEvent(UMLSceneContextMenuEvent* contextMenuEvent);
 
     /**

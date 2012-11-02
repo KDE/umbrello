@@ -76,10 +76,10 @@ public:
 
     virtual void cleanBeforeChange();
 
-    virtual void mousePress(UMLSceneMouseEvent* ome);
-    virtual void mouseRelease(UMLSceneMouseEvent* ome);
-    virtual void mouseDoubleClick(UMLSceneMouseEvent* ome);
-    virtual void mouseMove(UMLSceneMouseEvent* ome);
+    virtual void mousePress(QGraphicsSceneMouseEvent* ome);
+    virtual void mouseRelease(QGraphicsSceneMouseEvent* ome);
+    virtual void mouseDoubleClick(QGraphicsSceneMouseEvent* ome);
+    virtual void mouseMove(QGraphicsSceneMouseEvent* ome);
 
 public slots:
     virtual void slotAssociationRemoved(AssociationWidget* association);
@@ -111,14 +111,14 @@ protected:
     virtual AssociationWidget* currentAssociation() const;
     virtual void setCurrentAssociation(AssociationWidget* association);
 
-    void setMouseEvent(UMLSceneMouseEvent* ome, const QEvent::Type &type);
+    void setMouseEvent(QGraphicsSceneMouseEvent* ome, const QEvent::Type &type);
 
     AssociationWidget* associationAt(const UMLScenePoint& pos);
     MessageWidget* messageAt(const UMLScenePoint& pos);
     FloatingDashLineWidget* floatingLineAt(const UMLScenePoint& pos);
 
-    UMLScene*           m_pUMLScene;           ///< The UMLScene.
-    UMLSceneMouseEvent* m_pMouseEvent;         ///< The mouse event currently in use.
+    UMLScene*                 m_pUMLScene;     ///< The UMLScene.
+    QGraphicsSceneMouseEvent* m_pMouseEvent;   ///< The mouse event currently in use.
     // This event is the equivalent of the received event after transforming it
     // using the inverse world matrix in the UMLScene.
 

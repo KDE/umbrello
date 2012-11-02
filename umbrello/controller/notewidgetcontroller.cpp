@@ -38,9 +38,9 @@ NoteWidgetController::~NoteWidgetController()
  * Handles a mouse move event.
  * Executes base code.
  *
- * @param me The UMLSceneMouseEvent event.
+ * @param me The QGraphicsSceneMouseEvent event.
  */
-void NoteWidgetController::mouseMoveEvent(UMLSceneMouseEvent *me)
+void NoteWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent *me)
 {
     UMLWidgetController::mouseMoveEvent(me);
 }
@@ -50,9 +50,9 @@ void NoteWidgetController::mouseMoveEvent(UMLSceneMouseEvent *me)
  * Handles a mouse release event.
  * Executes base code and then draws the text in the note.
  *
- * @param me The UMLSceneMouseEvent event.
+ * @param me The QGraphicsSceneMouseEvent event.
  */
-void NoteWidgetController::mouseReleaseEvent(UMLSceneMouseEvent *me)
+void NoteWidgetController::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
 {
     UMLWidgetController::mouseReleaseEvent(me);
     //TODO why is it needed? drawText is already called in draw,
@@ -69,7 +69,7 @@ void NoteWidgetController::mouseReleaseEvent(UMLSceneMouseEvent *me)
  *
  * @param me The QMouseEvent which triggered the double click event.
  */
-void NoteWidgetController::doMouseDoubleClick(UMLSceneMouseEvent* me)
+void NoteWidgetController::doMouseDoubleClick(QGraphicsSceneMouseEvent* me)
 {
     Q_UNUSED(me);
     //TODO Copied from old code. What it does?

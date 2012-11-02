@@ -1390,7 +1390,7 @@ QVariant AssociationWidget::attributeChange(WidgetAttributeChange change, const 
     return WidgetBase::attributeChange(change, oldValue);
 }
 
-void AssociationWidget::mousePressEvent(UMLSceneMouseEvent *event)
+void AssociationWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     setSelected(true);
     // and show association documentation in doc window
@@ -1399,17 +1399,17 @@ void AssociationWidget::mousePressEvent(UMLSceneMouseEvent *event)
     m_associationLine->mousePressEvent(event);
 }
 
-void AssociationWidget::mouseMoveEvent(UMLSceneMouseEvent *event)
+void AssociationWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     m_associationLine->mouseMoveEvent(event);
 }
 
-void AssociationWidget::mouseReleaseEvent(UMLSceneMouseEvent *event)
+void AssociationWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     m_associationLine->mouseReleaseEvent(event);
 }
 
-void AssociationWidget::mouseDoubleClickEvent(UMLSceneMouseEvent *event)
+void AssociationWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     DEBUG(DBG_SRC) << "at " << event->pos();
     m_associationLine->mouseDoubleClickEvent(event);

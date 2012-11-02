@@ -158,7 +158,7 @@ QVariant PinWidget::attributeChange(WidgetAttributeChange change, const QVariant
  * widget only along the edge of the ActivityWidget to which this
  * widget is pinned to.
  */
-void PinWidget::mouseMoveEvent(UMLSceneMouseEvent *event)
+void PinWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     if (m_ownerWidget) {
         QPointF eventPos = m_ownerWidget->mapFromScene(event->scenePos());
