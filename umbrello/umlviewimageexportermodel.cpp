@@ -476,7 +476,7 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLScene* scene, const QString &
     //      do not have it and it forces a resize of the widgets,
     //      which is not correctly implemented for now.
 
-    painter.translate(-rect.x(),-rect.y());
+    painter.translate(0, 0);
     scene->getDiagram(painter, rect);
     painter.end();
 
