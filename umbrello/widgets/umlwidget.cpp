@@ -519,6 +519,10 @@ void UMLWidget::slotMenuSelection(QAction* action)
         ft->handleRename();
         break;
     }
+    case ListPopupMenu::mt_Resize:
+        resize();
+        m_doc->setModified();
+        break;
 
     default:
         uDebug() << "MenuType " << ListPopupMenu::toString(sel) << " not implemented";
@@ -1040,6 +1044,14 @@ void UMLWidget::drawShape(QPainter &p)
 UMLSceneSize UMLWidget::calculateSize()
 {
     return UMLSceneSize(width(), height());
+}
+
+void UMLWidget::resize()
+{
+    // @TODO minimumSize() do not work in all cases, we need a dedicated autoResize() method
+    UMLSceneSize size = minimumSize();
+    setSize(size.width(), size.height());
+    adjustAssocs(x(), y());    // adjust assoc lines
 }
 
 /**

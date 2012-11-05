@@ -247,6 +247,7 @@ public:
     virtual void drawShape(QPainter &p);
 
     virtual UMLSceneSize calculateSize();
+    void resize();
 
     bool fixedAspectRatio()
     {

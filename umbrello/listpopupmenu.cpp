@@ -845,6 +845,7 @@ void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
     else if (Model_Utils::isCloneable(type))
         insert(mt_Clone);
     insert(mt_Delete);
+    insert(mt_Resize, i18n("Resize"));
 }
 
 /**
