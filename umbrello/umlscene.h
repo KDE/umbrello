@@ -65,7 +65,6 @@ typedef QRectF UMLSceneRect;
 typedef QSizeF UMLSceneSize;
 typedef QLineF UMLSceneLine;
 typedef qreal UMLSceneValue;
-typedef QPolygonF UMLScenePolygon;
 // event types
 typedef QGraphicsSceneHoverEvent UMLSceneHoverEvent;
 typedef QGraphicsSceneContextMenuEvent UMLSceneContextMenuEvent;
