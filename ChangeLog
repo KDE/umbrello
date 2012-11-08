@@ -1,6 +1,7 @@
 Version 2.10.0 (unreleased)
 
 * New feature: Line based grid drawing
+* Extend class debug filter (309770)
 * UML diagrams outside image problem (309452)
 * some state diagram widgets could not be added (309064)
 * no classes displayed after xmi file loading (309007)
