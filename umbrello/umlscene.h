@@ -68,16 +68,6 @@ typedef QSizeF UMLSceneSize;
 typedef QLineF UMLSceneLine;
 typedef qreal UMLSceneValue;
 
-class UMLScenePolygon : public QPolygonF
-{
-public:
-    UMLScenePolygon() {}
-    void setPoint(int index, const UMLScenePoint &p)
-    {
-        replace(index, p);
-    }
-};
-
 // event types
 typedef QKeyEvent UMLSceneKeyEvent;
 typedef QGraphicsSceneHoverEvent UMLSceneHoverEvent;

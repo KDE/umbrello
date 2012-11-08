@@ -173,7 +173,7 @@ protected:
     LineList           m_HeadList;      ///< Head lines.
     LineList           m_ParallelList;  ///< The parallel line.
     bool               m_bSelected;     ///< Selected status.
-    UMLScenePolygon    m_PointArray;    ///< Contains calculated points used to draw the line head.
+    QPolygonF          m_PointArray;    ///< Contains calculated points used to draw the line head.
 
     /**
      *   Contains calculated points used to draw the line head.
@@ -183,7 +183,7 @@ protected:
     QGraphicsPolygonItem* m_pClearPoly;  ///< A polygon object to blank out any lines we don't want to see.
     Circle*       m_pCircle;        ///< The transparent circle required by containment associations.
     SubsetSymbol* m_pSubsetSymbol;  ///< The subset notation required by Child to Category associations.
-    UMLScenePolygon m_ParallelLines;  ///< Contains the calculated points for the parallel line on a collaboration message to use.
+    QPolygonF     m_ParallelLines;  ///< Contains the calculated points for the parallel line on a collaboration message to use.
     Region        m_DockRegion;     ///< Region where the line docks.
     bool m_bHeadCreated;
     bool m_bSubsetSymbolCreated;

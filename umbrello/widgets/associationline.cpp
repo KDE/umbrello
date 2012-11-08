@@ -955,18 +955,18 @@ void AssociationLine::calculateHead()
     m_MidPoint.setX( (int)rint(xb + cosx) );
     m_MidPoint.setY( (int)rint(yb + siny) );
 
-    m_PointArray.setPoint(0, m_EgdePoint);
-    m_PointArray.setPoint(1, m_ArrowPointA);
+    m_PointArray.replace(0, m_EgdePoint);
+    m_PointArray.replace(1, m_ArrowPointA);
     if( getAssocType() == Uml::AssociationType::Realization ||
             getAssocType() == Uml::AssociationType::Generalization ) {
-        m_PointArray.setPoint( 2, m_ArrowPointB );
-        m_PointArray.setPoint( 3, m_EgdePoint );
+        m_PointArray.replace( 2, m_ArrowPointB );
+        m_PointArray.replace( 3, m_EgdePoint );
     } else {
         UMLScenePoint diamondFarPoint;
         diamondFarPoint.setX( (int)rint(xb + cosx * 2) );
         diamondFarPoint.setY( (int)rint(yb + siny * 2) );
-        m_PointArray.setPoint(2, diamondFarPoint);
-        m_PointArray.setPoint(3, m_ArrowPointB);
+        m_PointArray.replace(2, diamondFarPoint);
+        m_PointArray.replace(3, m_ArrowPointB);
     }
 
 }
