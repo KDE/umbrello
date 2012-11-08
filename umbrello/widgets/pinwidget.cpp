@@ -29,6 +29,8 @@
 #define PIN_WIDTH 1
 #define PIN_HEIGHT 1
 
+DEBUG_REGISTER_DISABLED(PinWidget)
+
 /**
  * Creates a Pin widget.
  *
@@ -230,7 +232,7 @@ bool PinWidget::loadFromXMI(QDomElement& qElement)
 
     UMLWidget *pWA = m_scene -> findWidget( aId );
     if (pWA == NULL) {
-        uDebug() << "role A object " << ID2STR(aId) << " not found";
+        DEBUG(DBG_SRC) << "role A object " << ID2STR(aId) << " not found";
         return false;
     }
 

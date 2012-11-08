@@ -36,6 +36,8 @@
 
 using namespace Uml;
 
+DEBUG_REGISTER_DISABLED(UMLObject)
+
 /**
  * Creates a UMLObject.
  * @param parent   The parent of the object.

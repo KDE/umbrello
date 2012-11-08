@@ -23,6 +23,8 @@
 // qt includes
 #include <QPainter>
 
+DEBUG_REGISTER_DISABLED(FloatingDashLineWidget)
+
 /**
  * Creates a floating dash line.
  * @param scene   The parent of the widget
@@ -162,12 +164,12 @@ bool FloatingDashLineWidget::loadFromXMI( QDomElement & qElement )
     if( !UMLWidget::loadFromXMI( qElement ) ) {
         return false;
     }
-    uDebug() << "load.......";
+    DEBUG(DBG_SRC) << "load.......";
     m_yMax = qElement.attribute( "maxY", "" ).toInt();
     m_yMin = qElement.attribute( "minY", "" ).toInt();
     setY(qElement.attribute( "y", "" ).toInt());
     m_Text = qElement.attribute( "text", "" );
-    uDebug() << "m_y......." << m_y;
+    DEBUG(DBG_SRC) << "m_y......." << m_y;
     return true;
 }
 

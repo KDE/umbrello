@@ -71,6 +71,8 @@
 // Update this version when changing the XMI file format
 #define XMI_FILE_VERSION "1.6.1"
 
+DEBUG_REGISTER(UMLDoc)
+
 /**
  * Constructor for the fileclass of the application.
  */
@@ -92,7 +94,6 @@ UMLDoc::UMLDoc()
     m_pCurrentRoot(0),
     m_bClosing(false)
 {
-    DEBUG_REGISTER(DBG_SRC);
 }
 
 /**

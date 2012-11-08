@@ -26,6 +26,8 @@
 #include <QPainter>
 #include <QVarLengthArray>
 
+DEBUG_REGISTER_DISABLED(LayoutGrid)
+
 /**
  * Constructor.
  */
@@ -36,7 +38,6 @@ LayoutGrid::LayoutGrid(UMLScene *scene)
     m_gridDotColor(Qt::gray),
     m_isVisible(false)
 {
-    DEBUG_REGISTER_DISABLED("LayoutGrid");
 }
 
 /**

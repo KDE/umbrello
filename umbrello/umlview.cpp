@@ -22,6 +22,8 @@
 #include "umlscene.h"
 #include "umlwidget.h"
 
+DEBUG_REGISTER(UMLView)
+
 /**
  * Constructor
  */
@@ -37,8 +39,6 @@ UMLView::UMLView(UMLFolder *parentFolder)
     UMLScene *scene = new UMLScene(parentFolder, this);
     setScene(scene);
     setSceneRect(scene->sceneRect());
-
-    DEBUG_REGISTER(DBG_SRC);
 }
 
 /**

@@ -40,6 +40,8 @@
 
 using namespace Uml;
 
+DEBUG_REGISTER_DISABLED(UMLWidget)
+
 const UMLSceneSize UMLWidget::DefaultMinimumSize(50, 20);
 const UMLSceneSize UMLWidget::DefaultMaximumSize(1000, 5000);
 
@@ -525,7 +527,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
         break;
 
     default:
-        uDebug() << "MenuType " << ListPopupMenu::toString(sel) << " not implemented";
+        DEBUG(DBG_SRC) << "MenuType " << ListPopupMenu::toString(sel) << " not implemented";
     }
 }
 
@@ -1014,7 +1016,7 @@ void UMLWidget::moveByLocal(int dx, int dy)
     int newY = y() + dy;
     setX(newX);
     setY(newY);
-    // uDebug() << "********** x=" << newX << " / y=" << newY;
+    // DEBUG(DBG_SRC) << "********** x=" << newX << " / y=" << newY;
     adjustAssocs(newX, newY);
 }
 
@@ -1085,7 +1087,7 @@ void UMLWidget::setSelected(bool _select)
     const QPoint pos(x(), y());
     UMLWidget *bkgnd = m_scene->widgetAt(pos);
     if (bkgnd && bkgnd != this && _select) {
-        uDebug() << "setting Z to " << bkgnd->z() + 1 << ", SelectState: " << _select;
+        DEBUG(DBG_SRC) << "setting Z to " << bkgnd->z() + 1 << ", SelectState: " << _select;
         setZ(bkgnd->z() + 1);
     } else {
         setZ(m_origZ);

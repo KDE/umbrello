@@ -22,6 +22,8 @@
 #include <QPainter>
 #include <QPolygon>
 
+DEBUG_REGISTER_DISABLED(NodeWidget)
+
 NodeWidget::NodeWidget(UMLScene * scene, UMLNode *n )
   : UMLWidget(scene, WidgetBase::wt_Node, n)
 {
@@ -99,7 +101,7 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY)
 UMLSceneSize NodeWidget::minimumSize()
 {
     if (m_umlObject == NULL) {
-        uDebug() << "m_umlObject is NULL";
+        DEBUG(DBG_SRC) << "m_umlObject is NULL";
         return UMLWidget::minimumSize();
     }
 

@@ -27,6 +27,8 @@
 #include <cstdlib>
 #include <cmath>
 
+DEBUG_REGISTER_DISABLED(AssociationLine)
+
 AssociationLine::Circle::Circle(int radius /* = 0 */)
   : UMLSceneEllipseItem(radius * 2, radius * 2)
 {
@@ -424,7 +426,7 @@ void AssociationLine::dumpPoints()
     int count = m_LineList.count();
     for( int i = 1; i < count; i++ ) {
         UMLScenePoint p = point( i );
-        uDebug()<<" * point x:"<<p.x()<<" y:"<<p.y();
+        DEBUG(DBG_SRC) <<" * point x:"<<p.x()<<" y:"<<p.y();
     }
 }
 

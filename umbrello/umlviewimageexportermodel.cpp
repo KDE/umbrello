@@ -42,6 +42,8 @@
 
 #define DBG_IEM "UMLViewImageExporterModel"
 
+DEBUG_REGISTER(UMLViewImageExporterModel)
+
 QStringList UMLViewImageExporterModel::s_supportedImageTypesList;
 QStringList UMLViewImageExporterModel::s_supportedMimeTypesList;
 
@@ -148,7 +150,6 @@ QString UMLViewImageExporterModel::mimeTypeToImageType(const QString& mimeType)
  */
 UMLViewImageExporterModel::UMLViewImageExporterModel()
 {
-    DEBUG_REGISTER(DBG_IEM);
 }
 
 /**

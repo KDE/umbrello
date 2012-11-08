@@ -45,6 +45,8 @@
 
 #define DBG_LVI "UMLListViewItem"
 
+DEBUG_REGISTER(UMLListViewItem)
+
 /**
  * Sets up an instance.
  *
@@ -190,7 +192,6 @@ void UMLListViewItem::init()
     m_bCreating = false;
     m_object = 0;
     m_id = Uml::id_None;
-    DEBUG_REGISTER(DBG_LVI);
 }
 
 /**

@@ -52,6 +52,8 @@
 #include <QPointer>
 #include <QRegExp>
 
+DEBUG_REGISTER(CodeEditor)
+
 /**
  * Constructor.
  */
@@ -933,8 +935,6 @@ void CodeEditor::slotRedrawText()
  */
 void CodeEditor::init(CodeViewerDialog * parentDlg, CodeDocument * parentDoc)
 {
-    DEBUG_REGISTER(DBG_SRC);
-
     // safety to insure that we are up to date
     parentDoc->synchronize();
 

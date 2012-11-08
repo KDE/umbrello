@@ -25,6 +25,8 @@
 // qt includes
 #include <QPainter>
 
+DEBUG_REGISTER_DISABLED(PreconditionWidget)
+
 #define PRECONDITION_MARGIN 5
 #define PRECONDITION_WIDTH 30
 #define PRECONDITION_HEIGHT 10
@@ -145,7 +147,7 @@ bool PreconditionWidget::activate(IDChangeLog * Log /*= 0*/)
     m_scene->resetPastePoint();
     UMLWidget::activate(Log);
     if (m_objectWidget == NULL) {
-        uDebug() << "cannot make precondition";
+        DEBUG(DBG_SRC) << "cannot make precondition";
         return false;
     }
 
@@ -186,7 +188,7 @@ void PreconditionWidget::slotWidgetMoved(Uml::IDType id)
 {
     const Uml::IDType idA = m_objectWidget->localID();
     if (idA != id ) {
-        uDebug() << "id=" << ID2STR(id) << ": ignoring for idA=" << ID2STR(idA);
+        DEBUG(DBG_SRC) << "id=" << ID2STR(id) << ": ignoring for idA=" << ID2STR(idA);
         return;
     }
     m_nY = y();
@@ -280,7 +282,7 @@ bool PreconditionWidget::loadFromXMI(QDomElement& qElement)
 
     m_objectWidget = dynamic_cast<ObjectWidget*>(umlScene()->findWidget( aId ));
     if (!m_objectWidget) {
-        uDebug() << "role A widget " << ID2STR(aId) << " is not an ObjectWidget";
+        DEBUG(DBG_SRC) << "role A widget " << ID2STR(aId) << " is not an ObjectWidget";
         return false;
     }
 

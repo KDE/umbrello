@@ -104,6 +104,8 @@ const UMLSceneValue UMLScene::defaultCanvasSize = 5000;
 
 using namespace Uml;
 
+DEBUG_REGISTER(UMLScene)
+
 /**
  * Constructor.
  */
@@ -152,8 +154,6 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
 //    // settings for background
 //    setBackgroundBrush(QColor(195, 195, 195));
     m_layoutGrid = new LayoutGrid(this);
-
-    DEBUG_REGISTER(DBG_SRC);
 }
 
 /**

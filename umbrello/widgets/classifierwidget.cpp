@@ -26,6 +26,8 @@
 // qt includes
 #include <QPainter>
 
+DEBUG_REGISTER_DISABLED(ClassifierWidget)
+
 const int ClassifierWidget::MARGIN = 5;
 const int ClassifierWidget::CIRCLE_SIZE = 30;
 
@@ -72,8 +74,6 @@ ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
         setShowStereotype(true);
         updateSignatureTypes();
     }
-
-    DEBUG_REGISTER(DBG_SRC);
 }
 
 /**

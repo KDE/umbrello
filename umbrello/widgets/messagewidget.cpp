@@ -33,6 +33,8 @@
 //kde includes
 #include <klocale.h>
 
+DEBUG_REGISTER_DISABLED(MessageWidget)
+
 /**
  * Constructs a MessageWidget.
  *
@@ -483,7 +485,7 @@ UMLSceneValue MessageWidget::onWidget(const UMLScenePoint& p)
 void MessageWidget::setTextPosition()
 {
     if (m_pFText == NULL) {
-        uDebug() << "m_pFText is NULL";
+        DEBUG(DBG_SRC) << "m_pFText is NULL";
         return;
     }
     if (m_pFText->displayText().isEmpty()) {
@@ -560,7 +562,7 @@ void MessageWidget::setLinkAndTextPos()
 
 void MessageWidget::moveEvent(QGraphicsSceneMouseEvent* /*m*/)
 {
-    //uDebug() << "m_pFText is " << m_pFText;
+    //DEBUG(DBG_SRC) << "m_pFText is " << m_pFText;
     if (!m_pFText) {
         return;
     }
@@ -597,7 +599,7 @@ void MessageWidget::slotWidgetMoved(Uml::IDType id)
     const Uml::IDType idA = m_pOw[Uml::A]->localID();
     const Uml::IDType idB = m_pOw[Uml::B]->localID();
     if (idA != id && idB != id) {
-        uDebug() << "id=" << ID2STR(id) << ": ignoring for idA=" << ID2STR(idA)
+        DEBUG(DBG_SRC) << "id=" << ID2STR(id) << ": ignoring for idA=" << ID2STR(idA)
             << ", idB=" << ID2STR(idB);
         return;
     }
@@ -651,12 +653,12 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     if (m_pOw[Uml::A] == NULL) {
         UMLWidget *pWA = m_scene->findWidget(m_widgetAId);
         if (pWA == NULL) {
-            uDebug() << "role A object " << ID2STR(m_widgetAId) << " not found";
+            DEBUG(DBG_SRC) << "role A object " << ID2STR(m_widgetAId) << " not found";
             return false;
         }
         m_pOw[Uml::A] = dynamic_cast<ObjectWidget*>(pWA);
         if (m_pOw[Uml::A] == NULL) {
-            uDebug() << "role A widget " << ID2STR(m_widgetAId)
+            DEBUG(DBG_SRC) << "role A widget " << ID2STR(m_widgetAId)
                 << " is not an ObjectWidget";
             return false;
         }
@@ -664,12 +666,12 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     if (m_pOw[Uml::B] == NULL) {
         UMLWidget *pWB = m_scene->findWidget(m_widgetBId);
         if (pWB == NULL) {
-            uDebug() << "role B object " << ID2STR(m_widgetBId) << " not found";
+            DEBUG(DBG_SRC) << "role B object " << ID2STR(m_widgetBId) << " not found";
             return false;
         }
         m_pOw[Uml::B] = dynamic_cast<ObjectWidget*>(pWB);
         if (m_pOw[Uml::B] == NULL) {
-            uDebug() << "role B widget " << ID2STR(m_widgetBId)
+            DEBUG(DBG_SRC) << "role B widget " << ID2STR(m_widgetBId)
                 << " is not an ObjectWidget";
             return false;
         }

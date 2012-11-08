@@ -46,6 +46,8 @@
 // system includes
 #include <cmath>
 
+DEBUG_REGISTER_DISABLED(AssociationWidget)
+
 using namespace Uml;
 
 /**
@@ -115,12 +117,12 @@ AssociationWidget* AssociationWidget::create
                         case Uml::AssociationType::Seq_Message_Self:
                         case Uml::AssociationType::Containment:
                         case Uml::AssociationType::Realization:
-                            uDebug() << "Ignoring second construction of same assoctype "
+                            DEBUG("AssociationWidget") << "Ignoring second construction of same assoctype "
                                      << assocType << " between " << umlRoleA->name()
                                      << " and " << umlRoleB->name();
                             break;
                         default:
-                            uDebug() << "constructing a similar or exact same assoctype "
+                            DEBUG("AssociationWidget") << "constructing a similar or exact same assoctype "
                                      << assocType << " between " << umlRoleA->name() << " and "
                                      << umlRoleB->name() << "as an already existing assoc (swap="
                                      << swap << ")";
@@ -690,7 +692,7 @@ bool AssociationWidget::activate()
         setWidgetForRole(m_scene->findWidget(widgetIDForRole(B)), B);
 
     if(!m_role[A].umlWidget || !m_role[B].umlWidget) {
-        uDebug() << "Can not make association!";
+        DEBUG(DBG_SRC) << "Can not make association!";
         return false;
     }
 
@@ -1467,14 +1469,14 @@ void AssociationWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent * me)
             const int midSegX = segStart.x() + (segEnd.x() - segStart.x()) / 2;
             const int midSegY = segStart.y() + (segEnd.y() - segStart.y()) / 2;
             /*
-            uDebug() << "segStart=(" << segStart.x() << "," << segStart.y()
+            DEBUG(DBG_SRC) << "segStart=(" << segStart.x() << "," << segStart.y()
                   << "), segEnd=(" << segEnd.x() << "," << segEnd.y()
                   << "), midSeg=(" << midSegX << "," << midSegY
                   << "), mp=(" << mp.x() << "," << mp.y() << ")";
              */
             if (midSegX > mp.x() || midSegY < mp.y()) {
                 m_nLinePathSegmentIndex++;
-                uDebug() << "setting m_nLinePathSegmentIndex to "
+                DEBUG(DBG_SRC) << "setting m_nLinePathSegmentIndex to "
                     << m_nLinePathSegmentIndex;
                 computeAssocClassLine();
             }
@@ -1862,7 +1864,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y )
         // -> there is something wrong
         // -> avoid movement during opening
         // -> print warn and stay at old position
-        uDebug() << "called during load of XMI for ViewType: " << m_scene->type()
+        DEBUG(DBG_SRC) << "called during load of XMI for ViewType: " << m_scene->type()
             << ", and BaseType: " << baseType();
         return;
     }
@@ -2677,7 +2679,7 @@ void AssociationWidget::setTextPosition(Uml::TextRole role)
     int y = pos.y();
     if ( (x < 0 || x > FloatingTextWidget::restrictPositionMax) ||
             (y < 0 || y > FloatingTextWidget::restrictPositionMax) ) {
-        uDebug() << "(x=" << x << " , y=" << y << ") "
+        DEBUG(DBG_SRC) << "(x=" << x << " , y=" << y << ") "
             << "- was blocked because at least one value is out of bounds: ["
             << "0 ... " << FloatingTextWidget::restrictPositionMax << "]";
         return;
@@ -2718,7 +2720,7 @@ void AssociationWidget::setTextPositionRelatively(Uml::TextRole role, const UMLS
     UMLSceneValue ftY = ft->y();
     if ( (ftX < 0 || ftX > FloatingTextWidget::restrictPositionMax) ||
             (ftY < 0 || ftY > FloatingTextWidget::restrictPositionMax) ) {
-        uDebug() << "blocked because the FloatingTextWidget original position ("
+        DEBUG(DBG_SRC) << "blocked because the FloatingTextWidget original position ("
             << ftX << "," << ftY << " is out of bounds: [0 ... "
             << FloatingTextWidget::restrictPositionMax << "]";
         return;
@@ -2730,7 +2732,7 @@ void AssociationWidget::setTextPositionRelatively(Uml::TextRole role, const UMLS
     UMLSceneValue ftNewY = ftY + relY;
     if ( (ftNewX < 0 || ftNewX > FloatingTextWidget::restrictPositionMax) ||
             (ftNewY < 0 || ftNewY > FloatingTextWidget::restrictPositionMax) ) {
-        uDebug() << "blocked because the FloatingTextWidget new position ("
+        DEBUG(DBG_SRC) << "blocked because the FloatingTextWidget new position ("
             << ftNewX << "," << ftNewY << " is out of bounds: [0 ... "
             << FloatingTextWidget::restrictPositionMax << "]";
         return;
@@ -2974,7 +2976,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
             // don't worry about here, I don't think it can get here as
             // line is widget on seq. diagram
             // here just in case - remove later after testing
-            uDebug() << "mt_Properties: assoctype is " << atype;
+            DEBUG(DBG_SRC) << "mt_Properties: assoctype is " << atype;
         } else {  //standard assoc dialog
             m_scene->updateDocumentation( false );
             showPropertiesDialog();
@@ -3094,7 +3096,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
         break;
 
     default:
-        uDebug() << "MenuType " << ListPopupMenu::toString(sel) << " not implemented";
+        DEBUG(DBG_SRC) << "MenuType " << ListPopupMenu::toString(sel) << " not implemented";
         break;
     }//end switch
 }
@@ -3322,7 +3324,7 @@ UMLScenePoint AssociationWidget::findIntercept(const UMLSceneRect &rect, const U
         "NorthWest", "NorthEast", "SouthEast", "SouthWest",
         "Center"
     };
-    uDebug() << "findPointRegion(rect(" << rect.x() << "," << rect.y()
+    DEBUG(DBG_SRC) << "findPointRegion(rect(" << rect.x() << "," << rect.y()
           << "," << rect.width() << "," << rect.height() << "), p("
           << point.x() << "," << point.y() << ")) = " << regionStr[region];
      */
@@ -3561,7 +3563,7 @@ void AssociationWidget::updateAssociations(int totalCount,
         }
         int intercept = findInterceptOnEdge(ownWidget->rect(), region, refpoint);
         if (intercept < 0) {
-            uDebug() << "updateAssociations: error from findInterceptOnEdge for"
+            DEBUG(DBG_SRC) << "updateAssociations: error from findInterceptOnEdge for"
             << " assocType=" << assocwidget->associationType()
             << " ownWidget=" << ownWidget->name()
             << " otherWidget=" << otherWidget->name();
@@ -3907,7 +3909,7 @@ UMLSceneRect AssociationWidget::boundingRect()
 void AssociationWidget::slotClassifierListItemRemoved(UMLClassifierListItem* obj)
 {
     if (obj != m_umlObject) {
-        uDebug() << "obj=" << obj << ": m_umlObject=" << m_umlObject;
+        DEBUG(DBG_SRC) << "obj=" << obj << ": m_umlObject=" << m_umlObject;
         return;
     }
     m_umlObject = NULL;
@@ -4335,7 +4337,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
                 setRoleName( ft->text(), B );
                 break;
             default:
-                uDebug() << "unexpected FloatingTextWidget (textrole " << role << ")";
+                DEBUG(DBG_SRC) << "unexpected FloatingTextWidget (textrole " << role << ")";
                 delete ft;
                 break;
             }
