@@ -77,7 +77,7 @@ private:
      * The association line shown while the first widget is selected and the
      * second one wasn't selected yet.
      */
-    UMLSceneLineItem* m_associationLine;
+    QGraphicsLineItem* m_associationLine;
 
 };
 

@@ -72,7 +72,6 @@ typedef QGraphicsSceneDragDropEvent UMLSceneDragDropEvent;
 typedef QGraphicsSceneDragDropEvent UMLSceneDragEnterEvent;
 typedef QGraphicsSceneDragDropEvent UMLSceneDragMoveEvent;
 
-typedef QGraphicsLineItem UMLSceneLineItem;
 typedef QGraphicsRectItem UMLSceneRectItem;
 typedef QGraphicsEllipseItem UMLSceneEllipse;
 

@@ -191,7 +191,7 @@ void ToolBarStateMessages::mouseReleaseEmpty()
         xclick = m_pMouseEvent->scenePos().x();
         yclick = m_pMouseEvent->scenePos().y();
 
-        m_messageLine = new UMLSceneLineItem();
+        m_messageLine = new QGraphicsLineItem();
         m_pUMLScene->addItem(m_messageLine);
         qreal x = m_pMouseEvent->scenePos().x(), y = m_pMouseEvent->scenePos().y();
         m_messageLine->setLine(x, y, x, y);
@@ -224,7 +224,7 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
         yclick = 0;
     }
     else {
-        m_messageLine = new UMLSceneLineItem();
+        m_messageLine = new QGraphicsLineItem();
         m_pUMLScene->addItem(m_messageLine);
         qreal x = m_pMouseEvent->scenePos().x();
         qreal y = m_pMouseEvent->scenePos().y();
