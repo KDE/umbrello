@@ -80,40 +80,6 @@ typedef QGraphicsSceneDragDropEvent UMLSceneDragMoveEvent;
 typedef QGraphicsItem UMLSceneItem;
 typedef QList<QGraphicsItem*> UMLSceneItemList;
 
-class UMLSceneLineItem : public QGraphicsLineItem
-{
-public:
-    UMLSceneLineItem()
-    : QGraphicsLineItem(0)
-    {
-    }
-
-    void setPoints(UMLSceneValue x1, UMLSceneValue y1, UMLSceneValue x2, UMLSceneValue y2)
-    {
-        setLine(x1, y1, x2, y2);
-    }
-
-    UMLScenePoint startPoint()
-    {
-        return line().p1();
-    }
-    
-    UMLScenePoint endPoint()
-    {
-        return line().p2();
-    }
-
-    void setZ(UMLSceneValue z)
-    {
-        setZValue(z);
-    }
-
-    void setCanvas(QGraphicsScene *scene)
-    {
-        scene->addItem(this);
-    }
-};
-
 class UMLSceneRectItem : public QGraphicsRectItem
 {
 public:

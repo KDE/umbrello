@@ -56,7 +56,7 @@ protected:
     /**
      * The selection rectangle that contains the four lines of its borders.
      */
-    QList<UMLSceneLineItem *> m_selectionRect;
+    QList<QGraphicsLineItem*> m_selectionRect;
 
     /**
      * The start position of the selection rectangle.

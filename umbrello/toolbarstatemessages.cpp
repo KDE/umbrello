@@ -79,8 +79,8 @@ void ToolBarStateMessages::mouseMove(QGraphicsSceneMouseEvent* ome)
     ToolBarStatePool::mouseMove(ome);
 
     if (m_messageLine) {
-        UMLScenePoint sp = m_messageLine->startPoint();
-        m_messageLine->setPoints(sp.x(), sp.y(), m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y());
+        UMLScenePoint sp = m_messageLine->line().p1();
+        m_messageLine->setLine(sp.x(), sp.y(), m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y());
     }
 }
 
@@ -190,9 +190,9 @@ void ToolBarStateMessages::mouseReleaseEmpty()
         xclick = m_pMouseEvent->scenePos().x();
         yclick = m_pMouseEvent->scenePos().y();
 
-        m_messageLine = new UMLSceneLineItem();
-        m_messageLine->setCanvas(m_pUMLScene->canvas());
-        m_messageLine->setPoints(m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y(), m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y());
+        m_messageLine = new QGraphicsLineItem();
+        m_pUMLScene->addItem(m_messageLine);
+        m_messageLine->setLine(m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y(), m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y());
         m_messageLine->setPen(QPen(m_pUMLScene->lineColor(), m_pUMLScene->lineWidth(), Qt::DashLine));
 
         m_messageLine->setVisible(true);
@@ -224,11 +224,10 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
         yclick = 0;
     }
     else {
-        m_messageLine = new UMLSceneLineItem();
-        m_messageLine->setCanvas(m_pUMLScene->canvas());
-        m_messageLine->setPoints(m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y(), m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y());
+        m_messageLine = new QGraphicsLineItem();
+        m_pUMLScene->addItem(m_messageLine);
+        m_messageLine->setLine(m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y(), m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y());
         m_messageLine->setPen(QPen(m_pUMLScene->lineColor(), m_pUMLScene->lineWidth(), Qt::DashLine));
-
         m_messageLine->setVisible(true);
 
         m_pUMLScene->activeView()->viewport()->setMouseTracking(true);
@@ -260,7 +259,7 @@ void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageTy
     UMLSceneValue y = m_pMouseEvent->scenePos().y();
     if (messageType == CreationMessage) {
         msgType = Uml::sequence_message_creation;
-        y = m_messageLine->startPoint().y();
+        y = m_messageLine->line().p1().y();
     }
 
     MessageWidget* message = new MessageWidget(m_pUMLScene, m_firstObject,

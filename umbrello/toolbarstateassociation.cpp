@@ -80,8 +80,8 @@ void ToolBarStateAssociation::mouseMove(QGraphicsSceneMouseEvent* ome)
     ToolBarStatePool::mouseMove(ome);
 
     if (m_associationLine) {
-        UMLScenePoint sp = m_associationLine->startPoint();
-        m_associationLine->setPoints(sp.x(), sp.y(), m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y());
+        UMLScenePoint sp = m_associationLine->line().p1();
+        m_associationLine->setLine(sp.x(), sp.y(), m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y());
     }
 }
 
@@ -186,11 +186,10 @@ void ToolBarStateAssociation::setFirstWidget()
 
     m_firstWidget = widget;
 
-    m_associationLine = new UMLSceneLineItem;
-    m_associationLine->setCanvas(m_pUMLScene->canvas());
-    m_associationLine->setPoints(pos.x(), pos.y(), pos.x(), pos.y());
+    m_associationLine = new QGraphicsLineItem;
+    m_pUMLScene->addItem(m_associationLine);
+    m_associationLine->setLine(pos.x(), pos.y(), pos.x(), pos.y());
     m_associationLine->setPen(QPen(m_pUMLScene->lineColor(), m_pUMLScene->lineWidth(), Qt::DashLine));
-
     m_associationLine->setVisible(true);
 
     m_pUMLScene->activeView()->viewport()->setMouseTracking(true);

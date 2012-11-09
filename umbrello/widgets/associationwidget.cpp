@@ -2766,8 +2766,8 @@ void AssociationWidget::removeAssocClassLine()
 void AssociationWidget::createAssocClassLine()
 {
     if (m_pAssocClassLine == NULL) {
-        m_pAssocClassLine = new UMLSceneLineItem;
-        m_pAssocClassLine ->setCanvas(m_scene->canvas());
+        m_pAssocClassLine = new QGraphicsLineItem;
+        m_scene->addItem(m_pAssocClassLine);
     }
     computeAssocClassLine();
     QPen pen(lineColor(), lineWidth(), Qt::DashLine);
@@ -2821,7 +2821,7 @@ void AssociationWidget::computeAssocClassLine()
     int acwMinX = cwEdgePoint.x();
     int acwMinY = cwEdgePoint.y();
 
-    m_pAssocClassLine->setPoints(midSegX, midSegY, acwMinX, acwMinY);
+    m_pAssocClassLine->setLine(midSegX, midSegY, acwMinX, acwMinY);
 }
 
 /**
@@ -2846,10 +2846,10 @@ void AssociationWidget::selectAssocClassLine(bool sel /* =true */)
     }
     if (m_pAssocClassLineSel0)
         delete m_pAssocClassLineSel0;
-    m_pAssocClassLineSel0 = Widget_Utils::decoratePoint(m_pAssocClassLine->startPoint());
+    m_pAssocClassLineSel0 = Widget_Utils::decoratePoint(m_pAssocClassLine->line().p1());
     if (m_pAssocClassLineSel1)
         delete m_pAssocClassLineSel1;
-    m_pAssocClassLineSel1 = Widget_Utils::decoratePoint(m_pAssocClassLine->endPoint());
+    m_pAssocClassLineSel1 = Widget_Utils::decoratePoint(m_pAssocClassLine->line().p2());
 }
 
 /**

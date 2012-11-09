@@ -325,8 +325,8 @@ private:
     UMLScenePoint m_oldRoleAPoint;   ///< Position of role A name floatingtext saved by saveIdealTextPositions()
     UMLScenePoint m_oldRoleBPoint;   ///< Position of role B name floatingtext saved by saveIdealTextPositions()
 
-    int         m_nLinePathSegmentIndex; ///< anchor for m_pAssocClassLine
-    UMLSceneLineItem *m_pAssocClassLine;  ///< used for connecting assoc. class
+    int m_nLinePathSegmentIndex; ///< anchor for m_pAssocClassLine
+    QGraphicsLineItem *m_pAssocClassLine;  ///< used for connecting assoc. class
     /// selection adornment for the endpoints of the assoc. class connecting line
     UMLSceneRectItem *m_pAssocClassLineSel0;
     UMLSceneRectItem *m_pAssocClassLineSel1;

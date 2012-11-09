@@ -83,13 +83,13 @@ void ToolBarStateArrow::mousePressEmpty()
         m_startPosition = m_pMouseEvent->scenePos();
 
         for (int i = 0; i < 4; i++) {
-            UMLSceneLineItem* line = new UMLSceneLineItem;
-            line->setCanvas((m_pUMLScene->canvas()));
-            line->setPoints(m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y(),
-                            m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y());
+            QGraphicsLineItem* line = new QGraphicsLineItem();
+            m_pUMLScene->addItem(line);
+            line->setLine(m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y(),
+                          m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y());
             line->setPen(QPen(QColor("grey"), 0, Qt::DotLine));
             line->setVisible(true);
-            line->setZ(100);
+            line->setZValue(100);
             m_selectionRect.append(line);
         }
     }
@@ -178,21 +178,21 @@ void ToolBarStateArrow::mouseMoveWidget()
 void ToolBarStateArrow::mouseMoveEmpty()
 {
     if (m_selectionRect.count() == 4) {
-        UMLSceneLineItem* line = m_selectionRect.at(0);
-        line->setPoints(m_startPosition.x(), m_startPosition.y(),
-                        m_pMouseEvent->scenePos().x(), m_startPosition.y());
+        QGraphicsLineItem* line = m_selectionRect.at(0);
+        line->setLine(m_startPosition.x(), m_startPosition.y(),
+                      m_pMouseEvent->scenePos().x(), m_startPosition.y());
 
         line = m_selectionRect.at(1);
-        line->setPoints(m_pMouseEvent->scenePos().x(), m_startPosition.y(),
-                        m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y());
+        line->setLine(m_pMouseEvent->scenePos().x(), m_startPosition.y(),
+                      m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y());
 
         line = m_selectionRect.at(2);
-        line->setPoints(m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y(),
-                        m_startPosition.x(), m_pMouseEvent->scenePos().y());
+        line->setLine(m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y(),
+                      m_startPosition.x(), m_pMouseEvent->scenePos().y());
 
         line = m_selectionRect.at(3);
-        line->setPoints(m_startPosition.x(), m_pMouseEvent->scenePos().y(),
-                        m_startPosition.x(), m_startPosition.y());
+        line->setLine(m_startPosition.x(), m_pMouseEvent->scenePos().y(),
+                      m_startPosition.x(), m_startPosition.y());
 
         m_pUMLScene->selectWidgets(m_startPosition.x(), m_startPosition.y(),
                                    m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y());

@@ -20,7 +20,7 @@ class ObjectWidget;
  * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class SeqLineWidget : public UMLSceneLineItem
+class SeqLineWidget : public QGraphicsLineItem
 {
 public:
     SeqLineWidget(UMLScene *scene, ObjectWidget * pObject);
@@ -65,15 +65,15 @@ protected:
     UMLScene*     m_scene;    ///< scene displayed on
 
     struct DestructionBox {
-        UMLSceneLineItem * line1;
-        UMLSceneLineItem * line2;
+        QGraphicsLineItem * line1;
+        QGraphicsLineItem * line2;
         void setLine1Points(QRect rect) {
-            line1->setPoints( rect.x(), rect.y(),
-                              rect.x() + rect.width(), rect.y() + rect.height() );
+            line1->setLine( rect.x(), rect.y(),
+                            rect.x() + rect.width(), rect.y() + rect.height() );
         }
         void setLine2Points(QRect rect) {
-            line2->setPoints( rect.x(), rect.y() + rect.height(),
-                              rect.x() + rect.width(), rect.y() );
+            line2->setLine( rect.x(), rect.y() + rect.height(),
+                            rect.x() + rect.width(), rect.y() );
         }
     } m_DestructionBox;  ///< the destruction box
 

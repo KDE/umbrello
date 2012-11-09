@@ -26,13 +26,13 @@ int const SeqLineWidget::m_nMouseDownEpsilonX = 20;
  * Constructor.
  */
 SeqLineWidget::SeqLineWidget(UMLScene *scene, ObjectWidget * pObject)
-  : UMLSceneLineItem(),
+  : QGraphicsLineItem(),
     m_scene(scene)
 {
-    setCanvas(scene->canvas());
+    scene->addItem(this);
     m_pObject = pObject;
     setPen( QPen( m_pObject->lineColor(), 0, Qt::DashLine ) );
-    setZ( 0 );
+    setZValue( 0 );
     setVisible( true );
     m_DestructionBox.line1 = 0;
     m_nLengthY = 250;
@@ -56,8 +56,8 @@ SeqLineWidget::~SeqLineWidget()
 int SeqLineWidget::onWidget(const UMLScenePoint & p)
 {
     int nOnWidget = 0;
-    UMLScenePoint sp = startPoint();
-    UMLScenePoint ep = endPoint();
+    UMLScenePoint sp = line().p1();
+    UMLScenePoint ep = line().p2();
     //see if on widget ( for message creation )
     if( sp.x() - m_nMouseDownEpsilonX < p.x()
             && ep.x() + m_nMouseDownEpsilonX > p.x()
@@ -110,7 +110,7 @@ void SeqLineWidget::setStartPoint(int startX, int startY)
 {
     int endX = startX;
     int endY = startY + m_nLengthY;
-    UMLSceneLineItem::setPoints( startX, startY, endX, endY );
+    QGraphicsLineItem::setLine( startX, startY, endX, endY );
     moveDestructionBox();
 }
 
@@ -142,19 +142,19 @@ void SeqLineWidget::setupDestructionBox()
     rect.setWidth( 14 );
     rect.setHeight( 14 );
 
-    m_DestructionBox.line1 = new UMLSceneLineItem;
-    m_DestructionBox.line1->setCanvas(m_scene->canvas());
+    m_DestructionBox.line1 = new QGraphicsLineItem;
+    m_scene->addItem(m_DestructionBox.line1);
     m_DestructionBox.setLine1Points(rect);
     m_DestructionBox.line1->setVisible( true );
     m_DestructionBox.line1->setPen( QPen(m_pObject->lineColor(), 2) );
-    m_DestructionBox.line1->setZ( 3 );
+    m_DestructionBox.line1->setZValue( 3 );
 
-    m_DestructionBox.line2 = new UMLSceneLineItem;
-    m_DestructionBox.line2->setCanvas(m_scene->canvas());
+    m_DestructionBox.line2 = new QGraphicsLineItem;
+    m_scene->addItem(m_DestructionBox.line2);
     m_DestructionBox.setLine2Points(rect);
     m_DestructionBox.line2->setVisible( true );
     m_DestructionBox.line2->setPen( QPen(m_pObject->lineColor(), 2) );
-    m_DestructionBox.line2->setZ( 3 );
+    m_DestructionBox.line2->setZValue( 3 );
 }
 
 /**
@@ -181,7 +181,7 @@ void SeqLineWidget::moveDestructionBox()
  */
 void SeqLineWidget::setEndOfLine(int yPosition)
 {
-    UMLScenePoint sp = startPoint();
+    UMLScenePoint sp = line().p1();
     int newY = yPosition;
     m_nLengthY = yPosition - m_pObject->y() - m_pObject->height();
     // normally the managing Objectwidget is responsible for the call of this function
@@ -190,7 +190,7 @@ void SeqLineWidget::setEndOfLine(int yPosition)
         m_nLengthY = 0;
         newY = m_pObject->y() + m_pObject->height();
     }
-    setPoints( sp.x(), sp.y(), sp.x(), newY );
+    setLine( sp.x(), sp.y(), sp.x(), newY );
     moveDestructionBox();
     m_scene->resizeCanvasToItems();
 }

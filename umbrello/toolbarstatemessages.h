@@ -99,7 +99,7 @@ protected:
      * The message line shown while the first widget is selected and the
      * second one wasn't selected yet.
      */
-    UMLSceneLineItem* m_messageLine;
+    QGraphicsLineItem* m_messageLine;
 
     /**
      * If there is a current widget, it is true if the press event happened on
