@@ -38,14 +38,14 @@
  * Class related debug output implementation
  *
  * To register classes independent from related object instantiation time
- * on of the macros
+ * one of the macros
  *
  *         DEBUG_REGISTER(className)
  *         DEBUG_REGISTER_DISABLED(className)
  *
  * should be placed in the implementation part of a class before the
  * first class methods. The first macro enables debug output for the
- * related class, while the latter macro disables it.
+ * related class, while the latter macro disables it by default.
  *
  * Debug output in class methods should use
  *
