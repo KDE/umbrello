@@ -844,15 +844,15 @@ void AssociationLine::moveSelected(int pointIndex)
     }
     if( (int)m_RectList.count() + 1 != lineCount )
         setupSelected();
-    UMLSceneRectItem * rect = 0;
-    QGraphicsLineItem * line = 0;
+    QGraphicsRectItem* rect = 0;
+    QGraphicsLineItem* line = 0;
     if( pointIndex == lineCount || lineCount == 1) {
         line = m_LineList.last();
         UMLScenePoint p = line->line().p2();
         rect = m_RectList.last();
         rect->setX( p.x() );
         rect->setY( p.y() );
-        rect->setZ( 4 );
+        rect->setZValue( 4 );
         return;
     }
     line = m_LineList.at( pointIndex );
@@ -860,7 +860,7 @@ void AssociationLine::moveSelected(int pointIndex)
     rect = m_RectList.at( pointIndex );
     rect->setX( p.x() );
     rect->setY( p.y() );
-    rect->setZ( 4 );
+    rect->setZValue( 4 );
 }
 
 /**
@@ -874,13 +874,13 @@ void AssociationLine::setupSelected()
 
     Q_FOREACH( line, m_LineList ) {
         UMLScenePoint sp = line->line().p1();
-        UMLSceneRectItem *rect = Widget_Utils::decoratePoint(sp);
+        QGraphicsRectItem *rect = Widget_Utils::decoratePoint(sp);
         m_RectList.append( rect );
     }
     //special case for last point
     line = m_LineList.last();
     UMLScenePoint p = line->line().p2();
-    UMLSceneRectItem *rect = Widget_Utils::decoratePoint(p);
+    QGraphicsRectItem *rect = Widget_Utils::decoratePoint(p);
     m_RectList.append( rect );
     update();
 }

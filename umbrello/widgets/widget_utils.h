@@ -32,7 +32,7 @@ namespace Widget_Utils
                           const UMLWidgetList& widgets,
                           const MessageWidgetList* messages = 0);
 
-    UMLSceneRectItem* decoratePoint(const UMLScenePoint& p);
+    QGraphicsRectItem* decoratePoint(const UMLScenePoint& p);
 
     void drawCrossInEllipse(QPainter *p, const QRectF& ellipse);
     void drawTriangledRect(QPainter *painter, const UMLSceneRect& rect, const UMLSceneSize& triSize);

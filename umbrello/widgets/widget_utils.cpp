@@ -66,14 +66,14 @@ namespace Widget_Utils
      * @param p   the base point
      * @return    the decoration point
      */
-    UMLSceneRectItem* decoratePoint(const UMLScenePoint& p)
+    QGraphicsRectItem* decoratePoint(const UMLScenePoint& p)
     {
         const int SIZE = 4;
         UMLView *currentView = UMLApp::app()->currentView();
-        UMLSceneRectItem *rect = new UMLSceneRectItem(p.x() - SIZE / 2,
-                                                      p.y() - SIZE / 2,
-                                                      SIZE, SIZE);
-        rect->setCanvas(currentView->umlScene()->canvas());
+        QGraphicsRectItem *rect = new QGraphicsRectItem(p.x() - SIZE / 2,
+                                                        p.y() - SIZE / 2,
+                                                        SIZE, SIZE);
+        currentView->umlScene()->addItem(rect);
         rect->setBrush( QBrush(Qt::blue) );
         rect->setPen( QPen(Qt::blue) );
         rect->setVisible(true);

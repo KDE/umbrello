@@ -127,7 +127,7 @@ UMLWidget& UMLWidget::operator=(const UMLWidget & other)
     m_showStereotype = other.m_showStereotype;
     setX(other.x());
     setY(other.y());
-    UMLSceneRectItem::setSize(other.width(), other.height());
+    QGraphicsRectItem::setRect(rect().x(), rect().y(), other.width(), other.height());
 
     // assign volatile (non-saved) members
     m_selected = other.m_selected;
@@ -307,7 +307,7 @@ void UMLWidget::constrain(UMLSceneValue& width, UMLSceneValue& height)
         height = maxSize.height();
 
     if (fixedAspectRatio()) {
-        UMLSceneSize size = UMLSceneRectItem::size();
+        UMLSceneSize size = QGraphicsRectItem::rect().size();
         float aspectRatio = size.width() > 0 ? (float)size.height()/size.width() : 1;
         height = width * aspectRatio;
     }
@@ -1133,19 +1133,19 @@ void UMLWidget::setScene(UMLScene * v)
  * Gets the x-coordinate.
  */
 UMLSceneValue UMLWidget::x() const {
-    return UMLSceneRectItem::x();
+    return QGraphicsRectItem::x();
 }
 /**
  * Gets the y-coordinate.
  */
 UMLSceneValue UMLWidget::y() const {
-    return UMLSceneRectItem::y();
+    return QGraphicsRectItem::y();
 }
 /**
  * Gets the z-coordinate.
  */
 UMLSceneValue UMLWidget::z() const {
-    return UMLSceneRectItem::z();
+    return QGraphicsRectItem::zValue();
 }
 
 /**
@@ -1160,7 +1160,7 @@ void UMLWidget::setX(UMLSceneValue x)
     if (!m_ignoreSnapToGrid) {
         x = m_scene->snappedX(x);
     }
-    UMLSceneRectItem::setX(x);
+    QGraphicsRectItem::setX(x);
 }
 
 /**
@@ -1175,7 +1175,7 @@ void UMLWidget::setY(UMLSceneValue y)
     if (!m_ignoreSnapToGrid) {
         y = m_scene->snappedX(y);
     }
-    UMLSceneRectItem::setY(y);
+    QGraphicsRectItem::setY(y);
 }
 
 /**
@@ -1186,7 +1186,7 @@ void UMLWidget::setY(UMLSceneValue y)
 void UMLWidget::setZ(UMLSceneValue z)
 {
     m_origZ = this->z();
-    UMLSceneRectItem::setZ(z);
+    QGraphicsRectItem::setZValue(z);
 }
 
 /**
@@ -1293,7 +1293,7 @@ void UMLWidget::setSize(UMLSceneValue width, UMLSceneValue height)
             height = (numY + 1) * m_scene->snapY();
     }
 
-    UMLSceneRectItem::setSize(width, height);
+    QGraphicsRectItem::setRect(rect().x(), rect().y(), width, height);
 }
 
 /**

@@ -76,48 +76,9 @@ typedef QGraphicsSceneDragDropEvent UMLSceneDragDropEvent;
 typedef QGraphicsSceneDragDropEvent UMLSceneDragEnterEvent;
 typedef QGraphicsSceneDragDropEvent UMLSceneDragMoveEvent;
 
-// Qt3 migration wrapper for QGraphicsScene items 
+// migration wrapper for QGraphicsScene items
 typedef QGraphicsItem UMLSceneItem;
 typedef QList<QGraphicsItem*> UMLSceneItemList;
-
-class UMLSceneRectItem : public QGraphicsRectItem
-{
-public:
-    UMLSceneRectItem()
-    : QGraphicsRectItem(0)
-    {
-    }
-    
-    UMLSceneRectItem(int x, int y, int w, int h)
-    : QGraphicsRectItem(x, y, w, h, 0)
-    {
-    }
-
-    UMLSceneValue z() const
-    {
-        return zValue();
-    }
-
-    void setZ(UMLSceneValue z)
-    {
-        setZValue(z);
-    }
-
-    UMLSceneSize size() const
-    {
-        return rect().size();
-    }
-
-    void setSize(UMLSceneValue w, UMLSceneValue h)
-    {
-        setRect(rect().x(), rect().y(), w, h);
-    }
-
-    void setCanvas(QGraphicsScene *scene)
-    {
-        scene->addItem(this);
-    }
-};
 
 class UMLSceneEllipseItem : public QGraphicsEllipseItem
 {

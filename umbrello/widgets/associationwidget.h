@@ -328,8 +328,8 @@ private:
     int m_nLinePathSegmentIndex; ///< anchor for m_pAssocClassLine
     QGraphicsLineItem *m_pAssocClassLine;  ///< used for connecting assoc. class
     /// selection adornment for the endpoints of the assoc. class connecting line
-    UMLSceneRectItem *m_pAssocClassLineSel0;
-    UMLSceneRectItem *m_pAssocClassLineSel1;
+    QGraphicsRectItem *m_pAssocClassLineSel0;
+    QGraphicsRectItem *m_pAssocClassLineSel1;
 
     AssociationLine *m_associationLine;      ///< the definition points for the association line
     ClassifierWidget *m_associationClass;    ///< used if we have an assoc. class
