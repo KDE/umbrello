@@ -77,7 +77,6 @@ typedef QGraphicsSceneDragDropEvent UMLSceneDragEnterEvent;
 typedef QGraphicsSceneDragDropEvent UMLSceneDragMoveEvent;
 
 // migration wrapper for QGraphicsScene items
-typedef QGraphicsItem UMLSceneItem;
 typedef QList<QGraphicsItem*> UMLSceneItemList;
 
 /**

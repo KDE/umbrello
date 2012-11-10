@@ -36,12 +36,12 @@ AssociationLine::Circle::Circle(int radius /* = 0 */)
 
 void AssociationLine::Circle::setX(int x)
 {
-    UMLSceneItem::setX( (double) x );
+    setX( (double) x );
 }
 
 void AssociationLine::Circle::setY(int y)
 {
-    UMLSceneItem::setY( (double) y );
+    setY( (double) y );
 }
 
 void AssociationLine::Circle::setRadius(int radius)
