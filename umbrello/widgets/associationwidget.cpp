@@ -3781,7 +3781,7 @@ bool AssociationWidget::onAssocClassLine(const UMLScenePoint &point)
 {
     if (m_pAssocClassLine == NULL)
         return false;
-    UMLSceneItemList list = m_scene->canvas()->collisions(point);
+    UMLSceneItemList list = m_scene->collisions(point);
     UMLSceneItemList::iterator end(list.end());
     for (UMLSceneItemList::iterator item_it(list.begin()); item_it != end; ++item_it) {
         if (*item_it == m_pAssocClassLine)

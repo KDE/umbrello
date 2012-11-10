@@ -93,11 +93,6 @@ public:
     UMLScene(UMLFolder *parentFolder, UMLView *view=0);
     virtual ~UMLScene();
 
-    UMLScene *canvas()
-    {
-        return this;
-    }
-
     UMLView* activeView() const;
 
     // Accessors and other methods dealing with loaded/saved data
