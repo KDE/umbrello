@@ -111,7 +111,7 @@ protected:
      * We can't use QCanvasEllipse directly for this because it doesn't
      * use the pen, i.e. QCanvasEllipse only draws filled ellipses.
      */
-    class Circle : public UMLSceneEllipseItem
+    class Circle : public QGraphicsEllipseItem
     {
     public:
         explicit Circle(int radius = 0);
@@ -126,7 +126,7 @@ protected:
     /**
      * Draw the subset Symbol
      */
-    class SubsetSymbol : public UMLSceneEllipseItem
+    class SubsetSymbol : public QGraphicsEllipseItem
     {
     public:
         explicit SubsetSymbol();

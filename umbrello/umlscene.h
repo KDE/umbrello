@@ -80,26 +80,6 @@ typedef QGraphicsSceneDragDropEvent UMLSceneDragMoveEvent;
 typedef QGraphicsItem UMLSceneItem;
 typedef QList<QGraphicsItem*> UMLSceneItemList;
 
-class UMLSceneEllipseItem : public QGraphicsEllipseItem
-{
-public:
-    UMLSceneEllipseItem()
-    : QGraphicsEllipseItem(0)
-    {
-    }
-
-    UMLSceneEllipseItem(int width, int height)
-    : QGraphicsEllipseItem(0, 0, width, height, 0)
-    {
-    }
-
-    void setCanvas(QGraphicsScene *scene)
-    {
-        scene->addItem(this);
-    }
-
-};
-
 /**
  * UMLScene instances represent diagrams.
  * The UMLScene class inherits from QGraphicsScene and it owns the

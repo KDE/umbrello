@@ -30,7 +30,7 @@
 DEBUG_REGISTER_DISABLED(AssociationLine)
 
 AssociationLine::Circle::Circle(int radius /* = 0 */)
-  : UMLSceneEllipseItem(radius * 2, radius * 2)
+  : QGraphicsEllipseItem(0, 0, radius * 2, radius * 2)
 {
 }
 
@@ -46,7 +46,7 @@ void AssociationLine::Circle::setY(int y)
 
 void AssociationLine::Circle::setRadius(int radius)
 {
-    UMLSceneEllipseItem::setRect(x(), y(), radius * 2, radius * 2);
+    QGraphicsEllipseItem::setRect(x(), y(), radius * 2, radius * 2);
 }
 
 int AssociationLine::Circle::getRadius() const
@@ -62,7 +62,7 @@ void AssociationLine::Circle::drawShape(QPainter& p)
 }
 
 AssociationLine::SubsetSymbol::SubsetSymbol()
-  : UMLSceneEllipseItem()
+  : QGraphicsEllipseItem()
 {
     inclination = 0;
 }
@@ -1015,7 +1015,7 @@ void AssociationLine::createHeadLines()
         growList(m_HeadList, 1);
         if (!m_pCircle) {
             m_pCircle = new Circle( 6 );
-            m_pCircle->setCanvas( canvas() );
+            canvas()->addItem(m_pCircle);
             m_pCircle->show();
             m_pCircle->setPen( QPen( lineColor(), lineWidth() ) );
         }
@@ -1213,7 +1213,7 @@ void AssociationLine::createSubsetSymbol()
     switch( getAssocType() ) {
        case Uml::AssociationType::Child2Category:
            m_pSubsetSymbol = new SubsetSymbol;
-           m_pSubsetSymbol->setCanvas(canvas());
+           canvas()->addItem(m_pSubsetSymbol);
            m_pSubsetSymbol->setPen( QPen( lineColor(), lineWidth() ) );
            updateSubsetSymbol();
            m_pSubsetSymbol->show();
