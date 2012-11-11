@@ -86,10 +86,10 @@ public:
 
     void draw(QPainter & p, int offsetX, int offsetY);
 
-    virtual bool loadFromXMI(QDomElement & qElement);
-    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
+    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    virtual bool loadFromXMI(QDomElement& qElement);
 
-public slots:
+public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);
     void setMessageText();
 

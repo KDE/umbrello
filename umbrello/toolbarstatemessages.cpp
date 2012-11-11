@@ -192,9 +192,10 @@ void ToolBarStateMessages::mouseReleaseEmpty()
 
         m_messageLine = new QGraphicsLineItem();
         m_pUMLScene->addItem(m_messageLine);
-        m_messageLine->setLine(m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y(), m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y());
+        qreal x = m_pMouseEvent->scenePos().x();
+        qreal y = m_pMouseEvent->scenePos().y();
+        m_messageLine->setLine(x, y, x, y);
         m_messageLine->setPen(QPen(m_pUMLScene->lineColor(), m_pUMLScene->lineWidth(), Qt::DashLine));
-
         m_messageLine->setVisible(true);
 
         m_pUMLScene->activeView()->viewport()->setMouseTracking(true);
@@ -226,7 +227,9 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
     else {
         m_messageLine = new QGraphicsLineItem();
         m_pUMLScene->addItem(m_messageLine);
-        m_messageLine->setLine(m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y(), m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y());
+        qreal x = m_pMouseEvent->scenePos().x();
+        qreal y = m_pMouseEvent->scenePos().y();
+        m_messageLine->setLine(x, y, x, y);
         m_messageLine->setPen(QPen(m_pUMLScene->lineColor(), m_pUMLScene->lineWidth(), Qt::DashLine));
         m_messageLine->setVisible(true);
 

@@ -329,7 +329,7 @@ void ToolBarState::mousePressWidget()
  */
 void ToolBarState::mousePressEmpty()
 {
-    m_pUMLScene->clearSelected();
+    m_pUMLScene->clearSelection();
 }
 
 /**
@@ -378,7 +378,7 @@ void ToolBarState::mouseDoubleClickWidget()
  */
 void ToolBarState::mouseDoubleClickEmpty()
 {
-    m_pUMLScene->clearSelected();
+    m_pUMLScene->clearSelection();
 }
 
 /**

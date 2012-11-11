@@ -29,7 +29,6 @@
  * @author Thomas GALLINARI <tg8187@yahoo.fr>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
 class FloatingDashLineWidget : public UMLWidget
 {
     Q_OBJECT

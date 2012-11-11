@@ -381,11 +381,11 @@ void UMLScene::setGridDotColor(const QColor& color)
 }
 
 /**
- * Sets the diagram width and height in pixels
+ * Sets the diagram width and height in pixels.
  */
 void UMLScene::setSize(UMLSceneValue width, UMLSceneValue height)
 {
-   setSceneRect(sceneRect().x(), sceneRect().y(), width, height);
+    setSceneRect(sceneRect().x(), sceneRect().y(), width, height);
 }
 
 /**

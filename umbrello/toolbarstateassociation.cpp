@@ -186,7 +186,7 @@ void ToolBarStateAssociation::setFirstWidget()
 
     m_firstWidget = widget;
 
-    m_associationLine = new QGraphicsLineItem;
+    m_associationLine = new QGraphicsLineItem();
     m_pUMLScene->addItem(m_associationLine);
     m_associationLine->setLine(pos.x(), pos.y(), pos.x(), pos.y());
     m_associationLine->setPen(QPen(m_pUMLScene->lineColor(), m_pUMLScene->lineWidth(), Qt::DashLine));
