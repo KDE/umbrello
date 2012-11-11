@@ -80,7 +80,8 @@ void ToolBarStateMessages::mouseMove(QGraphicsSceneMouseEvent* ome)
 
     if (m_messageLine) {
         QPointF sp = m_messageLine->line().p1();
-        qreal x = m_pMouseEvent->scenePos().x(), y = m_pMouseEvent->scenePos().y();
+        qreal x = m_pMouseEvent->scenePos().x();
+        qreal y = m_pMouseEvent->scenePos().y();
         m_messageLine->setLine(sp.x(), sp.y(), x, y);
     }
 }
@@ -193,10 +194,10 @@ void ToolBarStateMessages::mouseReleaseEmpty()
 
         m_messageLine = new QGraphicsLineItem();
         m_pUMLScene->addItem(m_messageLine);
-        qreal x = m_pMouseEvent->scenePos().x(), y = m_pMouseEvent->scenePos().y();
+        qreal x = m_pMouseEvent->scenePos().x();
+        qreal y = m_pMouseEvent->scenePos().y();
         m_messageLine->setLine(x, y, x, y);
         m_messageLine->setPen(QPen(m_pUMLScene->lineColor(), m_pUMLScene->lineWidth(), Qt::DashLine));
-
         m_messageLine->setVisible(true);
     }
     else {
@@ -230,7 +231,6 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
         qreal y = m_pMouseEvent->scenePos().y();
         m_messageLine->setLine(x, y, x, y);
         m_messageLine->setPen(QPen(m_pUMLScene->lineColor(), m_pUMLScene->lineWidth(), Qt::DashLine));
-
         m_messageLine->setVisible(true);
     }
 }
