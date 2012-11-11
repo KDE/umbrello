@@ -26,6 +26,8 @@
 #include <QPainter>
 #include <QTextStream>
 
+DEBUG_REGISTER_DISABLED(LayoutGrid)
+
 /**
  * Constructor.
  */
@@ -41,8 +43,6 @@ LayoutGrid::LayoutGrid(QGraphicsItem *parent, QGraphicsScene *scene)
     m_isVisible(false),
     m_isTextVisible(false)
 {
-    DEBUG_REGISTER_DISABLED("LayoutGrid");
-
     m_coordLabel = new QGraphicsTextItem(QString("0, 0"), this);
 }
 

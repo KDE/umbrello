@@ -26,6 +26,8 @@
 // kde includes
 #include <klocale.h>
 
+DEBUG_REGISTER_DISABLED(UMLCanvasObject)
+
 /**
  * Sets up a UMLCanvasObject.
  *
@@ -35,7 +37,6 @@
 UMLCanvasObject::UMLCanvasObject(const QString & name, Uml::IDType id)
   : UMLObject(name, id)
 {
-    DEBUG_REGISTER_DISABLED(DBG_SRC);
 }
 
 /**

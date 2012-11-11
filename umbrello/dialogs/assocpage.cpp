@@ -20,7 +20,7 @@
 #include <QHBoxLayout>
 
 /**
- * Constructs an instance of AssocPage.
+ *  Constructs an instance of AssocPage.
  *
  *  @param  parent  The parent of the page
  *  @param  v       The view the UMLObject being represented.

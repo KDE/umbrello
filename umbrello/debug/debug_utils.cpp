@@ -1,5 +1,6 @@
 /*
     Copyright 2011  Andi Fischer  <andi.fischer@hispeed.ch>
+    Copyright 2012  Ralf Habacker <ralf.habacker@freenet.de>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License as
@@ -23,6 +24,8 @@
 #include <klocale.h>
 
 Tracer* Tracer::m_instance = 0;
+QMap<QString,bool> *Tracer::m_classes = 0;
+
 
 Tracer* Tracer::instance()
 {
@@ -39,11 +42,15 @@ Tracer* Tracer::instance()
 Tracer::Tracer(QWidget *parent)
   : QTreeWidget(parent)
 {
+    // in case no one called registerClass() before
+    if (!m_classes)
+        m_classes = new QMap<QString,bool>;
     setRootIsDecorated(true);
     setAlternatingRowColors(true);
     setHeaderLabel(i18n("Class Name"));
     setContextMenuPolicy(Qt::CustomContextMenu);
     resize(300, 400);
+    connect(this,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(slotItemClicked(QTreeWidgetItem*,int)));
 }
 
 /**
@@ -52,41 +59,36 @@ Tracer::Tracer(QWidget *parent)
 Tracer::~Tracer()
 {
     clear();
+    delete m_classes;
 }
 
 /**
- * ... .
+ * Return debugging state for a given class
+ * @param name   the class name to check 
  */
-void Tracer::registerClass(const QString& name, const QString& folder)
+bool Tracer::isEnabled(const QString& name)
 {
-    QList<QTreeWidgetItem*> items = findItems(name, Qt::MatchFixedString);
-    if (items.empty()) {
-        uDebug() << name << " / folder = " << folder;
-        QTreeWidgetItem* item = new QTreeWidgetItem(QStringList(name));
-        item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
-        item->setCheckState(0, Qt::Checked);
-        addTopLevelItem(item);
-    }
+    return (*m_classes)[name];
 }
 
 /**
- * ...
- * @param name   the class name for which the debug messages are enabled
+ * Enable debug output for the given class.
+ * @param name   class name
  */
 void Tracer::enable(const QString& name)
 {
-    QList<QTreeWidgetItem*> items = findItems(name, Qt::MatchFixedString);
-    foreach(QTreeWidgetItem* item, items) {
-        item->setCheckState(0, Qt::Checked);
-    }
+    (*m_classes)[name] = true;
+    update(name);
 }
 
+/**
+ * Disable debug output for the given class.
+ * @param name   class name
+ */
 void Tracer::disable(const QString& name)
 {
-    QList<QTreeWidgetItem*> items = findItems(name, Qt::MatchFixedString);
-    foreach(QTreeWidgetItem* item, items) {
-        item->setCheckState(0, Qt::Unchecked);
-    }
+    (*m_classes)[name] = false;
+    update(name);
 }
 
 void Tracer::enableAll()
@@ -99,20 +101,58 @@ void Tracer::disableAll()
     //:TODO:
 }
 
-bool Tracer::isEnabled(const QString& name)
+/**
+ * Register class for debug output
+ * @param name   class name
+ * @param state  initial enabled state
+ */
+void Tracer::registerClass(const QString& name, bool state)
 {
-    QList<QTreeWidgetItem*> items = findItems(name, Qt::MatchFixedString);
-    if (items.size() > 0) {
-        Qt::CheckState state = items.at(0)->checkState(0);
-        switch(state) {
-            case Qt::Checked:
-                return true;
-            case Qt::Unchecked:
-            default:
-                return false;
-        }
-    }
-    return false;
+    if (!m_classes)
+        m_classes = new QMap<QString,bool>;
+    (*m_classes)[name] = state;
 }
 
-#include "debug_utils.moc"
+/**
+ * Transfer class state into tree widget.
+ * @param name   class name
+ */
+void Tracer::update(const QString &name)
+{
+    if (!isVisible())
+        return;
+    QList<QTreeWidgetItem*> items = findItems(name, Qt::MatchFixedString);
+    foreach(QTreeWidgetItem* item, items) {
+        item->setCheckState(0, (*m_classes)[name] ? Qt::Checked : Qt::Unchecked);
+    }
+}
+
+/**
+ * Fill tree widget with collected classes.
+ */
+void Tracer::showEvent(QShowEvent* e)
+{
+    Q_UNUSED(e);
+
+    clear();
+    QMapIterator<QString, bool> i(*m_classes);
+    while (i.hasNext()) {
+        i.next();
+        QTreeWidgetItem* item = new QTreeWidgetItem(QStringList(i.key()));
+        item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+        item->setCheckState(0, i.value() ? Qt::Checked : Qt::Unchecked);
+        addTopLevelItem(item);
+    }
+}
+
+/**
+ * handle tree widget item selection signal
+ * @param item tree widget item
+ * @param column selected column
+ */
+void Tracer::slotItemClicked(QTreeWidgetItem* item, int colum)
+{
+    Q_UNUSED(colum);
+
+    (*m_classes)[item->text(0)] = !(*m_classes)[item->text(0)];
+}

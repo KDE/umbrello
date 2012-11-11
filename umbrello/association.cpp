@@ -30,6 +30,8 @@
 
 using namespace Uml;
 
+DEBUG_REGISTER(UMLAssociation)
+
 /**
  * Sets up an association.
  * A new unique ID is assigned internally.
@@ -237,7 +239,7 @@ bool UMLAssociation::load( QDomElement & element )
                 if (m_pUMLPackage == NULL) {
                     Uml::ModelType mt = Model_Utils::convert_OT_MT(obj[r]->baseType());
                     m_pUMLPackage = doc->rootFolder(mt);
-                    uDebug() << "assoctype " << m_AssocType
+                    DEBUG(DBG_SRC) << "assoctype " << m_AssocType
                         << ": setting model type " << mt;
                 }
             }
@@ -340,7 +342,7 @@ bool UMLAssociation::load( QDomElement & element )
         if (m_pUMLPackage == NULL) {
             Uml::ModelType mt = Model_Utils::convert_OT_MT(getObject(B)->baseType());
             m_pUMLPackage = doc->rootFolder(mt);
-            uDebug() << "setting model type " << mt;
+            DEBUG(DBG_SRC) << "setting model type " << mt;
         }
 
         // setting the association type:
@@ -392,7 +394,7 @@ bool UMLAssociation::load( QDomElement & element )
                     "relationship"      // Uml::AssociationType::Relationship
         };
         const int arraySize = sizeof(assocTypeString)/sizeof(QString);
-        uDebug() << "AssociationType string array size = " << arraySize;
+        DEBUG(DBG_SRC) << "AssociationType string array size = " << arraySize;
 
         int index;
         for (index = 0; index < arraySize; ++index)
@@ -493,7 +495,7 @@ Uml::IDType UMLAssociation::getObjectId(Uml::Role_Type role) const
             uError() << "role " << role << ": getObject returns NULL";
             return Uml::id_None;
         } else {
-            uDebug() << "role " << role << ": using secondary ID " << auxID;
+            DEBUG(DBG_SRC) << "role " << role << ": using secondary ID " << auxID;
             return STR2ID(auxID);
         }
     }
@@ -592,7 +594,7 @@ void UMLAssociation::setAssociationType(Uml::AssociationType assocType)
         // In this case we need to auto-set the multiplicity/rolenames
         // of the roles
 #ifdef VERBOSE_DEBUGGING
-        uDebug() << " A new uni-association has been created.";
+        DEBUG(DBG_SRC) << " A new uni-association has been created.";
 #endif
     }
     UMLObject::emitModified();

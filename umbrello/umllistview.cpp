@@ -74,6 +74,8 @@
 #include <QRect>
 #include <QToolTip>
 
+DEBUG_REGISTER(UMLListView)
+
 /**
  * Constructs the tree view.
  *
@@ -114,8 +116,6 @@ UMLListView::UMLListView(QWidget *parent)
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
         m_lv[i] = 0;
     }
-
-    DEBUG_REGISTER(DBG_SRC);
 
     //setup slots/signals
     connect(this, SIGNAL(itemCollapsed(QTreeWidgetItem*)), this, SLOT(slotCollapsed(QTreeWidgetItem*)));

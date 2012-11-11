@@ -115,6 +115,8 @@ QMenu* UMLApp::findMenu(const QString& name)
     return NULL;
 }
 
+DEBUG_REGISTER(UMLApp)
+
 /**
  * Constructor. Calls all init functions to create the application.
  */
@@ -159,8 +161,6 @@ UMLApp::UMLApp(QWidget* parent)
     initView();
     initClip();
     readOptions();
-
-    DEBUG_REGISTER(DBG_SRC);
 
     //get a reference to the Code->Active Language and to the Diagram->Zoom menu
     m_langSelect = findMenu(QString("active_lang_menu") );

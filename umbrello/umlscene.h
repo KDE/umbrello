@@ -65,14 +65,13 @@ typedef QRectF UMLSceneRect;
 typedef QSizeF UMLSceneSize;
 typedef QLineF UMLSceneLine;
 typedef qreal UMLSceneValue;
+
 // event types
 typedef QGraphicsSceneHoverEvent UMLSceneHoverEvent;
 typedef QGraphicsSceneContextMenuEvent UMLSceneContextMenuEvent;
 typedef QGraphicsSceneDragDropEvent UMLSceneDragDropEvent;
 typedef QGraphicsSceneDragDropEvent UMLSceneDragEnterEvent;
 typedef QGraphicsSceneDragDropEvent UMLSceneDragMoveEvent;
-
-typedef QGraphicsEllipseItem UMLSceneEllipse;
 
 /**
  * UMLScene instances represent diagrams.

@@ -11,6 +11,7 @@
 // own header
 #include "umlview.h"
 
+// application specific includes
 #include "debug_utils.h"
 #include "docwindow.h"
 #include "uml.h"
@@ -19,6 +20,8 @@
 #include "worktoolbar.h"
 
 #include <QMouseEvent>
+
+DEBUG_REGISTER(UMLView)
 
 /**
  * Constructor
@@ -35,8 +38,6 @@ UMLView::UMLView(UMLFolder *parentFolder)
     UMLScene *scene = new UMLScene(parentFolder);
     setScene(scene);
     setSceneRect(scene->sceneRect());
-
-    DEBUG_REGISTER(DBG_SRC);
 }
 
 /**
