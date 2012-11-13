@@ -20,7 +20,10 @@
 #include "umldoc.h"
 #include "umldragdata.h"
 #include "umlscene.h"
+#include "umlviewdialog.h"
 #include "umlwidget.h"
+
+#include <QPointer>
 
 DEBUG_REGISTER(UMLView)
 
@@ -91,6 +94,20 @@ void UMLView::setZoom(int zoom)
 int UMLView::currentZoom()
 {
     return (int)(matrix().m11()*100.0);
+}
+
+/**
+ * Shows the properties dialog for the view.
+ */
+bool UMLView::showPropDialog()
+{
+    bool success = false;
+    QPointer<UMLViewDialog> dlg = new UMLViewDialog(this, umlScene());
+    if (dlg->exec() == QDialog::Accepted) {
+        success = true;
+    }
+    delete dlg;
+    return success;
 }
 
 void UMLView::zoomIn()

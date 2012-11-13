@@ -42,6 +42,8 @@ public:
     void setZoom(int zoom);
     int currentZoom();
 
+    bool showPropDialog();
+
 public slots:
     void zoomIn();
     void zoomOut();

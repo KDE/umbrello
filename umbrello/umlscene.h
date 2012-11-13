@@ -271,8 +271,6 @@ public:
 
     void updateContainment(UMLCanvasObject *self);
 
-    bool showPropDialog();
-
     void setClassWidgetOptions(ClassOptionsPage * page);
 
     void checkSelections();

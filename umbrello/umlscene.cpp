@@ -62,7 +62,6 @@
 #include "umlobjectlist.h"
 #include "umlrole.h"
 #include "umlview.h"
-#include "umlviewdialog.h"
 #include "umlviewimageexporter.h"
 #include "umlwidget.h"
 #include "uniqueid.h"
@@ -81,7 +80,6 @@
 
 // include files for Qt
 #include <QPainter>
-#include <QPointer>
 #include <QString>
 #include <QStringList>
 #include <QPainter>
@@ -877,7 +875,7 @@ void UMLScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* ome)
     }
     else {
         // show properties dialog of the scene
-        if (showPropDialog() == true) {
+        if (m_view->showPropDialog() == true) {
             m_doc->setModified();
         }
         ome->accept();
@@ -3374,7 +3372,7 @@ void UMLScene::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Properties:
-        if (showPropDialog() == true)
+        if (m_view->showPropDialog() == true)
             m_doc->setModified();
         break;
 
@@ -3453,21 +3451,6 @@ void UMLScene::resetPastePoint()
 void UMLScene::setStartedCut()
 {
     m_bStartedCut = true;
-}
-
-/**
- * Shows the properties dialog for the view.
- * FIXME belongs to UMLView
- */
-bool UMLScene::showPropDialog()
-{
-    bool success = false;
-    QPointer<UMLViewDialog> dlg = new UMLViewDialog(activeView(), this);
-    if (dlg->exec() == QDialog::Accepted) {
-        success = true;
-    }
-    delete dlg;
-    return success;
 }
 
 /**

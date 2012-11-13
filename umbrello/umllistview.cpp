@@ -614,7 +614,7 @@ void UMLListView::popupMenuSel(QAction* action)
             UMLView * pView = m_doc->findView(currItem->ID());
             if (pView) {
                 pView->umlScene()->updateDocumentation(false);
-                pView->umlScene()->showPropDialog();
+                pView->showPropDialog();
                 pView->umlScene()->showDocumentation(true);
             }
             return;
@@ -1408,7 +1408,7 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
         UMLView * pView = m_doc->findView(item->ID());
         if (pView) {
             pView->umlScene()->updateDocumentation(false);
-            pView->umlScene()->showPropDialog();
+            pView->showPropDialog();
             pView->umlScene()->showDocumentation(true);
         }
         return;
