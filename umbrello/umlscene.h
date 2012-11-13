@@ -387,7 +387,7 @@ protected:
     bool m_bPaste;
     ListPopupMenu * m_pMenu;
     bool m_bStartedCut;  ///< Flag if view/children started cut operation.
-    UMLWidgetList m_selectedList;
+    UMLWidgetList m_selectedList; ///< list of selected items TODO: migrate to QGraphicsScenes selection list
 
 private:
     static const UMLSceneValue defaultCanvasSize;  ///< The default size of a diagram in pixels.
