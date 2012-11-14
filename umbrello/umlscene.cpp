@@ -3746,7 +3746,7 @@ void UMLScene::fileLoaded()
  */
 void UMLScene::resizeCanvasToItems()
 {
-    UMLSceneRect rect = itemsBoundingRect();
+    //UMLSceneRect rect = itemsBoundingRect();
     //Make sure (0,0) is in the topLeft
     
     //[PORT] resizing scene size to widget bounds 

@@ -178,8 +178,6 @@ void ToolBarState::mouseDoubleClick(QGraphicsSceneMouseEvent* ome)
  */
 void ToolBarState::mouseMove(QGraphicsSceneMouseEvent* ome)
 {
-	static int mouseCount = 0;
-
     setMouseEvent(ome, QEvent::MouseMove);
 
     if (currentWidget()) {
@@ -191,6 +189,7 @@ void ToolBarState::mouseMove(QGraphicsSceneMouseEvent* ome)
     }
 #if 0
     // scrolls the view
+    static int mouseCount = 0;
     int vx = ome->scenePos().x();
     int vy = ome->scenePos().y();
     UMLView* view = m_pUMLScene->activeView();
