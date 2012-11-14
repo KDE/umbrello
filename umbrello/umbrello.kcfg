@@ -169,7 +169,7 @@
        <entry name="gridDotColor" type="Color">
          <label>Grid Dot Color</label>
          <whatsthis>The Color of the grid dots</whatsthis>
-         <default>gray</default>
+         <default>lightGray</default>
        </entry>
    </group>
    <group name ="Class Options">
