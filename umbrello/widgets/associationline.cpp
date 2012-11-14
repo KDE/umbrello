@@ -33,17 +33,6 @@ AssociationLine::Circle::Circle(int radius /* = 0 */)
   : QGraphicsEllipseItem(0, 0, radius * 2, radius * 2)
 {
 }
-
-void AssociationLine::Circle::setX(int x)
-{
-    setX( (double) x );
-}
-
-void AssociationLine::Circle::setY(int y)
-{
-    setY( (double) y );
-}
-
 void AssociationLine::Circle::setRadius(int radius)
 {
     QGraphicsEllipseItem::setRect(x(), y(), radius * 2, radius * 2);

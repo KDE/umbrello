@@ -117,8 +117,6 @@ protected:
         explicit Circle(int radius = 0);
         void setRadius(int radius);
         int getRadius() const;
-        void setX(int x);
-        void setY(int y);
 
         void drawShape(QPainter& p);
     };
