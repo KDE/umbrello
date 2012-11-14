@@ -3748,8 +3748,12 @@ void UMLScene::resizeCanvasToItems()
 {
     UMLSceneRect rect = itemsBoundingRect();
     //Make sure (0,0) is in the topLeft
-    rect.setTopLeft(QPointF(0, 0));
-    setSceneRect(rect);
+    
+    //[PORT] resizing scene size to widget bounds 
+    //       limits movable area of widgets 
+    //
+    //rect.setTopLeft(QPointF(0, 0));
+    //setSceneRect(rect);
 }
 
 /**
