@@ -41,7 +41,6 @@ UMLView::UMLView(UMLFolder *parentFolder)
     // new scene later.
     UMLScene *scene = new UMLScene(parentFolder, this);
     setScene(scene);
-    setSceneRect(scene->sceneRect());
 }
 
 /**
