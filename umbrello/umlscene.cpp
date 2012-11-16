@@ -1924,8 +1924,8 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
     }
     int wX = pWidget->x();
     int wY = pWidget->y();
-    bool xIsOutOfRange = (wX <= 0 || wX >= FloatingTextWidget::restrictPositionMax);
-    bool yIsOutOfRange = (wY <= 0 || wY >= FloatingTextWidget::restrictPositionMax);
+    bool xIsOutOfRange = (wX < sceneRect().left() || wX > sceneRect().right());
+    bool yIsOutOfRange = (wY < sceneRect().top() || wY > sceneRect().bottom());
     if (xIsOutOfRange || yIsOutOfRange) {
         QString name = pWidget->name();
         if (name.isEmpty()) {
