@@ -754,6 +754,8 @@ void ClassifierWidget::drawMembers(QPainter & p, UMLObject::ObjectType ot, Uml::
     QFont f = UMLWidget::font();
     f.setBold(false);
     UMLClassifierListItemList list = classifier()->getFilteredList(ot);
+    p.setClipping(true);
+    p.setClipRect(rect());
     foreach (UMLClassifierListItem *obj , list ) {
           if (visualProperty(ShowPublicOnly) && obj->visibility() != Uml::Visibility::Public)
             continue;
@@ -768,6 +770,7 @@ void ClassifierWidget::drawMembers(QPainter & p, UMLObject::ObjectType ot, Uml::
         p.setFont(f);
         y += fontHeight;
     }
+    p.setClipping(false);
 }
 
 /**
