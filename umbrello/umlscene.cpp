@@ -1563,7 +1563,10 @@ bool UMLScene::isSavedInSeparateFile()
 
 UMLSceneItemList UMLScene::collisions(const UMLScenePoint &p)
 {
-    return items(p);
+    QPointF a = p-QPointF(3,3);
+    QPointF b = p+QPointF(3,3);
+    QList<QGraphicsItem *> list = items(QRectF(a,b));
+    return list;
 }
 
 /**
