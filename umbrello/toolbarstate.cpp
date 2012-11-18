@@ -328,6 +328,8 @@ void ToolBarState::mousePressWidget()
  */
 void ToolBarState::mousePressEmpty()
 {
+    // TODO activate when QGraphicsScene selection handling is used
+    //m_pUMLScene->clearSelection();
     m_pUMLScene->clearSelected();
 }
 
@@ -377,7 +379,9 @@ void ToolBarState::mouseDoubleClickWidget()
  */
 void ToolBarState::mouseDoubleClickEmpty()
 {
-    m_pUMLScene->clearSelection();
+    // TODO activate when QGraphicsScene selection handling is used
+    //m_pUMLScene->clearSelection();
+    m_pUMLScene->clearSelected();
 }
 
 /**

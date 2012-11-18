@@ -79,6 +79,7 @@ void ToolBarStateArrow::mousePressEmpty()
     ToolBarState::mousePressEmpty();
 
     // Starts the selection rectangle
+    // TODO: let QGraphicsScene show the selection rectangle
     if (m_selectionRect.count() == 0) {
         m_startPosition = m_pMouseEvent->scenePos();
 
