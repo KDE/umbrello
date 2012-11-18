@@ -328,7 +328,7 @@ void ToolBarState::mousePressWidget()
  */
 void ToolBarState::mousePressEmpty()
 {
-    m_pUMLScene->clearSelection();
+    m_pUMLScene->clearSelected();
 }
 
 /**
