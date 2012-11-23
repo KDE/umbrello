@@ -1,6 +1,7 @@
 Version 2.10.0 (unreleased)
 
 * New feature: Line based grid drawing
+* TreeView to diagram class drag problem (292042)
 * Extend class debug filter (309770)
 * UML diagrams outside image problem (309452)
 * some state diagram widgets could not be added (309064)
