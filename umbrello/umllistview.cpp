@@ -2296,6 +2296,7 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
     m_editItem->setOpen(true);
     blockSignals(false);
     m_editItem->setCreating(true);
+    m_bRenameInProgress = true;
     editItem(m_editItem, 0);
 }
 
