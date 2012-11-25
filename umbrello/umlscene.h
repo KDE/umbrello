@@ -71,7 +71,6 @@ typedef qreal UMLSceneValue;
 // event types
 typedef QKeyEvent UMLSceneKeyEvent;
 typedef QGraphicsSceneHoverEvent UMLSceneHoverEvent;
-typedef QGraphicsSceneContextMenuEvent UMLSceneContextMenuEvent;
 typedef QGraphicsSceneDragDropEvent UMLSceneDragDropEvent;
 typedef QGraphicsSceneDragDropEvent UMLSceneDragEnterEvent;
 typedef QGraphicsSceneDragDropEvent UMLSceneDragMoveEvent;
@@ -366,7 +365,7 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* mouseEvent);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent);
-    virtual void contextMenuEvent(UMLSceneContextMenuEvent* contextMenuEvent);
+    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent* contextMenuEvent);
 
     UMLSceneRect diagramRect();
 

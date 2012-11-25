@@ -3008,7 +3008,7 @@ void UMLScene::resetToolbar()
 /**
  * Event handler for context menu events.
  */
-void UMLScene::contextMenuEvent(UMLSceneContextMenuEvent* contextMenuEvent)
+void UMLScene::contextMenuEvent(QGraphicsSceneContextMenuEvent* contextMenuEvent)
 {
     UMLWidget* widget = widgetAt(contextMenuEvent->scenePos());
     if (widget) {
