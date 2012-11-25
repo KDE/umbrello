@@ -29,7 +29,7 @@ class UMLScene;
  * @author      Oliver Kellogg <okellogg@users.sourceforge.net>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class WidgetBase : public QObject
+class WidgetBase : public QGraphicsObject
 {
     Q_OBJECT
     Q_ENUMS(WidgetType)
@@ -123,11 +123,17 @@ public:
 
     WidgetBase& operator=(const WidgetBase& other);
 
+    virtual QRectF boundingRect() const;
+
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    QT_DEPRECATED virtual void draw(QPainter & p, int offsetX, int offsetY);
+
 protected:
     WidgetType  m_baseType;  ///< Type of widget.
     UMLScene   *m_scene;
     UMLObject  *m_umlObject;
     QString     m_Doc;   ///< Only used if m_umlObject is not set.
+    QRectF      m_boundingRect;
 
     /**
      * This ID is only used when the widget does not have a
@@ -157,7 +163,6 @@ protected:
     bool m_usesDiagramFillColor;
     bool m_usesDiagramUseFillColor;
     bool m_usesDiagramLineWidth;
-
 };
 
 #endif

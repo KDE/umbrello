@@ -11,10 +11,7 @@
 #ifndef ENUMWIDGET_H
 #define ENUMWIDGET_H
 
-
 #include "umlwidget.h"
-
-class UMLScene;
 
 #define ENUM_MARGIN 5
 

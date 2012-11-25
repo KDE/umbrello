@@ -23,11 +23,13 @@
  * @param scene   The view to be displayed on.
  */
 WidgetBase::WidgetBase(UMLScene *scene, WidgetType type)
-  : QObject(scene),
+  : QGraphicsObject(),
     m_baseType(type),
     m_scene(scene),
     m_umlObject(0)
 {
+    // TODO 310283
+    //setFlags(ItemIsSelectable | ItemIsMovable |ItemSendsGeometryChanges);
     if (m_scene) {
         m_usesDiagramLineColor = true;
         m_usesDiagramLineWidth  = true;
@@ -463,6 +465,34 @@ WidgetBase& WidgetBase::operator=(const WidgetBase& other)
     m_usesDiagramLineWidth  = other.m_usesDiagramLineWidth;
 
     return *this;
+}
+
+/**
+ * @return The bounding rectangle for this widget.
+ * @see setBoundingRect
+ */
+QRectF WidgetBase::boundingRect() const
+{
+    return m_boundingRect;
+}
+
+/**
+ * Draws the UMLWidget on the given paint device
+ *
+ * @param p The painter for the drawing device
+ * @param offsetX x position to start the drawing.
+ * @param offsetY y position to start the drawing.
+ *
+ */
+void WidgetBase::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    Q_UNUSED(option); Q_UNUSED(widget);
+    draw(*painter, 0, 0);
+}
+
+void WidgetBase::draw(QPainter & p, int offsetX, int offsetY)
+{
+    Q_UNUSED(p); Q_UNUSED(offsetX); Q_UNUSED(offsetY);
 }
 
 /**

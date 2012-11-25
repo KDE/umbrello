@@ -16,6 +16,7 @@
 #include "linkwidget.h"
 #include "messagewidgetlist.h"
 #include "umlwidgetlist.h"
+#include "umlscene.h"
 #include "widgetbase.h"
 
 class ListPopupMenu;
@@ -156,7 +157,7 @@ public:
     AssociationLine* associationLine() const;
 
     virtual bool activate();
-    UMLSceneRect boundingRect();
+    virtual QRectF boundingRect() const;
 
     void widgetMoved(UMLWidget* widget, int x, int y);
 

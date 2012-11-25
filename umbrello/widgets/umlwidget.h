@@ -16,6 +16,7 @@
 #include "associationwidgetlist.h"
 #include "optionstate.h"
 #include "umlscene.h"
+#include "widgetbase.h"
 
 #include <QDateTime>
 #include <QFont>
@@ -23,7 +24,6 @@
 class UMLWidgetController;
 
 class UMLObject;
-class UMLScene;
 class UMLDoc;
 class ListPopupMenu;
 class IDChangeLog;
@@ -39,7 +39,7 @@ class QFontMetrics;
  * @author  Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLWidget : public WidgetBase, public QGraphicsRectItem
+class UMLWidget : public WidgetBase
 {
     Q_OBJECT
 public:
@@ -99,17 +99,6 @@ public:
 
     virtual UMLSceneValue onWidget(const UMLScenePoint & p);
 
-    /**
-     * Draws the UMLWidget on the given paint device
-     *
-     * @param p The painter for the drawing device
-     * @param offsetX x position to start the drawing.
-     * @param offsetY y position to start the drawing.
-     *
-     */
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
-    virtual void draw(QPainter & p, int offsetX, int offsetY) = 0;
-
     void setPenFromSettings(QPainter & p);
 
     virtual QFont font() const;
@@ -137,14 +126,14 @@ public:
      * Returns the height of widget.
      */
     int height() const {
-        return QGraphicsRectItem::rect().height();
+        return rect().height();
     }
 
     /**
      * Returns the width of the widget.
      */
     UMLSceneValue width() const {
-        return QGraphicsRectItem::rect().width();
+        return rect().width();
     }
 
     void setSize(UMLSceneValue width,UMLSceneValue height);
@@ -280,6 +269,10 @@ public:
 
     void init();
 
+    QRectF rect() const;
+    void setRect(const QRectF& rect);
+    void setRect(qreal x, qreal y, qreal width, qreal height);
+
     ///////////////// Data Loaded/Saved /////////////////////////////////
 
     /**
@@ -333,7 +326,6 @@ public:
     UMLWidgetController *m_widgetController;
 
 public slots:
-
     virtual void slotRemovePopupMenu();
     virtual void updateWidget();
     virtual void slotMenuSelection(QAction* action);
@@ -353,6 +345,8 @@ signals:
      * @param id The id of the object behind the widget.
      */
     void sigWidgetMoved(Uml::IDType id);
-};
 
+protected:
+    QRectF      m_rect;     ///< widget size
+};
 #endif

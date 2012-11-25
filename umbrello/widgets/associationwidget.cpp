@@ -3859,9 +3859,9 @@ void AssociationWidget::moveEntireAssoc( int x, int y )
 /**
  * Returns the bounding rectangle of all segments of the association.
  */
-UMLSceneRect AssociationWidget::boundingRect()
+QRectF AssociationWidget::boundingRect() const
 {
-    UMLSceneRect rectangle;
+    QRectF rectangle;
 
     /* we also want the end points connected to the other widget */
     int pos = m_associationLine->count();

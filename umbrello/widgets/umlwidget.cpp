@@ -127,7 +127,7 @@ UMLWidget& UMLWidget::operator=(const UMLWidget & other)
     m_showStereotype = other.m_showStereotype;
     setX(other.x());
     setY(other.y());
-    QGraphicsRectItem::setRect(rect().x(), rect().y(), other.width(), other.height());
+    setRect(rect().x(), rect().y(), other.width(), other.height());
 
     // assign volatile (non-saved) members
     m_selected = other.m_selected;
@@ -307,7 +307,7 @@ void UMLWidget::constrain(UMLSceneValue& width, UMLSceneValue& height)
         height = maxSize.height();
 
     if (fixedAspectRatio()) {
-        UMLSceneSize size = QGraphicsRectItem::rect().size();
+        UMLSceneSize size = rect().size();
         float aspectRatio = size.width() > 0 ? (float)size.height()/size.width() : 1;
         height = width * aspectRatio;
     }
@@ -377,6 +377,35 @@ void UMLWidget::init()
 
     m_umlObject = 0;
     setZ(m_origZ = 2);  // default for most widgets
+}
+
+/**
+ * return drawing rectangle of widget in local coordinates
+ */
+QRectF UMLWidget::rect() const
+{
+    return m_rect;
+}
+
+/**
+ * set widget rectangle in item coordinates
+ */
+void UMLWidget::setRect(const QRectF& rect)
+{
+    if (m_rect == rect)
+        return;
+    prepareGeometryChange();
+    m_rect = rect;
+    m_boundingRect = rect;
+    update();
+}
+
+/**
+ * set widget rectangle in item coordinates
+ */
+void UMLWidget::setRect(qreal x, qreal y, qreal width, qreal height)
+{
+    setRect(QRectF(x, y, width, height));
 }
 
 /**
@@ -999,13 +1028,6 @@ UMLSceneValue UMLWidget::onWidget(const UMLScenePoint & p)
     return (w + h) / 2;
 }
 
-void UMLWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-{
-    Q_UNUSED(option); Q_UNUSED(widget);
-    draw(*painter, 0, 0);
-}
-
-
 /**
  * Move the widget by an X and Y offset relative to
  * the current position.
@@ -1133,19 +1155,19 @@ void UMLWidget::setScene(UMLScene * v)
  * Gets the x-coordinate.
  */
 UMLSceneValue UMLWidget::x() const {
-    return QGraphicsRectItem::x();
+    return QGraphicsObject::x();
 }
 /**
  * Gets the y-coordinate.
  */
 UMLSceneValue UMLWidget::y() const {
-    return QGraphicsRectItem::y();
+    return QGraphicsObject::y();
 }
 /**
  * Gets the z-coordinate.
  */
 UMLSceneValue UMLWidget::z() const {
-    return QGraphicsRectItem::zValue();
+    return QGraphicsObject::zValue();
 }
 
 /**
@@ -1160,7 +1182,7 @@ void UMLWidget::setX(UMLSceneValue x)
     if (!m_ignoreSnapToGrid) {
         x = m_scene->snappedX(x);
     }
-    QGraphicsRectItem::setX(x);
+    QGraphicsObject::setX(x);
 }
 
 /**
@@ -1175,7 +1197,7 @@ void UMLWidget::setY(UMLSceneValue y)
     if (!m_ignoreSnapToGrid) {
         y = m_scene->snappedX(y);
     }
-    QGraphicsRectItem::setY(y);
+    QGraphicsObject::setY(y);
 }
 
 /**
@@ -1186,7 +1208,7 @@ void UMLWidget::setY(UMLSceneValue y)
 void UMLWidget::setZ(UMLSceneValue z)
 {
     m_origZ = this->z();
-    QGraphicsRectItem::setZValue(z);
+    QGraphicsObject::setZValue(z);
 }
 
 /**
@@ -1293,7 +1315,7 @@ void UMLWidget::setSize(UMLSceneValue width, UMLSceneValue height)
             height = (numY + 1) * m_scene->snapY();
     }
 
-    QGraphicsRectItem::setRect(rect().x(), rect().y(), width, height);
+    setRect(rect().x(), rect().y(), width, height);
 }
 
 /**
