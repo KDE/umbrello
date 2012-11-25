@@ -1073,7 +1073,7 @@ void WidgetBase::slotUMLObjectDataChanged()
 /**
  * Reimplemented to show appropriate context menu.
  */
-void WidgetBase::contextMenuEvent(UMLSceneContextMenuEvent *event)
+void WidgetBase::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     event->accept();
 

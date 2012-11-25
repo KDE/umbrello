@@ -72,10 +72,11 @@ namespace Widget_Utils
         UMLView *currentView = UMLApp::app()->currentView();
         QGraphicsRectItem *rect = new QGraphicsRectItem(p.x() - SIZE / 2,
                                                         p.y() - SIZE / 2,
-                                                        SIZE, SIZE, 0);
+                                                        SIZE, SIZE);
         currentView->umlScene()->addItem(rect);
         rect->setBrush( QBrush(Qt::blue) );
         rect->setPen( QPen(Qt::blue) );
+        rect->setVisible(true);
         return rect;
     }
 

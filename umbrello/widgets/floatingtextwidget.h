@@ -98,7 +98,7 @@ protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant& newValue);
     virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
-    virtual void contextMenuEvent(UMLSceneContextMenuEvent *event);
+    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
 private:
     /// The association or message widget we may be linked to.

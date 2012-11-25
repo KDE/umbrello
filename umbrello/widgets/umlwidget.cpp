@@ -413,7 +413,7 @@ void UMLWidget::setResizable(bool resizable)
  * Note: It is public because it is called from UMLScene::contextMenuEvent(event).
  *       This should not be.
  */
-void UMLWidget::contextMenuEvent(UMLSceneContextMenuEvent * event)
+void UMLWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     uDebug() << "widget = " << name() << " / type = " << baseTypeStr();
     WidgetBase::contextMenuEvent(event);

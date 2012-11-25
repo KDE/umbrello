@@ -159,7 +159,7 @@ public:
     virtual bool loadFromXMI(QDomElement &qElement);
     virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
 
-    virtual void contextMenuEvent(UMLSceneContextMenuEvent * event);
+    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent * event);
 
 protected:
     virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
