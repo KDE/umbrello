@@ -70,7 +70,6 @@ typedef qreal UMLSceneValue;
 
 // event types
 typedef QKeyEvent UMLSceneKeyEvent;
-typedef QGraphicsSceneHoverEvent UMLSceneHoverEvent;
 typedef QGraphicsSceneDragDropEvent UMLSceneDragDropEvent;
 typedef QGraphicsSceneDragDropEvent UMLSceneDragEnterEvent;
 typedef QGraphicsSceneDragDropEvent UMLSceneDragMoveEvent;
