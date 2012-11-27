@@ -152,9 +152,9 @@ class AssociationLine : public QGraphicsObject
         void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
         void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
-        void hoverEnterEvent(UMLSceneHoverEvent *event);
-        void hoverMoveEvent(UMLSceneHoverEvent *event);
-        void hoverLeaveEvent(UMLSceneHoverEvent *event);
+        void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+        void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
+        void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 
         void calculateBoundingRect();
 

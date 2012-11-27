@@ -399,7 +399,7 @@ void WidgetHandle::calcResizeHandles()
 
 /**
  * Sets a proper cursor for this WidgetHandle item based on
- * UMLSceneHoverEvent parameter.
+ * QGraphicsSceneHoverEvent parameter.
  *
  * @note The cursor set is Qt::ArrowCursor if either this handle is
  *       not active or the associated widget is not resizable.

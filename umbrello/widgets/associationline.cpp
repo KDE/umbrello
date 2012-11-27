@@ -816,7 +816,7 @@ void AssociationLine::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
  * Calculates the "to be highlighted" point and segment indicies
  * and updates if necessary.
  */
-void AssociationLine::hoverEnterEvent(UMLSceneHoverEvent *event)
+void AssociationLine::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     DEBUG(DBG_ASS) << "at " << event->pos();
     int oldPointIndex = m_activePointIndex;
@@ -840,7 +840,7 @@ void AssociationLine::hoverEnterEvent(UMLSceneHoverEvent *event)
  * Calculates the "to be highlighted" point and segment indicies
  * and updates if necessary.
  */
-void AssociationLine::hoverMoveEvent(UMLSceneHoverEvent *event)
+void AssociationLine::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 {
     int oldPointIndex = m_activePointIndex;
     int oldSegmentIndex = m_activeSegmentIndex;
@@ -862,7 +862,7 @@ void AssociationLine::hoverMoveEvent(UMLSceneHoverEvent *event)
 /**
  * Reset active indicies and updates.
  */
-void AssociationLine::hoverLeaveEvent(UMLSceneHoverEvent *event)
+void AssociationLine::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     DEBUG(DBG_ASS) << "at " << event->pos();
     //Q_UNUSED(event);

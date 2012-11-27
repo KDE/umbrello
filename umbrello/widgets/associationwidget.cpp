@@ -1415,17 +1415,17 @@ void AssociationWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     m_associationLine->mouseDoubleClickEvent(event);
 }
 
-void AssociationWidget::hoverEnterEvent(UMLSceneHoverEvent *event)
+void AssociationWidget::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     m_associationLine->hoverEnterEvent(event);
 }
 
-void AssociationWidget::hoverMoveEvent(UMLSceneHoverEvent *event)
+void AssociationWidget::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 {
     m_associationLine->hoverMoveEvent(event);
 }
 
-void AssociationWidget::hoverLeaveEvent(UMLSceneHoverEvent *event)
+void AssociationWidget::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     m_associationLine->hoverLeaveEvent(event);
 }

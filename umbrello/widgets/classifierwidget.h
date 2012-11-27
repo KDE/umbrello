@@ -92,8 +92,8 @@ protected:
     virtual void updateTextItemGroups();
     virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
-    virtual void hoverEnterEvent(UMLSceneHoverEvent * event);
-    virtual void hoverLeaveEvent(UMLSceneHoverEvent * event);
+    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent * event);
+    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent * event);
 
 private Q_SLOTS:
     void slotShowAttributes(bool state);
