@@ -11,8 +11,6 @@
 #ifndef ACTIVITYWIDGET_H
 #define ACTIVITYWIDGET_H
 
-#include <QMetaEnum>
-
 #include "umlwidget.h"
 #include "worktoolbar.h"
 

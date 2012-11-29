@@ -11,8 +11,6 @@
 #ifndef SIGNALWIDGET_H
 #define SIGNALWIDGET_H
 
-#include <QMetaEnum>
-
 #include "floatingtextwidget.h"
 #include "linkwidget.h"
 #include "umlwidget.h"

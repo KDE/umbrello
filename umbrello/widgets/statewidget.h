@@ -13,7 +13,6 @@
 
 #include "umlwidget.h"
 
-#include <QMetaEnum>
 #include <QPainter>
 #include <QStringList>
 
