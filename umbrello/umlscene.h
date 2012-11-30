@@ -58,7 +58,6 @@ class QHideEvent;
 class QMouseEvent;
 class QPrinter;
 class QShowEvent;
-class UMLScene;
 
 /// uml related types - makes it easier to switch to QGraphicsScene types
 // base types
@@ -69,7 +68,6 @@ typedef QLineF UMLSceneLine;
 typedef qreal UMLSceneValue;
 
 // event types
-typedef QKeyEvent UMLSceneKeyEvent;
 typedef QGraphicsSceneDragDropEvent UMLSceneDragDropEvent;
 typedef QGraphicsSceneDragDropEvent UMLSceneDragEnterEvent;
 typedef QGraphicsSceneDragDropEvent UMLSceneDragMoveEvent;
