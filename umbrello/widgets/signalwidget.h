@@ -11,8 +11,6 @@
 #ifndef SIGNALWIDGET_H
 #define SIGNALWIDGET_H
 
-#include <QMetaEnum>
-
 #include "umlwidget.h"
 
 /**

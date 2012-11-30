@@ -11,8 +11,6 @@
 #ifndef STATEWIDGET_H
 #define STATEWIDGET_H
 
-#include <QMetaEnum>
-
 #include "debug_utils.h"
 #include "umlwidget.h"
 

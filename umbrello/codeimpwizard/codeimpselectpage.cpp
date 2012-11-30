@@ -98,6 +98,7 @@ void CodeImpSelectPage::setupTreeView()
 {
     QFileSystemModel* model = new QFileSystemModel();
     model->setRootPath("");
+    model->setNameFilterDisables(false);
 
     m_fileExtensions << "*.h" << "*.hpp" << "*.hh" << "*.hxx" << "*.H";  //:TODO set according to the current language!
     model->setNameFilters(m_fileExtensions);

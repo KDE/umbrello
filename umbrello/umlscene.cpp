@@ -833,7 +833,7 @@ void UMLScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* ome)
     }
     else {
         // show properties dialog of the scene
-        if (showPropDialog() == true) {
+        if (activeView()->showPropDialog() == true) {
             m_doc->setModified();
         }
         ome->accept();
@@ -3253,7 +3253,7 @@ void UMLScene::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Properties:
-        if (showPropDialog() == true)
+        if (activeView()->showPropDialog() == true)
             m_doc->setModified();
         break;
 
@@ -3329,23 +3329,6 @@ void UMLScene::resetPastePoint()
 void UMLScene::setStartedCut()
 {
     m_bStartedCut = true;
-}
-
-/**
- * Shows the properties dialog for the view.
- * FIXME belongs to UMLView
- */
-bool UMLScene::showPropDialog()
-{
-    // Be explict to avoid confusion
-    QWidget *parent = activeView();
-    bool success = false;
-    QPointer<UMLViewDialog> dlg = new UMLViewDialog(parent, this);
-    if (dlg->exec() == QDialog::Accepted) {
-        success = true;
-    }
-    delete dlg;
-    return success;
 }
 
 /**
