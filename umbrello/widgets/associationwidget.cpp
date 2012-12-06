@@ -2902,52 +2902,11 @@ void AssociationWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent * me)
             m_associationLine->removePoint(m_nMovingPoint, m, POINT_DELTA);
     }
     m_nMovingPoint = -1;
-    const UMLScenePoint p = me->scenePos();
-
     if (me->button() != Qt::RightButton) {
         return;
     }
-
-    // right button action:
-    //work out the type of menu we want
-    //work out if the association allows rolenames, multiplicity, etc
-    //also must be within a certain distance to be a multiplicity menu
-    ListPopupMenu::MenuType menuType = ListPopupMenu::mt_Undefined;
-    const int DISTANCE = 40;//must be within this many pixels for it to be a multi menu
-    const UMLScenePoint lpStart = m_associationLine->point(0);
-    const UMLScenePoint lpEnd = m_associationLine->point(m_associationLine->count() - 1);
-    const int startXDiff = lpStart.x() - p.x();
-    const int startYDiff = lpStart.y() - p.y();
-    const int endXDiff = lpEnd.x() - p.x();
-    const int endYDiff = lpEnd.y() - p.y();
-    const float lengthMAP = sqrt( double(startXDiff * startXDiff + startYDiff * startYDiff) );
-    const float lengthMBP = sqrt( double(endXDiff * endXDiff + endYDiff * endYDiff) );
-    const Uml::AssociationType type = associationType();
-    //allow multiplicity
-    if( AssocRules::allowMultiplicity( type, widgetForRole(A)->baseType() ) ) {
-        if(lengthMAP < DISTANCE)
-            menuType =  ListPopupMenu::mt_MultiA;
-        else if(lengthMBP < DISTANCE)
-            menuType = ListPopupMenu::mt_MultiB;
-    }
-    if( menuType == ListPopupMenu::mt_Undefined ) {
-        if (type == AssociationType::Anchor || onAssocClassLine(p))
-            menuType = ListPopupMenu::mt_Anchor;
-        else if (isCollaboration())
-            menuType = ListPopupMenu::mt_Collaboration_Message;
-        else if (association() == NULL)
-            menuType = ListPopupMenu::mt_AttributeAssociation;
-        else if (AssocRules::allowRole(type))
-            menuType = ListPopupMenu::mt_FullAssociation;
-        else
-            menuType = ListPopupMenu::mt_Association_Selected;
-    }
-    m_pMenu = new ListPopupMenu(m_scene->activeView(), menuType);
-    m_pMenu->popup(me->screenPos());
-    connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
-    if (isCollaboration()) 
-        m_nameWidget->setupPopupMenu(m_pMenu);
-
+    ListPopupMenu* menu = setupPopupMenu(0, me->scenePos());
+    menu->popup(me->screenPos());
     setSelected();
 }//end method mouseReleaseEvent
 
@@ -3973,6 +3932,48 @@ void AssociationWidget::clipSize()
 
     if (m_associationClass)
         m_associationClass->clipSize();
+}
+
+ListPopupMenu* AssociationWidget::setupPopupMenu(ListPopupMenu *menu, const QPointF &p)
+{
+    //work out the type of menu we want
+    //work out if the association allows rolenames, multiplicity, etc
+    //also must be within a certain distance to be a multiplicity menu
+    ListPopupMenu::MenuType menuType = ListPopupMenu::mt_Undefined;
+    const int DISTANCE = 40;//must be within this many pixels for it to be a multi menu
+    const UMLScenePoint lpStart = m_associationLine->point(0);
+    const UMLScenePoint lpEnd = m_associationLine->point(m_associationLine->count() - 1);
+    const int startXDiff = lpStart.x() - p.x();
+    const int startYDiff = lpStart.y() - p.y();
+    const int endXDiff = lpEnd.x() - p.x();
+    const int endYDiff = lpEnd.y() - p.y();
+    const float lengthMAP = sqrt( double(startXDiff * startXDiff + startYDiff * startYDiff) );
+    const float lengthMBP = sqrt( double(endXDiff * endXDiff + endYDiff * endYDiff) );
+    const Uml::AssociationType type = associationType();
+    //allow multiplicity
+    if( AssocRules::allowMultiplicity( type, widgetForRole(A)->baseType() ) ) {
+        if(lengthMAP < DISTANCE)
+            menuType =  ListPopupMenu::mt_MultiA;
+        else if(lengthMBP < DISTANCE)
+            menuType = ListPopupMenu::mt_MultiB;
+    }
+    if( menuType == ListPopupMenu::mt_Undefined ) {
+        if (type == AssociationType::Anchor || onAssocClassLine(p))
+            menuType = ListPopupMenu::mt_Anchor;
+        else if (isCollaboration())
+            menuType = ListPopupMenu::mt_Collaboration_Message;
+        else if (association() == NULL)
+            menuType = ListPopupMenu::mt_AttributeAssociation;
+        else if (AssocRules::allowRole(type))
+            menuType = ListPopupMenu::mt_FullAssociation;
+        else
+            menuType = ListPopupMenu::mt_Association_Selected;
+    }
+    m_pMenu = new ListPopupMenu(m_scene->activeView(), menuType);
+    connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
+    if (isCollaboration())
+        m_nameWidget->setupPopupMenu(m_pMenu);
+    return m_pMenu;
 }
 
 /**

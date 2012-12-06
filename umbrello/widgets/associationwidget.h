@@ -214,6 +214,9 @@ public slots:
 
     void syncToModel();
 
+protected:
+    ListPopupMenu* setupPopupMenu(ListPopupMenu *menu=0, const QPointF &p=QPointF());
+
 private:
     void init();
 
