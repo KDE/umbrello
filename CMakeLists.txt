@@ -40,4 +40,5 @@ KDE4_NO_ENABLE_FINAL(umbrello)
 
 if(LIBXSLT_FOUND AND LIBXML2_FOUND AND Boost_FOUND)
     add_subdirectory( umbrello )
+    add_subdirectory( doc )
 endif(LIBXSLT_FOUND AND LIBXML2_FOUND AND Boost_FOUND)
