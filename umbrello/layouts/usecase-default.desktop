@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Service
 Name=UseCase Default Layout
+Name[bs]=UseCase podrazumijevani raspored
 Name[ca]=Disposició per omissió de casos d'ús
 Name[da]=Standard layout for UseCase
 Name[de]=Standardlayout für Anwendungsfälle
@@ -27,6 +28,7 @@ Name[x-test]=xxUseCase Default Layoutxx
 Name[zh_CN]=用例默认布局
 Name[zh_TW]=UseCase 預設佈局
 Comment=Usecase Default Layout
+Comment[bs]=UseCase podrazumijevani raspored
 Comment[ca]=Disposició per omissió de casos d'ús
 Comment[da]=Standard layout for Usecase
 Comment[de]=Standardlayout für Anwendungsfälle

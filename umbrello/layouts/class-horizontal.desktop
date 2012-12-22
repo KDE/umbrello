@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Service
 Name=Horizontal Layout
+Name[bs]=Horizontalni raspored
 Name[ca]=Disposició horitzontal
 Name[da]=Vandret layout
 Name[de]=Horizontales Layout
@@ -29,6 +30,7 @@ Name[x-test]=xxHorizontal Layoutxx
 Name[zh_CN]=水平布局
 Name[zh_TW]=水平佈局
 Comment=Layout which renders Horizontal
+Comment[bs]=Raspored koji obrađuje horizontalno
 Comment[ca]=DIsposició que renderitza horitzontalment
 Comment[da]=Layout som renderer vandret
 Comment[de]=Layout, das horizontal gerendert wird
