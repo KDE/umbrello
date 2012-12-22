@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Service
 Name=Export Layout
+Name[bs]=Izvozni raspored
 Name[ca]=Exporta la disposició
 Name[da]=Eksportér layout
 Name[de]=Layout exportieren
@@ -30,6 +31,7 @@ Name[x-test]=xxExport Layoutxx
 Name[zh_CN]=导出布局
 Name[zh_TW]=匯出佈局
 Comment=Export Layout for State Diagrams
+Comment[bs]=Izvozni raspored za dijagrame stanja
 Comment[ca]=Exporta la disposició dels diagrames d'estat
 Comment[da]=Eksportér layout for tilstandsdiagrammer
 Comment[de]=Layout für Zustandsübergangsdiagramme exportieren
