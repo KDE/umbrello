@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Service
 Name=Vertical Layout
-Name[bs]=Vertikalni raspored
 Name[ca]=Disposició vertical
 Name[da]=Lodret layout
 Name[de]=Vertikales Layout
@@ -31,7 +30,6 @@ Name[x-test]=xxVertical Layoutxx
 Name[zh_CN]=垂直布局
 Name[zh_TW]=垂直佈局
 Comment=Layout which renders vertical
-Comment[bs]=Raspored koji obrađuej vertikalno
 Comment[ca]=DIsposició que renderitza verticalment
 Comment[da]=Layout som renderer lodret
 Comment[de]=Layout, das vertikal gerendert wird
