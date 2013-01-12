@@ -1,4 +1,4 @@
-Version 2.10.0 (unreleased)
+Version 2.10.0
 
 * New feature: Line based grid drawing
 * TreeView to diagram class drag problem (292042)
