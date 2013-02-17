@@ -10,7 +10,6 @@
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-
 #ifndef RUBYCLASSIFIERCODEDOCUMENT_H
 #define RUBYCLASSIFIERCODEDOCUMENT_H
 
@@ -36,51 +35,30 @@ class RubyClassifierCodeDocument : public ClassifierCodeDocument
     Q_OBJECT
 public:
 
-    /**
-     * Constructor
-     */
-    RubyClassifierCodeDocument (UMLClassifier * classifier);
+    explicit RubyClassifierCodeDocument(UMLClassifier * classifier);
+    virtual ~RubyClassifierCodeDocument();
 
-    /**
-     * Empty Destructor
-     */
-    virtual ~RubyClassifierCodeDocument ( );
+    //CodeDocumentDialog getDialog();
 
-    /**
-     * Get the dialog widget which allows user interaction with the object parameters.
-     * @return    CodeDocumentDialog
-     */
-    //CodeDocumentDialog getDialog ( );
-
-    // Make it easier on ourselves
     RubyCodeGenerationPolicy * getRubyPolicy();
 
-    QString getRubyClassName (const QString &name);
+    QString getRubyClassName(const QString &name);
 
     QString getPath();
 
-    /**
-     * Add a code operation to this ruby classifier code document.
-     * @return bool which is true IF the code operation was added successfully
-     */
-    bool addCodeOperation (CodeOperation * op );
+    bool addCodeOperation(CodeOperation * op);
 
     void updateContent();
 
 protected:
 
-    // reset/clear our inventory of textblocks in this document
     void resetTextBlocks();
 
-    /**
-     * Need to overwrite this for ruby since we need to pick up the
-     * ruby class declaration block.
-     */
-    virtual void loadChildTextBlocksFromNode ( QDomElement & root);
+    virtual void loadChildTextBlocksFromNode(QDomElement & root);
 
     void addOrUpdateCodeClassFieldMethodsInCodeBlock(CodeClassFieldList &list, RubyClassDeclarationBlock * codeBlock);
 
-    bool forceDoc ();
+    bool forceDoc();
 
 private:
 
@@ -102,7 +80,7 @@ private:
     HierarchicalCodeBlock * privOperationsBlock;
     HierarchicalCodeBlock * protOperationsBlock;
 
-    void init ( );
+    void init();
     RubyClassDeclarationBlock * getClassDecl();
 
 };

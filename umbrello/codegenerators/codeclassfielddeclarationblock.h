@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -23,6 +23,8 @@ class CodeClassField;
  * associations) in the code document for any given code classfield. This is a
  * special CodeBlockWithComments which is "sync'd" to the parent CodeClassField.
  * Note: keep the inheritance sequence: QObject needs to be first in inheritance list.
+ * Basicially a class to allow for synchronization of the contents based on the
+ * values of the parentClassField's parentObject.
  */
 class CodeClassFieldDeclarationBlock : public OwnedCodeBlock, public CodeBlockWithComments
 {
@@ -30,37 +32,30 @@ class CodeClassFieldDeclarationBlock : public OwnedCodeBlock, public CodeBlockWi
     Q_OBJECT
 public:
 
-    /**
-     * Constructor
-     */
-    CodeClassFieldDeclarationBlock (CodeClassField * parent);
+    explicit CodeClassFieldDeclarationBlock(CodeClassField * parent);
+    virtual ~CodeClassFieldDeclarationBlock();
 
-    /**
-     * Empty Destructor
-     */
-    virtual ~CodeClassFieldDeclarationBlock ( );
+    CodeClassField * getParentClassField();
 
-    CodeClassField * getParentClassField ( );
+    UMLObject * getParentObject();
 
-    UMLObject * getParentObject ( );
-
-    virtual void setAttributesFromObject (TextBlock * obj);
+    virtual void setAttributesFromObject(TextBlock * obj);
 
     virtual void updateContent() = 0;
 
-    virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
+    virtual void saveToXMI(QDomDocument & doc, QDomElement & root);
 
-    virtual void loadFromXMI ( QDomElement & root );
+    virtual void loadFromXMI(QDomElement & root);
 
 protected:
 
-    virtual void release ();
+    virtual void release();
 
-    virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
+    virtual void setAttributesOnNode(QDomDocument & doc, QDomElement & blockElement);
 
-    virtual void setAttributesFromNode ( QDomElement & element);
+    virtual void setAttributesFromNode(QDomElement & element);
 
-    void forceRelease ();
+    void forceRelease();
 
 private:
 

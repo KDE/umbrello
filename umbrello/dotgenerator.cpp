@@ -192,7 +192,7 @@ bool DotGenerator::availableConfigFiles(UMLScene *scene, QHash<QString,QString> 
         QFileInfo fi(fileName);
         QString baseName;
         if (fi.baseName().contains("-"))
-            baseName = fi.baseName().remove(diagramType + "-");
+            baseName = fi.baseName().remove(diagramType + '-');
         else if (fi.baseName() == diagramType)
             baseName = fi.baseName();
         else
@@ -264,7 +264,7 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
     }
 
     QString value = settings.readEntry("origin");
-    QStringList a = value.split(",");
+    QStringList a = value.split(',');
     if (a.size() == 2)
         m_origin = QPointF(a[0].toDouble(), a[1].toDouble());
     else

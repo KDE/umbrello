@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -49,47 +49,47 @@ public:
     enum IndentationType {NONE=0, TAB, SPACE};
     enum CommentStyle { SingleLine=0, MultiLine };
 
-    CodeGenerationPolicy (CodeGenerationPolicy * clone);
-    CodeGenerationPolicy ();
+    explicit CodeGenerationPolicy(CodeGenerationPolicy * clone);
+    CodeGenerationPolicy();
 
-    virtual ~CodeGenerationPolicy ( );
+    virtual ~CodeGenerationPolicy();
 
-    void setOverwritePolicy ( OverwritePolicy new_var );
-    OverwritePolicy getOverwritePolicy ( ) const;
+    void setOverwritePolicy(OverwritePolicy new_var);
+    OverwritePolicy getOverwritePolicy() const;
 
-    void setCodeVerboseSectionComments ( bool new_var );
-    bool getCodeVerboseSectionComments ( ) const;
+    void setCodeVerboseSectionComments(bool new_var);
+    bool getCodeVerboseSectionComments() const;
 
-    void setCodeVerboseDocumentComments ( bool new_var );
-    bool getCodeVerboseDocumentComments ( ) const;
+    void setCodeVerboseDocumentComments(bool new_var);
+    bool getCodeVerboseDocumentComments() const;
 
-    void setHeadingFileDir ( const QString & path);
-    QString getHeadingFileDir ( ) const;
+    void setHeadingFileDir(const QString & path);
+    QString getHeadingFileDir() const;
 
-    void setIncludeHeadings ( bool new_var );
-    bool getIncludeHeadings ( ) const;
+    void setIncludeHeadings(bool new_var);
+    bool getIncludeHeadings() const;
 
-    void setOutputDirectory ( QDir new_var );
-    QDir getOutputDirectory ( );
+    void setOutputDirectory(QDir new_var);
+    QDir getOutputDirectory();
 
-    void setLineEndingType ( NewLineType type );
-    NewLineType getLineEndingType ( );
+    void setLineEndingType(NewLineType type);
+    NewLineType getLineEndingType();
 
-    QString getNewLineEndingChars ( ) const;
+    QString getNewLineEndingChars() const;
 
-    void setIndentationType ( IndentationType type );
-    IndentationType getIndentationType ( );
+    void setIndentationType(IndentationType type);
+    IndentationType getIndentationType();
 
-    void setIndentationAmount ( int amount );
-    int getIndentationAmount ( );
+    void setIndentationAmount(int amount);
+    int getIndentationAmount();
 
-    QString getIndentation ( ) const;
+    QString getIndentation() const;
 
-    void setModifyPolicy ( ModifyNamePolicy new_var );
-    ModifyNamePolicy getModifyPolicy ( ) const;
+    void setModifyPolicy(ModifyNamePolicy new_var);
+    ModifyNamePolicy getModifyPolicy() const;
 
-    void setAutoGenerateConstructors ( bool var );
-    bool getAutoGenerateConstructors ( );
+    void setAutoGenerateConstructors(bool var);
+    bool getAutoGenerateConstructors();
 
     void setAttributeAccessorScope(Uml::Visibility::Value var);
     Uml::Visibility::Value getAttributeAccessorScope();
@@ -97,19 +97,19 @@ public:
     void setAssociationFieldScope(Uml::Visibility::Value var);
     Uml::Visibility::Value getAssociationFieldScope();
 
-    virtual CodeGenerationPolicyPage * createPage ( QWidget *parent = 0, const char * name = 0);
+    virtual CodeGenerationPolicyPage * createPage(QWidget *parent = 0, const char * name = 0);
 
     QString getHeadingFile(const QString& str);
 
-    virtual void setDefaults (CodeGenerationPolicy * defaults, bool emitUpdateSignal = true);
+    virtual void setDefaults(CodeGenerationPolicy * defaults, bool emitUpdateSignal = true);
     virtual void setDefaults(bool emitUpdateSignal = true);
 
-    virtual void writeConfig ();
+    virtual void writeConfig();
 
     void emitModifiedCodeContentSig();
 
-    void setCommentStyle ( CommentStyle new_var );
-    CommentStyle getCommentStyle ( );
+    void setCommentStyle(CommentStyle new_var);
+    CommentStyle getCommentStyle();
 
 signals:
 
@@ -152,7 +152,7 @@ protected:
 /*
 protected:
 
-    void initFields ( );
+    void initFields();
 */
 };
 

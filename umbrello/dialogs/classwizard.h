@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -28,7 +28,7 @@ class ClassWizard : public QWizard
 {
     Q_OBJECT
 public:
-    ClassWizard(UMLDoc* doc);
+    explicit ClassWizard(UMLDoc* doc);
     ~ClassWizard();
 
 private:

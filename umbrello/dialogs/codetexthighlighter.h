@@ -36,7 +36,7 @@ class CodeTextHighlighter : public QSyntaxHighlighter
     Q_OBJECT
 
 public:
-    CodeTextHighlighter(QTextDocument *parent = 0);
+    explicit CodeTextHighlighter(QTextDocument *parent = 0);
 
 protected:
     void highlightBlock(const QString &text);

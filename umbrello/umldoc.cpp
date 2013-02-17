@@ -4,7 +4,7 @@
  *  the Free Software Foundation; either version 2 of the License, or      *
  *  (at your option) any later version.                                    *
  *                                                                         *
- *  copyright (C) 2002-2012                                                *
+ *  copyright (C) 2002-2013                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -719,8 +719,6 @@ void UMLDoc::setupSignals()
 {
     WorkToolBar *tb = UMLApp::app()->workToolBar();
     connect(this, SIGNAL(sigDiagramChanged(Uml::DiagramType)), tb, SLOT(slotCheckToolBar(Uml::DiagramType)));
-    //new signals below
-    return;
 }
 
 /**
@@ -1880,7 +1878,7 @@ short UMLDoc::encoding(QIODevice & file)
  * @param file     The file to be loaded.
  * @param encode   The encoding used.
  */
-bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
+bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
 {
     // old Umbrello versions (version < 1.2) didn't save the XMI in Unicode
     // this wasn't correct, because non Latin1 chars where lost
@@ -2840,7 +2838,6 @@ void UMLDoc::initSaveTimer()
         m_pAutoSaveTimer->setSingleShot( false );
         m_pAutoSaveTimer->start( optionState.generalState.autosavetime * 60000 );
     }
-    return;
 }
 
 /**

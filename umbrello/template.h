@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -27,36 +27,17 @@ class UMLTemplate : public UMLClassifierListItem
 {
 public:
 
-    /**
-     * Sets up a template.
-     *
-     * @param parent    The parent of this UMLTemplate (i.e. its concept).
-     * @param name              The name of this UMLTemplate.
-     * @param id                The unique id given to this UMLTemplate.
-     * @param type              The type of this UMLTemplate.
-     */
     UMLTemplate(UMLObject *parent, const QString& name,
                 Uml::IDType id = Uml::id_None, const QString& type = "class");
 
-    /**
-     * Sets up a template.
-     *
-     * @param parent    The parent of this UMLTemplate (i.e. its concept).
-     */
-    UMLTemplate(UMLObject *parent);
+    explicit UMLTemplate(UMLObject *parent);
 
-    /**
-     * Overloaded '==' operator
-     */
     bool operator==(const UMLTemplate &rhs) const;
 
     virtual void copyInto(UMLObject *lhs) const;
 
     virtual UMLObject* clone() const;
 
-    /**
-     * destructor
-     */
     virtual ~UMLTemplate();
 
     QString toString(Uml::SignatureType sig = Uml::SignatureType::NoSig);

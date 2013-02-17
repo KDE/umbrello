@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2012                                                    *
+ *   copyright (C) 2012-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -39,7 +39,7 @@ class DialogBase : public KPageDialog
     Q_OBJECT
 
 public:
-    DialogBase(QWidget *parent);
+    explicit DialogBase(QWidget *parent);
     QFrame* createPage(const QString& name, const QString& header, Icon_Utils::IconType icon);
     KPageWidgetItem *setupFontPage(UMLWidget *widget);
     void saveFontPageData(UMLWidget *widget);

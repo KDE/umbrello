@@ -63,7 +63,7 @@ public:
     typedef rule<scanner<CharIterator, CharPolicies> > CharRule;
     typedef TokenList::const_iterator TokenIterator;
 
-    Lexer( Driver* driver );
+    explicit Lexer(Driver* driver);
     ~Lexer();
 
     void addSkipWord(const QString& word, SkipType skipType = SkipWord,

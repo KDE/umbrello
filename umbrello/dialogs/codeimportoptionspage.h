@@ -33,7 +33,7 @@ class CodeImportOptionsPage : public QWidget, private Ui::CodeImportOptionsPage
 {
     Q_OBJECT
 public:
-    CodeImportOptionsPage(QWidget *parent = 0);
+    explicit CodeImportOptionsPage(QWidget *parent = 0);
     ~CodeImportOptionsPage();
     void setDefaults();
     void apply();

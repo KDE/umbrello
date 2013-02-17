@@ -195,7 +195,7 @@ class PreprocessLexer
 public:
     typedef rule<scanner<CharIterator, CharPolicies> > CharRule;
 
-    PreprocessLexer( Driver* driver );
+    explicit PreprocessLexer(Driver* driver);
     ~PreprocessLexer();
 
     void addSkipWord( const QString& word, SkipType skipType = SkipWord,

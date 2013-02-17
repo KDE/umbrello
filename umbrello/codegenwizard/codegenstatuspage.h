@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2002                                                    *
  *   Luis De la Parra  <luis@delaparra.org>                                *
- *   copyright (C) 2003-2012                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 #ifndef CODEGENSTATUSPAGE_H
@@ -35,7 +35,7 @@ class CodeGenStatusPage : public QWizardPage, private Ui::CodeGenStatusPage
 {
     Q_OBJECT
 public:
-    CodeGenStatusPage(QWidget *parent = 0);
+    explicit CodeGenStatusPage(QWidget *parent = 0);
     ~CodeGenStatusPage();
     void initializePage();
     bool isComplete() const;

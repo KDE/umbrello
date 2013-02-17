@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -43,7 +43,7 @@ class WorkToolBar : public KToolBar
     Q_ENUMS(ToolBar_Buttons)
 public:
 
-    WorkToolBar(QMainWindow *parentWindow);
+    explicit WorkToolBar(QMainWindow *parentWindow);
     ~WorkToolBar();
 
     void setOldTool();

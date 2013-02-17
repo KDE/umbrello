@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2011                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -270,15 +270,15 @@ void RubyWriter::writeOperations(const QString &classname, const UMLOperationLis
             docStr.replace('\n', QString("\n") + m_indentation + "# ");
 
             // Write parameter documentation
-            foreach (const UMLAttribute& at , atl) {
+            foreach (UMLAttribute* at, atl) {
                 // Only write an individual @param entry if one hasn't been found already
                 // in the main doc comment
-                if (commentedParams.contains(cppToRubyName(at.name())) == 0) {
-                    docStr += (m_endl + m_indentation + "# @param _" + cppToRubyName(at.name()) + '_');
-                    if (at.doc().isEmpty()) {
-                        docStr += (' ' + cppToRubyType(at.getTypeName()));
+                if (commentedParams.contains(cppToRubyName(at->name())) == 0) {
+                    docStr += (m_endl + m_indentation + "# @param _" + cppToRubyName(at->name()) + '_');
+                    if (at->doc().isEmpty()) {
+                        docStr += (' ' + cppToRubyType(at->getTypeName()));
                     } else {
-                        docStr += (' ' + at.doc().replace(QRegExp("[\\n\\r]+[\\t ]*"), m_endl + "   "));
+                        docStr += (' ' + at->doc().replace(QRegExp("[\\n\\r]+[\\t ]*"), m_endl + "   "));
                     }
                 }
             }
@@ -312,15 +312,15 @@ void RubyWriter::writeOperations(const QString &classname, const UMLOperationLis
         h<< m_indentation << "def " + methodName << "(";
 
         int j=0;
-        foreach (const UMLAttribute& at , atl) {
-            QString nameStr = cppToRubyName(at.name());
+        foreach (UMLAttribute* at, atl) {
+            QString nameStr = cppToRubyName(at->name());
             if (j > 0) {
                 h << ", " << nameStr;
             } else {
                 h << nameStr;
             }
-            h << (!(at.getInitialValue().isEmpty()) ?
-                (QString(" = ") + cppToRubyType(at.getInitialValue())) :
+            h << (!(at->getInitialValue().isEmpty()) ?
+                (QString(" = ") + cppToRubyType(at->getInitialValue())) :
                 QString(""));
             j++;
         }

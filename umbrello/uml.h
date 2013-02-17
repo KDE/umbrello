@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -82,7 +82,7 @@ class UMLApp : public KXmlGuiWindow
 {
     Q_OBJECT
 public:
-    UMLApp(QWidget* parent = 0);
+    explicit UMLApp(QWidget* parent = 0);
     ~UMLApp();
 
     static UMLApp* app();

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -29,9 +29,7 @@ public:
                  Uml::IDType id = Uml::id_None,
                  Uml::Visibility s = Uml::Visibility::Public,
                  UMLObject *rt = 0);
-
-    UMLOperation(UMLClassifier * parent);
-
+    explicit UMLOperation(UMLClassifier * parent);
     virtual ~UMLOperation();
 
     bool operator==( const UMLOperation & rhs ) const;

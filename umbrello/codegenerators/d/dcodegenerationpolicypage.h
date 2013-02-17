@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008                                                    *
+ *   copyright (C) 2008-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -23,9 +23,9 @@
 class DCodeGenerationFormBase : public QWidget, public Ui::DCodeGenerationFormBase
 {
 public:
-    DCodeGenerationFormBase(QWidget *parent ) : QWidget( parent )
+    explicit DCodeGenerationFormBase(QWidget *parent) : QWidget(parent)
     {
-        setupUi( this );
+        setupUi(this);
     }
 };
 
@@ -35,8 +35,7 @@ class DCodeGenerationPolicyPage : public CodeGenerationPolicyPage
     Q_OBJECT
 public:
 
-    explicit DCodeGenerationPolicyPage (QWidget *parent=0, const char *name=0, DCodeGenerationPolicy * policy = 0);
-
+    explicit DCodeGenerationPolicyPage(QWidget *parent=0, const char *name=0, DCodeGenerationPolicy * policy = 0);
     virtual ~DCodeGenerationPolicyPage();
 
 protected:

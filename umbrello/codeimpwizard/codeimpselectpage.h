@@ -36,7 +36,7 @@ class CodeImpSelectPage : public QWizardPage, private Ui::CodeImpSelectPage
 {
     Q_OBJECT
 public:
-    CodeImpSelectPage(QWidget *parent = 0);
+    explicit CodeImpSelectPage(QWidget *parent = 0);
     ~CodeImpSelectPage();
 
     QString language();

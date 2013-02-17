@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2011                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -33,7 +33,7 @@ class ObjectWidgetController : public UMLWidgetController
 {
 public:
 
-    ObjectWidgetController(ObjectWidget *objectWidget);
+    explicit ObjectWidgetController(ObjectWidget *objectWidget);
     virtual ~ObjectWidgetController();
 
 protected:

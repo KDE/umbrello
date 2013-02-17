@@ -4,16 +4,15 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef UMLWIDGET_H
 #define UMLWIDGET_H
 
-#include "basictypes.h"
-#include "widgetbase.h"
 #include "associationwidgetlist.h"
+#include "basictypes.h"
 #include "optionstate.h"
 #include "umlscene.h"
 #include "widgetbase.h"

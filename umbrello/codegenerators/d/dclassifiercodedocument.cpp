@@ -5,18 +5,9 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2011                                               *
+ *   copyright (C) 2008-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
-
-/**
- * We carve the D document up into sections as follows:
- * - header
- * - package declaration
- * - import statements
- * - class declaration
- * -   guts of the class (e.g. field decl, accessor methods, operations, dependant classes)
- */
 
 // own header
 #include "dclassifiercodedocument.h"
@@ -35,13 +26,19 @@
 // qt includes
 #include <QRegExp>
 
-DClassifierCodeDocument::DClassifierCodeDocument ( UMLClassifier * concept )
-        : ClassifierCodeDocument (concept)
+/**
+ * Constructor.
+ */
+DClassifierCodeDocument::DClassifierCodeDocument(UMLClassifier * concept)
+        : ClassifierCodeDocument(concept)
 {
     init();
 }
 
-DClassifierCodeDocument::~DClassifierCodeDocument ( )
+/**
+ * Empty Destructor.
+ */
+DClassifierCodeDocument::~DClassifierCodeDocument()
 {
 }
 
@@ -53,19 +50,23 @@ DCodeGenerationPolicy * DClassifierCodeDocument::getDPolicy()
     return policy;
 }
 
+//    /**
+//     * Get the dialog widget which allows user interaction with the object parameters.
+//     * @return  CodeDocumentDialog
+//     */
 /*
-CodeDocumentDialog DClassifierCodeDocument::getDialog ( )
+CodeDocumentDialog DClassifierCodeDocument::getDialog()
 {
 }
 */
 
-bool DClassifierCodeDocument::forceDoc ()
+bool DClassifierCodeDocument::forceDoc()
 {
     return UMLApp::app()->commonPolicy()->getCodeVerboseDocumentComments();
 }
 
 // We overwritten by D language implementation to get lowercase path
-QString DClassifierCodeDocument::getPath ( )
+QString DClassifierCodeDocument::getPath()
 {
     QString path = getPackage();
 
@@ -83,14 +84,13 @@ QString DClassifierCodeDocument::getPath ( )
     return path;
 }
 
-
-QString DClassifierCodeDocument::getDClassName (const QString &name)
+QString DClassifierCodeDocument::getDClassName(const QString &name)
 {
     return Codegen_Utils::capitalizeFirstLetter(CodeGenerator::cleanName(name));
 }
 
 // Initialize this d classifier code document
-void DClassifierCodeDocument::init ( )
+void DClassifierCodeDocument::init()
 {
     setFileExtension(".d");
 
@@ -107,11 +107,13 @@ void DClassifierCodeDocument::init ( )
 }
 
 /**
- * @param       op
+ * Add a code operation to this d classifier code document.
+ * In the vannilla version, we just tack all operations on the end
+ * of the document.
+ * @param op   the code operation
+ * @return bool which is true IF the code operation was added successfully
  */
-// in the vannilla version, we just tack all operations on the end
-// of the document
-bool DClassifierCodeDocument::addCodeOperation (CodeOperation * op )
+bool DClassifierCodeDocument::addCodeOperation(CodeOperation * op)
 {
     if(!op->getParentOperation()->isLifeOperation())
         return operationsBlock->addTextBlock(op);
@@ -119,12 +121,16 @@ bool DClassifierCodeDocument::addCodeOperation (CodeOperation * op )
         return constructorBlock->addTextBlock(op);
 }
 
-// Sigh. NOT optimal. The only reason that we need to have this
-// is so we can create the DClassDeclarationBlock.
-// would be better if we could create a handler interface that each
-// codeblock used so all we have to do here is add the handler
-// for "dclassdeclarationblock"
-void DClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
+/**
+ * Need to overwrite this for d since we need to pick up the
+ * d class declaration block.
+ * Sigh. NOT optimal. The only reason that we need to have this
+ * is so we can create the DClassDeclarationBlock.
+ * would be better if we could create a handler interface that each
+ * codeblock used so all we have to do here is add the handler
+ * for "dclassdeclarationblock".
+ */
+void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
 {
     QDomNode tnode = root.firstChild();
     QDomElement telement = tnode.toElement();
@@ -272,6 +278,9 @@ DClassDeclarationBlock * DClassifierCodeDocument::getClassDecl()
     return classDeclCodeBlock;
 }
 
+/**
+ * Reset/clear our inventory of textblocks in this document.
+ */
 void DClassifierCodeDocument::resetTextBlocks()
 {
     // all special pointers to text blocks need to be zero'd out
@@ -290,7 +299,7 @@ void DClassifierCodeDocument::resetTextBlocks()
 // such, we will want to insert everything we resonablely will want
 // during creation. We can set various parts of the document (esp. the
 // comments) to appear or not, as needed.
-void DClassifierCodeDocument::updateContent( )
+void DClassifierCodeDocument::updateContent()
 {
     // Gather info on the various fields and parent objects of this class...
     UMLClassifier * c = getParentClassifier();
@@ -547,6 +556,5 @@ void DClassifierCodeDocument::updateContent( )
         ocomment->setWriteOutText(true);
 
 }
-
 
 #include "dclassifiercodedocument.moc"

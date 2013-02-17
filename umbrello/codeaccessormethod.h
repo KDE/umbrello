@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -31,7 +31,7 @@ public:
     // "LIST" is to retrive the entire list of items in a  multiple-valued field
     enum AccessorType {GET=0, SET, ADD, REMOVE, LIST};
 
-    CodeAccessorMethod(CodeClassField * field);
+    explicit CodeAccessorMethod(CodeClassField * field);
     virtual ~CodeAccessorMethod();
 
     CodeClassField * getParentClassField();

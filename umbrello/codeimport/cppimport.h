@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2005-2009                                                *
+ *  copyright (C) 2005-2013                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -25,7 +25,7 @@ class CppDriver;
 class CppImport : public ClassImport
 {
 public:
-    CppImport(CodeImpThread* thread = 0);
+    explicit CppImport(CodeImpThread* thread = 0);
     virtual ~CppImport();
 
 protected:

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2009                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -29,7 +29,7 @@ class UMLViewImageExporter
 {
 public:
 
-    UMLViewImageExporter(UMLScene* scene);
+    explicit UMLViewImageExporter(UMLScene* scene);
     virtual ~UMLViewImageExporter();
 
     void exportView();
@@ -40,8 +40,8 @@ public:
 private:
 
     UMLScene* m_scene;          ///< The scene to export.
-    KUrl     m_imageURL;       ///< The URL used to save the image.
-    QString  m_imageMimeType;  ///< The mime type used to save the image.
+    KUrl      m_imageURL;       ///< The URL used to save the image.
+    QString   m_imageMimeType;  ///< The mime type used to save the image.
 
     bool getParametersFromUser();
 

@@ -35,7 +35,7 @@ class QRectF;
 class LayoutGrid
 {
 public:
-    LayoutGrid(UMLScene *scene);
+    explicit LayoutGrid(UMLScene *scene);
     ~LayoutGrid();
 
     void paint(QPainter *painter, const QRectF &rect);

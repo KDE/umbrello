@@ -17,6 +17,14 @@
 #include "umldoc.h"
 #include "umltemplatedialog.h"
 
+/**
+ * Sets up a template.
+ *
+ * @param parent   The parent of this UMLTemplate (i.e. its concept).
+ * @param name     The name of this UMLTemplate.
+ * @param id       The unique id given to this UMLTemplate.
+ * @param type     The type of this UMLTemplate.
+ */
 UMLTemplate::UMLTemplate(UMLObject *parent, const QString& name,
                          Uml::IDType id, const QString& type)
         : UMLClassifierListItem( parent, name, id )
@@ -25,12 +33,20 @@ UMLTemplate::UMLTemplate(UMLObject *parent, const QString& name,
     m_BaseType = UMLObject::ot_Template;
 }
 
+/**
+ * Sets up a template.
+ *
+ * @param parent    The parent of this UMLTemplate (i.e. its concept).
+ */
 UMLTemplate::UMLTemplate(UMLObject *parent)
         : UMLClassifierListItem( parent )
 {
     m_BaseType = UMLObject::ot_Template;
 }
 
+/**
+ * Destructor.
+ */
 UMLTemplate::~UMLTemplate()
 {
 }
@@ -60,6 +76,9 @@ QString UMLTemplate::getTypeName() const
     return m_pSecondary->name();
 }
 
+/**
+ * Overloaded '==' operator.
+ */
 bool UMLTemplate::operator==(const UMLTemplate &rhs) const
 {
     if (this == &rhs) {
@@ -93,7 +112,6 @@ UMLObject* UMLTemplate::clone() const
 
     return clone;
 }
-
 
 /**
  * Writes the <UML:TemplateParameter> XMI element.

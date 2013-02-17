@@ -41,7 +41,7 @@ public:
         GroupCenter = 3
     };
 
-    StatusBarToolButton(QWidget* parent=0);
+    explicit StatusBarToolButton(QWidget* parent = 0);
 
     virtual QSize minimumSizeHint() const;
     virtual QSize sizeHint() const;

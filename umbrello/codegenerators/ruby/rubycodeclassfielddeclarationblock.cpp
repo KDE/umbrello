@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2011                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -20,19 +20,26 @@
 #include "umlrole.h"
 #include "uml.h"
 
-RubyCodeClassFieldDeclarationBlock::RubyCodeClassFieldDeclarationBlock ( CodeClassField * parent )
-        : CodeClassFieldDeclarationBlock ( parent )
+/**
+ * Constructor.
+ */
+RubyCodeClassFieldDeclarationBlock::RubyCodeClassFieldDeclarationBlock(CodeClassField * parent)
+        : CodeClassFieldDeclarationBlock(parent)
 {
     setOverallIndentationLevel(1);
 }
 
-RubyCodeClassFieldDeclarationBlock::~RubyCodeClassFieldDeclarationBlock ( )
+/**
+ * Empty Destructor.
+ */
+RubyCodeClassFieldDeclarationBlock::~RubyCodeClassFieldDeclarationBlock()
 {
 }
 
 /**
+ * This will be called by syncToParent whenever the parent object is "modified".
  */
-void RubyCodeClassFieldDeclarationBlock::updateContent( )
+void RubyCodeClassFieldDeclarationBlock::updateContent()
 {
     CodeClassField * cf = getParentClassField();
     RubyCodeClassField * rcf = dynamic_cast<RubyCodeClassField*>(cf);

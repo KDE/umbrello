@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2002                                                    *
  *   Luis De la Parra  <luis@delaparra.org>                                *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 #ifndef CODEGENOPTIONSPAGE_H
@@ -36,7 +36,7 @@ class CodeGenOptionsPage : public QWizardPage, private Ui::CodeGenOptionsPage
 {
     Q_OBJECT
 public:
-    CodeGenOptionsPage(QWidget *parent = 0);
+    explicit CodeGenOptionsPage(QWidget *parent = 0);
     ~CodeGenOptionsPage();
     QString getLanguage();
     void apply();

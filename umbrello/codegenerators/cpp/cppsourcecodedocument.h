@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -27,7 +27,7 @@ public:
     /**
      * Constructor
      */
-    CPPSourceCodeDocument(UMLClassifier * classifier);
+    explicit CPPSourceCodeDocument(UMLClassifier * classifier);
 
     /**
      * Empty Destructor

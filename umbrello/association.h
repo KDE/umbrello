@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -36,7 +36,7 @@ class UMLAssociation : public UMLObject
 
 public:
     UMLAssociation(Uml::AssociationType type, UMLObject *roleA, UMLObject *roleB);
-    UMLAssociation(Uml::AssociationType type = Uml::AssociationType::Unknown);
+    explicit UMLAssociation(Uml::AssociationType type = Uml::AssociationType::Unknown);
 
     virtual ~UMLAssociation();
 

@@ -63,7 +63,7 @@ private:
 class LineNumberArea : public QWidget
 {
 public:
-    LineNumberArea(CodeTextEdit *editor) : QWidget(editor) {
+    explicit LineNumberArea(CodeTextEdit *editor) : QWidget(editor) {
         m_codeEditor = editor;
     }
 

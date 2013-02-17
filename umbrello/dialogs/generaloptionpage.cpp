@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -31,7 +31,7 @@
 #include <QRadioButton>
 
 /**
- * Constructor.general
+ * Constructor.
  * @param parent   the parent (wizard) of this wizard page
  */
 GeneralOptionPage::GeneralOptionPage(QWidget* parent)
@@ -143,14 +143,14 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
 }
 
 /**
- * destructor
+ * Destructor.
  */
 GeneralOptionPage::~GeneralOptionPage()
 {
 }
 
 /**
- * sets default values
+ * Sets default values.
  */
 void GeneralOptionPage::setDefaults()
 {
@@ -193,6 +193,9 @@ void GeneralOptionPage::insertDiagram( const QString& type, int index )
     m_GeneralWidgets.diagramKB->completionObject()->addItem( type );
 }
 
+/**
+ * Slot for clicked event.
+ */
 void GeneralOptionPage::slotAutosaveCBClicked()
 {
     m_GeneralWidgets.timeISB->setEnabled( m_GeneralWidgets.autosaveCB->isChecked() );

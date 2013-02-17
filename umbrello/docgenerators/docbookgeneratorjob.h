@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2007                                                    *
+ *   copyright (C) 2007-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -27,7 +27,7 @@ class DocbookGeneratorJob : public QThread
     Q_OBJECT
 
   public:
-    DocbookGeneratorJob(QObject* parent );
+    explicit DocbookGeneratorJob(QObject* parent);
 
   protected:
     void run();

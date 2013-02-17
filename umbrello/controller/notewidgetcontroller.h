@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2010                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -29,7 +29,7 @@ class NoteWidgetController : public UMLWidgetController
 {
 public:
 
-    NoteWidgetController(NoteWidget* noteWidget);
+    explicit NoteWidgetController(NoteWidget* noteWidget);
     virtual ~NoteWidgetController();
 
 protected:
