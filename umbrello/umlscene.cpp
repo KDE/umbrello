@@ -378,14 +378,6 @@ void UMLScene::setGridDotColor(const QColor& color)
 }
 
 /**
- * Sets the diagram width and height in pixels.
- */
-void UMLScene::setSize(UMLSceneValue width, UMLSceneValue height)
-{
-    setSceneRect(sceneRect().x(), sceneRect().y(), width, height);
-}
-
-/**
  * Returns the options being used.
  */
 const Settings::OptionState& UMLScene::optionState() const
@@ -3748,14 +3740,8 @@ void UMLScene::fileLoaded()
  */
 void UMLScene::resizeCanvasToItems()
 {
-    //UMLSceneRect rect = itemsBoundingRect();
-    //Make sure (0,0) is in the topLeft
-    
-    //[PORT] resizing scene size to widget bounds 
-    //       limits movable area of widgets 
-    //
-    //rect.setTopLeft(QPointF(0, 0));
-    //setSceneRect(rect);
+    // let QGraphicsScene handle scene size by itself
+    setSceneRect(QRectF());
 }
 
 /**
@@ -3798,6 +3784,7 @@ void UMLScene::drawBackground(QPainter *painter, const QRectF &rect)
  */
 void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
+    resizeCanvasToItems();
     QDomElement viewElement = qDoc.createElement("diagram");
     viewElement.setAttribute("xmi.id", ID2STR(m_nID));
     viewElement.setAttribute("name", name());
@@ -3894,13 +3881,7 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
 
     QString zoom = qElement.attribute("zoom", "100");
     activeView()->setZoom(zoom.toInt());
-
-    QString height = qElement.attribute("canvasheight", QString("%1").arg(UMLScene::defaultCanvasSize));
-    int h = height.toInt();
-
-    QString width = qElement.attribute("canvaswidth", QString("%1").arg(UMLScene::defaultCanvasSize));
-    int w= width.toInt();
-    setSize(w, h);
+    resizeCanvasToItems();
 
     QString isOpen = qElement.attribute("isopen", "1");
     m_isOpen = (bool)isOpen.toInt();
