@@ -1,3 +1,10 @@
+Version 2.10.1 (unreleased)
+
+* New feature: Fit diagrams in view after applying layout to get better overview
+* Update zoom slider and percent value when switching diagrams
+* Made "Fit" button working
+* Fixed scene limits when moving widgets and/or loading xmi files
+
 Version 2.10.0
 
 * New feature: Line based grid drawing
