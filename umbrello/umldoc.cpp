@@ -343,9 +343,8 @@ void UMLDoc::closeDocument()
         m_bLoading = m_bLoading_old;
         // Remove all objects from the predefined folders.
         // @fixme With advanced code generation enabled, this crashes.
-        for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
-            m_root[i]->removeAllObjects();
-        }
+        removeAllObjects();
+
         // Restore the datatype folder, it has been deleted above.
         createDatatypeFolder();
         // this creates to much items only Logical View should be created
@@ -2416,6 +2415,16 @@ void UMLDoc::removeAllViews()
     UMLApp::app()->setCurrentView(0);
     emit sigDiagramChanged(Uml::DiagramType::Undefined);
     UMLApp::app()->setDiagramMenuItemsState(false);
+}
+
+/**
+ * Call to remove all objects in the current file.
+ */
+void UMLDoc::removeAllObjects()
+{
+    for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
+        m_root[i]->removeAllObjects();
+    }
 }
 
 /**
