@@ -820,38 +820,11 @@ int UMLWidgetController::getBiggestY(const UMLWidgetList &widgetList)
  */
 UMLScenePoint UMLWidgetController::getPosition(QGraphicsSceneMouseEvent* me)
 {
-    /*
-    uDebug() << "me->x=" << me->x()
-        << " m_widget->getX=" << m_widget->x() << ", m_oldX=" << m_oldX
-        << ", m_pressOffsetX=" << m_pressOffsetX << endl;
-    uDebug() << "me->y=" << me->y()
-        << " m_widget->getY=" << m_widget->y() << ", m_oldY=" << m_oldY
-        << ", m_pressOffsetY=" << m_pressOffsetY << endl;
-     */
     UMLSceneValue newX = me->scenePos().x() + m_widget->x() - m_prevX - m_pressOffsetX;
     UMLSceneValue newY = me->scenePos().y() + m_widget->y() - m_prevY - m_pressOffsetY;
-    UMLSceneValue maxX = m_widget->m_scene->width();
-    UMLSceneValue maxY = m_widget->m_scene->height();
 
     m_prevX = newX;
     m_prevY = newY;
-
-    if (newX + (m_minSelectedX - m_widget->x()) < 0) {
-        //uDebug() << "got into cond.1";
-        newX = m_widget->x() - m_minSelectedX;
-    }
-    if (newY + (m_minSelectedY - m_widget->y()) < 0) {
-        //uDebug() << "got into cond.2";
-        newY = m_widget->y() - m_minSelectedY;
-    }
-    if (newX + (m_maxSelectedX - m_widget->x()) > maxX) {
-        //uDebug() << "got into cond.3";
-        newX = maxX - (m_maxSelectedX - m_widget->x());
-    }
-    if (newY + (m_maxSelectedY - m_widget->y()) > maxY) {
-        //uDebug() << "got into cond.4";
-        newY = maxY - (m_maxSelectedY - m_widget->y());
-    }
     return UMLScenePoint(newX, newY);
 }
 
