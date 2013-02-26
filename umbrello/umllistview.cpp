@@ -1345,8 +1345,7 @@ void UMLListView::init()
             m_lv[i] = new UMLListViewItem(m_rv, sysFolder->localName(), lvt, sysFolder);
         }
     } else {
-        for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i)
-            deleteChildrenOf(m_lv[i]);
+        clean();
     }
     UMLFolder *datatypeFolder = m_doc->datatypeFolder();
     if (!m_datatypeFolder) {

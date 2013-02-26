@@ -76,6 +76,7 @@ public:
     void changeCurrentView(Uml::ID::Type id);
     void activateAllViews();
     void removeAllViews();
+    void removeAllObjects();
 
     void setModified(bool modified = true);
     bool isModified();

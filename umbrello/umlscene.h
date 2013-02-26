@@ -126,8 +126,6 @@ public:
     const QColor& gridDotColor() const;
     void setGridDotColor(const QColor& color);
 
-    void setSize(UMLSceneValue width, UMLSceneValue height);
-
     bool snapToGrid() const;
     void setSnapToGrid(bool bSnap);
 
