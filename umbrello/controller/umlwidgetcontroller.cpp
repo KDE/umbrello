@@ -822,7 +822,6 @@ UMLScenePoint UMLWidgetController::getPosition(QGraphicsSceneMouseEvent* me)
 {
     UMLSceneValue newX = me->scenePos().x() + m_widget->x() - m_prevX - m_pressOffsetX;
     UMLSceneValue newY = me->scenePos().y() + m_widget->y() - m_prevY - m_pressOffsetY;
-
     m_prevX = newX;
     m_prevY = newY;
     return UMLScenePoint(newX, newY);
