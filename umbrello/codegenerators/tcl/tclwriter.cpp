@@ -74,19 +74,33 @@ static const char *reserved_words[] = {
     0
 };
 
+/**
+ * Constructor, initialises a couple of variables.
+ */
 TclWriter::TclWriter()
 {
 }
 
+/**
+ * Destructor, empty.
+ */
 TclWriter::~TclWriter()
 {
 }
 
+/**
+ * Returns "Tcl".
+ * @return   the programming language identifier
+ */
 Uml::ProgrammingLanguage::Enum TclWriter::language() const
 {
     return Uml::ProgrammingLanguage::Tcl;
 }
 
+/**
+ * Call this method to generate tcl code for a UMLClassifier.
+ * @param c   the class to generate code for
+ */
 void TclWriter::writeClass(UMLClassifier * c)
 {
     if (!c) {
@@ -144,6 +158,9 @@ void TclWriter::writeClass(UMLClassifier * c)
     }
 }
 
+/**
+ * Write the header file for this classifier.
+ */
 void TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
 {
     // open stream for writing
@@ -310,6 +327,9 @@ void TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     writeCode("};# end of namespace");
 }
 
+/**
+ * Write the source code body file for this classifier.
+ */
 void TclWriter::writeSourceFile(UMLClassifier * c, QFile & filetcl)
 {
     // open stream for writing
@@ -348,11 +368,17 @@ void TclWriter::writeSourceFile(UMLClassifier * c, QFile & filetcl)
     writeInitAttributeSource(c);
 }
 
+/**
+ * Write the source code text.
+ */
 void TclWriter::writeCode(const QString &text)
 {
     *mStream << indent() << text << m_endl;
 }
 
+/**
+ * Write comment text.
+ */
 void TclWriter::writeComm(const QString &text)
 {
     QStringList lines = text.split(QRegExp("\n"));
@@ -361,6 +387,9 @@ void TclWriter::writeComm(const QString &text)
     }
 }
 
+/**
+ * Write documentation text.
+ */
 void TclWriter::writeDocu(const QString &text)
 {
     QStringList lines = text.split(QRegExp("\n"));
@@ -458,6 +487,12 @@ void TclWriter::writeDestructorSource()
     writeCode(mClassGlobal + "::destructor {} {" + m_endl + '}' + m_endl);
 }
 
+/**
+ * Writes the Attribute declarations
+ * @param c             classifier
+ * @param writeStatic   whether to write static or non-static attributes out
+ * @param visibility    the visibility of the attribs to print out
+ */
 void TclWriter::writeAttributeDecl(UMLClassifier * c, Uml::Visibility::Enum visibility, bool writeStatic)
 {
     if (c->isInterface())
@@ -493,6 +528,9 @@ void TclWriter::writeAttributeDecl(UMLClassifier * c, Uml::Visibility::Enum visi
     }
 }
 
+/**
+ * Searches a list of associations for appropriate ones to write out as attributes.
+ */
 void TclWriter::writeAssociationDecl(UMLAssociationList associations,
                                 Uml::Visibility::Enum permitScope, Uml::ID::Type id,
                                 const QString &type)
@@ -535,6 +573,9 @@ void TclWriter::writeAssociationDecl(UMLAssociationList associations,
     }
 }
 
+/**
+ * Writes out an association as an attribute using Vector.
+ */
 void TclWriter::writeAssociationRoleDecl(const QString &fieldClassName, const QString &roleName,
                                     const QString &multi, const QString &doc, const QString &scope)
 {
@@ -574,6 +615,9 @@ void TclWriter::writeAssociationRoleDecl(const QString &fieldClassName, const QS
     }
 }
 
+/**
+ * If needed, write out the declaration for the method to initialize attributes of our class.
+ */
 void TclWriter::writeInitAttributeHeader(UMLClassifier * c)
 {
     if (c->hasAttributes()) {
@@ -583,6 +627,9 @@ void TclWriter::writeInitAttributeHeader(UMLClassifier * c)
     }
 }
 
+/**
+ * If needed, write out the declaration for the method to initialize attributes of our class.
+ */
 void TclWriter::writeInitAttributeSource(UMLClassifier* c)
 {
     // only need to do this under certain conditions
@@ -861,6 +908,9 @@ void TclWriter::writeAssociationRoleSource(const QString &fieldClassName,
     writeCode('}' + m_endl);
 }
 
+/**
+ * Replaces `string' with STRING_TYPENAME.
+ */
 QString TclWriter::fixTypeName(const QString &string)
 {
     if (string.isEmpty())
@@ -868,12 +918,19 @@ QString TclWriter::fixTypeName(const QString &string)
     return string;
 }
 
-// methods like this _shouldn't_ be needed IF we properly did things thruought the code.
+/**
+ * Returns the name of the given object (if it exists).
+ * Methods like this _shouldn't_ be needed IF we properly did things thruought the code.
+ */
 QString TclWriter::getUMLObjectName(UMLObject * obj)
 {
     return (obj != 0) ? obj->name() : QString("NULL");
 }
 
+/**
+ * Get list of reserved keywords.
+ * @return   the list of reserved keywords
+ */
 QStringList TclWriter::reservedKeywords() const
 {
     static QStringList keywords;
