@@ -560,6 +560,11 @@ void UMLApp::slotZoomSliderMoved(int value)
  */
 void UMLApp::slotZoomFit()
 {
+    QRectF items = currentView()->umlScene()->itemsBoundingRect();
+    currentView()->umlScene()->setSceneRect(items);
+    // TODO: QGraphicsView seems not to be informed about the scene rect update
+    currentView()->setSceneRect(items);
+
     int scaleW = ceil(100.0 * currentView()->viewport()->width() / currentView()->umlScene()->width());
     int scaleH = ceil(100.0 * currentView()->viewport()->height() / currentView()->umlScene()->height());
     int scale = 100;
