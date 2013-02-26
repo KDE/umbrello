@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -707,8 +707,8 @@ bool AssociationWidget::activate()
             robj.roleWidget->setLink(this);
             TextRole tr = (r == A ? TextRole::RoleAName : TextRole::RoleBName);
             robj.roleWidget->setTextRole(tr);
-            Uml::Visibility vis = visibility((Uml::Role_Type)r);
-            robj.roleWidget->setPreText(vis.toString(true));
+            Uml::Visibility::Enum vis = visibility((Uml::Role_Type)r);
+            robj.roleWidget->setPreText(Uml::Visibility::toString(vis, true));
 
             if (FloatingTextWidget::isTextValid(robj.roleWidget->text()))
                 robj.roleWidget->show();
@@ -937,9 +937,9 @@ void AssociationWidget::setRoleName(const QString &strRole, Uml::Role_Type role)
     TextRole tr = (role == A ? TextRole::RoleAName : TextRole::RoleBName);
     setFloatingText(tr, strRole, m_role[role].roleWidget);
     if (m_role[role].roleWidget) {
-        Uml::Visibility vis = visibility(role);
+        Uml::Visibility::Enum vis = visibility(role);
         if (FloatingTextWidget::isTextValid(m_role[role].roleWidget->text())) {
-            m_role[role].roleWidget->setPreText(vis.toString(true));
+            m_role[role].roleWidget->setPreText(Uml::Visibility::toString(vis, true));
             //m_role[role].roleWidget->show();
         } else {
             m_role[role].roleWidget->setPreText("");
@@ -1045,11 +1045,11 @@ void AssociationWidget::setMultiplicity(const QString& text, Uml::Role_Type role
 /**
  * Gets the visibility on the given role of the association.
  */
-Uml::Visibility AssociationWidget::visibility(Uml::Role_Type role) const
+Visibility::Enum AssociationWidget::visibility(Uml::Role_Type role) const
 {
     const UMLAssociation *assoc = association();
     if (assoc)
-        return assoc->getVisibility(role);
+        return assoc->visibility(role);
     const UMLAttribute *attr = attribute();
     if (attr)
         return attr->visibility();
@@ -1059,10 +1059,11 @@ Uml::Visibility AssociationWidget::visibility(Uml::Role_Type role) const
 /**
  * Sets the visibility on the given role of the association.
  */
-void AssociationWidget::setVisibility(Uml::Visibility value, Uml::Role_Type role)
+void AssociationWidget::setVisibility(Visibility::Enum value, Uml::Role_Type role)
 {
-    if (value == visibility(role))
+    if (value == visibility(role)) {
         return;
+    }
     if (m_umlObject) {
         // update our model object
         const UMLObject::ObjectType ot = m_umlObject->baseType();
@@ -1074,7 +1075,7 @@ void AssociationWidget::setVisibility(Uml::Visibility value, Uml::Role_Type role
     m_role[role].visibility = value;
     // update role pre-text attribute as appropriate
     if (m_role[role].roleWidget) {
-        QString scopeString = value.toString(true);
+        QString scopeString = Visibility::toString(value, true);
         m_role[role].roleWidget->setPreText(scopeString);
     }
 }
@@ -1394,7 +1395,7 @@ void AssociationWidget::setAssociationType(Uml::AssociationType type)
 /**
  * Gets the ID of the given role widget.
  */
-Uml::IDType AssociationWidget::widgetIDForRole(Uml::Role_Type role) const
+Uml::ID::Type AssociationWidget::widgetIDForRole(Uml::Role_Type role) const
 {
     if (m_role[role].umlWidget == NULL) {
         if (m_umlObject && m_umlObject->baseType() == UMLObject::ot_Association) {
@@ -1402,11 +1403,11 @@ Uml::IDType AssociationWidget::widgetIDForRole(Uml::Role_Type role) const
             return umla->getObjectId(role);
         }
         uError() << "umlWidget is NULL";
-        return Uml::id_None;
+        return Uml::ID::None;
     }
     if (m_role[role].umlWidget->baseType() == WidgetBase::wt_Object)
         return static_cast<ObjectWidget*>(m_role[role].umlWidget)->localID();
-    Uml::IDType id = m_role[role].umlWidget->id();
+    Uml::ID::Type id = m_role[role].umlWidget->id();
     return id;
 }
 
@@ -1770,8 +1771,8 @@ void AssociationWidget::syncToModel()
     setName(uml->name());
     setRoleName(uml->getRoleName(A), A);
     setRoleName(uml->getRoleName(B), B);
-    setVisibility(uml->getVisibility(A), A);
-    setVisibility(uml->getVisibility(B), B);
+    setVisibility(uml->visibility(A), A);
+    setVisibility(uml->visibility(B), B);
     setChangeability(uml->changeability(A), A);
     setChangeability(uml->changeability(B), B);
     setMultiplicity(uml->getMultiplicity(A), A);
@@ -3936,6 +3937,7 @@ void AssociationWidget::clipSize()
 
 ListPopupMenu* AssociationWidget::setupPopupMenu(ListPopupMenu *menu, const QPointF &p)
 {
+    Q_UNUSED(menu)
     //work out the type of menu we want
     //work out if the association allows rolenames, multiplicity, etc
     //also must be within a certain distance to be a multiplicity menu
@@ -4110,8 +4112,8 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
     // load child widgets first
     QString widgetaid = qElement.attribute("widgetaid", "-1");
     QString widgetbid = qElement.attribute("widgetbid", "-1");
-    Uml::IDType aId = STR2ID(widgetaid);
-    Uml::IDType bId = STR2ID(widgetbid);
+    Uml::ID::Type aId = STR2ID(widgetaid);
+    Uml::ID::Type bId = STR2ID(widgetbid);
     UMLWidget *pWidgetA = Widget_Utils::findWidget(aId, widgets, messages);
     if (!pWidgetA) {
         uError() << "cannot find widget for roleA id " << ID2STR(aId);
@@ -4185,14 +4187,14 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
         if (vis >= 200) {  // bkwd compat.
             vis -= 200;
         }
-        setVisibility((Uml::Visibility::Value)vis, Uml::A);
+        setVisibility((Uml::Visibility::Enum)vis, Uml::A);
 
         QString visibilityB = qElement.attribute("visibilityB", "0");
         vis = visibilityB.toInt();
         if (vis >= 200) { // bkwd compat.
             vis -= 200;
         }
-        setVisibility((Uml::Visibility::Value)vis, Uml::B);
+        setVisibility((Uml::Visibility::Enum)vis, Uml::B);
 
         // Changeability defaults to "Changeable" if it cant set it here..
         QString changeabilityA = qElement.attribute( "changeabilityA", "0");
@@ -4244,7 +4246,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
 
     QString assocclassid = qElement.attribute("assocclass", "");
     if (! assocclassid.isEmpty()) {
-        Uml::IDType acid = STR2ID(assocclassid);
+        Uml::ID::Type acid = STR2ID(assocclassid);
         UMLWidget *w = Widget_Utils::findWidget(acid, widgets);
         if (w) {
             m_associationClass = static_cast<ClassifierWidget*>(w);
@@ -4280,7 +4282,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
             if( r == "-1" )
                 return false;
             Uml::TextRole role = Uml::TextRole::Value(r.toInt());
-            FloatingTextWidget *ft = new FloatingTextWidget(m_scene, role, "", Uml::id_Reserved);
+            FloatingTextWidget *ft = new FloatingTextWidget(m_scene, role, "", Uml::ID::Reserved);
             if( ! ft->loadFromXMI(element) ) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete ft;

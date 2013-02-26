@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003 Luis De la Parra <lparrab@gmx.net>                 *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -51,8 +51,8 @@ RefactoringAssistant::RefactoringAssistant(UMLDoc *doc, UMLClassifier *obj, QWid
 
     m_menu = new QMenu(this);
 
-    connect(this, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),
-            this, SLOT(itemExecuted(QTreeWidgetItem*, int)));
+    connect(this, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),
+            this, SLOT(itemExecuted(QTreeWidgetItem*,int)));
     connect(this, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(showContextMenu(QPoint)));
 

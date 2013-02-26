@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2012                                                    *
+ *   copyright (C) 2012-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -94,7 +94,7 @@ void UMLFileDialog::setMimeFilter(const QStringList &types, const QString &defau
 QString UMLFileDialog::currentMimeFilter()
 {
     QString currentFilter = m_dialog->currentFilter();
-    #ifdef Q_WS_WIN32
+    #ifdef Q_OS_WIN
     // using native KFileDialog returns empty filter, so we need a workaround
     if (currentFilter.isEmpty()) {
         KUrl url = m_dialog->selectedUrl();

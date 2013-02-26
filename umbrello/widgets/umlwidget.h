@@ -48,7 +48,7 @@ public:
     friend class UMLWidgetController;
 
     explicit UMLWidget(UMLScene * scene, WidgetType type = wt_UMLWidget, UMLObject * o = 0, UMLWidgetController *widgetController = 0);
-    explicit UMLWidget(UMLScene * scene, WidgetType type = wt_UMLWidget, Uml::IDType id = Uml::id_None, UMLWidgetController *widgetController = 0 );
+    explicit UMLWidget(UMLScene * scene, WidgetType type = wt_UMLWidget, Uml::ID::Type id = Uml::ID::None, UMLWidgetController *widgetController = 0);
     virtual ~UMLWidget();
 
     // Copy constructor - not implemented.
@@ -328,11 +328,11 @@ public slots:
     virtual void slotRemovePopupMenu();
     virtual void updateWidget();
     virtual void slotMenuSelection(QAction* action);
-    virtual void slotWidgetMoved(Uml::IDType id);
-    virtual void slotFillColorChanged(Uml::IDType viewID);
-    virtual void slotLineColorChanged(Uml::IDType viewID);
-    virtual void slotTextColorChanged(Uml::IDType viewID);
-    virtual void slotLineWidthChanged(Uml::IDType viewID);
+    virtual void slotWidgetMoved(Uml::ID::Type id);
+    virtual void slotFillColorChanged(Uml::ID::Type viewID);
+    virtual void slotLineColorChanged(Uml::ID::Type viewID);
+    virtual void slotTextColorChanged(Uml::ID::Type viewID);
+    virtual void slotLineWidthChanged(Uml::ID::Type viewID);
 
     void slotClearAllSelected();
     void slotSnapToGrid();
@@ -343,7 +343,7 @@ signals:
      *
      * @param id The id of the object behind the widget.
      */
-    void sigWidgetMoved(Uml::IDType id);
+    void sigWidgetMoved(Uml::ID::Type id);
 
 protected:
     QRectF      m_rect;     ///< widget size

@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -371,7 +371,7 @@ bool CodeGenerationPolicy::getAutoGenerateConstructors( )
  * Set the value of m_attributeAccessorScope
  * @param var the new value
  */
-void CodeGenerationPolicy::setAttributeAccessorScope(Uml::Visibility::Value var)
+void CodeGenerationPolicy::setAttributeAccessorScope(Uml::Visibility::Enum var)
 {
     Settings::optionState().codeGenerationState.defaultAttributeAccessorScope = var;
     emit modifiedCodeContent();
@@ -381,7 +381,7 @@ void CodeGenerationPolicy::setAttributeAccessorScope(Uml::Visibility::Value var)
  * Get the value of m_attributeAccessorScope
  * @return the Visibility value of m_attributeAccessorScope
  */
-Uml::Visibility::Value CodeGenerationPolicy::getAttributeAccessorScope()
+Uml::Visibility::Enum CodeGenerationPolicy::getAttributeAccessorScope()
 {
     return Settings::optionState().codeGenerationState.defaultAttributeAccessorScope;
 }
@@ -390,7 +390,7 @@ Uml::Visibility::Value CodeGenerationPolicy::getAttributeAccessorScope()
  * Set the value of m_associationFieldScope
  * @param var the new value
  */
-void CodeGenerationPolicy::setAssociationFieldScope(Uml::Visibility::Value var)
+void CodeGenerationPolicy::setAssociationFieldScope(Uml::Visibility::Enum var)
 {
     Settings::optionState().codeGenerationState.defaultAssocFieldScope = var;
     emit modifiedCodeContent();
@@ -400,7 +400,7 @@ void CodeGenerationPolicy::setAssociationFieldScope(Uml::Visibility::Value var)
  * Get the value of m_associationFieldScope
  * @return the Visibility value of m_associationFieldScope
  */
-Uml::Visibility::Value CodeGenerationPolicy::getAssociationFieldScope()
+Uml::Visibility::Enum CodeGenerationPolicy::getAssociationFieldScope()
 {
     return Settings::optionState().codeGenerationState.defaultAssocFieldScope;
 }

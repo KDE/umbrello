@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2011                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -34,7 +34,7 @@
  * @param id      The unique id of the Folder. A new ID will be generated
  *                if this argument is left away.
  */
-UMLFolder::UMLFolder(const QString & name, Uml::IDType id)
+UMLFolder::UMLFolder(const QString & name, Uml::ID::Type id)
   : UMLPackage(name, id)
 {
     m_BaseType = UMLObject::ot_Folder;
@@ -149,7 +149,7 @@ void UMLFolder::activateViews()
  * @param id   ID of the view to find.
  * @return     Pointer to the view if found, NULL if no view found.
  */
-UMLView *UMLFolder::findView(Uml::IDType id)
+UMLView *UMLFolder::findView(Uml::ID::Type id)
 {
     foreach (UMLView* v, m_diagrams ) {
         if (v->umlScene()->ID() == id) {
@@ -178,7 +178,7 @@ UMLView *UMLFolder::findView(Uml::IDType id)
  * @param searchAllScopes   Search in all subfolders (default: true.)
  * @return  Pointer to the view found, or NULL if not found.
  */
-UMLView *UMLFolder::findView(Uml::DiagramType type, const QString &name, bool searchAllScopes)
+UMLView *UMLFolder::findView(Uml::DiagramType::Enum type, const QString &name, bool searchAllScopes)
 {
     foreach (UMLView* v, m_diagrams) {
         if (v->umlScene()->type() == type && v->umlScene()->name() == name) {
@@ -299,9 +299,10 @@ void UMLFolder::save(QDomDocument& qDoc, QDomElement& qElement)
 {
     UMLDoc *umldoc = UMLApp::app()->document();
     QString elementName("UML:Package");
-    const Uml::ModelType mt = umldoc->rootFolderType(this);
-    if (mt != Uml::ModelType::N_MODELTYPES)
+    const Uml::ModelType::Enum mt = umldoc->rootFolderType(this);
+    if (mt != Uml::ModelType::N_MODELTYPES) {
         elementName = "UML:Model";
+    }
     QDomElement folderElement = UMLObject::save(elementName, qDoc);
     saveContents(qDoc, folderElement);
     qElement.appendChild(folderElement);
@@ -502,7 +503,7 @@ bool UMLFolder::load(QDomElement& element)
         // Avoid duplicate creation of forward declared object
         QString idStr = tempElement.attribute("xmi.id", "");
         if (!idStr.isEmpty()) {
-            Uml::IDType id = STR2ID(idStr);
+            Uml::ID::Type id = STR2ID(idStr);
             pObject = umldoc->findObjectById(id);
             if (pObject) {
                 uDebug() << "object " << idStr << "already exists";

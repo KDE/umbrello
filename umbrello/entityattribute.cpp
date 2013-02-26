@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -32,7 +32,7 @@
  * @param iv        The initial value of the entityattribute.
  */
 UMLEntityAttribute::UMLEntityAttribute( UMLObject *parent, const QString& name,
-                                        Uml::IDType id, Uml::Visibility s,
+                                        Uml::ID::Type id, Uml::Visibility::Enum s,
                                         UMLObject *type, const QString& iv )
   : UMLAttribute(parent, name, id, s, type, iv)
 {
@@ -172,7 +172,7 @@ QString UMLEntityAttribute::toString(Uml::SignatureType sig)
     //FIXME
 
     if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::NoSig) {
-        s=m_Vis.toString(true) + ' ';
+        s = Uml::Visibility::toString(m_visibility, true) + ' ';
     }
 
     if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::SigNoVis) {

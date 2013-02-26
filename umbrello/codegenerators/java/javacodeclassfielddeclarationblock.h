@@ -21,20 +21,10 @@ class JavaCodeClassFieldDeclarationBlock : public CodeClassFieldDeclarationBlock
     Q_OBJECT
 public:
 
-    /**
-     * Constructor
-     */
-    explicit JavaCodeClassFieldDeclarationBlock ( CodeClassField * parent );
+    explicit JavaCodeClassFieldDeclarationBlock(CodeClassField* parent);
+    virtual ~JavaCodeClassFieldDeclarationBlock();
 
-    /**
-     * Empty Destructor
-     */
-    virtual ~JavaCodeClassFieldDeclarationBlock ( );
-
-    /**
-     * This will be called by syncToParent whenever the parent object is "modified"
-     */
-    void updateContent ( );
+    void updateContent();
 
 private:
 

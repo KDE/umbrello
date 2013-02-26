@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2002                                                    *
  *   Luis De la Parra <luis@delaparra.org>                                 *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -86,7 +86,7 @@ void CodeGenOptionsPage::setupActiveLanguageBox()
 {
     int indexCounter = 0;
     while (indexCounter < Uml::ProgrammingLanguage::Reserved) {
-        QString language = Uml::ProgrammingLanguage::toString(Uml::ProgrammingLanguage::Value(indexCounter));
+        QString language = Uml::ProgrammingLanguage::toString(Uml::ProgrammingLanguage::fromInt(indexCounter));
         ui_SelectLanguageBox->insertItem(indexCounter, language);
         indexCounter++;
     }
@@ -183,7 +183,7 @@ void CodeGenOptionsPage::updateCodeGenerationPolicyTab()
         m_pCodePolicyPage = 0;
     }
 
-    Uml::ProgrammingLanguage pl = Uml::ProgrammingLanguage::Value(ui_SelectLanguageBox->currentIndex());
+    Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromInt(ui_SelectLanguageBox->currentIndex());
     CodeGenPolicyExt *policyExt = CodeGenFactory::newCodeGenPolicyExt(pl);
 
     if (policyExt) {
@@ -305,7 +305,7 @@ void CodeGenOptionsPage::activeLanguageChanged(int id)
 void CodeGenOptionsPage::changeLanguage()
 {
     QString plStr = getLanguage();
-    Uml::ProgrammingLanguage pl = Uml::ProgrammingLanguage::fromString(plStr);
+    Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromString(plStr);
     UMLApp::app()->setActiveLanguage(pl);
     /* @todo is this needed? if yes adapt to new scheme
      m_CodeGenOptionsPage->setCodeGenerator(m_doc->getCurrentCodeGenerator());

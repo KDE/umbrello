@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -51,13 +51,13 @@ static const int sequenceLineMargin = 20;
  * @param o       The object it will be representing.
  * @param lid     The local id for the object.
  */
-ObjectWidget::ObjectWidget(UMLScene * scene, UMLObject *o, Uml::IDType lid)
+ObjectWidget::ObjectWidget(UMLScene * scene, UMLObject *o, Uml::ID::Type lid)
   : UMLWidget(scene, WidgetBase::wt_Object, o),
     m_multipleInstance(false),
     m_drawAsActor(false),
     m_showDestruction(false)
 {
-    m_nLocalID = Uml::id_None;
+    m_nLocalID = Uml::ID::None;
     if( m_scene != NULL && m_scene->type() == Uml::DiagramType::Sequence ) {
         m_pLine = new SeqLineWidget( m_scene, this );
         //Sets specific widget controller for sequence diagrams
@@ -66,7 +66,7 @@ ObjectWidget::ObjectWidget(UMLScene * scene, UMLObject *o, Uml::IDType lid)
     } else {
         m_pLine = 0;
     }
-    if( lid != Uml::id_None )
+    if( lid != Uml::ID::None )
         m_nLocalID = lid;
 }
 
@@ -82,7 +82,7 @@ ObjectWidget::~ObjectWidget()
  *
  * @param id   The local id of the object.
  */
-void ObjectWidget::setLocalID(Uml::IDType id)
+void ObjectWidget::setLocalID(Uml::ID::Type id)
 {
     m_nLocalID = id;
 }
@@ -94,7 +94,7 @@ void ObjectWidget::setLocalID(Uml::IDType id)
  *
  * @return  The local ID.
  */
-Uml::IDType ObjectWidget::localID() const
+Uml::ID::Type ObjectWidget::localID() const
 {
     return m_nLocalID;
 }
@@ -288,7 +288,7 @@ void ObjectWidget::moveEvent(QGraphicsSceneMouseEvent *m)
 /**
  * Handles a color change signal.
  */
-void ObjectWidget::slotFillColorChanged(Uml::IDType /*viewID*/)
+void ObjectWidget::slotFillColorChanged(Uml::ID::Type /*viewID*/)
 {
     UMLWidget::setFillColor( m_scene->fillColor() );
     UMLWidget::setLineColor( m_scene->lineColor() );

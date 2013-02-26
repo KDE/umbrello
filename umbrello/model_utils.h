@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -36,7 +36,7 @@ namespace Model_Utils {
 
 bool isCloneable(WidgetBase::WidgetType type);
 
-UMLObject* findObjectInList(Uml::IDType id, const UMLObjectList& inList);
+UMLObject* findObjectInList(Uml::ID::Type id, const UMLObjectList& inList);
 
 UMLObject* findUMLObject( const UMLObjectList& inList,
                           const QString& name,
@@ -56,7 +56,7 @@ void treeViewSetCurrentItem(UMLObject* object);
 void treeViewMoveObjectTo(UMLObject* container, UMLObject* object);
 UMLObject*  treeViewGetCurrentObject();
 UMLPackage* treeViewGetPackageFromCurrent();
-QString treeViewBuildDiagramName(Uml::IDType id);
+QString treeViewBuildDiagramName(Uml::ID::Type id);
 
 QString uniqObjectName(UMLObject::ObjectType type,
                        UMLPackage *parentPkg,
@@ -74,17 +74,17 @@ bool typeIsDiagram(UMLListViewItem::ListViewType type);
 bool typeIsClassifierList(UMLListViewItem::ListViewType type);
 bool typeIsClassifier(UMLListViewItem::ListViewType type);
 
-Uml::ModelType convert_DT_MT(Uml::DiagramType dt);
-UMLListViewItem::ListViewType convert_MT_LVT(Uml::ModelType mt);
-Uml::ModelType convert_LVT_MT(UMLListViewItem::ListViewType lvt);
-UMLListViewItem::ListViewType convert_DT_LVT(Uml::DiagramType dt);
+Uml::ModelType::Enum convert_DT_MT(Uml::DiagramType::Enum dt);
+UMLListViewItem::ListViewType convert_MT_LVT(Uml::ModelType::Enum mt);
+Uml::ModelType::Enum convert_LVT_MT(UMLListViewItem::ListViewType lvt);
+UMLListViewItem::ListViewType convert_DT_LVT(Uml::DiagramType::Enum dt);
 UMLObject::ObjectType convert_LVT_OT(UMLListViewItem::ListViewType lvt);
 UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o);
 Icon_Utils::IconType convert_LVT_IT(UMLListViewItem::ListViewType lvt);
-Uml::DiagramType convert_LVT_DT(UMLListViewItem::ListViewType lvt);
-Uml::ModelType convert_OT_MT(UMLObject::ObjectType ot);
+Uml::DiagramType::Enum convert_LVT_DT(UMLListViewItem::ListViewType lvt);
+Uml::ModelType::Enum convert_OT_MT(UMLObject::ObjectType ot);
 
-Uml::ModelType guessContainer(UMLObject *o);  // deprecated !
+Uml::ModelType::Enum guessContainer(UMLObject *o);  // deprecated !
 
 int stringToDirection(QString input, Uml::Parameter_Direction & result);
 
@@ -98,14 +98,12 @@ struct NameAndType {  ///< Data structure filled by parseAttribute().
     UMLObject *m_type;
     Uml::Parameter_Direction m_direction;
     QString m_initialValue;
-    NameAndType() : m_type(0), m_direction(Uml::pd_In) {
-    }
+    NameAndType() : m_type(0), m_direction(Uml::pd_In) {}
     NameAndType(QString name, UMLObject *type,
                 Uml::Parameter_Direction direction = Uml::pd_In,
                 QString initialValue = QString())
             : m_name(name), m_type(type),
-              m_direction(direction), m_initialValue(initialValue) {
-    }
+              m_direction(direction), m_initialValue(initialValue) {}
 };
 
 typedef QLinkedList<NameAndType> NameAndType_List;               ///< Auxiliary type for OpDescriptor.
@@ -119,13 +117,13 @@ struct OpDescriptor {  ///< Data structure filled by parseOperation().
 
 Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningScope);
 Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningScope,
-                            Uml::Visibility *vis = 0);
+                            Uml::Visibility::Enum *vis = 0);
 Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owningScope);
 Parse_Status parseConstraint(QString m, QString& name, UMLEntity* owningScope);
 
 QString psText(Parse_Status value);
 
-QString updateDeleteActionToString( UMLForeignKeyConstraint::UpdateDeleteAction uda );
+QString updateDeleteActionToString(UMLForeignKeyConstraint::UpdateDeleteAction uda);
 
 }
 

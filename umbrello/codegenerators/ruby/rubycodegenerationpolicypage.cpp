@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2011                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -48,8 +48,8 @@ void RubyCodeGenerationPolicyPage::apply()
     parent->blockSignals(true);
 
     common->setCommentStyle((CodeGenerationPolicy::CommentStyle) form.m_SelectCommentStyle->currentIndex());
-    common->setAttributeAccessorScope((Uml::Visibility::Value) form.m_accessorScopeCB->currentIndex());
-    common->setAssociationFieldScope((Uml::Visibility::Value) form.m_assocFieldScopeCB->currentIndex());
+    common->setAttributeAccessorScope(Uml::Visibility::fromInt(form.m_accessorScopeCB->currentIndex()));
+    common->setAssociationFieldScope(Uml::Visibility::fromInt(form.m_assocFieldScopeCB->currentIndex()));
     common->setAutoGenerateConstructors(form.m_generateConstructors->isChecked());
     parent->setAutoGenerateAttribAccessors(form.m_generateAttribAccessors->isChecked());
     parent->setAutoGenerateAssocAccessors(form.m_generateAssocAccessors->isChecked());

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -35,7 +35,7 @@ class UMLCanvasObject : public UMLObject
     Q_OBJECT
 
 public:
-    explicit UMLCanvasObject(const QString & name = QString(), Uml::IDType id = Uml::id_None);
+    explicit UMLCanvasObject(const QString & name = QString(), Uml::ID::Type id = Uml::ID::None);
     virtual ~UMLCanvasObject();
 
     bool operator==(const UMLCanvasObject& rhs) const;
@@ -70,7 +70,7 @@ public:
 
     virtual UMLObject *findChildObject(const QString &n,
                                        UMLObject::ObjectType t = UMLObject::ot_UMLObject);
-    virtual UMLObject *findChildObjectById(Uml::IDType id, bool considerAncestors = false);
+    virtual UMLObject *findChildObjectById(Uml::ID::Type id, bool considerAncestors = false);
 
     virtual QString uniqChildName(const UMLObject::ObjectType type,
                                   const QString &prefix = QString());

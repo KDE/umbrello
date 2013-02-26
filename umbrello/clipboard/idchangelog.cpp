@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -59,7 +59,7 @@ bool IDChangeLog::operator==(const IDChangeLog& Other) const
  * Returns the new assigned ID of the object that had OldID as its
  * previous id.
  */
-Uml::IDType IDChangeLog::findNewID(Uml::IDType OldID)
+Uml::ID::Type IDChangeLog::findNewID(Uml::ID::Type OldID)
 {
     for (uint i = 0; i < m_LogArray.size(); i++) {
         if ((m_LogArray.point(i))->y() ==  OldID) {
@@ -67,7 +67,7 @@ Uml::IDType IDChangeLog::findNewID(Uml::IDType OldID)
         }
     }
 
-    return Uml::id_None;
+    return Uml::ID::None;
 }
 
 /**
@@ -85,7 +85,7 @@ IDChangeLog& IDChangeLog::operator+=(const IDChangeLog& Other)
     return *this;
 }
 
-void IDChangeLog::addIDChange(Uml::IDType OldID, Uml::IDType NewID)
+void IDChangeLog::addIDChange(Uml::ID::Type OldID, Uml::ID::Type NewID)
 {
     uint pos = 0;
     if (!findIDChange(OldID, NewID, pos)) {
@@ -96,7 +96,7 @@ void IDChangeLog::addIDChange(Uml::IDType OldID, Uml::IDType NewID)
     }
 }
 
-Uml::IDType IDChangeLog::findOldID(Uml::IDType NewID)
+Uml::ID::Type IDChangeLog::findOldID(Uml::ID::Type NewID)
 {
     uint count = m_LogArray.size();
     for (uint i = 0; i < count; i++) {
@@ -105,10 +105,10 @@ Uml::IDType IDChangeLog::findOldID(Uml::IDType NewID)
         }
     }
 
-    return Uml::id_None;
+    return Uml::ID::None;
 }
 
-bool IDChangeLog::findIDChange(Uml::IDType OldID, Uml::IDType NewID, uint& pos)
+bool IDChangeLog::findIDChange(Uml::ID::Type OldID, Uml::ID::Type NewID, uint& pos)
 {
     uint count = m_LogArray.size();
     for (uint i = 0; i < count; i++) {
@@ -121,12 +121,12 @@ bool IDChangeLog::findIDChange(Uml::IDType OldID, Uml::IDType NewID, uint& pos)
     return false;
 }
 
-void IDChangeLog::removeChangeByNewID(Uml::IDType OldID)
+void IDChangeLog::removeChangeByNewID(Uml::ID::Type OldID)
 {
     uint count = m_LogArray.size();
     for (uint i = 0; i < count; i++) {
         if ((m_LogArray.point(i))->y() ==  OldID) {
-            m_LogArray.setPoint(i, Uml::id_None, OldID);
+            m_LogArray.setPoint(i, Uml::ID::None, OldID);
         }
     }
 }

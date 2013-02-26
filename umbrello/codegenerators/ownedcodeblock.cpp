@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -107,7 +107,7 @@ void OwnedCodeBlock::setAttributesFromNode ( QDomElement & elem)
 {
     // set local attributes, parent object first
     QString idStr = elem.attribute("parent_id","-1");
-    Uml::IDType id = STR2ID(idStr);
+    Uml::ID::Type id = STR2ID(idStr);
 
     // always disconnect from current parent
     getParentObject()->disconnect(this);

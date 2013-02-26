@@ -96,18 +96,18 @@ public:
     explicit UMLListViewItem(UMLListView * parent);
     explicit UMLListViewItem(UMLListViewItem * parent);
     UMLListViewItem(UMLListViewItem * parent, const QString &name, ListViewType t, UMLObject* o = 0);
-    UMLListViewItem(UMLListViewItem * parent, const QString &name, ListViewType t, Uml::IDType id);
+    UMLListViewItem(UMLListViewItem * parent, const QString &name, ListViewType t, Uml::ID::Type id);
     ~UMLListViewItem();
 
     ListViewType type() const;
 
-    void setID(Uml::IDType id);
-    Uml::IDType ID() const;
+    void setID(Uml::ID::Type id);
+    Uml::ID::Type ID() const;
 
     void setUMLObject(UMLObject * obj);
     UMLObject * umlObject() const;
 
-    bool isOwnParent(Uml::IDType listViewItemID);
+    bool isOwnParent(Uml::ID::Type listViewItemID);
 
     void updateObject();
     void updateFolder();
@@ -138,7 +138,7 @@ public:
 
     UMLListViewItem* findUMLObject(const UMLObject *o);
     UMLListViewItem* findChildObject(UMLClassifierListItem *cli);
-    UMLListViewItem* findItem(Uml::IDType id);
+    UMLListViewItem* findItem(Uml::ID::Type id);
 
     UMLListViewItem* childItem(int i);
 
@@ -163,7 +163,7 @@ protected:
 
     bool               m_bCreating;  ///< flag to set the state of creating
     ListViewType       m_type;
-    Uml::IDType        m_id;
+    Uml::ID::Type      m_id;
     UMLObject *        m_object;
     QString            m_label;
     ChildObjectMap     m_comap;

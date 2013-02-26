@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2012                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -41,7 +41,7 @@ public:
     bool addHeaderCodeDocument ( CPPHeaderCodeDocument * doc );
     bool removeHeaderCodeDocument ( CPPHeaderCodeDocument * remove_object );
 
-    Uml::ProgrammingLanguage language() const;
+    Uml::ProgrammingLanguage::Enum language() const;
 
     CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier);
     CPPHeaderCodeDocument * newHeaderClassifierCodeDocument (UMLClassifier * classifier);

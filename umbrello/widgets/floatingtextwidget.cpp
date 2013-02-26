@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -52,7 +52,7 @@ const UMLSceneValue FloatingTextWidget::restrictPositionMax = 3000;
  * @param text The main text to display.
  * @param id The ID to assign (-1 will prompt a new ID.)
  */
-FloatingTextWidget::FloatingTextWidget(UMLScene * scene, Uml::TextRole role, const QString& text, Uml::IDType id)
+FloatingTextWidget::FloatingTextWidget(UMLScene * scene, Uml::TextRole role, const QString& text, Uml::ID::Type id)
   : UMLWidget(scene, WidgetBase::wt_Text, id, new FloatingTextWidgetController(this)),
     m_linkWidget(0),
     m_preText(QString()),

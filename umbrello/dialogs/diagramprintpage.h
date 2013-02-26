@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -58,9 +58,9 @@ private:
     KComboBox * m_pTypeCB;
 
     UMLDoc * m_doc;
-    Uml::DiagramType m_ViewType;
+    Uml::DiagramType::Enum m_ViewType;
 
-    QList<Uml::IDType> m_nIdList;  //< list containing the IDs of diagrams to print
+    QList<Uml::ID::Type> m_nIdList;  ///< list containing the IDs of diagrams to print
 
     enum FilterType{Current = 0, All, Select, Type};
 

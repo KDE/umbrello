@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -28,18 +28,18 @@ class UMLNode : public UMLCanvasObject
     Q_OBJECT
 public:
 
-    explicit UMLNode(const QString & name = QString(), Uml::IDType id = Uml::id_None);
+    explicit UMLNode(const QString & name = QString(), Uml::ID::Type id = Uml::ID::None);
     virtual ~UMLNode();
 
     virtual void init();
 
     virtual UMLObject* clone() const;
 
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
 protected:
 
-    bool load( QDomElement & element );
+    bool load(QDomElement & element);
 
 };
 

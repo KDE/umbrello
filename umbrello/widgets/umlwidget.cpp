@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -77,7 +77,7 @@ UMLWidget::UMLWidget(UMLScene * scene, WidgetType type, UMLObject * o, UMLWidget
  *  The default value (id_None) will prompt generation of a new ID.
  * @param widgetController The UMLWidgetController of this UMLWidget
  */
-UMLWidget::UMLWidget(UMLScene *scene, WidgetType type, Uml::IDType id, UMLWidgetController *widgetController)
+UMLWidget::UMLWidget(UMLScene *scene, WidgetType type, Uml::ID::Type id, UMLWidgetController *widgetController)
   : WidgetBase(scene, type)
 {
     scene->addItem(this);
@@ -87,7 +87,7 @@ UMLWidget::UMLWidget(UMLScene *scene, WidgetType type, Uml::IDType id, UMLWidget
         m_widgetController = new UMLWidgetController(this);
     }
     init();
-    if (id == Uml::id_None)
+    if (id == Uml::ID::None)
         m_nId = UniqueID::gen();
     else
         m_nId = id;
@@ -329,7 +329,7 @@ void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
  */
 void UMLWidget::init()
 {
-    m_nId = Uml::id_None;
+    m_nId = Uml::ID::None;
     m_pMenu = 0;
     m_menuIsEmbedded = false;
     m_isInstance = false;
@@ -370,10 +370,10 @@ void UMLWidget::init()
     connect(m_scene, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
     connect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
 
-    connect(m_scene, SIGNAL(sigFillColorChanged(Uml::IDType)), this, SLOT(slotFillColorChanged(Uml::IDType)));
-    connect(m_scene, SIGNAL(sigLineColorChanged(Uml::IDType)), this, SLOT(slotLineColorChanged(Uml::IDType)));
-    connect(m_scene, SIGNAL(sigTextColorChanged(Uml::IDType)), this, SLOT(slotTextColorChanged(Uml::IDType)));
-    connect(m_scene, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
+    connect(m_scene, SIGNAL(sigFillColorChanged(Uml::ID::Type)), this, SLOT(slotFillColorChanged(Uml::ID::Type)));
+    connect(m_scene, SIGNAL(sigLineColorChanged(Uml::ID::Type)), this, SLOT(slotLineColorChanged(Uml::ID::Type)));
+    connect(m_scene, SIGNAL(sigTextColorChanged(Uml::ID::Type)), this, SLOT(slotTextColorChanged(Uml::ID::Type)));
+    connect(m_scene, SIGNAL(sigLineWidthChanged(Uml::ID::Type)), this, SLOT(slotLineWidthChanged(Uml::ID::Type)));
 
     m_umlObject = 0;
     setZ(m_origZ = 2);  // default for most widgets
@@ -566,7 +566,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
  *
  * @param id The id of object behind the widget.
  */
-void UMLWidget::slotWidgetMoved(Uml::IDType /*id*/)
+void UMLWidget::slotWidgetMoved(Uml::ID::Type /*id*/)
 {
 }
 
@@ -575,7 +575,7 @@ void UMLWidget::slotWidgetMoved(Uml::IDType /*id*/)
  *
  * @param sceneID The id of the object behind the widget.
  */
-void UMLWidget::slotFillColorChanged(Uml::IDType viewID)
+void UMLWidget::slotFillColorChanged(Uml::ID::Type viewID)
 {
     //only change if on the diagram concerned
     if (m_scene->ID() != viewID) {
@@ -595,7 +595,7 @@ void UMLWidget::slotFillColorChanged(Uml::IDType viewID)
  *
  * @param sceneID The id of the object behind the widget.
  */
-void UMLWidget::slotTextColorChanged(Uml::IDType viewID)
+void UMLWidget::slotTextColorChanged(Uml::ID::Type viewID)
 {
     //only change if on the diagram concerned
     if (m_scene->ID() != viewID)
@@ -610,7 +610,7 @@ void UMLWidget::slotTextColorChanged(Uml::IDType viewID)
  *
  * @param sceneID The id of the object behind the widget.
  */
-void UMLWidget::slotLineColorChanged(Uml::IDType viewID)
+void UMLWidget::slotLineColorChanged(Uml::ID::Type viewID)
 {
     //only change if on the diagram concerned
     if (m_scene->ID() != viewID)
@@ -627,7 +627,7 @@ void UMLWidget::slotLineColorChanged(Uml::IDType viewID)
  *
  * @param sceneID The id of the object behind the widget.
  */
-void UMLWidget::slotLineWidthChanged(Uml::IDType viewID)
+void UMLWidget::slotLineWidthChanged(Uml::ID::Type viewID)
 {
     //only change if on the diagram concerned
     if (m_scene->ID() != viewID) {
@@ -1140,33 +1140,38 @@ void UMLWidget::setScene(UMLScene * v)
     //remove signals from old view - was probably 0 anyway
     disconnect(m_scene, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
     disconnect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
-    disconnect(m_scene, SIGNAL(sigFillColorChanged(Uml::IDType)), this, SLOT(slotFillColorChanged(Uml::IDType)));
-    disconnect(m_scene, SIGNAL(sigTextColorChanged(Uml::IDType)), this, SLOT(slotTextColorChanged(Uml::IDType)));
-    disconnect(m_scene, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
+    disconnect(m_scene, SIGNAL(sigFillColorChanged(Uml::ID::Type)), this, SLOT(slotFillColorChanged(Uml::ID::Type)));
+    disconnect(m_scene, SIGNAL(sigTextColorChanged(Uml::ID::Type)), this, SLOT(slotTextColorChanged(Uml::ID::Type)));
+    disconnect(m_scene, SIGNAL(sigLineWidthChanged(Uml::ID::Type)), this, SLOT(slotLineWidthChanged(Uml::ID::Type)));
     m_scene = v;
     connect(m_scene, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
     connect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
-    connect(m_scene, SIGNAL(sigFillColorChanged(Uml::IDType)), this, SLOT(slotFillColorChanged(Uml::IDType)));
-    connect(m_scene, SIGNAL(sigTextColorChanged(Uml::IDType)), this, SLOT(slotTextColorChanged(Uml::IDType)));
-    connect(m_scene, SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
+    connect(m_scene, SIGNAL(sigFillColorChanged(Uml::ID::Type)), this, SLOT(slotFillColorChanged(Uml::ID::Type)));
+    connect(m_scene, SIGNAL(sigTextColorChanged(Uml::ID::Type)), this, SLOT(slotTextColorChanged(Uml::ID::Type)));
+    connect(m_scene, SIGNAL(sigLineWidthChanged(Uml::ID::Type)), this, SLOT(slotLineWidthChanged(Uml::ID::Type)));
 }
 
 /**
  * Gets the x-coordinate.
  */
-UMLSceneValue UMLWidget::x() const {
+UMLSceneValue UMLWidget::x() const
+{
     return QGraphicsObject::x();
 }
+
 /**
  * Gets the y-coordinate.
  */
-UMLSceneValue UMLWidget::y() const {
+UMLSceneValue UMLWidget::y() const
+{
     return QGraphicsObject::y();
 }
+
 /**
  * Gets the z-coordinate.
  */
-UMLSceneValue UMLWidget::z() const {
+UMLSceneValue UMLWidget::z() const
+{
     return QGraphicsObject::zValue();
 }
 

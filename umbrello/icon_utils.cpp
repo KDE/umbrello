@@ -94,7 +94,7 @@ QCursor Cursor(IconType type)
  * @param dt   the diagram type
  * @return     the wanted icon
  */
-KIcon iconSet(Uml::DiagramType dt)
+KIcon iconSet(Uml::DiagramType::Enum dt)
 {
     switch (dt) {
         case Uml::DiagramType::UseCase:
@@ -116,7 +116,8 @@ KIcon iconSet(Uml::DiagramType dt)
         case Uml::DiagramType::EntityRelationship:
             return DesktopIcon(it_Diagram_EntityRelationship);
         default:
-            uDebug() << "Widget_Utils::iconSet: unknown diagram type " << dt.toString();
+            uDebug() << "Widget_Utils::iconSet: unknown diagram type "
+                     << Uml::DiagramType::toString(dt);
             return KIcon();
     }
 }

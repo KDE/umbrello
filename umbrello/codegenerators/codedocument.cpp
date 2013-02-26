@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -361,7 +361,7 @@ void CodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomElement & docEl
     // now set local attributes/fields
     docElement.setAttribute("fileName", getFileName());
     docElement.setAttribute("fileExt", getFileExtension());
-    Uml::IDType pkgId = Uml::id_None;
+    Uml::ID::Type pkgId = Uml::ID::None;
     if (m_package)
         pkgId = m_package->id();
     docElement.setAttribute("package", ID2STR(pkgId));

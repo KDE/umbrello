@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2011                                               *
+ *   copyright (C) 2005-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -73,7 +73,7 @@ private:
     //FileDom m_file;
     QString m_fileName;
     QStringList m_currentScope;
-    Uml::Visibility m_currentAccess;
+    Uml::Visibility::Enum m_currentAccess;
     bool m_inSlots;
     bool m_inSignals;
     int m_anon;

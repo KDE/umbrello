@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2002    Oliver Kellogg <okellogg@users.sourceforge.net> *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -35,7 +35,7 @@ public:
 
     virtual void writeClass(UMLClassifier *c);
 
-    virtual Uml::ProgrammingLanguage language() const;
+    virtual Uml::ProgrammingLanguage::Enum language() const;
 
     QStringList defaultDatatypes();
 

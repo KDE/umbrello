@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2012-2012                                               *
+ *   copyright (C) 2012-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -20,7 +20,7 @@
 namespace Uml
 {
 
-    CmdCreateDiagram::CmdCreateDiagram(UMLDoc* doc, Uml::DiagramType type, const QString& name)
+    CmdCreateDiagram::CmdCreateDiagram(UMLDoc* doc, Uml::DiagramType::Enum type, const QString& name)
       : QUndoCommand(),
         m_name(name),
         m_type(type),
@@ -37,7 +37,7 @@ namespace Uml
 
     void CmdCreateDiagram::redo()
     {
-        Uml::ModelType modelType = Model_Utils::convert_DT_MT(m_type);
+        Uml::ModelType::Enum modelType = Model_Utils::convert_DT_MT(m_type);
         UMLFolder* folder = m_pUMLDoc->rootFolder(modelType);
         m_pUMLView = m_pUMLDoc->createDiagram(folder, m_type, m_name);
     }

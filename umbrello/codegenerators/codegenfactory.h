@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -36,8 +36,7 @@ class UMLRole;
  */
 namespace CodeGenFactory {
 
-    CodeGenerator* createObject(Uml::ProgrammingLanguage pl);
-
+    CodeGenerator* createObject(Uml::ProgrammingLanguage::Enum pl);
 
     CodeOperation *newCodeOperation(ClassifierCodeDocument *cd, UMLOperation * op);
 
@@ -56,7 +55,7 @@ namespace CodeGenFactory {
 
     CodeDocument *newClassifierCodeDocument(UMLClassifier *classifier);
 
-    CodeGenPolicyExt* newCodeGenPolicyExt(Uml::ProgrammingLanguage pl);
+    CodeGenPolicyExt* newCodeGenPolicyExt(Uml::ProgrammingLanguage::Enum pl);
 }
 
 #endif //CODEGENFACTORY_H

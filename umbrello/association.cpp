@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -57,7 +57,7 @@ UMLAssociation::UMLAssociation( Uml::AssociationType type,
  *               Default: Unknown.
  */
 UMLAssociation::UMLAssociation( Uml::AssociationType type)
-  : UMLObject("", Uml::id_Reserved)
+  : UMLObject("", Uml::ID::Reserved)
 {
     init(type, NULL, NULL);
 }
@@ -208,7 +208,7 @@ void UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
  */
 bool UMLAssociation::load( QDomElement & element )
 {
-    if (id() == Uml::id_None)
+    if (id() == Uml::ID::None)
         return false; // old style XMI file. No real info in this association.
 
     UMLDoc * doc = UMLApp::app()->document();
@@ -237,10 +237,10 @@ bool UMLAssociation::load( QDomElement & element )
             } else {
                 m_pRole[role]->setObject(obj[r]);
                 if (m_pUMLPackage == NULL) {
-                    Uml::ModelType mt = Model_Utils::convert_OT_MT(obj[r]->baseType());
+                    Uml::ModelType::Enum mt = Model_Utils::convert_OT_MT(obj[r]->baseType());
                     m_pUMLPackage = doc->rootFolder(mt);
                     DEBUG(DBG_SRC) << "assoctype " << m_AssocType
-                        << ": setting model type " << mt;
+                        << ": setting model type " << Uml::ModelType::toString(mt);
                 }
             }
         }
@@ -340,9 +340,9 @@ bool UMLAssociation::load( QDomElement & element )
             return false;
 
         if (m_pUMLPackage == NULL) {
-            Uml::ModelType mt = Model_Utils::convert_OT_MT(getObject(B)->baseType());
+            Uml::ModelType::Enum mt = Model_Utils::convert_OT_MT(getObject(B)->baseType());
             m_pUMLPackage = doc->rootFolder(mt);
-            DEBUG(DBG_SRC) << "setting model type " << mt;
+            DEBUG(DBG_SRC) << "setting model type " << Uml::ModelType::toString(mt);
         }
 
         // setting the association type:
@@ -413,13 +413,13 @@ bool UMLAssociation::load( QDomElement & element )
     }
     setAssociationType( assocType );
 
-    Uml::IDType roleAObjID = STR2ID(element.attribute( "rolea", "-1" ));
-    Uml::IDType roleBObjID = STR2ID(element.attribute( "roleb", "-1" ));
+    Uml::ID::Type roleAObjID = STR2ID(element.attribute( "rolea", "-1" ));
+    Uml::ID::Type roleBObjID = STR2ID(element.attribute( "roleb", "-1" ));
     if (assocType == Uml::AssociationType::Aggregation ||
         assocType == Uml::AssociationType::Composition) {
         // Flip roles to compensate for changed diamond logic in AssociationLine.
         // For further explanations see AssociationWidget::loadFromXMI.
-        Uml::IDType tmp = roleAObjID;
+        Uml::ID::Type tmp = roleAObjID;
         roleAObjID = roleBObjID;
         roleBObjID = tmp;
     }
@@ -452,11 +452,11 @@ bool UMLAssociation::load( QDomElement & element )
     int vis = visibilityA.toInt();
     if (vis >= 200)  // bkwd compat.
         vis -= 200;
-    setVisibility((Uml::Visibility::Value)vis, A);
+    setVisibility((Uml::Visibility::Enum)vis, A);
     vis = visibilityB.toInt();
     if (vis >= 200)  // bkwd compat.
         vis -= 200;
-    setVisibility((Uml::Visibility::Value)vis, B);
+    setVisibility((Uml::Visibility::Enum)vis, B);
 
     // Changeability defaults to Changeable if it cant set it here..
     QString changeabilityA = element.attribute( "changeabilitya", "0");
@@ -485,7 +485,7 @@ UMLObject* UMLAssociation::getObject(Uml::Role_Type role) const
  * Shorthand for getObject(role)->ID().
  * @return  ID of the UMLObject in the given role.
  */
-Uml::IDType UMLAssociation::getObjectId(Uml::Role_Type role) const
+Uml::ID::Type UMLAssociation::getObjectId(Uml::Role_Type role) const
 {
     UMLRole *roleObj = m_pRole[role];
     UMLObject *o = roleObj->object();
@@ -493,7 +493,7 @@ Uml::IDType UMLAssociation::getObjectId(Uml::Role_Type role) const
         QString auxID = roleObj->secondaryId();
         if (auxID.isEmpty()) {
             uError() << "role " << role << ": getObject returns NULL";
-            return Uml::id_None;
+            return Uml::ID::None;
         } else {
             DEBUG(DBG_SRC) << "role " << role << ": using secondary ID " << auxID;
             return STR2ID(auxID);
@@ -507,7 +507,7 @@ Uml::IDType UMLAssociation::getObjectId(Uml::Role_Type role) const
  * CURRENTLY UNUSED.
  * @return  ID of the UMLObject of the given role.
  */
-Uml::IDType UMLAssociation::getRoleId(Role_Type role) const
+Uml::ID::Type UMLAssociation::getRoleId(Role_Type role) const
 {
     return m_pRole[role]->id();
 }
@@ -524,7 +524,7 @@ Uml::Changeability UMLAssociation::changeability(Uml::Role_Type role) const
  * Returns the Visibility of the given role.
  * @return  Visibility of the given role.
  */
-Uml::Visibility UMLAssociation::getVisibility(Uml::Role_Type role) const
+Uml::Visibility::Enum UMLAssociation::visibility(Uml::Role_Type role) const
 {
     return m_pRole[role]->visibility();
 }
@@ -615,7 +615,7 @@ void UMLAssociation::setObject(UMLObject *obj, Uml::Role_Type role)
  * @param value  Visibility of role.
  * @param role   The Uml::Role_Type to which the visibility is being applied
  */
-void UMLAssociation::setVisibility(Uml::Visibility value, Uml::Role_Type role)
+void UMLAssociation::setVisibility(Visibility::Enum value, Uml::Role_Type role)
 {
     m_pRole[role]->setVisibility(value);
 }

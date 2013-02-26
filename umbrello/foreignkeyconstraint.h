@@ -46,7 +46,7 @@ public:
                               uda_SetDefault };
 
     UMLForeignKeyConstraint(UMLObject *parent, const QString& name,
-                            Uml::IDType id = Uml::id_None);
+                            Uml::ID::Type id = Uml::ID::None);
     explicit UMLForeignKeyConstraint(UMLObject *parent);
 
     bool operator==(const UMLForeignKeyConstraint &rhs) const;
@@ -95,14 +95,14 @@ protected:
 
 private:
 
-    Uml::IDType m_pReferencedEntityID;  ///< Used to resolve forward references to UMLEntity.
+    Uml::ID::Type m_pReferencedEntityID;  ///< Used to resolve forward references to UMLEntity.
 
     /**
      * Used to resolve forward references to UMLEntityAttributes
      * Key -> The local attribute
      * Value -> Id of the attribute it is mapping to
      */
-    QMap<UMLEntityAttribute*, Uml::IDType> m_pEntityAttributeIDMap;
+    QMap<UMLEntityAttribute*, Uml::ID::Type> m_pEntityAttributeIDMap;
 
     void init();
 

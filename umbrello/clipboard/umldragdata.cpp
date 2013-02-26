@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -47,8 +47,8 @@ UMLDragData::UMLDragData(UMLObjectList& objects, QWidget* dragSource /* = 0 */)
  * from the ListView to be copied, Mime type =
  * "application/x-uml-clip2
  */
-UMLDragData::UMLDragData(UMLObjectList& objects, UMLListViewItemList& umlListViewItems, UMLViewList& diagrams,
-                 QWidget* dragSource /* = 0 */)
+UMLDragData::UMLDragData(UMLObjectList& objects, UMLListViewItemList& umlListViewItems,
+                         UMLViewList& diagrams, QWidget* dragSource /* = 0 */)
 {
     Q_UNUSED(dragSource);
     setUMLDataClip2(objects, umlListViewItems, diagrams);
@@ -57,7 +57,8 @@ UMLDragData::UMLDragData(UMLObjectList& objects, UMLListViewItemList& umlListVie
 /**
  *  Constructor.
  */
-UMLDragData::UMLDragData(UMLListViewItemList& umlListViewItems, QWidget* dragSource /* = 0 */)
+UMLDragData::UMLDragData(UMLListViewItemList& umlListViewItems,
+                         QWidget* dragSource /* = 0 */)
 {
     Q_UNUSED(dragSource);
     setUMLDataClip3(umlListViewItems);
@@ -72,7 +73,7 @@ UMLDragData::UMLDragData(UMLListViewItemList& umlListViewItems, QWidget* dragSou
  */
 UMLDragData::UMLDragData(UMLObjectList& objects,
                  UMLWidgetList& widgets, AssociationWidgetList& associationDatas,
-                 QPixmap& pngImage, Uml::DiagramType dType, QWidget* dragSource /* = 0 */)
+                 QPixmap& pngImage, Uml::DiagramType::Enum dType, QWidget* dragSource /* = 0 */)
 {
     Q_UNUSED(dragSource);
     setUMLDataClip4(objects, widgets, associationDatas, pngImage, dType);
@@ -194,7 +195,7 @@ void UMLDragData::setUMLDataClip3(UMLListViewItemList& umlListViewItems)
  * its respective ListView Items
  */
 void UMLDragData::setUMLDataClip4(UMLObjectList& objects, UMLWidgetList& widgets, AssociationWidgetList& associations,
-                              QPixmap& pngImage, Uml::DiagramType dType )
+                              QPixmap& pngImage, Uml::DiagramType::Enum dType )
 {
     QDomDocument domDoc;
     QDomElement xmiclip = domDoc.createElement("xmiclip");
@@ -425,7 +426,7 @@ bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
     UMLListView *listView = UMLApp::app()->listView();
     while ( !diagramElement.isNull() ) {
         QString type = diagramElement.attribute("type", "0");
-        Uml::DiagramType dt = Uml::DiagramType(Uml::DiagramType::Value(type.toInt()));
+        Uml::DiagramType::Enum dt = Uml::DiagramType::fromInt(type.toInt());
         UMLListViewItem *parent = listView->findFolderForDiagram(dt);
         if (parent == NULL)
             return false;
@@ -605,7 +606,7 @@ bool UMLDragData::decodeClip3(const QMimeData* mimeData, UMLListViewItemList& um
  */
 bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
                           UMLWidgetList& widgets,
-                          AssociationWidgetList& associations, Uml::DiagramType & dType)
+                          AssociationWidgetList& associations, Uml::DiagramType::Enum &dType)
 {
     if ( !mimeData->hasFormat("application/x-uml-clip4") ) {
         return false;
@@ -634,7 +635,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
         return false;
     }
 
-    dType = Uml::DiagramType(Uml::DiagramType::Value(root.attribute("diagramtype", "0").toInt()));
+    dType = Uml::DiagramType::fromInt(root.attribute("diagramtype", "0").toInt());
 
     //UMLObjects
     QDomNode objectsNode = xmiClipNode.firstChild();

@@ -19,25 +19,32 @@
 #include "umlrole.h"
 #include "uml.h"
 
-JavaCodeClassFieldDeclarationBlock::JavaCodeClassFieldDeclarationBlock ( CodeClassField * parent )
-        : CodeClassFieldDeclarationBlock ( parent )
+/**
+ * Constructor.
+ */
+JavaCodeClassFieldDeclarationBlock::JavaCodeClassFieldDeclarationBlock(CodeClassField* parent)
+  : CodeClassFieldDeclarationBlock(parent)
 {
     setOverallIndentationLevel(1);
 }
 
-JavaCodeClassFieldDeclarationBlock::~JavaCodeClassFieldDeclarationBlock ( )
+/**
+ * Empty Destructor.
+ */
+JavaCodeClassFieldDeclarationBlock::~JavaCodeClassFieldDeclarationBlock()
 {
 }
 
 /**
+ * This will be called by syncToParent whenever the parent object is "modified".
  */
-void JavaCodeClassFieldDeclarationBlock::updateContent( )
+void JavaCodeClassFieldDeclarationBlock::updateContent()
 {
     CodeClassField * cf = getParentClassField();
     JavaCodeClassField * jcf = dynamic_cast<JavaCodeClassField*>(cf);
     CodeGenerationPolicy * commonpolicy = UMLApp::app()->commonPolicy();
 
-    Uml::Visibility::Value scopePolicy = commonpolicy->getAssociationFieldScope();
+    Uml::Visibility::Enum scopePolicy = commonpolicy->getAssociationFieldScope();
 
     // Set the comment
     QString notes = getParentObject()->doc();
@@ -45,7 +52,7 @@ void JavaCodeClassFieldDeclarationBlock::updateContent( )
 
     // Set the body
     QString staticValue = getParentObject()->isStatic() ? "static " : "";
-    QString scopeStr = getParentObject()->visibility().toString();
+    QString scopeStr = Uml::Visibility::toString(getParentObject()->visibility());
 
     // IF this is from an association, then scope taken as appropriate to policy
     if(!jcf->parentIsAttribute())
@@ -54,7 +61,7 @@ void JavaCodeClassFieldDeclarationBlock::updateContent( )
         case Uml::Visibility::Public:
         case Uml::Visibility::Private:
         case Uml::Visibility::Protected:
-            scopeStr = Uml::Visibility::toString((Uml::Visibility::Value) scopePolicy);
+            scopeStr = Uml::Visibility::toString(scopePolicy);
             break;
         default:
         case Uml::Visibility::FromParent:

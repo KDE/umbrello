@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -209,7 +209,7 @@ UMLApp* UMLApp::app()
 /**
  * Helper method to setup the programming language action.
  */
-void UMLApp::setProgLangAction(Uml::ProgrammingLanguage pl, const QString& name, const QString& action)
+void UMLApp::setProgLangAction(Uml::ProgrammingLanguage::Enum pl, const QString& name, const QString& action)
 {
     m_langAct[pl] = actionCollection()->addAction(action);
     m_langAct[pl]->setText(name);
@@ -776,7 +776,7 @@ void UMLApp::initView()
     m_newSessionButton->setMenu(newDiagram->menu());
 
     connect(m_tabWidget, SIGNAL(currentChanged(QWidget*)), SLOT(slotTabChanged(QWidget*)));
-    connect(m_tabWidget, SIGNAL(contextMenu(QWidget*,const QPoint&)), m_doc, SLOT(slotDiagramPopupMenu(QWidget*,const QPoint&)));
+    connect(m_tabWidget, SIGNAL(contextMenu(QWidget*,QPoint&)), m_doc, SLOT(slotDiagramPopupMenu(QWidget*,QPoint&)));
     m_tabWidget->setCornerWidget( m_newSessionButton, Qt::TopLeftCorner );
     m_newSessionButton->installEventFilter(this);
 
@@ -1487,7 +1487,7 @@ void UMLApp::resetStatusMsg()
  * Helper function to create diagram name and the diagram itself.
  * @param type   the type of diagram
  */
-void UMLApp::createDiagram(Uml::DiagramType type)
+void UMLApp::createDiagram(Uml::DiagramType::Enum type)
 {
     QString diagramName = m_doc->createDiagramName(type);
     executeCommand(new Uml::CmdCreateDiagram(m_doc, type, diagramName));
@@ -1845,7 +1845,7 @@ void UMLApp::slotApplyPrefs()
 
         m_doc->settingsChanged( optionState );
         const QString plStr = m_settingsDlg->getCodeGenerationLanguage();
-        Uml::ProgrammingLanguage pl = Uml::ProgrammingLanguage::fromString(plStr);
+        Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromString(plStr);
         setGenerator(pl);
     }
 }
@@ -2097,7 +2097,7 @@ CodeGenPolicyExt *UMLApp::policyExt() const
  * the newly created generator. It is the caller's responsibility
  * to load XMI into the newly created generator.
  */
-CodeGenerator *UMLApp::setGenerator(Uml::ProgrammingLanguage pl)
+CodeGenerator *UMLApp::setGenerator(Uml::ProgrammingLanguage::Enum pl)
 {
     if (pl == Uml::ProgrammingLanguage::Reserved) {
         if (m_codegen) {
@@ -2281,7 +2281,7 @@ void UMLApp::setLang_xmlschema()
  *
  * @param pl    The name of the language to set
  */
-void UMLApp::setActiveLanguage(Uml::ProgrammingLanguage pl)
+void UMLApp::setActiveLanguage(Uml::ProgrammingLanguage::Enum pl)
 {
     //updateLangSelectMenu(pl);  //:TODO:checkit - is already called in setGenerator
     setGenerator(pl);
@@ -2290,7 +2290,7 @@ void UMLApp::setActiveLanguage(Uml::ProgrammingLanguage pl)
 /**
  * Get the language for import and code generation.
  */
-Uml::ProgrammingLanguage UMLApp::activeLanguage() const
+Uml::ProgrammingLanguage::Enum UMLApp::activeLanguage() const
 {
     return m_activeLanguage;
 }
@@ -2312,7 +2312,7 @@ bool UMLApp::activeLanguageIsCaseSensitive()
  */
 QString UMLApp::activeLanguageScopeSeparator()
 {
-    Uml::ProgrammingLanguage pl = activeLanguage();
+    Uml::ProgrammingLanguage::Enum pl = activeLanguage();
     if (pl == Uml::ProgrammingLanguage::Ada ||
         pl == Uml::ProgrammingLanguage::CSharp ||
         pl == Uml::ProgrammingLanguage::Pascal ||
@@ -2547,7 +2547,7 @@ void UMLApp::slotCloseDiagram(QWidget* tab)
  * If the activeLanguage is not found in the KConfig then use Uml::ProgrammingLanguage::Cpp
  * as the default.
  */
-Uml::ProgrammingLanguage UMLApp::defaultLanguage()
+Uml::ProgrammingLanguage::Enum UMLApp::defaultLanguage()
 {
     Settings::OptionState& optionState = Settings::optionState();
     return optionState.generalState.defaultLanguage;
@@ -2562,7 +2562,7 @@ void UMLApp::initGenerator()
         delete m_codegen;
         m_codegen = NULL;
     }
-    Uml::ProgrammingLanguage defLanguage = defaultLanguage();
+    Uml::ProgrammingLanguage::Enum defLanguage = defaultLanguage();
     setActiveLanguage(defLanguage);
 }
 
@@ -2572,7 +2572,7 @@ void UMLApp::initGenerator()
  * not one of the registered languages it tries to fall back
  * to Cpp
  */
-void UMLApp::updateLangSelectMenu(Uml::ProgrammingLanguage activeLanguage)
+void UMLApp::updateLangSelectMenu(Uml::ProgrammingLanguage::Enum activeLanguage)
 {
     //m_langSelect->clear();
     for (int i = 0; i < Uml::ProgrammingLanguage::Reserved; ++i) {

@@ -119,8 +119,8 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     // diagramNo 1 is Uml::DiagramType::Class
     // digaramNo 9 is Uml::DiagramType::EntityRelationship
     for (int diagramNo = 1; diagramNo < 10; ++diagramNo) {
-        Uml::DiagramType dt = Uml::DiagramType(Uml::DiagramType::Value(diagramNo));
-        insertDiagram( dt.toString(), diagramNo - 1  );
+        Uml::DiagramType::Enum dt = Uml::DiagramType::fromInt(diagramNo);
+        insertDiagram( Uml::DiagramType::toString(dt), diagramNo - 1 );
     }
 
     m_GeneralWidgets.diagramKB->setCurrentIndex( (int)optionState.generalState.diagram-1 );
@@ -135,7 +135,7 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
 
     int indexCounter = 0;
     while (indexCounter < Uml::ProgrammingLanguage::Reserved) {
-        QString language = Uml::ProgrammingLanguage::toString(Uml::ProgrammingLanguage::Value(indexCounter));
+        QString language = Uml::ProgrammingLanguage::toString(Uml::ProgrammingLanguage::fromInt(indexCounter));
         m_GeneralWidgets.languageKB->insertItem(indexCounter, language);
         indexCounter++;
     }
@@ -179,8 +179,8 @@ void GeneralOptionPage::apply()
     // retrieve Suffix setting from dialog entry
     optionState.generalState.autosavesuffix = m_GeneralWidgets.autosaveSuffixT->text();
     optionState.generalState.loadlast = m_GeneralWidgets.loadlastCB->isChecked();
-    optionState.generalState.diagram  = Uml::DiagramType::Value(m_GeneralWidgets.diagramKB->currentIndex() + 1);
-    optionState.generalState.defaultLanguage = Uml::ProgrammingLanguage::Value( m_GeneralWidgets.languageKB->currentIndex());
+    optionState.generalState.diagram  = Uml::DiagramType::fromInt(m_GeneralWidgets.diagramKB->currentIndex() + 1);
+    optionState.generalState.defaultLanguage = Uml::ProgrammingLanguage::fromInt( m_GeneralWidgets.languageKB->currentIndex());
     emit applyClicked();
 }
 

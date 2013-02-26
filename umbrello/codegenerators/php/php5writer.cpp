@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2002      Heiko Nardmann  <h.nardmann@secunet.de>       *
  *                           Thorsten Kunz   <tk AT bytecrash DOT net>     *
- *   copyright (C) 2003-2012                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -2989,6 +2989,10 @@ Php5Writer::~Php5Writer()
 {
 }
 
+/**
+ * Call this method to generate Php code for a UMLClassifier.
+ * @param c   the class you want to generate code for.
+ */
 void Php5Writer::writeClass(UMLClassifier *c)
 {
     if (!c) {
@@ -3143,6 +3147,11 @@ void Php5Writer::writeClass(UMLClassifier *c)
 ////////////////////////////////////////////////////////////////////////////////////
 //  Helper Methods
 
+/**
+ * Write all operations for a given class.
+ * @param c     the concept we are generating code for
+ * @param php   output stream for the PHP file
+ */
 void Php5Writer::writeOperations(UMLClassifier *c, QTextStream &php)
 {
     //Lists to store operations  sorted by scope
@@ -3210,6 +3219,13 @@ void Php5Writer::writeOperations(UMLClassifier *c, QTextStream &php)
     writeOperations(classname,opreal,php,false,true);
 }
 
+/**
+ * Write a list of class operations.
+ * @param classname   the name of the class
+ * @param opList      the list of operations
+ * @param php         output stream for the PHP file
+ * @param interface   indicates if the operation is an interface member
+ */
 void Php5Writer::writeOperations(const QString & classname, UMLOperationList &opList,
                                  QTextStream &php, bool isInterface /* = false */,
                                  bool generateErrorStub /* = false */)
@@ -3308,6 +3324,11 @@ void Php5Writer::writeOperations(const QString & classname, UMLOperationList &op
     }//end for
 }
 
+/**
+ * Write all the attributes of a class.
+ * @param c     the class we are generating code for
+ * @param php   output stream for the PHP file
+ */
 void Php5Writer::writeAttributes(UMLClassifier *c, QTextStream &php)
 {
     UMLAttributeList  atpub, atprot, atpriv, atdefval;
@@ -3349,7 +3370,11 @@ void Php5Writer::writeAttributes(UMLClassifier *c, QTextStream &php)
     }
 }
 
-
+/**
+ * Write a list of class attributes.
+ * @param atList   the list of attributes
+ * @param php      output stream for the PHP file
+ */
 void Php5Writer::writeAttributes(UMLAttributeList &atList, QTextStream &php)
 {
     foreach (UMLAttribute *at , atList ) {
@@ -3395,11 +3420,19 @@ void Php5Writer::writeAttributes(UMLAttributeList &atList, QTextStream &php)
     return;
 }
 
-Uml::ProgrammingLanguage Php5Writer::language() const
+/**
+ * Returns "PHP".
+ * @return   the programming language identifier
+ */
+Uml::ProgrammingLanguage::Enum Php5Writer::language() const
 {
     return Uml::ProgrammingLanguage::PHP5;
 }
 
+/**
+ * Get list of reserved keywords.
+ * @return   the list of reserved keywords
+ */
 QStringList Php5Writer::reservedKeywords() const
 {
     static QStringList keywords;

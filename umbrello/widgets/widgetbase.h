@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2012                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -76,8 +76,8 @@ public:
     UMLObject* umlObject() const;
     virtual void setUMLObject(UMLObject *obj);
 
-    Uml::IDType id() const;
-    void setID(Uml::IDType id);
+    Uml::ID::Type id() const;
+    void setID(Uml::ID::Type id);
 
     WidgetType baseType() const;
     QLatin1String baseTypeStr() const;
@@ -140,7 +140,7 @@ protected:
      * corresponding UMLObject (i.e. the m_umlObject pointer is NULL.)
      * For UMLObjects, the ID from the UMLObject is used.
      */
-    Uml::IDType m_nId;
+    Uml::ID::Type m_nId;
 
     QColor m_textColor;  ///< Color of the text of the widget. Is saved to XMI.
     QColor m_lineColor;  ///< Color of the lines of the widget. Is saved to XMI.

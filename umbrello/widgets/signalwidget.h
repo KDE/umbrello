@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
 ***************************************************************************/
 
@@ -37,7 +37,7 @@ public:
         Time
     };
 
-    explicit SignalWidget( UMLScene * scene, SignalType signalType = Send, Uml::IDType id = Uml::id_None );
+    explicit SignalWidget( UMLScene * scene, SignalType signalType = Send, Uml::ID::Type id = Uml::ID::None );
     virtual ~SignalWidget();
 
     void draw(QPainter & p, int offsetX, int offsetY);

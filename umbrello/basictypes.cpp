@@ -28,12 +28,15 @@
 namespace Uml
 {
 
- /**
+namespace ModelType
+{
+
+/**
  * Convert ModelType item into QString representation.
  * @param item       item to convert
  * @return QString representation of ModelType
  */
-QString ModelType::toString(Value item)
+QString toString(Enum item)
 {
     switch (item) {
         case UseCase:
@@ -55,55 +58,35 @@ QString ModelType::toString(Value item)
  * @param item   item to convert
  * @return Model object
  */
-ModelType ModelType::fromString(const QString& item)
+Enum fromString(const QString& item)
 {
     if (item == "UseCase")
-        return ModelType(UseCase);
+        return UseCase;
     else if (item == "Component")
-        return ModelType(Component);
+        return Component;
     else if (item == "Deployment")
-        return ModelType(Deployment);
+        return Deployment;
     else if (item == "EntityRelationship")
-        return ModelType(EntityRelationship);
+        return EntityRelationship;
     else
-        return ModelType(Logical);
+        return Logical;
 }
 
 /**
- * Constructor.
+ * Convert a integer item into ModelType representation.
+ * @param item   integer value to convert
+ * @return ModelType enum
  */
-ModelType::ModelType()
-  : m_value(Logical)
+Enum fromInt(int item)
 {
+    return Enum(item);
 }
 
-/**
- * Constructor.
- * @param item   value to set
- */
-ModelType::ModelType(Value item)
-  : m_value(item)
-{
-}
-
-/**
- * Convert Model value into QString representation.
- * @return QString representation of the model
- */
-QString ModelType::toString() const
-{
-    return toString(m_value);
-}
-
-/**
- * 
- */
-ModelType::operator ModelType::Value() const
-{
-    return m_value;
-}
+}  // end namespace ModelType
 
 //-----------------------------------------------------------------------------
+
+namespace Visibility {
 
 /**
  * Convert Visibility item into QString representation.
@@ -113,7 +96,7 @@ ModelType::operator ModelType::Value() const
  *              "#" for protected or "~" for implementation
  * @return QString representation of Visibility
  */
-QString Visibility::toString(Value item, bool mnemonic)
+QString toString(Enum item, bool mnemonic)
 {
     switch (item) {
         case Protected:
@@ -131,70 +114,48 @@ QString Visibility::toString(Value item, bool mnemonic)
 /**
  * Convert a string item into Visibility representation.
  * @param item   item to convert
- * @return Visibility object
+ * @return Visibility enum
  */
-Visibility Visibility::fromString(const QString& item)
+Enum fromString(const QString& item)
 {
     if (item == "public" || item == "+")
-        return Visibility(Public);
+        return Public;
     else if (item == "protected" || item == "#")
-        return Visibility(Protected);
+        return Protected;
     else if (item == "private" || item == "-")
-        return Visibility(Private);
+        return Private;
     else if (item == "~")
-        return Visibility(Implementation);
+        return Implementation;
     else if (item == "signals")
-        return Visibility(Protected);
+        return Protected;
     else if (item == "class")
-        return Visibility(Private);
+        return Private;
     else
-        return Visibility(Public);
+        return Public;
 }
 
 /**
- * Constructor.
+ * Convert a integer item into Visibility representation.
+ * @param item   integer value to convert
+ * @return Visibility enum
  */
-Visibility::Visibility()
-  : m_value(Public)
+Enum fromInt(int item)
 {
+    return Enum(item);
 }
 
-/**
- * Constructor.
- * @param item   value to set
- */
-Visibility::Visibility(Value item)
-  : m_value(item)
-{
-}
-
-/**
- * Convert Visibility value into QString representation.
- * @param mnemonic    If true then return a single character:
- *              "+" for public, "-" for private,
- *              "#" for protected or "~" for implementation
- */
-QString Visibility::toString(bool mnemonic) const
-{
-    return toString(m_value, mnemonic);
-}
-
-/**
- * 
- */
-Visibility::operator Visibility::Value() const
-{
-    return m_value;
-}
+}  // end namespace Visibility
 
 //-----------------------------------------------------------------------------
 
+namespace DiagramType {
+
 /**
  * Convert DiagramType item into QString representation.
- * @param item       item to convert
+ * @param item   item to convert
  * @return QString representation of DiagramType
  */
-QString DiagramType::toString(Value item)
+QString toString(Enum item)
 {
     switch (item) {
         case Undefined:
@@ -227,9 +188,9 @@ QString DiagramType::toString(Value item)
 /**
  * Return string corresponding to DiagramType
  */
-QString DiagramType::toStringI18n() const
+QString toStringI18n(Enum item)
 {
-    switch (m_value) {
+    switch (item) {
        case Class:
            return i18n("Class Diagram");
        case UseCase:
@@ -258,7 +219,7 @@ QString DiagramType::toStringI18n() const
  * @param item   item to convert
  * @return DiagramType object
  */
-DiagramType DiagramType::fromString(const QString& item)
+Enum fromString(const QString& item)
 {
     if (item == "Undefined")
         return Undefined;
@@ -285,38 +246,16 @@ DiagramType DiagramType::fromString(const QString& item)
 }
 
 /**
- * Constructor.
+ * Convert an integer item into DiagramType representation.
+ * @param item   integer value to convert
+ * @return DiagramType enum
  */
-DiagramType::DiagramType()
-  : m_value(Undefined)
+Enum fromInt(int item)
 {
+    return Enum(item);
 }
 
-/**
- * Constructor.
- * @param item   value to set
- */
-DiagramType::DiagramType(Value item)
-  : m_value(item)
-{
-}
-
-/**
- * Convert DiagramType value into QString representation.
- * @return QString representation of the DiagramType
- */
-QString DiagramType::toString() const
-{
-    return toString(m_value);
-}
-
-/**
- * 
- */
-DiagramType::operator DiagramType::Value() const
-{
-    return m_value;
-}
+}  // end namespace DiagramType
 
 //-----------------------------------------------------------------------------
 
@@ -537,10 +476,12 @@ bool AssociationType::hasUMLRepresentation(Value item)
 
 //-----------------------------------------------------------------------------
 
+namespace ProgrammingLanguage {
+
 /**
  * Return string corresponding to the given ProgrammingLanguage.
  */
-QString ProgrammingLanguage::toString(Value item)
+QString toString(Enum item)
 {
     switch (item) {
         case ActionScript:
@@ -592,84 +533,62 @@ QString ProgrammingLanguage::toString(Value item)
 /**
  * Return ProgrammingLanguage corresponding to the given string.
  */
-ProgrammingLanguage ProgrammingLanguage::fromString(const QString& item)
+Enum fromString(const QString& item)
 {
     if (item == "ActionScript")
-        return ProgrammingLanguage(ActionScript);
+        return ActionScript;
     if (item == "Ada")
-        return ProgrammingLanguage(Ada);
+        return Ada;
     if (item == "C++" || item == "Cpp")  // "Cpp" only for bkwd compatibility
-        return ProgrammingLanguage(Cpp);
+        return Cpp;
     if (item == "C#")
-        return ProgrammingLanguage(CSharp);
+        return CSharp;
     if (item == "D")
-        return ProgrammingLanguage(D);
+        return D;
     if (item == "IDL")
-        return ProgrammingLanguage(IDL);
+        return IDL;
     if (item == "Java")
-        return ProgrammingLanguage(Java);
+        return Java;
     if (item == "JavaScript")
-        return ProgrammingLanguage(JavaScript);
+        return JavaScript;
     if (item == "MySQL")
-        return ProgrammingLanguage(MySQL);
+        return MySQL;
     if (item == "Pascal")
-        return ProgrammingLanguage(Pascal);
+        return Pascal;
     if (item == "Perl")
-        return ProgrammingLanguage(Perl);
+        return Perl;
     if (item == "PHP")
-        return ProgrammingLanguage(PHP);
+        return PHP;
     if (item == "PHP5")
-        return ProgrammingLanguage(PHP5);
+        return PHP5;
     if (item == "PostgreSQL")
-        return ProgrammingLanguage(PostgreSQL);
+        return PostgreSQL;
     if (item == "Python")
-        return ProgrammingLanguage(Python);
+        return Python;
     if (item == "Ruby")
-        return ProgrammingLanguage(Ruby);
+        return Ruby;
     if (item == "SQL")
-        return ProgrammingLanguage(SQL);
+        return SQL;
     if (item == "Tcl")
-        return ProgrammingLanguage(Tcl);
+        return Tcl;
     if (item == "Vala")
-        return ProgrammingLanguage(Vala);
+        return Vala;
     if (item == "XMLSchema")
-        return ProgrammingLanguage(XMLSchema);
-    return ProgrammingLanguage(Reserved);
+        return XMLSchema;
+    return Reserved;
 }
 
 /**
- * Constructor.
+ * Convert a integer item into ProgrammingLanguage representation.
+ * @param item   integer value to convert
+ * @return Visibility enum
  */
-ProgrammingLanguage::ProgrammingLanguage()
-  : m_value(Reserved)
+Enum fromInt(int item)
 {
+    return Enum(item);
 }
 
-/**
- * Constructor.
- * @param item   value to set
- */
-ProgrammingLanguage::ProgrammingLanguage(Value item)
-  : m_value(item)
-{
-}
-
-/**
- * Convert ProgrammingLanguage value into QString representation.
- * @return QString representation of the ProgrammingLanguage
- */
-QString ProgrammingLanguage::toString() const
-{
-    return toString(m_value);
-}
-
-/**
- * 
- */
-ProgrammingLanguage::operator ProgrammingLanguage::Value() const
-{
-    return m_value;
-}
+}  // end namespace ProgrammingLanguage
 
 //-----------------------------------------------------------------------------
 
@@ -922,11 +841,14 @@ Changeability::operator Changeability::Value() const
 
 //-----------------------------------------------------------------------------
 
-QDebug operator<<(QDebug out, IDType &type)
+namespace ID {
+
+QDebug operator<<(QDebug out, ID::Type &type)
 {
-    out.nospace() << "IDType: " << ID2STR(type);
+    out.nospace() << "ID::Type: " << ID2STR(type);
     return out.space();
 }
 
+}  // end namespace ID
 
 }  // end namespace Uml

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -39,7 +39,7 @@
  * @param signalType   The type of Signal.
  * @param id           The ID to assign (-1 will prompt a new ID.)
  */
-SignalWidget::SignalWidget(UMLScene *scene, SignalType signalType, Uml::IDType id)
+SignalWidget::SignalWidget(UMLScene *scene, SignalType signalType, Uml::ID::Type id)
   : UMLWidget(scene, WidgetBase::wt_Signal, id)
 {
     m_signalType = signalType;
@@ -251,12 +251,12 @@ bool SignalWidget::loadFromXMI( QDomElement & qElement )
     m_Doc = qElement.attribute( "documentation", "" );
     QString type = qElement.attribute( "signaltype", "" );
     QString textid = qElement.attribute( "textid", "-1" );
-    Uml::IDType textId = STR2ID(textid);
+    Uml::ID::Type textId = STR2ID(textid);
 
     setSignalType((SignalType)type.toInt());
     if (signalType() == Time) {
 
-        if (textId != Uml::id_None) {
+        if (textId != Uml::ID::None) {
             UMLWidget *flotext = m_scene -> findWidget( textId );
             if (flotext != NULL) {
             // This only happens when loading files produced by

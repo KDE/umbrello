@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -72,8 +72,8 @@ public:
 
     void addView(UMLView *view);
     void removeView(UMLView *view , bool enforceOneView = true );
-    void setMainViewID(Uml::IDType viewID);
-    void changeCurrentView(Uml::IDType id);
+    void setMainViewID(Uml::ID::Type viewID);
+    void changeCurrentView(Uml::ID::Type id);
     void activateAllViews();
     void removeAllViews();
 
@@ -105,22 +105,22 @@ public:
                                      const UMLObject *roleBObj,
                                      bool *swap = 0);
 
-    QString createDiagramName(Uml::DiagramType type, bool askForName = true);
-    UMLView* createDiagram(UMLFolder *folder, Uml::DiagramType type, const QString& name);
-    void removeDiagram(Uml::IDType id);
-    void renameDiagram(Uml::IDType id);
+    QString createDiagramName(Uml::DiagramType::Enum type, bool askForName = true);
+    UMLView* createDiagram(UMLFolder *folder, Uml::DiagramType::Enum type, const QString& name);
+    void removeDiagram(Uml::ID::Type id);
+    void renameDiagram(Uml::ID::Type id);
 
     void removeUMLObject(UMLObject* umlobject);
     void renameUMLObject(UMLObject *o);
     void renameChildUMLObject(UMLObject *o);
 
-    UMLObject* findObjectById(Uml::IDType id);
+    UMLObject* findObjectById(Uml::ID::Type id);
 
     UMLObject* findUMLObject(const QString &name,
                              UMLObject::ObjectType type = UMLObject::ot_UMLObject,
                              UMLObject *currentObj = 0);
 
-    UMLObject* findUMLObjectRaw(Uml::ModelType::Value,
+    UMLObject* findUMLObjectRaw(Uml::ModelType::Enum,
                                 const QString &name,
                                 UMLObject::ObjectType type = UMLObject::ot_UMLObject);
 
@@ -134,14 +134,14 @@ public:
 
     UMLStereotype * findStereotype(const QString &name);
 
-    UMLView * findView(Uml::IDType id);
-    UMLView * findView(Uml::DiagramType type, const QString &name,
+    UMLView * findView(Uml::ID::Type id);
+    UMLView * findView(Uml::DiagramType::Enum type, const QString &name,
                        bool searchAllScopes = false);
 
     void setName(const QString& name);
     QString name() const;
 
-    Uml::IDType modelID() const;
+    Uml::ID::Type modelID() const;
 
     static bool tagEq (const QString& tag, const QString& pattern);
 
@@ -179,25 +179,25 @@ public:
     bool addUMLObject(UMLObject * object);
     bool addUMLView(UMLView * pView );
 
-    UMLFolder *rootFolder(Uml::ModelType mt);
-    Uml::ModelType rootFolderType(UMLObject *obj);
+    UMLFolder *rootFolder(Uml::ModelType::Enum mt);
+    Uml::ModelType::Enum rootFolderType(UMLObject *obj);
 
     UMLFolder *currentRoot();
-    void setCurrentRoot(Uml::ModelType rootType);
+    void setCurrentRoot(Uml::ModelType::Enum rootType);
 
     virtual IDChangeLog* changeLog();
 
     void beginPaste();
     void endPaste();
 
-    Uml::IDType assignNewID(Uml::IDType oldID);
+    Uml::ID::Type assignNewID(Uml::ID::Type oldID);
 
     void setDocumentation(const QString &doc);
     QString documentation() const;
 
     void settingsChanged(Settings::OptionState optionState);
 
-    QString uniqueViewName(const Uml::DiagramType type);
+    QString uniqueViewName(const Uml::DiagramType::Enum type);
 
     bool loading() const;
     void setLoading(bool state = true);
@@ -207,7 +207,7 @@ public:
     void addDefaultDatatypes();
     void createDatatype(const QString &name);
 
-    UMLStereotype * findStereotypeById(Uml::IDType id);
+    UMLStereotype * findStereotypeById(Uml::ID::Type id);
     void addStereotype(UMLStereotype *s);
     void removeStereotype(UMLStereotype *s);
     void addDefaultStereotypes();
@@ -244,7 +244,7 @@ private:
     UMLStereotypeList m_stereoList;
 
     QString m_Name; ///< name of this model as stored in the <UML:Model> tag
-    Uml::IDType m_modelID; ///< xmi.id of this model in the <UML:Model>
+    Uml::ID::Type m_modelID; ///< xmi.id of this model in the <UML:Model>
     int m_count;   ///< auxiliary counter for the progress bar
     bool m_modified;
     KUrl m_doc_url;
@@ -272,7 +272,7 @@ private:
     /**
      * Auxiliary to <docsettings> processing
      */
-    Uml::IDType m_nViewID;
+    Uml::ID::Type m_nViewID;
 
     /**
      * True when type resolution pass has been executed.
@@ -303,10 +303,10 @@ public slots:
     void slotDiagramPopupMenu(QWidget* umlview, const QPoint& point);
 
 signals:
-    void sigDiagramCreated(Uml::IDType id);
-    void sigDiagramRemoved(Uml::IDType id);
-    void sigDiagramRenamed(Uml::IDType t);
-    void sigDiagramChanged(Uml::DiagramType);
+    void sigDiagramCreated(Uml::ID::Type id);
+    void sigDiagramRemoved(Uml::ID::Type id);
+    void sigDiagramRenamed(Uml::ID::Type t);
+    void sigDiagramChanged(Uml::DiagramType::Enum);
 
     void sigObjectCreated(UMLObject *);
     void sigObjectRemoved(UMLObject *);

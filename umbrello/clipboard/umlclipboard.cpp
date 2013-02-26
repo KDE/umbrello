@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -353,8 +353,8 @@ bool UMLClipboard::pasteChildren(UMLListViewItem *parent, IDChangeLog *chgLog)
     UMLListView *listView = UMLApp::app()->listView();
     for (int i = 0; i < parent->childCount(); i++) {
         UMLListViewItem *childItem = static_cast<UMLListViewItem*>(parent->child(i));
-        Uml::IDType oldID = childItem->ID();
-        Uml::IDType newID = chgLog->findNewID(oldID);
+        Uml::ID::Type oldID = childItem->ID();
+        Uml::ID::Type newID = chgLog->findNewID(oldID);
         UMLListViewItem *shouldNotExist = listView->findItem(newID);
         if (shouldNotExist) {
             uError() << "new list view item " << ID2STR(newID)
@@ -530,7 +530,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
 
     IDChangeLog* idchanges = 0;
 
-    Uml::DiagramType diagramType;
+    Uml::DiagramType::Enum diagramType;
 
     if( !UMLDragData::decodeClip4(data, objects, widgets, assocs, diagramType) ) {
         return false;
@@ -565,8 +565,8 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
 
     foreach ( UMLWidget* widget, widgets ) {
 
-        Uml::IDType oldId = widget->id();
-        Uml::IDType newId = idchanges->findNewID(oldId);
+        Uml::ID::Type oldId = widget->id();
+        Uml::ID::Type newId = idchanges->findNewID(oldId);
         // how should findWidget find ::None id, which is returned for the first entry ?
         if (currentScene->findWidget(newId)) {
             uError() << "widget (oldID=" << ID2STR(oldId) << ", newID="

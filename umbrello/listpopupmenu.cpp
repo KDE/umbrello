@@ -1017,9 +1017,9 @@ void ListPopupMenu::insertSubMenuColor(bool fc)
 /**
  * Utility: Convert a MenuType value to a Diagram_Type value.
  */
-Uml::DiagramType ListPopupMenu::convert_MT_DT(MenuType mt)
+Uml::DiagramType::Enum ListPopupMenu::convert_MT_DT(MenuType mt)
 {
-    Uml::DiagramType type = Uml::DiagramType::Undefined;
+    Uml::DiagramType::Enum type = Uml::DiagramType::Undefined;
 
     switch (mt) {
     case mt_UseCase_Diagram:

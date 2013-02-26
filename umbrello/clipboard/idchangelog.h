@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -36,14 +36,14 @@ public:
 
     bool operator==(const IDChangeLog& Other) const;
 
-    void addIDChange(Uml::IDType OldID, Uml::IDType NewID);
+    void addIDChange(Uml::ID::Type OldID, Uml::ID::Type NewID);
 
     IDChangeLog& operator+=(const IDChangeLog& Other);
 
-    Uml::IDType findNewID(Uml::IDType OldID);
-    Uml::IDType findOldID(Uml::IDType NewID);
+    Uml::ID::Type findNewID(Uml::ID::Type OldID);
+    Uml::ID::Type findOldID(Uml::ID::Type NewID);
 
-    void removeChangeByNewID( Uml::IDType OldID);
+    void removeChangeByNewID( Uml::ID::Type OldID);
 
     enum SpecialIDs
     {
@@ -59,20 +59,20 @@ private:
     {
     public:
         Point() {}
-        Point(const Uml::IDType &x, const Uml::IDType &y) : m_x(x), m_y(y) {}
+        Point(const Uml::ID::Type &x, const Uml::ID::Type &y) : m_x(x), m_y(y) {}
         virtual ~Point() {}
-        void setX(const Uml::IDType &x) { m_x = x; }
-        Uml::IDType x() const { return m_x; }
-        void setY(const Uml::IDType &y) { m_y = y; }
-        Uml::IDType y() const { return m_y; }
+        void setX(const Uml::ID::Type &x) { m_x = x; }
+        Uml::ID::Type x() const { return m_x; }
+        void setY(const Uml::ID::Type &y) { m_y = y; }
+        Uml::ID::Type y() const { return m_y; }
     private:
-        Uml::IDType m_x, m_y;
+        Uml::ID::Type m_x, m_y;
     };
 
     class PointArray : QVector<Point*>
     {
     public:
-        void  setPoint(uint i, const Uml::IDType &x, const Uml::IDType &y) {
+        void  setPoint(uint i, const Uml::ID::Type &x, const Uml::ID::Type &y) {
             QVector<Point*>::insert(i, new Point(x, y));
         }
         Point* point( uint i ) const { return QVector<Point*>::at(i); }
@@ -82,7 +82,7 @@ private:
 
     PointArray m_LogArray;
 
-    bool findIDChange(Uml::IDType OldID, Uml::IDType NewID, uint& pos);
+    bool findIDChange(Uml::ID::Type OldID, Uml::ID::Type NewID, uint& pos);
 };
 
 #endif

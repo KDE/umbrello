@@ -80,7 +80,7 @@ protected:
     virtual void showEvent(QShowEvent* );
 
 private slots:
-    void slotItemClicked(QTreeWidgetItem* item, int colum);
+    void slotItemClicked(QTreeWidgetItem* item, int column);
 
 private:
     static Tracer* m_instance;

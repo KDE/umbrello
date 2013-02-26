@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -23,19 +23,9 @@ class RubyCodeAccessorMethod : public CodeAccessorMethod
     Q_OBJECT
 public:
 
-    /**
-     * Constructor
-     */
-    RubyCodeAccessorMethod ( CodeClassField * field, CodeAccessorMethod::AccessorType type);
+    RubyCodeAccessorMethod(CodeClassField * field, CodeAccessorMethod::AccessorType type);
+    virtual ~RubyCodeAccessorMethod();
 
-    /**
-     * Empty Destructor
-     */
-    virtual ~RubyCodeAccessorMethod ( );
-
-    /**
-     * Must be called before this object is usable
-     */
     void update();
 
     virtual void updateMethodDeclaration();
@@ -43,17 +33,8 @@ public:
 
 protected:
 
-    /**
-     * Set attributes of the node that represents this class
-     * in the XMI document.
-     */
-    virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
-
-    /**
-     * Set the class attributes of this object from
-     * the passed element node.
-     */
-    virtual void setAttributesFromNode ( QDomElement & element);
+    virtual void setAttributesOnNode(QDomDocument & doc, QDomElement & blockElement);
+    virtual void setAttributesFromNode(QDomElement & element);
 
 private:
 

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -33,7 +33,7 @@ using namespace Uml;
  * @param name   The name of the Concept.
  * @param id     The unique id of the Concept.
  */
-UMLPackage::UMLPackage(const QString & name, Uml::IDType id)
+UMLPackage::UMLPackage(const QString & name, Uml::ID::Type id)
         : UMLCanvasObject(name, id)
 {
     m_BaseType = ot_Package;
@@ -81,8 +81,8 @@ void UMLPackage::addAssocToConcepts(UMLAssociation* assoc)
 {
     if (! AssociationType::hasUMLRepresentation(assoc->getAssocType()) )
         return;
-    Uml::IDType AId = assoc->getObjectId(Uml::A);
-    Uml::IDType BId = assoc->getObjectId(Uml::B);
+    Uml::ID::Type AId = assoc->getObjectId(Uml::A);
+    Uml::ID::Type BId = assoc->getObjectId(Uml::B);
     UMLObject *o = NULL;
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         o = oit.next();
@@ -259,7 +259,7 @@ UMLObject * UMLPackage::findObject(const QString &name)
  * @param id   The ID to seek.
  * @return  Pointer to the UMLObject found or NULL if not found.
  */
-UMLObject * UMLPackage::findObjectById(Uml::IDType id)
+UMLObject * UMLPackage::findObjectById(Uml::ID::Type id)
 {
     return Model_Utils::findObjectInList(id, m_objects);
 }

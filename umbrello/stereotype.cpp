@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -27,7 +27,7 @@
  * @param name   The name of this UMLStereotype.
  * @param id     The unique id given to this UMLStereotype.
  */
-UMLStereotype::UMLStereotype(const QString &name, Uml::IDType id /* = Uml::id_None */)
+UMLStereotype::UMLStereotype(const QString &name, Uml::ID::Type id /* = Uml::id_None */)
   : UMLObject( name, id )
 {
     m_BaseType = UMLObject::ot_Stereotype;

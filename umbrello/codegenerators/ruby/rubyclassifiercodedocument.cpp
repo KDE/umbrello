@@ -10,13 +10,6 @@
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-/**
- * We carve the Ruby document up into sections as follows:
- * - header
- * - class declaration
- * -   guts of the class (e.g. accessor methods, operations, dependant classes)
- */
-
 // own header
 #include "rubyclassifiercodedocument.h"
 
@@ -130,7 +123,7 @@ void RubyClassifierCodeDocument::init()
  */
 bool RubyClassifierCodeDocument::addCodeOperation(CodeOperation * op)
 {
-    Uml::Visibility scope = op->getParentOperation()->visibility();
+    Uml::Visibility::Enum scope = op->getParentOperation()->visibility();
     if(!op->getParentOperation()->isConstructorOperation())
     {
         switch (scope) {

@@ -46,7 +46,7 @@ protected:
     QString     m_currentFileName;  ///< current filename being parsed
     QString     m_currentPackage;   ///< current package of the file being parsed
     QStringList m_imports;          ///< imports included in the current file
-    Uml::Visibility m_defaultCurrentAccess;  ///< current visibility for when the visibility is absent
+    Uml::Visibility::Enum m_defaultCurrentAccess;  ///< current visibility for when the visibility is absent
 
     /**
      * Keep track of the files we have already parsed so we don't

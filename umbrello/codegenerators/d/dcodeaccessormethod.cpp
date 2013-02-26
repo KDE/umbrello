@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2011                                               *
+ *   copyright (C) 2008-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -122,8 +122,8 @@ void DCodeAccessorMethod::updateMethodDeclaration()
     CodeGenerationPolicy *commonpolicy = UMLApp::app()->commonPolicy();
 
     // gather defs
-    Uml::Visibility::Value scopePolicy = commonpolicy->getAttributeAccessorScope();
-    QString strVis = dfield->getVisibility().toString();
+    Uml::Visibility::Enum scopePolicy = commonpolicy->getAttributeAccessorScope();
+    QString strVis = Uml::Visibility::toString(dfield->getVisibility());
     QString fieldName = dfield->getFieldName();
     QString fieldType = dfield->getTypeName();
     QString objectType = dfield->getListObjectType();
@@ -133,18 +133,19 @@ void DCodeAccessorMethod::updateMethodDeclaration()
 
     // set scope of this accessor appropriately..if its an attribute,
     // we need to be more sophisticated
-    if(dfield->parentIsAttribute())
+    if (dfield->parentIsAttribute()) {
         switch (scopePolicy) {
         case Uml::Visibility::Public:
         case Uml::Visibility::Private:
         case Uml::Visibility::Protected:
-              strVis = Uml::Visibility::toString((Uml::Visibility::Value) scopePolicy);
+              strVis = Uml::Visibility::toString(scopePolicy);
             break;
         default:
         case Uml::Visibility::FromParent:
             // do nothing..already have taken parent value
             break;
         }
+    }
 
     // some variables we will need to populate
     QString headerText = "";

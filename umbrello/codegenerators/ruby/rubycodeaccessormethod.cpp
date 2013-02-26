@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2011                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -31,8 +31,11 @@
 // qt includes
 #include <QRegExp>
 
-RubyCodeAccessorMethod::RubyCodeAccessorMethod ( CodeClassField * field, CodeAccessorMethod::AccessorType type)
-        : CodeAccessorMethod ( field )
+/**
+ * Constructor.
+ */
+RubyCodeAccessorMethod::RubyCodeAccessorMethod(CodeClassField * field, CodeAccessorMethod::AccessorType type)
+  : CodeAccessorMethod(field)
 {
     setType(type);
 
@@ -41,11 +44,18 @@ RubyCodeAccessorMethod::RubyCodeAccessorMethod ( CodeClassField * field, CodeAcc
     setComment(new RubyCodeDocumentation(rccd));
 }
 
+/**
+ * Empty Destructor.
+ */
 RubyCodeAccessorMethod::~RubyCodeAccessorMethod()
 {
 }
 
-void RubyCodeAccessorMethod::setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement)
+/**
+ * Set attributes of the node that represents this class
+ * in the XMI document.
+ */
+void RubyCodeAccessorMethod::setAttributesOnNode(QDomDocument& doc, QDomElement& blockElement)
 {
     // set super-class attributes
     CodeAccessorMethod::setAttributesOnNode(doc, blockElement);
@@ -53,7 +63,11 @@ void RubyCodeAccessorMethod::setAttributesOnNode ( QDomDocument & doc, QDomEleme
     // set local attributes now
 }
 
-void RubyCodeAccessorMethod::setAttributesFromNode( QDomElement & root)
+/**
+ * Set the class attributes of this object from
+ * the passed element node.
+ */
+void RubyCodeAccessorMethod::setAttributesFromNode(QDomElement& root)
 {
     // set attributes from superclass method the XMI
     CodeAccessorMethod::setAttributesFromNode(root);
@@ -125,8 +139,8 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
 
     // gather defs
     CodeGenerationPolicy *p = UMLApp::app()->commonPolicy();
-    Uml::Visibility::Value scopePolicy = p->getAttributeAccessorScope();
-    QString strVis = rubyfield->getVisibility().toString();
+    Uml::Visibility::Enum scopePolicy = p->getAttributeAccessorScope();
+    QString strVis = Uml::Visibility::toString(rubyfield->getVisibility());
     QString fieldName = RubyCodeGenerator::cppToRubyName(rubyfield->getFieldName());
     QString fieldType = RubyCodeGenerator::cppToRubyType(rubyfield->getTypeName());
     QString objectType = rubyfield->getListObjectType();
@@ -146,7 +160,7 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
         case Uml::Visibility::Public:
         case Uml::Visibility::Private:
         case Uml::Visibility::Protected:
-            strVis = Uml::Visibility::toString((Uml::Visibility::Value) scopePolicy);
+            strVis = Uml::Visibility::toString(scopePolicy);
             break;
         default:
         case Uml::Visibility::FromParent:
@@ -205,6 +219,9 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
         getComment()->setText(headerText);
 }
 
+/**
+ * Must be called before this object is usable.
+ */
 void RubyCodeAccessorMethod::update()
 {
     updateMethodDeclaration();

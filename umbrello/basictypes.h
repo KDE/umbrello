@@ -24,19 +24,18 @@
 #include <string>
 
 /**
- * @author Andi Fischer
- * ...
+ * This namespace contains all the enums used all over the code base.
+ * The enums are embedded into classes to add usefull functionality.
  */
 namespace Uml
 {
 
-  /**
-   * 
-   */
-  class ModelType
+    /**
+     * The model type enum is used to identify the folder the diagrams belong to.
+     */
+    namespace ModelType
     {
-    public:
-        enum Value {
+        enum Enum {
             Logical,
             UseCase,
             Component,
@@ -44,46 +43,34 @@ namespace Uml
             EntityRelationship,
             N_MODELTYPES   // must remain last
         };
-        ModelType();
-        ModelType(Value item);
-        static QString toString(Value item);
-        static ModelType fromString(const QString& item);
-        QString toString() const;
-        operator Value() const;
-    private:
-        Value m_value;
-    };
+        QString toString(Enum item);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+    }
 
     /**
-     * 
+     * The visibility enum defines the visibility of attributes and operations.
      */
-    class Visibility
+    namespace Visibility
     {
-    public:
-        enum Value {
+        enum Enum {
             Public,
             Private,
             Protected,
             Implementation, // objects marked with this are declared in the implementation file.
             FromParent = 3  // alias for Implementation, used by CodeGenerationPolicy
         };
-        Visibility();
-        Visibility(Value item);
-        static QString toString(Value item, bool mnemonic = false);
-        static Visibility fromString(const QString& item);
-        QString toString(bool mnemonic = false) const;
-        operator Value() const;
-    private:
-        Value m_value;
-    };
+        QString toString(Enum item, bool mnemonic = false);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+    }
 
     /**
      * Supported diagram types.
      */
-    class DiagramType
+    namespace DiagramType
     {
-    public:
-        enum Value {
+        enum Enum {
             //the values in this enum are saved out to the file
             //for file compatibility, only add new values to the end
             Undefined = 0,
@@ -98,16 +85,11 @@ namespace Uml
             EntityRelationship,
             N_DIAGRAMTYPES   // must remain last
         };
-        DiagramType();
-        DiagramType(Value item);
-        static QString toString(Value item);
-        static DiagramType fromString(const QString& item);
-        QString toString() const;
-        QString toStringI18n() const;
-        operator Value() const;
-    private:
-        Value m_value;
-    };
+        QString toString(Enum item);
+        QString toStringI18n(Enum item);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+    }
 
     /**
      * Association types.
@@ -139,7 +121,7 @@ namespace Uml
             Unknown  =  - 1
         };
         AssociationType();
-        AssociationType(Value item);
+        /*explicit*/ AssociationType(Value item);
         static QString toString(Value item);
         static AssociationType fromString(const QString& item);
         QString toString() const;
@@ -163,7 +145,7 @@ namespace Uml
             NoSigNoVis
         };
         SignatureType();
-        SignatureType(Value item);
+        /*explicit*/ SignatureType(Value item);
         static QString toString(Value item);
         static SignatureType fromString(const QString& item);
         QString toString() const;
@@ -194,7 +176,7 @@ namespace Uml
             ChangeB             //Changeability B text on associations
         };
         TextRole();
-        TextRole(Value item);
+        /*explicit*/ TextRole(Value item);
         static QString toString(Value item);
         static TextRole fromString(const QString& item);
         QString toString() const;
@@ -215,7 +197,7 @@ namespace Uml
             AddOnly
         };
         Changeability();
-        Changeability(Value item);
+        /*explicit*/ Changeability(Value item);
         static QString toString(Value item);
         static Changeability fromString(const QString& item);
         QString toString() const;
@@ -254,10 +236,9 @@ namespace Uml
     /**
      * Supported programming languages.
      */
-    class ProgrammingLanguage
+    namespace ProgrammingLanguage
     {
-    public:
-        enum Value {
+        enum Enum {
             ActionScript,
             Ada,
             Cpp,
@@ -280,15 +261,10 @@ namespace Uml
             XMLSchema,
             Reserved
         };
-        ProgrammingLanguage();
-        ProgrammingLanguage(Value item);
-        static QString toString(Value item);
-        static ProgrammingLanguage fromString(const QString& item);
-        QString toString() const;
-        operator Value() const;
-    private:
-        Value m_value;
-    };
+        QString toString(Enum item);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+    }
 
     /**
      * Enumeration used for stating where a line is on a widget.
@@ -320,17 +296,17 @@ namespace Uml
     /**
      * The data type used for unique IDs.
      */
-//    class IDType
-//    {
-    typedef std::string IDType;
+    namespace ID
+    {
+        typedef std::string Type;
 
-    const IDType id_None     = "-1";   ///< special value for uninitialized ID
-    const IDType id_Reserved = "0";    ///< special value for illegal ID
+        const Type None     = "-1";   ///< special value for uninitialized ID
+        const Type Reserved = "0";    ///< special value for illegal ID
 
-# define STR2ID(id)  qPrintable(id)
-# define ID2STR(id)  QString(id.c_str())
-    QDebug operator<<(QDebug out, IDType &type);
-//    }
+        #define STR2ID(id)  qPrintable(id)
+        #define ID2STR(id)  QString(id.c_str())
+        QDebug operator<<(QDebug out, ID::Type &type);
+    }
 
 }  // end namespace Uml
 

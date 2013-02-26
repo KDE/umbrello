@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -38,7 +38,7 @@
 /**
  * Constructor.
  */
-UMLEntity::UMLEntity(const QString& name, Uml::IDType id)
+UMLEntity::UMLEntity(const QString& name, Uml::ID::Type id)
   : UMLClassifier(name, id),
     m_PrimaryKey(0)
 {
@@ -98,10 +98,10 @@ UMLObject* UMLEntity::clone() const
  * @return   the just created attribute or null 
  */
 UMLAttribute* UMLEntity::createAttribute(const QString &name /*= QString()*/, UMLObject *type /*= 0*/,
-                                         Uml::Visibility vis /* = Uml::Visibility::Private*/,
+                                         Uml::Visibility::Enum vis /* = Uml::Visibility::Private*/,
                                          const QString& iv /* = QString()*/)
 {
-    Uml::IDType id = UniqueID::gen();
+    Uml::ID::Type id = UniqueID::gen();
     QString currentName;
     if (name.isNull())  {
         currentName = uniqChildName(UMLObject::ot_EntityAttribute);
@@ -150,7 +150,7 @@ UMLAttribute* UMLEntity::createAttribute(const QString &name /*= QString()*/, UM
  */
 UMLUniqueConstraint* UMLEntity::createUniqueConstraint(const QString &name )
 {
-    Uml::IDType id = UniqueID::gen();
+    Uml::ID::Type id = UniqueID::gen();
     QString currentName;
     if (name.isNull())  {
 
@@ -204,7 +204,7 @@ UMLUniqueConstraint* UMLEntity::createUniqueConstraint(const QString &name )
  */
 UMLForeignKeyConstraint* UMLEntity::createForeignKeyConstraint(const QString &name )
 {
-    Uml::IDType id = UniqueID::gen();
+    Uml::ID::Type id = UniqueID::gen();
     QString currentName;
     if (name.isNull())  {
         currentName = uniqChildName(UMLObject::ot_ForeignKeyConstraint);
@@ -253,7 +253,7 @@ UMLForeignKeyConstraint* UMLEntity::createForeignKeyConstraint(const QString &na
  */
 UMLCheckConstraint* UMLEntity::createCheckConstraint(const QString &name )
 {
-    Uml::IDType id = UniqueID::gen();
+    Uml::ID::Type id = UniqueID::gen();
     QString currentName;
     if (name.isNull())  {
         currentName = uniqChildName(UMLObject::ot_CheckConstraint);
@@ -302,7 +302,7 @@ UMLCheckConstraint* UMLEntity::createCheckConstraint(const QString &name )
  * @param id     id of the UMLEntityAttribute
  * @return  True if the entityAttribute was successfully added.
  */
-UMLObject* UMLEntity::addEntityAttribute(const QString& name, Uml::IDType id)
+UMLObject* UMLEntity::addEntityAttribute(const QString& name, Uml::ID::Type id)
 {
     UMLEntityAttribute* literal = new UMLEntityAttribute(this, name, id);
     m_List.append(literal);

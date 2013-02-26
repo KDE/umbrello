@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2002       Luis De la Parra Blum <luis@delaparra.org>   *
                               Brian Thomas <thomas@mail630.gsfc.nasa.gov>  *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -94,7 +94,7 @@
 namespace CodeGenFactory
 {
 
-CodeGenerator* createObject(Uml::ProgrammingLanguage pl)
+CodeGenerator* createObject(Uml::ProgrammingLanguage::Enum pl)
 {
     CodeGenerator* obj = 0;
     Settings::OptionState optionState = Settings::optionState();
@@ -180,7 +180,9 @@ CodeGenerator* createObject(Uml::ProgrammingLanguage pl)
             obj = new XMLSchemaWriter();
             break;
         default:
-            uWarning() << "cannot create object of type " << pl << ". Type unknown";
+            uWarning() << "cannot create object of type "
+                       << Uml::ProgrammingLanguage::toString(pl)
+                       << ". Type unknown";
             break;
     }
 
@@ -430,7 +432,7 @@ CodeComment * newCodeComment(CodeDocument *cd)
     return new CodeComment(cd);
 }
 
-CodeGenPolicyExt* newCodeGenPolicyExt(Uml::ProgrammingLanguage pl)
+CodeGenPolicyExt* newCodeGenPolicyExt(Uml::ProgrammingLanguage::Enum pl)
 {
     Settings::OptionState optionState = Settings::optionState();
 
@@ -458,5 +460,3 @@ CodeGenPolicyExt* newCodeGenPolicyExt(Uml::ProgrammingLanguage pl)
 }
 
 }  // end namespace CodeGenFactory
-
-

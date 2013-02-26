@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -148,13 +148,15 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
         QString packagePath = m_pObject->package();
         UMLPackage* parentPackage = m_pObject->umlPackage();
 
-        // if parent package == NULL
-        // or if the parent package is the Logical View folder
-        if ( parentPackage == NULL ||
-             parentPackage == static_cast<UMLPackage*>(m_pUmldoc->rootFolder(Uml::ModelType::Logical)))
+        UMLPackage* folderLogicalView =
+                static_cast<UMLPackage*>(m_pUmldoc->rootFolder(Uml::ModelType::Logical));
+        if (parentPackage == NULL ||
+             parentPackage == folderLogicalView) {
             m_pPackageCB->setEditText( QString() );
-        else
+        }
+        else {
             m_pPackageCB->setEditText(packagePath);
+        }
     }
 
     if (t == UMLObject::ot_Class || t == UMLObject::ot_UseCase ) {
@@ -447,7 +449,7 @@ void ClassGenPage::updateObject()
                     newPackage = Import_Utils::createUMLObject(UMLObject::ot_Package, packageName);
                 }
             } else {
-                newPackage = m_pUmldoc->rootFolder( Uml::ModelType::Logical );
+                newPackage = m_pUmldoc->rootFolder(Uml::ModelType::Logical);
             }
 
             // adjust list view items
@@ -468,15 +470,13 @@ void ClassGenPage::updateObject()
              m_pObject->setName(name);
         }
 
-        Uml::Visibility s;
+        Uml::Visibility::Enum s = Uml::Visibility::Implementation;
         if (m_pPublicRB->isChecked())
             s = Uml::Visibility::Public;
         else if (m_pPrivateRB->isChecked())
             s = Uml::Visibility::Private;
         else if (m_pProtectedRB->isChecked())
             s = Uml::Visibility::Protected;
-        else
-            s = Uml::Visibility::Implementation;
         m_pObject->setVisibility(s);
 
         if (m_pObject->baseType() == UMLObject::ot_Component) {

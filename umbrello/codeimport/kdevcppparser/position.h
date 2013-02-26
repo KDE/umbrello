@@ -52,7 +52,7 @@ public:
     {
     }
 
-    PositionFilename(const QString &p) : PositionFilenameType(p.data())
+    explicit PositionFilename(const QString &p) : PositionFilenameType(p.data())
     {
     }
 
@@ -80,7 +80,7 @@ public:
     {
     }
 
-    Position(const PositionFilename &p) : PositionType(p)
+    explicit Position(const PositionFilename &p) : PositionType(p)
     {
     }
 
@@ -88,7 +88,7 @@ public:
     {
     }
 
-    Position(const PositionType &p) : PositionType(p)
+    explicit Position(const PositionType &p) : PositionType(p)
     {
     }
 

@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -121,8 +121,8 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
     CodeGenerationPolicy *commonpolicy = UMLApp::app()->commonPolicy();
 
     // gather defs
-    Uml::Visibility::Value scopePolicy = commonpolicy->getAttributeAccessorScope();
-    QString strVis = javafield->getVisibility().toString();
+    Uml::Visibility::Enum scopePolicy = commonpolicy->getAttributeAccessorScope();
+    QString strVis = Uml::Visibility::toString(javafield->getVisibility());
     QString fieldName = javafield->getFieldName();
     QString fieldType = javafield->getTypeName();
     QString objectType = javafield->getListObjectType();
@@ -137,7 +137,7 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
         case Uml::Visibility::Public:
         case Uml::Visibility::Private:
         case Uml::Visibility::Protected:
-              strVis = Uml::Visibility::toString((Uml::Visibility::Value) scopePolicy);
+              strVis = Uml::Visibility::toString(scopePolicy);
             break;
         default:
         case Uml::Visibility::FromParent:

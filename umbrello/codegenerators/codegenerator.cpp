@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2012                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -232,7 +232,7 @@ void CodeGenerator::loadFromXMI(QDomElement & qElement)
  */
 void CodeGenerator::loadCodeForOperation(const QString& idStr, const QDomElement& codeDocElement)
 {
-    Uml::IDType id = STR2ID(idStr);
+    Uml::ID::Type id = STR2ID(idStr);
     UMLObject *obj = m_document->findObjectById(id);
     if (obj) {
         uDebug() << "found UMLObject for id:" << idStr;

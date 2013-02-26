@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2012                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -114,10 +114,10 @@ void WidgetBase::setUMLObject(UMLObject *obj)
 /**
  * Write property of m_nId.
  */
-void WidgetBase::setID(Uml::IDType id)
+void WidgetBase::setID(Uml::ID::Type id)
 {
     if (m_umlObject) {
-        if (m_umlObject->id() != Uml::id_None)
+        if (m_umlObject->id() != Uml::ID::None)
             uWarning() << "changing old UMLObject " << ID2STR(m_umlObject->id())
                 << " to " << ID2STR(id);
         m_umlObject->setID(id);
@@ -128,7 +128,7 @@ void WidgetBase::setID(Uml::IDType id)
 /**
  * Read property of m_nId.
  */
-Uml::IDType WidgetBase::id() const
+Uml::ID::Type WidgetBase::id() const
 {
     if (m_umlObject)
         return m_umlObject->id();

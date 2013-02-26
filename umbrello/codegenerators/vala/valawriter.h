@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2009-2011                                               *
+ *   copyright (C) 2009-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -34,7 +34,7 @@ public:
 
     virtual void writeClass(UMLClassifier *c);
 
-    virtual Uml::ProgrammingLanguage language() const;
+    virtual Uml::ProgrammingLanguage::Enum language() const;
 
     virtual QStringList reservedKeywords() const;
 
@@ -70,7 +70,7 @@ private:
     void writeAssociatedAttributes(UMLAssociationList &associated, UMLClassifier *c, QTextStream &cs);
 
     void writeAttribute(const QString& doc,
-                        Uml::Visibility visibility,
+                        Uml::Visibility::Enum visibility,
                         bool isStatic,
                         const QString& typeName,
                         const QString& name,

@@ -150,9 +150,9 @@ void Tracer::showEvent(QShowEvent* e)
  * @param item tree widget item
  * @param column selected column
  */
-void Tracer::slotItemClicked(QTreeWidgetItem* item, int colum)
+void Tracer::slotItemClicked(QTreeWidgetItem* item, int column)
 {
-    Q_UNUSED(colum);
+    Q_UNUSED(column);
 
     (*m_classes)[item->text(0)] = !(*m_classes)[item->text(0)];
 }

@@ -119,7 +119,7 @@ public:
 
 private:
 
-    typedef QMap<Uml::DiagramType, ToolBar_Buttons> OldToolMap;
+    typedef QMap<Uml::DiagramType::Enum, ToolBar_Buttons> OldToolMap;
 
     /**
      * This inner class holds label, symbol, and cursor of a tool button.
@@ -139,11 +139,11 @@ private:
     typedef QMap<ToolBar_Buttons, ToolButton> ToolButtonMap;
     typedef QMap<ToolBar_Buttons, QAction*> ActionsMap;
 
-    ToolBar_Buttons      m_CurrentButtonID;
-    OldToolMap           m_map;
-    Uml::DiagramType     m_Type;
-    ToolButtonMap        m_ToolButtons;
-    ActionsMap           m_actions;
+    ToolBar_Buttons          m_CurrentButtonID;
+    OldToolMap               m_map;
+    Uml::DiagramType::Enum   m_Type;
+    ToolButtonMap            m_ToolButtons;
+    ActionsMap               m_actions;
 
     void loadPixmaps();
 
@@ -157,7 +157,7 @@ signals:
     void sigButtonChanged(int);
 
 public slots:
-    void slotCheckToolBar(Uml::DiagramType dt);
+    void slotCheckToolBar(Uml::DiagramType::Enum dt);
     void buttonChanged(int b);
     void slotResetToolBar();
 

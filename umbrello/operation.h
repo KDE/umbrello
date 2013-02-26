@@ -26,8 +26,8 @@ class UMLOperation : public UMLClassifierListItem
     Q_OBJECT
 public:
     UMLOperation(UMLClassifier * parent, const QString& name,
-                 Uml::IDType id = Uml::id_None,
-                 Uml::Visibility s = Uml::Visibility::Public,
+                 Uml::ID::Type id = Uml::ID::None,
+                 Uml::Visibility::Enum s = Uml::Visibility::Public,
                  UMLObject *rt = 0);
     explicit UMLOperation(UMLClassifier * parent);
     virtual ~UMLOperation();
@@ -75,7 +75,7 @@ protected:
     bool load( QDomElement & element );
 
 private:
-    Uml::IDType      m_returnId;  ///< Holds the xmi.id of the <UML:Parameter kind="return">
+    Uml::ID::Type    m_returnId;  ///< Holds the xmi.id of the <UML:Parameter kind="return">
     UMLAttributeList m_List;      ///< Parameter list
     bool             m_bConst;    ///< Holds the isQuery attribute of the <UML:Operation>
     QString          m_Code;      ///< Holds the entered source code

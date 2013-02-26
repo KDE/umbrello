@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -38,7 +38,7 @@ DEBUG_REGISTER_DISABLED(PinWidget)
  * @param a       The widget to which this pin is attached.
  * @param id      The ID to assign (-1 will prompt a new ID).
  */
-PinWidget::PinWidget(UMLScene* scene, UMLWidget* a, Uml::IDType id)
+PinWidget::PinWidget(UMLScene* scene, UMLWidget* a, Uml::ID::Type id)
   : UMLWidget(scene, WidgetBase::wt_Pin, id),
     m_pOw(a)
 {
@@ -228,7 +228,7 @@ bool PinWidget::loadFromXMI(QDomElement& qElement)
         return false;
     QString widgetaid = qElement.attribute( "widgetaid", "-1" );
 
-    Uml::IDType aId = STR2ID(widgetaid);
+    Uml::ID::Type aId = STR2ID(widgetaid);
 
     UMLWidget *pWA = m_scene -> findWidget( aId );
     if (pWA == NULL) {
@@ -239,8 +239,8 @@ bool PinWidget::loadFromXMI(QDomElement& qElement)
     m_pOw = pWA;
 
     QString textid = qElement.attribute( "textid", "-1" );
-    Uml::IDType textId = STR2ID(textid);
-    if (textId != Uml::id_None) {
+    Uml::ID::Type textId = STR2ID(textid);
+    if (textId != Uml::ID::None) {
         UMLWidget *flotext = m_scene -> findWidget( textId );
         if (flotext != NULL) {
             // This only happens when loading files produced by

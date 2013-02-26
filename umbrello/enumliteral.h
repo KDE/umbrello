@@ -26,7 +26,7 @@ class UMLEnumLiteral : public UMLClassifierListItem
 {
 public:
     UMLEnumLiteral(UMLObject* parent,
-                   const QString& name, Uml::IDType id = Uml::id_None);
+                   const QString& name, Uml::ID::Type id = Uml::ID::None);
     explicit UMLEnumLiteral(UMLObject* parent);
 
     bool operator==(const UMLEnumLiteral &rhs) const;

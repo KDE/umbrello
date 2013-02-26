@@ -75,7 +75,7 @@ public:
                                 UMLListViewItem* parent = 0);
     bool createItem(UMLListViewItem *item);
 
-    UMLListViewItem* findFolderForDiagram(Uml::DiagramType dt);
+    UMLListViewItem* findFolderForDiagram(Uml::DiagramType::Enum dt);
 
     UMLListViewItem* determineParentItem(UMLObject* object) const;
     UMLListViewItem* determineParentItem(UMLListViewItem::ListViewType lvt) const;
@@ -86,7 +86,7 @@ public:
 
     UMLListViewItem * findUMLObject(const UMLObject *p) const;
     UMLListViewItem * findView(UMLView *v);
-    UMLListViewItem * findItem(Uml::IDType id);
+    UMLListViewItem * findItem(Uml::ID::Type id);
 
     UMLListViewItem *rootView(UMLListViewItem::ListViewType type);
 
@@ -94,9 +94,9 @@ public:
 
     UMLObject *createUMLObject(UMLListViewItem * item, UMLObject::ObjectType type);
     bool createChildUMLObject(UMLListViewItem * item, UMLObject::ObjectType type);
-    UMLView* createDiagram(UMLListViewItem * item, Uml::DiagramType type);
+    UMLView* createDiagram(UMLListViewItem * item, Uml::DiagramType::Enum type);
 
-    QString uniqueDiagramName(Uml::DiagramType type);
+    QString uniqueDiagramName(Uml::DiagramType::Enum type);
 
     bool isUnique(UMLListViewItem * item, const QString &name);
 
@@ -109,7 +109,7 @@ public:
     void setStartedCopy(bool startedCopy);
     bool startedCopy() const;
 
-    UMLListViewItem * moveObject(Uml::IDType srcId, UMLListViewItem::ListViewType srcType,
+    UMLListViewItem * moveObject(Uml::ID::Type srcId, UMLListViewItem::ListViewType srcType,
                                  UMLListViewItem *newParent);
 
     bool itemRenamed(UMLListViewItem* item, int col);
@@ -161,9 +161,9 @@ protected:
     void addAtContainer(UMLListViewItem *item, UMLListViewItem *parent);
 
 public slots:
-    void slotDiagramCreated(Uml::IDType id);
-    void slotDiagramRenamed(Uml::IDType id);
-    void slotDiagramRemoved(Uml::IDType id);
+    void slotDiagramCreated(Uml::ID::Type id);
+    void slotDiagramRenamed(Uml::ID::Type id);
+    void slotDiagramRemoved(Uml::ID::Type id);
     void slotObjectCreated(UMLObject* object);
     void slotObjectRemoved(UMLObject* object);
 
@@ -191,7 +191,7 @@ protected slots:
 
 private:
     UMLListViewItem* recursiveSearchForView(UMLListViewItem* folder,
-                                            UMLListViewItem::ListViewType type, Uml::IDType id);
+                                            UMLListViewItem::ListViewType type, Uml::ID::Type id);
 
     void setBackgroundColor(const QColor & color);
 

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -35,7 +35,7 @@
  * @param combinedfragmentType      The type of combined fragment.
  * @param id                The ID to assign (-1 will prompt a new ID.)
  */
-CombinedFragmentWidget::CombinedFragmentWidget(UMLScene * scene, CombinedFragmentType combinedfragmentType, Uml::IDType id )
+CombinedFragmentWidget::CombinedFragmentWidget(UMLScene * scene, CombinedFragmentType combinedfragmentType, Uml::ID::Type id )
   : UMLWidget(scene, WidgetBase::wt_CombinedFragment, id)
 {
     setCombinedFragmentType( combinedfragmentType );
@@ -320,8 +320,6 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement )
     m_Text = qElement.attribute( "combinedFragmentname", "" );
     m_Doc = qElement.attribute( "documentation", "" );
     QString type = qElement.attribute( "CombinedFragmenttype", "");
-    Uml::IDType dashlineId;
-    QList<FloatingDashLineWidget*> listline;
 
     //now load child elements
     QDomNode node = qElement.firstChild();

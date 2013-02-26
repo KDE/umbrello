@@ -91,11 +91,11 @@ public:
     void setAutoGenerateConstructors(bool var);
     bool getAutoGenerateConstructors();
 
-    void setAttributeAccessorScope(Uml::Visibility::Value var);
-    Uml::Visibility::Value getAttributeAccessorScope();
+    void setAttributeAccessorScope(Uml::Visibility::Enum var);
+    Uml::Visibility::Enum getAttributeAccessorScope();
 
-    void setAssociationFieldScope(Uml::Visibility::Value var);
-    Uml::Visibility::Value getAssociationFieldScope();
+    void setAssociationFieldScope(Uml::Visibility::Enum var);
+    Uml::Visibility::Enum getAssociationFieldScope();
 
     virtual CodeGenerationPolicyPage * createPage(QWidget *parent = 0, const char * name = 0);
 

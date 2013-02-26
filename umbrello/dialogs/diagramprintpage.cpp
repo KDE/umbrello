@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -86,7 +86,7 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * doc)
     m_nIdList.clear();
     m_nIdList.append(UMLApp::app()->currentView()->umlScene()->ID());
 
-    m_ViewType = Uml::DiagramType(Uml::DiagramType::Class);
+    m_ViewType = Uml::DiagramType::Class;
     connect(m_pAllRB, SIGNAL(clicked()), this, SLOT(slotClicked()));
     connect(m_pCurrentRB, SIGNAL(clicked()), this, SLOT(slotClicked()));
     connect(m_pSelectRB, SIGNAL(clicked()), this, SLOT(slotClicked()));
@@ -98,8 +98,8 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * doc)
     // diagramNo 1 is Uml::DiagramType::Class
     // digaramNo 9 is Uml::DiagramType::EntityRelationship
     for (int diagramNo = 1; diagramNo < Uml::DiagramType::N_DIAGRAMTYPES; ++diagramNo) {
-        Uml::DiagramType dt = Uml::DiagramType(Uml::DiagramType::Value(diagramNo));
-        types << dt.toString();
+        Uml::DiagramType::Enum dt = Uml::DiagramType::fromInt(diagramNo);
+        types << Uml::DiagramType::toString(dt);
     }
 
     m_pTypeCB->insertItems(0, types);
@@ -247,7 +247,7 @@ void DiagramPrintPage::slotActivated(int index)
 
     // combo box entries start from 0 index
     // valid diagram_type enum values start from 1
-    m_ViewType = Uml::DiagramType(Uml::DiagramType::Value(index + 1));
+    m_ViewType = Uml::DiagramType::fromInt(index + 1);
 
     m_pSelectLW->clear();
 
