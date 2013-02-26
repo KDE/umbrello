@@ -108,8 +108,8 @@ DEBUG_REGISTER(UMLScene)
  */
 UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
   : QGraphicsScene(0, 0, defaultCanvasSize, defaultCanvasSize),
-    m_nLocalID(Uml::id_None),
-    m_nID(Uml::id_None),
+    m_nLocalID(Uml::ID::None),
+    m_nID(Uml::ID::None),
     m_Type(Uml::DiagramType::Undefined),
     m_Name(QString()),
     m_Documentation(QString()),
@@ -236,7 +236,7 @@ void UMLScene::setName(const QString &name)
 /**
  * Returns the type of the diagram.
  */
-Uml::DiagramType UMLScene::type() const
+DiagramType::Enum UMLScene::type() const
 {
     return m_Type;
 }
@@ -244,7 +244,7 @@ Uml::DiagramType UMLScene::type() const
 /**
  * Set the type of diagram.
  */
-void UMLScene::setType(Uml::DiagramType type)
+void UMLScene::setType(DiagramType::Enum type)
 {
     m_Type = type;
 }
@@ -252,7 +252,7 @@ void UMLScene::setType(Uml::DiagramType type)
 /**
  * Returns the ID of the diagram.
  */
-Uml::IDType UMLScene::ID() const
+Uml::ID::Type UMLScene::ID() const
 {
     return m_nID;
 }
@@ -260,7 +260,7 @@ Uml::IDType UMLScene::ID() const
 /**
  * Sets the ID of the diagram.
  */
-void UMLScene::setID(Uml::IDType id)
+void UMLScene::setID(Uml::ID::Type id)
 {
     m_nID = id;
 }
@@ -641,7 +641,7 @@ void UMLScene::slotObjectCreated(UMLObject* o)
 void UMLScene::slotObjectRemoved(UMLObject * o)
 {
     m_bPaste = false;
-    Uml::IDType id = o->id();
+    Uml::ID::Type id = o->id();
 
     foreach(UMLWidget* obj, m_WidgetList) {
         if (obj->id() != id)
@@ -668,9 +668,9 @@ void UMLScene::dragEnterEvent(UMLSceneDragEnterEvent *e)
     }
     tid = tidIt.next();
     UMLListViewItem::ListViewType lvtype = tid->type;
-    Uml::IDType id = tid->id;
+    Uml::ID::Type id = tid->id;
 
-    DiagramType diagramType = type();
+    DiagramType::Enum diagramType = type();
 
     UMLObject* temp = 0;
     //if dragging diagram - might be a drag-to-note
@@ -780,7 +780,7 @@ void UMLScene::dropEvent(UMLSceneDragDropEvent *e)
     }
     tid = tidIt.next();
     UMLListViewItem::ListViewType lvtype = tid->type;
-    Uml::IDType id = tid->id;
+    Uml::ID::Type id = tid->id;
 
     if (Model_Utils::typeIsDiagram(lvtype)) {
         bool breakFlag = false;
@@ -1010,7 +1010,7 @@ void UMLScene::checkMessages(ObjectWidget * w)
  *
  * @return Returns true if the widget is already on the diagram, false if not.
  */
-bool UMLScene::widgetOnDiagram(Uml::IDType id)
+bool UMLScene::widgetOnDiagram(Uml::ID::Type id)
 {
 
     foreach(UMLWidget *obj, m_WidgetList) {
@@ -1033,7 +1033,7 @@ bool UMLScene::widgetOnDiagram(Uml::IDType id)
  *
  * @return Returns the widget found, returns 0 if no widget found.
  */
-UMLWidget * UMLScene::findWidget(Uml::IDType id)
+UMLWidget * UMLScene::findWidget(Uml::ID::Type id)
 {
     foreach(UMLWidget* obj, m_WidgetList) {
         // object widgets are special..the widget id is held by 'localId' attribute (crappy!)
@@ -1060,7 +1060,7 @@ UMLWidget * UMLScene::findWidget(Uml::IDType id)
  *
  * @return Returns the widget found, returns 0 if no widget found.
  */
-AssociationWidget * UMLScene::findAssocWidget(Uml::IDType id)
+AssociationWidget * UMLScene::findAssocWidget(Uml::ID::Type id)
 {
     foreach(AssociationWidget* obj , m_AssociationList) {
         UMLAssociation* umlassoc = obj->association();
@@ -1154,9 +1154,9 @@ void UMLScene::removeWidget(UMLWidget * o)
     m_selectedList.removeAll(o);
     disconnect(this, SIGNAL(sigRemovePopupMenu()), o, SLOT(slotRemovePopupMenu()));
     disconnect(this, SIGNAL(sigClearAllSelected()), o, SLOT(slotClearAllSelected()));
-    disconnect(this, SIGNAL(sigFillColorChanged(Uml::IDType)), o, SLOT(slotFillColorChanged(Uml::IDType)));
-    disconnect(this, SIGNAL(sigLineColorChanged(Uml::IDType)), o, SLOT(slotLineColorChanged(Uml::IDType)));
-    disconnect(this, SIGNAL(sigTextColorChanged(Uml::IDType)), o, SLOT(slotTextColorChanged(Uml::IDType)));
+    disconnect(this, SIGNAL(sigFillColorChanged(Uml::ID::Type)), o, SLOT(slotFillColorChanged(Uml::ID::Type)));
+    disconnect(this, SIGNAL(sigLineColorChanged(Uml::ID::Type)), o, SLOT(slotLineColorChanged(Uml::ID::Type)));
+    disconnect(this, SIGNAL(sigTextColorChanged(Uml::ID::Type)), o, SLOT(slotTextColorChanged(Uml::ID::Type)));
     if (t == WidgetBase::wt_Message) {
         m_MessageList.removeAll(static_cast<MessageWidget*>(o));
     } else
@@ -1508,7 +1508,7 @@ void UMLScene::selectAll()
  *
  * @return Return a unique ID for the diagram.
  */
-Uml::IDType UMLScene::localID()
+Uml::ID::Type UMLScene::localID()
 {
     m_nLocalID = UniqueID::gen();
     return m_nLocalID;
@@ -1958,10 +1958,10 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
     case WidgetBase::wt_Actor:
     case WidgetBase::wt_UseCase:
     case WidgetBase::wt_Category: {
-        Uml::IDType id = pWidget->id();
-        Uml::IDType newID = log ? log->findNewID(id) : Uml::id_None;
-        if (newID == Uml::id_None) {   // happens after a cut
-            if (id == Uml::id_None)
+        Uml::ID::Type id = pWidget->id();
+        Uml::ID::Type newID = log ? log->findNewID(id) : Uml::ID::None;
+        if (newID == Uml::ID::None) {   // happens after a cut
+            if (id == Uml::ID::None)
                 return false;
             newID = id; //don't stop paste
         } else
@@ -1993,7 +1993,7 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
     case WidgetBase::wt_State:
     case WidgetBase::wt_Activity:
     case WidgetBase::wt_ObjectNode: {
-        Uml::IDType newID = m_doc->assignNewID(pWidget->id());
+        Uml::ID::Type newID = m_doc->assignNewID(pWidget->id());
         pWidget->setID(newID);
         if (type != WidgetBase::wt_Message) {
             m_WidgetList.append(pWidget);
@@ -2008,11 +2008,11 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
         }
         ObjectWidget *objWidgetA = pMessage->objectWidget(A);
         ObjectWidget *objWidgetB = pMessage->objectWidget(B);
-        Uml::IDType waID = objWidgetA->localID();
-        Uml::IDType wbID = objWidgetB->localID();
-        Uml::IDType newWAID = m_pIDChangesLog->findNewID(waID);
-        Uml::IDType newWBID = m_pIDChangesLog->findNewID(wbID);
-        if (newWAID == Uml::id_None || newWBID == Uml::id_None) {
+        Uml::ID::Type waID = objWidgetA->localID();
+        Uml::ID::Type wbID = objWidgetB->localID();
+        Uml::ID::Type newWAID = m_pIDChangesLog->findNewID(waID);
+        Uml::ID::Type newWBID = m_pIDChangesLog->findNewID(wbID);
+        if (newWAID == Uml::ID::None || newWBID == Uml::ID::None) {
             DEBUG(DBG_SRC) << "Error with ids : " << ID2STR(newWAID)
                            << " " << ID2STR(newWBID);
             return false;
@@ -2025,11 +2025,11 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
         if (ft == NULL) {
             DEBUG(DBG_SRC) << "FloatingTextWidget of Message is NULL";
         }
-        else if (ft->id() == Uml::id_None) {
+        else if (ft->id() == Uml::ID::None) {
             ft->setID(UniqueID::gen());
         }
         else {
-            Uml::IDType newTextID = m_doc->assignNewID(ft->id());
+            Uml::ID::Type newTextID = m_doc->assignNewID(ft->id());
             ft->setID(newTextID);
         }
         m_MessageList.append(pMessage);
@@ -2042,8 +2042,8 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
             DEBUG(DBG_SRC) << "pObjectWidget is NULL";
             return false;
         }
-        Uml::IDType nNewLocalID = localID();
-        Uml::IDType nOldLocalID = pObjectWidget->localID();
+        Uml::ID::Type nNewLocalID = localID();
+        Uml::ID::Type nOldLocalID = pObjectWidget->localID();
         m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
         pObjectWidget->setLocalID(nNewLocalID);
         UMLObject *pObject = m_doc->findObjectById(pWidget->id());
@@ -2062,13 +2062,13 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
             DEBUG(DBG_SRC) << "pObjectWidget is NULL";
             return false;
         }
-        Uml::IDType newID = log->findNewID(pWidget->id());
-        if (newID == Uml::id_None) {
+        Uml::ID::Type newID = log->findNewID(pWidget->id());
+        if (newID == Uml::ID::None) {
             return false;
         }
         pObjectWidget->setID(newID);
-        Uml::IDType nNewLocalID = localID();
-        Uml::IDType nOldLocalID = pObjectWidget->localID();
+        Uml::ID::Type nNewLocalID = localID();
+        Uml::ID::Type nOldLocalID = pObjectWidget->localID();
         m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
         pObjectWidget->setLocalID(nNewLocalID);
         UMLObject *pObject = m_doc->findObjectById(newID);
@@ -2089,13 +2089,13 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
             DEBUG(DBG_SRC) << "pObjectWidget is NULL";
             return false;
         }
-        Uml::IDType newID = log->findNewID(pWidget->id());
-        if (newID == Uml::id_None) {
+        Uml::ID::Type newID = log->findNewID(pWidget->id());
+        if (newID == Uml::ID::None) {
             return false;
         }
         pObjectWidget->setID(newID);
-        Uml::IDType nNewLocalID = localID();
-        Uml::IDType nOldLocalID = pObjectWidget->localID();
+        Uml::ID::Type nNewLocalID = localID();
+        Uml::ID::Type nOldLocalID = pObjectWidget->localID();
         m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
         pObjectWidget->setLocalID(nNewLocalID);
         UMLObject *pObject = m_doc->findObjectById(newID);
@@ -2135,36 +2135,36 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
             return false;
         }
 
-        Uml::IDType ida = Uml::id_None, idb = Uml::id_None;
+        Uml::ID::Type ida = Uml::ID::None, idb = Uml::ID::None;
         if (type() == DiagramType::Collaboration || type() == DiagramType::Sequence) {
             //check local log first
             ida = m_pIDChangesLog->findNewID(pAssoc->widgetIDForRole(Uml::A));
             idb = m_pIDChangesLog->findNewID(pAssoc->widgetIDForRole(Uml::B));
             //if either is still not found and assoc type is anchor
             //we are probably linking to a notewidet - else an error
-            if (ida == Uml::id_None && assocType == Uml::AssociationType::Anchor)
+            if (ida == Uml::ID::None && assocType == Uml::AssociationType::Anchor)
                 ida = log->findNewID(pAssoc->widgetIDForRole(Uml::A));
-            if (idb == Uml::id_None && assocType == Uml::AssociationType::Anchor)
+            if (idb == Uml::ID::None && assocType == Uml::AssociationType::Anchor)
                 idb = log->findNewID(pAssoc->widgetIDForRole(Uml::B));
         } else {
-            Uml::IDType oldIdA = pAssoc->widgetIDForRole(Uml::A);
-            Uml::IDType oldIdB = pAssoc->widgetIDForRole(Uml::B);
+            Uml::ID::Type oldIdA = pAssoc->widgetIDForRole(Uml::A);
+            Uml::ID::Type oldIdB = pAssoc->widgetIDForRole(Uml::B);
             ida = log->findNewID(oldIdA);
-            if (ida == Uml::id_None) {  // happens after a cut
-                if (oldIdA == Uml::id_None) {
+            if (ida == Uml::ID::None) {  // happens after a cut
+                if (oldIdA == Uml::ID::None) {
                     return false;
                 }
                 ida = oldIdA;
             }
             idb = log->findNewID(oldIdB);
-            if (idb == Uml::id_None) {  // happens after a cut
-                if (oldIdB == Uml::id_None) {
+            if (idb == Uml::ID::None) {  // happens after a cut
+                if (oldIdB == Uml::ID::None) {
                     return false;
                 }
                 idb = oldIdB;
             }
         }
-        if (ida == Uml::id_None || idb == Uml::id_None) {
+        if (ida == Uml::ID::None || idb == Uml::ID::None) {
             return false;
         }
         // cant do this anymore.. may cause problem for pasting
@@ -2526,7 +2526,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
         return;
     const UMLAssociationList& umlAssocs = umlObj->getAssociations();
 
-    Uml::IDType myID = umlObj->id();
+    Uml::ID::Type myID = umlObj->id();
     foreach(UMLAssociation* assoc , umlAssocs) {
         UMLCanvasObject *other = NULL;
         UMLObject *roleAObj = assoc->getObject(A);
@@ -2553,7 +2553,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
         }
         // Now that we have determined the "other" UMLObject, seek it in
         // this view's UMLWidgets.
-        Uml::IDType otherID = other->id();
+        Uml::ID::Type otherID = other->id();
 
         bool breakFlag = false;
         UMLWidget* pOtherWidget = 0;
@@ -2620,7 +2620,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
         UMLObjectList lst = umlPkg->containedObjects();
         foreach(UMLObject* obj,  lst) {
             // if the containedObject has a widget representation on this view then
-            Uml::IDType id = obj->id();
+            Uml::ID::Type id = obj->id();
             foreach(UMLWidget *w , m_WidgetList) {
                 if (w->id() != id)
                     continue;
@@ -2642,7 +2642,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
     if (parent == NULL)
         return;
     // if the parentPackage has a widget representation on this view then
-    Uml::IDType pkgID = parent->id();
+    Uml::ID::Type pkgID = parent->id();
 
     bool breakFlag = false;
     UMLWidget* pWidget = 0;
@@ -3856,7 +3856,7 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
 {
     QString id = qElement.attribute("xmi.id", "-1");
     m_nID = STR2ID(id);
-    if (m_nID == Uml::id_None)
+    if (m_nID == Uml::ID::None)
         return false;
     setName(qElement.attribute("name", ""));
     QString type = qElement.attribute("type", "0");
@@ -3924,7 +3924,7 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
             break;
         }
     } else {
-        m_Type = Uml::DiagramType::Value(nType);
+        m_Type = Uml::DiagramType::fromInt(nType);
     }
     m_nLocalID = STR2ID(localid);
 
@@ -4016,7 +4016,7 @@ bool UMLScene::loadMessagesFromXMI(QDomElement & qElement)
         if (tag == "messagewidget" ||
             tag == "UML:MessageWidget") {   // for bkwd compatibility
             message = new MessageWidget(this, sequence_message_asynchronous,
-                                        Uml::id_Reserved);
+                                        Uml::ID::Reserved);
             if (!message->loadFromXMI(messageElement)) {
                 delete message;
                 return false;
@@ -4117,7 +4117,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
             n = n.nextSibling();
             e = n.toElement();
         }
-        Uml::IDType id = STR2ID(idStr);
+        Uml::ID::Type id = STR2ID(idStr);
         UMLObject *o = m_doc->findObjectById(id);
         if (o == NULL) {
             uError() << "Cannot find object for id " << idStr;
@@ -4393,7 +4393,7 @@ void UMLScene::alignHorizontalDistribute()
 QDebug operator<<(QDebug dbg, UMLScene *item)
 {
     dbg.nospace() << "UMLScene: " << item->name()
-                  << " / type=" << item->type().toString()
+                  << " / type=" << DiagramType::toString(item->type())
                   << " / id=" << ID2STR(item->ID())
                   << " / isOpen=" << item->isOpen();
     return dbg.space();

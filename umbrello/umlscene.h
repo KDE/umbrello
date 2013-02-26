@@ -102,11 +102,11 @@ public:
     QString name() const;
     void setName(const QString &name);
 
-    Uml::DiagramType type() const;
-    void setType(Uml::DiagramType type);
+    Uml::DiagramType::Enum type() const;
+    void setType(Uml::DiagramType::Enum type);
 
-    Uml::IDType ID() const;
-    void setID(Uml::IDType id);
+    Uml::ID::Type ID() const;
+    void setID(Uml::ID::Type id);
 
     UMLScenePoint pos() const;
     void setPos(const UMLScenePoint &pos);
@@ -172,9 +172,9 @@ public:
 
     void checkMessages(ObjectWidget * w);
 
-    UMLWidget* findWidget(Uml::IDType id);
+    UMLWidget* findWidget(Uml::ID::Type id);
 
-    AssociationWidget* findAssocWidget(Uml::IDType id);
+    AssociationWidget* findAssocWidget(Uml::ID::Type id);
     AssociationWidget* findAssocWidget(Uml::AssociationType at,
                                        UMLWidget *pWidgetA, UMLWidget *pWidgetB);
     AssociationWidget* findAssocWidget(UMLWidget *pWidgetA,
@@ -201,9 +201,9 @@ public:
 
     void selectAll();
 
-    Uml::IDType localID();
+    Uml::ID::Type localID();
 
-    bool widgetOnDiagram(Uml::IDType id);
+    bool widgetOnDiagram(Uml::ID::Type id);
 
     bool isSavedInSeparateFile();
 
@@ -333,17 +333,17 @@ protected:
      * Contains the unique ID to allocate to a widget that needs an
      * ID for the view.  @ref ObjectWidget is an example of this.
      */
-    Uml::IDType m_nLocalID;
+    Uml::ID::Type          m_nLocalID;
 
-    Uml::IDType m_nID;                ///< The ID of the view. Allocated by @ref UMLDoc.
-    Uml::DiagramType m_Type;          ///< The type of diagram to represent.
-    QString m_Name;                   ///< The name of the diagram.
-    QString m_Documentation;          ///< The documentation of the diagram.
-    Settings::OptionState m_Options;  ///< Options used by view.
+    Uml::ID::Type          m_nID;      ///< The ID of the view. Allocated by @ref UMLDoc.
+    Uml::DiagramType::Enum m_Type;     ///< The type of diagram to represent.
+    QString                m_Name;     ///< The name of the diagram.
+    QString          m_Documentation;  ///< The documentation of the diagram.
+    Settings::OptionState  m_Options;  ///< Options used by view.
 
-    MessageWidgetList m_MessageList;  ///< All the message widgets on the diagram.
-    UMLWidgetList m_WidgetList;       ///< All the UMLWidgets on the diagram.
-    AssociationWidgetList m_AssociationList;  ///< All the AssociationWidgets on the diagram.
+    MessageWidgetList      m_MessageList;      ///< All the message widgets on the diagram.
+    UMLWidgetList          m_WidgetList;       ///< All the UMLWidgets on the diagram.
+    AssociationWidgetList  m_AssociationList;  ///< All the AssociationWidgets on the diagram.
 
     bool m_bUseSnapToGrid;  ///< Flag to use snap to grid. The default is off.
     bool m_bUseSnapComponentSizeToGrid;  ///< Flag to use snap to grid for component size. The default is off.
@@ -430,11 +430,11 @@ public slots:
 signals:
     void sigResetToolBar();
 
-    void sigFillColorChanged(Uml::IDType);
-    void sigGridColorChanged(Uml::IDType);
-    void sigLineColorChanged(Uml::IDType);
-    void sigTextColorChanged(Uml::IDType);
-    void sigLineWidthChanged(Uml::IDType);
+    void sigFillColorChanged(Uml::ID::Type);
+    void sigGridColorChanged(Uml::ID::Type);
+    void sigLineColorChanged(Uml::ID::Type);
+    void sigTextColorChanged(Uml::ID::Type);
+    void sigLineWidthChanged(Uml::ID::Type);
     void sigRemovePopupMenu();
     void sigClearAllSelected();
     void sigSnapToGridToggled(bool);

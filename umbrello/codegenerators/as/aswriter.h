@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Alexander Blum <blum@kewbee.de>               *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -32,7 +32,7 @@ public:
 
     virtual void writeClass(UMLClassifier *c);
 
-    virtual Uml::ProgrammingLanguage language() const;
+    virtual Uml::ProgrammingLanguage::Enum language() const;
 
     virtual QStringList reservedKeywords() const;
 

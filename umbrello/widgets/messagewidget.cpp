@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -48,7 +48,7 @@ DEBUG_REGISTER_DISABLED(MessageWidget)
  */
 MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, ObjectWidget* b,
                              int y, Uml::Sequence_Message_Type sequenceMessageType,
-                             Uml::IDType id /* = Uml::id_None */)
+                             Uml::ID::Type id /* = Uml::id_None */)
   : UMLWidget(scene, WidgetBase::wt_Message, id, new MessageWidgetController(this))
 {
     init();
@@ -77,7 +77,7 @@ MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, ObjectWidget* b,
  * @param id                The ID to assign (-1 will prompt a new ID.)
  */
 MessageWidget::MessageWidget(UMLScene * scene, Uml::Sequence_Message_Type seqMsgType,
-                             Uml::IDType id)
+                             Uml::ID::Type id)
   : UMLWidget(scene, WidgetBase::wt_Message, id, new MessageWidgetController(this))
 {
     init();
@@ -96,7 +96,7 @@ MessageWidget::MessageWidget(UMLScene * scene, Uml::Sequence_Message_Type seqMsg
  */
 MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, int xclick, int yclick,
                              Uml::Sequence_Message_Type sequenceMessageType,
-                             Uml::IDType id /*= Uml::id_None*/)
+                             Uml::ID::Type id /*= Uml::id_None*/)
   : UMLWidget(scene, WidgetBase::wt_Message, id, new MessageWidgetController(this))
 {
     init();
@@ -594,10 +594,10 @@ void MessageWidget::calculateWidget()
     setY(m_nY);
 }
 
-void MessageWidget::slotWidgetMoved(Uml::IDType id)
+void MessageWidget::slotWidgetMoved(Uml::ID::Type id)
 {
-    const Uml::IDType idA = m_pOw[Uml::A]->localID();
-    const Uml::IDType idB = m_pOw[Uml::B]->localID();
+    const Uml::ID::Type idA = m_pOw[Uml::A]->localID();
+    const Uml::ID::Type idB = m_pOw[Uml::B]->localID();
     if (idA != id && idB != id) {
         DEBUG(DBG_SRC) << "id=" << ID2STR(id) << ": ignoring for idA=" << ID2STR(idA)
             << ", idB=" << ID2STR(idB);
@@ -681,7 +681,7 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(m_pOw[Uml::B]->umlObject());
     UMLOperation *op = NULL;
     if (c && !m_CustomOp.isEmpty()) {
-        Uml::IDType opId = STR2ID(m_CustomOp);
+        Uml::ID::Type opId = STR2ID(m_CustomOp);
         op = dynamic_cast<UMLOperation*>( c->findChildObjectById(opId, true) );
         if (op) {
             // If the UMLOperation is set, m_CustomOp isn't used anyway.
@@ -705,8 +705,8 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     QString messageText = m_pFText->text();
     m_pFText->setVisible( messageText.length() > 1 );
 
-    connect(m_pOw[Uml::A], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
-    connect(m_pOw[Uml::B], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
+    connect(m_pOw[Uml::A], SIGNAL(sigWidgetMoved(Uml::ID::Type)), this, SLOT(slotWidgetMoved(Uml::ID::Type)));
+    connect(m_pOw[Uml::B], SIGNAL(sigWidgetMoved(Uml::ID::Type)), this, SLOT(slotWidgetMoved(Uml::ID::Type)));
 
     connect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::A], SLOT(slotMessageMoved()) );
     connect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::B], SLOT(slotMessageMoved()) );

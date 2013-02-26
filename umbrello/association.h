@@ -45,8 +45,8 @@ public:
     QString toString() const;
 
     UMLRole * getUMLRole(Uml::Role_Type role) const;
-    Uml::IDType getObjectId(Uml::Role_Type role) const;
-    Uml::IDType getRoleId(Uml::Role_Type role) const;
+    Uml::ID::Type getObjectId(Uml::Role_Type role) const;
+    Uml::ID::Type getRoleId(Uml::Role_Type role) const;
 
     void setAssociationType(Uml::AssociationType assocType);
     Uml::AssociationType getAssocType() const;
@@ -54,8 +54,8 @@ public:
     void setObject(UMLObject *obj, Uml::Role_Type role);
     UMLObject* getObject(Uml::Role_Type role) const;
 
-    void setVisibility(Uml::Visibility value, Uml::Role_Type role);
-    Uml::Visibility getVisibility(Uml::Role_Type role) const;
+    void setVisibility(Uml::Visibility::Enum value, Uml::Role_Type role);
+    Uml::Visibility::Enum visibility(Uml::Role_Type role) const;
 
     void setChangeability(Uml::Changeability value, Uml::Role_Type role);
     Uml::Changeability changeability(Uml::Role_Type role) const;

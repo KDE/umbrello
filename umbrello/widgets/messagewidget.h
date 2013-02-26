@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -47,12 +47,12 @@ public:
 
     MessageWidget(UMLScene * scene, ObjectWidget* a, ObjectWidget* b,
                   int y, Uml::Sequence_Message_Type sequenceMessageType,
-                  Uml::IDType id = Uml::id_None);
+                  Uml::ID::Type id = Uml::ID::None);
     MessageWidget(UMLScene * scene, Uml::Sequence_Message_Type sequenceMessageType,
-                  Uml::IDType id = Uml::id_None);
+                  Uml::ID::Type id = Uml::ID::None);
     MessageWidget(UMLScene * scene, ObjectWidget* a, int xclick, int yclick,
                   Uml::Sequence_Message_Type sequenceMessageType,
-                  Uml::IDType id = Uml::id_None);
+                  Uml::ID::Type id = Uml::ID::None);
     virtual ~MessageWidget();
 
     //---------- LinkWidget Interface methods implemementation from now on.
@@ -190,10 +190,10 @@ private:
      * store. activate() resolves the IDs, i.e. after activate() the variables
      * m_pOw[] and m_pFText can be used.
      */
-    Uml::IDType m_widgetAId, m_widgetBId, m_textId;
+    Uml::ID::Type m_widgetAId, m_widgetBId, m_textId;
 
 public slots:
-    void slotWidgetMoved(Uml::IDType id);
+    void slotWidgetMoved(Uml::ID::Type id);
     void slotMenuSelection(QAction* action);
 
 signals:

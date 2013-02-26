@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2002      Heiko Nardmann  <h.nardmann@secunet.de>       *
- *   copyright (C) 2003-2012                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -2985,6 +2985,10 @@ PhpWriter::~PhpWriter()
 {
 }
 
+/**
+ * Call this method to generate Php code for a UMLClassifier.
+ * @param c   the class you want to generate code for.
+ */
 void PhpWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
@@ -3134,6 +3138,11 @@ void PhpWriter::writeClass(UMLClassifier *c)
 ////////////////////////////////////////////////////////////////////////////////////
 //  Helper Methods
 
+/**
+ * Write all operations for a given class.
+ * @param c     the concept we are generating code for
+ * @param php   output stream for the PHP file
+ */
 void PhpWriter::writeOperations(UMLClassifier *c, QTextStream &php)
 {
     //Lists to store operations  sorted by scope
@@ -3176,6 +3185,12 @@ void PhpWriter::writeOperations(UMLClassifier *c, QTextStream &php)
     }
 }
 
+/**
+ * Write a list of class operations.
+ * @param classname   the name of the class
+ * @param opList      the list of operations
+ * @param php         output stream for the PHP file
+ */
 void PhpWriter::writeOperations(const QString& classname,
                                 UMLOperationList &opList,
                                 QTextStream &php)
@@ -3245,6 +3260,11 @@ void PhpWriter::writeOperations(const QString& classname,
     }//end for
 }
 
+/**
+ * Write all the attributes of a class.
+ * @param c     the class we are generating code for
+ * @param php   output stream for the PHP file
+ */
 void PhpWriter::writeAttributes(UMLClassifier *c, QTextStream &php)
 {
     UMLAttributeList  atpub, atprot, atpriv, atdefval;
@@ -3286,6 +3306,11 @@ void PhpWriter::writeAttributes(UMLClassifier *c, QTextStream &php)
     }
 }
 
+/**
+ * Write a list of class attributes.
+ * @param atList   the list of attributes
+ * @param php      output stream for the PHP file
+ */
 void PhpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &php)
 {
     foreach (UMLAttribute *at , atList ) {
@@ -3313,11 +3338,19 @@ void PhpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &php)
     return;
 }
 
-Uml::ProgrammingLanguage PhpWriter::language() const
+/**
+ * Returns "PHP".
+ * @return   the programming language identifier
+ */
+Uml::ProgrammingLanguage::Enum PhpWriter::language() const
 {
     return Uml::ProgrammingLanguage::PHP;
 }
 
+/**
+ * Get list of reserved keywords.
+ * @return   the list of reserved keywords
+ */
 QStringList PhpWriter::reservedKeywords() const
 {
     static QStringList keywords;

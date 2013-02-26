@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003 Brian Thomas <brian.thomas@gsfc.nasa.gov>          *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -47,7 +47,7 @@ JavaWriter::~JavaWriter()
  * Returns "Java".
  * @return   the programming language identifier
  */
-Uml::ProgrammingLanguage JavaWriter::language() const
+Uml::ProgrammingLanguage::Enum JavaWriter::language() const
 {
     return Uml::ProgrammingLanguage::Java;
 }
@@ -408,7 +408,7 @@ void JavaWriter::writeAttributeDecls(UMLAttributeList &atpub, UMLAttributeList &
 /**
  * Calls @ref writeSingleAttributeAccessorMethods() on each of the attributes in atpub.
  */
-void JavaWriter::writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility visibility, QTextStream &java)
+void JavaWriter::writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility::Enum visibility, QTextStream &java)
 {
     foreach (UMLAttribute *at, atpub ){
         QString fieldName = cleanName(at->name());
@@ -488,7 +488,7 @@ void JavaWriter::writeDocumentation(QString header, QString body, QString end, Q
 /**
  * Searches a list of associations for appropriate ones to write out as attributes.
  */
-void JavaWriter::writeAssociationDecls(UMLAssociationList associations, Uml::IDType id, QTextStream &java)
+void JavaWriter::writeAssociationDecls(UMLAssociationList associations, Uml::ID::Type id, QTextStream &java)
 {
     if ( forceSections() || !associations.isEmpty() )
     {
@@ -510,14 +510,14 @@ void JavaWriter::writeAssociationDecls(UMLAssociationList associations, Uml::IDT
             if (printRoleB)
             {
                 QString fieldClassName = cleanName(getUMLObjectName(a->getObject(Uml::B)));
-                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::B), a->getMultiplicity(Uml::B), a->getRoleDoc(Uml::B), a->getVisibility(Uml::B), java);
+                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::B), a->getMultiplicity(Uml::B), a->getRoleDoc(Uml::B), a->visibility(Uml::B), java);
             }
 
             // print RoleA decl
             if (printRoleA)
             {
                 QString fieldClassName = cleanName(getUMLObjectName(a->getObject(Uml::A)));
-                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::A), a->getMultiplicity(Uml::A), a->getRoleDoc(Uml::A), a->getVisibility(Uml::A), java);
+                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::A), a->getMultiplicity(Uml::A), a->getRoleDoc(Uml::A), a->visibility(Uml::A), java);
             }
         }
     }
@@ -528,14 +528,14 @@ void JavaWriter::writeAssociationDecls(UMLAssociationList associations, Uml::IDT
  */
 void JavaWriter::writeAssociationRoleDecl(QString fieldClassName,
         QString roleName, QString multi,
-        QString doc, Uml::Visibility visib, QTextStream &java)
+        QString doc, Uml::Visibility::Enum visib, QTextStream &java)
 {
     // ONLY write out IF there is a rolename given
     // otherwise it is not meant to be declared in the code
     if (roleName.isEmpty())
         return;
 
-    QString scope = visib.toString();
+    QString scope = Uml::Visibility::toString(visib);
 
     // always put space between this and prior decl, if any
     writeBlankLine(java);
@@ -580,7 +580,7 @@ void JavaWriter::writeAssociationMethods (UMLAssociationList associations, UMLCl
                     writeAssociationRoleMethod(fieldClassName,
                                                a->getRoleName(Uml::B),
                                                a->getMultiplicity(Uml::B), a->getRoleDoc(Uml::B),
-                                               a->getVisibility(Uml::B),
+                                               a->visibility(Uml::B),
                                                a->changeability(Uml::B), java);
                 }
             }
@@ -593,7 +593,7 @@ void JavaWriter::writeAssociationMethods (UMLAssociationList associations, UMLCl
                     writeAssociationRoleMethod(fieldClassName, a->getRoleName(Uml::A),
                                                a->getMultiplicity(Uml::A),
                                                a->getRoleDoc(Uml::A),
-                                               a->getVisibility(Uml::A),
+                                               a->visibility(Uml::A),
                                                a->changeability(Uml::A),
                                                java);
                 }
@@ -609,7 +609,7 @@ void JavaWriter::writeAssociationMethods (UMLAssociationList associations, UMLCl
  * role.
  */
 void JavaWriter::writeAssociationRoleMethod (QString fieldClassName, QString roleName, QString multi,
-        QString description, Uml::Visibility visib, Uml::Changeability change,
+        QString description, Uml::Visibility::Enum visib, Uml::Changeability change,
         QTextStream &java)
 {
     if (multi.isEmpty() || multi.contains(QRegExp("^[01]$")))
@@ -631,12 +631,12 @@ void JavaWriter::writeAssociationRoleMethod (QString fieldClassName, QString rol
  */
 void JavaWriter::writeVectorAttributeAccessorMethods(QString fieldClassName, QString fieldVarName,
         QString fieldName, QString description,
-        Uml::Visibility visibility, Uml::Changeability changeType,
+        Uml::Visibility::Enum visibility, Uml::Changeability changeType,
         QTextStream &java)
 {
     fieldClassName = fixTypeName(fieldClassName);
     fieldName = Codegen_Utils::capitalizeFirstLetter(fieldName);
-    QString strVis = visibility.toString();
+    QString strVis = Uml::Visibility::toString(visibility);
 
     // ONLY IF changeability is NOT Frozen
     if (changeType != Uml::Changeability::Frozen)
@@ -670,10 +670,10 @@ void JavaWriter::writeVectorAttributeAccessorMethods(QString fieldClassName, QSt
  */
 void JavaWriter::writeSingleAttributeAccessorMethods(QString fieldClassName, QString fieldVarName,
         QString fieldName, QString description,
-        Uml::Visibility visibility, Uml::Changeability change,
+        Uml::Visibility::Enum visibility, Uml::Changeability change,
         bool isFinal, QTextStream &java)
 {
-    QString strVis = visibility.toString();
+    QString strVis = Uml::Visibility::toString(visibility);
     fieldClassName = fixTypeName(fieldClassName);
     fieldName = Codegen_Utils::capitalizeFirstLetter(fieldName);
 
@@ -920,7 +920,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java)
 
         str = ""; // reset for next method
         str += ((op->isAbstract() && !m_isInterface) ? "abstract ":"");
-        str += op->visibility().toString() + ' ';
+        str += Uml::Visibility::toString(op->visibility()) + ' ';
         str += (op->isStatic() ? "static ":"");
         str += methodReturnType + ' ' + cleanName(op->name()) + "( ";
 

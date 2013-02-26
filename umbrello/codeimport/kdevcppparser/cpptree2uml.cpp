@@ -6,7 +6,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2012                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -301,12 +301,12 @@ void CppTree2Uml::parseFunctionDefinition( FunctionDefinitionAST* ast )
 
 void CppTree2Uml::parseClassSpecifier( ClassSpecifierAST* ast )
 {
-    Uml::Visibility oldAccess = m_currentAccess;
+    Uml::Visibility::Enum oldAccess = m_currentAccess;
     bool oldInSlots = m_inSlots;
     bool oldInSignals = m_inSignals;
 
     QString kind = ast->classKey()->text();
-    m_currentAccess=Uml::Visibility::fromString(kind);
+    m_currentAccess = Uml::Visibility::fromString(kind);
     m_inSlots = false;
     m_inSignals = false;
 

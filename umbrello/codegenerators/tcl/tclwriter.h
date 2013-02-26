@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2005      Rene Meyer <rene.meyer@sturmit.de>            *
- *   copyright (C) 2006-2011                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -52,7 +52,7 @@ public:
      * Returns "Tcl".
      * @return   the programming language identifier
      */
-    virtual Uml::ProgrammingLanguage language() const;
+    virtual Uml::ProgrammingLanguage::Enum language() const;
 
     /**
      * Get list of reserved keywords.
@@ -107,15 +107,15 @@ private:
      * @param writeStatic whether to write static or non-static attributes out
      * @param stream text stream
      */
-    void writeAttributeDecl(UMLClassifier * c, Uml::Visibility visibility, bool writeStatic);
+    void writeAttributeDecl(UMLClassifier * c, Uml::Visibility::Enum visibility, bool writeStatic);
 
     void writeAssociationIncl(UMLAssociationList list,
-                              Uml::IDType myId, const QString &type);
+                              Uml::ID::Type myId, const QString &type);
     /**
      * Searches a list of associations for appropriate ones to write out as attributes.
      */
     void writeAssociationDecl(UMLAssociationList associations,
-                              Uml::Visibility permit, Uml::IDType id,
+                              Uml::Visibility::Enum permit, Uml::ID::Type id,
                               const QString &type);
 
     /**
@@ -136,12 +136,12 @@ private:
     void writeDestructorHeader();
     void writeDestructorSource();
     void writeOperationHeader(UMLClassifier * c,
-                              Uml::Visibility permitScope);
+                              Uml::Visibility::Enum permitScope);
     void writeOperationSource(UMLClassifier * c,
-                              Uml::Visibility permitScope);
+                              Uml::Visibility::Enum permitScope);
     void writeAttributeSource(UMLClassifier * c);
     void writeAssociationSource(UMLAssociationList associations,
-                                Uml::IDType id);
+                                Uml::ID::Type id);
     void writeAssociationRoleSource(const QString &fieldClassName,
                                     const QString &roleName,
                                     const QString &multi);

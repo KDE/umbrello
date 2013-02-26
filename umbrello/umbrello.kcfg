@@ -76,7 +76,7 @@
        <entry name="diagram" type="Enum">
          <label>Diagram To Load at Startup</label>
          <whatsthis>The Diagram to load at startup</whatsthis>
-         <choices name="Uml::DiagramType::Value">
+         <choices name="Uml::DiagramType::Enum">
             <choice name="Undefined" />
             <choice name="Class" />
             <choice name="UseCase" />
@@ -94,7 +94,7 @@
        <entry name="defaultLanguage" type="Enum">
          <label>Default Language at Startup</label>
          <whatsthis>The Language that Umbrello should start with by default</whatsthis>
-         <choices name="Uml::ProgrammingLanguage::Value">
+         <choices name="Uml::ProgrammingLanguage::Enum">
             <choice name="ActionScript" />
             <choice name="Ada" />
             <choice name="Cpp" />
@@ -221,7 +221,7 @@
        <entry name="defaultAttributeScope" type="Enum">
          <label>Default Attribute Scope</label>
          <whatsthis>Default Attribute Scope</whatsthis>
-         <choices name="Uml::Visibility::Value">
+         <choices name="Uml::Visibility::Enum">
             <choice name="Public" />
             <choice name="Private" />
             <choice name="Protected" />
@@ -233,7 +233,7 @@
        <entry name="defaultOperationScope" type="Enum">
          <label>Default Operation Scope</label>
          <whatsthis>Default Operation Scope</whatsthis>
-         <choices name="Uml::Visibility::Value">
+         <choices name="Uml::Visibility::Enum">
             <choice name="Public" />
             <choice name="Private" />
             <choice name="Protected" />
@@ -332,7 +332,7 @@
        <entry name="defaultAssocFieldScope" type="Enum">
          <label>Default Association Field Scope</label>
          <whatsthis>Sets the default Association field scope</whatsthis>
-         <choices name="Uml::Visibility::Value">
+         <choices name="Uml::Visibility::Enum">
             <choice name="Public" />
             <choice name="Private" />
             <choice name="Protected" />
@@ -344,7 +344,7 @@
        <entry name="defaultAttributeAccessorScope" type="Enum">
          <label>Default Attribute Accessor Scope</label>
          <whatsthis>Sets the default attribute accessor scope</whatsthis>
-         <choices name="Uml::Visibility::Value">
+         <choices name="Uml::Visibility::Enum">
             <choice name="Public" />
             <choice name="Private" />
             <choice name="Protected" />

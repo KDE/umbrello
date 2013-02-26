@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -170,7 +170,7 @@ bool UMLAttributeDialog::apply()
         return false;
     }
     m_pAttribute->setName(name);
-    Uml::Visibility scope = Uml::Visibility::Protected;
+    Uml::Visibility::Enum scope = Uml::Visibility::Protected;
     if ( m_pPublicRB->isChecked() ) {
         scope = Uml::Visibility::Public;
     } else if ( m_pPrivateRB->isChecked() ) {
@@ -198,7 +198,7 @@ bool UMLAttributeDialog::apply()
     UMLObject *obj = pDoc->findUMLObject(typeName);
     UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
     if (classifier == NULL) {
-        Uml::ProgrammingLanguage pl = UMLApp::app()->activeLanguage();
+        Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
         if (pl == Uml::ProgrammingLanguage::Cpp || pl == Uml::ProgrammingLanguage::Java) {
             // Import_Utils::createUMLObject works better for C++ namespace
             // and java package than Object_Factory::createUMLObject

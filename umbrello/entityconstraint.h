@@ -29,7 +29,7 @@ class UMLEntityConstraint : public UMLClassifierListItem
 
 public:
     UMLEntityConstraint(UMLObject *parent, const QString& name,
-                        Uml::IDType id = Uml::id_None );
+                        Uml::ID::Type id = Uml::ID::None );
 
     explicit UMLEntityConstraint(UMLObject *parent);
 

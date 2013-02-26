@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -42,8 +42,8 @@ struct GeneralState {
     int autosavetime;
     QString autosavesuffix;  ///< Text input field for suffix of autosave
     bool loadlast;
-    Uml::DiagramType::Value diagram;
-    Uml::ProgrammingLanguage::Value defaultLanguage;
+    Uml::DiagramType::Enum diagram;
+    Uml::ProgrammingLanguage::Enum defaultLanguage;
     QString lastFile;
 };
 
@@ -68,15 +68,15 @@ struct ClassState {
     bool showPackage;
     bool showAttribAssocs;
     bool showPublicOnly;
-    Uml::Visibility defaultAttributeScope;
-    Uml::Visibility defaultOperationScope;
+    Uml::Visibility::Enum defaultAttributeScope;
+    Uml::Visibility::Enum defaultOperationScope;
 };
 
 struct CodeGenerationState {
     bool autoGenEmptyConstructors;
     CodeGenerationPolicy::CommentStyle commentStyle;
-    Uml::Visibility::Value defaultAssocFieldScope;
-    Uml::Visibility::Value defaultAttributeAccessorScope;
+    Uml::Visibility::Enum defaultAssocFieldScope;
+    Uml::Visibility::Enum defaultAttributeAccessorScope;
     bool forceDoc;
     bool forceSections;
     QDir headingsDirectory;

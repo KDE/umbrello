@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -124,14 +124,14 @@ public:
     QString multiplicity(Uml::Role_Type role) const;
     void setMultiplicity(const QString& text, Uml::Role_Type role);
 
-    Uml::Visibility visibility(Uml::Role_Type role) const;
-    void setVisibility(Uml::Visibility value, Uml::Role_Type role);
+    Uml::Visibility::Enum visibility(Uml::Role_Type role) const;
+    void setVisibility(Uml::Visibility::Enum value, Uml::Role_Type role);
 
     FloatingTextWidget* changeabilityWidget(Uml::Role_Type role) const;
     Uml::Changeability changeability(Uml::Role_Type role) const;
     void setChangeability(Uml::Changeability value, Uml::Role_Type role);
 
-    Uml::IDType widgetIDForRole(Uml::Role_Type role) const;
+    Uml::ID::Type widgetIDForRole(Uml::Role_Type role) const;
     UMLWidget* widgetForRole(Uml::Role_Type role) const;
     void setWidgetForRole(UMLWidget* widget, Uml::Role_Type role);
 
@@ -279,9 +279,9 @@ private:
         int m_nTotalCount;   ///< total amount of associations on the region this role's line is on
 
         // The following items are only used if m_pObject is not set.
-        Uml::Visibility      visibility;
-        Uml::Changeability   changeability;
-        QString              roleDocumentation;
+        Uml::Visibility::Enum     visibility;
+        Uml::Changeability        changeability;
+        QString                   roleDocumentation;
 
     };
 

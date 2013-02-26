@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -40,7 +40,7 @@
  * @param objectNodeType   The type of object node
  * @param id               The ID to assign (-1 will prompt a new ID.)
  */
-ObjectNodeWidget::ObjectNodeWidget(UMLScene * scene, ObjectNodeType objectNodeType, Uml::IDType id)
+ObjectNodeWidget::ObjectNodeWidget(UMLScene * scene, ObjectNodeType objectNodeType, Uml::ID::Type id)
   : UMLWidget(scene, WidgetBase::wt_ObjectNode, id)
 {
     setObjectNodeType(objectNodeType);

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -42,15 +42,15 @@
  * @param rt        the return type of the operation
  */
 UMLOperation::UMLOperation(UMLClassifier *parent, const QString& name,
-                           Uml::IDType id, Uml::Visibility s, UMLObject *rt)
+                           Uml::ID::Type id, Uml::Visibility::Enum s, UMLObject *rt)
   : UMLClassifierListItem(parent, name, id)
 {
     if (rt)
         m_returnId = UniqueID::gen();
     else
-        m_returnId = Uml::id_None;
+        m_returnId = Uml::ID::None;
     m_pSecondary = rt;
-    m_Vis = s;
+    m_visibility = s;
     m_BaseType = UMLObject::ot_Operation;
     m_bConst = false;
     m_Code.clear();
@@ -87,7 +87,7 @@ UMLOperation::~UMLOperation()
 void UMLOperation::setType(UMLObject* type)
 {
     UMLClassifierListItem::setType(type);
-    if (m_returnId == Uml::id_None)
+    if (m_returnId == Uml::ID::None)
         m_returnId = UniqueID::gen();
 }
 
@@ -200,10 +200,10 @@ QString UMLOperation::toString(Uml::SignatureType sig)
     QString s;
 
     if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::NoSig)
-          s = m_Vis.toString(true) + ' ';
+          s = Uml::Visibility::toString(m_visibility, true) + ' ';
 
     s += name();
-    Uml::ProgrammingLanguage pl = UMLApp::app()->activeLanguage();
+    Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
     bool parameterlessOpNeedsParentheses =
         (pl != Uml::ProgrammingLanguage::Pascal && pl != Uml::ProgrammingLanguage::Ada);
 
@@ -452,7 +452,7 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     QDomElement featureElement = qDoc.createElement( "UML:BehavioralFeature.parameter" );
     if (m_pSecondary) {
         QDomElement retElement = qDoc.createElement("UML:Parameter");
-        if (m_returnId == Uml::id_None) {
+        if (m_returnId == Uml::ID::None) {
             uDebug() << name() << ": m_returnId is not set, setting it now.";
             m_returnId = UniqueID::gen();
         }
@@ -603,6 +603,5 @@ bool UMLOperation::load( QDomElement & element )
     }//end while
     return true;
 }
-
 
 #include "operation.moc"

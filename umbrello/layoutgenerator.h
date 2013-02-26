@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2012                                                    *
+ *   copyright (C) 2012-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -148,7 +148,7 @@ public:
     /**
      * generate layout and apply it to the given diagram.
      *
-     * @return true if generating succeded
+     * @return true if generating succeeded
     */
     bool generate(UMLScene *scene, const QString &variant = QString())
     {
@@ -301,7 +301,7 @@ public:
      */
     static bool availableConfigFiles(UMLScene *scene, QHash<QString,QString> &configFiles)
     {
-        QString diagramType = scene->type().toString().toLower();
+        QString diagramType = Uml::DiagramType::toString(scene->type()).toLower();
         KStandardDirs dirs;
 
         QStringList fileNames = dirs.findAllResources("data", QString("umbrello/layouts/%1*.desktop").arg(diagramType));

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -37,9 +37,9 @@
  * @param id         The unique id of the widget.
  *                   The default (-1) will prompt a new ID.
  */
-NoteWidget::NoteWidget(UMLScene * scene, NoteType noteType , Uml::IDType id)
+NoteWidget::NoteWidget(UMLScene * scene, NoteType noteType , Uml::ID::Type id)
   : UMLWidget(scene, WidgetBase::wt_Note, id, new NoteWidgetController(this)),
-    m_diagramLink(Uml::id_None),
+    m_diagramLink(Uml::ID::None),
     m_noteType(noteType)
 {
     setZ(20); //make sure always on top.
@@ -145,10 +145,10 @@ void NoteWidget::setNoteType(const QString& noteType)
 /**
  * Return the ID of the diagram hyperlinked to this note.
  *
- * @return  ID of an UMLView, or Uml::id_None if no
+ * @return  ID of an UMLView, or Uml::ID::None if no
  *          hyperlink is set.
  */
-Uml::IDType NoteWidget::diagramLink() const
+Uml::ID::Type NoteWidget::diagramLink() const
 {
     return m_diagramLink;
 }
@@ -159,7 +159,7 @@ Uml::IDType NoteWidget::diagramLink() const
  *
  * @param sceneID    ID of an UMLView.
  */
-void NoteWidget::setDiagramLink(Uml::IDType viewID)
+void NoteWidget::setDiagramLink(Uml::ID::Type viewID)
 {
     UMLDoc *umldoc = UMLApp::app()->document();
     UMLView *view = umldoc->findView(viewID);
@@ -218,7 +218,7 @@ void NoteWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     QDomElement noteElement = qDoc.createElement( "notewidget" );
     UMLWidget::saveToXMI( qDoc, noteElement );
     noteElement.setAttribute( "text", documentation() );
-    if (m_diagramLink != Uml::id_None)
+    if (m_diagramLink != Uml::ID::None)
         noteElement.setAttribute( "diagramlink", ID2STR(m_diagramLink) );
     noteElement.setAttribute( "noteType", m_noteType);
     qElement.appendChild( noteElement );

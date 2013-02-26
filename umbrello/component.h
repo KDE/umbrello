@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -28,7 +28,7 @@ class UMLComponent : public UMLPackage
 {
     Q_OBJECT
 public:
-    explicit UMLComponent(const QString & name = QString(), Uml::IDType id = Uml::id_None);
+    explicit UMLComponent(const QString & name = QString(), Uml::ID::Type id = Uml::ID::None);
     virtual ~UMLComponent();
 
     virtual UMLObject* clone() const;

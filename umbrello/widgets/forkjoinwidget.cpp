@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2012                                               *
+ *   copyright (C) 2005-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -23,7 +23,7 @@
  * @param ori     Whether to draw the plate horizontally or vertically.
  * @param id      The ID to assign (-1 will prompt a new ID.)
  */
-ForkJoinWidget::ForkJoinWidget(UMLScene * scene, Qt::Orientation ori, Uml::IDType id)
+ForkJoinWidget::ForkJoinWidget(UMLScene * scene, Qt::Orientation ori, Uml::ID::Type id)
   : BoxWidget(scene, id, WidgetBase::wt_ForkJoin),
     m_orientation(ori)
 {

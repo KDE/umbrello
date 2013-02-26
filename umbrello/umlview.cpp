@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -156,9 +156,9 @@ void UMLView::dragEnterEvent(QDragEnterEvent *e)
         return;
     }
     UMLListViewItem::ListViewType lvtype = tid->type;
-    Uml::IDType id = tid->id;
+    Uml::ID::Type id = tid->id;
 
-    Uml::DiagramType diagramType = umlScene()->type();
+    Uml::DiagramType::Enum diagramType = umlScene()->type();
 
     UMLObject* temp = 0;
     //if dragging diagram - might be a drag-to-note
@@ -258,11 +258,11 @@ void UMLView::dropEvent(QDropEvent *e) {
     UMLDragData::LvTypeAndID * tid = tidIt.next();
     if (!tid) {
         kDebug() << "UMLView::contentsDropEvent: "
-                  << "UMLDragData::getClip3TypeAndID returned empty list" << endl;
+                  << "UMLDragData::getClip3TypeAndID returned empty list";
         return;
     }
     UMLListViewItem::ListViewType lvtype = tid->type;
-    Uml::IDType id = tid->id;
+    Uml::ID::Type id = tid->id;
 
     if (Model_Utils::typeIsDiagram(lvtype)) {
         bool breakFlag = false;

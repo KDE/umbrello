@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 // own header
@@ -30,7 +30,7 @@ DEBUG_REGISTER_DISABLED(FloatingDashLineWidget)
  * @param scene   The parent of the widget
  * @param id      The ID to assign (-1 will prompt a new ID)
  */
-FloatingDashLineWidget::FloatingDashLineWidget(UMLScene * scene, Uml::IDType id)
+FloatingDashLineWidget::FloatingDashLineWidget(UMLScene * scene, Uml::ID::Type id)
   : UMLWidget(scene, WidgetBase::wt_FloatingDashLine, id)
 {
     m_resizable = false;

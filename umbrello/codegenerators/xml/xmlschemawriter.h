@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <brian.thomas@gsfc.nasa.gov>     *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -58,7 +58,7 @@ public:
     /**
      * returns "XMLSchema"
      */
-    virtual Uml::ProgrammingLanguage language() const;
+    virtual Uml::ProgrammingLanguage::Enum language() const;
 
     /**
      * get list of reserved keywords
@@ -138,7 +138,7 @@ private:
      * not work right for plain associations between 2 different classes.
      */
     bool writeAssociationDecls(UMLAssociationList associations, bool noRoleOK, bool didOne,
-                               Uml::IDType id, QTextStream &XMLschema);
+                               Uml::ID::Type id, QTextStream &XMLschema);
 
     /**
      * Find all attributes that  belong in group

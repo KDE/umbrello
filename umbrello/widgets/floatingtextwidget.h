@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -51,7 +51,7 @@ public:
     static const UMLSceneValue restrictPositionMax;
 
     explicit FloatingTextWidget(UMLScene * scene, Uml::TextRole role = Uml::TextRole::Floating,
-                                const QString& text = "", Uml::IDType id = Uml::id_None);
+                                const QString& text = "", Uml::ID::Type id = Uml::ID::None);
     virtual ~FloatingTextWidget();
 
     QString text() const;

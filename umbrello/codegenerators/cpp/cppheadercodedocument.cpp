@@ -9,17 +9,6 @@
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-/**
- * We carve the CPP document up into 2 documents, "source" and "header".
- * This one represents the header portion.
- * The sections of each are as follows:
- * - header
- * - includes
- * - import statements
- * - class declaration
- * -   guts of the class (e.g. field decl, accessor methods, operations, dependant classes)
- */
-
 // own header
 #include "cppheadercodedocument.h"
 
@@ -42,8 +31,11 @@
 // qt includes
 #include <QRegExp>
 
-CPPHeaderCodeDocument::CPPHeaderCodeDocument ( UMLClassifier * concept )
-        : ClassifierCodeDocument (concept)
+/**
+ * Constructor.
+ */
+CPPHeaderCodeDocument::CPPHeaderCodeDocument(UMLClassifier* concept)
+  : ClassifierCodeDocument(concept)
 {
     setFileExtension(".h");
 
@@ -67,7 +59,10 @@ CPPHeaderCodeDocument::CPPHeaderCodeDocument ( UMLClassifier * concept )
     //synchronize();
 }
 
-CPPHeaderCodeDocument::~CPPHeaderCodeDocument ( )
+/**
+ * Destructor.
+ */
+CPPHeaderCodeDocument::~CPPHeaderCodeDocument()
 {
     resetTextBlocks();
 }
@@ -284,17 +279,19 @@ void CPPHeaderCodeDocument::resetTextBlocks()
 }
 
 /**
- * @param       op
+ * Add a code operation to this cpp classifier code document.
+ * In the vannilla version, we just tack all operations on the end
+ * of the document.
+ * @param op   the code operation
+ * @return bool which is true IF the code operation was added successfully
  */
-// in the vannilla version, we just tack all operations on the end
-// of the document
-bool CPPHeaderCodeDocument::addCodeOperation (CodeOperation * op )
+bool CPPHeaderCodeDocument::addCodeOperation(CodeOperation* op)
 {
     if (op == NULL) {
         uDebug() << "CodeOperation is null!";
         return false;;
     }
-    Uml::Visibility scope = op->getParentOperation()->visibility();
+    Uml::Visibility::Enum scope = op->getParentOperation()->visibility();
     if(!op->getParentOperation()->isLifeOperation())
     {
         switch (scope) {

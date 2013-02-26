@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2012                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -68,7 +68,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
 {
     UMLScenePoint pos = scene->pos();
     int y = pos.y();
-    Uml::DiagramType diagramType = scene->type();
+    Uml::DiagramType::Enum diagramType = scene->type();
     UMLObject::ObjectType type = o->baseType();
     UMLWidget *newWidget = NULL;
     switch (type) {
@@ -155,7 +155,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
     return newWidget;
 }
 
-bool validateObjType(UMLObject::ObjectType expected, UMLObject* &o, Uml::IDType id)
+bool validateObjType(UMLObject::ObjectType expected, UMLObject* &o, Uml::ID::Type id)
 {
     if (o == NULL) {
         uDebug() << "Widget_Factory::validateObjType: creating new object of type "
@@ -191,40 +191,40 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         //FIXME while boxes and texts are just diagram objects, activities and
         // states should be UMLObjects
     if (tag == "statewidget" || tag == "UML:StateWidget") {
-        widget = new StateWidget(scene, StateWidget::Normal, Uml::id_Reserved);
+        widget = new StateWidget(scene, StateWidget::Normal, Uml::ID::Reserved);
     } else if (tag == "notewidget" || tag == "UML:NoteWidget") {
-        widget = new NoteWidget(scene, NoteWidget::Normal, Uml::id_Reserved);
+        widget = new NoteWidget(scene, NoteWidget::Normal, Uml::ID::Reserved);
     } else if (tag == "boxwidget") {
-        widget = new BoxWidget(scene, Uml::id_Reserved);
+        widget = new BoxWidget(scene, Uml::ID::Reserved);
     } else if (tag == "floatingtext" || tag == "UML:FloatingTextWidget") {
-        widget = new FloatingTextWidget(scene, Uml::TextRole::Floating, "", Uml::id_Reserved);
+        widget = new FloatingTextWidget(scene, Uml::TextRole::Floating, "", Uml::ID::Reserved);
     } else if (tag == "activitywidget" || tag == "UML:ActivityWidget") {
-        widget = new ActivityWidget(scene, ActivityWidget::Initial, Uml::id_Reserved);
+        widget = new ActivityWidget(scene, ActivityWidget::Initial, Uml::ID::Reserved);
     } else if (tag == "messagewidget") {
-        widget = new MessageWidget(scene, Uml::sequence_message_asynchronous, Uml::id_Reserved);
+        widget = new MessageWidget(scene, Uml::sequence_message_asynchronous, Uml::ID::Reserved);
     } else if (tag == "forkjoin") {
-        widget = new ForkJoinWidget(scene, Qt::Vertical, Uml::id_Reserved);
+        widget = new ForkJoinWidget(scene, Qt::Vertical, Uml::ID::Reserved);
     } else if (tag == "preconditionwidget") {
-        widget = new PreconditionWidget(scene, NULL, Uml::id_Reserved);
+        widget = new PreconditionWidget(scene, NULL, Uml::ID::Reserved);
     } else if (tag == "combinedFragmentwidget") {
-        widget = new CombinedFragmentWidget(scene, CombinedFragmentWidget::Ref, Uml::id_Reserved);
+        widget = new CombinedFragmentWidget(scene, CombinedFragmentWidget::Ref, Uml::ID::Reserved);
     } else if (tag == "signalwidget") {
-        widget = new SignalWidget(scene, SignalWidget::Send,  Uml::id_Reserved);
+        widget = new SignalWidget(scene, SignalWidget::Send,  Uml::ID::Reserved);
     } else if (tag == "floatingdashlinewidget") {
-        widget = new FloatingDashLineWidget(scene, Uml::id_Reserved);
+        widget = new FloatingDashLineWidget(scene, Uml::ID::Reserved);
     } else if (tag == "objectnodewidget") {
-        widget = new ObjectNodeWidget(scene, ObjectNodeWidget::Normal, Uml::id_Reserved);
+        widget = new ObjectNodeWidget(scene, ObjectNodeWidget::Normal, Uml::ID::Reserved);
     } else if (tag == "regionwidget") {
-        widget = new RegionWidget(scene, Uml::id_Reserved);
+        widget = new RegionWidget(scene, Uml::ID::Reserved);
     } else if (tag == "pinwidget") {
-        widget = new PinWidget(scene, NULL, Uml::id_Reserved);
+        widget = new PinWidget(scene, NULL, Uml::ID::Reserved);
     }
     else
     {
         // Loading of widgets which represent an UMLObject
 
         // Find the UMLObject and create the Widget to represent it
-        Uml::IDType id = STR2ID(idStr);
+        Uml::ID::Type id = STR2ID(idStr);
         UMLDoc *umldoc = UMLApp::app()->document();
         UMLObject *o = umldoc->findObjectById(id);
         if (o == NULL) {

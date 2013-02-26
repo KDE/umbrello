@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2002    Oliver Kellogg <okellogg@users.sourceforge.net> *
- *   copyright (C) 2003-2012                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -53,7 +53,7 @@ AdaWriter::~AdaWriter()
  * Returns "Ada".
  * @return   the programming language identifier
  */
-Uml::ProgrammingLanguage AdaWriter::language() const
+Uml::ProgrammingLanguage::Enum AdaWriter::language() const
 {
     return Uml::ProgrammingLanguage::Ada;
 }
@@ -478,7 +478,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     // into the package body.
     UMLOperationList oppriv;
     foreach (UMLOperation* op, opl ) {
-        const Uml::Visibility::Value vis = op->visibility();
+        const Uml::Visibility::Enum vis = op->visibility();
         if (vis == Uml::Visibility::Private ||
             vis == Uml::Visibility::Implementation)
         oppriv.append(op);

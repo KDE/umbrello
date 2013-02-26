@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 2.8)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 
+set(KDE4_BUILD_TESTS ON)  # for unit tests
+
 # search packages used by KDE
 find_package(KDE4 REQUIRED)
 include(KDE4Defaults)
@@ -41,4 +43,9 @@ KDE4_NO_ENABLE_FINAL(umbrello)
 if(LIBXSLT_FOUND AND LIBXML2_FOUND AND Boost_FOUND)
     add_subdirectory( umbrello )
     add_subdirectory( doc )
+    # do we build the unit tests
+    if(KDE4_BUILD_TESTS)
+        ENABLE_TESTING()
+        add_subdirectory(unittests)
+    endif(KDE4_BUILD_TESTS)
 endif(LIBXSLT_FOUND AND LIBXML2_FOUND AND Boost_FOUND)

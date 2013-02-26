@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2010                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -44,7 +44,7 @@ void NoteWidgetController::doMouseDoubleClick(QGraphicsSceneMouseEvent* me)
 {
     Q_UNUSED(me);
     //TODO Copied from old code. What it does?
-    if (m_noteWidget->m_diagramLink == Uml::id_None) {
+    if (m_noteWidget->m_diagramLink == Uml::ID::None) {
         // setup popup menu if not already created.
         if ( !m_noteWidget->m_pMenu )
             m_noteWidget->setupPopupMenu();

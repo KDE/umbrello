@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2012                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -298,7 +298,7 @@ bool ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* asso
         UMLAssociation *umla = assoc->association();
         if (umla) {
             // association with model representation in UMLDoc
-            Uml::ModelType m = Model_Utils::convert_DT_MT(m_pUMLScene->type());
+            Uml::ModelType::Enum m = Model_Utils::convert_DT_MT(m_pUMLScene->type());
             UMLDoc *umldoc = UMLApp::app()->document();
             umla->setUMLPackage(umldoc->rootFolder(m));
             umldoc->addAssociation(umla);

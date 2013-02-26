@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -34,7 +34,7 @@ DEBUG_REGISTER_DISABLED(UMLCanvasObject)
  * @param name   The name of the Concept.
  * @param id     The unique id of the Concept.
  */
-UMLCanvasObject::UMLCanvasObject(const QString & name, Uml::IDType id)
+UMLCanvasObject::UMLCanvasObject(const QString & name, Uml::ID::Type id)
   : UMLObject(name, id)
 {
 }
@@ -263,7 +263,7 @@ UMLObject * UMLCanvasObject::findChildObject(const QString &n, UMLObject::Object
  * @param considerAncestors boolean switch to consider ancestors while searching
  * @return  Pointer to the object found (NULL if not found.)
  */
-UMLObject* UMLCanvasObject::findChildObjectById(Uml::IDType id, bool considerAncestors)
+UMLObject* UMLCanvasObject::findChildObjectById(Uml::ID::Type id, bool considerAncestors)
 {
     Q_UNUSED(considerAncestors);
     UMLObject *o = NULL;

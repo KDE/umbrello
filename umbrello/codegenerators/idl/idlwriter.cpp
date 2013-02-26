@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2012                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -58,7 +58,7 @@ bool IDLWriter::assocTypeIsMappableToAttribute(Uml::AssociationType at)
 /**
  * Returns "IDL".
  */
-Uml::ProgrammingLanguage IDLWriter::language() const
+Uml::ProgrammingLanguage::Enum IDLWriter::language() const
 {
     return Uml::ProgrammingLanguage::IDL;
 }
@@ -323,7 +323,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
             idl << indent() << "// Attributes:" << m_endl << m_endl;
             foreach (UMLAttribute *at , atl ) {
                 QString attName = cleanName(at->name());
-                Uml::Visibility scope = at->visibility();
+                Uml::Visibility::Enum scope = at->visibility();
                 idl << indent();
                 if (isValuetype) {
                     if (scope == Uml::Visibility::Public)
@@ -333,7 +333,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
                 } else {
                     if (scope != Uml::Visibility::Public) {
                         idl << "// visibility should be: "
-                        << scope.toString()
+                        << Uml::Visibility::toString(scope)
                         << m_endl;
                         idl << indent();
                     }

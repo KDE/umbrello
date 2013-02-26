@@ -83,11 +83,11 @@ void CodeImpSelectPage::setupLanguageBox()
 {
     int indexCounter = 0;
     while (indexCounter < Uml::ProgrammingLanguage::Reserved) {
-        QString language = Uml::ProgrammingLanguage::toString(Uml::ProgrammingLanguage::Value(indexCounter));
+        QString language = Uml::ProgrammingLanguage::toString(Uml::ProgrammingLanguage::fromInt(indexCounter));
         ui_languageBox->insertItem(indexCounter, language);
         indexCounter++;
     }
-    Uml::ProgrammingLanguage pl = UMLApp::app()->activeLanguage();
+    Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
     ui_languageBox->setCurrentIndex(pl);
 }
 
@@ -302,7 +302,7 @@ void CodeImpSelectPage::languageChanged(int id)
 void CodeImpSelectPage::changeLanguage()
 {
     QString plStr = language();
-    Uml::ProgrammingLanguage pl = Uml::ProgrammingLanguage::fromString(plStr);
+    Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromString(plStr);
     UMLApp::app()->setActiveLanguage(pl);
     /* :TODO: When the user changes the language, the codegenoptions page
      * :TODO: language-dependent stuff has to be updated.

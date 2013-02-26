@@ -36,8 +36,8 @@ public:
     };
 
     UMLEntityAttribute(UMLObject* parent, const QString& name,
-                       Uml::IDType id = Uml::id_None,
-                       Uml::Visibility s = Uml::Visibility::Private,
+                       Uml::ID::Type id = Uml::ID::None,
+                       Uml::Visibility::Enum s = Uml::Visibility::Private,
                        UMLObject *type = 0, const QString& iv = QString());
     explicit UMLEntityAttribute(UMLObject* parent);
     virtual ~UMLEntityAttribute();

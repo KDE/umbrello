@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -32,7 +32,7 @@ class PinWidget : public UMLWidget
     Q_OBJECT
 public:
 
-    PinWidget(UMLScene* scene, UMLWidget* a, Uml::IDType id = Uml::id_None);
+    PinWidget(UMLScene* scene, UMLWidget* a, Uml::ID::Type id = Uml::ID::None);
     virtual ~PinWidget();
 
     virtual void draw(QPainter & p, int offsetX, int offsetY);

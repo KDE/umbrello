@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -29,7 +29,7 @@ class UMLEnum : public UMLClassifier
 {
     Q_OBJECT
 public:
-    explicit UMLEnum(const QString& name = QString(), Uml::IDType id = Uml::id_None);
+    explicit UMLEnum(const QString& name = QString(), Uml::ID::Type id = Uml::ID::None);
 
     virtual ~UMLEnum();
 
@@ -41,7 +41,7 @@ public:
 
     UMLObject* createEnumLiteral(const QString& name = QString());
 
-    UMLObject* addEnumLiteral(const QString &name, Uml::IDType id = Uml::id_None);
+    UMLObject* addEnumLiteral(const QString &name, Uml::ID::Type id = Uml::ID::None);
 
     bool addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log = 0);
     bool addEnumLiteral(UMLEnumLiteral* literal, int position );

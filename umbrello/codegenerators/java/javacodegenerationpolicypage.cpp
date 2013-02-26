@@ -52,8 +52,8 @@ void JavaCodeGenerationPolicyPage::apply()
     commonPolicy->blockSignals(true);
 
     commonPolicy->setCommentStyle((CodeGenerationPolicy::CommentStyle ) form->m_SelectCommentStyle->currentIndex());
-    commonPolicy->setAttributeAccessorScope((Uml::Visibility::Value) (form->m_accessorScopeCB->currentIndex()));
-    commonPolicy->setAssociationFieldScope((Uml::Visibility::Value) (form->m_assocFieldScopeCB->currentIndex()));
+    commonPolicy->setAttributeAccessorScope(Uml::Visibility::fromInt(form->m_accessorScopeCB->currentIndex()));
+    commonPolicy->setAssociationFieldScope(Uml::Visibility::fromInt(form->m_assocFieldScopeCB->currentIndex()));
     commonPolicy->setAutoGenerateConstructors(form->m_generateConstructors->isChecked());
     parent->setAutoGenerateAttribAccessors(form->m_generateAttribAccessors->isChecked());
     parent->setAutoGenerateAssocAccessors(form->m_generateAssocAccessors->isChecked());

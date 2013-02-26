@@ -227,7 +227,7 @@ namespace Icon_Utils {
 
     QString toString(IconType type);
 
-    KIcon iconSet(Uml::DiagramType dt);
+    KIcon iconSet(Uml::DiagramType::Enum dt);
 
 }  // namespace
 

@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -26,10 +26,13 @@ class RubyClassDeclarationBlock;
 class RubyCodeGenerationPolicy;
 
 /**
-  * class RubyClassifierCodeDocument
-  * A Ruby UMLClassifier Code Document.
-  */
-
+ * class RubyClassifierCodeDocument
+ * A Ruby UMLClassifier Code Document.
+ * We carve the Ruby document up into sections as follows:
+ * - header
+ * - class declaration
+ * -   guts of the class (e.g. accessor methods, operations, dependant classes)
+ */
 class RubyClassifierCodeDocument : public ClassifierCodeDocument
 {
     Q_OBJECT

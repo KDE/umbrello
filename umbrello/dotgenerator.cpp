@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2012                                                    *
+ *   copyright (C) 2012-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -184,7 +184,7 @@ void DotGenerator::setUseFullNodeLabels(bool state)
  */
 bool DotGenerator::availableConfigFiles(UMLScene *scene, QHash<QString,QString> &configFiles)
 {
-    QString diagramType = scene->type().toString().toLower();
+    QString diagramType = Uml::DiagramType::toString(scene->type()).toLower();
     KStandardDirs dirs;
 
     QStringList fileNames = dirs.findAllResources("data", QString("umbrello/layouts/%1*.desktop").arg(diagramType));
@@ -286,7 +286,7 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
  * @note This method could also be used as a base to export diagrams as dot file
  *
  * @param fileName Filename where to create the dot file
- * @param scene The diagram from which the widget informations are fetched
+ * @param scene The diagram from which the widget information is fetched
  *
  * @return true if generating finished successfully
  */
@@ -296,7 +296,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
         return false;
 
-    QString diagramType = scene->type().toString().toLower();
+    QString diagramType = Uml::DiagramType::toString(scene->type()).toLower();
     if (!readConfigFile(diagramType, variant))
         return false;
 
@@ -462,7 +462,7 @@ QString DotGenerator::fixID(const QString &_id)
 {
     // FIXME: some widget's ids returned from the list are wrapped with "\"", find and fix them
     QString id(_id);
-    id.remove("\"");
+    id.remove('\"');
     return id;
 }
 

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -33,14 +33,14 @@ class ObjectWidget : public UMLWidget
 {
     Q_OBJECT
 public:
-    ObjectWidget(UMLScene * scene, UMLObject *o, Uml::IDType lid = Uml::id_None);
+    ObjectWidget(UMLScene * scene, UMLObject *o, Uml::ID::Type lid = Uml::ID::None);
     virtual ~ObjectWidget();
 
     virtual void setX(UMLSceneValue x);
     virtual void setY(UMLSceneValue y);
 
-    void setLocalID(Uml::IDType id);
-    Uml::IDType localID() const;
+    void setLocalID(Uml::ID::Type id);
+    Uml::ID::Type localID() const;
 
     void setMultipleInstance(bool multiple);
     bool multipleInstance() const;
@@ -80,7 +80,7 @@ public:
 
 public slots:
     void slotMenuSelection(QAction* action);
-    virtual void slotFillColorChanged(Uml::IDType viewID);
+    virtual void slotFillColorChanged(Uml::ID::Type viewID);
     void slotMessageMoved();
 
 protected:
@@ -93,13 +93,11 @@ private:
     void tabUp();
     void tabDown();
 
-    SeqLineWidget * m_pLine;
-
-    Uml::IDType m_nLocalID;   ///< local ID used on views
-
-    bool m_multipleInstance;  ///< draw an object as a multiple object
-    bool m_drawAsActor;       ///< object should be drawn as an Actor or an Object
-    bool m_showDestruction;   ///< show object destruction on sequence diagram line
+    SeqLineWidget* m_pLine;
+    Uml::ID::Type  m_nLocalID; ///< local ID used on views
+    bool m_multipleInstance;   ///< draw an object as a multiple object
+    bool m_drawAsActor;        ///< object should be drawn as an Actor or an Object
+    bool m_showDestruction;    ///< show object destruction on sequence diagram line
 
     MessageWidgetList m_messages;   ///< message widgets with an end on this widget
 

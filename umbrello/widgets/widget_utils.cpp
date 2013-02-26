@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2012                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -39,7 +39,7 @@ namespace Widget_Utils
      * @param widgets    The UMLWidgetList to search in.
      * @param messages   Optional pointer to a MessageWidgetList to search in.
      */
-    UMLWidget* findWidget(Uml::IDType id,
+    UMLWidget* findWidget(Uml::ID::Type id,
                           const UMLWidgetList& widgets,
                           const MessageWidgetList* messages /* = 0 */)
     {

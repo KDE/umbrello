@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -27,37 +27,28 @@ class CodeParameter : public QObject
     Q_OBJECT
 public:
 
-    /**
-     * Empty Constructor
-     */
-    CodeParameter ( ClassifierCodeDocument * doc, UMLObject * parentObj );
+    CodeParameter(ClassifierCodeDocument* doc, UMLObject* parentObj);
+    virtual ~CodeParameter();
 
-    /**
-     * Empty Destructor
-     */
-    virtual ~CodeParameter ( );
+    ClassifierCodeDocument* getParentDocument();
 
-    ClassifierCodeDocument * getParentDocument ( );
+    UMLObject* getParentObject();
 
-    UMLObject * getParentObject ( );
+    bool getAbstract();
 
-    bool getAbstract ( );
+    bool getStatic();
 
-    bool getStatic ( );
+    QString getName() const;
 
-    QString getName ( ) const;
+    virtual QString getTypeName();
 
-    virtual QString getTypeName ( );
+    Uml::Visibility::Enum getVisibility() const;
 
-    Uml::Visibility getVisibility ( ) const;
+    virtual void setInitialValue(const QString &new_var);
+    virtual QString getInitialValue();
 
-    virtual void setInitialValue ( const QString &new_var );
-
-    virtual QString getInitialValue ( );
-
-    void setComment ( CodeComment * comment );
-
-    CodeComment * getComment();
+    void setComment(CodeComment* comment);
+    CodeComment* getComment();
 
     // the id of this parameter is the same as the parent UMLObject id.
     QString ID();
@@ -66,19 +57,17 @@ public:
 
 protected:
 
-    virtual void setAttributesOnNode(QDomDocument & doc, QDomElement & blockElement);
-    virtual void setAttributesFromNode(QDomElement & element);
+    virtual void setAttributesOnNode(QDomDocument& doc, QDomElement& blockElement);
+    virtual void setAttributesFromNode(QDomElement& element);
 
 private:
 
-    ClassifierCodeDocument * m_parentDocument;
-    UMLObject * m_parentObject;
-    CodeComment * m_comment;
+    ClassifierCodeDocument* m_parentDocument;
+    UMLObject*              m_parentObject;
+    CodeComment*            m_comment;
+    QString                 m_initialValue;  ///< initial value of this code parameter
 
-    // The initial value of this code parameter
-    QString m_initialValue;
-
-    void initFields(ClassifierCodeDocument * doc, UMLObject * obj);
+    void initFields(ClassifierCodeDocument* doc, UMLObject* obj);
 
 public slots:
 

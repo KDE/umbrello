@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -38,7 +38,7 @@ DEBUG_REGISTER_DISABLED(PreconditionWidget)
  * @param a       The role A widget for this precondition.
  * @param id      The ID to assign (-1 will prompt a new ID).
  */
-PreconditionWidget::PreconditionWidget(UMLScene* scene, ObjectWidget* a, Uml::IDType id)
+PreconditionWidget::PreconditionWidget(UMLScene* scene, ObjectWidget* a, Uml::ID::Type id)
   : UMLWidget(scene, WidgetBase::wt_Precondition, id),
     m_objectWidget(a)
 {
@@ -151,7 +151,7 @@ bool PreconditionWidget::activate(IDChangeLog * Log /*= 0*/)
         return false;
     }
 
-    connect(m_objectWidget, SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
+    connect(m_objectWidget, SIGNAL(sigWidgetMoved(Uml::ID::Type)), this, SLOT(slotWidgetMoved(Uml::ID::Type)));
 
     calculateDimensions();
     return true;
@@ -184,9 +184,9 @@ void PreconditionWidget::calculateDimensions()
 /**
  * Slot when widget is moved.
  */
-void PreconditionWidget::slotWidgetMoved(Uml::IDType id)
+void PreconditionWidget::slotWidgetMoved(Uml::ID::Type id)
 {
-    const Uml::IDType idA = m_objectWidget->localID();
+    const Uml::ID::Type idA = m_objectWidget->localID();
     if (idA != id ) {
         DEBUG(DBG_SRC) << "id=" << ID2STR(id) << ": ignoring for idA=" << ID2STR(idA);
         return;
@@ -278,7 +278,7 @@ bool PreconditionWidget::loadFromXMI(QDomElement& qElement)
     setName(qElement.attribute( "preconditionname", "" ));
     setDocumentation(qElement.attribute( "documentation", "" ));
 
-    Uml::IDType aId = STR2ID(widgetaid);
+    Uml::ID::Type aId = STR2ID(widgetaid);
 
     m_objectWidget = dynamic_cast<ObjectWidget*>(umlScene()->findWidget( aId ));
     if (!m_objectWidget) {

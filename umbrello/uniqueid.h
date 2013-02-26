@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2011                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -15,7 +15,7 @@
 
 namespace UniqueID {
 
-    Uml::IDType gen();
+    Uml::ID::Type gen();
 
     /////////// auxiliary functions ////////////////////////////////////
     // Only required by code that does special operations on unique IDs.
@@ -24,8 +24,8 @@ namespace UniqueID {
 
     void init();
 
-    void set(Uml::IDType id);
-    Uml::IDType get();
+    void set(Uml::ID::Type id);
+    Uml::ID::Type get();
 
 }  // end namespace UniqueID
 

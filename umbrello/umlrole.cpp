@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -196,7 +196,7 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
         }
     }
 
-    roleElement.setAttribute("visibility", visibility().toString(false));
+    roleElement.setAttribute("visibility", Uml::Visibility::toString(visibility(), false));
 
     switch (m_Changeability) {
         case Uml::Changeability::Frozen:

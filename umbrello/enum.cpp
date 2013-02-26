@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -28,7 +28,7 @@
  * @param name  The name of the Enum.
  * @param id  The unique id of the Enum.
  */
-UMLEnum::UMLEnum(const QString& name, Uml::IDType id) : UMLClassifier(name, id)
+UMLEnum::UMLEnum(const QString& name, Uml::ID::Type id) : UMLClassifier(name, id)
 {
     init();
 }
@@ -84,7 +84,7 @@ void UMLEnum::init()
  */
 UMLObject* UMLEnum::createEnumLiteral(const QString& name)
 {
-    Uml::IDType id = UniqueID::gen();
+    Uml::ID::Type id = UniqueID::gen();
     QString currentName;
     if (name.isNull())  {
         currentName = uniqChildName(UMLObject::ot_EnumLiteral);
@@ -129,7 +129,7 @@ UMLObject* UMLEnum::createEnumLiteral(const QString& name)
  *            If omitted a new ID is assigned internally.
  * @return  Pointer to the UMLEnumliteral created.
  */
-UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::IDType id)
+UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::ID::Type id)
 {
     UMLObject *el = UMLCanvasObject::findChildObject(name);
     if (el != NULL) {

@@ -44,7 +44,7 @@ void RubyCodeClassFieldDeclarationBlock::updateContent()
     CodeClassField * cf = getParentClassField();
     RubyCodeClassField * rcf = dynamic_cast<RubyCodeClassField*>(cf);
     CodeGenerationPolicy * p = UMLApp::app()->commonPolicy();
-    Uml::Visibility::Value scopePolicy = p->getAssociationFieldScope();
+    Uml::Visibility::Enum scopePolicy = p->getAssociationFieldScope();
 
     // Set the comment
     QString notes = getParentObject()->doc();
@@ -61,7 +61,7 @@ void RubyCodeClassFieldDeclarationBlock::updateContent()
         case Uml::Visibility::Public:
         case Uml::Visibility::Private:
         case Uml::Visibility::Protected:
-            scopeStr = Uml::Visibility::toString((Uml::Visibility::Value) scopePolicy);
+            scopeStr = Uml::Visibility::toString(scopePolicy);
             break;
         default:
         case Uml::Visibility::FromParent:

@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003 Brian Thomas <brian.thomas@gsfc.nasa.gov>          *
- *   copyright (C) 2004-2012                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -40,7 +40,7 @@ XMLSchemaWriter::~XMLSchemaWriter()
 /**
  * returns "XMLSchema"
  */
-Uml::ProgrammingLanguage XMLSchemaWriter::language() const
+Uml::ProgrammingLanguage::Enum XMLSchemaWriter::language() const
 {
     return Uml::ProgrammingLanguage::XMLSchema;
 }
@@ -528,7 +528,7 @@ void XMLSchemaWriter::writeComment( const QString &comment, QTextStream &XMLsche
 // badly for someone using a plain association between 2 different classes. THAT should
 // be done, but isnt yet (this is why I have left role b code in for now). -b.t.
 bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
-        bool noRoleNameOK, bool didFirstOne, Uml::IDType id, QTextStream &XMLschema)
+        bool noRoleNameOK, bool didFirstOne, Uml::ID::Type id, QTextStream &XMLschema)
 {
     if( !associations.isEmpty() )
     {
@@ -539,10 +539,10 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
             // it may seem counter intuitive, but you want to insert the role of the
             // *other* class into *this* class.
 
-            if (a->getObjectId(Uml::A) == id && a->getVisibility(Uml::B) != Uml::Visibility::Private)
+            if (a->getObjectId(Uml::A) == id && a->visibility(Uml::B) != Uml::Visibility::Private)
                 printRoleB = true;
 
-            if (a->getObjectId(Uml::B) == id && a->getVisibility(Uml::A) != Uml::Visibility::Private)
+            if (a->getObjectId(Uml::B) == id && a->visibility(Uml::A) != Uml::Visibility::Private)
                 printRoleA = true;
 
             // First: we insert documentaion for association IF it has either role
@@ -595,18 +595,18 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
 
 UMLObjectList XMLSchemaWriter::findChildObjsInAssociations (UMLClassifier *c, UMLAssociationList associations)
 {
-    Uml::IDType id = c->id();
+    Uml::ID::Type id = c->id();
     UMLObjectList list;
     foreach (UMLAssociation *a , associations )
     {
         if (a->getObjectId(Uml::A) == id
-                && a->getVisibility(Uml::B) != Uml::Visibility::Private
+                && a->visibility(Uml::B) != Uml::Visibility::Private
                 && !a->getRoleName(Uml::B).isEmpty()
            )
             list.append(a->getObject(Uml::B));
 
         if (a->getObjectId(Uml::B) == id
-                && a->getVisibility(Uml::A) != Uml::Visibility::Private
+                && a->visibility(Uml::A) != Uml::Visibility::Private
                 && !a->getRoleName(Uml::A).isEmpty()
            )
             list.append(a->getObject(Uml::A));

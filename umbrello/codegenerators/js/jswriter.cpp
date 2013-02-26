@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003       Alexander Blum  <blum@kewbee.de>             *
- *   copyright (C) 2004-2012                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -29,6 +29,10 @@ JSWriter::~JSWriter()
 {
 }
 
+/**
+ * Call this method to generate Actionscript code for a UMLClassifier.
+ * @param c   the class you want to generate code for
+ */
 void JSWriter::writeClass(UMLClassifier *c)
 {
     if (!c)
@@ -176,6 +180,12 @@ void JSWriter::writeClass(UMLClassifier *c)
 ////////////////////////////////////////////////////////////////////////////////////
 //  Helper Methods
 
+/**
+ * Write a list of associations.
+ * @param classname   the name of the class
+ * @param assocList   the list of associations
+ * @param js          output stream for the JS file
+ */
 void JSWriter::writeAssociation(QString& classname, UMLAssociationList& assocList , QTextStream &js)
 {
     foreach (UMLAssociation *a , assocList ) {
@@ -218,6 +228,12 @@ void JSWriter::writeAssociation(QString& classname, UMLAssociationList& assocLis
     }
 }
 
+/**
+ * Write a list of class operations.
+ * @param classname   the name of the class
+ * @param opList      the list of operations
+ * @param js          output stream for the JS file
+ */
 void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTextStream &js)
 {
     foreach (UMLOperation* op ,  *opList )
@@ -266,11 +282,19 @@ void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
     }//end for
 }
 
-Uml::ProgrammingLanguage JSWriter::language() const
+/**
+ * Returns "JavaScript".
+ * @return   the programming language identifier
+ */
+Uml::ProgrammingLanguage::Enum JSWriter::language() const
 {
     return Uml::ProgrammingLanguage::JavaScript;
 }
 
+/**
+ * Get list of reserved keywords.
+ * @return   the list of reserved keywords
+ */
 QStringList JSWriter::reservedKeywords() const
 {
     static QStringList keywords;

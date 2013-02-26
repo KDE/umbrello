@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2012                                                *
+ *  copyright (C) 2002-2013                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -121,7 +121,7 @@ UMLListView::UMLListView(QWidget *parent)
     connect(this, SIGNAL(itemCollapsed(QTreeWidgetItem*)), this, SLOT(slotCollapsed(QTreeWidgetItem*)));
     connect(this, SIGNAL(itemExpanded(QTreeWidgetItem*)), this, SLOT(slotExpanded(QTreeWidgetItem*)));
     connect(UMLApp::app(), SIGNAL(sigCutSuccessful()), this, SLOT(slotCutSuccessful()));
-    connect(this, SIGNAL(itemChanged(QTreeWidgetItem*, int)), this, SLOT(slotItemChanged(QTreeWidgetItem*, int)));
+    connect(this, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(slotItemChanged(QTreeWidgetItem*,int)));
     connect(this, SIGNAL(itemSelectionChanged()), this, SLOT(slotItemSelectionChanged()));
 }
 
@@ -726,7 +726,7 @@ void UMLListView::popupMenuSel(QAction* action)
 
     default:
         {
-            Uml::DiagramType dt = ListPopupMenu::convert_MT_DT(menuType);
+            Uml::DiagramType::Enum dt = ListPopupMenu::convert_MT_DT(menuType);
             if (dt == Uml::DiagramType::Undefined) {
                 uWarning() << "unknown type" << menuType;
             } else {
@@ -758,7 +758,7 @@ void UMLListView::popupMenuSel(QAction* action)
  *             Diagram_Type is returned.
  * @return  Pointer to the parent UMLListViewItem for the diagram.
  */
-UMLListViewItem *UMLListView::findFolderForDiagram(Uml::DiagramType dt)
+UMLListViewItem *UMLListView::findFolderForDiagram(Uml::DiagramType::Enum dt)
 {
     UMLListViewItem *p = static_cast<UMLListViewItem*>(currentItem());
     if (p && Model_Utils::typeIsFolder(p->type())
@@ -789,7 +789,7 @@ UMLListViewItem *UMLListView::findFolderForDiagram(Uml::DiagramType dt)
  * Creates a new item to represent a new diagram.
  * @param id the id of the new diagram
  */
-void UMLListView::slotDiagramCreated(Uml::IDType id)
+void UMLListView::slotDiagramCreated(Uml::ID::Type id)
 {
     if (m_doc->loading()) {
         return;
@@ -798,7 +798,7 @@ void UMLListView::slotDiagramCreated(Uml::IDType id)
     if (v) {
         UMLScene *scene = v->umlScene();
         if (scene) {
-            const Uml::DiagramType dt = scene->type();
+            const Uml::DiagramType::Enum dt = scene->type();
             UMLListViewItem* p = findFolderForDiagram(dt);
             UMLListViewItem* item = new UMLListViewItem(p, scene->name(), Model_Utils::convert_DT_LVT(dt), id);
             setSelected(item, true);
@@ -857,7 +857,7 @@ UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const
         } else if (t == UMLObject::ot_Datatype) {
             parentItem = m_datatypeFolder;
         } else {
-            Uml::ModelType guess = Model_Utils::guessContainer(object);
+            Uml::ModelType::Enum guess = Model_Utils::guessContainer(object);
             parentItem = m_lv[guess];
         }
     }
@@ -1095,7 +1095,7 @@ void UMLListView::childObjectRemoved(UMLClassifierListItem* obj)
  * Renames a diagram in the list view
  * @param id    the id of the renamed diagram
  */
-void UMLListView::slotDiagramRenamed(Uml::IDType id)
+void UMLListView::slotDiagramRenamed(Uml::ID::Type id)
 {
     UMLListViewItem* item;
     UMLView* v = m_doc->findView(id);
@@ -1119,9 +1119,9 @@ void UMLListView::setDocument(UMLDoc *doc)
     }
     m_doc = doc;
 
-    connect(m_doc, SIGNAL(sigDiagramCreated(Uml::IDType)), this, SLOT(slotDiagramCreated(Uml::IDType)));
-    connect(m_doc, SIGNAL(sigDiagramRemoved(Uml::IDType)), this, SLOT(slotDiagramRemoved(Uml::IDType)));
-    connect(m_doc, SIGNAL(sigDiagramRenamed(Uml::IDType)), this, SLOT(slotDiagramRenamed(Uml::IDType)));
+    connect(m_doc, SIGNAL(sigDiagramCreated(Uml::ID::Type)), this, SLOT(slotDiagramCreated(Uml::ID::Type)));
+    connect(m_doc, SIGNAL(sigDiagramRemoved(Uml::ID::Type)), this, SLOT(slotDiagramRemoved(Uml::ID::Type)));
+    connect(m_doc, SIGNAL(sigDiagramRenamed(Uml::ID::Type)), this, SLOT(slotDiagramRenamed(Uml::ID::Type)));
     connect(m_doc, SIGNAL(sigObjectCreated(UMLObject*)),   this, SLOT(slotObjectCreated(UMLObject*)));
     connect(m_doc, SIGNAL(sigObjectRemoved(UMLObject*)),   this, SLOT(slotObjectRemoved(UMLObject*)));
 }
@@ -1145,7 +1145,7 @@ void UMLListView::slotObjectRemoved(UMLObject* object)
  * Removes the item representing a diagram.
  * @param id the id of the diagram
  */
-void UMLListView::slotDiagramRemoved(Uml::IDType id)
+void UMLListView::slotDiagramRemoved(Uml::ID::Type id)
 {
     UMLListViewItem* item = findItem(id);
     delete item;
@@ -1257,9 +1257,9 @@ UMLListViewItem* UMLListView::findView(UMLView* v)
         return 0;
     }
     UMLListViewItem* item;
-    Uml::DiagramType dType = v->umlScene()->type();
+    Uml::DiagramType::Enum dType = v->umlScene()->type();
     UMLListViewItem::ListViewType type = Model_Utils::convert_DT_LVT(dType);
-    Uml::IDType id = v->umlScene()->ID();
+    Uml::ID::Type id = v->umlScene()->ID();
     if (dType == Uml::DiagramType::UseCase) {
         item = m_lv[Uml::ModelType::UseCase];
     } else if (dType == Uml::DiagramType::Component) {
@@ -1291,7 +1291,7 @@ UMLListViewItem* UMLListView::findView(UMLView* v)
  * Used by findView().
  */
 UMLListViewItem* UMLListView::recursiveSearchForView(UMLListViewItem* listViewItem,
-        UMLListViewItem::ListViewType type, Uml::IDType id)
+        UMLListViewItem::ListViewType type, Uml::ID::Type id)
 {
     if (!listViewItem)
         return 0;
@@ -1316,7 +1316,7 @@ UMLListViewItem* UMLListView::recursiveSearchForView(UMLListViewItem* listViewIt
  * @param id   The ID to search for.
  * @return     The item with the given ID or 0 if not found.
  */
-UMLListViewItem* UMLListView::findItem(Uml::IDType id)
+UMLListViewItem* UMLListView::findItem(Uml::ID::Type id)
 {
     UMLListViewItem *topLevel = static_cast<UMLListViewItem*>(topLevelItem(0));
     UMLListViewItem *item = topLevel->findItem(id);
@@ -1339,7 +1339,7 @@ void UMLListView::init()
         //m_rv->setChildIndicatorPolicy(QTreeWidgetItem::DontShowIndicator);
 
         for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
-            Uml::ModelType mt = Uml::ModelType::Value(i);
+            Uml::ModelType::Enum mt = Uml::ModelType::fromInt(i);
             UMLFolder *sysFolder = m_doc->rootFolder(mt);
             UMLListViewItem::ListViewType lvt = Model_Utils::convert_MT_LVT(mt);
             m_lv[i] = new UMLListViewItem(m_rv, sysFolder->localName(), lvt, sysFolder);
@@ -1630,7 +1630,7 @@ void UMLListView::addAtContainer(UMLListViewItem *item, UMLListViewItem *parent)
  * other listview parent item.
  * Also takes care of the corresponding move in the model.
  */
-UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, UMLListViewItem::ListViewType srcType,
+UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::ListViewType srcType,
         UMLListViewItem *newParent)
 {
     if (newParent == 0)
@@ -1853,7 +1853,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, UMLListViewItem::Li
                     foreach(UMLAttribute* parm, parmList) {
                         UMLAttribute *newParm = new UMLAttribute(newParentClassifier,
                                 parm->name(),
-                                Uml::id_None,
+                                Uml::ID::None,
                                 parm->visibility(),
                                 parm->getType(),
                                 parm->getInitialValue());
@@ -2041,7 +2041,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
     case UMLListViewItem::lvt_ForeignKeyConstraint:
     case UMLListViewItem::lvt_CheckConstraint: {
         UMLClassifier *pClass =  static_cast<UMLClassifier*>(parent->umlObject());
-        Uml::IDType newID = IDChanges.findNewID(Data.ID());
+        Uml::ID::Type newID = IDChanges.findNewID(Data.ID());
         pObject = pClass->findChildObjectById(newID);
         if (pObject) {
             item = new UMLListViewItem(parent, Data.text(0), lvt, pObject);
@@ -2059,7 +2059,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
     case UMLListViewItem::lvt_Component_Diagram:
     case UMLListViewItem::lvt_Deployment_Diagram:
     case UMLListViewItem::lvt_EntityRelationship_Diagram: {
-        Uml::IDType newID = IDChanges.findNewID(Data.ID());
+        Uml::ID::Type newID = IDChanges.findNewID(Data.ID());
         UMLView* v = m_doc->findView(newID);
         if (v == 0) {
             return 0;
@@ -2267,9 +2267,9 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
 
     QString name;
     if (Model_Utils::typeIsDiagram(type)) {
-        Uml::DiagramType dt = Model_Utils::convert_LVT_DT(type);
+        Uml::DiagramType::Enum dt = Model_Utils::convert_LVT_DT(type);
         name = uniqueDiagramName(dt);
-        m_editItem = new UMLListViewItem(parentItem, name, type, Uml::id_None);
+        m_editItem = new UMLListViewItem(parentItem, name, type, Uml::ID::None);
     } else {
         UMLObject::ObjectType ot = Model_Utils::convert_LVT_OT(type);
         if (ot == UMLObject::ot_UMLObject) {
@@ -2566,7 +2566,7 @@ bool UMLListView::createChildUMLObject(UMLListViewItem * item, UMLObject::Object
     } else if (type == UMLObject::ot_Attribute || type == UMLObject::ot_EntityAttribute)  {
         UMLClassifier *owningClass = static_cast<UMLClassifier*>(parent);
         Model_Utils::NameAndType nt;
-        Uml::Visibility vis;
+        Uml::Visibility::Enum vis;
         Model_Utils::Parse_Status st;
         st = Model_Utils::parseAttribute(text, nt, owningClass, &vis);
         if (st) {
@@ -2665,10 +2665,10 @@ bool UMLListView::createChildUMLObject(UMLListViewItem * item, UMLObject::Object
 /**
  * Creates a diagram out of the given list view item.
  */
-UMLView* UMLListView::createDiagram(UMLListViewItem * item, Uml::DiagramType type)
+UMLView* UMLListView::createDiagram(UMLListViewItem * item, Uml::DiagramType::Enum type)
 {
     QString name = item->text(0);
-    DEBUG(DBG_SRC) << name << " / type=" << type.toString();
+    DEBUG(DBG_SRC) << name << " / type=" << Uml::DiagramType::toString(type);
     UMLView * view = m_doc->findView(type, name);
     if (view) {
         delete item;
@@ -2698,7 +2698,7 @@ UMLView* UMLListView::createDiagram(UMLListViewItem * item, Uml::DiagramType typ
 /**
  * Returns a unique name for a diagram.
  */
-QString UMLListView::uniqueDiagramName(Uml::DiagramType type)
+QString UMLListView::uniqueDiagramName(Uml::DiagramType::Enum type)
 {
     return m_doc->uniqueViewName(type);
 }
@@ -2916,10 +2916,10 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
             return false;
         UMLListViewItem::ListViewType lvType = (UMLListViewItem::ListViewType)type.toInt();
         bool bOpen = (bool)open.toInt();
-        Uml::IDType nID = STR2ID(id);
+        Uml::ID::Type nID = STR2ID(id);
         UMLObject * pObject = 0;
         UMLListViewItem * item = 0;
-        if (nID != Uml::id_None) {
+        if (nID != Uml::ID::None) {
             // The following is an ad hoc hack for the copy/paste code.
             // The clip still contains the old children although new
             // UMLCLassifierListItems have already been created.
@@ -2928,8 +2928,8 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
             // new UMLCLassifierListItems.
             IDChangeLog *idchanges = m_doc->changeLog();
             if (idchanges) {
-                Uml::IDType newID = idchanges->findNewID(nID);
-                if (newID != Uml::id_None) {
+                Uml::ID::Type newID = idchanges->findNewID(nID);
+                if (newID != Uml::ID::None) {
                     DEBUG(DBG_SRC) << " using id " << ID2STR(newID)
                                    << " instead of " << ID2STR(nID);
                     nID = newID;
@@ -2960,7 +2960,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
             }
         } else if (Model_Utils::typeIsRootView(lvType)) {
             // Predefined folders did not have their ID set.
-            const Uml::ModelType mt = Model_Utils::convert_LVT_MT(lvType);
+            const Uml::ModelType::Enum mt = Model_Utils::convert_LVT_MT(lvType);
             nID = m_doc->rootFolder(mt)->id();
         } else if (Model_Utils::typeIsFolder(lvType)) {
             // Pre-1.2 format: Folders did not have their ID set.
@@ -3062,7 +3062,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                     DEBUG(DBG_SRC) << "And also the parent->umlObject() does not exist";
                     return false;
                 }
-                if (nID == Uml::id_None) {
+                if (nID == Uml::ID::None) {
                     uWarning() << "lvtype " << UMLListViewItem::toString(lvType) << " has id -1";
                 } else {
                     UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(umlObject);

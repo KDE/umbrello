@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Nikolaus Gradwohl  <guru@local-guru.net>      *
- *   copyright (C) 2004-2012                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -302,7 +302,7 @@ void SQLWriter::writeClass(UMLClassifier *c)
 /**
  * Returns "SQL".
  */
-Uml::ProgrammingLanguage SQLWriter::language() const
+Uml::ProgrammingLanguage::Enum SQLWriter::language() const
 {
     return Uml::ProgrammingLanguage::SQL;
 }

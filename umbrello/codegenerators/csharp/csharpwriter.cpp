@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2007-2012                                               *
+ *   copyright (C) 2007-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -509,12 +509,12 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
         if (!isInterface) {
             if (!isOverride) {
                 if (op->isAbstract()) cs << "abstract ";
-                cs << op->visibility().toString() << " ";
+                cs << Uml::Visibility::toString(op->visibility()) << " ";
                 if (op->isStatic()) cs << "static ";
             }
             else {
                 // method overriding an abstract parent
-                cs << op->visibility().toString() << " override ";
+                cs << Uml::Visibility::toString(op->visibility()) << " override ";
                 if (op->isStatic()) cs << "static ";
             }
         }
@@ -672,11 +672,11 @@ void CSharpWriter::writeAssociatedAttributes(UMLAssociationList &associated, UML
         //FIXME:is this simple condition enough?
         if (a->getMultiplicity(Uml::B).isEmpty() || a->getMultiplicity(Uml::B) == "1")  {
             // normal attribute
-            writeAttribute(roleDoc, a->getVisibility(Uml::B), false, typeName, roleName, "", ( a->getVisibility(Uml::B) != Uml::Visibility::Private), cs);
+            writeAttribute(roleDoc, a->visibility(Uml::B), false, typeName, roleName, "", ( a->visibility(Uml::B) != Uml::Visibility::Private), cs);
         } else {
             // array
             roleDoc += "\n(Array of " + typeName + ')';
-            writeAttribute(roleDoc, a->getVisibility(Uml::B), false, "ArrayList", roleName, "", ( a->getVisibility(Uml::B) != Uml::Visibility::Private), cs);
+            writeAttribute(roleDoc, a->visibility(Uml::B), false, "ArrayList", roleName, "", ( a->visibility(Uml::B) != Uml::Visibility::Private), cs);
         }
     }
 }
@@ -693,7 +693,7 @@ void CSharpWriter::writeAssociatedAttributes(UMLAssociationList &associated, UML
  * @param cs output stream
  */
 void CSharpWriter::writeAttribute(const QString& doc,
-                                  Uml::Visibility visibility,
+                                  Uml::Visibility::Enum visibility,
                                   bool isStatic,
                                   const QString& typeName,
                                   const QString& name,
@@ -709,7 +709,7 @@ void CSharpWriter::writeAttribute(const QString& doc,
 
     }
     cs << m_container_indent << m_indentation;
-    cs << visibility.toString() << " ";
+    cs << Uml::Visibility::toString(visibility) << " ";
     if (isStatic) cs << "static ";
 
     //Variable type with/without namespace path
@@ -764,7 +764,7 @@ QString CSharpWriter::makeLocalTypeName(UMLClassifierListItem *cl)
 /**
  * Returns "C#".
  */
-Uml::ProgrammingLanguage CSharpWriter::language() const
+Uml::ProgrammingLanguage::Enum CSharpWriter::language() const
 {
     return Uml::ProgrammingLanguage::CSharp;
 }

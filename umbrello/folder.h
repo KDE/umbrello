@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2011                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -35,7 +35,7 @@ class UMLFolder : public UMLPackage
 {
     Q_OBJECT
 public:
-    explicit UMLFolder(const QString & name = QString(), Uml::IDType id = Uml::id_None);
+    explicit UMLFolder(const QString & name = QString(), Uml::ID::Type id = Uml::ID::None);
     virtual ~UMLFolder();
 
     virtual UMLObject* clone() const;
@@ -51,8 +51,8 @@ public:
 
     void activateViews();
 
-    UMLView* findView(Uml::IDType id);
-    UMLView* findView(Uml::DiagramType type, const QString &name, bool searchAllScopes = true);
+    UMLView* findView(Uml::ID::Type id);
+    UMLView* findView(Uml::DiagramType::Enum type, const QString &name, bool searchAllScopes = true);
 
     void setViewOptions(const Settings::OptionState& optionState);
 

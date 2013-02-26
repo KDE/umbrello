@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -324,8 +324,8 @@ void AssociationLine::cleanup()
     m_pSubsetSymbol = 0;
     m_bHeadCreated = m_bParallelLineCreated = m_bSubsetSymbolCreated = false;
     if (m_associationWidget) {
-        disconnect(m_associationWidget->umlScene(), SIGNAL(sigLineColorChanged(Uml::IDType)), this, SLOT(slotLineColorChanged(Uml::IDType)));
-        disconnect(m_associationWidget->umlScene(), SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
+        disconnect(m_associationWidget->umlScene(), SIGNAL(sigLineColorChanged(Uml::ID::Type)), this, SLOT(slotLineColorChanged(Uml::ID::Type)));
+        disconnect(m_associationWidget->umlScene(), SIGNAL(sigLineWidthChanged(Uml::ID::Type)), this, SLOT(slotLineWidthChanged(Uml::ID::Type)));
         m_associationWidget = 0;
     }
 }
@@ -625,8 +625,8 @@ void AssociationLine::setAssociation(AssociationWidget * association)
     if( getAssocType() == Uml::AssociationType::Coll_Message )
         setupParallelLine();
     if (m_associationWidget) {
-        connect(m_associationWidget->umlScene(), SIGNAL(sigLineColorChanged(Uml::IDType)), this, SLOT(slotLineColorChanged(Uml::IDType)));
-        connect(m_associationWidget->umlScene(), SIGNAL(sigLineWidthChanged(Uml::IDType)), this, SLOT(slotLineWidthChanged(Uml::IDType)));
+        connect(m_associationWidget->umlScene(), SIGNAL(sigLineColorChanged(Uml::ID::Type)), this, SLOT(slotLineColorChanged(Uml::ID::Type)));
+        connect(m_associationWidget->umlScene(), SIGNAL(sigLineWidthChanged(Uml::ID::Type)), this, SLOT(slotLineWidthChanged(Uml::ID::Type)));
     }
     else {
         uWarning() << "scene is null. Can not connect SIGNAL/SLOT.";
@@ -785,7 +785,7 @@ void AssociationLine::update()
  *
  * @param viewID The id of the object behind the widget.
  */
-void AssociationLine::slotLineColorChanged(Uml::IDType viewID)
+void AssociationLine::slotLineColorChanged(Uml::ID::Type viewID)
 {
     if(m_associationWidget->umlScene()->ID() != viewID) {
         return;
@@ -798,7 +798,7 @@ void AssociationLine::slotLineColorChanged(Uml::IDType viewID)
  *
  * @param viewID The id of the object behind the widget.
  */
-void AssociationLine::slotLineWidthChanged(Uml::IDType viewID)
+void AssociationLine::slotLineWidthChanged(Uml::ID::Type viewID)
 {
     if(m_associationWidget->umlScene()->ID() != viewID) {
         return;
