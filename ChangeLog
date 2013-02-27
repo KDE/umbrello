@@ -1,6 +1,7 @@
 Version 2.10.1 (unreleased)
 
 * New feature: Fit diagrams in view after applying layout to get better overview
+* New feature: Add view menu to switch on tree, doc and command history view 
 * Update zoom slider and percent value when switching diagrams
 * Made "Fit" button working
 * Fixed scene limits when moving widgets and/or loading xmi files

@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="umbrello" version="11">
+<kpartgui name="umbrello" version="12">
 <MenuBar>
   <Menu name="file"><text>&amp;File</text>
       <Menu name="file_export"><text>&amp;Export</text>
@@ -9,6 +9,11 @@
   </Menu>
   <Menu name="edit"><text>&amp;Edit</text>
     <Action name="delete_selected"/>
+  </Menu>
+  <Menu name="view"><text>&amp;View</text>
+    <Action name="view_show_tree"/>
+    <Action name="view_show_doc"/>
+    <Action name="view_show_undo"/>
   </Menu>
   <Menu name="views"><text>&amp;Diagram</text>
     <Menu name="new_view"><text>&amp;New</text>

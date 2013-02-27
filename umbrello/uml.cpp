@@ -412,6 +412,18 @@ void UMLApp::initActions()
     connect(entityRelationshipDiagram, SIGNAL(triggered(bool)), this, SLOT(slotEntityRelationshipDiagram()));
     newDiagram->addAction(entityRelationshipDiagram);
 
+    viewShowTree = actionCollection()->add<KToggleAction>("view_show_tree");
+    viewShowTree->setText(i18n("&Tree View"));
+    connect(viewShowTree, SIGNAL(triggered(bool)), this, SLOT(slotShowTreeView(bool)));
+
+    viewShowDoc = actionCollection()->add<KToggleAction>("view_show_doc");
+    viewShowDoc->setText(i18n("&Documentation"));
+    connect(viewShowDoc, SIGNAL(triggered(bool)), this, SLOT(slotShowDocumentationView(bool)));
+
+    viewShowCmdHistory = actionCollection()->add<KToggleAction>("view_show_undo");
+    viewShowCmdHistory->setText(i18n("&Command history"));
+    connect(viewShowCmdHistory, SIGNAL(triggered(bool)), this, SLOT(slotShowCmdHistoryView(bool)));
+
     viewClearDiagram = actionCollection()->addAction( "view_clear_diagram" );
     viewClearDiagram->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Clear) );
     viewClearDiagram->setText( i18n("&Clear Diagram") );
@@ -804,6 +816,7 @@ void UMLApp::initView()
     m_listView->setDocument(m_doc);
     m_listView->init();
     m_listDock->setWidget(m_listView);
+    connect(m_listDock,SIGNAL(visibilityChanged(bool)), viewShowTree, SLOT(setChecked(bool)));
 
     // create the documentation viewer
     m_documentationDock = new QDockWidget( i18n("Doc&umentation"), this );
@@ -812,6 +825,7 @@ void UMLApp::initView()
     m_docWindow = new DocWindow(m_doc, m_documentationDock);
     m_docWindow->setObjectName("DOCWINDOW");
     m_documentationDock->setWidget(m_docWindow);
+    connect(m_documentationDock,SIGNAL(visibilityChanged(bool)), viewShowDoc, SLOT(setChecked(bool)));
 
     m_doc->setupSignals(); // make sure gets signal from list view
 
@@ -823,6 +837,7 @@ void UMLApp::initView()
     m_pQUndoView->setCleanIcon(Icon_Utils::SmallIcon(Icon_Utils::it_UndoView));
     m_pQUndoView->setStack(m_pUndoStack);
     m_cmdHistoryDock->setWidget(m_pQUndoView);
+    connect(m_cmdHistoryDock,SIGNAL(visibilityChanged(bool)), viewShowCmdHistory, SLOT(setChecked(bool)));
 
     // create the property viewer
     //m_propertyDock = new QDockWidget(i18n("&Properties"), this);
@@ -2320,6 +2335,24 @@ QString UMLApp::activeLanguageScopeSeparator()
         pl == Uml::ProgrammingLanguage::Python)  // CHECK: more?
         return ".";
     return "::";
+}
+
+void UMLApp::slotShowTreeView(bool state)
+{
+    m_listDock->setVisible(state);
+    viewShowTree->setChecked(state);
+}
+
+void UMLApp::slotShowDocumentationView(bool state)
+{
+    m_documentationDock->setVisible(state);
+    viewShowDoc->setChecked(state);
+}
+
+void UMLApp::slotShowCmdHistoryView(bool state)
+{
+    m_cmdHistoryDock->setVisible(state);
+    viewShowCmdHistory->setChecked(state);
 }
 
 /**
