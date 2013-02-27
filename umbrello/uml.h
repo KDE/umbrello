@@ -228,6 +228,9 @@ public slots:
     void slotPrefs();
     void slotApplyPrefs();
     void slotUpdateViews();
+    void slotShowTreeView(bool state);
+    void slotShowDocumentationView(bool state);
+    void slotShowCmdHistoryView(bool state);
     void slotCurrentViewClearDiagram();
     void slotCurrentViewToggleSnapToGrid();
     void slotCurrentViewToggleShowGrid();
@@ -357,6 +360,10 @@ private:
     QAction* editPaste;
     QAction* editUndo;
     QAction* editRedo;
+
+    QAction* viewShowTree;
+    QAction* viewShowDoc;
+    QAction* viewShowCmdHistory;
 
     KActionMenu* newDiagram;
     QAction* viewClearDiagram;
