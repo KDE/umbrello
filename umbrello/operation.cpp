@@ -195,7 +195,7 @@ UMLAttribute* UMLOperation::findParm(const QString &name)
  * @param sig       what type of operation string to show
  * @return          the string representation of the operation
  */
-QString UMLOperation::toString(Uml::SignatureType sig)
+QString UMLOperation::toString(Uml::SignatureType::Enum sig)
 {
     QString s;
 

@@ -51,7 +51,7 @@ UMLTemplate::~UMLTemplate()
 {
 }
 
-QString UMLTemplate::toString(Uml::SignatureType sig)
+QString UMLTemplate::toString(Uml::SignatureType::Enum sig)
 {
     Q_UNUSED(sig);
     if (m_pSecondary == NULL || m_pSecondary->name() == "class") {

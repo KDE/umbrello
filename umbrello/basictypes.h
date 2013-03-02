@@ -129,24 +129,18 @@ namespace Uml
     /**
      * Signature types.
      */
-    class SignatureType
+    namespace SignatureType
     {
-    public:
-        enum Value {
+        enum Enum {
             NoSig  =  600,
             ShowSig,
             SigNoVis,
             NoSigNoVis
         };
-        SignatureType();
-        /*explicit*/ SignatureType(Value item);
-        static QString toString(Value item);
-        static SignatureType fromString(const QString& item);
-        QString toString() const;
-        operator Value() const;
-    private:
-        Value m_value;
-    };
+        QString toString(Enum item);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+    }
 
     /**
      * TextRole types.

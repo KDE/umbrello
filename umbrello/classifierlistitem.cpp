@@ -86,7 +86,7 @@ void UMLClassifierListItem::copyInto(UMLObject *lhs) const
  * @param sig   What type of operation string to show.
  * @return  The string representation of the operation.
  */
-QString UMLClassifierListItem::toString(Uml::SignatureType sig)
+QString UMLClassifierListItem::toString(Uml::SignatureType::Enum sig)
 {
     Q_UNUSED(sig);
     return name();

@@ -57,7 +57,7 @@ public:
 
     virtual UMLObject* clone() const;
 
-    QString toString(Uml::SignatureType sig = Uml::SignatureType::NoSig);
+    QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig);
 
     void setReferencedEntity(UMLEntity* ent);
     UMLEntity* getReferencedEntity() const;

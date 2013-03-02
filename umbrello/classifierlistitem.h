@@ -43,7 +43,7 @@ public:
     void setTypeName( const QString &type );
     virtual QString getTypeName() const;
 
-    virtual QString toString(Uml::SignatureType sig = Uml::SignatureType::NoSig);
+    virtual QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig);
 
     /**
      * Display the properties configuration dialog for the list item.

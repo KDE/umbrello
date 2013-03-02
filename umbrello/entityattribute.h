@@ -63,7 +63,7 @@ public:
     void setNull(const bool null);
     bool getNull() const;
 
-    QString toString(Uml::SignatureType sig = Uml::SignatureType::NoSig);
+    QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig);
 
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
