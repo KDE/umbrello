@@ -1,8 +1,6 @@
 add_subdirectory( pics )
 add_subdirectory( headings )
 
-add_definitions(-DQT3_SUPPORT_WARNINGS)
-
 ########### set variables #############
 
 # Some definitions for experimental code or debugging
@@ -471,7 +469,7 @@ set(umbrello_SRCS
 
 kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi*-app-umbrello.png")
 kde4_add_executable(umbrello ${umbrello_SRCS})
-target_link_libraries(umbrello  ${KDE4_KFILE_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${LIBUUID} )
+target_link_libraries(umbrello ${KDE4_KFILE_LIBS} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES})
 install(TARGETS umbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files #############

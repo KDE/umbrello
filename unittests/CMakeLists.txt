@@ -55,7 +55,7 @@ IF( KDE4_BUILD_TESTS )
           kde4_add_unit_test(${_testName} TESTNAME umbrello-${_testName} NOGUI ${_testName}.cpp
               ${SRC_PATH}/${_className}.cpp)
           target_link_libraries(${_testName} ${QT_QTTEST_LIBRARY}
-              ${KDE4_KFILE_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${LIBUUID})
+              ${KDE4_KFILE_LIBS} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES})
       ENDFOREACH(_className)
   ENDMACRO(UNIT_TESTS)
 
