@@ -129,7 +129,7 @@ Uml::Parameter_Direction UMLAttribute::getParmKind() const
  * @param sig   If true will show the attribute type and initial value.
  * @return  Returns a string representation of the UMLAttribute.
  */
-QString UMLAttribute::toString(Uml::SignatureType sig)
+QString UMLAttribute::toString(Uml::SignatureType::Enum sig)
 {
     QString s;
 

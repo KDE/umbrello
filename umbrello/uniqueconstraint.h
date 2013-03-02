@@ -40,7 +40,7 @@ public:
 
     virtual UMLObject* clone() const;
 
-    QString toString(Uml::SignatureType sig = Uml::SignatureType::NoSig);
+    QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig);
 
     QString getFullyQualifiedName(const QString& separator = QString(),
                                   bool includeRoot = false) const;

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2012                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -277,7 +277,7 @@ void ClassifierWidget::updateSignatureTypes()
  *
  * @return  Status of how attribute signatures are shown.
  */
-Uml::SignatureType ClassifierWidget::attributeSignature() const
+Uml::SignatureType::Enum ClassifierWidget::attributeSignature() const
 {
     return m_attributeSignature;
 }
@@ -288,7 +288,7 @@ Uml::SignatureType ClassifierWidget::attributeSignature() const
  *
  * @param sig   Type of signature to display for an attribute.
  */
-void ClassifierWidget::setAttributeSignature(Uml::SignatureType sig)
+void ClassifierWidget::setAttributeSignature(Uml::SignatureType::Enum sig)
 {
     m_attributeSignature = sig;
     updateSignatureTypes();
@@ -297,9 +297,9 @@ void ClassifierWidget::setAttributeSignature(Uml::SignatureType sig)
 }
 
 /**
- * @return The Uml::SignatureType value for the operations.
+ * @return The Uml::SignatureType::Enum value for the operations.
  */
-Uml::SignatureType ClassifierWidget::operationSignature() const
+Uml::SignatureType::Enum ClassifierWidget::operationSignature() const
 {
     return m_operationSignature;
 }
@@ -309,7 +309,7 @@ Uml::SignatureType ClassifierWidget::operationSignature() const
  *
  * @param sig   Type of signature to display for an operation.
  */
-void ClassifierWidget::setOperationSignature(Uml::SignatureType sig)
+void ClassifierWidget::setOperationSignature(Uml::SignatureType::Enum sig)
 {
     m_operationSignature = sig;
     updateSignatureTypes();
@@ -748,7 +748,7 @@ QSize ClassifierWidget::calculateAsCircleSize()
  * @param y          Y coordinate at which text drawing commences.
  * @param fontHeight The font height.
  */
-void ClassifierWidget::drawMembers(QPainter & p, UMLObject::ObjectType ot, Uml::SignatureType sigType,
+void ClassifierWidget::drawMembers(QPainter & p, UMLObject::ObjectType ot, Uml::SignatureType::Enum sigType,
                                    int x, int y, int fontHeight)
 {
     QFont f = UMLWidget::font();
@@ -890,8 +890,8 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
     setVisualProperty(ShowVisibility, (bool)showscope.toInt());
     setVisualProperty(DrawAsCircle,   (bool)drawascircle.toInt());
 
-    m_attributeSignature = Uml::SignatureType::Value(showattsigs.toInt());
-    m_operationSignature = Uml::SignatureType::Value(showopsigs.toInt());
+    m_attributeSignature = Uml::SignatureType::fromInt(showattsigs.toInt());
+    m_operationSignature = Uml::SignatureType::fromInt(showopsigs.toInt());
 
     return true;
 }

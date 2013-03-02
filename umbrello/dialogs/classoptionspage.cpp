@@ -103,7 +103,7 @@ void ClassOptionsPage::setupPage()
     int margin = fontMetrics().height();
 
     bool sig = false;
-    Uml::SignatureType sigtype;
+    Uml::SignatureType::Enum sigtype;
 
     QVBoxLayout * topLayout = new QVBoxLayout(this);
 

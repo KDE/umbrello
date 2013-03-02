@@ -13,7 +13,7 @@
 
 // app includes
 #include "debug_utils.h"
-#include "umlcanvasobject.h"
+//#include "umlcanvasobject.h"
 #include "umldoc.h"
 #include "uml.h"
 #include "umlentityattributedialog.h"
@@ -166,7 +166,7 @@ void UMLEntityAttribute::setNull(const bool nullIn)
  * @param sig   If true will show the entityattribute type and initial value.
  * @return  Returns a string representation of the UMLEntityAttribute.
  */
-QString UMLEntityAttribute::toString(Uml::SignatureType sig)
+QString UMLEntityAttribute::toString(Uml::SignatureType::Enum sig)
 {
     QString s;
     //FIXME

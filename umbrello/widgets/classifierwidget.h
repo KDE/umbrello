@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2012                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -67,11 +67,11 @@ public:
     int displayedAttributes();
     int displayedOperations();
 
-    Uml::SignatureType attributeSignature() const;
-    void setAttributeSignature(Uml::SignatureType sig);
+    Uml::SignatureType::Enum attributeSignature() const;
+    void setAttributeSignature(Uml::SignatureType::Enum sig);
 
-    Uml::SignatureType operationSignature() const;
-    void setOperationSignature(Uml::SignatureType sig);
+    Uml::SignatureType::Enum operationSignature() const;
+    void setOperationSignature(Uml::SignatureType::Enum sig);
 
     void setShowAttSigs(bool _show);
     void toggleShowAttSigs();
@@ -109,15 +109,15 @@ private:
     QSize calculateAsCircleSize();
 
     int displayedMembers(UMLObject::ObjectType ot);
-    void drawMembers(QPainter & p, UMLObject::ObjectType ot, Uml::SignatureType sigType,
+    void drawMembers(QPainter & p, UMLObject::ObjectType ot, Uml::SignatureType::Enum sigType,
                      int x, int y, int fontHeight);
 
     static const int MARGIN;           ///< text width margin
     static const int CIRCLE_SIZE;      ///< size of circle when interface is rendered as such
 
     VisualProperties   m_visualProperties;
-    Uml::SignatureType m_attributeSignature;   ///< Loaded/saved item.
-    Uml::SignatureType m_operationSignature;   ///< Loaded/saved item.
+    Uml::SignatureType::Enum m_attributeSignature;   ///< Loaded/saved item.
+    Uml::SignatureType::Enum m_operationSignature;   ///< Loaded/saved item.
     AssociationWidget *m_pAssocWidget; ///< related AssociationWidget in case this classifier acts as an association class
 
 };

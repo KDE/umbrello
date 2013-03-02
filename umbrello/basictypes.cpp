@@ -567,10 +567,12 @@ Enum fromInt(int item)
 
 //-----------------------------------------------------------------------------
 
+namespace SignatureType {
+
 /**
  * Return string corresponding to the given SignatureType.
  */
-QString SignatureType::toString(Value item)
+QString toString(Enum item)
 {
     switch (item) {
         case NoSig:
@@ -590,52 +592,30 @@ QString SignatureType::toString(Value item)
 /**
  * Return SignatureType corresponding to the given string.
  */
-SignatureType SignatureType::fromString(const QString& item)
+Enum fromString(const QString& item)
 {
     if (item == "NoSig")
-        return SignatureType(NoSig);
+        return NoSig;
     if (item == "ShowSig")
-        return SignatureType(ShowSig);
+        return ShowSig;
     if (item == "SigNoVis")
-        return SignatureType(SigNoVis);
+        return SigNoVis;
     if (item == "NoSigNoVis")
-        return SignatureType(NoSigNoVis);
-    return SignatureType(NoSig);
+        return NoSigNoVis;
+    return NoSig;
 }
 
 /**
- * Constructor.
+ * Convert a integer item into SignatureType representation.
+ * @param item   integer value to convert
+ * @return Visibility enum
  */
-SignatureType::SignatureType()
-  : m_value(NoSig)
+Enum fromInt(int item)
 {
+    return Enum(item);
 }
 
-/**
- * Constructor.
- * @param item   value to set
- */
-SignatureType::SignatureType(Value item)
-  : m_value(item)
-{
-}
-
-/**
- * Convert SignatureType value into QString representation.
- * @return QString representation of the SignatureType
- */
-QString SignatureType::toString() const
-{
-    return toString(m_value);
-}
-
-/**
- * 
- */
-SignatureType::operator SignatureType::Value() const
-{
-    return m_value;
-}
+}  // end namespace SignatureType
 
 //-----------------------------------------------------------------------------
 
