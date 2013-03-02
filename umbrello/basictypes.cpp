@@ -259,12 +259,14 @@ Enum fromInt(int item)
 
 //-----------------------------------------------------------------------------
 
+namespace AssociationType {
+
 /**
  * Convert AssociationType item into QString representation.
  * @param item   item to convert
  * @return QString representation of AssociationType
  */
-QString AssociationType::toString(Value item)
+QString toString(Enum item)
 {
     switch (item) {
         case Generalization:
@@ -318,9 +320,9 @@ QString AssociationType::toString(Value item)
  * Converts a AssociationType to its string representation.
  * @return  the string representation of the AssociationType
  */
-QString AssociationType::toStringI18n() const
+QString toStringI18n(Enum item)
 {
-    switch (m_value) {
+    switch (item) {
       case Generalization:
           return i18n("Generalization");
       case Aggregation:
@@ -373,7 +375,7 @@ QString AssociationType::toStringI18n() const
  * @param item   item to convert
  * @return AssociationType object
  */
-AssociationType AssociationType::fromString(const QString& item)
+Enum fromString(const QString& item)
 {
     if (item == "Generalization")
         return Generalization;
@@ -419,38 +421,9 @@ AssociationType AssociationType::fromString(const QString& item)
         return Unknown;
 }
 
-/**
- * Constructor.
- */
-AssociationType::AssociationType()
-  : m_value(Unknown)
+Enum fromInt(int item)
 {
-}
-
-/**
- * Constructor.
- * @param item   value to set
- */
-AssociationType::AssociationType(Value item)
-  : m_value(item)
-{
-}
-
-/**
- * Convert AssociationType value into QString representation.
- * @return QString representation of the AssociationType
- */
-QString AssociationType::toString() const
-{
-    return toString(m_value);
-}
-
-/**
- * 
- */
-AssociationType::operator AssociationType::Value() const
-{
-    return m_value;
+    return Enum(item);
 }
 
 /**
@@ -459,7 +432,7 @@ AssociationType::operator AssociationType::Value() const
  * @param item   the AssociationType enum value to check
  * @return  boolean value
  */
-bool AssociationType::hasUMLRepresentation(Value item)
+bool hasUMLRepresentation(Enum item)
 {
     return (item == Generalization   ||
             item == Realization      ||
@@ -473,6 +446,8 @@ bool AssociationType::hasUMLRepresentation(Value item)
             item == Category2Parent  ||
             item == Child2Category);
 }
+
+}  // end namespace AssociationType
 
 //-----------------------------------------------------------------------------
 

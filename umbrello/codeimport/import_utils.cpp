@@ -319,7 +319,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
         UMLObject *p = umldoc->findUMLObject(*it, UMLObject::ot_UMLObject, parentPkg);
         if (p == NULL || p->baseType() == UMLObject::ot_Datatype)
             continue;
-        const Uml::AssociationType at = Uml::AssociationType::Dependency;
+        const Uml::AssociationType::Enum at = Uml::AssociationType::Dependency;
         UMLAssociation *assoc = umldoc->findAssociation(at, gRelatedClassifier, p);
         if (assoc)
             continue;
@@ -531,7 +531,7 @@ void createGeneralization(UMLClassifier *child, UMLClassifier *parent)
     // if the child is an interface, so is the parent.
     if (child->isInterface())
         parent->setBaseType(UMLObject::ot_Interface);
-    Uml::AssociationType association = Uml::AssociationType::Generalization;
+    Uml::AssociationType::Enum association = Uml::AssociationType::Generalization;
 
     if (parent->isInterface() && !child->isInterface()) {
         // if the parent is an interface, but the child is not, then

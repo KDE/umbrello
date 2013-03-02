@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -29,22 +29,22 @@ public:
     AssocRules();
     ~AssocRules();
 
-    static bool allowAssociation( Uml::AssociationType assocType, UMLWidget * widget );
-    static bool allowAssociation( Uml::AssociationType assocType,
+    static bool allowAssociation( Uml::AssociationType::Enum assocType, UMLWidget * widget );
+    static bool allowAssociation( Uml::AssociationType::Enum assocType,
                                   UMLWidget * widgetA, UMLWidget * widgetB);
 
-    static bool allowRole( Uml::AssociationType assocType );
+    static bool allowRole( Uml::AssociationType::Enum assocType );
 
-    static bool allowMultiplicity( Uml::AssociationType assocType, WidgetBase::WidgetType widgetType );
+    static bool allowMultiplicity( Uml::AssociationType::Enum assocType, WidgetBase::WidgetType widgetType );
 
-    static bool allowSelf( Uml::AssociationType assocType, WidgetBase::WidgetType widgetType );
+    static bool allowSelf( Uml::AssociationType::Enum assocType, WidgetBase::WidgetType widgetType );
 
-    static Uml::AssociationType isGeneralisationOrRealisation(UMLWidget* widgetA, UMLWidget* widgetB);
+    static Uml::AssociationType::Enum isGeneralisationOrRealisation(UMLWidget* widgetA, UMLWidget* widgetB);
 
 private:
 
     struct Assoc_Rule {  ///< Structure to help determine association rules.
-        Uml::AssociationType assoc_type;   ///< association type
+        Uml::AssociationType::Enum assoc_type;   ///< association type
         WidgetBase::WidgetType widgetA_type;    ///< type of role A widget
         WidgetBase::WidgetType widgetB_type;    ///< type of role B widget
         bool role;                         ///< role text

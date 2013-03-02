@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -47,7 +47,7 @@ AssocRules::~AssocRules()
  * Returns whether an association is going to be allowed for the given
  * values. This method is used to test if you can start an association.
  */
-bool AssocRules::allowAssociation( Uml::AssociationType assocType, UMLWidget * widget )
+bool AssocRules::allowAssociation( Uml::AssociationType::Enum assocType, UMLWidget * widget )
 {
     WidgetBase::WidgetType widgetType = widget->baseType();
     bool bValid = false;
@@ -140,7 +140,7 @@ bool AssocRules::allowAssociation( Uml::AssociationType assocType, UMLWidget * w
  * When we know what we are going to connect both ends of the association to, we can
  * use this method.
  */
-bool AssocRules::allowAssociation( Uml::AssociationType assocType,
+bool AssocRules::allowAssociation( Uml::AssociationType::Enum assocType,
                                    UMLWidget * widgetA, UMLWidget * widgetB)
 {
     WidgetBase::WidgetType widgetTypeA = widgetA->baseType();
@@ -301,7 +301,7 @@ bool AssocRules::allowAssociation( Uml::AssociationType assocType,
 /**
  * Returns whether to allow a role text for the given association type.
  */
-bool AssocRules::allowRole( Uml::AssociationType assocType )
+bool AssocRules::allowRole( Uml::AssociationType::Enum assocType )
 {
     for( int i = 0; i < m_nNumRules; ++i )
         if( assocType == m_AssocRules[ i ].assoc_type )
@@ -313,7 +313,7 @@ bool AssocRules::allowRole( Uml::AssociationType assocType )
  * Returns whether to allow a multiplicity text for the given
  * association and widget type.
  */
-bool AssocRules::allowMultiplicity( Uml::AssociationType assocType, WidgetBase::WidgetType widgetType )
+bool AssocRules::allowMultiplicity( Uml::AssociationType::Enum assocType, WidgetBase::WidgetType widgetType )
 {
     for( int i = 0; i < m_nNumRules; ++i )
         if( assocType == m_AssocRules[ i ].assoc_type )
@@ -325,7 +325,7 @@ bool AssocRules::allowMultiplicity( Uml::AssociationType assocType, WidgetBase::
 /**
  * Returns whether to allow an association to self for given variables.
  */
-bool AssocRules::allowSelf( Uml::AssociationType assocType, WidgetBase::WidgetType widgetType )
+bool AssocRules::allowSelf( Uml::AssociationType::Enum assocType, WidgetBase::WidgetType widgetType )
 {
     for( int i = 0; i < m_nNumRules; ++i )
         if( assocType == m_AssocRules[ i ].assoc_type )
@@ -340,7 +340,7 @@ bool AssocRules::allowSelf( Uml::AssociationType assocType, WidgetBase::WidgetTy
  * a Generalisation.
  * as defined in m_AssocRules.
  */
-Uml::AssociationType AssocRules::isGeneralisationOrRealisation(UMLWidget* widgetA, UMLWidget* widgetB)
+Uml::AssociationType::Enum AssocRules::isGeneralisationOrRealisation(UMLWidget* widgetA, UMLWidget* widgetB)
 {
     WidgetBase::WidgetType widgetTypeA = widgetA->baseType();
     WidgetBase::WidgetType widgetTypeB = widgetB->baseType();

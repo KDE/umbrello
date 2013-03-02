@@ -51,7 +51,7 @@ private:
 
     /* Choices for the QComboBox, and we store ints and strings
        so we can translate both ways */
-    QList<Uml::AssociationType> m_AssocTypes;
+    QList<Uml::AssociationType::Enum> m_AssocTypes;
     QStringList m_AssocTypeStrings;
     KTextEdit * m_doc;
 

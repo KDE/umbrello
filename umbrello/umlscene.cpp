@@ -1087,7 +1087,7 @@ AssociationWidget * UMLScene::findAssocWidget(UMLWidget *pWidgetA,
                                               UMLWidget *pWidgetB, const QString& roleNameB)
 {
     foreach(AssociationWidget* assoc, m_AssociationList) {
-        const Uml::AssociationType testType = assoc->associationType();
+        const Uml::AssociationType::Enum testType = assoc->associationType();
         if (testType != Uml::AssociationType::Association &&
                 testType != Uml::AssociationType::UniAssociation &&
                 testType != Uml::AssociationType::Composition &&
@@ -1114,11 +1114,11 @@ AssociationWidget * UMLScene::findAssocWidget(UMLWidget *pWidgetA,
  *
  * @return Returns the widget found, returns 0 if no widget found.
  */
-AssociationWidget * UMLScene::findAssocWidget(Uml::AssociationType at,
+AssociationWidget * UMLScene::findAssocWidget(AssociationType::Enum at,
                                               UMLWidget *pWidgetA, UMLWidget *pWidgetB)
 {
     foreach(AssociationWidget* assoc, m_AssociationList) {
-        Uml::AssociationType testType = assoc->associationType();
+        Uml::AssociationType::Enum testType = assoc->associationType();
         if (testType != at) {
             continue;
         }
@@ -2126,7 +2126,7 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
     if (!pAssoc) {
         return false;
     }
-    const Uml::AssociationType assocType = pAssoc->associationType();
+    const Uml::AssociationType::Enum assocType = pAssoc->associationType();
 
     if (isPasteOperation) {
         IDChangeLog * log = m_doc->changeLog();
@@ -2576,7 +2576,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
             widgetB = widget;
         }
         // Check that the assocwidget does not already exist.
-        Uml::AssociationType assocType = assoc->getAssocType();
+        Uml::AssociationType::Enum assocType = assoc->getAssocType();
         AssociationWidget * assocwidget = findAssocWidget(assocType, widgetA, widgetB);
         if (assocwidget) {
             assocwidget->calculateEndingPoints();  // recompute assoc lines
@@ -2742,7 +2742,7 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
         //                << "attribute " << attr->getName();
         return;
     }
-    Uml::AssociationType assocType = Uml::AssociationType::Composition;
+    Uml::AssociationType::Enum assocType = Uml::AssociationType::Composition;
     UMLWidget *w = findWidget(type->id());
     // if the attribute type has a widget representation on this view
     if (w) {
@@ -2771,7 +2771,7 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
         UMLClassifier *dt = static_cast<UMLClassifier*>(type);
         // if the Datatype is a reference (pointer) type
         if (dt->isReference()) {
-            //Uml::AssociationType assocType = Uml::AssociationType::Composition;
+            //Uml::AssociationType::Enum assocType = Uml::AssociationType::Composition;
             UMLClassifier *c = dt->originType();
             UMLWidget *w = c ? findWidget(c->id()) : 0;
             // if the referenced type has a widget representation on this view
@@ -2852,7 +2852,7 @@ void UMLScene::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignK
         return;
     }
 
-    Uml::AssociationType assocType = Uml::AssociationType::Relationship;
+    Uml::AssociationType::Enum assocType = Uml::AssociationType::Relationship;
     UMLWidget *w = findWidget(refEntity->id());
     AssociationWidget *aw = NULL;
 
@@ -4131,7 +4131,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
                 break;
             case UMLObject::ot_Association: {
                 UMLAssociation *umla = static_cast<UMLAssociation*>(o);
-                Uml::AssociationType at = umla->getAssocType();
+                Uml::AssociationType::Enum at = umla->getAssocType();
                 UMLObject* objA = umla->getObject(Uml::A);
                 UMLObject* objB = umla->getObject(Uml::B);
                 if (objA == NULL || objB == NULL) {

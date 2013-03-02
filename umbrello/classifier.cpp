@@ -712,7 +712,7 @@ bool UMLClassifier::resolveRef()
 /**
  * Reimplemented from UMLObject.
  */
-bool UMLClassifier::acceptAssociationType(Uml::AssociationType type)
+bool UMLClassifier::acceptAssociationType(AssociationType::Enum type)
 {
     switch(type)
     {

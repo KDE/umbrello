@@ -57,7 +57,7 @@ public:
 
     UMLAssociationList getAssociations();
 
-    UMLAssociationList getSpecificAssocs(Uml::AssociationType assocType);
+    UMLAssociationList getSpecificAssocs(Uml::AssociationType::Enum assocType);
 
     UMLClassifierList getSuperClasses();
     UMLClassifierList getSubClasses();

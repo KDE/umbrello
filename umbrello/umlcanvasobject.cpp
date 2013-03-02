@@ -55,10 +55,10 @@ UMLCanvasObject::~UMLCanvasObject()
 /**
  * Return the subset of m_List that matches the given type.
  *
- * @param assocType   The AssociationType to match.
+ * @param assocType   The AssociationType::Enum to match.
  * @return   The list of associations that match assocType.
  */
-UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::AssociationType assocType)
+UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::AssociationType::Enum assocType)
 {
     UMLAssociationList list;
     UMLObject *o = NULL;

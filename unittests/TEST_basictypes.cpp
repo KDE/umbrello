@@ -213,10 +213,10 @@ void TEST_basictypes::test_DiagramType_forLoop()
 void TEST_basictypes::test_AssociationType_toString_fromString()
 {
     for (int i = Uml::AssociationType::Generalization; i < Uml::AssociationType::Relationship; ++i) {
-        Uml::AssociationType at = Uml::AssociationType::fromString(
+        Uml::AssociationType::Enum at = Uml::AssociationType::fromString(
                                       Uml::AssociationType::toString(
-                                          Uml::AssociationType::Value(i)));
-        QVERIFY(Uml::AssociationType::Value(i) == at);
+                                          Uml::AssociationType::fromInt(i)));
+        QVERIFY(Uml::AssociationType::fromInt(i) == at);
     }
 }
 

@@ -227,7 +227,7 @@ public:
     {
         foreach(AssociationWidget *assoc, scene->associationList()) {
             AssociationLine *path = assoc->associationLine();
-            QString type = assoc->associationType().toString().toLower();
+            QString type = Uml::AssociationType::toString(assoc->associationType()).toLower();
             QString key = "type::" + type;
 
             QString id;

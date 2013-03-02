@@ -169,7 +169,7 @@ void ToolBarStateAssociation::mouseReleaseEmpty()
 void ToolBarStateAssociation::setFirstWidget()
 {
     UMLWidget* widget = currentWidget();
-    Uml::AssociationType type = getAssociationType();
+    Uml::AssociationType::Enum type = getAssociationType();
 
     if (!AssocRules::allowAssociation(type, widget)) {
         //TODO improve error feedback: tell the user what are the valid type of associations for
@@ -209,7 +209,7 @@ void ToolBarStateAssociation::setFirstWidget()
  */
 void ToolBarStateAssociation::setSecondWidget()
 {
-    Uml::AssociationType type = getAssociationType();
+    Uml::AssociationType::Enum type = getAssociationType();
     UMLWidget* widgetA = m_firstWidget;
     UMLWidget* widgetB = currentWidget();
     WidgetBase::WidgetType at = widgetA->baseType();
@@ -251,9 +251,9 @@ void ToolBarStateAssociation::setSecondWidget()
  *
  * @return The association type of this tool.
  */
-Uml::AssociationType ToolBarStateAssociation::getAssociationType()
+Uml::AssociationType::Enum ToolBarStateAssociation::getAssociationType()
 {
-    Uml::AssociationType at;
+    Uml::AssociationType::Enum at;
 
     switch(getButton()) {
         case WorkToolBar::tbb_Anchor:                   at = Uml::AssociationType::Anchor;            break;

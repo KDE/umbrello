@@ -92,8 +92,8 @@ void AssocGenPage::constructWidget()
     m_doc = new KTextEdit(docGB);
     docLayout->addWidget(m_doc);
     m_doc->setText(m_pAssociationWidget->documentation());
-    Uml::AssociationType currentType =  m_pAssociationWidget->associationType();
-    QString currentTypeAsString = currentType.toStringI18n();
+    Uml::AssociationType::Enum currentType =  m_pAssociationWidget->associationType();
+    QString currentTypeAsString = Uml::AssociationType::toStringI18n(currentType);
     QLabel *pTypeL = new QLabel(i18n("Type:"), nameGB);
     nameLayout->addWidget(pTypeL, 1, 0);
 
@@ -103,12 +103,12 @@ void AssocGenPage::constructWidget()
     m_AssocTypes.clear();
 
     m_AssocTypes << currentType;
-    uDebug() << "current type = " << currentType.toString();
+    uDebug() << "current type = " << Uml::AssociationType::toString(currentType);
 
     // dynamically load all allowed associations
     for ( int i = Uml::AssociationType::Generalization; i <= Uml::AssociationType::Relationship;  ++i ) {
         // we don't need to check for current type
-        Uml::AssociationType assocType = Uml::AssociationType::Value(i);
+        Uml::AssociationType::Enum assocType = Uml::AssociationType::fromInt(i);
         if (assocType == currentType)
             continue;
 
@@ -116,7 +116,7 @@ void AssocGenPage::constructWidget()
                                          m_pAssociationWidget->widgetForRole( Uml::A ),
                                          m_pAssociationWidget->widgetForRole( Uml::B ))) {
             m_AssocTypes << assocType;
-            uDebug() << "to type list = " << assocType.toString();
+            uDebug() << "to type list = " << Uml::AssociationType::toString(assocType);
         }
     }
 
@@ -126,7 +126,7 @@ void AssocGenPage::constructWidget()
         if (m_AssocTypes[i] == currentType) {
             found = true;
         }
-        m_AssocTypeStrings << m_AssocTypes[i].toStringI18n();
+        m_AssocTypeStrings << Uml::AssociationType::toStringI18n(m_AssocTypes[i]);
     }
 
     if (!found) {
@@ -155,7 +155,7 @@ void AssocGenPage::updateObject()
 {
     if (m_pAssociationWidget) {
         int comboBoxItem = m_pTypeCB->currentIndex();
-        Uml::AssociationType newType = m_AssocTypes[comboBoxItem];
+        Uml::AssociationType::Enum newType = m_AssocTypes[comboBoxItem];
         m_pAssociationWidget->setAssociationType(newType);
         m_pAssociationWidget->setName(m_pAssocNameLE->text());
         m_pAssociationWidget->setDocumentation(m_doc->toPlainText());

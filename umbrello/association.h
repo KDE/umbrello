@@ -35,8 +35,8 @@ class UMLAssociation : public UMLObject
     friend class AssociationWidget;
 
 public:
-    UMLAssociation(Uml::AssociationType type, UMLObject *roleA, UMLObject *roleB);
-    explicit UMLAssociation(Uml::AssociationType type = Uml::AssociationType::Unknown);
+    UMLAssociation(Uml::AssociationType::Enum type, UMLObject *roleA, UMLObject *roleB);
+    explicit UMLAssociation(Uml::AssociationType::Enum type = Uml::AssociationType::Unknown);
 
     virtual ~UMLAssociation();
 
@@ -48,8 +48,8 @@ public:
     Uml::ID::Type getObjectId(Uml::Role_Type role) const;
     Uml::ID::Type getRoleId(Uml::Role_Type role) const;
 
-    void setAssociationType(Uml::AssociationType assocType);
-    Uml::AssociationType getAssocType() const;
+    void setAssociationType(Uml::AssociationType::Enum assocType);
+    Uml::AssociationType::Enum getAssocType() const;
 
     void setObject(UMLObject *obj, Uml::Role_Type role);
     UMLObject* getObject(Uml::Role_Type role) const;
@@ -85,12 +85,12 @@ protected:
     // keep track of number of parent widgets
     int nrof_parent_widgets;
 
-    void init(Uml::AssociationType type, UMLObject *roleAObj, UMLObject *roleBObj);
+    void init(Uml::AssociationType::Enum type, UMLObject *roleAObj, UMLObject *roleBObj);
 
-    UMLRole *              m_pRole[2];
-    Uml::AssociationType   m_AssocType;
-    QString                m_Name;
-    bool                   m_bOldLoadMode;
+    UMLRole *                    m_pRole[2];
+    Uml::AssociationType::Enum   m_AssocType;
+    QString                      m_Name;
+    bool                         m_bOldLoadMode;
 
 private:
 
