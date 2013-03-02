@@ -11,8 +11,6 @@
 #ifndef UMBRELLO_VERSION_H
 #define UMBRELLO_VERSION_H
 
-#include "revision.h"
-
 #include <kdeversion.h>
 
 inline QByteArray umbrelloVersion()
@@ -21,10 +19,6 @@ inline QByteArray umbrelloVersion()
         .arg(KDE::versionMajor()-2)
         .arg(KDE::versionMinor())
         .arg(KDE::versionRelease());
-    QString revisionStr = QString("-r%1").arg(REVISION);
-    if (revisionStr != "-r0") {
-        versionStr.append(revisionStr);
-    }
     return versionStr.toLatin1();
 }
 
