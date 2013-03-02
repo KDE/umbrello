@@ -257,7 +257,7 @@ void UMLListView::mousePressEvent(QMouseEvent *me)
         DEBUG(DBG_SRC) << "item is NULL";
     }
 
-    const Qt::ButtonState button = me->button();
+    const Qt::MouseButton button = me->button();
 
     if (!item || (button != Qt::RightButton && button != Qt::LeftButton)) {
         scene->updateDocumentation(true);
