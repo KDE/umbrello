@@ -81,8 +81,8 @@ public:
     }
     void setAssociation(AssociationWidget * association);
 
-    Uml::AssociationType getAssocType() const;
-    void setAssocType(Uml::AssociationType type);
+    Uml::AssociationType::Enum getAssocType() const;
+    void setAssocType(Uml::AssociationType::Enum type);
 
     bool operator==(const AssociationLine & rhs);
 

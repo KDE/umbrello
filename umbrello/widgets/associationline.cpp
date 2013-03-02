@@ -498,7 +498,7 @@ void AssociationLine::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
  */
 QPen AssociationLine::pen()
 {
-    Uml::AssociationType type = getAssocType();
+    Uml::AssociationType::Enum type = getAssocType();
     if( type == Uml::AssociationType::Dependency || type == Uml::AssociationType::Realization || type == Uml::AssociationType::Anchor )
         return QPen( lineColor(), lineWidth(), Qt::DashLine );
     return QPen( lineColor(), lineWidth() );
@@ -641,7 +641,7 @@ void AssociationLine::setAssociation(AssociationWidget * association)
  * This class doesn't hold this information but is a wrapper
  * method to stop calls to undefined variable like m_associationWidget.
  */
-Uml::AssociationType AssociationLine::getAssocType() const 
+Uml::AssociationType::Enum AssociationLine::getAssocType() const
 {
     if( m_associationWidget )
         return m_associationWidget->associationType();
@@ -651,7 +651,7 @@ Uml::AssociationType AssociationLine::getAssocType() const
 /**
  * Sets the Association type.
  */
-void AssociationLine::setAssocType(Uml::AssociationType type)
+void AssociationLine::setAssocType(Uml::AssociationType::Enum type)
 {
     QList<QGraphicsLineItem*>::Iterator it = m_LineList.begin();
     QList<QGraphicsLineItem*>::Iterator end = m_LineList.end();
@@ -883,7 +883,7 @@ void AssociationLine::calculateHead()
     UMLScenePoint farPoint;
     int halfLength = 10;
     double arrowAngle = 0.2618;   // 0.5 * atan(sqrt(3.0) / 3.0) = 0.2618
-    Uml::AssociationType at = getAssocType();
+    Uml::AssociationType::Enum at = getAssocType();
     bool diamond = (at == Uml::AssociationType::Aggregation || at == Uml::AssociationType::Composition);
     if (diamond || at == Uml::AssociationType::Containment) {
         farPoint = point(1);

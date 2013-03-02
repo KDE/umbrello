@@ -175,7 +175,7 @@ public:
     UMLWidget* findWidget(Uml::ID::Type id);
 
     AssociationWidget* findAssocWidget(Uml::ID::Type id);
-    AssociationWidget* findAssocWidget(Uml::AssociationType at,
+    AssociationWidget* findAssocWidget(Uml::AssociationType::Enum at,
                                        UMLWidget *pWidgetA, UMLWidget *pWidgetB);
     AssociationWidget* findAssocWidget(UMLWidget *pWidgetA,
                                        UMLWidget *pWidgetB, const QString& roleNameB);

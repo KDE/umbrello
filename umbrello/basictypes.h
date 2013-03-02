@@ -94,10 +94,9 @@ namespace Uml
     /**
      * Association types.
      */
-    class AssociationType
+    namespace AssociationType
     {
-    public:
-        enum Value {
+        enum Enum {
             Generalization  =  500,
             Aggregation,
             Dependency,
@@ -120,17 +119,12 @@ namespace Uml
             Relationship,
             Unknown  =  - 1
         };
-        AssociationType();
-        /*explicit*/ AssociationType(Value item);
-        static QString toString(Value item);
-        static AssociationType fromString(const QString& item);
-        QString toString() const;
-        QString toStringI18n() const;
-        operator Value() const;
-        static bool hasUMLRepresentation(Value item);
-    private:
-        Value m_value;
-    };
+        QString toString(Enum item);
+        QString toStringI18n(Enum item);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+        bool hasUMLRepresentation(Enum item);
+    }
 
     /**
      * Signature types.

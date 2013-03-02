@@ -50,7 +50,7 @@ private:
 
     static bool isOOClass(UMLClassifier* c);
 
-    static bool assocTypeIsMappableToAttribute(Uml::AssociationType at);
+    static bool assocTypeIsMappableToAttribute(Uml::AssociationType::Enum at);
 
 };
 

@@ -147,7 +147,7 @@ void AdaWriter::computeAssocTypeAndRole(UMLClassifier *c,
     UMLClassifier* assocEnd = dynamic_cast<UMLClassifier*>(a->getObject(Uml::B));
     if (assocEnd == NULL)
         return;
-    const Uml::AssociationType assocType = a->getAssocType();
+    const Uml::AssociationType::Enum assocType = a->getAssocType();
     if (assocType != Uml::AssociationType::Aggregation && assocType != Uml::AssociationType::Composition)
         return;
     const QString multi = a->getMultiplicity(Uml::B);

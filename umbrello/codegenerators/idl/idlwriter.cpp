@@ -49,7 +49,7 @@ bool IDLWriter::isOOClass(UMLClassifier *c)
     return true;
 }
 
-bool IDLWriter::assocTypeIsMappableToAttribute(Uml::AssociationType at)
+bool IDLWriter::assocTypeIsMappableToAttribute(Uml::AssociationType::Enum at)
 {
     return (at == Uml::AssociationType::Aggregation || at == Uml::AssociationType::Association ||
             at == Uml::AssociationType::Composition || at == Uml::AssociationType::UniAssociation);
@@ -69,7 +69,7 @@ void IDLWriter::computeAssocTypeAndRole(UMLAssociation *a, UMLClassifier *c,
     // Determine which is the "remote" end of the association:
     bool IAmRoleA = true;
     UMLObject *other = a->getObject(Uml::B);
-    Uml::AssociationType at = a->getAssocType();
+    Uml::AssociationType::Enum at = a->getAssocType();
     if (c->name() == other->name()) {
         if (at == Uml::AssociationType::Aggregation || at == Uml::AssociationType::Composition ||
             at == Uml::AssociationType::UniAssociation) {
@@ -363,7 +363,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
     if (forceSections() || !assocs.isEmpty()) {
         idl << indent() << "// Associations:" << m_endl << m_endl;
         foreach ( UMLAssociation* a , assocs ) {
-            Uml::AssociationType at = a->getAssocType();
+            Uml::AssociationType::Enum at = a->getAssocType();
             if (! assocTypeIsMappableToAttribute(at))
                 continue;
             QString typeName, roleName;

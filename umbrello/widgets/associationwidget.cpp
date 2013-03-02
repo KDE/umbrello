@@ -79,13 +79,13 @@ AssociationWidget* AssociationWidget::create(UMLScene *scene)
   *
   * @param scene      The parent view of this widget.
   * @param WidgetA    Pointer to the role A widget for the association.
-  * @param Type       The AssociationType for this association.
+  * @param assocType  The AssociationType::Enum for this association.
   * @param WidgetB    Pointer to the role B widget for the association.
   * @param umlobject  Pointer to the underlying UMLObject (if applicable.)
   */
 AssociationWidget* AssociationWidget::create
                                     (UMLScene *scene, UMLWidget* pWidgetA,
-                                     Uml::AssociationType assocType, UMLWidget* pWidgetB,
+                                     Uml::AssociationType::Enum assocType, UMLWidget* pWidgetB,
                                      UMLObject *umlobject /* = NULL */)
 {
     AssociationWidget* instance = new AssociationWidget(scene);
@@ -684,7 +684,7 @@ bool AssociationWidget::activate()
     if (m_activated)
         return true;
 
-    Uml::AssociationType type = associationType();
+    Uml::AssociationType::Enum type = associationType();
 
     if (m_role[A].umlWidget == NULL)
         setWidgetForRole(m_scene->findWidget(widgetIDForRole(A)), A);
@@ -928,7 +928,7 @@ QString AssociationWidget::roleName(Uml::Role_Type role) const
  */
 void AssociationWidget::setRoleName(const QString &strRole, Uml::Role_Type role)
 {
-    Uml::AssociationType type = associationType();
+    Uml::AssociationType::Enum type = associationType();
     //if the association is not supposed to have a Role FloatingTextWidget
     if (!AssocRules::allowRole(type))  {
         return;
@@ -1198,11 +1198,11 @@ UMLWidget* AssociationWidget::widgetForRole(Uml::Role_Type role) const
  * Sets the associated widgets.
  *
  * @param widgetA   Pointer the role A widget for the association.
- * @param assocType The AssociationType for this association.
+ * @param assocType The AssociationType::Enum for this association.
  * @param widgetB   Pointer the role B widget for the association.
  */
 bool AssociationWidget::setWidgets( UMLWidget* widgetA,
-                                    Uml::AssociationType assocType,
+                                    Uml::AssociationType::Enum assocType,
                                     UMLWidget* widgetB)
 {
     //if the association already has a WidgetB or WidgetA associated, then
@@ -1339,16 +1339,16 @@ bool AssociationWidget::hasWidget(UMLWidget* widget)
  */
 bool AssociationWidget::isCollaboration() const
 {
-    Uml::AssociationType at = associationType();
+    Uml::AssociationType::Enum at = associationType();
     return (at == AssociationType::Coll_Message || at == AssociationType::Coll_Message_Self);
 }
 
 /**
  * Gets the association's type.
  *
- * @return  This AssociationWidget's AssociationType.
+ * @return  This AssociationWidget's AssociationType::Enum.
  */
-Uml::AssociationType AssociationWidget::associationType() const
+Uml::AssociationType::Enum AssociationWidget::associationType() const
 {
     if (m_umlObject == NULL || m_umlObject->baseType() != UMLObject::ot_Association)
         return m_associationType;
@@ -1359,9 +1359,9 @@ Uml::AssociationType AssociationWidget::associationType() const
 /**
  * Sets the association's type.
  *
- * @param type   The AssociationType to set.
+ * @param type   The AssociationType::Enum to set.
  */
-void AssociationWidget::setAssociationType(Uml::AssociationType type)
+void AssociationWidget::setAssociationType(Uml::AssociationType::Enum type)
 {
     if (m_umlObject && m_umlObject->baseType() == UMLObject::ot_Association)
         association()->setAssociationType(type);
@@ -1428,7 +1428,7 @@ QString AssociationWidget::toString() const
         string += m_role[Uml::A].roleWidget->text();
     }
     string.append(colon);
-    string.append(associationType().toStringI18n());
+    string.append(Uml::AssociationType::toStringI18n(associationType()));
     string.append(colon);
 
     if (widgetForRole(Uml::B)) {
@@ -2918,7 +2918,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
 {
     QString oldText, newText;
     QRegExpValidator v(QRegExp(".*"), 0);
-    Uml::AssociationType atype = associationType();
+    Uml::AssociationType::Enum atype = associationType();
     Uml::Role_Type r = Uml::B;
     ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
 
@@ -3951,7 +3951,7 @@ ListPopupMenu* AssociationWidget::setupPopupMenu(ListPopupMenu *menu, const QPoi
     const int endYDiff = lpEnd.y() - p.y();
     const float lengthMAP = sqrt( double(startXDiff * startXDiff + startYDiff * startYDiff) );
     const float lengthMBP = sqrt( double(endXDiff * endXDiff + endYDiff * endYDiff) );
-    const Uml::AssociationType type = associationType();
+    const Uml::AssociationType::Enum type = associationType();
     //allow multiplicity
     if( AssocRules::allowMultiplicity( type, widgetForRole(A)->baseType() ) ) {
         if(lengthMAP < DISTANCE)
@@ -4128,7 +4128,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
     setWidgetForRole(pWidgetB, B);
 
     QString type = qElement.attribute("type", "-1");
-    Uml::AssociationType aType = Uml::AssociationType::Value(type.toInt());
+    Uml::AssociationType::Enum aType = Uml::AssociationType::fromInt(type.toInt());
 
     QString id = qElement.attribute("xmi.id", "-1");
     bool oldStyleLoad = false;

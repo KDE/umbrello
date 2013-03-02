@@ -35,11 +35,11 @@ DEBUG_REGISTER(UMLAssociation)
 /**
  * Sets up an association.
  * A new unique ID is assigned internally.
- * @param type    The AssociationType to construct.
+ * @param type    The AssociationType::Enum to construct.
  * @param roleA   Pointer to the UMLObject in role A.
  * @param roleB   Pointer to the UMLObject in role B.
  */
-UMLAssociation::UMLAssociation( Uml::AssociationType type,
+UMLAssociation::UMLAssociation( Uml::AssociationType::Enum type,
                                 UMLObject * roleA, UMLObject * roleB )
   : UMLObject("")
 {
@@ -53,10 +53,10 @@ UMLAssociation::UMLAssociation( Uml::AssociationType type,
  * Constructs an association - for loading only.
  * This constructor should not normally be used as it constructs
  * an incomplete association (i.e. the role objects are missing.)
- * @param type   The AssociationType to construct.
+ * @param type   The AssociationType::Enum to construct.
  *               Default: Unknown.
  */
-UMLAssociation::UMLAssociation( Uml::AssociationType type)
+UMLAssociation::UMLAssociation( Uml::AssociationType::Enum type)
   : UMLObject("", Uml::ID::Reserved)
 {
     init(type, NULL, NULL);
@@ -97,10 +97,10 @@ bool UMLAssociation::operator==(const UMLAssociation &rhs) const
 }
 
 /**
- * Returns the AssociationType of the UMLAssociation.
- * @return  The AssociationType of the UMLAssociation.
+ * Returns the AssociationType::Enum of the UMLAssociation.
+ * @return  The AssociationType::Enum of the UMLAssociation.
  */
-Uml::AssociationType UMLAssociation::getAssocType() const
+Uml::AssociationType::Enum UMLAssociation::getAssocType() const
 {
     return m_AssocType;
 }
@@ -117,7 +117,7 @@ QString UMLAssociation::toString() const
         string += ':';
         string += m_pRole[A]->name();
     }
-    string += ':' + m_AssocType.toStringI18n() + ':';
+    string += ':' + Uml::AssociationType::toStringI18n(m_AssocType) + ':';
     if(m_pRole[B])
     {
         string += m_pRole[B]->object( )->name();
@@ -368,7 +368,7 @@ bool UMLAssociation::load( QDomElement & element )
 
     // From here on it's old-style stuff.
     QString assocTypeStr = element.attribute( "assoctype", "-1" );
-    Uml::AssociationType assocType = Uml::AssociationType::Unknown;
+    Uml::AssociationType::Enum assocType = Uml::AssociationType::Unknown;
     if (assocTypeStr[0] >= 'a' && assocTypeStr[0] <= 'z') {
         // In an earlier version, the natural assoctype names were saved.
         const QString assocTypeString[] = {
@@ -401,15 +401,15 @@ bool UMLAssociation::load( QDomElement & element )
             if (assocTypeStr == assocTypeString[index])
                 break;
         if (index < arraySize)
-            assocType = Uml::AssociationType::Value(index);
+            assocType = Uml::AssociationType::fromInt(index);
     } else {
         int assocTypeNum = assocTypeStr.toInt();
         if (assocTypeNum < (int)Uml::AssociationType::Generalization ||   // first enum
             assocTypeNum > (int)Uml::AssociationType::Relationship) {     // last enum
-            uWarning() << "bad assoctype of UML:AssociationType " << ID2STR(id());
+            uWarning() << "bad assoctype of UML:AssociationType::Enum " << ID2STR(id());
             return false;
         }
-        assocType = Uml::AssociationType::Value(assocTypeNum);
+        assocType = Uml::AssociationType::fromInt(assocTypeNum);
     }
     setAssociationType( assocType );
 
@@ -584,9 +584,9 @@ bool UMLAssociation::getOldLoadMode() const
 
 /**
  * Sets the assocType of the UMLAssociation.
- * @param assocType The AssociationType of the UMLAssociation.
+ * @param assocType The AssociationType::Enum of the UMLAssociation.
  */
-void UMLAssociation::setAssociationType(Uml::AssociationType assocType)
+void UMLAssociation::setAssociationType(Uml::AssociationType::Enum assocType)
 {
     m_AssocType = assocType;
     if (m_AssocType == Uml::AssociationType::UniAssociation)
@@ -684,11 +684,11 @@ bool UMLAssociation::isRealization(UMLObject* objA, UMLObject* objB) const
 
 /**
  * Common initializations at construction time.
- * @param type      The AssociationType to represent.
+ * @param type      The AssociationType::Enum to represent.
  * @param roleAObj  Pointer to the role A UMLObject.
  * @param roleBObj  Pointer to the role B UMLObject.
  */
-void UMLAssociation::init(Uml::AssociationType type, UMLObject *roleAObj, UMLObject *roleBObj)
+void UMLAssociation::init(Uml::AssociationType::Enum type, UMLObject *roleAObj, UMLObject *roleBObj)
 {
     m_AssocType = type;
     m_BaseType = ot_Association;

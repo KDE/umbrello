@@ -1095,7 +1095,7 @@ void UMLDoc::removeAssociation (UMLAssociation * assoc, bool doSetModified /*=tr
  *                  to false.
  * @return  Pointer to the UMLAssociation found or NULL if not found.
  */
-UMLAssociation * UMLDoc::findAssociation(Uml::AssociationType assocType,
+UMLAssociation * UMLDoc::findAssociation(Uml::AssociationType::Enum assocType,
         const UMLObject *roleAObj,
         const UMLObject *roleBObj,
         bool *swap)
@@ -1129,7 +1129,8 @@ UMLAssociation * UMLDoc::findAssociation(Uml::AssociationType assocType,
  * @param type   The association's type
  * @return  The Association created
  */
-UMLAssociation* UMLDoc::createUMLAssociation(UMLObject *a, UMLObject *b, Uml::AssociationType type)
+UMLAssociation* UMLDoc::createUMLAssociation(UMLObject *a, UMLObject *b,
+                                             Uml::AssociationType::Enum type)
 {
     bool swap;
     UMLAssociation *assoc = findAssociation(type, a, b, &swap);

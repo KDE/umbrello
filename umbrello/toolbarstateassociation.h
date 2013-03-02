@@ -62,7 +62,7 @@ private:
     void setFirstWidget();
     void setSecondWidget();
 
-    Uml::AssociationType getAssociationType();
+    Uml::AssociationType::Enum getAssociationType();
 
     bool addAssociationInViewAndDoc(AssociationWidget* assoc);
 

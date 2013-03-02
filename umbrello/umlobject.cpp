@@ -146,7 +146,7 @@ bool UMLObject::showPropertiesPagedDialog(int page, bool assoc)
  * is not valid and will not be created.  The default accepts
  * nothing (returns false)
  */
-bool UMLObject::acceptAssociationType(Uml::AssociationType type)
+bool UMLObject::acceptAssociationType(Uml::AssociationType::Enum type)
 {
     Q_UNUSED(type);
     // A UMLObject accepts nothing. This should be reimplemented by the subclasses

@@ -64,7 +64,7 @@ public:
     static AssociationWidget* create(UMLScene *scene);
     static AssociationWidget* create
                      (UMLScene *scene, UMLWidget* WidgetA,
-                      Uml::AssociationType Type, UMLWidget* WidgetB,
+                      Uml::AssociationType::Enum assocType, UMLWidget* WidgetB,
                       UMLObject *umlobject = NULL);
 
     virtual ~AssociationWidget();
@@ -135,14 +135,14 @@ public:
     UMLWidget* widgetForRole(Uml::Role_Type role) const;
     void setWidgetForRole(UMLWidget* widget, Uml::Role_Type role);
 
-    bool setWidgets(UMLWidget* widgetA, Uml::AssociationType assocType, UMLWidget* widgetB);
+    bool setWidgets(UMLWidget* widgetA, Uml::AssociationType::Enum assocType, UMLWidget* widgetB);
 
     bool checkAssoc(UMLWidget *widgetA, UMLWidget *widgetB);
 
     bool hasWidget(UMLWidget* widget);
 
-    Uml::AssociationType associationType() const;
-    void setAssociationType(Uml::AssociationType type);
+    Uml::AssociationType::Enum associationType() const;
+    void setAssociationType(Uml::AssociationType::Enum type);
 
     bool isCollaboration() const;
 
@@ -337,7 +337,7 @@ private:
 
     AssociationLine *m_associationLine;      ///< the definition points for the association line
     ClassifierWidget *m_associationClass;    ///< used if we have an assoc. class
-    Uml::AssociationType m_associationType;  ///< is only used if m_pObject is not set
+    Uml::AssociationType::Enum m_associationType;  ///< is only used if m_pObject is not set
     WidgetRole  m_role[2];
     FloatingTextWidget* m_nameWidget;  ///< displays the name of this association
 

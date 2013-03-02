@@ -364,7 +364,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
     }
 
     foreach(AssociationWidget *assoc, scene->associationList()) {
-        QString type = assoc->associationType().toString().toLower();
+        QString type = Uml::AssociationType::toString(assoc->associationType()).toLower();
         QString key = "type::" + type;
         bool swapId = false;
 

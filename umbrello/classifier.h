@@ -122,7 +122,7 @@ public:
 
     UMLClassifierList findSubClassConcepts(ClassifierType type = ALL);
 
-    virtual bool acceptAssociationType(Uml::AssociationType);
+    virtual bool acceptAssociationType(Uml::AssociationType::Enum type);
 
     void setClassAssoc(UMLAssociation *assoc);
     UMLAssociation *getClassAssoc() const;

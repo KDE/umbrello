@@ -97,11 +97,11 @@ public:
 
     UMLStereotype* findOrCreateStereotype(const QString &name);
 
-    UMLAssociation* createUMLAssociation(UMLObject *a, UMLObject *b, Uml::AssociationType type);
+    UMLAssociation* createUMLAssociation(UMLObject *a, UMLObject *b, Uml::AssociationType::Enum type);
 
     void addAssociation(UMLAssociation *assoc);
     void removeAssociation(UMLAssociation *assoc, bool doSetModified = true);
-    UMLAssociation * findAssociation(Uml::AssociationType assocType,
+    UMLAssociation * findAssociation(Uml::AssociationType::Enum assocType,
                                      const UMLObject *roleAObj,
                                      const UMLObject *roleBObj,
                                      bool *swap = 0);
