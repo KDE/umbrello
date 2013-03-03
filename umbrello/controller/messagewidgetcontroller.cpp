@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2012                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -75,7 +75,7 @@ QCursor MessageWidgetController::getResizeCursor()
  */
 void MessageWidgetController::resizeWidget(UMLSceneValue newW, UMLSceneValue newH)
 {
-    if (m_messageWidget->sequenceMessageType() == Uml::sequence_message_creation)
+    if (m_messageWidget->sequenceMessageType() == Uml::SequenceMessage::Creation)
         m_messageWidget->setSize(m_messageWidget->width(), newH);
     else {
         int x1 = m_messageWidget->m_pOw[Uml::A]->x();
@@ -128,7 +128,7 @@ void MessageWidgetController::moveWidgetBy(UMLSceneValue diffX, UMLSceneValue di
 
     m_messageWidget->setY(newY);
 
-    if (m_messageWidget->m_sequenceMessageType == Uml::sequence_message_creation) {
+    if (m_messageWidget->m_sequenceMessageType == Uml::SequenceMessage::Creation) {
         const UMLSceneValue objWidgetHalfHeight = m_messageWidget->m_pOw[Uml::B]->height() / 2;
         m_messageWidget->m_pOw[Uml::B]->UMLWidget::setY(newY - objWidgetHalfHeight);
     }

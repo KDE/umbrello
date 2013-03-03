@@ -46,12 +46,12 @@ public:
     friend class MessageWidgetController;
 
     MessageWidget(UMLScene * scene, ObjectWidget* a, ObjectWidget* b,
-                  int y, Uml::Sequence_Message_Type sequenceMessageType,
+                  int y, Uml::SequenceMessage::Enum sequenceMessageType,
                   Uml::ID::Type id = Uml::ID::None);
-    MessageWidget(UMLScene * scene, Uml::Sequence_Message_Type sequenceMessageType,
+    MessageWidget(UMLScene * scene, Uml::SequenceMessage::Enum sequenceMessageType,
                   Uml::ID::Type id = Uml::ID::None);
     MessageWidget(UMLScene * scene, ObjectWidget* a, int xclick, int yclick,
-                  Uml::Sequence_Message_Type sequenceMessageType,
+                  Uml::SequenceMessage::Enum sequenceMessageType,
                   Uml::ID::Type id = Uml::ID::None);
     virtual ~MessageWidget();
 
@@ -81,7 +81,7 @@ public:
     void setSequenceNumber(const QString &sequenceNumber);
 
     /// @return Whether the message is synchronous or asynchronous
-    Uml::Sequence_Message_Type sequenceMessageType() const {
+    Uml::SequenceMessage::Enum sequenceMessageType() const {
         return m_sequenceMessageType;
     }
 
@@ -170,7 +170,7 @@ protected:
     /**
      * Whether the message is synchronous or asynchronous
      */
-    Uml::Sequence_Message_Type m_sequenceMessageType;
+    Uml::SequenceMessage::Enum m_sequenceMessageType;
 
 private:
     void moveEvent(QGraphicsSceneMouseEvent *m);

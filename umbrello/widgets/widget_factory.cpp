@@ -201,7 +201,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
     } else if (tag == "activitywidget" || tag == "UML:ActivityWidget") {
         widget = new ActivityWidget(scene, ActivityWidget::Initial, Uml::ID::Reserved);
     } else if (tag == "messagewidget") {
-        widget = new MessageWidget(scene, Uml::sequence_message_asynchronous, Uml::ID::Reserved);
+        widget = new MessageWidget(scene, Uml::SequenceMessage::Asynchronous, Uml::ID::Reserved);
     } else if (tag == "forkjoin") {
         widget = new ForkJoinWidget(scene, Qt::Vertical, Uml::ID::Reserved);
     } else if (tag == "preconditionwidget") {

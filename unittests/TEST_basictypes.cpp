@@ -39,6 +39,7 @@ private slots:
     void test_SignatureType_toString_fromString();
     void test_TextRole_toString_fromString();
     void test_Changeability_toString_fromString();
+    void test_SequenceMessage_toString_fromString();
 };
 
 //-----------------------------------------------------------------------------
@@ -254,6 +255,18 @@ void TEST_basictypes::test_Changeability_toString_fromString()
                                       Uml::Changeability::toString(
                                           Uml::Changeability::Value(i)));
         QVERIFY(Uml::Changeability::Value(i) == at);
+    }
+}
+
+//-----------------------------------------------------------------------------
+
+void TEST_basictypes::test_SequenceMessage_toString_fromString()
+{
+    for (int i = 900; i < 903; ++i) {
+        Uml::SequenceMessage::Enum at = Uml::SequenceMessage::fromString(
+                                      Uml::SequenceMessage::toString(
+                                          Uml::SequenceMessage::fromInt(i)));
+        QVERIFY(Uml::SequenceMessage::fromInt(i) == at);
     }
 }
 

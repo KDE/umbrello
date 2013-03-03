@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2012                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -137,7 +137,7 @@ void FloatingTextWidgetController::moveWidgetBy(UMLSceneValue diffX, UMLSceneVal
             messageWidget->setY(newY + m_floatingTextWidget->height());
 
             //TODO This should be moved to somewhere in MessageWidget, refactor with messagewidgetcontroller.cpp:44
-            if (messageWidget->sequenceMessageType() == Uml::sequence_message_creation) {
+            if (messageWidget->sequenceMessageType() == Uml::SequenceMessage::Creation) {
                 const int objWidgetHalfHeight = messageWidget->objectWidget(Uml::B)->height() / 2;
                 messageWidget->objectWidget(Uml::B)->UMLWidget::setY(messageWidget->y() - objWidgetHalfHeight);
             }
