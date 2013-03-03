@@ -2678,13 +2678,6 @@ void AssociationWidget::setTextPosition(Uml::TextRole::Enum role)
     UMLScenePoint pos = calculateTextPosition(role);
     int x = pos.x();
     int y = pos.y();
-    if ( (x < 0 || x > FloatingTextWidget::restrictPositionMax) ||
-            (y < 0 || y > FloatingTextWidget::restrictPositionMax) ) {
-        DEBUG(DBG_SRC) << "(x=" << x << " , y=" << y << ") "
-            << "- was blocked because at least one value is out of bounds: ["
-            << "0 ... " << FloatingTextWidget::restrictPositionMax << "]";
-        return;
-    }
     ft->setX( x );
     ft->setY( y );
 }
