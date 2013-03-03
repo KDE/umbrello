@@ -269,7 +269,7 @@ public:
             }
             */
             /*
-             * here stuff could be added to add more points from informations returned by dot.
+             * here stuff could be added to add more points from information returned by dot.
             */
         }
 

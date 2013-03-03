@@ -83,7 +83,7 @@ UMLObject* UMLRole::object() const
  *
  * @return  Changeability of role.
  */
-Uml::Changeability UMLRole::changeability() const
+Uml::Changeability::Enum UMLRole::changeability() const
 {
     return m_Changeability;
 }
@@ -123,9 +123,9 @@ void UMLRole::setObject(UMLObject *obj)
 /**
  * Sets the changeability of the role.
  *
- * @param value   Changeability_Type of role changeability.
+ * @param value   Changeability::Enum of role.
  */
-void UMLRole::setChangeability(Uml::Changeability value)
+void UMLRole::setChangeability(Uml::Changeability::Enum value)
 {
     m_Changeability = value;
     UMLObject::emitModified();

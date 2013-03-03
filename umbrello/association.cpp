@@ -462,9 +462,9 @@ bool UMLAssociation::load( QDomElement & element )
     QString changeabilityA = element.attribute( "changeabilitya", "0");
     QString changeabilityB = element.attribute( "changeabilityb", "0");
     if (changeabilityA.toInt() > 0)
-        setChangeability(Uml::Changeability(Uml::Changeability::Value(changeabilityA.toInt())), A);
+        setChangeability(Uml::Changeability::fromInt(changeabilityA.toInt()), A);
     if (changeabilityB.toInt() > 0)
-        setChangeability(Uml::Changeability(Uml::Changeability::Value(changeabilityB.toInt())), B);
+        setChangeability(Uml::Changeability::fromInt(changeabilityB.toInt()), B);
 
     return true;
 }
@@ -515,7 +515,7 @@ Uml::ID::Type UMLAssociation::getRoleId(Role_Type role) const
 /**
  * Returns the changeability.
  */
-Uml::Changeability UMLAssociation::changeability(Uml::Role_Type role) const
+Uml::Changeability::Enum UMLAssociation::changeability(Uml::Role_Type role) const
 {
     return m_pRole[role]->changeability();
 }
@@ -625,7 +625,7 @@ void UMLAssociation::setVisibility(Visibility::Enum value, Uml::Role_Type role)
  * @param value     Changeability_Type of the given role.
  * @param role      The Uml::Role_Type to which the changeability is being set
  */
-void UMLAssociation::setChangeability(Uml::Changeability value, Uml::Role_Type role)
+void UMLAssociation::setChangeability(Uml::Changeability::Enum value, Uml::Role_Type role)
 {
     m_pRole[role]->setChangeability(value);
 }

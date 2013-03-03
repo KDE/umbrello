@@ -128,8 +128,8 @@ public:
     void setVisibility(Uml::Visibility::Enum value, Uml::Role_Type role);
 
     FloatingTextWidget* changeabilityWidget(Uml::Role_Type role) const;
-    Uml::Changeability changeability(Uml::Role_Type role) const;
-    void setChangeability(Uml::Changeability value, Uml::Role_Type role);
+    Uml::Changeability::Enum changeability(Uml::Role_Type role) const;
+    void setChangeability(Uml::Changeability::Enum value, Uml::Role_Type role);
 
     Uml::ID::Type widgetIDForRole(Uml::Role_Type role) const;
     UMLWidget* widgetForRole(Uml::Role_Type role) const;
@@ -280,7 +280,7 @@ private:
 
         // The following items are only used if m_pObject is not set.
         Uml::Visibility::Enum     visibility;
-        Uml::Changeability        changeability;
+        Uml::Changeability::Enum  changeability;
         QString                   roleDocumentation;
 
     };

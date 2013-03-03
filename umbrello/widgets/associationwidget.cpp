@@ -1083,7 +1083,7 @@ void AssociationWidget::setVisibility(Visibility::Enum value, Uml::Role_Type rol
 /**
  * Gets the changeability on the the given end of the Association.
  */
-Uml::Changeability AssociationWidget::changeability(Uml::Role_Type role) const
+Uml::Changeability::Enum AssociationWidget::changeability(Uml::Role_Type role) const
 {
     if (m_umlObject == NULL || m_umlObject->baseType() != UMLObject::ot_Association)
         return m_role[role].changeability;
@@ -1094,7 +1094,7 @@ Uml::Changeability AssociationWidget::changeability(Uml::Role_Type role) const
 /**
  * Sets the changeability on the the given end of the Association.
  */
-void AssociationWidget::setChangeability(Uml::Changeability value, Uml::Role_Type role)
+void AssociationWidget::setChangeability(Uml::Changeability::Enum value, Uml::Role_Type role)
 {
     if (value == changeability(role))
         return;
@@ -4199,11 +4199,11 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
         // Changeability defaults to "Changeable" if it cant set it here..
         QString changeabilityA = qElement.attribute( "changeabilityA", "0");
         if (changeabilityA.toInt() > 0)
-            setChangeability(Uml::Changeability::Value(changeabilityA.toInt()), A);
+            setChangeability(Uml::Changeability::fromInt(changeabilityA.toInt()), A);
 
         QString changeabilityB = qElement.attribute( "changeabilityB", "0");
         if (changeabilityB.toInt() > 0)
-            setChangeability(Uml::Changeability::Value(changeabilityB.toInt()), B);
+            setChangeability(Uml::Changeability::fromInt(changeabilityB.toInt()), B);
 
     } else {
 

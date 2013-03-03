@@ -712,11 +712,13 @@ Enum fromInt(int item)
 
 //-----------------------------------------------------------------------------
 
+namespace Changeability {
+
 /**
- * Convert Changeability_Type value into QString representation.
+ * Convert Changeability::Enum value into QString representation.
  * @param type   The Changeability enum value to convert.
  */
-QString Changeability::toString(Value item)
+QString toString(Enum item)
 {
     switch (item) {
         case Changeability::Frozen:
@@ -732,52 +734,30 @@ QString Changeability::toString(Value item)
 }
 
 /**
- * Return Changeability corresponding to the given string.
+ * Return Changeability::Enum corresponding to the given string.
  */
-Changeability Changeability::fromString(const QString& item)
+Enum fromString(const QString& item)
 {
     if (item == "frozen")
-        return Changeability(Frozen);
+        return Frozen;
     if (item == "addOnly")
-        return Changeability(AddOnly);
+        return AddOnly;
     if (item == "changeable")
-        return Changeability(Changeable);
-    return Changeability(Changeable);
+        return Changeable;
+    return Changeable;
 }
 
 /**
- * Constructor.
+ * Convert a integer item into Changeability representation.
+ * @param item   integer value to convert
+ * @return Changeability enum
  */
-Changeability::Changeability()
-  : m_value(Changeable)
+Enum fromInt(int item)
 {
+    return Enum(item);
 }
 
-/**
- * Constructor.
- * @param item   value to set
- */
-Changeability::Changeability(Value item)
-  : m_value(item)
-{
-}
-
-/**
- * Convert Changeability value into QString representation.
- * @return QString representation of the Changeability
- */
-QString Changeability::toString() const
-{
-    return toString(m_value);
-}
-
-/**
- * 
- */
-Changeability::operator Changeability::Value() const
-{
-    return m_value;
-}
+}  // end namespace Changeability
 
 //-----------------------------------------------------------------------------
 

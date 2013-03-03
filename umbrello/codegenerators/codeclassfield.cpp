@@ -516,7 +516,7 @@ void CodeClassField::updateContent()
         return;
     }
     UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
-    Uml::Changeability changeType = role->changeability();
+    Uml::Changeability::Enum changeType = role->changeability();
     bool isSingleValue = fieldIsSingleValue();
     bool isEmptyRole = role->name().isEmpty() ? true : false;
 

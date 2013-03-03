@@ -25,7 +25,7 @@
 
 /**
  * This namespace contains all the enums used all over the code base.
- * The enums are embedded into classes to add usefull functionality.
+ * The enums are embedded into namespaces and useful functionality is added.
  */
 namespace Uml
 {
@@ -170,23 +170,17 @@ namespace Uml
     /**
      * Changeability types.
      */
-    class Changeability
+    namespace Changeability
     {
-    public:
-        enum Value {
+        enum Enum {
             Changeable = 900,
             Frozen,
             AddOnly
         };
-        Changeability();
-        /*explicit*/ Changeability(Value item);
-        static QString toString(Value item);
-        static Changeability fromString(const QString& item);
-        QString toString() const;
-        operator Value() const;
-    private:
-        Value m_value;
-    };
+        QString toString(Enum item);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+    }
 
     /**
      * SequenceMessage type

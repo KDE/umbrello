@@ -609,7 +609,7 @@ void JavaWriter::writeAssociationMethods (UMLAssociationList associations, UMLCl
  * role.
  */
 void JavaWriter::writeAssociationRoleMethod (QString fieldClassName, QString roleName, QString multi,
-        QString description, Uml::Visibility::Enum visib, Uml::Changeability change,
+        QString description, Uml::Visibility::Enum visib, Uml::Changeability::Enum change,
         QTextStream &java)
 {
     if (multi.isEmpty() || multi.contains(QRegExp("^[01]$")))
@@ -631,7 +631,7 @@ void JavaWriter::writeAssociationRoleMethod (QString fieldClassName, QString rol
  */
 void JavaWriter::writeVectorAttributeAccessorMethods(QString fieldClassName, QString fieldVarName,
         QString fieldName, QString description,
-        Uml::Visibility::Enum visibility, Uml::Changeability changeType,
+        Uml::Visibility::Enum visibility, Uml::Changeability::Enum changeType,
         QTextStream &java)
 {
     fieldClassName = fixTypeName(fieldClassName);
@@ -670,7 +670,7 @@ void JavaWriter::writeVectorAttributeAccessorMethods(QString fieldClassName, QSt
  */
 void JavaWriter::writeSingleAttributeAccessorMethods(QString fieldClassName, QString fieldVarName,
         QString fieldName, QString description,
-        Uml::Visibility::Enum visibility, Uml::Changeability change,
+        Uml::Visibility::Enum visibility, Uml::Changeability::Enum change,
         bool isFinal, QTextStream &java)
 {
     QString strVis = Uml::Visibility::toString(visibility);
