@@ -143,7 +143,7 @@ protected:
         int inclination;
     };
 
-    UMLScene *canvas();
+    UMLScene *umlScene();
 
     void moveSelected(int pointIndex);
 

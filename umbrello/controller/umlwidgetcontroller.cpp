@@ -167,7 +167,7 @@ void UMLWidgetController::mousePressEvent(QGraphicsSceneMouseEvent *me)
  * widgets).
  * The difference between the previous position of the selection and the new
  * one is got (taking in account the selection bounds so widgets don't go
- * beyond the canvas limits). Then, it's constrained to X or Y axis depending
+ * beyond the scene limits). Then, it's constrained to X or Y axis depending
  * on shift and control buttons.
  * A further constrain is made using constrainMovementForAllWidgets (for example,
  * if the widget that receives the event can only be moved in Y axis, with this
@@ -176,7 +176,7 @@ void UMLWidgetController::mousePressEvent(QGraphicsSceneMouseEvent *me)
  * Then, all the selected widgets are moved using moveWidgetBy (where specific
  * widget movement constrain can be applied) and, if an specific amount of time
  * passed from the last move event, the associations are also updated (they're
- * not updated always to be easy on the CPU). Finally, the canvas is resized,
+ * not updated always to be easy on the CPU). Finally, the scene is resized,
  * and selection bounds updated.
  *
  * @param me The QGraphicsSceneMouseEvent event.
@@ -254,7 +254,7 @@ void UMLWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
         }
     }
 
-    m_widget->umlScene()->resizeCanvasToItems();
+    m_widget->umlScene()->resizeSceneToItems();
     updateSelectionBounds(diffX, diffY);
 }
 
@@ -698,7 +698,7 @@ void UMLWidgetController::resize(QGraphicsSceneMouseEvent *me)
     resizeWidget(newW, newH);
     m_widget->adjustAssocs(m_widget->x(), m_widget->y());
 
-    m_widget->m_scene->resizeCanvasToItems();
+    m_widget->m_scene->resizeSceneToItems();
 }
 
 /**

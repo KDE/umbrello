@@ -281,7 +281,7 @@ public:
 
     void fileLoaded();
 
-    void resizeCanvasToItems();
+    void resizeSceneToItems();
 
     // Load/Save interface:
 

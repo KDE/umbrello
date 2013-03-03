@@ -84,7 +84,7 @@ void UMLView::setZoom(int zoom)
     setMatrix(wm);
 
     m_nZoom = currentZoom();
-    umlScene()->resizeCanvasToItems();
+    umlScene()->resizeSceneToItems();
 }
 
 /**
@@ -124,13 +124,13 @@ void UMLView::zoomOut()
 }
 
 /**
- * Overrides standard method from QWidget to resize canvas when
+ * Overrides standard method from QWidget to resize scene when
  * it's shown.
  */
 void UMLView::show()
 {
     QWidget::show();
-    umlScene()->resizeCanvasToItems();
+    umlScene()->resizeSceneToItems();
 }
 
 /**

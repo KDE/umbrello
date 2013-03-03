@@ -192,5 +192,5 @@ void SeqLineWidget::setEndOfLine(int yPosition)
     }
     setLine( sp.x(), sp.y(), sp.x(), newY );
     moveDestructionBox();
-    m_scene->resizeCanvasToItems();
+    m_scene->resizeSceneToItems();
 }

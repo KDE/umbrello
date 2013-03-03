@@ -499,7 +499,7 @@ void UMLScene::setupNewWidget(UMLWidget *w)
     w->slotFillColorChanged(ID());
     w->slotTextColorChanged(ID());
     w->slotLineWidthChanged(ID());
-    resizeCanvasToItems();
+    resizeSceneToItems();
     m_WidgetList.append(w);
     m_doc->setModified();
 
@@ -631,7 +631,7 @@ void UMLScene::slotObjectCreated(UMLObject* o)
         default:
             break;
     }
-    resizeCanvasToItems();
+    resizeSceneToItems();
 }
 
 /**
@@ -2974,8 +2974,8 @@ void UMLScene::copyAsImage(QPixmap*& pix)
     }//end foreach
 
     UMLSceneRect imageRect;  //area with respect to diagramRect()
-    //i.e. all widgets on the canvas.  Was previously with
-    //respect to whole canvas
+    //i.e. all widgets on the scene.  Was previously with
+    //respect to whole scene
 
     imageRect.setLeft(px - rect.left());
     imageRect.setTop(py - rect.top());
@@ -3733,13 +3733,13 @@ void UMLScene::setShowOpSig(bool bShowOpSig)
 void UMLScene::fileLoaded()
 {
     m_view->setZoom(m_view->zoom());
-    resizeCanvasToItems();
+    resizeSceneToItems();
 }
 
 /**
- * Sets the size of the canvas to just fit on all the items
+ * Sets the size of the scene to just fit on all the items
  */
-void UMLScene::resizeCanvasToItems()
+void UMLScene::resizeSceneToItems()
 {
     // let QGraphicsScene handle scene size by itself
     setSceneRect(QRectF());
@@ -3785,7 +3785,7 @@ void UMLScene::drawBackground(QPainter *painter, const QRectF &rect)
  */
 void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
-    resizeCanvasToItems();
+    resizeSceneToItems();
     QDomElement viewElement = qDoc.createElement("diagram");
     viewElement.setAttribute("xmi.id", ID2STR(m_nID));
     viewElement.setAttribute("name", name());
@@ -3882,7 +3882,7 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
 
     QString zoom = qElement.attribute("zoom", "100");
     activeView()->setZoom(zoom.toInt());
-    resizeCanvasToItems();
+    resizeSceneToItems();
 
     QString isOpen = qElement.attribute("isopen", "1");
     m_isOpen = (bool)isOpen.toInt();
