@@ -86,7 +86,7 @@ protected:
     void setFirstWidget(ObjectWidget* firstObject);
     void setSecondWidget(ObjectWidget* secondObject, MessageType messageType);
 
-    Uml::Sequence_Message_Type getMessageType();
+    Uml::SequenceMessage::Enum getMessageType();
 
     void cleanMessage();
 

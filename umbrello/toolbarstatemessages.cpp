@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2012                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -173,9 +173,9 @@ void ToolBarStateMessages::mouseReleaseWidget()
  */
 void ToolBarStateMessages::mouseReleaseEmpty()
 {
-    Uml::Sequence_Message_Type msgType = getMessageType();
+    Uml::SequenceMessage::Enum msgType = getMessageType();
 
-    if (m_firstObject && msgType ==  Uml::sequence_message_lost) {
+    if (m_firstObject && msgType ==  Uml::SequenceMessage::Lost) {
         xclick = m_pMouseEvent->scenePos().x();
         yclick = m_pMouseEvent->scenePos().y();
 
@@ -186,7 +186,7 @@ void ToolBarStateMessages::mouseReleaseEmpty()
         yclick = 0;
     }
 
-    else if (!m_firstObject && msgType == Uml::sequence_message_found && xclick == 0 && yclick == 0) {
+    else if (!m_firstObject && msgType == Uml::SequenceMessage::Found && xclick == 0 && yclick == 0) {
         xclick = m_pMouseEvent->scenePos().x();
         yclick = m_pMouseEvent->scenePos().y();
 
@@ -215,9 +215,9 @@ void ToolBarStateMessages::mouseReleaseEmpty()
 void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
 {
     m_firstObject = firstObject;
-    Uml::Sequence_Message_Type msgType = getMessageType();
+    Uml::SequenceMessage::Enum msgType = getMessageType();
 
-    if (msgType ==  Uml::sequence_message_found && xclick!=0 && yclick!=0) {
+    if (msgType ==  Uml::SequenceMessage::Found && xclick!=0 && yclick!=0) {
         MessageWidget* message = new MessageWidget(m_pUMLScene, m_firstObject,xclick, yclick, msgType);
         setupMessageWidget(message);
         cleanMessage();
@@ -248,10 +248,10 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
  */
 void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageType messageType)
 {
-    Uml::Sequence_Message_Type msgType = getMessageType();
+    Uml::SequenceMessage::Enum msgType = getMessageType();
 
     //There shouldn't be second widget for a lost or a found message
-    if (msgType == Uml::sequence_message_lost || msgType == Uml::sequence_message_found) {
+    if (msgType == Uml::SequenceMessage::Lost || msgType == Uml::SequenceMessage::Found) {
         cleanMessage();
         xclick = 0;
         yclick = 0;
@@ -261,7 +261,7 @@ void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageTy
     //and not only for creation?
     UMLSceneValue y = m_pMouseEvent->scenePos().y();
     if (messageType == CreationMessage) {
-        msgType = Uml::sequence_message_creation;
+        msgType = Uml::SequenceMessage::Creation;
         y = m_messageLine->line().p1().y();
     }
 
@@ -276,18 +276,18 @@ void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageTy
  *
  * @return The message type of this tool.
  */
-Uml::Sequence_Message_Type ToolBarStateMessages::getMessageType()
+Uml::SequenceMessage::Enum ToolBarStateMessages::getMessageType()
 {
     if (getButton() == WorkToolBar::tbb_Seq_Message_Synchronous) {
-        return Uml::sequence_message_synchronous;
+        return Uml::SequenceMessage::Synchronous;
     }
     else if (getButton() == WorkToolBar::tbb_Seq_Message_Found) {
-        return Uml::sequence_message_found;
+        return Uml::SequenceMessage::Found;
     }
     else if (getButton() == WorkToolBar::tbb_Seq_Message_Lost) {
-        return Uml::sequence_message_lost;
+        return Uml::SequenceMessage::Lost;
     }
-    return Uml::sequence_message_asynchronous;
+    return Uml::SequenceMessage::Asynchronous;
 }
 
 /**

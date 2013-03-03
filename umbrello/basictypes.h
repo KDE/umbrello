@@ -189,17 +189,22 @@ namespace Uml
     };
 
     /**
-     * 
+     * SequenceMessage type
      */
-    enum Sequence_Message_Type
+    namespace SequenceMessage
     {
-        //This is saved out to the file so only add new entries at the end
-        sequence_message_synchronous = 1000,
-        sequence_message_asynchronous,
-        sequence_message_creation,
-        sequence_message_lost,
-        sequence_message_found
-    };
+        enum Enum {
+            //This is saved out to the file so only add new entries at the end
+            Synchronous = 1000,
+            Asynchronous,
+            Creation,
+            Lost,
+            Found
+        };
+        QString toString(Enum item);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+    }
 
     /**
      * Constants used for indexing the roles of associations.

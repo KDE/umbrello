@@ -4015,7 +4015,7 @@ bool UMLScene::loadMessagesFromXMI(QDomElement & qElement)
         DEBUG(DBG_SRC) << "tag = " << tag;
         if (tag == "messagewidget" ||
             tag == "UML:MessageWidget") {   // for bkwd compatibility
-            message = new MessageWidget(this, sequence_message_asynchronous,
+            message = new MessageWidget(this, SequenceMessage::Asynchronous,
                                         Uml::ID::Reserved);
             if (!message->loadFromXMI(messageElement)) {
                 delete message;
@@ -4025,7 +4025,7 @@ bool UMLScene::loadMessagesFromXMI(QDomElement & qElement)
             FloatingTextWidget *ft = message->floatingTextWidget();
             if (ft)
                 m_WidgetList.append(ft);
-            else if (message->sequenceMessageType() != sequence_message_creation)
+            else if (message->sequenceMessageType() != SequenceMessage::Creation)
                 DEBUG(DBG_SRC) << "floating text is NULL for message " << ID2STR(message->id());
         }
         node = messageElement.nextSibling();

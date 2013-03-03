@@ -781,6 +781,62 @@ Changeability::operator Changeability::Value() const
 
 //-----------------------------------------------------------------------------
 
+namespace SequenceMessage {
+
+/**
+ * Return string corresponding to the given SequenceMessage.
+ */
+QString toString(Enum item)
+{
+    switch (item) {
+        case Synchronous:
+            return QString("Synchronous");
+        case Asynchronous:
+            return QString("Asynchronous");
+        case Creation:
+            return QString("Creation");
+        case Lost:
+            return QString("Lost");
+        case Found:
+            return QString("Found");
+        default:
+            break;
+    }
+    return QString("? SequenceMessage ?");
+}
+
+/**
+ * Return SequenceMessage corresponding to the given string.
+ */
+Enum fromString(const QString& item)
+{
+    if (item == "Synchronous")
+        return Synchronous;
+    if (item == "Asynchronous")
+        return Asynchronous;
+    if (item == "Creation")
+        return Creation;
+    if (item == "Lost")
+        return Lost;
+    if (item == "Found")
+        return Found;
+    return Synchronous;
+}
+
+/**
+ * Convert a integer item into SequenceMessage representation.
+ * @param item   integer value to convert
+ * @return SequenceMessage enum
+ */
+Enum fromInt(int item)
+{
+    return Enum(item);
+}
+
+}  // end namespace SequenceMessage
+
+//-----------------------------------------------------------------------------
+
 namespace ID {
 
 QDebug operator<<(QDebug out, ID::Type &type)
