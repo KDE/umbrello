@@ -72,17 +72,17 @@ private:
                                  QTextStream &java);
 
     void writeAssociationRoleMethod(QString fieldClassName, QString roleName, QString multi,
-                                    QString description, Uml::Visibility::Enum visib, Uml::Changeability change,
+                                    QString description, Uml::Visibility::Enum visib, Uml::Changeability::Enum change,
                                     QTextStream &java);
 
     void writeSingleAttributeAccessorMethods(QString fieldClassName, QString fieldVarName,
             QString fieldName, QString description,
-            Uml::Visibility::Enum visibility, Uml::Changeability change,
+            Uml::Visibility::Enum visibility, Uml::Changeability::Enum change,
             bool isFinal, QTextStream &java);
 
     void writeVectorAttributeAccessorMethods(QString fieldClassName, QString fieldVarName,
             QString fieldName, QString description,
-            Uml::Visibility::Enum visibility, Uml::Changeability change,
+            Uml::Visibility::Enum visibility, Uml::Changeability::Enum change,
             QTextStream &java);
 
     void writeComment(const QString &text, const QString &indent, QTextStream &java, bool javaDocStyle=false);

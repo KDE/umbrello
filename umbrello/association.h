@@ -57,8 +57,8 @@ public:
     void setVisibility(Uml::Visibility::Enum value, Uml::Role_Type role);
     Uml::Visibility::Enum visibility(Uml::Role_Type role) const;
 
-    void setChangeability(Uml::Changeability value, Uml::Role_Type role);
-    Uml::Changeability changeability(Uml::Role_Type role) const;
+    void setChangeability(Uml::Changeability::Enum value, Uml::Role_Type role);
+    Uml::Changeability::Enum changeability(Uml::Role_Type role) const;
 
     void setMultiplicity(const QString &multi, Uml::Role_Type role);
     QString getMultiplicity(Uml::Role_Type role) const;

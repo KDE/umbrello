@@ -19,7 +19,6 @@
 */
 
 #include <QtTest>
-#include <QtCore>
 
 #include "basictypes.h"
 
@@ -251,10 +250,10 @@ void TEST_basictypes::test_TextRole_toString_fromString()
 void TEST_basictypes::test_Changeability_toString_fromString()
 {
     for (int i = 900; i < 903; ++i) {
-        Uml::Changeability at = Uml::Changeability::fromString(
+        Uml::Changeability::Enum at = Uml::Changeability::fromString(
                                       Uml::Changeability::toString(
-                                          Uml::Changeability::Value(i)));
-        QVERIFY(Uml::Changeability::Value(i) == at);
+                                          Uml::Changeability::fromInt(i)));
+        QVERIFY(Uml::Changeability::fromInt(i) == at);
     }
 }
 

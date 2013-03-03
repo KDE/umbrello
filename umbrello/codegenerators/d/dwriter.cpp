@@ -593,7 +593,7 @@ void DWriter::writeAssociationMethods (UMLAssociationList associations, UMLClass
 }
 
 void DWriter::writeAssociationRoleMethod (QString fieldClassName, QString roleName, QString multi,
-        QString description, Uml::Visibility::Enum visib, Uml::Changeability change,
+        QString description, Uml::Visibility::Enum visib, Uml::Changeability::Enum change,
         QTextStream &d)
 {
     if (multi.isEmpty() || multi.contains(QRegExp("^[01]$"))) {
@@ -611,7 +611,7 @@ void DWriter::writeAssociationRoleMethod (QString fieldClassName, QString roleNa
 
 void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QString fieldVarName,
         QString fieldName, QString description,
-        Uml::Visibility::Enum visibility, Uml::Changeability changeType,
+        Uml::Visibility::Enum visibility, Uml::Changeability::Enum changeType,
         QTextStream &d)
 {
     Q_UNUSED(visibility);
@@ -661,7 +661,7 @@ void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QStri
 
 void DWriter::writeSingleAttributeAccessorMethods(QString fieldClassName,
      QString fieldVarName, QString fieldName, QString description, Uml::Visibility::Enum /*visibility*/,
-     Uml::Changeability change, bool isFinal, QTextStream &d) {
+     Uml::Changeability::Enum change, bool isFinal, QTextStream &d) {
 
     fieldClassName = fixTypeName(fieldClassName);
     QString fieldNameUC = Codegen_Utils::capitalizeFirstLetter(fieldName);

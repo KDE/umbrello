@@ -172,7 +172,7 @@ private:
      * role.
      */
     void writeAssociationRoleMethod(QString fieldClassName, QString roleName, QString multi,
-                                    QString description, Uml::Visibility::Enum visib, Uml::Changeability change,
+                                    QString description, Uml::Visibility::Enum visib, Uml::Changeability::Enum change,
                                     QTextStream &d);
 
     /**
@@ -180,7 +180,7 @@ private:
      */
     void writeSingleAttributeAccessorMethods(QString fieldClassName, QString fieldVarName,
             QString fieldName, QString description,
-            Uml::Visibility::Enum visibility, Uml::Changeability change,
+            Uml::Visibility::Enum visibility, Uml::Changeability::Enum change,
             bool isFinal, QTextStream &d);
 
     /**
@@ -188,7 +188,7 @@ private:
      */
     void writeVectorAttributeAccessorMethods(QString fieldClassName, QString fieldVarName,
             QString fieldName, QString description,
-            Uml::Visibility::Enum visibility, Uml::Changeability change,
+            Uml::Visibility::Enum visibility, Uml::Changeability::Enum change,
             QTextStream &d);
 
     /**

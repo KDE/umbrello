@@ -803,7 +803,7 @@ void CppWriter::writeAssociationRoleMethod (const QString &fieldClassName,
         bool isHeaderMethod,
         bool writeMethodBody,
         const QString &roleName, const QString &multi,
-        const QString &description, Uml::Changeability change,
+        const QString &description, Uml::Changeability::Enum change,
         QTextStream &stream)
 {
     if (multi.isEmpty() || multi.contains(QRegExp("^[01]$")))
@@ -826,7 +826,7 @@ void CppWriter::writeAssociationRoleMethod (const QString &fieldClassName,
 void CppWriter::writeVectorAttributeAccessorMethods (
         const QString &fieldClassName, const QString &fieldVarName,
         const QString &fieldName, const QString &description,
-        Uml::Changeability changeType,
+        Uml::Changeability::Enum changeType,
         bool isHeaderMethod,
         bool writeMethodBody,
         QTextStream &stream)
@@ -908,7 +908,7 @@ void CppWriter::writeVectorAttributeAccessorMethods (
 void CppWriter::writeSingleAttributeAccessorMethods(
         const QString& fieldClassName, const QString& fieldVarName,
         const QString& fieldName, const QString &description,
-        Uml::Changeability change,
+        Uml::Changeability::Enum change,
         bool isHeaderMethod,
         bool isStatic,
         bool writeMethodBody,
