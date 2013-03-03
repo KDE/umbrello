@@ -3222,7 +3222,7 @@ void AssociationWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
     // move event called now
     //:TODO: QMoveEvent m(p, oldp);
     //:TODO: moveEvent(&m);
-    m_scene->resizeCanvasToItems();
+    m_scene->resizeSceneToItems();
 }
 
 /**

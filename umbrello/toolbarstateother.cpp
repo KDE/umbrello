@@ -84,7 +84,7 @@ void ToolBarStateOther::mouseReleaseEmpty()
             Object_Factory::createUMLObject(getObjectType());
         }
 
-        m_pUMLScene->resizeCanvasToItems();
+        m_pUMLScene->resizeSceneToItems();
     }
 }
 

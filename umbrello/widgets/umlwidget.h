@@ -217,16 +217,6 @@ public:
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *me);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * me);
 
-    UMLScene* canvas() const
-    {
-        return umlScene();
-    }
-
-    void setCanvas(UMLScene *scene)
-    {
-        scene->addItem(this);
-    }
-
     virtual void moveEvent(QGraphicsSceneMouseEvent *me);
 
     virtual void constrain(UMLSceneValue& width, UMLSceneValue& height);

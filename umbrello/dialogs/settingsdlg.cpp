@@ -135,7 +135,7 @@ void SettingsDlg::setupUIPage()
     connect( m_UiWidgets.gridColorCB, SIGNAL(toggled(bool)), this, SLOT(slotGridCBChecked(bool)) );
     connect( m_UiWidgets.bgColorCB, SIGNAL(toggled(bool)), this, SLOT(slotBgCBChecked(bool)) );
     
-    //TODO Once the new canvas is complete, so something better, it does not worth it for now
+    //TODO Once the new scene is complete, so something better, it does not worth it for now
     if (m_UiWidgets.textColorB->color() == TEXT_COLOR) {
         m_UiWidgets.textColorCB->setChecked(false);
         m_UiWidgets.textColorB->setDisabled(true);

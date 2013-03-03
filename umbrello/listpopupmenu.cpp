@@ -271,7 +271,7 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type
 }
 
 /**
- * Constructs the popup menu for a canvas widget.
+ * Constructs the popup menu for a scene widget.
  *
  * @param parent   The parent to ListPopupMenu.
  * @param object   The WidgetBase to represent a menu for.

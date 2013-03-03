@@ -18,7 +18,7 @@
 
 /**
  * This class contains the non-graphical information required for UMLObjects
- * which appear as moveable widgets on the canvas.
+ * which appear as moveable widgets on the scene.
  *
  * This class inherits from @ref UMLObject which contains most of the
  * information.

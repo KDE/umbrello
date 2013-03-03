@@ -182,7 +182,7 @@ bool AssociationLine::insertPoint(int pointIndex, const UMLScenePoint &point)
         UMLScenePoint ep = first->line().p2();
         first->setLine( sp.x(), sp.y(), point.x(), point.y() );
         QGraphicsLineItem* line = new QGraphicsLineItem;
-        canvas()->addItem(line);
+        umlScene()->addItem(line);
         line->setZValue( -2 );
         line->setLine( point.x(), point.y(), ep.x(), ep.y() );
         line->setPen( pen() );
@@ -198,7 +198,7 @@ bool AssociationLine::insertPoint(int pointIndex, const UMLScenePoint &point)
         UMLScenePoint ep = before->line().p2();
         before->setLine( sp.x(), sp.y(), point.x(), point.y() );
         QGraphicsLineItem* line = new QGraphicsLineItem;
-        canvas()->addItem(line);
+        umlScene()->addItem(line);
         line->setLine( point.x(), point.y(), ep.x(), ep.y() );
         line->setZValue( -2 );
         line->setPen( pen() );
@@ -213,7 +213,7 @@ bool AssociationLine::insertPoint(int pointIndex, const UMLScenePoint &point)
     UMLScenePoint ep = before->line().p2();
     before->setLine( sp.x(), sp.y(), point.x(), point.y() );
     QGraphicsLineItem* line = new QGraphicsLineItem;
-    canvas()->addItem(line);
+    umlScene()->addItem(line);
     line->setLine( point.x(), point.y(), ep.x(), ep.y() );
     line->setZValue( -2 );
     line->setPen( pen() );
@@ -340,7 +340,7 @@ void AssociationLine::cleanup()
  */
 int AssociationLine::closestPointIndex(const UMLScenePoint &position)
 {
-    UMLSceneItemList list = canvas()->collisions( position );
+    UMLSceneItemList list = umlScene()->collisions( position );
     int index = -1;
 
     UMLSceneItemList::iterator end(list.end());
@@ -388,7 +388,7 @@ bool AssociationLine::setEndPoints(const UMLScenePoint &start, const UMLScenePoi
     int count = m_LineList.count();
     if( count == 0 ) {
         QGraphicsLineItem* line = new QGraphicsLineItem;
-        canvas()->addItem(line);
+        umlScene()->addItem(line);
         line->setLine( start.x(), start.y(),end.x(),end.y() );
         line->setZValue( -2 );
         line->setPen( pen() );
@@ -695,7 +695,7 @@ AssociationLine & AssociationLine::operator=(const AssociationLine & rhs)
 {
     if( this == &rhs )
         return *this;
-    //clear out the old canvas objects
+    //clear out the old scene objects
     this->cleanup();
 
     int count = rhs.m_LineList.count();
@@ -746,11 +746,11 @@ void AssociationLine::activate()
     int count = m_LineList.count();
     if (count == 0)
         return;
-    if (canvas() == NULL)
+    if (umlScene() == NULL)
         return;
     for (int i = 0; i < count ; i++) {
         QGraphicsLineItem *line = m_LineList.at(i);
-        canvas()->addItem(line);
+        umlScene()->addItem(line);
         line->setPen( pen() );
     }
 }
@@ -807,13 +807,13 @@ void AssociationLine::slotLineWidthChanged(Uml::ID::Type viewID)
 }
 
 /**
- * Returns the canvas being used.
+ * Returns the scene being used.
  * Will return zero if the Association hasn't been set.
  *
  * This class doesn't hold this information but is a wrapper
  * method to stop calls to undefined variable like m_associationWidget.
  */
-UMLScene* AssociationLine::canvas()
+UMLScene* AssociationLine::umlScene()
 {
     if( !m_associationWidget )
         return 0;
@@ -821,7 +821,7 @@ UMLScene* AssociationLine::canvas()
 }
 
 /**
- * Moves the selected canvas widgets.
+ * Moves the selected scene widgets.
  */
 void AssociationLine::moveSelected(int pointIndex)
 {
@@ -981,7 +981,7 @@ void AssociationLine::createHeadLines()
     case Uml::AssociationType::Realization:
         growList(m_HeadList, 3);
         m_pClearPoly = new QGraphicsPolygonItem;
-        canvas()->addItem(m_pClearPoly);
+        umlScene()->addItem(m_pClearPoly);
         m_pClearPoly->setVisible( true );
         m_pClearPoly->setBrush( QBrush( Qt::white ) );
         m_pClearPoly->setZValue( -1 );
@@ -991,7 +991,7 @@ void AssociationLine::createHeadLines()
     case Uml::AssociationType::Aggregation:
         growList(m_HeadList, 4);
         m_pClearPoly = new QGraphicsPolygonItem;
-        canvas()->addItem(m_pClearPoly);
+        umlScene()->addItem(m_pClearPoly);
         m_pClearPoly->setVisible( true );
         if( getAssocType() == Uml::AssociationType::Aggregation )
             m_pClearPoly->setBrush( QBrush( Qt::white ) );
@@ -1004,7 +1004,7 @@ void AssociationLine::createHeadLines()
         growList(m_HeadList, 1);
         if (!m_pCircle) {
             m_pCircle = new Circle( 6 );
-            canvas()->addItem(m_pCircle);
+            umlScene()->addItem(m_pCircle);
             m_pCircle->show();
             m_pCircle->setPen( QPen( lineColor(), lineWidth() ) );
         }
@@ -1202,7 +1202,7 @@ void AssociationLine::createSubsetSymbol()
     switch( getAssocType() ) {
        case Uml::AssociationType::Child2Category:
            m_pSubsetSymbol = new SubsetSymbol;
-           canvas()->addItem(m_pSubsetSymbol);
+           umlScene()->addItem(m_pSubsetSymbol);
            m_pSubsetSymbol->setPen( QPen( lineColor(), lineWidth() ) );
            updateSubsetSymbol();
            m_pSubsetSymbol->show();
@@ -1267,7 +1267,7 @@ void AssociationLine::growList(LineList &list, int by)
     QPen pen( lineColor(), lineWidth() );
     for (int i = 0; i < by; i++) {
         QGraphicsLineItem* line = new QGraphicsLineItem;
-        canvas()->addItem(line);
+        umlScene()->addItem(line);
         line->setZValue( 0 );
         line->setPen( pen );
         line->setVisible( true );
