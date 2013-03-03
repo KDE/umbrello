@@ -145,10 +145,9 @@ namespace Uml
     /**
      * TextRole types.
      */
-    class TextRole
+    namespace TextRole
     {
-    public:
-        enum Value {
+        enum Enum {
             Floating  =  700,   //text widget on diagrams
             MultiA,             //Text for Multiple A
             MultiB,             //Text for Multiple B
@@ -163,15 +162,10 @@ namespace Uml
             ChangeA,            //Changeability A text on associations
             ChangeB             //Changeability B text on associations
         };
-        TextRole();
-        /*explicit*/ TextRole(Value item);
-        static QString toString(Value item);
-        static TextRole fromString(const QString& item);
-        QString toString() const;
-        operator Value() const;
-    private:
-        Value m_value;
-    };
+        QString toString(Enum item);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+    }
 
     /**
      * Changeability types.

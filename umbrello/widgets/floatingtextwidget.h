@@ -50,7 +50,7 @@ public:
     static const UMLSceneValue restrictPositionMin;
     static const UMLSceneValue restrictPositionMax;
 
-    explicit FloatingTextWidget(UMLScene * scene, Uml::TextRole role = Uml::TextRole::Floating,
+    explicit FloatingTextWidget(UMLScene * scene, Uml::TextRole::Enum role = Uml::TextRole::Floating,
                                 const QString& text = "", Uml::ID::Type id = Uml::ID::None);
     virtual ~FloatingTextWidget();
 
@@ -76,8 +76,8 @@ public:
 
     bool activate( IDChangeLog* ChangeLog = 0 );
 
-    Uml::TextRole textRole() const;
-    void setTextRole(Uml::TextRole role);
+    Uml::TextRole::Enum textRole() const;
+    void setTextRole(Uml::TextRole::Enum role);
 
     void handleRename();
     void changeName(const QString& newText);
@@ -107,7 +107,7 @@ private:
     /// Ending text (such as bracket on changability notation for association Role)
     QString m_postText;
     /// The role the text widget will enact.
-    Uml::TextRole m_textRole;
+    Uml::TextRole::Enum m_textRole;
 
 };
 

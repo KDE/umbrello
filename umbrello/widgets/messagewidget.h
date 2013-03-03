@@ -73,7 +73,7 @@ public:
     virtual void setSeqNumAndOp(const QString &seqNum, const QString &op);
 
     virtual void constrainTextPos(UMLSceneValue &textX, UMLSceneValue &textY, UMLSceneValue textWidth, UMLSceneValue textHeight,
-                                  Uml::TextRole tr);
+                                  Uml::TextRole::Enum tr);
 
     //---------- End LinkWidget Interface methods implemementation.
 
@@ -150,7 +150,7 @@ public:
 protected:
     void setLinkAndTextPos();
 
-    int constrainX(int textX, int textWidth, Uml::TextRole tr);
+    int constrainX(int textX, int textWidth, Uml::TextRole::Enum tr);
 
     static void drawArrow( QPainter& p, int x, int y, int w,
                            Qt::ArrowType direction, bool useDottedLine = false );

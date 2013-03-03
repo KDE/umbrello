@@ -502,7 +502,7 @@ void MessageWidget::setTextPosition()
  * Returns the textX arg with constraints applied.
  * Auxiliary to setTextPosition() and constrainTextPos().
  */
-int MessageWidget::constrainX(int textX, int textWidth, Uml::TextRole tr)
+int MessageWidget::constrainX(int textX, int textWidth, Uml::TextRole::Enum tr)
 {
     int result = textX;
     const int minTextX = x() + 5;
@@ -532,10 +532,10 @@ int MessageWidget::constrainX(int textX, int textWidth, Uml::TextRole tr)
  * @param textY        candidate Y value (may be modified by the constraint)
  * @param textWidth    width of the text
  * @param textHeight   height of the text
- * @param tr           Uml::TextRole of the text
+ * @param tr           Uml::TextRole::Enum of the text
  */
 void MessageWidget::constrainTextPos(UMLSceneValue &textX, UMLSceneValue &textY, UMLSceneValue textWidth, UMLSceneValue textHeight,
-                                     Uml::TextRole tr)
+                                     Uml::TextRole::Enum tr)
 {
     textX = constrainX(textX, textWidth, tr);
     // Constrain Y.
@@ -691,7 +691,7 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     }
 
     if( !m_pFText ) {
-        Uml::TextRole tr = Uml::TextRole::Seq_Message;
+        Uml::TextRole::Enum tr = Uml::TextRole::Seq_Message;
         if (m_pOw[Uml::A] == m_pOw[Uml::B])
             tr = Uml::TextRole::Seq_Message_Self;
         m_pFText = new FloatingTextWidget( m_scene, tr, "" );
@@ -1213,7 +1213,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
     m_widgetBId = STR2ID(widgetbid);
     m_textId = STR2ID(textid);
 
-    Uml::TextRole tr = Uml::TextRole::Seq_Message;
+    Uml::TextRole::Enum tr = Uml::TextRole::Seq_Message;
     if (m_widgetAId == m_widgetBId)
         tr = Uml::TextRole::Seq_Message_Self;
 

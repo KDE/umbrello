@@ -52,7 +52,7 @@ const UMLSceneValue FloatingTextWidget::restrictPositionMax = 3000;
  * @param text The main text to display.
  * @param id The ID to assign (-1 will prompt a new ID.)
  */
-FloatingTextWidget::FloatingTextWidget(UMLScene * scene, Uml::TextRole role, const QString& text, Uml::ID::Type id)
+FloatingTextWidget::FloatingTextWidget(UMLScene * scene, Uml::TextRole::Enum role, const QString& text, Uml::ID::Type id)
   : UMLWidget(scene, WidgetBase::wt_Text, id, new FloatingTextWidgetController(this)),
     m_linkWidget(0),
     m_preText(QString()),
@@ -337,18 +337,18 @@ LinkWidget * FloatingTextWidget::link() const
 /**
  * Sets the role type of this FloatingTextWidget.
  *
- * @param role  The TextRole of this FloatingTextWidget.
+ * @param role  The TextRole::Enum of this FloatingTextWidget.
  */
-void FloatingTextWidget::setTextRole(Uml::TextRole role)
+void FloatingTextWidget::setTextRole(Uml::TextRole::Enum role)
 {
     m_textRole = role;
 }
 
 /**
  * Return the role of the text widget
- * @return The TextRole of this FloatingTextWidget.
+ * @return The TextRole::Enum of this FloatingTextWidget.
  */
-Uml::TextRole FloatingTextWidget::textRole() const
+Uml::TextRole::Enum FloatingTextWidget::textRole() const
 {
     return m_textRole;
 }
@@ -486,7 +486,7 @@ bool FloatingTextWidget::loadFromXMI(QDomElement & qElement)
 
     QString role = qElement.attribute("role", "");
     if(!role.isEmpty())
-        m_textRole = Uml::TextRole::Value(role.toInt());
+        m_textRole = Uml::TextRole::fromInt(role.toInt());
 
     m_preText = qElement.attribute("pretext", "");
     m_postText = qElement.attribute("posttext", "");

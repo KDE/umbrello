@@ -94,7 +94,7 @@ public:
 
     virtual void constrainTextPos(UMLSceneValue &textX, UMLSceneValue &textY,
                                   UMLSceneValue textWidth, UMLSceneValue textHeight,
-                                  Uml::TextRole tr);
+                                  Uml::TextRole::Enum tr);
 
     virtual void calculateNameTextSegment();
 
@@ -107,7 +107,7 @@ public:
     bool operator==(const AssociationWidget & Other) const;
     bool operator!=(AssociationWidget & Other) const;
 
-    FloatingTextWidget* textWidgetByRole(Uml::TextRole tr) const;
+    FloatingTextWidget* textWidgetByRole(Uml::TextRole::Enum tr) const;
 
     FloatingTextWidget* nameWidget() const;
     QString name() const;
@@ -220,10 +220,10 @@ protected:
 private:
     void init();
 
-    UMLScenePoint calculateTextPosition(Uml::TextRole role);
-    void setTextPosition(Uml::TextRole role);
-    void setTextPositionRelatively(Uml::TextRole role, const UMLScenePoint &oldPosition);
-    void setFloatingText(Uml::TextRole role, const QString& text, FloatingTextWidget* &ft);
+    UMLScenePoint calculateTextPosition(Uml::TextRole::Enum role);
+    void setTextPosition(Uml::TextRole::Enum role);
+    void setTextPositionRelatively(Uml::TextRole::Enum role, const UMLScenePoint &oldPosition);
+    void setFloatingText(Uml::TextRole::Enum role, const QString& text, FloatingTextWidget* &ft);
 
     /**
      * Constructor is made non accessible:
@@ -241,7 +241,7 @@ private:
 
     void moveEvent(QMoveEvent *me);
 
-    Uml::TextRole calculateNameType(Uml::TextRole defaultRoleType);
+    Uml::TextRole::Enum calculateNameType(Uml::TextRole::Enum defaultRoleType);
 
 //    bool isPointInsideBoundaries(int PosX, int PosY, UMLScenePoint & SPoint,
 //                                 uint & StartSegmentIndex, uint & EndSegmentIndex);

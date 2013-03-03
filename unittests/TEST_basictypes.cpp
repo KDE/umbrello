@@ -238,10 +238,10 @@ void TEST_basictypes::test_SignatureType_toString_fromString()
 void TEST_basictypes::test_TextRole_toString_fromString()
 {
     for (int i = Uml::TextRole::Floating; i < Uml::TextRole::ChangeB; ++i) {
-        Uml::TextRole at = Uml::TextRole::fromString(
+        Uml::TextRole::Enum at = Uml::TextRole::fromString(
                                       Uml::TextRole::toString(
-                                          Uml::TextRole::Value(i)));
-        QVERIFY(Uml::TextRole::Value(i) == at);
+                                          Uml::TextRole::fromInt(i)));
+        QVERIFY(Uml::TextRole::fromInt(i) == at);
     }
 }
 
