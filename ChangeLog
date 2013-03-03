@@ -1,3 +1,7 @@
+Version 2.10.2 (unreleased)
+
+* Fix of scene limits when moving widgets (315888)
+
 Version 2.10.1
 
 * New feature: Fit diagrams in view after applying layout to get better overview (315889)

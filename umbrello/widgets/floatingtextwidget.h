@@ -40,16 +40,6 @@ class FloatingTextWidget : public UMLWidget
 public:
     friend class FloatingTextWidgetController;
 
-    /** TODO:
-        sometimes the x/y values get numbers of <0 and >10000 - which
-        is probably due to a bug somewhere in calculating the
-        position.  ->workaround till problem is found: define min and
-        max limits => if x or y is outside of interval, the position
-        is reset ( e.g. by AssociationWidget::resetTextPositions() )
-     */
-    static const UMLSceneValue restrictPositionMin;
-    static const UMLSceneValue restrictPositionMax;
-
     explicit FloatingTextWidget(UMLScene * scene, Uml::TextRole::Enum role = Uml::TextRole::Floating,
                                 const QString& text = "", Uml::ID::Type id = Uml::ID::None);
     virtual ~FloatingTextWidget();
