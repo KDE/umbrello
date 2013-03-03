@@ -2719,25 +2719,13 @@ void AssociationWidget::setTextPositionRelatively(Uml::TextRole::Enum role, cons
         return;
     UMLSceneValue ftX = ft->x();
     UMLSceneValue ftY = ft->y();
-    if ( (ftX < 0 || ftX > FloatingTextWidget::restrictPositionMax) ||
-            (ftY < 0 || ftY > FloatingTextWidget::restrictPositionMax) ) {
-        DEBUG(DBG_SRC) << "blocked because the FloatingTextWidget original position ("
-            << ftX << "," << ftY << " is out of bounds: [0 ... "
-            << FloatingTextWidget::restrictPositionMax << "]";
-        return;
-    }
+
     UMLScenePoint pos = calculateTextPosition(role);
     int relX = pos.x() - oldPosition.x();
     int relY = pos.y() - oldPosition.y();
     UMLSceneValue ftNewX = ftX + relX;
     UMLSceneValue ftNewY = ftY + relY;
-    if ( (ftNewX < 0 || ftNewX > FloatingTextWidget::restrictPositionMax) ||
-            (ftNewY < 0 || ftNewY > FloatingTextWidget::restrictPositionMax) ) {
-        DEBUG(DBG_SRC) << "blocked because the FloatingTextWidget new position ("
-            << ftNewX << "," << ftNewY << " is out of bounds: [0 ... "
-            << FloatingTextWidget::restrictPositionMax << "]";
-        return;
-    }
+
     bool oldIgnoreSnapToGrid = ft->getIgnoreSnapToGrid();
     ft->setIgnoreSnapToGrid( true );
     ft->setX( ftNewX );

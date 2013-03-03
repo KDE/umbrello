@@ -41,9 +41,6 @@
 
 DEBUG_REGISTER_DISABLED(FloatingTextWidget)
 
-const UMLSceneValue FloatingTextWidget::restrictPositionMin = 0;
-const UMLSceneValue FloatingTextWidget::restrictPositionMax = 3000;
-
 /**
  * Constructs a FloatingTextWidget instance.
  *
