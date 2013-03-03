@@ -363,7 +363,7 @@ void AssociationWidget::setMessageText(FloatingTextWidget *ft)
  */
 void AssociationWidget::setText(FloatingTextWidget *ft, const QString &text)
 {
-    Uml::TextRole role = ft->textRole();
+    Uml::TextRole::Enum role = ft->textRole();
     switch (role) {
         case Uml::TextRole::Name:
             setName(text);
@@ -381,7 +381,7 @@ void AssociationWidget::setText(FloatingTextWidget *ft, const QString &text)
             setMultiplicity(text, Uml::B);
             break;
         default:
-            uWarning() << "Unhandled TextRole: " << role.toString();
+            uWarning() << "Unhandled TextRole: " << Uml::TextRole::toString(role);
             break;
     }
 }
@@ -705,7 +705,7 @@ bool AssociationWidget::activate()
             if (robj.roleWidget == NULL)
                 continue;
             robj.roleWidget->setLink(this);
-            TextRole tr = (r == A ? TextRole::RoleAName : TextRole::RoleBName);
+            TextRole::Enum tr = (r == A ? TextRole::RoleAName : TextRole::RoleBName);
             robj.roleWidget->setTextRole(tr);
             Uml::Visibility::Enum vis = visibility((Uml::Role_Type)r);
             robj.roleWidget->setPreText(Uml::Visibility::toString(vis, true));
@@ -740,7 +740,7 @@ bool AssociationWidget::activate()
         if (pMulti != NULL &&
                 AssocRules::allowMultiplicity(type, robj.umlWidget->baseType())) {
             pMulti->setLink(this);
-            TextRole tr = (r == A ? TextRole::MultiA : TextRole::MultiB);
+            TextRole::Enum tr = (r == A ? TextRole::MultiA : TextRole::MultiB);
             pMulti->setTextRole(tr);
             if (FloatingTextWidget::isTextValid(pMulti->text()))
                 pMulti->show();
@@ -752,7 +752,7 @@ bool AssociationWidget::activate()
         FloatingTextWidget* pChangeWidget = robj.changeabilityWidget;
         if (pChangeWidget != NULL ) {
             pChangeWidget->setLink(this);
-            TextRole tr = (r == A ? TextRole::ChangeA : TextRole::ChangeB);
+            TextRole::Enum tr = (r == A ? TextRole::ChangeA : TextRole::ChangeB);
             pChangeWidget->setTextRole(tr);
             if (FloatingTextWidget::isTextValid(pChangeWidget->text()))
                 pChangeWidget->show();
@@ -829,11 +829,11 @@ FloatingTextWidget* AssociationWidget::changeabilityWidget(Uml::Role_Type role) 
 }
 
 /**
- * Return the FloatingTextWidget object indicated by the given TextRole.
+ * Return the FloatingTextWidget object indicated by the given TextRole::Enum.
  *
  * @return  Pointer to the text role's FloatingTextWidget widget.
  */
-FloatingTextWidget* AssociationWidget::textWidgetByRole(Uml::TextRole tr) const
+FloatingTextWidget* AssociationWidget::textWidgetByRole(Uml::TextRole::Enum tr) const
 {
     switch (tr) {
         case Uml::TextRole::MultiA:
@@ -934,7 +934,7 @@ void AssociationWidget::setRoleName(const QString &strRole, Uml::Role_Type role)
         return;
     }
 
-    TextRole tr = (role == A ? TextRole::RoleAName : TextRole::RoleBName);
+    TextRole::Enum tr = (role == A ? TextRole::RoleAName : TextRole::RoleBName);
     setFloatingText(tr, strRole, m_role[role].roleWidget);
     if (m_role[role].roleWidget) {
         Uml::Visibility::Enum vis = visibility(role);
@@ -975,9 +975,9 @@ QString AssociationWidget::roleDocumentation(Uml::Role_Type role) const
 }
 
 /**
- * Change, create, or delete the FloatingTextWidget indicated by the given TextRole.
+ * Change, create, or delete the FloatingTextWidget indicated by the given TextRole::Enum.
  *
- * @param tr    TextRole of the FloatingTextWidget to change or create.
+ * @param tr    TextRole::Enum of the FloatingTextWidget to change or create.
  * @param text  Text string that controls the action:
  *              If empty and ft is NULL then setFloatingText() is a no-op.
  *              If empty and ft is non-NULL then the existing ft is deleted.
@@ -987,7 +987,7 @@ QString AssociationWidget::roleDocumentation(Uml::Role_Type role) const
  * @param ft    Reference to the pointer to FloatingTextWidget to change or create.
  *              On creation/deletion, the pointer value will be changed.
  */
-void AssociationWidget::setFloatingText(Uml::TextRole role,
+void AssociationWidget::setFloatingText(Uml::TextRole::Enum role,
                                         const QString &text,
                                         FloatingTextWidget* &ft)
 {
@@ -1034,7 +1034,7 @@ QString AssociationWidget::multiplicity(Uml::Role_Type role) const
  */
 void AssociationWidget::setMultiplicity(const QString& text, Uml::Role_Type role)
 {
-    TextRole tr = (role == Uml::A ? TextRole::MultiA : TextRole::MultiB);
+    TextRole::Enum tr = (role == Uml::A ? TextRole::MultiA : TextRole::MultiB);
 
     setFloatingText(tr, text, m_role[role].multiplicityWidget);
 
@@ -1113,7 +1113,7 @@ void AssociationWidget::setChangeability(Uml::Changeability value, Uml::Role_Typ
 void AssociationWidget::setChangeWidget(const QString &strChangeWidget, Uml::Role_Type role)
 {
     bool newLabel = false;
-    TextRole tr = (role == A ? TextRole::ChangeA : TextRole::ChangeB);
+    TextRole::Enum tr = (role == A ? TextRole::ChangeA : TextRole::ChangeB);
 
     if(!m_role[role].changeabilityWidget) {
         // Don't construct the FloatingTextWidget if the string is empty.
@@ -1164,9 +1164,9 @@ bool AssociationWidget::linePathStartsAt(const UMLWidget* widget)
 /**
  * This function calculates which role should be set for the m_nameWidget FloatingTextWidget.
  */
-Uml::TextRole AssociationWidget::calculateNameType(Uml::TextRole defaultRole)
+Uml::TextRole::Enum AssociationWidget::calculateNameType(Uml::TextRole::Enum defaultRole)
 {
-    TextRole result = defaultRole;
+    TextRole::Enum result = defaultRole;
     if( m_scene->type() == DiagramType::Collaboration ) {
         if(m_role[A].umlWidget == m_role[B].umlWidget) {
             result = TextRole::Coll_Message;//for now same as other Coll_Message
@@ -2401,7 +2401,7 @@ float AssociationWidget::perpendicularProjection(const UMLScenePoint& P1, const 
  * that widget is playing.
  * Returns the point at which to put the widget.
  */
-UMLScenePoint AssociationWidget::calculateTextPosition(Uml::TextRole role)
+UMLScenePoint AssociationWidget::calculateTextPosition(Uml::TextRole::Enum role)
 {
     const int SPACE = 2;
     UMLScenePoint p(-1, -1), q(-1, -1);
@@ -2417,7 +2417,7 @@ UMLScenePoint AssociationWidget::calculateTextPosition(Uml::TextRole role)
         p = m_associationLine->point(lastSegment);
         q = m_associationLine->point(lastSegment - 1);
     } else if (role != TextRole::Name) {
-        uError() << "called with unsupported TextRole " << role;
+        uError() << "called with unsupported TextRole::Enum " << role;
         return UMLScenePoint(-1, -1);
     }
 
@@ -2509,7 +2509,7 @@ UMLScenePoint AssociationWidget::midPoint(const UMLScenePoint& p0, const UMLScen
  */
 void AssociationWidget::constrainTextPos(UMLSceneValue &textX, UMLSceneValue &textY,
                                          UMLSceneValue textWidth, UMLSceneValue textHeight,
-                                         Uml::TextRole tr)
+                                         Uml::TextRole::Enum tr)
 {
     const int textCenterX = textX + textWidth / 2;
     const int textCenterY = textY + textHeight / 2;
@@ -2561,7 +2561,7 @@ void AssociationWidget::constrainTextPos(UMLSceneValue &textX, UMLSceneValue &te
             }
             break;
         default:
-            uError() << "unexpected TextRole " << tr;
+            uError() << "unexpected TextRole::Enum " << tr;
             return;
             break;
     }
@@ -2652,7 +2652,7 @@ void AssociationWidget::constrainTextPos(UMLSceneValue &textX, UMLSceneValue &te
  * I.e. the line segment it is on has moved and it should move the same
  * amount as the line.
  */
-void AssociationWidget::setTextPosition(Uml::TextRole role)
+void AssociationWidget::setTextPosition(Uml::TextRole::Enum role)
 {
     bool startMove = false;
     if( m_role[A].multiplicityWidget && m_role[A].multiplicityWidget->getStartMove() )
@@ -2693,7 +2693,7 @@ void AssociationWidget::setTextPosition(Uml::TextRole role)
  * Moves the text widget with the given role by the difference between
  * the two points.
  */
-void AssociationWidget::setTextPositionRelatively(Uml::TextRole role, const UMLScenePoint &oldPosition)
+void AssociationWidget::setTextPositionRelatively(Uml::TextRole::Enum role, const UMLScenePoint &oldPosition)
 {
     bool startMove = false;
     if( m_role[A].multiplicityWidget && m_role[A].multiplicityWidget->getStartMove() )
@@ -4281,7 +4281,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
             QString r = element.attribute( "role", "-1");
             if( r == "-1" )
                 return false;
-            Uml::TextRole role = Uml::TextRole::Value(r.toInt());
+            Uml::TextRole::Enum role = Uml::TextRole::fromInt(r.toInt());
             FloatingTextWidget *ft = new FloatingTextWidget(m_scene, role, "", Uml::ID::Reserved);
             if( ! ft->loadFromXMI(element) ) {
                 // Most likely cause: The FloatingTextWidget is empty.
@@ -4340,7 +4340,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
                 setRoleName( ft->text(), B );
                 break;
             default:
-                DEBUG(DBG_SRC) << "unexpected FloatingTextWidget (textrole " << role << ")";
+                DEBUG(DBG_SRC) << "unexpected FloatingTextWidget (TextRole::Enum " << role << ")";
                 delete ft;
                 break;
             }

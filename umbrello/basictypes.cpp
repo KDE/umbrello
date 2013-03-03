@@ -421,6 +421,11 @@ Enum fromString(const QString& item)
         return Unknown;
 }
 
+/**
+ * Convert a integer item into ProgrammingLanguage representation.
+ * @param item   integer value to convert
+ * @return AssociationType enum
+ */
 Enum fromInt(int item)
 {
     return Enum(item);
@@ -556,7 +561,7 @@ Enum fromString(const QString& item)
 /**
  * Convert a integer item into ProgrammingLanguage representation.
  * @param item   integer value to convert
- * @return Visibility enum
+ * @return ProgrammingLanguage enum
  */
 Enum fromInt(int item)
 {
@@ -608,7 +613,7 @@ Enum fromString(const QString& item)
 /**
  * Convert a integer item into SignatureType representation.
  * @param item   integer value to convert
- * @return Visibility enum
+ * @return SignatureType enum
  */
 Enum fromInt(int item)
 {
@@ -619,10 +624,12 @@ Enum fromInt(int item)
 
 //-----------------------------------------------------------------------------
 
+namespace TextRole {
+
 /**
  * Return string corresponding to the given TextRole.
  */
-QString TextRole::toString(Value item)
+QString toString(Enum item)
 {
     switch (item) {
         case Floating:
@@ -660,70 +667,48 @@ QString TextRole::toString(Value item)
 /**
  * Return TextRole corresponding to the given string.
  */
-TextRole TextRole::fromString(const QString& item)
+Enum fromString(const QString& item)
 {
     if (item == "Floating")
-        return TextRole(Floating);
+        return Floating;
     if (item == "MultiA")
-        return TextRole(MultiA);
+        return MultiA;
     if (item == "MultiB")
-        return TextRole(MultiB);
+        return MultiB;
     if (item == "Name")
-        return TextRole(Name);
+        return Name;
     if (item == "Seq_Message")
-        return TextRole(Seq_Message);
+        return Seq_Message;
     if (item == "Seq_Message_Self")
-        return TextRole(Seq_Message_Self);
+        return Seq_Message_Self;
     if (item == "Coll_Message")
-        return TextRole(Coll_Message);
+        return Coll_Message;
     if (item == "Coll_Message_Self")
-        return TextRole(Coll_Message_Self);
+        return Coll_Message_Self;
     if (item == "State")
-        return TextRole(State);
+        return State;
     if (item == "RoleAName")
-        return TextRole(RoleAName);
+        return RoleAName;
     if (item == "RoleBName")
-        return TextRole(RoleBName);
+        return RoleBName;
     if (item == "ChangeA")
-        return TextRole(ChangeA);
+        return ChangeA;
     if (item == "ChangeB")
-        return TextRole(ChangeB);
-    return TextRole(Floating);
+        return ChangeB;
+    return Floating;
 }
 
 /**
- * Constructor.
+ * Convert a integer item into TextRole representation.
+ * @param item   integer value to convert
+ * @return TextRole enum
  */
-TextRole::TextRole()
-  : m_value(Floating)
+Enum fromInt(int item)
 {
+    return Enum(item);
 }
 
-/**
- * Constructor.
- * @param item   value to set
- */
-TextRole::TextRole(Value item)
-  : m_value(item)
-{
-}
-
-/**
- * Convert TextRole value into QString representation.
- * @return QString representation of the TextRole
- */
-QString TextRole::toString() const
-{
-    return toString(m_value);
-}
-
-/**
- * 
- */
-TextRole::operator TextRole::Value() const
-{
-    return m_value;
-}
+}  // end namespace TextRole
 
 //-----------------------------------------------------------------------------
 

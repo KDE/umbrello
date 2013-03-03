@@ -1631,7 +1631,7 @@ void UMLScene::selectWidgets(UMLSceneValue px, UMLSceneValue py, UMLSceneValue q
         //and the objects that are connected to it.
         if (temp->baseType() == WidgetBase::wt_Text) {
             FloatingTextWidget *ft = static_cast<FloatingTextWidget*>(temp);
-            Uml::TextRole t = ft->textRole();
+            Uml::TextRole::Enum t = ft->textRole();
             LinkWidget *lw = ft->link();
             MessageWidget * mw = dynamic_cast<MessageWidget*>(lw);
             if (mw) {
