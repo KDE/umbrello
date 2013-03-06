@@ -261,7 +261,7 @@ void TEST_basictypes::test_Changeability_toString_fromString()
 
 void TEST_basictypes::test_SequenceMessage_toString_fromString()
 {
-    for (int i = 900; i < 903; ++i) {
+    for (int i = 1000; i < 1004; ++i) {
         Uml::SequenceMessage::Enum at = Uml::SequenceMessage::fromString(
                                       Uml::SequenceMessage::toString(
                                           Uml::SequenceMessage::fromInt(i)));
