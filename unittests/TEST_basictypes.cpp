@@ -39,6 +39,9 @@ private slots:
     void test_TextRole_toString_fromString();
     void test_Changeability_toString_fromString();
     void test_SequenceMessage_toString_fromString();
+    void test_RoleType_toString_fromString();
+    void test_ParameterDirection_toString_fromString();
+    void test_ProgrammingLanguage_toString_fromString();
 };
 
 //-----------------------------------------------------------------------------
@@ -233,6 +236,7 @@ void TEST_basictypes::test_SignatureType_toString_fromString()
     QVERIFY(Uml::SignatureType::NoSigNoVis ==
             Uml::SignatureType::fromString(Uml::SignatureType::toString(Uml::SignatureType::NoSigNoVis)));
 }
+
 //-----------------------------------------------------------------------------
 
 void TEST_basictypes::test_TextRole_toString_fromString()
@@ -266,6 +270,42 @@ void TEST_basictypes::test_SequenceMessage_toString_fromString()
                                       Uml::SequenceMessage::toString(
                                           Uml::SequenceMessage::fromInt(i)));
         QVERIFY(Uml::SequenceMessage::fromInt(i) == at);
+    }
+}
+
+//-----------------------------------------------------------------------------
+
+void TEST_basictypes::test_RoleType_toString_fromString()
+{
+    for (int i = Uml::RoleType::A; i == Uml::RoleType::B; ++i) {
+        Uml::RoleType::Enum at = Uml::RoleType::fromString(
+                                      Uml::RoleType::toString(
+                                          Uml::RoleType::fromInt(i)));
+        QVERIFY(Uml::RoleType::fromInt(i) == at);
+    }
+}
+
+//-----------------------------------------------------------------------------
+
+void TEST_basictypes::test_ParameterDirection_toString_fromString()
+{
+    for (int i = Uml::ParameterDirection::In; i == Uml::ParameterDirection::Out; ++i) {
+        Uml::ParameterDirection::Enum at = Uml::ParameterDirection::fromString(
+                                      Uml::ParameterDirection::toString(
+                                          Uml::ParameterDirection::fromInt(i)));
+        QVERIFY(Uml::ParameterDirection::fromInt(i) == at);
+    }
+}
+
+//-----------------------------------------------------------------------------
+
+void TEST_basictypes::test_ProgrammingLanguage_toString_fromString()
+{
+    for (int i = Uml::ProgrammingLanguage::ActionScript; i == Uml::ProgrammingLanguage::Reserved; ++i) {
+        Uml::ProgrammingLanguage::Enum at = Uml::ProgrammingLanguage::fromString(
+                                      Uml::ProgrammingLanguage::toString(
+                                          Uml::ProgrammingLanguage::fromInt(i)));
+        QVERIFY(Uml::ProgrammingLanguage::fromInt(i) == at);
     }
 }
 
