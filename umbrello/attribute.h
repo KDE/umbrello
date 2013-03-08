@@ -59,8 +59,8 @@ public:
 
     virtual bool showPropertiesDialog(QWidget* parent);
 
-    void setParmKind(Uml::Parameter_Direction pk);
-    Uml::Parameter_Direction getParmKind() const;
+    void setParmKind(Uml::ParameterDirection::Enum pk);
+    Uml::ParameterDirection::Enum getParmKind() const;
 
     virtual UMLClassifierList getTemplateParams();
 
@@ -73,7 +73,7 @@ protected:
     bool load(QDomElement & element);
 
     QString m_InitialValue; ///< text for the attribute's initial value.
-    Uml::Parameter_Direction m_ParmKind;
+    Uml::ParameterDirection::Enum m_ParmKind;
 
 private:
 

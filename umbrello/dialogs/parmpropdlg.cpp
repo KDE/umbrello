@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -124,10 +124,10 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * attr)
 
     // Check the proper Kind radiobutton.
     if (attr) {
-        Uml::Parameter_Direction kind = attr->getParmKind();
-        if (kind == Uml::pd_Out)
+        Uml::ParameterDirection::Enum kind = attr->getParmKind();
+        if (kind == Uml::ParameterDirection::Out)
             m_pOut->setChecked(true);
-        else if (kind == Uml::pd_InOut)
+        else if (kind == Uml::ParameterDirection::InOut)
             m_pInOut->setChecked(true);
         else
             m_pIn->setChecked(true);
@@ -240,16 +240,16 @@ void ParmPropDlg::insertStereotypesSorted(const QString& type)
 
 /**
  * Return the kind of the parameter (in, out, or inout).
- * @return  The Uml::Parameter_Direction corresponding to
+ * @return  The Uml::ParameterDirection::Enum corresponding to
  *          the selected "Kind" radiobutton.
  */
-Uml::Parameter_Direction ParmPropDlg::getParmKind()
+Uml::ParameterDirection::Enum ParmPropDlg::getParmKind()
 {
-    Uml::Parameter_Direction pk = Uml::pd_In;
+    Uml::ParameterDirection::Enum pk = Uml::ParameterDirection::In;
     if (m_pOut->isChecked())
-        pk = Uml::pd_Out;
+        pk = Uml::ParameterDirection::Out;
     else if (m_pInOut->isChecked())
-        pk = Uml::pd_InOut;
+        pk = Uml::ParameterDirection::InOut;
     return pk;
 }
 

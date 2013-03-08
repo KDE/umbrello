@@ -475,10 +475,10 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
         }
         attElement.setAttribute( "value", pAtt->getInitialValue() );
 
-        Uml::Parameter_Direction kind = pAtt->getParmKind();
-        if (kind == Uml::pd_Out)
+        Uml::ParameterDirection::Enum kind = pAtt->getParmKind();
+        if (kind == Uml::ParameterDirection::Out)
             attElement.setAttribute("kind", "out");
-        else if (kind == Uml::pd_InOut)
+        else if (kind == Uml::ParameterDirection::InOut)
             attElement.setAttribute("kind", "inout");
         // The default for the parameter kind is "in".
 
@@ -573,11 +573,11 @@ bool UMLOperation::load( QDomElement & element )
                     return false;
                 }
                 if (kind == "out")
-                    pAtt->setParmKind(Uml::pd_Out);
+                    pAtt->setParmKind(Uml::ParameterDirection::Out);
                 else if (kind == "inout")
-                    pAtt->setParmKind(Uml::pd_InOut);
+                    pAtt->setParmKind(Uml::ParameterDirection::InOut);
                 else
-                    pAtt->setParmKind(Uml::pd_In);
+                    pAtt->setParmKind(Uml::ParameterDirection::In);
                 m_List.append( pAtt );
             }
         }

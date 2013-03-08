@@ -221,7 +221,17 @@ namespace Uml
      *   inout = operation both reads and writes the parameter
      * The numeric values of this enum are not currently saved to file.
      */
-    enum Parameter_Direction { pd_In, pd_InOut, pd_Out };
+    namespace ParameterDirection
+    {
+        enum Enum {
+            In,
+            InOut,
+            Out
+        };
+        QString toString(Enum item);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+    }
 
     /**
      * Supported programming languages.

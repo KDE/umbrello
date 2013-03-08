@@ -40,7 +40,7 @@ UMLAttribute::UMLAttribute(UMLObject *parent,
     m_InitialValue = iv;
     m_BaseType = UMLObject::ot_Attribute;
     m_visibility = s;
-    m_ParmKind = Uml::pd_In;
+    m_ParmKind = Uml::ParameterDirection::In;
     /* CHECK: Do we need this:
     if (type == NULL) {
         type = Object_Factory::createUMLObject(Uml::ot_Datatype, "undef");
@@ -58,7 +58,7 @@ UMLAttribute::UMLAttribute(UMLObject *parent) : UMLClassifierListItem(parent)
 {
     m_BaseType = UMLObject::ot_Attribute;
     m_visibility = Uml::Visibility::Private;
-    m_ParmKind = Uml::pd_In;
+    m_ParmKind = Uml::ParameterDirection::In;
 }
 
 /**
@@ -113,12 +113,12 @@ void UMLAttribute::setInitialValue(const QString &iv)
     }
 }
 
-void UMLAttribute::setParmKind (Uml::Parameter_Direction pk)
+void UMLAttribute::setParmKind (Uml::ParameterDirection::Enum pk)
 {
     m_ParmKind = pk;
 }
 
-Uml::Parameter_Direction UMLAttribute::getParmKind() const
+Uml::ParameterDirection::Enum UMLAttribute::getParmKind() const
 {
     return m_ParmKind;
 }
@@ -162,10 +162,10 @@ QString UMLAttribute::toString(Uml::SignatureType::Enum sig)
         }
         // The default direction, "in", is not mentioned.
         // Perhaps we should include a pd_Unspecified in
-        // Uml::Parameter_Direction to have better control over this.
-        if (m_ParmKind == Uml::pd_InOut)
+        // Uml::ParameterDirection::Enum to have better control over this.
+        if (m_ParmKind == Uml::ParameterDirection::InOut)
             s += "inout ";
-        else if (m_ParmKind == Uml::pd_Out)
+        else if (m_ParmKind == Uml::ParameterDirection::Out)
             s += "out ";
         // Construct the attribute text.
         QString string = s + name() + " : " + typeName;
