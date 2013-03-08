@@ -81,8 +81,8 @@ void UMLPackage::addAssocToConcepts(UMLAssociation* assoc)
 {
     if (! AssociationType::hasUMLRepresentation(assoc->getAssocType()) )
         return;
-    Uml::ID::Type AId = assoc->getObjectId(Uml::A);
-    Uml::ID::Type BId = assoc->getObjectId(Uml::B);
+    Uml::ID::Type AId = assoc->getObjectId(Uml::RoleType::A);
+    Uml::ID::Type BId = assoc->getObjectId(Uml::RoleType::B);
     UMLObject *o = NULL;
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         o = oit.next();
@@ -147,7 +147,7 @@ bool UMLPackage::addObject(UMLObject *pObject)
         // Adding the UMLAssociation at the participating concepts is done
         // again later (in UMLAssociation::resolveRef()) if they are not yet
         // known right here.
-        if (assoc->getObject(Uml::A) && assoc->getObject(Uml::B)) {
+        if (assoc->getObject(Uml::RoleType::A) && assoc->getObject(Uml::RoleType::B)) {
             UMLPackage *pkg = pObject->umlPackage();
             if (pkg != this) {
                uError() << "UMLPackage " << name() << " addObject: "

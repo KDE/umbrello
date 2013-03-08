@@ -117,9 +117,9 @@ QString PascalWriter::qualifiedName(UMLPackage *p, bool withType, bool byValue)
 void PascalWriter::computeAssocTypeAndRole
 (UMLAssociation *a, QString& typeName, QString& roleName)
 {
-    roleName = a->getRoleName(Uml::A);
+    roleName = a->getRoleName(Uml::RoleType::A);
     if (roleName.isEmpty()) {
-        if (a->getMultiplicity(Uml::A).isEmpty()) {
+        if (a->getMultiplicity(Uml::RoleType::A).isEmpty()) {
             roleName = "M_";
             roleName.append(typeName);
         } else {
@@ -127,11 +127,11 @@ void PascalWriter::computeAssocTypeAndRole
             roleName.append("_Vector");
         }
     }
-    UMLClassifier* c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::A));
+    UMLClassifier* c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::RoleType::A));
     if (c == NULL)
         return;
     typeName = cleanName(c->name());
-    if (! a->getMultiplicity(Uml::A).isEmpty())
+    if (! a->getMultiplicity(Uml::RoleType::A).isEmpty())
         typeName.append("_Array_Access");
 }
 

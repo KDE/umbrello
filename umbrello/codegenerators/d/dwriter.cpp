@@ -493,10 +493,10 @@ void DWriter::writeAssociationDecls(UMLAssociationList associations, Uml::ID::Ty
         foreach (UMLAssociation *a , associations ) {
             // it may seem counter intuitive, but you want to insert the role of the
             // *other* class into *this* class.
-            if (a->getObjectId(Uml::A) == id)
+            if (a->getObjectId(Uml::RoleType::A) == id)
                 printRoleB = true;
 
-            if (a->getObjectId(Uml::B) == id)
+            if (a->getObjectId(Uml::RoleType::B) == id)
                 printRoleA = true;
 
             // First: we insert documentaion for association IF it has either role AND some documentation (!)
@@ -506,15 +506,15 @@ void DWriter::writeAssociationDecls(UMLAssociationList associations, Uml::ID::Ty
             // print RoleB decl
             if (printRoleB)
             {
-                QString fieldClassName = cleanName(getUMLObjectName(a->getObject(Uml::B)));
-                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::B), a->getMultiplicity(Uml::B), a->getRoleDoc(Uml::B), a->visibility(Uml::B), d);
+                QString fieldClassName = cleanName(getUMLObjectName(a->getObject(Uml::RoleType::B)));
+                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::RoleType::B), a->getMultiplicity(Uml::RoleType::B), a->getRoleDoc(Uml::RoleType::B), a->visibility(Uml::RoleType::B), d);
             }
 
             // print RoleA decl
             if (printRoleA)
             {
-                QString fieldClassName = cleanName(getUMLObjectName(a->getObject(Uml::A)));
-                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::A), a->getMultiplicity(Uml::A), a->getRoleDoc(Uml::A), a->visibility(Uml::A), d);
+                QString fieldClassName = cleanName(getUMLObjectName(a->getObject(Uml::RoleType::A)));
+                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::RoleType::A), a->getMultiplicity(Uml::RoleType::A), a->getRoleDoc(Uml::RoleType::A), a->visibility(Uml::RoleType::A), d);
             }
         }
     }
@@ -564,27 +564,27 @@ void DWriter::writeAssociationMethods (UMLAssociationList associations, UMLClass
         foreach (UMLAssociation *a , associations ) {
             // insert the methods to access the role of the other
             // class in the code of this one
-            if (a->getObjectId(Uml::A) == thisClass->id()) {
+            if (a->getObjectId(Uml::RoleType::A) == thisClass->id()) {
                 // only write out IF there is a rolename given
-                if (!a->getRoleName(Uml::B).isEmpty()) {
-                    QString fieldClassName = getUMLObjectName(a->getObject(Uml::B));
+                if (!a->getRoleName(Uml::RoleType::B).isEmpty()) {
+                    QString fieldClassName = getUMLObjectName(a->getObject(Uml::RoleType::B));
                     writeAssociationRoleMethod(fieldClassName,
-                                               a->getRoleName(Uml::B),
-                                               a->getMultiplicity(Uml::B), a->getRoleDoc(Uml::B),
-                                               a->visibility(Uml::B),
-                                               a->changeability(Uml::B), d);
+                                               a->getRoleName(Uml::RoleType::B),
+                                               a->getMultiplicity(Uml::RoleType::B), a->getRoleDoc(Uml::RoleType::B),
+                                               a->visibility(Uml::RoleType::B),
+                                               a->changeability(Uml::RoleType::B), d);
                 }
             }
 
-            if (a->getObjectId(Uml::B) == thisClass->id()) {
+            if (a->getObjectId(Uml::RoleType::B) == thisClass->id()) {
                 // only write out IF there is a rolename given
-                if (!a->getRoleName(Uml::A).isEmpty()) {
-                    QString fieldClassName = getUMLObjectName(a->getObject(Uml::A));
-                    writeAssociationRoleMethod(fieldClassName, a->getRoleName(Uml::A),
-                                               a->getMultiplicity(Uml::A),
-                                               a->getRoleDoc(Uml::A),
-                                               a->visibility(Uml::A),
-                                               a->changeability(Uml::A),
+                if (!a->getRoleName(Uml::RoleType::A).isEmpty()) {
+                    QString fieldClassName = getUMLObjectName(a->getObject(Uml::RoleType::A));
+                    writeAssociationRoleMethod(fieldClassName, a->getRoleName(Uml::RoleType::A),
+                                               a->getMultiplicity(Uml::RoleType::A),
+                                               a->getRoleDoc(Uml::RoleType::A),
+                                               a->visibility(Uml::RoleType::A),
+                                               a->changeability(Uml::RoleType::A),
                                                d);
                 }
             }

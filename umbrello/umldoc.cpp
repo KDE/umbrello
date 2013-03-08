@@ -1106,10 +1106,10 @@ UMLAssociation * UMLDoc::findAssociation(Uml::AssociationType::Enum assocType,
         if (a->getAssocType() != assocType) {
             continue;
         }
-        if (a->getObject(Uml::A) == roleAObj && a->getObject(Uml::B) == roleBObj) {
+        if (a->getObject(Uml::RoleType::A) == roleAObj && a->getObject(Uml::RoleType::B) == roleBObj) {
             return a;
         }
-        if (a->getObject(Uml::A) == roleBObj && a->getObject(Uml::B) == roleAObj) {
+        if (a->getObject(Uml::RoleType::A) == roleBObj && a->getObject(Uml::RoleType::B) == roleAObj) {
             ret = a;
         }
     }

@@ -113,27 +113,27 @@ public:
     QString name() const;
     void setName(const QString &strRole);
 
-    FloatingTextWidget* roleWidget(Uml::Role_Type role) const;
-    QString roleName(Uml::Role_Type role) const;
-    void setRoleName(const QString &strRole, Uml::Role_Type role);
+    FloatingTextWidget* roleWidget(Uml::RoleType::Enum role) const;
+    QString roleName(Uml::RoleType::Enum role) const;
+    void setRoleName(const QString &strRole, Uml::RoleType::Enum role);
 
-    QString roleDocumentation(Uml::Role_Type role) const;
-    void setRoleDocumentation(const QString& doc, Uml::Role_Type role);
+    QString roleDocumentation(Uml::RoleType::Enum role) const;
+    void setRoleDocumentation(const QString& doc, Uml::RoleType::Enum role);
 
-    FloatingTextWidget* multiplicityWidget(Uml::Role_Type role) const;
-    QString multiplicity(Uml::Role_Type role) const;
-    void setMultiplicity(const QString& text, Uml::Role_Type role);
+    FloatingTextWidget* multiplicityWidget(Uml::RoleType::Enum role) const;
+    QString multiplicity(Uml::RoleType::Enum role) const;
+    void setMultiplicity(const QString& text, Uml::RoleType::Enum role);
 
-    Uml::Visibility::Enum visibility(Uml::Role_Type role) const;
-    void setVisibility(Uml::Visibility::Enum value, Uml::Role_Type role);
+    Uml::Visibility::Enum visibility(Uml::RoleType::Enum role) const;
+    void setVisibility(Uml::Visibility::Enum value, Uml::RoleType::Enum role);
 
-    FloatingTextWidget* changeabilityWidget(Uml::Role_Type role) const;
-    Uml::Changeability::Enum changeability(Uml::Role_Type role) const;
-    void setChangeability(Uml::Changeability::Enum value, Uml::Role_Type role);
+    FloatingTextWidget* changeabilityWidget(Uml::RoleType::Enum role) const;
+    Uml::Changeability::Enum changeability(Uml::RoleType::Enum role) const;
+    void setChangeability(Uml::Changeability::Enum value, Uml::RoleType::Enum role);
 
-    Uml::ID::Type widgetIDForRole(Uml::Role_Type role) const;
-    UMLWidget* widgetForRole(Uml::Role_Type role) const;
-    void setWidgetForRole(UMLWidget* widget, Uml::Role_Type role);
+    Uml::ID::Type widgetIDForRole(Uml::RoleType::Enum role) const;
+    UMLWidget* widgetForRole(Uml::RoleType::Enum role) const;
+    void setWidgetForRole(UMLWidget* widget, Uml::RoleType::Enum role);
 
     bool setWidgets(UMLWidget* widgetA, Uml::AssociationType::Enum assocType, UMLWidget* widgetB);
 
@@ -188,8 +188,8 @@ public:
     virtual void setLineColor(const QColor &color);
     void setLineWidth(uint width);
 
-    void setIndex(int index, Uml::Role_Type role);
-    int getIndex(Uml::Role_Type role) const;
+    void setIndex(int index, Uml::RoleType::Enum role);
+    int getIndex(Uml::RoleType::Enum role) const;
 
     void calculateEndingPoints();
 
@@ -273,7 +273,7 @@ private:
         UMLWidget* umlWidget;    ///< UMLWidget at this role's side of this association
 
         UMLScenePoint m_OldCorner;      ///< old top left corner before moving
-        Region m_WidgetRegion;   ///< region of this role's widget
+        Region        m_WidgetRegion;   ///< region of this role's widget
 
         int m_nIndex;        ///< the index of where the line is on the region for this role
         int m_nTotalCount;   ///< total amount of associations on the region this role's line is on
@@ -286,15 +286,15 @@ private:
     };
 
     void updateRegionLineCount(int index, int totalCount,
-                               AssociationWidget::Region region, Uml::Role_Type role);
+                               AssociationWidget::Region region, Uml::RoleType::Enum role);
 
-    void updateAssociations(int totalCount, Region region, Uml::Role_Type role);
+    void updateAssociations(int totalCount, Region region, Uml::RoleType::Enum role);
 
-    int getRegionCount(Region region, Uml::Role_Type role);
+    int getRegionCount(Region region, Uml::RoleType::Enum role);
 
-    void doUpdates(int otherX, int otherY, Uml::Role_Type role);
+    void doUpdates(int otherX, int otherY, Uml::RoleType::Enum role);
 
-    void setChangeWidget(const QString &strChangeWidget, Uml::Role_Type role);
+    void setChangeWidget(const QString &strChangeWidget, Uml::RoleType::Enum role);
 
     void checkPoints(const UMLScenePoint &p);
 

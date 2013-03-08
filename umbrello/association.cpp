@@ -45,8 +45,8 @@ UMLAssociation::UMLAssociation( Uml::AssociationType::Enum type,
 {
     init(type, roleA, roleB);
 
-    m_pRole[Uml::A]->setID( UniqueID::gen() );
-    m_pRole[Uml::B]->setID( UniqueID::gen() );
+    m_pRole[RoleType::A]->setID( UniqueID::gen() );
+    m_pRole[RoleType::B]->setID( UniqueID::gen() );
 }
 
 /**
@@ -67,17 +67,17 @@ UMLAssociation::UMLAssociation( Uml::AssociationType::Enum type)
  */
 UMLAssociation::~UMLAssociation( )
 {
-    if (m_pRole[A] == NULL) {
+    if (m_pRole[RoleType::A] == NULL) {
         uError() << "UMLAssociation destructor: m_pRole[A] is NULL already";
     } else {
-        delete m_pRole[A];
-        m_pRole[A] = NULL;
+        delete m_pRole[RoleType::A];
+        m_pRole[RoleType::A] = NULL;
     }
-    if (m_pRole[B] == NULL) {
+    if (m_pRole[RoleType::B] == NULL) {
         uError() << "UMLAssociation destructor: m_pRole[B] is NULL already";
     } else {
-        delete m_pRole[B];
-        m_pRole[B] = NULL;
+        delete m_pRole[RoleType::B];
+        m_pRole[RoleType::B] = NULL;
     }
 }
 
@@ -92,8 +92,8 @@ bool UMLAssociation::operator==(const UMLAssociation &rhs) const
     return ( UMLObject::operator== ( rhs ) &&
              m_AssocType == rhs.m_AssocType &&
              m_Name == rhs.m_Name &&
-             m_pRole[A] == rhs.m_pRole[A] &&
-             m_pRole[B] == rhs.m_pRole[B] );
+             m_pRole[RoleType::A] == rhs.m_pRole[RoleType::A] &&
+             m_pRole[RoleType::B] == rhs.m_pRole[RoleType::B] );
 }
 
 /**
@@ -111,18 +111,18 @@ Uml::AssociationType::Enum UMLAssociation::getAssocType() const
 QString UMLAssociation::toString() const
 {
     QString string;
-    if(m_pRole[A])
+    if(m_pRole[RoleType::A])
     {
-        string += m_pRole[A]->object()->name();
+        string += m_pRole[RoleType::A]->object()->name();
         string += ':';
-        string += m_pRole[A]->name();
+        string += m_pRole[RoleType::A]->name();
     }
     string += ':' + Uml::AssociationType::toStringI18n(m_AssocType) + ':';
-    if(m_pRole[B])
+    if(m_pRole[RoleType::B])
     {
-        string += m_pRole[B]->object( )->name();
+        string += m_pRole[RoleType::B]->object( )->name();
         string += ':';
-        string += m_pRole[B]->name();
+        string += m_pRole[RoleType::B]->name();
     }
     return string;
 }
@@ -136,11 +136,11 @@ QString UMLAssociation::toString() const
  */
 bool UMLAssociation::resolveRef()
 {
-    bool successA = getUMLRole(A)->resolveRef();
-    bool successB = getUMLRole(B)->resolveRef();
+    bool successA = getUMLRole(RoleType::A)->resolveRef();
+    bool successB = getUMLRole(RoleType::B)->resolveRef();
     if (successA && successB) {
-        UMLObject *objA = getUMLRole(A)->object();
-        UMLObject *objB = getUMLRole(B)->object();
+        UMLObject *objA = getUMLRole(RoleType::A)->object();
+        UMLObject *objB = getUMLRole(RoleType::B)->object();
         // Check if need to change the assoc type to Realization
         if (isRealization(objA, objB)) {
             m_AssocType = Uml::AssociationType::Realization;
@@ -160,44 +160,44 @@ void UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     if (m_AssocType == Uml::AssociationType::Generalization) {
         QDomElement assocElement = UMLObject::save("UML:Generalization", qDoc);
         assocElement.setAttribute( "discriminator", "" );
-        assocElement.setAttribute( "child", ID2STR(getObjectId(A)) );
-        assocElement.setAttribute( "parent", ID2STR(getObjectId(B)) );
+        assocElement.setAttribute( "child", ID2STR(getObjectId(RoleType::A)) );
+        assocElement.setAttribute( "parent", ID2STR(getObjectId(RoleType::B)) );
         qElement.appendChild( assocElement );
         return;
     }
     if (m_AssocType == Uml::AssociationType::Realization) {
         QDomElement assocElement = UMLObject::save("UML:Abstraction", qDoc);
-        assocElement.setAttribute( "client", ID2STR(getObjectId(A)) );
-        assocElement.setAttribute( "supplier", ID2STR(getObjectId(B)) );
+        assocElement.setAttribute( "client", ID2STR(getObjectId(RoleType::A)) );
+        assocElement.setAttribute( "supplier", ID2STR(getObjectId(RoleType::B)) );
         qElement.appendChild( assocElement );
         return;
     }
     if (m_AssocType == Uml::AssociationType::Dependency) {
         QDomElement assocElement = UMLObject::save("UML:Dependency", qDoc);
-        assocElement.setAttribute( "client", ID2STR(getObjectId(A)) );
-        assocElement.setAttribute( "supplier", ID2STR(getObjectId(B)) );
+        assocElement.setAttribute( "client", ID2STR(getObjectId(RoleType::A)) );
+        assocElement.setAttribute( "supplier", ID2STR(getObjectId(RoleType::B)) );
         qElement.appendChild( assocElement );
         return;
     }
     if (m_AssocType == Uml::AssociationType::Child2Category ) {
         QDomElement assocElement = UMLObject::save("UML:Child2Category", qDoc);
-        assocElement.setAttribute( "client", ID2STR(getObjectId(A)) );
-        assocElement.setAttribute( "supplier", ID2STR(getObjectId(B)) );
+        assocElement.setAttribute( "client", ID2STR(getObjectId(RoleType::A)) );
+        assocElement.setAttribute( "supplier", ID2STR(getObjectId(RoleType::B)) );
         qElement.appendChild( assocElement );
         return;
     }
     if (m_AssocType == Uml::AssociationType::Category2Parent ) {
         QDomElement assocElement = UMLObject::save("UML:Category2Parent", qDoc);
-        assocElement.setAttribute( "client", ID2STR(getObjectId(A)) );
-        assocElement.setAttribute( "supplier", ID2STR(getObjectId(B)) );
+        assocElement.setAttribute( "client", ID2STR(getObjectId(RoleType::A)) );
+        assocElement.setAttribute( "supplier", ID2STR(getObjectId(RoleType::B)) );
         qElement.appendChild( assocElement );
         return;
     }
 
     QDomElement associationElement = UMLObject::save("UML:Association", qDoc);
     QDomElement connElement = qDoc.createElement("UML:Association.connection");
-    getUMLRole(A)->saveToXMI (qDoc, connElement);
-    getUMLRole(B)->saveToXMI (qDoc, connElement);
+    getUMLRole(RoleType::A)->saveToXMI (qDoc, connElement);
+    getUMLRole(RoleType::B)->saveToXMI (qDoc, connElement);
     associationElement.appendChild (connElement);
     qElement.appendChild( associationElement );
 }
@@ -219,10 +219,10 @@ bool UMLAssociation::load( QDomElement & element )
         m_AssocType == Uml::AssociationType::Child2Category ||
         m_AssocType == Uml::AssociationType::Category2Parent
         ) {
-        for (unsigned r = Uml::A; r <= Uml::B; ++r) {
+        for (unsigned r = RoleType::A; r <= RoleType::B; ++r) {
             const QString fetch = (m_AssocType == Uml::AssociationType::Generalization ?
-                                   r == Uml::A ? "child" : "parent"
-                       : r == Uml::A ? "client" : "supplier");
+                                   r == RoleType::A ? "child" : "parent"
+                       : r == RoleType::A ? "client" : "supplier");
             QString roleIdStr = element.attribute(fetch, "");
             if (roleIdStr.isEmpty()) {
                 // Might be given as a child node instead - see below.
@@ -231,7 +231,7 @@ bool UMLAssociation::load( QDomElement & element )
 
             // set umlobject of role if possible (else defer resolution)
             obj[r] = doc->findObjectById(STR2ID(roleIdStr));
-            Uml::Role_Type role = (Uml::Role_Type)r;
+            Uml::RoleType::Enum role = Uml::RoleType::fromInt(r);
             if (obj[r] == NULL) {
                 m_pRole[role]->setSecondaryId(roleIdStr);  // defer to resolveRef()
             } else {
@@ -244,7 +244,7 @@ bool UMLAssociation::load( QDomElement & element )
                 }
             }
         }
-        if (obj[A] == NULL || obj[B] == NULL) {
+        if (obj[RoleType::A] == NULL || obj[RoleType::B] == NULL) {
             for (QDomNode node = element.firstChild(); !node.isNull();
                     node = node.nextSibling()) {
                 if (node.isComment())
@@ -275,15 +275,15 @@ bool UMLAssociation::load( QDomElement & element )
                 // Since we know for sure that we're dealing with a non
                 // umbrello file, use deferred resolution unconditionally.
                 if (UMLDoc::tagEq(tag, "child") || UMLDoc::tagEq(tag, "subtype") || UMLDoc::tagEq(tag, "client")) {
-                    getUMLRole(A)->setSecondaryId(idStr);
+                    getUMLRole(RoleType::A)->setSecondaryId(idStr);
                 } else {
-                    getUMLRole(B)->setSecondaryId(idStr);
+                    getUMLRole(RoleType::B)->setSecondaryId(idStr);
                 }
             }
         }
 
         // it is a realization if either endpoint is an interface
-        if (isRealization(obj[A], obj[B])) {
+        if (isRealization(obj[RoleType::A], obj[RoleType::B])) {
             m_AssocType = Uml::AssociationType::Realization;
         }
         return true;
@@ -319,7 +319,7 @@ bool UMLAssociation::load( QDomElement & element )
             uWarning() << "unknown child (A) tag " << tag;
             return false;
         }
-        if (! getUMLRole(A)->loadFromXMI(tempElement))
+        if (! getUMLRole(RoleType::A)->loadFromXMI(tempElement))
             return false;
         // Load role B.
         QDomNode nodeB = nodeA.nextSibling();
@@ -336,11 +336,11 @@ bool UMLAssociation::load( QDomElement & element )
             uWarning() << "unknown child (B) tag " << tag;
             return false;
         }
-        if (! getUMLRole(B)->loadFromXMI(tempElement))
+        if (! getUMLRole(RoleType::B)->loadFromXMI(tempElement))
             return false;
 
         if (m_pUMLPackage == NULL) {
-            Uml::ModelType::Enum mt = Model_Utils::convert_OT_MT(getObject(B)->baseType());
+            Uml::ModelType::Enum mt = Model_Utils::convert_OT_MT(getObject(RoleType::B)->baseType());
             m_pUMLPackage = doc->rootFolder(mt);
             DEBUG(DBG_SRC) << "setting model type " << Uml::ModelType::toString(mt);
         }
@@ -355,7 +355,7 @@ bool UMLAssociation::load( QDomElement & element )
         // is not complete, so we need to finish the analysis here.
 
         // find self-associations
-        if (m_AssocType == Uml::AssociationType::Association && getObjectId(A) == getObjectId(B))
+        if (m_AssocType == Uml::AssociationType::Association && getObjectId(RoleType::A) == getObjectId(RoleType::B))
             m_AssocType = Uml::AssociationType::Association_Self;
 
         // fall-back default type
@@ -428,23 +428,23 @@ bool UMLAssociation::load( QDomElement & element )
     UMLObject * objB = doc->findObjectById(roleBObjID);
 
     if(objA)
-        getUMLRole(A)->setObject(objA);
+        getUMLRole(RoleType::A)->setObject(objA);
     else
         return false;
 
     if(objB)
-        getUMLRole(B)->setObject(objB);
+        getUMLRole(RoleType::B)->setObject(objB);
     else
         return false;
 
-    setMultiplicity(element.attribute( "multia", "" ), A);
-    setMultiplicity(element.attribute( "multib", "" ), B);
+    setMultiplicity(element.attribute( "multia", "" ), RoleType::A);
+    setMultiplicity(element.attribute( "multib", "" ), RoleType::B);
 
-    setRoleName(element.attribute( "namea", "" ), A);
-    setRoleName(element.attribute( "nameb", "" ), B);
+    setRoleName(element.attribute( "namea", "" ), RoleType::A);
+    setRoleName(element.attribute( "nameb", "" ), RoleType::B);
 
-    setRoleDoc(element.attribute( "doca", "" ), A);
-    setRoleDoc(element.attribute( "docb", "" ), B);
+    setRoleDoc(element.attribute( "doca", "" ), RoleType::A);
+    setRoleDoc(element.attribute( "docb", "" ), RoleType::B);
 
     // Visibility defaults to Public if it cant set it here..
     QString visibilityA = element.attribute( "visibilitya", "0");
@@ -452,19 +452,19 @@ bool UMLAssociation::load( QDomElement & element )
     int vis = visibilityA.toInt();
     if (vis >= 200)  // bkwd compat.
         vis -= 200;
-    setVisibility((Uml::Visibility::Enum)vis, A);
+    setVisibility((Uml::Visibility::Enum)vis, RoleType::A);
     vis = visibilityB.toInt();
     if (vis >= 200)  // bkwd compat.
         vis -= 200;
-    setVisibility((Uml::Visibility::Enum)vis, B);
+    setVisibility((Uml::Visibility::Enum)vis, RoleType::B);
 
     // Changeability defaults to Changeable if it cant set it here..
     QString changeabilityA = element.attribute( "changeabilitya", "0");
     QString changeabilityB = element.attribute( "changeabilityb", "0");
     if (changeabilityA.toInt() > 0)
-        setChangeability(Uml::Changeability::fromInt(changeabilityA.toInt()), A);
+        setChangeability(Uml::Changeability::fromInt(changeabilityA.toInt()), RoleType::A);
     if (changeabilityB.toInt() > 0)
-        setChangeability(Uml::Changeability::fromInt(changeabilityB.toInt()), B);
+        setChangeability(Uml::Changeability::fromInt(changeabilityB.toInt()), RoleType::B);
 
     return true;
 }
@@ -473,7 +473,7 @@ bool UMLAssociation::load( QDomElement & element )
  * Returns the UMLObject assigned to the given role.
  * @return  Pointer to the UMLObject in the given role.
  */
-UMLObject* UMLAssociation::getObject(Uml::Role_Type role) const
+UMLObject* UMLAssociation::getObject(Uml::RoleType::Enum role) const
 {
     if (m_pRole[role] == NULL)
         return NULL;
@@ -485,7 +485,7 @@ UMLObject* UMLAssociation::getObject(Uml::Role_Type role) const
  * Shorthand for getObject(role)->ID().
  * @return  ID of the UMLObject in the given role.
  */
-Uml::ID::Type UMLAssociation::getObjectId(Uml::Role_Type role) const
+Uml::ID::Type UMLAssociation::getObjectId(Uml::RoleType::Enum role) const
 {
     UMLRole *roleObj = m_pRole[role];
     UMLObject *o = roleObj->object();
@@ -507,7 +507,7 @@ Uml::ID::Type UMLAssociation::getObjectId(Uml::Role_Type role) const
  * CURRENTLY UNUSED.
  * @return  ID of the UMLObject of the given role.
  */
-Uml::ID::Type UMLAssociation::getRoleId(Role_Type role) const
+Uml::ID::Type UMLAssociation::getRoleId(RoleType::Enum role) const
 {
     return m_pRole[role]->id();
 }
@@ -515,7 +515,7 @@ Uml::ID::Type UMLAssociation::getRoleId(Role_Type role) const
 /**
  * Returns the changeability.
  */
-Uml::Changeability::Enum UMLAssociation::changeability(Uml::Role_Type role) const
+Uml::Changeability::Enum UMLAssociation::changeability(Uml::RoleType::Enum role) const
 {
     return m_pRole[role]->changeability();
 }
@@ -524,7 +524,7 @@ Uml::Changeability::Enum UMLAssociation::changeability(Uml::Role_Type role) cons
  * Returns the Visibility of the given role.
  * @return  Visibility of the given role.
  */
-Uml::Visibility::Enum UMLAssociation::visibility(Uml::Role_Type role) const
+Uml::Visibility::Enum UMLAssociation::visibility(Uml::RoleType::Enum role) const
 {
     return m_pRole[role]->visibility();
 }
@@ -533,7 +533,7 @@ Uml::Visibility::Enum UMLAssociation::visibility(Uml::Role_Type role) const
  * Returns the multiplicity assigned to the given role.
  * @return  The multiplicity assigned to the given role.
  */
-QString UMLAssociation::getMultiplicity(Uml::Role_Type role) const
+QString UMLAssociation::getMultiplicity(Uml::RoleType::Enum role) const
 {
     return m_pRole[role]->multiplicity();
 }
@@ -542,7 +542,7 @@ QString UMLAssociation::getMultiplicity(Uml::Role_Type role) const
  * Returns the name assigned to the role A.
  * @return  The name assigned to the given role.
  */
-QString UMLAssociation::getRoleName(Uml::Role_Type role) const
+QString UMLAssociation::getRoleName(Uml::RoleType::Enum role) const
 {
     return m_pRole[role]->name();
 }
@@ -551,7 +551,7 @@ QString UMLAssociation::getRoleName(Uml::Role_Type role) const
  * Returns the documentation assigned to the given role.
  * @return  Documentation text of given role.
  */
-QString UMLAssociation::getRoleDoc(Uml::Role_Type role) const
+QString UMLAssociation::getRoleDoc(Uml::RoleType::Enum role) const
 {
     return m_pRole[role]->doc();
 }
@@ -560,7 +560,7 @@ QString UMLAssociation::getRoleDoc(Uml::Role_Type role) const
  * Get the underlying UMLRole object for the given role.
  * @return  Pointer to the UMLRole object for the given role.
  */
-UMLRole * UMLAssociation::getUMLRole(Uml::Role_Type role) const
+UMLRole * UMLAssociation::getUMLRole(Uml::RoleType::Enum role) const
 {
     return m_pRole[role];
 }
@@ -603,9 +603,9 @@ void UMLAssociation::setAssociationType(Uml::AssociationType::Enum assocType)
 /**
  * Sets the UMLObject playing the given role in the association.
  * @param obj  Pointer to the UMLObject of the given role.
- * @param role The Uml::Role_Type played by the association
+ * @param role The Uml::RoleType::Enum played by the association
  */
-void UMLAssociation::setObject(UMLObject *obj, Uml::Role_Type role)
+void UMLAssociation::setObject(UMLObject *obj, Uml::RoleType::Enum role)
 {
     m_pRole[role]->setObject(obj);
 }
@@ -613,9 +613,9 @@ void UMLAssociation::setObject(UMLObject *obj, Uml::Role_Type role)
 /**
  * Sets the visibility of the given role of the UMLAssociation.
  * @param value  Visibility of role.
- * @param role   The Uml::Role_Type to which the visibility is being applied
+ * @param role   The Uml::RoleType::Enum to which the visibility is being applied
  */
-void UMLAssociation::setVisibility(Visibility::Enum value, Uml::Role_Type role)
+void UMLAssociation::setVisibility(Visibility::Enum value, Uml::RoleType::Enum role)
 {
     m_pRole[role]->setVisibility(value);
 }
@@ -623,9 +623,9 @@ void UMLAssociation::setVisibility(Visibility::Enum value, Uml::Role_Type role)
 /**
  * Sets the changeability of the given role of the UMLAssociation.
  * @param value     Changeability_Type of the given role.
- * @param role      The Uml::Role_Type to which the changeability is being set
+ * @param role      The Uml::RoleType::Enum to which the changeability is being set
  */
-void UMLAssociation::setChangeability(Uml::Changeability::Enum value, Uml::Role_Type role)
+void UMLAssociation::setChangeability(Uml::Changeability::Enum value, Uml::RoleType::Enum role)
 {
     m_pRole[role]->setChangeability(value);
 }
@@ -633,9 +633,9 @@ void UMLAssociation::setChangeability(Uml::Changeability::Enum value, Uml::Role_
 /**
  * Sets the multiplicity of the given role of the UMLAssociation.
  * @param multi    The multiplicity of the given role.
- * @param role     The Uml::Role_Type to which the multiplicity is being applied
+ * @param role     The Uml::RoleType::Enum to which the multiplicity is being applied
  */
-void UMLAssociation::setMultiplicity(const QString &multi, Uml::Role_Type role)
+void UMLAssociation::setMultiplicity(const QString &multi, Uml::RoleType::Enum role)
 {
     UMLApp::app()->executeCommand(new CmdChangeMultiplicity(m_pRole[role], multi));
     //m_pRole[role]->setMultiplicity(multi);
@@ -644,9 +644,9 @@ void UMLAssociation::setMultiplicity(const QString &multi, Uml::Role_Type role)
 /**
  * Sets the name of the given role of the UMLAssociation.
  * @param roleName  The name to set for the given role.
- * @param role      The Uml::Role_Type for which to set the name.
+ * @param role      The Uml::RoleType::Enum for which to set the name.
  */
-void UMLAssociation::setRoleName(const QString &roleName, Uml::Role_Type role)
+void UMLAssociation::setRoleName(const QString &roleName, Uml::RoleType::Enum role)
 {
     m_pRole[role]->setName(roleName);
 }
@@ -654,9 +654,9 @@ void UMLAssociation::setRoleName(const QString &roleName, Uml::Role_Type role)
 /**
  * Sets the documentation on the given role in the association.
  * @param doc      The string with the documentation.
- * @param role     The Uml::Role_Type to which the documentation is being applied
+ * @param role     The Uml::RoleType::Enum to which the documentation is being applied
  */
-void UMLAssociation::setRoleDoc(const QString &doc, Uml::Role_Type role)
+void UMLAssociation::setRoleDoc(const QString &doc, Uml::RoleType::Enum role)
 {
     m_pRole[role]->setDoc(doc);
 }
@@ -698,8 +698,8 @@ void UMLAssociation::init(Uml::AssociationType::Enum type, UMLObject *roleAObj, 
     if (!UMLApp::app()->document()->loading()) {
         m_pUMLPackage = UMLApp::app()->document()->currentRoot();
     }
-    m_pRole[Uml::A] = new UMLRole (this, roleAObj, Uml::A);
-    m_pRole[Uml::B] = new UMLRole (this, roleBObj, Uml::B);
+    m_pRole[RoleType::A] = new UMLRole (this, roleAObj, RoleType::A);
+    m_pRole[RoleType::B] = new UMLRole (this, roleBObj, RoleType::B);
 }
 
 #include "association.moc"

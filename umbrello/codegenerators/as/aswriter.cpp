@@ -671,7 +671,7 @@ void ASWriter::writeAssociation(QString& classname, UMLAssociationList& assocLis
     foreach (UMLAssociation *a , assocList )
     {
         // association side
-        Uml::Role_Type role = a->getObject(Uml::A)->name() == classname ? Uml::B:Uml::A;
+        Uml::RoleType::Enum role = a->getObject(Uml::RoleType::A)->name() == classname ? Uml::RoleType::B : Uml::RoleType::A;
 
         QString roleName(cleanName(a->getRoleName(role)));
 

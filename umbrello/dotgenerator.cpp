@@ -379,16 +379,16 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
         else
             label = assoc->name();
 
-        QString headLabel = assoc->roleName(swapId ? Uml::B : Uml::A);
-        QString tailLabel = assoc->roleName(swapId ? Uml::A : Uml::B);
+        QString headLabel = assoc->roleName(swapId ? Uml::RoleType::B : Uml::RoleType::A);
+        QString tailLabel = assoc->roleName(swapId ? Uml::RoleType::A : Uml::RoleType::B);
 
         if (!headLabel.isEmpty())
             headLabel.prepend("+");
         if (!tailLabel.isEmpty())
             tailLabel.prepend("+");
 
-        headLabel += QLatin1String("  ") + assoc->multiplicity(swapId ? Uml::B : Uml::A);
-        tailLabel += QLatin1String("  ") + assoc->multiplicity(swapId ? Uml::A : Uml::B);
+        headLabel += QLatin1String("  ") + assoc->multiplicity(swapId ? Uml::RoleType::B : Uml::RoleType::A);
+        tailLabel += QLatin1String("  ") + assoc->multiplicity(swapId ? Uml::RoleType::A : Uml::RoleType::B);
 
         QString edgeParameters;
         QStringList params;
@@ -420,8 +420,8 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
 #ifdef DOTGENERATOR_DATA_DEBUG
         uDebug() << type << params;
 #endif
-        QString aID = fixID(ID2STR(assoc->widgetIDForRole(swapId ? Uml::A : Uml::B)));
-        QString bID = fixID(ID2STR(assoc->widgetIDForRole(swapId ? Uml::B : Uml::A)));
+        QString aID = fixID(ID2STR(assoc->widgetIDForRole(swapId ? Uml::RoleType::A : Uml::RoleType::B)));
+        QString bID = fixID(ID2STR(assoc->widgetIDForRole(swapId ? Uml::RoleType::B : Uml::RoleType::A)));
 
         out << "\"" << aID << "\" -> \"" << bID << "\"" << " [" << params.join(",") << "];\n";
     }

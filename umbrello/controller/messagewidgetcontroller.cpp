@@ -78,7 +78,7 @@ void MessageWidgetController::resizeWidget(UMLSceneValue newW, UMLSceneValue new
     if (m_messageWidget->sequenceMessageType() == Uml::SequenceMessage::Creation)
         m_messageWidget->setSize(m_messageWidget->width(), newH);
     else {
-        int x1 = m_messageWidget->m_pOw[Uml::A]->x();
+        int x1 = m_messageWidget->m_pOw[Uml::RoleType::A]->x();
         int x2 = m_messageWidget->getxclicked();
         int diffX = 0;
         if (x1 < x2) {
@@ -129,8 +129,8 @@ void MessageWidgetController::moveWidgetBy(UMLSceneValue diffX, UMLSceneValue di
     m_messageWidget->setY(newY);
 
     if (m_messageWidget->m_sequenceMessageType == Uml::SequenceMessage::Creation) {
-        const UMLSceneValue objWidgetHalfHeight = m_messageWidget->m_pOw[Uml::B]->height() / 2;
-        m_messageWidget->m_pOw[Uml::B]->UMLWidget::setY(newY - objWidgetHalfHeight);
+        const UMLSceneValue objWidgetHalfHeight = m_messageWidget->m_pOw[Uml::RoleType::B]->height() / 2;
+        m_messageWidget->m_pOw[Uml::RoleType::B]->UMLWidget::setY(newY - objWidgetHalfHeight);
     }
 
     m_messageWidget->moveEvent(0);

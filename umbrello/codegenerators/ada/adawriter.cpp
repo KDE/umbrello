@@ -144,16 +144,16 @@ void AdaWriter::computeAssocTypeAndRole(UMLClassifier *c,
                                         UMLAssociation *a,
                                         QString& typeName, QString& roleName)
 {
-    UMLClassifier* assocEnd = dynamic_cast<UMLClassifier*>(a->getObject(Uml::B));
+    UMLClassifier* assocEnd = dynamic_cast<UMLClassifier*>(a->getObject(Uml::RoleType::B));
     if (assocEnd == NULL)
         return;
     const Uml::AssociationType::Enum assocType = a->getAssocType();
     if (assocType != Uml::AssociationType::Aggregation && assocType != Uml::AssociationType::Composition)
         return;
-    const QString multi = a->getMultiplicity(Uml::B);
+    const QString multi = a->getMultiplicity(Uml::RoleType::B);
     bool hasNonUnityMultiplicity = (!multi.isEmpty() && multi != "1");
     hasNonUnityMultiplicity &= !multi.contains(QRegExp("^1 *\\.\\. *1$"));
-    roleName = cleanName(a->getRoleName(Uml::B));
+    roleName = cleanName(a->getRoleName(Uml::RoleType::B));
     if (roleName.isEmpty())
         roleName = cleanName(a->name());
     if (roleName.isEmpty()) {
@@ -401,7 +401,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     if (forceSections() || !aggregations.isEmpty()) {
         ada << indent() << "-- Aggregations:" << m_endl;
         foreach (UMLAssociation *a , aggregations) {
-            if (c != a->getObject(Uml::A))
+            if (c != a->getObject(Uml::RoleType::A))
                 continue;
             QString typeName, roleName;
             computeAssocTypeAndRole(c, a, typeName, roleName);
@@ -412,7 +412,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     if (forceSections() || !compositions.isEmpty()) {
         ada << indent() << "-- Compositions:" << m_endl;
         foreach (UMLAssociation *a , compositions ) {
-            if (c != a->getObject(Uml::A))
+            if (c != a->getObject(Uml::RoleType::A))
                 continue;
             QString typeName, roleName;
             computeAssocTypeAndRole(c, a, typeName, roleName);

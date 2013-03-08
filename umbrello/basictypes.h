@@ -203,7 +203,16 @@ namespace Uml
     /**
      * Constants used for indexing the roles of associations.
      */
-    enum Role_Type { A, B };
+    namespace RoleType
+    {
+        enum Enum {
+            A,
+            B
+        };
+        QString toString(Enum item);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+    }
 
     /**
      * Direction of operation parameters:

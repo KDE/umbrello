@@ -68,7 +68,7 @@ void IDLWriter::computeAssocTypeAndRole(UMLAssociation *a, UMLClassifier *c,
 {
     // Determine which is the "remote" end of the association:
     bool IAmRoleA = true;
-    UMLObject *other = a->getObject(Uml::B);
+    UMLObject *other = a->getObject(Uml::RoleType::B);
     Uml::AssociationType::Enum at = a->getAssocType();
     if (c->name() == other->name()) {
         if (at == Uml::AssociationType::Aggregation || at == Uml::AssociationType::Composition ||
@@ -81,22 +81,22 @@ void IDLWriter::computeAssocTypeAndRole(UMLAssociation *a, UMLClassifier *c,
             return;
         }
         IAmRoleA = false;
-        other = a->getObject(Uml::A);
+        other = a->getObject(Uml::RoleType::A);
     }
     // Construct the type name:
     typeName = cleanName(other->name());
     QString multiplicity;
     if (IAmRoleA)
-        multiplicity = a->getMultiplicity(Uml::B);
+        multiplicity = a->getMultiplicity(Uml::RoleType::B);
     else
-        multiplicity = a->getMultiplicity(Uml::A);
+        multiplicity = a->getMultiplicity(Uml::RoleType::A);
     if (!multiplicity.isEmpty() && multiplicity != "1")
         typeName.append("Vector");
     // Construct the member name:
     if (IAmRoleA)
-        roleName = a->getRoleName(Uml::B);
+        roleName = a->getRoleName(Uml::RoleType::B);
     else
-        roleName = a->getRoleName(Uml::A);
+        roleName = a->getRoleName(Uml::RoleType::A);
     if (roleName.isEmpty()) {
         roleName = a->name();
         if (roleName.isEmpty()) {
@@ -303,14 +303,14 @@ void IDLWriter::writeClass(UMLClassifier *c)
     foreach (UMLAssociation *a, assocs ) {
         if (! assocTypeIsMappableToAttribute(a->getAssocType()))
             continue;
-        QString multiplicity = a->getMultiplicity(Uml::A);
+        QString multiplicity = a->getMultiplicity(Uml::RoleType::A);
         if (multiplicity.isEmpty() || multiplicity == "1")
             continue;
         if (!didComment) {
             idl << indent() << "// Types for association multiplicities" << m_endl << m_endl;
             didComment = true;
         }
-        UMLClassifier* other = (UMLClassifier*)a->getObject(Uml::A);
+        UMLClassifier* other = (UMLClassifier*)a->getObject(Uml::RoleType::A);
         QString bareName = cleanName(other->name());
         idl << indent() << "typedef sequence<" << other->fullyQualifiedName("::")
         << "> " << bareName << "Vector;" << m_endl << m_endl;

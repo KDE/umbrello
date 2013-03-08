@@ -580,9 +580,9 @@ UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type)
 
     foreach (UMLAssociation *a , rlist ) {
         uIgnoreZeroPointer(a);
-        if (a->getObjectId(A) != myID)
+        if (a->getObjectId(RoleType::A) != myID)
         {
-            UMLObject* obj = a->getObject(A);
+            UMLObject* obj = a->getObject(RoleType::A);
             UMLClassifier *concept = dynamic_cast<UMLClassifier*>(obj);
             if (concept && (type == ALL || (!concept->isInterface() && type == CLASS)
                             || (concept->isInterface() && type == INTERFACE))
@@ -617,9 +617,9 @@ UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type)
     }
 
     foreach (UMLAssociation *a , rlist ) {
-        if (a->getObjectId(A) == myID)
+        if (a->getObjectId(RoleType::A) == myID)
         {
-            UMLObject* obj = a->getObject(B);
+            UMLObject* obj = a->getObject(RoleType::B);
             UMLClassifier *concept = dynamic_cast<UMLClassifier*>(obj);
             if (concept && (type == ALL || (!concept->isInterface() && type == CLASS)
                             || (concept->isInterface() && type == INTERFACE))
@@ -1344,10 +1344,10 @@ UMLAssociationList  UMLClassifier::getUniAssociationToBeImplemented()
 
     foreach (UMLAssociation *a, associations) {
         uIgnoreZeroPointer(a);
-        if (a->getObjectId(Uml::B) == id()) {
+        if (a->getObjectId(RoleType::B) == id()) {
             continue;  // we need to be at the A side
         }
-        QString roleNameB = a->getRoleName(Uml::B);
+        QString roleNameB = a->getRoleName(RoleType::B);
         if (!roleNameB.isEmpty()) {
             UMLAttributeList atl = getAttributeList();
             bool found = false;
@@ -1409,7 +1409,7 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
         QDomElement genElement = qDoc.createElement("UML:GeneralizableElement.generalization");
         foreach (UMLAssociation *a , generalizations ) {
             // We are the subclass if we are at the role A end.
-            if (m_nId != a->getObjectId(Uml::A)) {
+            if (m_nId != a->getObjectId(RoleType::A)) {
                 continue;
             }
             QDomElement gElem = qDoc.createElement("UML:Generalization");
@@ -1572,12 +1572,12 @@ UMLClassifierList UMLClassifier::findAssocClassifierObjsInRoles (UMLAssociationL
         // the association.
         // We also ignore classifiers which are the same as the current one
         // (e.g. id matches), we only want the "other" classifiers
-        if (a->getObjectId(Uml::A) == id() && !a->getRoleName(Uml::B).isEmpty()) {
-            UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::B));
+        if (a->getObjectId(RoleType::A) == id() && !a->getRoleName(RoleType::B).isEmpty()) {
+            UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(RoleType::B));
             if(c)
                 classifiers.append(c);
-        } else if (a->getObjectId(Uml::B) == id() && !a->getRoleName(Uml::A).isEmpty()) {
-            UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::A));
+        } else if (a->getObjectId(RoleType::B) == id() && !a->getRoleName(RoleType::A).isEmpty()) {
+            UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(RoleType::A));
             if(c)
                 classifiers.append(c);
         }

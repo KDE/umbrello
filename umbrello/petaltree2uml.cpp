@@ -267,15 +267,15 @@ public:
                            const QString& quid, const QString& type) {
         UMLAssociation *assoc = static_cast<UMLAssociation*>(item);
         if (!quid.isEmpty()) {
-            assoc->getUMLRole(Uml::B)->setSecondaryId(quid);
+            assoc->getUMLRole(Uml::RoleType::B)->setSecondaryId(quid);
         }
         if (!type.isEmpty()) {
-            assoc->getUMLRole(Uml::B)->setSecondaryFallback(type);
+            assoc->getUMLRole(Uml::RoleType::B)->setSecondaryFallback(type);
         }
     }
     void insertAtParent(const PetalNode *, UMLObject *item) {
         UMLAssociation *assoc = static_cast<UMLAssociation*>(item);
-        assoc->setObject(m_classifier, Uml::A);
+        assoc->setObject(m_classifier, Uml::RoleType::A);
         UMLApp::app()->document()->addAssociation(assoc);
     }
 protected:
@@ -301,15 +301,15 @@ public:
                            const QString& quid, const QString& type) {
         UMLAssociation *assoc = static_cast<UMLAssociation*>(item);
         if (!quid.isEmpty()) {
-            assoc->getUMLRole(Uml::B)->setSecondaryId(quid);
+            assoc->getUMLRole(Uml::RoleType::B)->setSecondaryId(quid);
         }
         if (!type.isEmpty()) {
-            assoc->getUMLRole(Uml::B)->setSecondaryFallback(type);
+            assoc->getUMLRole(Uml::RoleType::B)->setSecondaryFallback(type);
         }
     }
     void insertAtParent(const PetalNode *, UMLObject *item) {
         UMLAssociation *assoc = static_cast<UMLAssociation*>(item);
-        assoc->setObject(m_classifier, Uml::A);
+        assoc->setObject(m_classifier, Uml::RoleType::A);
         UMLApp::app()->document()->addAssociation(assoc);
     }
 protected:
@@ -421,7 +421,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL)
             }
             // index 0 corresponds to Umbrello roleB
             // index 1 corresponds to Umbrello roleA
-            UMLRole *role = assoc->getUMLRole((Uml::Role_Type) !i);
+            UMLRole *role = assoc->getUMLRole(Uml::RoleType::fromInt(!i));
             QStringList initialArgs = roleNode->initialArgs();
             if (initialArgs.count() > 1) {
                 QString roleName = clean(initialArgs[1]);

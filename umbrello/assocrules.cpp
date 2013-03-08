@@ -190,8 +190,8 @@ bool AssocRules::allowAssociation( Uml::AssociationType::Enum assocType,
     case Uml::AssociationType::Containment:   // can't have mutual containment
     case Uml::AssociationType::Generalization://can have many sub/super types but can't sup/sub each
         foreach ( AssociationWidget * assoc, list ) {
-            if( ( widgetA == assoc->widgetForRole(Uml::A) ||
-                        widgetA == assoc->widgetForRole(Uml::B) )
+            if( ( widgetA == assoc->widgetForRole(Uml::RoleType::A) ||
+                        widgetA == assoc->widgetForRole(Uml::RoleType::B) )
                     && assoc->associationType() == assocType )
                 return false;
         }
@@ -200,8 +200,8 @@ bool AssocRules::allowAssociation( Uml::AssociationType::Enum assocType,
 
     case Uml::AssociationType::Realization: // can only connect to abstract (interface) classes
         foreach( AssociationWidget * assoc, list ) {
-            if( ( widgetA == assoc->widgetForRole(Uml::A) ||
-                        widgetA == assoc->widgetForRole(Uml::B) )
+            if( ( widgetA == assoc->widgetForRole(Uml::RoleType::A) ||
+                        widgetA == assoc->widgetForRole(Uml::RoleType::B) )
                     && assoc->associationType() == Uml::AssociationType::Realization ) {
                 return false;
             }
@@ -266,7 +266,7 @@ bool AssocRules::allowAssociation( Uml::AssociationType::Enum assocType,
             if (actA != NULL && actTypeA != ActivityWidget::Branch) {
                 AssociationWidgetList list = widgetA->associationWidgetList();
                 foreach (AssociationWidget* assoc , list ) {
-                    if (assoc->widgetForRole(Uml::A) == widgetA) {
+                    if (assoc->widgetForRole(Uml::RoleType::A) == widgetA) {
                         return false;
                     }
                 }

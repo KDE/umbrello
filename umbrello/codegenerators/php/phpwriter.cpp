@@ -3070,9 +3070,9 @@ void PhpWriter::writeClass(UMLClassifier *c)
             php<< m_endl;
             //maybe we should parse the string here and take multiplicity into account to decide
             //which container to use.
-            //:UNUSED: UMLObject *o = a->getObject(Uml::A);
+            //:UNUSED: UMLObject *o = a->getObject(Uml::RoleType::A);
             //:UNUSED: QString typeName = cleanName(o->name());
-            if (a->getMultiplicity(Uml::A).isEmpty())  {
+            if (a->getMultiplicity(Uml::RoleType::A).isEmpty())  {
                 php << m_indentation << "var $m_" << ";" << m_endl;
             } else {
                 php << m_indentation << "var $m_" << "Vector = array();" << m_endl;
@@ -3084,9 +3084,9 @@ void PhpWriter::writeClass(UMLClassifier *c)
         php<< m_endl << m_indentation << "/** Compositions: */" << m_endl;
         foreach ( UMLAssociation* a , compositions ) {
             // see comment on Aggregation about multiplicity...
-            //:UNUSED: UMLObject *o = a->getObject(Uml::A);
+            //:UNUSED: UMLObject *o = a->getObject(Uml::RoleType::A);
             //:UNUSED: QString typeName = cleanName(o->name());
-            if (a->getMultiplicity(Uml::A).isEmpty())  {
+            if (a->getMultiplicity(Uml::RoleType::A).isEmpty())  {
                 php << m_indentation << "var $m_" << ";" << m_endl;
             } else {
                 php << m_indentation << "var $m_" << "Vector = array();" << m_endl;

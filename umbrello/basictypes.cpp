@@ -817,6 +817,50 @@ Enum fromInt(int item)
 
 //-----------------------------------------------------------------------------
 
+namespace RoleType {
+
+/**
+ * Return string corresponding to the given RoleType.
+ */
+QString toString(Enum item)
+{
+    switch (item) {
+        case A:
+            return QString("A");
+        case B:
+            return QString("B");
+        default:
+            break;
+    }
+    return QString("? RoleType ?");
+}
+
+/**
+ * Return RoleType corresponding to the given string.
+ */
+Enum fromString(const QString& item)
+{
+    if (item == "A")
+        return A;
+    if (item == "B")
+        return B;
+    return A;
+}
+
+/**
+ * Convert a integer item into RoleType representation.
+ * @param item   integer value to convert
+ * @return RoleType enum
+ */
+Enum fromInt(int item)
+{
+    return Enum(item);
+}
+
+}  // end namespace RoleType
+
+//-----------------------------------------------------------------------------
+
 namespace ID {
 
 QDebug operator<<(QDebug out, ID::Type &type)

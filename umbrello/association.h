@@ -44,30 +44,30 @@ public:
 
     QString toString() const;
 
-    UMLRole * getUMLRole(Uml::Role_Type role) const;
-    Uml::ID::Type getObjectId(Uml::Role_Type role) const;
-    Uml::ID::Type getRoleId(Uml::Role_Type role) const;
+    UMLRole * getUMLRole(Uml::RoleType::Enum role) const;
+    Uml::ID::Type getObjectId(Uml::RoleType::Enum role) const;
+    Uml::ID::Type getRoleId(Uml::RoleType::Enum role) const;
 
     void setAssociationType(Uml::AssociationType::Enum assocType);
     Uml::AssociationType::Enum getAssocType() const;
 
-    void setObject(UMLObject *obj, Uml::Role_Type role);
-    UMLObject* getObject(Uml::Role_Type role) const;
+    void setObject(UMLObject *obj, Uml::RoleType::Enum role);
+    UMLObject* getObject(Uml::RoleType::Enum role) const;
 
-    void setVisibility(Uml::Visibility::Enum value, Uml::Role_Type role);
-    Uml::Visibility::Enum visibility(Uml::Role_Type role) const;
+    void setVisibility(Uml::Visibility::Enum value, Uml::RoleType::Enum role);
+    Uml::Visibility::Enum visibility(Uml::RoleType::Enum role) const;
 
-    void setChangeability(Uml::Changeability::Enum value, Uml::Role_Type role);
-    Uml::Changeability::Enum changeability(Uml::Role_Type role) const;
+    void setChangeability(Uml::Changeability::Enum value, Uml::RoleType::Enum role);
+    Uml::Changeability::Enum changeability(Uml::RoleType::Enum role) const;
 
-    void setMultiplicity(const QString &multi, Uml::Role_Type role);
-    QString getMultiplicity(Uml::Role_Type role) const;
+    void setMultiplicity(const QString &multi, Uml::RoleType::Enum role);
+    QString getMultiplicity(Uml::RoleType::Enum role) const;
 
-    void setRoleName(const QString &roleName, Uml::Role_Type role);
-    QString getRoleName(Uml::Role_Type role) const;
+    void setRoleName(const QString &roleName, Uml::RoleType::Enum role);
+    QString getRoleName(Uml::RoleType::Enum role) const;
 
-    void setRoleDoc(const QString &doc, Uml::Role_Type role);
-    QString getRoleDoc(Uml::Role_Type role) const;
+    void setRoleDoc(const QString &doc, Uml::RoleType::Enum role);
+    QString getRoleDoc(Uml::RoleType::Enum role) const;
 
     void setOldLoadMode(bool value = true);
     bool getOldLoadMode() const;
