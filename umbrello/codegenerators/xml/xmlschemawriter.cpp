@@ -597,10 +597,10 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
             // it may seem counter intuitive, but you want to insert the role of the
             // *other* class into *this* class.
 
-            if (a->getObjectId(Uml::A) == id && a->visibility(Uml::B) != Uml::Visibility::Private)
+            if (a->getObjectId(Uml::RoleType::A) == id && a->visibility(Uml::RoleType::B) != Uml::Visibility::Private)
                 printRoleB = true;
 
-            if (a->getObjectId(Uml::B) == id && a->visibility(Uml::A) != Uml::Visibility::Private)
+            if (a->getObjectId(Uml::RoleType::B) == id && a->visibility(Uml::RoleType::A) != Uml::Visibility::Private)
                 printRoleA = true;
 
             // First: we insert documentaion for association IF it has either role
@@ -636,12 +636,12 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
             // print RoleA decl
             if (printRoleA)
             {
-                UMLClassifier *classifierA = dynamic_cast<UMLClassifier*>(a->getObject(Uml::A));
+                UMLClassifier *classifierA = dynamic_cast<UMLClassifier*>(a->getObject(Uml::RoleType::A));
                 if (classifierA) {
                     // ONLY write out IF there is a rolename given
                     // otherwise it is not meant to be declared
-                    if (!a->getRoleName(Uml::A).isEmpty() || noRoleNameOK )
-                        writeAssociationRoleDecl(classifierA, a->getMultiplicity(Uml::A), XMLschema);
+                    if (!a->getRoleName(Uml::RoleType::A).isEmpty() || noRoleNameOK )
+                        writeAssociationRoleDecl(classifierA, a->getMultiplicity(Uml::RoleType::A), XMLschema);
                 }
             }
         }
@@ -661,17 +661,17 @@ UMLObjectList XMLSchemaWriter::findChildObjsInAssociations (UMLClassifier *c, UM
     UMLObjectList list;
     foreach (UMLAssociation *a , associations )
     {
-        if (a->getObjectId(Uml::A) == id
-                && a->visibility(Uml::B) != Uml::Visibility::Private
-                && !a->getRoleName(Uml::B).isEmpty()
+        if (a->getObjectId(Uml::RoleType::A) == id
+                && a->visibility(Uml::RoleType::B) != Uml::Visibility::Private
+                && !a->getRoleName(Uml::RoleType::B).isEmpty()
            )
-            list.append(a->getObject(Uml::B));
+            list.append(a->getObject(Uml::RoleType::B));
 
-        if (a->getObjectId(Uml::B) == id
-                && a->visibility(Uml::A) != Uml::Visibility::Private
-                && !a->getRoleName(Uml::A).isEmpty()
+        if (a->getObjectId(Uml::RoleType::B) == id
+                && a->visibility(Uml::RoleType::A) != Uml::Visibility::Private
+                && !a->getRoleName(Uml::RoleType::A).isEmpty()
            )
-            list.append(a->getObject(Uml::A));
+            list.append(a->getObject(Uml::RoleType::A));
     }
     return list;
 }

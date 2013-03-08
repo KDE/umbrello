@@ -138,8 +138,8 @@ void FloatingTextWidgetController::moveWidgetBy(UMLSceneValue diffX, UMLSceneVal
 
             //TODO This should be moved to somewhere in MessageWidget, refactor with messagewidgetcontroller.cpp:44
             if (messageWidget->sequenceMessageType() == Uml::SequenceMessage::Creation) {
-                const int objWidgetHalfHeight = messageWidget->objectWidget(Uml::B)->height() / 2;
-                messageWidget->objectWidget(Uml::B)->UMLWidget::setY(messageWidget->y() - objWidgetHalfHeight);
+                const int objWidgetHalfHeight = messageWidget->objectWidget(Uml::RoleType::B)->height() / 2;
+                messageWidget->objectWidget(Uml::RoleType::B)->UMLWidget::setY(messageWidget->y() - objWidgetHalfHeight);
             }
         }
     }

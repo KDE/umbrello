@@ -218,9 +218,9 @@ void CodeParameter::setAttributesFromNode(QDomElement & root)
             UMLRole * role = 0;
             int role_id = root.attribute("role_id","-1").toInt();
             if(role_id == 1)
-                role = assoc->getUMLRole(Uml::A);
+                role = assoc->getUMLRole(Uml::RoleType::A);
             else if(role_id == 0)
-                role = assoc->getUMLRole(Uml::B);
+                role = assoc->getUMLRole(Uml::RoleType::B);
             else
                 uError() << "corrupt save file? "
                     << "cant get proper UMLRole for codeparameter uml id:"

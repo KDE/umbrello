@@ -87,8 +87,8 @@ public:
 
     bool hasObjectWidget(ObjectWidget * w);
 
-    ObjectWidget* objectWidget(Uml::Role_Type role);
-    void setObjectWidget(ObjectWidget * ow, Uml::Role_Type role) ;
+    ObjectWidget* objectWidget(Uml::RoleType::Enum role);
+    void setObjectWidget(ObjectWidget * ow, Uml::RoleType::Enum role) ;
 
     /**
      * Returns the text widget it is related to.

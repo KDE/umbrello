@@ -139,8 +139,8 @@ void UMLCanvasObject::removeAllAssociationEnds()
         }
         UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
         //umldoc->slotRemoveUMLObject(assoc);
-        UMLObject* objA = assoc->getObject(Uml::A);
-        UMLObject* objB = assoc->getObject(Uml::B);
+        UMLObject* objA = assoc->getObject(Uml::RoleType::A);
+        UMLObject* objB = assoc->getObject(Uml::RoleType::B);
         UMLCanvasObject *roleAObj = dynamic_cast<UMLCanvasObject*>(objA);
         if (roleAObj) {
             roleAObj->removeAssociationEnd(assoc);
@@ -364,14 +364,14 @@ UMLClassifierList UMLCanvasObject::getSuperClasses()
         uIgnoreZeroPointer(a);
         if ((a->getAssocType() != Uml::AssociationType::Generalization &&
              a->getAssocType() != Uml::AssociationType::Realization) ||
-                a->getObjectId(Uml::A) != id() )
+                a->getObjectId(Uml::RoleType::A) != id() )
             continue;
-        UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::B));
+        UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::RoleType::B));
         if (c)
             list.append(c);
         else
             DEBUG(DBG_SRC) << name() << ": generalization's other end is not a "
-                << "UMLClassifier (id= " << ID2STR(a->getObjectId(Uml::B)) << ")";
+                << "UMLClassifier (id= " << ID2STR(a->getObjectId(Uml::RoleType::B)) << ")";
     }
     return list;
 }
@@ -391,14 +391,14 @@ UMLClassifierList UMLCanvasObject::getSubClasses()
         uIgnoreZeroPointer(a);
         if ((a->getAssocType() != Uml::AssociationType::Generalization &&
              a->getAssocType() != Uml::AssociationType::Realization) ||
-                a->getObjectId(Uml::B) != id() )
+                a->getObjectId(Uml::RoleType::B) != id() )
             continue;
-        UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::A));
+        UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::RoleType::A));
         if (c)
             list.append(c);
         else
             DEBUG(DBG_SRC) << "specialization's other end is not a UMLClassifier"
-                << " (id=" << ID2STR(a->getObjectId(Uml::A)) << ")";
+                << " (id=" << ID2STR(a->getObjectId(Uml::RoleType::A)) << ")";
     }
     return list;
 }

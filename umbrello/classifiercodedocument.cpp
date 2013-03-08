@@ -231,12 +231,12 @@ void ClassifierCodeDocument::removeAssociationClassField (UMLAssociation *assoc 
 {
     // the object could be either (or both!) role a or b. We should check
     // both parts of the association.
-    CodeClassField * remove_object = m_classFieldMap[assoc->getUMLRole(Uml::A)];
+    CodeClassField * remove_object = m_classFieldMap[assoc->getUMLRole(Uml::RoleType::A)];
     if(remove_object)
         removeCodeClassField(remove_object);
 
     // check role b
-    remove_object = m_classFieldMap[assoc->getUMLRole(Uml::B)];
+    remove_object = m_classFieldMap[assoc->getUMLRole(Uml::RoleType::B)];
     if(remove_object)
         removeCodeClassField(remove_object);
 }
@@ -560,16 +560,16 @@ void ClassifierCodeDocument::addAssociationClassField (UMLAssociation * a, bool 
     bool printRoleA = false, printRoleB = false, shouldSync = false;
     // it may seem counter intuitive, but you want to insert the role of the
     // *other* class into *this* class.
-    if (a->getObjectId(Uml::A) == cid)
+    if (a->getObjectId(Uml::RoleType::A) == cid)
         printRoleB = true;
 
-    if (a->getObjectId(Uml::B) == cid)
+    if (a->getObjectId(Uml::RoleType::B) == cid)
         printRoleA = true;
 
     // grab RoleB decl
     if (printRoleB)
     {
-        UMLRole * role = a->getUMLRole(Uml::B);
+        UMLRole * role = a->getUMLRole(Uml::RoleType::B);
         if(!m_classFieldMap.contains((UMLObject*)role))
         {
             CodeClassField * classfield = CodeGenFactory::newCodeClassField(this, role);
@@ -581,7 +581,7 @@ void ClassifierCodeDocument::addAssociationClassField (UMLAssociation * a, bool 
     // print RoleA decl
     if (printRoleA)
     {
-        UMLRole * role = a->getUMLRole(Uml::A);
+        UMLRole * role = a->getUMLRole(Uml::RoleType::A);
         if(!m_classFieldMap.contains((UMLObject*)role))
         {
             CodeClassField * classfield = CodeGenFactory::newCodeClassField(this, role);
@@ -640,7 +640,7 @@ ClassifierCodeDocument::findCodeClassFieldFromParentID (Uml::ID::Type id,
             if (STR2ID(cf->ID()) == id)
                 return cf;
         } else { // association(role)-based
-            const Uml::Role_Type r = (Uml::Role_Type)role_id;
+            const Uml::RoleType::Enum r = Uml::RoleType::fromInt(role_id);
             UMLRole * role = dynamic_cast<UMLRole *>(cf->getParentObject());
             if(role && STR2ID(cf->ID()) == id && role->role() == r)
                 return cf;

@@ -91,7 +91,7 @@ void OwnedCodeBlock::setAttributesOnNode(QDomDocument& /*doc*/, QDomElement& ele
         //          i.e. role A is 1 and role B is 0.
         //          I'll resist the temptation to change this -
         //          in order to maintain backward compatibility.
-        elem.setAttribute("role_id", (role->role() == Uml::A));
+        elem.setAttribute("role_id", (role->role() == Uml::RoleType::A));
     }
     else {
         elem.setAttribute("parent_id",ID2STR(m_parentObject->id()));
@@ -132,9 +132,9 @@ void OwnedCodeBlock::setAttributesFromNode ( QDomElement & elem)
             int role_id = elem.attribute("role_id","-1").toInt();
             // see comment on role_id at setAttributesOnNode()
             if (role_id == 1)
-                role = assoc->getUMLRole(Uml::A);
+                role = assoc->getUMLRole(Uml::RoleType::A);
             else if (role_id == 0)
-                role = assoc->getUMLRole(Uml::B);
+                role = assoc->getUMLRole(Uml::RoleType::B);
             else // this will cause a crash
                 uError() << "corrupt save file? "
                          << "cant get proper UMLRole for ownedcodeblock uml id:"

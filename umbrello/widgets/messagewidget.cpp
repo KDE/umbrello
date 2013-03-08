@@ -52,13 +52,13 @@ MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, ObjectWidget* b,
   : UMLWidget(scene, WidgetBase::wt_Message, id, new MessageWidgetController(this))
 {
     init();
-    m_pOw[Uml::A] = a;
-    m_pOw[Uml::B] = b;
+    m_pOw[Uml::RoleType::A] = a;
+    m_pOw[Uml::RoleType::B] = b;
     m_nY = y;
     m_sequenceMessageType = sequenceMessageType;
     if (m_sequenceMessageType == Uml::SequenceMessage::Creation) {
-        y -= m_pOw[Uml::B]->height() / 2;
-        m_pOw[Uml::B]->setY(y);
+        y -= m_pOw[Uml::RoleType::B]->height() / 2;
+        m_pOw[Uml::RoleType::B]->setY(y);
     }
     updateResizability();
     calculateWidget();
@@ -100,8 +100,8 @@ MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, int xclick, int 
   : UMLWidget(scene, WidgetBase::wt_Message, id, new MessageWidgetController(this))
 {
     init();
-    m_pOw[Uml::A] = a;
-    m_pOw[Uml::B] = a;
+    m_pOw[Uml::RoleType::A] = a;
+    m_pOw[Uml::RoleType::B] = a;
 
     m_sequenceMessageType = sequenceMessageType;
     m_nY = yclick;
@@ -127,7 +127,7 @@ void MessageWidget::init()
 {
     m_ignoreSnapToGrid = true;
     m_ignoreSnapComponentSizeToGrid = true;
-    m_pOw[Uml::A] = m_pOw[Uml::B] = NULL;
+    m_pOw[Uml::RoleType::A] = m_pOw[Uml::RoleType::B] = NULL;
     m_pFText = NULL;
     m_nY = 0;
     setVisible(true);
@@ -147,7 +147,7 @@ MessageWidget::~MessageWidget()
 void MessageWidget::updateResizability()
 {
     if (m_sequenceMessageType == Uml::SequenceMessage::Synchronous ||
-        m_pOw[Uml::A] == m_pOw[Uml::B])
+        m_pOw[Uml::RoleType::A] == m_pOw[Uml::RoleType::B])
         UMLWidget::m_resizable = true;
     else
         UMLWidget::m_resizable = false;
@@ -158,7 +158,7 @@ void MessageWidget::updateResizability()
  */
 void MessageWidget::draw(QPainter& p, int offsetX, int offsetY)
 {
-    if(!m_pOw[Uml::A] || !m_pOw[Uml::B]) {
+    if(!m_pOw[Uml::RoleType::A] || !m_pOw[Uml::RoleType::B]) {
         return;
     }
     setPenFromSettings(p);
@@ -228,14 +228,14 @@ void MessageWidget::drawArrow(QPainter& p, int x, int y, int w,
  */
 void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY)
 {
-    int x1 = m_pOw[Uml::A]->x();
-    int x2 = m_pOw[Uml::B]->x();
+    int x1 = m_pOw[Uml::RoleType::A]->x();
+    int x2 = m_pOw[Uml::RoleType::B]->x();
     int w = width() - 1;
     int h = height();
 
-    bool messageOverlaps = m_pOw[Uml::A]->messageOverlap( y(), this );
+    bool messageOverlaps = m_pOw[Uml::RoleType::A]->messageOverlap( y(), this );
 
-    if(m_pOw[Uml::A] == m_pOw[Uml::B]) {
+    if(m_pOw[Uml::RoleType::A] == m_pOw[Uml::RoleType::B]) {
         p.fillRect( offsetX, offsetY, 17, h,  QBrush(Qt::white) );              //box
         p.drawRect(offsetX, offsetY, 17, h);                                    //box
         offsetX += 17;
@@ -287,14 +287,14 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY)
  */
 void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY)
 {
-    int x1 = m_pOw[Uml::A]->x();
-    int x2 = m_pOw[Uml::B]->x();
+    int x1 = m_pOw[Uml::RoleType::A]->x();
+    int x2 = m_pOw[Uml::RoleType::B]->x();
     int w = width() - 1;
     int h = height() - 1;
-    bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( y(), this );
-    //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( y(), this );
+    bool messageOverlapsA = m_pOw[Uml::RoleType::A] -> messageOverlap( y(), this );
+    //bool messageOverlapsB = m_pOw[Uml::RoleType::B] -> messageOverlap( y(), this );
 
-    if(m_pOw[Uml::A] == m_pOw[Uml::B]) {
+    if(m_pOw[Uml::RoleType::A] == m_pOw[Uml::RoleType::B]) {
         if (messageOverlapsA)  {
             offsetX += 7;
             w -= 7;
@@ -336,12 +336,12 @@ void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY)
  */
 void MessageWidget::drawCreation(QPainter& p, int offsetX, int offsetY)
 {
-    int x1 = m_pOw[Uml::A]->x();
-    int x2 = m_pOw[Uml::B]->x();
+    int x1 = m_pOw[Uml::RoleType::A]->x();
+    int x2 = m_pOw[Uml::RoleType::B]->x();
     int w = width() - 1;
     //int h = height() - 1;
-    bool messageOverlapsA = m_pOw[Uml::A]->messageOverlap( y(), this );
-    //bool messageOverlapsB = m_pOw[Uml::B]->messageOverlap( y(), this );
+    bool messageOverlapsA = m_pOw[Uml::RoleType::A]->messageOverlap( y(), this );
+    //bool messageOverlapsB = m_pOw[Uml::RoleType::B]->messageOverlap( y(), this );
 
     const int lineY = offsetY + 4;
     if (x1 < x2) {
@@ -371,16 +371,16 @@ void MessageWidget::drawCreation(QPainter& p, int offsetX, int offsetY)
  */
 void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY)
 {
-    int x1 = m_pOw[Uml::A]->x();
+    int x1 = m_pOw[Uml::RoleType::A]->x();
     int x2 = xclicked;
-    int w1 = m_pOw[Uml::A]->width() / 2;
+    int w1 = m_pOw[Uml::RoleType::A]->width() / 2;
     x1 += w1;
 
     int w = width() ;
 
     int h = 10;
-    bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( y(), this );
-    //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( y(), this );
+    bool messageOverlapsA = m_pOw[Uml::RoleType::A] -> messageOverlap( y(), this );
+    //bool messageOverlapsB = m_pOw[Uml::RoleType::B] -> messageOverlap( y(), this );
 
     if(x1 < x2) {
         if (messageOverlapsA)  {
@@ -412,13 +412,13 @@ void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY)
  */
 void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY)
 {
-    int x1 = m_pOw[Uml::A]->x();
+    int x1 = m_pOw[Uml::RoleType::A]->x();
     int x2 = xclicked;
     int w = width() ;
 
     int h = 10;
-    bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( y(), this );
-    //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( y(), this );
+    bool messageOverlapsA = m_pOw[Uml::RoleType::A] -> messageOverlap( y(), this );
+    //bool messageOverlapsB = m_pOw[Uml::RoleType::B] -> messageOverlap( y(), this );
 
     if(x1 < x2) {
         if (messageOverlapsA)  {
@@ -510,10 +510,10 @@ int MessageWidget::constrainX(int textX, int textWidth, Uml::TextRole::Enum tr)
         result = minTextX;
     } else {
         ObjectWidget *objectAtRight = NULL;
-        if (m_pOw[Uml::B]->x() > m_pOw[Uml::A]->x())
-            objectAtRight = m_pOw[Uml::B];
+        if (m_pOw[Uml::RoleType::B]->x() > m_pOw[Uml::RoleType::A]->x())
+            objectAtRight = m_pOw[Uml::RoleType::B];
         else
-            objectAtRight = m_pOw[Uml::A];
+            objectAtRight = m_pOw[Uml::RoleType::A];
         const int objRight_seqLineX = objectAtRight->x() + objectAtRight->width() / 2;
         const int maxTextX = objRight_seqLineX - textWidth - 5;
         if (maxTextX <= minTextX)
@@ -596,8 +596,8 @@ void MessageWidget::calculateWidget()
 
 void MessageWidget::slotWidgetMoved(Uml::ID::Type id)
 {
-    const Uml::ID::Type idA = m_pOw[Uml::A]->localID();
-    const Uml::ID::Type idB = m_pOw[Uml::B]->localID();
+    const Uml::ID::Type idA = m_pOw[Uml::RoleType::A]->localID();
+    const Uml::ID::Type idB = m_pOw[Uml::RoleType::B]->localID();
     if (idA != id && idB != id) {
         DEBUG(DBG_SRC) << "id=" << ID2STR(id) << ": ignoring for idA=" << ID2STR(idA)
             << ", idB=" << ID2STR(idB);
@@ -624,7 +624,7 @@ void MessageWidget::slotWidgetMoved(Uml::ID::Type id)
  */
 bool MessageWidget::hasObjectWidget(ObjectWidget * w)
 {
-    if(m_pOw[Uml::A] == w || m_pOw[Uml::B] == w)
+    if(m_pOw[Uml::RoleType::A] == w || m_pOw[Uml::RoleType::B] == w)
         return true;
     else
         return false;
@@ -650,27 +650,27 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
 {
     m_scene->resetPastePoint();
     // UMLWidget::activate(Log);   CHECK: I don't think we need this ?
-    if (m_pOw[Uml::A] == NULL) {
+    if (m_pOw[Uml::RoleType::A] == NULL) {
         UMLWidget *pWA = m_scene->findWidget(m_widgetAId);
         if (pWA == NULL) {
             DEBUG(DBG_SRC) << "role A object " << ID2STR(m_widgetAId) << " not found";
             return false;
         }
-        m_pOw[Uml::A] = dynamic_cast<ObjectWidget*>(pWA);
-        if (m_pOw[Uml::A] == NULL) {
+        m_pOw[Uml::RoleType::A] = dynamic_cast<ObjectWidget*>(pWA);
+        if (m_pOw[Uml::RoleType::A] == NULL) {
             DEBUG(DBG_SRC) << "role A widget " << ID2STR(m_widgetAId)
                 << " is not an ObjectWidget";
             return false;
         }
     }
-    if (m_pOw[Uml::B] == NULL) {
+    if (m_pOw[Uml::RoleType::B] == NULL) {
         UMLWidget *pWB = m_scene->findWidget(m_widgetBId);
         if (pWB == NULL) {
             DEBUG(DBG_SRC) << "role B object " << ID2STR(m_widgetBId) << " not found";
             return false;
         }
-        m_pOw[Uml::B] = dynamic_cast<ObjectWidget*>(pWB);
-        if (m_pOw[Uml::B] == NULL) {
+        m_pOw[Uml::RoleType::B] = dynamic_cast<ObjectWidget*>(pWB);
+        if (m_pOw[Uml::RoleType::B] == NULL) {
             DEBUG(DBG_SRC) << "role B widget " << ID2STR(m_widgetBId)
                 << " is not an ObjectWidget";
             return false;
@@ -678,7 +678,7 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     }
     updateResizability();
 
-    UMLClassifier *c = dynamic_cast<UMLClassifier*>(m_pOw[Uml::B]->umlObject());
+    UMLClassifier *c = dynamic_cast<UMLClassifier*>(m_pOw[Uml::RoleType::B]->umlObject());
     UMLOperation *op = NULL;
     if (c && !m_CustomOp.isEmpty()) {
         Uml::ID::Type opId = STR2ID(m_CustomOp);
@@ -692,7 +692,7 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
 
     if( !m_pFText ) {
         Uml::TextRole::Enum tr = Uml::TextRole::Seq_Message;
-        if (m_pOw[Uml::A] == m_pOw[Uml::B])
+        if (m_pOw[Uml::RoleType::A] == m_pOw[Uml::RoleType::B])
             tr = Uml::TextRole::Seq_Message_Self;
         m_pFText = new FloatingTextWidget( m_scene, tr, "" );
         m_pFText->setFont(UMLWidget::font());
@@ -705,13 +705,13 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     QString messageText = m_pFText->text();
     m_pFText->setVisible( messageText.length() > 1 );
 
-    connect(m_pOw[Uml::A], SIGNAL(sigWidgetMoved(Uml::ID::Type)), this, SLOT(slotWidgetMoved(Uml::ID::Type)));
-    connect(m_pOw[Uml::B], SIGNAL(sigWidgetMoved(Uml::ID::Type)), this, SLOT(slotWidgetMoved(Uml::ID::Type)));
+    connect(m_pOw[Uml::RoleType::A], SIGNAL(sigWidgetMoved(Uml::ID::Type)), this, SLOT(slotWidgetMoved(Uml::ID::Type)));
+    connect(m_pOw[Uml::RoleType::B], SIGNAL(sigWidgetMoved(Uml::ID::Type)), this, SLOT(slotWidgetMoved(Uml::ID::Type)));
 
-    connect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::A], SLOT(slotMessageMoved()) );
-    connect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::B], SLOT(slotMessageMoved()) );
-    m_pOw[Uml::A] -> messageAdded(this);
-    m_pOw[Uml::B] -> messageAdded(this);
+    connect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::RoleType::A], SLOT(slotMessageMoved()) );
+    connect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::RoleType::B], SLOT(slotMessageMoved()) );
+    m_pOw[Uml::RoleType::A] -> messageAdded(this);
+    m_pOw[Uml::RoleType::B] -> messageAdded(this);
     calculateDimensions();
 
     emit sigMessageMoved();
@@ -791,7 +791,7 @@ void MessageWidget::lwSetFont (QFont font)
  */
 UMLClassifier *MessageWidget::operationOwner()
 {
-    UMLObject *pObject = m_pOw[Uml::B]->umlObject();
+    UMLObject *pObject = m_pOw[Uml::RoleType::B]->umlObject();
     if (pObject == NULL)
         return NULL;
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(pObject);
@@ -848,7 +848,7 @@ UMLClassifier * MessageWidget::seqNumAndOp(QString& seqNum, QString& op)
     } else {
         op = m_CustomOp;
     }
-    UMLObject *o = m_pOw[Uml::B]->umlObject();
+    UMLObject *o = m_pOw[Uml::RoleType::B]->umlObject();
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
     return c;
 }
@@ -886,16 +886,16 @@ void MessageWidget::calculateDimensionsSynchronous()
 {
     int x = 0;
 
-    int x1 = m_pOw[Uml::A]->x();
-    int x2 = m_pOw[Uml::B]->x();
-    int w1 = m_pOw[Uml::A]->width() / 2;
-    int w2 = m_pOw[Uml::B]->width() / 2;
+    int x1 = m_pOw[Uml::RoleType::A]->x();
+    int x2 = m_pOw[Uml::RoleType::B]->x();
+    int w1 = m_pOw[Uml::RoleType::A]->width() / 2;
+    int w2 = m_pOw[Uml::RoleType::B]->width() / 2;
     x1 += w1;
     x2 += w2;
 
     int widgetWidth = 0;
     int widgetHeight = 0;
-    if( m_pOw[Uml::A] == m_pOw[Uml::B] ) {
+    if( m_pOw[Uml::RoleType::A] == m_pOw[Uml::RoleType::B] ) {
         widgetWidth = 50;
         x = x1 - 2;
     } else if( x1 < x2 ) {
@@ -923,16 +923,16 @@ void MessageWidget::calculateDimensionsAsynchronous()
 {
     int x = 0;
 
-    int x1 = m_pOw[Uml::A]->x();
-    int x2 = m_pOw[Uml::B]->x();
-    int w1 = m_pOw[Uml::A]->width() / 2;
-    int w2 = m_pOw[Uml::B]->width() / 2;
+    int x1 = m_pOw[Uml::RoleType::A]->x();
+    int x2 = m_pOw[Uml::RoleType::B]->x();
+    int w1 = m_pOw[Uml::RoleType::A]->width() / 2;
+    int w2 = m_pOw[Uml::RoleType::B]->width() / 2;
     x1 += w1;
     x2 += w2;
 
     int widgetWidth = 0;
     int widgetHeight = 8;
-    if( m_pOw[Uml::A] == m_pOw[Uml::B] ) {
+    if( m_pOw[Uml::RoleType::A] == m_pOw[Uml::RoleType::B] ) {
         widgetWidth = 50;
         x = x1;
         if( height() < 20 ) {
@@ -960,10 +960,10 @@ void MessageWidget::calculateDimensionsCreation()
 {
     int x = 0;
 
-    int x1 = m_pOw[Uml::A]->x();
-    int x2 = m_pOw[Uml::B]->x();
-    int w1 = m_pOw[Uml::A]->width() / 2;
-    int w2 = m_pOw[Uml::B]->width();
+    int x1 = m_pOw[Uml::RoleType::A]->x();
+    int x2 = m_pOw[Uml::RoleType::B]->x();
+    int w1 = m_pOw[Uml::RoleType::A]->width() / 2;
+    int w2 = m_pOw[Uml::RoleType::B]->width();
     x1 += w1;
     if (x1 > x2)
         x2 += w2;
@@ -980,7 +980,7 @@ void MessageWidget::calculateDimensionsCreation()
     x += 1;
     widgetWidth -= 2;
     m_nPosX = x;
-    m_nY = m_pOw[Uml::B]->y() + m_pOw[Uml::B]->height() / 2;
+    m_nY = m_pOw[Uml::RoleType::B]->y() + m_pOw[Uml::RoleType::B]->height() / 2;
     setSize(widgetWidth, widgetHeight);
 }
 
@@ -991,9 +991,9 @@ void MessageWidget::calculateDimensionsLost()
 {
     int x = 0;
 
-    int x1 = m_pOw[Uml::A]->x();
+    int x1 = m_pOw[Uml::RoleType::A]->x();
     int x2 = xclicked;
-    int w1 = m_pOw[Uml::A]->width() / 2;
+    int w1 = m_pOw[Uml::RoleType::A]->width() / 2;
 
     x1 += w1;
 
@@ -1018,9 +1018,9 @@ void MessageWidget::calculateDimensionsFound()
 {
     int x = 0;
 
-    int x1 = m_pOw[Uml::A]->x();
+    int x1 = m_pOw[Uml::RoleType::A]->x();
     int x2 = xclicked;
-    int w1 = m_pOw[Uml::A]->width() / 2;
+    int w1 = m_pOw[Uml::RoleType::A]->width() / 2;
     x1 += w1;
 
 
@@ -1044,13 +1044,13 @@ void MessageWidget::calculateDimensionsFound()
  */
 void MessageWidget::cleanup()
 {
-    if (m_pOw[Uml::A]) {
-        disconnect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::A], SLOT(slotMessageMoved()) );
-        m_pOw[Uml::A]->messageRemoved(this);
+    if (m_pOw[Uml::RoleType::A]) {
+        disconnect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::RoleType::A], SLOT(slotMessageMoved()) );
+        m_pOw[Uml::RoleType::A]->messageRemoved(this);
     }
-    if (m_pOw[Uml::B]) {
-        disconnect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::B], SLOT(slotMessageMoved()) );
-        m_pOw[Uml::B]->messageRemoved(this);
+    if (m_pOw[Uml::RoleType::B]) {
+        disconnect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::RoleType::B], SLOT(slotMessageMoved()) );
+        m_pOw[Uml::RoleType::B]->messageRemoved(this);
     }
 
     UMLWidget::cleanup();
@@ -1086,14 +1086,14 @@ void MessageWidget::setSelected(bool _select)
  */
 int MessageWidget::getMinY()
 {
-    if (!m_pOw[Uml::A] || !m_pOw[Uml::B]) {
+    if (!m_pOw[Uml::RoleType::A] || !m_pOw[Uml::RoleType::B]) {
         return 0;
     }
     if (m_sequenceMessageType == Uml::SequenceMessage::Creation) {
-        return m_pOw[Uml::A]->y() + m_pOw[Uml::A]->height();
+        return m_pOw[Uml::RoleType::A]->y() + m_pOw[Uml::RoleType::A]->height();
     }
-    int heightA = m_pOw[Uml::A]->y() + m_pOw[Uml::A]->height();
-    int heightB = m_pOw[Uml::B]->y() + m_pOw[Uml::B]->height();
+    int heightA = m_pOw[Uml::RoleType::A]->y() + m_pOw[Uml::RoleType::A]->height();
+    int heightB = m_pOw[Uml::RoleType::B]->y() + m_pOw[Uml::RoleType::B]->height();
     int height = heightA;
     if( heightA < heightB ) {
         height = heightB;
@@ -1108,11 +1108,11 @@ int MessageWidget::getMinY()
  */
 int MessageWidget::getMaxY()
 {
-    if( !m_pOw[Uml::A] || !m_pOw[Uml::B] ) {
+    if( !m_pOw[Uml::RoleType::A] || !m_pOw[Uml::RoleType::B] ) {
         return 0;
     }
-    int heightA = (int)((ObjectWidget*)m_pOw[Uml::A])->getEndLineY();
-    int heightB = (int)((ObjectWidget*)m_pOw[Uml::B])->getEndLineY();
+    int heightA = (int)((ObjectWidget*)m_pOw[Uml::RoleType::A])->getEndLineY();
+    int heightB = (int)((ObjectWidget*)m_pOw[Uml::RoleType::B])->getEndLineY();
     int height = heightA;
     if( heightA > heightB ) {
         height = heightB;
@@ -1124,9 +1124,9 @@ int MessageWidget::getMaxY()
  * Sets the related widget on the given side.
  *
  * @param ow     The ObjectWidget we are related to.
- * @param role   The Uml::Role_Type to be set for the ObjectWidget
+ * @param role   The Uml::RoleType::Enum to be set for the ObjectWidget
  */
-void MessageWidget::setObjectWidget(ObjectWidget * ow, Uml::Role_Type role)
+void MessageWidget::setObjectWidget(ObjectWidget * ow, Uml::RoleType::Enum role)
 {
     m_pOw[role] = ow;
     updateResizability();
@@ -1137,7 +1137,7 @@ void MessageWidget::setObjectWidget(ObjectWidget * ow, Uml::Role_Type role)
  *
  * @return  The ObjectWidget we are related to.
  */
-ObjectWidget* MessageWidget::objectWidget(Uml::Role_Type role)
+ObjectWidget* MessageWidget::objectWidget(Uml::RoleType::Enum role)
 {
     return m_pOw[role];
 }
@@ -1165,8 +1165,8 @@ void MessageWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement messageElement = qDoc.createElement( "messagewidget" );
     UMLWidget::saveToXMI( qDoc, messageElement );
-    messageElement.setAttribute( "widgetaid", ID2STR(m_pOw[Uml::A]->localID()) );
-    messageElement.setAttribute( "widgetbid", ID2STR(m_pOw[Uml::B]->localID()) );
+    messageElement.setAttribute( "widgetaid", ID2STR(m_pOw[Uml::RoleType::A]->localID()) );
+    messageElement.setAttribute( "widgetbid", ID2STR(m_pOw[Uml::RoleType::B]->localID()) );
     UMLOperation *pOperation = operation();
     if (pOperation)
         messageElement.setAttribute( "operation", ID2STR(pOperation->id()) );

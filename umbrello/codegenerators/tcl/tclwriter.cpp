@@ -411,12 +411,12 @@ void TclWriter::writeAssociationIncl(UMLAssociationList list, Uml::ID::Type myId
         writeComm(m_endl + type + m_endl + a->toString() + m_endl + a->doc());
         // only use OTHER classes (e.g. we don't need to write includes for ourselves!!
         // AND only IF the roleName is defined, otherwise, it is not meant to be noticed.
-        if (a->getObjectId(Uml::A) == myId && !a->getRoleName(Uml::B).isEmpty()) {
-            classifier = dynamic_cast < UMLClassifier * >(a->getObject(Uml::B));
+        if (a->getObjectId(Uml::RoleType::A) == myId && !a->getRoleName(Uml::RoleType::B).isEmpty()) {
+            classifier = dynamic_cast < UMLClassifier * >(a->getObject(Uml::RoleType::B));
             writeUse(classifier);
-        } else if (a->getObjectId(Uml::B) == myId
-                   && !a->getRoleName(Uml::A).isEmpty()) {
-            classifier = dynamic_cast < UMLClassifier * >(a->getObject(Uml::A));
+        } else if (a->getObjectId(Uml::RoleType::B) == myId
+                   && !a->getRoleName(Uml::RoleType::A).isEmpty()) {
+            classifier = dynamic_cast < UMLClassifier * >(a->getObject(Uml::RoleType::A));
             if (classifier->package().isEmpty())
                 writeCode("namespace eval " + cleanName(classifier->name()) +
                           " {}");
@@ -542,28 +542,28 @@ void TclWriter::writeAssociationDecl(UMLAssociationList associations,
 
             // it may seem counter intuitive, but you want to insert the role of the
             // *other* class into *this* class.
-            if (a->getObjectId(Uml::A) == id && !a->getRoleName(Uml::B).isEmpty())
+            if (a->getObjectId(Uml::RoleType::A) == id && !a->getRoleName(Uml::RoleType::B).isEmpty())
                 printRoleB = true;
 
-            if (a->getObjectId(Uml::B) == id && !a->getRoleName(Uml::A).isEmpty())
+            if (a->getObjectId(Uml::RoleType::B) == id && !a->getRoleName(Uml::RoleType::A).isEmpty())
                 printRoleA = true;
 
             // First: we insert documentaion for association IF it has either role AND some documentation (!)
             // print RoleB decl
-            if (printRoleB && a->visibility(Uml::B) == permitScope) {
+            if (printRoleB && a->visibility(Uml::RoleType::B) == permitScope) {
 
                 QString fieldClassName =
-                    cleanName(getUMLObjectName(a->getObject(Uml::B)));
-                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::B),
-                                         a->getMultiplicity(Uml::B), a->getRoleDoc(Uml::B),
+                    cleanName(getUMLObjectName(a->getObject(Uml::RoleType::B)));
+                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::RoleType::B),
+                                         a->getMultiplicity(Uml::RoleType::B), a->getRoleDoc(Uml::RoleType::B),
                                          Uml::Visibility::toString(permitScope));
             }
             // print RoleA decl
-            if (printRoleA && a->visibility(Uml::A) == permitScope) {
+            if (printRoleA && a->visibility(Uml::RoleType::A) == permitScope) {
                 QString fieldClassName =
-                    cleanName(getUMLObjectName(a->getObject(Uml::A)));
-                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::A),
-                                         a->getMultiplicity(Uml::A), a->getRoleDoc(Uml::A),
+                    cleanName(getUMLObjectName(a->getObject(Uml::RoleType::A)));
+                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::RoleType::A),
+                                         a->getMultiplicity(Uml::RoleType::A), a->getRoleDoc(Uml::RoleType::A),
                                          Uml::Visibility::toString(permitScope));
             }
             // reset for next association in our loop
@@ -837,26 +837,26 @@ void TclWriter::writeAssociationSource(UMLAssociationList associations,
 
         // it may seem counter intuitive, but you want to insert the role of the
         // *other* class into *this* class.
-        if (a->getObjectId(Uml::A) == id && !a->getRoleName(Uml::B).isEmpty())
+        if (a->getObjectId(Uml::RoleType::A) == id && !a->getRoleName(Uml::RoleType::B).isEmpty())
             printRoleB = true;
 
-        if (a->getObjectId(Uml::B) == id && !a->getRoleName(Uml::A).isEmpty())
+        if (a->getObjectId(Uml::RoleType::B) == id && !a->getRoleName(Uml::RoleType::A).isEmpty())
             printRoleA = true;
 
         // print RoleB source
-        if (printRoleB && a->visibility(Uml::B) == Uml::Visibility::Public) {
+        if (printRoleB && a->visibility(Uml::RoleType::B) == Uml::Visibility::Public) {
 
             QString fieldClassName =
-                cleanName(getUMLObjectName(a->getObject(Uml::B)));
-            writeAssociationRoleSource(fieldClassName, a->getRoleName(Uml::B),
-                                       a->getMultiplicity(Uml::B));
+                cleanName(getUMLObjectName(a->getObject(Uml::RoleType::B)));
+            writeAssociationRoleSource(fieldClassName, a->getRoleName(Uml::RoleType::B),
+                                       a->getMultiplicity(Uml::RoleType::B));
         }
         // print RoleA source
-        if (printRoleA && a->visibility(Uml::A) == Uml::Visibility::Public) {
+        if (printRoleA && a->visibility(Uml::RoleType::A) == Uml::Visibility::Public) {
             QString fieldClassName =
-                cleanName(getUMLObjectName(a->getObject(Uml::A)));
-            writeAssociationRoleSource(fieldClassName, a->getRoleName(Uml::A),
-                                       a->getMultiplicity(Uml::A));
+                cleanName(getUMLObjectName(a->getObject(Uml::RoleType::A)));
+            writeAssociationRoleSource(fieldClassName, a->getRoleName(Uml::RoleType::A),
+                                       a->getMultiplicity(Uml::RoleType::A));
         }
         // reset for next association in our loop
         printRoleA = false;

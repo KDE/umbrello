@@ -276,8 +276,8 @@ void SQLWriter::writeClass(UMLClassifier *c)
     UMLAssociationList relationships = m_pEntity->getRelationships();
     if( forceSections() || !relationships.isEmpty() ) {
         foreach ( UMLAssociation* a , relationships ) {
-            UMLObject *objA = a->getObject(Uml::A);
-            UMLObject *objB = a->getObject(Uml::B);
+            UMLObject *objA = a->getObject(Uml::RoleType::A);
+            UMLObject *objB = a->getObject(Uml::RoleType::B);
             if (objA->id() == m_pEntity->id() && objB->id() != m_pEntity->id())
                 continue;
             constraintMap[a] = a;
@@ -289,9 +289,9 @@ void SQLWriter::writeClass(UMLClassifier *c)
         UMLAssociation* a = itor.value();
         sql << "ALTER TABLE "<< entityname
             << " ADD CONSTRAINT " << a->name() << " FOREIGN KEY ("
-            << a->getRoleName(Uml::B) << ") REFERENCES "
-            << a->getObject(Uml::A)->name()
-            << " (" << a->getRoleName(Uml::A) << ");" << m_endl;
+            << a->getRoleName(Uml::RoleType::B) << ") REFERENCES "
+            << a->getObject(Uml::RoleType::A)->name()
+            << " (" << a->getRoleName(Uml::RoleType::A) << ");" << m_endl;
     }
 
     file.close();

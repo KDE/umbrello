@@ -26,7 +26,7 @@ class UMLRole : public UMLObject
     Q_OBJECT
 public:
 
-    UMLRole(UMLAssociation * parent, UMLObject * parentUMLObject, Uml::Role_Type role);
+    UMLRole(UMLAssociation * parent, UMLObject * parentUMLObject, Uml::RoleType::Enum role);
     virtual ~UMLRole();
 
     bool operator==(const UMLRole & rhs) const;
@@ -42,7 +42,7 @@ public:
 
     UMLAssociation * parentAssociation() const;
 
-    Uml::Role_Type role() const;
+    Uml::RoleType::Enum role() const;
 
     UMLObject* clone() const { return NULL; }
 
@@ -55,7 +55,7 @@ protected:
 private:
 
     UMLAssociation *           m_pAssoc;
-    Uml::Role_Type             m_role;
+    Uml::RoleType::Enum        m_role;
     QString                    m_Multi;
     Uml::Changeability::Enum   m_Changeability;
 };

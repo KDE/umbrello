@@ -311,7 +311,7 @@ void ValaWriter::writeClass(UMLClassifier *c)
 
         if (!realizations.isEmpty()) {
             foreach (UMLAssociation* a , realizations ) {
-                UMLClassifier *real = (UMLClassifier*)a->getObject(Uml::B);
+                UMLClassifier *real = (UMLClassifier*)a->getObject(Uml::RoleType::B);
                 if(real != c) {
                     // write list of realizations
                     cs << ", " << real->name();
@@ -477,7 +477,7 @@ void ValaWriter::writeRealizationsRecursive(UMLClassifier *currentClass, UMLAsso
         UMLAssociation *a = alit.next();
 
         // we know it is a classifier if it is in the list
-        UMLClassifier *real = (UMLClassifier*)a->getObject(Uml::B);
+        UMLClassifier *real = (UMLClassifier*)a->getObject(Uml::RoleType::B);
 
         //FIXME: Interfaces realize themselves without this condition!?
         if (real == currentClass) {
@@ -711,32 +711,32 @@ void ValaWriter::writeAttributes(UMLAttributeList &atList, QTextStream &cs)
 void ValaWriter::writeAssociatedAttributes(UMLAssociationList &associated, UMLClassifier *c, QTextStream &cs)
 {
     foreach (UMLAssociation *a,  associated ) {
-        if (c != a->getObject(Uml::A)) { // we need to be at the A side
+        if (c != a->getObject(Uml::RoleType::A)) { // we need to be at the A side
             continue;
         }
 
-        UMLObject *o = a->getObject(Uml::B);
+        UMLObject *o = a->getObject(Uml::RoleType::B);
         if (o == NULL) {
             uError() << "composition role B object is NULL";
             continue;
         }
         // Take name and documentaton from Role, take type name from the referenced object
-        QString roleName = cleanName(a->getRoleName(Uml::B));
+        QString roleName = cleanName(a->getRoleName(Uml::RoleType::B));
         QString typeName = cleanName(o->name());
         if (roleName.isEmpty()) {
             roleName = QString("UnnamedRoleB_%1").arg(m_unnamedRoles++);
         }
-        QString roleDoc = a->getRoleDoc(Uml::B);
+        QString roleDoc = a->getRoleDoc(Uml::RoleType::B);
 
         //FIXME:is this simple condition enough?
-        if (a->getMultiplicity(Uml::B).isEmpty() || a->getMultiplicity(Uml::B) == "1")  {
+        if (a->getMultiplicity(Uml::RoleType::B).isEmpty() || a->getMultiplicity(Uml::RoleType::B) == "1")  {
             // normal attribute
-            writeAttribute(roleDoc, a->visibility(Uml::B), false, typeName, roleName, "", ( a->visibility(Uml::B) != Uml::Visibility::Private), cs);
+            writeAttribute(roleDoc, a->visibility(Uml::RoleType::B), false, typeName, roleName, "", ( a->visibility(Uml::RoleType::B) != Uml::Visibility::Private), cs);
         }
         else {
             // array
             roleDoc += "\n(Array of " + typeName + ')';
-            writeAttribute(roleDoc, a->visibility(Uml::B), false, "ArrayList", roleName, "", ( a->visibility(Uml::B) != Uml::Visibility::Private), cs);
+            writeAttribute(roleDoc, a->visibility(Uml::RoleType::B), false, "ArrayList", roleName, "", ( a->visibility(Uml::RoleType::B) != Uml::Visibility::Private), cs);
         }
     }
 }

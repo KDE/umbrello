@@ -691,7 +691,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
         case Uml::AssociationType::Realization:
             // only the "b" end is seen by the "a" end, not other way around
             {
-                UMLObject *objB = a->getObject(Uml::B);
+                UMLObject *objB = a->getObject(Uml::RoleType::B);
                 if (objB != c) {
                     temp = (UMLPackage*)objB;
                 }
@@ -700,8 +700,8 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
         case Uml::AssociationType::Dependency:
         case Uml::AssociationType::UniAssociation:
             {
-                UMLObject *objA = a->getObject(Uml::A);
-                UMLObject *objB = a->getObject(Uml::B);
+                UMLObject *objA = a->getObject(Uml::RoleType::A);
+                UMLObject *objB = a->getObject(Uml::RoleType::B);
                 if (objA == c) {
                     temp = static_cast<UMLPackage*>(objB);
                 }
@@ -711,8 +711,8 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
         case Uml::AssociationType::Composition:
         case Uml::AssociationType::Association:
             {
-                UMLObject *objA = a->getObject(Uml::A);
-                UMLObject *objB = a->getObject(Uml::B);
+                UMLObject *objA = a->getObject(Uml::RoleType::A);
+                UMLObject *objB = a->getObject(Uml::RoleType::B);
                 if (objA == c && objB->baseType() != UMLObject::ot_Datatype) {
                     temp = static_cast<UMLPackage*>(objB);
                 }

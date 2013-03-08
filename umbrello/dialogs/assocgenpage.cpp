@@ -113,8 +113,8 @@ void AssocGenPage::constructWidget()
             continue;
 
         if (AssocRules::allowAssociation(assocType,
-                                         m_pAssociationWidget->widgetForRole( Uml::A ),
-                                         m_pAssociationWidget->widgetForRole( Uml::B ))) {
+                                         m_pAssociationWidget->widgetForRole( Uml::RoleType::A ),
+                                         m_pAssociationWidget->widgetForRole( Uml::RoleType::B ))) {
             m_AssocTypes << assocType;
             uDebug() << "to type list = " << Uml::AssociationType::toString(assocType);
         }

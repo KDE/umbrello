@@ -107,10 +107,10 @@ UMLObject* findObjectInList(Uml::ID::Type id, const UMLObjectList& inList)
         case UMLObject::ot_Association:
             {
                 UMLAssociation *assoc = static_cast<UMLAssociation*>(obj);
-                UMLRole *rA = assoc->getUMLRole(Uml::A);
+                UMLRole *rA = assoc->getUMLRole(Uml::RoleType::A);
                 if (rA->id() == id)
                     return rA;
-                UMLRole *rB = assoc->getUMLRole(Uml::B);
+                UMLRole *rB = assoc->getUMLRole(Uml::RoleType::B);
                 if (rB->id() == id)
                     return rB;
             }
@@ -605,8 +605,8 @@ Uml::ModelType::Enum guessContainer(UMLObject *o)
             {
                 UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
                 UMLDoc *umldoc = UMLApp::app()->document();
-                for (int r = Uml::A; r <= Uml::B; ++r) {
-                    UMLObject *roleObj = assoc->getObject((Uml::Role_Type)r);
+                for (int r = Uml::RoleType::A; r <= Uml::RoleType::B; ++r) {
+                    UMLObject *roleObj = assoc->getObject(Uml::RoleType::fromInt(r));
                     if (roleObj == NULL) {
                         // Ouch! we have been called while types are not yet resolved
                         return Uml::ModelType::N_MODELTYPES;
