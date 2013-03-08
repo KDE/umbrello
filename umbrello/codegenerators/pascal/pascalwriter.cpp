@@ -372,8 +372,8 @@ void PascalWriter::writeOperation(UMLOperation *op, QTextStream &pas, bool is_co
             if (is_comment)
                 pas << "// ";
             pas << cleanName(at->name()) << " : ";
-            Uml::Parameter_Direction pk = at->getParmKind();
-            if (pk != Uml::pd_In)
+            Uml::ParameterDirection::Enum pk = at->getParmKind();
+            if (pk != Uml::ParameterDirection::In)
                 pas << "var ";
             pas << at->getTypeName();
             if (! at->getInitialValue().isEmpty())

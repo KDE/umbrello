@@ -418,10 +418,10 @@ void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comme
             idl << indent();
             if (is_comment)
                 idl << "// ";
-            Uml::Parameter_Direction pk = at->getParmKind();
-            if (pk == Uml::pd_Out)
+            Uml::ParameterDirection::Enum pk = at->getParmKind();
+            if (pk == Uml::ParameterDirection::Out)
                 idl << "out ";
-            else if (pk == Uml::pd_InOut)
+            else if (pk == Uml::ParameterDirection::InOut)
                 idl << "inout ";
             else
                 idl << "in ";

@@ -861,6 +861,54 @@ Enum fromInt(int item)
 
 //-----------------------------------------------------------------------------
 
+namespace ParameterDirection {
+
+/**
+ * Return string corresponding to the given ParameterDirection.
+ */
+QString toString(Enum item)
+{
+    switch (item) {
+        case In:
+            return QString("In");
+    case InOut:
+        return QString("InOut");
+    case Out:
+        return QString("Out");
+        default:
+            break;
+    }
+    return QString("? ParameterDirection ?");
+}
+
+/**
+ * Return ParameterDirection corresponding to the given string.
+ */
+Enum fromString(const QString& item)
+{
+    if (item == "In")
+        return In;
+    if (item == "InOut")
+        return InOut;
+    if (item == "Out")
+        return Out;
+    return In;
+}
+
+/**
+ * Convert a integer item into ParameterDirection representation.
+ * @param item   integer value to convert
+ * @return ParameterDirection enum
+ */
+Enum fromInt(int item)
+{
+    return Enum(item);
+}
+
+}  // end namespace ParameterDirection
+
+//-----------------------------------------------------------------------------
+
 namespace ID {
 
 QDebug operator<<(QDebug out, ID::Type &type)

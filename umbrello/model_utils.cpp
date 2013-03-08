@@ -633,15 +633,15 @@ Uml::ModelType::Enum guessContainer(UMLObject *o)
 }
 
 /**
- * Parse a direction string into the Uml::Parameter_Direction.
+ * Parse a direction string into the Uml::ParameterDirection::Enum.
  *
  * @param input  The string to parse: "in", "out", or "inout"
  *               optionally followed by whitespace.
- * @param result The corresponding Uml::Parameter_Direction.
+ * @param result The corresponding Uml::ParameterDirection::Enum.
  * @return       Length of the string matched, excluding the optional
  *               whitespace.
  */
-int stringToDirection(QString input, Uml::Parameter_Direction & result) 
+int stringToDirection(QString input, Uml::ParameterDirection::Enum & result)
 {
     QRegExp dirx("^(in|out|inout)");
     int pos = dirx.indexIn(input);
@@ -652,11 +652,11 @@ int stringToDirection(QString input, Uml::Parameter_Direction & result)
     if (input.length() > dirLen && !input[dirLen].isSpace())
         return 0;       // no match after all.
     if (dirStr == "out")
-        result = Uml::pd_Out;
+        result = Uml::ParameterDirection::Out;
     else if (dirStr == "inout")
-        result = Uml::pd_InOut;
+        result = Uml::ParameterDirection::InOut;
     else
-        result = Uml::pd_In;
+        result = Uml::ParameterDirection::In;
     return dirLen;
 }
 
@@ -744,15 +744,15 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
         }
         name.remove(mnemonicVis);
     }
-    Uml::Parameter_Direction pd = Uml::pd_In;
+    Uml::ParameterDirection::Enum pd = Uml::ParameterDirection::In;
     if (name.startsWith(QLatin1String("in "))) {
-        pd = Uml::pd_In;
+        pd = Uml::ParameterDirection::In;
         name = name.mid(3);
     } else if (name.startsWith(QLatin1String("inout "))) {
-        pd = Uml::pd_InOut;
+        pd = Uml::ParameterDirection::InOut;
         name = name.mid(6);
     } else if (name.startsWith(QLatin1String("out "))) {
-        pd = Uml::pd_Out;
+        pd = Uml::ParameterDirection::Out;
         name = name.mid(4);
     }
     a = a.mid(colonPos + 1).trimmed();

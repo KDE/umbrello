@@ -86,7 +86,7 @@ Uml::ModelType::Enum convert_OT_MT(UMLObject::ObjectType ot);
 
 Uml::ModelType::Enum guessContainer(UMLObject *o);  // deprecated !
 
-int stringToDirection(QString input, Uml::Parameter_Direction & result);
+int stringToDirection(QString input, Uml::ParameterDirection::Enum & result);
 
 enum Parse_Status {  ///< Return type of parseOperation().
     PS_OK, PS_Empty, PS_Malformed_Arg, PS_Unknown_ArgType,
@@ -96,11 +96,11 @@ enum Parse_Status {  ///< Return type of parseOperation().
 struct NameAndType {  ///< Data structure filled by parseAttribute().
     QString m_name;
     UMLObject *m_type;
-    Uml::Parameter_Direction m_direction;
+    Uml::ParameterDirection::Enum m_direction;
     QString m_initialValue;
-    NameAndType() : m_type(0), m_direction(Uml::pd_In) {}
+    NameAndType() : m_type(0), m_direction(Uml::ParameterDirection::In) {}
     NameAndType(QString name, UMLObject *type,
-                Uml::Parameter_Direction direction = Uml::pd_In,
+                Uml::ParameterDirection::Enum direction = Uml::ParameterDirection::In,
                 QString initialValue = QString())
             : m_name(name), m_type(type),
               m_direction(direction), m_initialValue(initialValue) {}
