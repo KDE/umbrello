@@ -269,29 +269,44 @@ namespace Uml
     /**
      * Enumeration used for stating where a line is on a widget.
      * @note Do not change this ordering, as we use these values in for loop.
+     * @note See also associationwidget.h.
      */
-    enum Region {
-        reg_Error = 0,
-        reg_West,
-        reg_North,
-        reg_East,
-        reg_South,
-        reg_NorthWest,
-        reg_NorthEast,
-        reg_SouthEast,
-        reg_SouthWest
-    };
+    namespace Region
+    {
+        enum Enum {
+            Error = 0,
+            West,
+            North,
+            East,
+            South,
+            NorthWest,
+            NorthEast,
+            SouthEast,
+            SouthWest
+        };
+        QString toString(Enum item);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+    }
 
     /**
-     * 
+     * Corner class with special operators.
      */
-    enum Corner {
-        corner_TopLeft = 0x1,
-        corner_TopRight = 0x2,
-        corner_BottomRight = 0x4,
-        corner_BottomLeft = 0x8
+    class Corner
+    {
+    public:
+        enum Enum {
+            TopLeft     = 0x1,
+            TopRight    = 0x2,
+            BottomRight = 0x4,
+            BottomLeft  = 0x8
+        };
+        static QString toString(Enum item);
+        static Enum fromString(const QString& item);
+        static Enum fromInt(int item);
     };
-    Q_DECLARE_FLAGS(Corners, Corner)
+    Q_DECLARE_FLAGS(Corners, Corner::Enum)
+    Q_DECLARE_OPERATORS_FOR_FLAGS(Corners)
 
     /**
      * The data type used for unique IDs.
