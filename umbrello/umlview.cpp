@@ -28,7 +28,7 @@
 DEBUG_REGISTER(UMLView)
 
 /**
- * Constructor
+ * Constructor.
  */
 UMLView::UMLView(UMLFolder *parentFolder)
   : QGraphicsView(UMLApp::app()->mainViewWidget()),
@@ -151,8 +151,8 @@ void UMLView::dragEnterEvent(QDragEnterEvent *e)
     }
     UMLDragData::LvTypeAndID * tid = tidIt.next();
     if (!tid) {
-        uDebug() << "UMLView::contentsDragEnterEvent: "
-                 << "UMLDragData::getClip3TypeAndID returned empty list";
+        DEBUG(DBG_SRC) << "UMLView::contentsDragEnterEvent: "
+                       << "UMLDragData::getClip3TypeAndID returned empty list";
         return;
     }
     UMLListViewItem::ListViewType lvtype = tid->type;
@@ -174,7 +174,7 @@ void UMLView::dragEnterEvent(QDragEnterEvent *e)
     UMLDoc *pDoc = UMLApp::app()->document();
     //make sure can find UMLObject
     if( !(temp = pDoc->findObjectById(id) ) ) {
-        kDebug() << "object " << ID2STR(id) << " not found" << endl;
+        DEBUG(DBG_SRC) << "object " << ID2STR(id) << " not found";
         e->setAccepted(false);
         return;
     }
@@ -257,8 +257,8 @@ void UMLView::dropEvent(QDropEvent *e) {
     }
     UMLDragData::LvTypeAndID * tid = tidIt.next();
     if (!tid) {
-        kDebug() << "UMLView::contentsDropEvent: "
-                  << "UMLDragData::getClip3TypeAndID returned empty list";
+        DEBUG(DBG_SRC) << "UMLView::contentsDropEvent: "
+                       << "UMLDragData::getClip3TypeAndID returned empty list";
         return;
     }
     UMLListViewItem::ListViewType lvtype = tid->type;
@@ -283,8 +283,8 @@ void UMLView::dropEvent(QDropEvent *e) {
     UMLDoc *pDoc = UMLApp::app()->document();
     UMLObject* o = pDoc->findObjectById(id);
     if( !o ) {
-        kDebug() << "UMLView::contentsDropEvent: object id=" << ID2STR(id)
-                  << " not found" << endl;
+        DEBUG(DBG_SRC) << "UMLView::contentsDropEvent: object id=" << ID2STR(id)
+                       << " not found";
         return;
     }
     umlScene()->setCreateObject(true);
@@ -348,7 +348,6 @@ void UMLView::resizeEvent(QResizeEvent* event)
     QGraphicsView::resizeEvent(event);
 }
 
-
 /**
  * Overrides the standard operation.
  */
@@ -359,7 +358,6 @@ void UMLView::showEvent(QShowEvent* se)
     UMLScene *us = umlScene();
     connect(tb, SIGNAL(sigButtonChanged(int)), us, SLOT(slotToolBarChanged(int)));
     connect(us, SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
-
 
     umlScene()->showEvent(se);
     us->resetToolbar();
