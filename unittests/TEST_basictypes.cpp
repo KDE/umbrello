@@ -42,6 +42,8 @@ private slots:
     void test_RoleType_toString_fromString();
     void test_ParameterDirection_toString_fromString();
     void test_ProgrammingLanguage_toString_fromString();
+    void test_Region_toString_fromString();
+    void test_Corner_toString_fromString();
 };
 
 //-----------------------------------------------------------------------------
@@ -306,6 +308,30 @@ void TEST_basictypes::test_ProgrammingLanguage_toString_fromString()
                                       Uml::ProgrammingLanguage::toString(
                                           Uml::ProgrammingLanguage::fromInt(i)));
         QVERIFY(Uml::ProgrammingLanguage::fromInt(i) == at);
+    }
+}
+
+//-----------------------------------------------------------------------------
+
+void TEST_basictypes::test_Region_toString_fromString()
+{
+    for (int i = Uml::Region::Error; i == Uml::Region::SouthWest; ++i) {
+        Uml::Region::Enum at = Uml::Region::fromString(
+                                      Uml::Region::toString(
+                                          Uml::Region::fromInt(i)));
+        QVERIFY(Uml::Region::fromInt(i) == at);
+    }
+}
+
+//-----------------------------------------------------------------------------
+
+void TEST_basictypes::test_Corner_toString_fromString()
+{
+    for (int i = Uml::Corner::TopLeft; i == Uml::Corner::BottomLeft; ++i) {
+        Uml::Corner::Enum at = Uml::Corner::fromString(
+                                      Uml::Corner::toString(
+                                          Uml::Corner::fromInt(i)));
+        QVERIFY(Uml::Corner::fromInt(i) == at);
     }
 }
 

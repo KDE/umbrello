@@ -323,50 +323,50 @@ QString toString(Enum item)
 QString toStringI18n(Enum item)
 {
     switch (item) {
-      case Generalization:
-          return i18n("Generalization");
-      case Aggregation:
-          return i18n("Aggregation");
-      case Dependency:
-          return i18n("Dependency");
-      case Association:
-          return i18n("Association");
-      case Association_Self:
-          return i18n("Self Association");
-      case Coll_Message:
-          return i18n("Collaboration Message");
-      case Seq_Message:
-          return i18n("Sequence Message");
-      case Coll_Message_Self:
-          return i18n("Collaboration Self Message");
-      case Seq_Message_Self:
-          return i18n("Sequence Self Message");
-      case Containment:
-          return i18n("Containment");
-      case Composition:
-          return i18n("Composition");
-      case Realization:
-          return i18n("Realization");
-      case UniAssociation:
-          return i18n("Uni Association");
-      case Anchor:
-          return i18n("Anchor");
-      case State:
-          return i18n("State Transition");
-      case Activity:
-          return i18n("Activity");
-      case Exception:
-          return i18n("Exception");
-      case Category2Parent:
-          return i18n("Category to Parent");
-      case Child2Category:
-          return i18n("Child to Category");
-      case Relationship:
-          return i18n("Relationship");
-      case Unknown:
-          return i18n("Unknown");
-      default:
-          return i18n("? AssociationType ?");
+          case Generalization:
+              return i18n("Generalization");
+          case Aggregation:
+              return i18n("Aggregation");
+          case Dependency:
+              return i18n("Dependency");
+          case Association:
+              return i18n("Association");
+          case Association_Self:
+              return i18n("Self Association");
+          case Coll_Message:
+              return i18n("Collaboration Message");
+          case Seq_Message:
+              return i18n("Sequence Message");
+          case Coll_Message_Self:
+              return i18n("Collaboration Self Message");
+          case Seq_Message_Self:
+              return i18n("Sequence Self Message");
+          case Containment:
+              return i18n("Containment");
+          case Composition:
+              return i18n("Composition");
+          case Realization:
+              return i18n("Realization");
+          case UniAssociation:
+              return i18n("Uni Association");
+          case Anchor:
+              return i18n("Anchor");
+          case State:
+              return i18n("State Transition");
+          case Activity:
+              return i18n("Activity");
+          case Exception:
+              return i18n("Exception");
+          case Category2Parent:
+              return i18n("Category to Parent");
+          case Child2Category:
+              return i18n("Child to Category");
+          case Relationship:
+              return i18n("Relationship");
+          case Unknown:
+              return i18n("Unknown");
+          default:
+              return i18n("? AssociationType ?");
       };
 }
 
@@ -453,122 +453,6 @@ bool hasUMLRepresentation(Enum item)
 }
 
 }  // end namespace AssociationType
-
-//-----------------------------------------------------------------------------
-
-namespace ProgrammingLanguage {
-
-/**
- * Return string corresponding to the given ProgrammingLanguage.
- */
-QString toString(Enum item)
-{
-    switch (item) {
-        case ActionScript:
-            return QString("ActionScript");
-        case Ada:
-            return QString("Ada");
-        case Cpp:
-            return QString("C++");
-        case CSharp:
-            return QString("C#");
-        case D:
-            return QString("D");
-        case IDL:
-            return QString("IDL");
-        case Java:
-            return QString("Java");
-        case JavaScript:
-            return QString("JavaScript");
-        case MySQL:
-             return QString("MySQL");
-        case Pascal:
-            return QString("Pascal");
-        case Perl:
-            return QString("Perl");
-        case PHP:
-            return QString("PHP");
-        case PHP5:
-            return QString("PHP5");
-        case PostgreSQL:
-            return QString("PostgreSQL");
-        case Python:
-            return QString("Python");
-        case Ruby:
-            return QString("Ruby");
-        case SQL:
-            return QString("SQL");
-        case Tcl:
-            return QString("Tcl");
-        case Vala:
-            return QString("Vala");
-        case XMLSchema:
-            return QString("XMLSchema");
-        default:
-            break;
-    }
-    return QString();
-}
-
-/**
- * Return ProgrammingLanguage corresponding to the given string.
- */
-Enum fromString(const QString& item)
-{
-    if (item == "ActionScript")
-        return ActionScript;
-    if (item == "Ada")
-        return Ada;
-    if (item == "C++" || item == "Cpp")  // "Cpp" only for bkwd compatibility
-        return Cpp;
-    if (item == "C#")
-        return CSharp;
-    if (item == "D")
-        return D;
-    if (item == "IDL")
-        return IDL;
-    if (item == "Java")
-        return Java;
-    if (item == "JavaScript")
-        return JavaScript;
-    if (item == "MySQL")
-        return MySQL;
-    if (item == "Pascal")
-        return Pascal;
-    if (item == "Perl")
-        return Perl;
-    if (item == "PHP")
-        return PHP;
-    if (item == "PHP5")
-        return PHP5;
-    if (item == "PostgreSQL")
-        return PostgreSQL;
-    if (item == "Python")
-        return Python;
-    if (item == "Ruby")
-        return Ruby;
-    if (item == "SQL")
-        return SQL;
-    if (item == "Tcl")
-        return Tcl;
-    if (item == "Vala")
-        return Vala;
-    if (item == "XMLSchema")
-        return XMLSchema;
-    return Reserved;
-}
-
-/**
- * Convert a integer item into ProgrammingLanguage representation.
- * @param item   integer value to convert
- * @return ProgrammingLanguage enum
- */
-Enum fromInt(int item)
-{
-    return Enum(item);
-}
-
-}  // end namespace ProgrammingLanguage
 
 //-----------------------------------------------------------------------------
 
@@ -871,10 +755,10 @@ QString toString(Enum item)
     switch (item) {
         case In:
             return QString("In");
-    case InOut:
-        return QString("InOut");
-    case Out:
-        return QString("Out");
+        case InOut:
+            return QString("InOut");
+        case Out:
+            return QString("Out");
         default:
             break;
     }
@@ -906,6 +790,246 @@ Enum fromInt(int item)
 }
 
 }  // end namespace ParameterDirection
+
+//-----------------------------------------------------------------------------
+
+namespace ProgrammingLanguage {
+
+/**
+ * Return string corresponding to the given ProgrammingLanguage.
+ */
+QString toString(Enum item)
+{
+    switch (item) {
+        case ActionScript:
+            return QString("ActionScript");
+        case Ada:
+            return QString("Ada");
+        case Cpp:
+            return QString("C++");
+        case CSharp:
+            return QString("C#");
+        case D:
+            return QString("D");
+        case IDL:
+            return QString("IDL");
+        case Java:
+            return QString("Java");
+        case JavaScript:
+            return QString("JavaScript");
+        case MySQL:
+             return QString("MySQL");
+        case Pascal:
+            return QString("Pascal");
+        case Perl:
+            return QString("Perl");
+        case PHP:
+            return QString("PHP");
+        case PHP5:
+            return QString("PHP5");
+        case PostgreSQL:
+            return QString("PostgreSQL");
+        case Python:
+            return QString("Python");
+        case Ruby:
+            return QString("Ruby");
+        case SQL:
+            return QString("SQL");
+        case Tcl:
+            return QString("Tcl");
+        case Vala:
+            return QString("Vala");
+        case XMLSchema:
+            return QString("XMLSchema");
+        default:
+            break;
+    }
+    return QString();
+}
+
+/**
+ * Return ProgrammingLanguage corresponding to the given string.
+ */
+Enum fromString(const QString& item)
+{
+    if (item == "ActionScript")
+        return ActionScript;
+    if (item == "Ada")
+        return Ada;
+    if (item == "C++" || item == "Cpp")  // "Cpp" only for bkwd compatibility
+        return Cpp;
+    if (item == "C#")
+        return CSharp;
+    if (item == "D")
+        return D;
+    if (item == "IDL")
+        return IDL;
+    if (item == "Java")
+        return Java;
+    if (item == "JavaScript")
+        return JavaScript;
+    if (item == "MySQL")
+        return MySQL;
+    if (item == "Pascal")
+        return Pascal;
+    if (item == "Perl")
+        return Perl;
+    if (item == "PHP")
+        return PHP;
+    if (item == "PHP5")
+        return PHP5;
+    if (item == "PostgreSQL")
+        return PostgreSQL;
+    if (item == "Python")
+        return Python;
+    if (item == "Ruby")
+        return Ruby;
+    if (item == "SQL")
+        return SQL;
+    if (item == "Tcl")
+        return Tcl;
+    if (item == "Vala")
+        return Vala;
+    if (item == "XMLSchema")
+        return XMLSchema;
+    return Reserved;
+}
+
+/**
+ * Convert a integer item into ProgrammingLanguage representation.
+ * @param item   integer value to convert
+ * @return ProgrammingLanguage enum
+ */
+Enum fromInt(int item)
+{
+    return Enum(item);
+}
+
+}  // end namespace ProgrammingLanguage
+
+//-----------------------------------------------------------------------------
+
+namespace Region {
+
+/**
+ * Return string corresponding to the given Region.
+ */
+QString toString(Enum item)
+{
+    switch (item) {
+        case Error:
+            return QString("Error");
+        case West:
+            return QString("West");
+        case North:
+            return QString("North");
+        case East:
+            return QString("East");
+        case South:
+            return QString("South");
+        case NorthWest:
+            return QString("NorthWest");
+        case NorthEast:
+            return QString("NorthEast");
+        case SouthEast:
+            return QString("SouthEast");
+        case SouthWest:
+            return QString("SouthWest");
+        default:
+            break;
+    }
+    return QString("? Region ?");
+}
+
+/**
+ * Return Region corresponding to the given string.
+ */
+Enum fromString(const QString& item)
+{
+    if (item == "Error")
+        return Error;
+    if (item == "West")
+        return West;
+    if (item == "North")
+        return North;
+    if (item == "East")
+        return East;
+    if (item == "South")
+        return South;
+    if (item == "NorthWest")
+        return NorthWest;
+    if (item == "NorthEast")
+        return NorthEast;
+    if (item == "SouthEast")
+        return SouthEast;
+    if (item == "SouthWest")
+        return SouthWest;
+    return Error;
+}
+
+/**
+ * Convert a integer item into Region representation.
+ * @param item   integer value to convert
+ * @return Region enum
+ */
+Enum fromInt(int item)
+{
+    return Enum(item);
+}
+
+}  // end namespace Region
+
+//-----------------------------------------------------------------------------
+
+//namespace Corner {
+
+/**
+ * Return string corresponding to the given Corner.
+ */
+QString Corner::toString(Enum item)
+{
+    switch (item) {
+        case TopLeft:
+            return QString("TopLeft");
+        case TopRight:
+            return QString("TopRight");
+        case BottomRight:
+            return QString("BottomRight");
+        case BottomLeft:
+            return QString("BottomLeft");
+        default:
+            break;
+    }
+    return QString("? Corner ?");
+}
+
+/**
+ * Return Corner corresponding to the given string.
+ */
+Corner::Enum Corner::fromString(const QString& item)
+{
+    if (item == "TopLeft")
+        return TopLeft;
+    if (item == "TopRight")
+        return TopRight;
+    if (item == "BottomRight")
+        return BottomRight;
+    if (item == "BottomLeft")
+        return BottomLeft;
+    return TopLeft;
+}
+
+/**
+ * Convert a integer item into Corner representation.
+ * @param item   integer value to convert
+ * @return Corner enum
+ */
+Corner::Enum Corner::fromInt(int item)
+{
+    return Enum(item);
+}
+
+//}  // end namespace Corner
 
 //-----------------------------------------------------------------------------
 
