@@ -43,8 +43,8 @@ IF( KDE4_BUILD_TESTS )
 
   link_directories(
       ${CMAKE_CURRENT_BINARY_DIR}/../umbrello/umbrello
-      ${CMAKE_CURRENT_BINARY_DIR}/../umbrello/umbrello/CMakeFiles/umbrello-soc.dir
-      ${CMAKE_CURRENT_BINARY_DIR}/../umbrello/umbrello/CMakeFiles/umbrello-soc.dir/dialogs
+      ${CMAKE_CURRENT_BINARY_DIR}/../umbrello/umbrello/CMakeFiles/umbrello.dir
+      ${CMAKE_CURRENT_BINARY_DIR}/../umbrello/umbrello/CMakeFiles/umbrello.dir/dialogs
 
   )
 
