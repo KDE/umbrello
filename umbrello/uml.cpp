@@ -786,7 +786,7 @@ void UMLApp::initView()
     m_newSessionButton->setMenu(newDiagram->menu());
 
     connect(m_tabWidget, SIGNAL(currentChanged(QWidget*)), SLOT(slotTabChanged(QWidget*)));
-    connect(m_tabWidget, SIGNAL(contextMenu(QWidget*,QPoint&)), m_doc, SLOT(slotDiagramPopupMenu(QWidget*,QPoint&)));
+    connect(m_tabWidget, SIGNAL(contextMenu(QWidget*,const QPoint&)), m_doc, SLOT(slotDiagramPopupMenu(QWidget*,const QPoint&)));
     m_tabWidget->setCornerWidget( m_newSessionButton, Qt::TopLeftCorner );
     m_newSessionButton->installEventFilter(this);
 
