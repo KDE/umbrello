@@ -18,7 +18,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QtCore>
 #include <QtTest>
 
 #include "classifier.h"
@@ -74,10 +73,10 @@ private slots:
 
 void TEST_classifier::test_equal()
 {
-    UMLClassifier* a = new UMLClassifier("Test A", Uml::id_None);
+    UMLClassifier* a = new UMLClassifier("Test A", Uml::ID::None);
     UMLClassifier* b = a;
-    UMLClassifier* c = new UMLClassifier("Test A", Uml::id_None);
-    UMLClassifier* d = new UMLClassifier("Test B", Uml::id_None);
+    UMLClassifier* c = new UMLClassifier("Test A", Uml::ID::None);
+    UMLClassifier* d = new UMLClassifier("Test B", Uml::ID::None);
     QCOMPARE(a == b, true);
     QCOMPARE(a == c, true);
     QCOMPARE(b == c, true);
@@ -86,15 +85,15 @@ void TEST_classifier::test_equal()
 
 void TEST_classifier::test_copyInto()
 {
-    UMLClassifier* a = new UMLClassifier("Test A", Uml::id_None);
-    UMLClassifier* b = new UMLClassifier("Test B", Uml::id_None);
+    UMLClassifier* a = new UMLClassifier("Test A", Uml::ID::None);
+    UMLClassifier* b = new UMLClassifier("Test B", Uml::ID::None);
     b->copyInto(a);
     QCOMPARE(a == b, true);
 }
 
 void TEST_classifier::test_clone()
 {
-    UMLClassifier* a = new UMLClassifier("Test A", Uml::id_None);
+    UMLClassifier* a = new UMLClassifier("Test A", Uml::ID::None);
     UMLClassifier* b;
     b = static_cast<UMLClassifier*>(a->clone());
     QCOMPARE(a == b, true);
@@ -102,9 +101,9 @@ void TEST_classifier::test_clone()
 
 void TEST_classifier::test_addAttributeWithType()
 {
-    UMLClassifier* a = new UMLClassifier("Test A", Uml::id_None);
-    UMLAttribute* attrA = a->addAttribute("attributeA_", Uml::id_None);
-    /* UMLAttribute* attrB = */ a->addAttribute("attributeB_", Uml::id_None);
+    UMLClassifier* a = new UMLClassifier("Test A", Uml::ID::None);
+    UMLAttribute* attrA = a->addAttribute("attributeA_", Uml::ID::None);
+    /* UMLAttribute* attrB = */ a->addAttribute("attributeB_", Uml::ID::None);
     int num1 = a->attributes();
     QCOMPARE( num1, 2 );
     int num2 = a->removeAttribute(attrA);
@@ -125,13 +124,13 @@ void TEST_classifier::test_addAttributeWithAttribute()
 
 void TEST_classifier::test_removeAndCountAttribute()
 {
-    UMLClassifier* a = new UMLClassifier("Test A", Uml::id_None);
+    UMLClassifier* a = new UMLClassifier("Test A", Uml::ID::None);
     int num0 = a->attributes();
     QCOMPARE( num0, 0);  // no attributes present yet
-    /*UMLAttribute* attrA = */ a->addAttribute("attributeA_", Uml::id_None);
-    UMLAttribute* attrB = a->addAttribute("attributeB_", Uml::id_None);
-    UMLAttribute* attrC = a->addAttribute("attributeC_", Uml::id_None);
-    /* UMLAttribute* attrD = */ a->addAttribute("attributeD_", Uml::id_None);
+    /*UMLAttribute* attrA = */ a->addAttribute("attributeA_", Uml::ID::None);
+    UMLAttribute* attrB = a->addAttribute("attributeB_", Uml::ID::None);
+    UMLAttribute* attrC = a->addAttribute("attributeC_", Uml::ID::None);
+    /* UMLAttribute* attrD = */ a->addAttribute("attributeD_", Uml::ID::None);
     int num1 = a->attributes();
     QCOMPARE( num1, 4 );
     int num2 = a->removeAttribute(attrB);

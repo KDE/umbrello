@@ -19,7 +19,6 @@
 */
 
 #include <QtTest>
-#include <QtCore>
 
 #include "cppwriter.h"
 
