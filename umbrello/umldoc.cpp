@@ -717,7 +717,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
 void UMLDoc::setupSignals()
 {
     WorkToolBar *tb = UMLApp::app()->workToolBar();
-    connect(this, SIGNAL(sigDiagramChanged(Uml::DiagramType)), tb, SLOT(slotCheckToolBar(Uml::DiagramType)));
+    connect(this, SIGNAL(sigDiagramChanged(Uml::DiagramType::Enum)), tb, SLOT(slotCheckToolBar(Uml::DiagramType::Enum)));
 }
 
 /**
