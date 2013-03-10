@@ -58,6 +58,8 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY)
     setPenFromSettings(p);
     const int w = width();
     const int h = height();
+    if (w == 0 || h == 0)
+        return;
     switch (m_stateType) {
     case StateWidget::Normal:
         {
