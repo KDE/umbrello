@@ -586,7 +586,7 @@ void UMLApp::slotZoomFit()
     else {
         scale = scaleH;
     }
-    setZoom(scale-1);
+    setZoom(scale-2);
 }
 
 /**
