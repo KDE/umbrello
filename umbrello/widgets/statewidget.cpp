@@ -41,6 +41,8 @@ StateWidget::StateWidget(UMLScene * scene, StateType stateType, Uml::ID::Type id
     m_drawVertical = true;
     setAspectRatioMode();
     m_Text = "State";
+    UMLSceneSize size = minimumSize();
+    setSize(size.width(), size.height());
 }
 
 /**
@@ -386,6 +388,7 @@ bool StateWidget::drawVertical() const
 void StateWidget::setDrawVertical(bool to)
 {
     m_drawVertical = to;
+    setSize(height(), width());
     updateGeometry();
     UMLWidget::adjustAssocs( x(), y() );
 }
