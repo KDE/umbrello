@@ -62,6 +62,7 @@ private:
 protected slots:
     void importCode(); ///< start importing
     void importCodeFile(bool noError=true); ///< import single file
+    void importNextFile(bool noError=true);
     void importCodeFinish(); ///< finish importing
     void importCodeStop(); ///< cancel importing
     void updateStatus(const QString& file, const QString& text);
