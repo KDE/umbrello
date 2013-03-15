@@ -28,6 +28,7 @@
 #include "attribute.h"
 #include "template.h"
 #include "association.h"
+#include "optionstate.h"
 
 // qt includes
 #include <QMap>
@@ -107,8 +108,7 @@ void CppImport::initialize()
 {
     // Reset the driver
     ms_driver->reset();
-    // The driver shall attempt to parse included files.
-    ms_driver->setResolveDependencesEnabled( true );
+    ms_driver->setResolveDependencesEnabled( Settings::optionState().codeImportState.resolveDependencies );
     // FIXME: port to win32
     // Add some standard include paths
     ms_driver->addIncludePath( "/usr/include" );

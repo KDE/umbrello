@@ -313,6 +313,11 @@
          <whatsthis>Create an artifact in the component view for each imported file</whatsthis>
          <default>true</default>
        </entry>
+       <entry name="resolveDependencies" type="Bool">
+         <label>Resolve dependencies</label>
+         <whatsthis>Resolve dependencies when importing file</whatsthis>
+         <default>true</default>
+       </entry>
     </group>
    <group name="Code Generation">
        <entry name="autoGenEmptyConstructors" type="Bool">

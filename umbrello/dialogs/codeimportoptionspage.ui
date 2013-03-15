@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>409</width>
-    <height>123</height>
+    <width>491</width>
+    <height>113</height>
    </rect>
   </property>
   <layout class="QVBoxLayout">
@@ -27,6 +27,19 @@
       </property>
       <property name="text">
        <string>  for each imported file create an artifact in the component view </string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="resolveDependenciesCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>70</y>
+        <width>581</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>  Resolve dependencies (reduces import speed)</string>
       </property>
      </widget>
     </widget>
