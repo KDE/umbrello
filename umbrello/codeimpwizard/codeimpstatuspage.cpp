@@ -47,6 +47,9 @@
 CodeImpStatusPage::CodeImpStatusPage(QWidget *parent)
   : QWizardPage(parent),
     m_workDone(false),
+#ifdef ENABLE_IMPORT_THREAD
+    m_thread(0),
+#endif
     m_index(0)
 {
     setTitle(i18n("Status of Code Importing Progress"));
