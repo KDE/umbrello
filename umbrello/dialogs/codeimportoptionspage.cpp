@@ -35,6 +35,7 @@ CodeImportOptionsPage::CodeImportOptionsPage(QWidget *parent)
 {
     setupUi(this);
     createArtifactCheckBox->setChecked(Settings::optionState().codeImportState.createArtifacts);
+    resolveDependenciesCheckBox->setChecked(Settings::optionState().codeImportState.resolveDependencies);
 }
 
 /**
@@ -50,6 +51,7 @@ CodeImportOptionsPage::~CodeImportOptionsPage()
 void CodeImportOptionsPage::setDefaults()
 {
     createArtifactCheckBox->setChecked(true);
+    resolveDependenciesCheckBox->setChecked(true);
 }
 
 /**
@@ -59,5 +61,6 @@ void CodeImportOptionsPage::setDefaults()
 void CodeImportOptionsPage::apply()
 {
     Settings::optionState().codeImportState.createArtifacts = createArtifactCheckBox->isChecked();
+    Settings::optionState().codeImportState.resolveDependencies = resolveDependenciesCheckBox->isChecked();
     emit applyClicked();
 }

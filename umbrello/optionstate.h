@@ -129,6 +129,7 @@ struct CodeGenerationState {
 
 struct CodeImportState {
     bool createArtifacts;
+    bool resolveDependencies;
 };
 
 struct AutoLayoutState {

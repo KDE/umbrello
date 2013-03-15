@@ -1000,6 +1000,7 @@ void UMLApp::saveOptions()
     m_commoncodegenpolicy->writeConfig();
 
     UmbrelloSettings::setCreateArtifacts(optionState.codeImportState.createArtifacts);
+    UmbrelloSettings::setResolveDependencies(optionState.codeImportState.resolveDependencies);
 
     UmbrelloSettings::self()->writeConfig();
 }
@@ -2030,6 +2031,7 @@ void UMLApp::readOptionState()
 
     // code importer options
     optionState.codeImportState.createArtifacts = UmbrelloSettings::createArtifacts();
+    optionState.codeImportState.resolveDependencies = UmbrelloSettings::resolveDependencies();
 
     // general config options will be read when created
 }
