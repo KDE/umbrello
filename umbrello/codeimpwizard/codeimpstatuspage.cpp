@@ -39,6 +39,7 @@
 
 //qt includes
 #include <QListWidget>
+#include <QTimer>
 
 /**
  * Constructor.
@@ -166,7 +167,7 @@ void CodeImpStatusPage::importCodeFile(bool noError)
     connect(worker, SIGNAL(messageToLog(QString,QString)), this, SLOT(messageToLog(QString,QString)));
     connect(worker, SIGNAL(messageToApp(QString)), this, SLOT(messageToApp(QString)));
 #ifndef ENABLE_IMPORT_THREAD
-    connect(worker, SIGNAL(finished(bool)), this, SLOT(importCodeFile(bool)));
+    connect(worker, SIGNAL(finished(bool)), this, SLOT(importNextFile(bool)));
     connect(worker, SIGNAL(aborted()), this, SLOT(importCodeStop()));
     worker->run();
     worker->deleteLater();
@@ -177,6 +178,11 @@ void CodeImpStatusPage::importCodeFile(bool noError)
     // FIXME: when to delete worker and m_thread
 #endif
     uDebug() << "****** starting task for " << m_file.fileName();
+}
+
+void CodeImpStatusPage::importNextFile(bool noError)
+{
+    QTimer::singleShot(10, this, SLOT(importCodeFile()));
 }
 
 void CodeImpStatusPage::importCodeFinish()
