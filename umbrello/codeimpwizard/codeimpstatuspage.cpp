@@ -49,11 +49,11 @@
 CodeImpStatusPage::CodeImpStatusPage(QWidget *parent)
   : QWizardPage(parent),
     m_workDone(false),
-    m_savedlistViewVisible(false),
+    m_index(0),
+    m_savedlistViewVisible(false)
 #ifdef ENABLE_IMPORT_THREAD
-    m_thread(0),
+  , m_thread(0)
 #endif
-    m_index(0)
 {
     setTitle(i18n("Status of Code Importing Progress"));
     setSubTitle(i18n("Press the button 'Start import' to start the code import.\nCheck the success state for every class."));
