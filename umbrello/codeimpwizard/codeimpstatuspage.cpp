@@ -31,6 +31,7 @@
 #include "model_utils.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "umllistview.h"
 
 //kde includes
 #include <kfiledialog.h>
@@ -48,6 +49,7 @@
 CodeImpStatusPage::CodeImpStatusPage(QWidget *parent)
   : QWizardPage(parent),
     m_workDone(false),
+    m_savedlistViewVisible(false),
 #ifdef ENABLE_IMPORT_THREAD
     m_thread(0),
 #endif
@@ -128,6 +130,9 @@ void CodeImpStatusPage::importCode()
 
     UMLDoc* doc = UMLApp::app()->document();
     doc->setLoading(true);
+    // hide list view dockwindow to avoid time consuming update on every insert
+    m_savedlistViewVisible = UMLApp::app()->listView()->parentWidget()->isVisible();
+    UMLApp::app()->listView()->parentWidget()->setVisible(false);
 
     ui_textEditLogger->setHtml(i18np("<b>Code import of 1 file:</b><br>", "<b>Code import of %1 files:</b><br>", m_files.size()));
     m_index = 0;
@@ -193,6 +198,7 @@ void CodeImpStatusPage::importCodeFinish()
     // Allowing undo of the whole class importing. I think it eats a lot of memory.
     // Setting the modification, but without allowing undo.
     doc->setModified(true);
+    UMLApp::app()->listView()->parentWidget()->setVisible(m_savedlistViewVisible);
 
     m_workDone = true;
     setFinalPage(true);
@@ -227,6 +233,7 @@ void CodeImpStatusPage::importCodeStop()
     // Allowing undo of the whole class importing. I think it eats a lot of memory.
     // Setting the modification, but without allowing undo.
     doc->setModified(true);
+    UMLApp::app()->listView()->parentWidget()->setVisible(m_savedlistViewVisible);
 
     m_workDone = true;
     setFinalPage(true);

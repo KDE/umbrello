@@ -55,6 +55,7 @@ private:
     bool             m_workDone;
     int              m_index; ///< index in m_files
     QFileInfo        m_file; ///< current file
+    bool             m_savedlistViewVisible; ///< indicates previous state of list view
 #ifdef ENABLE_IMPORT_THREAD
     QThread         *m_thread;
 #endif
