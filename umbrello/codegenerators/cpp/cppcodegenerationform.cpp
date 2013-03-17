@@ -35,35 +35,35 @@ CPPCodeGenerationForm::CPPCodeGenerationForm(QWidget *parent, const char *name)
 
     Qt::ItemFlags flags = Qt::ItemIsUserCheckable | Qt::ItemIsEnabled;
     m_optionPackageIsANamespace =
-        new QListWidgetItem(tr2i18n("Package is a namespace"), ui_generalOptionsListWidget);
+        new QListWidgetItem(i18n("Package is a namespace"), ui_generalOptionsListWidget);
     m_optionPackageIsANamespace->setFlags(flags);
 
     m_optionVirtualDestructors =
-        new QListWidgetItem(tr2i18n("Virtual destructors"), ui_generalOptionsListWidget);
+        new QListWidgetItem(i18n("Virtual destructors"), ui_generalOptionsListWidget);
     m_optionVirtualDestructors->setFlags(flags);
 
     m_optionGenerateEmptyConstructors =
-        new QListWidgetItem(tr2i18n("Generate empty constructors"), ui_generalOptionsListWidget);
+        new QListWidgetItem(i18n("Generate empty constructors"), ui_generalOptionsListWidget);
     m_optionGenerateEmptyConstructors->setFlags(flags);
 
     m_optionGenerateAccessorMethods =
-        new QListWidgetItem(tr2i18n("Generate accessor methods"), ui_generalOptionsListWidget);
+        new QListWidgetItem(i18n("Generate accessor methods"), ui_generalOptionsListWidget);
     m_optionGenerateAccessorMethods->setFlags(flags);
 
     m_optionOperationsAreInline =
-        new QListWidgetItem(tr2i18n("Operations are inline"), ui_generalOptionsListWidget);
+        new QListWidgetItem(i18n("Operations are inline"), ui_generalOptionsListWidget);
     m_optionOperationsAreInline->setFlags(flags);
 
     m_optionAccessorsAreInline =
-        new QListWidgetItem(tr2i18n("Accessors are inline"), ui_generalOptionsListWidget);
+        new QListWidgetItem(i18n("Accessors are inline"), ui_generalOptionsListWidget);
     m_optionAccessorsAreInline->setFlags(flags);
 
     m_optionAccessorsArePublic =
-        new QListWidgetItem(tr2i18n("Accessors are public"), ui_generalOptionsListWidget);
+        new QListWidgetItem(i18n("Accessors are public"), ui_generalOptionsListWidget);
     m_optionAccessorsArePublic->setFlags(flags);
 
     m_optionDocToolTag =
-        new QListWidgetItem(tr2i18n("Use '\\' as documentation tag instead of '@'"), ui_generalOptionsListWidget);
+        new QListWidgetItem(i18n("Use '\\' as documentation tag instead of '@'"), ui_generalOptionsListWidget);
     m_optionDocToolTag->setFlags(flags);
 
     connect(ui_generalOptionsListWidget,

@@ -25,7 +25,7 @@ DefaultCodeGenPolicyPage::DefaultCodeGenPolicyPage(QWidget *parent, const char *
 {
     m_textLabel = new QLabel(this);
     m_textLabel->setObjectName("textLabel");
-    m_textLabel->setText(tr2i18n("<p align=\"center\">No Options Available.</p>"));
+    m_textLabel->setText(i18n("<p align=\"center\">No Options Available.</p>"));
 }
 
 DefaultCodeGenPolicyPage::~DefaultCodeGenPolicyPage()
