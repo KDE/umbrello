@@ -654,7 +654,7 @@ void UMLScene::slotObjectRemoved(UMLObject * o)
 /**
  * Override standard method.
  */
-void UMLScene::dragEnterEvent(UMLSceneDragEnterEvent *e)
+void UMLScene::dragEnterEvent(QGraphicsSceneDragDropEvent *e)
 {
     UMLDragData::LvTypeAndID_List tidList;
     if (!UMLDragData::getClip3TypeAndID(e->mimeData(), tidList)) {
@@ -758,7 +758,7 @@ void UMLScene::dragEnterEvent(UMLSceneDragEnterEvent *e)
 /**
  * Override standard method.
  */
-void UMLScene::dragMoveEvent(UMLSceneDragMoveEvent* e)
+void UMLScene::dragMoveEvent(QGraphicsSceneDragDropEvent* e)
 {
     e->accept();
 }
@@ -766,7 +766,7 @@ void UMLScene::dragMoveEvent(UMLSceneDragMoveEvent* e)
 /**
  * Override standard method.
  */
-void UMLScene::dropEvent(UMLSceneDragDropEvent *e)
+void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
 {
     UMLDragData::LvTypeAndID_List tidList;
     if (!UMLDragData::getClip3TypeAndID(e->mimeData(), tidList)) {

@@ -67,11 +67,6 @@ typedef QSizeF UMLSceneSize;
 typedef QLineF UMLSceneLine;
 typedef qreal UMLSceneValue;
 
-// event types
-typedef QGraphicsSceneDragDropEvent UMLSceneDragDropEvent;
-typedef QGraphicsSceneDragDropEvent UMLSceneDragEnterEvent;
-typedef QGraphicsSceneDragDropEvent UMLSceneDragMoveEvent;
-
 // migration wrapper for QGraphicsScene items
 typedef QList<QGraphicsItem*> UMLSceneItemList;
 
@@ -352,9 +347,9 @@ protected:
     // End of methods and members related to loading/saving
     ////////////////////////////////////////////////////////////////////////
 
-    void dragEnterEvent(UMLSceneDragDropEvent* enterEvent);
-    void dragMoveEvent(UMLSceneDragDropEvent* moveEvent);
-    void dropEvent(UMLSceneDragDropEvent* dropEvent);
+    void dragEnterEvent(QGraphicsSceneDragDropEvent* enterEvent);
+    void dragMoveEvent(QGraphicsSceneDragDropEvent* moveEvent);
+    void dropEvent(QGraphicsSceneDragDropEvent* dropEvent);
 
     void mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent);
     void mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent);
