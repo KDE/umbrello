@@ -21,42 +21,38 @@
 #include "umlwidgetlist.h"
 
 // Qt includes
+#include <QDomDocument>
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
-//#include <QGraphicsSceneKeyEvent>
 #include <QGraphicsSceneDragDropEvent>
 #include <QGraphicsSceneContextMenuEvent>
 #include <QGraphicsSceneHoverEvent>
-
 #include <QGraphicsLineItem>
 #include <QGraphicsRectItem>
 #include <QGraphicsPolygonItem>
 #include <QGraphicsEllipseItem>
 
-#include <QDomDocument>
-
 // forward declarations
-class QAction;
-class QPrinter;
 class ClassOptionsPage;
+class FloatingTextWidget;
 class IDChangeLog;
 class LayoutGrid;
 class ListPopupMenu;
-class FloatingTextWidget;
 class ObjectWidget;
+class QAction;
+class QPrinter;
 class ToolBarState;
 class ToolBarStateFactory;
-class UMLFolder;
 class UMLApp;
-class UMLDoc;
 class UMLAttribute;
 class UMLCanvasObject;
 class UMLClassifier;
-class UMLViewImageExporter;
-class UMLForeignKeyConstraint;
+class UMLDoc;
 class UMLEntity;
+class UMLFolder;
+class UMLForeignKeyConstraint;
 class UMLView;
-
+class UMLViewImageExporter;
 
 /// uml related types - makes it easier to switch to QGraphicsScene types
 // base types
