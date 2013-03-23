@@ -2773,6 +2773,7 @@ void UMLApp::setCurrentView(UMLView* view)
         m_viewStack->setCurrentWidget(view);
         view->show();
     }
+    setZoom(view->zoom());
     qApp->processEvents();
     slotStatusMsg(view->umlScene()->name());
     UMLListViewItem* lvitem = m_listView->findView(view);

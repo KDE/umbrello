@@ -78,7 +78,7 @@ class UMLScene : public QGraphicsScene
 public:
     friend class UMLViewImageExporterModel;
 
-    UMLScene(UMLFolder *parentFolder);
+    explicit UMLScene(UMLFolder *parentFolder);
     virtual ~UMLScene();
 
     UMLView* activeView() const;
