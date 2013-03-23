@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -42,7 +42,7 @@ void JavaCodeOperation::updateMethodDeclaration()
     QString endLine = getNewLineEndingChars();
 
     // now, the starting text.
-    QString strVis = o->visibility().toString();
+    QString strVis = Uml::Visibility::toString(o->visibility());
     // no return type for constructors
     QString fixedReturn = JavaCodeGenerator::fixTypeName(o->getTypeName());
     QString returnType = o->isConstructorOperation() ? QString("") : (fixedReturn + QString(" "));

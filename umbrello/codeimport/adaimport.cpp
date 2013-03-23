@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2012                                               *
+ *   copyright (C) 2005-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -486,22 +486,22 @@ bool AdaImport::parseStmt()
             }
             const QString &direction = advance();
             QString typeName;
-            Uml::Parameter_Direction dir = Uml::pd_In;
+            Uml::ParameterDirection::Enum dir = Uml::ParameterDirection::In;
             if (direction == "access") {
                 // Oops, we have to improvise here because there
                 // is no such thing as "access" in UML.
                 // So we use the next best thing, "inout".
                 // Better ideas, anyone?
-                dir = Uml::pd_InOut;
+                dir = Uml::ParameterDirection::InOut;
                 typeName = advance();
             } else if (direction == "in") {
                 if (m_source[m_srcIndex + 1] == "out") {
-                    dir = Uml::pd_InOut;
+                    dir = Uml::ParameterDirection::InOut;
                     m_srcIndex++;
                 }
                 typeName = advance();
             } else if (direction == "out") {
-                dir = Uml::pd_Out;
+                dir = Uml::ParameterDirection::Out;
                 typeName = advance();
             } else {
                 typeName = direction;  // In Ada, the default direction is "in"

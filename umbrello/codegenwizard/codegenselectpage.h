@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 #ifndef CODEGENSELECTPAGE_H
@@ -26,7 +26,7 @@ class CodeGenSelectPage : public QWizardPage, private Ui::CodeGenSelectPage
 {
     Q_OBJECT
 public:
-    CodeGenSelectPage(QWidget * parent = 0);
+    explicit CodeGenSelectPage(QWidget * parent = 0);
     ~CodeGenSelectPage();
     void setClassifierList(UMLClassifierList *classList);
     bool isComplete() const;

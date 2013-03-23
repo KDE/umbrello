@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2012                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -66,11 +66,11 @@ public:
 
     bool shouldDrawAsCircle() const;
 
-    Uml::SignatureType attributeSignature() const;
-    void setAttributeSignature(Uml::SignatureType sig);
+    Uml::SignatureType::Enum attributeSignature() const;
+    void setAttributeSignature(Uml::SignatureType::Enum sig);
 
-    Uml::SignatureType operationSignature() const;
-    void setOperationSignature(Uml::SignatureType sig);
+    Uml::SignatureType::Enum operationSignature() const;
+    void setOperationSignature(Uml::SignatureType::Enum sig);
 
     void changeToClass();
     void changeToInterface();
@@ -106,8 +106,8 @@ private:
     void invalidateDummies();
 
     VisualProperties   m_visualProperties;
-    Uml::SignatureType m_attributeSignature;  ///< Loaded/saved item.
-    Uml::SignatureType m_operationSignature;  ///< Loaded/saved item.
+    Uml::SignatureType::Enum m_attributeSignature;  ///< Loaded/saved item.
+    Uml::SignatureType::Enum m_operationSignature;  ///< Loaded/saved item.
     AssociationWidget *m_classAssociationWidget;  ///< related AssociationWidget in case this classifier acts as an association class
 
     /**

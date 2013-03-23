@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      David Hugh-Jones  <hughjonesd@yahoo.co.uk>    *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -32,28 +32,12 @@ public:
     PerlWriter();
     virtual ~PerlWriter();
 
-    /**
-     * Call this method to generate Perl code for a UMLClassifier.
-     * @param c   the class you want to generate code for
-     */
     virtual void writeClass(UMLClassifier *c);
 
-    /**
-     * Returns "Perl".
-     * @return   the programming language identifier
-     */
-    virtual Uml::ProgrammingLanguage language() const;
+    virtual Uml::ProgrammingLanguage::Enum language() const;
 
-    /**
-     * Get list of reserved keywords.
-     * @return   the list of reserved keywords
-     */
     virtual QStringList reservedKeywords() const;
 
-    /**
-     * Get list of default datatypes.
-     * @return   the list of default datatypes
-     */
     QStringList defaultDatatypes();
 
 private:
@@ -64,34 +48,11 @@ private:
      */
     bool bPrivateSectionCommentIsWritten;
 
-    /**
-     * Write all operations for a given class.
-     * @param c      the concept we are generating code for
-     * @param perl   output stream for the Perl file
-     */
     void writeOperations(UMLClassifier *c, QTextStream &perl);
-
-    /**
-     * Write a list of class operations.
-     * @param classname   the name of the class
-     * @param opList      the list of operations
-     * @param perl        output stream for the Perl file
-     */
     void writeOperations(const QString &classname, UMLOperationList &opList,
                          QTextStream &perl);
 
-    /**
-     * Write all the attributes of a class.
-     * @param c      the class we are generating code for
-     * @param perl   output stream for the Perl file
-     */
     void writeAttributes(UMLClassifier *c, QTextStream &perl);
-
-    /**
-     * Write a list of class attributes.
-     * @param atList   the list of attributes
-     * @param perl     output stream for the Perl file
-     */
     void writeAttributes(UMLAttributeList &atList, QTextStream &perl);
 
     bool GetUseStatements(UMLClassifier *c, QString &Ret,

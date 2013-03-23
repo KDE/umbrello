@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -103,7 +103,7 @@ void ClassOptionsPage::setupPage()
     int margin = fontMetrics().height();
 
     bool sig = false;
-    Uml::SignatureType sigtype;
+    Uml::SignatureType::Enum sigtype;
 
     QVBoxLayout * topLayout = new QVBoxLayout(this);
 
@@ -291,8 +291,8 @@ void ClassOptionsPage::applyOptionState()
     m_options->classState.showOpSig = m_showOpSigCB->isChecked();
     m_options->classState.showPublicOnly = m_showPublicOnlyCB->isChecked();
     if (!m_isDiagram) {
-        m_options->classState.defaultAttributeScope = (Uml::Visibility::Value) m_attribScopeCB->currentIndex();
-        m_options->classState.defaultOperationScope = (Uml::Visibility::Value) m_operationScopeCB->currentIndex();
+        m_options->classState.defaultAttributeScope = Uml::Visibility::fromInt(m_attribScopeCB->currentIndex());
+        m_options->classState.defaultOperationScope = Uml::Visibility::fromInt(m_operationScopeCB->currentIndex());
     }
 }
 

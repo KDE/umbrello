@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -26,7 +26,7 @@
 DEBUG_REGISTER(UMLView)
 
 /**
- * Constructor
+ * Constructor.
  */
 UMLView::UMLView(UMLFolder *parentFolder)
   : QGraphicsView(UMLApp::app()->mainViewWidget()),
@@ -83,7 +83,7 @@ void UMLView::setZoom(int zoom)
     setMatrix(wm);
 
     m_nZoom = currentZoom();
-    umlScene()->resizeCanvasToItems();
+    umlScene()->resizeSceneToItems();
 }
 
 /**
@@ -123,13 +123,13 @@ void UMLView::zoomOut()
 }
 
 /**
- * Overrides standard method from QWidget to resize canvas when
+ * Overrides standard method from QWidget to resize scene when
  * it's shown.
  */
 void UMLView::show()
 {
     QWidget::show();
-    umlScene()->resizeCanvasToItems();
+    umlScene()->resizeSceneToItems();
 }
 
 /**

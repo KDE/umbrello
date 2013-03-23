@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -33,7 +33,7 @@ class UMLPackage : public UMLCanvasObject
 {
     Q_OBJECT
 public:
-    explicit UMLPackage(const QString & name = QString(), Uml::IDType id = Uml::id_None);
+    explicit UMLPackage(const QString & name = QString(), Uml::ID::Type id = Uml::ID::None);
     virtual ~UMLPackage();
 
     virtual void copyInto(UMLObject *lhs) const;
@@ -51,7 +51,7 @@ public:
     void removeAssocFromConcepts(UMLAssociation *assoc);
 
     UMLObject * findObject(const QString &name);
-    UMLObject * findObjectById(Uml::IDType id);
+    UMLObject * findObjectById(Uml::ID::Type id);
 
     void appendPackages(UMLPackageList& packages, bool includeNested = true);
     void appendClassifiers( UMLClassifierList& classifiers,

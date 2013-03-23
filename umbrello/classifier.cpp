@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 #include "classifier.h"
@@ -48,7 +48,7 @@ using namespace Uml;
  * @param name   The name of the Concept.
  * @param id     The unique id of the Concept.
  */
-UMLClassifier::UMLClassifier(const QString & name, Uml::IDType id)
+UMLClassifier::UMLClassifier(const QString & name, Uml::ID::Type id)
   : UMLPackage(name, id)
 {
     m_BaseType = UMLObject::ot_Class;  // default value
@@ -246,7 +246,7 @@ UMLOperation* UMLClassifier::createOperation(
     if (params) {
         for (Model_Utils::NameAndType_ListIt it = params->begin(); it != params->end(); ++it ) {
             const Model_Utils::NameAndType &nt = *it;
-            UMLAttribute *par = new UMLAttribute(op, nt.m_name, Uml::id_None, Uml::Visibility::Private,
+            UMLAttribute *par = new UMLAttribute(op, nt.m_name, Uml::ID::None, Uml::Visibility::Private,
                                                  nt.m_type, nt.m_initialValue);
             par->setParmKind(nt.m_direction);
             op->addParm(par);
@@ -444,13 +444,13 @@ UMLAttributeList UMLClassifier::getAttributeList() const
  * @param scope   The scope of the attribute.
  * @return        List of true attributes for the class.
  */
-UMLAttributeList UMLClassifier::getAttributeList(Uml::Visibility scope) const
+UMLAttributeList UMLClassifier::getAttributeList(Visibility::Enum scope) const
 {
     UMLAttributeList list;
     if (!isInterface())
     {
         UMLAttributeList atl = getAttributeList();
-        foreach(UMLAttribute* at, atl )
+        foreach(UMLAttribute* at, atl)
         {
             uIgnoreZeroPointer(at);
             if (! at->isStatic())
@@ -479,7 +479,7 @@ UMLAttributeList UMLClassifier::getAttributeList(Uml::Visibility scope) const
  * @param scope   The scope of the attribute.
  * @return        List of true attributes for the class.
  */
-UMLAttributeList UMLClassifier::getAttributeListStatic(Uml::Visibility scope) const
+UMLAttributeList UMLClassifier::getAttributeListStatic(Visibility::Enum scope) const
 {
     UMLAttributeList list;
     if (!isInterface())
@@ -539,7 +539,7 @@ UMLOperationList UMLClassifier::findOperations(const QString &n)
  * @param considerAncestors   flag whether the ancestors should be considered during search
  * @return                    the found child object or NULL
  */
-UMLObject* UMLClassifier::findChildObjectById(Uml::IDType id, bool considerAncestors /* =false */)
+UMLObject* UMLClassifier::findChildObjectById(Uml::ID::Type id, bool considerAncestors /* =false */)
 {
     UMLObject *o = UMLCanvasObject::findChildObjectById(id);
     if (o) {
@@ -569,7 +569,7 @@ UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type)
     UMLAssociationList rlist = getRealizations();
 
     UMLClassifierList inheritingConcepts;
-    Uml::IDType myID = id();
+    Uml::ID::Type myID = id();
     foreach(UMLClassifier *c , list ) {
         uIgnoreZeroPointer(c);
         if (type == ALL || (!c->isInterface() && type == CLASS)
@@ -580,9 +580,9 @@ UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type)
 
     foreach (UMLAssociation *a , rlist ) {
         uIgnoreZeroPointer(a);
-        if (a->getObjectId(A) != myID)
+        if (a->getObjectId(RoleType::A) != myID)
         {
-            UMLObject* obj = a->getObject(A);
+            UMLObject* obj = a->getObject(RoleType::A);
             UMLClassifier *concept = dynamic_cast<UMLClassifier*>(obj);
             if (concept && (type == ALL || (!concept->isInterface() && type == CLASS)
                             || (concept->isInterface() && type == INTERFACE))
@@ -608,7 +608,7 @@ UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type)
     UMLAssociationList rlist = getRealizations();
 
     UMLClassifierList parentConcepts;
-    Uml::IDType myID = id();
+    Uml::ID::Type myID = id();
     foreach (UMLClassifier *concept , list ) {
         uIgnoreZeroPointer(concept);
         if (type == ALL || (!concept->isInterface() && type == CLASS)
@@ -617,9 +617,9 @@ UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type)
     }
 
     foreach (UMLAssociation *a , rlist ) {
-        if (a->getObjectId(A) == myID)
+        if (a->getObjectId(RoleType::A) == myID)
         {
-            UMLObject* obj = a->getObject(B);
+            UMLObject* obj = a->getObject(RoleType::B);
             UMLClassifier *concept = dynamic_cast<UMLClassifier*>(obj);
             if (concept && (type == ALL || (!concept->isInterface() && type == CLASS)
                             || (concept->isInterface() && type == INTERFACE))
@@ -712,7 +712,7 @@ bool UMLClassifier::resolveRef()
 /**
  * Reimplemented from UMLObject.
  */
-bool UMLClassifier::acceptAssociationType(Uml::AssociationType type)
+bool UMLClassifier::acceptAssociationType(AssociationType::Enum type)
 {
     switch(type)
     {
@@ -744,10 +744,10 @@ bool UMLClassifier::acceptAssociationType(Uml::AssociationType type)
  */
 UMLAttribute* UMLClassifier::createAttribute(const QString &name,
                                              UMLObject *type,
-                                             Uml::Visibility vis,
+                                             Visibility::Enum vis,
                                              const QString &init)
 {
-    Uml::IDType id = UniqueID::gen();
+    Uml::ID::Type id = UniqueID::gen();
     QString currentName;
     if (name.isNull())  {
         currentName = uniqChildName(UMLObject::ot_Attribute);
@@ -796,14 +796,14 @@ UMLAttribute* UMLClassifier::createAttribute(const QString &name,
  * @return      the UMLAttribute created and added
  */
 
-UMLAttribute* UMLClassifier::addAttribute(const QString &name, Uml::IDType id /* = Uml::id_None */)
+UMLAttribute* UMLClassifier::addAttribute(const QString &name, Uml::ID::Type id /* = Uml::id_None */)
 {
     foreach (UMLObject* obj, m_List ) {
         uIgnoreZeroPointer(obj);
         if (obj->baseType() == UMLObject::ot_Attribute && obj->name() == name)
             return static_cast<UMLAttribute*>(obj);
     }
-    Uml::Visibility scope = Settings::optionState().classState.defaultAttributeScope;
+    Uml::Visibility::Enum scope = Settings::optionState().classState.defaultAttributeScope;
     UMLAttribute *a = new UMLAttribute(this, name, id, scope);
     m_List.append(a);
     emit attributeAdded(a);
@@ -821,7 +821,7 @@ UMLAttribute* UMLClassifier::addAttribute(const QString &name, Uml::IDType id /*
  * @param scope   the visibility of the attribute
  * @return        the just created and added attribute
  */
-UMLAttribute* UMLClassifier::addAttribute(const QString &name, UMLObject *type, Uml::Visibility scope)
+UMLAttribute* UMLClassifier::addAttribute(const QString &name, UMLObject *type, Visibility::Enum scope)
 {
     UMLAttribute *a = new UMLAttribute(this);
     a->setName(name);
@@ -1011,7 +1011,7 @@ UMLClassifierListItemList UMLClassifier::getFilteredList(UMLObject::ObjectType o
  * @param id     the id of the template
  * @return       the added template
  */
-UMLTemplate* UMLClassifier::addTemplate(const QString &name, Uml::IDType id)
+UMLTemplate* UMLClassifier::addTemplate(const QString &name, Uml::ID::Type id)
 {
     UMLTemplate *templt = findTemplate(name);
     if (templt) {
@@ -1344,10 +1344,10 @@ UMLAssociationList  UMLClassifier::getUniAssociationToBeImplemented()
 
     foreach (UMLAssociation *a, associations) {
         uIgnoreZeroPointer(a);
-        if (a->getObjectId(Uml::B) == id()) {
+        if (a->getObjectId(RoleType::B) == id()) {
             continue;  // we need to be at the A side
         }
-        QString roleNameB = a->getRoleName(Uml::B);
+        QString roleNameB = a->getRoleName(RoleType::B);
         if (!roleNameB.isEmpty()) {
             UMLAttributeList atl = getAttributeList();
             bool found = false;
@@ -1409,7 +1409,7 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
         QDomElement genElement = qDoc.createElement("UML:GeneralizableElement.generalization");
         foreach (UMLAssociation *a , generalizations ) {
             // We are the subclass if we are at the role A end.
-            if (m_nId != a->getObjectId(Uml::A)) {
+            if (m_nId != a->getObjectId(RoleType::A)) {
                 continue;
             }
             QDomElement gElem = qDoc.createElement("UML:Generalization");
@@ -1572,12 +1572,12 @@ UMLClassifierList UMLClassifier::findAssocClassifierObjsInRoles (UMLAssociationL
         // the association.
         // We also ignore classifiers which are the same as the current one
         // (e.g. id matches), we only want the "other" classifiers
-        if (a->getObjectId(Uml::A) == id() && !a->getRoleName(Uml::B).isEmpty()) {
-            UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::B));
+        if (a->getObjectId(RoleType::A) == id() && !a->getRoleName(RoleType::B).isEmpty()) {
+            UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(RoleType::B));
             if(c)
                 classifiers.append(c);
-        } else if (a->getObjectId(Uml::B) == id() && !a->getRoleName(Uml::A).isEmpty()) {
-            UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::A));
+        } else if (a->getObjectId(RoleType::B) == id() && !a->getRoleName(RoleType::A).isEmpty()) {
+            UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(RoleType::A));
             if(c)
                 classifiers.append(c);
         }

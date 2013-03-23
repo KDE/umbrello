@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -34,7 +34,7 @@ DEBUG_REGISTER_DISABLED(UMLCanvasObject)
  * @param name   The name of the Concept.
  * @param id     The unique id of the Concept.
  */
-UMLCanvasObject::UMLCanvasObject(const QString & name, Uml::IDType id)
+UMLCanvasObject::UMLCanvasObject(const QString & name, Uml::ID::Type id)
   : UMLObject(name, id)
 {
 }
@@ -55,10 +55,10 @@ UMLCanvasObject::~UMLCanvasObject()
 /**
  * Return the subset of m_List that matches the given type.
  *
- * @param assocType   The AssociationType to match.
+ * @param assocType   The AssociationType::Enum to match.
  * @return   The list of associations that match assocType.
  */
-UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::AssociationType assocType)
+UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::AssociationType::Enum assocType)
 {
     UMLAssociationList list;
     UMLObject *o = NULL;
@@ -139,8 +139,8 @@ void UMLCanvasObject::removeAllAssociationEnds()
         }
         UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
         //umldoc->slotRemoveUMLObject(assoc);
-        UMLObject* objA = assoc->getObject(Uml::A);
-        UMLObject* objB = assoc->getObject(Uml::B);
+        UMLObject* objA = assoc->getObject(Uml::RoleType::A);
+        UMLObject* objB = assoc->getObject(Uml::RoleType::B);
         UMLCanvasObject *roleAObj = dynamic_cast<UMLCanvasObject*>(objA);
         if (roleAObj) {
             roleAObj->removeAssociationEnd(assoc);
@@ -263,7 +263,7 @@ UMLObject * UMLCanvasObject::findChildObject(const QString &n, UMLObject::Object
  * @param considerAncestors boolean switch to consider ancestors while searching
  * @return  Pointer to the object found (NULL if not found.)
  */
-UMLObject* UMLCanvasObject::findChildObjectById(Uml::IDType id, bool considerAncestors)
+UMLObject* UMLCanvasObject::findChildObjectById(Uml::ID::Type id, bool considerAncestors)
 {
     Q_UNUSED(considerAncestors);
     UMLObject *o = NULL;
@@ -364,14 +364,14 @@ UMLClassifierList UMLCanvasObject::getSuperClasses()
         uIgnoreZeroPointer(a);
         if ((a->getAssocType() != Uml::AssociationType::Generalization &&
              a->getAssocType() != Uml::AssociationType::Realization) ||
-                a->getObjectId(Uml::A) != id() )
+                a->getObjectId(Uml::RoleType::A) != id() )
             continue;
-        UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::B));
+        UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::RoleType::B));
         if (c)
             list.append(c);
         else
             DEBUG(DBG_SRC) << name() << ": generalization's other end is not a "
-                << "UMLClassifier (id= " << ID2STR(a->getObjectId(Uml::B)) << ")";
+                << "UMLClassifier (id= " << ID2STR(a->getObjectId(Uml::RoleType::B)) << ")";
     }
     return list;
 }
@@ -391,14 +391,14 @@ UMLClassifierList UMLCanvasObject::getSubClasses()
         uIgnoreZeroPointer(a);
         if ((a->getAssocType() != Uml::AssociationType::Generalization &&
              a->getAssocType() != Uml::AssociationType::Realization) ||
-                a->getObjectId(Uml::B) != id() )
+                a->getObjectId(Uml::RoleType::B) != id() )
             continue;
-        UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::A));
+        UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::RoleType::A));
         if (c)
             list.append(c);
         else
             DEBUG(DBG_SRC) << "specialization's other end is not a UMLClassifier"
-                << " (id=" << ID2STR(a->getObjectId(Uml::A)) << ")";
+                << " (id=" << ID2STR(a->getObjectId(Uml::RoleType::A)) << ")";
     }
     return list;
 }

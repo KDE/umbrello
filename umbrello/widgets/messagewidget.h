@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -44,13 +44,13 @@ class MessageWidget : public UMLWidget, public LinkWidget
     Q_OBJECT
 public:
     MessageWidget(ObjectWidget* a, ObjectWidget* b,
-                  Uml::Sequence_Message_Type sequenceMessageType,
-                  Uml::IDType id = Uml::id_None);
-    MessageWidget(Uml::Sequence_Message_Type sequenceMessageType,
-                  Uml::IDType id = Uml::id_None);
+                  Uml::SequenceMessage::Enum sequenceMessageType,
+                  Uml::ID::Type id = Uml::ID::None);
+    MessageWidget(Uml::SequenceMessage::Enum sequenceMessageType,
+                  Uml::ID::Type id = Uml::ID::None);
     MessageWidget(ObjectWidget* a, const QPointF& clickedPos,
-                  Uml::Sequence_Message_Type sequenceMessageType,
-                  Uml::IDType id = Uml::id_None);
+                  Uml::SequenceMessage::Enum sequenceMessageType,
+                  Uml::ID::Type id = Uml::ID::None);
     virtual ~MessageWidget();
 
     //---------- LinkWidget Interface methods implemementation from now on.
@@ -71,7 +71,7 @@ public:
     virtual void setSeqNumAndOp(const QString &seqNum, const QString &op);
 
     virtual void constrainTextPos(qreal &textX, qreal &textY, qreal textWidth, qreal textHeight,
-                                  Uml::TextRole tr);
+                                  Uml::TextRole::Enum tr);
 
     //---------- End LinkWidget Interface methods implemementation.
 
@@ -79,7 +79,7 @@ public:
     void setSequenceNumber(const QString &sequenceNumber);
 
     /// @return Whether the message is synchronous or asynchronous
-    Uml::Sequence_Message_Type sequenceMessageType() const {
+    Uml::SequenceMessage::Enum sequenceMessageType() const {
         return m_sequenceMessageType;
     }
 
@@ -88,10 +88,10 @@ public:
     bool isSelf() const;
 
     /// @return  The ObjectWidget we are related to for given \a role.
-    ObjectWidget* objectWidget(Uml::Role_Type role) const {
+    ObjectWidget* objectWidget(Uml::RoleType::Enum role) const {
         return m_objectWidgets[role];
     }
-    void setObjectWidget(ObjectWidget * ow, Uml::Role_Type role) ;
+    void setObjectWidget(ObjectWidget * ow, Uml::RoleType::Enum role) ;
 
     /// @return  The floating text widget we are related to.
     FloatingTextWidget * floatingTextWidget() const{
@@ -126,7 +126,7 @@ private:
     static const qreal ArrowHeight;
     static const qreal SelfLoopBoxWidth;
 
-    qreal constrainedX(qreal textX, qreal textWidth, Uml::TextRole tr) const;
+    qreal constrainedX(qreal textX, qreal textWidth, Uml::TextRole::Enum tr) const;
 
     void updateResizability();
 
@@ -161,7 +161,7 @@ private:
     bool m_isMsgSceneSetBefore;
 
     /// Whether the message is synchronous or asynchronous
-    Uml::Sequence_Message_Type m_sequenceMessageType;
+    Uml::SequenceMessage::Enum m_sequenceMessageType;
 
 public Q_SLOTS:
     void slotMenuSelection(QAction* action);

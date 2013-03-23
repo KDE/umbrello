@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003 Brian Thomas <brian.thomas@gsfc.nasa.gov>          *
- *   copyright (C) 2004-2012                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -23,7 +23,9 @@
 #include <QRegExp>
 #include <QTextStream>
 
-// Constructor
+/**
+ * Constructor, initialises a couple of variables
+ */
 XMLSchemaWriter::XMLSchemaWriter()
 {
     packageNamespaceTag = "tns";
@@ -32,20 +34,25 @@ XMLSchemaWriter::XMLSchemaWriter()
     schemaNamespaceURI = "http://www.w3.org/2001/XMLSchema";
 }
 
-// form of..."the Destructor"!!
+/**
+ * Destructor, empty.
+ */
 XMLSchemaWriter::~XMLSchemaWriter()
 {
 }
 
 /**
- * returns "XMLSchema"
+ * Returns "XMLSchema".
  */
-Uml::ProgrammingLanguage XMLSchemaWriter::language() const
+Uml::ProgrammingLanguage::Enum XMLSchemaWriter::language() const
 {
     return Uml::ProgrammingLanguage::XMLSchema;
 }
 
-// main method for invoking..
+/**
+ * Call this method to generate XMLschema code for a UMLClassifier.
+ * @param c the class to generate code for
+ */
 void XMLSchemaWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
@@ -138,7 +145,10 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
     writtenClassifiers.clear();
 }
 
-void XMLSchemaWriter::writeElementDecl( const QString &elementName, const QString &elementTypeName, QTextStream &XMLschema)
+/**
+ * Write an element declaration.
+ */
+void XMLSchemaWriter::writeElementDecl(const QString &elementName, const QString &elementTypeName, QTextStream &XMLschema)
 {
     if(forceDoc())
         writeComment(elementName+" is the root element, declared here.", XMLschema);
@@ -149,7 +159,10 @@ void XMLSchemaWriter::writeElementDecl( const QString &elementName, const QStrin
     <<"/>"<<m_endl;
 }
 
-void XMLSchemaWriter::writeClassifier (UMLClassifier *c, QTextStream &XMLschema)
+/**
+ * Writes concept's documentation then guts.
+ */
+void XMLSchemaWriter::writeClassifier(UMLClassifier *c, QTextStream &XMLschema)
 {
     // NO doing this 2 or more times.
     if(hasBeenWritten(c))
@@ -167,7 +180,10 @@ void XMLSchemaWriter::writeClassifier (UMLClassifier *c, QTextStream &XMLschema)
         writeConcreteClassifier(c,XMLschema);
 }
 
-UMLAttributeList XMLSchemaWriter::findAttributes (UMLClassifier *c)
+/**
+ * Find all attributes for this concept.
+ */
+UMLAttributeList XMLSchemaWriter::findAttributes(UMLClassifier *c)
 {
     // sort attributes by Scope
     UMLAttributeList attribs;
@@ -232,6 +248,10 @@ void XMLSchemaWriter::writeAbstractClassifier (UMLClassifier *c, QTextStream &XM
         writeClassifier(classifier, XMLschema);
 }
 
+/**
+ * Write a <group> declaration for this classifier. Used for interfaces to classes with
+ * inheriting children.
+ */
 void XMLSchemaWriter::writeGroupClassifierDecl (UMLClassifier *c,
         UMLClassifierList subclasses,
         QTextStream &XMLschema)
@@ -259,6 +279,9 @@ void XMLSchemaWriter::writeGroupClassifierDecl (UMLClassifier *c,
     XMLschema<<indent()<<"</"<<makeSchemaTag("group")<<">"<<m_endl;
 }
 
+/**
+ * Write a <complexType> declaration for this classifier.
+ */
 void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
         UMLAssociationList associations,
         UMLAssociationList aggregations,
@@ -383,7 +406,11 @@ void XMLSchemaWriter::writeConcreteClassifier (UMLClassifier *c, QTextStream &XM
         writeClassifier(classifier, XMLschema);
 }
 
-// these exist for abstract classes only (which become xs:group nodes)
+/**
+ * Discover the string name of all the attribute groups (which are child nodes)
+ * of this concept (err.. element).
+ * These exist for abstract classes only (which become xs:group nodes).
+ */
 QStringList XMLSchemaWriter::findAttributeGroups (UMLClassifier *c)
 {
     // we need to look for any class we inherit from. IF these
@@ -405,6 +432,9 @@ QStringList XMLSchemaWriter::findAttributeGroups (UMLClassifier *c)
     return list;
 }
 
+/**
+ * Find if the classifier would have any Child elements.
+ */
 bool XMLSchemaWriter::determineIfHasChildNodes( UMLClassifier *c)
 {
     UMLObjectList aggList = findChildObjsInAssociations (c, c->getAggregations());
@@ -414,6 +444,10 @@ bool XMLSchemaWriter::determineIfHasChildNodes( UMLClassifier *c)
     return aggList.count() > 0 || compList.count() > 0 || assocList.count() > 0;
 }
 
+/**
+ * Find all the child objects in this association and make sure they get
+ * written out (if they havent already been).
+ */
 void XMLSchemaWriter::writeChildObjsInAssociation (UMLClassifier *c,
         UMLAssociationList assoc,
         QTextStream &XMLschema)
@@ -426,6 +460,9 @@ void XMLSchemaWriter::writeChildObjsInAssociation (UMLClassifier *c,
     }
 }
 
+/**
+ * Quick check to see if we have written the declaration for this concept yet.
+ */
 bool XMLSchemaWriter::hasBeenWritten(UMLClassifier *c)
 {
     if (writtenClassifiers.contains(c))
@@ -434,20 +471,30 @@ bool XMLSchemaWriter::hasBeenWritten(UMLClassifier *c)
         return false;
 }
 
+/**
+ * Mark a concept as written, so it is not repeatedly re-declared in the schema.
+ */
 void XMLSchemaWriter::markAsWritten(UMLClassifier *c)
 {
     writtenClassifiers.append(c);
 }
 
-void XMLSchemaWriter::writeAttributeDecls(UMLAttributeList &attribs, QTextStream &XMLschema )
+/**
+ * Writes the Attribute declarations.
+ * @param attribs List of attributes
+ * @param XMLschema text stream
+ */
+void XMLSchemaWriter::writeAttributeDecls(UMLAttributeList &attribs, QTextStream &XMLschema)
 {
     foreach ( UMLAttribute* at , attribs ) {
         writeAttributeDecl(at,XMLschema);
     }
-
 }
 
-void XMLSchemaWriter::writeAttributeDecl(UMLAttribute *attrib, QTextStream &XMLschema )
+/**
+ * Write an element attribute.
+ */
+void XMLSchemaWriter::writeAttributeDecl(UMLAttribute *attrib, QTextStream &XMLschema)
 {
     QString documentation = attrib->doc();
     QString typeName = fixTypeName(attrib->getTypeName());
@@ -476,6 +523,9 @@ void XMLSchemaWriter::writeAttributeDecl(UMLAttribute *attrib, QTextStream &XMLs
     XMLschema<<"/>"<<m_endl;
 }
 
+/**
+ * Find all attributes that  belong in group.
+ */
 void XMLSchemaWriter::writeAttributeGroupDecl (const QString &elementName, UMLAttributeList &attribs, QTextStream &XMLschema )
 {
     if (attribs.count()> 0) {
@@ -500,6 +550,9 @@ void XMLSchemaWriter::writeAttributeGroupDecl (const QString &elementName, UMLAt
     }
 }
 
+/**
+ * Writes a comment.
+ */
 void XMLSchemaWriter::writeComment( const QString &comment, QTextStream &XMLschema )
 {
     // in the case we have several line comment..
@@ -521,14 +574,19 @@ void XMLSchemaWriter::writeComment( const QString &comment, QTextStream &XMLsche
     }
 }
 
-// all that matters here is roleA, the role served by the children of this class
-// in any composition or aggregation association. In full associations, I have only
-// considered the case of "self" association, so it shouldn't matter if we use role A or
-// B to find the child class as long as we don't use BOTH roles. I bet this will fail
-// badly for someone using a plain association between 2 different classes. THAT should
-// be done, but isnt yet (this is why I have left role b code in for now). -b.t.
+/**
+ * Searches a list of associations for appropriate ones to write out as attributes.
+ * This works well for compositions, aggregations and self-associations but will
+ * not work right for plain associations between 2 different classes.
+ * all that matters here is roleA, the role served by the children of this class
+ * in any composition or aggregation association. In full associations, I have only
+ * considered the case of "self" association, so it shouldn't matter if we use role A or
+ * B to find the child class as long as we don't use BOTH roles. I bet this will fail
+ * badly for someone using a plain association between 2 different classes. THAT should
+ * be done, but isnt yet (this is why I have left role b code in for now). -b.t.
+ */
 bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
-        bool noRoleNameOK, bool didFirstOne, Uml::IDType id, QTextStream &XMLschema)
+        bool noRoleNameOK, bool didFirstOne, Uml::ID::Type id, QTextStream &XMLschema)
 {
     if( !associations.isEmpty() )
     {
@@ -539,10 +597,10 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
             // it may seem counter intuitive, but you want to insert the role of the
             // *other* class into *this* class.
 
-            if (a->getObjectId(Uml::A) == id && a->getVisibility(Uml::B) != Uml::Visibility::Private)
+            if (a->getObjectId(Uml::RoleType::A) == id && a->visibility(Uml::RoleType::B) != Uml::Visibility::Private)
                 printRoleB = true;
 
-            if (a->getObjectId(Uml::B) == id && a->getVisibility(Uml::A) != Uml::Visibility::Private)
+            if (a->getObjectId(Uml::RoleType::B) == id && a->visibility(Uml::RoleType::A) != Uml::Visibility::Private)
                 printRoleA = true;
 
             // First: we insert documentaion for association IF it has either role
@@ -578,12 +636,12 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
             // print RoleA decl
             if (printRoleA)
             {
-                UMLClassifier *classifierA = dynamic_cast<UMLClassifier*>(a->getObject(Uml::A));
+                UMLClassifier *classifierA = dynamic_cast<UMLClassifier*>(a->getObject(Uml::RoleType::A));
                 if (classifierA) {
                     // ONLY write out IF there is a rolename given
                     // otherwise it is not meant to be declared
-                    if (!a->getRoleName(Uml::A).isEmpty() || noRoleNameOK )
-                        writeAssociationRoleDecl(classifierA, a->getMultiplicity(Uml::A), XMLschema);
+                    if (!a->getRoleName(Uml::RoleType::A).isEmpty() || noRoleNameOK )
+                        writeAssociationRoleDecl(classifierA, a->getMultiplicity(Uml::RoleType::A), XMLschema);
                 }
             }
         }
@@ -593,27 +651,34 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
     return didFirstOne;
 }
 
+/**
+ * Find and return a list of child UMLObjects pointed to by the associations
+ * in this UMLClassifier.
+ */
 UMLObjectList XMLSchemaWriter::findChildObjsInAssociations (UMLClassifier *c, UMLAssociationList associations)
 {
-    Uml::IDType id = c->id();
+    Uml::ID::Type id = c->id();
     UMLObjectList list;
     foreach (UMLAssociation *a , associations )
     {
-        if (a->getObjectId(Uml::A) == id
-                && a->getVisibility(Uml::B) != Uml::Visibility::Private
-                && !a->getRoleName(Uml::B).isEmpty()
+        if (a->getObjectId(Uml::RoleType::A) == id
+                && a->visibility(Uml::RoleType::B) != Uml::Visibility::Private
+                && !a->getRoleName(Uml::RoleType::B).isEmpty()
            )
-            list.append(a->getObject(Uml::B));
+            list.append(a->getObject(Uml::RoleType::B));
 
-        if (a->getObjectId(Uml::B) == id
-                && a->getVisibility(Uml::A) != Uml::Visibility::Private
-                && !a->getRoleName(Uml::A).isEmpty()
+        if (a->getObjectId(Uml::RoleType::B) == id
+                && a->visibility(Uml::RoleType::A) != Uml::Visibility::Private
+                && !a->getRoleName(Uml::RoleType::A).isEmpty()
            )
-            list.append(a->getObject(Uml::A));
+            list.append(a->getObject(Uml::RoleType::A));
     }
     return list;
 }
 
+/**
+ * Writes out an association as an attribute using Vector
+ */
 void XMLSchemaWriter::writeAssociationRoleDecl( UMLClassifier *c, const QString &multi, QTextStream &XMLschema)
 {
     bool isAbstract = c->isAbstract();
@@ -705,9 +770,12 @@ void XMLSchemaWriter::writeAssociationRoleDecl( UMLClassifier *c, const QString 
     XMLschema<<"/>"<<m_endl;
 }
 
-// IF the type is "string" we need to declare it as
-// the XMLSchema Object "String" (there is no string primative in XMLSchema).
-// Same thing again for "bool" to "boolean"
+/**
+ * Replaces `string' with `String' and `bool' with `boolean'
+ * IF the type is "string" we need to declare it as
+ * the XMLSchema Object "String" (there is no string primative in XMLSchema).
+ * Same thing again for "bool" to "boolean".
+ */
 QString XMLSchemaWriter::fixTypeName(const QString& string)
 {
     //  string.replace(QRegExp("^string$"),schemaNamespaceTag+":string");
@@ -715,6 +783,10 @@ QString XMLSchemaWriter::fixTypeName(const QString& string)
     return schemaNamespaceTag + ':' + string;
 }
 
+/**
+ * Check that initial values of strings DON'T have quotes around them
+ * (we get double quoting then)!!
+ */
 QString XMLSchemaWriter::fixInitialStringDeclValue(QString value, const QString &type)
 {
     // check for strings only
@@ -727,35 +799,54 @@ QString XMLSchemaWriter::fixInitialStringDeclValue(QString value, const QString 
     return value;
 }
 
+/**
+ * Find the element node name for this concept.
+ */
 QString XMLSchemaWriter::getElementName(UMLClassifier *c)
 {
     return cleanName(c->name());
 }
 
+/**
+ * Find the element node "type" name. Used in the "complexType" which
+ * might define that element node.
+ */
 QString XMLSchemaWriter::getElementTypeName(UMLClassifier *c)
 {
     QString elementName = getElementName(c);
     return elementName + "ComplexType";
 }
 
+/**
+ * Find the group node "type" name. Used for elements which define an interface/are abstract.
+ */
 QString XMLSchemaWriter::getElementGroupTypeName(UMLClassifier *c)
 {
     QString elementName = getElementName(c);
     return elementName + "GroupType";
 }
 
+/**
+ * Construct an element tag with the package namespace.
+ */
 QString XMLSchemaWriter::makePackageTag (QString tagName)
 {
     tagName.prepend( packageNamespaceTag + ':');
     return tagName;
 }
 
+/**
+ * Construct an element tag with the schema namespace.
+ */
 QString XMLSchemaWriter::makeSchemaTag (QString tagName)
 {
     tagName.prepend( schemaNamespaceTag + ':');
     return tagName;
 }
 
+/**
+ * Get list of reserved keywords.
+ */
 QStringList XMLSchemaWriter::reservedKeywords() const
 {
     static QStringList keywords;

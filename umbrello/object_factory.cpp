@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2006-2012                                                *
+ *  copyright (C) 2006-2013                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -52,7 +52,7 @@
 
 namespace Object_Factory {
 
-Uml::IDType g_predefinedId = Uml::id_None;
+Uml::ID::Type g_predefinedId = Uml::ID::None;
 
 /**
  * Control whether the createUMLObject() solicits a new unique ID for the
@@ -64,9 +64,9 @@ Uml::IDType g_predefinedId = Uml::id_None;
 void assignUniqueIdOnCreation(bool yesno)
 {
     if (yesno)
-        g_predefinedId = Uml::id_None;
+        g_predefinedId = Uml::ID::None;
     else
-        g_predefinedId = Uml::id_Reserved;
+        g_predefinedId = Uml::ID::Reserved;
 }
 
 /**
@@ -74,7 +74,7 @@ void assignUniqueIdOnCreation(bool yesno)
  */
 bool assignUniqueIdOnCreation()
 {
-    return (g_predefinedId == Uml::id_None);
+    return (g_predefinedId == Uml::ID::None);
 }
 
 UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
@@ -168,9 +168,10 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
         if (type == UMLObject::ot_Datatype) {
             parentPkg = doc->datatypeFolder();
         } else {
-            Uml::ModelType mt = Model_Utils::convert_OT_MT(type);
+            Uml::ModelType::Enum mt = Model_Utils::convert_OT_MT(type);
             uDebug() << "Object_Factory::createUMLObject(" << n << "): "
-                << "parentPkg is not set, assuming Model_Type " << mt.toString();
+                << "parentPkg is not set, assuming Model_Type "
+                << Uml::ModelType::toString(mt);
             parentPkg = doc->rootFolder(mt);
         }
     }
@@ -219,7 +220,7 @@ UMLAttribute *createAttribute(UMLObject *parent, const QString& name, UMLObject 
     UMLAttribute *attr = new UMLAttribute(parent);
     attr->setName(name);
     attr->setType(type);
-    if (g_predefinedId == Uml::id_None)
+    if (g_predefinedId == Uml::ID::None)
         attr->setID(UniqueID::gen());
     return attr;
 }

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -28,7 +28,7 @@
  * @param name      The name of this UMLUniqueConstraint.
  * @param id        The unique id given to this UMLUniqueConstraint.
  */
-UMLUniqueConstraint::UMLUniqueConstraint(UMLObject *parent, const QString& name, Uml::IDType id)
+UMLUniqueConstraint::UMLUniqueConstraint(UMLObject *parent, const QString& name, Uml::ID::Type id)
   : UMLEntityConstraint(parent, name, id)
 {
     init();
@@ -109,7 +109,7 @@ UMLObject* UMLUniqueConstraint::clone() const
  * @param sig  If true will show the attribute type and initial value.
  * @return  Returns a string representation of the UMLAttribute.
  */
-QString UMLUniqueConstraint::toString(Uml::SignatureType sig)
+QString UMLUniqueConstraint::toString(Uml::SignatureType::Enum sig)
 {
      QString s;
 

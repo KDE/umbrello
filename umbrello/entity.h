@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -35,7 +35,7 @@ class UMLEntity : public UMLClassifier
 {
     Q_OBJECT
 public:
-    explicit UMLEntity(const QString& name = QString(), Uml::IDType id = Uml::id_None);
+    explicit UMLEntity(const QString& name = QString(), Uml::ID::Type id = Uml::ID::None);
     virtual ~UMLEntity();
 
     bool operator==(const UMLEntity& rhs) const;
@@ -45,16 +45,14 @@ public:
     virtual UMLObject* clone() const;
 
     virtual UMLAttribute* createAttribute(const QString &name = QString(),
-                                  UMLObject *type = 0, Uml::Visibility vis = Uml::Visibility::Private,
+                                  UMLObject *type = 0, Uml::Visibility::Enum vis = Uml::Visibility::Private,
                                   const QString &init = QString());
 
     UMLUniqueConstraint* createUniqueConstraint(const QString &name = QString());
-
     UMLForeignKeyConstraint* createForeignKeyConstraint(const QString &name = QString());
-
     UMLCheckConstraint* createCheckConstraint(const QString &name = QString());
 
-    UMLObject* addEntityAttribute(const QString &name, Uml::IDType id = Uml::id_None);
+    UMLObject* addEntityAttribute(const QString &name, Uml::ID::Type id = Uml::ID::None);
     bool addEntityAttribute(UMLEntityAttribute* att, IDChangeLog* log = 0);
     bool addEntityAttribute(UMLEntityAttribute* att, int position );
 
@@ -65,15 +63,11 @@ public:
     int entityAttributes() ;
 
     bool setAsPrimaryKey(UMLUniqueConstraint* uconstr);
-
     void unsetPrimaryKey();
-
     bool hasPrimaryKey() const;
-
     bool isPrimaryKey(UMLUniqueConstraint* uConstr) const;
 
     bool addConstraint(UMLEntityConstraint* constr);
-
     bool removeConstraint(UMLEntityConstraint* constr);
 
     virtual bool resolveRef();

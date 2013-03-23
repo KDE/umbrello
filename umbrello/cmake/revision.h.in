@@ -1,6 +1,0 @@
-#ifndef UMBRELLO_REVISION_H
-#define UMBRELLO_REVISION_H
-
-#define REVISION "${SUBVERSION_REVISION}"
-
-#endif

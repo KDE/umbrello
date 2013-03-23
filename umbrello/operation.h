@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -26,12 +26,10 @@ class UMLOperation : public UMLClassifierListItem
     Q_OBJECT
 public:
     UMLOperation(UMLClassifier * parent, const QString& name,
-                 Uml::IDType id = Uml::id_None,
-                 Uml::Visibility s = Uml::Visibility::Public,
+                 Uml::ID::Type id = Uml::ID::None,
+                 Uml::Visibility::Enum s = Uml::Visibility::Public,
                  UMLObject *rt = 0);
-
-    UMLOperation(UMLClassifier * parent);
-
+    explicit UMLOperation(UMLClassifier * parent);
     virtual ~UMLOperation();
 
     bool operator==( const UMLOperation & rhs ) const;
@@ -51,7 +49,7 @@ public:
 
     UMLAttribute * findParm(const QString &name);
 
-    QString toString(Uml::SignatureType sig = Uml::SignatureType::NoSig);
+    QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig);
 
     void addParm(UMLAttribute *parameter, int position = -1);
 
@@ -77,7 +75,7 @@ protected:
     bool load( QDomElement & element );
 
 private:
-    Uml::IDType      m_returnId;  ///< Holds the xmi.id of the <UML:Parameter kind="return">
+    Uml::ID::Type    m_returnId;  ///< Holds the xmi.id of the <UML:Parameter kind="return">
     UMLAttributeList m_List;      ///< Parameter list
     bool             m_bConst;    ///< Holds the isQuery attribute of the <UML:Operation>
     QString          m_Code;      ///< Holds the entered source code

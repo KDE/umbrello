@@ -63,7 +63,7 @@ public:
     typedef rule<scanner<CharIterator, CharPolicies> > CharRule;
     typedef TokenList::const_iterator TokenIterator;
 
-    Lexer( Driver* driver );
+    explicit Lexer(Driver* driver);
     ~Lexer();
 
     void addSkipWord(const QString& word, SkipType skipType = SkipWord,
@@ -103,7 +103,7 @@ private:
             return createToken( type, start, m_ptr);
         }
         QChar currentChar() const {
-            return m_ptr != m_endPtr ? *m_ptr : QChar::null;
+            return m_ptr != m_endPtr ? *m_ptr : QChar::Null;
         }
         bool eof() const {return m_ptr == m_endPtr;}
         int length() const {return std::distance(m_ptr, m_endPtr);}

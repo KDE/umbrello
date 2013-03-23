@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 #ifndef CLASSIFIER_H
@@ -45,7 +45,7 @@ public:
      */
     enum ClassifierType { ALL = 0, CLASS, INTERFACE, DATATYPE };
 
-    explicit UMLClassifier(const QString & name = QString(), Uml::IDType id = Uml::id_None);
+    explicit UMLClassifier(const QString & name = QString(), Uml::ID::Type id = Uml::ID::None);
     virtual ~UMLClassifier();
 
     bool operator==(const UMLClassifier & rhs) const;
@@ -56,11 +56,11 @@ public:
 
     virtual UMLAttribute* createAttribute(const QString &name = QString(),
                                           UMLObject *type = 0,
-                                          Uml::Visibility vis = Uml::Visibility::Private,
+                                          Uml::Visibility::Enum vis = Uml::Visibility::Private,
                                           const QString &init = QString());
 
-    UMLAttribute* addAttribute(const QString &name, Uml::IDType id = Uml::id_None);
-    UMLAttribute* addAttribute(const QString &name, UMLObject *type, Uml::Visibility scope);
+    UMLAttribute* addAttribute(const QString &name, Uml::ID::Type id = Uml::ID::None);
+    UMLAttribute* addAttribute(const QString &name, UMLObject *type, Uml::Visibility::Enum scope);
 
     bool addAttribute(UMLAttribute* att, IDChangeLog* log = 0,
                       int position = -1);
@@ -70,30 +70,29 @@ public:
     int attributes() ;
 
     UMLAttributeList getAttributeList() const;
-    UMLAttributeList getAttributeList(Uml::Visibility scope) const;
+    UMLAttributeList getAttributeList(Uml::Visibility::Enum scope) const;
+    UMLAttributeList getAttributeListStatic(Uml::Visibility::Enum scope) const;
 
-    UMLAttributeList getAttributeListStatic(Uml::Visibility scope) const;
-
-    UMLOperation* createOperation( const QString &name = QString(),
-                                   bool *isExistingOp = NULL,
-                                   Model_Utils::NameAndType_List *params = NULL);
+    UMLOperation* createOperation(const QString &name = QString(),
+                                  bool *isExistingOp = NULL,
+                                  Model_Utils::NameAndType_List *params = NULL);
 
     bool addOperation(UMLOperation* op, int position = -1);
     bool addOperation(UMLOperation* op, IDChangeLog* log);
 
-    UMLOperation * checkOperationSignature( const QString& name,
-                                            UMLAttributeList opParams,
-                                            UMLOperation *exemptOp = NULL);
+    UMLOperation * checkOperationSignature(const QString& name,
+                                           UMLAttributeList opParams,
+                                           UMLOperation *exemptOp = NULL);
 
     int removeOperation(UMLOperation *op);
 
-    int operations() ;
+    int operations();
 
     UMLOperationList getOpList(bool includeInherited = false);
 
     UMLObject* createTemplate(const QString& name = QString());
 
-    UMLTemplate* addTemplate(const QString &name, Uml::IDType id = Uml::id_None);
+    UMLTemplate* addTemplate(const QString &name, Uml::ID::Type id = Uml::ID::None);
 
     bool addTemplate(UMLTemplate* newTemplate, IDChangeLog* log = 0);
     bool addTemplate(UMLTemplate* templt, int position);
@@ -114,7 +113,7 @@ public:
 
     UMLOperationList findOperations(const QString &n);
 
-    virtual UMLObject* findChildObjectById(Uml::IDType id, bool considerAncestors = false);
+    virtual UMLObject* findChildObjectById(Uml::ID::Type id, bool considerAncestors = false);
 
     UMLOperation* findOperation(const QString& name,
                                 Model_Utils::NameAndType_List params);
@@ -123,7 +122,7 @@ public:
 
     UMLClassifierList findSubClassConcepts(ClassifierType type = ALL);
 
-    virtual bool acceptAssociationType(Uml::AssociationType);
+    virtual bool acceptAssociationType(Uml::AssociationType::Enum type);
 
     void setClassAssoc(UMLAssociation *assoc);
     UMLAssociation *getClassAssoc() const;

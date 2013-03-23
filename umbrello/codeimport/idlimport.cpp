@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2011                                               *
+ *   copyright (C) 2005-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -397,7 +397,7 @@ bool IDLImport::parseStmt()
             QString typeName = joinTypename();
             const QString &parName = advance();
             UMLAttribute *att = Import_Utils::addMethodParameter(op, typeName, parName);
-            Uml::Parameter_Direction dir;
+            Uml::ParameterDirection::Enum dir;
             if (Model_Utils::stringToDirection(direction, dir))
                 att->setParmKind(dir);
             else

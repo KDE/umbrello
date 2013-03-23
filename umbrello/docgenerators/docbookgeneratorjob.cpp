@@ -45,7 +45,7 @@ void DocbookGeneratorJob::run()
 
     //write the XMI model in an in-memory char* string
     QString xmi;
-    QTextOStream xmiStream(&xmi);
+    QTextStream xmiStream(&xmi, QIODevice::WriteOnly);
 
     KTemporaryFile file; // we need this tmp file if we are writing to a remote file
     file.setAutoRemove(false);

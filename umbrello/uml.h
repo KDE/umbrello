@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -82,7 +82,7 @@ class UMLApp : public KXmlGuiWindow
 {
     Q_OBJECT
 public:
-    UMLApp(QWidget* parent = 0);
+    explicit UMLApp(QWidget* parent = 0);
     ~UMLApp();
 
     static UMLApp* app();
@@ -111,7 +111,7 @@ public:
     bool isSimpleCodeGeneratorActive();
 
     void setGenerator(CodeGenerator* gen, bool giveWarning = true);
-    CodeGenerator* setGenerator(Uml::ProgrammingLanguage pl);
+    CodeGenerator* setGenerator(Uml::ProgrammingLanguage::Enum pl);
     CodeGenerator* generator() const;
 
     CodeGenerator* createGenerator();
@@ -152,9 +152,9 @@ public:
     void beginMacro(const QString & text);
     void endMacro();
 
-    void setActiveLanguage(Uml::ProgrammingLanguage pl);
-    Uml::ProgrammingLanguage activeLanguage() const;
-    Uml::ProgrammingLanguage defaultLanguage();
+    void setActiveLanguage(Uml::ProgrammingLanguage::Enum pl);
+    Uml::ProgrammingLanguage::Enum activeLanguage() const;
+    Uml::ProgrammingLanguage::Enum defaultLanguage();
 
     bool activeLanguageIsCaseSensitive();
 
@@ -183,7 +183,7 @@ protected:
     virtual void saveProperties(KConfigGroup & cfg);
     virtual void readProperties(const KConfigGroup & cfg);
 
-    void updateLangSelectMenu(Uml::ProgrammingLanguage activeLanguage);
+    void updateLangSelectMenu(Uml::ProgrammingLanguage::Enum activeLanguage);
 
 public slots:
     void slotExecGenerationWizard();
@@ -228,6 +228,9 @@ public slots:
     void slotPrefs();
     void slotApplyPrefs();
     void slotUpdateViews();
+    void slotShowTreeView(bool state);
+    void slotShowDocumentationView(bool state);
+    void slotShowCmdHistoryView(bool state);
     void slotCurrentViewClearDiagram();
     void slotCurrentViewToggleSnapToGrid();
     void slotCurrentViewToggleShowGrid();
@@ -297,7 +300,7 @@ private:
 
     void resetStatusMsg();
 
-    void setProgLangAction(Uml::ProgrammingLanguage pl, const QString& name, const QString& action);
+    void setProgLangAction(Uml::ProgrammingLanguage::Enum pl, const QString& name, const QString& action);
 
     static bool canDecode(const QMimeData* mimeSource);
 
@@ -308,12 +311,12 @@ private:
 
     void importFiles(QStringList* fileList);
 
-    void createDiagram(Uml::DiagramType type);
+    void createDiagram(Uml::DiagramType::Enum type);
 
     QMenu* m_langSelect;  ///< For selecting the active language.
     QMenu* m_zoomSelect;  ///< Popup menu for zoom selection.
 
-    Uml::ProgrammingLanguage  m_activeLanguage;  ///< Active language.
+    Uml::ProgrammingLanguage::Enum  m_activeLanguage;  ///< Active language.
     CodeGenerator*            m_codegen;         ///< Active code generator.
     CodeGenerationPolicy*     m_commoncodegenpolicy;
     CodeGenPolicyExt*         m_policyext;       ///< Active policy extension.
@@ -357,6 +360,10 @@ private:
     QAction* editPaste;
     QAction* editUndo;
     QAction* editRedo;
+
+    QAction* viewShowTree;
+    QAction* viewShowDoc;
+    QAction* viewShowCmdHistory;
 
     KActionMenu* newDiagram;
     QAction* viewClearDiagram;

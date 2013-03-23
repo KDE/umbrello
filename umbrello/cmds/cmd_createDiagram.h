@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2012-2012                                               *
+ *   copyright (C) 2012-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -23,17 +23,17 @@ namespace Uml
     class CmdCreateDiagram : public QUndoCommand
     {
     public:
-        explicit CmdCreateDiagram(UMLDoc* doc, Uml::DiagramType type, const QString& name);
+        explicit CmdCreateDiagram(UMLDoc* doc, Uml::DiagramType::Enum type, const QString& name);
         ~CmdCreateDiagram();
 
         void redo();
         void undo();
 
     private:
-        QString          m_name;
-        Uml::DiagramType m_type;
-        UMLDoc*          m_pUMLDoc;
-        UMLView*         m_pUMLView;
+        QString                 m_name;
+        Uml::DiagramType::Enum  m_type;
+        UMLDoc*                 m_pUMLDoc;
+        UMLView*                m_pUMLView;
     };
 }
 

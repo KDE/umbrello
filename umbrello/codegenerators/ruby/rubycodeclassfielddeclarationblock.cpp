@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2011                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -20,24 +20,31 @@
 #include "umlrole.h"
 #include "uml.h"
 
-RubyCodeClassFieldDeclarationBlock::RubyCodeClassFieldDeclarationBlock ( CodeClassField * parent )
-        : CodeClassFieldDeclarationBlock ( parent )
+/**
+ * Constructor.
+ */
+RubyCodeClassFieldDeclarationBlock::RubyCodeClassFieldDeclarationBlock(CodeClassField * parent)
+        : CodeClassFieldDeclarationBlock(parent)
 {
     setOverallIndentationLevel(1);
 }
 
-RubyCodeClassFieldDeclarationBlock::~RubyCodeClassFieldDeclarationBlock ( )
+/**
+ * Empty Destructor.
+ */
+RubyCodeClassFieldDeclarationBlock::~RubyCodeClassFieldDeclarationBlock()
 {
 }
 
 /**
+ * This will be called by syncToParent whenever the parent object is "modified".
  */
-void RubyCodeClassFieldDeclarationBlock::updateContent( )
+void RubyCodeClassFieldDeclarationBlock::updateContent()
 {
     CodeClassField * cf = getParentClassField();
     RubyCodeClassField * rcf = dynamic_cast<RubyCodeClassField*>(cf);
     CodeGenerationPolicy * p = UMLApp::app()->commonPolicy();
-    Uml::Visibility::Value scopePolicy = p->getAssociationFieldScope();
+    Uml::Visibility::Enum scopePolicy = p->getAssociationFieldScope();
 
     // Set the comment
     QString notes = getParentObject()->doc();
@@ -54,7 +61,7 @@ void RubyCodeClassFieldDeclarationBlock::updateContent( )
         case Uml::Visibility::Public:
         case Uml::Visibility::Private:
         case Uml::Visibility::Protected:
-            scopeStr = Uml::Visibility::toString((Uml::Visibility::Value) scopePolicy);
+            scopeStr = Uml::Visibility::toString(scopePolicy);
             break;
         default:
         case Uml::Visibility::FromParent:

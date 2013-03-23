@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -36,14 +36,14 @@ struct WidgetRole
     UMLWidget *umlWidget;
 
     // The following are used only in case of absence of UMLObject
-    Uml::Visibility         visibility;
-    Uml::Changeability      changeability;
-    QString                 roleDocumentation;
+    Uml::Visibility::Enum      visibility;
+    Uml::Changeability::Enum   changeability;
+    QString                    roleDocumentation;
 
     WidgetRole();
     ~WidgetRole();
 
-    void initFloatingWidgets(Uml::Role_Type role, AssociationWidget *parent);
+    void initFloatingWidgets(Uml::RoleType::Enum role, AssociationWidget *parent);
 };
 
 /**
@@ -71,7 +71,7 @@ class AssociationWidget : public WidgetBase, public LinkWidget
     Q_OBJECT
 public:
     AssociationWidget();
-    AssociationWidget(UMLWidget *widgetA, Uml::AssociationType type,
+    AssociationWidget(UMLWidget *widgetA, Uml::AssociationType::Enum type,
                       UMLWidget *widgetB, UMLObject *obj = 0);
     virtual ~AssociationWidget();
 
@@ -100,7 +100,7 @@ public:
 
     virtual void constrainTextPos(UMLSceneValue &textX, UMLSceneValue &textY,
                                   UMLSceneValue textWidth, UMLSceneValue textHeight,
-                                  Uml::TextRole tr);
+                                  Uml::TextRole::Enum tr);
 
     virtual void calculateNameTextSegment();
 
@@ -111,45 +111,45 @@ public:
 
     bool isEqual(AssociationWidget *other) const;
 
-    FloatingTextWidget* textWidgetByRole(Uml::TextRole tr) const;
+    FloatingTextWidget* textWidgetByRole(Uml::TextRole::Enum tr) const;
 
     FloatingTextWidget* nameWidget() const;
 
-    FloatingTextWidget* roleWidget(Uml::Role_Type role) const;
-    QString roleName(Uml::Role_Type role) const;
-    void setRoleName(const QString &strRole, Uml::Role_Type role);
+    FloatingTextWidget* roleWidget(Uml::RoleType::Enum role) const;
+    QString roleName(Uml::RoleType::Enum role) const;
+    void setRoleName(const QString &strRole, Uml::RoleType::Enum role);
 
-    QString roleDocumentation(Uml::Role_Type role) const;
-    void setRoleDocumentation(const QString& doc, Uml::Role_Type role);
+    QString roleDocumentation(Uml::RoleType::Enum role) const;
+    void setRoleDocumentation(const QString& doc, Uml::RoleType::Enum role);
 
-    FloatingTextWidget* multiplicityWidget(Uml::Role_Type role) const;
-    QString multiplicity(Uml::Role_Type role) const;
-    void setMultiplicity(const QString& text, Uml::Role_Type role);
+    FloatingTextWidget* multiplicityWidget(Uml::RoleType::Enum role) const;
+    QString multiplicity(Uml::RoleType::Enum role) const;
+    void setMultiplicity(const QString& text, Uml::RoleType::Enum role);
 
-    Uml::Visibility visibility(Uml::Role_Type role) const;
-    void setVisibility(Uml::Visibility value, Uml::Role_Type role);
+    Uml::Visibility::Enum visibility(Uml::RoleType::Enum role) const;
+    void setVisibility(Uml::Visibility::Enum value, Uml::RoleType::Enum role);
 
-    FloatingTextWidget* changeabilityWidget(Uml::Role_Type role) const;
-    Uml::Changeability changeability(Uml::Role_Type role) const;
-    void setChangeability(Uml::Changeability value, Uml::Role_Type role);
+    FloatingTextWidget* changeabilityWidget(Uml::RoleType::Enum role) const;
+    Uml::Changeability::Enum changeability(Uml::RoleType::Enum role) const;
+    void setChangeability(Uml::Changeability::Enum value, Uml::RoleType::Enum role);
 
-    Uml::IDType widgetIDForRole(Uml::Role_Type role) const;
-    UMLWidget* widgetForRole(Uml::Role_Type role) const;
-    void setWidgetForRole(UMLWidget* widget, Uml::Role_Type role);
+    Uml::ID::Type widgetIDForRole(Uml::RoleType::Enum role) const;
+    UMLWidget* widgetForRole(Uml::RoleType::Enum role) const;
+    void setWidgetForRole(UMLWidget* widget, Uml::RoleType::Enum role);
 
     void setWidgets(UMLWidget *widgetA, UMLWidget *widgetB);
 
     bool associates(UMLWidget *a, UMLWidget *b) const;
     bool containsWidget(UMLWidget *widget) const;
 
-    Uml::Role_Type roleForWidget(UMLWidget *widget) const;
+    Uml::RoleType::Enum roleForWidget(UMLWidget *widget) const;
     bool isSelf() const;
 
     ClassifierWidget* associationClass() const;
     void setAssociationClass(ClassifierWidget *classifier);
 
-    Uml::AssociationType associationType() const;
-    void setAssociationType(Uml::AssociationType type);
+    Uml::AssociationType::Enum associationType() const;
+    void setAssociationType(Uml::AssociationType::Enum type);
 
     bool isCollaboration() const;
 
@@ -195,9 +195,9 @@ protected:
 private:
     void init();
 
-    UMLScenePoint calculateTextPosition(Uml::TextRole role);
-    void setTextPosition(Uml::TextRole role);
-    void setFloatingText(Uml::TextRole role, const QString& text, FloatingTextWidget* ft);
+    UMLScenePoint calculateTextPosition(Uml::TextRole::Enum role);
+    void setTextPosition(Uml::TextRole::Enum role);
+    void setFloatingText(Uml::TextRole::Enum role, const QString& text, FloatingTextWidget* ft);
 
     void updateNameWidgetRole();
 
@@ -205,7 +205,7 @@ private:
 
     AssociationLine *m_associationLine;
     ClassifierWidget *m_associationClass;
-    Uml::AssociationType m_associationType;
+    Uml::AssociationType::Enum m_associationType;
     WidgetRole m_role[2];
     FloatingTextWidget *m_nameWidget;
     int m_nameSegmentIndex;

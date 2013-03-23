@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -35,7 +35,7 @@ void CPPSourceCodeClassFieldDeclarationBlock::updateContent( )
 
     // Set the body
     QString staticValue = getParentObject()->isStatic() ? "static " : "";
-    QString scopeStr = getParentObject()->visibility().toString();
+    QString scopeStr = Uml::Visibility::toString(getParentObject()->visibility());
 
     QString typeName = jcf->getTypeName();
     QString fieldName = jcf->getFieldName();

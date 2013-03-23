@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Alexander Blum <blum@kewbee.de>               *
- *   copyright (C) 2004-2012                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -671,7 +671,7 @@ void ASWriter::writeAssociation(QString& classname, UMLAssociationList& assocLis
     foreach (UMLAssociation *a , assocList )
     {
         // association side
-        Uml::Role_Type role = a->getObject(Uml::A)->name() == classname ? Uml::B:Uml::A;
+        Uml::RoleType::Enum role = a->getObject(Uml::RoleType::A)->name() == classname ? Uml::RoleType::B : Uml::RoleType::A;
 
         QString roleName(cleanName(a->getRoleName(role)));
 
@@ -703,11 +703,11 @@ void ASWriter::writeAssociation(QString& classname, UMLAssociationList& assocLis
                 as << m_indentation << "this.m_" << roleName << " = new Array();" << m_endl;
 
             // role visibility
-            if (a->getVisibility(role) == Uml::Visibility::Private)
+            if (a->visibility(role) == Uml::Visibility::Private)
             {
                as << m_indentation << "ASSetPropFlags (this, \"m_" << roleName << "\", 7);" << m_endl;
             }
-            else if (a->getVisibility(role)== Uml::Visibility::Protected)
+            else if (a->visibility(role)== Uml::Visibility::Protected)
             {
                 as << m_indentation << "ASSetPropFlags (this, \"m_" << roleName << "\", 1);" << m_endl;
             }
@@ -774,7 +774,7 @@ void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
  * Returns "ActionScript".
  * @return   the programming language identifier
  */
-Uml::ProgrammingLanguage ASWriter::language() const
+Uml::ProgrammingLanguage::Enum ASWriter::language() const
 {
     return Uml::ProgrammingLanguage::ActionScript;
 }

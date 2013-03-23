@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2012                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -51,7 +51,7 @@ class ToolBarStateMessages : public ToolBarStatePool
     Q_OBJECT
 public:
 
-    ToolBarStateMessages(UMLScene *umlScene);
+    explicit ToolBarStateMessages(UMLScene *umlScene);
     virtual ~ToolBarStateMessages();
 
     virtual void init();
@@ -86,7 +86,7 @@ protected:
     void setFirstWidget(ObjectWidget* firstObject);
     void setSecondWidget(ObjectWidget* secondObject, MessageType messageType);
 
-    Uml::Sequence_Message_Type getMessageType();
+    Uml::SequenceMessage::Enum getMessageType();
 
     void cleanMessage();
 

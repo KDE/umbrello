@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2012                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -263,7 +263,7 @@ bool ClassifierWidget::shouldDrawAsCircle() const
 /**
  * @return The Uml::SignatureType value for the attributes.
  */
-Uml::SignatureType ClassifierWidget::attributeSignature() const
+Uml::SignatureType::Enum ClassifierWidget::attributeSignature() const
 {
     return m_attributeSignature;
 }
@@ -271,7 +271,7 @@ Uml::SignatureType ClassifierWidget::attributeSignature() const
 /**
  * Set's the attribute signature type to \a sigType.
  */
-void ClassifierWidget::setAttributeSignature(Uml::SignatureType sig)
+void ClassifierWidget::setAttributeSignature(Uml::SignatureType::Enum sig)
 {
     m_attributeSignature = sig;
     updateSignatureTypes();
@@ -280,7 +280,7 @@ void ClassifierWidget::setAttributeSignature(Uml::SignatureType sig)
 /**
  * @return The Uml::SignatureType value for the operations.
  */
-Uml::SignatureType ClassifierWidget::operationSignature() const
+Uml::SignatureType::Enum ClassifierWidget::operationSignature() const
 {
     return m_operationSignature;
 }
@@ -288,7 +288,7 @@ Uml::SignatureType ClassifierWidget::operationSignature() const
 /**
  * Set's the operation signature type to \a sigType.
  */
-void ClassifierWidget::setOperationSignature(Uml::SignatureType sig)
+void ClassifierWidget::setOperationSignature(Uml::SignatureType::Enum sig)
 {
     m_operationSignature = sig;
     updateSignatureTypes();
@@ -415,8 +415,8 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
     setVisualProperty(ShowVisibility, (bool)showscope.toInt());
     setVisualProperty(DrawAsCircle,   (bool)drawascircle.toInt());
 
-    setAttributeSignature(Uml::SignatureType::Value(showattsigs.toInt()));
-    setOperationSignature(Uml::SignatureType::Value(showopsigs.toInt()));
+    setAttributeSignature(Uml::SignatureType::fromInt(showattsigs.toInt()));
+    setOperationSignature(Uml::SignatureType::fromInt(showopsigs.toInt()));
 
     return true;
 }
@@ -477,7 +477,7 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem*,
 
         painter->setPen(QPen(Qt::NoPen));
         painter->setBrush(awesomeHeaderBrush());
-        Uml::Corners corners(Uml::corner_TopLeft | Uml::corner_TopRight);
+        Uml::Corners corners(Uml::Corner::TopLeft | Uml::Corner::TopRight);
         Widget_Utils::drawRoundedRect(painter, textItemGroupAt(HeaderGroupIndex)->groupGeometry(),
                                       2, 2, corners);
 

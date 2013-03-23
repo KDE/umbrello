@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -51,7 +51,7 @@ const UMLSceneValue FloatingTextWidget::restrictPositionMax = 3000;
  * @param text the main text to display
  * @param id   the ID to assign (-1 will prompt a new ID)
  */
-FloatingTextWidget::FloatingTextWidget(Uml::TextRole role, Uml::IDType id)
+FloatingTextWidget::FloatingTextWidget(Uml::TextRole::Enum role, Uml::ID::Type id)
   : UMLWidget(WidgetBase::wt_Text, id),
     m_linkWidget(0),
     m_text(QString()),
@@ -164,6 +164,8 @@ void FloatingTextWidget::setPostText(const QString &t)
 /**
  * Use to get the total text (prepended + main body + appended)
  * currently displayed by the widget.
+ *
+ * @return The text currently being displayed by the widget.
  */
 QString FloatingTextWidget::displayText() const
 {
@@ -315,7 +317,7 @@ LinkWidget* FloatingTextWidget::link() const
  * Sets the role of this FloatingTextWidget to \a role.
  * @param role   the new role
  */
-void FloatingTextWidget::setTextRole(Uml::TextRole role)
+void FloatingTextWidget::setTextRole(Uml::TextRole::Enum role)
 {
     m_textRole = role;
     updateTextItemGroups();
@@ -325,7 +327,7 @@ void FloatingTextWidget::setTextRole(Uml::TextRole role)
  * Return the text role of this FloatingTextWidget.
  * @return the TextRole of this FloatingTextWidget
  */
-Uml::TextRole FloatingTextWidget::textRole() const
+Uml::TextRole::Enum FloatingTextWidget::textRole() const
 {
     return m_textRole;
 }
@@ -337,13 +339,13 @@ void FloatingTextWidget::handleRename()
 {
     QRegExpValidator v(QRegExp(".*"), 0);
     QString t;
-    if(m_textRole == Uml::TextRole::RoleAName || m_textRole == Uml::TextRole::RoleBName) {
+    if (m_textRole == Uml::TextRole::RoleAName || m_textRole == Uml::TextRole::RoleBName) {
         t = i18n("Enter role name:");
     } else if (m_textRole == Uml::TextRole::MultiA || m_textRole == Uml::TextRole::MultiB) {
         t = i18n("Enter multiplicity:");
         /*
         // NO! shouldn't be allowed
-        } else if(m_textRole == Uml::TextRole::ChangeA || m_textRole == Uml::TextRole::ChangeB) {
+        } else if (m_textRole == Uml::TextRole::ChangeA || m_textRole == Uml::TextRole::ChangeB ) {
         t = i18n("Enter changeability");
         */
     } else if (m_textRole == Uml::TextRole::Name) {
@@ -374,22 +376,22 @@ void FloatingTextWidget::changeName(const QString& newText)
         if (assoc) {
             switch (m_textRole) {
               case Uml::TextRole::MultiA:
-                assoc->setMultiplicity(QString(), Uml::A);
+                assoc->setMultiplicity(QString(), Uml::RoleType::A);
                 break;
               case Uml::TextRole::MultiB:
-                assoc->setMultiplicity(QString(), Uml::B);
+                assoc->setMultiplicity(QString(), Uml::RoleType::B);
                 break;
               case Uml::TextRole::RoleAName:
-                assoc->setRoleName(QString(), Uml::A);
+                assoc->setRoleName(QString(), Uml::RoleType::A);
                 break;
               case Uml::TextRole::RoleBName:
-                assoc->setRoleName(QString(), Uml::B);
+                assoc->setRoleName(QString(), Uml::RoleType::B);
                 break;
               case Uml::TextRole::ChangeA:
-                assoc->setChangeability(Uml::Changeability::Changeable, Uml::A);
+                assoc->setChangeability(Uml::Changeability::Changeable, Uml::RoleType::A);
                 break;
               case Uml::TextRole::ChangeB:
-                assoc->setChangeability(Uml::Changeability::Changeable, Uml::B);
+                assoc->setChangeability(Uml::Changeability::Changeable, Uml::RoleType::B);
                 break;
               default:
                 assoc->setName(QString());
@@ -470,7 +472,7 @@ bool FloatingTextWidget::loadFromXMI(QDomElement & qElement)
 
     QString role = qElement.attribute("role", "");
     if(!role.isEmpty())
-        m_textRole = Uml::TextRole::Value(role.toInt());
+        m_textRole = Uml::TextRole::fromInt(role.toInt());
 
     m_preText = qElement.attribute("pretext", "");
     m_postText = qElement.attribute("posttext", "");

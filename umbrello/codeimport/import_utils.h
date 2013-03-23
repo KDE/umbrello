@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2011                                               *
+ *   copyright (C) 2005-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -41,12 +41,12 @@ namespace Import_Utils {
 
     void assignUniqueIdOnCreation(bool yesno);
 
-    UMLObject* insertAttribute(UMLClassifier *klass, Uml::Visibility scope,
+    UMLObject* insertAttribute(UMLClassifier *klass, Uml::Visibility::Enum scope,
                                const QString& name,
                                const QString& type,
                                const QString& comment = QString(),
                                bool isStatic = false);
-    UMLObject* insertAttribute(UMLClassifier *klass, Uml::Visibility scope,
+    UMLObject* insertAttribute(UMLClassifier *klass, Uml::Visibility::Enum scope,
                                const QString& name,
                                UMLClassifier *attrType,
                                const QString& comment /* ="" */,
@@ -55,7 +55,7 @@ namespace Import_Utils {
     UMLOperation* makeOperation(UMLClassifier *parent, const QString &name);
 
     void insertMethod(UMLClassifier *klass, UMLOperation* &op,
-                      Uml::Visibility scope, const QString& type,
+                      Uml::Visibility::Enum scope, const QString& type,
                       bool isStatic, bool isAbstract,
                       bool isFriend = false, bool isConstructor = false,
                       const QString& comment = QString());

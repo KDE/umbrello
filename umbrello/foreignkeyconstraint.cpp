@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -28,7 +28,7 @@
  * @param id        The unique id given to this UMLForeignKeyConstraint.
  */
 UMLForeignKeyConstraint::UMLForeignKeyConstraint(UMLObject *parent,
-    const QString& name, Uml::IDType id)
+    const QString& name, Uml::ID::Type id)
   : UMLEntityConstraint(parent, name, id)
 {
     init();
@@ -118,7 +118,7 @@ UMLObject* UMLForeignKeyConstraint::clone() const
  * @param sig   If true will show the attribute type and initial value.
  * @return  Returns a string representation of the UMLAttribute.
  */
-QString UMLForeignKeyConstraint::toString(Uml::SignatureType sig)
+QString UMLForeignKeyConstraint::toString(Uml::SignatureType::Enum sig)
 {
     QString s;
 
@@ -271,7 +271,7 @@ bool UMLForeignKeyConstraint::load( QDomElement & element )
 {
     UMLDoc* doc = UMLApp::app()->document();
 
-    Uml::IDType referencedEntityId = STR2ID( element.attribute("referencedEntity", "") );
+    Uml::ID::Type referencedEntityId = STR2ID( element.attribute("referencedEntity", "") );
 
     UMLObject* obj = doc->findObjectById(referencedEntityId);
     m_ReferencedEntity = static_cast<UMLEntity*>(obj);
@@ -294,8 +294,8 @@ bool UMLForeignKeyConstraint::load( QDomElement & element )
         QString tag = tempElement.tagName();
         if (UMLDoc::tagEq(tag, "AttributeMap")) {
 
-            Uml::IDType keyId = STR2ID(tempElement.attribute("key", ""));
-            Uml::IDType valueId = STR2ID(tempElement.attribute("value", ""));
+            Uml::ID::Type keyId = STR2ID(tempElement.attribute("key", ""));
+            Uml::ID::Type valueId = STR2ID(tempElement.attribute("value", ""));
 
             UMLEntity* parentEntity = static_cast<UMLEntity*>( parent() );
             UMLObject* keyObj = parentEntity->findChildObjectById(keyId);
@@ -381,7 +381,7 @@ bool UMLForeignKeyConstraint::resolveRef()
         }
     }
 
-    QMap<UMLEntityAttribute*, Uml::IDType>::iterator i;
+    QMap<UMLEntityAttribute*, Uml::ID::Type>::iterator i;
     for (i = m_pEntityAttributeIDMap.begin(); i!= m_pEntityAttributeIDMap.end() ; ++i) {
        if ( !ID2STR(i.value()).isEmpty() ) {
            UMLObject* obj = doc->findObjectById(i.value());

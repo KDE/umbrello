@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2011                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -52,11 +52,11 @@ QString clean(const QString& s)
 /**
  * Extract the quid attribute from a petal node and return it as a Uml::IDType.
  */
-Uml::IDType quid(const PetalNode *node)
+Uml::ID::Type quid(const PetalNode *node)
 {
     QString quidStr = node->findAttribute("quid").string;
     if (quidStr.isEmpty())
-        return Uml::id_None;
+        return Uml::ID::None;
     quidStr.remove('\"');
     return STR2ID(quidStr);
 }
@@ -96,7 +96,7 @@ void transferVisibility(const PetalNode *from, UMLObject *to)
 {
     QString vis = from->findAttribute("exportControl").string;
     if (!vis.isEmpty()) {
-        Uml::Visibility v = Uml::Visibility::fromString(clean(vis.toLower()));
+        Uml::Visibility::Enum v = Uml::Visibility::fromString(clean(vis.toLower()));
         to->setVisibility(v);
     }
 }
@@ -267,15 +267,15 @@ public:
                            const QString& quid, const QString& type) {
         UMLAssociation *assoc = static_cast<UMLAssociation*>(item);
         if (!quid.isEmpty()) {
-            assoc->getUMLRole(Uml::B)->setSecondaryId(quid);
+            assoc->getUMLRole(Uml::RoleType::B)->setSecondaryId(quid);
         }
         if (!type.isEmpty()) {
-            assoc->getUMLRole(Uml::B)->setSecondaryFallback(type);
+            assoc->getUMLRole(Uml::RoleType::B)->setSecondaryFallback(type);
         }
     }
     void insertAtParent(const PetalNode *, UMLObject *item) {
         UMLAssociation *assoc = static_cast<UMLAssociation*>(item);
-        assoc->setObject(m_classifier, Uml::A);
+        assoc->setObject(m_classifier, Uml::RoleType::A);
         UMLApp::app()->document()->addAssociation(assoc);
     }
 protected:
@@ -301,15 +301,15 @@ public:
                            const QString& quid, const QString& type) {
         UMLAssociation *assoc = static_cast<UMLAssociation*>(item);
         if (!quid.isEmpty()) {
-            assoc->getUMLRole(Uml::B)->setSecondaryId(quid);
+            assoc->getUMLRole(Uml::RoleType::B)->setSecondaryId(quid);
         }
         if (!type.isEmpty()) {
-            assoc->getUMLRole(Uml::B)->setSecondaryFallback(type);
+            assoc->getUMLRole(Uml::RoleType::B)->setSecondaryFallback(type);
         }
     }
     void insertAtParent(const PetalNode *, UMLObject *item) {
         UMLAssociation *assoc = static_cast<UMLAssociation*>(item);
-        assoc->setObject(m_classifier, Uml::A);
+        assoc->setObject(m_classifier, Uml::RoleType::A);
         UMLApp::app()->document()->addAssociation(assoc);
     }
 protected:
@@ -325,7 +325,7 @@ protected:
  * @param parentPkg  Pointer to the current parent UMLPackage.
  * @return      True if the node actually contained a controlled unit.
  */
-bool handleControlledUnit(PetalNode *node, const QString& name, Uml::IDType id, UMLPackage * parentPkg)
+bool handleControlledUnit(PetalNode *node, const QString& name, Uml::ID::Type id, UMLPackage * parentPkg)
 {
     Q_UNUSED(id); Q_UNUSED(parentPkg);
     if (node->findAttribute("is_unit").string != "TRUE")
@@ -358,7 +358,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL)
     QStringList args = node->initialArgs();
     QString objType = args[0];
     QString name = clean(args[1]);
-    Uml::IDType id = quid(node);
+    Uml::ID::Type id = quid(node);
 
     if (objType == "Class_Category") {
         UMLObject *o = Import_Utils::createUMLObject(UMLObject::ot_Package, name, parentPkg);
@@ -421,7 +421,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL)
             }
             // index 0 corresponds to Umbrello roleB
             // index 1 corresponds to Umbrello roleA
-            UMLRole *role = assoc->getUMLRole((Uml::Role_Type) !i);
+            UMLRole *role = assoc->getUMLRole(Uml::RoleType::fromInt(!i));
             QStringList initialArgs = roleNode->initialArgs();
             if (initialArgs.count() > 1) {
                 QString roleName = clean(initialArgs[1]);
@@ -513,7 +513,7 @@ bool umbrellify(PetalNode *node, const QString& modelsName, UMLListViewItem *par
     QStringList args = node->initialArgs();
     QString objType = args[0];
     QString name = clean(args[1]);
-    Uml::IDType id = quid(node);
+    Uml::ID::Type id = quid(node);
     UMLObject *obj = NULL;
     UMLListViewItem *item = NULL;
 

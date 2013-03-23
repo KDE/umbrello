@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2012                                                    *
+ *   copyright (C) 2012-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -148,7 +148,7 @@ public:
     /**
      * generate layout and apply it to the given diagram.
      *
-     * @return true if generating succeded
+     * @return true if generating succeeded
     */
     bool generate(UMLScene *scene, const QString &variant = QString())
     {
@@ -227,20 +227,20 @@ public:
     {
         foreach(AssociationWidget *assoc, scene->associationList()) {
             AssociationLine *path = assoc->associationLine();
-            QString type = assoc->associationType().toString().toLower();
+            QString type = Uml::AssociationType::toString(assoc->associationType()).toLower();
             QString key = "type::" + type;
 
             QString id;
             if (m_edgeParameters.contains("id::" + key) && m_edgeParameters["id::" + key] == "swap")
-                id = fixID(ID2STR(assoc->widgetIDForRole(Uml::A)) + ID2STR(assoc->widgetIDForRole(Uml::B)));
+                id = fixID(ID2STR(assoc->widgetIDForRole(Uml::RoleType::A)) + ID2STR(assoc->widgetIDForRole(Uml::RoleType::B)));
             else
-                id = fixID(ID2STR(assoc->widgetIDForRole(Uml::B)) + ID2STR(assoc->widgetIDForRole(Uml::A)));
+                id = fixID(ID2STR(assoc->widgetIDForRole(Uml::RoleType::B)) + ID2STR(assoc->widgetIDForRole(Uml::RoleType::A)));
 
             // adjust associations not used in the dot file
             if (!m_edges.contains(id)) {
                 // shorten line path
                 AssociationLine *path = assoc->associationLine();
-                if (path->count() > 2 && assoc->widgetIDForRole(Uml::A) != assoc->widgetIDForRole(Uml::B)) {
+                if (path->count() > 2 && assoc->widgetIDForRole(Uml::RoleType::A) != assoc->widgetIDForRole(Uml::RoleType::B)) {
                     while(path->count() > 2)
                         path->removePoint(1);
                 }
@@ -269,7 +269,7 @@ public:
             }
             */
             /*
-             * here stuff could be added to add more points from informations returned by dot.
+             * here stuff could be added to add more points from information returned by dot.
             */
         }
 
@@ -302,7 +302,7 @@ public:
      */
     static bool availableConfigFiles(UMLScene *scene, QHash<QString,QString> &configFiles)
     {
-        QString diagramType = scene->type().toString().toLower();
+        QString diagramType = Uml::DiagramType::toString(scene->type()).toLower();
         KStandardDirs dirs;
 
         QStringList fileNames = dirs.findAllResources("data", QString("umbrello/layouts/%1*.desktop").arg(diagramType));

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -290,7 +290,7 @@ void UMLOperationDialog::slotNewParameter()
     UMLAttribute* pAtt = 0;
 
     QString currentName = m_operation->getUniqueParameterName();
-    UMLAttribute* newAttribute = new UMLAttribute(m_operation, currentName, Uml::id_Reserved);
+    UMLAttribute* newAttribute = new UMLAttribute(m_operation, currentName, Uml::ID::Reserved);
 
     QPointer<ParmPropDlg> dlg = new ParmPropDlg(this, m_doc, newAttribute);
     if ( dlg->exec() ) {

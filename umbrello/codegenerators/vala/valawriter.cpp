@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2009-2012                                               *
+ *   copyright (C) 2009-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -311,7 +311,7 @@ void ValaWriter::writeClass(UMLClassifier *c)
 
         if (!realizations.isEmpty()) {
             foreach (UMLAssociation* a , realizations ) {
-                UMLClassifier *real = (UMLClassifier*)a->getObject(Uml::B);
+                UMLClassifier *real = (UMLClassifier*)a->getObject(Uml::RoleType::B);
                 if(real != c) {
                     // write list of realizations
                     cs << ", " << real->name();
@@ -477,7 +477,7 @@ void ValaWriter::writeRealizationsRecursive(UMLClassifier *currentClass, UMLAsso
         UMLAssociation *a = alit.next();
 
         // we know it is a classifier if it is in the list
-        UMLClassifier *real = (UMLClassifier*)a->getObject(Uml::B);
+        UMLClassifier *real = (UMLClassifier*)a->getObject(Uml::RoleType::B);
 
         //FIXME: Interfaces realize themselves without this condition!?
         if (real == currentClass) {
@@ -558,14 +558,14 @@ void ValaWriter::writeOperations(UMLOperationList opList,
                 if (op->isAbstract()) {
                     cs << "abstract ";
                 }
-                cs << op->visibility().toString() << " ";
+                cs << Uml::Visibility::toString(op->visibility()) << " ";
                 if (op->isStatic()) {
                     cs << "static ";
                 }
             }
             else {
                 // method overriding an abstract parent
-                cs << op->visibility().toString() << " override ";
+                cs << Uml::Visibility::toString(op->visibility()) << " override ";
                 if (op->isStatic()) {
                     cs << "static ";
                 }
@@ -711,32 +711,32 @@ void ValaWriter::writeAttributes(UMLAttributeList &atList, QTextStream &cs)
 void ValaWriter::writeAssociatedAttributes(UMLAssociationList &associated, UMLClassifier *c, QTextStream &cs)
 {
     foreach (UMLAssociation *a,  associated ) {
-        if (c != a->getObject(Uml::A)) { // we need to be at the A side
+        if (c != a->getObject(Uml::RoleType::A)) { // we need to be at the A side
             continue;
         }
 
-        UMLObject *o = a->getObject(Uml::B);
+        UMLObject *o = a->getObject(Uml::RoleType::B);
         if (o == NULL) {
             uError() << "composition role B object is NULL";
             continue;
         }
         // Take name and documentaton from Role, take type name from the referenced object
-        QString roleName = cleanName(a->getRoleName(Uml::B));
+        QString roleName = cleanName(a->getRoleName(Uml::RoleType::B));
         QString typeName = cleanName(o->name());
         if (roleName.isEmpty()) {
             roleName = QString("UnnamedRoleB_%1").arg(m_unnamedRoles++);
         }
-        QString roleDoc = a->getRoleDoc(Uml::B);
+        QString roleDoc = a->getRoleDoc(Uml::RoleType::B);
 
         //FIXME:is this simple condition enough?
-        if (a->getMultiplicity(Uml::B).isEmpty() || a->getMultiplicity(Uml::B) == "1")  {
+        if (a->getMultiplicity(Uml::RoleType::B).isEmpty() || a->getMultiplicity(Uml::RoleType::B) == "1")  {
             // normal attribute
-            writeAttribute(roleDoc, a->getVisibility(Uml::B), false, typeName, roleName, "", ( a->getVisibility(Uml::B) != Uml::Visibility::Private), cs);
+            writeAttribute(roleDoc, a->visibility(Uml::RoleType::B), false, typeName, roleName, "", ( a->visibility(Uml::RoleType::B) != Uml::Visibility::Private), cs);
         }
         else {
             // array
             roleDoc += "\n(Array of " + typeName + ')';
-            writeAttribute(roleDoc, a->getVisibility(Uml::B), false, "ArrayList", roleName, "", ( a->getVisibility(Uml::B) != Uml::Visibility::Private), cs);
+            writeAttribute(roleDoc, a->visibility(Uml::RoleType::B), false, "ArrayList", roleName, "", ( a->visibility(Uml::RoleType::B) != Uml::Visibility::Private), cs);
         }
     }
 }
@@ -753,7 +753,7 @@ void ValaWriter::writeAssociatedAttributes(UMLAssociationList &associated, UMLCl
  * @param cs output stream
  */
 void ValaWriter::writeAttribute(const QString& doc,
-                                  Uml::Visibility visibility,
+                                  Uml::Visibility::Enum visibility,
                                   bool isStatic,
                                   const QString& typeName,
                                   const QString& name,
@@ -772,7 +772,7 @@ void ValaWriter::writeAttribute(const QString& doc,
         cs << m_container_indent << m_indentation << " */" << m_endl;
     }
     cs << m_container_indent << m_indentation;
-    cs << visibility.toString() << " ";
+    cs << Uml::Visibility::toString(visibility) << " ";
     if (isStatic) {
         cs << "static ";
     }
@@ -832,7 +832,7 @@ QString ValaWriter::makeLocalTypeName(UMLClassifierListItem *cl)
  * Returns "Vala".
  * @return programming language id
  */
-Uml::ProgrammingLanguage ValaWriter::language() const
+Uml::ProgrammingLanguage::Enum ValaWriter::language() const
 {
     return Uml::ProgrammingLanguage::Vala;
 }

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -101,8 +101,8 @@ DEBUG_REGISTER(UMLScene)
  */
 UMLScene::UMLScene(UMLFolder *parentFolder)
   : QGraphicsScene(0, 0, defaultCanvasSize, defaultCanvasSize),
-    m_nLocalID(Uml::id_None),
-    m_nID(Uml::id_None),
+    m_nLocalID(Uml::ID::None),
+    m_nID(Uml::ID::None),
     m_Type(Uml::DiagramType::Undefined),
     m_Name(QString()),
     m_Documentation(QString()),
@@ -237,7 +237,7 @@ void UMLScene::setName(const QString &name)
 /**
  * Returns the type of the diagram.
  */
-Uml::DiagramType UMLScene::type() const
+DiagramType::Enum UMLScene::type() const
 {
     return m_Type;
 }
@@ -245,7 +245,7 @@ Uml::DiagramType UMLScene::type() const
 /**
  * Set the type of diagram.
  */
-void UMLScene::setType(Uml::DiagramType type)
+void UMLScene::setType(DiagramType::Enum type)
 {
     m_Type = type;
 }
@@ -253,7 +253,7 @@ void UMLScene::setType(Uml::DiagramType type)
 /**
  * Returns the ID of the diagram.
  */
-Uml::IDType UMLScene::ID() const
+Uml::ID::Type UMLScene::ID() const
 {
     return m_nID;
 }
@@ -261,7 +261,7 @@ Uml::IDType UMLScene::ID() const
 /**
  * Sets the ID of the diagram.
  */
-void UMLScene::setID(Uml::IDType id)
+void UMLScene::setID(Uml::ID::Type id)
 {
     m_nID = id;
 }
@@ -505,7 +505,7 @@ void UMLScene::setupNewWidget(UMLWidget *w)
     w->setPos(m_Pos);
     w->activate();
 
-    resizeCanvasToItems();
+    resizeSceneToItems();
     m_WidgetList.append(w);
     m_doc->setModified();
 
@@ -597,7 +597,7 @@ void UMLScene::slotObjectCreated(UMLObject* o)
         default:
             break;
     }
-    resizeCanvasToItems();
+    resizeSceneToItems();
 }
 
 /**
@@ -607,7 +607,7 @@ void UMLScene::slotObjectCreated(UMLObject* o)
 void UMLScene::slotObjectRemoved(UMLObject * o)
 {
     m_bPaste = false;
-    Uml::IDType id = o->id();
+    Uml::ID::Type id = o->id();
 
     foreach(UMLWidget* obj, m_WidgetList) {
         if (obj->id() != id)
@@ -634,9 +634,9 @@ void UMLScene::dragEnterEvent(UMLSceneDragEnterEvent *e)
     }
     tid = tidIt.next();
     UMLListViewItem::ListViewType lvtype = tid->type;
-    Uml::IDType id = tid->id;
+    Uml::ID::Type id = tid->id;
 
-    DiagramType diagramType = type();
+    DiagramType::Enum diagramType = type();
 
     UMLObject* temp = 0;
     //if dragging diagram - might be a drag-to-note
@@ -746,7 +746,7 @@ void UMLScene::dropEvent(UMLSceneDragDropEvent *e)
     }
     tid = tidIt.next();
     UMLListViewItem::ListViewType lvtype = tid->type;
-    Uml::IDType id = tid->id;
+    Uml::ID::Type id = tid->id;
 
     if (Model_Utils::typeIsDiagram(lvtype)) {
         bool breakFlag = false;
@@ -975,7 +975,7 @@ void UMLScene::checkMessages(ObjectWidget * w)
  *
  * @return Returns true if the widget is already on the diagram, false if not.
  */
-bool UMLScene::widgetOnDiagram(Uml::IDType id)
+bool UMLScene::widgetOnDiagram(Uml::ID::Type id)
 {
 
     foreach(UMLWidget *obj, m_WidgetList) {
@@ -998,7 +998,7 @@ bool UMLScene::widgetOnDiagram(Uml::IDType id)
  *
  * @return Returns the widget found, returns 0 if no widget found.
  */
-UMLWidget * UMLScene::findWidget(Uml::IDType id)
+UMLWidget * UMLScene::findWidget(Uml::ID::Type id)
 {
     foreach(UMLWidget* obj, m_WidgetList) {
         // object widgets are special..the widget id is held by 'localId' attribute (crappy!)
@@ -1025,7 +1025,7 @@ UMLWidget * UMLScene::findWidget(Uml::IDType id)
  *
  * @return Returns the widget found, returns 0 if no widget found.
  */
-AssociationWidget * UMLScene::findAssocWidget(Uml::IDType id)
+AssociationWidget * UMLScene::findAssocWidget(Uml::ID::Type id)
 {
     foreach(AssociationWidget* obj , m_AssociationList) {
         UMLAssociation* umlassoc = obj->association();
@@ -1052,7 +1052,7 @@ AssociationWidget * UMLScene::findAssocWidget(UMLWidget *pWidgetA,
                                               UMLWidget *pWidgetB, const QString& roleNameB)
 {
     foreach(AssociationWidget* assoc, m_AssociationList) {
-        const Uml::AssociationType testType = assoc->associationType();
+        const Uml::AssociationType::Enum testType = assoc->associationType();
         if (testType != Uml::AssociationType::Association &&
                 testType != Uml::AssociationType::UniAssociation &&
                 testType != Uml::AssociationType::Composition &&
@@ -1061,9 +1061,9 @@ AssociationWidget * UMLScene::findAssocWidget(UMLWidget *pWidgetA,
             continue;
         }
 
-        if (pWidgetA->id() == assoc->widgetIDForRole(Uml::A) &&
-                pWidgetB->id() == assoc->widgetIDForRole(Uml::B) &&
-                assoc->roleName(Uml::B) == roleNameB) {
+        if (pWidgetA->id() == assoc->widgetIDForRole(Uml::RoleType::A) &&
+                pWidgetB->id() == assoc->widgetIDForRole(Uml::RoleType::B) &&
+                assoc->roleName(Uml::RoleType::B) == roleNameB) {
             return assoc;
         }
     }
@@ -1079,17 +1079,17 @@ AssociationWidget * UMLScene::findAssocWidget(UMLWidget *pWidgetA,
  *
  * @return Returns the widget found, returns 0 if no widget found.
  */
-AssociationWidget * UMLScene::findAssocWidget(Uml::AssociationType at,
+AssociationWidget * UMLScene::findAssocWidget(AssociationType::Enum at,
                                               UMLWidget *pWidgetA, UMLWidget *pWidgetB)
 {
     foreach(AssociationWidget* assoc, m_AssociationList) {
-        Uml::AssociationType testType = assoc->associationType();
+        Uml::AssociationType::Enum testType = assoc->associationType();
         if (testType != at) {
             continue;
         }
 
-        if (pWidgetA->id() == assoc->widgetIDForRole(Uml::A) &&
-                pWidgetB->id() == assoc->widgetIDForRole(Uml::B)) {
+        if (pWidgetA->id() == assoc->widgetIDForRole(Uml::RoleType::A) &&
+                pWidgetB->id() == assoc->widgetIDForRole(Uml::RoleType::B)) {
             return assoc;
         }
     }
@@ -1417,7 +1417,7 @@ void UMLScene::selectAll()
  *
  * @return Return a unique ID for the diagram.
  */
-Uml::IDType UMLScene::localID()
+Uml::ID::Type UMLScene::localID()
 {
     m_nLocalID = UniqueID::gen();
     return m_nLocalID;
@@ -1487,15 +1487,15 @@ void UMLScene::selectWidgetsOfAssoc(AssociationWidget * a)
     if (a) {
         a->setSelected(true);
         //select the two widgets
-        makeSelected(a->widgetForRole(Uml::A));
-        makeSelected(a->widgetForRole(Uml::B));
+        makeSelected(a->widgetForRole(Uml::RoleType::A));
+        makeSelected(a->widgetForRole(Uml::RoleType::B));
         //select all the text
-        makeSelected(a->multiplicityWidget(Uml::A));
-        makeSelected(a->multiplicityWidget(Uml::B));
-        makeSelected(a->roleWidget(Uml::A));
-        makeSelected(a->roleWidget(Uml::B));
-        makeSelected(a->changeabilityWidget(Uml::A));
-        makeSelected(a->changeabilityWidget(Uml::B));
+        makeSelected(a->multiplicityWidget(Uml::RoleType::A));
+        makeSelected(a->multiplicityWidget(Uml::RoleType::B));
+        makeSelected(a->roleWidget(Uml::RoleType::A));
+        makeSelected(a->roleWidget(Uml::RoleType::B));
+        makeSelected(a->changeabilityWidget(Uml::RoleType::A));
+        makeSelected(a->changeabilityWidget(Uml::RoleType::B));
     }
 }
 
@@ -1808,10 +1808,10 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
     case WidgetBase::wt_Actor:
     case WidgetBase::wt_UseCase:
     case WidgetBase::wt_Category: {
-        Uml::IDType id = pWidget->id();
-        Uml::IDType newID = log ? log->findNewID(id) : Uml::id_None;
-        if (newID == Uml::id_None) {   // happens after a cut
-            if (id == Uml::id_None)
+        Uml::ID::Type id = pWidget->id();
+        Uml::ID::Type newID = log ? log->findNewID(id) : Uml::ID::None;
+        if (newID == Uml::ID::None) {   // happens after a cut
+            if (id == Uml::ID::None)
                 return false;
             newID = id; //don't stop paste
         } else
@@ -1843,7 +1843,7 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
     case WidgetBase::wt_State:
     case WidgetBase::wt_Activity:
     case WidgetBase::wt_ObjectNode: {
-        Uml::IDType newID = m_doc->assignNewID(pWidget->id());
+        Uml::ID::Type newID = m_doc->assignNewID(pWidget->id());
         pWidget->setID(newID);
         if (type != WidgetBase::wt_Message) {
             m_WidgetList.append(pWidget);
@@ -1856,13 +1856,13 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
             DEBUG(DBG_SRC) << "pMessage is NULL";
             return false;
         }
-        ObjectWidget *objWidgetA = pMessage->objectWidget(A);
-        ObjectWidget *objWidgetB = pMessage->objectWidget(B);
-        Uml::IDType waID = objWidgetA->localID();
-        Uml::IDType wbID = objWidgetB->localID();
-        Uml::IDType newWAID = m_pIDChangesLog->findNewID(waID);
-        Uml::IDType newWBID = m_pIDChangesLog->findNewID(wbID);
-        if (newWAID == Uml::id_None || newWBID == Uml::id_None) {
+        ObjectWidget *objWidgetA = pMessage->objectWidget(Uml::RoleType::A);
+        ObjectWidget *objWidgetB = pMessage->objectWidget(Uml::RoleType::B);
+        Uml::ID::Type waID = objWidgetA->localID();
+        Uml::ID::Type wbID = objWidgetB->localID();
+        Uml::ID::Type newWAID = m_pIDChangesLog->findNewID(waID);
+        Uml::ID::Type newWBID = m_pIDChangesLog->findNewID(wbID);
+        if (newWAID == Uml::ID::None || newWBID == Uml::ID::None) {
             DEBUG(DBG_SRC) << "Error with ids : " << ID2STR(newWAID)
                            << " " << ID2STR(newWBID);
             return false;
@@ -1875,11 +1875,11 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
         if (ft == NULL) {
             DEBUG(DBG_SRC) << "FloatingTextWidget of Message is NULL";
         }
-        else if (ft->id() == Uml::id_None) {
+        else if (ft->id() == Uml::ID::None) {
             ft->setID(UniqueID::gen());
         }
         else {
-            Uml::IDType newTextID = m_doc->assignNewID(ft->id());
+            Uml::ID::Type newTextID = m_doc->assignNewID(ft->id());
             ft->setID(newTextID);
         }
         m_MessageList.append(pMessage);
@@ -1892,8 +1892,8 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
             DEBUG(DBG_SRC) << "pObjectWidget is NULL";
             return false;
         }
-        Uml::IDType nNewLocalID = localID();
-        Uml::IDType nOldLocalID = pObjectWidget->localID();
+        Uml::ID::Type nNewLocalID = localID();
+        Uml::ID::Type nOldLocalID = pObjectWidget->localID();
         m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
         pObjectWidget->setLocalID(nNewLocalID);
         UMLObject *pObject = m_doc->findObjectById(pWidget->id());
@@ -1912,13 +1912,13 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
             DEBUG(DBG_SRC) << "pObjectWidget is NULL";
             return false;
         }
-        Uml::IDType newID = log->findNewID(pWidget->id());
-        if (newID == Uml::id_None) {
+        Uml::ID::Type newID = log->findNewID(pWidget->id());
+        if (newID == Uml::ID::None) {
             return false;
         }
         pObjectWidget->setID(newID);
-        Uml::IDType nNewLocalID = localID();
-        Uml::IDType nOldLocalID = pObjectWidget->localID();
+        Uml::ID::Type nNewLocalID = localID();
+        Uml::ID::Type nOldLocalID = pObjectWidget->localID();
         m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
         pObjectWidget->setLocalID(nNewLocalID);
         UMLObject *pObject = m_doc->findObjectById(newID);
@@ -1939,13 +1939,13 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
             DEBUG(DBG_SRC) << "pObjectWidget is NULL";
             return false;
         }
-        Uml::IDType newID = log->findNewID(pWidget->id());
-        if (newID == Uml::id_None) {
+        Uml::ID::Type newID = log->findNewID(pWidget->id());
+        if (newID == Uml::ID::None) {
             return false;
         }
         pObjectWidget->setID(newID);
-        Uml::IDType nNewLocalID = localID();
-        Uml::IDType nOldLocalID = pObjectWidget->localID();
+        Uml::ID::Type nNewLocalID = localID();
+        Uml::ID::Type nOldLocalID = pObjectWidget->localID();
         m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
         pObjectWidget->setLocalID(nNewLocalID);
         UMLObject *pObject = m_doc->findObjectById(newID);
@@ -1977,7 +1977,7 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
         return false;
     }
     addItem(pAssoc);
-    const Uml::AssociationType assocType = pAssoc->associationType();
+    const Uml::AssociationType::Enum assocType = pAssoc->associationType();
 
     if (isPasteOperation) {
         IDChangeLog * log = m_doc->changeLog();
@@ -1987,50 +1987,50 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
             return false;
         }
 
-        Uml::IDType ida = Uml::id_None, idb = Uml::id_None;
+        Uml::ID::Type ida = Uml::ID::None, idb = Uml::ID::None;
         if (type() == DiagramType::Collaboration || type() == DiagramType::Sequence) {
             //check local log first
-            ida = m_pIDChangesLog->findNewID(pAssoc->widgetIDForRole(Uml::A));
-            idb = m_pIDChangesLog->findNewID(pAssoc->widgetIDForRole(Uml::B));
+            ida = m_pIDChangesLog->findNewID(pAssoc->widgetIDForRole(Uml::RoleType::A));
+            idb = m_pIDChangesLog->findNewID(pAssoc->widgetIDForRole(Uml::RoleType::B));
             //if either is still not found and assoc type is anchor
             //we are probably linking to a notewidet - else an error
-            if (ida == Uml::id_None && assocType == Uml::AssociationType::Anchor)
-                ida = log->findNewID(pAssoc->widgetIDForRole(Uml::A));
-            if (idb == Uml::id_None && assocType == Uml::AssociationType::Anchor)
-                idb = log->findNewID(pAssoc->widgetIDForRole(Uml::B));
+            if (ida == Uml::ID::None && assocType == Uml::AssociationType::Anchor)
+                ida = log->findNewID(pAssoc->widgetIDForRole(Uml::RoleType::A));
+            if (idb == Uml::ID::None && assocType == Uml::AssociationType::Anchor)
+                idb = log->findNewID(pAssoc->widgetIDForRole(Uml::RoleType::B));
         } else {
-            Uml::IDType oldIdA = pAssoc->widgetIDForRole(Uml::A);
-            Uml::IDType oldIdB = pAssoc->widgetIDForRole(Uml::B);
+            Uml::ID::Type oldIdA = pAssoc->widgetIDForRole(Uml::RoleType::A);
+            Uml::ID::Type oldIdB = pAssoc->widgetIDForRole(Uml::RoleType::B);
             ida = log->findNewID(oldIdA);
-            if (ida == Uml::id_None) {  // happens after a cut
-                if (oldIdA == Uml::id_None) {
+            if (ida == Uml::ID::None) {  // happens after a cut
+                if (oldIdA == Uml::ID::None) {
                     removeItem(pAssoc);
                     return false;
                 }
                 ida = oldIdA;
             }
             idb = log->findNewID(oldIdB);
-            if (idb == Uml::id_None) {  // happens after a cut
-                if (oldIdB == Uml::id_None) {
+            if (idb == Uml::ID::None) {  // happens after a cut
+                if (oldIdB == Uml::ID::None) {
                     removeItem(pAssoc);
                     return false;
                 }
                 idb = oldIdB;
             }
         }
-        if (ida == Uml::id_None || idb == Uml::id_None) {
+        if (ida == Uml::ID::None || idb == Uml::ID::None) {
             removeItem(pAssoc);
             return false;
         }
         // cant do this anymore.. may cause problem for pasting
         //      pAssoc->setWidgetID(ida, A);
         //      pAssoc->setWidgetID(idb, B);
-        pAssoc->setWidgetForRole(findWidget(ida), Uml::A);
-        pAssoc->setWidgetForRole(findWidget(idb), Uml::B);
+        pAssoc->setWidgetForRole(findWidget(ida), Uml::RoleType::A);
+        pAssoc->setWidgetForRole(findWidget(idb), Uml::RoleType::B);
     }
 
-    UMLWidget * pWidgetA = findWidget(pAssoc->widgetIDForRole(Uml::A));
-    UMLWidget * pWidgetB = findWidget(pAssoc->widgetIDForRole(Uml::B));
+    UMLWidget * pWidgetA = findWidget(pAssoc->widgetIDForRole(Uml::RoleType::A));
+    UMLWidget * pWidgetB = findWidget(pAssoc->widgetIDForRole(Uml::RoleType::B));
     //make sure valid widget ids
     if (!pWidgetA || !pWidgetB) {
         removeItem(pAssoc);
@@ -2062,10 +2062,10 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
     m_AssociationList.append(pAssoc);
 
     FloatingTextWidget *ft[5] = { pAssoc->nameWidget(),
-                                  pAssoc->roleWidget(Uml::A),
-                                  pAssoc->roleWidget(Uml::B),
-                                  pAssoc->multiplicityWidget(Uml::A),
-                                  pAssoc->multiplicityWidget(Uml::B)
+                                  pAssoc->roleWidget(Uml::RoleType::A),
+                                  pAssoc->roleWidget(Uml::RoleType::B),
+                                  pAssoc->multiplicityWidget(Uml::RoleType::A),
+                                  pAssoc->multiplicityWidget(Uml::RoleType::B)
     };
     for (int i = 0; i < 5; i++) {
         FloatingTextWidget *flotxt = ft[i];
@@ -2097,7 +2097,7 @@ void UMLScene::activateAfterLoad(bool bUseLog)
     if (bUseLog) {
         endPartialWidgetPaste();
     }
-    resizeCanvasToItems();
+    resizeSceneToItems();
     m_isActivated = true;
 }
 
@@ -2149,7 +2149,7 @@ void UMLScene::removeAssocInViewAndDoc(AssociationWidget* a)
     if (!a)
         return;
     if (a->associationType() == Uml::AssociationType::Containment) {
-        UMLObject *objToBeMoved = a->widgetForRole(Uml::B)->umlObject();
+        UMLObject *objToBeMoved = a->widgetForRole(Uml::RoleType::B)->umlObject();
         if (objToBeMoved != NULL) {
             UMLListView *lv = UMLApp::app()->listView();
             lv->moveObject(objToBeMoved->id(),
@@ -2191,8 +2191,8 @@ void UMLScene::removeAssociations(UMLWidget* Widget)
 void UMLScene::selectAssociations(bool bSelect)
 {
     foreach(AssociationWidget* assocwidget, m_AssociationList) {
-        UMLWidget *widA = assocwidget->widgetForRole(Uml::A);
-        UMLWidget *widB = assocwidget->widgetForRole(Uml::B);
+        UMLWidget *widA = assocwidget->widgetForRole(Uml::RoleType::A);
+        UMLWidget *widB = assocwidget->widgetForRole(Uml::RoleType::B);
         if (bSelect &&
                 widA && widA->isSelected() &&
                 widB && widB->isSelected()) {
@@ -2212,8 +2212,8 @@ void UMLScene::getWidgetAssocs(UMLObject* Obj, AssociationWidgetList & Associati
         return;
 
     foreach(AssociationWidget* assocwidget, m_AssociationList) {
-        if (assocwidget->widgetForRole(Uml::A)->umlObject() == Obj ||
-            assocwidget->widgetForRole(Uml::B)->umlObject() == Obj)
+        if (assocwidget->widgetForRole(Uml::RoleType::A)->umlObject() == Obj ||
+            assocwidget->widgetForRole(Uml::RoleType::B)->umlObject() == Obj)
             Associations.append(assocwidget);
     }
 
@@ -2329,11 +2329,11 @@ void UMLScene::updateContainment(UMLCanvasObject *self)
             continue;
         // Container is at role A, containee at B.
         // We only look at association for which we are B.
-        UMLWidget *wB = a->widgetForRole(Uml::B);
+        UMLWidget *wB = a->widgetForRole(Uml::RoleType::B);
         UMLObject *roleBObj = wB->umlObject();
         if (roleBObj != self)
             continue;
-        UMLWidget *wA = a->widgetForRole(Uml::A);
+        UMLWidget *wA = a->widgetForRole(Uml::RoleType::A);
         UMLObject *roleAObj = wA->umlObject();
         if (roleAObj == newParent) {
             // Wow, all done. Great!
@@ -2403,16 +2403,16 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
         return;
     const UMLAssociationList& umlAssocs = umlObj->getAssociations();
 
-    Uml::IDType myID = umlObj->id();
+    Uml::ID::Type myID = umlObj->id();
     foreach(UMLAssociation* assoc , umlAssocs) {
         UMLCanvasObject *other = NULL;
-        UMLObject *roleAObj = assoc->getObject(A);
+        UMLObject *roleAObj = assoc->getObject(Uml::RoleType::A);
         if (roleAObj == NULL) {
             DEBUG(DBG_SRC) << "roleA object is NULL at UMLAssoc "
                            << ID2STR(assoc->id());
             continue;
         }
-        UMLObject *roleBObj = assoc->getObject(B);
+        UMLObject *roleBObj = assoc->getObject(Uml::RoleType::B);
         if (roleBObj == NULL) {
             DEBUG(DBG_SRC) << "roleB object is NULL at UMLAssoc "
                            << ID2STR(assoc->id());
@@ -2430,7 +2430,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
         }
         // Now that we have determined the "other" UMLObject, seek it in
         // this view's UMLWidgets.
-        Uml::IDType otherID = other->id();
+        Uml::ID::Type otherID = other->id();
 
         bool breakFlag = false;
         UMLWidget* pOtherWidget = 0;
@@ -2453,7 +2453,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
             widgetB = widget;
         }
         // Check that the assocwidget does not already exist.
-        Uml::AssociationType assocType = assoc->getAssocType();
+        Uml::AssociationType::Enum assocType = assoc->getAssocType();
         AssociationWidget * assocwidget = findAssocWidget(assocType, widgetA, widgetB);
         if (assocwidget) {
             assocwidget->associationLine()->calculateEndPoints();  // recompute assoc lines
@@ -2462,7 +2462,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
         // Check that the assoc is allowed.
         if (!AssocRules::allowAssociation(assocType, widgetA, widgetB)) {
             DEBUG(DBG_SRC) << "not transferring assoc "
-                           << "of type " << assocType;
+                           << "of type " << Uml::AssociationType::toString(assocType);
             continue;
         }
 
@@ -2492,7 +2492,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
         UMLObjectList lst = umlPkg->containedObjects();
         foreach(UMLObject* obj,  lst) {
             // if the containedObject has a widget representation on this view then
-            Uml::IDType id = obj->id();
+            Uml::ID::Type id = obj->id();
             foreach(UMLWidget *w , m_WidgetList) {
                 if (w->id() != id)
                     continue;
@@ -2514,7 +2514,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
     if (parent == NULL)
         return;
     // if the parentPackage has a widget representation on this view then
-    Uml::IDType pkgID = parent->id();
+    Uml::ID::Type pkgID = parent->id();
 
     bool breakFlag = false;
     UMLWidget* pWidget = 0;
@@ -2616,7 +2616,7 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
         //                << "attribute " << attr->getName();
         return;
     }
-    Uml::AssociationType assocType = Uml::AssociationType::Composition;
+    Uml::AssociationType::Enum assocType = Uml::AssociationType::Composition;
     UMLWidget *w = findWidget(type->id());
     AssociationWidget *aw = NULL;
     // if the attribute type has a widget representation on this view
@@ -2632,12 +2632,12 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
 
             AssociationWidget *a = new AssociationWidget(widget, assocType, w, attr);
             a->associationLine()->calculateEndPoints();
-            a->setVisibility(attr->visibility(), B);
+            a->setVisibility(attr->visibility(), Uml::RoleType::B);
             /*
             if (assocType == Uml::AssociationType::Aggregation || assocType == Uml::AssociationType::UniAssociation)
             a->setMulti("0..1", B);
             */
-            a->setRoleName(attr->name(), B);
+            a->setRoleName(attr->name(), Uml::RoleType::B);
             a->setActivatedFlag(true);
             if (! addAssociation(a))
                 delete a;
@@ -2663,10 +2663,10 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
                     AssociationWidget *a = new AssociationWidget
                         (widget, Uml::AssociationType::Aggregation, w, attr);
                     a->associationLine()->calculateEndPoints();
-                    a->setVisibility(attr->visibility(), B);
-                    //a->setChangeability(true, B);
-                    a->setMultiplicity("0..1", B);
-                    a->setRoleName(attr->name(), B);
+                    a->setVisibility(attr->visibility(), Uml::RoleType::B);
+                    //a->setChangeability(true, Uml::RoleType::B);
+                    a->setMultiplicity("0..1", Uml::RoleType::B);
+                    a->setRoleName(attr->name(), Uml::RoleType::B);
                     a->setActivatedFlag(true);
                     if (! addAssociation(a))
                         delete a;
@@ -2731,7 +2731,7 @@ void UMLScene::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignK
         return;
     }
 
-    Uml::AssociationType assocType = Uml::AssociationType::Relationship;
+    Uml::AssociationType::Enum assocType = Uml::AssociationType::Relationship;
     UMLWidget *w = findWidget(refEntity->id());
     AssociationWidget *aw = NULL;
 
@@ -2746,8 +2746,8 @@ void UMLScene::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignK
             AssociationWidget *a = new AssociationWidget(w, assocType, widget, fkConstraint);
 
             a->associationLine()->calculateEndPoints();
-            //a->setVisibility(attr->getVisibility(), B);
-            a->setRoleName(fkConstraint->name(), B);
+            //a->setVisibility(attr->getVisibility(), Uml::RoleType::B);
+            a->setRoleName(fkConstraint->name(), Uml::RoleType::B);
             a->setActivatedFlag(true);
             if (! addAssociation(a))
                 delete a;
@@ -2839,12 +2839,12 @@ void UMLScene::copyAsImage(QPixmap*& pix)
     foreach(AssociationWidget *a, m_AssociationList) {
         if (! a->isSelected())
             continue;
-        const FloatingTextWidget* multiA = a->multiplicityWidget(Uml::A);
-        const FloatingTextWidget* multiB = a->multiplicityWidget(Uml::B);
-        const FloatingTextWidget* roleA = a->roleWidget(Uml::A);
-        const FloatingTextWidget* roleB = a->roleWidget(Uml::B);
-        const FloatingTextWidget* changeA = a->changeabilityWidget(Uml::A);
-        const FloatingTextWidget* changeB = a->changeabilityWidget(Uml::B);
+        const FloatingTextWidget* multiA = a->multiplicityWidget(Uml::RoleType::A);
+        const FloatingTextWidget* multiB = a->multiplicityWidget(Uml::RoleType::B);
+        const FloatingTextWidget* roleA = a->roleWidget(Uml::RoleType::A);
+        const FloatingTextWidget* roleB = a->roleWidget(Uml::RoleType::B);
+        const FloatingTextWidget* changeA = a->changeabilityWidget(Uml::RoleType::A);
+        const FloatingTextWidget* changeB = a->changeabilityWidget(Uml::RoleType::B);
         findMaxBoundingRectangle(multiA, px, py, qx, qy);
         findMaxBoundingRectangle(multiB, px, py, qx, qy);
         findMaxBoundingRectangle(roleA, px, py, qx, qy);
@@ -3378,8 +3378,8 @@ void UMLScene::checkSelections()
     foreach(UMLWidget *pTemp, selectedWidgets()) {
         if (pTemp->baseType() == WidgetBase::wt_Message && pTemp->isSelected()) {
             MessageWidget * pMessage = static_cast<MessageWidget *>(pTemp);
-            pWA = pMessage->objectWidget(A);
-            pWB = pMessage->objectWidget(B);
+            pWA = pMessage->objectWidget(Uml::RoleType::A);
+            pWB = pMessage->objectWidget(Uml::RoleType::B);
             if (!pWA->isSelected()) {
                 // [PORT] Was setSelectedFlag before
                 pWA->setSelected(true);
@@ -3394,8 +3394,8 @@ void UMLScene::checkSelections()
 
     foreach(AssociationWidget *pAssoc, m_AssociationList) {
         if (pAssoc->isSelected()) {
-            pWA = pAssoc->widgetForRole(Uml::A);
-            pWB = pAssoc->widgetForRole(Uml::B);
+            pWA = pAssoc->widgetForRole(Uml::RoleType::A);
+            pWB = pAssoc->widgetForRole(Uml::RoleType::B);
             if (!pWA->isSelected()) {
                 // [PORT] Was setSelectedFlag before
                 pWA->setSelected(true);
@@ -3666,13 +3666,13 @@ void UMLScene::setShowOpSig(bool bShowOpSig)
  */
 void UMLScene::fileLoaded()
 {
-    resizeCanvasToItems();
+    resizeSceneToItems();
 }
 
 /**
  * Sets the size of the canvas to just fit on all the items
  */
-void UMLScene::resizeCanvasToItems()
+void UMLScene::resizeSceneToItems()
 {
     UMLSceneRect rect = itemsBoundingRect();
     //Make sure (0,0) is in the topLeft
@@ -3785,7 +3785,7 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
 {
     QString id = qElement.attribute("xmi.id", "-1");
     m_nID = STR2ID(id);
-    if (m_nID == Uml::id_None)
+    if (m_nID == Uml::ID::None)
         return false;
     setName(qElement.attribute("name", ""));
     QString type = qElement.attribute("type", "0");
@@ -3859,7 +3859,7 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
             break;
         }
     } else {
-        m_Type = Uml::DiagramType::Value(nType);
+        m_Type = Uml::DiagramType::fromInt(nType);
     }
     m_nLocalID = STR2ID(localid);
 
@@ -3948,8 +3948,8 @@ bool UMLScene::loadMessagesFromXMI(QDomElement & qElement)
         DEBUG(DBG_SRC) << "tag = " << tag;
         if (tag == "messagewidget" ||
             tag == "UML:MessageWidget") {   // for bkwd compatibility
-            message = new MessageWidget(sequence_message_asynchronous,
-                                        Uml::id_Reserved);
+            message = new MessageWidget(Uml::SequenceMessage::Asynchronous,
+                                        Uml::ID::Reserved);
             if (!message->loadFromXMI(messageElement)) {
                 delete message;
                 return false;
@@ -3959,7 +3959,7 @@ bool UMLScene::loadMessagesFromXMI(QDomElement & qElement)
             FloatingTextWidget *ft = message->floatingTextWidget();
             if (ft)
                 m_WidgetList.append(ft);
-            else if (message->sequenceMessageType() != sequence_message_creation)
+            else if (message->sequenceMessageType() != Uml::SequenceMessage::Creation)
                 DEBUG(DBG_SRC) << "floating text is NULL for message " << ID2STR(message->id());
         }
         node = messageElement.nextSibling();
@@ -4051,7 +4051,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
             n = n.nextSibling();
             e = n.toElement();
         }
-        Uml::IDType id = STR2ID(idStr);
+        Uml::ID::Type id = STR2ID(idStr);
         UMLObject *o = m_doc->findObjectById(id);
         if (o == NULL) {
             uError() << "Cannot find object for id " << idStr;
@@ -4065,9 +4065,9 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
                 break;
             case UMLObject::ot_Association: {
                 UMLAssociation *umla = static_cast<UMLAssociation*>(o);
-                Uml::AssociationType at = umla->getAssocType();
-                UMLObject* objA = umla->getObject(Uml::A);
-                UMLObject* objB = umla->getObject(Uml::B);
+                Uml::AssociationType::Enum at = umla->getAssocType();
+                UMLObject* objA = umla->getObject(Uml::RoleType::A);
+                UMLObject* objB = umla->getObject(Uml::RoleType::B);
                 if (objA == NULL || objB == NULL) {
                     uError() << "intern err 1";
                     return false;
@@ -4335,7 +4335,7 @@ void UMLScene::alignHorizontalDistribute()
 QDebug operator<<(QDebug dbg, UMLScene *item)
 {
     dbg.nospace() << "UMLScene: " << item->name()
-                  << " / type=" << item->type().toString()
+                  << " / type=" << Uml::DiagramType::toString(item->type())
                   << " / id=" << ID2STR(item->ID())
                   << " / isOpen=" << item->isOpen();
     return dbg.space();

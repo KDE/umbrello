@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2003       Brian Thomas                                 *
  *                            <brian.thomas@gsfc.nasa.gov>                 *
- *   copyright (C) 2004-2012  Umbrello UML Modeller Authors                *
+ *   copyright (C) 2004-2013  Umbrello UML Modeller Authors                *
  *                            <uml-devel@uml.sf.net>                       *
  ***************************************************************************/
 
@@ -73,7 +73,7 @@ CppWriter::~CppWriter()
  * Returns "C++".
  * @return   the programming language identifier
  */
-Uml::ProgrammingLanguage CppWriter::language() const
+Uml::ProgrammingLanguage::Enum CppWriter::language() const
 {
     return Uml::ProgrammingLanguage::Cpp;
 }
@@ -169,7 +169,7 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &file)
     h << m_endl << "#endif // " << hashDefine + "_H" << m_endl;
 }
 
-void CppWriter::writeHeaderAccessorMethodDecl(UMLClassifier *c, Uml::Visibility permitScope, QTextStream &stream)
+void CppWriter::writeHeaderAccessorMethodDecl(UMLClassifier *c, Uml::Visibility::Enum permitScope, QTextStream &stream)
 {
     // attributes
     writeHeaderAttributeAccessorMethods(c, permitScope, true, stream); // write static attributes first
@@ -192,7 +192,7 @@ void CppWriter::writeHeaderAccessorMethodDecl(UMLClassifier *c, Uml::Visibility 
  * Write out fields and operations for this class selected on a particular
  * visibility.
  */
-void CppWriter::writeHeaderFieldDecl(UMLClassifier *c, Uml::Visibility permitScope, QTextStream &stream)
+void CppWriter::writeHeaderFieldDecl(UMLClassifier *c, Uml::Visibility::Enum permitScope, QTextStream &stream)
 {
     // attributes
     writeAttributeDecls(c, permitScope, true, stream); // write static attributes first
@@ -484,7 +484,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
  * @param writeStatic   whether to write static or non-static attributes out
  * @param stream        text stream
  */
-void CppWriter::writeAttributeDecls (UMLClassifier *c, Uml::Visibility visibility, bool writeStatic, QTextStream &stream )
+void CppWriter::writeAttributeDecls (UMLClassifier *c, Uml::Visibility::Enum visibility, bool writeStatic, QTextStream &stream )
 {
     if (c->isInterface())
         return;
@@ -498,7 +498,7 @@ void CppWriter::writeAttributeDecls (UMLClassifier *c, Uml::Visibility visibilit
     //write documentation
     if (forceDoc() || list.count() > 0)
     {
-        QString strVis = Codegen_Utils::capitalizeFirstLetter(visibility.toString());
+        QString strVis = Codegen_Utils::capitalizeFirstLetter(Uml::Visibility::toString(visibility));
         QString strStatic = writeStatic ? "Static ":"";
         writeComment(strStatic + strVis + " attributes",indent(), stream);
         writeComment(" ",indent(), stream);
@@ -539,7 +539,7 @@ void CppWriter::writeAttributeDecls (UMLClassifier *c, Uml::Visibility visibilit
     }
 }
 
-void CppWriter::writeHeaderAttributeAccessorMethods (UMLClassifier *c, Uml::Visibility visibility, bool writeStatic, QTextStream &stream )
+void CppWriter::writeHeaderAttributeAccessorMethods (UMLClassifier *c, Uml::Visibility::Enum visibility, bool writeStatic, QTextStream &stream )
 {
     // check the current policy about generate accessors as public
     UMLAttributeList list;
@@ -557,7 +557,7 @@ void CppWriter::writeHeaderAttributeAccessorMethods (UMLClassifier *c, Uml::Visi
 
     // switch back to previous vis.
     if (visibility != Uml::Visibility::Public)
-        stream << visibility.toString() << ":" << m_endl << m_endl;
+        stream << Uml::Visibility::toString(visibility) << ":" << m_endl << m_endl;
 }
 
 /**
@@ -565,7 +565,7 @@ void CppWriter::writeHeaderAttributeAccessorMethods (UMLClassifier *c, Uml::Visi
  * Calls @ref writeSingleAttributeAccessorMethods() on each of the attributes in attribs list.
  */
 void CppWriter::writeAttributeMethods(UMLAttributeList attribs,
-                                      Uml::Visibility visibility, bool isHeaderMethod,
+                                      Uml::Visibility::Enum visibility, bool isHeaderMethod,
                                       bool isStatic,
                                       bool writeMethodBody, QTextStream &stream)
 {
@@ -574,7 +574,7 @@ void CppWriter::writeAttributeMethods(UMLAttributeList attribs,
 
     if (forceDoc() || attribs.count() > 0)
     {
-        QString strVis = Codegen_Utils::capitalizeFirstLetter(visibility.toString());
+        QString strVis = Codegen_Utils::capitalizeFirstLetter(Uml::Visibility::toString(visibility));
         QString strStatic = (isStatic ? " static" : "");
         writeBlankLine(stream);
         writeComment(strVis + strStatic + " attribute accessor methods",indent(),stream);
@@ -649,7 +649,7 @@ void CppWriter::writeDocumentation(QString header, QString body, QString end, QT
 /**
  * Searches a list of associations for appropriate ones to write out as attributes.
  */
-void CppWriter::writeAssociationDecls(UMLAssociationList associations, Uml::Visibility permitScope, Uml::IDType id, QTextStream &h)
+void CppWriter::writeAssociationDecls(UMLAssociationList associations, Uml::Visibility::Enum permitScope, Uml::ID::Type id, QTextStream &h)
 {
     if( forceSections() || !associations.isEmpty() )
     {
@@ -658,10 +658,10 @@ void CppWriter::writeAssociationDecls(UMLAssociationList associations, Uml::Visi
         {
             // it may seem counter intuitive, but you want to insert the role of the
             // *other* class into *this* class.
-            if (a->getObjectId(Uml::A) == id && !a->getRoleName(Uml::B).isEmpty())
+            if (a->getObjectId(Uml::RoleType::A) == id && !a->getRoleName(Uml::RoleType::B).isEmpty())
                 printRoleB = true;
 
-            if (a->getObjectId(Uml::B) == id && !a->getRoleName(Uml::A).isEmpty())
+            if (a->getObjectId(Uml::RoleType::B) == id && !a->getRoleName(Uml::RoleType::A).isEmpty())
                 printRoleA = true;
 
             // First: we insert documentaion for association IF it has either role AND some documentation (!)
@@ -669,18 +669,18 @@ void CppWriter::writeAssociationDecls(UMLAssociationList associations, Uml::Visi
                 writeComment(a->doc(), indent(), h);
 
             // print RoleB decl
-            if (printRoleB && a->getVisibility(Uml::B) == permitScope)
+            if (printRoleB && a->visibility(Uml::RoleType::B) == permitScope)
             {
 
-                QString fieldClassName = cleanName(umlObjectName(a->getObject(Uml::B)));
-                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::B), a->getMultiplicity(Uml::B), a->getRoleDoc(Uml::B), h);
+                QString fieldClassName = cleanName(umlObjectName(a->getObject(Uml::RoleType::B)));
+                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::RoleType::B), a->getMultiplicity(Uml::RoleType::B), a->getRoleDoc(Uml::RoleType::B), h);
             }
 
             // print RoleA decl
-            if (printRoleA && a->getVisibility(Uml::A) == permitScope)
+            if (printRoleA && a->visibility(Uml::RoleType::A) == permitScope)
             {
-                QString fieldClassName = cleanName(umlObjectName(a->getObject(Uml::A)));
-                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::A), a->getMultiplicity(Uml::A), a->getRoleDoc(Uml::A), h);
+                QString fieldClassName = cleanName(umlObjectName(a->getObject(Uml::RoleType::A)));
+                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::RoleType::A), a->getMultiplicity(Uml::RoleType::A), a->getRoleDoc(Uml::RoleType::A), h);
             }
 
             // reset for next association in our loop
@@ -747,11 +747,11 @@ void CppWriter::writeAssociationRoleDecl(QString fieldClassName, QString roleNam
  * for either source or header files.
  */
 void CppWriter::writeAssociationMethods (UMLAssociationList associations,
-        Uml::Visibility permitVisib,
+        Uml::Visibility::Enum permitVisib,
         bool isHeaderMethod,
         bool writeMethodBody,
         bool writePointerVar,
-        Uml::IDType myID, QTextStream &stream)
+        Uml::ID::Type myID, QTextStream &stream)
 {
     if ( forceSections() || !associations.isEmpty() )
     {
@@ -760,32 +760,32 @@ void CppWriter::writeAssociationMethods (UMLAssociationList associations,
 
             // insert the methods to access the role of the other
             // class in the code of this one
-            if (a->getObjectId(Uml::A) == myID && a->getVisibility(Uml::B) == permitVisib)
+            if (a->getObjectId(Uml::RoleType::A) == myID && a->visibility(Uml::RoleType::B) == permitVisib)
             {
                 // only write out IF there is a rolename given
-                if (!a->getRoleName(Uml::B).isEmpty()) {
-                    QString fieldClassName = umlObjectName(a->getObject(Uml::B)) + (writePointerVar ? " *":"");
+                if (!a->getRoleName(Uml::RoleType::B).isEmpty()) {
+                    QString fieldClassName = umlObjectName(a->getObject(Uml::RoleType::B)) + (writePointerVar ? " *":"");
                     writeAssociationRoleMethod(fieldClassName,
                                                isHeaderMethod,
                                                writeMethodBody,
-                                               a->getRoleName(Uml::B),
-                                               a->getMultiplicity(Uml::B), a->getRoleDoc(Uml::B),
-                                               a->changeability(Uml::B), stream);
+                                               a->getRoleName(Uml::RoleType::B),
+                                               a->getMultiplicity(Uml::RoleType::B), a->getRoleDoc(Uml::RoleType::B),
+                                               a->changeability(Uml::RoleType::B), stream);
                 }
             }
 
-            if (a->getObjectId(Uml::B) == myID && a->getVisibility(Uml::A) == permitVisib)
+            if (a->getObjectId(Uml::RoleType::B) == myID && a->visibility(Uml::RoleType::A) == permitVisib)
             {
                 // only write out IF there is a rolename given
-                if (!a->getRoleName(Uml::A).isEmpty()) {
-                    QString fieldClassName = umlObjectName(a->getObject(Uml::A)) + (writePointerVar ? " *":"");
+                if (!a->getRoleName(Uml::RoleType::A).isEmpty()) {
+                    QString fieldClassName = umlObjectName(a->getObject(Uml::RoleType::A)) + (writePointerVar ? " *":"");
                     writeAssociationRoleMethod(fieldClassName,
                                                isHeaderMethod,
                                                writeMethodBody,
-                                               a->getRoleName(Uml::A),
-                                               a->getMultiplicity(Uml::A),
-                                               a->getRoleDoc(Uml::A),
-                                               a->changeability(Uml::A),
+                                               a->getRoleName(Uml::RoleType::A),
+                                               a->getMultiplicity(Uml::RoleType::A),
+                                               a->getRoleDoc(Uml::RoleType::A),
+                                               a->changeability(Uml::RoleType::A),
                                                stream);
                 }
             }
@@ -803,7 +803,7 @@ void CppWriter::writeAssociationRoleMethod (const QString &fieldClassName,
         bool isHeaderMethod,
         bool writeMethodBody,
         const QString &roleName, const QString &multi,
-        const QString &description, Uml::Changeability change,
+        const QString &description, Uml::Changeability::Enum change,
         QTextStream &stream)
 {
     if (multi.isEmpty() || multi.contains(QRegExp("^[01]$")))
@@ -826,7 +826,7 @@ void CppWriter::writeAssociationRoleMethod (const QString &fieldClassName,
 void CppWriter::writeVectorAttributeAccessorMethods (
         const QString &fieldClassName, const QString &fieldVarName,
         const QString &fieldName, const QString &description,
-        Uml::Changeability changeType,
+        Uml::Changeability::Enum changeType,
         bool isHeaderMethod,
         bool writeMethodBody,
         QTextStream &stream)
@@ -908,7 +908,7 @@ void CppWriter::writeVectorAttributeAccessorMethods (
 void CppWriter::writeSingleAttributeAccessorMethods(
         const QString& fieldClassName, const QString& fieldVarName,
         const QString& fieldName, const QString &description,
-        Uml::Changeability change,
+        Uml::Changeability::Enum change,
         bool isHeaderMethod,
         bool isStatic,
         bool writeMethodBody,
@@ -1105,7 +1105,7 @@ QString CppWriter::fixTypeName(const QString &string)
      * @param cpp              the stream associated with the output file
      */
 void CppWriter::writeOperations(UMLClassifier *c, bool isHeaderMethod,
-                                Uml::Visibility permitScope, QTextStream &cpp)
+                                Uml::Visibility::Enum permitScope, QTextStream &cpp)
 {
     UMLOperationList oplist;
 
@@ -1230,7 +1230,7 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
  *   the other class...but only IF it is not THIS class (as could happen
  *   in self-association relationship).
  */
-void CppWriter::printAssociationIncludeDecl(UMLAssociationList list, Uml::IDType myId, QTextStream &stream)
+void CppWriter::printAssociationIncludeDecl(UMLAssociationList list, Uml::ID::Type myId, QTextStream &stream)
 {
     foreach (UMLAssociation *a , list ) {
         UMLClassifier *current = NULL;
@@ -1238,17 +1238,17 @@ void CppWriter::printAssociationIncludeDecl(UMLAssociationList list, Uml::IDType
 
         // only use OTHER classes (e.g. we don't need to write includes for ourselves!!
         // AND only IF the roleName is defined, otherwise, it is not meant to be noticed.
-        if (a->getObjectId(Uml::A) == myId && !a->getRoleName(Uml::B).isEmpty()) {
-            current = dynamic_cast<UMLClassifier*>(a->getObject(Uml::B));
-        } else if (a->getObjectId(Uml::B) == myId && !a->getRoleName(Uml::A).isEmpty()) {
-            current = dynamic_cast<UMLClassifier*>(a->getObject(Uml::A));
+        if (a->getObjectId(Uml::RoleType::A) == myId && !a->getRoleName(Uml::RoleType::B).isEmpty()) {
+            current = dynamic_cast<UMLClassifier*>(a->getObject(Uml::RoleType::B));
+        } else if (a->getObjectId(Uml::RoleType::B) == myId && !a->getRoleName(Uml::RoleType::A).isEmpty()) {
+            current = dynamic_cast<UMLClassifier*>(a->getObject(Uml::RoleType::A));
             isFirstClass = false;
         }
 
         // as header doc for this method indicates, we need to be a bit sophisticated on
         // how to declare some associations.
         if (current) {
-            if( !isFirstClass && !a->getRoleName(Uml::A).isEmpty() && !a->getRoleName(Uml::B).isEmpty())
+            if( !isFirstClass && !a->getRoleName(Uml::RoleType::A).isEmpty() && !a->getRoleName(Uml::RoleType::B).isEmpty())
                 stream << "class " << current->name() << ";" << m_endl; // special case: use forward declaration
             else
                 stream << "#include \"" << current->name() << ".h\"" << m_endl; // just the include statement

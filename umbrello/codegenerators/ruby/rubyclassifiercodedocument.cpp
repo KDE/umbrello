@@ -6,16 +6,9 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2011                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
-
-/**
- * We carve the Ruby document up into sections as follows:
- * - header
- * - class declaration
- * -   guts of the class (e.g. accessor methods, operations, dependant classes)
- */
 
 // own header
 #include "rubyclassifiercodedocument.h"
@@ -34,17 +27,25 @@
 // qt includes
 #include <QRegExp>
 
-RubyClassifierCodeDocument::RubyClassifierCodeDocument ( UMLClassifier * concept )
-        : ClassifierCodeDocument (concept)
+/**
+ * Constructor.
+ */
+RubyClassifierCodeDocument::RubyClassifierCodeDocument(UMLClassifier * concept)
+        : ClassifierCodeDocument(concept)
 {
     init();
 }
 
-RubyClassifierCodeDocument::~RubyClassifierCodeDocument ( )
+/**
+ * Empty Destructor.
+ */
+RubyClassifierCodeDocument::~RubyClassifierCodeDocument()
 {
 }
 
-// Make it easier on ourselves
+/**
+ * Make it easier on ourselves.
+ */
 RubyCodeGenerationPolicy * RubyClassifierCodeDocument::getRubyPolicy()
 {
     CodeGenPolicyExt *pe = UMLApp::app()->policyExt();
@@ -57,13 +58,15 @@ RubyCodeGenerationPolicy * RubyClassifierCodeDocument::getRubyPolicy()
 // * @return      CodeDocumentDialog
 // */
 /*
-CodeDocumentDialog RubyClassifierCodeDocument::getDialog ( ) {
-
+CodeDocumentDialog RubyClassifierCodeDocument::getDialog()
+{
 }
 */
 
-// Overwritten by Ruby language implementation to get lowercase path
-QString RubyClassifierCodeDocument::getPath ( )
+/**
+ * Overwritten by Ruby language implementation to get lowercase path.
+ */
+QString RubyClassifierCodeDocument::getPath()
 {
     QString path = getPackage();
 
@@ -81,14 +84,14 @@ QString RubyClassifierCodeDocument::getPath ( )
     return path;
 }
 
-QString RubyClassifierCodeDocument::getRubyClassName (const QString &name)
+QString RubyClassifierCodeDocument::getRubyClassName(const QString &name)
 {
     CodeGenerator *g = UMLApp::app()->generator();
     return Codegen_Utils::capitalizeFirstLetter(g->cleanName(name));
 }
 
 // Initialize this ruby classifier code document
-void RubyClassifierCodeDocument::init ( )
+void RubyClassifierCodeDocument::init()
 {
     setFileExtension(".rb");
 
@@ -112,13 +115,15 @@ void RubyClassifierCodeDocument::init ( )
 }
 
 /**
- * @param       op
+ * Add a code operation to this ruby classifier code document.
+ * In the vanilla version, we just tack all operations on the end
+ * of the document.
+ * @param op   the code operation
+ * @return bool which is true IF the code operation was added successfully
  */
-// in the vanilla version, we just tack all operations on the end
-// of the document
-bool RubyClassifierCodeDocument::addCodeOperation (CodeOperation * op )
+bool RubyClassifierCodeDocument::addCodeOperation(CodeOperation * op)
 {
-    Uml::Visibility scope = op->getParentOperation()->visibility();
+    Uml::Visibility::Enum scope = op->getParentOperation()->visibility();
     if(!op->getParentOperation()->isConstructorOperation())
     {
         switch (scope) {
@@ -149,12 +154,16 @@ bool RubyClassifierCodeDocument::addCodeOperation (CodeOperation * op )
     }
 }
 
-// Sigh. NOT optimal. The only reason that we need to have this
-// is so we can create the RubyClassDeclarationBlock.
-// would be better if we could create a handler interface that each
-// codeblock used so all we have to do here is add the handler
-// for "rubyclassdeclarationblock"
-void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
+/**
+ * Need to overwrite this for ruby since we need to pick up the
+ * ruby class declaration block.
+ * Sigh. NOT optimal. The only reason that we need to have this
+ * is so we can create the RubyClassDeclarationBlock.
+ * would be better if we could create a handler interface that each
+ * codeblock used so all we have to do here is add the handler
+ * for "rubyclassdeclarationblock".
+ */
+void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
 {
     QDomNode tnode = root.firstChild();
     QDomElement telement = tnode.toElement();
@@ -302,6 +311,9 @@ RubyClassDeclarationBlock * RubyClassifierCodeDocument::getClassDecl()
     return classDeclCodeBlock;
 }
 
+/**
+ * Reset/clear our inventory of textblocks in this document.
+ */
 void RubyClassifierCodeDocument::resetTextBlocks()
 {
     // all special pointers to text blocks need to be zero'd out
@@ -320,7 +332,7 @@ void RubyClassifierCodeDocument::resetTextBlocks()
 // such, we will want to insert everything we resonablely will want
 // during creation. We can set various parts of the document (esp. the
 // comments) to appear or not, as needed.
-void RubyClassifierCodeDocument::updateContent( )
+void RubyClassifierCodeDocument::updateContent()
 {
     // Gather info on the various fields and parent objects of this class...
     UMLClassifier * c = getParentClassifier();
@@ -606,7 +618,6 @@ void RubyClassifierCodeDocument::updateContent( )
         privOcomment->setWriteOutText(false);
     else
         privOcomment->setWriteOutText(true);
-
 }
 
 

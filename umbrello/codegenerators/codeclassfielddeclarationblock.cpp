@@ -5,28 +5,29 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
-
-/**
- * Basicially a class to allow for synchronization of the contents based on the
- * values of the parentClassField's parentObject
- */
 
 #include "codeclassfielddeclarationblock.h"
 
 #include "codeclassfield.h"
 #include "umlrole.h"
 
-CodeClassFieldDeclarationBlock::CodeClassFieldDeclarationBlock ( CodeClassField * parentCF )
-        : OwnedCodeBlock ((UMLObject*) parentCF->getParentObject()),
-          CodeBlockWithComments ( (CodeDocument*) parentCF->getParentDocument() )       
+/**
+ * Constructor.
+ */
+CodeClassFieldDeclarationBlock::CodeClassFieldDeclarationBlock(CodeClassField * parentCF)
+        : OwnedCodeBlock((UMLObject*) parentCF->getParentObject()),
+          CodeBlockWithComments((CodeDocument*) parentCF->getParentDocument())
 {
     init(parentCF);
 }
 
-CodeClassFieldDeclarationBlock::~CodeClassFieldDeclarationBlock ( )
+/**
+ * Empty Destructor
+ */
+CodeClassFieldDeclarationBlock::~CodeClassFieldDeclarationBlock()
 {
     // Q: is this needed??
     //      m_parentclassfield->getParentObject()->disconnect(this);
@@ -36,7 +37,7 @@ CodeClassFieldDeclarationBlock::~CodeClassFieldDeclarationBlock ( )
  * Get the value of m_parentclassfield.
  * @return the value of m_parentclassfield
  */
-CodeClassField * CodeClassFieldDeclarationBlock::getParentClassField ( )
+CodeClassField * CodeClassFieldDeclarationBlock::getParentClassField()
 {
     return m_parentclassfield;
 }
@@ -44,7 +45,7 @@ CodeClassField * CodeClassFieldDeclarationBlock::getParentClassField ( )
 /**
  * A utility method to get the parent object of the parentCodeClassfield.
  */
-UMLObject * CodeClassFieldDeclarationBlock::getParentObject ( )
+UMLObject * CodeClassFieldDeclarationBlock::getParentObject()
 {
     return m_parentclassfield->getParentObject();
 }
@@ -53,7 +54,7 @@ UMLObject * CodeClassFieldDeclarationBlock::getParentObject ( )
 // we DON'T release it when resetTextBlocks is
 // called because we re-use it over and over
 // until the codeclassfield is released.
-void CodeClassFieldDeclarationBlock::release ()
+void CodeClassFieldDeclarationBlock::release()
 {
     // do nothing
 }
@@ -61,7 +62,7 @@ void CodeClassFieldDeclarationBlock::release ()
 /**
  * So parent can actually release this block.
  */
-void CodeClassFieldDeclarationBlock::forceRelease ()
+void CodeClassFieldDeclarationBlock::forceRelease()
 {
     if (m_parentclassfield)
     {
@@ -76,7 +77,7 @@ void CodeClassFieldDeclarationBlock::forceRelease ()
 /**
  * Save the XMI representation of this object.
  */
-void CodeClassFieldDeclarationBlock::saveToXMI ( QDomDocument & doc, QDomElement & elem)
+void CodeClassFieldDeclarationBlock::saveToXMI(QDomDocument & doc, QDomElement & elem)
 {
     QDomElement docElement = doc.createElement( "ccfdeclarationcodeblock" );
     setAttributesOnNode(doc, docElement);

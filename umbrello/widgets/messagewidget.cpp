@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -48,13 +48,13 @@ const qreal MessageWidget::SelfLoopBoxWidth = 50;
  *                            The default (-1) will prompt generation of a new ID.
  */
 MessageWidget::MessageWidget(ObjectWidget* a, ObjectWidget* b,
-                             Uml::Sequence_Message_Type sequenceMessageType,
-                             Uml::IDType id /* = Uml::id_None */)
+                             Uml::SequenceMessage::Enum sequenceMessageType,
+                             Uml::ID::Type id /* = Uml::id_None */)
   : UMLWidget(WidgetBase::wt_Message, id)
 {
     init();
-    m_objectWidgets[Uml::A] = a;
-    m_objectWidgets[Uml::B] = b;
+    m_objectWidgets[Uml::RoleType::A] = a;
+    m_objectWidgets[Uml::RoleType::B] = b;
 
     m_sequenceMessageType = sequenceMessageType;
 }
@@ -62,16 +62,16 @@ MessageWidget::MessageWidget(ObjectWidget* a, ObjectWidget* b,
 /**
  * Constructs a MessageWidget.
  *
- * @param sequenceMessageType The Uml::Sequence_Message_Type of this message widget
+ * @param sequenceMessageType The Uml::SequenceMessage::Enum of this message widget
  * @param id                  The ID to assign (-1 will prompt a new ID.)
  */
-MessageWidget::MessageWidget(Uml::Sequence_Message_Type seqMsgType,
-                             Uml::IDType id)
+MessageWidget::MessageWidget(Uml::SequenceMessage::Enum seqMsgType,
+                             Uml::ID::Type id)
   : UMLWidget(WidgetBase::wt_Message, id)
 {
     init();
-    m_objectWidgets[Uml::A] = new ObjectWidget(0);
-    m_objectWidgets[Uml::B] = new ObjectWidget(0);
+    m_objectWidgets[Uml::RoleType::A] = new ObjectWidget(0);
+    m_objectWidgets[Uml::RoleType::B] = new ObjectWidget(0);
     m_sequenceMessageType = seqMsgType;
 }
 
@@ -87,14 +87,14 @@ MessageWidget::MessageWidget(Uml::Sequence_Message_Type seqMsgType,
  * @param id           The ID to assign (-1 will prompt a new ID.)
  */
 MessageWidget::MessageWidget(ObjectWidget* a, const QPointF& clickedPos,
-                             Uml::Sequence_Message_Type seqMsgType,
-                             Uml::IDType id)
+                             Uml::SequenceMessage::Enum seqMsgType,
+                             Uml::ID::Type id)
   : UMLWidget(WidgetBase::wt_Message, id)
 {
     init();
     setID(id);
-    m_objectWidgets[Uml::A] = a;
-    m_objectWidgets[Uml::B] = a;
+    m_objectWidgets[Uml::RoleType::A] = a;
+    m_objectWidgets[Uml::RoleType::B] = a;
 
     m_sequenceMessageType = seqMsgType;
     m_clickedPoint = clickedPos;
@@ -107,10 +107,10 @@ void MessageWidget::init()
 {
 //:DEPRECATED:    setIgnoreSnapToGrid(true);
 //:DEPRECATED:    setIgnoreSnapComponentSizeToGrid(true);
-    m_objectWidgets[Uml::A] = 0;
-    m_objectWidgets[Uml::B] = 0;
+    m_objectWidgets[Uml::RoleType::A] = 0;
+    m_objectWidgets[Uml::RoleType::B] = 0;
 
-    Uml::TextRole tr = Uml::TextRole::Seq_Message;
+    Uml::TextRole::Enum tr = Uml::TextRole::Seq_Message;
     m_floatingTextWidget = new FloatingTextWidget(tr);
     m_floatingTextWidget->setFont(font());
     m_floatingTextWidget->setLink(this);
@@ -126,12 +126,12 @@ void MessageWidget::init()
  */
 MessageWidget::~MessageWidget()
 {
-    if (m_objectWidgets[Uml::A]) {
-        m_objectWidgets[Uml::A]->messageRemoved(this);
+    if (m_objectWidgets[Uml::RoleType::A]) {
+        m_objectWidgets[Uml::RoleType::A]->messageRemoved(this);
     }
 
-    if (!isSelf() && m_objectWidgets[Uml::B]) {
-        m_objectWidgets[Uml::B]->messageRemoved(this);
+    if (!isSelf() && m_objectWidgets[Uml::RoleType::B]) {
+        m_objectWidgets[Uml::RoleType::B]->messageRemoved(this);
     }
 }
 
@@ -152,7 +152,7 @@ void MessageWidget::lwSetFont(QFont font)
  */
 UMLClassifier *MessageWidget::operationOwner()
 {
-    UMLObject *pObject = m_objectWidgets[Uml::B]->umlObject();
+    UMLObject *pObject = m_objectWidgets[Uml::RoleType::B]->umlObject();
     if (pObject == NULL)
         return NULL;
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(pObject);
@@ -252,7 +252,7 @@ UMLClassifier * MessageWidget::seqNumAndOp(QString& seqNum, QString& op)
     } else {
         op = m_customOperation;
     }
-    UMLObject *o = m_objectWidgets[Uml::B]->umlObject();
+    UMLObject *o = m_objectWidgets[Uml::RoleType::B]->umlObject();
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
     return c;
 }
@@ -281,7 +281,7 @@ void MessageWidget::setSeqNumAndOp(const QString &seqNum, const QString &op)
  * @param tr           Uml::TextRole of the text.
  */
 void MessageWidget::constrainTextPos(qreal &textX, qreal &textY, qreal textWidth, qreal textHeight,
-                                     Uml::TextRole tr)
+                                     Uml::TextRole::Enum tr)
 {
     Q_UNUSED(textX); Q_UNUSED(textY);  //:TODO:
     Q_UNUSED(textWidth); Q_UNUSED(textHeight); Q_UNUSED(tr);
@@ -322,7 +322,7 @@ void MessageWidget::setSequenceNumber(const QString &sequenceNumber)
  * @param ow        The ObjectWidget we are related to.
  * @param role      The Uml::Role_Type to be set for the ObjectWidget
  */
-void MessageWidget::setObjectWidget(ObjectWidget * ow, Uml::Role_Type role)
+void MessageWidget::setObjectWidget(ObjectWidget * ow, Uml::RoleType::Enum role)
 {
     m_objectWidgets[role] = ow;
     // Simulate an Object move to calculate the widget size.
@@ -349,8 +349,8 @@ void MessageWidget::setFloatingTextWidget(FloatingTextWidget * f)
  */
 bool MessageWidget::hasObjectWidget(ObjectWidget * w) const
 {
-    return (m_objectWidgets[Uml::A] == w ||
-            m_objectWidgets[Uml::B] == w);
+    return (m_objectWidgets[Uml::RoleType::A] == w ||
+            m_objectWidgets[Uml::RoleType::B] == w);
 }
 
 /**
@@ -362,8 +362,8 @@ bool MessageWidget::hasObjectWidget(ObjectWidget * w) const
  */
 bool MessageWidget::isSelf() const
 {
-    return (m_objectWidgets[Uml::A] && m_objectWidgets[Uml::B] &&
-            m_objectWidgets[Uml::A] == m_objectWidgets[Uml::B]);
+    return (m_objectWidgets[Uml::RoleType::A] && m_objectWidgets[Uml::RoleType::B] &&
+            m_objectWidgets[Uml::RoleType::A] == m_objectWidgets[Uml::RoleType::B]);
 }
 
 /**
@@ -384,16 +384,16 @@ void MessageWidget::handleObjectMove(ObjectWidget *wid)
     qreal y = qMax(pos().y(), minY());
     y = qMin(y, maxY());
     qreal roleAX = 0;
-    if (m_objectWidgets[Uml::A]) {
-        roleAX = m_objectWidgets[Uml::A]->sequentialLineX();
+    if (m_objectWidgets[Uml::RoleType::A]) {
+        roleAX = m_objectWidgets[Uml::RoleType::A]->sequentialLineX();
     }
 
     qreal roleBX = 0;
-    if (m_objectWidgets[Uml::B]) {
-        roleBX = m_objectWidgets[Uml::B]->sequentialLineX();
+    if (m_objectWidgets[Uml::RoleType::B]) {
+        roleBX = m_objectWidgets[Uml::RoleType::B]->sequentialLineX();
     }
 
-    if (m_sequenceMessageType == Uml::sequence_message_synchronous) {
+    if (m_sequenceMessageType == Uml::SequenceMessage::Synchronous) {
         if (isSelf()) {
             setPos(roleAX - .5 * SynchronousBoxWidth, y);
             setWidth(SynchronousBoxWidth + SelfLoopBoxWidth);
@@ -411,7 +411,7 @@ void MessageWidget::handleObjectMove(ObjectWidget *wid)
         }
     }
 
-    else if (m_sequenceMessageType == Uml::sequence_message_asynchronous) {
+    else if (m_sequenceMessageType == Uml::SequenceMessage::Asynchronous) {
         if (isSelf()) {
             setPos(roleAX, y);
             setWidth(SelfLoopBoxWidth);
@@ -423,7 +423,7 @@ void MessageWidget::handleObjectMove(ObjectWidget *wid)
         }
     }
 
-    else if (m_sequenceMessageType == Uml::sequence_message_creation) {
+    else if (m_sequenceMessageType == Uml::SequenceMessage::Creation) {
         setPos(pos().x(), y);
         // creation code
     }
@@ -446,23 +446,23 @@ void MessageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, Q
     painter->setPen(QPen(lineColor(), lineWidth()));
 
     switch (m_sequenceMessageType) {
-    case Uml::sequence_message_asynchronous:
+    case Uml::SequenceMessage::Asynchronous:
         drawAsynchronous(painter);
     break;
 
-    case Uml::sequence_message_synchronous:
+    case Uml::SequenceMessage::Synchronous:
         drawSynchronous(painter);
     break;
 
-    case Uml::sequence_message_creation:
+    case Uml::SequenceMessage::Creation:
         drawCreation(painter);
     break;
 
-    case Uml::sequence_message_lost:
+    case Uml::SequenceMessage::Lost:
         drawLost(painter);
     break;
 
-    case Uml::sequence_message_found:
+    case Uml::SequenceMessage::Found:
         drawFound(painter);
     break;
     }
@@ -475,15 +475,15 @@ void MessageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, Q
  */
 qreal MessageWidget::minY() const
 {
-    if (!m_objectWidgets[Uml::A] || !m_objectWidgets[Uml::B]) {
+    if (!m_objectWidgets[Uml::RoleType::A] || !m_objectWidgets[Uml::RoleType::B]) {
         return 0;
     }
-    if (m_sequenceMessageType == Uml::sequence_message_creation) {
-        return m_objectWidgets[Uml::A]->y() + m_objectWidgets[Uml::A]->height();
+    if (m_sequenceMessageType == Uml::SequenceMessage::Creation) {
+        return m_objectWidgets[Uml::RoleType::A]->y() + m_objectWidgets[Uml::RoleType::A]->height();
     }
 
-    qreal heightA = m_objectWidgets[Uml::A]->y() + m_objectWidgets[Uml::A]->height();
-    qreal heightB = m_objectWidgets[Uml::B]->y() + m_objectWidgets[Uml::B]->height();
+    qreal heightA = m_objectWidgets[Uml::RoleType::A]->y() + m_objectWidgets[Uml::RoleType::A]->height();
+    qreal heightB = m_objectWidgets[Uml::RoleType::B]->y() + m_objectWidgets[Uml::RoleType::B]->height();
 
     return qMax(heightA, heightB);
 }
@@ -495,11 +495,11 @@ qreal MessageWidget::minY() const
  */
 qreal MessageWidget::maxY() const
 {
-    if( !m_objectWidgets[Uml::A] || !m_objectWidgets[Uml::B] ) {
+    if( !m_objectWidgets[Uml::RoleType::A] || !m_objectWidgets[Uml::RoleType::B] ) {
         return 0;
     }
-    qreal heightA = m_objectWidgets[Uml::A]->lineEndY();
-    qreal heightB = m_objectWidgets[Uml::B]->lineEndY();
+    qreal heightA = m_objectWidgets[Uml::RoleType::A]->lineEndY();
+    qreal heightB = m_objectWidgets[Uml::RoleType::B]->lineEndY();
 
     return qMin(heightA, heightB);
 }
@@ -533,22 +533,22 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
     m_customOperation = qElement.attribute( "operation", "" );
     m_sequenceNumber = qElement.attribute( "seqnum", "" );
     QString sequenceMessageType = qElement.attribute( "sequencemessagetype",
-                                                      QString::number(Uml::sequence_message_asynchronous));
-    m_sequenceMessageType = (Uml::Sequence_Message_Type)sequenceMessageType.toInt();
+                                                      QString::number(Uml::SequenceMessage::Asynchronous));
+    m_sequenceMessageType = Uml::SequenceMessage::fromInt(sequenceMessageType.toInt());
 
-    if (m_sequenceMessageType == Uml::sequence_message_lost || m_sequenceMessageType == Uml::sequence_message_found) {
+    if (m_sequenceMessageType == Uml::SequenceMessage::Lost || m_sequenceMessageType == Uml::SequenceMessage::Found) {
         m_clickedPoint.setX(qElement.attribute( "xclicked", "-1" ).toDouble());
         m_clickedPoint.setY(qElement.attribute( "yclicked", "-1" ).toDouble());
     }
 
-    Uml::IDType widgetAId = STR2ID(widgetaid);
-    Uml::IDType widgetBId = STR2ID(widgetbid);
-    Uml::IDType textId    = STR2ID(textid);
+    Uml::ID::Type widgetAId = STR2ID(widgetaid);
+    Uml::ID::Type widgetBId = STR2ID(widgetbid);
+    Uml::ID::Type textId    = STR2ID(textid);
 
-    m_objectWidgets[Uml::A]->setLocalID(widgetAId);
-    m_objectWidgets[Uml::B]->setLocalID(widgetBId);
+    m_objectWidgets[Uml::RoleType::A]->setLocalID(widgetAId);
+    m_objectWidgets[Uml::RoleType::B]->setLocalID(widgetBId);
 
-    Uml::TextRole tr = Uml::TextRole::Seq_Message;
+    Uml::TextRole::Enum tr = Uml::TextRole::Seq_Message;
     if (widgetAId == widgetBId)
         tr = Uml::TextRole::Seq_Message_Self;
 
@@ -576,8 +576,8 @@ void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement messageElement = qDoc.createElement( "messagewidget" );
     UMLWidget::saveToXMI( qDoc, messageElement );
-    messageElement.setAttribute( "widgetaid", ID2STR(m_objectWidgets[Uml::A]->localID()) );
-    messageElement.setAttribute( "widgetbid", ID2STR(m_objectWidgets[Uml::B]->localID()) );
+    messageElement.setAttribute( "widgetaid", ID2STR(m_objectWidgets[Uml::RoleType::A]->localID()) );
+    messageElement.setAttribute( "widgetbid", ID2STR(m_objectWidgets[Uml::RoleType::B]->localID()) );
     UMLOperation *pOperation = operation();
     if (pOperation)
         messageElement.setAttribute( "operation", ID2STR(pOperation->id()) );
@@ -585,7 +585,7 @@ void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
         messageElement.setAttribute( "operation", m_customOperation );
     messageElement.setAttribute( "seqnum", m_sequenceNumber );
     messageElement.setAttribute( "sequencemessagetype", m_sequenceMessageType );
-    if (m_sequenceMessageType == Uml::sequence_message_lost || m_sequenceMessageType == Uml::sequence_message_found) {
+    if (m_sequenceMessageType == Uml::SequenceMessage::Lost || m_sequenceMessageType == Uml::SequenceMessage::Found) {
         messageElement.setAttribute( "xclicked", m_clickedPoint.x());
         messageElement.setAttribute( "yclicked", m_clickedPoint.y());
     }
@@ -605,7 +605,7 @@ void MessageWidget::updateGeometry()
     QSizeF maxSize = UMLWidget::DefaultMaximumSize;
 
     switch(m_sequenceMessageType) {
-    case Uml::sequence_message_asynchronous:
+    case Uml::SequenceMessage::Asynchronous:
         if (isSelf()) {
             minSize.setWidth(MessageWidget::SelfLoopBoxWidth);
             maxSize.setWidth(MessageWidget::SelfLoopBoxWidth);
@@ -617,7 +617,7 @@ void MessageWidget::updateGeometry()
         }
         break;
 
-    case Uml::sequence_message_synchronous:
+    case Uml::SequenceMessage::Synchronous:
         minSize.setWidth(MessageWidget::SynchronousBoxWidth);
         if (isSelf()) {
             minSize.rwidth() += MessageWidget::SelfLoopBoxWidth;
@@ -628,12 +628,12 @@ void MessageWidget::updateGeometry()
         }
         break;
 
-    case Uml::sequence_message_creation:
+    case Uml::SequenceMessage::Creation:
         // creation code.
         break;
 
-    case Uml::sequence_message_found:
-    case Uml::sequence_message_lost:
+    case Uml::SequenceMessage::Found:
+    case Uml::SequenceMessage::Lost:
         minSize.setWidth(MessageWidget::ArrowWidth + MessageWidget::FoundLostCircleRadius);
         minSize.setHeight(qMax(MessageWidget::ArrowWidth, MessageWidget::FoundLostCircleRadius));
 
@@ -669,12 +669,12 @@ QVariant MessageWidget::itemChange(GraphicsItemChange change, const QVariant& va
             return newPoint;
         }
         else if (change == ItemPositionHasChanged) {
-            if (m_objectWidgets[Uml::A]) {
-                m_objectWidgets[Uml::A]->adjustSequentialLineEnd();
+            if (m_objectWidgets[Uml::RoleType::A]) {
+                m_objectWidgets[Uml::RoleType::A]->adjustSequentialLineEnd();
             }
 
-            if (m_objectWidgets[Uml::B]) {
-                m_objectWidgets[Uml::B]->adjustSequentialLineEnd();
+            if (m_objectWidgets[Uml::RoleType::B]) {
+                m_objectWidgets[Uml::RoleType::B]->adjustSequentialLineEnd();
             }
         }
         else if (change == ItemSceneHasChanged) {
@@ -725,7 +725,7 @@ void MessageWidget::setLinkAndTextPos()
  * Returns the textX arg with constraints applied.  Auxiliary to
  * setTextPosition() and constrainTextPos().
  */
-qreal MessageWidget::constrainedX(qreal textX, qreal textWidth, Uml::TextRole tr) const
+qreal MessageWidget::constrainedX(qreal textX, qreal textWidth, Uml::TextRole::Enum tr) const
 {
     qreal result = textX;
     const qreal minTextX = x() + 5;
@@ -733,10 +733,10 @@ qreal MessageWidget::constrainedX(qreal textX, qreal textWidth, Uml::TextRole tr
         result = minTextX;
     } else {
         ObjectWidget *objectAtRight = NULL;
-        if (m_objectWidgets[Uml::B]->x() > m_objectWidgets[Uml::A]->x())
-            objectAtRight = m_objectWidgets[Uml::B];
+        if (m_objectWidgets[Uml::RoleType::B]->x() > m_objectWidgets[Uml::RoleType::A]->x())
+            objectAtRight = m_objectWidgets[Uml::RoleType::B];
         else
-            objectAtRight = m_objectWidgets[Uml::A];
+            objectAtRight = m_objectWidgets[Uml::RoleType::A];
         const qreal objRight_seqLineX = objectAtRight->x() + objectAtRight->width() / 2;
         const qreal maxTextX = objRight_seqLineX - textWidth - 5;
         if (maxTextX <= minTextX)
@@ -754,8 +754,8 @@ void MessageWidget::updateResizability()
 
 void MessageWidget::drawSynchronous(QPainter *painter)
 {
-    qreal x1 = m_objectWidgets[Uml::A]->sequentialLineX();
-    qreal x2 = m_objectWidgets[Uml::B]->sequentialLineX();
+    qreal x1 = m_objectWidgets[Uml::RoleType::A]->sequentialLineX();
+    qreal x2 = m_objectWidgets[Uml::RoleType::B]->sequentialLineX();
     const QSizeF sz = size();
     const QSizeF ArrowSize(ArrowWidth, ArrowHeight);
 
@@ -823,8 +823,8 @@ void MessageWidget::drawSynchronous(QPainter *painter)
 
 void MessageWidget::drawAsynchronous(QPainter *painter)
 {
-    qreal x1 = m_objectWidgets[Uml::A]->sequentialLineX();
-    qreal x2 = m_objectWidgets[Uml::B]->sequentialLineX();
+    qreal x1 = m_objectWidgets[Uml::RoleType::A]->sequentialLineX();
+    qreal x2 = m_objectWidgets[Uml::RoleType::B]->sequentialLineX();
     const QSizeF sz = size();
     const QSizeF ArrowSize(ArrowWidth, ArrowHeight);
 
@@ -851,7 +851,7 @@ void MessageWidget::drawAsynchronous(QPainter *painter)
 
 void MessageWidget::drawFound(QPainter *painter)
 {
-    qreal x1 = m_objectWidgets[Uml::A]->sequentialLineX();
+    qreal x1 = m_objectWidgets[Uml::RoleType::A]->sequentialLineX();
     qreal x2 = m_clickedPoint.x();
     const QSizeF sz = size();
     const QSizeF ArrowSize(ArrowWidth, ArrowHeight);
@@ -882,7 +882,7 @@ void MessageWidget::drawFound(QPainter *painter)
 
 void MessageWidget::drawLost(QPainter *painter)
 {
-    qreal x1 = m_objectWidgets[Uml::A]->sequentialLineX();
+    qreal x1 = m_objectWidgets[Uml::RoleType::A]->sequentialLineX();
     qreal x2 = m_clickedPoint.x();
     const QSizeF sz = size();
     const QSizeF ArrowSize(ArrowWidth, ArrowHeight);
@@ -914,12 +914,12 @@ void MessageWidget::drawLost(QPainter *painter)
 void MessageWidget::drawCreation(QPainter *painter)
 {
     Q_UNUSED(painter);  //:TODO:
-    // qreal x1 = m_objectWidgets[Uml::A]->x();
-    // qreal x2 = m_objectWidgets[Uml::B]->x();
+    // qreal x1 = m_objectWidgets[Uml::RoleType::A]->x();
+    // qreal x2 = m_objectWidgets[Uml::RoleType::B]->x();
     // qreal w = width() - 1;
     // //qreal h = height() - 1;
-    // bool messageOverlapsA = m_objectWidgets[Uml::A]->messageOverlap( y(), this );
-    // //bool messageOverlapsB = m_objectWidgets[Uml::B]->messageOverlap( y(), this );
+    // bool messageOverlapsA = m_objectWidgets[Uml::RoleType::A]->messageOverlap( y(), this );
+    // //bool messageOverlapsB = m_objectWidgets[Uml::RoleType::B]->messageOverlap( y(), this );
 
     // const qreal lineY = offsetY + 4;
     // if (x1 < x2) {
@@ -963,8 +963,8 @@ void MessageWidget::slotMenuSelection(QAction* action)
 void MessageWidget::slotDelayedInit()
 {
     // Get reference to pointers.
-    ObjectWidget *&objA = m_objectWidgets[Uml::A];
-    ObjectWidget *&objB = m_objectWidgets[Uml::B];
+    ObjectWidget *&objA = m_objectWidgets[Uml::RoleType::A];
+    ObjectWidget *&objB = m_objectWidgets[Uml::RoleType::B];
 
     updateResizability();
 
@@ -975,7 +975,7 @@ void MessageWidget::slotDelayedInit()
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(objB->umlObject());
     UMLOperation *op = 0;
     if (c && !m_customOperation.isEmpty()) {
-        Uml::IDType opId = STR2ID(m_customOperation);
+        Uml::ID::Type opId = STR2ID(m_customOperation);
         op = dynamic_cast<UMLOperation*>( c->findChildObjectById(opId, true) );
         if (op) {
             // If the UMLOperation is set, m_customOperation isn't used anyway.

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -26,10 +26,10 @@
 /**
  * Creates a Precondition widget.
  *
- * @param a  The role A widget for this precondition.
- * @param id The ID to assign (-1 will prompt a new ID.)
+ * @param a    The role A widget for this precondition.
+ * @param id   The ID to assign (-1 will prompt a new ID).
  */
-PreconditionWidget::PreconditionWidget(ObjectWidget* a, Uml::IDType id)
+PreconditionWidget::PreconditionWidget(ObjectWidget* a, Uml::ID::Type id)
   : UMLWidget(WidgetBase::wt_Precondition, id),
     m_objectWidget(a)
 {
@@ -240,7 +240,7 @@ bool PreconditionWidget::loadFromXMI(QDomElement& qElement)
     setName(qElement.attribute( "preconditionname", "" ));
     setDocumentation(qElement.attribute( "documentation", "" ));
 
-    Uml::IDType aId = STR2ID(widgetaid);
+    Uml::ID::Type aId = STR2ID(widgetaid);
 
     m_objectWidget = dynamic_cast<ObjectWidget*>(umlScene()->findWidget( aId ));
     if (!m_objectWidget) {

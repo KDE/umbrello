@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -22,20 +22,10 @@ class RubyCodeClassFieldDeclarationBlock : public CodeClassFieldDeclarationBlock
     Q_OBJECT
 public:
 
-    /**
-     * Constructor
-     */
-    RubyCodeClassFieldDeclarationBlock ( CodeClassField * parent );
+    explicit RubyCodeClassFieldDeclarationBlock(CodeClassField * parent);
+    virtual ~RubyCodeClassFieldDeclarationBlock();
 
-    /**
-     * Empty Destructor
-     */
-    virtual ~RubyCodeClassFieldDeclarationBlock ( );
-
-    /**
-     * This will be called by syncToParent whenever the parent object is "modified"
-     */
-    void updateContent ( );
+    void updateContent();
 
 private:
 

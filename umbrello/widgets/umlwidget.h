@@ -64,7 +64,7 @@ public:
     static const UMLSceneSize DefaultMinimumSize;
     static const UMLSceneSize DefaultMaximumSize;
 
-    explicit UMLWidget(WidgetType type = wt_UMLWidget, Uml::IDType id = 0);
+    explicit UMLWidget(WidgetType type = wt_UMLWidget, Uml::ID::Type id = 0);
     UMLWidget(WidgetType type, UMLObject *object);
     virtual ~UMLWidget();
 

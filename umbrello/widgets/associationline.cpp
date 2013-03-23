@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -907,25 +907,25 @@ void AssociationLine::calculateBoundingRect()
  * @internal
  * @short A helper method to return the region of rect intersected by line.
  */
-static Uml::Region intersectedRegion(const QRectF& rect,
+static Uml::Region::Enum intersectedRegion(const QRectF& rect,
         const QLineF& line, QPointF *intersectionPoint = 0)
 {
     // This maps the region of rect to QLineF objects representing rects' edges.
-    QMap<Uml::Region, QLineF> rectLines;
+    QMap<Uml::Region::Enum, QLineF> rectLines;
 
     // Do the mapping.
-    rectLines[Uml::reg_West]  = QLineF(rect.topLeft(), rect.bottomLeft());
-    rectLines[Uml::reg_North] = QLineF(rect.topLeft(), rect.topRight());
-    rectLines[Uml::reg_East]  = QLineF(rect.topRight(), rect.bottomRight());
-    rectLines[Uml::reg_South] = QLineF(rect.bottomLeft(), rect.bottomRight());
+    rectLines[Uml::Region::West]  = QLineF(rect.topLeft(), rect.bottomLeft());
+    rectLines[Uml::Region::North] = QLineF(rect.topLeft(), rect.topRight());
+    rectLines[Uml::Region::East]  = QLineF(rect.topRight(), rect.bottomRight());
+    rectLines[Uml::Region::South] = QLineF(rect.bottomLeft(), rect.bottomRight());
 
     // This holds whether a given rect edge(represented by QLineF
     // objects) is intersected by line.
     typedef QPair<bool, QPointF> BoolPointPair;
 
-    QMap<Uml::Region, BoolPointPair> intersectionMap;
-    for (int i = Uml::reg_West; i <= Uml::reg_South; ++i) {
-        Uml::Region r = (Uml::Region)i;
+    QMap<Uml::Region::Enum, BoolPointPair> intersectionMap;
+    for (int i = Uml::Region::West; i <= Uml::Region::South; ++i) {
+        Uml::Region::Enum r = Uml::Region::fromInt(i);
 
         BoolPointPair value;
         value.first = (line.intersect(rectLines[r], &value.second) ==
@@ -937,30 +937,30 @@ static Uml::Region intersectedRegion(const QRectF& rect,
         // Do intersection mapping separately for corner regions.
         BoolPointPair value;
 
-        value.first = intersectionMap[Uml::reg_North].first == true
-            && intersectionMap[Uml::reg_West].first == true;
+        value.first = intersectionMap[Uml::Region::North].first == true
+            && intersectionMap[Uml::Region::West].first == true;
         value.second = rect.topLeft();
-        intersectionMap[Uml::reg_NorthWest] = value;
+        intersectionMap[Uml::Region::NorthWest] = value;
 
-        value.first = intersectionMap[Uml::reg_North].first == true
-            && intersectionMap[Uml::reg_East].first == true;
+        value.first = intersectionMap[Uml::Region::North].first == true
+            && intersectionMap[Uml::Region::East].first == true;
         value.second = rect.topRight();
-        intersectionMap[Uml::reg_NorthEast] = value;
+        intersectionMap[Uml::Region::NorthEast] = value;
 
-        value.first = intersectionMap[Uml::reg_South].first == true
-            && intersectionMap[Uml::reg_West].first == true;
+        value.first = intersectionMap[Uml::Region::South].first == true
+            && intersectionMap[Uml::Region::West].first == true;
         value.second = rect.bottomLeft();
-        intersectionMap[Uml::reg_SouthWest] = value;
+        intersectionMap[Uml::Region::SouthWest] = value;
 
-        value.first = intersectionMap[Uml::reg_South].first == true
-            && intersectionMap[Uml::reg_East].first == true;
+        value.first = intersectionMap[Uml::Region::South].first == true
+            && intersectionMap[Uml::Region::East].first == true;
         value.second = rect.bottomRight();
-        intersectionMap[Uml::reg_SouthEast] = value;
+        intersectionMap[Uml::Region::SouthEast] = value;
     }
 
-    Uml::Region intersection = Uml::reg_Error;
-    for (int i = Uml::reg_West; i <= Uml::reg_SouthWest; ++i) {
-        const Uml::Region reg = (Uml::Region)i;
+    Uml::Region::Enum intersection = Uml::Region::Error;
+    for (int i = Uml::Region::West; i <= Uml::Region::SouthWest; ++i) {
+        const Uml::Region::Enum reg = Uml::Region::fromInt(i);
         BoolPointPair value = intersectionMap[reg];
         if (value.first == true) {
             intersection = reg;
@@ -986,8 +986,8 @@ RegionPair AssociationLine::determineRegions()
         return RegionPair();
     }
 
-    UMLWidget *widA = m_associationWidget->widgetForRole(Uml::A);
-    UMLWidget *widB = m_associationWidget->widgetForRole(Uml::B);
+    UMLWidget *widA = m_associationWidget->widgetForRole(Uml::RoleType::B);
+    UMLWidget *widB = m_associationWidget->widgetForRole(Uml::RoleType::B);
 
     if (!widA || !widB) {
         uError() << "AssociationWidget is only partially constructed."
@@ -1013,17 +1013,18 @@ RegionPair AssociationLine::determineRegions()
     }
 
     RegionPair result;
-    result[Uml::A] = intersectedRegion(aRect, aLine);
-    result[Uml::B] = intersectedRegion(bRect, bLine);
-    if (result[Uml::A] == Uml::reg_Error) {
-        result[Uml::A] = Uml::reg_North;
+    result[Uml::RoleType::A] = intersectedRegion(aRect, aLine);
+    result[Uml::RoleType::B] = intersectedRegion(bRect, bLine);
+    if (result[Uml::RoleType::A] == Uml::Region::Error) {
+        result[Uml::RoleType::B] = Uml::Region::North;
     }
-    if (result[Uml::B] == Uml::reg_Error) {
-        result[Uml::B] = Uml::reg_North;
+    if (result[Uml::RoleType::B] == Uml::Region::Error) {
+        result[Uml::RoleType::B] = Uml::Region::North;
     }
 
     return result;
 }
+
 /**
  * This important method is responsible for determining the appropriate
  * regions of UMLWidget to be occupied by this AssociationLine ends.
@@ -1034,8 +1035,8 @@ RegionPair AssociationLine::determineRegions()
  */
 void AssociationLine::calculateEndPoints()
 {
-    UMLWidget *aWid = m_associationWidget->widgetForRole(Uml::A);
-    UMLWidget *bWid = m_associationWidget->widgetForRole(Uml::B);
+    UMLWidget *aWid = m_associationWidget->widgetForRole(Uml::RoleType::B);
+    UMLWidget *bWid = m_associationWidget->widgetForRole(Uml::RoleType::B);
 
     if (!aWid || !bWid) {
         uError() << "AssociationWidget is only partially constructed."
@@ -1049,8 +1050,8 @@ void AssociationLine::calculateEndPoints()
         bWid->associationSpaceManager();
 
     RegionPair prevRegions(
-            aSpaceManager->region(m_associationWidget)[Uml::A],
-            bSpaceManager->region(m_associationWidget)[Uml::B]);
+            aSpaceManager->region(m_associationWidget)[Uml::RoleType::B],
+            bSpaceManager->region(m_associationWidget)[Uml::RoleType::B]);
     RegionPair newRegions = determineRegions();
 
     aSpaceManager->remove(m_associationWidget);
@@ -1062,12 +1063,12 @@ void AssociationLine::calculateEndPoints()
     }
 
     // To minimize multiple calls of arrange on same region.
-    typedef QPair<AssociationSpaceManager*, Uml::Region> Pair;
+    typedef QPair<AssociationSpaceManager*, Uml::Region::Enum> Pair;
     QSet<Pair> toArrange;
-    toArrange << qMakePair(aSpaceManager, prevRegions[Uml::A]);
-    toArrange << qMakePair(bSpaceManager, prevRegions[Uml::B]);
-    toArrange << qMakePair(aSpaceManager, newRegions[Uml::A]);
-    toArrange << qMakePair(bSpaceManager, newRegions[Uml::B]);
+    toArrange << qMakePair(aSpaceManager, prevRegions[Uml::RoleType::B]);
+    toArrange << qMakePair(bSpaceManager, prevRegions[Uml::RoleType::B]);
+    toArrange << qMakePair(aSpaceManager, newRegions[Uml::RoleType::B]);
+    toArrange << qMakePair(bSpaceManager, newRegions[Uml::RoleType::B]);
     foreach (Pair p, toArrange) {
         p.first->arrange(p.second);
     }
@@ -1083,7 +1084,7 @@ void AssociationLine::calculateInitialEndPoints()
         for (int i = count(); i < 4; ++i) {
             insertPoint(i, QPointF());
         }
-        UMLWidget *wid = m_associationWidget->widgetForRole(Uml::A);
+        UMLWidget *wid = m_associationWidget->widgetForRole(Uml::RoleType::B);
         if (!wid) {
             uError() << "AssociationWidget is partially constructed."
                 "UMLWidget for role A is null.";

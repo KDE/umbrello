@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -25,7 +25,7 @@
  * @param name   The name of the Concept.
  * @param id     The unique id of the Concept.
  */
-UMLComponent::UMLComponent(const QString & name, Uml::IDType id)
+UMLComponent::UMLComponent(const QString & name, Uml::ID::Type id)
   : UMLPackage(name, id),
     m_executable(false)
 {

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 // own header
@@ -30,7 +30,7 @@
  * Constructs a horizontal FloatingDashLineWidget which is used in
  * CombinedFragmentWidget.
  */
-FloatingDashLineWidget::FloatingDashLineWidget(QGraphicsItem *parent, Uml::IDType id)
+FloatingDashLineWidget::FloatingDashLineWidget(QGraphicsItem *parent, Uml::ID::Type id)
   : UMLWidget(WidgetBase::wt_FloatingDashLine, id),
     m_yMin(0),
     m_yMax(1000)

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -51,8 +51,8 @@ public:
     static const UMLSceneValue restrictPositionMin;
     static const UMLSceneValue restrictPositionMax;
 
-    explicit FloatingTextWidget(Uml::TextRole role = Uml::TextRole::Floating,
-                                Uml::IDType id = Uml::id_None);
+    explicit FloatingTextWidget(Uml::TextRole::Enum role = Uml::TextRole::Floating,
+                                Uml::ID::Type id = Uml::ID::None);
     virtual ~FloatingTextWidget();
 
     QString text() const;
@@ -73,8 +73,8 @@ public:
     LinkWidget* link() const;
     void setLink(LinkWidget * l);
 
-    Uml::TextRole textRole() const;
-    void setTextRole(Uml::TextRole role);
+    Uml::TextRole::Enum textRole() const;
+    void setTextRole(Uml::TextRole::Enum role);
 
     void handleRename();
     void changeName(const QString& newText);
@@ -113,7 +113,7 @@ private:
     /// Ending text (such as bracket on changability notation for association Role)
     QString m_postText;
     /// The role the text widget will enact.
-    Uml::TextRole m_textRole;
+    Uml::TextRole::Enum m_textRole;
 
 };
 

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -46,10 +46,10 @@ public:
                               uda_SetDefault };
 
     UMLForeignKeyConstraint(UMLObject *parent, const QString& name,
-                            Uml::IDType id = Uml::id_None );
-    UMLForeignKeyConstraint(UMLObject *parent);
+                            Uml::ID::Type id = Uml::ID::None);
+    explicit UMLForeignKeyConstraint(UMLObject *parent);
 
-    bool operator==( const UMLForeignKeyConstraint &rhs) const;
+    bool operator==(const UMLForeignKeyConstraint &rhs) const;
 
     virtual ~UMLForeignKeyConstraint();
 
@@ -57,7 +57,7 @@ public:
 
     virtual UMLObject* clone() const;
 
-    QString toString(Uml::SignatureType sig = Uml::SignatureType::NoSig);
+    QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig);
 
     void setReferencedEntity(UMLEntity* ent);
     UMLEntity* getReferencedEntity() const;
@@ -95,14 +95,14 @@ protected:
 
 private:
 
-    Uml::IDType m_pReferencedEntityID;  ///< Used to resolve forward references to UMLEntity.
+    Uml::ID::Type m_pReferencedEntityID;  ///< Used to resolve forward references to UMLEntity.
 
     /**
      * Used to resolve forward references to UMLEntityAttributes
      * Key -> The local attribute
      * Value -> Id of the attribute it is mapping to
      */
-    QMap<UMLEntityAttribute*, Uml::IDType> m_pEntityAttributeIDMap;
+    QMap<UMLEntityAttribute*, Uml::ID::Type> m_pEntityAttributeIDMap;
 
     void init();
 

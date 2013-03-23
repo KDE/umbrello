@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -31,16 +31,16 @@
  * @param type      The type of this UMLAttribute.
  * @param iv        The initial value of the attribute.
  */
-UMLAttribute::UMLAttribute( UMLObject *parent,
-                            const QString& name, Uml::IDType id,
-                            Uml::Visibility s,
-                            UMLObject *type, const QString& iv )
-        : UMLClassifierListItem(parent, name, id)
+UMLAttribute::UMLAttribute(UMLObject *parent,
+                           const QString& name, Uml::ID::Type id,
+                           Uml::Visibility::Enum s,
+                           UMLObject *type, const QString& iv)
+  : UMLClassifierListItem(parent, name, id)
 {
     m_InitialValue = iv;
     m_BaseType = UMLObject::ot_Attribute;
-    m_Vis = s;
-    m_ParmKind = Uml::pd_In;
+    m_visibility = s;
+    m_ParmKind = Uml::ParameterDirection::In;
     /* CHECK: Do we need this:
     if (type == NULL) {
         type = Object_Factory::createUMLObject(Uml::ot_Datatype, "undef");
@@ -57,8 +57,8 @@ UMLAttribute::UMLAttribute( UMLObject *parent,
 UMLAttribute::UMLAttribute(UMLObject *parent) : UMLClassifierListItem(parent)
 {
     m_BaseType = UMLObject::ot_Attribute;
-    m_Vis = Uml::Visibility::Private;
-    m_ParmKind = Uml::pd_In;
+    m_visibility = Uml::Visibility::Private;
+    m_ParmKind = Uml::ParameterDirection::In;
 }
 
 /**
@@ -83,9 +83,9 @@ void UMLAttribute::setName(const QString &name)
  * Reimplementation of method from UMLObject is required as
  * an extra signal, attributeChanged(), is emitted.
  */
-void UMLAttribute::setVisibility(Uml::Visibility s)
+void UMLAttribute::setVisibility(Uml::Visibility::Enum s)
 {
-    m_Vis = s;
+    m_visibility = s;
     emit attributeChanged();
     UMLObject::emitModified();
 }
@@ -105,7 +105,7 @@ QString UMLAttribute::getInitialValue() const
  *
  * @param iv   The initial value of the UMLAttribute.
  */
-void UMLAttribute::setInitialValue(const QString &iv) 
+void UMLAttribute::setInitialValue(const QString &iv)
 {
     if(m_InitialValue != iv) {
         m_InitialValue = iv;
@@ -113,12 +113,12 @@ void UMLAttribute::setInitialValue(const QString &iv)
     }
 }
 
-void UMLAttribute::setParmKind (Uml::Parameter_Direction pk)
+void UMLAttribute::setParmKind (Uml::ParameterDirection::Enum pk)
 {
     m_ParmKind = pk;
 }
 
-Uml::Parameter_Direction UMLAttribute::getParmKind () const
+Uml::ParameterDirection::Enum UMLAttribute::getParmKind() const
 {
     return m_ParmKind;
 }
@@ -129,12 +129,12 @@ Uml::Parameter_Direction UMLAttribute::getParmKind () const
  * @param sig   If true will show the attribute type and initial value.
  * @return  Returns a string representation of the UMLAttribute.
  */
-QString UMLAttribute::toString(Uml::SignatureType sig)
+QString UMLAttribute::toString(Uml::SignatureType::Enum sig)
 {
     QString s;
 
     if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::NoSig) {
-        s = m_Vis.toString(true) + ' ';
+        s = Uml::Visibility::toString(m_visibility, true) + ' ';
     }
 
     if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::SigNoVis) {
@@ -162,10 +162,10 @@ QString UMLAttribute::toString(Uml::SignatureType sig)
         }
         // The default direction, "in", is not mentioned.
         // Perhaps we should include a pd_Unspecified in
-        // Uml::Parameter_Direction to have better control over this.
-        if (m_ParmKind == Uml::pd_InOut)
+        // Uml::ParameterDirection::Enum to have better control over this.
+        if (m_ParmKind == Uml::ParameterDirection::InOut)
             s += "inout ";
-        else if (m_ParmKind == Uml::pd_Out)
+        else if (m_ParmKind == Uml::ParameterDirection::Out)
             s += "out ";
         // Construct the attribute text.
         QString string = s + name() + " : " + typeName;
@@ -179,7 +179,7 @@ QString UMLAttribute::toString(Uml::SignatureType sig)
 /**
  * Reimplement method from UMLObject.
  */
-QString UMLAttribute::getFullyQualifiedName( const QString& separator,
+QString UMLAttribute::getFullyQualifiedName(const QString& separator,
                                             bool includeRoot /* = false */) const
 {
     UMLOperation *op = NULL;
@@ -255,7 +255,7 @@ UMLObject* UMLAttribute::clone() const
 /**
  * Creates the <UML:Attribute> XMI element.
  */
-void UMLAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+void UMLAttribute::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement attributeElement = UMLObject::save("UML:Attribute", qDoc);
     if (m_pSecondary == NULL) {
@@ -272,7 +272,7 @@ void UMLAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 /**
  * Loads the <UML:Attribute> XMI element.
  */
-bool UMLAttribute::load( QDomElement & element )
+bool UMLAttribute::load(QDomElement & element)
 {
     m_SecondaryId = element.attribute( "type", "" );
     // We use the m_SecondaryId as a temporary store for the xmi.id
@@ -389,7 +389,7 @@ UMLClassifierList UMLAttribute::getTemplateParams()
     QString type = getType()->name();
     QString templateParam;
     // Handle C++/D/Java template/generic parameters
-    const Uml::ProgrammingLanguage pl = UMLApp::app()->activeLanguage();
+    const Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
     if (pl == Uml::ProgrammingLanguage::Cpp  ||
         pl == Uml::ProgrammingLanguage::Java || pl == Uml::ProgrammingLanguage::D) {
         int start = type.indexOf(QChar('<'));

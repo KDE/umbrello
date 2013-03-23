@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -23,33 +23,31 @@ class CPPHeaderClassDeclarationBlock;
 /**
  * class CPPHeaderCodeDocument
  * A CPP UMLClassifier Header Code Document.
+ * We carve the CPP document up into 2 documents, "source" and "header".
+ * This one represents the header portion.
+ * The sections of each are as follows:
+ * - header
+ * - includes
+ * - import statements
+ * - class declaration
+ * -   guts of the class (e.g. field decl, accessor methods, operations, dependant classes)
  */
 class CPPHeaderCodeDocument : public ClassifierCodeDocument
 {
     Q_OBJECT
 public:
 
-    /**
-     * Constructor
-     */
-    CPPHeaderCodeDocument (UMLClassifier * classifier);
+    explicit CPPHeaderCodeDocument(UMLClassifier* classifier);
+    virtual ~CPPHeaderCodeDocument();
 
-    /**
-     * Empty Destructor
-     */
-    virtual ~CPPHeaderCodeDocument ( );
-
-    /** add a code operation to this cpp classifier code document.
-     *  @return bool which is true IF the code operation was added successfully
-     */
-    bool addCodeOperation (CodeOperation * op );
+    bool addCodeOperation(CodeOperation* op);
 
     void updateContent();
 
     /**
      * Save the XMI representation of this object
      */
-    //virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
+    //virtual void saveToXMI(QDomDocument & doc, QDomElement & root);
 
 protected:
 
@@ -60,14 +58,14 @@ protected:
      * Need to overwrite this for cpp header since we need to pick up the
      * header class declaration block.
      */
-    virtual void loadChildTextBlocksFromNode ( QDomElement & root);
+    virtual void loadChildTextBlocksFromNode(QDomElement & root);
 
     void addOrUpdateCodeClassFieldMethodsInCodeBlock(CodeClassFieldList &list, CPPHeaderClassDeclarationBlock * codeBlock);
 
     /**
      * Create a new code comment. IN this case it is a CPPCodeDocumentation object.
      */
-    CodeComment * newCodeComment ( );
+    CodeComment * newCodeComment();
 
 private:
 
@@ -87,9 +85,6 @@ private:
     HierarchicalCodeBlock * m_privOperationsBlock;
     HierarchicalCodeBlock * m_protOperationsBlock;
 
-    /**
-     *
-     */
     CPPHeaderClassDeclarationBlock * getClassDecl();
 
 };

@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2003                                                    *
  *   Brian Thomas <brian.thomas@gsfc.nasa.gov>                             *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -103,8 +103,8 @@ bool CodeViewerDialog::close()
  */
 void CodeViewerDialog::languageChange()
 {
-    Uml::ProgrammingLanguage pl = UMLApp::app()->activeLanguage();
-    setWindowTitle( tr2i18n( "Code Viewer - " ) + pl.toString() );
+    Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
+    setWindowTitle( tr2i18n( "Code Viewer - " ) + Uml::ProgrammingLanguage::toString(pl) );
 }
 
 #include "codeviewerdialog.moc"

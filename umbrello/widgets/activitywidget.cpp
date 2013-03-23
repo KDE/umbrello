@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -34,7 +34,7 @@
  * @param activityType      The type of activity.
  * @param id                The ID to assign (-1 will prompt a new ID.)
  */
-ActivityWidget::ActivityWidget(ActivityType activityType, Uml::IDType id)
+ActivityWidget::ActivityWidget(ActivityType activityType, Uml::ID::Type id)
   : UMLWidget(WidgetBase::wt_Activity, id),
     m_activityType(activityType)
 {
@@ -42,7 +42,7 @@ ActivityWidget::ActivityWidget(ActivityType activityType, Uml::IDType id)
 }
 
 /**
- *  destructor
+ *  Destructor.
  */
 ActivityWidget::~ActivityWidget()
 {

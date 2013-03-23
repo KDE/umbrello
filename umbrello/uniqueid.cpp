@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2009                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -18,12 +18,12 @@ namespace UniqueID {
 /**
  * Each model object gets assigned a unique ID.
  */
-Uml::IDType m_uniqueID;
+Uml::ID::Type m_uniqueID;
 
 /**
  * MAIN FUNCTION: Return a new unique ID.
  */
-Uml::IDType gen()
+Uml::ID::Type gen()
 {
     m_uniqueID = std::string(KRandom::randomString(12).toLatin1());
     return m_uniqueID;
@@ -36,13 +36,13 @@ Uml::IDType gen()
  */
 void init()
 {
-    m_uniqueID = Uml::id_Reserved;
+    m_uniqueID = Uml::ID::Reserved;
 }
 
 /**
  * Return the last generated unique ID without generating a new one.
  */
-Uml::IDType get()
+Uml::ID::Type get()
 {
     return m_uniqueID;
 }
@@ -50,7 +50,7 @@ Uml::IDType get()
 /**
  * Explicitly set a new ID value.
  */
-void set(Uml::IDType id)
+void set(Uml::ID::Type id)
 {
     m_uniqueID = id;
 }

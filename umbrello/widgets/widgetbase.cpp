@@ -75,11 +75,11 @@ static QBrush awesomeBrush()
 class WidgetInterfaceData
 {
 public:
-    WidgetInterfaceData() : id(Uml::id_None)
+    WidgetInterfaceData() : id(Uml::ID::None)
     {
     }
 
-    Uml::IDType id;
+    Uml::ID::Type id;
     QString documentation;
     QString name;
 };
@@ -179,7 +179,7 @@ void WidgetBase::setUMLObject(UMLObject *obj, bool notifyAsSlot)
  *
  * @return The identifier of this widget.
  */
-Uml::IDType WidgetBase::id() const
+Uml::ID::Type WidgetBase::id() const
 {
     if(m_umlObject) {
         return m_umlObject->id();
@@ -195,17 +195,17 @@ Uml::IDType WidgetBase::id() const
  * the id.
  * @see WidgetBase::attributeChange
  */
-void WidgetBase::setID(Uml::IDType id)
+void WidgetBase::setID(Uml::ID::Type id)
 {
-    const Uml::IDType oldId = this->id();
+    const Uml::ID::Type oldId = this->id();
 
-    if (id == Uml::id_None) {
+    if (id == Uml::ID::None) {
         // generate unique id in case of None.
         id = UniqueID::gen();
     }
 
     if(m_umlObject) {
-        if(m_umlObject->id() != Uml::id_None) {
+        if(m_umlObject->id() != Uml::ID::None) {
             uWarning() << "changing old UMLObject " << ID2STR(m_umlObject->id())
                        << " to " << ID2STR(id);
         }

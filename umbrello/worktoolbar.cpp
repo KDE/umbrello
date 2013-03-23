@@ -85,7 +85,7 @@ void WorkToolBar::insertBasicAssociations()
     insertHotBtn(tbb_Generalization);
 }
 
-void WorkToolBar::slotCheckToolBar(Uml::DiagramType dt)
+void WorkToolBar::slotCheckToolBar(Uml::DiagramType::Enum dt)
 {
     if (dt == m_Type)
         return;
@@ -196,7 +196,8 @@ void WorkToolBar::slotCheckToolBar(Uml::DiagramType dt)
         break;
 
     default:
-        uWarning() << "slotCheckToolBar() on unknown diagram type:" << m_Type.toString();
+        uWarning() << "slotCheckToolBar() on unknown diagram type:"
+                   << Uml::DiagramType::toString(m_Type);
         break;
     }
 }

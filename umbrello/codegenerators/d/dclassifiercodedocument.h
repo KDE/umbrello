@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008                                                    *
+ *   copyright (C) 2008-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -25,60 +25,43 @@ class DClassDeclarationBlock;
 class DCodeGenerationPolicy;
 
 /**
-  * class DClassifierCodeDocument
-  * A D UMLClassifier Code Document.
-  */
-
+ * A D UMLClassifier Code Document.
+ * We carve the D document up into sections as follows:
+ * - header
+ * - package declaration
+ * - import statements
+ * - class declaration
+ * -   guts of the class (e.g. field decl, accessor methods, operations, dependant classes)
+ */
 class DClassifierCodeDocument : public ClassifierCodeDocument
 {
     Q_OBJECT
 public:
 
-    /**
-     * Constructor
-     */
-    DClassifierCodeDocument (UMLClassifier * classifier);
+    explicit DClassifierCodeDocument(UMLClassifier * classifier);
+    virtual ~DClassifierCodeDocument();
 
-    /**
-     * Empty Destructor
-     */
-    virtual ~DClassifierCodeDocument ( );
+//    CodeDocumentDialog getDialog();
 
-//    /**
-//     * Get the dialog widget which allows user interaction with the object parameters.
-//     * @return  CodeDocumentDialog
-//     */
-//    CodeDocumentDialog getDialog ( );
-
-    // Make it easier on ourselves
     DCodeGenerationPolicy * getDPolicy();
 
-    QString getDClassName (const QString &name);
+    QString getDClassName(const QString &name);
 
     QString getPath();
 
-    /**
-     * Add a code operation to this d classifier code document.
-     * @return bool which is true IF the code operation was added successfully
-     */
-    bool addCodeOperation (CodeOperation * op );
+    bool addCodeOperation(CodeOperation * op);
 
     void updateContent();
 
 protected:
 
-    // reset/clear our inventory of textblocks in this document
     void resetTextBlocks();
 
-    /**
-     * Need to overwrite this for d since we need to pick up the
-     * d class declaration block.
-     */
-    virtual void loadChildTextBlocksFromNode ( QDomElement & root);
+    virtual void loadChildTextBlocksFromNode(QDomElement & root);
 
     void addOrUpdateCodeClassFieldMethodsInCodeBlock(CodeClassFieldList &list, DClassDeclarationBlock * codeBlock);
 
-    bool forceDoc ();
+    bool forceDoc();
 
 private:
 
@@ -91,9 +74,8 @@ private:
     QString endLine; // characters for ending line. Just for our convience in creating code
     QString DClassName;
 */
-    void init ( );
+    void init();
     DClassDeclarationBlock * getClassDecl();
-
 
 };
 

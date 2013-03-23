@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 #ifndef UMLROLEPROPERTIES_H
@@ -16,8 +16,8 @@
 class UMLRolePropertiesBase : public QWidget, public Ui::UMLRolePropertiesBase
 {
 public:
-  UMLRolePropertiesBase( QWidget *parent ) : QWidget( parent ) {
-    setupUi( this );
+  explicit UMLRolePropertiesBase(QWidget *parent) : QWidget(parent) {
+    setupUi(this);
   }
 };
 
@@ -38,7 +38,7 @@ public:
      *  @param  parent  The parent widget to the UMLRoleProperties.
      *  @param  role    The UMLRole to display the properties of.
      */
-    UMLRoleProperties( QWidget *parent, UMLRole *role);
+    UMLRoleProperties(QWidget *parent, UMLRole *role);
 
     /**
      *  Standard deconstructor.

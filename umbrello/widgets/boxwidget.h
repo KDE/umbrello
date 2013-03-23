@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -28,7 +28,7 @@
 class BoxWidget : public UMLWidget
 {
 public:
-    explicit BoxWidget(Uml::IDType id = Uml::id_None, WidgetType = WidgetBase::wt_Box);
+    explicit BoxWidget(Uml::ID::Type id = Uml::ID::None, WidgetType type = WidgetBase::wt_Box);
     virtual ~BoxWidget();
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);

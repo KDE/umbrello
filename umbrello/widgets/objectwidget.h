@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -38,11 +38,11 @@ class ObjectWidget : public UMLWidget
     Q_PROPERTY(bool showDestruction READ showDestruction WRITE setShowDestruction)
 
 public:
-    ObjectWidget(UMLObject *o, const Uml::IDType &lid = Uml::id_None);
+    ObjectWidget(UMLObject *o, const Uml::ID::Type &lid = Uml::ID::None);
     virtual ~ObjectWidget();
 
-    void setLocalID(const Uml::IDType& id);
-    Uml::IDType localID() const;
+    void setLocalID(const Uml::ID::Type& id);
+    Uml::ID::Type localID() const;
 
     void setMultipleInstance(bool multiple);
     bool multipleInstance() const;
@@ -97,7 +97,7 @@ private:
     SeqLineWidget* m_sequentialLine;
     QPainterPath   m_objectWidgetPath;
 
-    Uml::IDType m_localID;    ///< local ID used on views
+    Uml::ID::Type m_localID;    ///< local ID used on views
 
     bool m_multipleInstance;  ///< draw an object as a multiple object instance
     bool m_drawAsActor;       ///< object should be drawn as an Actor or an Object

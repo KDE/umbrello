@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008                                                    *
+ *   copyright (C) 2008-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -21,23 +21,10 @@ class DCodeClassFieldDeclarationBlock : public CodeClassFieldDeclarationBlock
     Q_OBJECT
 public:
 
-    /**
-     * Constructor
-     */
-    DCodeClassFieldDeclarationBlock ( CodeClassField * parent );
+    explicit DCodeClassFieldDeclarationBlock(CodeClassField * parent);
+    virtual ~DCodeClassFieldDeclarationBlock();
 
-    /**
-     * Empty Destructor
-     */
-    virtual ~DCodeClassFieldDeclarationBlock ( );
-
-    /**
-     * This will be called by syncToParent whenever the parent object is "modified"
-     */
-    void updateContent ( );
-
-private:
-
+    void updateContent();
 
 };
 

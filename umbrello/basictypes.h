@@ -24,19 +24,18 @@
 #include <string>
 
 /**
- * @author Andi Fischer
- * ...
+ * This namespace contains all the enums used all over the code base.
+ * The enums are embedded into namespaces and useful functionality is added.
  */
 namespace Uml
 {
 
-  /**
-   * 
-   */
-  class ModelType
+    /**
+     * The model type enum is used to identify the folder the diagrams belong to.
+     */
+    namespace ModelType
     {
-    public:
-        enum Value {
+        enum Enum {
             Logical,
             UseCase,
             Component,
@@ -44,46 +43,34 @@ namespace Uml
             EntityRelationship,
             N_MODELTYPES   // must remain last
         };
-        ModelType();
-        ModelType(Value item);
-        static QString toString(Value item);
-        static ModelType fromString(const QString& item);
-        QString toString() const;
-        operator Value() const;
-    private:
-        Value m_value;
-    };
+        QString toString(Enum item);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+    }
 
     /**
-     * 
+     * The visibility enum defines the visibility of attributes and operations.
      */
-    class Visibility
+    namespace Visibility
     {
-    public:
-        enum Value {
+        enum Enum {
             Public,
             Private,
             Protected,
             Implementation, // objects marked with this are declared in the implementation file.
             FromParent = 3  // alias for Implementation, used by CodeGenerationPolicy
         };
-        Visibility();
-        Visibility(Value item);
-        static QString toString(Value item, bool mnemonic = false);
-        static Visibility fromString(const QString& item);
-        QString toString(bool mnemonic = false) const;
-        operator Value() const;
-    private:
-        Value m_value;
-    };
+        QString toString(Enum item, bool mnemonic = false);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+    }
 
     /**
      * Supported diagram types.
      */
-    class DiagramType
+    namespace DiagramType
     {
-    public:
-        enum Value {
+        enum Enum {
             //the values in this enum are saved out to the file
             //for file compatibility, only add new values to the end
             Undefined = 0,
@@ -98,24 +85,18 @@ namespace Uml
             EntityRelationship,
             N_DIAGRAMTYPES   // must remain last
         };
-        DiagramType();
-        DiagramType(Value item);
-        static QString toString(Value item);
-        static DiagramType fromString(const QString& item);
-        QString toString() const;
-        QString toStringI18n() const;
-        operator Value() const;
-    private:
-        Value m_value;
-    };
+        QString toString(Enum item);
+        QString toStringI18n(Enum item);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+    }
 
     /**
      * Association types.
      */
-    class AssociationType
+    namespace AssociationType
     {
-    public:
-        enum Value {
+        enum Enum {
             Generalization  =  500,
             Aggregation,
             Dependency,
@@ -138,47 +119,35 @@ namespace Uml
             Relationship,
             Unknown  =  - 1
         };
-        AssociationType();
-        AssociationType(Value item);
-        static QString toString(Value item);
-        static AssociationType fromString(const QString& item);
-        QString toString() const;
-        QString toStringI18n() const;
-        operator Value() const;
-        static bool hasUMLRepresentation(Value item);
-    private:
-        Value m_value;
-    };
+        QString toString(Enum item);
+        QString toStringI18n(Enum item);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+        bool hasUMLRepresentation(Enum item);
+    }
 
     /**
      * Signature types.
      */
-    class SignatureType
+    namespace SignatureType
     {
-    public:
-        enum Value {
+        enum Enum {
             NoSig  =  600,
             ShowSig,
             SigNoVis,
             NoSigNoVis
         };
-        SignatureType();
-        SignatureType(Value item);
-        static QString toString(Value item);
-        static SignatureType fromString(const QString& item);
-        QString toString() const;
-        operator Value() const;
-    private:
-        Value m_value;
-    };
+        QString toString(Enum item);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+    }
 
     /**
      * TextRole types.
      */
-    class TextRole
+    namespace TextRole
     {
-    public:
-        enum Value {
+        enum Enum {
             Floating  =  700,   //text widget on diagrams
             MultiA,             //Text for Multiple A
             MultiB,             //Text for Multiple B
@@ -193,54 +162,57 @@ namespace Uml
             ChangeA,            //Changeability A text on associations
             ChangeB             //Changeability B text on associations
         };
-        TextRole();
-        TextRole(Value item);
-        static QString toString(Value item);
-        static TextRole fromString(const QString& item);
-        QString toString() const;
-        operator Value() const;
-    private:
-        Value m_value;
-    };
+        QString toString(Enum item);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+    }
 
     /**
      * Changeability types.
      */
-    class Changeability
+    namespace Changeability
     {
-    public:
-        enum Value {
+        enum Enum {
             Changeable = 900,
             Frozen,
             AddOnly
         };
-        Changeability();
-        Changeability(Value item);
-        static QString toString(Value item);
-        static Changeability fromString(const QString& item);
-        QString toString() const;
-        operator Value() const;
-    private:
-        Value m_value;
-    };
+        QString toString(Enum item);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+    }
 
     /**
-     * 
+     * SequenceMessage type
      */
-    enum Sequence_Message_Type
+    namespace SequenceMessage
     {
-        //This is saved out to the file so only add new entries at the end
-        sequence_message_synchronous = 1000,
-        sequence_message_asynchronous,
-        sequence_message_creation,
-        sequence_message_lost,
-        sequence_message_found
-    };
+        enum Enum {
+            //This is saved out to the file so only add new entries at the end
+            Synchronous = 1000,
+            Asynchronous,
+            Creation,
+            Lost,
+            Found
+        };
+        QString toString(Enum item);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+    }
 
     /**
      * Constants used for indexing the roles of associations.
      */
-    enum Role_Type { A, B };
+    namespace RoleType
+    {
+        enum Enum {
+            A,
+            B
+        };
+        QString toString(Enum item);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+    }
 
     /**
      * Direction of operation parameters:
@@ -249,15 +221,24 @@ namespace Uml
      *   inout = operation both reads and writes the parameter
      * The numeric values of this enum are not currently saved to file.
      */
-    enum Parameter_Direction { pd_In, pd_InOut, pd_Out };
+    namespace ParameterDirection
+    {
+        enum Enum {
+            In,
+            InOut,
+            Out
+        };
+        QString toString(Enum item);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+    }
 
     /**
      * Supported programming languages.
      */
-    class ProgrammingLanguage
+    namespace ProgrammingLanguage
     {
-    public:
-        enum Value {
+        enum Enum {
             ActionScript,
             Ada,
             Cpp,
@@ -280,57 +261,67 @@ namespace Uml
             XMLSchema,
             Reserved
         };
-        ProgrammingLanguage();
-        ProgrammingLanguage(Value item);
-        static QString toString(Value item);
-        static ProgrammingLanguage fromString(const QString& item);
-        QString toString() const;
-        operator Value() const;
-    private:
-        Value m_value;
-    };
+        QString toString(Enum item);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+    }
 
     /**
      * Enumeration used for stating where a line is on a widget.
      * @note Do not change this ordering, as we use these values in for loop.
+     * @note See also associationwidget.h.
      */
-    enum Region {
-        reg_Error = 0,
-        reg_West,
-        reg_North,
-        reg_East,
-        reg_South,
-        reg_NorthWest,
-        reg_NorthEast,
-        reg_SouthEast,
-        reg_SouthWest
-    };
+    namespace Region
+    {
+        enum Enum {
+            Error = 0,
+            West,
+            North,
+            East,
+            South,
+            NorthWest,
+            NorthEast,
+            SouthEast,
+            SouthWest
+        };
+        QString toString(Enum item);
+        Enum fromString(const QString& item);
+        Enum fromInt(int item);
+    }
 
     /**
-     * 
+     * Corner class with special operators.
      */
-    enum Corner {
-        corner_TopLeft = 0x1,
-        corner_TopRight = 0x2,
-        corner_BottomRight = 0x4,
-        corner_BottomLeft = 0x8
+    class Corner
+    {
+    public:
+        enum Enum {
+            TopLeft     = 0x1,
+            TopRight    = 0x2,
+            BottomRight = 0x4,
+            BottomLeft  = 0x8
+        };
+        static QString toString(Enum item);
+        static Enum fromString(const QString& item);
+        static Enum fromInt(int item);
     };
-    Q_DECLARE_FLAGS(Corners, Corner)
+    Q_DECLARE_FLAGS(Corners, Corner::Enum)
+    Q_DECLARE_OPERATORS_FOR_FLAGS(Corners)
 
     /**
      * The data type used for unique IDs.
      */
-//    class IDType
-//    {
-    typedef std::string IDType;
+    namespace ID
+    {
+        typedef std::string Type;
 
-    const IDType id_None     = "-1";   ///< special value for uninitialized ID
-    const IDType id_Reserved = "0";    ///< special value for illegal ID
+        const Type None     = "-1";   ///< special value for uninitialized ID
+        const Type Reserved = "0";    ///< special value for illegal ID
 
-# define STR2ID(id)  qPrintable(id)
-# define ID2STR(id)  QString(id.c_str())
-    QDebug operator<<(QDebug out, IDType &type);
-//    }
+        #define STR2ID(id)  qPrintable(id)
+        #define ID2STR(id)  QString(id.c_str())
+        QDebug operator<<(QDebug out, ID::Type &type);
+    }
 
 }  // end namespace Uml
 

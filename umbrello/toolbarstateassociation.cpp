@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2012                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -169,7 +169,7 @@ void ToolBarStateAssociation::mouseReleaseEmpty()
 void ToolBarStateAssociation::setFirstWidget()
 {
     UMLWidget* widget = currentWidget();
-    Uml::AssociationType type = getAssociationType();
+    Uml::AssociationType::Enum type = getAssociationType();
 
     if (!AssocRules::allowAssociation(type, widget)) {
         //TODO improve error feedback: tell the user what are the valid type of associations for
@@ -205,7 +205,7 @@ void ToolBarStateAssociation::setFirstWidget()
  */
 void ToolBarStateAssociation::setSecondWidget()
 {
-    Uml::AssociationType type = getAssociationType();
+    Uml::AssociationType::Enum type = getAssociationType();
     UMLWidget* widgetA = m_firstWidget;
     UMLWidget* widgetB = currentWidget();
     WidgetBase::WidgetType at = widgetA->baseType();
@@ -247,9 +247,9 @@ void ToolBarStateAssociation::setSecondWidget()
  *
  * @return The association type of this tool.
  */
-Uml::AssociationType ToolBarStateAssociation::getAssociationType()
+Uml::AssociationType::Enum ToolBarStateAssociation::getAssociationType()
 {
-    Uml::AssociationType at;
+    Uml::AssociationType::Enum at;
 
     switch(getButton()) {
         case WorkToolBar::tbb_Anchor:                   at = Uml::AssociationType::Anchor;            break;
@@ -294,7 +294,7 @@ bool ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* asso
         UMLAssociation *umla = assoc->association();
         if (umla) {
             // association with model representation in UMLDoc
-            Uml::ModelType m = Model_Utils::convert_DT_MT(m_pUMLScene->type());
+            Uml::ModelType::Enum m = Model_Utils::convert_DT_MT(m_pUMLScene->type());
             UMLDoc *umldoc = UMLApp::app()->document();
             umla->setUMLPackage(umldoc->rootFolder(m));
             umldoc->addAssociation(umla);

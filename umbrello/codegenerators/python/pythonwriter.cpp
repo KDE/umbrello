@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2002      Vincent Decorges  <vincent.decorges@eivd.ch>  *
- *   copyright (C) 2003-2012                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -172,6 +172,10 @@ PythonWriter::~PythonWriter()
 {
 }
 
+/**
+ * Call this method to generate C++ code for a UMLClassifier.
+ * @param c   the class you want to generate code for
+ */
 void PythonWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
@@ -297,6 +301,11 @@ void PythonWriter::writeClass(UMLClassifier *c)
 ////////////////////////////////////////////////////////////////////////////////////
 //  Helper Methods
 
+/**
+ * Write all attributes for a given class.
+ * @param c    the concept we are generating code for
+ * @param py   output stream for the header file
+ */
 void PythonWriter::writeAttributes(UMLAttributeList atList, QTextStream &py)
 {
     if (!forceDoc() || atList.count() == 0)
@@ -304,13 +313,18 @@ void PythonWriter::writeAttributes(UMLAttributeList atList, QTextStream &py)
     py << m_indentation << "\"\"\" ATTRIBUTES" << m_endl << m_endl;
     foreach (UMLAttribute *at , atList ) {
         py << formatDoc(at->doc(), m_indentation + ' ') << m_endl;
-        Uml::Visibility vis = at->visibility();
+        Uml::Visibility::Enum vis = at->visibility();
         py << m_indentation << cleanName(at->name()) << "  ("
-            << vis.toString() << ")" << m_endl << m_endl ;
+            << Uml::Visibility::toString(vis) << ")" << m_endl << m_endl ;
     } // end for
     py << m_indentation << "\"\"\"" << m_endl << m_endl;
 }
 
+/**
+ * Write all operations for a given class.
+ * @param c   the concept we are generating code for
+ * @param h   output stream for the header file
+ */
 void PythonWriter::writeOperations(UMLClassifier *c, QTextStream &h)
 {
     //Lists to store operations  sorted by scope
@@ -351,8 +365,15 @@ void PythonWriter::writeOperations(UMLClassifier *c, QTextStream &h)
 
 }
 
+/**
+ * Write a list of class operations.
+ * @param classname   the name of the class
+ * @param opList      the list of operations
+ * @param h           output stream for the header file
+ * @param access      visibility identifier
+ */
 void PythonWriter::writeOperations(const QString& classname, UMLOperationList &opList,
-                                   QTextStream &h, Uml::Visibility access)
+                                   QTextStream &h, Uml::Visibility::Enum access)
 {
     Q_UNUSED(classname);
     QString sAccess;
@@ -420,11 +441,18 @@ void PythonWriter::writeOperations(const QString& classname, UMLOperationList &o
     }//end for
 }
 
-Uml::ProgrammingLanguage PythonWriter::language() const
+/**
+ * Return the programming language identifier.
+ * @return   programming language id
+ */
+Uml::ProgrammingLanguage::Enum PythonWriter::language() const
 {
     return Uml::ProgrammingLanguage::Python;
 }
 
+/**
+ * Reimplementation of method from class CodeGenerator
+ */
 QStringList PythonWriter::defaultDatatypes()
 {
     QStringList l;
@@ -441,6 +469,10 @@ QStringList PythonWriter::defaultDatatypes()
     return l;
 }
 
+/**
+ * Get list of reserved keywords.
+ * @return   the list of reserved keywords
+ */
 QStringList PythonWriter::reservedKeywords() const
 {
     static QStringList keywords;

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -33,8 +33,8 @@ public:
 
     UMLClassifierListItem(UMLObject *parent,
                           const QString& name,
-                          Uml::IDType id = Uml::id_None);
-    UMLClassifierListItem(UMLObject *parent);
+                          Uml::ID::Type id = Uml::ID::None);
+    explicit UMLClassifierListItem(UMLObject *parent);
     virtual ~UMLClassifierListItem();
 
     virtual void setType(UMLObject *type);
@@ -43,7 +43,7 @@ public:
     void setTypeName( const QString &type );
     virtual QString getTypeName() const;
 
-    virtual QString toString(Uml::SignatureType sig = Uml::SignatureType::NoSig);
+    virtual QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig);
 
     /**
      * Display the properties configuration dialog for the list item.

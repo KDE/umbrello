@@ -4,7 +4,7 @@
  *  the Free Software Foundation; either version 2 of the License, or      *
  *  (at your option) any later version.                                    *
  *                                                                         *
- *  copyright (C) 2002-2012                                                *
+ *  copyright (C) 2002-2013                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -88,7 +88,7 @@ UMLDoc::UMLDoc()
     m_bLoading(false),
     m_Doc(QString()),
     m_pAutoSaveTimer(0),
-    m_nViewID(Uml::id_None),
+    m_nViewID(Uml::ID::None),
     m_bTypesAreResolved(false),
     m_pTabPopupMenu(0),
     m_pCurrentRoot(0),
@@ -125,10 +125,10 @@ void UMLDoc::init()
 
     // Connect signals.
     UMLApp * pApp = UMLApp::app();
-    connect(this, SIGNAL(sigDiagramCreated(Uml::IDType)), pApp, SLOT(slotUpdateViews()));
-    connect(this, SIGNAL(sigDiagramRemoved(Uml::IDType)), pApp, SLOT(slotUpdateViews()));
-    connect(this, SIGNAL(sigDiagramRenamed(Uml::IDType)), pApp, SLOT(slotUpdateViews()));
-    connect(this, SIGNAL(sigCurrentViewChanged()),        pApp, SLOT(slotCurrentViewChanged()));
+    connect(this, SIGNAL(sigDiagramCreated(Uml::ID::Type)), pApp, SLOT(slotUpdateViews()));
+    connect(this, SIGNAL(sigDiagramRemoved(Uml::ID::Type)), pApp, SLOT(slotUpdateViews()));
+    connect(this, SIGNAL(sigDiagramRenamed(Uml::ID::Type)), pApp, SLOT(slotUpdateViews()));
+    connect(this, SIGNAL(sigCurrentViewChanged()),          pApp, SLOT(slotCurrentViewChanged()));
 }
 
 /**
@@ -343,9 +343,8 @@ void UMLDoc::closeDocument()
         m_bLoading = m_bLoading_old;
         // Remove all objects from the predefined folders.
         // @fixme With advanced code generation enabled, this crashes.
-        for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
-            m_root[i]->removeAllObjects();
-        }
+        removeAllObjects();
+
         // Restore the datatype folder, it has been deleted above.
         createDatatypeFolder();
         // this creates to much items only Logical View should be created
@@ -375,8 +374,8 @@ bool UMLDoc::newDocument()
     m_doc_url.setFileName(i18n("Untitled"));
     //see if we need to start with a new diagram
     Settings::OptionState optionState = Settings::optionState();
-    Uml::DiagramType dt = optionState.generalState.diagram;
-    Uml::ModelType mt = Model_Utils::convert_DT_MT(dt);
+    Uml::DiagramType::Enum dt = optionState.generalState.diagram;
+    Uml::ModelType::Enum mt = Model_Utils::convert_DT_MT(dt);
     if (mt == Uml::ModelType::N_MODELTYPES) {  // don't allow no diagram
         dt = Uml::DiagramType::Class;
         mt = Uml::ModelType::Logical;
@@ -718,9 +717,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
 void UMLDoc::setupSignals()
 {
     WorkToolBar *tb = UMLApp::app()->workToolBar();
-    connect(this, SIGNAL(sigDiagramChanged(Uml::DiagramType)), tb, SLOT(slotCheckToolBar(Uml::DiagramType)));
-    //new signals below
-    return;
+    connect(this, SIGNAL(sigDiagramChanged(Uml::DiagramType::Enum)), tb, SLOT(slotCheckToolBar(Uml::DiagramType::Enum)));
 }
 
 /**
@@ -729,7 +726,7 @@ void UMLDoc::setupSignals()
  * @param id   The ID of the view to search for.
  * @return  Pointer to the view found, or NULL if not found.
  */
-UMLView * UMLDoc::findView(Uml::IDType id)
+UMLView * UMLDoc::findView(Uml::ID::Type id)
 {
     UMLView *v = 0;
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
@@ -749,10 +746,10 @@ UMLView * UMLDoc::findView(Uml::IDType id)
  * @param searchAllScopes Search in all subfolders (default: false.)
  * @return  Pointer to the view found, or NULL if not found.
  */
-UMLView * UMLDoc::findView(Uml::DiagramType type, const QString &name,
+UMLView * UMLDoc::findView(Uml::DiagramType::Enum type, const QString &name,
                            bool searchAllScopes /* =false */)
 {
-    Uml::ModelType mt = Model_Utils::convert_DT_MT(type);
+    Uml::ModelType::Enum mt = Model_Utils::convert_DT_MT(type);
     return m_root[mt]->findView(type, name, searchAllScopes);
 }
 
@@ -762,7 +759,7 @@ UMLView * UMLDoc::findView(Uml::DiagramType type, const QString &name,
  * @param id   The @ref UMLObject to find.
  * @return  Pointer to the UMLObject found, or NULL if not found.
  */
-UMLObject* UMLDoc::findObjectById(Uml::IDType id)
+UMLObject* UMLDoc::findObjectById(Uml::ID::Type id)
 {
     UMLObject *o = 0;
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
@@ -783,7 +780,7 @@ UMLObject* UMLDoc::findObjectById(Uml::IDType id)
  * @param id   the unique ID
  * @return the found stereotype or NULL
  */
-UMLStereotype * UMLDoc::findStereotypeById(Uml::IDType id)
+UMLStereotype * UMLDoc::findStereotypeById(Uml::ID::Type id)
 {
     foreach (UMLStereotype *s , m_stereoList) {
         if (s->id() == id)
@@ -837,7 +834,7 @@ UMLObject* UMLDoc::findUMLObject(const QString &name,
  * @param type         ObjectType of the object to find
  * @return  Pointer to the UMLObject found, or NULL if not found.
  */
-UMLObject* UMLDoc::findUMLObjectRaw(Uml::ModelType::Value modelType,
+UMLObject* UMLDoc::findUMLObjectRaw(Uml::ModelType::Enum modelType,
                                     const QString &name,
                                     UMLObject::ObjectType type)
 {
@@ -1098,7 +1095,7 @@ void UMLDoc::removeAssociation (UMLAssociation * assoc, bool doSetModified /*=tr
  *                  to false.
  * @return  Pointer to the UMLAssociation found or NULL if not found.
  */
-UMLAssociation * UMLDoc::findAssociation(Uml::AssociationType assocType,
+UMLAssociation * UMLDoc::findAssociation(Uml::AssociationType::Enum assocType,
         const UMLObject *roleAObj,
         const UMLObject *roleBObj,
         bool *swap)
@@ -1109,10 +1106,10 @@ UMLAssociation * UMLDoc::findAssociation(Uml::AssociationType assocType,
         if (a->getAssocType() != assocType) {
             continue;
         }
-        if (a->getObject(Uml::A) == roleAObj && a->getObject(Uml::B) == roleBObj) {
+        if (a->getObject(Uml::RoleType::A) == roleAObj && a->getObject(Uml::RoleType::B) == roleBObj) {
             return a;
         }
-        if (a->getObject(Uml::A) == roleBObj && a->getObject(Uml::B) == roleAObj) {
+        if (a->getObject(Uml::RoleType::A) == roleBObj && a->getObject(Uml::RoleType::B) == roleAObj) {
             ret = a;
         }
     }
@@ -1132,7 +1129,8 @@ UMLAssociation * UMLDoc::findAssociation(Uml::AssociationType assocType,
  * @param type   The association's type
  * @return  The Association created
  */
-UMLAssociation* UMLDoc::createUMLAssociation(UMLObject *a, UMLObject *b, Uml::AssociationType type)
+UMLAssociation* UMLDoc::createUMLAssociation(UMLObject *a, UMLObject *b,
+                                             Uml::AssociationType::Enum type)
 {
     bool swap;
     UMLAssociation *assoc = findAssociation(type, a, b, &swap);
@@ -1190,7 +1188,7 @@ void UMLDoc::addAssociation(UMLAssociation *assoc)
  * @param type   the diagram type
  * @return the unique view name
  */
-QString UMLDoc::uniqueViewName(const Uml::DiagramType type)
+QString UMLDoc::uniqueViewName(const Uml::DiagramType::Enum type)
 {
     QString dname;
     switch (type) {
@@ -1266,7 +1264,7 @@ bool UMLDoc::closing() const
  *                     else uses a default name.
  * @return             name of the new diagram
  */
-QString UMLDoc::createDiagramName(Uml::DiagramType type, bool askForName /*= true */)
+QString UMLDoc::createDiagramName(Uml::DiagramType::Enum type, bool askForName /*= true */)
 {
     bool ok = true;
     QString defaultName = uniqueViewName(type);
@@ -1305,10 +1303,10 @@ QString UMLDoc::createDiagramName(Uml::DiagramType type, bool askForName /*= tru
  *                 else uses a default name
  * @return         pointer to the UMLView of the new diagram
  */
-UMLView* UMLDoc::createDiagram(UMLFolder *folder, Uml::DiagramType type, const QString& name)
+UMLView* UMLDoc::createDiagram(UMLFolder *folder, Uml::DiagramType::Enum type, const QString& name)
 {
     DEBUG(DBG_SRC) << "folder=" << folder->name()
-                   << " / type=" << type.toString()
+                   << " / type=" << Uml::DiagramType::toString(type)
                    << " / name=" << name;
     if (name.length() > 0) {
         UMLView* view = new UMLView(folder);
@@ -1332,12 +1330,12 @@ UMLView* UMLDoc::createDiagram(UMLFolder *folder, Uml::DiagramType type, const Q
  *
  * @param id   The ID of the diagram to rename.
  */
-void UMLDoc::renameDiagram(Uml::IDType id)
+void UMLDoc::renameDiagram(Uml::ID::Type id)
 {
     bool ok = false;
 
     UMLView *view = findView(id);
-    Uml::DiagramType type = view->umlScene()->type();
+    Uml::DiagramType::Enum type = view->umlScene()->type();
 
     QString oldName= view->umlScene()->name();
     while (true) {
@@ -1433,7 +1431,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o)
  *
  * @param id   The ID of the view to change to.
  */
-void UMLDoc::changeCurrentView(Uml::IDType id)
+void UMLDoc::changeCurrentView(Uml::ID::Type id)
 {
     DEBUG(DBG_SRC) << "id=" << ID2STR(id);
     UMLApp* pApp = UMLApp::app();
@@ -1459,7 +1457,7 @@ void UMLDoc::changeCurrentView(Uml::IDType id)
  *
  * @param id   The ID of the diagram to delete.
  */
-void UMLDoc::removeDiagram(Uml::IDType id)
+void UMLDoc::removeDiagram(Uml::ID::Type id)
 {
     UMLApp::app()->docWindow()->updateDocumentation(true);
     UMLView* umlview = findView(id);
@@ -1511,7 +1509,7 @@ UMLFolder *UMLDoc::currentRoot()
  *                    The element from m_root[] which is indexed
  *                    by this type is selected.
  */
-void UMLDoc::setCurrentRoot(Uml::ModelType rootType)
+void UMLDoc::setCurrentRoot(Uml::ModelType::Enum rootType)
 {
     m_pCurrentRoot = m_root[rootType];
 }
@@ -1646,7 +1644,7 @@ QString UMLDoc::name() const
  * Return the m_modelID (currently this a fixed value:
  * Umbrello supports only a single document.)
  */
-Uml::IDType UMLDoc::modelID() const
+Uml::ID::Type UMLDoc::modelID() const
 {
     return m_modelID;
 }
@@ -1769,7 +1767,7 @@ void UMLDoc::saveToXMI(QIODevice& file)
     extensions.setAttribute( "xmi.extender", "umbrello" );
 
     QDomElement docElement = doc.createElement( "docsettings" );
-    Uml::IDType viewID = Uml::id_None;
+    Uml::ID::Type viewID = Uml::ID::None;
     UMLView *currentView = UMLApp::app()->currentView();
     if (currentView) {
         viewID = currentView->umlScene()->ID();
@@ -1880,7 +1878,7 @@ short UMLDoc::encoding(QIODevice & file)
  * @param file     The file to be loaded.
  * @param encode   The encoding used.
  */
-bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
+bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
 {
     // old Umbrello versions (version < 1.2) didn't save the XMI in Unicode
     // this wasn't correct, because non Latin1 chars where lost
@@ -1923,7 +1921,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
         return false;
     }
 
-    m_nViewID = Uml::id_None;
+    m_nViewID = Uml::ID::None;
     for (node = node.firstChild(); !node.isNull(); node = node.nextSibling()) {
         if (node.isComment()) {
             continue;
@@ -1996,7 +1994,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
                     if (ot == UMLObject::ot_Datatype) {
                         pkg = m_datatypeRoot;
                     } else {
-                        Uml::ModelType guess = Model_Utils::guessContainer(pObject);
+                        Uml::ModelType::Enum guess = Model_Utils::guessContainer(pObject);
                         if (guess != Uml::ModelType::N_MODELTYPES) {
                             pkg = m_root[guess];
                         }
@@ -2060,7 +2058,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
     activateAllViews();
 
     UMLView *viewToBeSet = 0;
-    if (m_nViewID != Uml::id_None) {
+    if (m_nViewID != Uml::ID::None) {
         viewToBeSet = findView( m_nViewID );
     }
     if (viewToBeSet) {
@@ -2224,7 +2222,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
             if (ot == UMLObject::ot_Datatype) {
                 pkg = m_datatypeRoot;
             } else {
-                Uml::ModelType guess = Model_Utils::guessContainer(pObject);
+                Uml::ModelType::Enum guess = Model_Utils::guessContainer(pObject);
                 if (guess != Uml::ModelType::N_MODELTYPES) {
                     pkg = m_root[guess];
                 }
@@ -2284,7 +2282,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
 /**
  * Sets m_nViewID.
  */
-void UMLDoc::setMainViewID(Uml::IDType viewID)
+void UMLDoc::setMainViewID(Uml::ID::Type viewID)
 {
     m_nViewID = viewID;
 }
@@ -2339,7 +2337,7 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node)
         while ( !cgelement.isNull() ) {
             QString nodeName = cgelement.tagName();
             QString lang = cgelement.attribute("language","UNKNOWN");
-            Uml::ProgrammingLanguage pl = Uml::ProgrammingLanguage::fromString(lang);
+            Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromString(lang);
             CodeGenerator *g = UMLApp::app()->setGenerator(pl);
             g->loadFromXMI(cgelement);
             cgnode = cgnode.nextSibling();
@@ -2393,7 +2391,7 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node )
             }
             // Put diagram in default predefined folder.
             // @todo pass in the parent folder - it might be a user defined one.
-            Uml::ModelType mt = Model_Utils::convert_DT_MT(pView->umlScene()->type());
+            Uml::ModelType::Enum mt = Model_Utils::convert_DT_MT(pView->umlScene()->type());
             pView->umlScene()->setFolder(m_root[mt]);
             pView->hide();
             addView( pView );
@@ -2418,6 +2416,16 @@ void UMLDoc::removeAllViews()
     UMLApp::app()->setCurrentView(0);
     emit sigDiagramChanged(Uml::DiagramType::Undefined);
     UMLApp::app()->setDiagramMenuItemsState(false);
+}
+
+/**
+ * Call to remove all objects in the current file.
+ */
+void UMLDoc::removeAllObjects()
+{
+    for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
+        m_root[i]->removeAllObjects();
+    }
 }
 
 /**
@@ -2562,7 +2570,7 @@ void UMLDoc::print(QPrinter * pPrinter, DiagramPrintPage * selectPage)
             pPrinter->newPage();
         }
         QString sID = selectPage->printUmlDiagram(i);
-        Uml::IDType id = STR2ID(sID);
+        Uml::ID::Type id = STR2ID(sID);
         printView = findView(id);
 
         if (printView) {
@@ -2627,7 +2635,7 @@ bool UMLDoc::assignNewIDs(UMLObject* obj)
         DEBUG(DBG_SRC) << "no obj || Changelog";
         return false;
     }
-    Uml::IDType result = assignNewID(obj->id());
+    Uml::ID::Type result = assignNewID(obj->id());
     obj->setID(result);
 
     //If it is a CONCEPT then change the ids of all its operations and attributes
@@ -2662,10 +2670,10 @@ bool UMLDoc::assignNewIDs(UMLObject* obj)
 /**
  * Return the predefined root folder of the given type.
  */
-UMLFolder *UMLDoc::rootFolder(Uml::ModelType mt)
+UMLFolder *UMLDoc::rootFolder(Uml::ModelType::Enum mt)
 {
     if (mt < Uml::ModelType::Logical || mt >= Uml::ModelType::N_MODELTYPES) {
-        uError() << "illegal input value " << mt;
+        uError() << "illegal input value " << Uml::ModelType::toString(mt);
         return 0;
     }
     return m_root[mt];
@@ -2677,10 +2685,10 @@ UMLFolder *UMLDoc::rootFolder(Uml::ModelType mt)
  * When the given object is not one of the root folders then
  * return Uml::ModelType::N_MODELTYPES.
  */
-Uml::ModelType UMLDoc::rootFolderType(UMLObject *obj)
+Uml::ModelType::Enum UMLDoc::rootFolderType(UMLObject *obj)
 {
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
-        const Uml::ModelType m = Uml::ModelType(Uml::ModelType::Value(i));
+        const Uml::ModelType::Enum m = Uml::ModelType::fromInt(i);
         if (obj == m_root[m]) {
             return m;
         }
@@ -2729,9 +2737,9 @@ void UMLDoc::endPaste()
  * @param oldID   The present ID of the object.
  * @return  The new ID assigned to the object.
  */
-Uml::IDType UMLDoc::assignNewID(Uml::IDType oldID)
+Uml::ID::Type UMLDoc::assignNewID(Uml::ID::Type oldID)
 {
-    Uml::IDType result = UniqueID::gen();
+    Uml::ID::Type result = UniqueID::gen();
     if (m_pChangeLog) {
         m_pChangeLog->addIDChange(oldID, result);
     }
@@ -2783,7 +2791,7 @@ bool UMLDoc::addUMLView(UMLView * pView )
     if (i) { //If name was modified
         pView->umlScene()->setName(name);
     }
-    Uml::IDType result = assignNewID(pView->umlScene()->ID());
+    Uml::ID::Type result = assignNewID(pView->umlScene()->ID());
     pView->umlScene()->setID(result);
 
     pView->umlScene()->activateAfterLoad( true );
@@ -2840,7 +2848,6 @@ void UMLDoc::initSaveTimer()
         m_pAutoSaveTimer->setSingleShot( false );
         m_pAutoSaveTimer->start( optionState.generalState.autosavetime * 60000 );
     }
-    return;
 }
 
 /**

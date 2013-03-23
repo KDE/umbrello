@@ -5,15 +5,9 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2011                                               *
+ *   copyright (C) 2008-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
-
-/*
-    This is the "old" code generator that does not support code editing
-    in the Modeller but uses significantly less file space because the
-    source code is not replicated in the XMI file.
-*/
 
 // own header
 #include "dwriter.h"
@@ -34,16 +28,26 @@
 #include <QRegExp>
 #include <QTextStream>
 
+/**
+ * Constructor, initialises a couple of variables.
+ */
 DWriter::DWriter()
 {
     startline = m_endl + m_indentation;
 }
 
+/**
+ * Destructor, empty.
+ */
 DWriter::~DWriter()
 {
 }
 
-Uml::ProgrammingLanguage DWriter::language() const
+/**
+ * Returns "D".
+ * @return   the programming language identifier
+ */
+Uml::ProgrammingLanguage::Enum DWriter::language() const
 {
     return Uml::ProgrammingLanguage::D;
 }
@@ -89,6 +93,10 @@ void DWriter::writeModuleImports(UMLClassifier *c, QTextStream &d)
     writeBlankLine(d);
 }
 
+/**
+ * Call this method to generate d code for a UMLClassifier.
+ * @param c   the class to generate code for
+ */
 void DWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
@@ -138,7 +146,6 @@ void DWriter::writeClass(UMLClassifier *c)
 
     // start body of class
     d << " {" << m_endl;
-
 
     // Preparations
     //
@@ -226,7 +233,6 @@ void DWriter::writeClass(UMLClassifier *c)
     // write constructors
     if(!isInterface) writeConstructor(c, d);
 
-
     // METHODS
     //
 
@@ -237,7 +243,6 @@ void DWriter::writeClass(UMLClassifier *c)
         writeComment("", m_indentation, d);
         writeBlankLine(d);
     }
-
 
     // Accessors for attributes
     writeAttributeMethods(final_atpub, Uml::Visibility::Public, d);
@@ -366,12 +371,12 @@ void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d)
     }
 }
 
-void DWriter::writeProtectionMod(Uml::Visibility visibility, QTextStream &d)
+void DWriter::writeProtectionMod(Uml::Visibility::Enum visibility, QTextStream &d)
 {
-    d << m_indentation << visibility.toString() << ":" << m_endl << m_endl;
+    d << m_indentation << Uml::Visibility::toString(visibility) << ":" << m_endl << m_endl;
 }
 
-void DWriter::writeAttributeDecl(Uml::Visibility visibility, UMLAttributeList &atlist, QTextStream &d)
+void DWriter::writeAttributeDecl(Uml::Visibility::Enum visibility, UMLAttributeList &atlist, QTextStream &d)
 {
     if (atlist.count()==0) return;
 
@@ -416,7 +421,7 @@ void DWriter::writeAttributeDecls(UMLAttributeList &atpub, UMLAttributeList &atp
     //TODO: export and package
 }
 
-void DWriter::writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility visibility, QTextStream &d)
+void DWriter::writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility::Enum visibility, QTextStream &d)
 {
     if (atpub.count()==0) return;
 
@@ -480,7 +485,7 @@ void DWriter::writeDocumentation(QString header, QString body, QString end, QStr
     d << indent << " */" << m_endl;
 }
 
-void DWriter::writeAssociationDecls(UMLAssociationList associations, Uml::IDType id, QTextStream &d)
+void DWriter::writeAssociationDecls(UMLAssociationList associations, Uml::ID::Type id, QTextStream &d)
 {
     if ( forceSections() || !associations.isEmpty() )
     {
@@ -488,10 +493,10 @@ void DWriter::writeAssociationDecls(UMLAssociationList associations, Uml::IDType
         foreach (UMLAssociation *a , associations ) {
             // it may seem counter intuitive, but you want to insert the role of the
             // *other* class into *this* class.
-            if (a->getObjectId(Uml::A) == id)
+            if (a->getObjectId(Uml::RoleType::A) == id)
                 printRoleB = true;
 
-            if (a->getObjectId(Uml::B) == id)
+            if (a->getObjectId(Uml::RoleType::B) == id)
                 printRoleA = true;
 
             // First: we insert documentaion for association IF it has either role AND some documentation (!)
@@ -501,15 +506,15 @@ void DWriter::writeAssociationDecls(UMLAssociationList associations, Uml::IDType
             // print RoleB decl
             if (printRoleB)
             {
-                QString fieldClassName = cleanName(getUMLObjectName(a->getObject(Uml::B)));
-                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::B), a->getMultiplicity(Uml::B), a->getRoleDoc(Uml::B), a->getVisibility(Uml::B), d);
+                QString fieldClassName = cleanName(getUMLObjectName(a->getObject(Uml::RoleType::B)));
+                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::RoleType::B), a->getMultiplicity(Uml::RoleType::B), a->getRoleDoc(Uml::RoleType::B), a->visibility(Uml::RoleType::B), d);
             }
 
             // print RoleA decl
             if (printRoleA)
             {
-                QString fieldClassName = cleanName(getUMLObjectName(a->getObject(Uml::A)));
-                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::A), a->getMultiplicity(Uml::A), a->getRoleDoc(Uml::A), a->getVisibility(Uml::A), d);
+                QString fieldClassName = cleanName(getUMLObjectName(a->getObject(Uml::RoleType::A)));
+                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::RoleType::A), a->getMultiplicity(Uml::RoleType::A), a->getRoleDoc(Uml::RoleType::A), a->visibility(Uml::RoleType::A), d);
             }
         }
     }
@@ -517,7 +522,7 @@ void DWriter::writeAssociationDecls(UMLAssociationList associations, Uml::IDType
 
 void DWriter::writeAssociationRoleDecl(QString fieldClassName,
         QString roleName, QString multi,
-        QString doc, Uml::Visibility /*visib*/, QTextStream &d)
+        QString doc, Uml::Visibility::Enum /*visib*/, QTextStream &d)
 {
     // ONLY write out IF there is a rolename given
     // otherwise it is not meant to be declared in the code
@@ -559,27 +564,27 @@ void DWriter::writeAssociationMethods (UMLAssociationList associations, UMLClass
         foreach (UMLAssociation *a , associations ) {
             // insert the methods to access the role of the other
             // class in the code of this one
-            if (a->getObjectId(Uml::A) == thisClass->id()) {
+            if (a->getObjectId(Uml::RoleType::A) == thisClass->id()) {
                 // only write out IF there is a rolename given
-                if (!a->getRoleName(Uml::B).isEmpty()) {
-                    QString fieldClassName = getUMLObjectName(a->getObject(Uml::B));
+                if (!a->getRoleName(Uml::RoleType::B).isEmpty()) {
+                    QString fieldClassName = getUMLObjectName(a->getObject(Uml::RoleType::B));
                     writeAssociationRoleMethod(fieldClassName,
-                                               a->getRoleName(Uml::B),
-                                               a->getMultiplicity(Uml::B), a->getRoleDoc(Uml::B),
-                                               a->getVisibility(Uml::B),
-                                               a->changeability(Uml::B), d);
+                                               a->getRoleName(Uml::RoleType::B),
+                                               a->getMultiplicity(Uml::RoleType::B), a->getRoleDoc(Uml::RoleType::B),
+                                               a->visibility(Uml::RoleType::B),
+                                               a->changeability(Uml::RoleType::B), d);
                 }
             }
 
-            if (a->getObjectId(Uml::B) == thisClass->id()) {
+            if (a->getObjectId(Uml::RoleType::B) == thisClass->id()) {
                 // only write out IF there is a rolename given
-                if (!a->getRoleName(Uml::A).isEmpty()) {
-                    QString fieldClassName = getUMLObjectName(a->getObject(Uml::A));
-                    writeAssociationRoleMethod(fieldClassName, a->getRoleName(Uml::A),
-                                               a->getMultiplicity(Uml::A),
-                                               a->getRoleDoc(Uml::A),
-                                               a->getVisibility(Uml::A),
-                                               a->changeability(Uml::A),
+                if (!a->getRoleName(Uml::RoleType::A).isEmpty()) {
+                    QString fieldClassName = getUMLObjectName(a->getObject(Uml::RoleType::A));
+                    writeAssociationRoleMethod(fieldClassName, a->getRoleName(Uml::RoleType::A),
+                                               a->getMultiplicity(Uml::RoleType::A),
+                                               a->getRoleDoc(Uml::RoleType::A),
+                                               a->visibility(Uml::RoleType::A),
+                                               a->changeability(Uml::RoleType::A),
                                                d);
                 }
             }
@@ -588,7 +593,7 @@ void DWriter::writeAssociationMethods (UMLAssociationList associations, UMLClass
 }
 
 void DWriter::writeAssociationRoleMethod (QString fieldClassName, QString roleName, QString multi,
-        QString description, Uml::Visibility visib, Uml::Changeability change,
+        QString description, Uml::Visibility::Enum visib, Uml::Changeability::Enum change,
         QTextStream &d)
 {
     if (multi.isEmpty() || multi.contains(QRegExp("^[01]$"))) {
@@ -606,7 +611,7 @@ void DWriter::writeAssociationRoleMethod (QString fieldClassName, QString roleNa
 
 void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QString fieldVarName,
         QString fieldName, QString description,
-        Uml::Visibility visibility, Uml::Changeability changeType,
+        Uml::Visibility::Enum visibility, Uml::Changeability::Enum changeType,
         QTextStream &d)
 {
     Q_UNUSED(visibility);
@@ -655,8 +660,8 @@ void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QStri
 
 
 void DWriter::writeSingleAttributeAccessorMethods(QString fieldClassName,
-     QString fieldVarName, QString fieldName, QString description, Uml::Visibility /*visibility*/,
-     Uml::Changeability change, bool isFinal, QTextStream &d) {
+     QString fieldVarName, QString fieldName, QString description, Uml::Visibility::Enum /*visibility*/,
+     Uml::Changeability::Enum change, bool isFinal, QTextStream &d) {
 
     fieldClassName = fixTypeName(fieldClassName);
     QString fieldNameUC = Codegen_Utils::capitalizeFirstLetter(fieldName);
@@ -718,6 +723,11 @@ QString DWriter::fixTypeName(const QString& string)
     return string;
 }
 
+/**
+ * Return the default datatypes.
+ * (Overrides method from class CodeGenerator.)
+ * @return   list of default datatypes
+ */
 QStringList DWriter::defaultDatatypes()
 {
     QStringList l;

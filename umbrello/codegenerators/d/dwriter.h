@@ -5,14 +5,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2011                                               *
+ *   copyright (C) 2008-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
- ***************************************************************************/
-
-/***************************************************************************
-    This is the "old" code generator that does not support code editing
-    in the Modeller but uses significantly less file space because the
-    source code is not replicated in the XMI file.
  ***************************************************************************/
 
 #ifndef DWRITER_H
@@ -30,38 +24,22 @@ class UMLOperation;
  * Create an instance of this class, and feed it a UMLClassifier when
  * calling writeClass and it will generate a d source file for
  * that concept.
+ * Note:
+ * This is the "old" code generator that does not support code editing
+ * in the Modeller but uses significantly less file space because the
+ * source code is not replicated in the XMI file.
  */
 class DWriter : public SimpleCodeGenerator
 {
 public:
 
-    /**
-     * Constructor, initialises a couple of variables.
-     */
     DWriter();
-
-    /**
-     * Destructor, empty.
-     */
     virtual ~DWriter();
 
-    /**
-     * Call this method to generate d code for a UMLClassifier.
-     * @param c   the class to generate code for
-     */
     virtual void writeClass(UMLClassifier *c);
 
-    /**
-     * Returns "D".
-     * @return   the programming language identifier
-     */
-    virtual Uml::ProgrammingLanguage language() const;
+    virtual Uml::ProgrammingLanguage::Enum language() const;
 
-    /**
-     * Return the default datatypes.
-     * (Overrides method from class CodeGenerator.)
-     * @return   list of default datatypes
-     */
     QStringList defaultDatatypes();
 
 private:
@@ -145,7 +123,7 @@ private:
      * @param visibility   protection modifier
      * @param d            text stream
      */
-    void writeProtectionMod(Uml::Visibility visibility, QTextStream &d);
+    void writeProtectionMod(Uml::Visibility::Enum visibility, QTextStream &d);
 
     /**
      * Writes attribute declarations with a specific
@@ -154,7 +132,7 @@ private:
      * @param atlist   attribute list
      * @param d        text stream
      */
-    void writeAttributeDecl(Uml::Visibility visibility, UMLAttributeList &atlist, QTextStream &d);
+    void writeAttributeDecl(Uml::Visibility::Enum visibility, UMLAttributeList &atlist, QTextStream &d);
 
     /**
      * Writes the Attribute declarations.
@@ -169,18 +147,18 @@ private:
     /**
      * Searches a list of associations for appropriate ones to write out as attributes.
      */
-    void writeAssociationDecls(UMLAssociationList associations, Uml::IDType id, QTextStream &d);
+    void writeAssociationDecls(UMLAssociationList associations, Uml::ID::Type id, QTextStream &d);
 
     /**
      * Writes out an association as an attribute using Vector.
      */
     void writeAssociationRoleDecl(QString fieldClassName, QString roleName, QString multi,
-                                  QString doc, Uml::Visibility visib, QTextStream &d);
+                                  QString doc, Uml::Visibility::Enum visib, QTextStream &d);
 
     /**
      * Calls @ref writeSingleAttributeAccessorMethods() on each of the attributes in atpub.
      */
-    void writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility visibility, QTextStream &d);
+    void writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility::Enum visibility, QTextStream &d);
 
     /**
      * Calls @ref writeAssociationRoleMethod() on each of the associations in the given list.
@@ -194,7 +172,7 @@ private:
      * role.
      */
     void writeAssociationRoleMethod(QString fieldClassName, QString roleName, QString multi,
-                                    QString description, Uml::Visibility visib, Uml::Changeability change,
+                                    QString description, Uml::Visibility::Enum visib, Uml::Changeability::Enum change,
                                     QTextStream &d);
 
     /**
@@ -202,7 +180,7 @@ private:
      */
     void writeSingleAttributeAccessorMethods(QString fieldClassName, QString fieldVarName,
             QString fieldName, QString description,
-            Uml::Visibility visibility, Uml::Changeability change,
+            Uml::Visibility::Enum visibility, Uml::Changeability::Enum change,
             bool isFinal, QTextStream &d);
 
     /**
@@ -210,7 +188,7 @@ private:
      */
     void writeVectorAttributeAccessorMethods(QString fieldClassName, QString fieldVarName,
             QString fieldName, QString description,
-            Uml::Visibility visibility, Uml::Changeability change,
+            Uml::Visibility::Enum visibility, Uml::Changeability::Enum change,
             QTextStream &d);
 
     /**
@@ -258,18 +236,9 @@ private:
      */
     void writeBlankLine(QTextStream& d);
 
-    /**
-     * A \n, used at the end of each line.
-     */
-    QString startline;
-
-    /**
-     * Whether or not this concept is an interface.
-     */
-    bool isInterface;
+    QString startline;  ///< a \n, used at the end of each line
+    bool isInterface;  ///< whether or not this concept is an interface
 
 };
 
-
 #endif // DWRITER_H
-

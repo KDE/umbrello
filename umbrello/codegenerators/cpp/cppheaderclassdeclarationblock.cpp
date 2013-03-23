@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -113,8 +113,8 @@ void CPPHeaderClassDeclarationBlock::updateContent ( )
     if(nrof_superclasses >0)
         startText.append(" : ");
     foreach (UMLClassifier* concept, superclasses ) {
-        startText.append(concept->visibility().toString() + ' ' +
-        CodeGenerator::cleanName(concept->name()));
+        startText.append(Uml::Visibility::toString(concept->visibility()) + ' ' +
+            CodeGenerator::cleanName(concept->name()));
         if(i != (nrof_superclasses-1))
             startText.append(", ");
         i++;

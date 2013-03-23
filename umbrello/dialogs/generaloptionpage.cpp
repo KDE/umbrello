@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -31,7 +31,7 @@
 #include <QRadioButton>
 
 /**
- * Constructor.general
+ * Constructor.
  * @param parent   the parent (wizard) of this wizard page
  */
 GeneralOptionPage::GeneralOptionPage(QWidget* parent)
@@ -119,8 +119,8 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     // diagramNo 1 is Uml::DiagramType::Class
     // digaramNo 9 is Uml::DiagramType::EntityRelationship
     for (int diagramNo = 1; diagramNo < 10; ++diagramNo) {
-        Uml::DiagramType dt = Uml::DiagramType(Uml::DiagramType::Value(diagramNo));
-        insertDiagram( dt.toString(), diagramNo - 1  );
+        Uml::DiagramType::Enum dt = Uml::DiagramType::fromInt(diagramNo);
+        insertDiagram( Uml::DiagramType::toString(dt), diagramNo - 1 );
     }
 
     m_GeneralWidgets.diagramKB->setCurrentIndex( (int)optionState.generalState.diagram-1 );
@@ -135,7 +135,7 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
 
     int indexCounter = 0;
     while (indexCounter < Uml::ProgrammingLanguage::Reserved) {
-        QString language = Uml::ProgrammingLanguage::toString(Uml::ProgrammingLanguage::Value(indexCounter));
+        QString language = Uml::ProgrammingLanguage::toString(Uml::ProgrammingLanguage::fromInt(indexCounter));
         m_GeneralWidgets.languageKB->insertItem(indexCounter, language);
         indexCounter++;
     }
@@ -143,14 +143,14 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
 }
 
 /**
- * destructor
+ * Destructor.
  */
 GeneralOptionPage::~GeneralOptionPage()
 {
 }
 
 /**
- * sets default values
+ * Sets default values.
  */
 void GeneralOptionPage::setDefaults()
 {
@@ -179,8 +179,8 @@ void GeneralOptionPage::apply()
     // retrieve Suffix setting from dialog entry
     optionState.generalState.autosavesuffix = m_GeneralWidgets.autosaveSuffixT->text();
     optionState.generalState.loadlast = m_GeneralWidgets.loadlastCB->isChecked();
-    optionState.generalState.diagram  = Uml::DiagramType::Value(m_GeneralWidgets.diagramKB->currentIndex() + 1);
-    optionState.generalState.defaultLanguage = Uml::ProgrammingLanguage::Value( m_GeneralWidgets.languageKB->currentIndex());
+    optionState.generalState.diagram  = Uml::DiagramType::fromInt(m_GeneralWidgets.diagramKB->currentIndex() + 1);
+    optionState.generalState.defaultLanguage = Uml::ProgrammingLanguage::fromInt( m_GeneralWidgets.languageKB->currentIndex());
     emit applyClicked();
 }
 
@@ -193,6 +193,9 @@ void GeneralOptionPage::insertDiagram( const QString& type, int index )
     m_GeneralWidgets.diagramKB->completionObject()->addItem( type );
 }
 
+/**
+ * Slot for clicked event.
+ */
 void GeneralOptionPage::slotAutosaveCBClicked()
 {
     m_GeneralWidgets.timeISB->setEnabled( m_GeneralWidgets.autosaveCB->isChecked() );

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -77,7 +77,7 @@ bool isCloneable(WidgetBase::WidgetType type)
  * @param inList   The UMLObjectList in which to search.
  * @return Pointer to the UMLObject that matches the ID (NULL if none matches).
  */
-UMLObject* findObjectInList(Uml::IDType id, const UMLObjectList& inList)
+UMLObject* findObjectInList(Uml::ID::Type id, const UMLObjectList& inList)
 {
     for (UMLObjectListIt oit(inList); oit.hasNext(); ) {
         UMLObject *obj = oit.next();
@@ -107,10 +107,10 @@ UMLObject* findObjectInList(Uml::IDType id, const UMLObjectList& inList)
         case UMLObject::ot_Association:
             {
                 UMLAssociation *assoc = static_cast<UMLAssociation*>(obj);
-                UMLRole *rA = assoc->getUMLRole(Uml::A);
+                UMLRole *rA = assoc->getUMLRole(Uml::RoleType::A);
                 if (rA->id() == id)
                     return rA;
-                UMLRole *rB = assoc->getUMLRole(Uml::B);
+                UMLRole *rB = assoc->getUMLRole(Uml::RoleType::B);
                 if (rB->id() == id)
                     return rB;
             }
@@ -407,7 +407,7 @@ UMLPackage* treeViewGetPackageFromCurrent()
  * @param id   the id of the diaram
  * @return     the constructed diagram name
  */
-QString treeViewBuildDiagramName(Uml::IDType id)
+QString treeViewBuildDiagramName(Uml::ID::Type id)
 {
     UMLListView *listView = UMLApp::app()->listView();
     UMLListViewItem* listViewItem = listView->findItem(id);
@@ -564,12 +564,12 @@ bool isClassifierListitem(UMLObject::ObjectType type)
  * NOTE: This function exists mainly for handling pre-1.5.5 files
  *       and should not be used for new code.
  */
-Uml::ModelType guessContainer(UMLObject *o)
+Uml::ModelType::Enum guessContainer(UMLObject *o)
 {
     UMLObject::ObjectType ot = o->baseType();
     if (ot == UMLObject::ot_Package && o->stereotype() == "subsystem")
         return Uml::ModelType::Component;
-    Uml::ModelType mt = Uml::ModelType::N_MODELTYPES;
+    Uml::ModelType::Enum mt = Uml::ModelType::N_MODELTYPES;
     switch (ot) {
         case UMLObject::ot_Package:   // CHECK: packages may appear in other views?
         case UMLObject::ot_Interface:
@@ -605,8 +605,8 @@ Uml::ModelType guessContainer(UMLObject *o)
             {
                 UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
                 UMLDoc *umldoc = UMLApp::app()->document();
-                for (int r = Uml::A; r <= Uml::B; ++r) {
-                    UMLObject *roleObj = assoc->getObject((Uml::Role_Type)r);
+                for (int r = Uml::RoleType::A; r <= Uml::RoleType::B; ++r) {
+                    UMLObject *roleObj = assoc->getObject(Uml::RoleType::fromInt(r));
                     if (roleObj == NULL) {
                         // Ouch! we have been called while types are not yet resolved
                         return Uml::ModelType::N_MODELTYPES;
@@ -616,7 +616,7 @@ Uml::ModelType guessContainer(UMLObject *o)
                         while (pkg->umlPackage()) {  // wind back to root
                             pkg = pkg->umlPackage();
                         }
-                        const Uml::ModelType m = umldoc->rootFolderType(pkg);
+                        const Uml::ModelType::Enum m = umldoc->rootFolderType(pkg);
                         if (m != Uml::ModelType::N_MODELTYPES)
                             return m;
                     }
@@ -633,15 +633,15 @@ Uml::ModelType guessContainer(UMLObject *o)
 }
 
 /**
- * Parse a direction string into the Uml::Parameter_Direction.
+ * Parse a direction string into the Uml::ParameterDirection::Enum.
  *
  * @param input  The string to parse: "in", "out", or "inout"
  *               optionally followed by whitespace.
- * @param result The corresponding Uml::Parameter_Direction.
+ * @param result The corresponding Uml::ParameterDirection::Enum.
  * @return       Length of the string matched, excluding the optional
  *               whitespace.
  */
-int stringToDirection(QString input, Uml::Parameter_Direction & result) 
+int stringToDirection(QString input, Uml::ParameterDirection::Enum & result)
 {
     QRegExp dirx("^(in|out|inout)");
     int pos = dirx.indexIn(input);
@@ -652,11 +652,11 @@ int stringToDirection(QString input, Uml::Parameter_Direction & result)
     if (input.length() > dirLen && !input[dirLen].isSpace())
         return 0;       // no match after all.
     if (dirStr == "out")
-        result = Uml::pd_Out;
+        result = Uml::ParameterDirection::Out;
     else if (dirStr == "inout")
-        result = Uml::pd_InOut;
+        result = Uml::ParameterDirection::InOut;
     else
-        result = Uml::pd_In;
+        result = Uml::ParameterDirection::In;
     return dirLen;
 }
 
@@ -711,7 +711,7 @@ Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningSc
  * @return      Error status of the parse, PS_OK for success.
  */
 Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningScope,
-                            Uml::Visibility *vis /* = 0 */)
+                            Uml::Visibility::Enum *vis /* = 0 */)
 {
     UMLDoc *pDoc = UMLApp::app()->document();
 
@@ -744,15 +744,15 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
         }
         name.remove(mnemonicVis);
     }
-    Uml::Parameter_Direction pd = Uml::pd_In;
+    Uml::ParameterDirection::Enum pd = Uml::ParameterDirection::In;
     if (name.startsWith(QLatin1String("in "))) {
-        pd = Uml::pd_In;
+        pd = Uml::ParameterDirection::In;
         name = name.mid(3);
     } else if (name.startsWith(QLatin1String("inout "))) {
-        pd = Uml::pd_InOut;
+        pd = Uml::ParameterDirection::InOut;
         name = name.mid(6);
     } else if (name.startsWith(QLatin1String("out "))) {
-        pd = Uml::pd_Out;
+        pd = Uml::ParameterDirection::Out;
         name = name.mid(4);
     }
     a = a.mid(colonPos + 1).trimmed();
@@ -1027,9 +1027,9 @@ bool typeIsDiagram(UMLListViewItem::ListViewType type)
 /**
  * Return the Model_Type which corresponds to the given DiagramType.
  */
-Uml::ModelType convert_DT_MT(Uml::DiagramType dt)
+Uml::ModelType::Enum convert_DT_MT(Uml::DiagramType::Enum dt)
 {
-    Uml::ModelType mt;
+    Uml::ModelType::Enum mt;
     switch (dt) {
         case Uml::DiagramType::UseCase:
             mt = Uml::ModelType::UseCase;
@@ -1061,7 +1061,7 @@ Uml::ModelType convert_DT_MT(Uml::DiagramType dt)
 /**
  * Return the ListViewType which corresponds to the given Model_Type.
  */
-UMLListViewItem::ListViewType convert_MT_LVT(Uml::ModelType mt)
+UMLListViewItem::ListViewType convert_MT_LVT(Uml::ModelType::Enum mt)
 {
     UMLListViewItem::ListViewType lvt = UMLListViewItem::lvt_Unknown;
     switch (mt) {
@@ -1091,9 +1091,9 @@ UMLListViewItem::ListViewType convert_MT_LVT(Uml::ModelType mt)
  * Returns Uml::N_MODELTYPES if the list view type given does not map
  * to a Model_Type.
  */
-Uml::ModelType convert_LVT_MT(UMLListViewItem::ListViewType lvt)
+Uml::ModelType::Enum convert_LVT_MT(UMLListViewItem::ListViewType lvt)
 {
-    Uml::ModelType mt = Uml::ModelType::N_MODELTYPES;
+    Uml::ModelType::Enum mt = Uml::ModelType::N_MODELTYPES;
     switch (lvt) {
         case UMLListViewItem::lvt_Logical_View:
             mt = Uml::ModelType::Logical;
@@ -1119,7 +1119,7 @@ Uml::ModelType convert_LVT_MT(UMLListViewItem::ListViewType lvt)
 /**
  * Convert a diagram type enum to the equivalent list view type.
  */
-UMLListViewItem::ListViewType convert_DT_LVT(Uml::DiagramType dt)
+UMLListViewItem::ListViewType convert_DT_LVT(Uml::DiagramType::Enum dt)
 {
     UMLListViewItem::ListViewType type =  UMLListViewItem::lvt_Unknown;
     switch(dt) {
@@ -1202,7 +1202,7 @@ UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o)
             UMLDoc *umldoc = UMLApp::app()->document();
             UMLFolder *f = static_cast<UMLFolder*>(o);
             do {
-                const Uml::ModelType mt = umldoc->rootFolderType(f);
+                const Uml::ModelType::Enum mt = umldoc->rootFolderType(f);
                 if (mt != Uml::ModelType::N_MODELTYPES) {
                     switch (mt) {
                         case Uml::ModelType::Logical:
@@ -1552,9 +1552,9 @@ Icon_Utils::IconType convert_LVT_IT(UMLListViewItem::ListViewType lvt)
  * @return  The Uml::DiagramType corresponding to the lvt.
  *          Returns dt_Undefined in case no mapping to DiagramType exists.
  */
-Uml::DiagramType convert_LVT_DT(UMLListViewItem::ListViewType lvt)
+Uml::DiagramType::Enum convert_LVT_DT(UMLListViewItem::ListViewType lvt)
 {
-    Uml::DiagramType dt = Uml::DiagramType::Undefined;
+    Uml::DiagramType::Enum dt = Uml::DiagramType::Undefined;
     switch (lvt) {
         case UMLListViewItem::lvt_Class_Diagram:
             dt = Uml::DiagramType::Class;
@@ -1592,9 +1592,9 @@ Uml::DiagramType convert_LVT_DT(UMLListViewItem::ListViewType lvt)
 /**
  * Return the Model_Type which corresponds to the given ObjectType.
  */
-Uml::ModelType convert_OT_MT(UMLObject::ObjectType ot)
+Uml::ModelType::Enum convert_OT_MT(UMLObject::ObjectType ot)
 {
-    Uml::ModelType mt = Uml::ModelType::N_MODELTYPES;
+    Uml::ModelType::Enum mt = Uml::ModelType::N_MODELTYPES;
     switch (ot) {
         case UMLObject::ot_Actor:
         case UMLObject::ot_UseCase:

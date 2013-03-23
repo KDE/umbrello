@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2012                                                    *
+ *   copyright (C) 2012-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -184,7 +184,7 @@ void DotGenerator::setUseFullNodeLabels(bool state)
  */
 bool DotGenerator::availableConfigFiles(UMLScene *scene, QHash<QString,QString> &configFiles)
 {
-    QString diagramType = scene->type().toString().toLower();
+    QString diagramType = Uml::DiagramType::toString(scene->type()).toLower();
     KStandardDirs dirs;
 
     QStringList fileNames = dirs.findAllResources("data", QString("umbrello/layouts/%1*.desktop").arg(diagramType));
@@ -192,7 +192,7 @@ bool DotGenerator::availableConfigFiles(UMLScene *scene, QHash<QString,QString> 
         QFileInfo fi(fileName);
         QString baseName;
         if (fi.baseName().contains("-"))
-            baseName = fi.baseName().remove(diagramType + "-");
+            baseName = fi.baseName().remove(diagramType + '-');
         else if (fi.baseName() == diagramType)
             baseName = fi.baseName();
         else
@@ -264,7 +264,7 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
     }
 
     QString value = settings.readEntry("origin");
-    QStringList a = value.split(",");
+    QStringList a = value.split(',');
     if (a.size() == 2)
         m_origin = QPointF(a[0].toDouble(), a[1].toDouble());
     else
@@ -286,7 +286,7 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
  * @note This method could also be used as a base to export diagrams as dot file
  *
  * @param fileName Filename where to create the dot file
- * @param scene The diagram from which the widget informations are fetched
+ * @param scene The diagram from which the widget information is fetched
  *
  * @return true if generating finished successfully
  */
@@ -296,7 +296,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
         return false;
 
-    QString diagramType = scene->type().toString().toLower();
+    QString diagramType = Uml::DiagramType::toString(scene->type()).toLower();
     if (!readConfigFile(diagramType, variant))
         return false;
 
@@ -364,7 +364,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
     }
 
     foreach(AssociationWidget *assoc, scene->associationList()) {
-        QString type = assoc->associationType().toString().toLower();
+        QString type = Uml::AssociationType::toString(assoc->associationType()).toLower();
         QString key = "type::" + type;
         bool swapId = false;
 
@@ -379,16 +379,16 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
         else
             label = assoc->name();
 
-        QString headLabel = assoc->roleName(swapId ? Uml::B : Uml::A);
-        QString tailLabel = assoc->roleName(swapId ? Uml::A : Uml::B);
+        QString headLabel = assoc->roleName(swapId ? Uml::RoleType::B : Uml::RoleType::A);
+        QString tailLabel = assoc->roleName(swapId ? Uml::RoleType::A : Uml::RoleType::B);
 
         if (!headLabel.isEmpty())
             headLabel.prepend("+");
         if (!tailLabel.isEmpty())
             tailLabel.prepend("+");
 
-        headLabel += QLatin1String("  ") + assoc->multiplicity(swapId ? Uml::B : Uml::A);
-        tailLabel += QLatin1String("  ") + assoc->multiplicity(swapId ? Uml::A : Uml::B);
+        headLabel += QLatin1String("  ") + assoc->multiplicity(swapId ? Uml::RoleType::B : Uml::RoleType::A);
+        tailLabel += QLatin1String("  ") + assoc->multiplicity(swapId ? Uml::RoleType::A : Uml::RoleType::B);
 
         QString edgeParameters;
         QStringList params;
@@ -420,8 +420,8 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
 #ifdef DOTGENERATOR_DATA_DEBUG
         uDebug() << type << params;
 #endif
-        QString aID = fixID(ID2STR(assoc->widgetIDForRole(swapId ? Uml::A : Uml::B)));
-        QString bID = fixID(ID2STR(assoc->widgetIDForRole(swapId ? Uml::B : Uml::A)));
+        QString aID = fixID(ID2STR(assoc->widgetIDForRole(swapId ? Uml::RoleType::A : Uml::RoleType::B)));
+        QString bID = fixID(ID2STR(assoc->widgetIDForRole(swapId ? Uml::RoleType::B : Uml::RoleType::A)));
 
         out << "\"" << aID << "\" -> \"" << bID << "\"" << " [" << params.join(",") << "];\n";
     }
@@ -462,7 +462,7 @@ QString DotGenerator::fixID(const QString &_id)
 {
     // FIXME: some widget's ids returned from the list are wrapped with "\"", find and fix them
     QString id(_id);
-    id.remove("\"");
+    id.remove('\"');
     return id;
 }
 

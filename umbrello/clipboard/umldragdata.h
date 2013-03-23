@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -46,7 +46,7 @@ public:
     explicit UMLDragData(UMLListViewItemList& UMLListViewItems, QWidget* dragSource = 0);
 
     UMLDragData(UMLObjectList& Objects, UMLWidgetList& Widgets, AssociationWidgetList& Associations,
-            QPixmap& PngImage, Uml::DiagramType dType, QWidget* dragSource = 0);
+            QPixmap& PngImage, Uml::DiagramType::Enum dType, QWidget* dragSource = 0);
 
     UMLDragData(UMLObjectList& Objects, int, QWidget* dragSource = 0);
 
@@ -66,7 +66,7 @@ public:
 
     struct LvTypeAndID {
         UMLListViewItem::ListViewType type;
-        Uml::IDType id;
+        Uml::ID::Type id;
     };
     typedef QList<LvTypeAndID*> LvTypeAndID_List;
     typedef QListIterator<LvTypeAndID*> LvTypeAndID_It;
@@ -77,7 +77,7 @@ public:
     static bool decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
                             UMLWidgetList& widgets,
                             AssociationWidgetList& associations,
-                            Uml::DiagramType & dType);
+                            Uml::DiagramType::Enum & dType);
 
     static bool decodeClip5(const QMimeData* mimeData, UMLObjectList& objects,
                             UMLClassifier *newParent);
@@ -96,7 +96,7 @@ public:
     void setUMLDataClip4(UMLObjectList& Objects,
                          UMLWidgetList& WidgetDatas,
                          AssociationWidgetList& Associations, QPixmap& PngImage,
-                         Uml::DiagramType dType);
+                         Uml::DiagramType::Enum dType);
 
     void setUMLDataClip5(UMLObjectList& Objects);
 

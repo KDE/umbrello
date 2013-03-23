@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -45,13 +45,13 @@ DEBUG_REGISTER_DISABLED(UMLObject)
  * @param id       The ID of the object (optional.) If omitted
  *                 then a new ID will be assigned internally.
  */
-UMLObject::UMLObject(UMLObject* parent, const QString& name, Uml::IDType id)
+UMLObject::UMLObject(UMLObject* parent, const QString& name, ID::Type id)
   : QObject(parent),
     m_nId(id),
     m_name(name)
 {
     init();
-    if (id == Uml::id_None)
+    if (id == Uml::ID::None)
         m_nId = UniqueID::gen();
 }
 
@@ -61,13 +61,13 @@ UMLObject::UMLObject(UMLObject* parent, const QString& name, Uml::IDType id)
  * @param id       The ID of the object (optional.) If omitted
  *                 then a new ID will be assigned internally.
  */
-UMLObject::UMLObject(const QString& name, Uml::IDType id)
+UMLObject::UMLObject(const QString& name, ID::Type id)
   : QObject(UMLApp::app()->document()),
     m_nId(id),
     m_name(name)
 {
     init();
-    if (id == Uml::id_None)
+    if (id == Uml::ID::None)
         m_nId = UniqueID::gen();
 }
 
@@ -77,7 +77,7 @@ UMLObject::UMLObject(const QString& name, Uml::IDType id)
  */
 UMLObject::UMLObject(UMLObject * parent)
   : QObject(parent),
-    m_nId(Uml::id_None),
+    m_nId(Uml::ID::None),
     m_name(QString())
 {
     init();
@@ -98,7 +98,7 @@ void UMLObject::init()
     setObjectName("UMLObject");
     m_BaseType = ot_UMLObject;
     m_pUMLPackage = 0;
-    m_Vis = Uml::Visibility::Public;
+    m_visibility = Uml::Visibility::Public;
     m_pStereotype = 0;
     m_Doc.clear();
     m_bAbstract = false;
@@ -146,7 +146,7 @@ bool UMLObject::showPropertiesPagedDialog(int page, bool assoc)
  * is not valid and will not be created.  The default accepts
  * nothing (returns false)
  */
-bool UMLObject::acceptAssociationType(Uml::AssociationType type)
+bool UMLObject::acceptAssociationType(Uml::AssociationType::Enum type)
 {
     Q_UNUSED(type);
     // A UMLObject accepts nothing. This should be reimplemented by the subclasses
@@ -156,7 +156,7 @@ bool UMLObject::acceptAssociationType(Uml::AssociationType type)
 /**
  * Assigns a new Id to the object
  */
-void UMLObject::setID(Uml::IDType NewID)
+void UMLObject::setID(ID::Type NewID)
 {
     m_nId = NewID;
     emitModified();
@@ -262,7 +262,7 @@ bool UMLObject::operator==(const UMLObject & rhs) const
     // What does it mean if two objects are the same but differ in their
     // visibility? - I'm not aware of any programming language that would
     // support that.
-    //if( m_Vis != rhs.m_Vis )
+    //if( m_visibility != rhs.m_visibility )
     //  return false;
 
     // See comments above
@@ -292,7 +292,7 @@ void UMLObject::copyInto(UMLObject *lhs) const
     lhs->m_bAbstract = m_bAbstract;
     lhs->m_bStatic = m_bStatic;
     lhs->m_BaseType = m_BaseType;
-    lhs->m_Vis = m_Vis;
+    lhs->m_visibility = m_visibility;
     lhs->m_pUMLPackage = m_pUMLPackage;
 
     // We don't want the same name existing twice.
@@ -402,7 +402,7 @@ void UMLObject::setBaseType(ObjectType ot)
  *
  * @return  Returns the ID of the object.
  */
-Uml::IDType UMLObject::id() const
+ID::Type UMLObject::id() const
 {
     return m_nId;
 }
@@ -422,9 +422,9 @@ QString UMLObject::doc() const
  *
  * @return  Returns the visibility of the object.
  */
-Uml::Visibility UMLObject::visibility() const
+Visibility::Enum UMLObject::visibility() const
 {
-    return m_Vis;
+    return m_visibility;
 }
 
 /**
@@ -432,17 +432,17 @@ Uml::Visibility UMLObject::visibility() const
  *
  * @param s   The visibility of the object.
  */
-void UMLObject::setVisibility(Uml::Visibility s)
+void UMLObject::setVisibility(Visibility::Enum visibility)
 {
-    UMLApp::app()->executeCommand(new CmdSetVisibility(this, s));
+    UMLApp::app()->executeCommand(new CmdSetVisibility(this, visibility));
 }
 
 /**
  * Method used by setVisibility: it is called by  cmdSetVisibility, Don't use it!
  */
-void UMLObject::setVisibilityCmd(Uml::Visibility s)
+void UMLObject::setVisibilityCmd(Visibility::Enum visibility)
 {
-    m_Vis = s;
+    m_visibility = visibility;
     emitModified();
 }
 
@@ -818,7 +818,7 @@ QDomElement UMLObject::save(const QString &tag, QDomDocument & qDoc)
     if (m_BaseType != ot_Operation &&
         m_BaseType != ot_Role &&
         m_BaseType != ot_Attribute) {
-        Uml::IDType nmSpc;
+        Uml::ID::Type nmSpc;
         if (m_pUMLPackage)
             nmSpc = m_pUMLPackage->id();
         else
@@ -831,7 +831,7 @@ QDomElement UMLObject::save(const QString &tag, QDomDocument & qDoc)
     if (m_pUMLPackage)             //FIXME: uml13.dtd compliance
         qElement.setAttribute("package", m_pUMLPackage->ID());
 #endif
-    QString visibility = m_Vis.toString(false);
+    QString visibility = Uml::Visibility::toString(m_visibility, false);
     qElement.setAttribute("visibility", visibility);
     if (m_pStereotype != NULL)
         qElement.setAttribute("stereotype", ID2STR(m_pStereotype->id()));
@@ -883,7 +883,7 @@ bool UMLObject::loadStereotype(QDomElement & element)
     }
     if (stereo.isEmpty())
         return false;
-    Uml::IDType stereoID = STR2ID(stereo);
+    Uml::ID::Type stereoID = STR2ID(stereo);
     UMLDoc *pDoc = UMLApp::app()->document();
     m_pStereotype = pDoc->findStereotypeById(stereoID);
     if (m_pStereotype)
@@ -922,7 +922,7 @@ bool UMLObject::loadFromXMI(QDomElement & element)
             return false;
         }
     } else {
-        Uml::IDType nId = STR2ID(id);
+        Uml::ID::Type nId = STR2ID(id);
         if (m_BaseType == ot_Role) {
             // Some older Umbrello versions had a problem with xmi.id's
             // of other objects being reused for the UMLRole, see e.g.
@@ -942,7 +942,7 @@ bool UMLObject::loadFromXMI(QDomElement & element)
     else
         m_Doc = element.attribute("comment", "");    //CHECK: need a UML:Comment?
 
-    m_Vis = Uml::Visibility::Public;
+    m_visibility = Uml::Visibility::Public;
     if (element.hasAttribute("scope")) {        // for bkwd compat.
         QString scope = element.attribute("scope", "");
         if (scope == "instance_level")         // nsuml compat.
@@ -953,13 +953,13 @@ bool UMLObject::loadFromXMI(QDomElement & element)
             int nScope = scope.toInt();
             switch (nScope) {
             case 200:
-                m_Vis = Uml::Visibility::Public;
+                m_visibility = Uml::Visibility::Public;
                 break;
             case 201:
-                m_Vis = Uml::Visibility::Private;
+                m_visibility = Uml::Visibility::Private;
                 break;
             case 202:
-                m_Vis = Uml::Visibility::Protected;
+                m_visibility = Uml::Visibility::Protected;
                 break;
             default:
                 uError() << m_name << ": illegal scope " << nScope;
@@ -969,17 +969,17 @@ bool UMLObject::loadFromXMI(QDomElement & element)
         QString visibility = element.attribute("visibility", "public");
         if (visibility == "private"
                 || visibility == "private_vis")    // for compatibility with other programs
-            m_Vis = Uml::Visibility::Private;
+            m_visibility = Uml::Visibility::Private;
         else if (visibility == "protected"
                  || visibility == "protected_vis")  // for compatibility with other programs
-            m_Vis = Uml::Visibility::Protected;
+            m_visibility = Uml::Visibility::Protected;
         else if (visibility == "implementation")
-            m_Vis = Uml::Visibility::Implementation;
+            m_visibility = Uml::Visibility::Implementation;
     }
 
     QString stereo = element.attribute("stereotype", "");
     if (!stereo.isEmpty()) {
-        Uml::IDType stereoID = STR2ID(stereo);
+        Uml::ID::Type stereoID = STR2ID(stereo);
         m_pStereotype = umldoc->findStereotypeById(stereoID);
         if (m_pStereotype) {
             m_pStereotype->incrRefCount();
@@ -1024,11 +1024,11 @@ bool UMLObject::loadFromXMI(QDomElement & element)
                 if (vis.isEmpty())
                     vis = elem.text();
                 if (vis == "private" || vis == "private_vis")
-                    m_Vis = Uml::Visibility::Private;
+                    m_visibility = Uml::Visibility::Private;
                 else if (vis == "protected" || vis == "protected_vis")
-                    m_Vis = Uml::Visibility::Protected;
+                    m_visibility = Uml::Visibility::Protected;
                 else if (vis == "implementation")
-                    m_Vis = Uml::Visibility::Implementation;
+                    m_visibility = Uml::Visibility::Implementation;
             } else if (UMLDoc::tagEq(tag, "isAbstract")) {
                 QString isAbstract = elem.attribute("xmi.value", "");
                 if (isAbstract.isEmpty())

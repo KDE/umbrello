@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -112,7 +112,7 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
     m_type = t;
     m_object = o;
     if (!o) {
-        m_id = Uml::id_None;
+        m_id = Uml::ID::None;
         updateFolder();
     } else {
         UMLClassifierListItem *umlchild = dynamic_cast<UMLClassifierListItem*>(o);
@@ -135,7 +135,7 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
  * @param t        The type of this instance.
  * @param id       The id of this instance.
  */
-UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, ListViewType t, Uml::IDType id)
+UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, ListViewType t, Uml::ID::Type id)
   : QTreeWidgetItem(parent)
 {
     init();
@@ -191,7 +191,7 @@ void UMLListViewItem::init()
     m_type = lvt_Unknown;
     m_bCreating = false;
     m_object = 0;
-    m_id = Uml::id_None;
+    m_id = Uml::ID::None;
 }
 
 /**
@@ -266,7 +266,7 @@ void UMLListViewItem::setVisible(bool state)
  *
  * @return  The id this class represents.
  */
-Uml::IDType UMLListViewItem::ID() const
+Uml::ID::Type UMLListViewItem::ID() const
 {
     if (m_object) {
         return m_object->id();
@@ -280,11 +280,11 @@ Uml::IDType UMLListViewItem::ID() const
  * associated to this UMLListViewItem.
  * @param id   the id this class represents
  */
-void UMLListViewItem::setID(Uml::IDType id)
+void UMLListViewItem::setID(Uml::ID::Type id)
 {
     if (m_object) {
-        Uml::IDType oid = m_object->id();
-        if (id != Uml::id_None && oid != id) {
+        Uml::ID::Type oid = m_object->id();
+        if (id != Uml::ID::None && oid != id) {
             DEBUG(DBG_LVI) << "new id " << ID2STR(id) << " does not agree with object id "
                 << ID2STR(oid);
         }
@@ -316,7 +316,7 @@ UMLObject * UMLListViewItem::umlObject() const
  * Returns true if the UMLListViewItem of the given ID is a parent of
  * this UMLListViewItem.
  */
-bool UMLListViewItem::isOwnParent(Uml::IDType listViewItemID)
+bool UMLListViewItem::isOwnParent(Uml::ID::Type listViewItemID)
 {
     UMLListView* listView = static_cast<UMLListView*>(treeWidget());
     QTreeWidgetItem *lvi = static_cast<QTreeWidgetItem*>(listView->findItem(listViewItemID));
@@ -339,7 +339,7 @@ void UMLListViewItem::updateObject()
     if (m_object == 0)
         return;
 
-    Uml::Visibility scope = m_object->visibility();
+    Uml::Visibility::Enum scope = m_object->visibility();
     UMLObject::ObjectType ot = m_object->baseType();
     QString modelObjText = m_object->name();
     if (Model_Utils::isClassifierListitem(ot)) {
@@ -589,7 +589,7 @@ void UMLListViewItem::okRename(int col)
         }
         UMLClassifier *parent = static_cast<UMLClassifier*>(m_object->parent());
         Model_Utils::NameAndType nt;
-        Uml::Visibility vis;
+        Uml::Visibility::Enum vis;
         Model_Utils::Parse_Status st;
         st = Model_Utils::parseAttribute(newText, nt, parent, &vis);
         if (st == Model_Utils::PS_OK) {
@@ -890,7 +890,7 @@ UMLListViewItem* UMLListViewItem::findChildObject(UMLClassifierListItem *cli)
  * @param id   The ID to search for.
  * @return The item with the given ID or NULL if not found.
  */
-UMLListViewItem * UMLListViewItem::findItem(Uml::IDType id)
+UMLListViewItem * UMLListViewItem::findItem(Uml::ID::Type id)
 {
     if (ID() == id) {
         return this;
@@ -911,10 +911,10 @@ UMLListViewItem * UMLListViewItem::findItem(Uml::IDType id)
 void UMLListViewItem::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement itemElement = qDoc.createElement("listitem");
-    Uml::IDType id = ID();
+    Uml::ID::Type id = ID();
     QString idStr = ID2STR(id);
     //DEBUG(DBG_LVI) << "id = " << idStr << ", type = " << m_type;
-    if (id != Uml::id_None)
+    if (id != Uml::ID::None)
         itemElement.setAttribute("id", idStr);
     itemElement.setAttribute("type", m_type);
     UMLFolder *extFolder = 0;
@@ -923,7 +923,7 @@ void UMLListViewItem::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
             uError() << text(0) << ": m_object is NULL";
         if (m_type != lvt_View)
             itemElement.setAttribute("label", text(0));
-    } else if (m_object->id() == Uml::id_None) {
+    } else if (m_object->id() == Uml::ID::None) {
         if (text(0).isEmpty()) {
             DEBUG(DBG_LVI) << "Skipping empty item";
             return;
@@ -965,7 +965,7 @@ bool UMLListViewItem::loadFromXMI(QDomElement& qElement)
     }
 
     m_id = STR2ID(id);
-    if (m_id != Uml::id_None) {
+    if (m_id != Uml::ID::None) {
         UMLListView* listView = static_cast<UMLListView*>(treeWidget());
         m_object = listView->document()->findObjectById(m_id);
     }

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -39,7 +39,7 @@ const QSizeF ObjectNodeWidget::MinimumSize(30, 10);
  * @param objectNodeType   The type of object node
  * @param id               The ID to assign (-1 will prompt a new ID.)
  */
-ObjectNodeWidget::ObjectNodeWidget(ObjectNodeType objectNodeType, Uml::IDType id)
+ObjectNodeWidget::ObjectNodeWidget(ObjectNodeType objectNodeType, Uml::ID::Type id)
   : UMLWidget(WidgetBase::wt_ObjectNode, id)
 {
     m_objectNodeType = objectNodeType;

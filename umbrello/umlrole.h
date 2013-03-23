@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -26,7 +26,7 @@ class UMLRole : public UMLObject
     Q_OBJECT
 public:
 
-    UMLRole(UMLAssociation * parent, UMLObject * parentUMLObject, Uml::Role_Type role);
+    UMLRole(UMLAssociation * parent, UMLObject * parentUMLObject, Uml::RoleType::Enum role);
     virtual ~UMLRole();
 
     bool operator==(const UMLRole & rhs) const;
@@ -34,15 +34,15 @@ public:
     void setObject(UMLObject *obj);
     UMLObject* object() const;
 
-    void setChangeability(Uml::Changeability value);
-    Uml::Changeability changeability() const;
+    void setChangeability(Uml::Changeability::Enum value);
+    Uml::Changeability::Enum changeability() const;
 
     void setMultiplicity(const QString &multi);
     QString multiplicity() const;
 
     UMLAssociation * parentAssociation() const;
 
-    Uml::Role_Type role() const;
+    Uml::RoleType::Enum role() const;
 
     UMLObject* clone() const { return NULL; }
 
@@ -54,10 +54,10 @@ protected:
 
 private:
 
-    UMLAssociation *        m_pAssoc;
-    Uml::Role_Type          m_role;
-    QString                 m_Multi;
-    Uml::Changeability      m_Changeability;
+    UMLAssociation *           m_pAssoc;
+    Uml::RoleType::Enum        m_role;
+    QString                    m_Multi;
+    Uml::Changeability::Enum   m_Changeability;
 };
 
 #endif

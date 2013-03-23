@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -35,8 +35,8 @@ class UMLAssociation : public UMLObject
     friend class AssociationWidget;
 
 public:
-    UMLAssociation(Uml::AssociationType type, UMLObject *roleA, UMLObject *roleB);
-    UMLAssociation(Uml::AssociationType type = Uml::AssociationType::Unknown);
+    UMLAssociation(Uml::AssociationType::Enum type, UMLObject *roleA, UMLObject *roleB);
+    explicit UMLAssociation(Uml::AssociationType::Enum type = Uml::AssociationType::Unknown);
 
     virtual ~UMLAssociation();
 
@@ -44,30 +44,30 @@ public:
 
     QString toString() const;
 
-    UMLRole * getUMLRole(Uml::Role_Type role) const;
-    Uml::IDType getObjectId(Uml::Role_Type role) const;
-    Uml::IDType getRoleId(Uml::Role_Type role) const;
+    UMLRole * getUMLRole(Uml::RoleType::Enum role) const;
+    Uml::ID::Type getObjectId(Uml::RoleType::Enum role) const;
+    Uml::ID::Type getRoleId(Uml::RoleType::Enum role) const;
 
-    void setAssociationType(Uml::AssociationType assocType);
-    Uml::AssociationType getAssocType() const;
+    void setAssociationType(Uml::AssociationType::Enum assocType);
+    Uml::AssociationType::Enum getAssocType() const;
 
-    void setObject(UMLObject *obj, Uml::Role_Type role);
-    UMLObject* getObject(Uml::Role_Type role) const;
+    void setObject(UMLObject *obj, Uml::RoleType::Enum role);
+    UMLObject* getObject(Uml::RoleType::Enum role) const;
 
-    void setVisibility(Uml::Visibility value, Uml::Role_Type role);
-    Uml::Visibility getVisibility(Uml::Role_Type role) const;
+    void setVisibility(Uml::Visibility::Enum value, Uml::RoleType::Enum role);
+    Uml::Visibility::Enum visibility(Uml::RoleType::Enum role) const;
 
-    void setChangeability(Uml::Changeability value, Uml::Role_Type role);
-    Uml::Changeability changeability(Uml::Role_Type role) const;
+    void setChangeability(Uml::Changeability::Enum value, Uml::RoleType::Enum role);
+    Uml::Changeability::Enum changeability(Uml::RoleType::Enum role) const;
 
-    void setMultiplicity(const QString &multi, Uml::Role_Type role);
-    QString getMultiplicity(Uml::Role_Type role) const;
+    void setMultiplicity(const QString &multi, Uml::RoleType::Enum role);
+    QString getMultiplicity(Uml::RoleType::Enum role) const;
 
-    void setRoleName(const QString &roleName, Uml::Role_Type role);
-    QString getRoleName(Uml::Role_Type role) const;
+    void setRoleName(const QString &roleName, Uml::RoleType::Enum role);
+    QString getRoleName(Uml::RoleType::Enum role) const;
 
-    void setRoleDoc(const QString &doc, Uml::Role_Type role);
-    QString getRoleDoc(Uml::Role_Type role) const;
+    void setRoleDoc(const QString &doc, Uml::RoleType::Enum role);
+    QString getRoleDoc(Uml::RoleType::Enum role) const;
 
     void setOldLoadMode(bool value = true);
     bool getOldLoadMode() const;
@@ -85,12 +85,12 @@ protected:
     // keep track of number of parent widgets
     int nrof_parent_widgets;
 
-    void init(Uml::AssociationType type, UMLObject *roleAObj, UMLObject *roleBObj);
+    void init(Uml::AssociationType::Enum type, UMLObject *roleAObj, UMLObject *roleBObj);
 
-    UMLRole *              m_pRole[2];
-    Uml::AssociationType   m_AssocType;
-    QString                m_Name;
-    bool                   m_bOldLoadMode;
+    UMLRole *                    m_pRole[2];
+    Uml::AssociationType::Enum   m_AssocType;
+    QString                      m_Name;
+    bool                         m_bOldLoadMode;
 
 private:
 

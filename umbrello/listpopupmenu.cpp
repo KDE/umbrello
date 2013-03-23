@@ -269,7 +269,7 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type
 }
 
 /**
- * Constructs the popup menu for a canvas widget.
+ * Constructs the popup menu for a scene widget.
  *
  * @param parent   The parent to ListPopupMenu.
  * @param object   The WidgetBase to represent a menu for.
@@ -1016,9 +1016,9 @@ void ListPopupMenu::insertSubMenuColor(WidgetBase *w)
 /**
  * Utility: Convert a MenuType value to a Diagram_Type value.
  */
-Uml::DiagramType ListPopupMenu::convert_MT_DT(MenuType mt)
+Uml::DiagramType::Enum ListPopupMenu::convert_MT_DT(MenuType mt)
 {
-    Uml::DiagramType type = Uml::DiagramType::Undefined;
+    Uml::DiagramType::Enum type = Uml::DiagramType::Undefined;
 
     switch (mt) {
     case mt_UseCase_Diagram:

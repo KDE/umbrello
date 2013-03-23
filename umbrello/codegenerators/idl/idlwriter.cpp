@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2012                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -49,7 +49,7 @@ bool IDLWriter::isOOClass(UMLClassifier *c)
     return true;
 }
 
-bool IDLWriter::assocTypeIsMappableToAttribute(Uml::AssociationType at)
+bool IDLWriter::assocTypeIsMappableToAttribute(Uml::AssociationType::Enum at)
 {
     return (at == Uml::AssociationType::Aggregation || at == Uml::AssociationType::Association ||
             at == Uml::AssociationType::Composition || at == Uml::AssociationType::UniAssociation);
@@ -58,7 +58,7 @@ bool IDLWriter::assocTypeIsMappableToAttribute(Uml::AssociationType at)
 /**
  * Returns "IDL".
  */
-Uml::ProgrammingLanguage IDLWriter::language() const
+Uml::ProgrammingLanguage::Enum IDLWriter::language() const
 {
     return Uml::ProgrammingLanguage::IDL;
 }
@@ -68,8 +68,8 @@ void IDLWriter::computeAssocTypeAndRole(UMLAssociation *a, UMLClassifier *c,
 {
     // Determine which is the "remote" end of the association:
     bool IAmRoleA = true;
-    UMLObject *other = a->getObject(Uml::B);
-    Uml::AssociationType at = a->getAssocType();
+    UMLObject *other = a->getObject(Uml::RoleType::B);
+    Uml::AssociationType::Enum at = a->getAssocType();
     if (c->name() == other->name()) {
         if (at == Uml::AssociationType::Aggregation || at == Uml::AssociationType::Composition ||
             at == Uml::AssociationType::UniAssociation) {
@@ -81,22 +81,22 @@ void IDLWriter::computeAssocTypeAndRole(UMLAssociation *a, UMLClassifier *c,
             return;
         }
         IAmRoleA = false;
-        other = a->getObject(Uml::A);
+        other = a->getObject(Uml::RoleType::A);
     }
     // Construct the type name:
     typeName = cleanName(other->name());
     QString multiplicity;
     if (IAmRoleA)
-        multiplicity = a->getMultiplicity(Uml::B);
+        multiplicity = a->getMultiplicity(Uml::RoleType::B);
     else
-        multiplicity = a->getMultiplicity(Uml::A);
+        multiplicity = a->getMultiplicity(Uml::RoleType::A);
     if (!multiplicity.isEmpty() && multiplicity != "1")
         typeName.append("Vector");
     // Construct the member name:
     if (IAmRoleA)
-        roleName = a->getRoleName(Uml::B);
+        roleName = a->getRoleName(Uml::RoleType::B);
     else
-        roleName = a->getRoleName(Uml::A);
+        roleName = a->getRoleName(Uml::RoleType::A);
     if (roleName.isEmpty()) {
         roleName = a->name();
         if (roleName.isEmpty()) {
@@ -303,14 +303,14 @@ void IDLWriter::writeClass(UMLClassifier *c)
     foreach (UMLAssociation *a, assocs ) {
         if (! assocTypeIsMappableToAttribute(a->getAssocType()))
             continue;
-        QString multiplicity = a->getMultiplicity(Uml::A);
+        QString multiplicity = a->getMultiplicity(Uml::RoleType::A);
         if (multiplicity.isEmpty() || multiplicity == "1")
             continue;
         if (!didComment) {
             idl << indent() << "// Types for association multiplicities" << m_endl << m_endl;
             didComment = true;
         }
-        UMLClassifier* other = (UMLClassifier*)a->getObject(Uml::A);
+        UMLClassifier* other = (UMLClassifier*)a->getObject(Uml::RoleType::A);
         QString bareName = cleanName(other->name());
         idl << indent() << "typedef sequence<" << other->fullyQualifiedName("::")
         << "> " << bareName << "Vector;" << m_endl << m_endl;
@@ -323,7 +323,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
             idl << indent() << "// Attributes:" << m_endl << m_endl;
             foreach (UMLAttribute *at , atl ) {
                 QString attName = cleanName(at->name());
-                Uml::Visibility scope = at->visibility();
+                Uml::Visibility::Enum scope = at->visibility();
                 idl << indent();
                 if (isValuetype) {
                     if (scope == Uml::Visibility::Public)
@@ -333,7 +333,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
                 } else {
                     if (scope != Uml::Visibility::Public) {
                         idl << "// visibility should be: "
-                        << scope.toString()
+                        << Uml::Visibility::toString(scope)
                         << m_endl;
                         idl << indent();
                     }
@@ -363,7 +363,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
     if (forceSections() || !assocs.isEmpty()) {
         idl << indent() << "// Associations:" << m_endl << m_endl;
         foreach ( UMLAssociation* a , assocs ) {
-            Uml::AssociationType at = a->getAssocType();
+            Uml::AssociationType::Enum at = a->getAssocType();
             if (! assocTypeIsMappableToAttribute(at))
                 continue;
             QString typeName, roleName;
@@ -418,10 +418,10 @@ void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comme
             idl << indent();
             if (is_comment)
                 idl << "// ";
-            Uml::Parameter_Direction pk = at->getParmKind();
-            if (pk == Uml::pd_Out)
+            Uml::ParameterDirection::Enum pk = at->getParmKind();
+            if (pk == Uml::ParameterDirection::Out)
                 idl << "out ";
-            else if (pk == Uml::pd_InOut)
+            else if (pk == Uml::ParameterDirection::InOut)
                 idl << "inout ";
             else
                 idl << "in ";

@@ -95,7 +95,7 @@ public:
     typedef std::list<Argument> ArgumentList;
 
     Macro() {}
-    Macro( const QString &n) : m_name( n) {}
+    explicit Macro( const QString &n) : m_name( n) {}
     Macro( const QString &n, const QString &b ) : m_name( n ), m_body( b ) {}
 
     Macro( const Macro& source )

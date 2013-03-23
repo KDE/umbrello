@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -26,6 +26,9 @@
 // qt includes
 #include <QRegExp>
 
+/**
+ * Constructor.
+ */
 CodeClassField::CodeClassField ( ClassifierCodeDocument * doc , UMLRole * role)
         : CodeParameter ( doc , (UMLObject*) role)
 {
@@ -33,6 +36,9 @@ CodeClassField::CodeClassField ( ClassifierCodeDocument * doc , UMLRole * role)
     initFields(true);
 }
 
+/**
+ * Constructor.
+ */
 CodeClassField::CodeClassField ( ClassifierCodeDocument * doc , UMLAttribute * attrib)
         : CodeParameter ( doc , (UMLObject*) attrib )
 {
@@ -40,6 +46,9 @@ CodeClassField::CodeClassField ( ClassifierCodeDocument * doc , UMLAttribute * a
     initFields(true);
 }
 
+/**
+ * Empty Destructor.
+ */
 CodeClassField::~CodeClassField ( )
 {
     // remove methods from parent document
@@ -67,7 +76,7 @@ void CodeClassField::setParentUMLObject (UMLObject * obj)
     UMLRole *role = dynamic_cast<UMLRole*>(obj);
     if(role) {
         UMLAssociation * parentAssoc = role->parentAssociation();
-        Uml::AssociationType atype = parentAssoc->getAssocType();
+        Uml::AssociationType::Enum atype = parentAssoc->getAssocType();
         m_parentIsAttribute = false;
 
         if ( atype == Uml::AssociationType::Association || atype == Uml::AssociationType::Association_Self)
@@ -507,7 +516,7 @@ void CodeClassField::updateContent()
         return;
     }
     UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
-    Uml::Changeability changeType = role->changeability();
+    Uml::Changeability::Enum changeType = role->changeability();
     bool isSingleValue = fieldIsSingleValue();
     bool isEmptyRole = role->name().isEmpty() ? true : false;
 

@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2012                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -232,7 +232,7 @@ void CodeGenerator::loadFromXMI(QDomElement & qElement)
  */
 void CodeGenerator::loadCodeForOperation(const QString& idStr, const QDomElement& codeDocElement)
 {
-    Uml::IDType id = STR2ID(idStr);
+    Uml::ID::Type id = STR2ID(idStr);
     UMLObject *obj = m_document->findObjectById(id);
     if (obj) {
         uDebug() << "found UMLObject for id:" << idStr;
@@ -691,7 +691,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
         case Uml::AssociationType::Realization:
             // only the "b" end is seen by the "a" end, not other way around
             {
-                UMLObject *objB = a->getObject(Uml::B);
+                UMLObject *objB = a->getObject(Uml::RoleType::B);
                 if (objB != c) {
                     temp = (UMLPackage*)objB;
                 }
@@ -700,8 +700,8 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
         case Uml::AssociationType::Dependency:
         case Uml::AssociationType::UniAssociation:
             {
-                UMLObject *objA = a->getObject(Uml::A);
-                UMLObject *objB = a->getObject(Uml::B);
+                UMLObject *objA = a->getObject(Uml::RoleType::A);
+                UMLObject *objB = a->getObject(Uml::RoleType::B);
                 if (objA == c) {
                     temp = static_cast<UMLPackage*>(objB);
                 }
@@ -711,8 +711,8 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
         case Uml::AssociationType::Composition:
         case Uml::AssociationType::Association:
             {
-                UMLObject *objA = a->getObject(Uml::A);
-                UMLObject *objB = a->getObject(Uml::B);
+                UMLObject *objA = a->getObject(Uml::RoleType::A);
+                UMLObject *objB = a->getObject(Uml::RoleType::B);
                 if (objA == c && objB->baseType() != UMLObject::ot_Datatype) {
                     temp = static_cast<UMLPackage*>(objB);
                 }

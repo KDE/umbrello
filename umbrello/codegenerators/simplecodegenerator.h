@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2012                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -30,7 +30,7 @@ class SimpleCodeGenerator : public CodeGenerator
     Q_OBJECT
 public:
 
-    SimpleCodeGenerator(bool createDirHierarchyForPackages = true);
+    explicit SimpleCodeGenerator(bool createDirHierarchyForPackages = true);
     virtual ~SimpleCodeGenerator();
 
     void writeCodeToFile(UMLClassifierList & concepts);

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -40,7 +40,7 @@ public:
     };
 
     explicit NoteWidget(NoteWidget::NoteType noteType = Normal,
-                        Uml::IDType id = Uml::id_None);
+                        Uml::ID::Type id = Uml::ID::None);
     virtual ~NoteWidget();
 
     static NoteType stringToNoteType(const QString& noteType);
@@ -52,10 +52,10 @@ public:
     void setNoteType(NoteType noteType);
     void setNoteType(const QString& noteType);
 
-    Uml::IDType diagramLink() const {
+    Uml::ID::Type diagramLink() const {
         return m_diagramLink;
     }
-    void setDiagramLink(Uml::IDType sceneID);
+    void setDiagramLink(Uml::ID::Type sceneID);
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
@@ -87,8 +87,8 @@ private:
 
     // Data loaded/saved
 
-    Uml::IDType m_diagramLink;  ///< The diagram/scene this note links to.
-    NoteType    m_noteType;     ///< The type of note. @see NoteWidget::NoteType
+    Uml::ID::Type m_diagramLink;  ///< The diagram/scene this note links to.
+    NoteType      m_noteType;     ///< The type of note. @see NoteWidget::NoteType
 };
 
 #endif

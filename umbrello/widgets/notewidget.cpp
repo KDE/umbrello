@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -40,9 +40,9 @@
  * @param id The unique id of the widget.
  *           The default (-1) will prompt a new ID.
  */
-NoteWidget::NoteWidget(NoteType noteType, Uml::IDType id)
+NoteWidget::NoteWidget(NoteType noteType, Uml::ID::Type id)
   : UMLWidget(WidgetBase::wt_Note, id),
-    m_diagramLink(Uml::id_None),
+    m_diagramLink(Uml::ID::None),
     m_noteType(noteType)
 {
     createTextItemGroup();
@@ -98,7 +98,7 @@ void NoteWidget::setNoteType(const QString& noteType)
  * @param sceneID ID of an UMLScene.
  * @todo Fix the display of diagram link.
  */
-void NoteWidget::setDiagramLink(Uml::IDType sceneID)
+void NoteWidget::setDiagramLink(Uml::ID::Type sceneID)
 {
     UMLView *view = umlDoc()->findView(sceneID);
     if (view == 0) {
@@ -170,7 +170,7 @@ void NoteWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
     QDomElement noteElement = qDoc.createElement( "notewidget" );
     UMLWidget::saveToXMI( qDoc, noteElement );
     noteElement.setAttribute("text", documentation());
-    if (m_diagramLink != Uml::id_None) {
+    if (m_diagramLink != Uml::ID::None) {
         noteElement.setAttribute( "diagramlink", ID2STR(m_diagramLink) );
     }
     noteElement.setAttribute( "noteType", m_noteType);

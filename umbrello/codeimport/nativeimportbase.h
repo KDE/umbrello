@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2005-2011                                                *
+ *  copyright (C) 2005-2013                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -85,14 +85,14 @@ protected:
 
     QString advance();
 
-    QString          m_singleLineCommentIntro;  ///< start token of a single line comment
-    QStringList      m_source;         ///< the scanned lexemes
-    int              m_srcIndex;       ///< used for indexing m_source
-    UMLPackage      *m_scope[32];      ///< stack of scopes for use by the specific importer
-    uint             m_scopeIndex;     ///< indexes m_scope, index 0 is reserved for global scope
-    UMLClassifier   *m_klass;          ///< class currently being processed
-    Uml::Visibility  m_currentAccess;  ///< current access (public/protected/private)
-    QString          m_comment;        ///< intermediate accumulator for comment text
+    QString                m_singleLineCommentIntro;  ///< start token of a single line comment
+    QStringList            m_source;         ///< the scanned lexemes
+    int                    m_srcIndex;       ///< used for indexing m_source
+    UMLPackage            *m_scope[32];      ///< stack of scopes for use by the specific importer
+    uint                   m_scopeIndex;     ///< indexes m_scope, index 0 is reserved for global scope
+    UMLClassifier         *m_klass;          ///< class currently being processed
+    Uml::Visibility::Enum  m_currentAccess;  ///< current access (public/protected/private)
+    QString                m_comment;        ///< intermediate accumulator for comment text
 
     /**
      * True if we are currently in a multi-line comment.

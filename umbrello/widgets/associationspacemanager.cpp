@@ -24,50 +24,53 @@
 #include "debug_utils.h"
 #include "umlwidget.h"
 
-RegionPair::RegionPair(Uml::Region f, Uml::Region s) : first(f), second(s)
+RegionPair::RegionPair(Uml::Region::Enum f, Uml::Region::Enum s)
+  : first(f),
+    second(s)
 {
 }
 
 bool RegionPair::isValid() const
 {
-    if (first != Uml::reg_Error || second != Uml::reg_Error) {
+    if (first != Uml::Region::Error || second != Uml::Region::Error) {
         return true;
     }
     return false;
 }
 
-Uml::Region& RegionPair::operator[](Uml::Role_Type role)
+Uml::Region::Enum& RegionPair::operator[](Uml::RoleType::Enum role)
 {
-    if (role == Uml::A) {
+    if (role == Uml::RoleType::A) {
         return first;
     }
     return second;
 }
 
-const Uml::Region& RegionPair::operator[](Uml::Role_Type role) const
+const Uml::Region::Enum& RegionPair::operator[](Uml::RoleType::Enum role) const
 {
-    if (role == Uml::A) {
+    if (role == Uml::RoleType::A) {
         return first;
     }
     return second;
 }
 
-AssociationSpaceManager::PointPair::PointPair(const QPointF& p1, const QPointF& p2) :
-    first(p1), second(p2)
+AssociationSpaceManager::PointPair::PointPair(const QPointF& p1, const QPointF& p2)
+  : first(p1),
+    second(p2)
 {
 }
 
-QPointF& AssociationSpaceManager::PointPair::operator[](Uml::Role_Type role)
+QPointF& AssociationSpaceManager::PointPair::operator[](Uml::RoleType::Enum role)
 {
-    if (role == Uml::A) {
+    if (role == Uml::RoleType::A) {
         return first;
     }
     return second;
 }
 
-const QPointF& AssociationSpaceManager::PointPair::operator[](Uml::Role_Type role) const
+const QPointF& AssociationSpaceManager::PointPair::operator[](Uml::RoleType::Enum role) const
 {
-    if (role == Uml::A) {
+    if (role == Uml::RoleType::A) {
         return first;
     }
     return second;
@@ -114,7 +117,7 @@ void AssociationSpaceManager::add(AssociationWidget *assoc,
         SelfAssociationItem item;
         item.associationWidget = assoc;
         item.regions = regions;
-        Q_ASSERT(regions[Uml::B] != Uml::reg_Error);
+        Q_ASSERT(regions[Uml::RoleType::B] != Uml::Region::Error);
         m_selfAssociationsList << item;
     } else {
         m_regionsAssociationsMap[regions[role(assoc)]] << assoc;
@@ -178,14 +181,14 @@ AssociationSpaceManager::referencePoints(AssociationWidget *assoc) const
     AssociationLine *line = assoc->associationLine();
     if (!assoc->isSelf()) {
         PointPair retVal;
-        Uml::Role_Type myRole = role(assoc);
+        Uml::RoleType::Enum myRole = role(assoc);
         Q_ASSERT(line->count() >= 2);
         if (line->count() == 2) {
-            Uml::Role_Type otherWidRole = (Uml::Role_Type)(1 - myRole);
+            Uml::RoleType::Enum otherWidRole = Uml::RoleType::fromInt(1 - myRole);
             UMLWidget *otherWid = assoc->widgetForRole(otherWidRole);
             retVal[myRole] = otherWid->sceneRect().center();
         } else {
-            retVal[myRole] = (myRole == Uml::A ?
+            retVal[myRole] = (myRole == Uml::RoleType::A ?
                     assoc->mapToScene(line->point(1)) :
                     assoc->mapToScene(line->point(line->count()-2)));
         }
@@ -225,35 +228,35 @@ uint hash(AssociationWidget *assoc)
  *
  * @see AssociationSpaceManager::referencePoints
  */
-void AssociationSpaceManager::arrange(Uml::Region region)
+void AssociationSpaceManager::arrange(Uml::Region::Enum region)
 {
     QRectF rect = m_umlWidget->sceneRect();
     QList<AssociationWidget*> &listRef = m_regionsAssociationsMap[region];
 
     PointPair selfEndPoints;
     switch (region) {
-        case Uml::reg_West:
-            selfEndPoints[Uml::A] = selfEndPoints[Uml::B] = rect.topLeft();
-            selfEndPoints[Uml::A].ry() += .25 * rect.height();
-            selfEndPoints[Uml::B].ry() += .75 * rect.height();
+        case Uml::Region::West:
+            selfEndPoints[Uml::RoleType::A] = selfEndPoints[Uml::RoleType::B] = rect.topLeft();
+            selfEndPoints[Uml::RoleType::A].ry() += .25 * rect.height();
+            selfEndPoints[Uml::RoleType::B].ry() += .75 * rect.height();
             break;
 
-        case Uml::reg_North:
-            selfEndPoints[Uml::A] = selfEndPoints[Uml::B] = rect.topLeft();
-            selfEndPoints[Uml::A].rx() += .25 * rect.width();
-            selfEndPoints[Uml::B].rx() += .75 * rect.width();
+        case Uml::Region::North:
+            selfEndPoints[Uml::RoleType::A] = selfEndPoints[Uml::RoleType::B] = rect.topLeft();
+            selfEndPoints[Uml::RoleType::A].rx() += .25 * rect.width();
+            selfEndPoints[Uml::RoleType::B].rx() += .75 * rect.width();
             break;
 
-        case Uml::reg_East:
-            selfEndPoints[Uml::A] = selfEndPoints[Uml::B] = rect.topRight();
-            selfEndPoints[Uml::A].ry() += .25 * rect.height();
-            selfEndPoints[Uml::B].ry() += .75 * rect.height();
+        case Uml::Region::East:
+            selfEndPoints[Uml::RoleType::A] = selfEndPoints[Uml::RoleType::B] = rect.topRight();
+            selfEndPoints[Uml::RoleType::A].ry() += .25 * rect.height();
+            selfEndPoints[Uml::RoleType::B].ry() += .75 * rect.height();
             break;
 
-        case Uml::reg_South:
-            selfEndPoints[Uml::A] = selfEndPoints[Uml::B] = rect.bottomLeft();
-            selfEndPoints[Uml::A].rx() += .25 * rect.width();
-            selfEndPoints[Uml::B].rx() += .75 * rect.width();
+        case Uml::Region::South:
+            selfEndPoints[Uml::RoleType::A] = selfEndPoints[Uml::RoleType::B] = rect.bottomLeft();
+            selfEndPoints[Uml::RoleType::A].rx() += .25 * rect.width();
+            selfEndPoints[Uml::RoleType::B].rx() += .75 * rect.width();
             break;
 
         default: ;
@@ -262,7 +265,7 @@ void AssociationSpaceManager::arrange(Uml::Region region)
 
     // Holds whether arrangement is based on x(horizontal) or not (which means
     // its vertically arranged based on y).
-    bool xBasis = (region == Uml::reg_North || region == Uml::reg_South);
+    bool xBasis = (region == Uml::Region::North || region == Uml::Region::South);
 
     // This intermediate tuple stores both self and non self associations in
     // sorted fashion, primary sort criteria being x or y value based on region
@@ -288,7 +291,7 @@ void AssociationSpaceManager::arrange(Uml::Region region)
         Tuple t;
         t.associationWidget = assoc;
         t.distance = distance;
-        t.endIndex = (assoc->roleForWidget(m_umlWidget) == Uml::A ?
+        t.endIndex = (assoc->roleForWidget(m_umlWidget) == Uml::RoleType::A ?
                 0 : t.associationWidget->associationLine()->count()-1);
 
         assocDistEndTuples.insert(i, t);
@@ -296,20 +299,20 @@ void AssociationSpaceManager::arrange(Uml::Region region)
 
     foreach (SelfAssociationItem item, m_selfAssociationsList) {
         AssociationWidget *self = item.associationWidget;
-        Uml::Role_Type r;
-        if (item.regions[Uml::A] == item.regions[Uml::B] &&
-                region == item.regions[Uml::A]) {
+        Uml::RoleType::Enum r;
+        if (item.regions[Uml::RoleType::A] == item.regions[Uml::RoleType::B] &&
+                region == item.regions[Uml::RoleType::A]) {
             // both ends of self can't be same corner
-            Q_ASSERT(region <= Uml::reg_South);
+            Q_ASSERT(region <= Uml::Region::South);
 
             self->associationLine()->setEndPoints(
-                    self->mapFromScene(selfEndPoints[Uml::A]),
-                    self->mapFromScene(selfEndPoints[Uml::B]));
+                    self->mapFromScene(selfEndPoints[Uml::RoleType::A]),
+                    self->mapFromScene(selfEndPoints[Uml::RoleType::B]));
             continue;
-        } else if (item.regions[Uml::A] == region) {
-            r = Uml::A;
-        } else if (item.regions[Uml::B] == region) {
-            r = Uml::B;
+        } else if (item.regions[Uml::RoleType::A] == region) {
+            r = Uml::RoleType::A;
+        } else if (item.regions[Uml::RoleType::B] == region) {
+            r = Uml::RoleType::B;
         } else {
             continue;
         }
@@ -331,7 +334,7 @@ void AssociationSpaceManager::arrange(Uml::Region region)
         Tuple t;
         t.associationWidget = self;
         t.distance = dist;
-        t.endIndex = (r == Uml::A ? 0 : self->associationLine()->count()-1);
+        t.endIndex = (r == Uml::RoleType::A ? 0 : self->associationLine()->count()-1);
         assocDistEndTuples.insert(i, t);
     }
 
@@ -346,15 +349,15 @@ void AssociationSpaceManager::arrange(Uml::Region region)
     foreach (Tuple t, assocDistEndTuples) {
         QPointF end(pos, pos);
         switch (region) {
-            case Uml::reg_North: end.setY(rect.top()); break;
-            case Uml::reg_East: end.setX(rect.right()); break;
-            case Uml::reg_South: end.setY(rect.bottom()); break;
-            case Uml::reg_West: end.setX(rect.left()); break;
+            case Uml::Region::North: end.setY(rect.top()); break;
+            case Uml::Region::East: end.setX(rect.right()); break;
+            case Uml::Region::South: end.setY(rect.bottom()); break;
+            case Uml::Region::West: end.setX(rect.left()); break;
 
-            case Uml::reg_NorthWest: end = rect.topLeft(); break;
-            case Uml::reg_NorthEast: end = rect.topRight(); break;
-            case Uml::reg_SouthEast: end = rect.bottomRight(); break;
-            case Uml::reg_SouthWest: end = rect.bottomLeft(); break;
+            case Uml::Region::NorthWest: end = rect.topLeft(); break;
+            case Uml::Region::NorthEast: end = rect.topRight(); break;
+            case Uml::Region::SouthEast: end = rect.bottomRight(); break;
+            case Uml::Region::SouthWest: end = rect.bottomLeft(); break;
 
             default: break;
         }
@@ -376,7 +379,7 @@ void AssociationSpaceManager::arrange(Uml::Region region)
 RegionPair AssociationSpaceManager::region(AssociationWidget *assoc) const
 {
     if (!isRegistered(assoc)) {
-        return Uml::reg_Error;
+        return Uml::Region::Error;
     }
     RegionPair result;
     if (assoc->isSelf()) {
@@ -387,7 +390,7 @@ RegionPair AssociationSpaceManager::region(AssociationWidget *assoc) const
             }
         }
     } else {
-        QMapIterator<Uml::Region, QList<AssociationWidget*> >
+        QMapIterator<Uml::Region::Enum, QList<AssociationWidget*> >
             it(m_regionsAssociationsMap);
         while (it.hasNext()) {
             it.next();
@@ -403,15 +406,15 @@ RegionPair AssociationSpaceManager::region(AssociationWidget *assoc) const
 /**
  * @return The role of m_umlWidget in \a assoc.
  */
-Uml::Role_Type AssociationSpaceManager::role(AssociationWidget *assoc) const
+Uml::RoleType::Enum AssociationSpaceManager::role(AssociationWidget *assoc) const
 {
-    if (assoc->widgetForRole(Uml::A) == m_umlWidget) {
-        return Uml::A;
-    } else if (assoc->widgetForRole(Uml::B) == m_umlWidget) {
-        return Uml::B;
+    if (assoc->widgetForRole(Uml::RoleType::A) == m_umlWidget) {
+        return Uml::RoleType::A;
+    } else if (assoc->widgetForRole(Uml::RoleType::B) == m_umlWidget) {
+        return Uml::RoleType::B;
     }
     Q_ASSERT(0);
-    return Uml::A;
+    return Uml::RoleType::A;
 }
 
 /**

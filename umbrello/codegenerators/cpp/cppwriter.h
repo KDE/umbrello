@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2003       Brian Thomas                                 *
  *                            <brian.thomas@gsfc.nasa.gov>                 *
- *   copyright (C) 2004-2011  Umbrello UML Modeller Authors                *
+ *   copyright (C) 2004-2013  Umbrello UML Modeller Authors                *
  *                            <uml-devel@uml.sf.net>                       *
  ***************************************************************************/
 
@@ -40,7 +40,7 @@ public:
 
     virtual void writeClass(UMLClassifier *c);
 
-    virtual Uml::ProgrammingLanguage language() const;
+    virtual Uml::ProgrammingLanguage::Enum language() const;
 
     QStringList defaultDatatypes();
 
@@ -56,15 +56,15 @@ private:
 //     * Write all field declarations, for both attributes and associations for the
 //     * given permitted scope.
 //     */
-//    void writeFieldDecl(UMLClassifier *c, Uml::Visibility permitScope, QTextStream &stream);
+//    void writeFieldDecl(UMLClassifier *c, Uml::Visibility::Enum permitScope, QTextStream &stream);
 
 //    /**
 //     * Write all method declarations, for attributes and associations
 //     * for the given permitted scope.
 //     */
-//    void writeAccessorMethodDecl(UMLClassifier *c, Uml::Visibility permitScope, QTextStream &stream);
+//    void writeAccessorMethodDecl(UMLClassifier *c, Uml::Visibility::Enum permitScope, QTextStream &stream);
 
-    void writeOperations(UMLClassifier *c, bool isHeaderMethod, Uml::Visibility permitScope, QTextStream &cpp);
+    void writeOperations(UMLClassifier *c, bool isHeaderMethod, Uml::Visibility::Enum permitScope, QTextStream &cpp);
     void writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool isHeaderMethod, QTextStream &cpp);
 
 //    /**
@@ -74,44 +74,44 @@ private:
 //     */
 //    void writeAttributes(UMLClassifier *c, QTextStream &j);
 
-    void writeAttributeDecls(UMLClassifier *c, Uml::Visibility visibility, bool writeStatic, QTextStream &stream);
+    void writeAttributeDecls(UMLClassifier *c, Uml::Visibility::Enum visibility, bool writeStatic, QTextStream &stream);
 
-    void writeHeaderFieldDecl(UMLClassifier *c, Uml::Visibility permitVisibility, QTextStream &stream);
+    void writeHeaderFieldDecl(UMLClassifier *c, Uml::Visibility::Enum permitVisibility, QTextStream &stream);
 
-    void writeHeaderAttributeAccessorMethods(UMLClassifier *c, Uml::Visibility visibility, bool writeStatic, QTextStream &stream );
+    void writeHeaderAttributeAccessorMethods(UMLClassifier *c, Uml::Visibility::Enum visibility, bool writeStatic, QTextStream &stream );
 
-    void writeHeaderAttributeAccessorMethodDecls(UMLClassifier *c, Uml::Visibility permitVisibility, QTextStream &stream);
-    void writeHeaderAccessorMethodDecl(UMLClassifier *c, Uml::Visibility permitScope, QTextStream &stream);
+    void writeHeaderAttributeAccessorMethodDecls(UMLClassifier *c, Uml::Visibility::Enum permitVisibility, QTextStream &stream);
+    void writeHeaderAccessorMethodDecl(UMLClassifier *c, Uml::Visibility::Enum permitScope, QTextStream &stream);
 
-    void writeAssociationDecls(UMLAssociationList associations, Uml::Visibility permit, Uml::IDType id, QTextStream &stream);
+    void writeAssociationDecls(UMLAssociationList associations, Uml::Visibility::Enum permit, Uml::ID::Type id, QTextStream &stream);
 
     void writeAssociationRoleDecl(QString fieldClassName, QString roleName, QString multi,
                                   QString doc, QTextStream &stream);
 
-    void writeAttributeMethods(UMLAttributeList attribs, Uml::Visibility visib, bool isHeaderMethod,
+    void writeAttributeMethods(UMLAttributeList attribs, Uml::Visibility::Enum visib, bool isHeaderMethod,
                                bool isStatic,
                                bool writeMethodBody, QTextStream &stream);
 
-    void writeAssociationMethods(UMLAssociationList associations, Uml::Visibility permitVisib,
+    void writeAssociationMethods(UMLAssociationList associations, Uml::Visibility::Enum permitVisib,
                                  bool isHeaderMethod,
-                                 bool writeMethodBody, bool writePointerVar, Uml::IDType id, QTextStream &stream);
+                                 bool writeMethodBody, bool writePointerVar, Uml::ID::Type id, QTextStream &stream);
 
     void writeAssociationRoleMethod(const QString &fieldClassName, bool isHeaderMethod, bool writeMethodBody,
                                     const QString &roleName, const QString &multi,
-                                    const QString &description, Uml::Changeability change,
+                                    const QString &description, Uml::Changeability::Enum change,
                                     QTextStream &stream);
 
     void writeSingleAttributeAccessorMethods(
             const QString &fieldClassName, const QString &Name,
             const QString &fieldName, const QString &description,
-            Uml::Changeability change,
+            Uml::Changeability::Enum change,
             bool isHeaderMethod,
             bool isStatic, bool writeMethodBody, QTextStream &cpp);
 
     void writeVectorAttributeAccessorMethods(
             const QString &fieldClassName, const QString &fieldVarName,
             const QString &fieldName, const QString &description,
-            Uml::Changeability change,
+            Uml::Changeability::Enum change,
             bool isHeaderMethod,
             bool writeMethodBody,
             QTextStream &stream);
@@ -125,7 +125,7 @@ private:
     void printTextAsSeparateLinesWithIndent (const QString &text, const QString &indent,
                                              QTextStream &stream);
 
-    void printAssociationIncludeDecl(UMLAssociationList list, Uml::IDType this_id, QTextStream &stream);
+    void printAssociationIncludeDecl(UMLAssociationList list, Uml::ID::Type this_id, QTextStream &stream);
 
     void writeInitAttributeMethod(UMLClassifier * c, QTextStream &stream);
     void writeInitAttributeDecl(UMLClassifier * c, QTextStream &stream);

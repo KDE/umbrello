@@ -133,8 +133,8 @@ public:
     UMLObject* umlObject() const;
     virtual void setUMLObject(UMLObject *obj, bool notifyAsSlot = false);
 
-    Uml::IDType id() const;
-    void setID(Uml::IDType id);
+    Uml::ID::Type id() const;
+    void setID(Uml::ID::Type id);
 
     WidgetType baseType() const;
     QLatin1String baseTypeStr() const;

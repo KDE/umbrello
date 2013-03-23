@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -209,7 +209,7 @@ UMLApp* UMLApp::app()
 /**
  * Helper method to setup the programming language action.
  */
-void UMLApp::setProgLangAction(Uml::ProgrammingLanguage pl, const QString& name, const QString& action)
+void UMLApp::setProgLangAction(Uml::ProgrammingLanguage::Enum pl, const QString& name, const QString& action)
 {
     m_langAct[pl] = actionCollection()->addAction(action);
     m_langAct[pl]->setText(name);
@@ -411,6 +411,18 @@ void UMLApp::initActions()
     entityRelationshipDiagram->setText( i18n("&Entity Relationship Diagram...") );
     connect(entityRelationshipDiagram, SIGNAL(triggered(bool)), this, SLOT(slotEntityRelationshipDiagram()));
     newDiagram->addAction(entityRelationshipDiagram);
+
+    viewShowTree = actionCollection()->add<KToggleAction>("view_show_tree");
+    viewShowTree->setText(i18n("&Tree View"));
+    connect(viewShowTree, SIGNAL(triggered(bool)), this, SLOT(slotShowTreeView(bool)));
+
+    viewShowDoc = actionCollection()->add<KToggleAction>("view_show_doc");
+    viewShowDoc->setText(i18n("&Documentation"));
+    connect(viewShowDoc, SIGNAL(triggered(bool)), this, SLOT(slotShowDocumentationView(bool)));
+
+    viewShowCmdHistory = actionCollection()->add<KToggleAction>("view_show_undo");
+    viewShowCmdHistory->setText(i18n("&Command history"));
+    connect(viewShowCmdHistory, SIGNAL(triggered(bool)), this, SLOT(slotShowCmdHistoryView(bool)));
 
     viewClearDiagram = actionCollection()->addAction( "view_clear_diagram" );
     viewClearDiagram->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Clear) );
@@ -806,6 +818,7 @@ void UMLApp::initView()
     m_listView->setDocument(m_doc);
     m_listView->init();
     m_listDock->setWidget(m_listView);
+    connect(m_listDock,SIGNAL(visibilityChanged(bool)), viewShowTree, SLOT(setChecked(bool)));
 
     // create the documentation viewer
     m_documentationDock = new QDockWidget( i18n("Doc&umentation"), this );
@@ -814,6 +827,7 @@ void UMLApp::initView()
     m_docWindow = new DocWindow(m_doc, m_documentationDock);
     m_docWindow->setObjectName("DOCWINDOW");
     m_documentationDock->setWidget(m_docWindow);
+    connect(m_documentationDock,SIGNAL(visibilityChanged(bool)), viewShowDoc, SLOT(setChecked(bool)));
 
     m_doc->setupSignals(); // make sure gets signal from list view
 
@@ -825,6 +839,7 @@ void UMLApp::initView()
     m_pQUndoView->setCleanIcon(Icon_Utils::SmallIcon(Icon_Utils::it_UndoView));
     m_pQUndoView->setStack(m_pUndoStack);
     m_cmdHistoryDock->setWidget(m_pQUndoView);
+    connect(m_cmdHistoryDock,SIGNAL(visibilityChanged(bool)), viewShowCmdHistory, SLOT(setChecked(bool)));
 
     // create the property viewer
     //m_propertyDock = new QDockWidget(i18n("&Properties"), this);
@@ -1487,7 +1502,7 @@ void UMLApp::resetStatusMsg()
  * Helper function to create diagram name and the diagram itself.
  * @param type   the type of diagram
  */
-void UMLApp::createDiagram(Uml::DiagramType type)
+void UMLApp::createDiagram(Uml::DiagramType::Enum type)
 {
     QString diagramName = m_doc->createDiagramName(type);
     executeCommand(new Uml::CmdCreateDiagram(m_doc, type, diagramName));
@@ -1845,7 +1860,7 @@ void UMLApp::slotApplyPrefs()
 
         m_doc->settingsChanged( optionState );
         const QString plStr = m_settingsDlg->getCodeGenerationLanguage();
-        Uml::ProgrammingLanguage pl = Uml::ProgrammingLanguage::fromString(plStr);
+        Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromString(plStr);
         setGenerator(pl);
     }
 }
@@ -2097,7 +2112,7 @@ CodeGenPolicyExt *UMLApp::policyExt() const
  * the newly created generator. It is the caller's responsibility
  * to load XMI into the newly created generator.
  */
-CodeGenerator *UMLApp::setGenerator(Uml::ProgrammingLanguage pl)
+CodeGenerator *UMLApp::setGenerator(Uml::ProgrammingLanguage::Enum pl)
 {
     if (pl == Uml::ProgrammingLanguage::Reserved) {
         if (m_codegen) {
@@ -2281,7 +2296,7 @@ void UMLApp::setLang_xmlschema()
  *
  * @param pl    The name of the language to set
  */
-void UMLApp::setActiveLanguage(Uml::ProgrammingLanguage pl)
+void UMLApp::setActiveLanguage(Uml::ProgrammingLanguage::Enum pl)
 {
     //updateLangSelectMenu(pl);  //:TODO:checkit - is already called in setGenerator
     setGenerator(pl);
@@ -2290,7 +2305,7 @@ void UMLApp::setActiveLanguage(Uml::ProgrammingLanguage pl)
 /**
  * Get the language for import and code generation.
  */
-Uml::ProgrammingLanguage UMLApp::activeLanguage() const
+Uml::ProgrammingLanguage::Enum UMLApp::activeLanguage() const
 {
     return m_activeLanguage;
 }
@@ -2312,7 +2327,7 @@ bool UMLApp::activeLanguageIsCaseSensitive()
  */
 QString UMLApp::activeLanguageScopeSeparator()
 {
-    Uml::ProgrammingLanguage pl = activeLanguage();
+    Uml::ProgrammingLanguage::Enum pl = activeLanguage();
     if (pl == Uml::ProgrammingLanguage::Ada ||
         pl == Uml::ProgrammingLanguage::CSharp ||
         pl == Uml::ProgrammingLanguage::Pascal ||
@@ -2322,6 +2337,24 @@ QString UMLApp::activeLanguageScopeSeparator()
         pl == Uml::ProgrammingLanguage::Python)  // CHECK: more?
         return ".";
     return "::";
+}
+
+void UMLApp::slotShowTreeView(bool state)
+{
+    m_listDock->setVisible(state);
+    viewShowTree->setChecked(state);
+}
+
+void UMLApp::slotShowDocumentationView(bool state)
+{
+    m_documentationDock->setVisible(state);
+    viewShowDoc->setChecked(state);
+}
+
+void UMLApp::slotShowCmdHistoryView(bool state)
+{
+    m_cmdHistoryDock->setVisible(state);
+    viewShowCmdHistory->setChecked(state);
 }
 
 /**
@@ -2547,7 +2580,7 @@ void UMLApp::slotCloseDiagram(QWidget* tab)
  * If the activeLanguage is not found in the KConfig then use Uml::ProgrammingLanguage::Cpp
  * as the default.
  */
-Uml::ProgrammingLanguage UMLApp::defaultLanguage()
+Uml::ProgrammingLanguage::Enum UMLApp::defaultLanguage()
 {
     Settings::OptionState& optionState = Settings::optionState();
     return optionState.generalState.defaultLanguage;
@@ -2562,7 +2595,7 @@ void UMLApp::initGenerator()
         delete m_codegen;
         m_codegen = NULL;
     }
-    Uml::ProgrammingLanguage defLanguage = defaultLanguage();
+    Uml::ProgrammingLanguage::Enum defLanguage = defaultLanguage();
     setActiveLanguage(defLanguage);
 }
 
@@ -2572,7 +2605,7 @@ void UMLApp::initGenerator()
  * not one of the registered languages it tries to fall back
  * to Cpp
  */
-void UMLApp::updateLangSelectMenu(Uml::ProgrammingLanguage activeLanguage)
+void UMLApp::updateLangSelectMenu(Uml::ProgrammingLanguage::Enum activeLanguage)
 {
     //m_langSelect->clear();
     for (int i = 0; i < Uml::ProgrammingLanguage::Reserved; ++i) {

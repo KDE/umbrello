@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -17,7 +17,7 @@
  * @param id                The ID to assign (-1 will prompt a new ID.)
  * @param type              The type of the widget
  */
-BoxWidget::BoxWidget(Uml::IDType id, WidgetType type)
+BoxWidget::BoxWidget(Uml::ID::Type id, WidgetType type)
   : UMLWidget(type, id)
 {
     setMinimumSize(QSizeF(20, 20));

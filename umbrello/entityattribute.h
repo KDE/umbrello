@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -36,10 +36,10 @@ public:
     };
 
     UMLEntityAttribute(UMLObject* parent, const QString& name,
-                       Uml::IDType id = Uml::id_None,
-                       Uml::Visibility s = Uml::Visibility::Private,
+                       Uml::ID::Type id = Uml::ID::None,
+                       Uml::Visibility::Enum s = Uml::Visibility::Private,
                        UMLObject *type = 0, const QString& iv = QString());
-    UMLEntityAttribute(UMLObject* parent);
+    explicit UMLEntityAttribute(UMLObject* parent);
     virtual ~UMLEntityAttribute();
 
     bool operator==(const UMLEntityAttribute& rhs) const;
@@ -63,7 +63,7 @@ public:
     void setNull(const bool null);
     bool getNull() const;
 
-    QString toString(Uml::SignatureType sig = Uml::SignatureType::NoSig);
+    QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig);
 
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 

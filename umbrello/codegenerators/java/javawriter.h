@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2003       Brian Thomas                                 *
  *                           <brian.thomas@gsfc.nasa.gov>                  *
- *   copyright (C) 2004-2011  Umbrello UML Modeller Authors                *
+ *   copyright (C) 2004-2013  Umbrello UML Modeller Authors                *
  *                           <uml-devel@uml.sf.net>                        *
  ***************************************************************************/
 
@@ -37,7 +37,7 @@ public:
 
     virtual void writeClass(UMLClassifier *c);
 
-    virtual Uml::ProgrammingLanguage language() const;
+    virtual Uml::ProgrammingLanguage::Enum language() const;
 
     QStringList defaultDatatypes();
 
@@ -61,28 +61,28 @@ private:
     void writeAttributeDecls(UMLAttributeList &atpub, UMLAttributeList &atprot,
                              UMLAttributeList &atpriv, QTextStream &java );
 
-    void writeAssociationDecls(UMLAssociationList associations, Uml::IDType id, QTextStream &java);
+    void writeAssociationDecls(UMLAssociationList associations, Uml::ID::Type id, QTextStream &java);
 
     void writeAssociationRoleDecl(QString fieldClassName, QString roleName, QString multi,
-                                  QString doc, Uml::Visibility visib, QTextStream &java);
+                                  QString doc, Uml::Visibility::Enum visib, QTextStream &java);
 
-    void writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility visibility, QTextStream &java);
+    void writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility::Enum visibility, QTextStream &java);
 
     void writeAssociationMethods(UMLAssociationList associations, UMLClassifier *thisClass,
                                  QTextStream &java);
 
     void writeAssociationRoleMethod(QString fieldClassName, QString roleName, QString multi,
-                                    QString description, Uml::Visibility visib, Uml::Changeability change,
+                                    QString description, Uml::Visibility::Enum visib, Uml::Changeability::Enum change,
                                     QTextStream &java);
 
     void writeSingleAttributeAccessorMethods(QString fieldClassName, QString fieldVarName,
             QString fieldName, QString description,
-            Uml::Visibility visibility, Uml::Changeability change,
+            Uml::Visibility::Enum visibility, Uml::Changeability::Enum change,
             bool isFinal, QTextStream &java);
 
     void writeVectorAttributeAccessorMethods(QString fieldClassName, QString fieldVarName,
             QString fieldName, QString description,
-            Uml::Visibility visibility, Uml::Changeability change,
+            Uml::Visibility::Enum visibility, Uml::Changeability::Enum change,
             QTextStream &java);
 
     void writeComment(const QString &text, const QString &indent, QTextStream &java, bool javaDocStyle=false);

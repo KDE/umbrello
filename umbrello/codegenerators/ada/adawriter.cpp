@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2002    Oliver Kellogg <okellogg@users.sourceforge.net> *
- *   copyright (C) 2003-2012                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -53,7 +53,7 @@ AdaWriter::~AdaWriter()
  * Returns "Ada".
  * @return   the programming language identifier
  */
-Uml::ProgrammingLanguage AdaWriter::language() const
+Uml::ProgrammingLanguage::Enum AdaWriter::language() const
 {
     return Uml::ProgrammingLanguage::Ada;
 }
@@ -144,16 +144,16 @@ void AdaWriter::computeAssocTypeAndRole(UMLClassifier *c,
                                         UMLAssociation *a,
                                         QString& typeName, QString& roleName)
 {
-    UMLClassifier* assocEnd = dynamic_cast<UMLClassifier*>(a->getObject(Uml::B));
+    UMLClassifier* assocEnd = dynamic_cast<UMLClassifier*>(a->getObject(Uml::RoleType::B));
     if (assocEnd == NULL)
         return;
-    const Uml::AssociationType assocType = a->getAssocType();
+    const Uml::AssociationType::Enum assocType = a->getAssocType();
     if (assocType != Uml::AssociationType::Aggregation && assocType != Uml::AssociationType::Composition)
         return;
-    const QString multi = a->getMultiplicity(Uml::B);
+    const QString multi = a->getMultiplicity(Uml::RoleType::B);
     bool hasNonUnityMultiplicity = (!multi.isEmpty() && multi != "1");
     hasNonUnityMultiplicity &= !multi.contains(QRegExp("^1 *\\.\\. *1$"));
-    roleName = cleanName(a->getRoleName(Uml::B));
+    roleName = cleanName(a->getRoleName(Uml::RoleType::B));
     if (roleName.isEmpty())
         roleName = cleanName(a->name());
     if (roleName.isEmpty()) {
@@ -401,7 +401,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     if (forceSections() || !aggregations.isEmpty()) {
         ada << indent() << "-- Aggregations:" << m_endl;
         foreach (UMLAssociation *a , aggregations) {
-            if (c != a->getObject(Uml::A))
+            if (c != a->getObject(Uml::RoleType::A))
                 continue;
             QString typeName, roleName;
             computeAssocTypeAndRole(c, a, typeName, roleName);
@@ -412,7 +412,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     if (forceSections() || !compositions.isEmpty()) {
         ada << indent() << "-- Compositions:" << m_endl;
         foreach (UMLAssociation *a , compositions ) {
-            if (c != a->getObject(Uml::A))
+            if (c != a->getObject(Uml::RoleType::A))
                 continue;
             QString typeName, roleName;
             computeAssocTypeAndRole(c, a, typeName, roleName);
@@ -478,7 +478,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     // into the package body.
     UMLOperationList oppriv;
     foreach (UMLOperation* op, opl ) {
-        const Uml::Visibility::Value vis = op->visibility();
+        const Uml::Visibility::Enum vis = op->visibility();
         if (vis == Uml::Visibility::Private ||
             vis == Uml::Visibility::Implementation)
         oppriv.append(op);
@@ -532,10 +532,10 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
             if (is_comment)
                 ada << "-- ";
             ada << cleanName(at->name()) << " : ";
-            Uml::Parameter_Direction pk = at->getParmKind();
-            if (pk == Uml::pd_Out)
+            Uml::ParameterDirection::Enum pk = at->getParmKind();
+            if (pk == Uml::ParameterDirection::Out)
                 ada << "out ";
-            else if (pk == Uml::pd_InOut)
+            else if (pk == Uml::ParameterDirection::InOut)
                 ada << "in out ";
             else
                 ada << "in ";

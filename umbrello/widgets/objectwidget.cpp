@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -49,7 +49,7 @@ const qreal ObjectWidget::SequenceLineMargin = 20;
  * @param object    The object it will be representing.
  * @param lid       The local id for the object.
  */
-ObjectWidget::ObjectWidget(UMLObject *object, const Uml::IDType& lid)
+ObjectWidget::ObjectWidget(UMLObject *object, const Uml::ID::Type& lid)
   : UMLWidget(WidgetBase::wt_Object, object)
 {
     m_localID = lid;
@@ -77,7 +77,7 @@ ObjectWidget::~ObjectWidget()
  * Sets the local ID for this widget. See @ref ObjectWidget::localID
  * for more information about this id.
  */
-void ObjectWidget::setLocalID(const Uml::IDType& id)
+void ObjectWidget::setLocalID(const Uml::ID::Type& id)
 {
     m_localID = id;
 }
@@ -85,7 +85,7 @@ void ObjectWidget::setLocalID(const Uml::IDType& id)
 /**
  * Returns the local ID.
  */
-Uml::IDType ObjectWidget::localID() const
+Uml::ID::Type ObjectWidget::localID() const
 {
     return m_localID;
 }

@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2011                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -91,7 +91,7 @@ void OwnedCodeBlock::setAttributesOnNode(QDomDocument& /*doc*/, QDomElement& ele
         //          i.e. role A is 1 and role B is 0.
         //          I'll resist the temptation to change this -
         //          in order to maintain backward compatibility.
-        elem.setAttribute("role_id", (role->role() == Uml::A));
+        elem.setAttribute("role_id", (role->role() == Uml::RoleType::A));
     }
     else {
         elem.setAttribute("parent_id",ID2STR(m_parentObject->id()));
@@ -107,7 +107,7 @@ void OwnedCodeBlock::setAttributesFromNode ( QDomElement & elem)
 {
     // set local attributes, parent object first
     QString idStr = elem.attribute("parent_id","-1");
-    Uml::IDType id = STR2ID(idStr);
+    Uml::ID::Type id = STR2ID(idStr);
 
     // always disconnect from current parent
     getParentObject()->disconnect(this);
@@ -132,9 +132,9 @@ void OwnedCodeBlock::setAttributesFromNode ( QDomElement & elem)
             int role_id = elem.attribute("role_id","-1").toInt();
             // see comment on role_id at setAttributesOnNode()
             if (role_id == 1)
-                role = assoc->getUMLRole(Uml::A);
+                role = assoc->getUMLRole(Uml::RoleType::A);
             else if (role_id == 0)
-                role = assoc->getUMLRole(Uml::B);
+                role = assoc->getUMLRole(Uml::RoleType::B);
             else // this will cause a crash
                 uError() << "corrupt save file? "
                          << "cant get proper UMLRole for ownedcodeblock uml id:"

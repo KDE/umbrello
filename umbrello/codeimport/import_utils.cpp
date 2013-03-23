@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2011                                               *
+ *   copyright (C) 2005-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -232,7 +232,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
                         continue;
                     }
                     int wantNamespace = KMessageBox::Yes;
-                    const Uml::ProgrammingLanguage pl = UMLApp::app()->activeLanguage();
+                    const Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
                     if (pl == Uml::ProgrammingLanguage::Cpp) {
                         // We know std and Qt are namespaces.
                         if (scopeName != "std" && scopeName != "Qt") {
@@ -319,7 +319,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
         UMLObject *p = umldoc->findUMLObject(*it, UMLObject::ot_UMLObject, parentPkg);
         if (p == NULL || p->baseType() == UMLObject::ot_Datatype)
             continue;
-        const Uml::AssociationType at = Uml::AssociationType::Dependency;
+        const Uml::AssociationType::Enum at = Uml::AssociationType::Dependency;
         UMLAssociation *assoc = umldoc->findAssociation(at, gRelatedClassifier, p);
         if (assoc)
             continue;
@@ -353,14 +353,14 @@ UMLOperation* makeOperation(UMLClassifier *parent, const QString &name)
  * Use the specified existing attrType.
  */
 UMLObject* insertAttribute(UMLClassifier *owner,
-                           Uml::Visibility scope,
+                           Uml::Visibility::Enum scope,
                            const QString& name,
                            UMLClassifier *attrType,
                            const QString& comment /* ="" */,
                            bool isStatic /* =false */)
 {
     UMLObject::ObjectType ot = owner->baseType();
-    Uml::ProgrammingLanguage pl = UMLApp::app()->activeLanguage();
+    Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
     if (! (ot == UMLObject::ot_Class ||
            (ot == UMLObject::ot_Interface && pl == Uml::ProgrammingLanguage::Java))) {
         uDebug() << "insertAttribute: Don not know what to do with "
@@ -386,7 +386,7 @@ UMLObject* insertAttribute(UMLClassifier *owner,
 /**
  * Create a UMLAttribute and insert it into the document.
  */
-UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope,
+UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility::Enum scope,
                            const QString& name,
                            const QString& type,
                            const QString& comment /* ="" */,
@@ -424,7 +424,7 @@ UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope,
   * @param comment        The Documentation for this method
   */
 void insertMethod(UMLClassifier *klass, UMLOperation* &op,
-                  Uml::Visibility scope, const QString& type,
+                  Uml::Visibility::Enum scope, const QString& type,
                   bool isStatic, bool isAbstract,
                   bool isFriend, bool isConstructor,
                   const QString& comment)
@@ -531,7 +531,7 @@ void createGeneralization(UMLClassifier *child, UMLClassifier *parent)
     // if the child is an interface, so is the parent.
     if (child->isInterface())
         parent->setBaseType(UMLObject::ot_Interface);
-    Uml::AssociationType association = Uml::AssociationType::Generalization;
+    Uml::AssociationType::Enum association = Uml::AssociationType::Generalization;
 
     if (parent->isInterface() && !child->isInterface()) {
         // if the parent is an interface, but the child is not, then

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2012                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -39,7 +39,7 @@ namespace Widget_Utils
      * @param widgets    The UMLWidgetList to search in.
      * @param messages   Optional pointer to a MessageWidgetList to search in.
      */
-    UMLWidget* findWidget(Uml::IDType id,
+    UMLWidget* findWidget(Uml::ID::Type id,
                           const UMLWidgetList& widgets,
                           const MessageWidgetList* messages /* = 0 */)
     {
@@ -76,7 +76,6 @@ namespace Widget_Utils
         currentView->umlScene()->addItem(rect);
         rect->setBrush( QBrush(Qt::blue) );
         rect->setPen( QPen(Qt::blue) );
-        rect->setVisible(true);
         return rect;
     }
 
@@ -199,7 +198,7 @@ namespace Widget_Utils
 
         QPainterPath path;
         path.moveTo(rect.left(), rect.top() + yRadius);
-        if (corners.testFlag(Uml::corner_TopLeft)) {
+        if (corners.testFlag(Uml::Corner::TopLeft)) {
             arcRect.moveTopLeft(rect.topLeft());
             path.arcTo(arcRect, 180, -90);
         } else {
@@ -208,7 +207,7 @@ namespace Widget_Utils
 
         path.lineTo(rect.right() - xRadius, rect.top());
 
-        if (corners.testFlag(Uml::corner_TopRight)) {
+        if (corners.testFlag(Uml::Corner::TopRight)) {
             arcRect.moveTopRight(rect.topRight());
             path.arcTo(arcRect, 90, -90);
         } else {
@@ -217,7 +216,7 @@ namespace Widget_Utils
 
         path.lineTo(rect.right(), rect.bottom() - yRadius);
 
-        if (corners.testFlag(Uml::corner_BottomRight)) {
+        if (corners.testFlag(Uml::Corner::BottomRight)) {
             arcRect.moveBottomRight(rect.bottomRight());
             path.arcTo(arcRect, 0, -90);
         } else {
@@ -226,7 +225,7 @@ namespace Widget_Utils
 
         path.lineTo(rect.left() + xRadius, rect.bottom());
 
-        if (corners.testFlag(Uml::corner_BottomLeft)) {
+        if (corners.testFlag(Uml::Corner::BottomLeft)) {
             arcRect.moveBottomLeft(rect.bottomLeft());
             path.arcTo(arcRect, 270, 90);
         } else {

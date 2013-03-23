@@ -28,7 +28,7 @@ class OwnedCodeBlock : public QObject
     Q_OBJECT
 public:
 
-    OwnedCodeBlock ( UMLObject * parent );
+    explicit OwnedCodeBlock ( UMLObject * parent );
     virtual ~OwnedCodeBlock ( );
 
     UMLObject * getParentObject ( );

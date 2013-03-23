@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -19,7 +19,7 @@ const QSizeF RegionWidget::MinimumSize(90, 45);
  *
  * @param id   The ID to assign (-1 will prompt a new ID).
  */
-RegionWidget::RegionWidget(Uml::IDType id)
+RegionWidget::RegionWidget(Uml::ID::Type id)
   : UMLWidget(WidgetBase::wt_Region, id)
 {
     setMinimumSize(RegionWidget::MinimumSize);

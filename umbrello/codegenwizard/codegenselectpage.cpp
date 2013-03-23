@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -60,7 +60,7 @@ void CodeGenSelectPage::setClassifierList(UMLClassifierList *classList)
 
     if (classList == NULL) {
         UMLFolder* currRoot = doc->currentRoot();
-        Uml::ModelType type = doc->rootFolderType(currRoot);
+        Uml::ModelType::Enum type = doc->rootFolderType(currRoot);
 
         switch (type) {
             case Uml::ModelType::Logical:

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -30,10 +30,10 @@ class UMLAttribute : public UMLClassifierListItem
 public:
 
     UMLAttribute(UMLObject *parent, const QString& name,
-                 Uml::IDType id = Uml::id_None,
-                 Uml::Visibility s = Uml::Visibility::Private,
+                 Uml::ID::Type id = Uml::ID::None,
+                 Uml::Visibility::Enum s = Uml::Visibility::Private,
                  UMLObject *type = 0, const QString& iv = QString());
-    UMLAttribute(UMLObject *parent);
+    explicit UMLAttribute(UMLObject *parent);
 
     bool operator==(const UMLAttribute &rhs) const;
 
@@ -43,25 +43,24 @@ public:
 
     void setName(const QString &name);
 
-    void setVisibility(Uml::Visibility s);
+    void setVisibility(Uml::Visibility::Enum s);
 
     virtual UMLObject* clone() const;
 
     QString getInitialValue() const;
+    void setInitialValue(const QString &iv);
 
-    void setInitialValue( const QString &iv );
+    QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig);
 
-    QString toString(Uml::SignatureType sig = Uml::SignatureType::NoSig);
-
-    QString getFullyQualifiedName( const QString& separator = QString(),
+    QString getFullyQualifiedName(const QString& separator = QString(),
                                   bool includeRoot = false) const;
 
-    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
     virtual bool showPropertiesDialog(QWidget* parent);
 
-    void setParmKind (Uml::Parameter_Direction pk);
-    Uml::Parameter_Direction getParmKind () const;
+    void setParmKind(Uml::ParameterDirection::Enum pk);
+    Uml::ParameterDirection::Enum getParmKind() const;
 
     virtual UMLClassifierList getTemplateParams();
 
@@ -71,10 +70,10 @@ signals:
 
 protected:
 
-    bool load( QDomElement & element );
+    bool load(QDomElement & element);
 
     QString m_InitialValue; ///< text for the attribute's initial value.
-    Uml::Parameter_Direction m_ParmKind;
+    Uml::ParameterDirection::Enum m_ParmKind;
 
 private:
 

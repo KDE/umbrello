@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -21,20 +21,10 @@ class JavaCodeClassFieldDeclarationBlock : public CodeClassFieldDeclarationBlock
     Q_OBJECT
 public:
 
-    /**
-     * Constructor
-     */
-    JavaCodeClassFieldDeclarationBlock ( CodeClassField * parent );
+    explicit JavaCodeClassFieldDeclarationBlock(CodeClassField* parent);
+    virtual ~JavaCodeClassFieldDeclarationBlock();
 
-    /**
-     * Empty Destructor
-     */
-    virtual ~JavaCodeClassFieldDeclarationBlock ( );
-
-    /**
-     * This will be called by syncToParent whenever the parent object is "modified"
-     */
-    void updateContent ( );
+    void updateContent();
 
 private:
 

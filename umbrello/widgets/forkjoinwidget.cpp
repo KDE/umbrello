@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2012                                               *
+ *   copyright (C) 2005-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -20,7 +20,7 @@
  * @param ori   The orientation of ForkJoinWidget.
  * @param id    ID of the widget. (-1 for new id)
  */
-ForkJoinWidget::ForkJoinWidget(Qt::Orientation ori, Uml::IDType id)
+ForkJoinWidget::ForkJoinWidget(Qt::Orientation ori, Uml::ID::Type id)
   : BoxWidget(id, WidgetBase::wt_ForkJoin),
     m_orientation(ori)
 {

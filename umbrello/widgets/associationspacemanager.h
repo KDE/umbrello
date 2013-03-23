@@ -39,14 +39,14 @@ class UMLWidget;
 class RegionPair
 {
 public:
-    RegionPair(Uml::Region f = Uml::reg_Error, Uml::Region s = Uml::reg_Error);
+    RegionPair(Uml::Region::Enum f = Uml::Region::Error, Uml::Region::Enum s = Uml::Region::Error);
     bool isValid() const;
-    Uml::Region& operator[](Uml::Role_Type role);
-    const Uml::Region& operator[](Uml::Role_Type role) const;
+    Uml::Region::Enum& operator[](Uml::RoleType::Enum role);
+    const Uml::Region::Enum& operator[](Uml::RoleType::Enum role) const;
 
 private:
-    Uml::Region first;
-    Uml::Region second;
+    Uml::Region::Enum first;
+    Uml::Region::Enum second;
 };
 
 /**
@@ -69,10 +69,10 @@ public:
     void add(AssociationWidget *assoc, const RegionPair& regions);
     void remove(AssociationWidget *assoc);
 
-    void arrange(Uml::Region region);
+    void arrange(Uml::Region::Enum region);
 
     RegionPair region(AssociationWidget *assoc) const;
-    Uml::Role_Type role(AssociationWidget *assoc) const;
+    Uml::RoleType::Enum role(AssociationWidget *assoc) const;
 
     bool isRegistered(AssociationWidget* assoc) const;
 
@@ -87,8 +87,8 @@ private:
     struct PointPair
     {
         PointPair(const QPointF& p1 = QPointF(), const QPointF& p2 = QPointF());
-        QPointF& operator[](Uml::Role_Type role);
-        const QPointF& operator[](Uml::Role_Type role) const;
+        QPointF& operator[](Uml::RoleType::Enum role);
+        const QPointF& operator[](Uml::RoleType::Enum role) const;
 
     private:
         QPointF first;
@@ -108,7 +108,7 @@ private:
     PointPair referencePoints(AssociationWidget *assoc) const;
 
     /// Store for non self associations.
-    QMap<Uml::Region, QList<AssociationWidget*> > m_regionsAssociationsMap;
+    QMap<Uml::Region::Enum, QList<AssociationWidget*> > m_regionsAssociationsMap;
     /// Store for self association. @see SelfAssociationItem
     QList<SelfAssociationItem> m_selfAssociationsList;
     /**

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2006-2009                                                *
+ *  copyright (C) 2006-2013                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -24,7 +24,7 @@ class UMLObject;
 class JavaImport : public NativeImportBase
 {
 public:
-    JavaImport(CodeImpThread* thread = 0);
+    explicit JavaImport(CodeImpThread* thread = 0);
     virtual ~JavaImport();
 
 protected:
@@ -46,7 +46,7 @@ protected:
     QString     m_currentFileName;  ///< current filename being parsed
     QString     m_currentPackage;   ///< current package of the file being parsed
     QStringList m_imports;          ///< imports included in the current file
-    Uml::Visibility m_defaultCurrentAccess;  ///< current visibility for when the visibility is absent
+    Uml::Visibility::Enum m_defaultCurrentAccess;  ///< current visibility for when the visibility is absent
 
     /**
      * Keep track of the files we have already parsed so we don't

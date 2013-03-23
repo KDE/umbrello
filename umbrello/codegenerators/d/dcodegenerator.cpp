@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2012                                               *
+ *   copyright (C) 2008-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -46,7 +46,7 @@ DCodeGenerator::~DCodeGenerator()
  * Return our language.
  * @return language identifier
  */
-Uml::ProgrammingLanguage DCodeGenerator::language() const
+Uml::ProgrammingLanguage::Enum DCodeGenerator::language() const
 {
     return Uml::ProgrammingLanguage::D;
 }

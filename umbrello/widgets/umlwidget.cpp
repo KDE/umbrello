@@ -46,7 +46,7 @@ const UMLSceneSize UMLWidget::DefaultMaximumSize(1000, 1000);
  * @param id   The object id.
  * @see WidgetBase::WidgetBase()
  */
-UMLWidget::UMLWidget(WidgetType type, Uml::IDType id)
+UMLWidget::UMLWidget(WidgetType type, Uml::ID::Type id)
   : WidgetBase(type),
     m_size(20, 20),
     m_minimumSize(UMLWidget::DefaultMinimumSize),
@@ -57,7 +57,7 @@ UMLWidget::UMLWidget(WidgetType type, Uml::IDType id)
     m_widgetHandle(0),
     m_mouseMoveEventStore(0)
 {
-    if (id != Uml::id_None) {
+    if (id != Uml::ID::None) {
         setID(id);
     }
     
@@ -259,7 +259,7 @@ bool UMLWidget::activate()
     setActivatedFlag(false);
     if (!m_loadData.isEmpty()) {
         if (widgetHasUMLObject(baseType()) && !umlObject()) {
-            Uml::IDType id = STR2ID(m_loadData.value("id", "-1").toString());
+            Uml::ID::Type id = STR2ID(m_loadData.value("id", "-1").toString());
             UMLObject *obj = umlDoc()->findObjectById(id);
             if (!obj) {
                 uError() << "cannot find UMLObject with id=" << ID2STR(id);

@@ -28,12 +28,15 @@
 namespace Uml
 {
 
- /**
+namespace ModelType
+{
+
+/**
  * Convert ModelType item into QString representation.
  * @param item       item to convert
  * @return QString representation of ModelType
  */
-QString ModelType::toString(Value item)
+QString toString(Enum item)
 {
     switch (item) {
         case UseCase:
@@ -55,55 +58,35 @@ QString ModelType::toString(Value item)
  * @param item   item to convert
  * @return Model object
  */
-ModelType ModelType::fromString(const QString& item)
+Enum fromString(const QString& item)
 {
     if (item == "UseCase")
-        return ModelType(UseCase);
+        return UseCase;
     else if (item == "Component")
-        return ModelType(Component);
+        return Component;
     else if (item == "Deployment")
-        return ModelType(Deployment);
+        return Deployment;
     else if (item == "EntityRelationship")
-        return ModelType(EntityRelationship);
+        return EntityRelationship;
     else
-        return ModelType(Logical);
+        return Logical;
 }
 
 /**
- * Constructor.
+ * Convert a integer item into ModelType representation.
+ * @param item   integer value to convert
+ * @return ModelType enum
  */
-ModelType::ModelType()
-  : m_value(Logical)
+Enum fromInt(int item)
 {
+    return Enum(item);
 }
 
-/**
- * Constructor.
- * @param item   value to set
- */
-ModelType::ModelType(Value item)
-  : m_value(item)
-{
-}
-
-/**
- * Convert Model value into QString representation.
- * @return QString representation of the model
- */
-QString ModelType::toString() const
-{
-    return toString(m_value);
-}
-
-/**
- * 
- */
-ModelType::operator ModelType::Value() const
-{
-    return m_value;
-}
+}  // end namespace ModelType
 
 //-----------------------------------------------------------------------------
+
+namespace Visibility {
 
 /**
  * Convert Visibility item into QString representation.
@@ -113,7 +96,7 @@ ModelType::operator ModelType::Value() const
  *              "#" for protected or "~" for implementation
  * @return QString representation of Visibility
  */
-QString Visibility::toString(Value item, bool mnemonic)
+QString toString(Enum item, bool mnemonic)
 {
     switch (item) {
         case Protected:
@@ -131,70 +114,48 @@ QString Visibility::toString(Value item, bool mnemonic)
 /**
  * Convert a string item into Visibility representation.
  * @param item   item to convert
- * @return Visibility object
+ * @return Visibility enum
  */
-Visibility Visibility::fromString(const QString& item)
+Enum fromString(const QString& item)
 {
     if (item == "public" || item == "+")
-        return Visibility(Public);
+        return Public;
     else if (item == "protected" || item == "#")
-        return Visibility(Protected);
+        return Protected;
     else if (item == "private" || item == "-")
-        return Visibility(Private);
+        return Private;
     else if (item == "~")
-        return Visibility(Implementation);
+        return Implementation;
     else if (item == "signals")
-        return Visibility(Protected);
+        return Protected;
     else if (item == "class")
-        return Visibility(Private);
+        return Private;
     else
-        return Visibility(Public);
+        return Public;
 }
 
 /**
- * Constructor.
+ * Convert a integer item into Visibility representation.
+ * @param item   integer value to convert
+ * @return Visibility enum
  */
-Visibility::Visibility()
-  : m_value(Public)
+Enum fromInt(int item)
 {
+    return Enum(item);
 }
 
-/**
- * Constructor.
- * @param item   value to set
- */
-Visibility::Visibility(Value item)
-  : m_value(item)
-{
-}
-
-/**
- * Convert Visibility value into QString representation.
- * @param mnemonic    If true then return a single character:
- *              "+" for public, "-" for private,
- *              "#" for protected or "~" for implementation
- */
-QString Visibility::toString(bool mnemonic) const
-{
-    return toString(m_value, mnemonic);
-}
-
-/**
- * 
- */
-Visibility::operator Visibility::Value() const
-{
-    return m_value;
-}
+}  // end namespace Visibility
 
 //-----------------------------------------------------------------------------
 
+namespace DiagramType {
+
 /**
  * Convert DiagramType item into QString representation.
- * @param item       item to convert
+ * @param item   item to convert
  * @return QString representation of DiagramType
  */
-QString DiagramType::toString(Value item)
+QString toString(Enum item)
 {
     switch (item) {
         case Undefined:
@@ -227,9 +188,9 @@ QString DiagramType::toString(Value item)
 /**
  * Return string corresponding to DiagramType
  */
-QString DiagramType::toStringI18n() const
+QString toStringI18n(Enum item)
 {
-    switch (m_value) {
+    switch (item) {
        case Class:
            return i18n("Class Diagram");
        case UseCase:
@@ -258,7 +219,7 @@ QString DiagramType::toStringI18n() const
  * @param item   item to convert
  * @return DiagramType object
  */
-DiagramType DiagramType::fromString(const QString& item)
+Enum fromString(const QString& item)
 {
     if (item == "Undefined")
         return Undefined;
@@ -285,47 +246,27 @@ DiagramType DiagramType::fromString(const QString& item)
 }
 
 /**
- * Constructor.
+ * Convert an integer item into DiagramType representation.
+ * @param item   integer value to convert
+ * @return DiagramType enum
  */
-DiagramType::DiagramType()
-  : m_value(Undefined)
+Enum fromInt(int item)
 {
+    return Enum(item);
 }
 
-/**
- * Constructor.
- * @param item   value to set
- */
-DiagramType::DiagramType(Value item)
-  : m_value(item)
-{
-}
-
-/**
- * Convert DiagramType value into QString representation.
- * @return QString representation of the DiagramType
- */
-QString DiagramType::toString() const
-{
-    return toString(m_value);
-}
-
-/**
- * 
- */
-DiagramType::operator DiagramType::Value() const
-{
-    return m_value;
-}
+}  // end namespace DiagramType
 
 //-----------------------------------------------------------------------------
+
+namespace AssociationType {
 
 /**
  * Convert AssociationType item into QString representation.
  * @param item   item to convert
  * @return QString representation of AssociationType
  */
-QString AssociationType::toString(Value item)
+QString toString(Enum item)
 {
     switch (item) {
         case Generalization:
@@ -379,53 +320,53 @@ QString AssociationType::toString(Value item)
  * Converts a AssociationType to its string representation.
  * @return  the string representation of the AssociationType
  */
-QString AssociationType::toStringI18n() const
+QString toStringI18n(Enum item)
 {
-    switch (m_value) {
-      case Generalization:
-          return i18n("Generalization");
-      case Aggregation:
-          return i18n("Aggregation");
-      case Dependency:
-          return i18n("Dependency");
-      case Association:
-          return i18n("Association");
-      case Association_Self:
-          return i18n("Self Association");
-      case Coll_Message:
-          return i18n("Collaboration Message");
-      case Seq_Message:
-          return i18n("Sequence Message");
-      case Coll_Message_Self:
-          return i18n("Collaboration Self Message");
-      case Seq_Message_Self:
-          return i18n("Sequence Self Message");
-      case Containment:
-          return i18n("Containment");
-      case Composition:
-          return i18n("Composition");
-      case Realization:
-          return i18n("Realization");
-      case UniAssociation:
-          return i18n("Uni Association");
-      case Anchor:
-          return i18n("Anchor");
-      case State:
-          return i18n("State Transition");
-      case Activity:
-          return i18n("Activity");
-      case Exception:
-          return i18n("Exception");
-      case Category2Parent:
-          return i18n("Category to Parent");
-      case Child2Category:
-          return i18n("Child to Category");
-      case Relationship:
-          return i18n("Relationship");
-      case Unknown:
-          return i18n("Unknown");
-      default:
-          return i18n("? AssociationType ?");
+    switch (item) {
+          case Generalization:
+              return i18n("Generalization");
+          case Aggregation:
+              return i18n("Aggregation");
+          case Dependency:
+              return i18n("Dependency");
+          case Association:
+              return i18n("Association");
+          case Association_Self:
+              return i18n("Self Association");
+          case Coll_Message:
+              return i18n("Collaboration Message");
+          case Seq_Message:
+              return i18n("Sequence Message");
+          case Coll_Message_Self:
+              return i18n("Collaboration Self Message");
+          case Seq_Message_Self:
+              return i18n("Sequence Self Message");
+          case Containment:
+              return i18n("Containment");
+          case Composition:
+              return i18n("Composition");
+          case Realization:
+              return i18n("Realization");
+          case UniAssociation:
+              return i18n("Uni Association");
+          case Anchor:
+              return i18n("Anchor");
+          case State:
+              return i18n("State Transition");
+          case Activity:
+              return i18n("Activity");
+          case Exception:
+              return i18n("Exception");
+          case Category2Parent:
+              return i18n("Category to Parent");
+          case Child2Category:
+              return i18n("Child to Category");
+          case Relationship:
+              return i18n("Relationship");
+          case Unknown:
+              return i18n("Unknown");
+          default:
+              return i18n("? AssociationType ?");
       };
 }
 
@@ -434,7 +375,7 @@ QString AssociationType::toStringI18n() const
  * @param item   item to convert
  * @return AssociationType object
  */
-AssociationType AssociationType::fromString(const QString& item)
+Enum fromString(const QString& item)
 {
     if (item == "Generalization")
         return Generalization;
@@ -481,37 +422,13 @@ AssociationType AssociationType::fromString(const QString& item)
 }
 
 /**
- * Constructor.
+ * Convert a integer item into ProgrammingLanguage representation.
+ * @param item   integer value to convert
+ * @return AssociationType enum
  */
-AssociationType::AssociationType()
-  : m_value(Unknown)
+Enum fromInt(int item)
 {
-}
-
-/**
- * Constructor.
- * @param item   value to set
- */
-AssociationType::AssociationType(Value item)
-  : m_value(item)
-{
-}
-
-/**
- * Convert AssociationType value into QString representation.
- * @return QString representation of the AssociationType
- */
-QString AssociationType::toString() const
-{
-    return toString(m_value);
-}
-
-/**
- * 
- */
-AssociationType::operator AssociationType::Value() const
-{
-    return m_value;
+    return Enum(item);
 }
 
 /**
@@ -520,7 +437,7 @@ AssociationType::operator AssociationType::Value() const
  * @param item   the AssociationType enum value to check
  * @return  boolean value
  */
-bool AssociationType::hasUMLRepresentation(Value item)
+bool hasUMLRepresentation(Enum item)
 {
     return (item == Generalization   ||
             item == Realization      ||
@@ -535,12 +452,353 @@ bool AssociationType::hasUMLRepresentation(Value item)
             item == Child2Category);
 }
 
+}  // end namespace AssociationType
+
 //-----------------------------------------------------------------------------
+
+namespace SignatureType {
+
+/**
+ * Return string corresponding to the given SignatureType.
+ */
+QString toString(Enum item)
+{
+    switch (item) {
+        case NoSig:
+            return QString("NoSig");
+        case ShowSig:
+            return QString("ShowSig");
+        case SigNoVis:
+            return QString("SigNoVis");
+        case NoSigNoVis:
+            return QString("NoSigNoVis");
+        default:
+            break;
+    }
+    return QString();
+}
+
+/**
+ * Return SignatureType corresponding to the given string.
+ */
+Enum fromString(const QString& item)
+{
+    if (item == "NoSig")
+        return NoSig;
+    if (item == "ShowSig")
+        return ShowSig;
+    if (item == "SigNoVis")
+        return SigNoVis;
+    if (item == "NoSigNoVis")
+        return NoSigNoVis;
+    return NoSig;
+}
+
+/**
+ * Convert a integer item into SignatureType representation.
+ * @param item   integer value to convert
+ * @return SignatureType enum
+ */
+Enum fromInt(int item)
+{
+    return Enum(item);
+}
+
+}  // end namespace SignatureType
+
+//-----------------------------------------------------------------------------
+
+namespace TextRole {
+
+/**
+ * Return string corresponding to the given TextRole.
+ */
+QString toString(Enum item)
+{
+    switch (item) {
+        case Floating:
+            return QString("Floating");
+        case MultiA:
+            return QString("MultiA");
+        case MultiB:
+            return QString("MultiB");
+        case Name:
+            return QString("Name");
+        case Seq_Message:
+            return QString("Seq_Message");
+        case Seq_Message_Self:
+            return QString("Seq_Message_Self");
+        case Coll_Message:
+            return QString("Coll_Message");
+        case Coll_Message_Self:
+            return QString("Coll_Message_Self");
+        case State:
+            return QString("State");
+        case RoleAName:
+            return QString("RoleAName");
+        case RoleBName:
+            return QString("RoleBName");
+        case ChangeA:
+            return QString("ChangeA");
+        case ChangeB:
+            return QString("ChangeB");
+        default:
+            break;
+    }
+    return QString("? TextRole ?");
+}
+
+/**
+ * Return TextRole corresponding to the given string.
+ */
+Enum fromString(const QString& item)
+{
+    if (item == "Floating")
+        return Floating;
+    if (item == "MultiA")
+        return MultiA;
+    if (item == "MultiB")
+        return MultiB;
+    if (item == "Name")
+        return Name;
+    if (item == "Seq_Message")
+        return Seq_Message;
+    if (item == "Seq_Message_Self")
+        return Seq_Message_Self;
+    if (item == "Coll_Message")
+        return Coll_Message;
+    if (item == "Coll_Message_Self")
+        return Coll_Message_Self;
+    if (item == "State")
+        return State;
+    if (item == "RoleAName")
+        return RoleAName;
+    if (item == "RoleBName")
+        return RoleBName;
+    if (item == "ChangeA")
+        return ChangeA;
+    if (item == "ChangeB")
+        return ChangeB;
+    return Floating;
+}
+
+/**
+ * Convert a integer item into TextRole representation.
+ * @param item   integer value to convert
+ * @return TextRole enum
+ */
+Enum fromInt(int item)
+{
+    return Enum(item);
+}
+
+}  // end namespace TextRole
+
+//-----------------------------------------------------------------------------
+
+namespace Changeability {
+
+/**
+ * Convert Changeability::Enum value into QString representation.
+ * @param type   The Changeability enum value to convert.
+ */
+QString toString(Enum item)
+{
+    switch (item) {
+        case Changeability::Frozen:
+            return QString("frozen");
+        case Changeability::AddOnly:
+            return QString("addOnly");
+        case Changeability::Changeable:
+            return QString("changeable");
+        default:
+            break;
+    }
+    return QString("? Changeability ?");
+}
+
+/**
+ * Return Changeability::Enum corresponding to the given string.
+ */
+Enum fromString(const QString& item)
+{
+    if (item == "frozen")
+        return Frozen;
+    if (item == "addOnly")
+        return AddOnly;
+    if (item == "changeable")
+        return Changeable;
+    return Changeable;
+}
+
+/**
+ * Convert a integer item into Changeability representation.
+ * @param item   integer value to convert
+ * @return Changeability enum
+ */
+Enum fromInt(int item)
+{
+    return Enum(item);
+}
+
+}  // end namespace Changeability
+
+//-----------------------------------------------------------------------------
+
+namespace SequenceMessage {
+
+/**
+ * Return string corresponding to the given SequenceMessage.
+ */
+QString toString(Enum item)
+{
+    switch (item) {
+        case Synchronous:
+            return QString("Synchronous");
+        case Asynchronous:
+            return QString("Asynchronous");
+        case Creation:
+            return QString("Creation");
+        case Lost:
+            return QString("Lost");
+        case Found:
+            return QString("Found");
+        default:
+            break;
+    }
+    return QString("? SequenceMessage ?");
+}
+
+/**
+ * Return SequenceMessage corresponding to the given string.
+ */
+Enum fromString(const QString& item)
+{
+    if (item == "Synchronous")
+        return Synchronous;
+    if (item == "Asynchronous")
+        return Asynchronous;
+    if (item == "Creation")
+        return Creation;
+    if (item == "Lost")
+        return Lost;
+    if (item == "Found")
+        return Found;
+    return Synchronous;
+}
+
+/**
+ * Convert a integer item into SequenceMessage representation.
+ * @param item   integer value to convert
+ * @return SequenceMessage enum
+ */
+Enum fromInt(int item)
+{
+    return Enum(item);
+}
+
+}  // end namespace SequenceMessage
+
+//-----------------------------------------------------------------------------
+
+namespace RoleType {
+
+/**
+ * Return string corresponding to the given RoleType.
+ */
+QString toString(Enum item)
+{
+    switch (item) {
+        case A:
+            return QString("A");
+        case B:
+            return QString("B");
+        default:
+            break;
+    }
+    return QString("? RoleType ?");
+}
+
+/**
+ * Return RoleType corresponding to the given string.
+ */
+Enum fromString(const QString& item)
+{
+    if (item == "A")
+        return A;
+    if (item == "B")
+        return B;
+    return A;
+}
+
+/**
+ * Convert a integer item into RoleType representation.
+ * @param item   integer value to convert
+ * @return RoleType enum
+ */
+Enum fromInt(int item)
+{
+    return Enum(item);
+}
+
+}  // end namespace RoleType
+
+//-----------------------------------------------------------------------------
+
+namespace ParameterDirection {
+
+/**
+ * Return string corresponding to the given ParameterDirection.
+ */
+QString toString(Enum item)
+{
+    switch (item) {
+        case In:
+            return QString("In");
+        case InOut:
+            return QString("InOut");
+        case Out:
+            return QString("Out");
+        default:
+            break;
+    }
+    return QString("? ParameterDirection ?");
+}
+
+/**
+ * Return ParameterDirection corresponding to the given string.
+ */
+Enum fromString(const QString& item)
+{
+    if (item == "In")
+        return In;
+    if (item == "InOut")
+        return InOut;
+    if (item == "Out")
+        return Out;
+    return In;
+}
+
+/**
+ * Convert a integer item into ParameterDirection representation.
+ * @param item   integer value to convert
+ * @return ParameterDirection enum
+ */
+Enum fromInt(int item)
+{
+    return Enum(item);
+}
+
+}  // end namespace ParameterDirection
+
+//-----------------------------------------------------------------------------
+
+namespace ProgrammingLanguage {
 
 /**
  * Return string corresponding to the given ProgrammingLanguage.
  */
-QString ProgrammingLanguage::toString(Value item)
+QString toString(Enum item)
 {
     switch (item) {
         case ActionScript:
@@ -592,341 +850,197 @@ QString ProgrammingLanguage::toString(Value item)
 /**
  * Return ProgrammingLanguage corresponding to the given string.
  */
-ProgrammingLanguage ProgrammingLanguage::fromString(const QString& item)
+Enum fromString(const QString& item)
 {
     if (item == "ActionScript")
-        return ProgrammingLanguage(ActionScript);
+        return ActionScript;
     if (item == "Ada")
-        return ProgrammingLanguage(Ada);
+        return Ada;
     if (item == "C++" || item == "Cpp")  // "Cpp" only for bkwd compatibility
-        return ProgrammingLanguage(Cpp);
+        return Cpp;
     if (item == "C#")
-        return ProgrammingLanguage(CSharp);
+        return CSharp;
     if (item == "D")
-        return ProgrammingLanguage(D);
+        return D;
     if (item == "IDL")
-        return ProgrammingLanguage(IDL);
+        return IDL;
     if (item == "Java")
-        return ProgrammingLanguage(Java);
+        return Java;
     if (item == "JavaScript")
-        return ProgrammingLanguage(JavaScript);
+        return JavaScript;
     if (item == "MySQL")
-        return ProgrammingLanguage(MySQL);
+        return MySQL;
     if (item == "Pascal")
-        return ProgrammingLanguage(Pascal);
+        return Pascal;
     if (item == "Perl")
-        return ProgrammingLanguage(Perl);
+        return Perl;
     if (item == "PHP")
-        return ProgrammingLanguage(PHP);
+        return PHP;
     if (item == "PHP5")
-        return ProgrammingLanguage(PHP5);
+        return PHP5;
     if (item == "PostgreSQL")
-        return ProgrammingLanguage(PostgreSQL);
+        return PostgreSQL;
     if (item == "Python")
-        return ProgrammingLanguage(Python);
+        return Python;
     if (item == "Ruby")
-        return ProgrammingLanguage(Ruby);
+        return Ruby;
     if (item == "SQL")
-        return ProgrammingLanguage(SQL);
+        return SQL;
     if (item == "Tcl")
-        return ProgrammingLanguage(Tcl);
+        return Tcl;
     if (item == "Vala")
-        return ProgrammingLanguage(Vala);
+        return Vala;
     if (item == "XMLSchema")
-        return ProgrammingLanguage(XMLSchema);
-    return ProgrammingLanguage(Reserved);
+        return XMLSchema;
+    return Reserved;
 }
 
 /**
- * Constructor.
+ * Convert a integer item into ProgrammingLanguage representation.
+ * @param item   integer value to convert
+ * @return ProgrammingLanguage enum
  */
-ProgrammingLanguage::ProgrammingLanguage()
-  : m_value(Reserved)
+Enum fromInt(int item)
 {
+    return Enum(item);
 }
 
-/**
- * Constructor.
- * @param item   value to set
- */
-ProgrammingLanguage::ProgrammingLanguage(Value item)
-  : m_value(item)
-{
-}
-
-/**
- * Convert ProgrammingLanguage value into QString representation.
- * @return QString representation of the ProgrammingLanguage
- */
-QString ProgrammingLanguage::toString() const
-{
-    return toString(m_value);
-}
-
-/**
- * 
- */
-ProgrammingLanguage::operator ProgrammingLanguage::Value() const
-{
-    return m_value;
-}
+}  // end namespace ProgrammingLanguage
 
 //-----------------------------------------------------------------------------
 
+namespace Region {
+
 /**
- * Return string corresponding to the given SignatureType.
+ * Return string corresponding to the given Region.
  */
-QString SignatureType::toString(Value item)
+QString toString(Enum item)
 {
     switch (item) {
-        case NoSig:
-            return QString("NoSig");
-        case ShowSig:
-            return QString("ShowSig");
-        case SigNoVis:
-            return QString("SigNoVis");
-        case NoSigNoVis:
-            return QString("NoSigNoVis");
+        case Error:
+            return QString("Error");
+        case West:
+            return QString("West");
+        case North:
+            return QString("North");
+        case East:
+            return QString("East");
+        case South:
+            return QString("South");
+        case NorthWest:
+            return QString("NorthWest");
+        case NorthEast:
+            return QString("NorthEast");
+        case SouthEast:
+            return QString("SouthEast");
+        case SouthWest:
+            return QString("SouthWest");
         default:
             break;
     }
-    return QString();
+    return QString("? Region ?");
 }
 
 /**
- * Return SignatureType corresponding to the given string.
+ * Return Region corresponding to the given string.
  */
-SignatureType SignatureType::fromString(const QString& item)
+Enum fromString(const QString& item)
 {
-    if (item == "NoSig")
-        return SignatureType(NoSig);
-    if (item == "ShowSig")
-        return SignatureType(ShowSig);
-    if (item == "SigNoVis")
-        return SignatureType(SigNoVis);
-    if (item == "NoSigNoVis")
-        return SignatureType(NoSigNoVis);
-    return SignatureType(NoSig);
+    if (item == "Error")
+        return Error;
+    if (item == "West")
+        return West;
+    if (item == "North")
+        return North;
+    if (item == "East")
+        return East;
+    if (item == "South")
+        return South;
+    if (item == "NorthWest")
+        return NorthWest;
+    if (item == "NorthEast")
+        return NorthEast;
+    if (item == "SouthEast")
+        return SouthEast;
+    if (item == "SouthWest")
+        return SouthWest;
+    return Error;
 }
 
 /**
- * Constructor.
+ * Convert a integer item into Region representation.
+ * @param item   integer value to convert
+ * @return Region enum
  */
-SignatureType::SignatureType()
-  : m_value(NoSig)
+Enum fromInt(int item)
 {
+    return Enum(item);
 }
 
-/**
- * Constructor.
- * @param item   value to set
- */
-SignatureType::SignatureType(Value item)
-  : m_value(item)
-{
-}
-
-/**
- * Convert SignatureType value into QString representation.
- * @return QString representation of the SignatureType
- */
-QString SignatureType::toString() const
-{
-    return toString(m_value);
-}
-
-/**
- * 
- */
-SignatureType::operator SignatureType::Value() const
-{
-    return m_value;
-}
+}  // end namespace Region
 
 //-----------------------------------------------------------------------------
 
+//namespace Corner {
+
 /**
- * Return string corresponding to the given TextRole.
+ * Return string corresponding to the given Corner.
  */
-QString TextRole::toString(Value item)
+QString Corner::toString(Enum item)
 {
     switch (item) {
-        case Floating:
-            return QString("Floating");
-        case MultiA:
-            return QString("MultiA");
-        case MultiB:
-            return QString("MultiB");
-        case Name:
-            return QString("Name");
-        case Seq_Message:
-            return QString("Seq_Message");
-        case Seq_Message_Self:
-            return QString("Seq_Message_Self");
-        case Coll_Message:
-            return QString("Coll_Message");
-        case Coll_Message_Self:
-            return QString("Coll_Message_Self");
-        case State:
-            return QString("State");
-        case RoleAName:
-            return QString("RoleAName");
-        case RoleBName:
-            return QString("RoleBName");
-        case ChangeA:
-            return QString("ChangeA");
-        case ChangeB:
-            return QString("ChangeB");
+        case TopLeft:
+            return QString("TopLeft");
+        case TopRight:
+            return QString("TopRight");
+        case BottomRight:
+            return QString("BottomRight");
+        case BottomLeft:
+            return QString("BottomLeft");
         default:
             break;
     }
-    return QString("? TextRole ?");
+    return QString("? Corner ?");
 }
 
 /**
- * Return TextRole corresponding to the given string.
+ * Return Corner corresponding to the given string.
  */
-TextRole TextRole::fromString(const QString& item)
+Corner::Enum Corner::fromString(const QString& item)
 {
-    if (item == "Floating")
-        return TextRole(Floating);
-    if (item == "MultiA")
-        return TextRole(MultiA);
-    if (item == "MultiB")
-        return TextRole(MultiB);
-    if (item == "Name")
-        return TextRole(Name);
-    if (item == "Seq_Message")
-        return TextRole(Seq_Message);
-    if (item == "Seq_Message_Self")
-        return TextRole(Seq_Message_Self);
-    if (item == "Coll_Message")
-        return TextRole(Coll_Message);
-    if (item == "Coll_Message_Self")
-        return TextRole(Coll_Message_Self);
-    if (item == "State")
-        return TextRole(State);
-    if (item == "RoleAName")
-        return TextRole(RoleAName);
-    if (item == "RoleBName")
-        return TextRole(RoleBName);
-    if (item == "ChangeA")
-        return TextRole(ChangeA);
-    if (item == "ChangeB")
-        return TextRole(ChangeB);
-    return TextRole(Floating);
+    if (item == "TopLeft")
+        return TopLeft;
+    if (item == "TopRight")
+        return TopRight;
+    if (item == "BottomRight")
+        return BottomRight;
+    if (item == "BottomLeft")
+        return BottomLeft;
+    return TopLeft;
 }
 
 /**
- * Constructor.
+ * Convert a integer item into Corner representation.
+ * @param item   integer value to convert
+ * @return Corner enum
  */
-TextRole::TextRole()
-  : m_value(Floating)
+Corner::Enum Corner::fromInt(int item)
 {
+    return Enum(item);
 }
 
-/**
- * Constructor.
- * @param item   value to set
- */
-TextRole::TextRole(Value item)
-  : m_value(item)
-{
-}
-
-/**
- * Convert TextRole value into QString representation.
- * @return QString representation of the TextRole
- */
-QString TextRole::toString() const
-{
-    return toString(m_value);
-}
-
-/**
- * 
- */
-TextRole::operator TextRole::Value() const
-{
-    return m_value;
-}
+//}  // end namespace Corner
 
 //-----------------------------------------------------------------------------
 
-/**
- * Convert Changeability_Type value into QString representation.
- * @param type   The Changeability enum value to convert.
- */
-QString Changeability::toString(Value item)
-{
-    switch (item) {
-        case Changeability::Frozen:
-            return QString("frozen");
-        case Changeability::AddOnly:
-            return QString("addOnly");
-        case Changeability::Changeable:
-            return QString("changeable");
-        default:
-            break;
-    }
-    return QString("? Changeability ?");
-}
+namespace ID {
 
-/**
- * Return Changeability corresponding to the given string.
- */
-Changeability Changeability::fromString(const QString& item)
+QDebug operator<<(QDebug out, ID::Type &type)
 {
-    if (item == "frozen")
-        return Changeability(Frozen);
-    if (item == "addOnly")
-        return Changeability(AddOnly);
-    if (item == "changeable")
-        return Changeability(Changeable);
-    return Changeability(Changeable);
-}
-
-/**
- * Constructor.
- */
-Changeability::Changeability()
-  : m_value(Changeable)
-{
-}
-
-/**
- * Constructor.
- * @param item   value to set
- */
-Changeability::Changeability(Value item)
-  : m_value(item)
-{
-}
-
-/**
- * Convert Changeability value into QString representation.
- * @return QString representation of the Changeability
- */
-QString Changeability::toString() const
-{
-    return toString(m_value);
-}
-
-/**
- * 
- */
-Changeability::operator Changeability::Value() const
-{
-    return m_value;
-}
-
-//-----------------------------------------------------------------------------
-
-QDebug operator<<(QDebug out, IDType &type)
-{
-    out.nospace() << "IDType: " << ID2STR(type);
+    out.nospace() << "ID::Type: " << ID2STR(type);
     return out.space();
 }
 
+}  // end namespace ID
 
 }  // end namespace Uml

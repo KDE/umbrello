@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -30,8 +30,8 @@ class UMLUniqueConstraint : public UMLEntityConstraint
 public:
 
     UMLUniqueConstraint(UMLObject *parent, const QString& name,
-                        Uml::IDType id = Uml::id_None );
-    UMLUniqueConstraint(UMLObject *parent);
+                        Uml::ID::Type id = Uml::ID::None );
+    explicit UMLUniqueConstraint(UMLObject *parent);
     virtual ~UMLUniqueConstraint();
 
     bool operator==(const UMLUniqueConstraint &rhs) const;
@@ -40,7 +40,7 @@ public:
 
     virtual UMLObject* clone() const;
 
-    QString toString(Uml::SignatureType sig = Uml::SignatureType::NoSig);
+    QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig);
 
     QString getFullyQualifiedName(const QString& separator = QString(),
                                   bool includeRoot = false) const;

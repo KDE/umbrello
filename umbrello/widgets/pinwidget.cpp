@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -36,7 +36,7 @@ const qreal PinWidget::Size = 10;
  * @param  owner  The widget to which this pin is attached.
  * @param     id  The ID to assign (-1 will prompt a new ID.)
  */
-PinWidget::PinWidget(UMLWidget* owner, Uml::IDType id)
+PinWidget::PinWidget(UMLWidget* owner, Uml::ID::Type id)
   : UMLWidget(WidgetBase::wt_Pin, id)
 {
 //:DEPRECATED:    setIgnoreSnapToGrid(true);
@@ -233,7 +233,7 @@ bool PinWidget::loadFromXMI(QDomElement& qElement)
     }
     QString widgetaid = qElement.attribute( "widgetaid", "-1" );
 
-    Uml::IDType aId = STR2ID(widgetaid);
+    Uml::ID::Type aId = STR2ID(widgetaid);
 
     UMLWidget *pWA = umlScene()->findWidget( aId );
     if (pWA == 0) {
@@ -245,8 +245,8 @@ bool PinWidget::loadFromXMI(QDomElement& qElement)
     setParentItem(m_ownerWidget);
 
     QString textid = qElement.attribute( "textid", "-1" );
-    Uml::IDType textId = STR2ID(textid);
-    if (textId != Uml::id_None) {
+    Uml::ID::Type textId = STR2ID(textid);
+    if (textId != Uml::ID::None) {
         UMLWidget *flotext = umlScene()->findWidget( textId );
         if (flotext != 0) {
             // This only happens when loading files produced by

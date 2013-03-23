@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2011                                               *
+ *   copyright (C) 2008-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -19,25 +19,32 @@
 #include "umlrole.h"
 #include "uml.h"
 
-DCodeClassFieldDeclarationBlock::DCodeClassFieldDeclarationBlock ( CodeClassField * parent )
-        : CodeClassFieldDeclarationBlock ( parent )
+/**
+ * Constructor.
+ */
+DCodeClassFieldDeclarationBlock::DCodeClassFieldDeclarationBlock(CodeClassField * parent)
+        : CodeClassFieldDeclarationBlock(parent)
 {
     setOverallIndentationLevel(1);
 }
 
-DCodeClassFieldDeclarationBlock::~DCodeClassFieldDeclarationBlock ( )
+/**
+ * Empty Destructor.
+ */
+DCodeClassFieldDeclarationBlock::~DCodeClassFieldDeclarationBlock()
 {
 }
 
 /**
+ * This will be called by syncToParent whenever the parent object is "modified".
  */
-void DCodeClassFieldDeclarationBlock::updateContent( )
+void DCodeClassFieldDeclarationBlock::updateContent()
 {
     CodeClassField * cf = getParentClassField();
     DCodeClassField * jcf = dynamic_cast<DCodeClassField*>(cf);
     CodeGenerationPolicy * commonpolicy = UMLApp::app()->commonPolicy();
 
-    Uml::Visibility::Value scopePolicy = commonpolicy->getAssociationFieldScope();
+    Uml::Visibility::Enum scopePolicy = commonpolicy->getAssociationFieldScope();
 
     // Set the comment
     QString notes = getParentObject()->doc();
@@ -45,7 +52,7 @@ void DCodeClassFieldDeclarationBlock::updateContent( )
 
     // Set the body
     QString staticValue = getParentObject()->isStatic() ? "static " : "";
-    QString scopeStr = getParentObject()->visibility().toString();
+    QString scopeStr = Uml::Visibility::toString(getParentObject()->visibility());
 
     // IF this is from an association, then scope taken as appropriate to policy
     if(!jcf->parentIsAttribute())
@@ -54,7 +61,7 @@ void DCodeClassFieldDeclarationBlock::updateContent( )
         case Uml::Visibility::Public:
         case Uml::Visibility::Private:
         case Uml::Visibility::Protected:
-              scopeStr = Uml::Visibility::toString((Uml::Visibility::Value) scopePolicy);
+              scopeStr = Uml::Visibility::toString(scopePolicy);
             break;
         default:
         case Uml::Visibility::FromParent:

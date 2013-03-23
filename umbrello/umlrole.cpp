@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -25,9 +25,9 @@
  *
  * @param parent    The parent (association) of this UMLRole.
  * @param parentUMLObject The Parent UML Object of this UMLRole
- * @param role  The Uml::Role_Type of this UMLRole
+ * @param role  The Uml::RoleType::Enum of this UMLRole
  */
-UMLRole::UMLRole(UMLAssociation * parent, UMLObject * parentObj, Uml::Role_Type role)
+UMLRole::UMLRole(UMLAssociation * parent, UMLObject * parentObj, Uml::RoleType::Enum role)
   : UMLObject(const_cast<UMLAssociation*>(parent)),
     m_pAssoc(parent),
     m_role(role),
@@ -83,7 +83,7 @@ UMLObject* UMLRole::object() const
  *
  * @return  Changeability of role.
  */
-Uml::Changeability UMLRole::changeability() const
+Uml::Changeability::Enum UMLRole::changeability() const
 {
     return m_Changeability;
 }
@@ -123,9 +123,9 @@ void UMLRole::setObject(UMLObject *obj)
 /**
  * Sets the changeability of the role.
  *
- * @param value   Changeability_Type of role changeability.
+ * @param value   Changeability::Enum of role.
  */
-void UMLRole::setChangeability(Uml::Changeability value)
+void UMLRole::setChangeability(Uml::Changeability::Enum value)
 {
     m_Changeability = value;
     UMLObject::emitModified();
@@ -144,12 +144,12 @@ void UMLRole::setMultiplicity(const QString &multi)
 
 /**
  * Get the 'id' of the role (NOT the parent object). This could be
- * either Uml::A or Uml::B. Yes, it would be better if we
+ * either Uml::RoleType::A or Uml::RoleType::B. Yes, it would be better if we
  * could get along without this, but we need it to distinguish saved
  * umlrole objects in the XMI for 'self' associations where both roles
  * will point to the same underlying UMLObject.
  */
-Uml::Role_Type UMLRole::role() const
+Uml::RoleType::Enum UMLRole::role() const
 {
     return m_role;
 }
@@ -166,7 +166,7 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
         uError() << "id " << ID2STR(m_nId) << ": m_pSecondary is NULL";
     if (!m_Multi.isEmpty())
         roleElement.setAttribute("multiplicity", m_Multi);
-    if (m_role == Uml::A) {  // role aggregation based on parent type
+    if (m_role == Uml::RoleType::A) {  // role aggregation based on parent type
         // role A
         switch (m_pAssoc->getAssocType()) {
         case Uml::AssociationType::Composition:
@@ -196,7 +196,7 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
         }
     }
 
-    roleElement.setAttribute("visibility", visibility().toString(false));
+    roleElement.setAttribute("visibility", Uml::Visibility::toString(visibility(), false));
 
     switch (m_Changeability) {
         case Uml::Changeability::Frozen:
@@ -337,7 +337,7 @@ bool UMLRole::load( QDomElement & element )
 
     // Setting association type from the role (A)
     // Determination of the "aggregation" attribute used to be done only
-    // when (m_role == Uml::A) but some XMI writers (e.g. StarUML) place
+    // when (m_role == Uml::RoleType::A) but some XMI writers (e.g. StarUML) place
     // the aggregation attribute at role B.
     // The role end with the aggregation unequal to "none" wins.
     QString aggregation = element.attribute("aggregation", "none");

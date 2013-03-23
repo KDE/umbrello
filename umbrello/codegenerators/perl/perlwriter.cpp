@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      David Hugh-Jones  <hughjonesd@yahoo.co.uk>    *
- *   copyright (C) 2004-2012                                               *
+ *   copyright (C) 2004-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -325,6 +325,10 @@ bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
   return(true);
 }
 
+/**
+ * Call this method to generate Perl code for a UMLClassifier.
+ * @param c   the class you want to generate code for
+ */
 void PerlWriter::writeClass(UMLClassifier *c)
 {
   /*  if (!c) {
@@ -491,7 +495,11 @@ void PerlWriter::writeClass(UMLClassifier *c)
   emit showGeneratedFile(fileperl.fileName());
 }
 
-Uml::ProgrammingLanguage PerlWriter::language() const
+/**
+ * Returns "Perl".
+ * @return   the programming language identifier
+ */
+Uml::ProgrammingLanguage::Enum PerlWriter::language() const
 {
     return Uml::ProgrammingLanguage::Perl;
 }
@@ -499,6 +507,11 @@ Uml::ProgrammingLanguage PerlWriter::language() const
 ////////////////////////////////////////////////////////////////////////////////////
 //  Helper Methods
 
+/**
+ * Write all operations for a given class.
+ * @param c      the concept we are generating code for
+ * @param perl   output stream for the Perl file
+ */
 void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl)
 {
     //Lists to store operations  sorted by scope
@@ -568,6 +581,12 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl)
     perl << m_endl << m_endl;
 }
 
+/**
+ * Write a list of class operations.
+ * @param classname   the name of the class
+ * @param opList      the list of operations
+ * @param perl        output stream for the Perl file
+ */
 void PerlWriter::writeOperations(const QString &classname, UMLOperationList &opList, QTextStream &perl)
 {
     Q_UNUSED(classname);
@@ -631,7 +650,11 @@ void PerlWriter::writeOperations(const QString &classname, UMLOperationList &opL
     }//end for
 }
 
-
+/**
+ * Write all the attributes of a class.
+ * @param c      the class we are generating code for
+ * @param perl   output stream for the Perl file
+ */
 void PerlWriter::writeAttributes(UMLClassifier *c, QTextStream &perl)
 {
     UMLAttributeList  atpub, atprot, atpriv, atdefval;
@@ -671,6 +694,11 @@ void PerlWriter::writeAttributes(UMLClassifier *c, QTextStream &perl)
     */
 }
 
+/**
+ * Write a list of class attributes.
+ * @param atList   the list of attributes
+ * @param perl     output stream for the Perl file
+ */
 void PerlWriter::writeAttributes(UMLAttributeList &atList, QTextStream &perl)
 {
     perl << m_endl << "=head1 PUBLIC ATTRIBUTES" << m_endl << m_endl;
@@ -686,6 +714,10 @@ void PerlWriter::writeAttributes(UMLAttributeList &atList, QTextStream &perl)
     return;
 }
 
+/**
+ * Get list of default datatypes.
+ * @return   the list of default datatypes
+ */
 QStringList PerlWriter::defaultDatatypes()
 {
     QStringList l;
@@ -695,6 +727,10 @@ QStringList PerlWriter::defaultDatatypes()
     return l;
 }
 
+/**
+ * Get list of reserved keywords.
+ * @return   the list of reserved keywords
+ */
 QStringList PerlWriter::reservedKeywords() const
 {
     static QStringList keywords;

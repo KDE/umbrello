@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2011                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -35,6 +35,10 @@ RubyWriter::~RubyWriter()
 {
 }
 
+/**
+ * Call this method to generate C++ code for a UMLClassifier.
+ * @param c   the class you want to generate code for.
+ */
 void RubyWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
@@ -131,6 +135,11 @@ void RubyWriter::writeClass(UMLClassifier *c)
     emit codeGenerated(c, true);
 }
 
+/**
+ * Convert a C++ type such as 'int' or 'QWidget' to
+ * ruby types Integer and Qt::Widget.
+ * @param cppType the C++ type to be converted
+ */
 QString RubyWriter::cppToRubyType(const QString &typeStr)
 {
     QString type = cleanName(typeStr);
@@ -148,6 +157,11 @@ QString RubyWriter::cppToRubyType(const QString &typeStr)
     return type;
 }
 
+/**
+ * Convert C++ names such as 'm_foobar' or pFoobar to
+ * just 'foobar' for ruby.
+ * @param cppName the C++ name to be converted
+ */
 QString RubyWriter::cppToRubyName(const QString &nameStr)
 {
     QString name = cleanName(nameStr);
@@ -157,6 +171,11 @@ QString RubyWriter::cppToRubyName(const QString &nameStr)
     return name;
 }
 
+/**
+ * Write all operations for a given class.
+ * @param c   the concept we are generating code for
+ * @param h   output stream for the header file
+ */
 void RubyWriter::writeOperations(UMLClassifier *c,QTextStream &h)
 {
     //Lists to store operations  sorted by scope
@@ -196,8 +215,15 @@ void RubyWriter::writeOperations(UMLClassifier *c,QTextStream &h)
     }
 }
 
+/**
+ * Write a list of class operations.
+ * @param classname   the name of the class
+ * @param opList      the list of operations
+ * @param permitScope the visibility enum
+ * @param h           output stream for the header file
+ */
 void RubyWriter::writeOperations(const QString &classname, const UMLOperationList &opList,
-                                 Uml::Visibility permitScope, QTextStream &h)
+                                 Uml::Visibility::Enum permitScope, QTextStream &h)
 {
 //    UMLOperation *op;
 //    UMLAttribute *at;
@@ -270,15 +296,15 @@ void RubyWriter::writeOperations(const QString &classname, const UMLOperationLis
             docStr.replace('\n', QString("\n") + m_indentation + "# ");
 
             // Write parameter documentation
-            foreach (const UMLAttribute& at , atl) {
+            foreach (UMLAttribute* at, atl) {
                 // Only write an individual @param entry if one hasn't been found already
                 // in the main doc comment
-                if (commentedParams.contains(cppToRubyName(at.name())) == 0) {
-                    docStr += (m_endl + m_indentation + "# @param _" + cppToRubyName(at.name()) + '_');
-                    if (at.doc().isEmpty()) {
-                        docStr += (' ' + cppToRubyType(at.getTypeName()));
+                if (commentedParams.contains(cppToRubyName(at->name())) == 0) {
+                    docStr += (m_endl + m_indentation + "# @param _" + cppToRubyName(at->name()) + '_');
+                    if (at->doc().isEmpty()) {
+                        docStr += (' ' + cppToRubyType(at->getTypeName()));
                     } else {
-                        docStr += (' ' + at.doc().replace(QRegExp("[\\n\\r]+[\\t ]*"), m_endl + "   "));
+                        docStr += (' ' + at->doc().replace(QRegExp("[\\n\\r]+[\\t ]*"), m_endl + "   "));
                     }
                 }
             }
@@ -312,15 +338,15 @@ void RubyWriter::writeOperations(const QString &classname, const UMLOperationLis
         h<< m_indentation << "def " + methodName << "(";
 
         int j=0;
-        foreach (const UMLAttribute& at , atl) {
-            QString nameStr = cppToRubyName(at.name());
+        foreach (UMLAttribute* at, atl) {
+            QString nameStr = cppToRubyName(at->name());
             if (j > 0) {
                 h << ", " << nameStr;
             } else {
                 h << nameStr;
             }
-            h << (!(at.getInitialValue().isEmpty()) ?
-                (QString(" = ") + cppToRubyType(at.getInitialValue())) :
+            h << (!(at->getInitialValue().isEmpty()) ?
+                (QString(" = ") + cppToRubyType(at->getInitialValue())) :
                 QString(""));
             j++;
         }
@@ -341,8 +367,14 @@ void RubyWriter::writeOperations(const QString &classname, const UMLOperationLis
     }//end for
 }
 
+/**
+ * Calls @ref writeSingleAttributeAccessorMethods() on each of the attributes in attribs list.
+ * @param attribs      the attribute
+ * @param visibility   the visibility of the attribute
+ * @param stream       output stream to the generated file
+ */
 void RubyWriter::writeAttributeMethods(UMLAttributeList attribs,
-                                      Uml::Visibility visibility, QTextStream &stream)
+                                      Uml::Visibility::Enum visibility, QTextStream &stream)
 {
     // return now if NO attributes to work on
     if (attribs.count() == 0 || visibility == Uml::Visibility::Private)
@@ -358,6 +390,13 @@ void RubyWriter::writeAttributeMethods(UMLAttributeList attribs,
 
 }
 
+/**
+ * Write all method declarations, for attributes and associations
+ * for the given permitted scope.
+ * @param fieldName   the field name
+ * @param descr       the description
+ * @param h           output stream to the generated file
+ */
 void RubyWriter::writeSingleAttributeAccessorMethods(
         const QString &fieldName,
         const QString &descr,
@@ -377,11 +416,19 @@ void RubyWriter::writeSingleAttributeAccessorMethods(
     return;
 }
 
-Uml::ProgrammingLanguage RubyWriter::language() const
+/**
+ * Returns "Ruby".
+ * @return   the programming language identifier
+ */
+Uml::ProgrammingLanguage::Enum RubyWriter::language() const
 {
     return Uml::ProgrammingLanguage::Ruby;
 }
 
+/**
+ * Get list of reserved keywords.
+ * @return   the list of reserved keywords
+ */
 QStringList RubyWriter::reservedKeywords() const
 {
     static QStringList keywords;

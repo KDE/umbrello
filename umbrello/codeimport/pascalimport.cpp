@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2011                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -245,14 +245,14 @@ bool PascalImport::parseStmt()
             const uint MAX_PARNAMES = 16;
             while (m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
                 QString nextToken = m_source[m_srcIndex + 1].toLower();
-                Uml::Parameter_Direction dir = Uml::pd_In;
+                Uml::ParameterDirection::Enum dir = Uml::ParameterDirection::In;
                 if (nextToken == "var") {
-                    dir = Uml::pd_InOut;
+                    dir = Uml::ParameterDirection::InOut;
                     advance();
                 } else if (nextToken == "const") {
                     advance();
                 } else if (nextToken == "out") {
-                    dir = Uml::pd_Out;
+                    dir = Uml::ParameterDirection::Out;
                     advance();
                 }
                 QString parName[MAX_PARNAMES];

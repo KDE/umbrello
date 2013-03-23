@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -33,10 +33,11 @@ const QSizeF StateWidget::MinimumEllipseSize(50, 30);
 
 /**
  * Creates a State widget.
- * @param stateType The type of state.
- * @param id The ID to assign (-1 will prompt a new ID.)
+ *
+ * @param stateType   The type of state.
+ * @param id          The ID to assign (-1 will prompt a new ID.)
  */
-StateWidget::StateWidget(StateType stateType, Uml::IDType id)
+StateWidget::StateWidget(StateType stateType, Uml::ID::Type id)
   : UMLWidget(WidgetBase::wt_State, id),
     m_stateType(stateType),
     m_drawVertical(true)

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2012                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -33,21 +33,33 @@
 
 const QString PascalWriter::defaultPackageSuffix = "_Holder";
 
+/**
+ * Basic Constructor.
+ */
 PascalWriter::PascalWriter()
  : SimpleCodeGenerator()
 {
 }
 
+/**
+ * Empty Destructor.
+ */
 PascalWriter::~PascalWriter()
 {
 }
 
-Uml::ProgrammingLanguage PascalWriter::language() const
+/**
+ * Returns "Pascal".
+ * @return   the programming language identifier
+ */
+Uml::ProgrammingLanguage::Enum PascalWriter::language() const
 {
     return Uml::ProgrammingLanguage::Pascal;
 }
 
-
+/**
+ *
+ */
 bool PascalWriter::isOOClass(UMLClassifier *c)
 {
     UMLObject::ObjectType ot = c->baseType();
@@ -105,9 +117,9 @@ QString PascalWriter::qualifiedName(UMLPackage *p, bool withType, bool byValue)
 void PascalWriter::computeAssocTypeAndRole
 (UMLAssociation *a, QString& typeName, QString& roleName)
 {
-    roleName = a->getRoleName(Uml::A);
+    roleName = a->getRoleName(Uml::RoleType::A);
     if (roleName.isEmpty()) {
-        if (a->getMultiplicity(Uml::A).isEmpty()) {
+        if (a->getMultiplicity(Uml::RoleType::A).isEmpty()) {
             roleName = "M_";
             roleName.append(typeName);
         } else {
@@ -115,14 +127,18 @@ void PascalWriter::computeAssocTypeAndRole
             roleName.append("_Vector");
         }
     }
-    UMLClassifier* c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::A));
+    UMLClassifier* c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::RoleType::A));
     if (c == NULL)
         return;
     typeName = cleanName(c->name());
-    if (! a->getMultiplicity(Uml::A).isEmpty())
+    if (! a->getMultiplicity(Uml::RoleType::A).isEmpty())
         typeName.append("_Array_Access");
 }
 
+/**
+ * Call this method to generate Pascal code for a UMLClassifier.
+ * @param c   the class to generate code for
+ */
 void PascalWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
@@ -324,6 +340,11 @@ void PascalWriter::writeClass(UMLClassifier *c)
     emit showGeneratedFile(file.fileName());
 }
 
+/**
+ * Write one operation.
+ * @param op the class for which we are generating code
+ * @param pas the stream associated with the output file
+ */
 void PascalWriter::writeOperation(UMLOperation *op, QTextStream &pas, bool is_comment)
 {
     if (op->isStatic()) {
@@ -351,8 +372,8 @@ void PascalWriter::writeOperation(UMLOperation *op, QTextStream &pas, bool is_co
             if (is_comment)
                 pas << "// ";
             pas << cleanName(at->name()) << " : ";
-            Uml::Parameter_Direction pk = at->getParmKind();
-            if (pk != Uml::pd_In)
+            Uml::ParameterDirection::Enum pk = at->getParmKind();
+            if (pk != Uml::ParameterDirection::In)
                 pas << "var ";
             pas << at->getTypeName();
             if (! at->getInitialValue().isEmpty())
@@ -382,6 +403,10 @@ void PascalWriter::writeOperation(UMLOperation *op, QTextStream &pas, bool is_co
     }
 }
 
+/**
+ * Returns the default datatypes in a list.
+ * @return  the list of default datatypes
+ */
 QStringList PascalWriter::defaultDatatypes()
 {
     QStringList l;
@@ -414,8 +439,7 @@ QStringList PascalWriter::defaultDatatypes()
 /**
  * Check whether the given string is a reserved word for the
  * language of this code generator.
- *
- * @param rPossiblyReservedKeyword  The string to check.
+ * @param rPossiblyReservedKeyword   the string to check
  */
 bool PascalWriter::isReservedKeyword(const QString & rPossiblyReservedKeyword)
 {
@@ -431,6 +455,7 @@ bool PascalWriter::isReservedKeyword(const QString & rPossiblyReservedKeyword)
 
 /**
  * Get list of reserved keywords.
+ * @return   the list of reserved keywords
  */
 QStringList PascalWriter::reservedKeywords() const
 {

@@ -66,7 +66,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
 {
     UMLScenePoint pos = scene->pos();
     qreal y = pos.y();
-    Uml::DiagramType diagramType = scene->type();
+    Uml::DiagramType::Enum diagramType = scene->type();
     UMLObject::ObjectType type = o->baseType();
     UMLWidget *newWidget = NULL;
     switch (type) {
@@ -159,7 +159,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
  * @param id         id of object
  * @return success status if valid object was created
  */
-bool validateObjType(UMLObject::ObjectType expected, UMLObject* &o, Uml::IDType id)
+bool validateObjType(UMLObject::ObjectType expected, UMLObject* &o, Uml::ID::Type id)
 {
     if (o == NULL) {
         uDebug() << "Widget_Factory::validateObjType: creating new object of type "
@@ -195,38 +195,38 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
     //FIXME while boxes and texts are just diagram objects, activities and
     // states should be UMLObjects
     if (tag == "statewidget" || tag == "UML:StateWidget") {
-        widget = new StateWidget(StateWidget::Normal, Uml::id_Reserved);
+        widget = new StateWidget(StateWidget::Normal, Uml::ID::Reserved);
     } else if (tag == "notewidget" || tag == "UML:NoteWidget") {
-        widget = new NoteWidget(NoteWidget::Normal, Uml::id_Reserved);
+        widget = new NoteWidget(NoteWidget::Normal, Uml::ID::Reserved);
     } else if (tag == "boxwidget") {
-        widget = new BoxWidget(Uml::id_Reserved);
+        widget = new BoxWidget(Uml::ID::Reserved);
     } else if (tag == "floatingtext" || tag == "UML:FloatingTextWidget") {
-        widget = new FloatingTextWidget(Uml::TextRole::Floating, Uml::id_Reserved);
+        widget = new FloatingTextWidget(Uml::TextRole::Floating, Uml::ID::Reserved);
     } else if (tag == "activitywidget" || tag == "UML:ActivityWidget") {
-        widget = new ActivityWidget(ActivityWidget::Initial, Uml::id_Reserved);
+        widget = new ActivityWidget(ActivityWidget::Initial, Uml::ID::Reserved);
     } else if (tag == "messagewidget") {
-        widget = new MessageWidget(Uml::sequence_message_asynchronous, Uml::id_Reserved);
+        widget = new MessageWidget(Uml::SequenceMessage::Asynchronous, Uml::ID::Reserved);
     } else if (tag == "forkjoin") {
-        widget = new ForkJoinWidget(Qt::Vertical, Uml::id_Reserved);
+        widget = new ForkJoinWidget(Qt::Vertical, Uml::ID::Reserved);
     } else if (tag == "preconditionwidget") {
-        widget = new PreconditionWidget(NULL, Uml::id_Reserved);
+        widget = new PreconditionWidget(NULL, Uml::ID::Reserved);
     } else if (tag == "combinedFragmentwidget") {
-        widget = new CombinedFragmentWidget(CombinedFragmentWidget::Ref, Uml::id_Reserved);
+        widget = new CombinedFragmentWidget(CombinedFragmentWidget::Ref, Uml::ID::Reserved);
     } else if (tag == "signalwidget") {
-        widget = new SignalWidget(SignalWidget::Send,  Uml::id_Reserved);
+        widget = new SignalWidget(SignalWidget::Send,  Uml::ID::Reserved);
     } else if (tag == "floatingdashlinewidget") {
-        widget = new FloatingDashLineWidget(0, Uml::id_Reserved);
+        widget = new FloatingDashLineWidget(0, Uml::ID::Reserved);
     } else if (tag == "objectnodewidget") {
-        widget = new ObjectNodeWidget(ObjectNodeWidget::Normal, Uml::id_Reserved);
+        widget = new ObjectNodeWidget(ObjectNodeWidget::Normal, Uml::ID::Reserved);
     } else if (tag == "regionwidget") {
-        widget = new RegionWidget(Uml::id_Reserved);
+        widget = new RegionWidget(Uml::ID::Reserved);
     } else if (tag == "pinwidget") {
-        widget = new PinWidget(NULL, Uml::id_Reserved);
+        widget = new PinWidget(NULL, Uml::ID::Reserved);
     }
     else  // Loading of widgets which represent an UMLObject
     {
         // Find the UMLObject and create the Widget to represent it
-        Uml::IDType id = STR2ID(idStr);
+        Uml::ID::Type id = STR2ID(idStr);
         UMLDoc *umldoc = UMLApp::app()->document();
         UMLObject *o = umldoc->findObjectById(id);
         if (o == NULL) {

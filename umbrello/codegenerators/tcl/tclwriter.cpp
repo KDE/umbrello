@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2005      Rene Meyer <rene.meyer@sturmit.de>            *
- *   copyright (C) 2006-2012                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -74,19 +74,33 @@ static const char *reserved_words[] = {
     0
 };
 
+/**
+ * Constructor, initialises a couple of variables.
+ */
 TclWriter::TclWriter()
 {
 }
 
+/**
+ * Destructor, empty.
+ */
 TclWriter::~TclWriter()
 {
 }
 
-Uml::ProgrammingLanguage TclWriter::language() const
+/**
+ * Returns "Tcl".
+ * @return   the programming language identifier
+ */
+Uml::ProgrammingLanguage::Enum TclWriter::language() const
 {
     return Uml::ProgrammingLanguage::Tcl;
 }
 
+/**
+ * Call this method to generate tcl code for a UMLClassifier.
+ * @param c   the class to generate code for
+ */
 void TclWriter::writeClass(UMLClassifier * c)
 {
     if (!c) {
@@ -144,6 +158,9 @@ void TclWriter::writeClass(UMLClassifier * c)
     }
 }
 
+/**
+ * Write the header file for this classifier.
+ */
 void TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
 {
     // open stream for writing
@@ -310,6 +327,9 @@ void TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     writeCode("};# end of namespace");
 }
 
+/**
+ * Write the source code body file for this classifier.
+ */
 void TclWriter::writeSourceFile(UMLClassifier * c, QFile & filetcl)
 {
     // open stream for writing
@@ -348,11 +368,17 @@ void TclWriter::writeSourceFile(UMLClassifier * c, QFile & filetcl)
     writeInitAttributeSource(c);
 }
 
+/**
+ * Write the source code text.
+ */
 void TclWriter::writeCode(const QString &text)
 {
     *mStream << indent() << text << m_endl;
 }
 
+/**
+ * Write comment text.
+ */
 void TclWriter::writeComm(const QString &text)
 {
     QStringList lines = text.split(QRegExp("\n"));
@@ -361,6 +387,9 @@ void TclWriter::writeComm(const QString &text)
     }
 }
 
+/**
+ * Write documentation text.
+ */
 void TclWriter::writeDocu(const QString &text)
 {
     QStringList lines = text.split(QRegExp("\n"));
@@ -373,7 +402,7 @@ void TclWriter::writeDocu(const QString &text)
 // of an association have roles we need to have forward declaration of
 // the other class...but only IF it is not THIS class (as could happen
 // in self-association relationship).
-void TclWriter::writeAssociationIncl(UMLAssociationList list, Uml::IDType myId,
+void TclWriter::writeAssociationIncl(UMLAssociationList list, Uml::ID::Type myId,
                                      const QString &type)
 {
     foreach (UMLAssociation * a , list ) {
@@ -382,12 +411,12 @@ void TclWriter::writeAssociationIncl(UMLAssociationList list, Uml::IDType myId,
         writeComm(m_endl + type + m_endl + a->toString() + m_endl + a->doc());
         // only use OTHER classes (e.g. we don't need to write includes for ourselves!!
         // AND only IF the roleName is defined, otherwise, it is not meant to be noticed.
-        if (a->getObjectId(Uml::A) == myId && !a->getRoleName(Uml::B).isEmpty()) {
-            classifier = dynamic_cast < UMLClassifier * >(a->getObject(Uml::B));
+        if (a->getObjectId(Uml::RoleType::A) == myId && !a->getRoleName(Uml::RoleType::B).isEmpty()) {
+            classifier = dynamic_cast < UMLClassifier * >(a->getObject(Uml::RoleType::B));
             writeUse(classifier);
-        } else if (a->getObjectId(Uml::B) == myId
-                   && !a->getRoleName(Uml::A).isEmpty()) {
-            classifier = dynamic_cast < UMLClassifier * >(a->getObject(Uml::A));
+        } else if (a->getObjectId(Uml::RoleType::B) == myId
+                   && !a->getRoleName(Uml::RoleType::A).isEmpty()) {
+            classifier = dynamic_cast < UMLClassifier * >(a->getObject(Uml::RoleType::A));
             if (classifier->package().isEmpty())
                 writeCode("namespace eval " + cleanName(classifier->name()) +
                           " {}");
@@ -458,12 +487,18 @@ void TclWriter::writeDestructorSource()
     writeCode(mClassGlobal + "::destructor {} {" + m_endl + '}' + m_endl);
 }
 
-void TclWriter::writeAttributeDecl(UMLClassifier * c, Uml::Visibility visibility, bool writeStatic)
+/**
+ * Writes the Attribute declarations
+ * @param c             classifier
+ * @param writeStatic   whether to write static or non-static attributes out
+ * @param visibility    the visibility of the attribs to print out
+ */
+void TclWriter::writeAttributeDecl(UMLClassifier * c, Uml::Visibility::Enum visibility, bool writeStatic)
 {
     if (c->isInterface())
         return;
 
-    QString scope = visibility.toString();
+    QString scope = Uml::Visibility::toString(visibility);
     QString type;
     if (writeStatic) {
         type = "common";
@@ -493,8 +528,11 @@ void TclWriter::writeAttributeDecl(UMLClassifier * c, Uml::Visibility visibility
     }
 }
 
+/**
+ * Searches a list of associations for appropriate ones to write out as attributes.
+ */
 void TclWriter::writeAssociationDecl(UMLAssociationList associations,
-                                Uml::Visibility permitScope, Uml::IDType id,
+                                Uml::Visibility::Enum permitScope, Uml::ID::Type id,
                                 const QString &type)
 {
     Q_UNUSED(type);
@@ -504,29 +542,29 @@ void TclWriter::writeAssociationDecl(UMLAssociationList associations,
 
             // it may seem counter intuitive, but you want to insert the role of the
             // *other* class into *this* class.
-            if (a->getObjectId(Uml::A) == id && !a->getRoleName(Uml::B).isEmpty())
+            if (a->getObjectId(Uml::RoleType::A) == id && !a->getRoleName(Uml::RoleType::B).isEmpty())
                 printRoleB = true;
 
-            if (a->getObjectId(Uml::B) == id && !a->getRoleName(Uml::A).isEmpty())
+            if (a->getObjectId(Uml::RoleType::B) == id && !a->getRoleName(Uml::RoleType::A).isEmpty())
                 printRoleA = true;
 
             // First: we insert documentaion for association IF it has either role AND some documentation (!)
             // print RoleB decl
-            if (printRoleB && a->getVisibility(Uml::B) == permitScope) {
+            if (printRoleB && a->visibility(Uml::RoleType::B) == permitScope) {
 
                 QString fieldClassName =
-                    cleanName(getUMLObjectName(a->getObject(Uml::B)));
-                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::B),
-                                         a->getMultiplicity(Uml::B), a->getRoleDoc(Uml::B),
-                                         permitScope.toString());
+                    cleanName(getUMLObjectName(a->getObject(Uml::RoleType::B)));
+                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::RoleType::B),
+                                         a->getMultiplicity(Uml::RoleType::B), a->getRoleDoc(Uml::RoleType::B),
+                                         Uml::Visibility::toString(permitScope));
             }
             // print RoleA decl
-            if (printRoleA && a->getVisibility(Uml::A) == permitScope) {
+            if (printRoleA && a->visibility(Uml::RoleType::A) == permitScope) {
                 QString fieldClassName =
-                    cleanName(getUMLObjectName(a->getObject(Uml::A)));
-                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::A),
-                                         a->getMultiplicity(Uml::A), a->getRoleDoc(Uml::A),
-                                         permitScope.toString());
+                    cleanName(getUMLObjectName(a->getObject(Uml::RoleType::A)));
+                writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::RoleType::A),
+                                         a->getMultiplicity(Uml::RoleType::A), a->getRoleDoc(Uml::RoleType::A),
+                                         Uml::Visibility::toString(permitScope));
             }
             // reset for next association in our loop
             printRoleA = false;
@@ -535,6 +573,9 @@ void TclWriter::writeAssociationDecl(UMLAssociationList associations,
     }
 }
 
+/**
+ * Writes out an association as an attribute using Vector.
+ */
 void TclWriter::writeAssociationRoleDecl(const QString &fieldClassName, const QString &roleName,
                                     const QString &multi, const QString &doc, const QString &scope)
 {
@@ -574,6 +615,9 @@ void TclWriter::writeAssociationRoleDecl(const QString &fieldClassName, const QS
     }
 }
 
+/**
+ * If needed, write out the declaration for the method to initialize attributes of our class.
+ */
 void TclWriter::writeInitAttributeHeader(UMLClassifier * c)
 {
     if (c->hasAttributes()) {
@@ -583,6 +627,9 @@ void TclWriter::writeInitAttributeHeader(UMLClassifier * c)
     }
 }
 
+/**
+ * If needed, write out the declaration for the method to initialize attributes of our class.
+ */
 void TclWriter::writeInitAttributeSource(UMLClassifier* c)
 {
     // only need to do this under certain conditions
@@ -625,7 +672,7 @@ void TclWriter::writeInitAttributeSource(UMLClassifier* c)
     }
 }
 
-void TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility permitScope)
+void TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility::Enum permitScope)
 {
     UMLOperationList oplist;
     int j;
@@ -660,7 +707,7 @@ void TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility permitSc
         QString code = "";
         QString methodReturnType = fixTypeName(op->getTypeName());
         QString name = cleanName(op->name());
-        QString scope = permitScope.toString();
+        QString scope = Uml::Visibility::toString(permitScope);
         if (op->isAbstract() || c->isInterface()) {
             //TODO declare abstract method as 'virtual'
             // str += "virtual ";
@@ -700,7 +747,7 @@ void TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility permitSc
     }
 }
 
-void TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility permitScope)
+void TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility::Enum permitScope)
 {
     UMLOperationList oplist;
     int j;
@@ -779,7 +826,7 @@ void TclWriter::writeAttributeSource(UMLClassifier * c)
 }
 
 void TclWriter::writeAssociationSource(UMLAssociationList associations,
-                                  Uml::IDType id)
+                                  Uml::ID::Type id)
 {
     if (associations.isEmpty()) {
         return;
@@ -790,26 +837,26 @@ void TclWriter::writeAssociationSource(UMLAssociationList associations,
 
         // it may seem counter intuitive, but you want to insert the role of the
         // *other* class into *this* class.
-        if (a->getObjectId(Uml::A) == id && !a->getRoleName(Uml::B).isEmpty())
+        if (a->getObjectId(Uml::RoleType::A) == id && !a->getRoleName(Uml::RoleType::B).isEmpty())
             printRoleB = true;
 
-        if (a->getObjectId(Uml::B) == id && !a->getRoleName(Uml::A).isEmpty())
+        if (a->getObjectId(Uml::RoleType::B) == id && !a->getRoleName(Uml::RoleType::A).isEmpty())
             printRoleA = true;
 
         // print RoleB source
-        if (printRoleB && a->getVisibility(Uml::B) == Uml::Visibility::Public) {
+        if (printRoleB && a->visibility(Uml::RoleType::B) == Uml::Visibility::Public) {
 
             QString fieldClassName =
-                cleanName(getUMLObjectName(a->getObject(Uml::B)));
-            writeAssociationRoleSource(fieldClassName, a->getRoleName(Uml::B),
-                                       a->getMultiplicity(Uml::B));
+                cleanName(getUMLObjectName(a->getObject(Uml::RoleType::B)));
+            writeAssociationRoleSource(fieldClassName, a->getRoleName(Uml::RoleType::B),
+                                       a->getMultiplicity(Uml::RoleType::B));
         }
         // print RoleA source
-        if (printRoleA && a->getVisibility(Uml::A) == Uml::Visibility::Public) {
+        if (printRoleA && a->visibility(Uml::RoleType::A) == Uml::Visibility::Public) {
             QString fieldClassName =
-                cleanName(getUMLObjectName(a->getObject(Uml::A)));
-            writeAssociationRoleSource(fieldClassName, a->getRoleName(Uml::A),
-                                       a->getMultiplicity(Uml::A));
+                cleanName(getUMLObjectName(a->getObject(Uml::RoleType::A)));
+            writeAssociationRoleSource(fieldClassName, a->getRoleName(Uml::RoleType::A),
+                                       a->getMultiplicity(Uml::RoleType::A));
         }
         // reset for next association in our loop
         printRoleA = false;
@@ -861,6 +908,9 @@ void TclWriter::writeAssociationRoleSource(const QString &fieldClassName,
     writeCode('}' + m_endl);
 }
 
+/**
+ * Replaces `string' with STRING_TYPENAME.
+ */
 QString TclWriter::fixTypeName(const QString &string)
 {
     if (string.isEmpty())
@@ -868,12 +918,19 @@ QString TclWriter::fixTypeName(const QString &string)
     return string;
 }
 
-// methods like this _shouldn't_ be needed IF we properly did things thruought the code.
+/**
+ * Returns the name of the given object (if it exists).
+ * Methods like this _shouldn't_ be needed IF we properly did things thruought the code.
+ */
 QString TclWriter::getUMLObjectName(UMLObject * obj)
 {
     return (obj != 0) ? obj->name() : QString("NULL");
 }
 
+/**
+ * Get list of reserved keywords.
+ * @return   the list of reserved keywords
+ */
 QStringList TclWriter::reservedKeywords() const
 {
     static QStringList keywords;
