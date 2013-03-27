@@ -248,7 +248,7 @@ void CodeEditor::loadFromDocument()
 
     // set caption on tool
     QString caption = m_parentDoc->getFileName() + m_parentDoc->getFileExtension();
-    setWindowTitle( i18n( caption.toUtf8().constData() ) );
+    setWindowTitle( tr2i18n( caption.toLatin1() ) );
     DEBUG(DBG_SRC) << "set window title to: " << caption;
 
     // header for document

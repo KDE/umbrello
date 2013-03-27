@@ -234,17 +234,17 @@ void ClassOptionsPage::setupClassPageOption()
         scopeLayout->addWidget( m_operationLabel, 1, 0 );
 
         m_attribScopeCB = new KComboBox(m_scopeGB);
-        insertAttribScope( i18n( "Public" ) );
-        insertAttribScope( i18n( "Private" ) );
-        insertAttribScope( i18n( "Protected" ) );
+        insertAttribScope( tr2i18n( "Public" ) );
+        insertAttribScope( tr2i18n( "Private" ) );
+        insertAttribScope( tr2i18n( "Protected" ) );
         m_attribScopeCB->setCurrentIndex(m_options->classState.defaultAttributeScope);
         m_attribScopeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
         scopeLayout->addWidget( m_attribScopeCB, 0, 1 );
 
         m_operationScopeCB = new KComboBox(m_scopeGB);
-        insertOperationScope( i18n( "Public" ) );
-        insertOperationScope( i18n( "Private" ) );
-        insertOperationScope( i18n( "Protected" ) );
+        insertOperationScope( tr2i18n( "Public" ) );
+        insertOperationScope( tr2i18n( "Private" ) );
+        insertOperationScope( tr2i18n( "Protected" ) );
         m_operationScopeCB->setCurrentIndex(m_options->classState.defaultOperationScope);
         m_operationScopeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
         scopeLayout->addWidget( m_operationScopeCB, 1, 1 );
