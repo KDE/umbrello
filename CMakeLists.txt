@@ -6,6 +6,13 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 
 set(KDE4_BUILD_TESTS ON)  # for unit tests
 
+# By default umbrello version is determined from the kde version umbrello is running on.
+# When building unstable and/or snapshot releases this results into misleading version information
+if(UMBRELLO_VERSION_STRING)
+    message(STATUS "using umbrello version ${UMBRELLO_VERSION_STRING}")
+    add_definitions(-DUMBRELLO_VERSION_STRING="${UMBRELLO_VERSION_STRING}")
+endif()
+
 # search packages used by KDE
 find_package(KDE4 REQUIRED)
 include(KDE4Defaults)
