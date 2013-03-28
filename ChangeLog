@@ -1,5 +1,6 @@
-Version 2.10.2 (unreleased)
+Version 2.10.2
 
+* Auto detection fix of dot path on windows (Ralf Habacker)
 * UMLSceneDrag...Event -> QGraphicsSceneDragDropEvent (Ralf Habacker)
 * i18n: use i18n instead of i18n2tr (Pino Toscano)
 * initialize in the correct order (Pino Toscano)
