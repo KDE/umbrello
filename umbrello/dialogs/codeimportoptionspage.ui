@@ -26,7 +26,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>  for each imported file create an artifact in the component view </string>
+       <string>For each imported file create an artifact in the component view</string>
       </property>
      </widget>
      <widget class="QCheckBox" name="resolveDependenciesCheckBox">
@@ -39,7 +39,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>  Resolve dependencies (reduces import speed)</string>
+       <string>Resolve dependencies (reduces import speed)</string>
       </property>
      </widget>
     </widget>
