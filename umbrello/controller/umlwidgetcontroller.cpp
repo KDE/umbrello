@@ -376,10 +376,10 @@ void UMLWidgetController::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
     //TODO Copied from old code. Does it really work as intended?
     UMLWidget *bkgnd = m_widget->m_scene->widgetAt(me->scenePos());
     if (bkgnd) {
-        //uDebug() << "setting Z to " << bkgnd->z() + 1;
-        m_widget->setZ(bkgnd->z() + 1);
+        //uDebug() << "setting Z to " << bkgnd->zValue() + 1.0;
+        m_widget->setZValue(bkgnd->zValue() + 1.0);
     } else {
-        m_widget->setZ(0);
+        m_widget->setZValue(0);
     }
 }
 

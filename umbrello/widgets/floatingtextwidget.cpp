@@ -58,7 +58,7 @@ FloatingTextWidget::FloatingTextWidget(UMLScene * scene, Uml::TextRole::Enum rol
 {
     m_Text = text;
     UMLWidget::m_resizable = false;
-    setZ(10); //make sure always on top.
+    setZValue(10); //make sure always on top.
 }
 
 /**

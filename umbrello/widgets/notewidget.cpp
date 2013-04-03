@@ -42,7 +42,7 @@ NoteWidget::NoteWidget(UMLScene * scene, NoteType noteType , Uml::ID::Type id)
     m_diagramLink(Uml::ID::None),
     m_noteType(noteType)
 {
-    setZ(20); //make sure always on top.
+    setZValue(20); //make sure always on top.
 }
 
 /**
@@ -200,7 +200,7 @@ bool NoteWidget::loadFromXMI(QDomElement & qElement)
 {
     if (!UMLWidget::loadFromXMI(qElement))
         return false;
-    setZ( 20 ); //make sure always on top.
+    setZValue(20); //make sure always on top.
     setDocumentation( qElement.attribute("text", "") );
     QString diagramlink = qElement.attribute("diagramlink", "");
     if (!diagramlink.isEmpty())
