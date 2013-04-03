@@ -137,7 +137,7 @@ void PinWidget::draw(QPainter & p, int offsetX, int offsetY)
     }
     p.drawRect(x,y,w, h);
     //make sure it's always above the other
-    setZ(20);
+    setZValue(20);
     setPenFromSettings(p);
     m_pName->setVisible(( m_pName->text().length() > 0 ));
     m_pName->updateGeometry();

@@ -32,7 +32,7 @@ PackageWidget::PackageWidget(UMLScene * scene, UMLPackage *o)
   : UMLWidget(scene, WidgetBase::wt_Package, o)
 {
     setSize(100, 30);
-    setZ(m_origZ = 1);  // above box but below UMLWidget because may embed widgets
+    setZValue(1);  // above box but below UMLWidget because may embed widgets
     //set defaults from m_scene
     if (m_scene) {
         //check to see if correct

@@ -153,7 +153,7 @@ QString WidgetBase::documentation() const
  * @param doc   The documentation to be set in the UMLObject
  *              (if m_umlObject is set.)
  */
-void WidgetBase::setDocumentation( const QString &doc )
+void WidgetBase::setDocumentation(const QString& doc)
 {
     if (m_umlObject)
         m_umlObject->setDoc( doc );

@@ -28,7 +28,7 @@ NodeWidget::NodeWidget(UMLScene * scene, UMLNode *n )
   : UMLWidget(scene, WidgetBase::wt_Node, n)
 {
     setSize(100, 30);
-    setZ(m_origZ = 1);  // above box but below UMLWidget because may embed widgets
+    setZValue(1);  // above box but below UMLWidget because may embed widgets
 }
 
 NodeWidget::~NodeWidget()

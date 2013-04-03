@@ -133,7 +133,6 @@ UMLWidget& UMLWidget::operator=(const UMLWidget & other)
     m_selected = other.m_selected;
     m_startMove = other.m_startMove;
     m_nPosX = other.m_nPosX;
-    m_origZ = other.m_origZ;  //new
     m_pMenu = other.m_pMenu;
     m_menuIsEmbedded = other.m_menuIsEmbedded;
     m_doc = other.m_doc;    //new
@@ -251,6 +250,7 @@ void UMLWidget::setMaximumSize(const UMLSceneSize& newSize)
 void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 {
     m_widgetController->mouseMoveEvent(me);
+    slotSnapToGrid();
 }
 
 /**
@@ -376,7 +376,7 @@ void UMLWidget::init()
     connect(m_scene, SIGNAL(sigLineWidthChanged(Uml::ID::Type)), this, SLOT(slotLineWidthChanged(Uml::ID::Type)));
 
     m_umlObject = 0;
-    setZ(m_origZ = 2);  // default for most widgets
+    setZValue(2.0);  // default for most widgets
 }
 
 /**
@@ -1109,10 +1109,10 @@ void UMLWidget::setSelected(bool _select)
     const QPoint pos(x(), y());
     UMLWidget *bkgnd = m_scene->widgetAt(pos);
     if (bkgnd && bkgnd != this && _select) {
-        DEBUG(DBG_SRC) << "setting Z to " << bkgnd->z() + 1 << ", SelectState: " << _select;
-        setZ(bkgnd->z() + 1);
-    } else {
-        setZ(m_origZ);
+        DEBUG(DBG_SRC) << "setting Z to " << bkgnd->zValue() + 1.0 << ", SelectState: " << _select;
+        setZValue(bkgnd->zValue() + 1.0);
+//:TODO:    } else {
+//:TODO:        setZ(m_origZ);
     }
 
     update();
@@ -1149,71 +1149,6 @@ void UMLWidget::setScene(UMLScene * v)
     connect(m_scene, SIGNAL(sigFillColorChanged(Uml::ID::Type)), this, SLOT(slotFillColorChanged(Uml::ID::Type)));
     connect(m_scene, SIGNAL(sigTextColorChanged(Uml::ID::Type)), this, SLOT(slotTextColorChanged(Uml::ID::Type)));
     connect(m_scene, SIGNAL(sigLineWidthChanged(Uml::ID::Type)), this, SLOT(slotLineWidthChanged(Uml::ID::Type)));
-}
-
-/**
- * Gets the x-coordinate.
- */
-UMLSceneValue UMLWidget::x() const
-{
-    return QGraphicsObject::x();
-}
-
-/**
- * Gets the y-coordinate.
- */
-UMLSceneValue UMLWidget::y() const
-{
-    return QGraphicsObject::y();
-}
-
-/**
- * Gets the z-coordinate.
- */
-UMLSceneValue UMLWidget::z() const
-{
-    return QGraphicsObject::zValue();
-}
-
-/**
- * Sets the x-coordinate.
- * Currently, the only class that reimplements this method is
- * ObjectWidget.
- *
- * @param x The x-coordinate to be set.
- */
-void UMLWidget::setX(UMLSceneValue x)
-{
-    if (!m_ignoreSnapToGrid) {
-        x = m_scene->snappedX(x);
-    }
-    QGraphicsObject::setX(x);
-}
-
-/**
- * Sets the y-coordinate.
- * Currently, the only class that reimplements this method is
- * ObjectWidget.
- *
- * @param y The y-coordinate to be set.
- */
-void UMLWidget::setY(UMLSceneValue y)
-{
-    if (!m_ignoreSnapToGrid) {
-        y = m_scene->snappedX(y);
-    }
-    QGraphicsObject::setY(y);
-}
-
-/**
- * Sets the z-coordinate.
- *
- * @param z The z-coordinate to be set.
- */
-void UMLWidget::setZ(UMLSceneValue z)
-{
-    m_origZ = this->z();
-    QGraphicsObject::setZValue(z);
 }
 
 /**
@@ -1258,8 +1193,12 @@ void UMLWidget::cleanup()
  */
 void UMLWidget::slotSnapToGrid()
 {
-    setX(x());
-    setY(y());
+    if (!m_ignoreSnapToGrid) {
+        qreal newX = m_scene->snappedX(x());
+        setX(newX);
+        qreal newY = m_scene->snappedX(y());
+        setY(newY);
+    }
 }
 
 /**
@@ -1335,6 +1274,7 @@ void UMLWidget::updateGeometry()
     UMLSceneValue clipHeight = size.height();
     constrain(clipWidth, clipHeight);
     setSize(clipWidth, clipHeight);
+    slotSnapToGrid();
     adjustAssocs(x(), y());    // adjust assoc lines
 }
 
