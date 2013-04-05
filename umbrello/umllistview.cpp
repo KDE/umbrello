@@ -331,7 +331,8 @@ void UMLListView::mouseReleaseEvent(QMouseEvent *me)
     // because the user might intend a drag-to-note.
     m_doc->changeCurrentView(item->ID());
     UMLView *view = m_doc->findView(item->ID());
-    view->umlScene()->showDocumentation(false);
+    if (view && view->umlScene())
+        view->umlScene()->showDocumentation(false);
     QTreeWidget::mouseReleaseEvent(me);
 }
 
