@@ -1,3 +1,7 @@
+version 2.10.3
+
+* Fix of llvm-clang bug reports (319129)
+
 Version 2.10.2
 
 * Auto detection fix of dot path on windows (Ralf Habacker)

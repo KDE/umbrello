@@ -67,7 +67,7 @@ bool AssocRules::allowAssociation( Uml::AssociationType::Enum assocType, UMLWidg
         if (view && view->umlScene()->type() == Uml::DiagramType::Component &&
             widgetType == WidgetBase::wt_Package &&
             (assocType == Uml::AssociationType::Generalization || assocType == Uml::AssociationType::Realization))
-            bValid = true;
+            ;
         else
             return false;
     }

@@ -417,7 +417,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
             QString typeName = t->getTypeName();
             cpp << typeName << " " << formalName;
             if ( tlit.hasNext() ) {
-                t = tlit.next();
+                tlit.next();
                 cpp << ", ";
             }
         }
