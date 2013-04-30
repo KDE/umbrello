@@ -332,7 +332,7 @@ void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d)
             d << t->name();
 
             if (tlit.hasNext()) {
-                t = tlit.next();
+                tlit.next();
                 d << ", ";
             }
         }

@@ -265,11 +265,9 @@ void RubyWriter::writeOperations(const QString &classname, const UMLOperationLis
         methodName = methodName.mid(0, 1).toLower() + methodName.mid(1);
 
         UMLAttributeList atl = op->getParmList();
-        //write method doc if we have doc || if at least one of the params has doc
-        bool writeDoc = forceDoc() || !op->doc().isEmpty();
         // Always write out the docs for ruby as the type of the
         // arguments and return value of the methods is useful
-        writeDoc = true;
+        bool writeDoc = true;
 //        for (UMLAttribute& at = atl.first(); at; at = atl.next())
 //            writeDoc |= !at->getDoc().isEmpty();
 

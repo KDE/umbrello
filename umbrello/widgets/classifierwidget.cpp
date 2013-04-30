@@ -491,16 +491,14 @@ QSize ClassifierWidget::calculateTemplatesBoxSize()
         return QSize(0, 0);
     }
 
-    int width, height;
-    height = width = 0;
-
     QFont font = UMLWidget::font();
     font.setItalic(false);
     font.setUnderline(false);
     font.setBold(false);
     const QFontMetrics fm(font);
 
-    height = count * fm.lineSpacing() + (MARGIN*2);
+    int width = 0;
+    int height = count * fm.lineSpacing() + (MARGIN*2);
 
     foreach (UMLTemplate *t , list ) {
         int textWidth = fm.size(0, t->toString() ).width();
