@@ -1,7 +1,7 @@
 # KDE Config File
 [Desktop Entry]
 Type=Application
-Exec=umbrello -caption "%c"
+Exec=umbrello -caption %c
 Icon=umbrello
 X-DocPath=umbrello/index.html
 Terminal=false
