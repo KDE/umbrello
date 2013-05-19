@@ -1152,6 +1152,30 @@ void UMLWidget::setScene(UMLScene * v)
 }
 
 /**
+ * Sets the x-coordinate.
+ * Currently, the only class that reimplements this method is
+ * ObjectWidget.
+ *
+ * @param x The x-coordinate to be set.
+ */
+void UMLWidget::setX(UMLSceneValue x)
+{
+    QGraphicsObject::setX(x);
+}
+
+/**
+ * Sets the y-coordinate.
+ * Currently, the only class that reimplements this method is
+ * ObjectWidget.
+ *
+ * @param y The y-coordinate to be set.
+ */
+void UMLWidget::setY(UMLSceneValue y)
+{
+    QGraphicsObject::setY(y);
+}
+
+/**
  * Sets the name in the corresponding UMLObject.
  * Sets the local m_Text if m_umlObject is NULL.
  *
