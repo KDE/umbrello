@@ -113,6 +113,9 @@ public:
         return m_startMove;
     }
 
+    virtual void setX(UMLSceneValue x);
+    virtual void setY(UMLSceneValue y);
+
     /**
      * Returns the height of widget.
      */
