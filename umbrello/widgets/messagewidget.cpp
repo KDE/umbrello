@@ -1211,6 +1211,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
     m_widgetAId = STR2ID(widgetaid);
     m_widgetBId = STR2ID(widgetbid);
     m_textId = STR2ID(textid);
+    m_nY = y();
 
     Uml::TextRole::Enum tr = Uml::TextRole::Seq_Message;
     if (m_widgetAId == m_widgetBId)
