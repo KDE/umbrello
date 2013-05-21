@@ -468,6 +468,35 @@ WidgetBase& WidgetBase::operator=(const WidgetBase& other)
 }
 
 /**
+ * return drawing rectangle of widget in local coordinates
+ */
+QRectF WidgetBase::rect() const
+{
+    return m_rect;
+}
+
+/**
+ * set widget rectangle in item coordinates
+ */
+void WidgetBase::setRect(const QRectF& rect)
+{
+    if (m_rect == rect)
+        return;
+    prepareGeometryChange();
+    m_rect = rect;
+    m_boundingRect = rect;
+    update();
+}
+
+/**
+ * set widget rectangle in item coordinates
+ */
+void WidgetBase::setRect(qreal x, qreal y, qreal width, qreal height)
+{
+    setRect(QRectF(x, y, width, height));
+}
+
+/**
  * @return The bounding rectangle for this widget.
  * @see setBoundingRect
  */
