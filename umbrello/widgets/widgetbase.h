@@ -123,6 +123,10 @@ public:
 
     WidgetBase& operator=(const WidgetBase& other);
 
+    QRectF rect() const;
+    void setRect(const QRectF& rect);
+    void setRect(qreal x, qreal y, qreal width, qreal height);
+
     virtual QRectF boundingRect() const;
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
@@ -133,6 +137,7 @@ protected:
     UMLScene   *m_scene;
     UMLObject  *m_umlObject;
     QString     m_Doc;   ///< Only used if m_umlObject is not set.
+    QRectF      m_rect;  ///< widget size
     QRectF      m_boundingRect;
 
     /**

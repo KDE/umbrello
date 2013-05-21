@@ -380,35 +380,6 @@ void UMLWidget::init()
 }
 
 /**
- * return drawing rectangle of widget in local coordinates
- */
-QRectF UMLWidget::rect() const
-{
-    return m_rect;
-}
-
-/**
- * set widget rectangle in item coordinates
- */
-void UMLWidget::setRect(const QRectF& rect)
-{
-    if (m_rect == rect)
-        return;
-    prepareGeometryChange();
-    m_rect = rect;
-    m_boundingRect = rect;
-    update();
-}
-
-/**
- * set widget rectangle in item coordinates
- */
-void UMLWidget::setRect(qreal x, qreal y, qreal width, qreal height)
-{
-    setRect(QRectF(x, y, width, height));
-}
-
-/**
  * Captures any popup menu signals for menus it created.
  *
  * @param action The action which has to be executed.

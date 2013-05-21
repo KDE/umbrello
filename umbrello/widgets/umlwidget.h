@@ -253,10 +253,6 @@ public:
 
     void init();
 
-    QRectF rect() const;
-    void setRect(const QRectF& rect);
-    void setRect(qreal x, qreal y, qreal width, qreal height);
-
     ///////////////// Data Loaded/Saved /////////////////////////////////
 
     /**
@@ -328,8 +324,5 @@ signals:
      * @param id The id of the object behind the widget.
      */
     void sigWidgetMoved(Uml::ID::Type id);
-
-protected:
-    QRectF      m_rect;     ///< widget size
 };
 #endif
