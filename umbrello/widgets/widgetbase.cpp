@@ -484,7 +484,6 @@ void WidgetBase::setRect(const QRectF& rect)
         return;
     prepareGeometryChange();
     m_rect = rect;
-    m_boundingRect = rect;
     update();
 }
 
@@ -498,11 +497,11 @@ void WidgetBase::setRect(qreal x, qreal y, qreal width, qreal height)
 
 /**
  * @return The bounding rectangle for this widget.
- * @see setBoundingRect
+ * @see setRect
  */
 QRectF WidgetBase::boundingRect() const
 {
-    return m_boundingRect;
+    return m_rect;
 }
 
 /**

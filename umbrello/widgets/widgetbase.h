@@ -138,7 +138,6 @@ protected:
     UMLObject  *m_umlObject;
     QString     m_Doc;   ///< Only used if m_umlObject is not set.
     QRectF      m_rect;  ///< widget size
-    QRectF      m_boundingRect;
 
     /**
      * This ID is only used when the widget does not have a
