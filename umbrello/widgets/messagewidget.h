@@ -90,6 +90,8 @@ public:
     ObjectWidget* objectWidget(Uml::RoleType::Enum role);
     void setObjectWidget(ObjectWidget * ow, Uml::RoleType::Enum role) ;
 
+    bool isSelf() const;
+
     /**
      * Returns the text widget it is related to.
      *

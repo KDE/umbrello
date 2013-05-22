@@ -146,8 +146,7 @@ MessageWidget::~MessageWidget()
  */
 void MessageWidget::updateResizability()
 {
-    if (m_sequenceMessageType == Uml::SequenceMessage::Synchronous ||
-        m_pOw[Uml::RoleType::A] == m_pOw[Uml::RoleType::B])
+    if (m_sequenceMessageType == Uml::SequenceMessage::Synchronous || isSelf())
         UMLWidget::m_resizable = true;
     else
         UMLWidget::m_resizable = false;
@@ -235,7 +234,7 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY)
 
     bool messageOverlaps = m_pOw[Uml::RoleType::A]->messageOverlap( y(), this );
 
-    if(m_pOw[Uml::RoleType::A] == m_pOw[Uml::RoleType::B]) {
+    if(isSelf()) {
         p.fillRect( offsetX, offsetY, 17, h,  QBrush(Qt::white) );              //box
         p.drawRect(offsetX, offsetY, 17, h);                                    //box
         offsetX += 17;
@@ -294,7 +293,7 @@ void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY)
     bool messageOverlapsA = m_pOw[Uml::RoleType::A] -> messageOverlap( y(), this );
     //bool messageOverlapsB = m_pOw[Uml::RoleType::B] -> messageOverlap( y(), this );
 
-    if(m_pOw[Uml::RoleType::A] == m_pOw[Uml::RoleType::B]) {
+    if(isSelf()) {
         if (messageOverlapsA)  {
             offsetX += 7;
             w -= 7;
@@ -630,6 +629,19 @@ bool MessageWidget::hasObjectWidget(ObjectWidget * w)
         return false;
 }
 
+/**
+ * This method determines whether the message is for "Self" for
+ * an ObjectWidget.
+ *
+ * @retval True If both ObjectWidgets for this widget exists and
+ *              are same.
+ */
+bool MessageWidget::isSelf() const
+{
+    return (m_pOw[Uml::RoleType::A] && m_pOw[Uml::RoleType::B] &&
+            m_pOw[Uml::RoleType::A] == m_pOw[Uml::RoleType::B]);
+}
+
 void MessageWidget::slotMenuSelection(QAction* action)
 {
     ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
@@ -692,7 +704,7 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
 
     if( !m_pFText ) {
         Uml::TextRole::Enum tr = Uml::TextRole::Seq_Message;
-        if (m_pOw[Uml::RoleType::A] == m_pOw[Uml::RoleType::B])
+        if (isSelf())
             tr = Uml::TextRole::Seq_Message_Self;
         m_pFText = new FloatingTextWidget( m_scene, tr, "" );
         m_pFText->setFont(UMLWidget::font());
@@ -895,7 +907,7 @@ void MessageWidget::calculateDimensionsSynchronous()
 
     int widgetWidth = 0;
     int widgetHeight = 0;
-    if( m_pOw[Uml::RoleType::A] == m_pOw[Uml::RoleType::B] ) {
+    if(isSelf()) {
         widgetWidth = 50;
         x = x1 - 2;
     } else if( x1 < x2 ) {
@@ -932,7 +944,7 @@ void MessageWidget::calculateDimensionsAsynchronous()
 
     int widgetWidth = 0;
     int widgetHeight = 8;
-    if( m_pOw[Uml::RoleType::A] == m_pOw[Uml::RoleType::B] ) {
+    if(isSelf()) {
         widgetWidth = 50;
         x = x1;
         if( height() < 20 ) {
