@@ -274,6 +274,15 @@ void ObjectWidget::setY(UMLSceneValue y)
 }
 
 /**
+ * Return the x coordinate of the widgets center.
+ * @return The x-coordinate of the widget center.
+ */
+UMLSceneValue ObjectWidget::centerX()
+{
+    return x() + width()/2;
+}
+
+/**
  * Overrides the standard operation.
  */
 void ObjectWidget::moveEvent(QGraphicsSceneMouseEvent *m)
