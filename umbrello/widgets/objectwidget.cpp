@@ -543,12 +543,15 @@ void ObjectWidget::slotMessageMoved()
  * @param y               top of your message
  * @param messageWidget   pointer to your message so it doesn't check against itself
  */
-bool ObjectWidget::messageOverlap(int y, MessageWidget* messageWidget)
+bool ObjectWidget::messageOverlap(UMLSceneValue y, MessageWidget* messageWidget)
 {
     foreach (MessageWidget* message, m_messages) {
-        const int msgY = message->y();
-        const int msgHeight = msgY + message->height();
-        if (y >= msgY && y <= msgHeight && message != messageWidget) {
+        if (message == messageWidget) {
+            continue;
+        }
+        const UMLSceneValue msgY = message->y();
+        const UMLSceneValue msgHeight = msgY + message->height();
+        if (y >= msgY && y <= msgHeight) {
             return true;
         }
     }

@@ -73,7 +73,7 @@ public:
 
     bool canTabUp();
 
-    bool messageOverlap(int y, MessageWidget* messageWidget);
+    bool messageOverlap(UMLSceneValue y, MessageWidget* messageWidget);
 
     SeqLineWidget *sequentialLine() const;
 
