@@ -370,10 +370,8 @@ void MessageWidget::drawCreation(QPainter& p, int offsetX, int offsetY)
  */
 void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY)
 {
-    int x1 = m_pOw[Uml::RoleType::A]->x();
+    int x1 = m_pOw[Uml::RoleType::A]->centerX();
     int x2 = xclicked;
-    int w1 = m_pOw[Uml::RoleType::A]->width() / 2;
-    x1 += w1;
 
     int w = width() ;
 
@@ -411,7 +409,7 @@ void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY)
  */
 void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY)
 {
-    int x1 = m_pOw[Uml::RoleType::A]->x();
+    int x1 = m_pOw[Uml::RoleType::A]->centerX();
     int x2 = xclicked;
     int w = width() ;
 
@@ -513,7 +511,7 @@ int MessageWidget::constrainX(int textX, int textWidth, Uml::TextRole::Enum tr)
             objectAtRight = m_pOw[Uml::RoleType::B];
         else
             objectAtRight = m_pOw[Uml::RoleType::A];
-        const int objRight_seqLineX = objectAtRight->x() + objectAtRight->width() / 2;
+        const int objRight_seqLineX = objectAtRight->centerX();
         const int maxTextX = objRight_seqLineX - textWidth - 5;
         if (maxTextX <= minTextX)
             result = minTextX;
@@ -898,12 +896,8 @@ void MessageWidget::calculateDimensionsSynchronous()
 {
     int x = 0;
 
-    int x1 = m_pOw[Uml::RoleType::A]->x();
-    int x2 = m_pOw[Uml::RoleType::B]->x();
-    int w1 = m_pOw[Uml::RoleType::A]->width() / 2;
-    int w2 = m_pOw[Uml::RoleType::B]->width() / 2;
-    x1 += w1;
-    x2 += w2;
+    int x1 = m_pOw[Uml::RoleType::A]->centerX();
+    int x2 = m_pOw[Uml::RoleType::B]->centerX();
 
     int widgetWidth = 0;
     int widgetHeight = 0;
@@ -935,12 +929,8 @@ void MessageWidget::calculateDimensionsAsynchronous()
 {
     int x = 0;
 
-    int x1 = m_pOw[Uml::RoleType::A]->x();
-    int x2 = m_pOw[Uml::RoleType::B]->x();
-    int w1 = m_pOw[Uml::RoleType::A]->width() / 2;
-    int w2 = m_pOw[Uml::RoleType::B]->width() / 2;
-    x1 += w1;
-    x2 += w2;
+    int x1 = m_pOw[Uml::RoleType::A]->centerX();
+    int x2 = m_pOw[Uml::RoleType::B]->centerX();
 
     int widgetWidth = 0;
     int widgetHeight = 8;
@@ -972,11 +962,10 @@ void MessageWidget::calculateDimensionsCreation()
 {
     int x = 0;
 
-    int x1 = m_pOw[Uml::RoleType::A]->x();
+    int x1 = m_pOw[Uml::RoleType::A]->centerX();
     int x2 = m_pOw[Uml::RoleType::B]->x();
-    int w1 = m_pOw[Uml::RoleType::A]->width() / 2;
     int w2 = m_pOw[Uml::RoleType::B]->width();
-    x1 += w1;
+
     if (x1 > x2)
         x2 += w2;
 
@@ -1003,11 +992,8 @@ void MessageWidget::calculateDimensionsLost()
 {
     int x = 0;
 
-    int x1 = m_pOw[Uml::RoleType::A]->x();
+    int x1 = m_pOw[Uml::RoleType::A]->centerX();
     int x2 = xclicked;
-    int w1 = m_pOw[Uml::RoleType::A]->width() / 2;
-
-    x1 += w1;
 
     int widgetWidth = 0;
     int widgetHeight = 10;
@@ -1030,10 +1016,8 @@ void MessageWidget::calculateDimensionsFound()
 {
     int x = 0;
 
-    int x1 = m_pOw[Uml::RoleType::A]->x();
+    int x1 = m_pOw[Uml::RoleType::A]->centerX();
     int x2 = xclicked;
-    int w1 = m_pOw[Uml::RoleType::A]->width() / 2;
-    x1 += w1;
 
 
     int widgetWidth = 0;

@@ -39,6 +39,8 @@ public:
     virtual void setX(UMLSceneValue x);
     virtual void setY(UMLSceneValue y);
 
+    UMLSceneValue centerX();
+
     void setLocalID(Uml::ID::Type id);
     Uml::ID::Type localID() const;
 
