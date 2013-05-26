@@ -35,6 +35,8 @@
 
 DEBUG_REGISTER_DISABLED(MessageWidget)
 
+static const int circleWidth = 10;
+
 /**
  * Constructs a MessageWidget.
  *
@@ -374,10 +376,8 @@ void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY)
 {
     int x1 = m_pOw[Uml::RoleType::A]->centerX();
     int x2 = xclicked;
-
-    int w = width() ;
-
-    int h = 10;
+    int w = width();
+    int h = height();
     bool messageOverlapsA = m_pOw[Uml::RoleType::A] -> messageOverlap( y(), this );
     //bool messageOverlapsB = m_pOw[Uml::RoleType::B] -> messageOverlap( y(), this );
 
@@ -389,8 +389,8 @@ void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY)
 
         setPenFromSettings(p);
         p.setBrush( WidgetBase::lineColor() );
-        p.drawEllipse(x1 + w - h , offsetY - h/2, h, h);
-        drawArrow(p,offsetX, offsetY, w - h, Qt::RightArrow);
+        p.drawEllipse(offsetX + w - h, offsetY, h, h);
+        drawArrow(p,offsetX, offsetY + h/2, w - h, Qt::RightArrow);
 
         if (messageOverlapsA)  {
             offsetX -= 7;
@@ -398,8 +398,8 @@ void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY)
     } else      {
         setPenFromSettings(p);
         p.setBrush( WidgetBase::lineColor() );
-        p.drawEllipse(offsetX, offsetY - h/2, h, h);
-        drawArrow(p, offsetX + h, offsetY, w - h, Qt::LeftArrow);
+        p.drawEllipse(offsetX, offsetY, h, h);
+        drawArrow(p, offsetX + h, offsetY + h/2, w - h, Qt::LeftArrow);
     }
 
     if (m_selected)
@@ -413,9 +413,8 @@ void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY)
 {
     int x1 = m_pOw[Uml::RoleType::A]->centerX();
     int x2 = xclicked;
-    int w = width() ;
-
-    int h = 10;
+    int w = width();
+    int h = height();
     bool messageOverlapsA = m_pOw[Uml::RoleType::A] -> messageOverlap( y(), this );
     //bool messageOverlapsB = m_pOw[Uml::RoleType::B] -> messageOverlap( y(), this );
 
@@ -426,8 +425,8 @@ void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY)
         }
         setPenFromSettings(p);
         p.setBrush( WidgetBase::lineColor() );
-        p.drawEllipse(x2, offsetY - h/2, h, h);
-        drawArrow(p, x2 - w + h, offsetY, w, Qt::LeftArrow);
+        p.drawEllipse(offsetX + w - h, offsetY, h, h);
+        drawArrow(p, offsetX, offsetY + h/2, w, Qt::LeftArrow);
         if (messageOverlapsA)  {
             offsetX -= 7;
         }
@@ -437,8 +436,8 @@ void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY)
         }
         setPenFromSettings(p);
         p.setBrush( WidgetBase::lineColor() );
-        p.drawEllipse(x2, offsetY - h/2, h, h);
-        drawArrow(p, x2, offsetY, w, Qt::RightArrow);
+        p.drawEllipse(offsetX, offsetY, h, h);
+        drawArrow(p, offsetX, offsetY + h/2, w, Qt::RightArrow);
     }
 
     if (m_selected)
@@ -1001,12 +1000,11 @@ void MessageWidget::calculateDimensionsLost()
     int widgetHeight = 10;
     if( x1 < x2 ) {
         x = x1;
-        widgetWidth = x2 - x1 + widgetHeight;
+        widgetWidth = x2 - x1 + circleWidth/2;
     } else {
-        x = x2;
-        widgetWidth = x1 - x2;
+        x = x2 - circleWidth/2;
+        widgetWidth = x1 - x2 + circleWidth/2;
     }
-    x += 1;
     m_nPosX = x;
     setSize(widgetWidth, widgetHeight);
 }
@@ -1021,17 +1019,15 @@ void MessageWidget::calculateDimensionsFound()
     int x1 = m_pOw[Uml::RoleType::A]->centerX();
     int x2 = xclicked;
 
-
     int widgetWidth = 0;
     int widgetHeight = 10;
     if( x1 < x2 ) {
         x = x1;
-        widgetWidth = x2 - x1 + widgetHeight;
+        widgetWidth = x2 - x1 + circleWidth/2;
     } else {
-        x = x2 ;
-        widgetWidth = x1 - x2;
+        x = x2 - circleWidth/2;
+        widgetWidth = x1 - x2 + circleWidth/2;
     }
-    x += 1;
 
     m_nPosX = x;
     setSize(widgetWidth, widgetHeight);
