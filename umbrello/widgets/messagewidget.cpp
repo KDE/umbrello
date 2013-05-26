@@ -150,7 +150,7 @@ MessageWidget::~MessageWidget()
  */
 void MessageWidget::updateResizability()
 {
-    if (m_sequenceMessageType == Uml::SequenceMessage::Synchronous || m_sequenceMessageType == Uml::SequenceMessage::Asynchronous)
+    if (m_sequenceMessageType == Uml::SequenceMessage::Synchronous)
         UMLWidget::m_resizable = true;
     else
         UMLWidget::m_resizable = false;
