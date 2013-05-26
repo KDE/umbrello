@@ -38,6 +38,8 @@ DEBUG_REGISTER_DISABLED(MessageWidget)
 /**
  * Constructs a MessageWidget.
  *
+ * This method is used for creation, synchronous and synchronous message types.
+ *
  * @param scene   The parent to this class.
  * @param a       The role A widget for this message.
  * @param b       The role B widget for this message.
