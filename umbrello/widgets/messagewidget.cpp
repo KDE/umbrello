@@ -221,16 +221,18 @@ void MessageWidget::drawSolidArrowhead(QPainter& p, int x, int y, Qt::ArrowType 
 void MessageWidget::drawArrow(QPainter& p, int x, int y, int w,
                               Qt::ArrowType direction, bool useDottedLine /* = false */)
 {
-    int arrowheadStartX = x;
-    int arrowheadExtentX = 4;
-    if (direction == Qt::RightArrow) {
-        arrowheadStartX += w;
-        arrowheadExtentX = -arrowheadExtentX;
+    if (w > 3) {
+        int arrowheadStartX = x;
+        int arrowheadExtentX = 4;
+        if (direction == Qt::RightArrow) {
+            arrowheadStartX += w;
+            arrowheadExtentX = -arrowheadExtentX;
+        }
+        // draw upper half of arrowhead
+        p.drawLine(arrowheadStartX, y, arrowheadStartX + arrowheadExtentX, y - 3);
+        // draw lower half of arrowhead
+        p.drawLine(arrowheadStartX, y, arrowheadStartX + arrowheadExtentX, y + 3);
     }
-    // draw upper half of arrowhead
-    p.drawLine(arrowheadStartX, y, arrowheadStartX + arrowheadExtentX, y - 3);
-    // draw lower half of arrowhead
-    p.drawLine(arrowheadStartX, y, arrowheadStartX + arrowheadExtentX, y + 3);
     // draw arrow line
     if (useDottedLine) {
         QPen pen = p.pen();
@@ -357,7 +359,7 @@ void MessageWidget::drawCreation(QPainter& p, int offsetX, int offsetY)
 {
     int x1 = m_pOw[Uml::RoleType::A]->x();
     int x2 = m_pOw[Uml::RoleType::B]->x();
-    int w = width() - 1;
+    int w = width();
     //int h = height() - 1;
     bool messageOverlapsA = m_pOw[Uml::RoleType::A]->messageOverlap( y(), this );
     //bool messageOverlapsB = m_pOw[Uml::RoleType::B]->messageOverlap( y(), this );
