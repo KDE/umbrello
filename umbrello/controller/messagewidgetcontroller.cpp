@@ -130,7 +130,7 @@ void MessageWidgetController::moveWidgetBy(UMLSceneValue diffX, UMLSceneValue di
 
     if (m_messageWidget->m_sequenceMessageType == Uml::SequenceMessage::Creation) {
         const UMLSceneValue objWidgetHalfHeight = m_messageWidget->m_pOw[Uml::RoleType::B]->height() / 2;
-        m_messageWidget->m_pOw[Uml::RoleType::B]->UMLWidget::setY(newY - objWidgetHalfHeight);
+        m_messageWidget->m_pOw[Uml::RoleType::B]->setY(newY - objWidgetHalfHeight);
     }
 
     m_messageWidget->moveEvent(0);
