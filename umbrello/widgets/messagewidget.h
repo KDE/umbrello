@@ -55,6 +55,8 @@ public:
                   Uml::ID::Type id = Uml::ID::None);
     virtual ~MessageWidget();
 
+    virtual void setY(UMLSceneValue y);
+
     //---------- LinkWidget Interface methods implemementation from now on.
 
     virtual void lwSetFont (QFont font);

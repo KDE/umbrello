@@ -145,6 +145,22 @@ MessageWidget::~MessageWidget()
 }
 
 /**
+ * Sets the y-coordinate.
+ * Reimplemented from UMLWidget.
+ *
+ * @param y The y-coordinate to be set.
+ */
+void MessageWidget::setY(UMLSceneValue y)
+{
+    UMLWidget::setY(y);
+    if (m_sequenceMessageType == Uml::SequenceMessage::Creation) {
+        const UMLSceneValue objWidgetHalfHeight = m_pOw[Uml::RoleType::B]->height() / 2;
+        m_pOw[Uml::RoleType::B]->setY(y - objWidgetHalfHeight);
+    }
+    moveEvent(0);
+}
+
+/**
  * Update the UMLWidget::m_resizable flag according to the
  * charactersitics of this message.
  */
@@ -589,7 +605,7 @@ void MessageWidget::calculateWidget()
     setVisible(true);
 
     setX(m_nPosX);
-    setY(m_nY);
+    UMLWidget::setY(m_nY);
 }
 
 void MessageWidget::slotWidgetMoved(Uml::ID::Type id)
