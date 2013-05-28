@@ -239,7 +239,7 @@ private:
     static int findInterceptOnEdge(const UMLSceneRect &rect, Region region, const UMLScenePoint &point);
     static UMLScenePoint findIntercept(const UMLSceneRect &rect, const UMLScenePoint &point);
 
-    void moveEvent(QMoveEvent *me);
+    void moveEvent(QGraphicsSceneMouseEvent *me);
 
     Uml::TextRole::Enum calculateNameType(Uml::TextRole::Enum defaultRoleType);
 

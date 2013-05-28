@@ -1512,7 +1512,7 @@ void AssociationWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent * me)
 /**
  * Overrides moveEvent.
  */
-void AssociationWidget::moveEvent(QMoveEvent* me)
+void AssociationWidget::moveEvent(QGraphicsSceneMouseEvent* me)
 {
     // 2004-04-30: Achim Spangler
     // Simple Approach to block moveEvent during load of
@@ -1547,7 +1547,7 @@ void AssociationWidget::moveEvent(QMoveEvent* me)
     UMLScenePoint oldRoleAPoint = calculateTextPosition(TextRole::RoleAName);
     UMLScenePoint oldRoleBPoint = calculateTextPosition(TextRole::RoleBName);
 
-    m_associationLine->setPoint( m_nMovingPoint, umlScene()->views()[0]->mapToScene(me->pos()) );
+    m_associationLine->setPoint( m_nMovingPoint, me->scenePos());
     int pos = m_associationLine->count() - 1;//set to last point for widget b
 
     if ( m_nMovingPoint == 1 || (m_nMovingPoint == pos-1) ) {
@@ -3167,7 +3167,6 @@ void AssociationWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
     setSelected();
     //new position for point
     UMLScenePoint p = me->scenePos();
-    //:TODO: UMLScenePoint oldp = m_associationLine->point(m_nMovingPoint);
 
     if( m_scene->snapToGrid() ) {
         int newX = m_scene->snappedX( p.x() );
@@ -3202,9 +3201,7 @@ void AssociationWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
         }
     }
 
-    // move event called now
-    //:TODO: QMoveEvent m(p, oldp);
-    //:TODO: moveEvent(&m);
+    moveEvent(me);
     m_scene->resizeSceneToItems();
 }
 
