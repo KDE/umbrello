@@ -153,6 +153,7 @@ MessageWidget::~MessageWidget()
 void MessageWidget::setY(UMLSceneValue y)
 {
     UMLWidget::setY(y);
+    m_nY = y;
     if (m_sequenceMessageType == Uml::SequenceMessage::Creation) {
         const UMLSceneValue objWidgetHalfHeight = m_pOw[Uml::RoleType::B]->height() / 2;
         m_pOw[Uml::RoleType::B]->setY(y - objWidgetHalfHeight);
