@@ -88,7 +88,7 @@ public:
 
     int operations();
 
-    UMLOperationList getOpList(bool includeInherited = false);
+    UMLOperationList getOpList(bool includeInherited = false, UMLClassifier *blocker = 0);
 
     UMLObject* createTemplate(const QString& name = QString());
 
