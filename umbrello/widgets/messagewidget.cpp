@@ -740,7 +740,8 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     connect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::RoleType::A], SLOT(slotMessageMoved()) );
     connect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::RoleType::B], SLOT(slotMessageMoved()) );
     m_pOw[Uml::RoleType::A] -> messageAdded(this);
-    m_pOw[Uml::RoleType::B] -> messageAdded(this);
+    if (!isSelf())
+        m_pOw[Uml::RoleType::B] -> messageAdded(this);
     calculateDimensions();
 
     emit sigMessageMoved();
