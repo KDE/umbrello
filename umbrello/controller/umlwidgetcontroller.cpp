@@ -680,7 +680,7 @@ void UMLWidgetController::updateSelectionBounds(int diffX, int diffY)
 void UMLWidgetController::resize(QGraphicsSceneMouseEvent *me)
 {
     // TODO the status message lies for at least MessageWidget which could only be resized vertical
-    UMLApp::app()->document()->dwriteToStatusBar(i18n("Hold shift or ctrl to move in X axis. Hold shift and control to move in Y axis. Right button click to cancel resize."));
+    UMLApp::app()->document()->writeToStatusBar(i18n("Hold shift or ctrl to move in X axis. Hold shift and control to move in Y axis. Right button click to cancel resize."));
 
     m_resized = true;
 
