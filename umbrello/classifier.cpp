@@ -942,9 +942,10 @@ int UMLClassifier::operations()
  * Return a list of operations for the Classifier.
  *
  * @param includeInherited   Includes operations from superclasses.
+ * @param blocker Blocker object to avoid recursive crashes (internal used)
  * @return   The list of operations for the Classifier.
  */
-UMLOperationList UMLClassifier::getOpList(bool includeInherited)
+UMLOperationList UMLClassifier::getOpList(bool includeInherited, UMLClassifier *blocker)
 {
     UMLOperationList ops;
     foreach (UMLObject* li, m_List) {
@@ -954,14 +955,20 @@ UMLOperationList UMLClassifier::getOpList(bool includeInherited)
         }
     }
     if (includeInherited) {
+        if (!blocker)
+            blocker = this;
         UMLClassifierList parents = findSuperClassConcepts();
         foreach (UMLClassifier* c ,  parents) {
             if (c == this) {
                 uError() << "class " << c->name() << " is parent of itself ?!?";
                 continue;
             }
+            else if (c == blocker) {
+                uError() << "class " << c->name() << " indirect parent of itself ?!?";
+                continue;
+            }
             // get operations for each parent by recursive call
-            UMLOperationList pops = c->getOpList(true);
+            UMLOperationList pops = c->getOpList(true, blocker);
             // add these operations to operation list, but only if unique.
             foreach (UMLOperation *po , pops ) {
                 QString po_as_string(po->toString(Uml::SignatureType::SigNoVis));
