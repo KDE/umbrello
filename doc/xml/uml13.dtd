@@ -1,8 +1,8 @@
-// UML XMI DTD Specification
+<!-- // UML XMI DTD Specification -->
 
 
 
-<?xml version="1.0" encoding="UTF-8" ?>
+<!-- <?xml version="1.0" encoding="UTF-8" ?>  -->
 <!-- XMI Automatic DTD Generation       -->
 <!-- Date: Fri May 28 14:48:41 PDT 1999 -->
 <!-- Metamodel: UML1.3                  -->
@@ -2033,7 +2033,8 @@ Foundation.Core.ModelElement.classifierRole*,
                                              Behavioral_Elements.Activity_Graphs.ClassifierInState |
                                              Foundation.Core.AssociationEnd |
                                              Behavioral_Elements.Collaborations.AssociationEndRole |
-                                             Foundation.Core.Namespace |
+                                             Foundation.Core.Namespace )*
+                                              >
 
 <!ELEMENT Foundation.Core.Dependency.supplier (Foundation.Core.ModelElement |
                                                Foundation.Core.Comment |
@@ -6788,7 +6789,7 @@ Foundation.Core.ModelElement.classifierRole*,
                                                          Foundation.Core.ModelElement.taggedValue*,
                                                          Behavioral_Elements.State_Machines.State.entry?,
                                                          Behavioral_Elements.State_Machines.State.exit?,
-                                                         Behavioral_Elements.State_Machines.State.internalTransition*,
+                                                         Behavioral_Elements.State_Machines.State.internalTransition*)
 >
 <!ATTLIST Behavioral_Elements.State_Machines.FinalState
             %XMI.element.att;
