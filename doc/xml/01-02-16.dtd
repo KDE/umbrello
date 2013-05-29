@@ -6,7 +6,7 @@
 <!ELEMENT XMI (XMI.header?, XMI.content?, XMI.difference*,
                XMI.extensions*)>
 <!ATTLIST XMI
-            xmi.version CDATA #FIXED "1.1"
+            xmi.version (1.1 | 1.2) #REQUIRED
             timestamp CDATA #IMPLIED
             verified (true|false) #IMPLIED>
 
@@ -27,7 +27,7 @@
 <!ELEMENT XMI.documentation (#PCDATA | XMI.owner | XMI.contact |
                              XMI.longDescription | XMI.shortDescription |
                              XMI.exporter | XMI.exporterVersion |
-                             XMI.notice)*>
+                             XMI.exporterEncoding | XMI.notice)*>
 <!ELEMENT XMI.owner ANY>
 <!ELEMENT XMI.contact ANY>
 <!ELEMENT XMI.longDescription ANY>
@@ -36,6 +36,7 @@
 <!ELEMENT XMI.exporterVersion ANY>
 <!ELEMENT XMI.exporterID ANY>
 <!ELEMENT XMI.notice ANY>
+<!ELEMENT XMI.exporterEncoding ANY>
 
 <!-- _______________________________________________________________ -->
 <!--                                                                 -->
@@ -45,7 +46,7 @@
 <!-- _______________________________________________________________ -->
 
 <!ENTITY % XMI.element.att
-               'xmi.id ID #IMPLIED xmi.label CDATA #IMPLIED xmi.uuid
+               'xmi.id CDATA #IMPLIED xmi.label CDATA #IMPLIED xmi.uuid
                 CDATA #IMPLIED '>
 
 <!-- _______________________________________________________________ -->
@@ -57,7 +58,7 @@
 <!-- _______________________________________________________________ -->
 
 <!ENTITY % XMI.link.att
-               'href CDATA #IMPLIED xmi.idref IDREF #IMPLIED xml:link
+               'href CDATA #IMPLIED xmi.idref CDATA #IMPLIED xml:link
                 CDATA #IMPLIED xlink:inline (true|false) #IMPLIED
                 xlink:actuate (show|user) #IMPLIED xlink:content-role
                 CDATA #IMPLIED xlink:title CDATA #IMPLIED xlink:show
@@ -323,13 +324,13 @@
    name CDATA #IMPLIED
    visibility %UML:VisibilityKind; #IMPLIED
    isSpecification (true|false) #IMPLIED
-   namespace IDREFS #IMPLIED
+   namespace CDATA #IMPLIED
    clientDependency IDREFS #IMPLIED
    constraint IDREFS #IMPLIED
    targetFlow IDREFS #IMPLIED
    sourceFlow IDREFS #IMPLIED
-   comment IDREFS #IMPLIED
-   stereotype IDREFS #IMPLIED'>
+   comment CDATA #IMPLIED
+   stereotype CDATA #IMPLIED'>
 <!ELEMENT UML:ModelElement (%UML:ModelElementFeatures;)*>
 <!ATTLIST UML:ModelElement %UML:ModelElementAtts;>
 
@@ -411,7 +412,7 @@
 
 <!-- ========= UML:DataType ========= -->
 <!ENTITY % UML:DataTypeFeatures '%UML:ClassifierFeatures;'>
-<!ENTITY % UML:DataTypeAtts '%UML:ClassifierAtts;'>
+<!ENTITY % UML:DataTypeAtts '%UML:ClassifierAtts; elementReference CDATA #IMPLIED'>
 <!ELEMENT UML:DataType (%UML:DataTypeFeatures;)*>
 <!ATTLIST UML:DataType %UML:DataTypeAtts;>
 
@@ -447,7 +448,7 @@
    changeability %UML:ChangeableKind; #IMPLIED
    targetScope %UML:ScopeKind; #IMPLIED
    ordering %UML:OrderingKind; #IMPLIED
-   type IDREFS #IMPLIED'>
+   type CDATA #IMPLIED'>
 <!ELEMENT UML:StructuralFeature (%UML:StructuralFeatureFeatures;)*>
 <!ATTLIST UML:StructuralFeature %UML:StructuralFeatureAtts;>
 
@@ -486,6 +487,8 @@
    changeability %UML:ChangeableKind; #IMPLIED
    association IDREFS #IMPLIED
    participant IDREFS #IMPLIED
+   type CDATA #IMPLIED
+   multiplicity CDATA #IMPLIED
    specification IDREFS #IMPLIED'>
 <!ELEMENT UML:AssociationEnd (%UML:AssociationEndFeatures;)*>
 <!ATTLIST UML:AssociationEnd %UML:AssociationEndAtts;>
@@ -532,7 +535,8 @@
    UML:Attribute.initialValue |
    UML:Attribute.associationEnd'>
 <!ENTITY % UML:AttributeAtts '%UML:StructuralFeatureAtts;
-   associationEnd IDREFS #IMPLIED'>
+   associationEnd IDREFS #IMPLIED
+   initialValue CDATA #IMPLIED'>
 <!ELEMENT UML:Attribute (%UML:AttributeFeatures;)*>
 <!ATTLIST UML:Attribute %UML:AttributeAtts;>
 
@@ -590,7 +594,8 @@
 <!ENTITY % UML:ParameterAtts '%UML:ModelElementAtts;
    kind %UML:ParameterDirectionKind; #IMPLIED
    behavioralFeature IDREFS #IMPLIED
-   type IDREFS #IMPLIED'>
+   value CDATA #IMPLIED
+   type CDATA #IMPLIED'>
 <!ELEMENT UML:Parameter (%UML:ParameterFeatures;)*>
 <!ATTLIST UML:Parameter %UML:ParameterAtts;>
 
@@ -617,8 +622,8 @@
    UML:Generalization.powertype'>
 <!ENTITY % UML:GeneralizationAtts '%UML:RelationshipAtts;
    discriminator CDATA #IMPLIED
-   child IDREFS #IMPLIED
-   parent IDREFS #IMPLIED
+   child CDATA #IMPLIED
+   parent CDATA #IMPLIED
    powertype IDREFS #IMPLIED'>
 <!ELEMENT UML:Generalization (%UML:GeneralizationFeatures;)*>
 <!ATTLIST UML:Generalization %UML:GeneralizationAtts;>
@@ -642,8 +647,8 @@
    UML:Dependency.client |
    UML:Dependency.supplier'>
 <!ENTITY % UML:DependencyAtts '%UML:RelationshipAtts;
-   client IDREFS #IMPLIED
-   supplier IDREFS #IMPLIED'>
+   client CDATA #IMPLIED
+   supplier CDATA #IMPLIED'>
 <!ELEMENT UML:Dependency (%UML:DependencyFeatures;)*>
 <!ATTLIST UML:Dependency %UML:DependencyAtts;>
 
@@ -781,7 +786,14 @@
    UML:TemplateParameter.defaultElement'>
 <!ENTITY % UML:TemplateParameterAtts '%XMI.element.att; %XMI.link.att;
    template IDREFS #IMPLIED
-   defaultElement IDREFS #IMPLIED'>
+   defaultElement IDREFS #IMPLIED
+   isSpecification CDATA #IMPLIED
+   isRoot (true|false) #IMPLIED
+   isLeaf (true|false) #IMPLIED
+   isAbstract (true|false) #IMPLIED
+   name CDATA #IMPLIED
+   namespace CDATA #IMPLIED
+   visibility %UML:VisibilityKind; #IMPLIED'>
 <!ELEMENT UML:TemplateParameter (%UML:TemplateParameterFeatures;)*>
 <!ATTLIST UML:TemplateParameter %UML:TemplateParameterAtts;>
 
@@ -794,7 +806,7 @@
 <!-- ========= UML:Enumeration ========= -->
 <!ELEMENT UML:Enumeration.literal (UML:EnumerationLiteral)*>
 <!ENTITY % UML:EnumerationFeatures '%UML:DataTypeFeatures; |
-   UML:Enumeration.literal'>
+   UML:Enumeration.literal | UML:EnumerationLiteral'>
 <!ENTITY % UML:EnumerationAtts '%UML:DataTypeAtts;'>
 <!ELEMENT UML:Enumeration (%UML:EnumerationFeatures;)*>
 <!ATTLIST UML:Enumeration %UML:EnumerationAtts;>
@@ -804,7 +816,10 @@
 <!ENTITY % UML:EnumerationLiteralFeatures '%UML:ModelElementFeatures; |
    UML:EnumerationLiteral.enumeration'>
 <!ENTITY % UML:EnumerationLiteralAtts '%UML:ModelElementAtts;
-   enumeration IDREFS #IMPLIED'>
+   enumeration IDREFS #IMPLIED
+   isRoot (true|false) #IMPLIED
+   isLeaf (true|false) #IMPLIED
+   isAbstract (true|false) #IMPLIED'>
 <!ELEMENT UML:EnumerationLiteral (%UML:EnumerationLiteralFeatures;)*>
 <!ATTLIST UML:EnumerationLiteral %UML:EnumerationLiteralAtts;>
 
