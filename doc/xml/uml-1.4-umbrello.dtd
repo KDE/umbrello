@@ -6,9 +6,9 @@
 <!ELEMENT XMI (XMI.header?, XMI.content?, XMI.difference*,
                XMI.extensions*)>
 <!ATTLIST XMI
-            xmi.version (1.1 | 1.2) #REQUIRED
-            timestamp CDATA #IMPLIED
-            verified (true|false) #IMPLIED>
+	  xmi.version (1.1 | 1.2) #REQUIRED
+	  timestamp CDATA #IMPLIED
+	  verified (true|false) #IMPLIED>
 
 <!-- _______________________________________________________________ -->
 <!--                                                                 -->
@@ -793,6 +793,7 @@
    isAbstract (true|false) #IMPLIED
    name CDATA #IMPLIED
    namespace CDATA #IMPLIED
+   type CDATA #IMPLIED
    visibility %UML:VisibilityKind; #IMPLIED'>
 <!ELEMENT UML:TemplateParameter (%UML:TemplateParameterFeatures;)*>
 <!ATTLIST UML:TemplateParameter %UML:TemplateParameterAtts;>
@@ -2001,6 +2002,7 @@
           xmi.id CDATA #IMPLIED
           documentation CDATA #IMPLIED
           height CDATA #IMPLIED
+          drawvertical CDATA #IMPLIED
 >
 <!ELEMENT Activities ANY >
 <!ATTLIST Activities
@@ -2027,4 +2029,350 @@
 <!ELEMENT codegenerator ANY >
 <!ATTLIST codegenerator
           language CDATA #IMPLIED
+>
+<!ELEMENT sourcecode ANY >
+<!ATTLIST sourcecode
+          value CDATA #IMPLIED
+          id CDATA #IMPLIED
+>
+<!ELEMENT classifiercodedocument ANY >
+<!ATTLIST classifiercodedocument
+          package CDATA #IMPLIED
+          fileExt CDATA #IMPLIED
+          parent_class CDATA #IMPLIED
+          id CDATA #IMPLIED
+          fileName CDATA #IMPLIED
+          writeOutCode CDATA #IMPLIED
+>
+<!ELEMENT textblocks ANY >
+<!ATTLIST textblocks
+>
+<!ELEMENT codeblockwithcomments ANY >
+<!ATTLIST codeblockwithcomments
+          tag CDATA #IMPLIED
+          text CDATA #IMPLIED
+>
+<!ELEMENT header ANY >
+<!ATTLIST header
+>
+<!ELEMENT cppcodedocumentation ANY >
+<!ATTLIST cppcodedocumentation
+          tag CDATA #IMPLIED
+          writeOutText CDATA #IMPLIED
+>
+<!ELEMENT hierarchicalcodeblock ANY >
+<!ATTLIST hierarchicalcodeblock
+          tag CDATA #IMPLIED
+          canDelete CDATA #IMPLIED
+          text CDATA #IMPLIED
+>
+<!ELEMENT codeaccessormethod ANY >
+<!ATTLIST codeaccessormethod
+          tag CDATA #IMPLIED
+          accessType CDATA #IMPLIED
+          parent_id CDATA #IMPLIED
+          writeOutText CDATA #IMPLIED
+          classfield_id CDATA #IMPLIED
+          canDelete CDATA #IMPLIED
+          indentLevel CDATA #IMPLIED
+>
+<!ELEMENT codeoperation ANY >
+<!ATTLIST codeoperation
+          tag CDATA #IMPLIED
+          parent_id CDATA #IMPLIED
+          canDelete CDATA #IMPLIED
+>
+<!ELEMENT codecomment ANY >
+<!ATTLIST codecomment
+          tag CDATA #IMPLIED
+          text CDATA #IMPLIED
+>
+<!ELEMENT classfields ANY >
+<!ATTLIST classfields
+>
+<!ELEMENT codeclassfield ANY >
+<!ATTLIST codeclassfield
+          role_id CDATA #IMPLIED
+          listClassName CDATA #IMPLIED
+          field_type CDATA #IMPLIED
+          parent_id CDATA #IMPLIED
+          writeOutMethods CDATA #IMPLIED
+          initialValue CDATA #IMPLIED
+>
+<!ELEMENT ccfdeclarationcodeblock ANY >
+<!ATTLIST ccfdeclarationcodeblock
+          tag CDATA #IMPLIED
+          parent_id CDATA #IMPLIED
+          indentLevel CDATA #IMPLIED
+          text CDATA #IMPLIED
+          canDelete CDATA #IMPLIED
+          role_id CDATA #IMPLIED
+          writeOutText CDATA #IMPLIED
+>
+<!ELEMENT cppheaderclassdeclarationblock ANY >
+<!ATTLIST cppheaderclassdeclarationblock
+          tag CDATA #IMPLIED
+          parent_id CDATA #IMPLIED
+          canDelete CDATA #IMPLIED
+          indentLevel CDATA #IMPLIED
+>
+<!ATTLIST cppcodedocumentation
+          text CDATA #IMPLIED
+          indentLevel CDATA #IMPLIED
+>
+<!ATTLIST hierarchicalcodeblock
+          indentLevel CDATA #IMPLIED
+>
+<!ATTLIST codeoperation
+          indentLevel CDATA #IMPLIED
+>
+<!ATTLIST codeaccessormethod
+          role_id CDATA #IMPLIED
+>
+<!ATTLIST codeblockwithcomments
+          writeOutText CDATA #IMPLIED
+          indentLevel CDATA #IMPLIED
+>
+<!ELEMENT objectwidget ANY >
+<!ATTLIST objectwidget
+          linecolor CDATA #IMPLIED
+          usesdiagramfillcolor CDATA #IMPLIED
+          linewidth CDATA #IMPLIED
+          textcolor CDATA #IMPLIED
+          usesdiagramusefillcolor CDATA #IMPLIED
+          x CDATA #IMPLIED
+          decon CDATA #IMPLIED
+          showstereotype CDATA #IMPLIED
+          y CDATA #IMPLIED
+          font CDATA #IMPLIED
+          localid CDATA #IMPLIED
+          width CDATA #IMPLIED
+          isinstance CDATA #IMPLIED
+          multipleinstance CDATA #IMPLIED
+          usefillcolor CDATA #IMPLIED
+          fillcolor CDATA #IMPLIED
+          xmi.id CDATA #IMPLIED
+          height CDATA #IMPLIED
+          drawasactor CDATA #IMPLIED
+>
+<!ELEMENT messagewidget ANY >
+<!ATTLIST messagewidget
+          linecolor CDATA #IMPLIED
+          usesdiagramfillcolor CDATA #IMPLIED
+          widgetbid CDATA #IMPLIED
+          textid CDATA #IMPLIED
+          operation CDATA #IMPLIED
+          linewidth CDATA #IMPLIED
+          textcolor CDATA #IMPLIED
+          seqnum CDATA #IMPLIED
+          usesdiagramusefillcolor CDATA #IMPLIED
+          x CDATA #IMPLIED
+          showstereotype CDATA #IMPLIED
+          y CDATA #IMPLIED
+          widgetaid CDATA #IMPLIED
+          font CDATA #IMPLIED
+          width CDATA #IMPLIED
+          isinstance CDATA #IMPLIED
+          usefillcolor CDATA #IMPLIED
+          fillcolor CDATA #IMPLIED
+          xmi.id CDATA #IMPLIED
+          height CDATA #IMPLIED
+          sequencemessagetype CDATA #IMPLIED
+          xclicked CDATA #IMPLIED
+          yclicked CDATA #IMPLIED          
+>
+<!ELEMENT actorwidget ANY >
+<!ATTLIST actorwidget
+          width CDATA #IMPLIED
+          showstereotype CDATA #IMPLIED
+          x CDATA #IMPLIED
+          usesdiagramusefillcolor CDATA #IMPLIED
+          y CDATA #IMPLIED
+          usesdiagramfillcolor CDATA #IMPLIED
+          isinstance CDATA #IMPLIED
+          fillcolor CDATA #IMPLIED
+          height CDATA #IMPLIED
+          linecolor CDATA #IMPLIED
+          xmi.id CDATA #IMPLIED
+          textcolor CDATA #IMPLIED
+          usefillcolor CDATA #IMPLIED
+          linewidth CDATA #IMPLIED
+          font CDATA #IMPLIED
+>
+<!ELEMENT usecasewidget ANY >
+<!ATTLIST usecasewidget
+          width CDATA #IMPLIED
+          showstereotype CDATA #IMPLIED
+          x CDATA #IMPLIED
+          usesdiagramusefillcolor CDATA #IMPLIED
+          y CDATA #IMPLIED
+          usesdiagramfillcolor CDATA #IMPLIED
+          isinstance CDATA #IMPLIED
+          fillcolor CDATA #IMPLIED
+          height CDATA #IMPLIED
+          linecolor CDATA #IMPLIED
+          xmi.id CDATA #IMPLIED
+          textcolor CDATA #IMPLIED
+          usefillcolor CDATA #IMPLIED
+          linewidth CDATA #IMPLIED
+          font CDATA #IMPLIED
+>
+<!ELEMENT packagewidget ANY >
+<!ATTLIST packagewidget
+          width CDATA #IMPLIED
+          x CDATA #IMPLIED
+          usesdiagramusefillcolor CDATA #IMPLIED
+          y CDATA #IMPLIED
+          usesdiagramfillcolor CDATA #IMPLIED
+          isinstance CDATA #IMPLIED
+          fillcolor CDATA #IMPLIED
+          height CDATA #IMPLIED
+          linecolor CDATA #IMPLIED
+          xmi.id CDATA #IMPLIED
+          textcolor CDATA #IMPLIED
+          usefillcolor CDATA #IMPLIED
+          linewidth CDATA #IMPLIED
+          font CDATA #IMPLIED
+          xclicked CDATA #IMPLIED
+          yclicked CDATA #IMPLIED
+          showstereotype CDATA #IMPLIED
+>
+<!ELEMENT activitywidget ANY >
+<!ATTLIST activitywidget
+          linecolor CDATA #IMPLIED
+          usesdiagramfillcolor CDATA #IMPLIED
+          linewidth CDATA #IMPLIED
+          textcolor CDATA #IMPLIED
+          usesdiagramusefillcolor CDATA #IMPLIED
+          x CDATA #IMPLIED
+          showstereotype CDATA #IMPLIED
+          y CDATA #IMPLIED
+          font CDATA #IMPLIED
+          width CDATA #IMPLIED
+          isinstance CDATA #IMPLIED
+          usefillcolor CDATA #IMPLIED
+          fillcolor CDATA #IMPLIED
+          activityname CDATA #IMPLIED
+          xmi.id CDATA #IMPLIED
+          postcondition CDATA #IMPLIED
+          documentation CDATA #IMPLIED
+          activitytype CDATA #IMPLIED
+          height CDATA #IMPLIED
+          precondition CDATA #IMPLIED
+          drawvertical CDATA #IMPLIED
+          type CDATA #IMPLIED
+>
+<!ELEMENT signalwidget ANY >
+<!ATTLIST signalwidget
+          linecolor CDATA #IMPLIED
+          usesdiagramfillcolor CDATA #IMPLIED
+          signaltype CDATA #IMPLIED
+          linewidth CDATA #IMPLIED
+          textcolor CDATA #IMPLIED
+          usesdiagramusefillcolor CDATA #IMPLIED
+          x CDATA #IMPLIED
+          showstereotype CDATA #IMPLIED
+          y CDATA #IMPLIED
+          font CDATA #IMPLIED
+          width CDATA #IMPLIED
+          isinstance CDATA #IMPLIED
+          usefillcolor CDATA #IMPLIED
+          fillcolor CDATA #IMPLIED
+          xmi.id CDATA #IMPLIED
+          signalname CDATA #IMPLIED
+          documentation CDATA #IMPLIED
+          height CDATA #IMPLIED
+          textid CDATA #IMPLIED
+>
+<!ELEMENT regionwidget ANY >
+<!ATTLIST regionwidget
+          width CDATA #IMPLIED
+          showstereotype CDATA #IMPLIED
+          x CDATA #IMPLIED
+          usesdiagramusefillcolor CDATA #IMPLIED
+          y CDATA #IMPLIED
+          usesdiagramfillcolor CDATA #IMPLIED
+          isinstance CDATA #IMPLIED
+          fillcolor CDATA #IMPLIED
+          height CDATA #IMPLIED
+          linecolor CDATA #IMPLIED
+          regionname CDATA #IMPLIED
+          xmi.id CDATA #IMPLIED
+          textcolor CDATA #IMPLIED
+          usefillcolor CDATA #IMPLIED
+          documentation CDATA #IMPLIED
+          linewidth CDATA #IMPLIED
+          font CDATA #IMPLIED
+>
+<!ELEMENT pinwidget ANY >
+<!ATTLIST pinwidget
+          width CDATA #IMPLIED
+          showstereotype CDATA #IMPLIED
+          x CDATA #IMPLIED
+          widgetaid CDATA #IMPLIED
+          usesdiagramusefillcolor CDATA #IMPLIED
+          y CDATA #IMPLIED
+          usesdiagramfillcolor CDATA #IMPLIED
+          isinstance CDATA #IMPLIED
+          fillcolor CDATA #IMPLIED
+          height CDATA #IMPLIED
+          linecolor CDATA #IMPLIED
+          xmi.id CDATA #IMPLIED
+          textcolor CDATA #IMPLIED
+          usefillcolor CDATA #IMPLIED
+          linewidth CDATA #IMPLIED
+          font CDATA #IMPLIED
+>
+<!ELEMENT objectnodewidget ANY >
+<!ATTLIST objectnodewidget
+          linecolor CDATA #IMPLIED
+          usesdiagramfillcolor CDATA #IMPLIED
+          linewidth CDATA #IMPLIED
+          textcolor CDATA #IMPLIED
+          usesdiagramusefillcolor CDATA #IMPLIED
+          objectnodetype CDATA #IMPLIED
+          x CDATA #IMPLIED
+          showstereotype CDATA #IMPLIED
+          y CDATA #IMPLIED
+          font CDATA #IMPLIED
+          objectnodestate CDATA #IMPLIED
+          width CDATA #IMPLIED
+          isinstance CDATA #IMPLIED
+          usefillcolor CDATA #IMPLIED
+          fillcolor CDATA #IMPLIED
+          xmi.id CDATA #IMPLIED
+          objectnodename CDATA #IMPLIED
+          documentation CDATA #IMPLIED
+          height CDATA #IMPLIED
+>
+<!ELEMENT objectnodename ANY >
+<!ATTLIST objectnodename
+          documentation CDATA #IMPLIED
+          height CDATA #IMPLIED
+          textid CDATA #IMPLIED
+          drawas CDATA #IMPLIED
+          XMI.VERSION CDATA #IMPLIED
+          UML CDATA #IMPLIED
+>
+<!ELEMENT Artifact ANY >
+<!ATTLIST Artifact
+          drawas CDATA #IMPLIED
+>
+<!ELEMENT classwidget ANY>
+<!ATTLIST classwidget
+          usesdiagramfillcolour CDATA #IMPLIED
+          usesdiagramusefillcolour CDATA #IMPLIED
+          fillcolour CDATA #IMPLIED
+>
+<!ELEMENT interfacewidget ANY>
+<!ATTLIST interfacewidget
+          usesdiagramfillcolour CDATA #IMPLIED
+          usesdiagramusefillcolour CDATA #IMPLIED
+          fillcolour CDATA #IMPLIED
+>
+<!ELEMENT floatingtext ANY>
+<!ATTLIST floatingtext
+          usesdiagramfillcolour CDATA #IMPLIED
+          usesdiagramusefillcolour CDATA #IMPLIED
+          fillcolour CDATA #IMPLIED
 >
