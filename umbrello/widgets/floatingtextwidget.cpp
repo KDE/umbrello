@@ -260,8 +260,8 @@ void FloatingTextWidget::showOperationDialog()
             m_linkWidget->setOperation(0);
         }
         m_linkWidget->setSeqNumAndOp(seqNum, opText);
-        if (m_scene->autoIncrementSequence())
-            m_scene->setAutoIncrementSequence(selectDlg->autoIncrementSequence());
+        m_scene->setAutoIncrementSequence(selectDlg->autoIncrementSequence());
+        if (selectDlg->autoIncrementSequence())
             m_scene->setAutoIncrementSequenceValue(seqNum);
 
         setMessageText();
