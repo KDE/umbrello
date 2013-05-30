@@ -151,7 +151,7 @@ void CodeAccessorMethod::setAttributesFromNode(QDomElement & root)
         CodeClassField * newCF = 0;
         ClassifierCodeDocument * cdoc = dynamic_cast<ClassifierCodeDocument*>(getParentDocument());
         if (cdoc)
-                newCF = cdoc->findCodeClassFieldFromParentID (STR2ID(id));
+                newCF = cdoc->findCodeClassFieldFromParentID (Uml::ID::fromString(id));
 
         m_parentclassfield->disconnect(this); // always disconnect
         if (newCF)

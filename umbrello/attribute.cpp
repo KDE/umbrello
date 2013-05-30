@@ -262,7 +262,7 @@ void UMLAttribute::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
         uDebug() << name() << ": m_pSecondary is NULL, m_SecondaryId is '"
             << m_SecondaryId << "'";
     } else {
-        attributeElement.setAttribute( "type", ID2STR(m_pSecondary->id()) );
+        attributeElement.setAttribute( "type", Uml::ID::toString(m_pSecondary->id()) );
     }
     if (! m_InitialValue.isEmpty())
         attributeElement.setAttribute( "initialValue", m_InitialValue );

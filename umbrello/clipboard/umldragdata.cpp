@@ -525,7 +525,7 @@ bool UMLDragData::getClip3TypeAndID(const QMimeData* mimeData,
         }
         LvTypeAndID * pData = new LvTypeAndID;
         pData->type = (UMLListViewItem::ListViewType)(typeStr.toInt());
-        pData->id = STR2ID(idStr);
+        pData->id = Uml::ID::fromString(idStr);
         typeAndIdList.append(pData);
         listItems = listItems.nextSibling();
         listItemElement = listItems.toElement();

@@ -242,7 +242,7 @@ void UMLEntityAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement 
         uDebug() << name() << ": m_pSecondary is NULL, using local name " << m_SecondaryId;
         entityattributeElement.setAttribute( "type", m_SecondaryId );
     } else {
-        entityattributeElement.setAttribute( "type", ID2STR(m_pSecondary->id()) );
+        entityattributeElement.setAttribute( "type", Uml::ID::toString(m_pSecondary->id()) );
     }
     entityattributeElement.setAttribute( "initialValue", m_InitialValue );
     entityattributeElement.setAttribute( "dbindex_type", m_indexType );

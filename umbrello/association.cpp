@@ -160,36 +160,36 @@ void UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     if (m_AssocType == Uml::AssociationType::Generalization) {
         QDomElement assocElement = UMLObject::save("UML:Generalization", qDoc);
         assocElement.setAttribute( "discriminator", "" );
-        assocElement.setAttribute( "child", ID2STR(getObjectId(RoleType::A)) );
-        assocElement.setAttribute( "parent", ID2STR(getObjectId(RoleType::B)) );
+        assocElement.setAttribute( "child", Uml::ID::toString(getObjectId(RoleType::A)) );
+        assocElement.setAttribute( "parent", Uml::ID::toString(getObjectId(RoleType::B)) );
         qElement.appendChild( assocElement );
         return;
     }
     if (m_AssocType == Uml::AssociationType::Realization) {
         QDomElement assocElement = UMLObject::save("UML:Abstraction", qDoc);
-        assocElement.setAttribute( "client", ID2STR(getObjectId(RoleType::A)) );
-        assocElement.setAttribute( "supplier", ID2STR(getObjectId(RoleType::B)) );
+        assocElement.setAttribute( "client", Uml::ID::toString(getObjectId(RoleType::A)) );
+        assocElement.setAttribute( "supplier", Uml::ID::toString(getObjectId(RoleType::B)) );
         qElement.appendChild( assocElement );
         return;
     }
     if (m_AssocType == Uml::AssociationType::Dependency) {
         QDomElement assocElement = UMLObject::save("UML:Dependency", qDoc);
-        assocElement.setAttribute( "client", ID2STR(getObjectId(RoleType::A)) );
-        assocElement.setAttribute( "supplier", ID2STR(getObjectId(RoleType::B)) );
+        assocElement.setAttribute( "client", Uml::ID::toString(getObjectId(RoleType::A)) );
+        assocElement.setAttribute( "supplier", Uml::ID::toString(getObjectId(RoleType::B)) );
         qElement.appendChild( assocElement );
         return;
     }
     if (m_AssocType == Uml::AssociationType::Child2Category ) {
         QDomElement assocElement = UMLObject::save("UML:Child2Category", qDoc);
-        assocElement.setAttribute( "client", ID2STR(getObjectId(RoleType::A)) );
-        assocElement.setAttribute( "supplier", ID2STR(getObjectId(RoleType::B)) );
+        assocElement.setAttribute( "client", Uml::ID::toString(getObjectId(RoleType::A)) );
+        assocElement.setAttribute( "supplier", Uml::ID::toString(getObjectId(RoleType::B)) );
         qElement.appendChild( assocElement );
         return;
     }
     if (m_AssocType == Uml::AssociationType::Category2Parent ) {
         QDomElement assocElement = UMLObject::save("UML:Category2Parent", qDoc);
-        assocElement.setAttribute( "client", ID2STR(getObjectId(RoleType::A)) );
-        assocElement.setAttribute( "supplier", ID2STR(getObjectId(RoleType::B)) );
+        assocElement.setAttribute( "client", Uml::ID::toString(getObjectId(RoleType::A)) );
+        assocElement.setAttribute( "supplier", Uml::ID::toString(getObjectId(RoleType::B)) );
         qElement.appendChild( assocElement );
         return;
     }
@@ -230,7 +230,7 @@ bool UMLAssociation::load( QDomElement & element )
             }
 
             // set umlobject of role if possible (else defer resolution)
-            obj[r] = doc->findObjectById(STR2ID(roleIdStr));
+            obj[r] = doc->findObjectById(Uml::ID::fromString(roleIdStr));
             Uml::RoleType::Enum role = Uml::RoleType::fromInt(r);
             if (obj[r] == NULL) {
                 m_pRole[role]->setSecondaryId(roleIdStr);  // defer to resolveRef()
@@ -268,7 +268,7 @@ bool UMLAssociation::load( QDomElement & element )
                 }
                 if (idStr.isEmpty()) {
                     uError() << "type " << m_AssocType
-                        << ", id " << ID2STR(id()) << ": "
+                        << ", id " << Uml::ID::toString(id()) << ": "
                         << "xmi id not given for " << tag;
                     continue;
                 }
@@ -406,15 +406,15 @@ bool UMLAssociation::load( QDomElement & element )
         int assocTypeNum = assocTypeStr.toInt();
         if (assocTypeNum < (int)Uml::AssociationType::Generalization ||   // first enum
             assocTypeNum > (int)Uml::AssociationType::Relationship) {     // last enum
-            uWarning() << "bad assoctype of UML:AssociationType::Enum " << ID2STR(id());
+            uWarning() << "bad assoctype of UML:AssociationType::Enum " << Uml::ID::toString(id());
             return false;
         }
         assocType = Uml::AssociationType::fromInt(assocTypeNum);
     }
     setAssociationType( assocType );
 
-    Uml::ID::Type roleAObjID = STR2ID(element.attribute( "rolea", "-1" ));
-    Uml::ID::Type roleBObjID = STR2ID(element.attribute( "roleb", "-1" ));
+    Uml::ID::Type roleAObjID = Uml::ID::fromString(element.attribute( "rolea", "-1" ));
+    Uml::ID::Type roleBObjID = Uml::ID::fromString(element.attribute( "roleb", "-1" ));
     if (assocType == Uml::AssociationType::Aggregation ||
         assocType == Uml::AssociationType::Composition) {
         // Flip roles to compensate for changed diamond logic in AssociationLine.
@@ -496,7 +496,7 @@ Uml::ID::Type UMLAssociation::getObjectId(Uml::RoleType::Enum role) const
             return Uml::ID::None;
         } else {
             DEBUG(DBG_SRC) << "role " << role << ": using secondary ID " << auxID;
-            return STR2ID(auxID);
+            return Uml::ID::fromString(auxID);
         }
     }
     return o->id();

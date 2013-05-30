@@ -164,7 +164,7 @@ void NoteWidget::setDiagramLink(Uml::ID::Type viewID)
     UMLDoc *umldoc = UMLApp::app()->document();
     UMLView *view = umldoc->findView(viewID);
     if (view == NULL) {
-        uError() << "no view found for viewID " << ID2STR(viewID);
+        uError() << "no view found for viewID " << Uml::ID::toString(viewID);
         return;
     }
     QString linkText("Diagram: " + view->umlScene()->name());
@@ -204,7 +204,7 @@ bool NoteWidget::loadFromXMI(QDomElement & qElement)
     setDocumentation( qElement.attribute("text", "") );
     QString diagramlink = qElement.attribute("diagramlink", "");
     if (!diagramlink.isEmpty())
-        m_diagramLink = STR2ID(diagramlink);
+        m_diagramLink = Uml::ID::fromString(diagramlink);
     QString type = qElement.attribute("noteType", "");
     setNoteType( (NoteType)type.toInt() );
     return true;
@@ -219,7 +219,7 @@ void NoteWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     UMLWidget::saveToXMI( qDoc, noteElement );
     noteElement.setAttribute( "text", documentation() );
     if (m_diagramLink != Uml::ID::None)
-        noteElement.setAttribute( "diagramlink", ID2STR(m_diagramLink) );
+        noteElement.setAttribute( "diagramlink", Uml::ID::toString(m_diagramLink) );
     noteElement.setAttribute( "noteType", m_noteType);
     qElement.appendChild( noteElement );
 }

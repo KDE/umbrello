@@ -621,8 +621,8 @@ void MessageWidget::slotWidgetMoved(Uml::ID::Type id)
     const Uml::ID::Type idA = m_pOw[Uml::RoleType::A]->localID();
     const Uml::ID::Type idB = m_pOw[Uml::RoleType::B]->localID();
     if (idA != id && idB != id) {
-        DEBUG(DBG_SRC) << "id=" << ID2STR(id) << ": ignoring for idA=" << ID2STR(idA)
-            << ", idB=" << ID2STR(idB);
+        DEBUG(DBG_SRC) << "id=" << Uml::ID::toString(id) << ": ignoring for idA=" << Uml::ID::toString(idA)
+            << ", idB=" << Uml::ID::toString(idB);
         return;
     }
     m_nY = y();
@@ -688,12 +688,12 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     if (m_pOw[Uml::RoleType::A] == NULL) {
         UMLWidget *pWA = m_scene->findWidget(m_widgetAId);
         if (pWA == NULL) {
-            DEBUG(DBG_SRC) << "role A object " << ID2STR(m_widgetAId) << " not found";
+            DEBUG(DBG_SRC) << "role A object " << Uml::ID::toString(m_widgetAId) << " not found";
             return false;
         }
         m_pOw[Uml::RoleType::A] = dynamic_cast<ObjectWidget*>(pWA);
         if (m_pOw[Uml::RoleType::A] == NULL) {
-            DEBUG(DBG_SRC) << "role A widget " << ID2STR(m_widgetAId)
+            DEBUG(DBG_SRC) << "role A widget " << Uml::ID::toString(m_widgetAId)
                 << " is not an ObjectWidget";
             return false;
         }
@@ -701,12 +701,12 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     if (m_pOw[Uml::RoleType::B] == NULL) {
         UMLWidget *pWB = m_scene->findWidget(m_widgetBId);
         if (pWB == NULL) {
-            DEBUG(DBG_SRC) << "role B object " << ID2STR(m_widgetBId) << " not found";
+            DEBUG(DBG_SRC) << "role B object " << Uml::ID::toString(m_widgetBId) << " not found";
             return false;
         }
         m_pOw[Uml::RoleType::B] = dynamic_cast<ObjectWidget*>(pWB);
         if (m_pOw[Uml::RoleType::B] == NULL) {
-            DEBUG(DBG_SRC) << "role B widget " << ID2STR(m_widgetBId)
+            DEBUG(DBG_SRC) << "role B widget " << Uml::ID::toString(m_widgetBId)
                 << " is not an ObjectWidget";
             return false;
         }
@@ -716,7 +716,7 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(m_pOw[Uml::RoleType::B]->umlObject());
     UMLOperation *op = NULL;
     if (c && !m_CustomOp.isEmpty()) {
-        Uml::ID::Type opId = STR2ID(m_CustomOp);
+        Uml::ID::Type opId = Uml::ID::fromString(m_CustomOp);
         op = dynamic_cast<UMLOperation*>( c->findChildObjectById(opId, true) );
         if (op) {
             // If the UMLOperation is set, m_CustomOp isn't used anyway.
@@ -1184,11 +1184,11 @@ void MessageWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement messageElement = qDoc.createElement( "messagewidget" );
     UMLWidget::saveToXMI( qDoc, messageElement );
-    messageElement.setAttribute( "widgetaid", ID2STR(m_pOw[Uml::RoleType::A]->localID()) );
-    messageElement.setAttribute( "widgetbid", ID2STR(m_pOw[Uml::RoleType::B]->localID()) );
+    messageElement.setAttribute( "widgetaid", Uml::ID::toString(m_pOw[Uml::RoleType::A]->localID()) );
+    messageElement.setAttribute( "widgetbid", Uml::ID::toString(m_pOw[Uml::RoleType::B]->localID()) );
     UMLOperation *pOperation = operation();
     if (pOperation)
-        messageElement.setAttribute( "operation", ID2STR(pOperation->id()) );
+        messageElement.setAttribute( "operation", Uml::ID::toString(pOperation->id()) );
     else
         messageElement.setAttribute( "operation", m_CustomOp );
     messageElement.setAttribute( "seqnum", m_SequenceNumber );
@@ -1200,7 +1200,7 @@ void MessageWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 
     // save the corresponding message text
     if (m_pFText && !m_pFText->text().isEmpty()) {
-        messageElement.setAttribute( "textid", ID2STR(m_pFText->id()) );
+        messageElement.setAttribute( "textid", Uml::ID::toString(m_pFText->id()) );
         m_pFText -> saveToXMI( qDoc, messageElement );
     }
 
@@ -1227,9 +1227,9 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
         yclicked = qElement.attribute( "yclicked", "-1" ).toInt();
     }
 
-    m_widgetAId = STR2ID(widgetaid);
-    m_widgetBId = STR2ID(widgetbid);
-    m_textId = STR2ID(textid);
+    m_widgetAId = Uml::ID::fromString(widgetaid);
+    m_widgetBId = Uml::ID::fromString(widgetbid);
+    m_textId = Uml::ID::fromString(textid);
     m_nY = y();
 
     Uml::TextRole::Enum tr = Uml::TextRole::Seq_Message;

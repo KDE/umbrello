@@ -251,7 +251,7 @@ bool SignalWidget::loadFromXMI( QDomElement & qElement )
     m_Doc = qElement.attribute( "documentation", "" );
     QString type = qElement.attribute( "signaltype", "" );
     QString textid = qElement.attribute( "textid", "-1" );
-    Uml::ID::Type textId = STR2ID(textid);
+    Uml::ID::Type textId = Uml::ID::fromString(textid);
 
     setSignalType((SignalType)type.toInt());
     if (signalType() == Time) {
@@ -299,7 +299,7 @@ void SignalWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     signalElement.setAttribute( "documentation", m_Doc );
     signalElement.setAttribute( "signaltype", m_signalType );
     if (m_pName && !m_pName->text().isEmpty()) {
-        signalElement.setAttribute( "textid", ID2STR(m_pName->id()) );
+        signalElement.setAttribute( "textid", Uml::ID::toString(m_pName->id()) );
         m_pName -> saveToXMI( qDoc, signalElement );
     }
     qElement.appendChild( signalElement );

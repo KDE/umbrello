@@ -352,7 +352,7 @@ void UMLFolder::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
     folderRoot.setAttribute("name", name());
     folderRoot.setAttribute("filename", m_folderFile);
     folderRoot.setAttribute("mainModel", umldoc->url().fileName());
-    folderRoot.setAttribute("parentId", ID2STR(m_pUMLPackage->id()));
+    folderRoot.setAttribute("parentId", Uml::ID::toString(m_pUMLPackage->id()));
     folderRoot.setAttribute("parent", m_pUMLPackage->fullyQualifiedName("::", true));
     saveContents(folderDoc, folderRoot);
     folderDoc.appendChild(folderRoot);
@@ -503,7 +503,7 @@ bool UMLFolder::load(QDomElement& element)
         // Avoid duplicate creation of forward declared object
         QString idStr = tempElement.attribute("xmi.id", "");
         if (!idStr.isEmpty()) {
-            Uml::ID::Type id = STR2ID(idStr);
+            Uml::ID::Type id = Uml::ID::fromString(idStr);
             pObject = umldoc->findObjectById(id);
             if (pObject) {
                 uDebug() << "object " << idStr << "already exists";

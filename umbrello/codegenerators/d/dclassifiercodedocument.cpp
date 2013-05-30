@@ -209,7 +209,7 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                                         if( name == "codeoperation" ) {
                                             // find the code operation by id
                                             QString id = element.attribute("parent_id","-1");
-                                            UMLObject * obj = UMLApp::app()->document()->findObjectById(STR2ID(id));
+                                            UMLObject * obj = UMLApp::app()->document()->findObjectById(Uml::ID::fromString(id));
                                             UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
                                             if(op) {
                                                 CodeOperation * block = new DCodeOperation(this, op);

@@ -1037,8 +1037,18 @@ namespace ID {
 
 QDebug operator<<(QDebug out, ID::Type &type)
 {
-    out.nospace() << "ID::Type: " << ID2STR(type);
+    out.nospace() << "ID::Type: " << Uml::ID::toString(type);
     return out.space();
+}
+
+QString toString(const ID::Type &id)
+{
+    return QLatin1String(id.c_str());
+}
+
+ID::Type fromString(const QString &id)
+{
+    return qPrintable(id);
 }
 
 }  // end namespace ID

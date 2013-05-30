@@ -118,8 +118,8 @@ void WidgetBase::setID(Uml::ID::Type id)
 {
     if (m_umlObject) {
         if (m_umlObject->id() != Uml::ID::None)
-            uWarning() << "changing old UMLObject " << ID2STR(m_umlObject->id())
-                << " to " << ID2STR(id);
+            uWarning() << "changing old UMLObject " << Uml::ID::toString(m_umlObject->id())
+                << " to " << Uml::ID::toString(id);
         m_umlObject->setID(id);
     }
     m_nId = id;

@@ -90,7 +90,7 @@ void CodeOperation::loadFromXMI ( QDomElement & root )
  */
 QString CodeOperation::findTag (UMLOperation * op)
 {
-    return QString("operation_" + ID2STR(op->id()));
+    return QString("operation_" + Uml::ID::toString(op->id()));
 }
 
 /**
@@ -117,7 +117,7 @@ void CodeOperation::setAttributesFromNode ( QDomElement & element)
     // m_parentOperation->disconnect(this); // always disconnect from current parent
 
     QString idStr = element.attribute("parent_id","-1");
-    Uml::ID::Type id = STR2ID(idStr);
+    Uml::ID::Type id = Uml::ID::fromString(idStr);
     UMLObject * obj = UMLApp::app()->document()->findObjectById(id);
     UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
 

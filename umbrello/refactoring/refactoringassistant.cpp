@@ -125,7 +125,7 @@ QTreeWidgetItem* RefactoringAssistant::findListViewItem(const UMLObject *obj)
             return it.key();
         }
     }
-    uWarning() << "Object id " << ID2STR(obj->id()) << "does not have an item in the tree";
+    uWarning() << "Object id " << Uml::ID::toString(obj->id()) << "does not have an item in the tree";
     return 0;
 }
 

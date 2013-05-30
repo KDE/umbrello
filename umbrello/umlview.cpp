@@ -174,7 +174,7 @@ void UMLView::dragEnterEvent(QDragEnterEvent *e)
     UMLDoc *pDoc = UMLApp::app()->document();
     //make sure can find UMLObject
     if( !(temp = pDoc->findObjectById(id) ) ) {
-        DEBUG(DBG_SRC) << "object " << ID2STR(id) << " not found";
+        DEBUG(DBG_SRC) << "object " << Uml::ID::toString(id) << " not found";
         e->setAccepted(false);
         return;
     }
@@ -283,7 +283,7 @@ void UMLView::dropEvent(QDropEvent *e) {
     UMLDoc *pDoc = UMLApp::app()->document();
     UMLObject* o = pDoc->findObjectById(id);
     if( !o ) {
-        DEBUG(DBG_SRC) << "UMLView::contentsDropEvent: object id=" << ID2STR(id)
+        DEBUG(DBG_SRC) << "UMLView::contentsDropEvent: object id=" << Uml::ID::toString(id)
                        << " not found";
         return;
     }

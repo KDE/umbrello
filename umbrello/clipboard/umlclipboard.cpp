@@ -357,18 +357,18 @@ bool UMLClipboard::pasteChildren(UMLListViewItem *parent, IDChangeLog *chgLog)
         Uml::ID::Type newID = chgLog->findNewID(oldID);
         UMLListViewItem *shouldNotExist = listView->findItem(newID);
         if (shouldNotExist) {
-            uError() << "new list view item " << ID2STR(newID)
+            uError() << "new list view item " << Uml::ID::toString(newID)
                 << " already exists (internal error)";
             continue;
         }
         UMLObject *newObj = doc->findObjectById(newID);
         if (newObj) {
-            uDebug() << "adjusting lvitem(" << ID2STR(oldID)
-                << ") to new UMLObject(" << ID2STR(newID) << ")";
+            uDebug() << "adjusting lvitem(" << Uml::ID::toString(oldID)
+                << ") to new UMLObject(" << Uml::ID::toString(newID) << ")";
             childItem->setUMLObject(newObj);
             childItem->setText(newObj->name());
         } else {
-            uDebug() << "no UMLObject found for lvitem " << ID2STR(newID);
+            uDebug() << "no UMLObject found for lvitem " << Uml::ID::toString(newID);
         }
     }
     return true;
@@ -569,8 +569,8 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
         Uml::ID::Type newId = idchanges->findNewID(oldId);
         // how should findWidget find ::None id, which is returned for the first entry ?
         if (currentScene->findWidget(newId)) {
-            uError() << "widget (oldID=" << ID2STR(oldId) << ", newID="
-                << ID2STR(newId) << ") already exists in target view.";
+            uError() << "widget (oldID=" << Uml::ID::toString(oldId) << ", newID="
+                << Uml::ID::toString(newId) << ") already exists in target view.";
             widgets.removeAll(widget);
             delete widget;
             objectAlreadyExists = true;

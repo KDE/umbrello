@@ -285,8 +285,8 @@ void UMLListViewItem::setID(Uml::ID::Type id)
     if (m_object) {
         Uml::ID::Type oid = m_object->id();
         if (id != Uml::ID::None && oid != id) {
-            DEBUG(DBG_LVI) << "new id " << ID2STR(id) << " does not agree with object id "
-                << ID2STR(oid);
+            DEBUG(DBG_LVI) << "new id " << Uml::ID::toString(id) << " does not agree with object id "
+                << Uml::ID::toString(oid);
         }
     }
     m_id = id;
@@ -321,7 +321,7 @@ bool UMLListViewItem::isOwnParent(Uml::ID::Type listViewItemID)
     UMLListView* listView = static_cast<UMLListView*>(treeWidget());
     QTreeWidgetItem *lvi = static_cast<QTreeWidgetItem*>(listView->findItem(listViewItemID));
     if (lvi == 0) {
-        uError() << "ListView->findItem(" << ID2STR(listViewItemID) << ") returns NULL";
+        uError() << "ListView->findItem(" << Uml::ID::toString(listViewItemID) << ") returns NULL";
         return true;
     }
     for (QTreeWidgetItem *self = static_cast<QTreeWidgetItem*>(this); self; self = self->parent()) {
@@ -912,7 +912,7 @@ void UMLListViewItem::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement itemElement = qDoc.createElement("listitem");
     Uml::ID::Type id = ID();
-    QString idStr = ID2STR(id);
+    QString idStr = Uml::ID::toString(id);
     //DEBUG(DBG_LVI) << "id = " << idStr << ", type = " << m_type;
     if (id != Uml::ID::None)
         itemElement.setAttribute("id", idStr);
@@ -964,7 +964,7 @@ bool UMLListViewItem::loadFromXMI(QDomElement& qElement)
         return false;
     }
 
-    m_id = STR2ID(id);
+    m_id = Uml::ID::fromString(id);
     if (m_id != Uml::ID::None) {
         UMLListView* listView = static_cast<UMLListView*>(treeWidget());
         m_object = listView->document()->findObjectById(m_id);
@@ -1088,7 +1088,7 @@ QDebug operator<<(QDebug dbg, const UMLListViewItem& item)
 {
     dbg.nospace() << "UMLListViewItem: " << item.text(0)
         << ", type=" << UMLListViewItem::toString(item.type())
-        << ", id=" << ID2STR(item.ID())
+        << ", id=" << Uml::ID::toString(item.ID())
         << ", children=" << item.childCount();
     return dbg.space();
 }

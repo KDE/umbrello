@@ -95,7 +95,7 @@ bool CPPCodeGenerator::addHeaderCodeDocument(CPPHeaderCodeDocument * doc)
 
     // assign a tag if one doesn't already exist
     if (tag.isEmpty()) {
-        tag = "cppheader"+ID2STR(doc->getParentClassifier()->id());
+        tag = "cppheader"+Uml::ID::toString(doc->getParentClassifier()->id());
         doc->setID(tag);
     }
 
@@ -262,7 +262,7 @@ void CPPCodeGenerator::writeCodeToFile(UMLClassifierList & concepts)
  */
 CPPHeaderCodeDocument * CPPCodeGenerator::findHeaderCodeDocumentByClassifier(UMLClassifier * classifier)
 {
-    CodeDocument * doc = findCodeDocumentByID("cppheader"+ID2STR(classifier->id()));
+    CodeDocument * doc = findCodeDocumentByID("cppheader"+Uml::ID::toString(classifier->id()));
     return dynamic_cast<CPPHeaderCodeDocument*>(doc);
 }
 

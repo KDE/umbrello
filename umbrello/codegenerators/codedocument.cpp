@@ -364,7 +364,7 @@ void CodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomElement & docEl
     Uml::ID::Type pkgId = Uml::ID::None;
     if (m_package)
         pkgId = m_package->id();
-    docElement.setAttribute("package", ID2STR(pkgId));
+    docElement.setAttribute("package", Uml::ID::toString(pkgId));
     docElement.setAttribute("writeOutCode", getWriteOutCode() ? "true" : "false");
     docElement.setAttribute("id", ID());
 
@@ -398,7 +398,7 @@ void CodeDocument::setAttributesFromNode ( QDomElement & root)
             m_package = dynamic_cast<UMLPackage*>(o);
         }
         if (m_package == NULL) {
-            UMLObject *o = umldoc->findObjectById(STR2ID(pkgStr));
+            UMLObject *o = umldoc->findObjectById(Uml::ID::fromString(pkgStr));
             m_package = dynamic_cast<UMLPackage*>(o);
         }
     }

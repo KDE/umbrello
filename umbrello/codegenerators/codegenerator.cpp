@@ -90,7 +90,7 @@ QString CodeGenerator::getUniqueID(CodeDocument * codeDoc)
     ClassifierCodeDocument * classDoc = dynamic_cast<ClassifierCodeDocument*>(codeDoc);
     if (classDoc) {
         UMLClassifier *c = classDoc->getParentClassifier();
-        id = ID2STR(c->id()); // this is supposed to be unique already..
+        id = Uml::ID::toString(c->id()); // this is supposed to be unique already..
     }
     else {
         QString prefix = "doc";
@@ -232,7 +232,7 @@ void CodeGenerator::loadFromXMI(QDomElement & qElement)
  */
 void CodeGenerator::loadCodeForOperation(const QString& idStr, const QDomElement& codeDocElement)
 {
-    Uml::ID::Type id = STR2ID(idStr);
+    Uml::ID::Type id = Uml::ID::fromString(idStr);
     UMLObject *obj = m_document->findObjectById(id);
     if (obj) {
         uDebug() << "found UMLObject for id:" << idStr;
@@ -272,7 +272,7 @@ void CodeGenerator::saveToXMI(QDomDocument & doc, QDomElement & root)
                     continue;
                 }
                 QDomElement codeElement = doc.createElement("sourcecode");
-                codeElement.setAttribute("id", ID2STR(op->id()));
+                codeElement.setAttribute("id", Uml::ID::toString(op->id()));
                 codeElement.setAttribute("value", code);
                 docElement.appendChild( codeElement );
             }
@@ -379,7 +379,7 @@ void CodeGenerator::checkRemoveUMLObject(UMLObject * obj)
  */
 CodeDocument * CodeGenerator::findCodeDocumentByClassifier(UMLClassifier * classifier)
 {
-    return findCodeDocumentByID(ID2STR(classifier->id()));
+    return findCodeDocumentByID(Uml::ID::toString(classifier->id()));
 }
 
 /**

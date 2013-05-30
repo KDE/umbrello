@@ -1398,7 +1398,7 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     QDomElement classifierElement = UMLObject::save(tag, qDoc);
     if (m_BaseType == UMLObject::ot_Datatype && m_pSecondary != NULL)
         classifierElement.setAttribute( "elementReference",
-                                        ID2STR(m_pSecondary->id()) );
+                                        Uml::ID::toString(m_pSecondary->id()) );
 
     //save templates
     UMLClassifierListItemList list = getFilteredList(UMLObject::ot_Template);
@@ -1420,7 +1420,7 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
                 continue;
             }
             QDomElement gElem = qDoc.createElement("UML:Generalization");
-            gElem.setAttribute( "xmi.idref", ID2STR(a->id()) );
+            gElem.setAttribute( "xmi.idref", Uml::ID::toString(a->id()) );
             genElement.appendChild(gElem);
         }
         if (genElement.hasChildNodes()) {

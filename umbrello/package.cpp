@@ -91,7 +91,7 @@ void UMLPackage::addAssocToConcepts(UMLAssociation* assoc)
             continue;
         if (AId == c->id() || (BId == c->id())) {
             if (c->hasAssociation(assoc))
-                uDebug() << c->name() << " already has association id=" << ID2STR(assoc->id());
+                uDebug() << c->name() << " already has association id=" << Uml::ID::toString(assoc->id());
             else
                c->addAssociationEnd(assoc);
         }
@@ -199,7 +199,7 @@ void UMLPackage::removeObject(UMLObject *pObject)
     }
     if (m_objects.indexOf(pObject) == -1)
         uDebug() << name() << " removeObject: object with id="
-                 << ID2STR(pObject->id()) << "not found.";
+                 << Uml::ID::toString(pObject->id()) << "not found.";
     else
         m_objects.removeAll(pObject);
 }

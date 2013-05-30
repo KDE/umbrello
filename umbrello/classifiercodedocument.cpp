@@ -637,19 +637,19 @@ ClassifierCodeDocument::findCodeClassFieldFromParentID (Uml::ID::Type id,
     {
         CodeClassField * cf = *it;
         if(role_id == -1) { // attribute-based
-            if (STR2ID(cf->ID()) == id)
+            if (Uml::ID::fromString(cf->ID()) == id)
                 return cf;
         } else { // association(role)-based
             const Uml::RoleType::Enum r = Uml::RoleType::fromInt(role_id);
             UMLRole * role = dynamic_cast<UMLRole *>(cf->getParentObject());
-            if(role && STR2ID(cf->ID()) == id && role->role() == r)
+            if(role && Uml::ID::fromString(cf->ID()) == id && role->role() == r)
                 return cf;
         }
     }
 
     // shouldn't happen..
     uError() << "Failed to find codeclassfield for parent uml id:"
-             << ID2STR(id) << " (role id:" << role_id
+             << Uml::ID::toString(id) << " (role id:" << role_id
              << ") Do you have a corrupt classifier code document?";
 
     return (CodeClassField*) NULL; // not found
@@ -668,7 +668,7 @@ void ClassifierCodeDocument::loadClassFieldsFromXMI( QDomElement & elem)
         {
             QString id = childElem.attribute("parent_id","-1");
             int role_id = childElem.attribute("role_id","-1").toInt();
-            CodeClassField * cf = findCodeClassFieldFromParentID(STR2ID(id), role_id);
+            CodeClassField * cf = findCodeClassFieldFromParentID(Uml::ID::fromString(id), role_id);
             if(cf)
             {
                 // Because we just may change the parent object here,
@@ -734,7 +734,7 @@ void ClassifierCodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomEleme
     CodeDocument::setAttributesOnNode(doc, docElement);
 
     // cache local attributes/fields
-    docElement.setAttribute("parent_class", ID2STR(getParentClassifier()->id()));
+    docElement.setAttribute("parent_class", Uml::ID::toString(getParentClassifier()->id()));
 
     // (code) class fields
     // which we will store in its own separate child node block

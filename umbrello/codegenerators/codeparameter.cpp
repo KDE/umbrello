@@ -153,9 +153,9 @@ QString CodeParameter::ID()
         // cant use Role "ID" as that is used to distinquish if its
         // role "A" or "B"
         UMLAssociation *assoc = role->parentAssociation();
-        return ID2STR(assoc->id());
+        return Uml::ID::toString(assoc->id());
     } else
-        return ID2STR(m_parentObject->id());
+        return Uml::ID::toString(m_parentObject->id());
 
 }
 
@@ -193,7 +193,7 @@ void CodeParameter::setAttributesFromNode(QDomElement & root)
 {
     // set local attributes, parent object first
     QString idStr = root.attribute("parent_id","-1");
-    Uml::ID::Type id = STR2ID(idStr);
+    Uml::ID::Type id = Uml::ID::fromString(idStr);
 
     // always disconnect
     m_parentObject->disconnect(this);
@@ -224,7 +224,7 @@ void CodeParameter::setAttributesFromNode(QDomElement & root)
             else
                 uError() << "corrupt save file? "
                     << "cant get proper UMLRole for codeparameter uml id:"
-                    << ID2STR(id) << " w/role_id:" << role_id;
+                    << Uml::ID::toString(id) << " w/role_id:" << role_id;
 
             // init using UMLRole obj
             initFields ( m_parentDocument, role);
@@ -234,7 +234,7 @@ void CodeParameter::setAttributesFromNode(QDomElement & root)
 
     } else
         uError() << "Cant load CodeParam: parentUMLObject w/id:"
-            << ID2STR(id) << " not found, corrupt save file?";
+            << Uml::ID::toString(id) << " not found, corrupt save file?";
 
     // other attribs now
     setInitialValue(root.attribute("initialValue",""));

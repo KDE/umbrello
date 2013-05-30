@@ -709,7 +709,7 @@ bool UMLObject::resolveRef()
     // In the new, XMI standard compliant save format,
     // the type is the xmi.id of a UMLClassifier.
     if (! m_SecondaryId.isEmpty()) {
-        m_pSecondary = pDoc->findObjectById(STR2ID(m_SecondaryId));
+        m_pSecondary = pDoc->findObjectById(Uml::ID::fromString(m_SecondaryId));
         if (m_pSecondary != NULL) {
             if (m_pSecondary->baseType() == ot_Stereotype) {
                 m_pStereotype = static_cast<UMLStereotype*>(m_pSecondary);
@@ -813,7 +813,7 @@ QDomElement UMLObject::save(const QString &tag, QDomDocument & qDoc)
         else
             qElement.setAttribute("isAbstract", "false");
     }
-    qElement.setAttribute("xmi.id", ID2STR(m_nId));
+    qElement.setAttribute("xmi.id", Uml::ID::toString(m_nId));
     qElement.setAttribute("name", m_name);
     if (m_BaseType != ot_Operation &&
         m_BaseType != ot_Role &&
@@ -823,7 +823,7 @@ QDomElement UMLObject::save(const QString &tag, QDomDocument & qDoc)
             nmSpc = m_pUMLPackage->id();
         else
             nmSpc = UMLApp::app()->document()->modelID();
-        qElement.setAttribute("namespace", ID2STR(nmSpc));
+        qElement.setAttribute("namespace", Uml::ID::toString(nmSpc));
     }
     if (! m_Doc.isEmpty())
         qElement.setAttribute("comment", m_Doc);    //CHECK: uml13.dtd compliance
@@ -834,7 +834,7 @@ QDomElement UMLObject::save(const QString &tag, QDomDocument & qDoc)
     QString visibility = Uml::Visibility::toString(m_visibility, false);
     qElement.setAttribute("visibility", visibility);
     if (m_pStereotype != NULL)
-        qElement.setAttribute("stereotype", ID2STR(m_pStereotype->id()));
+        qElement.setAttribute("stereotype", Uml::ID::toString(m_pStereotype->id()));
     if (m_bStatic)
         qElement.setAttribute("ownerScope", "classifier");
     /* else
@@ -883,7 +883,7 @@ bool UMLObject::loadStereotype(QDomElement & element)
     }
     if (stereo.isEmpty())
         return false;
-    Uml::ID::Type stereoID = STR2ID(stereo);
+    Uml::ID::Type stereoID = Uml::ID::fromString(stereo);
     UMLDoc *pDoc = UMLApp::app()->document();
     m_pStereotype = pDoc->findStereotypeById(stereoID);
     if (m_pStereotype)
@@ -922,7 +922,7 @@ bool UMLObject::loadFromXMI(QDomElement & element)
             return false;
         }
     } else {
-        Uml::ID::Type nId = STR2ID(id);
+        Uml::ID::Type nId = Uml::ID::fromString(id);
         if (m_BaseType == ot_Role) {
             // Some older Umbrello versions had a problem with xmi.id's
             // of other objects being reused for the UMLRole, see e.g.
@@ -979,12 +979,12 @@ bool UMLObject::loadFromXMI(QDomElement & element)
 
     QString stereo = element.attribute("stereotype", "");
     if (!stereo.isEmpty()) {
-        Uml::ID::Type stereoID = STR2ID(stereo);
+        Uml::ID::Type stereoID = Uml::ID::fromString(stereo);
         m_pStereotype = umldoc->findStereotypeById(stereoID);
         if (m_pStereotype) {
             m_pStereotype->incrRefCount();
         } else {
-            uDebug() << m_name << ": UMLStereotype " << ID2STR(stereoID)
+            uDebug() << m_name << ": UMLStereotype " << Uml::ID::toString(stereoID)
                      << " not found, creating now.";
             setStereotype(stereo);
         }

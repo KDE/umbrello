@@ -118,7 +118,7 @@ void UMLDoc::init()
         i18n("Entity Relationship Model")
     };
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
-        m_root[i] = new UMLFolder(nativeRootName[i], STR2ID(nativeRootName[i]));
+        m_root[i] = new UMLFolder(nativeRootName[i], Uml::ID::fromString(nativeRootName[i]));
         m_root[i]->setLocalName(localizedRootName[i]);
     }
     createDatatypeFolder();
@@ -1053,7 +1053,7 @@ UMLStereotype* UMLDoc::findOrCreateStereotype(const QString &name)
     if (s != 0) {
         return s;
     }
-    s = new UMLStereotype(name, STR2ID(name));
+    s = new UMLStereotype(name, Uml::ID::fromString(name));
     addStereotype(s);
     return s;
 }
@@ -1433,7 +1433,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o)
  */
 void UMLDoc::changeCurrentView(Uml::ID::Type id)
 {
-    DEBUG(DBG_SRC) << "id=" << ID2STR(id);
+    DEBUG(DBG_SRC) << "id=" << Uml::ID::toString(id);
     UMLApp* pApp = UMLApp::app();
     UMLView* view = findView(id);
     if (view) {
@@ -1448,7 +1448,7 @@ void UMLDoc::changeCurrentView(Uml::ID::Type id)
         scene->showDocumentation();
     }
     else {
-        uWarning() << "New current view was not found with id=" << ID2STR(id) << "!";
+        uWarning() << "New current view was not found with id=" << Uml::ID::toString(id) << "!";
     }
 }
 
@@ -1462,7 +1462,7 @@ void UMLDoc::removeDiagram(Uml::ID::Type id)
     UMLApp::app()->docWindow()->updateDocumentation(true);
     UMLView* umlview = findView(id);
     if (!umlview) {
-        uError() << "Request to remove diagram " << ID2STR(id) << ": Diagram not found!";
+        uError() << "Request to remove diagram " << Uml::ID::toString(id) << ": Diagram not found!";
         return;
     }
     if (KMessageBox::warningContinueCancel(0, i18n("Are you sure you want to delete diagram %1?",
@@ -1731,7 +1731,7 @@ void UMLDoc::saveToXMI(QIODevice& file)
     QDomElement contentNS = doc.createElement( "UML:Namespace.contents" );
 
     QDomElement objectsElement = doc.createElement( "UML:Model" );
-    objectsElement.setAttribute( "xmi.id", ID2STR(m_modelID) );
+    objectsElement.setAttribute( "xmi.id", Uml::ID::toString(m_modelID) );
     objectsElement.setAttribute( "name", m_Name );
     objectsElement.setAttribute( "isSpecification", "false" );
     objectsElement.setAttribute( "isAbstract", "false" );
@@ -1772,9 +1772,9 @@ void UMLDoc::saveToXMI(QIODevice& file)
     if (currentView) {
         viewID = currentView->umlScene()->ID();
     }
-    docElement.setAttribute( "viewid", ID2STR(viewID) );
+    docElement.setAttribute( "viewid", Uml::ID::toString(viewID) );
     docElement.setAttribute( "documentation", m_Doc );
-    docElement.setAttribute( "uniqueid", ID2STR(UniqueID::get()) );
+    docElement.setAttribute( "uniqueid", Uml::ID::toString(UniqueID::get()) );
     extensions.appendChild( docElement );
 
     //  save listview
@@ -2029,7 +2029,7 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
                                    << "modelElement.isEmpty()";
                     continue;
                 }
-                UMLObject *o = findObjectById(STR2ID(modelElement));
+                UMLObject *o = findObjectById(Uml::ID::fromString(modelElement));
                 if (o == 0) {
                     DEBUG(DBG_SRC) << "TaggedValue(documentation): cannot find object"
                                    << " for modelElement " << modelElement;
@@ -2088,7 +2088,7 @@ void UMLDoc::resolveTypes()
        UMLFolder *obj = m_root[i];
 #ifdef VERBOSE_DEBUGGING
         DEBUG(DBG_SRC) << "UMLDoc: invoking resolveRef() for " << obj->getName()
-                       << " (id=" << ID2STR(obj->ID()) << ")";
+                       << " (id=" << Uml::ID::toString(obj->ID()) << ")";
 #endif
         obj->resolveRef();
     }
@@ -2249,9 +2249,9 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
                     delete pObject;
                 } else {
                     DEBUG(DBG_SRC) << "Stereotype " << pObject->name()
-                                   << "(id=" << ID2STR(pObject->id())
+                                   << "(id=" << Uml::ID::toString(pObject->id())
                                    << ") already exists with id="
-                                   << ID2STR(exist->id());
+                                   << Uml::ID::toString(exist->id());
                     addStereotype(s);
                 }
             } else {
@@ -2302,8 +2302,8 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node)
         m_Doc = element.attribute( "documentation", "" );
         QString uniqueid = element.attribute( "uniqueid", "0" );
 
-        m_nViewID = STR2ID(viewID);
-        UniqueID::set(STR2ID(uniqueid));
+        m_nViewID = Uml::ID::fromString(viewID);
+        UniqueID::set(Uml::ID::fromString(uniqueid));
         UMLApp::app()->docWindow()->newDocumentation();
 
     } else if (tag == "diagrams" || tag == "UISModelElement") {
@@ -2570,7 +2570,7 @@ void UMLDoc::print(QPrinter * pPrinter, DiagramPrintPage * selectPage)
             pPrinter->newPage();
         }
         QString sID = selectPage->printUmlDiagram(i);
-        Uml::ID::Type id = STR2ID(sID);
+        Uml::ID::Type id = Uml::ID::fromString(sID);
         printView = findView(id);
 
         if (printView) {

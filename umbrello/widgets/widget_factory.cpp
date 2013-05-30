@@ -160,7 +160,7 @@ bool validateObjType(UMLObject::ObjectType expected, UMLObject* &o, Uml::ID::Typ
     if (o == NULL) {
         uDebug() << "Widget_Factory::validateObjType: creating new object of type "
                  << expected;
-        QString artificialName = "LOST_" + ID2STR(id);
+        QString artificialName = "LOST_" + Uml::ID::toString(id);
         o = Object_Factory::createUMLObject(expected, artificialName, NULL, false);
         if (o == NULL)
             return false;
@@ -224,12 +224,12 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         // Loading of widgets which represent an UMLObject
 
         // Find the UMLObject and create the Widget to represent it
-        Uml::ID::Type id = STR2ID(idStr);
+        Uml::ID::Type id = Uml::ID::fromString(idStr);
         UMLDoc *umldoc = UMLApp::app()->document();
         UMLObject *o = umldoc->findObjectById(id);
         if (o == NULL) {
             uDebug() << "makeWidgetFromXMI: cannot find object with id "
-                << ID2STR(id);
+                << Uml::ID::toString(id);
         }
 
         if (tag == "actorwidget" || tag == "UML:ActorWidget") {

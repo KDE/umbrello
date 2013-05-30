@@ -318,8 +318,8 @@ namespace Uml
         const Type None     = "-1";   ///< special value for uninitialized ID
         const Type Reserved = "0";    ///< special value for illegal ID
 
-        #define STR2ID(id)  qPrintable(id)
-        #define ID2STR(id)  QString(id.c_str())
+        QString toString(const ID::Type &id);
+        ID::Type fromString(const QString &id);
         QDebug operator<<(QDebug out, ID::Type &type);
     }
 

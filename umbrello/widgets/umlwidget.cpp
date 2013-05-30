@@ -740,7 +740,7 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
     if (widgetHasUMLObject(m_baseType) && m_umlObject == NULL) {
         m_umlObject = m_doc->findObjectById(m_nId);
         if (m_umlObject == NULL) {
-            uError() << "cannot find UMLObject with id=" << ID2STR(m_nId);
+            uError() << "cannot find UMLObject with id=" << Uml::ID::toString(m_nId);
             return false;
         }
     }
@@ -1458,7 +1458,7 @@ void UMLWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
       Type must be set in the child class.
     */
     WidgetBase::saveToXMI(qDoc, qElement);
-    qElement.setAttribute("xmi.id", ID2STR(id()));
+    qElement.setAttribute("xmi.id", Uml::ID::toString(id()));
     qElement.setAttribute("font", m_Font.toString());
     qElement.setAttribute("x", x());
     qElement.setAttribute("y", y());
@@ -1481,7 +1481,7 @@ bool UMLWidget::loadFromXMI(QDomElement & qElement)
     QString h = qElement.attribute("height", "0");
     QString w = qElement.attribute("width", "0");
 
-    m_nId = STR2ID(id);
+    m_nId = Uml::ID::fromString(id);
 
     if (!font.isEmpty()) {
         QFont newFont;
@@ -1489,7 +1489,7 @@ bool UMLWidget::loadFromXMI(QDomElement & qElement)
         setFont(newFont);
     } else {
         uWarning() << "Using default font " << m_Font.toString()
-        << " for widget with xmi.id " << ID2STR(m_nId) << endl;
+        << " for widget with xmi.id " << Uml::ID::toString(m_nId) << endl;
     }
 
     setSize(w.toInt(), h.toInt());

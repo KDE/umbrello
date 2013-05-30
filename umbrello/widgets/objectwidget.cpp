@@ -577,7 +577,7 @@ void ObjectWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
     UMLWidget::saveToXMI( qDoc, objectElement );
     objectElement.setAttribute( "drawasactor", m_drawAsActor );
     objectElement.setAttribute( "multipleinstance", m_multipleInstance );
-    objectElement.setAttribute( "localid", ID2STR(m_nLocalID) );
+    objectElement.setAttribute( "localid", Uml::ID::toString(m_nLocalID) );
     objectElement.setAttribute( "decon", m_showDestruction );
     qElement.appendChild( objectElement );
 }
@@ -596,7 +596,7 @@ bool ObjectWidget::loadFromXMI(QDomElement& qElement)
 
     m_drawAsActor = (bool)draw.toInt();
     m_multipleInstance = (bool)multi.toInt();
-    m_nLocalID = STR2ID(localid);
+    m_nLocalID = Uml::ID::fromString(localid);
     m_showDestruction = (bool)decon.toInt();
     return true;
 }

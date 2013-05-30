@@ -188,7 +188,7 @@ void PreconditionWidget::slotWidgetMoved(Uml::ID::Type id)
 {
     const Uml::ID::Type idA = m_objectWidget->localID();
     if (idA != id ) {
-        DEBUG(DBG_SRC) << "id=" << ID2STR(id) << ": ignoring for idA=" << ID2STR(idA);
+        DEBUG(DBG_SRC) << "id=" << Uml::ID::toString(id) << ": ignoring for idA=" << Uml::ID::toString(idA);
         return;
     }
     m_nY = y();
@@ -261,7 +261,7 @@ void PreconditionWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
     QDomElement preconditionElement = qDoc.createElement( "preconditionwidget" );
     UMLWidget::saveToXMI( qDoc, preconditionElement );
 
-    preconditionElement.setAttribute( "widgetaid", ID2STR(m_objectWidget->localID()) );
+    preconditionElement.setAttribute( "widgetaid", Uml::ID::toString(m_objectWidget->localID()) );
     preconditionElement.setAttribute( "preconditionname", name() );
     preconditionElement.setAttribute( "documentation", documentation() );
     qElement.appendChild( preconditionElement );
@@ -278,11 +278,11 @@ bool PreconditionWidget::loadFromXMI(QDomElement& qElement)
     setName(qElement.attribute( "preconditionname", "" ));
     setDocumentation(qElement.attribute( "documentation", "" ));
 
-    Uml::ID::Type aId = STR2ID(widgetaid);
+    Uml::ID::Type aId = Uml::ID::fromString(widgetaid);
 
     m_objectWidget = dynamic_cast<ObjectWidget*>(umlScene()->findWidget( aId ));
     if (!m_objectWidget) {
-        DEBUG(DBG_SRC) << "role A widget " << ID2STR(aId) << " is not an ObjectWidget";
+        DEBUG(DBG_SRC) << "role A widget " << Uml::ID::toString(aId) << " is not an ObjectWidget";
         return false;
     }
 

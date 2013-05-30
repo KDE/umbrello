@@ -210,10 +210,10 @@ void PinWidget::slotMenuSelection(QAction* action)
 void PinWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement PinElement = qDoc.createElement( "pinwidget" );
-    PinElement.setAttribute( "widgetaid", ID2STR(m_pOw->id()) );
+    PinElement.setAttribute( "widgetaid", Uml::ID::toString(m_pOw->id()) );
     UMLWidget::saveToXMI( qDoc, PinElement );
     if (m_pName && !m_pName->text().isEmpty()) {
-        PinElement.setAttribute( "textid", ID2STR(m_pName->id()) );
+        PinElement.setAttribute( "textid", Uml::ID::toString(m_pName->id()) );
         m_pName -> saveToXMI( qDoc, PinElement );
     }
     qElement.appendChild( PinElement );
@@ -228,18 +228,18 @@ bool PinWidget::loadFromXMI(QDomElement& qElement)
         return false;
     QString widgetaid = qElement.attribute( "widgetaid", "-1" );
 
-    Uml::ID::Type aId = STR2ID(widgetaid);
+    Uml::ID::Type aId = Uml::ID::fromString(widgetaid);
 
     UMLWidget *pWA = m_scene -> findWidget( aId );
     if (pWA == NULL) {
-        DEBUG(DBG_SRC) << "role A object " << ID2STR(aId) << " not found";
+        DEBUG(DBG_SRC) << "role A object " << Uml::ID::toString(aId) << " not found";
         return false;
     }
 
     m_pOw = pWA;
 
     QString textid = qElement.attribute( "textid", "-1" );
-    Uml::ID::Type textId = STR2ID(textid);
+    Uml::ID::Type textId = Uml::ID::fromString(textid);
     if (textId != Uml::ID::None) {
         UMLWidget *flotext = m_scene -> findWidget( textId );
         if (flotext != NULL) {

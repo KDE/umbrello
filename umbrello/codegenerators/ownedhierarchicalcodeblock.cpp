@@ -61,7 +61,7 @@ void OwnedHierarchicalCodeBlock::setAttributesOnNode(QDomDocument & doc, QDomEle
     OwnedCodeBlock::setAttributesOnNode(doc, elem);
 
     // set local class attributes
-    elem.setAttribute("parent_id",ID2STR(getParentObject()->id()));
+    elem.setAttribute("parent_id",Uml::ID::toString(getParentObject()->id()));
 
     // setting ID's takes special treatment
     // as UMLRoles arent properly stored in the XMI right now.

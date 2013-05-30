@@ -58,7 +58,7 @@ Uml::ID::Type quid(const PetalNode *node)
     if (quidStr.isEmpty())
         return Uml::ID::None;
     quidStr.remove('\"');
-    return STR2ID(quidStr);
+    return Uml::ID::fromString(quidStr);
 }
 
 /**

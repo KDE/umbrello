@@ -86,7 +86,7 @@ void OwnedCodeBlock::setAttributesOnNode(QDomDocument& /*doc*/, QDomElement& ele
     // (change would break the XMI format..save for big version change )
     UMLRole * role = dynamic_cast<UMLRole*>(m_parentObject);
     if (role) {
-        elem.setAttribute("parent_id",ID2STR(role->parentAssociation()->id()));
+        elem.setAttribute("parent_id",Uml::ID::toString(role->parentAssociation()->id()));
         // CAUTION: role_id here is numerically inverted wrt Uml::Role_Type,
         //          i.e. role A is 1 and role B is 0.
         //          I'll resist the temptation to change this -
@@ -94,7 +94,7 @@ void OwnedCodeBlock::setAttributesOnNode(QDomDocument& /*doc*/, QDomElement& ele
         elem.setAttribute("role_id", (role->role() == Uml::RoleType::A));
     }
     else {
-        elem.setAttribute("parent_id",ID2STR(m_parentObject->id()));
+        elem.setAttribute("parent_id",Uml::ID::toString(m_parentObject->id()));
         //elem.setAttribute("role_id","-1");
     }
 }
@@ -107,7 +107,7 @@ void OwnedCodeBlock::setAttributesFromNode ( QDomElement & elem)
 {
     // set local attributes, parent object first
     QString idStr = elem.attribute("parent_id","-1");
-    Uml::ID::Type id = STR2ID(idStr);
+    Uml::ID::Type id = Uml::ID::fromString(idStr);
 
     // always disconnect from current parent
     getParentObject()->disconnect(this);
@@ -138,7 +138,7 @@ void OwnedCodeBlock::setAttributesFromNode ( QDomElement & elem)
             else // this will cause a crash
                 uError() << "corrupt save file? "
                          << "cant get proper UMLRole for ownedcodeblock uml id:"
-                         << ID2STR(id) << " w/role_id:" << role_id;
+                         << Uml::ID::toString(id) << " w/role_id:" << role_id;
 
             // init using UMLRole obj
             initFields ( role );
@@ -148,7 +148,7 @@ void OwnedCodeBlock::setAttributesFromNode ( QDomElement & elem)
     } 
     else
         uError() << "ERROR: can not load ownedcodeblock: parentUMLObject w/id:"
-                 << ID2STR(id) << " not found, corrupt save file?";
+                 << Uml::ID::toString(id) << " not found, corrupt save file?";
 }
 
 void OwnedCodeBlock::initFields(UMLObject * parent )

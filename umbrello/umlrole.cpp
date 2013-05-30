@@ -111,8 +111,8 @@ void UMLRole::setObject(UMLObject *obj)
     // to only take UMLClassifiers here, but I'll leave it more open
     // for the time being. -b.t.
     if (obj && dynamic_cast<UMLRole*>(obj)) {
-        uError() << "UMLRole(" << ID2STR(m_nId) << ") cannot setObject() to another UMLRole("
-            << ID2STR(obj->id()) << ")";
+        uError() << "UMLRole(" << Uml::ID::toString(m_nId) << ") cannot setObject() to another UMLRole("
+            << Uml::ID::toString(obj->id()) << ")";
         return;
     }
 
@@ -161,9 +161,9 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement roleElement = UMLObject::save("UML:AssociationEnd", qDoc);
     if (m_pSecondary)
-        roleElement.setAttribute("type", ID2STR(m_pSecondary->id()));
+        roleElement.setAttribute("type", Uml::ID::toString(m_pSecondary->id()));
     else
-        uError() << "id " << ID2STR(m_nId) << ": m_pSecondary is NULL";
+        uError() << "id " << Uml::ID::toString(m_nId) << ": m_pSecondary is NULL";
     if (!m_Multi.isEmpty())
         roleElement.setAttribute("multiplicity", m_Multi);
     if (m_role == Uml::RoleType::A) {  // role aggregation based on parent type
@@ -317,7 +317,7 @@ bool UMLRole::load( QDomElement & element )
         return false;
     }
     UMLObject * obj;
-    obj = doc->findObjectById(STR2ID(m_SecondaryId));
+    obj = doc->findObjectById(Uml::ID::fromString(m_SecondaryId));
     if (obj) {
         m_pSecondary = obj;
         m_SecondaryId = "";

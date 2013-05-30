@@ -685,7 +685,7 @@ void UMLScene::dragEnterEvent(QGraphicsSceneDragDropEvent *e)
     }
     //make sure can find UMLObject
     if (!(temp = m_doc->findObjectById(id))) {
-        DEBUG(DBG_SRC) << "object " << ID2STR(id) << " not found";
+        DEBUG(DBG_SRC) << "object " << Uml::ID::toString(id) << " not found";
         e->ignore();
         return;
     }
@@ -799,7 +799,7 @@ void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
     }
     UMLObject* o = m_doc->findObjectById(id);
     if (!o) {
-        DEBUG(DBG_SRC) << "object id=" << ID2STR(id) << " not found";
+        DEBUG(DBG_SRC) << "object id=" << Uml::ID::toString(id) << " not found";
         return;
     }
     m_bCreateObject = true;
@@ -898,7 +898,7 @@ ObjectWidget * UMLScene::onWidgetLine(const UMLScenePoint &point) const
         SeqLineWidget *pLine = ow->sequentialLine();
         if (pLine == NULL) {
             uError() << "SeqLineWidget of " << ow->name()
-            << " (id=" << ID2STR(ow->localID()) << ") is NULL";
+            << " (id=" << Uml::ID::toString(ow->localID()) << ") is NULL";
             continue;
         }
         if (pLine->onWidget(point))
@@ -923,7 +923,7 @@ ObjectWidget * UMLScene::onWidgetDestructionBox(const UMLScenePoint &point) cons
         SeqLineWidget *pLine = ow->sequentialLine();
         if (pLine == NULL) {
             uError() << "SeqLineWidget of " << ow->name()
-                     << " (id=" << ID2STR(ow->localID()) << ") is NULL";
+                     << " (id=" << Uml::ID::toString(ow->localID()) << ") is NULL";
             continue;
         }
         if (pLine->onDestructionBox(point))
@@ -1906,7 +1906,7 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
         return true;
     }
     if (!isPasteOperation && findWidget(pWidget->id())) {
-        uError() << "Not adding (id=" << ID2STR(pWidget->id())
+        uError() << "Not adding (id=" << Uml::ID::toString(pWidget->id())
                  << "/type=" << pWidget->baseTypeStr() << "/name=" << pWidget->name()
                  << ") because it is already there";
         return false;
@@ -1969,13 +1969,13 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
         UMLObject * pObject = m_doc->findObjectById(newID);
         if (!pObject) {
             DEBUG(DBG_SRC) << "addWidget: Can not find UMLObject for id "
-                           << ID2STR(newID);
+                           << Uml::ID::toString(newID);
             return false;
         }
         pWidget->setUMLObject(pObject);
         //make sure it doesn't already exist.
         if (findWidget(newID)) {
-            DEBUG(DBG_SRC) << "Not adding (id=" << ID2STR(pWidget->id())
+            DEBUG(DBG_SRC) << "Not adding (id=" << Uml::ID::toString(pWidget->id())
                            << "/type=" << pWidget->baseTypeStr()
                            << "/name=" << pWidget->name()
                            << ") because it is already there";
@@ -2013,8 +2013,8 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
         Uml::ID::Type newWAID = m_pIDChangesLog->findNewID(waID);
         Uml::ID::Type newWBID = m_pIDChangesLog->findNewID(wbID);
         if (newWAID == Uml::ID::None || newWBID == Uml::ID::None) {
-            DEBUG(DBG_SRC) << "Error with ids : " << ID2STR(newWAID)
-                           << " " << ID2STR(newWBID);
+            DEBUG(DBG_SRC) << "Error with ids : " << Uml::ID::toString(newWAID)
+                           << " " << Uml::ID::toString(newWBID);
             return false;
         }
         // Assumption here is that the A/B objectwidgets and the textwidget
@@ -2532,13 +2532,13 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
         UMLObject *roleAObj = assoc->getObject(Uml::RoleType::A);
         if (roleAObj == NULL) {
             DEBUG(DBG_SRC) << "roleA object is NULL at UMLAssoc "
-                           << ID2STR(assoc->id());
+                           << Uml::ID::toString(assoc->id());
             continue;
         }
         UMLObject *roleBObj = assoc->getObject(Uml::RoleType::B);
         if (roleBObj == NULL) {
             DEBUG(DBG_SRC) << "roleB object is NULL at UMLAssoc "
-                           << ID2STR(assoc->id());
+                           << Uml::ID::toString(assoc->id());
             continue;
         }
         if (roleAObj->id() == myID) {
@@ -2547,8 +2547,8 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
             other = static_cast<UMLCanvasObject*>(roleAObj);
         } else {
             DEBUG(DBG_SRC) << "Can not find own object "
-                           << ID2STR(myID) << " in UMLAssoc "
-                           << ID2STR(assoc->id());
+                           << Uml::ID::toString(myID) << " in UMLAssoc "
+                           << Uml::ID::toString(assoc->id());
             continue;
         }
         // Now that we have determined the "other" UMLObject, seek it in
@@ -3787,14 +3787,14 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     resizeSceneToItems();
     QDomElement viewElement = qDoc.createElement("diagram");
-    viewElement.setAttribute("xmi.id", ID2STR(m_nID));
+    viewElement.setAttribute("xmi.id", Uml::ID::toString(m_nID));
     viewElement.setAttribute("name", name());
     viewElement.setAttribute("type", m_Type);
     viewElement.setAttribute("documentation", m_Documentation);
     //option state
     Settings::saveToXMI(viewElement, m_Options);
     //misc
-    viewElement.setAttribute("localid", ID2STR(m_nLocalID));
+    viewElement.setAttribute("localid", Uml::ID::toString(m_nLocalID));
     viewElement.setAttribute("showgrid", m_layoutGrid->isVisible());
     viewElement.setAttribute("snapgrid", m_bUseSnapToGrid);
     viewElement.setAttribute("snapcsgrid", m_bUseSnapComponentSizeToGrid);
@@ -3855,7 +3855,7 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 bool UMLScene::loadFromXMI(QDomElement & qElement)
 {
     QString id = qElement.attribute("xmi.id", "-1");
-    m_nID = STR2ID(id);
+    m_nID = Uml::ID::fromString(id);
     if (m_nID == Uml::ID::None)
         return false;
     setName(qElement.attribute("name", ""));
@@ -3926,7 +3926,7 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     } else {
         m_Type = Uml::DiagramType::fromInt(nType);
     }
-    m_nLocalID = STR2ID(localid);
+    m_nLocalID = Uml::ID::fromString(localid);
 
     QDomNode node = qElement.firstChild();
     bool widgetsLoaded = false, messagesLoaded = false, associationsLoaded = false;
@@ -4026,7 +4026,7 @@ bool UMLScene::loadMessagesFromXMI(QDomElement & qElement)
             if (ft)
                 m_WidgetList.append(ft);
             else if (message->sequenceMessageType() != SequenceMessage::Creation)
-                DEBUG(DBG_SRC) << "floating text is NULL for message " << ID2STR(message->id());
+                DEBUG(DBG_SRC) << "floating text is NULL for message " << Uml::ID::toString(message->id());
         }
         node = messageElement.nextSibling();
         messageElement = node.toElement();
@@ -4117,7 +4117,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
             n = n.nextSibling();
             e = n.toElement();
         }
-        Uml::ID::Type id = STR2ID(idStr);
+        Uml::ID::Type id = Uml::ID::fromString(idStr);
         UMLObject *o = m_doc->findObjectById(id);
         if (o == NULL) {
             uError() << "Cannot find object for id " << idStr;
@@ -4184,7 +4184,7 @@ bool UMLScene::loadUISDiagram(QDomElement & qElement)
     QString idStr = qElement.attribute("xmi.id", "");
     if (idStr.isEmpty())
         return false;
-    m_nID = STR2ID(idStr);
+    m_nID = Uml::ID::fromString(idStr);
     UMLListViewItem *ulvi = NULL;
     for (QDomNode node = qElement.firstChild(); !node.isNull(); node = node.nextSibling()) {
         if (node.isComment())
@@ -4394,7 +4394,7 @@ QDebug operator<<(QDebug dbg, UMLScene *item)
 {
     dbg.nospace() << "UMLScene: " << item->name()
                   << " / type=" << DiagramType::toString(item->type())
-                  << " / id=" << ID2STR(item->ID())
+                  << " / id=" << Uml::ID::toString(item->ID())
                   << " / isOpen=" << item->isOpen();
     return dbg.space();
 }

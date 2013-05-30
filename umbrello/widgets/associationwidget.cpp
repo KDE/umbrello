@@ -666,7 +666,7 @@ bool AssociationWidget::activate()
         AssociationType::hasUMLRepresentation(m_associationType)) {
         UMLObject *myObj = m_umldoc->findObjectById(m_nId);
         if (myObj == NULL) {
-            uError() << "cannot find UMLObject " << ID2STR(m_nId);
+            uError() << "cannot find UMLObject " << Uml::ID::toString(m_nId);
             return false;
         } else {
             const UMLObject::ObjectType ot = myObj->baseType();
@@ -4016,7 +4016,7 @@ void AssociationWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 
     WidgetBase::saveToXMI(qDoc, assocElement);
     if (m_umlObject) {
-        assocElement.setAttribute("xmi.id", ID2STR(m_umlObject->id()));
+        assocElement.setAttribute("xmi.id", Uml::ID::toString(m_umlObject->id()));
     }
     assocElement.setAttribute("type", associationType());
     if (!association()) {
@@ -4030,8 +4030,8 @@ void AssociationWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
             assocElement.setAttribute("documentation", documentation());
         }
     }
-    assocElement.setAttribute("widgetaid", ID2STR(widgetIDForRole(RoleType::A)));
-    assocElement.setAttribute("widgetbid", ID2STR(widgetIDForRole(RoleType::B)));
+    assocElement.setAttribute("widgetaid", Uml::ID::toString(widgetIDForRole(RoleType::A)));
+    assocElement.setAttribute("widgetbid", Uml::ID::toString(widgetIDForRole(RoleType::B)));
     assocElement.setAttribute("indexa", m_role[RoleType::A].m_nIndex);
     assocElement.setAttribute("indexb", m_role[RoleType::B].m_nIndex);
     assocElement.setAttribute("totalcounta", m_role[RoleType::A].m_nTotalCount);
@@ -4067,7 +4067,7 @@ void AssociationWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
     }
 
     if (m_associationClass) {
-        QString acid = ID2STR(m_associationClass->id());
+        QString acid = Uml::ID::toString(m_associationClass->id());
         assocElement.setAttribute("assocclass", acid);
         assocElement.setAttribute("aclsegindex", m_nLinePathSegmentIndex);
     }
@@ -4092,16 +4092,16 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
     // load child widgets first
     QString widgetaid = qElement.attribute("widgetaid", "-1");
     QString widgetbid = qElement.attribute("widgetbid", "-1");
-    Uml::ID::Type aId = STR2ID(widgetaid);
-    Uml::ID::Type bId = STR2ID(widgetbid);
+    Uml::ID::Type aId = Uml::ID::fromString(widgetaid);
+    Uml::ID::Type bId = Uml::ID::fromString(widgetbid);
     UMLWidget *pWidgetA = Widget_Utils::findWidget(aId, widgets, messages);
     if (!pWidgetA) {
-        uError() << "cannot find widget for roleA id " << ID2STR(aId);
+        uError() << "cannot find widget for roleA id " << Uml::ID::toString(aId);
         return false;
     }
     UMLWidget *pWidgetB = Widget_Utils::findWidget(bId, widgets, messages);
     if (!pWidgetB) {
-        uError() << "cannot find widget for roleB id " << ID2STR(bId);
+        uError() << "cannot find widget for roleB id " << Uml::ID::toString(bId);
         return false;
     }
     setWidgetForRole(pWidgetA, RoleType::A);
@@ -4198,7 +4198,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
         // New style: The xmi.id is a reference to the UMLAssociation.
         // If the UMLObject is not found right now, we try again later
         // during the type resolution pass - see activate().
-        m_nId = STR2ID(id);
+        m_nId = Uml::ID::fromString(id);
         UMLObject *myObj = m_umldoc->findObjectById(m_nId);
         if (myObj) {
             const UMLObject::ObjectType ot = myObj->baseType();
@@ -4226,7 +4226,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
 
     QString assocclassid = qElement.attribute("assocclass", "");
     if (! assocclassid.isEmpty()) {
-        Uml::ID::Type acid = STR2ID(assocclassid);
+        Uml::ID::Type acid = Uml::ID::fromString(assocclassid);
         UMLWidget *w = Widget_Utils::findWidget(acid, widgets);
         if (w) {
             m_associationClass = static_cast<ClassifierWidget*>(w);

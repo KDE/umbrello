@@ -456,8 +456,8 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
             uDebug() << name() << ": m_returnId is not set, setting it now.";
             m_returnId = UniqueID::gen();
         }
-        retElement.setAttribute( "xmi.id", ID2STR(m_returnId) );
-        retElement.setAttribute( "type", ID2STR(m_pSecondary->id()) );
+        retElement.setAttribute( "xmi.id", Uml::ID::toString(m_returnId) );
+        retElement.setAttribute( "type", Uml::ID::toString(m_pSecondary->id()) );
         retElement.setAttribute( "kind", "return" );
         featureElement.appendChild( retElement );
     } else {
@@ -469,7 +469,7 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
         QDomElement attElement = pAtt->UMLObject::save("UML:Parameter", qDoc);
         UMLClassifier *attrType = pAtt->getType();
         if (attrType) {
-            attElement.setAttribute( "type", ID2STR(attrType->id()) );
+            attElement.setAttribute( "type", Uml::ID::toString(attrType->id()) );
         } else {
             attElement.setAttribute( "type", pAtt->getTypeName() );
         }
@@ -532,7 +532,7 @@ bool UMLOperation::load( QDomElement & element )
             if (kind == "return") {
                 QString returnId = attElement.attribute("xmi.id", "");
                 if (!returnId.isEmpty())
-                    m_returnId = STR2ID(returnId);
+                    m_returnId = Uml::ID::fromString(returnId);
                 m_SecondaryId = attElement.attribute( "type", "" );
                 if (m_SecondaryId.isEmpty()) {
                     // Perhaps the type is stored in a child node:
@@ -591,8 +591,8 @@ bool UMLOperation::load( QDomElement & element )
         /*
         CodeGenerator* codegen = UMLApp::app()->getGenerator();
         if (codegen) {
-            uDebug() << "CodeDocument searching with id=" << ID2STR(UMLObject::ID());
-            CodeDocument* codeDoc = codegen->findCodeDocumentByID(ID2STR(UMLObject::ID()));
+            uDebug() << "CodeDocument searching with id=" << Uml::ID::toString(UMLObject::ID());
+            CodeDocument* codeDoc = codegen->findCodeDocumentByID(Uml::ID::toString(UMLObject::ID()));
             if (codeDoc) {
                 uDebug() << "CodeDocument found:\n" << codeDoc;
             }

@@ -371,7 +371,7 @@ UMLClassifierList UMLCanvasObject::getSuperClasses()
             list.append(c);
         else
             DEBUG(DBG_SRC) << name() << ": generalization's other end is not a "
-                << "UMLClassifier (id= " << ID2STR(a->getObjectId(Uml::RoleType::B)) << ")";
+                << "UMLClassifier (id= " << Uml::ID::toString(a->getObjectId(Uml::RoleType::B)) << ")";
     }
     return list;
 }
@@ -398,7 +398,7 @@ UMLClassifierList UMLCanvasObject::getSubClasses()
             list.append(c);
         else
             DEBUG(DBG_SRC) << "specialization's other end is not a UMLClassifier"
-                << " (id=" << ID2STR(a->getObjectId(Uml::RoleType::A)) << ")";
+                << " (id=" << Uml::ID::toString(a->getObjectId(Uml::RoleType::A)) << ")";
     }
     return list;
 }

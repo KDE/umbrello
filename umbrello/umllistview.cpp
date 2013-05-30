@@ -904,7 +904,7 @@ void UMLListView::slotObjectCreated(UMLObject* object)
 
     if (newItem) {
         DEBUG(DBG_SRC) << newItem->type();
-        DEBUG(DBG_SRC) << object->name() << ", id= " << ID2STR(object->id())
+        DEBUG(DBG_SRC) << object->name() << ", id= " << Uml::ID::toString(object->id())
                        << ": item already exists.";
         Icon_Utils::IconType icon = Model_Utils::convert_LVT_IT(newItem->type());
         newItem->setIcon(icon);
@@ -1101,7 +1101,7 @@ void UMLListView::slotDiagramRenamed(Uml::ID::Type id)
     UMLListViewItem* item;
     UMLView* v = m_doc->findView(id);
     if ((item = findView(v)) == 0) {
-        uError() << "UMLDoc::findView(" << ID2STR(id) << ") returns 0";
+        uError() << "UMLDoc::findView(" << Uml::ID::toString(id) << ") returns 0";
         return;
     }
     item->setText(v->umlScene()->name());
@@ -2917,7 +2917,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
             return false;
         UMLListViewItem::ListViewType lvType = (UMLListViewItem::ListViewType)type.toInt();
         bool bOpen = (bool)open.toInt();
-        Uml::ID::Type nID = STR2ID(id);
+        Uml::ID::Type nID = Uml::ID::fromString(id);
         UMLObject * pObject = 0;
         UMLListViewItem * item = 0;
         if (nID != Uml::ID::None) {
@@ -2931,8 +2931,8 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
             if (idchanges) {
                 Uml::ID::Type newID = idchanges->findNewID(nID);
                 if (newID != Uml::ID::None) {
-                    DEBUG(DBG_SRC) << " using id " << ID2STR(newID)
-                                   << " instead of " << ID2STR(nID);
+                    DEBUG(DBG_SRC) << " using id " << Uml::ID::toString(newID)
+                                   << " instead of " << Uml::ID::toString(nID);
                     nID = newID;
                 }
             }
@@ -2995,7 +2995,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
             item = findItem(nID);
             if (item == 0) {
                 uError() << "INTERNAL ERROR: "
-                    << "findItem(id " << ID2STR(nID) << ") returns 0";
+                    << "findItem(id " << Uml::ID::toString(nID) << ") returns 0";
                 /*
                 if (pObject && pObject->getUMLPackage() &&
                         parent->type() != UMLListViewItem::lvt_Package) {
@@ -3006,7 +3006,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                     UMLListViewItem *pkgItem = findUMLObject(umlpkg);
                     if (pkgItem == 0) {
                         DEBUG(DBG_SRC) << "synthesizing ListViewItem for package "
-                                       << ID2STR(umlpkg->ID());
+                                       << Uml::ID::toString(umlpkg->ID());
                         pkgItem = new UMLListViewItem(parent, umlpkg->getName(),
                                                       UMLListViewItem::lvt_Package, umlpkg);
                         pkgItem->setOpen(true);
@@ -3056,7 +3056,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
         case UMLListViewItem::lvt_CheckConstraint:
             item = findItem(nID);
             if (item == 0) {
-                DEBUG(DBG_SRC) << "item " << ID2STR(nID) << " (of type "
+                DEBUG(DBG_SRC) << "item " << Uml::ID::toString(nID) << " (of type "
                                << UMLListViewItem::toString(lvType) << ") does not yet exist...";
                 UMLObject* umlObject = parent->umlObject();
                 if (!umlObject) {
@@ -3075,7 +3075,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                             item = new UMLListViewItem(parent, label, lvType, umlObject);
                         } else {
                             DEBUG(DBG_SRC) << "lvtype " << UMLListViewItem::toString(lvType)
-                                           << " child object " << ID2STR(nID) << " not found";
+                                           << " child object " << Uml::ID::toString(nID) << " not found";
                         }
                     } else {
                         DEBUG(DBG_SRC) << "cast to classifier object failed";
@@ -3106,7 +3106,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                 item = new UMLListViewItem(parent, label, lvType, nID);
             } else {
                 uError() << "INTERNAL ERROR: unexpected listview type "
-                    << UMLListViewItem::toString(lvType) << " (ID " << ID2STR(nID) << ")";
+                    << UMLListViewItem::toString(lvType) << " (ID " << Uml::ID::toString(nID) << ")";
             }
             break;
         }//end switch
@@ -3117,7 +3117,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                 return false;
             }
         } else {
-            uWarning() << "unused list view item " << ID2STR(nID)
+            uWarning() << "unused list view item " << Uml::ID::toString(nID)
                        << " of lvtype " << UMLListViewItem::toString(lvType);
         }
         domElement = node.toElement();

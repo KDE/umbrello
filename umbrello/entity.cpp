@@ -573,7 +573,7 @@ bool UMLEntity::hasPrimaryKey() const
 bool UMLEntity::addConstraint(UMLEntityConstraint* constr)
 {
     if ( findChildObjectById( constr->id() ) != NULL ) {
-        uDebug() << "Constraint with id " << ID2STR(constr->id())
+        uDebug() << "Constraint with id " << Uml::ID::toString(constr->id())
                  << " already exists ";
         return false;
     }
@@ -596,7 +596,7 @@ bool UMLEntity::addConstraint(UMLEntityConstraint* constr)
 bool UMLEntity::removeConstraint(UMLEntityConstraint* constr)
 {
      if ( findChildObjectById( constr->id() ) == NULL ) {
-        uDebug() << "Constraint with id " << ID2STR(constr->id())
+        uDebug() << "Constraint with id " << Uml::ID::toString(constr->id())
                  << " does not exist ";
         return false;
     }
