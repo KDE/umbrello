@@ -4,13 +4,15 @@ version 2.10.4
   * Fixed painting of message widgets (320109)
   * Move bounding rectangle related methods and class members to WidgetBase (Ralf Habacker)
   * Increase resolution by using UMLSceneValue in ObjectWidget::messageOverlap() (Ralf Habacker)
-  * Fixed bug where eesizing synchronous message moves its position (319813)
+  * Fixed bug where resizing synchronous message moves its position (319813)
   * Fixed bug where the sequence line is not moved along with the object widget (320018)
   * Remove erroneous double-quotes around %c in Exec line (David Faure)
+  * Fix of llvm-clang bug reports (319129)
+  * Crash fix accessing zero pointer (314999)
 
 version 2.10.3
 
-* Fix of llvm-clang bug reports (319129)
+- no changes
 
 Version 2.10.2
 
