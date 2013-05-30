@@ -1,3 +1,13 @@
+version 2.10.4
+
+  * Fixed crash on adding sequence diagram messages by breaking recursive inheritance loops (306785)
+  * Fixed painting of message widgets (320109)
+  * Move bounding rectangle related methods and class members to WidgetBase (Ralf Habacker)
+  * Increase resolution by using UMLSceneValue in ObjectWidget::messageOverlap() (Ralf Habacker)
+  * Fixed bug where eesizing synchronous message moves its position (319813)
+  * Fixed bug where the sequence line is not moved along with the object widget (320018)
+  * Remove erroneous double-quotes around %c in Exec line (David Faure)
+
 version 2.10.3
 
 * Fix of llvm-clang bug reports (319129)

@@ -256,12 +256,15 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY)
     int h = height();
 
     bool messageOverlaps = m_pOw[Uml::RoleType::A]->messageOverlap( y(), this );
+    const int boxWidth = 17;
+    const int wr = w < boxWidth ? w : boxWidth;
+    const int arrowWidth = 4;
 
     if(isSelf()) {
-        p.fillRect( offsetX, offsetY, 17, h,  QBrush(Qt::white) );              //box
-        p.drawRect(offsetX, offsetY, 17, h);                                    //box
-        offsetX += 17;
-        w -= 17;
+        p.fillRect( offsetX, offsetY, wr, h,  QBrush(Qt::white) );              //box
+        p.drawRect(offsetX, offsetY, wr, h);                                    //box
+        offsetX += wr;
+        w -= wr;
         offsetY += 3;
         const int lowerLineY = offsetY + h - 6;
         // draw upper line segment (leaving the life line)
@@ -270,7 +273,7 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY)
         p.drawLine(offsetX + w, offsetY, offsetX + w, lowerLineY);
         // draw lower line segment (back to the life line)
         drawArrow(p, offsetX, lowerLineY, w, Qt::LeftArrow);
-        offsetX -= 17;
+        offsetX -= wr;
         offsetY -= 3;
     } else if(x1 < x2) {
         if (messageOverlaps)  {
@@ -278,12 +281,13 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY)
             w -= 8;
         }
         QPen pen = p.pen();
-        int startX = offsetX + w - 16;
-        p.fillRect(startX, offsetY, 17, h,  QBrush(Qt::white));         //box
-        p.drawRect(startX, offsetY, 17, h);                             //box
-        p.drawLine(offsetX, offsetY + 4, startX, offsetY + 4);          //arrow line
-        drawSolidArrowhead(p, startX - 1, offsetY + 4, Qt::RightArrow);
-        drawArrow(p, offsetX, offsetY + h - 3, w - 16, Qt::LeftArrow, true); // return arrow
+        int startX = offsetX + w - wr + 1;
+        p.fillRect(startX, offsetY, wr, h,  QBrush(Qt::white));         //box
+        p.drawRect(startX, offsetY, wr, h);                             //box
+        p.drawLine(offsetX, offsetY + arrowWidth, startX, offsetY + arrowWidth);          //arrow line
+        if (w > boxWidth + arrowWidth)
+            drawSolidArrowhead(p, startX - 1, offsetY + arrowWidth, Qt::RightArrow);
+        drawArrow(p, offsetX, offsetY + h - arrowWidth + 1, w - wr + 1, Qt::LeftArrow, true); // return arrow
         if (messageOverlaps)  {
             offsetX -= 8; //reset for drawSelected()
         }
@@ -292,11 +296,12 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY)
             w -=8;
         }
         QPen pen = p.pen();
-        p.fillRect( offsetX, offsetY, 17, h,  QBrush(Qt::white) );              //box
-        p.drawRect(offsetX, offsetY, 17, h);                                    //box
-        p.drawLine(offsetX + 18, offsetY + 4, offsetX + w, offsetY + 4);        //arrow line
-        drawSolidArrowhead(p, offsetX + 17, offsetY + 4, Qt::LeftArrow);
-        drawArrow(p, offsetX + 18, offsetY + h - 3, w - 18, Qt::RightArrow, true); // return arrow
+        p.fillRect( offsetX, offsetY, wr, h,  QBrush(Qt::white) );              //box
+        p.drawRect(offsetX, offsetY, wr, h);                                    //box
+        p.drawLine(offsetX + wr + 1, offsetY + arrowWidth, offsetX + w, offsetY + arrowWidth);    //arrow line
+        if (w > boxWidth + arrowWidth)
+            drawSolidArrowhead(p, offsetX + wr, offsetY + arrowWidth, Qt::LeftArrow);
+        drawArrow(p, offsetX + wr + 1, offsetY + h - arrowWidth + 1, w - wr - 1, Qt::RightArrow, true); // return arrow
     }
 
     if(m_selected) {
