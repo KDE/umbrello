@@ -26,6 +26,7 @@
 #include <klocale.h>
 
 // qt includes
+#include <QCheckBox>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QLabel>
@@ -67,6 +68,9 @@ SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c)
     Dialog_Utils::makeLabeledEditField(m_pOpGB, mainLayout, 0,
                                     m_pSeqL, i18n("Sequence number:"),
                                     m_pSeqLE);
+
+    m_pOpAS = new QCheckBox(i18n("Auto increment:"), m_pOpGB);
+    mainLayout->addWidget(m_pOpAS, 0, 2);
 
     m_pOpRB = new QRadioButton(i18n("Class operation:"), m_pOpGB);
     connect(m_pOpRB, SIGNAL(clicked()), this, SLOT(slotSelectedOp()));
@@ -202,6 +206,20 @@ QString SelectOpDlg::getSeqNumber()
 void SelectOpDlg::setSeqNumber(const QString &num)
 {
     m_pSeqLE->setText(num);
+}
+
+/**
+ */
+void SelectOpDlg::setAutoIncrementSequence(bool state)
+{
+   m_pOpAS->setChecked(state);
+}
+
+/**
+ */
+bool SelectOpDlg::autoIncrementSequence()
+{
+   return m_pOpAS->isChecked();
 }
 
 #include "selectopdlg.moc"

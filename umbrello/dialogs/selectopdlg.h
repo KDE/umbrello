@@ -15,6 +15,7 @@
 
 class KComboBox;
 class KLineEdit;
+class QCheckBox;
 class QGroupBox;
 class QLabel;
 class QRadioButton;
@@ -41,6 +42,9 @@ public:
 
     QString getSeqNumber();
 
+    bool autoIncrementSequence();
+    void setAutoIncrementSequence(bool state);
+
     void setSeqNumber(const QString &num);
 
     void setCustomOp(const QString &op);
@@ -60,6 +64,7 @@ private:
     QLabel * m_pSeqL;
     KLineEdit * m_pOpLE, * m_pSeqLE;
     QRadioButton * m_pCustomRB, * m_pOpRB;
+    QCheckBox * m_pOpAS;
     QString m_Text;
     int m_nOpCount;
     int m_id;  ///< takes on the value OP or CUSTOM according to what the user selected

@@ -107,6 +107,10 @@ void UMLViewDialog::setupDiagramPropertiesPage()
     m_diagramProperties->ui_gridSpaceY->setValue(m_pScene->snapY());
     m_diagramProperties->ui_lineWidth->setValue(m_pScene->lineWidth());
     m_diagramProperties->ui_documentation->setText(m_pScene->documentation());
+    if (m_pScene->type() == Uml::DiagramType::Sequence) {
+        m_diagramProperties->ui_autoIncrementSequence->setVisible(true);
+        m_diagramProperties->ui_autoIncrementSequence->setChecked(m_pScene->autoIncrementSequence());
+    }
 }
 
 /**
@@ -176,6 +180,9 @@ void UMLViewDialog::applyPage(KPageWidgetItem *item)
         m_pScene->setSnapComponentSizeToGrid(m_diagramProperties->ui_snapComponentSizeToGrid->isChecked());
         m_pScene->setSnapGridVisible(m_diagramProperties->ui_checkBoxShowGrid->isChecked());
         m_pScene->setShowOpSig(m_diagramProperties->ui_showOpSigs->isChecked());
+        if (m_pScene->type() == Uml::DiagramType::Sequence) {
+            m_pScene->setAutoIncrementSequence(m_diagramProperties->ui_autoIncrementSequence->isChecked());
+        }
     }
     else if (item == m_pageStyleItem)
     {

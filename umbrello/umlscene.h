@@ -86,6 +86,11 @@ public:
     QString documentation() const;
     void setDocumentation(const QString &doc);
 
+    bool autoIncrementSequence() const;
+    void setAutoIncrementSequence(bool state);
+    QString autoIncrementSequenceValue(int increment=0) const;
+    void setAutoIncrementSequenceValue(const QString &value);
+
     QString name() const;
     void setName(const QString &name);
 
@@ -375,6 +380,8 @@ private:
     UMLDoc* m_doc;                  ///< Pointer to the UMLDoc.
     UMLViewImageExporter* m_pImageExporter;  ///< Used to export the view.
     LayoutGrid*  m_layoutGrid;      ///< layout grid in the background
+    bool m_autoIncrementSequence; ///< state of auto increment sequence
+    int m_autoIncrementSequenceValue; ///< current auto increment value
 
     void createAutoAttributeAssociation(UMLClassifier *type,
                                         UMLAttribute *attr,

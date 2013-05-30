@@ -216,6 +216,10 @@ void FloatingTextWidget::showOperationDialog()
     }
 
     QPointer<SelectOpDlg> selectDlg = new SelectOpDlg(m_scene->activeView(), c);
+    if (m_scene->autoIncrementSequence()) {
+        seqNum = m_scene->autoIncrementSequenceValue(1);
+        selectDlg->setAutoIncrementSequence(true);
+    }
     selectDlg->setSeqNumber(seqNum);
     if (m_linkWidget->operation() == 0) {
         selectDlg->setCustomOp(opText);
@@ -256,6 +260,10 @@ void FloatingTextWidget::showOperationDialog()
             m_linkWidget->setOperation(0);
         }
         m_linkWidget->setSeqNumAndOp(seqNum, opText);
+        if (m_scene->autoIncrementSequence())
+            m_scene->setAutoIncrementSequence(selectDlg->autoIncrementSequence());
+            m_scene->setAutoIncrementSequenceValue(seqNum);
+
         setMessageText();
     }
     delete selectDlg;

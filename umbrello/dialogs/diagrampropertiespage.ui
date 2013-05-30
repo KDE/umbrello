@@ -1,113 +1,87 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>DiagramPropertiesPage</class>
- <widget class="QWidget" name="DiagramPropertiesPage" >
-  <property name="geometry" >
+ <widget class="QWidget" name="DiagramPropertiesPage">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>411</width>
-    <height>391</height>
+    <width>449</width>
+    <height>515</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout">
    <item>
-    <widget class="QGroupBox" name="ui_groupBoxDiagramProperties" >
-     <property name="title" >
+    <widget class="QGroupBox" name="ui_groupBoxDiagramProperties">
+     <property name="title">
       <string>Diagram Properties</string>
      </property>
-     <layout class="QVBoxLayout" >
+     <layout class="QVBoxLayout">
       <item>
-       <layout class="QHBoxLayout" >
-        <property name="spacing" >
+       <layout class="QHBoxLayout">
+        <property name="spacing">
          <number>6</number>
         </property>
-        <property name="leftMargin" >
-         <number>0</number>
-        </property>
-        <property name="topMargin" >
-         <number>0</number>
-        </property>
-        <property name="rightMargin" >
-         <number>0</number>
-        </property>
-        <property name="bottomMargin" >
+        <property name="margin">
          <number>0</number>
         </property>
         <item>
-         <widget class="QLabel" name="ui_labelDiagramName" >
-          <property name="text" >
+         <widget class="QLabel" name="ui_labelDiagramName">
+          <property name="text">
            <string>Name:</string>
           </property>
-          <property name="wordWrap" >
+          <property name="wordWrap">
            <bool>false</bool>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="KLineEdit" name="ui_diagramName" />
+         <widget class="KLineEdit" name="ui_diagramName"/>
         </item>
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" >
-        <property name="leftMargin" >
-         <number>0</number>
-        </property>
-        <property name="topMargin" >
-         <number>0</number>
-        </property>
-        <property name="rightMargin" >
-         <number>0</number>
-        </property>
-        <property name="bottomMargin" >
+       <layout class="QHBoxLayout">
+        <property name="margin">
          <number>0</number>
         </property>
         <item>
-         <layout class="QHBoxLayout" >
-          <property name="leftMargin" >
-           <number>0</number>
-          </property>
-          <property name="topMargin" >
-           <number>0</number>
-          </property>
-          <property name="rightMargin" >
-           <number>0</number>
-          </property>
-          <property name="bottomMargin" >
+         <layout class="QHBoxLayout">
+          <property name="margin">
            <number>0</number>
           </property>
           <item>
-           <widget class="QLabel" name="ui_labelZoom" >
-            <property name="text" >
+           <widget class="QLabel" name="ui_labelZoom">
+            <property name="text">
              <string>Zoom:</string>
             </property>
-            <property name="wordWrap" >
+            <property name="wordWrap">
              <bool>false</bool>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="ui_zoom" >
-            <property name="sizePolicy" >
-             <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+           <widget class="QSpinBox" name="ui_zoom">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="minimum" >
+            <property name="minimum">
              <number>10</number>
             </property>
-            <property name="maximum" >
+            <property name="maximum">
              <number>500</number>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="ui_labelZoomUnit" >
-            <property name="text" >
+           <widget class="QLabel" name="ui_labelZoomUnit">
+            <property name="text">
              <string>%</string>
             </property>
-            <property name="wordWrap" >
+            <property name="wordWrap">
              <bool>false</bool>
             </property>
            </widget>
@@ -115,8 +89,8 @@
          </layout>
         </item>
         <item>
-         <widget class="QCheckBox" name="ui_showOpSigs" >
-          <property name="text" >
+         <widget class="QCheckBox" name="ui_showOpSigs">
+          <property name="text">
            <string>Show operation signature</string>
           </property>
          </widget>
@@ -124,50 +98,41 @@
        </layout>
       </item>
       <item>
-       <widget class="Line" name="ui_line" >
-        <property name="frameShape" >
+       <widget class="Line" name="ui_line">
+        <property name="frameShape">
          <enum>QFrame::HLine</enum>
         </property>
-        <property name="frameShadow" >
+        <property name="frameShadow">
          <enum>QFrame::Sunken</enum>
         </property>
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" >
-        <property name="leftMargin" >
-         <number>0</number>
-        </property>
-        <property name="topMargin" >
-         <number>0</number>
-        </property>
-        <property name="rightMargin" >
-         <number>0</number>
-        </property>
-        <property name="bottomMargin" >
+       <layout class="QHBoxLayout">
+        <property name="margin">
          <number>0</number>
         </property>
         <item>
-         <widget class="QCheckBox" name="ui_checkBoxShowGrid" >
-          <property name="text" >
+         <widget class="QCheckBox" name="ui_checkBoxShowGrid">
+          <property name="text">
            <string>Show &amp;grid</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="ui_snapToGrid" >
-          <property name="text" >
+         <widget class="QCheckBox" name="ui_snapToGrid">
+          <property name="text">
            <string>Snap &amp;to grid</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="ui_snapComponentSizeToGrid" >
-          <property name="whatsThis" >
+         <widget class="QCheckBox" name="ui_snapComponentSizeToGrid">
+          <property name="whatsThis">
            <string>Snap the size of the components to be a multiple of the grid spacing.
 If 'Snap to Grid' is enabled a component will always be aligned with the grid on all 4 sides.</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Snap component size</string>
           </property>
          </widget>
@@ -175,61 +140,52 @@ If 'Snap to Grid' is enabled a component will always be aligned with the grid on
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" >
-        <property name="spacing" >
+       <layout class="QHBoxLayout">
+        <property name="spacing">
          <number>6</number>
         </property>
-        <property name="leftMargin" >
-         <number>0</number>
-        </property>
-        <property name="topMargin" >
-         <number>0</number>
-        </property>
-        <property name="rightMargin" >
-         <number>0</number>
-        </property>
-        <property name="bottomMargin" >
+        <property name="margin">
          <number>0</number>
         </property>
         <item>
-         <widget class="QLabel" name="ui_labelGridSpacing" >
-          <property name="text" >
+         <widget class="QLabel" name="ui_labelGridSpacing">
+          <property name="text">
            <string>Grid spacing:  </string>
           </property>
-          <property name="wordWrap" >
+          <property name="wordWrap">
            <bool>false</bool>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="ui_labelX" >
-          <property name="text" >
+         <widget class="QLabel" name="ui_labelX">
+          <property name="text">
            <string>X</string>
           </property>
-          <property name="wordWrap" >
+          <property name="wordWrap">
            <bool>false</bool>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="ui_gridSpaceX" >
-          <property name="minimum" >
+         <widget class="QSpinBox" name="ui_gridSpaceX">
+          <property name="minimum">
            <number>5</number>
           </property>
-          <property name="maximum" >
+          <property name="maximum">
            <number>100</number>
           </property>
          </widget>
         </item>
         <item>
          <spacer>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizeType" >
+          <property name="sizeType">
            <enum>QSizePolicy::Fixed</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>40</width>
             <height>20</height>
@@ -238,21 +194,21 @@ If 'Snap to Grid' is enabled a component will always be aligned with the grid on
          </spacer>
         </item>
         <item>
-         <widget class="QLabel" name="ui_labelY" >
-          <property name="text" >
+         <widget class="QLabel" name="ui_labelY">
+          <property name="text">
            <string>Y</string>
           </property>
-          <property name="wordWrap" >
+          <property name="wordWrap">
            <bool>false</bool>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="ui_gridSpaceY" >
-          <property name="minimum" >
+         <widget class="QSpinBox" name="ui_gridSpaceY">
+          <property name="minimum">
            <number>5</number>
           </property>
-          <property name="maximum" >
+          <property name="maximum">
            <number>100</number>
           </property>
          </widget>
@@ -260,84 +216,82 @@ If 'Snap to Grid' is enabled a component will always be aligned with the grid on
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" >
-        <property name="spacing" >
+       <layout class="QHBoxLayout">
+        <property name="spacing">
          <number>6</number>
         </property>
-        <property name="leftMargin" >
-         <number>0</number>
-        </property>
-        <property name="topMargin" >
-         <number>0</number>
-        </property>
-        <property name="rightMargin" >
-         <number>0</number>
-        </property>
-        <property name="bottomMargin" >
+        <property name="margin">
          <number>0</number>
         </property>
         <item>
-         <widget class="QLabel" name="ui_labeLineWidth" >
-          <property name="text" >
+         <widget class="QLabel" name="ui_labeLineWidth">
+          <property name="text">
            <string>Line width:  </string>
           </property>
-          <property name="wordWrap" >
+          <property name="wordWrap">
            <bool>false</bool>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="ui_lineWidth" >
-          <property name="minimum" >
+         <widget class="QSpinBox" name="ui_lineWidth">
+          <property name="minimum">
            <number>0</number>
           </property>
-          <property name="maximum" >
+          <property name="maximum">
            <number>10</number>
           </property>
          </widget>
         </item>
        </layout>
       </item>
+      <item>
+       <widget class="Line" name="line">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="ui_autoIncrementSequence">
+        <property name="text">
+         <string>Autoincrement Sequence </string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="ui_groupBoxDocumentation" >
-     <property name="title" >
+    <widget class="QGroupBox" name="ui_groupBoxDocumentation">
+     <property name="title">
       <string>Documentation</string>
      </property>
-     <layout class="QGridLayout" >
-      <property name="leftMargin" >
+     <layout class="QGridLayout">
+      <property name="margin">
        <number>11</number>
       </property>
-      <property name="topMargin" >
-       <number>11</number>
-      </property>
-      <property name="rightMargin" >
-       <number>11</number>
-      </property>
-      <property name="bottomMargin" >
-       <number>11</number>
-      </property>
-      <property name="horizontalSpacing" >
+      <property name="spacing">
        <number>6</number>
       </property>
-      <property name="verticalSpacing" >
-       <number>6</number>
-      </property>
-      <item row="0" column="0" >
-       <widget class="KTextEdit" name="ui_documentation" />
+      <item row="0" column="0">
+       <widget class="KTextEdit" name="ui_documentation"/>
       </item>
      </layout>
     </widget>
    </item>
   </layout>
  </widget>
-  <customwidgets>
+ <customwidgets>
   <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>ktextedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

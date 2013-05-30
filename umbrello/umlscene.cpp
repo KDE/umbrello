@@ -120,7 +120,9 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     m_pFolder(parentFolder),
     m_pIDChangesLog(0),
     m_isActivated(false),
-    m_bPopupShowing(false)
+    m_bPopupShowing(false),
+    m_autoIncrementSequence(false),
+    m_autoIncrementSequenceValue(0)
 {
     //m_AssociationList.setAutoDelete(true);
     //m_WidgetList.setAutoDelete(true);
@@ -207,6 +209,29 @@ QString UMLScene::documentation() const
 void UMLScene::setDocumentation(const QString &doc)
 {
     m_Documentation = doc;
+}
+
+/**
+ * Return the state of the auto increment sequence
+ */
+bool UMLScene::autoIncrementSequence() const
+{
+    return m_autoIncrementSequence;
+}
+
+void UMLScene::setAutoIncrementSequence(bool state)
+{
+    m_autoIncrementSequence = state;
+}
+
+QString UMLScene::autoIncrementSequenceValue(int increment) const
+{
+    return QString::number(m_autoIncrementSequenceValue + increment);
+}
+
+void UMLScene::setAutoIncrementSequenceValue(const QString &value)
+{
+    m_autoIncrementSequenceValue = value.toInt();
 }
 
 /**
