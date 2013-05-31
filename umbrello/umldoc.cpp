@@ -41,6 +41,7 @@
 #include "cmds.h"
 #include "diagramprintpage.h"
 #include "umlscene.h"
+#include "version.h"
 #include "worktoolbar.h"
 
 // kde includes
