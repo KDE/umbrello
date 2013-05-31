@@ -68,9 +68,6 @@
 #include <QTextStream>
 #include <QTimer>
 
-// Update this version when changing the XMI file format
-#define XMI_FILE_VERSION "1.6.1"
-
 DEBUG_REGISTER(UMLDoc)
 
 /**

@@ -26,4 +26,7 @@ inline QByteArray umbrelloVersion()
     return versionStr.toLatin1();
 }
 
+// Update this version when changing the XMI file format
+#define XMI_FILE_VERSION "1.6.1"
+
 #endif
