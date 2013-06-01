@@ -25,7 +25,7 @@ and access the different diagrams quickly while working on your model.
 <itemizedlist>
 <listitem><para>Tree View</para></listitem>
 <listitem><para>Work Area</para></listitem>
-<listitem><para>Documentation Window</para></listitem>
+<listitem><para>Documentation and Command history Window</para></listitem>
 </itemizedlist>
 
 <screenshot>
@@ -58,18 +58,17 @@ If you are working on a model with more than just a few classes and diagrams, th
 you stay on top of things by organizing your model elements in folders. You can create 
 folders by selecting the appropriate option from the context menu (&RMB; click on one of the folders
 in the tree view) and you can organize your elements by moving them to the appropriate folder (drag and drop)
-<!-- (screen shot) FIXME-->
 </para>
 </sect2>
 
 <sect2 id="documentation-window">
-<title>Documentation Window</title>
+<title>Documentation and Command History Window</title>
 <para>
-The Documentation Window is the small window located on the left bottom of &umbrello;, and it gives
-you a quick preview of the documentation for the currently selected item. The Documentation Window is
-rather small because it is intended to allow you just a quick pick into the element's documentation while
-taking as little screen space as possible. If you need to view the documentation in more detail you can always
-open the item's properties.
+The Documentation and Command history Window is the small window located on the left bottom of &umbrello;, and it gives
+you a quick preview of the documentation for the currently selected item and the command history of your work session.
+The Documentation Window is rather small because it is intended to allow you just a quick pick into the element's documentation
+and the overview of the command history while taking as little screen space as possible. If you need to view the documentation
+in more detail you can always open the item's properties.
 </para>
 </sect2>
 <sect2 id="work-area">
@@ -226,9 +225,8 @@ The second way of adding elements to your diagram is by using the Work Toolbar's
 that this will also add the elements to your model).
 </para>
 <para>
-The Work Toolbar was by default located on the far right of the application window, &umbrello; 1.2 has moved this to the top of the window.
-You can dock it into other edge or have it floating around if you prefer. The tools available
-on this toolbar (the buttons you see on it) change depending on the type of diagram
+The Work Toolbar was by default located on the top of the window.
+The tools available on this toolbar (the buttons you see on it) change depending on the type of diagram
 you are currently working on. The button for the currently
 selected tool is activated in the toolbar. You can switch to the select tool
 by pressing the &Esc; key.

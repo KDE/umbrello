@@ -18,7 +18,7 @@ of the class declarations, with their methods and attributes so you can <quote>f
 blanks</quote> by providing the functionality of your classes' operations.
 </para>
 <para>
-&umbrello; 1.2 comes with code generation support for ActionScript, Ada, C++, CORBA IDL, &Java;, JavaScript, <acronym>PHP</acronym>, Perl, Python, SQL and XMLSchema. 
+&umbrello; 2 comes with code generation support for ActionScript, Ada, C++, C#, D, IDL, &Java;, JavaScript, MySQL and Pascal. 
 </para>
 <sect2 id="generate-code">
 <title>Generating Code</title>
@@ -59,7 +59,7 @@ while writing your code. The following options are available:
 <!-- LW; to rearrange -->
 
 <sect4>
-<title>Code Verbosity</title>
+<title>Comment Verbosity</title>
 <para>
 The option <guilabel>Write documentation comments even if empty</guilabel> instructs the
  Code Generator to write comments of the /** blah */ style even if the comment blocks are empty.
@@ -138,13 +138,13 @@ This will generate code for all the classes in your Model using the current sett
 <title>Code Import</title>
 <para>
 &umbrello; can import source code from your existing projects to help you build Model of 
-your systems. &umbrello; 1.2 supports only C++ source code, but other languages
-should be available in future versions.
+your systems. &umbrello; 2 supports ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL, and Pascal source code.
 </para>
 <para>
-To import classes into your Model, select the entry <guimenuitem>Import Classes...</guimenuitem> from
-the <guimenu>Code</guimenu> menu. In the file dialog select the files containing the C++
-class declarations and press OK. The classes will be imported and you will find them as part of
+To import classes into your Model, select the entry <guimenuitem>Code Importing Wizard...</guimenuitem> from
+the <guimenu>Code</guimenu> menu. In the file dialog select the files containing
+class declarations and press <guibutton>Next ></guibutton> then <guibutton>Start import</guibutton> and <guibutton>Finish</guibutton>.
+The classes will be imported and you will find them as part of
 your Model in the Tree View. Note that &umbrello; will not create any kind of Diagram for showing
 your classes, they will only be imported into your Model so that you can use them later in any 
 diagram you want.

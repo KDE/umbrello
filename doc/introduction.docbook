@@ -18,7 +18,7 @@ you code things right the first time.
 </para>
 <para>
 &UML; is the diagramming language used to describing such models. You can represent your ideas in &UML;
-using different types of diagrams. &umbrello; 1.2 supports the following types:
+using different types of diagrams. &umbrello; 2.11 supports the following types:
 </para>
 <itemizedlist>
 <listitem><para>Class Diagram</para></listitem>
@@ -29,6 +29,7 @@ using different types of diagrams. &umbrello; 1.2 supports the following types:
 <listitem><para>Activity Diagram</para></listitem>
 <listitem><para>Component Diagram</para></listitem>
 <listitem><para>Deployment Diagram</para></listitem>
+<listitem><para>Entity Relationship Diagram</para></listitem>
 </itemizedlist>
 <para>
 More information about &UML; can be found at the website of
