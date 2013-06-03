@@ -43,6 +43,17 @@
 using namespace Uml;
 
 /**
+ * @brief holds set of classifiers for recursive loop detection
+ */
+class UMLClassifierSet: public QSet<UMLClassifier *> {
+public:
+    UMLClassifierSet() : level(0)
+    {
+    }
+    int level;
+};
+
+/**
  * Sets up a Classifier.
  *
  * @param name   The name of the Concept.
@@ -938,14 +949,15 @@ int UMLClassifier::operations()
     return getOpList().count();
 }
 
+
 /**
  * Return a list of operations for the Classifier.
  *
  * @param includeInherited   Includes operations from superclasses.
- * @param blocker Blocker object to avoid recursive crashes (internal used)
+ * @param alreadyTraversed   internal used object to avoid recursive loops
  * @return   The list of operations for the Classifier.
  */
-UMLOperationList UMLClassifier::getOpList(bool includeInherited, UMLClassifier *blocker)
+UMLOperationList UMLClassifier::getOpList(bool includeInherited, UMLClassifierSet *alreadyTraversed)
 {
     UMLOperationList ops;
     foreach (UMLObject* li, m_List) {
@@ -955,20 +967,24 @@ UMLOperationList UMLClassifier::getOpList(bool includeInherited, UMLClassifier *
         }
     }
     if (includeInherited) {
-        if (!blocker)
-            blocker = this;
+        if (!alreadyTraversed) {
+            alreadyTraversed = new UMLClassifierSet;
+        }
+        else
+            alreadyTraversed->level++;
+
+        if (!alreadyTraversed->contains(this))
+            *alreadyTraversed << this;
+
+        // get a list of parents of this class
         UMLClassifierList parents = findSuperClassConcepts();
-        foreach (UMLClassifier* c ,  parents) {
-            if (c == this) {
-                uError() << "class " << c->name() << " is parent of itself ?!?";
-                continue;
-            }
-            else if (c == blocker) {
-                uError() << "class " << c->name() << " indirect parent of itself ?!?";
+        foreach(UMLClassifier *c, parents) {
+            if (alreadyTraversed->contains(c)) {
+                uError() << "class " << c->name() << " is starting a dependency loop!";
                 continue;
             }
             // get operations for each parent by recursive call
-            UMLOperationList pops = c->getOpList(true, blocker);
+            UMLOperationList pops = c->getOpList(true, alreadyTraversed);
             // add these operations to operation list, but only if unique.
             foreach (UMLOperation *po , pops ) {
                 QString po_as_string(po->toString(Uml::SignatureType::SigNoVis));
@@ -982,6 +998,12 @@ UMLOperationList UMLClassifier::getOpList(bool includeInherited, UMLClassifier *
                 if (breakFlag == false)
                     ops.append(po);
             }
+            // remember this node
+            *alreadyTraversed << c;
+        }
+        if (alreadyTraversed->level-- == 0) {
+            delete alreadyTraversed;
+            alreadyTraversed = 0;
         }
     }
     return ops;
