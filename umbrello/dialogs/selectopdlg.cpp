@@ -77,7 +77,7 @@ SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c)
     m_pOpLE = new KLineEdit(m_pOpGB);
     mainLayout->addWidget(m_pOpLE, 2, 1);
 
-    UMLOperationList list = c->getOpList();
+    UMLOperationList list = c->getOpList(true);
     qSort(list.begin(), list.end(), caseInsensitiveLessThan);
     foreach (UMLOperation* obj, list ) {
         insertOperation( obj->toString(Uml::SignatureType::SigNoVis), list.count() );
