@@ -36,13 +36,15 @@ BoxWidget::~BoxWidget()
 /**
  * Draws a rectangle.
  */
-void BoxWidget::draw(QPainter& p, int offsetX, int offsetY)
+void BoxWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    UMLWidget::setPenFromSettings(p);
-    p.drawRect( offsetX, offsetY, width(), height() );
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+    setPenFromSettings(painter);
+    painter->drawRect(0, 0, width(), height());
 
     if (m_selected) {
-        drawSelected(&p, offsetX, offsetY);
+        drawSelected(painter);
     }
 }
 
