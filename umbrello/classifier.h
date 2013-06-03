@@ -21,6 +21,7 @@
 // forward declarations
 class UMLAssociation;
 class IDChangeLog;
+class UMLClassifierSet;
 
 /**
  * This class defines the non-graphical information required for a
@@ -88,7 +89,7 @@ public:
 
     int operations();
 
-    UMLOperationList getOpList(bool includeInherited = false, UMLClassifier *blocker = 0);
+    UMLOperationList getOpList(bool includeInherited = false, UMLClassifierSet *alreadyTraversed = 0);
 
     UMLObject* createTemplate(const QString& name = QString());
 
