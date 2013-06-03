@@ -1022,6 +1022,14 @@ void UMLWidget::setPenFromSettings(QPainter & p)
 }
 
 /**
+ * Set the pen.
+ */
+void UMLWidget::setPenFromSettings(QPainter *p)
+{
+    p->setPen(QPen(m_lineColor, m_lineWidth));
+}
+
+/**
  * Overrides default method.
  *
  * @param p Device on which the shape has to be drawn.

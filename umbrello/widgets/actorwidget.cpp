@@ -36,14 +36,16 @@ ActorWidget::~ActorWidget()
 /**
  * Overrides the standard paint event.
  */
-void ActorWidget::draw(QPainter & p, int offsetX, int offsetY)
+void ActorWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    UMLWidget::setPenFromSettings(p);
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+    UMLWidget::setPenFromSettings(painter);
     if( UMLWidget::useFillColor() )
-        p.setBrush( UMLWidget::fillColor() );
+        painter->setBrush( UMLWidget::fillColor() );
     const int w = width();
     const int h = height();
-    p.setFont( UMLWidget::font() );
+    painter->setFont( UMLWidget::font() );
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int textWidth = fm.width(name());
     const int fontHeight = fm.lineSpacing();
@@ -55,21 +57,21 @@ void ActorWidget::draw(QPainter & p, int offsetX, int offsetY)
     const int thirdY = a_height / 3;
 
     //draw actor
-    p.drawEllipse(offsetX + middleX - a_width / 2, offsetY, a_width, thirdY); //head
-    p.drawLine(offsetX + middleX, offsetY + thirdY,
-               offsetX + middleX, offsetY + thirdY * 2); //body
-    p.drawLine(offsetX + middleX, offsetY + 2 * thirdY,
-               offsetX + middleX - a_width / 2, offsetY + a_height); //left leg
-    p.drawLine(offsetX + middleX, offsetY +  2 * thirdY,
-               offsetX + middleX + a_width / 2, offsetY + a_height); //right leg
-    p.drawLine(offsetX + middleX - a_width / 2, offsetY + thirdY + thirdY / 2,
-               offsetX + middleX + a_width / 2, offsetY + thirdY + thirdY / 2); //arms
+    painter->drawEllipse(middleX - a_width / 2, 0, a_width, thirdY); //head
+    painter->drawLine(middleX, thirdY,
+               middleX, thirdY * 2); //body
+    painter->drawLine(middleX, 2 * thirdY,
+               middleX - a_width / 2, a_height); //left leg
+    painter->drawLine(middleX,  2 * thirdY,
+               middleX + a_width / 2, a_height); //right leg
+    painter->drawLine(middleX - a_width / 2, thirdY + thirdY / 2,
+               middleX + a_width / 2, thirdY + thirdY / 2); //arms
     //draw text
-    p.setPen(textColor());
-    p.drawText(offsetX + A_MARGIN, offsetY + h - fontHeight,
+    painter->setPen(textColor());
+    painter->drawText(A_MARGIN, h - fontHeight,
                w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
     if(m_selected)
-        drawSelected(&p, offsetX, offsetY);
+        drawSelected(painter);
 }
 
 /**
