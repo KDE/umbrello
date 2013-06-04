@@ -556,22 +556,24 @@ AssociationWidget *ClassifierWidget::classAssociationWidget() const
  * Overrides standard method.
  * Auxiliary to reimplementations in the derived classes.
  */
-void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY)
+void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    setPenFromSettings(p);
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+    setPenFromSettings(painter);
     if ( UMLWidget::useFillColor() )
-        p.setBrush( UMLWidget::fillColor() );
+        painter->setBrush( UMLWidget::fillColor() );
     else
-        p.setBrush( m_scene->activeView()->viewport()->palette().color(QPalette::Background) );
+        painter->setBrush( m_scene->activeView()->viewport()->palette().color(QPalette::Background) );
 
     if (classifier()->isInterface() && visualProperty(DrawAsCircle)) {
-        drawAsCircle(p, offsetX, offsetY);
+        drawAsCircle(painter);
         return;
     }
 
     // Draw the bounding rectangle
     QSize templatesBoxSize = calculateTemplatesBoxSize();
-    int m_bodyOffsetY = offsetY;
+    int m_bodyOffsetY = 0;
     if (templatesBoxSize.height() > 0)
         m_bodyOffsetY += templatesBoxSize.height() - MARGIN;
     int w = width();
@@ -580,7 +582,7 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY)
     int h = height();
     if (templatesBoxSize.height() > 0)
         h -= templatesBoxSize.height() - MARGIN;
-    p.drawRect(offsetX, m_bodyOffsetY, w, h);
+    painter->drawRect(0, m_bodyOffsetY, w, h);
 
     QFont font = UMLWidget::font();
     font.setUnderline(false);
@@ -591,28 +593,28 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY)
     //If there are any templates then draw them
     UMLTemplateList tlist = classifier()->getTemplateList();
     if ( tlist.count() > 0 ) {
-        setPenFromSettings(p);
-        QPen pen = p.pen();
+        setPenFromSettings(painter);
+        QPen pen = painter->pen();
         pen.setStyle(Qt::DotLine);
-        p.setPen(pen);
-        p.drawRect( offsetX + width() - templatesBoxSize.width(), offsetY,
+        painter->setPen(pen);
+        painter->drawRect(width() - templatesBoxSize.width(), 0,
                     templatesBoxSize.width(), templatesBoxSize.height() );
-        p.setPen( QPen(textColor()));
+        painter->setPen( QPen(textColor()));
         font.setBold(false);
-        p.setFont(font);
-        const int x = offsetX + width() - templatesBoxSize.width() + MARGIN;
-        int y = offsetY + MARGIN;
+        painter->setFont(font);
+        const int x = width() - templatesBoxSize.width() + MARGIN;
+        int y = MARGIN;
         foreach ( UMLTemplate *t , tlist ) {
             QString text = t->toString();
-            p.drawText(x, y, fm.size(0,text).width(), fontHeight, Qt::AlignVCenter, text);
+            painter->drawText(x, y, fm.size(0,text).width(), fontHeight, Qt::AlignVCenter, text);
             y += fontHeight;
         }
     }
 
-    const int textX = offsetX + MARGIN;
+    const int textX = MARGIN;
     const int textWidth = w - MARGIN * 2;
 
-    p.setPen(QPen(textColor()));
+    painter->setPen(QPen(textColor()));
 
     // draw stereotype
     font.setBold(true);
@@ -626,9 +628,9 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY)
     if (showNameOnly) {
         nameHeight = h;
     } else if (showStereotype) {
-        p.setFont(font);
+        painter->setFont(font);
         stereo = m_umlObject->stereotype(true);
-        p.drawText(textX, m_bodyOffsetY, textWidth, fontHeight, Qt::AlignCenter, stereo);
+        painter->drawText(textX, m_bodyOffsetY, textWidth, fontHeight, Qt::AlignCenter, stereo);
         m_bodyOffsetY += fontHeight;
     }
 
@@ -640,22 +642,22 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY)
         name = this->name();
     }
     font.setItalic( m_umlObject->isAbstract() );
-    p.setFont(font);
-    p.drawText(textX, m_bodyOffsetY, textWidth, nameHeight, Qt::AlignCenter, name);
+    painter->setFont(font);
+    painter->drawText(textX, m_bodyOffsetY, textWidth, nameHeight, Qt::AlignCenter, name);
     if (!showNameOnly) {
         m_bodyOffsetY += fontHeight;
-        setPenFromSettings(p);
-        p.drawLine(offsetX, m_bodyOffsetY, offsetX + w - 1, m_bodyOffsetY);
-        p.setPen(textColor());
+        setPenFromSettings(painter);
+        painter->drawLine(0, m_bodyOffsetY, w - 1, m_bodyOffsetY);
+        painter->setPen(textColor());
     }
     font.setBold(false);
     font.setItalic(false);
-    p.setFont(font);
+    painter->setFont(font);
 
     // draw attributes
     const int numAtts = displayedAttributes();
     if (visualProperty(ShowAttributes)) {
-        drawMembers(p, UMLObject::ot_Attribute, m_attributeSignature, textX,
+        drawMembers(painter, UMLObject::ot_Attribute, m_attributeSignature, textX,
                     m_bodyOffsetY, fontHeight);
     }
 
@@ -665,26 +667,26 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY)
             m_bodyOffsetY += fontHeight / 2;  // no atts, so just add a bit of space
         else
             m_bodyOffsetY += fontHeight * numAtts;
-        setPenFromSettings(p);
-        p.drawLine(offsetX, m_bodyOffsetY, offsetX + w - 1, m_bodyOffsetY);
-        p.setPen(QPen(textColor()));
+        setPenFromSettings(painter);
+        painter->drawLine(0, m_bodyOffsetY, w - 1, m_bodyOffsetY);
+        painter->setPen(QPen(textColor()));
     }
 
     // draw operations
     if (visualProperty(ShowOperations)) {
-        drawMembers(p, UMLObject::ot_Operation, m_operationSignature, textX,
+        drawMembers(painter, UMLObject::ot_Operation, m_operationSignature, textX,
                     m_bodyOffsetY, fontHeight);
     }
 
-    if (UMLWidget::m_selected)
-        UMLWidget::drawSelected(&p, offsetX, offsetY);
+    if (m_selected)
+        drawSelected(painter);
 }
 
 /**
  * Draws the interface as a circle with name underneath.
  * Only applies when m_umlObject->getBaseType() is ot_Interface.
  */
-void ClassifierWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY)
+void ClassifierWidget::drawAsCircle(QPainter *painter)
 {
     int w = width();
 
@@ -697,15 +699,15 @@ void ClassifierWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY)
         name = this->name();
     }
 
-    p.drawEllipse(offsetX + w/2 - CIRCLE_SIZE/2, offsetY, CIRCLE_SIZE, CIRCLE_SIZE);
-    p.setPen( QPen(textColor()));
+    painter->drawEllipse(w/2 - CIRCLE_SIZE/2, 0, CIRCLE_SIZE, CIRCLE_SIZE);
+    painter->setPen( QPen(textColor()));
 
     QFont font = UMLWidget::font();
-    p.setFont(font);
-    p.drawText(offsetX, offsetY + CIRCLE_SIZE, w, fontHeight, Qt::AlignCenter, name);
+    painter->setFont(font);
+    painter->drawText(0, CIRCLE_SIZE, w, fontHeight, Qt::AlignCenter, name);
 
     if (m_selected) {
-        drawSelected(&p, offsetX, offsetY);
+        drawSelected(painter);
     }
 }
 
@@ -746,29 +748,29 @@ QSize ClassifierWidget::calculateAsCircleSize()
  * @param y          Y coordinate at which text drawing commences.
  * @param fontHeight The font height.
  */
-void ClassifierWidget::drawMembers(QPainter & p, UMLObject::ObjectType ot, Uml::SignatureType::Enum sigType,
+void ClassifierWidget::drawMembers(QPainter * painter, UMLObject::ObjectType ot, Uml::SignatureType::Enum sigType,
                                    int x, int y, int fontHeight)
 {
     QFont f = UMLWidget::font();
     f.setBold(false);
     UMLClassifierListItemList list = classifier()->getFilteredList(ot);
-    p.setClipping(true);
-    p.setClipRect(rect());
+    painter->setClipping(true);
+    painter->setClipRect(rect());
     foreach (UMLClassifierListItem *obj , list ) {
           if (visualProperty(ShowPublicOnly) && obj->visibility() != Uml::Visibility::Public)
             continue;
         QString text = obj->toString(sigType);
         f.setItalic( obj->isAbstract() );
         f.setUnderline( obj->isStatic() );
-        p.setFont( f );
+        painter->setFont( f );
         QFontMetrics fontMetrics(f);
-        p.drawText(x, y, fontMetrics.size(0,text).width(), fontHeight, Qt::AlignVCenter, text);
+        painter->drawText(x, y, fontMetrics.size(0,text).width(), fontHeight, Qt::AlignVCenter, text);
         f.setItalic(false);
         f.setUnderline(false);
-        p.setFont(f);
+        painter->setFont(f);
         y += fontHeight;
     }
-    p.setClipping(false);
+    painter->setClipping(false);
 }
 
 /**
