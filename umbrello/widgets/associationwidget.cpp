@@ -1081,7 +1081,7 @@ void AssociationWidget::setVisibility(Visibility::Enum value, Uml::RoleType::Enu
 }
 
 /**
- * Gets the changeability on the the given end of the Association.
+ * Gets the changeability on the given end of the Association.
  */
 Uml::Changeability::Enum AssociationWidget::changeability(Uml::RoleType::Enum role) const
 {
@@ -1092,7 +1092,7 @@ Uml::Changeability::Enum AssociationWidget::changeability(Uml::RoleType::Enum ro
 }
 
 /**
- * Sets the changeability on the the given end of the Association.
+ * Sets the changeability on the given end of the Association.
  */
 void AssociationWidget::setChangeability(Uml::Changeability::Enum value, Uml::RoleType::Enum role)
 {
