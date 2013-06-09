@@ -134,7 +134,8 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
                 painter->drawText(COMBINED_FRAGMENT_MARGIN, 0,
             w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "alt");
                 // dash lines
-                m_dashLines.first()->draw(p,x(),y());
+                //m_dashLines.first()->paint(painter);
+                // TODO: move to UMLWidget::calculateSize api
                 for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines.begin() ; it!=m_dashLines.end() ; ++it) {
                     (*it)->setX(x());
                     old_Y = (*it)->getYMin();
@@ -151,7 +152,8 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
             w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "parallel");
                 // dash lines
                 if (m_dashLines.size() != 0) {
-                    m_dashLines.first()->draw(p,x(),y());
+                    //m_dashLines.first()->paint(painter);
+                    // TODO: move to UMLWidget::calculateSize api
                     for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines.begin() ; it!=m_dashLines.end() ; ++it) {
                         (*it)->setX(x());
                         old_Y = (*it)->getYMin();
@@ -220,6 +222,7 @@ void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combi
         {
             m_dashLines.back()->setText("else");
         }
+        // TODO: move to UMLWidget::calculateSize api
         m_dashLines.back()->setX(x());
         m_dashLines.back()->setYMin(y());
         m_dashLines.back()->setYMax(y() + height());
@@ -369,6 +372,7 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
         {
             m_dashLines.back()->setText("else");
         }
+        // TODO: move to UMLWidget::calculateSize api
         m_dashLines.back()->setX(x());
         m_dashLines.back()->setYMin(y());
         m_dashLines.back()->setYMax(y() + height());
