@@ -9,6 +9,7 @@
  ***************************************************************************/
 // own header
 #include "floatingdashlinewidget.h"
+#include "combinedfragmentwidget.h"
 
 //kde includes
 #include <kinputdialog.h>
@@ -30,8 +31,9 @@ DEBUG_REGISTER_DISABLED(FloatingDashLineWidget)
  * @param scene   The parent of the widget
  * @param id      The ID to assign (-1 will prompt a new ID)
  */
-FloatingDashLineWidget::FloatingDashLineWidget(UMLScene * scene, Uml::ID::Type id)
-  : UMLWidget(scene, WidgetBase::wt_FloatingDashLine, id)
+FloatingDashLineWidget::FloatingDashLineWidget(UMLScene * scene, Uml::ID::Type id, CombinedFragmentWidget *parent)
+  : UMLWidget(scene, WidgetBase::wt_FloatingDashLine, id),
+    m_parent(parent)
 {
     m_resizable = false;
     m_Text = "";
@@ -45,6 +47,8 @@ FloatingDashLineWidget::FloatingDashLineWidget(UMLScene * scene, Uml::ID::Type i
  */
 FloatingDashLineWidget::~FloatingDashLineWidget()
 {
+    if (m_parent)
+        m_parent->removeDashLine(this);
 }
 
 /**

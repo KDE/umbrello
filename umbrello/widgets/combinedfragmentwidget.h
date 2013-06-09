@@ -68,6 +68,7 @@ public:
 
     void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
     bool loadFromXMI(QDomElement & qElement);
+    void removeDashLine(FloatingDashLineWidget *line);
 
 public slots:
     void slotMenuSelection(QAction* action);

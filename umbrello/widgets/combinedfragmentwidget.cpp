@@ -217,7 +217,7 @@ void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combi
     // creates a dash line if the combined fragment type is alternative or parallel
     if(m_CombinedFragment == Alt  && m_dashLines.isEmpty())
     {
-        m_dashLines.push_back(new FloatingDashLineWidget(m_scene));
+        m_dashLines.push_back(new FloatingDashLineWidget(m_scene, Uml::ID::None, this));
         if(m_CombinedFragment == Alt)
         {
             m_dashLines.back()->setText("else");
@@ -332,7 +332,7 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement )
     while ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingdashlinewidget") {
-            FloatingDashLineWidget * fdlwidget = new FloatingDashLineWidget(m_scene);
+            FloatingDashLineWidget * fdlwidget = new FloatingDashLineWidget(m_scene, Uml::ID::None, this);
             m_dashLines.push_back(fdlwidget);
             if( !fdlwidget->loadFromXMI(element) ) {
               // Most likely cause: The FloatingTextWidget is empty.
@@ -354,6 +354,12 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement )
     return true;
 }
 
+void CombinedFragmentWidget::removeDashLine(FloatingDashLineWidget *line)
+{
+    if(m_dashLines.contains(line))
+        m_dashLines.removeOne(line);
+}
+
 /**
  * Overrides the function from UMLWidget.
  *
@@ -367,7 +373,7 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
     switch (sel) {
           // for alternative or parallel combined fragments
     case ListPopupMenu::mt_AddInteractionOperand:
-        m_dashLines.push_back(new FloatingDashLineWidget(m_scene));
+        m_dashLines.push_back(new FloatingDashLineWidget(m_scene, Uml::ID::None, this));
         if(m_CombinedFragment == Alt)
         {
             m_dashLines.back()->setText("else");
