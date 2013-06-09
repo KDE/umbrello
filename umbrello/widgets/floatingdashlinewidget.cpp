@@ -47,19 +47,22 @@ FloatingDashLineWidget::~FloatingDashLineWidget()
 /**
  * Overrides the standard paint event.
  */
-void FloatingDashLineWidget::draw(QPainter & p, int /*offsetX*/, int /*offsetY*/)
+void FloatingDashLineWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
-    p.setPen(textColor());
-    p.setFont(UMLWidget::font());
-    p.drawText(x() + FLOATING_DASH_LINE_TEXT_MARGIN, y(),
+    painter->setPen(textColor());
+    painter->setFont(UMLWidget::font());
+    painter->drawText(FLOATING_DASH_LINE_TEXT_MARGIN, 0,
                width() - FLOATING_DASH_LINE_TEXT_MARGIN * 2, fontHeight,
                Qt::AlignLeft, '[' + m_Text + ']');
-    p.setPen(QPen(UMLWidget::lineColor(), 0, Qt::DashLine));
-    p.drawLine(x(), y(), x() + width(), y());
+    painter->setPen(QPen(UMLWidget::lineColor(), 0, Qt::DashLine));
+    painter->drawLine(0, 0, width(), 0);
     if(m_selected)
-        drawSelected(&p, x(), y());
+        drawSelected(painter);
 }
 
 /**
