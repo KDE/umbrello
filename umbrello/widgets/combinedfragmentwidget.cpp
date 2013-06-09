@@ -141,7 +141,7 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
                     (*it)->setYMin(y());
                     (*it)->setYMax(y() + height());
                     (*it)->setY(y() + (*it)->y() - old_Y);
-                    (*it)->setSize(w, 0);
+                    (*it)->setSize(w, (*it)->height());
                 }
 
         break;
@@ -158,7 +158,7 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
                         (*it)->setYMin(y());
                         (*it)->setYMax(y() + height());
                         (*it)->setY(y() + (*it)->y() - old_Y);
-                        (*it)->setSize(w, 0);
+                        (*it)->setSize(w, (*it)->height());
                     }
                 }
         break;
@@ -224,7 +224,7 @@ void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combi
         m_dashLines.back()->setYMin(y());
         m_dashLines.back()->setYMax(y() + height());
         m_dashLines.back()->setY(y() + height()/2);
-        m_dashLines.back()->setSize(width(), 0);
+        m_dashLines.back()->setSize(width(), m_dashLines.back()->height());
         m_scene->setupNewWidget(m_dashLines.back());
     }
 }
@@ -373,7 +373,7 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
         m_dashLines.back()->setYMin(y());
         m_dashLines.back()->setYMax(y() + height());
         m_dashLines.back()->setY(y() + height() / 2);
-        m_dashLines.back()->setSize(width(), 0);
+        m_dashLines.back()->setSize(width(), m_dashLines.back()->height());
         m_scene->setupNewWidget(m_dashLines.back());
         break;
 

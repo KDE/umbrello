@@ -35,6 +35,9 @@ FloatingDashLineWidget::FloatingDashLineWidget(UMLScene * scene, Uml::ID::Type i
 {
     m_resizable = false;
     m_Text = "";
+    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+    const int fontHeight = fm.lineSpacing();
+    setSize(10, fontHeight);
 }
 
 /**
