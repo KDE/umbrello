@@ -236,6 +236,7 @@ public:
     static Uml::DiagramType::Enum convert_MT_DT(MenuType mt);
 
     static ListPopupMenu* menuFromAction(QAction *action);
+    static MenuType       typeFromAction(QAction *action);
 
 //    KAction* getAction(MenuType idx);
     QAction* getAction(MenuType idx);

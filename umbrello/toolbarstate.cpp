@@ -81,10 +81,6 @@ void ToolBarState::mousePress(QGraphicsSceneMouseEvent* ome)
 
     m_pUMLScene->activeView()->viewport()->setMouseTracking(true);
 
-    //TODO Doesn't another way of emiting the signal exist? A method only for
-    //that seems a bit dirty.
-    m_pUMLScene->emitRemovePopupMenu();
-
     // TODO: Check who needs this.
     m_pUMLScene->setPos(m_pMouseEvent->scenePos());
 

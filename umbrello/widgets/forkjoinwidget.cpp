@@ -111,7 +111,7 @@ void ForkJoinWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
  */
 void ForkJoinWidget::slotMenuSelection(QAction* action)
 {
-    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     switch (sel) {
     case ListPopupMenu::mt_Flip:
         switch (m_orientation) {

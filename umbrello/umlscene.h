@@ -22,14 +22,14 @@
 #include "worktoolbar.h"
 
 // Qt includes
-#include <QMouseEvent>
-#include <QKeyEvent>
-#include <QPixmap>
+#include <QDomDocument>
 #include <QGraphicsScene>
 #include <QGraphicsItem>
-#include <QDomDocument>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsPolygonItem>
+#include <QKeyEvent>
+#include <QMouseEvent>
+#include <QPixmap>
 
 // forward declarations
 class ClassOptionsPage;
@@ -299,18 +299,12 @@ public:
 
     UMLWidget* widgetAt(const UMLScenePoint& p);
     AssociationWidget* associationAt(const UMLScenePoint& p);
+    MessageWidget* messageAt(const UMLScenePoint& p);
 
     void setupNewWidget(UMLWidget *w);
 
     bool getCreateObject() const;
     void setCreateObject(bool bCreate);
-
-    /**
-     * Emit the sigRemovePopupMenu Qt signal.
-     */
-    void emitRemovePopupMenu() {
-        emit sigRemovePopupMenu();
-    }
 
     int generateCollaborationId();
 
@@ -374,7 +368,6 @@ protected:
     bool m_bCreateObject;
     bool m_bDrawSelectedOnly;
     bool m_bPaste;
-    ListPopupMenu * m_pMenu;
     bool m_bStartedCut;  ///< Flag if view/children started cut operation.
     UMLWidgetList m_selectedList; ///< list of selected items TODO: migrate to QGraphicsScenes selection list
 
@@ -401,14 +394,13 @@ private:
                                          UMLForeignKeyConstraint* fkConstraint,
                                          UMLWidget* widget);
 
-    bool isWidgetOrAssociation(const UMLScenePoint& atPos);
+    bool onItem(const UMLScenePoint& atPos);
 
 public slots:
     void slotToolBarChanged(int c);
     void slotObjectCreated(UMLObject * o);
     void slotObjectRemoved(UMLObject * o);
     void slotMenuSelection(QAction* action);
-    void slotRemovePopupMenu();
     void slotActivate();
     void slotCutSuccessful();
     void slotShowView();
@@ -430,7 +422,6 @@ signals:
     void sigLineColorChanged(Uml::ID::Type);
     void sigTextColorChanged(Uml::ID::Type);
     void sigLineWidthChanged(Uml::ID::Type);
-    void sigRemovePopupMenu();
     void sigClearAllSelected();
     void sigSnapToGridToggled(bool);
     void sigSnapComponentSizeToGridToggled(bool);

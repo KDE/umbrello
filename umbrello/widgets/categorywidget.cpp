@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -33,7 +33,7 @@ CategoryWidget::CategoryWidget(UMLScene * scene, UMLCategory *o)
 }
 
 /**
- *  Destructor.
+ * Destructor.
  */
 CategoryWidget::~CategoryWidget()
 {
@@ -118,8 +118,13 @@ void CategoryWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
  */
 void CategoryWidget::slotMenuSelection(QAction* action)
 {
-    UMLCategory* catObj = static_cast<UMLCategory*>(m_umlObject);
-    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
+    UMLCategory* catObj = static_cast<UMLCategory*>(umlObject());
+    if (!catObj) {
+        uWarning() << "No UMLCategory for this widget.";
+        return;
+    }
+
+    ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     switch(sel) {
       case ListPopupMenu::mt_DisjointSpecialisation:
           catObj->setType(UMLCategory::ct_Disjoint_Specialisation);

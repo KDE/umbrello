@@ -525,8 +525,7 @@ void FloatingTextWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
  */
 void FloatingTextWidget::slotMenuSelection(QAction* action)
 {
-    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
-
+    ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     switch(sel) {
     case ListPopupMenu::mt_Properties:
         showPropertiesDialog();

@@ -42,7 +42,7 @@ CombinedFragmentWidget::CombinedFragmentWidget(UMLScene * scene, CombinedFragmen
 }
 
 /**
- *  Destructor.
+ * Destructor.
  */
 CombinedFragmentWidget::~CombinedFragmentWidget()
 {
@@ -356,9 +356,7 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement )
  */
 void CombinedFragmentWidget::slotMenuSelection(QAction* action)
 {
-    bool ok = false;
-    QString name = m_Text;
-    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     switch (sel) {
           // for alternative or parallel combined fragments
     case ListPopupMenu::mt_AddInteractionOperand:
@@ -376,17 +374,22 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Rename:
-        if (m_CombinedFragment == Alt) {
-            name = KInputDialog::getText( i18n("Enter first alternative"), i18n("Enter first alternative :"), m_Text, &ok );
+        {
+            bool ok = false;
+            QString name = m_Text;
+
+            if (m_CombinedFragment == Alt) {
+                name = KInputDialog::getText( i18n("Enter first alternative"), i18n("Enter first alternative :"), m_Text, &ok );
+            }
+            else if (m_CombinedFragment == Ref) {
+            name = KInputDialog::getText( i18n("Enter referenced diagram name"), i18n("Enter referenced diagram name :"), m_Text, &ok );
+            }
+            else if (m_CombinedFragment == Loop) {
+            name = KInputDialog::getText( i18n("Enter the guard of the loop"), i18n("Enter the guard of the loop:"), m_Text, &ok );
+            }
+            if( ok && name.length() > 0 )
+                m_Text = name;
         }
-        else if (m_CombinedFragment == Ref) {
-        name = KInputDialog::getText( i18n("Enter referenced diagram name"), i18n("Enter referenced diagram name :"), m_Text, &ok );
-        }
-        else if (m_CombinedFragment == Loop) {
-        name = KInputDialog::getText( i18n("Enter the guard of the loop"), i18n("Enter the guard of the loop:"), m_Text, &ok );
-        }
-        if( ok && name.length() > 0 )
-            m_Text = name;
         break;
 
     default:

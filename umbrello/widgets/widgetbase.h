@@ -15,11 +15,14 @@
 
 #include <QColor>
 #include <QDomDocument>
+#include <QFont>
 #include <QGraphicsObject>
 #include <QObject>
 #include <QPainter>
 
 // forward declarations
+class ListPopupMenu;
+class QAction;
 class UMLDoc;
 class UMLObject;
 class UMLScene;
@@ -88,6 +91,9 @@ public:
     QString documentation() const;
     void setDocumentation(const QString& doc);
 
+    QString name() const;
+    void setName(const QString &strName);
+
     QColor lineColor() const;
     virtual void setLineColor(const QColor& color);
 
@@ -118,6 +124,11 @@ public:
     bool usesDiagramUseFillColor() const;
     void setUsesDiagramUseFillColor(bool state);
 
+    QFont font() const;
+    void setFont(const QFont& font);
+
+    virtual void showPropertiesDialog();
+
     virtual bool loadFromXMI(QDomElement &qElement);
     virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
 
@@ -132,11 +143,18 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
     QT_DEPRECATED virtual void draw(QPainter & p, int offsetX, int offsetY);
 
+public Q_SLOTS:
+    virtual void slotMenuSelection(QAction *trigger);
+
 protected:
+    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+    virtual void setupContextMenuActions(ListPopupMenu &menu);
+
     WidgetType  m_baseType;  ///< Type of widget.
     UMLScene   *m_scene;
     UMLObject  *m_umlObject;
     QString     m_Doc;   ///< Only used if m_umlObject is not set.
+    QString     m_Text;
     QRectF      m_rect;  ///< widget size
 
     /**
@@ -149,13 +167,10 @@ protected:
     QColor m_textColor;  ///< Color of the text of the widget. Is saved to XMI.
     QColor m_lineColor;  ///< Color of the lines of the widget. Is saved to XMI.
     QColor m_fillColor;  ///< color of the background of the widget
-
-    uint m_lineWidth;  ///< Width of the lines of the widget. Is saved to XMI.
-
-    /**
-     * This flag indicates if the UMLWidget uses the Diagram FillColour
-     */
-    bool m_useFillColor;
+    QBrush m_brush;
+    QFont  m_font;
+    uint   m_lineWidth;  ///< Width of the lines of the widget. Is saved to XMI.
+    bool   m_useFillColor;  ///< flag indicates if the UMLWidget uses the Diagram FillColour
 
     /**
      * true by default, false if the colors have

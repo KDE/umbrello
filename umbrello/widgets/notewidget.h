@@ -14,9 +14,6 @@
 //app includes
 #include "umlwidget.h"
 
-// forward declarations
-class NoteWidgetController;
-
 // Qt forward declarations
 class QPainter;
 
@@ -34,7 +31,6 @@ class NoteWidget : public UMLWidget
 {
     Q_OBJECT
 public:
-    friend class NoteWidgetController;
 
     /// This enum type is used to specify the type of note.
     enum NoteType
@@ -73,11 +69,13 @@ protected:
     virtual UMLSceneSize calculateSize();
     void drawText(QPainter * p = 0, int offsetX = 0, int offsetY = 0);
     void drawTextWordWrap(QPainter * p = 0, int offsetX = 0, int offsetY = 0);
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
 private:
     Uml::ID::Type m_diagramLink;  ///< The diagram/scene this note links to.
     NoteType      m_noteType;     ///< The type of note. @see NoteWidget::NoteType
-    QString       m_Text;
+
+    void rename();
 };
 
 #endif

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2012                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -181,11 +181,11 @@ void EnumWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement )
  * Will be called when a menu selection has been made from the
  * popup menu.
  *
- * @param action       The action that has been selected.
+ * @param action   The action that has been selected.
  */
 void EnumWidget::slotMenuSelection(QAction* action)
 {
-    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     if (sel == ListPopupMenu::mt_EnumLiteral) {
         if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(m_umlObject),
                                               UMLObject::ot_EnumLiteral) )  {

@@ -188,15 +188,19 @@ void PinWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
  */
 void PinWidget::slotMenuSelection(QAction* action)
 {
-    bool ok = false;
-    QString name = m_Text;
-
-    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     switch( sel ) {
     case ListPopupMenu::mt_Rename:
-        name = KInputDialog::getText( i18n("Enter Pin Name"), i18n("Enter the pin name :"), m_Text, &ok );
-        if( ok )
-            setName(name);
+        {
+            bool ok = false;
+            QString name = m_Text;
+            name = KInputDialog::getText(i18n("Enter Pin Name"),
+                                         i18n("Enter the pin name :"),
+                                         m_Text, &ok);
+            if (ok) {
+                setName(name);
+            }
+        }
         break;
 
     default:

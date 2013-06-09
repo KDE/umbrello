@@ -121,8 +121,6 @@ protected:
     UMLScenePoint getPosition(QGraphicsSceneMouseEvent *me);
     UMLScenePoint getPositionDifference(QGraphicsSceneMouseEvent *me);
 
-    void showPopupMenu(QGraphicsSceneMouseEvent *me);
-
     bool wasSizeChanged();
     bool wasPositionChanged();
 

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2012                                               *
+ *   copyright (C) 2006-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -343,7 +343,7 @@ void UMLWidgetController::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
     } else if (me->button() == Qt::RightButton) {
         if (m_rightButtonDown) {
             m_rightButtonDown = false;
-            showPopupMenu(me);
+            //:TODO: was showPopupMenu(me);
         } else if (m_leftButtonDown) {
 #ifdef Q3CANVAS_IMPLEMENTATION
             //Cancel move/edit
@@ -526,10 +526,10 @@ void UMLWidgetController::constrainMovementForAllWidgets(UMLSceneValue &diffX, U
  */
 void UMLWidgetController::doMouseDoubleClick(QGraphicsSceneMouseEvent *)
 {
-    if (!m_widget || !m_widget->m_pMenu)
-        return;
-    QAction* action = m_widget->m_pMenu->getAction(ListPopupMenu::mt_Properties);
-    m_widget->slotMenuSelection(action);
+//    if (!m_widget || !m_widget->m_pMenu)
+//        return;
+//    QAction* action = m_widget->m_pMenu->getAction(ListPopupMenu::mt_Properties);
+//    m_widget->slotMenuSelection(action);
 }
 
 /**
@@ -842,21 +842,6 @@ UMLScenePoint UMLWidgetController::getPositionDifference(QGraphicsSceneMouseEven
     const int diffX = newPoint.x() - m_widget->x();
     const int diffY = newPoint.y() - m_widget->y();
     return UMLScenePoint(diffX, diffY);
-}
-
-/**
- * Shows the widget popup menu where the mouse event points to.
- *
- * @param me The QGraphicsSceneMouseEvent which triggered the showing.
- */
-void UMLWidgetController::showPopupMenu(QGraphicsSceneMouseEvent *me)
-{
-    //TODO why this condition?
-    if (m_widget->m_pMenu) {
-        return;
-    }
-    ListPopupMenu* menu = m_widget->setupPopupMenu();
-    menu->popup(me->screenPos());
 }
 
 /**

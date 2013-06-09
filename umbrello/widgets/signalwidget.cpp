@@ -53,7 +53,7 @@ SignalWidget::SignalWidget(UMLScene *scene, SignalType signalType, Uml::ID::Type
 }
 
 /**
- * destructor
+ * Destructor.
  */
 SignalWidget::~SignalWidget()
 {
@@ -311,15 +311,19 @@ void SignalWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
  */
 void SignalWidget::slotMenuSelection(QAction* action)
 {
-    bool ok = false;
-    QString name = m_Text;
-
-    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     switch( sel ) {
     case ListPopupMenu::mt_Rename:
-        name = KInputDialog::getText( i18n("Enter signal name"), i18n("Enter the signal name :"), m_Text, &ok );
-        if( ok && name.length() > 0 )
-            setName(name);
+        {
+            bool ok = false;
+            QString name = m_Text;
+            name = KInputDialog::getText(i18n("Enter signal name"),
+                                         i18n("Enter the signal name :"),
+                                         m_Text, &ok );
+            if (ok && name.length() > 0) {
+                setName(name);
+            }
+        }
         break;
 
     default:

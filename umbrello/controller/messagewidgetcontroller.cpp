@@ -151,14 +151,14 @@ void MessageWidgetController::constrainMovementForAllWidgets(UMLSceneValue &diff
  *
  * @param me The QGraphicsSceneMouseEvent which triggered the double click event.
  */
-void MessageWidgetController::doMouseDoubleClick(QGraphicsSceneMouseEvent* me)
-{
-    Q_UNUSED(me);
-    if (m_messageWidget->m_pFText != NULL) {
-        QAction* action = m_messageWidget->m_pMenu->getAction(ListPopupMenu::mt_Select_Operation);
-        m_messageWidget->m_pFText->slotMenuSelection(action);
-    }
-}
+//void MessageWidgetController::doMouseDoubleClick(QGraphicsSceneMouseEvent* me)
+//{
+//    Q_UNUSED(me);
+//    if (m_messageWidget->m_pFText != NULL) {
+//        QAction* action = m_messageWidget->m_pMenu->getAction(ListPopupMenu::mt_Select_Operation);
+//        m_messageWidget->m_pFText->slotMenuSelection(action);
+//    }
+//}
 
 /**
  * Constrains the vertical position of the message widget so it doesn't go

@@ -166,6 +166,7 @@ AssociationWidget* AssociationWidget::create
         instance->setName('m' + QString::number(collabID));
     }
 
+    scene->addItem(instance);
     return instance;
 }
 
@@ -888,6 +889,7 @@ void AssociationWidget::setName(const QString &strName)
 
         newLabel = true;
         m_nameWidget = new FloatingTextWidget(m_scene, calculateNameType(Uml::TextRole::Name), strName);
+        m_nameWidget->setParentItem(this);
         m_nameWidget->setLink(this);
     } else {
         m_nameWidget->setText(strName);
@@ -1002,6 +1004,7 @@ void AssociationWidget::setFloatingText(Uml::TextRole::Enum role,
 
     if (ft == NULL) {
         ft = new FloatingTextWidget(m_scene, role, text);
+        ft->setParentItem(this);
         ft->setLink(this);
         ft->activate();
         setTextPosition(role);
@@ -1122,6 +1125,7 @@ void AssociationWidget::setChangeWidget(const QString &strChangeWidget, Uml::Rol
 
         newLabel = true;
         m_role[role].changeabilityWidget = new FloatingTextWidget(m_scene, tr, strChangeWidget);
+        m_role[role].changeabilityWidget->setParentItem(this);
         m_role[role].changeabilityWidget->setLink(this);
         m_scene->addWidget(m_role[role].changeabilityWidget);
         m_role[role].changeabilityWidget->setPreText("{"); // all types have this
@@ -2886,12 +2890,6 @@ void AssociationWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent * me)
             m_associationLine->removePoint(m_nMovingPoint, m, POINT_DELTA);
     }
     m_nMovingPoint = -1;
-    if (me->button() != Qt::RightButton) {
-        return;
-    }
-    ListPopupMenu* menu = setupPopupMenu(0, me->scenePos());
-    menu->popup(me->screenPos());
-    setSelected();
 }//end method mouseReleaseEvent
 
 /**
@@ -2903,10 +2901,11 @@ void AssociationWidget::slotMenuSelection(QAction* action)
     QRegExpValidator v(QRegExp(".*"), 0);
     Uml::AssociationType::Enum atype = associationType();
     Uml::RoleType::Enum r = RoleType::B;
-    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
+    DEBUG(DBG_SRC) << "menu selection = " << ListPopupMenu::toString(sel);
 
-    //if it's a collaboration message we now just use the code in floatingtextwidget
-    //this means there's some redundant code below but that's better than duplicated code
+    // if it's a collaboration message we now just use the code in floatingtextwidget
+    // this means there's some redundant code below but that's better than duplicated code
     if (isCollaboration() && sel != ListPopupMenu::mt_Delete) {
         m_nameWidget->slotMenuSelection(action);
         return;
@@ -3043,7 +3042,6 @@ void AssociationWidget::slotMenuSelection(QAction* action)
         break;
     }//end switch
 }
-
 
 // find a general font for the association
 
@@ -3229,8 +3227,9 @@ void AssociationWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
  */
 int AssociationWidget::getRegionCount(AssociationWidget::Region region, Uml::RoleType::Enum role)
 {
-    if(region == Error)
+    if ((region == Error) | (umlScene() == NULL)) {
         return 0;
+    }
     int widgetCount = 0;
     AssociationWidgetList list = m_scene->associationList();
     foreach ( AssociationWidget* assocwidget, list ) {
@@ -3460,8 +3459,9 @@ void AssociationWidget::updateAssociations(int totalCount,
         AssociationWidget::Region region,
         Uml::RoleType::Enum role)
 {
-    if( region == Error )
+    if ((region == Error) | (umlScene() == NULL)) {
         return;
+    }
     AssociationWidgetList list = m_scene->associationList();
 
     UMLWidget *ownWidget = m_role[role].umlWidget;
@@ -3535,8 +3535,9 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
         AssociationWidget::Region region,
         Uml::RoleType::Enum role)
 {
-    if( region == Error )
+    if ((region == Error) | (umlScene() == NULL)) {
         return;
+    }
     // If the association is to self and the line ends are on the same region then
     // use a different calculation.
     if (m_role[RoleType::A].umlWidget == m_role[RoleType::B].umlWidget &&
@@ -3741,24 +3742,6 @@ bool AssociationWidget::onAssociation(const UMLScenePoint & point)
 }
 
 /**
- * This slot is entered when an event has occurred on the views display,
- * most likely a mouse event. Before it sends out that mouse event all
- * children should make sure that they don't have a menu active or there
- * could be more than one popup menu displayed.
- */
-void AssociationWidget::slotRemovePopupMenu()
-{
-    if (m_pMenu) {
-        if (m_nameWidget) {
-            m_nameWidget->slotRemovePopupMenu();
-        }
-        disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
-        delete m_pMenu;
-        m_pMenu = 0;
-    }
-}
-
-/**
  * Handles any signals that tells everyone not to be selected.
  */
 void AssociationWidget::slotClearAllSelected()
@@ -3915,6 +3898,63 @@ void AssociationWidget::clipSize()
         m_associationClass->clipSize();
 }
 
+/**
+ * Event handler for context menu events, called from the line segments.
+ */
+void AssociationWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+{
+    Uml::AssociationType::Enum type = associationType();
+    ListPopupMenu::MenuType menuType = ListPopupMenu::mt_Association_Selected;
+/*:TODO:    if (type == Uml::AssociationType::Anchor ||
+            m_associationLine->onAssociationClassLine(pos)) {
+        menuType = ListPopupMenu::mt_Anchor;
+    } else */ if (isCollaboration()) {
+        menuType = ListPopupMenu::mt_Collaboration_Message;
+    } else if (!association()) {
+        menuType = ListPopupMenu::mt_AttributeAssociation;
+    } else if (AssocRules::allowRole(type)) {
+        menuType = ListPopupMenu::mt_FullAssociation;
+    }
+
+    UMLScene *scene = umlScene();
+    QWidget *parent = 0;
+    if (scene) {
+        parent = scene->activeView();
+    }
+
+    if (!isSelected() && scene && !scene->selectedItems().isEmpty()) {
+        Qt::KeyboardModifiers forSelection = (Qt::ControlModifier | Qt::ShiftModifier);
+        if ((event->modifiers() & forSelection) == 0) {
+            scene->clearSelection();
+        }
+    }
+    setSelected(true);
+    DEBUG(DBG_SRC) << "menue type = " << ListPopupMenu::toString(menuType);
+    QPointer<ListPopupMenu> menu = new ListPopupMenu(parent, menuType, this);
+    QAction *triggered = menu->exec(event->screenPos());
+    ListPopupMenu *parentMenu = ListPopupMenu::menuFromAction(triggered);
+
+    if (!parentMenu) {
+        uError() << "Action's data field does not contain ListPopupMenu pointer";
+        return;
+    }
+
+    WidgetBase *ownerWidget = parentMenu->ownerWidget();
+    // assert because logic is based on only WidgetBase being the owner of
+    // ListPopupMenu actions executed in this context menu.
+    Q_ASSERT_X(ownerWidget != 0, "AssociationWidget::contextMenuEvent",
+            "ownerWidget is null which means action belonging to UMLView, UMLScene"
+            " or UMLObject is the one triggered in ListPopupMenu");
+
+    ownerWidget->slotMenuSelection(triggered);
+
+    delete menu.data();
+}
+
+/**
+ * :TODO: REMOVE IT!
+ */
+/*
 ListPopupMenu* AssociationWidget::setupPopupMenu(ListPopupMenu *menu, const QPointF &p)
 {
     Q_UNUSED(menu)
@@ -3957,6 +3997,7 @@ ListPopupMenu* AssociationWidget::setupPopupMenu(ListPopupMenu *menu, const QPoi
         m_nameWidget->setupPopupMenu(m_pMenu);
     return m_pMenu;
 }
+*/
 
 /**
  * Initialize attributes of this class at construction time.
@@ -3987,13 +4028,11 @@ void AssociationWidget::init()
     m_role[RoleType::B].changeability = Uml::Changeability::Changeable;
     m_positions_len = 0;
     m_activated = false;
-    m_unNameLineSegment = 0;
-    m_pMenu = 0;
+    m_unNameLineSegment = -1;
     m_selected = false;
     m_nMovingPoint = -1;
     m_nLinePathSegmentIndex = -1;
-    m_associationLine = new AssociationLine;
-    m_associationLine->setAssociation( this );
+    m_associationLine = new AssociationLine(this);
     m_associationClass = NULL;
     m_pAssocClassLine = NULL;
     m_pAssocClassLineSel0 = m_pAssocClassLineSel1 = NULL;
@@ -4271,6 +4310,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
                 continue;
             }
             // always need this
+            ft->setParentItem(this);
             ft->setLink(this);
 
             switch( role ) {

@@ -32,7 +32,7 @@ class QPainter;
  * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class AssociationLine : public QObject
+class AssociationLine : public QGraphicsObject
 {
     Q_OBJECT
 public:
@@ -40,8 +40,8 @@ public:
     typedef QList<QGraphicsLineItem*> LineList;
     typedef QList<QGraphicsRectItem*> RectList;
 
-    AssociationLine();
-    ~AssociationLine();
+    AssociationLine(AssociationWidget* association);
+    virtual ~AssociationLine();
 
     UMLScenePoint point(int pointIndex) const;
     bool setPoint(int pointIndex, const UMLScenePoint &point);
@@ -65,21 +65,13 @@ public:
     bool loadFromXMI(QDomElement & qElement);
     void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
-    QPen pen();
+    QPen pen() const;
 
-    QColor lineColor();
+    QColor lineColor() const;
     void setLineColor(const QColor &color);
 
-    uint lineWidth();
+    uint lineWidth() const;
     void setLineWidth(uint width);
-
-    /**
-     * Returns the Association this class is linked to.
-     */
-    AssociationWidget * getAssociation() {
-        return m_associationWidget;
-    }
-    void setAssociation(AssociationWidget * association);
 
     Uml::AssociationType::Enum getAssocType() const;
     void setAssocType(Uml::AssociationType::Enum type);
@@ -99,6 +91,11 @@ public:
     void activate();
 
     void update();
+
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
+
+    QRectF boundingRect() const;
+    QPainterPath shape() const;
 
 public slots:
     void slotLineColorChanged(Uml::ID::Type viewID);
@@ -143,6 +140,8 @@ protected:
         int inclination;
     };
 
+    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+
     UMLScene *umlScene();
 
     void moveSelected(int pointIndex);
@@ -163,8 +162,7 @@ protected:
 
     void growList(LineList &list, int by);
 
-    /********Attributes*************/
-
+private:
     AssociationWidget* m_associationWidget;  ///< The association we are representing.
     LineList           m_LineList;      ///< Contains all the lines of the association.
     RectList           m_RectList;      ///< Selected boxes list.

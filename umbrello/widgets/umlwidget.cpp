@@ -98,7 +98,6 @@ UMLWidget::UMLWidget(UMLScene *scene, WidgetType type, Uml::ID::Type id, UMLWidg
  */
 UMLWidget::~UMLWidget()
 {
-    //slotRemovePopupMenu();
     delete m_widgetController;
     cleanup();
 }
@@ -119,7 +118,6 @@ UMLWidget& UMLWidget::operator=(const UMLWidget & other)
     m_usesDiagramUseFillColor = other.m_usesDiagramUseFillColor;
     m_fillColor = other.m_fillColor;
     m_Assocs = other.m_Assocs;
-    m_Text = other.m_Text; //new
     m_Font = other.m_Font;
     m_isInstance = other.m_isInstance;
     m_instanceName = other.m_instanceName;
@@ -133,8 +131,6 @@ UMLWidget& UMLWidget::operator=(const UMLWidget & other)
     m_selected = other.m_selected;
     m_startMove = other.m_startMove;
     m_nPosX = other.m_nPosX;
-    m_pMenu = other.m_pMenu;
-    m_menuIsEmbedded = other.m_menuIsEmbedded;
     m_doc = other.m_doc;    //new
     m_resizable = other.m_resizable;
     for (unsigned i = 0; i < FT_INVALID; ++i)
@@ -242,14 +238,22 @@ void UMLWidget::setMaximumSize(const UMLSceneSize& newSize)
 }
 
 /**
+ * Event handler for context menu events.
+ */
+void UMLWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+{
+    WidgetBase::contextMenuEvent(event);
+}
+
+/**
  * Calls the method with the same name in UMLWidgetController.
  * @see UMLWidgetController#mouseMoveEvent
  *
- * @param me The QGraphicsSceneMouseEvent event.
+ * @param event The QGraphicsSceneMouseEvent event.
  */
-void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
+void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    m_widgetController->mouseMoveEvent(me);
+    m_widgetController->mouseMoveEvent(event);
     slotSnapToGrid();
 }
 
@@ -257,11 +261,47 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
  * Calls the method with the same name in UMLWidgetController.
  * @see UMLWidgetController#mousePressEvent
  *
+ * @param event The QGraphicsSceneMouseEvent event.
+ */
+void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    uDebug() << "widget = " << name() << " / type = " << baseTypeStr();
+    if (event->button() == Qt::RightButton) {
+        event->ignore();
+        return;
+    }
+    m_widgetController->mousePressEvent(event);
+}
+
+/**
+ * Calls the method with the same name in UMLWidgetController.
+ * @see UMLWidgetController#mouseReleaseEvent
+ *
  * @param me The QGraphicsSceneMouseEvent event.
  */
-void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *me)
+void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
 {
-    m_widgetController->mousePressEvent(me);
+    m_widgetController->mouseReleaseEvent(me);
+}
+
+/**
+ * Event handler for mouse double click events.
+ * @param event the QGraphicsSceneMouseEvent event.
+ */
+void UMLWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        uDebug() << "widget = " << name() << " / type = " << baseTypeStr();
+        switch(baseType()) {
+        case WidgetBase::wt_Message:  // will be handled in its class
+            QGraphicsItem::mouseDoubleClickEvent(event);
+            break;
+        default:
+            showPropertiesDialog();
+            event->accept();
+            break;
+        }
+    }
 }
 
 /**
@@ -314,30 +354,18 @@ void UMLWidget::constrain(UMLSceneValue& width, UMLSceneValue& height)
 }
 
 /**
- * Calls the method with the same name in UMLWidgetController.
- * @see UMLWidgetController#mouseReleaseEvent
- *
- * @param me The QGraphicsSceneMouseEvent event.
- */
-void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
-{
-    m_widgetController->mouseReleaseEvent(me);
-}
-
-/**
  * Initializes key attributes of the class.
  */
 void UMLWidget::init()
 {
     m_nId = Uml::ID::None;
-    m_pMenu = 0;
-    m_menuIsEmbedded = false;
     m_isInstance = false;
     setMinimumSize(DefaultMinimumSize);
     setMaximumSize(DefaultMaximumSize);
     
-    for (int i = 0; i < (int)FT_INVALID; ++i)
+    for (int i = 0; i < (int)FT_INVALID; ++i) {
         m_pFontMetrics[(UMLWidget::FontType)i] = 0;
+    }
     
     if (m_scene) {
         m_useFillColor = true;
@@ -364,10 +392,8 @@ void UMLWidget::init()
     m_activated = false;
     m_ignoreSnapToGrid = false;
     m_ignoreSnapComponentSizeToGrid = false;
-    m_pMenu = 0;
     m_doc = UMLApp::app()->document();
     m_nPosX = 0;
-    connect(m_scene, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
     connect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
 
     connect(m_scene, SIGNAL(sigFillColorChanged(Uml::ID::Type)), this, SLOT(slotFillColorChanged(Uml::ID::Type)));
@@ -380,154 +406,28 @@ void UMLWidget::init()
 }
 
 /**
- * Captures any popup menu signals for menus it created.
+ * This is usually called synchronously after menu.exec() and \a
+ * trigger's parent is always the ListPopupMenu which can be used to
+ * get the type of action of \a trigger.
  *
- * @param action The action which has to be executed.
+ * @note Subclasses can reimplement to handle specific actions and
+ *       leave the rest to WidgetBase::slotMenuSelection.
  */
-void UMLWidget::slotMenuSelection(QAction* action)
+void UMLWidget::slotMenuSelection(QAction *trigger)
 {
-    QColor newColor;
-    const WidgetBase::WidgetType wt = m_baseType;
-    UMLWidget* widget = 0; // use for select the first object properties (fill, line color)
+    if (!trigger) {
+        return;
+    }
 
-    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(trigger);
     switch (sel) {
-    case ListPopupMenu::mt_Rename:
-        m_doc->renameUMLObject(m_umlObject);
-        // adjustAssocs( x(), y() );  // adjust assoc lines
-        break;
-
     case ListPopupMenu::mt_Delete:
-        //remove self from diagram
-        m_scene->removeWidget(this);
-        break;
-
-        //UMLWidgetController::doMouseDoubleClick relies on this implementation
-    case ListPopupMenu::mt_Properties:
-        if (wt == WidgetBase::wt_Actor || wt == WidgetBase::wt_UseCase ||
-                wt == WidgetBase::wt_Package || wt == WidgetBase::wt_Interface || wt == WidgetBase::wt_Datatype ||
-                wt == WidgetBase::wt_Component || wt == WidgetBase::wt_Artifact ||
-                wt == WidgetBase::wt_Node || wt == WidgetBase::wt_Enum || wt == WidgetBase::wt_Entity ||
-                (wt == WidgetBase::wt_Class && m_scene->type() == Uml::DiagramType::Class)) {
-            UMLApp::app()->beginMacro(i18n("Change Properties"));
-            showPropertiesDialog();
-            UMLApp::app()->endMacro();
-        } else if (wt == wt_Object) {
-            UMLApp::app()->beginMacro(i18n("Change Properties"));
-            m_umlObject->showPropertiesPagedDialog();
-            UMLApp::app()->endMacro();
-        } else {
-            uWarning() << "making properties dialog for unknown widget type";
-        }
-        // adjustAssocs( x(), y() );  // adjust assoc lines
-        break;
-
-    case ListPopupMenu::mt_Line_Color:
-        widget = m_scene->getFirstMultiSelectedWidget();
-        if (widget) {
-            newColor = widget->lineColor();
-        }
-        if (KColorDialog::getColor(newColor)) {
-            m_scene->selectionSetLineColor(newColor);
-            m_doc->setModified(true);
-
-        }
-        break;
-
-    case ListPopupMenu::mt_Fill_Color:
-        widget = m_scene->getFirstMultiSelectedWidget();
-        if (widget) {
-            newColor = widget->fillColor();
-        }
-        if (KColorDialog::getColor(newColor)) {
-            m_scene->selectionSetFillColor(newColor);
-            m_doc->setModified(true);
-        }
-        break;
-
-    case ListPopupMenu::mt_Use_Fill_Color:
-        m_useFillColor = !m_useFillColor;
-        m_usesDiagramUseFillColor = false;
-        m_scene->selectionUseFillColor(m_useFillColor);
-        break;
-    case ListPopupMenu::mt_Show_Attributes_Selection:
-    case ListPopupMenu::mt_Show_Operations_Selection:
-    case ListPopupMenu::mt_Visibility_Selection:
-    case ListPopupMenu::mt_DrawAsCircle_Selection:
-    case ListPopupMenu::mt_Show_Operation_Signature_Selection:
-    case ListPopupMenu::mt_Show_Attribute_Signature_Selection:
-    case ListPopupMenu::mt_Show_Packages_Selection:
-    case ListPopupMenu::mt_Show_Stereotypes_Selection:
-    case ListPopupMenu::mt_Show_Public_Only_Selection:
-        m_scene->selectionToggleShow(sel);
-        m_doc->setModified(true);
-        break;
-
-    case ListPopupMenu::mt_ViewCode: {
-        UMLClassifier *c = dynamic_cast<UMLClassifier*>(m_umlObject);
-        if (c) {
-            UMLApp::app()->viewCodeDocument(c);
-        }
-        break;
-    }
-
-    case ListPopupMenu::mt_Delete_Selection:
-        m_scene->deleteSelection();
-        break;
-
-    case ListPopupMenu::mt_Change_Font:
-    case ListPopupMenu::mt_Change_Font_Selection: {
-        QFont font = UMLWidget::font();
-        if (KFontDialog::getFont(font, KFontChooser::NoDisplayFlags, m_scene->activeView())) {
-            UMLApp::app()->executeCommand(new CmdChangeFontSelection(m_doc, m_scene, font));
-        }
-    }
-    break;
-
-    case ListPopupMenu::mt_Cut:
-        m_scene->setStartedCut();
-        UMLApp::app()->slotEditCut();
-        break;
-
-    case ListPopupMenu::mt_Copy:
-        UMLApp::app()->slotEditCopy();
-        break;
-
-    case ListPopupMenu::mt_Paste:
-        UMLApp::app()->slotEditPaste();
-        break;
-
-    case ListPopupMenu::mt_Refactoring:
-        //check if we are operating on a classifier, or some other kind of UMLObject
-        if (dynamic_cast<UMLClassifier*>(m_umlObject)) {
-            UMLApp::app()->refactor(static_cast<UMLClassifier*>(m_umlObject));
-        }
-        break;
-
-    case ListPopupMenu::mt_Clone:
-        // In principle we clone all the uml objects.
-    {
-        UMLObject *pClone = m_umlObject->clone();
-        m_scene->addObject(pClone);
-    }
-    break;
-
-    case ListPopupMenu::mt_Rename_MultiA:
-    case ListPopupMenu::mt_Rename_MultiB:
-    case ListPopupMenu::mt_Rename_Name:
-    case ListPopupMenu::mt_Rename_RoleAName:
-    case ListPopupMenu::mt_Rename_RoleBName: {
-        FloatingTextWidget *ft = static_cast<FloatingTextWidget*>(this);
-        ft->handleRename();
-        break;
-    }
-    case ListPopupMenu::mt_Resize:
-        resize();
-        m_doc->setModified();
+        umlScene()->removeWidget(this);
         break;
 
     default:
-        DEBUG(DBG_SRC) << "MenuType " << ListPopupMenu::toString(sel) << " not implemented";
+        WidgetBase::slotMenuSelection(trigger);
+        break;
     }
 }
 
@@ -608,17 +508,6 @@ void UMLWidget::slotLineWidthChanged(Uml::ID::Type viewID)
         WidgetBase::setLineWidth(m_scene->lineWidth());
     }
     update();
-}
-
-/**
- * Calls the method with the same name in UMLWidgetController.
- * @see UMLWidgetController#mouseDoubleClickEvent
- *
- * @param me The QGraphicsSceneMouseEvent event.
- */
-void UMLWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent * me)
-{
-    m_widgetController->mouseDoubleClickEvent(me);
 }
 
 /**
@@ -911,72 +800,6 @@ void UMLWidget::showPropertiesDialog()
 }
 
 /**
- * Starts the popup menu. If menu is non zero,
- * the widgets popup menu is embedded into another widget. 
- * The another widget is responsible for calling 
- * setupPopupMenu(), slotMenuSelection() and 
- * removePopupMenu() manually.
- *
- * @return pointer to the popup menu object
- */
-ListPopupMenu* UMLWidget::setupPopupMenu(ListPopupMenu* menu)
-{
-    slotRemovePopupMenu();
-
-    if (menu) {
-        m_pMenu = menu;
-        m_menuIsEmbedded = true;
-        return m_pMenu;
-    }
-
-    m_menuIsEmbedded = false;
-    //if in a multi- selection to a specific m_pMenu for that
-    // NEW: ask UMLView to count ONLY the widgets and not their floatingtextwidgets
-    int count = m_scene->selectedCount(true);
-    //a MessageWidget when selected will select its text widget and vice versa
-    //so take that into account for popup menu.
-
-    // determine multi state
-    bool multi = (m_selected && count > 1);
-
-    // if multiple selected items have the same type
-    bool unique = false;
-
-    // if multiple items are selected, we have to check if they all have the same
-    // base type
-    if (multi == true)
-        unique = m_scene->checkUniqueSelection();
-
-    // create the right click context menu
-    m_pMenu = new ListPopupMenu(m_scene->activeView(), this, multi, unique);
-
-    // disable the "view code" menu for simple code generators
-    if (UMLApp::app()->isSimpleCodeGeneratorActive())
-        m_pMenu->setActionEnabled(ListPopupMenu::mt_ViewCode, false);
-
-    connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
-
-    return m_pMenu;
-}
-
-/**
- * This slot is entered when an event has occurred on the views display,
- * most likely a mouse event.  Before it sends out that mouse event all
- * children should make sure that they don't have a menu active or there
- * could be more than one popup menu displayed.
- */
-void UMLWidget::slotRemovePopupMenu()
-{
-    if (m_pMenu) {
-        if (!m_menuIsEmbedded) {
-            disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
-            delete m_pMenu;
-        }
-        m_pMenu = 0;
-    }
-}
-
-/**
  * Returns 0 if the given point is not in the boundaries of the widget,
  * else returns a number which is proportional to the size of the widget.
  *
@@ -1147,34 +970,6 @@ void UMLWidget::setY(UMLSceneValue y)
 }
 
 /**
- * Sets the name in the corresponding UMLObject.
- * Sets the local m_Text if m_umlObject is NULL.
- *
- * @param strName The name to be set.
- */
-void UMLWidget::setName(const QString &strName)
-{
-    if (m_umlObject)
-        m_umlObject->setName(strName);
-    else
-        m_Text = strName;
-    updateGeometry();
-}
-
-/**
- * Gets the name from the corresponding UMLObject.
- * Returns the local m_Text if m_umlObject is NULL.
- *
- * @return The currently set name.
- */
-QString UMLWidget::name() const
-{
-    if (m_umlObject)
-        return m_umlObject->name();
-    return m_Text;
-}
-
-/**
  * Used to cleanup any other widget it may need to delete.
  * Used by child classes.  This should be called before deleting a widget of a diagram.
  */
@@ -1271,6 +1066,32 @@ void UMLWidget::updateGeometry()
     setSize(clipWidth, clipHeight);
     slotSnapToGrid();
     adjustAssocs(x(), y());    // adjust assoc lines
+}
+
+/**
+ * Update the look of this widget.
+ */
+void UMLWidget::updateLook()
+{
+    if (m_doc->loading()) {
+        return;
+    }
+    if (umlScene()) {
+        m_useFillColor = true;
+        m_usesDiagramFillColor = true;
+        m_usesDiagramUseFillColor = true;
+        const Settings::OptionState& optionState = umlScene()->optionState();
+        m_fillColor = optionState.uiState.fillColor;
+        // FIXME: using setFont() here let umbrello hang probably because of doc->loading() not set.
+        m_Font = optionState.uiState.font;
+        m_showStereotype = optionState.classState.showStereoType;
+    } else {
+        uError() << "SERIOUS PROBLEM - scene is NULL";
+        m_useFillColor = false;
+        m_usesDiagramFillColor = false;
+        m_usesDiagramUseFillColor = false;
+        m_showStereotype = false;
+    }
 }
 
 /**
@@ -1489,7 +1310,7 @@ bool UMLWidget::loadFromXMI(QDomElement & qElement)
         setFont(newFont);
     } else {
         uWarning() << "Using default font " << m_Font.toString()
-        << " for widget with xmi.id " << Uml::ID::toString(m_nId) << endl;
+                   << " for widget with xmi.id " << Uml::ID::toString(m_nId);
     }
 
     setSize(w.toInt(), h.toInt());

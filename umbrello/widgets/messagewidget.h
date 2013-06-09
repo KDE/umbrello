@@ -149,9 +149,9 @@ public:
         return xclicked;
     }
 
-    ListPopupMenu* setupPopupMenu(ListPopupMenu *menu = 0);
-
 protected:
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+
     void setLinkAndTextPos();
 
     int constrainX(int textX, int textWidth, Uml::TextRole::Enum tr);

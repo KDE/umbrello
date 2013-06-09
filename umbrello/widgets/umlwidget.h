@@ -182,11 +182,6 @@ public:
 
     bool isActivated();
 
-    virtual QString name() const;
-    virtual void setName(const QString &strName);
-
-    virtual ListPopupMenu* setupPopupMenu(ListPopupMenu *menu=0);
-
     virtual void adjustAssocs(int x, int y);
     void adjustUnselectedAssocs(int x, int y);
 
@@ -197,6 +192,7 @@ public:
     static bool widgetHasUMLObject(WidgetBase::WidgetType type);
 
     void updateGeometry();
+    void updateLook();
 
     void clipSize();
 
@@ -207,12 +203,12 @@ public:
 
     UMLWidgetController* getWidgetController();
 
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * me);
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *me);
-    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *me);
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * me);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
-    virtual void moveEvent(QGraphicsSceneMouseEvent *me);
+    virtual void moveEvent(QGraphicsSceneMouseEvent *event);
 
     virtual void constrain(UMLSceneValue& width, UMLSceneValue& height);
 
@@ -251,21 +247,12 @@ public:
     void setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm);
     void setupFontType(QFont &font, UMLWidget::FontType fontType);
 
-    void init();
-
     ///////////////// Data Loaded/Saved /////////////////////////////////
 
     /**
      * A list of AssociationWidgets between the UMLWidget and other UMLWidgets in the diagram
      */
     AssociationWidgetList m_Assocs;
-
-    /**
-     * getName() returns the name from the UMLObject if this widget has an
-     * underlying UMLObject; if it does not, then getName() returns the local
-     * m_Text (notably the case for FloatingTextWidget.)
-     */
-    QString m_Text;
 
     QFont m_Font;   ///< the font the widget will use
 
@@ -278,8 +265,6 @@ public:
     bool m_selected, m_startMove;
 
     int            m_nPosX;
-    ListPopupMenu *m_pMenu;
-    bool           m_menuIsEmbedded;
     UMLDoc        *m_doc;  ///< shortcut for UMLApp::app()->getDocument()
     bool           m_resizable;
     QFontMetrics  *m_pFontMetrics[FT_INVALID];
@@ -304,8 +289,7 @@ public:
      */
     UMLWidgetController *m_widgetController;
 
-public slots:
-    virtual void slotRemovePopupMenu();
+public Q_SLOTS:
     virtual void updateWidget();
     virtual void slotMenuSelection(QAction* action);
     virtual void slotWidgetMoved(Uml::ID::Type id);
@@ -324,5 +308,12 @@ signals:
      * @param id The id of the object behind the widget.
      */
     void sigWidgetMoved(Uml::ID::Type id);
+
+protected:
+    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent* event);
+
+private:
+    void init();
+
 };
 #endif

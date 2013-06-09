@@ -227,17 +227,18 @@ QString ObjectNodeWidget::state() const
  */
 void ObjectNodeWidget::slotMenuSelection(QAction* action)
 {
-    bool ok = false;
-    QString text = name();
-
-    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     switch( sel ) {
     case ListPopupMenu::mt_Rename:
-        text = KInputDialog::getText( i18n("Enter Object Node Name"),
-                                      i18n("Enter the name of the object node :"),
-                                      name(), &ok );
-        if (ok && !text.isEmpty()) {
-            setName(text);
+        {
+            bool ok = false;
+            QString text = name();
+            text = KInputDialog::getText( i18n("Enter Object Node Name"),
+                                          i18n("Enter the name of the object node :"),
+                                          name(), &ok );
+            if (ok && !text.isEmpty()) {
+                setName(text);
+            }
         }
         break;
 

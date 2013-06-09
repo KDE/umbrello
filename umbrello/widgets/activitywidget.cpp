@@ -347,16 +347,19 @@ void ActivityWidget::constrain(UMLSceneValue& width, UMLSceneValue& height)
  */
 void ActivityWidget::slotMenuSelection(QAction* action)
 {
-    bool ok = false;
-    QString n = name();
-
-    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
 
     switch( sel ) {
     case ListPopupMenu::mt_Rename:
-        n = KInputDialog::getText( i18n("Enter Activity Name"), i18n("Enter the name of the new activity:"), n, &ok );
-        if( ok && !n.isEmpty()) {
-            setName(n);
+        {
+            bool ok = false;
+            QString n = name();
+            n = KInputDialog::getText(i18n("Enter Activity Name"),
+                                      i18n("Enter the name of the new activity:"),
+                                      n, &ok);
+            if (ok && !n.isEmpty()) {
+                setName(n);
+            }
         }
         break;
 
