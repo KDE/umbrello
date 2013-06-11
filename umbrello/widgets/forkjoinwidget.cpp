@@ -58,12 +58,15 @@ void ForkJoinWidget::setOrientation(Qt::Orientation ori)
  * Reimplemented from UMLWidget::paint to draw the plate of
  * fork join.
  */
-void ForkJoinWidget::draw(QPainter& p, int offsetX, int offsetY)
+void ForkJoinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    p.fillRect( offsetX, offsetY, width(), height(), QBrush( Qt::black ));
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
+    painter->fillRect(0, 0, width(), height(), QBrush( Qt::black ));
 
     if (m_selected) {
-        drawSelected(&p, offsetX, offsetY);
+        drawSelected(painter);
     }
 }
 
@@ -146,8 +149,11 @@ UMLSceneSize ForkJoinWidget::minimumSize()
  * Although the ForkJoinWidget supports resizing, we suppress the
  * resize corner because it is too large for this very slim widget.
  */
-void ForkJoinWidget::drawSelected(QPainter *, int /*offsetX*/, int /*offsetY*/)
+void ForkJoinWidget::drawSelected(QPainter * p, int offsetX, int offsetY)
 {
+    Q_UNUSED(p);
+    Q_UNUSED(offsetX);
+    Q_UNUSED(offsetY);
 }
 
 /**

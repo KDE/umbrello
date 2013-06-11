@@ -33,7 +33,7 @@ public:
     Qt::Orientation orientation() const;
     void setOrientation(Qt::Orientation ori);
 
-    virtual void draw(QPainter & p, int offsetX, int offsetY);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     virtual bool loadFromXMI(QDomElement & qElement);
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
@@ -44,7 +44,7 @@ public Q_SLOTS:
 protected:
     UMLSceneSize minimumSize();
 
-    void drawSelected(QPainter * p, int offsetX, int offsetY);
+    virtual void drawSelected(QPainter * p, int offsetX = 0, int offsetY = 0);
 
     void constrain(UMLSceneValue& width, UMLSceneValue& height);
 
