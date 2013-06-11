@@ -33,8 +33,7 @@ public:
     explicit EntityWidget(UMLScene *scene, UMLObject* o);
     virtual ~EntityWidget();
 
-
-    virtual void draw(QPainter& p, int offsetX, int offsetY);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     // UMLWidget::loadFromXMI is used to load this widget.
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
