@@ -46,13 +46,16 @@ DatatypeWidget::~DatatypeWidget()
 /**
  * Overrides standard method.
  */
-void DatatypeWidget::draw(QPainter& p, int offsetX, int offsetY)
+void DatatypeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    setPenFromSettings(p);
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
+    setPenFromSettings(painter);
     if (UMLWidget::useFillColor())  {
-        p.setBrush(UMLWidget::fillColor());
+        painter->setBrush(UMLWidget::fillColor());
     } else {
-        p.setBrush( m_scene->activeView()->viewport()->palette().color(QPalette::Background) );
+        painter->setBrush( m_scene->activeView()->viewport()->palette().color(QPalette::Background) );
     }
 
     int w = width();
@@ -61,23 +64,23 @@ void DatatypeWidget::draw(QPainter& p, int offsetX, int offsetY)
     QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     int fontHeight  = fm.lineSpacing();
 
-    p.drawRect(offsetX, offsetY, w, h);
-    p.setPen(textColor());
+    painter->drawRect(0, 0, w, h);
+    painter->setPen(textColor());
 
     QFont font = UMLWidget::font();
     font.setBold(true);
-    p.setFont(font);
-    p.drawText(offsetX + DATATYPE_MARGIN, offsetY,
+    painter->setFont(font);
+    painter->drawText(DATATYPE_MARGIN, 0,
                w - DATATYPE_MARGIN* 2,fontHeight,
                Qt::AlignCenter, m_umlObject->stereotype(true));
 
     font.setItalic( m_umlObject->isAbstract() );
-    p.setFont(font);
-    p.drawText(offsetX + DATATYPE_MARGIN, offsetY + fontHeight,
+    painter->setFont(font);
+    painter->drawText(DATATYPE_MARGIN, fontHeight,
                w - DATATYPE_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
 
     if (m_selected) {
-        drawSelected(&p, offsetX, offsetY);
+        drawSelected(painter);
     }
 }
 
