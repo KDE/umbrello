@@ -174,24 +174,30 @@ void MessageWidget::updateResizability()
 }
 
 /**
- * Calls drawSynchronous() or drawAsynchronous().
+ * Reimplemented from UMLWidget and calls other paint...() methods
+ * depending on the message type.
  */
-void MessageWidget::draw(QPainter& p, int offsetX, int offsetY)
+void MessageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
     if(!m_pOw[Uml::RoleType::A] || !m_pOw[Uml::RoleType::B]) {
         return;
     }
-    setPenFromSettings(p);
+    setPenFromSettings(painter);
+    int offsetX = 0;
+    int offsetY = 0;
     if (m_sequenceMessageType == Uml::SequenceMessage::Synchronous) {
-        drawSynchronous(p, offsetX, offsetY);
+        paintSynchronous(*painter, offsetX, offsetY);
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Asynchronous) {
-        drawAsynchronous(p, offsetX, offsetY);
+        paintAsynchronous(*painter, offsetX, offsetY);
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Creation) {
-        drawCreation(p, offsetX, offsetY);
+        paintCreation(*painter, offsetX, offsetY);
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Lost) {
-        drawLost(p, offsetX, offsetY);
+        paintLost(*painter, offsetX, offsetY);
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Found) {
-        drawFound(p, offsetX, offsetY);
+        paintFound(*painter, offsetX, offsetY);
     } else {
         uWarning() << "Unknown message type";
     }
@@ -201,7 +207,7 @@ void MessageWidget::draw(QPainter& p, int offsetX, int offsetY)
  * Draw a solid (triangular) arrowhead pointing in the given direction.
  * The direction can be either Qt::LeftArrow or Qt::RightArrow.
  */
-void MessageWidget::drawSolidArrowhead(QPainter& p, int x, int y, Qt::ArrowType direction)
+void MessageWidget::paintSolidArrowhead(QPainter& p, int x, int y, Qt::ArrowType direction)
 {
     int arrowheadExtentX = 4;
     if (direction == Qt::RightArrow) {
@@ -219,7 +225,7 @@ void MessageWidget::drawSolidArrowhead(QPainter& p, int x, int y, Qt::ArrowType 
  * like so:  --->
  * The direction can be either Qt::LeftArrow or Qt::RightArrow.
  */
-void MessageWidget::drawArrow(QPainter& p, int x, int y, int w,
+void MessageWidget::paintArrow(QPainter& p, int x, int y, int w,
                               Qt::ArrowType direction, bool useDottedLine /* = false */)
 {
     if (w > 3) {
@@ -248,7 +254,7 @@ void MessageWidget::drawArrow(QPainter& p, int x, int y, int w,
  * timeline box and the returning arrow with a dashed line and
  * stick arrowhead.
  */
-void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY)
+void MessageWidget::paintSynchronous(QPainter& p, int offsetX, int offsetY)
 {
     int x1 = m_pOw[Uml::RoleType::A]->x();
     int x2 = m_pOw[Uml::RoleType::B]->x();
@@ -272,7 +278,7 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY)
         // draw line segment parallel to (and at the right of) the life line
         p.drawLine(offsetX + w, offsetY, offsetX + w, lowerLineY);
         // draw lower line segment (back to the life line)
-        drawArrow(p, offsetX, lowerLineY, w, Qt::LeftArrow);
+        paintArrow(p, offsetX, lowerLineY, w, Qt::LeftArrow);
         offsetX -= wr;
         offsetY -= 3;
     } else if(x1 < x2) {
@@ -286,8 +292,8 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY)
         p.drawRect(startX, offsetY, wr, h);                             //box
         p.drawLine(offsetX, offsetY + arrowWidth, startX, offsetY + arrowWidth);          //arrow line
         if (w > boxWidth + arrowWidth)
-            drawSolidArrowhead(p, startX - 1, offsetY + arrowWidth, Qt::RightArrow);
-        drawArrow(p, offsetX, offsetY + h - arrowWidth + 1, w - wr + 1, Qt::LeftArrow, true); // return arrow
+            paintSolidArrowhead(p, startX - 1, offsetY + arrowWidth, Qt::RightArrow);
+        paintArrow(p, offsetX, offsetY + h - arrowWidth + 1, w - wr + 1, Qt::LeftArrow, true); // return arrow
         if (messageOverlaps)  {
             offsetX -= 8; //reset for drawSelected()
         }
@@ -300,8 +306,8 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY)
         p.drawRect(offsetX, offsetY, wr, h);                                    //box
         p.drawLine(offsetX + wr + 1, offsetY + arrowWidth, offsetX + w, offsetY + arrowWidth);    //arrow line
         if (w > boxWidth + arrowWidth)
-            drawSolidArrowhead(p, offsetX + wr, offsetY + arrowWidth, Qt::LeftArrow);
-        drawArrow(p, offsetX + wr + 1, offsetY + h - arrowWidth + 1, w - wr - 1, Qt::RightArrow, true); // return arrow
+            paintSolidArrowhead(p, offsetX + wr, offsetY + arrowWidth, Qt::LeftArrow);
+        paintArrow(p, offsetX + wr + 1, offsetY + h - arrowWidth + 1, w - wr - 1, Qt::RightArrow, true); // return arrow
     }
 
     if(m_selected) {
@@ -312,7 +318,7 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY)
 /**
  * Draws a solid arrow line and a stick arrow head.
  */
-void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY)
+void MessageWidget::paintAsynchronous(QPainter& p, int offsetX, int offsetY)
 {
     int x1 = m_pOw[Uml::RoleType::A]->x();
     int x2 = m_pOw[Uml::RoleType::B]->x();
@@ -332,7 +338,7 @@ void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY)
         // draw line segment parallel to (and at the right of) the life line
         p.drawLine(offsetX + w, offsetY, offsetX + w, lowerLineY);
         // draw lower line segment (back to the life line)
-        drawArrow(p, offsetX, lowerLineY, w, Qt::LeftArrow);
+        paintArrow(p, offsetX, lowerLineY, w, Qt::LeftArrow);
         if (messageOverlapsA)  {
             offsetX -= 7; //reset for drawSelected()
         }
@@ -341,7 +347,7 @@ void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY)
             offsetX += 7;
             w -= 7;
         }
-        drawArrow(p, offsetX, offsetY + 4, w, Qt::RightArrow);
+        paintArrow(p, offsetX, offsetY + 4, w, Qt::RightArrow);
         if (messageOverlapsA) {
             offsetX -= 7;
         }
@@ -349,7 +355,7 @@ void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY)
         if (messageOverlapsA) {
             w -= 7;
         }
-        drawArrow(p, offsetX, offsetY + 4, w, Qt::LeftArrow);
+        paintArrow(p, offsetX, offsetY + 4, w, Qt::LeftArrow);
     }
 
     if (m_selected)
@@ -361,7 +367,7 @@ void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY)
  * edge of the target object widget instead of to the
  * sequence line.
  */
-void MessageWidget::drawCreation(QPainter& p, int offsetX, int offsetY)
+void MessageWidget::paintCreation(QPainter& p, int offsetX, int offsetY)
 {
     int x1 = m_pOw[Uml::RoleType::A]->x();
     int x2 = m_pOw[Uml::RoleType::B]->x();
@@ -376,7 +382,7 @@ void MessageWidget::drawCreation(QPainter& p, int offsetX, int offsetY)
             offsetX += 7;
             w -= 7;
         }
-        drawArrow(p, offsetX, lineY, w, Qt::RightArrow);
+        paintArrow(p, offsetX, lineY, w, Qt::RightArrow);
         if (messageOverlapsA) {
             offsetX -= 7;
         }
@@ -384,7 +390,7 @@ void MessageWidget::drawCreation(QPainter& p, int offsetX, int offsetY)
         if (messageOverlapsA) {
             w -= 7;
         }
-        drawArrow(p, offsetX, lineY, w, Qt::LeftArrow);
+        paintArrow(p, offsetX, lineY, w, Qt::LeftArrow);
     }
 
     if (m_selected)
@@ -396,7 +402,7 @@ void MessageWidget::drawCreation(QPainter& p, int offsetX, int offsetY)
  * Draws a solid arrow line and a stick arrow head
  * and a circle
  */
-void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY)
+void MessageWidget::paintLost(QPainter& p, int offsetX, int offsetY)
 {
     int x1 = m_pOw[Uml::RoleType::A]->centerX();
     int x2 = xclicked;
@@ -414,7 +420,7 @@ void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY)
         setPenFromSettings(p);
         p.setBrush( WidgetBase::lineColor() );
         p.drawEllipse(offsetX + w - h, offsetY, h, h);
-        drawArrow(p,offsetX, offsetY + h/2, w - h, Qt::RightArrow);
+        paintArrow(p,offsetX, offsetY + h/2, w - h, Qt::RightArrow);
 
         if (messageOverlapsA)  {
             offsetX -= 7;
@@ -423,7 +429,7 @@ void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY)
         setPenFromSettings(p);
         p.setBrush( WidgetBase::lineColor() );
         p.drawEllipse(offsetX, offsetY, h, h);
-        drawArrow(p, offsetX + h, offsetY + h/2, w - h, Qt::LeftArrow);
+        paintArrow(p, offsetX + h, offsetY + h/2, w - h, Qt::LeftArrow);
     }
 
     if (m_selected)
@@ -433,7 +439,7 @@ void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY)
 /**
  * Draws a circle and a solid arrow line and a stick arrow head.
  */
-void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY)
+void MessageWidget::paintFound(QPainter& p, int offsetX, int offsetY)
 {
     int x1 = m_pOw[Uml::RoleType::A]->centerX();
     int x2 = xclicked;
@@ -450,7 +456,7 @@ void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY)
         setPenFromSettings(p);
         p.setBrush( WidgetBase::lineColor() );
         p.drawEllipse(offsetX + w - h, offsetY, h, h);
-        drawArrow(p, offsetX, offsetY + h/2, w, Qt::LeftArrow);
+        paintArrow(p, offsetX, offsetY + h/2, w, Qt::LeftArrow);
         if (messageOverlapsA)  {
             offsetX -= 7;
         }
@@ -461,7 +467,7 @@ void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY)
         setPenFromSettings(p);
         p.setBrush( WidgetBase::lineColor() );
         p.drawEllipse(offsetX, offsetY, h, h);
-        drawArrow(p, offsetX, offsetY + h/2, w, Qt::RightArrow);
+        paintArrow(p, offsetX, offsetY + h/2, w, Qt::RightArrow);
     }
 
     if (m_selected)

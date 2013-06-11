@@ -123,7 +123,7 @@ public:
     void calculateDimensionsLost();
     void calculateDimensionsFound();
 
-    void draw(QPainter& p, int offsetX, int offsetY);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     void setTextPosition();
 
@@ -156,17 +156,17 @@ protected:
 
     int constrainX(int textX, int textWidth, Uml::TextRole::Enum tr);
 
-    static void drawArrow( QPainter& p, int x, int y, int w,
+    static void paintArrow( QPainter& p, int x, int y, int w,
                            Qt::ArrowType direction, bool useDottedLine = false );
-    static void drawSolidArrowhead(QPainter& p, int x, int y, Qt::ArrowType direction);
+    static void paintSolidArrowhead(QPainter& p, int x, int y, Qt::ArrowType direction);
 
     void updateResizability();
 
-    void drawSynchronous(QPainter& p, int offsetX, int offsetY);
-    void drawAsynchronous(QPainter& p, int offsetX, int offsetY);
-    void drawCreation(QPainter& p, int offsetX, int offsetY);
-    void drawLost(QPainter& p, int offsetX, int offsetY);
-    void drawFound(QPainter& p, int offsetX, int offsetY);
+    void paintSynchronous(QPainter& p, int offsetX, int offsetY);
+    void paintAsynchronous(QPainter& p, int offsetX, int offsetY);
+    void paintCreation(QPainter& p, int offsetX, int offsetY);
+    void paintLost(QPainter& p, int offsetX, int offsetY);
+    void paintFound(QPainter& p, int offsetX, int offsetY);
 
     // Data loaded/saved
     QString m_SequenceNumber;
