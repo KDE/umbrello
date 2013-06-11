@@ -51,13 +51,16 @@ PackageWidget::~PackageWidget()
 /**
  * Overrides standard method.
  */
-void PackageWidget::draw(QPainter & p, int offsetX, int offsetY)
+void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    setPenFromSettings(p);
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
+    setPenFromSettings(painter);
     if ( UMLWidget::useFillColor() )
-        p.setBrush( UMLWidget::fillColor() );
+        painter->setBrush( UMLWidget::fillColor() );
     else
-        p.setBrush( m_scene->activeView()->viewport()->palette().color(QPalette::Background) );
+        painter->setBrush( m_scene->activeView()->viewport()->palette().color(QPalette::Background) );
 
     int w = width();
     int h = height();
@@ -68,36 +71,36 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY)
     const QFontMetrics &fm = getFontMetrics(FT_BOLD);
     const int fontHeight  = fm.lineSpacing();
 
-    p.drawRect(offsetX, offsetY, 50, fontHeight);
+    painter->drawRect(0, 0, 50, fontHeight);
     if (m_umlObject->stereotype() == "subsystem") {
         const int fHalf = fontHeight / 2;
-        const int symY = offsetY + fHalf;
-        const int symX = offsetX + 38;
-        p.drawLine(symX, symY, symX, symY + fHalf - 2);          // left leg
-        p.drawLine(symX + 8, symY, symX + 8, symY + fHalf - 2);  // right leg
-        p.drawLine(symX, symY, symX + 8, symY);                  // waist
-        p.drawLine(symX + 4, symY, symX + 4, symY - fHalf + 2);  // head
+        const int symY = fHalf;
+        const int symX = 38;
+        painter->drawLine(symX, symY, symX, symY + fHalf - 2);          // left leg
+        painter->drawLine(symX + 8, symY, symX + 8, symY + fHalf - 2);  // right leg
+        painter->drawLine(symX, symY, symX + 8, symY);                  // waist
+        painter->drawLine(symX + 4, symY, symX + 4, symY - fHalf + 2);  // head
     }
-    p.drawRect(offsetX, offsetY + fontHeight - 1, w, h - fontHeight);
+    painter->drawRect(0, fontHeight - 1, w, h - fontHeight);
 
-    p.setPen(textColor());
-    p.setFont(font);
+    painter->setPen(textColor());
+    painter->setFont(font);
 
     int lines = 1;
     if (m_umlObject != NULL) {
         QString stereotype = m_umlObject->stereotype();
         if (!stereotype.isEmpty()) {
-            p.drawText(offsetX, offsetY + fontHeight + PACKAGE_MARGIN,
+            painter->drawText(0, fontHeight + PACKAGE_MARGIN,
                        w, fontHeight, Qt::AlignCenter, m_umlObject->stereotype(true));
             lines = 2;
         }
     }
 
-    p.drawText(offsetX, offsetY + (fontHeight*lines) + PACKAGE_MARGIN,
+    painter->drawText(0, (fontHeight*lines) + PACKAGE_MARGIN,
                w, fontHeight, Qt::AlignCenter, name() );
 
     if(m_selected) {
-        drawSelected(&p, offsetX, offsetY);
+        drawSelected(painter);
     }
 }
 
