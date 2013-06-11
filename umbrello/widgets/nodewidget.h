@@ -44,7 +44,7 @@ public:
     /**
      * Overrides standard method.
      */
-    void draw(QPainter& p, int offsetX, int offsetY);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     /**
      * Saves to the "nodewidget" XMI element.
