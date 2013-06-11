@@ -73,15 +73,15 @@ void PinWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
     int w = 10;
     int h = 10;
-    int width_Activity = m_pOw->width();
-    int height_Activity = m_pOw->height();
+    int widthActivity = m_pOw->width();
+    int heightActivity = m_pOw->height();
     int y = 0;
-    int x = m_pOw->x() + (width_Activity/2);
+    int x = m_pOw->x() + (widthActivity/2);
 
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
 
-    if ( (offsetY + height_Activity/2) <= m_pOw->y() + height_Activity){
+    if ( (offsetY + heightActivity/2) <= m_pOw->y() + heightActivity){
         y = m_pOw->y()-5;
         if (m_pName->x() == 0 && m_pName->y() == 0) {
             //the floating text has not been linked with the signal
@@ -90,8 +90,8 @@ void PinWidget::draw(QPainter & p, int offsetX, int offsetY)
         }
 
 
-    } else if((offsetY + height_Activity/2) > m_pOw->y() + height_Activity){
-       y = (m_pOw->y() + height_Activity)-5;
+    } else if((offsetY + heightActivity/2) > m_pOw->y() + heightActivity){
+       y = (m_pOw->y() + heightActivity)-5;
         if (m_pName->x() == 0 && m_pName->y() == 0) {
             //the floating text has not been linked with the signal
             m_pName->setX(x + 5 - m_Text.length()/2);
@@ -99,18 +99,18 @@ void PinWidget::draw(QPainter & p, int offsetX, int offsetY)
         }
     }
 
-    if (offsetX + width_Activity/4 <= m_pOw->x() + width_Activity/2
-         && (offsetY > m_pOw->y() +5 && offsetY < m_pOw->y() + height_Activity - 5) ){
+    if (offsetX + widthActivity/4 <= m_pOw->x() + widthActivity/2
+         && (offsetY > m_pOw->y() +5 && offsetY < m_pOw->y() + heightActivity - 5) ){
         x = m_pOw->x() -5;
-        y = m_pOw->y() + (height_Activity/2) -5;
+        y = m_pOw->y() + (heightActivity/2) -5;
         if (m_pName->x() == 0 && m_pName->y() == 0) {
             m_pName->setX(x - m_Text.length());
             m_pName->setY(y - fontHeight);
         }
-    } else if (offsetX + width_Activity/4 > m_pOw->x() + width_Activity/2
-         && (offsetY > m_pOw->y() +5 && offsetY < m_pOw->y() + height_Activity - 5) ){
-        x = m_pOw->x() + width_Activity -5;
-        y = m_pOw->y() + (height_Activity/2) -5;
+    } else if (offsetX + widthActivity/4 > m_pOw->x() + widthActivity/2
+         && (offsetY > m_pOw->y() +5 && offsetY < m_pOw->y() + heightActivity - 5) ){
+        x = m_pOw->x() + widthActivity -5;
+        y = m_pOw->y() + (heightActivity/2) -5;
         if (m_pName->x() == 0 && m_pName->y() == 0) {
             //the floating text has not been linked with the signal
             m_pName->setX(x + 10);
