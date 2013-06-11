@@ -115,7 +115,6 @@ void ObjectNodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         }
         break;
     }
-    setPenFromSettings(painter);
 
     if(m_selected)
         drawSelected(painter);
