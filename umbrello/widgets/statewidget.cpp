@@ -55,113 +55,117 @@ StateWidget::~StateWidget()
 /**
  * Overrides the standard paint event.
  */
-void StateWidget::draw(QPainter & p, int offsetX, int offsetY)
+void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    setPenFromSettings(p);
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
     const int w = width();
     const int h = height();
     if (w == 0 || h == 0)
         return;
+
+    setPenFromSettings(painter);
     switch (m_stateType) {
     case StateWidget::Normal:
         {
             if (UMLWidget::useFillColor()) {
-                p.setBrush(UMLWidget::fillColor());
+                painter->setBrush(UMLWidget::fillColor());
             }
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing();
             int textStartY = (h / 2) - (fontHeight / 2);
             const int count = m_Activities.count();
             if (count == 0) {
-                p.drawRoundRect(offsetX, offsetY, w, h, (h*40)/w, (w*40)/h);
-                p.setPen(textColor());
+                painter->drawRoundRect(0, 0, w, h, (h*40)/w, (w*40)/h);
+                painter->setPen(textColor());
                 QFont font = UMLWidget::font();
                 font.setBold( false );
-                p.setFont( font );
-                p.drawText(offsetX + STATE_MARGIN, offsetY + textStartY,
+                painter->setFont( font );
+                painter->drawText(STATE_MARGIN, textStartY,
                            w - STATE_MARGIN * 2, fontHeight,
                            Qt::AlignCenter, name());
-                setPenFromSettings(p);
+                setPenFromSettings(painter);
             } else {
-                p.drawRoundRect(offsetX, offsetY, w, h, (h*40)/w, (w*40)/h);
-                textStartY = offsetY + STATE_MARGIN;
-                p.setPen(textColor());
+                painter->drawRoundRect(0, 0, w, h, (h*40)/w, (w*40)/h);
+                textStartY = STATE_MARGIN;
+                painter->setPen(textColor());
                 QFont font = UMLWidget::font();
                 font.setBold( true );
-                p.setFont( font );
-                p.drawText(offsetX + STATE_MARGIN, textStartY, w - STATE_MARGIN * 2,
+                painter->setFont( font );
+                painter->drawText(STATE_MARGIN, textStartY, w - STATE_MARGIN * 2,
                            fontHeight, Qt::AlignCenter, name());
                 font.setBold( false );
-                p.setFont( font );
-                setPenFromSettings(p);
+                painter->setFont( font );
+                setPenFromSettings(painter);
                 int linePosY = textStartY + fontHeight;
 
                 QStringList::Iterator end(m_Activities.end());
                 for( QStringList::Iterator it(m_Activities.begin()); it != end; ++it ) {
                     textStartY += fontHeight;
-                    p.drawLine( offsetX, linePosY, offsetX + w - 1, linePosY );
-                    p.setPen(textColor());
-                    p.drawText(offsetX + STATE_MARGIN, textStartY, w - STATE_MARGIN * 2 - 1,
+                    painter->drawLine( 0, linePosY, w - 1, linePosY );
+                    painter->setPen(textColor());
+                    painter->drawText(STATE_MARGIN, textStartY, w - STATE_MARGIN * 2 - 1,
                                fontHeight, Qt::AlignCenter, *it);
-                    setPenFromSettings(p);
+                    setPenFromSettings(painter);
                     linePosY += fontHeight;
                 }//end for
             }//end else
         }
         break;
     case StateWidget::Initial :
-        p.setBrush( WidgetBase::lineColor() );
-        p.drawEllipse( offsetX, offsetY, w, h );
+        painter->setBrush(WidgetBase::lineColor());
+        painter->drawEllipse(0, 0, w, h);
         break;
     case StateWidget::End :
-        p.setBrush( WidgetBase::lineColor() );
-        p.drawEllipse( offsetX, offsetY, w, h );
-        p.setBrush( Qt::white );
-        p.drawEllipse( offsetX + 1, offsetY + 1, w - 2, h - 2 );
-        p.setBrush( WidgetBase::lineColor() );
-        p.drawEllipse( offsetX + 3, offsetY + 3, w - 6, h - 6 );
+        painter->setBrush(WidgetBase::lineColor());
+        painter->drawEllipse(0, 0, w, h);
+        painter->setBrush(Qt::white);
+        painter->drawEllipse(1, 1, w - 2, h - 2);
+        painter->setBrush(WidgetBase::lineColor());
+        painter->drawEllipse(3, 3, w - 6, h - 6);
         break;
     case StateWidget::Fork:
     case StateWidget::Join:
         {
-            p.setPen(Qt::black);
-            p.setBrush(Qt::black);
-            p.drawRect(rect());
+            painter->setPen(Qt::black);
+            painter->setBrush(Qt::black);
+            painter->drawRect(rect());
         }
         break;
     case StateWidget::Junction:
         {
-            p.setPen(Qt::black);
-            p.setBrush(Qt::black);
-            p.drawEllipse(rect());
+            painter->setPen(Qt::black);
+            painter->setBrush(Qt::black);
+            painter->drawEllipse(rect());
         }
         break;
     case StateWidget::DeepHistory:
         {
-            p.setBrush(Qt::white);
-            p.drawEllipse(rect());
-            p.setPen(Qt::black);
-            p.setFont( UMLWidget::font() );
+            painter->setBrush(Qt::white);
+            painter->drawEllipse(rect());
+            painter->setPen(Qt::black);
+            painter->setFont( UMLWidget::font() );
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing() / 2;
             const int xStar = fm.boundingRect("H").width();
             const int yStar = fontHeight / 4;
-            p.drawText(offsetX + (w / 6),
-                       offsetY + (h / 4) + fontHeight, "H");
-            p.drawText(offsetX + (w / 6) + xStar,
-                       offsetY + (h / 4) + fontHeight - yStar, "*");
+            painter->drawText((w / 6),
+                       (h / 4) + fontHeight, "H");
+            painter->drawText((w / 6) + xStar,
+                       (h / 4) + fontHeight - yStar, "*");
         }
         break;
     case StateWidget::ShallowHistory:
         {
-            p.setBrush(Qt::white);
-            p.drawEllipse(rect());
-            p.setPen(Qt::black);
-            p.setFont( UMLWidget::font() );
+            painter->setBrush(Qt::white);
+            painter->drawEllipse(rect());
+            painter->setPen(Qt::black);
+            painter->setFont( UMLWidget::font() );
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing() / 2;
-            p.drawText(offsetX + (w / 6),
-                       offsetY + (h / 4) + fontHeight, "H");
+            painter->drawText((w / 6),
+                       (h / 4) + fontHeight, "H");
         }
         break;
     case StateWidget::Choice:
@@ -173,8 +177,8 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY)
             QPolygonF polygon;
             polygon << QPointF(x + pnt, y) << QPointF(x + len, y + pnt)
                     << QPointF(x + pnt, y + len) << QPointF(x, y + pnt);
-            p.setBrush(UMLWidget::fillColor());
-            p.drawPolygon(polygon);
+            painter->setBrush(UMLWidget::fillColor());
+            painter->drawPolygon(polygon);
         }
         break;
     default:
@@ -182,7 +186,7 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY)
         break;
     }
     if (m_selected) {
-        drawSelected(&p, offsetX, offsetY);
+        drawSelected(painter);
     }
 }
 
