@@ -32,7 +32,7 @@ public:
     ComponentWidget(UMLScene * scene, UMLComponent *c);
     virtual ~ComponentWidget();
 
-    virtual void draw(QPainter& p, int offsetX, int offsetY);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
