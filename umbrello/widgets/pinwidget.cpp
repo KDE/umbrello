@@ -69,14 +69,19 @@ PinWidget::~PinWidget()
 /**
  * Overrides the standard paint event.
  */
-void PinWidget::draw(QPainter & p, int offsetX, int offsetY)
+void PinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
     int w = 10;
     int h = 10;
     int widthActivity = m_pOw->width();
     int heightActivity = m_pOw->height();
     int y = 0;
     int x = m_pOw->x() + (widthActivity/2);
+    int offsetX = this->x();
+    int offsetY = this->y();
 
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
@@ -88,8 +93,6 @@ void PinWidget::draw(QPainter & p, int offsetX, int offsetY)
             m_pName->setX(x + 5 - m_Text.length()/2);
             m_pName->setY(y -fontHeight);
         }
-
-
     } else if((offsetY + heightActivity/2) > m_pOw->y() + heightActivity){
        y = (m_pOw->y() + heightActivity)-5;
         if (m_pName->x() == 0 && m_pName->y() == 0) {
@@ -131,18 +134,18 @@ void PinWidget::draw(QPainter & p, int offsetX, int offsetY)
 //         y = m_pOw[Uml::A]->getEndLineY() - h;
 //     }
 
-    setPenFromSettings(p);
+    setPenFromSettings(painter);
     if ( UMLWidget::useFillColor() ) {
-        p.setBrush( UMLWidget::fillColor() );
+        painter->setBrush( UMLWidget::fillColor() );
     }
-    p.drawRect(x,y,w, h);
-    //make sure it's always above the other
+    painter->drawRect(0, 0, w, h);
+    //make sure it's always above the others
     setZValue(20);
-    setPenFromSettings(p);
+    setPenFromSettings(painter);
     m_pName->setVisible(( m_pName->text().length() > 0 ));
     m_pName->updateGeometry();
     if(m_selected)
-         drawSelected(&p, offsetX, offsetY);
+         drawSelected(painter);
 }
 
 /**
