@@ -35,16 +35,19 @@ UseCaseWidget::~UseCaseWidget()
 /**
  * Overrides the standard paint event.
  */
-void UseCaseWidget::draw(QPainter & p, int offsetX, int offsetY)
+void UseCaseWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    setPenFromSettings(p);
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
+    setPenFromSettings(painter);
     if ( UMLWidget::useFillColor() )
-        p.setBrush( UMLWidget::fillColor() );
+        painter->setBrush( UMLWidget::fillColor() );
     QFont font = UMLWidget::font();
     font.setUnderline(false);
     font.setBold(false);
     font.setItalic( m_umlObject->isAbstract() );
-    p.setFont( font );
+    painter->setFont( font );
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
     const int w = width();
@@ -52,12 +55,12 @@ void UseCaseWidget::draw(QPainter & p, int offsetX, int offsetY)
     //int middleX = w / 2;
     const int textStartY = (h / 2) - (fontHeight / 2);
 
-    p.drawEllipse(offsetX, offsetY, w, h);
-    p.setPen(textColor());
-    p.drawText(offsetX + UC_MARGIN, offsetY + textStartY, w - UC_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
-    setPenFromSettings(p);
+    painter->drawEllipse(0, 0, w, h);
+    painter->setPen(textColor());
+    painter->drawText(UC_MARGIN, textStartY, w - UC_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
+    setPenFromSettings(painter);
     if(m_selected)
-        drawSelected(&p, offsetX, offsetY);
+        drawSelected(painter);
 }
 
 /**
