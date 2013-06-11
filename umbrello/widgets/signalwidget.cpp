@@ -62,9 +62,12 @@ SignalWidget::~SignalWidget()
 /**
  * Overrides the standard paint event.
  */
-void SignalWidget::draw(QPainter & p, int offsetX, int offsetY)
+void SignalWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    setPenFromSettings(p);
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
+    setPenFromSettings(painter);
     const int w = width();
     const int h = height();
     QPolygon a;
@@ -72,78 +75,77 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY)
     {
     case Send :
         if(UMLWidget::useFillColor())
-            p.setBrush(UMLWidget::fillColor());
+            painter->setBrush(UMLWidget::fillColor());
         {
-
-            a.setPoints( 5, offsetX           ,offsetY,
-                            offsetX + (w*2)/3 ,offsetY,
-                            offsetX + w       ,(h/2)+offsetY,
-                            offsetX + (w*2)/3 ,h+offsetY,
-                            offsetX           ,h+offsetY );
-            p.drawPolygon( a );
+            a.setPoints( 5, 0,      0,
+                           (w*2)/3, 0,
+                            w,      h/2,
+                           (w*2)/3, h,
+                            0,      h );
+            painter->drawPolygon( a );
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing();
             int textStartY = (h / 2) - (fontHeight / 2);
 
-            p.setPen(textColor());
+            painter->setPen(textColor());
             QFont font = UMLWidget::font();
             font.setBold( false );
-            p.setFont( font );
-            p.drawText(offsetX + SIGNAL_MARGIN, offsetY + textStartY,
+            painter->setFont( font );
+            painter->drawText(SIGNAL_MARGIN, textStartY,
                            w - SIGNAL_MARGIN * 2, fontHeight,
                            Qt::AlignCenter, getName());
-            setPenFromSettings(p);
+            setPenFromSettings(painter);
         }
         break;
     case Accept :
         if(UMLWidget::useFillColor())
-            p.setBrush(UMLWidget::fillColor());
+            painter->setBrush(UMLWidget::fillColor());
         {
-            a.setPoints( 5, offsetX ,      offsetY,
-                            offsetX + w/3, (h/2)+offsetY,
-                            offsetX ,      h+offsetY,
-                            offsetX + w,   h+offsetY,
-                            offsetX + w,   offsetY );
+            a.setPoints( 5, 0,   0,
+                            w/3, h/2,
+                            0,   h,
+                            w,   h,
+                            w,   0 );
 
-            p.drawPolygon( a );
+            painter->drawPolygon( a );
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing();
             int textStartY = (h / 2) - (fontHeight / 2);
 
-            p.setPen(textColor());
+            painter->setPen(textColor());
             QFont font = UMLWidget::font();
             font.setBold( false );
-            p.setFont( font );
-            p.drawText(offsetX + SIGNAL_MARGIN, offsetY + textStartY,
+            painter->setFont( font );
+            painter->drawText(SIGNAL_MARGIN, textStartY,
                            w - SIGNAL_MARGIN * 2 + (w/3), fontHeight,
                            Qt::AlignCenter, getName());
-            setPenFromSettings(p);
+            setPenFromSettings(painter);
         }
         break;
     case Time :
         if(UMLWidget::useFillColor())
-            p.setBrush(UMLWidget::fillColor());
+            painter->setBrush(UMLWidget::fillColor());
         {
-            a.setPoints( 4, offsetX ,    offsetY,
-                            offsetX + w, offsetY+h,
-                            offsetX ,    offsetY+h,
-                            offsetX + w, offsetY);
+            a.setPoints( 4, 0 , 0,
+                            w,  h,
+                            0 , h,
+                            w,  0);
 
-            p.drawPolygon( a );
+            painter->drawPolygon( a );
             //const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             //const int fontHeight  = fm.lineSpacing();
             //int textStartY = (h / 2) - (fontHeight / 2);
-            p.setPen(textColor());
+            painter->setPen(textColor());
             QFont font = UMLWidget::font();
             font.setBold( false );
-            p.setFont( font );
+            painter->setFont( font );
 
-            setPenFromSettings(p);
+            setPenFromSettings(painter);
         }
         if (m_pName->x() == 0 && m_pName->y() == 0) {
             //the floating text has not been linked with the signal
-            m_pName->setX(offsetX + w/2 - m_pName->width()/2);
-            m_pName->setY(offsetY + h);
+            m_pName->setX(w/2 - m_pName->width()/2);
+            m_pName->setY(h);
         }
         m_pName->setVisible( ( m_pName->text().length() > 0 ) );
         m_pName->updateGeometry();
@@ -154,7 +156,7 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY)
         break;
     }
     if(m_selected)
-        drawSelected(&p, offsetX, offsetY);
+        drawSelected(painter);
 }
 
 /**
