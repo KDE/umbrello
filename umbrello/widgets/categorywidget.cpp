@@ -44,6 +44,9 @@ CategoryWidget::~CategoryWidget()
  */
 void CategoryWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
     UMLWidget::setPenFromSettings(painter);
     if ( UMLWidget::useFillColor() )
         painter->setBrush( UMLWidget::fillColor() );
