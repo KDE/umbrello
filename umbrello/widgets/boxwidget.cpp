@@ -44,7 +44,7 @@ void BoxWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->drawRect(0, 0, width(), height());
 
     if (m_selected) {
-        drawSelected(painter);
+        paintSelected(painter);
     }
 }
 

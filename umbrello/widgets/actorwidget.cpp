@@ -71,7 +71,7 @@ void ActorWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
     painter->drawText(A_MARGIN, h - fontHeight,
                w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
     if(m_selected)
-        drawSelected(painter);
+        paintSelected(painter);
 }
 
 /**

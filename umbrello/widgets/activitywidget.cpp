@@ -292,7 +292,7 @@ void ActivityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
         break;
     }
     if (m_selected)
-        drawSelected(painter);
+        paintSelected(painter);
 }
 
 /**

@@ -117,7 +117,7 @@ void ObjectNodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     }
 
     if(m_selected)
-        drawSelected(painter);
+        paintSelected(painter);
 
 }
 

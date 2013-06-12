@@ -473,7 +473,7 @@ void FloatingTextWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem
     painter->setPen(textColor());
     painter->drawText(0, 0, w, h, Qt::AlignCenter, displayText());
     if(m_selected)
-        drawSelected(painter);
+        paintSelected(painter);
 }
 
 /**

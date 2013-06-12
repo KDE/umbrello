@@ -145,7 +145,7 @@ void PinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     m_pName->setVisible(( m_pName->text().length() > 0 ));
     m_pName->updateGeometry();
     if(m_selected)
-         drawSelected(painter);
+         paintSelected(painter);
 }
 
 /**

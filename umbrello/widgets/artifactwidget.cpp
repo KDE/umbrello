@@ -175,7 +175,7 @@ void ArtifactWidget::paintAsFile(QPainter *painter)
                w, fontHeight, Qt::AlignCenter, name());
 
     if(m_selected) {
-        drawSelected(painter);
+        paintSelected(painter);
     }
 }
 
@@ -212,7 +212,7 @@ void ArtifactWidget::paintAsLibrary(QPainter *painter)
                w, fontHeight, Qt::AlignCenter, name());
 
     if(m_selected) {
-        drawSelected(painter);
+        paintSelected(painter);
     }
 }
 
@@ -251,7 +251,7 @@ void ArtifactWidget::paintAsTable(QPainter *painter)
                w, fontHeight, Qt::AlignCenter, name());
 
     if(m_selected) {
-        drawSelected(painter);
+        paintSelected(painter);
     }
 }
 
@@ -294,7 +294,7 @@ void ArtifactWidget::paintAsNormal(QPainter *painter)
     }
 
     if(m_selected) {
-        drawSelected(painter);
+        paintSelected(painter);
     }
 }
 

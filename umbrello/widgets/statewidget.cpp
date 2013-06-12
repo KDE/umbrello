@@ -186,7 +186,7 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
         break;
     }
     if (m_selected) {
-        drawSelected(painter);
+        paintSelected(painter);
     }
 }
 

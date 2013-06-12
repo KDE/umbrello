@@ -80,7 +80,7 @@ void DatatypeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
                w - DATATYPE_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
 
     if (m_selected) {
-        drawSelected(painter);
+        paintSelected(painter);
     }
 }
 

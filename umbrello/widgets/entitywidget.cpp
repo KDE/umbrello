@@ -122,7 +122,7 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     }
 
     if (m_selected) {
-        drawSelected(painter);
+        paintSelected(painter);
     }
 }
 

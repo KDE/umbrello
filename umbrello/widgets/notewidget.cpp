@@ -99,7 +99,7 @@ void NoteWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     }
 
     if (m_selected) {
-        drawSelected(painter);
+        paintSelected(painter);
     }
 
 //    paintText(&p, 0, 0);

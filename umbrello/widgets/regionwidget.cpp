@@ -59,7 +59,7 @@ void RegionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     painter->drawRoundRect(0, 0, w, h, (h * 60) / w, 60);
 
     if (m_selected) {
-        drawSelected(painter);
+        paintSelected(painter);
     }
 }
 

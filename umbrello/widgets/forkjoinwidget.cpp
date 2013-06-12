@@ -66,7 +66,7 @@ void ForkJoinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     painter->fillRect(0, 0, width(), height(), QBrush( Qt::black ));
 
     if (m_selected) {
-        drawSelected(painter);
+        paintSelected(painter);
     }
 }
 
@@ -149,7 +149,7 @@ UMLSceneSize ForkJoinWidget::minimumSize()
  * Although the ForkJoinWidget supports resizing, we suppress the
  * resize corner because it is too large for this very slim widget.
  */
-void ForkJoinWidget::drawSelected(QPainter * p, int offsetX, int offsetY)
+void ForkJoinWidget::paintSelected(QPainter * p, int offsetX, int offsetY)
 {
     Q_UNUSED(p);
     Q_UNUSED(offsetX);

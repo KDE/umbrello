@@ -174,7 +174,7 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
     painter->drawLine(line_width + 10, 10, line_width + 10, 0);
 
     if(m_selected)
-        drawSelected(painter);
+        paintSelected(painter);
 }
 
 /**

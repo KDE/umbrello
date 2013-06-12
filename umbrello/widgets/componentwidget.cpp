@@ -105,7 +105,7 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     }
 
     if(m_selected) {
-        drawSelected(painter);
+        paintSelected(painter);
     }
 }
 

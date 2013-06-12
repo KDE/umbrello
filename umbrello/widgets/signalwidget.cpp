@@ -156,7 +156,7 @@ void SignalWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
         break;
     }
     if(m_selected)
-        drawSelected(painter);
+        paintSelected(painter);
 }
 
 /**

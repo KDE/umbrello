@@ -679,7 +679,7 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     }
 
     if (m_selected)
-        drawSelected(painter);
+        paintSelected(painter);
 }
 
 /**
@@ -707,7 +707,7 @@ void ClassifierWidget::drawAsCircle(QPainter *painter)
     painter->drawText(0, CIRCLE_SIZE, w, fontHeight, Qt::AlignCenter, name);
 
     if (m_selected) {
-        drawSelected(painter);
+        paintSelected(painter);
     }
 }
 

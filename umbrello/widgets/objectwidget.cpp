@@ -139,7 +139,7 @@ void ObjectWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
     setPenFromSettings(painter);
     if(m_selected)
-        drawSelected(painter);
+        paintSelected(painter);
 }
 
 /**

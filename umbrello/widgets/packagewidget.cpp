@@ -100,7 +100,7 @@ void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
                w, fontHeight, Qt::AlignCenter, name() );
 
     if(m_selected) {
-        drawSelected(painter);
+        paintSelected(painter);
     }
 }
 

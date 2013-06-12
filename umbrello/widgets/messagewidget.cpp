@@ -311,7 +311,7 @@ void MessageWidget::paintSynchronous(QPainter& p, int offsetX, int offsetY)
     }
 
     if(m_selected) {
-        drawSelected(&p, offsetX, offsetY);
+        paintSelected(&p, offsetX, offsetY);
     }
 }
 
@@ -359,7 +359,7 @@ void MessageWidget::paintAsynchronous(QPainter& p, int offsetX, int offsetY)
     }
 
     if (m_selected)
-        drawSelected(&p, offsetX, offsetY);
+        paintSelected(&p, offsetX, offsetY);
 }
 
 /**
@@ -394,7 +394,7 @@ void MessageWidget::paintCreation(QPainter& p, int offsetX, int offsetY)
     }
 
     if (m_selected)
-        drawSelected(&p, offsetX, offsetY);
+        paintSelected(&p, offsetX, offsetY);
 }
 
 
@@ -433,7 +433,7 @@ void MessageWidget::paintLost(QPainter& p, int offsetX, int offsetY)
     }
 
     if (m_selected)
-        drawSelected(&p, offsetX, offsetY);
+        paintSelected(&p, offsetX, offsetY);
 }
 
 /**
@@ -471,7 +471,7 @@ void MessageWidget::paintFound(QPainter& p, int offsetX, int offsetY)
     }
 
     if (m_selected)
-            drawSelected(&p, offsetX, offsetY);
+            paintSelected(&p, offsetX, offsetY);
 
 }
 

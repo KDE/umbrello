@@ -60,7 +60,7 @@ void UseCaseWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     painter->drawText(UC_MARGIN, textStartY, w - UC_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
     setPenFromSettings(painter);
     if(m_selected)
-        drawSelected(painter);
+        paintSelected(painter);
 }
 
 /**

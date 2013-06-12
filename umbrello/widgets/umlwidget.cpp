@@ -704,7 +704,7 @@ void UMLWidget::setFillColorcmd(const QColor &color)
  * @param offsetX The x-coordinate for drawing.
  * @param offsetY The y-coordinate for drawing.
  */
-void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY)
+void UMLWidget::paintSelected(QPainter * p, int offsetX, int offsetY)
 {
     int w = width();
     int h = height();

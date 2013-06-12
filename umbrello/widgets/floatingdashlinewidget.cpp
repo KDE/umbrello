@@ -69,7 +69,7 @@ void FloatingDashLineWidget::paint(QPainter *painter, const QStyleOptionGraphics
     painter->setPen(QPen(UMLWidget::lineColor(), 0, Qt::DashLine));
     painter->drawLine(0, 0, width(), 0);
     if(m_selected)
-        drawSelected(painter);
+        paintSelected(painter);
 }
 
 /**
