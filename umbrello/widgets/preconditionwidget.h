@@ -36,10 +36,10 @@ public:
     PreconditionWidget(UMLScene* scene, ObjectWidget* a, Uml::ID::Type id = Uml::ID::None);
     virtual ~PreconditionWidget();
 
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+
     int minY() const;
     int maxY() const;
-
-    void draw(QPainter& p, int offsetX, int offsetY);
 
     bool activate(IDChangeLog* Log = 0);
 
