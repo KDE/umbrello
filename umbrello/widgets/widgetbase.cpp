@@ -501,7 +501,8 @@ void WidgetBase::setRect(qreal x, qreal y, qreal width, qreal height)
  */
 QRectF WidgetBase::boundingRect() const
 {
-    return m_rect;
+    int halfWidth = lineWidth()/2;
+    return m_rect.adjusted(-halfWidth, -halfWidth, halfWidth, halfWidth);
 }
 
 /**
