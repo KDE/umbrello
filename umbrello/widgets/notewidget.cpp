@@ -60,7 +60,6 @@ void NoteWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    painter->drawRect(option->exposedRect);
     const int margin = 10;
     int w = width()-1;
     int h = height()-1;
