@@ -99,6 +99,7 @@ public:
     virtual UMLSceneValue onWidget(const UMLScenePoint & p);
 
     void setPenFromSettings(QPainter & p);
+    void setPenFromSettings(QPainter * p);
 
     virtual QFont font() const;
     virtual void setFont(QFont font);
@@ -216,8 +217,7 @@ public:
 
     virtual void constrain(UMLSceneValue& width, UMLSceneValue& height);
 
-    virtual void drawSelected(QPainter * p, int offsetX, int offsetY);
-    virtual void drawShape(QPainter &p);
+    virtual void paintSelected(QPainter * p, int offsetX = 0, int offsetY = 0);
 
     virtual UMLSceneSize calculateSize();
     void resize();

@@ -45,21 +45,24 @@ ComponentWidget::~ComponentWidget()
  * Reimplemented from UMLWidget::paint to paint component
  * widget.
  */
-void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY)
+void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
     UMLComponent *umlcomp = static_cast<UMLComponent*>(m_umlObject);
     if (umlcomp == NULL)
         return;
-    setPenFromSettings(p);
+    setPenFromSettings(painter);
     if ( umlcomp->getExecutable() ) {
-        QPen thickerPen = p.pen();
+        QPen thickerPen = painter->pen();
         thickerPen.setWidth(2);
-        p.setPen(thickerPen);
+        painter->setPen(thickerPen);
     }
     if ( UMLWidget::useFillColor() ) {
-        p.setBrush( UMLWidget::fillColor() );
+        painter->setBrush( UMLWidget::fillColor() );
     } else {
-        p.setBrush( m_scene->activeView()->viewport()->palette().color(QPalette::Background) );
+        painter->setBrush( m_scene->activeView()->viewport()->palette().color(QPalette::Background) );
     }
 
     const int w = width();
@@ -71,17 +74,17 @@ void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY)
     QString nameStr = name();
     const QString stereotype = m_umlObject->stereotype();
 
-    p.drawRect(offsetX + 2*COMPONENT_MARGIN, offsetY, w - 2*COMPONENT_MARGIN, h);
-    p.drawRect(offsetX, offsetY + h/2 - fontHeight/2 - fontHeight, COMPONENT_MARGIN*4, fontHeight);
-    p.drawRect(offsetX, offsetY + h/2 + fontHeight/2, COMPONENT_MARGIN*4, fontHeight);
+    painter->drawRect(2*COMPONENT_MARGIN, 0, w - 2*COMPONENT_MARGIN, h);
+    painter->drawRect(0, h/2 - fontHeight/2 - fontHeight, COMPONENT_MARGIN*4, fontHeight);
+    painter->drawRect(0, h/2 + fontHeight/2, COMPONENT_MARGIN*4, fontHeight);
 
-    p.setPen(textColor());
-    p.setFont(font);
+    painter->setPen(textColor());
+    painter->setFont(font);
 
     int lines = 1;
 
     if (!stereotype.isEmpty()) {
-        p.drawText(offsetX + (COMPONENT_MARGIN*4), offsetY + (h/2) - fontHeight,
+        painter->drawText((COMPONENT_MARGIN*4), (h/2) - fontHeight,
                    w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter,
                    m_umlObject->stereotype(true));
         lines = 2;
@@ -89,20 +92,20 @@ void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY)
 
     if ( UMLWidget::isInstance() ) {
         font.setUnderline(true);
-        p.setFont(font);
+        painter->setFont(font);
         nameStr = UMLWidget::instanceName() + " : " + nameStr;
     }
 
     if (lines == 1) {
-        p.drawText(offsetX + (COMPONENT_MARGIN*4), offsetY + (h/2) - (fontHeight/2),
+        painter->drawText((COMPONENT_MARGIN*4), (h/2) - (fontHeight/2),
                    w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter, nameStr );
     } else {
-        p.drawText(offsetX + (COMPONENT_MARGIN*4), offsetY + (h/2),
+        painter->drawText((COMPONENT_MARGIN*4), (h/2),
                    w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter, nameStr );
     }
 
     if(m_selected) {
-        drawSelected(&p, offsetX, offsetY);
+        paintSelected(painter);
     }
 }
 

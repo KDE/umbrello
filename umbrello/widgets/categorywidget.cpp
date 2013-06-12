@@ -42,16 +42,19 @@ CategoryWidget::~CategoryWidget()
 /**
  *   Overrides the standard paint event.
  */
-void CategoryWidget::draw(QPainter & p, int offsetX, int offsetY)
+void CategoryWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    UMLWidget::setPenFromSettings(p);
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
+    UMLWidget::setPenFromSettings(painter);
     if ( UMLWidget::useFillColor() )
-        p.setBrush( UMLWidget::fillColor() );
+        painter->setBrush( UMLWidget::fillColor() );
     QFont font = UMLWidget::font();
     font.setUnderline(false);
     font.setBold(false);
     font.setItalic( m_umlObject->isAbstract() );
-    p.setFont( font );
+    painter->setFont( font );
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
     // the height is our radius
@@ -63,8 +66,8 @@ void CategoryWidget::draw(QPainter & p, int offsetX, int offsetY)
     const int textStartY = (r / 2) - (fontHeight / 2);
 
     // draw a circle
-    p.drawEllipse(offsetX, offsetY, r, r);
-    p.setPen(textColor());
+    painter->drawEllipse(0, 0, r, r);
+    painter->setPen(textColor());
 
     QString letterType('D');
     switch( static_cast<UMLCategory*>( m_umlObject )->getType() ) {
@@ -81,10 +84,10 @@ void CategoryWidget::draw(QPainter & p, int offsetX, int offsetY)
            break;
     }
 
-    p.drawText(offsetX + UC_MARGIN, offsetY + textStartY, r - UC_MARGIN * 2, fontHeight, Qt::AlignCenter, letterType );
-    UMLWidget::setPenFromSettings(p);
+    painter->drawText(UC_MARGIN, textStartY, r - UC_MARGIN * 2, fontHeight, Qt::AlignCenter, letterType);
+    UMLWidget::setPenFromSettings(painter);
     if(m_selected)
-        drawSelected(&p, offsetX, offsetY);
+        paintSelected(painter);
 }
 
 /**

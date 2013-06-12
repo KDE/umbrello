@@ -35,19 +35,22 @@ NodeWidget::~NodeWidget()
 {
 }
 
-void NodeWidget::draw(QPainter & p, int offsetX, int offsetY)
+void NodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    setPenFromSettings(p);
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
+    setPenFromSettings(painter);
     if ( UMLWidget::useFillColor() ) {
-        p.setBrush( UMLWidget::fillColor() );
+        painter->setBrush( UMLWidget::fillColor() );
     } else {
-        p.setBrush( m_scene->activeView()->viewport()->palette().color(QPalette::Background) );
+        painter->setBrush( m_scene->activeView()->viewport()->palette().color(QPalette::Background) );
     }
     const int w = width();
     const int h = height();
     const int wDepth = (w/3 > DEPTH ? DEPTH : w/3);
     const int hDepth = (h/3 > DEPTH ? DEPTH : h/3);
-    const int bodyOffsetY = offsetY + hDepth;
+    const int bodyOffsetY = hDepth;
     const int bodyWidth = w - wDepth;
     const int bodyHeight = h - hDepth;
     QFont font = UMLWidget::font();
@@ -57,23 +60,23 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY)
     QString nameStr = name();
 
     QPolygon pointArray(5);
-    pointArray.setPoint(0, offsetX, bodyOffsetY);
-    pointArray.setPoint(1, offsetX + wDepth, offsetY);
-    pointArray.setPoint(2, offsetX + w - 1, offsetY);
-    pointArray.setPoint(3, offsetX + w - 1, offsetY + bodyHeight );
-    pointArray.setPoint(4, offsetX + bodyWidth, offsetY + h - 1);
-    p.drawPolygon(pointArray);
-    p.drawRect(offsetX, bodyOffsetY, bodyWidth, bodyHeight);
-    p.drawLine(offsetX + w - 1, offsetY, offsetX + bodyWidth - 2, bodyOffsetY + 1);
+    pointArray.setPoint(0, 0, bodyOffsetY);
+    pointArray.setPoint(1, wDepth, 0);
+    pointArray.setPoint(2, w - 1, 0);
+    pointArray.setPoint(3, w - 1, bodyHeight );
+    pointArray.setPoint(4, bodyWidth, h - 1);
+    painter->drawPolygon(pointArray);
+    painter->drawRect(0, bodyOffsetY, bodyWidth, bodyHeight);
+    painter->drawLine(w - 1, 0, bodyWidth - 2, bodyOffsetY + 1);
 
-    p.setPen(textColor());
-    p.setFont(font);
+    painter->setPen(textColor());
+    painter->setFont(font);
 
     int lines = 1;
     if (m_umlObject) {
         QString stereotype = m_umlObject->stereotype();
         if (!stereotype.isEmpty()) {
-            p.drawText(offsetX, bodyOffsetY + (bodyHeight/2) - fontHeight,
+            painter->drawText(0, bodyOffsetY + (bodyHeight/2) - fontHeight,
                        bodyWidth, fontHeight, Qt::AlignCenter, m_umlObject->stereotype(true));
             lines = 2;
         }
@@ -81,20 +84,20 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY)
 
     if ( UMLWidget::isInstance() ) {
         font.setUnderline(true);
-        p.setFont(font);
+        painter->setFont(font);
         nameStr = UMLWidget::instanceName() + " : " + nameStr;
     }
 
     if (lines == 1) {
-        p.drawText(offsetX, bodyOffsetY + (bodyHeight/2) - (fontHeight/2),
+        painter->drawText(0, bodyOffsetY + (bodyHeight/2) - (fontHeight/2),
                    bodyWidth, fontHeight, Qt::AlignCenter, nameStr);
     } else {
-        p.drawText(offsetX, bodyOffsetY + (bodyHeight/2),
+        painter->drawText(0, bodyOffsetY + (bodyHeight/2),
                    bodyWidth, fontHeight, Qt::AlignCenter, nameStr);
     }
 
     if(m_selected) {
-        drawSelected(&p, offsetX, offsetY);
+        paintSelected(painter);
     }
 }
 

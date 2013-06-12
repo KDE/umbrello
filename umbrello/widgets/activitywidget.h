@@ -63,7 +63,7 @@ public:
     void setPostconditionText(const QString&);
 
     virtual void showPropertiesDialog();
-    virtual void draw(QPainter & p, int offsetX, int offsetY);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     virtual bool loadFromXMI( QDomElement & qElement );
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );

@@ -127,16 +127,19 @@ bool ObjectWidget::multipleInstance() const
 /**
  * Override default method.
  */
-void ObjectWidget::draw(QPainter & p, int offsetX, int offsetY)
+void ObjectWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    if ( m_drawAsActor )
-        drawActor( p, offsetX, offsetY );
-    else
-        drawObject( p, offsetX, offsetY );
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
 
-    setPenFromSettings(p);
+    if ( m_drawAsActor )
+        paintActor(painter);
+    else
+        paintObject(painter);
+
+    setPenFromSettings(painter);
     if(m_selected)
-        drawSelected(&p, offsetX, offsetY);
+        paintSelected(painter);
 }
 
 /**
@@ -336,67 +339,67 @@ void ObjectWidget::showPropertiesDialog()
 /**
  * Draw the object as an object (default).
  */
-void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY)
+void ObjectWidget::paintObject(QPainter *painter)
 {
-    QFont oldFont = p.font();
+    QFont oldFont = painter->font();
     QFont font = UMLWidget::font();
     font.setUnderline( true );
-    p.setFont( font );
+    painter->setFont( font );
 
-    setPenFromSettings(p);
+    setPenFromSettings(painter);
     if(UMLWidget::useFillColor())
-        p.setBrush(UMLWidget::fillColor());
+        painter->setBrush(UMLWidget::fillColor());
     else
-        p.setBrush(m_scene->activeView()->viewport()->palette().color(QPalette::Background));
+        painter->setBrush(m_scene->activeView()->viewport()->palette().color(QPalette::Background));
     const int w = width();
     const int h = height();
 
     const QString t = m_instanceName + " : " + name();
     int multiInstOfst = 0;
     if ( m_multipleInstance ) {
-        p.drawRect(offsetX + 10, offsetY + 10, w - 10, h - 10);
-        p.drawRect(offsetX + 5, offsetY + 5, w - 10, h - 10);
+        painter->drawRect(10, 10, w - 10, h - 10);
+        painter->drawRect(5, 5, w - 10, h - 10);
         multiInstOfst = 10;
     }
-    p.drawRect(offsetX, offsetY, w - multiInstOfst, h - multiInstOfst);
-    p.setPen(textColor());
-    p.drawText(offsetX + O_MARGIN, offsetY + O_MARGIN,
+    painter->drawRect(0, 0, w - multiInstOfst, h - multiInstOfst);
+    painter->setPen(textColor());
+    painter->drawText(O_MARGIN, O_MARGIN,
                w - O_MARGIN * 2 - multiInstOfst, h - O_MARGIN * 2 - multiInstOfst,
                Qt::AlignCenter, t);
 
-    p.setFont( oldFont );
+    painter->setFont( oldFont );
 }
 
 /**
  * Draw the object as an actor.
  */
-void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY)
+void ObjectWidget::paintActor(QPainter *painter)
 {
     const QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
 
-    setPenFromSettings(p);
+    setPenFromSettings(painter);
     if ( UMLWidget::useFillColor() )
-        p.setBrush( UMLWidget::fillColor() );
+        painter->setBrush( UMLWidget::fillColor() );
     const int w = width();
     const int textStartY = A_HEIGHT + A_MARGIN;
     const int fontHeight  = fm.lineSpacing();
 
-    const int middleX = offsetX + w / 2;
+    const int middleX = w / 2;
     const int thirdH = A_HEIGHT / 3;
 
     //draw actor
-    p.drawEllipse(middleX - A_WIDTH / 2, offsetY,  A_WIDTH, thirdH);//head
-    p.drawLine(middleX, offsetY + thirdH, middleX, offsetY + thirdH * 2);//body
-    p.drawLine(middleX, offsetY + 2 * thirdH,
-               middleX - A_WIDTH / 2, offsetY + A_HEIGHT);//left leg
-    p.drawLine(middleX, offsetY +  2 * thirdH,
-               middleX + A_WIDTH / 2, offsetY + A_HEIGHT);//right leg
-    p.drawLine(middleX - A_WIDTH / 2, offsetY + thirdH + thirdH / 2,
-               middleX + A_WIDTH / 2, offsetY + thirdH + thirdH / 2);//arms
+    painter->drawEllipse(middleX - A_WIDTH / 2, 0,  A_WIDTH, thirdH);//head
+    painter->drawLine(middleX, thirdH, middleX, thirdH * 2);//body
+    painter->drawLine(middleX, 2 * thirdH,
+               middleX - A_WIDTH / 2, A_HEIGHT);//left leg
+    painter->drawLine(middleX, 2 * thirdH,
+               middleX + A_WIDTH / 2, A_HEIGHT);//right leg
+    painter->drawLine(middleX - A_WIDTH / 2, thirdH + thirdH / 2,
+               middleX + A_WIDTH / 2, thirdH + thirdH / 2);//arms
     //draw text
-    p.setPen(textColor());
+    painter->setPen(textColor());
     QString t = m_instanceName + " : " + name();
-    p.drawText(offsetX + A_MARGIN, offsetY + textStartY,
+    painter->drawText(A_MARGIN, textStartY,
                w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, t);
 }
 
@@ -538,7 +541,7 @@ void ObjectWidget::slotMessageMoved()
 
 /**
  * Returns whether a message is overlapping with another message.
- * Used by MessageWidget::draw() methods.
+ * Used by MessageWidget::paint() methods.
  *
  * @param y               top of your message
  * @param messageWidget   pointer to your message so it doesn't check against itself

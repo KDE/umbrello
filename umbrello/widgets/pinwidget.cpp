@@ -69,29 +69,32 @@ PinWidget::~PinWidget()
 /**
  * Overrides the standard paint event.
  */
-void PinWidget::draw(QPainter & p, int offsetX, int offsetY)
+void PinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
     int w = 10;
     int h = 10;
-    int width_Activity = m_pOw->width();
-    int height_Activity = m_pOw->height();
+    int widthActivity = m_pOw->width();
+    int heightActivity = m_pOw->height();
     int y = 0;
-    int x = m_pOw->x() + (width_Activity/2);
+    int x = m_pOw->x() + (widthActivity/2);
+    int offsetX = this->x();
+    int offsetY = this->y();
 
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
 
-    if ( (offsetY + height_Activity/2) <= m_pOw->y() + height_Activity){
+    if ( (offsetY + heightActivity/2) <= m_pOw->y() + heightActivity){
         y = m_pOw->y()-5;
         if (m_pName->x() == 0 && m_pName->y() == 0) {
             //the floating text has not been linked with the signal
             m_pName->setX(x + 5 - m_Text.length()/2);
             m_pName->setY(y -fontHeight);
         }
-
-
-    } else if((offsetY + height_Activity/2) > m_pOw->y() + height_Activity){
-       y = (m_pOw->y() + height_Activity)-5;
+    } else if((offsetY + heightActivity/2) > m_pOw->y() + heightActivity){
+       y = (m_pOw->y() + heightActivity)-5;
         if (m_pName->x() == 0 && m_pName->y() == 0) {
             //the floating text has not been linked with the signal
             m_pName->setX(x + 5 - m_Text.length()/2);
@@ -99,18 +102,18 @@ void PinWidget::draw(QPainter & p, int offsetX, int offsetY)
         }
     }
 
-    if (offsetX + width_Activity/4 <= m_pOw->x() + width_Activity/2
-         && (offsetY > m_pOw->y() +5 && offsetY < m_pOw->y() + height_Activity - 5) ){
+    if (offsetX + widthActivity/4 <= m_pOw->x() + widthActivity/2
+         && (offsetY > m_pOw->y() +5 && offsetY < m_pOw->y() + heightActivity - 5) ){
         x = m_pOw->x() -5;
-        y = m_pOw->y() + (height_Activity/2) -5;
+        y = m_pOw->y() + (heightActivity/2) -5;
         if (m_pName->x() == 0 && m_pName->y() == 0) {
             m_pName->setX(x - m_Text.length());
             m_pName->setY(y - fontHeight);
         }
-    } else if (offsetX + width_Activity/4 > m_pOw->x() + width_Activity/2
-         && (offsetY > m_pOw->y() +5 && offsetY < m_pOw->y() + height_Activity - 5) ){
-        x = m_pOw->x() + width_Activity -5;
-        y = m_pOw->y() + (height_Activity/2) -5;
+    } else if (offsetX + widthActivity/4 > m_pOw->x() + widthActivity/2
+         && (offsetY > m_pOw->y() +5 && offsetY < m_pOw->y() + heightActivity - 5) ){
+        x = m_pOw->x() + widthActivity -5;
+        y = m_pOw->y() + (heightActivity/2) -5;
         if (m_pName->x() == 0 && m_pName->y() == 0) {
             //the floating text has not been linked with the signal
             m_pName->setX(x + 10);
@@ -131,18 +134,18 @@ void PinWidget::draw(QPainter & p, int offsetX, int offsetY)
 //         y = m_pOw[Uml::A]->getEndLineY() - h;
 //     }
 
-    setPenFromSettings(p);
+    setPenFromSettings(painter);
     if ( UMLWidget::useFillColor() ) {
-        p.setBrush( UMLWidget::fillColor() );
+        painter->setBrush( UMLWidget::fillColor() );
     }
-    p.drawRect(x,y,w, h);
-    //make sure it's always above the other
+    painter->drawRect(0, 0, w, h);
+    //make sure it's always above the others
     setZValue(20);
-    setPenFromSettings(p);
+    setPenFromSettings(painter);
     m_pName->setVisible(( m_pName->text().length() > 0 ));
     m_pName->updateGeometry();
     if(m_selected)
-         drawSelected(&p, offsetX, offsetY);
+         paintSelected(painter);
 }
 
 /**

@@ -47,9 +47,9 @@ public:
     void setMultipleInstance(bool multiple);
     bool multipleInstance() const;
 
-    bool activate(IDChangeLog* ChangeLog = 0);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
-    void draw(QPainter & p, int offsetX, int offsetY);
+    bool activate(IDChangeLog* ChangeLog = 0);
 
     virtual void moveEvent(QGraphicsSceneMouseEvent *m);
 
@@ -88,8 +88,8 @@ public slots:
 protected:
     UMLSceneSize minimumSize();
 
-    void drawActor(QPainter & p, int offsetX, int offsetY);
-    void drawObject(QPainter & p, int offsetX, int offsetY);
+    void paintActor(QPainter *p);
+    void paintObject(QPainter *p);
 
 private:
     void tabUp();

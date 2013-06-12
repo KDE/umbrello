@@ -12,6 +12,7 @@
 #define FLOATINGDASHLINEWIDGET_H
 
 #include "umlwidget.h"
+class CombinedFragmentWidget;
 
 #define FLOATING_DASH_LINE_MARGIN 25
 #define FLOATING_DASH_LINE_TEXT_MARGIN 5
@@ -33,10 +34,10 @@ class FloatingDashLineWidget : public UMLWidget
 {
     Q_OBJECT
 public:
-    explicit FloatingDashLineWidget(UMLScene * scene, Uml::ID::Type id = Uml::ID::None);
+    explicit FloatingDashLineWidget(UMLScene * scene, Uml::ID::Type id = Uml::ID::None, CombinedFragmentWidget *parent = 0);
     ~FloatingDashLineWidget();
 
-    void draw(QPainter & p, int offsetX, int offsetY);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option = 0, QWidget *widget = 0);
 
     void slotMenuSelection(QAction* action);
 
@@ -76,6 +77,7 @@ private:
      * (= y-coordinate of the combined fragment + height of the combined fragment)
      */
     int m_yMax;
+    CombinedFragmentWidget *m_parent;
 };
 
 #endif

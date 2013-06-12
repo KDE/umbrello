@@ -462,15 +462,18 @@ bool FloatingTextWidget::isTextValid(const QString &text)
 /**
  * Overrides default method
  */
-void FloatingTextWidget::draw(QPainter & p, int offsetX, int offsetY)
+void FloatingTextWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
     int w = width();
     int h = height();
-    p.setFont( UMLWidget::font() );
-    p.setPen(textColor());
-    p.drawText( offsetX, offsetY,w,h, Qt::AlignCenter, displayText() );
+    painter->setFont( UMLWidget::font() );
+    painter->setPen(textColor());
+    painter->drawText(0, 0, w, h, Qt::AlignCenter, displayText());
     if(m_selected)
-        drawSelected(&p, offsetX, offsetY);
+        paintSelected(painter);
 }
 
 /**

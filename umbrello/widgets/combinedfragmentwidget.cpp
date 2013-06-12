@@ -54,45 +54,47 @@ CombinedFragmentWidget::~CombinedFragmentWidget()
 /**
  * Overrides the standard paint event.
  */
-void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY)
+void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
     int w = width();
     int h = height();
     int line_width = 45;
     int old_Y;
 
-    setPenFromSettings(p);
+    setPenFromSettings(painter);
 
     if ( m_CombinedFragment == Ref ) {
         if ( UMLWidget::useFillColor() ) {
-            p.setBrush( UMLWidget::fillColor() );
+            painter->setBrush( UMLWidget::fillColor() );
         }
     }
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
     const QString combined_fragment_value =  name();
     int textStartY = (h / 2) - (fontHeight / 2);
-    p.drawRect(offsetX, offsetY, w, h );
+    painter->drawRect(0, 0, w, h);
 
-    p.setPen(textColor());
-    p.setFont( UMLWidget::font() );
+    painter->setPen(textColor());
+    painter->setFont( UMLWidget::font() );
         QString temp = "loop";
 
     switch ( m_CombinedFragment )
     {
         case Ref :
-        p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY + textStartY, w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignCenter, combined_fragment_value);
-
-        p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY , w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "ref");
+        painter->drawText(COMBINED_FRAGMENT_MARGIN, textStartY, w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignCenter, combined_fragment_value);
+        painter->drawText(COMBINED_FRAGMENT_MARGIN, 0, w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "ref");
         break;
 
         case Opt :
-        p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
+        painter->drawText(COMBINED_FRAGMENT_MARGIN, 0,
             w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "opt");
         break;
 
         case Break :
-        p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
+        painter->drawText(COMBINED_FRAGMENT_MARGIN, 0,
             w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "break");
         break;
 
@@ -102,22 +104,22 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY)
                      temp += " [" + combined_fragment_value + ']';
                      line_width += (combined_fragment_value.size() + 2) * 8;
                 }
-        p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, temp);
+        painter->drawText(COMBINED_FRAGMENT_MARGIN, 0,w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, temp);
 
         break;
 
         case Neg :
-        p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
+        painter->drawText(COMBINED_FRAGMENT_MARGIN, 0,
             w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "neg");
         break;
 
         case Crit :
-        p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
+        painter->drawText(COMBINED_FRAGMENT_MARGIN, 0,
             w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "critical");
         break;
 
         case Ass :
-        p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
+        painter->drawText(COMBINED_FRAGMENT_MARGIN, 0,
             w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "assert");
         break;
 
@@ -125,38 +127,40 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY)
                 if (combined_fragment_value != "-")
                 {
                      temp = '[' + combined_fragment_value + ']';
-            p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY + 20,w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, temp);
-                    if (m_dashLines.size() == 1 && m_dashLines.first()->y() < offsetY + 20 + fontHeight )
-                        m_dashLines.first()->setY(offsetY + h/2);
+            painter->drawText(COMBINED_FRAGMENT_MARGIN, 20,w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, temp);
+                    if (m_dashLines.size() == 1 && m_dashLines.first()->y() < y() + 20 + fontHeight )
+                        m_dashLines.first()->setY(y() + h/2);
                 }
-                p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
+                painter->drawText(COMBINED_FRAGMENT_MARGIN, 0,
             w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "alt");
                 // dash lines
-                m_dashLines.first()->draw(p,x(),y());
+                //m_dashLines.first()->paint(painter);
+                // TODO: move to UMLWidget::calculateSize api
                 for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines.begin() ; it!=m_dashLines.end() ; ++it) {
                     (*it)->setX(x());
                     old_Y = (*it)->getYMin();
                     (*it)->setYMin(y());
                     (*it)->setYMax(y() + height());
                     (*it)->setY(y() + (*it)->y() - old_Y);
-                    (*it)->setSize(w, 0);
+                    (*it)->setSize(w, (*it)->height());
                 }
 
         break;
 
         case Par :
-                p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
+                painter->drawText(COMBINED_FRAGMENT_MARGIN, 0,
             w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "parallel");
                 // dash lines
                 if (m_dashLines.size() != 0) {
-                    m_dashLines.first()->draw(p,x(),y());
+                    //m_dashLines.first()->paint(painter);
+                    // TODO: move to UMLWidget::calculateSize api
                     for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines.begin() ; it!=m_dashLines.end() ; ++it) {
                         (*it)->setX(x());
                         old_Y = (*it)->getYMin();
                         (*it)->setYMin(y());
                         (*it)->setYMax(y() + height());
                         (*it)->setY(y() + (*it)->y() - old_Y);
-                        (*it)->setSize(w, 0);
+                        (*it)->setSize(w, (*it)->height());
                     }
                 }
         break;
@@ -164,13 +168,13 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY)
     default : break;
     }
 
-    p.setPen(Qt::red);
-    p.drawLine(offsetX,      offsetY + 20, offsetX + line_width, offsetY + 20);
-    p.drawLine(offsetX + line_width, offsetY + 20, offsetX + line_width + 10, offsetY + 10);
-    p.drawLine(offsetX + line_width + 10, offsetY + 10, offsetX + line_width + 10, offsetY);
+    painter->setPen(Qt::red);
+    painter->drawLine(0, 20, line_width, 20);
+    painter->drawLine(line_width, 20, line_width + 10, 10);
+    painter->drawLine(line_width + 10, 10, line_width + 10, 0);
 
     if(m_selected)
-        drawSelected(&p, offsetX, offsetY);
+        paintSelected(painter);
 }
 
 /**
@@ -213,16 +217,17 @@ void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combi
     // creates a dash line if the combined fragment type is alternative or parallel
     if(m_CombinedFragment == Alt  && m_dashLines.isEmpty())
     {
-        m_dashLines.push_back(new FloatingDashLineWidget(m_scene));
+        m_dashLines.push_back(new FloatingDashLineWidget(m_scene, Uml::ID::None, this));
         if(m_CombinedFragment == Alt)
         {
             m_dashLines.back()->setText("else");
         }
+        // TODO: move to UMLWidget::calculateSize api
         m_dashLines.back()->setX(x());
         m_dashLines.back()->setYMin(y());
         m_dashLines.back()->setYMax(y() + height());
         m_dashLines.back()->setY(y() + height()/2);
-        m_dashLines.back()->setSize(width(), 0);
+        m_dashLines.back()->setSize(width(), m_dashLines.back()->height());
         m_scene->setupNewWidget(m_dashLines.back());
     }
 }
@@ -327,7 +332,7 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement )
     while ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingdashlinewidget") {
-            FloatingDashLineWidget * fdlwidget = new FloatingDashLineWidget(m_scene);
+            FloatingDashLineWidget * fdlwidget = new FloatingDashLineWidget(m_scene, Uml::ID::None, this);
             m_dashLines.push_back(fdlwidget);
             if( !fdlwidget->loadFromXMI(element) ) {
               // Most likely cause: The FloatingTextWidget is empty.
@@ -349,6 +354,12 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement )
     return true;
 }
 
+void CombinedFragmentWidget::removeDashLine(FloatingDashLineWidget *line)
+{
+    if(m_dashLines.contains(line))
+        m_dashLines.removeOne(line);
+}
+
 /**
  * Overrides the function from UMLWidget.
  *
@@ -362,16 +373,17 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
     switch (sel) {
           // for alternative or parallel combined fragments
     case ListPopupMenu::mt_AddInteractionOperand:
-        m_dashLines.push_back(new FloatingDashLineWidget(m_scene));
+        m_dashLines.push_back(new FloatingDashLineWidget(m_scene, Uml::ID::None, this));
         if(m_CombinedFragment == Alt)
         {
             m_dashLines.back()->setText("else");
         }
+        // TODO: move to UMLWidget::calculateSize api
         m_dashLines.back()->setX(x());
         m_dashLines.back()->setYMin(y());
         m_dashLines.back()->setYMax(y() + height());
         m_dashLines.back()->setY(y() + height() / 2);
-        m_dashLines.back()->setSize(width(), 0);
+        m_dashLines.back()->setSize(width(), m_dashLines.back()->height());
         m_scene->setupNewWidget(m_dashLines.back());
         break;
 

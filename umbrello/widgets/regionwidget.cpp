@@ -43,20 +43,23 @@ RegionWidget::~RegionWidget()
 /**
  * Overrides the standard paint event.
  */
-void RegionWidget::draw(QPainter& p, int offsetX, int offsetY)
+void RegionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    setPenFromSettings(p);
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
     const int w = width();
     const int h = height();
-    QPen pen = p.pen();
-    setPenFromSettings(p);
+
+    setPenFromSettings(painter);
+    QPen pen = painter->pen();
     pen.setColor(Qt::red);
     pen.setStyle(Qt::DashLine);
-    p.setPen(pen);
-    p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
+    painter->setPen(pen);
+    painter->drawRoundRect(0, 0, w, h, (h * 60) / w, 60);
 
     if (m_selected) {
-        drawSelected(&p, offsetX, offsetY);
+        paintSelected(painter);
     }
 }
 

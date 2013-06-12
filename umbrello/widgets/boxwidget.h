@@ -30,7 +30,7 @@ public:
     explicit BoxWidget(UMLScene * scene, Uml::ID::Type id = Uml::ID::None, WidgetType type = WidgetBase::wt_Box);
     virtual ~BoxWidget();
 
-    virtual void draw(QPainter & p, int offsetX, int offsetY);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 };

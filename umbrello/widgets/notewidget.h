@@ -49,6 +49,8 @@ public:
                         Uml::ID::Type id = Uml::ID::None);
     virtual ~NoteWidget();
 
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+
     static NoteType stringToNoteType(const QString& noteType);
 
     NoteType noteType() const;
@@ -57,8 +59,6 @@ public:
 
     Uml::ID::Type diagramLink() const;
     void setDiagramLink(Uml::ID::Type viewID);
-
-    virtual void draw(QPainter & p, int offsetX, int offsetY);
 
     void askForNoteType(UMLWidget* &targetWidget);
 
@@ -71,8 +71,8 @@ public Q_SLOTS:
 protected:
     virtual UMLSceneSize minimumSize();
     virtual UMLSceneSize calculateSize();
-    void drawText(QPainter * p = 0, int offsetX = 0, int offsetY = 0);
-    void drawTextWordWrap(QPainter * p = 0, int offsetX = 0, int offsetY = 0);
+    void paintText(QPainter *painter);
+    void paintTextWordWrap(QPainter *painter);
 
 private:
     Uml::ID::Type m_diagramLink;  ///< The diagram/scene this note links to.

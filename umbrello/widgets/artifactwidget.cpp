@@ -39,13 +39,16 @@ ArtifactWidget::~ArtifactWidget()
  * Reimplemented to paint the articraft widget. Some part of specific
  * drawing is delegeted to private method like drawAsFile..
  */
-void ArtifactWidget::draw(QPainter& p, int offsetX, int offsetY)
+void ArtifactWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    UMLWidget::setPenFromSettings(p);
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
+    UMLWidget::setPenFromSettings(painter);
     if ( UMLWidget::useFillColor() ) {
-        p.setBrush( UMLWidget::fillColor() );
+        painter->setBrush( UMLWidget::fillColor() );
     } else {
-        p.setBrush( m_scene->activeView()->viewport()->palette().color(QPalette::Background) );
+        painter->setBrush( m_scene->activeView()->viewport()->palette().color(QPalette::Background) );
     }
 
     if (umlObject()) {
@@ -53,16 +56,16 @@ void ArtifactWidget::draw(QPainter& p, int offsetX, int offsetY)
         UMLArtifact::Draw_Type drawType = umlart->getDrawAsType();
         switch (drawType) {
         case UMLArtifact::defaultDraw:
-            drawAsNormal(p, offsetX, offsetY);
+            paintAsNormal(painter);
             break;
         case UMLArtifact::file:
-            drawAsFile(p, offsetX, offsetY);
+            paintAsFile(painter);
             break;
         case UMLArtifact::library:
-            drawAsLibrary(p, offsetX, offsetY);
+            paintAsLibrary(painter);
             break;
         case UMLArtifact::table:
-            drawAsTable(p, offsetX, offsetY);
+            paintAsTable(painter);
             break;
         default:
             uWarning() << "Artifact drawn as unknown type";
@@ -143,7 +146,7 @@ QSize ArtifactWidget::calculateNormalSize()
 /**
  * draw as a file icon
  */
-void ArtifactWidget::drawAsFile(QPainter& p, int offsetX, int offsetY)
+void ArtifactWidget::paintAsFile(QPainter *painter)
 {
     const int w = width();
     const int h = height();
@@ -151,35 +154,35 @@ void ArtifactWidget::drawAsFile(QPainter& p, int offsetX, int offsetY)
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
 
-    int startX = offsetX + (w/2) - 25;
+    int startX = (w/2) - 25;
     int iconHeight = h - fontHeight;
     QPolygon pointArray(5);
-    pointArray.setPoint(0, startX, offsetY);
-    pointArray.setPoint(1, startX + 40, offsetY);
-    pointArray.setPoint(2, startX + 50, offsetY + 10);
-    pointArray.setPoint(3, startX + 50, offsetY + iconHeight);
-    pointArray.setPoint(4, startX, offsetY + iconHeight);
-    p.drawPolygon(pointArray);
+    pointArray.setPoint(0, startX, 0);
+    pointArray.setPoint(1, startX + 40, 0);
+    pointArray.setPoint(2, startX + 50, 10);
+    pointArray.setPoint(3, startX + 50, iconHeight);
+    pointArray.setPoint(4, startX, iconHeight);
+    painter->drawPolygon(pointArray);
 
-    p.drawLine(startX + 40, offsetY, startX + 40, offsetY + 10);
-    p.drawLine(startX + 40, offsetY + 10, startX + 50, offsetY + 10);
-    p.drawLine(startX + 40, offsetY, startX + 50, offsetY + 10);
+    painter->drawLine(startX + 40, 0, startX + 40, 10);
+    painter->drawLine(startX + 40, 10, startX + 50, 10);
+    painter->drawLine(startX + 40, 0, startX + 50, 10);
 
-    p.setPen(textColor());
-    p.setFont(font);
+    painter->setPen(textColor());
+    painter->setFont(font);
 
-    p.drawText(offsetX, offsetY + h - fontHeight,
+    painter->drawText(0, h - fontHeight,
                w, fontHeight, Qt::AlignCenter, name());
 
     if(m_selected) {
-        drawSelected(&p, offsetX, offsetY);
+        paintSelected(painter);
     }
 }
 
 /**
  * draw as a library file icon
  */
-void ArtifactWidget::drawAsLibrary(QPainter& p, int offsetX, int offsetY)
+void ArtifactWidget::paintAsLibrary(QPainter *painter)
 {
     //FIXME this should have gears on it
     const int w = width();
@@ -188,35 +191,35 @@ void ArtifactWidget::drawAsLibrary(QPainter& p, int offsetX, int offsetY)
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
 
-    const int startX = offsetX + (w/2) - 25;
+    const int startX = (w/2) - 25;
     const int iconHeight = h - fontHeight;
     QPolygon pointArray(5);
-    pointArray.setPoint(0, startX, offsetY);
-    pointArray.setPoint(1, startX + 40, offsetY);
-    pointArray.setPoint(2, startX + 50, offsetY + 10);
-    pointArray.setPoint(3, startX + 50, offsetY + iconHeight);
-    pointArray.setPoint(4, startX, offsetY + iconHeight);
-    p.drawPolygon(pointArray);
+    pointArray.setPoint(0, startX, 0);
+    pointArray.setPoint(1, startX + 40, 0);
+    pointArray.setPoint(2, startX + 50, 10);
+    pointArray.setPoint(3, startX + 50, iconHeight);
+    pointArray.setPoint(4, startX, iconHeight);
+    painter->drawPolygon(pointArray);
 
-    p.drawLine(startX + 40, offsetY, startX + 40, offsetY + 10);
-    p.drawLine(startX + 40, offsetY + 10, startX + 50, offsetY + 10);
-    p.drawLine(startX + 40, offsetY, startX + 50, offsetY + 10);
+    painter->drawLine(startX + 40, 0, startX + 40, 10);
+    painter->drawLine(startX + 40, 10, startX + 50, 10);
+    painter->drawLine(startX + 40, 0, startX + 50, 10);
 
-    p.setPen(textColor());
-    p.setFont(font);
+    painter->setPen(textColor());
+    painter->setFont(font);
 
-    p.drawText(offsetX, offsetY + h - fontHeight,
+    painter->drawText(0, h - fontHeight,
                w, fontHeight, Qt::AlignCenter, name());
 
     if(m_selected) {
-        drawSelected(&p, offsetX, offsetY);
+        paintSelected(painter);
     }
 }
 
 /**
  * draw as a database table icon
  */
-void ArtifactWidget::drawAsTable(QPainter& p, int offsetX, int offsetY)
+void ArtifactWidget::paintAsTable(QPainter *painter)
 {
     const int w = width();
     const int h = height();
@@ -224,38 +227,38 @@ void ArtifactWidget::drawAsTable(QPainter& p, int offsetX, int offsetY)
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
 
-    const int startX = offsetX + (w/2) - 25;
+    const int startX = (w/2) - 25;
     const int iconHeight = h - fontHeight;
 
-    p.drawRect(startX, offsetY, 50, h - fontHeight + 1);
-    p.drawLine(startX + 20, offsetY, startX + 20, offsetY + iconHeight);
-    p.drawLine(startX + 30, offsetY, startX + 30, offsetY + iconHeight);
-    p.drawLine(startX + 40, offsetY, startX + 40, offsetY + iconHeight);
-    p.drawLine(startX, offsetY + (iconHeight/2), startX + 49, offsetY + (iconHeight/2));
-    p.drawLine(startX, offsetY + (iconHeight/2) + (iconHeight/4),
-               startX + 49, offsetY + (iconHeight/2) + (iconHeight/4));
+    painter->drawRect(startX, 0, 50, h - fontHeight + 1);
+    painter->drawLine(startX + 20, 0, startX + 20, iconHeight);
+    painter->drawLine(startX + 30, 0, startX + 30, iconHeight);
+    painter->drawLine(startX + 40, 0, startX + 40, iconHeight);
+    painter->drawLine(startX, (iconHeight/2), startX + 49, (iconHeight/2));
+    painter->drawLine(startX, (iconHeight/2) + (iconHeight/4),
+               startX + 49, (iconHeight/2) + (iconHeight/4));
 
-    QPen thickerPen = p.pen();
+    QPen thickerPen = painter->pen();
     thickerPen.setWidth(2);
-    p.setPen(thickerPen);
-    p.drawLine(startX + 10, offsetY, startX + 10, offsetY + iconHeight);
-    p.drawLine(startX, offsetY + (iconHeight/4), startX + 50, offsetY + (iconHeight/4));
+    painter->setPen(thickerPen);
+    painter->drawLine(startX + 10, 0, startX + 10, iconHeight);
+    painter->drawLine(startX, (iconHeight/4), startX + 50, (iconHeight/4));
 
-    p.setPen(textColor());
-    p.setFont(font);
+    painter->setPen(textColor());
+    painter->setFont(font);
 
-    p.drawText(offsetX, offsetY + h - fontHeight,
+    painter->drawText(0, h - fontHeight,
                w, fontHeight, Qt::AlignCenter, name());
 
     if(m_selected) {
-        drawSelected(&p, offsetX, offsetY);
+        paintSelected(painter);
     }
 }
 
 /**
  * draw as a box
  */
-void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY)
+void ArtifactWidget::paintAsNormal(QPainter *painter)
 {
     int w = width();
     int h = height();
@@ -265,13 +268,13 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY)
     const int fontHeight  = fm.lineSpacing();
     QString stereotype = m_umlObject->stereotype();
 
-    p.drawRect(offsetX, offsetY, w, h);
+    painter->drawRect(0, 0, w, h);
 
-    p.setPen(textColor());
-    p.setFont(font);
+    painter->setPen(textColor());
+    painter->setFont(font);
 
     if (!stereotype.isEmpty()) {
-        p.drawText(offsetX + ARTIFACT_MARGIN, offsetY + (h/2) - fontHeight,
+        painter->drawText(ARTIFACT_MARGIN, (h/2) - fontHeight,
                    w, fontHeight, Qt::AlignCenter, m_umlObject->stereotype(true));
     }
 
@@ -283,15 +286,15 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY)
     }
 
     if (lines == 1) {
-        p.drawText(offsetX, offsetY + (h/2) - (fontHeight/2),
+        painter->drawText(0, (h/2) - (fontHeight/2),
                    w, fontHeight, Qt::AlignCenter, name());
     } else {
-        p.drawText(offsetX, offsetY + (h/2),
+        painter->drawText(0, (h/2),
                    w, fontHeight, Qt::AlignCenter, name());
     }
 
     if(m_selected) {
-        drawSelected(&p, offsetX, offsetY);
+        paintSelected(painter);
     }
 }
 

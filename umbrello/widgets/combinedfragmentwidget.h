@@ -56,7 +56,7 @@ public:
                                     Uml::ID::Type id = Uml::ID::None);
     virtual ~CombinedFragmentWidget();
 
-    void draw(QPainter & p, int offsetX, int offsetY);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     CombinedFragmentType combinedFragmentType() const;
     CombinedFragmentType combinedFragmentType(const QString& combinedfragmentType) const;
@@ -68,6 +68,7 @@ public:
 
     void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
     bool loadFromXMI(QDomElement & qElement);
+    void removeDashLine(FloatingDashLineWidget *line);
 
 public slots:
     void slotMenuSelection(QAction* action);

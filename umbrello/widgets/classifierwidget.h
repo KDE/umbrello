@@ -90,7 +90,7 @@ public:
     virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
     virtual bool loadFromXMI(QDomElement & qElement);
 
-    virtual void draw(QPainter & p, int offsetX, int offsetY);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);
@@ -105,11 +105,11 @@ private:
 
     UMLSceneSize minimumSize();
 
-    void drawAsCircle(QPainter& p, int offsetX, int offsetY);
+    void drawAsCircle(QPainter *p);
     QSize calculateAsCircleSize();
 
     int displayedMembers(UMLObject::ObjectType ot);
-    void drawMembers(QPainter & p, UMLObject::ObjectType ot, Uml::SignatureType::Enum sigType,
+    void drawMembers(QPainter *painter, UMLObject::ObjectType ot, Uml::SignatureType::Enum sigType,
                      int x, int y, int fontHeight);
 
     static const int MARGIN;           ///< text width margin

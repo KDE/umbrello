@@ -9,6 +9,7 @@
  ***************************************************************************/
 // own header
 #include "floatingdashlinewidget.h"
+#include "combinedfragmentwidget.h"
 
 //kde includes
 #include <kinputdialog.h>
@@ -30,11 +31,15 @@ DEBUG_REGISTER_DISABLED(FloatingDashLineWidget)
  * @param scene   The parent of the widget
  * @param id      The ID to assign (-1 will prompt a new ID)
  */
-FloatingDashLineWidget::FloatingDashLineWidget(UMLScene * scene, Uml::ID::Type id)
-  : UMLWidget(scene, WidgetBase::wt_FloatingDashLine, id)
+FloatingDashLineWidget::FloatingDashLineWidget(UMLScene * scene, Uml::ID::Type id, CombinedFragmentWidget *parent)
+  : UMLWidget(scene, WidgetBase::wt_FloatingDashLine, id),
+    m_parent(parent)
 {
     m_resizable = false;
     m_Text = "";
+    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+    const int fontHeight = fm.lineSpacing();
+    setSize(10, fontHeight);
 }
 
 /**
@@ -42,24 +47,29 @@ FloatingDashLineWidget::FloatingDashLineWidget(UMLScene * scene, Uml::ID::Type i
  */
 FloatingDashLineWidget::~FloatingDashLineWidget()
 {
+    if (m_parent)
+        m_parent->removeDashLine(this);
 }
 
 /**
  * Overrides the standard paint event.
  */
-void FloatingDashLineWidget::draw(QPainter & p, int /*offsetX*/, int /*offsetY*/)
+void FloatingDashLineWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
-    p.setPen(textColor());
-    p.setFont(UMLWidget::font());
-    p.drawText(x() + FLOATING_DASH_LINE_TEXT_MARGIN, y(),
+    painter->setPen(textColor());
+    painter->setFont(UMLWidget::font());
+    painter->drawText(FLOATING_DASH_LINE_TEXT_MARGIN, 0,
                width() - FLOATING_DASH_LINE_TEXT_MARGIN * 2, fontHeight,
                Qt::AlignLeft, '[' + m_Text + ']');
-    p.setPen(QPen(UMLWidget::lineColor(), 0, Qt::DashLine));
-    p.drawLine(x(), y(), x() + width(), y());
+    painter->setPen(QPen(UMLWidget::lineColor(), 0, Qt::DashLine));
+    painter->drawLine(0, 0, width(), 0);
     if(m_selected)
-        drawSelected(&p, x(), y());
+        paintSelected(painter);
 }
 
 /**
@@ -167,7 +177,6 @@ bool FloatingDashLineWidget::loadFromXMI( QDomElement & qElement )
     DEBUG(DBG_SRC) << "load.......";
     m_yMax = qElement.attribute( "maxY", "" ).toInt();
     m_yMin = qElement.attribute( "minY", "" ).toInt();
-    setY(qElement.attribute( "y", "" ).toInt());
     m_Text = qElement.attribute( "text", "" );
     DEBUG(DBG_SRC) << "m_y......." << m_y;
     return true;

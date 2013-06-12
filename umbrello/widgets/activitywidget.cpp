@@ -163,112 +163,114 @@ void ActivityWidget::showPropertiesDialog()
 /**
  * Overrides the standard paint event.
  */
-void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY)
+void ActivityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
     int w = width();
     int h = height();
 
     // Only for the final activity
     float x;
     float y;
-    QPen pen = p.pen();
+    QPen pen = painter->pen();
 
     switch ( m_activityType )
     {
     case Normal:
-        UMLWidget::setPenFromSettings(p);
+        UMLWidget::setPenFromSettings(painter);
         if ( UMLWidget::useFillColor() ) {
-            p.setBrush( UMLWidget::fillColor() );
+            painter->setBrush( UMLWidget::fillColor() );
         }
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing();
             int textStartY = (h / 2) - (fontHeight / 2);
-            p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
-            p.setPen(textColor());
-            p.setFont( UMLWidget::font() );
-            p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + textStartY,
+            painter->drawRoundRect(0, 0, w, h, (h * 60) / w, 60);
+            painter->setPen(textColor());
+            painter->setFont( UMLWidget::font() );
+            painter->drawText(ACTIVITY_MARGIN, textStartY,
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
         }
         break;
 
     case Initial:
-        p.setPen( QPen(WidgetBase::lineColor(), 1) );
-        p.setBrush( WidgetBase::lineColor() );
-        p.drawEllipse( offsetX, offsetY, w, h );
+        painter->setPen( QPen(WidgetBase::lineColor(), 1) );
+        painter->setBrush( WidgetBase::lineColor() );
+        painter->drawEllipse( 0, 0, w, h );
         break;
 
     case Final:
-        UMLWidget::setPenFromSettings(p);
-        p.setBrush( Qt::white );
+        UMLWidget::setPenFromSettings(painter);
+        painter->setBrush( Qt::white );
         pen.setWidth( 2 );
         pen.setColor ( Qt::red );
-        p.setPen( pen );
-        p.drawEllipse( offsetX, offsetY, w, h );
-        x = offsetX + w/2 ;
-        y = offsetY + h/2 ;
+        painter->setPen( pen );
+        painter->drawEllipse( 0, 0, w, h );
+        x = w/2 ;
+        y = h/2 ;
         {
             const float w2 = 0.7071 * (float)w / 2.0;
-            p.drawLine((int)(x - w2 + 1), (int)(y - w2 + 1), (int)(x + w2), (int)(y + w2) );
-            p.drawLine((int)(x + w2 - 1), (int)(y - w2 + 1), (int)(x - w2), (int)(y + w2) );
+            painter->drawLine((int)(x - w2 + 1), (int)(y - w2 + 1), (int)(x + w2), (int)(y + w2) );
+            painter->drawLine((int)(x + w2 - 1), (int)(y - w2 + 1), (int)(x - w2), (int)(y + w2) );
         }
         break;
 
     case End:
-        p.setPen( QPen(WidgetBase::lineColor(), 1) );
-        p.setBrush( WidgetBase::lineColor() );
-        p.drawEllipse( offsetX, offsetY, w, h );
-        p.setBrush( Qt::white );
-        p.drawEllipse( offsetX + 1, offsetY + 1, w - 2, h - 2 );
-        p.setBrush( WidgetBase::lineColor() );
-        p.drawEllipse( offsetX + 3, offsetY + 3, w - 6, h - 6 );
+        painter->setPen( QPen(WidgetBase::lineColor(), 1) );
+        painter->setBrush( WidgetBase::lineColor() );
+        painter->drawEllipse( 0, 0, w, h );
+        painter->setBrush( Qt::white );
+        painter->drawEllipse( 1, 1, w - 2, h - 2 );
+        painter->setBrush( WidgetBase::lineColor() );
+        painter->drawEllipse( 3, 3, w - 6, h - 6 );
         break;
 
     case Branch:
-        UMLWidget::setPenFromSettings(p);
+        UMLWidget::setPenFromSettings(painter);
         if ( UMLWidget::useFillColor() ) {
-			p.setBrush( UMLWidget::fillColor() );
+            painter->setBrush( UMLWidget::fillColor() );
 		}
         {
             QPolygon array( 4 );
-            array[ 0 ] = QPoint( offsetX + w / 2, offsetY );
-            array[ 1 ] = QPoint( offsetX + w, offsetY  + h / 2 );
-            array[ 2 ] = QPoint( offsetX + w / 2, offsetY + h );
-            array[ 3 ] = QPoint( offsetX, offsetY + h / 2 );
-            p.drawPolygon( array );
-            p.drawPolyline( array );
+            array[ 0 ] = QPoint( w / 2, 0 );
+            array[ 1 ] = QPoint( w, h / 2 );
+            array[ 2 ] = QPoint( w / 2, h );
+            array[ 3 ] = QPoint( 0, h / 2 );
+            painter->drawPolygon( array );
+            painter->drawPolyline( array );
         }
         break;
 
     case Invok:
-        UMLWidget::setPenFromSettings(p);
+        UMLWidget::setPenFromSettings(painter);
         if ( UMLWidget::useFillColor() ) {
-            p.setBrush( UMLWidget::fillColor() );
+            painter->setBrush( UMLWidget::fillColor() );
         }
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing();
             int textStartY = (h / 2) - (fontHeight / 2);
-            p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
-            p.setPen(textColor());
-            p.setFont( UMLWidget::font() );
-            p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + textStartY,
+            painter->drawRoundRect(0, 0, w, h, (h * 60) / w, 60);
+            painter->setPen(textColor());
+            painter->setFont( UMLWidget::font() );
+            painter->drawText(ACTIVITY_MARGIN, textStartY,
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
 
         }
-        x = offsetX + w - (w/5);
-        y = offsetY + h - (h/3);
+        x = w - (w/5);
+        y = h - (h/3);
 
-        p.drawLine((int)x, (int) y, (int)x, (int)( y + 20));
-        p.drawLine((int)(x - 10),(int)(y + 10), (int)(x + 10), (int)(y + 10));
-        p.drawLine((int)(x - 10),(int)(y + 10), (int)(x - 10), (int)(y + 20));
-        p.drawLine((int)(x + 10),(int)(y + 10), (int)(x + 10), (int)(y + 20));
+        painter->drawLine((int)x, (int) y, (int)x, (int)( y + 20));
+        painter->drawLine((int)(x - 10),(int)(y + 10), (int)(x + 10), (int)(y + 10));
+        painter->drawLine((int)(x - 10),(int)(y + 10), (int)(x - 10), (int)(y + 20));
+        painter->drawLine((int)(x + 10),(int)(y + 10), (int)(x + 10), (int)(y + 20));
         break;
 
     case Param:
-        UMLWidget::setPenFromSettings(p);
+        UMLWidget::setPenFromSettings(painter);
         if ( UMLWidget::useFillColor() ) {
-            p.setBrush( UMLWidget::fillColor() );
+            painter->setBrush( UMLWidget::fillColor() );
         }
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -276,21 +278,21 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY)
             QString preCond= "<<precondition>> "+preconditionText();
             QString postCond= "<<postcondition>> "+postconditionText();
             //int textStartY = (h / 2) - (fontHeight / 2);
-            p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
-            p.setPen(textColor());
-            p.setFont( UMLWidget::font() );
-            p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + fontHeight + 10,
+            painter->drawRoundRect(0, 0, w, h, (h * 60) / w, 60);
+            painter->setPen(textColor());
+            painter->setFont( UMLWidget::font() );
+            painter->drawText(ACTIVITY_MARGIN, fontHeight + 10,
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, preCond);
-            p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + fontHeight * 2 + 10,
+            painter->drawText(ACTIVITY_MARGIN, fontHeight * 2 + 10,
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, postCond);
-            p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + (fontHeight / 2),
+            painter->drawText(ACTIVITY_MARGIN, (fontHeight / 2),
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
         }
 
         break;
     }
     if (m_selected)
-        drawSelected(&p, offsetX, offsetY);
+        paintSelected(painter);
 }
 
 /**

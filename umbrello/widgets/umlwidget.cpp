@@ -704,7 +704,7 @@ void UMLWidget::setFillColorcmd(const QColor &color)
  * @param offsetX The x-coordinate for drawing.
  * @param offsetY The y-coordinate for drawing.
  */
-void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY)
+void UMLWidget::paintSelected(QPainter * p, int offsetX, int offsetY)
 {
     int w = width();
     int h = height();
@@ -1022,13 +1022,11 @@ void UMLWidget::setPenFromSettings(QPainter & p)
 }
 
 /**
- * Overrides default method.
- *
- * @param p Device on which the shape has to be drawn.
+ * Set the pen.
  */
-void UMLWidget::drawShape(QPainter &p)
+void UMLWidget::setPenFromSettings(QPainter *p)
 {
-    draw(p, x(), y());
+    p->setPen(QPen(m_lineColor, m_lineWidth));
 }
 
 /**

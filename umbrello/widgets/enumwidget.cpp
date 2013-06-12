@@ -89,13 +89,16 @@ void EnumWidget::toggleShowPackage()
  * Draws the enum as a rectangle with a box underneith with a list of literals
  * Reimplemented from UMLWidget::paint
  */
-void EnumWidget::draw(QPainter& p, int offsetX, int offsetY)
+void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    setPenFromSettings(p);
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
+    setPenFromSettings(painter);
     if(UMLWidget::useFillColor())
-        p.setBrush(UMLWidget::fillColor());
+        painter->setBrush(UMLWidget::fillColor());
     else
-        p.setBrush( m_scene->activeView()->viewport()->palette().color(QPalette::Background) );
+        painter->setBrush( m_scene->activeView()->viewport()->palette().color(QPalette::Background) );
 
     const int w = width();
     const int h = height();
@@ -109,29 +112,29 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY)
         name = this->name();
     }
 
-    p.drawRect(offsetX, offsetY, w, h);
-    p.setPen(textColor());
+    painter->drawRect(0, 0, w, h);
+    painter->setPen(textColor());
 
     QFont font = UMLWidget::font();
     font.setBold(true);
-    p.setFont(font);
-    p.drawText(offsetX + ENUM_MARGIN, offsetY,
+    painter->setFont(font);
+    painter->drawText(ENUM_MARGIN, 0,
                w - ENUM_MARGIN * 2,fontHeight,
                Qt::AlignCenter, m_umlObject->stereotype(true));
 
     font.setItalic( m_umlObject->isAbstract() );
-    p.setFont(font);
-    p.drawText(offsetX + ENUM_MARGIN, offsetY + fontHeight,
+    painter->setFont(font);
+    painter->drawText(ENUM_MARGIN, fontHeight,
                w - ENUM_MARGIN * 2, fontHeight, Qt::AlignCenter, name);
     font.setBold(false);
     font.setItalic(false);
-    p.setFont(font);
+    painter->setFont(font);
 
     int y = fontHeight * 2;
 
-    setPenFromSettings(p);
+    setPenFromSettings(painter);
 
-    p.drawLine(offsetX, offsetY + y, offsetX + w - 1, offsetY + y);
+    painter->drawLine(0, y, w - 1, y);
 
     QFontMetrics fontMetrics(font);
     UMLClassifier *classifier = (UMLClassifier*)m_umlObject;
@@ -139,14 +142,14 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY)
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EnumLiteral);
     foreach (enumLiteral , list ) {
         QString text = enumLiteral->name();
-        p.setPen(textColor());
-        p.drawText(offsetX + ENUM_MARGIN, offsetY + y,
+        painter->setPen(textColor());
+        painter->drawText(ENUM_MARGIN, y,
                    fontMetrics.width(text), fontHeight, Qt::AlignVCenter, text);
         y+=fontHeight;
     }
 
     if (m_selected) {
-        drawSelected(&p, offsetX, offsetY);
+        paintSelected(painter);
     }
 }
 

@@ -57,8 +57,11 @@ ObjectNodeWidget::~ObjectNodeWidget()
 /**
  * Overrides the standard paint event.
  */
-void ObjectNodeWidget::draw(QPainter & p, int offsetX, int offsetY)
+void ObjectNodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
     int w = width();
     int h = height();
 
@@ -66,30 +69,30 @@ void ObjectNodeWidget::draw(QPainter & p, int offsetX, int offsetY)
     const int fontHeight  = fm.lineSpacing();
     int textStartY = (h / 2) - (fontHeight / 2);
 
-    setPenFromSettings(p);
+    setPenFromSettings(painter);
 
     if ( UMLWidget::useFillColor() ) {
-        p.setBrush( UMLWidget::fillColor() );
+        painter->setBrush( UMLWidget::fillColor() );
     }
 
-    p.drawRect(offsetX, offsetY, w, h);
-    p.setFont( UMLWidget::font() );
+    painter->drawRect(0, 0, w, h);
+    painter->setFont( UMLWidget::font() );
 
     switch ( m_objectNodeType )
     {
     case Normal : break;
     case Buffer :
         {
-            p.setPen(textColor());
-            p.drawText(offsetX + OBJECTNODE_MARGIN, (offsetY + textStartY/2), w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, "<< centralBuffer >>");
-            p.drawText(offsetX + OBJECTNODE_MARGIN, (offsetY + textStartY/2) + fontHeight + 5, w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, name());
+            painter->setPen(textColor());
+            painter->drawText(OBJECTNODE_MARGIN, (textStartY/2), w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, "<< centralBuffer >>");
+            painter->drawText(OBJECTNODE_MARGIN, (textStartY/2) + fontHeight + 5, w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, name());
         }
         break;
     case Data :
         {
-            p.setPen(textColor());
-            p.drawText(offsetX + OBJECTNODE_MARGIN, (offsetY + textStartY/2), w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, "<< datastore >>");
-            p.drawText(offsetX + OBJECTNODE_MARGIN, (offsetY + textStartY/2) + fontHeight + 5, w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, name());
+            painter->setPen(textColor());
+            painter->drawText(OBJECTNODE_MARGIN, (textStartY/2), w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, "<< datastore >>");
+            painter->drawText(OBJECTNODE_MARGIN, (textStartY/2) + fontHeight + 5, w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, name());
         }
         break;
     case Flow :
@@ -104,18 +107,17 @@ void ObjectNodeWidget::draw(QPainter & p, int offsetX, int offsetY)
                 objectflow_value = '[' + state() + ']';
             }
 
-            p.drawLine(offsetX + 10 , offsetY + h/2, (offsetX + w)-10, offsetY + h/2  );
-            p.setPen(textColor());
-            p.setFont( UMLWidget::font() );
-            p.drawText(offsetX + OBJECTNODE_MARGIN, offsetY + textStartY/2 - OBJECTNODE_MARGIN , w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, name());
-            p.drawText(offsetX + OBJECTNODE_MARGIN, offsetY + textStartY/2 + textStartY + OBJECTNODE_MARGIN, w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, objectflow_value);
+            painter->drawLine(10 , h/2, w-10, h/2);
+            painter->setPen(textColor());
+            painter->setFont( UMLWidget::font() );
+            painter->drawText(OBJECTNODE_MARGIN, textStartY/2 - OBJECTNODE_MARGIN , w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, name());
+            painter->drawText(OBJECTNODE_MARGIN, textStartY/2 + textStartY + OBJECTNODE_MARGIN, w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, objectflow_value);
         }
         break;
     }
-    setPenFromSettings(p);
 
     if(m_selected)
-        drawSelected(&p, offsetX, offsetY);
+        paintSelected(painter);
 
 }
 

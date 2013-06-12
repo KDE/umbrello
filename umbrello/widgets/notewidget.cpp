@@ -55,40 +55,43 @@ NoteWidget::~NoteWidget()
 /**
  * Override default method.
  */
-void NoteWidget::draw(QPainter & p, int offsetX, int offsetY)
+void NoteWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
     const int margin = 10;
     int w = width()-1;
     int h = height()-1;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
     QPolygon poly(6);
-    poly.setPoint(0, offsetX, offsetY);
-    poly.setPoint(1, offsetX, offsetY + h);
-    poly.setPoint(2, offsetX + w, offsetY + h);
-    poly.setPoint(3, offsetX + w, offsetY + margin);
-    poly.setPoint(4, offsetX + w - margin, offsetY);
-    poly.setPoint(5, offsetX, offsetY);
+    poly.setPoint(0, 0, 0);
+    poly.setPoint(1, 0, h);
+    poly.setPoint(2, w, h);
+    poly.setPoint(3, w, margin);
+    poly.setPoint(4, w - margin, 0);
+    poly.setPoint(5, 0, 0);
 
-    setPenFromSettings(p);
+    setPenFromSettings(painter);
     if ( UMLWidget::useFillColor() ) {
         QBrush brush( UMLWidget::fillColor() );
-        p.setBrush(brush);
-        p.drawPolygon(poly);
+        painter->setBrush(brush);
+        painter->drawPolygon(poly);
     } else
-        p.drawPolyline(poly);
-    p.drawLine(offsetX + w - margin, offsetY, offsetX + w - margin, offsetY + margin);
-    p.drawLine(offsetX + w - margin, offsetY + margin, offsetX + w, offsetY + margin);
-    p.setPen(textColor());
+        painter->drawPolyline(poly);
+    painter->drawLine(w - margin, 0, w - margin, margin);
+    painter->drawLine(w - margin, margin, w, margin);
+    painter->setPen(textColor());
     switch(m_noteType) {
     case NoteWidget::PreCondition :
-        p.drawText(offsetX, offsetY + margin, w, fontHeight, Qt::AlignCenter, "<< precondition >>");
+        painter->drawText(0, margin, w, fontHeight, Qt::AlignCenter, "<< precondition >>");
         break;
     case NoteWidget::PostCondition :
-        p.drawText(offsetX, offsetY + margin, w, fontHeight, Qt::AlignCenter, "<< postcondition >>");
+        painter->drawText(0, margin, w, fontHeight, Qt::AlignCenter, "<< postcondition >>");
         break;
     case NoteWidget::Transformation :
-        p.drawText(offsetX, offsetY + margin, w, fontHeight, Qt::AlignCenter, "<< transformation >>");
+        painter->drawText(0, margin, w, fontHeight, Qt::AlignCenter, "<< transformation >>");
         break;
     case NoteWidget::Normal :
     default :
@@ -96,11 +99,11 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY)
     }
 
     if (m_selected) {
-        drawSelected(&p, offsetX, offsetY);
+        paintSelected(painter);
     }
 
-//    drawText(&p, offsetX, offsetY);
-    drawTextWordWrap(&p, offsetX, offsetY);
+//    paintText(&p, 0, 0);
+    paintTextWordWrap(painter);
 }
 
 /**
@@ -317,12 +320,12 @@ UMLSceneSize NoteWidget::calculateSize()
 }
 
 /**
- * Draws the text. Auxiliary to draw().
+ * Paints the text. Auxiliary to paint().
  * Implemented without word wrap.
  */
-void NoteWidget::drawText(QPainter * p, int offsetX, int offsetY)
+void NoteWidget::paintText(QPainter *painter)
 {
-    if (p == 0) {
+    if (painter == 0) {
         return;
     }
 
@@ -331,9 +334,9 @@ void NoteWidget::drawText(QPainter * p, int offsetX, int offsetY)
         return;
     }
 
-    p->setPen(Qt::black);
+    painter->setPen(Qt::black);
     QFont font = UMLWidget::font();
-    p->setFont(font);
+    painter->setFont(font);
 
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
@@ -347,7 +350,7 @@ void NoteWidget::drawText(QPainter * p, int offsetX, int offsetY)
 
     if ((textSize.width() < width) && (textSize.height() < height)) {
         // the entire text is small enough - draw it
-        p->drawText(offsetX + textX, offsetY + textY,
+        painter->drawText(textX, textY,
                     textSize.width(), textSize.height(),
                     Qt::AlignLeft, text);
     }
@@ -358,7 +361,7 @@ void NoteWidget::drawText(QPainter * p, int offsetX, int offsetY)
             int lineWidth = fm.width(line);
             if (lineWidth < width) {
                 // line is small enough - draw it
-                p->drawText(offsetX + textX, offsetY + textY,
+                painter->drawText(textX, textY,
                             textSize.width(), fontHeight,
                             Qt::AlignLeft, line);
             }
@@ -369,7 +372,7 @@ void NoteWidget::drawText(QPainter * p, int offsetX, int offsetY)
                     int smallerLineWidth = fm.width(smallerLine);
                     if (smallerLineWidth < width) {
                         // line is small enough - draw it
-                        p->drawText(offsetX + textX, offsetY + textY,
+                        painter->drawText(textX, textY,
                                     width, fontHeight,
                                     Qt::AlignLeft, smallerLine);
                     }
@@ -385,12 +388,12 @@ void NoteWidget::drawText(QPainter * p, int offsetX, int offsetY)
 }
 
 /**
- * Draws the text. Auxiliary to draw().
+ * Paints the text. Auxiliary to paint().
  * Implemented with word wrap.
  */
-void NoteWidget::drawTextWordWrap(QPainter * p, int offsetX, int offsetY)
+void NoteWidget::paintTextWordWrap(QPainter *painter)
 {
-    if (p == 0) {
+    if (painter == 0) {
         return;
     }
     QString text = documentation();
@@ -402,9 +405,9 @@ void NoteWidget::drawTextWordWrap(QPainter * p, int offsetX, int offsetY)
     // if word is wider than width then clip word
     // if reach height exit and don't print anymore
     // start new line on \n character
-    p->setPen( Qt::black );
+    painter->setPen( Qt::black );
     QFont font = UMLWidget::font();
-    p->setFont( font );
+    painter->setFont( font );
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
     QString word = "";
@@ -434,7 +437,7 @@ void NoteWidget::drawTextWordWrap(QPainter * p, int offsetX, int offsetY)
                 // combination of "fullLine" and "word" doesn't fit into one line ->
                 // print "fullLine" in current line, update write position to next line
                 // and decide then on following actions
-                p->drawText(offsetX + textX, offsetY + textY,
+                painter->drawText(textX, textY,
                             textWidth, fontHeight, Qt::AlignLeft, fullLine );
                 fullLine = word;
                 word = "";
@@ -447,7 +450,7 @@ void NoteWidget::drawTextWordWrap(QPainter * p, int offsetX, int offsetY)
                 // print "word" and set write position one additional line lower
                 if (c == returnChar) {
                     // print "word" - which is now "fullLine" and set to next line
-                    p->drawText(offsetX + textX, offsetY + textY,
+                    painter->drawText(textX, textY,
                                 textWidth, fontHeight, Qt::AlignLeft, fullLine);
                     fullLine = "";
                     textX = margin;
@@ -458,7 +461,7 @@ void NoteWidget::drawTextWordWrap(QPainter * p, int offsetX, int offsetY)
             else if (c == returnChar) {
                 // newline found and combination of "fullLine" and "word" fits
                 // in one line
-                p->drawText(offsetX + textX, offsetY + textY,
+                painter->drawText(textX, textY,
                             textWidth, fontHeight, Qt::AlignLeft, testCombineLine);
                 fullLine = word = "";
                 textX = margin;

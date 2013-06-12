@@ -68,15 +68,18 @@ PreconditionWidget::~PreconditionWidget()
 /**
  * Overrides the standard paint event.
  */
-void PreconditionWidget::draw(QPainter& p, int /*offsetX*/, int offsetY)
+void PreconditionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
     int w = width();
     int h = height();
 
     int x = m_objectWidget->x() + m_objectWidget->width() / 2;
     x -= w/2;
     setX(x);
-    int y = offsetY;
+    int y = this->y();
 
     //test if y isn't above the object
     if (y <= m_objectWidget->y() + m_objectWidget->height() ) {
@@ -86,9 +89,9 @@ void PreconditionWidget::draw(QPainter& p, int /*offsetX*/, int offsetY)
         y = m_objectWidget->getEndLineY() - h;
     }
     setY(y);
-    setPenFromSettings(p);
+    setPenFromSettings(painter);
     if ( UMLWidget::useFillColor() ) {
-        p.setBrush( UMLWidget::fillColor() );
+        painter->setBrush( UMLWidget::fillColor() );
     }
     {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -96,14 +99,14 @@ void PreconditionWidget::draw(QPainter& p, int /*offsetX*/, int offsetY)
         const QString precondition_value = "{ " + name() + " }";
         //int middleX = w / 2;
         int textStartY = (h / 2) - (fontHeight / 2);
-        p.drawRoundRect(x, y, w, h, (h * 60) / w, 60);
-        p.setPen(textColor());
-        p.setFont( UMLWidget::font() );
-        p.drawText(x + PRECONDITION_MARGIN, y + textStartY,
+        painter->drawRoundRect(0, 0, w, h, (h * 60) / w, 60);
+        painter->setPen(textColor());
+        painter->setFont( UMLWidget::font() );
+        painter->drawText(PRECONDITION_MARGIN, textStartY,
                        w - PRECONDITION_MARGIN * 2, fontHeight, Qt::AlignCenter, precondition_value);
     }
     if(m_selected)
-        drawSelected(&p, x, y);
+        paintSelected(painter);
 }
 
 /**
