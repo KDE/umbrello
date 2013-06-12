@@ -156,17 +156,17 @@ protected:
 
     int constrainX(int textX, int textWidth, Uml::TextRole::Enum tr);
 
-    static void paintArrow( QPainter& p, int x, int y, int w,
+    static void paintArrow( QPainter *p, int x, int y, int w,
                            Qt::ArrowType direction, bool useDottedLine = false );
-    static void paintSolidArrowhead(QPainter& p, int x, int y, Qt::ArrowType direction);
+    static void paintSolidArrowhead(QPainter *p, int x, int y, Qt::ArrowType direction);
 
     void updateResizability();
 
-    void paintSynchronous(QPainter& p, int offsetX, int offsetY);
-    void paintAsynchronous(QPainter& p, int offsetX, int offsetY);
-    void paintCreation(QPainter& p, int offsetX, int offsetY);
-    void paintLost(QPainter& p, int offsetX, int offsetY);
-    void paintFound(QPainter& p, int offsetX, int offsetY);
+    void paintSynchronous(QPainter *painter);
+    void paintAsynchronous(QPainter *painter);
+    void paintCreation(QPainter *painter);
+    void paintLost(QPainter *painter);
+    void paintFound(QPainter *painter);
 
     // Data loaded/saved
     QString m_SequenceNumber;
