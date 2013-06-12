@@ -1030,16 +1030,6 @@ void UMLWidget::setPenFromSettings(QPainter *p)
 }
 
 /**
- * Overrides default method.
- *
- * @param p Device on which the shape has to be drawn.
- */
-void UMLWidget::drawShape(QPainter &p)
-{
-    draw(p, x(), y());
-}
-
-/**
  * calculate content related size of widget.
  *
  * @return calculated widget size

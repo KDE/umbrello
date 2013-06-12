@@ -336,7 +336,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
         else {
             DotPaintDevice d;
             QPainter p(&d);
-            widget->draw(p, 0, 0);
+            widget->paint(&p, 0);
             label = d.data().join("\\n");
         }
     

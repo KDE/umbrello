@@ -130,7 +130,6 @@ public:
     virtual QRectF boundingRect() const;
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
-    QT_DEPRECATED virtual void draw(QPainter & p, int offsetX, int offsetY);
 
 protected:
     WidgetType  m_baseType;  ///< Type of widget.
