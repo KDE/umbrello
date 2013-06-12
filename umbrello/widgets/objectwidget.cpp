@@ -541,7 +541,7 @@ void ObjectWidget::slotMessageMoved()
 
 /**
  * Returns whether a message is overlapping with another message.
- * Used by MessageWidget::draw() methods.
+ * Used by MessageWidget::paint() methods.
  *
  * @param y               top of your message
  * @param messageWidget   pointer to your message so it doesn't check against itself
