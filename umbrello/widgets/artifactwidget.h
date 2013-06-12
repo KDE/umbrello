@@ -33,7 +33,7 @@ public:
     ArtifactWidget(UMLScene *scene, UMLArtifact *a);
     virtual ~ArtifactWidget();
 
-    virtual void draw(QPainter& p, int offsetX, int offsetY);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     // Note: For loading from XMI, the inherited parent method is used.
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
@@ -42,10 +42,10 @@ protected:
     UMLSceneSize minimumSize();
 
 private:
-    void drawAsFile(QPainter& p, int offsetX, int offsetY);
-    void drawAsLibrary(QPainter& p, int offsetX, int offsetY);
-    void drawAsTable(QPainter& p, int offsetX, int offsetY);
-    void drawAsNormal(QPainter& p, int offsetX, int offsetY);
+    void paintAsFile(QPainter *painter);
+    void paintAsLibrary(QPainter *painter);
+    void paintAsTable(QPainter *painter);
+    void paintAsNormal(QPainter *painter);
 
     QSize calculateIconSize();
     QSize calculateNormalSize();
