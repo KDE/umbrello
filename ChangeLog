@@ -4,6 +4,7 @@ version 2.11.0 (unreleased)
 
 version 2.10.5 (unreleased)
 
+* Fixed widgets painting artifact (321053)
 * Prevent recursive search loops (306785)
 * Umbrello Crash Upon Creation of Activity in Activity Diagram (319276)
 
