@@ -85,13 +85,6 @@
 #include <QPrinter>
 #include <QString>
 #include <QStringList>
-/*
-#include <QHideEvent>
-#include <QDropEvent>
-#include <QShowEvent>
-#include <QDragEnterEvent>
-#include <QMouseEvent>
-*/
 
 // system includes
 #include <cmath>  // for ceil
@@ -121,7 +114,6 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     m_bCreateObject(false),
     m_bDrawSelectedOnly(false),
     m_bPaste(false),
-    m_pMenu(0),
     m_bStartedCut(false),
     m_view(view),
     m_pFolder(parentFolder),
@@ -138,7 +130,6 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     m_pImageExporter = new UMLViewImageExporter(this);
 
     // setup signals
-    connect(this, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
     connect(UMLApp::app(), SIGNAL(sigCutSuccessful()),
             this, SLOT(slotCutSuccessful()));
     // Create the ToolBarState factory. This class is not a singleton, because it
@@ -825,6 +816,12 @@ void UMLScene::mouseMoveEvent(QGraphicsSceneMouseEvent* ome)
  */
 void UMLScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
+    // do not handle right clicks here, leave it to contextMenuEvent
+    if (event->button() == Qt::RightButton) {
+        event->ignore();
+        return;
+    }
+
     m_pToolBarState->mousePress(event);
 
     //TODO should be managed by widgets when are selected. Right now also has some
@@ -836,12 +833,14 @@ void UMLScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
     if (widget) {
         DEBUG(DBG_SRC) << "widget = " << widget->name() << " / type = " << widget->baseTypeStr();
         showDocumentation(widget, true);
+        event->accept();
     }
     else {
         AssociationWidget* association = associationAt(event->scenePos());
         if (association) {
-            DEBUG(DBG_SRC) << "widget = " << association->name() << " / type = " << association->baseTypeStr();
+            DEBUG(DBG_SRC) << "association widget = " << association->name() << " / type = " << association->baseTypeStr();
             showDocumentation(association, true);
+            event->accept();
         }
         //:TODO: else if (clicking on other elements with documentation) {
         //:TODO: showDocumentation(umlObject, true);
@@ -857,19 +856,19 @@ void UMLScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
  * Override standard method.
  * Calls the same method in the current tool bar state.
  */
-void UMLScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* ome)
+void UMLScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 {
-    m_pToolBarState->mouseDoubleClick(ome);
+    m_pToolBarState->mouseDoubleClick(event);
 
-    if (isWidgetOrAssociation(ome->scenePos())) {
-        ome->ignore();
+    if (onItem(event->scenePos())) {
+        QGraphicsScene::mouseDoubleClickEvent(event);  // important, do not remove!
     }
     else {
         // show properties dialog of the scene
         if (m_view->showPropDialog() == true) {
             m_doc->setModified();
         }
-        ome->accept();
+        event->accept();
     }
 }
 
@@ -945,12 +944,13 @@ UMLWidget* UMLScene::getFirstMultiSelectedWidget() const
  * widget for which the point is within its bounding rectangle.
  * In case of multiple matches, returns the smallest widget.
  * Returns NULL if the point is not inside any widget.
+ * TODO: What about using QGraphicsScene::items(...)?
  */
 UMLWidget* UMLScene::widgetAt(const UMLScenePoint& p)
 {
     qreal relativeSize = 99990.0;  // start with an arbitrary large number
     UMLWidget  *retWid = 0;
-    foreach(UMLWidget* wid, m_WidgetList) {
+    foreach(UMLWidget* wid, widgetList()) {
         const int s = wid->onWidget(p);
         if (!s)
             continue;
@@ -973,6 +973,21 @@ AssociationWidget* UMLScene::associationAt(const UMLScenePoint& p)
     foreach (AssociationWidget* association, associationList()) {
         if (association->onAssociation(p)) {
             return association;
+        }
+    }
+    return 0;
+}
+
+/**
+ * Tests the given point against all associations and returns the
+ * association widget for which the point is on the line.
+ * Returns NULL if the point is not inside any association.
+ */
+MessageWidget* UMLScene::messageAt(const UMLScenePoint& p)
+{
+    foreach(MessageWidget *message, messageList()) {
+        if (message->onWidget(p)) {
+            return message;
         }
     }
     return 0;
@@ -1012,7 +1027,6 @@ void UMLScene::checkMessages(ObjectWidget * w)
  */
 bool UMLScene::widgetOnDiagram(Uml::ID::Type id)
 {
-
     foreach(UMLWidget *obj, m_WidgetList) {
         if (id == obj->id())
             return true;
@@ -1152,7 +1166,6 @@ void UMLScene::removeWidget(UMLWidget * o)
 
     o->cleanup();
     m_selectedList.removeAll(o);
-    disconnect(this, SIGNAL(sigRemovePopupMenu()), o, SLOT(slotRemovePopupMenu()));
     disconnect(this, SIGNAL(sigClearAllSelected()), o, SLOT(slotClearAllSelected()));
     disconnect(this, SIGNAL(sigFillColorChanged(Uml::ID::Type)), o, SLOT(slotFillColorChanged(Uml::ID::Type)));
     disconnect(this, SIGNAL(sigLineColorChanged(Uml::ID::Type)), o, SLOT(slotLineColorChanged(Uml::ID::Type)));
@@ -1188,17 +1201,17 @@ void UMLScene::setUseFillColor(bool ufc)
  */
 UMLSceneRect UMLScene::diagramRect()
 {
-    int startx, starty, endx, endy;
-    startx = starty = INT_MAX;
-    endx = endy = 0;
+    qreal startx, starty, endx, endy;
+    startx = starty = 9999999.9;
+    endx = endy = 0.0;
 
     foreach(UMLWidget* obj, m_WidgetList) {
         if (! obj->isVisible())
             continue;
-        int objEndX = (int)obj->x() + obj->width();   //:TODO: double
-        int objEndY = (int)obj->y() + obj->height();  //:TODO: double
-        int objStartX = (int)obj->x();  //:TODO: double
-        int objStartY = (int)obj->y();  //:TODO: double
+        qreal objEndX = obj->x() + obj->width();
+        qreal objEndY = obj->y() + obj->height();
+        qreal objStartX = obj->x();
+        qreal objStartY = obj->y();
         if (startx >= objStartX)
             startx = objStartX;
         if (starty >= objStartY)
@@ -1247,7 +1260,7 @@ UMLSceneRect UMLScene::diagramRect()
        endy += 20;
     */
 
-    return UMLSceneRect (startx, starty,  endx - startx, endy - starty);
+    return UMLSceneRect(startx, starty, endx - startx, endy - starty);
 }
 
 /**
@@ -1255,17 +1268,27 @@ UMLSceneRect UMLScene::diagramRect()
  * @param atPos   the mouse position on the scene
  * @return true if there is a widget or an association line
  */
-bool UMLScene::isWidgetOrAssociation(const UMLScenePoint& atPos)
+bool UMLScene::onItem(const UMLScenePoint& atPos)
 {
     UMLWidget* widget = widgetAt(atPos);
     if (widget) {
+        DEBUG(DBG_SRC) << "widget = " << widget->name() << " / type = " << widget->baseTypeStr();
         return true;
     }
 
     AssociationWidget* association = associationAt(atPos);
     if (association) {
+        DEBUG(DBG_SRC) << "association widget = " << association->name() << " / type = " << association->baseTypeStr();
         return true;
     }
+
+    MessageWidget* message = messageAt(atPos);
+    if (message) {
+        DEBUG(DBG_SRC) << "message widget = " << message->name() << " / type = " << message->baseTypeStr();
+        return true;
+    }
+
+    DEBUG(DBG_SRC) << "not widget, not association, not message";
     return false;
 }
 
@@ -3002,9 +3025,10 @@ void UMLScene::resetToolbar()
 void UMLScene::contextMenuEvent(QGraphicsSceneContextMenuEvent* contextMenuEvent)
 {
     UMLWidget* widget = widgetAt(contextMenuEvent->scenePos());
-    if (widget) {
-        DEBUG(DBG_SRC) << "widget = " << widget->name() << " / type = " << widget->baseTypeStr();
-//:TODO:        widget->contextMenuEvent(contextMenuEvent);
+    AssociationWidget* association = associationAt(contextMenuEvent->scenePos());
+    if (widget || association) {
+        // forward the event to the item
+        QGraphicsScene::contextMenuEvent(contextMenuEvent);
     }
     else {
         // set the position for the eventually created widget
@@ -3021,7 +3045,6 @@ void UMLScene::contextMenuEvent(QGraphicsSceneContextMenuEvent* contextMenuEvent
  */
 void UMLScene::setMenu(const QPoint& pos)
 {
-    slotRemovePopupMenu();
     ListPopupMenu::MenuType menu = ListPopupMenu::mt_Undefined;
     switch (type()) {
     case DiagramType::Class:
@@ -3067,12 +3090,9 @@ void UMLScene::setMenu(const QPoint& pos)
     }//end switch
     if (menu != ListPopupMenu::mt_Undefined) {
         // DEBUG(DBG_SRC) << "create popup for MenuType " << ListPopupMenu::toString(menu);
-        m_pMenu = new ListPopupMenu(activeView(), menu, activeView());
-        connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
-
-        // [PORT] Calculate using activeView once its implementation is done.
-        //QPoint point = m_Pos.toPoint();
-        m_pMenu->popup(pos);
+        ListPopupMenu* popup = new ListPopupMenu(activeView(), menu, activeView());
+        QAction *triggered = popup->exec(pos);
+        slotMenuSelection(triggered);
     }
 }
 
@@ -3095,32 +3115,12 @@ void UMLScene::setPaste(bool paste)
 }
 
 /**
- * This slot is entered when an event has occurred on the views display,
- * most likely a mouse event.  Before it sends out that mouse event everyone
- * that displays a menu on the views surface (widgets and this) should remove any
- * menu.  This stops more than one menu being displayed.
- */
-void UMLScene::slotRemovePopupMenu()
-{
-    if (m_pMenu) {
-        disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
-        delete m_pMenu;
-        m_pMenu = 0;
-    }
-}
-
-/**
  * When a menu selection has been made on the menu
  * that this view created, this method gets called.
  */
 void UMLScene::slotMenuSelection(QAction* action)
 {
-    ListPopupMenu::MenuType sel = ListPopupMenu::mt_Undefined;
-    if (m_pMenu) {  // popup from this class
-        sel = m_pMenu->getMenuType(action);
-    } else { // popup from umldoc
-        sel = m_doc->popupMenuSelection(action);
-    }
+    ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     switch (sel) {
     case ListPopupMenu::mt_Undo:
         UMLApp::app()->undo();

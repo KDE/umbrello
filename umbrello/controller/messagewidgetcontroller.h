@@ -62,7 +62,7 @@ protected:
 
     virtual void constrainMovementForAllWidgets(UMLSceneValue &diffX, UMLSceneValue &diffY);
 
-    virtual void doMouseDoubleClick(QGraphicsSceneMouseEvent *me);
+//    virtual void doMouseDoubleClick(QGraphicsSceneMouseEvent *me);
 
 private:
 

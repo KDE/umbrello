@@ -134,7 +134,6 @@ void MessageWidget::init()
     m_pOw[Uml::RoleType::A] = m_pOw[Uml::RoleType::B] = NULL;
     m_pFText = NULL;
     m_nY = 0;
-    setVisible(true);
 }
 
 /**
@@ -326,8 +325,8 @@ void MessageWidget::paintAsynchronous(QPainter *painter)
     int h = height() - 1;
     int offsetX = 0;
     int offsetY = 0;
-    bool messageOverlapsA = m_pOw[Uml::RoleType::A] -> messageOverlap( y(), this );
-    //bool messageOverlapsB = m_pOw[Uml::RoleType::B] -> messageOverlap( y(), this );
+    bool messageOverlapsA = m_pOw[Uml::RoleType::A]->messageOverlap( y(), this );
+    //bool messageOverlapsB = m_pOw[Uml::RoleType::B]->messageOverlap( y(), this );
 
     if(isSelf()) {
         if (messageOverlapsA)  {
@@ -414,8 +413,8 @@ void MessageWidget::paintLost(QPainter *painter)
     int h = height();
     int offsetX = 0;
     int offsetY = 0;
-    bool messageOverlapsA = m_pOw[Uml::RoleType::A] -> messageOverlap( y(), this );
-    //bool messageOverlapsB = m_pOw[Uml::RoleType::B] -> messageOverlap( y(), this );
+    bool messageOverlapsA = m_pOw[Uml::RoleType::A]->messageOverlap( y(), this );
+    //bool messageOverlapsB = m_pOw[Uml::RoleType::B]->messageOverlap( y(), this );
 
     if(x1 < x2) {
         if (messageOverlapsA)  {
@@ -453,8 +452,8 @@ void MessageWidget::paintFound(QPainter *painter)
     int h = height();
     int offsetX = 0;
     int offsetY = 0;
-    bool messageOverlapsA = m_pOw[Uml::RoleType::A] -> messageOverlap( y(), this );
-    //bool messageOverlapsB = m_pOw[Uml::RoleType::B] -> messageOverlap( y(), this );
+    bool messageOverlapsA = m_pOw[Uml::RoleType::A]->messageOverlap( y(), this );
+    //bool messageOverlapsB = m_pOw[Uml::RoleType::B]->messageOverlap( y(), this );
 
     if(x1 < x2) {
         if (messageOverlapsA)  {
@@ -680,13 +679,13 @@ bool MessageWidget::isSelf() const
 
 void MessageWidget::slotMenuSelection(QAction* action)
 {
-    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
-    if(sel == ListPopupMenu::mt_Delete) {
+    ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
+    if (sel == ListPopupMenu::mt_Delete) {
         // This will clean up this widget and the text widget:
-        m_scene -> removeWidget(this);
+        m_scene->removeWidget(this);
     } else {
 
-        UMLWidget::slotMenuSelection( action );
+        UMLWidget::slotMenuSelection(action);
     }
 }
 
@@ -748,7 +747,7 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     if (op)
         setOperation(op);  // This requires a valid m_pFText.
     setLinkAndTextPos();
-    m_pFText -> setText("");
+    m_pFText->setText("");
     m_pFText->setActivated();
     QString messageText = m_pFText->text();
     m_pFText->setVisible( messageText.length() > 1 );
@@ -758,9 +757,9 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
 
     connect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::RoleType::A], SLOT(slotMessageMoved()) );
     connect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::RoleType::B], SLOT(slotMessageMoved()) );
-    m_pOw[Uml::RoleType::A] -> messageAdded(this);
+    m_pOw[Uml::RoleType::A]->messageAdded(this);
     if (!isSelf())
-        m_pOw[Uml::RoleType::B] -> messageAdded(this);
+        m_pOw[Uml::RoleType::B]->messageAdded(this);
     calculateDimensions();
 
     emit sigMessageMoved();
@@ -1107,8 +1106,8 @@ void MessageWidget::setSelected(bool _select)
     if( !m_selected && !m_pFText->isSelected() )
         return;
 
-    m_scene -> setSelected( m_pFText, 0 );
-    m_pFText -> setSelected( m_selected );
+    m_scene->setSelected( m_pFText, 0 );
+    m_pFText->setSelected( m_selected );
 }
 
 /**
@@ -1191,6 +1190,21 @@ void MessageWidget::setyclicked(int yclick)
 }
 
 /**
+ * Event handler for mouse double click events.
+ * @param me QGraphicsSceneMouseEvent which triggered the double click event
+ */
+void MessageWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    Q_UNUSED(event)
+    DEBUG(DBG_SRC) << "NOT IMPLEMENTED YET!";
+    if (m_pFText != NULL) {
+        DEBUG(DBG_SRC) << "NOT IMPLEMENTED YET - on floating text widget!";
+//        QAction* action = m_pMenu->getAction(ListPopupMenu::mt_Select_Operation);
+//        m_pFText->slotMenuSelection(action);
+    }
+}
+
+/**
  * Saves to the "messagewidget" XMI element.
  */
 void MessageWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
@@ -1214,7 +1228,7 @@ void MessageWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     // save the corresponding message text
     if (m_pFText && !m_pFText->text().isEmpty()) {
         messageElement.setAttribute( "textid", Uml::ID::toString(m_pFText->id()) );
-        m_pFText -> saveToXMI( qDoc, messageElement );
+        m_pFText->saveToXMI( qDoc, messageElement );
     }
 
     qElement.appendChild( messageElement );
@@ -1268,15 +1282,18 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
     return true;
 }
 
-ListPopupMenu* MessageWidget::setupPopupMenu(ListPopupMenu *menu)
-{
-    UMLWidget::setupPopupMenu(menu); // will setup the menu in m_pMenu
-    ListPopupMenu* floatingtextSubMenu = m_pFText->setupPopupMenu();
-    floatingtextSubMenu->setTitle( i18n( "Operation" ) );
+/**
+ * :TODO: REMOVE IT!
+ */
+//ListPopupMenu* MessageWidget::setupPopupMenu(ListPopupMenu *menu)
+//{
+//    UMLWidget::setupPopupMenu(menu); // will setup the menu in m_pMenu
+//    ListPopupMenu* floatingtextSubMenu = m_pFText->setupPopupMenu();
+//    floatingtextSubMenu->setTitle( i18n( "Operation" ) );
 
-    m_pMenu->addMenu( floatingtextSubMenu );
+//    m_pMenu->addMenu( floatingtextSubMenu );
 
-    return m_pMenu;
-}
+//    return m_pMenu;
+//}
 
 #include "messagewidget.moc"

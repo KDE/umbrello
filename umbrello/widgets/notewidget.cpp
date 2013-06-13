@@ -13,9 +13,7 @@
 
 // app includes
 #include "debug_utils.h"
-#include "dialog_utils.h"
 #include "listpopupmenu.h"
-#include "notewidgetcontroller.h"
 #include "notedialog.h"
 #include "umldoc.h"
 #include "umlview.h"
@@ -38,7 +36,7 @@
  *                   The default (-1) will prompt a new ID.
  */
 NoteWidget::NoteWidget(UMLScene * scene, NoteType noteType , Uml::ID::Type id)
-  : UMLWidget(scene, WidgetBase::wt_Note, id, new NoteWidgetController(this)),
+  : UMLWidget(scene, WidgetBase::wt_Note, id, NULL),
     m_diagramLink(Uml::ID::None),
     m_noteType(noteType)
 {
@@ -228,6 +226,23 @@ void NoteWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 }
 
 /**
+ * Rename the text of the note widget.
+ */
+void NoteWidget::rename()
+{
+    NoteDialog * dlg = 0;
+    UMLDoc *doc = UMLApp::app()->document();
+    umlScene()->updateDocumentation(false);
+    dlg = new NoteDialog(umlScene()->activeView(), this);
+    if (dlg->exec()) {
+        umlScene()->showDocumentation(this, true);
+        doc->setModified(true);
+        update();
+    }
+    delete dlg;
+}
+
+/**
  * Will be called when a menu selection has been made from the popup
  * menu.
  *
@@ -235,19 +250,10 @@ void NoteWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
  */
 void NoteWidget::slotMenuSelection(QAction* action)
 {
-    NoteDialog * dlg = 0;
-    UMLDoc *doc = UMLApp::app()->document();
-    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     switch(sel) {
     case ListPopupMenu::mt_Rename:
-        m_scene->updateDocumentation( false );
-        dlg = new NoteDialog( m_scene->activeView(), this );
-        if( dlg->exec() ) {
-            m_scene->showDocumentation( this, true );
-            doc->setModified(true);
-            update();
-        }
-        delete dlg;
+        rename();
         break;
 
     default:
@@ -479,6 +485,24 @@ void NoteWidget::paintTextWordWrap(QPainter *painter)
                 word += c;
         }
     }//end for
+}
+
+/**
+ * Event handler for moude double click events.
+ *
+ * @param event The QGraphicsSceneMouseEvent event.
+ */
+void NoteWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        if (m_diagramLink == Uml::ID::None) {
+            rename();
+        } else {
+            UMLDoc *umldoc = UMLApp::app()->document();
+            umldoc->changeCurrentView(m_diagramLink);
+        }
+        event->accept();
+    }
 }
 
 #include "notewidget.moc"

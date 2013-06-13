@@ -19,7 +19,6 @@
 #include "umlscene.h"
 #include "widgetbase.h"
 
-class ListPopupMenu;
 class ClassifierWidget;
 class UMLDoc;
 class UMLScene;
@@ -205,9 +204,8 @@ public:
 
     void cleanup();
 
-public slots:
-    void slotMenuSelection(QAction* action);
-    void slotRemovePopupMenu();
+public Q_SLOTS:
+    virtual void slotMenuSelection(QAction* action);
     void slotClearAllSelected();
     void slotClassifierListItemRemoved(UMLClassifierListItem* obj);
     void slotAttributeChanged();
@@ -215,7 +213,7 @@ public slots:
     void syncToModel();
 
 protected:
-    ListPopupMenu* setupPopupMenu(ListPopupMenu *menu=0, const QPointF &p=QPointF());
+    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
 private:
     void init();
@@ -317,7 +315,6 @@ private:
      */
     uint                m_unNameLineSegment;
     UMLDoc              *m_umldoc;  ///< just a shorthand for UMLApp::app()->getDocument()
-    ListPopupMenu       *m_pMenu;
     bool                m_selected;
     int                 m_nMovingPoint;
 

@@ -54,8 +54,7 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, UMLView * view)
     m_TriggerObject.m_View = view;
     m_TriggerObjectType = tot_View;
     setupMenu(type);
-    // FIXME soc-branch contextMenuEvent
-    //setupActionsData();
+    setupActionsData();
 }
 
 /**
@@ -71,8 +70,7 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, WidgetBase *widget)
     m_TriggerObject.m_Widget = widget;
     m_TriggerObjectType = tot_Widget;
     setupMenu(type);
-    // FIXME soc-branch contextMenuEvent
-    //setupActionsData();
+    setupActionsData();
 }
 
 /**
@@ -438,22 +436,22 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
             insertSubMenuColor( object->useFillColor() );
             insertStdItems(false, type);
             switch (pState->stateType()) {
-	        case StateWidget::Normal:
-                    insert(mt_Rename, i18n("Change State Name..."));
-                    insert(mt_Change_Font);
-                    insert(mt_Properties);
-		    break;
-	        case StateWidget::Fork:
-	        case StateWidget::Join:
-                    if (pState->drawVertical())
-                        insert(mt_Flip, i18n("Flip Horizontal"));
-                    else
-                        insert(mt_Flip, i18n("Flip Vertical"));
-		    break;
-		default:
-		    break;
+            case StateWidget::Normal:
+                insert(mt_Rename, i18n("Change State Name..."));
+                insert(mt_Change_Font);
+                insert(mt_Properties);
+                break;
+            case StateWidget::Fork:
+            case StateWidget::Join:
+                if (pState->drawVertical())
+                    insert(mt_Flip, i18n("Flip Horizontal"));
+                else
+                    insert(mt_Flip, i18n("Flip Vertical"));
+                break;
+            default:
+                break;
             }
-        }
+    }
         break;
 
     case WidgetBase::wt_ForkJoin:
@@ -997,6 +995,23 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
             insert(mt_ChangeToInterface, i18n("Change into Interface"));
     }
     insert(mt_Properties);
+}
+
+/**
+ * Convenience method to extract the ListPopupMenu type from an action.
+ * @param action   the action which was called
+ * @return menu type enum value
+ */
+ListPopupMenu::MenuType ListPopupMenu::typeFromAction(QAction *action)
+{
+    ListPopupMenu *menu = ListPopupMenu::menuFromAction(action);
+    if (menu) {
+        return menu->getMenuType(action);
+    }
+    else {
+        uError() << "Action's data field does not contain ListPopupMenu pointer!";
+        return mt_Undefined;
+    }
 }
 
 /**

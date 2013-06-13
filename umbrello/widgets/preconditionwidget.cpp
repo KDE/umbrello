@@ -236,19 +236,20 @@ int PreconditionWidget::maxY() const
  */
 void PreconditionWidget::slotMenuSelection(QAction* action)
 {
-    bool ok = false;
-    QString text = name();
-
-    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     switch( sel ) {
     case ListPopupMenu::mt_Rename:
-        text = KInputDialog::getText( i18n("Enter Precondition Name"),
-                                      i18n("Enter the precondition :"),
-                                      text, &ok );
-        if( ok && !text.isEmpty() ) {
-            setName(text);
+        {
+            bool ok = false;
+            QString text = name();
+            text = KInputDialog::getText( i18n("Enter Precondition Name"),
+                                          i18n("Enter the precondition :"),
+                                          text, &ok );
+            if (ok && !text.isEmpty()) {
+                setName(text);
+            }
+            calculateWidget();
         }
-        calculateWidget();
         break;
 
     default:

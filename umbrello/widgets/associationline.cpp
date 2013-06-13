@@ -71,19 +71,22 @@ void AssociationLine::SubsetSymbol::drawShape(QPainter& p)
 /**
  * Constructor.
  */
-AssociationLine::AssociationLine()
+AssociationLine::AssociationLine(AssociationWidget *association)
+  : QGraphicsObject(association),
+    m_associationWidget(association),
+    m_bSelected(false),
+    m_pClearPoly(0),
+    m_pCircle(0),
+    m_pSubsetSymbol(0),
+    m_DockRegion(TopBottom),
+    m_bHeadCreated(false),
+    m_bSubsetSymbolCreated(false),
+    m_bParallelLineCreated(false)
 {
-    m_bSelected = false;
-    m_pClearPoly = 0;
-    m_pCircle = 0;
-    m_pSubsetSymbol = 0;
+    Q_ASSERT(association);
+    setFlag(QGraphicsLineItem::ItemIsSelectable);
     m_PointArray.resize( 4 );
     m_ParallelLines.resize( 4 );
-    m_associationWidget = 0;
-    m_bHeadCreated = false;
-    m_bSubsetSymbolCreated = false;
-    m_bParallelLineCreated = false;
-    m_DockRegion = TopBottom;
 }
 
 /**
@@ -181,12 +184,10 @@ bool AssociationLine::insertPoint(int pointIndex, const UMLScenePoint &point)
         UMLScenePoint sp = first->line().p1();
         UMLScenePoint ep = first->line().p2();
         first->setLine( sp.x(), sp.y(), point.x(), point.y() );
-        QGraphicsLineItem* line = new QGraphicsLineItem;
-        umlScene()->addItem(line);
+        QGraphicsLineItem* line = new QGraphicsLineItem(this);
         line->setZValue( -2 );
         line->setLine( point.x(), point.y(), ep.x(), ep.y() );
         line->setPen( pen() );
-        line->setVisible( true );
         m_LineList.insert( 1, line );
         if (!bLoading)
             setupSelected();
@@ -197,12 +198,10 @@ bool AssociationLine::insertPoint(int pointIndex, const UMLScenePoint &point)
         UMLScenePoint sp = before->line().p1();
         UMLScenePoint ep = before->line().p2();
         before->setLine( sp.x(), sp.y(), point.x(), point.y() );
-        QGraphicsLineItem* line = new QGraphicsLineItem;
-        umlScene()->addItem(line);
+        QGraphicsLineItem* line = new QGraphicsLineItem(this);
         line->setLine( point.x(), point.y(), ep.x(), ep.y() );
         line->setZValue( -2 );
         line->setPen( pen() );
-        line->setVisible( true );
         m_LineList.append( line );
         if (!bLoading)
             setupSelected();
@@ -212,12 +211,10 @@ bool AssociationLine::insertPoint(int pointIndex, const UMLScenePoint &point)
     UMLScenePoint sp = before->line().p1();
     UMLScenePoint ep = before->line().p2();
     before->setLine( sp.x(), sp.y(), point.x(), point.y() );
-    QGraphicsLineItem* line = new QGraphicsLineItem;
-    umlScene()->addItem(line);
+    QGraphicsLineItem* line = new QGraphicsLineItem(this);
     line->setLine( point.x(), point.y(), ep.x(), ep.y() );
     line->setZValue( -2 );
     line->setPen( pen() );
-    line->setVisible( true );
     m_LineList.insert( pointIndex, line );
     if (!bLoading)
         setupSelected();
@@ -387,12 +384,10 @@ bool AssociationLine::setEndPoints(const UMLScenePoint &start, const UMLScenePoi
 {
     int count = m_LineList.count();
     if( count == 0 ) {
-        QGraphicsLineItem* line = new QGraphicsLineItem;
-        umlScene()->addItem(line);
+        QGraphicsLineItem* line = new QGraphicsLineItem(this);
         line->setLine( start.x(), start.y(),end.x(),end.y() );
         line->setZValue( -2 );
         line->setPen( pen() );
-        line->setVisible( true );
         m_LineList.append( line );
         return true;
     }
@@ -496,7 +491,7 @@ void AssociationLine::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 /**
  * Returns the type of pen to use depending on the type of Association.
  */
-QPen AssociationLine::pen()
+QPen AssociationLine::pen() const
 {
     Uml::AssociationType::Enum type = getAssocType();
     if( type == Uml::AssociationType::Dependency || type == Uml::AssociationType::Realization || type == Uml::AssociationType::Anchor )
@@ -512,7 +507,7 @@ QPen AssociationLine::pen()
  * This class doesn't hold this information but is a wrapper
  * method to stop calls to undefined variable like m_associationWidget.
  */
-QColor AssociationLine::lineColor()
+QColor AssociationLine::lineColor() const
 {
     if( !m_associationWidget )
         return Qt::black;
@@ -566,7 +561,7 @@ void AssociationLine::setLineColor(const QColor &color)
  * This class doesn't hold this information but is a wrapper
  * method to stop calls to undefined variable like m_associationWidget.
  */
-uint AssociationLine::lineWidth()
+uint AssociationLine::lineWidth() const
 {
     if( !m_associationWidget )
         return 0;
@@ -608,30 +603,6 @@ void AssociationLine::setLineWidth(uint width)
         linecolor = m_pCircle->pen().color();
         m_pCircle->setPen( QPen(linecolor, width) );
     }
-}
-
-/**
- * This will setup the class ready to display the line correctly.
- * This MUST be called before you can use this class.
- */
-void AssociationLine::setAssociation(AssociationWidget * association)
-{
-    if( !association )
-        return;
-    cleanup();
-    m_associationWidget = association;
-    createHeadLines();
-    createSubsetSymbol();
-    if( getAssocType() == Uml::AssociationType::Coll_Message )
-        setupParallelLine();
-    if (m_associationWidget) {
-        connect(m_associationWidget->umlScene(), SIGNAL(sigLineColorChanged(Uml::ID::Type)), this, SLOT(slotLineColorChanged(Uml::ID::Type)));
-        connect(m_associationWidget->umlScene(), SIGNAL(sigLineWidthChanged(Uml::ID::Type)), this, SLOT(slotLineWidthChanged(Uml::ID::Type)));
-    }
-    else {
-        uWarning() << "scene is null. Can not connect SIGNAL/SLOT.";
-    }
-
 }
 
 /**
@@ -980,9 +951,7 @@ void AssociationLine::createHeadLines()
     case Uml::AssociationType::Generalization:
     case Uml::AssociationType::Realization:
         growList(m_HeadList, 3);
-        m_pClearPoly = new QGraphicsPolygonItem;
-        umlScene()->addItem(m_pClearPoly);
-        m_pClearPoly->setVisible( true );
+        m_pClearPoly = new QGraphicsPolygonItem(this);
         m_pClearPoly->setBrush( QBrush( Qt::white ) );
         m_pClearPoly->setZValue( -1 );
         break;
@@ -990,9 +959,7 @@ void AssociationLine::createHeadLines()
     case Uml::AssociationType::Composition:
     case Uml::AssociationType::Aggregation:
         growList(m_HeadList, 4);
-        m_pClearPoly = new QGraphicsPolygonItem;
-        umlScene()->addItem(m_pClearPoly);
-        m_pClearPoly->setVisible( true );
+        m_pClearPoly = new QGraphicsPolygonItem(this);
         if( getAssocType() == Uml::AssociationType::Aggregation )
             m_pClearPoly->setBrush( QBrush( Qt::white ) );
         else
@@ -1004,7 +971,7 @@ void AssociationLine::createHeadLines()
         growList(m_HeadList, 1);
         if (!m_pCircle) {
             m_pCircle = new Circle( 6 );
-            umlScene()->addItem(m_pCircle);
+            m_pCircle->setParentItem(this);
             m_pCircle->show();
             m_pCircle->setPen( QPen( lineColor(), lineWidth() ) );
         }
@@ -1266,13 +1233,52 @@ void AssociationLine::growList(LineList &list, int by)
 {
     QPen pen( lineColor(), lineWidth() );
     for (int i = 0; i < by; i++) {
-        QGraphicsLineItem* line = new QGraphicsLineItem;
-        umlScene()->addItem(line);
+        QGraphicsLineItem* line = new QGraphicsLineItem(this);
         line->setZValue( 0 );
         line->setPen( pen );
-        line->setVisible( true );
         list.append( line );
     }
+}
+
+/**
+ * @return The bounding rectangle for the AssociationLine.
+ */
+QRectF AssociationLine::boundingRect() const
+{
+    return shape().boundingRect();
+}
+
+/**
+ * @return The shape of the AssociationLine.
+ */
+QPainterPath AssociationLine::shape() const
+{
+    QPainterPath path;
+    Q_FOREACH(QGraphicsLineItem* line, m_LineList) {
+        path.addPath(line->shape());
+    }
+
+    QPainterPathStroker stroker;
+    stroker.setWidth(qMax<qreal>(POINT_DELTA, pen().widthF()) + 2.0); // allow delta region
+    return stroker.createStroke(path);
+}
+
+/**
+ * Reimplemented from QGraphicsItem::paint.
+ * Draws the AssociationLine and also takes care of highlighting active point or line.
+ */
+void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+{
+    Q_UNUSED(painter) Q_UNUSED(option) Q_UNUSED(widget)
+}
+
+/**
+ * Event handler for context menu events.
+ */
+void AssociationLine::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+{
+    uDebug() << "call AssociationWidget";
+    event->ignore();
 }
 
 #include "associationline.moc"
