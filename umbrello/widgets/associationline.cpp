@@ -328,14 +328,14 @@ void AssociationLine::cleanup()
 }
 
 /**
- * Return index of closest point.
+ * Return index of closest segment.
  * 
  * @param point The point which is to be tested for closeness.
  *
- * @retval "Index" of the linepoint closest to the \a point passed.
- * @retval -1 If no linepoint is closer to passed in \a point.
+ * @retval "Index" of the line segment closest to the \a point passed.
+ * @retval -1 If no line segment is closer to passed in \a point.
  */
-int AssociationLine::closestPointIndex(const UMLScenePoint &position, int delta)
+int AssociationLine::closestSegmentIndex(const UMLScenePoint &position, int delta)
 {
     UMLSceneItemList list = umlScene()->collisions(position, delta);
     int index = -1;

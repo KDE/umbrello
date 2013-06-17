@@ -54,7 +54,7 @@ public:
     int count() const;
     void cleanup();
 
-    int closestPointIndex(const UMLScenePoint &position, int delta = 3);
+    int closestSegmentIndex(const UMLScenePoint &position, int delta = 3);
     bool isPoint(int pointIndex, const UMLScenePoint &point, unsigned short delta = 0);
 
     bool setEndPoints(const UMLScenePoint &start, const UMLScenePoint &end);

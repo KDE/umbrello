@@ -1456,7 +1456,7 @@ void AssociationWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent * me)
 {
     if (me->button() != Qt::RightButton && me->button() != Qt::LeftButton)
         return;
-    int i = m_associationLine->closestPointIndex(me->scenePos(), POINT_DELTA);
+    int i = m_associationLine->closestSegmentIndex(me->scenePos(), POINT_DELTA);
     if (i == -1) {
         m_associationLine->setSelected(false);
         return;
@@ -3154,7 +3154,7 @@ void AssociationWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
     if (m_nMovingPoint == -1)
     {
         //create moving point near the mouse on the line
-        int i = m_associationLine->closestPointIndex(me->scenePos(), POINT_DELTA);
+        int i = m_associationLine->closestSegmentIndex(me->scenePos(), POINT_DELTA);
 
         if (i == -1)
             return;
@@ -3736,7 +3736,7 @@ bool AssociationWidget::onAssocClassLine(const UMLScenePoint &point)
  */
 bool AssociationWidget::onAssociation(const UMLScenePoint & point)
 {
-    if (m_associationLine->closestPointIndex(point, POINT_DELTA) != -1)
+    if (m_associationLine->closestSegmentIndex(point, POINT_DELTA) != -1)
         return true;
     return onAssocClassLine(point);
 }
