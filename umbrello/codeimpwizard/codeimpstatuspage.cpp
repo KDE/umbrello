@@ -187,6 +187,8 @@ void CodeImpStatusPage::importCodeFile(bool noError)
 
 void CodeImpStatusPage::importNextFile(bool noError)
 {
+    Q_UNUSED(noError);
+
     QTimer::singleShot(10, this, SLOT(importCodeFile()));
 }
 
