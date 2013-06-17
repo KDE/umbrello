@@ -143,6 +143,8 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
                     (*it)->setYMax(y() + height());
                     (*it)->setY(y() + (*it)->y() - old_Y);
                     (*it)->setSize(w, (*it)->height());
+                    (*it)->setLineColor(lineColor());
+                    (*it)->setLineWidth(lineWidth());
                 }
 
         break;
@@ -161,6 +163,8 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
                         (*it)->setYMax(y() + height());
                         (*it)->setY(y() + (*it)->y() - old_Y);
                         (*it)->setSize(w, (*it)->height());
+                        (*it)->setLineColor(lineColor());
+                        (*it)->setLineWidth(lineWidth());
                     }
                 }
         break;
@@ -168,7 +172,7 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
     default : break;
     }
 
-    painter->setPen(Qt::red);
+    setPenFromSettings(painter);
     painter->drawLine(0, 20, line_width, 20);
     painter->drawLine(line_width, 20, line_width + 10, 10);
     painter->drawLine(line_width + 10, 10, line_width + 10, 0);
