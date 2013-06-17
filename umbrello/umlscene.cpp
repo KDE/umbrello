@@ -933,6 +933,8 @@ ObjectWidget * UMLScene::onWidgetDestructionBox(const UMLScenePoint &point) cons
  */
 UMLWidget* UMLScene::getFirstMultiSelectedWidget() const
 {
+    if (m_selectedList.size() == 0)
+        return 0;
     return m_selectedList.first();
 }
 
