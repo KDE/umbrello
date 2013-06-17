@@ -1293,6 +1293,22 @@ void AssociationWidget::cleanup()
 }
 
 /**
+ * @brief Return state if the assocation line point in the near of the last context
+ *        menu event position is removable or not.
+ * A point is removable if the association is not an Exception and is not the start or end point.
+ *
+ * @return true if point is removable
+ */
+bool AssociationWidget::isPointRemovable()
+{
+    if (!m_selected || associationType() == Uml::AssociationType::Exception || m_associationLine->count() <= 2)
+        return false;
+    UMLScenePoint scenePos = m_eventScenePos;
+    int i = m_associationLine->closestPointIndex(scenePos, POINT_DELTA);
+    return i > 0 && i < m_associationLine->count();
+}
+
+/**
  * Set our internal umlAssociation.
  */
 void AssociationWidget::setUMLAssociation (UMLAssociation * assoc)
@@ -1487,23 +1503,6 @@ void AssociationWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent * me)
                 computeAssocClassLine();
             }
         }
-    } else {
-        /* deselect the line path */
-        m_associationLine->setSelected( false );
-
-        /* there was a point so we remove the point */
-        if (m_associationLine->removePoint(i, mp, POINT_DELTA)) {
-            /* Maybe reattach association class connecting line
-               to different association linepath segment.  */
-            const int numberOfLines = m_associationLine->count() - 1;
-            if (m_nLinePathSegmentIndex >= numberOfLines) {
-                m_nLinePathSegmentIndex = numberOfLines - 1;
-                computeAssocClassLine();
-            }
-        }
-
-        /* select the line path */
-        m_associationLine->setSelected( true );
     }
 
     m_associationLine->update();
@@ -2848,6 +2847,11 @@ void AssociationWidget::mousePressEvent(QGraphicsSceneMouseEvent * me)
     if( me->modifiers() != Qt::ShiftModifier )
         m_scene->clearSelected();
 
+    if(me->button() == Qt::LeftButton && me->modifiers() && Qt::ControlModifier) {
+        if (checkRemovePoint(me->scenePos()))
+            return;
+    }
+
     m_nMovingPoint = -1;
     //make sure we should be here depending on the button
     if(me->button() != Qt::RightButton && me->button() != Qt::LeftButton)
@@ -2923,6 +2927,12 @@ void AssociationWidget::slotMenuSelection(QAction* action)
             showPropertiesDialog();
         }
         break;
+
+    case ListPopupMenu::mt_Delete_Point:
+         {
+             checkRemovePoint(m_eventScenePos);
+         }
+         break;
 
     case ListPopupMenu::mt_Delete:
         if (m_pAssocClassLineSel0)
@@ -3138,6 +3148,34 @@ void AssociationWidget::checkPoints(const UMLScenePoint &p)
             break; //no need to check the rest
         }//end if
     }//end for
+}
+
+bool AssociationWidget::checkRemovePoint(const QPointF &scenePos)
+{
+    int i = m_associationLine->closestSegmentIndex(scenePos, POINT_DELTA);
+    if (i == -1)
+        return false;
+
+    m_associationLine->setSelected( false );
+
+    /* there was a point so we remove the point */
+    if (m_associationLine->removePoint(i, scenePos, POINT_DELTA)) {
+        /* Maybe reattach association class connecting line
+           to different association linepath segment.  */
+        const int numberOfLines = m_associationLine->count() - 1;
+        if (m_nLinePathSegmentIndex >= numberOfLines) {
+            m_nLinePathSegmentIndex = numberOfLines - 1;
+        }
+        calculateEndingPoints();
+    }
+    /* select the line path */
+    m_associationLine->setSelected( true );
+
+    m_associationLine->update();
+
+    calculateNameTextSegment();
+    m_umldoc->setModified(true);
+    return true;
 }
 
 /**
@@ -3709,6 +3747,7 @@ void AssociationWidget::setSelected(bool _select /* = true */)
         // if _select is false.
         selectAssocClassLine(false);
     }
+    UMLApp::app()->document()->writeToStatusBar(_select ? i18n("Press crtl with left mouse click to delete a point") : "");
 }
 
 /**
@@ -3932,6 +3971,8 @@ void AssociationWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         }
     }
     setSelected(true);
+    m_eventScenePos = event->scenePos();
+    DEBUG(DBG_SRC) << "menue type = " << ListPopupMenu::toString(menuType);
     QPointer<ListPopupMenu> menu = new ListPopupMenu(parent, menuType, this);
     QAction *triggered = menu->exec(event->screenPos());
     ListPopupMenu *parentMenu = ListPopupMenu::menuFromAction(triggered);

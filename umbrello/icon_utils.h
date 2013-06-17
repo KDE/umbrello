@@ -120,6 +120,7 @@ namespace Icon_Utils {
         it_Diagram_Usecase,
         it_New,
         it_Delete,
+        it_Delete_Point,
         it_Rename,
         it_Cut,
         it_Copy,

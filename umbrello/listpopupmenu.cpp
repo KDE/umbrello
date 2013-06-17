@@ -1708,6 +1708,12 @@ void ListPopupMenu::setupMenu(MenuType type)
         break;
 
     case mt_Association_Selected:
+        if (m_TriggerObjectType == tot_Widget
+            && m_TriggerObject.m_Widget->baseType() == WidgetBase::wt_Association) {
+            AssociationWidget *w = static_cast<AssociationWidget*>(m_TriggerObject.m_Widget);
+            if (w->isPointRemovable())
+                insert(mt_Delete_Point, Icon_Utils::SmallIcon(Icon_Utils::it_Delete_Point), i18n("delete Point"));
+        }
         insert(mt_Delete);
         insert(mt_Line_Color);
         insert(mt_Properties);
@@ -1738,6 +1744,12 @@ void ListPopupMenu::setupMenu(MenuType type)
         break;
 
     case mt_FullAssociation:
+        if (m_TriggerObjectType == tot_Widget
+            && m_TriggerObject.m_Widget->baseType() == WidgetBase::wt_Association) {
+            AssociationWidget *w = static_cast<AssociationWidget*>(m_TriggerObject.m_Widget);
+            if (w->isPointRemovable())
+                insert(mt_Delete_Point, Icon_Utils::SmallIcon(Icon_Utils::it_Delete_Point), i18n("delete Point"));
+        }
         insert(mt_Delete);
         insert(mt_Rename_Name, i18n("Change Association Name..."));
         insert(mt_Rename_RoleAName, i18n("Change Role A Name..."));
@@ -1749,6 +1761,12 @@ void ListPopupMenu::setupMenu(MenuType type)
         break;
 
     case mt_AttributeAssociation:
+        if (m_TriggerObjectType == tot_Widget
+            && m_TriggerObject.m_Widget->baseType() == WidgetBase::wt_Association) {
+            AssociationWidget *w = static_cast<AssociationWidget*>(m_TriggerObject.m_Widget);
+            if (w->isPointRemovable())
+                insert(mt_Delete_Point, Icon_Utils::SmallIcon(Icon_Utils::it_Delete_Point), i18n("delete Point"));
+        }
         insert(mt_Delete);  // @todo add more items
         insert(mt_Line_Color);
         insert(mt_Properties);
@@ -1759,6 +1777,12 @@ void ListPopupMenu::setupMenu(MenuType type)
         // insert(mt_Copy);
         // insert(mt_Paste);
         // addSeparator();
+        if (m_TriggerObjectType == tot_Widget
+            && m_TriggerObject.m_Widget->baseType() == WidgetBase::wt_Association) {
+            AssociationWidget *w = static_cast<AssociationWidget*>(m_TriggerObject.m_Widget);
+            if (w->isPointRemovable())
+                insert(mt_Delete_Point, Icon_Utils::SmallIcon(Icon_Utils::it_Delete_Point), i18n("delete Point"));
+        }
         insert(mt_Delete);
         insert(mt_Change_Font);
         insert(mt_New_Operation);

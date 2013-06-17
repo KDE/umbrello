@@ -203,6 +203,7 @@ public:
     virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
 
     void cleanup();
+    bool isPointRemovable();
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);
@@ -295,6 +296,7 @@ private:
     void setChangeWidget(const QString &strChangeWidget, Uml::RoleType::Enum role);
 
     void checkPoints(const UMLScenePoint &p);
+    bool checkRemovePoint(const UMLScenePoint &scenePos);
 
     bool linePathStartsAt(const UMLWidget* widget);
 
@@ -337,6 +339,7 @@ private:
     Uml::AssociationType::Enum m_associationType;  ///< is only used if m_pObject is not set
     WidgetRole  m_role[2];
     FloatingTextWidget* m_nameWidget;  ///< displays the name of this association
+    QPointF m_eventScenePos;           ///< holds scene pos of contentMenuEvent()
 
 };
 

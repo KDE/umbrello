@@ -325,8 +325,31 @@ void AssociationLine::cleanup()
 }
 
 /**
+ * Return index of point closer a given delta.
+ *
+ * @param point The point which is to be tested for closeness.
+ * @param delta The distance the point should be closer to.
+ *
+ * @retval "Index" of the first line point closer to the \a point passed.
+ * @retval -1 If no line point is closer to passed in \a point.
+ */
+int AssociationLine::closestPointIndex(const UMLScenePoint &position, qreal delta) const
+{
+    QRectF bounds(position, QSize());
+    bounds.adjust(-delta, -delta, delta, delta);
+
+    int last = count();
+    for(int i = 0; i <= last; i++)
+    {
+        if (bounds.contains(point(i)))
+            return i;
+    }
+    return -1;
+}
+
+/**
  * Return index of closest segment.
- * 
+ *
  * @param point The point which is to be tested for closeness.
  *
  * @retval "Index" of the line segment closest to the \a point passed.

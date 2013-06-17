@@ -201,6 +201,7 @@ public:
         mt_Down,
         mt_Branch,
         mt_Flip,
+        mt_Delete_Point,
 
         mt_Expand_All,                           // Expand all items in the list
         mt_Collapse_All,                         // Collapse all items in the list

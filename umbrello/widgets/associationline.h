@@ -54,6 +54,7 @@ public:
     int count() const;
     void cleanup();
 
+    int closestPointIndex(const UMLScenePoint &position, qreal delta) const;
     int closestSegmentIndex(const UMLScenePoint &position, int delta = 3);
     bool isPoint(int pointIndex, const UMLScenePoint &point, unsigned short delta = 0);
 

@@ -304,6 +304,8 @@ QString toString(IconType type)
             return "document-new";
         case it_Delete:
             return "edit-delete";
+        case it_Delete_Point:
+            return "format-remove-node";
         case it_Rename:
             return "edit-rename";
         case it_Cut:
