@@ -1574,10 +1574,10 @@ bool UMLScene::isSavedInSeparateFile()
     return !folderFile.isEmpty();
 }
 
-UMLSceneItemList UMLScene::collisions(const UMLScenePoint &p)
+UMLSceneItemList UMLScene::collisions(const UMLScenePoint &p, int delta)
 {
-    QPointF a = p-QPointF(3,3);
-    QPointF b = p+QPointF(3,3);
+    QPointF a = p-QPointF(delta, delta);
+    QPointF b = p+QPointF(delta, delta);
     QList<QGraphicsItem *> list = items(QRectF(a,b));
     return list;
 }

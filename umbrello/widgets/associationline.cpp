@@ -335,9 +335,9 @@ void AssociationLine::cleanup()
  * @retval "Index" of the linepoint closest to the \a point passed.
  * @retval -1 If no linepoint is closer to passed in \a point.
  */
-int AssociationLine::closestPointIndex(const UMLScenePoint &position)
+int AssociationLine::closestPointIndex(const UMLScenePoint &position, int delta)
 {
-    UMLSceneItemList list = umlScene()->collisions( position );
+    UMLSceneItemList list = umlScene()->collisions(position, delta);
     int index = -1;
 
     UMLSceneItemList::iterator end(list.end());

@@ -308,7 +308,7 @@ public:
 
     int generateCollaborationId();
 
-    UMLSceneItemList collisions(const UMLScenePoint &p);
+    UMLSceneItemList collisions(const UMLScenePoint &p, int delta = 3);
 
 protected:
     // Methods and members related to loading/saving
