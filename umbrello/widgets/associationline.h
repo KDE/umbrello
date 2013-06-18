@@ -111,7 +111,7 @@ protected:
     class Circle : public QGraphicsEllipseItem
     {
     public:
-        explicit Circle(int radius = 0);
+        explicit Circle(int radius = 0, QGraphicsItem* parent = 0);
         void setRadius(int radius);
         int getRadius() const;
 
@@ -124,7 +124,7 @@ protected:
     class SubsetSymbol : public QGraphicsEllipseItem
     {
     public:
-        explicit SubsetSymbol();
+        explicit SubsetSymbol(QGraphicsItem* parent = 0);
 
         /**
          * Sets the Inclination of the Subset Symbol w.r.t horizontal x axis

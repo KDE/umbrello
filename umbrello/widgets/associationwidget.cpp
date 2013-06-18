@@ -4042,7 +4042,6 @@ void AssociationWidget::init()
     m_associationType = Uml::AssociationType::Association;
     m_umldoc = UMLApp::app()->document();
 
-    connect(m_scene, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
     connect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
 }
 

@@ -29,10 +29,11 @@
 
 DEBUG_REGISTER_DISABLED(AssociationLine)
 
-AssociationLine::Circle::Circle(int radius /* = 0 */)
-  : QGraphicsEllipseItem(0, 0, radius * 2, radius * 2)
+AssociationLine::Circle::Circle(int radius, QGraphicsItem *parent)
+  : QGraphicsEllipseItem(0, 0, radius * 2, radius * 2, parent)
 {
 }
+
 void AssociationLine::Circle::setRadius(int radius)
 {
     QGraphicsEllipseItem::setRect(x(), y(), radius * 2, radius * 2);
@@ -50,8 +51,8 @@ void AssociationLine::Circle::drawShape(QPainter& p)
     p.drawEllipse( (int)x() - radius, (int)y() - radius, diameter, diameter);
 }
 
-AssociationLine::SubsetSymbol::SubsetSymbol()
-  : QGraphicsEllipseItem()
+AssociationLine::SubsetSymbol::SubsetSymbol(QGraphicsItem* parent)
+  : QGraphicsEllipseItem(parent)
 {
     inclination = 0;
 }
@@ -185,6 +186,7 @@ bool AssociationLine::insertPoint(int pointIndex, const UMLScenePoint &point)
         UMLScenePoint ep = first->line().p2();
         first->setLine( sp.x(), sp.y(), point.x(), point.y() );
         QGraphicsLineItem* line = new QGraphicsLineItem(this);
+        umlScene()->addItem(line);
         line->setZValue( -2 );
         line->setLine( point.x(), point.y(), ep.x(), ep.y() );
         line->setPen( pen() );
@@ -199,6 +201,7 @@ bool AssociationLine::insertPoint(int pointIndex, const UMLScenePoint &point)
         UMLScenePoint ep = before->line().p2();
         before->setLine( sp.x(), sp.y(), point.x(), point.y() );
         QGraphicsLineItem* line = new QGraphicsLineItem(this);
+        umlScene()->addItem(line);
         line->setLine( point.x(), point.y(), ep.x(), ep.y() );
         line->setZValue( -2 );
         line->setPen( pen() );
@@ -212,6 +215,7 @@ bool AssociationLine::insertPoint(int pointIndex, const UMLScenePoint &point)
     UMLScenePoint ep = before->line().p2();
     before->setLine( sp.x(), sp.y(), point.x(), point.y() );
     QGraphicsLineItem* line = new QGraphicsLineItem(this);
+    umlScene()->addItem(line);
     line->setLine( point.x(), point.y(), ep.x(), ep.y() );
     line->setZValue( -2 );
     line->setPen( pen() );
@@ -385,6 +389,7 @@ bool AssociationLine::setEndPoints(const UMLScenePoint &start, const UMLScenePoi
     int count = m_LineList.count();
     if( count == 0 ) {
         QGraphicsLineItem* line = new QGraphicsLineItem(this);
+        umlScene()->addItem(line);
         line->setLine( start.x(), start.y(),end.x(),end.y() );
         line->setZValue( -2 );
         line->setPen( pen() );
@@ -952,6 +957,7 @@ void AssociationLine::createHeadLines()
     case Uml::AssociationType::Realization:
         growList(m_HeadList, 3);
         m_pClearPoly = new QGraphicsPolygonItem(this);
+        umlScene()->addItem(m_pClearPoly);
         m_pClearPoly->setBrush( QBrush( Qt::white ) );
         m_pClearPoly->setZValue( -1 );
         break;
@@ -960,6 +966,7 @@ void AssociationLine::createHeadLines()
     case Uml::AssociationType::Aggregation:
         growList(m_HeadList, 4);
         m_pClearPoly = new QGraphicsPolygonItem(this);
+        umlScene()->addItem(m_pClearPoly);
         if( getAssocType() == Uml::AssociationType::Aggregation )
             m_pClearPoly->setBrush( QBrush( Qt::white ) );
         else
@@ -970,8 +977,8 @@ void AssociationLine::createHeadLines()
     case Uml::AssociationType::Containment:
         growList(m_HeadList, 1);
         if (!m_pCircle) {
-            m_pCircle = new Circle( 6 );
-            m_pCircle->setParentItem(this);
+            m_pCircle = new Circle(6);
+            umlScene()->addItem(m_pCircle);
             m_pCircle->show();
             m_pCircle->setPen( QPen( lineColor(), lineWidth() ) );
         }
@@ -1168,7 +1175,7 @@ void AssociationLine::createSubsetSymbol()
 
     switch( getAssocType() ) {
        case Uml::AssociationType::Child2Category:
-           m_pSubsetSymbol = new SubsetSymbol;
+           m_pSubsetSymbol = new SubsetSymbol();
            umlScene()->addItem(m_pSubsetSymbol);
            m_pSubsetSymbol->setPen( QPen( lineColor(), lineWidth() ) );
            updateSubsetSymbol();
@@ -1234,6 +1241,7 @@ void AssociationLine::growList(LineList &list, int by)
     QPen pen( lineColor(), lineWidth() );
     for (int i = 0; i < by; i++) {
         QGraphicsLineItem* line = new QGraphicsLineItem(this);
+        umlScene()->addItem(line);
         line->setZValue( 0 );
         line->setPen( pen );
         list.append( line );
