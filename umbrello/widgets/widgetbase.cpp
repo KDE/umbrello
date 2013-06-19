@@ -796,18 +796,18 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
     }
         break;
 
-    // case ListPopupMenu::mt_Cut:
-    //     m_pView -> setStartedCut();
-    //     UMLApp::app() -> slotEditCut();
-    //     break;
+    case ListPopupMenu::mt_Cut:
+        umlScene()->setStartedCut();
+        UMLApp::app()->slotEditCut();
+        break;
 
-    // case ListPopupMenu::mt_Copy:
-    //     UMLApp::app() -> slotEditCopy();
-    //     break;
+    case ListPopupMenu::mt_Copy:
+        UMLApp::app()->slotEditCopy();
+        break;
 
-    // case ListPopupMenu::mt_Paste:
-    //     UMLApp::app() -> slotEditPaste();
-    //     break;
+    case ListPopupMenu::mt_Paste:
+        UMLApp::app()->slotEditPaste();
+        break;
 
     case ListPopupMenu::mt_Refactoring:
         //check if we are operating on a classifier, or some other kind of UMLObject
@@ -816,13 +816,13 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
         }
         break;
 
-    // case ListPopupMenu::mt_Clone:
-    //     // In principle we clone all the uml objects.
-    // {
-    //     UMLObject *pClone = m_pObject->clone();
-    //     m_pView->addObject(pClone);
-    // }
-    // break;
+     case ListPopupMenu::mt_Clone:
+        // In principle we clone all the uml objects.
+        {
+            UMLObject *pClone = umlObject()->clone();
+            umlScene()->addObject(pClone);
+        }
+        break;
 
     case ListPopupMenu::mt_Rename_MultiA:
     case ListPopupMenu::mt_Rename_MultiB:

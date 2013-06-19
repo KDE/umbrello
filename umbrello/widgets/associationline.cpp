@@ -30,13 +30,13 @@
 DEBUG_REGISTER_DISABLED(AssociationLine)
 
 AssociationLine::Circle::Circle(int radius, QGraphicsItem *parent)
-  : QGraphicsEllipseItem(0, 0, radius * 2, radius * 2, parent)
+    : QGraphicsEllipseItem(-radius, -radius, radius * 2, radius * 2, parent)
 {
 }
 
 void AssociationLine::Circle::setRadius(int radius)
 {
-    QGraphicsEllipseItem::setRect(x(), y(), radius * 2, radius * 2);
+    QGraphicsEllipseItem::setRect(-radius, -radius, radius * 2, radius * 2);
 }
 
 int AssociationLine::Circle::getRadius() const
@@ -46,27 +46,25 @@ int AssociationLine::Circle::getRadius() const
 
 void AssociationLine::Circle::drawShape(QPainter& p)
 {
-    int diameter = rect().height();
-    int radius = diameter / 2;
-    p.drawEllipse( (int)x() - radius, (int)y() - radius, diameter, diameter);
+    p.drawEllipse(rect());
 }
 
 AssociationLine::SubsetSymbol::SubsetSymbol(QGraphicsItem* parent)
-  : QGraphicsEllipseItem(parent)
+  : QGraphicsEllipseItem(parent),
+    inclination(0)
 {
-    inclination = 0;
 }
 
 void AssociationLine::SubsetSymbol::drawShape(QPainter& p)
 {
-    p.translate(QPoint( ( int )x(), ( int )y() ) );
-    p.rotate( inclination );
+    p.translate(QPoint((int)x(), (int)y()));
+    p.rotate(inclination);
     int width = 30, height = 20;
     int startAngle = 90, endAngle = 180;
-    p.drawArc( 0 ,-height/2, width, height, startAngle*16, endAngle*16 );
+    p.drawArc(0 ,-height/2, width, height, startAngle*16, endAngle*16);
     // revert back
-    p.rotate( -inclination );
-    p.translate( QPoint( ( int )-x(), ( int )-y() ) );
+    p.rotate(-inclination);
+    p.translate( QPoint((int)-x(), (int)-y()));
 }
 
 /**
