@@ -1200,66 +1200,7 @@ void UMLScene::setUseFillColor(bool ufc)
  */
 UMLSceneRect UMLScene::diagramRect()
 {
-    qreal startx, starty, endx, endy;
-    startx = starty = 9999999.9;
-    endx = endy = 0.0;
-
-    foreach(UMLWidget* obj, m_WidgetList) {
-        if (! obj->isVisible())
-            continue;
-        qreal objEndX = obj->x() + obj->width();
-        qreal objEndY = obj->y() + obj->height();
-        qreal objStartX = obj->x();
-        qreal objStartY = obj->y();
-        if (startx >= objStartX)
-            startx = objStartX;
-        if (starty >= objStartY)
-            starty = objStartY;
-        if (endx <= objEndX)
-            endx = objEndX;
-        if (endy <= objEndY)
-            endy = objEndY;
-    }
-    //if seq. diagram, make sure print all of the lines
-    if (type() == Uml::DiagramType::Sequence) {
-        foreach(UMLWidget* obj, m_WidgetList) {
-            ObjectWidget *ow = dynamic_cast<ObjectWidget*>(obj);
-            if (ow == NULL)
-                continue;
-            int y = ow->getEndLineY();
-            if (endy < y)
-                endy = y;
-        }
-    }
-
-    // now we need another look at the associations,
-    // because they are no UMLWidgets
-
-    UMLSceneRect rect;
-
-    foreach(AssociationWidget* assoc_obj, m_AssociationList) {
-        // get the rectangle around all segments of the assoc
-        rect = assoc_obj->boundingRect();
-
-        if (startx >= rect.x())
-            startx = rect.x();
-        if (starty >= rect.y())
-            starty = rect.y();
-        if (endx <= rect.x() + rect.width())
-            endx = rect.x() + rect.width();
-        if (endy <= rect.y() + rect.height())
-            endy = rect.y() + rect.height();
-    }
-
-    /* Margin causes problems of black border around the edge
-       // Margin:
-       startx -= 24;
-       starty -= 20;
-       endx += 24;
-       endy += 20;
-    */
-
-    return UMLSceneRect(startx, starty, endx - startx, endy - starty);
+    return itemsBoundingRect();
 }
 
 /**
