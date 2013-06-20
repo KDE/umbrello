@@ -55,7 +55,6 @@ const UMLSceneSize UMLWidget::DefaultMaximumSize(1000, 5000);
 UMLWidget::UMLWidget(UMLScene * scene, WidgetType type, UMLObject * o, UMLWidgetController *widgetController)
   : WidgetBase(scene, type)
 {
-    scene->addItem(this);
     if (widgetController) {
         m_widgetController = widgetController;
     } else {
@@ -80,7 +79,6 @@ UMLWidget::UMLWidget(UMLScene * scene, WidgetType type, UMLObject * o, UMLWidget
 UMLWidget::UMLWidget(UMLScene *scene, WidgetType type, Uml::ID::Type id, UMLWidgetController *widgetController)
   : WidgetBase(scene, type)
 {
-    scene->addItem(this);
     if (widgetController) {
         m_widgetController = widgetController;
     } else {

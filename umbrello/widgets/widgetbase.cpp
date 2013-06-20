@@ -45,6 +45,8 @@ WidgetBase::WidgetBase(UMLScene *scene, WidgetType type)
     m_usesDiagramLineColor(true),
     m_usesDiagramLineWidth(true)
 {
+    scene->addItem(this);
+
     // TODO 310283
     //setFlags(ItemIsSelectable | ItemIsMovable |ItemSendsGeometryChanges);
     if (m_scene) {

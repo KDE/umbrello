@@ -166,7 +166,6 @@ AssociationWidget* AssociationWidget::create
         instance->setName('m' + QString::number(collabID));
     }
 
-    scene->addItem(instance);
     return instance;
 }
 

@@ -479,10 +479,7 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
  */
 void UMLScene::setupNewWidget(UMLWidget *w)
 {
-    if(w->scene() != this) {
-        addItem(w);
-    }
-	w->setX(m_Pos.x());
+    w->setX(m_Pos.x());
     w->setY(m_Pos.y());
     w->setVisible(true);
     w->setActivated();
@@ -588,7 +585,6 @@ void UMLScene::slotObjectCreated(UMLObject* o)
             ow->moveEvent(NULL);
     }
     m_WidgetList.append(newWidget);
-    addItem(newWidget);
     newWidget->activate();
 
     m_bCreateObject = false;
@@ -4108,7 +4104,6 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
                 widget->setX(x);
                 widget->setY(y);
                 widget->setSize(w, h);
-                addItem(widget);
                 m_WidgetList.append(widget);
             }
         }
