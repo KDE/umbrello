@@ -309,15 +309,13 @@ void AssociationLine::cleanup()
     qDeleteAll( m_ParallelList.begin(), m_ParallelList.end() );
     m_ParallelList.clear();
 
-    if( m_pClearPoly )
-        delete m_pClearPoly;
-    if( m_pCircle )
-        delete m_pCircle;
-    if( m_pSubsetSymbol )
-        delete m_pSubsetSymbol;
-    m_pCircle = 0;
+    delete m_pClearPoly;
     m_pClearPoly = 0;
+    delete m_pCircle;
+    m_pCircle = 0;
+    delete m_pSubsetSymbol;
     m_pSubsetSymbol = 0;
+
     m_bHeadCreated = m_bParallelLineCreated = m_bSubsetSymbolCreated = false;
     if (m_associationWidget) {
         disconnect(m_associationWidget->umlScene(), SIGNAL(sigLineColorChanged(Uml::ID::Type)), this, SLOT(slotLineColorChanged(Uml::ID::Type)));
@@ -631,6 +629,8 @@ void AssociationLine::setAssocType(Uml::AssociationType::Enum type)
 
     delete m_pClearPoly;
     m_pClearPoly = 0;
+    delete m_pCircle;
+    m_pCircle = 0;
 
     if( type == Uml::AssociationType::Coll_Message ) {
         setupParallelLine();
@@ -934,6 +934,7 @@ void AssociationLine::calculateHead()
  */
 void AssociationLine::createHeadLines()
 {
+    DEBUG(DBG_SRC) << "association type = " << Uml::AssociationType::toString(getAssocType());
     qDeleteAll( m_HeadList.begin(), m_HeadList.end() );
     m_HeadList.clear();
     switch( getAssocType() ) {
@@ -967,13 +968,10 @@ void AssociationLine::createHeadLines()
 
     case Uml::AssociationType::Containment:
         growList(m_HeadList, 1);
-        if (!m_pCircle) {
-            m_pCircle = new Circle(6);
-            umlScene()->addItem(m_pCircle);
-            m_pCircle->show();
-            m_pCircle->setPen( QPen( lineColor(), lineWidth() ) );
-        }
+        m_pCircle = new Circle(6, this);
+        m_pCircle->setPen( QPen( lineColor(), lineWidth() ) );
         break;
+
     default:
         break;
     }
@@ -1166,11 +1164,9 @@ void AssociationLine::createSubsetSymbol()
 
     switch( getAssocType() ) {
        case Uml::AssociationType::Child2Category:
-           m_pSubsetSymbol = new SubsetSymbol();
-           umlScene()->addItem(m_pSubsetSymbol);
+           m_pSubsetSymbol = new SubsetSymbol(this);
            m_pSubsetSymbol->setPen( QPen( lineColor(), lineWidth() ) );
            updateSubsetSymbol();
-           m_pSubsetSymbol->show();
            break;
        default:
            break;
@@ -1273,10 +1269,10 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 /**
  * Event handler for context menu events.
  */
-void AssociationLine::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
-{
-    uDebug() << "call AssociationWidget";
-    event->ignore();
-}
+//void AssociationLine::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+//{
+//    uDebug() << "call AssociationWidget";
+//    event->ignore();
+//}
 
 #include "associationline.moc"

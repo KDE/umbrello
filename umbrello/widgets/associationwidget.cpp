@@ -3904,16 +3904,20 @@ void AssociationWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     Uml::AssociationType::Enum type = associationType();
     ListPopupMenu::MenuType menuType = ListPopupMenu::mt_Association_Selected;
-/*:TODO:    if (type == Uml::AssociationType::Anchor ||
-            m_associationLine->onAssociationClassLine(pos)) {
+    if (type == Uml::AssociationType::Anchor /*:TODO:||
+            m_associationLine->onAssociationClassLine(pos)*/) {
         menuType = ListPopupMenu::mt_Anchor;
-    } else */ if (isCollaboration()) {
+    } else if (isCollaboration()) {
         menuType = ListPopupMenu::mt_Collaboration_Message;
     } else if (!association()) {
         menuType = ListPopupMenu::mt_AttributeAssociation;
     } else if (AssocRules::allowRole(type)) {
         menuType = ListPopupMenu::mt_FullAssociation;
     }
+
+    event->accept();
+    DEBUG(DBG_SRC) << "menue type = " << ListPopupMenu::toString(menuType)
+                   << " / association = " << Uml::AssociationType::toString(type);
 
     UMLScene *scene = umlScene();
     QWidget *parent = 0;
@@ -3928,13 +3932,12 @@ void AssociationWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         }
     }
     setSelected(true);
-    DEBUG(DBG_SRC) << "menue type = " << ListPopupMenu::toString(menuType);
     QPointer<ListPopupMenu> menu = new ListPopupMenu(parent, menuType, this);
     QAction *triggered = menu->exec(event->screenPos());
     ListPopupMenu *parentMenu = ListPopupMenu::menuFromAction(triggered);
 
     if (!parentMenu) {
-        uError() << "Action's data field does not contain ListPopupMenu pointer";
+        uWarning() << "Action's data field does not contain ListPopupMenu pointer";
         return;
     }
 

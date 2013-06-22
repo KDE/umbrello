@@ -140,7 +140,7 @@ protected:
         int inclination;
     };
 
-    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+//    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
     UMLScene *umlScene();
 
