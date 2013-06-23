@@ -54,7 +54,7 @@ using namespace Uml;
   * Constructor is private because the static create() methods shall
   * be used for constructing AssociationWidgets.
   *
-  * @param scene              The parent view of this widget.
+  * @param scene   The parent view of this widget.
   */
 AssociationWidget::AssociationWidget(UMLScene *scene)
   : WidgetBase(scene, WidgetBase::wt_Association)
@@ -65,7 +65,7 @@ AssociationWidget::AssociationWidget(UMLScene *scene)
  * This constructor is really only for loading from XMI, otherwise it
  * should not be allowed as it creates an incomplete associationwidget.
   *
-  * @param scene              The parent view of this widget.
+  * @param scene   The parent view of this widget.
  */
 AssociationWidget* AssociationWidget::create(UMLScene *scene)
 {

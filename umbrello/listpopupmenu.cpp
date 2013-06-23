@@ -39,6 +39,8 @@
 #include <klocale.h>
 #include <kactioncollection.h>
 
+DEBUG_REGISTER_DISABLED(ListPopupMenu)
+
 const bool CHECKABLE = true;
 
 /**
@@ -1271,7 +1273,7 @@ void ListPopupMenu::insertSubMenuNew(MenuType type)
  */
 void ListPopupMenu::setupMenu(MenuType type)
 {
-    // uDebug() << "ListPopupMenu created for MenuType=" << toString(type);
+    DEBUG(DBG_SRC) << "ListPopupMenu created for MenuType=" << toString(type);
 
     switch (type) {
     case mt_Logical_View:
@@ -1706,6 +1708,8 @@ void ListPopupMenu::setupMenu(MenuType type)
 
     case mt_AttributeAssociation:
         insert(mt_Delete);  // @todo add more items
+        insert(mt_Line_Color);
+        insert(mt_Properties);
         break;
 
     case mt_Collaboration_Message:
@@ -1854,12 +1858,12 @@ WidgetBase* ListPopupMenu::ownerWidget() const
 void ListPopupMenu::setActionChecked(MenuType idx, bool value)
 {
     QAction* action = getAction(idx);
-    if (action && action->isCheckable())
+    if (action && action->isCheckable()) {
         action->setChecked(value);
-#ifdef VERBOSE_DEBUGGING
-    else
-        uWarning() << "called on unknown MenuType " << toString(idx);
-#endif
+    }
+    else {
+        DEBUG(DBG_SRC) << "called on unknown MenuType " << toString(idx);
+    }
 }
 
 /**
@@ -1871,12 +1875,12 @@ void ListPopupMenu::setActionChecked(MenuType idx, bool value)
 void ListPopupMenu::setActionEnabled(MenuType idx, bool value)
 {
     QAction* action = getAction(idx);
-    if (action)
+    if (action) {
         action->setEnabled(value);
-#ifdef VERBOSE_DEBUGGING
-    else
-        uWarning() << "called on unknown MenuType " << toString(idx);
-#endif
+    }
+    else {
+        DEBUG(DBG_SRC) << "called on unknown MenuType " << toString(idx);
+    }
 }
 
 /**
