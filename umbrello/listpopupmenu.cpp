@@ -925,6 +925,38 @@ void ListPopupMenu::insertSubmodelAction()
 }
 
 /**
+ * Inserts the layout menu items.
+ */
+void ListPopupMenu::insertLayoutItems(UMLView *view)
+{
+    QList<MenuType> types;
+    types << mt_Apply_Layout << mt_Apply_Layout1 << mt_Apply_Layout2 << mt_Apply_Layout3 << mt_Apply_Layout4 << mt_Apply_Layout5 << mt_Apply_Layout6 << mt_Apply_Layout7 << mt_Apply_Layout8 << mt_Apply_Layout9;
+    LayoutGenerator generator;
+    if (generator.isEnabled()) {
+        QHash<QString, QString> configFiles;
+        if (LayoutGenerator::availableConfigFiles(view->umlScene(), configFiles)) {
+            int i = 0;
+            foreach(const QString &key, configFiles.keys()) {
+                if (i >= types.size())
+                    break;
+                if (key == "export" && !Settings::optionState().autoLayoutState.showExportLayout )
+                    continue;
+                insert(types[i], QPixmap(), i18n("apply '%1'",configFiles[key]));
+                QAction* action = getAction(types[i]);
+                QMap<QString, QVariant> map = action->data().toMap();
+                map[toString(dt_ApplyLayout)] = QVariant(key);
+                action->setData(QVariant(map));
+                i++;
+            }
+            addSeparator();
+        }
+    }
+    else {
+        uWarning() << "Could not add autolayout entries because graphviz installation has not been found.";
+    }
+}
+
+/**
  * Creates a popup menu for a multiple selection of class and
  * interface widgets.
  */
@@ -1114,15 +1146,25 @@ UMLObject::ObjectType ListPopupMenu::convert_MT_OT(MenuType mt)
 }
 
 /**
+ * Returns the data from the given action to the given key.
+ */
+QVariant ListPopupMenu::dataFromAction(DataType key, QAction* action)
+{
+    QVariant data = action->data();
+    QMap<QString, QVariant> map = data.toMap();
+    return map[ListPopupMenu::toString(key)];
+}
+
+/**
  * Convenience method to extract the ListPopupMenu pointer stored in QAction
  * objects belonging to ListPopupMenu.
  */
 ListPopupMenu* ListPopupMenu::menuFromAction(QAction *action)
 {
     if (action) {
-        QVariant data = action->data();
-        if (qVariantCanConvert<ListPopupMenu*>(data)) {
-            return qvariant_cast<ListPopupMenu*>(data);
+        QVariant value = dataFromAction(dt_MenuPointer, action);
+        if (qVariantCanConvert<ListPopupMenu*>(value)) {
+            return qvariant_cast<ListPopupMenu*>(value);
         }
     }
     return 0;
@@ -1759,28 +1801,7 @@ void ListPopupMenu::setupDiagramMenu(UMLView* view)
     insert(mt_Clear, Icon_Utils::SmallIcon(Icon_Utils::it_Clear), i18n("Clear Diagram"));
     insert(mt_Export_Image);
     addSeparator();
-    QList<MenuType> types;
-    types << mt_Apply_Layout << mt_Apply_Layout1 << mt_Apply_Layout2 << mt_Apply_Layout3 << mt_Apply_Layout4 << mt_Apply_Layout5 << mt_Apply_Layout6 << mt_Apply_Layout7 << mt_Apply_Layout8 << mt_Apply_Layout9;
-    LayoutGenerator generator;
-    if (generator.isEnabled()) {
-        QHash<QString, QString> configFiles;
-        if (LayoutGenerator::availableConfigFiles(view->umlScene(), configFiles)) {
-            int i = 0;
-            foreach(const QString &key, configFiles.keys()) {
-                if (i >= types.size())
-                    break;
-                if (key == "export" && !Settings::optionState().autoLayoutState.showExportLayout )
-                    continue;
-                insert(types[i], QPixmap(), i18n("apply '%1'",configFiles[key]));
-                getAction(types[i])->setData(QVariant(key));
-                i++;
-            }
-            addSeparator();
-        }
-    }
-    else {
-        uWarning() << "Could not add autolayout entries because graphviz installation has not been found.";
-    }
+    insertLayoutItems(view);
     insert(mt_SnapToGrid, i18n("Snap to Grid"), CHECKABLE);
     setActionChecked(mt_SnapToGrid, view->umlScene()->snapToGrid() );
     insert(mt_ShowSnapGrid, i18n("Show Grid"), CHECKABLE);
@@ -1894,12 +1915,25 @@ void ListPopupMenu::setActionEnabled(MenuType idx, bool value)
 void ListPopupMenu::setupActionsData()
 {
     foreach (QAction *action, m_actions) {
-        action->setData(qVariantFromValue(this));
+        QMap<QString, QVariant> map = action->data().toMap();
+        map[toString(dt_MenuPointer)] = qVariantFromValue(this);
+        action->setData(QVariant(map));
     }
 
 }
 
+/**
+ * Convert enum MenuType to string.
+ */
 QString ListPopupMenu::toString(MenuType menu)
 {
     return QLatin1String(ENUM_NAME(ListPopupMenu, MenuType, menu));
+}
+
+/**
+ * Convert enum DataType to string.
+ */
+QString ListPopupMenu::toString(DataType data)
+{
+    return QLatin1String(ENUM_NAME(ListPopupMenu, DataType, data));
 }

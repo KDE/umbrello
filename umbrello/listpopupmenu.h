@@ -29,6 +29,10 @@ class UMLCategory;
  * A popup menu that depending on what type it is set to will
  * display a different menu.
  *
+ * The data field of actions is used to carry user data
+ * between objects. Because different types of data are used, a map is loaded
+ * with an enum as key (see @ref DataType).
+ *
  * @short Displays a popup menu.
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
@@ -37,6 +41,7 @@ class ListPopupMenu : public KMenu
 {
     Q_OBJECT
     Q_ENUMS(MenuType)
+    Q_ENUMS(DataType)
 public:
 
     enum MenuType  ///< This type hosts all possible menu types.
@@ -225,6 +230,15 @@ public:
 
     static QString toString(MenuType menu);
 
+    enum DataType  ///< Key value of the data map used in actions.
+    {
+        dt_MenuPointer,
+        dt_ApplyLayout
+    };
+
+    static QString toString(DataType data);
+    static QVariant dataFromAction(DataType key, QAction* action);
+
     explicit ListPopupMenu(QWidget* parent, MenuType type = mt_Undefined, UMLView* view = 0);
     explicit ListPopupMenu(QWidget* parent, MenuType type, WidgetBase *widget);
     ListPopupMenu(QWidget* parent, UMLListViewItem::ListViewType type, UMLObject* object);
@@ -262,6 +276,7 @@ private:
     void insertContainerItems(bool folderAndDiagrams);
     void insertAssocItem(const QString &label, MenuType mt);
     void insertSubmodelAction();
+    void insertLayoutItems(UMLView *view);
 
     void makeMultiClassifierPopup(ClassifierWidget *c);
     void makeClassifierPopup(ClassifierWidget *c);

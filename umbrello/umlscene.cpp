@@ -3084,7 +3084,10 @@ void UMLScene::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Apply_Layout7:
     case ListPopupMenu::mt_Apply_Layout8:
     case ListPopupMenu::mt_Apply_Layout9:
-        applyLayout(action->data().toString());
+        {
+            QVariant value = ListPopupMenu::dataFromAction(ListPopupMenu::dt_ApplyLayout, action);
+            applyLayout(value.toString());
+        }
         break;
 
     case ListPopupMenu::mt_FloatText:
@@ -3505,6 +3508,7 @@ void UMLScene::clearDiagram()
  */
 void UMLScene::applyLayout(const QString &variant)
 {
+    DEBUG(DBG_SRC) << "layout = " << variant;
     LayoutGenerator r;
     r.generate(this, variant);
     r.apply(this);
