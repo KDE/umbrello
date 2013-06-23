@@ -350,7 +350,10 @@ void UMLListView::keyPressEvent(QKeyEvent *ke)
     }
     else {
         const int k = ke->key();
-        if (k == Qt::Key_Delete || k == Qt::Key_Backspace) {
+        if (k == Qt::Key_F2) {
+            UMLListViewItem * currItem = static_cast<UMLListViewItem*>(currentItem());
+            startRename(currItem);
+        } else if (k == Qt::Key_Delete || k == Qt::Key_Backspace) {
             // delete every selected item
             UMLListViewItemList itemsSelected = selectedItemsRoot();
             foreach(UMLListViewItem *item, itemsSelected) {
