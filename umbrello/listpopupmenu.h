@@ -275,7 +275,7 @@ private:
     void insertStdItems(bool insertLeadingSeparator = true,
                         WidgetBase::WidgetType type = WidgetBase::wt_UMLWidget);
     void insertContainerItems(bool folderAndDiagrams);
-    void insertAssocItem(const QString &label, MenuType mt);
+    void insertAssociationTextItem(const QString &label, MenuType mt);
     void insertSubmodelAction();
     void insertLayoutItems(UMLView *view);
 

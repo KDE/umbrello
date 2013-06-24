@@ -546,19 +546,19 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
     case WidgetBase::wt_Text:
         switch( (static_cast<FloatingTextWidget*>(object))->textRole() ) {
         case Uml::TextRole::MultiB:
-            insertAssocItem(i18n("Change Multiplicity..."), mt_Rename_MultiB);
+            insertAssociationTextItem(i18n("Change Multiplicity..."), mt_Rename_MultiB);
             break;
         case Uml::TextRole::MultiA:
-            insertAssocItem(i18n("Change Multiplicity..."), mt_Rename_MultiA);
+            insertAssociationTextItem(i18n("Change Multiplicity..."), mt_Rename_MultiA);
             break;
         case Uml::TextRole::Name:
-            insertAssocItem(i18n("Change Name"), mt_Rename_Name);
+            insertAssociationTextItem(i18n("Change Name"), mt_Rename_Name);
             break;
         case Uml::TextRole::RoleAName:
-            insertAssocItem(i18n("Change Role A Name..."), mt_Rename_RoleAName);
+            insertAssociationTextItem(i18n("Change Role A Name..."), mt_Rename_RoleAName);
             break;
         case Uml::TextRole::RoleBName:
-            insertAssocItem(i18n("Change Role B Name..."), mt_Rename_RoleBName);
+            insertAssociationTextItem(i18n("Change Role B Name..."), mt_Rename_RoleBName);
             break;
         case Uml::TextRole::ChangeA:
         case Uml::TextRole::ChangeB:
@@ -883,7 +883,7 @@ void ListPopupMenu::insertContainerItems(bool folderAndDiagrams)
  * @param label   The menu text.
  * @param mt      The menu type.
  */
-void ListPopupMenu::insertAssocItem(const QString &label, MenuType mt)
+void ListPopupMenu::insertAssociationTextItem(const QString &label, MenuType mt)
 {
     insert(mt, label);
     insert(mt_Change_Font);
@@ -1724,23 +1724,23 @@ void ListPopupMenu::setupMenu(MenuType type)
         break;
 
     case mt_RoleNameA:
-        insertAssocItem(i18n("Change Role A Name..."), mt_Rename_RoleAName);
+        insertAssociationTextItem(i18n("Change Role A Name..."), mt_Rename_RoleAName);
         break;
 
     case mt_RoleNameB:
-        insertAssocItem(i18n("Change Role B Name..."), mt_Rename_RoleBName);
+        insertAssociationTextItem(i18n("Change Role B Name..."), mt_Rename_RoleBName);
         break;
 
     case mt_MultiB:
-        insertAssocItem(i18n("Change Multiplicity..."), mt_Rename_MultiB);
+        insertAssociationTextItem(i18n("Change Multiplicity..."), mt_Rename_MultiB);
         break;
 
     case mt_MultiA:
-        insertAssocItem(i18n("Change Multiplicity..."), mt_Rename_MultiA);
+        insertAssociationTextItem(i18n("Change Multiplicity..."), mt_Rename_MultiA);
         break;
 
     case mt_Name:
-        insertAssocItem(i18n("Change Name"), mt_Rename_Name);
+        insertAssociationTextItem(i18n("Change Name"), mt_Rename_Name);
         break;
 
     case mt_FullAssociation:
