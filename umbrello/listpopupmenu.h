@@ -201,6 +201,7 @@ public:
         mt_Down,
         mt_Branch,
         mt_Flip,
+        mt_Add_Point,
         mt_Delete_Point,
 
         mt_Expand_All,                           // Expand all items in the list
@@ -275,6 +276,7 @@ private:
     void insertStdItems(bool insertLeadingSeparator = true,
                         WidgetBase::WidgetType type = WidgetBase::wt_UMLWidget);
     void insertContainerItems(bool folderAndDiagrams);
+    void insertAssociationItem(MenuType mt);
     void insertAssociationTextItem(const QString &label, MenuType mt);
     void insertSubmodelAction();
     void insertLayoutItems(UMLView *view);

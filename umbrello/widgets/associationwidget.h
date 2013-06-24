@@ -203,6 +203,8 @@ public:
     virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
 
     void cleanup();
+
+    bool isPointAddable();
     bool isPointRemovable();
 
 public Q_SLOTS:
@@ -296,6 +298,7 @@ private:
     void setChangeWidget(const QString &strChangeWidget, Uml::RoleType::Enum role);
 
     void checkPoints(const UMLScenePoint &p);
+    bool checkAddPoint(const UMLScenePoint &scenePos);
     bool checkRemovePoint(const UMLScenePoint &scenePos);
 
     bool linePathStartsAt(const UMLWidget* widget);

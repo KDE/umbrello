@@ -877,6 +877,58 @@ void ListPopupMenu::insertContainerItems(bool folderAndDiagrams)
 }
 
 /**
+ * Inserts a menu item for an association
+ *
+ * @param label   The menu text.
+ * @param mt      The menu type.
+ */
+void ListPopupMenu::insertAssociationItem(MenuType mt)
+{
+    switch(mt) {
+    case mt_Collaboration_Message:
+        // insert(mt_Cut);
+        // insert(mt_Copy);
+        // insert(mt_Paste);
+        // addSeparator();
+        break;
+    default:
+        break;
+    }
+
+    if (m_TriggerObjectType == tot_Widget
+        && m_TriggerObject.m_Widget->baseType() == WidgetBase::wt_Association) {
+        AssociationWidget *w = static_cast<AssociationWidget*>(m_TriggerObject.m_Widget);
+        if (w->isPointAddable())
+            insert(mt_Add_Point, Icon_Utils::SmallIcon(Icon_Utils::it_Add_Point), i18n("Add Point"));
+        if (w->isPointRemovable())
+            insert(mt_Delete_Point, Icon_Utils::SmallIcon(Icon_Utils::it_Delete_Point), i18n("Delete Point"));
+    }
+    addSeparator();
+    insert(mt_Delete);
+
+    switch(mt) {
+    case mt_FullAssociation:
+        insert(mt_Rename_Name, i18n("Change Association Name..."));
+        insert(mt_Rename_RoleAName, i18n("Change Role A Name..."));
+        insert(mt_Rename_RoleBName, i18n("Change Role B Name..."));
+        insert(mt_Change_Font);
+        insert(mt_Reset_Label_Positions);
+        break;
+
+    case mt_Collaboration_Message:
+        insert(mt_Change_Font);
+        insert(mt_New_Operation);
+        insert(mt_Select_Operation, i18n("Select Operation..."));
+        break;
+    default:
+        break;
+    }
+
+    insert(mt_Line_Color);
+    insert(mt_Properties);
+}
+
+/**
  * Inserts a menu item for an association related text
  * (such as name, role, multiplicity etc.)
  *
@@ -1708,15 +1760,10 @@ void ListPopupMenu::setupMenu(MenuType type)
         break;
 
     case mt_Association_Selected:
-        if (m_TriggerObjectType == tot_Widget
-            && m_TriggerObject.m_Widget->baseType() == WidgetBase::wt_Association) {
-            AssociationWidget *w = static_cast<AssociationWidget*>(m_TriggerObject.m_Widget);
-            if (w->isPointRemovable())
-                insert(mt_Delete_Point, Icon_Utils::SmallIcon(Icon_Utils::it_Delete_Point), i18n("delete Point"));
-        }
-        insert(mt_Delete);
-        insert(mt_Line_Color);
-        insert(mt_Properties);
+    case mt_AttributeAssociation:
+    case mt_FullAssociation:
+    case mt_Collaboration_Message:
+        insertAssociationItem(type);
         break;
 
     case mt_Anchor:
@@ -1741,52 +1788,6 @@ void ListPopupMenu::setupMenu(MenuType type)
 
     case mt_Name:
         insertAssociationTextItem(i18n("Change Name"), mt_Rename_Name);
-        break;
-
-    case mt_FullAssociation:
-        if (m_TriggerObjectType == tot_Widget
-            && m_TriggerObject.m_Widget->baseType() == WidgetBase::wt_Association) {
-            AssociationWidget *w = static_cast<AssociationWidget*>(m_TriggerObject.m_Widget);
-            if (w->isPointRemovable())
-                insert(mt_Delete_Point, Icon_Utils::SmallIcon(Icon_Utils::it_Delete_Point), i18n("delete Point"));
-        }
-        insert(mt_Delete);
-        insert(mt_Rename_Name, i18n("Change Association Name..."));
-        insert(mt_Rename_RoleAName, i18n("Change Role A Name..."));
-        insert(mt_Rename_RoleBName, i18n("Change Role B Name..."));
-        insert(mt_Change_Font);
-        insert(mt_Reset_Label_Positions);
-        insert(mt_Line_Color);
-        insert(mt_Properties);
-        break;
-
-    case mt_AttributeAssociation:
-        if (m_TriggerObjectType == tot_Widget
-            && m_TriggerObject.m_Widget->baseType() == WidgetBase::wt_Association) {
-            AssociationWidget *w = static_cast<AssociationWidget*>(m_TriggerObject.m_Widget);
-            if (w->isPointRemovable())
-                insert(mt_Delete_Point, Icon_Utils::SmallIcon(Icon_Utils::it_Delete_Point), i18n("delete Point"));
-        }
-        insert(mt_Delete);  // @todo add more items
-        insert(mt_Line_Color);
-        insert(mt_Properties);
-        break;
-
-    case mt_Collaboration_Message:
-        // insert(mt_Cut);
-        // insert(mt_Copy);
-        // insert(mt_Paste);
-        // addSeparator();
-        if (m_TriggerObjectType == tot_Widget
-            && m_TriggerObject.m_Widget->baseType() == WidgetBase::wt_Association) {
-            AssociationWidget *w = static_cast<AssociationWidget*>(m_TriggerObject.m_Widget);
-            if (w->isPointRemovable())
-                insert(mt_Delete_Point, Icon_Utils::SmallIcon(Icon_Utils::it_Delete_Point), i18n("delete Point"));
-        }
-        insert(mt_Delete);
-        insert(mt_Change_Font);
-        insert(mt_New_Operation);
-        insert(mt_Select_Operation, i18n("Select Operation..."));
         break;
 
     case mt_Model:

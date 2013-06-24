@@ -1294,6 +1294,22 @@ void AssociationWidget::cleanup()
 
 /**
  * @brief Return state if the assocation line point in the near of the last context
+ *        menu event position is addable or not.
+ * A point is addable if the association is not an Exception and there is no point in the near.
+ *
+ * @return true if point is addable
+ */
+bool AssociationWidget::isPointAddable()
+{
+    if (!m_selected || associationType() == Uml::AssociationType::Exception)
+        return false;
+    UMLScenePoint scenePos = m_eventScenePos;
+    int i = m_associationLine->closestPointIndex(scenePos, POINT_DELTA);
+    return i == -1;
+}
+
+/**
+ * @brief Return state if the assocation line point in the near of the last context
  *        menu event position is removable or not.
  * A point is removable if the association is not an Exception and is not the start or end point.
  *
@@ -1469,46 +1485,7 @@ QString AssociationWidget::toString() const
  */
 void AssociationWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent * me)
 {
-    if (me->button() != Qt::RightButton && me->button() != Qt::LeftButton)
-        return;
-    int i = m_associationLine->closestSegmentIndex(me->scenePos());
-    if (i == -1) {
-        m_associationLine->setSelected(false);
-        return;
-    }
-    if (me->button() != Qt::LeftButton)
-        return;
-    const UMLScenePoint mp(me->scenePos());
-    if (associationType() == AssociationType::Exception ){
-        return;
-    }
-    /* if there is no point around the mouse pointer, we insert a new one */
-    if (! m_associationLine->isPoint(i, mp, POINT_DELTA)) {
-        m_associationLine->insertPoint(i + 1, mp);
-        if (m_nLinePathSegmentIndex == i) {
-            UMLScenePoint segStart = m_associationLine->point(i);
-            UMLScenePoint segEnd = m_associationLine->point(i + 2);
-            const int midSegX = segStart.x() + (segEnd.x() - segStart.x()) / 2;
-            const int midSegY = segStart.y() + (segEnd.y() - segStart.y()) / 2;
-            /*
-            DEBUG(DBG_SRC) << "segStart=(" << segStart.x() << "," << segStart.y()
-                  << "), segEnd=(" << segEnd.x() << "," << segEnd.y()
-                  << "), midSeg=(" << midSegX << "," << midSegY
-                  << "), mp=(" << mp.x() << "," << mp.y() << ")";
-             */
-            if (midSegX > mp.x() || midSegY < mp.y()) {
-                m_nLinePathSegmentIndex++;
-                DEBUG(DBG_SRC) << "setting m_nLinePathSegmentIndex to "
-                    << m_nLinePathSegmentIndex;
-                computeAssocClassLine();
-            }
-        }
-    }
-
-    m_associationLine->update();
-
-    calculateNameTextSegment();
-    m_umldoc->setModified(true);
+    Q_UNUSED(me);
 }
 
 /**
@@ -2928,11 +2905,13 @@ void AssociationWidget::slotMenuSelection(QAction* action)
         }
         break;
 
+    case ListPopupMenu::mt_Add_Point:
+        checkAddPoint(m_eventScenePos);
+        break;
+
     case ListPopupMenu::mt_Delete_Point:
-         {
-             checkRemovePoint(m_eventScenePos);
-         }
-         break;
+        checkRemovePoint(m_eventScenePos);
+        break;
 
     case ListPopupMenu::mt_Delete:
         if (m_pAssocClassLineSel0)
@@ -3148,6 +3127,44 @@ void AssociationWidget::checkPoints(const UMLScenePoint &p)
             break; //no need to check the rest
         }//end if
     }//end for
+}
+
+bool AssociationWidget::checkAddPoint(const UMLScenePoint &scenePos)
+{
+    if (associationType() == AssociationType::Exception ){
+        return false;
+    }
+
+    int i = m_associationLine->closestSegmentIndex(scenePos);
+
+    /* if there is no point around the mouse pointer, we insert a new one */
+    if (!m_associationLine->isPoint(i, scenePos, POINT_DELTA)) {
+        m_associationLine->insertPoint(i + 1, scenePos);
+        if (m_nLinePathSegmentIndex == i) {
+            UMLScenePoint segStart = m_associationLine->point(i);
+            UMLScenePoint segEnd = m_associationLine->point(i + 2);
+            const int midSegX = segStart.x() + (segEnd.x() - segStart.x()) / 2;
+            const int midSegY = segStart.y() + (segEnd.y() - segStart.y()) / 2;
+            /*
+            DEBUG(DBG_SRC) << "segStart=(" << segStart.x() << "," << segStart.y()
+                  << "), segEnd=(" << segEnd.x() << "," << segEnd.y()
+                  << "), midSeg=(" << midSegX << "," << midSegY
+                  << "), mp=(" << mp.x() << "," << mp.y() << ")";
+             */
+            if (midSegX > scenePos.x() || midSegY < scenePos.y()) {
+                m_nLinePathSegmentIndex++;
+                DEBUG(DBG_SRC) << "setting m_nLinePathSegmentIndex to "
+                    << m_nLinePathSegmentIndex;
+                computeAssocClassLine();
+            }
+        }
+    }
+
+    m_associationLine->update();
+
+    calculateNameTextSegment();
+    m_umldoc->setModified(true);
+    return true;
 }
 
 bool AssociationWidget::checkRemovePoint(const QPointF &scenePos)
