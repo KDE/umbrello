@@ -1,0 +1,59 @@
+[Desktop Entry]
+Type=Service
+Name=Vertical Layout
+Name[ca]=Disposició vertical
+Name[es]=Disposición vertical
+Name[et]=Püstine paigutus
+Name[it]=Disposizione verticale
+Name[nl]=Verticale indeling
+Name[pa]=ਵਰਟੀਕਲ ਲੇਆਉਟ
+Name[pl]=Układ pionowy
+Name[pt]=Disposição Vertical
+Name[pt_BR]=Leiaute vertical
+Name[sv]=Vertikal layout
+Name[tr]=Dikey Düzen
+Name[uk]=Вертикальне компонування
+Name[x-test]=xxVertical Layoutxx
+Name[zh_CN]=垂直布局
+Name[zh_TW]=垂直佈局
+Comment=Layout which renders vertical
+Comment[ca]=DIsposició que renderitza verticalment
+Comment[es]=Diseño que se organiza de forma vertical
+Comment[et]=Püstiselt renderdatud paigutus
+Comment[it]=Disposizione che rende in verticale
+Comment[nl]=Indeling die zich verticaal laat weergeven
+Comment[pl]=Układ, który wyświetla pionowo
+Comment[pt]=Uma disposição que representa os itens na vertical
+Comment[pt_BR]=Leiaute que representa os itens na vertical
+Comment[sv]=Layout som återger vertikalt
+Comment[uk]=Компонування з вертикальним розташуванням елементів
+Comment[x-test]=xxLayout which renders verticalxx
+Comment[zh_TW]=垂直繪製的佈局
+
+[X-UMBRELLO-Dot-Nodes]
+type::initial=shape=circle
+type::normal=shape=box,style=rounded
+type::end=shape=doublecircle
+type::fork=shape=box,style=filled,fillcolor=black,width="0.1",label=""
+type::join=shape=box,style=filled,fillcolor=black,width="0.1",label=""
+type::junction=shape=circle,style=filled,fillcolor=black,width="0.4",label=""
+type::deephistory=shape=circle,width="0.4",label="H*"
+type::shallowhistory=shape=circle,width="0.4",label="H"
+type::choice=shape=diamond
+type::default=shape=box
+
+[X-UMBRELLO-Dot-Edges]
+# for visual representation
+visual::type::state=arrowhead=normal,label=""
+#visual::type::default=arrowhead=none,minlen=0.5
+ranking::type::default=weight=0.8
+# id handling
+id::type::state=swap
+
+[X-UMBRELLO-Dot-Attributes]
+graph=splines=polyline,rankdir=TB,outputorder=nodesfirst,ranksep=0.5,nodesep=0.5
+node=
+edge=
+
+[X-UMBRELLO-Dot-Settings]
+origin=50,50
