@@ -1312,9 +1312,9 @@ bool UMLWidget::loadFromXMI(QDomElement & qElement)
                    << " for widget with xmi.id " << Uml::ID::toString(m_nId);
     }
 
-    setSize(w.toInt(), h.toInt());
-    setX(x.toInt());
-    setY(y.toInt());
+    setSize(w.toFloat(), h.toFloat());
+    setX(x.toFloat());
+    setY(y.toFloat());
     QString isinstance = qElement.attribute("isinstance", "0");
     m_isInstance = (bool)isinstance.toInt();
     m_instanceName = qElement.attribute("instancename", "");

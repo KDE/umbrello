@@ -176,8 +176,8 @@ bool FloatingDashLineWidget::loadFromXMI( QDomElement & qElement )
         return false;
     }
     DEBUG(DBG_SRC) << "load.......";
-    m_yMax = qElement.attribute( "maxY", "" ).toInt();
-    m_yMin = qElement.attribute( "minY", "" ).toInt();
+    m_yMax = qElement.attribute( "maxY", "" ).toFloat();
+    m_yMin = qElement.attribute( "minY", "" ).toFloat();
     m_Text = qElement.attribute( "text", "" );
     DEBUG(DBG_SRC) << "m_y......." << m_y;
     return true;

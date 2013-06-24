@@ -445,9 +445,9 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
         return false;
     }
     QString x = startElement.attribute( "startx", "0" );
-    int nX = x.toInt();
+    int nX = x.toFloat();
     QString y = startElement.attribute( "starty", "0" );
-    int nY = y.toInt();
+    int nY = y.toFloat();
     QPointF startPoint( nX, nY );
 
     node = startElement.nextSibling();
@@ -456,9 +456,9 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
         return false;
     }
     x = endElement.attribute( "endx", "0" );
-    nX = x.toInt();
+    nX = x.toFloat();
     y = endElement.attribute( "endy", "0" );
-    nY = y.toInt();
+    nY = y.toFloat();
     QPointF endPoint( nX, nY );
     setEndPoints( startPoint, endPoint );
     QPointF point;
@@ -469,8 +469,8 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
         if(element.tagName() == "point") {
             x = element.attribute( "x", "0" );
             y = element.attribute( "y", "0" );
-            point.setX( x.toInt() );
-            point.setY( y.toInt() );
+            point.setX( x.toFloat() );
+            point.setY( y.toFloat() );
             insertPoint( i++, point );
         }
         node = element.nextSibling();
