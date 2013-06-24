@@ -1305,7 +1305,7 @@ bool AssociationWidget::isPointRemovable()
         return false;
     UMLScenePoint scenePos = m_eventScenePos;
     int i = m_associationLine->closestPointIndex(scenePos, POINT_DELTA);
-    return i > 0 && i < m_associationLine->count();
+    return i > 0 && i < m_associationLine->count() - 1;
 }
 
 /**
