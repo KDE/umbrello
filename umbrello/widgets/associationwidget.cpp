@@ -3191,7 +3191,7 @@ void AssociationWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
     if (m_nMovingPoint == -1)
     {
         //create moving point near the mouse on the line
-        int i = m_associationLine->closestSegmentIndex(me->scenePos(), POINT_DELTA);
+        int i = m_associationLine->closestSegmentIndex(me->scenePos());
 
         if (i == -1)
             return;

@@ -12,13 +12,13 @@
 #define ASSOCIATIONLINE_H
 
 #include "basictypes.h"
-#include "umlscene.h"
 
+#include <QGraphicsObject>
 #include <QList>
 #include <QObject>
 #include <QPoint>
 
-/* how many pixels a user could click around a point */
+// how many pixels a user could click around a point
 #define POINT_DELTA 5
 
 // forward declarations
@@ -43,28 +43,28 @@ public:
     AssociationLine(AssociationWidget* association);
     virtual ~AssociationLine();
 
-    UMLScenePoint point(int pointIndex) const;
-    bool setPoint(int pointIndex, const UMLScenePoint &point);
-    UMLScenePoint startPoint() const;
-    UMLScenePoint endPoint() const;
+    QPointF point(int index) const;
+    bool setPoint(int index, const QPointF &point);
+    QPointF startPoint() const;
+    QPointF endPoint() const;
 
-    bool insertPoint(int pointIndex, const UMLScenePoint &point);
-    bool removePoint(int pointIndex, const UMLScenePoint &point = UMLScenePoint(), unsigned short delta = 0);
+    bool insertPoint(int index, const QPointF &point);
+    bool removePoint(int index, const QPointF &point = QPointF(), unsigned short delta = 0);
 
     int count() const;
     void cleanup();
 
-    int closestPointIndex(const UMLScenePoint &position, qreal delta) const;
-    int closestSegmentIndex(const UMLScenePoint &position, int delta = 3);
-    bool isPoint(int pointIndex, const UMLScenePoint &point, unsigned short delta = 0);
+    int closestPointIndex(const QPointF &position, qreal delta) const;
+    int closestSegmentIndex(const QPointF &position, int delta = 3);
+    bool isPoint(int index, const QPointF &point, unsigned short delta = 0);
 
-    bool setEndPoints(const UMLScenePoint &start, const UMLScenePoint &end);
+    bool setEndPoints(const QPointF &start, const QPointF &end);
 
     bool hasPoints() const;
     void dumpPoints();
 
-    bool loadFromXMI(QDomElement & qElement);
-    void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
+    bool loadFromXMI(QDomElement &qElement);
+    void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
 
     QPen pen() const;
 
@@ -143,8 +143,6 @@ protected:
 
 //    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
-    UMLScene *umlScene();
-
     void moveSelected(int pointIndex);
 
     void setupSelected();
@@ -175,7 +173,7 @@ private:
     /**
      *   Contains calculated points used to draw the line head.
      */
-    UMLScenePoint m_ArrowPointA, m_ArrowPointB, m_MidPoint, m_EgdePoint;
+    QPointF m_ArrowPointA, m_ArrowPointB, m_MidPoint, m_EgdePoint;
 
     QGraphicsPolygonItem* m_pClearPoly;  ///< A polygon object to blank out any lines we don't want to see.
     Circle*       m_pCircle;        ///< The transparent circle required by containment associations.

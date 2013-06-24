@@ -339,7 +339,7 @@ private:
     Uml::AssociationType::Enum m_associationType;  ///< is only used if m_pObject is not set
     WidgetRole  m_role[2];
     FloatingTextWidget* m_nameWidget;  ///< displays the name of this association
-    QPointF m_eventScenePos;           ///< holds scene pos of contentMenuEvent()
+    QPointF m_eventScenePos;           ///< holds scene pos of contextMenuEvent()
 
 };
 

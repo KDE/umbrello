@@ -15,7 +15,6 @@
 #include "associationwidget.h"
 #include "debug_utils.h"
 #include "widget_utils.h"
-#include "umlview.h"
 #include "umldoc.h"
 #include "uml.h"
 
@@ -98,56 +97,56 @@ AssociationLine::~AssociationLine()
 /**
  * Returns the point at the point index.
  */
-UMLScenePoint AssociationLine::point(int pointIndex) const
+QPointF AssociationLine::point(int index) const
 {
     int count = m_LineList.count();
-    if( count == 0 || pointIndex > count  || pointIndex < 0)
-        return UMLScenePoint( -1, -1 );
+    if( count == 0 || index > count  || index < 0)
+        return QPointF( -1, -1 );
 
-    if( pointIndex == count ) {
+    if( index == count ) {
         QGraphicsLineItem* line = m_LineList.last();
         return line->line().p2();
     }
-    QGraphicsLineItem* line = m_LineList.at( pointIndex );
+    QGraphicsLineItem* line = m_LineList.at(index);
     return line->line().p1();
 }
 
 /**
  * Sets the position of an already set point.
  */
-bool AssociationLine::setPoint(int pointIndex, const UMLScenePoint &point)
+bool AssociationLine::setPoint(int index, const QPointF &point)
 {
     int count = m_LineList.count();
-    if( count == 0 || pointIndex > count  || pointIndex < 0)
+    if( count == 0 || index > count  || index < 0)
         return false;
     if (point.x() == 0 && point.y() == 0) {
         uError() << "ignoring request for (0,0)";
         return false;
     }
 
-    if( pointIndex == count) {
+    if (index == count) {
         QGraphicsLineItem* line = m_LineList.last();
-        UMLScenePoint p = line->line().p1();
+        QPointF p = line->line().p1();
         line->setLine( p.x(), p.y(), point.x(), point.y() );
-        moveSelected( pointIndex );
+        moveSelected(index);
         update();
         return true;
     }
-    if( pointIndex == 0 ) {
+    if (index == 0) {
         QGraphicsLineItem* line = m_LineList.first();
-        UMLScenePoint p = line->line().p2();
+        QPointF p = line->line().p2();
         line->setLine( point.x(), point.y(), p.x(), p.y() );
-        moveSelected( pointIndex );
+        moveSelected(index);
         update();
         return true;
     }
-    QGraphicsLineItem* line = m_LineList.at( pointIndex  );
-    UMLScenePoint p = line->line().p2();
+    QGraphicsLineItem* line = m_LineList.at(index);
+    QPointF p = line->line().p2();
     line->setLine( point.x(), point.y(), p.x(), p.y() );
-    line = m_LineList.at( pointIndex - 1 );
+    line = m_LineList.at(index - 1);
     p = line->line().p1();
     line->setLine( p.x(), p.y(), point.x(), point.y() );
-    moveSelected( pointIndex );
+    moveSelected(index);
     update();
     return true;
 }
@@ -155,7 +154,7 @@ bool AssociationLine::setPoint(int pointIndex, const UMLScenePoint &point)
 /**
  * Shortcut for point(0).
  */
-UMLScenePoint AssociationLine::startPoint() const
+QPointF AssociationLine::startPoint() const
 {
     return point(0);
 }
@@ -163,7 +162,7 @@ UMLScenePoint AssociationLine::startPoint() const
 /**
  * Shortcut for point(count()-1).
  */
-UMLScenePoint AssociationLine::endPoint() const
+QPointF AssociationLine::endPoint() const
 {
     return point(count()-1);
 }
@@ -171,17 +170,17 @@ UMLScenePoint AssociationLine::endPoint() const
 /**
  * Inserts a point at the given index.
  */
-bool AssociationLine::insertPoint(int pointIndex, const UMLScenePoint &point)
+bool AssociationLine::insertPoint(int index, const QPointF &point)
 {
     int count = m_LineList.count();
     if( count == 0 )
         return false;
     const bool bLoading = UMLApp::app()->document()->loading();
 
-    if( count == 1 || pointIndex == 1) {
+    if( count == 1 || index == 1) {
         QGraphicsLineItem* first = m_LineList.first();
-        UMLScenePoint sp = first->line().p1();
-        UMLScenePoint ep = first->line().p2();
+        QPointF sp = first->line().p1();
+        QPointF ep = first->line().p2();
         first->setLine( sp.x(), sp.y(), point.x(), point.y() );
         QGraphicsLineItem* line = new QGraphicsLineItem(this);
         line->setZValue( -2 );
@@ -192,10 +191,10 @@ bool AssociationLine::insertPoint(int pointIndex, const UMLScenePoint &point)
             setupSelected();
         return true;
     }
-    if( count + 1 == pointIndex ) {
+    if( count + 1 == index ) {
         QGraphicsLineItem* before = m_LineList.last();
-        UMLScenePoint sp = before->line().p1();
-        UMLScenePoint ep = before->line().p2();
+        QPointF sp = before->line().p1();
+        QPointF ep = before->line().p2();
         before->setLine( sp.x(), sp.y(), point.x(), point.y() );
         QGraphicsLineItem* line = new QGraphicsLineItem(this);
         line->setLine( point.x(), point.y(), ep.x(), ep.y() );
@@ -206,15 +205,15 @@ bool AssociationLine::insertPoint(int pointIndex, const UMLScenePoint &point)
             setupSelected();
         return true;
     }
-    QGraphicsLineItem* before = m_LineList.at( pointIndex - 1 );
-    UMLScenePoint sp = before->line().p1();
-    UMLScenePoint ep = before->line().p2();
+    QGraphicsLineItem* before = m_LineList.at( index - 1 );
+    QPointF sp = before->line().p1();
+    QPointF ep = before->line().p2();
     before->setLine( sp.x(), sp.y(), point.x(), point.y() );
     QGraphicsLineItem* line = new QGraphicsLineItem(this);
     line->setLine( point.x(), point.y(), ep.x(), ep.y() );
     line->setZValue( -2 );
     line->setPen( pen() );
-    m_LineList.insert( pointIndex, line );
+    m_LineList.insert( index, line );
     if (!bLoading)
         setupSelected();
     return true;
@@ -224,31 +223,31 @@ bool AssociationLine::insertPoint(int pointIndex, const UMLScenePoint &point)
  * Removes the point on the line given by the index, at the coordinates
  * given by point with a fuzzy of delta.
  */
-bool AssociationLine::removePoint(int pointIndex, const UMLScenePoint &point, unsigned short delta)
+bool AssociationLine::removePoint(int index, const QPointF &point, unsigned short delta)
 {
-    /* get the number of line segments */
+    // get the number of line segments
     int count = m_LineList.count();
-    if ( pointIndex >= count )
+    if ( index >= count )
         return false;
 
     if (!point.isNull()) {
-        /* we don't know if the user clicked on the start- or endpoint of a
-        * line segment */
-        QGraphicsLineItem* current_line = m_LineList.at( pointIndex );
+        // we don't know if the user clicked on the start- or endpoint of a
+        // line segment
+        QGraphicsLineItem* current_line = m_LineList.at( index );
         if (abs( current_line->line().p2().x() - point.x() ) <= delta
                 &&
                 abs( current_line->line().p2().y() - point.y() ) <= delta)
         {
-            /* the user clicked on the end point of the line;
-            * we have to make sure that this isn't the last line segment */
-            if (pointIndex >= count - 1)
+            // the user clicked on the end point of the line;
+            // we have to make sure that this isn't the last line segment
+            if (index >= count - 1)
                 return false;
 
-            /* the next segment will get the starting point from the current one,
-            * which is going to be removed */
-            QGraphicsLineItem* next_line = m_LineList.at( pointIndex + 1 );
-            UMLScenePoint startPoint = current_line->line().p1();
-            UMLScenePoint endPoint = next_line->line().p2();
+            // the next segment will get the starting point from the current one,
+            // which is going to be removed
+            QGraphicsLineItem* next_line = m_LineList.at( index + 1 );
+            QPointF startPoint = current_line->line().p1();
+            QPointF endPoint = next_line->line().p2();
             next_line->setLine(startPoint.x(), startPoint.y(),
                                endPoint.x(), endPoint.y());
 
@@ -259,24 +258,24 @@ bool AssociationLine::removePoint(int pointIndex, const UMLScenePoint &point, un
             {
                 // the user clicked on the start point of the line;
                 // we have to make sure that this isn't the first line segment
-                if (pointIndex < 1)
+                if (index < 1)
                     return false;
 
                 // the previous segment will get the end point from the current one,
                 // which is going to be removed
-                QGraphicsLineItem* previous_line = m_LineList.at( pointIndex - 1 );
-                UMLScenePoint startPoint = previous_line->line().p1();
-                UMLScenePoint endPoint = current_line->line().p2();
+                QGraphicsLineItem* previous_line = m_LineList.at( index - 1 );
+                QPointF startPoint = previous_line->line().p1();
+                QPointF endPoint = current_line->line().p2();
                 previous_line->setLine(startPoint.x(), startPoint.y(),
                                        endPoint.x(), endPoint.y());
             } else {
-                /* the user clicked neither on the start- nor on the end point of
-                * the line; this really shouldn't happen, but just make sure */
+                // the user clicked neither on the start- nor on the end point of
+                // the line; this really shouldn't happen, but just make sure
                 return false;
             }
     }
-    /* remove the segment from the list */
-    delete m_LineList.takeAt( pointIndex );
+    // remove the segment from the list
+    delete m_LineList.takeAt( index );
 
     return true;
 }
@@ -333,7 +332,7 @@ void AssociationLine::cleanup()
  * @retval "Index" of the first line point closer to the \a point passed.
  * @retval -1 If no line point is closer to passed in \a point.
  */
-int AssociationLine::closestPointIndex(const UMLScenePoint &position, qreal delta) const
+int AssociationLine::closestPointIndex(const QPointF &position, qreal delta) const
 {
     QRectF bounds(position, QSize());
     bounds.adjust(-delta, -delta, delta, delta);
@@ -355,13 +354,14 @@ int AssociationLine::closestPointIndex(const UMLScenePoint &position, qreal delt
  * @retval "Index" of the line segment closest to the \a point passed.
  * @retval -1 If no line segment is closer to passed in \a point.
  */
-int AssociationLine::closestSegmentIndex(const UMLScenePoint &position, int delta)
+int AssociationLine::closestSegmentIndex(const QPointF &position, int delta)
 {
-    UMLSceneItemList list = umlScene()->collisions(position, delta);
+    typedef QList<QGraphicsItem*> ItemList;
+    ItemList list = m_associationWidget->umlScene()->collisions(position, delta);
     int index = -1;
 
-    UMLSceneItemList::iterator end(list.end());
-    for(UMLSceneItemList::iterator item_it(list.begin()); item_it != end; ++item_it ) {
+    ItemList::iterator end(list.end());
+    for(ItemList::iterator item_it(list.begin()); item_it != end; ++item_it ) {
         if( ( index = m_LineList.indexOf( (QGraphicsLineItem*)*item_it ) ) != -1 )
             break;
     }//end for
@@ -373,13 +373,13 @@ int AssociationLine::closestSegmentIndex(const UMLScenePoint &position, int delt
  * We use the delta, because with the mouse it is hard to find the
  * exactly point.
  */
-bool AssociationLine::isPoint(int pointIndex, const UMLScenePoint &point, unsigned short delta)
+bool AssociationLine::isPoint(int index, const QPointF &point, unsigned short delta)
 {
     int count = m_LineList.count();
-    if ( pointIndex >= count )
+    if (index >= count)
         return false;
 
-    QGraphicsLineItem* line = m_LineList.at( pointIndex );
+    QGraphicsLineItem* line = m_LineList.at(index);
 
     // check if the given point is the start or end point of the line
     if ( (
@@ -400,7 +400,7 @@ bool AssociationLine::isPoint(int pointIndex, const UMLScenePoint &point, unsign
 /**
  * Sets the start and end points.
  */
-bool AssociationLine::setEndPoints(const UMLScenePoint &start, const UMLScenePoint &end)
+bool AssociationLine::setEndPoints(const QPointF &start, const QPointF &end)
 {
     int count = m_LineList.count();
     if( count == 0 ) {
@@ -429,7 +429,7 @@ void AssociationLine::dumpPoints()
 {
     int count = m_LineList.count();
     for( int i = 1; i < count; i++ ) {
-        UMLScenePoint p = point( i );
+        QPointF p = point( i );
         DEBUG(DBG_SRC) <<" * point x:"<<p.x()<<" y:"<<p.y();
     }
 }
@@ -448,7 +448,7 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
     int nX = x.toInt();
     QString y = startElement.attribute( "starty", "0" );
     int nY = y.toInt();
-    UMLScenePoint startPoint( nX, nY );
+    QPointF startPoint( nX, nY );
 
     node = startElement.nextSibling();
     QDomElement endElement = node.toElement();
@@ -459,9 +459,9 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
     nX = x.toInt();
     y = endElement.attribute( "endy", "0" );
     nY = y.toInt();
-    UMLScenePoint endPoint( nX, nY );
+    QPointF endPoint( nX, nY );
     setEndPoints( startPoint, endPoint );
-    UMLScenePoint point;
+    QPointF point;
     node = endElement.nextSibling();
     QDomElement element = node.toElement();
     int i = 1;
@@ -487,7 +487,7 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
 void AssociationLine::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 {
     int count = m_LineList.count();
-    UMLScenePoint p = point( 0 );
+    QPointF p = point( 0 );
     QDomElement lineElement = qDoc.createElement( "linepath" );
     QDomElement startElement = qDoc.createElement( "startpoint" );
     startElement.setAttribute( "startx", p.x() );
@@ -739,7 +739,7 @@ void AssociationLine::activate()
     int count = m_LineList.count();
     if (count == 0)
         return;
-    if (umlScene() == NULL)
+    if (m_associationWidget->umlScene() == NULL)
         return;
     for (int i = 0; i < count ; i++) {
         QGraphicsLineItem *line = m_LineList.at(i);
@@ -799,20 +799,6 @@ void AssociationLine::slotLineWidthChanged(Uml::ID::Type viewID)
 }
 
 /**
- * Returns the scene being used.
- * Will return zero if the Association hasn't been set.
- *
- * This class doesn't hold this information but is a wrapper
- * method to stop calls to undefined variable like m_associationWidget.
- */
-UMLScene* AssociationLine::umlScene()
-{
-    if( !m_associationWidget )
-        return 0;
-    return m_associationWidget->umlScene();
-}
-
-/**
  * Moves the selected scene widgets.
  */
 void AssociationLine::moveSelected(int pointIndex)
@@ -829,7 +815,7 @@ void AssociationLine::moveSelected(int pointIndex)
     QGraphicsLineItem* line = 0;
     if( pointIndex == lineCount || lineCount == 1) {
         line = m_LineList.last();
-        UMLScenePoint p = line->line().p2();
+        QPointF p = line->line().p2();
         rect = m_RectList.last();
         rect->setX( p.x() );
         rect->setY( p.y() );
@@ -837,7 +823,7 @@ void AssociationLine::moveSelected(int pointIndex)
         return;
     }
     line = m_LineList.at( pointIndex );
-    UMLScenePoint p = line->line().p1();
+    QPointF p = line->line().p1();
     rect = m_RectList.at( pointIndex );
     rect->setX( p.x() );
     rect->setY( p.y() );
@@ -854,13 +840,13 @@ void AssociationLine::setupSelected()
     QGraphicsLineItem* line = 0;
 
     Q_FOREACH( line, m_LineList ) {
-        UMLScenePoint sp = line->line().p1();
+        QPointF sp = line->line().p1();
         QGraphicsRectItem *rect = Widget_Utils::decoratePoint(sp);
         m_RectList.append( rect );
     }
     //special case for last point
     line = m_LineList.last();
-    UMLScenePoint p = line->line().p2();
+    QPointF p = line->line().p2();
     QGraphicsRectItem *rect = Widget_Utils::decoratePoint(p);
     m_RectList.append( rect );
     update();
@@ -872,7 +858,7 @@ void AssociationLine::setupSelected()
 void AssociationLine::calculateHead()
 {
     uint size = m_LineList.count();
-    UMLScenePoint farPoint;
+    QPointF farPoint;
     int halfLength = 10;
     double arrowAngle = 0.2618;   // 0.5 * atan(sqrt(3.0) / 3.0) = 0.2618
     Uml::AssociationType::Enum at = getAssocType();
@@ -943,7 +929,7 @@ void AssociationLine::calculateHead()
         m_PointArray.replace( 2, m_ArrowPointB );
         m_PointArray.replace( 3, m_EgdePoint );
     } else {
-        UMLScenePoint diamondFarPoint;
+        QPointF diamondFarPoint;
         diamondFarPoint.setX( (int)rint(xb + cosx * 2) );
         diamondFarPoint.setY( (int)rint(yb + siny * 2) );
         m_PointArray.replace(2, diamondFarPoint);
@@ -1101,8 +1087,8 @@ void AssociationLine::calculateParallelLine()
     double ATAN = atan(1.0);
     int lineDist = 10;
     //get  1/8(M) and 7/8(T) point
-    UMLScenePoint a = point( midCount - 1 );
-    UMLScenePoint b = point( midCount );
+    QPointF a = point( midCount - 1 );
+    QPointF b = point( midCount );
     int mx = ( a.x() + b.x() ) / 2;
     int my = ( a.y() + b.y() ) / 2;
     int tx = ( mx + b.x() ) / 2;
@@ -1116,7 +1102,7 @@ void AssociationLine::calculateParallelLine()
     //find point from M to start line from.
     double cosx = cos( angle ) * lineDist;
     double siny = sin( angle ) * lineDist;
-    UMLScenePoint pointM( mx + (int)cosx, my + (int)siny );
+    QPointF pointM( mx + (int)cosx, my + (int)siny );
     //find dist between P(xb, yb)
     distX = ( tx - b.x() );
     distX *= distX;
@@ -1125,7 +1111,7 @@ void AssociationLine::calculateParallelLine()
     //find point from T to end line
     cosx = cos( angle ) * lineDist;
     siny = sin( angle ) * lineDist;
-    UMLScenePoint pointT( tx + (int)cosx, ty + (int)siny );
+    QPointF pointT( tx + (int)cosx, ty + (int)siny );
     m_ParallelLines[ 1 ] = pointM;
     m_ParallelLines[ 0 ] = pointT;
 
@@ -1162,8 +1148,8 @@ void AssociationLine::updateParallelLine()
     if( !m_bParallelLineCreated )
         return;
     QGraphicsLineItem* line = 0;
-    UMLScenePoint common = m_ParallelLines.at( 0 );
-    UMLScenePoint p = m_ParallelLines.at( 1 );
+    QPointF common = m_ParallelLines.at( 0 );
+    QPointF p = m_ParallelLines.at( 1 );
     line = m_ParallelList.at( 0 );
     line->setLine( common.x(), common.y(), p.x(), p.y() );
 
@@ -1197,7 +1183,6 @@ void AssociationLine::createSubsetSymbol()
     m_bSubsetSymbolCreated = true;
 }
 
-
 /**
  * Updates the subset symbol.Call after calculating the new points.
  */
@@ -1207,9 +1192,9 @@ void AssociationLine::updateSubsetSymbol()
         return;
     }
     QGraphicsLineItem* firstLine = m_LineList.first();
-    UMLScenePoint startPoint = firstLine->line().p1();
-    UMLScenePoint endPoint = firstLine->line().p2();
-    UMLScenePoint centrePoint;
+    QPointF startPoint = firstLine->line().p1();
+    QPointF endPoint = firstLine->line().p2();
+    QPointF centrePoint;
     centrePoint.setX( ( startPoint.x() + endPoint.x() )/2 );
     centrePoint.setY( ( startPoint.y() + endPoint.y() )/2 );
 
