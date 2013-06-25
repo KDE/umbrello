@@ -55,7 +55,7 @@ public:
     void cleanup();
 
     int closestPointIndex(const QPointF &position, qreal delta) const;
-    int closestSegmentIndex(const QPointF &position, int delta = 3);
+    int closestSegmentIndex(const QPointF &position, int delta = POINT_DELTA);
     bool isPoint(int index, const QPointF &point, unsigned short delta = 0);
 
     bool setEndPoints(const QPointF &start, const QPointF &end);

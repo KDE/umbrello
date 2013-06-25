@@ -1471,7 +1471,7 @@ void AssociationWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent * me)
 {
     if (me->button() != Qt::RightButton && me->button() != Qt::LeftButton)
         return;
-    int i = m_associationLine->closestSegmentIndex(me->scenePos(), POINT_DELTA);
+    int i = m_associationLine->closestSegmentIndex(me->scenePos());
     if (i == -1) {
         m_associationLine->setSelected(false);
         return;
@@ -3152,7 +3152,7 @@ void AssociationWidget::checkPoints(const UMLScenePoint &p)
 
 bool AssociationWidget::checkRemovePoint(const QPointF &scenePos)
 {
-    int i = m_associationLine->closestSegmentIndex(scenePos, POINT_DELTA);
+    int i = m_associationLine->closestSegmentIndex(scenePos);
     if (i == -1)
         return false;
 
@@ -3774,7 +3774,7 @@ bool AssociationWidget::onAssocClassLine(const UMLScenePoint &point)
  */
 bool AssociationWidget::onAssociation(const UMLScenePoint & point)
 {
-    if (m_associationLine->closestSegmentIndex(point, POINT_DELTA) != -1)
+    if (m_associationLine->closestSegmentIndex(point) != -1)
         return true;
     return onAssocClassLine(point);
 }
