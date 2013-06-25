@@ -1,0 +1,31 @@
+#!/bin/bash
+# Generates changelog day by day
+#
+# author: ralf.habacker@freenet.de
+#
+
+NEXT=$(date +%F)
+echo $NEXT
+echo "CHANGELOG"
+echo ----------------------
+git log --no-merges --format="%cd" --date=short $1 -- | sort -u -r | while read DATE ; do
+	echo
+	echo [$DATE]
+	#echo git log --no-merges --format="%H" --since="$DATE --until=$NEXT
+	for i in `git log --no-merges --format="%H" --since="$DATE 00:00:00"  --until="$DATE 23:59:59"`; do
+		skip=$(git log -1 --format="%s" $i | grep SVN_SILENT)
+		if test -n "$skip"; then
+			continue
+		fi
+		BUG=""
+		for j in `git log -1 --format="%b" $i | grep BUG: | sed 's,^.*BUG:,,g;s, ,,g'`; do
+			BUG="$BUG $j"
+		done
+		if test -n "$BUG"; then
+			git log -1 --format="* %s ($BUG)" $i
+		else
+			git log -1 --format="* %s (%an)" $i
+		fi
+	done
+	NEXT=$DATE
+done
