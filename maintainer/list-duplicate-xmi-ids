@@ -1,0 +1,28 @@
+#!/bin/sh
+#
+# author: ralf.habacker@freenet.de
+# 
+# list lines with duplicate xmi.id's 
+# 
+
+# generate list of non uniqe id's 
+ids=$(gawk '
+$1 ~ /<XMI.extension/ {
+  exclude = 1 
+}  
+
+$1 ~ /<\/XMI.extension/ { 
+  exclude = 0 
+} 
+
+exclude == 0  { 
+  print exclude_ "-" $0;
+}'  $1 | grep -o 'xmi.id="[0-9a-zA-Z]\+"' | sort | uniq -c | grep -v "1 " | gawk 'BEGIN {FS="\"" } { print $2 }')
+
+#echo $ids
+
+# list linees with id's
+for i in `echo $ids`; do 
+    echo $i
+    grep -n "$i" $1
+done 
