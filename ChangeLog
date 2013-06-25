@@ -2,7 +2,7 @@ version 2.11.0 (unreleased)
 
 * Cosmetic update of documentation (Yuri Chornoivan)
 
-version 2.10.5 (unreleased)
+version 2.10.5
 
 * Add vertical state diagram auto layout (Ralf Habacker)
 * Fixed widgets painting artifact (321053)
