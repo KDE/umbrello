@@ -193,7 +193,6 @@ public:
     static bool widgetHasUMLObject(WidgetBase::WidgetType type);
 
     void updateGeometry();
-    void updateLook();
 
     void clipSize();
 

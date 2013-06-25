@@ -1068,32 +1068,6 @@ void UMLWidget::updateGeometry()
 }
 
 /**
- * Update the look of this widget.
- */
-void UMLWidget::updateLook()
-{
-    if (m_doc->loading()) {
-        return;
-    }
-    if (umlScene()) {
-        m_useFillColor = true;
-        m_usesDiagramFillColor = true;
-        m_usesDiagramUseFillColor = true;
-        const Settings::OptionState& optionState = umlScene()->optionState();
-        m_fillColor = optionState.uiState.fillColor;
-        // FIXME: using setFont() here let umbrello hang probably because of doc->loading() not set.
-        m_Font = optionState.uiState.font;
-        m_showStereotype = optionState.classState.showStereoType;
-    } else {
-        uError() << "SERIOUS PROBLEM - scene is NULL";
-        m_useFillColor = false;
-        m_usesDiagramFillColor = false;
-        m_usesDiagramUseFillColor = false;
-        m_showStereotype = false;
-    }
-}
-
-/**
  * clip the size of this widget against the
  * minimal and maximal limits.
  */
