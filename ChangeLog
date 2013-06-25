@@ -1,5 +1,6 @@
 version 2.10.5
 
+* Add vertical state diagram auto layout (Ralf Habacker)
 * Fixed widgets painting artifact (321053)
 * Prevent recursive search loops (306785)
 * Umbrello Crash Upon Creation of Activity in Activity Diagram (319276)
