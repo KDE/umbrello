@@ -1718,9 +1718,13 @@ void  UMLScene::getDiagram(QPainter &painter, const UMLSceneRect &source, const 
     bool showSnapGrid = isSnapGridVisible();
     setSnapGridVisible(false);
 
+    const int sourceMargin = 1;
+    QRectF alignedSource(source);
+    alignedSource.adjust(-sourceMargin, -sourceMargin, sourceMargin, sourceMargin);
+
     uDebug() << "TODO: Check if this render method is identical to cavnas()->drawArea()";
     // [PORT]
-    render(&painter, target, source, Qt::KeepAspectRatio);
+    render(&painter, target, alignedSource, Qt::KeepAspectRatio);
 
     setSnapGridVisible(showSnapGrid);
 
