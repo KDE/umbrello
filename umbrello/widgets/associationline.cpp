@@ -430,9 +430,9 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
         return false;
     }
     QString x = startElement.attribute( "startx", "0" );
-    int nX = x.toInt();
+    qreal nX = x.toInt();
     QString y = startElement.attribute( "starty", "0" );
-    int nY = y.toInt();
+    qreal nY = y.toInt();
     UMLScenePoint startPoint( nX, nY );
 
     node = startElement.nextSibling();
