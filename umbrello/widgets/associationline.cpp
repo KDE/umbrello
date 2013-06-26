@@ -445,9 +445,9 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
         return false;
     }
     QString x = startElement.attribute( "startx", "0" );
-    int nX = x.toFloat();
+    qreal nX = x.toFloat();
     QString y = startElement.attribute( "starty", "0" );
-    int nY = y.toFloat();
+    qreal nY = y.toFloat();
     QPointF startPoint( nX, nY );
 
     node = startElement.nextSibling();
