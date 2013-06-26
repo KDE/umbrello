@@ -1640,14 +1640,9 @@ void UMLScene::selectWidgets(UMLWidgetList &widgets)
 void  UMLScene::getDiagram(QPixmap &diagram, const UMLSceneRect &rect)
 {
     DEBUG(DBG_SRC) << "rect=" << rect << ", pixmap=" << diagram.rect();
-    const int width  = rect.x() + rect.width();
-    const int height = rect.y() + rect.height();
-    QPixmap pixmap(width, height);
-    QPainter painter(&pixmap);
-    painter.fillRect(0, 0, width, height, Qt::white);
-    getDiagram(painter, sceneRect());
-    QPainter output(&diagram);
-    output.drawPixmap(QPoint(0, 0), pixmap, rect);
+    QPainter painter(&diagram);
+    painter.fillRect(0, 0, rect.width(), rect.height(), Qt::white);
+    getDiagram(painter, rect);
 }
 
 /**
