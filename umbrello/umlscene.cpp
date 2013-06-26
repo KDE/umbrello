@@ -446,11 +446,17 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
     forceUpdateWidgetFontMetrics(&pPainter);
 
     UMLSceneRect source = diagramRect();
+    QRect paper = pPrinter->paperRect();
     QRect page = pPrinter->pageRect();
 
     // use the painter font metrics, not the screen fm!
     QFontMetrics fm = pPainter.fontMetrics(); 
     int fontHeight  = fm.lineSpacing();
+
+    if (paper == page) {
+        QSize margin = page.size() * 0.025;
+        page.adjust(margin.width(), margin.height(), -margin.width(), -margin.height());
+    }
 
     if (isFooter) {
         int margin = 3 + 3 * fontHeight;
