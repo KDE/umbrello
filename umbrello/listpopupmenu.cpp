@@ -904,6 +904,8 @@ void ListPopupMenu::insertAssociationItem(MenuType mt)
             insert(mt_Delete_Point, Icon_Utils::SmallIcon(Icon_Utils::it_Delete_Point), i18n("Delete Point"));
     }
     addSeparator();
+    insertSubMenuLayout();
+    addSeparator();
     insert(mt_Delete);
 
     switch(mt) {
@@ -941,6 +943,18 @@ void ListPopupMenu::insertAssociationTextItem(const QString &label, MenuType mt)
     insert(mt_Change_Font);
     insert(mt_Reset_Label_Positions);
     insert(mt_Properties);
+}
+
+/**
+ * Inserts a sub menu for association layouts.
+ */
+void ListPopupMenu::insertSubMenuLayout()
+{
+    KMenu* layout = new KMenu(i18nc("Layout menu", "Layout"), this);
+    insert(mt_LayoutDirect, layout, i18n("Direct"));
+    insert(mt_LayoutSpline, layout, i18n("Spline"));
+    insert(mt_LayoutOrthogonal, layout, i18n("Orthogonal"));
+    addMenu(layout);
 }
 
 /**

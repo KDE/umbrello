@@ -17,7 +17,6 @@
 #include "umlobject.h"
 
 #include <kmenu.h>
-// #include <kaction.h>
 
 #include <QHash>
 
@@ -26,7 +25,7 @@ class ClassifierWidget;
 class UMLCategory;
 
 /**
- * A popup menu that depending on what type it is set to will
+ * A popup menu that depending on what type is set to will
  * display a different menu.
  *
  * The data field of actions is used to carry user data
@@ -227,6 +226,10 @@ public:
         mt_Apply_Layout8,                        // apply automatically created layout
         mt_Apply_Layout9,                        // apply automatically created layout
 
+        mt_LayoutDirect,                         // associations with direct lines
+        mt_LayoutSpline,                         // associations with slines
+        mt_LayoutOrthogonal,                     // associations with orthogonal lines
+
         mt_Undefined  =  - 1
     };
 
@@ -242,11 +245,11 @@ public:
     static QVariant dataFromAction(DataType key, QAction* action);
 
     explicit ListPopupMenu(QWidget* parent, MenuType type = mt_Undefined, UMLView* view = 0);
-    explicit ListPopupMenu(QWidget* parent, MenuType type, WidgetBase *widget);
+    ListPopupMenu(QWidget* parent, MenuType type, WidgetBase *widget);
     ListPopupMenu(QWidget* parent, UMLListViewItem::ListViewType type, UMLObject* object);
     ListPopupMenu(QWidget* parent, WidgetBase* object, bool multi = false, bool unique = false);
 
-    ~ListPopupMenu();
+    virtual ~ListPopupMenu();
 
     static UMLObject::ObjectType convert_MT_OT(MenuType mt);
     static Uml::DiagramType::Enum convert_MT_DT(MenuType mt);
@@ -254,12 +257,10 @@ public:
     static ListPopupMenu* menuFromAction(QAction *action);
     static MenuType       typeFromAction(QAction *action);
 
-//    KAction* getAction(MenuType idx);
     QAction* getAction(MenuType idx);
 
     void setActionEnabled(MenuType idx, bool value);
 
-//    MenuType getMenuType(KAction* action);
     MenuType getMenuType(QAction* action);
 
     WidgetBase *ownerWidget() const;
@@ -278,6 +279,7 @@ private:
     void insertContainerItems(bool folderAndDiagrams);
     void insertAssociationItem(MenuType mt);
     void insertAssociationTextItem(const QString &label, MenuType mt);
+    void insertSubMenuLayout();
     void insertSubmodelAction();
     void insertLayoutItems(UMLView *view);
 
@@ -309,7 +311,6 @@ private:
     TriggerObject m_TriggerObject;
     TriggerObjectType m_TriggerObjectType;
 
-//    QHash<MenuType, KAction*> m_actions;
     QHash<MenuType, QAction*> m_actions;
 
 };
