@@ -1266,6 +1266,29 @@ QPainterPath AssociationLine::shape() const
 }
 
 /**
+ * Set the layout type of the association line.
+ * @param layout   the desired layout to set
+ */
+void AssociationLine::setLayout(LayoutType layout)
+{
+    m_layout = layout;
+    switch(m_layout) {
+    case Direct:
+        DEBUG(DBG_SRC) << "Direct";
+        break;
+    case Spline:
+        DEBUG(DBG_SRC) << "Spline";
+        break;
+    case Orthogonal:
+        DEBUG(DBG_SRC) << "Orthogonal";
+        break;
+    default:
+        qWarning() << "Undefined layout!";
+        break;
+    }
+}
+
+/**
  * Reimplemented from QGraphicsItem::paint.
  * Draws the AssociationLine and also takes care of highlighting active point or line.
  */

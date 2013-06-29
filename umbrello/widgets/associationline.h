@@ -40,6 +40,13 @@ public:
     typedef QList<QGraphicsLineItem*> LineList;
     typedef QList<QGraphicsRectItem*> RectList;
 
+    enum LayoutType
+    {
+        Direct,
+        Spline,
+        Orthogonal
+    };
+
     AssociationLine(AssociationWidget* association);
     virtual ~AssociationLine();
 
@@ -97,6 +104,8 @@ public:
 
     QRectF boundingRect() const;
     QPainterPath shape() const;
+
+    void setLayout(LayoutType layout);
 
 public slots:
     void slotLineColorChanged(Uml::ID::Type viewID);
@@ -183,6 +192,7 @@ private:
     bool m_bHeadCreated;
     bool m_bSubsetSymbolCreated;
     bool m_bParallelLineCreated;
+    LayoutType m_layout;
 };
 
 #endif

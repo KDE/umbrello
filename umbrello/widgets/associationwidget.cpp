@@ -3025,6 +3025,16 @@ void AssociationWidget::slotMenuSelection(QAction* action)
         resetTextPositions();
         break;
 
+    case ListPopupMenu::mt_LayoutDirect:
+        m_associationLine->setLayout(AssociationLine::Direct);
+        break;
+    case ListPopupMenu::mt_LayoutSpline:
+        m_associationLine->setLayout(AssociationLine::Spline);
+        break;
+    case ListPopupMenu::mt_LayoutOrthogonal:
+        m_associationLine->setLayout(AssociationLine::Orthogonal);
+        break;
+
     default:
         DEBUG(DBG_SRC) << "MenuType " << ListPopupMenu::toString(sel) << " not implemented";
         break;
