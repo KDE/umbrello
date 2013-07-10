@@ -10,6 +10,7 @@
 
 #ifndef LAYOUTGENERATOR_H
 
+#include "associationline.h"
 #include "associationwidget.h"
 #include "debug_utils.h"
 #include "dotgenerator.h"

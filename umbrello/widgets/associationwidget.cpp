@@ -13,6 +13,7 @@
 
 // app includes
 #include "association.h"
+#include "associationline.h"
 #include "assocpropdlg.h"
 #include "assocrules.h"
 #include "attribute.h"
@@ -150,6 +151,9 @@ AssociationWidget* AssociationWidget::create
     instance->setAssociationType(assocType);
 
     instance->calculateEndingPoints();
+
+    instance->associationLine()->calculateInitialEndPoints();
+    instance->associationLine()->reconstructSymbols();
 
     //The AssociationWidget is set to Activated because it already has its side widgets
     instance->setActivated(true);
@@ -673,7 +677,7 @@ bool AssociationWidget::activate()
             if (ot == UMLObject::ot_Association) {
                 UMLAssociation * myAssoc = static_cast<UMLAssociation*>(myObj);
                 setUMLAssociation(myAssoc);
-                m_associationLine->setAssocType( myAssoc->getAssocType() );
+//:TODO:                m_associationLine->setAssocType( myAssoc->getAssocType() );
             } else {
                 setUMLObject(myObj);
                 setAssociationType(m_associationType);
@@ -697,7 +701,6 @@ bool AssociationWidget::activate()
     }
 
     calculateEndingPoints();
-    m_associationLine->activate();
 
     if (AssocRules::allowRole(type)) {
         for (unsigned r = RoleType::A; r <= RoleType::B; ++r) {
@@ -1304,7 +1307,7 @@ bool AssociationWidget::isPointAddable()
     if (!m_selected || associationType() == Uml::AssociationType::Exception)
         return false;
     UMLScenePoint scenePos = m_eventScenePos;
-    int i = m_associationLine->closestPointIndex(scenePos, POINT_DELTA);
+    int i = m_associationLine->closestPointIndex(scenePos);
     return i == -1;
 }
 
@@ -1320,7 +1323,7 @@ bool AssociationWidget::isPointRemovable()
     if (!m_selected || associationType() == Uml::AssociationType::Exception || m_associationLine->count() <= 2)
         return false;
     UMLScenePoint scenePos = m_eventScenePos;
-    int i = m_associationLine->closestPointIndex(scenePos, POINT_DELTA);
+    int i = m_associationLine->closestPointIndex(scenePos);
     return i > 0 && i < m_associationLine->count() - 1;
 }
 
@@ -1381,6 +1384,14 @@ bool AssociationWidget::isCollaboration() const
 }
 
 /**
+ * Returns true if this AssociationWidget represents a self message.
+ */
+bool AssociationWidget::isSelf() const
+{
+    return widgetForRole(Uml::RoleType::A) == widgetForRole(Uml::RoleType::B);
+}
+
+/**
  * Gets the association's type.
  *
  * @return  This AssociationWidget's AssociationType::Enum.
@@ -1400,10 +1411,10 @@ Uml::AssociationType::Enum AssociationWidget::associationType() const
  */
 void AssociationWidget::setAssociationType(Uml::AssociationType::Enum type)
 {
-    if (m_umlObject && m_umlObject->baseType() == UMLObject::ot_Association)
+    if (m_umlObject && m_umlObject->baseType() == UMLObject::ot_Association) {
         association()->setAssociationType(type);
+    }
     m_associationType = type;
-    m_associationLine->setAssocType(type);
     // If the association new type is not supposed to have Multiplicity
     // FloatingTexts and a Role FloatingTextWidget then set the texts
     // to empty.
@@ -1427,6 +1438,7 @@ void AssociationWidget::setAssociationType(Uml::AssociationType::Enum type)
         setRoleDocumentation("", RoleType::A);
         setRoleDocumentation("", RoleType::B);
     }
+    m_associationLine->reconstructSymbols();
 }
 
 /**
@@ -2867,7 +2879,7 @@ void AssociationWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent * me)
         UMLScenePoint a = m_associationLine->point(m_nMovingPoint + 1);
         if ( (b.x() == m.x() && a.x() == m.x()) ||
              (b.y() == m.y() && a.y() == m.y()) )
-            m_associationLine->removePoint(m_nMovingPoint, m, POINT_DELTA);
+            m_associationLine->removePoint(m_nMovingPoint);
     }
     m_nMovingPoint = -1;
 }//end method mouseReleaseEvent
@@ -3104,7 +3116,7 @@ void AssociationWidget::setTextColor(const QColor &color)
 void AssociationWidget::setLineColor(const QColor &color)
 {
     WidgetBase::setLineColor(color);
-    m_associationLine->setLineColor(color);
+//:TODO:    m_associationLine->setLineColor(color);
 }
 
 /**
@@ -3113,7 +3125,7 @@ void AssociationWidget::setLineColor(const QColor &color)
 void AssociationWidget::setLineWidth(uint width)
 {
     WidgetBase::setLineWidth(width);
-    m_associationLine->setLineWidth(width);
+//:TODO:    m_associationLine->setLineWidth(width);
 }
 
 void AssociationWidget::checkPoints(const UMLScenePoint &p)
@@ -3147,8 +3159,8 @@ bool AssociationWidget::checkAddPoint(const UMLScenePoint &scenePos)
 
     int i = m_associationLine->closestSegmentIndex(scenePos);
 
-    /* if there is no point around the mouse pointer, we insert a new one */
-    if (!m_associationLine->isPoint(i, scenePos, POINT_DELTA)) {
+    // if there is no point around the mouse pointer, we insert a new one
+    if (i < 0) {
         m_associationLine->insertPoint(i + 1, scenePos);
         if (m_nLinePathSegmentIndex == i) {
             UMLScenePoint segStart = m_associationLine->point(i);
@@ -3179,24 +3191,25 @@ bool AssociationWidget::checkAddPoint(const UMLScenePoint &scenePos)
 
 bool AssociationWidget::checkRemovePoint(const QPointF &scenePos)
 {
-    int i = m_associationLine->closestSegmentIndex(scenePos);
+    int i = m_associationLine->closestPointIndex(scenePos);
     if (i == -1)
         return false;
 
-    m_associationLine->setSelected( false );
+    m_associationLine->setSelected(false);
 
-    /* there was a point so we remove the point */
-    if (m_associationLine->removePoint(i, scenePos, POINT_DELTA)) {
-        /* Maybe reattach association class connecting line
-           to different association linepath segment.  */
-        const int numberOfLines = m_associationLine->count() - 1;
-        if (m_nLinePathSegmentIndex >= numberOfLines) {
-            m_nLinePathSegmentIndex = numberOfLines - 1;
-        }
-        calculateEndingPoints();
+    // there was a point so we remove the point
+    m_associationLine->removePoint(i);
+
+    // Maybe reattach association class connecting line
+    // to different association linepath segment.
+    const int numberOfLines = m_associationLine->count() - 1;
+    if (m_nLinePathSegmentIndex >= numberOfLines) {
+        m_nLinePathSegmentIndex = numberOfLines - 1;
     }
-    /* select the line path */
-    m_associationLine->setSelected( true );
+    calculateEndingPoints();
+
+    // select the line path
+    m_associationLine->setSelected(true);
 
     m_associationLine->update();
 
@@ -3849,42 +3862,15 @@ void AssociationWidget::moveEntireAssoc( int x, int y )
  */
 QRectF AssociationWidget::boundingRect() const
 {
-    QRectF rectangle;
+    return m_associationLine->boundingRect();
+}
 
-    /* we also want the end points connected to the other widget */
-    int pos = m_associationLine->count();
-
-    /* the lines have the width of the pen */
-    uint pen_width = m_associationLine->pen().width();
-
-    if (pen_width == 0)
-        pen_width = 1; // width must be at least 1
-
-    /* go through all points on the linepath */
-    for (int i = 0; i < pos; ++i)
-    {
-        UMLScenePoint p = m_associationLine->point(i);
-
-        /* the first point is our starting point */
-        if (i == 0) {
-            rectangle.setRect(p.x(), p.y(), 0, 0);
-            continue;
-        }
-
-        if (p.x() < rectangle.x())
-            rectangle.setX(p.x());
-        if (p.y() < rectangle.y())
-            rectangle.setY(p.y());
-        if (p.x() > rectangle.x() + rectangle.width()) {
-            int newX = p.x() - rectangle.x() + pen_width;
-            rectangle.setWidth(abs(newX));
-        }
-        if (p.y() > rectangle.y() + rectangle.height()) {
-            int newY = p.y() - rectangle.y() + pen_width;
-            rectangle.setHeight(abs(newY));
-        }
-    }
-    return rectangle;
+/**
+ * Returns the shape of all segments of the association.
+ */
+QPainterPath AssociationWidget::shape() const
+{
+    return m_associationLine->shape();
 }
 
 /**
@@ -3892,7 +3878,7 @@ QRectF AssociationWidget::boundingRect() const
  * in case this AssociationWidget is linked to a clasifier list item
  * ( an attribute or a foreign key constraint )
  *
- * @param obj               The UMLClassifierListItem removed.
+ * @param obj   The UMLClassifierListItem removed.
  */
 void AssociationWidget::slotClassifierListItemRemoved(UMLClassifierListItem* obj)
 {
@@ -3970,8 +3956,8 @@ void AssociationWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     Uml::AssociationType::Enum type = associationType();
     ListPopupMenu::MenuType menuType = ListPopupMenu::mt_Association_Selected;
-    if (type == Uml::AssociationType::Anchor /*:TODO:||
-            m_associationLine->onAssociationClassLine(pos)*/) {
+    if (type == Uml::AssociationType::Anchor ||
+            m_associationLine->onAssociationClassLine(event->scenePos())) {
         menuType = ListPopupMenu::mt_Anchor;
     } else if (isCollaboration()) {
         menuType = ListPopupMenu::mt_Collaboration_Message;

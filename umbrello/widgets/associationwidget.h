@@ -11,7 +11,6 @@
 #ifndef ASSOCIATIONWIDGET_H
 #define ASSOCIATIONWIDGET_H
 
-#include "associationline.h"
 #include "associationwidgetlist.h"
 #include "linkwidget.h"
 #include "messagewidgetlist.h"
@@ -19,6 +18,7 @@
 #include "umlscene.h"
 #include "widgetbase.h"
 
+class AssociationLine;
 class ClassifierWidget;
 class UMLDoc;
 class UMLScene;
@@ -144,6 +144,7 @@ public:
     void setAssociationType(Uml::AssociationType::Enum type);
 
     bool isCollaboration() const;
+    bool isSelf() const;
 
     QString toString() const;
 
@@ -157,6 +158,7 @@ public:
 
     virtual bool activate();
     virtual QRectF boundingRect() const;
+    virtual QPainterPath shape() const;
 
     void widgetMoved(UMLWidget* widget, int x, int y);
 
@@ -207,7 +209,7 @@ public:
     bool isPointAddable();
     bool isPointRemovable();
 
-public Q_SLOTS:
+public Q_SLOTS:  //:TODO: all virtual?
     virtual void slotMenuSelection(QAction* action);
     void slotClearAllSelected();
     void slotClassifierListItemRemoved(UMLClassifierListItem* obj);
