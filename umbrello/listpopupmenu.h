@@ -229,6 +229,7 @@ public:
         mt_LayoutDirect,                         // associations with direct lines
         mt_LayoutSpline,                         // associations with slines
         mt_LayoutOrthogonal,                     // associations with orthogonal lines
+        mt_LayoutPolyline,                       // associations with polylines
 
         mt_Undefined  =  - 1
     };

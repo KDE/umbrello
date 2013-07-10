@@ -954,6 +954,7 @@ void ListPopupMenu::insertSubMenuLayout()
     insert(mt_LayoutDirect, layout, i18n("Direct"));
     insert(mt_LayoutSpline, layout, i18n("Spline"));
     insert(mt_LayoutOrthogonal, layout, i18n("Orthogonal"));
+    insert(mt_LayoutPolyline, layout, i18n("Polyline"));
     addMenu(layout);
 }
 

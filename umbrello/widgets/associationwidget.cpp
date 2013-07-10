@@ -3046,6 +3046,9 @@ void AssociationWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_LayoutOrthogonal:
         m_associationLine->setLayout(AssociationLine::Orthogonal);
         break;
+    case ListPopupMenu::mt_LayoutPolyline:
+        m_associationLine->setLayout(AssociationLine::Polyline);
+        break;
 
     default:
         DEBUG(DBG_SRC) << "MenuType " << ListPopupMenu::toString(sel) << " not implemented";
