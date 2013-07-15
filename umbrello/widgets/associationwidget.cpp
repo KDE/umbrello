@@ -58,8 +58,45 @@ using namespace Uml;
   * @param scene   The parent view of this widget.
   */
 AssociationWidget::AssociationWidget(UMLScene *scene)
-  : WidgetBase(scene, WidgetBase::wt_Association)
+  : WidgetBase(scene, WidgetBase::wt_Association),
+    m_positions_len(0),
+    m_activated(false),
+    m_unNameLineSegment(-1),
+    m_umldoc(UMLApp::app()->document()),
+    m_selected(false),
+    m_nMovingPoint(-1),
+    m_nLinePathSegmentIndex(-1),
+    m_pAssocClassLine(0),
+    m_pAssocClassLineSel0(0),
+    m_pAssocClassLineSel1(0),
+    m_associationLine(new AssociationLine(this)),
+    m_associationClass(0),
+    m_associationType(Uml::AssociationType::Association),
+    m_nameWidget(0)
 {
+    // floating text widgets objects owned by this association
+    m_role[RoleType::A].changeabilityWidget = 0;
+    m_role[RoleType::B].changeabilityWidget = 0;
+    m_role[RoleType::A].multiplicityWidget = 0;
+    m_role[RoleType::B].multiplicityWidget = 0;
+    m_role[RoleType::A].roleWidget = 0;
+    m_role[RoleType::B].roleWidget = 0;
+    m_role[RoleType::A].umlWidget = 0;
+    m_role[RoleType::B].umlWidget = 0;
+
+    // associationwidget attributes
+    m_role[RoleType::A].m_WidgetRegion = Error;
+    m_role[RoleType::B].m_WidgetRegion = Error;
+    m_role[RoleType::A].m_nIndex = 0;
+    m_role[RoleType::B].m_nIndex = 0;
+    m_role[RoleType::A].m_nTotalCount = 0;
+    m_role[RoleType::B].m_nTotalCount = 0;
+    m_role[RoleType::A].visibility = Uml::Visibility::Public;
+    m_role[RoleType::B].visibility = Uml::Visibility::Public;
+    m_role[RoleType::A].changeability = Uml::Changeability::Changeable;
+    m_role[RoleType::B].changeability = Uml::Changeability::Changeable;
+
+    connect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
 }
 
 /**
@@ -71,7 +108,6 @@ AssociationWidget::AssociationWidget(UMLScene *scene)
 AssociationWidget* AssociationWidget::create(UMLScene *scene)
 {
     AssociationWidget* instance = new AssociationWidget(scene);
-    instance->init();
     return instance;
 }
 
@@ -90,7 +126,6 @@ AssociationWidget* AssociationWidget::create
                                      UMLObject *umlobject /* = NULL */)
 {
     AssociationWidget* instance = new AssociationWidget(scene);
-    instance->init();
     if (umlobject) {
         instance->setUMLObject(umlobject);
     } else {
@@ -4067,52 +4102,6 @@ ListPopupMenu* AssociationWidget::setupPopupMenu(ListPopupMenu *menu, const QPoi
     return m_pMenu;
 }
 */
-
-/**
- * Initialize attributes of this class at construction time.
- */
-void AssociationWidget::init()
-{
-    // pointers to floating text widgets objects owned by this association
-    m_nameWidget = 0;
-    m_role[RoleType::A].changeabilityWidget = 0;
-    m_role[RoleType::B].changeabilityWidget = 0;
-    m_role[RoleType::A].multiplicityWidget = 0;
-    m_role[RoleType::B].multiplicityWidget = 0;
-    m_role[RoleType::A].roleWidget = 0;
-    m_role[RoleType::B].roleWidget = 0;
-    m_role[RoleType::A].umlWidget = 0;
-    m_role[RoleType::B].umlWidget = 0;
-
-    // associationwidget attributes
-    m_role[RoleType::A].m_WidgetRegion = Error;
-    m_role[RoleType::B].m_WidgetRegion = Error;
-    m_role[RoleType::A].m_nIndex = 0;
-    m_role[RoleType::B].m_nIndex = 0;
-    m_role[RoleType::A].m_nTotalCount = 0;
-    m_role[RoleType::B].m_nTotalCount = 0;
-    m_role[RoleType::A].visibility = Uml::Visibility::Public;
-    m_role[RoleType::B].visibility = Uml::Visibility::Public;
-    m_role[RoleType::A].changeability = Uml::Changeability::Changeable;
-    m_role[RoleType::B].changeability = Uml::Changeability::Changeable;
-    m_positions_len = 0;
-    m_activated = false;
-    m_unNameLineSegment = -1;
-    m_selected = false;
-    m_nMovingPoint = -1;
-    m_nLinePathSegmentIndex = -1;
-    m_associationLine = new AssociationLine(this);
-    m_associationClass = NULL;
-    m_pAssocClassLine = NULL;
-    m_pAssocClassLineSel0 = m_pAssocClassLineSel1 = NULL;
-
-    // Initialize local members.
-    // These are only used if we don't have a UMLAssociation attached.
-    m_associationType = Uml::AssociationType::Association;
-    m_umldoc = UMLApp::app()->document();
-
-    connect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
-}
 
 /**
  * Saves this widget to the "assocwidget" XMI element.

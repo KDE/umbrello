@@ -30,6 +30,9 @@ class UMLOperation;
 /**
  * This class represents an association inside a diagram.
  *
+ * Constructor is made non accessible:
+ * Users shall use the static create() methods for constructing AssociationWidgets.
+ *
  * Associations exist not only between UML objects. For example, when a Note is
  * attached to a UML object, the Note itself is not a UML object.
  * This class supports both kinds of associations. An association where one or
@@ -40,7 +43,6 @@ class UMLOperation;
  * method.
  * A pure widget association does not have a corresponding UMLAssociation.
  * The getAssociation method returns NULL in this case.
- *
  *
  * @author Gustavo Madrigal
  * @short This class represents an association inside a diagram.
@@ -221,17 +223,11 @@ protected:
     virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
 private:
-    void init();
-
     UMLScenePoint calculateTextPosition(Uml::TextRole::Enum role);
     void setTextPosition(Uml::TextRole::Enum role);
     void setTextPositionRelatively(Uml::TextRole::Enum role, const UMLScenePoint &oldPosition);
     void setFloatingText(Uml::TextRole::Enum role, const QString& text, FloatingTextWidget* &ft);
 
-    /**
-     * Constructor is made non accessible:
-     * Users shall use the static create() methods for constructing AssociationWidgets.
-     */
     AssociationWidget(UMLScene *scene);
 
     void setUMLAssociation(UMLAssociation * assoc);
