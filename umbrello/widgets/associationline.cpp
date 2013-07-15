@@ -183,17 +183,6 @@ void AssociationLine::optimizeLinePoints()
  */
 int AssociationLine::closestPointIndex(const QPointF &point, qreal delta) const
 {
-//:TODO:
-//    QRectF bounds(point, QSize());
-//    bounds.adjust(-delta, -delta, delta, delta);
-
-//    int last = count();
-//    for(int i = 0; i <= last; i++)
-//    {
-//        if (bounds.contains(point(i)))
-//            return i;
-//    }
-//    return -1;
     for(int i = 0; i < m_points.size(); ++i) {
         const QPointF& linePoint = m_points.at(i);
         // Apply distance formula to see point closeness.
@@ -1032,7 +1021,6 @@ void AssociationLine::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     else {
         return;
     }
-//:TODO:    calculateEndPoints();
 }
 
 /**
@@ -1049,26 +1037,26 @@ void AssociationLine::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 /**
  * Inserts a new point at double click position.
  */
-void AssociationLine::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
-{
-    DEBUG(DBG_SRC) << "at " << event->pos();
-    event->accept();
-    int index = closestPointIndex(event->pos());
-    // First check if double click was on a non end point.
-    if (index != -1 && !isEndPointIndex(index)) {
-        if (!m_associationWidget->isSelf() || count() > 4) {
-            removePoint(index);
-        }
-    }
-    else {
-        // Else insert a new point on the line segment
-        index = closestSegmentIndex(event->pos());
-        if (index != -1) {
-            // Insert after the obtained index.
-            insertPoint(index + 1, event->pos());
-        }
-    }
-}
+//void AssociationLine::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+//{
+//    DEBUG(DBG_SRC) << "at " << event->pos();
+//    event->accept();
+//    int index = closestPointIndex(event->pos());
+//    // First check if double click was on a non end point.
+//    if (index != -1 && !isEndPointIndex(index)) {
+//        if (!m_associationWidget->isSelf() || count() > 4) {
+//            removePoint(index);
+//        }
+//    }
+//    else {
+//        // Else insert a new point on the line segment
+//        index = closestSegmentIndex(event->pos());
+//        if (index != -1) {
+//            // Insert after the obtained index.
+//            insertPoint(index + 1, event->pos());
+//        }
+//    }
+//}
 
 /**
  * Calculates the "to be highlighted" point and segment indicies

@@ -1495,15 +1495,19 @@ QString AssociationWidget::toString() const
 /**
  * Adds a break point (if left mouse button).
  */
-void AssociationWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent * me)
+void AssociationWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-    Q_UNUSED(me);
+    if (event->button() == Qt::LeftButton) {
+        uDebug() << "widget = " << name() << " / type = " << baseTypeStr();
+        showPropertiesDialog();
+        event->accept();
+    }
 }
 
 /**
  * Overrides moveEvent.
  */
-void AssociationWidget::moveEvent(QGraphicsSceneMouseEvent* me)
+void AssociationWidget::moveEvent(QGraphicsSceneMouseEvent *me)
 {
     // 2004-04-30: Achim Spangler
     // Simple Approach to block moveEvent during load of
@@ -3160,10 +3164,13 @@ bool AssociationWidget::checkAddPoint(const UMLScenePoint &scenePos)
         return false;
     }
 
-    int i = m_associationLine->closestSegmentIndex(scenePos);
-
     // if there is no point around the mouse pointer, we insert a new one
-    if (i < 0) {
+    if (m_associationLine->closestPointIndex(scenePos) < 0) {
+        int i = m_associationLine->closestSegmentIndex(scenePos);
+        if (i < 0) {
+            DEBUG(DBG_SRC) << "no closest segment found!";
+            return false;
+        }
         m_associationLine->insertPoint(i + 1, scenePos);
         if (m_nLinePathSegmentIndex == i) {
             UMLScenePoint segStart = m_associationLine->point(i);
@@ -3182,14 +3189,17 @@ bool AssociationWidget::checkAddPoint(const UMLScenePoint &scenePos)
                     << m_nLinePathSegmentIndex;
                 computeAssocClassLine();
             }
+            m_associationLine->update();
+            calculateNameTextSegment();
+            m_umldoc->setModified(true);
+            setSelected(true);
         }
+        return true;
     }
-
-    m_associationLine->update();
-
-    calculateNameTextSegment();
-    m_umldoc->setModified(true);
-    return true;
+    else {
+        DEBUG(DBG_SRC) << "found point already close enough!";
+        return false;
+    }
 }
 
 bool AssociationWidget::checkRemovePoint(const QPointF &scenePos)

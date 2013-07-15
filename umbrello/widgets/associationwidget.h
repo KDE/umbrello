@@ -166,7 +166,7 @@ public:
 
     void saveIdealTextPositions();
 
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* me);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event);
     void mousePressEvent(QGraphicsSceneMouseEvent* me);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* me);
     void mouseMoveEvent(QGraphicsSceneMouseEvent* me);

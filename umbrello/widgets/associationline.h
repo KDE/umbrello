@@ -155,7 +155,7 @@ public:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+//    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
@@ -220,14 +220,6 @@ private:
 //    void calculateEndPoints();
 
 //    void activate();
-
-//    void calculateHead();
-
-//    void createHeadLines();
-//    void createSubsetSymbol();
-
-//    void updateHead();
-//    void updateSubsetSymbol();
 
 //    void calculateParallelLine();
 //    void setupParallelLine();
