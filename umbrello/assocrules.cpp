@@ -24,6 +24,7 @@
 #include "signalwidget.h"
 #include "forkjoinwidget.h"
 #include "umlscene.h"
+#include "umllistview.h"
 
 // kde includes
 #include <typeinfo>
@@ -168,6 +169,20 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType,
 
     if (!bValid) {
         return false;
+    }
+
+    //Prevent against a package containing its own parent! #packageception.
+    if (assocType == Uml::AssociationType::Containment) {
+          UMLListViewItem* listItemA = UMLApp::app()->listView()->findUMLObject(widgetA->umlObject());
+          UMLListViewItem* listItemB = UMLApp::app()->listView()->findUMLObject(widgetB->umlObject());
+
+          //Great, we have our listviewitems, now check to make sure that they don't become recursive.
+          if(listItemA->parent() == static_cast<QTreeWidgetItem*>(listItemB))
+          {
+              //The user is trying to make the parent the child and the child the parent. Stop them!
+              return false;
+          }
+          //This was just a little assertion for safety, don't return yet!
     }
 
     AssociationWidgetList list = widgetB->associationWidgetList();
