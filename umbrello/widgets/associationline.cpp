@@ -82,6 +82,10 @@ QPointF AssociationLine::point(int index) const
  */
 bool AssociationLine::setPoint(int index, const QPointF &point)
 {
+    if (index < 0) {
+        uWarning() << "Index out of range < 0";
+        return false;
+    }
     if (m_points.at(index) == point) {
         return false;  // nothing to change
     }
