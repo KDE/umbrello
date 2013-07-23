@@ -1,3 +1,11 @@
+version 2.10.97 (4.10.97)
+
+* Type int replaced with qreal. (Andi Fischer)
+* Printing border fix. (115630)
+* Fixed pixmap size problem painting diagrams into. (Ralf Habacker)
+* Add small area around items when rendering a graphicsscene for printing or bitmap export to avoid border clipping. (154523)
+* Removed unused method UMLWidget::updateLook(). (Ralf Habacker)
+
 version 2.10.90 (4.10.90)
 
 * Add git changelog maintainer script. (Ralf Habacker)
