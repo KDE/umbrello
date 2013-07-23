@@ -883,6 +883,9 @@ QPainterPath AssociationLine::shape() const
     QPolygonF polygon(m_points);
     QPainterPath path;
     path.addPolygon(polygon);
+    int size = count();
+    for(int i = 1; i < size-1; i++)
+        path.addEllipse(m_points[i], SelectedPointDiameter/2, SelectedPointDiameter/2);
     QPainterPathStroker stroker;
     stroker.setWidth(qMax<qreal>(SelectedPointDiameter, pen().widthF()) + 2.0);  // allow delta region
     return stroker.createStroke(path);
