@@ -56,6 +56,7 @@ AssociationLine::AssociationLine(AssociationWidget *association)
 {
     Q_ASSERT(association);
     setFlag(QGraphicsLineItem::ItemIsSelectable);
+    setZValue(3);
 }
 
 /**
