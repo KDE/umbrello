@@ -981,6 +981,13 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
             QLineF segmentLine(m_points[m_activeSegmentIndex], m_points[m_activeSegmentIndex + 1]);
             painter->drawLine(segmentLine);
         }
+
+        if (Tracer::instance()->isEnabled(metaObject()->className())) {
+            QPen p(Qt::green);
+            painter->setPen(p);
+            painter->setBrush(Qt::NoBrush);
+            painter->drawPath(shape());
+        }
     }
 
     // now restore the points array
