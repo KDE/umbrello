@@ -32,8 +32,10 @@ DEBUG_REGISTER_DISABLED(AssociationLine)
 
 // Initialize static variables.
 const qreal AssociationLine::Delta = 5;
-const qreal AssociationLine::SelectedPointDiameter = 8;
+const qreal AssociationLine::SelectedPointDiameter = 4;
 const qreal AssociationLine::SelfAssociationMinimumHeight = 30;
+
+//#define HOVER_EFFECT
 
 /**
  * Constructor.
@@ -883,11 +885,11 @@ QPainterPath AssociationLine::shape() const
     QPolygonF polygon(m_points);
     QPainterPath path;
     path.addPolygon(polygon);
-    int size = count();
-    for(int i = 1; i < size-1; i++)
-        path.addEllipse(m_points[i], SelectedPointDiameter/2, SelectedPointDiameter/2);
+
     QPainterPathStroker stroker;
     stroker.setWidth(qMax<qreal>(SelectedPointDiameter, pen().widthF()) + 2.0);  // allow delta region
+    stroker.setCapStyle(Qt::SquareCap);
+    stroker.setJoinStyle(Qt::MiterJoin);
     return stroker.createStroke(path);
 }
 
@@ -925,6 +927,7 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 {
     Q_UNUSED(widget);
     QPen _pen = pen();
+#ifdef HOVER_EFFECT
     const QColor orig = _pen.color().lighter();
     QColor invertedColor(orig.green(), orig.blue(), orig.red());
     if (invertedColor == _pen.color()) {
@@ -932,6 +935,7 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
         invertedColor.setRed((invertedColor.red() + 50) % 256);
     }
     invertedColor.setAlpha(150);
+#endif
 
     int sz = m_points.size();
     if (sz == 0) {
@@ -958,16 +962,26 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
     painter->drawPolyline(m_points.constData(), m_points.size());
 
     if (option->state & QStyle::State_Selected) {
+        _pen.setColor(Qt::blue);
         QRectF ellipse(0, 0, SelectedPointDiameter, SelectedPointDiameter);
         painter->setBrush(_pen.color());
         painter->setPen(Qt::NoPen);
-        for (int i = 1; i < sz - 1; ++i) {
+        ellipse.moveCenter(savedStart);
+        painter->drawRect(ellipse);
+        for (int i = 1; i < sz-1; ++i) {
+#ifdef HOVER_EFFECT
             if (i != m_activePointIndex) {
+#endif
                 ellipse.moveCenter(m_points.at(i));
-                painter->drawEllipse(ellipse);
+                painter->drawRect(ellipse);
+#ifdef HOVER_EFFECT
             }
+#endif
         }
+        ellipse.moveCenter(savedEnd);
+        painter->drawRect(ellipse);
 
+#ifdef HOVER_EFFECT
         if (m_activePointIndex != -1) {
             ellipse.moveCenter(m_points.at(m_activePointIndex));
             painter->setBrush(invertedColor);
@@ -981,7 +995,7 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
             QLineF segmentLine(m_points[m_activeSegmentIndex], m_points[m_activeSegmentIndex + 1]);
             painter->drawLine(segmentLine);
         }
-
+#endif
         if (Tracer::instance()->isEnabled(metaObject()->className())) {
             QPen p(Qt::green);
             painter->setPen(p);
@@ -1002,6 +1016,7 @@ void AssociationLine::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     DEBUG(DBG_SRC) << "at " << event->pos();
     if (event->buttons() & Qt::LeftButton) {
+#ifdef HOVER_EFFECT
         m_activePointIndex = closestPointIndex(event->pos());
         if (m_activePointIndex != -1 && isEndPointIndex(m_activePointIndex)) {
             // end points are not drawn and hence not active
@@ -1009,6 +1024,7 @@ void AssociationLine::mousePressEvent(QGraphicsSceneMouseEvent *event)
         }
         // calculate only if active point index is -1
         m_activeSegmentIndex = (m_activePointIndex != -1) ? -1 : closestSegmentIndex(event->pos());
+#endif
     }
     else if (event->buttons() & Qt::RightButton) {
         DEBUG(DBG_SRC) << "call context menu of association widget at " << event->pos();
@@ -1024,6 +1040,7 @@ void AssociationLine::mousePressEvent(QGraphicsSceneMouseEvent *event)
  */
 void AssociationLine::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+#ifdef HOVER_EFFECT
     if (m_activePointIndex != -1) {
         setPoint(m_activePointIndex, event->pos());
     }
@@ -1035,6 +1052,7 @@ void AssociationLine::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     else {
         return;
     }
+#endif
 }
 
 /**
@@ -1078,6 +1096,7 @@ void AssociationLine::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
  */
 void AssociationLine::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
+#ifdef HOVER_EFFECT
     DEBUG(DBG_SRC) << "at " << event->pos();
     int oldPointIndex = m_activePointIndex;
     int oldSegmentIndex = m_activeSegmentIndex;
@@ -1094,6 +1113,7 @@ void AssociationLine::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
     if (isChanged) {
         m_associationWidget->update();
     }
+#endif
 }
 
 /**
@@ -1102,6 +1122,7 @@ void AssociationLine::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
  */
 void AssociationLine::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 {
+#ifdef HOVER_EFFECT
     int oldPointIndex = m_activePointIndex;
     int oldSegmentIndex = m_activeSegmentIndex;
 
@@ -1117,6 +1138,7 @@ void AssociationLine::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
     if (isChanged) {
         m_associationWidget->update();
     }
+#endif
 }
 
 /**
@@ -1124,11 +1146,13 @@ void AssociationLine::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
  */
 void AssociationLine::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
+#ifdef HOVER_EFFECT
     DEBUG(DBG_SRC) << "at " << event->pos();
     //Q_UNUSED(event)
     m_activePointIndex   = -1;
     m_activeSegmentIndex = -1;
     m_associationWidget->update();
+#endif
 }
 
 //-----------------------------------------------------------------------------
