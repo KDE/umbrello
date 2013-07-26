@@ -935,6 +935,8 @@ QString toString(Enum item)
             return QString("SouthEast");
         case SouthWest:
             return QString("SouthWest");
+        case Center:
+            return QString("Center");
         default:
             break;
     }
@@ -964,6 +966,8 @@ Enum fromString(const QString& item)
         return SouthEast;
     if (item == "SouthWest")
         return SouthWest;
+    if (item == "Center")
+        return Center;
     return Error;
 }
 

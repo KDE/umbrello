@@ -24,8 +24,6 @@ class QDomDocument;
 class QDomElement;
 class QPainter;
 
-typedef QPair<QPointF, QPointF> SymbolEndPoints;
-
 /**
  * This class provides with various symbols that can be embedded in
  * AssociationLine.  It also provides with convenience methods to align
@@ -34,6 +32,8 @@ typedef QPair<QPointF, QPointF> SymbolEndPoints;
 class Symbol : public QGraphicsItem
 {
     public:
+        typedef QPair<QPointF, QPointF> SymbolEndPoints;
+
         /**
          * This enumeration lists all the symbols that can be used as
          * embedded on AssociationLine.
@@ -104,6 +104,7 @@ class Symbol : public QGraphicsItem
 class AssociationLine : public QGraphicsObject
 {
     Q_OBJECT
+    Q_ENUMS(LayoutType)
 public:
     enum LayoutType {
         Direct,
@@ -111,6 +112,8 @@ public:
         Orthogonal,
         Polyline
     };
+
+    static QString toString(LayoutType layout);
 
     explicit AssociationLine(AssociationWidget *association);
     virtual ~AssociationLine();
@@ -198,36 +201,12 @@ private:
     QGraphicsLineItem *m_associationClassLine;   ///< line used to represent Association class
     LayoutType         m_layout;
 
+    static QPainterPath createCubicBezierCurve(QVector<QPointF> points);
+    static QPainterPath createOrthogonalPath(QVector<QPointF> points);
+
     static const qreal Delta;  ///< default delta for fuzzy recognition of points closer to point
     static const qreal SelectedPointDiameter;         ///< radius of circles drawn to show "selection"
     static const qreal SelfAssociationMinimumHeight;  ///< minimum height for self association's loop
 };
-
-
-//    void setAssocType(Uml::AssociationType::Enum type);
-
-//    bool operator==(const AssociationLine & rhs);
-
-//    AssociationLine & operator=(const AssociationLine & rhs);
-
-//    enum Region {  ///< Enum to tell whether the line docks top/bottom or left/right.
-//        TopBottom, LeftRight
-//    };
-
-//    void setDockRegion(Region region);
-
-//    RegionPair determineRegions();
-//    void calculateEndPoints();
-
-//    void activate();
-
-//    void calculateParallelLine();
-//    void setupParallelLine();
-//    void updateParallelLine();
-
-//public slots:
-//    void slotLineColorChanged(Uml::ID::Type viewID);
-//    void slotLineWidthChanged(Uml::ID::Type viewID);
-
 
 #endif

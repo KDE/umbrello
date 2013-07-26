@@ -50,10 +50,11 @@ AssociationLine::AssociationLine(AssociationWidget *association)
     m_collaborationLineItem(0),
     m_collaborationLineHead(0),
     m_associationClassLine(0),
-    m_layout(Direct)
+    m_layout(Polyline)
 {
     Q_ASSERT(association);
     setFlag(QGraphicsLineItem::ItemIsSelectable);
+    setAcceptHoverEvents(true);
 }
 
 /**
@@ -868,7 +869,9 @@ void AssociationLine::alignSymbols()
  */
 QRectF AssociationLine::boundingRect() const
 {
-    return shape().boundingRect();
+    QPainterPathStroker stroker;
+    stroker.setWidth(qMax<qreal>(SelectedPointDiameter, pen().widthF()) + 2.0);  // allow delta region
+    return stroker.createStroke(shape()).boundingRect();
 }
 
 /**
@@ -876,12 +879,41 @@ QRectF AssociationLine::boundingRect() const
  */
 QPainterPath AssociationLine::shape() const
 {
-    QPolygonF polygon(m_points);
-    QPainterPath path;
-    path.addPolygon(polygon);
-    QPainterPathStroker stroker;
-    stroker.setWidth(qMax<qreal>(SelectedPointDiameter, pen().widthF()) + 2.0);  // allow delta region
-    return stroker.createStroke(path);
+    if (m_points.count() > 0) {
+        QPainterPath path;
+        switch (m_layout) {
+        case Direct:
+            path.moveTo(m_points.first());
+            path.lineTo(m_points.last());
+            break;
+
+        case Spline:
+            path = createCubicBezierCurve(m_points);
+            break;
+
+        case Orthogonal:
+            path = createOrthogonalPath(m_points);
+            break;
+
+        case Polyline:
+        default:
+            QPolygonF polygon(m_points);
+            path.addPolygon(polygon);
+            break;
+        }
+        return path;
+    }
+    else {
+        return QPainterPath();
+    }
+}
+
+/**
+ * Convert enum LayoutType to string.
+ */
+QString AssociationLine::toString(LayoutType layout)
+{
+    return QLatin1String(ENUM_NAME(AssociationLine, LayoutType, layout));
 }
 
 /**
@@ -891,23 +923,79 @@ QPainterPath AssociationLine::shape() const
 void AssociationLine::setLayout(LayoutType layout)
 {
     m_layout = layout;
-    switch(m_layout) {
-    case Direct:
-        DEBUG(DBG_SRC) << "Direct";
-        break;
-    case Spline:
-        DEBUG(DBG_SRC) << "Spline";
-        break;
-    case Orthogonal:
-        DEBUG(DBG_SRC) << "Orthogonal";
-        break;
-    case Polyline:
-        DEBUG(DBG_SRC) << "Polyline";
-        break;
-    default:
-        qWarning() << "Undefined layout!";
-        break;
+    DEBUG(DBG_SRC) << "new layout = " << toString(m_layout);
+    update();
+}
+
+/**
+ * Returns a Bézier path from given points.
+ * @param points   points which define the Bézier curve
+ * @return   cubic Bézier spline
+ */
+QPainterPath AssociationLine::createCubicBezierCurve(QVector<QPointF> points)
+{
+    QPainterPath path;
+    if (points.size() > 3) {
+        path.moveTo(points.at(0));
+        int i = 1;
+        while (i + 2 < points.size()) {
+            path.cubicTo(points.at(i), points.at(i+1), points.at(i+2));
+            i += 3;
+        }
+        while (i < points.size()) {
+            path.lineTo(points.at(i));
+            ++i;
+        }
     }
+    else {
+        QPolygonF polygon(points);
+        path.addPolygon(polygon);
+    }
+    return path;
+}
+
+/**
+ * Returns an orthogonal path constructed of vertical and horizontal segments
+ * through the given points.
+ * @param points   base points for the path
+ * @return   orthogonal path
+ */
+QPainterPath AssociationLine::createOrthogonalPath(QVector<QPointF> points)
+{
+    QPainterPath path;
+    if (points.size() > 1) {
+        QPointF start  = points.first();
+        QPointF end    = points.last();
+        qreal deltaX = abs(start.x() - end.x());
+        qreal deltaY = abs(start.y() - end.y());
+        QVector<QPointF> vector;
+        for (int i = 0; i < points.size() - 1; ++i) {
+            QPointF curr = points.at(i);
+            QPointF next = points.at(i+1);
+            QPointF center = (next - curr)/2.0;
+
+            vector.append(curr);
+            if (deltaX < deltaY) {
+                // go vertical first
+                vector.append(QPointF(curr.x(), center.y()));
+                vector.append(QPointF(next.x(), center.y()));
+            }
+            else {
+                // go horizontal first
+                vector.append(QPointF(center.x(), curr.y()));
+                vector.append(QPointF(center.x(), next.y()));
+            }
+            vector.append(next);
+        }
+
+        QPolygonF rectLine(vector);
+        path.addPolygon(rectLine);
+    }
+    else {
+        QPolygonF polygon(points);
+        path.addPolygon(polygon);
+    }
+    return path;
 }
 
 /**
@@ -916,25 +1004,18 @@ void AssociationLine::setLayout(LayoutType layout)
  */
 void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    Q_UNUSED(widget);
-    QPen _pen = pen();
-    const QColor orig = _pen.color().lighter();
-    QColor invertedColor(orig.green(), orig.blue(), orig.red());
-    if (invertedColor == _pen.color()) {
-        // Ensure different color.
-        invertedColor.setRed((invertedColor.red() + 50) % 256);
-    }
-    invertedColor.setAlpha(150);
+    Q_UNUSED(widget)
 
     int sz = m_points.size();
-    if (sz == 0) {
+    if (sz < 1) {
+        // not enough points - do nothing
         return;
     }
 
     QPointF savedStart = m_points.first();
     QPointF savedEnd = m_points.last();
 
-    // Modify the m_points array not to include the Symbol, the value depends on Symbol.
+    // modify the m_points array not to include the Symbol, the value depends on Symbol
     if (m_startSymbol) {
         QPointF newStart = m_startSymbol->mapToParent(m_startSymbol->symbolEndPoints().first);
         m_points[0] = newStart;
@@ -945,12 +1026,22 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
         m_points[sz - 1] = newEnd;
     }
 
+    QPen _pen = pen();
+
     painter->setPen(_pen);
     painter->setBrush(Qt::NoBrush);
-
-    painter->drawPolyline(m_points.constData(), m_points.size());
+    painter->drawPath(shape());
 
     if (option->state & QStyle::State_Selected) {
+        // set color for selected painting
+        const QColor orig = _pen.color().lighter();
+        QColor invertedColor(orig.green(), orig.blue(), orig.red());
+        if (invertedColor == _pen.color()) {
+            // Ensure different color.
+            invertedColor.setRed((invertedColor.red() + 50) % 256);
+        }
+        invertedColor.setAlpha(150);
+
         QRectF ellipse(0, 0, SelectedPointDiameter, SelectedPointDiameter);
         painter->setBrush(_pen.color());
         painter->setPen(Qt::NoPen);
@@ -974,6 +1065,12 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
             QLineF segmentLine(m_points[m_activeSegmentIndex], m_points[m_activeSegmentIndex + 1]);
             painter->drawLine(segmentLine);
         }
+
+//:TODO:
+        QPainterPathStroker stroker;
+        stroker.setWidth(3.0);
+        QPainterPath outline = stroker.createStroke(shape());
+        painter->drawPath(outline);
     }
 
     // now restore the points array
@@ -1326,7 +1423,7 @@ void Symbol::alignTo(const QLineF& to)
 /**
  * @return The end points for the symbol.
  */
-SymbolEndPoints Symbol::symbolEndPoints() const
+Symbol::SymbolEndPoints Symbol::symbolEndPoints() const
 {
     return Symbol::symbolTable[m_symbolType].endPoints;
 }
@@ -1346,7 +1443,6 @@ void Symbol::setPen(const QPen& pen)
 {
     prepareGeometryChange();
     m_pen = pen;
-//:TODO: update();
 }
 
 /**

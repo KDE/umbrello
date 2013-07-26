@@ -2267,12 +2267,12 @@ void UMLScene::removeAssocInViewAndDoc(AssociationWidget* a)
 /**
  * Removes all the associations related to Widget.
  *
- * @param pWidget  Pointer to the widget to remove.
+ * @param widget  Pointer to the widget to remove.
  */
-void UMLScene::removeAssociations(UMLWidget* Widget)
+void UMLScene::removeAssociations(UMLWidget* widget)
 {
     foreach(AssociationWidget* assocwidget, m_AssociationList) {
-        if (assocwidget->hasWidget(Widget)) {
+        if (assocwidget->containsAsEndpoint(widget)) {
             removeAssoc(assocwidget);
         }
     }

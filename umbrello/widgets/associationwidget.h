@@ -15,12 +15,10 @@
 #include "linkwidget.h"
 #include "messagewidgetlist.h"
 #include "umlwidgetlist.h"
-#include "umlscene.h"
 #include "widgetbase.h"
 
 class AssociationLine;
 class ClassifierWidget;
-class UMLDoc;
 class UMLScene;
 class UMLAssociation;
 class UMLAttribute;
@@ -45,6 +43,7 @@ class UMLOperation;
  * The getAssociation method returns NULL in this case.
  *
  * @author Gustavo Madrigal
+ * @author Gopala Krishna
  * @short This class represents an association inside a diagram.
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
@@ -52,16 +51,6 @@ class AssociationWidget : public WidgetBase, public LinkWidget
 {
     Q_OBJECT
 public:
-    /**
-     * Enumeration used for stating where a line is on a widget.
-     */
-    enum Region {
-        Error = 0,
-        West, North, East, South,
-        NorthWest, NorthEast, SouthEast, SouthWest,
-        Center
-    };
-
     static AssociationWidget* create(UMLScene *scene);
     static AssociationWidget* create
                      (UMLScene *scene, UMLWidget* WidgetA,
@@ -93,8 +82,8 @@ public:
     virtual UMLClassifier* seqNumAndOp(QString& seqNum, QString& op);
     virtual void setSeqNumAndOp(const QString &seqNum, const QString &op);
 
-    virtual void constrainTextPos(UMLSceneValue &textX, UMLSceneValue &textY,
-                                  UMLSceneValue textWidth, UMLSceneValue textHeight,
+    virtual void constrainTextPos(qreal &textX, qreal &textY,
+                                  qreal textWidth, qreal textHeight,
                                   Uml::TextRole::Enum tr);
 
     virtual void calculateNameTextSegment();
@@ -104,9 +93,9 @@ public:
     UMLAssociation* association() const;
     UMLAttribute* attribute() const;
 
-    //AssociationWidget& operator=(const AssociationWidget & Other);
-    bool operator==(const AssociationWidget & Other) const;
-    bool operator!=(AssociationWidget & Other) const;
+//    AssociationWidget& operator=(const AssociationWidget& other);
+    bool operator==(const AssociationWidget& other) const;
+    bool operator!=(AssociationWidget& other) const;
 
     FloatingTextWidget* textWidgetByRole(Uml::TextRole::Enum tr) const;
 
@@ -138,9 +127,9 @@ public:
 
     bool setWidgets(UMLWidget* widgetA, Uml::AssociationType::Enum assocType, UMLWidget* widgetB);
 
-    bool checkAssoc(UMLWidget *widgetA, UMLWidget *widgetB);
+//    bool checkAssoc(UMLWidget *widgetA, UMLWidget *widgetB);
 
-    bool hasWidget(UMLWidget* widget);
+    bool containsAsEndpoint(UMLWidget* widget);
 
     Uml::AssociationType::Enum associationType() const;
     void setAssociationType(Uml::AssociationType::Enum type);
@@ -150,7 +139,7 @@ public:
 
     QString toString() const;
 
-    bool isActivated();
+    bool isActivated() const;
     void setActivated(bool active /*=true*/);
 
     bool isSelected() const;
@@ -164,23 +153,18 @@ public:
 
     void widgetMoved(UMLWidget* widget, int x, int y);
 
-    void updatePointsException();
-
     void saveIdealTextPositions();
 
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event);
-    void mousePressEvent(QGraphicsSceneMouseEvent* me);
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent* me);
-    void mouseMoveEvent(QGraphicsSceneMouseEvent* me);
-
-    bool onAssociation(const UMLScenePoint& point);
-    bool onAssocClassLine(const UMLScenePoint& point);
+    bool onAssociation(const QPointF& point);
+    bool onAssocClassLine(const QPointF& point);
 
     void createAssocClassLine();
     void createAssocClassLine(ClassifierWidget* classifierWidget,
                               int linePathSegmentIndex);
 
     void selectAssocClassLine(bool sel = true);
+    void removeAssocClassLine();
+    void computeAssocClassLine();
 
     void moveMidPointsBy(int x, int y);
     void moveEntireAssoc(int x, int y);
@@ -188,16 +172,11 @@ public:
     QFont font() const;
 
     virtual void setTextColor(const QColor &color);
-    virtual void setLineColor(const QColor &color);
-    void setLineWidth(uint width);
 
-    void setIndex(int index, Uml::RoleType::Enum role);
-    int getIndex(Uml::RoleType::Enum role) const;
+//    void setIndex(int index, Uml::RoleType::Enum role);
+//    int getIndex(Uml::RoleType::Enum role) const;
 
     void calculateEndingPoints();
-
-    void removeAssocClassLine();
-    void computeAssocClassLine();
 
     void clipSize();
 
@@ -211,6 +190,12 @@ public:
     bool isPointAddable();
     bool isPointRemovable();
 
+    //:TODO: the following four methods should be protected
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+
 public Q_SLOTS:  //:TODO: all virtual?
     virtual void slotMenuSelection(QAction* action);
     void slotClearAllSelected();
@@ -222,10 +207,14 @@ public Q_SLOTS:  //:TODO: all virtual?
 protected:
     virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
+    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+    virtual void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
+
 private:
-    UMLScenePoint calculateTextPosition(Uml::TextRole::Enum role);
+    QPointF calculateTextPosition(Uml::TextRole::Enum role);
     void setTextPosition(Uml::TextRole::Enum role);
-    void setTextPositionRelatively(Uml::TextRole::Enum role, const UMLScenePoint &oldPosition);
+    void setTextPositionRelatively(Uml::TextRole::Enum role, const QPointF &oldPosition);
     void setFloatingText(Uml::TextRole::Enum role, const QString& text, FloatingTextWidget* &ft);
 
     AssociationWidget(UMLScene *scene);
@@ -234,29 +223,31 @@ private:
 
     void mergeAssociationDataIntoUMLRepresentation();
 
-    static Region findPointRegion(const UMLSceneRect& Rect, int PosX, int PosY);
-    static int findInterceptOnEdge(const UMLSceneRect &rect, Region region, const UMLScenePoint &point);
-    static UMLScenePoint findIntercept(const UMLSceneRect &rect, const UMLScenePoint &point);
+    static Uml::Region::Enum findPointRegion(const QRectF& Rect, int PosX, int PosY);
+    static int findInterceptOnEdge(const QRectF &rect, Uml::Region::Enum region, const QPointF &point);
+    static QPointF findIntercept(const QRectF &rect, const QPointF &point);
 
     void moveEvent(QGraphicsSceneMouseEvent *me);
 
     Uml::TextRole::Enum calculateNameType(Uml::TextRole::Enum defaultRoleType);
 
-//    bool isPointInsideBoundaries(int PosX, int PosY, UMLScenePoint & SPoint,
+//    bool isPointInsideBoundaries(int PosX, int PosY, QPointF & SPoint,
 //                                 uint & StartSegmentIndex, uint & EndSegmentIndex);
 
-    static UMLScenePoint swapXY(const UMLScenePoint &p);
+    static QPointF swapXY(const QPointF &p);
 
 //    float totalLength();
 
-    static UMLScenePoint calculatePointAtDistance(const UMLScenePoint &P1, const UMLScenePoint &P2, float Distance);
-    static UMLScenePoint calculatePointAtDistanceOnPerpendicular(const UMLScenePoint &P1, const UMLScenePoint &P2, float Distance);
+    static QPointF calculatePointAtDistance(const QPointF &P1, const QPointF &P2, float Distance);
+    static QPointF calculatePointAtDistanceOnPerpendicular(const QPointF &P1, const QPointF &P2, float Distance);
 
-    static float perpendicularProjection(const UMLScenePoint& P1, const UMLScenePoint& P2, const UMLScenePoint& P3, UMLScenePoint& ResultingPoint);
+    static float perpendicularProjection(const QPointF& P1, const QPointF& P2, const QPointF& P3, QPointF& ResultingPoint);
 
-    static UMLScenePoint midPoint(const UMLScenePoint& p0, const UMLScenePoint& p1);
+    static QPointF midPoint(const QPointF& p0, const QPointF& p1);
 
-//    Region getWidgetRegion(AssociationWidget * widget) const;
+    void updatePointsException();
+
+//    Uml::Region::Enum getWidgetRegion(AssociationWidget * widget) const;
 
     /**
      * The WidgetRole struct gathers all information pertaining to the role.
@@ -271,8 +262,7 @@ private:
 
         UMLWidget* umlWidget;    ///< UMLWidget at this role's side of this association
 
-        UMLScenePoint m_OldCorner;      ///< old top left corner before moving
-        Region        m_WidgetRegion;   ///< region of this role's widget
+        Uml::Region::Enum     m_WidgetRegion;   ///< region of this role's widget
 
         int m_nIndex;        ///< the index of where the line is on the region for this role
         int m_nTotalCount;   ///< total amount of associations on the region this role's line is on
@@ -285,19 +275,19 @@ private:
     };
 
     void updateRegionLineCount(int index, int totalCount,
-                               AssociationWidget::Region region, Uml::RoleType::Enum role);
+                               Uml::Region::Enum region, Uml::RoleType::Enum role);
 
-    void updateAssociations(int totalCount, Region region, Uml::RoleType::Enum role);
+    void updateAssociations(int totalCount, Uml::Region::Enum region, Uml::RoleType::Enum role);
 
-    int getRegionCount(Region region, Uml::RoleType::Enum role);
+    int getRegionCount(Uml::Region::Enum region, Uml::RoleType::Enum role);
 
     void doUpdates(int otherX, int otherY, Uml::RoleType::Enum role);
 
     void setChangeWidget(const QString &strChangeWidget, Uml::RoleType::Enum role);
 
-    void checkPoints(const UMLScenePoint &p);
-    bool checkAddPoint(const UMLScenePoint &scenePos);
-    bool checkRemovePoint(const UMLScenePoint &scenePos);
+    void checkPoints(const QPointF &p);
+    bool checkAddPoint(const QPointF &scenePos);
+    bool checkRemovePoint(const QPointF &scenePos);
 
     bool linePathStartsAt(const UMLWidget* widget);
 
@@ -317,17 +307,16 @@ private:
      * m_associationLine[m_unNameLineSegment] -- m_associationLine[m_unNameLineSegment+1]
      */
     uint                m_unNameLineSegment;
-    UMLDoc              *m_umldoc;  ///< just a shorthand for UMLApp::app()->getDocument()
     bool                m_selected;
     int                 m_nMovingPoint;
 
-    UMLScenePoint m_oldNamePoint;    ///< Position of name floatingtext saved by saveIdealTextPositions()
-    UMLScenePoint m_oldMultiAPoint;  ///< Position of role A multiplicity floatingtext saved by saveIdealTextPositions()
-    UMLScenePoint m_oldMultiBPoint;  ///< Position of role B multiplicity floatingtext saved by saveIdealTextPositions()
-    UMLScenePoint m_oldChangeAPoint; ///< Position of role A changeability floatingtext saved by saveIdealTextPositions()
-    UMLScenePoint m_oldChangeBPoint; ///< Position of role B changeability floatingtext saved by saveIdealTextPositions()
-    UMLScenePoint m_oldRoleAPoint;   ///< Position of role A name floatingtext saved by saveIdealTextPositions()
-    UMLScenePoint m_oldRoleBPoint;   ///< Position of role B name floatingtext saved by saveIdealTextPositions()
+    QPointF m_oldNamePoint;    ///< Position of name floatingtext saved by saveIdealTextPositions()
+    QPointF m_oldMultiAPoint;  ///< Position of role A multiplicity floatingtext saved by saveIdealTextPositions()
+    QPointF m_oldMultiBPoint;  ///< Position of role B multiplicity floatingtext saved by saveIdealTextPositions()
+    QPointF m_oldChangeAPoint; ///< Position of role A changeability floatingtext saved by saveIdealTextPositions()
+    QPointF m_oldChangeBPoint; ///< Position of role B changeability floatingtext saved by saveIdealTextPositions()
+    QPointF m_oldRoleAPoint;   ///< Position of role A name floatingtext saved by saveIdealTextPositions()
+    QPointF m_oldRoleBPoint;   ///< Position of role B name floatingtext saved by saveIdealTextPositions()
 
     int m_nLinePathSegmentIndex; ///< anchor for m_pAssocClassLine
     QGraphicsLineItem *m_pAssocClassLine;  ///< used for connecting assoc. class
