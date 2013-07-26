@@ -1315,7 +1315,15 @@ void Symbol::paint(QPainter *painter, const QStyleOptionGraphicsItem * option, Q
 {
     Q_UNUSED(option) Q_UNUSED(widget)
     painter->setPen(m_pen);
-    painter->setBrush(m_brush);
+    switch (m_symbolType) {
+    case ClosedArrow:
+    case CrowFeet:
+    case Diamond:
+        painter->setBrush(m_brush);
+        break;
+    default:
+        break;
+    }
     painter->drawPath(Symbol::symbolTable[m_symbolType].shape);
 }
 
