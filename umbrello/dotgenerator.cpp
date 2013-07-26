@@ -339,7 +339,12 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
             widget->paint(&p, 0);
             label = d.data().join("\\n");
         }
-    
+
+        if (label.contains("\"")) {
+            label = label.replace('"',"\\\"");
+            uDebug() << "replaced \" in" << label;
+        }
+
         if (m_nodeParameters.contains(key))
             params << m_nodeParameters[key].split(',');
         else if (m_nodeParameters.contains("type::default"))
