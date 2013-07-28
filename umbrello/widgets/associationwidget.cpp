@@ -2503,9 +2503,12 @@ QPointF AssociationWidget::calculateTextPosition(Uml::TextRole::Enum role)
     } else if (role == TextRole::Name) {
 
         calculateNameTextSegment();
+        if (m_unNameLineSegment == -1) {
+            uWarning() << "TODO:negative line segment index";
+            m_unNameLineSegment = 0;
+        }
         x = ( m_associationLine->point(m_unNameLineSegment).x() +
                      m_associationLine->point(m_unNameLineSegment + 1).x() ) / 2;
-
         y = ( m_associationLine->point(m_unNameLineSegment).y() +
                      m_associationLine->point(m_unNameLineSegment + 1).y() ) / 2;
     }

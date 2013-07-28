@@ -256,19 +256,18 @@ public:
             while(path->count() > 1) {
                 path->removePoint(0);
             }
-            path->setEndPoints(QPoint(p[0].x() + m_origin.x(), m_boundingRect.height() - p[0].y() + m_origin.y()), QPoint(p[len-1].x() + m_origin.x(), m_boundingRect.height() - p[len-1].y() + m_origin.y()));
+            path->setEndPoints(mapToScene(p[0]), mapToScene(p[len-1]));
 
             // set label position
             QPointF &l = m_edgeLabelPosition[id];
             FloatingTextWidget *tw = assoc->nameWidget();
             if (tw) {
-                tw->setX((int)(l.x() + m_origin.x()));
-                tw->setY(int(m_boundingRect.height() - l.y() + m_origin.y()));
+                tw->setPos(mapToScene(l));
             }
             // FIXME: set remaining association line points
             /*
             for(int i = 1; i < len-1; i++) {
-                path->insertPoint(i, QPoint(p[i].x()+ m_origin.x(), m_boundingRect.height() - p[i].y() + m_origin.y()));
+                path->insertPoint(i, mapToScene((p[i]));
             }
             */
             /*
@@ -579,6 +578,16 @@ protected:
     return true;
     }
 #endif
+
+    /**
+     * map dot coordinate to scene coordinate
+     * @param p dot point to map
+     * @return uml scene coordinate
+     */
+    QPointF mapToScene(const QPointF &p)
+    {
+        return QPointF(p.x()+ m_origin.x(), m_boundingRect.height() - p.y() + m_origin.y());
+    }
 
     QRectF m_boundingRect;
     NodeType m_nodes;      ///< list of nodes found in parsed dot file
