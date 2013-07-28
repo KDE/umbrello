@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,13 +12,11 @@
 #define ASSOCPROPDLG_H
 
 #include "dialogbase.h"
-#include "associationwidget.h"
 
-// kde includes
-#include <kfontdialog.h>
-
+class AssociationWidget;
 class AssocRolePage;
 class AssocGenPage;
+class KFontChooser;
 class UMLWidgetStylePage;
 
 /**
@@ -30,18 +28,7 @@ class AssocPropDlg : public DialogBase
 {
     Q_OBJECT
 public:
-
-    /**
-     *  Sets up a Association Properties Dialog.
-     *  @param  parent  The parent of the AssocPropDlg
-     *  @param  a       The Association Widget to display properties of.
-     *  @param  pageNum The page to show first.
-     */
     AssocPropDlg(QWidget *parent, AssociationWidget *a, int pageNum = 0);
-
-    /**
-     *  Standard deconstructor
-     */
     ~AssocPropDlg();
 
     enum Page { page_gen = 0, page_role, page_font };
@@ -54,11 +41,11 @@ protected slots:
     void slotApply();
 
 private:
-    AssocGenPage *m_pGenPage;
-    AssocRolePage *m_pRolePage;
+    AssocGenPage       *m_pGenPage;
+    AssocRolePage      *m_pRolePage;
     UMLWidgetStylePage *m_pStylePage;
-    KFontChooser *m_pChooser;
-    AssociationWidget *m_pAssoc;
+    KFontChooser       *m_pChooser;
+    AssociationWidget  *m_pAssoc;
 
 };
 

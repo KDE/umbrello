@@ -4,23 +4,22 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef SELECTOPDLG_H
 #define SELECTOPDLG_H
 
-#include "classifier.h"
-
 #include <kdialog.h>
 
-class UMLView;
 class KComboBox;
 class KLineEdit;
 class QGroupBox;
 class QLabel;
 class QRadioButton;
+class UMLClassifier;
+class UMLView;
 
 /**
  * A dialog used to select an operation.
@@ -33,18 +32,7 @@ class SelectOpDlg : public KDialog
 {
     Q_OBJECT
 public:
-
-    /**
-     *  Constructs a SelectOpDlg instance.
-     *
-     *  @param  parent  The parent to this instance.
-     *  @param  c       The concept to get the operations from.
-     */
     SelectOpDlg(QWidget * parent, UMLClassifier * c);
-
-    /**
-     *  Standard deconstructor.
-     */
     ~SelectOpDlg();
 
     QString getOpText();

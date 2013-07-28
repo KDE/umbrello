@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -18,8 +18,10 @@
 #include "icon_utils.h"
 
 //kde includes
-#include <kvbox.h>
+#include <klineedit.h>
 #include <klocale.h>
+#include <ktextedit.h>
+#include <kvbox.h>
 
 //qt includes
 #include <QCheckBox>
@@ -30,8 +32,13 @@
 #include <QLabel>
 #include <QRadioButton>
 
+/**
+ * Constructor.
+ */
 ActivityDialog::ActivityDialog(QWidget * parent, ActivityWidget * pWidget)
-   : DialogBase(parent)
+   : DialogBase(parent),
+     m_pActivityWidget(pWidget),
+     m_bChangesMade(false)
 {
     setCaption( i18n("Properties") );
     setButtons( Ok | Apply | Cancel | Help );
@@ -39,15 +46,13 @@ ActivityDialog::ActivityDialog(QWidget * parent, ActivityWidget * pWidget)
     setModal( true );
     setFaceType( KPageDialog::List );
     showButtonSeparator( true );
-    m_pActivityWidget = pWidget;
-    m_bChangesMade = false;
     setupPages();
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
 /**
- *   Entered when OK button pressed.
+ * Entered when OK button pressed.
  */
 void ActivityDialog::slotOk()
 {
@@ -58,7 +63,7 @@ void ActivityDialog::slotOk()
 }
 
 /**
- *   Entered when Apply button pressed.
+ * Entered when Apply button pressed.
  */
 void ActivityDialog::slotApply()
 {
@@ -88,7 +93,7 @@ void ActivityDialog::slotHideActivityParameter()
 }
 
 /**
- *   Sets up the pages of the dialog.
+ * Sets up the pages of the dialog.
  */
 void ActivityDialog::setupPages()
 {
@@ -98,7 +103,7 @@ void ActivityDialog::setupPages()
 }
 
 /**
- *     Applies changes to the given page.
+ * Applies changes to the given page.
  */
 void ActivityDialog::applyPage( KPageWidgetItem *item )
 {
@@ -129,7 +134,7 @@ void ActivityDialog::applyPage( KPageWidgetItem *item )
 }
 
 /**
- *   Sets up the general page of the dialog.
+ * Sets up the general page of the dialog.
  */
 void ActivityDialog::setupGeneralPage()
 {
@@ -214,7 +219,7 @@ void ActivityDialog::setupGeneralPage()
 }
 
 /**
- *   Show the Activity Parameter entry text.
+ * Show the Activity Parameter entry text.
  */
 void ActivityDialog::showParameterActivity()
 {

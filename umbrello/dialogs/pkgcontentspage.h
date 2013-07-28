@@ -4,19 +4,18 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 #ifndef PKGCONTENTSPAGE_H
 #define PKGCONTENTSPAGE_H
 
-#include "listpopupmenu.h"
-#include "package.h"
-
-#include <QGroupBox>
-#include <QListWidget>
 #include <QWidget>
 
+class ListPopupMenu;
+class UMLPackage;
+class QGroupBox;
+class QListWidget;
 class QListWidgetItem;
 
 /**

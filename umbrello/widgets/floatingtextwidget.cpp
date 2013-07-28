@@ -13,6 +13,7 @@
 
 // local includes
 #include "association.h"
+#include "associationwidget.h"
 #include "assocpropdlg.h"
 #include "classifier.h"
 #include "cmds.h"
@@ -30,6 +31,7 @@
 #include "umlview.h"
 
 // kde includes
+#include <kfontdialog.h>
 #include <kinputdialog.h>
 #include <klocale.h>
 

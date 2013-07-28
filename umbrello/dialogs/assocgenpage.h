@@ -4,28 +4,25 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef ASSOCGENPAGE_H
 #define ASSOCGENPAGE_H
 
-//my class includes
-#include "association.h"
-#include "umlobject.h"
-#include "objectwidget.h"
-#include "umldoc.h"
-#include "associationwidget.h"
+#include "basictypes.h"
 
-#include <klineedit.h>
-#include <ktextedit.h>
-
-//qt class includes
 #include <QList>
 #include <QWidget>
 
+class AssociationWidget;
 class KComboBox;
+class KLineEdit;
+class KTextEdit;
+class ObjectWidget;
+class UMLDoc;
+class UMLObject;
 
 /**
  * Displays properties of a UMLObject in a dialog box.  This is not usually directly
@@ -39,25 +36,24 @@ class AssocGenPage : public QWidget
 {
     Q_OBJECT
 public:
-
     AssocGenPage(UMLDoc *d, QWidget *parent, AssociationWidget *a);
     ~AssocGenPage();
 
     void updateObject();
 
 private:
-    KLineEdit * m_pAssocNameLE;
+    KLineEdit *m_pAssocNameLE;
     KComboBox *m_pTypeCB;
 
     /* Choices for the QComboBox, and we store ints and strings
        so we can translate both ways */
     QList<Uml::AssociationType::Enum> m_AssocTypes;
     QStringList m_AssocTypeStrings;
-    KTextEdit * m_doc;
+    KTextEdit *m_doc;
 
     AssociationWidget *m_pAssociationWidget;
-    UMLDoc * m_pUmldoc;
-    ObjectWidget * m_pWidget;
+    UMLDoc *m_pUmldoc;
+    ObjectWidget *m_pWidget;
 
     void constructWidget();
 

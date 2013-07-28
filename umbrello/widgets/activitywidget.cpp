@@ -24,6 +24,8 @@
 #include <klocale.h>
 #include <kinputdialog.h>
 
+// qt includes
+#include <QPointer>
 /**
  * Creates a Activity widget.
  *

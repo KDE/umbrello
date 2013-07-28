@@ -4,27 +4,23 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef ASSOCROLEPAGE_H
 #define ASSOCROLEPAGE_H
 
-// app includes
-#include "umlobject.h"
-#include "objectwidget.h"
-#include "umldoc.h"
-#include "associationwidget.h"
-
-#include <klineedit.h>
-#include <kcombobox.h>
-#include <ktextedit.h>
-
-// qt includes
 #include <QWidget>
 
+class AssociationWidget;
+class KComboBox;
+class KLineEdit;
+class KTextEdit;
+class ObjectWidget;
 class QRadioButton;
+class UMLDoc;
+class UMLObject;
 
 /**
  * Displays properties of a UMLObject in a dialog box.  This is not usually directly
@@ -38,18 +34,7 @@ class AssocRolePage : public QWidget
 {
     Q_OBJECT
 public:
-
-    /**
-     *  Sets up the AssocRolePage.
-     *  @param  d       The UMLDoc which controls controls object creation.
-     *  @param  parent  The parent to the AssocRolePage.
-     *  @param  a       The AssociationWidget to display the properties of.
-     */
     AssocRolePage(UMLDoc *d, QWidget *parent, AssociationWidget *a);
-
-    /**
-     *  Standard deconstructor.
-     */
     ~AssocRolePage();
 
     void updateObject();

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,14 +12,10 @@
 #define UMLUNIQUECONSTRAINTDIALOG_H
 
 //app includes
-#include "umlclassifierlistitemlist.h"
 #include "umlentityattributelist.h"
 
 //kde includes
 #include <kdialog.h>
-
-//qt  includes
-#include <QWidget>
 
 class UMLDoc;
 class UMLUniqueConstraint;
@@ -41,33 +37,17 @@ class UMLUniqueConstraintDialog : public KDialog
 {
     Q_OBJECT
 public:
-
-    /**
-     *  Sets up the UMLUniqueConstraintDialog.
-     *  @param parent   The parent to the UMLUniqueConstraintDialog.
-     *  @param pUniqueConstraint The Unique Constraint to show the properties of.
-     */
     UMLUniqueConstraintDialog(QWidget* parent, UMLUniqueConstraint* pUniqueConstraint);
-
-    /**
-     *  Standard destructor.
-     */
     ~UMLUniqueConstraintDialog();
 
 protected:
-
     void setupDialog();
 
     bool apply();
 
 private:
-
-    UMLUniqueConstraint* m_pUniqueConstraint;
-
-    /**
-     * The UMLDocument where all objects live.
-     */
-    UMLDoc* m_doc;
+    UMLUniqueConstraint *m_pUniqueConstraint;
+    UMLDoc              *m_doc;  ///< the UMLDocument where all objects live
 
     /* GUI Widgets */
     QGroupBox* m_pAttributeListGB;
@@ -79,19 +59,13 @@ private:
 
     /* local cache */
     UMLEntityAttributeList m_pEntityAttributeList;
-
     UMLEntityAttributeList m_pConstraintAttributeList;
 
 public slots:
-
     void slotResetWidgetState();
-
     void slotApply();
-
     void slotOk();
-
     void slotAddAttribute();
-
     void slotDeleteAttribute();
 
 };

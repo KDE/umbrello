@@ -4,12 +4,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "notedialog.h"
+
+#include "notewidget.h"
 
 // kde includes
 #include <klocale.h>
@@ -21,6 +23,9 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
+/**
+ * Constructs an NoteDialog.
+ */
 NoteDialog::NoteDialog( QWidget * parent, NoteWidget * pNote )
   : KDialog(parent)
 {
@@ -53,6 +58,9 @@ NoteDialog::NoteDialog( QWidget * parent, NoteWidget * pNote )
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
 }
 
+/**
+ *  Standard destructor.
+ */
 NoteDialog::~NoteDialog()
 {
 }
