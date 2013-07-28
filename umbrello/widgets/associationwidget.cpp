@@ -36,6 +36,7 @@
 
 // kde includes
 #include <kinputdialog.h>
+#include <kfontdialog.h>
 #include <klocale.h>
 #include <kcolordialog.h>
 

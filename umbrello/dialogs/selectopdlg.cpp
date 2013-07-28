@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2011                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,6 +13,7 @@
 
 // local includes
 #include "attribute.h"
+#include "classifier.h"
 #include "debug_utils.h"
 #include "operation.h"
 #include "umlclassifierlistitemlist.h"
@@ -36,6 +37,12 @@ bool caseInsensitiveLessThan(const UMLOperation *s1, const UMLOperation *s2)
     return s1->name().toLower() < s2->name().toLower();
 }
 
+/**
+ *  Constructs a SelectOpDlg instance.
+ *
+ *  @param  parent  The parent to this instance.
+ *  @param  c       The concept to get the operations from.
+ */
 SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c)
    : KDialog(parent)
 {
@@ -87,6 +94,9 @@ SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c)
     m_pOpRB->click();
 }
 
+/**
+ *  Standard destructor.
+ */
 SelectOpDlg::~SelectOpDlg()
 {
 }

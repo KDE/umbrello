@@ -4,35 +4,27 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2011                                               *
+ *   copyright (C) 2003-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef CLASSPROPDLG_H
 #define CLASSPROPDLG_H
 
-#include "basictypes.h"
 #include "dialogbase.h"
-#include "icon_utils.h"
 
-// kde class includes
-#include <kfontdialog.h>
-
-// qt class includes
-#include <QFrame>
-
+class AssocPage;
 class ClassGenPage;
 class ClassifierListPage;
-class ConstraintListPage;
-class PkgContentsPage;
-class AssocPage;
 class ClassOptionsPage;
-class UMLWidgetStylePage;
-
+class ConstraintListPage;
+class KFontChooser;
+class PkgContentsPage;
 class ObjectWidget;
 class UMLDoc;
 class UMLObject;
 class UMLWidget;
+class UMLWidgetStylePage;
 
 /**
  * @author Paul Hensgen <phensgen@techie.com>

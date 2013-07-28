@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -33,8 +33,14 @@
 #include <QLabel>
 #include <QRadioButton>
 
+/**
+ * Constructor.
+ */
 ObjectNodeDialog::ObjectNodeDialog( UMLView * pView, ObjectNodeWidget * pWidget )
-  : DialogBase(pView)
+  : DialogBase(pView),
+    m_pObjectNodeWidget(pWidget),
+    m_pView(pView),
+    m_bChangesMade(false)
 {
     setCaption( i18n("Properties") );
     setButtons( Ok | Apply | Cancel | Help );
@@ -42,9 +48,6 @@ ObjectNodeDialog::ObjectNodeDialog( UMLView * pView, ObjectNodeWidget * pWidget 
     setModal( true );
     setFaceType( KPageDialog::List );
     showButtonSeparator( true );
-    m_pView = pView;
-    m_pObjectNodeWidget = pWidget;
-    m_bChangesMade = false;
     setupPages();
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));

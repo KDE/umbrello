@@ -4,19 +4,17 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef NOTEDIALOG_H
 #define NOTEDIALOG_H
 
-// app includes
-#include "notewidget.h"
-
 // kde includes
 #include <kdialog.h>
 
+class NoteWidget;
 class KTextEdit;
 class QGroupBox;
 
@@ -27,31 +25,17 @@ class QGroupBox;
 class NoteDialog : public KDialog
 {
    Q_OBJECT
-
 public:
-
-    /**
-     *  Constructs an NoteDialog.
-     */
     NoteDialog( QWidget * parent, NoteWidget * pNote );
-
-    /**
-     *  Standard deconstructor.
-     */
     ~NoteDialog();
 
 public slots:
     void slotOk();
 
 private:
-    //GUI widgets
-    QGroupBox * m_docGB;
-    KTextEdit * m_docTE;
-
-    /**
-     *  Note widget to show documentation for.
-     */
-    NoteWidget * m_pNoteWidget;
+    QGroupBox * m_docGB;  ///< GUI widget
+    KTextEdit * m_docTE;  ///< GUI widget
+    NoteWidget * m_pNoteWidget;  ///< note widget to show documentation for
 };
 
 #endif

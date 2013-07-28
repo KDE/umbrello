@@ -12,14 +12,20 @@
 #include "assocgenpage.h"
 
 // local includes
+#include "associationwidget.h"
+#include "assocrules.h"
 #include "debug_utils.h"
 #include "dialog_utils.h"
-#include "assocrules.h"
+#include "objectwidget.h"
+#include "umldoc.h"
+#include "umlobject.h"
 
 // kde includes
 #include <kcombobox.h>
+#include <klineedit.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <ktextedit.h>
 
 // qt includes
 #include <QHBoxLayout>
@@ -37,19 +43,18 @@
  *  @param  a       The AssociationWidget to display the properties of.
  */
 AssocGenPage::AssocGenPage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc)
-  : QWidget(parent)
+  : QWidget(parent),
+    m_pAssocNameLE(0),
+    m_pTypeCB(0),
+    m_pAssociationWidget(assoc),
+    m_pUmldoc(d),
+    m_pWidget(0)
 {
-    m_pAssociationWidget = assoc;
-    m_pWidget = 0;
-    m_pTypeCB = 0;
-    m_pAssocNameLE = 0;
-    m_pUmldoc = d;
-
     constructWidget();
 }
 
 /**
- *  Standard deconstructor.
+ *  Standard destructor.
  */
 AssocGenPage::~AssocGenPage()
 {

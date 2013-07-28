@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2003-2011                                                *
+ *  copyright (C) 2003-2013                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 #include "umluniqueconstraintdialog.h"
@@ -37,7 +37,15 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
-UMLUniqueConstraintDialog::UMLUniqueConstraintDialog(QWidget* parent, UMLUniqueConstraint* pUniqueConstraint) : KDialog(parent)
+/**
+ *  Sets up the UMLUniqueConstraintDialog.
+ *  @param parent   The parent to the UMLUniqueConstraintDialog.
+ *  @param pUniqueConstraint The Unique Constraint to show the properties of.
+ */
+UMLUniqueConstraintDialog::UMLUniqueConstraintDialog(QWidget* parent, UMLUniqueConstraint* pUniqueConstraint)
+  : KDialog(parent),
+    m_pUniqueConstraint(pUniqueConstraint),
+    m_doc(UMLApp::app()->document())
 {
     setCaption( i18n("Unique Constraint Properties") );
     setButtons( Help | Ok | Apply | Cancel );
@@ -45,14 +53,14 @@ UMLUniqueConstraintDialog::UMLUniqueConstraintDialog(QWidget* parent, UMLUniqueC
     setModal( true );
     showButtonSeparator( true );
 
-    m_pUniqueConstraint = pUniqueConstraint;
-    m_doc = UMLApp::app()->document();
-
     setupDialog();
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
+/**
+ *  Standard destructor.
+ */
 UMLUniqueConstraintDialog::~UMLUniqueConstraintDialog()
 {
 }

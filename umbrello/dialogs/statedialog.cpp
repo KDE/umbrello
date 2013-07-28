@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,6 +12,7 @@
 #include "statedialog.h"
 
 // local includes
+#include "activitypage.h"
 #include "umlview.h"
 #include "statewidget.h"
 #include "dialog_utils.h"
@@ -31,8 +32,15 @@
 #include <QHBoxLayout>
 #include <QLabel>
 
+/**
+ * Constructor.
+ */
 StateDialog::StateDialog( UMLView * pView, StateWidget * pWidget )
-  : DialogBase( pView )
+  : DialogBase(pView),
+    m_pActivityPage(0),
+    m_pStateWidget(pWidget),
+    m_pView(pView),
+    m_bChangesMade(false)
 {
     setCaption(i18n("Properties") );
     setButtons( Help | Default | Apply | Ok | Cancel );
@@ -41,10 +49,6 @@ StateDialog::StateDialog( UMLView * pView, StateWidget * pWidget )
     showButtonSeparator( true );
     setFaceType( KPageDialog::List );
 
-    m_pActivityPage = 0;
-    m_pView = pView;
-    m_pStateWidget = pWidget;
-    m_bChangesMade = false;
     setupPages();
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));

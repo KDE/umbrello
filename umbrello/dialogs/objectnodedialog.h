@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,7 +13,6 @@
 
 // local class includes
 #include "dialogbase.h"
-#include "umlwidgetstylepage.h"
 
 //forward declarations
 class UMLView;
@@ -33,12 +32,7 @@ class KTextEdit;
 class ObjectNodeDialog : public DialogBase
 {
     Q_OBJECT
-
 public:
-
-    /**
-     * Constructor
-     */
     ObjectNodeDialog( UMLView * pView, ObjectNodeWidget * pWidget );
 
     bool getChangesMade() {
@@ -46,7 +40,6 @@ public:
     }
 
 protected slots:
-
     void slotOk();
 
     void slotApply();
@@ -55,7 +48,6 @@ protected slots:
     void slotHideState();
 
 protected:
-
     void setupPages();
 
     void setupGeneralPage();
@@ -64,20 +56,9 @@ protected:
 
     void applyPage( KPageWidgetItem * );
 
-    /**
-     * The widget to represent.
-     */
-    ObjectNodeWidget * m_pObjectNodeWidget;
-
-    /**
-     * The diagram the widget is on.
-     */
-    UMLView * m_pView;
-
-    /**
-     * Holds whether changes in the dialog have been made.
-     */
-    bool m_bChangesMade;
+    ObjectNodeWidget *m_pObjectNodeWidget;  ///< the widget to represent
+    UMLView          *m_pView;              ///< the diagram the widget is on
+    bool              m_bChangesMade;       ///< holds whether changes in the dialog have been made
 
     struct GeneralPageWidgets {
         QLabel * nameL, * typeL , * stateL;

@@ -29,23 +29,34 @@
 #include "uniqueconstraint.h"
 #include "icon_utils.h"
 
+#include <kcombobox.h>
 #include <kdialogbuttonbox.h>
+#include <klineedit.h>
 #include <klocale.h>
-#include <kvbox.h>
 #include <kmessagebox.h>
+#include <kvbox.h>
 
 #include <QApplication>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QPushButton>
 #include <QTreeWidget>
 #include <QVBoxLayout>
 
 typedef QPair<UMLEntityAttribute*, UMLEntityAttribute*> EntityAttributePair;
 
+/**
+ *  Sets up the UMLForeignKeyConstraintDialog
+ *
+ *  @param parent   The parent to the UMLForeignKeyConstraintDialog.
+ *  @param pForeignKeyConstraint The Unique Constraint to show the properties of
+ */
 UMLForeignKeyConstraintDialog::UMLForeignKeyConstraintDialog(QWidget* parent, UMLForeignKeyConstraint* pForeignKeyConstraint)
-  : KPageDialog(parent)
+  : KPageDialog(parent),
+    m_doc(UMLApp::app()->document()),
+    m_pForeignKeyConstraint(pForeignKeyConstraint)
 {
     setCaption(i18n("Foreign Key Setup"));
     setButtons(Help | Ok | Apply | Cancel);
@@ -54,9 +65,6 @@ UMLForeignKeyConstraintDialog::UMLForeignKeyConstraintDialog(QWidget* parent, UM
     showButtonSeparator(true);
     setFaceType(KPageDialog::List);
 
-    m_pForeignKeyConstraint = pForeignKeyConstraint;
-    m_doc = UMLApp::app()->document();
-
     setupGeneralPage();
     setupColumnPage();
 
@@ -64,6 +72,9 @@ UMLForeignKeyConstraintDialog::UMLForeignKeyConstraintDialog(QWidget* parent, UM
     connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
 }
 
+/**
+ * Standard destructor.
+ */
 UMLForeignKeyConstraintDialog::~UMLForeignKeyConstraintDialog()
 {
 }

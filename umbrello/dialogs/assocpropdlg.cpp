@@ -12,20 +12,22 @@
 #include "assocpropdlg.h"
 
 // local includes
+#include "associationwidget.h"
 #include "assocgenpage.h"
 #include "assocrolepage.h"
-#include "classpropdlg.h"
 #include "classgenpage.h"
+#include "classpropdlg.h"
 #include "debug_utils.h"
-#include "umlwidgetstylepage.h"
-#include "umlobject.h"
-#include "umldoc.h"
+#include "icon_utils.h"
 #include "objectwidget.h"
 #include "uml.h"
+#include "umldoc.h"
+#include "umlobject.h"
 #include "umlview.h"
-#include "icon_utils.h"
+#include "umlwidgetstylepage.h"
 
 // kde includes
+#include <kfontdialog.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kvbox.h>
@@ -36,10 +38,19 @@
 #include <QLayout>
 #include <QHBoxLayout>
 
+/**
+ *  Sets up a Association Properties Dialog.
+ *  @param  parent  The parent of the AssocPropDlg
+ *  @param  a       The Association Widget to display properties of.
+ *  @param  pageNum The page to show first.
+ */
 AssocPropDlg::AssocPropDlg (QWidget *parent, AssociationWidget * assocWidget, int pageNum)
-  : DialogBase(parent)
+  : DialogBase(parent),
+    m_pGenPage(0),
+    m_pRolePage(0),
+    m_pAssoc(assocWidget)
 {
-    Q_UNUSED(pageNum);
+    Q_UNUSED(pageNum)
     setCaption( i18n("Association Properties") );
     setButtons( Ok | Apply | Cancel | Help );
     setDefaultButton( Ok );
@@ -47,16 +58,15 @@ AssocPropDlg::AssocPropDlg (QWidget *parent, AssociationWidget * assocWidget, in
     setFaceType( KPageDialog::List );
     showButtonSeparator( true );
 
-    m_pGenPage = 0;
-    m_pRolePage = 0;
-    m_pAssoc = assocWidget;
-
     setupPages();
 
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
+/**
+ *  Standard destructor.
+ */
 AssocPropDlg::~AssocPropDlg()
 {
 }
@@ -116,6 +126,5 @@ void AssocPropDlg::setupPages()
     m_pChooser->setSampleText( "Association font" );
     layout->addWidget( m_pChooser );
 }
-
 
 #include "assocpropdlg.moc"

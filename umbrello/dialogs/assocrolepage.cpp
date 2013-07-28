@@ -12,11 +12,18 @@
 #include "assocrolepage.h"
 
 // local includes
+#include "associationwidget.h"
 #include "dialog_utils.h"
+#include "objectwidget.h"
+#include "umldoc.h"
+#include "umlobject.h"
 
 // kde includes
+#include <kcombobox.h>
+#include <klineedit.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <ktextedit.h>
 
 // qt includes
 #include <QGridLayout>
@@ -26,21 +33,28 @@
 #include <QLayout>
 #include <QRadioButton>
 
+/**
+ *  Sets up the AssocRolePage.
+ *  @param  d       The UMLDoc which controls controls object creation.
+ *  @param  parent  The parent to the AssocRolePage.
+ *  @param  a       The AssociationWidget to display the properties of.
+ */
 AssocRolePage::AssocRolePage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc)
-        : QWidget(parent)
+  : QWidget(parent),
+    m_pRoleALE(0),
+    m_pRoleBLE(0),
+    m_pMultiACB(0),
+    m_pMultiBCB(0),
+    m_pAssociationWidget(assoc),
+    m_pUmldoc(d),
+    m_pWidget(0)
 {
-    m_pAssociationWidget = assoc;
-    m_pWidget = 0;
-    m_pUmldoc = d;
-
-    m_pRoleALE = 0;
-    m_pRoleBLE = 0;
-    m_pMultiACB = 0;
-    m_pMultiBCB = 0;
-
     constructWidget();
 }
 
+/**
+ *  Standard destructor.
+ */
 AssocRolePage::~AssocRolePage()
 {
 }
