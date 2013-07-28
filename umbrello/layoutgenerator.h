@@ -579,6 +579,16 @@ protected:
     }
 #endif
 
+    /**
+     * map dot coordinate to scene coordinate
+     * @param p dot point to map
+     * @return uml scene coordinate
+     */
+    QPointF mapToScene(const QPointF &p)
+    {
+        return QPointF(p.x()+ m_origin.x(), m_boundingRect.height() - p.y() + m_origin.y());
+    }
+
     QRectF m_boundingRect;
     NodeType m_nodes;      ///< list of nodes found in parsed dot file
     EdgeType m_edges;      ///< list of edges found in parsed dot file
