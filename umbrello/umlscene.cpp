@@ -4238,12 +4238,12 @@ void UMLScene::alignVerticalMiddle()
     if (widgetList.isEmpty())
         return;
 
-    qreal smallestX = WidgetList_Utils::getSmallestX(widgetList);
-    qreal biggestX = WidgetList_Utils::getBiggestX(widgetList);
-    qreal middle = int((biggestX - smallestX) / 2) + smallestX;
+    qreal smallestY = WidgetList_Utils::getSmallestY(widgetList);
+    qreal biggestY = WidgetList_Utils::getBiggestY(widgetList);
+    qreal middle = int((biggestY - smallestY) / 2) + smallestY;
 
     foreach(UMLWidget *widget , widgetList) {
-        widget->setX(middle - int(widget->width() / 2));
+        widget->setY(middle - int(widget->height() / 2));
         widget->adjustAssocs(widget->x(), widget->y());
     }
     //TODO: Push stored cmds to stack.
@@ -4258,12 +4258,12 @@ void UMLScene::alignHorizontalMiddle()
     if (widgetList.isEmpty())
         return;
 
-    qreal smallestY = WidgetList_Utils::getSmallestY(widgetList);
-    qreal biggestY = WidgetList_Utils::getBiggestY(widgetList);
-    qreal middle = int((biggestY - smallestY) / 2) + smallestY;
+    qreal smallestX = WidgetList_Utils::getSmallestX(widgetList);
+    qreal biggestX = WidgetList_Utils::getBiggestX(widgetList);
+    qreal middle = int((biggestX - smallestX) / 2) + smallestX;
 
     foreach(UMLWidget *widget , widgetList) {
-        widget->setY(middle - int(widget->height() / 2));
+        widget->setX(middle - int(widget->width() / 2));
         widget->adjustAssocs(widget->x(), widget->y());
     }
     //TODO: Push stored cmds to stack.

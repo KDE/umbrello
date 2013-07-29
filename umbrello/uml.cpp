@@ -1592,7 +1592,7 @@ void UMLApp::slotAlignLeft()
  */
 void UMLApp::slotAlignRight()
 {
-    currentView()->umlScene()->alignLeft();
+    currentView()->umlScene()->alignRight();
 }
 
 /**
