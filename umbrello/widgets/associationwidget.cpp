@@ -1908,8 +1908,8 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y )
 
     int dx = m_role[RoleType::A].umlWidget->x() - x;
     int dy = m_role[RoleType::A].umlWidget->y() - y;
-    uint size = m_associationLine->count();
-    uint pos = size - 1;
+    int size = m_associationLine->count();
+    int pos = size - 1;
     if (associationType() == AssociationType::Exception) {
         updatePointsException();
         setTextPosition( TextRole::Name );

@@ -75,7 +75,6 @@ QPointF AssociationLine::point(int index) const
 {
     if ((index < 0) | (index > m_points.size() - 1)) {
         uWarning() << "Index " << index << " out of range [0.." << m_points.size() - 1 << "].";
-        //:TODO: Q_ASSERT(index >= 0 && index < m_points.size() - 1);
         return QPointF(-1.0, -1.0);
     }
     return m_points.at(index);
@@ -712,7 +711,6 @@ void AssociationLine::reconstructSymbols()
         default:
             break;
     }
-
     alignSymbols();
 }
 
@@ -845,7 +843,6 @@ void AssociationLine::alignSymbols()
     }
 
     if (m_collaborationLineItem) {
-        Q_ASSERT(m_collaborationLineHead != 0);
         const qreal distance = 10;
         const int midSegmentIndex = (sz - 1) / 2;
 
@@ -975,11 +972,13 @@ QPainterPath AssociationLine::createOrthogonalPath(QVector<QPointF> points)
         QPointF end    = points.last();
         qreal deltaX = abs(start.x() - end.x());
         qreal deltaY = abs(start.y() - end.y());
+        DEBUG("AssociationLine") << "start=" << start << " / end=" << end
+                       << " / deltaX=" << deltaX << " / deltaY=" << deltaY;
         QVector<QPointF> vector;
         for (int i = 0; i < points.size() - 1; ++i) {
             QPointF curr = points.at(i);
             QPointF next = points.at(i+1);
-            QPointF center = (next - curr)/2.0;
+            QPointF center = (next + curr)/2.0;
 
             vector.append(curr);
             if (deltaX < deltaY) {
@@ -1043,14 +1042,13 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
         m_points[sz - 1] = newEnd;
     }
 
-    QPen _pen = pen();
-
     painter->setPen(_pen);
     painter->setBrush(Qt::NoBrush);
     painter->drawPath(shape());
 
     if (option->state & QStyle::State_Selected) {
         // set color for selected painting
+//:TODO:
 //        const QColor orig = _pen.color().lighter();
 //        QColor invertedColor(orig.green(), orig.blue(), orig.red());
 //        if (invertedColor == _pen.color()) {

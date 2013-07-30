@@ -306,7 +306,7 @@ private:
      * This segment is:
      * m_associationLine[m_unNameLineSegment] -- m_associationLine[m_unNameLineSegment+1]
      */
-    uint                m_unNameLineSegment;
+    int                 m_unNameLineSegment;
     bool                m_selected;
     int                 m_nMovingPoint;
 
