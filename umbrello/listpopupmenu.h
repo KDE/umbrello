@@ -20,9 +20,10 @@
 
 #include <QHash>
 
-class UMLView;
+class AssociationLine;
 class ClassifierWidget;
 class UMLCategory;
+class UMLView;
 
 /**
  * A popup menu that depending on what type is set to will
@@ -280,7 +281,7 @@ private:
     void insertContainerItems(bool folderAndDiagrams);
     void insertAssociationItem(MenuType mt);
     void insertAssociationTextItem(const QString &label, MenuType mt);
-    void insertSubMenuLayout();
+    void insertSubMenuLayout(AssociationLine *associationLine);
     void insertSubmodelAction();
     void insertLayoutItems(UMLView *view);
 

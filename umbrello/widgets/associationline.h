@@ -107,13 +107,14 @@ class AssociationLine : public QGraphicsObject
     Q_ENUMS(LayoutType)
 public:
     enum LayoutType {
-        Direct,
-        Spline,
+        Direct = 1,
         Orthogonal,
-        Polyline
+        Polyline,
+        Spline
     };
 
     static QString toString(LayoutType layout);
+    static LayoutType fromString(const QString& layout);
 
     explicit AssociationLine(AssociationWidget *association);
     virtual ~AssociationLine();
@@ -153,6 +154,7 @@ public:
     QRectF boundingRect() const;
     QPainterPath shape() const;
 
+    LayoutType layout() const;
     void setLayout(LayoutType layout);
 
     void mousePressEvent(QGraphicsSceneMouseEvent *event);

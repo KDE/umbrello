@@ -300,6 +300,9 @@ void AssociationLine::dumpPoints()
  */
 bool AssociationLine::loadFromXMI(QDomElement &qElement)
 {
+    QString layout = qElement.attribute("layout", "polyline");
+    m_layout = fromString(layout);
+
     QDomNode node = qElement.firstChild();
 
     m_points.clear();
@@ -352,6 +355,7 @@ void AssociationLine::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 {
     QPointF point = m_associationWidget->mapToScene(startPoint());
     QDomElement lineElement = qDoc.createElement("linepath");
+    lineElement.setAttribute("layout", toString(m_layout));
     QDomElement startElement = qDoc.createElement("startpoint");
     startElement.setAttribute("startx", point.x());
     startElement.setAttribute("starty", point.y());
@@ -921,14 +925,38 @@ QString AssociationLine::toString(LayoutType layout)
 }
 
 /**
+ * Convert string to enum LayoutType.
+ */
+AssociationLine::LayoutType AssociationLine::fromString(const QString &layout)
+{
+    if (layout == "Direct")
+        return Direct;
+    if (layout == "Spline")
+        return Spline;
+    if (layout == "Orthogonal")
+        return Orthogonal;
+    return Polyline;
+}
+
+/**
+ * Return the layout type of the association line.
+ * @return   the currently used layout
+ */
+AssociationLine::LayoutType AssociationLine::layout() const
+{
+    return m_layout;
+}
+
+/**
  * Set the layout type of the association line.
  * @param layout   the desired layout to set
  */
 void AssociationLine::setLayout(LayoutType layout)
 {
+    prepareGeometryChange();
     m_layout = layout;
     DEBUG(DBG_SRC) << "new layout = " << toString(m_layout);
-    update();
+    alignSymbols();
 }
 
 /**
@@ -1101,6 +1129,7 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
             painter->setPen(p);
             painter->setBrush(Qt::NoBrush);
             painter->drawPath(shape());
+            painter->drawRect(shape().boundingRect());
         }
     }
 
