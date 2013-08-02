@@ -1196,30 +1196,6 @@ void AssociationLine::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 }
 
 /**
- * Inserts a new point at double click position.
- */
-//void AssociationLine::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
-//{
-//    DEBUG(DBG_SRC) << "at " << event->pos();
-//    event->accept();
-//    int index = closestPointIndex(event->pos());
-//    // First check if double click was on a non end point.
-//    if (index != -1 && !isEndPointIndex(index)) {
-//        if (!m_associationWidget->isSelf() || count() > 4) {
-//            removePoint(index);
-//        }
-//    }
-//    else {
-//        // Else insert a new point on the line segment
-//        index = closestSegmentIndex(event->pos());
-//        if (index != -1) {
-//            // Insert after the obtained index.
-//            insertPoint(index + 1, event->pos());
-//        }
-//    }
-//}
-
-/**
  * Calculates the "to be highlighted" point and segment indicies
  * and updates if necessary.
  */

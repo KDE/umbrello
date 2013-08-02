@@ -64,7 +64,6 @@ AssociationWidget::AssociationWidget(UMLScene *scene)
     m_activated(false),
     m_unNameLineSegment(-1),
     m_selected(false),
-    m_nMovingPoint(-1),
     m_nLinePathSegmentIndex(-1),
     m_pAssocClassLine(0),
     m_pAssocClassLineSel0(0),
@@ -620,7 +619,6 @@ AssociationWidget& AssociationWidget::operator=(const AssociationWidget& other)
     m_pMenu = other.m_pMenu;
     setUMLAssociation(other.getAssociation());
     m_selected = other.m_selected;
-    m_nMovingPoint = other.m_nMovingPoint;
 
     return *this;
 }
@@ -1550,8 +1548,7 @@ void AssociationWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 void AssociationWidget::moveEvent(QGraphicsSceneMouseEvent *me)
 {
     // 2004-04-30: Achim Spangler
-    // Simple Approach to block moveEvent during load of
-    // XMI
+    // Simple Approach to block moveEvent during load of XMI
     /// @todo avoid trigger of this event during load
 
     if (umlDoc()->loading()) {
@@ -1582,28 +1579,29 @@ void AssociationWidget::moveEvent(QGraphicsSceneMouseEvent *me)
     QPointF oldRoleAPoint = calculateTextPosition(TextRole::RoleAName);
     QPointF oldRoleBPoint = calculateTextPosition(TextRole::RoleBName);
 
-    m_associationLine->setPoint(m_nMovingPoint, me->scenePos());
+    int movingPoint = m_associationLine->closestPointIndex(me->scenePos());
+    m_associationLine->setPoint(movingPoint, me->scenePos());
     int pos = m_associationLine->count() - 1;//set to last point for widget b
 
-    if ( m_nMovingPoint == 1 || (m_nMovingPoint == pos-1) ) {
+    if ( movingPoint == 1 || (movingPoint == pos-1) ) {
         calculateEndingPoints();
     }
-    if (m_role[RoleType::A].changeabilityWidget && (m_nMovingPoint == 1)) {
+    if (m_role[RoleType::A].changeabilityWidget && (movingPoint == 1)) {
         setTextPositionRelatively(TextRole::ChangeA, oldChangeAPoint);
     }
-    if (m_role[RoleType::B].changeabilityWidget && (m_nMovingPoint == 1)) {
+    if (m_role[RoleType::B].changeabilityWidget && (movingPoint == 1)) {
         setTextPositionRelatively(TextRole::ChangeB, oldChangeBPoint);
     }
-    if (m_role[RoleType::A].multiplicityWidget && (m_nMovingPoint == 1)) {
+    if (m_role[RoleType::A].multiplicityWidget && (movingPoint == 1)) {
         setTextPositionRelatively(TextRole::MultiA, oldMultiAPoint);
     }
-    if (m_role[RoleType::B].multiplicityWidget && (m_nMovingPoint == pos-1)) {
+    if (m_role[RoleType::B].multiplicityWidget && (movingPoint == pos-1)) {
         setTextPositionRelatively(TextRole::MultiB, oldMultiBPoint);
     }
 
     if (m_nameWidget) {
-        if (m_nMovingPoint == (int)m_unNameLineSegment ||
-                m_nMovingPoint - 1 == (int)m_unNameLineSegment) {
+        if (movingPoint == (int)m_unNameLineSegment ||
+                movingPoint - 1 == (int)m_unNameLineSegment) {
             setTextPositionRelatively(TextRole::Name, oldNamePoint);
         }
     }
@@ -2900,9 +2898,6 @@ void AssociationWidget::mousePressEvent(QGraphicsSceneMouseEvent * me)
         selectAssocClassLine();
         return;
     }
-    // see if the user has clicked on a point to start moving the line segment
-    // from that point
-    checkPoints(mep);
     setSelected( !m_selected );
     associationLine()->mousePressEvent(me);
 }
@@ -2912,27 +2907,6 @@ void AssociationWidget::mousePressEvent(QGraphicsSceneMouseEvent * me)
  */
 void AssociationWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent * me)
 {
-//:TODO:
-//    if (me->button() != Qt::RightButton && me->button() != Qt::LeftButton) {
-//        setSelected(false);
-//        return;
-//    }
-
-//:TODO: this should be done in AssociationLine
-    // Check whether a point was moved and whether the moved point is
-    // located on the straight line between its neighbours.
-    // if yes, remove it
-    ///@todo: check for non-horizontal / -vertical lines
-//    if (m_nMovingPoint > 0 && m_nMovingPoint < m_associationLine->count() - 1)
-//    {
-//        QPointF m = m_associationLine->point(m_nMovingPoint);
-//        QPointF b = m_associationLine->point(m_nMovingPoint - 1);
-//        QPointF a = m_associationLine->point(m_nMovingPoint + 1);
-//        if ( (b.x() == m.x() && a.x() == m.x()) ||
-//             (b.y() == m.y() && a.y() == m.y()) )
-//            m_associationLine->removePoint(m_nMovingPoint);
-//    }
-//    m_nMovingPoint = -1;
     associationLine()->mouseReleaseEvent(me);
 }
 
@@ -3163,33 +3137,6 @@ void AssociationWidget::setTextColor(const QColor &color)
         m_role[RoleType::A].changeabilityWidget->setTextColor( color );
     if( m_role[RoleType::B].changeabilityWidget)
         m_role[RoleType::B].changeabilityWidget->setTextColor( color );
-}
-
-/**
- * Check all points except the end points to see if we clicked on one of them.
- */
-void AssociationWidget::checkPoints(const QPointF &p)
-{
-    m_nMovingPoint = -1;
-    //only check if more than the two endpoints
-    int size = m_associationLine->count();
-    if (size <= 2) {
-        return;
-    }
-    QPointF tempPoint;
-    qreal x, y;
-    const qreal BOUNDARY = 4.0; // check for pixels around the point
-    for (int i = 1; i < size - 1; ++i) {
-        tempPoint = m_associationLine->point(i);
-        x = tempPoint.x();
-        y = tempPoint.y();
-        if ( x - BOUNDARY <= p.x() && x + BOUNDARY >= p.x() &&
-                y - BOUNDARY <= p.y() && y + BOUNDARY >= p.y() ) {
-            m_nMovingPoint = i;
-            DEBUG(DBG_SRC) << "we are on point = " << i;
-            break; //no need to check the rest
-        }
-    }
 }
 
 bool AssociationWidget::checkAddPoint(const QPointF &scenePos)

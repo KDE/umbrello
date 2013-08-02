@@ -285,7 +285,6 @@ private:
 
     void setChangeWidget(const QString &strChangeWidget, Uml::RoleType::Enum role);
 
-    void checkPoints(const QPointF &p);
     bool checkAddPoint(const QPointF &scenePos);
     bool checkRemovePoint(const QPointF &scenePos);
 
@@ -308,7 +307,6 @@ private:
      */
     int                 m_unNameLineSegment;
     bool                m_selected;
-    int                 m_nMovingPoint;
 
     QPointF m_oldNamePoint;    ///< Position of name floatingtext saved by saveIdealTextPositions()
     QPointF m_oldMultiAPoint;  ///< Position of role A multiplicity floatingtext saved by saveIdealTextPositions()
