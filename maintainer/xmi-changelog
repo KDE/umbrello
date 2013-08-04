@@ -1,0 +1,8 @@
+#!/bin/sh
+#
+# dump xmi file version changes
+#
+# @author Ralf Habacker <ralf.habacker@freenet.de>
+# 
+git log  -p | gawk '$1 == "commit" { c = $2; } $0 ~ /\+#define XMI_FILE_VERSION/ { print c }'  > xmi-file-version.txt
+for i in `cat xmi-file-version.txt`; do git show $i --pretty=oneline | gawk 'l==0 { c=$1; $1=""; k=$0; l++; } $0 ~ /\+#define XMI_FILE_VERSION/ {print $3 " " k " " c }';  done
