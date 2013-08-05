@@ -1,4 +1,4 @@
-version 2.10.98 (4.10.98)
+version 2.11.0 (4.11.0)
 
 * Some alignment operations do not match menuitem label and icon (207692)
 * Attempting to right-align notes in a sequence diagram makes them left aligned (241200)
