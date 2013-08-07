@@ -140,7 +140,7 @@ public:
     QString toString() const;
 
     bool isActivated() const;
-    void setActivated(bool active /*=true*/);
+    void setActivated(bool active);
 
     bool isSelected() const;
     void setSelected(bool _select = true);
@@ -151,7 +151,7 @@ public:
     virtual QRectF boundingRect() const;
     virtual QPainterPath shape() const;
 
-    void widgetMoved(UMLWidget* widget, int x, int y);
+    void widgetMoved(UMLWidget* widget, qreal x, qreal y);
 
     void saveIdealTextPositions();
 
@@ -166,15 +166,12 @@ public:
     void removeAssocClassLine();
     void computeAssocClassLine();
 
-    void moveMidPointsBy(int x, int y);
-    void moveEntireAssoc(int x, int y);
+    void moveMidPointsBy(qreal x, qreal y);
+    void moveEntireAssoc(qreal x, qreal y);
 
     QFont font() const;
 
     virtual void setTextColor(const QColor &color);
-
-//    void setIndex(int index, Uml::RoleType::Enum role);
-//    int getIndex(Uml::RoleType::Enum role) const;
 
     void calculateEndingPoints();
 
@@ -223,20 +220,15 @@ private:
 
     void mergeAssociationDataIntoUMLRepresentation();
 
-    static Uml::Region::Enum findPointRegion(const QRectF& Rect, int PosX, int PosY);
-    static int findInterceptOnEdge(const QRectF &rect, Uml::Region::Enum region, const QPointF &point);
-    static QPointF findIntercept(const QRectF &rect, const QPointF &point);
+    static Uml::Region::Enum findPointRegion(const QRectF& rect, const QPointF& pos);
+    static qreal findInterceptOnEdge(const QRectF &rect, Uml::Region::Enum region, const QPointF &point);
+//    static QPointF findIntercept(const QRectF &rect, const QPointF &point);
 
     void moveEvent(QGraphicsSceneMouseEvent *me);
 
     Uml::TextRole::Enum calculateNameType(Uml::TextRole::Enum defaultRoleType);
 
-//    bool isPointInsideBoundaries(int PosX, int PosY, QPointF & SPoint,
-//                                 uint & StartSegmentIndex, uint & EndSegmentIndex);
-
     static QPointF swapXY(const QPointF &p);
-
-//    float totalLength();
 
     static QPointF calculatePointAtDistance(const QPointF &P1, const QPointF &P2, float Distance);
     static QPointF calculatePointAtDistanceOnPerpendicular(const QPointF &P1, const QPointF &P2, float Distance);
@@ -281,7 +273,7 @@ private:
 
     int getRegionCount(Uml::Region::Enum region, Uml::RoleType::Enum role);
 
-    void doUpdates(int otherX, int otherY, Uml::RoleType::Enum role);
+    void doUpdates(const QPointF &otherP, Uml::RoleType::Enum role);
 
     void setChangeWidget(const QString &strChangeWidget, Uml::RoleType::Enum role);
 
@@ -290,9 +282,9 @@ private:
 
     bool linePathStartsAt(const UMLWidget* widget);
 
-    void insertIntoLists(int position, const AssociationWidget* assoc);
+    void insertIntoLists(qreal position, const AssociationWidget* assoc);
 
-    int m_positions[100];             ///< auxiliary variable for updateAssociations()
+    qreal m_positions[100];           ///< auxiliary variable for updateAssociations()
     int m_positions_len;              ///< auxiliary variable for updateAssociations()
     AssociationWidgetList m_ordered;  ///< auxiliary variable for updateAssociations()
 
@@ -316,11 +308,10 @@ private:
     QPointF m_oldRoleAPoint;   ///< Position of role A name floatingtext saved by saveIdealTextPositions()
     QPointF m_oldRoleBPoint;   ///< Position of role B name floatingtext saved by saveIdealTextPositions()
 
-    int m_nLinePathSegmentIndex; ///< anchor for m_pAssocClassLine
-    QGraphicsLineItem *m_pAssocClassLine;  ///< used for connecting assoc. class
-    /// selection adornment for the endpoints of the assoc. class connecting line
-    QGraphicsRectItem *m_pAssocClassLineSel0;
-    QGraphicsRectItem *m_pAssocClassLineSel1;
+    int m_nLinePathSegmentIndex;               ///< anchor for m_pAssocClassLine
+    QGraphicsLineItem *m_pAssocClassLine;      ///< used for connecting assoc. class
+    QGraphicsRectItem *m_pAssocClassLineSel0;  ///< selection decoration for the start point of the assoc. class line
+    QGraphicsRectItem *m_pAssocClassLineSel1;  ///< selection decoration for the end point of the assoc. class line
 
     AssociationLine *m_associationLine;      ///< the definition points for the association line
     ClassifierWidget *m_associationClass;    ///< used if we have an assoc. class

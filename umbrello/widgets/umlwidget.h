@@ -136,7 +136,7 @@ public:
     bool getIgnoreSnapToGrid() const;
     void setIgnoreSnapToGrid(bool to);
 
-    void moveByLocal(int dx, int dy);
+    void moveByLocal(qreal dx, qreal dy);
 
     void removeAssoc(AssociationWidget* pAssoc);
     void addAssoc(AssociationWidget* pAssoc);
@@ -183,8 +183,8 @@ public:
 
     bool isActivated();
 
-    virtual void adjustAssocs(int x, int y);
-    void adjustUnselectedAssocs(int x, int y);
+    virtual void adjustAssocs(qreal x, qreal y);
+    void adjustUnselectedAssocs(qreal x, qreal y);
 
     void setActivated(bool Active = true);
 

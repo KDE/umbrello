@@ -739,7 +739,7 @@ void UMLWidget::removeAssoc(AssociationWidget* pAssoc)
  * @param x The x-coordinate.
  * @param y The y-coordinate.
  */
-void UMLWidget::adjustAssocs(int x, int y)
+void UMLWidget::adjustAssocs(qreal x, qreal y)
 {
     // 2004-04-30: Achim Spangler
     // don't adjust Assocs on file load, as
@@ -770,15 +770,15 @@ void UMLWidget::adjustAssocs(int x, int y)
  * @param x The x-coordinate.
  * @param y The y-coordinate.
  */
-void UMLWidget::adjustUnselectedAssocs(int x, int y)
+void UMLWidget::adjustUnselectedAssocs(qreal x, qreal y)
 {
-    foreach(AssociationWidget* assocwidget , m_Assocs) {
+    foreach(AssociationWidget* assocwidget, m_Assocs) {
 
         if (!assocwidget->isSelected())
             assocwidget->saveIdealTextPositions();
     }
 
-    foreach(AssociationWidget* assocwidget , m_Assocs) {
+    foreach(AssociationWidget* assocwidget, m_Assocs) {
         if (!assocwidget->isSelected())
             assocwidget->widgetMoved(this, x, y);
     }
@@ -829,10 +829,10 @@ UMLSceneValue UMLWidget::onWidget(const UMLScenePoint & p)
  * Move the widget by an X and Y offset relative to
  * the current position.
  */
-void UMLWidget::moveByLocal(int dx, int dy)
+void UMLWidget::moveByLocal(qreal dx, qreal dy)
 {
-    int newX = x() + dx;
-    int newY = y() + dy;
+    qreal newX = x() + dx;
+    qreal newY = y() + dy;
     setX(newX);
     setY(newY);
     // DEBUG(DBG_SRC) << "********** x=" << newX << " / y=" << newY;

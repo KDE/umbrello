@@ -999,8 +999,8 @@ QPainterPath AssociationLine::createOrthogonalPath(QVector<QPointF> points)
         QPointF end    = points.last();
         qreal deltaX = abs(start.x() - end.x());
         qreal deltaY = abs(start.y() - end.y());
-        DEBUG("AssociationLine") << "start=" << start << " / end=" << end
-                       << " / deltaX=" << deltaX << " / deltaY=" << deltaY;
+        // DEBUG("AssociationLine") << "start=" << start << " / end=" << end
+        //               << " / deltaX=" << deltaX << " / deltaY=" << deltaY;
         QVector<QPointF> vector;
         for (int i = 0; i < points.size() - 1; ++i) {
             QPointF curr = points.at(i);
@@ -1085,29 +1085,29 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 
         // set color for selected painting
         _pen.setColor(Qt::blue);
-        QRectF ellipse(0, 0, SelectedPointDiameter, SelectedPointDiameter);
+        QRectF circle(0, 0, SelectedPointDiameter, SelectedPointDiameter);
         painter->setBrush(_pen.color());
         painter->setPen(Qt::NoPen);
 
         // draw points
-        ellipse.moveCenter(savedStart);
-        painter->drawRect(ellipse);
+        circle.moveCenter(savedStart);
+        painter->drawRect(circle);
         for (int i = 1; i < sz-1; ++i) {
             if (i != m_activePointIndex) {
-                ellipse.moveCenter(m_points.at(i));
-                painter->drawRect(ellipse);
+                circle.moveCenter(m_points.at(i));
+                painter->drawRect(circle);
             }
         }
-        ellipse.moveCenter(savedEnd);
-        painter->drawRect(ellipse);
+        circle.moveCenter(savedEnd);
+        painter->drawRect(circle);
 
         if (m_activePointIndex != -1) {
             painter->setBrush(invertedColor);
             painter->setPen(Qt::NoPen);
-            ellipse.setWidth(1.5*SelectedPointDiameter);
-            ellipse.setHeight(1.5*SelectedPointDiameter);
-            ellipse.moveCenter(m_points.at(m_activePointIndex));
-            painter->drawEllipse(ellipse);
+            circle.setWidth(1.5*SelectedPointDiameter);
+            circle.setHeight(1.5*SelectedPointDiameter);
+            circle.moveCenter(m_points.at(m_activePointIndex));
+            painter->drawEllipse(circle);
         }
         else if (m_activeSegmentIndex != -1) {
             painter->setPen(QPen(invertedColor, _pen.widthF() + 1));
@@ -1117,12 +1117,13 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
             painter->drawLine(segmentLine);
         }
 
+        // debug info
         if (Tracer::instance()->isEnabled(metaObject()->className())) {
-            QPen p(Qt::green);
-            painter->setPen(p);
+            painter->setPen(Qt::green);
             painter->setBrush(Qt::NoBrush);
             //painter->drawPath(shape());
             painter->drawRect(shape().boundingRect());
+            painter->setPen(Qt::red);
             painter->drawRect(boundingRect());
         }
     }

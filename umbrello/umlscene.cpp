@@ -841,8 +841,9 @@ void UMLScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
         AssociationWidget* association = associationAt(event->scenePos());
         if (association) {
             DEBUG(DBG_SRC) << "association widget = " << association->name() << " / type = " << association->baseTypeStr();
-            showDocumentation(association, true);
-            event->accept();
+            // the following is done in AssociationWidget::setSelected()
+            // showDocumentation(association, true);
+            // event->accept();
         }
         //:TODO: else if (clicking on other elements with documentation) {
         //:TODO: showDocumentation(umlObject, true);
