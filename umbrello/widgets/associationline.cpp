@@ -410,34 +410,6 @@ QPen AssociationLine::pen() const
     return pen;
 }
 
-//:TODO: not used
-///**
-// * Update the pen and brush used to draw symbol.
-// */
-//void AssociationLine::updateDrawSettings()
-//{
-//    prepareGeometryChange();
-//    QPen changedPen = pen();
-//    QBrush changedBrush = brush();
-//    if (m_startSymbol) {
-//        m_startSymbol->setPen(changedPen);
-//        m_startSymbol->setBrush(changedBrush);
-//    }
-//    if (m_endSymbol) {
-//        m_endSymbol->setPen(changedPen);
-//        m_endSymbol->setBrush(changedBrush);
-//    }
-//    if (m_subsetSymbol) {
-//        m_subsetSymbol->setPen(changedPen);
-//        m_subsetSymbol->setBrush(changedBrush);
-//    }
-//    if (m_associationClassLine) {
-//        changedPen.setStyle(Qt::DashLine);
-//        m_associationClassLine->setPen(changedPen);
-//    }
-//    alignSymbols();
-//}
-
 /**
  * Tell the line where the line docks.
  */
@@ -446,107 +418,6 @@ void AssociationLine::setDockRegion(Region region)
 //:TODO:    m_DockRegion = region;
     DEBUG(DBG_SRC) << "region=" << region;
 }
-
-/**
- * Calls a group of methods to update the line. Used to save you calling multiple methods.
- */
-//:TODO:
-//void AssociationLine::update()
-//{
-//    if (getAssocType() == Uml::AssociationType::Coll_Message) {
-//        if (m_bParallelLineCreated) {
-//            calculateParallelLine();
-//            updateParallelLine();
-//        } else
-//            setupParallelLine();
-//    } else if (m_bHeadCreated) {
-//        calculateHead();
-//        updateHead();
-//    } else {
-//        createHeadLines();
-//    }
-
-//    if ( m_bSubsetSymbolCreated ) {
-//        updateSubsetSymbol();
-//    } else {
-//        createSubsetSymbol();
-//    }
-//}
-
-/**
- * Calculates the position of the parallel line.
- */
-//:TODO:
-//void AssociationLine::calculateParallelLine()
-//{
-//    int midCount = count() / 2;
-//    double ATAN = atan(1.0);
-//    int lineDist = 10;
-//    //get  1/8(M) and 7/8(T) point
-//    QPointF a = point( midCount - 1 );
-//    QPointF b = point( midCount );
-//    int mx = ( a.x() + b.x() ) / 2;
-//    int my = ( a.y() + b.y() ) / 2;
-//    int tx = ( mx + b.x() ) / 2;
-//    int ty = ( my + b.y() ) / 2;
-//    //find dist between M and T points
-//    int distX = ( mx - tx );
-//    distX *= distX;
-//    int distY = ( my - ty );
-//    distY *= distY;
-//    double angle = atan2( double(ty - my), double(tx - mx) ) + ( ATAN * 2 );
-//    //find point from M to start line from.
-//    double cosx = cos( angle ) * lineDist;
-//    double siny = sin( angle ) * lineDist;
-//    QPointF pointM( mx + (int)cosx, my + (int)siny );
-//    //find dist between P(xb, yb)
-//    distX = ( tx - b.x() );
-//    distX *= distX;
-//    distY = ( ty - b.y() );
-//    distY *= distY;
-//    //find point from T to end line
-//    cosx = cos( angle ) * lineDist;
-//    siny = sin( angle ) * lineDist;
-//    QPointF pointT( tx + (int)cosx, ty + (int)siny );
-//    m_ParallelLines[ 1 ] = pointM;
-//    m_ParallelLines[ 0 ] = pointT;
-
-//    int arrowDist = 5;
-//    angle = atan2( double(pointT.y() - pointM.y()),
-//                   double(pointT.x() - pointM.x()) );
-//    double arrowSlope = angle + ATAN;
-//    cosx = ( cos( arrowSlope ) ) * arrowDist;
-//    siny = ( sin( arrowSlope ) ) * arrowDist;
-//    m_ParallelLines[ 2 ] = QPoint( pointT.x() - (int)cosx, pointT.y() - (int)siny );
-//    arrowSlope = angle - ATAN;
-//    cosx = ( cos( arrowSlope ) ) * arrowDist;
-//    siny = ( sin( arrowSlope ) ) * arrowDist;
-//    m_ParallelLines[ 3 ] = QPoint( pointT.x() - (int)cosx, pointT.y() - (int)siny );
-//}
-
-/**
- * Updates the parallel line.
- * Call after calculating the new position.
- */
-//:TODO:
-//void AssociationLine::updateParallelLine()
-//{
-//    if( !m_bParallelLineCreated )
-//        return;
-//    QGraphicsLineItem* line = 0;
-//    QPointF common = m_ParallelLines.at( 0 );
-//    QPointF p = m_ParallelLines.at( 1 );
-//    line = m_ParallelList.at( 0 );
-//    line->setLine( common.x(), common.y(), p.x(), p.y() );
-
-//    p = m_ParallelLines.at( 2 );
-//    line = m_ParallelList.at( 1 );
-//    line->setLine( common.x(), common.y(), p.x(), p.y() );
-
-//    p = m_ParallelLines.at( 3 );
-//    line = m_ParallelList.at( 2 );
-//    line->setLine( common.x(), common.y(), p.x(), p.y() );
-//}
 
 /**
  * This method simply ensures presence of two points and delegates
@@ -583,7 +454,6 @@ void AssociationLine::calculateInitialEndPoints()
     } else if (!m_associationWidget->isSelf() && count() < 2) {
         setEndPoints(QPointF(), QPointF());
     }
-//:TODO:    calculateEndPoints();
 }
 
 /**
@@ -872,19 +742,9 @@ void AssociationLine::alignSymbols()
 }
 
 /**
- * @return The bounding rectangle for the AssociationLine.
+ * @return The path of the AssociationLine.
  */
-QRectF AssociationLine::boundingRect() const
-{
-    QPainterPathStroker stroker;
-    stroker.setWidth(qMax<qreal>(2*SelectedPointDiameter, pen().widthF()) + 2.0);  // allow delta region
-    return stroker.createStroke(shape()).boundingRect();
-}
-
-/**
- * @return The shape of the AssociationLine.
- */
-QPainterPath AssociationLine::shape() const
+QPainterPath AssociationLine::path() const
 {
     if (m_points.count() > 0) {
         QPainterPath path;
@@ -913,6 +773,24 @@ QPainterPath AssociationLine::shape() const
     else {
         return QPainterPath();
     }
+}
+
+/**
+ * @return The bounding rectangle for the AssociationLine.
+ */
+QRectF AssociationLine::boundingRect() const
+{
+    return shape().boundingRect();
+}
+
+/**
+ * @return The shape of the AssociationLine.
+ */
+QPainterPath AssociationLine::shape() const
+{
+    QPainterPathStroker stroker;
+    stroker.setWidth(qMax<qreal>(2*SelectedPointDiameter, pen().widthF()) + 2.0);  // allow delta region
+    return stroker.createStroke(path());
 }
 
 /**
@@ -1069,13 +947,13 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 
     painter->setPen(_pen);
     painter->setBrush(Qt::NoBrush);
-    painter->drawPath(shape());
+    painter->drawPath(path());
 
     if (option->state & QStyle::State_Selected) {
         // make the association broader in the selected state
         QPainterPathStroker stroker;
         stroker.setWidth(3.0);
-        QPainterPath outline = stroker.createStroke(shape());
+        QPainterPath outline = stroker.createStroke(path());
         QColor shadowColor(Qt::lightGray);
         shadowColor.setAlpha(80);
         QBrush shadowBrush(shadowColor);
@@ -1121,8 +999,7 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
         if (Tracer::instance()->isEnabled(metaObject()->className())) {
             painter->setPen(Qt::green);
             painter->setBrush(Qt::NoBrush);
-            //painter->drawPath(shape());
-            painter->drawRect(shape().boundingRect());
+            painter->drawPath(shape());
             painter->setPen(Qt::red);
             painter->drawRect(boundingRect());
         }

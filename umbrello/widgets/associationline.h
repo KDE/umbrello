@@ -147,9 +147,10 @@ public:
 
     QBrush brush() const;
     QPen pen() const;
-//    void updateDrawSettings();
 
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
+
+    QPainterPath path() const;
 
     QRectF boundingRect() const;
     QPainterPath shape() const;

@@ -952,10 +952,10 @@ void ListPopupMenu::insertAssociationTextItem(const QString &label, MenuType mt)
 void ListPopupMenu::insertSubMenuLayout(AssociationLine *associationLine)
 {
     KMenu* layout = new KMenu(i18nc("Layout menu", "Layout"), this);
+    insert(mt_LayoutPolyline, layout, i18n("Polyline"), true);
     insert(mt_LayoutDirect, layout, i18n("Direct"), true);
     insert(mt_LayoutSpline, layout, i18n("Spline"), true);
     insert(mt_LayoutOrthogonal, layout, i18n("Orthogonal"), true);
-    insert(mt_LayoutPolyline, layout, i18n("Polyline"), true);
     switch(associationLine->layout()) {
     case AssociationLine::Direct:
         m_actions[mt_LayoutDirect]->setChecked(true);

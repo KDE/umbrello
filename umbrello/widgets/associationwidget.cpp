@@ -97,7 +97,6 @@ AssociationWidget::AssociationWidget(UMLScene *scene)
 
     connect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
 
-//:TODO:
     setFlag(QGraphicsLineItem::ItemIsSelectable);
     setAcceptHoverEvents(true);
 }
@@ -1262,16 +1261,6 @@ bool AssociationWidget::setWidgets( UMLWidget* widgetA,
 }
 
 /**
- * Returns true if this association associates WidgetA to WidgetB,
- * otherwise it returns false.
- */
-//:TODO:
-//bool AssociationWidget::checkAssoc(UMLWidget * widgetA, UMLWidget *widgetB)
-//{
-//    return (widgetA == m_role[RoleType::A].umlWidget && widgetB == m_role[RoleType::B].umlWidget);
-//}
-
-/**
  * CleansUp all the association's data in the related widgets.
  */
 void AssociationWidget::cleanup()
@@ -1729,7 +1718,7 @@ void AssociationWidget::calculateEndingPoints()
 }
 
 /**
- * :TODO:
+ * Used by @ref calculateEndingPoints.
  */
 void AssociationWidget::doUpdates(const QPointF &otherP, RoleType::Enum role)
 {

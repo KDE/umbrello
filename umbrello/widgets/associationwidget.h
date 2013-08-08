@@ -127,8 +127,6 @@ public:
 
     bool setWidgets(UMLWidget* widgetA, Uml::AssociationType::Enum assocType, UMLWidget* widgetB);
 
-//    bool checkAssoc(UMLWidget *widgetA, UMLWidget *widgetB);
-
     bool containsAsEndpoint(UMLWidget* widget);
 
     Uml::AssociationType::Enum associationType() const;
