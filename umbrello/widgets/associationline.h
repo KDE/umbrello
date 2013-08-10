@@ -40,7 +40,7 @@ public:
     typedef QList<QGraphicsLineItem*> LineList;
     typedef QList<QGraphicsRectItem*> RectList;
 
-    AssociationLine(AssociationWidget* association);
+    explicit AssociationLine(AssociationWidget* association);
     virtual ~AssociationLine();
 
     QPointF point(int index) const;
