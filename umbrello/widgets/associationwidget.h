@@ -220,7 +220,9 @@ private:
 
     static Uml::Region::Enum findPointRegion(const QRectF& rect, const QPointF& pos);
     static qreal findInterceptOnEdge(const QRectF &rect, Uml::Region::Enum region, const QPointF &point);
-//    static QPointF findIntercept(const QRectF &rect, const QPointF &point);
+    //    static QPointF findIntercept(const QRectF &rect, const QPointF &point);
+    static QLineF::IntersectType intersect(const QRectF &rect, const QLineF &line,
+                                           QPointF* intersectionPoint);
 
     void moveEvent(QGraphicsSceneMouseEvent *me);
 

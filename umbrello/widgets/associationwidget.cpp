@@ -2796,39 +2796,40 @@ void AssociationWidget::createAssocClassLine(ClassifierWidget* classifier,
 /**
  * Compute the end points of m_pAssocClassLine in case this
  * association has an attached association class.
- * TODO: The end point is now at the center of the widget. Maybe it should be at
- *       the border (edge) of it. Use 'findIntercept(...)'.
- *       Also the decoration points make no sense now, because they are not movable.
+ * TODO: The decoration points make no sense now, because they are not movable.
  */
 void AssociationWidget::computeAssocClassLine()
 {
-    if (m_associationClass == NULL || m_pAssocClassLine == NULL)
+    if (m_associationClass == NULL || m_pAssocClassLine == NULL) {
         return;
+    }
     if (m_nLinePathSegmentIndex < 0) {
         uError() << "m_nLinePathSegmentIndex is not set";
         return;
     }
+
     QPointF segStart = m_associationLine->point(m_nLinePathSegmentIndex);
     QPointF segEnd = m_associationLine->point(m_nLinePathSegmentIndex + 1);
     const qreal midSegX = segStart.x() + (segEnd.x() - segStart.x()) / 2.0;
     const qreal midSegY = segStart.y() + (segEnd.y() - segStart.y()) / 2.0;
+    QPointF segmentMidPoint(midSegX, midSegY);
 
-//:TODO:
-//    QPointF segmentMidPoint(midSegX, midSegY);
-//    QRectF classRectangle = m_associationClass->rect();
-//    QPointF cwEdgePoint = findIntercept(classRectangle, segmentMidPoint);
-//    int acwMinX = cwEdgePoint.x();
-//    int acwMinY = cwEdgePoint.y();
-    QPointF acwPos = m_associationClass->pos();
-    QRectF acwRect = m_associationClass->rect();
+    QLineF possibleAssocLine = QLineF(segmentMidPoint,
+                                      m_associationClass->mapRectToScene(m_associationClass->rect()).center());
+    QPointF intersectionPoint;
+    QLineF::IntersectType type = intersect(m_associationClass->mapRectToScene(m_associationClass->boundingRect()),
+                                           possibleAssocLine,
+                                           &intersectionPoint);
+    // DEBUG(DBG_SRC) << "intersect type=" << type << " / point=" << intersectionPoint;
 
-    m_pAssocClassLine->setLine(midSegX, midSegY,
-                               acwPos.x() + acwRect.width()/2.0,
-                               acwPos.y() + acwRect.height()/2.0);
+    if (type == QLineF::BoundedIntersection) {
+        m_pAssocClassLine->setLine(midSegX, midSegY,
+                                   intersectionPoint.x(), intersectionPoint.y());
 
-    if (m_pAssocClassLineSel0 && m_pAssocClassLineSel1) {
-        m_pAssocClassLineSel0->setPos(m_pAssocClassLine->line().p1());
-        m_pAssocClassLineSel1->setPos(m_pAssocClassLine->line().p2());
+        if (m_pAssocClassLineSel0 && m_pAssocClassLineSel1) {
+            m_pAssocClassLineSel0->setPos(m_pAssocClassLine->line().p1());
+            m_pAssocClassLineSel1->setPos(m_pAssocClassLine->line().p2());
+        }
     }
 }
 
@@ -3053,7 +3054,6 @@ void AssociationWidget::slotMenuSelection(QAction* action)
     }//end switch
 }
 
-
 /**
  * Return the first font found being used by any child widget. (They
  * could be different fonts, so this is a slightly misleading method.)
@@ -3153,6 +3153,11 @@ bool AssociationWidget::checkAddPoint(const QPointF &scenePos)
     }
 }
 
+/**
+ * Remove point close to the given point and redraw the association.
+ * @param scenePos   point which should be removed
+ * @return   success status of the remove action
+ */
 bool AssociationWidget::checkRemovePoint(const QPointF &scenePos)
 {
     int i = m_associationLine->closestPointIndex(scenePos);
@@ -3287,100 +3292,28 @@ int AssociationWidget::getRegionCount(Uml::Region::Enum region, Uml::RoleType::E
 /**
  * Find the border point of the given rect when a line is drawn from the
  * given point to the rect.
- * @param rect    rect of a classifier
- * @param point   the start point of a line to the rect
- * @return        the intercept point on the border of the rect
+ * @param rect   rect of a classifier
+ * @param line   a line to the rect
+ * @param intersectionPoint   the intercept point on the border of the rect
+ * @return   the type of the intersection @ref QLineF::IntersectType
  */
-//:TODO:
-//QPointF AssociationWidget::findIntercept(const QRectF &rect, const QPointF &point)
-//{
-//    Uml::Region::Enum region = findPointRegion(rect, point);
-////:TODO:    /*
-//    DEBUG("AssociationWidget") << "findPointRegion(" << rect << ", "
-//                               << point << ") = "
-//                               << Uml::Region::toString(region);
-////:TODO:     */
-//    // Move some regions to the standard ones.
-//    switch (region) {
-//    case Uml::Region::NorthWest:
-//        region = Uml::Region::North;
-//        break;
-//    case Uml::Region::NorthEast:
-//        region = Uml::Region::East;
-//        break;
-//    case Uml::Region::SouthEast:
-//        region = Uml::Region::South;
-//        break;
-//    case Uml::Region::SouthWest:
-//    case Uml::Region::Center:
-//        region = Uml::Region::West;
-//        break;
-//    default:
-//        break;
-//    }
-//    // The Qt coordinate system has (0,0) in the top left corner.
-//    // In order to go to the regular XY coordinate system with (0,0)
-//    // in the bottom left corner, we swap the X and Y axis.
-//    // That's why the following assignments look twisted.
-//    const qreal rectHalfWidth  = rect.height() / 2.0;
-//    const qreal rectHalfHeight = rect.width() / 2.0;
-//    const qreal rectMidX = rect.y() + rectHalfWidth;
-//    const qreal rectMidY = rect.x() + rectHalfHeight;
-//    const qreal pX = point.y();
-//    const qreal pY = point.x();
-//    const qreal dX = rectMidX - pX;
-//    const qreal dY = rectMidY - pY;
-//    switch (region) {
-//    case Uml::Region::West:
-//        region = Uml::Region::South;
-//        break;
-//    case Uml::Region::North:
-//        region = Uml::Region::East;
-//        break;
-//    case Uml::Region::East:
-//        region = Uml::Region::North;
-//        break;
-//    case Uml::Region::South:
-//        region = Uml::Region::West;
-//        break;
-//    default:
-//        break;
-//    }
-//    // Now we have regular coordinates with the point (0,0) in the
-//    // bottom left corner.
-//    if (region == Uml::Region::North || region == Uml::Region::South) {
-//        qreal yoff = rectHalfHeight;
-//        if (region == Uml::Region::North)
-//            yoff = -yoff;
-//        if (dX == 0.0) {
-//            return QPointF(rectMidY + yoff, rectMidX);  // swap back X and Y
-//        }
-//        if (dY == 0.0) {
-//            uError() << "usage error: " << "North/South (dY == 0)";
-//            return QPointF();
-//        }
-//        const qreal m = dY / dX;
-//        const qreal b = pY - m * pX;
-//        const qreal inputY = rectMidY + yoff;
-//        const qreal outputX = (inputY - b) / m;
-//        return QPointF(inputY, outputX);  // swap back X and Y
-//    } else {
-//        qreal xoff = rectHalfWidth;
-//        if (region == Uml::Region::East)
-//            xoff = -xoff;
-//        if (dY == 0.0)
-//            return QPointF(rectMidY, rectMidX + xoff);  // swap back X and Y
-//        if (dX == 0.0) {
-//            uError() << "usage error: " << "East/West (dX == 0)";
-//            return QPointF();
-//        }
-//        const qreal m = dY / dX;
-//        const qreal b = pY - m * pX;
-//        const qreal inputX = rectMidX + xoff;
-//        const qreal outputY = m * inputX + b;
-//        return QPointF(outputY, inputX);  // swap back X and Y
-//    }
-//}
+QLineF::IntersectType AssociationWidget::intersect(const QRectF &rect, const QLineF &line,
+                                                   QPointF* intersectionPoint)
+{
+    QList<QLineF> lines;
+    lines << QLineF(rect.topLeft(), rect.topRight());
+    DEBUG("AssociationWidget") << rect.topLeft();
+    lines << QLineF(rect.topRight(), rect.bottomRight());
+    lines << QLineF(rect.bottomRight(), rect.bottomLeft());
+    lines << QLineF(rect.bottomLeft(), rect.topLeft());
+    foreach (QLineF rectLine, lines) {
+        QLineF::IntersectType type = rectLine.intersect(line, intersectionPoint);
+        if (type == QLineF::BoundedIntersection) {
+            return type;
+        }
+    }
+    return QLineF::NoIntersection;
+}
 
 /**
  * Given a rectangle and a point, findInterceptOnEdge computes the
@@ -3674,13 +3607,11 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
                 break;
         }
     }
-    if (role == RoleType::A)
-        m_associationLine->setPoint( 0, pt );
+    if (role == RoleType::A) {
+        m_associationLine->setPoint(0, pt);
+    }
     else {
-        m_associationLine->setPoint( m_associationLine->count() - 1, pt );
-        AssociationLine::Region r = ( region == Uml::Region::South || region == Uml::Region::North ) ?
-                             AssociationLine::TopBottom : AssociationLine::LeftRight;
-        m_associationLine->setDockRegion( r );
+        m_associationLine->setPoint(m_associationLine->count() - 1, pt);
     }
 }
 
@@ -3747,15 +3678,23 @@ void AssociationWidget::setSelected(bool _select /* = true */)
  */
 bool AssociationWidget::onAssocClassLine(const QPointF &point)
 {
-    if (m_pAssocClassLine == NULL)
-        return false;
-    UMLSceneItemList list = m_scene->collisions(point);
-    UMLSceneItemList::iterator end(list.end());
-    for (UMLSceneItemList::iterator item_it(list.begin()); item_it != end; ++item_it) {
-        if (*item_it == m_pAssocClassLine)
-            return true;
+    bool onLine = false;
+    if (m_pAssocClassLine) {
+//:TODO:
+//        const QPointF mapped = m_pAssocClassLine->mapFromParent(point);
+//        bool onLine = m_pAssocClassLine->contains(mapped);
+//        return onLine;
+        UMLSceneItemList list = m_scene->collisions(point);
+        UMLSceneItemList::iterator end(list.end());
+        for (UMLSceneItemList::iterator item_it(list.begin()); item_it != end; ++item_it) {
+            if (*item_it == m_pAssocClassLine) {
+                onLine = true;
+                break;
+            }
+        }
     }
-    return false;
+    DEBUG(DBG_SRC) << onLine;
+    return onLine;
 }
 
 /**
@@ -3767,15 +3706,17 @@ bool AssociationWidget::onAssocClassLine(const QPointF &point)
 bool AssociationWidget::onAssociation(const QPointF& point)
 {
     // check the path
-    const int diameter(4);
+    const qreal diameter(4.0);
     QRectF circle(point.x(), point.y(), diameter, diameter);
     QPainterPath path = m_associationLine->shape();
     if (path.intersects(circle)) {
+        DEBUG(DBG_SRC) << "on path";
         return true;
     }
     // check also the points
     if (m_associationLine->layout() == AssociationLine::Spline) {
-        if (m_associationLine->closestPointIndex(point) > -1) {
+        if (m_associationLine->closestPointIndex(point, diameter) > -1) {
+            DEBUG(DBG_SRC) << "on spline point";
             return true;
         }
     }
@@ -3849,7 +3790,7 @@ void AssociationWidget::slotClassifierListItemRemoved(UMLClassifierListItem* obj
         DEBUG(DBG_SRC) << "obj=" << obj << ": m_umlObject=" << m_umlObject;
         return;
     }
-    m_umlObject = NULL;
+    m_umlObject = 0;
     m_scene->removeAssoc(this);
 }
 
@@ -3902,8 +3843,8 @@ void AssociationWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     Uml::AssociationType::Enum type = associationType();
     ListPopupMenu::MenuType menuType = ListPopupMenu::mt_Association_Selected;
-    if (type == Uml::AssociationType::Anchor ||
-            m_associationLine->onAssociationClassLine(event->scenePos())) {
+    if ((type == Uml::AssociationType::Anchor) ||
+            onAssocClassLine(event->scenePos())) {
         menuType = ListPopupMenu::mt_Anchor;
     } else if (isCollaboration()) {
         menuType = ListPopupMenu::mt_Collaboration_Message;
@@ -3931,7 +3872,6 @@ void AssociationWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     }
     setSelected(true);
     m_eventScenePos = event->scenePos();
-    DEBUG(DBG_SRC) << "menue type = " << ListPopupMenu::toString(menuType);
     QPointer<ListPopupMenu> menu = new ListPopupMenu(parent, menuType, this);
     QAction *triggered = menu->exec(event->screenPos());
     ListPopupMenu *parentMenu = ListPopupMenu::menuFromAction(triggered);
@@ -3954,7 +3894,7 @@ void AssociationWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 }
 
 /**
- * :TODO: REMOVE IT!
+ * :TODO: REMOVE IT! But first check if all works in the new code.
  */
 /*
 ListPopupMenu* AssociationWidget::setupPopupMenu(ListPopupMenu *menu, const QPointF &p)

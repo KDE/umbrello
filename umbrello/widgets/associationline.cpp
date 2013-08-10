@@ -13,11 +13,7 @@
 
 // application includes
 #include "associationwidget.h"
-#include "classifierwidget.h"
 #include "debug_utils.h"
-#include "widget_utils.h"
-#include "uml.h"
-#include "umldoc.h"
 #include "umlwidget.h"
 
 // qt includes
@@ -49,7 +45,6 @@ AssociationLine::AssociationLine(AssociationWidget *association)
     m_subsetSymbol(0),
     m_collaborationLineItem(0),
     m_collaborationLineHead(0),
-    m_associationClassLine(0),
     m_layout(Polyline)
 {
     Q_ASSERT(association);
@@ -160,6 +155,8 @@ void AssociationLine::cleanup()
  * This method optimizes the number of points in the
  * AssociationLine. This can be used to reduce the clutter caused
  * due to too many points.
+ * TODO: Use delta comparison 'closestPointIndex' instead of exact comparison.
+ * TODO: Not used anywhere.
  */
 void AssociationLine::optimizeLinePoints()
 {
@@ -174,7 +171,6 @@ void AssociationLine::optimizeLinePoints()
         }
     }
     alignSymbols();
-    // TODO: Use delta comparison 'closestPointIndex' instead of exact comparison.
 }
 
 /**
@@ -411,15 +407,6 @@ QPen AssociationLine::pen() const
 }
 
 /**
- * Tell the line where the line docks.
- */
-void AssociationLine::setDockRegion(Region region)
-{
-//:TODO:    m_DockRegion = region;
-    DEBUG(DBG_SRC) << "region=" << region;
-}
-
-/**
  * This method simply ensures presence of two points and delegates
  * calculation to AssociationLine::calculateEndPoints()
  */
@@ -454,66 +441,6 @@ void AssociationLine::calculateInitialEndPoints()
     } else if (!m_associationWidget->isSelf() && count() < 2) {
         setEndPoints(QPointF(), QPointF());
     }
-}
-
-/**
- * This method calculates the line to represent association class if
- * the AssociationWidget represented by this line is an Association
- * class.
- */
-/*:TODO:
-void AssociationLine::calculateAssociationClassLine()
-{
-    ClassifierWidget* assocClass = m_associationWidget->associationClass();
-    if (!assocClass) {
-        delete m_associationClassLine;
-        m_associationClassLine = 0;
-        return;
-    }
-
-    QPointF other = mapToScene(assocClass->rect()).boundingRect().center();
-
-    QLineF possibleAssocLine;
-
-    int numSegments = count()-1;
-    for (int i = 0; i < numSegments; ++i) {
-        QPointF mid = (m_points.at(i) + m_points.at(i+1)) * 0.5;
-        mid = m_associationWidget->mapToScene(mid);
-        QLineF newLine(mid, other);
-
-        if (possibleAssocLine.isNull() ||
-                (newLine.length() < possibleAssocLine.length())) {
-            possibleAssocLine = newLine;
-        }
-    }
-
-    if (!m_associationClassLine) {
-        m_associationClassLine = new QGraphicsLineItem(0);
-
-        QPen p = pen();
-        p.setStyle(Qt::DashLine);
-        m_associationClassLine->setPen(p);
-    }
-
-    QPointF intersectionPoint;
-    intersectedRegion(mapToScene(assocClass->rect()).boundingRect(), possibleAssocLine,
-            &intersectionPoint);
-    possibleAssocLine.setP2(intersectionPoint);
-
-    m_associationClassLine->setLine(possibleAssocLine);
-}
-*/
-
-/**
- * @return Whether the association class line contains \a pos or not.
- */
-bool AssociationLine::onAssociationClassLine(const QPointF& pos) const
-{
-    if (!m_associationClassLine) {
-        return false;
-    }
-    const QPointF mapped = m_associationClassLine->mapFromParent(pos);
-    return m_associationClassLine->contains(mapped);
 }
 
 /**
@@ -1002,6 +929,9 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
             painter->drawPath(shape());
             painter->setPen(Qt::red);
             painter->drawRect(boundingRect());
+            // origin
+            painter->drawLine(-10, 0, 10, 0);
+            painter->drawLine(0, -10, 0, 10);
         }
     }
 

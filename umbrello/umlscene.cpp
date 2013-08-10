@@ -1215,23 +1215,23 @@ bool UMLScene::onItem(const UMLScenePoint& atPos)
 {
     UMLWidget* widget = widgetAt(atPos);
     if (widget) {
-        DEBUG(DBG_SRC) << "widget = " << widget->name() << " / type = " << widget->baseTypeStr();
+        DEBUG(DBG_SRC) << "uml widget = " << widget->name() << " / type = " << widget->baseTypeStr();
         return true;
     }
 
     AssociationWidget* association = associationAt(atPos);
     if (association) {
-        DEBUG(DBG_SRC) << "association widget = " << association->name() << " / type = " << association->baseTypeStr();
+        DEBUG(DBG_SRC) << "association = " << association->name() << " / type = " << association->baseTypeStr();
         return true;
     }
 
     MessageWidget* message = messageAt(atPos);
     if (message) {
-        DEBUG(DBG_SRC) << "message widget = " << message->name() << " / type = " << message->baseTypeStr();
+        DEBUG(DBG_SRC) << "message = " << message->name() << " / type = " << message->baseTypeStr();
         return true;
     }
 
-    DEBUG(DBG_SRC) << "not widget, not association, not message";
+    DEBUG(DBG_SRC) << "Not on any item!";
     return false;
 }
 
@@ -2966,16 +2966,13 @@ void UMLScene::resetToolbar()
  */
 void UMLScene::contextMenuEvent(QGraphicsSceneContextMenuEvent* contextMenuEvent)
 {
-    UMLWidget* widget = widgetAt(contextMenuEvent->scenePos());
-    AssociationWidget* association = associationAt(contextMenuEvent->scenePos());
-    if (widget || association) {
+    if (onItem(contextMenuEvent->scenePos())) {
         // forward the event to the item
         QGraphicsScene::contextMenuEvent(contextMenuEvent);
     }
     else {
         // set the position for the eventually created widget
         setPos(contextMenuEvent->scenePos());
-
         setMenu(contextMenuEvent->screenPos());
         contextMenuEvent->accept();
     }

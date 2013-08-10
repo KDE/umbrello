@@ -99,6 +99,7 @@ class Symbol : public QGraphicsItem
  *       active at same time!
  *
  * @author Gopala Krishna
+ * @author Andi Fischer
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class AssociationLine : public QGraphicsObject
@@ -167,17 +168,12 @@ public:
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 
     void calculateInitialEndPoints();
-    void calculateAssociationClassLine();
-
-    bool onAssociationClassLine(const QPointF& pos) const;
 
     void reconstructSymbols();
 
     enum Region {  ///< Enum to tell whether the line docks top/bottom or left/right.
         TopBottom, LeftRight
     };
-
-    void setDockRegion(Region region);
 
 private:
     void setStartSymbol(Symbol::SymbolType symbolType);
@@ -200,7 +196,6 @@ private:
     Symbol            *m_subsetSymbol;           ///< subset symbol
     QGraphicsLineItem *m_collaborationLineItem;  ///< parallel arrow line drawn in case of collaboration message
     Symbol            *m_collaborationLineHead;  ///< arrow head drawn at end of m_collaborationLineItem
-    QGraphicsLineItem *m_associationClassLine;   ///< line used to represent Association class
     LayoutType         m_layout;
 
     static QPainterPath createCubicBezierCurve(QVector<QPointF> points);
