@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2006-2013                                               *
- *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
  ***************************************************************************/
 
 #ifndef MESSAGEWIDGETCONTROLLER_H
@@ -41,7 +41,7 @@ class MessageWidget;
  *
  * Double click shows the dialog to select the operation of the message.
  *
- * @author Umbrello UML Modeller Authors <uml-devel@lists.sourceforge.net>
+ * @author Umbrello UML Modeller Authors <umbrello-devel@kde.org>
  */
 class MessageWidgetController : public UMLWidgetController
 {

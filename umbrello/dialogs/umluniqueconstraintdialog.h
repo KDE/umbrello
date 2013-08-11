@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003-2013                                               *
- *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
  ***************************************************************************/
 
 #ifndef UMLUNIQUECONSTRAINTDIALOG_H
@@ -31,7 +31,7 @@ class QPushButton;
  *
  * @short A dialog page to display unique constraint properties.
  * @author Sharan Rao
- * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
 class UMLUniqueConstraintDialog : public KDialog
 {

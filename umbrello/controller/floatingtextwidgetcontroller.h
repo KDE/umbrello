@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2006-2013                                               *
- *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
  ***************************************************************************/
 
 #ifndef FLOATINGTEXTWIDGETCONTROLLER_H
@@ -33,7 +33,7 @@ class FloatingTextWidget;
  * be moved to another valid position.
  * No resize is allowed for FloatingTextWidget.
  *
- * @author Umbrello UML Modeller Authors <uml-devel@lists.sourceforge.net>
+ * @author Umbrello UML Modeller Authors <umbrello-devel@kde.org>
  */
 class FloatingTextWidgetController : public UMLWidgetController
 {

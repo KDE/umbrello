@@ -2,7 +2,7 @@
 <kdevelop>
   <general>
     <author>Umbrello UML Modeller Authors</author>
-    <email>uml-devel@lists.sourceforge.net</email>
+    <email>umbrello-devel@kde.org</email>
     <projectmanagement>KDevKDEAutoProject</projectmanagement>
     <primarylanguage>C++</primarylanguage>
     <keywords>

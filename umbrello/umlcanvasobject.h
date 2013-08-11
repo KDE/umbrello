@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2002-2013                                               *
- *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
  ***************************************************************************/
 
 #ifndef CANVASOBJECT_H
@@ -28,7 +28,7 @@
  * @short Non-graphical information for a UMLCanvasObject.
  * @author Jonathan Riddell
  * @see UMLObject
- * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
 class UMLCanvasObject : public UMLObject
 {

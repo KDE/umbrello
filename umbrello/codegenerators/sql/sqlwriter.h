@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2003      Nikolaus Gradwohl  <guru@local-guru.net>      *
  *   copyright (C) 2004-2013                                               *
- *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
  ***************************************************************************/
 
 #ifndef SQLWRITER_H

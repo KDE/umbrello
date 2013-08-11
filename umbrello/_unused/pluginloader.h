@@ -4,7 +4,7 @@
     begin                : Mon Jan 13 2003
     copyright            : (C) 2003 by Andrew Sutton
     email                : ansutton@kent.edu
-  Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+  Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
 ***************************************************************************/
 
 /***************************************************************************

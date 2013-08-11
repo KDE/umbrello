@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2006      Gael de Chalendar (aka Kleag) kleag@free.fr   *
  *   copyright (C) 2006-2007                                               *
- *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
  ***************************************************************************/
 
 #ifndef DOCBOOKGENERATOR_H

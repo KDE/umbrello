@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2002-2013                                               *
- *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
  ***************************************************************************/
 
 #ifndef FLOATINGDASHLINEWIDGET_H
@@ -28,7 +28,7 @@ class CombinedFragmentWidget;
  *
  * @short  A dash line for UML combined fragments.
  * @author Thomas GALLINARI <tg8187@yahoo.fr>
- * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
 class FloatingDashLineWidget : public UMLWidget
 {

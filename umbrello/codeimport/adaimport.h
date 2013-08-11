@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2005-2013                                               *
- *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
  ***************************************************************************/
 
 #ifndef ADAIMPORT_H
@@ -20,7 +20,7 @@
 /**
  * Ada code import
  * @author Oliver Kellogg
- * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
 class AdaImport : public NativeImportBase
 {

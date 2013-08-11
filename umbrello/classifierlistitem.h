@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003-2013                                               *
- *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
  ***************************************************************************/
 
 #ifndef CLASSIFIERLISTITEM_H
@@ -24,7 +24,7 @@ class UMLClassifier;
  *
  * @short A base class for classifier list items (e.g. attributes)
  * @author Jonathan Riddell
- * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
 class UMLClassifierListItem : public UMLObject
 {

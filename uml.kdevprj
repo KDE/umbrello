@@ -11,7 +11,7 @@ ldflags=\s                   -Iuml/classparser -Iuml/dialogs -Iuml/clipboard
 AMChanged=true
 author=Umbrello UML Modeller Authors
 configure_args=\s--build=i386-linux --host=i386-linux --target=i386-linux --prefix=/opt/kde3 --enable-debug\s
-email=uml-devel@lists.sourceforge.net
+email=umbrello-devel@kde.org
 kdevprj_version=1.3
 lfv_open_groups=
 make_options=\s-j1

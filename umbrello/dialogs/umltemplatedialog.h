@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003-2008                                               *
- *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
  ***************************************************************************/
 
 #ifndef UMLTEMPLATEDIALOG_H
@@ -23,7 +23,7 @@ class UMLTemplate;
  * A dialog to edit the properties of a class template (paramaterised class)
  *
  * @author Jonathan Riddell
- * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
 class UMLTemplateDialog : public KDialog
 {

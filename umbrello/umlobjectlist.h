@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2001      Gustavo Madrigal gmadrigal@nextphere.com      *
  *   copyright (C) 2002-2010                                               *
- *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
  ***************************************************************************/
 
 #ifndef UMLOBJECTLIST_H

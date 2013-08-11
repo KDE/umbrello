@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2002-2006                                               *
- *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
  ***************************************************************************/
 
 #include <unistd.h>
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
                         ki18n("(c) 2006 Gael de Chalendar (aka Kleag), (c) 2002-2006 Umbrello UML Modeller Authors"), KLocalizedString(),
                         "http://uml.sf.net/");
   aboutData.addAuthor(ki18n("Gael de Chalendar (aka Kleag)"),KLocalizedString(), "kleag@free.fr");
-  aboutData.addAuthor(ki18n("Umbrello UML Modeller Authors"), KLocalizedString(), "uml-devel@lists.sourceforge.net");
+  aboutData.addAuthor(ki18n("Umbrello UML Modeller Authors"), KLocalizedString(), "umbrello-devel@kde.org");
   KCmdLineArgs::init( argc, argv, &aboutData );
 
   KCmdLineOptions options;

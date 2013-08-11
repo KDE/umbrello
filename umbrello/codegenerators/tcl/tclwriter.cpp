@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005      Rene Meyer <rene.meyer@sturmit.de>            *
  *   copyright (C) 2006-2013                                               *
- *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
  ***************************************************************************/
 
 // own header

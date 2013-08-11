@@ -7,7 +7,7 @@
  *   copyright (C) 2002      Heiko Nardmann  <h.nardmann@secunet.de>       *
  *                           Thorsten Kunz   <tk AT bytecrash DOT net>     *
  *   copyright (C) 2003-2013                                               *
- *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
  ***************************************************************************/
 
 #ifndef PHP5WRITER_H

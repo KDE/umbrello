@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003-2013                                               *
- *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
  ***************************************************************************/
 
 #ifndef ASSOCIATION_H
@@ -27,7 +27,7 @@ class UMLRole;
  * @short Sets up association information.
  * @author Oliver Kellogg <okellogg@users.sourceforge.net>
  * @see UMLObject
- * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
 class UMLAssociation : public UMLObject
 {

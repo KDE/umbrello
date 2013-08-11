@@ -7,7 +7,7 @@
  *   copyright (C) 2002                                                    *
  *   Paul Hensgen <phensgen@users.sourceforge.net>                         *
  *   copyright (C) 2003-2011                                               *
- *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
  ***************************************************************************/
 
 // own header

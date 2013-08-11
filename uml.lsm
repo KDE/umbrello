@@ -1,14 +1,14 @@
 Begin3
 Title:          Umbrello UML Modeller
-Version:        2.0.0
+Version:        2.11.0
 Entered-date:   
 Description:  A UML diagram Modeller
 Keywords:   uml diagram modeller
 Author:         Paul Hensgen <phensgen @ users.sourceforge.net>
-Maintained-by:  Umbrello UML Modeller developers <uml-devel @ lists.sourceforge.net>
-Primary-site:   http://uml.sf.net
-Home-page:      http://uml.sf.net
+Maintained-by:  Umbrello UML Modeller developers <umbrello-devel @ kde.org>
+Primary-site:   http://umbrello.kde.org
+Home-page:      http://umbrello.kde.org
 Original-site:  
-Platforms:      KDE 4.0
+Platforms:      KDE 4.11
 Copying-policy: GPL
 End

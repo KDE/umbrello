@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003-2011                                               *
- *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
  ***************************************************************************/
 
 #ifndef CONSTRAINTLISTPAGE_H
@@ -26,7 +26,7 @@ class KMenu;
  *
  * @short An extension to the classifier list dialog page to display constraint properties.
  * @author Sharan Rao
- * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
 class ConstraintListPage : public ClassifierListPage
 {

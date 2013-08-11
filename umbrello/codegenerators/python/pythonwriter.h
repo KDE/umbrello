@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2002      Vincent Decorges  <vincent.decorges@eivd.ch>  *
  *   copyright (C) 2003-2013                                               *
- *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
  ***************************************************************************/
 
 #ifndef PYTHONWRITER_H

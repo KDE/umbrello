@@ -7,7 +7,7 @@
  *   copyright (C) 2003                                                    *
  *   Oliver Kellogg <okellogg@users.sourceforge.net>                       *
  *   copyright (C) 2003-2013                                               *
- *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
  ***************************************************************************/
 
 #ifndef IDLWRITER_H

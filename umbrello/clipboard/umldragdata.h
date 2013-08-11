@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2002-2013                                               *
- *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
  ***************************************************************************/
 
 #ifndef UMLDRAGDATA_H
@@ -31,7 +31,7 @@ class QPixmap;
  * in a drag and drop operation or in a copy or paste operation.
  *
  * @author Gustavo Madrigal, Jonathan Riddell (XMI conversion)
- * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
 class UMLDragData : public QMimeData 
 {

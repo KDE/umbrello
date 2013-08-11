@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2006-2013                                               *
- *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
  ***************************************************************************/
 
 #ifndef UMLWIDGETCONTROLLER_H
@@ -58,7 +58,7 @@ class UMLWidget;
  * The behaviour when double clicking on the widget after it's selected can be
  * customized with doMouseDoubleClick.
  *
- * @author Umbrello UML Modeller Authors <uml-devel@lists.sourceforge.net>
+ * @author Umbrello UML Modeller Authors <umbrello-devel@kde.org>
  */
 class UMLWidgetController
 {

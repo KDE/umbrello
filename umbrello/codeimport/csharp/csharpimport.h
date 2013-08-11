@@ -5,7 +5,7 @@
  *  (at your option) any later version.                                    *
  *                                                                         *
  *  copyright (C) 2011-2013                                                *
- *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
+ *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                   *
  ***************************************************************************/
 
 #ifndef CSHARPIMPORT_H
@@ -19,7 +19,7 @@ class UMLObject;
  * C# code import.
  * Grammar of C# can be found at @ref http://msdn.microsoft.com/en-us/library/Aa664812 .
  * @author Andi Fischer (copied from JavaImport)
- * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
 class CSharpImport : public NativeImportBase
 {

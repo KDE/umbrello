@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *  copyright (C) 2005-2011                                                *
- *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
+ *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                   *
  ***************************************************************************/
 
 // own header

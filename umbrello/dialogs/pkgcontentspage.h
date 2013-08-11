@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003-2013                                               *
- *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
  ***************************************************************************/
 #ifndef PKGCONTENTSPAGE_H
 #define PKGCONTENTSPAGE_H
@@ -21,7 +21,7 @@ class QListWidgetItem;
 /**
  * @short The page shows all the objects that belong to a @ref UMLPackage.
  * @author Oliver Kellogg <okellogg@users.sourceforge.net>
- * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
 class PkgContentsPage : public QWidget
 {

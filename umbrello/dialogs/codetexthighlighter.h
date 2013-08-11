@@ -3,7 +3,7 @@
     Copyright 2010  Nokia Corporation and/or its subsidiary(-ies) <qt-info@nokia.com>
                     Code based on examples of the Qt Toolkit under BSD license,
                     <http://doc.qt.nokia.com/4.6/richtext-syntaxhighlighter.html>.
-    Copyright 2010  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
+    Copyright 2010  Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License as

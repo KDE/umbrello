@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2006-2013                                               *
- *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
  ***************************************************************************/
 
 #ifndef OBJECTWIDGETCONTROLLER_H
@@ -27,7 +27,7 @@ class ObjectWidget;
  *
  * Only horizontal resize is allowed for ObjectWidget. Cursor is set to reflect this.
  *
- * @author Umbrello UML Modeller Authors <uml-devel@lists.sourceforge.net>
+ * @author Umbrello UML Modeller Authors <umbrello-devel@kde.org>
  */
 class ObjectWidgetController : public UMLWidgetController
 {
