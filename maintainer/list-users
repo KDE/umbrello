@@ -1,0 +1,5 @@
+#!/bin/sh
+#
+# list users and there number of commits
+#
+git log  | grep Author | sed 's,^Author: ,,g;s,ralf.habacker@gmail.com,ralf.habacker@freenet.de,g;s,ralf.habacker@sag.eu,ralf.habacker@freenet.de,g' | sort | uniq -c | sort -rn
