@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
     KAboutData aboutData( "umbrello", 0, ki18n("Umbrello UML Modeller"),
                           umbrelloVersion(), ki18n(description), KAboutData::License_GPL,
                           ki18n("(c) 2001 Paul Hensgen, (c) 2002-2012 Umbrello UML Modeller Authors"), KLocalizedString(),
-                          "http://uml.sf.net/");
+                          "http://umbrello.kde.org/");
     aboutData.addAuthor(ki18n("Paul Hensgen"),KLocalizedString(), "phensgen@users.sourceforge.net");
     aboutData.addAuthor(ki18n("Umbrello UML Modeller Authors"), KLocalizedString(), "umbrello-devel@kde.org");
     KCmdLineArgs::init( argc, argv, &aboutData );
@@ -81,6 +81,8 @@ int main(int argc, char *argv[])
     options.add("use-folders", ki18n("keep the tree structure used to store the views in the document in the target directory"));
     KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 
+    // NOTE: for deprecated net.sf.umbrello dbus service name
+    // aboutData.setOrganizationDomain("sf.net");
     KApplication app;
     if (app.isSessionRestored()) {
         kRestoreMainWindows< UMLApp >();

@@ -1704,7 +1704,7 @@ void UMLDoc::saveToXMI(QIODevice& file)
     // documentation.appendChild( contact );
 
     QDomElement exporter = doc.createElement( "XMI.exporter" );
-    exporter.appendChild( doc.createTextNode( "umbrello uml modeller http://uml.sf.net" ) );
+    exporter.appendChild( doc.createTextNode( "umbrello uml modeller http://umbrello.kde.org" ) );
     documentation.appendChild( exporter );
 
     QDomElement exporterVersion = doc.createElement( "XMI.exporterVersion" );
