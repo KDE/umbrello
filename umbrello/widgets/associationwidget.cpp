@@ -1198,7 +1198,9 @@ bool AssociationWidget::linePathStartsAt(const UMLWidget* widget)
 //    bool result = (startX >= wX && startX <= wX + wWidth &&
 //                   startY >= wY && startY <= wY + wHeight);
 //    return result;
-    return widget->contains(m_associationLine->point(0));
+    bool result = widget->contains(m_associationLine->point(0));
+    DEBUG(DBG_SRC) << "widget=" << widget->name() << " / result=" << result;
+    return result;
 }
 
 /**
@@ -1880,25 +1882,24 @@ void AssociationWidget::saveIdealTextPositions()
 /**
  * Adjusts the ending point of the association that connects to Widget.
  */
-void AssociationWidget::widgetMoved(UMLWidget* widget, qreal x, qreal y )
+void AssociationWidget::widgetMoved(UMLWidget* widget, qreal x, qreal y)
 {
-    // 2004-04-30: Achim Spangler
-    // Simple Approach to block moveEvent during load of
-    // XMI
+    // Simple Approach to block moveEvent during load of XMI
 
     /// @todo avoid trigger of this event during load
     if ( umlDoc()->loading() ) {
-        // hmmh - change of position during load of XMI
+        // change of position during load of XMI
         // -> there is something wrong
         // -> avoid movement during opening
         // -> print warn and stay at old position
         DEBUG(DBG_SRC) << "called during load of XMI for ViewType: " << m_scene->type()
-            << ", and BaseType: " << baseType();
+                       << ", and BaseType: " << baseTypeStr();
         return;
     }
 
     qreal dx = m_role[RoleType::A].umlWidget->x() - x;
     qreal dy = m_role[RoleType::A].umlWidget->y() - y;
+    DEBUG(DBG_SRC) << "dx=" << dx << " / dy=" << dy;
     int size = m_associationLine->count();
     int pos = size - 1;
     if (associationType() == AssociationType::Exception) {
@@ -1911,7 +1912,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, qreal x, qreal y )
     }
 
     // Assoc to self - move all points:
-    if( m_role[RoleType::A].umlWidget == m_role[RoleType::B].umlWidget) {
+    if ( m_role[RoleType::A].umlWidget == m_role[RoleType::B].umlWidget) {
         for (int i = 1; i < pos; ++i) {
             QPointF p = m_associationLine->point( i );
             qreal newX = p.x() - dx;
@@ -1934,13 +1935,13 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, qreal x, qreal y )
         }
 
     }//end if widgetA = widgetB
-    else if (m_role[RoleType::A].umlWidget==widget) {
+    else if (m_role[RoleType::A].umlWidget == widget) {
         if (m_nameWidget && m_unNameLineSegment == 0 && !m_nameWidget->isSelected() ) {
             //only calculate position and move text if the segment it is on is moving
             setTextPositionRelatively(TextRole::Name, m_oldNamePoint);
         }
     }//end if widgetA moved
-    else if (m_role[RoleType::B].umlWidget==widget) {
+    else if (m_role[RoleType::B].umlWidget == widget) {
         if (m_nameWidget && (m_unNameLineSegment == pos-1) && !m_nameWidget->isSelected() ) {
             //only calculate position and move text if the segment it is on is moving
             setTextPositionRelatively(TextRole::Name, m_oldNamePoint);
@@ -1976,19 +1977,19 @@ void AssociationWidget::updatePointsException()
     UMLWidget *pWidgetA = m_role[RoleType::A].umlWidget;
     UMLWidget *pWidgetB = m_role[RoleType::B].umlWidget;
 
-    int xa = pWidgetA->x();
-    int ya = pWidgetA->y();
-    int ha = pWidgetA->height();
-    int wa = pWidgetA->width();
+    qreal xa = pWidgetA->x();
+    qreal ya = pWidgetA->y();
+    qreal ha = pWidgetA->height();
+    qreal wa = pWidgetA->width();
 
-    int xb = pWidgetB->x();
-    int yb = pWidgetB->y();
-    int hb = pWidgetB->height();
-    int wb = pWidgetB->width();
-    int xmil, ymil;
-    int xdeb, ydeb;
-    int xfin, yfin;
-    int ESPACEX, ESPACEY;
+    qreal xb = pWidgetB->x();
+    qreal yb = pWidgetB->y();
+    qreal hb = pWidgetB->height();
+    qreal wb = pWidgetB->width();
+    qreal xmil, ymil;
+    qreal xdeb, ydeb;
+    qreal xfin, yfin;
+    qreal ESPACEX, ESPACEY;
     QPointF p1;
     QPointF p2;
     //calcul des coordonnées au milieu de la flèche eclair
@@ -2032,9 +2033,9 @@ void AssociationWidget::updatePointsException()
     if (abs(p1.y() - p2.y()) <= 10)
         ESPACEY = 15;
 
-    m_associationLine->setEndPoints( QPointF( xdeb , ydeb ) , QPointF( xfin , yfin ) );
-    m_associationLine->setPoint( 1, QPointF(p1.x() + ESPACEX,p1.y() + ESPACEY));
-    m_associationLine->setPoint( 2 ,QPointF(p2.x() - ESPACEX,p2.y() - ESPACEY));
+    m_associationLine->setEndPoints(QPointF(xdeb, ydeb), QPointF(xfin, yfin));
+    m_associationLine->setPoint(1, QPointF(p1.x() + ESPACEX, p1.y() + ESPACEY));
+    m_associationLine->setPoint(2 ,QPointF(p2.x() - ESPACEX, p2.y() - ESPACEY));
 
     m_role[RoleType::A].m_WidgetRegion = m_role[RoleType::B].m_WidgetRegion = Uml::Region::North;
 }
@@ -2796,7 +2797,7 @@ void AssociationWidget::createAssocClassLine(ClassifierWidget* classifier,
 /**
  * Compute the end points of m_pAssocClassLine in case this
  * association has an attached association class.
- * TODO: The decoration points make no sense now, because they are not movable.
+ * TODO: The decoration points make no sense for now, because they are not movable.
  */
 void AssociationWidget::computeAssocClassLine()
 {
@@ -3201,8 +3202,8 @@ void AssociationWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
     // new position for point
     QPointF p = me->scenePos();
     if (m_scene->snapToGrid()) {
-        int newX = m_scene->snappedX(p.x());
-        int newY = m_scene->snappedY(p.y());
+        qreal newX = m_scene->snappedX(p.x());
+        qreal newY = m_scene->snappedY(p.y());
         p.setX(newX);
         p.setY(newY);
     }
@@ -3211,21 +3212,21 @@ void AssociationWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
     // (else there's no way to get it back.)
     UMLWidget *onW = m_scene->widgetAt(p);
     if (onW && onW->baseType() != WidgetBase::wt_Box) {  // boxes are transparent
-        const int pX = p.x();
-        const int pY = p.y();
-        const int wX = onW->x();
-        const int wY = onW->y();
-        const int wWidth = onW->width();
-        const int wHeight = onW->height();
+        const qreal pX = p.x();
+        const qreal pY = p.y();
+        const qreal wX = onW->x();
+        const qreal wY = onW->y();
+        const qreal wWidth = onW->width();
+        const qreal wHeight = onW->height();
         if (pX > wX && pX < wX + wWidth) {
-            const int midX = wX + wWidth / 2;
+            const qreal midX = wX + wWidth / 2.0;
             if (pX <= midX)
                 p.setX(wX);
             else
                 p.setX(wX + wWidth);
         }
         if (pY > wY && pY < wY + wHeight) {
-            const int midY = wY + wHeight / 2;
+            const qreal midY = wY + wHeight / 2.0;
             if (pY <= midY)
                 p.setY(wY);
             else
@@ -3324,7 +3325,7 @@ QLineF::IntersectType AssociationWidget::intersect(const QRectF &rect, const QLi
  * constant.)
  * When the region is East or West, the Y value is returned (X is
  * constant.)
- * @todo This is buggy. Try replacing by findIntercept()
+ * @todo This is buggy. Try replacing by intersect()
  */
 qreal AssociationWidget::findInterceptOnEdge(const QRectF &rect,
                                              Uml::Region::Enum region,
@@ -3510,10 +3511,10 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
     if (m_role[RoleType::A].umlWidget == m_role[RoleType::B].umlWidget &&
             m_role[RoleType::A].m_WidgetRegion == m_role[RoleType::B].m_WidgetRegion) {
         UMLWidget * pWidget = m_role[RoleType::A].umlWidget;
-        int x = pWidget->x();
-        int y = pWidget->y();
-        int wh = pWidget->height();
-        int ww = pWidget->width();
+        qreal x = pWidget->x();
+        qreal y = pWidget->y();
+        qreal wh = pWidget->height();
+        qreal ww = pWidget->width();
         int size = m_associationLine->count();
         // See if above widget ok to place assoc.
         switch( m_role[RoleType::A].m_WidgetRegion ) {
@@ -3841,7 +3842,7 @@ void AssociationWidget::clipSize()
  */
 void AssociationWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
-    Uml::AssociationType::Enum type = associationType();
+    const Uml::AssociationType::Enum type = associationType();
     ListPopupMenu::MenuType menuType = ListPopupMenu::mt_Association_Selected;
     if ((type == Uml::AssociationType::Anchor) ||
             onAssocClassLine(event->scenePos())) {
@@ -3892,54 +3893,6 @@ void AssociationWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 
     delete menu.data();
 }
-
-/**
- * :TODO: REMOVE IT! But first check if all works in the new code.
- */
-/*
-ListPopupMenu* AssociationWidget::setupPopupMenu(ListPopupMenu *menu, const QPointF &p)
-{
-    Q_UNUSED(menu)
-    //work out the type of menu we want
-    //work out if the association allows rolenames, multiplicity, etc
-    //also must be within a certain distance to be a multiplicity menu
-    ListPopupMenu::MenuType menuType = ListPopupMenu::mt_Undefined;
-    const int DISTANCE = 40;//must be within this many pixels for it to be a multi menu
-    const QPointF lpStart = m_associationLine->point(0);
-    const QPointF lpEnd = m_associationLine->point(m_associationLine->count() - 1);
-    const int startXDiff = lpStart.x() - p.x();
-    const int startYDiff = lpStart.y() - p.y();
-    const int endXDiff = lpEnd.x() - p.x();
-    const int endYDiff = lpEnd.y() - p.y();
-    const float lengthMAP = sqrt( double(startXDiff * startXDiff + startYDiff * startYDiff) );
-    const float lengthMBP = sqrt( double(endXDiff * endXDiff + endYDiff * endYDiff) );
-    const Uml::AssociationType::Enum type = associationType();
-    //allow multiplicity
-    if( AssocRules::allowMultiplicity( type, widgetForRole(RoleType::A)->baseType() ) ) {
-        if(lengthMAP < DISTANCE)
-            menuType =  ListPopupMenu::mt_MultiA;
-        else if(lengthMBP < DISTANCE)
-            menuType = ListPopupMenu::mt_MultiB;
-    }
-    if( menuType == ListPopupMenu::mt_Undefined ) {
-        if (type == AssociationType::Anchor || onAssocClassLine(p))
-            menuType = ListPopupMenu::mt_Anchor;
-        else if (isCollaboration())
-            menuType = ListPopupMenu::mt_Collaboration_Message;
-        else if (association() == NULL)
-            menuType = ListPopupMenu::mt_AttributeAssociation;
-        else if (AssocRules::allowRole(type))
-            menuType = ListPopupMenu::mt_FullAssociation;
-        else
-            menuType = ListPopupMenu::mt_Association_Selected;
-    }
-    m_pMenu = new ListPopupMenu(m_scene->activeView(), menuType);
-    connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
-    if (isCollaboration())
-        m_nameWidget->setupPopupMenu(m_pMenu);
-    return m_pMenu;
-}
-*/
 
 /**
  * Reimplemented event handler for hover enter events.
@@ -4087,8 +4040,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
             // with older files isn't important anymore. -b.t.
             UMLObject* umlRoleA = pWidgetA->umlObject();
             UMLObject* umlRoleB = pWidgetB->umlObject();
-            if (!m_umlObject && umlRoleA && umlRoleB)
-            {
+            if (!m_umlObject && umlRoleA && umlRoleB) {
                 oldStyleLoad = true; // flag for further special config below
                 if (aType == AssociationType::Aggregation || aType == AssociationType::Composition) {
                     uWarning()<<" Old Style save file? swapping roles on association widget"<<this;
@@ -4146,8 +4098,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
     } else {
 
         // we should disconnect any prior association (can this happen??)
-        if (m_umlObject && m_umlObject->baseType() == UMLObject::ot_Association)
-        {
+        if (m_umlObject && m_umlObject->baseType() == UMLObject::ot_Association) {
             UMLAssociation *umla = association();
             umla->disconnect(this);
             umla->nrof_parent_widgets--;

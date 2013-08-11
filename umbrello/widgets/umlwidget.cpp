@@ -773,7 +773,6 @@ void UMLWidget::adjustAssocs(qreal x, qreal y)
 void UMLWidget::adjustUnselectedAssocs(qreal x, qreal y)
 {
     foreach(AssociationWidget* assocwidget, m_Assocs) {
-
         if (!assocwidget->isSelected())
             assocwidget->saveIdealTextPositions();
     }
