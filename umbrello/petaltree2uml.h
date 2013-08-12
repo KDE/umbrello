@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2006-2009                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
 #ifndef PETALTREE2UML_H

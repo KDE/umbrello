@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
  *   copyright (C) 2004-2011                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
 #include "xmlcodecomment.h"

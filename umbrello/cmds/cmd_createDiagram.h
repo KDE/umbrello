@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2012-2013                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
 #ifndef CMD_CREATE_DIAGRAM_H

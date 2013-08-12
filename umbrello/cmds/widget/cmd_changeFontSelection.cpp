@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007-2011                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
 #include "cmd_changeFontSelection.h"

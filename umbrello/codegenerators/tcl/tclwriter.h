@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005      Rene Meyer <rene.meyer@sturmit.de>            *
  *   copyright (C) 2006-2013                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
 #ifndef TCLWRITER_H

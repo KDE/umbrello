@@ -12,7 +12,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2004-2007                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
 // own header

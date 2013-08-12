@@ -5,7 +5,7 @@
  *  (at your option) any later version.                                    *
  *                                                                         *
  *  copyright (C) 2011-2013                                                *
- *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                   *
+ *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                 *
  ***************************************************************************/
 
 #ifndef CSHARPIMPORT_H

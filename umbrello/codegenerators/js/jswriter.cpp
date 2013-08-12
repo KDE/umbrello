@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2003       Alexander Blum  <blum@kewbee.de>             *
  *   copyright (C) 2004-2013                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
 #include "jswriter.h"

@@ -7,7 +7,7 @@
  *   copyright (C) 2002                                                    *
  *   Luis De la Parra <luis@delaparra.org>                                 *
  *   copyright (C) 2003-2013                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 #ifndef CODEGENERATIONWIZARD_H
 #define CODEGENERATIONWIZARD_H

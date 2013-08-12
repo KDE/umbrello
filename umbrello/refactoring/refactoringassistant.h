@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2003 Luis De la Parra <lparrab@gmx.net>                 *
  *   copyright (C) 2004-2011                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
 #ifndef REFACTORING_ASSISTANT_H

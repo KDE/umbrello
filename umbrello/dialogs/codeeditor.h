@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2003 Brian Thomas  <brian.thomas@gsfc.nasa.gov>         *
  *   copyright (C) 2004-2012                                               *
- *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                  *
+ *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
 #ifndef CODEEDITOR_H
