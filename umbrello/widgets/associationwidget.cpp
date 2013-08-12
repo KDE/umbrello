@@ -1885,9 +1885,8 @@ void AssociationWidget::saveIdealTextPositions()
 void AssociationWidget::widgetMoved(UMLWidget* widget, qreal x, qreal y)
 {
     // Simple Approach to block moveEvent during load of XMI
-
     /// @todo avoid trigger of this event during load
-    if ( umlDoc()->loading() ) {
+    if (umlDoc()->loading()) {
         // change of position during load of XMI
         // -> there is something wrong
         // -> avoid movement during opening
@@ -2769,6 +2768,7 @@ void AssociationWidget::createAssocClassLine()
                                                         m_pAssocClassLine);
     computeAssocClassLine();
     selectAssocClassLine(false);
+    m_associationClass->addAssoc(this);  // to get widgetMoved(...) for association classes
 }
 
 /**
@@ -3303,7 +3303,6 @@ QLineF::IntersectType AssociationWidget::intersect(const QRectF &rect, const QLi
 {
     QList<QLineF> lines;
     lines << QLineF(rect.topLeft(), rect.topRight());
-    DEBUG("AssociationWidget") << rect.topLeft();
     lines << QLineF(rect.topRight(), rect.bottomRight());
     lines << QLineF(rect.bottomRight(), rect.bottomLeft());
     lines << QLineF(rect.bottomLeft(), rect.topLeft());
