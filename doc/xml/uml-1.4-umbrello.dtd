@@ -2358,21 +2358,3 @@
 <!ATTLIST Artifact
           drawas CDATA #IMPLIED
 >
-<!ELEMENT classwidget ANY>
-<!ATTLIST classwidget
-          usesdiagramfillcolour CDATA #IMPLIED
-          usesdiagramusefillcolour CDATA #IMPLIED
-          fillcolour CDATA #IMPLIED
->
-<!ELEMENT interfacewidget ANY>
-<!ATTLIST interfacewidget
-          usesdiagramfillcolour CDATA #IMPLIED
-          usesdiagramusefillcolour CDATA #IMPLIED
-          fillcolour CDATA #IMPLIED
->
-<!ELEMENT floatingtext ANY>
-<!ATTLIST floatingtext
-          usesdiagramfillcolour CDATA #IMPLIED
-          usesdiagramusefillcolour CDATA #IMPLIED
-          fillcolour CDATA #IMPLIED
->
