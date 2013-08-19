@@ -1,6 +1,6 @@
 <!ENTITY % UmbrelloDiagrams SYSTEM "umbrello-diagrams.dtd" >
 %UmbrelloDiagrams;
-<!ELEMENT XMI.extensions (docsettings*,  listview*,  codegeneration*)>
+<!ELEMENT XMI.extensions (docsettings*, diagrams*, listview*, codegeneration*)>
 
 <!-- _______________________________________________________________ -->
 <!--                                                                 -->

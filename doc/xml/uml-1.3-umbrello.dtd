@@ -1,7 +1,7 @@
 <!-- <?xml version="1.0" encoding="ISO-8859-1" ?> --> 
 <!ENTITY % UmbrelloDiagrams SYSTEM "umbrello-diagrams.dtd" >
 %UmbrelloDiagrams;
-<!ELEMENT XMI.extensions (docsettings*,  listview*,  codegeneration*)>
+<!ELEMENT XMI.extensions (docsettings*, diagrams*, listview*, codegeneration*)>
 <!ENTITY % UML13 SYSTEM "uml13.dtd" >
 %UML13;
 
