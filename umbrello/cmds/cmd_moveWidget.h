@@ -11,16 +11,17 @@
 #ifndef CMD_MOVEWIDGET_H
 #define CMD_MOVEWIDGET_H
 
+#include <QPointF>
 #include <QUndoCommand>
 
-class UMLWidgetController;
+class UMLWidget;
 
 namespace Uml
 {
     class CmdMoveWidget : public QUndoCommand
     {
     public:
-        explicit CmdMoveWidget(UMLWidgetController* wc);
+        explicit CmdMoveWidget(UMLWidget* widget);
         ~CmdMoveWidget();
 
         void redo();
@@ -29,11 +30,9 @@ namespace Uml
         // bool mergeWith(const QUndoCommand* other);
 
     private:
-        UMLWidgetController*    m_widgetCtrl;
-        int         m_x;
-        int         m_y;
-        int         m_oldX;
-        int         m_oldY;
+        UMLWidget*  m_widget;
+        QPointF     m_pos;
+        QPointF     m_posOld;
 
     };
 }

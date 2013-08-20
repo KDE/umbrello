@@ -15,7 +15,6 @@
 #include "basictypes.h"
 #include "floatingtextwidget.h"
 #include "messagewidget.h"
-#include "objectwidget.h"
 
 /**
  * Constructor for FloatingTextWidgetController.
@@ -47,15 +46,15 @@ FloatingTextWidgetController::~FloatingTextWidgetController()
  *
  * @param me The QGraphicsSceneMouseEvent to get the offset from.
  */
-void FloatingTextWidgetController::saveWidgetValues(QGraphicsSceneMouseEvent *me)
-{
-    UMLWidgetController::saveWidgetValues(me);
+//void FloatingTextWidgetController::saveWidgetValues(QGraphicsSceneMouseEvent *me)
+//{
+//    UMLWidgetController::saveWidgetValues(me);
 
-    m_unconstrainedPositionX = m_widget->x();
-    m_unconstrainedPositionY = m_widget->y();
-    m_movementDirectionX = 0;
-    m_movementDirectionY = 0;
-}
+//    m_unconstrainedPositionX = m_widget->x();
+//    m_unconstrainedPositionY = m_widget->y();
+//    m_movementDirectionX = 0;
+//    m_movementDirectionY = 0;
+//}
 
 /**
  * Overridden from UMLWidgetController.
@@ -65,11 +64,11 @@ void FloatingTextWidgetController::saveWidgetValues(QGraphicsSceneMouseEvent *me
  * @param me The QGraphicsSceneMouseEvent to check.
  * @return true if the mouse is in resize area, false otherwise.
  */
-bool FloatingTextWidgetController::isInResizeArea(QGraphicsSceneMouseEvent* me)
-{
-    Q_UNUSED(me);
-    return false;
-}
+//bool FloatingTextWidgetController::isInResizeArea(QGraphicsSceneMouseEvent* me)
+//{
+//    Q_UNUSED(me);
+//    return false;
+//}
 
 /**
  * Overridden from UMLWidgetController.

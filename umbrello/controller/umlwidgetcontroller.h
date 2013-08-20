@@ -63,23 +63,20 @@ class UMLWidget;
 class UMLWidgetController
 {
 public:
-
     explicit UMLWidgetController(UMLWidget *widget);
     virtual ~UMLWidgetController();
 
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *me);
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *me);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * me);
-    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *me);
+//    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *me);
 
-    virtual void widgetMoved();
+//    virtual void widgetMoved();
 
-    int getOldX();
-    int getOldY();
-    int getOldH();
-    int getOldW();
-
-    void insertSaveValues(int _oldX, int _oldY, int X, int Y);
+    qreal getOldX();
+    qreal getOldY();
+    qreal getOldH();
+    qreal getOldW();
 
     virtual void moveWidgetBy(UMLSceneValue diffX, UMLSceneValue diffY);
 
@@ -88,16 +85,11 @@ public:
     virtual UMLWidget* getWidget();
 
 protected:
-
-    virtual void saveWidgetValues(QGraphicsSceneMouseEvent *me);
-
     virtual bool isInResizeArea(QGraphicsSceneMouseEvent *me);
 
     virtual QCursor getResizeCursor();
 
     virtual void constrainMovementForAllWidgets(UMLSceneValue &diffX, UMLSceneValue &diffY);
-
-    virtual void doMouseDoubleClick(QGraphicsSceneMouseEvent *me);
 
     void resetSelection();
 
@@ -108,18 +100,9 @@ protected:
 
     void setSelectionBounds();
 
-    void updateSelectionBounds(int diffX, int diffY);
-
     void resize(QGraphicsSceneMouseEvent *me);
 
-    int getSmallestX(const UMLWidgetList &widgetList);
-    int getSmallestY(const UMLWidgetList &widgetList);
-
-    int getBiggestX(const UMLWidgetList &widgetList);
-    int getBiggestY(const UMLWidgetList &widgetList);
-
     UMLScenePoint getPosition(QGraphicsSceneMouseEvent *me);
-    UMLScenePoint getPositionDifference(QGraphicsSceneMouseEvent *me);
 
     bool wasSizeChanged();
     bool wasPositionChanged();
@@ -152,28 +135,17 @@ protected:
      * The X/Y offset from the position of the cursor when it was pressed to the
      * upper left corner of the widget.
      */
-    int m_pressOffsetX, m_pressOffsetY;
+    QPointF m_pressOffset;
 
     /**
      * The X/Y position the widget had when the movement started.
      */
-    int m_oldX, m_oldY;
-
-    /**
-     * The previous recorded X/Y position of the widget during its movement
-     * This keeps changing as the widget is dragged along its path
-     */
-    int m_prevX, m_prevY;
+    QPointF m_oldPos;
 
     /**
      * The width/height the widget had when the resize started.
      */
-    int m_oldW, m_oldH;
-
-    /**
-     * The minimum/maximum X/Y position of all the selected widgets.
-     */
-    int m_minSelectedX, m_minSelectedY, m_maxSelectedX, m_maxSelectedY;
+    qreal m_oldW, m_oldH;
 
     /**
      * If shift or control button were pressed in mouse press event.
@@ -183,7 +155,7 @@ protected:
     /**
      * If the left/middle/right button is pressed.
      */
-    bool m_leftButtonDown, m_middleButtonDown, m_rightButtonDown;
+//    bool m_leftButtonDown, m_middleButtonDown, m_rightButtonDown;
 
     /**
      * If cursor was in move/resize area when left button was pressed (and no

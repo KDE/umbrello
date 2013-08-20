@@ -52,7 +52,7 @@ public:
 
 protected:
 
-    virtual void saveWidgetValues(QGraphicsSceneMouseEvent *me);
+//    virtual void saveWidgetValues(QGraphicsSceneMouseEvent *me);
 
     virtual QCursor getResizeCursor();
 

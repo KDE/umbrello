@@ -132,6 +132,7 @@ public:
     }
 
     void setSize(UMLSceneValue width,UMLSceneValue height);
+    void setSize(const QSizeF& size);
 
     bool getIgnoreSnapToGrid() const;
     void setIgnoreSnapToGrid(bool to);
@@ -202,6 +203,8 @@ public:
     virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
 
     UMLWidgetController* getWidgetController();
+    QPointF startMovePosition() const;
+    QSizeF startResizeSize() const;
 
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
@@ -262,7 +265,8 @@ public:
     ///////////////// End of Data Loaded/Saved //////////////////////////
 
     bool m_selected, m_startMove;
-
+    QPointF        m_startMovePostion;
+    QSizeF         m_startResizeSize;
     int            m_nPosX;
     UMLDoc        *m_doc;  ///< shortcut for UMLApp::app()->getDocument()
     bool           m_resizable;

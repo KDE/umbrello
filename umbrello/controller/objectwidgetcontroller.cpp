@@ -77,8 +77,9 @@ void ObjectWidgetController::mousePressEvent(QGraphicsSceneMouseEvent *me)
 
     if (pLine->onDestructionBox(me->scenePos())) {
         m_isOnDestructionBox = true;
-        m_oldX = dynamic_cast<ObjectWidget*>(m_widget)->x() + dynamic_cast<ObjectWidget*>(m_widget)->width() / 2;
-        m_oldY = dynamic_cast<ObjectWidget*>(m_widget)->getEndLineY() - 10;
+        qreal oldX = dynamic_cast<ObjectWidget*>(m_widget)->x() + dynamic_cast<ObjectWidget*>(m_widget)->width() / 2;
+        qreal oldY = dynamic_cast<ObjectWidget*>(m_widget)->getEndLineY() - 10;
+        m_oldPos = QPointF(oldX, oldY);
     }
 
 }
@@ -88,15 +89,16 @@ void ObjectWidgetController::mousePressEvent(QGraphicsSceneMouseEvent *me)
  */
 void ObjectWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 {
-    if (!m_leftButtonDown)
+    if (me->button() != Qt::LeftButton) {
         return;
+    }
 
     if (m_inResizeArea) {
         resize(me);
         return;
     }
 
-    int diffY = me->scenePos().y() - m_oldY;
+    int diffY = me->scenePos().y() - m_oldPos.y();
 
     if (m_isOnDestructionBox) {
         moveDestructionBy (diffY);
@@ -135,7 +137,7 @@ void ObjectWidgetController::moveDestructionBy(UMLSceneValue diffY)
     UMLSceneValue endLine = dynamic_cast<ObjectWidget *>(m_widget)->getEndLineY() + diffY - 10;
     SeqLineWidget * pLine = dynamic_cast<ObjectWidget *>(m_widget)->sequentialLine();
     pLine->setEndOfLine(endLine);
-    m_oldY = endLine;
+    m_oldPos.setY(endLine);
 }
 
 /**

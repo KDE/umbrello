@@ -263,11 +263,14 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
  */
 void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    uDebug() << "widget = " << name() << " / type = " << baseTypeStr();
-    if (event->button() == Qt::RightButton) {
+    DEBUG(DBG_SRC) << "widget = " << name() << " / type = " << baseTypeStr();
+    if ((event->button() == Qt::RightButton) ||
+        (event->button() == Qt::MiddleButton)) {
         event->ignore();
         return;
     }
+    m_startMovePostion = pos();
+    m_startResizeSize = QSizeF(width(), height());
     m_widgetController->mousePressEvent(event);
 }
 
@@ -289,7 +292,7 @@ void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
 void UMLWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
-        uDebug() << "widget = " << name() << " / type = " << baseTypeStr();
+        DEBUG(DBG_SRC) << "widget = " << name() << " / type = " << baseTypeStr();
         switch(baseType()) {
         case WidgetBase::wt_Message:  // will be handled in its class
             QGraphicsItem::mouseDoubleClickEvent(event);
@@ -300,6 +303,24 @@ void UMLWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
             break;
         }
     }
+}
+
+/**
+ * Return the start position of the move action.
+ * @return   point where the move began
+ */
+QPointF UMLWidget::startMovePosition() const
+{
+    return m_startMovePostion;
+}
+
+/**
+ * Return the start size of the resize action.
+ * @return   size where the resize began
+ */
+QSizeF UMLWidget::startResizeSize() const
+{
+    return m_startResizeSize;
 }
 
 /**
@@ -834,7 +855,7 @@ void UMLWidget::moveByLocal(qreal dx, qreal dy)
     qreal newY = y() + dy;
     setX(newX);
     setY(newY);
-    // DEBUG(DBG_SRC) << "********** x=" << newX << " / y=" << newY;
+    DEBUG(DBG_SRC) << "x=" << newX << " / y=" << newY;
     adjustAssocs(newX, newY);
 }
 
@@ -869,6 +890,7 @@ void UMLWidget::resize()
     // @TODO minimumSize() do not work in all cases, we need a dedicated autoResize() method
     UMLSceneSize size = minimumSize();
     setSize(size.width(), size.height());
+    DEBUG(DBG_SRC) << "x=" << x() << " / y=" << y();
     adjustAssocs(x(), y());    // adjust assoc lines
 }
 
@@ -905,8 +927,6 @@ void UMLWidget::setSelected(bool _select)
     if (bkgnd && bkgnd != this && _select) {
         DEBUG(DBG_SRC) << "setting Z to " << bkgnd->zValue() + 1.0 << ", SelectState: " << _select;
         setZValue(bkgnd->zValue() + 1.0);
-//:TODO:    } else {
-//:TODO:        setZ(m_origZ);
     }
 
     update();
@@ -1051,6 +1071,14 @@ void UMLWidget::setSize(UMLSceneValue width, UMLSceneValue height)
 }
 
 /**
+ * Sets the size with another size.
+ */
+void UMLWidget::setSize(const QSizeF& size)
+{
+    setSize(size.width(), size.height());
+}
+
+/**
  * Update the size of this widget.
  */
 void UMLWidget::updateGeometry()
@@ -1063,6 +1091,7 @@ void UMLWidget::updateGeometry()
     constrain(clipWidth, clipHeight);
     setSize(clipWidth, clipHeight);
     slotSnapToGrid();
+    DEBUG(DBG_SRC) << "x=" << x() << " / y=" << y();
     adjustAssocs(x(), y());    // adjust assoc lines
 }
 

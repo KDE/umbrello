@@ -46,12 +46,12 @@ MessageWidgetController::~MessageWidgetController()
  *
  * @param me The QGraphicsSceneMouseEvent to get the offset from.
  */
-void MessageWidgetController::saveWidgetValues(QGraphicsSceneMouseEvent *me)
-{
-    UMLWidgetController::saveWidgetValues(me);
+//void MessageWidgetController::saveWidgetValues(QGraphicsSceneMouseEvent *me)
+//{
+//    UMLWidgetController::saveWidgetValues(me);
 
-    m_unconstrainedPositionY = m_widget->y();
-}
+//    m_unconstrainedPositionY = m_widget->y();
+//}
 
 /**
  * Overridden from UMLWidgetController.

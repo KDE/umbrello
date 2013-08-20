@@ -1243,9 +1243,9 @@ UMLWidget* AssociationWidget::widgetForRole(Uml::RoleType::Enum role) const
  * @param assocType The AssociationType::Enum for this association.
  * @param widgetB   Pointer the role B widget for the association.
  */
-bool AssociationWidget::setWidgets( UMLWidget* widgetA,
-                                    Uml::AssociationType::Enum assocType,
-                                    UMLWidget* widgetB)
+bool AssociationWidget::setWidgets(UMLWidget* widgetA,
+                                   Uml::AssociationType::Enum assocType,
+                                   UMLWidget* widgetB)
 {
     //if the association already has a WidgetB or WidgetA associated, then
     //it cannot be changed to other widget, that would require a  deletion
@@ -1643,8 +1643,10 @@ void AssociationWidget::calculateEndingPoints()
 
     UMLWidget *pWidgetA = m_role[RoleType::A].umlWidget;
     UMLWidget *pWidgetB = m_role[RoleType::B].umlWidget;
-    if (!pWidgetA || !pWidgetB)
+    if (!pWidgetA || !pWidgetB) {
+        uWarning() << "Returning - one of the role widgets is not set.";
         return;
+    }
 
     int size = m_associationLine->count();
     if (size < 2)
@@ -1896,37 +1898,28 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, qreal x, qreal y)
         return;
     }
 
-    qreal dx = m_role[RoleType::A].umlWidget->x() - x;
-    qreal dy = m_role[RoleType::A].umlWidget->y() - y;
-    DEBUG(DBG_SRC) << "dx=" << dx << " / dy=" << dy;
-    int size = m_associationLine->count();
-    int pos = size - 1;
     if (associationType() == AssociationType::Exception) {
         updatePointsException();
-        setTextPosition( TextRole::Name );
+        setTextPosition(TextRole::Name);
     }
     else {
         calculateEndingPoints();
         computeAssocClassLine();
     }
 
+    const int size = m_associationLine->count();
     // Assoc to self - move all points:
     if ( m_role[RoleType::A].umlWidget == m_role[RoleType::B].umlWidget) {
-        for (int i = 1; i < pos; ++i) {
-            QPointF p = m_associationLine->point( i );
-            qreal newX = p.x() - dx;
-            qreal newY = p.y() - dy;
-            // safety. We DON'T want to go off the screen
-            if (newX < 0)
-                newX = 0;
-            // safety. We DON'T want to go off the screen
-            if (newY < 0)
-                newY = 0;
-            newX = m_scene->snappedX( newX );
-            newY = m_scene->snappedY( newY );
-            p.setX( newX );
-            p.setY( newY );
-            m_associationLine->setPoint( i, p );
+        for (int i = 1; i < size-1; ++i) {
+            QPointF p = mapToScene(m_associationLine->point(i));
+            qreal newX = p.x() + x - widget->x();
+            qreal newY = p.y() + y - widget->y();
+            newX = m_scene->snappedX(newX);
+            newY = m_scene->snappedY(newY);
+            DEBUG(DBG_SRC) << "newX=" << newX << " / newY=" << newY;
+            p.setX(newX);
+            p.setY(newY);
+            m_associationLine->setPoint(i, mapFromScene(p));
         }
 
         if ( m_nameWidget && !m_nameWidget->isSelected() ) {
@@ -1941,7 +1934,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, qreal x, qreal y)
         }
     }//end if widgetA moved
     else if (m_role[RoleType::B].umlWidget == widget) {
-        if (m_nameWidget && (m_unNameLineSegment == pos-1) && !m_nameWidget->isSelected() ) {
+        if (m_nameWidget && (m_unNameLineSegment == size-2) && !m_nameWidget->isSelected() ) {
             //only calculate position and move text if the segment it is on is moving
             setTextPositionRelatively(TextRole::Name, m_oldNamePoint);
         }
@@ -2768,7 +2761,6 @@ void AssociationWidget::createAssocClassLine()
                                                         m_pAssocClassLine);
     computeAssocClassLine();
     selectAssocClassLine(false);
-    m_associationClass->addAssoc(this);  // to get widgetMoved(...) for association classes
 }
 
 /**
@@ -2790,6 +2782,7 @@ void AssociationWidget::createAssocClassLine(ClassifierWidget* classifier,
 
     m_associationClass = classifier;
     m_associationClass->setClassAssociationWidget(this);
+    m_associationClass->addAssoc(this);  // to get widgetMoved(...) for association classes
 
     createAssocClassLine();
 }

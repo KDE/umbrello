@@ -4,14 +4,13 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2012                                               *
+ *   copyright (C) 2002-2013                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "cmd_resizeWidget.h"
 
 // app includes
-#include "umlwidgetcontroller.h"
 #include "umlwidget.h"
 
 #include <klocale.h>
@@ -19,16 +18,14 @@
 namespace Uml
 {
 
-    CmdResizeWidget::CmdResizeWidget(UMLWidgetController* wc)
+    CmdResizeWidget::CmdResizeWidget(UMLWidget *widget)
       : QUndoCommand(),
-        m_widgetCtrl(wc)
+        m_widget(widget)
     {
-        UMLWidget * w = wc->getWidget();
-        setText(i18n("Resize widget : %1", w->name()));
-        m_w = w->width();
-        m_h = w->height();
-        m_oldH = wc->getOldH();
-        m_oldW = wc->getOldW();
+        Q_ASSERT(widget != 0);
+        setText(i18n("Resize widget : %1", widget->name()));
+        m_size = QSizeF(widget->width(), widget->height());
+        m_sizeOld = widget->startResizeSize();
     }
 
     CmdResizeWidget::~CmdResizeWidget()
@@ -37,19 +34,17 @@ namespace Uml
 
     void CmdResizeWidget::redo()
     {
-        UMLWidget * w = m_widgetCtrl->getWidget();
-        UMLScene* scene = w->umlScene();
-        if (scene->widgetOnDiagram(w->id())) {
-            m_widgetCtrl->resizeWidget(m_w, m_h);
+        UMLScene* scene = m_widget->umlScene();
+        if (scene->widgetOnDiagram(m_widget->id())) {
+            m_widget->setSize(m_size);
         }
     }
 
     void CmdResizeWidget::undo()
     {
-        UMLWidget * w = m_widgetCtrl->getWidget();
-        UMLScene* scene = w->umlScene();
-        if (scene->widgetOnDiagram(w->id())) {
-            m_widgetCtrl->resizeWidget(m_oldW, m_oldH);
+        UMLScene* scene = m_widget->umlScene();
+        if (scene->widgetOnDiagram(m_widget->id())) {
+            m_widget->setSize(m_sizeOld);
         }
     }
 

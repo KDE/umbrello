@@ -11,27 +11,26 @@
 #ifndef CMD_RESIZEWIDGET_H
 #define CMD_RESIZEWIDGET_H
 
+#include <QSizeF>
 #include <QUndoCommand>
 
-class UMLWidgetController;
+class UMLWidget;
 
 namespace Uml
 {
     class CmdResizeWidget : public QUndoCommand
     {
     public:
-        explicit CmdResizeWidget(UMLWidgetController* wc);
+        explicit CmdResizeWidget(UMLWidget* widget);
         ~CmdResizeWidget();
 
         void redo();
         void undo();
 
     private:
-        UMLWidgetController*  m_widgetCtrl;
-        int         m_h;
-        int         m_w;
-        int         m_oldH;
-        int         m_oldW;
+        UMLWidget*  m_widget;
+        QSizeF      m_size;
+        QSizeF      m_sizeOld;
     };
 }
 
