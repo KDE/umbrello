@@ -134,6 +134,7 @@ void MessageWidget::init()
     m_pOw[Uml::RoleType::A] = m_pOw[Uml::RoleType::B] = NULL;
     m_pFText = NULL;
     m_nY = 0;
+    m_unconstrainedPositionY = 0;
 }
 
 /**
@@ -170,6 +171,110 @@ void MessageWidget::updateResizability()
         UMLWidget::m_resizable = true;
     else
         UMLWidget::m_resizable = false;
+}
+
+/**
+ * Overridden from UMLWidget.
+ * Resizes the height of the message widget and emits the message moved signal.
+ * Message widgets can only be resized vertically, so width isn't modified.
+ *
+ * @param newW   The new width for the widget (isn't used).
+ * @param newH   The new height for the widget.
+ */
+void MessageWidget::resizeWidget(qreal newW, qreal newH)
+{
+    if (sequenceMessageType() == Uml::SequenceMessage::Creation)
+        setSize(width(), newH);
+    else {
+        qreal x1 = m_pOw[Uml::RoleType::A]->x();
+        qreal x2 = getxclicked();
+        qreal diffX = 0;
+        if (x1 < x2) {
+            diffX = x2 + (newW - width());
+        }
+        else {
+            diffX = x2 - (newW - width());
+        }
+        if (diffX <= 0 )
+            diffX = 10;
+        setxclicked (diffX);
+        setSize(newW, newH);
+        calculateWidget();
+
+    }
+    emit sigMessageMoved();
+}
+
+/**
+ * Constrains the vertical position of the message widget so it doesn't go
+ * upper than the bottom side of the lower object.
+ * The height of the floating text widget in the message is taken in account
+ * if there is any and isn't empty.
+ *
+ * @param diffY The difference between current Y position and new Y position.
+ * @return The new Y position, constrained.
+ */
+qreal MessageWidget::constrainPositionY(qreal diffY)
+{
+    qreal newY = y() + diffY;
+
+    qreal minY = getMinY();
+    if (m_pFText && !m_pFText->displayText().isEmpty()) {
+        minY += m_pFText->height();
+    }
+
+    if (newY < minY) {
+        newY = minY;
+    }
+
+    return newY;
+}
+
+/**
+ * Overridden from UMLWidget.
+ * Moves the widget to a new position using the difference between the
+ * current position and the new position. X position is ignored, and widget
+ * is only moved along Y axis. If message goes upper than the object, it's
+ * kept at this position until it should be lowered again (the unconstrained
+ * Y position is saved to know when it's the time to lower it again).
+ * If the message is a creation message, the object created is also moved to
+ * the new vertical position.
+ * @see constrainPositionY
+ *
+ * @param diffX The difference between current X position and new X position
+ *                          (isn't used).
+ * @param diffY The difference between current Y position and new Y position.
+ */
+void MessageWidget::moveWidgetBy(qreal diffX, qreal diffY)
+{
+    Q_UNUSED(diffX);
+    m_unconstrainedPositionY += diffY;
+    qreal newY = constrainPositionY(diffY);
+
+    if (m_unconstrainedPositionY != newY) {
+        if (m_unconstrainedPositionY > y()) {
+            newY = m_unconstrainedPositionY;
+        } else {
+            return;
+        }
+    }
+
+    setY(newY);
+}
+
+/**
+ * Overridden from UMLWidget.
+ * Modifies the value of the diffX and diffY variables used to move the widgets.
+ * All the widgets are constrained to be moved only in Y axis (diffX is set to 0).
+ * @see constrainPositionY
+ *
+ * @param diffX The difference between current X position and new X position.
+ * @param diffY The difference between current Y position and new Y position.
+ */
+void MessageWidget::constrainMovementForAllWidgets(qreal &diffX, qreal &diffY)
+{
+    diffX = 0;
+    diffY = constrainPositionY(diffY) - y();
 }
 
 /**

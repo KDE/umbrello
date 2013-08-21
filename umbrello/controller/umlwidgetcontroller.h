@@ -12,10 +12,10 @@
 #define UMLWIDGETCONTROLLER_H
 
 // app includes
-#include "umlscene.h"
 #include "umlwidgetlist.h"
 
 // qt includes
+#include <QGraphicsSceneMouseEvent>
 #include <QDateTime>
 
 class QCursor;
@@ -78,18 +78,12 @@ public:
     qreal getOldH();
     qreal getOldW();
 
-    virtual void moveWidgetBy(UMLSceneValue diffX, UMLSceneValue diffY);
-
-    virtual void resizeWidget(UMLSceneValue newW, UMLSceneValue newH);
-
     virtual UMLWidget* getWidget();
 
 protected:
     virtual bool isInResizeArea(QGraphicsSceneMouseEvent *me);
 
     virtual QCursor getResizeCursor();
-
-    virtual void constrainMovementForAllWidgets(UMLSceneValue &diffX, UMLSceneValue &diffY);
 
     void resetSelection();
 
@@ -102,7 +96,7 @@ protected:
 
     void resize(QGraphicsSceneMouseEvent *me);
 
-    UMLScenePoint getPosition(QGraphicsSceneMouseEvent *me);
+    QPointF getPosition(QGraphicsSceneMouseEvent *me);
 
     bool wasSizeChanged();
     bool wasPositionChanged();

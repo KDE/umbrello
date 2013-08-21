@@ -134,6 +134,8 @@ public:
     void setSize(UMLSceneValue width,UMLSceneValue height);
     void setSize(const QSizeF& size);
 
+    virtual void resizeWidget(qreal newW, qreal newH);
+
     bool getIgnoreSnapToGrid() const;
     void setIgnoreSnapToGrid(bool to);
 
@@ -314,6 +316,9 @@ signals:
 
 protected:
     virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent* event);
+
+    virtual void moveWidgetBy(qreal diffX, qreal diffY);
+    virtual void constrainMovementForAllWidgets(qreal &diffX, qreal &diffY);
 
 private:
     void init();

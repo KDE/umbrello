@@ -40,16 +40,10 @@ protected:
 
     virtual QCursor getResizeCursor();
 
-    virtual void resizeWidget(UMLSceneValue newW, UMLSceneValue newH);
-
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *me);
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *me);
 
-    virtual void moveWidgetBy(UMLSceneValue diffX, UMLSceneValue diffY);
-
-    void moveDestructionBy (UMLSceneValue diffY);
-
-    virtual void constrainMovementForAllWidgets(UMLSceneValue &diffX, UMLSceneValue &diffY);
+    void moveDestructionBy(qreal diffY);
 
     bool m_isOnDestructionBox;  ///< true when a click occurred on the destruction box
 };

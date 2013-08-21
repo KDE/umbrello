@@ -136,6 +136,8 @@ public:
 
     UMLSceneValue onWidget(const UMLScenePoint & p);
 
+    virtual void resizeWidget(qreal newW, qreal newH);
+
     virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
     virtual bool loadFromXMI(QDomElement & qElement);
 
@@ -151,6 +153,9 @@ public:
 
 protected:
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+
+    virtual void moveWidgetBy(qreal diffX, qreal diffY);
+    virtual void constrainMovementForAllWidgets(qreal &diffX, qreal &diffY);
 
     void setLinkAndTextPos();
 
@@ -180,6 +185,8 @@ private:
     void moveEvent(QGraphicsSceneMouseEvent *m);
     void resizeEvent(QResizeEvent *re);
 
+    qreal constrainPositionY(qreal diffY);
+
     void init();
 
     ObjectWidget * m_pOw[2];
@@ -195,6 +202,9 @@ private:
      * m_pOw[] and m_pFText can be used.
      */
     Uml::ID::Type m_widgetAId, m_widgetBId, m_textId;
+
+    /// The vertical position the widget would have if its move wasn't constrained.
+    qreal m_unconstrainedPositionY;
 
 public slots:
     void slotWidgetMoved(Uml::ID::Type id);

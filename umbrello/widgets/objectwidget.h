@@ -77,6 +77,8 @@ public:
 
     SeqLineWidget *sequentialLine() const;
 
+    virtual void resizeWidget(qreal newW, qreal newH);
+
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
     virtual bool loadFromXMI(QDomElement& qElement);
 
@@ -87,6 +89,9 @@ public slots:
 
 protected:
     UMLSceneSize minimumSize();
+
+    virtual void moveWidgetBy(qreal diffX, qreal diffY);
+    virtual void constrainMovementForAllWidgets(qreal &diffX, qreal &diffY);
 
     void paintActor(QPainter *p);
     void paintObject(QPainter *p);

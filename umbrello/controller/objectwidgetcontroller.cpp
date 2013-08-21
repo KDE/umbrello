@@ -15,7 +15,6 @@
 #include "objectwidget.h"
 #include "seqlinewidget.h"
 #include "uml.h"
-#include "umlscene.h"
 #include "umlwidget.h"
 #include "umlwidgetlist.h"
 
@@ -50,20 +49,6 @@ ObjectWidgetController::~ObjectWidgetController()
 QCursor ObjectWidgetController::getResizeCursor()
 {
     return Qt::SizeHorCursor;
-}
-
-/**
- * Overridden from UMLWidgetController.
- * Resizes the width of the object widget.
- * Object widgets can only be resized horizontally, so height isn't modified.
- *
- * @param newW The new width for the widget.
- * @param newH The new height for the widget (isn't used).
- */
-void ObjectWidgetController::resizeWidget(UMLSceneValue newW, UMLSceneValue newH)
-{
-    Q_UNUSED(newH);
-    m_widget->setSize(newW, m_widget->height());
 }
 
 /**
@@ -109,47 +94,18 @@ void ObjectWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 }
 
 /**
- * Overridden from UMLWidgetController.
- * Moves the widget to a new position using the difference between the
- * current position and the new position.
- * Y position is ignored, and widget is only moved along X axis.
- *
- * @param diffX The difference between current X position and new X position.
- * @param diffY The difference between current Y position and new Y position
- *                          (isn't used).
- */
-void ObjectWidgetController::moveWidgetBy(UMLSceneValue diffX, UMLSceneValue diffY)
-{
-    Q_UNUSED(diffY);
-    m_widget->setX(m_widget->x() + diffX);
-}
-
-/**
  * Moves the destruction Box to a new position using the difference between the
  * current position and the new position.
  * The destruction box is only moved along Y axis.
  *
  * @param diffY The difference between current Y position and new Y position
  */
-void ObjectWidgetController::moveDestructionBy(UMLSceneValue diffY)
+void ObjectWidgetController::moveDestructionBy(qreal diffY)
 {
     // endLine = length of the life line + diffY - 10 to center on the destruction box
-    UMLSceneValue endLine = dynamic_cast<ObjectWidget *>(m_widget)->getEndLineY() + diffY - 10;
+    qreal endLine = dynamic_cast<ObjectWidget *>(m_widget)->getEndLineY() + diffY - 10;
     SeqLineWidget * pLine = dynamic_cast<ObjectWidget *>(m_widget)->sequentialLine();
     pLine->setEndOfLine(endLine);
     m_oldPos.setY(endLine);
 }
 
-/**
- * Overridden from UMLWidgetController.
- * Modifies the value of the diffX and diffY variables used to move the widgets.
- * All the widgets are constrained to be moved only in X axis (diffY is set to 0).
- *
- * @param diffX The difference between current X position and new X position.
- * @param diffY The difference between current Y position and new Y position.
- */
-void ObjectWidgetController::constrainMovementForAllWidgets(UMLSceneValue& diffX, UMLSceneValue& diffY)
-{
-    Q_UNUSED(diffX);
-    diffY = 0;
-}

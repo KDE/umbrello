@@ -56,27 +56,14 @@ protected:
 
     virtual QCursor getResizeCursor();
 
-    virtual void resizeWidget(UMLSceneValue newW, UMLSceneValue newH);
-
-    virtual void moveWidgetBy(UMLSceneValue diffX, UMLSceneValue diffY);
-
-    virtual void constrainMovementForAllWidgets(UMLSceneValue &diffX, UMLSceneValue &diffY);
-
 //    virtual void doMouseDoubleClick(QGraphicsSceneMouseEvent *me);
 
 private:
-
-    int constrainPositionY(UMLSceneValue diffY);
 
     /**
      * The message widget which uses the controller.
      */
     MessageWidget *m_messageWidget;
-
-    /**
-     * The vertical position the widget would have if its move wasn't constrained.
-     */
-    int m_unconstrainedPositionY;
 
 };
 

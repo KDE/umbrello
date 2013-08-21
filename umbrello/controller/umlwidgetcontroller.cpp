@@ -154,7 +154,7 @@ void UMLWidgetController::mousePressEvent(QGraphicsSceneMouseEvent *me)
  * It resizes or moves the widget, depending on where the cursor is pressed
  * on the widget. Go on reading for more info about this.
  *
- * If resizing, the widget is resized using resizeWidget (where specific
+ * If resizing, the widget is resized using UMLWidget::resizeWidget (where specific
  * widget resize constrain can be applied), and then the associations are
  * adjusted.
  * The resizing can be constrained also to an specific axis using control
@@ -220,7 +220,7 @@ void UMLWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 
     // uDebug() << "before constrainMovementForAllWidgets:"
     //     << " diffX=" << diffX << ", diffY=" << diffY;
-    constrainMovementForAllWidgets(diffX, diffY);
+    m_widget->constrainMovementForAllWidgets(diffX, diffY);
     // uDebug() << "after constrainMovementForAllWidgets:"
     //     << " diffX=" << diffX << ", diffY=" << diffY;
 
@@ -240,7 +240,7 @@ void UMLWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
         //CmdMoveWidgetBy* cmd = new CmdMoveWidgetBy(widget,diffX,diffY);
         //m_doc->executeCommand(cmd);
         //m_doc->executeCommand(new CmdMoveWidgetBy(widget,diffX,diffY));
-        widget->getWidgetController()->moveWidgetBy(diffX, diffY);
+        widget->moveWidgetBy(diffX, diffY);
     }
 
     // Move any selected associations.
@@ -447,67 +447,6 @@ QCursor UMLWidgetController::getResizeCursor()
 }
 
 /**
- * Resizes the widget.
- * It's called from resize, after the values are constrained and before
- * the associations are adjusted.
- *
- * Default behaviour is resize the widget using the new size values.
- * @see resize
- *
- * @param newW The new width for the widget.
- * @param newH The new height for the widget.
- */
-void UMLWidgetController::resizeWidget(UMLSceneValue newW, UMLSceneValue newH)
-{
-    m_widget->setSize(newW, newH);
-}
-
-/**
- * Moves the widget to a new position using the difference between the
- * current position and the new position.
- * This method doesn't adjust associations. It only moves the widget.
- *
- * It can be overridden to constrain movement of m_widget only in one axis even when
- * the user isn't constraining the movement with shift or control buttons, for example.
- * The movement policy set here is applied whenever the widget is moved, being it
- * moving it explicitly, or as a part of a selection but not receiving directly the
- * mouse events.
- *
- * Default behaviour is move the widget to the new position using the diffs.
- * @see constrainMovementForAllWidgets
- *
- * @param diffX The difference between current X position and new X position.
- * @param diffY The difference between current Y position and new Y position.
- */
-void UMLWidgetController::moveWidgetBy(UMLSceneValue diffX, UMLSceneValue diffY)
-{
-    m_widget->setX(m_widget->x() + diffX);
-    m_widget->setY(m_widget->y() + diffY);
-}
-
-/**
- * Modifies the value of the diffX and diffY variables used to move the widgets.
- *
- * It can be overridden to constrain movement of all the selected widgets only in one
- * axis even when the user isn't constraining the movement with shift or control
- * buttons, for example.
- * The difference with moveWidgetBy is that the diff positions used here are
- * applied to all the selected widgets instead of only to m_widget, and that
- * moveWidgetBy, in fact, moves the widget, and here simply the diff positions
- * are modified.
- *
- * Default behaviour is do nothing.
- * @see moveWidgetBy
- *
- * @param diffX The difference between current X position and new X position.
- * @param diffY The difference between current Y position and new Y position.
- */
-void UMLWidgetController::constrainMovementForAllWidgets(UMLSceneValue &diffX, UMLSceneValue &diffY)
-{
-    Q_UNUSED(diffX); Q_UNUSED(diffY);
-}
-
-/**
  * Executes the action for double click in the widget.
  * It's called only if the button used was left button.
  * Before calling this method, the widget is selected.
@@ -659,7 +598,7 @@ void UMLWidgetController::resize(QGraphicsSceneMouseEvent *me)
     }
 
     m_widget->constrain(newW, newH);
-    resizeWidget(newW, newH);
+    m_widget->resizeWidget(newW, newH);
     uDebug() << "event=" << me->scenePos() << "/ pos=" << m_widget->pos() << " / newW=" << newW << " / newH=" << newH;
     m_widget->adjustAssocs(m_widget->x(), m_widget->y());
 
@@ -675,7 +614,7 @@ void UMLWidgetController::resize(QGraphicsSceneMouseEvent *me)
  * @param me The QGraphicsSceneMouseEvent for which to get the adjusted position.
  * @return A UMLScenePoint with the adjusted position.
  */
-UMLScenePoint UMLWidgetController::getPosition(QGraphicsSceneMouseEvent* me)
+QPointF UMLWidgetController::getPosition(QGraphicsSceneMouseEvent* me)
 {
     return me->scenePos() - m_pressOffset;
 }

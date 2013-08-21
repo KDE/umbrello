@@ -29,7 +29,6 @@ MessageWidgetController::MessageWidgetController(MessageWidget* messageWidget)
   : UMLWidgetController(messageWidget)
 {
     m_messageWidget = messageWidget;
-    m_unconstrainedPositionY = 0;
 }
 
 /**
@@ -67,85 +66,6 @@ QCursor MessageWidgetController::getResizeCursor()
 
 /**
  * Overridden from UMLWidgetController.
- * Resizes the height of the message widget and emits the message moved signal.
- * Message widgets can only be resized vertically, so width isn't modified.
- *
- * @param newW The new width for the widget (isn't used).
- * @param newH The new height for the widget.
- */
-void MessageWidgetController::resizeWidget(UMLSceneValue newW, UMLSceneValue newH)
-{
-    if (m_messageWidget->sequenceMessageType() == Uml::SequenceMessage::Creation)
-        m_messageWidget->setSize(m_messageWidget->width(), newH);
-    else {
-        int x1 = m_messageWidget->m_pOw[Uml::RoleType::A]->x();
-        int x2 = m_messageWidget->getxclicked();
-        int diffX = 0;
-        if (x1 < x2) {
-            diffX = x2 + (newW - m_messageWidget->width());
-        }
-        else {
-            diffX = x2 - (newW - m_messageWidget->width());
-        }
-        if (diffX <= 0 )
-            diffX = 10;
-        m_messageWidget->setxclicked (diffX);
-        m_messageWidget->setSize(newW, newH);
-        m_messageWidget->calculateWidget();
-
-    }
-    emit m_messageWidget->sigMessageMoved();
-}
-
-/**
- * Overridden from UMLWidgetController.
- * Moves the widget to a new position using the difference between the
- * current position and the new position. X position is ignored, and widget
- * is only moved along Y axis. If message goes upper than the object, it's
- * kept at this position until it should be lowered again (the unconstrained
- * Y position is saved to know when it's the time to lower it again).
- * If the message is a creation message, the object created is also moved to
- * the new vertical position.
- * @see constrainPositionY
- *
- * @param diffX The difference between current X position and new X position
- *                          (isn't used).
- * @param diffY The difference between current Y position and new Y position.
- */
-void MessageWidgetController::moveWidgetBy(UMLSceneValue diffX, UMLSceneValue diffY)
-{
-    Q_UNUSED(diffX);
-    m_unconstrainedPositionY += diffY;
-    UMLSceneValue newY = constrainPositionY(diffY);
-
-    if (m_unconstrainedPositionY != newY) {
-        if (m_unconstrainedPositionY > m_messageWidget->y()) {
-            newY = m_unconstrainedPositionY;
-        } else {
-            return;
-        }
-    }
-
-    m_messageWidget->setY(newY);
-}
-
-/**
- * Overridden from UMLWidgetController.
- * Modifies the value of the diffX and diffY variables used to move the widgets.
- * All the widgets are constrained to be moved only in Y axis (diffX is set to 0).
- * @see constrainPositionY
- *
- * @param diffX The difference between current X position and new X position.
- * @param diffY The difference between current Y position and new Y position.
- */
-void MessageWidgetController::constrainMovementForAllWidgets(UMLSceneValue &diffX, UMLSceneValue &diffY)
-{
-    diffX = 0;
-    diffY = constrainPositionY(diffY) - m_widget->y();
-}
-
-/**
- * Overridden from UMLWidgetController.
  * Executes the action for double click in the widget.
  * Shows the dialog to select the operation of the message.
  *
@@ -160,27 +80,3 @@ void MessageWidgetController::constrainMovementForAllWidgets(UMLSceneValue &diff
 //    }
 //}
 
-/**
- * Constrains the vertical position of the message widget so it doesn't go
- * upper than the bottom side of the lower object.
- * The height of the floating text widget in the message is taken in account
- * if there is any and isn't empty.
- *
- * @param diffY The difference between current Y position and new Y position.
- * @return The new Y position, constrained.
- */
-int MessageWidgetController::constrainPositionY(UMLSceneValue diffY)
-{
-    UMLSceneValue newY = m_widget->y() + diffY;
-
-    UMLSceneValue minY = m_messageWidget->getMinY();
-    if (m_messageWidget->m_pFText && !m_messageWidget->m_pFText->displayText().isEmpty()) {
-        minY += m_messageWidget->m_pFText->height();
-    }
-
-    if (newY < minY) {
-        newY = minY;
-    }
-
-    return newY;
-}

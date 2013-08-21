@@ -125,6 +125,36 @@ bool ObjectWidget::multipleInstance() const
 }
 
 /**
+ * Overridden from UMLWidget.
+ * Moves the widget to a new position using the difference between the
+ * current position and the new position.
+ * Y position is ignored, and widget is only moved along X axis.
+ *
+ * @param diffX The difference between current X position and new X position.
+ * @param diffY The difference between current Y position and new Y position
+ *                          (isn't used).
+ */
+void ObjectWidget::moveWidgetBy(qreal diffX, qreal diffY)
+{
+    Q_UNUSED(diffY);
+    setX(x() + diffX);
+}
+
+/**
+ * Overridden from UMLWidget.
+ * Modifies the value of the diffX and diffY variables used to move the widgets.
+ * All the widgets are constrained to be moved only in X axis (diffY is set to 0).
+ *
+ * @param diffX The difference between current X position and new X position.
+ * @param diffY The difference between current Y position and new Y position.
+ */
+void ObjectWidget::constrainMovementForAllWidgets(qreal &diffX, qreal &diffY)
+{
+    Q_UNUSED(diffX);
+    diffY = 0;
+}
+
+/**
  * Override default method.
  */
 void ObjectWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -569,6 +599,20 @@ bool ObjectWidget::messageOverlap(UMLSceneValue y, MessageWidget* messageWidget)
 SeqLineWidget *ObjectWidget::sequentialLine() const
 {
     return m_pLine;
+}
+
+/**
+ * Overridden from UMLWidget.
+ * Resizes the width of the object widget.
+ * Object widgets can only be resized horizontally, so height isn't modified.
+ *
+ * @param newW   The new width for the widget.
+ * @param newH   The new height for the widget (isn't used).
+ */
+void ObjectWidget::resizeWidget(qreal newW, qreal newH)
+{
+    Q_UNUSED(newH);
+    setSize(newW, height());
 }
 
 /**

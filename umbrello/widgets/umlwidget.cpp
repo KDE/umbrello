@@ -244,6 +244,51 @@ void UMLWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 }
 
 /**
+ * Moves the widget to a new position using the difference between the
+ * current position and the new position.
+ * This method doesn't adjust associations. It only moves the widget.
+ *
+ * It can be overridden to constrain movement only in one axis even when
+ * the user isn't constraining the movement with shift or control buttons, for example.
+ * The movement policy set here is applied whenever the widget is moved, being it
+ * moving it explicitly, or as a part of a selection but not receiving directly the
+ * mouse events.
+ *
+ * Default behaviour is move the widget to the new position using the diffs.
+ * @see UMLWidgetController::constrainMovementForAllWidgets
+ *
+ * @param diffX The difference between current X position and new X position.
+ * @param diffY The difference between current Y position and new Y position.
+ */
+void UMLWidget::moveWidgetBy(qreal diffX, qreal diffY)
+{
+    setX(x() + diffX);
+    setY(y() + diffY);
+}
+
+/**
+ * Modifies the value of the diffX and diffY variables used to move the widgets.
+ *
+ * It can be overridden to constrain movement of all the selected widgets only in one
+ * axis even when the user isn't constraining the movement with shift or control
+ * buttons, for example.
+ * The difference with moveWidgetBy is that the diff positions used here are
+ * applied to all the selected widgets instead of only to m_widget, and that
+ * moveWidgetBy, in fact, moves the widget, and here simply the diff positions
+ * are modified.
+ *
+ * Default behaviour is do nothing.
+ * @see moveWidgetBy
+ *
+ * @param diffX The difference between current X position and new X position.
+ * @param diffY The difference between current Y position and new Y position.
+ */
+void UMLWidget::constrainMovementForAllWidgets(qreal &diffX, qreal &diffY)
+{
+    Q_UNUSED(diffX) Q_UNUSED(diffY)
+}
+
+/**
  * Calls the method with the same name in UMLWidgetController.
  * @see UMLWidgetController#mouseMoveEvent
  *
@@ -321,6 +366,22 @@ QPointF UMLWidget::startMovePosition() const
 QSizeF UMLWidget::startResizeSize() const
 {
     return m_startResizeSize;
+}
+
+/**
+ * Resizes the widget.
+ * It's called from resize, after the values are constrained and before
+ * the associations are adjusted.
+ *
+ * Default behaviour is resize the widget using the new size values.
+ * @see resize
+ *
+ * @param newW   The new width for the widget.
+ * @param newH   The new height for the widget.
+ */
+void UMLWidget::resizeWidget(qreal newW, qreal newH)
+{
+    setSize(newW, newH);
 }
 
 /**
