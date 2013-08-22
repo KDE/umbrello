@@ -603,6 +603,18 @@ SeqLineWidget *ObjectWidget::sequentialLine() const
 
 /**
  * Overridden from UMLWidget.
+ * Returns the cursor to be shown when resizing the widget.
+ * The cursor shown is KCursor::sizeHorCursor().
+ *
+ * @return The cursor to be shown when resizing the widget.
+ */
+QCursor ObjectWidget::resizeCursor()
+{
+    return Qt::SizeHorCursor;
+}
+
+/**
+ * Overridden from UMLWidget.
  * Resizes the width of the object widget.
  * Object widgets can only be resized horizontally, so height isn't modified.
  *

@@ -40,18 +40,6 @@ ObjectWidgetController::~ObjectWidgetController()
 }
 
 /**
- * Overridden from UMLWidgetController.
- * Returns the cursor to be shown when resizing the widget.
- * The cursor shown is KCursor::sizeHorCursor().
- *
- * @return The cursor to be shown when resizing the widget.
- */
-QCursor ObjectWidgetController::getResizeCursor()
-{
-    return Qt::SizeHorCursor;
-}
-
-/**
  * Overrides the standard operation.
  */
 void ObjectWidgetController::mousePressEvent(QGraphicsSceneMouseEvent *me)

@@ -93,6 +93,8 @@ protected:
     virtual void moveWidgetBy(qreal diffX, qreal diffY);
     virtual void constrainMovementForAllWidgets(qreal &diffX, qreal &diffY);
 
+    virtual QCursor resizeCursor();
+
     void paintActor(QPainter *p);
     void paintObject(QPainter *p);
 

@@ -38,8 +38,6 @@ public:
 
 protected:
 
-    virtual QCursor getResizeCursor();
-
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *me);
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *me);
 

@@ -20,7 +20,6 @@ class ObjectWidget;
 class QMoveEvent;
 class QResizeEvent;
 class UMLOperation;
-class MessageWidgetController;
 
 /**
  * Used to display a message on a sequence diagram.  The message
@@ -43,8 +42,6 @@ class MessageWidget : public UMLWidget, public LinkWidget
 {
     Q_OBJECT
 public:
-    friend class MessageWidgetController;
-
     MessageWidget(UMLScene * scene, ObjectWidget* a, ObjectWidget* b,
                   int y, Uml::SequenceMessage::Enum sequenceMessageType,
                   Uml::ID::Type id = Uml::ID::None);
@@ -156,6 +153,8 @@ protected:
 
     virtual void moveWidgetBy(qreal diffX, qreal diffY);
     virtual void constrainMovementForAllWidgets(qreal &diffX, qreal &diffY);
+
+    virtual QCursor resizeCursor();
 
     void setLinkAndTextPos();
 

@@ -406,7 +406,7 @@ UMLWidget* UMLWidgetController::getWidget()
 /**
  * Checks if the mouse is in resize area (right bottom corner), and sets
  * the cursor depending on that.
- * The cursor used when resizing is gotten from getResizeCursor().
+ * The cursor used when resizing is gotten from resizeCursor().
  *
  * @param me The QMouseEVent to check.
  * @return true if the mouse is in resize area, false otherwise.
@@ -426,24 +426,12 @@ bool UMLWidgetController::isInResizeArea(QGraphicsSceneMouseEvent *me)
     if (m_widget->m_resizable &&
             me->scenePos().x() >= (m_widget->x() + w - m) &&
             me->scenePos().y() >= (m_widget->y() + h - m)) {
-        m_widget->m_scene->activeView()->setCursor(getResizeCursor());
+        m_widget->m_scene->activeView()->setCursor(m_widget->resizeCursor());
         return true;
     } else {
         m_widget->m_scene->activeView()->setCursor(Qt::ArrowCursor);
         return false;
     }
-}
-
-/**
- * Returns the cursor to be shown when resizing the widget.
- *
- * Default cursor is KCursor::sizeFDiagCursor().
- *
- * @return The cursor to be shown when resizing the widget.
- */
-QCursor UMLWidgetController::getResizeCursor()
-{
-    return Qt::SizeFDiagCursor;
 }
 
 /**

@@ -15,7 +15,6 @@
 #include "classifier.h"
 #include "debug_utils.h"
 #include "floatingtextwidget.h"
-#include "messagewidgetcontroller.h"
 #include "listpopupmenu.h"
 #include "objectwidget.h"
 #include "operation.h"
@@ -53,7 +52,7 @@ static const int circleWidth = 10;
 MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, ObjectWidget* b,
                              int y, Uml::SequenceMessage::Enum sequenceMessageType,
                              Uml::ID::Type id /* = Uml::id_None */)
-  : UMLWidget(scene, WidgetBase::wt_Message, id, new MessageWidgetController(this))
+  : UMLWidget(scene, WidgetBase::wt_Message, id, NULL)
 {
     init();
     m_pOw[Uml::RoleType::A] = a;
@@ -82,7 +81,7 @@ MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, ObjectWidget* b,
  */
 MessageWidget::MessageWidget(UMLScene * scene, Uml::SequenceMessage::Enum seqMsgType,
                              Uml::ID::Type id)
-  : UMLWidget(scene, WidgetBase::wt_Message, id, new MessageWidgetController(this))
+  : UMLWidget(scene, WidgetBase::wt_Message, id, NULL)
 {
     init();
     m_sequenceMessageType = seqMsgType;
@@ -101,7 +100,7 @@ MessageWidget::MessageWidget(UMLScene * scene, Uml::SequenceMessage::Enum seqMsg
 MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, int xclick, int yclick,
                              Uml::SequenceMessage::Enum sequenceMessageType,
                              Uml::ID::Type id /*= Uml::id_None*/)
-  : UMLWidget(scene, WidgetBase::wt_Message, id, new MessageWidgetController(this))
+  : UMLWidget(scene, WidgetBase::wt_Message, id, NULL)
 {
     init();
     m_pOw[Uml::RoleType::A] = a;
@@ -171,6 +170,18 @@ void MessageWidget::updateResizability()
         UMLWidget::m_resizable = true;
     else
         UMLWidget::m_resizable = false;
+}
+
+/**
+ * Overridden from UMLWidget.
+ * Returns the cursor to be shown when resizing the widget.
+ * The cursor shown is KCursor::sizeVerCursor().
+ *
+ * @return The cursor to be shown when resizing the widget.
+ */
+QCursor MessageWidget::resizeCursor()
+{
+    return Qt::SizeVerCursor;
 }
 
 /**

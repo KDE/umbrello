@@ -370,7 +370,7 @@ set(libwidgets_SRCS
 
 set (libcontroller_SRCS
 #    controller/floatingtextwidgetcontroller.cpp
-    controller/messagewidgetcontroller.cpp
+#    controller/messagewidgetcontroller.cpp
 #    controller/notewidgetcontroller.cpp
     controller/objectwidgetcontroller.cpp
     controller/umlwidgetcontroller.cpp

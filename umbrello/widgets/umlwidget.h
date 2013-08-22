@@ -17,6 +17,7 @@
 #include "umlscene.h"
 #include "widgetbase.h"
 
+#include <QCursor>
 #include <QDateTime>
 #include <QFont>
 
@@ -319,6 +320,8 @@ protected:
 
     virtual void moveWidgetBy(qreal diffX, qreal diffY);
     virtual void constrainMovementForAllWidgets(qreal &diffX, qreal &diffY);
+
+    virtual QCursor resizeCursor();
 
 private:
     void init();

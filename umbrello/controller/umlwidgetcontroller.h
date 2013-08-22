@@ -83,8 +83,6 @@ public:
 protected:
     virtual bool isInResizeArea(QGraphicsSceneMouseEvent *me);
 
-    virtual QCursor getResizeCursor();
-
     void resetSelection();
 
     void selectSingle(QGraphicsSceneMouseEvent *me);

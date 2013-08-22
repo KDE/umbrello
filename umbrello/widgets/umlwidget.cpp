@@ -937,6 +937,17 @@ void UMLWidget::setPenFromSettings(QPainter *p)
 }
 
 /**
+ * Returns the cursor to be shown when resizing the widget.
+ * Default cursor is KCursor::sizeFDiagCursor().
+ *
+ * @return The cursor to be shown when resizing the widget.
+ */
+QCursor UMLWidget::resizeCursor()
+{
+    return Qt::SizeFDiagCursor;
+}
+
+/**
  * calculate content related size of widget.
  *
  * @return calculated widget size
