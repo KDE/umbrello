@@ -287,11 +287,11 @@ void AssocRolePage::constructWidget()
     mainLayout->addWidget(propsAGB, 0, 0);
     mainLayout->addWidget(scopeABG, 1, 0);
     mainLayout->addWidget(changeABG, 2, 0);
-    mainLayout->addWidget(  docAGB, 3, 0);
+    mainLayout->addWidget(docAGB, 3, 0);
     mainLayout->addWidget(propsBGB, 0, 1);
     mainLayout->addWidget(scopeBBG, 1, 1);
     mainLayout->addWidget(changeBBG, 2, 1);
-    mainLayout->addWidget(  docBGB, 3, 1);
+    mainLayout->addWidget(docBGB, 3, 1);
 }
 
 /**

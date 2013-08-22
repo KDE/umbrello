@@ -347,7 +347,7 @@ void UMLOperationDialog::slotParameterProperties()
         QString newName = tempAttribute->name();
 
         pAtt = m_operation->findParm(newName); // search whether a parameter with this name already exists
-        if(pAtt && pAtt != pOldAtt ) {
+        if(pAtt && pAtt != pOldAtt) {
             KMessageBox::error(this, i18n("The parameter name you have chosen is already being used in this operation."),
                                i18n("Parameter Name Not Unique"), 0);
             namingConflict = true;

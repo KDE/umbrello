@@ -225,7 +225,7 @@ void ClassOptionsPage::setupClassPageOption()
         m_scopeGB = new QGroupBox(i18n("Starting Scope"), parentWidget());
         QGridLayout * scopeLayout = new QGridLayout(m_scopeGB);
         scopeLayout->setSpacing(10);
-        scopeLayout->setMargin( fontMetrics().height() );
+        scopeLayout->setMargin(fontMetrics().height());
 
         m_attributeLabel = new QLabel(i18n("Default attribute scope:"), m_scopeGB);
         scopeLayout->addWidget(m_attributeLabel, 0, 0);

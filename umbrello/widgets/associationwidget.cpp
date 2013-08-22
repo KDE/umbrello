@@ -1961,7 +1961,7 @@ void AssociationWidget::updatePointsException()
 
     xmil = xdeb + (xfin - xdeb)/2;
 
-    if (yb - ya - ha >= 45 )  {
+    if (yb - ya - ha >= 45)  {
         ESPACEY = 0;
         ydeb = ya + ha;
         yfin = yb;

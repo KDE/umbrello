@@ -1142,7 +1142,7 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
         UMLApp::app()->commonPolicy()->getAutoGenerateConstructors();
 
     // generate method decl for each operation given
-    foreach (UMLOperation* op, oplist ) {
+    foreach (UMLOperation* op, oplist) {
         QString doc;  // buffer for documentation
         QString methodReturnType;
         UMLAttributeList atl = op->getParmList();  // method parameters

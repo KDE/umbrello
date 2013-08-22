@@ -730,7 +730,7 @@ void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
         atl = op -> getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->doc().isEmpty();
-        foreach (UMLAttribute* at,  atl ) {
+        foreach (UMLAttribute* at,  atl) {
             writeDoc |= !at->doc().isEmpty();
         }
 

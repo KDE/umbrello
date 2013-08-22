@@ -159,7 +159,7 @@ bool UMLPackage::addObject(UMLObject *pObject)
     else {
       QString name = pObject->name();
       QString oldName = name;
-      while (findObject(name) != NULL ) {
+      while (findObject(name) != NULL) {
          QString prevName = name;
          name = Model_Utils::uniqObjectName(pObject->baseType(),this);
          bool ok = true;

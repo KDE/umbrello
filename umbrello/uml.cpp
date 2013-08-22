@@ -909,57 +909,57 @@ void UMLApp::saveOptions()
     UmbrelloSettings::setDotPath(optionState.autoLayoutState.dotPath);
     UmbrelloSettings::setShowExportLayout(optionState.autoLayoutState.showExportLayout);
     UmbrelloSettings::setAutosave(optionState.generalState.autosave);
-    UmbrelloSettings::setTime( optionState.generalState.time);
+    UmbrelloSettings::setTime(optionState.generalState.time);
     UmbrelloSettings::setAutosavetime(optionState.generalState.autosavetime);
-    UmbrelloSettings::setAutosavesuffix( optionState.generalState.autosavesuffix);
+    UmbrelloSettings::setAutosavesuffix(optionState.generalState.autosavesuffix);
     UmbrelloSettings::setLoadlast(optionState.generalState.loadlast);
 
     UmbrelloSettings::setDiagram(optionState.generalState.diagram);
-    UmbrelloSettings::setDefaultLanguage( optionState.generalState.defaultLanguage);
+    UmbrelloSettings::setDefaultLanguage(optionState.generalState.defaultLanguage);
 
     if(m_doc->url().fileName() == i18n("Untitled")) {
-        UmbrelloSettings::setLastFile( "");
+        UmbrelloSettings::setLastFile("");
     }
     else {
-        UmbrelloSettings::setLastFile( m_doc->url().prettyUrl());
+        UmbrelloSettings::setLastFile(m_doc->url().prettyUrl());
     }
 
-    UmbrelloSettings::setImageMimeType( imageMimeType());
+    UmbrelloSettings::setImageMimeType(imageMimeType());
 
-    UmbrelloSettings::setUseFillColor( optionState.uiState.useFillColor);
-    UmbrelloSettings::setFillColor( optionState.uiState.fillColor);
-    UmbrelloSettings::setLineColor( optionState.uiState.lineColor);
-    UmbrelloSettings::setLineWidth( optionState.uiState.lineWidth);
+    UmbrelloSettings::setUseFillColor(optionState.uiState.useFillColor);
+    UmbrelloSettings::setFillColor(optionState.uiState.fillColor);
+    UmbrelloSettings::setLineColor(optionState.uiState.lineColor);
+    UmbrelloSettings::setLineWidth(optionState.uiState.lineWidth);
     UmbrelloSettings::setTextColor(optionState.uiState.textColor);
-    UmbrelloSettings::setShowDocWindow( m_documentationDock->isVisible());
-    UmbrelloSettings::setUiFont( optionState.uiState.font);
+    UmbrelloSettings::setShowDocWindow(m_documentationDock->isVisible());
+    UmbrelloSettings::setUiFont(optionState.uiState.font);
     UmbrelloSettings::setBackgroundColor(optionState.uiState.backgroundColor);
     UmbrelloSettings::setGridDotColor(optionState.uiState.gridDotColor);
 
-    UmbrelloSettings::setShowVisibility( optionState.classState.showVisibility);
+    UmbrelloSettings::setShowVisibility(optionState.classState.showVisibility);
     UmbrelloSettings::setShowAtts(optionState.classState.showAtts);
-    UmbrelloSettings::setShowOps( optionState.classState.showOps);
+    UmbrelloSettings::setShowOps(optionState.classState.showOps);
     UmbrelloSettings::setShowStereoType(optionState.classState.showStereoType);
-    UmbrelloSettings::setShowAttSig( optionState.classState.showAttSig);
+    UmbrelloSettings::setShowAttSig(optionState.classState.showAttSig);
     UmbrelloSettings::setShowOpSig(optionState.classState.showOpSig);
-    UmbrelloSettings::setShowPackage( optionState.classState.showPackage);
-    UmbrelloSettings::setShowAttribAssocs( optionState.classState.showAttribAssocs);
-    UmbrelloSettings::setShowPublicOnly( optionState.classState.showPublicOnly);
+    UmbrelloSettings::setShowPackage(optionState.classState.showPackage);
+    UmbrelloSettings::setShowAttribAssocs(optionState.classState.showAttribAssocs);
+    UmbrelloSettings::setShowPublicOnly(optionState.classState.showPublicOnly);
     UmbrelloSettings::setDefaultAttributeScope(optionState.classState.defaultAttributeScope);
     UmbrelloSettings::setDefaultOperationScope(optionState.classState.defaultOperationScope);
 
-    UmbrelloSettings::setHeight( optionState.codeViewerState.height);
-    UmbrelloSettings::setWidth( optionState.codeViewerState.width);
-    UmbrelloSettings::setCodeViewerFont( optionState.codeViewerState.font);
-    UmbrelloSettings::setFontColor( optionState.codeViewerState.fontColor);
+    UmbrelloSettings::setHeight(optionState.codeViewerState.height);
+    UmbrelloSettings::setWidth(optionState.codeViewerState.width);
+    UmbrelloSettings::setCodeViewerFont(optionState.codeViewerState.font);
+    UmbrelloSettings::setFontColor(optionState.codeViewerState.fontColor);
     UmbrelloSettings::setPaperColor(optionState.codeViewerState.paperColor);
-    UmbrelloSettings::setSelectedColor( optionState.codeViewerState.selectedColor);
+    UmbrelloSettings::setSelectedColor(optionState.codeViewerState.selectedColor);
     UmbrelloSettings::setEditBlockColor(optionState.codeViewerState.editBlockColor);
-    UmbrelloSettings::setNonEditBlockColor( optionState.codeViewerState.nonEditBlockColor);
+    UmbrelloSettings::setNonEditBlockColor(optionState.codeViewerState.nonEditBlockColor);
     UmbrelloSettings::setUmlObjectColor(optionState.codeViewerState.umlObjectColor);
-    UmbrelloSettings::setBlocksAreHighlighted( optionState.codeViewerState.blocksAreHighlighted);
+    UmbrelloSettings::setBlocksAreHighlighted(optionState.codeViewerState.blocksAreHighlighted);
     UmbrelloSettings::setShowHiddenBlocks(optionState.codeViewerState.showHiddenBlocks);
-    UmbrelloSettings::setHiddenColor( optionState.codeViewerState.hiddenColor);
+    UmbrelloSettings::setHiddenColor(optionState.codeViewerState.hiddenColor);
 
     // write config for CPP code generation options
     UmbrelloSettings::setAutoGenAccessors(optionState.codeGenerationState.cppCodeGenerationState.autoGenAccessors);

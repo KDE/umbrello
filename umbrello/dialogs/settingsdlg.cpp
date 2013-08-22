@@ -102,19 +102,19 @@ void SettingsDlg::setupUIPage()
     m_UiWidgets.fillColorCB = new QCheckBox(i18n("Custom fill color:"), m_UiWidgets.colorGB);
     colorLayout->addWidget(m_UiWidgets.fillColorCB, 2, 0);
 
-    m_UiWidgets.fillColorB = new KColorButton(m_pOptionState->uiState.fillColor,m_UiWidgets.colorGB );
+    m_UiWidgets.fillColorB = new KColorButton(m_pOptionState->uiState.fillColor,m_UiWidgets.colorGB);
     colorLayout->addWidget(m_UiWidgets.fillColorB, 2, 1);
 
     m_UiWidgets.gridColorCB = new QCheckBox(i18n("Custom grid color:"), m_UiWidgets.colorGB);
     colorLayout->addWidget(m_UiWidgets.gridColorCB , 3, 0);
 
-    m_UiWidgets.gridColorB = new KColorButton(m_pOptionState->uiState.gridDotColor,m_UiWidgets.colorGB );
+    m_UiWidgets.gridColorB = new KColorButton(m_pOptionState->uiState.gridDotColor,m_UiWidgets.colorGB);
     colorLayout->addWidget(m_UiWidgets.gridColorB , 3, 1);
 
     m_UiWidgets.bgColorCB = new QCheckBox(i18n("Custom background color:"), m_UiWidgets.colorGB);
     colorLayout->addWidget(m_UiWidgets.bgColorCB , 4, 0);
 
-    m_UiWidgets.bgColorB = new KColorButton(m_pOptionState->uiState.backgroundColor,m_UiWidgets.colorGB );
+    m_UiWidgets.bgColorB = new KColorButton(m_pOptionState->uiState.backgroundColor,m_UiWidgets.colorGB);
     colorLayout->addWidget(m_UiWidgets.bgColorB , 4, 1);
 
     m_UiWidgets.lineWidthCB = new QCheckBox(i18n("Custom line width:"), m_UiWidgets.colorGB);
@@ -210,7 +210,7 @@ void SettingsDlg::setupCodeViewerPage(Settings::CodeViewerState options)
 {
     //setup code generation settings page
     KVBox * page = new KVBox();
-    pageCodeViewer = new KPageWidgetItem(page,i18n("Code Viewer") );
+    pageCodeViewer = new KPageWidgetItem(page,i18n("Code Viewer"));
     pageCodeViewer->setHeader(i18n("Code Viewer Settings"));
     pageCodeViewer->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_CodeViewer));
     addPage(pageCodeViewer);
@@ -220,7 +220,7 @@ void SettingsDlg::setupCodeViewerPage(Settings::CodeViewerState options)
 void SettingsDlg::setupFontPage()
 {
     KVBox * page = new KVBox();
-    pageFont = new KPageWidgetItem(page,i18n("Font") );
+    pageFont = new KPageWidgetItem(page,i18n("Font"));
     pageFont->setHeader(i18n("Font Settings"));
     pageFont->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font));
     addPage(pageFont);
@@ -231,7 +231,7 @@ void SettingsDlg::setupFontPage()
 void SettingsDlg::setupAutoLayoutPage()
 {
     KVBox * page = new KVBox();
-    pageAutoLayout = new KPageWidgetItem(page,i18n("Auto Layout") );
+    pageAutoLayout = new KPageWidgetItem(page,i18n("Auto Layout"));
     pageAutoLayout->setHeader(i18n("Auto Layout Settings"));
     pageAutoLayout->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_AutoLayout));
     addPage(pageAutoLayout);
@@ -283,11 +283,11 @@ void SettingsDlg::slotDefault()
     {
         m_pClassPage->setDefaults();
     }
-    else if ( current == pageCodeImport)
+    else if (current == pageCodeImport)
     {
         m_pCodeImportPage->setDefaults();
     }
-    else if ( current == pageCodeGen)
+    else if (current == pageCodeGen)
     {
     }
     else if (current == pageCodeViewer)

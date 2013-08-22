@@ -121,7 +121,7 @@ void StateDialog::setupGeneralPage()
     StateWidget::StateType type = m_pStateWidget->stateType();
 
     KVBox * page = new KVBox();
-    pageGeneral = new KPageWidgetItem(page, i18nc("general page", "General") );
+    pageGeneral = new KPageWidgetItem(page, i18nc("general page", "General"));
     pageGeneral->setHeader(i18n("General Properties"));
     pageGeneral->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General));
     addPage(pageGeneral);
@@ -130,7 +130,7 @@ void StateDialog::setupGeneralPage()
 
     QGridLayout * generalLayout = new QGridLayout(m_GenPageWidgets.generalGB);
     generalLayout->setSpacing(spacingHint());
-    generalLayout->setMargin( fontMetrics().height() );
+    generalLayout->setMargin(fontMetrics().height());
 
     Dialog_Utils::makeLabeledEditField(m_GenPageWidgets.generalGB, generalLayout, 0,
                                     m_GenPageWidgets.typeL, i18n("State type:"),
@@ -145,7 +145,7 @@ void StateDialog::setupGeneralPage()
 
     QHBoxLayout * docLayout = new QHBoxLayout(m_GenPageWidgets.docGB);
     docLayout->setSpacing(spacingHint());
-    docLayout->setMargin( fontMetrics().height() );
+    docLayout->setMargin(fontMetrics().height());
 
     m_GenPageWidgets.docMLE = new KTextEdit(m_GenPageWidgets.docGB);
     m_GenPageWidgets.docMLE->setText(m_pStateWidget->documentation());
@@ -164,7 +164,7 @@ void StateDialog::setupGeneralPage()
 void StateDialog::setupActivityPage()
 {
     QFrame * activityPage = new QFrame();
-    pageActivity = new KPageWidgetItem(activityPage,i18n("Activities") );
+    pageActivity = new KPageWidgetItem(activityPage,i18n("Activities"));
     pageActivity->setHeader(i18n("Activities"));
     pageActivity->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Activities));
     addPage(pageActivity);

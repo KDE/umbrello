@@ -71,14 +71,14 @@ void ObjectNodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
     setPenFromSettings(painter);
 
-    if ( UMLWidget::useFillColor() ) {
-        painter->setBrush( UMLWidget::fillColor() );
+    if (UMLWidget::useFillColor()) {
+        painter->setBrush(UMLWidget::fillColor());
     }
 
     painter->drawRect(0, 0, w, h);
-    painter->setFont( UMLWidget::font() );
+    painter->setFont(UMLWidget::font());
 
-    switch ( m_objectNodeType )
+    switch (m_objectNodeType)
     {
     case Normal : break;
     case Buffer :
@@ -109,7 +109,7 @@ void ObjectNodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
             painter->drawLine(10 , h/2, w-10, h/2);
             painter->setPen(textColor());
-            painter->setFont( UMLWidget::font() );
+            painter->setFont(UMLWidget::font());
             painter->drawText(OBJECTNODE_MARGIN, textStartY/2 - OBJECTNODE_MARGIN , w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, name());
             painter->drawText(OBJECTNODE_MARGIN, textStartY/2 + textStartY + OBJECTNODE_MARGIN, w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, objectflow_value);
         }
@@ -127,7 +127,7 @@ void ObjectNodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 UMLSceneSize ObjectNodeWidget::minimumSize()
 {
     int widthtmp = 10, height = 10,width=10;
-    if ( m_objectNodeType == Buffer ) {
+    if (m_objectNodeType == Buffer) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
         const int textWidth = fm.width("<< centrelBuffer >>");
@@ -138,7 +138,7 @@ UMLSceneSize ObjectNodeWidget::minimumSize()
         height = height > OBJECTNODE_HEIGHT ? height : OBJECTNODE_HEIGHT;
         width += OBJECTNODE_MARGIN * 2;
         height += OBJECTNODE_MARGIN * 2 + 5;
-    } else if ( m_objectNodeType == Data ) {
+    } else if (m_objectNodeType == Data) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
         const int textWidth = fm.width("<< datastore >>");
@@ -149,7 +149,7 @@ UMLSceneSize ObjectNodeWidget::minimumSize()
         height = height > OBJECTNODE_HEIGHT ? height : OBJECTNODE_HEIGHT;
         width += OBJECTNODE_MARGIN * 2;
         height += OBJECTNODE_MARGIN * 2 + 5;
-    } else if ( m_objectNodeType == Flow ) {
+    } else if (m_objectNodeType == Flow) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
         const int textWidth = fm.width('[' + state() + ']');
@@ -230,14 +230,14 @@ QString ObjectNodeWidget::state() const
 void ObjectNodeWidget::slotMenuSelection(QAction* action)
 {
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
-    switch( sel ) {
+    switch(sel) {
     case ListPopupMenu::mt_Rename:
         {
             bool ok = false;
             QString text = name();
-            text = KInputDialog::getText( i18n("Enter Object Node Name"),
+            text = KInputDialog::getText(i18n("Enter Object Node Name"),
                                           i18n("Enter the name of the object node :"),
-                                          name(), &ok );
+                                          name(), &ok);
             if (ok && !text.isEmpty()) {
                 setName(text);
             }
@@ -273,13 +273,13 @@ void ObjectNodeWidget::showPropertiesDialog()
  */
 void ObjectNodeWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
-    QDomElement objectNodeElement = qDoc.createElement( "objectnodewidget" );
-    UMLWidget::saveToXMI( qDoc, objectNodeElement );
-    objectNodeElement.setAttribute( "objectnodename", m_Text );
-    objectNodeElement.setAttribute( "documentation", m_Doc );
-    objectNodeElement.setAttribute( "objectnodetype", m_objectNodeType );
-    objectNodeElement.setAttribute( "objectnodestate", m_state );
-    qElement.appendChild( objectNodeElement );
+    QDomElement objectNodeElement = qDoc.createElement("objectnodewidget");
+    UMLWidget::saveToXMI(qDoc, objectNodeElement);
+    objectNodeElement.setAttribute("objectnodename", m_Text);
+    objectNodeElement.setAttribute("documentation", m_Doc);
+    objectNodeElement.setAttribute("objectnodetype", m_objectNodeType);
+    objectNodeElement.setAttribute("objectnodestate", m_state);
+    qElement.appendChild(objectNodeElement);
 }
 
 /**
@@ -287,13 +287,13 @@ void ObjectNodeWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
  */
 bool ObjectNodeWidget::loadFromXMI(QDomElement& qElement)
 {
-    if( !UMLWidget::loadFromXMI( qElement ) )
+    if(!UMLWidget::loadFromXMI(qElement) )
         return false;
-    m_Text = qElement.attribute( "objectnodename", "" );
-    m_Doc = qElement.attribute( "documentation", "" );
-    QString type = qElement.attribute( "objectnodetype", "1" );
+    m_Text = qElement.attribute("objectnodename", "");
+    m_Doc = qElement.attribute("documentation", "");
+    QString type = qElement.attribute("objectnodetype", "1");
     m_state = qElement.attribute("objectnodestate","");
-    setObjectNodeType( (ObjectNodeType)type.toInt() );
+    setObjectNodeType((ObjectNodeType)type.toInt());
     return true;
 }
 
@@ -306,7 +306,7 @@ void ObjectNodeWidget::askForObjectNodeType(UMLWidget* &targetWidget)
     int current = 0;
     const QStringList list = QStringList() << "Central buffer" << "Data store" <<"Object Flow";
 
-    QString type = KInputDialog::getItem ( i18n("Select Object node type"),  i18n("Select the object node type"),list,current, false, &pressedOK, UMLApp::app());
+    QString type = KInputDialog::getItem (i18n("Select Object node type"),  i18n("Select the object node type"),list,current, false, &pressedOK, UMLApp::app());
 
     if (pressedOK) {
        // QString type = result.join("");

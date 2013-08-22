@@ -149,7 +149,7 @@ void ObjectNodeDialog::setupGeneralPage()
 
     QGridLayout * generalLayout = new QGridLayout(m_GenPageWidgets.generalGB);
     generalLayout->setSpacing(spacingHint());
-    generalLayout->setMargin( fontMetrics().height() );
+    generalLayout->setMargin(fontMetrics().height());
 
     QString objType;
     if (type < types.count()) {
@@ -201,7 +201,7 @@ void ObjectNodeDialog::setupGeneralPage()
 
     QHBoxLayout * docLayout = new QHBoxLayout(m_GenPageWidgets.docGB);
     docLayout->setSpacing(spacingHint());
-    docLayout->setMargin( fontMetrics().height() );
+    docLayout->setMargin(fontMetrics().height());
 
     m_GenPageWidgets.docMLE = new KTextEdit(m_GenPageWidgets.docGB);
     m_GenPageWidgets.docMLE->setText(m_pObjectNodeWidget->documentation());

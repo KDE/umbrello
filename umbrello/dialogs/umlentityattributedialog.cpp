@@ -44,7 +44,7 @@ UMLEntityAttributeDialog::UMLEntityAttributeDialog(QWidget * pParent, UMLEntityA
 {
     setCaption(i18n("Entity Attribute Properties"));
     setButtons(Help | Ok | Cancel);
-    setDefaultButton( Ok);
+    setDefaultButton(Ok);
     setModal(true);
     showButtonSeparator(true);
     m_pEntityAttribute = pEntityAttribute;

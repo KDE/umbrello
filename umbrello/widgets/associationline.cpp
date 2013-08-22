@@ -1212,7 +1212,7 @@ void AssociationLine::updateSubsetSymbol()
         } else {
             inclination = (int)(atan(yDiff/xDiff)*180/3.14159) ;
             // convert to 360 degree scale
-            if ( xDiff < 0) {
+            if (xDiff < 0) {
                 inclination = 180 + inclination ;
             } else if (xDiff > 0 && yDiff < 0) {
                 inclination = 360 +  inclination;

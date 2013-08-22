@@ -188,7 +188,7 @@ UMLView *UMLFolder::findView(Uml::DiagramType::Enum type, const QString &name, b
 
     UMLView* v = 0;
     if (searchAllScopes) {
-        foreach (UMLObject* o, m_objects ) {
+        foreach (UMLObject* o, m_objects) {
             if (o->baseType() != UMLObject::ot_Folder) {
                 continue;
             }

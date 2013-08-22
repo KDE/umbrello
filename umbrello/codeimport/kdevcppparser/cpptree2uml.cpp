@@ -223,7 +223,7 @@ void CppTree2Uml::parseSimpleDeclaration(SimpleDeclarationAST* ast)
     if(declarators){
         QList<InitDeclaratorAST*> l = declarators->initDeclaratorList();
         for(int i = 0; i < l.size(); ++i) {
-            parseDeclaration2( ast->functionSpecifier(), ast->storageSpecifier(), typeSpec, l.at(i));
+            parseDeclaration2(ast->functionSpecifier(), ast->storageSpecifier(), typeSpec, l.at(i));
         }
     }
 }
@@ -476,7 +476,7 @@ void CppTree2Uml::parseAccessDeclaration(AccessDeclarationAST * access)
     m_inSignals = l.count() >= 1 ? l.at(0)->text() == "signals" : false;
 }
 
-void CppTree2Uml::parseFunctionDeclaration( GroupAST* funSpec, GroupAST* storageSpec,
+void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageSpec,
                                              TypeSpecifierAST * typeSpec, InitDeclaratorAST * decl)
 {
     bool isFriend = false;

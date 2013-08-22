@@ -151,7 +151,7 @@ void ActivityDialog::setupGeneralPage()
 
     QGridLayout * generalLayout = new QGridLayout(m_GenPageWidgets.generalGB);
     generalLayout->setSpacing(spacingHint());
-    generalLayout->setMargin( fontMetrics().height() );
+    generalLayout->setMargin(fontMetrics().height());
 
     QString actType (types[ (int)type ]);
     Dialog_Utils::makeLabeledEditField(m_GenPageWidgets.generalGB, generalLayout, 0,
@@ -205,7 +205,7 @@ void ActivityDialog::setupGeneralPage()
 
     QHBoxLayout * docLayout = new QHBoxLayout(m_GenPageWidgets.docGB);
     docLayout->setSpacing(spacingHint());
-    docLayout->setMargin( fontMetrics().height() );
+    docLayout->setMargin(fontMetrics().height());
 
     m_GenPageWidgets.docTE = new KTextEdit(m_GenPageWidgets.docGB);
     m_GenPageWidgets.docTE->setText(m_pActivityWidget->documentation());

@@ -248,7 +248,7 @@ void RubyWriter::writeOperations(const QString &classname, const UMLOperationLis
 
         // Skip destructors, and operator methods which
         // can't be defined in ruby
-        if (   methodName.startsWith('~')
+        if (methodName.startsWith('~')
                 || methodName == "operator ="
                 || methodName == "operator --"
                 || methodName == "operator ++"

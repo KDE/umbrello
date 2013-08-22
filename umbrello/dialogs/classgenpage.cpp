@@ -161,7 +161,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
     if (t == UMLObject::ot_Class || t == UMLObject::ot_UseCase) {
         QString abstractCaption;
-        if (t == UMLObject::ot_Class ) {
+        if (t == UMLObject::ot_Class) {
             abstractCaption = i18n("A&bstract class");
         } else {
             abstractCaption = i18n("A&bstract use case");

@@ -81,7 +81,7 @@ void DWriter::writeModuleImports(UMLClassifier *c, QTextStream &d)
     //only import classes in a different package as this class
     UMLPackageList imports;
     findObjectsRelated(c, imports);
-    foreach (UMLPackage* con, imports ) {
+    foreach (UMLPackage* con, imports) {
         if (con->baseType() == UMLObject::ot_Datatype)
             continue;
         QString pkg = con->package();
