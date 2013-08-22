@@ -32,13 +32,13 @@ namespace Uml
 
     void CmdChangeFontSelection::undo()
     {
-        m_scene->selectionSetFont( m_oldFont );
+        m_scene->selectionSetFont(m_oldFont);
         m_doc->setModified(true);
     }
 
     void CmdChangeFontSelection::redo()
     {
-        m_scene->selectionSetFont( m_newFont );
+        m_scene->selectionSetFont(m_newFont);
         m_doc->setModified(true);
     }
 

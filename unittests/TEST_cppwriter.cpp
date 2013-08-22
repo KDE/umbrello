@@ -46,7 +46,7 @@ void TEST_cppwriter::test_language()
 {
     CppWriter* cpp = new CppWriter();
     Uml::ProgrammingLanguage lang = cpp->language();
-    QCOMPARE( lang, Uml::ProgrammingLanguage::Cpp);
+    QCOMPARE(lang, Uml::ProgrammingLanguage::Cpp);
 }
 
 void TEST_cppwriter::test_writeClass()
@@ -62,27 +62,27 @@ void TEST_cppwriter::test_writeClass()
 
     cpp->writeClass(c);
     // does the just created file exist?
-    QCOMPARE( IS_NOT_IMPL, true);
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_cppwriter::test_reservedKeywords()
 {
     CppWriter* cpp = new CppWriter();
     QStringList list = cpp->reservedKeywords();
-    QCOMPARE( list.empty(), false);
-    QCOMPARE( list[0], "and");
-    QCOMPARE( list[11], "case");
-    QCOMPARE( list.last(), "xor_eq");
+    QCOMPARE(list.empty(), false);
+    QCOMPARE(list[0], "and");
+    QCOMPARE(list[11], "case");
+    QCOMPARE(list.last(), "xor_eq");
 }
 
 void TEST_cppwriter::test_defaultDatatypes()
 {
     CppWriter* cpp = new CppWriter();
     QStringList list = cpp->defaultDatatypes();
-    QCOMPARE( list.empty(), false);
-    QCOMPARE( list[0], "int");
-    QCOMPARE( list[5], "short");
-    QCOMPARE( list.last(), "string");
+    QCOMPARE(list.empty(), false);
+    QCOMPARE(list[0], "int");
+    QCOMPARE(list[5], "short");
+    QCOMPARE(list.last(), "string");
 }
 
 QTEST_MAIN(TEST_cppwriter)

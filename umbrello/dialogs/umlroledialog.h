@@ -29,7 +29,7 @@ public:
     /**
      *   Constructor
      */
-    UMLRoleDialog( QWidget * parent, UMLRole * pRole );
+    UMLRoleDialog(QWidget * parent, UMLRole * pRole);
 
     /**
      *   Deconstructor

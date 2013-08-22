@@ -77,7 +77,7 @@ public:
 
 protected:
     void update(const QString &name);
-    virtual void showEvent(QShowEvent* );
+    virtual void showEvent(QShowEvent*);
 
 private slots:
     void slotItemClicked(QTreeWidgetItem* item, int column);

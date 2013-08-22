@@ -57,7 +57,7 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     if(UMLWidget::useFillColor())
         painter->setBrush(UMLWidget::fillColor());
     else
-        painter->setBrush( m_scene->activeView()->viewport()->palette().color(QPalette::Background) );
+        painter->setBrush(m_scene->activeView()->viewport()->palette().color(QPalette::Background));
 
     const int w = width();
     const int h = height();
@@ -73,11 +73,11 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     font.setBold(true);
     painter->setFont(font);
     int y = 0;
-    if ( !m_umlObject->stereotype().isEmpty() ) {
+    if (!m_umlObject->stereotype().isEmpty()) {
         painter->drawText(ENTITY_MARGIN, 0,
                    w - ENTITY_MARGIN * 2,fontHeight,
                    Qt::AlignCenter, m_umlObject->stereotype(true));
-        font.setItalic( m_umlObject->isAbstract() );
+        font.setItalic(m_umlObject->isAbstract());
         painter->setFont(font);
         painter->drawText(ENTITY_MARGIN, fontHeight,
                    w - ENTITY_MARGIN * 2, fontHeight, Qt::AlignCenter, name);
@@ -86,7 +86,7 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
         painter->setFont(font);
         y = fontHeight * 2;
     } else {
-        font.setItalic( m_umlObject->isAbstract() );
+        font.setItalic(m_umlObject->isAbstract());
         painter->setFont(font);
         painter->drawText(ENTITY_MARGIN, 0,
                    w - ENTITY_MARGIN * 2, fontHeight, Qt::AlignCenter, name);
@@ -105,19 +105,19 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     UMLClassifier *classifier = (UMLClassifier*)m_umlObject;
     UMLClassifierListItem* entityattribute = 0;
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EntityAttribute);
-    foreach (entityattribute , list ) {
+    foreach (entityattribute , list) {
         QString text = entityattribute->name();
         painter->setPen(textColor());
-        UMLEntityAttribute* casted = dynamic_cast<UMLEntityAttribute*>( entityattribute );
-        if( casted && casted->indexType() == UMLEntityAttribute::Primary )
+        UMLEntityAttribute* casted = dynamic_cast<UMLEntityAttribute*>(entityattribute);
+        if(casted && casted->indexType() == UMLEntityAttribute::Primary)
         {
-            font.setUnderline( true );
-            painter->setFont( font );
-            font.setUnderline( false );
+            font.setUnderline(true);
+            painter->setFont(font);
+            font.setUnderline(false);
         }
         painter->drawText(ENTITY_MARGIN, y,
                    fontMetrics.width(text), fontHeight, Qt::AlignVCenter, text);
-        painter->setFont( font );
+        painter->setFont(font);
         y+=fontHeight;
     }
 
@@ -129,7 +129,7 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 /**
  * Saves to the "entitywidget" XMI element.
  */
-void EntityWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement )
+void EntityWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement conceptElement = qDoc.createElement("entitywidget");
     UMLWidget::saveToXMI(qDoc, conceptElement);
@@ -148,18 +148,18 @@ void EntityWidget::slotMenuSelection(QAction* action)
     switch(sel) {
     case ListPopupMenu::mt_EntityAttribute:
         if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(m_umlObject),
-                                              UMLObject::ot_EntityAttribute) )  {
+                                              UMLObject::ot_EntityAttribute))  {
             UMLApp::app()->document()->setModified();
         }
         break;
 
     case ListPopupMenu::mt_PrimaryKeyConstraint:
     case ListPopupMenu::mt_UniqueConstraint:
-        if ( UMLObject* obj = Object_Factory::createChildObject(static_cast<UMLEntity*>(m_umlObject),
-                                               UMLObject::ot_UniqueConstraint) ) {
+        if (UMLObject* obj = Object_Factory::createChildObject(static_cast<UMLEntity*>(m_umlObject),
+                                               UMLObject::ot_UniqueConstraint)) {
             UMLApp::app()->document()->setModified();
 
-            if ( sel == ListPopupMenu::mt_PrimaryKeyConstraint ) {
+            if (sel == ListPopupMenu::mt_PrimaryKeyConstraint) {
                 UMLUniqueConstraint* uc = static_cast<UMLUniqueConstraint*>(obj);
                 static_cast<UMLEntity*>(m_umlObject)->setAsPrimaryKey(uc);
             }
@@ -168,7 +168,7 @@ void EntityWidget::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_ForeignKeyConstraint:
          if (Object_Factory::createChildObject(static_cast<UMLEntity*>(m_umlObject),
-                                               UMLObject::ot_ForeignKeyConstraint) ) {
+                                               UMLObject::ot_ForeignKeyConstraint)) {
              UMLApp::app()->document()->setModified();
 
         }
@@ -176,7 +176,7 @@ void EntityWidget::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_CheckConstraint:
          if (Object_Factory::createChildObject(static_cast<UMLEntity*>(m_umlObject),
-                                               UMLObject::ot_CheckConstraint) ) {
+                                               UMLObject::ot_CheckConstraint)) {
              UMLApp::app()->document()->setModified();
 
         }
@@ -206,7 +206,7 @@ UMLSceneSize EntityWidget::minimumSize()
     const int fontHeight = fm.lineSpacing();
 
     int lines = 1;//always have one line - for name
-    if ( !m_umlObject->stereotype().isEmpty() ) {
+    if (!m_umlObject->stereotype().isEmpty()) {
         lines++;
     }
 
@@ -235,8 +235,8 @@ UMLSceneSize EntityWidget::minimumSize()
     UMLClassifier* classifier = (UMLClassifier*)m_umlObject;
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EntityAttribute);
     UMLClassifierListItem* listItem = 0;
-    foreach (listItem , list ) {
-        int w = fm.width( listItem->name() );
+    foreach (listItem , list) {
+        int w = fm.width(listItem->name());
         width = w > width?w:width;
     }
 

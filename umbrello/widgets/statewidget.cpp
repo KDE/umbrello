@@ -80,8 +80,8 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
                 painter->drawRoundRect(0, 0, w, h, (h*40)/w, (w*40)/h);
                 painter->setPen(textColor());
                 QFont font = UMLWidget::font();
-                font.setBold( false );
-                painter->setFont( font );
+                font.setBold(false);
+                painter->setFont(font);
                 painter->drawText(STATE_MARGIN, textStartY,
                            w - STATE_MARGIN * 2, fontHeight,
                            Qt::AlignCenter, name());
@@ -91,19 +91,19 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
                 textStartY = STATE_MARGIN;
                 painter->setPen(textColor());
                 QFont font = UMLWidget::font();
-                font.setBold( true );
-                painter->setFont( font );
+                font.setBold(true);
+                painter->setFont(font);
                 painter->drawText(STATE_MARGIN, textStartY, w - STATE_MARGIN * 2,
                            fontHeight, Qt::AlignCenter, name());
-                font.setBold( false );
-                painter->setFont( font );
+                font.setBold(false);
+                painter->setFont(font);
                 setPenFromSettings(painter);
                 int linePosY = textStartY + fontHeight;
 
                 QStringList::Iterator end(m_Activities.end());
-                for( QStringList::Iterator it(m_Activities.begin()); it != end; ++it ) {
+                for(QStringList::Iterator it(m_Activities.begin()); it != end; ++it) {
                     textStartY += fontHeight;
-                    painter->drawLine( 0, linePosY, w - 1, linePosY );
+                    painter->drawLine(0, linePosY, w - 1, linePosY);
                     painter->setPen(textColor());
                     painter->drawText(STATE_MARGIN, textStartY, w - STATE_MARGIN * 2 - 1,
                                fontHeight, Qt::AlignCenter, *it);
@@ -145,7 +145,7 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
             painter->setBrush(Qt::white);
             painter->drawEllipse(rect());
             painter->setPen(Qt::black);
-            painter->setFont( UMLWidget::font() );
+            painter->setFont(UMLWidget::font());
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing() / 2;
             const int xStar = fm.boundingRect("H").width();
@@ -161,7 +161,7 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
             painter->setBrush(Qt::white);
             painter->drawEllipse(rect());
             painter->setPen(Qt::black);
-            painter->setFont( UMLWidget::font() );
+            painter->setFont(UMLWidget::font());
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing() / 2;
             painter->drawText((w / 6),
@@ -204,13 +204,13 @@ UMLSceneSize StateWidget::minimumSize()
             int textWidth = fm.width(name());
             const int count = m_Activities.count();
             height = fontHeight;
-            if( count > 0 ) {
-                height = fontHeight * ( count + 1);
+            if(count > 0) {
+                height = fontHeight * (count + 1);
 
                 QStringList::Iterator end(m_Activities.end());
-                for( QStringList::Iterator it(m_Activities.begin()); it != end; ++it ) {
-                    int w = fm.width( *it );
-                    if( w > textWidth )
+                for(QStringList::Iterator it(m_Activities.begin()); it != end; ++it) {
+                    int w = fm.width(*it);
+                    if(w > textWidth)
                         textWidth = w;
                 }//end for
             }//end if
@@ -333,7 +333,7 @@ void StateWidget::setStateType(StateType stateType)
  */
 bool StateWidget::addActivity(const QString &activity)
 {
-    m_Activities.append( activity );
+    m_Activities.append(activity);
     updateGeometry();
     return true;
 }
@@ -343,7 +343,7 @@ bool StateWidget::addActivity(const QString &activity)
  */
 bool StateWidget::removeActivity(const QString &activity)
 {
-    if( m_Activities.removeAll( activity ) == 0 )
+    if(m_Activities.removeAll(activity) == 0)
         return false;
     updateGeometry();
     return true;
@@ -355,7 +355,7 @@ bool StateWidget::removeActivity(const QString &activity)
 bool StateWidget::renameActivity(const QString &activity, const QString &newName)
 {
     int index = - 1;
-    if( ( index = m_Activities.indexOf( activity ) ) == -1 )
+    if((index = m_Activities.indexOf(activity)) == -1)
         return false;
     m_Activities[ index ] = newName;
     return true;
@@ -394,7 +394,7 @@ void StateWidget::setDrawVertical(bool to)
     m_drawVertical = to;
     setSize(height(), width());
     updateGeometry();
-    UMLWidget::adjustAssocs( x(), y() );
+    UMLWidget::adjustAssocs(x(), y());
 }
 
 /**
@@ -417,24 +417,24 @@ void StateWidget::showPropertiesDialog()
  */
 void StateWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
-    QDomElement stateElement = qDoc.createElement( "statewidget" );
-    UMLWidget::saveToXMI( qDoc, stateElement );
-    stateElement.setAttribute( "statename", m_Text );
-    stateElement.setAttribute( "documentation", m_Doc );
-    stateElement.setAttribute( "statetype", m_stateType );
+    QDomElement stateElement = qDoc.createElement("statewidget");
+    UMLWidget::saveToXMI(qDoc, stateElement);
+    stateElement.setAttribute("statename", m_Text);
+    stateElement.setAttribute("documentation", m_Doc);
+    stateElement.setAttribute("statetype", m_stateType);
     if (m_stateType == Fork || m_stateType == Join)
         stateElement.setAttribute("drawvertical", m_drawVertical);
     //save states activities
-    QDomElement activitiesElement = qDoc.createElement( "Activities" );
+    QDomElement activitiesElement = qDoc.createElement("Activities");
 
     QStringList::Iterator end(m_Activities.end());
-    for( QStringList::Iterator it(m_Activities.begin()); it != end; ++it ) {
-        QDomElement tempElement = qDoc.createElement( "Activity" );
-        tempElement.setAttribute( "name", *it );
-        activitiesElement.appendChild( tempElement );
+    for(QStringList::Iterator it(m_Activities.begin()); it != end; ++it) {
+        QDomElement tempElement = qDoc.createElement("Activity");
+        tempElement.setAttribute("name", *it);
+        activitiesElement.appendChild(tempElement);
     }//end for
-    stateElement.appendChild( activitiesElement );
-    qElement.appendChild( stateElement );
+    stateElement.appendChild(activitiesElement);
+    qElement.appendChild(stateElement);
 }
 
 /**
@@ -442,11 +442,11 @@ void StateWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
  */
 bool StateWidget::loadFromXMI(QDomElement & qElement)
 {
-    if( !UMLWidget::loadFromXMI( qElement ) )
+    if(!UMLWidget::loadFromXMI(qElement))
         return false;
-    m_Text = qElement.attribute( "statename", "" );
-    m_Doc = qElement.attribute( "documentation", "" );
-    QString type = qElement.attribute( "statetype", "1" );
+    m_Text = qElement.attribute("statename", "");
+    m_Doc = qElement.attribute("documentation", "");
+    QString type = qElement.attribute("statetype", "1");
     m_stateType = (StateType)type.toInt();
     setAspectRatioMode();
     QString drawVertical = qElement.attribute("drawvertical", "1");
@@ -454,14 +454,14 @@ bool StateWidget::loadFromXMI(QDomElement & qElement)
     //load states activities
     QDomNode node = qElement.firstChild();
     QDomElement tempElement = node.toElement();
-    if( !tempElement.isNull() && tempElement.tagName() == "Activities" ) {
+    if(!tempElement.isNull() && tempElement.tagName() == "Activities") {
         QDomNode node = tempElement.firstChild();
         QDomElement activityElement = node.toElement();
-        while( !activityElement.isNull() ) {
-            if( activityElement.tagName() == "Activity" ) {
-                QString name = activityElement.attribute( "name", "" );
-                if( !name.isEmpty() )
-                    m_Activities.append( name );
+        while(!activityElement.isNull()) {
+            if(activityElement.tagName() == "Activity") {
+                QString name = activityElement.attribute("name", "");
+                if(!name.isEmpty())
+                    m_Activities.append(name);
             }//end if
             node = node.nextSibling();
             activityElement = node.toElement();
@@ -479,13 +479,13 @@ void StateWidget::slotMenuSelection(QAction* action)
     QString nameNew = name();
 
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
-    switch( sel ) {
+    switch(sel) {
     case ListPopupMenu::mt_Rename:
-        nameNew = KInputDialog::getText( i18n("Enter State Name"),
+        nameNew = KInputDialog::getText(i18n("Enter State Name"),
                                          i18n("Enter the name of the new state:"),
-                                         name(), &ok );
-        if ( ok && nameNew.length() > 0 ) {
-            setName( nameNew );
+                                         name(), &ok);
+        if (ok && nameNew.length() > 0) {
+            setName(nameNew);
         }
         break;
 
@@ -494,11 +494,11 @@ void StateWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_New_Activity:
-        nameNew = KInputDialog::getText( i18n("Enter Activity"),
+        nameNew = KInputDialog::getText(i18n("Enter Activity"),
                                          i18n("Enter the name of the new activity:"),
-                                         i18n("new activity"), &ok );
-        if ( ok && nameNew.length() > 0 ) {
-            addActivity( nameNew );
+                                         i18n("new activity"), &ok);
+        if (ok && nameNew.length() > 0) {
+            addActivity(nameNew);
         }
         break;
 

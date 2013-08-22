@@ -26,27 +26,27 @@ public:
     /**
      * Empty Constructor
      */
-    explicit RubyClassDeclarationBlock ( RubyClassifierCodeDocument * parentDoc, const QString &start = "", const QString &endText = "end", const QString &comment = "");
+    explicit RubyClassDeclarationBlock (RubyClassifierCodeDocument * parentDoc, const QString &start = "", const QString &endText = "end", const QString &comment = "");
 
     /**
      * Empty Destructor
      */
-    virtual ~RubyClassDeclarationBlock ( );
+    virtual ~RubyClassDeclarationBlock ();
 
     /**
      * Update the start/end text of this codeblock.
      */
-    void updateContent ( );
+    void updateContent ();
 
     /**
      * Save the XMI representation of this object
      */
-    virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
+    virtual void saveToXMI (QDomDocument & doc, QDomElement & root);
 
     /**
      * load params from the appropriate XMI element node.
      */
-    virtual void loadFromXMI ( QDomElement & root );
+    virtual void loadFromXMI (QDomElement & root);
 
 private:
 

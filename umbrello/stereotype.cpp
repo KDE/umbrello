@@ -28,7 +28,7 @@
  * @param id     The unique id given to this UMLStereotype.
  */
 UMLStereotype::UMLStereotype(const QString &name, Uml::ID::Type id /* = Uml::id_None */)
-  : UMLObject( name, id )
+  : UMLObject(name, id)
 {
     m_BaseType = UMLObject::ot_Stereotype;
     UMLStereotype * existing = UMLApp::app()->document()->findStereotype(name);
@@ -59,13 +59,13 @@ UMLStereotype::~UMLStereotype()
 /**
  * Overloaded '==' operator.
  */
-bool UMLStereotype::operator==( const UMLStereotype &rhs) const
+bool UMLStereotype::operator==(const UMLStereotype &rhs) const
 {
     if (this == &rhs) {
         return true;
     }
 
-    if ( !UMLObject::operator==( rhs ) ) {
+    if (!UMLObject::operator==(rhs)) {
         return false;
     }
 
@@ -99,7 +99,7 @@ void UMLStereotype::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     //FIXME: uml13.dtd compliance
     QDomElement stereotypeElement = UMLObject::save("UML:Stereotype", qDoc);
-    qElement.appendChild( stereotypeElement );
+    qElement.appendChild(stereotypeElement);
 }
 
 /**

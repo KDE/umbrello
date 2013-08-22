@@ -93,7 +93,7 @@ bool XhtmlGenerator::generateXhtmlForProjectInto(const KUrl& destDir)
 void XhtmlGenerator::slotDocbookToXhtml(bool status)
 {
     uDebug() << "Now convert docbook to html...";
-    if ( !status ) {
+    if (!status) {
         uDebug() << "Error in converting to docbook";
         m_pStatus = false;
         return;
@@ -105,8 +105,8 @@ void XhtmlGenerator::slotDocbookToXhtml(bool status)
         url.setPath(m_destDir.path());
         url.addPath(fileName);
 
-        m_umlDoc->writeToStatusBar( i18n( "Generating XHTML..." ) );
-        m_d2xg  = new Docbook2XhtmlGeneratorJob( url, this );
+        m_umlDoc->writeToStatusBar(i18n("Generating XHTML..."));
+        m_d2xg  = new Docbook2XhtmlGeneratorJob(url, this);
         connect(m_d2xg, SIGNAL(xhtmlGenerated(QString)),
                 this, SLOT(slotHtmlGenerated(QString)));
         connect(m_d2xg, SIGNAL(finished()), this, SLOT(threadFinished()));
@@ -129,8 +129,8 @@ void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
     url.setPath(m_destDir.path());
     url.addPath(fileName);
 
-    KIO::Job* htmlCopyJob = KIO::file_copy( KUrl::fromPath( tmpFileName ), url, -1, KIO::Overwrite | KIO::HideProgressInfo );
-    if ( KIO::NetAccess::synchronousRun( htmlCopyJob, (QWidget*)UMLApp::app() ) ) {
+    KIO::Job* htmlCopyJob = KIO::file_copy(KUrl::fromPath(tmpFileName), url, -1, KIO::Overwrite | KIO::HideProgressInfo);
+    if (KIO::NetAccess::synchronousRun(htmlCopyJob, (QWidget*)UMLApp::app())) {
         m_umlDoc->writeToStatusBar(i18n("XHTML Generation Complete..."));
     } else {
         m_pStatus = false;
@@ -142,9 +142,9 @@ void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
     QString cssFileName(KGlobal::dirs()->findResource("appdata","xmi.css"));
     KUrl cssUrl = m_destDir;
     cssUrl.addPath("xmi.css");
-    KIO::Job* cssJob = KIO::file_copy(cssFileName,cssUrl,-1, KIO::Overwrite | KIO::HideProgressInfo );
+    KIO::Job* cssJob = KIO::file_copy(cssFileName,cssUrl,-1, KIO::Overwrite | KIO::HideProgressInfo);
 
-    if ( KIO::NetAccess::synchronousRun( cssJob, (QWidget*)UMLApp::app() ) ) {
+    if (KIO::NetAccess::synchronousRun(cssJob, (QWidget*)UMLApp::app())) {
         m_umlDoc->writeToStatusBar(i18n("Finished Copying CSS..."));
         m_pStatus = true;
     } else {
@@ -152,12 +152,12 @@ void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
         m_pStatus = false;
     }
 
-    while ( m_pThreadFinished == false ) {
+    while (m_pThreadFinished == false) {
         // wait for thread to finish
         qApp->processEvents();
     }
 
-    emit finished( m_pStatus );
+    emit finished(m_pStatus);
 }
 
 /**

@@ -15,17 +15,17 @@
 #include "cppheadercodedocument.h"
 
 
-CPPHeaderCodeClassFieldDeclarationBlock::CPPHeaderCodeClassFieldDeclarationBlock ( CodeClassField * parent )
-        : CodeClassFieldDeclarationBlock ( parent )
+CPPHeaderCodeClassFieldDeclarationBlock::CPPHeaderCodeClassFieldDeclarationBlock (CodeClassField * parent)
+        : CodeClassFieldDeclarationBlock (parent)
 {
     setOverallIndentationLevel(1);
 }
 
-CPPHeaderCodeClassFieldDeclarationBlock::~CPPHeaderCodeClassFieldDeclarationBlock ( )
+CPPHeaderCodeClassFieldDeclarationBlock::~CPPHeaderCodeClassFieldDeclarationBlock ()
 {
 }
 
-void CPPHeaderCodeClassFieldDeclarationBlock::updateContent( )
+void CPPHeaderCodeClassFieldDeclarationBlock::updateContent()
 {
     UMLObject *umlparent = CodeClassFieldDeclarationBlock::getParentObject();
     if (umlparent == NULL) {

@@ -78,7 +78,7 @@ void AssocPage::slotDoubleClick(QListWidgetItem * item)
     }
 
     int row = m_pAssocLW->currentRow();
-    if ( row == -1 ) {
+    if (row == -1) {
         return;
     }
 
@@ -96,8 +96,8 @@ void AssocPage::fillListBox()
     m_pAssocLW->clear();
     m_pScene->getWidgetAssocs(m_pObject, m_List);
     int i = 0;
-    foreach( AssociationWidget* assocwidget, m_List ) {
-        if( assocwidget->associationType() != Uml::AssociationType::Anchor) {
+    foreach(AssociationWidget* assocwidget, m_List) {
+        if(assocwidget->associationType() != Uml::AssociationType::Anchor) {
             m_pAssocLW->insertItem(i, assocwidget->toString());
             i++;
         }
@@ -124,7 +124,7 @@ void AssocPage::slotRightButtonPressed(const QPoint &p)
 void AssocPage::slotPopupMenuSel(QAction* action)
 {
     int currentItemIndex = m_pAssocLW->currentRow();
-    if ( currentItemIndex == -1 ) {
+    if (currentItemIndex == -1) {
         return;
     }
     AssociationWidget * a = m_List.at(currentItemIndex);

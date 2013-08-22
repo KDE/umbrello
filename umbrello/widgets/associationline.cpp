@@ -63,7 +63,7 @@ void AssociationLine::SubsetSymbol::drawShape(QPainter& p)
     p.drawArc(0 ,-height/2, width, height, startAngle*16, endAngle*16);
     // revert back
     p.rotate(-inclination);
-    p.translate( QPoint((int)-x(), (int)-y()));
+    p.translate(QPoint((int)-x(), (int)-y()));
 }
 
 /**
@@ -83,8 +83,8 @@ AssociationLine::AssociationLine(AssociationWidget *association)
 {
     Q_ASSERT(association);
     setFlag(QGraphicsLineItem::ItemIsSelectable);
-    m_PointArray.resize( 4 );
-    m_ParallelLines.resize( 4 );
+    m_PointArray.resize(4);
+    m_ParallelLines.resize(4);
 }
 
 /**
@@ -100,10 +100,10 @@ AssociationLine::~AssociationLine()
 QPointF AssociationLine::point(int index) const
 {
     int count = m_LineList.count();
-    if( count == 0 || index > count  || index < 0)
-        return QPointF( -1, -1 );
+    if(count == 0 || index > count  || index < 0)
+        return QPointF(-1, -1);
 
-    if( index == count ) {
+    if(index == count) {
         QGraphicsLineItem* line = m_LineList.last();
         return line->line().p2();
     }
@@ -117,7 +117,7 @@ QPointF AssociationLine::point(int index) const
 bool AssociationLine::setPoint(int index, const QPointF &point)
 {
     int count = m_LineList.count();
-    if( count == 0 || index > count  || index < 0)
+    if(count == 0 || index > count  || index < 0)
         return false;
     if (point.x() == 0 && point.y() == 0) {
         uError() << "ignoring request for (0,0)";
@@ -127,7 +127,7 @@ bool AssociationLine::setPoint(int index, const QPointF &point)
     if (index == count) {
         QGraphicsLineItem* line = m_LineList.last();
         QPointF p = line->line().p1();
-        line->setLine( p.x(), p.y(), point.x(), point.y() );
+        line->setLine(p.x(), p.y(), point.x(), point.y());
         moveSelected(index);
         update();
         return true;
@@ -135,17 +135,17 @@ bool AssociationLine::setPoint(int index, const QPointF &point)
     if (index == 0) {
         QGraphicsLineItem* line = m_LineList.first();
         QPointF p = line->line().p2();
-        line->setLine( point.x(), point.y(), p.x(), p.y() );
+        line->setLine(point.x(), point.y(), p.x(), p.y());
         moveSelected(index);
         update();
         return true;
     }
     QGraphicsLineItem* line = m_LineList.at(index);
     QPointF p = line->line().p2();
-    line->setLine( point.x(), point.y(), p.x(), p.y() );
+    line->setLine(point.x(), point.y(), p.x(), p.y());
     line = m_LineList.at(index - 1);
     p = line->line().p1();
-    line->setLine( p.x(), p.y(), point.x(), point.y() );
+    line->setLine(p.x(), p.y(), point.x(), point.y());
     moveSelected(index);
     update();
     return true;
@@ -173,47 +173,47 @@ QPointF AssociationLine::endPoint() const
 bool AssociationLine::insertPoint(int index, const QPointF &point)
 {
     int count = m_LineList.count();
-    if( count == 0 )
+    if(count == 0)
         return false;
     const bool bLoading = UMLApp::app()->document()->loading();
 
-    if( count == 1 || index == 1) {
+    if(count == 1 || index == 1) {
         QGraphicsLineItem* first = m_LineList.first();
         QPointF sp = first->line().p1();
         QPointF ep = first->line().p2();
-        first->setLine( sp.x(), sp.y(), point.x(), point.y() );
+        first->setLine(sp.x(), sp.y(), point.x(), point.y());
         QGraphicsLineItem* line = new QGraphicsLineItem(this);
-        line->setZValue( -2 );
-        line->setLine( point.x(), point.y(), ep.x(), ep.y() );
-        line->setPen( pen() );
-        m_LineList.insert( 1, line );
+        line->setZValue(-2);
+        line->setLine(point.x(), point.y(), ep.x(), ep.y());
+        line->setPen(pen());
+        m_LineList.insert(1, line);
         if (!bLoading)
             setupSelected();
         return true;
     }
-    if( count + 1 == index ) {
+    if(count + 1 == index) {
         QGraphicsLineItem* before = m_LineList.last();
         QPointF sp = before->line().p1();
         QPointF ep = before->line().p2();
-        before->setLine( sp.x(), sp.y(), point.x(), point.y() );
+        before->setLine(sp.x(), sp.y(), point.x(), point.y());
         QGraphicsLineItem* line = new QGraphicsLineItem(this);
-        line->setLine( point.x(), point.y(), ep.x(), ep.y() );
-        line->setZValue( -2 );
-        line->setPen( pen() );
-        m_LineList.append( line );
+        line->setLine(point.x(), point.y(), ep.x(), ep.y());
+        line->setZValue(-2);
+        line->setPen(pen());
+        m_LineList.append(line);
         if (!bLoading)
             setupSelected();
         return true;
     }
-    QGraphicsLineItem* before = m_LineList.at( index - 1 );
+    QGraphicsLineItem* before = m_LineList.at(index - 1);
     QPointF sp = before->line().p1();
     QPointF ep = before->line().p2();
-    before->setLine( sp.x(), sp.y(), point.x(), point.y() );
+    before->setLine(sp.x(), sp.y(), point.x(), point.y());
     QGraphicsLineItem* line = new QGraphicsLineItem(this);
-    line->setLine( point.x(), point.y(), ep.x(), ep.y() );
-    line->setZValue( -2 );
-    line->setPen( pen() );
-    m_LineList.insert( index, line );
+    line->setLine(point.x(), point.y(), ep.x(), ep.y());
+    line->setZValue(-2);
+    line->setPen(pen());
+    m_LineList.insert(index, line);
     if (!bLoading)
         setupSelected();
     return true;
@@ -227,16 +227,16 @@ bool AssociationLine::removePoint(int index, const QPointF &point, unsigned shor
 {
     // get the number of line segments
     int count = m_LineList.count();
-    if ( index >= count )
+    if (index >= count)
         return false;
 
     if (!point.isNull()) {
         // we don't know if the user clicked on the start- or endpoint of a
         // line segment
-        QGraphicsLineItem* current_line = m_LineList.at( index );
-        if (abs( current_line->line().p2().x() - point.x() ) <= delta
+        QGraphicsLineItem* current_line = m_LineList.at(index);
+        if (abs(current_line->line().p2().x() - point.x()) <= delta
                 &&
-                abs( current_line->line().p2().y() - point.y() ) <= delta)
+                abs(current_line->line().p2().y() - point.y()) <= delta)
         {
             // the user clicked on the end point of the line;
             // we have to make sure that this isn't the last line segment
@@ -245,16 +245,16 @@ bool AssociationLine::removePoint(int index, const QPointF &point, unsigned shor
 
             // the next segment will get the starting point from the current one,
             // which is going to be removed
-            QGraphicsLineItem* next_line = m_LineList.at( index + 1 );
+            QGraphicsLineItem* next_line = m_LineList.at(index + 1);
             QPointF startPoint = current_line->line().p1();
             QPointF endPoint = next_line->line().p2();
             next_line->setLine(startPoint.x(), startPoint.y(),
                                endPoint.x(), endPoint.y());
 
         } else
-            if (abs( current_line->line().p1().x() - point.x() ) <= delta
+            if (abs(current_line->line().p1().x() - point.x()) <= delta
                     &&
-                    abs( current_line->line().p1().y() - point.y() ) <= delta)
+                    abs(current_line->line().p1().y() - point.y()) <= delta)
             {
                 // the user clicked on the start point of the line;
                 // we have to make sure that this isn't the first line segment
@@ -263,7 +263,7 @@ bool AssociationLine::removePoint(int index, const QPointF &point, unsigned shor
 
                 // the previous segment will get the end point from the current one,
                 // which is going to be removed
-                QGraphicsLineItem* previous_line = m_LineList.at( index - 1 );
+                QGraphicsLineItem* previous_line = m_LineList.at(index - 1);
                 QPointF startPoint = previous_line->line().p1();
                 QPointF endPoint = current_line->line().p2();
                 previous_line->setLine(startPoint.x(), startPoint.y(),
@@ -275,7 +275,7 @@ bool AssociationLine::removePoint(int index, const QPointF &point, unsigned shor
             }
     }
     // remove the segment from the list
-    delete m_LineList.takeAt( index );
+    delete m_LineList.takeAt(index);
 
     return true;
 }
@@ -295,17 +295,17 @@ int AssociationLine::count() const
 void AssociationLine::cleanup()
 {
     if (m_associationWidget) {
-        qDeleteAll( m_LineList.begin(), m_LineList.end() );
+        qDeleteAll(m_LineList.begin(), m_LineList.end());
         m_LineList.clear();
     }
 
-    qDeleteAll( m_HeadList.begin(), m_HeadList.end() );
+    qDeleteAll(m_HeadList.begin(), m_HeadList.end());
     m_HeadList.clear();
 
-    qDeleteAll( m_RectList.begin(), m_RectList.end() );
+    qDeleteAll(m_RectList.begin(), m_RectList.end());
     m_RectList.clear();
 
-    qDeleteAll( m_ParallelList.begin(), m_ParallelList.end() );
+    qDeleteAll(m_ParallelList.begin(), m_ParallelList.end());
     m_ParallelList.clear();
 
     delete m_pClearPoly;
@@ -361,8 +361,8 @@ int AssociationLine::closestSegmentIndex(const QPointF &position, int delta)
     int index = -1;
 
     ItemList::iterator end(list.end());
-    for(ItemList::iterator item_it(list.begin()); item_it != end; ++item_it ) {
-        if( ( index = m_LineList.indexOf( (QGraphicsLineItem*)*item_it ) ) != -1 )
+    for(ItemList::iterator item_it(list.begin()); item_it != end; ++item_it) {
+        if((index = m_LineList.indexOf((QGraphicsLineItem*)*item_it)) != -1)
             break;
     }//end for
     return index;
@@ -382,15 +382,15 @@ bool AssociationLine::isPoint(int index, const QPointF &point, unsigned short de
     QGraphicsLineItem* line = m_LineList.at(index);
 
     // check if the given point is the start or end point of the line
-    if ( (
-                abs( line->line().p2().x() - point.x() ) <= delta
+    if ((
+                abs(line->line().p2().x() - point.x()) <= delta
                 &&
-                abs( line->line().p2().y() - point.y() ) <= delta
-            ) || (
-                abs( line->line().p1().x() - point.x() ) <= delta
+                abs(line->line().p2().y() - point.y()) <= delta
+           ) || (
+                abs(line->line().p1().x() - point.x()) <= delta
                 &&
-                abs( line->line().p1().y() - point.y() ) <= delta
-            ) )
+                abs(line->line().p1().y() - point.y()) <= delta
+           ))
         return true;
 
     // check if the given point is the start or end point of the line
@@ -403,16 +403,16 @@ bool AssociationLine::isPoint(int index, const QPointF &point, unsigned short de
 bool AssociationLine::setEndPoints(const QPointF &start, const QPointF &end)
 {
     int count = m_LineList.count();
-    if( count == 0 ) {
+    if(count == 0) {
         QGraphicsLineItem* line = new QGraphicsLineItem(this);
-        line->setLine( start.x(), start.y(),end.x(),end.y() );
-        line->setZValue( -2 );
-        line->setPen( pen() );
-        m_LineList.append( line );
+        line->setLine(start.x(), start.y(),end.x(),end.y());
+        line->setZValue(-2);
+        line->setPen(pen());
+        m_LineList.append(line);
         return true;
     }
-    bool status = setPoint( 0, start );
-    if( status)
+    bool status = setPoint(0, start);
+    if(status)
         return setPoint(count,end);
     return false;
 }
@@ -428,8 +428,8 @@ bool AssociationLine::hasPoints() const
 void AssociationLine::dumpPoints()
 {
     int count = m_LineList.count();
-    for( int i = 1; i < count; i++ ) {
-        QPointF p = point( i );
+    for(int i = 1; i < count; i++) {
+        QPointF p = point(i);
         DEBUG(DBG_SRC) <<" * point x:"<<p.x()<<" y:"<<p.y();
     }
 }
@@ -444,34 +444,34 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
     if(startElement.isNull() || startElement.tagName() != "startpoint") {
         return false;
     }
-    QString x = startElement.attribute( "startx", "0" );
+    QString x = startElement.attribute("startx", "0");
     qreal nX = x.toFloat();
-    QString y = startElement.attribute( "starty", "0" );
+    QString y = startElement.attribute("starty", "0");
     qreal nY = y.toFloat();
-    QPointF startPoint( nX, nY );
+    QPointF startPoint(nX, nY);
 
     node = startElement.nextSibling();
     QDomElement endElement = node.toElement();
     if(endElement.isNull() || endElement.tagName() != "endpoint") {
         return false;
     }
-    x = endElement.attribute( "endx", "0" );
+    x = endElement.attribute("endx", "0");
     nX = x.toFloat();
-    y = endElement.attribute( "endy", "0" );
+    y = endElement.attribute("endy", "0");
     nY = y.toFloat();
-    QPointF endPoint( nX, nY );
-    setEndPoints( startPoint, endPoint );
+    QPointF endPoint(nX, nY);
+    setEndPoints(startPoint, endPoint);
     QPointF point;
     node = endElement.nextSibling();
     QDomElement element = node.toElement();
     int i = 1;
     while(!element.isNull()) {
         if(element.tagName() == "point") {
-            x = element.attribute( "x", "0" );
-            y = element.attribute( "y", "0" );
-            point.setX( x.toFloat() );
-            point.setY( y.toFloat() );
-            insertPoint( i++, point );
+            x = element.attribute("x", "0");
+            y = element.attribute("y", "0");
+            point.setX(x.toFloat());
+            point.setY(y.toFloat());
+            insertPoint(i++, point);
         }
         node = element.nextSibling();
         element = node.toElement();
@@ -487,25 +487,25 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
 void AssociationLine::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 {
     int count = m_LineList.count();
-    QPointF p = point( 0 );
-    QDomElement lineElement = qDoc.createElement( "linepath" );
-    QDomElement startElement = qDoc.createElement( "startpoint" );
-    startElement.setAttribute( "startx", p.x() );
-    startElement.setAttribute( "starty", p.y() );
-    lineElement.appendChild( startElement );
-    QDomElement endElement = qDoc.createElement( "endpoint" );
-    p = point( count );
-    endElement.setAttribute( "endx", p.x() );
-    endElement.setAttribute( "endy", p.y() );
-    lineElement.appendChild( endElement );
-    for( int i = 1; i < count; i++ ) {
-        QDomElement pointElement = qDoc.createElement( "point" );
-        p = point( i );
-        pointElement.setAttribute( "x", p.x() );
-        pointElement.setAttribute( "y", p.y() );
-        lineElement.appendChild( pointElement );
+    QPointF p = point(0);
+    QDomElement lineElement = qDoc.createElement("linepath");
+    QDomElement startElement = qDoc.createElement("startpoint");
+    startElement.setAttribute("startx", p.x());
+    startElement.setAttribute("starty", p.y());
+    lineElement.appendChild(startElement);
+    QDomElement endElement = qDoc.createElement("endpoint");
+    p = point(count);
+    endElement.setAttribute("endx", p.x());
+    endElement.setAttribute("endy", p.y());
+    lineElement.appendChild(endElement);
+    for(int i = 1; i < count; i++) {
+        QDomElement pointElement = qDoc.createElement("point");
+        p = point(i);
+        pointElement.setAttribute("x", p.x());
+        pointElement.setAttribute("y", p.y());
+        lineElement.appendChild(pointElement);
     }
-    qElement.appendChild( lineElement );
+    qElement.appendChild(lineElement);
 }
 
 /**
@@ -514,9 +514,9 @@ void AssociationLine::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 QPen AssociationLine::pen() const
 {
     Uml::AssociationType::Enum type = getAssocType();
-    if( type == Uml::AssociationType::Dependency || type == Uml::AssociationType::Realization || type == Uml::AssociationType::Anchor )
-        return QPen( lineColor(), lineWidth(), Qt::DashLine );
-    return QPen( lineColor(), lineWidth() );
+    if(type == Uml::AssociationType::Dependency || type == Uml::AssociationType::Realization || type == Uml::AssociationType::Anchor)
+        return QPen(lineColor(), lineWidth(), Qt::DashLine);
+    return QPen(lineColor(), lineWidth());
 }
 
 
@@ -529,7 +529,7 @@ QPen AssociationLine::pen() const
  */
 QColor AssociationLine::lineColor() const
 {
-    if( !m_associationWidget )
+    if(!m_associationWidget)
         return Qt::black;
     return m_associationWidget->lineColor();
 }
@@ -542,35 +542,35 @@ void AssociationLine::setLineColor(const QColor &color)
     uint linewidth = 0;
     QGraphicsLineItem* line = 0;
 
-    Q_FOREACH( line, m_LineList ) {
+    Q_FOREACH(line, m_LineList) {
         linewidth = line->pen().width();
-        line->setPen( QPen( color, linewidth ) );
+        line->setPen(QPen(color, linewidth));
     }
 
-    Q_FOREACH( line, m_HeadList ) {
+    Q_FOREACH(line, m_HeadList) {
         linewidth = line->pen().width();
-        line->setPen( QPen( color, linewidth ) );
+        line->setPen(QPen(color, linewidth));
     }
 
-    Q_FOREACH( line, m_ParallelList ) {
+    Q_FOREACH(line, m_ParallelList) {
         linewidth = line->pen().width();
-        line->setPen( QPen( color, linewidth ) );
+        line->setPen(QPen(color, linewidth));
     }
 
     if (getAssocType() == Uml::AssociationType::Aggregation) {
         if (m_pClearPoly) {
-            m_pClearPoly->setBrush( QBrush( Qt::white ) );
+            m_pClearPoly->setBrush(QBrush(Qt::white));
         }
-        else if( getAssocType() == Uml::AssociationType::Composition ) {
+        else if(getAssocType() == Uml::AssociationType::Composition) {
             if (m_pClearPoly) {
-                m_pClearPoly->setBrush( QBrush( color ) );
+                m_pClearPoly->setBrush(QBrush(color));
             }
         }
     }
 
-    if( m_pCircle ) {
+    if(m_pCircle) {
         linewidth = m_pCircle->pen().width();
-        m_pCircle->setPen( QPen(color, linewidth) );
+        m_pCircle->setPen(QPen(color, linewidth));
     }
 }
 
@@ -583,10 +583,10 @@ void AssociationLine::setLineColor(const QColor &color)
  */
 uint AssociationLine::lineWidth() const
 {
-    if( !m_associationWidget )
+    if(!m_associationWidget)
         return 0;
     int viewLineWidth = m_associationWidget->lineWidth();
-    if ( viewLineWidth >= 0 && viewLineWidth <= 10 )
+    if (viewLineWidth >= 0 && viewLineWidth <= 10)
         return viewLineWidth;
     else {
         uWarning() << "Ignore wrong LineWidth of " << viewLineWidth
@@ -604,24 +604,24 @@ void AssociationLine::setLineWidth(uint width)
     QColor linecolor;
     QGraphicsLineItem* line = 0;
 
-    Q_FOREACH( line, m_LineList ) {
+    Q_FOREACH(line, m_LineList) {
         linecolor = line->pen().color();
-        line->setPen( QPen( linecolor, width ) );
+        line->setPen(QPen(linecolor, width));
     }
 
-    Q_FOREACH( line, m_HeadList ) {
+    Q_FOREACH(line, m_HeadList) {
         linecolor = line->pen().color();
-        line->setPen( QPen( linecolor, width ) );
+        line->setPen(QPen(linecolor, width));
     }
 
-    Q_FOREACH( line, m_ParallelList ) {
+    Q_FOREACH(line, m_ParallelList) {
         linecolor = line->pen().color();
-        line->setPen( QPen( linecolor, width ) );
+        line->setPen(QPen(linecolor, width));
     }
 
-    if( m_pCircle ) {
+    if(m_pCircle) {
         linecolor = m_pCircle->pen().color();
-        m_pCircle->setPen( QPen(linecolor, width) );
+        m_pCircle->setPen(QPen(linecolor, width));
     }
 }
 
@@ -634,7 +634,7 @@ void AssociationLine::setLineWidth(uint width)
  */
 Uml::AssociationType::Enum AssociationLine::getAssocType() const
 {
-    if( m_associationWidget )
+    if(m_associationWidget)
         return m_associationWidget->associationType();
     return Uml::AssociationType::Association;
 }
@@ -647,15 +647,15 @@ void AssociationLine::setAssocType(Uml::AssociationType::Enum type)
     QList<QGraphicsLineItem*>::Iterator it = m_LineList.begin();
     QList<QGraphicsLineItem*>::Iterator end = m_LineList.end();
 
-    for( ; it != end; ++it )
-        (*it)->setPen( pen() );
+    for(; it != end; ++it)
+        (*it)->setPen(pen());
 
     delete m_pClearPoly;
     m_pClearPoly = 0;
     delete m_pCircle;
     m_pCircle = 0;
 
-    if( type == Uml::AssociationType::Coll_Message ) {
+    if(type == Uml::AssociationType::Coll_Message) {
         setupParallelLine();
     }
     else {
@@ -670,35 +670,35 @@ void AssociationLine::setAssocType(Uml::AssociationType::Enum type)
  */
 bool AssociationLine::operator==(const AssociationLine & rhs) 
 {
-    if( this->m_LineList.count() != rhs.m_LineList.count() )
+    if(this->m_LineList.count() != rhs.m_LineList.count())
         return false;
 
     //Check to see if all points at the same position
-    for( int i = 0; i< rhs.count() ; i++ ) {
-        if( this->point( i ) != rhs.point( i ) )
+    for(int i = 0; i< rhs.count() ; i++) {
+        if(this->point(i) != rhs.point(i))
             return false;
     }
     return true;
 }
 
 /**
- * Copy ( = ) operator.
+ * Copy (=) operator.
  */
 AssociationLine & AssociationLine::operator=(const AssociationLine & rhs)
 {
-    if( this == &rhs )
+    if(this == &rhs)
         return *this;
     //clear out the old scene objects
     this->cleanup();
 
     int count = rhs.m_LineList.count();
     //setup start end points
-    this->setEndPoints( rhs.point( 0 ), rhs.point( count) );
+    this->setEndPoints(rhs.point(0), rhs.point(count));
     //now insert the rest
-    for( int i = 1; i < count ; i++ ) {
-        this->insertPoint( i, rhs.point ( i ) );
+    for(int i = 1; i < count ; i++) {
+        this->insertPoint(i, rhs.point (i));
     }
-    this->setAssocType( rhs.getAssocType() );
+    this->setAssocType(rhs.getAssocType());
 
     return *this;
 }
@@ -743,7 +743,7 @@ void AssociationLine::activate()
         return;
     for (int i = 0; i < count ; i++) {
         QGraphicsLineItem *line = m_LineList.at(i);
-        line->setPen( pen() );
+        line->setPen(pen());
     }
 }
 
@@ -765,7 +765,7 @@ void AssociationLine::update()
         createHeadLines();
     }
 
-    if ( m_bSubsetSymbolCreated ) {
+    if (m_bSubsetSymbolCreated) {
         updateSubsetSymbol();
     } else {
         createSubsetSymbol();
@@ -782,7 +782,7 @@ void AssociationLine::slotLineColorChanged(Uml::ID::Type viewID)
     if(m_associationWidget->umlScene()->ID() != viewID) {
         return;
     }
-    setLineColor( m_associationWidget->umlScene()->lineColor() );
+    setLineColor(m_associationWidget->umlScene()->lineColor());
 }
 
 /**
@@ -795,7 +795,7 @@ void AssociationLine::slotLineWidthChanged(Uml::ID::Type viewID)
     if(m_associationWidget->umlScene()->ID() != viewID) {
         return;
     }
-    setLineWidth( m_associationWidget->umlScene()->lineWidth() );
+    setLineWidth(m_associationWidget->umlScene()->lineWidth());
 }
 
 /**
@@ -804,30 +804,30 @@ void AssociationLine::slotLineWidthChanged(Uml::ID::Type viewID)
 void AssociationLine::moveSelected(int pointIndex)
 {
     int lineCount = m_LineList.count();
-    if( !m_bSelected ) {
-        qDeleteAll( m_RectList.begin(), m_RectList.end() );
+    if(!m_bSelected) {
+        qDeleteAll(m_RectList.begin(), m_RectList.end());
         m_RectList.clear();
         return;
     }
-    if( (int)m_RectList.count() + 1 != lineCount )
+    if((int)m_RectList.count() + 1 != lineCount)
         setupSelected();
     QGraphicsRectItem* rect = 0;
     QGraphicsLineItem* line = 0;
-    if( pointIndex == lineCount || lineCount == 1) {
+    if(pointIndex == lineCount || lineCount == 1) {
         line = m_LineList.last();
         QPointF p = line->line().p2();
         rect = m_RectList.last();
-        rect->setX( p.x() );
-        rect->setY( p.y() );
-        rect->setZValue( 4 );
+        rect->setX(p.x());
+        rect->setY(p.y());
+        rect->setZValue(4);
         return;
     }
-    line = m_LineList.at( pointIndex );
+    line = m_LineList.at(pointIndex);
     QPointF p = line->line().p1();
-    rect = m_RectList.at( pointIndex );
-    rect->setX( p.x() );
-    rect->setY( p.y() );
-    rect->setZValue( 4 );
+    rect = m_RectList.at(pointIndex);
+    rect->setX(p.x());
+    rect->setY(p.y());
+    rect->setZValue(4);
 }
 
 /**
@@ -835,20 +835,20 @@ void AssociationLine::moveSelected(int pointIndex)
  */
 void AssociationLine::setupSelected()
 {
-    qDeleteAll( m_RectList.begin(), m_RectList.end() );
+    qDeleteAll(m_RectList.begin(), m_RectList.end());
     m_RectList.clear();
     QGraphicsLineItem* line = 0;
 
-    Q_FOREACH( line, m_LineList ) {
+    Q_FOREACH(line, m_LineList) {
         QPointF sp = line->line().p1();
         QGraphicsRectItem *rect = Widget_Utils::decoratePoint(sp);
-        m_RectList.append( rect );
+        m_RectList.append(rect);
     }
     //special case for last point
     line = m_LineList.last();
     QPointF p = line->line().p2();
     QGraphicsRectItem *rect = Widget_Utils::decoratePoint(p);
-    m_RectList.append( rect );
+    m_RectList.append(rect);
     update();
 }
 
@@ -903,11 +903,11 @@ void AssociationLine::calculateHead()
         siny = halfLength * deltaY/hypotenuse;
     }
 
-    m_ArrowPointA.setX( (int)rint(xb - halfLength * cos(arrowSlope)) );
-    m_ArrowPointA.setY( (int)rint(yb - halfLength * sin(arrowSlope)) );
+    m_ArrowPointA.setX((int)rint(xb - halfLength * cos(arrowSlope)));
+    m_ArrowPointA.setY((int)rint(yb - halfLength * sin(arrowSlope)));
     arrowSlope = slope - arrowAngle;
-    m_ArrowPointB.setX( (int)rint(xb - halfLength * cos(arrowSlope)) );
-    m_ArrowPointB.setY( (int)rint(yb - halfLength * sin(arrowSlope)) );
+    m_ArrowPointB.setX((int)rint(xb - halfLength * cos(arrowSlope)));
+    m_ArrowPointB.setY((int)rint(yb - halfLength * sin(arrowSlope)));
 
     if(xa > xb)
         cosx = cosx > 0 ? cosx : cosx * -1;
@@ -919,19 +919,19 @@ void AssociationLine::calculateHead()
     else
         siny = siny > 0 ? siny * -1 : siny;
 
-    m_MidPoint.setX( (int)rint(xb + cosx) );
-    m_MidPoint.setY( (int)rint(yb + siny) );
+    m_MidPoint.setX((int)rint(xb + cosx));
+    m_MidPoint.setY((int)rint(yb + siny));
 
     m_PointArray.replace(0, m_EgdePoint);
     m_PointArray.replace(1, m_ArrowPointA);
-    if( getAssocType() == Uml::AssociationType::Realization ||
-            getAssocType() == Uml::AssociationType::Generalization ) {
-        m_PointArray.replace( 2, m_ArrowPointB );
-        m_PointArray.replace( 3, m_EgdePoint );
+    if(getAssocType() == Uml::AssociationType::Realization ||
+            getAssocType() == Uml::AssociationType::Generalization) {
+        m_PointArray.replace(2, m_ArrowPointB);
+        m_PointArray.replace(3, m_EgdePoint);
     } else {
         QPointF diamondFarPoint;
-        diamondFarPoint.setX( (int)rint(xb + cosx * 2) );
-        diamondFarPoint.setY( (int)rint(yb + siny * 2) );
+        diamondFarPoint.setX((int)rint(xb + cosx * 2));
+        diamondFarPoint.setY((int)rint(yb + siny * 2));
         m_PointArray.replace(2, diamondFarPoint);
         m_PointArray.replace(3, m_ArrowPointB);
     }
@@ -944,9 +944,9 @@ void AssociationLine::calculateHead()
 void AssociationLine::createHeadLines()
 {
     DEBUG(DBG_SRC) << "association type = " << Uml::AssociationType::toString(getAssocType());
-    qDeleteAll( m_HeadList.begin(), m_HeadList.end() );
+    qDeleteAll(m_HeadList.begin(), m_HeadList.end());
     m_HeadList.clear();
-    switch( getAssocType() ) {
+    switch(getAssocType()) {
     case Uml::AssociationType::Activity:
     case Uml::AssociationType::Exception:
     case Uml::AssociationType::State:
@@ -960,25 +960,25 @@ void AssociationLine::createHeadLines()
     case Uml::AssociationType::Realization:
         growList(m_HeadList, 3);
         m_pClearPoly = new QGraphicsPolygonItem(this);
-        m_pClearPoly->setBrush( QBrush( Qt::white ) );
-        m_pClearPoly->setZValue( -1 );
+        m_pClearPoly->setBrush(QBrush(Qt::white));
+        m_pClearPoly->setZValue(-1);
         break;
 
     case Uml::AssociationType::Composition:
     case Uml::AssociationType::Aggregation:
         growList(m_HeadList, 4);
         m_pClearPoly = new QGraphicsPolygonItem(this);
-        if( getAssocType() == Uml::AssociationType::Aggregation )
-            m_pClearPoly->setBrush( QBrush( Qt::white ) );
+        if(getAssocType() == Uml::AssociationType::Aggregation)
+            m_pClearPoly->setBrush(QBrush(Qt::white));
         else
-            m_pClearPoly->setBrush( QBrush( lineColor() ) );
-        m_pClearPoly->setZValue( -1 );
+            m_pClearPoly->setBrush(QBrush(lineColor()));
+        m_pClearPoly->setZValue(-1);
         break;
 
     case Uml::AssociationType::Containment:
         growList(m_HeadList, 1);
         m_pCircle = new Circle(6, this);
-        m_pCircle->setPen( QPen( lineColor(), lineWidth() ) );
+        m_pCircle->setPen(QPen(lineColor(), lineWidth()));
         break;
 
     default:
@@ -995,20 +995,20 @@ void AssociationLine::updateHead()
     int count = m_HeadList.count();
     QGraphicsLineItem* line = 0;
 
-    switch( getAssocType() ) {
+    switch(getAssocType()) {
     case Uml::AssociationType::State:
     case Uml::AssociationType::Activity:
     case Uml::AssociationType::Exception:
     case Uml::AssociationType::UniAssociation:
     case Uml::AssociationType::Dependency:
-        if( count < 2)
+        if(count < 2)
             return;
 
-        line = m_HeadList.at( 0 );
-        line->setLine( m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointA.x(), m_ArrowPointA.y() );
+        line = m_HeadList.at(0);
+        line->setLine(m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointA.x(), m_ArrowPointA.y());
 
-        line = m_HeadList.at( 1 );
-        line->setLine( m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointB.x(), m_ArrowPointB.y() );
+        line = m_HeadList.at(1);
+        line->setLine(m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointB.x(), m_ArrowPointB.y());
         break;
 
     case Uml::AssociationType::Relationship:
@@ -1018,60 +1018,60 @@ void AssociationLine::updateHead()
         {
             int xoffset = 0;
             int yoffset = 0;
-            if( m_DockRegion == TopBottom )
+            if(m_DockRegion == TopBottom)
                 xoffset = 8;
             else
                 yoffset = 8;
-            line = m_HeadList.at( 0 );
-            line->setLine( m_PointArray[2].x(), m_PointArray[2].y(),
-                           m_PointArray[0].x()-xoffset, m_PointArray[0].y()-yoffset );
+            line = m_HeadList.at(0);
+            line->setLine(m_PointArray[2].x(), m_PointArray[2].y(),
+                           m_PointArray[0].x()-xoffset, m_PointArray[0].y()-yoffset);
 
-            line = m_HeadList.at( 1 );
-            line->setLine( m_PointArray[2].x(), m_PointArray[2].y(),
-                           m_PointArray[0].x()+xoffset, m_PointArray[0].y()+yoffset );
+            line = m_HeadList.at(1);
+            line->setLine(m_PointArray[2].x(), m_PointArray[2].y(),
+                           m_PointArray[0].x()+xoffset, m_PointArray[0].y()+yoffset);
         }
 
     case Uml::AssociationType::Generalization:
     case Uml::AssociationType::Realization:
-        if( count < 3)
+        if(count < 3)
             return;
-        line = m_HeadList.at( 0 );
-        line->setLine( m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointA.x(), m_ArrowPointA.y() );
+        line = m_HeadList.at(0);
+        line->setLine(m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointA.x(), m_ArrowPointA.y());
 
-        line = m_HeadList.at( 1 );
-        line->setLine( m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointB.x(), m_ArrowPointB.y() );
+        line = m_HeadList.at(1);
+        line->setLine(m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointB.x(), m_ArrowPointB.y());
 
-        line = m_HeadList.at( 2 );
-        line->setLine( m_ArrowPointA.x(), m_ArrowPointA.y(), m_ArrowPointB.x(), m_ArrowPointB.y() );
-        m_pClearPoly->setPolygon( m_PointArray );
+        line = m_HeadList.at(2);
+        line->setLine(m_ArrowPointA.x(), m_ArrowPointA.y(), m_ArrowPointB.x(), m_ArrowPointB.y());
+        m_pClearPoly->setPolygon(m_PointArray);
         break;
 
     case Uml::AssociationType::Composition:
     case Uml::AssociationType::Aggregation:
-        if( count < 4)
+        if(count < 4)
             return;
-        line = m_HeadList.at( 0 );
-        line->setLine( m_PointArray[ 0 ].x(), m_PointArray[ 0 ].y(), m_PointArray[ 1 ].x(), m_PointArray[ 1 ].y() );
+        line = m_HeadList.at(0);
+        line->setLine(m_PointArray[ 0 ].x(), m_PointArray[ 0 ].y(), m_PointArray[ 1 ].x(), m_PointArray[ 1 ].y());
 
-        line = m_HeadList.at( 1 );
-        line->setLine( m_PointArray[ 1 ].x(), m_PointArray[ 1 ].y(), m_PointArray[ 2 ].x(), m_PointArray[ 2 ].y() );
+        line = m_HeadList.at(1);
+        line->setLine(m_PointArray[ 1 ].x(), m_PointArray[ 1 ].y(), m_PointArray[ 2 ].x(), m_PointArray[ 2 ].y());
 
-        line = m_HeadList.at( 2 );
-        line->setLine( m_PointArray[ 2 ].x(), m_PointArray[ 2 ].y(), m_PointArray[ 3 ].x(), m_PointArray[ 3 ].y() );
+        line = m_HeadList.at(2);
+        line->setLine(m_PointArray[ 2 ].x(), m_PointArray[ 2 ].y(), m_PointArray[ 3 ].x(), m_PointArray[ 3 ].y());
 
-        line = m_HeadList.at( 3 );
-        line->setLine( m_PointArray[ 3 ].x(), m_PointArray[ 3 ].y(), m_PointArray[ 0 ].x(), m_PointArray[ 0 ].y() );
-        m_pClearPoly->setPolygon( m_PointArray );
+        line = m_HeadList.at(3);
+        line->setLine(m_PointArray[ 3 ].x(), m_PointArray[ 3 ].y(), m_PointArray[ 0 ].x(), m_PointArray[ 0 ].y());
+        m_pClearPoly->setPolygon(m_PointArray);
         break;
 
     case Uml::AssociationType::Containment:
         if (count < 1)
             return;
-        line = m_HeadList.at( 0 );
-        line->setLine( m_PointArray[ 1 ].x(), m_PointArray[ 1 ].y(),
-                       m_PointArray[ 3 ].x(), m_PointArray[ 3 ].y() );
-        m_pCircle->setX( m_MidPoint.x() );
-        m_pCircle->setY( m_MidPoint.y() );
+        line = m_HeadList.at(0);
+        line->setLine(m_PointArray[ 1 ].x(), m_PointArray[ 1 ].y(),
+                       m_PointArray[ 3 ].x(), m_PointArray[ 3 ].y());
+        m_pCircle->setX(m_MidPoint.x());
+        m_pCircle->setY(m_MidPoint.y());
         break;
     default:
         break;
@@ -1087,45 +1087,45 @@ void AssociationLine::calculateParallelLine()
     double ATAN = atan(1.0);
     int lineDist = 10;
     //get  1/8(M) and 7/8(T) point
-    QPointF a = point( midCount - 1 );
-    QPointF b = point( midCount );
-    int mx = ( a.x() + b.x() ) / 2;
-    int my = ( a.y() + b.y() ) / 2;
-    int tx = ( mx + b.x() ) / 2;
-    int ty = ( my + b.y() ) / 2;
+    QPointF a = point(midCount - 1);
+    QPointF b = point(midCount);
+    int mx = (a.x() + b.x()) / 2;
+    int my = (a.y() + b.y()) / 2;
+    int tx = (mx + b.x()) / 2;
+    int ty = (my + b.y()) / 2;
     //find dist between M and T points
-    int distX = ( mx - tx );
+    int distX = (mx - tx);
     distX *= distX;
-    int distY = ( my - ty );
+    int distY = (my - ty);
     distY *= distY;
-    double angle = atan2( double(ty - my), double(tx - mx) ) + ( ATAN * 2 );
+    double angle = atan2(double(ty - my), double(tx - mx)) + (ATAN * 2);
     //find point from M to start line from.
-    double cosx = cos( angle ) * lineDist;
-    double siny = sin( angle ) * lineDist;
-    QPointF pointM( mx + (int)cosx, my + (int)siny );
+    double cosx = cos(angle) * lineDist;
+    double siny = sin(angle) * lineDist;
+    QPointF pointM(mx + (int)cosx, my + (int)siny);
     //find dist between P(xb, yb)
-    distX = ( tx - b.x() );
+    distX = (tx - b.x());
     distX *= distX;
-    distY = ( ty - b.y() );
+    distY = (ty - b.y());
     distY *= distY;
     //find point from T to end line
-    cosx = cos( angle ) * lineDist;
-    siny = sin( angle ) * lineDist;
-    QPointF pointT( tx + (int)cosx, ty + (int)siny );
+    cosx = cos(angle) * lineDist;
+    siny = sin(angle) * lineDist;
+    QPointF pointT(tx + (int)cosx, ty + (int)siny);
     m_ParallelLines[ 1 ] = pointM;
     m_ParallelLines[ 0 ] = pointT;
 
     int arrowDist = 5;
-    angle = atan2( double(pointT.y() - pointM.y()),
-                   double(pointT.x() - pointM.x()) );
+    angle = atan2(double(pointT.y() - pointM.y()),
+                   double(pointT.x() - pointM.x()));
     double arrowSlope = angle + ATAN;
-    cosx = ( cos( arrowSlope ) ) * arrowDist;
-    siny = ( sin( arrowSlope ) ) * arrowDist;
-    m_ParallelLines[ 2 ] = QPoint( pointT.x() - (int)cosx, pointT.y() - (int)siny );
+    cosx = (cos(arrowSlope)) * arrowDist;
+    siny = (sin(arrowSlope)) * arrowDist;
+    m_ParallelLines[ 2 ] = QPoint(pointT.x() - (int)cosx, pointT.y() - (int)siny);
     arrowSlope = angle - ATAN;
-    cosx = ( cos( arrowSlope ) ) * arrowDist;
-    siny = ( sin( arrowSlope ) ) * arrowDist;
-    m_ParallelLines[ 3 ] = QPoint( pointT.x() - (int)cosx, pointT.y() - (int)siny );
+    cosx = (cos(arrowSlope)) * arrowDist;
+    siny = (sin(arrowSlope)) * arrowDist;
+    m_ParallelLines[ 3 ] = QPoint(pointT.x() - (int)cosx, pointT.y() - (int)siny);
 }
 
 /**
@@ -1133,7 +1133,7 @@ void AssociationLine::calculateParallelLine()
  */
 void AssociationLine::setupParallelLine()
 {
-    qDeleteAll( m_ParallelList.begin(), m_ParallelList.end() );
+    qDeleteAll(m_ParallelList.begin(), m_ParallelList.end());
     m_ParallelList.clear();
     growList(m_ParallelList, 3);
     m_bParallelLineCreated = true;
@@ -1145,21 +1145,21 @@ void AssociationLine::setupParallelLine()
  */
 void AssociationLine::updateParallelLine() 
 {
-    if( !m_bParallelLineCreated )
+    if(!m_bParallelLineCreated)
         return;
     QGraphicsLineItem* line = 0;
-    QPointF common = m_ParallelLines.at( 0 );
-    QPointF p = m_ParallelLines.at( 1 );
-    line = m_ParallelList.at( 0 );
-    line->setLine( common.x(), common.y(), p.x(), p.y() );
+    QPointF common = m_ParallelLines.at(0);
+    QPointF p = m_ParallelLines.at(1);
+    line = m_ParallelList.at(0);
+    line->setLine(common.x(), common.y(), p.x(), p.y());
 
-    p = m_ParallelLines.at( 2 );
-    line = m_ParallelList.at( 1 );
-    line->setLine( common.x(), common.y(), p.x(), p.y() );
+    p = m_ParallelLines.at(2);
+    line = m_ParallelList.at(1);
+    line->setLine(common.x(), common.y(), p.x(), p.y());
 
-    p = m_ParallelLines.at( 3 );
-    line = m_ParallelList.at( 2 );
-    line->setLine( common.x(), common.y(), p.x(), p.y() );
+    p = m_ParallelLines.at(3);
+    line = m_ParallelList.at(2);
+    line->setLine(common.x(), common.y(), p.x(), p.y());
 }
 
 /**
@@ -1167,14 +1167,14 @@ void AssociationLine::updateParallelLine()
  */
 void AssociationLine::createSubsetSymbol()
 {
-    if ( m_LineList.count() < 1 ) {
+    if (m_LineList.count() < 1) {
         return;
     }
 
-    switch( getAssocType() ) {
+    switch(getAssocType()) {
        case Uml::AssociationType::Child2Category:
            m_pSubsetSymbol = new SubsetSymbol(this);
-           m_pSubsetSymbol->setPen( QPen( lineColor(), lineWidth() ) );
+           m_pSubsetSymbol->setPen(QPen(lineColor(), lineWidth()));
            updateSubsetSymbol();
            break;
        default:
@@ -1188,33 +1188,33 @@ void AssociationLine::createSubsetSymbol()
  */
 void AssociationLine::updateSubsetSymbol()
 {
-    if ( m_LineList.count() < 1 ) {
+    if (m_LineList.count() < 1) {
         return;
     }
     QGraphicsLineItem* firstLine = m_LineList.first();
     QPointF startPoint = firstLine->line().p1();
     QPointF endPoint = firstLine->line().p2();
     QPointF centrePoint;
-    centrePoint.setX( ( startPoint.x() + endPoint.x() )/2 );
-    centrePoint.setY( ( startPoint.y() + endPoint.y() )/2 );
+    centrePoint.setX((startPoint.x() + endPoint.x())/2);
+    centrePoint.setY((startPoint.y() + endPoint.y())/2);
 
-    if ( m_pSubsetSymbol ) {
+    if (m_pSubsetSymbol) {
 
         double xDiff = endPoint.x() - startPoint.x();
         double yDiff = endPoint.y() - startPoint.y();
 
         int inclination;
-        if ( xDiff == 0 ) {
-            if ( yDiff > 0 )
+        if (xDiff == 0) {
+            if (yDiff > 0)
                 inclination = 90;
             else // yDiff < 0
                 inclination = 270;
         } else {
-            inclination = (int)(atan( yDiff/xDiff )*180/3.14159) ;
+            inclination = (int)(atan(yDiff/xDiff)*180/3.14159) ;
             // convert to 360 degree scale
-            if (  xDiff < 0 ) {
+            if ( xDiff < 0) {
                 inclination = 180 + inclination ;
-            } else if ( xDiff > 0 && yDiff < 0 ) {
+            } else if (xDiff > 0 && yDiff < 0) {
                 inclination = 360 +  inclination;
             }
         }
@@ -1233,12 +1233,12 @@ void AssociationLine::updateSubsetSymbol()
  */
 void AssociationLine::growList(LineList &list, int by)
 {
-    QPen pen( lineColor(), lineWidth() );
+    QPen pen(lineColor(), lineWidth());
     for (int i = 0; i < by; i++) {
         QGraphicsLineItem* line = new QGraphicsLineItem(this);
-        line->setZValue( 0 );
-        line->setPen( pen );
-        list.append( line );
+        line->setZValue(0);
+        line->setPen(pen);
+        list.append(line);
     }
 }
 

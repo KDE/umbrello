@@ -20,7 +20,7 @@
 /**
  * Basic Constructor
  */
-CodeBlockWithComments::CodeBlockWithComments ( CodeDocument * parent , const QString & body, const QString & comment)
+CodeBlockWithComments::CodeBlockWithComments (CodeDocument * parent , const QString & body, const QString & comment)
         : CodeBlock (parent, body)
 {
     CodeComment * codecomment = CodeGenFactory::newCodeComment(parent);
@@ -28,14 +28,14 @@ CodeBlockWithComments::CodeBlockWithComments ( CodeDocument * parent , const QSt
     m_comment = codecomment;
 }
 
-CodeBlockWithComments::~CodeBlockWithComments ( )
+CodeBlockWithComments::~CodeBlockWithComments ()
 {
 }
 
 /**
  * Set the Comment object.
  */
-void CodeBlockWithComments::setComment ( CodeComment * object )
+void CodeBlockWithComments::setComment (CodeComment * object)
 {
     m_comment = object;
 }
@@ -43,7 +43,7 @@ void CodeBlockWithComments::setComment ( CodeComment * object )
 /**
  * Get the Comment object.
  */
-CodeComment * CodeBlockWithComments::getComment ( ) const
+CodeComment * CodeBlockWithComments::getComment () const
 {
     return m_comment;
 }
@@ -51,30 +51,30 @@ CodeComment * CodeBlockWithComments::getComment ( ) const
 /**
  * Save the XMI representation of this object
  */
-void CodeBlockWithComments::saveToXMI ( QDomDocument & doc, QDomElement & root )
+void CodeBlockWithComments::saveToXMI (QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement( "codeblockwithcomments" );
+    QDomElement blockElement = doc.createElement("codeblockwithcomments");
 
     // set attributes
     setAttributesOnNode(doc, blockElement);
 
-    root.appendChild( blockElement );
+    root.appendChild(blockElement);
 }
 
 /**
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void CodeBlockWithComments::setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement)
+void CodeBlockWithComments::setAttributesOnNode (QDomDocument & doc, QDomElement & blockElement)
 {
     // set super-class attributes
     CodeBlock::setAttributesOnNode(doc, blockElement);
 
     // set local attributes now..e.g. a comment
     // which we will store in its own separate child node block
-    QDomElement commElement = doc.createElement( "header" );
+    QDomElement commElement = doc.createElement("header");
     getComment()->saveToXMI(doc, commElement); // comment
-    blockElement.appendChild( commElement);
+    blockElement.appendChild(commElement);
 }
 
 /**
@@ -93,7 +93,7 @@ void CodeBlockWithComments::setAttributesFromObject(TextBlock * obj)
 /**
  * Load params from the appropriate XMI element node.
  */
-void CodeBlockWithComments::loadFromXMI ( QDomElement & root )
+void CodeBlockWithComments::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -102,7 +102,7 @@ void CodeBlockWithComments::loadFromXMI ( QDomElement & root )
  * Set the class attributes of this object from
  * the passed element node.
  */
-void CodeBlockWithComments::setAttributesFromNode( QDomElement & root)
+void CodeBlockWithComments::setAttributesFromNode(QDomElement & root)
 {
     // set attributes from superclass method the XMI
     CodeBlock::setAttributesFromNode(root);
@@ -112,9 +112,9 @@ void CodeBlockWithComments::setAttributesFromNode( QDomElement & root)
     QDomNode node = root.firstChild();
     QDomElement element = node.toElement();
     bool gotComment = false;
-    while ( !element.isNull() ) {
+    while (!element.isNull()) {
         QString tag = element.tagName();
-        if ( tag == "header" ) {
+        if (tag == "header") {
             QDomNode cnode = element.firstChild();
             QDomElement celem = cnode.toElement();
             getComment()->loadFromXMI(celem);
@@ -133,7 +133,7 @@ void CodeBlockWithComments::setAttributesFromNode( QDomElement & root)
 /**
  * @return  QString
  */
-QString CodeBlockWithComments::toString ( ) const
+QString CodeBlockWithComments::toString () const
 {
     QString string;
 
@@ -160,7 +160,7 @@ QString CodeBlockWithComments::toString ( ) const
  * A utility method that causes the comment and body of the code block
  * to have the same indentation level.
  */
-void CodeBlockWithComments::setOverallIndentationLevel ( int level )
+void CodeBlockWithComments::setOverallIndentationLevel (int level)
 {
     setIndentationLevel(level);
     getComment()->setIndentationLevel(level);

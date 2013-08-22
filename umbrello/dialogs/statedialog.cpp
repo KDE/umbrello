@@ -35,19 +35,19 @@
 /**
  * Constructor.
  */
-StateDialog::StateDialog( UMLView * pView, StateWidget * pWidget )
+StateDialog::StateDialog(UMLView * pView, StateWidget * pWidget)
   : DialogBase(pView),
     m_pActivityPage(0),
     m_pStateWidget(pWidget),
     m_pView(pView),
     m_bChangesMade(false)
 {
-    setCaption(i18n("Properties") );
-    setButtons( Help | Default | Apply | Ok | Cancel );
-    setDefaultButton( Ok );
-    setModal( true );
-    showButtonSeparator( true );
-    setFaceType( KPageDialog::List );
+    setCaption(i18n("Properties"));
+    setButtons(Help | Default | Apply | Ok | Cancel);
+    setDefaultButton(Ok);
+    setModal(true);
+    showButtonSeparator(true);
+    setFaceType(KPageDialog::List);
 
     setupPages();
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
@@ -59,10 +59,10 @@ StateDialog::StateDialog( UMLView * pView, StateWidget * pWidget )
  */
 void StateDialog::slotOk()
 {
-    applyPage( pageGeneral );
-    applyPage( pageFont );
-    applyPage( pageActivity );
-    applyPage( pageStyle );
+    applyPage(pageGeneral);
+    applyPage(pageFont);
+    applyPage(pageActivity);
+    applyPage(pageStyle);
     accept();
 }
 
@@ -71,7 +71,7 @@ void StateDialog::slotOk()
  */
 void StateDialog::slotApply()
 {
-    applyPage( currentPage() );
+    applyPage(currentPage());
 }
 
 /**
@@ -80,33 +80,33 @@ void StateDialog::slotApply()
 void StateDialog::setupPages()
 {
     setupGeneralPage();
-    if ( m_pStateWidget->stateType() == StateWidget::Normal ) {
+    if (m_pStateWidget->stateType() == StateWidget::Normal) {
         setupActivityPage();
     }
-    pageStyle = setupStylePage( m_pStateWidget );
-    pageFont = setupFontPage( m_pStateWidget );
+    pageStyle = setupStylePage(m_pStateWidget);
+    pageFont = setupFontPage(m_pStateWidget);
 }
 
 /**
  * Applies changes to the given page.
  */
-void StateDialog::applyPage( KPageWidgetItem*item )
+void StateDialog::applyPage(KPageWidgetItem*item)
 {
     m_bChangesMade = true;
-    if ( item == pageGeneral ) {
-        m_pStateWidget->setName( m_GenPageWidgets.nameLE->text() );
-        m_pStateWidget->setDocumentation( m_GenPageWidgets.docMLE->toPlainText() );
+    if (item == pageGeneral) {
+        m_pStateWidget->setName(m_GenPageWidgets.nameLE->text());
+        m_pStateWidget->setDocumentation(m_GenPageWidgets.docMLE->toPlainText());
     }
-    else if ( item == pageActivity ) {
-        if ( m_pActivityPage ) {
+    else if (item == pageActivity) {
+        if (m_pActivityPage) {
             m_pActivityPage->updateActivities();
         }
     }
-    else if ( item == pageStyle ) {
-        saveStylePageData( m_pStateWidget );
+    else if (item == pageStyle) {
+        saveStylePageData(m_pStateWidget);
     }
-    else if ( item == pageFont ) {
-        saveFontPageData( m_pStateWidget );
+    else if (item == pageFont) {
+        saveFontPageData(m_pStateWidget);
     }
 }
 
@@ -121,41 +121,41 @@ void StateDialog::setupGeneralPage()
     StateWidget::StateType type = m_pStateWidget->stateType();
 
     KVBox * page = new KVBox();
-    pageGeneral = new KPageWidgetItem( page, i18nc("general page", "General")  );
-    pageGeneral->setHeader( i18n("General Properties") );
-    pageGeneral->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General) );
-    addPage( pageGeneral );
+    pageGeneral = new KPageWidgetItem(page, i18nc("general page", "General") );
+    pageGeneral->setHeader(i18n("General Properties"));
+    pageGeneral->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General));
+    addPage(pageGeneral);
 
-    m_GenPageWidgets.generalGB = new QGroupBox( i18n( "Properties"), (QWidget *)page );
+    m_GenPageWidgets.generalGB = new QGroupBox(i18n("Properties"), (QWidget *)page);
 
-    QGridLayout * generalLayout = new QGridLayout( m_GenPageWidgets.generalGB );
-    generalLayout->setSpacing( spacingHint() );
-    generalLayout->setMargin(  fontMetrics().height()  );
+    QGridLayout * generalLayout = new QGridLayout(m_GenPageWidgets.generalGB);
+    generalLayout->setSpacing(spacingHint());
+    generalLayout->setMargin( fontMetrics().height() );
 
-    Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 0,
+    Dialog_Utils::makeLabeledEditField(m_GenPageWidgets.generalGB, generalLayout, 0,
                                     m_GenPageWidgets.typeL, i18n("State type:"),
-                                    m_GenPageWidgets.typeLE, types[ (int)type ] );
-    m_GenPageWidgets.typeLE->setEnabled( false );
+                                    m_GenPageWidgets.typeLE, types[ (int)type ]);
+    m_GenPageWidgets.typeLE->setEnabled(false);
 
-    Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 1,
+    Dialog_Utils::makeLabeledEditField(m_GenPageWidgets.generalGB, generalLayout, 1,
                                     m_GenPageWidgets.nameL, i18n("State name:"),
-                                    m_GenPageWidgets.nameLE );
+                                    m_GenPageWidgets.nameLE);
 
-    m_GenPageWidgets.docGB = new QGroupBox( i18n( "Documentation"), (QWidget *)page );
+    m_GenPageWidgets.docGB = new QGroupBox(i18n("Documentation"), (QWidget *)page);
 
-    QHBoxLayout * docLayout = new QHBoxLayout( m_GenPageWidgets.docGB );
-    docLayout->setSpacing( spacingHint() );
-    docLayout->setMargin(  fontMetrics().height()  );
+    QHBoxLayout * docLayout = new QHBoxLayout(m_GenPageWidgets.docGB);
+    docLayout->setSpacing(spacingHint());
+    docLayout->setMargin( fontMetrics().height() );
 
-    m_GenPageWidgets.docMLE = new KTextEdit( m_GenPageWidgets.docGB );
-    m_GenPageWidgets.docMLE->setText( m_pStateWidget->documentation() );
-    docLayout->addWidget( m_GenPageWidgets.docMLE );
+    m_GenPageWidgets.docMLE = new KTextEdit(m_GenPageWidgets.docGB);
+    m_GenPageWidgets.docMLE->setText(m_pStateWidget->documentation());
+    docLayout->addWidget(m_GenPageWidgets.docMLE);
 
-    if ( type != StateWidget::Normal ) {
-        m_GenPageWidgets.nameLE->setEnabled( false );
-        m_GenPageWidgets.nameLE->setText( "" );
+    if (type != StateWidget::Normal) {
+        m_GenPageWidgets.nameLE->setEnabled(false);
+        m_GenPageWidgets.nameLE->setText("");
     } else
-        m_GenPageWidgets.nameLE->setText( m_pStateWidget->name() );
+        m_GenPageWidgets.nameLE->setText(m_pStateWidget->name());
 }
 
 /**
@@ -164,14 +164,14 @@ void StateDialog::setupGeneralPage()
 void StateDialog::setupActivityPage()
 {
     QFrame * activityPage = new QFrame();
-    pageActivity = new KPageWidgetItem( activityPage,i18n("Activities")  );
-    pageActivity->setHeader( i18n("Activities") );
-    pageActivity->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Activities) );
-    addPage( pageActivity );
+    pageActivity = new KPageWidgetItem(activityPage,i18n("Activities") );
+    pageActivity->setHeader(i18n("Activities"));
+    pageActivity->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Activities));
+    addPage(pageActivity);
 
-    QHBoxLayout * activityLayout = new QHBoxLayout( activityPage );
-    m_pActivityPage = new ActivityPage( activityPage, m_pStateWidget );
-    activityLayout->addWidget( m_pActivityPage );
+    QHBoxLayout * activityLayout = new QHBoxLayout(activityPage);
+    m_pActivityPage = new ActivityPage(activityPage, m_pStateWidget);
+    activityLayout->addWidget(m_pActivityPage);
 }
 
 #include "statedialog.moc"

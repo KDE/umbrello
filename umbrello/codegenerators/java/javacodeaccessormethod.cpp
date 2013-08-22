@@ -27,8 +27,8 @@
 #include "javacodeclassfield.h"
 #include "javacodedocumentation.h"
 
-JavaCodeAccessorMethod::JavaCodeAccessorMethod ( CodeClassField * field, CodeAccessorMethod::AccessorType type)
-        : CodeAccessorMethod ( field )
+JavaCodeAccessorMethod::JavaCodeAccessorMethod (CodeClassField * field, CodeAccessorMethod::AccessorType type)
+        : CodeAccessorMethod (field)
 {
     setType(type);
 
@@ -37,11 +37,11 @@ JavaCodeAccessorMethod::JavaCodeAccessorMethod ( CodeClassField * field, CodeAcc
     setComment(new JavaCodeDocumentation(jccd));
 }
 
-JavaCodeAccessorMethod::~JavaCodeAccessorMethod ( )
+JavaCodeAccessorMethod::~JavaCodeAccessorMethod ()
 {
 }
 
-void JavaCodeAccessorMethod::setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement)
+void JavaCodeAccessorMethod::setAttributesOnNode (QDomDocument & doc, QDomElement & blockElement)
 {
     // set super-class attributes
     CodeAccessorMethod::setAttributesOnNode(doc, blockElement);
@@ -49,7 +49,7 @@ void JavaCodeAccessorMethod::setAttributesOnNode ( QDomDocument & doc, QDomEleme
     // set local attributes now
 }
 
-void JavaCodeAccessorMethod::setAttributesFromNode( QDomElement & root)
+void JavaCodeAccessorMethod::setAttributesFromNode(QDomElement & root)
 {
     // set attributes from superclass method the XMI
     CodeAccessorMethod::setAttributesFromNode(root);
@@ -57,7 +57,7 @@ void JavaCodeAccessorMethod::setAttributesFromNode( QDomElement & root)
     // load local stuff
 }
 
-void JavaCodeAccessorMethod::updateContent( )
+void JavaCodeAccessorMethod::updateContent()
 {
     CodeClassField * parentField = getParentClassField();
     JavaCodeClassField * javafield = dynamic_cast<JavaCodeClassField*>(parentField);
@@ -191,7 +191,7 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
         getComment()->setText(headerText);
 
     // set start/end method text
-    setStartMethodText(strVis+' '+methodReturnType+' '+methodName+" ( "+methodParams+" ) {");
+    setStartMethodText(strVis+' '+methodReturnType+' '+methodName+" ("+methodParams+") {");
     setEndMethodText("}");
 }
 

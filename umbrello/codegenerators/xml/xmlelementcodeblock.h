@@ -27,22 +27,22 @@ public:
     /**
      * Empty Constructor
      */
-    XMLElementCodeBlock ( CodeDocument * parentDoc, const QString & nodeName, const QString & comment = "");
+    XMLElementCodeBlock (CodeDocument * parentDoc, const QString & nodeName, const QString & comment = "");
 
     /**
      * Empty Destructor
      */
-    virtual ~XMLElementCodeBlock ( );
+    virtual ~XMLElementCodeBlock ();
 
     /**
      * Save the XMI representation of this object
      */
-    virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
+    virtual void saveToXMI (QDomDocument & doc, QDomElement & root);
 
     /**
      * Load params from the appropriate XMI element node.
      */
-    virtual void loadFromXMI ( QDomElement & root );
+    virtual void loadFromXMI (QDomElement & root);
 
     virtual UMLAttributeList * getAttributeList();
 
@@ -54,7 +54,7 @@ public:
     /**
      * Update the start/end text of this codeblock.
      */
-    void updateContent ( );
+    void updateContent ();
 
 protected:
 
@@ -62,13 +62,13 @@ protected:
      * Set attributes of the node that represents this class
      * in the XMI document.
      */
-    virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
+    virtual void setAttributesOnNode (QDomDocument & doc, QDomElement & blockElement);
 
     /**
      * Set the class attributes of this object from
      * the passed element node.
      */
-    virtual void setAttributesFromNode ( QDomElement & element);
+    virtual void setAttributesFromNode (QDomElement & element);
 
 private:
 

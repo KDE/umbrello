@@ -100,7 +100,7 @@ private:
 
     QString fixTypeName(const QString& string);
 
-    QString fixInitialStringDeclValue( QString value, const QString &type);
+    QString fixInitialStringDeclValue(QString value, const QString &type);
 
     QString getElementName(UMLClassifier *c);
     QString getElementTypeName(UMLClassifier *c);

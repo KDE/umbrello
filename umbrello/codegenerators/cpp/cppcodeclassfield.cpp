@@ -32,7 +32,7 @@ CPPCodeClassField::CPPCodeClassField (ClassifierCodeDocument * parentDoc, UMLAtt
 {
 }
 
-CPPCodeClassField::~CPPCodeClassField ( )
+CPPCodeClassField::~CPPCodeClassField ()
 {
 }
 
@@ -66,7 +66,7 @@ QString CPPCodeClassField::getInitialValue()
 {
     if (parentIsAttribute())
     {
-        UMLAttribute * at = dynamic_cast<UMLAttribute*>( getParentObject() );
+        UMLAttribute * at = dynamic_cast<UMLAttribute*>(getParentObject());
         if (at) {
             return fixInitialStringDeclValue(at->getInitialValue(), getTypeName());
         } else {
@@ -81,7 +81,7 @@ QString CPPCodeClassField::getInitialValue()
             //       then we can just return 'empty' string (minor problem).
             return "";
         } else {
-            return " new "+getListFieldClassName()+"( )";
+            return " new "+getListFieldClassName()+"()";
         }
     }
 }

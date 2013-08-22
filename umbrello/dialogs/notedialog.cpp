@@ -26,20 +26,20 @@
 /**
  * Constructs an NoteDialog.
  */
-NoteDialog::NoteDialog( QWidget * parent, NoteWidget * pNote )
+NoteDialog::NoteDialog(QWidget * parent, NoteWidget * pNote)
   : KDialog(parent)
 {
-    setCaption( i18n("Note Documentation") );
-    setButtons( Help | Ok | Cancel );
-    setDefaultButton( Ok );
-    setModal( true );
-    showButtonSeparator( true );
+    setCaption(i18n("Note Documentation"));
+    setButtons(Help | Ok | Cancel);
+    setDefaultButton(Ok);
+    setModal(true);
+    showButtonSeparator(true);
 
     m_pNoteWidget = pNote;
     int margin = fontMetrics().height();
 
-    QFrame *frame = new QFrame( this );
-    setMainWidget( frame );
+    QFrame *frame = new QFrame(this);
+    setMainWidget(frame);
     m_docGB = new QGroupBox(i18n("Documentation"), frame);
     QVBoxLayout * mainLayout = new QVBoxLayout(frame);
     mainLayout->addWidget(m_docGB);
@@ -50,10 +50,10 @@ NoteDialog::NoteDialog( QWidget * parent, NoteWidget * pNote )
     docLayout->setSpacing(10);
     docLayout->setMargin(margin);
 
-    m_docTE = new KTextEdit( m_docGB );
+    m_docTE = new KTextEdit(m_docGB);
     m_docTE->setFocus();
-    docLayout->addWidget( m_docTE );
-    m_docTE->setText( pNote->documentation() );
+    docLayout->addWidget(m_docTE);
+    m_docTE->setText(pNote->documentation());
     setMinimumSize(330, 160);
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
 }
@@ -67,7 +67,7 @@ NoteDialog::~NoteDialog()
 
 void NoteDialog::slotOk()
 {
-    m_pNoteWidget->setDocumentation( m_docTE->toPlainText() );
+    m_pNoteWidget->setDocumentation(m_docTE->toPlainText());
     accept();
 }
 

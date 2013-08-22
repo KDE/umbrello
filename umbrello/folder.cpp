@@ -106,7 +106,7 @@ void UMLFolder::removeView(UMLView *view)
 void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested)
 {
     if (includeNested) {
-        foreach (UMLObject* o, m_objects ) {
+        foreach (UMLObject* o, m_objects) {
             if (o->baseType() == UMLObject::ot_Folder) {
                 UMLFolder *f = static_cast<UMLFolder*>(o);
                 f->appendViews(viewList);
@@ -125,7 +125,7 @@ void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested)
  */
 void UMLFolder::activateViews()
 {
-    foreach (UMLObject* o, m_objects ) {
+    foreach (UMLObject* o, m_objects) {
         if (o->baseType() == UMLObject::ot_Folder) {
             UMLFolder *f = static_cast<UMLFolder*>(o);
             f->activateViews();
@@ -151,14 +151,14 @@ void UMLFolder::activateViews()
  */
 UMLView *UMLFolder::findView(Uml::ID::Type id)
 {
-    foreach (UMLView* v, m_diagrams ) {
+    foreach (UMLView* v, m_diagrams) {
         if (v->umlScene()->ID() == id) {
             return v;
         }
     }
 
     UMLView* v = 0;
-    foreach (UMLObject* o, m_objects ) {
+    foreach (UMLObject* o, m_objects) {
         if (o->baseType() != UMLObject::ot_Folder) {
             continue;
         }
@@ -188,7 +188,7 @@ UMLView *UMLFolder::findView(Uml::DiagramType::Enum type, const QString &name, b
 
     UMLView* v = 0;
     if (searchAllScopes) {
-        foreach (UMLObject* o, m_objects  ) {
+        foreach (UMLObject* o, m_objects ) {
             if (o->baseType() != UMLObject::ot_Folder) {
                 continue;
             }
@@ -208,7 +208,7 @@ UMLView *UMLFolder::findView(Uml::DiagramType::Enum type, const QString &name, b
 void UMLFolder::setViewOptions(const Settings::OptionState& optionState)
 {
     // for each view update settings
-    foreach (UMLView* v, m_diagrams ) {
+    foreach (UMLView* v, m_diagrams) {
         v->umlScene()->setOptionState(optionState);
     }
 }
@@ -225,7 +225,7 @@ void UMLFolder::removeAllViews()
         f->removeAllViews();
     }
 
-    foreach (UMLView* v, m_diagrams ) {
+    foreach (UMLView* v, m_diagrams) {
         // TODO ------------------ check this code - bad: calling back to UMLDoc::removeView()
         v->umlScene()->removeAllAssociations(); // note : It may not be apparent, but when we remove all associations
         // from a view, it also causes any UMLAssociations that lack parent
@@ -265,12 +265,12 @@ void UMLFolder::saveContents(QDomDocument& qDoc, QDomElement& qElement)
     QDomElement ownedElement = qDoc.createElement("UML:Namespace.ownedElement");
     UMLObject *obj = 0;
     // Save contained objects if any.
-    for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
+    for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         obj = oit.next();
         obj->saveToXMI (qDoc, ownedElement);
     }
     // Save asscociations if any.
-    for (UMLObjectListIt ait(m_List); ait.hasNext(); ) {
+    for (UMLObjectListIt ait(m_List); ait.hasNext();) {
         obj = ait.next();
         obj->saveToXMI (qDoc, ownedElement);
     }
@@ -279,12 +279,12 @@ void UMLFolder::saveContents(QDomDocument& qDoc, QDomElement& qElement)
     if (m_diagrams.count()) {
         QDomElement diagramsElement = qDoc.createElement("diagrams");
 
-        foreach (UMLView* pView, m_diagrams ) {
+        foreach (UMLView* pView, m_diagrams) {
             pView->umlScene()->saveToXMI(qDoc, diagramsElement);
         }
         QDomElement extension = qDoc.createElement("XMI.extension");
         extension.setAttribute("xmi.extender", "umbrello");
-        extension.appendChild( diagramsElement );
+        extension.appendChild(diagramsElement);
         qElement.appendChild(extension);
     }
 }
@@ -418,7 +418,7 @@ bool UMLFolder::loadFolderFile(const QString& path)
     QDomDocument doc;
     QString error;
     int line;
-    if (!doc.setContent( data, false, &error, &line)) {
+    if (!doc.setContent(data, false, &error, &line)) {
         uError() << "Can not set content:" << error << " line:" << line;
         return false;
     }

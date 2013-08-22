@@ -296,7 +296,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
     if (multi) {
         ClassifierWidget *c = NULL;
         if (unique && (type == WidgetBase::wt_Class || type == WidgetBase::wt_Interface)) {
-            c = static_cast<ClassifierWidget *>( object );
+            c = static_cast<ClassifierWidget *>(object);
             makeMultiClassifierPopup(c);
         }
         insertSubMenuColor(object->useFillColor());
@@ -385,14 +385,14 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
     case WidgetBase::wt_Object:
         {
             //Used for sequence diagram and collaboration diagram widgets
-            insertSubMenuColor( object->useFillColor() );
+            insertSubMenuColor(object->useFillColor());
             if (object->umlScene() &&
                 object->umlScene()->type() == Uml::DiagramType::Sequence) {
                 addSeparator();
                 MenuType tabUp = mt_Up;
                 insert(mt_Up, Icon_Utils::SmallIcon(Icon_Utils::it_Arrow_Up), i18n("Move Up"));
                 insert(mt_Down, Icon_Utils::SmallIcon(Icon_Utils::it_Arrow_Down), i18n("Move Down"));
-                if ( !(static_cast<ObjectWidget*>(object))->canTabUp() ) {
+                if (!(static_cast<ObjectWidget*>(object))->canTabUp()) {
                     setActionEnabled(tabUp, false);
                 }
             }
@@ -431,11 +431,11 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
 
     case WidgetBase::wt_State:
         {
-            StateWidget* pState = static_cast< StateWidget *>( object );
+            StateWidget* pState = static_cast< StateWidget *>(object);
             if (pState->stateType() == StateWidget::Normal) {
                 insertSubMenuNew(mt_New_Activity);
             }
-            insertSubMenuColor( object->useFillColor() );
+            insertSubMenuColor(object->useFillColor());
             insertStdItems(false, type);
             switch (pState->stateType()) {
             case StateWidget::Normal:
@@ -473,13 +473,13 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
     case WidgetBase::wt_Activity:
         {
             ActivityWidget* pActivity = static_cast<ActivityWidget *>(object);
-            if( pActivity->activityType() == ActivityWidget::Normal
+            if(pActivity->activityType() == ActivityWidget::Normal
               || pActivity->activityType() == ActivityWidget::Invok
               || pActivity->activityType() == ActivityWidget::Param) {
-                insertSubMenuColor( object->useFillColor() );
+                insertSubMenuColor(object->useFillColor());
             }
             insertStdItems(false, type);
-            if( pActivity->activityType() == ActivityWidget::Normal
+            if(pActivity->activityType() == ActivityWidget::Normal
               || pActivity->activityType() == ActivityWidget::Invok
               || pActivity->activityType() == ActivityWidget::Param) {
                 insert(mt_Rename, i18n("Change Activity Name..."));
@@ -495,7 +495,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
             if (objWidget->objectNodeType() == ObjectNodeWidget::Buffer
               || objWidget->objectNodeType() == ObjectNodeWidget::Data
               || objWidget->objectNodeType() == ObjectNodeWidget::Flow) {
-                insertSubMenuColor( object->useFillColor() );
+                insertSubMenuColor(object->useFillColor());
             }
             insertStdItems(false, type);
             if (objWidget->objectNodeType() == ObjectNodeWidget::Buffer
@@ -544,7 +544,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
         break;
 
     case WidgetBase::wt_Text:
-        switch( (static_cast<FloatingTextWidget*>(object))->textRole() ) {
+        switch((static_cast<FloatingTextWidget*>(object))->textRole()) {
         case Uml::TextRole::MultiB:
             insertAssociationTextItem(i18n("Change Multiplicity..."), mt_Rename_MultiB);
             break;
@@ -590,9 +590,9 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
     }//end switch
 
     bool bCutState = UMLApp::app()->isCutCopyState();
-    setActionEnabled( mt_Cut, bCutState );
-    setActionEnabled( mt_Copy, bCutState );
-    setActionEnabled( mt_Paste, false );
+    setActionEnabled(mt_Cut, bCutState);
+    setActionEnabled(mt_Copy, bCutState);
+    setActionEnabled(mt_Paste, false);
     setupActionsData();
 }
 
@@ -706,7 +706,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
     case mt_Component_Diagram:
         {
             QAction* act = UMLApp::app()->actionCollection()->action("new_component_diagram");
-            //don't keep a local copy of pointer which resides somewhere else ( in this case - in actionCollection() )
+            //don't keep a local copy of pointer which resides somewhere else (in this case - in actionCollection())
             //m_actions[m] = act;
             menu->addAction(act);
         }
@@ -754,7 +754,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
         }
         break;
     case mt_FloatText:
-        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Text), i18n("Text Line..." ));
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Text), i18n("Text Line..."));
         break;
     default:
         uWarning() << "called on unimplemented MenuType " << toString(m);
@@ -991,7 +991,7 @@ void ListPopupMenu::insertLayoutItems(UMLView *view)
             foreach(const QString &key, configFiles.keys()) {
                 if (i >= types.size())
                     break;
-                if (key == "export" && !Settings::optionState().autoLayoutState.showExportLayout )
+                if (key == "export" && !Settings::optionState().autoLayoutState.showExportLayout)
                     continue;
                 insert(types[i], QPixmap(), i18n("apply '%1'",configFiles[key]));
                 QAction* action = getAction(types[i]);
@@ -1060,7 +1060,7 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
     if (type == WidgetBase::wt_Class)
         insert(mt_Attribute, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Attribute), i18n("Attribute..."));
     insert(mt_Operation, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Method), i18n("Operation..."));
-    insert(mt_Template, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Template_New), i18n( "Template..." ));
+    insert(mt_Template, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Template_New), i18n("Template..."));
     addMenu(menu);
 
     makeMultiClassifierPopup(c);
@@ -1278,8 +1278,8 @@ void ListPopupMenu::insertSubMenuNew(MenuType type)
             insert(mt_EntityRelationship_Diagram, menu);
             break;
         case mt_On_UseCase_Diagram:
-            insert(mt_Actor, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Actor), i18n( "Actor..." ));
-            insert(mt_UseCase, menu, Icon_Utils::SmallIcon(Icon_Utils::it_UseCase), i18n( "Use Case..."));
+            insert(mt_Actor, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Actor), i18n("Actor..."));
+            insert(mt_UseCase, menu, Icon_Utils::SmallIcon(Icon_Utils::it_UseCase), i18n("Use Case..."));
             insert(mt_FloatText, menu);
             break;
         case mt_On_Class_Diagram:
@@ -1483,7 +1483,7 @@ void ListPopupMenu::setupMenu(MenuType type)
     case mt_On_UseCase_Diagram:
         insertSubMenuNew(type);
         addSeparator();
-        if ( m_TriggerObjectType != tot_View ) {
+        if (m_TriggerObjectType != tot_View) {
             uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType;
             return;
         }
@@ -1493,7 +1493,7 @@ void ListPopupMenu::setupMenu(MenuType type)
     case mt_On_Class_Diagram:
         insertSubMenuNew(type);
         addSeparator();
-        if ( m_TriggerObjectType != tot_View ) {
+        if (m_TriggerObjectType != tot_View) {
             uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType;
             return;
         }
@@ -1503,7 +1503,7 @@ void ListPopupMenu::setupMenu(MenuType type)
     case mt_On_State_Diagram:
         insertSubMenuNew(type);
         addSeparator();
-        if ( m_TriggerObjectType != tot_View ) {
+        if (m_TriggerObjectType != tot_View) {
             uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType;
             return;
         }
@@ -1513,7 +1513,7 @@ void ListPopupMenu::setupMenu(MenuType type)
     case mt_On_Activity_Diagram:
         insertSubMenuNew(type);
         addSeparator();
-        if ( m_TriggerObjectType != tot_View ) {
+        if (m_TriggerObjectType != tot_View) {
             uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType;
             return;
         }
@@ -1523,7 +1523,7 @@ void ListPopupMenu::setupMenu(MenuType type)
     case mt_On_Component_Diagram:
         insertSubMenuNew(type);
         addSeparator();
-        if ( m_TriggerObjectType != tot_View ) {
+        if (m_TriggerObjectType != tot_View) {
             uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType;
             return;
         }
@@ -1533,7 +1533,7 @@ void ListPopupMenu::setupMenu(MenuType type)
     case mt_On_Deployment_Diagram:
         insertSubMenuNew(type);
         addSeparator();
-        if ( m_TriggerObjectType != tot_View ) {
+        if (m_TriggerObjectType != tot_View) {
             uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType;
             return;
         }
@@ -1543,7 +1543,7 @@ void ListPopupMenu::setupMenu(MenuType type)
     case mt_On_EntityRelationship_Diagram:
         insertSubMenuNew(type);
         addSeparator();
-        if ( m_TriggerObjectType != tot_View ) {
+        if (m_TriggerObjectType != tot_View) {
             uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType;
             return;
         }
@@ -1554,7 +1554,7 @@ void ListPopupMenu::setupMenu(MenuType type)
     case mt_On_Collaboration_Diagram:
         insertSubMenuNew(type);
         addSeparator();
-        if ( m_TriggerObjectType != tot_View ) {
+        if (m_TriggerObjectType != tot_View) {
             uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType;
             return;
         }
@@ -1623,7 +1623,7 @@ void ListPopupMenu::setupMenu(MenuType type)
     case mt_Operation:
     case mt_Template:
         insertStdItems(false);
-        insert( mt_Properties );
+        insert(mt_Properties);
         break;
 
     case mt_Category:
@@ -1800,13 +1800,13 @@ void ListPopupMenu::setupMenu(MenuType type)
         break;
     }//end switch
 
-    if( m_TriggerObjectType == tot_View ) {
+    if(m_TriggerObjectType == tot_View) {
         bool bCutState = UMLApp::app()->isCutCopyState();
-        setActionEnabled( mt_Undo, UMLApp::app()->isUndoEnabled() );
-        setActionEnabled( mt_Redo, UMLApp::app()->isRedoEnabled() );
-        setActionEnabled( mt_Cut, bCutState );
-        setActionEnabled( mt_Copy, bCutState );
-        setActionEnabled( mt_Paste, UMLApp::app()->isPasteState() );
+        setActionEnabled(mt_Undo, UMLApp::app()->isUndoEnabled());
+        setActionEnabled(mt_Redo, UMLApp::app()->isRedoEnabled());
+        setActionEnabled(mt_Cut, bCutState);
+        setActionEnabled(mt_Copy, bCutState);
+        setActionEnabled(mt_Paste, UMLApp::app()->isPasteState());
     }
 
 }
@@ -1828,9 +1828,9 @@ void ListPopupMenu::setupDiagramMenu(UMLView* view)
     addSeparator();
     insertLayoutItems(view);
     insert(mt_SnapToGrid, i18n("Snap to Grid"), CHECKABLE);
-    setActionChecked(mt_SnapToGrid, view->umlScene()->snapToGrid() );
+    setActionChecked(mt_SnapToGrid, view->umlScene()->snapToGrid());
     insert(mt_ShowSnapGrid, i18n("Show Grid"), CHECKABLE);
-    setActionChecked(mt_ShowSnapGrid, view->umlScene()->isSnapGridVisible() );
+    setActionChecked(mt_ShowSnapGrid, view->umlScene()->isSnapGridVisible());
     insert(mt_Properties);
 }
 
@@ -1844,9 +1844,9 @@ KMenu* ListPopupMenu::makeCategoryTypeMenu(UMLCategory* category)
     insert(mt_DisjointSpecialisation, catTypeMenu, i18n("Disjoint(Specialisation)"), CHECKABLE);
     insert(mt_OverlappingSpecialisation, catTypeMenu, i18n("Overlapping(Specialisation)"), CHECKABLE);
     insert(mt_Union, catTypeMenu, i18n("Union"), CHECKABLE);
-    setActionChecked(mt_DisjointSpecialisation, category->getType()==UMLCategory::ct_Disjoint_Specialisation );
-    setActionChecked(mt_OverlappingSpecialisation, category->getType()==UMLCategory::ct_Overlapping_Specialisation );
-    setActionChecked(mt_Union, category->getType()==UMLCategory::ct_Union );
+    setActionChecked(mt_DisjointSpecialisation, category->getType()==UMLCategory::ct_Disjoint_Specialisation);
+    setActionChecked(mt_OverlappingSpecialisation, category->getType()==UMLCategory::ct_Overlapping_Specialisation);
+    setActionChecked(mt_Union, category->getType()==UMLCategory::ct_Union);
 
     return catTypeMenu;
 }
@@ -1872,11 +1872,11 @@ QAction* ListPopupMenu::getAction(MenuType idx)
  */
 ListPopupMenu::MenuType ListPopupMenu::getMenuType(QAction* action)
 {
-    QList<MenuType> keyList = m_actions.keys( action );
-    if ( keyList.empty() || /* all key-value pairs are unique*/ keyList.count() > 1 ) {
+    QList<MenuType> keyList = m_actions.keys(action);
+    if (keyList.empty() || /* all key-value pairs are unique*/ keyList.count() > 1) {
         return mt_Undefined;
     } else {
-        // we return the first ( only ) value
+        // we return the first (only) value
         return keyList.first();
     }
 }

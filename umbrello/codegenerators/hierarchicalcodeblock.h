@@ -24,37 +24,37 @@ class HierarchicalCodeBlock : public CodeBlockWithComments, public CodeGenObject
     friend class CodeGenObjectWithTextBlocks;
 public:
 
-    explicit HierarchicalCodeBlock ( CodeDocument * doc , const QString &startString = "", const QString &endString = "", const QString &comment = "");
+    explicit HierarchicalCodeBlock (CodeDocument * doc , const QString &startString = "", const QString &endString = "", const QString &comment = "");
 
     /**
      * Empty Destructor
      */
-    virtual ~HierarchicalCodeBlock ( );
+    virtual ~HierarchicalCodeBlock ();
 
-    void setEndText ( const QString &new_var );
+    void setEndText (const QString &new_var);
 
-    QString getEndText ( ) const;
+    QString getEndText () const;
 
-    bool addTextBlock ( TextBlock * add_object );
+    bool addTextBlock (TextBlock * add_object);
 
     bool insertTextBlock (TextBlock * newBlock, TextBlock * existingBlock, bool after = true);
 
-    bool removeTextBlock ( TextBlock * remove_object );
+    bool removeTextBlock (TextBlock * remove_object);
 
-    void setStartText ( const QString &text );
+    void setStartText (const QString &text);
 
-    QString getStartText ( ) const;
+    QString getStartText () const;
 
-    virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
+    virtual void saveToXMI (QDomDocument & doc, QDomElement & root);
 
-    virtual void loadFromXMI ( QDomElement & root );
+    virtual void loadFromXMI (QDomElement & root);
 
-    virtual QString toString ( ) const;
+    virtual QString toString () const;
 
     QString getUniqueTag();
-    QString getUniqueTag( const QString& prefix );
+    QString getUniqueTag(const QString& prefix);
 
-    void addCodeClassFieldMethods ( CodeClassFieldList &list );
+    void addCodeClassFieldMethods (CodeClassFieldList &list);
 
     virtual CodeBlock * newCodeBlock();
     virtual CodeBlockWithComments * newCodeBlockWithComments();
@@ -64,13 +64,13 @@ protected:
 
     virtual void release ();
 
-    virtual void setAttributesOnNode (QDomDocument & doc, QDomElement & elem );
+    virtual void setAttributesOnNode (QDomDocument & doc, QDomElement & elem);
 
-    virtual void setAttributesFromNode ( QDomElement & element);
+    virtual void setAttributesFromNode (QDomElement & element);
 
     virtual void setAttributesFromObject (TextBlock * obj);
 
-    TextBlock * findCodeClassFieldTextBlockByTag ( const QString &tag );
+    TextBlock * findCodeClassFieldTextBlockByTag (const QString &tag);
 
 private:
 
@@ -78,7 +78,7 @@ private:
     QString m_endText;
 
     QString childTextBlocksToString() const;
-    void initAttributes ( ) ;
+    void initAttributes () ;
 
 };
 

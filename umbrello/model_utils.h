@@ -38,12 +38,12 @@ bool isCloneable(WidgetBase::WidgetType type);
 
 UMLObject* findObjectInList(Uml::ID::Type id, const UMLObjectList& inList);
 
-UMLObject* findUMLObject( const UMLObjectList& inList,
+UMLObject* findUMLObject(const UMLObjectList& inList,
                           const QString& name,
                           UMLObject::ObjectType type = UMLObject::ot_UMLObject,
                           UMLObject *currentObj = 0);
 
-UMLObject* findUMLObjectRaw( const UMLObjectList& inList,
+UMLObject* findUMLObjectRaw(const UMLObjectList& inList,
                              const QString& name,
                              UMLObject::ObjectType type = UMLObject::ot_UMLObject,
                              UMLObject *currentObj = 0);

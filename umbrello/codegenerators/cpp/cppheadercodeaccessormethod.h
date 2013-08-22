@@ -26,12 +26,12 @@ public:
     /**
      * Empty Constructor
      */
-    CPPHeaderCodeAccessorMethod ( CodeClassField * field, CodeAccessorMethod::AccessorType type);
+    CPPHeaderCodeAccessorMethod (CodeClassField * field, CodeAccessorMethod::AccessorType type);
 
     /**
      * Empty Destructor
      */
-    virtual ~CPPHeaderCodeAccessorMethod ( );
+    virtual ~CPPHeaderCodeAccessorMethod ();
 
     /**
      * Must be called before this object is usable

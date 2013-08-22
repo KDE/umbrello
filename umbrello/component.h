@@ -33,13 +33,13 @@ public:
 
     virtual UMLObject* clone() const;
 
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
     void setExecutable(bool executable);
     bool getExecutable();
 
 protected:
-    bool load( QDomElement & element );
+    bool load(QDomElement & element);
 
 private:
     bool m_executable;  ///< holds whether this is an executable component or not

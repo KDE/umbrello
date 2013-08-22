@@ -87,7 +87,7 @@ QLatin1String WidgetBase::baseTypeStr() const
 
 /**
  * Deliver a pointer to the connected UMLView
- * ( needed esp. by event handling of AssociationLine ).
+ * (needed esp. by event handling of AssociationLine).
  */
 UMLScene* WidgetBase::umlScene() const
 {
@@ -169,7 +169,7 @@ QString WidgetBase::documentation() const
 void WidgetBase::setDocumentation(const QString& doc)
 {
     if (m_umlObject)
-        m_umlObject->setDoc( doc );
+        m_umlObject->setDoc(doc);
     else
         m_Doc = doc;
 }
@@ -455,17 +455,17 @@ void WidgetBase::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
  {
     Q_UNUSED(qDoc)
 
-    qElement.setAttribute( "textcolor", m_usesDiagramTextColor ? "none" : m_textColor.name() );
+    qElement.setAttribute("textcolor", m_usesDiagramTextColor ? "none" : m_textColor.name());
 
     if (m_usesDiagramLineColor) {
-        qElement.setAttribute( "linecolor", "none" );
+        qElement.setAttribute("linecolor", "none");
     } else {
-        qElement.setAttribute( "linecolor", m_lineColor.name() );
+        qElement.setAttribute("linecolor", m_lineColor.name());
     }
     if (m_usesDiagramLineWidth) {
-        qElement.setAttribute( "linewidth", "none" );
+        qElement.setAttribute("linewidth", "none");
     } else {
-        qElement.setAttribute( "linewidth", m_lineWidth );
+        qElement.setAttribute("linewidth", m_lineWidth);
     }
     qElement.setAttribute("usefillcolor", m_useFillColor);
     // for consistency the following attributes now use american spelling for "color"
@@ -495,29 +495,29 @@ bool WidgetBase::loadFromXMI(QDomElement& qElement)
     // first load from "linecolour" and then overwrite with the "linecolor"
     // attribute if that one is present. The "linecolour" name was a "typo" in
     // earlier versions of Umbrello
-    QString lineColor = qElement.attribute( "linecolour", "none" );
-    lineColor = qElement.attribute( "linecolor", lineColor );
+    QString lineColor = qElement.attribute("linecolour", "none");
+    lineColor = qElement.attribute("linecolor", lineColor);
     if (lineColor != "none") {
-        setLineColor( QColor(lineColor) );
+        setLineColor(QColor(lineColor));
         m_usesDiagramLineColor = false;
     } else if (m_baseType != WidgetBase::wt_Box && m_scene != NULL) {
-        setLineColor( m_scene->lineColor() );
+        setLineColor(m_scene->lineColor());
         m_usesDiagramLineColor = true;
     }
-    QString lineWidth = qElement.attribute( "linewidth", "none" );
+    QString lineWidth = qElement.attribute("linewidth", "none");
     if (lineWidth != "none") {
-        setLineWidth( lineWidth.toInt() );
+        setLineWidth(lineWidth.toInt());
         m_usesDiagramLineWidth = false;
-    } else if ( m_scene ) {
-        setLineWidth( m_scene->lineWidth() );
+    } else if (m_scene) {
+        setLineWidth(m_scene->lineWidth());
         m_usesDiagramLineWidth = true;
     }
-    QString textColor = qElement.attribute( "textcolor", "none" );
+    QString textColor = qElement.attribute("textcolor", "none");
     if (textColor != "none") {
-        setTextColor( QColor(textColor) );
+        setTextColor(QColor(textColor));
         m_usesDiagramTextColor = false;
-    } else if ( m_scene ) {
-        setTextColor( m_scene->textColor() );
+    } else if (m_scene) {
+        setTextColor(m_scene->textColor());
         m_usesDiagramTextColor = true;
     }
     QString usefillcolor = qElement.attribute("usefillcolor", "1");

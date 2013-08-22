@@ -145,10 +145,10 @@ bool CodeGenStatusPage::isComplete() const
  */
 void CodeGenStatusPage::classGenerated(UMLClassifier* concept, bool generated)
 {
-    QList<QTableWidgetItem*> items = ui_tableWidgetStatus->findItems( concept->fullyQualifiedName(), Qt::MatchFixedString );
+    QList<QTableWidgetItem*> items = ui_tableWidgetStatus->findItems(concept->fullyQualifiedName(), Qt::MatchFixedString);
     if (items.count() > 0) {
         QTableWidgetItem* item = items.at(0);
-        if ( !item ) {
+        if (!item) {
             uError() << "Code Generation Status Page::Error finding class in list view!";
         }
         else {
@@ -156,11 +156,11 @@ void CodeGenStatusPage::classGenerated(UMLClassifier* concept, bool generated)
             QTableWidgetItem* status = ui_tableWidgetStatus->item(row, 1);
             LedStatus* led = (LedStatus*)ui_tableWidgetStatus->cellWidget(row, 2);
             if (generated) {
-                status->setText( i18n("Code Generated") );
+                status->setText(i18n("Code Generated"));
                 led->setOn(true);
             }
             else {
-                status->setText( i18n("Not Generated") );
+                status->setText(i18n("Not Generated"));
                 led->setColor(Qt::red);
                 led->setOn(true);
             }

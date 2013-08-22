@@ -79,15 +79,15 @@ void CodeClassFieldDeclarationBlock::forceRelease()
  */
 void CodeClassFieldDeclarationBlock::saveToXMI(QDomDocument & doc, QDomElement & elem)
 {
-    QDomElement docElement = doc.createElement( "ccfdeclarationcodeblock" );
+    QDomElement docElement = doc.createElement("ccfdeclarationcodeblock");
     setAttributesOnNode(doc, docElement);
-    elem.appendChild( docElement );
+    elem.appendChild(docElement);
 }
 
 /**
  * Load params from the appropriate XMI element node.
  */
-void CodeClassFieldDeclarationBlock::loadFromXMI ( QDomElement & root )
+void CodeClassFieldDeclarationBlock::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -96,7 +96,7 @@ void CodeClassFieldDeclarationBlock::loadFromXMI ( QDomElement & root )
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void CodeClassFieldDeclarationBlock::setAttributesOnNode (QDomDocument & doc, QDomElement & elem )
+void CodeClassFieldDeclarationBlock::setAttributesOnNode (QDomDocument & doc, QDomElement & elem)
 {
     // set super-class attributes
     CodeBlockWithComments::setAttributesOnNode(doc, elem);
@@ -107,7 +107,7 @@ void CodeClassFieldDeclarationBlock::setAttributesOnNode (QDomDocument & doc, QD
  * Set the class attributes of this object from
  * the passed element node.
  */
-void CodeClassFieldDeclarationBlock::setAttributesFromNode( QDomElement & root )
+void CodeClassFieldDeclarationBlock::setAttributesFromNode(QDomElement & root)
 {
     // set attributes from the XMI
     CodeBlockWithComments::setAttributesFromNode(root); // superclass load

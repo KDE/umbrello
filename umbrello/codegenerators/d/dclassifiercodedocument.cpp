@@ -135,10 +135,10 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
     QDomNode tnode = root.firstChild();
     QDomElement telement = tnode.toElement();
     bool loadCheckForChildrenOK = false;
-    while( !telement.isNull() ) {
+    while(!telement.isNull()) {
         QString nodeName = telement.tagName();
 
-        if( nodeName == "textblocks" ) {
+        if(nodeName == "textblocks") {
 
             QDomNode node = telement.firstChild();
             QDomElement element = node.toElement();
@@ -146,10 +146,10 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
             // if there is nothing to begin with, then we don't worry about it
             loadCheckForChildrenOK = element.isNull() ? true : false;
 
-            while( !element.isNull() ) {
+            while(!element.isNull()) {
                 QString name = element.tagName();
 
-                if( name == "codecomment" ) {
+                if(name == "codecomment") {
                     CodeComment * block = new DCodeComment(this);
                     block->loadFromXMI(element);
                     if(!addTextBlock(block))
@@ -159,9 +159,9 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     } else
                         loadCheckForChildrenOK= true;
                 } else
-                    if( name == "codeaccessormethod" ||
+                    if(name == "codeaccessormethod" ||
                             name == "ccfdeclarationcodeblock"
-                      ) {
+                     ) {
                         QString acctag = element.attribute("tag","");
                         // search for our method in the
                         TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
@@ -173,7 +173,7 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                             loadCheckForChildrenOK= true;
 
                     } else
-                        if( name == "codeblock" ) {
+                        if(name == "codeblock") {
                             CodeBlock * block = newCodeBlock();
                             block->loadFromXMI(element);
                             if(!addTextBlock(block))
@@ -183,7 +183,7 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                             } else
                                 loadCheckForChildrenOK= true;
                         } else
-                            if( name == "codeblockwithcomments" ) {
+                            if(name == "codeblockwithcomments") {
                                 CodeBlockWithComments * block = newCodeBlockWithComments();
                                 block->loadFromXMI(element);
                                 if(!addTextBlock(block))
@@ -193,10 +193,10 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                                 } else
                                     loadCheckForChildrenOK= true;
                             } else
-                                if( name == "header" ) {
+                                if(name == "header") {
                                     // do nothing.. this is treated elsewhere
                                 } else
-                                    if( name == "hierarchicalcodeblock" ) {
+                                    if(name == "hierarchicalcodeblock") {
                                         HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
                                         block->loadFromXMI(element);
                                         if(!addTextBlock(block))
@@ -206,7 +206,7 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                                         } else
                                             loadCheckForChildrenOK= true;
                                     } else
-                                        if( name == "codeoperation" ) {
+                                        if(name == "codeoperation") {
                                             // find the code operation by id
                                             QString id = element.attribute("parent_id","-1");
                                             UMLObject * obj = UMLApp::app()->document()->findObjectById(Uml::ID::fromString(id));
@@ -224,7 +224,7 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                                             } else
                                                 uError()<<"Unable to find operation create codeoperation for:"<<this;
                                         } else
-                                            if( name == "dclassdeclarationblock" )
+                                            if(name == "dclassdeclarationblock")
                                             {
                                                 DClassDeclarationBlock * block = getClassDecl();
                                                 block->loadFromXMI(element);
@@ -312,7 +312,7 @@ void DClassifierCodeDocument::updateContent()
     const CodeClassFieldList * cfList = getCodeClassFieldList();
     CodeClassFieldList::const_iterator it = cfList->begin();
     CodeClassFieldList::const_iterator end = cfList->end();
-    for( ; it != end; ++it ) {
+    for(; it != end; ++it) {
         CodeClassField * field = *it;
         if(field->parentIsAttribute())
             field->setWriteOutMethods(policy->getAutoGenerateAttribAccessors());
@@ -326,9 +326,9 @@ void DClassifierCodeDocument::updateContent()
     CodeClassFieldList attribClassFields = getSpecificClassFields (CodeClassField::Attribute, false);
     // association-based ClassFields
     // don't care if they are static or not..all are lumped together
-    CodeClassFieldList plainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation );
-    CodeClassFieldList aggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation );
-    CodeClassFieldList compositionClassFields = getSpecificClassFields ( CodeClassField::Composition );
+    CodeClassFieldList plainAssocClassFields = getSpecificClassFields (CodeClassField::PlainAssociation);
+    CodeClassFieldList aggregationClassFields = getSpecificClassFields (CodeClassField::Aggregation);
+    CodeClassFieldList compositionClassFields = getSpecificClassFields (CodeClassField::Composition);
 
     bool isInterface = parentIsInterface();
     bool hasOperationMethods = false;
@@ -361,7 +361,7 @@ void DClassifierCodeDocument::updateContent()
     // A: doesn't matter at all; it is more readable to just include '*' and d compilers
     //    don't slow down or anything. (TZ)
     QString importStatement = "";
-    if ( hasObjectVectorClassFields() )
+    if (hasObjectVectorClassFields())
         importStatement.append("import d.util.*;");
 
     //only import classes in a different package from this class
@@ -369,7 +369,7 @@ void DClassifierCodeDocument::updateContent()
     QMap<UMLPackage*, QString> packageMap; // so we don't repeat packages
 
     CodeGenerator::findObjectsRelated(c,imports);
-    for(UMLPackageListIt importsIt( imports ); importsIt.hasNext(); ) {
+    for(UMLPackageListIt importsIt(imports); importsIt.hasNext();) {
         UMLPackage *con = importsIt.next();
         // NO (default) datatypes in the import statement.. use defined
         // ones whould be possible, but no idea how to do that...at least for now.
@@ -460,7 +460,7 @@ void DClassifierCodeDocument::updateContent()
 
     // Update the comment: we only set comment to appear under the following conditions
     CodeComment * fcomment = fieldDeclBlock->getComment();
-    if (isInterface || (!forceDoc() && !hasClassFields()) )
+    if (isInterface || (!forceDoc() && !hasClassFields()))
         fcomment->setWriteOutText(false);
     else
         fcomment->setWriteOutText(true);
@@ -505,7 +505,7 @@ void DClassifierCodeDocument::updateContent()
 
     // add/get the empty constructor
     QString DClassName = getDClassName(c->name());
-    QString emptyConstStatement = "public "+DClassName+" ( ) { }";
+    QString emptyConstStatement = "public "+DClassName+" () { }";
     CodeBlockWithComments * emptyConstBlock =
         constBlock->addOrUpdateTaggedCodeBlockWithComments("emptyconstructor", emptyConstStatement, "Empty Constructor", 1, false);
     // Now, as an additional condition we only show the empty constructor block
@@ -550,7 +550,7 @@ void DClassifierCodeDocument::updateContent()
 
     // set conditions for showing section comment
     CodeComment * ocomment = operationsBlock->getComment();
-    if (!forceDoc() && !hasOperationMethods )
+    if (!forceDoc() && !hasOperationMethods)
         ocomment->setWriteOutText(false);
     else
         ocomment->setWriteOutText(true);

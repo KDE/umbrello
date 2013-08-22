@@ -93,9 +93,9 @@ void DCodeClassFieldDeclarationBlock::updateContent()
             if(cf->fieldIsSingleValue())
             {
                 if(!typeName.isEmpty())
-                    body.append(" = new " + typeName + " ( )");
+                    body.append(" = new " + typeName + " ()");
             } else
-                body.append(" = new Vector ( )");
+                body.append(" = new Vector ()");
         }
     }
 

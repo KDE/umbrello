@@ -51,7 +51,7 @@ ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
     setVisualProperty(ShowOperationSignature, ops.classState.showOpSig);
       Cannot do that because we get "pure virtual method called". Open code:
      */
-    if( !ops.classState.showOpSig ) {
+    if(!ops.classState.showOpSig) {
         if (visualProperty(ShowVisibility))
             m_operationSignature = Uml::SignatureType::NoSig;
         else
@@ -66,7 +66,7 @@ ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
     setVisualProperty(ShowStereotype, ops.classState.showStereoType);
     setVisualProperty(DrawAsCircle, false);
 
-    setShowAttSigs( ops.classState.showAttSig );
+    setShowAttSigs(ops.classState.showAttSig);
 
     if (c && c->isInterface()) {
         m_baseType = WidgetBase::wt_Interface;
@@ -325,7 +325,7 @@ void ClassifierWidget::setOperationSignature(Uml::SignatureType::Enum sig)
  */
 void ClassifierWidget::setShowAttSigs(bool _status)
 {
-    if( !_status ) {
+    if(!_status) {
         if (visualProperty(ShowVisibility))
             m_attributeSignature = Uml::SignatureType::NoSig;
         else
@@ -371,7 +371,7 @@ int ClassifierWidget::displayedMembers(UMLObject::ObjectType ot)
 {
     int count = 0;
     UMLClassifierListItemList list = classifier()->getFilteredList(ot);
-    foreach (UMLClassifierListItem *m , list ) {
+    foreach (UMLClassifierListItem *m , list) {
       if (!(visualProperty(ShowPublicOnly) && m->visibility() != Uml::Visibility::Public))
             count++;
     }
@@ -426,7 +426,7 @@ UMLSceneSize ClassifierWidget::minimumSize()
         height += fontHeight * numAtts;
         // calculate width of the attributes
         UMLClassifierListItemList list = classifier()->getFilteredList(UMLObject::ot_Attribute);
-        foreach (UMLClassifierListItem *a , list ) {
+        foreach (UMLClassifierListItem *a , list) {
             if (visualProperty(ShowPublicOnly) && a->visibility() != Uml::Visibility::Public)
                 continue;
             const int attWidth = fm.size(0,a->toString(m_attributeSignature)).width();
@@ -500,8 +500,8 @@ QSize ClassifierWidget::calculateTemplatesBoxSize()
     int width = 0;
     int height = count * fm.lineSpacing() + (MARGIN*2);
 
-    foreach (UMLTemplate *t , list ) {
-        int textWidth = fm.size(0, t->toString() ).width();
+    foreach (UMLTemplate *t , list) {
+        int textWidth = fm.size(0, t->toString()).width();
         if (textWidth > width)
             width = textWidth;
     }
@@ -561,10 +561,10 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     Q_UNUSED(option);
     Q_UNUSED(widget);
     setPenFromSettings(painter);
-    if ( UMLWidget::useFillColor() )
-        painter->setBrush( UMLWidget::fillColor() );
+    if (UMLWidget::useFillColor())
+        painter->setBrush(UMLWidget::fillColor());
     else
-        painter->setBrush( m_scene->activeView()->viewport()->palette().color(QPalette::Background) );
+        painter->setBrush(m_scene->activeView()->viewport()->palette().color(QPalette::Background));
 
     if (classifier()->isInterface() && visualProperty(DrawAsCircle)) {
         drawAsCircle(painter);
@@ -592,19 +592,19 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
     //If there are any templates then draw them
     UMLTemplateList tlist = classifier()->getTemplateList();
-    if ( tlist.count() > 0 ) {
+    if (tlist.count() > 0) {
         setPenFromSettings(painter);
         QPen pen = painter->pen();
         pen.setStyle(Qt::DotLine);
         painter->setPen(pen);
         painter->drawRect(width() - templatesBoxSize.width(), 0,
-                    templatesBoxSize.width(), templatesBoxSize.height() );
-        painter->setPen( QPen(textColor()));
+                    templatesBoxSize.width(), templatesBoxSize.height());
+        painter->setPen(QPen(textColor()));
         font.setBold(false);
         painter->setFont(font);
         const int x = width() - templatesBoxSize.width() + MARGIN;
         int y = MARGIN;
-        foreach ( UMLTemplate *t , tlist ) {
+        foreach (UMLTemplate *t , tlist) {
             QString text = t->toString();
             painter->drawText(x, y, fm.size(0,text).width(), fontHeight, Qt::AlignVCenter, text);
             y += fontHeight;
@@ -641,7 +641,7 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     } else {
         name = this->name();
     }
-    font.setItalic( m_umlObject->isAbstract() );
+    font.setItalic(m_umlObject->isAbstract());
     painter->setFont(font);
     painter->drawText(textX, m_bodyOffsetY, textWidth, nameHeight, Qt::AlignCenter, name);
     if (!showNameOnly) {
@@ -700,7 +700,7 @@ void ClassifierWidget::drawAsCircle(QPainter *painter)
     }
 
     painter->drawEllipse(w/2 - CIRCLE_SIZE/2, 0, CIRCLE_SIZE, CIRCLE_SIZE);
-    painter->setPen( QPen(textColor()));
+    painter->setPen(QPen(textColor()));
 
     QFont font = UMLWidget::font();
     painter->setFont(font);
@@ -756,13 +756,13 @@ void ClassifierWidget::drawMembers(QPainter * painter, UMLObject::ObjectType ot,
     UMLClassifierListItemList list = classifier()->getFilteredList(ot);
     painter->setClipping(true);
     painter->setClipRect(rect());
-    foreach (UMLClassifierListItem *obj , list ) {
+    foreach (UMLClassifierListItem *obj , list) {
           if (visualProperty(ShowPublicOnly) && obj->visibility() != Uml::Visibility::Public)
             continue;
         QString text = obj->toString(sigType);
-        f.setItalic( obj->isAbstract() );
-        f.setUnderline( obj->isStatic() );
-        painter->setFont( f );
+        f.setItalic(obj->isAbstract());
+        f.setUnderline(obj->isStatic());
+        painter->setFont(f);
         QFontMetrics fontMetrics(f);
         painter->drawText(x, y, fontMetrics.size(0,text).width(), fontHeight, Qt::AlignVCenter, text);
         f.setItalic(false);
@@ -874,13 +874,13 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
         return false;
     }
 
-    QString showatts = qElement.attribute( "showattributes", "0" );
-    QString showops = qElement.attribute( "showoperations", "1" );
-    QString showpubliconly = qElement.attribute( "showpubliconly", "0" );
-    QString showattsigs = qElement.attribute( "showattsigs", "600" );
-    QString showopsigs = qElement.attribute( "showopsigs", "600" );
-    QString showpackage = qElement.attribute( "showpackage", "0" );
-    QString showscope = qElement.attribute( "showscope", "0" );
+    QString showatts = qElement.attribute("showattributes", "0");
+    QString showops = qElement.attribute("showoperations", "1");
+    QString showpubliconly = qElement.attribute("showpubliconly", "0");
+    QString showattsigs = qElement.attribute("showattsigs", "600");
+    QString showopsigs = qElement.attribute("showopsigs", "600");
+    QString showpackage = qElement.attribute("showpackage", "0");
+    QString showscope = qElement.attribute("showscope", "0");
     QString drawascircle = qElement.attribute("drawascircle", "0");
 
     setVisualProperty(ShowAttributes, (bool)showatts.toInt());
@@ -907,10 +907,10 @@ void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
         conceptElement = qDoc.createElement("interfacewidget");
     else
         conceptElement = qDoc.createElement("classwidget");
-    UMLWidget::saveToXMI( qDoc, conceptElement );
+    UMLWidget::saveToXMI(qDoc, conceptElement);
     conceptElement.setAttribute("showoperations", visualProperty(ShowOperations));
     conceptElement.setAttribute("showpubliconly", visualProperty(ShowPublicOnly));
-    conceptElement.setAttribute("showopsigs",     m_operationSignature );
+    conceptElement.setAttribute("showopsigs",     m_operationSignature);
     conceptElement.setAttribute("showpackage",    visualProperty(ShowPackage));
     conceptElement.setAttribute("showscope",      visualProperty(ShowVisibility));
     if (! umlc->isInterface()) {
@@ -919,7 +919,7 @@ void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     }
     if (umlc->isInterface() || umlc->isAbstract())
         conceptElement.setAttribute("drawascircle", visualProperty(DrawAsCircle));
-    qElement.appendChild( conceptElement );
+    qElement.appendChild(conceptElement);
 }
 
 /**

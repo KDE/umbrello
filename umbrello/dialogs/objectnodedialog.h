@@ -33,7 +33,7 @@ class ObjectNodeDialog : public DialogBase
 {
     Q_OBJECT
 public:
-    ObjectNodeDialog( UMLView * pView, ObjectNodeWidget * pWidget );
+    ObjectNodeDialog(UMLView * pView, ObjectNodeWidget * pWidget);
 
     bool getChangesMade() {
         return m_bChangesMade;
@@ -54,7 +54,7 @@ protected:
 
     void showState();
 
-    void applyPage( KPageWidgetItem * );
+    void applyPage(KPageWidgetItem *);
 
     ObjectNodeWidget *m_pObjectNodeWidget;  ///< the widget to represent
     UMLView          *m_pView;              ///< the diagram the widget is on

@@ -19,7 +19,7 @@ UMLAttributeList::UMLAttributeList()
 }
 
 UMLAttributeList::UMLAttributeList(const UMLAttributeList& other)
-    : QList<UMLAttribute*>( other )
+    : QList<UMLAttribute*>(other)
 {
 }
 
@@ -42,7 +42,7 @@ void UMLAttributeList::copyInto(UMLAttributeList *rhs) const
     UMLAttributeList *tmp = new UMLAttributeList(*this);
 
     UMLAttribute *item;
-    for (UMLAttributeListIt ait( *tmp ); ait.hasNext() ; )
+    for (UMLAttributeListIt ait(*tmp); ait.hasNext() ;)
     {
         item = ait.next();
         rhs->append((UMLAttribute*)item->clone());

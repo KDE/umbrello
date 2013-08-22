@@ -185,7 +185,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
     if (imports.count()) {
         pas << "uses" << m_endl;
         bool first = true;
-        foreach (UMLPackage* con, imports ) {
+        foreach (UMLPackage* con, imports) {
             if (con->baseType() != UMLObject::ot_Datatype) {
                 if (first)
                     first = false;
@@ -205,10 +205,10 @@ void PascalWriter::writeClass(UMLClassifier *c)
         uint i = 0;
         pas << indent() << classname << " = (" << m_endl;
         m_indentLevel++;
-        foreach (UMLClassifierListItem *lit , litList ) {
+        foreach (UMLClassifierListItem *lit , litList) {
             QString enumLiteral = cleanName(lit->name());
             pas << indent() << enumLiteral;
-            if (++i < ( uint )litList.count())
+            if (++i < (uint)litList.count())
                 pas << "," << m_endl;
         }
         m_indentLevel--;
@@ -227,7 +227,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
 
                 pas << indent() << classname << " = record" << m_endl;
                 m_indentLevel++;
-                foreach (UMLAttribute* at , atl ) {
+                foreach (UMLAttribute* at , atl) {
                     QString name = cleanName(at->name());
                     QString typeName = at->getTypeName();
                     pas << indent() << name << " : " << typeName;
@@ -273,7 +273,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
     if (isClass && (forceSections() || atpub.count())) {
         pas << indent() << "// Public attributes:" << m_endl;
 
-        foreach ( UMLAttribute* at  , atpub ) {
+        foreach (UMLAttribute* at  , atpub) {
             // if (at->getStatic())
             //     continue;
             pas << indent() << cleanName(at->name()) << " : "
@@ -289,20 +289,20 @@ void PascalWriter::writeClass(UMLClassifier *c)
     UMLOperationList opl(c->getOpList());
     UMLOperationList oppub;
 
-    foreach (UMLOperation* op , opl ) {
+    foreach (UMLOperation* op , opl) {
          if (op->visibility() == Uml::Visibility::Public)
             oppub.append(op);
     }
     if (forceSections() || oppub.count())
         pas << indent() << "// Public methods:" << m_endl << m_endl;
-    foreach (UMLOperation* op , oppub )
+    foreach (UMLOperation* op , oppub)
         writeOperation(op, pas);
 
     UMLAttributeList atprot = c->getAttributeList(Uml::Visibility::Protected);
     if (atprot.count()) {
         pas << "protected" << m_endl << m_endl;
 
-        foreach (UMLAttribute*  at , atprot ) {
+        foreach (UMLAttribute*  at , atprot) {
             // if (at->getStatic())
             //     continue;
             pas << indent() << cleanName(at->name()) << " : "
@@ -318,7 +318,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
     if (atpriv.count()) {
         pas << "private" << m_endl << m_endl;
 
-        foreach (UMLAttribute* at , atpriv ) {
+        foreach (UMLAttribute* at , atpriv) {
             // if (at->getStatic())
             //     continue;
             pas << indent() << cleanName(at->name()) << " : "
@@ -367,7 +367,7 @@ void PascalWriter::writeOperation(UMLOperation *op, QTextStream &pas, bool is_co
         pas << "(" << m_endl;
         uint i = 0;
         m_indentLevel++;
-        foreach (UMLAttribute *at , atl ) {
+        foreach (UMLAttribute *at , atl) {
             pas << indent();
             if (is_comment)
                 pas << "// ";
@@ -461,121 +461,121 @@ QStringList PascalWriter::reservedKeywords() const
 {
     static QStringList keywords;
 
-    if ( keywords.isEmpty() ) {
-        keywords.append( "absolute" );
-        keywords.append( "abstract" );
-        keywords.append( "and" );
-        keywords.append( "array" );
-        keywords.append( "as" );
-        keywords.append( "asm" );
-        keywords.append( "assembler" );
-        keywords.append( "automated" );
-        keywords.append( "begin" );
-        keywords.append( "case" );
-        keywords.append( "cdecl" );
-        keywords.append( "class" );
-        keywords.append( "const" );
-        keywords.append( "constructor" );
-        keywords.append( "contains" );
-        keywords.append( "default" );
-        keywords.append( "deprecated" );
-        keywords.append( "destructor" );
-        keywords.append( "dispid" );
-        keywords.append( "dispinterface" );
-        keywords.append( "div" );
-        keywords.append( "do" );
-        keywords.append( "downto" );
-        keywords.append( "dynamic" );
-        keywords.append( "else" );
-        keywords.append( "end" );
-        keywords.append( "except" );
-        keywords.append( "export" );
-        keywords.append( "exports" );
-        keywords.append( "external" );
-        keywords.append( "far" );
-        keywords.append( "file" );
-        keywords.append( "final" );
-        keywords.append( "finalization" );
-        keywords.append( "finally" );
-        keywords.append( "for" );
-        keywords.append( "forward" );
-        keywords.append( "function" );
-        keywords.append( "goto" );
-        keywords.append( "if" );
-        keywords.append( "implementation" );
-        keywords.append( "implements" );
-        keywords.append( "in" );
-        keywords.append( "index" );
-        keywords.append( "inherited" );
-        keywords.append( "initialization" );
-        keywords.append( "inline" );
-        keywords.append( "inline" );
-        keywords.append( "interface" );
-        keywords.append( "is" );
-        keywords.append( "label" );
-        keywords.append( "library" );
-        keywords.append( "library" );
-        keywords.append( "local" );
-        keywords.append( "message" );
-        keywords.append( "mod" );
-        keywords.append( "name" );
-        keywords.append( "near" );
-        keywords.append( "nil" );
-        keywords.append( "nodefault" );
-        keywords.append( "not" );
-        keywords.append( "object" );
-        keywords.append( "of" );
-        keywords.append( "or" );
-        keywords.append( "out" );
-        keywords.append( "overload" );
-        keywords.append( "override" );
-        keywords.append( "package" );
-        keywords.append( "packed" );
-        keywords.append( "pascal" );
-        keywords.append( "platform" );
-        keywords.append( "private" );
-        keywords.append( "procedure" );
-        keywords.append( "program" );
-        keywords.append( "property" );
-        keywords.append( "protected" );
-        keywords.append( "public" );
-        keywords.append( "published" );
-        keywords.append( "raise" );
-        keywords.append( "read" );
-        keywords.append( "readonly" );
-        keywords.append( "record" );
-        keywords.append( "register" );
-        keywords.append( "reintroduce" );
-        keywords.append( "repeat" );
-        keywords.append( "requires" );
-        keywords.append( "resident" );
-        keywords.append( "resourcestring" );
-        keywords.append( "safecall" );
-        keywords.append( "sealed" );
-        keywords.append( "set" );
-        keywords.append( "shl" );
-        keywords.append( "shr" );
-        keywords.append( "static" );
-        keywords.append( "stdcall" );
-        keywords.append( "stored" );
-        keywords.append( "string" );
-        keywords.append( "then" );
-        keywords.append( "threadvar" );
-        keywords.append( "to" );
-        keywords.append( "try" );
-        keywords.append( "type" );
-        keywords.append( "unit" );
-        keywords.append( "unsafe" );
-        keywords.append( "until" );
-        keywords.append( "uses" );
-        keywords.append( "var" );
-        keywords.append( "varargs" );
-        keywords.append( "virtual" );
-        keywords.append( "while" );
-        keywords.append( "with" );
-        keywords.append( "write" );
-        keywords.append( "writeonly" );
-        keywords.append( "xor" );
+    if (keywords.isEmpty()) {
+        keywords.append("absolute");
+        keywords.append("abstract");
+        keywords.append("and");
+        keywords.append("array");
+        keywords.append("as");
+        keywords.append("asm");
+        keywords.append("assembler");
+        keywords.append("automated");
+        keywords.append("begin");
+        keywords.append("case");
+        keywords.append("cdecl");
+        keywords.append("class");
+        keywords.append("const");
+        keywords.append("constructor");
+        keywords.append("contains");
+        keywords.append("default");
+        keywords.append("deprecated");
+        keywords.append("destructor");
+        keywords.append("dispid");
+        keywords.append("dispinterface");
+        keywords.append("div");
+        keywords.append("do");
+        keywords.append("downto");
+        keywords.append("dynamic");
+        keywords.append("else");
+        keywords.append("end");
+        keywords.append("except");
+        keywords.append("export");
+        keywords.append("exports");
+        keywords.append("external");
+        keywords.append("far");
+        keywords.append("file");
+        keywords.append("final");
+        keywords.append("finalization");
+        keywords.append("finally");
+        keywords.append("for");
+        keywords.append("forward");
+        keywords.append("function");
+        keywords.append("goto");
+        keywords.append("if");
+        keywords.append("implementation");
+        keywords.append("implements");
+        keywords.append("in");
+        keywords.append("index");
+        keywords.append("inherited");
+        keywords.append("initialization");
+        keywords.append("inline");
+        keywords.append("inline");
+        keywords.append("interface");
+        keywords.append("is");
+        keywords.append("label");
+        keywords.append("library");
+        keywords.append("library");
+        keywords.append("local");
+        keywords.append("message");
+        keywords.append("mod");
+        keywords.append("name");
+        keywords.append("near");
+        keywords.append("nil");
+        keywords.append("nodefault");
+        keywords.append("not");
+        keywords.append("object");
+        keywords.append("of");
+        keywords.append("or");
+        keywords.append("out");
+        keywords.append("overload");
+        keywords.append("override");
+        keywords.append("package");
+        keywords.append("packed");
+        keywords.append("pascal");
+        keywords.append("platform");
+        keywords.append("private");
+        keywords.append("procedure");
+        keywords.append("program");
+        keywords.append("property");
+        keywords.append("protected");
+        keywords.append("public");
+        keywords.append("published");
+        keywords.append("raise");
+        keywords.append("read");
+        keywords.append("readonly");
+        keywords.append("record");
+        keywords.append("register");
+        keywords.append("reintroduce");
+        keywords.append("repeat");
+        keywords.append("requires");
+        keywords.append("resident");
+        keywords.append("resourcestring");
+        keywords.append("safecall");
+        keywords.append("sealed");
+        keywords.append("set");
+        keywords.append("shl");
+        keywords.append("shr");
+        keywords.append("static");
+        keywords.append("stdcall");
+        keywords.append("stored");
+        keywords.append("string");
+        keywords.append("then");
+        keywords.append("threadvar");
+        keywords.append("to");
+        keywords.append("try");
+        keywords.append("type");
+        keywords.append("unit");
+        keywords.append("unsafe");
+        keywords.append("until");
+        keywords.append("uses");
+        keywords.append("var");
+        keywords.append("varargs");
+        keywords.append("virtual");
+        keywords.append("while");
+        keywords.append("with");
+        keywords.append("write");
+        keywords.append("writeonly");
+        keywords.append("xor");
     }
 
     return keywords;

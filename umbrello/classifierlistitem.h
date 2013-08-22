@@ -40,7 +40,7 @@ public:
     virtual void setType(UMLObject *type);
     UMLClassifier * getType() const;
 
-    void setTypeName( const QString &type );
+    void setTypeName(const QString &type);
     virtual QString getTypeName() const;
 
     virtual QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig);

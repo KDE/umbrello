@@ -88,7 +88,7 @@ void DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDir)
 
     umlDoc->writeToStatusBar(i18n("Generating Docbook..."));
 
-    docbookGeneratorJob = new DocbookGeneratorJob( this );
+    docbookGeneratorJob = new DocbookGeneratorJob(this);
     connect(docbookGeneratorJob, SIGNAL(docbookGenerated(QString)), this, SLOT(slotDocbookGenerationFinished(QString)));
     connect(docbookGeneratorJob, SIGNAL(finished()), this, SLOT(threadFinished()));
     uDebug()<<"Threading";
@@ -105,7 +105,7 @@ void DocbookGenerator::slotDocbookGenerationFinished(const QString& tmpFileName)
     url.addPath(fileName);
 
     KIO::Job* job = KIO::file_copy(KUrl::fromPath(tmpFileName), url, -1, KIO::Overwrite | KIO::HideProgressInfo);
-    if ( KIO::NetAccess::synchronousRun( job, (QWidget*)UMLApp::app() ) ) {
+    if (KIO::NetAccess::synchronousRun(job, (QWidget*)UMLApp::app())) {
         umlDoc->writeToStatusBar(i18n("Docbook Generation Complete..."));
         m_pStatus = true;
     } else {
@@ -113,7 +113,7 @@ void DocbookGenerator::slotDocbookGenerationFinished(const QString& tmpFileName)
         m_pStatus = false;
     }
 
-    while ( m_pThreadFinished == false ) {
+    while (m_pThreadFinished == false) {
         // wait for thread to finish
         qApp->processEvents();
     }

@@ -519,7 +519,7 @@ bool umbrellify(PetalNode *node, const QString& modelsName, UMLListViewItem *par
 
     if (objType == "Class_Category") {
         UMLListViewItem::ListViewType lvType = folderType(parent);
-        item = new UMLListViewItem( parent, name, lvType, id );
+        item = new UMLListViewItem(parent, name, lvType, id);
     } else if (objType == "Class") {
         QString stereotype = clean(node->findAttribute("stereotype").string);
         if (stereotype == "Actor") {

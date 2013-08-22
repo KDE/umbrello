@@ -27,11 +27,11 @@
 UMLCheckConstraintDialog::UMLCheckConstraintDialog(QWidget* parent, UMLCheckConstraint* pCheckConstraint)
   : KDialog(parent)
 {
-    setCaption( i18n("Check Constraint Properties") );
-    setButtons( Help | Ok | Cancel );
-    setDefaultButton( Ok );
-    setModal( true );
-    showButtonSeparator( true );
+    setCaption(i18n("Check Constraint Properties"));
+    setButtons(Help | Ok | Cancel);
+    setDefaultButton(Ok);
+    setModal(true);
+    showButtonSeparator(true);
 
     m_pCheckConstraint = pCheckConstraint;
     m_doc = UMLApp::app()->document();
@@ -49,38 +49,38 @@ UMLCheckConstraintDialog::~UMLCheckConstraintDialog()
  */
 void UMLCheckConstraintDialog::setupDialog()
 {
-    QFrame *frame = new QFrame( this );
-    setMainWidget( frame );
+    QFrame *frame = new QFrame(this);
+    setMainWidget(frame);
 
     //main layout contains the name fields, the text field
-    QVBoxLayout* mainLayout = new QVBoxLayout( frame );
+    QVBoxLayout* mainLayout = new QVBoxLayout(frame);
     mainLayout->setSpacing(15);
 
     // layout to hold the name label and line edit
     QHBoxLayout* nameLayout = new QHBoxLayout();
-    mainLayout->addItem( nameLayout );
+    mainLayout->addItem(nameLayout);
 
     // name label
-    m_pNameL = new QLabel( i18nc("name label", "Name"), this );
-    nameLayout->addWidget( m_pNameL );
+    m_pNameL = new QLabel(i18nc("name label", "Name"), this);
+    nameLayout->addWidget(m_pNameL);
     // name lineEdit
-    m_pNameLE = new KLineEdit( this );
-    nameLayout->addWidget( m_pNameLE );
+    m_pNameLE = new KLineEdit(this);
+    nameLayout->addWidget(m_pNameLE);
 
     QVBoxLayout* checkConditionLayout = new QVBoxLayout();
-    mainLayout->addItem( checkConditionLayout );
+    mainLayout->addItem(checkConditionLayout);
 
-    m_pCheckConditionL = new QLabel( i18n( "Check Condition :" ), frame );
-    checkConditionLayout->addWidget( m_pCheckConditionL );
+    m_pCheckConditionL = new QLabel(i18n("Check Condition :"), frame);
+    checkConditionLayout->addWidget(m_pCheckConditionL);
 
-    m_pCheckConditionTE = new KTextEdit( frame );
-    checkConditionLayout->addWidget( m_pCheckConditionTE );
+    m_pCheckConditionTE = new KTextEdit(frame);
+    checkConditionLayout->addWidget(m_pCheckConditionTE);
 
     // set text of text edit
     m_pCheckConditionTE->setText(m_pCheckConstraint->getCheckCondition());
 
     // set text of label
-    m_pNameLE->setText( m_pCheckConstraint->name() );
+    m_pNameLE->setText(m_pCheckConstraint->name());
 }
 
 /**
@@ -88,7 +88,7 @@ void UMLCheckConstraintDialog::setupDialog()
  */
 void UMLCheckConstraintDialog::slotOk()
 {
-    if ( apply() ) {
+    if (apply()) {
         accept();
     }
 }
@@ -98,10 +98,10 @@ void UMLCheckConstraintDialog::slotOk()
  */
 bool UMLCheckConstraintDialog::apply()
 {
-    m_pCheckConstraint->setCheckCondition( m_pCheckConditionTE->toPlainText().trimmed() );
+    m_pCheckConstraint->setCheckCondition(m_pCheckConditionTE->toPlainText().trimmed());
 
     // set name
-    m_pCheckConstraint->setName( m_pNameLE->text().trimmed() );
+    m_pCheckConstraint->setName(m_pNameLE->text().trimmed());
 
     return true;
 }

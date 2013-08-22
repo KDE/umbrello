@@ -45,10 +45,10 @@ void ArtifactWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     Q_UNUSED(widget);
 
     UMLWidget::setPenFromSettings(painter);
-    if ( UMLWidget::useFillColor() ) {
-        painter->setBrush( UMLWidget::fillColor() );
+    if (UMLWidget::useFillColor()) {
+        painter->setBrush(UMLWidget::fillColor());
     } else {
-        painter->setBrush( m_scene->activeView()->viewport()->palette().color(QPalette::Background) );
+        painter->setBrush(m_scene->activeView()->viewport()->palette().color(QPalette::Background));
     }
 
     if (umlObject()) {
@@ -93,7 +93,7 @@ void ArtifactWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
  */
 UMLSceneSize ArtifactWidget::minimumSize()
 {
-    if ( !m_umlObject) {
+    if (!m_umlObject) {
         return UMLWidget::minimumSize();
     }
     UMLArtifact *umlart = static_cast<UMLArtifact*>(m_umlObject);
@@ -112,7 +112,7 @@ QSize ArtifactWidget::calculateIconSize()
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
     const int fontHeight  = fm.lineSpacing();
 
-    int width = fm.width( m_umlObject->name() );
+    int width = fm.width(m_umlObject->name());
 
     width = width<50 ? 50 : width;
 
@@ -129,11 +129,11 @@ QSize ArtifactWidget::calculateNormalSize()
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
     const int fontHeight  = fm.lineSpacing();
 
-    int width = fm.width( m_umlObject->name() );
+    int width = fm.width(m_umlObject->name());
 
     int tempWidth = 0;
     if(!m_umlObject->stereotype().isEmpty()) {
-        tempWidth = fm.width( m_umlObject->stereotype(true) );
+        tempWidth = fm.width(m_umlObject->stereotype(true));
     }
     width = tempWidth>width ? tempWidth : width;
     width += ARTIFACT_MARGIN * 2;

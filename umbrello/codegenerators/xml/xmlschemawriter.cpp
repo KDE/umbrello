@@ -70,7 +70,7 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
 
     // check that we may open that file for writing
     QFile file;
-    if ( !openFile(file, fileName) ) {
+    if (!openFile(file, fileName)) {
         emit codeGenerated(c, false);
         return;
     }
@@ -174,7 +174,7 @@ void XMLSchemaWriter::writeClassifier(UMLClassifier *c, QTextStream &XMLschema)
     if(forceDoc() || !c->doc().isEmpty())
         writeComment(c->doc(),XMLschema);
 
-    if(c->isAbstract() || c->isInterface() )
+    if(c->isAbstract() || c->isInterface())
         writeAbstractClassifier(c,XMLschema); // if it is an interface or abstract class
     else
         writeConcreteClassifier(c,XMLschema);
@@ -190,7 +190,7 @@ UMLAttributeList XMLSchemaWriter::findAttributes(UMLClassifier *c)
 
     if (!c->isInterface()) {
         UMLAttributeList atl = c->getAttributeList();
-        foreach(UMLAttribute *at ,  atl ) {
+        foreach(UMLAttribute *at ,  atl) {
             switch(at->visibility())
             {
               case Uml::Visibility::Public:
@@ -239,12 +239,12 @@ void XMLSchemaWriter::writeAbstractClassifier (UMLClassifier *c, QTextStream &XM
         writeAttributeGroupDecl(elementName, attribs, XMLschema);
 
         // now write out inheriting classes, as needed
-        foreach (UMLClassifier * classifier , subclasses )
+        foreach (UMLClassifier * classifier , subclasses)
             writeClassifier(classifier, XMLschema);
     }
 
     // write out any superclasses as needed
-    foreach (UMLClassifier *classifier , superclasses )
+    foreach (UMLClassifier *classifier , superclasses)
         writeClassifier(classifier, XMLschema);
 }
 
@@ -266,7 +266,7 @@ void XMLSchemaWriter::writeGroupClassifierDecl (UMLClassifier *c,
     XMLschema<<indent()<<"<"<<makeSchemaTag("choice")<<">"<<m_endl;
     m_indentLevel++;
 
-    foreach(UMLClassifier *classifier , subclasses ) {
+    foreach(UMLClassifier *classifier , subclasses) {
         writeAssociationRoleDecl(classifier, "1", XMLschema);
     }
 
@@ -323,7 +323,7 @@ void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
             m_indentLevel++;
             XMLschema<<indent()<<"<"<<makeSchemaTag("extension")<<" base=\""<<makePackageTag(superClassName)
             <<"\"";
-            if(hasAssociations || hasAttributes )
+            if(hasAssociations || hasAttributes)
                 XMLschema<<">"<<m_endl;
             else
                 XMLschema<<"/>"<<m_endl;
@@ -361,7 +361,7 @@ void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
         {
             m_indentLevel--;
 
-            if(hasAssociations || hasAttributes )
+            if(hasAssociations || hasAttributes)
                 XMLschema<<indent()<<"</"<<makeSchemaTag("extension")<<">"<<m_endl;
 
             m_indentLevel--;
@@ -402,7 +402,7 @@ void XMLSchemaWriter::writeConcreteClassifier (UMLClassifier *c, QTextStream &XM
         writeClassifier(classifier, XMLschema);
 
     // write out any subclasses as needed
-    foreach(UMLClassifier *classifier , subclasses )
+    foreach(UMLClassifier *classifier , subclasses)
         writeClassifier(classifier, XMLschema);
 }
 
@@ -417,7 +417,7 @@ QStringList XMLSchemaWriter::findAttributeGroups (UMLClassifier *c)
     // have attributes, then we need to notice
     QStringList list;
     UMLClassifierList superclasses = c->findSuperClassConcepts(); // list of what inherits from us
-    foreach (UMLClassifier *classifier , superclasses )
+    foreach (UMLClassifier *classifier , superclasses)
     {
         if(classifier->isAbstract())
         {
@@ -435,7 +435,7 @@ QStringList XMLSchemaWriter::findAttributeGroups (UMLClassifier *c)
 /**
  * Find if the classifier would have any Child elements.
  */
-bool XMLSchemaWriter::determineIfHasChildNodes( UMLClassifier *c)
+bool XMLSchemaWriter::determineIfHasChildNodes(UMLClassifier *c)
 {
     UMLObjectList aggList = findChildObjsInAssociations (c, c->getAggregations());
     UMLObjectList compList = findChildObjsInAssociations (c, c->getCompositions());
@@ -453,7 +453,7 @@ void XMLSchemaWriter::writeChildObjsInAssociation (UMLClassifier *c,
         QTextStream &XMLschema)
 {
     UMLObjectList list = findChildObjsInAssociations (c, assoc);
-    foreach(UMLObject* obj, list ) {
+    foreach(UMLObject* obj, list) {
         UMLClassifier * thisClassifier = dynamic_cast<UMLClassifier*>(obj);
         if(thisClassifier)
             writeClassifier(thisClassifier, XMLschema);
@@ -486,7 +486,7 @@ void XMLSchemaWriter::markAsWritten(UMLClassifier *c)
  */
 void XMLSchemaWriter::writeAttributeDecls(UMLAttributeList &attribs, QTextStream &XMLschema)
 {
-    foreach ( UMLAttribute* at , attribs ) {
+    foreach (UMLAttribute* at , attribs) {
         writeAttributeDecl(at,XMLschema);
     }
 }
@@ -526,7 +526,7 @@ void XMLSchemaWriter::writeAttributeDecl(UMLAttribute *attrib, QTextStream &XMLs
 /**
  * Find all attributes that  belong in group.
  */
-void XMLSchemaWriter::writeAttributeGroupDecl (const QString &elementName, UMLAttributeList &attribs, QTextStream &XMLschema )
+void XMLSchemaWriter::writeAttributeGroupDecl (const QString &elementName, UMLAttributeList &attribs, QTextStream &XMLschema)
 {
     if (attribs.count()> 0) {
 
@@ -538,7 +538,7 @@ void XMLSchemaWriter::writeAttributeGroupDecl (const QString &elementName, UMLAt
 
         m_indentLevel++;
 
-        foreach( UMLAttribute *at , attribs )
+        foreach(UMLAttribute *at , attribs)
         {
             writeAttributeDecl(at,XMLschema);
         }
@@ -553,7 +553,7 @@ void XMLSchemaWriter::writeAttributeGroupDecl (const QString &elementName, UMLAt
 /**
  * Writes a comment.
  */
-void XMLSchemaWriter::writeComment( const QString &comment, QTextStream &XMLschema )
+void XMLSchemaWriter::writeComment(const QString &comment, QTextStream &XMLschema)
 {
     // in the case we have several line comment..
     // NOTE: this part of the method has the problem of adopting UNIX newline,
@@ -562,7 +562,7 @@ void XMLSchemaWriter::writeComment( const QString &comment, QTextStream &XMLsche
     XMLschema<<indnt<<"<!-- ";
     if (comment.contains(QRegExp("\n"))) {
         XMLschema<<m_endl;
-        QStringList lines = comment.split( '\n' );
+        QStringList lines = comment.split('\n');
         for (int i= 0; i < lines.count(); i++)
             XMLschema<<indnt<<"     "<<lines[i]<<m_endl;
 
@@ -588,11 +588,11 @@ void XMLSchemaWriter::writeComment( const QString &comment, QTextStream &XMLsche
 bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
         bool noRoleNameOK, bool didFirstOne, Uml::ID::Type id, QTextStream &XMLschema)
 {
-    if( !associations.isEmpty() )
+    if(!associations.isEmpty())
     {
         bool printRoleA = false, printRoleB = false;
 
-        foreach (UMLAssociation *a , associations )
+        foreach (UMLAssociation *a , associations)
         {
             // it may seem counter intuitive, but you want to insert the role of the
             // *other* class into *this* class.
@@ -640,7 +640,7 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
                 if (classifierA) {
                     // ONLY write out IF there is a rolename given
                     // otherwise it is not meant to be declared
-                    if (!a->getRoleName(Uml::RoleType::A).isEmpty() || noRoleNameOK )
+                    if (!a->getRoleName(Uml::RoleType::A).isEmpty() || noRoleNameOK)
                         writeAssociationRoleDecl(classifierA, a->getMultiplicity(Uml::RoleType::A), XMLschema);
                 }
             }
@@ -659,18 +659,18 @@ UMLObjectList XMLSchemaWriter::findChildObjsInAssociations (UMLClassifier *c, UM
 {
     Uml::ID::Type id = c->id();
     UMLObjectList list;
-    foreach (UMLAssociation *a , associations )
+    foreach (UMLAssociation *a , associations)
     {
         if (a->getObjectId(Uml::RoleType::A) == id
                 && a->visibility(Uml::RoleType::B) != Uml::Visibility::Private
                 && !a->getRoleName(Uml::RoleType::B).isEmpty()
-           )
+          )
             list.append(a->getObject(Uml::RoleType::B));
 
         if (a->getObjectId(Uml::RoleType::B) == id
                 && a->visibility(Uml::RoleType::A) != Uml::Visibility::Private
                 && !a->getRoleName(Uml::RoleType::A).isEmpty()
-           )
+          )
             list.append(a->getObject(Uml::RoleType::A));
     }
     return list;
@@ -679,7 +679,7 @@ UMLObjectList XMLSchemaWriter::findChildObjsInAssociations (UMLClassifier *c, UM
 /**
  * Writes out an association as an attribute using Vector
  */
-void XMLSchemaWriter::writeAssociationRoleDecl( UMLClassifier *c, const QString &multi, QTextStream &XMLschema)
+void XMLSchemaWriter::writeAssociationRoleDecl(UMLClassifier *c, const QString &multi, QTextStream &XMLschema)
 {
     bool isAbstract = c->isAbstract();
     bool isInterface = c->isInterface();
@@ -704,7 +704,7 @@ void XMLSchemaWriter::writeAssociationRoleDecl( UMLClassifier *c, const QString 
     }
     else
     {
-        QStringList values = multi.split( QRegExp("[^\\d{1,}|\\*]") );
+        QStringList values = multi.split(QRegExp("[^\\d{1,}|\\*]"));
 
         // could use some improvement here.. for sequences like "0..1,3..5,10" we
         // don't capture the whole "richness" of the multi. Instead we translate it
@@ -751,7 +751,7 @@ void XMLSchemaWriter::writeAssociationRoleDecl( UMLClassifier *c, const QString 
     // UPDATE: partial solution to the above: as of 13-Mar-2003 we now write BOTH a complexType
     //         AND a group declaration for interfaces AND classes which are inherited from.
     //
-    if ((isAbstract || isInterface ) && c->findSubClassConcepts().count() > 0)
+    if ((isAbstract || isInterface) && c->findSubClassConcepts().count() > 0)
         XMLschema<<indent()<<"<"<<makeSchemaTag("group")
         <<" ref=\""<<makePackageTag(getElementGroupTypeName(c))<<"\"";
     else
@@ -831,7 +831,7 @@ QString XMLSchemaWriter::getElementGroupTypeName(UMLClassifier *c)
  */
 QString XMLSchemaWriter::makePackageTag (QString tagName)
 {
-    tagName.prepend( packageNamespaceTag + ':');
+    tagName.prepend(packageNamespaceTag + ':');
     return tagName;
 }
 
@@ -840,7 +840,7 @@ QString XMLSchemaWriter::makePackageTag (QString tagName)
  */
 QString XMLSchemaWriter::makeSchemaTag (QString tagName)
 {
-    tagName.prepend( schemaNamespaceTag + ':');
+    tagName.prepend(schemaNamespaceTag + ':');
     return tagName;
 }
 

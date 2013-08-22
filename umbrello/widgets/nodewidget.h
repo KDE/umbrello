@@ -34,7 +34,7 @@ public:
      * @param scene              The parent of this NodeWidget.
      * @param n         The UMLNode this will be representing.
      */
-    NodeWidget(UMLScene * scene, UMLNode *n );
+    NodeWidget(UMLScene * scene, UMLNode *n);
 
     /**
      * destructor

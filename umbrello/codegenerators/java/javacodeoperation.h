@@ -26,12 +26,12 @@ public:
     /**
      * Empty Constructor
      */
-    JavaCodeOperation ( JavaClassifierCodeDocument * doc, UMLOperation * op, const QString & body = "", const QString & comment = "");
+    JavaCodeOperation (JavaClassifierCodeDocument * doc, UMLOperation * op, const QString & body = "", const QString & comment = "");
 
     /**
      * Empty Destructor
      */
-    virtual ~JavaCodeOperation ( );
+    virtual ~JavaCodeOperation ();
 
     virtual int lastEditableLine();
 

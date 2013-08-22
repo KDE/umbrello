@@ -148,7 +148,7 @@ bool IDLImport::parseFile(const QString& filename)
 {
     if (filename.contains('/')) {
         QString path = filename;
-        path.remove( QRegExp("/[^/]+$") );
+        path.remove(QRegExp("/[^/]+$"));
         uDebug() << "adding path " << path;
         Import_Utils::addIncludePath(path);
     }
@@ -372,13 +372,13 @@ bool IDLImport::parseStmt()
     // (of a member of struct or valuetype, or return type
     // of an operation.) Up next is the name of the attribute
     // or operation.
-    if (! keyword.contains( QRegExp("^\\w") )) {
+    if (! keyword.contains(QRegExp("^\\w"))) {
         uError() << "importIDL: ignoring " << keyword;
         return false;
     }
     QString typeName = joinTypename();
     QString name = advance();
-    if (name.contains( QRegExp("\\W") )) {
+    if (name.contains(QRegExp("\\W"))) {
         uError() << "importIDL: expecting name in " << name;
         return false;
     }

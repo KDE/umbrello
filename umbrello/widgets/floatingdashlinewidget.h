@@ -51,8 +51,8 @@ public:
     UMLSceneValue getYMin() const;
     UMLSceneValue getDiffY() const;
 
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-    bool loadFromXMI( QDomElement & qElement );
+    void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
+    bool loadFromXMI(QDomElement & qElement);
 
 private:
     /**

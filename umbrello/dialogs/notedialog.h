@@ -26,7 +26,7 @@ class NoteDialog : public KDialog
 {
    Q_OBJECT
 public:
-    NoteDialog( QWidget * parent, NoteWidget * pNote );
+    NoteDialog(QWidget * parent, NoteWidget * pNote);
     ~NoteDialog();
 
 public slots:

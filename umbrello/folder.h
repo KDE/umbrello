@@ -61,7 +61,7 @@ public:
     void setFolderFile(const QString& fileName);
     QString folderFile() const;
 
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
     friend QDebug operator<<(QDebug out, const UMLFolder& item);
 

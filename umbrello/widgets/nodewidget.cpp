@@ -24,7 +24,7 @@
 
 DEBUG_REGISTER_DISABLED(NodeWidget)
 
-NodeWidget::NodeWidget(UMLScene * scene, UMLNode *n )
+NodeWidget::NodeWidget(UMLScene * scene, UMLNode *n)
   : UMLWidget(scene, WidgetBase::wt_Node, n)
 {
     setSize(100, 30);
@@ -41,10 +41,10 @@ void NodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     Q_UNUSED(widget);
 
     setPenFromSettings(painter);
-    if ( UMLWidget::useFillColor() ) {
-        painter->setBrush( UMLWidget::fillColor() );
+    if (UMLWidget::useFillColor()) {
+        painter->setBrush(UMLWidget::fillColor());
     } else {
-        painter->setBrush( m_scene->activeView()->viewport()->palette().color(QPalette::Background) );
+        painter->setBrush(m_scene->activeView()->viewport()->palette().color(QPalette::Background));
     }
     const int w = width();
     const int h = height();
@@ -63,7 +63,7 @@ void NodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     pointArray.setPoint(0, 0, bodyOffsetY);
     pointArray.setPoint(1, wDepth, 0);
     pointArray.setPoint(2, w - 1, 0);
-    pointArray.setPoint(3, w - 1, bodyHeight );
+    pointArray.setPoint(3, w - 1, bodyHeight);
     pointArray.setPoint(4, bodyWidth, h - 1);
     painter->drawPolygon(pointArray);
     painter->drawRect(0, bodyOffsetY, bodyWidth, bodyHeight);
@@ -82,7 +82,7 @@ void NodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
         }
     }
 
-    if ( UMLWidget::isInstance() ) {
+    if (UMLWidget::isInstance()) {
         font.setUnderline(true);
         painter->setFont(font);
         nameStr = UMLWidget::instanceName() + " : " + nameStr;
@@ -112,7 +112,7 @@ UMLSceneSize NodeWidget::minimumSize()
     const int fontHeight  = fm.lineSpacing();
 
     QString name = m_umlObject->name();
-    if ( UMLWidget::isInstance() ) {
+    if (UMLWidget::isInstance()) {
         name = UMLWidget::instanceName() + " : " + name;
     }
 

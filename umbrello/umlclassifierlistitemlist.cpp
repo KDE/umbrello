@@ -19,7 +19,7 @@ UMLClassifierListItemList::UMLClassifierListItemList()
 }
 
 UMLClassifierListItemList::UMLClassifierListItemList(const UMLClassifierListItemList& other)
-  : QList<UMLClassifierListItem*>( other )
+  : QList<UMLClassifierListItem*>(other)
 {
 }
 
@@ -42,7 +42,7 @@ void UMLClassifierListItemList::copyInto(UMLClassifierListItemList *rhs) const
     UMLClassifierListItemList *tmp = new UMLClassifierListItemList(*this);
 
     UMLClassifierListItem *item;
-    for (UMLClassifierListItemListIt clit( *tmp ); clit.hasNext() ; ) {
+    for (UMLClassifierListItemListIt clit(*tmp); clit.hasNext() ;) {
         item = clit.next();
         rhs->append((UMLClassifierListItem*)item->clone());
     }

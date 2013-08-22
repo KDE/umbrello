@@ -41,13 +41,13 @@ void UseCaseWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     Q_UNUSED(widget);
 
     setPenFromSettings(painter);
-    if ( UMLWidget::useFillColor() )
-        painter->setBrush( UMLWidget::fillColor() );
+    if (UMLWidget::useFillColor())
+        painter->setBrush(UMLWidget::fillColor());
     QFont font = UMLWidget::font();
     font.setUnderline(false);
     font.setBold(false);
-    font.setItalic( m_umlObject->isAbstract() );
-    painter->setFont( font );
+    font.setItalic(m_umlObject->isAbstract());
+    painter->setFont(font);
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
     const int w = width();
@@ -66,11 +66,11 @@ void UseCaseWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 /**
  * Saves this UseCase to file.
  */
-void UseCaseWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+void UseCaseWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
-    QDomElement usecaseElement = qDoc.createElement( "usecasewidget" );
-    UMLWidget::saveToXMI( qDoc, usecaseElement );
-    qElement.appendChild( usecaseElement );
+    QDomElement usecaseElement = qDoc.createElement("usecasewidget");
+    UMLWidget::saveToXMI(qDoc, usecaseElement);
+    qElement.appendChild(usecaseElement);
 }
 
 /**
@@ -78,7 +78,7 @@ void UseCaseWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
  */
 UMLSceneSize UseCaseWidget::minimumSize()
 {
-    const UMLWidget::FontType ft = ( m_umlObject->isAbstract() ? FT_BOLD_ITALIC : FT_BOLD );
+    const UMLWidget::FontType ft = (m_umlObject->isAbstract() ? FT_BOLD_ITALIC : FT_BOLD);
     const QFontMetrics &fm = UMLWidget::getFontMetrics(ft);
     const int fontHeight = fm.lineSpacing();
     const int textWidth = fm.width(name());

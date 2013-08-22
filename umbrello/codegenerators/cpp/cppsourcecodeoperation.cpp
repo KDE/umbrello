@@ -17,7 +17,7 @@
 #include "cppcodedocumentation.h"
 #include "uml.h"
 
-CPPSourceCodeOperation::CPPSourceCodeOperation(CPPSourceCodeDocument * doc, UMLOperation *parent, const QString & body, const QString & comment )
+CPPSourceCodeOperation::CPPSourceCodeOperation(CPPSourceCodeDocument * doc, UMLOperation *parent, const QString & body, const QString & comment)
         : CodeOperation (doc, parent, body, comment)
 {
     // lets not go with the default comment and instead use
@@ -33,7 +33,7 @@ CPPSourceCodeOperation::~CPPSourceCodeOperation()
 {
 }
 
-void CPPSourceCodeOperation::updateContent( )
+void CPPSourceCodeOperation::updateContent()
 {
     CodeGenPolicyExt *pe = UMLApp::app()->policyExt();
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
@@ -52,7 +52,7 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
     UMLClassifier * c = doc->getParentClassifier();
     UMLOperation * o = getParentOperation();
     bool isInterface = doc->parentIsInterface();
-    bool isInlineMethod = policy->getOperationsAreInline( );
+    bool isInlineMethod = policy->getOperationsAreInline();
 
     // first, the comment on the operation
     QString comment = o->doc();
@@ -67,13 +67,13 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
     UMLAttributeList list = getParentOperation()->getParmList();
     int nrofParam = list.count();
     int paramNum = 0;
-    foreach (UMLAttribute* parm, list ) {
+    foreach (UMLAttribute* parm, list) {
         QString rType = parm->getTypeName();
         QString paramName = parm->name();
         paramStr += rType + ' ' + paramName;
         paramNum++;
 
-        if (paramNum != nrofParam )
+        if (paramNum != nrofParam)
             paramStr  += ", ";
     }
 

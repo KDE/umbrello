@@ -35,10 +35,10 @@ CPPCodeDocumentation::~CPPCodeDocumentation()
  */
 void CPPCodeDocumentation::saveToXMI(QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement( "cppcodedocumentation" );
+    QDomElement blockElement = doc.createElement("cppcodedocumentation");
     setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
     // just use parent TextBlock method
-    root.appendChild( blockElement );
+    root.appendChild(blockElement);
 }
 
 /**

@@ -118,7 +118,7 @@ void ToolBarStateAssociation::mouseReleaseAssociation()
     currentAssociation()->createAssocClassLine(
             static_cast<ClassifierWidget*>(m_firstWidget),
             currentAssociation()->associationLine()->closestSegmentIndex(m_pMouseEvent->scenePos()));
-    m_firstWidget->addAssoc( currentAssociation() );
+    m_firstWidget->addAssoc(currentAssociation());
     cleanAssociation();
 }
 

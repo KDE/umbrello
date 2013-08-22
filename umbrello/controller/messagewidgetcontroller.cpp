@@ -87,7 +87,7 @@ void MessageWidgetController::resizeWidget(UMLSceneValue newW, UMLSceneValue new
         else {
             diffX = x2 - (newW - m_messageWidget->width());
         }
-        if (diffX <= 0 )
+        if (diffX <= 0)
             diffX = 10;
         m_messageWidget->setxclicked (diffX);
         m_messageWidget->setSize(newW, newH);

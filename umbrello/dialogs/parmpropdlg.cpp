@@ -44,11 +44,11 @@
 ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * attr)
         : KDialog(parent)
 {
-    setCaption( i18n("Parameter Properties") );
-    setButtons( Help | Ok | Cancel );
-    setDefaultButton( Ok );
-    setModal( true );
-    showButtonSeparator( true );
+    setCaption(i18n("Parameter Properties"));
+    setButtons(Help | Ok | Cancel);
+    setDefaultButton(Ok);
+    setModal(true);
+    showButtonSeparator(true);
 
     m_pUmldoc = doc;
     m_pAtt = attr;
@@ -62,8 +62,8 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * attr)
     int margin = fontMetrics().height();
     setMinimumSize(300, 400);
     //disableResize();
-    QFrame *frame = new QFrame( this );
-    setMainWidget( frame );
+    QFrame *frame = new QFrame(this);
+    setMainWidget(frame);
     QVBoxLayout * topLayout = new QVBoxLayout(frame);
     topLayout->setSpacing(10);
     topLayout->setMargin(margin);
@@ -82,33 +82,33 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * attr)
     propLayout->addWidget(m_pTypeCB, 0, 1);
     m_pTypeL->setBuddy(m_pTypeCB);
 
-    Dialog_Utils::makeLabeledEditField( m_pParmGB, propLayout, 1,
+    Dialog_Utils::makeLabeledEditField(m_pParmGB, propLayout, 1,
                                     m_pNameL, i18nc("property name", "&Name:"),
-                                    m_pNameLE, name );
+                                    m_pNameLE, name);
 
-    Dialog_Utils::makeLabeledEditField( m_pParmGB, propLayout, 2,
+    Dialog_Utils::makeLabeledEditField(m_pParmGB, propLayout, 2,
                                     m_pInitialL, i18n("&Initial value:"),
-                                    m_pInitialLE, initialValue );
+                                    m_pInitialLE, initialValue);
 
-    m_pStereoTypeL = new QLabel( i18n("Stereotype name:"), m_pParmGB );
+    m_pStereoTypeL = new QLabel(i18n("Stereotype name:"), m_pParmGB);
     propLayout->addWidget(m_pStereoTypeL, 3, 0);
-    m_pStereoTypeCB = new KComboBox(true, m_pParmGB );
+    m_pStereoTypeCB = new KComboBox(true, m_pParmGB);
     propLayout->addWidget(m_pStereoTypeCB, 3, 1);
 
     m_pKind =  new QGroupBox(i18n("Passing Direction"), frame);
-    m_pKind->setToolTip( i18n("\"in\" is a readonly parameter, \"out\" is a writeonly parameter and \"inout\" is a parameter for reading and writing."));
+    m_pKind->setToolTip(i18n("\"in\" is a readonly parameter, \"out\" is a writeonly parameter and \"inout\" is a parameter for reading and writing."));
 
-    QHBoxLayout * kindLayout = new QHBoxLayout( m_pKind );
+    QHBoxLayout * kindLayout = new QHBoxLayout(m_pKind);
     kindLayout->setMargin(margin);
 
-    m_pIn =  new QRadioButton( "in", m_pKind );
-    kindLayout->addWidget( m_pIn );
+    m_pIn =  new QRadioButton("in", m_pKind);
+    kindLayout->addWidget(m_pIn);
 
-    m_pInOut =  new QRadioButton( "inout", m_pKind );
-    kindLayout->addWidget( m_pInOut );
+    m_pInOut =  new QRadioButton("inout", m_pKind);
+    kindLayout->addWidget(m_pInOut);
 
-    m_pOut =  new QRadioButton( "out", m_pKind );
-    kindLayout->addWidget( m_pOut );
+    m_pOut =  new QRadioButton("out", m_pKind);
+    kindLayout->addWidget(m_pOut);
 
     topLayout->addWidget(m_pKind);
 
@@ -137,7 +137,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * attr)
     // manage types
     m_pTypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
     m_pTypeCB->setEditable(true);
-    m_pTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
+    m_pTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
 //    m_pTypeCB->setCompleter(...);
     if (attr) {
         insertTypesSorted(attr->getTypeName());
@@ -145,7 +145,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * attr)
 
     // manage stereotypes
     m_pStereoTypeCB->setDuplicatesEnabled(false); //only allow one of each type in box
-    m_pStereoTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
+    m_pStereoTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
     if (m_pAtt) {
         insertStereotypesSorted(m_pAtt->stereotype());
     }
@@ -178,23 +178,23 @@ void ParmPropDlg::insertTypesSorted(const QString& type)
 {
     QStringList types;
     // add template parameters
-    UMLClassifier *pConcept = dynamic_cast<UMLClassifier*>( m_pAtt->parent()->parent() );
+    UMLClassifier *pConcept = dynamic_cast<UMLClassifier*>(m_pAtt->parent()->parent());
     if (pConcept == NULL) {
         uError() << "ParmPropDlg: grandparent of " << m_pAtt->name()
                  << " is not a UMLClassifier";
     } else {
-        UMLTemplateList tmplParams( pConcept->getTemplateList() );
-        foreach( UMLTemplate* t, tmplParams ) {
+        UMLTemplateList tmplParams(pConcept->getTemplateList());
+        foreach(UMLTemplate* t, tmplParams) {
             types << t->name();
         }
     }
     // now add the Concepts
-    UMLClassifierList namesList( m_pUmldoc->concepts() );
-    foreach(UMLClassifier* obj, namesList ) {
+    UMLClassifierList namesList(m_pUmldoc->concepts());
+    foreach(UMLClassifier* obj, namesList) {
         types << obj->fullyQualifiedName();
     }
     // add the given parameter
-    if ( !types.contains(type) ) {
+    if (!types.contains(type)) {
         types << type;
     }
     types.sort();
@@ -219,11 +219,11 @@ void ParmPropDlg::insertStereotypesSorted(const QString& type)
 {
     QStringList types;
     types << ""; // an empty stereotype is the default
-    foreach (UMLStereotype* currentSt, m_pUmldoc->stereotypes() ) {
+    foreach (UMLStereotype* currentSt, m_pUmldoc->stereotypes()) {
         types << currentSt->name();
     }
     // add the given parameter
-    if ( !types.contains(type) ) {
+    if (!types.contains(type)) {
         types << type;
     }
     types.sort();
@@ -260,7 +260,7 @@ Uml::ParameterDirection::Enum ParmPropDlg::getParmKind()
 bool ParmPropDlg::validate()
 {
     // currently only validates whether the name is not null.
-    if ( getName().trimmed().length() == 0 ) {
+    if (getName().trimmed().length() == 0) {
             KMessageBox::error(this, i18n("You have entered an invalid parameter name."),
                                i18n("Parameter Name Invalid"), 0);
             return false;
@@ -274,12 +274,12 @@ bool ParmPropDlg::validate()
  */
 void ParmPropDlg::slotButtonClicked(int button)
 {
-    if ( button == KDialog::Ok ) {
-        if ( !validate() ) {
+    if (button == KDialog::Ok) {
+        if (!validate()) {
             return;
         }
     }
-    KDialog::slotButtonClicked( button );
+    KDialog::slotButtonClicked(button);
 }
 
 /**
@@ -289,13 +289,13 @@ void ParmPropDlg::slotOk()
 {
     if (m_pAtt != NULL) {
 
-        m_pAtt->setName( getName() );         // set the name
-        m_pAtt->setParmKind( getParmKind() );  // set the direction
-        m_pAtt->setStereotype( m_pStereoTypeCB->currentText() ); // set the stereotype
+        m_pAtt->setName(getName());         // set the name
+        m_pAtt->setParmKind(getParmKind());  // set the direction
+        m_pAtt->setStereotype(m_pStereoTypeCB->currentText()); // set the stereotype
 
         // set the type name
         QString typeName = m_pTypeCB->currentText();
-        UMLClassifier * pConcept = dynamic_cast<UMLClassifier*>( m_pAtt->parent()->parent() );
+        UMLClassifier * pConcept = dynamic_cast<UMLClassifier*>(m_pAtt->parent()->parent());
         if (pConcept == NULL) {
             uError() << "grandparent of " << m_pAtt->name() << " is not a UMLClassifier";
         } else {
@@ -305,7 +305,7 @@ void ParmPropDlg::slotOk()
                 return;
             }
         }
-        UMLClassifierList namesList( m_pUmldoc->concepts() );
+        UMLClassifierList namesList(m_pUmldoc->concepts());
         bool matchFound = false;
 
         foreach (UMLClassifier* obj, namesList) {
@@ -325,8 +325,8 @@ void ParmPropDlg::slotOk()
             m_pAtt->setType(newObj);
         }
 
-        m_pAtt->setDoc( getDoc() ); // set the documentation
-        m_pAtt->setInitialValue( getInitialValue() ); // set the initial value
+        m_pAtt->setDoc(getDoc()); // set the documentation
+        m_pAtt->setInitialValue(getInitialValue()); // set the initial value
     }
 }
 

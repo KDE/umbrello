@@ -82,7 +82,7 @@ void PreconditionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem
     int y = this->y();
 
     //test if y isn't above the object
-    if (y <= m_objectWidget->y() + m_objectWidget->height() ) {
+    if (y <= m_objectWidget->y() + m_objectWidget->height()) {
         y = m_objectWidget->y() + m_objectWidget->height() + 15;
     }
     if (y + h >= m_objectWidget->getEndLineY()) {
@@ -90,8 +90,8 @@ void PreconditionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem
     }
     setY(y);
     setPenFromSettings(painter);
-    if ( UMLWidget::useFillColor() ) {
-        painter->setBrush( UMLWidget::fillColor() );
+    if (UMLWidget::useFillColor()) {
+        painter->setBrush(UMLWidget::fillColor());
     }
     {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -101,7 +101,7 @@ void PreconditionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem
         int textStartY = (h / 2) - (fontHeight / 2);
         painter->drawRoundRect(0, 0, w, h, (h * 60) / w, 60);
         painter->setPen(textColor());
-        painter->setFont( UMLWidget::font() );
+        painter->setFont(UMLWidget::font());
         painter->drawText(PRECONDITION_MARGIN, textStartY,
                        w - PRECONDITION_MARGIN * 2, fontHeight, Qt::AlignCenter, precondition_value);
     }
@@ -190,7 +190,7 @@ void PreconditionWidget::calculateDimensions()
 void PreconditionWidget::slotWidgetMoved(Uml::ID::Type id)
 {
     const Uml::ID::Type idA = m_objectWidget->localID();
-    if (idA != id ) {
+    if (idA != id) {
         DEBUG(DBG_SRC) << "id=" << Uml::ID::toString(id) << ": ignoring for idA=" << Uml::ID::toString(idA);
         return;
     }
@@ -237,14 +237,14 @@ int PreconditionWidget::maxY() const
 void PreconditionWidget::slotMenuSelection(QAction* action)
 {
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
-    switch( sel ) {
+    switch(sel) {
     case ListPopupMenu::mt_Rename:
         {
             bool ok = false;
             QString text = name();
-            text = KInputDialog::getText( i18n("Enter Precondition Name"),
+            text = KInputDialog::getText(i18n("Enter Precondition Name"),
                                           i18n("Enter the precondition :"),
-                                          text, &ok );
+                                          text, &ok);
             if (ok && !text.isEmpty()) {
                 setName(text);
             }
@@ -262,13 +262,13 @@ void PreconditionWidget::slotMenuSelection(QAction* action)
  */
 void PreconditionWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
-    QDomElement preconditionElement = qDoc.createElement( "preconditionwidget" );
-    UMLWidget::saveToXMI( qDoc, preconditionElement );
+    QDomElement preconditionElement = qDoc.createElement("preconditionwidget");
+    UMLWidget::saveToXMI(qDoc, preconditionElement);
 
-    preconditionElement.setAttribute( "widgetaid", Uml::ID::toString(m_objectWidget->localID()) );
-    preconditionElement.setAttribute( "preconditionname", name() );
-    preconditionElement.setAttribute( "documentation", documentation() );
-    qElement.appendChild( preconditionElement );
+    preconditionElement.setAttribute("widgetaid", Uml::ID::toString(m_objectWidget->localID()));
+    preconditionElement.setAttribute("preconditionname", name());
+    preconditionElement.setAttribute("documentation", documentation());
+    qElement.appendChild(preconditionElement);
 }
 
 /**
@@ -276,15 +276,15 @@ void PreconditionWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
  */
 bool PreconditionWidget::loadFromXMI(QDomElement& qElement)
 {
-    if( !UMLWidget::loadFromXMI( qElement ) )
+    if(!UMLWidget::loadFromXMI(qElement))
         return false;
-    QString widgetaid = qElement.attribute( "widgetaid", "-1" );
-    setName(qElement.attribute( "preconditionname", "" ));
-    setDocumentation(qElement.attribute( "documentation", "" ));
+    QString widgetaid = qElement.attribute("widgetaid", "-1");
+    setName(qElement.attribute("preconditionname", ""));
+    setDocumentation(qElement.attribute("documentation", ""));
 
     Uml::ID::Type aId = Uml::ID::fromString(widgetaid);
 
-    m_objectWidget = dynamic_cast<ObjectWidget*>(umlScene()->findWidget( aId ));
+    m_objectWidget = dynamic_cast<ObjectWidget*>(umlScene()->findWidget(aId));
     if (!m_objectWidget) {
         DEBUG(DBG_SRC) << "role A widget " << Uml::ID::toString(aId) << " is not an ObjectWidget";
         return false;

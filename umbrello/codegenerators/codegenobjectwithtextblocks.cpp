@@ -26,7 +26,7 @@
  * Constructor
  * @param parent   parent code document
  */
-CodeGenObjectWithTextBlocks::CodeGenObjectWithTextBlocks ( CodeDocument *parent )
+CodeGenObjectWithTextBlocks::CodeGenObjectWithTextBlocks (CodeDocument *parent)
   : m_pCodeDoc(parent)
 {
 }
@@ -34,7 +34,7 @@ CodeGenObjectWithTextBlocks::CodeGenObjectWithTextBlocks ( CodeDocument *parent 
 /**
  * Destructor
  */
-CodeGenObjectWithTextBlocks::~CodeGenObjectWithTextBlocks ( )
+CodeGenObjectWithTextBlocks::~CodeGenObjectWithTextBlocks ()
 {
     resetTextBlocks();
 }
@@ -43,7 +43,7 @@ CodeGenObjectWithTextBlocks::~CodeGenObjectWithTextBlocks ( )
  * Get the list of TextBlock objects held by m_textblockVector
  * @return list of TextBlock objects held by m_textblockVector
  */
-TextBlockList * CodeGenObjectWithTextBlocks::getTextBlockList ( ) const
+TextBlockList * CodeGenObjectWithTextBlocks::getTextBlockList () const
 {
     return const_cast<TextBlockList*>(&m_textblockVector);
 }
@@ -54,7 +54,7 @@ TextBlockList * CodeGenObjectWithTextBlocks::getTextBlockList ( ) const
  * @return boolean value where false means not added because an TextBlock
  *                 object with that tag already exists in this document.
  */
-bool CodeGenObjectWithTextBlocks::addTextBlock(TextBlock* add_object )
+bool CodeGenObjectWithTextBlocks::addTextBlock(TextBlock* add_object)
 {
     QString tag = add_object->getTag();
 
@@ -92,7 +92,7 @@ bool CodeGenObjectWithTextBlocks::addTextBlock(TextBlock* add_object )
  * @param remove_object   the text block to be removed
  * @return success status
  */
-bool CodeGenObjectWithTextBlocks::removeTextBlock ( TextBlock * remove_object )
+bool CodeGenObjectWithTextBlocks::removeTextBlock (TextBlock * remove_object)
 {
     // check if we can remove it from our local list
     int indx = m_textblockVector.indexOf(remove_object);
@@ -123,7 +123,7 @@ bool CodeGenObjectWithTextBlocks::removeTextBlock ( TextBlock * remove_object )
  * @param tag   the tag to search with
  * @return      the found TextBlock object
  */
-TextBlock * CodeGenObjectWithTextBlocks::findTextBlockByTag( const QString &tag )
+TextBlock * CodeGenObjectWithTextBlocks::findTextBlockByTag(const QString &tag)
 {
     //if we already know to which file this class was written/should be written, just return it.
     if (m_textBlockTagMap.contains(tag)) {
@@ -180,7 +180,7 @@ CodeGenObjectWithTextBlocks * CodeGenObjectWithTextBlocks::findParentObjectForTa
  * @param   indentLevel   indentation level
  * @return  HierarchicalCodeBlock object
  */
-HierarchicalCodeBlock * CodeGenObjectWithTextBlocks::getHierarchicalCodeBlock ( const QString &tag, const QString &comment, int indentLevel )
+HierarchicalCodeBlock * CodeGenObjectWithTextBlocks::getHierarchicalCodeBlock (const QString &tag, const QString &comment, int indentLevel)
 {
     // now actually declare the fields
     HierarchicalCodeBlock * codeBlock = dynamic_cast<HierarchicalCodeBlock*>(findTextBlockByTag(tag));
@@ -214,7 +214,7 @@ HierarchicalCodeBlock * CodeGenObjectWithTextBlocks::getHierarchicalCodeBlock ( 
  * @param   indentLevel   indentation level
  * @return  CodeBlockWithComments object
  */
-CodeBlockWithComments * CodeGenObjectWithTextBlocks::getCodeBlockWithComments ( const QString &tag, const QString &comment, int indentLevel )
+CodeBlockWithComments * CodeGenObjectWithTextBlocks::getCodeBlockWithComments (const QString &tag, const QString &comment, int indentLevel)
 {
     // now actually declare the fields
     CodeBlockWithComments * codeBlock = dynamic_cast<CodeBlockWithComments*>(findTextBlockByTag(tag));
@@ -243,7 +243,7 @@ CodeBlockWithComments * CodeGenObjectWithTextBlocks::getCodeBlockWithComments ( 
  * @param indentationLevel   indentation level
  * @return codeblock/comment pointer to the object which was created/updated.
  */
-CodeComment * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeComment ( const QString &tag, const QString &text, int indentationLevel)
+CodeComment * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeComment (const QString &tag, const QString &text, int indentationLevel)
 {
     TextBlock * tBlock = findTextBlockByTag(tag);
     CodeComment * codeComment = dynamic_cast<CodeComment*>(tBlock);
@@ -284,7 +284,7 @@ CodeComment * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeComment ( const 
  * @param forceUserBlockUpdate   ...
  * @return  codeblock/comment pointer to the object which was created/updated
  */
-CodeBlockWithComments * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeBlockWithComments (const QString &tag, const QString &text, const QString &ctext, int indentLevel, bool forceUserBlockUpdate )
+CodeBlockWithComments * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeBlockWithComments (const QString &tag, const QString &text, const QString &ctext, int indentLevel, bool forceUserBlockUpdate)
 {
     TextBlock * tBlock = findTextBlockByTag(tag);
     CodeBlockWithComments * codeBlock = dynamic_cast<CodeBlockWithComments*>(tBlock);
@@ -406,14 +406,14 @@ void CodeGenObjectWithTextBlocks::setAttributesFromObject (CodeGenObjectWithText
 void CodeGenObjectWithTextBlocks::setAttributesOnNode (QDomDocument & doc, QDomElement & root)
 {
     // set a section to hold document content
-    QDomElement tblockElement = doc.createElement( "textblocks" );
+    QDomElement tblockElement = doc.createElement("textblocks");
 
     // only concrete calls to textblocks are saved
     TextBlockList * tbList = getTextBlockList();
     foreach (TextBlock* block, *tbList) {
         block->saveToXMI(doc, tblockElement);
     }
-    root.appendChild( tblockElement);
+    root.appendChild(tblockElement);
 }
 
 /**
@@ -421,7 +421,7 @@ void CodeGenObjectWithTextBlocks::setAttributesOnNode (QDomDocument & doc, QDomE
  * the passed element node.
  * @param root   node from which to load the child text blocks
  */
-void CodeGenObjectWithTextBlocks::setAttributesFromNode ( QDomElement & root)
+void CodeGenObjectWithTextBlocks::setAttributesFromNode (QDomElement & root)
 {
     // clear existing codeblocks
     resetTextBlocks();
@@ -438,7 +438,7 @@ void CodeGenObjectWithTextBlocks::setAttributesFromNode ( QDomElement & root)
  * derived from codeblock/codecomment/hierarchicalcb/ownedhiercodeblock.
  * @param root   node from which to load the child text blocks
  */
-void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & root)
+void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & root)
 {
     QDomNode tnode = root.firstChild();
     QDomElement telement = tnode.toElement();
@@ -482,7 +482,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                 } else
                     loadCheckForChildrenOK = true;
 
-            } else if( name == "codeblock") {
+            } else if(name == "codeblock") {
                 CodeBlock * block = newCodeBlock();
                 block->loadFromXMI(element);
                 if (!addTextBlock(block)) {

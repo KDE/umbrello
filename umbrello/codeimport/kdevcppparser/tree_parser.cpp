@@ -34,8 +34,8 @@ TreeParser::~TreeParser()
 void TreeParser::parseTranslationUnit(TranslationUnitAST* translationUnit)
 {
     QList<DeclarationAST*> declarations = translationUnit->declarationList();
-    for( int i = 0; i < declarations.size(); ++i ) {
-        parseDeclaration( declarations.at(i) );
+    for(int i = 0; i < declarations.size(); ++i) {
+        parseDeclaration(declarations.at(i));
     }
 }
 
@@ -162,8 +162,8 @@ void TreeParser::parseLinkageBody(LinkageBodyAST* linkageBody)
 {
     //uDebug() << "TreeParser::parseLinkageBody()";
     QList<DeclarationAST*> declarations = linkageBody->declarationList();
-    for( int i = 0; i < declarations.size(); ++i ) {
-        parseDeclaration( declarations.at(i) );
+    for(int i = 0; i < declarations.size(); ++i) {
+        parseDeclaration(declarations.at(i));
     }
 }
 
@@ -189,8 +189,8 @@ void TreeParser::parseClassSpecifier(ClassSpecifierAST* classSpec)
 {
     //uDebug() << "TreeParser::parseClassSpecifier()";
     QList<DeclarationAST*> declarations = classSpec->declarationList();
-    for( int i = 0; i < declarations.size(); ++i ) {
-        parseDeclaration( declarations.at(i) );
+    for(int i = 0; i < declarations.size(); ++i) {
+        parseDeclaration(declarations.at(i));
     }
 }
 

@@ -19,7 +19,7 @@ UMLEntityConstraintList::UMLEntityConstraintList()
 }
 
 UMLEntityConstraintList::UMLEntityConstraintList(const UMLEntityConstraintList& other)
-    : QList<UMLEntityConstraint*>( other )
+    : QList<UMLEntityConstraint*>(other)
 {
 }
 
@@ -42,7 +42,7 @@ void UMLEntityConstraintList::copyInto(UMLEntityConstraintList* rhs) const
     UMLEntityConstraintList* tmp = new UMLEntityConstraintList(*this);
 
     UMLEntityConstraint* item;
-    for (UMLEntityConstraintListIt ecit( *tmp ); ecit.hasNext() ; ) {
+    for (UMLEntityConstraintListIt ecit(*tmp); ecit.hasNext() ;) {
         item = ecit.next();
         rhs->append((UMLEntityConstraint*)item->clone());
     }

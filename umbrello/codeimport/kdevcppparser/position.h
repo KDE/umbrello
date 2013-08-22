@@ -94,8 +94,8 @@ public:
 
     bool operator<(Position const& p) const
     {
-        assert( file == p.file);
-        return( (line < p.line) || ( (line == p.line) && (column < p.column)));
+        assert(file == p.file);
+        return((line < p.line) || ((line == p.line) && (column < p.column)));
     }
 
     bool operator>=(Position const& p) const

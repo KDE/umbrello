@@ -25,24 +25,24 @@ class CodeBlockWithComments : public CodeBlock
 {
 public:
 
-    explicit CodeBlockWithComments ( CodeDocument * parent , const QString & body = "", const QString & comment = "");
+    explicit CodeBlockWithComments (CodeDocument * parent , const QString & body = "", const QString & comment = "");
 
     /**
      * Empty Destructor
      */
-    virtual ~CodeBlockWithComments ( );
+    virtual ~CodeBlockWithComments ();
 
-    void setComment ( CodeComment * object );
+    void setComment (CodeComment * object);
 
-    CodeComment * getComment ( ) const;
+    CodeComment * getComment () const;
 
-    virtual QString toString ( ) const;
+    virtual QString toString () const;
 
-    void setOverallIndentationLevel ( int level );
+    void setOverallIndentationLevel (int level);
 
-    virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
+    virtual void saveToXMI (QDomDocument & doc, QDomElement & root);
 
-    virtual void loadFromXMI ( QDomElement & root );
+    virtual void loadFromXMI (QDomElement & root);
 
     virtual void setAttributesFromObject (TextBlock * obj);
 
@@ -50,7 +50,7 @@ protected:
 
     virtual void setAttributesOnNode (QDomDocument & doc, QDomElement & blockElement);
 
-    virtual void setAttributesFromNode ( QDomElement & element);
+    virtual void setAttributesFromNode (QDomElement & element);
 
 private:
 

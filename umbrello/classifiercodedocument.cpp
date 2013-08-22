@@ -56,7 +56,7 @@ CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields(CodeClassField
     CodeClassFieldList list;
     CodeClassFieldList::ConstIterator it = m_classfieldVector.constBegin();
     CodeClassFieldList::ConstIterator end = m_classfieldVector.constEnd();
-    for ( ; it != end; ++it )
+    for (; it != end; ++it)
     {
         if ((*it)->getClassFieldType() == cfType)
             list.append(*it);
@@ -72,7 +72,7 @@ CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields(CodeClassField
     CodeClassFieldList list;
     CodeClassFieldList::ConstIterator it = m_classfieldVector.constBegin();
     CodeClassFieldList::ConstIterator end = m_classfieldVector.constEnd();
-    for ( ; it != end; ++it )
+    for (; it != end; ++it)
     {
         CodeClassField *cf = *it;
         if (cf->getClassFieldType() == cfType && cf->getStatic() == isStatic)
@@ -89,7 +89,7 @@ CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassFiel
     CodeClassFieldList list;
     CodeClassFieldList::ConstIterator it = m_classfieldVector.constBegin();
     CodeClassFieldList::ConstIterator end = m_classfieldVector.constEnd();
-    for ( ; it != end; ++it )
+    for (; it != end; ++it)
     {
         CodeClassField * cf = *it;
         if (cf->getClassFieldType() == cfType && cf->getVisibility() == visibility)
@@ -106,10 +106,10 @@ CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassFiel
     CodeClassFieldList list;
     CodeClassFieldList::ConstIterator it = m_classfieldVector.constBegin();
     CodeClassFieldList::ConstIterator end = m_classfieldVector.constEnd();
-    for ( ; it != end; ++it )
+    for (; it != end; ++it)
     {
         CodeClassField *cf = *it;
-        if (cf->getClassFieldType() == cfType && cf->getVisibility() == visibility && cf->getStatic() == isStatic )
+        if (cf->getClassFieldType() == cfType && cf->getVisibility() == visibility && cf->getStatic() == isStatic)
             list.append(cf);
     }
     return list;
@@ -125,7 +125,7 @@ bool ClassifierCodeDocument::hasObjectVectorClassFields()
 {
     CodeClassFieldList::Iterator it = m_classfieldVector.begin();
     CodeClassFieldList::Iterator end = m_classfieldVector.end();
-    for ( ; it != end; ++it )
+    for (; it != end; ++it)
     {
         if((*it)->getClassFieldType() != CodeClassField::Attribute)
         {
@@ -134,7 +134,7 @@ bool ClassifierCodeDocument::hasObjectVectorClassFields()
             if (
                 multi.contains(QRegExp("[23456789\\*]")) ||
                 multi.contains(QRegExp("1\\d"))
-            )
+           )
                 return true;
         }
     }
@@ -146,7 +146,7 @@ bool ClassifierCodeDocument::hasObjectVectorClassFields()
  */
 bool ClassifierCodeDocument::hasClassFields()
 {
-    if(m_classfieldVector.count() > 0 )
+    if(m_classfieldVector.count() > 0)
         return true;
     return false;
 }
@@ -175,7 +175,7 @@ bool ClassifierCodeDocument::hasAttributeClassFields()
  * the codegenerator writer the liberty to organize their document as they desire.
  * @return boolean true if successful in adding
  */
-bool ClassifierCodeDocument::addCodeClassField ( CodeClassField * add_object )
+bool ClassifierCodeDocument::addCodeClassField (CodeClassField * add_object)
 {
     UMLObject * umlobj = add_object->getParentObject();
     if(!(m_classFieldMap.contains(umlobj)))
@@ -204,7 +204,7 @@ void ClassifierCodeDocument::addAttributeClassField (UMLClassifierListItem *obj,
 /**
  * Remove a CodeClassField object from m_classfieldVector List
  */
-bool ClassifierCodeDocument::removeCodeClassField ( CodeClassField * remove_object )
+bool ClassifierCodeDocument::removeCodeClassField (CodeClassField * remove_object)
 {
     UMLObject * umlobj = remove_object->getParentObject();
     if(m_classFieldMap.contains(umlobj))
@@ -227,7 +227,7 @@ void ClassifierCodeDocument::removeAttributeClassField(UMLClassifierListItem *ob
         removeCodeClassField(remove_object);
 }
 
-void ClassifierCodeDocument::removeAssociationClassField (UMLAssociation *assoc )
+void ClassifierCodeDocument::removeAssociationClassField (UMLAssociation *assoc)
 {
     // the object could be either (or both!) role a or b. We should check
     // both parts of the association.
@@ -246,7 +246,7 @@ void ClassifierCodeDocument::removeAssociationClassField (UMLAssociation *assoc 
  * @return CodeClassFieldList list of CodeClassField objects held by
  * m_classfieldVector
  */
-CodeClassFieldList * ClassifierCodeDocument::getCodeClassFieldList ( )
+CodeClassFieldList * ClassifierCodeDocument::getCodeClassFieldList ()
 {
     return &m_classfieldVector;
 }
@@ -255,7 +255,7 @@ CodeClassFieldList * ClassifierCodeDocument::getCodeClassFieldList ( )
  * Get the value of m_parentclassifier
  * @return the value of m_parentclassifier
  */
-UMLClassifier * ClassifierCodeDocument::getParentClassifier ( )
+UMLClassifier * ClassifierCodeDocument::getParentClassifier ()
 {
     return m_parentclassifier;
 }
@@ -264,7 +264,7 @@ UMLClassifier * ClassifierCodeDocument::getParentClassifier ( )
  * Get a list of codeoperation objects held by this classifiercodedocument.
  * @return      QList<CodeOperation>
  */
-QList<CodeOperation*> ClassifierCodeDocument::getCodeOperations ( )
+QList<CodeOperation*> ClassifierCodeDocument::getCodeOperations ()
 {
     QList<CodeOperation*> list;
 
@@ -310,7 +310,7 @@ void ClassifierCodeDocument::addOperation (UMLClassifierListItem * o)
 /**
  * @param   op
  */
-void ClassifierCodeDocument::removeOperation (UMLClassifierListItem * op )
+void ClassifierCodeDocument::removeOperation (UMLClassifierListItem * op)
 {
     QString tag = CodeOperation::findTag((UMLOperation*)op);
     TextBlock *tb = findTextBlockByTag(tag, true);
@@ -332,15 +332,15 @@ void ClassifierCodeDocument::removeOperation (UMLClassifierListItem * op )
 /**
  * A utility method that allows user to easily add classfield methods to this document.
  */
-void ClassifierCodeDocument::addCodeClassFieldMethods(CodeClassFieldList &list )
+void ClassifierCodeDocument::addCodeClassFieldMethods(CodeClassFieldList &list)
 {
     CodeClassFieldList::Iterator it = list.begin();
     CodeClassFieldList::Iterator end = list.end();
-    for ( ; it!= end; ++it )
+    for (; it!= end; ++it)
     {
         CodeClassField * field = *it;
         CodeAccessorMethodList list = field->getMethodList();
-        Q_FOREACH( CodeAccessorMethod *method, list )
+        Q_FOREACH(CodeAccessorMethod *method, list)
         {
             /*
                 QString tag = method->getTag();
@@ -358,11 +358,11 @@ void ClassifierCodeDocument::addCodeClassFieldMethods(CodeClassFieldList &list )
  * Add declaration blocks for the passed classfields.
  */
 void ClassifierCodeDocument::declareClassFields (CodeClassFieldList & list ,
-        CodeGenObjectWithTextBlocks * parent )
+        CodeGenObjectWithTextBlocks * parent)
 {
     CodeClassFieldList::Iterator it = list.begin();
     CodeClassFieldList::Iterator end = list.end();
-    for ( ; it!= end; ++it )
+    for (; it!= end; ++it)
     {
         CodeClassField * field = *it;
         CodeClassFieldDeclarationBlock * declBlock = field->getDeclarationCodeBlock();
@@ -407,7 +407,7 @@ bool ClassifierCodeDocument::parentIsInterface()
  * @param       classifier
  * @param       package
  */
-void ClassifierCodeDocument::init (UMLClassifier * c )
+void ClassifierCodeDocument::init (UMLClassifier * c)
 {
     m_parentclassifier = c;
 
@@ -476,7 +476,7 @@ void ClassifierCodeDocument::syncClassFields()
 {
     CodeClassFieldList::Iterator it = m_classfieldVector.begin();
     CodeClassFieldList::Iterator end = m_classfieldVector.end();
-    for ( ; it!= end; ++it )
+    for (; it!= end; ++it)
         (*it)->synchronize();
 }
 
@@ -486,7 +486,7 @@ void ClassifierCodeDocument::syncClassFields()
 void ClassifierCodeDocument::updateOperations()
 {
     UMLOperationList opList(getParentClassifier()->getOpList());
-    foreach (UMLOperation *op , opList ) {
+    foreach (UMLOperation *op , opList) {
         QString tag = CodeOperation::findTag(op);
         CodeOperation * codeOp = dynamic_cast<CodeOperation*>(findTextBlockByTag(tag, true));
         bool createdNew = false;
@@ -525,7 +525,7 @@ void ClassifierCodeDocument::initCodeClassFields()
     // first, do the code classifields that arise from attributes
     if (parentIsClass()) {
         UMLAttributeList alist = c->getAttributeList();
-        foreach(UMLAttribute * at , alist ) {
+        foreach(UMLAttribute * at , alist) {
             CodeClassField * field = CodeGenFactory::newCodeClassField(this, at);
             addCodeClassField(field);
         }
@@ -548,7 +548,7 @@ void ClassifierCodeDocument::initCodeClassFields()
  * Using the passed list, update our inventory of CodeClassFields which are
  * based on UMLRoles (e.g. derived from associations with other classifiers).
  */
-void ClassifierCodeDocument::updateAssociationClassFields ( UMLAssociationList &assocList )
+void ClassifierCodeDocument::updateAssociationClassFields (UMLAssociationList &assocList)
 {
     foreach(UMLAssociation * a , assocList)
         addAssociationClassField(a, false); // syncToParent later
@@ -573,7 +573,7 @@ void ClassifierCodeDocument::addAssociationClassField (UMLAssociation * a, bool 
         if(!m_classFieldMap.contains((UMLObject*)role))
         {
             CodeClassField * classfield = CodeGenFactory::newCodeClassField(this, role);
-            if( addCodeClassField(classfield))
+            if(addCodeClassField(classfield))
                 shouldSync = true;
         }
     }
@@ -585,7 +585,7 @@ void ClassifierCodeDocument::addAssociationClassField (UMLAssociation * a, bool 
         if(!m_classFieldMap.contains((UMLObject*)role))
         {
             CodeClassField * classfield = CodeGenFactory::newCodeClassField(this, role);
-            if( addCodeClassField(classfield))
+            if(addCodeClassField(classfield))
                 shouldSync = true;
         }
     }
@@ -599,7 +599,7 @@ void ClassifierCodeDocument::addAssociationClassField (UMLAssociation * a, bool 
  * Set the class attributes of this object from
  * the passed element node.
  */
-void ClassifierCodeDocument::setAttributesFromNode ( QDomElement & elem )
+void ClassifierCodeDocument::setAttributesFromNode (QDomElement & elem)
 {
     // NOTE: we DON'T set the parent here as we ONLY get to this point
     // IF the parent codegenerator could find a matching parent classifier
@@ -609,9 +609,9 @@ void ClassifierCodeDocument::setAttributesFromNode ( QDomElement & elem )
     // accessor methods by looking for our particular child element
     QDomNode node = elem.firstChild();
     QDomElement childElem = node.toElement();
-    while( !childElem.isNull() ) {
+    while(!childElem.isNull()) {
         QString tag = childElem.tagName();
-        if( tag == "classfields" ) {
+        if(tag == "classfields") {
             // load classfields
             loadClassFieldsFromXMI(childElem);
             break;
@@ -633,7 +633,7 @@ ClassifierCodeDocument::findCodeClassFieldFromParentID (Uml::ID::Type id,
 {
     CodeClassFieldList::Iterator it = m_classfieldVector.begin();
     CodeClassFieldList::Iterator end = m_classfieldVector.end();
-    for ( ; it != end; ++it )
+    for (; it != end; ++it)
     {
         CodeClassField * cf = *it;
         if(role_id == -1) { // attribute-based
@@ -658,13 +658,13 @@ ClassifierCodeDocument::findCodeClassFieldFromParentID (Uml::ID::Type id,
 /**
  * Load CodeClassFields from XMI element node.
  */
-void ClassifierCodeDocument::loadClassFieldsFromXMI( QDomElement & elem)
+void ClassifierCodeDocument::loadClassFieldsFromXMI(QDomElement & elem)
 {
     QDomNode node = elem.firstChild();
     QDomElement childElem = node.toElement();
-    while( !childElem.isNull() ) {
+    while(!childElem.isNull()) {
         QString nodeName = childElem.tagName();
-        if( nodeName == "codeclassfield")
+        if(nodeName == "codeclassfield")
         {
             QString id = childElem.attribute("parent_id","-1");
             int role_id = childElem.attribute("role_id","-1").toInt();
@@ -692,7 +692,7 @@ void ClassifierCodeDocument::loadClassFieldsFromXMI( QDomElement & elem)
 /**
  * Save the XMI representation of this object.
  */
-void ClassifierCodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root )
+void ClassifierCodeDocument::saveToXMI (QDomDocument & doc, QDomElement & root)
 {
 #if 0
     // avoid the creation of primitive data type
@@ -705,17 +705,17 @@ void ClassifierCodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root 
            return;
     }
 #endif
-    QDomElement docElement = doc.createElement( "classifiercodedocument" );
+    QDomElement docElement = doc.createElement("classifiercodedocument");
 
     setAttributesOnNode(doc, docElement);
 
-    root.appendChild( docElement );
+    root.appendChild(docElement);
 }
 
 /**
  * Load params from the appropriate XMI element node.
  */
-void ClassifierCodeDocument::loadFromXMI ( QDomElement & root )
+void ClassifierCodeDocument::loadFromXMI (QDomElement & root)
 {
     // set attributes/fields
     setAttributesFromNode(root);
@@ -728,7 +728,7 @@ void ClassifierCodeDocument::loadFromXMI ( QDomElement & root )
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void ClassifierCodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomElement & docElement)
+void ClassifierCodeDocument::setAttributesOnNode (QDomDocument & doc, QDomElement & docElement)
 {
     // do super-class first
     CodeDocument::setAttributesOnNode(doc, docElement);
@@ -738,12 +738,12 @@ void ClassifierCodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomEleme
 
     // (code) class fields
     // which we will store in its own separate child node block
-    QDomElement fieldsElement = doc.createElement( "classfields" );
+    QDomElement fieldsElement = doc.createElement("classfields");
     CodeClassFieldList::Iterator it = m_classfieldVector.begin();
     CodeClassFieldList::Iterator end = m_classfieldVector.end();
-    for ( ; it!= end; ++it )
+    for (; it!= end; ++it)
         (*it)->saveToXMI(doc, fieldsElement);
-    docElement.appendChild( fieldsElement);
+    docElement.appendChild(fieldsElement);
 }
 
 /**
@@ -754,7 +754,7 @@ TextBlock * ClassifierCodeDocument::findCodeClassFieldTextBlockByTag (const QStr
 {
     CodeClassFieldList::Iterator it = m_classfieldVector.begin();
     CodeClassFieldList::Iterator end = m_classfieldVector.end();
-    for ( ; it!= end; ++it )
+    for (; it!= end; ++it)
     {
         CodeClassField * cf = *it;
         CodeClassFieldDeclarationBlock * decl = cf->getDeclarationCodeBlock();
@@ -762,7 +762,7 @@ TextBlock * ClassifierCodeDocument::findCodeClassFieldTextBlockByTag (const QStr
             return decl;
         // well, if not in the decl block, then in the methods perhaps?
         CodeAccessorMethodList mlist = cf->getMethodList();
-        Q_FOREACH( CodeAccessorMethod *m, mlist )
+        Q_FOREACH(CodeAccessorMethod *m, mlist)
             if(m->getTag() == tag)
                 return m;
     }

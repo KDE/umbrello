@@ -81,7 +81,7 @@ void DWriter::writeModuleImports(UMLClassifier *c, QTextStream &d)
     //only import classes in a different package as this class
     UMLPackageList imports;
     findObjectsRelated(c, imports);
-    foreach (UMLPackage* con, imports  ) {
+    foreach (UMLPackage* con, imports ) {
         if (con->baseType() == UMLObject::ot_Datatype)
             continue;
         QString pkg = con->package();
@@ -117,7 +117,7 @@ void DWriter::writeClass(UMLClassifier *c)
 
     // check that we may open that file for writing
     QFile file;
-    if ( !openFile(file, fileName) ) {
+    if (!openFile(file, fileName)) {
         emit codeGenerated(c, false);
         return;
     }
@@ -157,7 +157,7 @@ void DWriter::writeClass(UMLClassifier *c)
 
     if (!isInterface) {
         UMLAttributeList atl = c->getAttributeList();
-        foreach (UMLAttribute* at, atl ) {
+        foreach (UMLAttribute* at, atl) {
             switch(at->visibility())
             {
                 case Uml::Visibility::Public:
@@ -237,7 +237,7 @@ void DWriter::writeClass(UMLClassifier *c)
     //
 
     // write comment for sub-section IF needed
-    if (forceDoc() || hasAccessorMethods ) {
+    if (forceDoc() || hasAccessorMethods) {
         writeComment("", m_indentation, d);
         writeComment("Accessors", m_indentation, d);
         writeComment("", m_indentation, d);
@@ -320,7 +320,7 @@ void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d)
     if (template_params.count()) {
         d << "(";
 
-        for (UMLTemplateListIt tlit( template_params ); tlit.hasNext(); ) {
+        for (UMLTemplateListIt tlit(template_params); tlit.hasNext();) {
             UMLTemplate* t = tlit.next();
             // TODO: hm, leaving the type blank results in "class"
             // so we omit it (also because "class" in this context is illegal)
@@ -352,7 +352,7 @@ void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d)
         d << " : ";
 
         // (f) base classes
-        foreach (UMLClassifier* concept, superclasses ) {
+        foreach (UMLClassifier* concept, superclasses) {
             d << cleanName(concept->name());
 
             count--;
@@ -361,7 +361,7 @@ void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d)
         }
 
         // (g) interfaces
-        foreach (UMLClassifier* concept, superinterfaces ) {
+        foreach (UMLClassifier* concept, superinterfaces) {
             d << cleanName(concept->name());
 
             count--;
@@ -382,7 +382,7 @@ void DWriter::writeAttributeDecl(Uml::Visibility::Enum visibility, UMLAttributeL
 
     writeProtectionMod(visibility, d);
 
-    foreach (UMLAttribute* at, atlist ) {
+    foreach (UMLAttribute* at, atlist) {
         // documentation
         if (!at->doc().isEmpty()) {
             writeComment(at->doc(), m_indentation, d, true);
@@ -413,7 +413,7 @@ void DWriter::writeAttributeDecl(Uml::Visibility::Enum visibility, UMLAttributeL
 }
 
 void DWriter::writeAttributeDecls(UMLAttributeList &atpub, UMLAttributeList &atprot,
-                                     UMLAttributeList &atpriv, QTextStream &d )
+                                     UMLAttributeList &atpriv, QTextStream &d)
 {
     writeAttributeDecl(Uml::Visibility::Public, atpub, d);
     writeAttributeDecl(Uml::Visibility::Protected, atprot, d);
@@ -427,7 +427,7 @@ void DWriter::writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility::En
 
     writeProtectionMod(visibility, d);
 
-    foreach (UMLAttribute* at, atpub ) {
+    foreach (UMLAttribute* at, atpub) {
         QString fieldName = cleanName(at->name());
         writeSingleAttributeAccessorMethods(
             at->getTypeName(), "m_" + fieldName, fieldName, at->doc(),
@@ -442,7 +442,7 @@ void DWriter::writeComment(const QString &comment, const QString &myIndent,
         d << myIndent << "/**" << m_endl;
     }
 
-    QStringList lines = comment.split("\n" );
+    QStringList lines = comment.split("\n");
 
     if (lines.count() == 0) lines << comment;
 
@@ -477,7 +477,7 @@ void DWriter::writeDocumentation(QString header, QString body, QString end, QStr
         d << formatDoc(body, indent+" * ");
     if (!end.isEmpty())
     {
-        QStringList lines = end.split( "\n" );
+        QStringList lines = end.split("\n");
         for (int i= 0; i < lines.count(); ++i) {
             d << formatDoc(lines[i], indent + " * ");
         }
@@ -487,10 +487,10 @@ void DWriter::writeDocumentation(QString header, QString body, QString end, QStr
 
 void DWriter::writeAssociationDecls(UMLAssociationList associations, Uml::ID::Type id, QTextStream &d)
 {
-    if ( forceSections() || !associations.isEmpty() )
+    if (forceSections() || !associations.isEmpty())
     {
         bool printRoleA = false, printRoleB = false;
-        foreach (UMLAssociation *a , associations ) {
+        foreach (UMLAssociation *a , associations) {
             // it may seem counter intuitive, but you want to insert the role of the
             // *other* class into *this* class.
             if (a->getObjectId(Uml::RoleType::A) == id)
@@ -560,8 +560,8 @@ void DWriter::writeAssociationRoleDecl(QString fieldClassName,
 
 void DWriter::writeAssociationMethods (UMLAssociationList associations, UMLClassifier *thisClass, QTextStream &d)
 {
-    if ( forceSections() || !associations.isEmpty() ) {
-        foreach (UMLAssociation *a , associations ) {
+    if (forceSections() || !associations.isEmpty()) {
+        foreach (UMLAssociation *a , associations) {
             // insert the methods to access the role of the other
             // class in the code of this one
             if (a->getObjectId(Uml::RoleType::A) == thisClass->id()) {
@@ -772,7 +772,7 @@ bool DWriter::compareDMethod(UMLOperation *op1, UMLOperation *op2)
     if (atl1.count() != atl2.count())
         return false;
 
-    for (UMLAttributeListIt atl1It( atl1 ), atl2It( atl2 ); atl1It.hasNext() && atl2It.hasNext(); ) {
+    for (UMLAttributeListIt atl1It(atl1), atl2It(atl2); atl1It.hasNext() && atl2It.hasNext();) {
         UMLAttribute* at1 = atl1It.next(), *at2 = atl2It.next();
         if (at1->getTypeName() != at2->getTypeName())
             return false;
@@ -783,7 +783,7 @@ bool DWriter::compareDMethod(UMLOperation *op1, UMLOperation *op2)
 
 bool DWriter::dMethodInList(UMLOperation *umlOp, UMLOperationList &opl)
 {
-    foreach (UMLOperation* op, opl ) {
+    foreach (UMLOperation* op, opl) {
         if (DWriter::compareDMethod(op, umlOp)) {
             return true;
         }
@@ -795,10 +795,10 @@ void DWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationList &
 {
     UMLClassifierList superClasses = c->findSuperClassConcepts();
 
-    foreach (UMLClassifier* concept, superClasses ) {
+    foreach (UMLClassifier* concept, superClasses) {
         getSuperImplementedOperations(concept, yetImplementedOpList, toBeImplementedOpList, (concept->isInterface() && noClassInPath));
         UMLOperationList opl = concept->getOpList();
-        foreach (UMLOperation* op, opl ) {
+        foreach (UMLOperation* op, opl) {
             if (concept->isInterface() && noClassInPath) {
                 if (!DWriter::dMethodInList(op,toBeImplementedOpList))
                     toBeImplementedOpList.append(op);
@@ -812,14 +812,14 @@ void DWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationList &
     }
 }
 
-void DWriter::getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOperationList &opList )
+void DWriter::getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOperationList &opList)
 {
     UMLOperationList yetImplementedOpList;
     UMLOperationList toBeImplementedOpList;
 
     getSuperImplementedOperations(c,yetImplementedOpList, toBeImplementedOpList);
-    foreach (UMLOperation* op, toBeImplementedOpList ) {
-        if ( ! DWriter::dMethodInList(op, yetImplementedOpList) && ! DWriter::dMethodInList(op, opList) )
+    foreach (UMLOperation* op, toBeImplementedOpList) {
+        if (! DWriter::dMethodInList(op, yetImplementedOpList) && ! DWriter::dMethodInList(op, opList))
             opList.append(op);
     }
 }
@@ -834,7 +834,7 @@ void DWriter::writeOperations(UMLClassifier *c, QTextStream &d)
     if (! c->isInterface()) {
         getInterfacesOperationsToBeImplemented(c, opl);
     }
-    foreach (UMLOperation* op, opl ) {
+    foreach (UMLOperation* op, opl) {
         switch(op->visibility()) {
           case Uml::Visibility::Public:
             oppub.append(op);
@@ -885,7 +885,7 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d)
     QString str;
 
     // generate method decl for each operation given
-    foreach (UMLOperation* op, oplist ) {
+    foreach (UMLOperation* op, oplist) {
         QString doc = "";
         // write documentation
 
@@ -905,7 +905,7 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d)
         atl = op->getParmList();
         int i = atl.count();
         int j = 0;
-        for (UMLAttributeListIt atlIt( atl ); atlIt.hasNext();  ++j) {
+        for (UMLAttributeListIt atlIt(atl); atlIt.hasNext();  ++j) {
             UMLAttribute* at = atlIt.next();
             QString typeName = fixTypeName(at->getTypeName());
             QString atName = cleanName(at->name());
@@ -962,7 +962,7 @@ QString DWriter::getUMLObjectName(UMLObject *obj)
 QString DWriter::deCapitaliseFirstLetter(const QString& str)
 {
     QString string = str;
-    string.replace( 0, 1, string[0].toLower());
+    string.replace(0, 1, string[0].toLower());
     return string;
 }
 

@@ -206,7 +206,7 @@ void SQLWriter::writeClass(UMLClassifier *c)
     }
 
     QFile file;
-    if( !openFile(file, fileName) ) {
+    if(!openFile(file, fileName)) {
         emit codeGenerated(m_pEntity, false);
         return;
     }
@@ -242,14 +242,14 @@ void SQLWriter::writeClass(UMLClassifier *c)
 
     // auto increments
     UMLEntityAttributeList autoIncrementList;
-    foreach( UMLEntityAttribute* entAtt, entAttList ) {
+    foreach(UMLEntityAttribute* entAtt, entAttList) {
         autoIncrementList.append(entAtt);
     }
 
-    printAutoIncrements( sql, autoIncrementList );
+    printAutoIncrements(sql, autoIncrementList);
 
 
-    // write all unique constraint ( including primary key )
+    // write all unique constraint (including primary key)
     UMLClassifierListItemList constrList = m_pEntity->getFilteredList(UMLObject::ot_UniqueConstraint);
     printUniqueConstraints(sql, constrList);
 
@@ -263,19 +263,19 @@ void SQLWriter::writeClass(UMLClassifier *c)
     printCheckConstraints(sql,constrList);
 
     // write all other indexes
-    foreach( UMLEntityAttribute* ea, entAttList ) {
-        if ( ea->indexType() != UMLEntityAttribute::Index )
+    foreach(UMLEntityAttribute* ea, entAttList) {
+        if (ea->indexType() != UMLEntityAttribute::Index)
             continue;
         UMLEntityAttributeList tempList;
-        tempList.append( ea );
-        printIndex( sql, m_pEntity, tempList );
+        tempList.append(ea);
+        printIndex(sql, m_pEntity, tempList);
         tempList.clear();
     }
 
         QMap<UMLAssociation*,UMLAssociation*> constraintMap; // so we don't repeat constraint
     UMLAssociationList relationships = m_pEntity->getRelationships();
-    if( forceSections() || !relationships.isEmpty() ) {
-        foreach ( UMLAssociation* a , relationships ) {
+    if(forceSections() || !relationships.isEmpty()) {
+        foreach (UMLAssociation* a , relationships) {
             UMLObject *objA = a->getObject(Uml::RoleType::A);
             UMLObject *objB = a->getObject(Uml::RoleType::B);
             if (objA->id() == m_pEntity->id() && objB->id() != m_pEntity->id())
@@ -361,13 +361,13 @@ QStringList SQLWriter::reservedKeywords() const
  * @param sql the stream we should print to
  * @param entityAttributeList the attributes to be printed
  */
-void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList entityAttributeList )
+void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList entityAttributeList)
 {
     QString attrDoc = "";
 
     bool first = true;
 
-    foreach ( UMLEntityAttribute* at, entityAttributeList ) {
+    foreach (UMLEntityAttribute* at, entityAttributeList) {
        // print , after attribute
          if (first) {
              first = false;
@@ -388,22 +388,22 @@ void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList e
         // the datatype
         sql<< ' ' << at->getTypeName();
 
-        // the length ( if there's some value)
+        // the length (if there's some value)
         QString lengthStr = at->getValues().trimmed();
         bool ok;
         uint length = lengthStr.toUInt(&ok);
 
-        if ( ok ) {
+        if (ok) {
             sql<<'('<<length<<')';
         }
 
-        // write the attributes ( unsigned, zerofill etc)
+        // write the attributes (unsigned, zerofill etc)
         QString attributes = at->getAttributes().trimmed();
-        if ( !attributes.isEmpty() ) {
+        if (!attributes.isEmpty()) {
             sql<<' '<<attributes;
         }
 
-        if ( !at->getNull() ) {
+        if (!at->getNull()) {
             sql<<" NOT NULL ";
         }
 
@@ -416,13 +416,13 @@ void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList e
 }
 
 /**
- * Prints out unique constraints (including primary key ) as "ALTER TABLE" statements.
+ * Prints out unique constraints (including primary key) as "ALTER TABLE" statements.
  * @param sql the stream we should print to
  * @param constrList the unique constraints to be printed
  */
 void SQLWriter::printUniqueConstraints(QTextStream& sql, UMLClassifierListItemList constrList)
 {
-   foreach( UMLClassifierListItem* cli, constrList ) {
+   foreach(UMLClassifierListItem* cli, constrList) {
        sql<<m_endl;
 
        UMLUniqueConstraint* uuc = static_cast<UMLUniqueConstraint*>(cli);
@@ -435,7 +435,7 @@ void SQLWriter::printUniqueConstraints(QTextStream& sql, UMLClassifierListItemLi
        sql<<"ALTER TABLE "<<cleanName(m_pEntity->name())
           <<" ADD CONSTRAINT "<<cleanName(uuc->name());
 
-       if ( m_pEntity->isPrimaryKey( uuc ) )
+       if (m_pEntity->isPrimaryKey(uuc))
            sql<<" PRIMARY KEY ";
        else
            sql<<" UNIQUE ";
@@ -443,8 +443,8 @@ void SQLWriter::printUniqueConstraints(QTextStream& sql, UMLClassifierListItemLi
        sql<<'(';
 
        bool first = true;
-       foreach( UMLEntityAttribute* entAtt, attList ) {
-           if ( first )
+       foreach(UMLEntityAttribute* entAtt, attList) {
+           if (first)
                first = false;
            else
                sql<<",";
@@ -466,7 +466,7 @@ void SQLWriter::printUniqueConstraints(QTextStream& sql, UMLClassifierListItemLi
  */
 void SQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierListItemList constrList)
 {
-   foreach( UMLClassifierListItem* cli, constrList ) {
+   foreach(UMLClassifierListItem* cli, constrList) {
 
        sql<<m_endl;
        UMLForeignKeyConstraint* fkc = static_cast<UMLForeignKeyConstraint*>(cli);
@@ -487,13 +487,13 @@ void SQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierListIt
 
        bool first = true;
        // the local attributes which refer the attributes of the referenced entity
-       foreach( UMLEntityAttribute* entAtt, entAttList ) {
-           if ( first )
+       foreach(UMLEntityAttribute* entAtt, entAttList) {
+           if (first)
                first = false;
            else
                sql<<',';
 
-           sql<<cleanName( entAtt->name() );
+           sql<<cleanName(entAtt->name());
        }
 
        sql<<')';
@@ -501,7 +501,7 @@ void SQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierListIt
        sql<<" REFERENCES ";
 
        UMLEntity* referencedEntity = fkc->getReferencedEntity();
-       sql<<cleanName( referencedEntity->name() );
+       sql<<cleanName(referencedEntity->name());
 
        sql<<'(';
 
@@ -509,13 +509,13 @@ void SQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierListIt
 
        first = true;
        // the attributes of the referenced entity which are being referenced
-       foreach( UMLEntityAttribute* refEntAtt, refEntAttList ) {
-          if ( first )
+       foreach(UMLEntityAttribute* refEntAtt, refEntAttList) {
+          if (first)
               first = false;
           else
               sql<<',';
 
-          sql<<cleanName( refEntAtt->name() );
+          sql<<cleanName(refEntAtt->name());
        }
 
        sql<<')';
@@ -547,23 +547,23 @@ void SQLWriter::printIndex(QTextStream& sql, UMLEntity* ent , UMLEntityAttribute
 
     // we don;t have any name, so we just merge the names of all attributes along with their entity name
 
-    sql<<cleanName( ent->name() )<<'_';
-    foreach( UMLEntityAttribute* entAtt,  entAttList ) {
-        sql<<cleanName( entAtt->name() )<<'_';
+    sql<<cleanName(ent->name())<<'_';
+    foreach(UMLEntityAttribute* entAtt,  entAttList) {
+        sql<<cleanName(entAtt->name())<<'_';
     }
     sql<<"index ";
 
-    sql<<" ON "<<cleanName( m_pEntity->name() )<<'(';
+    sql<<" ON "<<cleanName(m_pEntity->name())<<'(';
 
     bool first = true;
 
-    foreach( UMLEntityAttribute* entAtt, entAttList ) {
-        if ( first )
+    foreach(UMLEntityAttribute* entAtt, entAttList) {
+        if (first)
             first = false;
         else
             sql<<',';
 
-        sql<<cleanName( entAtt->name() );
+        sql<<cleanName(entAtt->name());
     }
 
     sql<<");";
@@ -577,7 +577,7 @@ void SQLWriter::printIndex(QTextStream& sql, UMLEntity* ent , UMLEntityAttribute
  * @param sql The Stream we should print to
  * @param entAttList The List of Entity Attributes that we want to auto increment
  */
-void SQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeList entAttList )
+void SQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeList entAttList)
 {
     Q_UNUSED(sql); Q_UNUSED(entAttList);
     // defer to derived classes
@@ -590,7 +590,7 @@ void SQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeList ent
  */
 void SQLWriter::printCheckConstraints(QTextStream& sql,UMLClassifierListItemList constrList)
 {
-    foreach( UMLClassifierListItem* cli, constrList ) {
+    foreach(UMLClassifierListItem* cli, constrList) {
         UMLCheckConstraint* chConstr = static_cast<UMLCheckConstraint*>(cli);
 
         sql<<m_endl;
@@ -599,10 +599,10 @@ void SQLWriter::printCheckConstraints(QTextStream& sql,UMLClassifierListItemList
 
         sql<<m_endl;
 
-        sql<<"ALTER TABLE "<<cleanName( m_pEntity->name() )
-           <<" ADD CONSTRAINT "<<cleanName( chConstr->name() )
+        sql<<"ALTER TABLE "<<cleanName(m_pEntity->name())
+           <<" ADD CONSTRAINT "<<cleanName(chConstr->name())
            <<" CHECK ("<<chConstr->getCheckCondition()
-           <<" )";
+           <<")";
 
         sql<<m_endl;
    }

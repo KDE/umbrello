@@ -79,12 +79,12 @@ UMLObject* UMLPackage::clone() const
  */
 void UMLPackage::addAssocToConcepts(UMLAssociation* assoc)
 {
-    if (! AssociationType::hasUMLRepresentation(assoc->getAssocType()) )
+    if (! AssociationType::hasUMLRepresentation(assoc->getAssocType()))
         return;
     Uml::ID::Type AId = assoc->getObjectId(Uml::RoleType::A);
     Uml::ID::Type BId = assoc->getObjectId(Uml::RoleType::B);
     UMLObject *o = NULL;
-    for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
+    for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         o = oit.next();
         UMLCanvasObject *c = dynamic_cast<UMLCanvasObject*>(o);
         if (c == NULL)
@@ -108,7 +108,7 @@ void UMLPackage::addAssocToConcepts(UMLAssociation* assoc)
 void UMLPackage::removeAssocFromConcepts(UMLAssociation *assoc)
 {
     UMLObject *o = 0;
-    for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
+    for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         o = oit.next();
         UMLCanvasObject *c = dynamic_cast<UMLCanvasObject*>(o);
         if (c) {
@@ -159,7 +159,7 @@ bool UMLPackage::addObject(UMLObject *pObject)
     else {
       QString name = pObject->name();
       QString oldName = name;
-      while ( findObject( name ) != NULL  ) {
+      while (findObject(name) != NULL ) {
          QString prevName = name;
          name = Model_Utils::uniqObjectName(pObject->baseType(),this);
          bool ok = true;
@@ -176,11 +176,11 @@ bool UMLPackage::addObject(UMLObject *pObject)
             continue;
         }
       }
-      if ( oldName != name ) {
+      if (oldName != name) {
         pObject->setName(name);
       }
     }
-    m_objects.append( pObject );
+    m_objects.append(pObject);
     return true;
 }
 
@@ -213,7 +213,7 @@ void UMLPackage::removeAllObjects()
     UMLCanvasObject::removeAllChildObjects();
     UMLObject *o = NULL;
 
-    while ( !m_objects.isEmpty() && (o = m_objects.first()) != NULL )  {
+    while (!m_objects.isEmpty() && (o = m_objects.first()) != NULL)  {
         UMLPackage *pkg = dynamic_cast<UMLPackage*>(o);
         if (pkg)
             pkg->removeAllObjects();
@@ -241,7 +241,7 @@ UMLObjectList UMLPackage::containedObjects()
 UMLObject * UMLPackage::findObject(const QString &name)
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
-    for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
+    for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         UMLObject *obj = oit.next();
         if (caseSensitive) {
             if (obj->name() == name)
@@ -265,16 +265,16 @@ UMLObject * UMLPackage::findObjectById(Uml::ID::Type id)
 }
 
 /**
- * Append all packages from this packaed ( and those from nested packeges)
+ * Append all packages from this packaed (and those from nested packeges)
  * to the given UMLPackageList.
  *
  * @param packages        The list to append to
  * @param includeNested   Whether to include the packages from nested packages
  *                        (default:true)
  */
-void UMLPackage::appendPackages(UMLPackageList& packages, bool includeNested )
+void UMLPackage::appendPackages(UMLPackageList& packages, bool includeNested)
 {
-    for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
+    for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         UMLObject *o = oit.next();
         ObjectType ot = o->baseType();
         if (ot == ot_Package) {
@@ -298,7 +298,7 @@ void UMLPackage::appendPackages(UMLPackageList& packages, bool includeNested )
 void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
                                    bool includeNested /* = true */)
 {
-    for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
+    for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         UMLObject *o = oit.next();
         ObjectType ot = o->baseType();
         if (ot == ot_Class || ot == ot_Interface ||
@@ -322,7 +322,7 @@ void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
 void UMLPackage::appendClasses(UMLClassifierList& classes,
                                bool includeNested /* = true */)
 {
-    for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
+    for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         UMLObject *o = oit.next();
         ObjectType ot = o->baseType();
         if (ot == ot_Class) {
@@ -343,10 +343,10 @@ void UMLPackage::appendClasses(UMLClassifierList& classes,
  * @param includeNested   Whether to include the entities from
  *                        nested packages (default: true.)
  */
-void UMLPackage::appendEntities( UMLEntityList& entities,
-                                 bool includeNested /* = true */ )
+void UMLPackage::appendEntities(UMLEntityList& entities,
+                                 bool includeNested /* = true */)
 {
-    for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
+    for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         UMLObject *o = oit.next();
         ObjectType ot = o->baseType();
         if (ot == ot_Entity) {
@@ -370,7 +370,7 @@ void UMLPackage::appendEntities( UMLEntityList& entities,
 void UMLPackage::appendClassesAndInterfaces(UMLClassifierList& classifiers,
         bool includeNested /* = true */)
 {
-    for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
+    for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         UMLObject *o = oit.next();
         ObjectType ot = o->baseType();
         if (ot == ot_Class || ot == ot_Interface) {
@@ -391,10 +391,10 @@ void UMLPackage::appendClassesAndInterfaces(UMLClassifierList& classifiers,
  * @param includeNested   Whether to include the interfaces from
  *                        nested packages (default: true.)
  */
-void UMLPackage::appendInterfaces( UMLClassifierList& interfaces,
+void UMLPackage::appendInterfaces(UMLClassifierList& interfaces,
                                    bool includeNested /* = true */)
 {
-    for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
+    for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         UMLObject *o = oit.next();
         ObjectType ot = o->baseType();
         if (ot == ot_Interface) {
@@ -418,7 +418,7 @@ void UMLPackage::appendInterfaces( UMLClassifierList& interfaces,
 bool UMLPackage::resolveRef()
 {
     bool overallSuccess = UMLCanvasObject::resolveRef();
-    for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
+    for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         UMLObject *obj = oit.next();
         if (! obj->resolveRef()) {
             UMLObject::ObjectType ot = obj->baseType();
@@ -439,12 +439,12 @@ void UMLPackage::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
     QDomElement ownedElement = qDoc.createElement("UML:Namespace.ownedElement");
     UMLObject *obj = NULL;
     // save classifiers etc.
-    for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
+    for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         obj = oit.next();
         obj->saveToXMI (qDoc, ownedElement);
     }
     // save associations
-    for (UMLObjectListIt ait(m_List); ait.hasNext(); ) {
+    for (UMLObjectListIt ait(m_List); ait.hasNext();) {
         obj = ait.next();
         obj->saveToXMI (qDoc, ownedElement);
     }
@@ -477,7 +477,7 @@ bool UMLPackage::load(QDomElement& element)
             continue;
         }
         UMLObject *pObject = Object_Factory::makeObjectFromXMI(type);
-        if( !pObject ) {
+        if(!pObject) {
             uWarning() << "Unknown type of umlobject to create: " << type;
             continue;
         }

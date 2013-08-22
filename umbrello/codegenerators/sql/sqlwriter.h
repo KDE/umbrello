@@ -51,7 +51,7 @@ protected:
     virtual void printForeignKeyConstraints(QTextStream& sql, UMLClassifierListItemList constrList);
     virtual void printCheckConstraints(QTextStream& sql,UMLClassifierListItemList constrList);
     virtual void printIndex(QTextStream& sql, UMLEntity* ent, UMLEntityAttributeList entAttList);
-    virtual void printAutoIncrements(QTextStream& sql, UMLEntityAttributeList entAttList );
+    virtual void printAutoIncrements(QTextStream& sql, UMLEntityAttributeList entAttList);
 };
 
 #endif // SQLWRITER_H

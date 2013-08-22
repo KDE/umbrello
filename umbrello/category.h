@@ -44,7 +44,7 @@ public:
 
     virtual UMLObject* clone() const;
 
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
     UMLCategory::Category_Type getType();
 
@@ -52,7 +52,7 @@ public:
 
 protected:
 
-    bool load( QDomElement & element );
+    bool load(QDomElement & element);
 
 private:
 

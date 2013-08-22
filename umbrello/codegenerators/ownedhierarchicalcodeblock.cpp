@@ -65,7 +65,7 @@ void OwnedHierarchicalCodeBlock::setAttributesOnNode(QDomDocument & doc, QDomEle
 
     // setting ID's takes special treatment
     // as UMLRoles arent properly stored in the XMI right now.
-    // (change would break the XMI format..save for big version change )
+    // (change would break the XMI format..save for big version change)
     UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
     if(role) {
         // see comment on role_id at OwnedCodeBlock::setAttributesOnNode()

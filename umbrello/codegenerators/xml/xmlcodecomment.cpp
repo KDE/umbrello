@@ -11,16 +11,16 @@
 
 #include "xmlcodecomment.h"
 
-XMLCodeComment::XMLCodeComment ( CodeDocument * doc, const QString & text )
+XMLCodeComment::XMLCodeComment (CodeDocument * doc, const QString & text)
   : CodeComment (doc, text)
 {
 }
 
-XMLCodeComment::~XMLCodeComment ( )
+XMLCodeComment::~XMLCodeComment ()
 {
 }
 
-QString XMLCodeComment::toString ( ) const
+QString XMLCodeComment::toString () const
 {
     QString output = "";
 

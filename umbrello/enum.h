@@ -44,7 +44,7 @@ public:
     UMLObject* addEnumLiteral(const QString &name, Uml::ID::Type id = Uml::ID::None);
 
     bool addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log = 0);
-    bool addEnumLiteral(UMLEnumLiteral* literal, int position );
+    bool addEnumLiteral(UMLEnumLiteral* literal, int position);
 
     int removeEnumLiteral(UMLEnumLiteral* literal);
 
@@ -52,7 +52,7 @@ public:
 
     void signalEnumLiteralRemoved(UMLClassifierListItem *elit);
 
-    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
     virtual UMLClassifierListItem* makeChildObject(const QString& xmiTag);
 
@@ -61,7 +61,7 @@ signals:
     void enumLiteralRemoved(UMLClassifierListItem*);
 
 protected:
-    bool load( QDomElement & element );
+    bool load(QDomElement & element);
 
 private:
     void init();

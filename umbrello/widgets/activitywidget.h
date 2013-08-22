@@ -46,15 +46,15 @@ public:
         Param
     };
 
-    explicit ActivityWidget( UMLScene * scene, ActivityType activityType = Normal, Uml::ID::Type id = Uml::ID::None );
+    explicit ActivityWidget(UMLScene * scene, ActivityType activityType = Normal, Uml::ID::Type id = Uml::ID::None);
     virtual ~ActivityWidget();
 
     ActivityType activityType() const;
     QString activityTypeStr() const;
-    void setActivityType( ActivityType activityType );
+    void setActivityType(ActivityType activityType);
 
-    static bool isActivity( WorkToolBar::ToolBar_Buttons tbb,
-                            ActivityType& resultType );
+    static bool isActivity(WorkToolBar::ToolBar_Buttons tbb,
+                            ActivityType& resultType);
 
     QString preconditionText() const;
     void setPreconditionText(const QString&);
@@ -65,8 +65,8 @@ public:
     virtual void showPropertiesDialog();
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
-    virtual bool loadFromXMI( QDomElement & qElement );
-    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    virtual bool loadFromXMI(QDomElement & qElement);
+    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
     void constrain(UMLSceneValue& width, UMLSceneValue& height);
 

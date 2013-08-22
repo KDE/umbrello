@@ -19,13 +19,13 @@
 #include "umldoc.h"
 #include "umlobject.h"
 
-CodeOperation::CodeOperation ( ClassifierCodeDocument * doc , UMLOperation * parentOp, const QString & body, const QString & comment)
-        : CodeMethodBlock ( doc, parentOp, body, comment)
+CodeOperation::CodeOperation (ClassifierCodeDocument * doc , UMLOperation * parentOp, const QString & body, const QString & comment)
+        : CodeMethodBlock (doc, parentOp, body, comment)
 {
     init(parentOp);
 }
 
-CodeOperation::~CodeOperation ( )
+CodeOperation::~CodeOperation ()
 {
 }
 
@@ -33,7 +33,7 @@ CodeOperation::~CodeOperation ( )
  * Add a Parameter object to the m_parameterVector List
  */
 /*
-void CodeOperation::addParameter ( CodeParameter * add_object )
+void CodeOperation::addParameter (CodeParameter * add_object)
 {
     m_parameterVector.append(add_object);
 }
@@ -43,7 +43,7 @@ void CodeOperation::addParameter ( CodeParameter * add_object )
  * Remove a Parameter object from m_parameterVector List
  */
 /*
-void CodeOperation::removeParameter ( CodeParameter * remove_object )
+void CodeOperation::removeParameter (CodeParameter * remove_object)
 {
     m_parameterVector.remove(remove_object);
 }
@@ -55,13 +55,13 @@ void CodeOperation::removeParameter ( CodeParameter * remove_object )
  * m_parameterVector
  */
 /*
-QList<CodeParameter*> CodeOperation::getParameterList ( )
+QList<CodeParameter*> CodeOperation::getParameterList ()
 {
     return m_parameterVector;
 }
 */
 
-UMLOperation * CodeOperation::getParentOperation( )
+UMLOperation * CodeOperation::getParentOperation()
 {
     return dynamic_cast<UMLOperation*>(getParentObject());
 }
@@ -69,18 +69,18 @@ UMLOperation * CodeOperation::getParentOperation( )
 /**
  * Save the XMI representation of this object.
  */
-void CodeOperation::saveToXMI ( QDomDocument & doc, QDomElement & root )
+void CodeOperation::saveToXMI (QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement( "codeoperation" );
+    QDomElement blockElement = doc.createElement("codeoperation");
     // set attributes
     setAttributesOnNode(doc, blockElement);
-    root.appendChild( blockElement );
+    root.appendChild(blockElement);
 }
 
 /**
  * Load params from the appropriate XMI element node.
  */
-void CodeOperation::loadFromXMI ( QDomElement & root )
+void CodeOperation::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -97,7 +97,7 @@ QString CodeOperation::findTag (UMLOperation * op)
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void CodeOperation::setAttributesOnNode ( QDomDocument & doc, QDomElement & elem)
+void CodeOperation::setAttributesOnNode (QDomDocument & doc, QDomElement & elem)
 {
     CodeMethodBlock::setAttributesOnNode(doc,elem); // superclass
 }
@@ -106,7 +106,7 @@ void CodeOperation::setAttributesOnNode ( QDomDocument & doc, QDomElement & elem
  * Set the class attributes of this object from
  * the passed element node.
  */
-void CodeOperation::setAttributesFromNode ( QDomElement & element)
+void CodeOperation::setAttributesFromNode (QDomElement & element)
 {
     CodeMethodBlock::setAttributesFromNode(element); // superclass
 

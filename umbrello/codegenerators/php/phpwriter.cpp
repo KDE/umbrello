@@ -3028,7 +3028,7 @@ void PhpWriter::writeClass(UMLClassifier *c)
     UMLPackageList includes;
     findObjectsRelated(c,includes);
 
-    foreach(UMLPackage* conc , includes ) {
+    foreach(UMLPackage* conc , includes) {
         QString headerName = findFileName(conc, ".php");
         if (headerName.isEmpty()) {
             php << "include '" << headerName << "';" << m_endl;
@@ -3058,15 +3058,15 @@ void PhpWriter::writeClass(UMLClassifier *c)
         << "*****************************************************************************/" << m_endl << m_endl;
 
     php << "class " << classname << (superclasses.count() > 0 ? " extends ":"");
-    foreach (UMLClassifier *obj , superclasses ) {
+    foreach (UMLClassifier *obj , superclasses) {
         php << cleanName(obj->name());
     }
     php << m_endl << "{" << m_endl;
 
     //associations
-    if ( forceSections() || !aggregations.isEmpty()) {
+    if (forceSections() || !aggregations.isEmpty()) {
         php<< m_endl << m_indentation << "/** Aggregations: */" << m_endl;
-        foreach (UMLAssociation* a , aggregations ) {
+        foreach (UMLAssociation* a , aggregations) {
             php<< m_endl;
             //maybe we should parse the string here and take multiplicity into account to decide
             //which container to use.
@@ -3080,9 +3080,9 @@ void PhpWriter::writeClass(UMLClassifier *c)
         }//end for
     }
 
-    if ( forceSections() || !compositions.isEmpty()) {
+    if (forceSections() || !compositions.isEmpty()) {
         php<< m_endl << m_indentation << "/** Compositions: */" << m_endl;
-        foreach ( UMLAssociation* a , compositions ) {
+        foreach (UMLAssociation* a , compositions) {
             // see comment on Aggregation about multiplicity...
             //:UNUSED: UMLObject *o = a->getObject(Uml::RoleType::A);
             //:UNUSED: QString typeName = cleanName(o->name());
@@ -3112,9 +3112,9 @@ void PhpWriter::writeClass(UMLClassifier *c)
                        " Make sure to call this method within your class constructor";
         php << formatDoc(temp,m_indentation + " * ");
         php << m_indentation << " */" << m_endl;
-        php << m_indentation << "function "<<"initAttributes( )" << m_endl;
+        php << m_indentation << "function "<<"initAttributes()" << m_endl;
         php << m_indentation << "{" << m_endl;
-        foreach (UMLAttribute* at , atl )  {
+        foreach (UMLAttribute* at , atl)  {
             if (!at->getInitialValue().isEmpty())  {
                 php << m_indentation << m_indentation << "$this->" << cleanName(at->name()) << " = " <<
                 at->getInitialValue() << ";" << m_endl;
@@ -3150,7 +3150,7 @@ void PhpWriter::writeOperations(UMLClassifier *c, QTextStream &php)
 
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList opl(c->getOpList());
-    foreach (UMLOperation *op , opl ) {
+    foreach (UMLOperation *op , opl) {
         switch(op->visibility()) {
           case Uml::Visibility::Public:
             oppub.append(op);
@@ -3196,19 +3196,19 @@ void PhpWriter::writeOperations(const QString& classname,
                                 QTextStream &php)
 {
     Q_UNUSED(classname);
-    foreach (UMLOperation* op , opList ) {
+    foreach (UMLOperation* op , opList) {
         UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->doc().isEmpty();
-        foreach (UMLAttribute* at , atl )
+        foreach (UMLAttribute* at , atl)
             writeDoc |= !at->doc().isEmpty();
 
-        if ( writeDoc )  //write method documentation
+        if (writeDoc)  //write method documentation
         {
             php <<m_indentation << "/**" << m_endl <<formatDoc(op->doc(),m_indentation + " * ");
             php << m_indentation << " *" << m_endl;
 
-            foreach (UMLAttribute* at , atl )  //write parameter documentation
+            foreach (UMLAttribute* at , atl)  //write parameter documentation
             {
                 if (forceDoc() || !at->doc().isEmpty()) {
                     php <<m_indentation << " * @param " + at->getTypeName() + " " + cleanName(at->name());
@@ -3238,7 +3238,7 @@ void PhpWriter::writeOperations(const QString& classname,
 
         int i= atl.count();
         int j=0;
-        foreach (UMLAttribute* at , atl ) {
+        foreach (UMLAttribute* at , atl) {
             php << " $" << cleanName(at->name())
             << (!(at->getInitialValue().isEmpty()) ?
                 (QString(" = ")+at->getInitialValue()) :
@@ -3246,7 +3246,7 @@ void PhpWriter::writeOperations(const QString& classname,
             << ((j < i-1)?", ":"");
             j++;
         }
-        php <<" )" << m_endl;
+        php <<")" << m_endl;
         php << m_indentation << "{" << m_endl;
         QString sourceCode = op->getSourceCode();
         if (sourceCode.isEmpty()) {
@@ -3272,7 +3272,7 @@ void PhpWriter::writeAttributes(UMLClassifier *c, QTextStream &php)
     //sort attributes by scope and see if they have a default value
     UMLAttributeList atl = c->getAttributeList();
 
-    foreach (UMLAttribute* at , atl ) {
+    foreach (UMLAttribute* at , atl) {
         if (!at->getInitialValue().isEmpty())
             atdefval.append(at);
         switch(at->visibility()) {
@@ -3313,7 +3313,7 @@ void PhpWriter::writeAttributes(UMLClassifier *c, QTextStream &php)
  */
 void PhpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &php)
 {
-    foreach (UMLAttribute *at , atList ) {
+    foreach (UMLAttribute *at , atList) {
         if (forceDoc() || !at->doc().isEmpty()) {
             php << m_indentation << "/**" << m_endl << formatDoc(at->doc(), m_indentation + " * ");
             switch(at->visibility()) {

@@ -34,15 +34,15 @@ public:
     /**
      * Constructors
      */
-    CodeMethodBlock ( ClassifierCodeDocument * doc, UMLObject * parentObj,
+    CodeMethodBlock (ClassifierCodeDocument * doc, UMLObject * parentObj,
                       const QString & body = "", const QString & comment = "");
 
     /**
      * Empty Destructor
      */
-    virtual ~CodeMethodBlock ( );
+    virtual ~CodeMethodBlock ();
 
-    virtual QString toString ( ) const;
+    virtual QString toString () const;
 
     QString getStartMethodText () const;
 
@@ -55,7 +55,7 @@ public:
      * to update the *body* of the method.
      * It is only called if the method is Auto-generated.
      */
-    virtual void updateContent ( ) = 0;
+    virtual void updateContent () = 0;
 
 protected:
 
@@ -70,11 +70,11 @@ protected:
      * To update the start and end Method text. It is called
      * whether or not the method is Auto or User generated.
      */
-    virtual void updateMethodDeclaration ( ) = 0;
+    virtual void updateMethodDeclaration () = 0;
 
-    virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
+    virtual void setAttributesOnNode (QDomDocument & doc, QDomElement & blockElement);
 
-    virtual void setAttributesFromNode ( QDomElement & element);
+    virtual void setAttributesFromNode (QDomElement & element);
 
     virtual void setAttributesFromObject (TextBlock * obj);
 

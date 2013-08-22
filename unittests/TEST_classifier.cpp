@@ -105,185 +105,185 @@ void TEST_classifier::test_addAttributeWithType()
     UMLAttribute* attrA = a->addAttribute("attributeA_", Uml::ID::None);
     /* UMLAttribute* attrB = */ a->addAttribute("attributeB_", Uml::ID::None);
     int num1 = a->attributes();
-    QCOMPARE( num1, 2 );
+    QCOMPARE(num1, 2);
     int num2 = a->removeAttribute(attrA);
-    QCOMPARE( num2, 1);  // one deleted
+    QCOMPARE(num2, 1);  // one deleted
     int num3 = a->attributes();
-    QCOMPARE( num3, num1 - 1);
+    QCOMPARE(num3, num1 - 1);
 }
 
 void TEST_classifier::test_addAttributeWithObject()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_addAttributeWithAttribute()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_removeAndCountAttribute()
 {
     UMLClassifier* a = new UMLClassifier("Test A", Uml::ID::None);
     int num0 = a->attributes();
-    QCOMPARE( num0, 0);  // no attributes present yet
+    QCOMPARE(num0, 0);  // no attributes present yet
     /*UMLAttribute* attrA = */ a->addAttribute("attributeA_", Uml::ID::None);
     UMLAttribute* attrB = a->addAttribute("attributeB_", Uml::ID::None);
     UMLAttribute* attrC = a->addAttribute("attributeC_", Uml::ID::None);
     /* UMLAttribute* attrD = */ a->addAttribute("attributeD_", Uml::ID::None);
     int num1 = a->attributes();
-    QCOMPARE( num1, 4 );
+    QCOMPARE(num1, 4);
     int num2 = a->removeAttribute(attrB);
-    QCOMPARE( num2, 1);  // one deleted
+    QCOMPARE(num2, 1);  // one deleted
     num2 = a->removeAttribute(attrC);
-    QCOMPARE( num2, 1);  // one deleted
+    QCOMPARE(num2, 1);  // one deleted
     int num3 = a->attributes();
-    QCOMPARE( num3, 2); 
+    QCOMPARE(num3, 2); 
 }
 
 void TEST_classifier::test_getAttributeList()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_addOperationWithPosition()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_addOperationWithLog()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_checkOperationSignature()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_removeAndCountOperation()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_getOperationList()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_addTemplateWithType()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_addTemplateWithLog()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_addTemplateWithPosition()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_removeAndCountTemplate()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_findTemplate()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_getTemplateList()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_takeItem()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_getFilteredList()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_resolveRef()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_findOperations()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_findChildObjectById()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_findOperation()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_findSuperClassConcepts()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_findSubClassConcepts()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_setGetClassAssoc()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_setBaseType()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_isInterface()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_isDatatype()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_setGetOriginType()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_setGetIsReference()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_hasAbstractOps()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_makeChildObject()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_classifier::test_getUniAssociationToBeImplemented()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 QTEST_MAIN(TEST_classifier)

@@ -30,7 +30,7 @@ class UMLUniqueConstraint : public UMLEntityConstraint
 public:
 
     UMLUniqueConstraint(UMLObject *parent, const QString& name,
-                        Uml::ID::Type id = Uml::ID::None );
+                        Uml::ID::Type id = Uml::ID::None);
     explicit UMLUniqueConstraint(UMLObject *parent);
     virtual ~UMLUniqueConstraint();
 
@@ -45,7 +45,7 @@ public:
     QString getFullyQualifiedName(const QString& separator = QString(),
                                   bool includeRoot = false) const;
 
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
     virtual bool showPropertiesDialog(QWidget* parent);
 
@@ -61,7 +61,7 @@ public:
 
 protected:
 
-    bool load( QDomElement & element );
+    bool load(QDomElement & element);
 
 private:
 

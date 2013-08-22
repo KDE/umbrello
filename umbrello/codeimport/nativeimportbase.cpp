@@ -361,7 +361,7 @@ bool NativeImportBase::parseFile(const QString& filename)
     const QString msgPrefix = filename + ": ";
     if (filename.contains('/')) {
         QString path = filename;
-        path.remove( QRegExp("/[^/]+$") );
+        path.remove(QRegExp("/[^/]+$"));
         uDebug() << msgPrefix << "adding path " << path;
         Import_Utils::addIncludePath(path);
     }

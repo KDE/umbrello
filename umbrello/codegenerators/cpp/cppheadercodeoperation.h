@@ -26,18 +26,18 @@ public:
     /**
      * Constructor
      */
-    CPPHeaderCodeOperation ( CPPHeaderCodeDocument * doc, UMLOperation * op,
+    CPPHeaderCodeOperation (CPPHeaderCodeDocument * doc, UMLOperation * op,
                              const QString & body = "", const QString & comment = "");
 
     /**
      * Empty Destructor
      */
-    virtual ~CPPHeaderCodeOperation ( );
+    virtual ~CPPHeaderCodeOperation ();
 
     virtual int lastEditableLine();
 
     virtual void updateMethodDeclaration();
-    virtual void updateContent( );
+    virtual void updateContent();
 
 protected:
 

@@ -25,17 +25,17 @@
 /**
  * Constructor
  */
-OwnedCodeBlock::OwnedCodeBlock ( UMLObject * parent )
-    : QObject ( parent )
+OwnedCodeBlock::OwnedCodeBlock (UMLObject * parent)
+    : QObject (parent)
 {
-    setObjectName( "anOwnedCodeBlock" );
+    setObjectName("anOwnedCodeBlock");
     initFields(parent);
 }
 
 /**
  * Empty Destructor
  */
-OwnedCodeBlock::~OwnedCodeBlock ( )
+OwnedCodeBlock::~OwnedCodeBlock ()
 {
     /*
         if (m_parentObject) {
@@ -83,7 +83,7 @@ void OwnedCodeBlock::setAttributesOnNode(QDomDocument& /*doc*/, QDomElement& ele
     // set local class attributes
     // setting ID's takes special treatment
     // as UMLRoles arent properly stored in the XMI right now.
-    // (change would break the XMI format..save for big version change )
+    // (change would break the XMI format..save for big version change)
     UMLRole * role = dynamic_cast<UMLRole*>(m_parentObject);
     if (role) {
         elem.setAttribute("parent_id",Uml::ID::toString(role->parentAssociation()->id()));
@@ -103,7 +103,7 @@ void OwnedCodeBlock::setAttributesOnNode(QDomDocument& /*doc*/, QDomElement& ele
  * Set the class attributes of this object from
  * the passed element node.
  */
-void OwnedCodeBlock::setAttributesFromNode ( QDomElement & elem)
+void OwnedCodeBlock::setAttributesFromNode (QDomElement & elem)
 {
     // set local attributes, parent object first
     QString idStr = elem.attribute("parent_id","-1");
@@ -141,17 +141,17 @@ void OwnedCodeBlock::setAttributesFromNode ( QDomElement & elem)
                          << Uml::ID::toString(id) << " w/role_id:" << role_id;
 
             // init using UMLRole obj
-            initFields ( role );
+            initFields (role);
         }
         else
-            initFields ( obj); // just the regular approach
+            initFields (obj); // just the regular approach
     } 
     else
         uError() << "ERROR: can not load ownedcodeblock: parentUMLObject w/id:"
                  << Uml::ID::toString(id) << " not found, corrupt save file?";
 }
 
-void OwnedCodeBlock::initFields(UMLObject * parent )
+void OwnedCodeBlock::initFields(UMLObject * parent)
 {
     m_parentObject = parent;
 

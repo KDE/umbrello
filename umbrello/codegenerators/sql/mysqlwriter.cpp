@@ -44,38 +44,38 @@ QStringList MySQLWriter::defaultDatatypes()
 {
     QStringList l;
 
-    l.append( "ascii" );
-    l.append( "bigint" );
-    l.append( "bit" );
-    l.append( "binary" );
-    l.append( "blob" );
-    l.append( "bool" );
-    l.append( "char" );
-    l.append( "charset" );
-    l.append( "date" );
-    l.append( "datetime" );
-    l.append( "decimal" );
-    l.append( "double" );
-    l.append( "enum" );
-    l.append( "float" );
-    l.append( "integer" );
-    l.append( "longblob" );
-    l.append( "longtext" );
-    l.append( "mediumblob" );
-    l.append( "mediumint" );
-    l.append( "mediumtext" );
-    l.append( "varbinary" );
-    l.append( "varchar" );
-    l.append( "serial" );
-    l.append( "set" );
-    l.append( "smallint" );
-    l.append( "timestamp" );
-    l.append( "time" );
-    l.append( "tinyblob" );
-    l.append( "tinyint" );
-    l.append( "tinytext" );
-    l.append( "text" );
-    l.append( "unicode" );
+    l.append("ascii");
+    l.append("bigint");
+    l.append("bit");
+    l.append("binary");
+    l.append("blob");
+    l.append("bool");
+    l.append("char");
+    l.append("charset");
+    l.append("date");
+    l.append("datetime");
+    l.append("decimal");
+    l.append("double");
+    l.append("enum");
+    l.append("float");
+    l.append("integer");
+    l.append("longblob");
+    l.append("longtext");
+    l.append("mediumblob");
+    l.append("mediumint");
+    l.append("mediumtext");
+    l.append("varbinary");
+    l.append("varchar");
+    l.append("serial");
+    l.append("set");
+    l.append("smallint");
+    l.append("timestamp");
+    l.append("time");
+    l.append("tinyblob");
+    l.append("tinyint");
+    l.append("tinytext");
+    l.append("text");
+    l.append("unicode");
 
     return l;
 }
@@ -87,7 +87,7 @@ void MySQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierList
 {
     // we need to create an index on the referenced attributes before we can create a foreign key constraint in MySQL
 
-    foreach( UMLClassifierListItem* cli, constrList ) {
+    foreach(UMLClassifierListItem* cli, constrList) {
         UMLForeignKeyConstraint* fkc = static_cast<UMLForeignKeyConstraint*>(cli);
 
         QMap<UMLEntityAttribute*, UMLEntityAttribute*> attributeMap = fkc->getEntityAttributePairs();
@@ -97,15 +97,15 @@ void MySQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierList
 
         // convert to UMLEntityAttributeList
         UMLEntityAttributeList refAttList;
-        foreach( UMLEntityAttribute* ea, eaList ) {
-            refAttList.append( ea );
+        foreach(UMLEntityAttribute* ea, eaList) {
+            refAttList.append(ea);
         }
 
         // create an index on them
-        SQLWriter::printIndex( sql, fkc->getReferencedEntity(), refAttList );
+        SQLWriter::printIndex(sql, fkc->getReferencedEntity(), refAttList);
     }
 
-    SQLWriter::printForeignKeyConstraints( sql, constrList );
+    SQLWriter::printForeignKeyConstraints(sql, constrList);
 }
 
 /**
@@ -120,34 +120,34 @@ void MySQLWriter::printAutoIncrements(QTextStream& sql, const UMLEntityAttribute
     // get the first attribute of list with auto increment
     UMLEntityAttribute* autoIncrementEntAtt = NULL;
     foreach(UMLEntityAttribute* ea, entAttList) {
-       if ( ea->getAutoIncrement() ) {
+       if (ea->getAutoIncrement()) {
            autoIncrementEntAtt = ea;
            break;
        }
     }
 
-    if ( autoIncrementEntAtt == NULL ) {
+    if (autoIncrementEntAtt == NULL) {
         return;
     }
 
     // create an index on this attribute
     UMLEntityAttributeList indexList;
-    indexList.append( autoIncrementEntAtt );
+    indexList.append(autoIncrementEntAtt);
 
-    printIndex( sql, m_pEntity, indexList );
+    printIndex(sql, m_pEntity, indexList);
 
     // now alter the table and this column to add the auto increment
-    sql<<"ALTER TABLE "<<cleanName( m_pEntity->name() )
-       <<" CHANGE "<<cleanName( autoIncrementEntAtt->name() )
-       <<" "<<cleanName( autoIncrementEntAtt->name() )
-       <<" "<<cleanName( autoIncrementEntAtt->getTypeName() )
-       <<" "<<cleanName( autoIncrementEntAtt->getAttributes() )
+    sql<<"ALTER TABLE "<<cleanName(m_pEntity->name())
+       <<" CHANGE "<<cleanName(autoIncrementEntAtt->name())
+       <<" "<<cleanName(autoIncrementEntAtt->name())
+       <<" "<<cleanName(autoIncrementEntAtt->getTypeName())
+       <<" "<<cleanName(autoIncrementEntAtt->getAttributes())
        <<" "<<" NOT NULL AUTO_INCREMENT ;";
 
     sql<<m_endl;
 
     // we don't support start values currently, but when we do, uncomment the following
-    //sql<<" ALTER TABLE "<<cleanName( m_pEntity->getName() )
+    //sql<<" ALTER TABLE "<<cleanName(m_pEntity->getName())
     //   <<" AUTO_INCREMENT = "<<theValue;
     //sql<<m_endl;
 }
@@ -158,13 +158,13 @@ void MySQLWriter::printAutoIncrements(QTextStream& sql, const UMLEntityAttribute
 void MySQLWriter::printCheckConstraints(QTextStream& sql,UMLClassifierListItemList constrList)
 {
     sql<<m_endl;
-    sql<<"-- CHECK Constraints are not supported in Mysql ( as of version 5.x )";
+    sql<<"-- CHECK Constraints are not supported in Mysql (as of version 5.x)";
     sql<<m_endl;
     sql<<"-- But it'll parse the statements without error ";
     sql<<m_endl;
 
     // call base class
-    SQLWriter::printCheckConstraints( sql, constrList );
+    SQLWriter::printCheckConstraints(sql, constrList);
 }
 
 #include "mysqlwriter.moc"

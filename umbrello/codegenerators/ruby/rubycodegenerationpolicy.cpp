@@ -80,7 +80,7 @@ bool RubyCodeGenerationPolicy::getAutoGenerateAssocAccessors()
  * @param defaults           the defaults to set
  * @param emitUpdateSignal   flag whether to emit the update signal
  */
-void RubyCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * defaults, bool emitUpdateSignal )
+void RubyCodeGenerationPolicy::setDefaults (CodeGenPolicyExt * defaults, bool emitUpdateSignal)
 {
     RubyCodeGenerationPolicy * rclone;
     if (!defaults)
@@ -108,7 +108,7 @@ void RubyCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * defaults, bool e
  * Set the defaults from a config file for this code generator from the passed KConfig pointer.
  * @param emitUpdateSignal   flag whether to emit the update signal
  */
-void RubyCodeGenerationPolicy::setDefaults( bool emitUpdateSignal )
+void RubyCodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
 {
     // call the superclass to init default stuff
     m_commonPolicy->setDefaults(false);
@@ -135,9 +135,9 @@ void RubyCodeGenerationPolicy::setDefaults( bool emitUpdateSignal )
  * @param name     the name of the page
  * @return dialog object
  */
-CodeGenerationPolicyPage * RubyCodeGenerationPolicy::createPage ( QWidget *parent, const char *name )
+CodeGenerationPolicyPage * RubyCodeGenerationPolicy::createPage (QWidget *parent, const char *name)
 {
-    return new RubyCodeGenerationPolicyPage ( parent, name, this );
+    return new RubyCodeGenerationPolicyPage (parent, name, this);
 }
 
 /**
@@ -148,8 +148,8 @@ void RubyCodeGenerationPolicy::init()
     blockSignals(true);
 
     Settings::OptionState optionState = Settings::optionState();
-    setAutoGenerateAttribAccessors( optionState.codeGenerationState.rubyCodeGenerationState.autoGenerateAttributeAccessors);
-    setAutoGenerateAssocAccessors( optionState.codeGenerationState.rubyCodeGenerationState.autoGenerateAssocAccessors);
+    setAutoGenerateAttribAccessors(optionState.codeGenerationState.rubyCodeGenerationState.autoGenerateAttributeAccessors);
+    setAutoGenerateAssocAccessors(optionState.codeGenerationState.rubyCodeGenerationState.autoGenerateAssocAccessors);
 
     blockSignals(false);
 }

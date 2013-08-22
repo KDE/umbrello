@@ -77,7 +77,7 @@ void PkgContentsPage::slotDoubleClick(QListWidgetItem *item)
         return;
     }
     int index = m_contentLW->currentRow();
-    if ( index == -1 ) {
+    if (index == -1) {
         return;
     }
     UMLObjectList contents = m_package->containedObjects();
@@ -129,9 +129,9 @@ void PkgContentsPage::slotPopupMenuSel(QAction* action)
     case ListPopupMenu::mt_Delete:
         {
             UMLObjectList contents = m_package->containedObjects();
-            if ( m_contentLW->currentRow() == -1 )
+            if (m_contentLW->currentRow() == -1)
                 break;
-            UMLObject *o = contents.at( m_contentLW->currentRow() );
+            UMLObject *o = contents.at(m_contentLW->currentRow());
             UMLApp::app()->document()->removeUMLObject(o);
             fillListBox();
         }

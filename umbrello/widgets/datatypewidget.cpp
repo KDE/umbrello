@@ -55,7 +55,7 @@ void DatatypeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     if (UMLWidget::useFillColor())  {
         painter->setBrush(UMLWidget::fillColor());
     } else {
-        painter->setBrush( m_scene->activeView()->viewport()->palette().color(QPalette::Background) );
+        painter->setBrush(m_scene->activeView()->viewport()->palette().color(QPalette::Background));
     }
 
     int w = width();
@@ -74,7 +74,7 @@ void DatatypeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
                w - DATATYPE_MARGIN* 2,fontHeight,
                Qt::AlignCenter, m_umlObject->stereotype(true));
 
-    font.setItalic( m_umlObject->isAbstract() );
+    font.setItalic(m_umlObject->isAbstract());
     painter->setFont(font);
     painter->drawText(DATATYPE_MARGIN, fontHeight,
                w - DATATYPE_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
@@ -87,7 +87,7 @@ void DatatypeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 /**
  * Loads from a "datatypewidget" XMI element.
  */
-bool DatatypeWidget::loadFromXMI( QDomElement & qElement )
+bool DatatypeWidget::loadFromXMI(QDomElement & qElement)
 {
     return UMLWidget::loadFromXMI(qElement);
 }
@@ -95,7 +95,7 @@ bool DatatypeWidget::loadFromXMI( QDomElement & qElement )
 /**
  * Saves to the "datatypewidget" XMI element.
  */
-void DatatypeWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+void DatatypeWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement conceptElement = qDoc.createElement("datatypewidget");
     UMLWidget::saveToXMI(qDoc, conceptElement);

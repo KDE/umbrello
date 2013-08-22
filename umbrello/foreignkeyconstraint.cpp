@@ -39,7 +39,7 @@ UMLForeignKeyConstraint::UMLForeignKeyConstraint(UMLObject *parent,
  * @param parent    The parent of this UMLForeignKeyConstraint.
  */
 UMLForeignKeyConstraint::UMLForeignKeyConstraint(UMLObject *parent)
-    : UMLEntityConstraint( parent )
+    : UMLEntityConstraint(parent)
 {
     init();
 }
@@ -54,7 +54,7 @@ void UMLForeignKeyConstraint::init()
 
      // should be NULL actually
      // self referencing assigned to protect default behaviour
-     m_ReferencedEntity = static_cast<UMLEntity*>( parent() );
+     m_ReferencedEntity = static_cast<UMLEntity*>(parent());
 
      m_UpdateAction = uda_NoAction;
      m_DeleteAction = uda_NoAction;
@@ -66,12 +66,12 @@ void UMLForeignKeyConstraint::init()
 /**
  * Overloaded '==' operator
  */
-bool UMLForeignKeyConstraint::operator==( const UMLForeignKeyConstraint &rhs) const
+bool UMLForeignKeyConstraint::operator==(const UMLForeignKeyConstraint &rhs) const
 {
-    if( this == &rhs )
+    if(this == &rhs)
         return true;
 
-    if( !UMLObject::operator==( rhs ) )
+    if(!UMLObject::operator==(rhs))
         return false;
 
     return true;
@@ -108,7 +108,7 @@ void UMLForeignKeyConstraint::copyInto(UMLObject *lhs) const
 UMLObject* UMLForeignKeyConstraint::clone() const
 {
     //FIXME: The new attribute should be slaved to the NEW parent not the old.
-    UMLForeignKeyConstraint *clone = new UMLForeignKeyConstraint( static_cast<UMLObject*>(parent()) );
+    UMLForeignKeyConstraint *clone = new UMLForeignKeyConstraint(static_cast<UMLObject*>(parent()));
     copyInto(clone);
     return clone;
 }
@@ -127,8 +127,8 @@ QString UMLForeignKeyConstraint::toString(Uml::SignatureType::Enum sig)
         s += " Foreign Key (";
         QList<UMLEntityAttribute*> keys = m_AttributeMap.keys();
         bool first = true;
-        foreach( UMLEntityAttribute* key, keys ) {
-            if ( first ) {
+        foreach(UMLEntityAttribute* key, keys) {
+            if (first) {
                 first = false;
             } else
                 s += ',';
@@ -143,24 +143,24 @@ QString UMLForeignKeyConstraint::toString(Uml::SignatureType::Enum sig)
 /**
  * Creates the <UML:ForeignKeyConstraint> XMI element.
  */
-void UMLForeignKeyConstraint::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+void UMLForeignKeyConstraint::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
-    QDomElement foreignKeyConstraintElement = UMLObject::save( "UML:ForeignKeyConstraint", qDoc );
+    QDomElement foreignKeyConstraintElement = UMLObject::save("UML:ForeignKeyConstraint", qDoc);
 
-    foreignKeyConstraintElement.setAttribute( "referencedEntity", Uml::ID::toString( m_ReferencedEntity->id() ) );
+    foreignKeyConstraintElement.setAttribute("referencedEntity", Uml::ID::toString(m_ReferencedEntity->id()));
 
     int updateAction = (int)m_UpdateAction;
     int deleteAction = (int)m_DeleteAction;
 
-    foreignKeyConstraintElement.setAttribute( "updateAction", updateAction );
-    foreignKeyConstraintElement.setAttribute( "deleteAction", deleteAction );
+    foreignKeyConstraintElement.setAttribute("updateAction", updateAction);
+    foreignKeyConstraintElement.setAttribute("deleteAction", deleteAction);
 
     QMap<UMLEntityAttribute*, UMLEntityAttribute*>::iterator i;
     for (i = m_AttributeMap.begin(); i!= m_AttributeMap.end() ; ++i) {
-        QDomElement mapElement = qDoc.createElement( "AttributeMap" );
-        mapElement.setAttribute( "key", Uml::ID::toString((i.key())->id()) );
-        mapElement.setAttribute( "value", Uml::ID::toString((i.value())->id()) );
-        foreignKeyConstraintElement.appendChild( mapElement );
+        QDomElement mapElement = qDoc.createElement("AttributeMap");
+        mapElement.setAttribute("key", Uml::ID::toString((i.key())->id()));
+        mapElement.setAttribute("value", Uml::ID::toString((i.value())->id()));
+        foreignKeyConstraintElement.appendChild(mapElement);
     }
 
     qElement.appendChild(foreignKeyConstraintElement);
@@ -171,7 +171,7 @@ void UMLForeignKeyConstraint::saveToXMI( QDomDocument & qDoc, QDomElement & qEle
  */
 bool UMLForeignKeyConstraint::showPropertiesDialog(QWidget* parent)
 {
-    UMLForeignKeyConstraintDialog dialog(parent, this );
+    UMLForeignKeyConstraintDialog dialog(parent, this);
     return dialog.exec();
 }
 
@@ -185,25 +185,25 @@ bool UMLForeignKeyConstraint::addEntityAttributePair(UMLEntityAttribute* pAttr, 
 {
     UMLEntity *owningParent = dynamic_cast<UMLEntity*>(parent());
 
-    if ( pAttr == NULL || rAttr == NULL ) {
+    if (pAttr == NULL || rAttr == NULL) {
         uError() << "null values passed to function";
         return false;
     }
-    // check for sanity of pAttr ( parent entity attribute )
+    // check for sanity of pAttr (parent entity attribute)
     if (owningParent == NULL) {
         uError() << name() << ": parent is not a UMLEntity";
         return false;
     }
 
-    if ( owningParent->findChildObjectById( pAttr->id() ) == NULL ) {
+    if (owningParent->findChildObjectById(pAttr->id()) == NULL) {
         uError() << " parent " << owningParent->name()
                  << " does not contain attribute " << pAttr->name();
         return false;
     }
 
-    //check for sanity of rAttr ( referenced entity attribute )
-    if ( m_ReferencedEntity != NULL ) {
-       if ( m_ReferencedEntity->findChildObjectById( rAttr->id() ) == NULL ) {
+    //check for sanity of rAttr (referenced entity attribute)
+    if (m_ReferencedEntity != NULL) {
+       if (m_ReferencedEntity->findChildObjectById(rAttr->id()) == NULL) {
         uError() << " parent " << m_ReferencedEntity->name()
                  << " does not contain attribute " << rAttr->name();
         return false;
@@ -214,12 +214,12 @@ bool UMLForeignKeyConstraint::addEntityAttributePair(UMLEntityAttribute* pAttr, 
     }
 
     // check if key takes part in some mapping
-    if ( m_AttributeMap.contains( pAttr ) == true )
+    if (m_AttributeMap.contains(pAttr) == true)
         return false;
 
-    // check if value takes part in some mapping ( no direct function)
-    foreach( UMLEntityAttribute* attr, m_AttributeMap.values() ) {
-        if ( rAttr == attr )
+    // check if value takes part in some mapping (no direct function)
+    foreach(UMLEntityAttribute* attr, m_AttributeMap.values()) {
+        if (rAttr == attr)
             return false;
     }
 
@@ -242,7 +242,7 @@ bool UMLForeignKeyConstraint::addEntityAttributePair(UMLEntityAttribute* pAttr, 
  */
 bool UMLForeignKeyConstraint::removeEntityAttributePair(UMLEntityAttribute* /*key*/ pAttr)
 {
-    bool state = m_AttributeMap.remove( pAttr );
+    bool state = m_AttributeMap.remove(pAttr);
 
     return state;
 }
@@ -255,8 +255,8 @@ bool UMLForeignKeyConstraint::removeEntityAttributePair(UMLEntityAttribute* /*ke
  */
 bool UMLForeignKeyConstraint::hasEntityAttributePair(UMLEntityAttribute* pAttr,UMLEntityAttribute* rAttr) const
 {
-    if ( m_AttributeMap.contains( pAttr ) ) {
-        if ( m_AttributeMap.value( pAttr ) == rAttr ) {
+    if (m_AttributeMap.contains(pAttr)) {
+        if (m_AttributeMap.value(pAttr) == rAttr) {
             return true;
         }
     }
@@ -267,25 +267,25 @@ bool UMLForeignKeyConstraint::hasEntityAttributePair(UMLEntityAttribute* pAttr,U
 /**
  * Loads the <UML:ForeignKeyConstraint> XMI element.
  */
-bool UMLForeignKeyConstraint::load( QDomElement & element )
+bool UMLForeignKeyConstraint::load(QDomElement & element)
 {
     UMLDoc* doc = UMLApp::app()->document();
 
-    Uml::ID::Type referencedEntityId = Uml::ID::fromString( element.attribute("referencedEntity", "") );
+    Uml::ID::Type referencedEntityId = Uml::ID::fromString(element.attribute("referencedEntity", ""));
 
     UMLObject* obj = doc->findObjectById(referencedEntityId);
     m_ReferencedEntity = static_cast<UMLEntity*>(obj);
 
-    if ( m_ReferencedEntity == NULL ) {
+    if (m_ReferencedEntity == NULL) {
         // save for resolving later
         m_pReferencedEntityID = referencedEntityId;
     }
 
-    m_UpdateAction = (UpdateDeleteAction)element.attribute( "updateAction" ).toInt();
-    m_DeleteAction = (UpdateDeleteAction)element.attribute( "deleteAction" ).toInt();
+    m_UpdateAction = (UpdateDeleteAction)element.attribute("updateAction").toInt();
+    m_DeleteAction = (UpdateDeleteAction)element.attribute("deleteAction").toInt();
 
     QDomNode node = element.firstChild();
-    while ( !node.isNull() ) {
+    while (!node.isNull()) {
         if (node.isComment()) {
             node = node.nextSibling();
             continue;
@@ -297,14 +297,14 @@ bool UMLForeignKeyConstraint::load( QDomElement & element )
             Uml::ID::Type keyId = Uml::ID::fromString(tempElement.attribute("key", ""));
             Uml::ID::Type valueId = Uml::ID::fromString(tempElement.attribute("value", ""));
 
-            UMLEntity* parentEntity = static_cast<UMLEntity*>( parent() );
+            UMLEntity* parentEntity = static_cast<UMLEntity*>(parent());
             UMLObject* keyObj = parentEntity->findChildObjectById(keyId);
             UMLEntityAttribute* key = static_cast<UMLEntityAttribute*>(keyObj);
 
-            if ( m_ReferencedEntity == NULL ) {
+            if (m_ReferencedEntity == NULL) {
                 // if referenced entity is null, then we won't find its attributes even
                 // save for resolving later
-                m_pEntityAttributeIDMap.insert( key, valueId );
+                m_pEntityAttributeIDMap.insert(key, valueId);
             }
 //            else {
 // unused        UMLObject* valueObj = m_ReferencedEntity->findChildObjectById(valueId);
@@ -327,7 +327,7 @@ bool UMLForeignKeyConstraint::load( QDomElement & element )
  */
 void UMLForeignKeyConstraint::setReferencedEntity(UMLEntity* ent)
 {
-    if ( ent == m_ReferencedEntity )
+    if (ent == m_ReferencedEntity)
         return;
 
     m_ReferencedEntity = ent;
@@ -373,20 +373,20 @@ bool UMLForeignKeyConstraint::resolveRef()
     bool success = true;
 
     //resolve the referenced entity
-    if ( !Uml::ID::toString(m_pReferencedEntityID).isEmpty() ) {
+    if (!Uml::ID::toString(m_pReferencedEntityID).isEmpty()) {
         UMLObject* obj = doc->findObjectById(m_pReferencedEntityID);
         m_ReferencedEntity = static_cast<UMLEntity*>(obj);
-        if (m_ReferencedEntity == NULL ) {
+        if (m_ReferencedEntity == NULL) {
             success = false;
         }
     }
 
     QMap<UMLEntityAttribute*, Uml::ID::Type>::iterator i;
     for (i = m_pEntityAttributeIDMap.begin(); i!= m_pEntityAttributeIDMap.end() ; ++i) {
-       if ( !Uml::ID::toString(i.value()).isEmpty() ) {
+       if (!Uml::ID::toString(i.value()).isEmpty()) {
            UMLObject* obj = doc->findObjectById(i.value());
            m_AttributeMap[i.key()] = static_cast<UMLEntityAttribute*>(obj);
-           if ( m_AttributeMap[i.key()] == NULL ) {
+           if (m_AttributeMap[i.key()] == NULL) {
                success = false;
            }
        }

@@ -54,15 +54,15 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     if (umlcomp == NULL)
         return;
     setPenFromSettings(painter);
-    if ( umlcomp->getExecutable() ) {
+    if (umlcomp->getExecutable()) {
         QPen thickerPen = painter->pen();
         thickerPen.setWidth(2);
         painter->setPen(thickerPen);
     }
-    if ( UMLWidget::useFillColor() ) {
-        painter->setBrush( UMLWidget::fillColor() );
+    if (UMLWidget::useFillColor()) {
+        painter->setBrush(UMLWidget::fillColor());
     } else {
-        painter->setBrush( m_scene->activeView()->viewport()->palette().color(QPalette::Background) );
+        painter->setBrush(m_scene->activeView()->viewport()->palette().color(QPalette::Background));
     }
 
     const int w = width();
@@ -90,7 +90,7 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
         lines = 2;
     }
 
-    if ( UMLWidget::isInstance() ) {
+    if (UMLWidget::isInstance()) {
         font.setUnderline(true);
         painter->setFont(font);
         nameStr = UMLWidget::instanceName() + " : " + nameStr;
@@ -98,10 +98,10 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 
     if (lines == 1) {
         painter->drawText((COMPONENT_MARGIN*4), (h/2) - (fontHeight/2),
-                   w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter, nameStr );
+                   w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter, nameStr);
     } else {
         painter->drawText((COMPONENT_MARGIN*4), (h/2),
-                   w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter, nameStr );
+                   w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter, nameStr);
     }
 
     if(m_selected) {
@@ -124,14 +124,14 @@ void ComponentWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
  */
 UMLSceneSize ComponentWidget::minimumSize()
 {
-    if ( !m_umlObject) {
+    if (!m_umlObject) {
         return UMLSceneSize(70, 70);
     }
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
     const int fontHeight = fm.lineSpacing();
 
     QString name = m_umlObject->name();
-    if ( UMLWidget::isInstance() ) {
+    if (UMLWidget::isInstance()) {
         name = UMLWidget::instanceName() + " : " + name;
     }
 

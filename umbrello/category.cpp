@@ -68,7 +68,7 @@ UMLObject* UMLCategory::clone() const
 void UMLCategory::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
      QDomElement categoryElement = UMLObject::save("UML:Category", qDoc);
-     categoryElement.setAttribute( "categoryType", ( int )m_CategoryType );
+     categoryElement.setAttribute("categoryType", (int)m_CategoryType);
      qElement.appendChild(categoryElement);
 }
 
@@ -77,7 +77,7 @@ void UMLCategory::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
  */
 bool UMLCategory::load(QDomElement& element)
 {
-    m_CategoryType = (Category_Type)element.attribute("categoryType", "0" ).toInt();
+    m_CategoryType = (Category_Type)element.attribute("categoryType", "0").toInt();
     return true;
 }
 

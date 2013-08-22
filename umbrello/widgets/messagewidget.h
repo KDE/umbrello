@@ -156,8 +156,8 @@ protected:
 
     int constrainX(int textX, int textWidth, Uml::TextRole::Enum tr);
 
-    static void paintArrow( QPainter *p, int x, int y, int w,
-                           Qt::ArrowType direction, bool useDottedLine = false );
+    static void paintArrow(QPainter *p, int x, int y, int w,
+                           Qt::ArrowType direction, bool useDottedLine = false);
     static void paintSolidArrowhead(QPainter *p, int x, int y, Qt::ArrowType direction);
 
     void updateResizability();

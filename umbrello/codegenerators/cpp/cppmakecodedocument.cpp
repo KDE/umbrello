@@ -15,20 +15,20 @@
 
 const char * CPPMakefileCodeDocument::DOCUMENT_ID_VALUE = "Makefile_DOC";
 
-CPPMakefileCodeDocument::CPPMakefileCodeDocument ( )
+CPPMakefileCodeDocument::CPPMakefileCodeDocument ()
 {
     setFileName("Makefile"); // default name
     setFileExtension("");
     setID(DOCUMENT_ID_VALUE); // default id tag for this type of document
 }
 
-CPPMakefileCodeDocument::~CPPMakefileCodeDocument ( )
+CPPMakefileCodeDocument::~CPPMakefileCodeDocument ()
 {
 }
 
 // we add in our code blocks that describe how to generate
 // the project here...
-void CPPMakefileCodeDocument::updateContent( )
+void CPPMakefileCodeDocument::updateContent()
 {
     // FIX : fill in content
 }
@@ -36,13 +36,13 @@ void CPPMakefileCodeDocument::updateContent( )
 /**
  * @return      QString
  */
-QString CPPMakefileCodeDocument::toString ( )
+QString CPPMakefileCodeDocument::toString ()
 {
     return "# cpp make build document";
 }
 
 // We overwritten by CPP language implementation to get lowercase path
-QString CPPMakefileCodeDocument::getPath ( )
+QString CPPMakefileCodeDocument::getPath ()
 {
     QString path = getPackage();
 

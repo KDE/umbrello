@@ -25,8 +25,8 @@
 
 #include "debug_utils.h"
 
-const HashEntry* Lookup::findEntry( const struct HashTable *table,
-                              const QChar *c, unsigned int len )
+const HashEntry* Lookup::findEntry(const struct HashTable *table,
+                              const QChar *c, unsigned int len)
 {
   if (table->type != 2) {
     uDebug() << "KJS: Unknown hash table version";
@@ -65,16 +65,16 @@ const HashEntry* Lookup::findEntry( const struct HashTable *table,
   return 0;
 }
 
-const HashEntry* Lookup::findEntry( const struct HashTable *table,
-                                    const QString &s )
+const HashEntry* Lookup::findEntry(const struct HashTable *table,
+                                    const QString &s)
 {
-    return findEntry( table, s.unicode(), s.length() );
+    return findEntry(table, s.unicode(), s.length());
 }
 
 int Lookup::find(const struct HashTable *table,
          const QChar *c, unsigned int len)
 {
-  const HashEntry *entry = findEntry( table, c, len );
+  const HashEntry *entry = findEntry(table, c, len);
   if (entry)
     return entry->value;
   return -1;

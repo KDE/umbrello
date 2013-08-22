@@ -31,9 +31,9 @@
  * @param type      The type of this UMLEntityAttribute.
  * @param iv        The initial value of the entityattribute.
  */
-UMLEntityAttribute::UMLEntityAttribute( UMLObject *parent, const QString& name,
+UMLEntityAttribute::UMLEntityAttribute(UMLObject *parent, const QString& name,
                                         Uml::ID::Type id, Uml::Visibility::Enum s,
-                                        UMLObject *type, const QString& iv )
+                                        UMLObject *type, const QString& iv)
   : UMLAttribute(parent, name, id, s, type, iv)
 {
     init();
@@ -189,10 +189,10 @@ QString UMLEntityAttribute::toString(Uml::SignatureType::Enum sig)
  */
 bool UMLEntityAttribute::operator==(const UMLEntityAttribute &rhs) const
 {
-    if( this == &rhs )
+    if(this == &rhs)
         return true;
 
-    if( !UMLObject::operator==( rhs ) )
+    if(!UMLObject::operator==(rhs))
         return false;
 
     // The type name is the only distinguishing criterion.
@@ -226,7 +226,7 @@ void UMLEntityAttribute::copyInto(UMLObject *lhs) const
  */
 UMLObject* UMLEntityAttribute::clone() const
 {
-    UMLEntityAttribute* clone = new UMLEntityAttribute( (UMLEntityAttribute*)parent() );
+    UMLEntityAttribute* clone = new UMLEntityAttribute((UMLEntityAttribute*)parent());
     copyInto(clone);
 
     return clone;
@@ -235,37 +235,37 @@ UMLObject* UMLEntityAttribute::clone() const
 /**
  * Creates the <UML:EntityAttribute> XMI element.
  */
-void UMLEntityAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+void UMLEntityAttribute::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement entityattributeElement = UMLObject::save("UML:EntityAttribute", qDoc);
     if (m_pSecondary == NULL) {
         uDebug() << name() << ": m_pSecondary is NULL, using local name " << m_SecondaryId;
-        entityattributeElement.setAttribute( "type", m_SecondaryId );
+        entityattributeElement.setAttribute("type", m_SecondaryId);
     } else {
-        entityattributeElement.setAttribute( "type", Uml::ID::toString(m_pSecondary->id()) );
+        entityattributeElement.setAttribute("type", Uml::ID::toString(m_pSecondary->id()));
     }
-    entityattributeElement.setAttribute( "initialValue", m_InitialValue );
-    entityattributeElement.setAttribute( "dbindex_type", m_indexType );
-    entityattributeElement.setAttribute( "values", m_values );
-    entityattributeElement.setAttribute( "attributes", m_attributes );
-    entityattributeElement.setAttribute( "auto_increment", m_autoIncrement );
-    entityattributeElement.setAttribute( "allow_null", m_null );
-    qElement.appendChild( entityattributeElement );
+    entityattributeElement.setAttribute("initialValue", m_InitialValue);
+    entityattributeElement.setAttribute("dbindex_type", m_indexType);
+    entityattributeElement.setAttribute("values", m_values);
+    entityattributeElement.setAttribute("attributes", m_attributes);
+    entityattributeElement.setAttribute("auto_increment", m_autoIncrement);
+    entityattributeElement.setAttribute("allow_null", m_null);
+    qElement.appendChild(entityattributeElement);
 }
 
 /**
  * Loads the <UML:EntityAttribute> XMI element.
  */
-bool UMLEntityAttribute::load( QDomElement & element )
+bool UMLEntityAttribute::load(QDomElement & element)
 {
     if (! UMLAttribute::load(element))
         return false;
-    int indexType = element.attribute( "dbindex_type", "1100" ).toInt();
-    m_indexType = ( UMLEntityAttribute::DBIndex_Type )indexType;
-    m_values = element.attribute( "values", "" );
-    m_attributes = element.attribute( "attributes", "" );
-    m_autoIncrement = ( bool )element.attribute( "auto_increment", "" ).toInt();
-    m_null = ( bool )element.attribute( "allow_null", "" ).toInt();
+    int indexType = element.attribute("dbindex_type", "1100").toInt();
+    m_indexType = (UMLEntityAttribute::DBIndex_Type)indexType;
+    m_values = element.attribute("values", "");
+    m_attributes = element.attribute("attributes", "");
+    m_autoIncrement = (bool)element.attribute("auto_increment", "").toInt();
+    m_null = (bool)element.attribute("allow_null", "").toInt();
     return true;
 }
 

@@ -54,7 +54,7 @@ public:
 
     UMLObject* addEntityAttribute(const QString &name, Uml::ID::Type id = Uml::ID::None);
     bool addEntityAttribute(UMLEntityAttribute* att, IDChangeLog* log = 0);
-    bool addEntityAttribute(UMLEntityAttribute* att, int position );
+    bool addEntityAttribute(UMLEntityAttribute* att, int position);
 
     int removeEntityAttribute(UMLClassifierListItem* att);
 
@@ -97,8 +97,8 @@ private:
     /**
      * Primary Key of this Entity
      * This is a pointer kept for easy access to the primary key, and to distinguish it
-     * from all other UniqueConstraints. It is also there in m_List ( inherited from
-     * UMLCanvasObject )
+     * from all other UniqueConstraints. It is also there in m_List (inherited from
+     * UMLCanvasObject)
      */
     UMLUniqueConstraint* m_PrimaryKey;
 

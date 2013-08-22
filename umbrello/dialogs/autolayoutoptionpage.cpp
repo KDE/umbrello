@@ -35,14 +35,14 @@ AutoLayoutOptionPage::AutoLayoutOptionPage(QWidget* parent)
   : QWidget(parent)
 {
     setupUi(this);
-    m_autoDotPath->setChecked( Settings::optionState().autoLayoutState.autoDotPath );
-    m_dotPath->setText( Settings::optionState().autoLayoutState.dotPath );
-    m_showExportLayout->setChecked( Settings::optionState().autoLayoutState.showExportLayout );
-    connect( m_autoDotPath, SIGNAL(toggled(bool)), this, SLOT(slotAutoDotPathCBClicked(bool)) );
+    m_autoDotPath->setChecked(Settings::optionState().autoLayoutState.autoDotPath);
+    m_dotPath->setText(Settings::optionState().autoLayoutState.dotPath);
+    m_showExportLayout->setChecked(Settings::optionState().autoLayoutState.showExportLayout);
+    connect(m_autoDotPath, SIGNAL(toggled(bool)), this, SLOT(slotAutoDotPathCBClicked(bool)));
 
     if (Settings::optionState().autoLayoutState.autoDotPath) {
-        m_dotPath->setEnabled (false );
-        m_dotPath->setText( LayoutGenerator::currentDotPath() );
+        m_dotPath->setEnabled (false);
+        m_dotPath->setText(LayoutGenerator::currentDotPath());
     }
 }
 

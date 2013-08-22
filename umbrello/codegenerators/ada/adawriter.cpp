@@ -218,7 +218,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     UMLPackageList imports;
     findObjectsRelated(c, imports);
     if (imports.count()) {
-        foreach (UMLPackage* con, imports ) {
+        foreach (UMLPackage* con, imports) {
             if (con->baseType() != UMLObject::ot_Datatype)
                 ada << "with " << packageName(con) << "; " << m_endl;
         }
@@ -230,7 +230,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     if (template_params.count()) {
         ada << indent() << "generic" << m_endl;
         m_indentLevel++;
-        foreach (UMLTemplate* t, template_params ) {
+        foreach (UMLTemplate* t, template_params) {
             QString formalName = t->name();
             QString typeName = t->getTypeName();
             if (typeName == "class") {
@@ -266,10 +266,10 @@ void AdaWriter::writeClass(UMLClassifier *c)
         uint i = 0;
         ada << indent() << "type " << classname << " is (" << m_endl;
         m_indentLevel++;
-        foreach (UMLClassifierListItem* lit, litList ) {
+        foreach (UMLClassifierListItem* lit, litList) {
             QString enumLiteral = cleanName(lit->name());
             ada << indent() << enumLiteral;
-            if (++i < ( uint )litList.count())
+            if (++i < (uint)litList.count())
                 ada << "," << m_endl;
         }
         m_indentLevel--;
@@ -287,7 +287,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
                 UMLAttributeList atl = c->getAttributeList();
                 ada << indent() << "type " << classname << " is record" << m_endl;
                 m_indentLevel++;
-                foreach (UMLAttribute* at,  atl ) {
+                foreach (UMLAttribute* at,  atl) {
                     QString name = cleanName(at->name());
                     QString typeName = at->getTypeName();
                     ada << indent() << name << " : " << typeName;
@@ -344,14 +344,14 @@ void AdaWriter::writeClass(UMLClassifier *c)
 
         atl = c->getAttributeList();
 
-        foreach (UMLAttribute* at, atl ) {
+        foreach (UMLAttribute* at, atl) {
             if (at->visibility() == Uml::Visibility::Public)
                 atpub.append(at);
         }
         if (forceSections() || atpub.count())
             ada << indent() << "-- Accessors for public attributes:" << m_endl << m_endl;
 
-        foreach (UMLAttribute* at, atpub ) {
+        foreach (UMLAttribute* at, atpub) {
             QString member = cleanName(at->name());
             ada << indent() << "procedure Set_" << member << " (";
             if (! at->isStatic())
@@ -367,14 +367,14 @@ void AdaWriter::writeClass(UMLClassifier *c)
     // Generate public operations.
     UMLOperationList opl(c->getOpList());
     UMLOperationList oppub;
-    foreach (UMLOperation* op, opl ) {
+    foreach (UMLOperation* op, opl) {
         if (op->visibility() == Uml::Visibility::Public)
             oppub.append(op);
     }
     if (forceSections() || oppub.count())
         ada << indent() << "-- Public methods:" << m_endl << m_endl;
 
-    foreach (UMLOperation* op, oppub ) {
+    foreach (UMLOperation* op, oppub) {
         writeOperation(op, ada);
     }
 
@@ -411,7 +411,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     }
     if (forceSections() || !compositions.isEmpty()) {
         ada << indent() << "-- Compositions:" << m_endl;
-        foreach (UMLAssociation *a , compositions ) {
+        foreach (UMLAssociation *a , compositions) {
             if (c != a->getObject(Uml::RoleType::A))
                 continue;
             QString typeName, roleName;
@@ -423,7 +423,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
 
     if (isClass && (forceSections() || atl.count())) {
         ada << indent() << "-- Attributes:" << m_endl;
-        foreach (UMLAttribute* at, atl ) {
+        foreach (UMLAttribute* at, atl) {
             if (at->isStatic())
                 continue;
             ada << indent() << cleanName(at->name()) << " : "
@@ -440,7 +440,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     ada << indent() << "end record;" << m_endl << m_endl;
     if (haveAttrs) {
         bool seen_static_attr = false;
-        foreach (UMLAttribute* at, atl ) {
+        foreach (UMLAttribute* at, atl) {
             if (! at->isStatic())
                 continue;
             if (! seen_static_attr) {
@@ -451,7 +451,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
             if (at->visibility() == Uml::Visibility::Private)
                 ada << "-- Private:  ";
             ada << cleanName(at->name()) << " : " << at->getTypeName();
-            if (at && ! at->getInitialValue().isEmpty() && ! at->getInitialValue().toLatin1().isEmpty() )
+            if (at && ! at->getInitialValue().isEmpty() && ! at->getInitialValue().toLatin1().isEmpty())
                 ada << " := " << at->getInitialValue();
             ada << ";" << m_endl;
         }
@@ -460,13 +460,13 @@ void AdaWriter::writeClass(UMLClassifier *c)
     }
     // Generate protected operations.
     UMLOperationList opprot;
-    foreach (UMLOperation* op,  opl ) {
+    foreach (UMLOperation* op,  opl) {
         if (op->visibility() == Uml::Visibility::Protected)
             opprot.append(op);
     }
     if (forceSections() || opprot.count())
         ada << indent() << "-- Protected methods:" << m_endl << m_endl;
-    foreach (UMLOperation* op, opprot ) {
+    foreach (UMLOperation* op, opprot) {
         writeOperation(op, ada);
     }
 
@@ -477,7 +477,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     // hand written code sections, private operations should be generated
     // into the package body.
     UMLOperationList oppriv;
-    foreach (UMLOperation* op, opl ) {
+    foreach (UMLOperation* op, opl) {
         const Uml::Visibility::Enum vis = op->visibility();
         if (vis == Uml::Visibility::Private ||
             vis == Uml::Visibility::Implementation)
@@ -485,7 +485,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     }
     if (forceSections() || oppriv.count())
         ada << indent() << "-- Private methods:" << m_endl << m_endl;
-    foreach (UMLOperation* op, oppriv ) {
+    foreach (UMLOperation* op, oppriv) {
         writeOperation(op, ada, true);
     }
 
@@ -527,7 +527,7 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
     if (atl.count()) {
         uint i = 0;
         m_indentLevel++;
-        foreach (UMLAttribute* at, atl ) {
+        foreach (UMLAttribute* at, atl) {
             ada << indent();
             if (is_comment)
                 ada << "-- ";
@@ -542,7 +542,7 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
             ada << at->getTypeName();
             if (! at->getInitialValue().isEmpty())
                 ada << " := " << at->getInitialValue();
-            if (++i < ( uint )atl.count()) //FIXME gcc warning
+            if (++i < (uint)atl.count()) //FIXME gcc warning
                 ada << ";" << m_endl;
         }
         m_indentLevel--;
@@ -603,122 +603,122 @@ QStringList AdaWriter::reservedKeywords() const
 {
     static QStringList keywords;
 
-    if ( keywords.isEmpty() ) {
-        keywords.append( "abort" );
-        keywords.append( "abs" );
-        keywords.append( "abstract" );
-        keywords.append( "accept" );
-        keywords.append( "access" );
-        keywords.append( "aliased" );
-        keywords.append( "all" );
-        keywords.append( "and" );
-        keywords.append( "Argument_Error" );
-        keywords.append( "array" );
-        keywords.append( "Assert_Failure" );
-        keywords.append( "at" );
-        keywords.append( "begin" );
-        keywords.append( "body" );
-        keywords.append( "Boolean" );
-        keywords.append( "case" );
-        keywords.append( "Character" );
-        keywords.append( "constant" );
-        keywords.append( "Constraint_Error" );
-        keywords.append( "Conversion_Error" );
-        keywords.append( "Data_Error" );
-        keywords.append( "declare" );
-        keywords.append( "delay" );
-        keywords.append( "delta" );
-        keywords.append( "Dereference_Error" );
-        keywords.append( "Device_Error" );
-        keywords.append( "digits" );
-        keywords.append( "do" );
-        keywords.append( "Duration" );
-        keywords.append( "else" );
-        keywords.append( "elsif" );
-        keywords.append( "end" );
-        keywords.append( "End_Error" );
-        keywords.append( "entry" );
-        keywords.append( "exception" );
-        keywords.append( "exit" );
-        keywords.append( "false" );
-        keywords.append( "Float" );
-        keywords.append( "for" );
-        keywords.append( "function" );
-        keywords.append( "generic" );
-        keywords.append( "goto" );
-        keywords.append( "if" );
-        keywords.append( "in" );
-        keywords.append( "Index_Error" );
-        keywords.append( "Integer" );
-        keywords.append( "is" );
-        keywords.append( "Layout_Error" );
-        keywords.append( "Length_Error" );
-        keywords.append( "limited" );
-        keywords.append( "Long_Float" );
-        keywords.append( "Long_Integer" );
-        keywords.append( "Long_Long_Float" );
-        keywords.append( "Long_Long_Integer" );
-        keywords.append( "loop" );
-        keywords.append( "mod" );
-        keywords.append( "Mode_Error" );
-        keywords.append( "Name_Error" );
-        keywords.append( "Natural" );
-        keywords.append( "new" );
-        keywords.append( "not" );
-        keywords.append( "null" );
-        keywords.append( "of" );
-        keywords.append( "or" );
-        keywords.append( "others" );
-        keywords.append( "out" );
-        keywords.append( "package" );
-        keywords.append( "Pattern_Error" );
-        keywords.append( "Picture_Error" );
-        keywords.append( "Pointer_Error" );
-        keywords.append( "Positive" );
-        keywords.append( "pragma" );
-        keywords.append( "private" );
-        keywords.append( "procedure" );
-        keywords.append( "Program_Error" );
-        keywords.append( "protected" );
-        keywords.append( "raise" );
-        keywords.append( "range" );
-        keywords.append( "record" );
-        keywords.append( "rem" );
-        keywords.append( "renames" );
-        keywords.append( "requeue" );
-        keywords.append( "return" );
-        keywords.append( "reverse" );
-        keywords.append( "select" );
-        keywords.append( "separate" );
-        keywords.append( "Short_Float" );
-        keywords.append( "Short_Integer" );
-        keywords.append( "Short_Short_Float" );
-        keywords.append( "Short_Short_Integer" );
-        keywords.append( "Status_Error" );
-        keywords.append( "Storage_Error" );
-        keywords.append( "String" );
-        keywords.append( "subtype" );
-        keywords.append( "Tag_Error" );
-        keywords.append( "tagged" );
-        keywords.append( "task" );
-        keywords.append( "Tasking_Error" );
-        keywords.append( "terminate" );
-        keywords.append( "Terminator_Error" );
-        keywords.append( "then" );
-        keywords.append( "Time_Error" );
-        keywords.append( "Translation_Error" );
-        keywords.append( "true" );
-        keywords.append( "type" );
-        keywords.append( "until" );
-        keywords.append( "Update_Error" );
-        keywords.append( "use" );
-        keywords.append( "Use_Error" );
-        keywords.append( "when" );
-        keywords.append( "while" );
-        keywords.append( "Wide_Character" );
-        keywords.append( "Wide_String" );
-        keywords.append( "with" );
-        keywords.append( "xor" );
+    if (keywords.isEmpty()) {
+        keywords.append("abort");
+        keywords.append("abs");
+        keywords.append("abstract");
+        keywords.append("accept");
+        keywords.append("access");
+        keywords.append("aliased");
+        keywords.append("all");
+        keywords.append("and");
+        keywords.append("Argument_Error");
+        keywords.append("array");
+        keywords.append("Assert_Failure");
+        keywords.append("at");
+        keywords.append("begin");
+        keywords.append("body");
+        keywords.append("Boolean");
+        keywords.append("case");
+        keywords.append("Character");
+        keywords.append("constant");
+        keywords.append("Constraint_Error");
+        keywords.append("Conversion_Error");
+        keywords.append("Data_Error");
+        keywords.append("declare");
+        keywords.append("delay");
+        keywords.append("delta");
+        keywords.append("Dereference_Error");
+        keywords.append("Device_Error");
+        keywords.append("digits");
+        keywords.append("do");
+        keywords.append("Duration");
+        keywords.append("else");
+        keywords.append("elsif");
+        keywords.append("end");
+        keywords.append("End_Error");
+        keywords.append("entry");
+        keywords.append("exception");
+        keywords.append("exit");
+        keywords.append("false");
+        keywords.append("Float");
+        keywords.append("for");
+        keywords.append("function");
+        keywords.append("generic");
+        keywords.append("goto");
+        keywords.append("if");
+        keywords.append("in");
+        keywords.append("Index_Error");
+        keywords.append("Integer");
+        keywords.append("is");
+        keywords.append("Layout_Error");
+        keywords.append("Length_Error");
+        keywords.append("limited");
+        keywords.append("Long_Float");
+        keywords.append("Long_Integer");
+        keywords.append("Long_Long_Float");
+        keywords.append("Long_Long_Integer");
+        keywords.append("loop");
+        keywords.append("mod");
+        keywords.append("Mode_Error");
+        keywords.append("Name_Error");
+        keywords.append("Natural");
+        keywords.append("new");
+        keywords.append("not");
+        keywords.append("null");
+        keywords.append("of");
+        keywords.append("or");
+        keywords.append("others");
+        keywords.append("out");
+        keywords.append("package");
+        keywords.append("Pattern_Error");
+        keywords.append("Picture_Error");
+        keywords.append("Pointer_Error");
+        keywords.append("Positive");
+        keywords.append("pragma");
+        keywords.append("private");
+        keywords.append("procedure");
+        keywords.append("Program_Error");
+        keywords.append("protected");
+        keywords.append("raise");
+        keywords.append("range");
+        keywords.append("record");
+        keywords.append("rem");
+        keywords.append("renames");
+        keywords.append("requeue");
+        keywords.append("return");
+        keywords.append("reverse");
+        keywords.append("select");
+        keywords.append("separate");
+        keywords.append("Short_Float");
+        keywords.append("Short_Integer");
+        keywords.append("Short_Short_Float");
+        keywords.append("Short_Short_Integer");
+        keywords.append("Status_Error");
+        keywords.append("Storage_Error");
+        keywords.append("String");
+        keywords.append("subtype");
+        keywords.append("Tag_Error");
+        keywords.append("tagged");
+        keywords.append("task");
+        keywords.append("Tasking_Error");
+        keywords.append("terminate");
+        keywords.append("Terminator_Error");
+        keywords.append("then");
+        keywords.append("Time_Error");
+        keywords.append("Translation_Error");
+        keywords.append("true");
+        keywords.append("type");
+        keywords.append("until");
+        keywords.append("Update_Error");
+        keywords.append("use");
+        keywords.append("Use_Error");
+        keywords.append("when");
+        keywords.append("while");
+        keywords.append("Wide_Character");
+        keywords.append("Wide_String");
+        keywords.append("with");
+        keywords.append("xor");
     }
 
     return keywords;

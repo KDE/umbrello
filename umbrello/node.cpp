@@ -61,7 +61,7 @@ void UMLNode::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 /**
  * Loads the <UML:Node> XMI element (empty.)
  */
-bool UMLNode::load(QDomElement& )
+bool UMLNode::load(QDomElement&)
 {
     return true;
 }

@@ -33,7 +33,7 @@
 // qt includes
 #include <QRegExp>
 
-CPPSourceCodeDocument::CPPSourceCodeDocument ( UMLClassifier * concept )
+CPPSourceCodeDocument::CPPSourceCodeDocument (UMLClassifier * concept)
         : ClassifierCodeDocument (concept)
 {
     setFileExtension(".cpp");
@@ -52,7 +52,7 @@ CPPSourceCodeDocument::~CPPSourceCodeDocument()
 {
 }
 
-bool CPPSourceCodeDocument::addCodeOperation (CodeOperation * op )
+bool CPPSourceCodeDocument::addCodeOperation (CodeOperation * op)
 {
     bool retval = false;
     if (op->getParentOperation()->isLifeOperation()) {
@@ -79,7 +79,7 @@ void CPPSourceCodeDocument::resetTextBlocks()
     ClassifierCodeDocument::resetTextBlocks();
 }
 
-void CPPSourceCodeDocument::updateContent( )
+void CPPSourceCodeDocument::updateContent()
 {
     // Gather info on the various fields and parent objects of this class...
     //UMLClassifier * c = getParentClassifier();
@@ -91,7 +91,7 @@ void CPPSourceCodeDocument::updateContent( )
     const CodeClassFieldList * cfList = getCodeClassFieldList();
     CodeClassFieldList::const_iterator it = cfList->begin();
     CodeClassFieldList::const_iterator end = cfList->end();
-    for( ; it != end; ++it )
+    for(; it != end; ++it)
         (*it)->setWriteOutMethods(policy->getAutoGenerateAccessors());
 
     // attribute-based ClassFields
@@ -100,16 +100,16 @@ void CPPSourceCodeDocument::updateContent( )
     CodeClassFieldList attribClassFields = getSpecificClassFields (CodeClassField::Attribute, false);
     // association-based ClassFields
     // don't care if they are static or not..all are lumped together
-    CodeClassFieldList plainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation );
-    CodeClassFieldList aggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation );
-    CodeClassFieldList compositionClassFields = getSpecificClassFields ( CodeClassField::Composition );
+    CodeClassFieldList plainAssocClassFields = getSpecificClassFields (CodeClassField::PlainAssociation);
+    CodeClassFieldList aggregationClassFields = getSpecificClassFields (CodeClassField::Aggregation);
+    CodeClassFieldList compositionClassFields = getSpecificClassFields (CodeClassField::Composition);
 
     // START GENERATING CODE/TEXT BLOCKS and COMMENTS FOR THE DOCUMENT
 
     // INCLUDE CODEBLOCK
     QString includeStatement;
     // Include own header file
-    QString myOwnName( getParentClassifier()->name() );
+    QString myOwnName(getParentClassifier()->name());
     includeStatement.append("#include \""+CodeGenerator::cleanName(myOwnName.toLower())+".h\""+endLine);
     CodeBlockWithComments * iblock = addOrUpdateTaggedCodeBlockWithComments("includes", includeStatement, QString(), 0, false);
     iblock->setWriteOutText(true);

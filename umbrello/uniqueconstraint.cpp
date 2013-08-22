@@ -40,7 +40,7 @@ UMLUniqueConstraint::UMLUniqueConstraint(UMLObject *parent, const QString& name,
  * @param parent    The parent of this UMLUniqueConstraint.
  */
 UMLUniqueConstraint::UMLUniqueConstraint(UMLObject *parent)
-  : UMLEntityConstraint( parent )
+  : UMLEntityConstraint(parent)
 {
     init();
 }
@@ -50,10 +50,10 @@ UMLUniqueConstraint::UMLUniqueConstraint(UMLObject *parent)
  */
 bool UMLUniqueConstraint::operator==(const  UMLUniqueConstraint &rhs) const
 {
-    if( this == &rhs )
+    if(this == &rhs)
         return true;
 
-    if( !UMLObject::operator==( rhs ) )
+    if(!UMLObject::operator==(rhs))
         return false;
 
     return true;
@@ -80,13 +80,13 @@ void UMLUniqueConstraint::copyInto(UMLObject *lhs) const
     // Copy all datamembers
     target->m_EntityAttributeList.clear();
     bool valid = true;
-    foreach( UMLEntityAttribute* attr, m_EntityAttributeList ) {
-       if ( !valid )
+    foreach(UMLEntityAttribute* attr, m_EntityAttributeList) {
+       if (!valid)
            break;
-       valid = target->addEntityAttribute( attr );
+       valid = target->addEntityAttribute(attr);
     }
 
-    if ( !valid ) {
+    if (!valid) {
         target->m_EntityAttributeList.clear();
         uDebug() <<"Copying Attributes Failed : Target list cleared instead";
     }
@@ -98,7 +98,7 @@ void UMLUniqueConstraint::copyInto(UMLObject *lhs) const
 UMLObject* UMLUniqueConstraint::clone() const
 {
     //FIXME: The new attribute should be slaved to the NEW parent not the old.
-    UMLUniqueConstraint *clone = new UMLUniqueConstraint( static_cast<UMLObject*>(parent()) );
+    UMLUniqueConstraint *clone = new UMLUniqueConstraint(static_cast<UMLObject*>(parent()));
     copyInto(clone);
     return clone;
 }
@@ -116,15 +116,15 @@ QString UMLUniqueConstraint::toString(Uml::SignatureType::Enum sig)
     if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::SigNoVis) {
         s = name() + ':';
 
-        if ( static_cast<UMLEntity*>( parent() )->isPrimaryKey( this ) ) {
+        if (static_cast<UMLEntity*>(parent())->isPrimaryKey(this)) {
            s += "Primary Key (";
         } else {
            s += "Unique (";
         }
 
         bool first = true;
-        foreach( UMLEntityAttribute* att, m_EntityAttributeList ) {
-            if ( first ) {
+        foreach(UMLEntityAttribute* att, m_EntityAttributeList) {
+            if (first) {
                first = false;
             } else
                 s += ',';
@@ -146,22 +146,22 @@ QString UMLUniqueConstraint::getFullyQualifiedName(const QString& separator,
 /**
  * Creates the <UML:UniqueConstraint> XMI element.
  */
-void UMLUniqueConstraint::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+void UMLUniqueConstraint::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement uniqueConstraintElement = UMLObject::save("UML:UniqueConstraint", qDoc);
 
-    UMLEntity* parentEnt = static_cast<UMLEntity*>( parent() );
-    if ( parentEnt->isPrimaryKey( this ) ) {
-        uniqueConstraintElement.setAttribute( "isPrimary", "1" );
+    UMLEntity* parentEnt = static_cast<UMLEntity*>(parent());
+    if (parentEnt->isPrimaryKey(this)) {
+        uniqueConstraintElement.setAttribute("isPrimary", "1");
     } else {
-        uniqueConstraintElement.setAttribute( "isPrimary", "0" );
+        uniqueConstraintElement.setAttribute("isPrimary", "0");
     }
 
-    foreach( UMLEntityAttribute* att, m_EntityAttributeList ) {
+    foreach(UMLEntityAttribute* att, m_EntityAttributeList) {
         att->saveToXMI(qDoc,uniqueConstraintElement);
     }
 
-    qElement.appendChild( uniqueConstraintElement );
+    qElement.appendChild(uniqueConstraintElement);
 }
 
 /**
@@ -176,17 +176,17 @@ bool UMLUniqueConstraint::showPropertiesDialog(QWidget* parent)
 /**
  * Loads the <UML:UniqueConstraint> XMI element.
  */
-bool UMLUniqueConstraint::load( QDomElement & element )
+bool UMLUniqueConstraint::load(QDomElement & element)
 {
-    int isPrimary = element.attribute( "isPrimary", "0" ).toInt();
+    int isPrimary = element.attribute("isPrimary", "0").toInt();
     UMLEntity* parentEnt = static_cast<UMLEntity*>(parent());
 
-    if ( isPrimary == 1 ) {
+    if (isPrimary == 1) {
         parentEnt->setAsPrimaryKey(this);
     }
 
     QDomNode node = element.firstChild();
-    while ( !node.isNull() ) {
+    while (!node.isNull()) {
         if (node.isComment()) {
             node = node.nextSibling();
             continue;
@@ -195,11 +195,11 @@ bool UMLUniqueConstraint::load( QDomElement & element )
         QString tag = tempElement.tagName();
         if (UMLDoc::tagEq(tag, "EntityAttribute")) {
 
-            QString attName = tempElement.attribute("name","" );
-            UMLObject* obj = parentEnt->findChildObject( attName );
+            QString attName = tempElement.attribute("name","");
+            UMLObject* obj = parentEnt->findChildObject(attName);
 
             UMLEntityAttribute* entAtt = static_cast<UMLEntityAttribute*>(obj);
-            if ( entAtt == NULL )
+            if (entAtt == NULL)
                 continue;
 
             m_EntityAttributeList.append(entAtt);
@@ -223,7 +223,7 @@ bool UMLUniqueConstraint::load( QDomElement & element )
  */
 bool UMLUniqueConstraint::hasEntityAttribute(UMLEntityAttribute* attr)
 {
-    if ( m_EntityAttributeList.indexOf( attr ) == -1 ) {
+    if (m_EntityAttributeList.indexOf(attr) == -1) {
         //not present
         return false;
     }
@@ -244,7 +244,7 @@ bool UMLUniqueConstraint::addEntityAttribute(UMLEntityAttribute* attr)
 {
     UMLEntity *owningParent = dynamic_cast<UMLEntity*>(parent());
 
-    if ( hasEntityAttribute( attr ) ) {
+    if (hasEntityAttribute(attr)) {
         uDebug() << "Unique Constraint already contains" << attr->name();
         return false;
 
@@ -254,7 +254,7 @@ bool UMLUniqueConstraint::addEntityAttribute(UMLEntityAttribute* attr)
         return false;
     }
 
-    if ( owningParent->findChildObjectById( attr->id() ) == NULL ) {
+    if (owningParent->findChildObjectById(attr->id()) == NULL) {
         uError()
             << " parent " << owningParent->name()
             << " does not contain attribute " << attr->name();
@@ -262,7 +262,7 @@ bool UMLUniqueConstraint::addEntityAttribute(UMLEntityAttribute* attr)
     }
 
     //else add the attribute to the Entity Attribute List
-    m_EntityAttributeList.append( attr );
+    m_EntityAttributeList.append(attr);
 
     return true;
 }
@@ -286,7 +286,7 @@ bool UMLUniqueConstraint::removeEntityAttribute(UMLEntityAttribute* attr)
      * The attribute may already be removed from the Entity when this function
      * is called. So checking this is not right
      *
-     * if ( owningParent->findChildObjectById( attr->ID() ) == NULL ) {
+     * if (owningParent->findChildObjectById(attr->ID()) == NULL) {
      *    uError()
      *        << " parent " << owningParent->getName()
      *        << " does not contain attribute " << attr->getName();
@@ -295,7 +295,7 @@ bool UMLUniqueConstraint::removeEntityAttribute(UMLEntityAttribute* attr)
      */
 
     //else remove the attribute from the Entity Attribute List
-    if ( m_EntityAttributeList.removeAll( attr ) ) {
+    if (m_EntityAttributeList.removeAll(attr)) {
         return true;
     }
 

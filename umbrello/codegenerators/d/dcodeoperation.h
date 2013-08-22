@@ -26,12 +26,12 @@ public:
     /**
      * Empty Constructor
      */
-    DCodeOperation ( DClassifierCodeDocument * doc, UMLOperation * op, const QString & body = "", const QString & comment = "");
+    DCodeOperation (DClassifierCodeDocument * doc, UMLOperation * op, const QString & body = "", const QString & comment = "");
 
     /**
      * Empty Destructor
      */
-    virtual ~DCodeOperation ( );
+    virtual ~DCodeOperation ();
 
     virtual int lastEditableLine();
 

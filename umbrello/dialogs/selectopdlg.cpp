@@ -46,14 +46,14 @@ bool caseInsensitiveLessThan(const UMLOperation *s1, const UMLOperation *s2)
 SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c)
    : KDialog(parent)
 {
-    setCaption( i18n("Select Operation") );
-    setButtons( Ok | Cancel );
-    setDefaultButton( Yes );
-    setModal( true );
-    showButtonSeparator( true );
+    setCaption(i18n("Select Operation"));
+    setButtons(Ok | Cancel);
+    setDefaultButton(Yes);
+    setModal(true);
+    showButtonSeparator(true);
 
-    QFrame *frame = new QFrame( this );
-    setMainWidget( frame );
+    QFrame *frame = new QFrame(this);
+    setMainWidget(frame);
 
     QVBoxLayout * topLayout = new QVBoxLayout(frame);
 
@@ -64,16 +64,16 @@ SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c)
     mainLayout->setSpacing(spacingHint());
     mainLayout->setMargin(fontMetrics().height());
 
-    Dialog_Utils::makeLabeledEditField( m_pOpGB, mainLayout, 0,
+    Dialog_Utils::makeLabeledEditField(m_pOpGB, mainLayout, 0,
                                     m_pSeqL, i18n("Sequence number:"),
-                                    m_pSeqLE );
+                                    m_pSeqLE);
 
     m_pOpRB = new QRadioButton(i18n("Class operation:"), m_pOpGB);
     connect(m_pOpRB, SIGNAL(clicked()), this, SLOT(slotSelectedOp()));
     mainLayout->addWidget(m_pOpRB, 1, 0);
 
     m_pOpCB = new KComboBox(m_pOpGB);
-    m_pOpCB->setCompletionMode( KGlobalSettings::CompletionPopup );
+    m_pOpCB->setCompletionMode(KGlobalSettings::CompletionPopup);
     m_pOpCB->setDuplicatesEnabled(false); // only allow one of each type in box
     mainLayout->addWidget(m_pOpCB, 1, 1);
 
@@ -86,8 +86,8 @@ SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c)
 
     UMLOperationList list = c->getOpList(true);
     qSort(list.begin(), list.end(), caseInsensitiveLessThan);
-    foreach (UMLOperation* obj, list ) {
-        insertOperation( obj->toString(Uml::SignatureType::SigNoVis), list.count() );
+    foreach (UMLOperation* obj, list) {
+        insertOperation(obj->toString(Uml::SignatureType::SigNoVis), list.count());
     }
 
     m_nOpCount = c->operations();
@@ -104,10 +104,10 @@ SelectOpDlg::~SelectOpDlg()
 /**
  * Inserts @p type into the type-combobox as well as its completion object.
  */
-void SelectOpDlg::insertOperation( const QString& type, int index )
+void SelectOpDlg::insertOperation(const QString& type, int index)
 {
-    m_pOpCB->insertItem( index, type );
-    m_pOpCB->completionObject()->addItem( type );
+    m_pOpCB->insertItem(index, type);
+    m_pOpCB->completionObject()->addItem(type);
 }
 
 /**
@@ -174,7 +174,7 @@ void SelectOpDlg::setCustomOp(const QString &op)
 bool SelectOpDlg::setClassOp(const QString &op)
 {
     for (int i = 1; i!= m_pOpCB->count(); ++i) {
-        if ( m_pOpCB->itemText(i) == op ) {
+        if (m_pOpCB->itemText(i) == op) {
             m_pOpCB->setCurrentIndex(i);
             m_pCustomRB->setChecked(false);
             slotSelectedOp();

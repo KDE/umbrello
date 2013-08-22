@@ -19,11 +19,11 @@ RubyCodeComment::RubyCodeComment(CodeDocument * doc, const QString & text)
 {
 }
 
-RubyCodeComment::~RubyCodeComment( )
+RubyCodeComment::~RubyCodeComment()
 {
 }
 
-QString RubyCodeComment::getNewEditorLine( int amount )
+QString RubyCodeComment::getNewEditorLine(int amount)
 {
     QString line = getIndentationString(amount) + "# ";
     return line;
@@ -39,7 +39,7 @@ QString RubyCodeComment::unformatText(const QString & text, const QString & inde
     return mytext;
 }
 
-QString RubyCodeComment::toString( ) const
+QString RubyCodeComment::toString() const
 {
     QString output = "";
 

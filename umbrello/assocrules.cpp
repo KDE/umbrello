@@ -47,7 +47,7 @@ AssocRules::~AssocRules()
  * Returns whether an association is going to be allowed for the given
  * values. This method is used to test if you can start an association.
  */
-bool AssocRules::allowAssociation( Uml::AssociationType::Enum assocType, UMLWidget * widget )
+bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType, UMLWidget * widget)
 {
     WidgetBase::WidgetType widgetType = widget->baseType();
     bool bValid = false;
@@ -61,7 +61,7 @@ bool AssocRules::allowAssociation( Uml::AssociationType::Enum assocType, UMLWidg
             break;
         }
     }
-    if( !bValid ) {
+    if(!bValid) {
         // Special case: Subsystem realizes interface in component diagram
         UMLView *view = UMLApp::app()->currentView();
         if (view && view->umlScene()->type() == Uml::DiagramType::Component &&
@@ -73,7 +73,7 @@ bool AssocRules::allowAssociation( Uml::AssociationType::Enum assocType, UMLWidg
     }
     AssociationWidgetList list = widget->associationWidgetList();
 
-    switch( assocType ) {
+    switch(assocType) {
     case Uml::AssociationType::Association:
     case Uml::AssociationType::UniAssociation:
     case Uml::AssociationType::Dependency:
@@ -91,8 +91,8 @@ bool AssocRules::allowAssociation( Uml::AssociationType::Enum assocType, UMLWidg
         break;
 
     case Uml::AssociationType::Realization:  // one connected to widget only (a or b)
-        foreach ( AssociationWidget* assoc, list ) {
-            if( assoc->associationType() == Uml::AssociationType::Realization )
+        foreach (AssociationWidget* assoc, list) {
+            if(assoc->associationType() == Uml::AssociationType::Realization)
                 return false;
         }
         return true;
@@ -118,12 +118,12 @@ bool AssocRules::allowAssociation( Uml::AssociationType::Enum assocType, UMLWidg
         break;
 
     case Uml::AssociationType::Category2Parent:
-        if ( widgetType == WidgetBase::wt_Category )
+        if (widgetType == WidgetBase::wt_Category)
             return true;
         break;
 
     case Uml::AssociationType::Child2Category:
-        if ( widgetType == WidgetBase::wt_Entity )
+        if (widgetType == WidgetBase::wt_Entity)
             return true;
         break;
 
@@ -140,7 +140,7 @@ bool AssocRules::allowAssociation( Uml::AssociationType::Enum assocType, UMLWidg
  * When we know what we are going to connect both ends of the association to, we can
  * use this method.
  */
-bool AssocRules::allowAssociation( Uml::AssociationType::Enum assocType,
+bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType,
                                    UMLWidget * widgetA, UMLWidget * widgetB)
 {
     WidgetBase::WidgetType widgetTypeA = widgetA->baseType();
@@ -148,7 +148,7 @@ bool AssocRules::allowAssociation( Uml::AssociationType::Enum assocType,
     bool bValid = false;
 
     if (widgetA->umlObject() && widgetA->umlObject() == widgetB->umlObject()) {
-        return allowSelf( assocType, widgetTypeA );
+        return allowSelf(assocType, widgetTypeA);
     }
 
     for (int i = 0; i < m_nNumRules; ++i) {
@@ -171,9 +171,9 @@ bool AssocRules::allowAssociation( Uml::AssociationType::Enum assocType,
 
     AssociationWidgetList list = widgetB->associationWidgetList();
 
-    switch( assocType ) {
+    switch(assocType) {
     case Uml::AssociationType::Association_Self:
-        if ( widgetA->umlObject() == widgetB->umlObject() )
+        if (widgetA->umlObject() == widgetB->umlObject())
             return true;
         break;
 
@@ -189,20 +189,20 @@ bool AssocRules::allowAssociation( Uml::AssociationType::Enum assocType,
     case Uml::AssociationType::Composition:   // can't have mutual composition
     case Uml::AssociationType::Containment:   // can't have mutual containment
     case Uml::AssociationType::Generalization://can have many sub/super types but can't sup/sub each
-        foreach ( AssociationWidget * assoc, list ) {
-            if( ( widgetA == assoc->widgetForRole(Uml::RoleType::A) ||
-                        widgetA == assoc->widgetForRole(Uml::RoleType::B) )
-                    && assoc->associationType() == assocType )
+        foreach (AssociationWidget * assoc, list) {
+            if((widgetA == assoc->widgetForRole(Uml::RoleType::A) ||
+                        widgetA == assoc->widgetForRole(Uml::RoleType::B))
+                    && assoc->associationType() == assocType)
                 return false;
         }
         return true;
         break;
 
     case Uml::AssociationType::Realization: // can only connect to abstract (interface) classes
-        foreach( AssociationWidget * assoc, list ) {
-            if( ( widgetA == assoc->widgetForRole(Uml::RoleType::A) ||
-                        widgetA == assoc->widgetForRole(Uml::RoleType::B) )
-                    && assoc->associationType() == Uml::AssociationType::Realization ) {
+        foreach(AssociationWidget * assoc, list) {
+            if((widgetA == assoc->widgetForRole(Uml::RoleType::A) ||
+                        widgetA == assoc->widgetForRole(Uml::RoleType::B))
+                    && assoc->associationType() == Uml::AssociationType::Realization) {
                 return false;
             }
         }
@@ -265,7 +265,7 @@ bool AssocRules::allowAssociation( Uml::AssociationType::Enum assocType,
             // only Forks and Branches can have more than one "outgoing" transition
             if (actA != NULL && actTypeA != ActivityWidget::Branch) {
                 AssociationWidgetList list = widgetA->associationWidgetList();
-                foreach (AssociationWidget* assoc , list ) {
+                foreach (AssociationWidget* assoc , list) {
                     if (assoc->widgetForRole(Uml::RoleType::A) == widgetA) {
                         return false;
                     }
@@ -280,13 +280,13 @@ bool AssocRules::allowAssociation( Uml::AssociationType::Enum assocType,
         break;
 
     case Uml::AssociationType::Category2Parent:
-        if ( widgetTypeA == WidgetBase::wt_Category && widgetTypeB == WidgetBase::wt_Entity ) {
+        if (widgetTypeA == WidgetBase::wt_Category && widgetTypeB == WidgetBase::wt_Entity) {
             return true;
         }
         break;
 
     case Uml::AssociationType::Child2Category:
-        if ( widgetTypeA == WidgetBase::wt_Entity && widgetTypeB == WidgetBase::wt_Category ) {
+        if (widgetTypeA == WidgetBase::wt_Entity && widgetTypeB == WidgetBase::wt_Category) {
             return true;
         }
         break;
@@ -301,10 +301,10 @@ bool AssocRules::allowAssociation( Uml::AssociationType::Enum assocType,
 /**
  * Returns whether to allow a role text for the given association type.
  */
-bool AssocRules::allowRole( Uml::AssociationType::Enum assocType )
+bool AssocRules::allowRole(Uml::AssociationType::Enum assocType)
 {
-    for( int i = 0; i < m_nNumRules; ++i )
-        if( assocType == m_AssocRules[ i ].assoc_type )
+    for(int i = 0; i < m_nNumRules; ++i)
+        if(assocType == m_AssocRules[ i ].assoc_type)
             return m_AssocRules[ i ].role;
     return false;
 }
@@ -313,11 +313,11 @@ bool AssocRules::allowRole( Uml::AssociationType::Enum assocType )
  * Returns whether to allow a multiplicity text for the given
  * association and widget type.
  */
-bool AssocRules::allowMultiplicity( Uml::AssociationType::Enum assocType, WidgetBase::WidgetType widgetType )
+bool AssocRules::allowMultiplicity(Uml::AssociationType::Enum assocType, WidgetBase::WidgetType widgetType)
 {
-    for( int i = 0; i < m_nNumRules; ++i )
-        if( assocType == m_AssocRules[ i ].assoc_type )
-            if( widgetType == m_AssocRules[ i ].widgetA_type || widgetType == m_AssocRules[ i ].widgetB_type )
+    for(int i = 0; i < m_nNumRules; ++i)
+        if(assocType == m_AssocRules[ i ].assoc_type)
+            if(widgetType == m_AssocRules[ i ].widgetA_type || widgetType == m_AssocRules[ i ].widgetB_type)
                 return m_AssocRules[ i ].multiplicity;
     return false;
 }
@@ -325,11 +325,11 @@ bool AssocRules::allowMultiplicity( Uml::AssociationType::Enum assocType, Widget
 /**
  * Returns whether to allow an association to self for given variables.
  */
-bool AssocRules::allowSelf( Uml::AssociationType::Enum assocType, WidgetBase::WidgetType widgetType )
+bool AssocRules::allowSelf(Uml::AssociationType::Enum assocType, WidgetBase::WidgetType widgetType)
 {
-    for( int i = 0; i < m_nNumRules; ++i )
-        if( assocType == m_AssocRules[ i ].assoc_type )
-            if( widgetType == m_AssocRules[ i ].widgetA_type || widgetType == m_AssocRules[ i ].widgetB_type )
+    for(int i = 0; i < m_nNumRules; ++i)
+        if(assocType == m_AssocRules[ i ].assoc_type)
+            if(widgetType == m_AssocRules[ i ].widgetA_type || widgetType == m_AssocRules[ i ].widgetB_type)
                 return m_AssocRules[ i ].self;
 
     return false;
@@ -475,5 +475,5 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
     { Uml::AssociationType::Child2Category,   WidgetBase::wt_Entity,     WidgetBase::wt_Category,    false,  false,  true,   false }
 };
 
-int AssocRules::m_nNumRules = sizeof( m_AssocRules ) / sizeof( AssocRules::Assoc_Rule );
+int AssocRules::m_nNumRules = sizeof(m_AssocRules) / sizeof(AssocRules::Assoc_Rule);
 

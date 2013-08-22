@@ -24,12 +24,12 @@
 #include <QCheckBox>
 #include <QLabel>
 
-CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage( QWidget *parent, const char *name, CPPCodeGenerationPolicy * policy )
+CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage(QWidget *parent, const char *name, CPPCodeGenerationPolicy * policy)
   : CodeGenerationPolicyPage(parent, name, policy)
 {
     CodeGenerationPolicy *common = UMLApp::app()->commonPolicy();
 
-    QVBoxLayout* vboxLayout = new QVBoxLayout( this );
+    QVBoxLayout* vboxLayout = new QVBoxLayout(this);
 
     form = new CPPCodeGenerationForm(this);
     form->ui_selectCommentStyle->setCurrentIndex((int)(common->getCommentStyle()));
@@ -51,7 +51,7 @@ CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage( QWidget *parent, const
     form->ui_globalStringCheckBox->setChecked(policy->stringIncludeIsGlobal());
     form->ui_globalListCheckBox->setChecked(policy->vectorIncludeIsGlobal());
 
-    vboxLayout->addWidget( form );
+    vboxLayout->addWidget(form);
 }
 
 CPPCodeGenerationPolicyPage::~CPPCodeGenerationPolicyPage()
@@ -69,7 +69,7 @@ void CPPCodeGenerationPolicyPage::apply()
     // documents
     parent->blockSignals(true);
 
-    common->setCommentStyle((CodeGenerationPolicy::CommentStyle ) form->ui_selectCommentStyle->currentIndex());
+    common->setCommentStyle((CodeGenerationPolicy::CommentStyle) form->ui_selectCommentStyle->currentIndex());
     common->setAutoGenerateConstructors(form->getGenerateEmptyConstructors());
     parent->setAutoGenerateAccessors(form->getGenerateAccessorMethods());
     uDebug() << form->getGenerateAccessorMethods();

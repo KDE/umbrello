@@ -94,7 +94,7 @@ private:
 
 public slots:
 
-    void slotActorToggled( bool state );
+    void slotActorToggled(bool state);
 };
 
 #endif

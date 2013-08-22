@@ -34,10 +34,10 @@ JavaCodeDocumentation::~JavaCodeDocumentation()
  */
 void JavaCodeDocumentation::saveToXMI(QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement( "javacodedocumentation" );
+    QDomElement blockElement = doc.createElement("javacodedocumentation");
     setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
     // just use parent TextBlock method
-    root.appendChild( blockElement );
+    root.appendChild(blockElement);
 }
 
 /**

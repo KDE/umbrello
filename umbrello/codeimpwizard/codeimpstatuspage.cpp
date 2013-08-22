@@ -281,7 +281,7 @@ void CodeImpStatusPage::updateStatus(const QString& file, const QString& text)
     QList<QTableWidgetItem*> items = ui_tableWidgetStatus->findItems(file, Qt::MatchFixedString);
     if (items.count() > 0) {
         QTableWidgetItem* item = items.at(0);
-        if ( !item ) {
+        if (!item) {
             uError() << "Code Importing Status Page::Error finding class <" << file << "> in list view!";
         }
         else {
@@ -290,7 +290,7 @@ void CodeImpStatusPage::updateStatus(const QString& file, const QString& text)
             CodeImport::LedStatus* led =
                 (CodeImport::LedStatus*)ui_tableWidgetStatus->cellWidget(row, 2);
             if (text.isEmpty()) {
-                status->setText( i18n("Not Imported") );
+                status->setText(i18n("Not Imported"));
                 led->setColor(Qt::red);
                 led->setOn(true);
             }

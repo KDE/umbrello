@@ -34,7 +34,7 @@ public:
 
     void setupDestructionBox();
 
-    void setStartPoint( int startX, int startY );
+    void setStartPoint(int startX, int startY);
 
     /**
      * Gets the length of the line.
@@ -68,12 +68,12 @@ protected:
         QGraphicsLineItem * line1;
         QGraphicsLineItem * line2;
         void setLine1Points(QRect rect) {
-            line1->setLine( rect.x(), rect.y(),
-                            rect.x() + rect.width(), rect.y() + rect.height() );
+            line1->setLine(rect.x(), rect.y(),
+                            rect.x() + rect.width(), rect.y() + rect.height());
         }
         void setLine2Points(QRect rect) {
-            line2->setLine( rect.x(), rect.y() + rect.height(),
-                            rect.x() + rect.width(), rect.y() );
+            line2->setLine(rect.x(), rect.y() + rect.height(),
+                            rect.x() + rect.width(), rect.y());
         }
     } m_DestructionBox;  ///< the destruction box
 

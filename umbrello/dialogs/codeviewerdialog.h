@@ -29,14 +29,14 @@ class CodeViewerDialog : public KDialog, private Ui::CodeViewerDialogBase
     Q_OBJECT
 public:
 
-    CodeViewerDialog ( QWidget* parent, CodeDocument * doc, Settings::CodeViewerState state,
-                       const char* name = 0, bool modal = false, Qt::WFlags fl = 0 );
+    CodeViewerDialog (QWidget* parent, CodeDocument * doc, Settings::CodeViewerState state,
+                       const char* name = 0, bool modal = false, Qt::WFlags fl = 0);
 
     ~CodeViewerDialog ();
 
-    Settings::CodeViewerState state( );
+    Settings::CodeViewerState state();
 
-    void addCodeDocument( CodeDocument * doc);
+    void addCodeDocument(CodeDocument * doc);
 
 protected:
 
@@ -48,7 +48,7 @@ private:
 
     Settings::CodeViewerState m_state;
 
-    void initGUI ( const char * name );
+    void initGUI (const char * name);
 
 public slots:
 

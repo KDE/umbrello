@@ -198,7 +198,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
         const bool isConst = name.contains(QRegExp("^const "));
         name.remove(QRegExp("^const\\s+"));
         QString typeName(name);
-        bool isAdorned = typeName.contains( QRegExp("[^\\w:\\. ]") );
+        bool isAdorned = typeName.contains(QRegExp("[^\\w:\\. ]"));
         const bool isPointer = typeName.contains('*');
         const bool isRef = typeName.contains('&');
         typeName.remove(QRegExp("[^\\w:\\. ].*$"));
@@ -223,7 +223,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
             if (components.count() > 1) {
                 typeName = components.back();
                 components.pop_back();
-                while ( components.count() ) {
+                while (components.count()) {
                     QString scopeName = components.front();
                     components.pop_front();
                     o = umldoc->findUMLObject(scopeName, UMLObject::ot_UMLObject, parentPkg);
@@ -472,7 +472,7 @@ void insertMethod(UMLClassifier *klass, UMLOperation* &op,
         if (! strippedComment.isEmpty())
             exist->setDoc(strippedComment);
         UMLAttributeList exParams = exist->getParmList();
-        for (UMLAttributeListIt it(params), exIt( exParams ) ; it.hasNext() ;) {
+        for (UMLAttributeListIt it(params), exIt(exParams) ; it.hasNext() ;) {
             UMLAttribute *param = it.next() , *exParam = exIt.next();
             exParam->setName(param->name());
             exParam->setVisibility(param->visibility());
@@ -551,7 +551,7 @@ void createGeneralization(UMLClassifier *child, UMLClassifier *parent)
  */
 void createGeneralization(UMLClassifier *child, const QString &parentName)
 {
-    UMLObject *parentObj = createUMLObject( UMLObject::ot_Class, parentName );
+    UMLObject *parentObj = createUMLObject(UMLObject::ot_Class, parentName);
     UMLClassifier *parent = static_cast<UMLClassifier*>(parentObj);
     createGeneralization(child, parent);
 }
@@ -567,7 +567,7 @@ QStringList includePathList()
     QStringList includePathList(incPathList);
     QString umbrello_incpath = QString(qgetenv("UMBRELLO_INCPATH"));
     if (!umbrello_incpath.isEmpty()) {
-        includePathList += umbrello_incpath.split( ':' );
+        includePathList += umbrello_incpath.split(':');
     }
     return includePathList;
 }

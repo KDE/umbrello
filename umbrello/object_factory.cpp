@@ -250,8 +250,8 @@ UMLClassifierListItem* createChildObject(UMLClassifier* parent, UMLObject::Objec
             break;
         }
     case UMLObject::ot_EntityAttribute: {
-         UMLEntity *e = dynamic_cast<UMLEntity*>( parent );
-         if ( e ) {
+         UMLEntity *e = dynamic_cast<UMLEntity*>(parent);
+         if (e) {
              returnObject = e->createAttribute();
          }
          break;
@@ -276,22 +276,22 @@ UMLClassifierListItem* createChildObject(UMLClassifier* parent, UMLObject::Objec
             break;
         }
     case UMLObject::ot_UniqueConstraint: {
-            UMLEntity* umlentity = dynamic_cast<UMLEntity*>( parent );
-            if ( umlentity ) {
+            UMLEntity* umlentity = dynamic_cast<UMLEntity*>(parent);
+            if (umlentity) {
                 returnObject = umlentity->createUniqueConstraint();
             }
             break;
         }
     case UMLObject::ot_ForeignKeyConstraint: {
-            UMLEntity* umlentity = dynamic_cast<UMLEntity*>( parent );
-            if ( umlentity ) {
+            UMLEntity* umlentity = dynamic_cast<UMLEntity*>(parent);
+            if (umlentity) {
                 returnObject = umlentity->createForeignKeyConstraint();
             }
             break;
         }
     case UMLObject::ot_CheckConstraint: {
-            UMLEntity* umlentity = dynamic_cast<UMLEntity*>( parent );
-            if ( umlentity ) {
+            UMLEntity* umlentity = dynamic_cast<UMLEntity*>(parent);
+            if (umlentity) {
                 returnObject = umlentity->createCheckConstraint();
             }
             break;

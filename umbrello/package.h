@@ -54,8 +54,8 @@ public:
     UMLObject * findObjectById(Uml::ID::Type id);
 
     void appendPackages(UMLPackageList& packages, bool includeNested = true);
-    void appendClassifiers( UMLClassifierList& classifiers,
-                            bool includeNested = true );
+    void appendClassifiers(UMLClassifierList& classifiers,
+                            bool includeNested = true);
     void appendClasses(UMLClassifierList& classes, bool includeNested = true);
     void appendClassesAndInterfaces(UMLClassifierList& classifiers,
                                     bool includeNested = true);

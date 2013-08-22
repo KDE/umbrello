@@ -66,7 +66,7 @@ using phoenix::var;
 
 SkipRule PreprocessLexer::m_SkipRule = nothing_p;
 
-#if defined( KDEVELOP_BGPARSER )
+#if defined(KDEVELOP_BGPARSER)
 #include <QThread>
 
 class KDevTread: public QThread
@@ -153,7 +153,7 @@ struct operator_ :
                  | str_p("->")[ main.result_ = Token_arrow]
                  | str_p("##")[ main.result_ = Token_concat]
                  | str_p("...")[ main.result_ = Token_ellipsis]
-                )
+               )
                 [ self.result_ = construct_<Token>(main.result_, arg1, arg2)];
         }
     };
@@ -193,7 +193,7 @@ struct numberLiteral :
 
         definition(numberLiteral const& self) {
             main =
-                ( + digit_p)
+                (+ digit_p)
                 [ self.result_ = construct_<Token>(Token_number_literal, arg1, arg2)];
         }
     };
@@ -227,7 +227,7 @@ struct header :
                  confix_p(ch_p('<')[main.m_scope = (int)Dep_Global],
                           (*anychar_p)[main.m_word = constructQString(arg1, arg2)],
                           '>')
-                )
+               )
                 [self.result_ = construct_<Dependency>(main.m_word, main.m_scope)]
                 ;
         }
@@ -420,7 +420,7 @@ void PreprocessLexer::nextToken(Token& tk)
                    |
                    gr_stringLiteral
                    [var(tk) = construct_<Token>(Token_string_literal, arg1, arg2)]
-               ).hit) {
+              ).hit) {
     } else if (ch.isLetter() || ch == '_') {
         CharIterator start = m_source.get_ptr();
         QString ide;
@@ -483,7 +483,7 @@ void PreprocessLexer::nextToken(Token& tk)
 
             Position argsEndAtPosition = currentPosition();
 
-#if defined( KDEVELOP_BGPARSER )
+#if defined(KDEVELOP_BGPARSER)
             qthread_yield();
 #endif
             m_preprocessedString += m.body();
@@ -522,14 +522,14 @@ void PreprocessLexer::nextToken(Token& tk)
                 }
             }
 
-#if defined( KDEVELOP_BGPARSER )
+#if defined(KDEVELOP_BGPARSER)
             qthread_yield();
 #endif
             m_preprocessedString += textToInsert;
 
             m_data->endScope();
             m_preprocessorEnabled = preproc;
-            //m_driver->addMacro( m );
+            //m_driver->addMacro(m);
             m_source.set_currentPosition(argsEndAtPosition);
         } else if (k != -1) {
             tk = m_source.createToken(k, start);
@@ -542,7 +542,7 @@ void PreprocessLexer::nextToken(Token& tk)
                         skip('(', ')');
                 }
                 if (!(*pos).second.isEmpty()) {
-#if defined( KDEVELOP_BGPARSER )
+#if defined(KDEVELOP_BGPARSER)
                     qthread_yield();
 #endif
                     m_preprocessedString += QString(" ") + (*pos).second + QString(" ");
@@ -569,7 +569,7 @@ void PreprocessLexer::nextToken(Token& tk)
         }
     } else if (m_source.parse(numberLiteral_pg[assign(tk)]
                               | operator_pg[ assign(tk)]
-                             ).hit) {
+                            ).hit) {
     } else {
         CharIterator l_ptr = m_source.get_ptr();
         m_source.nextChar();
@@ -713,7 +713,7 @@ void PreprocessLexer::handleDirective(const QString& directive)
             m_source.parse(*gr_whiteSpace >>
                            header_g
                            [boost::bind(&PreprocessLexer::addDependence, this, _1)]
-                          );
+                         );
     } else if (directive == "undef") {
         if (!m_preprocessor.inSkip())
             processUndef();
@@ -771,7 +771,7 @@ struct macroDefinition :
                                >> *gr_whiteSpace
                                ,
                                ','
-                              )
+                             )
                      >> ')');
             macroName = identifier_pg[ self.result_ = construct_<Macro>(arg1)];
             argument =
@@ -796,7 +796,7 @@ void PreprocessLexer::processDefine()
             && m_source.currentChar() != '\n'
             && m_source.currentChar() != '\r') {
 
-        if (m_source.parse( + gr_whiteSpace).hit) {
+        if (m_source.parse(+ gr_whiteSpace).hit) {
             body += ' ';
         } else {
             Token tk;
@@ -844,7 +844,7 @@ int PreprocessLexer::macroPrimary()
                            | ch_p('-')[var(l_op) = std::negate<int>()]
                            | ch_p('!')[var(l_op) = std::logical_not<int>()]
                            | ch_p('~')[var(l_op) = tilde<int>()]
-                          ).hit) {
+                         ).hit) {
             result = l_op(macroPrimary());
         } else if (m_source.parse(str_p("defined")).hit) {
             /** \todo Strange : should result in an identifier (after
@@ -862,7 +862,7 @@ int PreprocessLexer::macroPrimary()
                 | charLiteral_pg[assignFunctorResult<1>
                                  (result,
                                   boost::bind(&PreprocessLexer::toInt, _1))]
-            );
+           );
         }
     }
     return result;
@@ -881,7 +881,7 @@ int PreprocessLexer::macroMultiplyDivide()
                     (ch_p('/') >> eps_p(anychar_p - '*' - '/'))
                     [var(op) = 1]
                     | ch_p('%')[var(op) = 2]
-                ).hit) {
+               ).hit) {
             iresult = macroPrimary();
             switch (op) {
             case 0:
@@ -907,8 +907,8 @@ int PreprocessLexer::macroAddSubtract()
     m_source.parse(*gr_whiteSpace);
     while (m_source.parse(
                 ch_p('+')[var(ad) = true] | ch_p('-')[var(ad) = false]
-            ).hit
-          ) {
+           ).hit
+         ) {
         iresult = macroMultiplyDivide();
         result = ad ? (result + iresult) : (result - iresult);
     }
@@ -925,8 +925,8 @@ int PreprocessLexer::macroRelational()
                 | ch_p('<')[var(l_op) = less<int>()]
                 | str_p(">=")[var(l_op) = greater_equal<int>()]
                 | ch_p('>')[var(l_op) = greater<int>()]
-            ).hit
-          ) {
+           ).hit
+         ) {
         int iresult = macroAddSubtract();
         result = l_op(result, iresult);
     }
@@ -940,7 +940,7 @@ int PreprocessLexer::macroEquality()
     boost::function < bool(int, int) > l_op;
     while (m_source.parse(str_p("==")[var(l_op) = equal_to<int>()]
                           | str_p("!=")[var(l_op) = not_equal_to<int>()]
-                         ).hit) {
+                        ).hit) {
         result = l_op(result, macroRelational());
     }
     return result;
@@ -997,7 +997,7 @@ int PreprocessLexer::macroExpression()
     return macroLogicalOr();
 }
 
-PreprocessLexer::CharRule gr_simpleEscapeSequence = (ch_p('\\') >> (ch_p('\\') | '"' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '0' ));
+PreprocessLexer::CharRule gr_simpleEscapeSequence = (ch_p('\\') >> (ch_p('\\') | '"' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '0'));
 PreprocessLexer::CharRule gr_octalDigit = (ch_p('0') | '1' | '2' | '3' | '4' | '5' | '6' | '7');
 PreprocessLexer::CharRule gr_digit = (ch_p('0') | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9');
 PreprocessLexer::CharRule gr_hexDigit = (gr_digit | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f');

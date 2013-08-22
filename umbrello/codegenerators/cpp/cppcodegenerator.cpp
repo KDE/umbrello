@@ -37,7 +37,7 @@ CPPCodeGenerator::CPPCodeGenerator()
   : CodeGenerator(),
     m_createMakefile(false)
 {
-    UMLApp::app()->setPolicyExt( new CPPCodeGenerationPolicy() );
+    UMLApp::app()->setPolicyExt(new CPPCodeGenerationPolicy());
 
     // load Classifier documents from parent document
     //initFromParentDocument();
@@ -182,21 +182,21 @@ QString CPPCodeGenerator::fixTypeName(const QString &name)
  */
 void CPPCodeGenerator::saveToXMI(QDomDocument & doc, QDomElement & root)
 {
-    QDomElement docElement = doc.createElement( "codegenerator" );
+    QDomElement docElement = doc.createElement("codegenerator");
     docElement.setAttribute("language", "C++");
 
     const CodeDocumentList * docList = getCodeDocumentList();
     CodeDocumentList::ConstIterator it  = docList->begin();
     CodeDocumentList::ConstIterator end  = docList->end();
-    for ( ; it != end; ++it )
+    for (; it != end; ++it)
         (*it)->saveToXMI(doc, docElement);
 
     CodeDocumentList::Iterator it2  = m_headercodedocumentVector.begin();
     CodeDocumentList::Iterator end2  = m_headercodedocumentVector.end();
-    for ( ; it2 != end2; ++it2 )
+    for (; it2 != end2; ++it2)
         (*it2)->saveToXMI(doc, docElement);
 
-    root.appendChild( docElement );
+    root.appendChild(docElement);
 }
 
 /**
@@ -210,12 +210,12 @@ void CPPCodeGenerator::syncCodeToDocument()
     const CodeDocumentList * docList = getCodeDocumentList();
     CodeDocumentList::ConstIterator it  = docList->begin();
     CodeDocumentList::ConstIterator end  = docList->end();
-    for ( ; it != end; ++it ) {
+    for (; it != end; ++it) {
         (*it)->synchronize();
     }
     CodeDocumentList::Iterator it2  = m_headercodedocumentVector.begin();
     CodeDocumentList::Iterator end2  = m_headercodedocumentVector.end();
-    for ( ; it2 != end2; ++it2 ) {
+    for (; it2 != end2; ++it2) {
         (*it2)->synchronize();
     }
 }
@@ -243,7 +243,7 @@ void CPPCodeGenerator::writeCodeToFile(UMLClassifierList & concepts)
 {
     CodeDocumentList docs;
 
-    foreach (UMLClassifier* concept, concepts ) {
+    foreach (UMLClassifier* concept, concepts) {
         CodeDocument * doc = findCodeDocumentByClassifier(concept);
         if(doc)
             docs.append(doc);
@@ -308,7 +308,7 @@ void CPPCodeGenerator::initFromParentDocument()
     // Walk through the document converting classifiers into
     // classifier code documents as needed (e.g only if doesn't exist)
     UMLClassifierList concepts = UMLApp::app()->document()->classesAndInterfaces();
-    foreach (UMLClassifier* c, concepts ) {
+    foreach (UMLClassifier* c, concepts) {
         // Doesn't exist? Then build one.
         CodeDocument * codeDoc = findCodeDocumentByClassifier(c);
         if (!codeDoc)

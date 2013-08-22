@@ -59,7 +59,7 @@ void UMLUseCase::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 /**
  * Loads the <UML:UseCase> element (TODO).
  */
-bool UMLUseCase::load(QDomElement& )
+bool UMLUseCase::load(QDomElement&)
 {
     return true;
 }

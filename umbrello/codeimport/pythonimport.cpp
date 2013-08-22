@@ -77,14 +77,14 @@ bool PythonImport::preprocess(QString& line)
         if (pos == 0)
             return true;
         line = line.left(pos);
-        line.remove( QRegExp("\\s+$") );
+        line.remove(QRegExp("\\s+$"));
     }
     // Transform changes in indentation into braces a la C++/Java/Perl/...
-    pos = line.indexOf( QRegExp("\\S") );
+    pos = line.indexOf(QRegExp("\\S"));
     if (pos == -1)
         return true;
     bool isContinuation = false;
-    int leadingWhite = line.left(pos).count( QRegExp("\\s") );
+    int leadingWhite = line.left(pos).count(QRegExp("\\s"));
     if (leadingWhite > m_srcIndent[m_srcIndentIndex]) {
         if (m_srcIndex == 0) {
             uError() << "internal error";
@@ -104,7 +104,7 @@ bool PythonImport::preprocess(QString& line)
         }
     }
     if (line.endsWith(':')) {
-        line.replace( QRegExp(":$"), "{" );
+        line.replace(QRegExp(":$"), "{");
         m_braceWasOpened = true;
     } else {
         m_braceWasOpened = false;

@@ -26,12 +26,12 @@ public:
     /**
      * Constructor
      */
-    DCodeAccessorMethod ( CodeClassField * field, CodeAccessorMethod::AccessorType type);
+    DCodeAccessorMethod (CodeClassField * field, CodeAccessorMethod::AccessorType type);
 
     /**
      * Empty Destructor
      */
-    virtual ~DCodeAccessorMethod ( );
+    virtual ~DCodeAccessorMethod ();
 
     /**
      * Must be called before this object is usable
@@ -47,13 +47,13 @@ protected:
      * Set attributes of the node that represents this class
      * in the XMI document.
      */
-    virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
+    virtual void setAttributesOnNode (QDomDocument & doc, QDomElement & blockElement);
 
     /**
      * Set the class attributes of this object from
      * the passed element node.
      */
-    virtual void setAttributesFromNode ( QDomElement & element);
+    virtual void setAttributesFromNode (QDomElement & element);
 
 };
 

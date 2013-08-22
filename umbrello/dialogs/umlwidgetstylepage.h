@@ -32,8 +32,8 @@ class UMLWidgetStylePage : public QWidget
     Q_OBJECT
 public:
 
-    UMLWidgetStylePage( QWidget * pParent, WidgetBase * pWidget );
-    UMLWidgetStylePage( QWidget * pParent, Settings::OptionState *options );
+    UMLWidgetStylePage(QWidget * pParent, WidgetBase * pWidget);
+    UMLWidgetStylePage(QWidget * pParent, Settings::OptionState *options);
 
     virtual ~UMLWidgetStylePage();
 

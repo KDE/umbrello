@@ -42,13 +42,13 @@ public:
     /**
      * Empty Destructor
      */
-    virtual ~JavaClassifierCodeDocument ( );
+    virtual ~JavaClassifierCodeDocument ();
 
     /**
      * Get the dialog widget which allows user interaction with the object parameters.
      * @return  CodeDocumentDialog
      */
-    //CodeDocumentDialog getDialog ( );
+    //CodeDocumentDialog getDialog ();
 
     // Make it easier on ourselves
     JavaCodeGenerationPolicy * getJavaPolicy();
@@ -61,7 +61,7 @@ public:
      * Add a code operation to this java classifier code document.
      * @return bool which is true IF the code operation was added successfully
      */
-    bool addCodeOperation (CodeOperation * op );
+    bool addCodeOperation (CodeOperation * op);
 
     void updateContent();
 
@@ -74,7 +74,7 @@ protected:
      * Need to overwrite this for java since we need to pick up the
      * java class declaration block.
      */
-    virtual void loadChildTextBlocksFromNode ( QDomElement & root);
+    virtual void loadChildTextBlocksFromNode (QDomElement & root);
 
     void addOrUpdateCodeClassFieldMethodsInCodeBlock(CodeClassFieldList &list, JavaClassDeclarationBlock * codeBlock);
 
@@ -86,7 +86,7 @@ private:
     HierarchicalCodeBlock * constructorBlock;
     HierarchicalCodeBlock * operationsBlock;
 
-    void init ( );
+    void init ();
     JavaClassDeclarationBlock * getClassDecl();
 };
 

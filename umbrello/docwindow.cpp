@@ -29,7 +29,7 @@
 /**
  * Constructor.
  */
-DocWindow::DocWindow( UMLDoc * doc, QWidget *parent )
+DocWindow::DocWindow(UMLDoc * doc, QWidget *parent)
   : QWidget(parent),
     m_pUMLObject(0),
     m_pUMLScene(0),
@@ -40,15 +40,15 @@ DocWindow::DocWindow( UMLDoc * doc, QWidget *parent )
     m_modified(false)
 {
     //setup visual display
-    QVBoxLayout * docLayout = new QVBoxLayout( this );
-    m_docTE = new KTextEdit( this );
-    m_docTE->setText( "" );
-    docLayout->addWidget( m_docTE);
+    QVBoxLayout * docLayout = new QVBoxLayout(this);
+    m_docTE = new KTextEdit(this);
+    m_docTE->setText("");
+    docLayout->addWidget(m_docTE);
     docLayout->setMargin(0);
     //m_docTE->setWordWrapMode(QTextEdit::WidgetWidth);
 
     //show projects documentation to start
-    updateDocumentation( true, true );
+    updateDocumentation(true, true);
     connect(m_docTE, SIGNAL(textChanged()), this, SLOT(slotTextChanged()));
 }
 
@@ -72,21 +72,21 @@ DocWindow::~DocWindow()
  * display.
  * Overwrite just determines whose version is more up to date.
  */
-void DocWindow::showDocumentation( UMLObject * object, bool overwrite )
+void DocWindow::showDocumentation(UMLObject * object, bool overwrite)
 {
-    if( object == m_pUMLObject && !overwrite )
+    if(object == m_pUMLObject && !overwrite)
         return;
-    if( object != m_pUMLObject )
-        updateDocumentation( true );
+    if(object != m_pUMLObject)
+        updateDocumentation(true);
     m_Showing = st_UMLObject;
-    if( !object ) {
-        m_docTE->setText( m_pUMLDoc->documentation() );
+    if(!object) {
+        m_docTE->setText(m_pUMLDoc->documentation());
         m_modified = false;
         m_pUMLObject = 0;
         return;
     }
     m_pUMLObject = object;
-    m_docTE->setText( m_pUMLObject->doc() );
+    m_docTE->setText(m_pUMLObject->doc());
     m_modified = false;
 }
 
@@ -94,22 +94,22 @@ void DocWindow::showDocumentation( UMLObject * object, bool overwrite )
  * This method is the same as the one for UMLObjects except it
  * displays documentation for a diagram.
  */
-void DocWindow::showDocumentation( UMLScene * scene, bool overwrite )
+void DocWindow::showDocumentation(UMLScene * scene, bool overwrite)
 {
-    if( scene == m_pUMLScene && !overwrite )
+    if(scene == m_pUMLScene && !overwrite)
         return;
-    if( scene != m_pUMLScene ) {
-        updateDocumentation( true );
+    if(scene != m_pUMLScene) {
+        updateDocumentation(true);
     }
     m_Showing = st_UMLScene;
-    if( !scene ) {
-        m_docTE->setText( m_pUMLDoc->documentation() );
+    if(!scene) {
+        m_docTE->setText(m_pUMLDoc->documentation());
         m_pUMLScene = 0;
         m_modified = false;
         return;
     }
     m_pUMLScene = scene;
-    m_docTE->setText( m_pUMLScene->documentation() );
+    m_docTE->setText(m_pUMLScene->documentation());
     m_modified = false;
 }
 
@@ -118,21 +118,21 @@ void DocWindow::showDocumentation( UMLScene * scene, bool overwrite )
  * displays documentation for an object instance (StateWidget/
  * ObjectWidget).
  */
-void DocWindow::showDocumentation( UMLWidget * widget, bool overwrite )
+void DocWindow::showDocumentation(UMLWidget * widget, bool overwrite)
 {
-    if( widget == m_pUMLWidget && !overwrite )
+    if(widget == m_pUMLWidget && !overwrite)
         return;
-    if( widget != m_pUMLWidget )
-        updateDocumentation( true );
+    if(widget != m_pUMLWidget)
+        updateDocumentation(true);
     m_Showing = st_UMLWidget;
-    if( !widget ) {
-        m_docTE->setText( m_pUMLDoc->documentation() );
+    if(!widget) {
+        m_docTE->setText(m_pUMLDoc->documentation());
         m_pUMLWidget = 0;
         m_modified = false;
         return;
     }
     m_pUMLWidget = widget;
-    m_docTE->setText( m_pUMLWidget->documentation() );
+    m_docTE->setText(m_pUMLWidget->documentation());
     m_modified = false;
 }
 
@@ -141,21 +141,21 @@ void DocWindow::showDocumentation( UMLWidget * widget, bool overwrite )
  * displays documentation for an association instance
  * (AssociationWidget).
  */
-void DocWindow::showDocumentation( AssociationWidget * widget, bool overwrite )
+void DocWindow::showDocumentation(AssociationWidget * widget, bool overwrite)
 {
-    if( widget == m_pAssocWidget && !overwrite )
+    if(widget == m_pAssocWidget && !overwrite)
         return;
-    if( widget != m_pAssocWidget )
-        updateDocumentation( true );
+    if(widget != m_pAssocWidget)
+        updateDocumentation(true);
     m_Showing = st_Association;
-    if( !widget ) {
-        m_docTE->setText( m_pUMLDoc->documentation() );
+    if(!widget) {
+        m_docTE->setText(m_pUMLDoc->documentation());
         m_pAssocWidget = 0;
         m_modified = false;
         return;
     }
     m_pAssocWidget = widget;
-    m_docTE->setText( m_pAssocWidget->documentation() );
+    m_docTE->setText(m_pAssocWidget->documentation());
     m_modified = false;
 }
 
@@ -171,27 +171,27 @@ void DocWindow::showDocumentation( AssociationWidget * widget, bool overwrite )
  * @param clear     If true, show the documentation of current project
  * @param startup   If true, no setModified(true) calls will be done and nothing is pushed to the undo stack
  */
-void DocWindow::updateDocumentation( bool clear, bool startup )
+void DocWindow::updateDocumentation(bool clear, bool startup)
 {
     // the file is marked modified, if the documentation differs
     // we don't do this on startup/load of a xmi file, because every time
     // modified is set, we get another undo/redo backup point
     if (isModified()) {
-        if( m_pUMLObject ) {
-            m_pUMLObject->setDoc( m_docTE->toPlainText() );
-        } else if( m_pUMLScene ) {
-            m_pUMLScene->setDocumentation( m_docTE->toPlainText() );
-        } else if ( m_pUMLWidget ) {
-            m_pUMLWidget->setDocumentation( m_docTE->toPlainText() );
-        } else if ( m_pAssocWidget ) {
-            m_pAssocWidget->setDocumentation( m_docTE->toPlainText() );
+        if(m_pUMLObject) {
+            m_pUMLObject->setDoc(m_docTE->toPlainText());
+        } else if(m_pUMLScene) {
+            m_pUMLScene->setDocumentation(m_docTE->toPlainText());
+        } else if (m_pUMLWidget) {
+            m_pUMLWidget->setDocumentation(m_docTE->toPlainText());
+        } else if (m_pAssocWidget) {
+            m_pAssocWidget->setDocumentation(m_docTE->toPlainText());
         } else {
-            m_pUMLDoc->setDocumentation( m_docTE->toPlainText() );
+            m_pUMLDoc->setDocumentation(m_docTE->toPlainText());
         }
 
         // now do the setModified call
         if (startup == false) {
-            m_pUMLDoc->setModified( true );
+            m_pUMLDoc->setModified(true);
         }
     }
 
@@ -204,14 +204,14 @@ void DocWindow::updateDocumentation( bool clear, bool startup )
 /**
  *  Re-initializes the class for a new document.
  */
-void DocWindow::newDocumentation( )
+void DocWindow::newDocumentation()
 {
     m_pUMLScene = 0;
     m_pUMLObject = 0;
     m_pUMLWidget = 0;
     m_pAssocWidget = 0;
     m_Showing = st_Project;
-    m_docTE->setText( m_pUMLDoc->documentation() );
+    m_docTE->setText(m_pUMLDoc->documentation());
     m_modified = false;
 }
 

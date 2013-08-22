@@ -32,36 +32,36 @@ public:
      * Constructor with QString so we can create & populate it in
      * one step.
      */
-    OwnedHierarchicalCodeBlock ( UMLObject * parent, CodeDocument * parentDoc, const QString &start="", const QString &end="", const QString &comment="" );
+    OwnedHierarchicalCodeBlock (UMLObject * parent, CodeDocument * parentDoc, const QString &start="", const QString &end="", const QString &comment="");
 
     /**
      * Empty Destructor
      */
-    virtual ~OwnedHierarchicalCodeBlock ( );
+    virtual ~OwnedHierarchicalCodeBlock ();
 
     CodeDocument * getParentDocument();
 
-    virtual void updateContent ( ) = 0;
+    virtual void updateContent () = 0;
 
     // these next 2 methods should be supplied by inheriting classes
 
     /**
      * Save the XMI representation of this object
      */
-    virtual void saveToXMI ( QDomDocument & doc, QDomElement & root ) = 0;
+    virtual void saveToXMI (QDomDocument & doc, QDomElement & root) = 0;
 
     /**
      * load params from the appropriate XMI element node.
      */
-    virtual void loadFromXMI ( QDomElement & root ) = 0;
+    virtual void loadFromXMI (QDomElement & root) = 0;
 
 protected:
 
     virtual void release ();
 
-    virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
+    virtual void setAttributesOnNode (QDomDocument & doc, QDomElement & blockElement);
 
-    virtual void setAttributesFromNode ( QDomElement & element);
+    virtual void setAttributesFromNode (QDomElement & element);
 
     virtual void setAttributesFromObject (TextBlock * obj);
 
@@ -69,7 +69,7 @@ private:
 
 public slots:
 
-    void syncToParent ( );
+    void syncToParent ();
 
 };
 

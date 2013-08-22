@@ -518,9 +518,9 @@ void ASWriter::writeClass(UMLClassifier *c)
     //write includes
     UMLPackageList includes;
     findObjectsRelated(c,includes);
-    foreach (UMLPackage* conc, includes ) {
+    foreach (UMLPackage* conc, includes) {
         QString headerName = findFileName(conc, ".as");
-        if ( !headerName.isEmpty() )
+        if (!headerName.isEmpty())
         {
             as << "#include \"" << findFileName(conc,".as") << "\"" << m_endl;
         }
@@ -554,7 +554,7 @@ void ASWriter::writeClass(UMLClassifier *c)
     as << "}" << m_endl;
     as << m_endl;
 
-    foreach(UMLClassifier* obj, superclasses ) {
+    foreach(UMLClassifier* obj, superclasses) {
         as << classname << ".prototype = new " << cleanName(obj->name()) << " ();" << m_endl;
     }
 
@@ -573,7 +573,7 @@ void ASWriter::writeClass(UMLClassifier *c)
         as << " */" << m_endl;
         as << classname << ".prototype._init = function ()" << m_endl;
         as << "{" << m_endl;
-        foreach (UMLAttribute* at, atl ) {
+        foreach (UMLAttribute* at, atl) {
             if (forceDoc() || !at->doc().isEmpty())
             {
                 as << m_indentation << "/**" << m_endl
@@ -595,13 +595,13 @@ void ASWriter::writeClass(UMLClassifier *c)
     if (forceSections() || !aggregations.isEmpty())
     {
         as <<  m_endl << m_indentation << "/**Aggregations: */" << m_endl;
-        writeAssociation(classname, aggregations , as );
+        writeAssociation(classname, aggregations , as);
     }
 
     if (forceSections() || !compositions.isEmpty())
     {
         as <<  m_endl << m_indentation << "/**Compositions: */" << m_endl;
-        writeAssociation(classname, compositions , as );
+        writeAssociation(classname, compositions , as);
     }
 
     as << m_endl;
@@ -609,7 +609,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 
     if (isClass) {
         UMLAttributeList atl = c->getAttributeList();
-        foreach (UMLAttribute* at, atl ) {
+        foreach (UMLAttribute* at, atl) {
           if (at->visibility() == Uml::Visibility::Protected) {
                 as << m_indentation << "ASSetPropFlags (this, \"" << cleanName(at->name()) << "\", 1);" << m_endl;
           }
@@ -617,7 +617,7 @@ void ASWriter::writeClass(UMLClassifier *c)
     }
 
     UMLOperationList opList(c->getOpList());
-    foreach (UMLOperation* op, opList ) {
+    foreach (UMLOperation* op, opList) {
         if (op->visibility() == Uml::Visibility::Protected) {
             as << m_indentation << "ASSetPropFlags (this, \"" << cleanName(op->name()) << "\", 1);" << m_endl;
         }
@@ -626,14 +626,14 @@ void ASWriter::writeClass(UMLClassifier *c)
     as << m_indentation << "/**Private: */" << m_endl;
     if (isClass) {
         UMLAttributeList atl = c->getAttributeList();
-        foreach (UMLAttribute* at,  atl ) {
+        foreach (UMLAttribute* at,  atl) {
             if (at->visibility() == Uml::Visibility::Private) {
                 as << m_indentation << "ASSetPropFlags (this, \"" << cleanName(at->name()) << "\", 7);" << m_endl;
             }
         }
     }
 
-    foreach (UMLOperation* op, opList ) {
+    foreach (UMLOperation* op, opList) {
         if (op->visibility() == Uml::Visibility::Protected) {
             as << m_indentation << "ASSetPropFlags (this, \"" << cleanName(op->name()) << "\", 7);" << m_endl;
         }
@@ -666,9 +666,9 @@ void ASWriter::writeClass(UMLClassifier *c)
  * @param assocList   the list of associations
  * @param as          output stream for the AS file
  */
-void ASWriter::writeAssociation(QString& classname, UMLAssociationList& assocList , QTextStream &as )
+void ASWriter::writeAssociation(QString& classname, UMLAssociationList& assocList , QTextStream &as)
 {
-    foreach (UMLAssociation *a , assocList )
+    foreach (UMLAssociation *a , assocList)
     {
         // association side
         Uml::RoleType::Enum role = a->getObject(Uml::RoleType::A)->name() == classname ? Uml::RoleType::B : Uml::RoleType::A;
@@ -726,19 +726,19 @@ void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
 {
     UMLAttributeList atl;
 
-    foreach (UMLOperation* op , *opList ) {
+    foreach (UMLOperation* op , *opList) {
         atl = op -> getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->doc().isEmpty();
-        foreach (UMLAttribute* at,  atl  ) {
+        foreach (UMLAttribute* at,  atl ) {
             writeDoc |= !at->doc().isEmpty();
         }
 
-        if( writeDoc )  //write method documentation
+        if(writeDoc)  //write method documentation
         {
             as << "/**" << m_endl << formatDoc(op->doc()," * ");
 
-            foreach (UMLAttribute* at,  atl ) {
+            foreach (UMLAttribute* at,  atl) {
                 if(forceDoc() || !at->doc().isEmpty()) {
                     as << " * @param " + cleanName(at->name())<<m_endl;
                     as << formatDoc(at->doc(),"    *      ");
@@ -751,7 +751,7 @@ void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
 
         int i= atl.count();
         int j=0;
-        for (UMLAttributeListIt atlIt( atl ); atlIt.hasNext(); ++j) {
+        for (UMLAttributeListIt atlIt(atl); atlIt.hasNext(); ++j) {
             UMLAttribute* at = atlIt.next();
             as << cleanName(at->name())
             << (!(at->getInitialValue().isEmpty()) ? (QString(" = ")+at->getInitialValue()) : QString(""))

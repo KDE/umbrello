@@ -26,8 +26,8 @@
  * @param id        The unique id given to this UMLEntityConstraint.
  */
 UMLEntityConstraint::UMLEntityConstraint(UMLObject *parent,
-    const QString& name, Uml::ID::Type id )
-  : UMLClassifierListItem( parent, name, id )
+    const QString& name, Uml::ID::Type id)
+  : UMLClassifierListItem(parent, name, id)
 {
     m_BaseType = UMLObject::ot_EntityConstraint;
 }
@@ -37,7 +37,7 @@ UMLEntityConstraint::UMLEntityConstraint(UMLObject *parent,
  * @param parent    The parent of this UMLEntityConstraint.
  */
 UMLEntityConstraint::UMLEntityConstraint(UMLObject *parent)
-  : UMLClassifierListItem( parent )
+  : UMLClassifierListItem(parent)
 {
     m_BaseType = UMLObject::ot_EntityConstraint;
 }
@@ -45,12 +45,12 @@ UMLEntityConstraint::UMLEntityConstraint(UMLObject *parent)
 /**
  * Overloaded '==' operator
  */
-bool UMLEntityConstraint::operator==( const UMLEntityConstraint &rhs) const
+bool UMLEntityConstraint::operator==(const UMLEntityConstraint &rhs) const
 {
-    if( this == &rhs )
+    if(this == &rhs)
         return true;
 
-    if( !UMLObject::operator==( rhs ) )
+    if(!UMLObject::operator==(rhs))
         return false;
 
     return true;

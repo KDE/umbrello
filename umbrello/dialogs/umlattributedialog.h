@@ -29,7 +29,7 @@ class UMLAttributeDialog : public KDialog
 {
     Q_OBJECT
 public:
-    UMLAttributeDialog( QWidget * pParent, UMLAttribute * pAttribute );
+    UMLAttributeDialog(QWidget * pParent, UMLAttribute * pAttribute);
     ~UMLAttributeDialog();
 
 protected:
@@ -38,7 +38,7 @@ protected:
 
     bool apply();
 
-    void insertTypesSorted( const QString& type = "" );
+    void insertTypesSorted(const QString& type = "");
 
     /**
      *   The Attribute to represent
@@ -59,7 +59,7 @@ public slots:
     void slotApply();
 
     void slotOk();
-    void slotNameChanged( const QString & );
+    void slotNameChanged(const QString &);
 };
 
 #endif

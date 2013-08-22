@@ -134,8 +134,8 @@ public:
 
     virtual bool resolveRef();
 
-    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) = 0;
-    virtual bool loadFromXMI( QDomElement & element );
+    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement) = 0;
+    virtual bool loadFromXMI(QDomElement & element);
 
     bool loadStereotype(QDomElement & element);
 
@@ -150,7 +150,7 @@ public:
     void setSecondaryFallback(const QString& id);
     QString secondaryFallback() const;
 
-    QDomElement save( const QString &tag, QDomDocument & qDoc );
+    QDomElement save(const QString &tag, QDomDocument & qDoc);
 
     friend QDebug operator<< (QDebug out, const UMLObject& obj);
 
@@ -165,7 +165,7 @@ protected:
 
     void maybeSignalObjectCreated();
 
-    virtual bool load( QDomElement& element );
+    virtual bool load(QDomElement& element);
 
     Uml::ID::Type          m_nId;          ///< object's id
     QString                m_Doc;          ///< object's documentation

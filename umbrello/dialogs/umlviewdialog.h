@@ -51,7 +51,7 @@ protected:
     void setupStylePage();
     void setupFontPage();
 
-    void applyPage( KPageWidgetItem* );
+    void applyPage(KPageWidgetItem*);
 
     void checkName();
 

@@ -41,12 +41,12 @@ namespace Uml
 
     void CmdChangeLineColor::redo()
     {
-        m_umlWidget->setLineColorcmd( m_newColor );
+        m_umlWidget->setLineColorcmd(m_newColor);
     }
 
     void CmdChangeLineColor::undo()
     {
-        m_umlWidget->setLineColorcmd( m_oldColor );
+        m_umlWidget->setLineColorcmd(m_oldColor);
     }
 
 }

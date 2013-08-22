@@ -26,12 +26,12 @@ public:
     /**
      * Empty Constructor
      */
-    CPPSourceCodeAccessorMethod ( CodeClassField * field, CodeAccessorMethod::AccessorType type);
+    CPPSourceCodeAccessorMethod (CodeClassField * field, CodeAccessorMethod::AccessorType type);
 
     /**
      * Empty Destructor
      */
-    virtual ~CPPSourceCodeAccessorMethod ( );
+    virtual ~CPPSourceCodeAccessorMethod ();
 
     /**
      * Must be called before this object is usable

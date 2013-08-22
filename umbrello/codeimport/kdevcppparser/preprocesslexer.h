@@ -23,10 +23,10 @@
 #include <QChar>
 
 namespace boost { namespace spirit { namespace classic { namespace impl {
-  bool isalnum_( QChar const& c);
-  bool isalpha_( QChar const& c);
-  bool isblank_( QChar const& c);
-  bool isdigit_( QChar const& c);
+  bool isalnum_(QChar const& c);
+  bool isalpha_(QChar const& c);
+  bool isblank_(QChar const& c);
+  bool isdigit_(QChar const& c);
 }}}}
 
 // must be first for msvc (see position.h for more information)
@@ -168,9 +168,9 @@ class Token
 {
 public:
     Token();
-    Token( int type, CharIterator start, CharIterator end);
+    Token(int type, CharIterator start, CharIterator end);
 
-    Token& operator=( Token const& p);
+    Token& operator=(Token const& p);
 
     operator int () const {return m_type;}
 
@@ -198,27 +198,27 @@ public:
     explicit PreprocessLexer(Driver* driver);
     ~PreprocessLexer();
 
-    void addSkipWord( const QString& word, SkipType skipType = SkipWord,
-                      const QString& str = QString() );
+    void addSkipWord(const QString& word, SkipType skipType = SkipWord,
+                      const QString& str = QString());
     bool preprocess();
-    void setSource( const QString& source, PositionFilename const& p_filename);
-    void setRecordComments( bool record );
+    void setSource(const QString& source, PositionFilename const& p_filename);
+    void setRecordComments(bool record);
     QString const& preprocessedString() const {return m_preprocessedString;}
 private:
-    static int toInt( const Token& token );
+    static int toInt(const Token& token);
     void dumpToFile();
 
-    void addDependence( std::pair<QString, int> const& p_wordAndScope) const {
+    void addDependence(std::pair<QString, int> const& p_wordAndScope) const {
         m_driver->addDependence(m_driver->currentFileName(),
-                                Dependence( p_wordAndScope.first,
+                                Dependence(p_wordAndScope.first,
                                 p_wordAndScope.second));
     }
 
     Position currentPosition() const {return m_source.get_currentPosition();}
     void nextLine();
-    void nextToken( Token& token);
-    void output( CharIterator p_first, CharIterator p_last);
-    void skip( int l, int r );
+    void nextToken(Token& token);
+    void output(CharIterator p_first, CharIterator p_last);
+    void skip(int l, int r);
     bool recordComments() const;
     void reset();
 
@@ -238,7 +238,7 @@ private:
     int macroLogicalOr();
     int macroExpression();
 
-    void handleDirective( const QString& directive );
+    void handleDirective(const QString& directive);
     void processDefine();
     void processUndef();
 
@@ -254,8 +254,8 @@ private:
     public:
         Source() {}
 
-        Token createToken( int type, CharIterator start, CharIterator end) const;
-        Token createToken( int type, CharIterator start) const {
+        Token createToken(int type, CharIterator start, CharIterator end) const;
+        Token createToken(int type, CharIterator start) const {
             return createToken(type, start, m_ptr);
         }
         QChar currentChar() const {
@@ -268,9 +268,9 @@ private:
             Q_UNUSED(l_current);
         }
         template <typename _RuleT>
-        parse_info<CharIterator> parse( _RuleT const& p_rule) {
+        parse_info<CharIterator> parse(_RuleT const& p_rule) {
             parse_info<CharIterator> l_return =
-                CharParser::parse( m_ptr, m_endPtr, p_rule, m_SkipRule);
+                CharParser::parse(m_ptr, m_endPtr, p_rule, m_SkipRule);
             if (l_return.hit)
                 m_ptr = l_return.stop;
             return l_return;
@@ -284,17 +284,17 @@ private:
             m_source = source;
             m_ptr = CharIterator(m_source.data(),
                                  m_source.data() + m_source.length(),
-                                 Position( p_filename));
+                                 Position(p_filename));
         }
-        QString substrFrom( CharIterator start) const {
-            return QString( &*start, &*m_ptr - &*start);
+        QString substrFrom(CharIterator start) const {
+            return QString(&*start, &*m_ptr - &*start);
         }
         // getters
         Position get_currentPosition() const {return m_ptr.get_position();}
         CharIterator get_ptr() const {return m_ptr;}
         QString const& get_source() const {return m_source;}
         // setters
-        void set_currentPosition( Position const& p) {m_ptr.set_position( p);}
+        void set_currentPosition(Position const& p) {m_ptr.set_position(p);}
     private:
         QString m_source;
         CharIterator m_ptr;
@@ -318,7 +318,7 @@ private:
         bool empty() const {return m_skipping.empty();}
         bool inSkip() const {return (!empty() && m_skipping.back());}
         void processElse() {m_skipping.back() = previousInSkip() || m_trueTest.back();}
-        void processElif( bool p_test) {
+        void processElif(bool p_test) {
             if (m_trueTest.back())
                 m_skipping.back() = true;
             else {
@@ -327,7 +327,7 @@ private:
                 m_skipping.back() = previousInSkip() || !p_test;
             }
         }
-        void processIf( bool p_test) {
+        void processIf(bool p_test) {
             if (increment()) {
                 m_trueTest.back() = p_test;
                 m_skipping.back() = inSkip() ? true : !m_trueTest.back();
@@ -342,8 +342,8 @@ private:
                 l_return = true;
             else
                 l_return = !m_skipping.back();
-            m_skipping.push_back( !l_return);
-            m_trueTest.push_back( false);
+            m_skipping.push_back(!l_return);
+            m_trueTest.push_back(false);
             return l_return;
         }
         bool previousInSkip() const {
@@ -358,8 +358,8 @@ private:
     bool m_inPreproc;
 
 private:
-    PreprocessLexer( const PreprocessLexer& source );
-    void operator = ( const PreprocessLexer& source );
+    PreprocessLexer(const PreprocessLexer& source);
+    void operator = (const PreprocessLexer& source);
 };
 
 inline bool PreprocessLexer::recordComments() const
@@ -367,7 +367,7 @@ inline bool PreprocessLexer::recordComments() const
     return m_recordComments;
 }
 
-inline void PreprocessLexer::setRecordComments( bool record )
+inline void PreprocessLexer::setRecordComments(bool record)
 {
     m_recordComments = record;
 }

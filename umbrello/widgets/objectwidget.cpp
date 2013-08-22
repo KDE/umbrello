@@ -58,15 +58,15 @@ ObjectWidget::ObjectWidget(UMLScene * scene, UMLObject *o, Uml::ID::Type lid)
     m_showDestruction(false)
 {
     m_nLocalID = Uml::ID::None;
-    if( m_scene != NULL && m_scene->type() == Uml::DiagramType::Sequence ) {
-        m_pLine = new SeqLineWidget( m_scene, this );
+    if(m_scene != NULL && m_scene->type() == Uml::DiagramType::Sequence) {
+        m_pLine = new SeqLineWidget(m_scene, this);
         //Sets specific widget controller for sequence diagrams
         delete m_widgetController;
         m_widgetController = new ObjectWidgetController(this);
     } else {
         m_pLine = 0;
     }
-    if( lid != Uml::ID::None )
+    if(lid != Uml::ID::None)
         m_nLocalID = lid;
 }
 
@@ -132,7 +132,7 @@ void ObjectWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    if ( m_drawAsActor )
+    if (m_drawAsActor)
         paintActor(painter);
     else
         paintObject(painter);
@@ -163,7 +163,7 @@ void ObjectWidget::slotMenuSelection(QAction* action)
             if (ok) {
                 m_instanceName = name;
                 updateGeometry();
-                moveEvent( 0 );
+                moveEvent(0);
                 update();
                 UMLApp::app()->document()->setModified(true);
             }
@@ -173,7 +173,7 @@ void ObjectWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Properties:
         showPropertiesDialog();
         updateGeometry();
-        moveEvent( 0 );
+        moveEvent(0);
         update();
         break;
 
@@ -201,7 +201,7 @@ UMLSceneSize ObjectWidget::minimumSize()
     const int fontHeight  = fm.lineSpacing();
     const QString t = m_instanceName + " : " + name();
     const int textWidth = fm.width(t);
-    if ( m_drawAsActor ) {
+    if (m_drawAsActor) {
         width = textWidth > A_WIDTH?textWidth:A_WIDTH;
         height = A_HEIGHT + fontHeight + A_MARGIN;
         width += A_MARGIN * 2;
@@ -291,7 +291,7 @@ UMLSceneValue ObjectWidget::centerX()
 void ObjectWidget::moveEvent(QGraphicsSceneMouseEvent *m)
 {
     Q_UNUSED(m)
-    emit sigWidgetMoved( m_nLocalID );
+    emit sigWidgetMoved(m_nLocalID);
     if (m_pLine) {
         m_pLine->setStartPoint(x() + width() / 2, y() + height());
     }
@@ -302,11 +302,11 @@ void ObjectWidget::moveEvent(QGraphicsSceneMouseEvent *m)
  */
 void ObjectWidget::slotFillColorChanged(Uml::ID::Type /*viewID*/)
 {
-    UMLWidget::setFillColor( m_scene->fillColor() );
-    UMLWidget::setLineColor( m_scene->lineColor() );
+    UMLWidget::setFillColor(m_scene->fillColor());
+    UMLWidget::setLineColor(m_scene->lineColor());
 
-    if( m_pLine)
-        m_pLine->setPen( QPen( UMLWidget::lineColor(), UMLWidget::lineWidth(), Qt::DashLine ) );
+    if(m_pLine)
+        m_pLine->setPen(QPen(UMLWidget::lineColor(), UMLWidget::lineWidth(), Qt::DashLine));
 }
 
 /**
@@ -315,7 +315,7 @@ void ObjectWidget::slotFillColorChanged(Uml::ID::Type /*viewID*/)
 void ObjectWidget::cleanup()
 {
     UMLWidget::cleanup();
-    if( m_pLine ) {
+    if(m_pLine) {
         m_pLine->cleanup();
         delete m_pLine;
     }
@@ -343,8 +343,8 @@ void ObjectWidget::paintObject(QPainter *painter)
 {
     QFont oldFont = painter->font();
     QFont font = UMLWidget::font();
-    font.setUnderline( true );
-    painter->setFont( font );
+    font.setUnderline(true);
+    painter->setFont(font);
 
     setPenFromSettings(painter);
     if(UMLWidget::useFillColor())
@@ -356,7 +356,7 @@ void ObjectWidget::paintObject(QPainter *painter)
 
     const QString t = m_instanceName + " : " + name();
     int multiInstOfst = 0;
-    if ( m_multipleInstance ) {
+    if (m_multipleInstance) {
         painter->drawRect(10, 10, w - 10, h - 10);
         painter->drawRect(5, 5, w - 10, h - 10);
         multiInstOfst = 10;
@@ -367,7 +367,7 @@ void ObjectWidget::paintObject(QPainter *painter)
                w - O_MARGIN * 2 - multiInstOfst, h - O_MARGIN * 2 - multiInstOfst,
                Qt::AlignCenter, t);
 
-    painter->setFont( oldFont );
+    painter->setFont(oldFont);
 }
 
 /**
@@ -378,8 +378,8 @@ void ObjectWidget::paintActor(QPainter *painter)
     const QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
 
     setPenFromSettings(painter);
-    if ( UMLWidget::useFillColor() )
-        painter->setBrush( UMLWidget::fillColor() );
+    if (UMLWidget::useFillColor())
+        painter->setBrush(UMLWidget::fillColor());
     const int w = width();
     const int textStartY = A_HEIGHT + A_MARGIN;
     const int fontHeight  = fm.lineSpacing();
@@ -411,9 +411,9 @@ void ObjectWidget::tabUp()
     int newY = y() - height();
     if (newY < topMargin())
         newY = topMargin();
-    setY( newY );
-    moveEvent( 0 );
-    adjustAssocs( x(), newY);
+    setY(newY);
+    moveEvent(0);
+    adjustAssocs(x(), newY);
 }
 
 /**
@@ -422,9 +422,9 @@ void ObjectWidget::tabUp()
 void ObjectWidget::tabDown()
 {
     int newY = y() + height();
-    setY( newY );
-    moveEvent( 0 );
-    adjustAssocs( x(), newY);
+    setY(newY);
+    moveEvent(0);
+    adjustAssocs(x(), newY);
 }
 
 /**
@@ -456,7 +456,7 @@ bool ObjectWidget::canTabUp()
 void ObjectWidget::setShowDestruction(bool bShow)
 {
     m_showDestruction = bShow;
-    if( m_pLine )
+    if(m_pLine)
         m_pLine->setupDestructionBox();
 }
 
@@ -488,9 +488,9 @@ void ObjectWidget::setEndLine(int yPosition)
 int ObjectWidget::getEndLineY()
 {
     int y = this->y() + height();
-    if( m_pLine)
+    if(m_pLine)
         y += m_pLine->getLineLength();
-    if ( m_showDestruction )
+    if (m_showDestruction)
         y += 10;
     return y;
 }
@@ -502,7 +502,7 @@ int ObjectWidget::getEndLineY()
  */
 void ObjectWidget::messageAdded(MessageWidget* message)
 {
-    if ( m_messages.count(message) ) {
+    if (m_messages.count(message)) {
         uError() << message->name() << ": duplicate entry !";
         return ;
     }
@@ -516,7 +516,7 @@ void ObjectWidget::messageAdded(MessageWidget* message)
  */
 void ObjectWidget::messageRemoved(MessageWidget* message)
 {
-    if ( m_messages.removeAll(message) == false ) {
+    if (m_messages.removeAll(message) == false) {
         uError() << message->name() << ": missing entry !";
         return ;
     }
@@ -576,13 +576,13 @@ SeqLineWidget *ObjectWidget::sequentialLine() const
  */
 void ObjectWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
-    QDomElement objectElement = qDoc.createElement( "objectwidget" );
-    UMLWidget::saveToXMI( qDoc, objectElement );
-    objectElement.setAttribute( "drawasactor", m_drawAsActor );
-    objectElement.setAttribute( "multipleinstance", m_multipleInstance );
-    objectElement.setAttribute( "localid", Uml::ID::toString(m_nLocalID) );
-    objectElement.setAttribute( "decon", m_showDestruction );
-    qElement.appendChild( objectElement );
+    QDomElement objectElement = qDoc.createElement("objectwidget");
+    UMLWidget::saveToXMI(qDoc, objectElement);
+    objectElement.setAttribute("drawasactor", m_drawAsActor);
+    objectElement.setAttribute("multipleinstance", m_multipleInstance);
+    objectElement.setAttribute("localid", Uml::ID::toString(m_nLocalID));
+    objectElement.setAttribute("decon", m_showDestruction);
+    qElement.appendChild(objectElement);
 }
 
 /**
@@ -590,12 +590,12 @@ void ObjectWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
  */
 bool ObjectWidget::loadFromXMI(QDomElement& qElement)
 {
-    if( !UMLWidget::loadFromXMI( qElement ) )
+    if(!UMLWidget::loadFromXMI(qElement))
         return false;
-    QString draw = qElement.attribute( "drawasactor", "0" );
-    QString multi = qElement.attribute( "multipleinstance", "0" );
-    QString localid = qElement.attribute( "localid", "0" );
-    QString decon = qElement.attribute( "decon", "0" );
+    QString draw = qElement.attribute("drawasactor", "0");
+    QString multi = qElement.attribute("multipleinstance", "0");
+    QString localid = qElement.attribute("localid", "0");
+    QString decon = qElement.attribute("decon", "0");
 
     m_drawAsActor = (bool)draw.toInt();
     m_multipleInstance = (bool)multi.toInt();

@@ -29,8 +29,8 @@
 CodeParameter::CodeParameter(ClassifierCodeDocument * parentDoc, UMLObject * parentObject)
         : QObject(parentObject)
 {
-    setObjectName( "ACodeParam" );
-    initFields( parentDoc, parentObject );
+    setObjectName("ACodeParam");
+    initFields(parentDoc, parentObject);
 }
 
 /**
@@ -170,7 +170,7 @@ void CodeParameter::setAttributesOnNode(QDomDocument & doc, QDomElement & blockE
 
     // setting ID's takes special treatment
     // as UMLRoles arent properly stored in the XMI right now.
-    // (change would break the XMI format..save for big version change )
+    // (change would break the XMI format..save for big version change)
     UMLRole * role = dynamic_cast<UMLRole*>(m_parentObject);
     if(role)
         blockElement.setAttribute("role_id", role->role());
@@ -180,9 +180,9 @@ void CodeParameter::setAttributesOnNode(QDomDocument & doc, QDomElement & blockE
     blockElement.setAttribute("initialValue",getInitialValue());
 
     // a comment which we will store in its own separate child node block
-    QDomElement commElement = doc.createElement( "header" );
+    QDomElement commElement = doc.createElement("header");
     getComment()->saveToXMI(doc, commElement); // comment
-    blockElement.appendChild( commElement);
+    blockElement.appendChild(commElement);
 }
 
 /**
@@ -227,10 +227,10 @@ void CodeParameter::setAttributesFromNode(QDomElement & root)
                     << Uml::ID::toString(id) << " w/role_id:" << role_id;
 
             // init using UMLRole obj
-            initFields ( m_parentDocument, role);
+            initFields (m_parentDocument, role);
 
         } else
-            initFields ( m_parentDocument, obj); // just the regular approach
+            initFields (m_parentDocument, obj); // just the regular approach
 
     } else
         uError() << "Cant load CodeParam: parentUMLObject w/id:"
@@ -244,9 +244,9 @@ void CodeParameter::setAttributesFromNode(QDomElement & root)
     QDomNode node = root.firstChild();
     QDomElement element = node.toElement();
     bool gotComment = false;
-    while( !element.isNull() ) {
+    while(!element.isNull()) {
         QString tag = element.tagName();
-        if( tag == "header" ) {
+        if(tag == "header") {
             QDomNode cnode = element.firstChild();
             QDomElement celem = cnode.toElement();
             getComment()->loadFromXMI(celem);

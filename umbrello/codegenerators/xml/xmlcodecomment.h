@@ -29,17 +29,17 @@ public:
     /**
      * Constructors
      */
-    explicit XMLCodeComment ( CodeDocument * doc, const QString & text = "" );
+    explicit XMLCodeComment (CodeDocument * doc, const QString & text = "");
 
     /**
      * Empty Destructor
      */
-    virtual ~XMLCodeComment( );
+    virtual ~XMLCodeComment();
 
     /**
      * @return  QString
      */
-    QString toString ( ) const;
+    QString toString () const;
 
 protected:
 

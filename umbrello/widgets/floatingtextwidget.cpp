@@ -104,8 +104,8 @@ void FloatingTextWidget::setText(const QString &t)
         m_linkWidget->seqNumAndOp(seqNum, op);
         if (seqNum.length() > 0 || op.length() > 0) {
             if (! m_scene->showOpSig())
-                op.replace( QRegExp("\\(.*\\)"), "()" );
-            m_Text = seqNum.append(": ").append( op );
+                op.replace(QRegExp("\\(.*\\)"), "()");
+            m_Text = seqNum.append(": ").append(op);
         }
         else
             m_Text = t;
@@ -164,7 +164,7 @@ UMLSceneSize FloatingTextWidget::minimumSize()
 {
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     int h = fm.lineSpacing();
-    int w = fm.width( displayText() );
+    int w = fm.width(displayText());
     return UMLSceneSize(w + 8, h + 4);  // give a small margin
 }
 
@@ -305,7 +305,7 @@ QString FloatingTextWidget::postText() const
  * @param ChangeLog Pointer to the IDChangeLog.
  * @return  true for success
  */
-bool FloatingTextWidget::activate( IDChangeLog* ChangeLog /*= 0 */)
+bool FloatingTextWidget::activate(IDChangeLog* ChangeLog /*= 0 */)
 {
     if (! UMLWidget::activate(ChangeLog))
         return false;
@@ -366,7 +366,7 @@ void FloatingTextWidget::handleRename()
         t = i18n("Enter multiplicity:");
         /*
         // NO! shouldn't be allowed
-        } else if (m_textRole == Uml::TextRole::ChangeA || m_textRole == Uml::TextRole::ChangeB ) {
+        } else if (m_textRole == Uml::TextRole::ChangeA || m_textRole == Uml::TextRole::ChangeB) {
         t = i18n("Enter changeability");
         */
     } else if (m_textRole == Uml::TextRole::Name) {
@@ -471,7 +471,7 @@ void FloatingTextWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem
 
     int w = width();
     int h = height();
-    painter->setFont( UMLWidget::font() );
+    painter->setFont(UMLWidget::font());
     painter->setPen(textColor());
     painter->drawText(0, 0, w, h, Qt::AlignCenter, displayText());
     if(m_selected)
@@ -515,8 +515,8 @@ void FloatingTextWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     textElement.setAttribute("posttext", m_postText);
 
     /* No need to save these - the messagewidget already did it.
-    m_Operation  = qElement.attribute( "operation", "" );
-    m_SeqNum = qElement.attribute( "seqnum", "" );
+    m_Operation  = qElement.attribute("operation", "");
+    m_SeqNum = qElement.attribute("seqnum", "");
      */
 
     textElement.setAttribute("role", m_textRole);
@@ -576,7 +576,7 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Change_Font:
         {
             QFont fnt = font();
-            if(KFontDialog::getFont(fnt, KFontChooser::NoDisplayFlags, m_scene->activeView()) ) {
+            if(KFontDialog::getFont(fnt, KFontChooser::NoDisplayFlags, m_scene->activeView())) {
                 if(m_textRole == Uml::TextRole::Floating || m_textRole == Uml::TextRole::Seq_Message) {
                     setFont(fnt);
                 } else if (m_linkWidget) {

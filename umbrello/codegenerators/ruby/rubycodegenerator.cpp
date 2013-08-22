@@ -33,7 +33,7 @@ RubyCodeGenerator::RubyCodeGenerator()
    : CodeGenerator()
 {
     // These initializations are done in CodeGenFactory::createObject()
-        //UMLApp::app()->setPolicyExt ( new RubyCodeGenerationPolicy(UMLApp::app()->getConfig()) );
+        //UMLApp::app()->setPolicyExt (new RubyCodeGenerationPolicy(UMLApp::app()->getConfig()));
         // load Classifier documents from parent document
         //initFromParentDocument();
 }

@@ -32,13 +32,13 @@ public:
     /**
      * Empty Destructor
      */
-    virtual ~JavaCodeClassField ( );
+    virtual ~JavaCodeClassField ();
 
     QString getFieldType();
     QString getFieldName();
     QString getInitialValue();
 
-    QString getTypeName ( );
+    QString getTypeName ();
 protected:
 
 private:

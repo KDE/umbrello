@@ -18,17 +18,17 @@
 #include "uml.h"
 
 DClassDeclarationBlock::DClassDeclarationBlock
-  ( DClassifierCodeDocument * parentDoc, const QString &startText, const QString &endText, const QString &comment)
+  (DClassifierCodeDocument * parentDoc, const QString &startText, const QString &endText, const QString &comment)
         : OwnedHierarchicalCodeBlock(parentDoc->getParentClassifier(), parentDoc, startText, endText, comment)
 {
     init(parentDoc, comment);
 }
 
-DClassDeclarationBlock::~DClassDeclarationBlock ( )
+DClassDeclarationBlock::~DClassDeclarationBlock ()
 {
 }
 
-void DClassDeclarationBlock::loadFromXMI ( QDomElement & root )
+void DClassDeclarationBlock::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -38,16 +38,16 @@ void DClassDeclarationBlock::setAttributesFromObject (TextBlock * obj)
     HierarchicalCodeBlock::setAttributesFromObject(obj);
 }
 
-void DClassDeclarationBlock::saveToXMI ( QDomDocument & doc, QDomElement & root )
+void DClassDeclarationBlock::saveToXMI (QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement( "dclassdeclarationblock" );
+    QDomElement blockElement = doc.createElement("dclassdeclarationblock");
 
     setAttributesOnNode(doc, blockElement);
 
-    root.appendChild( blockElement );
+    root.appendChild(blockElement);
 }
 
-void DClassDeclarationBlock::updateContent ( )
+void DClassDeclarationBlock::updateContent ()
 {
     DClassifierCodeDocument *parentDoc = dynamic_cast<DClassifierCodeDocument*>(getParentDocument());
     UMLClassifier *c = parentDoc->getParentClassifier();
@@ -64,7 +64,7 @@ void DClassDeclarationBlock::updateContent ( )
 
     bool forceDoc = commonPolicy->getCodeVerboseDocumentComments();
 
-    getComment()->setWriteOutText( forceDoc || !c->doc().isEmpty() );
+    getComment()->setWriteOutText(forceDoc || !c->doc().isEmpty());
 
     /*
      * Class declaration
@@ -106,7 +106,7 @@ void DClassDeclarationBlock::updateContent ( )
     if (count > 0) startText += " : ";
 
     // (e) base classes
-    foreach (UMLClassifier* concept, superclasses ) {
+    foreach (UMLClassifier* concept, superclasses) {
         startText += parentDoc->cleanName(concept->name());
 
         count--;
@@ -115,7 +115,7 @@ void DClassDeclarationBlock::updateContent ( )
     }
 
     // (f) interfaces
-    foreach (UMLClassifier* concept, superinterfaces ) {
+    foreach (UMLClassifier* concept, superinterfaces) {
         startText += parentDoc->cleanName(concept->name());
 
         count--;

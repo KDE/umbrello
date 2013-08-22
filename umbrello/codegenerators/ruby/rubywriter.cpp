@@ -58,7 +58,7 @@ void RubyWriter::writeClass(UMLClassifier *c)
     }
 
     QFile fileh;
-    if ( !openFile(fileh, fileName_) ) {
+    if (!openFile(fileh, fileName_)) {
         emit codeGenerated(c, false);
         return;
     }
@@ -98,7 +98,7 @@ void RubyWriter::writeClass(UMLClassifier *c)
     h<< "class " << cppToRubyType(className_) << (superclasses.count() > 0 ? " < ":"");
 
     int i = 0;
-    foreach (concept , superclasses ) {
+    foreach (concept , superclasses) {
         if (i == 0) {
             h << cppToRubyType(concept->name()) << m_endl;
         } else {
@@ -183,7 +183,7 @@ void RubyWriter::writeOperations(UMLClassifier *c,QTextStream &h)
 
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList opl(c->getOpList());
-    foreach (UMLOperation *op , opl ) {
+    foreach (UMLOperation *op , opl) {
         switch(op->visibility()) {
         case Uml::Visibility::Public:
             oppub.append(op);
@@ -248,11 +248,11 @@ void RubyWriter::writeOperations(const QString &classname, const UMLOperationLis
 
         // Skip destructors, and operator methods which
         // can't be defined in ruby
-        if (    methodName.startsWith('~')
+        if (   methodName.startsWith('~')
                 || methodName == "operator ="
                 || methodName == "operator --"
                 || methodName == "operator ++"
-                || methodName == "operator !=" )
+                || methodName == "operator !=")
         {
             continue;
         }
@@ -283,8 +283,8 @@ void RubyWriter::writeOperations(const QString &classname, const UMLOperationLis
             QRegExp re_params("@param (\\w)(\\w*)");
             int pos = re_params.indexIn(docStr);
             while (pos != -1) {
-                docStr.replace( re_params.cap(0),
-                                QString("@param _") + re_params.cap(1).toLower() + re_params.cap(2) + '_' );
+                docStr.replace(re_params.cap(0),
+                                QString("@param _") + re_params.cap(1).toLower() + re_params.cap(2) + '_');
                 commentedParams.append(re_params.cap(1).toLower() + re_params.cap(2));
 
                 pos += re_params.matchedLength() + 3;

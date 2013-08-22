@@ -33,36 +33,36 @@ public:
 
     enum ClassFieldType { Attribute, PlainAssociation, Self, Aggregation, Composition, Unknown_Assoc };
 
-    CodeClassField ( ClassifierCodeDocument * parentDoc , UMLAttribute * attrib );
-    CodeClassField ( ClassifierCodeDocument * parentDoc , UMLRole * role);
+    CodeClassField (ClassifierCodeDocument * parentDoc , UMLAttribute * attrib);
+    CodeClassField (ClassifierCodeDocument * parentDoc , UMLRole * role);
 
     void finishInitialization();
 
-    // CodeClassField ( ClassifierCodeDocument * doc , UMLRole role);
+    // CodeClassField (ClassifierCodeDocument * doc , UMLRole role);
 
-    virtual ~CodeClassField ( );
+    virtual ~CodeClassField ();
 
 //    /**
 //     * Get the value of m_dialog
 //     * @return the value of m_dialog
 //     */
-//    CodeClassFieldDialog getDialog ( );
+//    CodeClassFieldDialog getDialog ();
 
     // Determine if this cf is attribute or some type of association
-    QString getTypeName ( );
+    QString getTypeName ();
 
-    CodeClassFieldDeclarationBlock * getDeclarationCodeBlock( );
+    CodeClassFieldDeclarationBlock * getDeclarationCodeBlock();
 
     CodeAccessorMethodList getMethodList() const;
 
     CodeAccessorMethod * findMethodByType(CodeAccessorMethod::AccessorType type, int role_id = -1);
 
-    bool fieldIsSingleValue ( );
+    bool fieldIsSingleValue ();
 
     ClassFieldType getClassFieldType() const;
 
     // quick utility call to figure out if parent is an attribute or not
-    bool parentIsAttribute ( ) const;
+    bool parentIsAttribute () const;
 
     // get the type of object that will be added/removed from lists
     // of objects (as per specification of associations)
@@ -70,15 +70,15 @@ public:
 
     bool getWriteOutMethods () const;
 
-    void setWriteOutMethods( bool val);
+    void setWriteOutMethods(bool val);
 
-    int minimumListOccurances( );
+    int minimumListOccurances();
 
-    int maximumListOccurances( );
+    int maximumListOccurances();
 
-    virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
+    virtual void saveToXMI (QDomDocument & doc, QDomElement & root);
 
-    virtual void loadFromXMI ( QDomElement & root );
+    virtual void loadFromXMI (QDomElement & root);
 
     virtual void synchronize ();
 
@@ -95,13 +95,13 @@ protected:
     QString fixInitialStringDeclValue(const QString& val, const QString &type);
 
     // set the list class name
-    void setListClassName ( const QString &className );
+    void setListClassName (const QString &className);
 
-    bool addMethod ( CodeAccessorMethod * add );
+    bool addMethod (CodeAccessorMethod * add);
 
     QString getUMLObjectName(UMLObject *obj);
 
-    bool removeMethod ( CodeAccessorMethod * remove);
+    bool removeMethod (CodeAccessorMethod * remove);
 
 private:
 
@@ -118,9 +118,9 @@ private:
      */
     bool m_writeOutMethods;
 
-    virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
+    virtual void setAttributesOnNode (QDomDocument & doc, QDomElement & blockElement);
 
-    virtual void setAttributesFromNode ( QDomElement & element);
+    virtual void setAttributesFromNode (QDomElement & element);
 
     void initFields(bool inConstructor = false);
 

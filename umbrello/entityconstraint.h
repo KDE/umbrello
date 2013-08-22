@@ -29,11 +29,11 @@ class UMLEntityConstraint : public UMLClassifierListItem
 
 public:
     UMLEntityConstraint(UMLObject *parent, const QString& name,
-                        Uml::ID::Type id = Uml::ID::None );
+                        Uml::ID::Type id = Uml::ID::None);
 
     explicit UMLEntityConstraint(UMLObject *parent);
 
-    bool operator==( const UMLEntityConstraint &rhs) const;
+    bool operator==(const UMLEntityConstraint &rhs) const;
 
     virtual ~UMLEntityConstraint();
 

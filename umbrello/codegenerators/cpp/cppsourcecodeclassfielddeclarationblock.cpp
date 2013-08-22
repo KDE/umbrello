@@ -14,17 +14,17 @@
 #include "cppcodeclassfield.h"
 #include "model_utils.h"
 
-CPPSourceCodeClassFieldDeclarationBlock::CPPSourceCodeClassFieldDeclarationBlock ( CodeClassField * parent )
-        : CodeClassFieldDeclarationBlock ( parent )
+CPPSourceCodeClassFieldDeclarationBlock::CPPSourceCodeClassFieldDeclarationBlock (CodeClassField * parent)
+        : CodeClassFieldDeclarationBlock (parent)
 {
     setOverallIndentationLevel(1);
 }
 
-CPPSourceCodeClassFieldDeclarationBlock::~CPPSourceCodeClassFieldDeclarationBlock ( )
+CPPSourceCodeClassFieldDeclarationBlock::~CPPSourceCodeClassFieldDeclarationBlock ()
 {
 }
 
-void CPPSourceCodeClassFieldDeclarationBlock::updateContent( )
+void CPPSourceCodeClassFieldDeclarationBlock::updateContent()
 {
     CodeClassField * cf = getParentClassField();
     CPPCodeClassField * jcf = dynamic_cast<CPPCodeClassField*>(cf);

@@ -24,17 +24,17 @@ public:
     /**
      * Constructor
      */
-    explicit CPPSourceCodeClassFieldDeclarationBlock ( CodeClassField * parent );
+    explicit CPPSourceCodeClassFieldDeclarationBlock (CodeClassField * parent);
 
     /**
      * Empty Destructor
      */
-    virtual ~CPPSourceCodeClassFieldDeclarationBlock ( );
+    virtual ~CPPSourceCodeClassFieldDeclarationBlock ();
 
     /**
      * This will be called by syncToParent whenever the parent object is "modified"
      */
-    void updateContent ( );
+    void updateContent ();
 
 private:
 

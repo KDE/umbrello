@@ -37,7 +37,7 @@ namespace Uml
     void CmdCreateUMLObject::redo()
     {
         // This object was removed from it's package when it was deleted
-        // so add it back to it's package ( if it belonged to one )
+        // so add it back to it's package (if it belonged to one)
         UMLPackage *pkg = m_obj->umlPackage();
         if (pkg) {
             // add this object to its parent package

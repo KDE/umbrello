@@ -24,17 +24,17 @@ public:
     /**
      * Constructor
      */
-    explicit CPPHeaderCodeClassFieldDeclarationBlock ( CodeClassField * parent );
+    explicit CPPHeaderCodeClassFieldDeclarationBlock (CodeClassField * parent);
 
     /**
      * Empty Destructor
      */
-    virtual ~CPPHeaderCodeClassFieldDeclarationBlock ( );
+    virtual ~CPPHeaderCodeClassFieldDeclarationBlock ();
 
     /**
      * This will be called by syncToParent whenever the parent object is "modified"
      */
-    void updateContent ( );
+    void updateContent ();
 
 private:
 

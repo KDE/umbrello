@@ -18,7 +18,7 @@
 // kde includes
 #include <klocale.h>
 
-DCodeGenerationPolicyPage::DCodeGenerationPolicyPage( QWidget *parent, const char *name, DCodeGenerationPolicy * policy )
+DCodeGenerationPolicyPage::DCodeGenerationPolicyPage(QWidget *parent, const char *name, DCodeGenerationPolicy * policy)
   : CodeGenerationPolicyPage(parent, name, policy)
 {
     CodeGenerationPolicy *commonPolicy = UMLApp::app()->commonPolicy();
@@ -51,7 +51,7 @@ void DCodeGenerationPolicyPage::apply()
     // block signals so we don't cause too many update content calls to code documents
     commonPolicy->blockSignals(true);
 
-    commonPolicy->setCommentStyle((CodeGenerationPolicy::CommentStyle ) form->m_SelectCommentStyle->currentIndex());
+    commonPolicy->setCommentStyle((CodeGenerationPolicy::CommentStyle) form->m_SelectCommentStyle->currentIndex());
     commonPolicy->setAttributeAccessorScope(Uml::Visibility::fromInt(form->m_accessorScopeCB->currentIndex()));
     commonPolicy->setAssociationFieldScope(Uml::Visibility::fromInt(form->m_assocFieldScopeCB->currentIndex()));
     commonPolicy->setAutoGenerateConstructors(form->m_generateConstructors->isChecked());

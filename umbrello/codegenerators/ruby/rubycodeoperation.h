@@ -27,12 +27,12 @@ public:
     /**
      * Empty Constructor
      */
-    RubyCodeOperation ( RubyClassifierCodeDocument * doc, UMLOperation * op, const QString & body = "", const QString & comment = "");
+    RubyCodeOperation (RubyClassifierCodeDocument * doc, UMLOperation * op, const QString & body = "", const QString & comment = "");
 
     /**
      * Empty Destructor
      */
-    virtual ~RubyCodeOperation ( );
+    virtual ~RubyCodeOperation ();
 
     virtual int lastEditableLine();
 

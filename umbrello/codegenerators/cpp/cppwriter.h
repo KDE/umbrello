@@ -78,7 +78,7 @@ private:
 
     void writeHeaderFieldDecl(UMLClassifier *c, Uml::Visibility::Enum permitVisibility, QTextStream &stream);
 
-    void writeHeaderAttributeAccessorMethods(UMLClassifier *c, Uml::Visibility::Enum visibility, bool writeStatic, QTextStream &stream );
+    void writeHeaderAttributeAccessorMethods(UMLClassifier *c, Uml::Visibility::Enum visibility, bool writeStatic, QTextStream &stream);
 
     void writeHeaderAttributeAccessorMethodDecls(UMLClassifier *c, Uml::Visibility::Enum permitVisibility, QTextStream &stream);
     void writeHeaderAccessorMethodDecl(UMLClassifier *c, Uml::Visibility::Enum permitScope, QTextStream &stream);

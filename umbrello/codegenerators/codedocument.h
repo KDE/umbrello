@@ -35,45 +35,45 @@ class CodeDocument : public QObject, public CodeGenObjectWithTextBlocks
     Q_OBJECT
 public:
 
-    CodeDocument ( );
-    virtual ~CodeDocument ( );
+    CodeDocument ();
+    virtual ~CodeDocument ();
 
-    void setFileExtension ( const QString &new_var );
-    QString getFileExtension ( ) const;
+    void setFileExtension (const QString &new_var);
+    QString getFileExtension () const;
 
-    void setFileName ( const QString &new_var );
-    QString getFileName ( ) const;
+    void setFileName (const QString &new_var);
+    QString getFileName () const;
 
-    void setPackage ( UMLPackage *new_var );
-    QString getPackage ( ) const;
+    void setPackage (UMLPackage *new_var);
+    QString getPackage () const;
 
-    virtual QString getPath ( );
+    virtual QString getPath ();
 
-    void setID ( const QString &new_id);
-    QString ID ( ) const;
+    void setID (const QString &new_id);
+    QString ID () const;
 
-    void setWriteOutCode ( bool new_var );
-    bool getWriteOutCode ( );
+    void setWriteOutCode (bool new_var);
+    bool getWriteOutCode ();
 
-    void setHeader ( CodeComment * comment );
-    CodeComment * getHeader ( );
+    void setHeader (CodeComment * comment);
+    CodeComment * getHeader ();
 
     bool insertTextBlock (TextBlock * newBlock, TextBlock * existingBlock, bool after = true);
 
-    TextBlock * findTextBlockByTag( const QString &tag , bool descendIntoChildren = false);
+    TextBlock * findTextBlockByTag(const QString &tag , bool descendIntoChildren = false);
 
-    virtual QString toString ( );
+    virtual QString toString ();
 
-    virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
-    virtual void loadFromXMI ( QDomElement & root );
+    virtual void saveToXMI (QDomDocument & doc, QDomElement & root);
+    virtual void loadFromXMI (QDomElement & root);
 
-    virtual CodeBlock * newCodeBlock ( );
-    virtual HierarchicalCodeBlock * newHierarchicalCodeBlock ( );
-    virtual CodeBlockWithComments * newCodeBlockWithComments ( );
+    virtual CodeBlock * newCodeBlock ();
+    virtual HierarchicalCodeBlock * newHierarchicalCodeBlock ();
+    virtual CodeBlockWithComments * newCodeBlockWithComments ();
 
-    virtual QString getUniqueTag( const QString& prefix = QString("") );
+    virtual QString getUniqueTag(const QString& prefix = QString(""));
 
-    QString cleanName ( const QString &name );
+    QString cleanName (const QString &name);
 
     virtual void synchronize();
 
@@ -83,23 +83,23 @@ public:
 
 protected:
 
-    virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
+    virtual void setAttributesOnNode (QDomDocument & doc, QDomElement & blockElement);
 
-    virtual void setAttributesFromNode ( QDomElement & element);
+    virtual void setAttributesFromNode (QDomElement & element);
 
     // these next 2 are needed by child hierarchical code blocks so
     // that when they call getUniqueTag, we really get a unique tag
     // Also, it allows 'findTextBlockByTag' To find any tagged text block
     // anywhere in the document, whether directly owned by the document OR
     // by some child hierarchical textblock
-    void addChildTagToMap ( const QString &tag, TextBlock * tb);
-    void removeChildTagFromMap ( const QString &tag );
+    void addChildTagToMap (const QString &tag, TextBlock * tb);
+    void removeChildTagFromMap (const QString &tag);
 
     void updateHeader ();
 
     void resetTextBlocks();
 
-    virtual TextBlock * findCodeClassFieldTextBlockByTag( const QString &tag );
+    virtual TextBlock * findCodeClassFieldTextBlockByTag(const QString &tag);
 
 private:
 

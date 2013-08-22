@@ -40,12 +40,12 @@ ActivityDialog::ActivityDialog(QWidget * parent, ActivityWidget * pWidget)
      m_pActivityWidget(pWidget),
      m_bChangesMade(false)
 {
-    setCaption( i18n("Properties") );
-    setButtons( Ok | Apply | Cancel | Help );
-    setDefaultButton( Ok );
-    setModal( true );
-    setFaceType( KPageDialog::List );
-    showButtonSeparator( true );
+    setCaption(i18n("Properties"));
+    setButtons(Ok | Apply | Cancel | Help);
+    setDefaultButton(Ok);
+    setModal(true);
+    setFaceType(KPageDialog::List);
+    showButtonSeparator(true);
     setupPages();
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
@@ -56,9 +56,9 @@ ActivityDialog::ActivityDialog(QWidget * parent, ActivityWidget * pWidget)
  */
 void ActivityDialog::slotOk()
 {
-    applyPage( pageItemStyle );
-    applyPage( pageItemFont );
-    applyPage( pageItemGeneral );
+    applyPage(pageItemStyle);
+    applyPage(pageItemFont);
+    applyPage(pageItemGeneral);
     accept();
 }
 
@@ -98,38 +98,38 @@ void ActivityDialog::slotHideActivityParameter()
 void ActivityDialog::setupPages()
 {
     setupGeneralPage();
-    pageItemStyle = setupStylePage( m_pActivityWidget );
-    pageItemFont = setupFontPage( m_pActivityWidget );
+    pageItemStyle = setupStylePage(m_pActivityWidget);
+    pageItemFont = setupFontPage(m_pActivityWidget);
 }
 
 /**
  * Applies changes to the given page.
  */
-void ActivityDialog::applyPage( KPageWidgetItem *item )
+void ActivityDialog::applyPage(KPageWidgetItem *item)
 {
     m_bChangesMade = true;
-    if ( item == pageItemGeneral )
+    if (item == pageItemGeneral)
     {
-        m_pActivityWidget->setName( m_GenPageWidgets.nameLE->text() );
-        m_pActivityWidget->setDocumentation( m_GenPageWidgets.docTE->toPlainText() );
-        m_pActivityWidget->setPreconditionText( m_GenPageWidgets.preLE->text() );
-        m_pActivityWidget->setPostconditionText( m_GenPageWidgets.postLE->text() );
+        m_pActivityWidget->setName(m_GenPageWidgets.nameLE->text());
+        m_pActivityWidget->setDocumentation(m_GenPageWidgets.docTE->toPlainText());
+        m_pActivityWidget->setPreconditionText(m_GenPageWidgets.preLE->text());
+        m_pActivityWidget->setPostconditionText(m_GenPageWidgets.postLE->text());
 
         ActivityWidget::ActivityType newType = ActivityWidget::Normal;
-        if ( m_GenPageWidgets.InvokRB->isChecked() )
+        if (m_GenPageWidgets.InvokRB->isChecked())
               newType = ActivityWidget::Invok;
-        else if ( m_GenPageWidgets.ParamRB->isChecked() )
+        else if (m_GenPageWidgets.ParamRB->isChecked())
               newType = ActivityWidget::Param;
         m_pActivityWidget->setActivityType (newType);
 
     }
-    else if ( item == pageItemFont )
+    else if (item == pageItemFont)
     {
-        saveFontPageData( m_pActivityWidget );
+        saveFontPageData(m_pActivityWidget);
     }
-    else if ( item == pageItemStyle )
+    else if (item == pageItemStyle)
     {
-        saveStylePageData( m_pActivityWidget );
+        saveStylePageData(m_pActivityWidget);
     }
 }
 
@@ -138,51 +138,51 @@ void ActivityDialog::applyPage( KPageWidgetItem *item )
  */
 void ActivityDialog::setupGeneralPage()
 {
-    QString types[ ] = { i18n("Initial activity"), i18n("Activity"), i18n("End activity"), i18n("Final activity"), i18n( "Branch/Merge"), i18n( "Invoke action"), i18n("Parameter activity") };
+    QString types[ ] = { i18n("Initial activity"), i18n("Activity"), i18n("End activity"), i18n("Final activity"), i18n("Branch/Merge"), i18n("Invoke action"), i18n("Parameter activity") };
     ActivityWidget::ActivityType type = m_pActivityWidget->activityType();
 
     KVBox *page = new KVBox();
-    pageItemGeneral = new KPageWidgetItem( page, i18nc("general properties page", "General") );
+    pageItemGeneral = new KPageWidgetItem(page, i18nc("general properties page", "General"));
     pageItemGeneral->setHeader(i18n("General Properties"));
-    pageItemGeneral->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General) );
-    addPage( pageItemGeneral );
+    pageItemGeneral->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General));
+    addPage(pageItemGeneral);
 
-    m_GenPageWidgets.generalGB = new QGroupBox( i18n( "Properties"), (QWidget *)page );
+    m_GenPageWidgets.generalGB = new QGroupBox(i18n("Properties"), (QWidget *)page);
 
-    QGridLayout * generalLayout = new QGridLayout( m_GenPageWidgets.generalGB );
-    generalLayout->setSpacing( spacingHint() );
-    generalLayout->setMargin(  fontMetrics().height()  );
+    QGridLayout * generalLayout = new QGridLayout(m_GenPageWidgets.generalGB);
+    generalLayout->setSpacing(spacingHint());
+    generalLayout->setMargin( fontMetrics().height() );
 
-    QString actType ( types[ (int)type ] );
-    Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 0,
+    QString actType (types[ (int)type ]);
+    Dialog_Utils::makeLabeledEditField(m_GenPageWidgets.generalGB, generalLayout, 0,
                                     m_GenPageWidgets.typeL, i18n("Activity type:"),
-                                    m_GenPageWidgets.typeLE, actType );
-    m_GenPageWidgets.typeLE->setEnabled( false );
+                                    m_GenPageWidgets.typeLE, actType);
+    m_GenPageWidgets.typeLE->setEnabled(false);
 
-    Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 1,
+    Dialog_Utils::makeLabeledEditField(m_GenPageWidgets.generalGB, generalLayout, 1,
                                     m_GenPageWidgets.nameL, i18n("Activity name:"),
-                                    m_GenPageWidgets.nameLE );
+                                    m_GenPageWidgets.nameLE);
 
-    Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 2,
+    Dialog_Utils::makeLabeledEditField(m_GenPageWidgets.generalGB, generalLayout, 2,
                                     m_GenPageWidgets.preL, i18n("Precondition :"),
-                                    m_GenPageWidgets.preLE );
+                                    m_GenPageWidgets.preLE);
 
-    Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 3,
+    Dialog_Utils::makeLabeledEditField(m_GenPageWidgets.generalGB, generalLayout, 3,
                                     m_GenPageWidgets.postL, i18n("Postcondition :"),
-                                    m_GenPageWidgets.postLE );
+                                    m_GenPageWidgets.postLE);
     m_GenPageWidgets.preL->hide();
     m_GenPageWidgets.preLE->hide();
     m_GenPageWidgets.postL->hide();
     m_GenPageWidgets.postLE->hide();
 
-    m_GenPageWidgets.NormalRB = new QRadioButton( i18n("&Normal activity"),(QWidget *)page);
-    generalLayout->addWidget( m_GenPageWidgets.NormalRB );
+    m_GenPageWidgets.NormalRB = new QRadioButton(i18n("&Normal activity"),(QWidget *)page);
+    generalLayout->addWidget(m_GenPageWidgets.NormalRB);
 
-    m_GenPageWidgets.InvokRB = new QRadioButton( i18n("&Invoke action "),(QWidget *)page);
-    generalLayout->addWidget( m_GenPageWidgets.InvokRB );
+    m_GenPageWidgets.InvokRB = new QRadioButton(i18n("&Invoke action "),(QWidget *)page);
+    generalLayout->addWidget(m_GenPageWidgets.InvokRB);
 
-    m_GenPageWidgets.ParamRB = new QRadioButton( i18n("&Parameter activity node"),(QWidget *)page);
-    generalLayout->addWidget( m_GenPageWidgets.ParamRB );
+    m_GenPageWidgets.ParamRB = new QRadioButton(i18n("&Parameter activity node"),(QWidget *)page);
+    generalLayout->addWidget(m_GenPageWidgets.ParamRB);
 
     if (type == ActivityWidget::Param)
     {
@@ -201,21 +201,21 @@ void ActivityDialog::setupGeneralPage()
 
     m_GenPageWidgets.ParamRB->setChecked (newType == ActivityWidget::Param);
 
-    m_GenPageWidgets.docGB = new QGroupBox( i18n( "Documentation"), (QWidget *)page );
+    m_GenPageWidgets.docGB = new QGroupBox(i18n("Documentation"), (QWidget *)page);
 
-    QHBoxLayout * docLayout = new QHBoxLayout( m_GenPageWidgets.docGB );
-    docLayout->setSpacing( spacingHint() );
-    docLayout->setMargin(  fontMetrics().height()  );
+    QHBoxLayout * docLayout = new QHBoxLayout(m_GenPageWidgets.docGB);
+    docLayout->setSpacing(spacingHint());
+    docLayout->setMargin( fontMetrics().height() );
 
-    m_GenPageWidgets.docTE = new KTextEdit( m_GenPageWidgets.docGB );
-    m_GenPageWidgets.docTE->setText( m_pActivityWidget->documentation() );
-    docLayout->addWidget( m_GenPageWidgets.docTE );
+    m_GenPageWidgets.docTE = new KTextEdit(m_GenPageWidgets.docGB);
+    m_GenPageWidgets.docTE->setText(m_pActivityWidget->documentation());
+    docLayout->addWidget(m_GenPageWidgets.docTE);
 
-    if ( type != ActivityWidget::Normal && type != ActivityWidget::Invok && type != ActivityWidget::Param) {
-        m_GenPageWidgets.nameLE->setEnabled( false );
-        m_GenPageWidgets.nameLE->setText( "" );
+    if (type != ActivityWidget::Normal && type != ActivityWidget::Invok && type != ActivityWidget::Param) {
+        m_GenPageWidgets.nameLE->setEnabled(false);
+        m_GenPageWidgets.nameLE->setText("");
     } else
-        m_GenPageWidgets.nameLE->setText( m_pActivityWidget->name() );
+        m_GenPageWidgets.nameLE->setText(m_pActivityWidget->name());
 }
 
 /**

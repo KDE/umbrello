@@ -33,7 +33,7 @@ JavaCodeClassField::JavaCodeClassField (ClassifierCodeDocument * parentDoc, UMLA
 {
 }
 
-JavaCodeClassField::~JavaCodeClassField ( )
+JavaCodeClassField::~JavaCodeClassField ()
 {
 }
 
@@ -60,7 +60,7 @@ QString JavaCodeClassField::getInitialValue()
 {
     if (parentIsAttribute())
     {
-        UMLAttribute * at = dynamic_cast<UMLAttribute*>( getParentObject() );
+        UMLAttribute * at = dynamic_cast<UMLAttribute*>(getParentObject());
         if (at) {
             return fixInitialStringDeclValue(at->getInitialValue(), getTypeName());
         } else {
@@ -76,12 +76,12 @@ QString JavaCodeClassField::getInitialValue()
             //       then we can just return 'empty' string (minor problem).
             return QString("");
         } else {
-            return " new "+JavaCodeGenerator::getListFieldClassName()+"( )";
+            return " new "+JavaCodeGenerator::getListFieldClassName()+"()";
         }
     }
 }
 
-QString JavaCodeClassField::getTypeName ( )
+QString JavaCodeClassField::getTypeName ()
 {
     return JavaCodeGenerator::fixTypeName(CodeClassField::getTypeName());
 }

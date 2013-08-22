@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * A thin tool button which can be grouped with another and look like one solid
  * bar:
  *
- * ( button1 | button2 )
+ * (button1 | button2)
  */
 class StatusBarToolButton : public QToolButton
 {

@@ -24,14 +24,14 @@
 // qt includes
 #include <QRegExp>
 
-JavaANTCodeDocument::JavaANTCodeDocument ( )
+JavaANTCodeDocument::JavaANTCodeDocument ()
 {
     setFileName("build"); // default name
     setFileExtension(".xml");
     setID("ANTDOC"); // default id tag for this type of document
 }
 
-JavaANTCodeDocument::~JavaANTCodeDocument ( )
+JavaANTCodeDocument::~JavaANTCodeDocument ()
 {
 }
 
@@ -40,13 +40,13 @@ JavaANTCodeDocument::~JavaANTCodeDocument ( )
 // * @return      CodeBlockWithComments
 // */
 /*
-CodeBlockWithComments * JavaANTCodeDocument::newCodeBlockWithComments ( )
+CodeBlockWithComments * JavaANTCodeDocument::newCodeBlockWithComments ()
 {
         return new XMLElementCodeBlock(this,"empty");
 }
 */
 
-HierarchicalCodeBlock * JavaANTCodeDocument::newHierarchicalCodeBlock ( )
+HierarchicalCodeBlock * JavaANTCodeDocument::newHierarchicalCodeBlock ()
 {
     return new XMLElementCodeBlock(this,"empty");
 }
@@ -55,15 +55,15 @@ HierarchicalCodeBlock * JavaANTCodeDocument::newHierarchicalCodeBlock ( )
 // is so we can create the XMLNodes, if needed.
 // would be better if we could create a handler interface that each
 // codeblock used so all we have to do here is add the handler
-void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
+void JavaANTCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
 {
     QDomNode tnode = root.firstChild();
     QDomElement telement = tnode.toElement();
     bool loadCheckForChildrenOK = false;
-    while( !telement.isNull() ) {
+    while(!telement.isNull()) {
         QString nodeName = telement.tagName();
 
-        if( nodeName == "textblocks" ) {
+        if(nodeName == "textblocks") {
 
             QDomNode node = telement.firstChild();
             QDomElement element = node.toElement();
@@ -71,10 +71,10 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
             // if there is nothing to begin with, then we don't worry about it
             loadCheckForChildrenOK = element.isNull() ? true : false;
 
-            while( !element.isNull() ) {
+            while(!element.isNull()) {
                 QString name = element.tagName();
 
-                if( name == "codecomment" ) {
+                if(name == "codecomment") {
                     CodeComment * block = new XMLCodeComment(this);
                     block->loadFromXMI(element);
                     if(!addTextBlock(block))
@@ -84,9 +84,9 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                     } else
                         loadCheckForChildrenOK= true;
                 } else
-                    if( name == "codeaccessormethod" ||
+                    if(name == "codeaccessormethod" ||
                             name == "ccfdeclarationcodeblock"
-                      ) {
+                     ) {
                         QString acctag = element.attribute("tag","");
                         // search for our method in the
                         TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
@@ -98,7 +98,7 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                             loadCheckForChildrenOK= true;
 
                     } else
-                        if( name == "codeblock" ) {
+                        if(name == "codeblock") {
                             CodeBlock * block = newCodeBlock();
                             block->loadFromXMI(element);
                             if(!addTextBlock(block))
@@ -108,7 +108,7 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                             } else
                                 loadCheckForChildrenOK= true;
                         } else
-                            if( name == "codeblockwithcomments" ) {
+                            if(name == "codeblockwithcomments") {
                                 CodeBlockWithComments * block = newCodeBlockWithComments();
                                 block->loadFromXMI(element);
                                 if(!addTextBlock(block))
@@ -118,10 +118,10 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                                 } else
                                     loadCheckForChildrenOK= true;
                             } else
-                                if( name == "header" ) {
+                                if(name == "header") {
                                     // do nothing.. this is treated elsewhere
                                 } else
-                                    if( name == "hierarchicalcodeblock" ) {
+                                    if(name == "hierarchicalcodeblock") {
                                         HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
                                         block->loadFromXMI(element);
                                         if(!addTextBlock(block))
@@ -131,7 +131,7 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                                         } else
                                             loadCheckForChildrenOK= true;
                                     } else
-                                        if( name == "codeoperation" ) {
+                                        if(name == "codeoperation") {
                                             // find the code operation by id
                                             QString id = element.attribute("parent_id","-1");
                                             UMLObject * obj = UMLApp::app()->document()->findObjectById(Uml::ID::fromString(id));
@@ -151,7 +151,7 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                                             } else
                                                 uError()<<"Unable to find operation create codeoperation for:"<<this;
                                         } else
-                                            if( name == "xmlelementblock" ) {
+                                            if(name == "xmlelementblock") {
                                                 QString xmltag = element.attribute("nodeName","UNKNOWN");
                                                 XMLElementCodeBlock * block = new XMLElementCodeBlock(this,xmltag);
                                                 block->loadFromXMI(element);
@@ -198,7 +198,7 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
 /** set the class attributes of this object from
  * the passed element node.
  */
-void JavaANTCodeDocument::setAttributesFromNode ( QDomElement & root)
+void JavaANTCodeDocument::setAttributesFromNode (QDomElement & root)
 {
     // superclass save
     CodeDocument::setAttributesFromNode(root);
@@ -210,7 +210,7 @@ void JavaANTCodeDocument::setAttributesFromNode ( QDomElement & root)
 /**
  * load params from the appropriate XMI element node.
  */
-void JavaANTCodeDocument::loadFromXMI ( QDomElement & root )
+void JavaANTCodeDocument::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -218,7 +218,7 @@ void JavaANTCodeDocument::loadFromXMI ( QDomElement & root )
 /** set attributes of the node that represents this class
  * in the XMI document.
  */
-void JavaANTCodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomElement & docElement)
+void JavaANTCodeDocument::setAttributesOnNode (QDomDocument & doc, QDomElement & docElement)
 {
     // superclass call
     CodeDocument::setAttributesOnNode(doc,docElement);
@@ -230,18 +230,18 @@ void JavaANTCodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomElement 
 /**
  * Save the XMI representation of this object
  */
-void JavaANTCodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root )
+void JavaANTCodeDocument::saveToXMI (QDomDocument & doc, QDomElement & root)
 {
-    QDomElement docElement = doc.createElement( "codedocument" );
+    QDomElement docElement = doc.createElement("codedocument");
 
     setAttributesOnNode(doc, docElement);
 
-    root.appendChild( docElement );
+    root.appendChild(docElement);
 }
 
 // we add in our code blocks that describe how to generate
 // the project here...
-void JavaANTCodeDocument::updateContent( )
+void JavaANTCodeDocument::updateContent()
 {
     // FIX : fill in more content based on classes
     // which exist
@@ -274,7 +274,7 @@ void JavaANTCodeDocument::updateContent( )
 }
 
 // We overwritten by Java language implementation to get lowercase path
-QString JavaANTCodeDocument::getPath ( )
+QString JavaANTCodeDocument::getPath ()
 {
     QString path = getPackage();
 

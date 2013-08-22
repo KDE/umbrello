@@ -38,7 +38,7 @@ WorkToolBar::WorkToolBar(QMainWindow *parentWindow)
     m_Type = Uml::DiagramType::Class; // first time in just want it to load arrow,
                                       // needs anything but Uml::DiagramType::Undefined
     setOrientation(Qt::Vertical);
-//     setVerticalStretchable( true );
+//     setVerticalStretchable(true);
     // initialize old tool map, everything starts with select tool (arrow)
     m_map.insert(Uml::DiagramType::UseCase, tbb_Arrow);
     m_map.insert(Uml::DiagramType::Collaboration, tbb_Arrow);
@@ -211,7 +211,7 @@ void WorkToolBar::buttonChanged(int b)
     if (tbb == tbb_Arrow && m_CurrentButtonID == tbb_Arrow) {
         m_actions[tbb_Arrow]->toggle();
 
-        // signal needed, in the case ( when switching diagrams ) that
+        // signal needed, in the case (when switching diagrams) that
         // Arrow Button gets activated, but the toolBarState of the Views may be different
         emit sigButtonChanged(m_CurrentButtonID);
 

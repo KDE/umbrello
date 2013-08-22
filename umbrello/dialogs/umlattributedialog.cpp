@@ -38,14 +38,14 @@
 #include <QRadioButton>
 #include <QVBoxLayout>
 
-UMLAttributeDialog::UMLAttributeDialog( QWidget * pParent, UMLAttribute * pAttribute )
-        : KDialog( pParent)
+UMLAttributeDialog::UMLAttributeDialog(QWidget * pParent, UMLAttribute * pAttribute)
+        : KDialog(pParent)
 {
-    setCaption( i18n("Attribute Properties") );
-    setButtons( Help | Ok | Cancel );
-    setDefaultButton( Ok );
-    setModal( true );
-    showButtonSeparator( true );
+    setCaption(i18n("Attribute Properties"));
+    setButtons(Help | Ok | Cancel);
+    setDefaultButton(Ok);
+    setModal(true);
+    showButtonSeparator(true);
     m_pAttribute = pAttribute;
     setupDialog();
 }
@@ -61,11 +61,11 @@ void UMLAttributeDialog::setupDialog()
 {
     int margin = fontMetrics().height();
 
-    QFrame * frame = new QFrame( this );
-    setMainWidget( frame );
-    QVBoxLayout * mainLayout = new QVBoxLayout( frame );
+    QFrame * frame = new QFrame(this);
+    setMainWidget(frame);
+    QVBoxLayout * mainLayout = new QVBoxLayout(frame);
 
-    m_pValuesGB = new QGroupBox(i18n("General Properties"), frame );
+    m_pValuesGB = new QGroupBox(i18n("General Properties"), frame);
     QGridLayout * valuesLayout = new QGridLayout(m_pValuesGB);
     valuesLayout->setMargin(margin);
     valuesLayout->setSpacing(10);
@@ -77,25 +77,25 @@ void UMLAttributeDialog::setupDialog()
     valuesLayout->addWidget(m_pTypeCB, 0, 1);
     m_pTypeL->setBuddy(m_pTypeCB);
 
-    Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
+    Dialog_Utils::makeLabeledEditField(m_pValuesGB, valuesLayout, 1,
                                     m_pNameL, i18nc("attribute name", "&Name:"),
-                                    m_pNameLE, m_pAttribute->name() );
+                                    m_pNameLE, m_pAttribute->name());
 
-    Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 2,
+    Dialog_Utils::makeLabeledEditField(m_pValuesGB, valuesLayout, 2,
                                     m_pInitialL, i18n("&Initial value:"),
-                                    m_pInitialLE, m_pAttribute->getInitialValue() );
+                                    m_pInitialLE, m_pAttribute->getInitialValue());
 
-    Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 3,
+    Dialog_Utils::makeLabeledEditField(m_pValuesGB, valuesLayout, 3,
                                     m_pStereoTypeL, i18n("Stereotype name:"),
-                                    m_pStereoTypeLE, m_pAttribute->stereotype() );
+                                    m_pStereoTypeLE, m_pAttribute->stereotype());
 
-    m_pStaticCB = new QCheckBox( i18n("Classifier &scope (\"static\")"), m_pValuesGB );
-    m_pStaticCB->setChecked( m_pAttribute->isStatic() );
+    m_pStaticCB = new QCheckBox(i18n("Classifier &scope (\"static\")"), m_pValuesGB);
+    m_pStaticCB->setChecked(m_pAttribute->isStatic());
     valuesLayout->addWidget(m_pStaticCB, 4, 0);
 
     mainLayout->addWidget(m_pValuesGB);
 
-    m_pScopeGB = new QGroupBox(i18n("Visibility"), frame );
+    m_pScopeGB = new QGroupBox(i18n("Visibility"), frame);
     QHBoxLayout * scopeLayout = new QHBoxLayout(m_pScopeGB);
     scopeLayout->setMargin(margin);
 
@@ -115,37 +115,37 @@ void UMLAttributeDialog::setupDialog()
 
     switch (m_pAttribute->visibility()) {
     case Uml::Visibility::Public:
-        m_pPublicRB->setChecked( true );
+        m_pPublicRB->setChecked(true);
         break;
     case Uml::Visibility::Private:
-        m_pPrivateRB->setChecked( true );
+        m_pPrivateRB->setChecked(true);
         break;
     case Uml::Visibility::Protected:
-        m_pProtectedRB->setChecked( true );
+        m_pProtectedRB->setChecked(true);
         break;
     case Uml::Visibility::Implementation:
-        m_pImplementationRB->setChecked( true );
+        m_pImplementationRB->setChecked(true);
         break;
     default:
         break;
     }
 
     m_pTypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
-    m_pTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
+    m_pTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
 
     //now add the Concepts
     insertTypesSorted(m_pAttribute->getTypeName());
 
     m_pNameLE->setFocus();
-    connect( m_pNameLE, SIGNAL(textChanged(QString)), SLOT(slotNameChanged(QString)));
-    slotNameChanged(m_pNameLE->text() );
+    connect(m_pNameLE, SIGNAL(textChanged(QString)), SLOT(slotNameChanged(QString)));
+    slotNameChanged(m_pNameLE->text());
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
-void UMLAttributeDialog::slotNameChanged( const QString &_text )
+void UMLAttributeDialog::slotNameChanged(const QString &_text)
 {
-    enableButtonOk( !_text.isEmpty() );
+    enableButtonOk(!_text.isEmpty());
 }
 
 /**
@@ -158,24 +158,24 @@ bool UMLAttributeDialog::apply()
     if (name.isEmpty()) {
         KMessageBox::error(this, i18n("You have entered an invalid attribute name."),
                            i18n("Attribute Name Invalid"), 0);
-        m_pNameLE->setText( m_pAttribute->name() );
+        m_pNameLE->setText(m_pAttribute->name());
         return false;
     }
-    UMLClassifier * pConcept = dynamic_cast<UMLClassifier *>( m_pAttribute->parent() );
+    UMLClassifier * pConcept = dynamic_cast<UMLClassifier *>(m_pAttribute->parent());
     UMLObject *o = pConcept->findChildObject(name);
     if (o && o != m_pAttribute) {
         KMessageBox::error(this, i18n("The attribute name you have chosen is already being used in this operation."),
                            i18n("Attribute Name Not Unique"), 0);
-        m_pNameLE->setText( m_pAttribute->name() );
+        m_pNameLE->setText(m_pAttribute->name());
         return false;
     }
     m_pAttribute->setName(name);
     Uml::Visibility::Enum scope = Uml::Visibility::Protected;
-    if ( m_pPublicRB->isChecked() ) {
+    if (m_pPublicRB->isChecked()) {
         scope = Uml::Visibility::Public;
-    } else if ( m_pPrivateRB->isChecked() ) {
+    } else if (m_pPrivateRB->isChecked()) {
         scope = Uml::Visibility::Private;
-    } else if ( m_pImplementationRB->isChecked() ) {
+    } else if (m_pImplementationRB->isChecked()) {
         scope = Uml::Visibility::Implementation;
     }
     m_pAttribute->setVisibility(scope);
@@ -184,9 +184,9 @@ bool UMLAttributeDialog::apply()
     optionState.classState.defaultAttributeScope = scope;
     Settings::setOptionState(optionState);
 
-    m_pAttribute->setInitialValue( m_pInitialLE->text() );
-    m_pAttribute->setStereotype( m_pStereoTypeLE->text() );
-    m_pAttribute->setStatic( m_pStaticCB->isChecked() );
+    m_pAttribute->setInitialValue(m_pInitialLE->text());
+    m_pAttribute->setStereotype(m_pStereoTypeLE->text());
+    m_pAttribute->setStatic(m_pStaticCB->isChecked());
 
     QString typeName = m_pTypeCB->currentText();
     UMLTemplate *tmplParam = pConcept->findTemplate(typeName);
@@ -234,7 +234,7 @@ void UMLAttributeDialog::slotApply()
  */
 void UMLAttributeDialog::slotOk()
 {
-    if ( apply() ) {
+    if (apply()) {
         accept();
     }
 }
@@ -245,15 +245,15 @@ void UMLAttributeDialog::slotOk()
  * sorted and then added again.
  * @param type   a new type to add
  */
-void UMLAttributeDialog::insertTypesSorted( const QString& type )
+void UMLAttributeDialog::insertTypesSorted(const QString& type)
 {
     UMLDoc * uDoc = UMLApp::app()->document();
-    UMLClassifierList namesList( uDoc->concepts() );
+    UMLClassifierList namesList(uDoc->concepts());
     QStringList types;
     foreach (UMLClassifier* obj, namesList) {
          types << obj->fullyQualifiedName();
     }
-    if ( !types.contains(type) ) {
+    if (!types.contains(type)) {
         types << type;
     }
     types.sort();

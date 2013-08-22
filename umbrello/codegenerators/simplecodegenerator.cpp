@@ -135,7 +135,7 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ex
             {
                 currentDir += '/' + *dir;
                 if (! (pathDir.exists(currentDir)
-                        || pathDir.mkdir(currentDir) ) )
+                        || pathDir.mkdir(currentDir)))
                 {
                     KMessageBox::error(0, i18n("Cannot create the folder:\n") +
                                        pathDir.absolutePath() + i18n("\nPlease check the access rights"),
@@ -182,7 +182,7 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
     case CodeGenerationPolicy::Ask:               //ask if we can overwrite
         switch(overwriteDialogue->exec()) {
         case KDialog::Yes:  //overwrite file
-            if ( overwriteDialogue->applyToAllRemaining() ) {
+            if (overwriteDialogue->applyToAllRemaining()) {
                 commonPolicy->setOverwritePolicy(CodeGenerationPolicy::Ok);
             } else {
                 m_applyToAllRemaining = false;
@@ -196,14 +196,14 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
                     break;
                 suffix++;
             }
-            if ( overwriteDialogue->applyToAllRemaining() ) {
+            if (overwriteDialogue->applyToAllRemaining()) {
                 commonPolicy->setOverwritePolicy(CodeGenerationPolicy::Never);
             } else {
                 m_applyToAllRemaining = false;
             }
             break;
         case KDialog::Cancel: //don't output anything
-            if ( overwriteDialogue->applyToAllRemaining() ) {
+            if (overwriteDialogue->applyToAllRemaining()) {
                 commonPolicy->setOverwritePolicy(CodeGenerationPolicy::Cancel);
             } else {
                 m_applyToAllRemaining = false;
@@ -241,7 +241,7 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
 bool SimpleCodeGenerator::hasDefaultValueAttr(UMLClassifier *c)
 {
     UMLAttributeList atl = c->getAttributeList();
-    foreach (UMLAttribute* at, atl ) {
+    foreach (UMLAttribute* at, atl) {
         if(!at->getInitialValue().isEmpty())
             return true;
     }
@@ -256,7 +256,7 @@ bool SimpleCodeGenerator::hasDefaultValueAttr(UMLClassifier *c)
 bool SimpleCodeGenerator::hasAbstractOps(UMLClassifier *c)
 {
     UMLOperationList opl(c->getOpList());
-    foreach (UMLOperation* op, opl ) {
+    foreach (UMLOperation* op, opl) {
         if(op->isAbstract())
             return true;
     }
@@ -282,7 +282,7 @@ void SimpleCodeGenerator::writeCodeToFile()
 {
     m_fileMap.clear(); // need to do this, else just keep getting same directory to write to.
     UMLClassifierList concepts = m_document->classesAndInterfaces();
-    foreach (UMLClassifier* c, concepts ) {
+    foreach (UMLClassifier* c, concepts) {
         if (! Model_Utils::isCommonDataType(c->name()))
             this->writeClass(c); // call the writer for each class.
     }

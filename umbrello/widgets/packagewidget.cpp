@@ -57,10 +57,10 @@ void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     Q_UNUSED(widget);
 
     setPenFromSettings(painter);
-    if ( UMLWidget::useFillColor() )
-        painter->setBrush( UMLWidget::fillColor() );
+    if (UMLWidget::useFillColor())
+        painter->setBrush(UMLWidget::fillColor());
     else
-        painter->setBrush( m_scene->activeView()->viewport()->palette().color(QPalette::Background) );
+        painter->setBrush(m_scene->activeView()->viewport()->palette().color(QPalette::Background));
 
     int w = width();
     int h = height();
@@ -97,7 +97,7 @@ void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     }
 
     painter->drawText(0, (fontHeight*lines) + PACKAGE_MARGIN,
-               w, fontHeight, Qt::AlignCenter, name() );
+               w, fontHeight, Qt::AlignCenter, name());
 
     if(m_selected) {
         paintSelected(painter);
@@ -109,7 +109,7 @@ void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
  */
 UMLSceneSize PackageWidget::minimumSize()
 {
-    if ( !m_umlObject ) {
+    if (!m_umlObject) {
         return UMLWidget::minimumSize();
     }
 
@@ -118,7 +118,7 @@ UMLSceneSize PackageWidget::minimumSize()
 
     int lines = 1;
 
-    int width = fm.width( m_umlObject->name() );
+    int width = fm.width(m_umlObject->name());
 
     int tempWidth = 0;
     if (!m_umlObject->stereotype().isEmpty()) {

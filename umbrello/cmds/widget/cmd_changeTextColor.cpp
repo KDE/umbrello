@@ -31,12 +31,12 @@ namespace Uml
 
     void CmdChangeTextColor::redo()
     {
-        m_umlWidget->setTextColorcmd( m_newColor );
+        m_umlWidget->setTextColorcmd(m_newColor);
     }
 
     void CmdChangeTextColor::undo()
     {
-        m_umlWidget->setTextColorcmd( m_oldColor );
+        m_umlWidget->setTextColorcmd(m_oldColor);
     }
 
 }

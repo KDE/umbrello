@@ -123,7 +123,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     m_pStereoTypeCB = new KComboBox(true, this);
     m_pNameLayout->addWidget(m_pStereoTypeCB, 1, 1);
 
-    m_pStereoTypeCB->setItemText( m_pStereoTypeCB->currentIndex(), m_pObject->stereotype() );
+    m_pStereoTypeCB->setItemText(m_pStereoTypeCB->currentIndex(), m_pObject->stereotype());
     m_pStereoTypeL->setBuddy(m_pStereoTypeCB);
 
     if (t == UMLObject::ot_Interface || t == UMLObject::ot_Datatype || t == UMLObject::ot_Enum) {
@@ -140,7 +140,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
         UMLPackageList packageList = m_pUmldoc->packages();
         QStringList packages;
-        foreach( UMLPackage* package, packageList ) {
+        foreach(UMLPackage* package, packageList) {
             packages << package->name();
         }
         packages.sort();
@@ -152,29 +152,29 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
                 static_cast<UMLPackage*>(m_pUmldoc->rootFolder(Uml::ModelType::Logical));
         if (parentPackage == NULL ||
              parentPackage == folderLogicalView) {
-            m_pPackageCB->setEditText( QString() );
+            m_pPackageCB->setEditText(QString());
         }
         else {
             m_pPackageCB->setEditText(packagePath);
         }
     }
 
-    if (t == UMLObject::ot_Class || t == UMLObject::ot_UseCase ) {
+    if (t == UMLObject::ot_Class || t == UMLObject::ot_UseCase) {
         QString abstractCaption;
-        if ( t == UMLObject::ot_Class  ) {
+        if (t == UMLObject::ot_Class ) {
             abstractCaption = i18n("A&bstract class");
         } else {
             abstractCaption = i18n("A&bstract use case");
         }
-        m_pAbstractCB = new QCheckBox( abstractCaption, this );
-        m_pAbstractCB->setChecked( m_pObject->isAbstract() );
-        m_pNameLayout->addWidget( m_pAbstractCB, 3, 0 );
+        m_pAbstractCB = new QCheckBox(abstractCaption, this);
+        m_pAbstractCB->setChecked(m_pObject->isAbstract());
+        m_pNameLayout->addWidget(m_pAbstractCB, 3, 0);
     }
 
     if (t == UMLObject::ot_Component) {
         m_pExecutableCB = new QCheckBox(i18nc("component is executable", "&Executable"), this);
-        m_pExecutableCB->setChecked( (static_cast<UMLComponent*>(o))->getExecutable() );
-        m_pNameLayout->addWidget( m_pExecutableCB, 3, 0 );
+        m_pExecutableCB->setChecked((static_cast<UMLComponent*>(o))->getExecutable());
+        m_pNameLayout->addWidget(m_pExecutableCB, 3, 0);
     }
 
     if (t == UMLObject::ot_Artifact) {
@@ -259,7 +259,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
     // manage stereotypes
     m_pStereoTypeCB->setDuplicatesEnabled(false);  // only allow one of each type in box
-    m_pStereoTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
+    m_pStereoTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
     insertStereotypesSorted(m_pObject->stereotype());
 
     m_doc->setLineWrapMode(QTextEdit::WidgetWidth);
@@ -304,7 +304,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     m_pNameLayout->addWidget(m_pInstanceLE, 1, 1);
     UMLView *view = UMLApp::app()->currentView();
 
-    m_pDrawActorCB = new QCheckBox( i18n( "Draw as actor" ) , this );
+    m_pDrawActorCB = new QCheckBox(i18n("Draw as actor") , this);
     m_pDrawActorCB->setChecked(m_pWidget->drawAsActor());
     m_pNameLayout->addWidget(m_pDrawActorCB, 2, 0);
 
@@ -312,8 +312,8 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
         m_pMultiCB = new QCheckBox(i18n("Multiple instance"), this);
         m_pMultiCB->setChecked(m_pWidget->multipleInstance());
         m_pNameLayout->addWidget(m_pMultiCB, 2,1);
-        if ( m_pDrawActorCB->isChecked() )
-            m_pMultiCB->setEnabled( false );
+        if (m_pDrawActorCB->isChecked())
+            m_pMultiCB->setEnabled(false);
     } else {  // sequence diagram
         m_pDeconCB = new QCheckBox(i18n("Show destruction"), this);
         m_pDeconCB->setChecked(m_pWidget->showDestruction());
@@ -331,7 +331,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     m_doc->setText(m_pWidget->documentation());
     docLayout->addWidget(m_doc);
     if (m_pMultiCB) {
-        connect( m_pDrawActorCB, SIGNAL(toggled(bool)), this, SLOT(slotActorToggled(bool)));
+        connect(m_pDrawActorCB, SIGNAL(toggled(bool)), this, SLOT(slotActorToggled(bool)));
     }
 }
 
@@ -372,8 +372,8 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget)
     m_pStereoTypeCB = new KComboBox(true, this);
     m_pNameLayout->addWidget(m_pStereoTypeCB, 1, 1);
 
-    m_pStereoTypeCB->setItemText( m_pStereoTypeCB->currentIndex(), widget->umlObject()->stereotype() );
-    m_pStereoTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
+    m_pStereoTypeCB->setItemText(m_pStereoTypeCB->currentIndex(), widget->umlObject()->stereotype());
+    m_pStereoTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
 
     m_pInstanceL = new QLabel(this);
     m_pInstanceL->setText(i18n("Instance name:"));
@@ -408,7 +408,7 @@ void ClassGenPage::insertStereotypesSorted(const QString& type)
         types << ust->name();
     }
     // add the given parameter
-    if ( !types.contains(type) ) {
+    if (!types.contains(type)) {
         types << type;
     }
     types.sort();
@@ -421,7 +421,7 @@ void ClassGenPage::insertStereotypesSorted(const QString& type)
     if (currentIndex > -1) {
         m_pStereoTypeCB->setCurrentIndex(currentIndex);
     }
-    m_pStereoTypeCB->completionObject()->addItem( type );
+    m_pStereoTypeCB->completionObject()->addItem(type);
 }
 
 /**
@@ -444,8 +444,8 @@ void ClassGenPage::updateObject()
             QString packageName = m_pPackageCB->currentText().trimmed();
             UMLObject* newPackage = NULL;
 
-            if ( !packageName.isEmpty()) {
-                if ( ( newPackage = m_pUmldoc->findUMLObject(packageName, UMLObject::ot_Package) ) == NULL ) {
+            if (!packageName.isEmpty()) {
+                if ((newPackage = m_pUmldoc->findUMLObject(packageName, UMLObject::ot_Package)) == NULL) {
                     newPackage = Import_Utils::createUMLObject(UMLObject::ot_Package, packageName);
                 }
             } else {
@@ -456,8 +456,8 @@ void ClassGenPage::updateObject()
             Model_Utils::treeViewMoveObjectTo(newPackage, m_pObject);
         }
 
-        if ( m_pAbstractCB ) {
-            m_pObject->setAbstract( m_pAbstractCB->isChecked() );
+        if (m_pAbstractCB) {
+            m_pObject->setAbstract(m_pAbstractCB->isChecked());
         }
 
         //make sure unique name
@@ -465,7 +465,7 @@ void ClassGenPage::updateObject()
         if (o && m_pObject != o) {
              KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
                                 i18n("Name is Not Unique"), 0);
-             m_pClassNameLE->setText( m_pObject->name() );
+             m_pClassNameLE->setText(m_pObject->name());
         } else {
              m_pObject->setName(name);
         }
@@ -480,16 +480,16 @@ void ClassGenPage::updateObject()
         m_pObject->setVisibility(s);
 
         if (m_pObject->baseType() == UMLObject::ot_Component) {
-            (static_cast<UMLComponent*>(m_pObject))->setExecutable( m_pExecutableCB->isChecked() );
+            (static_cast<UMLComponent*>(m_pObject))->setExecutable(m_pExecutableCB->isChecked());
         }
 
         if (m_pObject->baseType() == UMLObject::ot_Artifact) {
             UMLArtifact::Draw_Type drawAsType;
-            if ( m_pFileRB->isChecked() ) {
+            if (m_pFileRB->isChecked()) {
                 drawAsType = UMLArtifact::file;
-            } else if ( m_pLibraryRB->isChecked() ) {
+            } else if (m_pLibraryRB->isChecked()) {
                 drawAsType = UMLArtifact::library;
-            } else if (m_pTableRB->isChecked() ) {
+            } else if (m_pTableRB->isChecked()) {
                 drawAsType = UMLArtifact::table;
             } else {
                 drawAsType = UMLArtifact::defaultDraw;
@@ -503,9 +503,9 @@ void ClassGenPage::updateObject()
         if (m_pMultiCB) {
             m_pWidget->setMultipleInstance(m_pMultiCB->isChecked());
         }
-        m_pWidget->setDrawAsActor( m_pDrawActorCB->isChecked() );
+        m_pWidget->setDrawAsActor(m_pDrawActorCB->isChecked());
         if (m_pDeconCB) {
-            m_pWidget->setShowDestruction( m_pDeconCB->isChecked() );
+            m_pWidget->setShowDestruction(m_pDeconCB->isChecked());
         }
         QString name = m_pClassNameLE->text();
         m_pWidget->setDocumentation(m_doc->toPlainText());
@@ -530,7 +530,7 @@ void ClassGenPage::updateObject()
         } else {
             o->setName(name);
         }
-        o->setStereotype( m_pStereoTypeCB->currentText() );
+        o->setStereotype(m_pStereoTypeCB->currentText());
     } // end if m_pInstanceWidget
 }
 
@@ -539,10 +539,10 @@ void ClassGenPage::updateObject()
  * as multi instance need to be enabled/disabled. They
  * both can't be available at the same time.
  */
-void ClassGenPage::slotActorToggled( bool state )
+void ClassGenPage::slotActorToggled(bool state)
 {
     if (m_pMultiCB) {
-        m_pMultiCB->setEnabled( !state );
+        m_pMultiCB->setEnabled(!state);
     }
 }
 

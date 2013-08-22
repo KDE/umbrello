@@ -79,7 +79,7 @@ bool isCloneable(WidgetBase::WidgetType type)
  */
 UMLObject* findObjectInList(Uml::ID::Type id, const UMLObjectList& inList)
 {
-    for (UMLObjectListIt oit(inList); oit.hasNext(); ) {
+    for (UMLObjectListIt oit(inList); oit.hasNext();) {
         UMLObject *obj = oit.next();
         if (obj->id() == id)
             return obj;
@@ -191,7 +191,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
             }
             seenPkgs.append(pkg);
             UMLObjectList objectsInCurrentScope = pkg->containedObjects();
-            for (UMLObjectListIt oit(objectsInCurrentScope); oit.hasNext(); ) {
+            for (UMLObjectListIt oit(objectsInCurrentScope); oit.hasNext();) {
                 UMLObject *obj = oit.next();
                 if (caseSensitive) {
                     if (obj->name() != name)
@@ -231,13 +231,13 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                     continue;
                 }
                 UMLPackage *pkg = static_cast<UMLPackage*>(obj);
-                return findUMLObject( pkg->containedObjects(),
-                                      nameWithoutFirstPrefix, type );
+                return findUMLObject(pkg->containedObjects(),
+                                      nameWithoutFirstPrefix, type);
             }
             currentObj = pkg;
         }
     }
-    for (UMLObjectListIt oit(inList); oit.hasNext(); ) {
+    for (UMLObjectListIt oit(inList); oit.hasNext();) {
         UMLObject *obj = oit.next();
         if (caseSensitive) {
             if (obj->name() != name)
@@ -266,8 +266,8 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
             continue;
         }
         UMLPackage *pkg = static_cast<UMLPackage*>(obj);
-        return findUMLObject( pkg->containedObjects(),
-                              nameWithoutFirstPrefix, type );
+        return findUMLObject(pkg->containedObjects(),
+                              nameWithoutFirstPrefix, type);
     }
     return NULL;
 }
@@ -293,7 +293,7 @@ UMLObject* findUMLObjectRaw(const UMLObjectList& inList,
                             UMLObject *currentObj /*= 0*/)
 {
     Q_UNUSED(currentObj);
-    for (UMLObjectListIt oit(inList); oit.hasNext(); ) {
+    for (UMLObjectListIt oit(inList); oit.hasNext();) {
         UMLObject *obj = oit.next();
         if (obj->name() == name && type == obj->baseType())
             return obj;
@@ -495,7 +495,7 @@ QString uniqObjectName(UMLObject::ObjectType type, UMLPackage *parentPkg, QStrin
  * "name" | "visibility" | "isRoot" | "isLeaf" | "isAbstract" |
  * "isActive" | "ownerScope"
  */
-bool isCommonXMIAttribute( const QString &tag )
+bool isCommonXMIAttribute(const QString &tag)
 {
     bool retval = (UMLDoc::tagEq(tag, "name") ||
                    UMLDoc::tagEq(tag, "visibility") ||
@@ -511,7 +511,7 @@ bool isCommonXMIAttribute( const QString &tag )
                    UMLDoc::tagEq(tag, "specialization") ||   //NYI
                    UMLDoc::tagEq(tag, "clientDependency") || //NYI
                    UMLDoc::tagEq(tag, "supplierDependency")  //NYI
-                  );
+                 );
     return retval;
 }
 
@@ -678,7 +678,7 @@ Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningSc
     if (t.isEmpty())
         return PS_Empty;
 
-    QStringList nameAndType = t.split( QRegExp("\\s*:\\s*"));
+    QStringList nameAndType = t.split(QRegExp("\\s*:\\s*"));
     if (nameAndType.count() == 2) {
         UMLObject *pType = NULL;
         if (nameAndType[1] != "class") {
@@ -760,7 +760,7 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
         nmTp = NameAndType(name, NULL, pd);
         return PS_OK;
     }
-    QStringList typeAndInitialValue = a.split( QRegExp("\\s*=\\s*") );
+    QStringList typeAndInitialValue = a.split(QRegExp("\\s*=\\s*"));
     const QString &type = typeAndInitialValue[0];
     UMLObject *pType = pDoc->findUMLObject(type, UMLObject::ot_UMLObject, owningScope);
     if (pType == NULL) {
@@ -802,7 +802,7 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
          * because UML also permits non programming-language oriented designs
          * using narrative names, for example "check water temperature".
          */
-        QRegExp beginningUpToOpenParenth( "^([^\\(]+)" );
+        QRegExp beginningUpToOpenParenth("^([^\\(]+)");
         int pos = beginningUpToOpenParenth.indexIn(m);
         if (pos == -1)
             return PS_Illegal_MethodName;
@@ -825,9 +825,9 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
         }
     }
     // Remove possible empty parentheses ()
-    m.remove( QRegExp("\\s*\\(\\s*\\)") );
+    m.remove(QRegExp("\\s*\\(\\s*\\)"));
     desc.m_args.clear();
-    pat = QRegExp( "\\((.*)\\)" );
+    pat = QRegExp("\\((.*)\\)");
     pos = pat.indexIn(m);
     if (pos == -1)  // argument list is optional
         return PS_OK;
@@ -835,7 +835,7 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
     arglist = arglist.trimmed();
     if (arglist.isEmpty())
         return PS_OK;
-    const QStringList args = arglist.split( QRegExp("\\s*,\\s*") );
+    const QStringList args = arglist.split(QRegExp("\\s*,\\s*"));
     for (QStringList::ConstIterator lit = args.begin(); lit != args.end(); ++lit) {
         NameAndType nmTp;
         Parse_Status ps = parseAttribute(*lit, nmTp, owningScope);
@@ -991,14 +991,14 @@ bool typeIsClassifierList(UMLListViewItem::ListViewType type)
 }
 
 /**
- * Return true if the listview type is a classifier ( Class, Entity , Enum )
+ * Return true if the listview type is a classifier (Class, Entity , Enum)
  */
 bool typeIsClassifier(UMLListViewItem::ListViewType type)
 {
-    if ( type == UMLListViewItem::lvt_Class ||
+    if (type == UMLListViewItem::lvt_Class ||
          type == UMLListViewItem::lvt_Interface ||
          type == UMLListViewItem::lvt_Entity ||
-         type == UMLListViewItem::lvt_Enum ) {
+         type == UMLListViewItem::lvt_Enum) {
         return true;
     }
     return false;
@@ -1273,7 +1273,7 @@ UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o)
 
     case UMLObject::ot_UniqueConstraint: {
          UMLEntity* ent = static_cast<UMLEntity*>(o->parent());
-         UMLUniqueConstraint* uc = static_cast<UMLUniqueConstraint*>( o );
+         UMLUniqueConstraint* uc = static_cast<UMLUniqueConstraint*>(o);
          if (ent->isPrimaryKey(uc)) {
              type = UMLListViewItem::lvt_PrimaryKeyConstraint;
          } else {
@@ -1626,9 +1626,9 @@ Uml::ModelType::Enum convert_OT_MT(UMLObject::ObjectType ot)
  * Converts from the UpdateDeleteAction enum to a QString
  * @param uda The UpdateDeleteAction enum literal
  */
-QString updateDeleteActionToString( UMLForeignKeyConstraint::UpdateDeleteAction uda )
+QString updateDeleteActionToString(UMLForeignKeyConstraint::UpdateDeleteAction uda)
 {
-    switch( uda ) {
+    switch(uda) {
      case UMLForeignKeyConstraint::uda_NoAction:
          return "NO ACTION";
      case  UMLForeignKeyConstraint::uda_Restrict:

@@ -21,8 +21,8 @@ static QStringList mime2KdeFilter(const QStringList &mimeTypes, QString *allExte
     const KUrl emptyUrl;
     QStringList kdeFilter;
     QStringList allExt;
-    foreach( const QString& mimeType, mimeTypes ) {
-        KMimeType::Ptr mime( KMimeType::mimeType(mimeType) );
+    foreach(const QString& mimeType, mimeTypes) {
+        KMimeType::Ptr mime(KMimeType::mimeType(mimeType));
         if (mime) {
             allExt += mime->patterns();
             kdeFilter.append(mime->patterns().join(QLatin1String(" ")) + QLatin1Char('|') +

@@ -136,8 +136,8 @@ bool isImmediateValue(QString s)
 /**
  * Extract immediate values out of `l'.
  * Examples of immediate value lists:
- *   number list:     ( 123 , 456 )
- *   string list:     ( "SomeText" 888 )
+ *   number list:     (123 , 456)
+ *   string list:     ("SomeText" 888)
  * Any enclosing parentheses are removed.
  * All extracted items are also removed from `l'.
  * For the example given above the following is returned:
@@ -220,7 +220,7 @@ QString collectVerbatimText(QTextStream& stream)
  *         (value Text
  * |This is the first line of verbatim text.
  * |This is another line of verbatim text.
- *         )
+ *        )
  * (The '|' character is supposed to be in the first column of the line)
  * In this case the two lines are extracted without the leading '|'.
  * The line ending '\n' of each line is preserved.
@@ -380,7 +380,7 @@ bool loadFromMDL(QIODevice& file)
     linum = 0;
     while (!(line = stream.readLine()).isNull()) {
         linum++;
-        if (line.contains( QRegExp("^\\s*\\(object Petal") )) {
+        if (line.contains(QRegExp("^\\s*\\(object Petal"))) {
             while (!(line = stream.readLine()).isNull() && !line.contains(')')) {
                 linum++; // CHECK: do we need petal version info?
             }

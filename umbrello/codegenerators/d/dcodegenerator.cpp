@@ -55,7 +55,7 @@ Uml::ProgrammingLanguage::Enum DCodeGenerator::language() const
  * Get the editing dialog for this code document.
  * In the D version, we make the ANT build file also available.
  */
-CodeViewerDialog * DCodeGenerator::getCodeViewerDialog ( QWidget* parent, CodeDocument *doc,
+CodeViewerDialog * DCodeGenerator::getCodeViewerDialog (QWidget* parent, CodeDocument *doc,
         Settings::CodeViewerState state)
 {
     CodeViewerDialog *dialog = new CodeViewerDialog(parent, doc, state);
@@ -75,7 +75,7 @@ DCodeGenerationPolicy * DCodeGenerator::getDPolicy()
  * A utility method to get the dCodeGenerationPolicy()->getAutoGenerateAttribAccessors() value.
  * @return value of flag
  */
-bool DCodeGenerator::getAutoGenerateAttribAccessors ( )
+bool DCodeGenerator::getAutoGenerateAttribAccessors ()
 {
     return getDPolicy()->getAutoGenerateAttribAccessors ();
 }
@@ -84,7 +84,7 @@ bool DCodeGenerator::getAutoGenerateAttribAccessors ( )
  * A utility method to get the dCodeGenerationPolicy()->getAutoGenerateAssocAccessors() value.
  * @return value of flag
  */
-bool DCodeGenerator::getAutoGenerateAssocAccessors ( )
+bool DCodeGenerator::getAutoGenerateAssocAccessors ()
 {
     return getDPolicy()->getAutoGenerateAssocAccessors ();
 }
@@ -132,7 +132,7 @@ QString DCodeGenerator::fixTypeName(const QString &item)
  * @param classifier   the UML classifier
  * @return the created classifier code document object
  */
-CodeDocument * DCodeGenerator::newClassifierCodeDocument ( UMLClassifier * classifier)
+CodeDocument * DCodeGenerator::newClassifierCodeDocument (UMLClassifier * classifier)
 {
     DClassifierCodeDocument * doc = new DClassifierCodeDocument(classifier);
     doc->initCodeClassFields();

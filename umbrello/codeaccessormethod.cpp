@@ -21,7 +21,7 @@
  * Constructors
  */
 CodeAccessorMethod::CodeAccessorMethod(CodeClassField * parentCF)
-  : CodeMethodBlock ( parentCF->getParentDocument(), parentCF->getParentObject() )
+  : CodeMethodBlock (parentCF->getParentDocument(), parentCF->getParentObject())
 {
     initFields(parentCF);
 }
@@ -109,11 +109,11 @@ void CodeAccessorMethod::loadFromXMI(QDomElement & root)
  */
 void CodeAccessorMethod::saveToXMI(QDomDocument & doc, QDomElement & root)
 {
-    QDomElement docElement = doc.createElement( "codeaccessormethod" );
+    QDomElement docElement = doc.createElement("codeaccessormethod");
 
     setAttributesOnNode(doc, docElement);
 
-    root.appendChild( docElement );
+    root.appendChild(docElement);
 }
 
 /**

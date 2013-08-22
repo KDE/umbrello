@@ -142,7 +142,7 @@ void UMLForeignKeyConstraintDialog::slotDeletePair()
     m_pLocalAttributeList.append(pair.first);
     m_pReferencedAttributeList.append(pair.second);
 
-    // add them to the view ( combo boxes )
+    // add them to the view (combo boxes)
     uDebug() << (pair.first) << (pair.second);
     m_ColumnWidgets.localColumnCB->addItem((pair.first)->toString(Uml::SignatureType::SigNoVis));
     m_ColumnWidgets.referencedColumnCB->addItem((pair.second)->toString(Uml::SignatureType::SigNoVis));

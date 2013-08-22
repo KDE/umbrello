@@ -41,38 +41,38 @@ QStringList PostgreSQLWriter::defaultDatatypes()
 {
     QStringList l;
 
-    l.append( "bigint" );
-    l.append( "bigserial" );
-    l.append( "bit" );
-    l.append( "bit varying" );
-    l.append( "boolean" );
-    l.append( "box" );
-    l.append( "bytea" );
-    l.append( "character varying" );
-    l.append( "character" );
-    l.append( "cidr" );
-    l.append( "circle" );
-    l.append( "date" );
-    l.append( "decimal" );
-    l.append( "double precision" );
-    l.append( "inet" );
-    l.append( "integer" );
-    l.append( "interval" );
-    l.append( "line" );
-    l.append( "lseg" );
-    l.append( "macaddr" );
-    l.append( "money" );
-    l.append( "numeric" );
-    l.append( "path" );
-    l.append( "point" );
-    l.append( "polygon" );
-    l.append( "real" );
-    l.append( "serial" );
-    l.append( "smallint" );
-    l.append( "time without time zone" );
-    l.append( "time with time zone" );
-    l.append( "timestamp without time zone" );
-    l.append( "timestamp with time zone" );
+    l.append("bigint");
+    l.append("bigserial");
+    l.append("bit");
+    l.append("bit varying");
+    l.append("boolean");
+    l.append("box");
+    l.append("bytea");
+    l.append("character varying");
+    l.append("character");
+    l.append("cidr");
+    l.append("circle");
+    l.append("date");
+    l.append("decimal");
+    l.append("double precision");
+    l.append("inet");
+    l.append("integer");
+    l.append("interval");
+    l.append("line");
+    l.append("lseg");
+    l.append("macaddr");
+    l.append("money");
+    l.append("numeric");
+    l.append("path");
+    l.append("point");
+    l.append("polygon");
+    l.append("real");
+    l.append("serial");
+    l.append("smallint");
+    l.append("time without time zone");
+    l.append("time with time zone");
+    l.append("timestamp without time zone");
+    l.append("timestamp with time zone");
 
     return l;
 }
@@ -87,8 +87,8 @@ void PostgreSQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeL
     // instead it uses sequences. For simulating auto increment, set default value of
     // each attribute to the nextval() of it's very own sequence
 
-    foreach( UMLEntityAttribute* ea, entAttList ) {
-        if ( !ea->getAutoIncrement() )
+    foreach(UMLEntityAttribute* ea, entAttList) {
+        if (!ea->getAutoIncrement())
             continue;
 
         QString sequenceName;
@@ -99,22 +99,22 @@ void PostgreSQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeL
         // change the values when we start supporting different start values and
         // interval values
 
-        sql<<"CREATE SEQUENCE "<<cleanName( sequenceName )
+        sql<<"CREATE SEQUENCE "<<cleanName(sequenceName)
            <<" START 1 INCREMENT 1 ;";
 
         sql<<m_endl;
 
-        // alter the table column ( set not null )
-        sql<<"ALTER TABLE "<<cleanName( m_pEntity->name() )
-           <<" ALTER COLUMN "<<cleanName( ea->name() )
+        // alter the table column (set not null)
+        sql<<"ALTER TABLE "<<cleanName(m_pEntity->name())
+           <<" ALTER COLUMN "<<cleanName(ea->name())
            <<" SET NOT NULL ";
 
         sql<<m_endl;
 
         // alter the table column
-        sql<<"ALTER TABLE "<<cleanName( m_pEntity->name() )
-           <<" ALTER COLUMN "<<cleanName( ea->name() )
-           <<" SET DEFAULT nextval('"<<cleanName( sequenceName )
+        sql<<"ALTER TABLE "<<cleanName(m_pEntity->name())
+           <<" ALTER COLUMN "<<cleanName(ea->name())
+           <<" SET DEFAULT nextval('"<<cleanName(sequenceName)
            <<"');";
 
         sql<<m_endl;

@@ -26,7 +26,7 @@
  * Constructor
  */
 DialogBase::DialogBase(QWidget *parent)
-  : KPageDialog( parent)
+  : KPageDialog(parent)
 {
 }
 
@@ -40,11 +40,11 @@ DialogBase::DialogBase(QWidget *parent)
 QFrame* DialogBase::createPage(const QString& name, const QString& header, Icon_Utils::IconType icon)
 {
     QFrame* page = new QFrame();
-    m_pageItem = new KPageWidgetItem( page, name );
-    m_pageItem->setHeader( header );
-    m_pageItem->setIcon( Icon_Utils::DesktopIcon(icon) );
-    addPage( m_pageItem );
-    //page->setMinimumSize( 310, 330 );
+    m_pageItem = new KPageWidgetItem(page, name);
+    m_pageItem->setHeader(header);
+    m_pageItem->setIcon(Icon_Utils::DesktopIcon(icon));
+    addPage(m_pageItem);
+    //page->setMinimumSize(310, 330);
     return page;
 }
 
@@ -56,7 +56,7 @@ KPageWidgetItem *DialogBase::setupFontPage(UMLWidget *widget)
 {
     QFrame* page = createPage(i18n("Font"), i18n("Font Settings"), Icon_Utils::it_Properties_Font);
     QHBoxLayout * m_pStyleLayout = new QHBoxLayout(page);
-    m_fontChooser = new KFontChooser( (QWidget*)page, KFontChooser::NoDisplayFlags, QStringList(), 0);
+    m_fontChooser = new KFontChooser((QWidget*)page, KFontChooser::NoDisplayFlags, QStringList(), 0);
     m_fontChooser->setFont(widget->font());
     m_pStyleLayout->addWidget(m_fontChooser);
     return m_pageItem;
@@ -68,7 +68,7 @@ KPageWidgetItem *DialogBase::setupFontPage(UMLWidget *widget)
  */
 void DialogBase::saveFontPageData(UMLWidget *widget)
 {
-    widget->setFont( m_fontChooser->font() );
+    widget->setFont(m_fontChooser->font());
 }
 
 /**

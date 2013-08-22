@@ -65,13 +65,13 @@ void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt);
 
 int main(int argc, char *argv[])
 {
-    KAboutData aboutData( "umbrello", 0, ki18n("Umbrello UML Modeller"),
+    KAboutData aboutData("umbrello", 0, ki18n("Umbrello UML Modeller"),
                           umbrelloVersion(), ki18n(description), KAboutData::License_GPL,
                           ki18n("(c) 2001 Paul Hensgen, (c) 2002-2013 Umbrello UML Modeller Authors"), KLocalizedString(),
                           "http://umbrello.kde.org/");
     aboutData.addAuthor(ki18n("Paul Hensgen"),KLocalizedString(), "phensgen@users.sourceforge.net");
     aboutData.addAuthor(ki18n("Umbrello UML Modeller Authors"), KLocalizedString(), "umbrello-devel@kde.org");
-    KCmdLineArgs::init( argc, argv, &aboutData );
+    KCmdLineArgs::init(argc, argv, &aboutData);
 
     KCmdLineOptions options;
     options.add("+[File]", ki18n("File to open"));
@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
     options.add("export-formats", ki18n("list available export extensions"));
     options.add("directory <url>", ki18n("the local directory to save the exported diagrams in"), I18N_NOOP("the directory of the file"));
     options.add("use-folders", ki18n("keep the tree structure used to store the views in the document in the target directory"));
-    KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
+    KCmdLineArgs::addCmdLineOptions(options); // Add our own options.
 
     // NOTE: for deprecated net.sf.umbrello dbus service name
     // aboutData.setOrganizationDomain("sf.net");
@@ -123,13 +123,13 @@ bool getShowGUI(KCmdLineArgs *args)
 
 void initDocument(KCmdLineArgs *args)
 {
-    if ( args->count() ) {
-        UMLApp::app()->openDocumentFile( args->url( 0 ) );
+    if (args->count()) {
+        UMLApp::app()->openDocumentFile(args->url(0));
     } else {
         bool last = UmbrelloSettings::loadlast();
         QString file = UmbrelloSettings::lastFile();
-        if( last && !file.isEmpty() ) {
-            UMLApp::app()->openDocumentFile( KUrl( file ) );
+        if(last && !file.isEmpty()) {
+            UMLApp::app()->openDocumentFile(KUrl(file));
         } else {
             UMLApp::app()->newDocument();
         }

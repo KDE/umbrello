@@ -35,13 +35,13 @@
 // qt includes
 #include <QRegExp>
 
-JavaClassifierCodeDocument::JavaClassifierCodeDocument ( UMLClassifier * concept )
+JavaClassifierCodeDocument::JavaClassifierCodeDocument (UMLClassifier * concept)
         : ClassifierCodeDocument (concept)
 {
     init();
 }
 
-JavaClassifierCodeDocument::~JavaClassifierCodeDocument ( )
+JavaClassifierCodeDocument::~JavaClassifierCodeDocument ()
 {
 }
 
@@ -58,7 +58,7 @@ JavaCodeGenerationPolicy * JavaClassifierCodeDocument::getJavaPolicy()
 // * @return      CodeDocumentDialog
 // */
 /*
-CodeDocumentDialog JavaClassifierCodeDocument::getDialog ( )
+CodeDocumentDialog JavaClassifierCodeDocument::getDialog ()
 {
 }
 */
@@ -69,7 +69,7 @@ bool JavaClassifierCodeDocument::forceDoc ()
 }
 
 // We overwritten by Java language implementation to get lowercase path
-QString JavaClassifierCodeDocument::getPath ( )
+QString JavaClassifierCodeDocument::getPath ()
 {
     QString path = getPackage();
 
@@ -93,7 +93,7 @@ QString JavaClassifierCodeDocument::getJavaClassName (const QString &name)
 }
 
 // Initialize this java classifier code document
-void JavaClassifierCodeDocument::init ( )
+void JavaClassifierCodeDocument::init ()
 {
     setFileExtension(".java");
 
@@ -114,7 +114,7 @@ void JavaClassifierCodeDocument::init ( )
  */
 // in the vannilla version, we just tack all operations on the end
 // of the document
-bool JavaClassifierCodeDocument::addCodeOperation (CodeOperation * op )
+bool JavaClassifierCodeDocument::addCodeOperation (CodeOperation * op)
 {
     if(!op->getParentOperation()->isLifeOperation())
         return operationsBlock->addTextBlock(op);
@@ -127,15 +127,15 @@ bool JavaClassifierCodeDocument::addCodeOperation (CodeOperation * op )
 // would be better if we could create a handler interface that each
 // codeblock used so all we have to do here is add the handler
 // for "javaclassdeclarationblock"
-void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
+void JavaClassifierCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
 {
     QDomNode tnode = root.firstChild();
     QDomElement telement = tnode.toElement();
     bool loadCheckForChildrenOK = false;
-    while( !telement.isNull() ) {
+    while(!telement.isNull()) {
         QString nodeName = telement.tagName();
 
-        if( nodeName == "textblocks" ) {
+        if(nodeName == "textblocks") {
 
             QDomNode node = telement.firstChild();
             QDomElement element = node.toElement();
@@ -143,10 +143,10 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
             // if there is nothing to begin with, then we don't worry about it
             loadCheckForChildrenOK = element.isNull() ? true : false;
 
-            while( !element.isNull() ) {
+            while(!element.isNull()) {
                 QString name = element.tagName();
 
-                if( name == "codecomment" ) {
+                if(name == "codecomment") {
                     CodeComment * block = new JavaCodeComment(this);
                     block->loadFromXMI(element);
                     if(!addTextBlock(block))
@@ -156,9 +156,9 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                     } else
                         loadCheckForChildrenOK= true;
                 } else
-                    if( name == "codeaccessormethod" ||
+                    if(name == "codeaccessormethod" ||
                             name == "ccfdeclarationcodeblock"
-                      ) {
+                     ) {
                         QString acctag = element.attribute("tag","");
                         // search for our method in the
                         TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
@@ -170,7 +170,7 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                             loadCheckForChildrenOK= true;
 
                     } else
-                        if( name == "codeblock" ) {
+                        if(name == "codeblock") {
                             CodeBlock * block = newCodeBlock();
                             block->loadFromXMI(element);
                             if(!addTextBlock(block))
@@ -180,7 +180,7 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                             } else
                                 loadCheckForChildrenOK= true;
                         } else
-                            if( name == "codeblockwithcomments" ) {
+                            if(name == "codeblockwithcomments") {
                                 CodeBlockWithComments * block = newCodeBlockWithComments();
                                 block->loadFromXMI(element);
                                 if(!addTextBlock(block))
@@ -190,10 +190,10 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                 } else
                                     loadCheckForChildrenOK= true;
                             } else
-                                if( name == "header" ) {
+                                if(name == "header") {
                                     // do nothing.. this is treated elsewhere
                                 } else
-                                    if( name == "hierarchicalcodeblock" ) {
+                                    if(name == "hierarchicalcodeblock") {
                                         HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
                                         block->loadFromXMI(element);
                                         if(!addTextBlock(block))
@@ -203,7 +203,7 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                         } else
                                             loadCheckForChildrenOK= true;
                                     } else
-                                        if( name == "codeoperation" ) {
+                                        if(name == "codeoperation") {
                                             // find the code operation by id
                                             QString id = element.attribute("parent_id","-1");
                                             UMLObject * obj = UMLApp::app()->document()->findObjectById(Uml::ID::fromString(id));
@@ -221,7 +221,7 @@ void JavaClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                             } else
                                                 uError()<<"Unable to find operation create codeoperation for:"<<this;
                                         } else
-                                            if( name == "javaclassdeclarationblock" )
+                                            if(name == "javaclassdeclarationblock")
                                             {
                                                 JavaClassDeclarationBlock * block = getClassDecl();
                                                 block->loadFromXMI(element);
@@ -293,7 +293,7 @@ void JavaClassifierCodeDocument::resetTextBlocks()
 // such, we will want to insert everything we resonablely will want
 // during creation. We can set various parts of the document (esp. the
 // comments) to appear or not, as needed.
-void JavaClassifierCodeDocument::updateContent( )
+void JavaClassifierCodeDocument::updateContent()
 {
     // Gather info on the various fields and parent objects of this class...
     UMLClassifier * c = getParentClassifier();
@@ -306,7 +306,7 @@ void JavaClassifierCodeDocument::updateContent( )
     const CodeClassFieldList * cfList = getCodeClassFieldList();
     CodeClassFieldList::const_iterator it = cfList->begin();
     CodeClassFieldList::const_iterator end = cfList->end();
-    for( ; it != end; ++it ) {
+    for(; it != end; ++it) {
         CodeClassField * field = *it;
         if(field->parentIsAttribute())
             field->setWriteOutMethods(policy->getAutoGenerateAttribAccessors());
@@ -320,9 +320,9 @@ void JavaClassifierCodeDocument::updateContent( )
     CodeClassFieldList attribClassFields = getSpecificClassFields (CodeClassField::Attribute, false);
     // association-based ClassFields
     // don't care if they are static or not..all are lumped together
-    CodeClassFieldList plainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation );
-    CodeClassFieldList aggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation );
-    CodeClassFieldList compositionClassFields = getSpecificClassFields ( CodeClassField::Composition );
+    CodeClassFieldList plainAssocClassFields = getSpecificClassFields (CodeClassField::PlainAssociation);
+    CodeClassFieldList aggregationClassFields = getSpecificClassFields (CodeClassField::Aggregation);
+    CodeClassFieldList compositionClassFields = getSpecificClassFields (CodeClassField::Composition);
 
     bool isInterface = parentIsInterface();
     bool hasOperationMethods = false;
@@ -355,7 +355,7 @@ void JavaClassifierCodeDocument::updateContent( )
     // A: doesn't matter at all; it is more readable to just include '*' and java compilers
     //    don't slow down or anything. (TZ)
     QString importStatement = "";
-    if ( hasObjectVectorClassFields() )
+    if (hasObjectVectorClassFields())
         importStatement.append("import java.util.*;");
 
     //only import classes in a different package from this class
@@ -363,7 +363,7 @@ void JavaClassifierCodeDocument::updateContent( )
     QMap<UMLPackage*, QString> packageMap; // so we don't repeat packages
 
     CodeGenerator::findObjectsRelated(c,imports);
-    UMLPackageListIt importsIt( imports );
+    UMLPackageListIt importsIt(imports);
     while(importsIt.hasNext()) {
         UMLPackage* con = importsIt.next();
         // NO (default) datatypes in the import statement.. use defined
@@ -455,7 +455,7 @@ void JavaClassifierCodeDocument::updateContent( )
 
     // Update the comment: we only set comment to appear under the following conditions
     CodeComment * fcomment = fieldDeclBlock->getComment();
-    if (isInterface || (!forceDoc() && !hasClassFields()) )
+    if (isInterface || (!forceDoc() && !hasClassFields()))
         fcomment->setWriteOutText(false);
     else
         fcomment->setWriteOutText(true);
@@ -500,7 +500,7 @@ void JavaClassifierCodeDocument::updateContent( )
 
     // add/get the empty constructor
     QString JavaClassName = getJavaClassName(c->name());
-    QString emptyConstStatement = "public "+JavaClassName+" ( ) { }";
+    QString emptyConstStatement = "public "+JavaClassName+" () { }";
     CodeBlockWithComments * emptyConstBlock =
         constBlock->addOrUpdateTaggedCodeBlockWithComments("emptyconstructor", emptyConstStatement, "Empty Constructor", 1, false);
     // Now, as an additional condition we only show the empty constructor block
@@ -545,7 +545,7 @@ void JavaClassifierCodeDocument::updateContent( )
 
     // set conditions for showing section comment
     CodeComment * ocomment = operationsBlock->getComment();
-    if (!forceDoc() && !hasOperationMethods )
+    if (!forceDoc() && !hasOperationMethods)
         ocomment->setWriteOutText(false);
     else
         ocomment->setWriteOutText(true);

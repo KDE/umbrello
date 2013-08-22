@@ -82,10 +82,10 @@ void AssocRolePage::constructWidget()
     // group boxes for role, documentation properties
     QGroupBox *propsAGB = new QGroupBox(this);
     QGroupBox *propsBGB = new QGroupBox(this);
-    QGroupBox *scopeABG = new QGroupBox(i18n("Role A Visibility"), this );
-    QGroupBox *scopeBBG = new QGroupBox(i18n("Role B Visibility"), this );
-    QGroupBox *changeABG = new QGroupBox(i18n("Role A Changeability"), this );
-    QGroupBox *changeBBG = new QGroupBox(i18n("Role B Changeability"), this );
+    QGroupBox *scopeABG = new QGroupBox(i18n("Role A Visibility"), this);
+    QGroupBox *scopeBBG = new QGroupBox(i18n("Role B Visibility"), this);
+    QGroupBox *changeABG = new QGroupBox(i18n("Role A Changeability"), this);
+    QGroupBox *changeBBG = new QGroupBox(i18n("Role B Changeability"), this);
     QGroupBox *docAGB = new QGroupBox(this);
     QGroupBox *docBGB = new QGroupBox(this);
     propsAGB->setTitle(titleA);
@@ -109,24 +109,24 @@ void AssocRolePage::constructWidget()
 
     // Rolename A
     QLabel *pRoleAL = NULL;
-    Dialog_Utils::makeLabeledEditField( propsAGB, propsALayout, 0,
+    Dialog_Utils::makeLabeledEditField(propsAGB, propsALayout, 0,
                                     pRoleAL, i18n("Rolename:"),
-                                    m_pRoleALE, nameA );
+                                    m_pRoleALE, nameA);
 
     // Multi A
     QLabel *pMultiAL = NULL;
-    pMultiAL = new QLabel( i18n( "Multiplicity:" ), propsAGB );
+    pMultiAL = new QLabel(i18n("Multiplicity:"), propsAGB);
     m_pMultiACB = new KComboBox(propsAGB);
-    m_pMultiACB->addItems( multiplicities );
+    m_pMultiACB->addItems(multiplicities);
     m_pMultiACB->setDuplicatesEnabled(false);
     m_pMultiACB->setEditable(true);
 
-    QString multiA =  m_pAssociationWidget->multiplicity(Uml::RoleType::A );
-    if ( !multiA.isEmpty() )
+    QString multiA =  m_pAssociationWidget->multiplicity(Uml::RoleType::A);
+    if (!multiA.isEmpty())
         m_pMultiACB->setEditText(multiA);
 
-    propsALayout->addWidget(pMultiAL, 1, 0 );
-    propsALayout->addWidget(m_pMultiACB, 1, 1 );
+    propsALayout->addWidget(pMultiAL, 1, 0);
+    propsALayout->addWidget(m_pMultiACB, 1, 1);
 
     // Visibility A
     QHBoxLayout * scopeALayout = new QHBoxLayout(scopeABG);
@@ -146,16 +146,16 @@ void AssocRolePage::constructWidget()
 
     switch (m_pAssociationWidget->visibility(Uml::RoleType::A)) {
     case Uml::Visibility::Public:
-        m_PublicARB->setChecked( true );
+        m_PublicARB->setChecked(true);
         break;
     case Uml::Visibility::Private:
-        m_PrivateARB->setChecked( true );
+        m_PrivateARB->setChecked(true);
         break;
     case Uml::Visibility::Implementation:
-        m_PrivateARB->setChecked( true );
+        m_PrivateARB->setChecked(true);
         break;
     default:
-        m_ProtectedARB->setChecked( true );
+        m_ProtectedARB->setChecked(true);
         break;
     }
 
@@ -174,36 +174,36 @@ void AssocRolePage::constructWidget()
 
     switch (m_pAssociationWidget->changeability(Uml::RoleType::A)) {
     case Uml::Changeability::Changeable:
-        m_ChangeableARB->setChecked( true );
+        m_ChangeableARB->setChecked(true);
         break;
     case Uml::Changeability::Frozen:
-        m_FrozenARB->setChecked( true );
+        m_FrozenARB->setChecked(true);
         break;
     default:
-        m_AddOnlyARB->setChecked( true );
+        m_AddOnlyARB->setChecked(true);
         break;
     }
 
     // Rolename B
     QLabel * pRoleBL = NULL;
-    Dialog_Utils::makeLabeledEditField( propsBGB, propsBLayout, 0,
+    Dialog_Utils::makeLabeledEditField(propsBGB, propsBLayout, 0,
                                     pRoleBL, i18n("Rolename:"),
-                                    m_pRoleBLE, nameB );
+                                    m_pRoleBLE, nameB);
 
     // Multi B
     QLabel *pMultiBL = NULL;
-    pMultiBL = new QLabel( i18n( "Multiplicity:" ), propsBGB );
+    pMultiBL = new QLabel(i18n("Multiplicity:"), propsBGB);
     m_pMultiBCB = new KComboBox(propsBGB);
-    m_pMultiBCB->addItems( multiplicities );
+    m_pMultiBCB->addItems(multiplicities);
     m_pMultiBCB->setDuplicatesEnabled(false);
     m_pMultiBCB->setEditable(true);
 
-    QString multiB =  m_pAssociationWidget->multiplicity(Uml::RoleType::B );
-    if ( !multiB.isEmpty() )
+    QString multiB =  m_pAssociationWidget->multiplicity(Uml::RoleType::B);
+    if (!multiB.isEmpty())
         m_pMultiBCB->setEditText(multiB);
 
-    propsBLayout->addWidget(pMultiBL, 1, 0 );
-    propsBLayout->addWidget(m_pMultiBCB, 1, 1 );
+    propsBLayout->addWidget(pMultiBL, 1, 0);
+    propsBLayout->addWidget(m_pMultiBCB, 1, 1);
 
     // Visibility B
     QHBoxLayout * scopeBLayout = new QHBoxLayout(scopeBBG);
@@ -223,16 +223,16 @@ void AssocRolePage::constructWidget()
 
     switch (m_pAssociationWidget->visibility(Uml::RoleType::B)) {
     case Uml::Visibility::Public:
-        m_PublicBRB->setChecked( true );
+        m_PublicBRB->setChecked(true);
         break;
     case Uml::Visibility::Private:
-        m_PrivateBRB->setChecked( true );
+        m_PrivateBRB->setChecked(true);
         break;
     case Uml::Visibility::Protected:
-          m_ProtectedBRB->setChecked( true );
+          m_ProtectedBRB->setChecked(true);
         break;
     default:
-        m_ImplementationBRB->setChecked( true );
+        m_ImplementationBRB->setChecked(true);
         break;
     }
 
@@ -251,13 +251,13 @@ void AssocRolePage::constructWidget()
 
     switch (m_pAssociationWidget->changeability(Uml::RoleType::B)) {
     case Uml::Changeability::Changeable:
-        m_ChangeableBRB->setChecked( true );
+        m_ChangeableBRB->setChecked(true);
         break;
     case Uml::Changeability::Frozen:
-        m_FrozenBRB->setChecked( true );
+        m_FrozenBRB->setChecked(true);
         break;
     default:
-        m_AddOnlyBRB->setChecked( true );
+        m_AddOnlyBRB->setChecked(true);
         break;
     }
 
@@ -284,14 +284,14 @@ void AssocRolePage::constructWidget()
     m_docB->setLineWrapMode(QTextEdit::WidgetWidth);
 
     // add group boxes to main layout
-    mainLayout->addWidget( propsAGB, 0, 0);
-    mainLayout->addWidget( scopeABG, 1, 0);
+    mainLayout->addWidget(propsAGB, 0, 0);
+    mainLayout->addWidget(scopeABG, 1, 0);
     mainLayout->addWidget(changeABG, 2, 0);
-    mainLayout->addWidget(   docAGB, 3, 0);
-    mainLayout->addWidget( propsBGB, 0, 1);
-    mainLayout->addWidget( scopeBBG, 1, 1);
+    mainLayout->addWidget(  docAGB, 3, 0);
+    mainLayout->addWidget(propsBGB, 0, 1);
+    mainLayout->addWidget(scopeBBG, 1, 1);
     mainLayout->addWidget(changeBBG, 2, 1);
-    mainLayout->addWidget(   docBGB, 3, 1);
+    mainLayout->addWidget(  docBGB, 3, 1);
 }
 
 /**

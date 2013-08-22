@@ -16,32 +16,32 @@
 #include "uml.h"
 
 RubyClassDeclarationBlock::RubyClassDeclarationBlock
- ( RubyClassifierCodeDocument * parentDoc, const QString &startText, const QString &endText, const QString &comment)
+ (RubyClassifierCodeDocument * parentDoc, const QString &startText, const QString &endText, const QString &comment)
         : OwnedHierarchicalCodeBlock(parentDoc->getParentClassifier(), parentDoc, startText, endText, comment)
 {
     init(parentDoc, comment);
 }
 
-RubyClassDeclarationBlock::~RubyClassDeclarationBlock ( )
+RubyClassDeclarationBlock::~RubyClassDeclarationBlock ()
 {
 }
 
 /**
  * Save the XMI representation of this object
  */
-void RubyClassDeclarationBlock::saveToXMI ( QDomDocument & doc, QDomElement & root )
+void RubyClassDeclarationBlock::saveToXMI (QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement( "rubyclassdeclarationblock" );
+    QDomElement blockElement = doc.createElement("rubyclassdeclarationblock");
 
     setAttributesOnNode(doc, blockElement);
 
-    root.appendChild( blockElement );
+    root.appendChild(blockElement);
 }
 
 /**
  * load params from the appropriate XMI element node.
  */
-void RubyClassDeclarationBlock::loadFromXMI ( QDomElement & root )
+void RubyClassDeclarationBlock::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -49,7 +49,7 @@ void RubyClassDeclarationBlock::loadFromXMI ( QDomElement & root )
 /**
  * update the start and end text for this ownedhierarchicalcodeblock.
  */
-void RubyClassDeclarationBlock::updateContent ( )
+void RubyClassDeclarationBlock::updateContent ()
 {
     RubyClassifierCodeDocument *parentDoc = dynamic_cast<RubyClassifierCodeDocument*>(getParentDocument());
     UMLClassifier *c = parentDoc->getParentClassifier();
@@ -92,7 +92,7 @@ void RubyClassDeclarationBlock::updateContent ( )
     startText.append(RubyClassName);
 
     int i = 0;
-    foreach (UMLClassifier* concept, superclasses ) {
+    foreach (UMLClassifier* concept, superclasses) {
         if (i == 0) {
             startText.append(QString(" < ") + RubyCodeGenerator::cppToRubyType(concept->name()) + endLine);
         } else {
@@ -104,7 +104,7 @@ void RubyClassDeclarationBlock::updateContent ( )
     }
 
     // Write out the interfaces we 'implement'. Are these modules to be mixed in, in Ruby?
-    foreach (UMLClassifier* concept, superinterfaces ) {
+    foreach (UMLClassifier* concept, superinterfaces) {
         startText.append(QString("include ") + RubyCodeGenerator::cppToRubyType(concept->name()) + endLine);
     }
 

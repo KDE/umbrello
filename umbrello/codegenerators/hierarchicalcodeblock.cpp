@@ -40,7 +40,7 @@ HierarchicalCodeBlock::~HierarchicalCodeBlock()
  * Set the value of m_endText
  * @param new_var the new value of m_endText
  */
-void HierarchicalCodeBlock::setEndText ( const QString &new_var )
+void HierarchicalCodeBlock::setEndText (const QString &new_var)
 {
     m_endText = new_var;
 }
@@ -49,7 +49,7 @@ void HierarchicalCodeBlock::setEndText ( const QString &new_var )
  * Get the value of m_endText
  * @return the value of m_endText
  */
-QString HierarchicalCodeBlock::getEndText ( ) const
+QString HierarchicalCodeBlock::getEndText () const
 {
     return m_endText;
 }
@@ -65,7 +65,7 @@ QString HierarchicalCodeBlock::getUniqueTag()
 /**
  * return a unique, and currently unallocated, text block tag for this hblock
  */
-QString HierarchicalCodeBlock::getUniqueTag( const QString& prefix )
+QString HierarchicalCodeBlock::getUniqueTag(const QString& prefix)
 {
     return getParentDocument()->getUniqueTag(prefix);
 }
@@ -90,7 +90,7 @@ HierarchicalCodeBlock * HierarchicalCodeBlock::newHierarchicalCodeBlock()
 /**
  * Add a TextBlock object to the m_textblockVector List
  */
-bool HierarchicalCodeBlock::addTextBlock(TextBlock* add_object )
+bool HierarchicalCodeBlock::addTextBlock(TextBlock* add_object)
 {
     if (CodeGenObjectWithTextBlocks::addTextBlock(add_object))
     {
@@ -166,7 +166,7 @@ bool HierarchicalCodeBlock::insertTextBlock(TextBlock * newBlock, TextBlock * ex
  * Remove a TextBlock object from m_textblockVector List
  * returns boolean - true if successful
  */
-bool HierarchicalCodeBlock::removeTextBlock ( TextBlock * remove_object )
+bool HierarchicalCodeBlock::removeTextBlock (TextBlock * remove_object)
 {
     // try to remove from the list in this object
     int indx = m_textblockVector.indexOf(remove_object);
@@ -196,7 +196,7 @@ bool HierarchicalCodeBlock::removeTextBlock ( TextBlock * remove_object )
 /**
  * @param   text
  */
-void HierarchicalCodeBlock::setStartText ( const QString &text )
+void HierarchicalCodeBlock::setStartText (const QString &text)
 {
     m_startText = text;
 }
@@ -204,7 +204,7 @@ void HierarchicalCodeBlock::setStartText ( const QString &text )
 /**
  * @return  QString
  */
-QString HierarchicalCodeBlock::getStartText ( ) const
+QString HierarchicalCodeBlock::getStartText () const
 {
     return m_startText;
 }
@@ -212,15 +212,15 @@ QString HierarchicalCodeBlock::getStartText ( ) const
 /**
  * Utility method to add accessormethods in this object
  */
-void HierarchicalCodeBlock::addCodeClassFieldMethods(CodeClassFieldList &list )
+void HierarchicalCodeBlock::addCodeClassFieldMethods(CodeClassFieldList &list)
 {
     CodeClassFieldList::Iterator it = list.begin();
     CodeClassFieldList::Iterator end = list.end();
-    for ( ; it != end; ++it )
+    for (; it != end; ++it)
     {
         CodeClassField * field = *it;
         CodeAccessorMethodList list = field->getMethodList();
-        Q_FOREACH( CodeAccessorMethod *method, list )
+        Q_FOREACH(CodeAccessorMethod *method, list)
         {
             QString tag = method->getTag();
             if (tag.isEmpty())
@@ -237,18 +237,18 @@ void HierarchicalCodeBlock::addCodeClassFieldMethods(CodeClassFieldList &list )
 /**
  * Save the XMI representation of this object
  */
-void HierarchicalCodeBlock::saveToXMI ( QDomDocument & doc, QDomElement & root )
+void HierarchicalCodeBlock::saveToXMI (QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement( "hierarchicalcodeblock" );
+    QDomElement blockElement = doc.createElement("hierarchicalcodeblock");
     setAttributesOnNode(doc, blockElement);
-    root.appendChild( blockElement );
+    root.appendChild(blockElement);
 }
 
 /**
  * set attributes of the node that represents this class
  * in the XMI document.
  */
-void HierarchicalCodeBlock::setAttributesOnNode (QDomDocument & doc, QDomElement & elem )
+void HierarchicalCodeBlock::setAttributesOnNode (QDomDocument & doc, QDomElement & elem)
 {
     // set super-class attributes
     CodeBlockWithComments::setAttributesOnNode(doc, elem);
@@ -266,7 +266,7 @@ void HierarchicalCodeBlock::setAttributesOnNode (QDomDocument & doc, QDomElement
 /**
  * load params from the appropriate XMI element node.
  */
-void HierarchicalCodeBlock::loadFromXMI ( QDomElement & root )
+void HierarchicalCodeBlock::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -275,7 +275,7 @@ void HierarchicalCodeBlock::loadFromXMI ( QDomElement & root )
  * set the class attributes of this object from
  * the passed element node.
  */
-void HierarchicalCodeBlock::setAttributesFromNode ( QDomElement & root)
+void HierarchicalCodeBlock::setAttributesFromNode (QDomElement & root)
 {
     // set attributes from the XMI
     CodeBlockWithComments::setAttributesFromNode(root); // superclass load
@@ -359,7 +359,7 @@ QString  HierarchicalCodeBlock::childTextBlocksToString() const
 /**
  * look for specific text blocks which belong to code classfields
  */
-TextBlock * HierarchicalCodeBlock::findCodeClassFieldTextBlockByTag ( const QString &tag )
+TextBlock * HierarchicalCodeBlock::findCodeClassFieldTextBlockByTag (const QString &tag)
 {
     ClassifierCodeDocument * cdoc = dynamic_cast<ClassifierCodeDocument*>(getParentDocument());
     if(cdoc)

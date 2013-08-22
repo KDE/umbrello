@@ -28,7 +28,7 @@ class UMLCheckConstraint : public UMLEntityConstraint
 public:
 
     UMLCheckConstraint(UMLObject *parent, const QString& name,
-                       Uml::ID::Type id = Uml::ID::None );
+                       Uml::ID::Type id = Uml::ID::None);
     explicit UMLCheckConstraint(UMLObject *parent);
 
     bool operator==(const UMLCheckConstraint &rhs) const;

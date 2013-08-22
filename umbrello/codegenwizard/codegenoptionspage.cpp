@@ -60,7 +60,7 @@ CodeGenOptionsPage::CodeGenOptionsPage(QWidget *parent)
 
     connect(this, SIGNAL(syncCodeDocumentsToParent()), gen, SLOT(syncCodeToDocument()));
     connect(this, SIGNAL(languageChanged()), this, SLOT(updateCodeGenerationPolicyTab()));
-    connect(this, SIGNAL(languageChanged()), this, SLOT(changeLanguage()) );
+    connect(this, SIGNAL(languageChanged()), this, SLOT(changeLanguage()));
 
     connect(ui_browseOutput, SIGNAL(clicked()), this, SLOT(browseClicked()));
     connect(ui_browseHeadings, SIGNAL(clicked()), this, SLOT(browseClicked()));
@@ -193,7 +193,7 @@ void CodeGenOptionsPage::updateCodeGenerationPolicyTab()
         m_pCodePolicyPage = new DefaultCodeGenPolicyPage(0 , "codelangpolicypage");
     }
 
-    ui_tabWidgetMain->insertTab(2, m_pCodePolicyPage, i18n("Language Options" ) );
+    ui_tabWidgetMain->insertTab(2, m_pCodePolicyPage, i18n("Language Options"));
 
     connect(this, SIGNAL(applyClicked()), m_pCodePolicyPage, SLOT(apply()));
 }

@@ -48,10 +48,10 @@ UMLEnumLiteral::~UMLEnumLiteral()
  */
 bool UMLEnumLiteral::operator==(const UMLEnumLiteral& rhs) const
 {
-    if ( this == &rhs )  {
+    if (this == &rhs)  {
         return true;
     }
-    if ( !UMLObject::operator==( rhs ) )  {
+    if (!UMLObject::operator==(rhs))  {
         return false;
     }
     return true;
@@ -83,7 +83,7 @@ UMLObject* UMLEnumLiteral::clone() const
 void UMLEnumLiteral::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement attributeElement = UMLObject::save("UML:EnumerationLiteral", qDoc);
-    qElement.appendChild( attributeElement );
+    qElement.appendChild(attributeElement);
 }
 
 /**
@@ -102,7 +102,7 @@ bool UMLEnumLiteral::showPropertiesDialog(QWidget* parent)
 {
     bool ok;
     QString enumName = KInputDialog::getText(i18nc("enum name", "Name"), i18n("Enter name:"), name(), &ok, parent);
-    if ( ok && !enumName.isEmpty() )  {
+    if (ok && !enumName.isEmpty())  {
         setName(enumName);
         return true;
     } else {

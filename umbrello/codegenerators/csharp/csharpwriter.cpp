@@ -198,7 +198,7 @@ void CSharpWriter::writeClass(UMLClassifier *c)
     //m_seenIncludes.append(logicalView);
     if (includes.count()) {
 
-        foreach ( UMLPackage* p , includes ) {
+        foreach (UMLPackage* p , includes) {
             UMLClassifier *cl = dynamic_cast<UMLClassifier*>(p);
             if (cl)
                 p = cl->umlPackage();
@@ -222,7 +222,7 @@ void CSharpWriter::writeClass(UMLClassifier *c)
     //Write class Documentation if there is somthing or if force option
     if (forceDoc() || !c->doc().isEmpty()) {
         cs << m_container_indent << "/// <summary>" << m_endl;
-        cs << formatDoc(c->doc(), m_container_indent + "/// " );
+        cs << formatDoc(c->doc(), m_container_indent + "/// ");
         cs << m_container_indent << "/// </summary>" << m_endl ;
     }
 
@@ -248,7 +248,7 @@ void CSharpWriter::writeClass(UMLClassifier *c)
         // write baseclass, ignore interfaces, write error on multiple inheritance
         if (superclasses.count() > 0) {
             int supers = 0;
-            foreach (UMLClassifier* obj, superclasses ) {
+            foreach (UMLClassifier* obj, superclasses) {
                 if (!obj->isInterface()) {
                     if (supers > 0) {
                         cs << " // AND ";
@@ -265,7 +265,7 @@ void CSharpWriter::writeClass(UMLClassifier *c)
         UMLAssociationList realizations = c->getRealizations();
 
         if (!realizations.isEmpty()) {
-            foreach (UMLAssociation* a , realizations ) {
+            foreach (UMLAssociation* a , realizations) {
                 UMLClassifier *real = (UMLClassifier*)a->getObject(Uml::RoleType::B);
                 if(real != c) {
                     // write list of realizations
@@ -331,7 +331,7 @@ void CSharpWriter::writeOperations(UMLClassifier *c, QTextStream &cs)
 
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList opl(c->getOpList());
-    foreach (UMLOperation* op,  opl ) {
+    foreach (UMLOperation* op,  opl) {
         switch (op->visibility()) {
           case Uml::Visibility::Public:
             oppub.append(op);
@@ -395,11 +395,11 @@ void CSharpWriter::writeOverridesRecursive(UMLClassifierList *superclasses, QTex
     // oplist for implemented abstract operations
     UMLOperationList opabstract;
 
-    foreach (UMLClassifier* obj, *superclasses ) {
+    foreach (UMLClassifier* obj, *superclasses) {
         if (!obj->isInterface() && obj->hasAbstractOps()) {
             // collect abstract ops
             UMLOperationList opl(obj->getOpList());
-            foreach (UMLOperation* op, opl ) {
+            foreach (UMLOperation* op, opl) {
                 if (op->isAbstract()) {
                     opabstract.append(op);
                 }
@@ -429,7 +429,7 @@ void CSharpWriter::writeOverridesRecursive(UMLClassifierList *superclasses, QTex
  */
 void CSharpWriter::writeRealizationsRecursive(UMLClassifier *currentClass, UMLAssociationList *realizations, QTextStream &cs)
 {
-    for (UMLAssociationListIt alit(*realizations); alit.hasNext(); ) {
+    for (UMLAssociationListIt alit(*realizations); alit.hasNext();) {
         UMLAssociation *a = alit.next();
 
         // we know it is a classifier if it is in the list
@@ -468,13 +468,13 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
                                  bool isOverride /* = false */,
                                  bool generateErrorStub /* = false */)
 {
-    foreach (UMLOperation* op, opList ) {
+    foreach (UMLOperation* op, opList) {
         UMLAttributeList atl = op->getParmList();
 
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->doc().isEmpty();
 
-        foreach ( UMLAttribute* at, atl ) {
+        foreach (UMLAttribute* at, atl) {
             writeDoc |= !at->doc().isEmpty();
         }
 
@@ -486,7 +486,7 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
             cs << m_container_indent << m_indentation << "/// </summary>" << m_endl;
 
             //write parameter documentation
-            foreach ( UMLAttribute* at, atl ) {
+            foreach (UMLAttribute* at, atl) {
                 if (forceDoc() || !at->doc().isEmpty()) {
                     cs << m_container_indent << m_indentation << "/// <param name=\"" << cleanName(at->name()) << "\">";
                     //removing newlines from parameter doc
@@ -535,7 +535,7 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
         // method parameters
         int i= atl.count();
         int j=0;
-        for (UMLAttributeListIt atlIt( atl ); atlIt.hasNext(); ++j) {
+        for (UMLAttributeListIt atlIt(atl); atlIt.hasNext(); ++j) {
             UMLAttribute* at = atlIt.next();
             cs << makeLocalTypeName(at) << " " << cleanName(at->name());
 
@@ -582,7 +582,7 @@ void CSharpWriter::writeAttributes(UMLClassifier *c, QTextStream &cs)
     //sort attributes by scope and see if they have a default value
     UMLAttributeList atl = c->getAttributeList();
 
-    foreach ( UMLAttribute* at, atl ) {
+    foreach (UMLAttribute* at, atl) {
         if (!at->getInitialValue().isEmpty())
             atdefval.append(at);
         switch (at->visibility()) {
@@ -630,7 +630,7 @@ void CSharpWriter::writeAttributes(UMLClassifier *c, QTextStream &cs)
  */
 void CSharpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &cs)
 {
-    foreach (UMLAttribute* at, atList ) {
+    foreach (UMLAttribute* at, atList) {
 
         bool asProperty = true;
         if (at->visibility() == Uml::Visibility::Private) {
@@ -652,7 +652,7 @@ void CSharpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &cs)
  */
 void CSharpWriter::writeAssociatedAttributes(UMLAssociationList &associated, UMLClassifier *c, QTextStream &cs)
 {
-    foreach (UMLAssociation *a,  associated ) {
+    foreach (UMLAssociation *a,  associated) {
         if (c != a->getObject(Uml::RoleType::A))  // we need to be at the A side
             continue;
 
@@ -672,11 +672,11 @@ void CSharpWriter::writeAssociatedAttributes(UMLAssociationList &associated, UML
         //FIXME:is this simple condition enough?
         if (a->getMultiplicity(Uml::RoleType::B).isEmpty() || a->getMultiplicity(Uml::RoleType::B) == "1")  {
             // normal attribute
-            writeAttribute(roleDoc, a->visibility(Uml::RoleType::B), false, typeName, roleName, "", ( a->visibility(Uml::RoleType::B) != Uml::Visibility::Private), cs);
+            writeAttribute(roleDoc, a->visibility(Uml::RoleType::B), false, typeName, roleName, "", (a->visibility(Uml::RoleType::B) != Uml::Visibility::Private), cs);
         } else {
             // array
             roleDoc += "\n(Array of " + typeName + ')';
-            writeAttribute(roleDoc, a->visibility(Uml::RoleType::B), false, "ArrayList", roleName, "", ( a->visibility(Uml::RoleType::B) != Uml::Visibility::Private), cs);
+            writeAttribute(roleDoc, a->visibility(Uml::RoleType::B), false, "ArrayList", roleName, "", (a->visibility(Uml::RoleType::B) != Uml::Visibility::Private), cs);
         }
     }
 }

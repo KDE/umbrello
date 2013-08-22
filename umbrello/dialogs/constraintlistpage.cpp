@@ -44,20 +44,20 @@
  */
 ConstraintListPage::ConstraintListPage(QWidget* parent, UMLClassifier* classifier,
                                        UMLDoc* doc, UMLObject::ObjectType type)
-  : ClassifierListPage( parent, classifier, doc, type )
+  : ClassifierListPage(parent, classifier, doc, type)
 {
     setupActions();
 
-    buttonMenu = new KMenu(this );
+    buttonMenu = new KMenu(this);
     // add a button menu
-    m_pNewClassifierListItemButton->setMenu( buttonMenu );
-    buttonMenu->addAction( newPrimaryKeyConstraintAction );
-    buttonMenu->addAction( newUniqueConstraintAction );
-    buttonMenu->addAction( newForeignKeyConstraintAction );
-    buttonMenu->addAction( newCheckConstraintAction );
+    m_pNewClassifierListItemButton->setMenu(buttonMenu);
+    buttonMenu->addAction(newPrimaryKeyConstraintAction);
+    buttonMenu->addAction(newUniqueConstraintAction);
+    buttonMenu->addAction(newForeignKeyConstraintAction);
+    buttonMenu->addAction(newCheckConstraintAction);
 
     // because we order the list items. first the Unique Constraints and then the ForeignKey Constraints
-    hideArrowButtons( true );
+    hideArrowButtons(true);
 }
 
 /**
@@ -69,20 +69,20 @@ ConstraintListPage::~ConstraintListPage()
 
 void ConstraintListPage::setupActions()
 {
-    newUniqueConstraintAction = new KAction( i18n( "Unique Constraint..." ), this );
-    connect( newUniqueConstraintAction, SIGNAL(triggered(bool)),
+    newUniqueConstraintAction = new KAction(i18n("Unique Constraint..."), this);
+    connect(newUniqueConstraintAction, SIGNAL(triggered(bool)),
              this, SLOT(slotNewUniqueConstraint()));
 
-    newPrimaryKeyConstraintAction = new KAction( i18n( "Primary Key Constraint..." ), this );
-    connect( newPrimaryKeyConstraintAction, SIGNAL(triggered(bool)),
+    newPrimaryKeyConstraintAction = new KAction(i18n("Primary Key Constraint..."), this);
+    connect(newPrimaryKeyConstraintAction, SIGNAL(triggered(bool)),
              this, SLOT(slotNewPrimaryKeyConstraint()));
 
-    newForeignKeyConstraintAction = new KAction( i18n( "Foreign Key Constraint..." ), this );
-    connect( newForeignKeyConstraintAction, SIGNAL(triggered(bool)),
+    newForeignKeyConstraintAction = new KAction(i18n("Foreign Key Constraint..."), this);
+    connect(newForeignKeyConstraintAction, SIGNAL(triggered(bool)),
              this, SLOT(slotNewForeignKeyConstraint()));
 
-    newCheckConstraintAction = new KAction( i18n( "Check Constraint..." ), this );
-    connect( newCheckConstraintAction, SIGNAL(triggered(bool)),
+    newCheckConstraintAction = new KAction(i18n("Check Constraint..."), this);
+    connect(newCheckConstraintAction, SIGNAL(triggered(bool)),
              this, SLOT(slotNewCheckConstraint()));
 }
 
@@ -101,16 +101,16 @@ void ConstraintListPage::slotNewPrimaryKeyConstraint()
     ClassifierListPage::slotNewListItem();
 
     // set the last object created as Primary Key
-    UMLEntity* ent = static_cast<UMLEntity*>( m_pClassifier );
+    UMLEntity* ent = static_cast<UMLEntity*>(m_pClassifier);
 
-    if ( ent == NULL ) {
+    if (ent == NULL) {
         uError() << "Could not set Primary Key. Entity Value is Null";
         return;
     }
 
-    if ( m_pLastObjectCreated!=NULL ) {
+    if (m_pLastObjectCreated!=NULL) {
         m_bSigWaiting = true;
-        ent->setAsPrimaryKey( static_cast<UMLUniqueConstraint*>(m_pLastObjectCreated ) );
+        ent->setAsPrimaryKey(static_cast<UMLUniqueConstraint*>(m_pLastObjectCreated));
         m_itemType = UMLObject::ot_EntityConstraint;
         reloadItemListBox();
     }
@@ -158,15 +158,15 @@ void ConstraintListPage::slotNewCheckConstraint()
 // 
 //     int index = 0;
 // 
-//     if ( greaterThan( UMLObject::ot_UniqueConstraint, ot ) ) {
+//     if (greaterThan(UMLObject::ot_UniqueConstraint, ot)) {
 //         index += ucCount;
 //     }
 // 
-//     if ( greaterThan( UMLObject::ot_ForeignKeyConstraint, ot ) ) {
+//     if (greaterThan(UMLObject::ot_ForeignKeyConstraint, ot)) {
 //         index += fkcCount;
 //     }
 // 
-//     if ( greaterThan( UMLObject::ot_CheckConstraint, ot ) ) {
+//     if (greaterThan(UMLObject::ot_CheckConstraint, ot)) {
 //         index += ccCount;
 //     }
 // 
@@ -182,22 +182,22 @@ void ConstraintListPage::slotNewCheckConstraint()
 //  */
 // int ConstraintListPage::relativeIndexOf(QListWidgetItem* item)
 // {
-//     int actualIndex = ClassifierListPage::relativeIndexOf( item );
+//     int actualIndex = ClassifierListPage::relativeIndexOf(item);
 // 
-//     int ucCount = m_pClassifier->getFilteredList( UMLObject::ot_UniqueConstraint ).count();
-//     int fkcCount = m_pClassifier->getFilteredList( UMLObject::ot_ForeignKeyConstraint ).count();
-//     //int ccCount = m_pClassifier->getFilteredList( UMLObject::ot_CheckConstraint ).count();
+//     int ucCount = m_pClassifier->getFilteredList(UMLObject::ot_UniqueConstraint).count();
+//     int fkcCount = m_pClassifier->getFilteredList(UMLObject::ot_ForeignKeyConstraint).count();
+//     //int ccCount = m_pClassifier->getFilteredList(UMLObject::ot_CheckConstraint).count();
 // 
-//     //if ( m_itemType == UMLObject::ot_EntityConstraint )
+//     //if (m_itemType == UMLObject::ot_EntityConstraint)
 //     //    return actualIndex;
 // 
 //     int newIndex = actualIndex;
 // 
-//     if ( !greaterThan( m_itemType, UMLObject::ot_UniqueConstraint ) ) {
+//     if (!greaterThan(m_itemType, UMLObject::ot_UniqueConstraint)) {
 //         newIndex -= ucCount;
 //     }
 // 
-//     if ( !greaterThan( m_itemType, UMLObject::ot_ForeignKeyConstraint ) ) {
+//     if (!greaterThan(m_itemType, UMLObject::ot_ForeignKeyConstraint)) {
 //         newIndex -= fkcCount;
 //     }
 // 
@@ -214,20 +214,20 @@ void ConstraintListPage::slotNewCheckConstraint()
 bool ConstraintListPage::greaterThan(UMLObject::ObjectType ct1, UMLObject::ObjectType ct2)
 {
     // define ordering
-    switch( ct1 ) {
+    switch(ct1) {
        case UMLObject::ot_EntityConstraint:
        case UMLObject::ot_UniqueConstraint:
            // Unique Constraint greater than all others
             return true;
             break;
        case UMLObject::ot_ForeignKeyConstraint:
-           if ( ct2 != UMLObject::ot_UniqueConstraint )
+           if (ct2 != UMLObject::ot_UniqueConstraint)
              return true;
            else
                return false;
            break;
        case UMLObject::ot_CheckConstraint:
-           if ( ct2 != UMLObject::ot_CheckConstraint )
+           if (ct2 != UMLObject::ot_CheckConstraint)
                return false;
            else
                return true;

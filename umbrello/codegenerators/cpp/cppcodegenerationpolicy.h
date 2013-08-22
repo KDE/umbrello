@@ -86,7 +86,7 @@ public:
     virtual void setDefaults (CPPCodeGenerationPolicy * cppclone, bool emitUpdateSignal = true);
     virtual void setDefaults(bool emitUpdateSignal = true);
 
-    CodeGenerationPolicyPage * createPage ( QWidget *parent = 0, const char * name = 0);
+    CodeGenerationPolicyPage * createPage (QWidget *parent = 0, const char * name = 0);
 
 protected:
 

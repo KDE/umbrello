@@ -29,15 +29,15 @@ public:
     AssocRules();
     ~AssocRules();
 
-    static bool allowAssociation( Uml::AssociationType::Enum assocType, UMLWidget * widget );
-    static bool allowAssociation( Uml::AssociationType::Enum assocType,
+    static bool allowAssociation(Uml::AssociationType::Enum assocType, UMLWidget * widget);
+    static bool allowAssociation(Uml::AssociationType::Enum assocType,
                                   UMLWidget * widgetA, UMLWidget * widgetB);
 
-    static bool allowRole( Uml::AssociationType::Enum assocType );
+    static bool allowRole(Uml::AssociationType::Enum assocType);
 
-    static bool allowMultiplicity( Uml::AssociationType::Enum assocType, WidgetBase::WidgetType widgetType );
+    static bool allowMultiplicity(Uml::AssociationType::Enum assocType, WidgetBase::WidgetType widgetType);
 
-    static bool allowSelf( Uml::AssociationType::Enum assocType, WidgetBase::WidgetType widgetType );
+    static bool allowSelf(Uml::AssociationType::Enum assocType, WidgetBase::WidgetType widgetType);
 
     static Uml::AssociationType::Enum isGeneralisationOrRealisation(UMLWidget* widgetA, UMLWidget* widgetB);
 

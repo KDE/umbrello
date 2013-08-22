@@ -75,7 +75,7 @@ void ClassifierListPage::setupPage()
     setMinimumSize(310,330);
 
     //main layout contains our two group boxes, the list and the documentation
-    QVBoxLayout* mainLayout = new QVBoxLayout( this );
+    QVBoxLayout* mainLayout = new QVBoxLayout(this);
     mainLayout->setSpacing(10);
 
     setupListGroup(margin);
@@ -132,8 +132,8 @@ void ClassifierListPage::setupListGroup(int margin)
         newItemType = i18n("N&ew Entity Attribute...");
         break;
     case UMLObject::ot_EntityConstraint:
-        typeName = i18n( "Constraints" );
-        newItemType = i18n( "N&ew Constraint..." );
+        typeName = i18n("Constraints");
+        newItemType = i18n("N&ew Constraint...");
         break;
     default:
         uWarning() << "unknown listItem type in ClassifierListPage";
@@ -141,15 +141,15 @@ void ClassifierListPage::setupListGroup(int margin)
     }
 
     //top group box, contains a vertical layout with list box above and buttons below
-    m_pItemListGB = new QGroupBox(typeName, this );
-    QVBoxLayout* listVBoxLayout = new QVBoxLayout( m_pItemListGB );
+    m_pItemListGB = new QGroupBox(typeName, this);
+    QVBoxLayout* listVBoxLayout = new QVBoxLayout(m_pItemListGB);
     listVBoxLayout->setMargin(margin);
-    listVBoxLayout->setSpacing( 10 );
+    listVBoxLayout->setSpacing(10);
 
     //horizontal box contains the list box and the move up/down buttons
     QHBoxLayout* listHBoxLayout = new QHBoxLayout();
     listHBoxLayout->setSpacing(10);
-    listVBoxLayout->addItem( listHBoxLayout );
+    listVBoxLayout->addItem(listHBoxLayout);
     m_pItemListLB = new QListWidget(m_pItemListGB);
     m_pItemListLB->setSelectionMode(QAbstractItemView::SingleSelection);
     m_pItemListLB->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -201,11 +201,11 @@ void ClassifierListPage::setupMoveButtons(QHBoxLayout* parentLayout)
 void ClassifierListPage::setupActionButtons(const QString& itemType, QVBoxLayout* parentLayout)
 {
     KDialogButtonBox* buttonBox = new KDialogButtonBox(m_pItemListGB);
-    m_pNewClassifierListItemButton = buttonBox->addButton( itemType, KDialogButtonBox::ActionRole, this,
-                          SLOT(slotNewListItem()) );
-    m_pDeleteListItemButton = buttonBox->addButton( i18n("&Delete"),
-                              KDialogButtonBox::ActionRole, this, SLOT(slotDelete()) );
-    m_pPropertiesButton = buttonBox->addButton( i18n("&Properties"), KDialogButtonBox::ActionRole, this,SLOT(slotProperties()) );
+    m_pNewClassifierListItemButton = buttonBox->addButton(itemType, KDialogButtonBox::ActionRole, this,
+                          SLOT(slotNewListItem()));
+    m_pDeleteListItemButton = buttonBox->addButton(i18n("&Delete"),
+                              KDialogButtonBox::ActionRole, this, SLOT(slotDelete()));
+    m_pPropertiesButton = buttonBox->addButton(i18n("&Properties"), KDialogButtonBox::ActionRole, this,SLOT(slotProperties()));
     parentLayout->addWidget(buttonBox);
 }
 
@@ -245,9 +245,9 @@ void ClassifierListPage::reloadItemListBox()
 
     // add each item in the list to the ListBox and connect each item modified signal
     // to the ListItemModified slot in this class
-    foreach (UMLClassifierListItem* listItem, itemList ) {
+    foreach (UMLClassifierListItem* listItem, itemList) {
         m_pItemListLB->addItem(listItem->toString(Uml::SignatureType::SigNoVis));
-        connect( listItem, SIGNAL(modified()), this, SLOT(slotListItemModified()) );
+        connect(listItem, SIGNAL(modified()), this, SLOT(slotListItemModified()));
     }
 }
 
@@ -257,20 +257,20 @@ void ClassifierListPage::reloadItemListBox()
  */
 void ClassifierListPage::enableWidgets(bool state)
 {
-    m_docTE->setEnabled( state );
+    m_docTE->setEnabled(state);
     if (m_itemType == UMLObject::ot_Operation) {
-        m_pCodeTE->setEnabled( state );
+        m_pCodeTE->setEnabled(state);
     }
     //if disabled clear contents
-    if ( !state ) {
-        m_docTE->setText( "" );
+    if (!state) {
+        m_docTE->setText("");
         if (m_itemType == UMLObject::ot_Operation) {
-            m_pCodeTE->setPlainText( "" );
+            m_pCodeTE->setPlainText("");
         }
-        m_pTopArrowB->setEnabled( false );
-        m_pUpArrowB->setEnabled( false );
-        m_pDownArrowB->setEnabled( false );
-        m_pBottomArrowB->setEnabled( false );
+        m_pTopArrowB->setEnabled(false);
+        m_pUpArrowB->setEnabled(false);
+        m_pDownArrowB->setEnabled(false);
+        m_pBottomArrowB->setEnabled(false);
         m_pDeleteListItemButton->setEnabled(false);
         m_pPropertiesButton->setEnabled(false);
         return;
@@ -282,26 +282,26 @@ void ClassifierListPage::enableWidgets(bool state)
         If at bottom item, only allow up arrow to be enabled.
     */
     int index = m_pItemListLB->currentRow();
-    if ( m_pItemListLB->count() == 1 || index == -1 ) {
-        m_pTopArrowB->setEnabled( false );
-        m_pUpArrowB->setEnabled( false );
-        m_pDownArrowB->setEnabled( false );
-        m_pBottomArrowB->setEnabled( false );
-    } else if( index == 0 ) {
-        m_pTopArrowB->setEnabled( false );
-        m_pUpArrowB->setEnabled( false );
-        m_pDownArrowB->setEnabled( true );
-        m_pBottomArrowB->setEnabled( true );
-    } else if( index == m_pItemListLB->count() - 1 ) {
-        m_pTopArrowB->setEnabled( true );
-        m_pUpArrowB->setEnabled( true );
-        m_pDownArrowB->setEnabled( false );
-        m_pBottomArrowB->setEnabled( false );
+    if (m_pItemListLB->count() == 1 || index == -1) {
+        m_pTopArrowB->setEnabled(false);
+        m_pUpArrowB->setEnabled(false);
+        m_pDownArrowB->setEnabled(false);
+        m_pBottomArrowB->setEnabled(false);
+    } else if(index == 0) {
+        m_pTopArrowB->setEnabled(false);
+        m_pUpArrowB->setEnabled(false);
+        m_pDownArrowB->setEnabled(true);
+        m_pBottomArrowB->setEnabled(true);
+    } else if(index == m_pItemListLB->count() - 1) {
+        m_pTopArrowB->setEnabled(true);
+        m_pUpArrowB->setEnabled(true);
+        m_pDownArrowB->setEnabled(false);
+        m_pBottomArrowB->setEnabled(false);
     } else {
-        m_pTopArrowB->setEnabled( true );
-        m_pUpArrowB->setEnabled( true );
-        m_pDownArrowB->setEnabled( true );
-        m_pBottomArrowB->setEnabled( true );
+        m_pTopArrowB->setEnabled(true);
+        m_pUpArrowB->setEnabled(true);
+        m_pDownArrowB->setEnabled(true);
+        m_pBottomArrowB->setEnabled(true);
     }
     m_pDeleteListItemButton->setEnabled(true);
     m_pPropertiesButton->setEnabled(true);
@@ -316,10 +316,10 @@ void ClassifierListPage::slotActivateItem(QListWidgetItem* item)
     //if not first time an item is highlighted
     //save old highlighted item first
     if (m_pOldListItem) {
-        m_pOldListItem->setDoc( m_docTE->toPlainText() );
+        m_pOldListItem->setDoc(m_docTE->toPlainText());
         if (m_itemType == UMLObject::ot_Operation) {
             UMLOperation* op = dynamic_cast<UMLOperation*>(m_pOldListItem);
-            op->setSourceCode( m_pCodeTE->toPlainText() );
+            op->setSourceCode(m_pCodeTE->toPlainText());
         }
     }
 
@@ -345,15 +345,15 @@ void ClassifierListPage::slotActivateItem(QListWidgetItem* item)
             uDebug() << "Cannot find item in list.";
         }
         else {
-            listItem = getItemList().at( relativeItemIndex );
+            listItem = getItemList().at(relativeItemIndex);
         }
     }
 
     if (listItem) {
         //now update screen
-        m_docTE->setText( listItem->doc() );
+        m_docTE->setText(listItem->doc());
         if (m_itemType == UMLObject::ot_Operation) {
-            m_pCodeTE->setPlainText( dynamic_cast<UMLOperation*>(listItem)->getSourceCode() );
+            m_pCodeTE->setPlainText(dynamic_cast<UMLOperation*>(listItem)->getSourceCode());
         }
         enableWidgets(true);
         m_pOldListItem = listItem;
@@ -491,9 +491,9 @@ void ClassifierListPage::slotPopupMenuSel(QAction* action)
     case ListPopupMenu::mt_Rename:
         {
             int currentItemIndex = m_pItemListLB->currentRow();
-            if ( currentItemIndex == -1 )
+            if (currentItemIndex == -1)
                 return;
-            UMLClassifierListItem* listItem = getItemList().at( currentItemIndex );
+            UMLClassifierListItem* listItem = getItemList().at(currentItemIndex);
             if (!listItem && id != ListPopupMenu::mt_New_Attribute) {
                 uDebug() << "can not find att from selection";
                 return;
@@ -522,7 +522,7 @@ void ClassifierListPage::printItemList(const QString &prologue)
     UMLClassifierListItem* item;
     QString buf;
     UMLClassifierListItemList itemList = getItemList();
-    for (UMLClassifierListItemListIt it(itemList); it.hasNext(); ) {
+    for (UMLClassifierListItemListIt it(itemList); it.hasNext();) {
         item = it.next();
         buf.append(' ' + item->getName());
     }
@@ -540,16 +540,16 @@ void ClassifierListPage::slotTopClicked()
     int count = m_pItemListLB->count();
     int index = m_pItemListLB->currentRow();
     //shouldn't occur, but just in case
-    if( count <= 1 || index <= 0 )
+    if(count <= 1 || index <= 0)
         return;
     m_pOldListItem = NULL;
 
     //swap the text around in the ListBox
     QString currentString = m_pItemListLB->item(index)->text();
-    m_pItemListLB->takeItem( index );
+    m_pItemListLB->takeItem(index);
     m_pItemListLB->insertItem(0, currentString);
     //set the moved item selected
-    QListWidgetItem* item = m_pItemListLB->item( 0 );
+    QListWidgetItem* item = m_pItemListLB->item(0);
     m_pItemListLB->setCurrentItem(item);
 
     //now change around in the list
@@ -574,7 +574,7 @@ void ClassifierListPage::slotUpClicked()
     int count = m_pItemListLB->count();
     int index = m_pItemListLB->currentRow();
     //shouldn't occur, but just in case
-    if ( count <= 1 || index <= 0 )
+    if (count <= 1 || index <= 0)
         return;
     m_pOldListItem = NULL;
 
@@ -584,7 +584,7 @@ void ClassifierListPage::slotUpClicked()
     m_pItemListLB->item(index - 1)->setText(currentString);
     m_pItemListLB->item(index)->setText(aboveString);
     //set the moved item selected
-    QListWidgetItem* item = m_pItemListLB->item( index - 1 );
+    QListWidgetItem* item = m_pItemListLB->item(index - 1);
     m_pItemListLB->setCurrentItem(item);
 
     //now change around in the list
@@ -611,7 +611,7 @@ void ClassifierListPage::slotDownClicked()
     int count = m_pItemListLB->count();
     int index = m_pItemListLB->currentRow();
     //shouldn't occur, but just in case
-    if ( count <= 1 || index >= count - 1 || index == -1 )
+    if (count <= 1 || index >= count - 1 || index == -1)
         return;
     m_pOldListItem = NULL;
 
@@ -621,7 +621,7 @@ void ClassifierListPage::slotDownClicked()
     m_pItemListLB->item(index + 1)->setText(currentString);
     m_pItemListLB->item(index)->setText(belowString);
     //set the moved item selected
-    QListWidgetItem* item = m_pItemListLB->item( index + 1 );
+    QListWidgetItem* item = m_pItemListLB->item(index + 1);
     m_pItemListLB->setCurrentItem(item);
     //now change around in the list
     printItemList("itemList before change: ");
@@ -647,16 +647,16 @@ void ClassifierListPage::slotBottomClicked()
     int count = m_pItemListLB->count();
     int index = m_pItemListLB->currentRow();
     //shouldn't occur, but just in case
-    if ( count <= 1 || index >= count - 1 || index == -1)
+    if (count <= 1 || index >= count - 1 || index == -1)
         return;
     m_pOldListItem = NULL;
 
     //swap the text around in the ListBox
     QString currentString = m_pItemListLB->item(index)->text();
     m_pItemListLB->takeItem(index);
-    m_pItemListLB->insertItem( m_pItemListLB->count(), currentString);
+    m_pItemListLB->insertItem(m_pItemListLB->count(), currentString);
     //set the moved item selected
-    QListWidgetItem* item = m_pItemListLB->item( m_pItemListLB->count() - 1 );
+    QListWidgetItem* item = m_pItemListLB->item(m_pItemListLB->count() - 1);
     m_pItemListLB->setCurrentItem(item);
 
     //now change around in the list
@@ -676,20 +676,20 @@ void ClassifierListPage::slotBottomClicked()
 /**
  * Shows properties dialog for the attribute clicked on.
  */
-void ClassifierListPage::slotDoubleClick( QListWidgetItem* item )
+void ClassifierListPage::slotDoubleClick(QListWidgetItem* item)
 {
-    if ( !item ) {
+    if (!item) {
         return;
     }
 
-    UMLClassifierListItem* listItem  = getItemList().at( m_pItemListLB->row( item ) );
-    if ( !listItem ) {
+    UMLClassifierListItem* listItem  = getItemList().at(m_pItemListLB->row(item));
+    if (!listItem) {
         uDebug() << "can not find att from selection";
         return;
     }
 
     m_bSigWaiting = true;
-    if ( listItem->showPropertiesDialog(this) ) {
+    if (listItem->showPropertiesDialog(this)) {
         m_pItemListLB->item(m_pItemListLB->row(item))->setText(listItem->toString(Uml::SignatureType::SigNoVis));
     }
 }
@@ -701,7 +701,7 @@ void ClassifierListPage::slotDelete()
 {
     int currentItemIndex = m_pItemListLB->currentRow();
 
-    if ( currentItemIndex > -1 ) {
+    if (currentItemIndex > -1) {
 
         // do this first
         delete m_pItemListLB->takeItem(currentItemIndex);
@@ -722,7 +722,7 @@ void ClassifierListPage::slotDelete()
 void ClassifierListPage::slotProperties()
 {
     saveCurrentItemDocumentation();
-    slotDoubleClick( m_pItemListLB->currentItem() );
+    slotDoubleClick(m_pItemListLB->currentItem());
 }
 
 /**
@@ -733,7 +733,7 @@ void ClassifierListPage::slotNewListItem()
     saveCurrentItemDocumentation();
     m_bSigWaiting = true;
     m_pLastObjectCreated = Object_Factory::createChildObject(m_pClassifier, m_itemType);
-    if ( m_pLastObjectCreated == NULL ) {
+    if (m_pLastObjectCreated == NULL) {
         m_bSigWaiting = false;
     }
 }
@@ -746,15 +746,15 @@ void ClassifierListPage::saveCurrentItemDocumentation()
     int currentItemIndex = m_pItemListLB->currentRow();
 
     // index is not in range, quit
-    if ( currentItemIndex < 0 || currentItemIndex >= getItemList().count() ) {
+    if (currentItemIndex < 0 || currentItemIndex >= getItemList().count()) {
         return;
     }
 
-    UMLClassifierListItem* selectedItem = getItemList().at( currentItemIndex );
+    UMLClassifierListItem* selectedItem = getItemList().at(currentItemIndex);
     if (selectedItem) {
-        selectedItem->setDoc( m_docTE->toPlainText() );
+        selectedItem->setDoc(m_docTE->toPlainText());
         if (m_itemType == UMLObject::ot_Operation) {
-            dynamic_cast<UMLOperation*>(selectedItem)->setSourceCode( m_pCodeTE->toPlainText() );
+            dynamic_cast<UMLOperation*>(selectedItem)->setSourceCode(m_pCodeTE->toPlainText());
         }
     }
 }

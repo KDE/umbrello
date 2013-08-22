@@ -62,7 +62,7 @@ public:
     void setReferencedEntity(UMLEntity* ent);
     UMLEntity* getReferencedEntity() const;
 
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
     virtual bool showPropertiesDialog(QWidget* parent);
 
@@ -91,7 +91,7 @@ private slots:
     void slotReferencedEntityChanged();
 
 protected:
-    bool load( QDomElement & element );
+    bool load(QDomElement & element);
 
 private:
 

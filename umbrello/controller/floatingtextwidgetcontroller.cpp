@@ -112,7 +112,7 @@ void FloatingTextWidgetController::moveWidgetBy(UMLSceneValue diffX, UMLSceneVal
             m_movementDirectionX = (diffX > 0)? 1: -1;
         }
     } else if ((m_movementDirectionX < 0 && m_unconstrainedPositionX > m_floatingTextWidget->x()) ||
-               (m_movementDirectionX > 0 && m_unconstrainedPositionX < m_floatingTextWidget->x()) ) {
+               (m_movementDirectionX > 0 && m_unconstrainedPositionX < m_floatingTextWidget->x())) {
         newX = m_unconstrainedPositionX;
         m_movementDirectionX = 0;
     }
@@ -122,7 +122,7 @@ void FloatingTextWidgetController::moveWidgetBy(UMLSceneValue diffX, UMLSceneVal
             m_movementDirectionY = (diffY > 0)? 1: -1;
         }
     } else if ((m_movementDirectionY < 0 && m_unconstrainedPositionY > m_floatingTextWidget->y()) ||
-               (m_movementDirectionY > 0 && m_unconstrainedPositionY < m_floatingTextWidget->y()) ) {
+               (m_movementDirectionY > 0 && m_unconstrainedPositionY < m_floatingTextWidget->y())) {
         newY = m_unconstrainedPositionY;
         m_movementDirectionY = 0;
     }

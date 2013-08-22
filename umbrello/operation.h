@@ -32,7 +32,7 @@ public:
     explicit UMLOperation(UMLClassifier * parent);
     virtual ~UMLOperation();
 
-    bool operator==( const UMLOperation & rhs ) const;
+    bool operator==(const UMLOperation & rhs) const;
 
     virtual void copyInto(UMLObject *lhs) const;
 
@@ -69,10 +69,10 @@ public:
     void setSourceCode(const QString& code);
     QString getSourceCode() const;
 
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
 protected:
-    bool load( QDomElement & element );
+    bool load(QDomElement & element);
 
 private:
     Uml::ID::Type    m_returnId;  ///< Holds the xmi.id of the <UML:Parameter kind="return">

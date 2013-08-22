@@ -48,13 +48,13 @@ void CategoryWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     Q_UNUSED(widget);
 
     UMLWidget::setPenFromSettings(painter);
-    if ( UMLWidget::useFillColor() )
-        painter->setBrush( UMLWidget::fillColor() );
+    if (UMLWidget::useFillColor())
+        painter->setBrush(UMLWidget::fillColor());
     QFont font = UMLWidget::font();
     font.setUnderline(false);
     font.setBold(false);
-    font.setItalic( m_umlObject->isAbstract() );
-    painter->setFont( font );
+    font.setItalic(m_umlObject->isAbstract());
+    painter->setFont(font);
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
     // the height is our radius
@@ -70,7 +70,7 @@ void CategoryWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     painter->setPen(textColor());
 
     QString letterType('D');
-    switch( static_cast<UMLCategory*>( m_umlObject )->getType() ) {
+    switch(static_cast<UMLCategory*>(m_umlObject)->getType()) {
        case UMLCategory::ct_Disjoint_Specialisation:
            letterType = 'D';
            break;
@@ -95,7 +95,7 @@ void CategoryWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
  */
 UMLSceneSize CategoryWidget::minimumSize()
 {
-    const UMLWidget::FontType ft = ( m_umlObject->isAbstract() ? FT_BOLD_ITALIC : FT_BOLD );
+    const UMLWidget::FontType ft = (m_umlObject->isAbstract() ? FT_BOLD_ITALIC : FT_BOLD);
     const QFontMetrics &fm = UMLWidget::getFontMetrics(ft);
     const int fontHeight = fm.lineSpacing();
     int radius = UC_RADIUS + fontHeight + UC_MARGIN;
@@ -106,11 +106,11 @@ UMLSceneSize CategoryWidget::minimumSize()
 /**
  * Saves this Category to file.
  */
-void CategoryWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+void CategoryWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
-    QDomElement categoryElement = qDoc.createElement( "categorywidget" );
-    UMLWidget::saveToXMI( qDoc, categoryElement );
-    qElement.appendChild( categoryElement );
+    QDomElement categoryElement = qDoc.createElement("categorywidget");
+    UMLWidget::saveToXMI(qDoc, categoryElement);
+    qElement.appendChild(categoryElement);
 }
 
 /**

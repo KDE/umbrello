@@ -14,7 +14,7 @@
 // kde includes
 #include <klocale.h>
 
-UMLRoleProperties::UMLRoleProperties ( QWidget *parent, UMLRole *role)
+UMLRoleProperties::UMLRoleProperties (QWidget *parent, UMLRole *role)
         : UMLRolePropertiesBase (parent)
 {
     m_pRole = role;
@@ -36,16 +36,16 @@ void UMLRoleProperties::constructWidget()
     // Visibility
     switch (m_pRole->visibility()) {
     case Uml::Visibility::Public:
-        ui_pPublicRB->setChecked( true );
+        ui_pPublicRB->setChecked(true);
         break;
     case Uml::Visibility::Private:
-        ui_pPrivateRB->setChecked( true );
+        ui_pPrivateRB->setChecked(true);
         break;
     case Uml::Visibility::Protected:
-        ui_pProtectedRB->setChecked( true );
+        ui_pProtectedRB->setChecked(true);
         break;
     case Uml::Visibility::Implementation:
-        ui_pImplementationRB->setChecked( true );
+        ui_pImplementationRB->setChecked(true);
         break;
     default:
         break;
@@ -53,13 +53,13 @@ void UMLRoleProperties::constructWidget()
     // Changeability
     switch (m_pRole->changeability()) {
     case Uml::Changeability::Changeable:
-        ui_pChangeableRB->setChecked( true );
+        ui_pChangeableRB->setChecked(true);
         break;
     case Uml::Changeability::Frozen:
-        ui_pFrozenRB->setChecked( true );
+        ui_pFrozenRB->setChecked(true);
         break;
     default:
-        ui_pAddOnlyRB->setChecked( true );
+        ui_pAddOnlyRB->setChecked(true);
         break;
     }
 

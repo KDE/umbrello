@@ -98,7 +98,7 @@ void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     if(UMLWidget::useFillColor())
         painter->setBrush(UMLWidget::fillColor());
     else
-        painter->setBrush( m_scene->activeView()->viewport()->palette().color(QPalette::Background) );
+        painter->setBrush(m_scene->activeView()->viewport()->palette().color(QPalette::Background));
 
     const int w = width();
     const int h = height();
@@ -106,7 +106,7 @@ void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
     QString name;
-    if ( m_showPackage ) {
+    if (m_showPackage) {
         name = m_umlObject->fullyQualifiedName();
     } else {
         name = this->name();
@@ -122,7 +122,7 @@ void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
                w - ENUM_MARGIN * 2,fontHeight,
                Qt::AlignCenter, m_umlObject->stereotype(true));
 
-    font.setItalic( m_umlObject->isAbstract() );
+    font.setItalic(m_umlObject->isAbstract());
     painter->setFont(font);
     painter->drawText(ENUM_MARGIN, fontHeight,
                w - ENUM_MARGIN * 2, fontHeight, Qt::AlignCenter, name);
@@ -140,7 +140,7 @@ void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     UMLClassifier *classifier = (UMLClassifier*)m_umlObject;
     UMLClassifierListItem* enumLiteral = 0;
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EnumLiteral);
-    foreach (enumLiteral , list ) {
+    foreach (enumLiteral , list) {
         QString text = enumLiteral->name();
         painter->setPen(textColor());
         painter->drawText(ENUM_MARGIN, y,
@@ -156,9 +156,9 @@ void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 /**
  * Loads from an "enumwidget" XMI element.
  */
-bool EnumWidget::loadFromXMI( QDomElement & qElement )
+bool EnumWidget::loadFromXMI(QDomElement & qElement)
 {
-    if ( !UMLWidget::loadFromXMI(qElement) ) {
+    if (!UMLWidget::loadFromXMI(qElement)) {
         return false;
     }
     QString showpackage = qElement.attribute("showpackage", "0");
@@ -171,7 +171,7 @@ bool EnumWidget::loadFromXMI( QDomElement & qElement )
 /**
  * Saves to the "enumwidget" XMI element.
  */
-void EnumWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement )
+void EnumWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement conceptElement = qDoc.createElement("enumwidget");
     UMLWidget::saveToXMI(qDoc, conceptElement);
@@ -191,7 +191,7 @@ void EnumWidget::slotMenuSelection(QAction* action)
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     if (sel == ListPopupMenu::mt_EnumLiteral) {
         if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(m_umlObject),
-                                              UMLObject::ot_EnumLiteral) )  {
+                                              UMLObject::ot_EnumLiteral))  {
             /* I don't know why it works without these calls:
             updateComponentSize();
             update();
@@ -251,8 +251,8 @@ UMLSceneSize EnumWidget::minimumSize()
     UMLClassifier *classifier = (UMLClassifier*)m_umlObject;
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EnumLiteral);
     UMLClassifierListItem* listItem = 0;
-    foreach (listItem , list ) {
-        int w = fm.width( listItem->name() );
+    foreach (listItem , list) {
+        int w = fm.width(listItem->name());
         width = w > width?w:width;
     }
 

@@ -47,7 +47,7 @@ void CPPHeaderCodeAccessorMethod::updateContent()
     CPPCodeClassField * cppfield = dynamic_cast<CPPCodeClassField*>(parentField);
     CodeGenPolicyExt *pe = UMLApp::app()->policyExt();
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
-    bool isInlineMethod = policy->getAccessorsAreInline( );
+    bool isInlineMethod = policy->getAccessorsAreInline();
     // Uml::Visibility scope = parentField->getVisibility();
     QString variableName = cppfield->getFieldName();
     QString itemClassName = cppfield->getTypeName();
@@ -84,8 +84,8 @@ void CPPHeaderCodeAccessorMethod::updateMethodDeclaration()
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
     CPPCodeClassField * cppfield = dynamic_cast<CPPCodeClassField*>(parentField);
 
-    bool isInlineMethod = policy->getAccessorsAreInline( );
-    QString tag = policy->getDocToolTag( );
+    bool isInlineMethod = policy->getAccessorsAreInline();
+    QString tag = policy->getDocToolTag();
 
     QString vectorClassName = policy->getVectorClassName();
     QString fieldName = cppfield->getFieldName();

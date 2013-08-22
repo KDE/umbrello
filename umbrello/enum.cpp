@@ -75,7 +75,7 @@ UMLObject* UMLEnum::clone() const
 void UMLEnum::init()
 {
     m_BaseType = UMLObject::ot_Enum;
-    setStereotype( "enum" );
+    setStereotype("enum");
 }
 
 /**
@@ -100,7 +100,7 @@ UMLObject* UMLEnum::createEnumLiteral(const QString& name)
     //check for name.isNull() stops dialog being shown
     //when creating enum literal via list view
     while (ok && !goodName && name.isNull()) {
-        ok = newEnumLiteral->showPropertiesDialog( UMLApp::app() );
+        ok = newEnumLiteral->showPropertiesDialog(UMLApp::app());
         QString name = newEnumLiteral->name();
 
         if(name.length() == 0) {
@@ -162,7 +162,7 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log /* = 0*/)
         connect(literal,SIGNAL(modified()),this,SIGNAL(modified()));
         return true;
     } else if (Log) {
-        Log->removeChangeByNewID( literal->id() );
+        Log->removeChangeByNewID(literal->id());
         delete literal;
     }
     return false;
@@ -182,7 +182,7 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, int position)
     QString name = (QString)literal->name();
     if (findChildObject(name) == NULL) {
         literal->setParent(this);
-        if ( position >= 0 && position <= (int)m_List.count() )  {
+        if (position >= 0 && position <= (int)m_List.count())  {
             m_List.insert(position,literal);
         } else {
             m_List.append(literal);
@@ -241,7 +241,7 @@ void UMLEnum::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
     QDomElement enumElement = UMLObject::save("UML:Enumeration", qDoc);
     // save enum literals
     UMLClassifierListItemList enumLiterals = getFilteredList(UMLObject::ot_EnumLiteral);
-    foreach (UMLClassifierListItem* pEnumLiteral , enumLiterals ) {
+    foreach (UMLClassifierListItem* pEnumLiteral , enumLiterals) {
         pEnumLiteral->saveToXMI(qDoc, enumElement);
     }
     qElement.appendChild(enumElement);
@@ -253,7 +253,7 @@ void UMLEnum::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 bool UMLEnum::load(QDomElement& element)
 {
     QDomNode node = element.firstChild();
-    while( !node.isNull() ) {
+    while(!node.isNull()) {
         if (node.isComment()) {
             node = node.nextSibling();
             continue;
@@ -263,7 +263,7 @@ bool UMLEnum::load(QDomElement& element)
         if (UMLDoc::tagEq(tag, "EnumerationLiteral") ||
                 UMLDoc::tagEq(tag, "EnumLiteral")) {   // for backward compatibility
             UMLEnumLiteral* pEnumLiteral = new UMLEnumLiteral(this);
-            if( !pEnumLiteral->loadFromXMI(tempElement) ) {
+            if(!pEnumLiteral->loadFromXMI(tempElement)) {
                 return false;
             }
             m_List.append(pEnumLiteral);
@@ -288,7 +288,7 @@ bool UMLEnum::load(QDomElement& element)
 UMLClassifierListItem* UMLEnum::makeChildObject(const QString& xmiTag)
 {
     UMLClassifierListItem* pObject = NULL;
-    if (UMLDoc::tagEq(xmiTag, "EnumerationLiteral") || UMLDoc::tagEq( xmiTag, "EnumLiteral")) {
+    if (UMLDoc::tagEq(xmiTag, "EnumerationLiteral") || UMLDoc::tagEq(xmiTag, "EnumLiteral")) {
         pObject = new UMLEnumLiteral(this);
     }
     return pObject;

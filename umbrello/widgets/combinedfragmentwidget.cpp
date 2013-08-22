@@ -35,10 +35,10 @@
  * @param combinedfragmentType      The type of combined fragment.
  * @param id                The ID to assign (-1 will prompt a new ID.)
  */
-CombinedFragmentWidget::CombinedFragmentWidget(UMLScene * scene, CombinedFragmentType combinedfragmentType, Uml::ID::Type id )
+CombinedFragmentWidget::CombinedFragmentWidget(UMLScene * scene, CombinedFragmentType combinedfragmentType, Uml::ID::Type id)
   : UMLWidget(scene, WidgetBase::wt_CombinedFragment, id)
 {
-    setCombinedFragmentType( combinedfragmentType );
+    setCombinedFragmentType(combinedfragmentType);
 }
 
 /**
@@ -66,9 +66,9 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
 
     setPenFromSettings(painter);
 
-    if ( m_CombinedFragment == Ref ) {
-        if ( UMLWidget::useFillColor() ) {
-            painter->setBrush( UMLWidget::fillColor() );
+    if (m_CombinedFragment == Ref) {
+        if (UMLWidget::useFillColor()) {
+            painter->setBrush(UMLWidget::fillColor());
         }
     }
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -78,10 +78,10 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
     painter->drawRect(0, 0, w, h);
 
     painter->setPen(textColor());
-    painter->setFont( UMLWidget::font() );
+    painter->setFont(UMLWidget::font());
         QString temp = "loop";
 
-    switch ( m_CombinedFragment )
+    switch (m_CombinedFragment)
     {
         case Ref :
         painter->drawText(COMBINED_FRAGMENT_MARGIN, textStartY, w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignCenter, combined_fragment_value);
@@ -128,7 +128,7 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
                 {
                      temp = '[' + combined_fragment_value + ']';
             painter->drawText(COMBINED_FRAGMENT_MARGIN, 20,w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, temp);
-                    if (m_dashLines.size() == 1 && m_dashLines.first()->y() < y() + 20 + fontHeight )
+                    if (m_dashLines.size() == 1 && m_dashLines.first()->y() < y() + 20 + fontHeight)
                         m_dashLines.first()->setY(y() + h/2);
                 }
                 painter->drawText(COMBINED_FRAGMENT_MARGIN, 0,
@@ -192,9 +192,9 @@ UMLSceneSize CombinedFragmentWidget::minimumSize()
     const int textWidth = fm.width(name());
     height = fontHeight;
     width = textWidth + 60 > COMBINED_FRAGMENT_WIDTH ? textWidth + 60: COMBINED_FRAGMENT_WIDTH;
-    if ( m_CombinedFragment == Loop )
+    if (m_CombinedFragment == Loop)
          width += int((float)textWidth * 0.4f);
-    if ( m_CombinedFragment == Alt )
+    if (m_CombinedFragment == Alt)
          height += fontHeight + 40;
     height = height > COMBINED_FRAGMENT_HEIGHT ? height : COMBINED_FRAGMENT_HEIGHT;
     width += COMBINED_FRAGMENT_MARGIN * 2;
@@ -214,7 +214,7 @@ CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::combinedFra
 /**
  * Sets the type of combined fragment.
  */
-void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combinedfragmentType )
+void CombinedFragmentWidget::setCombinedFragmentType(CombinedFragmentType combinedfragmentType)
 {
     m_CombinedFragment = combinedfragmentType;
     UMLWidget::m_resizable =  true ; //(m_CombinedFragment == Normal);
@@ -267,9 +267,9 @@ CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::combinedFra
 /**
  * Sets the type of combined fragment.
  */
-void CombinedFragmentWidget::setCombinedFragmentType( const QString& combinedfragmentType )
+void CombinedFragmentWidget::setCombinedFragmentType(const QString& combinedfragmentType)
 {
-    setCombinedFragmentType(combinedFragmentType(combinedfragmentType) );
+    setCombinedFragmentType(combinedFragmentType(combinedfragmentType));
 }
 
 /**
@@ -303,42 +303,42 @@ void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, cons
 /**
  * Saves the widget to the "combinedFragmentwidget" XMI element.
  */
-void CombinedFragmentWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+void CombinedFragmentWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
-    QDomElement combinedFragmentElement = qDoc.createElement( "combinedFragmentwidget" );
-    UMLWidget::saveToXMI( qDoc, combinedFragmentElement );
-    combinedFragmentElement.setAttribute( "combinedFragmentname", m_Text );
-    combinedFragmentElement.setAttribute( "documentation", m_Doc );
-    combinedFragmentElement.setAttribute( "CombinedFragmenttype", m_CombinedFragment );
+    QDomElement combinedFragmentElement = qDoc.createElement("combinedFragmentwidget");
+    UMLWidget::saveToXMI(qDoc, combinedFragmentElement);
+    combinedFragmentElement.setAttribute("combinedFragmentname", m_Text);
+    combinedFragmentElement.setAttribute("documentation", m_Doc);
+    combinedFragmentElement.setAttribute("CombinedFragmenttype", m_CombinedFragment);
 
     // save the corresponding floating dash lines
     for (QList<FloatingDashLineWidget*>::iterator it = m_dashLines.begin() ; it != m_dashLines.end() ; ++it) {
-        (*it)-> saveToXMI( qDoc, combinedFragmentElement );
+        (*it)-> saveToXMI(qDoc, combinedFragmentElement);
     }
 
-    qElement.appendChild( combinedFragmentElement );
+    qElement.appendChild(combinedFragmentElement);
 }
 
 /**
  * Loads the widget from the "CombinedFragmentwidget" XMI element.
  */
-bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement )
+bool CombinedFragmentWidget::loadFromXMI(QDomElement & qElement)
 {
-    if( !UMLWidget::loadFromXMI( qElement ) )
+    if(!UMLWidget::loadFromXMI(qElement))
         return false;
-    m_Text = qElement.attribute( "combinedFragmentname", "" );
-    m_Doc = qElement.attribute( "documentation", "" );
-    QString type = qElement.attribute( "CombinedFragmenttype", "");
+    m_Text = qElement.attribute("combinedFragmentname", "");
+    m_Doc = qElement.attribute("documentation", "");
+    QString type = qElement.attribute("CombinedFragmenttype", "");
 
     //now load child elements
     QDomNode node = qElement.firstChild();
     QDomElement element = node.toElement();
-    while ( !element.isNull() ) {
+    while (!element.isNull()) {
         QString tag = element.tagName();
         if (tag == "floatingdashlinewidget") {
             FloatingDashLineWidget * fdlwidget = new FloatingDashLineWidget(m_scene, Uml::ID::None, this);
             m_dashLines.push_back(fdlwidget);
-            if( !fdlwidget->loadFromXMI(element) ) {
+            if(!fdlwidget->loadFromXMI(element)) {
               // Most likely cause: The FloatingTextWidget is empty.
                 delete m_dashLines.back();
                 return false;
@@ -353,7 +353,7 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement )
         element = node.toElement();
     }
    // m_dashLines = listline;
-    setCombinedFragmentType( (CombinedFragmentType)type.toInt() );
+    setCombinedFragmentType((CombinedFragmentType)type.toInt());
 
     return true;
 }
@@ -395,15 +395,15 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
             QString name = m_Text;
 
             if (m_CombinedFragment == Alt) {
-                name = KInputDialog::getText( i18n("Enter first alternative"), i18n("Enter first alternative :"), m_Text, &ok );
+                name = KInputDialog::getText(i18n("Enter first alternative"), i18n("Enter first alternative :"), m_Text, &ok);
             }
             else if (m_CombinedFragment == Ref) {
-            name = KInputDialog::getText( i18n("Enter referenced diagram name"), i18n("Enter referenced diagram name :"), m_Text, &ok );
+            name = KInputDialog::getText(i18n("Enter referenced diagram name"), i18n("Enter referenced diagram name :"), m_Text, &ok);
             }
             else if (m_CombinedFragment == Loop) {
-            name = KInputDialog::getText( i18n("Enter the guard of the loop"), i18n("Enter the guard of the loop:"), m_Text, &ok );
+            name = KInputDialog::getText(i18n("Enter the guard of the loop"), i18n("Enter the guard of the loop:"), m_Text, &ok);
             }
-            if( ok && name.length() > 0 )
+            if(ok && name.length() > 0)
                 m_Text = name;
         }
         break;

@@ -46,7 +46,7 @@ KLineEdit* makeLabeledEditField(QGroupBox *containingBox, QGridLayout *layout, i
     label = new QLabel(labelText);
     layout->addWidget(label, row, 0);
     editField = new KLineEdit(editFieldText);
-    layout->addWidget(editField, row, 1 );
+    layout->addWidget(editField, row, 1);
     label->setBuddy(editField);
     return editField;
 }

@@ -50,7 +50,7 @@ DCodeGenerationPolicy::~DCodeGenerationPolicy()
  * Set the value of m_autoGenerateAttribAccessors
  * @param var the new value
  */
-void DCodeGenerationPolicy::setAutoGenerateAttribAccessors( bool var )
+void DCodeGenerationPolicy::setAutoGenerateAttribAccessors(bool var)
 {
     Settings::optionState().codeGenerationState.dCodeGenerationState.autoGenerateAttributeAccessors = var;
     m_commonPolicy->emitModifiedCodeContentSig();
@@ -60,7 +60,7 @@ void DCodeGenerationPolicy::setAutoGenerateAttribAccessors( bool var )
  * Set the value of m_autoGenerateAssocAccessors
  * @param var the new value
  */
-void DCodeGenerationPolicy::setAutoGenerateAssocAccessors( bool var )
+void DCodeGenerationPolicy::setAutoGenerateAssocAccessors(bool var)
 {
     Settings::optionState().codeGenerationState.dCodeGenerationState.autoGenerateAssocAccessors = var;
     m_commonPolicy->emitModifiedCodeContentSig();
@@ -89,7 +89,7 @@ bool DCodeGenerationPolicy::getAutoGenerateAssocAccessors()
  * @param clone   the code gen policy ext object
  * @param emitUpdateSignal   flag whether to emit the update signal
  */
-void DCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * clone, bool emitUpdateSignal )
+void DCodeGenerationPolicy::setDefaults (CodeGenPolicyExt * clone, bool emitUpdateSignal)
 {
     DCodeGenerationPolicy * jclone;
     if (!clone)
@@ -155,9 +155,9 @@ void DCodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
  * @param name     name of policy page
  * @return dialog object
  */
-CodeGenerationPolicyPage * DCodeGenerationPolicy::createPage ( QWidget *parent, const char *name )
+CodeGenerationPolicyPage * DCodeGenerationPolicy::createPage (QWidget *parent, const char *name)
 {
-    return new DCodeGenerationPolicyPage ( parent, name, this );
+    return new DCodeGenerationPolicyPage (parent, name, this);
 }
 
 /**
@@ -165,13 +165,13 @@ CodeGenerationPolicyPage * DCodeGenerationPolicy::createPage ( QWidget *parent, 
  */
 void DCodeGenerationPolicy::init()
 {
-    blockSignals( true );
+    blockSignals(true);
 
     Settings::OptionState optionState = Settings::optionState();
-    setAutoGenerateAttribAccessors( optionState.codeGenerationState.dCodeGenerationState.autoGenerateAttributeAccessors);
-    setAutoGenerateAssocAccessors( optionState.codeGenerationState.dCodeGenerationState.autoGenerateAssocAccessors);
+    setAutoGenerateAttribAccessors(optionState.codeGenerationState.dCodeGenerationState.autoGenerateAttributeAccessors);
+    setAutoGenerateAssocAccessors(optionState.codeGenerationState.dCodeGenerationState.autoGenerateAssocAccessors);
 
-    blockSignals( false );
+    blockSignals(false);
 }
 
 #include "dcodegenerationpolicy.moc"

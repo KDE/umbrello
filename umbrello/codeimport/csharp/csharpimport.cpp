@@ -665,7 +665,7 @@ bool CSharpImport::parseStructDeclaration()
  */
 bool CSharpImport::parseDelegateDeclaration()
 {
-    // return-type identifier ( formal-parameter-list? ) ;
+    // return-type identifier (formal-parameter-list?) ;
     const QString& returnType = advance();
     const QString& name = advance();
     log("delegate " + name + "with return-type " + returnType);

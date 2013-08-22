@@ -19,7 +19,7 @@ UMLEntityAttributeList::UMLEntityAttributeList()
 }
 
 UMLEntityAttributeList::UMLEntityAttributeList(const UMLEntityAttributeList& other)
-  : QList<UMLEntityAttribute*>( other )
+  : QList<UMLEntityAttribute*>(other)
 {
 }
 
@@ -42,7 +42,7 @@ void UMLEntityAttributeList::copyInto(UMLEntityAttributeList* rhs) const
     UMLEntityAttributeList* tmp = new UMLEntityAttributeList(*this);
 
     UMLEntityAttribute* item;
-    for (UMLEntityAttributeListIt eait( *tmp ); eait.hasNext() ;) {
+    for (UMLEntityAttributeListIt eait(*tmp); eait.hasNext() ;) {
         item = eait.next();
         rhs->append((UMLEntityAttribute*)item->clone());
     }

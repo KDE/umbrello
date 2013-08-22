@@ -25,27 +25,27 @@ public:
     /**
      * Empty Constructor
      */
-    explicit JavaClassDeclarationBlock ( JavaClassifierCodeDocument * parentDoc, const QString &start = "", const QString &endText = "}", const QString &comment = "");
+    explicit JavaClassDeclarationBlock (JavaClassifierCodeDocument * parentDoc, const QString &start = "", const QString &endText = "}", const QString &comment = "");
 
     /**
      * Empty Destructor
      */
-    virtual ~JavaClassDeclarationBlock ( );
+    virtual ~JavaClassDeclarationBlock ();
 
     /**
      * Save the XMI representation of this object
      */
-    virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
+    virtual void saveToXMI (QDomDocument & doc, QDomElement & root);
 
     /**
      * load params from the appropriate XMI element node.
      */
-    virtual void loadFromXMI ( QDomElement & root );
+    virtual void loadFromXMI (QDomElement & root);
 
     /**
      * Update the start/end text of this codeblock.
      */
-    void updateContent ( );
+    void updateContent ();
 
 private:
 

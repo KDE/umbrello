@@ -51,7 +51,7 @@ void ForkJoinWidget::setOrientation(Qt::Orientation ori)
 {
     m_orientation = ori;
     updateGeometry();
-    UMLWidget::adjustAssocs( x(), y() );
+    UMLWidget::adjustAssocs(x(), y());
 }
 
 /**
@@ -63,7 +63,7 @@ void ForkJoinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    painter->fillRect(0, 0, width(), height(), QBrush( Qt::black ));
+    painter->fillRect(0, 0, width(), height(), QBrush(Qt::black));
 
     if (m_selected) {
         paintSelected(painter);
@@ -76,7 +76,7 @@ void ForkJoinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
  */
 bool ForkJoinWidget::loadFromXMI(QDomElement& qElement)
 {
-    if ( !UMLWidget::loadFromXMI(qElement) ) {
+    if (!UMLWidget::loadFromXMI(qElement)) {
         return false;
     }
 

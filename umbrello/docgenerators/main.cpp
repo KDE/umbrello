@@ -48,18 +48,18 @@ int main(int argc, char *argv[])
   int nbparams = 0;
   params[nbparams] = NULL;
 
-  KAboutData aboutData( "umbodoc", 0, ki18n("Umbrello UML Modeller autonomous code generator"),
+  KAboutData aboutData("umbodoc", 0, ki18n("Umbrello UML Modeller autonomous code generator"),
                         umbrelloVersion(), ki18n(description), KAboutData::License_GPL,
                         ki18n("(c) 2006 Gael de Chalendar (aka Kleag), (c) 2002-2006 Umbrello UML Modeller Authors"), KLocalizedString(),
                         "http://umbrello.kde.org/");
   aboutData.addAuthor(ki18n("Gael de Chalendar (aka Kleag)"),KLocalizedString(), "kleag@free.fr");
   aboutData.addAuthor(ki18n("Umbrello UML Modeller Authors"), KLocalizedString(), "umbrello-devel@kde.org");
-  KCmdLineArgs::init( argc, argv, &aboutData );
+  KCmdLineArgs::init(argc, argv, &aboutData);
 
   KCmdLineOptions options;
   options.add("+[File]", ki18n("File to transform"));
   options.add("xslt <url>", ki18n("The XSLT file to use"));
-  KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
+  KCmdLineArgs::addCmdLineOptions(options); // Add our own options.
 
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
     xmlSubstituteEntitiesDefault(1);
     xmlLoadExtDtdDefaultValue = 1;
     cur = xsltParseStylesheetFile((const xmlChar *)xsltFile.latin1());
-    doc = xmlParseFile(args->url( 0 ).url().latin1());
+    doc = xmlParseFile(args->url(0).url().latin1());
     res = xsltApplyStylesheet(cur, doc, params);
     xsltSaveResultToFile(stdout, res, cur);
 

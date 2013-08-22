@@ -38,8 +38,8 @@ extern int xmlLoadExtDtdDefaultValue;
  * @param docBookUrl The Url of the Docbook that is to be converted to XHtml
  * @param parent     Parent object for QThread constructor
  */
-Docbook2XhtmlGeneratorJob::Docbook2XhtmlGeneratorJob(KUrl& docBookUrl, QObject* parent )
-    :QThread(parent),m_docbookUrl( docBookUrl )
+Docbook2XhtmlGeneratorJob::Docbook2XhtmlGeneratorJob(KUrl& docBookUrl, QObject* parent)
+    :QThread(parent),m_docbookUrl(docBookUrl)
 {
 }
 
@@ -73,7 +73,7 @@ void Docbook2XhtmlGeneratorJob::run()
   KTemporaryFile tmpXsl;
   tmpXsl.setAutoRemove(false);
   tmpXsl.open();
-  QTextStream str ( &tmpXsl );
+  QTextStream str (&tmpXsl);
   str << xslt;
   str.flush();
 
@@ -100,7 +100,7 @@ void Docbook2XhtmlGeneratorJob::run()
   xsltCleanupGlobals();
   xmlCleanupParser();
 
-  emit xhtmlGenerated( tmpXhtml.fileName() );
+  emit xhtmlGenerated(tmpXhtml.fileName());
 }
 
 #include "docbook2xhtmlgeneratorjob.moc"

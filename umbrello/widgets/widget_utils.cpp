@@ -74,8 +74,8 @@ namespace Widget_Utils
                                                         p.y() - SIZE / 2,
                                                         SIZE, SIZE);
         currentView->umlScene()->addItem(rect);
-        rect->setBrush( QBrush(Qt::blue) );
-        rect->setPen( QPen(Qt::blue) );
+        rect->setBrush(QBrush(Qt::blue));
+        rect->setPen(QPen(Qt::blue));
         rect->setVisible(true);
         return rect;
     }

@@ -194,7 +194,7 @@ JavaCodeGenerator::JavaCodeGenerator()
     //initFromParentDocument();
 
     // add in an ANT document
-    JavaANTCodeDocument * buildDoc = newANTCodeDocument( );
+    JavaANTCodeDocument * buildDoc = newANTCodeDocument();
     addCodeDocument(buildDoc);
 
     // set our 'writeout' policy for that code document

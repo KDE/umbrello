@@ -113,7 +113,7 @@ public:
     void updateFolder();
 
     void setText(int column, const QString &text);
-    void setText(const QString &text );
+    void setText(const QString &text);
     QString getSavedText() const;
     void setVisible(bool state);
 

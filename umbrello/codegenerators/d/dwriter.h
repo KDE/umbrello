@@ -142,7 +142,7 @@ private:
      * @param d        text stream
      */
     void writeAttributeDecls(UMLAttributeList &atpub, UMLAttributeList &atprot,
-                             UMLAttributeList &atpriv, QTextStream &d );
+                             UMLAttributeList &atpriv, QTextStream &d);
 
     /**
      * Searches a list of associations for appropriate ones to write out as attributes.

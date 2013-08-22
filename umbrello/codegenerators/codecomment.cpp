@@ -30,10 +30,10 @@ CodeComment::~CodeComment()
  */
 void CodeComment::saveToXMI (QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement( "codecomment" );
+    QDomElement blockElement = doc.createElement("codecomment");
     setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
     // just use parent TextBlock method
-    root.appendChild( blockElement );
+    root.appendChild(blockElement);
 }
 
 /**

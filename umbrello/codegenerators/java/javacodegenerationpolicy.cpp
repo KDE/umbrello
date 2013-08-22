@@ -52,7 +52,7 @@ JavaCodeGenerationPolicy::~JavaCodeGenerationPolicy()
  * Set the value of m_autoGenerateAttribAccessors.
  * @param var the new value
  */
-void JavaCodeGenerationPolicy::setAutoGenerateAttribAccessors( bool var )
+void JavaCodeGenerationPolicy::setAutoGenerateAttribAccessors(bool var)
 {
     Settings::optionState().codeGenerationState.javaCodeGenerationState.autoGenerateAttributeAccessors = var;
     m_commonPolicy->emitModifiedCodeContentSig();
@@ -91,7 +91,7 @@ bool JavaCodeGenerationPolicy::getAutoGenerateAssocAccessors()
  * @param defaults           the defaults to set
  * @param emitUpdateSignal   flag whether update signal has to be emitted
  */
-void JavaCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * defaults, bool emitUpdateSignal )
+void JavaCodeGenerationPolicy::setDefaults (CodeGenPolicyExt * defaults, bool emitUpdateSignal)
 {
     JavaCodeGenerationPolicy * jclone;
     if (!defaults)
@@ -119,7 +119,7 @@ void JavaCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * defaults, bool e
  * Set the defaults from a config file for this code generator from the passed KConfig pointer.
  * @param emitUpdateSignal   flag whether update signal has to be emitted
  */
-void JavaCodeGenerationPolicy::setDefaults( bool emitUpdateSignal )
+void JavaCodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
 {
     // call method at the common policy to init default stuff
     m_commonPolicy->setDefaults(false);
@@ -151,9 +151,9 @@ void JavaCodeGenerationPolicy::setDefaults( bool emitUpdateSignal )
  * @param name     page name
  * @return dialog object
  */
-CodeGenerationPolicyPage * JavaCodeGenerationPolicy::createPage ( QWidget *parent, const char *name )
+CodeGenerationPolicyPage * JavaCodeGenerationPolicy::createPage (QWidget *parent, const char *name)
 {
-    return new JavaCodeGenerationPolicyPage ( parent, name, this );
+    return new JavaCodeGenerationPolicyPage (parent, name, this);
 }
 
 /**
@@ -161,13 +161,13 @@ CodeGenerationPolicyPage * JavaCodeGenerationPolicy::createPage ( QWidget *paren
  */
 void JavaCodeGenerationPolicy::init()
 {
-    blockSignals( true );
+    blockSignals(true);
 
     Settings::OptionState optionState = Settings::optionState();
     setAutoGenerateAttribAccessors(optionState.codeGenerationState.javaCodeGenerationState.autoGenerateAttributeAccessors);
     setAutoGenerateAssocAccessors(optionState.codeGenerationState.javaCodeGenerationState.autoGenerateAssocAccessors);
 
-    blockSignals( false );
+    blockSignals(false);
 }
 
 #include "javacodegenerationpolicy.moc"

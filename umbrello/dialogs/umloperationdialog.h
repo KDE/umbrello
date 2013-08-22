@@ -39,7 +39,7 @@ class UMLOperationDialog : public KDialog
     Q_OBJECT
 public:
 
-    UMLOperationDialog( QWidget * parent, UMLOperation * pOperation );
+    UMLOperationDialog(QWidget * parent, UMLOperation * pOperation);
     ~UMLOperationDialog();
 
 protected:
@@ -48,8 +48,8 @@ protected:
 
     bool apply();
 
-    void insertTypesSorted( const QString& type = "" );
-    void insertStereotypesSorted( const QString& type );
+    void insertTypesSorted(const QString& type = "");
+    void insertStereotypesSorted(const QString& type);
 
     UMLOperation*  m_operation;  ///< The operation to represent.
     UMLDoc*        m_doc;        ///< The UMLDocument where all objects live.
@@ -93,7 +93,7 @@ public slots:
     void slotApply();
 
     void slotOk();
-    void slotNameChanged( const QString & );
+    void slotNameChanged(const QString &);
 
 };
 

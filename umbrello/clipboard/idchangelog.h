@@ -43,7 +43,7 @@ public:
     Uml::ID::Type findNewID(Uml::ID::Type OldID);
     Uml::ID::Type findOldID(Uml::ID::Type NewID);
 
-    void removeChangeByNewID( Uml::ID::Type OldID);
+    void removeChangeByNewID(Uml::ID::Type OldID);
 
     enum SpecialIDs
     {
@@ -75,9 +75,9 @@ private:
         void  setPoint(uint i, const Uml::ID::Type &x, const Uml::ID::Type &y) {
             QVector<Point*>::insert(i, new Point(x, y));
         }
-        Point* point( uint i ) const { return QVector<Point*>::at(i); }
-        uint   size() const          { return QVector<Point*>::size(); }
-        bool   resize( uint size )   { QVector<Point*>::resize(size); return true; }
+        Point* point(uint i) const { return QVector<Point*>::at(i); }
+        uint   size() const        { return QVector<Point*>::size(); }
+        bool   resize(uint size)   { QVector<Point*>::resize(size); return true; }
     };
 
     PointArray m_LogArray;

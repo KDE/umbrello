@@ -86,7 +86,7 @@ void PinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
 
-    if ( (offsetY + heightActivity/2) <= m_pOw->y() + heightActivity){
+    if ((offsetY + heightActivity/2) <= m_pOw->y() + heightActivity){
         y = m_pOw->y()-5;
         if (m_pName->x() == 0 && m_pName->y() == 0) {
             //the floating text has not been linked with the signal
@@ -103,7 +103,7 @@ void PinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     }
 
     if (offsetX + widthActivity/4 <= m_pOw->x() + widthActivity/2
-         && (offsetY > m_pOw->y() +5 && offsetY < m_pOw->y() + heightActivity - 5) ){
+         && (offsetY > m_pOw->y() +5 && offsetY < m_pOw->y() + heightActivity - 5)){
         x = m_pOw->x() -5;
         y = m_pOw->y() + (heightActivity/2) -5;
         if (m_pName->x() == 0 && m_pName->y() == 0) {
@@ -111,7 +111,7 @@ void PinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
             m_pName->setY(y - fontHeight);
         }
     } else if (offsetX + widthActivity/4 > m_pOw->x() + widthActivity/2
-         && (offsetY > m_pOw->y() +5 && offsetY < m_pOw->y() + heightActivity - 5) ){
+         && (offsetY > m_pOw->y() +5 && offsetY < m_pOw->y() + heightActivity - 5)){
         x = m_pOw->x() + widthActivity -5;
         y = m_pOw->y() + (heightActivity/2) -5;
         if (m_pName->x() == 0 && m_pName->y() == 0) {
@@ -127,7 +127,7 @@ void PinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     setY(y);
 
 //test if y isn't above the object
-//     if ( y <= m_pOw[Uml::A]->y() + height_Activity-5 && x == m_pOw[Uml::A]->x() + (width_Activity/2) ) {
+//     if (y <= m_pOw[Uml::A]->y() + height_Activity-5 && x == m_pOw[Uml::A]->x() + (width_Activity/2)) {
 //         y = m_pOw[Uml::A]->y() + height_Activity + 15;
 //     }
 //     if (y + h >= m_pOw[Uml::A]->getEndLineY()) {
@@ -135,14 +135,14 @@ void PinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 //     }
 
     setPenFromSettings(painter);
-    if ( UMLWidget::useFillColor() ) {
-        painter->setBrush( UMLWidget::fillColor() );
+    if (UMLWidget::useFillColor()) {
+        painter->setBrush(UMLWidget::fillColor());
     }
     painter->drawRect(0, 0, w, h);
     //make sure it's always above the others
     setZValue(20);
     setPenFromSettings(painter);
-    m_pName->setVisible(( m_pName->text().length() > 0 ));
+    m_pName->setVisible((m_pName->text().length() > 0));
     m_pName->updateGeometry();
     if(m_selected)
          paintSelected(painter);
@@ -180,7 +180,7 @@ void PinWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
     UMLWidget::mouseMoveEvent(me);
     int diffX = m_oldX - x();
     int diffY = m_oldY - y();
-    if (m_pName!=NULL && !( m_pName->text() ).isEmpty()) {
+    if (m_pName!=NULL && !(m_pName->text()).isEmpty()) {
         m_pName->setX(m_pName->x() - diffX);
         m_pName->setY(m_pName->y() - diffY);
     }
@@ -192,7 +192,7 @@ void PinWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 void PinWidget::slotMenuSelection(QAction* action)
 {
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
-    switch( sel ) {
+    switch(sel) {
     case ListPopupMenu::mt_Rename:
         {
             bool ok = false;
@@ -216,14 +216,14 @@ void PinWidget::slotMenuSelection(QAction* action)
  */
 void PinWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
-    QDomElement PinElement = qDoc.createElement( "pinwidget" );
-    PinElement.setAttribute( "widgetaid", Uml::ID::toString(m_pOw->id()) );
-    UMLWidget::saveToXMI( qDoc, PinElement );
+    QDomElement PinElement = qDoc.createElement("pinwidget");
+    PinElement.setAttribute("widgetaid", Uml::ID::toString(m_pOw->id()));
+    UMLWidget::saveToXMI(qDoc, PinElement);
     if (m_pName && !m_pName->text().isEmpty()) {
-        PinElement.setAttribute( "textid", Uml::ID::toString(m_pName->id()) );
-        m_pName -> saveToXMI( qDoc, PinElement );
+        PinElement.setAttribute("textid", Uml::ID::toString(m_pName->id()));
+        m_pName -> saveToXMI(qDoc, PinElement);
     }
-    qElement.appendChild( PinElement );
+    qElement.appendChild(PinElement);
 }
 
 /**
@@ -231,13 +231,13 @@ void PinWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
  */
 bool PinWidget::loadFromXMI(QDomElement& qElement)
 {
-    if( !UMLWidget::loadFromXMI( qElement ) )
+    if(!UMLWidget::loadFromXMI(qElement))
         return false;
-    QString widgetaid = qElement.attribute( "widgetaid", "-1" );
+    QString widgetaid = qElement.attribute("widgetaid", "-1");
 
     Uml::ID::Type aId = Uml::ID::fromString(widgetaid);
 
-    UMLWidget *pWA = m_scene -> findWidget( aId );
+    UMLWidget *pWA = m_scene -> findWidget(aId);
     if (pWA == NULL) {
         DEBUG(DBG_SRC) << "role A object " << Uml::ID::toString(aId) << " not found";
         return false;
@@ -245,10 +245,10 @@ bool PinWidget::loadFromXMI(QDomElement& qElement)
 
     m_pOw = pWA;
 
-    QString textid = qElement.attribute( "textid", "-1" );
+    QString textid = qElement.attribute("textid", "-1");
     Uml::ID::Type textId = Uml::ID::fromString(textid);
     if (textId != Uml::ID::None) {
-        UMLWidget *flotext = m_scene -> findWidget( textId );
+        UMLWidget *flotext = m_scene -> findWidget(textId);
         if (flotext != NULL) {
             // This only happens when loading files produced by
             // umbrello-1.3-beta2.
@@ -263,11 +263,11 @@ bool PinWidget::loadFromXMI(QDomElement& qElement)
     //now load child elements
     QDomNode node = qElement.firstChild();
     QDomElement element = node.toElement();
-    if ( !element.isNull() ) {
+    if (!element.isNull()) {
         QString tag = element.tagName();
         if (tag == "floatingtext") {
-            m_pName = new FloatingTextWidget( m_scene, Uml::TextRole::Floating, m_Text, textId );
-            if( ! m_pName->loadFromXMI(element) ) {
+            m_pName = new FloatingTextWidget(m_scene, Uml::TextRole::Floating, m_Text, textId);
+            if(! m_pName->loadFromXMI(element)) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pName;
                 m_pName = NULL;

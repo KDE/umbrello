@@ -57,11 +57,11 @@ bool UMLRole::operator==(const UMLRole &rhs) const
     if (this == &rhs) {
         return true;
     }
-    return ( UMLObject::operator==( rhs ) &&
+    return (UMLObject::operator==(rhs) &&
              m_Changeability == rhs.m_Changeability &&
              m_Multi == rhs.m_Multi &&
              m_name == rhs.m_name
-           );
+          );
 }
 
 UMLAssociation * UMLRole::parentAssociation() const
@@ -157,7 +157,7 @@ Uml::RoleType::Enum UMLRole::role() const
 /**
  * Creates the <UML:AssociationEnd> XMI element.
  */
-void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+void UMLRole::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement roleElement = UMLObject::save("UML:AssociationEnd", qDoc);
     if (m_pSecondary)
@@ -216,7 +216,7 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
  * Loads the <UML:AssociationEnd> XMI element.
  * Auxiliary to UMLObject::loadFromXMI.
  */
-bool UMLRole::load( QDomElement & element )
+bool UMLRole::load(QDomElement & element)
 {
     UMLDoc * doc = UMLApp::app()->document();
     QString type = element.attribute("type", "");

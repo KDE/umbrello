@@ -37,7 +37,7 @@ public:
         Time
     };
 
-    explicit SignalWidget( UMLScene * scene, SignalType signalType = Send, Uml::ID::Type id = Uml::ID::None );
+    explicit SignalWidget(UMLScene * scene, SignalType signalType = Send, Uml::ID::Type id = Uml::ID::None);
     virtual ~SignalWidget();
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
@@ -50,14 +50,14 @@ public:
 
     SignalType signalType() const;
     QString signalTypeStr() const;
-    void setSignalType( SignalType signalType );
+    void setSignalType(SignalType signalType);
 
     virtual void  showPropertiesDialog();
 
     void mouseMoveEvent(QGraphicsSceneMouseEvent *me);
 
-    virtual bool loadFromXMI( QDomElement & qElement );
-    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    virtual bool loadFromXMI(QDomElement & qElement);
+    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);

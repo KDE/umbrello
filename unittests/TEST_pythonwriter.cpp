@@ -45,7 +45,7 @@ void TEST_pythonwriter::test_language()
 {
     PythonWriter* py = new PythonWriter();
     Uml::ProgrammingLanguage lang = py->language();
-    QCOMPARE( lang, Uml::ProgrammingLanguage::Python);
+    QCOMPARE(lang, Uml::ProgrammingLanguage::Python);
 }
 
 void TEST_pythonwriter::test_writeClass()
@@ -58,22 +58,22 @@ void TEST_pythonwriter::test_writeClass()
 
     py->writeClass(c);
     // does the just created file exist?
-    QCOMPARE( IS_NOT_IMPL, true);
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 void TEST_pythonwriter::test_reservedKeywords()
 {
     PythonWriter* py = new PythonWriter();
     QStringList list = py->reservedKeywords();
-    QCOMPARE( list.empty(), false);
-    QCOMPARE( list[0], "abs");
-    QCOMPARE( list[11], "class");
-    QCOMPARE( list.last(), "zip");
+    QCOMPARE(list.empty(), false);
+    QCOMPARE(list[0], "abs");
+    QCOMPARE(list[11], "class");
+    QCOMPARE(list.last(), "zip");
 }
 
 void TEST_pythonwriter::test_toBeImplemented()
 {
-    QCOMPARE( IS_NOT_IMPL, true );
+    QCOMPARE(IS_NOT_IMPL, true);
 }
 
 QTEST_MAIN(TEST_pythonwriter)

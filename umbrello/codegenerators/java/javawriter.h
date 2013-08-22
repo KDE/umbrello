@@ -59,7 +59,7 @@ private:
     void writeOperations(UMLOperationList &list, QTextStream &j);
 
     void writeAttributeDecls(UMLAttributeList &atpub, UMLAttributeList &atprot,
-                             UMLAttributeList &atpriv, QTextStream &java );
+                             UMLAttributeList &atpriv, QTextStream &java);
 
     void writeAssociationDecls(UMLAssociationList associations, Uml::ID::Type id, QTextStream &java);
 

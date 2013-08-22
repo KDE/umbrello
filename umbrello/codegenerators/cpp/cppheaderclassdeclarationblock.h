@@ -25,24 +25,24 @@ public:
     /**
      * Empty Constructor
      */
-    explicit CPPHeaderClassDeclarationBlock ( CPPHeaderCodeDocument * parentDoc, const QString &start = "", const QString &endText = "}", const QString &comment = "");
+    explicit CPPHeaderClassDeclarationBlock (CPPHeaderCodeDocument * parentDoc, const QString &start = "", const QString &endText = "}", const QString &comment = "");
 
     /**
      * Empty Destructor
      */
-    virtual ~CPPHeaderClassDeclarationBlock ( );
+    virtual ~CPPHeaderClassDeclarationBlock ();
 
     /**
      * Update the start/end text of this codeblock.
      */
-    void updateContent ( );
+    void updateContent ();
 
     /**
      * Save the XMI representation of this object.
      */
-    virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
+    virtual void saveToXMI (QDomDocument & doc, QDomElement & root);
 
-    virtual void loadFromXMI ( QDomElement & root );
+    virtual void loadFromXMI (QDomElement & root);
 
 protected:
 

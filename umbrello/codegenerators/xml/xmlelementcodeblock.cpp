@@ -18,32 +18,32 @@
 #include "debug_utils.h"
 #include "xmlcodecomment.h"
 
-XMLElementCodeBlock::XMLElementCodeBlock ( CodeDocument * parentDoc, const QString & nodeName, const QString & comment)
+XMLElementCodeBlock::XMLElementCodeBlock (CodeDocument * parentDoc, const QString & nodeName, const QString & comment)
         : HierarchicalCodeBlock(parentDoc)
 {
     init(parentDoc, nodeName, comment);
 }
 
-XMLElementCodeBlock::~XMLElementCodeBlock ( )
+XMLElementCodeBlock::~XMLElementCodeBlock ()
 {
 }
 
 /**
  * Save the XMI representation of this object
  */
-void XMLElementCodeBlock::saveToXMI ( QDomDocument & doc, QDomElement & root )
+void XMLElementCodeBlock::saveToXMI (QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement( "xmlelementblock" );
+    QDomElement blockElement = doc.createElement("xmlelementblock");
 
     setAttributesOnNode(doc, blockElement);
 
-    root.appendChild( blockElement );
+    root.appendChild(blockElement);
 }
 
 /**
  * load params from the appropriate XMI element node.
  */
-void XMLElementCodeBlock::loadFromXMI ( QDomElement & root )
+void XMLElementCodeBlock::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -52,7 +52,7 @@ void XMLElementCodeBlock::loadFromXMI ( QDomElement & root )
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void XMLElementCodeBlock::setAttributesOnNode ( QDomDocument & doc, QDomElement & docElement)
+void XMLElementCodeBlock::setAttributesOnNode (QDomDocument & doc, QDomElement & docElement)
 {
     // superclass call
     HierarchicalCodeBlock::setAttributesOnNode(doc,docElement);
@@ -65,7 +65,7 @@ void XMLElementCodeBlock::setAttributesOnNode ( QDomDocument & doc, QDomElement 
  * Set the class attributes of this object from
  * the passed element node.
  */
-void XMLElementCodeBlock::setAttributesFromNode ( QDomElement & root)
+void XMLElementCodeBlock::setAttributesFromNode (QDomElement & root)
 {
     // superclass call
     HierarchicalCodeBlock::setAttributesFromNode(root);
@@ -97,7 +97,7 @@ UMLAttributeList * XMLElementCodeBlock::getAttributeList()
 /**
  * Update the start and end text for this ownedhierarchicalcodeblock.
  */
-void XMLElementCodeBlock::updateContent ( )
+void XMLElementCodeBlock::updateContent ()
 {
     QString endLine = getNewLineEndingChars();
 

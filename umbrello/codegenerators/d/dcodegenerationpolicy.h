@@ -30,16 +30,16 @@ public:
 
     virtual ~DCodeGenerationPolicy();
 
-    void setAutoGenerateAttribAccessors ( bool var );
+    void setAutoGenerateAttribAccessors (bool var);
     bool getAutoGenerateAttribAccessors();
 
-    void setAutoGenerateAssocAccessors ( bool var );
+    void setAutoGenerateAssocAccessors (bool var);
     bool getAutoGenerateAssocAccessors();
 
     virtual void setDefaults(CodeGenPolicyExt * defaults, bool emitUpdateSignal = true);
     virtual void setDefaults(bool emitUpdateSignal = true);
 
-    CodeGenerationPolicyPage * createPage ( QWidget *parent = 0, const char * name = 0);
+    CodeGenerationPolicyPage * createPage (QWidget *parent = 0, const char * name = 0);
 
 protected:
 

@@ -29,32 +29,32 @@ public:
     virtual ~TreeParser();
 
     // translation-unit
-    virtual void parseTranslationUnit( TranslationUnitAST* );
+    virtual void parseTranslationUnit(TranslationUnitAST*);
 
     // declarations
-    virtual void parseDeclaration( DeclarationAST* );
-    virtual void parseFile( FileAST* );
-    virtual void parseLinkageSpecification( LinkageSpecificationAST* );
-    virtual void parseNamespace( NamespaceAST* );
-    virtual void parseNamespaceAlias( NamespaceAliasAST* );
-    virtual void parseUsing( UsingAST* );
-    virtual void parseUsingDirective( UsingDirectiveAST* );
-    virtual void parseTypedef( TypedefAST* );
-    virtual void parseTemplateDeclaration( TemplateDeclarationAST* );
-    virtual void parseSimpleDeclaration( SimpleDeclarationAST* );
-    virtual void parseFunctionDefinition( FunctionDefinitionAST* );
-    virtual void parseLinkageBody( LinkageBodyAST* );
-    virtual void parseAccessDeclaration( AccessDeclarationAST* );
+    virtual void parseDeclaration(DeclarationAST*);
+    virtual void parseFile(FileAST*);
+    virtual void parseLinkageSpecification(LinkageSpecificationAST*);
+    virtual void parseNamespace(NamespaceAST*);
+    virtual void parseNamespaceAlias(NamespaceAliasAST*);
+    virtual void parseUsing(UsingAST*);
+    virtual void parseUsingDirective(UsingDirectiveAST*);
+    virtual void parseTypedef(TypedefAST*);
+    virtual void parseTemplateDeclaration(TemplateDeclarationAST*);
+    virtual void parseSimpleDeclaration(SimpleDeclarationAST*);
+    virtual void parseFunctionDefinition(FunctionDefinitionAST*);
+    virtual void parseLinkageBody(LinkageBodyAST*);
+    virtual void parseAccessDeclaration(AccessDeclarationAST*);
 
     // type-specifier
-    virtual void parseTypeSpecifier( TypeSpecifierAST* );
-    virtual void parseClassSpecifier( ClassSpecifierAST* );
-    virtual void parseEnumSpecifier( EnumSpecifierAST* );
-    virtual void parseElaboratedTypeSpecifier( ElaboratedTypeSpecifierAST* );
+    virtual void parseTypeSpecifier(TypeSpecifierAST*);
+    virtual void parseClassSpecifier(ClassSpecifierAST*);
+    virtual void parseEnumSpecifier(EnumSpecifierAST*);
+    virtual void parseElaboratedTypeSpecifier(ElaboratedTypeSpecifierAST*);
 
 private:
-    TreeParser( const TreeParser& source );
-    void operator = ( const TreeParser& source );
+    TreeParser(const TreeParser& source);
+    void operator = (const TreeParser& source);
 };
 
 #endif // TREE_PARSER_H

@@ -191,7 +191,7 @@ void TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
         writeComm
         ("Source found and used class files and import class command if necessary");
 
-        foreach (UMLClassifier * classifier , superclasses ) {
+        foreach (UMLClassifier * classifier , superclasses) {
             writeUse(classifier);
         }
     }
@@ -221,7 +221,7 @@ void TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
                 c->getFilteredList(UMLObject::ot_EnumLiteral);
             writeCode("set enum_" + className_ + " [list\\");
             m_indentLevel++;
-            foreach (UMLClassifierListItem * lit , litList ) {
+            foreach (UMLClassifierListItem * lit , litList) {
                 QString enumLiteral = cleanName(lit->name());
                 writeCode(enumLiteral + "\\");
             }
@@ -236,7 +236,7 @@ void TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     UMLTemplateList template_params = c->getTemplateList();
     if (template_params.count()) {
         writeCode("#TODO template<");
-        foreach (UMLTemplate * t , template_params ) {
+        foreach (UMLTemplate * t , template_params) {
             QString formalName = t->name();
             QString typeName = t->getTypeName();
             writeCode(typeName + "# " + formalName);
@@ -405,7 +405,7 @@ void TclWriter::writeDocu(const QString &text)
 void TclWriter::writeAssociationIncl(UMLAssociationList list, Uml::ID::Type myId,
                                      const QString &type)
 {
-    foreach (UMLAssociation * a , list ) {
+    foreach (UMLAssociation * a , list) {
         UMLClassifier  *classifier = NULL;
 
         writeComm(m_endl + type + m_endl + a->toString() + m_endl + a->doc());
@@ -517,7 +517,7 @@ void TclWriter::writeAttributeDecl(UMLClassifier * c, Uml::Visibility::Enum visi
         writeComm(m_endl + scope + ' ' + type + " attributes" + m_endl);
         // write attrib declarations now
         QString documentation;
-        foreach (UMLAttribute * at , list ) {
+        foreach (UMLAttribute * at , list) {
             documentation = at->doc();
             QString varName = cleanName(at->name());
             QString typeName = fixTypeName(at->getTypeName());
@@ -538,7 +538,7 @@ void TclWriter::writeAssociationDecl(UMLAssociationList associations,
     Q_UNUSED(type);
     if (forceSections() || !associations.isEmpty()) {
         bool printRoleA = false, printRoleB = false;
-        foreach (UMLAssociation * a , associations ) {
+        foreach (UMLAssociation * a , associations) {
 
             // it may seem counter intuitive, but you want to insert the role of the
             // *other* class into *this* class.
@@ -594,7 +594,7 @@ void TclWriter::writeAssociationRoleDecl(const QString &fieldClassName, const QS
         // multi value requires 1 of these objects
         if (ObjectFieldVariables.indexOf(fieldVarName) == -1 &&
                 multi.contains(QRegExp("^1$"))
-           ) {
+          ) {
             // ugh. UGLY. Storing variable name and its class in pairs.
             ObjectFieldVariables.append(fieldVarName);
             ObjectFieldVariables.append(fieldClassName);
@@ -642,7 +642,7 @@ void TclWriter::writeInitAttributeSource(UMLClassifier* c)
 
         // first, initiation of fields derived from attributes
         UMLAttributeList atl = c->getAttributeList();
-        foreach (UMLAttribute * at , atl ) {
+        foreach (UMLAttribute * at , atl) {
             if (!at->getInitialValue().isEmpty()) {
                 varName = cleanName(at->name());
                 writeCode("set " + varName + ' ' + at->getInitialValue());
@@ -679,7 +679,7 @@ void TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility::Enum pe
 
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList inputlist = c->getOpList();
-    foreach (UMLOperation * op , inputlist ) {
+    foreach (UMLOperation * op , inputlist) {
         switch (op->visibility()) {
         case Uml::Visibility::Public:
             if (permitScope == Uml::Visibility::Public)
@@ -702,7 +702,7 @@ void TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility::Enum pe
     if (oplist.count() > 0) {
         writeComm("Operations");
     }
-    foreach ( UMLOperation* op , oplist ) {
+    foreach (UMLOperation* op , oplist) {
         QString doc = "";
         QString code = "";
         QString methodReturnType = fixTypeName(op->getTypeName());
@@ -723,7 +723,7 @@ void TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility::Enum pe
         // method parameters
         UMLAttributeList atl = op->getParmList();
         j = 0;
-        foreach ( UMLAttribute* at , atl ) {
+        foreach (UMLAttribute* at , atl) {
             QString typeName = fixTypeName(at->getTypeName());
             QString atName = cleanName(at->name());
             if (at->getInitialValue().isEmpty()) {
@@ -754,7 +754,7 @@ void TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility::Enum pe
 
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList inputlist = c->getOpList();
-    foreach (UMLOperation * op , inputlist ) {
+    foreach (UMLOperation * op , inputlist) {
         switch (op->visibility()) {
         case Uml::Visibility::Public:
             if (permitScope == Uml::Visibility::Public)
@@ -774,7 +774,7 @@ void TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility::Enum pe
     }
 
     // generate source for each operation given
-    foreach ( UMLOperation* op , oplist ) {
+    foreach (UMLOperation* op , oplist) {
         QString code = "";
         QString methodReturnType = fixTypeName(op->getTypeName());
         QString name;
@@ -788,7 +788,7 @@ void TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility::Enum pe
         // parameters
         UMLAttributeList atl = op->getParmList();
         j = 0;
-        foreach ( UMLAttribute* at , atl ) {
+        foreach (UMLAttribute* at , atl) {
             QString atName = cleanName(at->name());
             if (at->getInitialValue().isEmpty()) {
                 code += ' ' + atName;
@@ -817,7 +817,7 @@ void TclWriter::writeAttributeSource(UMLClassifier * c)
 {
     UMLAttributeList list = c->getAttributeList(Uml::Visibility::Public);
 
-    foreach ( UMLAttribute* at , list ) {
+    foreach (UMLAttribute* at , list) {
         QString name = mClassGlobal + "::" + cleanName(at->name());
 
         writeComm(name);
@@ -833,7 +833,7 @@ void TclWriter::writeAssociationSource(UMLAssociationList associations,
     }
 
     bool printRoleA = false, printRoleB = false;
-    foreach (UMLAssociation * a , associations ) {
+    foreach (UMLAssociation * a , associations) {
 
         // it may seem counter intuitive, but you want to insert the role of the
         // *other* class into *this* class.

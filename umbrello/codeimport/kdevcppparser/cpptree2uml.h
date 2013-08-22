@@ -25,48 +25,48 @@ class UMLPackage;
 class CppTree2Uml: public TreeParser
 {
 public:
-    explicit CppTree2Uml( const QString& fileName, CodeImpThread* thread = 0);
+    explicit CppTree2Uml(const QString& fileName, CodeImpThread* thread = 0);
     virtual ~CppTree2Uml();
 
     //FileDom file() { return m_file; }
 
     // translation-unit
-    virtual void parseTranslationUnit( TranslationUnitAST* );
+    virtual void parseTranslationUnit(TranslationUnitAST*);
 
     // declarations
-    //virtual void parseDeclaration( DeclarationAST* );  // use parent method
-    //virtual void parseLinkageSpecification( LinkageSpecificationAST* );  // use parent method
-    virtual void parseFile( FileAST* ast );
-    virtual void parseNamespace( NamespaceAST* );
-    //virtual void parseNamespaceAlias( NamespaceAliasAST* );  // use parent method
-    //virtual void parseUsing( UsingAST* );  // use parent method
-    //virtual void parseUsingDirective( UsingDirectiveAST* );  // use parent method
-    virtual void parseTypedef( TypedefAST* );
-    virtual void parseTemplateDeclaration( TemplateDeclarationAST* );
-    virtual void parseSimpleDeclaration( SimpleDeclarationAST* );
-    virtual void parseFunctionDefinition( FunctionDefinitionAST* );
-    //virtual void parseLinkageBody( LinkageBodyAST* );  // use parent method
-    virtual void parseAccessDeclaration( AccessDeclarationAST* );
+    //virtual void parseDeclaration(DeclarationAST*);  // use parent method
+    //virtual void parseLinkageSpecification(LinkageSpecificationAST*);  // use parent method
+    virtual void parseFile(FileAST* ast);
+    virtual void parseNamespace(NamespaceAST*);
+    //virtual void parseNamespaceAlias(NamespaceAliasAST*);  // use parent method
+    //virtual void parseUsing(UsingAST*);  // use parent method
+    //virtual void parseUsingDirective(UsingDirectiveAST*);  // use parent method
+    virtual void parseTypedef(TypedefAST*);
+    virtual void parseTemplateDeclaration(TemplateDeclarationAST*);
+    virtual void parseSimpleDeclaration(SimpleDeclarationAST*);
+    virtual void parseFunctionDefinition(FunctionDefinitionAST*);
+    //virtual void parseLinkageBody(LinkageBodyAST*);  // use parent method
+    virtual void parseAccessDeclaration(AccessDeclarationAST*);
 
     // type-specifier
-    //virtual void parseTypeSpecifier( TypeSpecifierAST* );  // use parent method
-    virtual void parseClassSpecifier( ClassSpecifierAST* );
-    virtual void parseEnumSpecifier( EnumSpecifierAST* );
-    virtual void parseElaboratedTypeSpecifier( ElaboratedTypeSpecifierAST* );
+    //virtual void parseTypeSpecifier(TypeSpecifierAST*);  // use parent method
+    virtual void parseClassSpecifier(ClassSpecifierAST*);
+    virtual void parseEnumSpecifier(EnumSpecifierAST*);
+    virtual void parseElaboratedTypeSpecifier(ElaboratedTypeSpecifierAST*);
 
     // non-overriding (locally added) methods
 
-    virtual void parseDeclaration2( GroupAST* funSpec, GroupAST* storageSpec, TypeSpecifierAST* typeSpec, InitDeclaratorAST* decl );
-    virtual void parseFunctionDeclaration( GroupAST* funSpec, GroupAST* storageSpec, TypeSpecifierAST* typeSpec, InitDeclaratorAST* decl );
-    void parseFunctionArguments( DeclaratorAST* declarator, UMLOperation* method);
-    virtual void parseBaseClause( BaseClauseAST* baseClause, UMLClassifier* klass );
+    virtual void parseDeclaration2(GroupAST* funSpec, GroupAST* storageSpec, TypeSpecifierAST* typeSpec, InitDeclaratorAST* decl);
+    virtual void parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageSpec, TypeSpecifierAST* typeSpec, InitDeclaratorAST* decl);
+    void parseFunctionArguments(DeclaratorAST* declarator, UMLOperation* method);
+    virtual void parseBaseClause(BaseClauseAST* baseClause, UMLClassifier* klass);
 
 private:
-    //NamespaceDom findOrInsertNamespace( NamespaceAST* ast, const QString& name );
+    //NamespaceDom findOrInsertNamespace(NamespaceAST* ast, const QString& name);
 
-    QString typeOfDeclaration( TypeSpecifierAST* typeSpec, DeclaratorAST* declarator );
-    QStringList scopeOfName( NameAST* id, const QStringList& scope );
-    QStringList scopeOfDeclarator( DeclaratorAST* d, const QStringList& scope );
+    QString typeOfDeclaration(TypeSpecifierAST* typeSpec, DeclaratorAST* declarator);
+    QStringList scopeOfName(NameAST* id, const QStringList& scope);
+    QStringList scopeOfDeclarator(DeclaratorAST* d, const QStringList& scope);
     void flushTemplateParams(UMLClassifier *klass);
 
 private:
@@ -91,8 +91,8 @@ private:
     CodeImpThread* m_thread;
 
 private:
-    CppTree2Uml( const CppTree2Uml& source );
-    void operator = ( const CppTree2Uml& source );
+    CppTree2Uml(const CppTree2Uml& source);
+    void operator = (const CppTree2Uml& source);
 };
 
 #endif // CPPTREE2UML

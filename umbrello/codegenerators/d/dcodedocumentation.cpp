@@ -32,10 +32,10 @@ DCodeDocumentation::~DCodeDocumentation()
 
 void DCodeDocumentation::saveToXMI(QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement( "dcodedocumentation" );
+    QDomElement blockElement = doc.createElement("dcodedocumentation");
     setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
     // just use parent TextBlock method
-    root.appendChild( blockElement );
+    root.appendChild(blockElement);
 }
 
 QString DCodeDocumentation::toString() const

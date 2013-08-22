@@ -64,13 +64,13 @@ ClassOptionsPage::~ClassOptionsPage()
 
 void ClassOptionsPage::setDefaults()
 {
-    m_showVisibilityCB->setChecked( false );
-    m_showAttsCB->setChecked( true );
-    m_showOpsCB->setChecked( true );
-    m_showStereotypeCB->setChecked( false );
-    m_showAttSigCB->setChecked( false );
-    m_showOpSigCB->setChecked( false );
-    m_showPackageCB->setChecked( false );
+    m_showVisibilityCB->setChecked(false);
+    m_showAttsCB->setChecked(true);
+    m_showOpsCB->setChecked(true);
+    m_showStereotypeCB->setChecked(false);
+    m_showAttSigCB->setChecked(false);
+    m_showOpSigCB->setChecked(false);
+    m_showPackageCB->setChecked(false);
     m_attribScopeCB->setCurrentIndex(1); // Private
     m_operationScopeCB->setCurrentIndex(0); // Public
 }
@@ -90,7 +90,7 @@ void ClassOptionsPage::apply()
 /**
  * Set related uml widget
  */
-void ClassOptionsPage::setWidget( ClassifierWidget * pWidget )
+void ClassOptionsPage::setWidget(ClassifierWidget * pWidget)
 {
     m_pWidget = pWidget;
 }
@@ -163,7 +163,7 @@ void ClassOptionsPage::setupPage()
 
     } else if (type == WidgetBase::wt_Interface) {
         m_drawAsCircleCB = new QCheckBox(i18n("Draw as circle"), m_visibilityGB);
-        m_drawAsCircleCB->setChecked( m_pWidget->visualProperty(ClassifierWidget::DrawAsCircle) );
+        m_drawAsCircleCB->setChecked(m_pWidget->visualProperty(ClassifierWidget::DrawAsCircle));
         visibilityLayout->addWidget(m_drawAsCircleCB, 2, 0);
     }
 }
@@ -185,7 +185,7 @@ void ClassOptionsPage::setupClassPageOption()
     visibilityLayout->setMargin(margin);
 
     m_showOpsCB = new QCheckBox(i18n("Operatio&ns"), m_visibilityGB);
-    m_showOpsCB->setChecked( m_options->classState.showOps );
+    m_showOpsCB->setChecked(m_options->classState.showOps);
     visibilityLayout->addWidget(m_showOpsCB, 0, 0);
 
     m_showOpSigCB = new QCheckBox(i18n("O&peration signature"), m_visibilityGB);
@@ -194,7 +194,7 @@ void ClassOptionsPage::setupClassPageOption()
     visibilityLayout->setRowStretch(3, 1);
 
     m_showAttsCB = new QCheckBox(i18n("Att&ributes"), m_visibilityGB);
-    m_showAttsCB->setChecked(m_options->classState.showAtts );
+    m_showAttsCB->setChecked(m_options->classState.showAtts);
     visibilityLayout->addWidget(m_showAttsCB, 2, 0);
 
     m_showAttSigCB = new QCheckBox(i18n("Attr&ibute signature"), m_visibilityGB);
@@ -222,32 +222,32 @@ void ClassOptionsPage::setupClassPageOption()
     visibilityLayout->addWidget(m_showPublicOnlyCB, 4, 1);
 
     if (!m_isDiagram) {
-        m_scopeGB = new QGroupBox( i18n("Starting Scope"), parentWidget() );
-        QGridLayout * scopeLayout = new QGridLayout( m_scopeGB );
-        scopeLayout->setSpacing( 10 );
-        scopeLayout->setMargin(  fontMetrics().height()  );
+        m_scopeGB = new QGroupBox(i18n("Starting Scope"), parentWidget());
+        QGridLayout * scopeLayout = new QGridLayout(m_scopeGB);
+        scopeLayout->setSpacing(10);
+        scopeLayout->setMargin( fontMetrics().height() );
 
-        m_attributeLabel = new QLabel( i18n("Default attribute scope:"), m_scopeGB);
-        scopeLayout->addWidget( m_attributeLabel, 0, 0 );
+        m_attributeLabel = new QLabel(i18n("Default attribute scope:"), m_scopeGB);
+        scopeLayout->addWidget(m_attributeLabel, 0, 0);
 
-        m_operationLabel = new QLabel( i18n("Default operation scope:"), m_scopeGB);
-        scopeLayout->addWidget( m_operationLabel, 1, 0 );
+        m_operationLabel = new QLabel(i18n("Default operation scope:"), m_scopeGB);
+        scopeLayout->addWidget(m_operationLabel, 1, 0);
 
         m_attribScopeCB = new KComboBox(m_scopeGB);
-        insertAttribScope( i18n( "Public" ) );
-        insertAttribScope( i18n( "Private" ) );
-        insertAttribScope( i18n( "Protected" ) );
+        insertAttribScope(i18n("Public"));
+        insertAttribScope(i18n("Private"));
+        insertAttribScope(i18n("Protected"));
         m_attribScopeCB->setCurrentIndex(m_options->classState.defaultAttributeScope);
-        m_attribScopeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
-        scopeLayout->addWidget( m_attribScopeCB, 0, 1 );
+        m_attribScopeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
+        scopeLayout->addWidget(m_attribScopeCB, 0, 1);
 
         m_operationScopeCB = new KComboBox(m_scopeGB);
-        insertOperationScope( i18n( "Public" ) );
-        insertOperationScope( i18n( "Private" ) );
-        insertOperationScope( i18n( "Protected" ) );
+        insertOperationScope(i18n("Public"));
+        insertOperationScope(i18n("Private"));
+        insertOperationScope(i18n("Protected"));
         m_operationScopeCB->setCurrentIndex(m_options->classState.defaultOperationScope);
-        m_operationScopeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
-        scopeLayout->addWidget( m_operationScopeCB, 1, 1 );
+        m_operationScopeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
+        scopeLayout->addWidget(m_operationScopeCB, 1, 1);
     }
 }
 
@@ -256,19 +256,19 @@ void ClassOptionsPage::setupClassPageOption()
  */
 void ClassOptionsPage::applyWidget()
 {
-    m_pWidget->setVisualProperty( ClassifierWidget::ShowPackage, m_showPackageCB->isChecked() );
-    m_pWidget->setVisualProperty( ClassifierWidget::ShowVisibility, m_showVisibilityCB->isChecked() );
-    m_pWidget->setVisualProperty( ClassifierWidget::ShowOperations, m_showOpsCB->isChecked() );
-    m_pWidget->setVisualProperty( ClassifierWidget::ShowOperationSignature, m_showOpSigCB->isChecked() );
+    m_pWidget->setVisualProperty(ClassifierWidget::ShowPackage, m_showPackageCB->isChecked());
+    m_pWidget->setVisualProperty(ClassifierWidget::ShowVisibility, m_showVisibilityCB->isChecked());
+    m_pWidget->setVisualProperty(ClassifierWidget::ShowOperations, m_showOpsCB->isChecked());
+    m_pWidget->setVisualProperty(ClassifierWidget::ShowOperationSignature, m_showOpSigCB->isChecked());
     WidgetBase::WidgetType type = m_pWidget->baseType();
     if (type == WidgetBase::wt_Class) {
-        m_pWidget->setVisualProperty( ClassifierWidget::ShowStereotype, m_showStereotypeCB->isChecked() );
-        m_pWidget->setVisualProperty( ClassifierWidget::ShowAttributes, m_showAttsCB->isChecked() );
-        m_pWidget->setVisualProperty( ClassifierWidget::ShowAttributeSignature, m_showAttSigCB->isChecked() );
-        m_pWidget->setVisualProperty( ClassifierWidget::ShowPublicOnly, m_showPublicOnlyCB->isChecked() );
+        m_pWidget->setVisualProperty(ClassifierWidget::ShowStereotype, m_showStereotypeCB->isChecked());
+        m_pWidget->setVisualProperty(ClassifierWidget::ShowAttributes, m_showAttsCB->isChecked());
+        m_pWidget->setVisualProperty(ClassifierWidget::ShowAttributeSignature, m_showAttSigCB->isChecked());
+        m_pWidget->setVisualProperty(ClassifierWidget::ShowPublicOnly, m_showPublicOnlyCB->isChecked());
     } else if (type == WidgetBase::wt_Interface) {
         if (m_drawAsCircleCB)
-            m_pWidget->setVisualProperty( ClassifierWidget::DrawAsCircle, m_drawAsCircleCB->isChecked() );
+            m_pWidget->setVisualProperty(ClassifierWidget::DrawAsCircle, m_drawAsCircleCB->isChecked());
     }
 }
 
@@ -314,17 +314,17 @@ void ClassOptionsPage::init()
 /**
  * Inserts @p type into the type-combobox as well as its completion object.
  */
-void ClassOptionsPage::insertAttribScope( const QString& type, int index )
+void ClassOptionsPage::insertAttribScope(const QString& type, int index)
 {
-    m_attribScopeCB->insertItem( index, type );
-    m_attribScopeCB->completionObject()->addItem( type );
+    m_attribScopeCB->insertItem(index, type);
+    m_attribScopeCB->completionObject()->addItem(type);
 }
 
 /**
  * Inserts @p type into the type-combobox as well as its completion object.
  */
-void ClassOptionsPage::insertOperationScope( const QString& type, int index )
+void ClassOptionsPage::insertOperationScope(const QString& type, int index)
 {
-    m_operationScopeCB->insertItem( index, type );
-    m_operationScopeCB->completionObject()->addItem( type );
+    m_operationScopeCB->insertItem(index, type);
+    m_operationScopeCB->completionObject()->addItem(type);
 }

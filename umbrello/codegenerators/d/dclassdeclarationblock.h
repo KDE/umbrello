@@ -25,27 +25,27 @@ public:
     /**
      * Empty Constructor
      */
-    explicit DClassDeclarationBlock ( DClassifierCodeDocument * parentDoc, const QString &start = "", const QString &endText = "}", const QString &comment = "");
+    explicit DClassDeclarationBlock (DClassifierCodeDocument * parentDoc, const QString &start = "", const QString &endText = "}", const QString &comment = "");
 
     /**
      * Empty Destructor
      */
-    virtual ~DClassDeclarationBlock ( );
+    virtual ~DClassDeclarationBlock ();
 
     /**
      * Save the XMI representation of this object
      */
-    virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
+    virtual void saveToXMI (QDomDocument & doc, QDomElement & root);
 
     /**
      * Load params from the appropriate XMI element node.
      */
-    virtual void loadFromXMI ( QDomElement & root );
+    virtual void loadFromXMI (QDomElement & root);
 
     /**
      * Update the start and end text for this hierarchical codeblock.
      */
-    void updateContent ( );
+    void updateContent ();
 
 protected:
 

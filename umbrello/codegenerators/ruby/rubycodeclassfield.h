@@ -33,13 +33,13 @@ public:
     /**
      * Empty Destructor
      */
-    virtual ~RubyCodeClassField ( );
+    virtual ~RubyCodeClassField ();
 
     QString getFieldType();
     QString getFieldName();
     QString getInitialValue();
 
-    QString getTypeName ( );
+    QString getTypeName ();
 
 protected:
 

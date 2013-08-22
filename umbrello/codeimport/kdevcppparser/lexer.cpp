@@ -67,7 +67,7 @@ using phoenix::var;
 
 SkipRule Lexer::m_SkipRule = nothing_p;
 
-#if defined( KDEVELOP_BGPARSER )
+#if defined(KDEVELOP_BGPARSER)
 #include <QThread>
 
 class KDevTread: public QThread
@@ -155,7 +155,7 @@ struct operator_ :
                  | str_p("->")[ main.result_ = Token_arrow]
                  | str_p("##")[ main.result_ = Token_concat]
                  | str_p("...")[ main.result_ = Token_ellipsis]
-                )
+               )
                 [ self.result_ = construct_<Token>(main.result_, arg1, arg2)];
         }
     };
@@ -175,7 +175,7 @@ struct charLiteral :
         definition(charLiteral const& self) {
             main =
                 (!ch_p('L') >> ch_p('\'')
-                 >> *((anychar_p - '\'' - '\\') | gr_escapeSequence )
+                 >> *((anychar_p - '\'' - '\\') | gr_escapeSequence)
                  >> '\'')
                 [ self.result_ = construct_<Token>(Token_char_literal, arg1, arg2)];
         }
@@ -195,7 +195,7 @@ struct numberLiteral :
 
         definition(numberLiteral const& self) {
             main =
-                ( + digit_p)
+                (+ digit_p)
                 [ self.result_ = construct_<Token>(Token_number_literal, arg1, arg2)];
         }
     };
@@ -210,7 +210,7 @@ struct DependencyClosure
 };
 
 Lexer::CharRule gr_stringLiteral =
-    ch_p('"') >> *((anychar_p - '"' - '\\') | gr_escapeSequence ) >> '"';
+    ch_p('"') >> *((anychar_p - '"' - '\\') | gr_escapeSequence) >> '"';
 Lexer::CharRule gr_whiteSpace = blank_p | (ch_p('\\') >> eol_p);
 Lexer::CharRule gr_lineComment = (str_p("//") >> (*(anychar_p - eol_p)));
 Lexer::CharRule gr_multiLineComment = confix_p("/*", *anychar_p, "*/");
@@ -373,7 +373,7 @@ void Lexer::nextToken(Token& tk)
                    |
                    gr_stringLiteral
                    [var(tk) = construct_<Token>(Token_string_literal, arg1, arg2)]
-               ).hit) {
+              ).hit) {
     } else if (ch.isLetter() || ch == '_') {
         CharIterator start = m_source.get_ptr();
         QString ide;
@@ -386,7 +386,7 @@ void Lexer::nextToken(Token& tk)
         }
     } else if (m_source.parse(numberLiteral_g[assign(tk)]
                               | operator_g[ assign(tk)]
-                             ).hit) {
+                            ).hit) {
     } else {
         CharIterator l_ptr = m_source.get_ptr();
         m_source.nextChar();

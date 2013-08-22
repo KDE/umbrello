@@ -36,7 +36,7 @@ RubyCodeClassField::RubyCodeClassField (ClassifierCodeDocument * parentDoc, UMLA
 {
 }
 
-RubyCodeClassField::~RubyCodeClassField ( )
+RubyCodeClassField::~RubyCodeClassField ()
 {
 }
 
@@ -64,7 +64,7 @@ QString RubyCodeClassField::getInitialValue()
 {
     if (parentIsAttribute())
     {
-        UMLAttribute * at = dynamic_cast<UMLAttribute*>( getParentObject() );
+        UMLAttribute * at = dynamic_cast<UMLAttribute*>(getParentObject());
         if (at) {
             return fixInitialStringDeclValue(at->getInitialValue(), getTypeName());
         } else {
@@ -86,7 +86,7 @@ QString RubyCodeClassField::getInitialValue()
 
 }
 
-QString RubyCodeClassField::getTypeName ( )
+QString RubyCodeClassField::getTypeName ()
 {
     return RubyCodeGenerator::cppToRubyType(CodeClassField::getTypeName());
 }

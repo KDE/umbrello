@@ -145,9 +145,9 @@ QString CodeMethodBlock::toString() const
         QString bodyIndent = getIndentationString(getIndentationLevel()+1);
         QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
 
-        QString startMethod = formatMultiLineText ( getStartMethodText(), indent, endLine);
+        QString startMethod = formatMultiLineText (getStartMethodText(), indent, endLine);
         QString body = formatMultiLineText (getText(), bodyIndent, endLine);
-        QString endMethod = formatMultiLineText( getEndMethodText(), indent, endLine);
+        QString endMethod = formatMultiLineText(getEndMethodText(), indent, endLine);
 
         QString comment = getComment()->toString();
         if (!comment.isEmpty() && getComment()->getWriteOutText())

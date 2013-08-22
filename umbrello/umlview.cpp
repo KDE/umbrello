@@ -167,13 +167,13 @@ void UMLView::dragEnterEvent(QDragEnterEvent *e)
         return;
     }
     //can't drag anything onto state/activity diagrams
-    if( diagramType == Uml::DiagramType::State || diagramType == Uml::DiagramType::Activity) {
+    if(diagramType == Uml::DiagramType::State || diagramType == Uml::DiagramType::Activity) {
         e->setAccepted(false);
         return;
     }
     UMLDoc *pDoc = UMLApp::app()->document();
     //make sure can find UMLObject
-    if( !(temp = pDoc->findObjectById(id) ) ) {
+    if(!(temp = pDoc->findObjectById(id))) {
         DEBUG(DBG_SRC) << "object " << Uml::ID::toString(id) << " not found";
         e->setAccepted(false);
         return;
@@ -247,7 +247,7 @@ void UMLView::dragEnterEvent(QDragEnterEvent *e)
  */
 void UMLView::dropEvent(QDropEvent *e) {
     UMLDragData::LvTypeAndID_List tidList;
-    if( !UMLDragData::getClip3TypeAndID(e->mimeData(), tidList) ) {
+    if(!UMLDragData::getClip3TypeAndID(e->mimeData(), tidList)) {
         return;
     }
     UMLDragData::LvTypeAndID_It tidIt(tidList);
@@ -282,13 +282,13 @@ void UMLView::dropEvent(QDropEvent *e) {
     }
     UMLDoc *pDoc = UMLApp::app()->document();
     UMLObject* o = pDoc->findObjectById(id);
-    if( !o ) {
+    if(!o) {
         DEBUG(DBG_SRC) << "UMLView::contentsDropEvent: object id=" << Uml::ID::toString(id)
                        << " not found";
         return;
     }
     umlScene()->setCreateObject(true);
-    umlScene()->setPos( (mapToScene(e->pos()) * 100 ) / m_nZoom );
+    umlScene()->setPos((mapToScene(e->pos()) * 100) / m_nZoom);
 
     umlScene()->slotObjectCreated(o);
 

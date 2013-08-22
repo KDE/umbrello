@@ -27,8 +27,8 @@ struct Error{
     int level;
     KLocalizedString text;
 
-    Error( int c, int l, const KLocalizedString& s )
-        : code( c ), level( l ), text( s )
+    Error(int c, int l, const KLocalizedString& s)
+        : code(c), level(l), text(s)
         {}
 };
 

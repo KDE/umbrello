@@ -29,7 +29,7 @@ class UMLEntityAttributeDialog : public KDialog
 {
     Q_OBJECT
 public:
-    UMLEntityAttributeDialog( QWidget* pParent, UMLEntityAttribute* pEntityAttribute );
+    UMLEntityAttributeDialog(QWidget* pParent, UMLEntityAttribute* pEntityAttribute);
     ~UMLEntityAttributeDialog();
 
 protected:
@@ -40,7 +40,7 @@ protected:
 
     void insertTypesSorted(const QString& type = "");
 
-    void insertAttribute( const QString& type, int index = -1 );
+    void insertAttribute(const QString& type, int index = -1);
 
     /**
      * The EntityAttribute to represent.
@@ -65,7 +65,7 @@ public slots:
     void slotApply();
 
     void slotOk();
-    void slotNameChanged( const QString & );
+    void slotNameChanged(const QString &);
 };
 
 #endif

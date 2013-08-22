@@ -25,9 +25,9 @@
 #include <QRegExp>
 
 const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_METHOD_APPEND = "%VARNAME%.push_back(value);";
-const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_METHOD_REMOVE = "int size = %VARNAME%.size();\nfor ( int i = 0; i < size; ++i) {\n\t%ITEMCLASS% item = %VARNAME%.at(i);\n\tif(item == value) {\n\t\tvector<%ITEMCLASS%>::iterator it = %VARNAME%.begin() + i;\n\t\t%VARNAME%.erase(it);\n\t\treturn;\n\t}\n }";
+const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_METHOD_REMOVE = "int size = %VARNAME%.size();\nfor (int i = 0; i < size; ++i) {\n\t%ITEMCLASS% item = %VARNAME%.at(i);\n\tif(item == value) {\n\t\tvector<%ITEMCLASS%>::iterator it = %VARNAME%.begin() + i;\n\t\t%VARNAME%.erase(it);\n\t\treturn;\n\t}\n }";
 const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_METHOD_INIT = ""; // nothing to do in std::vector
-const char * CPPCodeGenerationPolicy::DEFAULT_OBJECT_METHOD_INIT = "%VARNAME% = new %ITEMCLASS%( );";
+const char * CPPCodeGenerationPolicy::DEFAULT_OBJECT_METHOD_INIT = "%VARNAME% = new %ITEMCLASS%();";
 
 /**
  * Constructor.
@@ -322,7 +322,7 @@ void CPPCodeGenerationPolicy::setDefaults(CPPCodeGenerationPolicy * cppclone, bo
         setDestructorsAreVirtual(cppclone->getDestructorsAreVirtual());
         setPackageIsNamespace(cppclone->getPackageIsNamespace());
 
-        setStringClassName(cppclone->getStringClassName() );
+        setStringClassName(cppclone->getStringClassName());
         setStringClassNameInclude(cppclone->getStringClassNameInclude());
         setStringIncludeIsGlobal(cppclone->stringIncludeIsGlobal());
 
@@ -395,12 +395,12 @@ void CPPCodeGenerationPolicy::init()
     m_objectMethodInitBase = DEFAULT_OBJECT_METHOD_INIT;
 
     Settings::OptionState optionState = Settings::optionState();
-    setAutoGenerateAccessors( optionState.codeGenerationState.cppCodeGenerationState.autoGenAccessors);
+    setAutoGenerateAccessors(optionState.codeGenerationState.cppCodeGenerationState.autoGenAccessors);
 
     setAccessorsAreInline(optionState.codeGenerationState.cppCodeGenerationState.inlineAccessors);
-    setAccessorsArePublic( optionState.codeGenerationState.cppCodeGenerationState.publicAccessors);
+    setAccessorsArePublic(optionState.codeGenerationState.cppCodeGenerationState.publicAccessors);
     setOperationsAreInline(optionState.codeGenerationState.cppCodeGenerationState.inlineOps);
-    setDestructorsAreVirtual( optionState.codeGenerationState.cppCodeGenerationState.virtualDestructors);
+    setDestructorsAreVirtual(optionState.codeGenerationState.cppCodeGenerationState.virtualDestructors);
     setPackageIsNamespace(optionState.codeGenerationState.cppCodeGenerationState.packageIsNamespace);
 
     setStringClassName(optionState.codeGenerationState.cppCodeGenerationState.stringClassName);

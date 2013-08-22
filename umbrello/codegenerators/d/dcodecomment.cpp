@@ -15,26 +15,26 @@
 // qt/kde includes
 #include <QRegExp>
 
-DCodeComment::DCodeComment ( CodeDocument * doc, const QString & text )
+DCodeComment::DCodeComment (CodeDocument * doc, const QString & text)
         : CodeComment (doc, text)
 {
 }
 
-DCodeComment::~DCodeComment ( )
+DCodeComment::~DCodeComment ()
 {
 }
 
-void DCodeComment::saveToXMI ( QDomDocument & doc, QDomElement & root )
+void DCodeComment::saveToXMI (QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement( "dcodecomment" );
+    QDomElement blockElement = doc.createElement("dcodecomment");
 
     // as we added no additional fields to this class we may
     // just use parent TextBlock method
     setAttributesOnNode(doc, blockElement);
-    root.appendChild( blockElement );
+    root.appendChild(blockElement);
 }
 
-QString DCodeComment::toString ( ) const
+QString DCodeComment::toString () const
 {
     QString output;
 
@@ -59,14 +59,14 @@ QString DCodeComment::toString ( ) const
 }
 
 // TODO: where is this used?
-QString DCodeComment::getNewEditorLine ( int amount )
+QString DCodeComment::getNewEditorLine (int amount)
 {
     QString line = getIndentationString(amount) + "// ";
     return line;
 }
 
 // TODO: where is this used?
-QString DCodeComment::unformatText ( const QString & text , const QString & indent)
+QString DCodeComment::unformatText (const QString & text , const QString & indent)
 {
     // remove leading or trailing comment stuff
     QString mytext = TextBlock::unformatText(text, indent);

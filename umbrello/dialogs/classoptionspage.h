@@ -44,7 +44,7 @@ public:
     void setDefaults();
     void apply();
 
-    void setWidget( ClassifierWidget * pWidget );
+    void setWidget(ClassifierWidget * pWidget);
 
 protected:
     void init();
@@ -55,8 +55,8 @@ protected:
     void applyWidget();
     void applyOptionState();
 
-    void insertAttribScope( const QString& type, int index = -1 );
-    void insertOperationScope( const QString& type, int index = -1 );
+    void insertAttribScope(const QString& type, int index = -1);
+    void insertOperationScope(const QString& type, int index = -1);
 
     //GUI widgets
     QGroupBox * m_visibilityGB;

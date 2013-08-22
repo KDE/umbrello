@@ -33,14 +33,14 @@
 #include <QVBoxLayout>
 
 UMLTemplateDialog::UMLTemplateDialog(QWidget* pParent, UMLTemplate* pTemplate)
-        : KDialog( pParent)
+        : KDialog(pParent)
 {
     m_pTemplate = pTemplate;
-    setCaption( i18n("Template Properties") );
-    setButtons( Help | Ok | Cancel );
-    setDefaultButton( Ok );
-    setModal( true );
-    showButtonSeparator( true );
+    setCaption(i18n("Template Properties"));
+    setButtons(Help | Ok | Cancel);
+    setDefaultButton(Ok);
+    setModal(true);
+    showButtonSeparator(true);
     setupDialog();
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
@@ -57,11 +57,11 @@ void UMLTemplateDialog::setupDialog()
 {
     int margin = fontMetrics().height();
 
-    QFrame *frame = new QFrame( this );
-    setMainWidget( frame );
-    QVBoxLayout* mainLayout = new QVBoxLayout( frame );
+    QFrame *frame = new QFrame(this);
+    setMainWidget(frame);
+    QVBoxLayout* mainLayout = new QVBoxLayout(frame);
 
-    m_pValuesGB = new QGroupBox(i18n("General Properties"), frame );
+    m_pValuesGB = new QGroupBox(i18n("General Properties"), frame);
     QGridLayout* valuesLayout = new QGridLayout(m_pValuesGB);
     valuesLayout->setMargin(margin);
     valuesLayout->setSpacing(10);
@@ -73,19 +73,19 @@ void UMLTemplateDialog::setupDialog()
     valuesLayout->addWidget(m_pTypeCB, 0, 1);
     m_pTypeL->setBuddy(m_pTypeCB);
 
-    Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
+    Dialog_Utils::makeLabeledEditField(m_pValuesGB, valuesLayout, 1,
                                     m_pNameL, i18nc("template name", "&Name:"),
-                                    m_pNameLE, m_pTemplate->name() );
+                                    m_pNameLE, m_pTemplate->name());
 
-    Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 2,
+    Dialog_Utils::makeLabeledEditField(m_pValuesGB, valuesLayout, 2,
                                     m_pStereoTypeL, i18n("&Stereotype name:"),
-                                    m_pStereoTypeLE, m_pTemplate->stereotype() );
+                                    m_pStereoTypeLE, m_pTemplate->stereotype());
 
     mainLayout->addWidget(m_pValuesGB);
 
     m_pTypeCB->setEditable(true);
     m_pTypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
-    m_pTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
+    m_pTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
 //    m_pTypeCB->setCompleter(...);
     insertTypesSorted(m_pTemplate->getTypeName());
 
@@ -105,12 +105,12 @@ void UMLTemplateDialog::insertTypesSorted(const QString& type)
     types << "class";
     // add the active data types to combo box
     UMLDoc *pDoc = UMLApp::app()->document();
-    UMLClassifierList namesList( pDoc->concepts() );
+    UMLClassifierList namesList(pDoc->concepts());
     foreach (UMLClassifier* obj, namesList) {
         types << obj->name();
     }
     // add the given parameter
-    if ( !types.contains(type) ) {
+    if (!types.contains(type)) {
         types << type;
     }
     types.sort();
@@ -133,7 +133,7 @@ bool UMLTemplateDialog::apply()
 {
     QString typeName = m_pTypeCB->currentText();
     UMLDoc *pDoc = UMLApp::app()->document();
-    UMLClassifierList namesList( pDoc->concepts() );
+    UMLClassifierList namesList(pDoc->concepts());
     foreach (UMLClassifier* obj, namesList) {
         if (typeName == obj->name()) {
             m_pTemplate->setType(obj);
@@ -141,29 +141,29 @@ bool UMLTemplateDialog::apply()
     }
     if (namesList.isEmpty()) { // not found.
         // FIXME: This implementation is not good yet.
-        m_pTemplate->setTypeName( typeName );
+        m_pTemplate->setTypeName(typeName);
     }
     QString name = m_pNameLE->text();
-    if( name.length() == 0 ) {
+    if(name.length() == 0) {
         KMessageBox::error(this, i18n("You have entered an invalid template name."),
                            i18n("Template Name Invalid"), 0);
-        m_pNameLE->setText( m_pTemplate->name() );
+        m_pNameLE->setText(m_pTemplate->name());
         return false;
     }
 
-    UMLClassifier * pClass = dynamic_cast<UMLClassifier *>( m_pTemplate->parent() );
+    UMLClassifier * pClass = dynamic_cast<UMLClassifier *>(m_pTemplate->parent());
     if (pClass) {
         UMLObject *o = pClass->findChildObject(name);
         if (o && o != m_pTemplate) {
             KMessageBox::error(this, i18n("The template parameter name you have chosen is already being used in this operation."),
                                i18n("Template Name Not Unique"), 0);
-            m_pNameLE->setText( m_pTemplate->name() );
+            m_pNameLE->setText(m_pTemplate->name());
             return false;
         }
     }
     m_pTemplate->setName(name);
 
-    m_pTemplate->setStereotype( m_pStereoTypeLE->text() );
+    m_pTemplate->setStereotype(m_pStereoTypeLE->text());
 
     return true;
 }
@@ -182,7 +182,7 @@ void UMLTemplateDialog::slotApply()
  */
 void UMLTemplateDialog::slotOk()
 {
-    if ( apply() ) {
+    if (apply()) {
         accept();
     }
 }

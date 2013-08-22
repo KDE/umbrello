@@ -36,7 +36,7 @@
  * @param doc   the UML document
  */
 ClassWizard::ClassWizard(UMLDoc* doc)
-    : QWizard( (QWidget*)doc->parent())
+    : QWizard((QWidget*)doc->parent())
 {
     m_doc = doc;
     //create a unique class to start with
@@ -45,14 +45,14 @@ ClassWizard::ClassWizard(UMLDoc* doc)
     QString newName = name;
     QString num;
     int i = 0;
-    m_pClass = new UMLClassifier( newName );
+    m_pClass = new UMLClassifier(newName);
     do {
-        m_pClass->setName( newName );
-        pTemp = m_doc->findUMLObject( newName );
-        num.setNum( ++i);
+        m_pClass->setName(newName);
+        pTemp = m_doc->findUMLObject(newName);
+        num.setNum(++i);
         newName = name;
-        newName.append("_").append( num );
-    } while( pTemp );
+        newName.append("_").append(num);
+    } while(pTemp);
 
     setWizardStyle(QWizard::ModernStyle);
     setPixmap(QWizard::LogoPixmap, Icon_Utils::UserIcon(Icon_Utils::it_Code_Gen_Wizard));

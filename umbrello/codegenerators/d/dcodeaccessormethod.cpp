@@ -28,8 +28,8 @@
 #include "dcodeclassfield.h"
 #include "dcodedocumentation.h"
 
-DCodeAccessorMethod::DCodeAccessorMethod ( CodeClassField * field, CodeAccessorMethod::AccessorType type)
-        : CodeAccessorMethod ( field )
+DCodeAccessorMethod::DCodeAccessorMethod (CodeClassField * field, CodeAccessorMethod::AccessorType type)
+        : CodeAccessorMethod (field)
 {
     setType(type);
 
@@ -38,11 +38,11 @@ DCodeAccessorMethod::DCodeAccessorMethod ( CodeClassField * field, CodeAccessorM
     setComment(new DCodeDocumentation(jccd));
 }
 
-DCodeAccessorMethod::~DCodeAccessorMethod ( )
+DCodeAccessorMethod::~DCodeAccessorMethod ()
 {
 }
 
-void DCodeAccessorMethod::setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement)
+void DCodeAccessorMethod::setAttributesOnNode (QDomDocument & doc, QDomElement & blockElement)
 {
     // set super-class attributes
     CodeAccessorMethod::setAttributesOnNode(doc, blockElement);
@@ -50,7 +50,7 @@ void DCodeAccessorMethod::setAttributesOnNode ( QDomDocument & doc, QDomElement 
     // set local attributes now
 }
 
-void DCodeAccessorMethod::setAttributesFromNode( QDomElement & root)
+void DCodeAccessorMethod::setAttributesFromNode(QDomElement & root)
 {
     // set attributes from superclass method the XMI
     CodeAccessorMethod::setAttributesFromNode(root);
@@ -58,7 +58,7 @@ void DCodeAccessorMethod::setAttributesFromNode( QDomElement & root)
     // load local stuff
 }
 
-void DCodeAccessorMethod::updateContent( )
+void DCodeAccessorMethod::updateContent()
 {
     CodeClassField * parentField = getParentClassField();
     DCodeClassField * dfield = dynamic_cast<DCodeClassField*>(parentField);
@@ -193,7 +193,7 @@ void DCodeAccessorMethod::updateMethodDeclaration()
         getComment()->setText(headerText);
 
     // set start/end method text
-    setStartMethodText(strVis+' '+methodReturnType+' '+methodName+" ( "+methodParams+" ) {");
+    setStartMethodText(strVis+' '+methodReturnType+' '+methodName+" ("+methodParams+") {");
     setEndMethodText("}");
 }
 

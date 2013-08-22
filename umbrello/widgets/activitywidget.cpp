@@ -67,7 +67,7 @@ QString ActivityWidget::activityTypeStr() const
 /**
  * Sets the type of activity.
  */
-void ActivityWidget::setActivityType( ActivityType activityType )
+void ActivityWidget::setActivityType(ActivityType activityType)
 {
     m_activityType = activityType;
     updateGeometry();
@@ -125,7 +125,7 @@ void ActivityWidget::setPreconditionText(const QString& aPreText)
 {
     m_preconditionText = aPreText;
     updateGeometry();
-    adjustAssocs( x(), y() );
+    adjustAssocs(x(), y());
 }
 
 /**
@@ -143,7 +143,7 @@ void ActivityWidget::setPostconditionText(const QString& aPostText)
 {
     m_postconditionText = aPostText;
     updateGeometry();
-    adjustAssocs( x(), y() );
+    adjustAssocs(x(), y());
 }
 
 /**
@@ -177,12 +177,12 @@ void ActivityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     float y;
     QPen pen = painter->pen();
 
-    switch ( m_activityType )
+    switch (m_activityType)
     {
     case Normal:
         UMLWidget::setPenFromSettings(painter);
-        if ( UMLWidget::useFillColor() ) {
-            painter->setBrush( UMLWidget::fillColor() );
+        if (UMLWidget::useFillColor()) {
+            painter->setBrush(UMLWidget::fillColor());
         }
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -190,64 +190,64 @@ void ActivityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
             int textStartY = (h / 2) - (fontHeight / 2);
             painter->drawRoundRect(0, 0, w, h, (h * 60) / w, 60);
             painter->setPen(textColor());
-            painter->setFont( UMLWidget::font() );
+            painter->setFont(UMLWidget::font());
             painter->drawText(ACTIVITY_MARGIN, textStartY,
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
         }
         break;
 
     case Initial:
-        painter->setPen( QPen(WidgetBase::lineColor(), 1) );
-        painter->setBrush( WidgetBase::lineColor() );
-        painter->drawEllipse( 0, 0, w, h );
+        painter->setPen(QPen(WidgetBase::lineColor(), 1));
+        painter->setBrush(WidgetBase::lineColor());
+        painter->drawEllipse(0, 0, w, h);
         break;
 
     case Final:
         UMLWidget::setPenFromSettings(painter);
-        painter->setBrush( Qt::white );
-        pen.setWidth( 2 );
-        pen.setColor ( Qt::red );
-        painter->setPen( pen );
-        painter->drawEllipse( 0, 0, w, h );
+        painter->setBrush(Qt::white);
+        pen.setWidth(2);
+        pen.setColor (Qt::red);
+        painter->setPen(pen);
+        painter->drawEllipse(0, 0, w, h);
         x = w/2 ;
         y = h/2 ;
         {
             const float w2 = 0.7071 * (float)w / 2.0;
-            painter->drawLine((int)(x - w2 + 1), (int)(y - w2 + 1), (int)(x + w2), (int)(y + w2) );
-            painter->drawLine((int)(x + w2 - 1), (int)(y - w2 + 1), (int)(x - w2), (int)(y + w2) );
+            painter->drawLine((int)(x - w2 + 1), (int)(y - w2 + 1), (int)(x + w2), (int)(y + w2));
+            painter->drawLine((int)(x + w2 - 1), (int)(y - w2 + 1), (int)(x - w2), (int)(y + w2));
         }
         break;
 
     case End:
-        painter->setPen( QPen(WidgetBase::lineColor(), 1) );
-        painter->setBrush( WidgetBase::lineColor() );
-        painter->drawEllipse( 0, 0, w, h );
-        painter->setBrush( Qt::white );
-        painter->drawEllipse( 1, 1, w - 2, h - 2 );
-        painter->setBrush( WidgetBase::lineColor() );
-        painter->drawEllipse( 3, 3, w - 6, h - 6 );
+        painter->setPen(QPen(WidgetBase::lineColor(), 1));
+        painter->setBrush(WidgetBase::lineColor());
+        painter->drawEllipse(0, 0, w, h);
+        painter->setBrush(Qt::white);
+        painter->drawEllipse(1, 1, w - 2, h - 2);
+        painter->setBrush(WidgetBase::lineColor());
+        painter->drawEllipse(3, 3, w - 6, h - 6);
         break;
 
     case Branch:
         UMLWidget::setPenFromSettings(painter);
-        if ( UMLWidget::useFillColor() ) {
-            painter->setBrush( UMLWidget::fillColor() );
+        if (UMLWidget::useFillColor()) {
+            painter->setBrush(UMLWidget::fillColor());
 		}
         {
-            QPolygon array( 4 );
-            array[ 0 ] = QPoint( w / 2, 0 );
-            array[ 1 ] = QPoint( w, h / 2 );
-            array[ 2 ] = QPoint( w / 2, h );
-            array[ 3 ] = QPoint( 0, h / 2 );
-            painter->drawPolygon( array );
-            painter->drawPolyline( array );
+            QPolygon array(4);
+            array[ 0 ] = QPoint(w / 2, 0);
+            array[ 1 ] = QPoint(w, h / 2);
+            array[ 2 ] = QPoint(w / 2, h);
+            array[ 3 ] = QPoint(0, h / 2);
+            painter->drawPolygon(array);
+            painter->drawPolyline(array);
         }
         break;
 
     case Invok:
         UMLWidget::setPenFromSettings(painter);
-        if ( UMLWidget::useFillColor() ) {
-            painter->setBrush( UMLWidget::fillColor() );
+        if (UMLWidget::useFillColor()) {
+            painter->setBrush(UMLWidget::fillColor());
         }
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -255,7 +255,7 @@ void ActivityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
             int textStartY = (h / 2) - (fontHeight / 2);
             painter->drawRoundRect(0, 0, w, h, (h * 60) / w, 60);
             painter->setPen(textColor());
-            painter->setFont( UMLWidget::font() );
+            painter->setFont(UMLWidget::font());
             painter->drawText(ACTIVITY_MARGIN, textStartY,
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
 
@@ -263,7 +263,7 @@ void ActivityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
         x = w - (w/5);
         y = h - (h/3);
 
-        painter->drawLine((int)x, (int) y, (int)x, (int)( y + 20));
+        painter->drawLine((int)x, (int) y, (int)x, (int)(y + 20));
         painter->drawLine((int)(x - 10),(int)(y + 10), (int)(x + 10), (int)(y + 10));
         painter->drawLine((int)(x - 10),(int)(y + 10), (int)(x - 10), (int)(y + 20));
         painter->drawLine((int)(x + 10),(int)(y + 10), (int)(x + 10), (int)(y + 20));
@@ -271,8 +271,8 @@ void ActivityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 
     case Param:
         UMLWidget::setPenFromSettings(painter);
-        if ( UMLWidget::useFillColor() ) {
-            painter->setBrush( UMLWidget::fillColor() );
+        if (UMLWidget::useFillColor()) {
+            painter->setBrush(UMLWidget::fillColor());
         }
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -282,7 +282,7 @@ void ActivityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
             //int textStartY = (h / 2) - (fontHeight / 2);
             painter->drawRoundRect(0, 0, w, h, (h * 60) / w, 60);
             painter->setPen(textColor());
-            painter->setFont( UMLWidget::font() );
+            painter->setFont(UMLWidget::font());
             painter->drawText(ACTIVITY_MARGIN, fontHeight + 10,
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, preCond);
             painter->drawText(ACTIVITY_MARGIN, fontHeight * 2 + 10,
@@ -302,15 +302,15 @@ void ActivityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
  */
 bool ActivityWidget::loadFromXMI(QDomElement& qElement)
 {
-    if( !UMLWidget::loadFromXMI( qElement ) )
+    if(!UMLWidget::loadFromXMI(qElement))
         return false;
-    setName(qElement.attribute( "activityname", "" ));
-    setDocumentation(qElement.attribute( "documentation", "" ));
-    setPreconditionText(qElement.attribute( "precondition", "" ));
-    setPostconditionText(qElement.attribute( "postcondition", "" ));
+    setName(qElement.attribute("activityname", ""));
+    setDocumentation(qElement.attribute("documentation", ""));
+    setPreconditionText(qElement.attribute("precondition", ""));
+    setPostconditionText(qElement.attribute("postcondition", ""));
 
-    QString type = qElement.attribute( "activitytype", "1" );
-    setActivityType( (ActivityType)type.toInt() );
+    QString type = qElement.attribute("activitytype", "1");
+    setActivityType((ActivityType)type.toInt());
 
     return true;
 }
@@ -318,16 +318,16 @@ bool ActivityWidget::loadFromXMI(QDomElement& qElement)
 /**
  * Saves the widget to the "activitywidget" XMI element.
  */
-void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+void ActivityWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
-    QDomElement activityElement = qDoc.createElement( "activitywidget" );
-    UMLWidget::saveToXMI( qDoc, activityElement );
-    activityElement.setAttribute( "activityname", name() );
-    activityElement.setAttribute( "documentation", documentation() );
-    activityElement.setAttribute( "precondition", preconditionText() );
-    activityElement.setAttribute( "postcondition", postconditionText() );
-    activityElement.setAttribute( "activitytype", m_activityType );
-    qElement.appendChild( activityElement );
+    QDomElement activityElement = qDoc.createElement("activitywidget");
+    UMLWidget::saveToXMI(qDoc, activityElement);
+    activityElement.setAttribute("activityname", name());
+    activityElement.setAttribute("documentation", documentation());
+    activityElement.setAttribute("precondition", preconditionText());
+    activityElement.setAttribute("postcondition", postconditionText());
+    activityElement.setAttribute("activitytype", m_activityType);
+    qElement.appendChild(activityElement);
 }
 
 /**
@@ -355,7 +355,7 @@ void ActivityWidget::slotMenuSelection(QAction* action)
 {
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
 
-    switch( sel ) {
+    switch(sel) {
     case ListPopupMenu::mt_Rename:
         {
             bool ok = false;
@@ -383,7 +383,7 @@ void ActivityWidget::slotMenuSelection(QAction* action)
  */
 UMLSceneSize ActivityWidget::minimumSize()
 {
-    if ( m_activityType == Normal || m_activityType == Invok || m_activityType == Param ) {
+    if (m_activityType == Normal || m_activityType == Invok || m_activityType == Param) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
 

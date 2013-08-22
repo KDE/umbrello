@@ -63,10 +63,10 @@ CodeBlock::ContentType CodeBlock::contentType() const
  */
 void CodeBlock::saveToXMI(QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement( "codeblock" );
+    QDomElement blockElement = doc.createElement("codeblock");
     // set attributes
     setAttributesOnNode(doc, blockElement);
-    root.appendChild( blockElement );
+    root.appendChild(blockElement);
 }
 
 /**

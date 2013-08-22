@@ -29,23 +29,23 @@ OverwriteDialogue::OverwriteDialogue(
         bool applyToAllRemaining, QWidget* parent)
   : KDialog(parent)
 {
-    setCaption( i18n("Destination File Already Exists") );
-    setButtons( Help | Ok | Cancel );
-    setDefaultButton( Yes );
-    setModal( true );
-    showButtonSeparator( true );
+    setCaption(i18n("Destination File Already Exists"));
+    setButtons(Help | Ok | Cancel);
+    setDefaultButton(Yes);
+    setModal(true);
+    showButtonSeparator(true);
 
-    QFrame *frame = new QFrame( this );
-    setMainWidget( frame );
+    QFrame *frame = new QFrame(this);
+    setMainWidget(frame);
 
-    QVBoxLayout* layout = new QVBoxLayout( frame );
-    layout->setSpacing( spacingHint() );
-    layout->setMargin( 0 );
+    QVBoxLayout* layout = new QVBoxLayout(frame);
+    layout->setSpacing(spacingHint());
+    layout->setMargin(0);
 
-    QLabel* dialogueLabel = new QLabel(i18n("The file %1 already exists in %2.\n\nUmbrello can overwrite the file, generate a similar\nfile name or not generate this file.", fileName, outputDirectory), frame );
+    QLabel* dialogueLabel = new QLabel(i18n("The file %1 already exists in %2.\n\nUmbrello can overwrite the file, generate a similar\nfile name or not generate this file.", fileName, outputDirectory), frame);
     layout->addWidget(dialogueLabel);
 
-    m_applyToAllRemaining = new QCheckBox( i18n("&Apply to all remaining files"), frame );
+    m_applyToAllRemaining = new QCheckBox(i18n("&Apply to all remaining files"), frame);
     m_applyToAllRemaining->setChecked(applyToAllRemaining);
     layout->addWidget(m_applyToAllRemaining);
 

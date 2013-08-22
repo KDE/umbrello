@@ -27,9 +27,9 @@
  */
 UMLTemplate::UMLTemplate(UMLObject *parent, const QString& name,
                          Uml::ID::Type id, const QString& type)
-        : UMLClassifierListItem( parent, name, id )
+        : UMLClassifierListItem(parent, name, id)
 {
-    setTypeName( type );
+    setTypeName(type);
     m_BaseType = UMLObject::ot_Template;
 }
 
@@ -39,7 +39,7 @@ UMLTemplate::UMLTemplate(UMLObject *parent, const QString& name,
  * @param parent    The parent of this UMLTemplate (i.e. its concept).
  */
 UMLTemplate::UMLTemplate(UMLObject *parent)
-        : UMLClassifierListItem( parent )
+        : UMLClassifierListItem(parent)
 {
     m_BaseType = UMLObject::ot_Template;
 }
@@ -84,7 +84,7 @@ bool UMLTemplate::operator==(const UMLTemplate &rhs) const
     if (this == &rhs) {
         return true;
     }
-    if ( !UMLObject::operator==( rhs ) ) {
+    if (!UMLObject::operator==(rhs)) {
         return false;
     }
     if (m_pSecondary != rhs.m_pSecondary) {
@@ -107,7 +107,7 @@ void UMLTemplate::copyInto(UMLObject *lhs) const
  */
 UMLObject* UMLTemplate::clone() const
 {
-    UMLTemplate *clone = new UMLTemplate( (UMLTemplate*) parent());
+    UMLTemplate *clone = new UMLTemplate((UMLTemplate*) parent());
     copyInto(clone);
 
     return clone;

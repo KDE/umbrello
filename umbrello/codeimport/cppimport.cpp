@@ -92,13 +92,13 @@ void CppImport::feedTheModel(const QString& fileName)
                 feedTheModel(includeFile);
         }
     }
-    TranslationUnitAST *ast = ms_driver->translationUnit( fileName );
+    TranslationUnitAST *ast = ms_driver->translationUnit(fileName);
     if (ast == NULL) {
         uError() << fileName << " not found";
         return;
     }
     CppTree2Uml modelFeeder(fileName, m_thread);
-    modelFeeder.parseTranslationUnit( ast );
+    modelFeeder.parseTranslationUnit(ast);
 }
 
 /**
@@ -108,18 +108,18 @@ void CppImport::initialize()
 {
     // Reset the driver
     ms_driver->reset();
-    ms_driver->setResolveDependencesEnabled( Settings::optionState().codeImportState.resolveDependencies );
+    ms_driver->setResolveDependencesEnabled(Settings::optionState().codeImportState.resolveDependencies);
     // FIXME: port to win32
     // Add some standard include paths
-    ms_driver->addIncludePath( "/usr/include" );
-    ms_driver->addIncludePath( "/usr/include/c++" );
-    ms_driver->addIncludePath( "/usr/include/g++" );
-    ms_driver->addIncludePath( "/usr/local/include" );
+    ms_driver->addIncludePath("/usr/include");
+    ms_driver->addIncludePath("/usr/include/c++");
+    ms_driver->addIncludePath("/usr/include/g++");
+    ms_driver->addIncludePath("/usr/local/include");
     const QStringList incPathList = Import_Utils::includePathList();
     if (incPathList.count()) {
         QStringList::ConstIterator end(incPathList.end());
         for (QStringList::ConstIterator i(incPathList.begin()); i != end; ++i) {
-            ms_driver->addIncludePath( *i );
+            ms_driver->addIncludePath(*i);
         }
     }
     ms_seenFiles.clear();
@@ -133,7 +133,7 @@ bool CppImport::parseFile(const QString& fileName)
 {
     if (ms_seenFiles.indexOf(fileName) != -1)
         return true;
-    if (!ms_driver->parseFile( fileName ))
+    if (!ms_driver->parseFile(fileName))
         return false;
     feedTheModel(fileName);
     return true;

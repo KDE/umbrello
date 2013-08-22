@@ -106,9 +106,9 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
             itemsSelected.clear();
             //For each selected view select all the Actors, USe Cases and Concepts
             //widgets in the ListView
-            foreach (UMLView* view, m_ViewList ) {
+            foreach (UMLView* view, m_ViewList) {
                 UMLObjectList objects = view->umlScene()->umlObjects();
-                foreach (UMLObject* o, objects ) {
+                foreach (UMLObject* o, objects) {
                     UMLListViewItem *item = listView->findUMLObject(o);
                     if (item) {
                         listView->setCurrentItem(item);
@@ -200,9 +200,9 @@ bool UMLClipboard::fillSelectionLists(UMLListViewItemList& selectedItems)
     case clip4:
         break;
     case clip3:
-        foreach ( UMLListViewItem* item , selectedItems ) {
+        foreach (UMLListViewItem* item , selectedItems) {
             type = item->type();
-            if ( !Model_Utils::typeIsClassifierList(type) ) {
+            if (!Model_Utils::typeIsClassifierList(type)) {
                 m_ItemList.append(item);
                 insertItemChildren(item, selectedItems);
                 //Because it is being called when m_type is 3
@@ -216,13 +216,13 @@ bool UMLClipboard::fillSelectionLists(UMLListViewItemList& selectedItems)
         break;
     case clip2:
     case clip1:
-        foreach ( UMLListViewItem* item , selectedItems ) {
+        foreach (UMLListViewItem* item , selectedItems) {
             type = item->type();
-            if ( !Model_Utils::typeIsClassifierList(type) ) {
+            if (!Model_Utils::typeIsClassifierList(type)) {
 
                 m_ItemList.append(item);
 
-                if ( Model_Utils::typeIsCanvasWidget(type) ) {
+                if (Model_Utils::typeIsCanvasWidget(type)) {
                     m_ObjectList.append(item->umlObject());
                 }
                 insertItemChildren(item, selectedItems);
@@ -230,9 +230,9 @@ bool UMLClipboard::fillSelectionLists(UMLListViewItemList& selectedItems)
         }
         break;
     case clip5:
-        foreach ( UMLListViewItem* item , selectedItems ) {
+        foreach (UMLListViewItem* item , selectedItems) {
             type = item->type();
-            if( Model_Utils::typeIsClassifierList(type) ) {
+            if(Model_Utils::typeIsClassifierList(type)) {
                 m_ItemList.append(item);
                 m_ObjectList.append(item->umlObject());
 
@@ -258,7 +258,7 @@ void UMLClipboard::setCopyType(UMLListViewItemList& selectedItems)
     bool withObjects = false; //If the selection includes objects
     bool onlyAttsOps = false; //If the selection only includes Attributes and/or Operations
 
-    foreach ( UMLListViewItem* item, selectedItems ) {
+    foreach (UMLListViewItem* item, selectedItems) {
         checkItemForCopyType(item, withDiagrams, withObjects, onlyAttsOps);
     }
     if(onlyAttsOps) {
@@ -291,15 +291,15 @@ void UMLClipboard::checkItemForCopyType(UMLListViewItem* item, bool & withDiagra
     UMLView * view = 0;
     UMLListViewItem * child = 0;
     UMLListViewItem::ListViewType type = item->type();
-    if ( Model_Utils::typeIsCanvasWidget(type) ) {
+    if (Model_Utils::typeIsCanvasWidget(type)) {
         withObjects = true;
         onlyAttsOps = false;
-    } else if ( Model_Utils::typeIsDiagram(type) ) {
+    } else if (Model_Utils::typeIsDiagram(type)) {
         withDiagrams = true;
         onlyAttsOps = false;
-        view = doc->findView( item->ID() );
-        m_ViewList.append( view );
-    } else if ( Model_Utils::typeIsFolder(type) ) {
+        view = doc->findView(item->ID());
+        m_ViewList.append(view);
+    } else if (Model_Utils::typeIsFolder(type)) {
         onlyAttsOps = false;
         for (int i =0; i < item->childCount(); i++) {
             child = (UMLListViewItem*)item->child(i);
@@ -383,7 +383,7 @@ void UMLClipboard::CleanAssociations(AssociationWidgetList& associations)
 {
     AssociationWidgetListIt it(associations);
 
-    while ( it.hasNext() ) {
+    while (it.hasNext()) {
         AssociationWidget* assoc = it.next();
         Q_UNUSED(assoc);
     }
@@ -401,14 +401,14 @@ bool UMLClipboard::pasteClip1(const QMimeData* data)
         return false;
     }
     UMLListView *lv = UMLApp::app()->listView();
-    if ( !lv->startedCopy() )
+    if (!lv->startedCopy())
         return true;
     lv->setStartedCopy(false);
     /* If we get here we are pasting after a Copy and need to
     // paste possible children.
     UMLListViewItem* itemdata = 0;
     UMLListViewItemListIt it(itemdatalist);
-    while ( (itemdata=it.current()) != 0 ) {
+    while ((itemdata=it.current()) != 0) {
         if(itemdata->childCount()) {
                 if(!pasteChildren(itemdata, idchanges)) {
                         return false;
@@ -443,15 +443,15 @@ bool UMLClipboard::pasteClip2(const QMimeData* data)
     if(!idchanges) {
         return false;
     }
-    foreach ( UMLObject* obj, objects ) {
+    foreach (UMLObject* obj, objects) {
         if(!doc->assignNewIDs(obj)) {
             uDebug() << "UMLClipboard: error adding umlobject";
             return false;
         }
     }
 
-    foreach ( UMLView* pView, views ) {
-        if( !doc->addUMLView( pView ) ) {
+    foreach (UMLView* pView, views) {
+        if(!doc->addUMLView(pView)) {
             return false;
         }
     }
@@ -459,7 +459,7 @@ bool UMLClipboard::pasteClip2(const QMimeData* data)
     UMLListView *listView = UMLApp::app()->listView();
     listView->startUpdate();
 
-    foreach ( UMLListViewItem* itemdata, itemdatalist ) {
+    foreach (UMLListViewItem* itemdata, itemdatalist) {
         UMLListViewItem* item = listView->createItem(*itemdata, *idchanges);
         if(!item) {
             listView->endUpdate();
@@ -500,7 +500,7 @@ bool UMLClipboard::pasteClip3(const QMimeData* data)
     }
 
     listView->startUpdate();
-    foreach ( UMLListViewItem* itemdata, itemdatalist ) {
+    foreach (UMLListViewItem* itemdata, itemdatalist) {
         UMLListViewItem* item = listView->createItem(*itemdata, *idchanges);
         if(itemdata->childCount()) {
             if(!pasteChildren(item, idchanges)) {
@@ -532,14 +532,14 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
 
     Uml::DiagramType::Enum diagramType;
 
-    if( !UMLDragData::decodeClip4(data, objects, widgets, assocs, diagramType) ) {
+    if(!UMLDragData::decodeClip4(data, objects, widgets, assocs, diagramType)) {
         return false;
     }
 
     UMLScene *currentScene = UMLApp::app()->currentView()->umlScene();
-    if( diagramType != currentScene->type() ) {
-        if( !checkPasteWidgets(widgets) ) {
-            while ( !assocs.isEmpty() ) {
+    if(diagramType != currentScene->type()) {
+        if(!checkPasteWidgets(widgets)) {
+            while (!assocs.isEmpty()) {
                 delete assocs.takeFirst();
             }
             return false;
@@ -552,7 +552,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
     }
      //make sure the file we are pasting into has the objects
      //we need if there are widgets to be pasted
-    foreach ( UMLObject* obj, objects ) {
+    foreach (UMLObject* obj, objects) {
         if(!doc->assignNewIDs(obj)) {
             return false;
         }
@@ -563,7 +563,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
     bool objectAlreadyExists = false;
     currentScene->beginPartialWidgetPaste();
 
-    foreach ( UMLWidget* widget, widgets ) {
+    foreach (UMLWidget* widget, widgets) {
 
         Uml::ID::Type oldId = widget->id();
         Uml::ID::Type newId = idchanges->findNewID(oldId);
@@ -587,7 +587,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
     }
 
     //now paste the associations
-    foreach ( AssociationWidget* assoc, assocs ) {
+    foreach (AssociationWidget* assoc, assocs) {
         if (!currentScene->addAssociation(assoc, true)) {
             currentScene->endPartialWidgetPaste();
             return false;
@@ -596,7 +596,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
 
     currentScene->clearSelected();
     currentScene->selectWidgets(widgets);
-    foreach ( AssociationWidget* assoc, assocs ) {
+    foreach (AssociationWidget* assoc, assocs) {
         currentScene->selectWidgetsOfAssoc(assoc);
     }
 
@@ -609,7 +609,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
     UMLListViewItem* item = 0;
     UMLListViewItem* itemdata = 0;
     UMLListViewItemListIt it(itemdatalist);
-    while ( (itemdata=it.current()) != 0 ) {
+    while ((itemdata=it.current()) != 0) {
         item = listView->createItem(*itemdata, *idchanges);
         if(!item) {
             return false;
@@ -638,11 +638,11 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
 {
     UMLDoc *doc = UMLApp::app()->document();
     UMLListView *listView = UMLApp::app()->listView();
-    UMLListViewItem* lvitem = dynamic_cast<UMLListViewItem *>( listView->currentItem() );
-    if (!lvitem || !Model_Utils::typeIsClassifier( lvitem->type() )) {
+    UMLListViewItem* lvitem = dynamic_cast<UMLListViewItem *>(listView->currentItem());
+    if (!lvitem || !Model_Utils::typeIsClassifier(lvitem->type())) {
         return false;
     }
-    UMLClassifier *parent = dynamic_cast<UMLClassifier*>( lvitem->umlObject() );
+    UMLClassifier *parent = dynamic_cast<UMLClassifier*>(lvitem->umlObject());
 
     if (parent == NULL) {
         uError() << "parent is not a UMLClassifier";
@@ -664,7 +664,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
     if (objects.count())
         result = false;
 
-    foreach (UMLObject* obj, objects ) {
+    foreach (UMLObject* obj, objects) {
         obj->setID(doc->assignNewID(obj->id()));
         switch(obj->baseType()) {
         case UMLObject::ot_Attribute :
@@ -701,13 +701,13 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
             }
         case UMLObject::ot_Template:
             {
-                UMLTemplate* tp = static_cast<UMLTemplate*>( obj );
-                UMLTemplate* exist = parent->findTemplate( tp->name() );
-                if ( exist ) {
-                    QString newName = parent->uniqChildName( UMLObject::ot_Template, obj->name() );
-                    tp->setName( newName );
+                UMLTemplate* tp = static_cast<UMLTemplate*>(obj);
+                UMLTemplate* exist = parent->findTemplate(tp->name());
+                if (exist) {
+                    QString newName = parent->uniqChildName(UMLObject::ot_Template, obj->name());
+                    tp->setName(newName);
                 }
-                if ( parent->addTemplate( tp, idchanges ) ) {
+                if (parent->addTemplate(tp, idchanges)) {
                     result = true;
                 } else {
                     uError() << "" << parent->name() << "->addTemplate("
@@ -717,22 +717,22 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
             }
         case UMLObject::ot_EnumLiteral:
            {
-               UMLEnum* enumParent = dynamic_cast<UMLEnum*>( parent );
+               UMLEnum* enumParent = dynamic_cast<UMLEnum*>(parent);
                // if parent is not a UMLEnum, bail out immediately;
-               if ( !enumParent ) {
+               if (!enumParent) {
                    result = false;
                    uError() << "Parent is not an UMLEnum";
                    break;
                }
 
-               UMLObject* exist = enumParent->findChildObject( obj->name(), UMLObject::ot_EnumLiteral );
-               if ( exist ) {
-                   QString newName = enumParent->uniqChildName( UMLObject::ot_EnumLiteral, obj->name() );
-                   obj->setName( newName );
+               UMLObject* exist = enumParent->findChildObject(obj->name(), UMLObject::ot_EnumLiteral);
+               if (exist) {
+                   QString newName = enumParent->uniqChildName(UMLObject::ot_EnumLiteral, obj->name());
+                   obj->setName(newName);
                }
-               UMLEnumLiteral* enl = static_cast<UMLEnumLiteral*>( obj );
+               UMLEnumLiteral* enl = static_cast<UMLEnumLiteral*>(obj);
 
-               if ( enumParent->addEnumLiteral( enl, idchanges ) ) {
+               if (enumParent->addEnumLiteral(enl, idchanges)) {
                    result = true;
                } else {
                    uError() << "" << enumParent->name() << "->addEnumLiteral("
@@ -742,9 +742,9 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
            }
         case UMLObject::ot_EntityAttribute :
             {
-                UMLEntity* entityParent = dynamic_cast<UMLEntity*>( parent );
+                UMLEntity* entityParent = dynamic_cast<UMLEntity*>(parent);
                 // if parent is not a UMLEntity, bail out immediately;
-                if ( !entityParent ) {
+                if (!entityParent) {
                     result = false;
                     uError() << "Parent is not an UMLEntity";
                     break;
@@ -756,7 +756,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
                 }
                 UMLEntityAttribute *att = static_cast<UMLEntityAttribute*>(obj);
 
-                if ( entityParent->addEntityAttribute(att, idchanges)) {
+                if (entityParent->addEntityAttribute(att, idchanges)) {
                     result = true;
                 } else {
                     uError() << "" << parent->name() << "->addEntityAttribute(" << att->name() << ") failed";
@@ -780,12 +780,12 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
  * @param item   parent item, its children are inserted
  * @return       success flag
  */
-bool UMLClipboard::insertItemChildren( UMLListViewItem * item )
+bool UMLClipboard::insertItemChildren(UMLListViewItem * item)
 {
     for (int i = 0; i < item->childCount(); i++) {
-        UMLListViewItem * child =dynamic_cast<UMLListViewItem *>( item->child(i) );
-        m_ItemList.append( child );
-        insertItemChildren( child );
+        UMLListViewItem * child =dynamic_cast<UMLListViewItem *>(item->child(i));
+        m_ItemList.append(child);
+        insertItemChildren(child);
     }
     return true;
 }
@@ -799,12 +799,12 @@ bool UMLClipboard::insertItemChildren( UMLListViewItem * item )
  * @param widgetList   List of widgets to examine.
  * @return   True if all widgets can be put on different diagrams.
  */
-bool UMLClipboard::checkPasteWidgets( UMLWidgetList & widgetList )
+bool UMLClipboard::checkPasteWidgets(UMLWidgetList & widgetList)
 {
     bool retval = true;
 
-    foreach ( UMLWidget* p, widgetList ) {
-        switch( p->baseType() ) {
+    foreach (UMLWidget* p, widgetList) {
+        switch(p->baseType()) {
         case WidgetBase::wt_Note:
             break;
 
@@ -836,12 +836,12 @@ bool UMLClipboard::checkPasteWidgets( UMLWidgetList & widgetList )
 void UMLClipboard::pasteItemAlreadyExists()
 {
     UMLView *currentView = UMLApp::app()->currentView();
-    KMessageBox::sorry( currentView,
+    KMessageBox::sorry(currentView,
                         i18n("At least one of the items in the clipboard "
                              "could not be pasted because an item of the "
                              "same name already exists.  Any other items "
                              "have been pasted."),
-                        i18n("Paste Error") );
+                        i18n("Paste Error"));
 }
 
 #include "umlclipboard.moc"

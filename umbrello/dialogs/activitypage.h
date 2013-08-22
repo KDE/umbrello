@@ -31,7 +31,7 @@ class ActivityPage : public QWidget
     Q_OBJECT
 public:
 
-    ActivityPage( QWidget * pParent, StateWidget * pWidget );
+    ActivityPage(QWidget * pParent, StateWidget * pWidget);
     ~ActivityPage();
 
     void setupPage();
@@ -67,8 +67,8 @@ protected:
 public slots:
 
     void slotMenuSelection(QAction* action);
-    void slotClicked( QListWidgetItem* item );
-    void slotDoubleClicked( QListWidgetItem* item );
+    void slotClicked(QListWidgetItem* item);
+    void slotDoubleClicked(QListWidgetItem* item);
     void slotRightButtonPressed(const QPoint& p);
 
     void slotTopClicked();

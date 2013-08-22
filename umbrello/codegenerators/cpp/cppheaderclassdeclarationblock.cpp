@@ -17,20 +17,20 @@
 #include "uml.h"
 
 CPPHeaderClassDeclarationBlock::CPPHeaderClassDeclarationBlock
-  ( CPPHeaderCodeDocument * parentDoc, const QString &startText, const QString &endText, const QString &comment)
+  (CPPHeaderCodeDocument * parentDoc, const QString &startText, const QString &endText, const QString &comment)
         : OwnedHierarchicalCodeBlock(parentDoc->getParentClassifier(), parentDoc, startText, endText, comment)
 {
     init(parentDoc, comment);
 }
 
-CPPHeaderClassDeclarationBlock::~CPPHeaderClassDeclarationBlock ( )
+CPPHeaderClassDeclarationBlock::~CPPHeaderClassDeclarationBlock ()
 {
 }
 
 /**
  * load params from the appropriate XMI element node.
  */
-void CPPHeaderClassDeclarationBlock::loadFromXMI ( QDomElement & root )
+void CPPHeaderClassDeclarationBlock::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -45,19 +45,19 @@ void CPPHeaderClassDeclarationBlock::setAttributesFromObject (TextBlock * obj)
 /**
  * Save the XMI representation of this object
  */
-void CPPHeaderClassDeclarationBlock::saveToXMI ( QDomDocument & doc, QDomElement & root )
+void CPPHeaderClassDeclarationBlock::saveToXMI (QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement( "cppheaderclassdeclarationblock" );
+    QDomElement blockElement = doc.createElement("cppheaderclassdeclarationblock");
 
     setAttributesOnNode(doc, blockElement);
 
-    root.appendChild( blockElement );
+    root.appendChild(blockElement);
 }
 
 /**
  * update the start and end text for this hierarchicalcodeblock.
  */
-void CPPHeaderClassDeclarationBlock::updateContent ( )
+void CPPHeaderClassDeclarationBlock::updateContent ()
 {
     CPPHeaderCodeDocument *parentDoc = dynamic_cast<CPPHeaderCodeDocument*>(getParentDocument());
     UMLClassifier *c = parentDoc->getParentClassifier();
@@ -112,7 +112,7 @@ void CPPHeaderClassDeclarationBlock::updateContent ( )
     int i = 0;
     if(nrof_superclasses >0)
         startText.append(" : ");
-    foreach (UMLClassifier* concept, superclasses ) {
+    foreach (UMLClassifier* concept, superclasses) {
         startText.append(Uml::Visibility::toString(concept->visibility()) + ' ' +
             CodeGenerator::cleanName(concept->name()));
         if(i != (nrof_superclasses-1))

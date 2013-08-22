@@ -49,7 +49,7 @@ public:
 
 protected:
 
-    void insertOperation( const QString& type, int index = -1 );
+    void insertOperation(const QString& type, int index = -1);
 
 private:
     static const int OP     = 0;

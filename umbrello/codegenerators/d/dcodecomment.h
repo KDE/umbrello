@@ -29,17 +29,17 @@ public:
     /**
      * Constructors
      */
-    explicit DCodeComment ( CodeDocument * doc, const QString & text = "");
+    explicit DCodeComment (CodeDocument * doc, const QString & text = "");
 
     /**
      * Empty Destructor
      */
-    virtual ~DCodeComment ( );
+    virtual ~DCodeComment ();
 
     /**
      * Save the XMI representation of this object.
      */
-    virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
+    virtual void saveToXMI (QDomDocument & doc, QDomElement & root);
 
     /**
      * Creates a comment block.
@@ -49,19 +49,19 @@ public:
      *
      * @return  QString Comment block source code.
      */
-    QString toString ( ) const;
+    QString toString () const;
 
     /**
      * UnFormat a long text string. Typically, this means removing
      * the indentaion (linePrefix) and/or newline chars from each line.
      */
-    virtual QString unformatText ( const QString & text, const QString & indent = "" );
+    virtual QString unformatText (const QString & text, const QString & indent = "");
 
     /**
      * A special version here because we want to not only indent
      * the new line, but to add the "//" sequence as well.
      */
-    virtual QString getNewEditorLine ( int amount );
+    virtual QString getNewEditorLine (int amount);
 };
 
 #endif // DCODECOMMENT_H

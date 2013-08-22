@@ -47,7 +47,7 @@ void CPPSourceCodeAccessorMethod::updateContent()
     CPPCodeClassField * cppfield = dynamic_cast<CPPCodeClassField*>(parentField);
     CodeGenPolicyExt *pe = UMLApp::app()->policyExt();
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
-    bool isInlineMethod = policy->getAccessorsAreInline( );
+    bool isInlineMethod = policy->getAccessorsAreInline();
 
     QString variableName = cppfield->getFieldName();
     QString itemClassName = cppfield->getTypeName();
@@ -85,8 +85,8 @@ void CPPSourceCodeAccessorMethod::updateMethodDeclaration()
     CPPCodeClassField * cppfield = dynamic_cast<CPPCodeClassField*>(parentField);
     UMLClassifier * c = doc->getParentClassifier();
 
-    bool isInlineMethod = policy->getAccessorsAreInline( );
-    QString tag = policy->getDocToolTag( );
+    bool isInlineMethod = policy->getAccessorsAreInline();
+    QString tag = policy->getDocToolTag();
 
     QString vectorClassName = policy->getVectorClassName();
     QString fieldName = cppfield->getFieldName();

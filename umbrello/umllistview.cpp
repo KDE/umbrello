@@ -2023,7 +2023,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
         //if there is no ListViewItem associated with the new ID,
         //it could exist an Item already asocciated if the user chose to reuse an uml object
         if(!(item = findItem(newID))) {
-                pObject = m_doc->findObjectById( IDChanges.findNewID(Data.ID()) );
+                pObject = m_doc->findObjectById(IDChanges.findNewID(Data.ID()));
                 item = new UMLListViewItem(parent, Data.text(0), lvt, pObject);
         } ***/
         pObject = m_doc->findObjectById(Data.ID());
@@ -3303,7 +3303,7 @@ void UMLListView::dragEnterEvent(QDragEnterEvent* event)
 void UMLListView::dragMoveEvent(QDragMoveEvent* event)
 {
     event->accept();
-    QTreeWidget::dragMoveEvent( event );
+    QTreeWidget::dragMoveEvent(event);
 }
 
 /**
@@ -3311,7 +3311,7 @@ void UMLListView::dragMoveEvent(QDragMoveEvent* event)
  */
 void UMLListView::dropEvent(QDropEvent* event)
 {
-    if ( !acceptDrag( event ) ) {
+    if (!acceptDrag(event)) {
         event->ignore();
     }
     else {
@@ -3323,7 +3323,7 @@ void UMLListView::dropEvent(QDropEvent* event)
         }
         slotDropped(event, 0, item);
     }
-    QTreeWidget::dropEvent( event );
+    QTreeWidget::dropEvent(event);
 }
 
 /**

@@ -28,17 +28,17 @@ class DocWindow : public QWidget
 {
     Q_OBJECT
 public:
-    explicit DocWindow( UMLDoc * doc, QWidget *parent = 0 );
+    explicit DocWindow(UMLDoc * doc, QWidget *parent = 0);
     ~DocWindow();
 
-    void showDocumentation( UMLObject * object, bool overwrite = false );
-    void showDocumentation( UMLScene * scene, bool overwrite = false );
-    void showDocumentation( UMLWidget * widget, bool overwrite = false );
-    void showDocumentation( AssociationWidget * widget, bool overwrite = false );
+    void showDocumentation(UMLObject * object, bool overwrite = false);
+    void showDocumentation(UMLScene * scene, bool overwrite = false);
+    void showDocumentation(UMLWidget * widget, bool overwrite = false);
+    void showDocumentation(AssociationWidget * widget, bool overwrite = false);
 
-    void updateDocumentation( bool clear = false, bool startup = false );
+    void updateDocumentation(bool clear = false, bool startup = false);
 
-    void newDocumentation( );
+    void newDocumentation();
 
     bool isTyping();
     bool isModified();

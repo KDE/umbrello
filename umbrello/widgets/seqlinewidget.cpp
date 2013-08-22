@@ -31,9 +31,9 @@ SeqLineWidget::SeqLineWidget(UMLScene *scene, ObjectWidget * pObject)
 {
     scene->addItem(this);
     m_pObject = pObject;
-    setPen( QPen( m_pObject->lineColor(), 0, Qt::DashLine ) );
-    setZValue( 0 );
-    setVisible( true );
+    setPen(QPen(m_pObject->lineColor(), 0, Qt::DashLine));
+    setZValue(0);
+    setVisible(true);
     m_DestructionBox.line1 = 0;
     m_nLengthY = 250;
     setupDestructionBox();
@@ -58,10 +58,10 @@ int SeqLineWidget::onWidget(const UMLScenePoint & p)
     int nOnWidget = 0;
     UMLScenePoint sp = line().p1();
     UMLScenePoint ep = line().p2();
-    //see if on widget ( for message creation )
-    if( sp.x() - m_nMouseDownEpsilonX < p.x()
+    //see if on widget (for message creation)
+    if(sp.x() - m_nMouseDownEpsilonX < p.x()
             && ep.x() + m_nMouseDownEpsilonX > p.x()
-            && sp.y() < p.y() && ep.y() + 3 > p.y() )
+            && sp.y() < p.y() && ep.y() + 3 > p.y())
     {
         nOnWidget = 1;
     }
@@ -81,11 +81,11 @@ int SeqLineWidget::onDestructionBox(const UMLScenePoint & p)
     int y = m_pObject->y() + m_pObject->height() + m_nLengthY;
 
     //see if on destruction box
-    if( !m_pObject->showDestruction() ) {
+    if(!m_pObject->showDestruction()) {
         return 0;
     }
-    if( x - 10 < p.x() && x + 10 > p.x()
-            && y - 10 < p.y() && y + 10 > p.y() )
+    if(x - 10 < p.x() && x + 10 > p.x()
+            && y - 10 < p.y() && y + 10 > p.y())
     {
         nOnDestructionBox = 1;
     }
@@ -110,7 +110,7 @@ void SeqLineWidget::setStartPoint(int startX, int startY)
 {
     int endX = startX;
     int endY = startY + m_nLengthY;
-    QGraphicsLineItem::setLine( startX, startY, endX, endY );
+    QGraphicsLineItem::setLine(startX, startY, endX, endY);
     moveDestructionBox();
 }
 
@@ -119,7 +119,7 @@ void SeqLineWidget::setStartPoint(int startX, int startY)
  */
 void SeqLineWidget::cleanupDestructionBox()
 {
-    if ( m_DestructionBox.line1 ) {
+    if (m_DestructionBox.line1) {
         delete m_DestructionBox.line1;
         m_DestructionBox.line1 = 0;
         delete m_DestructionBox.line2;
@@ -133,28 +133,28 @@ void SeqLineWidget::cleanupDestructionBox()
 void SeqLineWidget::setupDestructionBox()
 {
     cleanupDestructionBox();
-    if( !m_pObject->showDestruction() ) {
+    if(!m_pObject->showDestruction()) {
         return;
     }
     QRect rect;
-    rect.setX( m_pObject->x() + m_pObject->width() / 2 - 10 );
-    rect.setY( m_pObject->y() + m_pObject->height() + m_nLengthY );
-    rect.setWidth( 14 );
-    rect.setHeight( 14 );
+    rect.setX(m_pObject->x() + m_pObject->width() / 2 - 10);
+    rect.setY(m_pObject->y() + m_pObject->height() + m_nLengthY);
+    rect.setWidth(14);
+    rect.setHeight(14);
 
     m_DestructionBox.line1 = new QGraphicsLineItem;
     m_scene->addItem(m_DestructionBox.line1);
     m_DestructionBox.setLine1Points(rect);
-    m_DestructionBox.line1->setVisible( true );
-    m_DestructionBox.line1->setPen( QPen(m_pObject->lineColor(), 2) );
-    m_DestructionBox.line1->setZValue( 3 );
+    m_DestructionBox.line1->setVisible(true);
+    m_DestructionBox.line1->setPen(QPen(m_pObject->lineColor(), 2));
+    m_DestructionBox.line1->setZValue(3);
 
     m_DestructionBox.line2 = new QGraphicsLineItem;
     m_scene->addItem(m_DestructionBox.line2);
     m_DestructionBox.setLine2Points(rect);
-    m_DestructionBox.line2->setVisible( true );
-    m_DestructionBox.line2->setPen( QPen(m_pObject->lineColor(), 2) );
-    m_DestructionBox.line2->setZValue( 3 );
+    m_DestructionBox.line2->setVisible(true);
+    m_DestructionBox.line2->setPen(QPen(m_pObject->lineColor(), 2));
+    m_DestructionBox.line2->setZValue(3);
 }
 
 /**
@@ -162,14 +162,14 @@ void SeqLineWidget::setupDestructionBox()
  */
 void SeqLineWidget::moveDestructionBox()
 {
-    if( !m_DestructionBox.line1 ) {
+    if(!m_DestructionBox.line1) {
         return;
     }
     QRect rect;
-    rect.setX( m_pObject->x() + m_pObject->width() / 2 - 7 );
-    rect.setY( m_pObject->y() + m_pObject->height() + m_nLengthY - 7 );
-    rect.setWidth( 14 );
-    rect.setHeight( 14 );
+    rect.setX(m_pObject->x() + m_pObject->width() / 2 - 7);
+    rect.setY(m_pObject->y() + m_pObject->height() + m_nLengthY - 7);
+    rect.setWidth(14);
+    rect.setHeight(14);
     m_DestructionBox.setLine1Points(rect);
     m_DestructionBox.setLine2Points(rect);
 }
@@ -186,11 +186,11 @@ void SeqLineWidget::setEndOfLine(int yPosition)
     m_nLengthY = yPosition - m_pObject->y() - m_pObject->height();
     // normally the managing Objectwidget is responsible for the call of this function
     // but to be sure - make a double check _against current position_
-    if ( m_nLengthY < 0 ) {
+    if (m_nLengthY < 0) {
         m_nLengthY = 0;
         newY = m_pObject->y() + m_pObject->height();
     }
-    setLine( sp.x(), sp.y(), sp.x(), newY );
+    setLine(sp.x(), sp.y(), sp.x(), newY);
     moveDestructionBox();
     m_scene->resizeSceneToItems();
 }

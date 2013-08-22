@@ -51,12 +51,12 @@ AssocPropDlg::AssocPropDlg (QWidget *parent, AssociationWidget * assocWidget, in
     m_pAssoc(assocWidget)
 {
     Q_UNUSED(pageNum)
-    setCaption( i18n("Association Properties") );
-    setButtons( Ok | Apply | Cancel | Help );
-    setDefaultButton( Ok );
-    setModal( true );
-    setFaceType( KPageDialog::List );
-    showButtonSeparator( true );
+    setCaption(i18n("Association Properties"));
+    setButtons(Ok | Apply | Cancel | Help);
+    setDefaultButton(Ok);
+    setModal(true);
+    setFaceType(KPageDialog::List);
+    showButtonSeparator(true);
 
     setupPages();
 
@@ -92,7 +92,7 @@ void AssocPropDlg::slotApply()
     }
 
     if (m_pAssoc) {
-        m_pAssoc->lwSetFont( m_pChooser->font() );
+        m_pAssoc->lwSetFont(m_pChooser->font());
     }
 }
 
@@ -101,30 +101,30 @@ void AssocPropDlg::setupPages()
     UMLDoc* umlDoc = UMLApp::app()->document();
 
     // general page
-    QFrame *page = createPage( i18nc("general settings", "General"), i18n("General Settings"), Icon_Utils::it_Properties_General );
-    QHBoxLayout *layout = new QHBoxLayout( page );
-    m_pGenPage = new AssocGenPage ( umlDoc, page, m_pAssoc );
-    layout->addWidget( m_pGenPage );
+    QFrame *page = createPage(i18nc("general settings", "General"), i18n("General Settings"), Icon_Utils::it_Properties_General);
+    QHBoxLayout *layout = new QHBoxLayout(page);
+    m_pGenPage = new AssocGenPage (umlDoc, page, m_pAssoc);
+    layout->addWidget(m_pGenPage);
 
     // role page
-    page = createPage( i18nc("role page name", "Roles"), i18n("Role Settings"), Icon_Utils::it_Properties_Roles );
-    layout = new QHBoxLayout( page );
-    m_pRolePage = new AssocRolePage(umlDoc, page, m_pAssoc ),
-    layout->addWidget( m_pRolePage );
+    page = createPage(i18nc("role page name", "Roles"), i18n("Role Settings"), Icon_Utils::it_Properties_Roles);
+    layout = new QHBoxLayout(page);
+    m_pRolePage = new AssocRolePage(umlDoc, page, m_pAssoc),
+    layout->addWidget(m_pRolePage);
 
     // style page
-    page = createPage( i18nc("style page name", "Style"), i18n("Role Style"), Icon_Utils::it_Properties_Color );
-    layout = new QHBoxLayout( page );
-    m_pStylePage = new UMLWidgetStylePage( page, m_pAssoc );
-    layout->addWidget( m_pStylePage );
+    page = createPage(i18nc("style page name", "Style"), i18n("Role Style"), Icon_Utils::it_Properties_Color);
+    layout = new QHBoxLayout(page);
+    m_pStylePage = new UMLWidgetStylePage(page, m_pAssoc);
+    layout->addWidget(m_pStylePage);
 
     // font page
-    page = createPage( i18nc("font page name", "Font"), i18n("Font Settings"), Icon_Utils::it_Properties_Font );
-    layout = new QHBoxLayout( page );
-    m_pChooser = new KFontChooser( page, KFontChooser::NoDisplayFlags, QStringList(), false );
-    m_pChooser->setFont( m_pAssoc->font() );
-    m_pChooser->setSampleText( "Association font" );
-    layout->addWidget( m_pChooser );
+    page = createPage(i18nc("font page name", "Font"), i18n("Font Settings"), Icon_Utils::it_Properties_Font);
+    layout = new QHBoxLayout(page);
+    m_pChooser = new KFontChooser(page, KFontChooser::NoDisplayFlags, QStringList(), false);
+    m_pChooser->setFont(m_pAssoc->font());
+    m_pChooser->setSampleText("Association font");
+    layout->addWidget(m_pChooser);
 }
 
 #include "assocpropdlg.moc"

@@ -59,8 +59,8 @@ void UMLComponent::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
     componentElement.setAttribute("executable", m_executable);
     // Save contained components if any.
     if (m_objects.count()) {
-        QDomElement ownedElement = qDoc.createElement( "UML:Namespace.ownedElement" );
-        for (UMLObjectListIt objectsIt( m_objects ); objectsIt.hasNext(); ) {
+        QDomElement ownedElement = qDoc.createElement("UML:Namespace.ownedElement");
+        for (UMLObjectListIt objectsIt(m_objects); objectsIt.hasNext();) {
             UMLObject* obj = objectsIt.next();
             obj->saveToXMI (qDoc, ownedElement);
         }
@@ -95,7 +95,7 @@ bool UMLComponent::load(QDomElement& element)
             continue;
         }
         UMLObject *pObject = Object_Factory::makeObjectFromXMI(type);
-        if( !pObject ) {
+        if(!pObject) {
             uWarning() << "Unknown type of umlobject to create: " << type;
             continue;
         }

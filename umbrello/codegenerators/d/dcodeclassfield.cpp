@@ -66,7 +66,7 @@ QString DCodeClassField::getInitialValue()
 {
     if (parentIsAttribute())
     {
-        UMLAttribute * at = dynamic_cast<UMLAttribute*>( getParentObject() );
+        UMLAttribute * at = dynamic_cast<UMLAttribute*>(getParentObject());
         if (at) {
             return fixInitialStringDeclValue(at->getInitialValue(), getTypeName());
         } else {
@@ -82,7 +82,7 @@ QString DCodeClassField::getInitialValue()
             //       then we can just return 'empty' string (minor problem).
             return QString("");
         } else {
-            return " new "+DCodeGenerator::getListFieldClassName()+"( )";
+            return " new "+DCodeGenerator::getListFieldClassName()+"()";
         }
     }
 

@@ -848,7 +848,7 @@ bool Parser::parseTypedef(DeclarationAST::Node& node)
 
     InitDeclaratorListAST::Node declarators;
     if (!parseInitDeclaratorList(declarators)) {
-        //reportError( i18n("Need an identifier to declare") );
+        //reportError(i18n("Need an identifier to declare"));
         //return false;
     }
 
@@ -1416,7 +1416,7 @@ bool Parser::parseEnumSpecifier(TypeSpecifierAST::Node& node)
             }
 
             if (!parseEnumerator(enumerator)) {
-                //reportError( i18n("Enumerator expected") );
+                //reportError(i18n("Enumerator expected"));
                 break;
             }
 
@@ -1807,7 +1807,7 @@ bool Parser::parseParameterDeclaration(ParameterDeclarationAST::Node& node)
     if ((*m_tokenIt) == '=') {
         ++m_tokenIt;
         if (!parseLogicalOrExpression(expr, true)) {
-            //reportError( i18n("Expression expected") );
+            //reportError(i18n("Expression expected"));
         }
     }
 
@@ -2398,7 +2398,7 @@ bool Parser::parseInitializerClause(AST::Node& node)
             ++m_tokenIt;
     } else {
         if (!parseAssignmentExpression(node)) {
-            //reportError( i18n("Expression expected") );
+            //reportError(i18n("Expression expected"));
         }
     }
 
@@ -2697,7 +2697,7 @@ bool Parser::parseDoStatement(StatementAST::Node& node)
 
     DoStatementAST::Node ast = CreateNode<DoStatementAST>();
     ast->setStatement(body);
-    //ast->setCondition( condition );
+    //ast->setCondition(condition);
     update_pos(ast, start, m_tokenIt);
     node = ast;
 
@@ -2737,7 +2737,7 @@ bool Parser::parseForStatement(StatementAST::Node& node)
     ForStatementAST::Node ast = CreateNode<ForStatementAST>();
     ast->setInitStatement(init);
     ast->setCondition(cond);
-    // ast->setExpression( expression );
+    // ast->setExpression(expression);
     ast->setStatement(body);
     update_pos(ast, start, m_tokenIt);
     node = ast;

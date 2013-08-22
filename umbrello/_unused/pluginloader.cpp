@@ -95,7 +95,7 @@ PluginLoader::loadPlugin(const QString &name)
         else {
             // we have to register the plugin here, otherwise, we can get
             // recursive loads
-            plugin->setObjectName( name );
+            plugin->setObjectName(name);
             _plugins[name] = plugin;
             _categories[plugin->category()].append(plugin);
         }

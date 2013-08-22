@@ -38,8 +38,8 @@ public:
 
     QString fixTypeName(const QString &name);
 
-    bool addHeaderCodeDocument ( CPPHeaderCodeDocument * doc );
-    bool removeHeaderCodeDocument ( CPPHeaderCodeDocument * remove_object );
+    bool addHeaderCodeDocument (CPPHeaderCodeDocument * doc);
+    bool removeHeaderCodeDocument (CPPHeaderCodeDocument * remove_object);
 
     Uml::ProgrammingLanguage::Enum language() const;
 
@@ -54,19 +54,19 @@ public:
 
     QStringList defaultDatatypes();
 
-    virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
+    virtual void saveToXMI (QDomDocument & doc, QDomElement & root);
 
     virtual QStringList reservedKeywords() const;
 
     virtual void createDefaultStereotypes ();
 
-    void initFromParentDocument( );
+    void initFromParentDocument();
 
 protected:
 
-    CPPMakefileCodeDocument * newMakefileCodeDocument ( );
+    CPPMakefileCodeDocument * newMakefileCodeDocument ();
 
-    CPPHeaderCodeDocument * findHeaderCodeDocumentByClassifier (UMLClassifier * classifier );
+    CPPHeaderCodeDocument * findHeaderCodeDocumentByClassifier (UMLClassifier * classifier);
 
 private:
 
@@ -78,7 +78,7 @@ public slots:
     virtual void checkAddUMLObject (UMLObject * obj);
     virtual void checkRemoveUMLObject (UMLObject * obj);
 
-    virtual void syncCodeToDocument ( );
+    virtual void syncCodeToDocument ();
 };
 
 #endif // CPPCODEGENERATOR_H

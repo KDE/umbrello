@@ -94,7 +94,7 @@ private:
     void setupCodeGenPage();
     void setupCodeViewerPage(Settings::CodeViewerState options);
     void setupAutoLayoutPage();
-    void applyPage( KPageWidgetItem* );
+    void applyPage(KPageWidgetItem*);
 
     //private attributes
     FontWidgets m_FontWidgets;

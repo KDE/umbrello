@@ -13,16 +13,16 @@
 
 #include <QRegExp>
 
-JavaCodeComment::JavaCodeComment ( CodeDocument * doc, const QString & text )
+JavaCodeComment::JavaCodeComment (CodeDocument * doc, const QString & text)
         : CodeComment (doc, text)
 {
 }
 
-JavaCodeComment::~JavaCodeComment ( )
+JavaCodeComment::~JavaCodeComment ()
 {
 }
 
-QString JavaCodeComment::getNewEditorLine ( int amount )
+QString JavaCodeComment::getNewEditorLine (int amount)
 {
     QString line = getIndentationString(amount) + "// ";
     return line;
@@ -31,7 +31,7 @@ QString JavaCodeComment::getNewEditorLine ( int amount )
 /** UnFormat a long text string. Typically, this means removing
  *  the indentaion (linePrefix) and/or newline chars from each line.
  */
-QString JavaCodeComment::unformatText ( const QString & text , const QString & indent)
+QString JavaCodeComment::unformatText (const QString & text , const QString & indent)
 {
     // remove leading or trailing comment stuff
     QString mytext = TextBlock::unformatText(text, indent);
@@ -44,7 +44,7 @@ QString JavaCodeComment::unformatText ( const QString & text , const QString & i
 /**
  * @return      QString
  */
-QString JavaCodeComment::toString ( ) const
+QString JavaCodeComment::toString () const
 {
     QString output = "";
 

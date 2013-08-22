@@ -29,29 +29,29 @@ public:
     /**
      * Constructors
      */
-    explicit JavaCodeComment ( CodeDocument * doc, const QString & text = "");
+    explicit JavaCodeComment (CodeDocument * doc, const QString & text = "");
 
     /**
      * Empty Destructor
      */
-    virtual ~JavaCodeComment ( );
+    virtual ~JavaCodeComment ();
 
     /**
      * @return  QString
      */
-    QString toString ( ) const;
+    QString toString () const;
 
     /**
      * UnFormat a long text string. Typically, this means removing
      *  the indentaion (linePrefix) and/or newline chars from each line.
      */
-    virtual QString unformatText ( const QString & text, const QString & indent = "" );
+    virtual QString unformatText (const QString & text, const QString & indent = "");
 
     /**
      * A special version here because we want to not only indent
      * the new line, but to add the "//" sequence as well.
      */
-    virtual QString getNewEditorLine ( int amount );
+    virtual QString getNewEditorLine (int amount);
 
 protected:
 

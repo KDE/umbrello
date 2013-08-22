@@ -61,7 +61,7 @@ protected:
         QCheckBox * loadlastCB;
 
         // Allow definition of Suffix for autosave
-        // ( Default: ".xmi" ), private Ui::GeneralOptionPage
+        // (Default: ".xmi"), private Ui::GeneralOptionPage
         KLineEdit * autosaveSuffixT;
         QLabel    * autosaveSuffixL;
         // End AutoSave Suffix
@@ -71,7 +71,7 @@ protected:
         QLabel * defaultLanguageL;
     } m_GeneralWidgets;
 
-    void insertDiagram( const QString& type, int index );
+    void insertDiagram(const QString& type, int index);
 
 protected slots:
     void slotAutosaveCBClicked();

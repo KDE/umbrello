@@ -62,7 +62,7 @@ UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::AssociationType::Enum
 {
     UMLAssociationList list;
     UMLObject *o = NULL;
-    for (UMLObjectListIt oit(m_List); oit.hasNext(); ) {
+    for (UMLObjectListIt oit(m_List); oit.hasNext();) {
         o = oit.next();
         uIgnoreZeroPointer(o);
         if (o->baseType() != UMLObject::ot_Association)
@@ -86,7 +86,7 @@ bool UMLCanvasObject::addAssociationEnd(UMLAssociation* assoc)
     // add association only if not already present in list
     if (!hasAssociation(assoc))
     {
-        m_List.append( assoc );
+        m_List.append(assoc);
 
         // Don't emit signals during load from XMI
         UMLObject::emitModified();
@@ -182,8 +182,8 @@ void UMLCanvasObject::removeAllChildObjects()
  *                  internally based on the object type.
  * @return  Unique name string for the ObjectType given.
  */
-QString UMLCanvasObject::uniqChildName( const UMLObject::ObjectType type,
-                                        const QString &prefix /* = QString() */ )
+QString UMLCanvasObject::uniqChildName(const UMLObject::ObjectType type,
+                                        const QString &prefix /* = QString() */)
 {
     QString currentName;
     currentName = prefix;
@@ -208,13 +208,13 @@ QString UMLCanvasObject::uniqChildName( const UMLObject::ObjectType type,
                 currentName = i18n("new_field");
                 break;
             case UMLObject::ot_UniqueConstraint:
-                currentName = i18n( "new_unique_constraint" );
+                currentName = i18n("new_unique_constraint");
                 break;
             case UMLObject::ot_ForeignKeyConstraint:
-                currentName = i18n( "new_fkey_constraint" );
+                currentName = i18n("new_fkey_constraint");
                 break;
             case UMLObject::ot_CheckConstraint:
-                currentName = i18n( "new_check_constraint" );
+                currentName = i18n("new_check_constraint");
                 break;
             default:
                 uWarning() << "uniqChildName() called for unknown child type " << UMLObject::toString(type);
@@ -241,7 +241,7 @@ UMLObject * UMLCanvasObject::findChildObject(const QString &n, UMLObject::Object
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     UMLObject *obj = NULL;
-    for (UMLObjectListIt oit(m_List); oit.hasNext(); ) {
+    for (UMLObjectListIt oit(m_List); oit.hasNext();) {
         obj = oit.next();
         uIgnoreZeroPointer(obj);
         if (t != UMLObject::ot_UMLObject && obj->baseType() != t)
@@ -267,7 +267,7 @@ UMLObject* UMLCanvasObject::findChildObjectById(Uml::ID::Type id, bool considerA
 {
     Q_UNUSED(considerAncestors);
     UMLObject *o = NULL;
-    for (UMLObjectListIt oit(m_List); oit.hasNext(); ) {
+    for (UMLObjectListIt oit(m_List); oit.hasNext();) {
         o = oit.next();
         uIgnoreZeroPointer(o);
         if (o->id() == id)
@@ -284,13 +284,13 @@ bool UMLCanvasObject::operator==(const UMLCanvasObject& rhs) const
     if (this == &rhs) {
         return true;
     }
-    if ( !UMLObject::operator==(rhs) ) {
+    if (!UMLObject::operator==(rhs)) {
         return false;
     }
-    if ( m_List.count() != rhs.m_List.count() ) {
+    if (m_List.count() != rhs.m_List.count()) {
         return false;
     }
-    if ( &m_List != &(rhs.m_List) ) {
+    if (&m_List != &(rhs.m_List)) {
         return false;
     }
     return true;
@@ -320,7 +320,7 @@ int UMLCanvasObject::associations()
 {
     int count = 0;
     UMLObject *obj = NULL;
-    for (UMLObjectListIt oit(m_List); oit.hasNext(); ) {
+    for (UMLObjectListIt oit(m_List); oit.hasNext();) {
         obj = oit.next();
         uIgnoreZeroPointer(obj);
         if (obj->baseType() == UMLObject::ot_Association)
@@ -338,7 +338,7 @@ UMLAssociationList UMLCanvasObject::getAssociations()
 {
     UMLAssociationList assocs;
     UMLObject *o = NULL;
-    for (UMLObjectListIt oit(m_List); oit.hasNext() ; ) {
+    for (UMLObjectListIt oit(m_List); oit.hasNext() ;) {
         o = oit.next();
         uIgnoreZeroPointer(o);
         if (o->baseType() != UMLObject::ot_Association)
@@ -360,11 +360,11 @@ UMLClassifierList UMLCanvasObject::getSuperClasses()
 {
     UMLClassifierList list;
     UMLAssociationList assocs = getAssociations();
-    foreach (UMLAssociation* a , assocs ) {
+    foreach (UMLAssociation* a , assocs) {
         uIgnoreZeroPointer(a);
         if ((a->getAssocType() != Uml::AssociationType::Generalization &&
              a->getAssocType() != Uml::AssociationType::Realization) ||
-                a->getObjectId(Uml::RoleType::A) != id() )
+                a->getObjectId(Uml::RoleType::A) != id())
             continue;
         UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::RoleType::B));
         if (c)
@@ -387,11 +387,11 @@ UMLClassifierList UMLCanvasObject::getSubClasses()
 {
     UMLClassifierList list;
     UMLAssociationList assocs = getAssociations();
-    foreach (UMLAssociation* a , assocs ) {
+    foreach (UMLAssociation* a , assocs) {
         uIgnoreZeroPointer(a);
         if ((a->getAssocType() != Uml::AssociationType::Generalization &&
              a->getAssocType() != Uml::AssociationType::Realization) ||
-                a->getObjectId(Uml::RoleType::B) != id() )
+                a->getObjectId(Uml::RoleType::B) != id())
             continue;
         UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::RoleType::A));
         if (c)
@@ -449,7 +449,7 @@ UMLAssociationList UMLCanvasObject::getRelationships()
 bool UMLCanvasObject::resolveRef()
 {
     bool overallSuccess = UMLObject::resolveRef();
-    for (UMLObjectListIt ait(m_List); ait.hasNext(); ) {
+    for (UMLObjectListIt ait(m_List); ait.hasNext();) {
         UMLObject *obj = ait.next();
         uIgnoreZeroPointer(obj);
         if (! obj->resolveRef()) {

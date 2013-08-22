@@ -32,10 +32,10 @@ RubyCodeDocumentation::~RubyCodeDocumentation()
 
 void RubyCodeDocumentation::saveToXMI(QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement( "rubycodedocumentation" );
+    QDomElement blockElement = doc.createElement("rubycodedocumentation");
     setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
     // just use parent TextBlock method
-    root.appendChild( blockElement );
+    root.appendChild(blockElement);
 }
 
 QString RubyCodeDocumentation::toString() const
@@ -55,7 +55,7 @@ QString RubyCodeDocumentation::toString() const
         QString indent = getIndentationString();
         QString endLine = getNewLineEndingChars();
         QString body = getText();
-        if( useHashOutput)
+        if(useHashOutput)
         {
             if(!body.isEmpty())
                 output.append(formatMultiLineText (body, indent +"# ", endLine));

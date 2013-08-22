@@ -33,11 +33,11 @@ namespace Uml
 
     void CmdChangeFillColor::redo()
     {
-        m_umlWidget->setFillColorcmd( m_color );
+        m_umlWidget->setFillColorcmd(m_color);
     }
 
     void CmdChangeFillColor::undo()
     {
-        m_umlWidget->setFillColorcmd( m_oldColor );
+        m_umlWidget->setFillColorcmd(m_oldColor);
     }
 }

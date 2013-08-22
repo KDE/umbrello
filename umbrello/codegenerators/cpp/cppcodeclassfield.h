@@ -32,7 +32,7 @@ public:
     /**
      * Empty Destructor
      */
-    virtual ~CPPCodeClassField ( );
+    virtual ~CPPCodeClassField ();
 
     QString getFieldType();
     QString getFieldName();

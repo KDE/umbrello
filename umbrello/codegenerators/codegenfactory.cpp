@@ -436,12 +436,12 @@ CodeGenPolicyExt* newCodeGenPolicyExt(Uml::ProgrammingLanguage::Enum pl)
 {
     Settings::OptionState optionState = Settings::optionState();
 
-    if ( pl == Uml::ProgrammingLanguage::Cpp ) {
+    if (pl == Uml::ProgrammingLanguage::Cpp) {
         return new CPPCodeGenerationPolicy();
     }
 
-    if ( optionState.generalState.newcodegen ) {
-       switch( pl ) {
+    if (optionState.generalState.newcodegen) {
+       switch(pl) {
           case Uml::ProgrammingLanguage::Java:
               return new JavaCodeGenerationPolicy();
               break;

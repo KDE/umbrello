@@ -63,7 +63,7 @@ public slots:
 //     *  as multi instance need to be enabled/disabled.  They
 //     *  both can't be available at the same time.
 //     */
-//    void slotActorToggled( bool state );
+//    void slotActorToggled(bool state);
 
 };
 

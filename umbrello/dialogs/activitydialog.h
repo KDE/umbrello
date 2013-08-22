@@ -50,7 +50,7 @@ protected:
 
     void showParameterActivity();
 
-    void applyPage( KPageWidgetItem * );
+    void applyPage(KPageWidgetItem *);
 
     ActivityWidget *m_pActivityWidget;  ///< the widget to represent
     UMLView        *m_pView;  ///< the diagram the widget is on

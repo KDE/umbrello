@@ -450,7 +450,7 @@ QString UMLListViewItem::getSavedText() const
 /**
  * Sets if the item is in the middle of being created.
  */
-void UMLListViewItem::setCreating( bool creating )
+void UMLListViewItem::setCreating(bool creating)
 {
     m_bCreating = creating;
 }

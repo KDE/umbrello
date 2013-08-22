@@ -72,8 +72,8 @@ void NoteWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     poly.setPoint(5, 0, 0);
 
     setPenFromSettings(painter);
-    if ( UMLWidget::useFillColor() ) {
-        QBrush brush( UMLWidget::fillColor() );
+    if (UMLWidget::useFillColor()) {
+        QBrush brush(UMLWidget::fillColor());
         painter->setBrush(brush);
         painter->drawPolygon(poly);
     } else
@@ -202,12 +202,12 @@ bool NoteWidget::loadFromXMI(QDomElement & qElement)
     if (!UMLWidget::loadFromXMI(qElement))
         return false;
     setZValue(20); //make sure always on top.
-    setDocumentation( qElement.attribute("text", "") );
+    setDocumentation(qElement.attribute("text", ""));
     QString diagramlink = qElement.attribute("diagramlink", "");
     if (!diagramlink.isEmpty())
         m_diagramLink = Uml::ID::fromString(diagramlink);
     QString type = qElement.attribute("noteType", "");
-    setNoteType( (NoteType)type.toInt() );
+    setNoteType((NoteType)type.toInt());
     return true;
 }
 
@@ -216,13 +216,13 @@ bool NoteWidget::loadFromXMI(QDomElement & qElement)
  */
 void NoteWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
-    QDomElement noteElement = qDoc.createElement( "notewidget" );
-    UMLWidget::saveToXMI( qDoc, noteElement );
-    noteElement.setAttribute( "text", documentation() );
+    QDomElement noteElement = qDoc.createElement("notewidget");
+    UMLWidget::saveToXMI(qDoc, noteElement);
+    noteElement.setAttribute("text", documentation());
     if (m_diagramLink != Uml::ID::None)
-        noteElement.setAttribute( "diagramlink", Uml::ID::toString(m_diagramLink) );
-    noteElement.setAttribute( "noteType", m_noteType);
-    qElement.appendChild( noteElement );
+        noteElement.setAttribute("diagramlink", Uml::ID::toString(m_diagramLink));
+    noteElement.setAttribute("noteType", m_noteType);
+    qElement.appendChild(noteElement);
 }
 
 /**
@@ -411,15 +411,15 @@ void NoteWidget::paintTextWordWrap(QPainter *painter)
     // if word is wider than width then clip word
     // if reach height exit and don't print anymore
     // start new line on \n character
-    painter->setPen( Qt::black );
+    painter->setPen(Qt::black);
     QFont font = UMLWidget::font();
-    painter->setFont( font );
+    painter->setFont(font);
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
     QString word = "";
     QString fullLine = "";
     QString testCombineLine = "";
-    const int margin = fm.width( "W" );
+    const int margin = fm.width("W");
     int textY = fontHeight / 2;
     int textX = margin;
     const int width = this -> width() - margin * 2;
@@ -438,13 +438,13 @@ void NoteWidget::paintTextWordWrap(QPainter *painter)
         if (c == returnChar || c.isSpace()) {
             // new word delimiter found -> it is time to decide on word wrap
             testCombineLine = fullLine + ' ' + word;
-            int textWidth = fm.width( testCombineLine );
+            int textWidth = fm.width(testCombineLine);
             if (textX + textWidth > width) {
                 // combination of "fullLine" and "word" doesn't fit into one line ->
                 // print "fullLine" in current line, update write position to next line
                 // and decide then on following actions
                 painter->drawText(textX, textY,
-                            textWidth, fontHeight, Qt::AlignLeft, fullLine );
+                            textWidth, fontHeight, Qt::AlignLeft, fullLine);
                 fullLine = word;
                 word = "";
                 // update write position
@@ -461,7 +461,7 @@ void NoteWidget::paintTextWordWrap(QPainter *painter)
                     fullLine = "";
                     textX = margin;
                     textY += fontHeight;
-                    if( textY > height ) return;
+                    if(textY > height) return;
                 }
             }
             else if (c == returnChar) {

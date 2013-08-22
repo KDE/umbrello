@@ -31,12 +31,12 @@ public:
     DCodeGenerator();
     virtual ~DCodeGenerator();
 
-    bool getAutoGenerateAttribAccessors( );
-    bool getAutoGenerateAssocAccessors( );
+    bool getAutoGenerateAttribAccessors();
+    bool getAutoGenerateAssocAccessors();
 
     static QString getListFieldClassName();
 
-    virtual CodeViewerDialog * getCodeViewerDialog( QWidget* parent, CodeDocument * doc,
+    virtual CodeViewerDialog * getCodeViewerDialog(QWidget* parent, CodeDocument * doc,
             Settings::CodeViewerState state);
 
     static QString capitalizeFirstLetter(const QString &item);
@@ -59,7 +59,7 @@ protected:
 //     * Create the codeblock that will represent the class declaration
 //     * for this classifier.
 //     */
-//    CodeBlockWithComments * createClassDecl ( UMLClassifier *c, DClassifierCodeDocument * doc);
+//    CodeBlockWithComments * createClassDecl (UMLClassifier *c, DClassifierCodeDocument * doc);
 
 private:
 

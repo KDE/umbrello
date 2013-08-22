@@ -16,24 +16,24 @@
 #include <QRegExp>
 
 
-CPPCodeComment::CPPCodeComment ( CodeDocument * doc, const QString & text )
+CPPCodeComment::CPPCodeComment (CodeDocument * doc, const QString & text)
         : CodeComment (doc, text)
 {
 }
 
-CPPCodeComment::~CPPCodeComment ( )
+CPPCodeComment::~CPPCodeComment ()
 {
 }
 
-void CPPCodeComment::saveToXMI ( QDomDocument & doc, QDomElement & root )
+void CPPCodeComment::saveToXMI (QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement( "cppcodecomment" );
+    QDomElement blockElement = doc.createElement("cppcodecomment");
     setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
     // just use parent TextBlock method
-    root.appendChild( blockElement );
+    root.appendChild(blockElement);
 }
 
-QString CPPCodeComment::toString ( ) const
+QString CPPCodeComment::toString () const
 {
     QString output = "";
 
@@ -48,13 +48,13 @@ QString CPPCodeComment::toString ( ) const
     return output;
 }
 
-QString CPPCodeComment::getNewEditorLine ( int amount )
+QString CPPCodeComment::getNewEditorLine (int amount)
 {
     QString line = getIndentationString(amount) + "// ";
     return line;
 }
 
-QString CPPCodeComment::unformatText ( const QString & text , const QString & indent)
+QString CPPCodeComment::unformatText (const QString & text , const QString & indent)
 {
     // remove leading or trailing comment stuff
     QString mytext = TextBlock::unformatText(text, indent);

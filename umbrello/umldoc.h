@@ -71,7 +71,7 @@ public:
     void init();
 
     void addView(UMLView *view);
-    void removeView(UMLView *view , bool enforceOneView = true );
+    void removeView(UMLView *view , bool enforceOneView = true);
     void setMainViewID(Uml::ID::Type viewID);
     void changeCurrentView(Uml::ID::Type id);
     void activateAllViews();
@@ -178,7 +178,7 @@ public:
     bool assignNewIDs(UMLObject* obj);
 
     bool addUMLObject(UMLObject * object);
-    bool addUMLView(UMLView * pView );
+    bool addUMLView(UMLView * pView);
 
     UMLFolder *rootFolder(Uml::ModelType::Enum mt);
     Uml::ModelType::Enum rootFolderType(UMLObject *obj);

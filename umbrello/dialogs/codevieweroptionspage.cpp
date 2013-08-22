@@ -18,7 +18,7 @@
 #include <kcolorbutton.h>
 
 
-CodeViewerOptionsPage::CodeViewerOptionsPage( Settings::CodeViewerState options, QWidget *parent, const char *name )
+CodeViewerOptionsPage::CodeViewerOptionsPage(Settings::CodeViewerState options, QWidget *parent, const char *name)
   : QWidget(parent),
     m_options(options)
 {
@@ -27,7 +27,7 @@ CodeViewerOptionsPage::CodeViewerOptionsPage( Settings::CodeViewerState options,
 
     // set widget stuff
     /*
-        fontChooser->setFont( options.font );
+        fontChooser->setFont(options.font);
         selectColorButton->setColor (options.selectedColor);
         fontColorButton->setColor (options.fontColor);
         paperColorButton->setColor (options.paperColor);

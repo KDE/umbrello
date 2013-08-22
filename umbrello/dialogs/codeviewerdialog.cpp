@@ -25,9 +25,9 @@
 #include <QString>
 #include <QTabWidget>
 
-CodeViewerDialog::CodeViewerDialog ( QWidget* parent, CodeDocument * doc,
+CodeViewerDialog::CodeViewerDialog (QWidget* parent, CodeDocument * doc,
                                      Settings::CodeViewerState state,
-                                     const char* name, bool modal, Qt::WFlags fl )
+                                     const char* name, bool modal, Qt::WFlags fl)
         : KDialog (parent, fl), m_state(state)
 {
     setObjectName(name);
@@ -46,16 +46,16 @@ CodeViewerDialog::~CodeViewerDialog()
     // no need to delete child widgets, Qt does it all for us
 }
 
-void CodeViewerDialog::initGUI ( const char * name)
+void CodeViewerDialog::initGUI (const char * name)
 {
-    if ( !name ) {
-        setObjectName( "CodeViewerDialog" );
+    if (!name) {
+        setObjectName("CodeViewerDialog");
     }
 
-    setFont( state().font );
+    setFont(state().font);
 
-    ui_highlightCheckBox->setChecked( state().blocksAreHighlighted );
-    ui_showHiddenCodeCB->setChecked ( state().showHiddenBlocks );
+    ui_highlightCheckBox->setChecked(state().blocksAreHighlighted);
+    ui_showHiddenCodeCB->setChecked (state().showHiddenBlocks);
 
     int margin = fontMetrics().height();
     CodeViewerDialogBase::gridLayout->setMargin(margin);
@@ -72,8 +72,8 @@ void CodeViewerDialog::addCodeDocument(CodeDocument * doc)
     uDebug() << "name=" << name << " / ext=" << ext;
     ui_tabWidget->addTab(page, (name + (ext.isEmpty() ? "" : ext)));
 
-    connect( ui_highlightCheckBox, SIGNAL(stateChanged(int)), page, SLOT(changeHighlighting(int)));
-    connect( ui_showHiddenCodeCB, SIGNAL(stateChanged(int)), page, SLOT(changeShowHidden(int)));
+    connect(ui_highlightCheckBox, SIGNAL(stateChanged(int)), page, SLOT(changeHighlighting(int)));
+    connect(ui_showHiddenCodeCB, SIGNAL(stateChanged(int)), page, SLOT(changeShowHidden(int)));
 }
 
 /**
@@ -104,7 +104,7 @@ bool CodeViewerDialog::close()
 void CodeViewerDialog::languageChange()
 {
     Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
-    setWindowTitle( i18n( "Code Viewer - %1", Uml::ProgrammingLanguage::toString(pl) ) );
+    setWindowTitle(i18n("Code Viewer - %1", Uml::ProgrammingLanguage::toString(pl)));
 }
 
 #include "codeviewerdialog.moc"

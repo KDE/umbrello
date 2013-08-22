@@ -30,7 +30,7 @@ public:
 
     UMLEntityConstraintList();
 
-    UMLEntityConstraintList(const UMLEntityConstraintList& );
+    UMLEntityConstraintList(const UMLEntityConstraintList&);
 
     virtual ~UMLEntityConstraintList();
 

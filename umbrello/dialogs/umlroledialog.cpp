@@ -18,14 +18,14 @@
 #include "umlrole.h"
 #include "umlroleproperties.h"
 
-UMLRoleDialog::UMLRoleDialog( QWidget * parent, UMLRole * pRole )
-  : KDialog( parent)
+UMLRoleDialog::UMLRoleDialog(QWidget * parent, UMLRole * pRole)
+  : KDialog(parent)
 {
-    setCaption( i18n("Role Properties") );
-    setButtons( Help | Ok | Cancel );
-    setDefaultButton( Ok );
-    setModal( true );
-    showButtonSeparator( true );
+    setCaption(i18n("Role Properties"));
+    setButtons(Help | Ok | Cancel);
+    setDefaultButton(Ok);
+    setModal(true);
+    showButtonSeparator(true);
     m_pRole = pRole;
     setupDialog();
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
@@ -41,13 +41,13 @@ UMLRoleDialog::~UMLRoleDialog()
  */
 void UMLRoleDialog::setupDialog()
 {
-    // UMLRoleDialogLayout = new QGridLayout( this, 1, 1, 11, 6, "UMLRoleLayout");
+    // UMLRoleDialogLayout = new QGridLayout(this, 1, 1, 11, 6, "UMLRoleLayout");
     m_pRoleProps = new UMLRoleProperties(this, m_pRole);
-    setMainWidget( m_pRoleProps );
+    setMainWidget(m_pRoleProps);
 
-    resize( QSize(425, 620).expandedTo(minimumSizeHint()) );
+    resize(QSize(425, 620).expandedTo(minimumSizeHint()));
 
-    //  topLayout->addWidget( m_pParmsGB);
+    //  topLayout->addWidget(m_pParmsGB);
 }
 
 /**
@@ -56,7 +56,7 @@ void UMLRoleDialog::setupDialog()
  */
 bool UMLRoleDialog::apply()
 {
-    if ( m_pRoleProps ) {
+    if (m_pRoleProps) {
         m_pRoleProps->updateObject();
         return true;
     }
@@ -77,7 +77,7 @@ void UMLRoleDialog::slotApply()
  */
 void UMLRoleDialog::slotOk()
 {
-    if ( apply() ) {
+    if (apply()) {
         accept();
     }
 }

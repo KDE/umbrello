@@ -184,7 +184,7 @@ bool UMLWidget::operator==(const UMLWidget& other) const
         return false;
     if(m_nId != other.m_nId)
         return false;
-    if( m_Font != other.m_Font )
+    if(m_Font != other.m_Font)
         return false;
     if(m_nX  != other.m_nX)
         return false;
@@ -745,9 +745,9 @@ void UMLWidget::adjustAssocs(int x, int y)
     // don't adjust Assocs on file load, as
     // the original positions, which are stored in XMI
     // should be reproduced exactly
-    // ( don't try to reposition assocs as long
+    // (don't try to reposition assocs as long
     //   as file is only partly loaded -> reposition
-    //   could be misguided )
+    //   could be misguided)
     /// @todo avoid trigger of this event during load
     if (m_doc->loading()) {
         // don't recalculate the assocs during load of XMI

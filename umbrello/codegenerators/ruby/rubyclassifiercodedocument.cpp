@@ -168,10 +168,10 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
     QDomNode tnode = root.firstChild();
     QDomElement telement = tnode.toElement();
     bool loadCheckForChildrenOK = false;
-    while( !telement.isNull() ) {
+    while(!telement.isNull()) {
         QString nodeName = telement.tagName();
 
-        if( nodeName == "textblocks" ) {
+        if(nodeName == "textblocks") {
 
             QDomNode node = telement.firstChild();
             QDomElement element = node.toElement();
@@ -179,10 +179,10 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
             // if there is nothing to begin with, then we don't worry about it
             loadCheckForChildrenOK = element.isNull() ? true : false;
 
-            while( !element.isNull() ) {
+            while(!element.isNull()) {
                 QString name = element.tagName();
 
-                if( name == "codecomment" ) {
+                if(name == "codecomment") {
                     CodeComment * block = new RubyCodeComment(this);
                     block->loadFromXMI(element);
                     if(!addTextBlock(block))
@@ -192,9 +192,9 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     } else
                         loadCheckForChildrenOK= true;
                 } else
-                    if( name == "codeaccessormethod" ||
+                    if(name == "codeaccessormethod" ||
                             name == "ccfdeclarationcodeblock"
-                      ) {
+                     ) {
                         QString acctag = element.attribute("tag","");
                         // search for our method in the
                         TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
@@ -206,7 +206,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                             loadCheckForChildrenOK= true;
 
                     } else
-                        if( name == "codeblock" ) {
+                        if(name == "codeblock") {
                             CodeBlock * block = newCodeBlock();
                             block->loadFromXMI(element);
                             if(!addTextBlock(block))
@@ -216,7 +216,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                             } else
                                 loadCheckForChildrenOK= true;
                         } else
-                            if( name == "codeblockwithcomments" ) {
+                            if(name == "codeblockwithcomments") {
                                 CodeBlockWithComments * block = newCodeBlockWithComments();
                                 block->loadFromXMI(element);
                                 if(!addTextBlock(block))
@@ -226,10 +226,10 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                                 } else
                                     loadCheckForChildrenOK= true;
                             } else
-                                if( name == "header" ) {
+                                if(name == "header") {
                                     // do nothing.. this is treated elsewhere
                                 } else
-                                    if( name == "hierarchicalcodeblock" ) {
+                                    if(name == "hierarchicalcodeblock") {
                                         HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
                                         block->loadFromXMI(element);
                                         if(!addTextBlock(block))
@@ -239,7 +239,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                                         } else
                                             loadCheckForChildrenOK= true;
                                     } else
-                                        if( name == "codeoperation" ) {
+                                        if(name == "codeoperation") {
                                             // find the code operation by id
                                             QString id = element.attribute("parent_id","-1");
                                             UMLObject * obj = UMLApp::app()->document()->findObjectById(Uml::ID::fromString(id));
@@ -257,7 +257,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                                             } else
                                                 uError()<<"Unable to find operation create codeoperation for:"<<this;
                                         } else
-                                            if( name == "rubyclassdeclarationblock" )
+                                            if(name == "rubyclassdeclarationblock")
                                             {
                                                 RubyClassDeclarationBlock * block = getClassDecl();
                                                 block->loadFromXMI(element);
@@ -343,7 +343,7 @@ void RubyClassifierCodeDocument::updateContent()
     const CodeClassFieldList * cfList = getCodeClassFieldList();
     CodeClassFieldList::const_iterator it = cfList->begin();
     CodeClassFieldList::const_iterator end = cfList->end();
-    for( ; it != end; ++it) {
+    for(; it != end; ++it) {
         CodeClassField * field = *it;
         if(field->parentIsAttribute())
             field->setWriteOutMethods(gen->getAutoGenerateAttribAccessors());
@@ -352,26 +352,26 @@ void RubyClassifierCodeDocument::updateContent()
     }
     // attribute-based ClassFields
     // we do it this way to have the static fields sorted out from regular ones
-    CodeClassFieldList staticPublicAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true, Uml::Visibility::Public );
-    CodeClassFieldList publicAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, false, Uml::Visibility::Public );
-    CodeClassFieldList staticProtectedAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true, Uml::Visibility::Protected );
-    CodeClassFieldList protectedAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, false, Uml::Visibility::Protected );
-    CodeClassFieldList staticPrivateAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true, Uml::Visibility::Private );
+    CodeClassFieldList staticPublicAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true, Uml::Visibility::Public);
+    CodeClassFieldList publicAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, false, Uml::Visibility::Public);
+    CodeClassFieldList staticProtectedAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true, Uml::Visibility::Protected);
+    CodeClassFieldList protectedAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, false, Uml::Visibility::Protected);
+    CodeClassFieldList staticPrivateAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, true, Uml::Visibility::Private);
     CodeClassFieldList privateAttribClassFields = getSpecificClassFields (CodeClassField::Attribute, false, Uml::Visibility::Private);
 
     // association-based ClassFields
     // don't care if they are static or not..all are lumped together
-    CodeClassFieldList publicPlainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation , Uml::Visibility::Public);
-    CodeClassFieldList publicAggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation, Uml::Visibility::Public);
-    CodeClassFieldList publicCompositionClassFields = getSpecificClassFields ( CodeClassField::Composition, Uml::Visibility::Public );
+    CodeClassFieldList publicPlainAssocClassFields = getSpecificClassFields (CodeClassField::PlainAssociation , Uml::Visibility::Public);
+    CodeClassFieldList publicAggregationClassFields = getSpecificClassFields (CodeClassField::Aggregation, Uml::Visibility::Public);
+    CodeClassFieldList publicCompositionClassFields = getSpecificClassFields (CodeClassField::Composition, Uml::Visibility::Public);
 
-    CodeClassFieldList protPlainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation , Uml::Visibility::Protected);
-    CodeClassFieldList protAggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation, Uml::Visibility::Protected);
-    CodeClassFieldList protCompositionClassFields = getSpecificClassFields ( CodeClassField::Composition, Uml::Visibility::Protected);
+    CodeClassFieldList protPlainAssocClassFields = getSpecificClassFields (CodeClassField::PlainAssociation , Uml::Visibility::Protected);
+    CodeClassFieldList protAggregationClassFields = getSpecificClassFields (CodeClassField::Aggregation, Uml::Visibility::Protected);
+    CodeClassFieldList protCompositionClassFields = getSpecificClassFields (CodeClassField::Composition, Uml::Visibility::Protected);
 
-    CodeClassFieldList privPlainAssocClassFields = getSpecificClassFields ( CodeClassField::PlainAssociation , Uml::Visibility::Private);
-    CodeClassFieldList privAggregationClassFields = getSpecificClassFields ( CodeClassField::Aggregation, Uml::Visibility::Private);
-    CodeClassFieldList privCompositionClassFields = getSpecificClassFields ( CodeClassField::Composition, Uml::Visibility::Private);
+    CodeClassFieldList privPlainAssocClassFields = getSpecificClassFields (CodeClassField::PlainAssociation , Uml::Visibility::Private);
+    CodeClassFieldList privAggregationClassFields = getSpecificClassFields (CodeClassField::Aggregation, Uml::Visibility::Private);
+    CodeClassFieldList privCompositionClassFields = getSpecificClassFields (CodeClassField::Composition, Uml::Visibility::Private);
 
     bool isInterface = parentIsInterface();
     bool hasOperationMethods = false;
@@ -596,7 +596,7 @@ void RubyClassifierCodeDocument::updateContent()
     pubOperationsBlock = pubMethodsBlock->getHierarchicalCodeBlock("operationMethods", "Operations", 1);
     // set conditions for showing section comment
     CodeComment * pubOcomment = pubOperationsBlock->getComment();
-    if (!forceDoc && !hasOperationMethods )
+    if (!forceDoc && !hasOperationMethods)
         pubOcomment->setWriteOutText(false);
     else
         pubOcomment->setWriteOutText(true);
@@ -605,7 +605,7 @@ void RubyClassifierCodeDocument::updateContent()
     protOperationsBlock = protMethodsBlock->getHierarchicalCodeBlock("operationMethods", "Operations", 1);
     // set conditions for showing section comment
     CodeComment * protOcomment = protOperationsBlock->getComment();
-    if (!forceDoc && !hasOperationMethods )
+    if (!forceDoc && !hasOperationMethods)
         protOcomment->setWriteOutText(false);
     else
         protOcomment->setWriteOutText(true);
@@ -614,7 +614,7 @@ void RubyClassifierCodeDocument::updateContent()
     privOperationsBlock = privMethodsBlock->getHierarchicalCodeBlock("operationMethods", "Operations", 1);
     // set conditions for showing section comment
     CodeComment * privOcomment = privOperationsBlock->getComment();
-    if (!forceDoc && !hasOperationMethods )
+    if (!forceDoc && !hasOperationMethods)
         privOcomment->setWriteOutText(false);
     else
         privOcomment->setWriteOutText(true);

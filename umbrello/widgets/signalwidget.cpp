@@ -77,20 +77,20 @@ void SignalWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
         if(UMLWidget::useFillColor())
             painter->setBrush(UMLWidget::fillColor());
         {
-            a.setPoints( 5, 0,      0,
+            a.setPoints(5, 0,      0,
                            (w*2)/3, 0,
                             w,      h/2,
                            (w*2)/3, h,
-                            0,      h );
-            painter->drawPolygon( a );
+                            0,      h);
+            painter->drawPolygon(a);
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing();
             int textStartY = (h / 2) - (fontHeight / 2);
 
             painter->setPen(textColor());
             QFont font = UMLWidget::font();
-            font.setBold( false );
-            painter->setFont( font );
+            font.setBold(false);
+            painter->setFont(font);
             painter->drawText(SIGNAL_MARGIN, textStartY,
                            w - SIGNAL_MARGIN * 2, fontHeight,
                            Qt::AlignCenter, getName());
@@ -101,21 +101,21 @@ void SignalWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
         if(UMLWidget::useFillColor())
             painter->setBrush(UMLWidget::fillColor());
         {
-            a.setPoints( 5, 0,   0,
+            a.setPoints(5, 0,   0,
                             w/3, h/2,
                             0,   h,
                             w,   h,
-                            w,   0 );
+                            w,   0);
 
-            painter->drawPolygon( a );
+            painter->drawPolygon(a);
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing();
             int textStartY = (h / 2) - (fontHeight / 2);
 
             painter->setPen(textColor());
             QFont font = UMLWidget::font();
-            font.setBold( false );
-            painter->setFont( font );
+            font.setBold(false);
+            painter->setFont(font);
             painter->drawText(SIGNAL_MARGIN, textStartY,
                            w - SIGNAL_MARGIN * 2 + (w/3), fontHeight,
                            Qt::AlignCenter, getName());
@@ -126,19 +126,19 @@ void SignalWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
         if(UMLWidget::useFillColor())
             painter->setBrush(UMLWidget::fillColor());
         {
-            a.setPoints( 4, 0 , 0,
+            a.setPoints(4, 0 , 0,
                             w,  h,
                             0 , h,
                             w,  0);
 
-            painter->drawPolygon( a );
+            painter->drawPolygon(a);
             //const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             //const int fontHeight  = fm.lineSpacing();
             //int textStartY = (h / 2) - (fontHeight / 2);
             painter->setPen(textColor());
             QFont font = UMLWidget::font();
-            font.setBold( false );
-            painter->setFont( font );
+            font.setBold(false);
+            painter->setFont(font);
 
             setPenFromSettings(painter);
         }
@@ -147,7 +147,7 @@ void SignalWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
             m_pName->setX(w/2 - m_pName->width()/2);
             m_pName->setY(h);
         }
-        m_pName->setVisible( ( m_pName->text().length() > 0 ) );
+        m_pName->setVisible((m_pName->text().length() > 0));
         m_pName->updateGeometry();
 
         break;
@@ -216,7 +216,7 @@ QString SignalWidget::signalTypeStr() const
 /**
  * Sets the type of Signal.
  */
-void SignalWidget::setSignalType( SignalType signalType )
+void SignalWidget::setSignalType(SignalType signalType)
 {
     m_signalType = signalType;
 }
@@ -245,21 +245,21 @@ void SignalWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 /**
  * Loads a "signalwidget" XMI element.
  */
-bool SignalWidget::loadFromXMI( QDomElement & qElement )
+bool SignalWidget::loadFromXMI(QDomElement & qElement)
 {
-    if( !UMLWidget::loadFromXMI( qElement ) )
+    if(!UMLWidget::loadFromXMI(qElement))
         return false;
-    m_Text = qElement.attribute( "signalname", "" );
-    m_Doc = qElement.attribute( "documentation", "" );
-    QString type = qElement.attribute( "signaltype", "" );
-    QString textid = qElement.attribute( "textid", "-1" );
+    m_Text = qElement.attribute("signalname", "");
+    m_Doc = qElement.attribute("documentation", "");
+    QString type = qElement.attribute("signaltype", "");
+    QString textid = qElement.attribute("textid", "-1");
     Uml::ID::Type textId = Uml::ID::fromString(textid);
 
     setSignalType((SignalType)type.toInt());
     if (signalType() == Time) {
 
         if (textId != Uml::ID::None) {
-            UMLWidget *flotext = m_scene -> findWidget( textId );
+            UMLWidget *flotext = m_scene -> findWidget(textId);
             if (flotext != NULL) {
             // This only happens when loading files produced by
             // umbrello-1.3-beta2.
@@ -274,11 +274,11 @@ bool SignalWidget::loadFromXMI( QDomElement & qElement )
      //now load child elements
     QDomNode node = qElement.firstChild();
     QDomElement element = node.toElement();
-    if ( !element.isNull() ) {
+    if (!element.isNull()) {
         QString tag = element.tagName();
         if (tag == "floatingtext") {
-            m_pName = new FloatingTextWidget( m_scene, Uml::TextRole::Floating, m_Text, textId );
-            if( ! m_pName->loadFromXMI(element) ) {
+            m_pName = new FloatingTextWidget(m_scene, Uml::TextRole::Floating, m_Text, textId);
+            if(! m_pName->loadFromXMI(element)) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pName;
                 m_pName = NULL;
@@ -293,18 +293,18 @@ bool SignalWidget::loadFromXMI( QDomElement & qElement )
 /**
  * Creates the "signalwidget" XMI element.
  */
-void SignalWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+void SignalWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
-    QDomElement signalElement = qDoc.createElement( "signalwidget" );
-    UMLWidget::saveToXMI( qDoc, signalElement );
-    signalElement.setAttribute( "signalname", m_Text );
-    signalElement.setAttribute( "documentation", m_Doc );
-    signalElement.setAttribute( "signaltype", m_signalType );
+    QDomElement signalElement = qDoc.createElement("signalwidget");
+    UMLWidget::saveToXMI(qDoc, signalElement);
+    signalElement.setAttribute("signalname", m_Text);
+    signalElement.setAttribute("documentation", m_Doc);
+    signalElement.setAttribute("signaltype", m_signalType);
     if (m_pName && !m_pName->text().isEmpty()) {
-        signalElement.setAttribute( "textid", Uml::ID::toString(m_pName->id()) );
-        m_pName -> saveToXMI( qDoc, signalElement );
+        signalElement.setAttribute("textid", Uml::ID::toString(m_pName->id()));
+        m_pName -> saveToXMI(qDoc, signalElement);
     }
-    qElement.appendChild( signalElement );
+    qElement.appendChild(signalElement);
 }
 
 /**
@@ -314,14 +314,14 @@ void SignalWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 void SignalWidget::slotMenuSelection(QAction* action)
 {
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
-    switch( sel ) {
+    switch(sel) {
     case ListPopupMenu::mt_Rename:
         {
             bool ok = false;
             QString name = m_Text;
             name = KInputDialog::getText(i18n("Enter signal name"),
                                          i18n("Enter the signal name :"),
-                                         m_Text, &ok );
+                                         m_Text, &ok);
             if (ok && name.length() > 0) {
                 setName(name);
             }

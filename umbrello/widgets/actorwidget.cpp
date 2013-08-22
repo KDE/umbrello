@@ -41,11 +41,11 @@ void ActorWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
     Q_UNUSED(option);
     Q_UNUSED(widget);
     UMLWidget::setPenFromSettings(painter);
-    if( UMLWidget::useFillColor() )
-        painter->setBrush( UMLWidget::fillColor() );
+    if(UMLWidget::useFillColor())
+        painter->setBrush(UMLWidget::fillColor());
     const int w = width();
     const int h = height();
-    painter->setFont( UMLWidget::font() );
+    painter->setFont(UMLWidget::font());
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int textWidth = fm.width(name());
     const int fontHeight = fm.lineSpacing();
@@ -78,11 +78,11 @@ void ActorWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
  * Saves the widget to the "actorwidget" XMI element.
  * Note: For loading from XMI, the inherited parent method is used.
  */
-void ActorWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+void ActorWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
-    QDomElement actorElement = qDoc.createElement( "actorwidget" );
-    UMLWidget::saveToXMI( qDoc, actorElement );
-    qElement.appendChild( actorElement );
+    QDomElement actorElement = qDoc.createElement("actorwidget");
+    UMLWidget::saveToXMI(qDoc, actorElement);
+    qElement.appendChild(actorElement);
 }
 
 /**

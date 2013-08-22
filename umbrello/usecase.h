@@ -31,10 +31,10 @@ public:
 
     virtual UMLObject* clone() const;
 
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
 protected:
-    bool load( QDomElement & element );
+    bool load(QDomElement & element);
 };
 
 #endif

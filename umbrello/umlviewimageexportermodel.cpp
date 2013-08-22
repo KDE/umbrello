@@ -300,7 +300,7 @@ bool UMLViewImageExporterModel::prepareDirectory(const KUrl &url) const
     directory.setPath("");
 
     // creates the directory and any needed parent directories
-    QStringList dirs = url.directory().split(QDir::separator(), QString::SkipEmptyParts );
+    QStringList dirs = url.directory().split(QDir::separator(), QString::SkipEmptyParts);
     for (QStringList::ConstIterator it = dirs.constBegin() ; it != dirs.constEnd(); ++it) {
         directory.addPath(*it);
 
@@ -435,8 +435,8 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLScene* scene, const QString &
     delete printer;
     if (isEPS) {
         // modify bounding box from screen to eps resolution.
-        rect.setWidth( int(ceil(rect.width() * 72.0/resolution)) );
-        rect.setHeight( int(ceil(rect.height() * 72.0/resolution)) );
+        rect.setWidth(int(ceil(rect.width() * 72.0/resolution)));
+        rect.setHeight(int(ceil(rect.height() * 72.0/resolution)));
         exportSuccessful = fixEPS(fileName, rect);
     }
     // next painting will most probably be to a different device (i.e. the screen)

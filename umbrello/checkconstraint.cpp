@@ -35,7 +35,7 @@ UMLCheckConstraint::UMLCheckConstraint(UMLObject *parent,
  * @param parent    The parent of this UMLCheckConstraint.
  */
 UMLCheckConstraint::UMLCheckConstraint(UMLObject *parent)
-    : UMLEntityConstraint( parent ) 
+    : UMLEntityConstraint(parent) 
 {
     init();
 }
@@ -45,10 +45,10 @@ UMLCheckConstraint::UMLCheckConstraint(UMLObject *parent)
  */
 bool UMLCheckConstraint::operator==(const UMLCheckConstraint &rhs) const
 {
-    if ( this == &rhs )
+    if (this == &rhs)
         return true;
 
-    if ( !UMLObject::operator==( rhs ) )
+    if (!UMLObject::operator==(rhs))
         return false;
 
     return true;
@@ -82,7 +82,7 @@ void UMLCheckConstraint::copyInto(UMLObject *lhs) const
 UMLObject* UMLCheckConstraint::clone() const
 {
     //FIXME: The new attribute should be slaved to the NEW parent not the old.
-    UMLCheckConstraint *clone = new UMLCheckConstraint( static_cast<UMLObject*>(parent()) );
+    UMLCheckConstraint *clone = new UMLCheckConstraint(static_cast<UMLObject*>(parent()));
     copyInto(clone);
     return clone;
 }
@@ -105,7 +105,7 @@ QString UMLCheckConstraint::toString(Uml::SignatureType::Enum sig)
 }
 
 QString UMLCheckConstraint::getFullyQualifiedName(const QString& separator,
-                                                  bool includeRoot ) const
+                                                  bool includeRoot) const
 {
     Q_UNUSED(separator); Q_UNUSED(includeRoot);
     return this->name();
@@ -114,14 +114,14 @@ QString UMLCheckConstraint::getFullyQualifiedName(const QString& separator,
 /**
  * Creates the <UML:UniqueConstraint> XMI element.
  */
-void UMLCheckConstraint::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+void UMLCheckConstraint::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement checkConstraintElement = UMLObject::save("UML:CheckConstraint", qDoc);
 
-    QDomNode checkCondition  = qDoc.createTextNode( m_CheckCondition );
-    checkConstraintElement.appendChild( checkCondition );
+    QDomNode checkCondition  = qDoc.createTextNode(m_CheckCondition);
+    checkConstraintElement.appendChild(checkCondition);
 
-    qElement.appendChild( checkConstraintElement );
+    qElement.appendChild(checkConstraintElement);
 }
 
 /**
@@ -136,12 +136,12 @@ bool UMLCheckConstraint::showPropertiesDialog(QWidget* parent)
 /**
  * Loads the <UML:CheckConstraint> XMI element.
  */
-bool UMLCheckConstraint::load( QDomElement & element )
+bool UMLCheckConstraint::load(QDomElement & element)
 {
     QDomNode node = element.firstChild();
 
     QDomText checkConstraintText = node.toText();
-    if ( checkConstraintText.isNull() )
+    if (checkConstraintText.isNull())
         return false;
 
     m_CheckCondition = checkConstraintText.data();

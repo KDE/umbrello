@@ -568,14 +568,14 @@ void RefactoringAssistant::addInterfaceImplementation()
     uWarning() << "Not implemented... finish addSuperClassifier() first!!";
     return;
     //  QTreeWidgetItem *item = selectedListViewItem();
-    //  UMLObject *obj = findUMLObject( item );
-    //  if( !dynamic_cast<UMLClassifier*>(obj) )
+    //  UMLObject *obj = findUMLObject(item);
+    //  if(!dynamic_cast<UMLClassifier*>(obj))
     //          return;
-    //  UMLObject *n = Object_Factory::createUMLObject( UMLObject::ot_Interface) );
+    //  UMLObject *n = Object_Factory::createUMLObject(UMLObject::ot_Interface));
     //  if (!n) {
     //      return;
     //  }
-    //  m_doc->createUMLAssociation( n, obj, UMLObject::at_Realization );
+    //  m_doc->createUMLAssociation(n, obj, UMLObject::at_Realization);
     //  //refresh, add classifier to assistant
 }
 

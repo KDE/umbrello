@@ -86,7 +86,7 @@ void FloatingDashLineWidget::setText(const QString& text)
 bool FloatingDashLineWidget::onLine(const UMLScenePoint &point)
 {
     // check if the given point is the start or end point of the line
-    if (( (abs( y() + height() - point.y() )) <= POINT_DELTA) || (abs( y() - point.y() ) <= POINT_DELTA)) {
+    if (((abs(y() + height() - point.y())) <= POINT_DELTA) || (abs(y() - point.y()) <= POINT_DELTA)) {
         return true;
     }
     // check if the given point is the start or end point of the line
@@ -96,12 +96,12 @@ bool FloatingDashLineWidget::onLine(const UMLScenePoint &point)
 void FloatingDashLineWidget::slotMenuSelection(QAction* action)
 {
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
-    switch( sel ) {
+    switch(sel) {
     case ListPopupMenu::mt_Rename:
         {
             bool ok = false;
             QString name = m_Text;
-            name = KInputDialog::getText( i18n("Enter alternative Name"), i18n("Enter the alternative :"), m_Text, &ok );
+            name = KInputDialog::getText(i18n("Enter alternative Name"), i18n("Enter the alternative :"), m_Text, &ok);
             if (ok && name.length() > 0)
                 m_Text = name;
         }
@@ -155,30 +155,30 @@ UMLSceneValue FloatingDashLineWidget::getDiffY() const
 /**
  * Creates the "floatingdashline" XMI element.
  */
-void FloatingDashLineWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+void FloatingDashLineWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
-    QDomElement textElement = qDoc.createElement( "floatingdashlinewidget" );
-    UMLWidget::saveToXMI( qDoc, textElement );
-    textElement.setAttribute( "text", m_Text );
-    textElement.setAttribute( "y", y() );
-    textElement.setAttribute( "minY", m_yMin );
-    textElement.setAttribute( "maxY", m_yMax );
+    QDomElement textElement = qDoc.createElement("floatingdashlinewidget");
+    UMLWidget::saveToXMI(qDoc, textElement);
+    textElement.setAttribute("text", m_Text);
+    textElement.setAttribute("y", y());
+    textElement.setAttribute("minY", m_yMin);
+    textElement.setAttribute("maxY", m_yMax);
 
-    qElement.appendChild( textElement );
+    qElement.appendChild(textElement);
 }
 
 /**
  * Loads the "floatingdashline" XMI element.
  */
-bool FloatingDashLineWidget::loadFromXMI( QDomElement & qElement )
+bool FloatingDashLineWidget::loadFromXMI(QDomElement & qElement)
 {
-    if( !UMLWidget::loadFromXMI( qElement ) ) {
+    if(!UMLWidget::loadFromXMI(qElement)) {
         return false;
     }
     DEBUG(DBG_SRC) << "load.......";
-    m_yMax = qElement.attribute( "maxY", "" ).toFloat();
-    m_yMin = qElement.attribute( "minY", "" ).toFloat();
-    m_Text = qElement.attribute( "text", "" );
+    m_yMax = qElement.attribute("maxY", "").toFloat();
+    m_yMin = qElement.attribute("minY", "").toFloat();
+    m_Text = qElement.attribute("text", "");
     DEBUG(DBG_SRC) << "m_y......." << m_y;
     return true;
 }

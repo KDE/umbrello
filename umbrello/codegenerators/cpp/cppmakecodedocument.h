@@ -30,19 +30,19 @@ public:
     /**
      * Constructor
      */
-    CPPMakefileCodeDocument ( );
+    CPPMakefileCodeDocument ();
 
     /**
      * Empty Destructor
      */
-    virtual ~CPPMakefileCodeDocument ( );
+    virtual ~CPPMakefileCodeDocument ();
 
     /**
      * @return  QString
      */
-    QString toString ( );
+    QString toString ();
 
-    QString getPath ( );
+    QString getPath ();
 
     void updateContent();
 

@@ -50,7 +50,7 @@ protected:
     void setupGeneralPage();
     void setupActivityPage();
 
-    void applyPage( KPageWidgetItem*item );
+    void applyPage(KPageWidgetItem*item);
 
     ActivityPage *m_pActivityPage;
     StateWidget  *m_pStateWidget;  ///< the widget to represent

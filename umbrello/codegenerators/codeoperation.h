@@ -28,19 +28,19 @@ public:
     /**
      * Constructors
      */
-    CodeOperation ( ClassifierCodeDocument * doc , UMLOperation * parent,
+    CodeOperation (ClassifierCodeDocument * doc , UMLOperation * parent,
                     const QString & body = "", const QString & comment = "");
 
     /**
      * Empty Destructor
      */
-    virtual ~CodeOperation ( );
+    virtual ~CodeOperation ();
 
-    UMLOperation * getParentOperation( );
+    UMLOperation * getParentOperation();
 
-    virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
+    virtual void saveToXMI (QDomDocument & doc, QDomElement & root);
 
-    virtual void loadFromXMI ( QDomElement & root );
+    virtual void loadFromXMI (QDomElement & root);
 
     static QString findTag (UMLOperation * op) ;
 
@@ -54,9 +54,9 @@ protected:
     // list of parameters used by this code operation.
     // QList<CodeParameter*> m_parameterVector;
 
-    virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
+    virtual void setAttributesOnNode (QDomDocument & doc, QDomElement & blockElement);
 
-    virtual void setAttributesFromNode ( QDomElement & element);
+    virtual void setAttributesFromNode (QDomElement & element);
 
 private:
 

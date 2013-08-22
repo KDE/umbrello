@@ -34,7 +34,7 @@ void UMLObjectList::copyInto(UMLObjectList *rhs) const
     UMLObjectList *tmp = new UMLObjectList(*this);
 
     UMLObject *item = NULL;
-    for (UMLObjectListIt oit( *tmp ); oit.hasNext() ; )
+    for (UMLObjectListIt oit(*tmp); oit.hasNext() ;)
     {
         item = oit.next();
         rhs->append(item->clone());

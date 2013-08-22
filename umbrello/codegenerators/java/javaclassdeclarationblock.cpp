@@ -17,30 +17,30 @@
 #include "uml.h"
 
 JavaClassDeclarationBlock::JavaClassDeclarationBlock
- ( JavaClassifierCodeDocument * parentDoc, const QString &startText, const QString &endText, const QString &comment)
+ (JavaClassifierCodeDocument * parentDoc, const QString &startText, const QString &endText, const QString &comment)
         : OwnedHierarchicalCodeBlock(parentDoc->getParentClassifier(), parentDoc, startText, endText, comment)
 {
     init(parentDoc, comment);
 }
 
-JavaClassDeclarationBlock::~JavaClassDeclarationBlock ( )
+JavaClassDeclarationBlock::~JavaClassDeclarationBlock ()
 {
 }
 
 /**
  * Save the XMI representation of this object
  */
-void JavaClassDeclarationBlock::saveToXMI ( QDomDocument & doc, QDomElement & root )
+void JavaClassDeclarationBlock::saveToXMI (QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement( "javaclassdeclarationblock" );
+    QDomElement blockElement = doc.createElement("javaclassdeclarationblock");
     setAttributesOnNode(doc, blockElement);
-    root.appendChild( blockElement );
+    root.appendChild(blockElement);
 }
 
 /**
  * load params from the appropriate XMI element node.
  */
-void JavaClassDeclarationBlock::loadFromXMI ( QDomElement & root )
+void JavaClassDeclarationBlock::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -48,7 +48,7 @@ void JavaClassDeclarationBlock::loadFromXMI ( QDomElement & root )
 /**
  * update the start and end text for this ownedhierarchicalcodeblock.
  */
-void JavaClassDeclarationBlock::updateContent ( )
+void JavaClassDeclarationBlock::updateContent ()
 {
     JavaClassifierCodeDocument *parentDoc = dynamic_cast<JavaClassifierCodeDocument*>(getParentDocument());
     UMLClassifier *c = parentDoc->getParentClassifier();
@@ -103,7 +103,7 @@ void JavaClassDeclarationBlock::updateContent ( )
     int i = 0;
     if (nrof_superclasses >0)
         startText.append(" extends ");
-    foreach (UMLClassifier* concept, superclasses ) {
+    foreach (UMLClassifier* concept, superclasses) {
         startText.append(parentDoc->cleanName(concept->name()));
         if(i != (nrof_superclasses-1))
             startText.append(", ");
@@ -120,7 +120,7 @@ void JavaClassDeclarationBlock::updateContent ( )
         else
             startText.append(" implements ");
     }
-    foreach (UMLClassifier* concept, superinterfaces ) {
+    foreach (UMLClassifier* concept, superinterfaces) {
         startText.append(parentDoc->cleanName(concept->name()));
         if(i != (nrof_superinterfaces-1))
             startText.append(", ");

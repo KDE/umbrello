@@ -29,8 +29,8 @@
 /**
  * Constructor.
  */
-CodeClassField::CodeClassField ( ClassifierCodeDocument * doc , UMLRole * role)
-        : CodeParameter ( doc , (UMLObject*) role)
+CodeClassField::CodeClassField (ClassifierCodeDocument * doc , UMLRole * role)
+        : CodeParameter (doc , (UMLObject*) role)
 {
     setParentUMLObject(role);
     initFields(true);
@@ -39,8 +39,8 @@ CodeClassField::CodeClassField ( ClassifierCodeDocument * doc , UMLRole * role)
 /**
  * Constructor.
  */
-CodeClassField::CodeClassField ( ClassifierCodeDocument * doc , UMLAttribute * attrib)
-        : CodeParameter ( doc , (UMLObject*) attrib )
+CodeClassField::CodeClassField (ClassifierCodeDocument * doc , UMLAttribute * attrib)
+        : CodeParameter (doc , (UMLObject*) attrib)
 {
     setParentUMLObject(attrib);
     initFields(true);
@@ -49,10 +49,10 @@ CodeClassField::CodeClassField ( ClassifierCodeDocument * doc , UMLAttribute * a
 /**
  * Empty Destructor.
  */
-CodeClassField::~CodeClassField ( )
+CodeClassField::~CodeClassField ()
 {
     // remove methods from parent document
-    Q_FOREACH( CodeAccessorMethod *m, m_methodVector )
+    Q_FOREACH(CodeAccessorMethod *m, m_methodVector)
     {
         getParentDocument()->removeTextBlock(m);
         m->forceRelease();
@@ -79,7 +79,7 @@ void CodeClassField::setParentUMLObject (UMLObject * obj)
         Uml::AssociationType::Enum atype = parentAssoc->getAssocType();
         m_parentIsAttribute = false;
 
-        if ( atype == Uml::AssociationType::Association || atype == Uml::AssociationType::Association_Self)
+        if (atype == Uml::AssociationType::Association || atype == Uml::AssociationType::Association_Self)
             m_classFieldType = PlainAssociation; // Plain == Self + untyped associations
         else if (atype == Uml::AssociationType::Aggregation)
             m_classFieldType = Aggregation;
@@ -91,7 +91,7 @@ void CodeClassField::setParentUMLObject (UMLObject * obj)
     }
 }
 
-QString CodeClassField::getTypeName ( )
+QString CodeClassField::getTypeName ()
 {
     if (parentIsAttribute())
     {
@@ -123,7 +123,7 @@ QString CodeClassField::getListObjectType()
  * Get the value of m_isAbstract.
  * @return the value of m_isAbstract
  */
-bool CodeClassField::parentIsAttribute ( ) const
+bool CodeClassField::parentIsAttribute () const
 {
     return m_parentIsAttribute;
     //  return (m_classFieldType == Attribute) ? true : false;
@@ -138,7 +138,7 @@ CodeClassField::ClassFieldType CodeClassField::getClassFieldType() const
 }
 
 /*
-CodeClassFieldDialog * CodeClassField::getDialog ( )
+CodeClassFieldDialog * CodeClassField::getDialog ()
 {
     return m_dialog;
 }
@@ -153,7 +153,7 @@ QString CodeClassField::getUMLObjectName(UMLObject *obj)
 /**
  * Add a Method object to the m_methodVector List.
  */
-bool CodeClassField::addMethod ( CodeAccessorMethod * add_object )
+bool CodeClassField::addMethod (CodeAccessorMethod * add_object)
 {
     CodeAccessorMethod::AccessorType type = add_object->getType();
 
@@ -174,7 +174,7 @@ bool CodeClassField::addMethod ( CodeAccessorMethod * add_object )
 /**
  * Remove a Method object from m_methodVector List.
  */
-bool CodeClassField::removeMethod ( CodeAccessorMethod * remove_object )
+bool CodeClassField::removeMethod (CodeAccessorMethod * remove_object)
 {
     // m_methodMap->erase(remove_object->getType());
     m_methodVector.removeAll(remove_object);
@@ -207,7 +207,7 @@ bool CodeClassField::getWriteOutMethods () const
  * this flag is often used to toggle autogeneration of accessor
  * methods in the code class field.
  */
-void CodeClassField::setWriteOutMethods ( bool val )
+void CodeClassField::setWriteOutMethods (bool val)
 {
     m_writeOutMethods = val;
     updateContent();
@@ -217,7 +217,7 @@ void CodeClassField::setWriteOutMethods ( bool val )
  * Return the declaration statement for this class field object.
  * will be empty until this (abstract) class is inherited in elsewhere.
  */
-CodeClassFieldDeclarationBlock * CodeClassField::getDeclarationCodeBlock( )
+CodeClassFieldDeclarationBlock * CodeClassField::getDeclarationCodeBlock()
 {
     return m_declCodeBlock;
 }
@@ -225,7 +225,7 @@ CodeClassFieldDeclarationBlock * CodeClassField::getDeclarationCodeBlock( )
 /**
  * Load params from the appropriate XMI element node.
  */
-void CodeClassField::loadFromXMI ( QDomElement & root )
+void CodeClassField::loadFromXMI (QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -234,7 +234,7 @@ void CodeClassField::loadFromXMI ( QDomElement & root )
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void CodeClassField::setAttributesOnNode ( QDomDocument & doc, QDomElement & cfElem)
+void CodeClassField::setAttributesOnNode (QDomDocument & doc, QDomElement & cfElem)
 {
     // super class
     CodeParameter::setAttributesOnNode(doc,cfElem);
@@ -249,7 +249,7 @@ void CodeClassField::setAttributesOnNode ( QDomDocument & doc, QDomElement & cfE
     m_declCodeBlock->saveToXMI(doc, cfElem);
 
     // now record the tags on our accessormethods
-    Q_FOREACH( CodeAccessorMethod *method, m_methodVector )
+    Q_FOREACH(CodeAccessorMethod *method, m_methodVector)
     {
         method->saveToXMI(doc,cfElem);
     }
@@ -259,7 +259,7 @@ void CodeClassField::setAttributesOnNode ( QDomDocument & doc, QDomElement & cfE
  * Set the class attributes of this object from
  * the passed element node.
  */
-void CodeClassField::setAttributesFromNode ( QDomElement & root)
+void CodeClassField::setAttributesFromNode (QDomElement & root)
 {
     // always disconnect
     getParentObject()->disconnect(this);
@@ -269,7 +269,7 @@ void CodeClassField::setAttributesFromNode ( QDomElement & root)
 
     // make AFTER super-class call. This will reconnect to the parent
     // and re-check we have all needed child accessor methods and decl blocks
-    initFields( );
+    initFields();
 
     setWriteOutMethods(root.attribute("writeOutMethods","true") == "true" ? true : false);
     m_listClassName = root.attribute("listClassName","");
@@ -279,12 +279,12 @@ void CodeClassField::setAttributesFromNode ( QDomElement & root)
     // by looking for our particular child element
     QDomNode node = root.firstChild();
     QDomElement element = node.toElement();
-    while( !element.isNull() ) {
+    while(!element.isNull()) {
         QString tag = element.tagName();
-        if( tag == "ccfdeclarationcodeblock" ) {
+        if(tag == "ccfdeclarationcodeblock") {
             m_declCodeBlock->loadFromXMI(element);
         } else
-            if( tag == "codeaccessormethod" ) {
+            if(tag == "codeaccessormethod") {
                 int type = element.attribute("accessType","0").toInt();
                 int role_id = element.attribute("role_id","-1").toInt();
                 CodeAccessorMethod * method = findMethodByType((CodeAccessorMethod::AccessorType) type, role_id);
@@ -294,7 +294,7 @@ void CodeClassField::setAttributesFromNode ( QDomElement & root)
                     uError()<<"Can not load code accessor method for type:"<<type<<" which does not exist in this codeclassfield. Is XMI out-dated or corrupt?";
 
             } else
-                if( tag == "header" ) {
+                if(tag == "header") {
                     // this is treated in parent.. skip over here
                 } else
                     uWarning()<<"ERROR: bad savefile? code classfield loadFromXMI got child element with unknown tag:"<<tag<<" ignoring node.";
@@ -307,13 +307,13 @@ void CodeClassField::setAttributesFromNode ( QDomElement & root)
 /**
  * Save the XMI representation of this object.
  */
-void CodeClassField::saveToXMI ( QDomDocument & doc, QDomElement & root )
+void CodeClassField::saveToXMI (QDomDocument & doc, QDomElement & root)
 {
-    QDomElement docElement = doc.createElement( "codeclassfield" );
+    QDomElement docElement = doc.createElement("codeclassfield");
 
     setAttributesOnNode(doc, docElement);
 
-    root.appendChild( docElement );
+    root.appendChild(docElement);
 }
 
 /**
@@ -322,7 +322,7 @@ void CodeClassField::saveToXMI ( QDomDocument & doc, QDomElement & root )
  * is returned. Similarly, if the association (role) CF doesn't have a multiplicty
  * 0 is returned.
  */
-int CodeClassField::minimumListOccurances( )
+int CodeClassField::minimumListOccurances()
 {
     if (!parentIsAttribute())
     {
@@ -346,7 +346,7 @@ int CodeClassField::minimumListOccurances( )
  * is returned. If the association (role) CF doesn't have a multiplicty
  * or has a "*" specified then '-1' (unbounded) is returned.
  */
-int CodeClassField::maximumListOccurances( )
+int CodeClassField::maximumListOccurances()
 {
     if (!parentIsAttribute())
     {
@@ -370,7 +370,7 @@ int CodeClassField::maximumListOccurances( )
 /**
  * A little utility method to make life easier for code document programmers
  */
-QString CodeClassField::cleanName ( const QString &name )
+QString CodeClassField::cleanName (const QString &name)
 {
     return getParentDocument()->cleanName(name);
 }
@@ -400,7 +400,7 @@ QString CodeClassField::fixInitialStringDeclValue(const QString& val, const QStr
 void CodeClassField::synchronize ()
 {
     updateContent();
-    Q_FOREACH( CodeAccessorMethod *method, m_methodVector )
+    Q_FOREACH(CodeAccessorMethod *method, m_methodVector)
         method->syncToParent();
 
     if(m_declCodeBlock)
@@ -411,7 +411,7 @@ void CodeClassField::synchronize ()
  * Utility method to allow finding particular accessor method of this
  * code class field by its type identifier.
  */
-CodeAccessorMethod * CodeClassField::findMethodByType ( CodeAccessorMethod::AccessorType type, int role_id)
+CodeAccessorMethod * CodeClassField::findMethodByType (CodeAccessorMethod::AccessorType type, int role_id)
 {
     //if we already know to which file this class was written/should be written, just return it.
     /*
@@ -422,18 +422,18 @@ CodeAccessorMethod * CodeClassField::findMethodByType ( CodeAccessorMethod::Acce
     */
     if(role_id > 1 || role_id < 0)
     {
-        Q_FOREACH( CodeAccessorMethod *m, m_methodVector )
-            if( m->getType() == type)
+        Q_FOREACH(CodeAccessorMethod *m, m_methodVector)
+            if(m->getType() == type)
                 return m;
     } else {
         // ugh. forced into this underperforming algorithm because of bad association
         // design.
-        Q_FOREACH( CodeAccessorMethod *m, m_methodVector )
+        Q_FOREACH(CodeAccessorMethod *m, m_methodVector)
         {
             UMLRole * role = dynamic_cast<UMLRole*>(m->getParentObject());
             if(!role)
                 uError()<<"    FindMethodByType()  cant create role for method type:"<<m->getType()<<endl;
-            if( role && m->getType() == type && role->role() == role_id)
+            if(role && m->getType() == type && role->role() == role_id)
                 return m;
         }
 
@@ -511,8 +511,8 @@ void CodeClassField::updateContent()
     // all here? -b.t.
     if (parentIsAttribute())
     {
-        Q_FOREACH( CodeAccessorMethod *method, m_methodVector )
-            method->setWriteOutText( m_writeOutMethods );
+        Q_FOREACH(CodeAccessorMethod *method, m_methodVector)
+            method->setWriteOutText(m_writeOutMethods);
         return;
     }
     UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
@@ -520,7 +520,7 @@ void CodeClassField::updateContent()
     bool isSingleValue = fieldIsSingleValue();
     bool isEmptyRole = role->name().isEmpty() ? true : false;
 
-    Q_FOREACH( CodeAccessorMethod *method, m_methodVector )
+    Q_FOREACH(CodeAccessorMethod *method, m_methodVector)
     {
 
         CodeAccessorMethod::AccessorType type = method->getType();
@@ -601,7 +601,7 @@ void CodeClassField::updateContent()
  * a single variable or a List (Vector). One day this will be done correctly with special
  * multiplicity object.
  */
-bool CodeClassField::fieldIsSingleValue ( )
+bool CodeClassField::fieldIsSingleValue ()
 {
     // For the time being, all attributes ARE single values (yes,
     // I know this isnt always true, but we have to start somewhere.)

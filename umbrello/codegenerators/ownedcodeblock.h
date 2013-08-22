@@ -28,30 +28,30 @@ class OwnedCodeBlock : public QObject
     Q_OBJECT
 public:
 
-    explicit OwnedCodeBlock ( UMLObject * parent );
-    virtual ~OwnedCodeBlock ( );
+    explicit OwnedCodeBlock (UMLObject * parent);
+    virtual ~OwnedCodeBlock ();
 
-    UMLObject * getParentObject ( );
+    UMLObject * getParentObject ();
 
-    virtual void updateContent ( ) = 0;
+    virtual void updateContent () = 0;
 
 protected:
 
     virtual void release ();
 
-    virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
-    virtual void setAttributesFromNode ( QDomElement & element);
+    virtual void setAttributesOnNode (QDomDocument & doc, QDomElement & blockElement);
+    virtual void setAttributesFromNode (QDomElement & element);
     virtual void setAttributesFromObject (TextBlock * obj);
 
 private:
 
-    void initFields ( UMLObject * parent );
+    void initFields (UMLObject * parent);
 
     UMLObject * m_parentObject;
 
 public slots:
 
-    virtual void syncToParent ( );
+    virtual void syncToParent ();
 
 };
 

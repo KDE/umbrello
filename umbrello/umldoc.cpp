@@ -172,14 +172,14 @@ void UMLDoc::addView(UMLView *view)
     f->addView(view);
 
     UMLApp * pApp = UMLApp::app();
-    if ( pApp->listView() ) {
+    if (pApp->listView()) {
         connect(this, SIGNAL(sigObjectRemoved(UMLObject*)), view->umlScene(), SLOT(slotObjectRemoved(UMLObject*)));
     }
 
-    if ( !m_bLoading || pApp->currentView() == NULL ) {
+    if (!m_bLoading || pApp->currentView() == NULL) {
         pApp->setCurrentView(view);
     }
-    if ( !m_bLoading ) {
+    if (!m_bLoading) {
         view->show();
         emit sigDiagramChanged(view->umlScene()->type());
     }
@@ -202,7 +202,7 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView)
         return;
     }
     DEBUG(DBG_SRC) << "<" << view->umlScene()->name() << ">";
-    if ( UMLApp::app()->listView() ) {
+    if (UMLApp::app()->listView()) {
         disconnect(this, SIGNAL(sigObjectRemoved(UMLObject*)),
                    view->umlScene(), SLOT(slotObjectRemoved(UMLObject*)));
     }
@@ -221,7 +221,7 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView)
         UMLViewList viewList;
         m_root[Uml::ModelType::Logical]->appendViews(viewList);
         UMLView* firstView = 0;
-        if ( !viewList.isEmpty() ) {
+        if (!viewList.isEmpty()) {
             firstView =  viewList.first();
         }
 
@@ -233,8 +233,8 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView)
             firstView = viewList.first();
         }
 
-        if ( firstView ) {
-            changeCurrentView( firstView->umlScene()->ID() );
+        if (firstView) {
+            changeCurrentView(firstView->umlScene()->ID());
             UMLApp::app()->setDiagramMenuItemsState(true);
         }
     }
@@ -417,8 +417,8 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
     m_bLoading = true;
     QString tmpfile;
     KIO::NetAccess::download(url, tmpfile, UMLApp::app());
-    QFile file( tmpfile );
-    if ( !file.exists() ) {
+    QFile file(tmpfile);
+    if (!file.exists()) {
         KMessageBox::error(0, i18n("The file %1 does not exist.", url.pathOrUrl()), i18n("Load Error"));
         m_doc_url.setFileName(i18n("Untitled"));
         m_bLoading = false;
@@ -503,7 +503,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
 
             // now open the extracted file for reading
             QFile xmi_file(tmp_dir.name() + *it);
-            if( !xmi_file.open( QIODevice::ReadOnly ) ) {
+            if(!xmi_file.open(QIODevice::ReadOnly)) {
                 KMessageBox::error(0, i18n("There was a problem loading the extracted file: %1", url.pathOrUrl()),
                                    i18n("Load Error"));
                 m_doc_url.setFileName(i18n("Untitled"));
@@ -511,7 +511,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
                 newDocument();
                 return false;
             }
-            status = loadFromXMI( xmi_file, ENC_UNKNOWN );
+            status = loadFromXMI(xmi_file, ENC_UNKNOWN);
 
             // close the extracted file and the temporary directory
             xmi_file.close();
@@ -527,7 +527,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
         archive.close();
     } else {
         // no, it seems to be an ordinary file
-        if( !file.open( QIODevice::ReadOnly ) ) {
+        if(!file.open(QIODevice::ReadOnly)) {
             KMessageBox::error(0, i18n("There was a problem loading file: %1", url.pathOrUrl()),
                                i18n("Load Error"));
             m_doc_url.setFileName(i18n("Untitled"));
@@ -539,13 +539,13 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
             status = Import_Rose::loadFromMDL(file);
         }
         else {
-            status = loadFromXMI( file, ENC_UNKNOWN );
+            status = loadFromXMI(file, ENC_UNKNOWN);
         }
     }
 
     file.close();
-    KIO::NetAccess::removeTempFile( tmpfile );
-    if ( !status ) {
+    KIO::NetAccess::removeTempFile(tmpfile);
+    if (!status) {
         KMessageBox::error(0, i18n("There was a problem loading file: %1", url.pathOrUrl()),
                            i18n("Load Error"));
         m_bLoading = false;
@@ -626,7 +626,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
         // we will add this file later to the archive
         KTemporaryFile tmp_xmi_file;
         tmp_xmi_file.setAutoRemove(false);
-        if ( !tmp_xmi_file.open() ) {
+        if (!tmp_xmi_file.open()) {
             KMessageBox::error(0, i18n("There was a problem saving file: %1", url.pathOrUrl()), i18n("Save Error"));
             delete archive;
             return false;
@@ -652,8 +652,8 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
         tmp_xmi_file.setAutoRemove(true);
 
         // now we have to check, if we have to upload the file
-        if ( !url.isLocalFile() ) {
-            uploaded = KIO::NetAccess::upload( tmp_tgz_file.fileName(), m_doc_url, UMLApp::app() );
+        if (!url.isLocalFile()) {
+            uploaded = KIO::NetAccess::upload(tmp_tgz_file.fileName(), m_doc_url, UMLApp::app());
         }
 
         // now the archive was written to disk (or remote) so we can delete the
@@ -671,37 +671,37 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
         // save in _any_ case to a temp file
         // -> if something goes wrong during saveToXmi, the
         //     original content is preserved
-        //     ( e.g. if umbrello dies in the middle of the document model parsing
-        //      for saveToXMI due to some problems )
+        //     (e.g. if umbrello dies in the middle of the document model parsing
+        //      for saveToXMI due to some problems)
         /// @TODO insert some checks in saveToXMI to detect a failed save attempt
 
         // lets open the file for writing
-        if ( !tmpfile.open() ) {
+        if (!tmpfile.open()) {
             KMessageBox::error(0, i18n("There was a problem saving file: %1", url.pathOrUrl()), i18n("Save Error"));
             return false;
         }
         saveToXMI(tmpfile); // save the xmi stuff to it
 
         // if it is a remote file, we have to upload the tmp file
-        if ( !url.isLocalFile() ) {
-            uploaded = KIO::NetAccess::upload( tmpfile.fileName(), m_doc_url, UMLApp::app() );
+        if (!url.isLocalFile()) {
+            uploaded = KIO::NetAccess::upload(tmpfile.fileName(), m_doc_url, UMLApp::app());
         }
         else {
             // now remove the original file
 #ifdef Q_WS_WIN
             tmpfile.setAutoRemove(true);
-            KIO::FileCopyJob* fcj = KIO::file_copy( tmpfile.fileName(), url, -1, KIO::Overwrite );
+            KIO::FileCopyJob* fcj = KIO::file_copy(tmpfile.fileName(), url, -1, KIO::Overwrite);
 #else
-            KIO::FileCopyJob* fcj = KIO::file_move( tmpfile.fileName(), url, -1, KIO::Overwrite );
+            KIO::FileCopyJob* fcj = KIO::file_move(tmpfile.fileName(), url, -1, KIO::Overwrite);
 #endif
-            if ( KIO::NetAccess::synchronousRun( fcj, (QWidget*)UMLApp::app() ) == false ) {
+            if (KIO::NetAccess::synchronousRun(fcj, (QWidget*)UMLApp::app()) == false) {
                 KMessageBox::error(0, i18n("There was a problem saving file: %1", url.pathOrUrl()), i18n("Save Error"));
                 m_doc_url.setFileName(i18n("Untitled"));
                 return false;
             }
         }
     }
-    if ( !uploaded ) {
+    if (!uploaded) {
         KMessageBox::error(0, i18n("There was a problem uploading file: %1", url.pathOrUrl()), i18n("Save Error"));
         m_doc_url.setFileName(i18n("Untitled"));
     }
@@ -905,7 +905,7 @@ bool UMLDoc::addUMLObject(UMLObject* object)
         pkg = currentRoot();
         DEBUG(DBG_SRC) << object->name() << ": no parent package set, assuming "
                        << pkg->name();
-        object->setUMLPackage( pkg );
+        object->setUMLPackage(pkg);
     }
 
     return pkg->addObject(object);
@@ -1100,7 +1100,7 @@ UMLAssociation * UMLDoc::findAssociation(Uml::AssociationType::Enum assocType,
 {
     UMLAssociationList assocs = associations();
     UMLAssociation *ret = 0;
-    foreach ( UMLAssociation* a , assocs ) {
+    foreach (UMLAssociation* a , assocs) {
         if (a->getAssocType() != assocType) {
             continue;
         }
@@ -1133,7 +1133,7 @@ UMLAssociation* UMLDoc::createUMLAssociation(UMLObject *a, UMLObject *b,
     bool swap;
     UMLAssociation *assoc = findAssociation(type, a, b, &swap);
     if (assoc == 0) {
-        assoc = new UMLAssociation(type, a, b );
+        assoc = new UMLAssociation(type, a, b);
         addAssociation(assoc);
     }
     return assoc;
@@ -1154,7 +1154,7 @@ void UMLDoc::addAssociation(UMLAssociation *assoc)
     // This may happen when loading old XMI files where all the association
     // information was taken from the <UML:AssocWidget> tag.
     UMLAssociationList assocs = associations();
-    foreach (UMLAssociation* a,  assocs ) {
+    foreach (UMLAssociation* a,  assocs) {
         // check if its already been added (shouldn't be the case right now
         // as UMLAssociations only belong to one associationwidget at a time)
         if (a == assoc) {
@@ -1203,19 +1203,19 @@ QString UMLDoc::uniqueViewName(const Uml::DiagramType::Enum type)
             dname = i18n("collaboration diagram");
             break;
         case Uml::DiagramType::State:
-            dname = i18n( "state diagram" );
+            dname = i18n("state diagram");
             break;
         case Uml::DiagramType::Activity:
-            dname = i18n( "activity diagram" );
+            dname = i18n("activity diagram");
             break;
         case Uml::DiagramType::Component:
-            dname = i18n( "component diagram" );
+            dname = i18n("component diagram");
             break;
         case Uml::DiagramType::Deployment:
-            dname = i18n( "deployment diagram" );
+            dname = i18n("deployment diagram");
             break;
         case Uml::DiagramType::EntityRelationship:
-            dname = i18n( "entity relationship diagram" );
+            dname = i18n("entity relationship diagram");
             break;
         default:
             uWarning() << "called with unknown diagram type";
@@ -1412,8 +1412,8 @@ void UMLDoc::renameChildUMLObject(UMLObject *o)
         else {
             if (p->findChildObject(name) == 0
                     || ((o->baseType() == UMLObject::ot_Operation) && KMessageBox::warningYesNo(0,
-                            i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
-                            i18n( "Name Not Unique"),KGuiItem(i18n("Use Name")),KGuiItem(i18n("Enter New Name"))) == KMessageBox::Yes) ) {
+                            i18n("The name you entered was not unique.\nIs this what you wanted?"),
+                            i18n("Name Not Unique"),KGuiItem(i18n("Use Name")),KGuiItem(i18n("Enter New Name"))) == KMessageBox::Yes)) {
                 UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObject(o,name));
                 setModified(true);
                 break;
@@ -1439,7 +1439,7 @@ void UMLDoc::changeCurrentView(Uml::ID::Type id)
         scene->setIsOpen(true);
         pApp->setCurrentView(view);
         emit sigDiagramChanged(scene->type());
-        pApp->setDiagramMenuItemsState( true );
+        pApp->setDiagramMenuItemsState(true);
         setModified(true);
         emit sigCurrentViewChanged();
         // when clicking on a tab, the documentation of diagram is upated in docwindow
@@ -1465,7 +1465,7 @@ void UMLDoc::removeDiagram(Uml::ID::Type id)
     }
     if (KMessageBox::warningContinueCancel(0, i18n("Are you sure you want to delete diagram %1?",
                                                    umlview->umlScene()->name()), i18n("Delete Diagram"),
-                                           KGuiItem( i18n("&Delete"), "edit-delete")) == KMessageBox::Continue) {
+                                           KGuiItem(i18n("&Delete"), "edit-delete")) == KMessageBox::Continue) {
         removeView(umlview);
         emit sigDiagramRemoved(id);
         setModified(true);
@@ -1543,10 +1543,10 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject)
         } else if (type == UMLObject::ot_EntityAttribute) {
             UMLEntity *ent = static_cast<UMLEntity*>(parent);
             ent->removeEntityAttribute(static_cast<UMLClassifierListItem*>(umlobject));
-        } else if ( type == UMLObject::ot_UniqueConstraint || type == UMLObject::ot_ForeignKeyConstraint ||
+        } else if (type == UMLObject::ot_UniqueConstraint || type == UMLObject::ot_ForeignKeyConstraint ||
                     type == UMLObject::ot_CheckConstraint) {
-            UMLEntity* ent = static_cast<UMLEntity*>( parent );
-            ent->removeConstraint( static_cast<UMLEntityConstraint*>( umlobject ) );
+            UMLEntity* ent = static_cast<UMLEntity*>(parent);
+            ent->removeConstraint(static_cast<UMLEntityConstraint*>(umlobject));
         } else {
             UMLClassifier* pClass = dynamic_cast<UMLClassifier*>(parent);
             if (pClass == 0)  {
@@ -1662,81 +1662,81 @@ void UMLDoc::saveToXMI(QIODevice& file)
         doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\"");
     doc.appendChild(xmlHeading);
 
-    QDomElement root = doc.createElement( "XMI" );
-    root.setAttribute( "xmi.version", "1.2" );
+    QDomElement root = doc.createElement("XMI");
+    root.setAttribute("xmi.version", "1.2");
     QDateTime now = QDateTime::currentDateTime();
-    root.setAttribute( "timestamp", now.toString(Qt::ISODate));
-    root.setAttribute( "verified", "false");
-    root.setAttribute( "xmlns:UML", "http://schema.omg.org/spec/UML/1.3");
-    doc.appendChild( root );
+    root.setAttribute("timestamp", now.toString(Qt::ISODate));
+    root.setAttribute("verified", "false");
+    root.setAttribute("xmlns:UML", "http://schema.omg.org/spec/UML/1.3");
+    doc.appendChild(root);
 
-    QDomElement header = doc.createElement( "XMI.header" );
-    QDomElement meta = doc.createElement( "XMI.metamodel" );
-    meta.setAttribute( "xmi.name", "UML" );
-    meta.setAttribute( "xmi.version", "1.3" );
-    meta.setAttribute( "href", "UML.xml" );
-    header.appendChild( meta );
+    QDomElement header = doc.createElement("XMI.header");
+    QDomElement meta = doc.createElement("XMI.metamodel");
+    meta.setAttribute("xmi.name", "UML");
+    meta.setAttribute("xmi.version", "1.3");
+    meta.setAttribute("href", "UML.xml");
+    header.appendChild(meta);
 
     /**
      * bugs.kde.org/56184 comment by M. Alanen 2004-12-19:
      * " XMI.model requires xmi.version. (or leave the whole XMI.model out,
      *   it's not required) "
-    QDomElement model = doc.createElement( "XMI.model" );
+    QDomElement model = doc.createElement("XMI.model");
     QFile* qfile = dynamic_cast<QFile*>(&file);
     if (qfile) {
         QString modelName = qfile->name();
-        modelName = modelName.section('/', -1 );
+        modelName = modelName.section('/', -1);
         modelName = modelName.section('.', 0, 0);
-        model.setAttribute( "xmi.name", modelName );
-        model.setAttribute( "href", qfile->name() );
+        model.setAttribute("xmi.name", modelName);
+        model.setAttribute("href", qfile->name());
     }
      */
 
-    QDomElement documentation = doc.createElement( "XMI.documentation" );
+    QDomElement documentation = doc.createElement("XMI.documentation");
 
     // If we consider it useful we might add user and contact details
-    // QDomElement owner = doc.createElement( "XMI.owner" );
-    // owner.appendChild( doc.createTextNode( "Jens Kruger" ) ); // Add a User
-    // documentation.appendChild( owner );
+    // QDomElement owner = doc.createElement("XMI.owner");
+    // owner.appendChild(doc.createTextNode("Jens Kruger")); // Add a User
+    // documentation.appendChild(owner);
 
-    // QDomElement contact = doc.createElement( "XMI.contact" );
-    // contact.appendChild( doc.createTextNode( "je.krueger@web.de" ) );       // add a contact
-    // documentation.appendChild( contact );
+    // QDomElement contact = doc.createElement("XMI.contact");
+    // contact.appendChild(doc.createTextNode("je.krueger@web.de"));       // add a contact
+    // documentation.appendChild(contact);
 
-    QDomElement exporter = doc.createElement( "XMI.exporter" );
-    exporter.appendChild( doc.createTextNode( "umbrello uml modeller http://umbrello.kde.org" ) );
-    documentation.appendChild( exporter );
+    QDomElement exporter = doc.createElement("XMI.exporter");
+    exporter.appendChild(doc.createTextNode("umbrello uml modeller http://umbrello.kde.org"));
+    documentation.appendChild(exporter);
 
-    QDomElement exporterVersion = doc.createElement( "XMI.exporterVersion" );
-    exporterVersion.appendChild( doc.createTextNode( XMI_FILE_VERSION ) );
-    documentation.appendChild( exporterVersion );
+    QDomElement exporterVersion = doc.createElement("XMI.exporterVersion");
+    exporterVersion.appendChild(doc.createTextNode(XMI_FILE_VERSION));
+    documentation.appendChild(exporterVersion);
 
     // all files are now saved with correct Unicode encoding, we add this
     // information to the header, so that the file will be loaded correctly
-    QDomElement exporterEncoding = doc.createElement( "XMI.exporterEncoding" );
-    exporterEncoding.appendChild( doc.createTextNode( "UnicodeUTF8" ) );
-    documentation.appendChild( exporterEncoding );
+    QDomElement exporterEncoding = doc.createElement("XMI.exporterEncoding");
+    exporterEncoding.appendChild(doc.createTextNode("UnicodeUTF8"));
+    documentation.appendChild(exporterEncoding);
 
-    header.appendChild( documentation );
+    header.appendChild(documentation);
 
     // See comment on <XMI.model> above
-    // header.appendChild( model );
-    header.appendChild( meta );
-    root.appendChild( header );
+    // header.appendChild(model);
+    header.appendChild(meta);
+    root.appendChild(header);
 
-    QDomElement content = doc.createElement( "XMI.content" );
+    QDomElement content = doc.createElement("XMI.content");
 
-    QDomElement contentNS = doc.createElement( "UML:Namespace.contents" );
+    QDomElement contentNS = doc.createElement("UML:Namespace.contents");
 
-    QDomElement objectsElement = doc.createElement( "UML:Model" );
-    objectsElement.setAttribute( "xmi.id", Uml::ID::toString(m_modelID) );
-    objectsElement.setAttribute( "name", m_Name );
-    objectsElement.setAttribute( "isSpecification", "false" );
-    objectsElement.setAttribute( "isAbstract", "false" );
-    objectsElement.setAttribute( "isRoot", "false" );
-    objectsElement.setAttribute( "isLeaf", "false" );
+    QDomElement objectsElement = doc.createElement("UML:Model");
+    objectsElement.setAttribute("xmi.id", Uml::ID::toString(m_modelID));
+    objectsElement.setAttribute("name", m_Name);
+    objectsElement.setAttribute("isSpecification", "false");
+    objectsElement.setAttribute("isAbstract", "false");
+    objectsElement.setAttribute("isRoot", "false");
+    objectsElement.setAttribute("isLeaf", "false");
 
-    QDomElement ownedNS = doc.createElement( "UML:Namespace.ownedElement" );
+    QDomElement ownedNS = doc.createElement("UML:Namespace.ownedElement");
 
     // Save stereotypes and toplevel datatypes first so that upon loading
     // they are known first.
@@ -1754,26 +1754,26 @@ void UMLDoc::saveToXMI(QIODevice& file)
         m_root[i]->saveToXMI(doc, ownedNS);
     }
 
-    objectsElement.appendChild( ownedNS );
+    objectsElement.appendChild(ownedNS);
 
-    content.appendChild( objectsElement );
+    content.appendChild(objectsElement);
 
-    root.appendChild( content );
+    root.appendChild(content);
 
     // Save the XMI extensions: docsettings, diagrams, listview, and codegeneration.
-    QDomElement extensions = doc.createElement( "XMI.extensions" );
-    extensions.setAttribute( "xmi.extender", "umbrello" );
+    QDomElement extensions = doc.createElement("XMI.extensions");
+    extensions.setAttribute("xmi.extender", "umbrello");
 
-    QDomElement docElement = doc.createElement( "docsettings" );
+    QDomElement docElement = doc.createElement("docsettings");
     Uml::ID::Type viewID = Uml::ID::None;
     UMLView *currentView = UMLApp::app()->currentView();
     if (currentView) {
         viewID = currentView->umlScene()->ID();
     }
-    docElement.setAttribute( "viewid", Uml::ID::toString(viewID) );
-    docElement.setAttribute( "documentation", m_Doc );
-    docElement.setAttribute( "uniqueid", Uml::ID::toString(UniqueID::get()) );
-    extensions.appendChild( docElement );
+    docElement.setAttribute("viewid", Uml::ID::toString(viewID));
+    docElement.setAttribute("documentation", m_Doc);
+    docElement.setAttribute("uniqueid", Uml::ID::toString(UniqueID::get()));
+    extensions.appendChild(docElement);
 
     //  save listview
     UMLApp::app()->listView()->saveToXMI(doc, extensions);
@@ -1781,14 +1781,14 @@ void UMLDoc::saveToXMI(QIODevice& file)
     // save code generator
     CodeGenerator *codegen = UMLApp::app()->generator();
     if (codegen) {
-        QDomElement codeGenElement = doc.createElement( "codegeneration" );
-        codegen->saveToXMI( doc, codeGenElement );
-        extensions.appendChild( codeGenElement );
+        QDomElement codeGenElement = doc.createElement("codegeneration");
+        codegen->saveToXMI(doc, codeGenElement);
+        extensions.appendChild(codeGenElement);
     }
 
-    root.appendChild( extensions );
+    root.appendChild(extensions);
 
-    QTextStream stream( &file );
+    QTextStream stream(&file);
     stream.setCodec("UTF-8");
     stream << doc.toString();
 }
@@ -1801,13 +1801,13 @@ void UMLDoc::saveToXMI(QIODevice& file)
  */
 short UMLDoc::encoding(QIODevice & file)
 {
-    QTextStream stream( &file );
+    QTextStream stream(&file);
     stream.setCodec("UTF-8");
     QString data = stream.readAll();
     QString error;
     int line;
     QDomDocument doc;
-    if ( !doc.setContent( data, false, &error, &line ) ) {
+    if (!doc.setContent(data, false, &error, &line)) {
         uWarning() << "Can not set content: " << error << " Line: " << line;
         return ENC_UNKNOWN;
     }
@@ -1819,27 +1819,27 @@ short UMLDoc::encoding(QIODevice & file)
         node = node.nextSibling();
     }
     QDomElement root = node.toElement();
-    if ( root.isNull() ) {
+    if (root.isNull()) {
         return ENC_UNKNOWN;
     }
     //  make sure it is an XMI file
-    if ( root.tagName() != "XMI" ) {
+    if (root.tagName() != "XMI") {
         return ENC_UNKNOWN;
     }
     node = node.firstChild();
 
-    if ( node.isNull() ) {
+    if (node.isNull()) {
         return ENC_UNKNOWN;
     }
 
     QDomElement element = node.toElement();
     // check header
-    if ( element.isNull() || element.tagName() != "XMI.header" ) {
+    if (element.isNull() || element.tagName() != "XMI.header") {
         return ENC_UNKNOWN;
     }
 
     QDomNode headerNode = node.firstChild();
-    while ( !headerNode.isNull() ) {
+    while (!headerNode.isNull()) {
         QDomElement headerElement = headerNode.toElement();
         // the information if Unicode was used is now stored in the
         // XMI.documentation section of the header
@@ -1849,7 +1849,7 @@ short UMLDoc::encoding(QIODevice & file)
             continue;
         }
         QDomNode docuNode = headerNode.firstChild();
-        while ( !docuNode.isNull() ) {
+        while (!docuNode.isNull()) {
             QDomElement docuElement = docuNode.toElement();
             // a tag XMI.exporterEncoding was added since version 1.2 to
             // mark a file as saved with Unicode
@@ -1888,7 +1888,7 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
         }
         file.reset();
     }
-    QTextStream stream( &file );
+    QTextStream stream(&file);
     if (encode == ENC_UNICODE) {
         stream.setCodec("UTF-8");
     }
@@ -1898,7 +1898,7 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
     QString error;
     int line;
     QDomDocument doc;
-    if ( !doc.setContent( data, false, &error, &line ) ) {
+    if (!doc.setContent(data, false, &error, &line)) {
         uWarning() << "Can not set content:" << error << " Line:" << line;
         return false;
     }
@@ -1911,11 +1911,11 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
     }
 
     QDomElement root = node.toElement();
-    if ( root.isNull() ) {
+    if (root.isNull()) {
         return false;
     }
     //  make sure it is an XMI file
-    if( root.tagName() != "XMI" ) {
+    if(root.tagName() != "XMI") {
         return false;
     }
 
@@ -1934,7 +1934,7 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
         //check header
         if (outerTag == "XMI.header") {
             QDomNode headerNode = node.firstChild();
-            if ( !validateXMIHeader(headerNode) ) {
+            if (!validateXMIHeader(headerNode)) {
                 return false;
             }
             recognized = true;
@@ -1946,7 +1946,7 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
             }
             recognized = true;
         }
-        if (outerTag != "XMI.content" ) {
+        if (outerTag != "XMI.content") {
             if (!recognized) {
                 DEBUG(DBG_SRC) << "skipping <" << outerTag << ">";
             }
@@ -1963,12 +1963,12 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
             QString tag = element.tagName();
             if (tag == "umlobjects"  // for bkwd compat.
                     || tagEq(tag, "Subsystem")
-                    || tagEq(tag, "Model") ) {
-                if( !loadUMLObjectsFromXMI( element ) ) {
+                    || tagEq(tag, "Model")) {
+                if(!loadUMLObjectsFromXMI(element)) {
                     uWarning() << "failed load on objects";
                     return false;
                 }
-                m_Name = element.attribute( "name", i18n("UML Model") );
+                m_Name = element.attribute("name", i18n("UML Model"));
                 UMLListView *lv = UMLApp::app()->listView();
                 lv->setTitle(0, m_Name);
                 seen_UMLObjects = true;
@@ -1979,7 +1979,7 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
                 // are missing the <Model> tag (e.g. NSUML)
                 QString stID = element.attribute("stereotype", "");
                 UMLObject *pObject = Object_Factory::makeObjectFromXMI(tag, stID);
-                if ( !pObject ) {
+                if (!pObject) {
                     uWarning() << "Unknown type of umlobject to create: " << tag;
                     // We want a best effort, therefore this is handled as a
                     // soft error.
@@ -2051,16 +2051,16 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
     if (UMLApp::app()->generator() == 0) {
         UMLApp::app()->setGenerator(UMLApp::app()->defaultLanguage());
     }
-    emit sigWriteToStatusBar( i18n("Setting up the document...") );
+    emit sigWriteToStatusBar(i18n("Setting up the document..."));
     qApp->processEvents();  // give UI events a chance
     activateAllViews();
 
     UMLView *viewToBeSet = 0;
     if (m_nViewID != Uml::ID::None) {
-        viewToBeSet = findView( m_nViewID );
+        viewToBeSet = findView(m_nViewID);
     }
     if (viewToBeSet) {
-        changeCurrentView( m_nViewID );
+        changeCurrentView(m_nViewID);
     } else {
         QString name = createDiagramName(Uml::DiagramType::Class, false);
         createDiagram(m_root[Uml::ModelType::Logical], Uml::DiagramType::Class, name);
@@ -2081,7 +2081,7 @@ void UMLDoc::resolveTypes()
         return;
     }
     m_bTypesAreResolved = true;
-    writeToStatusBar( i18n("Resolving object references...") );
+    writeToStatusBar(i18n("Resolving object references..."));
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
        UMLFolder *obj = m_root[i];
 #ifdef VERBOSE_DEBUGGING
@@ -2102,9 +2102,9 @@ void UMLDoc::resolveTypes()
 bool UMLDoc::validateXMIHeader(QDomNode& headerNode)
 {
     QDomElement headerElement = headerNode.toElement();
-    while ( !headerNode.isNull() ) {
+    while (!headerNode.isNull()) {
         /*  //Seems older Umbrello files used a different metamodel, so don't validate it for now
-          if( !headerElement.isNull() && headerElement.tagName() == "XMI.metamodel" ) {
+          if(!headerElement.isNull() && headerElement.tagName() == "XMI.metamodel") {
               String metamodel = headerElement.attribute("xmi.name", "");
               if (metamodel != "UML") {
                   return false;
@@ -2128,11 +2128,11 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
        how much of the file has been loaded rather than just
        counting to 10 (an arbitrary number)
     emit sigResetStatusbarProgress();
-    emit sigSetStatusbarProgress( 0 );
-    emit sigSetStatusbarProgressSteps( 10 );
+    emit sigSetStatusbarProgress(0);
+    emit sigSetStatusbarProgressSteps(10);
     m_count = 0;
      */
-    emit sigWriteToStatusBar( i18n("Loading UML elements...") );
+    emit sigWriteToStatusBar(i18n("Loading UML elements..."));
 
     // For Umbrello native XMI files, when called from loadFromXMI() we
     // get here with Element.tagName() == "UML:Model" from the XMI input:
@@ -2183,7 +2183,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
             // The tagEq(type, "Namespace.contents") and tagEq(type, "Model")
             // tests do not become true for Umbrello native files, only for
             // some foreign XMI files.
-            if ( !loadUMLObjectsFromXMI( tempElement ) ) {
+            if (!loadUMLObjectsFromXMI(tempElement)) {
                 uWarning() << "failed load on " << type;
                 return false;
             }
@@ -2207,7 +2207,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         }
         QString stID = tempElement.attribute("stereotype", "");
         UMLObject *pObject = Object_Factory::makeObjectFromXMI(type, stID);
-        if ( !pObject ) {
+        if (!pObject) {
             uWarning() << "Unknown type of umlobject to create: " << type;
             // We want a best effort, therefore this is handled as a
             // soft error.
@@ -2233,8 +2233,8 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         }
         pObject->setUMLPackage(pkg);
 
-        bool status = pObject->loadFromXMI( tempElement );
-        if ( !status ) {
+        bool status = pObject->loadFromXMI(tempElement);
+        if (!status) {
             delete pObject;
             return false;
         }
@@ -2271,7 +2271,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         }
 
         /* FIXME see comment at loadUMLObjectsFromXMI
-        emit sigSetStatusbarProgress( ++m_count );
+        emit sigSetStatusbarProgress(++m_count);
          */
     }
     return true;
@@ -2296,9 +2296,9 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node)
     QString tag = element.tagName();
 
     if (tag == "docsettings") {
-        QString viewID = element.attribute( "viewid", "-1" );
-        m_Doc = element.attribute( "documentation", "" );
-        QString uniqueid = element.attribute( "uniqueid", "0" );
+        QString viewID = element.attribute("viewid", "-1");
+        m_Doc = element.attribute("documentation", "");
+        QString uniqueid = element.attribute("uniqueid", "0");
 
         m_nViewID = Uml::ID::fromString(viewID);
         UniqueID::set(Uml::ID::fromString(uniqueid));
@@ -2317,7 +2317,7 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node)
             }
             diagramNode = diagramNode.firstChild();
         }
-        if ( !loadDiagramsFromXMI( diagramNode ) ) {
+        if (!loadDiagramsFromXMI(diagramNode)) {
             uWarning() << "failed load on diagrams";
         }
 
@@ -2325,14 +2325,14 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node)
         //FIXME: Need to resolveTypes() before loading listview,
         //       else listview items are duplicated.
         resolveTypes();
-        if ( !UMLApp::app()->listView()->loadFromXMI( element ) ) {
+        if (!UMLApp::app()->listView()->loadFromXMI(element)) {
             uWarning() << "failed load on listview";
         }
 
     } else if (tag == "codegeneration") {
         QDomNode cgnode = node.firstChild();
         QDomElement cgelement = cgnode.toElement();
-        while ( !cgelement.isNull() ) {
+        while (!cgelement.isNull()) {
             QString nodeName = cgelement.tagName();
             QString lang = cgelement.attribute("language","UNKNOWN");
             Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromString(lang);
@@ -2354,20 +2354,20 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node)
  *
  * @return  True if operation successful.
  */
-bool UMLDoc::loadDiagramsFromXMI( QDomNode & node )
+bool UMLDoc::loadDiagramsFromXMI(QDomNode & node)
 {
-    emit sigWriteToStatusBar( i18n("Loading diagrams...") );
+    emit sigWriteToStatusBar(i18n("Loading diagrams..."));
     emit sigResetStatusbarProgress();
-    emit sigSetStatusbarProgress( 0 );
-    emit sigSetStatusbarProgressSteps( 10 ); //FIX ME
+    emit sigSetStatusbarProgress(0);
+    emit sigSetStatusbarProgressSteps(10); //FIX ME
     QDomElement element = node.toElement();
-    if ( element.isNull() ) {
+    if (element.isNull()) {
         return true;  //return ok as it means there is no umlobjects
     }
     const Settings::OptionState state = Settings::optionState();
     UMLView * pView = 0;
     int count = 0;
-    while ( !element.isNull() ) {
+    while (!element.isNull()) {
         QString tag = element.tagName();
         if (tag == "diagram" || tag == "UISDiagram") {
             pView = new UMLView(0);
@@ -2375,7 +2375,7 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node )
             // reading the corresponding diagram:
             // + allow using per-diagram color and line-width settings
             // + avoid crashes due to uninitialized values for lineWidth
-            pView->umlScene()->setOptionState( state );
+            pView->umlScene()->setOptionState(state);
             bool success = false;
             if (tag == "UISDiagram") {
                 success = pView->umlScene()->loadUISDiagram(element);
@@ -2392,8 +2392,8 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node )
             Uml::ModelType::Enum mt = Model_Utils::convert_DT_MT(pView->umlScene()->type());
             pView->umlScene()->setFolder(m_root[mt]);
             pView->hide();
-            addView( pView );
-            emit sigSetStatusbarProgress( ++count );
+            addView(pView);
+            emit sigSetStatusbarProgress(++count);
             qApp->processEvents();  // give UI events a chance
         }
         node = node.nextSibling();
@@ -2497,7 +2497,7 @@ UMLClassifierList UMLDoc::classesAndInterfaces(bool includeNested /* =true */)
  *                        nested packages (default: true.)
  * @return  List of UML Entities.
  */
-UMLEntityList UMLDoc::entities( bool includeNested /* =true */ )
+UMLEntityList UMLDoc::entities(bool includeNested /* =true */)
 {
     UMLEntityList entityList;
     m_root[Uml::ModelType::EntityRelationship]->appendEntities(entityList, includeNested);
@@ -2546,7 +2546,7 @@ UMLAssociationList UMLDoc::associations()
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
         UMLAssociationList assocs = m_root[i]->getAssociations();
 
-        foreach (UMLAssociation* a, assocs ) {
+        foreach (UMLAssociation* a, assocs) {
             associationList.append(a);
         }
     }
@@ -2637,7 +2637,7 @@ bool UMLDoc::assignNewIDs(UMLObject* obj)
     obj->setID(result);
 
     //If it is a CONCEPT then change the ids of all its operations and attributes
-    if (obj->baseType() == UMLObject::ot_Class ) {
+    if (obj->baseType() == UMLObject::ot_Class) {
         UMLClassifier *c = static_cast<UMLClassifier*>(obj);
         UMLClassifierListItemList attributes = c->getFilteredList(UMLObject::ot_Attribute);
         foreach (UMLObject* listItem,  attributes) {
@@ -2652,7 +2652,7 @@ bool UMLDoc::assignNewIDs(UMLObject* obj)
         }
     }
 
-    if (obj->baseType() == UMLObject::ot_Interface || obj->baseType() == UMLObject::ot_Class ) {
+    if (obj->baseType() == UMLObject::ot_Interface || obj->baseType() == UMLObject::ot_Class) {
         UMLOperationList operations(((UMLClassifier*)obj)->getOpList());
         foreach (UMLObject* listItem, operations) {
             result = assignNewID(listItem->id());
@@ -2774,7 +2774,7 @@ void UMLDoc::setDocumentation(const QString &doc)
  * @param pView   Pointer to the UMLView to add.
  * @return  True if operation successful.
  */
-bool UMLDoc::addUMLView(UMLView * pView )
+bool UMLDoc::addUMLView(UMLView * pView)
 {
     if (!pView || !m_pChangeLog) {
         return false;
@@ -2783,7 +2783,7 @@ bool UMLDoc::addUMLView(UMLView * pView )
     int i = 0;
     QString viewName = pView->umlScene()->name();
     QString name = viewName;
-    while ( findView(pView->umlScene()->type(), name) != 0) {
+    while (findView(pView->umlScene()->type(), name) != 0) {
         name = viewName + '_' + QString::number(++i);
     }
     if (i) { //If name was modified
@@ -2792,9 +2792,9 @@ bool UMLDoc::addUMLView(UMLView * pView )
     Uml::ID::Type result = assignNewID(pView->umlScene()->ID());
     pView->umlScene()->setID(result);
 
-    pView->umlScene()->activateAfterLoad( true );
+    pView->umlScene()->activateAfterLoad(true);
     pView->umlScene()->endPartialWidgetPaste();
-    pView->umlScene()->setOptionState( Settings::optionState() );
+    pView->umlScene()->setOptionState(Settings::optionState());
     addView(pView);
     setModified(true);
     return true;
@@ -2833,18 +2833,18 @@ void UMLDoc::settingsChanged(Settings::OptionState optionState)
  */
 void UMLDoc::initSaveTimer()
 {
-    if ( m_pAutoSaveTimer ) {
+    if (m_pAutoSaveTimer) {
         m_pAutoSaveTimer->stop();
         disconnect(m_pAutoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
         delete m_pAutoSaveTimer;
         m_pAutoSaveTimer = 0;
     }
     Settings::OptionState optionState = Settings::optionState();
-    if ( optionState.generalState.autosave ) {
+    if (optionState.generalState.autosave) {
         m_pAutoSaveTimer = new QTimer(this);
-        connect( m_pAutoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
-        m_pAutoSaveTimer->setSingleShot( false );
-        m_pAutoSaveTimer->start( optionState.generalState.autosavetime * 60000 );
+        connect(m_pAutoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
+        m_pAutoSaveTimer->setSingleShot(false);
+        m_pAutoSaveTimer->start(optionState.generalState.autosavetime * 60000);
     }
 }
 
@@ -2854,16 +2854,16 @@ void UMLDoc::initSaveTimer()
 void UMLDoc::slotAutoSave()
 {
     //Only save if modified.
-    if ( !m_modified ) {
+    if (!m_modified) {
         return;
     }
     KUrl tempUrl = m_doc_url;
-    if ( tempUrl.fileName() == i18n("Untitled") ) {
-        tempUrl.setPath( QDir::homePath() + i18n( "/autosave%1", QString(".xmi") ) );
-        saveDocument( tempUrl );
-        m_doc_url.setFileName( i18n("Untitled") );
+    if (tempUrl.fileName() == i18n("Untitled")) {
+        tempUrl.setPath(QDir::homePath() + i18n("/autosave%1", QString(".xmi")));
+        saveDocument(tempUrl);
+        m_doc_url.setFileName(i18n("Untitled"));
         m_modified = true;
-        UMLApp::app()->setModified( m_modified );
+        UMLApp::app()->setModified(m_modified);
     } else {
         // 2004-05-17 Achim Spangler
         KUrl orgDocUrl = m_doc_url;
@@ -2871,23 +2871,23 @@ void UMLDoc::slotAutoSave()
         // don't overwrite manually saved file with autosave content
         QString fileName = tempUrl.fileName();
         Settings::OptionState optionState = Settings::optionState();
-        fileName.replace( ".xmi", optionState.generalState.autosavesuffix );
-        tempUrl.setFileName( fileName );
+        fileName.replace(".xmi", optionState.generalState.autosavesuffix);
+        tempUrl.setFileName(fileName);
         // End Achim Spangler
 
-        saveDocument( tempUrl );
+        saveDocument(tempUrl);
         // 2004-05-17 Achim Spangler
         // re-activate m_modified if autosave is writing to other file
         // than the main project file->autosave-suffix != ".xmi"
-        if ( ".xmi" != optionState.generalState.autosavesuffix ) {
+        if (".xmi" != optionState.generalState.autosavesuffix) {
             m_modified = true;
-            UMLApp::app()->setModified( m_modified );
+            UMLApp::app()->setModified(m_modified);
         }
         // restore original file name -
         // UMLDoc::saveDocument() sets doc_url to filename which is given as autosave-filename
-        setUrl( orgDocUrl );
+        setUrl(orgDocUrl);
         UMLApp * pApp = UMLApp::app();
-        pApp->setCaption(orgFileName, isModified() );
+        pApp->setCaption(orgFileName, isModified());
         // End Achim Spangler
     }
 }
@@ -2900,9 +2900,9 @@ void UMLDoc::signalDiagramRenamed(UMLView* view)
     if (view) {
         Settings::OptionState optionState = Settings::optionState();
         if (optionState.generalState.tabdiagrams) {
-            UMLApp::app()->tabWidget()->setTabText( UMLApp::app()->tabWidget()->indexOf(view), view->umlScene()->name() );
+            UMLApp::app()->tabWidget()->setTabText(UMLApp::app()->tabWidget()->indexOf(view), view->umlScene()->name());
         }
-        emit sigDiagramRenamed( view->umlScene()->ID() );
+        emit sigDiagramRenamed(view->umlScene()->ID());
     }
     else {
       uError() << "Cannot signal diagram renamed - view is NULL!";
@@ -2955,7 +2955,7 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point)
     }
 
     UMLListViewItem::ListViewType type = UMLListViewItem::lvt_Unknown;
-    switch ( view->umlScene()->type() ) {
+    switch (view->umlScene()->type()) {
     case Uml::DiagramType::Class:
         type = UMLListViewItem::lvt_Class_Diagram;
         break;
@@ -3047,7 +3047,7 @@ bool UMLDoc::tagEq (const QString& inTag, const QString& inPattern)
 {
     QString tag = inTag;
     QString pattern = inPattern;
-    tag.remove( QRegExp("^\\w+:") );  // remove leading "UML:" or other
+    tag.remove(QRegExp("^\\w+:"));  // remove leading "UML:" or other
     int patSections = pattern.count('.') + 1;
     QString tagEnd = tag.section('.', -patSections);
     return (tagEnd.toLower() == pattern.toLower());

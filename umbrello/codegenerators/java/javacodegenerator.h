@@ -62,7 +62,7 @@ protected:
 //     * Create the codeblock that will represent the class declaration
 //     * for this classifier.
 //     */
-//    CodeBlockWithComments * createClassDecl ( UMLClassifier *c, JavaClassifierCodeDocument * doc);
+//    CodeBlockWithComments * createClassDecl (UMLClassifier *c, JavaClassifierCodeDocument * doc);
 
     JavaANTCodeDocument * newANTCodeDocument();
 
