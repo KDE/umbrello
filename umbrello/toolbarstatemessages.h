@@ -43,7 +43,7 @@ class ObjectWidget;
  * needed. However, if onWidget in object widgets is changed to also check for
  * the line, a way to make them prioritaries over other widgets in testOnWidget
  * will be needed. For example, when creating a message clicking on an already
- * created message,the message line must be got instead of the message, even if
+ * created message, the message line must be got instead of the message, even if
  * the message is smaller than the line.
  */
 class ToolBarStateMessages : public ToolBarStatePool

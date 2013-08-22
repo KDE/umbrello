@@ -584,8 +584,8 @@ QString CodeGenerationPolicy::getHeadingFile(const QString& str)
     }
 
     //do variable substitution
-    retstr.replace(QRegExp("%author%"),QString(qgetenv("USER")));  //get the user name from some where else
-    retstr.replace(QRegExp("%headingpath%"),filename);
+    retstr.replace(QRegExp("%author%"), QString(qgetenv("USER")));  //get the user name from some where else
+    retstr.replace(QRegExp("%headingpath%"), filename);
     retstr.replace(QRegExp("%time%"), QTime::currentTime().toString());
     retstr.replace(QRegExp("%date%"), QDate::currentDate().toString());
     // the replace filepath, time parts are also in the code document updateHeader method

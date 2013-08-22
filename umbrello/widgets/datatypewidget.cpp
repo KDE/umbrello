@@ -71,7 +71,7 @@ void DatatypeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     font.setBold(true);
     painter->setFont(font);
     painter->drawText(DATATYPE_MARGIN, 0,
-               w - DATATYPE_MARGIN* 2,fontHeight,
+               w - DATATYPE_MARGIN* 2, fontHeight,
                Qt::AlignCenter, m_umlObject->stereotype(true));
 
     font.setItalic(m_umlObject->isAbstract());

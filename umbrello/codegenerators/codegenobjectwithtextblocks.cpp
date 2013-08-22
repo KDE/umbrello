@@ -256,7 +256,7 @@ CodeComment * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeComment (const Q
         if(!addTextBlock(codeComment))
         {
             delete codeComment;
-            return 0; // hmm. total failure..,was there a preexisting comment with this tag?? lets return null
+            return 0; // hmm. total failure.., was there a preexisting comment with this tag?? lets return null
         }
     }
 
@@ -297,7 +297,7 @@ CodeBlockWithComments * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeBlockW
         if(!addTextBlock(codeBlock))
         {
             delete codeBlock;
-            return 0; // hmm. total failure..,was there a preexisting codeblock with this tag?? lets return null
+            return 0; // hmm. total failure.., was there a preexisting codeblock with this tag?? lets return null
         }
     }
 

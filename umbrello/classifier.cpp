@@ -819,7 +819,7 @@ UMLAttribute* UMLClassifier::addAttribute(const QString &name, Uml::ID::Type id 
     m_List.append(a);
     emit attributeAdded(a);
     UMLObject::emitModified();
-    connect(a,SIGNAL(modified()),this,SIGNAL(modified()));
+    connect(a, SIGNAL(modified()), this, SIGNAL(modified()));
     return a;
 }
 
@@ -900,7 +900,7 @@ int UMLClassifier::removeAttribute(UMLAttribute* att)
     UMLObject::emitModified();
     // If we are deleting the object, then we don't need to disconnect..this is done auto-magically
     // for us by QObject. -b.t.
-    // disconnect(att, SIGNAL(modified()), this,SIGNAL(modified()));
+    // disconnect(att, SIGNAL(modified()), this, SIGNAL(modified()));
     delete att;
     return m_List.count();
 }
@@ -1070,7 +1070,7 @@ bool UMLClassifier::addTemplate(UMLTemplate* newTemplate, IDChangeLog* log /* = 
         m_List.append(newTemplate);
         emit templateAdded(newTemplate);
         UMLObject::emitModified();
-        connect(newTemplate,SIGNAL(modified()),this,SIGNAL(modified()));
+        connect(newTemplate, SIGNAL(modified()), this, SIGNAL(modified()));
         return true;
     }
     else if (log) {

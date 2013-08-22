@@ -75,7 +75,7 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     int y = 0;
     if (!m_umlObject->stereotype().isEmpty()) {
         painter->drawText(ENTITY_MARGIN, 0,
-                   w - ENTITY_MARGIN * 2,fontHeight,
+                   w - ENTITY_MARGIN * 2, fontHeight,
                    Qt::AlignCenter, m_umlObject->stereotype(true));
         font.setItalic(m_umlObject->isAbstract());
         painter->setFont(font);

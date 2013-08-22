@@ -318,9 +318,9 @@ void CppWriter::writeSourceFile(UMLClassifier *c, QFile &file)
     }
 
     if (!policyExt()->getOperationsAreInline()) {
-        writeOperations(c,false,Uml::Visibility::Public,cpp);
-        writeOperations(c,false,Uml::Visibility::Protected,cpp);
-        writeOperations(c,false,Uml::Visibility::Private,cpp);
+        writeOperations(c, false, Uml::Visibility::Public, cpp);
+        writeOperations(c, false, Uml::Visibility::Protected, cpp);
+        writeOperations(c, false, Uml::Visibility::Private, cpp);
     }
 
     // Yep, bringing up the back of the bus, our initialization method for attributes
@@ -449,23 +449,23 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
     // for public: constructors are first ops we print out
     if (!c->isInterface())
         writeConstructorDecls(cpp);
-    writeHeaderFieldDecl(c,Uml::Visibility::Public, cpp);
+    writeHeaderFieldDecl(c, Uml::Visibility::Public, cpp);
     writeHeaderAccessorMethodDecl(c, Uml::Visibility::Public, cpp);
-    writeOperations(c,true,Uml::Visibility::Public,cpp);
+    writeOperations(c, true, Uml::Visibility::Public, cpp);
 
     // PROTECTED attribs/methods
     //
     cpp << "protected" << ":" << m_endl << m_endl; // print visibility decl.
-    writeHeaderFieldDecl(c,Uml::Visibility::Protected, cpp);
+    writeHeaderFieldDecl(c, Uml::Visibility::Protected, cpp);
     writeHeaderAccessorMethodDecl(c, Uml::Visibility::Protected, cpp);
-    writeOperations(c,true,Uml::Visibility::Protected,cpp);
+    writeOperations(c, true, Uml::Visibility::Protected, cpp);
 
     // PRIVATE attribs/methods
     //
     cpp << "private" << ":" << m_endl << m_endl; // print visibility decl.
-    writeHeaderFieldDecl(c,Uml::Visibility::Private, cpp);
+    writeHeaderFieldDecl(c, Uml::Visibility::Private, cpp);
     writeHeaderAccessorMethodDecl(c, Uml::Visibility::Private, cpp);
-    writeOperations(c,true,Uml::Visibility::Private,cpp);
+    writeOperations(c, true, Uml::Visibility::Private, cpp);
     writeInitAttributeDecl(c, cpp); // this is always private, used by constructors to initialize class
 
     // end of class header
@@ -500,8 +500,8 @@ void CppWriter::writeAttributeDecls (UMLClassifier *c, Uml::Visibility::Enum vis
     {
         QString strVis = Codegen_Utils::capitalizeFirstLetter(Uml::Visibility::toString(visibility));
         QString strStatic = writeStatic ? "Static ":"";
-        writeComment(strStatic + strVis + " attributes",indent(), stream);
-        writeComment(" ",indent(), stream);
+        writeComment(strStatic + strVis + " attributes", indent(), stream);
+        writeComment(" ", indent(), stream);
         writeBlankLine(stream);
     }
 
@@ -577,8 +577,8 @@ void CppWriter::writeAttributeMethods(UMLAttributeList attribs,
         QString strVis = Codegen_Utils::capitalizeFirstLetter(Uml::Visibility::toString(visibility));
         QString strStatic = (isStatic ? " static" : "");
         writeBlankLine(stream);
-        writeComment(strVis + strStatic + " attribute accessor methods",indent(),stream);
-        writeComment(" ",indent(), stream);
+        writeComment(strVis + strStatic + " attribute accessor methods", indent(), stream);
+        writeComment(" ", indent(), stream);
         writeBlankLine(stream);
     }
 
@@ -594,7 +594,7 @@ void CppWriter::writeAttributeMethods(UMLAttributeList attribs,
         // from what I can tell, this IS the default behavior for
         // cleanName. I dunno why it is not working -b.t.
         methodBaseName = methodBaseName.trimmed();
-        methodBaseName.replace(0,1,methodBaseName.at(0).toUpper());
+        methodBaseName.replace(0, 1, methodBaseName.at(0).toUpper());
 
         writeSingleAttributeAccessorMethods(at->getTypeName(), varName,
                                             methodBaseName, at->doc(), Uml::Changeability::Changeable, isHeaderMethod,
@@ -838,19 +838,19 @@ void CppWriter::writeVectorAttributeAccessorMethods (
     // ONLY IF changeability is NOT Frozen
     if (changeType != Uml::Changeability::Frozen)
     {
-        writeDocumentation("Add a " + fldName + " object to the " + fieldVarName + " List",description,"",stream);
+        writeDocumentation("Add a " + fldName + " object to the " + fieldVarName + " List", description,"", stream);
         stream << indnt << "void ";
         if(!isHeaderMethod)
             stream << className_ << "::";
         stream << "add" << fldName << " (" << className << " add_object)";
         if (writeMethodBody) {
             QString method = VECTOR_METHOD_APPEND;
-            method.replace(QRegExp("%VARNAME%"),fieldVarName);
+            method.replace(QRegExp("%VARNAME%"), fieldVarName);
             method.replace(QRegExp("%VECTORTYPENAME%"), policyExt()->getVectorClassName());
-            method.replace(QRegExp("%ITEMCLASS%"),className);
+            method.replace(QRegExp("%ITEMCLASS%"), className);
             stream << indnt << " {" << m_endl;
             m_indentLevel++;
-            printTextAsSeparateLinesWithIndent(method,indent(),stream);
+            printTextAsSeparateLinesWithIndent(method, indent(), stream);
             m_indentLevel--;
             stream << indnt << "}" << m_endl;
         } else
@@ -868,12 +868,12 @@ void CppWriter::writeVectorAttributeAccessorMethods (
         stream << "remove" << fldName << " (" << className << " remove_object)";
         if (writeMethodBody) {
             QString method = VECTOR_METHOD_REMOVE;
-            method.replace(QRegExp("%VARNAME%"),fieldVarName);
+            method.replace(QRegExp("%VARNAME%"), fieldVarName);
             method.replace(QRegExp("%VECTORTYPENAME%"), policyExt()->getVectorClassName());
-            method.replace(QRegExp("%ITEMCLASS%"),className);
+            method.replace(QRegExp("%ITEMCLASS%"), className);
             stream << indnt << " {" << m_endl;
             m_indentLevel++;
-            printTextAsSeparateLinesWithIndent(method,indent(),stream);
+            printTextAsSeparateLinesWithIndent(method, indent(), stream);
             m_indentLevel--;
             stream << indnt << "}" << m_endl;
         } else
@@ -924,7 +924,7 @@ void CppWriter::writeSingleAttributeAccessorMethods(
 
     // set method
     if (change == Uml::Changeability::Changeable && !isStatic) {
-        writeDocumentation("Set the value of " + fieldVarName,description,policyExt()->getDocToolTag() + "param new_var the new value of " + fieldVarName,stream);
+        writeDocumentation("Set the value of " + fieldVarName, description, policyExt()->getDocToolTag() + "param new_var the new value of " + fieldVarName, stream);
         stream << indnt << "void ";
         if(!isHeaderMethod)
             stream << className_ << "::";
@@ -944,7 +944,7 @@ void CppWriter::writeSingleAttributeAccessorMethods(
     }
 
     // get method
-    writeDocumentation("Get the value of " + fieldVarName,description,policyExt()->getDocToolTag() + "return the value of " + fieldVarName,stream);
+    writeDocumentation("Get the value of " + fieldVarName, description, policyExt()->getDocToolTag() + "return the value of " + fieldVarName, stream);
     stream << indnt << className << " ";
     if (!isHeaderMethod)
         stream << className_ << "::";
@@ -1030,7 +1030,7 @@ void CppWriter::writeInitAttributeMethod(UMLClassifier * c, QTextStream &stream)
         for(it = VectorFieldVariables.begin(); it != VectorFieldVariables.end(); ++it) {
             QString fieldVarName = *it;
             QString method = VECTOR_METHOD_INIT;
-            method.replace(QRegExp("%VARNAME%"),fieldVarName);
+            method.replace(QRegExp("%VARNAME%"), fieldVarName);
             method.replace(QRegExp("%VECTORTYPENAME%"), policyExt()->getVectorClassName());
             stream << indent() << method << m_endl;
         }
@@ -1043,8 +1043,8 @@ void CppWriter::writeInitAttributeMethod(UMLClassifier * c, QTextStream &stream)
             it++;
             QString fieldClassName = *it;
             QString method = OBJECT_METHOD_INIT;
-            method.replace(QRegExp("%VARNAME%"),fieldVarName);
-            method.replace(QRegExp("%ITEMCLASS%"),fieldClassName);
+            method.replace(QRegExp("%VARNAME%"), fieldVarName);
+            method.replace(QRegExp("%ITEMCLASS%"), fieldClassName);
             stream << indent() << method << m_endl;
         }
     }
@@ -1121,7 +1121,7 @@ void CppWriter::writeOperations(UMLClassifier *c, bool isHeaderMethod,
     /*
       if(forceSections() || oppub.count())
       {
-      writeComment("public operations",indent(),cpp);
+      writeComment("public operations", indent(), cpp);
         writeBlankLine(cpp);
       }
     */
@@ -1149,10 +1149,10 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
 
         if (op->isConstructorOperation()) {
             if (generateEmptyConstructors && atl.count() == 0)
-                continue;  // it's already been written, see writeConstructor{Decls,Methods}
+                continue;  // it's already been written, see writeConstructor{Decls, Methods}
         } else if (op->isDestructorOperation()) {
             if (generateEmptyConstructors)
-                continue;  // it's already been written, see writeConstructor{Decls,Methods}
+                continue;  // it's already been written, see writeConstructor{Decls, Methods}
         } else {
             methodReturnType = fixTypeName(op->getTypeName());
             if(methodReturnType != "void")

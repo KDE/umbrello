@@ -237,12 +237,12 @@ void CodeClassField::loadFromXMI (QDomElement & root)
 void CodeClassField::setAttributesOnNode (QDomDocument & doc, QDomElement & cfElem)
 {
     // super class
-    CodeParameter::setAttributesOnNode(doc,cfElem);
+    CodeParameter::setAttributesOnNode(doc, cfElem);
 
     // now set local attributes/fields
-    cfElem.setAttribute("field_type",m_classFieldType);
-    cfElem.setAttribute("listClassName",m_listClassName);
-    cfElem.setAttribute("writeOutMethods",getWriteOutMethods()?"true":"false");
+    cfElem.setAttribute("field_type", m_classFieldType);
+    cfElem.setAttribute("listClassName", m_listClassName);
+    cfElem.setAttribute("writeOutMethods", getWriteOutMethods()?"true":"false");
 
     // record tag on declaration codeblock
     // which we will store in its own separate child node block
@@ -251,7 +251,7 @@ void CodeClassField::setAttributesOnNode (QDomDocument & doc, QDomElement & cfEl
     // now record the tags on our accessormethods
     Q_FOREACH(CodeAccessorMethod *method, m_methodVector)
     {
-        method->saveToXMI(doc,cfElem);
+        method->saveToXMI(doc, cfElem);
     }
 }
 
@@ -355,7 +355,7 @@ int CodeClassField::maximumListOccurances()
         // ush. IF we had a multiplicty object, this would be much easier.
         if(!multi.isEmpty())
         {
-            QString upperBoundString = multi.section(QRegExp("(\\.\\.)"),1);
+            QString upperBoundString = multi.section(QRegExp("(\\.\\.)"), 1);
             if(!upperBoundString.isEmpty() && upperBoundString.contains(QRegExp("^\\d+$")))
                 return upperBoundString.toInt();
             else
@@ -465,7 +465,7 @@ void CodeClassField::initAccessorMethods()
         }
     }
 
-    // add in the add,remove and list methods for things which are role based.
+    // add in the add, remove and list methods for things which are role based.
     // (and only used if the role specifies a 'list' type object
     if (!parentIsAttribute()) {
 
@@ -650,7 +650,7 @@ void CodeClassField::finishInitialization()
     initAccessorMethods();
     updateContent();
 
-    connect(getParentObject(),SIGNAL(modified()),this,SIGNAL(modified())); // child objects will trigger off this signal
+    connect(getParentObject(), SIGNAL(modified()), this, SIGNAL(modified())); // child objects will trigger off this signal
 }
 
 #include "codeclassfield.moc"

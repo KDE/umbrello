@@ -43,8 +43,8 @@ namespace Uml
         //UMLWidget * w =
         //m_widgetCtrl->reverseOldNewValues();
         //m_widgetCtrl->widgetMoved();
-        //m_widgetCtrl->moveWidget(diffX,diffY);
-        //m_widgetCtrl->moveWidget(10,10);
+        //m_widgetCtrl->moveWidget(diffX, diffY);
+        //m_widgetCtrl->moveWidget(10, 10);
         //widget->getWidgetController()->moveWidgetBy(diffX, diffY);
     }
 
@@ -57,8 +57,8 @@ namespace Uml
         //w->setY(m_oldY);
 
         //m_widgetCtrl->moveWidget(w->x() - m_oldX, w->y() - m_oldY);
-        //m_widgetCtrl->moveWidget(-10,-10);
-        //m_widgetCtrl->moveWidget(-diffX,-diffY);
+        //m_widgetCtrl->moveWidget(-10, -10);
+        //m_widgetCtrl->moveWidget(-diffX, -diffY);
         //widget->getWidgetController()->moveWidgetBy(-diffX, -diffY);
     }
 

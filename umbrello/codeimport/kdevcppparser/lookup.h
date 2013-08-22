@@ -77,7 +77,7 @@
     int size;
     /**
      * pointer to the array of entries
-     * Mind that some entries in the array are null (0,0,0,0).
+     * Mind that some entries in the array are null (0, 0, 0, 0).
      */
     const HashEntry *entries;
     /**

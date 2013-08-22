@@ -43,7 +43,7 @@
 
 #ifdef Q_CC_MSVC
 template <class _Tp>
-struct _Identity : public std::unary_function<_Tp,_Tp> {
+struct _Identity : public std::unary_function<_Tp, _Tp> {
   _Tp& operator()(_Tp& __x) const { return __x; }
   const _Tp& operator()(const _Tp& __x) const { return __x; }
 };

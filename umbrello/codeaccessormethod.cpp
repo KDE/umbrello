@@ -126,8 +126,8 @@ void CodeAccessorMethod::setAttributesOnNode(QDomDocument & doc, QDomElement & e
     CodeMethodBlock::setAttributesOnNode(doc, elem);
 
     // set local class attributes
-    elem.setAttribute("accessType",getType());
-    elem.setAttribute("classfield_id",getParentClassField()->ID());
+    elem.setAttribute("accessType", getType());
+    elem.setAttribute("classfield_id", getParentClassField()->ID());
 }
 
 /**
@@ -187,7 +187,7 @@ void CodeAccessorMethod::initFields(CodeClassField * parentClassField)
     m_accessorType = GET;
     setCanDelete(false);  // we cant delete these with the codeeditor, delete the UML operation instead.
 
-    connect(m_parentclassfield,SIGNAL(modified()),this,SLOT(syncToParent()));
+    connect(m_parentclassfield, SIGNAL(modified()), this, SLOT(syncToParent()));
 }
 
 #include "codeaccessormethod.moc"

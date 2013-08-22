@@ -49,8 +49,8 @@ ObjectNodeDialog::ObjectNodeDialog(UMLView * pView, ObjectNodeWidget * pWidget)
     setFaceType(KPageDialog::List);
     showButtonSeparator(true);
     setupPages();
-    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
-    connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
+    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
+    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
 }
 
 /**
@@ -173,13 +173,13 @@ void ObjectNodeDialog::setupGeneralPage()
     m_GenPageWidgets.stateL->hide();
     m_GenPageWidgets.stateLE->hide();
 
-    m_GenPageWidgets.bufferRB = new QRadioButton(i18n("&Central Buffer"),(QWidget *)page);
+    m_GenPageWidgets.bufferRB = new QRadioButton(i18n("&Central Buffer"), (QWidget *)page);
     generalLayout->addWidget(m_GenPageWidgets.bufferRB);
 
-    m_GenPageWidgets.dataRB = new QRadioButton(i18n("&Data Store "),(QWidget *)page);
+    m_GenPageWidgets.dataRB = new QRadioButton(i18n("&Data Store "), (QWidget *)page);
     generalLayout->addWidget(m_GenPageWidgets.dataRB);
 
-    m_GenPageWidgets.flowRB = new QRadioButton(i18n("&Object Flow"),(QWidget *)page);
+    m_GenPageWidgets.flowRB = new QRadioButton(i18n("&Object Flow"), (QWidget *)page);
     generalLayout->addWidget(m_GenPageWidgets.flowRB);
 
     if (type == ObjectNodeWidget::Flow)
@@ -187,9 +187,9 @@ void ObjectNodeDialog::setupGeneralPage()
         showState();
     }
 
-    connect(m_GenPageWidgets.bufferRB,SIGNAL(clicked()),this,SLOT(slotHideState()));
-    connect(m_GenPageWidgets.dataRB,SIGNAL(clicked()),this,SLOT(slotHideState()));
-    connect(m_GenPageWidgets.flowRB,SIGNAL(clicked()),this,SLOT(slotShowState()));
+    connect(m_GenPageWidgets.bufferRB, SIGNAL(clicked()), this, SLOT(slotHideState()));
+    connect(m_GenPageWidgets.dataRB, SIGNAL(clicked()), this, SLOT(slotHideState()));
+    connect(m_GenPageWidgets.flowRB, SIGNAL(clicked()), this, SLOT(slotShowState()));
 
     ObjectNodeWidget::ObjectNodeType newType = m_pObjectNodeWidget->objectNodeType() ;
 

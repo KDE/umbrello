@@ -90,8 +90,8 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
     // 1. create the header
     QString headerText = getHeadingFile(".xsd");
     if(!headerText.isEmpty()) {
-        headerText.replace(QRegExp("%filename%"),fileName);
-        headerText.replace(QRegExp("%filepath%"),file.fileName());
+        headerText.replace(QRegExp("%filename%"), fileName);
+        headerText.replace(QRegExp("%filepath%"), file.fileName());
     }
     if(!headerText.isEmpty())
         XMLschema<<headerText<<m_endl;
@@ -113,7 +113,7 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
     /*
     //only import classes in a different package as this class
     UMLPackageList imports;
-    findObjectsRelated(c,imports);
+    findObjectsRelated(c, imports);
     for(UMLPackage *con = imports.first(); con ; con = imports.next())
         if(con->getPackage() != c->getPackage())
                 XMLschema<<"import "<<con->getPackage()<<"."<<cleanName(con->getName())<<";"<<m_endl;
@@ -172,12 +172,12 @@ void XMLSchemaWriter::writeClassifier(UMLClassifier *c, QTextStream &XMLschema)
 
     // write documentation for class, if any, first
     if(forceDoc() || !c->doc().isEmpty())
-        writeComment(c->doc(),XMLschema);
+        writeComment(c->doc(), XMLschema);
 
     if(c->isAbstract() || c->isInterface())
-        writeAbstractClassifier(c,XMLschema); // if it is an interface or abstract class
+        writeAbstractClassifier(c, XMLschema); // if it is an interface or abstract class
     else
-        writeConcreteClassifier(c,XMLschema);
+        writeConcreteClassifier(c, XMLschema);
 }
 
 /**
@@ -487,7 +487,7 @@ void XMLSchemaWriter::markAsWritten(UMLClassifier *c)
 void XMLSchemaWriter::writeAttributeDecls(UMLAttributeList &attribs, QTextStream &XMLschema)
 {
     foreach (UMLAttribute* at, attribs) {
-        writeAttributeDecl(at,XMLschema);
+        writeAttributeDecl(at, XMLschema);
     }
 }
 
@@ -531,7 +531,7 @@ void XMLSchemaWriter::writeAttributeGroupDecl (const QString &elementName, UMLAt
     if (attribs.count()> 0) {
 
         // write a little documentation
-        writeComment("attributes for element "+elementName,XMLschema);
+        writeComment("attributes for element "+elementName, XMLschema);
 
         // open attribute group
         XMLschema<<indent()<<"<"<<makeSchemaTag("attributeGroup")<<" name=\""<<elementName+"AttribGroupType"<<"\">"<<m_endl;
@@ -540,7 +540,7 @@ void XMLSchemaWriter::writeAttributeGroupDecl (const QString &elementName, UMLAt
 
         foreach(UMLAttribute *at, attribs)
         {
-            writeAttributeDecl(at,XMLschema);
+            writeAttributeDecl(at, XMLschema);
         }
 
         m_indentLevel--;
@@ -706,7 +706,7 @@ void XMLSchemaWriter::writeAssociationRoleDecl(UMLClassifier *c, const QString &
     {
         QStringList values = multi.split(QRegExp("[^\\d{1,}|\\*]"));
 
-        // could use some improvement here.. for sequences like "0..1,3..5,10" we
+        // could use some improvement here.. for sequences like "0..1, 3..5, 10" we
         // don't capture the whole "richness" of the multi. Instead we translate it
         // now to minOccurs="0" maxOccurs="10"
         if (values.count() > 0)
@@ -778,8 +778,8 @@ void XMLSchemaWriter::writeAssociationRoleDecl(UMLClassifier *c, const QString &
  */
 QString XMLSchemaWriter::fixTypeName(const QString& string)
 {
-    //  string.replace(QRegExp("^string$"),schemaNamespaceTag+":string");
-    //  string.replace(QRegExp("^bool$"),schemaNamespaceTag+":boolean");
+    //  string.replace(QRegExp("^string$"), schemaNamespaceTag+":string");
+    //  string.replace(QRegExp("^bool$"), schemaNamespaceTag+":boolean");
     return schemaNamespaceTag + ':' + string;
 }
 
@@ -792,9 +792,9 @@ QString XMLSchemaWriter::fixInitialStringDeclValue(QString value, const QString 
     // check for strings only
     if (!value.isEmpty() && type == "xs:string") {
         if (!value.startsWith('"'))
-            value.remove(0,1);
+            value.remove(0, 1);
         if (!value.endsWith('"'))
-            value.remove(value.length(),1);
+            value.remove(value.length(), 1);
     }
     return value;
 }

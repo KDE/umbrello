@@ -55,7 +55,7 @@ NoteDialog::NoteDialog(QWidget * parent, NoteWidget * pNote)
     docLayout->addWidget(m_docTE);
     m_docTE->setText(pNote->documentation());
     setMinimumSize(330, 160);
-    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
+    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
 }
 
 /**

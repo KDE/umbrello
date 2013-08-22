@@ -256,10 +256,10 @@ QString CPPCodeGenerationPolicy::getVectorMethodAppend(const QString & variableN
 {
     QString value = m_vectorMethodAppendBase;
     if(!variableName.isEmpty())
-        value.replace(QRegExp("%VARNAME%"),variableName);
+        value.replace(QRegExp("%VARNAME%"), variableName);
     value.replace(QRegExp("%VECTORTYPENAME%"), Settings::optionState().codeGenerationState.cppCodeGenerationState.vectorClassName);
     if(!itemClassName.isEmpty())
-        value.replace(QRegExp("%ITEMCLASS%"),itemClassName);
+        value.replace(QRegExp("%ITEMCLASS%"), itemClassName);
     return value;
 }
 
@@ -267,10 +267,10 @@ QString CPPCodeGenerationPolicy::getVectorMethodRemove(const QString & variableN
 {
     QString value = m_vectorMethodRemoveBase;
     if(!variableName.isEmpty())
-        value.replace(QRegExp("%VARNAME%"),variableName);
+        value.replace(QRegExp("%VARNAME%"), variableName);
     value.replace(QRegExp("%VECTORTYPENAME%"), Settings::optionState().codeGenerationState.cppCodeGenerationState.vectorClassName);
     if(!itemClassName.isEmpty())
-        value.replace(QRegExp("%ITEMCLASS%"),itemClassName);
+        value.replace(QRegExp("%ITEMCLASS%"), itemClassName);
     return value;
 }
 
@@ -278,10 +278,10 @@ QString CPPCodeGenerationPolicy::getVectorMethodInit(const QString & variableNam
 {
     QString value = m_vectorMethodInitBase;
     if(!variableName.isEmpty())
-        value.replace(QRegExp("%VARNAME%"),variableName);
+        value.replace(QRegExp("%VARNAME%"), variableName);
     value.replace(QRegExp("%VECTORTYPENAME%"), Settings::optionState().codeGenerationState.cppCodeGenerationState.vectorClassName);
     if(!itemClassName.isEmpty())
-        value.replace(QRegExp("%ITEMCLASS%"),itemClassName);
+        value.replace(QRegExp("%ITEMCLASS%"), itemClassName);
     return value;
 }
 
@@ -296,10 +296,10 @@ QString CPPCodeGenerationPolicy::getObjectMethodInit(const QString & variableNam
 {
     QString value = m_objectMethodInitBase;
     if(!variableName.isEmpty())
-        value.replace(QRegExp("%VARNAME%"),variableName);
+        value.replace(QRegExp("%VARNAME%"), variableName);
     value.replace(QRegExp("%VECTORTYPENAME%"), Settings::optionState().codeGenerationState.cppCodeGenerationState.vectorClassName);
     if(!itemClassName.isEmpty())
-        value.replace(QRegExp("%ITEMCLASS%"),itemClassName);
+        value.replace(QRegExp("%ITEMCLASS%"), itemClassName);
     return value;
 }
 

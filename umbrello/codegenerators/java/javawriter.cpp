@@ -141,8 +141,8 @@ void JavaWriter::writeClass(UMLClassifier *c)
     QString str;
     str = getHeadingFile(".java");
     if (!str.isEmpty()) {
-        str.replace(QRegExp("%filename%"),fileName);
-        str.replace(QRegExp("%filepath%"),file.fileName());
+        str.replace(QRegExp("%filename%"), fileName);
+        str.replace(QRegExp("%filepath%"), file.fileName());
         java<<str<<m_endl;
     }
 
@@ -161,7 +161,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
 
     //only import classes in a different package as this class
     UMLPackageList imports;
-    findObjectsRelated(c,imports);
+    findObjectsRelated(c, imports);
     foreach (UMLPackage* con,  imports) {
         if (con->baseType() == UMLObject::ot_Datatype)
             continue;
@@ -254,7 +254,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
         writeComment("", m_indentation, java);
         writeBlankLine(java);
     }
-    writeOperations(c,java);
+    writeOperations(c, java);
 
     writeBlankLine(java);
     java<<"}"<<m_endl; // end class
@@ -275,9 +275,9 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
     if (forceDoc() || !c->doc().isEmpty())
     {
         if (m_isInterface)
-            writeDocumentation("Interface "+classname,c->doc(),"","",java);
+            writeDocumentation("Interface "+classname, c->doc(),"","", java);
         else
-            writeDocumentation("Class "+classname,c->doc(),"","",java);
+            writeDocumentation("Class "+classname, c->doc(),"","", java);
 
         writeBlankLine(java);
     }
@@ -415,7 +415,7 @@ void JavaWriter::writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility:
         // force capitalizing the field name, this is silly,
         // from what I can tell, this IS the default behavior for
         // cleanName. I dunno why it is not working -b.t.
-        fieldName.replace(0,1,fieldName.at(0).toUpper());
+        fieldName.replace(0, 1, fieldName.at(0).toUpper());
 
         writeSingleAttributeAccessorMethods(at->getTypeName(),
                                             cleanName(at->name()),
@@ -641,7 +641,7 @@ void JavaWriter::writeVectorAttributeAccessorMethods(QString fieldClassName, QSt
     // ONLY IF changeability is NOT Frozen
     if (changeType != Uml::Changeability::Frozen)
     {
-        writeDocumentation("Add a "+fieldName+" object to the "+fieldVarName+" List",description,"",m_indentation,java);
+        writeDocumentation("Add a "+fieldName+" object to the "+fieldVarName+" List", description,"", m_indentation, java);
         java<<m_startline<<strVis<<" void add"<<fieldName<<" ("<<fieldClassName<<" new_object) {";
         java<<m_startline<<m_indentation<<fieldVarName<<".add(new_object);";
         java<<m_startline<<"}"<<m_endl;
@@ -650,7 +650,7 @@ void JavaWriter::writeVectorAttributeAccessorMethods(QString fieldClassName, QSt
     // ONLY IF changeability is Changeable
     if (changeType == Uml::Changeability::Changeable)
     {
-        writeDocumentation("Remove a "+fieldName+" object from "+fieldVarName+" List",description,"",m_indentation,java);
+        writeDocumentation("Remove a "+fieldName+" object from "+fieldVarName+" List", description,"", m_indentation, java);
         java<<m_startline<<strVis<<" void remove"<<fieldName<<" ("<<fieldClassName<<" new_object)";
         java<<m_startline<<"{";
         java<<m_startline<<m_indentation<<fieldVarName<<".remove(new_object);";
@@ -658,7 +658,7 @@ void JavaWriter::writeVectorAttributeAccessorMethods(QString fieldClassName, QSt
     }
 
     // always allow getting the list of stuff
-    writeDocumentation("Get the List of "+fieldName+" objects held by "+fieldVarName,description,"@return List of "+fieldName+" objects held by "+fieldVarName,m_indentation,java);
+    writeDocumentation("Get the List of "+fieldName+" objects held by "+fieldVarName, description,"@return List of "+fieldName+" objects held by "+fieldVarName, m_indentation, java);
     java<<m_startline<<strVis<<" List get"<<fieldName<<"List () {";
     java<<m_startline<<m_indentation<<"return (List) "<<fieldVarName<<";";
     java<<m_startline<<"}"<<m_endl;
@@ -679,14 +679,14 @@ void JavaWriter::writeSingleAttributeAccessorMethods(QString fieldClassName, QSt
 
     // set method
     if (change == Uml::Changeability::Changeable && !isFinal) {
-        writeDocumentation("Set the value of "+fieldVarName,description,"@param newVar the new value of "+fieldVarName,m_indentation,java);
+        writeDocumentation("Set the value of "+fieldVarName, description,"@param newVar the new value of "+fieldVarName, m_indentation, java);
         java<<m_startline<<strVis<<" void set"<<fieldName<<" ("<<fieldClassName<<" newVar) {";
         java<<m_startline<<m_indentation<<fieldVarName<<" = newVar;";
         java<<m_startline<<"}"<<m_endl;
     }
 
     // get method
-    writeDocumentation("Get the value of "+fieldVarName,description,"@return the value of "+fieldVarName,m_indentation,java);
+    writeDocumentation("Get the value of "+fieldVarName, description,"@return the value of "+fieldVarName, m_indentation, java);
     java<<m_startline<<strVis<<" "<<fieldClassName<<" get"<<fieldName<<" () {";
     java<<m_startline<<m_indentation<<"return "<<fieldVarName<<";";
     java<<m_startline<<"}";
@@ -797,7 +797,7 @@ bool JavaWriter::javaMethodInList(UMLOperation *umlOp, UMLOperationList &opl)
  * @param toBeImplementedOpList   the list of to be implemented operations
  * @param noClassInPath           tells if there is a class between the base class and the current interface
  */
-void JavaWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationList &yetImplementedOpList,UMLOperationList &toBeImplementedOpList, bool noClassInPath)
+void JavaWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationList &yetImplementedOpList, UMLOperationList &toBeImplementedOpList, bool noClassInPath)
 {
     UMLClassifierList superClasses = c->findSuperClassConcepts();
 
@@ -807,7 +807,7 @@ void JavaWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationLis
         UMLOperationList opl = concept->getOpList();
         foreach (UMLOperation *op, opl) {
             if (concept->isInterface() && noClassInPath) {
-                if (!JavaWriter::javaMethodInList(op,toBeImplementedOpList))
+                if (!JavaWriter::javaMethodInList(op, toBeImplementedOpList))
                     toBeImplementedOpList.append(op);
             }
             else
@@ -830,7 +830,7 @@ void JavaWriter::getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOpe
     UMLOperationList yetImplementedOpList;
     UMLOperationList toBeImplementedOpList;
 
-    getSuperImplementedOperations(c,yetImplementedOpList, toBeImplementedOpList);
+    getSuperImplementedOperations(c, yetImplementedOpList, toBeImplementedOpList);
     foreach (UMLOperation *op, toBeImplementedOpList) {
         if (! JavaWriter::javaMethodInList(op, yetImplementedOpList) && ! JavaWriter::javaMethodInList(op, opList))
             opList.append(op);
@@ -844,7 +844,7 @@ void JavaWriter::getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOpe
  */
 void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
     UMLOperationList opl;
-    UMLOperationList oppub,opprot,oppriv;
+    UMLOperationList oppub, opprot, oppriv;
 
     //sort operations by scope first and see if there are abstract methods
     opl = c->getOpList();
@@ -871,29 +871,29 @@ void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
     /*
       if(forceSections() || oppub.count())
       {
-      writeComment("public operations",m_indentation,java);
+      writeComment("public operations", m_indentation, java);
         writeBlankLine(java);
       }
     */
-    writeOperations(oppub,java);
+    writeOperations(oppub, java);
 
     /*
       if(forceSections() || opprot.count())
       {
-      writeComment("protected operations",m_indentation,java);
+      writeComment("protected operations", m_indentation, java);
         writeBlankLine(java);
       }
     */
-    writeOperations(opprot,java);
+    writeOperations(opprot, java);
 
     /*
       if(forceSections() || oppriv.count())
       {
-      writeComment("private operations",m_indentation,java);
+      writeComment("private operations", m_indentation, java);
         writeBlankLine(java);
       }
     */
-    writeOperations(oppriv,java);
+    writeOperations(oppriv, java);
 
 }
 
@@ -905,7 +905,7 @@ void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
 void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java)
 {
     UMLAttributeList atl;
-    int i,j;
+    int i, j;
     QString str;
 
     // generate method decl for each operation given

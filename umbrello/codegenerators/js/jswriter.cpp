@@ -69,14 +69,14 @@ void JSWriter::writeClass(UMLClassifier *c)
     str = getHeadingFile(".js");
     if (!str.isEmpty())
     {
-        str.replace(QRegExp("%filename%"),fileName);
-        str.replace(QRegExp("%filepath%"),filejs.fileName());
+        str.replace(QRegExp("%filename%"), fileName);
+        str.replace(QRegExp("%filepath%"), filejs.fileName());
         js << str << m_endl;
     }
 
     //write includes
     UMLPackageList includes;
-    findObjectsRelated(c,includes);
+    findObjectsRelated(c, includes);
     foreach (UMLPackage* conc,  includes) {
         QString headerName = findFileName(conc, ".js");
         if (!headerName.isEmpty())
@@ -213,7 +213,7 @@ void JSWriter::writeAssociation(QString& classname, UMLAssociationList& assocLis
             }
 
             bool okCvt;
-            int nMulti = a->getMultiplicity(role).toInt(&okCvt,10);
+            int nMulti = a->getMultiplicity(role).toInt(&okCvt, 10);
             bool isNotMulti = a->getMultiplicity(role).isEmpty() || (okCvt && nMulti == 1);
 
             QString typeName(cleanName(a->getObject(role)->name()));

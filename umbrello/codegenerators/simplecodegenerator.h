@@ -60,7 +60,7 @@ protected:
      * Maps UMLObjects to filenames. Used for finding out which file
      * each class was written to.
      */
-    QMap<UMLPackage*,QString> m_fileMap;
+    QMap<UMLPackage*, QString> m_fileMap;
 
     /**
      * For some code generators, it does not make much sense to create a

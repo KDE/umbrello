@@ -31,7 +31,7 @@ public:
     bool useFullNodeLabels();
     void setUseFullNodeLabels(bool state);
 
-    static bool availableConfigFiles(UMLScene *scene, QHash<QString,QString> &configFiles);
+    static bool availableConfigFiles(UMLScene *scene, QHash<QString, QString> &configFiles);
     bool readConfigFile(QString diagramType, const QString &variant = "default");
 
     bool createDotFile(UMLScene *scene, const QString &fileName, const QString &variant = "default");

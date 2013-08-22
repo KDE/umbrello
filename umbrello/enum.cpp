@@ -140,7 +140,7 @@ UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::ID::Type id)
     m_List.append(literal);
     UMLObject::emitModified();
     emit enumLiteralAdded(literal);
-    connect(literal,SIGNAL(modified()),this,SIGNAL(modified()));
+    connect(literal, SIGNAL(modified()), this, SIGNAL(modified()));
     return literal;
 }
 
@@ -159,7 +159,7 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log /* = 0*/)
         m_List.append(literal);
         UMLObject::emitModified();
         emit enumLiteralAdded(literal);
-        connect(literal,SIGNAL(modified()),this,SIGNAL(modified()));
+        connect(literal, SIGNAL(modified()), this, SIGNAL(modified()));
         return true;
     } else if (Log) {
         Log->removeChangeByNewID(literal->id());
@@ -183,13 +183,13 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, int position)
     if (findChildObject(name) == NULL) {
         literal->setParent(this);
         if (position >= 0 && position <= (int)m_List.count())  {
-            m_List.insert(position,literal);
+            m_List.insert(position, literal);
         } else {
             m_List.append(literal);
         }
         UMLObject::emitModified();
         emit enumLiteralAdded(literal);
-        connect(literal,SIGNAL(modified()),this,SIGNAL(modified()));
+        connect(literal, SIGNAL(modified()), this, SIGNAL(modified()));
         return true;
     }
     return false;
@@ -211,7 +211,7 @@ int UMLEnum::removeEnumLiteral(UMLEnumLiteral* literal)
     UMLObject::emitModified();
     // If we are deleting the object, then we don't need to disconnect..this is done auto-magically
     // for us by QObject. -b.t.
-    // disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
+    // disconnect(a, SIGNAL(modified()), this, SIGNAL(modified()));
     delete literal;
     return m_List.count();
 }

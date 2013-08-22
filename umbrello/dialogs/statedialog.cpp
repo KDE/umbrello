@@ -50,8 +50,8 @@ StateDialog::StateDialog(UMLView * pView, StateWidget * pWidget)
     setFaceType(KPageDialog::List);
 
     setupPages();
-    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
-    connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
+    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
+    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
 }
 
 /**
@@ -164,7 +164,7 @@ void StateDialog::setupGeneralPage()
 void StateDialog::setupActivityPage()
 {
     QFrame * activityPage = new QFrame();
-    pageActivity = new KPageWidgetItem(activityPage,i18n("Activities"));
+    pageActivity = new KPageWidgetItem(activityPage, i18n("Activities"));
     pageActivity->setHeader(i18n("Activities"));
     pageActivity->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Activities));
     addPage(pageActivity);

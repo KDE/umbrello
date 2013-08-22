@@ -121,7 +121,7 @@ UMLListView::UMLListView(QWidget *parent)
     connect(this, SIGNAL(itemCollapsed(QTreeWidgetItem*)), this, SLOT(slotCollapsed(QTreeWidgetItem*)));
     connect(this, SIGNAL(itemExpanded(QTreeWidgetItem*)), this, SLOT(slotExpanded(QTreeWidgetItem*)));
     connect(UMLApp::app(), SIGNAL(sigCutSuccessful()), this, SLOT(slotCutSuccessful()));
-    connect(this, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(slotItemChanged(QTreeWidgetItem*,int)));
+    connect(this, SIGNAL(itemChanged(QTreeWidgetItem*, int)), this, SLOT(slotItemChanged(QTreeWidgetItem*, int)));
     connect(this, SIGNAL(itemSelectionChanged()), this, SLOT(slotItemSelectionChanged()));
 }
 
@@ -897,7 +897,7 @@ void UMLListView::slotObjectCreated(UMLObject* object)
     if (m_bCreatingChildObject) {
         // @todo eliminate futile signal traffic
         // e.g. we get here thru various indirections from
-        // ClassifierListPage::slot{Up,Down}Clicked()
+        // ClassifierListPage::slot{Up, Down}Clicked()
         return;
     }
     UMLListViewItem* newItem = findUMLObject(object);

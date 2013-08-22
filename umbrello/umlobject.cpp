@@ -484,7 +484,7 @@ void UMLObject::setUMLStereotype(UMLStereotype *stereo)
 void UMLObject::setStereotype(const QString &_name)
 {
     // UMLDoc* pDoc = UMLApp::app()->document();
-    // pDoc->executeCommand(new cmdSetStereotype(this,_name));
+    // pDoc->executeCommand(new cmdSetStereotype(this, _name));
     if (_name.isEmpty()) {
         setUMLStereotype(NULL);
         return;

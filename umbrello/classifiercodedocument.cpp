@@ -181,7 +181,7 @@ bool ClassifierCodeDocument::addCodeClassField (CodeClassField * add_object)
     if(!(m_classFieldMap.contains(umlobj)))
     {
         m_classfieldVector.append(add_object);
-        m_classFieldMap.insert(umlobj,add_object);
+        m_classFieldMap.insert(umlobj, add_object);
 
         return true;
     }
@@ -417,15 +417,15 @@ void ClassifierCodeDocument::init (UMLClassifier * c)
 
     // slots
     if (parentIsClass())  {
-        connect(c,SIGNAL(attributeAdded(UMLClassifierListItem*)),this,SLOT(addAttributeClassField(UMLClassifierListItem*)));
-        connect(c,SIGNAL(attributeRemoved(UMLClassifierListItem*)),this,SLOT(removeAttributeClassField(UMLClassifierListItem*)));
+        connect(c, SIGNAL(attributeAdded(UMLClassifierListItem*)), this, SLOT(addAttributeClassField(UMLClassifierListItem*)));
+        connect(c, SIGNAL(attributeRemoved(UMLClassifierListItem*)), this, SLOT(removeAttributeClassField(UMLClassifierListItem*)));
     }
 
-    connect(c,SIGNAL(sigAssociationEndAdded(UMLAssociation*)),this,SLOT(addAssociationClassField(UMLAssociation*)));
-    connect(c,SIGNAL(sigAssociationEndRemoved(UMLAssociation*)),this,SLOT(removeAssociationClassField(UMLAssociation*)));
-    connect(c,SIGNAL(operationAdded(UMLClassifierListItem*)),this,SLOT(addOperation(UMLClassifierListItem*)));
-    connect(c,SIGNAL(operationRemoved(UMLClassifierListItem*)),this,SLOT(removeOperation(UMLClassifierListItem*)));
-    connect(c,SIGNAL(modified()),this,SLOT(syncToParent()));
+    connect(c, SIGNAL(sigAssociationEndAdded(UMLAssociation*)), this, SLOT(addAssociationClassField(UMLAssociation*)));
+    connect(c, SIGNAL(sigAssociationEndRemoved(UMLAssociation*)), this, SLOT(removeAssociationClassField(UMLAssociation*)));
+    connect(c, SIGNAL(operationAdded(UMLClassifierListItem*)), this, SLOT(addOperation(UMLClassifierListItem*)));
+    connect(c, SIGNAL(operationRemoved(UMLClassifierListItem*)), this, SLOT(removeOperation(UMLClassifierListItem*)));
+    connect(c, SIGNAL(modified()), this, SLOT(syncToParent()));
 
 }
 
@@ -679,7 +679,7 @@ void ClassifierCodeDocument::loadClassFieldsFromXMI(QDomElement & elem)
                 cf->loadFromXMI(childElem);
 
                 // now add back in
-                m_classFieldMap.insert(cf->getParentObject(),cf);
+                m_classFieldMap.insert(cf->getParentObject(), cf);
 
             } else
                 uError()<<" LoadFromXMI: can not load classfield parent_id:"<<id<<" do you have a corrupt savefile?";

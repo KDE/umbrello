@@ -153,7 +153,7 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                                         } else
                                             if(name == "xmlelementblock") {
                                                 QString xmltag = element.attribute("nodeName","UNKNOWN");
-                                                XMLElementCodeBlock * block = new XMLElementCodeBlock(this,xmltag);
+                                                XMLElementCodeBlock * block = new XMLElementCodeBlock(this, xmltag);
                                                 block->loadFromXMI(element);
                                                 if(!addTextBlock(block))
                                                 {
@@ -221,7 +221,7 @@ void JavaANTCodeDocument::loadFromXMI (QDomElement & root)
 void JavaANTCodeDocument::setAttributesOnNode (QDomDocument & doc, QDomElement & docElement)
 {
     // superclass call
-    CodeDocument::setAttributesOnNode(doc,docElement);
+    CodeDocument::setAttributesOnNode(doc, docElement);
 
     // now set local attributes/fields
     //FIX
@@ -245,7 +245,7 @@ void JavaANTCodeDocument::updateContent()
 {
     // FIX : fill in more content based on classes
     // which exist
-    CodeBlockWithComments * xmlDecl = getCodeBlockWithComments("xmlDecl","",0);
+    CodeBlockWithComments * xmlDecl = getCodeBlockWithComments("xmlDecl","", 0);
     xmlDecl->setText("<?xml version=\"1.0\"?>");
     addTextBlock(xmlDecl);
 

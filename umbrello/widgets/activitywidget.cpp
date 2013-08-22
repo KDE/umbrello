@@ -38,7 +38,7 @@ ActivityWidget::ActivityWidget(UMLScene * scene, ActivityType activityType, Uml:
     m_activityType(activityType)
 {
     // set non zero size to avoid crash on painting
-    setSize(1,1);
+    setSize(1, 1);
 }
 
 /**
@@ -264,9 +264,9 @@ void ActivityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
         y = h - (h/3);
 
         painter->drawLine((int)x, (int) y, (int)x, (int)(y + 20));
-        painter->drawLine((int)(x - 10),(int)(y + 10), (int)(x + 10), (int)(y + 10));
-        painter->drawLine((int)(x - 10),(int)(y + 10), (int)(x - 10), (int)(y + 20));
-        painter->drawLine((int)(x + 10),(int)(y + 10), (int)(x + 10), (int)(y + 20));
+        painter->drawLine((int)(x - 10), (int)(y + 10), (int)(x + 10), (int)(y + 10));
+        painter->drawLine((int)(x - 10), (int)(y + 10), (int)(x - 10), (int)(y + 20));
+        painter->drawLine((int)(x + 10), (int)(y + 10), (int)(x + 10), (int)(y + 20));
         break;
 
     case Param:
@@ -427,9 +427,9 @@ UMLSceneSize ActivityWidget::maximumSize()
         return UMLWidget::maximumSize();
     }
     if (m_activityType == Branch) {
-        return UMLSceneSize(50,50);
+        return UMLSceneSize(50, 50);
     }
-    return UMLSceneSize(30,30);
+    return UMLSceneSize(30, 30);
 }
 
 

@@ -218,8 +218,8 @@ void SQLWriter::writeClass(UMLClassifier *c)
     QString str;
     str = getHeadingFile(".sql");
     if(!str.isEmpty()) {
-        str.replace(QRegExp("%filename%"),fileName);
-        str.replace(QRegExp("%filepath%"),file.fileName());
+        str.replace(QRegExp("%filename%"), fileName);
+        str.replace(QRegExp("%filepath%"), file.fileName());
         sql<<str<<m_endl;
     }
 
@@ -260,7 +260,7 @@ void SQLWriter::writeClass(UMLClassifier *c)
 
     // write all check constraints
     constrList = m_pEntity->getFilteredList(UMLObject::ot_CheckConstraint);
-    printCheckConstraints(sql,constrList);
+    printCheckConstraints(sql, constrList);
 
     // write all other indexes
     foreach(UMLEntityAttribute* ea, entAttList) {
@@ -272,7 +272,7 @@ void SQLWriter::writeClass(UMLClassifier *c)
         tempList.clear();
     }
 
-        QMap<UMLAssociation*,UMLAssociation*> constraintMap; // so we don't repeat constraint
+        QMap<UMLAssociation*, UMLAssociation*> constraintMap; // so we don't repeat constraint
     UMLAssociationList relationships = m_pEntity->getRelationships();
     if(forceSections() || !relationships.isEmpty()) {
         foreach (UMLAssociation* a, relationships) {
@@ -284,7 +284,7 @@ void SQLWriter::writeClass(UMLClassifier *c)
         }
     }
 
-    QMap<UMLAssociation*,UMLAssociation*>::Iterator itor = constraintMap.begin();
+    QMap<UMLAssociation*, UMLAssociation*>::Iterator itor = constraintMap.begin();
     for (; itor != constraintMap.end(); ++itor) {
         UMLAssociation* a = itor.value();
         sql << "ALTER TABLE "<< entityname
@@ -471,7 +471,7 @@ void SQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierListIt
        sql<<m_endl;
        UMLForeignKeyConstraint* fkc = static_cast<UMLForeignKeyConstraint*>(cli);
 
-       QMap<UMLEntityAttribute*,UMLEntityAttribute*> attributeMap;
+       QMap<UMLEntityAttribute*, UMLEntityAttribute*> attributeMap;
        attributeMap = fkc->getEntityAttributePairs();
 
        // print documentation
@@ -588,7 +588,7 @@ void SQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeList ent
  * @param sql The stream we should print to
  * @param constrList The checkConstraints to be printed
  */
-void SQLWriter::printCheckConstraints(QTextStream& sql,UMLClassifierListItemList constrList)
+void SQLWriter::printCheckConstraints(QTextStream& sql, UMLClassifierListItemList constrList)
 {
     foreach(UMLClassifierListItem* cli, constrList) {
         UMLCheckConstraint* chConstr = static_cast<UMLCheckConstraint*>(cli);

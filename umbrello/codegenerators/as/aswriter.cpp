@@ -494,7 +494,7 @@ void ASWriter::writeClass(UMLClassifier *c)
     }
 
     QFile fileas;
-    if (!openFile(fileas,fileName))
+    if (!openFile(fileas, fileName))
     {
         emit codeGenerated(c, false);
         return;
@@ -510,14 +510,14 @@ void ASWriter::writeClass(UMLClassifier *c)
     str = getHeadingFile(".as");
     if (!str.isEmpty())
     {
-        str.replace(QRegExp("%filename%"),fileName+".as");
-        str.replace(QRegExp("%filepath%"),fileas.fileName());
+        str.replace(QRegExp("%filename%"), fileName+".as");
+        str.replace(QRegExp("%filepath%"), fileas.fileName());
         as << str << m_endl;
     }
 
     //write includes
     UMLPackageList includes;
-    findObjectsRelated(c,includes);
+    findObjectsRelated(c, includes);
     foreach (UMLPackage* conc, includes) {
         QString headerName = findFileName(conc, ".as");
         if (!headerName.isEmpty())
@@ -692,7 +692,7 @@ void ASWriter::writeAssociation(QString& classname, UMLAssociationList& assocLis
             }
 
             bool okCvt;
-            int nMulti = a->getMultiplicity(role).toInt(&okCvt,10);
+            int nMulti = a->getMultiplicity(role).toInt(&okCvt, 10);
             bool isNotMulti = a->getMultiplicity(role).isEmpty() || (okCvt && nMulti == 1);
 
             QString typeName(cleanName(a->getObject(role)->name()));

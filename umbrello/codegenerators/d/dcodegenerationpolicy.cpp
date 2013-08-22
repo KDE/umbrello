@@ -25,7 +25,7 @@ DCodeGenerationPolicy::DCodeGenerationPolicy(CodeGenerationPolicy *defaults)
         : CodeGenerationPolicy(defaults)
 {
     init();
-    setDefaults(defaults,false);
+    setDefaults(defaults, false);
 }
 */
 

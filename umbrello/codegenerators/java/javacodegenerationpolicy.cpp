@@ -27,7 +27,7 @@ JavaCodeGenerationPolicy::JavaCodeGenerationPolicy(CodeGenerationPolicy *default
   : CodeGenerationPolicy(defaults)
 {
     init();
-    setDefaults(defaults,false);
+    setDefaults(defaults, false);
 }
  */
 

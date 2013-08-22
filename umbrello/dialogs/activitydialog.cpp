@@ -47,8 +47,8 @@ ActivityDialog::ActivityDialog(QWidget * parent, ActivityWidget * pWidget)
     setFaceType(KPageDialog::List);
     showButtonSeparator(true);
     setupPages();
-    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
-    connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
+    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
+    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
 }
 
 /**
@@ -175,13 +175,13 @@ void ActivityDialog::setupGeneralPage()
     m_GenPageWidgets.postL->hide();
     m_GenPageWidgets.postLE->hide();
 
-    m_GenPageWidgets.NormalRB = new QRadioButton(i18n("&Normal activity"),(QWidget *)page);
+    m_GenPageWidgets.NormalRB = new QRadioButton(i18n("&Normal activity"), (QWidget *)page);
     generalLayout->addWidget(m_GenPageWidgets.NormalRB);
 
-    m_GenPageWidgets.InvokRB = new QRadioButton(i18n("&Invoke action "),(QWidget *)page);
+    m_GenPageWidgets.InvokRB = new QRadioButton(i18n("&Invoke action "), (QWidget *)page);
     generalLayout->addWidget(m_GenPageWidgets.InvokRB);
 
-    m_GenPageWidgets.ParamRB = new QRadioButton(i18n("&Parameter activity node"),(QWidget *)page);
+    m_GenPageWidgets.ParamRB = new QRadioButton(i18n("&Parameter activity node"), (QWidget *)page);
     generalLayout->addWidget(m_GenPageWidgets.ParamRB);
 
     if (type == ActivityWidget::Param)
@@ -189,9 +189,9 @@ void ActivityDialog::setupGeneralPage()
         showParameterActivity();
     }
 
-    connect(m_GenPageWidgets.ParamRB,SIGNAL(clicked()),this,SLOT(slotShowActivityParameter()));
-    connect(m_GenPageWidgets.NormalRB,SIGNAL(clicked()),this,SLOT(slotHideActivityParameter()));
-    connect(m_GenPageWidgets.InvokRB,SIGNAL(clicked()),this,SLOT(slotHideActivityParameter()));
+    connect(m_GenPageWidgets.ParamRB, SIGNAL(clicked()), this, SLOT(slotShowActivityParameter()));
+    connect(m_GenPageWidgets.NormalRB, SIGNAL(clicked()), this, SLOT(slotHideActivityParameter()));
+    connect(m_GenPageWidgets.InvokRB, SIGNAL(clicked()), this, SLOT(slotHideActivityParameter()));
 
     ActivityWidget::ActivityType newType = m_pActivityWidget->activityType() ;
 

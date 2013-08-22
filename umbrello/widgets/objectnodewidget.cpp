@@ -126,7 +126,7 @@ void ObjectNodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
  */
 UMLSceneSize ObjectNodeWidget::minimumSize()
 {
-    int widthtmp = 10, height = 10,width=10;
+    int widthtmp = 10, height = 10, width=10;
     if (m_objectNodeType == Buffer) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
@@ -306,7 +306,7 @@ void ObjectNodeWidget::askForObjectNodeType(UMLWidget* &targetWidget)
     int current = 0;
     const QStringList list = QStringList() << "Central buffer" << "Data store" <<"Object Flow";
 
-    QString type = KInputDialog::getItem (i18n("Select Object node type"),  i18n("Select the object node type"),list,current, false, &pressedOK, UMLApp::app());
+    QString type = KInputDialog::getItem (i18n("Select Object node type"),  i18n("Select the object node type"), list, current, false, &pressedOK, UMLApp::app());
 
     if (pressedOK) {
        // QString type = result.join("");
@@ -333,7 +333,7 @@ void ObjectNodeWidget::askForObjectNodeType(UMLWidget* &targetWidget)
 void ObjectNodeWidget::askStateForWidget()
 {
     bool pressedOK = false;
-    QString state = KInputDialog::getText(i18n("Enter Object Flow State"),i18n("Enter State (keep '-' if there is no state for the object) "),i18n("-"), &pressedOK, UMLApp::app());
+    QString state = KInputDialog::getText(i18n("Enter Object Flow State"), i18n("Enter State (keep '-' if there is no state for the object) "), i18n("-"), &pressedOK, UMLApp::app());
 
     if (pressedOK) {
         setState(state);

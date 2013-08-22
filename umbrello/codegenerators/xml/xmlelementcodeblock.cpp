@@ -55,10 +55,10 @@ void XMLElementCodeBlock::loadFromXMI (QDomElement & root)
 void XMLElementCodeBlock::setAttributesOnNode (QDomDocument & doc, QDomElement & docElement)
 {
     // superclass call
-    HierarchicalCodeBlock::setAttributesOnNode(doc,docElement);
+    HierarchicalCodeBlock::setAttributesOnNode(doc, docElement);
 
     // now set local attributes/fields
-    docElement.setAttribute("nodeName",getNodeName());
+    docElement.setAttribute("nodeName", getNodeName());
 }
 
 /**

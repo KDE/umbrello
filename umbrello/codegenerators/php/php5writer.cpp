@@ -3023,8 +3023,8 @@ void Php5Writer::writeClass(UMLClassifier *c)
     QString str;
     str = getHeadingFile(".php");
     if (!str.isEmpty()) {
-        str.replace(QRegExp("%filename%"),fileName);
-        str.replace(QRegExp("%filepath%"),filephp.fileName());
+        str.replace(QRegExp("%filename%"), fileName);
+        str.replace(QRegExp("%filepath%"), filephp.fileName());
         php<<str<<m_endl;
     } else {
         php << "<?php" << m_endl;
@@ -3032,7 +3032,7 @@ void Php5Writer::writeClass(UMLClassifier *c)
 
     //write includes
     UMLPackageList includes;
-    findObjectsRelated(c,includes);
+    findObjectsRelated(c, includes);
     foreach(UMLPackage* conc, includes) {
         QString headerName = findFileName(conc, ".php");
         if (!headerName.isEmpty()) {
@@ -3130,7 +3130,7 @@ void Php5Writer::writeClass(UMLClassifier *c)
         writeAttributes(c, php);
 
     //operations
-    writeOperations(c,php);
+    writeOperations(c, php);
 
     php << m_endl;
 
@@ -3155,7 +3155,7 @@ void Php5Writer::writeClass(UMLClassifier *c)
 void Php5Writer::writeOperations(UMLClassifier *c, QTextStream &php)
 {
     //Lists to store operations  sorted by scope
-    UMLOperationList oppub,opprot,oppriv;
+    UMLOperationList oppub, opprot, oppriv;
 
     bool isInterface = c->isInterface();
     bool generateErrorStub = false;
@@ -3183,17 +3183,17 @@ void Php5Writer::writeOperations(UMLClassifier *c, QTextStream &php)
     //write operations to file
     if (forceSections() || !oppub.isEmpty()) {
         php << m_endl;
-        writeOperations(classname,oppub,php,isInterface,generateErrorStub);
+        writeOperations(classname, oppub, php, isInterface, generateErrorStub);
     }
 
     if (forceSections() || !opprot.isEmpty()) {
         php << m_endl;
-        writeOperations(classname,opprot,php,isInterface,generateErrorStub);
+        writeOperations(classname, opprot, php, isInterface, generateErrorStub);
     }
 
     if (forceSections() || !oppriv.isEmpty()) {
         php << m_endl;
-        writeOperations(classname,oppriv,php,isInterface,generateErrorStub);
+        writeOperations(classname, oppriv, php, isInterface, generateErrorStub);
     }
 
     // build an oplist for all of the realized operations
@@ -3216,7 +3216,7 @@ void Php5Writer::writeOperations(UMLClassifier *c, QTextStream &php)
     }
 
     // write out all the realizations operations
-    writeOperations(classname,opreal,php,false,true);
+    writeOperations(classname, opreal, php, false, true);
 }
 
 /**
@@ -3241,7 +3241,7 @@ void Php5Writer::writeOperations(const QString & classname, UMLOperationList &op
 
         if (writeDoc)  //write method documentation
         {
-            php <<m_indentation << "/**" << m_endl <<formatDoc(op->doc(),m_indentation + " * ");
+            php <<m_indentation << "/**" << m_endl <<formatDoc(op->doc(), m_indentation + " * ");
             php << m_indentation << " *" << m_endl;
 
             foreach (UMLAttribute* at, atl)  //write parameter documentation
@@ -3358,15 +3358,15 @@ void Php5Writer::writeAttributes(UMLClassifier *c, QTextStream &php)
         php<< m_endl << m_indentation << " /*** Attributes: ***/" << m_endl <<m_endl;
 
     if (forceSections() || atpub.count()) {
-        writeAttributes(atpub,php);
+        writeAttributes(atpub, php);
     }
 
     if (forceSections() || atprot.count()) {
-        writeAttributes(atprot,php);
+        writeAttributes(atprot, php);
     }
 
     if (forceSections() || atpriv.count()) {
-        writeAttributes(atpriv,php);
+        writeAttributes(atpriv, php);
     }
 }
 

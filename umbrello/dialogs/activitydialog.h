@@ -65,7 +65,7 @@ protected:
     }
     m_GenPageWidgets;
 
-    KPageWidgetItem *pageItemGeneral,*pageItemFont,*pageItemStyle;
+    KPageWidgetItem *pageItemGeneral, *pageItemFont, *pageItemStyle;
 };
 
 #endif

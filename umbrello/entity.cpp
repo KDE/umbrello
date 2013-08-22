@@ -308,7 +308,7 @@ UMLObject* UMLEntity::addEntityAttribute(const QString& name, Uml::ID::Type id)
     m_List.append(literal);
     emit entityAttributeAdded(literal);
     UMLObject::emitModified();
-    connect(literal,SIGNAL(modified()),this,SIGNAL(modified()));
+    connect(literal, SIGNAL(modified()), this, SIGNAL(modified()));
     return literal;
 }
 
@@ -444,7 +444,7 @@ void UMLEntity::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 
     UMLClassifierListItemList entityConstraints = getFilteredList(UMLObject::ot_EntityConstraint);
     foreach(UMLClassifierListItem* cli, entityConstraints) {
-        cli->saveToXMI(qDoc,entityElement);
+        cli->saveToXMI(qDoc, entityElement);
     }
 
     qElement.appendChild(entityElement);
@@ -582,7 +582,7 @@ bool UMLEntity::addConstraint(UMLEntityConstraint* constr)
 
     emit entityConstraintAdded(constr);
     UMLObject::emitModified();
-    connect(constr,SIGNAL(modified()),this,SIGNAL(modified()));
+    connect(constr, SIGNAL(modified()), this, SIGNAL(modified()));
 
     return true;
 }
@@ -642,7 +642,7 @@ void UMLEntity::slotEntityAttributeRemoved(UMLClassifierListItem* cli)
 UMLClassifierListItemList UMLEntity::getFilteredList(UMLObject::ObjectType ot) const
 {
     if (ot == UMLObject::ot_EntityConstraint) {
-        UMLClassifierListItemList ucList,fcList,ccList, rcList;
+        UMLClassifierListItemList ucList, fcList, ccList, rcList;
         ucList = UMLClassifier::getFilteredList(UMLObject::ot_UniqueConstraint);
         fcList = UMLClassifier::getFilteredList(UMLObject::ot_ForeignKeyConstraint);
         ccList = UMLClassifier::getFilteredList(UMLObject::ot_CheckConstraint);

@@ -70,9 +70,9 @@ public:
 
     bool removeEntityAttributePair(UMLEntityAttribute* /*key*/ pAttr);
 
-    bool hasEntityAttributePair(UMLEntityAttribute* pAttr,UMLEntityAttribute* rAttr) const;
+    bool hasEntityAttributePair(UMLEntityAttribute* pAttr, UMLEntityAttribute* rAttr) const;
 
-    QMap<UMLEntityAttribute*,UMLEntityAttribute*> getEntityAttributePairs();
+    QMap<UMLEntityAttribute*, UMLEntityAttribute*> getEntityAttributePairs();
 
     void setDeleteAction(UpdateDeleteAction uda);
     UpdateDeleteAction getDeleteAction() const;

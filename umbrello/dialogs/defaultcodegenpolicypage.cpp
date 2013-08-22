@@ -21,7 +21,7 @@
  * code generator.
  */
 DefaultCodeGenPolicyPage::DefaultCodeGenPolicyPage(QWidget *parent, const char *name, CodeGenPolicyExt * policy)
-        :CodeGenerationPolicyPage(parent,name,policy)
+        :CodeGenerationPolicyPage(parent, name, policy)
 {
     m_textLabel = new QLabel(this);
     m_textLabel->setObjectName("textLabel");

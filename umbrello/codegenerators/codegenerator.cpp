@@ -259,7 +259,7 @@ void CodeGenerator::saveToXMI(QDomDocument & doc, QDomElement & root)
 {
     QString langType = Uml::ProgrammingLanguage::toString(language());
     QDomElement docElement = doc.createElement("codegenerator");
-    docElement.setAttribute("language",langType);
+    docElement.setAttribute("language", langType);
 
     if (dynamic_cast<SimpleCodeGenerator*>(this)) {
         UMLClassifierList concepts = m_document->classesAndInterfaces();

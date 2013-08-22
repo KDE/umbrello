@@ -460,14 +460,14 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
 
     if (isFooter) {
         int margin = 3 + 3 * fontHeight;
-        page.adjust(0,0,0,-margin);
+        page.adjust(0, 0, 0, -margin);
     }
 
     getDiagram(pPainter, UMLSceneRect(source), UMLSceneRect(page));
 
     //draw foot note
     if (isFooter) {
-        page.adjust(0,0,0,fontHeight);
+        page.adjust(0, 0, 0, fontHeight);
         QString string = i18n("Diagram: %2 Page %1", 1, name());
         QColor textColor(50, 50, 50);
         pPainter.setPen(textColor);
@@ -683,8 +683,8 @@ void UMLScene::dragEnterEvent(QGraphicsSceneDragDropEvent *e)
         return;
     }
     //make sure dragging item onto correct diagram
-    // concept - class,seq,coll diagram
-    // actor,usecase - usecase diagram
+    // concept - class, seq, coll diagram
+    // actor, usecase - usecase diagram
     UMLObject::ObjectType ot = temp->baseType();
     bool bAccept = true;
     switch (diagramType) {
@@ -1521,7 +1521,7 @@ UMLSceneItemList UMLScene::collisions(const UMLScenePoint &p, int delta)
 {
     QPointF a = p-QPointF(delta, delta);
     QPointF b = p+QPointF(delta, delta);
-    QList<QGraphicsItem *> list = items(QRectF(a,b));
+    QList<QGraphicsItem *> list = items(QRectF(a, b));
     return list;
 }
 
@@ -2688,7 +2688,7 @@ void UMLScene::createAutoAttributeAssociations(UMLWidget *widget)
          * instantiation at Import_Utils::createUMLObject().
         UMLClassifierList templateList = attr->getTemplateParams();
         for (UMLClassifierListIt it(templateList); it.current(); ++it) {
-            createAutoAttributeAssociation(it,attr,widget);
+            createAutoAttributeAssociation(it, attr, widget);
         }
          */
     }

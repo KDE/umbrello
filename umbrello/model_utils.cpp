@@ -835,7 +835,7 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
     arglist = arglist.trimmed();
     if (arglist.isEmpty())
         return PS_OK;
-    const QStringList args = arglist.split(QRegExp("\\s*,\\s*"));
+    const QStringList args = arglist.split(QRegExp("\\s*, \\s*"));
     for (QStringList::ConstIterator lit = args.begin(); lit != args.end(); ++lit) {
         NameAndType nmTp;
         Parse_Status ps = parseAttribute(*lit, nmTp, owningScope);

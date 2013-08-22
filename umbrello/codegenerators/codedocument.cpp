@@ -280,8 +280,8 @@ void CodeDocument::updateHeader ()
     //try to find a heading file (license, coments, etc) then extract its text
     QString headingText = UMLApp::app()->commonPolicy()->getHeadingFile(getFileExtension());
 
-    headingText.replace(QRegExp("%filename%"),getFileName()+getFileExtension());
-    headingText.replace(QRegExp("%filepath%"),getPath());
+    headingText.replace(QRegExp("%filename%"), getFileName()+getFileExtension());
+    headingText.replace(QRegExp("%filepath%"), getPath());
     headingText.replace(QRegExp("%time%"), QTime::currentTime().toString());
     headingText.replace(QRegExp("%date%"), QDate::currentDate().toString());
 
@@ -356,7 +356,7 @@ void CodeDocument::loadFromXMI (QDomElement & root)
 void CodeDocument::setAttributesOnNode (QDomDocument & doc, QDomElement & docElement)
 {
     // superclass call
-    CodeGenObjectWithTextBlocks::setAttributesOnNode(doc,docElement);
+    CodeGenObjectWithTextBlocks::setAttributesOnNode(doc, docElement);
 
     // now set local attributes/fields
     docElement.setAttribute("fileName", getFileName());

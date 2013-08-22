@@ -42,11 +42,11 @@ CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage(QWidget *parent, const 
     form->setAccessorsArePublic(policy->getAccessorsArePublic());
     form->setDocToolTag(policy->getDocToolTag());
 
-    form->ui_stringClassHCombo->setCurrentItem(policy->getStringClassName(),true);
-    form->ui_listClassHCombo->setCurrentItem(policy->getVectorClassName(),true);
+    form->ui_stringClassHCombo->setCurrentItem(policy->getStringClassName(), true);
+    form->ui_listClassHCombo->setCurrentItem(policy->getVectorClassName(), true);
 
-    form->ui_stringIncludeFileHistoryCombo->setCurrentItem(policy->getStringClassNameInclude(),true);
-    form->ui_listIncludeFileHistoryCombo->setCurrentItem(policy->getVectorClassNameInclude(),true);
+    form->ui_stringIncludeFileHistoryCombo->setCurrentItem(policy->getStringClassNameInclude(), true);
+    form->ui_listIncludeFileHistoryCombo->setCurrentItem(policy->getVectorClassNameInclude(), true);
 
     form->ui_globalStringCheckBox->setChecked(policy->stringIncludeIsGlobal());
     form->ui_globalListCheckBox->setChecked(policy->vectorIncludeIsGlobal());

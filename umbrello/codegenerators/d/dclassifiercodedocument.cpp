@@ -368,7 +368,7 @@ void DClassifierCodeDocument::updateContent()
     UMLPackageList imports;
     QMap<UMLPackage*, QString> packageMap; // so we don't repeat packages
 
-    CodeGenerator::findObjectsRelated(c,imports);
+    CodeGenerator::findObjectsRelated(c, imports);
     for(UMLPackageListIt importsIt(imports); importsIt.hasNext();) {
         UMLPackage *con = importsIt.next();
         // NO (default) datatypes in the import statement.. use defined

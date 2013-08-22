@@ -109,8 +109,8 @@ void CodeGenStatusPage::generateCode()
     UMLDoc* doc = UMLApp::app()->document();
 
     if (codeGenerator) {
-        connect(codeGenerator, SIGNAL(codeGenerated(UMLClassifier*,bool)),
-                this, SLOT(classGenerated(UMLClassifier*,bool)));
+        connect(codeGenerator, SIGNAL(codeGenerated(UMLClassifier*, bool)),
+                this, SLOT(classGenerated(UMLClassifier*, bool)));
         connect(codeGenerator, SIGNAL(showGeneratedFile(QString)),
                 this, SLOT(showFileGenerated(QString)));
 

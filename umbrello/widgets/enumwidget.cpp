@@ -119,7 +119,7 @@ void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     font.setBold(true);
     painter->setFont(font);
     painter->drawText(ENUM_MARGIN, 0,
-               w - ENUM_MARGIN * 2,fontHeight,
+               w - ENUM_MARGIN * 2, fontHeight,
                Qt::AlignCenter, m_umlObject->stereotype(true));
 
     font.setItalic(m_umlObject->isAbstract());

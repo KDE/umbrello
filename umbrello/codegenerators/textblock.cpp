@@ -299,7 +299,7 @@ QString TextBlock::formatMultiLineText(const QString & work, const QString & lin
             matches++;
 
         for (int i=0; i < matches; ++i) {
-            QString line = text.section(QRegExp(breakStr),i,i);
+            QString line = text.section(QRegExp(breakStr), i, i);
             output += linePrefix + line;
             if ((i != matches-1) || lastLineHasBreak)
                 output += endLine; // add break to line
@@ -325,7 +325,7 @@ void TextBlock::setAttributesOnNode(QDomDocument & doc, QDomElement & blockEleme
 
     QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
 
-    blockElement.setAttribute("tag",getTag());
+    blockElement.setAttribute("tag", getTag());
 
     // only write these if different from defaults
     if (getIndentationLevel())

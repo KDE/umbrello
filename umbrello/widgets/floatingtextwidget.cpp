@@ -175,7 +175,7 @@ UMLSceneSize FloatingTextWidget::minimumSize()
  */
 void FloatingTextWidget::setTextcmd(const QString &t)
 {
-    UMLApp::app()->executeCommand(new Uml::CmdSetTxt(this,t));
+    UMLApp::app()->executeCommand(new Uml::CmdSetTxt(this, t));
 }
 
 /**

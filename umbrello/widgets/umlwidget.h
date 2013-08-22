@@ -131,7 +131,7 @@ public:
         return rect().width();
     }
 
-    void setSize(UMLSceneValue width,UMLSceneValue height);
+    void setSize(UMLSceneValue width, UMLSceneValue height);
 
     bool getIgnoreSnapToGrid() const;
     void setIgnoreSnapToGrid(bool to);

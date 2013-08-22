@@ -427,12 +427,12 @@ void CPPHeaderCodeDocument::updateContent()
 
     //only include classes in a different package from this class
     UMLPackageList includes;
-    QMap<UMLPackage *,QString> packageMap; // so we don't repeat packages
+    QMap<UMLPackage *, QString> packageMap; // so we don't repeat packages
 
-    CodeGenerator::findObjectsRelated(c,includes);
+    CodeGenerator::findObjectsRelated(c, includes);
     foreach(UMLPackage* con, includes) {
         if (con->baseType() != UMLObject::ot_Datatype && !packageMap.contains(con)) {
-            packageMap.insert(con,con->package());
+            packageMap.insert(con, con->package());
             if(con != getParentClassifier())
                 includeStatement.append("#include \""+CodeGenerator::cleanName(con->name().toLower())+".h\""+endLine);
         }
@@ -537,17 +537,17 @@ void CPPHeaderCodeDocument::updateContent()
     // declare public, protected and private methods, attributes (fields).
     // set the start text ONLY if this is the first time we created the objects.
     bool createdPublicBlock = m_publicBlock == 0 ? true : false;
-    m_publicBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("publicBlock","Public stuff",0);
+    m_publicBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("publicBlock","Public stuff", 0);
     if (createdPublicBlock)
         m_publicBlock->setStartText("public:");
 
     bool createdProtBlock = m_protectedBlock == 0 ? true : false;
-    m_protectedBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("protectedBlock","Protected stuff",0);
+    m_protectedBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("protectedBlock","Protected stuff", 0);
     if(createdProtBlock)
         m_protectedBlock->setStartText("protected:");
 
     bool createdPrivBlock = m_privateBlock == 0 ? true : false;
-    m_privateBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("privateBlock","Private stuff",0);
+    m_privateBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("privateBlock","Private stuff", 0);
     if(createdPrivBlock)
         m_privateBlock->setStartText("private:");
 

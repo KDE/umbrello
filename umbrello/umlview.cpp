@@ -179,8 +179,8 @@ void UMLView::dragEnterEvent(QDragEnterEvent *e)
         return;
     }
     //make sure dragging item onto correct diagram
-    // concept - class,seq,coll diagram
-    // actor,usecase - usecase diagram
+    // concept - class, seq, coll diagram
+    // actor, usecase - usecase diagram
     UMLObject::ObjectType ot = temp->baseType();
     bool bAccept = true;
     switch (diagramType) {

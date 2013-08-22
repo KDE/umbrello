@@ -362,7 +362,7 @@ void JavaClassifierCodeDocument::updateContent()
     UMLPackageList imports;
     QMap<UMLPackage*, QString> packageMap; // so we don't repeat packages
 
-    CodeGenerator::findObjectsRelated(c,imports);
+    CodeGenerator::findObjectsRelated(c, imports);
     UMLPackageListIt importsIt(imports);
     while(importsIt.hasNext()) {
         UMLPackage* con = importsIt.next();

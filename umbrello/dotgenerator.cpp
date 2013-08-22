@@ -182,7 +182,7 @@ void DotGenerator::setUseFullNodeLabels(bool state)
  * @param configFiles will contain the collected list of config files
  * @return true if collecting succeeds
  */
-bool DotGenerator::availableConfigFiles(UMLScene *scene, QHash<QString,QString> &configFiles)
+bool DotGenerator::availableConfigFiles(UMLScene *scene, QHash<QString, QString> &configFiles)
 {
     QString diagramType = Uml::DiagramType::toString(scene->type()).toLower();
     KStandardDirs dirs;
@@ -310,7 +310,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
             params << m_nodeParameters["all"].split(',');
 
         if (usePosition())
-            params  << QString("pos=\"%1,%2\"").arg(widget->x()+widget->width()/2).arg(widget->y()+widget->height()/2);
+            params  << QString("pos=\"%1, %2\"").arg(widget->x()+widget->width()/2).arg(widget->y()+widget->height()/2);
 
         QString type = QString(widget->baseTypeStr()).toLower().remove("wt_");
 

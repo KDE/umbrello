@@ -99,7 +99,7 @@ QString CodeOperation::findTag (UMLOperation * op)
  */
 void CodeOperation::setAttributesOnNode (QDomDocument & doc, QDomElement & elem)
 {
-    CodeMethodBlock::setAttributesOnNode(doc,elem); // superclass
+    CodeMethodBlock::setAttributesOnNode(doc, elem); // superclass
 }
 
 /**
@@ -145,7 +145,7 @@ void CodeOperation::init (UMLOperation * parentOp)
     setTag(CodeOperation::findTag(parentOp));
 
     // not needed.. done by parent "ownedcodeblock" class
-    //  connect(parentOp,SIGNAL(modified()),this,SLOT(syncToParent()));
+    //  connect(parentOp, SIGNAL(modified()), this, SLOT(syncToParent()));
 }
 
 void CodeOperation::updateContent()

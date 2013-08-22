@@ -20,7 +20,7 @@ class UMLScene;
 /**
  * Arrow tool for select, move and resize widgets and associations.
  * Arrow tool delegates the event handling in the widgets and associations. When
- * no widget nor association is being used,the arrow tool acts as a selecting
+ * no widget nor association is being used, the arrow tool acts as a selecting
  * tool that selects all the elements in the rectangle created when dragging the
  * mouse.
  *

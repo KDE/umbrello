@@ -166,7 +166,7 @@ void UMLViewImageExporter::prepareFileDialog(UMLFileDialog *fileDialog)
     // get all supported mime types
     QStringList mimeTypes = UMLViewImageExporterModel::supportedMimeTypes();
 
-    QHash<QString,QString> configFiles;
+    QHash<QString, QString> configFiles;
     if (!DotGenerator::availableConfigFiles(m_scene, configFiles) || configFiles.size() == 0)
         mimeTypes.removeOne("image/x-dot");
 

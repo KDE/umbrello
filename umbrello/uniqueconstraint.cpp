@@ -158,7 +158,7 @@ void UMLUniqueConstraint::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     }
 
     foreach(UMLEntityAttribute* att, m_EntityAttributeList) {
-        att->saveToXMI(qDoc,uniqueConstraintElement);
+        att->saveToXMI(qDoc, uniqueConstraintElement);
     }
 
     qElement.appendChild(uniqueConstraintElement);

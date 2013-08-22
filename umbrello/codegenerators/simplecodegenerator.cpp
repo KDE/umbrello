@@ -168,7 +168,7 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
     QDir outputDir = commonPolicy->getOutputDirectory();
     QString filename = name + ext;
     if(!outputDir.exists(filename)) {
-        m_fileMap.insert(concept,filename);
+        m_fileMap.insert(concept, filename);
         return filename; //if not, "name" is OK and we have not much to to
     }
 

@@ -166,7 +166,7 @@ QString CodeParameter::ID()
 void CodeParameter::setAttributesOnNode(QDomDocument & doc, QDomElement & blockElement)
 {
     // set local attributes
-    blockElement.setAttribute("parent_id",ID());
+    blockElement.setAttribute("parent_id", ID());
 
     // setting ID's takes special treatment
     // as UMLRoles arent properly stored in the XMI right now.
@@ -177,7 +177,7 @@ void CodeParameter::setAttributesOnNode(QDomDocument & doc, QDomElement & blockE
     else
         blockElement.setAttribute("role_id","-1");
 
-    blockElement.setAttribute("initialValue",getInitialValue());
+    blockElement.setAttribute("initialValue", getInitialValue());
 
     // a comment which we will store in its own separate child node block
     QDomElement commElement = doc.createElement("header");
@@ -282,7 +282,7 @@ void CodeParameter::initFields(ClassifierCodeDocument * doc, UMLObject * obj)
     m_comment = CodeGenFactory::newCodeComment(m_parentDocument);
     m_comment->setText(getParentObject()->doc());
 
-    connect(m_parentObject,SIGNAL(modified()),this,SLOT(syncToParent()));
+    connect(m_parentObject, SIGNAL(modified()), this, SLOT(syncToParent()));
 }
 
 #include "codeparameter.moc"

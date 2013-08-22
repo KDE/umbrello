@@ -253,7 +253,7 @@ bool UMLForeignKeyConstraint::removeEntityAttributePair(UMLEntityAttribute* /*ke
  * @param rAttr The Attribute of the Referenced Entity
  * @return true if the attribute pair could be found.
  */
-bool UMLForeignKeyConstraint::hasEntityAttributePair(UMLEntityAttribute* pAttr,UMLEntityAttribute* rAttr) const
+bool UMLForeignKeyConstraint::hasEntityAttributePair(UMLEntityAttribute* pAttr, UMLEntityAttribute* rAttr) const
 {
     if (m_AttributeMap.contains(pAttr)) {
         if (m_AttributeMap.value(pAttr) == rAttr) {
@@ -398,7 +398,7 @@ bool UMLForeignKeyConstraint::resolveRef()
 /**
  * Retrieve all Pairs of Attributes.
  */
-QMap<UMLEntityAttribute*,UMLEntityAttribute*> UMLForeignKeyConstraint::getEntityAttributePairs()
+QMap<UMLEntityAttribute*, UMLEntityAttribute*> UMLForeignKeyConstraint::getEntityAttributePairs()
 {
     return m_AttributeMap;
 }

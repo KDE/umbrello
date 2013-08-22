@@ -83,7 +83,7 @@ private:
         QLabel* localColumnL;
         QLabel* referencedColumnL;
 
-        QPushButton* addPB,*removePB;
+        QPushButton* addPB, *removePB;
     }; // end column widgets
 
     // these attributes store the local cache
@@ -91,7 +91,7 @@ private:
     UMLEntityAttributeList m_pLocalAttributeList;
     UMLEntityAttributeList m_pReferencedAttributeList;
 
-    QList< QPair<UMLEntityAttribute*,UMLEntityAttribute*> > m_pAttributeMapList;
+    QList< QPair<UMLEntityAttribute*, UMLEntityAttribute*> > m_pAttributeMapList;
 
     /**
      * Temporary Storage for entity index in referencedColumnCB.
@@ -103,7 +103,7 @@ private:
     GeneralWidgets m_GeneralWidgets;
     ColumnWidgets m_ColumnWidgets;
 
-    KPageWidgetItem *pageGeneral,*pageColumn;
+    KPageWidgetItem *pageGeneral, *pageColumn;
 
 public slots:
     void slotResetWidgetState();

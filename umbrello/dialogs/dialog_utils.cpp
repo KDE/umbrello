@@ -40,7 +40,7 @@ namespace Dialog_Utils {
  * @param editFieldText         Initialization text in the editField (optional.)
  * @return a pointer to the KLineEdit so you can setFocus() if necessary
  */
-KLineEdit* makeLabeledEditField(QGroupBox *containingBox, QGridLayout *layout, int row,QLabel * &label, const QString& labelText, KLineEdit * &editField, const QString& editFieldText /* = QString() */)
+KLineEdit* makeLabeledEditField(QGroupBox *containingBox, QGridLayout *layout, int row, QLabel * &label, const QString& labelText, KLineEdit * &editField, const QString& editFieldText /* = QString() */)
 {
     Q_UNUSED(containingBox);
     label = new QLabel(labelText);

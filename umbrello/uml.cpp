@@ -178,8 +178,8 @@ UMLApp::UMLApp(QWidget* parent)
     }
 
     //connect zoomSelect menu
-    connect(m_zoomSelect,SIGNAL(aboutToShow()),this,SLOT(setupZoomMenu()));
-    connect(m_zoomSelect,SIGNAL(triggered(QAction*)),this,SLOT(slotSetZoom(QAction*)));
+    connect(m_zoomSelect, SIGNAL(aboutToShow()), this, SLOT(setupZoomMenu()));
+    connect(m_zoomSelect, SIGNAL(triggered(QAction*)), this, SLOT(slotSetZoom(QAction*)));
 
     setAutoSaveSettings();
     m_toolsbar->setToolButtonStyle(Qt::ToolButtonIconOnly);  // too many items for text, really we want a toolbox widget
@@ -701,7 +701,7 @@ void UMLApp::initStatusBar()
 
     QWidget* defaultZoomWdg = new QWidget(this);
     QHBoxLayout* zoomLayout = new QHBoxLayout(defaultZoomWdg);
-    zoomLayout->setContentsMargins(0,0,0,0);
+    zoomLayout->setContentsMargins(0, 0, 0, 0);
     zoomLayout->setSpacing(0);
     zoomLayout->addItem(new QSpacerItem(0, 20, QSizePolicy::Expanding, QSizePolicy::Minimum));
 
@@ -713,14 +713,14 @@ void UMLApp::initStatusBar()
     m_pZoomFitSBTB->setText("Fit");
     m_pZoomFitSBTB->setGroupPosition(StatusBarToolButton::GroupLeft);
     zoomLayout->addWidget(m_pZoomFitSBTB);
-    m_pZoomFitSBTB->setContentsMargins(0,0,0,0);
+    m_pZoomFitSBTB->setContentsMargins(0, 0, 0, 0);
     //m_pZoomFitSBTB->setDisabled(true);
     connect(m_pZoomFitSBTB, SIGNAL(clicked()), this, SLOT(slotZoomFit()));
 
     m_pZoomFullSBTB = new StatusBarToolButton(this);
     m_pZoomFullSBTB->setText("100%");
     m_pZoomFullSBTB->setGroupPosition(StatusBarToolButton::GroupRight);
-    m_pZoomFullSBTB->setContentsMargins(0,0,0,0);
+    m_pZoomFullSBTB->setContentsMargins(0, 0, 0, 0);
     zoomLayout->addWidget(m_pZoomFullSBTB);
     connect(m_pZoomFullSBTB, SIGNAL(clicked()), this, SLOT(slotZoom100()));
 
@@ -729,17 +729,17 @@ void UMLApp::initStatusBar()
     m_pZoomOutPB = new QPushButton(this);
     m_pZoomOutPB->setIcon(KIcon("zoom-out"));
     m_pZoomOutPB->setFlat(true);
-    m_pZoomOutPB->setMaximumSize(30,30);
+    m_pZoomOutPB->setMaximumSize(30, 30);
     statusBar()->addPermanentWidget(m_pZoomOutPB);
     connect(m_pZoomOutPB, SIGNAL(clicked()), this, SLOT(slotZoomOut()));
 
     m_pZoomSlider = new QSlider(Qt::Horizontal, this);
-    m_pZoomSlider->setMaximumSize(100,50);
+    m_pZoomSlider->setMaximumSize(100, 50);
     m_pZoomSlider->setMinimum (20);
     m_pZoomSlider->setMaximum (480);
     //m_pZoomSlider->setPageStep (1000);
     m_pZoomSlider->setValue (100);
-    m_pZoomSlider->setContentsMargins(0,0,0,0);
+    m_pZoomSlider->setContentsMargins(0, 0, 0, 0);
     connect(m_pZoomSlider, SIGNAL(valueChanged(int)), this, SLOT(slotZoomSliderMoved(int)));
 
     statusBar()->addPermanentWidget(m_pZoomSlider);
@@ -747,7 +747,7 @@ void UMLApp::initStatusBar()
     m_pZoomInPB = new QPushButton(this);
     m_pZoomInPB->setIcon(KIcon("zoom-in"));
     m_pZoomInPB->setFlat(true);
-    m_pZoomInPB->setMaximumSize(30,30);
+    m_pZoomInPB->setMaximumSize(30, 30);
     statusBar()->addPermanentWidget(m_pZoomInPB);
     connect(m_pZoomInPB, SIGNAL(clicked()), this, SLOT(slotZoomIn()));
 }
@@ -758,7 +758,7 @@ void UMLApp::initStatusBar()
  */
 void UMLApp::initView()
 {
-    setCaption(m_doc->url().fileName(),false);
+    setCaption(m_doc->url().fileName(), false);
     m_view = 0;
     m_toolsbar = new WorkToolBar(this);
     m_toolsbar->setWindowTitle(i18n("Diagram Toolbar"));
@@ -786,7 +786,7 @@ void UMLApp::initView()
     m_newSessionButton->setMenu(newDiagram->menu());
 
     connect(m_tabWidget, SIGNAL(currentChanged(QWidget*)), SLOT(slotTabChanged(QWidget*)));
-    connect(m_tabWidget, SIGNAL(contextMenu(QWidget*,const QPoint&)), m_doc, SLOT(slotDiagramPopupMenu(QWidget*,const QPoint&)));
+    connect(m_tabWidget, SIGNAL(contextMenu(QWidget*, const QPoint&)), m_doc, SLOT(slotDiagramPopupMenu(QWidget*, const QPoint&)));
     m_tabWidget->setCornerWidget(m_newSessionButton, Qt::TopLeftCorner);
     m_newSessionButton->installEventFilter(this);
 
@@ -816,7 +816,7 @@ void UMLApp::initView()
     m_listView->setDocument(m_doc);
     m_listView->init();
     m_listDock->setWidget(m_listView);
-    connect(m_listDock,SIGNAL(visibilityChanged(bool)), viewShowTree, SLOT(setChecked(bool)));
+    connect(m_listDock, SIGNAL(visibilityChanged(bool)), viewShowTree, SLOT(setChecked(bool)));
 
     // create the documentation viewer
     m_documentationDock = new QDockWidget(i18n("Doc&umentation"), this);
@@ -825,7 +825,7 @@ void UMLApp::initView()
     m_docWindow = new DocWindow(m_doc, m_documentationDock);
     m_docWindow->setObjectName("DOCWINDOW");
     m_documentationDock->setWidget(m_docWindow);
-    connect(m_documentationDock,SIGNAL(visibilityChanged(bool)), viewShowDoc, SLOT(setChecked(bool)));
+    connect(m_documentationDock, SIGNAL(visibilityChanged(bool)), viewShowDoc, SLOT(setChecked(bool)));
 
     m_doc->setupSignals(); // make sure gets signal from list view
 
@@ -837,7 +837,7 @@ void UMLApp::initView()
     m_pQUndoView->setCleanIcon(Icon_Utils::SmallIcon(Icon_Utils::it_UndoView));
     m_pQUndoView->setStack(m_pUndoStack);
     m_cmdHistoryDock->setWidget(m_pQUndoView);
-    connect(m_cmdHistoryDock,SIGNAL(visibilityChanged(bool)), viewShowCmdHistory, SLOT(setChecked(bool)));
+    connect(m_cmdHistoryDock, SIGNAL(visibilityChanged(bool)), viewShowCmdHistory, SLOT(setChecked(bool)));
 
     // create the property viewer
     //m_propertyDock = new QDockWidget(i18n("&Properties"), this);
@@ -1071,7 +1071,7 @@ void UMLApp::readProperties(const KConfigGroup & cfg)     //:TODO: applyMainWind
             m_doc->openDocument(_url);
             m_doc->setModified();
             enablePrint(true);
-            setCaption(_url.fileName(),true);
+            setCaption(_url.fileName(), true);
             QFile::remove(tempname);
         } else {
             enablePrint(false);
@@ -1080,7 +1080,7 @@ void UMLApp::readProperties(const KConfigGroup & cfg)     //:TODO: applyMainWind
         if (!filename.isEmpty()) {
             m_doc->openDocument(url);
             enablePrint(true);
-            setCaption(url.fileName(),false);
+            setCaption(url.fileName(), false);
 
         } else {
             enablePrint(false);
@@ -1268,7 +1268,7 @@ bool UMLApp::slotFileSaveAs()
         bool b = m_doc->saveDocument(url);
         if (b) {
             fileOpenRecent->addUrl(url);
-            setCaption(url.fileName(),m_doc->isModified());
+            setCaption(url.fileName(), m_doc->isModified());
             resetStatusMsg();
         }
         return b;
@@ -1322,7 +1322,7 @@ void UMLApp::slotPrintPreview()
     if (!slotPrintSettings())
         return;
 
-    QPointer<QPrintPreviewDialog> preview = new QPrintPreviewDialog(m_printer,this);
+    QPointer<QPrintPreviewDialog> preview = new QPrintPreviewDialog(m_printer, this);
     connect(preview, SIGNAL(paintRequested(QPrinter*)), this, SLOT(slotPrintPreviewPaintRequested(QPrinter*)));
     preview->exec();
     delete preview;
@@ -2050,7 +2050,7 @@ void UMLApp::viewCodeDocument(UMLClassifier* classifier)
 
             if (cdoc) {
                 Settings::OptionState& optionState = Settings::optionState();
-                CodeViewerDialog * dialog = currentGen->getCodeViewerDialog(this,cdoc,optionState.codeViewerState);
+                CodeViewerDialog * dialog = currentGen->getCodeViewerDialog(this, cdoc, optionState.codeViewerState);
                 dialog->exec();
                 optionState.codeViewerState = dialog->state();
                 delete dialog;

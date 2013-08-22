@@ -103,7 +103,7 @@ void UMLOperation::moveParmLeft(UMLAttribute * a)
         return;
     }
     uDebug() << "called for " << a->name();
-    disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
+    disconnect(a, SIGNAL(modified()), this, SIGNAL(modified()));
     int idx;
     if ((idx=m_List.indexOf(a)) == -1) {
         uDebug() << "Error move parm left " << a->name();
@@ -127,7 +127,7 @@ void UMLOperation::moveParmRight(UMLAttribute * a)
         return;
     }
     uDebug() << "called for " << a->name();
-    disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
+    disconnect(a, SIGNAL(modified()), this, SIGNAL(modified()));
     int idx;
     if ((idx=m_List.indexOf(a)) == -1) {
         uDebug() << "Error move parm right " << a->name();
@@ -155,7 +155,7 @@ void UMLOperation::removeParm(UMLAttribute * a, bool emitModifiedSignal /* =true
         return;
     }
     uDebug() << "called for " << a->name();
-    disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
+    disconnect(a, SIGNAL(modified()), this, SIGNAL(modified()));
     if(!m_List.removeAll(a))
         uDebug() << "Error removing parm " << a->name();
 
@@ -259,11 +259,11 @@ QString UMLOperation::toString(Uml::SignatureType::Enum sig)
 void UMLOperation::addParm(UMLAttribute *parameter, int position)
 {
     if(position >= 0 && position <= (int)m_List.count())
-        m_List.insert(position,parameter);
+        m_List.insert(position, parameter);
     else
         m_List.append(parameter);
     UMLObject::emitModified();
-    connect(parameter,SIGNAL(modified()),this,SIGNAL(modified()));
+    connect(parameter, SIGNAL(modified()), this, SIGNAL(modified()));
 }
 
 /**

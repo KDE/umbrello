@@ -210,8 +210,8 @@ void ValaWriter::writeClass(UMLClassifier *c)
     QString str;
     str = getHeadingFile(".vala");
     if (!str.isEmpty()) {
-        str.replace(QRegExp("%filename%"),fileName);
-        str.replace(QRegExp("%filepath%"),filecs.fileName());
+        str.replace(QRegExp("%filename%"), fileName);
+        str.replace(QRegExp("%filepath%"), filecs.fileName());
         cs << str << m_endl;
     }
 
@@ -369,7 +369,7 @@ void ValaWriter::writeClass(UMLClassifier *c)
 void ValaWriter::writeOperations(UMLClassifier *c, QTextStream &cs)
 {
     //Lists to store operations  sorted by scope
-    UMLOperationList oppub,opprot,oppriv;
+    UMLOperationList oppub, opprot, oppriv;
 
     bool isInterface = c->isInterface();
     bool generateErrorStub = true;
@@ -402,21 +402,21 @@ void ValaWriter::writeOperations(UMLClassifier *c, QTextStream &cs)
     // write public operations
     if (forceSections() || !oppub.isEmpty()) {
         cs << m_endl << m_container_indent << m_indentation << "//region Public methods" << m_endl << m_endl;
-        writeOperations(oppub,cs,isInterface,false,generateErrorStub);
+        writeOperations(oppub, cs, isInterface, false, generateErrorStub);
         cs << m_container_indent << m_indentation << "//endregion" << m_endl << m_endl;
     }
 
     // write protected operations
     if (forceSections() || !opprot.isEmpty()) {
         cs << m_endl << m_container_indent << m_indentation << "//region Protected methods" << m_endl << m_endl;
-        writeOperations(opprot,cs,isInterface,false,generateErrorStub);
+        writeOperations(opprot, cs, isInterface, false, generateErrorStub);
         cs << m_container_indent << m_indentation << "//endregion" << m_endl << m_endl;
     }
 
     // write private operations
     if (forceSections() || !oppriv.isEmpty()) {
         cs << m_endl << m_container_indent << m_indentation << "//region Private methods" << m_endl << m_endl;
-        writeOperations(oppriv,cs,isInterface,false,generateErrorStub);
+        writeOperations(oppriv, cs, isInterface, false, generateErrorStub);
         cs << m_container_indent << m_indentation << "//endregion" << m_endl << m_endl;
     }
 
@@ -451,7 +451,7 @@ void ValaWriter::writeOverridesRecursive(UMLClassifierList *superclasses, QTextS
 
             // write abstract implementations
             cs << m_endl << m_container_indent << m_indentation << "//region " << obj->name() << " members" << m_endl << m_endl;
-            writeOperations(opabstract,cs,false,true,true);
+            writeOperations(opabstract, cs, false, true, true);
             cs << m_container_indent << m_indentation << "//endregion" << m_endl << m_endl;
 
             opabstract.clear();
@@ -489,7 +489,7 @@ void ValaWriter::writeRealizationsRecursive(UMLClassifier *currentClass, UMLAsso
 
         // write realizations
         cs << m_endl << m_container_indent << m_indentation << "//region " << real->name() << " members" << m_endl << m_endl;
-        writeOperations(opreal,cs,false,false,true);
+        writeOperations(opreal, cs, false, false, true);
         cs << m_container_indent << m_indentation << "//endregion" << m_endl << m_endl;
 
         // Recurse to parent realizations
@@ -663,17 +663,17 @@ void ValaWriter::writeAttributes(UMLClassifier *c, QTextStream &cs)
 
     // write public attributes
     if (forceSections() || atpub.count()) {
-        writeAttributes(atpub,cs);
+        writeAttributes(atpub, cs);
     }
 
     // write protected attributes
     if (forceSections() || atprot.count()) {
-        writeAttributes(atprot,cs);
+        writeAttributes(atprot, cs);
     }
 
     // write private attributes
     if (forceSections() || atpriv.count()) {
-        writeAttributes(atpriv,cs);
+        writeAttributes(atpriv, cs);
     }
 
     if (forceSections() || atl.count()) {

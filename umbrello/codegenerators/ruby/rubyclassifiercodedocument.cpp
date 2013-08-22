@@ -398,17 +398,17 @@ void RubyClassifierCodeDocument::updateContent()
     // declare public, protected and private methods, attributes (fields).
     // set the start text ONLY if this is the first time we created the objects.
     bool createdPublicBlock = publicBlock == 0 ? true : false;
-    publicBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("publicBlock","Public Items",0);
+    publicBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("publicBlock","Public Items", 0);
     if (createdPublicBlock)
         publicBlock->setStartText("public");
 
     bool createdProtBlock = protectedBlock == 0 ? true : false;
-    protectedBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("protectedBlock","Protected Items",0);
+    protectedBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("protectedBlock","Protected Items", 0);
     if(createdProtBlock)
         protectedBlock->setStartText("protected");
 
     bool createdPrivBlock = privateBlock == 0 ? true : false;
-    privateBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("privateBlock","Private Items",0);
+    privateBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("privateBlock","Private Items", 0);
     if(createdPrivBlock)
         privateBlock->setStartText("private");
 

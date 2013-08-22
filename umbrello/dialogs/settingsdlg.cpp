@@ -53,9 +53,9 @@ SettingsDlg::SettingsDlg(QWidget * parent, Settings::OptionState *state)
     setupCodeGenPage();
     setupCodeViewerPage(state->codeViewerState);
     setupAutoLayoutPage();
-    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
-    connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
-    connect(this,SIGNAL(defaultClicked()),this,SLOT(slotDefault()));
+    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
+    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
+    connect(this, SIGNAL(defaultClicked()), this, SLOT(slotDefault()));
 }
 
 SettingsDlg::~SettingsDlg()
@@ -69,7 +69,7 @@ void SettingsDlg::setupUIPage()
     QWidget * page = new QWidget();
     QVBoxLayout* uiPageLayout = new QVBoxLayout(page);
     
-    pageUserInterface = new KPageWidgetItem(page,i18n("User Interface"));
+    pageUserInterface = new KPageWidgetItem(page, i18n("User Interface"));
     pageUserInterface->setHeader(i18n("User Interface Settings"));
     pageUserInterface->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_UserInterface));
     addPage(pageUserInterface);
@@ -85,14 +85,14 @@ void SettingsDlg::setupUIPage()
     m_UiWidgets.textColorCB = new QCheckBox(i18n("Custom text color:"), m_UiWidgets.colorGB);
     colorLayout->addWidget(m_UiWidgets.textColorCB, 0, 0);
 
-    m_UiWidgets.textColorB = new KColorButton(m_pOptionState->uiState.textColor,m_UiWidgets.colorGB);
+    m_UiWidgets.textColorB = new KColorButton(m_pOptionState->uiState.textColor, m_UiWidgets.colorGB);
     //m_UiWidgets.lineColorB->setObjectName(m_UiWidgets.colorGB);
     colorLayout->addWidget(m_UiWidgets.textColorB, 0, 1);
 
     m_UiWidgets.lineColorCB = new QCheckBox(i18n("Custom line color:"), m_UiWidgets.colorGB);
     colorLayout->addWidget(m_UiWidgets.lineColorCB, 1, 0);
 
-    m_UiWidgets.lineColorB = new KColorButton(m_pOptionState->uiState.lineColor,m_UiWidgets.colorGB);
+    m_UiWidgets.lineColorB = new KColorButton(m_pOptionState->uiState.lineColor, m_UiWidgets.colorGB);
     //m_UiWidgets.lineColorB->setObjectName(m_UiWidgets.colorGB);
     colorLayout->addWidget(m_UiWidgets.lineColorB, 1, 1);
 
@@ -102,19 +102,19 @@ void SettingsDlg::setupUIPage()
     m_UiWidgets.fillColorCB = new QCheckBox(i18n("Custom fill color:"), m_UiWidgets.colorGB);
     colorLayout->addWidget(m_UiWidgets.fillColorCB, 2, 0);
 
-    m_UiWidgets.fillColorB = new KColorButton(m_pOptionState->uiState.fillColor,m_UiWidgets.colorGB);
+    m_UiWidgets.fillColorB = new KColorButton(m_pOptionState->uiState.fillColor, m_UiWidgets.colorGB);
     colorLayout->addWidget(m_UiWidgets.fillColorB, 2, 1);
 
     m_UiWidgets.gridColorCB = new QCheckBox(i18n("Custom grid color:"), m_UiWidgets.colorGB);
     colorLayout->addWidget(m_UiWidgets.gridColorCB, 3, 0);
 
-    m_UiWidgets.gridColorB = new KColorButton(m_pOptionState->uiState.gridDotColor,m_UiWidgets.colorGB);
+    m_UiWidgets.gridColorB = new KColorButton(m_pOptionState->uiState.gridDotColor, m_UiWidgets.colorGB);
     colorLayout->addWidget(m_UiWidgets.gridColorB, 3, 1);
 
     m_UiWidgets.bgColorCB = new QCheckBox(i18n("Custom background color:"), m_UiWidgets.colorGB);
     colorLayout->addWidget(m_UiWidgets.bgColorCB, 4, 0);
 
-    m_UiWidgets.bgColorB = new KColorButton(m_pOptionState->uiState.backgroundColor,m_UiWidgets.colorGB);
+    m_UiWidgets.bgColorB = new KColorButton(m_pOptionState->uiState.backgroundColor, m_UiWidgets.colorGB);
     colorLayout->addWidget(m_UiWidgets.bgColorB, 4, 1);
 
     m_UiWidgets.lineWidthCB = new QCheckBox(i18n("Custom line width:"), m_UiWidgets.colorGB);
@@ -176,7 +176,7 @@ void SettingsDlg::setupClassPage()
 {
     //setup class settings page
     KVBox * page = new KVBox();
-    pageClass = new KPageWidgetItem(page,i18nc("class settings page", "Class"));
+    pageClass = new KPageWidgetItem(page, i18nc("class settings page", "Class"));
     pageClass->setHeader(i18n("Class Settings"));
     pageClass->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Class));
     addPage(pageClass);
@@ -187,7 +187,7 @@ void SettingsDlg::setupCodeImportPage()
 {
     //setup code importer settings page
     KVBox * page = new KVBox();
-    pageCodeImport = new KPageWidgetItem(page,i18n("Code Importer"));
+    pageCodeImport = new KPageWidgetItem(page, i18n("Code Importer"));
     pageCodeImport->setHeader(i18n("Code Import Settings"));
     pageCodeImport->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_CodeImport));
     addPage(pageCodeImport);
@@ -198,7 +198,7 @@ void SettingsDlg::setupCodeGenPage()
 {
     //setup code generation settings page
     KVBox * page = new KVBox();
-    pageCodeGen = new KPageWidgetItem(page,i18n("Code Generation"));
+    pageCodeGen = new KPageWidgetItem(page, i18n("Code Generation"));
     pageCodeGen->setHeader(i18n("Code Generation Settings"));
     pageCodeGen->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_CodeGeneration));
     addPage(pageCodeGen);
@@ -210,7 +210,7 @@ void SettingsDlg::setupCodeViewerPage(Settings::CodeViewerState options)
 {
     //setup code generation settings page
     KVBox * page = new KVBox();
-    pageCodeViewer = new KPageWidgetItem(page,i18n("Code Viewer"));
+    pageCodeViewer = new KPageWidgetItem(page, i18n("Code Viewer"));
     pageCodeViewer->setHeader(i18n("Code Viewer Settings"));
     pageCodeViewer->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_CodeViewer));
     addPage(pageCodeViewer);
@@ -220,7 +220,7 @@ void SettingsDlg::setupCodeViewerPage(Settings::CodeViewerState options)
 void SettingsDlg::setupFontPage()
 {
     KVBox * page = new KVBox();
-    pageFont = new KPageWidgetItem(page,i18n("Font"));
+    pageFont = new KPageWidgetItem(page, i18n("Font"));
     pageFont->setHeader(i18n("Font Settings"));
     pageFont->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font));
     addPage(pageFont);
@@ -231,7 +231,7 @@ void SettingsDlg::setupFontPage()
 void SettingsDlg::setupAutoLayoutPage()
 {
     KVBox * page = new KVBox();
-    pageAutoLayout = new KPageWidgetItem(page,i18n("Auto Layout"));
+    pageAutoLayout = new KPageWidgetItem(page, i18n("Auto Layout"));
     pageAutoLayout->setHeader(i18n("Auto Layout Settings"));
     pageAutoLayout->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_AutoLayout));
     addPage(pageAutoLayout);

@@ -320,7 +320,7 @@ private:
     CodeGenerator*            m_codegen;         ///< Active code generator.
     CodeGenerationPolicy*     m_commoncodegenpolicy;
     CodeGenPolicyExt*         m_policyext;       ///< Active policy extension.
-    // Only used for new code generators ({Cpp,Java,Ruby,D}CodeGenerator).
+    // Only used for new code generators ({Cpp, Java, Ruby, D}CodeGenerator).
 
     KSharedConfigPtr m_config;  ///< The configuration object of the application.
 

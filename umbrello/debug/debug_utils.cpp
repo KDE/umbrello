@@ -24,7 +24,7 @@
 #include <klocale.h>
 
 Tracer* Tracer::m_instance = 0;
-QMap<QString,bool> *Tracer::m_classes = 0;
+QMap<QString, bool> *Tracer::m_classes = 0;
 
 
 Tracer* Tracer::instance()
@@ -44,13 +44,13 @@ Tracer::Tracer(QWidget *parent)
 {
     // in case no one called registerClass() before
     if (!m_classes)
-        m_classes = new QMap<QString,bool>;
+        m_classes = new QMap<QString, bool>;
     setRootIsDecorated(true);
     setAlternatingRowColors(true);
     setHeaderLabel(i18n("Class Name"));
     setContextMenuPolicy(Qt::CustomContextMenu);
     resize(300, 400);
-    connect(this,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(slotItemClicked(QTreeWidgetItem*,int)));
+    connect(this, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(slotItemClicked(QTreeWidgetItem*, int)));
 }
 
 /**
@@ -109,7 +109,7 @@ void Tracer::disableAll()
 void Tracer::registerClass(const QString& name, bool state)
 {
     if (!m_classes)
-        m_classes = new QMap<QString,bool>;
+        m_classes = new QMap<QString, bool>;
     (*m_classes)[name] = state;
 }
 

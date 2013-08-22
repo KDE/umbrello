@@ -328,7 +328,7 @@ void ActivityPage::enableWidgets(bool state)
     /*now check the order buttons.
         Double check an item is selected
        If only one att. in list make sure there disabled.
-        If at top item,only allow down arrow to be enabled.
+        If at top item, only allow down arrow to be enabled.
         If at bottom item. only allow up arrow to be enabled.
     */
     int index = m_pActivityLW->currentRow();

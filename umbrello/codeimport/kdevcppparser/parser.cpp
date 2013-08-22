@@ -1,5 +1,5 @@
 /* This file is part of KDevelop
-    Copyright (C) 2002,2003 Roberto Raggi <roberto@kdevelop.org>
+    Copyright (C) 2002, 2003 Roberto Raggi <roberto@kdevelop.org>
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -411,7 +411,7 @@ bool Parser::parseTranslationUnit(TranslationUnitAST::Node& node)
 
     update_pos(node, start, m_tokenIt);
 
-    // force (0,0) as start position
+    // force (0, 0) as start position
     node->setStartPosition(Position());
 
     return m_problems == 0;

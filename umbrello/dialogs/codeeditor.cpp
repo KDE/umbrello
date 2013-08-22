@@ -360,7 +360,7 @@ void CodeEditor::insertText(const QString & text, TextBlock * parent,
         // that are greater than zero in that type of textblock
 
         int increase = item->size + 1;
-        QMap<TextBlock*,TextBlockInfo*>::Iterator it;
+        QMap<TextBlock*, TextBlockInfo*>::Iterator it;
         for (it = m_tbInfoMap.begin(); it != m_tbInfoMap.end(); ++it) {
             TextBlock * tblock = it.key();
             TextBlockInfo * thisTbInfo = it.value();
@@ -504,7 +504,7 @@ void CodeEditor::appendText(CodeClassFieldDeclarationBlock * db)
         bgcolor = state().umlObjectColor;
     }
 
-    appendText(db->getComment(), db, parentObj,componentName);
+    appendText(db->getComment(), db, parentObj, componentName);
 
     if (!db->getWriteOutText() && m_showHiddenBlocks)
         bgcolor = state().hiddenColor;
@@ -1137,7 +1137,7 @@ void CodeEditor::slotCursorPositionChanged()
                     QString contents = textCursor().block().text();
                     contents = contents.right(contents.length()-m_lastPos+1);
                     contents = baseIndent + contents.left(contents.length()-1); // left is to remove trailing space
-                    insertParagraph(contents,para+1);
+                    insertParagraph(contents, para+1);
                     removeParagraph(para);
 
                     // furthermore, If it is nothing but indentation + whitespace
@@ -1351,7 +1351,7 @@ void CodeEditor::changeHighlighting(int signal)
         m_isHighlighted = true;
         for (int para = 0; para < total_para; ++para) {
             TextBlock * tblock = m_textBlockList.at(para);
-            changeTextBlockHighlighting(tblock,false);
+            changeTextBlockHighlighting(tblock, false);
         }
 
     }
@@ -1365,7 +1365,7 @@ void CodeEditor::changeHighlighting(int signal)
 
     // now redo the "selected" para, should it exist
     if (m_selectedTextBlock) {
-        changeTextBlockHighlighting(m_selectedTextBlock,true);
+        changeTextBlockHighlighting(m_selectedTextBlock, true);
     }
 }
 
@@ -1473,10 +1473,10 @@ void CodeEditor::contentsMouseMoveEvent(QMouseEvent * e)
 
         // unhighlight old selected textblock regardless of whether
         // it was selected or not.
-        changeTextBlockHighlighting(m_selectedTextBlock,false);
+        changeTextBlockHighlighting(m_selectedTextBlock, false);
 
         // highlight new block
-        changeTextBlockHighlighting(tblock,true);
+        changeTextBlockHighlighting(tblock, true);
 
         // FIX: update the label that shows what type of component this is
         componentLabel()->setText("<b>"+info->displayName()+"</b>");

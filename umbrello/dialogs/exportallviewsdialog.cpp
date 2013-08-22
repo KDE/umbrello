@@ -36,7 +36,7 @@ ExportAllViewsDialog::ExportAllViewsDialog(
         bool modal /* = false */,
         Qt::WindowFlags fl /* = 0*/,
         const QString& defaultMimeType /*= "image/png"*/)
-  : KDialog(parent,fl)
+  : KDialog(parent, fl)
 {
     setObjectName(name);
     setModal(modal);

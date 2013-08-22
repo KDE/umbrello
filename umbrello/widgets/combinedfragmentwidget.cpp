@@ -104,7 +104,7 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
                      temp += " [" + combined_fragment_value + ']';
                      line_width += (combined_fragment_value.size() + 2) * 8;
                 }
-        painter->drawText(COMBINED_FRAGMENT_MARGIN, 0,w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, temp);
+        painter->drawText(COMBINED_FRAGMENT_MARGIN, 0, w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, temp);
 
         break;
 
@@ -127,7 +127,7 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
                 if (combined_fragment_value != "-")
                 {
                      temp = '[' + combined_fragment_value + ']';
-            painter->drawText(COMBINED_FRAGMENT_MARGIN, 20,w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, temp);
+            painter->drawText(COMBINED_FRAGMENT_MARGIN, 20, w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, temp);
                     if (m_dashLines.size() == 1 && m_dashLines.first()->y() < y() + 20 + fontHeight)
                         m_dashLines.first()->setY(y() + h/2);
                 }

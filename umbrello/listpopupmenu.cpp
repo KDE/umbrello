@@ -661,7 +661,7 @@ void ListPopupMenu::insert(MenuType m)
         m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Parameter_New), i18n("New Parameter..."));
         break;
     case mt_New_Operation:
-        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Operation_Public_New),i18n("New Operation..."));
+        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Operation_Public_New), i18n("New Operation..."));
         break;
     case mt_New_Attribute:
         m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Attribute_New), i18n("New Attribute..."));
@@ -993,7 +993,7 @@ void ListPopupMenu::insertLayoutItems(UMLView *view)
                     break;
                 if (key == "export" && !Settings::optionState().autoLayoutState.showExportLayout)
                     continue;
-                insert(types[i], QPixmap(), i18n("apply '%1'",configFiles[key]));
+                insert(types[i], QPixmap(), i18n("apply '%1'", configFiles[key]));
                 QAction* action = getAction(types[i]);
                 QMap<QString, QVariant> map = action->data().toMap();
                 map[toString(dt_ApplyLayout)] = QVariant(key);
@@ -1337,10 +1337,10 @@ void ListPopupMenu::insertSubMenuNew(MenuType type)
             break;
         case mt_Entity:
             insert(mt_EntityAttribute, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Entity_Attribute), i18n("Entity Attribute..."));
-            insert(mt_PrimaryKeyConstraint, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_PrimaryKey),i18n("Primary Key Constraint..."));
-            insert(mt_UniqueConstraint, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_Unique),i18n("Unique Constraint..."));
-            insert(mt_ForeignKeyConstraint, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_ForeignKey),i18n("Foreign Key Constraint..."));
-            insert(mt_CheckConstraint, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_Check),i18n("Check Constraint..."));
+            insert(mt_PrimaryKeyConstraint, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_PrimaryKey), i18n("Primary Key Constraint..."));
+            insert(mt_UniqueConstraint, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_Unique), i18n("Unique Constraint..."));
+            insert(mt_ForeignKeyConstraint, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_ForeignKey), i18n("Foreign Key Constraint..."));
+            insert(mt_CheckConstraint, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_Check), i18n("Check Constraint..."));
             break;
         case mt_Enum:
             insert(mt_EnumLiteral, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Enum_Literal), i18n("Enum Literal..."));

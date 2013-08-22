@@ -104,7 +104,7 @@ public:
     void cancelRename(UMLListViewItem * item);
     void endRename(UMLListViewItem * item);
 
-    void setSelected(UMLListViewItem * item, bool state) { setItemSelected((QTreeWidgetItem*)item,state);  }
+    void setSelected(UMLListViewItem * item, bool state) { setItemSelected((QTreeWidgetItem*)item, state);  }
     void setStartedCut(bool startedCut);
     void setStartedCopy(bool startedCopy);
     bool startedCopy() const;

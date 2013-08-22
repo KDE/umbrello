@@ -20,7 +20,7 @@
 BoxWidget::BoxWidget(UMLScene * scene, Uml::ID::Type id, WidgetType type)
   : UMLWidget(scene, type, id)
 {
-    setSize(100,80);
+    setSize(100, 80);
     m_usesDiagramLineColor = false;  // boxes be black
     m_lineColor = QColor("black");
     setZValue(-10);

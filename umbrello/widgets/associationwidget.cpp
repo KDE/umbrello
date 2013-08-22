@@ -1622,7 +1622,7 @@ void AssociationWidget::calculateEndingPoints()
         if(y - DISTANCE > 0) {
             m_associationLine->setEndPoints(UMLScenePoint(x + w / 4, y), UMLScenePoint(x + w * 3 / 4, y));
             m_associationLine->insertPoint(1, UMLScenePoint(x + w / 4, y - DISTANCE));
-            m_associationLine->insertPoint(2,UMLScenePoint(x + w * 3 / 4, y - DISTANCE));
+            m_associationLine->insertPoint(2, UMLScenePoint(x + w * 3 / 4, y - DISTANCE));
             m_role[RoleType::A].m_WidgetRegion = m_role[RoleType::B].m_WidgetRegion = North;
         } else {
             m_associationLine->setEndPoints(UMLScenePoint(x + w / 4, y + h), UMLScenePoint(x + w * 3 / 4, y + h));
@@ -1646,7 +1646,7 @@ void AssociationWidget::calculateEndingPoints()
 
         m_associationLine->setEndPoints(UMLScenePoint(xa + wa, ya + ha/2), UMLScenePoint(xb, yb + hb/2));
         m_associationLine->insertPoint(1, UMLScenePoint(xa + wa, ya + ha/2));
-        m_associationLine->insertPoint(2,UMLScenePoint(xb, yb + hb/2));
+        m_associationLine->insertPoint(2, UMLScenePoint(xb, yb + hb/2));
         updatePointsException();
         return;
     }
@@ -1922,7 +1922,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y)
 
 /**
  * Adjusts the points of the association exception.
- * Method called when a widget was moved by widgetMoved(widget,x,y)
+ * Method called when a widget was moved by widgetMoved(widget, x, y)
  */
 void AssociationWidget::updatePointsException()
 {
@@ -1986,8 +1986,8 @@ void AssociationWidget::updatePointsException()
         ESPACEY = 15;
 
     m_associationLine->setEndPoints(UMLScenePoint(xdeb, ydeb), UMLScenePoint(xfin, yfin));
-    m_associationLine->setPoint(1, UMLScenePoint(p1.x() + ESPACEX,p1.y() + ESPACEY));
-    m_associationLine->setPoint(2,UMLScenePoint(p2.x() - ESPACEX,p2.y() - ESPACEY));
+    m_associationLine->setPoint(1, UMLScenePoint(p1.x() + ESPACEX, p1.y() + ESPACEY));
+    m_associationLine->setPoint(2, UMLScenePoint(p2.x() - ESPACEX, p2.y() - ESPACEY));
 
     m_role[RoleType::A].m_WidgetRegion = m_role[RoleType::B].m_WidgetRegion = North;
 }
@@ -2095,7 +2095,7 @@ UMLScenePoint AssociationWidget::swapXY(const UMLScenePoint &p)
  * Distance from P1.
  * Let's say such point is PX, the distance from P1 to PX must be equal
  * to Distance and if PX is not a point of the segment P1P2 then the
- * function returns (-1,-1).
+ * function returns (-1, -1).
  */
 UMLScenePoint AssociationWidget::calculatePointAtDistance(const UMLScenePoint &P1, const UMLScenePoint &P2, float Distance)
 {
@@ -2105,7 +2105,7 @@ UMLScenePoint AssociationWidget::calculatePointAtDistance(const UMLScenePoint &P
       D =    \   /         2         2
               \ /   (x3 - x1)  +  (y3 - y1)
 
-      D, x1 and y1 are known and the point (x3, y3) is inside line (x1,y1)(x2,y2), so if the
+      D, x1 and y1 are known and the point (x3, y3) is inside line (x1, y1)(x2, y2), so if the
       that line has the formula y = mx + b
       then y3 = m*x3 + b
 
@@ -2226,7 +2226,7 @@ UMLScenePoint AssociationWidget::calculatePointAtDistanceOnPerpendicular(const U
       D =    \   /         2             2
               \ / (x3 - x2)  +  (y3 - y2)
 
-      D, x2 and y2 are known and line P2P3 is perpendicular to line (x1,y1)(x2,y2), so if the
+      D, x2 and y2 are known and line P2P3 is perpendicular to line (x1, y1)(x2, y2), so if the
       line P1P2 has the formula y = m*x + b,
       then      (x1 - x2)
           m =  -----------, because it is perpendicular to line P1P2
@@ -2521,7 +2521,7 @@ void AssociationWidget::constrainTextPos(UMLSceneValue &textX, UMLSceneValue &te
         case TextRole::Name:
         case TextRole::Coll_Message:  // CHECK: collab.msg texts seem to be TextRole::Name
         case TextRole::State:         // CHECK: is this used?
-            // Find the linepath segment to which the (textX,textY) is closest
+            // Find the linepath segment to which the (textX, textY) is closest
             // and constrain to the corridor of that segment (see farther below)
             {
                 int minDistSquare = 100000;  // utopian initial value
@@ -2554,10 +2554,10 @@ void AssociationWidget::constrainTextPos(UMLSceneValue &textX, UMLSceneValue &te
        to the nearest point on the circle.
      */
     p0 = swapXY(p0);    // go to the natural coordinate system
-    p1 = swapXY(p1);    // with (0,0) in the lower left corner
+    p1 = swapXY(p1);    // with (0, 0) in the lower left corner
     UMLScenePoint midP = midPoint(p0, p1);
-    // If (textX,textY) is not inside the circle around midP then
-    // constrain (textX,textY) to the nearest point on that circle.
+    // If (textX, textY) is not inside the circle around midP then
+    // constrain (textX, textY) to the nearest point on that circle.
     const int x0 = p0.x();
     const int y0 = p0.y();
     const int x1 = p1.x();
@@ -2565,7 +2565,7 @@ void AssociationWidget::constrainTextPos(UMLSceneValue &textX, UMLSceneValue &te
     double r = sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0)) / 2;
     if (textWidth > r)
         r = textWidth;
-    // swap textCenter{X,Y} to convert from Qt coord.system.
+    // swap textCenter{X, Y} to convert from Qt coord.system.
     const UMLScenePoint origTextCenter(textCenterY, textCenterX);
     const int relX = abs(origTextCenter.x() - midP.x());
     const int relY = abs(origTextCenter.y() - midP.y());
@@ -2602,7 +2602,7 @@ void AssociationWidget::constrainTextPos(UMLSceneValue &textX, UMLSceneValue &te
      and then
        y = a * x
      The resulting x and y are relative to the circle origin so we just add
-     the circle origin (X,Y) to obtain the constrained (textX,textY).
+     the circle origin (X, Y) to obtain the constrained (textX, textY).
      */
     // Handle the special case, relX = 0.
     if (relX == 0) {
@@ -2932,7 +2932,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
             oldText = "";
         newText = KInputDialog::getText(i18n("Multiplicity"),
                                         i18n("Enter multiplicity:"),
-                                        oldText, NULL, m_scene->activeView(),&v);
+                                        oldText, NULL, m_scene->activeView(), &v);
         if (newText != oldText) {
             if (FloatingTextWidget::isTextValid(newText)) {
                 setMultiplicity(newText, r);
@@ -3205,7 +3205,7 @@ void AssociationWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
         return;
     }
 
-    // if we have no moving point,create one
+    // if we have no moving point, create one
     if (m_nMovingPoint == -1)
     {
         //create moving point near the mouse on the line
@@ -3340,8 +3340,8 @@ UMLScenePoint AssociationWidget::findIntercept(const UMLSceneRect &rect, const U
     default:
         break;
     }
-    // The Qt coordinate system has (0,0) in the top left corner.
-    // In order to go to the regular XY coordinate system with (0,0)
+    // The Qt coordinate system has (0, 0) in the top left corner.
+    // In order to go to the regular XY coordinate system with (0, 0)
     // in the bottom left corner, we swap the X and Y axis.
     // That's why the following assignments look twisted.
     const int rectHalfWidth = rect.height() / 2;
@@ -3368,7 +3368,7 @@ UMLScenePoint AssociationWidget::findIntercept(const UMLSceneRect &rect, const U
     default:
         break;
     }
-    // Now we have regular coordinates with the point (0,0) in the
+    // Now we have regular coordinates with the point (0, 0) in the
     // bottom left corner.
     if (region == North || region == South) {
         int yoff = rectHalfHeight;
@@ -3379,7 +3379,7 @@ UMLScenePoint AssociationWidget::findIntercept(const UMLSceneRect &rect, const U
         }
         if (dY == 0) {
             uError() << "usage error: " << "North/South (dY == 0)";
-            return UMLScenePoint(0,0);
+            return UMLScenePoint(0, 0);
         }
         const float m = (float)dY / (float)dX;
         const float b = (float)pY - m * pX;
@@ -3394,7 +3394,7 @@ UMLScenePoint AssociationWidget::findIntercept(const UMLSceneRect &rect, const U
             return UMLScenePoint(rectMidY, rectMidX + xoff);  // swap back X and Y
         if (dX == 0) {
             uError() << "usage error: " << "East/West (dX == 0)";
-            return UMLScenePoint(0,0);
+            return UMLScenePoint(0, 0);
         }
         const float m = (float)dY / (float)dX;
         const float b = (float)pY - m * pX;
@@ -3418,8 +3418,8 @@ int AssociationWidget::findInterceptOnEdge(const UMLSceneRect &rect,
         AssociationWidget::Region region,
         const UMLScenePoint &point)
 {
-    // The Qt coordinate system has (0,0) in the top left corner.
-    // In order to go to the regular XY coordinate system with (0,0)
+    // The Qt coordinate system has (0, 0) in the top left corner.
+    // In order to go to the regular XY coordinate system with (0, 0)
     // in the bottom left corner, we swap the X and Y axis.
     // That's why the following assignments look twisted.
     const int rectHalfWidth = rect.height() / 2;
@@ -3444,7 +3444,7 @@ int AssociationWidget::findInterceptOnEdge(const UMLSceneRect &rect,
     default:
         break;
     }
-    // Now we have regular coordinates with the point (0,0) in the
+    // Now we have regular coordinates with the point (0, 0) in the
     // bottom left corner.
     if (region == North || region == South) {
         if (dX == 0)

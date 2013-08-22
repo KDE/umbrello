@@ -400,7 +400,7 @@ UMLSceneSize ClassifierWidget::minimumSize()
         height += fontHeight;
         // ... width
         const QFontMetrics &bfm = UMLWidget::getFontMetrics(UMLWidget::FT_BOLD);
-        const int stereoWidth = bfm.size(0,m_umlObject->stereotype(true)).width();
+        const int stereoWidth = bfm.size(0, m_umlObject->stereotype(true)).width();
         if (stereoWidth > width)
             width = stereoWidth;
     }
@@ -414,7 +414,7 @@ UMLSceneSize ClassifierWidget::minimumSize()
     else
         displayedName = m_umlObject->name();
     const UMLWidget::FontType nft = (m_umlObject->isAbstract() ? FT_BOLD_ITALIC : FT_BOLD);
-    const int nameWidth = UMLWidget::getFontMetrics(nft).size(0,displayedName).width();
+    const int nameWidth = UMLWidget::getFontMetrics(nft).size(0, displayedName).width();
     if (nameWidth > width)
         width = nameWidth;
 
@@ -429,7 +429,7 @@ UMLSceneSize ClassifierWidget::minimumSize()
         foreach (UMLClassifierListItem *a, list) {
             if (visualProperty(ShowPublicOnly) && a->visibility() != Uml::Visibility::Public)
                 continue;
-            const int attWidth = fm.size(0,a->toString(m_attributeSignature)).width();
+            const int attWidth = fm.size(0, a->toString(m_attributeSignature)).width();
             if (attWidth > width)
                 width = attWidth;
         }
@@ -449,7 +449,7 @@ UMLSceneSize ClassifierWidget::minimumSize()
             const QString displayedOp = op->toString(m_operationSignature);
             UMLWidget::FontType oft;
             oft = (op->isAbstract() ? UMLWidget::FT_ITALIC : UMLWidget::FT_NORMAL);
-            const int w = UMLWidget::getFontMetrics(oft).size(0,displayedOp).width();
+            const int w = UMLWidget::getFontMetrics(oft).size(0, displayedOp).width();
             if (w > width)
                 width = w;
         }
@@ -479,7 +479,7 @@ UMLSceneSize ClassifierWidget::minimumSize()
 
 /**
  * Calculcates the size of the templates box in the top left
- * if it exists, returns QSize(0,0) if it doesn't.
+ * if it exists, returns QSize(0, 0) if it doesn't.
  *
  * @return  QSize of the templates flap.
  */
@@ -606,7 +606,7 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         int y = MARGIN;
         foreach (UMLTemplate *t, tlist) {
             QString text = t->toString();
-            painter->drawText(x, y, fm.size(0,text).width(), fontHeight, Qt::AlignVCenter, text);
+            painter->drawText(x, y, fm.size(0, text).width(), fontHeight, Qt::AlignVCenter, text);
             y += fontHeight;
         }
     }
@@ -729,7 +729,7 @@ QSize ClassifierWidget::calculateAsCircleSize()
     } else {
         displayedName = m_umlObject->name();
     }
-    const int nameWidth = fm.size(0,displayedName).width();
+    const int nameWidth = fm.size(0, displayedName).width();
     if (nameWidth > width)
         width = nameWidth;
     width += MARGIN * 2;
@@ -764,7 +764,7 @@ void ClassifierWidget::drawMembers(QPainter * painter, UMLObject::ObjectType ot,
         f.setUnderline(obj->isStatic());
         painter->setFont(f);
         QFontMetrics fontMetrics(f);
-        painter->drawText(x, y, fontMetrics.size(0,text).width(), fontHeight, Qt::AlignVCenter, text);
+        painter->drawText(x, y, fontMetrics.size(0, text).width(), fontHeight, Qt::AlignVCenter, text);
         f.setItalic(false);
         f.setUnderline(false);
         painter->setFont(f);

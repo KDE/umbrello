@@ -52,9 +52,9 @@ OverwriteDialogue::OverwriteDialogue(
     setButtonText(KDialog::Ok, i18n("&Overwrite"));
     setButtonText(KDialog::Apply, i18n("&Generate Similar File Name"));
     setButtonText(KDialog::Cancel, i18n("&Do Not Generate File"));
-    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
-    connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
-    connect(this,SIGNAL(cancelClicked()),this,SLOT(slotCancel()));
+    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
+    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
+    connect(this, SIGNAL(cancelClicked()), this, SLOT(slotCancel()));
 }
 
 /**

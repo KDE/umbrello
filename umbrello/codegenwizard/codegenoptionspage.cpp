@@ -254,13 +254,13 @@ bool CodeGenOptionsPage::save()
     if (info.exists()) {
         // directory exists... make sure we can write to it
         if (!info.isWritable()) {
-            KMessageBox::sorry(this,i18n("The output folder exists, but it is not writable.\nPlease set the appropriate permissions or choose another folder."),
+            KMessageBox::sorry(this, i18n("The output folder exists, but it is not writable.\nPlease set the appropriate permissions or choose another folder."),
                     i18n("Error Writing to Output Folder"));
             return false;
         }
         // it exits and we can write... make sure it is a directory
         if (!info.isDir()) {
-            KMessageBox::sorry(this,i18n("%1 does not seem to be a folder. Please choose a valid folder.", info.filePath()),
+            KMessageBox::sorry(this, i18n("%1 does not seem to be a folder. Please choose a valid folder.", info.filePath()),
                     i18n("Please Choose Valid Folder"));
             return false;
         }
@@ -272,14 +272,14 @@ bool CodeGenOptionsPage::save()
         {
             QDir dir;
             if (!dir.mkdir(info.filePath())) {
-                KMessageBox::sorry(this,i18n("The folder could not be created.\nPlease make sure you have write access to its parent folder or select another, valid, folder."),
+                KMessageBox::sorry(this, i18n("The folder could not be created.\nPlease make sure you have write access to its parent folder or select another, valid, folder."),
                             i18n("Error Creating Folder"));
                 return false;
             }
             // else, directory created
         }
         else {  // do not create output directory
-            KMessageBox::information(this,i18n("Please select a valid folder."),
+            KMessageBox::information(this, i18n("Please select a valid folder."),
                           i18n("Output Folder Does Not Exist"));
             return false;
         }

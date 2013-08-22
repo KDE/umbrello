@@ -218,7 +218,7 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
     Uml::SequenceMessage::Enum msgType = getMessageType();
 
     if (msgType ==  Uml::SequenceMessage::Found && xclick!=0 && yclick!=0) {
-        MessageWidget* message = new MessageWidget(m_pUMLScene, m_firstObject,xclick, yclick, msgType);
+        MessageWidget* message = new MessageWidget(m_pUMLScene, m_firstObject, xclick, yclick, msgType);
         setupMessageWidget(message);
         cleanMessage();
         xclick = 0;

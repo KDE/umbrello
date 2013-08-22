@@ -3019,14 +3019,14 @@ void PhpWriter::writeClass(UMLClassifier *c)
     QString str;
     str = getHeadingFile(".php");
     if (!str.isEmpty()) {
-        str.replace(QRegExp("%filename%"),fileName);
-        str.replace(QRegExp("%filepath%"),filephp.fileName());
+        str.replace(QRegExp("%filename%"), fileName);
+        str.replace(QRegExp("%filepath%"), filephp.fileName());
         php << str << m_endl;
     }
 
     //write includes
     UMLPackageList includes;
-    findObjectsRelated(c,includes);
+    findObjectsRelated(c, includes);
 
     foreach(UMLPackage* conc, includes) {
         QString headerName = findFileName(conc, ".php");
@@ -3101,7 +3101,7 @@ void PhpWriter::writeClass(UMLClassifier *c)
         writeAttributes(c, php);
 
     //operations
-    writeOperations(c,php);
+    writeOperations(c, php);
 
     if (isClass && hasDefaultValueAttr(c)) {
         UMLAttributeList atl = c->getAttributeList();
@@ -3110,7 +3110,7 @@ void PhpWriter::writeClass(UMLClassifier *c)
         php << m_indentation << "/**" << m_endl;
         QString temp = "initAttributes sets all " + classname + " attributes to its default value."
                        " Make sure to call this method within your class constructor";
-        php << formatDoc(temp,m_indentation + " * ");
+        php << formatDoc(temp, m_indentation + " * ");
         php << m_indentation << " */" << m_endl;
         php << m_indentation << "function "<<"initAttributes()" << m_endl;
         php << m_indentation << "{" << m_endl;
@@ -3146,7 +3146,7 @@ void PhpWriter::writeClass(UMLClassifier *c)
 void PhpWriter::writeOperations(UMLClassifier *c, QTextStream &php)
 {
     //Lists to store operations  sorted by scope
-    UMLOperationList oppub,opprot,oppriv;
+    UMLOperationList oppub, opprot, oppriv;
 
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList opl(c->getOpList());
@@ -3171,17 +3171,17 @@ void PhpWriter::writeOperations(UMLClassifier *c, QTextStream &php)
     //write operations to file
     if (forceSections() || !oppub.isEmpty()) {
         php << m_endl;
-        writeOperations(classname,oppub,php);
+        writeOperations(classname, oppub, php);
     }
 
     if (forceSections() || !opprot.isEmpty()) {
         php << m_endl;
-        writeOperations(classname,opprot,php);
+        writeOperations(classname, opprot, php);
     }
 
     if (forceSections() || !oppriv.isEmpty()) {
         php << m_endl;
-        writeOperations(classname,oppriv,php);
+        writeOperations(classname, oppriv, php);
     }
 }
 
@@ -3205,7 +3205,7 @@ void PhpWriter::writeOperations(const QString& classname,
 
         if (writeDoc)  //write method documentation
         {
-            php <<m_indentation << "/**" << m_endl <<formatDoc(op->doc(),m_indentation + " * ");
+            php <<m_indentation << "/**" << m_endl <<formatDoc(op->doc(), m_indentation + " * ");
             php << m_indentation << " *" << m_endl;
 
             foreach (UMLAttribute* at, atl)  //write parameter documentation
@@ -3294,15 +3294,15 @@ void PhpWriter::writeAttributes(UMLClassifier *c, QTextStream &php)
         php<< m_endl << m_indentation << " /*** Attributes: ***/" << m_endl <<m_endl;
 
     if (forceSections() || atpub.count()) {
-        writeAttributes(atpub,php);
+        writeAttributes(atpub, php);
     }
 
     if (forceSections() || atprot.count()) {
-        writeAttributes(atprot,php);
+        writeAttributes(atprot, php);
     }
 
     if (forceSections() || atpriv.count()) {
-        writeAttributes(atpriv,php);
+        writeAttributes(atpriv, php);
     }
 }
 

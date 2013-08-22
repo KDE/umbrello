@@ -54,7 +54,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
     int margin = fontMetrics().height();
 
-    setMinimumSize(310,330);
+    setMinimumSize(310, 330);
     QVBoxLayout * topLayout = new QVBoxLayout(this);
     topLayout->setSpacing(6);
 
@@ -279,7 +279,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
 
     int margin = fontMetrics().height();
 
-    setMinimumSize(310,330);
+    setMinimumSize(310, 330);
     QGridLayout * topLayout = new QGridLayout(this);
     topLayout->setSpacing(6);
 
@@ -311,13 +311,13 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     if (view->umlScene()->type() == Uml::DiagramType::Collaboration) {
         m_pMultiCB = new QCheckBox(i18n("Multiple instance"), this);
         m_pMultiCB->setChecked(m_pWidget->multipleInstance());
-        m_pNameLayout->addWidget(m_pMultiCB, 2,1);
+        m_pNameLayout->addWidget(m_pMultiCB, 2, 1);
         if (m_pDrawActorCB->isChecked())
             m_pMultiCB->setEnabled(false);
     } else {  // sequence diagram
         m_pDeconCB = new QCheckBox(i18n("Show destruction"), this);
         m_pDeconCB->setChecked(m_pWidget->showDestruction());
-        m_pNameLayout->addWidget(m_pDeconCB, 2,1);
+        m_pNameLayout->addWidget(m_pDeconCB, 2, 1);
     }
     // setup documentation
     m_docGB = new QGroupBox(this);
@@ -344,7 +344,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget)
 
     int margin = fontMetrics().height();
 
-    setMinimumSize(310,330);
+    setMinimumSize(310, 330);
     QGridLayout* topLayout = new QGridLayout(this);
     topLayout->setSpacing(6);
 

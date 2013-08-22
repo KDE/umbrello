@@ -37,7 +37,7 @@ UMLCheckConstraintDialog::UMLCheckConstraintDialog(QWidget* parent, UMLCheckCons
     m_doc = UMLApp::app()->document();
 
     setupDialog();
-    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
+    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
 }
 
 UMLCheckConstraintDialog::~UMLCheckConstraintDialog()

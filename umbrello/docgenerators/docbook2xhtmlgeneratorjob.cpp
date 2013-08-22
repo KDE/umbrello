@@ -39,7 +39,7 @@ extern int xmlLoadExtDtdDefaultValue;
  * @param parent     Parent object for QThread constructor
  */
 Docbook2XhtmlGeneratorJob::Docbook2XhtmlGeneratorJob(KUrl& docBookUrl, QObject* parent)
-    :QThread(parent),m_docbookUrl(docBookUrl)
+    :QThread(parent), m_docbookUrl(docBookUrl)
 {
 }
 
@@ -68,7 +68,7 @@ void Docbook2XhtmlGeneratorJob::run()
   if (!localXsl.isEmpty())
   {
     localXsl = QString("href=\"file://") + localXsl + "\"";
-    xslt.replace(QRegExp("href=\"http://[^\"]*\""),localXsl);
+    xslt.replace(QRegExp("href=\"http://[^\"]*\""), localXsl);
   }
   KTemporaryFile tmpXsl;
   tmpXsl.setAutoRemove(false);

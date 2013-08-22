@@ -129,8 +129,8 @@ void DWriter::writeClass(UMLClassifier *c)
     QString str;
     str = getHeadingFile(".d");
     if(!str.isEmpty()) {
-        str.replace(QRegExp("%filename%"),fileName);
-        str.replace(QRegExp("%filepath%"),file.fileName());
+        str.replace(QRegExp("%filename%"), fileName);
+        str.replace(QRegExp("%filepath%"), file.fileName());
         d<<str<<m_endl;
     }
 
@@ -791,7 +791,7 @@ bool DWriter::dMethodInList(UMLOperation *umlOp, UMLOperationList &opl)
     return false;
 }
 
-void DWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationList &yetImplementedOpList,UMLOperationList &toBeImplementedOpList, bool noClassInPath)
+void DWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationList &yetImplementedOpList, UMLOperationList &toBeImplementedOpList, bool noClassInPath)
 {
     UMLClassifierList superClasses = c->findSuperClassConcepts();
 
@@ -800,7 +800,7 @@ void DWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationList &
         UMLOperationList opl = concept->getOpList();
         foreach (UMLOperation* op, opl) {
             if (concept->isInterface() && noClassInPath) {
-                if (!DWriter::dMethodInList(op,toBeImplementedOpList))
+                if (!DWriter::dMethodInList(op, toBeImplementedOpList))
                     toBeImplementedOpList.append(op);
             }
             else
@@ -817,7 +817,7 @@ void DWriter::getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOperat
     UMLOperationList yetImplementedOpList;
     UMLOperationList toBeImplementedOpList;
 
-    getSuperImplementedOperations(c,yetImplementedOpList, toBeImplementedOpList);
+    getSuperImplementedOperations(c, yetImplementedOpList, toBeImplementedOpList);
     foreach (UMLOperation* op, toBeImplementedOpList) {
         if (! DWriter::dMethodInList(op, yetImplementedOpList) && ! DWriter::dMethodInList(op, opList))
             opList.append(op);
@@ -827,7 +827,7 @@ void DWriter::getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOperat
 void DWriter::writeOperations(UMLClassifier *c, QTextStream &d)
 {
     UMLOperationList opl;
-    UMLOperationList oppub,opprot,oppriv;
+    UMLOperationList oppub, opprot, oppriv;
 
     //sort operations by scope first and see if there are abstract methods
     opl = c->getOpList();
@@ -854,7 +854,7 @@ void DWriter::writeOperations(UMLClassifier *c, QTextStream &d)
     /*
       if(forceSections() || oppub.count())
       {
-      writeComment("public operations",m_indentation,d);
+      writeComment("public operations", m_indentation, d);
         writeBlankLine(d);
       }
     */
@@ -862,7 +862,7 @@ void DWriter::writeOperations(UMLClassifier *c, QTextStream &d)
     if (oppub.count() > 0) {
         writeProtectionMod(Uml::Visibility::Public, d);
 
-        writeOperations(oppub,d);
+        writeOperations(oppub, d);
     }
 
     if (opprot.count() > 0) {

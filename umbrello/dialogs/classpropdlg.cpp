@@ -54,8 +54,8 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, bool assoc)
 
     setupPages(assoc);
 
-    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
-    connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
+    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
+    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
 }
 
 /**
@@ -77,9 +77,9 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget *o)
     setupStylePage();
     setupFontPage();
 
-    setMinimumSize(340,420);
-    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
-    connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
+    setMinimumSize(340, 420);
+    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
+    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
 }
 
 /**
@@ -119,8 +119,8 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget *w)
     }
     setupStylePage();
     setupFontPage();
-    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
-    connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
+    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
+    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
 }
 
 void ClassPropDlg::init()

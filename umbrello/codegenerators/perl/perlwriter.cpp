@@ -284,7 +284,7 @@ bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
   }
 
   UMLPackageList includes;
-  findObjectsRelated(c,includes);
+  findObjectsRelated(c, includes);
 
   QString AV = QChar('@');
   QString SV = QChar('$');
@@ -410,12 +410,12 @@ void PerlWriter::writeClass(UMLClassifier *c)
 
   str = getHeadingFile(".pm");   // what this mean?
   if (!str.isEmpty()) {
-    str.replace(QRegExp("%filename%"),fileName);
-    str.replace(QRegExp("%filepath%"),fileperl.fileName());
-    str.replace(QRegExp("%year%"),QDate::currentDate().toString("yyyy"));
-    str.replace(QRegExp("%date%"),QDate::currentDate().toString());
-    str.replace(QRegExp("%time%"),QTime::currentTime().toString());
-    str.replace(QRegExp("%package-name%"),ThisPkgName);
+    str.replace(QRegExp("%filename%"), fileName);
+    str.replace(QRegExp("%filepath%"), fileperl.fileName());
+    str.replace(QRegExp("%year%"), QDate::currentDate().toString("yyyy"));
+    str.replace(QRegExp("%date%"), QDate::currentDate().toString());
+    str.replace(QRegExp("%time%"), QTime::currentTime().toString());
+    str.replace(QRegExp("%package-name%"), ThisPkgName);
     if(str.indexOf(QRegExp("%PACKAGE-DECLARE%"))){
       str.replace(QRegExp("%PACKAGE-DECLARE%"),
                   "package " + ThisPkgName + ';'
@@ -430,7 +430,7 @@ void PerlWriter::writeClass(UMLClassifier *c)
 
     if (str.indexOf(QRegExp("%USE-STATEMENTS%"))){
       QString UseStms;
-      if(GetUseStatements(c,UseStms,ThisPkgName)){
+      if(GetUseStatements(c, UseStms, ThisPkgName)){
         str.replace(QRegExp("%USE-STATEMENTS%"), UseStms);
         bUseStmsWritten = true;
       }
@@ -453,7 +453,7 @@ void PerlWriter::writeClass(UMLClassifier *c)
 
   if (! bUseStmsWritten){
     QString UseStms;
-    if (GetUseStatements(c,UseStms,ThisPkgName)){
+    if (GetUseStatements(c, UseStms, ThisPkgName)){
       perl<<UseStms<<m_endl;
     }
   }
@@ -481,7 +481,7 @@ void PerlWriter::writeClass(UMLClassifier *c)
     writeAttributes(c, perl);      // keep for documentation's sake
 
   //operations
-  writeOperations(c,perl);
+  writeOperations(c, perl);
 
   perl << m_endl;
 
@@ -515,7 +515,7 @@ Uml::ProgrammingLanguage::Enum PerlWriter::language() const
 void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl)
 {
     //Lists to store operations  sorted by scope
-    UMLOperationList oppub,opprot,oppriv;
+    UMLOperationList oppub, opprot, oppriv;
 
     //sort operations by scope first and see if there are abstract methods
     //keep this for documentation only!
@@ -541,21 +541,21 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl)
     //write operations to file
     if (forceSections() || !oppub.isEmpty()) {
         perl << m_endl << "=head1 PUBLIC METHODS" << m_endl << m_endl ;
-        writeOperations(classname,oppub,perl);
+        writeOperations(classname, oppub, perl);
         perl << m_endl << m_endl << "=cut" << m_endl << m_endl;
     }
 
     if (forceSections() || !opprot.isEmpty()) {
         perl << m_endl << "=head1 METHODS FOR SUBCLASSING" << m_endl << m_endl ;
         //perl << "=pod "  << m_endl << m_endl << "=head3 " ;
-        writeOperations(classname,opprot,perl);
+        writeOperations(classname, opprot, perl);
         perl << m_endl << m_endl << "=cut" << m_endl << m_endl;
     }
 
     if (forceSections() || !oppriv.isEmpty()) {
         perl << m_endl << "=head1 PRIVATE METHODS" << m_endl << m_endl ;
         //perl << "=pod "  << m_endl << m_endl << "=head3 " ;
-        writeOperations(classname,oppriv,perl);
+        writeOperations(classname, oppriv, perl);
         perl << m_endl << m_endl << "=cut" << m_endl << m_endl;
     }
 
@@ -681,15 +681,15 @@ void PerlWriter::writeAttributes(UMLClassifier *c, QTextStream &perl)
     }
 
     if (forceSections() || atpub.count()) {
-        writeAttributes(atpub,perl);
+        writeAttributes(atpub, perl);
     }
     /* not needed as writeAttributes only writes documentation
     if (forceSections() || atprot.count()) {
-    writeAttributes(atprot,perl);
+    writeAttributes(atprot, perl);
     }
 
     if (forceSections() || atpriv.count()) {
-    writeAttributes(atpriv,perl);
+    writeAttributes(atpriv, perl);
     }
     */
 }

@@ -195,7 +195,7 @@ private:
 //     * each class was written to.
 //     */
     // this seems silly and overkill now. -b.t.
-    // QMap<CodeDocument*,QString> *m_fileMap;
+    // QMap<CodeDocument*, QString> *m_fileMap;
 
     CodeDocumentList m_codedocumentVector;
     int m_lastIDIndex;

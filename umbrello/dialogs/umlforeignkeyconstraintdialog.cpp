@@ -363,7 +363,7 @@ void UMLForeignKeyConstraintDialog::setupColumnPage()
 
     slotResetWidgetState();
 
-    connect(m_ColumnWidgets.mappingTW, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(slotResetWidgetState()));
+    connect(m_ColumnWidgets.mappingTW, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(slotResetWidgetState()));
 }
 
 /**

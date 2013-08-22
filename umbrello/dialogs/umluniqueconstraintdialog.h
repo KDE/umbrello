@@ -55,7 +55,7 @@ private:
     KLineEdit* m_pNameLE;
     QListWidget* m_pAttributeListLW;
     KComboBox* m_pAttributeCB;
-    QPushButton* m_pAddPB,*m_pRemovePB;
+    QPushButton* m_pAddPB, *m_pRemovePB;
 
     /* local cache */
     UMLEntityAttributeList m_pEntityAttributeList;

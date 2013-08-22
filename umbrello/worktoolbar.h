@@ -75,7 +75,7 @@ public:
         tbb_Send_Signal,
         tbb_Accept_Signal,
         tbb_Accept_Time_Event,
-        tbb_Anchor,//keep anchor as last association until code uses better algorithm for testing
+        tbb_Anchor, //keep anchor as last association until code uses better algorithm for testing
         tbb_Note,
         tbb_Box,
         tbb_Text,

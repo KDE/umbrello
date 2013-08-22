@@ -36,7 +36,7 @@ public:
     QStringList defaultDatatypes();
 
     void printForeignKeyConstraints(QTextStream& sql, UMLClassifierListItemList constrList);
-    void printCheckConstraints(QTextStream& sql,UMLClassifierListItemList constrList);
+    void printCheckConstraints(QTextStream& sql, UMLClassifierListItemList constrList);
 
 protected:
 

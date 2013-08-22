@@ -138,7 +138,7 @@ CodeViewerDialog * CPPCodeGenerator::getCodeViewerDialog(QWidget* parent, CodeDo
     ClassifierCodeDocument * cdoc = dynamic_cast<ClassifierCodeDocument*>(doc);
     if (!cdoc)
         // bah..not a classcode document?? then just use vanilla version
-        return CodeGenerator::getCodeViewerDialog(parent,doc,state);
+        return CodeGenerator::getCodeViewerDialog(parent, doc, state);
     else {
         // build with passed (source) code document
         CodeViewerDialog *dialog;

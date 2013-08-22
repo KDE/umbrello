@@ -67,7 +67,7 @@ void AssocGenPage::constructWidget()
 {
     // general configuration of the GUI
     int margin = fontMetrics().height();
-    setMinimumSize(310,330);
+    setMinimumSize(310, 330);
     QVBoxLayout * topLayout = new QVBoxLayout(this);
     topLayout->setSpacing(6);
 

@@ -215,9 +215,9 @@ void UMLWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 
     /* Commands
         UMLDoc* doc = UMLApp::app()->document();
-        doc->executeCommand(new CmdMoveWidget(this,diffX,diffY));*/
+        doc->executeCommand(new CmdMoveWidget(this, diffX, diffY));*/
 
-    // moveWidget(diffX,diffY);
+    // moveWidget(diffX, diffY);
 
     // uDebug() << "before constrainMovementForAllWidgets:"
     //     << " diffX=" << diffX << ", diffY=" << diffY << endl;
@@ -239,9 +239,9 @@ void UMLWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
     foreach(UMLWidget* widget, m_selectedWidgetsList) {
 
         //UMLDoc* m_doc = UMLApp::app()->document();
-        //CmdMoveWidgetBy* cmd = new CmdMoveWidgetBy(widget,diffX,diffY);
+        //CmdMoveWidgetBy* cmd = new CmdMoveWidgetBy(widget, diffX, diffY);
         //m_doc->executeCommand(cmd);
-        //m_doc->executeCommand(new CmdMoveWidgetBy(widget,diffX,diffY));
+        //m_doc->executeCommand(new CmdMoveWidgetBy(widget, diffX, diffY));
         widget->getWidgetController()->moveWidgetBy(diffX, diffY);
     }
     // uDebug();
@@ -813,8 +813,8 @@ int UMLWidgetController::getBiggestY(const UMLWidgetList &widgetList)
 /**
  * Returns the adjusted position for the given mouse event.
  * The adjusted position is computed using the current widget position
- * m_widget->get{X,Y}(), the previous position m_old{X,Y}, and the
- * mouse press offset m_pressOffset{X,Y}.
+ * m_widget->get{X, Y}(), the previous position m_old{X, Y}, and the
+ * mouse press offset m_pressOffset{X, Y}.
  *
  * @param me The QGraphicsSceneMouseEvent for which to get the adjusted position.
  * @return A UMLScenePoint with the adjusted position.

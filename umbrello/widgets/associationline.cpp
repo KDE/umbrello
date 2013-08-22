@@ -60,7 +60,7 @@ void AssociationLine::SubsetSymbol::drawShape(QPainter& p)
     p.rotate(inclination);
     int width = 30, height = 20;
     int startAngle = 90, endAngle = 180;
-    p.drawArc(0,-height/2, width, height, startAngle*16, endAngle*16);
+    p.drawArc(0, -height/2, width, height, startAngle*16, endAngle*16);
     // revert back
     p.rotate(-inclination);
     p.translate(QPoint((int)-x(), (int)-y()));
@@ -120,7 +120,7 @@ bool AssociationLine::setPoint(int index, const QPointF &point)
     if(count == 0 || index > count  || index < 0)
         return false;
     if (point.x() == 0 && point.y() == 0) {
-        uError() << "ignoring request for (0,0)";
+        uError() << "ignoring request for (0, 0)";
         return false;
     }
 
@@ -405,7 +405,7 @@ bool AssociationLine::setEndPoints(const QPointF &start, const QPointF &end)
     int count = m_LineList.count();
     if(count == 0) {
         QGraphicsLineItem* line = new QGraphicsLineItem(this);
-        line->setLine(start.x(), start.y(),end.x(),end.y());
+        line->setLine(start.x(), start.y(), end.x(), end.y());
         line->setZValue(-2);
         line->setPen(pen());
         m_LineList.append(line);
@@ -413,7 +413,7 @@ bool AssociationLine::setEndPoints(const QPointF &start, const QPointF &end)
     }
     bool status = setPoint(0, start);
     if(status)
-        return setPoint(count,end);
+        return setPoint(count, end);
     return false;
 }
 

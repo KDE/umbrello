@@ -244,7 +244,7 @@ void PythonWriter::writeClass(UMLClassifier *c)
 
     //write includes and take namespaces into account
     UMLPackageList includes;
-    findObjectsRelated(c,includes);
+    findObjectsRelated(c, includes);
 
     foreach(UMLPackage* conc, includes) {
         QString headerName = findFileName(conc, ".py");
@@ -253,7 +253,7 @@ void PythonWriter::writeClass(UMLClassifier *c)
             first = headerName.at(0);
             first = first.toUpper();
             headerName = headerName.replace(0, 1, first);
-            str = headerName.replace(QChar('/'),QChar('.'));
+            str = headerName.replace(QChar('/'), QChar('.'));
             if (includesList.indexOf(str) < 0)  // not yet imported
                 h << "from " << str << " import *" << m_endl;
         }
@@ -284,7 +284,7 @@ void PythonWriter::writeClass(UMLClassifier *c)
     writeAttributes(c->getAttributeList(), h);
 
     //operations
-    writeOperations(c,h);
+    writeOperations(c, h);
 
     if (m_bNeedPass)
         h << m_indentation << "pass" << m_endl;
@@ -328,7 +328,7 @@ void PythonWriter::writeAttributes(UMLAttributeList atList, QTextStream &py)
 void PythonWriter::writeOperations(UMLClassifier *c, QTextStream &h)
 {
     //Lists to store operations  sorted by scope
-    UMLOperationList oppub,opprot,oppriv;
+    UMLOperationList oppub, opprot, oppriv;
 
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList opl(c->getOpList());

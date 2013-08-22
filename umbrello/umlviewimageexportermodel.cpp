@@ -565,7 +565,7 @@ bool UMLViewImageExporterModel::fixEPS(const QString &fileName, const UMLSceneRe
     const int bottom = int(floor(epstop)) - rect.height() + 1;
     
     // modify content
-    fileContent.replace(pos,rx.cap(0).length(),
+    fileContent.replace(pos, rx.cap(0).length(),
                         QString("%%BoundingBox: %1 %2 %3 %4").arg(left).arg(bottom).arg(right).arg(top));
     
     ts << fileContent;

@@ -157,7 +157,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * attr)
     setTabOrder(m_pInitialLE, m_pStereoTypeCB);
     setTabOrder(m_pStereoTypeCB, m_pIn);
     setTabOrder(m_pIn, m_doc);
-    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
+    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
     m_pNameLE->setFocus();
 }
 

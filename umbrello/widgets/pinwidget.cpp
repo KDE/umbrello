@@ -45,9 +45,9 @@ PinWidget::PinWidget(UMLScene* scene, UMLWidget* a, Uml::ID::Type id)
     m_ignoreSnapToGrid = true;
     m_ignoreSnapComponentSizeToGrid = true;
     m_resizable = false;
-    setMinimumSize(UMLSceneSize(10,10));
-    setMaximumSize(UMLSceneSize(10,10));
-    setSize(10,10);
+    setMinimumSize(UMLSceneSize(10, 10));
+    setMaximumSize(UMLSceneSize(10, 10));
+    setSize(10, 10);
     m_nY = y() < getMinY() ? getMinY() : y();
 
     m_pName = new FloatingTextWidget(scene, Uml::TextRole::Floating, "");

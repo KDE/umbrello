@@ -84,7 +84,7 @@ private slots:
 
 private:
     static Tracer* m_instance;
-    static QMap<QString,bool> *m_classes;
+    static QMap<QString, bool> *m_classes;
 
     explicit Tracer(QWidget *parent = 0);
 };
@@ -111,6 +111,6 @@ private:
  * This can be used in debug output.
  * TODO: convert it to a function.
  */
-#define ENUM_NAME(o,e,v) (o::staticMetaObject.enumerator(o::staticMetaObject.indexOfEnumerator(#e)).valueToKey((v)))
+#define ENUM_NAME(o, e, v) (o::staticMetaObject.enumerator(o::staticMetaObject.indexOfEnumerator(#e)).valueToKey((v)))
 
 #endif

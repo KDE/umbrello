@@ -181,7 +181,7 @@ void PreconditionWidget::calculateDimensions()
 
     m_nPosX = x;
 
-    setSize(w,h);
+    setSize(w, h);
 }
 
 /**

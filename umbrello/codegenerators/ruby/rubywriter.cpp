@@ -176,10 +176,10 @@ QString RubyWriter::cppToRubyName(const QString &nameStr)
  * @param c   the concept we are generating code for
  * @param h   output stream for the header file
  */
-void RubyWriter::writeOperations(UMLClassifier *c,QTextStream &h)
+void RubyWriter::writeOperations(UMLClassifier *c, QTextStream &h)
 {
     //Lists to store operations  sorted by scope
-    UMLOperationList oppub,opprot,oppriv;
+    UMLOperationList oppub, opprot, oppriv;
 
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList opl(c->getOpList());

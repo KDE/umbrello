@@ -72,7 +72,7 @@ ClassifierListPage::~ClassifierListPage()
 void ClassifierListPage::setupPage()
 {
     int margin = fontMetrics().height();
-    setMinimumSize(310,330);
+    setMinimumSize(310, 330);
 
     //main layout contains our two group boxes, the list and the documentation
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
@@ -89,7 +89,7 @@ void ClassifierListPage::setupPage()
     enableWidgets(false);//disable widgets until an att is chosen
     m_pOldListItem = 0;
 
-    connect(m_pItemListLB, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this, SLOT(slotActivateItem(QListWidgetItem*)));
+    connect(m_pItemListLB, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), this, SLOT(slotActivateItem(QListWidgetItem*)));
     connect(m_pItemListLB, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(slotDoubleClick(QListWidgetItem*)));
     connect(m_pItemListLB, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotRightButtonPressed(QPoint)));
 
@@ -205,7 +205,7 @@ void ClassifierListPage::setupActionButtons(const QString& itemType, QVBoxLayout
                           SLOT(slotNewListItem()));
     m_pDeleteListItemButton = buttonBox->addButton(i18n("&Delete"),
                               KDialogButtonBox::ActionRole, this, SLOT(slotDelete()));
-    m_pPropertiesButton = buttonBox->addButton(i18n("&Properties"), KDialogButtonBox::ActionRole, this,SLOT(slotProperties()));
+    m_pPropertiesButton = buttonBox->addButton(i18n("&Properties"), KDialogButtonBox::ActionRole, this, SLOT(slotProperties()));
     parentLayout->addWidget(buttonBox);
 }
 

@@ -86,7 +86,7 @@ void OwnedCodeBlock::setAttributesOnNode(QDomDocument& /*doc*/, QDomElement& ele
     // (change would break the XMI format..save for big version change)
     UMLRole * role = dynamic_cast<UMLRole*>(m_parentObject);
     if (role) {
-        elem.setAttribute("parent_id",Uml::ID::toString(role->parentAssociation()->id()));
+        elem.setAttribute("parent_id", Uml::ID::toString(role->parentAssociation()->id()));
         // CAUTION: role_id here is numerically inverted wrt Uml::Role_Type,
         //          i.e. role A is 1 and role B is 0.
         //          I'll resist the temptation to change this -
@@ -94,7 +94,7 @@ void OwnedCodeBlock::setAttributesOnNode(QDomDocument& /*doc*/, QDomElement& ele
         elem.setAttribute("role_id", (role->role() == Uml::RoleType::A));
     }
     else {
-        elem.setAttribute("parent_id",Uml::ID::toString(m_parentObject->id()));
+        elem.setAttribute("parent_id", Uml::ID::toString(m_parentObject->id()));
         //elem.setAttribute("role_id","-1");
     }
 }

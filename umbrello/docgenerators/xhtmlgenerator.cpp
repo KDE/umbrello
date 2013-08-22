@@ -142,7 +142,7 @@ void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
     QString cssFileName(KGlobal::dirs()->findResource("appdata","xmi.css"));
     KUrl cssUrl = m_destDir;
     cssUrl.addPath("xmi.css");
-    KIO::Job* cssJob = KIO::file_copy(cssFileName,cssUrl,-1, KIO::Overwrite | KIO::HideProgressInfo);
+    KIO::Job* cssJob = KIO::file_copy(cssFileName, cssUrl, -1, KIO::Overwrite | KIO::HideProgressInfo);
 
     if (KIO::NetAccess::synchronousRun(cssJob, (QWidget*)UMLApp::app())) {
         m_umlDoc->writeToStatusBar(i18n("Finished Copying CSS..."));

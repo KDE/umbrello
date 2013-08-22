@@ -231,7 +231,7 @@ void UMLDragData::setUMLDataClip4(UMLObjectList& objects, UMLWidgetList& widgets
     int l_size = img.numBytes();
     QByteArray clipdata;
     clipdata.resize(l_size);
-    QDataStream clipstream(&clipdata,QIODevice::WriteOnly);
+    QDataStream clipstream(&clipdata, QIODevice::WriteOnly);
     clipstream << img;
 
     setImageData(clipdata);
