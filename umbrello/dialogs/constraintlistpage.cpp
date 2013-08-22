@@ -145,7 +145,7 @@ void ConstraintListPage::slotNewCheckConstraint()
 //  */
 // int ConstraintListPage::calculateNewIndex(Uml::ObjectType ot)
 // {
-//     // we want to show all Unique Constraints first , followed by ForeignKey Constraints
+//     // we want to show all Unique Constraints first, followed by ForeignKey Constraints
 //     UMLClassifierListItemList ucList, fkcList,  ccList;
 //     ucList =  m_pClassifier->getFilteredList(UMLObject::ot_UniqueConstraint);
 //     fkcList = m_pClassifier->getFilteredList(UMLObject::ot_ForeignKeyConstraint);

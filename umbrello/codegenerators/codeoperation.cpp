@@ -19,7 +19,7 @@
 #include "umldoc.h"
 #include "umlobject.h"
 
-CodeOperation::CodeOperation (ClassifierCodeDocument * doc , UMLOperation * parentOp, const QString & body, const QString & comment)
+CodeOperation::CodeOperation (ClassifierCodeDocument * doc, UMLOperation * parentOp, const QString & body, const QString & comment)
         : CodeMethodBlock (doc, parentOp, body, comment)
 {
     init(parentOp);

@@ -61,8 +61,8 @@ protected:
     bool              m_bChangesMade;       ///< holds whether changes in the dialog have been made
 
     struct GeneralPageWidgets {
-        QLabel * nameL, * typeL , * stateL;
-        KLineEdit * nameLE, * typeLE , * stateLE;
+        QLabel * nameL, * typeL, * stateL;
+        KLineEdit * nameLE, * typeLE, * stateLE;
         KTextEdit * docMLE;
         QRadioButton * bufferRB, * dataRB, * flowRB;
         QGroupBox * docGB, * generalGB;

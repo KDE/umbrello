@@ -126,9 +126,9 @@ void SignalWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
         if(UMLWidget::useFillColor())
             painter->setBrush(UMLWidget::fillColor());
         {
-            a.setPoints(4, 0 , 0,
+            a.setPoints(4, 0, 0,
                             w,  h,
-                            0 , h,
+                            0, h,
                             w,  0);
 
             painter->drawPolygon(a);

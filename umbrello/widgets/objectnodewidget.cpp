@@ -107,10 +107,10 @@ void ObjectNodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
                 objectflow_value = '[' + state() + ']';
             }
 
-            painter->drawLine(10 , h/2, w-10, h/2);
+            painter->drawLine(10, h/2, w-10, h/2);
             painter->setPen(textColor());
             painter->setFont(UMLWidget::font());
-            painter->drawText(OBJECTNODE_MARGIN, textStartY/2 - OBJECTNODE_MARGIN , w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, name());
+            painter->drawText(OBJECTNODE_MARGIN, textStartY/2 - OBJECTNODE_MARGIN, w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, name());
             painter->drawText(OBJECTNODE_MARGIN, textStartY/2 + textStartY + OBJECTNODE_MARGIN, w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, objectflow_value);
         }
         break;

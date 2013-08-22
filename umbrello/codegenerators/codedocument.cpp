@@ -496,7 +496,7 @@ void CodeDocument::addChildTagToMap (const QString &tag, TextBlock * tb)
  * @param descendIntoChildren   look down the hierarchy
  * @return                      the found text block
  */
-TextBlock * CodeDocument::findTextBlockByTag(const QString &tag , bool descendIntoChildren)
+TextBlock * CodeDocument::findTextBlockByTag(const QString &tag, bool descendIntoChildren)
 {
     //if we already know to which file this class was written/should be written, just return it.
     if (m_textBlockTagMap.contains(tag))
@@ -522,6 +522,6 @@ TextBlock * CodeDocument::findCodeClassFieldTextBlockByTag (const QString &tag)
 QDebug operator<<(QDebug os, const CodeDocument& obj)
 {
     os.nospace() << "CodeDocument: id=" << obj.ID()
-       << " , file=" << obj.getFileName();  //:TODO: add all attributes
+       << ", file=" << obj.getFileName();  //:TODO: add all attributes
     return os.space();
 }

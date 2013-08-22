@@ -31,7 +31,7 @@ QString JavaCodeComment::getNewEditorLine (int amount)
 /** UnFormat a long text string. Typically, this means removing
  *  the indentaion (linePrefix) and/or newline chars from each line.
  */
-QString JavaCodeComment::unformatText (const QString & text , const QString & indent)
+QString JavaCodeComment::unformatText (const QString & text, const QString & indent)
 {
     // remove leading or trailing comment stuff
     QString mytext = TextBlock::unformatText(text, indent);

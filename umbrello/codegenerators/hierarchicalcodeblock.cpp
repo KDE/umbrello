@@ -24,7 +24,7 @@
 /**
  * Constructor
  */
-HierarchicalCodeBlock::HierarchicalCodeBlock(CodeDocument * doc , const QString &start, const QString &endString, const QString &comment)
+HierarchicalCodeBlock::HierarchicalCodeBlock(CodeDocument * doc, const QString &start, const QString &endString, const QString &comment)
   : CodeBlockWithComments (doc, start, comment),
     CodeGenObjectWithTextBlocks(doc)
 {

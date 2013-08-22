@@ -236,7 +236,7 @@ void UMLWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
         m_widget->adjustUnselectedAssocs(m_widget->x(), m_widget->y());
     }
 
-    foreach(UMLWidget* widget , m_selectedWidgetsList) {
+    foreach(UMLWidget* widget, m_selectedWidgetsList) {
 
         //UMLDoc* m_doc = UMLApp::app()->document();
         //CmdMoveWidgetBy* cmd = new CmdMoveWidgetBy(widget,diffX,diffY);
@@ -266,7 +266,7 @@ void UMLWidgetController::widgetMoved()
     //Ensure associations are updated (the timer could prevent the
     //adjustment in the last move event before the release)
 
-    foreach(UMLWidget* widget , m_selectedWidgetsList) {
+    foreach(UMLWidget* widget, m_selectedWidgetsList) {
 
         widget->adjustAssocs(widget->x(), widget->y());
     }
@@ -713,7 +713,7 @@ int UMLWidgetController::getSmallestX(const UMLWidgetList &widgetList)
 {
     int smallestX = 0;
     int i = 1;
-    foreach(UMLWidget* widget , widgetList) {
+    foreach(UMLWidget* widget, widgetList) {
         if (i == 1) {
             if (widget == NULL)
                 break;
@@ -739,7 +739,7 @@ int UMLWidgetController::getSmallestY(const UMLWidgetList &widgetList)
 {
     int smallestY = 0;
     int i = 1;
-    foreach(UMLWidget* widget , widgetList) {
+    foreach(UMLWidget* widget, widgetList) {
         if (i == 1) {
             if (widget == NULL)
                 break;
@@ -767,7 +767,7 @@ int UMLWidgetController::getBiggestX(const UMLWidgetList &widgetList)
     int biggestX = 0;
 
     int i = 1;
-    foreach(UMLWidget* widget , widgetList) {
+    foreach(UMLWidget* widget, widgetList) {
         if (i == 1) {
             if (widget == NULL)
                 break;
@@ -794,7 +794,7 @@ int UMLWidgetController::getBiggestY(const UMLWidgetList &widgetList)
 {
     int biggestY = 0;
     int i = 1;
-    foreach(UMLWidget* widget , widgetList) {
+    foreach(UMLWidget* widget, widgetList) {
         if (i == 1) {
             if (widget == NULL)
                 break;

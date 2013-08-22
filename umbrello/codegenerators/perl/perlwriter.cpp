@@ -313,7 +313,7 @@ bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
   if (superclasses.count()) {
     Ret += m_endl;
     Ret += "use base qw(";
-    foreach (UMLClassifier *obj , superclasses) {
+    foreach (UMLClassifier *obj, superclasses) {
       QString packageName =  obj->package(".");
       packageName.replace(QRegExp("\\."),"::");
 
@@ -520,7 +520,7 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl)
     //sort operations by scope first and see if there are abstract methods
     //keep this for documentation only!
     UMLOperationList opl(c->getOpList());
-    foreach (UMLOperation *op , opl) {
+    foreach (UMLOperation *op, opl) {
         switch(op->visibility()) {
           case Uml::Visibility::Public:
             oppub.append(op);
@@ -568,7 +568,7 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl)
         perl << "_init sets all " + classname + " attributes to their default values unless already set" << m_endl << m_endl << "=cut" << m_endl << m_endl;
         perl << "sub _init {" << m_endl << m_indentation << "my $self = shift;" << m_endl<<m_endl;
 
-        foreach (UMLAttribute *at , atl) {
+        foreach (UMLAttribute *at, atl) {
             if (!at->getInitialValue().isEmpty())
                 perl << m_indentation << "defined $self->{" << cleanName(at->name())<<"}"
                 << " or $self->{" << cleanName(at->name()) << "} = "
@@ -590,11 +590,11 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl)
 void PerlWriter::writeOperations(const QString &classname, UMLOperationList &opList, QTextStream &perl)
 {
     Q_UNUSED(classname);
-    foreach (UMLOperation* op , opList) {
+    foreach (UMLOperation* op, opList) {
         UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->doc().isEmpty();
-        foreach (UMLAttribute* at , atl)
+        foreach (UMLAttribute* at, atl)
             writeDoc |= !at->doc().isEmpty();
 
         if (writeDoc)  //write method documentation
@@ -604,7 +604,7 @@ void PerlWriter::writeOperations(const QString &classname, UMLOperationList &opL
 
             perl << "   Parameters :" << m_endl ;
           //write parameter documentation
-          foreach (UMLAttribute* at , atl) {
+          foreach (UMLAttribute* at, atl) {
             if (forceDoc() || !at->doc().isEmpty()) {
               perl << "      "
                    << cleanName(at->name()) << " : "
@@ -628,7 +628,7 @@ void PerlWriter::writeOperations(const QString &classname, UMLOperationList &opL
 
         bool bStartPrinted = false;
         //write parameters
-        foreach (UMLAttribute* at , atl) {
+        foreach (UMLAttribute* at, atl) {
           if (!bStartPrinted) {
               bStartPrinted = true;
               perl << "," << m_endl;
@@ -662,7 +662,7 @@ void PerlWriter::writeAttributes(UMLClassifier *c, QTextStream &perl)
     //sort attributes by scope and see if they have a default value
     UMLAttributeList atl = c->getAttributeList();
 
-    foreach (UMLAttribute* at , atl) {
+    foreach (UMLAttribute* at, atl) {
         if (!at->getInitialValue().isEmpty())
             atdefval.append(at);
         switch(at->visibility()) {
@@ -703,7 +703,7 @@ void PerlWriter::writeAttributes(UMLAttributeList &atList, QTextStream &perl)
 {
     perl << m_endl << "=head1 PUBLIC ATTRIBUTES" << m_endl << m_endl;
     perl << "=pod "  << m_endl << m_endl ;
-    foreach (UMLAttribute *at , atList) {
+    foreach (UMLAttribute *at, atList) {
         if (forceDoc() || !at->doc().isEmpty())
         {
             perl  << "=head3 " << cleanName(at->name()) << m_endl << m_endl ;

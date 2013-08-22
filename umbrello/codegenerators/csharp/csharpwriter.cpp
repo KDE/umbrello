@@ -198,7 +198,7 @@ void CSharpWriter::writeClass(UMLClassifier *c)
     //m_seenIncludes.append(logicalView);
     if (includes.count()) {
 
-        foreach (UMLPackage* p , includes) {
+        foreach (UMLPackage* p, includes) {
             UMLClassifier *cl = dynamic_cast<UMLClassifier*>(p);
             if (cl)
                 p = cl->umlPackage();
@@ -265,7 +265,7 @@ void CSharpWriter::writeClass(UMLClassifier *c)
         UMLAssociationList realizations = c->getRealizations();
 
         if (!realizations.isEmpty()) {
-            foreach (UMLAssociation* a , realizations) {
+            foreach (UMLAssociation* a, realizations) {
                 UMLClassifier *real = (UMLClassifier*)a->getObject(Uml::RoleType::B);
                 if(real != c) {
                     // write list of realizations

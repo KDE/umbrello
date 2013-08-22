@@ -400,7 +400,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
 
     if (forceSections() || !aggregations.isEmpty()) {
         ada << indent() << "-- Aggregations:" << m_endl;
-        foreach (UMLAssociation *a , aggregations) {
+        foreach (UMLAssociation *a, aggregations) {
             if (c != a->getObject(Uml::RoleType::A))
                 continue;
             QString typeName, roleName;
@@ -411,7 +411,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     }
     if (forceSections() || !compositions.isEmpty()) {
         ada << indent() << "-- Compositions:" << m_endl;
-        foreach (UMLAssociation *a , compositions) {
+        foreach (UMLAssociation *a, compositions) {
             if (c != a->getObject(Uml::RoleType::A))
                 continue;
             QString typeName, roleName;

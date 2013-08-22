@@ -136,7 +136,7 @@ bool isImmediateValue(QString s)
 /**
  * Extract immediate values out of `l'.
  * Examples of immediate value lists:
- *   number list:     (123 , 456)
+ *   number list:     (123, 456)
  *   string list:     ("SomeText" 888)
  * Any enclosing parentheses are removed.
  * All extracted items are also removed from `l'.

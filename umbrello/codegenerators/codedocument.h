@@ -60,7 +60,7 @@ public:
 
     bool insertTextBlock (TextBlock * newBlock, TextBlock * existingBlock, bool after = true);
 
-    TextBlock * findTextBlockByTag(const QString &tag , bool descendIntoChildren = false);
+    TextBlock * findTextBlockByTag(const QString &tag, bool descendIntoChildren = false);
 
     virtual QString toString ();
 

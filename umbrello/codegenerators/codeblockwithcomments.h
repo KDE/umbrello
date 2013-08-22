@@ -25,7 +25,7 @@ class CodeBlockWithComments : public CodeBlock
 {
 public:
 
-    explicit CodeBlockWithComments (CodeDocument * parent , const QString & body = "", const QString & comment = "");
+    explicit CodeBlockWithComments (CodeDocument * parent, const QString & body = "", const QString & comment = "");
 
     /**
      * Empty Destructor

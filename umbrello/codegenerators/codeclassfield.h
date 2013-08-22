@@ -33,12 +33,12 @@ public:
 
     enum ClassFieldType { Attribute, PlainAssociation, Self, Aggregation, Composition, Unknown_Assoc };
 
-    CodeClassField (ClassifierCodeDocument * parentDoc , UMLAttribute * attrib);
-    CodeClassField (ClassifierCodeDocument * parentDoc , UMLRole * role);
+    CodeClassField (ClassifierCodeDocument * parentDoc, UMLAttribute * attrib);
+    CodeClassField (ClassifierCodeDocument * parentDoc, UMLRole * role);
 
     void finishInitialization();
 
-    // CodeClassField (ClassifierCodeDocument * doc , UMLRole role);
+    // CodeClassField (ClassifierCodeDocument * doc, UMLRole role);
 
     virtual ~CodeClassField ();
 

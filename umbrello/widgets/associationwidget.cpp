@@ -1620,9 +1620,9 @@ void AssociationWidget::calculateEndingPoints()
         int w = pWidgetA->width();
         //see if above widget ok to start
         if(y - DISTANCE > 0) {
-            m_associationLine->setEndPoints(UMLScenePoint(x + w / 4, y) , UMLScenePoint(x + w * 3 / 4, y));
+            m_associationLine->setEndPoints(UMLScenePoint(x + w / 4, y), UMLScenePoint(x + w * 3 / 4, y));
             m_associationLine->insertPoint(1, UMLScenePoint(x + w / 4, y - DISTANCE));
-            m_associationLine->insertPoint(2 ,UMLScenePoint(x + w * 3 / 4, y - DISTANCE));
+            m_associationLine->insertPoint(2,UMLScenePoint(x + w * 3 / 4, y - DISTANCE));
             m_role[RoleType::A].m_WidgetRegion = m_role[RoleType::B].m_WidgetRegion = North;
         } else {
             m_associationLine->setEndPoints(UMLScenePoint(x + w / 4, y + h), UMLScenePoint(x + w * 3 / 4, y + h));
@@ -1644,9 +1644,9 @@ void AssociationWidget::calculateEndingPoints()
         int hb = pWidgetB->height();
         //int wb = pWidgetB->width();
 
-        m_associationLine->setEndPoints(UMLScenePoint(xa + wa , ya + ha/2) , UMLScenePoint(xb , yb + hb/2));
-        m_associationLine->insertPoint(1, UMLScenePoint(xa + wa , ya + ha/2));
-        m_associationLine->insertPoint(2 ,UMLScenePoint(xb , yb + hb/2));
+        m_associationLine->setEndPoints(UMLScenePoint(xa + wa, ya + ha/2), UMLScenePoint(xb, yb + hb/2));
+        m_associationLine->insertPoint(1, UMLScenePoint(xa + wa, ya + ha/2));
+        m_associationLine->insertPoint(2,UMLScenePoint(xb, yb + hb/2));
         updatePointsException();
         return;
     }
@@ -1985,9 +1985,9 @@ void AssociationWidget::updatePointsException()
     if (abs(p1.y() - p2.y()) <= 10)
         ESPACEY = 15;
 
-    m_associationLine->setEndPoints(UMLScenePoint(xdeb , ydeb) , UMLScenePoint(xfin , yfin));
+    m_associationLine->setEndPoints(UMLScenePoint(xdeb, ydeb), UMLScenePoint(xfin, yfin));
     m_associationLine->setPoint(1, UMLScenePoint(p1.x() + ESPACEX,p1.y() + ESPACEY));
-    m_associationLine->setPoint(2 ,UMLScenePoint(p2.x() - ESPACEX,p2.y() - ESPACEY));
+    m_associationLine->setPoint(2,UMLScenePoint(p2.x() - ESPACEX,p2.y() - ESPACEY));
 
     m_role[RoleType::A].m_WidgetRegion = m_role[RoleType::B].m_WidgetRegion = North;
 }
@@ -2229,7 +2229,7 @@ UMLScenePoint AssociationWidget::calculatePointAtDistanceOnPerpendicular(const U
       D, x2 and y2 are known and line P2P3 is perpendicular to line (x1,y1)(x2,y2), so if the
       line P1P2 has the formula y = m*x + b,
       then      (x1 - x2)
-          m =  -----------    , because it is perpendicular to line P1P2
+          m =  -----------, because it is perpendicular to line P1P2
                 (y2 - y1)
 
       also y2 = m*x2 + b
@@ -2313,7 +2313,7 @@ UMLScenePoint AssociationWidget::calculatePointAtDistanceOnPerpendicular(const U
         return sol2Point;
     } else if(sol_1 >= 0 && sol_2 < 0) {
         return sol1Point;
-    } else {    // Choose one solution , either will work fine
+    } else {    // Choose one solution, either will work fine
         if(slope >= 0) {
             if(sol_1 <= sol_2)
                 return sol2Point;
@@ -2583,8 +2583,8 @@ void AssociationWidget::constrainTextPos(UMLSceneValue &textX, UMLSceneValue &te
      on the circle:
 
      Circle equation:
-       relX^2 + relY^2 - r^2 = 0   , or in other words
-       relY^2 = r^2 - relX^2       , or
+       relX^2 + relY^2 - r^2 = 0, or in other words
+       relY^2 = r^2 - relX^2, or
        relY = sqrt(r^2 - relX^2)
      Line equation:
        relY = a * relX + b
@@ -2594,10 +2594,10 @@ void AssociationWidget::constrainTextPos(UMLSceneValue &textX, UMLSceneValue &te
      To obtain the point of intersection between the circle of radius r
      and the line connecting the circle origin with the point (relX, relY),
      we equate the relY:
-       a * x = sqrt(r^2 - x^2)     , or in other words
-       a^2 * x^2 = r^2 - x^2       , or
-       x^2 * (a^2 + 1) = r^2       , or
-       x^2 = r^2 / (a^2 + 1)       , or
+       a * x = sqrt(r^2 - x^2), or in other words
+       a^2 * x^2 = r^2 - x^2, or
+       x^2 * (a^2 + 1) = r^2, or
+       x^2 = r^2 / (a^2 + 1), or
        x = sqrt(r^2 / (a^2 + 1))
      and then
        y = a * x
@@ -3569,7 +3569,7 @@ void AssociationWidget::updateAssociations(int totalCount,
 
     // we now have an ordered list and we only have to call updateRegionLineCount
     int index = 1;
-    foreach (AssociationWidget* assocwidget , m_ordered) {
+    foreach (AssociationWidget* assocwidget, m_ordered) {
         if (ownWidget == assocwidget->widgetForRole(RoleType::A)) {
             assocwidget->updateRegionLineCount(index++, totalCount, region, RoleType::A);
         } else if (ownWidget == assocwidget->widgetForRole(RoleType::B)) {

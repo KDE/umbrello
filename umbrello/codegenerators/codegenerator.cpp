@@ -310,7 +310,7 @@ void CodeGenerator::initFromParentDocument()
     // Walk through the document converting classifiers into
     // classifier code documents as needed (e.g only if doesn't exist)
     UMLClassifierList concepts = m_document->classesAndInterfaces();
-    foreach (UMLClassifier *c , concepts) {
+    foreach (UMLClassifier *c, concepts) {
         // Doesn't exist? Then build one.
         CodeDocument * codeDoc = findCodeDocumentByClassifier(c);
         if (!codeDoc) {
@@ -684,7 +684,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
     UMLPackage *temp;
     UMLAssociationList associations = c->getAssociations();
 
-    foreach (UMLAssociation *a , associations) {
+    foreach (UMLAssociation *a, associations) {
         temp = 0;
         switch (a->getAssocType()) {
         case Uml::AssociationType::Generalization:
@@ -730,7 +730,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
 
     //operations
     UMLOperationList opl(c->getOpList());
-    foreach(UMLOperation *op , opl) {
+    foreach(UMLOperation *op, opl) {
         temp = 0;
         //check return value
         temp = (UMLClassifier*) op->getType();
@@ -739,7 +739,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
         }
         //check parameters
         UMLAttributeList atl = op->getParmList();
-        foreach(UMLAttribute *at , atl) {
+        foreach(UMLAttribute *at, atl) {
             temp = (UMLClassifier*)at->getType();
             if (temp && temp->baseType() != UMLObject::ot_Datatype && !cList.count(temp)) {
                 cList.append(temp);
@@ -750,7 +750,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
     //attributes
     if (!c->isInterface()) {
         UMLAttributeList atl = c->getAttributeList();
-        foreach (UMLAttribute *at , atl) {
+        foreach (UMLAttribute *at, atl) {
             temp=0;
             temp = (UMLClassifier*) at->getType();
             if (temp && temp->baseType() != UMLObject::ot_Datatype && !cList.count(temp)) {

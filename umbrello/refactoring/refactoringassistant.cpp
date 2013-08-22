@@ -148,7 +148,7 @@ void RefactoringAssistant::itemExecuted(QTreeWidgetItem *item, int column)
  * @param item   the tree item
  * @param obj    the UML object behind the tree item
  */
-void RefactoringAssistant::setVisibilityIcon(QTreeWidgetItem *item , const UMLObject *obj)
+void RefactoringAssistant::setVisibilityIcon(QTreeWidgetItem *item, const UMLObject *obj)
 {
     UMLObject::ObjectType t = obj->baseType();
     switch (obj->visibility()) {

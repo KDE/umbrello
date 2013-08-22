@@ -205,7 +205,7 @@ void DiagramPrintPage::slotClicked()
         m_pTypeCB->setEnabled(false);
         m_pSelectLW->setEnabled(false);
         m_pSelectLW->clear();
-        foreach (UMLView * view , list) {
+        foreach (UMLView * view, list) {
             m_pSelectLW->addItem(view->umlScene()->name());
             m_nIdList.append(view->umlScene()->ID());
         }
@@ -216,7 +216,7 @@ void DiagramPrintPage::slotClicked()
         m_pTypeCB->setEnabled(false);
         m_pSelectLW->setEnabled(true);
         m_pSelectLW->clear();
-        foreach (UMLView * view , list) {
+        foreach (UMLView * view, list) {
             m_pSelectLW->addItem(view->umlScene()->name());
             m_nIdList.append(view->umlScene()->ID());
         }
@@ -226,7 +226,7 @@ void DiagramPrintPage::slotClicked()
         m_pTypeCB->setEnabled(true);
         m_pSelectLW->setEnabled(true);
         m_pSelectLW->clear();
-        foreach (UMLView * view , list) {
+        foreach (UMLView * view, list) {
             if(view->umlScene()->type() == m_ViewType) {
                 m_pSelectLW->addItem(view->umlScene()->name());
                 m_nIdList.append(view->umlScene()->ID());
@@ -252,7 +252,7 @@ void DiagramPrintPage::slotActivated(int index)
     m_pSelectLW->clear();
 
     m_nIdList.clear();
-    foreach (UMLView * view , list) {
+    foreach (UMLView * view, list) {
         if (view->umlScene()->type() == m_ViewType) {
             m_pSelectLW->addItem(view->umlScene()->name());
             m_nIdList.append(view->umlScene()->ID());

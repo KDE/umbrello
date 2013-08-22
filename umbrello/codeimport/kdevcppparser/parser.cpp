@@ -2643,7 +2643,7 @@ bool Parser::parseWhileStatement(StatementAST::Node& node)
 
     if (!advance(Token_while, "while"))
         return false;
-    if (!advance('(' , "("))
+    if (!advance('(', "("))
         return false;
 
     ConditionAST::Node cond;
@@ -2684,7 +2684,7 @@ bool Parser::parseDoStatement(StatementAST::Node& node)
     }
 
     advance_nr(Token_while, "while");
-    advance_nr('(' , "(");
+    advance_nr('(', "(");
 
     AST::Node expr;
     if (!skipCommaExpression(expr)) {
@@ -2803,7 +2803,7 @@ bool Parser::parseIfStatement(StatementAST::Node& node)
     if (!advance(Token_if, "if"))
         return false;
 
-    if (!advance('(' , "("))
+    if (!advance('(', "("))
         return false;
 
     IfStatementAST::Node ast = CreateNode<IfStatementAST>();
@@ -2848,7 +2848,7 @@ bool Parser::parseSwitchStatement(StatementAST::Node& node)
     if (!advance(Token_switch, "switch"))
         return false;
 
-    if (!advance('(' , "("))
+    if (!advance('(', "("))
         return false;
 
     ConditionAST::Node cond;

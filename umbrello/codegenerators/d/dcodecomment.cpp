@@ -66,7 +66,7 @@ QString DCodeComment::getNewEditorLine (int amount)
 }
 
 // TODO: where is this used?
-QString DCodeComment::unformatText (const QString & text , const QString & indent)
+QString DCodeComment::unformatText (const QString & text, const QString & indent)
 {
     // remove leading or trailing comment stuff
     QString mytext = TextBlock::unformatText(text, indent);

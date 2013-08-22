@@ -42,7 +42,7 @@ private:
 
     void writeOperations(QString classname, UMLOperationList *opList, QTextStream &js);
 
-    void writeAssociation(QString& classname, UMLAssociationList& assoclist , QTextStream &js);
+    void writeAssociation(QString& classname, UMLAssociationList& assoclist, QTextStream &js);
 };
 
 #endif //JSWRITER

@@ -195,7 +195,7 @@ void UMLDoc::addView(UMLView *view)
  * @param enforceOneView   switch to determine if we have a current view or not.
  *                         most of the time, we DO want this, except when exiting the program.
  */
-void UMLDoc::removeView(UMLView *view , bool enforceCurrentView)
+void UMLDoc::removeView(UMLView *view, bool enforceCurrentView)
 {
     if (!view) {
         uError() << "UMLDoc::removeView(UMLView *view) called with view = 0";
@@ -780,7 +780,7 @@ UMLObject* UMLDoc::findObjectById(Uml::ID::Type id)
  */
 UMLStereotype * UMLDoc::findStereotypeById(Uml::ID::Type id)
 {
-    foreach (UMLStereotype *s , m_stereoList) {
+    foreach (UMLStereotype *s, m_stereoList) {
         if (s->id() == id)
             return s;
     }
@@ -1100,7 +1100,7 @@ UMLAssociation * UMLDoc::findAssociation(Uml::AssociationType::Enum assocType,
 {
     UMLAssociationList assocs = associations();
     UMLAssociation *ret = 0;
-    foreach (UMLAssociation* a , assocs) {
+    foreach (UMLAssociation* a, assocs) {
         if (a->getAssocType() != assocType) {
             continue;
         }
@@ -1584,7 +1584,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject)
                     // should not remove elements from m_objectList while it is
                     // being iterated over.
                     UMLAssociationList assocsToRemove;
-                    foreach (UMLObject *obj , rootObjects) {
+                    foreach (UMLObject *obj, rootObjects) {
                         if (obj->baseType() == UMLObject::ot_Association) {
                             UMLAssociation *assoc = static_cast<UMLAssociation*>(obj);
                             if (c->hasAssociation(assoc)) {
@@ -1743,7 +1743,7 @@ void UMLDoc::saveToXMI(QIODevice& file)
     // There is a bug causing duplication of the same stereotype in m_stereoList.
     // As a workaround, we use a string list to memorize which stereotype has been saved.
     QStringList stereoNames;
-    foreach (UMLStereotype *s , m_stereoList) {
+    foreach (UMLStereotype *s, m_stereoList) {
         QString stName = s->name();
         if (!stereoNames.contains(stName)) {
             s->saveToXMI(doc, ownedNS);
@@ -2527,7 +2527,7 @@ UMLClassifierList UMLDoc::datatypes()
 {
     UMLObjectList objects = m_datatypeRoot->containedObjects();
     UMLClassifierList datatypeList;
-    foreach (UMLObject *obj , objects) {
+    foreach (UMLObject *obj, objects) {
         if (obj->baseType() == UMLObject::ot_Datatype) {
             datatypeList.append(static_cast<UMLClassifier*>(obj));
         }

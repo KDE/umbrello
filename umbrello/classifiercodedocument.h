@@ -93,7 +93,7 @@ protected:
 
     TextBlock * findCodeClassFieldTextBlockByTag(const QString &tag);
 
-    void declareClassFields(CodeClassFieldList &list , CodeGenObjectWithTextBlocks *parent);
+    void declareClassFields(CodeClassFieldList &list, CodeGenObjectWithTextBlocks *parent);
 
     void syncClassFields();
     void syncNamesToParent();

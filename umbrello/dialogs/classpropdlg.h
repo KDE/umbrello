@@ -41,7 +41,7 @@ public:
 
     ~ClassPropDlg();
 
-    enum Page{page_gen = 0, page_att, page_op, page_entatt, page_constraint , page_template,
+    enum Page{page_gen = 0, page_att, page_op, page_entatt, page_constraint, page_template,
               page_assoc, page_options, page_color, page_font};
 
 protected slots:

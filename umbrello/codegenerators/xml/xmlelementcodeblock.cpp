@@ -108,7 +108,7 @@ void XMLElementCodeBlock::updateContent ()
     QString endText;
 
     UMLAttributeList * alist = getAttributeList();
-    foreach (UMLAttribute *at , *alist)
+    foreach (UMLAttribute *at, *alist)
     {
         if(at->getInitialValue().isEmpty())
             uWarning()<<" XMLElementCodeBlock : cant print out attribute that lacks an initial value";

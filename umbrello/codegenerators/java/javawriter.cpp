@@ -91,7 +91,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
 
     if (!m_isInterface) {
         UMLAttributeList atl = c->getAttributeList();
-        foreach (UMLAttribute *at ,  atl) {
+        foreach (UMLAttribute *at,  atl) {
             switch(at->visibility())
             {
               case Uml::Visibility::Public:
@@ -493,7 +493,7 @@ void JavaWriter::writeAssociationDecls(UMLAssociationList associations, Uml::ID:
     if (forceSections() || !associations.isEmpty())
     {
         bool printRoleA = false, printRoleB = false;
-        foreach (UMLAssociation *a , associations) {
+        foreach (UMLAssociation *a, associations) {
             // it may seem counter intuitive, but you want to insert the role of the
             // *other* class into *this* class.
             if (a->getObjectId(Uml::RoleType::A) == id)
@@ -568,7 +568,7 @@ void JavaWriter::writeAssociationMethods (UMLAssociationList associations, UMLCl
 {
     if (forceSections() || !associations.isEmpty()) {
 
-        foreach(UMLAssociation *a , associations) {
+        foreach(UMLAssociation *a, associations) {
 
             // insert the methods to access the role of the other
             // class in the code of this one
@@ -781,7 +781,7 @@ bool JavaWriter::compareJavaMethod(UMLOperation *op1, UMLOperation *op2)
  */
 bool JavaWriter::javaMethodInList(UMLOperation *umlOp, UMLOperationList &opl)
 {
-    foreach (UMLOperation *op , opl) {
+    foreach (UMLOperation *op, opl) {
         if (JavaWriter::compareJavaMethod(op, umlOp)) {
             return true;
         }
@@ -797,7 +797,7 @@ bool JavaWriter::javaMethodInList(UMLOperation *umlOp, UMLOperationList &opl)
  * @param toBeImplementedOpList   the list of to be implemented operations
  * @param noClassInPath           tells if there is a class between the base class and the current interface
  */
-void JavaWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationList &yetImplementedOpList ,UMLOperationList &toBeImplementedOpList, bool noClassInPath)
+void JavaWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationList &yetImplementedOpList,UMLOperationList &toBeImplementedOpList, bool noClassInPath)
 {
     UMLClassifierList superClasses = c->findSuperClassConcepts();
 
@@ -805,7 +805,7 @@ void JavaWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationLis
 
         getSuperImplementedOperations(concept, yetImplementedOpList, toBeImplementedOpList, (concept->isInterface() && noClassInPath));
         UMLOperationList opl = concept->getOpList();
-        foreach (UMLOperation *op , opl) {
+        foreach (UMLOperation *op, opl) {
             if (concept->isInterface() && noClassInPath) {
                 if (!JavaWriter::javaMethodInList(op,toBeImplementedOpList))
                     toBeImplementedOpList.append(op);
@@ -831,7 +831,7 @@ void JavaWriter::getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOpe
     UMLOperationList toBeImplementedOpList;
 
     getSuperImplementedOperations(c,yetImplementedOpList, toBeImplementedOpList);
-    foreach (UMLOperation *op , toBeImplementedOpList) {
+    foreach (UMLOperation *op, toBeImplementedOpList) {
         if (! JavaWriter::javaMethodInList(op, yetImplementedOpList) && ! JavaWriter::javaMethodInList(op, opList))
             opList.append(op);
     }
@@ -851,7 +851,7 @@ void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
     if (! c->isInterface()) {
         getInterfacesOperationsToBeImplemented(c, opl);
     }
-    foreach (UMLOperation *op , opl) {
+    foreach (UMLOperation *op, opl) {
         switch(op->visibility()) {
           case Uml::Visibility::Public:
             oppub.append(op);
@@ -909,7 +909,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java)
     QString str;
 
     // generate method decl for each operation given
-    foreach(UMLOperation* op ,  oplist){
+    foreach(UMLOperation* op,  oplist){
 
         QString doc = "";
         // write documentation
@@ -927,7 +927,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java)
         atl = op->getParmList();
         i= atl.count();
         j=0;
-        foreach (UMLAttribute* at , atl) {
+        foreach (UMLAttribute* at, atl) {
             QString typeName = fixTypeName(at->getTypeName());
             QString atName = cleanName(at->name());
             str += typeName + ' ' + atName +

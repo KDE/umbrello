@@ -200,7 +200,7 @@ bool UMLClipboard::fillSelectionLists(UMLListViewItemList& selectedItems)
     case clip4:
         break;
     case clip3:
-        foreach (UMLListViewItem* item , selectedItems) {
+        foreach (UMLListViewItem* item, selectedItems) {
             type = item->type();
             if (!Model_Utils::typeIsClassifierList(type)) {
                 m_ItemList.append(item);
@@ -216,7 +216,7 @@ bool UMLClipboard::fillSelectionLists(UMLListViewItemList& selectedItems)
         break;
     case clip2:
     case clip1:
-        foreach (UMLListViewItem* item , selectedItems) {
+        foreach (UMLListViewItem* item, selectedItems) {
             type = item->type();
             if (!Model_Utils::typeIsClassifierList(type)) {
 
@@ -230,7 +230,7 @@ bool UMLClipboard::fillSelectionLists(UMLListViewItemList& selectedItems)
         }
         break;
     case clip5:
-        foreach (UMLListViewItem* item , selectedItems) {
+        foreach (UMLListViewItem* item, selectedItems) {
             type = item->type();
             if(Model_Utils::typeIsClassifierList(type)) {
                 m_ItemList.append(item);

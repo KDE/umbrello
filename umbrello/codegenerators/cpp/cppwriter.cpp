@@ -654,7 +654,7 @@ void CppWriter::writeAssociationDecls(UMLAssociationList associations, Uml::Visi
     if(forceSections() || !associations.isEmpty())
     {
         bool printRoleA = false, printRoleB = false;
-        foreach (UMLAssociation *a , associations)
+        foreach (UMLAssociation *a, associations)
         {
             // it may seem counter intuitive, but you want to insert the role of the
             // *other* class into *this* class.
@@ -1232,7 +1232,7 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
  */
 void CppWriter::printAssociationIncludeDecl(UMLAssociationList list, Uml::ID::Type myId, QTextStream &stream)
 {
-    foreach (UMLAssociation *a , list) {
+    foreach (UMLAssociation *a, list) {
         UMLClassifier *current = NULL;
         bool isFirstClass = true;
 

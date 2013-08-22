@@ -29,8 +29,8 @@
 /**
  * Constructor.
  */
-CodeClassField::CodeClassField (ClassifierCodeDocument * doc , UMLRole * role)
-        : CodeParameter (doc , (UMLObject*) role)
+CodeClassField::CodeClassField (ClassifierCodeDocument * doc, UMLRole * role)
+        : CodeParameter (doc, (UMLObject*) role)
 {
     setParentUMLObject(role);
     initFields(true);
@@ -39,8 +39,8 @@ CodeClassField::CodeClassField (ClassifierCodeDocument * doc , UMLRole * role)
 /**
  * Constructor.
  */
-CodeClassField::CodeClassField (ClassifierCodeDocument * doc , UMLAttribute * attrib)
-        : CodeParameter (doc , (UMLObject*) attrib)
+CodeClassField::CodeClassField (ClassifierCodeDocument * doc, UMLAttribute * attrib)
+        : CodeParameter (doc, (UMLObject*) attrib)
 {
     setParentUMLObject(attrib);
     initFields(true);

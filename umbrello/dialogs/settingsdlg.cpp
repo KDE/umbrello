@@ -85,14 +85,14 @@ void SettingsDlg::setupUIPage()
     m_UiWidgets.textColorCB = new QCheckBox(i18n("Custom text color:"), m_UiWidgets.colorGB);
     colorLayout->addWidget(m_UiWidgets.textColorCB, 0, 0);
 
-    m_UiWidgets.textColorB = new KColorButton(m_pOptionState->uiState.textColor ,m_UiWidgets.colorGB);
+    m_UiWidgets.textColorB = new KColorButton(m_pOptionState->uiState.textColor,m_UiWidgets.colorGB);
     //m_UiWidgets.lineColorB->setObjectName(m_UiWidgets.colorGB);
     colorLayout->addWidget(m_UiWidgets.textColorB, 0, 1);
 
     m_UiWidgets.lineColorCB = new QCheckBox(i18n("Custom line color:"), m_UiWidgets.colorGB);
     colorLayout->addWidget(m_UiWidgets.lineColorCB, 1, 0);
 
-    m_UiWidgets.lineColorB = new KColorButton(m_pOptionState->uiState.lineColor ,m_UiWidgets.colorGB);
+    m_UiWidgets.lineColorB = new KColorButton(m_pOptionState->uiState.lineColor,m_UiWidgets.colorGB);
     //m_UiWidgets.lineColorB->setObjectName(m_UiWidgets.colorGB);
     colorLayout->addWidget(m_UiWidgets.lineColorB, 1, 1);
 
@@ -106,16 +106,16 @@ void SettingsDlg::setupUIPage()
     colorLayout->addWidget(m_UiWidgets.fillColorB, 2, 1);
 
     m_UiWidgets.gridColorCB = new QCheckBox(i18n("Custom grid color:"), m_UiWidgets.colorGB);
-    colorLayout->addWidget(m_UiWidgets.gridColorCB , 3, 0);
+    colorLayout->addWidget(m_UiWidgets.gridColorCB, 3, 0);
 
     m_UiWidgets.gridColorB = new KColorButton(m_pOptionState->uiState.gridDotColor,m_UiWidgets.colorGB);
-    colorLayout->addWidget(m_UiWidgets.gridColorB , 3, 1);
+    colorLayout->addWidget(m_UiWidgets.gridColorB, 3, 1);
 
     m_UiWidgets.bgColorCB = new QCheckBox(i18n("Custom background color:"), m_UiWidgets.colorGB);
-    colorLayout->addWidget(m_UiWidgets.bgColorCB , 4, 0);
+    colorLayout->addWidget(m_UiWidgets.bgColorCB, 4, 0);
 
     m_UiWidgets.bgColorB = new KColorButton(m_pOptionState->uiState.backgroundColor,m_UiWidgets.colorGB);
-    colorLayout->addWidget(m_UiWidgets.bgColorB , 4, 1);
+    colorLayout->addWidget(m_UiWidgets.bgColorB, 4, 1);
 
     m_UiWidgets.lineWidthCB = new QCheckBox(i18n("Custom line width:"), m_UiWidgets.colorGB);
     colorLayout->addWidget(m_UiWidgets.lineWidthCB, 5, 0);

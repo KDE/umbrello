@@ -490,7 +490,7 @@ void DWriter::writeAssociationDecls(UMLAssociationList associations, Uml::ID::Ty
     if (forceSections() || !associations.isEmpty())
     {
         bool printRoleA = false, printRoleB = false;
-        foreach (UMLAssociation *a , associations) {
+        foreach (UMLAssociation *a, associations) {
             // it may seem counter intuitive, but you want to insert the role of the
             // *other* class into *this* class.
             if (a->getObjectId(Uml::RoleType::A) == id)
@@ -561,7 +561,7 @@ void DWriter::writeAssociationRoleDecl(QString fieldClassName,
 void DWriter::writeAssociationMethods (UMLAssociationList associations, UMLClassifier *thisClass, QTextStream &d)
 {
     if (forceSections() || !associations.isEmpty()) {
-        foreach (UMLAssociation *a , associations) {
+        foreach (UMLAssociation *a, associations) {
             // insert the methods to access the role of the other
             // class in the code of this one
             if (a->getObjectId(Uml::RoleType::A) == thisClass->id()) {
@@ -791,7 +791,7 @@ bool DWriter::dMethodInList(UMLOperation *umlOp, UMLOperationList &opl)
     return false;
 }
 
-void DWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationList &yetImplementedOpList ,UMLOperationList &toBeImplementedOpList, bool noClassInPath)
+void DWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationList &yetImplementedOpList,UMLOperationList &toBeImplementedOpList, bool noClassInPath)
 {
     UMLClassifierList superClasses = c->findSuperClassConcepts();
 

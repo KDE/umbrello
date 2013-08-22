@@ -54,7 +54,7 @@ QString CPPCodeComment::getNewEditorLine (int amount)
     return line;
 }
 
-QString CPPCodeComment::unformatText (const QString & text , const QString & indent)
+QString CPPCodeComment::unformatText (const QString & text, const QString & indent)
 {
     // remove leading or trailing comment stuff
     QString mytext = TextBlock::unformatText(text, indent);

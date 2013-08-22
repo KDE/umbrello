@@ -138,7 +138,7 @@ void JavaImport::spawnImport(const QString& file)
 UMLObject* JavaImport::findObject(const QString& name, UMLPackage *parentPkg)
 {
     UMLDoc *umldoc = UMLApp::app()->document();
-    UMLObject * o = umldoc->findUMLObject(name, UMLObject::ot_UMLObject , parentPkg);
+    UMLObject * o = umldoc->findUMLObject(name, UMLObject::ot_UMLObject, parentPkg);
     return o;
 }
 

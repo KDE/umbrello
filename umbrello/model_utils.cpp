@@ -991,7 +991,7 @@ bool typeIsClassifierList(UMLListViewItem::ListViewType type)
 }
 
 /**
- * Return true if the listview type is a classifier (Class, Entity , Enum)
+ * Return true if the listview type is a classifier (Class, Entity, Enum)
  */
 bool typeIsClassifier(UMLListViewItem::ListViewType type)
 {

@@ -290,7 +290,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
     if (!object)
         return;
     WidgetBase::WidgetType type = object->baseType();
-    // uDebug() << "ListPopupMenu created with multi=" << multi << " , unique="
+    // uDebug() << "ListPopupMenu created with multi=" << multi << ", unique="
     //          << unique << " for WidgetType=" << WidgetBase::toString(type);
 
     if (multi) {

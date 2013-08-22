@@ -50,7 +50,7 @@ private:
 
     static bool javaMethodInList(UMLOperation *umlOp, UMLOperationList &opl);
 
-    void getSuperImplementedOperations(UMLClassifier *c, UMLOperationList &yetImplementedOpList ,UMLOperationList &toBeImplementedOpList, bool noClassInPath = true);
+    void getSuperImplementedOperations(UMLClassifier *c, UMLOperationList &yetImplementedOpList,UMLOperationList &toBeImplementedOpList, bool noClassInPath = true);
 
     void getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOperationList &opl);
 

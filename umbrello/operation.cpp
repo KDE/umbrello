@@ -182,7 +182,7 @@ UMLAttributeList UMLOperation::getParmList() const
 UMLAttribute* UMLOperation::findParm(const QString &name)
 {
     UMLAttribute * obj=0;
-    foreach (obj , m_List) {
+    foreach (obj, m_List) {
         if (obj->name() == name)
             return obj;
     }
@@ -216,7 +216,7 @@ QString UMLOperation::toString(Uml::SignatureType::Enum sig)
     if (last) {
         s.append("(");
         int i = 0;
-        foreach (UMLAttribute *param , m_List) {
+        foreach (UMLAttribute *param, m_List) {
             i++;
             s.append(param->toString(Uml::SignatureType::SigNoVis));
             if (i < last)
@@ -465,7 +465,7 @@ void UMLOperation::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     }
 
     //save each attribute here, type different
-    foreach(UMLAttribute* pAtt , m_List) {
+    foreach(UMLAttribute* pAtt, m_List) {
         QDomElement attElement = pAtt->UMLObject::save("UML:Parameter", qDoc);
         UMLClassifier *attrType = pAtt->getType();
         if (attrType) {

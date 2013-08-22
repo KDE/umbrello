@@ -238,7 +238,7 @@ bool UMLUniqueConstraint::hasEntityAttribute(UMLEntityAttribute* attr)
  * belong to the parent UMLEntity.
  *
  * @param attr The UMLEntityAttribute to add
- * @return false if it failed to add , else true
+ * @return false if it failed to add, else true
  */
 bool UMLUniqueConstraint::addEntityAttribute(UMLEntityAttribute* attr)
 {

@@ -71,7 +71,7 @@ public:
     void init();
 
     void addView(UMLView *view);
-    void removeView(UMLView *view , bool enforceOneView = true);
+    void removeView(UMLView *view, bool enforceOneView = true);
     void setMainViewID(Uml::ID::Type viewID);
     void changeCurrentView(Uml::ID::Type id);
     void activateAllViews();

@@ -190,7 +190,7 @@ UMLAttributeList XMLSchemaWriter::findAttributes(UMLClassifier *c)
 
     if (!c->isInterface()) {
         UMLAttributeList atl = c->getAttributeList();
-        foreach(UMLAttribute *at ,  atl) {
+        foreach(UMLAttribute *at,  atl) {
             switch(at->visibility())
             {
               case Uml::Visibility::Public:
@@ -239,12 +239,12 @@ void XMLSchemaWriter::writeAbstractClassifier (UMLClassifier *c, QTextStream &XM
         writeAttributeGroupDecl(elementName, attribs, XMLschema);
 
         // now write out inheriting classes, as needed
-        foreach (UMLClassifier * classifier , subclasses)
+        foreach (UMLClassifier * classifier, subclasses)
             writeClassifier(classifier, XMLschema);
     }
 
     // write out any superclasses as needed
-    foreach (UMLClassifier *classifier , superclasses)
+    foreach (UMLClassifier *classifier, superclasses)
         writeClassifier(classifier, XMLschema);
 }
 
@@ -266,7 +266,7 @@ void XMLSchemaWriter::writeGroupClassifierDecl (UMLClassifier *c,
     XMLschema<<indent()<<"<"<<makeSchemaTag("choice")<<">"<<m_endl;
     m_indentLevel++;
 
-    foreach(UMLClassifier *classifier , subclasses) {
+    foreach(UMLClassifier *classifier, subclasses) {
         writeAssociationRoleDecl(classifier, "1", XMLschema);
     }
 
@@ -398,11 +398,11 @@ void XMLSchemaWriter::writeConcreteClassifier (UMLClassifier *c, QTextStream &XM
     writeChildObjsInAssociation(c, compositions, XMLschema);
 
     // write out any superclasses as needed
-    foreach(UMLClassifier *classifier , superclasses)
+    foreach(UMLClassifier *classifier, superclasses)
         writeClassifier(classifier, XMLschema);
 
     // write out any subclasses as needed
-    foreach(UMLClassifier *classifier , subclasses)
+    foreach(UMLClassifier *classifier, subclasses)
         writeClassifier(classifier, XMLschema);
 }
 
@@ -417,7 +417,7 @@ QStringList XMLSchemaWriter::findAttributeGroups (UMLClassifier *c)
     // have attributes, then we need to notice
     QStringList list;
     UMLClassifierList superclasses = c->findSuperClassConcepts(); // list of what inherits from us
-    foreach (UMLClassifier *classifier , superclasses)
+    foreach (UMLClassifier *classifier, superclasses)
     {
         if(classifier->isAbstract())
         {
@@ -486,7 +486,7 @@ void XMLSchemaWriter::markAsWritten(UMLClassifier *c)
  */
 void XMLSchemaWriter::writeAttributeDecls(UMLAttributeList &attribs, QTextStream &XMLschema)
 {
-    foreach (UMLAttribute* at , attribs) {
+    foreach (UMLAttribute* at, attribs) {
         writeAttributeDecl(at,XMLschema);
     }
 }
@@ -538,7 +538,7 @@ void XMLSchemaWriter::writeAttributeGroupDecl (const QString &elementName, UMLAt
 
         m_indentLevel++;
 
-        foreach(UMLAttribute *at , attribs)
+        foreach(UMLAttribute *at, attribs)
         {
             writeAttributeDecl(at,XMLschema);
         }
@@ -592,7 +592,7 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
     {
         bool printRoleA = false, printRoleB = false;
 
-        foreach (UMLAssociation *a , associations)
+        foreach (UMLAssociation *a, associations)
         {
             // it may seem counter intuitive, but you want to insert the role of the
             // *other* class into *this* class.
@@ -659,7 +659,7 @@ UMLObjectList XMLSchemaWriter::findChildObjsInAssociations (UMLClassifier *c, UM
 {
     Uml::ID::Type id = c->id();
     UMLObjectList list;
-    foreach (UMLAssociation *a , associations)
+    foreach (UMLAssociation *a, associations)
     {
         if (a->getObjectId(Uml::RoleType::A) == id
                 && a->visibility(Uml::RoleType::B) != Uml::Visibility::Private

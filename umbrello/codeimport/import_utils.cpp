@@ -473,7 +473,7 @@ void insertMethod(UMLClassifier *klass, UMLOperation* &op,
             exist->setDoc(strippedComment);
         UMLAttributeList exParams = exist->getParmList();
         for (UMLAttributeListIt it(params), exIt(exParams) ; it.hasNext() ;) {
-            UMLAttribute *param = it.next() , *exParam = exIt.next();
+            UMLAttribute *param = it.next(), *exParam = exIt.next();
             exParam->setName(param->name());
             exParam->setVisibility(param->visibility());
             exParam->setStatic(param->isStatic());

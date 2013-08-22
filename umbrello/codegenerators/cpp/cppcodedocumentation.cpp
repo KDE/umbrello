@@ -105,7 +105,7 @@ int CPPCodeDocumentation::lastEditableLine()
 /** UnFormat a long text string. Typically, this means removing
  *  the indentaion (linePrefix) and/or newline chars from each line.
  */
-QString CPPCodeDocumentation::unformatText(const QString & text , const QString & indent)
+QString CPPCodeDocumentation::unformatText(const QString & text, const QString & indent)
 {
     QString mytext = TextBlock::unformatText(text, indent);
     CodeGenerationPolicy * p = UMLApp::app()->commonPolicy();

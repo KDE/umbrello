@@ -187,10 +187,10 @@ void CodeGenOptionsPage::updateCodeGenerationPolicyTab()
     CodeGenPolicyExt *policyExt = CodeGenFactory::newCodeGenPolicyExt(pl);
 
     if (policyExt) {
-        m_pCodePolicyPage = policyExt->createPage(0 , "codelangpolicypage");
+        m_pCodePolicyPage = policyExt->createPage(0, "codelangpolicypage");
     }
     else {
-        m_pCodePolicyPage = new DefaultCodeGenPolicyPage(0 , "codelangpolicypage");
+        m_pCodePolicyPage = new DefaultCodeGenPolicyPage(0, "codelangpolicypage");
     }
 
     ui_tabWidgetMain->insertTab(2, m_pCodePolicyPage, i18n("Language Options"));

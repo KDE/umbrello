@@ -304,7 +304,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     m_pNameLayout->addWidget(m_pInstanceLE, 1, 1);
     UMLView *view = UMLApp::app()->currentView();
 
-    m_pDrawActorCB = new QCheckBox(i18n("Draw as actor") , this);
+    m_pDrawActorCB = new QCheckBox(i18n("Draw as actor"), this);
     m_pDrawActorCB->setChecked(m_pWidget->drawAsActor());
     m_pNameLayout->addWidget(m_pDrawActorCB, 2, 0);
 

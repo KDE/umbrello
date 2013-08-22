@@ -426,7 +426,7 @@ void CodeGenerationPolicy::emitModifiedCodeContentSig()
 /**
  * set the defaults from a config file
  */
-void CodeGenerationPolicy::setDefaults (CodeGenerationPolicy * clone , bool emitUpdateSignal)
+void CodeGenerationPolicy::setDefaults (CodeGenerationPolicy * clone, bool emitUpdateSignal)
 {
     if (!clone)
         return;

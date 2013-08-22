@@ -44,7 +44,7 @@ private:
     bool bPrivateSectionCommentIsWritten;
 
     void writeOperations(QString classname, UMLOperationList *opList, QTextStream &as);
-    void writeAssociation(QString& classname, UMLAssociationList& assoclist , QTextStream &as);
+    void writeAssociation(QString& classname, UMLAssociationList& assoclist, QTextStream &as);
 
 };
 

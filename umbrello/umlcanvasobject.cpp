@@ -360,7 +360,7 @@ UMLClassifierList UMLCanvasObject::getSuperClasses()
 {
     UMLClassifierList list;
     UMLAssociationList assocs = getAssociations();
-    foreach (UMLAssociation* a , assocs) {
+    foreach (UMLAssociation* a, assocs) {
         uIgnoreZeroPointer(a);
         if ((a->getAssocType() != Uml::AssociationType::Generalization &&
              a->getAssocType() != Uml::AssociationType::Realization) ||
@@ -387,7 +387,7 @@ UMLClassifierList UMLCanvasObject::getSubClasses()
 {
     UMLClassifierList list;
     UMLAssociationList assocs = getAssociations();
-    foreach (UMLAssociation* a , assocs) {
+    foreach (UMLAssociation* a, assocs) {
         uIgnoreZeroPointer(a);
         if ((a->getAssocType() != Uml::AssociationType::Generalization &&
              a->getAssocType() != Uml::AssociationType::Realization) ||

@@ -28,7 +28,7 @@ public:
     /**
      * Constructors
      */
-    CodeOperation (ClassifierCodeDocument * doc , UMLOperation * parent,
+    CodeOperation (ClassifierCodeDocument * doc, UMLOperation * parent,
                     const QString & body = "", const QString & comment = "");
 
     /**

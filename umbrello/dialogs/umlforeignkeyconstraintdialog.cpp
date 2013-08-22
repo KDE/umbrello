@@ -163,7 +163,7 @@ bool UMLForeignKeyConstraintDialog::apply()
 {
     // set the Referenced Entity
     QString entityName = m_GeneralWidgets.referencedEntityCB->currentText();
-    UMLObject* uo = m_doc->findUMLObject(entityName , UMLObject::ot_Entity);
+    UMLObject* uo = m_doc->findUMLObject(entityName, UMLObject::ot_Entity);
 
     UMLEntity* ue = static_cast<UMLEntity*>(uo);
 
@@ -236,13 +236,13 @@ void UMLForeignKeyConstraintDialog::setupGeneralPage()
     actionLayout->addWidget(m_GeneralWidgets.onUpdateL, 0, 0);
 
     m_GeneralWidgets.updateActionCB = new KComboBox(page);
-    actionLayout->addWidget(m_GeneralWidgets.updateActionCB , 0, 1);
+    actionLayout->addWidget(m_GeneralWidgets.updateActionCB, 0, 1);
 
     m_GeneralWidgets.onDeleteL = new QLabel(i18n("On Delete"), page);
     actionLayout->addWidget(m_GeneralWidgets.onDeleteL, 1, 0);
 
     m_GeneralWidgets.deleteActionCB = new KComboBox(page);
-    actionLayout->addWidget(m_GeneralWidgets.deleteActionCB , 1, 1);
+    actionLayout->addWidget(m_GeneralWidgets.deleteActionCB, 1, 1);
 
     // set the name
     m_GeneralWidgets.nameT->setText(m_pForeignKeyConstraint->name());
@@ -321,7 +321,7 @@ void UMLForeignKeyConstraintDialog::setupColumnPage()
     m_ColumnWidgets.removePB = buttonBox->addButton(i18n("&Delete"), KDialogButtonBox::ActionRole, this,
                                SLOT(slotDeletePair()));
 
-    columnsLayout->addWidget(buttonBox , 2, 1);
+    columnsLayout->addWidget(buttonBox, 2, 1);
 
     // fill the column boxes and their local cache.
     refillLocalAttributeCB();
@@ -454,7 +454,7 @@ void UMLForeignKeyConstraintDialog::slotResetWidgetState()
     m_ColumnWidgets.localColumnCB->setEnabled(true);
     m_ColumnWidgets.referencedColumnCB->setEnabled(true);
 
-    // If one of the Combo Boxes is empty , then disable the Combo Box
+    // If one of the Combo Boxes is empty, then disable the Combo Box
     if (m_ColumnWidgets.localColumnCB->count() == 0 || m_ColumnWidgets.referencedColumnCB->count() == 0) {
         m_ColumnWidgets.localColumnCB->setEnabled(false);
         m_ColumnWidgets.referencedColumnCB->setEnabled(false);

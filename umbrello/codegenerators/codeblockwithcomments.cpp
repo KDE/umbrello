@@ -20,7 +20,7 @@
 /**
  * Basic Constructor
  */
-CodeBlockWithComments::CodeBlockWithComments (CodeDocument * parent , const QString & body, const QString & comment)
+CodeBlockWithComments::CodeBlockWithComments (CodeDocument * parent, const QString & body, const QString & comment)
         : CodeBlock (parent, body)
 {
     CodeComment * codecomment = CodeGenFactory::newCodeComment(parent);

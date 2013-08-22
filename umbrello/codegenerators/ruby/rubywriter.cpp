@@ -98,7 +98,7 @@ void RubyWriter::writeClass(UMLClassifier *c)
     h<< "class " << cppToRubyType(className_) << (superclasses.count() > 0 ? " < ":"");
 
     int i = 0;
-    foreach (concept , superclasses) {
+    foreach (concept, superclasses) {
         if (i == 0) {
             h << cppToRubyType(concept->name()) << m_endl;
         } else {
@@ -183,7 +183,7 @@ void RubyWriter::writeOperations(UMLClassifier *c,QTextStream &h)
 
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList opl(c->getOpList());
-    foreach (UMLOperation *op , opl) {
+    foreach (UMLOperation *op, opl) {
         switch(op->visibility()) {
         case Uml::Visibility::Public:
             oppub.append(op);
@@ -379,7 +379,7 @@ void RubyWriter::writeAttributeMethods(UMLAttributeList attribs,
         return;
 
     UMLAttribute *at;
-    foreach (at ,  attribs)
+    foreach (at,  attribs)
     {
         QString varName = cppToRubyName(cleanName(at->name()));
 

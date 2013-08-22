@@ -275,7 +275,7 @@ void SQLWriter::writeClass(UMLClassifier *c)
         QMap<UMLAssociation*,UMLAssociation*> constraintMap; // so we don't repeat constraint
     UMLAssociationList relationships = m_pEntity->getRelationships();
     if(forceSections() || !relationships.isEmpty()) {
-        foreach (UMLAssociation* a , relationships) {
+        foreach (UMLAssociation* a, relationships) {
             UMLObject *objA = a->getObject(Uml::RoleType::A);
             UMLObject *objB = a->getObject(Uml::RoleType::B);
             if (objA->id() == m_pEntity->id() && objB->id() != m_pEntity->id())
@@ -368,7 +368,7 @@ void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList e
     bool first = true;
 
     foreach (UMLEntityAttribute* at, entityAttributeList) {
-       // print , after attribute
+       // print, after attribute
          if (first) {
              first = false;
          } else {
@@ -540,7 +540,7 @@ void SQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierListIt
  * @param ent The Entity's attributes on which we want to create an Index
  * @param entAttList The list of entityattributes to create an index upon
  */
-void SQLWriter::printIndex(QTextStream& sql, UMLEntity* ent , UMLEntityAttributeList entAttList)
+void SQLWriter::printIndex(QTextStream& sql, UMLEntity* ent, UMLEntityAttributeList entAttList)
 {
     sql<<m_endl;
     sql<<"CREATE INDEX ";

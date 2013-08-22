@@ -189,7 +189,7 @@ QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, 
     QStringList errors;
 
     UMLViewList views = app->document()->viewIterator();
-    foreach (UMLView *view , views) {
+    foreach (UMLView *view, views) {
         KUrl url = directory;
         url.addPath(getDiagramFileName(view->umlScene(), imageType, useFolders));
 
@@ -514,10 +514,10 @@ bool UMLViewImageExporterModel::exportViewToPixmap(UMLScene* scene, const QStrin
     scene->getDiagram(diagram, rect);
     bool exportSuccessful = diagram.save(fileName, qPrintable(imageType.toUpper()));
     DEBUG(DBG_IEM) << "saving to file " << fileName
-                   << " , imageType=" << imageType
-                   << " , width=" << rect.width()
-                   << " , height=" << rect.height()
-                   << " , successful=" << exportSuccessful;
+                   << ", imageType=" << imageType
+                   << ", width=" << rect.width()
+                   << ", height=" << rect.height()
+                   << ", successful=" << exportSuccessful;
     return exportSuccessful;
 }
 

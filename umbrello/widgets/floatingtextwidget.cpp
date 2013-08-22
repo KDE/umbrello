@@ -229,7 +229,7 @@ void FloatingTextWidget::showOperationDialog()
                 UMLClassifierList selfAndAncestors = c->findSuperClassConcepts();
                 selfAndAncestors.prepend(c);
                 UMLOperation *op = 0;
-                foreach (UMLClassifier *cl , selfAndAncestors) {
+                foreach (UMLClassifier *cl, selfAndAncestors) {
                     op = cl->findOperation(od.m_name, od.m_args);
                     if (op) {
                         break;

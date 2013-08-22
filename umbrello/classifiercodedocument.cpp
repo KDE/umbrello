@@ -357,7 +357,7 @@ void ClassifierCodeDocument::addCodeClassFieldMethods(CodeClassFieldList &list)
 /**
  * Add declaration blocks for the passed classfields.
  */
-void ClassifierCodeDocument::declareClassFields (CodeClassFieldList & list ,
+void ClassifierCodeDocument::declareClassFields (CodeClassFieldList & list,
         CodeGenObjectWithTextBlocks * parent)
 {
     CodeClassFieldList::Iterator it = list.begin();
@@ -486,7 +486,7 @@ void ClassifierCodeDocument::syncClassFields()
 void ClassifierCodeDocument::updateOperations()
 {
     UMLOperationList opList(getParentClassifier()->getOpList());
-    foreach (UMLOperation *op , opList) {
+    foreach (UMLOperation *op, opList) {
         QString tag = CodeOperation::findTag(op);
         CodeOperation * codeOp = dynamic_cast<CodeOperation*>(findTextBlockByTag(tag, true));
         bool createdNew = false;
@@ -525,7 +525,7 @@ void ClassifierCodeDocument::initCodeClassFields()
     // first, do the code classifields that arise from attributes
     if (parentIsClass()) {
         UMLAttributeList alist = c->getAttributeList();
-        foreach(UMLAttribute * at , alist) {
+        foreach(UMLAttribute * at, alist) {
             CodeClassField * field = CodeGenFactory::newCodeClassField(this, at);
             addCodeClassField(field);
         }
@@ -550,7 +550,7 @@ void ClassifierCodeDocument::initCodeClassFields()
  */
 void ClassifierCodeDocument::updateAssociationClassFields (UMLAssociationList &assocList)
 {
-    foreach(UMLAssociation * a , assocList)
+    foreach(UMLAssociation * a, assocList)
         addAssociationClassField(a, false); // syncToParent later
 }
 

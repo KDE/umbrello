@@ -755,11 +755,11 @@ void UMLWidget::adjustAssocs(int x, int y)
         return;
     }
 
-    foreach(AssociationWidget* assocwidget , m_Assocs) {
+    foreach(AssociationWidget* assocwidget, m_Assocs) {
         assocwidget->saveIdealTextPositions();
     }
 
-    foreach(AssociationWidget* assocwidget , m_Assocs) {
+    foreach(AssociationWidget* assocwidget, m_Assocs) {
         assocwidget->widgetMoved(this, x, y);
     }
 }
@@ -772,13 +772,13 @@ void UMLWidget::adjustAssocs(int x, int y)
  */
 void UMLWidget::adjustUnselectedAssocs(int x, int y)
 {
-    foreach(AssociationWidget* assocwidget , m_Assocs) {
+    foreach(AssociationWidget* assocwidget, m_Assocs) {
 
         if (!assocwidget->isSelected())
             assocwidget->saveIdealTextPositions();
     }
 
-    foreach(AssociationWidget* assocwidget , m_Assocs) {
+    foreach(AssociationWidget* assocwidget, m_Assocs) {
         if (!assocwidget->isSelected())
             assocwidget->widgetMoved(this, x, y);
     }
@@ -795,7 +795,7 @@ void UMLWidget::showPropertiesDialog()
     QPointer<ClassPropDlg> dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
 
     if (dlg->exec()) {
-        umlScene()->showDocumentation(umlObject() , true);
+        umlScene()->showDocumentation(umlObject(), true);
         m_doc->setModified(true);
     }
     dlg->close(); //wipe from memory

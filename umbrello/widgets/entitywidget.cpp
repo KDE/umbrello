@@ -105,7 +105,7 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     UMLClassifier *classifier = (UMLClassifier*)m_umlObject;
     UMLClassifierListItem* entityattribute = 0;
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EntityAttribute);
-    foreach (entityattribute , list) {
+    foreach (entityattribute, list) {
         QString text = entityattribute->name();
         painter->setPen(textColor());
         UMLEntityAttribute* casted = dynamic_cast<UMLEntityAttribute*>(entityattribute);
@@ -235,7 +235,7 @@ UMLSceneSize EntityWidget::minimumSize()
     UMLClassifier* classifier = (UMLClassifier*)m_umlObject;
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EntityAttribute);
     UMLClassifierListItem* listItem = 0;
-    foreach (listItem , list) {
+    foreach (listItem, list) {
         int w = fm.width(listItem->name());
         width = w > width?w:width;
     }

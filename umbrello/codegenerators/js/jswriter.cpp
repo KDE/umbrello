@@ -110,7 +110,7 @@ void JSWriter::writeClass(UMLClassifier *c)
     js << m_endl;
 
     UMLClassifierList superclasses = c->getSuperClasses();
-    foreach (UMLClassifier *obj , superclasses) {
+    foreach (UMLClassifier *obj, superclasses) {
         js << classname << ".prototype = new " << cleanName(obj->name()) << " ();" << m_endl;
     }
 
@@ -149,14 +149,14 @@ void JSWriter::writeClass(UMLClassifier *c)
     if (forceSections() || !aggregations.isEmpty())
     {
         js << m_endl << m_indentation << "/**Aggregations: */" << m_endl;
-        writeAssociation(classname, aggregations , js);
+        writeAssociation(classname, aggregations, js);
 
     }
     UMLAssociationList compositions = c->getCompositions();
     if (forceSections() || !compositions.isEmpty())
     {
         js << m_endl << m_indentation << "/**Compositions: */" << m_endl;
-        writeAssociation(classname, compositions , js);
+        writeAssociation(classname, compositions, js);
 
     }
     js << m_endl;
@@ -186,9 +186,9 @@ void JSWriter::writeClass(UMLClassifier *c)
  * @param assocList   the list of associations
  * @param js          output stream for the JS file
  */
-void JSWriter::writeAssociation(QString& classname, UMLAssociationList& assocList , QTextStream &js)
+void JSWriter::writeAssociation(QString& classname, UMLAssociationList& assocList, QTextStream &js)
 {
-    foreach (UMLAssociation *a , assocList) {
+    foreach (UMLAssociation *a, assocList) {
         // association side
         Uml::RoleType::Enum role = (a->getObject(Uml::RoleType::A)->name() == classname ? Uml::RoleType::B : Uml::RoleType::A);
 
@@ -236,19 +236,19 @@ void JSWriter::writeAssociation(QString& classname, UMLAssociationList& assocLis
  */
 void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTextStream &js)
 {
-    foreach (UMLOperation* op ,  *opList)
+    foreach (UMLOperation* op,  *opList)
     {
         UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->doc().isEmpty();
-        foreach (UMLAttribute* at , atl)
+        foreach (UMLAttribute* at, atl)
             writeDoc |= !at->doc().isEmpty();
 
         if(writeDoc)  //write method documentation
         {
             js << "/**" << m_endl << formatDoc(op->doc()," * ");
 
-            foreach (UMLAttribute* at , atl)  //write parameter documentation
+            foreach (UMLAttribute* at, atl)  //write parameter documentation
             {
                 if(forceDoc() || !at->doc().isEmpty())
                 {
@@ -263,7 +263,7 @@ void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
 
         int i = atl.count();
         int j=0;
-        foreach (UMLAttribute* at , atl) {
+        foreach (UMLAttribute* at, atl) {
             js << cleanName(at->name())
             << (!(at->getInitialValue().isEmpty()) ? (QString(" = ")+at->getInitialValue()) : QString(""))
             << ((j < i-1)?", ":"");

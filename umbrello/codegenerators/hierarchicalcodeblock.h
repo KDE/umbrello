@@ -24,7 +24,7 @@ class HierarchicalCodeBlock : public CodeBlockWithComments, public CodeGenObject
     friend class CodeGenObjectWithTextBlocks;
 public:
 
-    explicit HierarchicalCodeBlock (CodeDocument * doc , const QString &startString = "", const QString &endString = "", const QString &comment = "");
+    explicit HierarchicalCodeBlock (CodeDocument * doc, const QString &startString = "", const QString &endString = "", const QString &comment = "");
 
     /**
      * Empty Destructor

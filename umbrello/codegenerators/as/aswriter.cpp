@@ -595,13 +595,13 @@ void ASWriter::writeClass(UMLClassifier *c)
     if (forceSections() || !aggregations.isEmpty())
     {
         as <<  m_endl << m_indentation << "/**Aggregations: */" << m_endl;
-        writeAssociation(classname, aggregations , as);
+        writeAssociation(classname, aggregations, as);
     }
 
     if (forceSections() || !compositions.isEmpty())
     {
         as <<  m_endl << m_indentation << "/**Compositions: */" << m_endl;
-        writeAssociation(classname, compositions , as);
+        writeAssociation(classname, compositions, as);
     }
 
     as << m_endl;
@@ -666,9 +666,9 @@ void ASWriter::writeClass(UMLClassifier *c)
  * @param assocList   the list of associations
  * @param as          output stream for the AS file
  */
-void ASWriter::writeAssociation(QString& classname, UMLAssociationList& assocList , QTextStream &as)
+void ASWriter::writeAssociation(QString& classname, UMLAssociationList& assocList, QTextStream &as)
 {
-    foreach (UMLAssociation *a , assocList)
+    foreach (UMLAssociation *a, assocList)
     {
         // association side
         Uml::RoleType::Enum role = a->getObject(Uml::RoleType::A)->name() == classname ? Uml::RoleType::B : Uml::RoleType::A;
@@ -726,7 +726,7 @@ void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
 {
     UMLAttributeList atl;
 
-    foreach (UMLOperation* op , *opList) {
+    foreach (UMLOperation* op, *opList) {
         atl = op -> getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->doc().isEmpty();

@@ -265,7 +265,7 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType,
             // only Forks and Branches can have more than one "outgoing" transition
             if (actA != NULL && actTypeA != ActivityWidget::Branch) {
                 AssociationWidgetList list = widgetA->associationWidgetList();
-                foreach (AssociationWidget* assoc , list) {
+                foreach (AssociationWidget* assoc, list) {
                     if (assoc->widgetForRole(Uml::RoleType::A) == widgetA) {
                         return false;
                     }

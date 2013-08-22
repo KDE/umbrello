@@ -73,7 +73,7 @@ protected:
     virtual void dragMoveEvent(QDragMoveEvent *event);
     virtual void dropEvent(QDropEvent *event);
 
-    void setVisibilityIcon(QTreeWidgetItem *item , const UMLObject *obj);
+    void setVisibilityIcon(QTreeWidgetItem *item, const UMLObject *obj);
 
     UMLClassifier *                     m_umlObject;
     UMLDoc *                            m_doc;

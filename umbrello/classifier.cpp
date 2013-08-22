@@ -441,7 +441,7 @@ int UMLClassifier::attributes()
 UMLAttributeList UMLClassifier::getAttributeList() const
 {
     UMLAttributeList attributeList;
-    foreach (UMLObject* listItem , m_List) {
+    foreach (UMLObject* listItem, m_List) {
         uIgnoreZeroPointer(listItem);
         if (listItem->baseType() == UMLObject::ot_Attribute) {
             attributeList.append(static_cast<UMLAttribute*>(listItem));
@@ -558,7 +558,7 @@ UMLObject* UMLClassifier::findChildObjectById(Uml::ID::Type id, bool considerAnc
     }
     if (considerAncestors) {
         UMLClassifierList ancestors = findSuperClassConcepts();
-        foreach (UMLClassifier *anc , ancestors) {
+        foreach (UMLClassifier *anc, ancestors) {
             UMLObject *o = anc->findChildObjectById(id);
             if (o) {
                 return o;
@@ -581,7 +581,7 @@ UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type)
 
     UMLClassifierList inheritingConcepts;
     Uml::ID::Type myID = id();
-    foreach(UMLClassifier *c , list) {
+    foreach(UMLClassifier *c, list) {
         uIgnoreZeroPointer(c);
         if (type == ALL || (!c->isInterface() && type == CLASS)
                 || (c->isInterface() && type == INTERFACE)) {
@@ -589,7 +589,7 @@ UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type)
         }
     }
 
-    foreach (UMLAssociation *a , rlist) {
+    foreach (UMLAssociation *a, rlist) {
         uIgnoreZeroPointer(a);
         if (a->getObjectId(RoleType::A) != myID)
         {
@@ -620,14 +620,14 @@ UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type)
 
     UMLClassifierList parentConcepts;
     Uml::ID::Type myID = id();
-    foreach (UMLClassifier *concept , list) {
+    foreach (UMLClassifier *concept, list) {
         uIgnoreZeroPointer(concept);
         if (type == ALL || (!concept->isInterface() && type == CLASS)
                 || (concept->isInterface() && type == INTERFACE))
             parentConcepts.append(concept);
     }
 
-    foreach (UMLAssociation *a , rlist) {
+    foreach (UMLAssociation *a, rlist) {
         if (a->getObjectId(RoleType::A) == myID)
         {
             UMLObject* obj = a->getObject(RoleType::B);
@@ -930,7 +930,7 @@ UMLAssociation *UMLClassifier::getClassAssoc() const
 bool UMLClassifier::hasAbstractOps ()
 {
     UMLOperationList opl(getOpList());
-    foreach(UMLOperation *op , opl) {
+    foreach(UMLOperation *op, opl) {
         uIgnoreZeroPointer(op);
         if (op->isAbstract()) {
             return true;
@@ -986,10 +986,10 @@ UMLOperationList UMLClassifier::getOpList(bool includeInherited, UMLClassifierSe
             // get operations for each parent by recursive call
             UMLOperationList pops = c->getOpList(true, alreadyTraversed);
             // add these operations to operation list, but only if unique.
-            foreach (UMLOperation *po , pops) {
+            foreach (UMLOperation *po, pops) {
                 QString po_as_string(po->toString(Uml::SignatureType::SigNoVis));
                 bool breakFlag = false;
-                foreach (UMLOperation* o ,  ops) {
+                foreach (UMLOperation* o,  ops) {
                     if (o->toString(Uml::SignatureType::SigNoVis) == po_as_string) {
                         breakFlag = true;
                         break;
@@ -1137,7 +1137,7 @@ int UMLClassifier::removeTemplate(UMLTemplate* umltemplate)
 UMLTemplate *UMLClassifier::findTemplate(const QString& name)
 {
     UMLTemplateList templParams = getTemplateList();
-    foreach (UMLTemplate *templt , templParams) {
+    foreach (UMLTemplate *templt, templParams) {
         if (templt->name() == name) {
             return templt;
         }
@@ -1381,7 +1381,7 @@ UMLAssociationList  UMLClassifier::getUniAssociationToBeImplemented()
             UMLAttributeList atl = getAttributeList();
             bool found = false;
             //make sure that an attribute with the same name doesn't already exist
-            foreach (UMLAttribute *at , atl) {
+            foreach (UMLAttribute *at, atl) {
                 uIgnoreZeroPointer(a);
                 if (at->name() == roleNameB) {
                     found = true;
@@ -1426,7 +1426,7 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     UMLClassifierListItemList list = getFilteredList(UMLObject::ot_Template);
     if (list.count()) {
         QDomElement tmplElement = qDoc.createElement("UML:ModelElement.templateParameter");
-        foreach (UMLClassifierListItem *tmpl , list) {
+        foreach (UMLClassifierListItem *tmpl, list) {
             tmpl->saveToXMI(qDoc, tmplElement);
         }
         classifierElement.appendChild(tmplElement);
@@ -1436,7 +1436,7 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     UMLAssociationList generalizations = getSpecificAssocs(AssociationType::Generalization);
     if (generalizations.count()) {
         QDomElement genElement = qDoc.createElement("UML:GeneralizableElement.generalization");
-        foreach (UMLAssociation *a , generalizations) {
+        foreach (UMLAssociation *a, generalizations) {
             // We are the subclass if we are at the role A end.
             if (m_nId != a->getObjectId(RoleType::A)) {
                 continue;
@@ -1453,13 +1453,13 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     // save attributes
     QDomElement featureElement = qDoc.createElement("UML:Classifier.feature");
     UMLClassifierListItemList attList = getFilteredList(UMLObject::ot_Attribute);
-    foreach (UMLClassifierListItem *pAtt , attList) {
+    foreach (UMLClassifierListItem *pAtt, attList) {
         pAtt->saveToXMI(qDoc, featureElement);
     }
 
     // save operations
     UMLOperationList opList = getOpList();
-    foreach (UMLOperation *pOp , opList) {
+    foreach (UMLOperation *pOp, opList) {
         pOp->saveToXMI(qDoc, featureElement);
     }
     if (featureElement.hasChildNodes()) {

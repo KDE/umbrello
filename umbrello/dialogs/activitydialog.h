@@ -57,8 +57,8 @@ protected:
     bool            m_bChangesMade;   ///< holds whether changes in the dialog have been made
 
     struct GeneralPageWidgets {
-        QLabel * nameL, * typeL , * preL , * postL;
-        KLineEdit * nameLE, * typeLE , * preLE , * postLE;
+        QLabel * nameL, * typeL, * preL, * postL;
+        KLineEdit * nameLE, * typeLE, * preLE, * postLE;
         KTextEdit * docTE;
         QRadioButton * NormalRB, * ParamRB, * InvokRB; // this is to implement the parameter node activity or an invok action
         QGroupBox * docGB, * generalGB;
