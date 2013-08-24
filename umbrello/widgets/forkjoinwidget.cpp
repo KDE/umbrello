@@ -65,9 +65,7 @@ void ForkJoinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 
     painter->fillRect(0, 0, width(), height(), QBrush( Qt::black ));
 
-    if (m_selected) {
-        paintSelected(painter);
-    }
+    UMLWidget::paint(painter, option, widget);
 }
 
 /**

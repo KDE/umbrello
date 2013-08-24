@@ -1135,6 +1135,12 @@ void UMLWidget::setupFontType(QFont &font, UMLWidget::FontType fontType)
     }
 }
 
+void UMLWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    if (m_selected)
+        paintSelected(painter);
+}
+
 /**
  * Template Method, override this to set the default font metric.
  */

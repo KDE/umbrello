@@ -185,9 +185,8 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
         uWarning() << "Unknown state type: " << stateTypeStr();
         break;
     }
-    if (m_selected) {
-        paintSelected(painter);
-    }
+
+    UMLWidget::paint(painter, option, widget);
 }
 
 /**

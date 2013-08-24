@@ -58,9 +58,7 @@ void RegionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     painter->setPen(pen);
     painter->drawRoundRect(0, 0, w, h, (h * 60) / w, 60);
 
-    if (m_selected) {
-        paintSelected(painter);
-    }
+    UMLWidget::paint(painter, option, widget);
 }
 
 /**

@@ -174,9 +174,7 @@ void ArtifactWidget::paintAsFile(QPainter *painter)
     painter->drawText(0, h - fontHeight,
                w, fontHeight, Qt::AlignCenter, name());
 
-    if(m_selected) {
-        paintSelected(painter);
-    }
+    UMLWidget::paint(painter, 0);
 }
 
 /**
@@ -211,9 +209,7 @@ void ArtifactWidget::paintAsLibrary(QPainter *painter)
     painter->drawText(0, h - fontHeight,
                w, fontHeight, Qt::AlignCenter, name());
 
-    if(m_selected) {
-        paintSelected(painter);
-    }
+    UMLWidget::paint(painter, 0);
 }
 
 /**
@@ -250,9 +246,7 @@ void ArtifactWidget::paintAsTable(QPainter *painter)
     painter->drawText(0, h - fontHeight,
                w, fontHeight, Qt::AlignCenter, name());
 
-    if(m_selected) {
-        paintSelected(painter);
-    }
+    UMLWidget::paint(painter, 0);
 }
 
 /**
@@ -293,8 +287,6 @@ void ArtifactWidget::paintAsNormal(QPainter *painter)
                    w, fontHeight, Qt::AlignCenter, name());
     }
 
-    if(m_selected) {
-        paintSelected(painter);
-    }
+    UMLWidget::paint(painter, 0);
 }
 

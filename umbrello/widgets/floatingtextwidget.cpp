@@ -472,8 +472,8 @@ void FloatingTextWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem
     painter->setFont( UMLWidget::font() );
     painter->setPen(textColor());
     painter->drawText(0, 0, w, h, Qt::AlignCenter, displayText());
-    if(m_selected)
-        paintSelected(painter);
+
+    UMLWidget::paint(painter, option, widget);
 }
 
 /**

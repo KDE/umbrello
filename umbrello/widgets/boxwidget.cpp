@@ -43,9 +43,7 @@ void BoxWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     setPenFromSettings(painter);
     painter->drawRect(0, 0, width(), height());
 
-    if (m_selected) {
-        paintSelected(painter);
-    }
+    UMLWidget::paint(painter, option, widget);
 }
 
 /**

@@ -155,8 +155,8 @@ void SignalWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
         uWarning() << "Unknown signal type:" << m_signalType;
         break;
     }
-    if(m_selected)
-        paintSelected(painter);
+
+    UMLWidget::paint(painter, option, widget);
 }
 
 /**

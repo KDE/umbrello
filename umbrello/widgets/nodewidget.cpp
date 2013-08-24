@@ -96,9 +96,7 @@ void NodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
                    bodyWidth, fontHeight, Qt::AlignCenter, nameStr);
     }
 
-    if(m_selected) {
-        paintSelected(painter);
-    }
+    UMLWidget::paint(painter, option, widget);
 }
 
 UMLSceneSize NodeWidget::minimumSize()

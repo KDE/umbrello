@@ -105,8 +105,8 @@ void PreconditionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem
         painter->drawText(PRECONDITION_MARGIN, textStartY,
                        w - PRECONDITION_MARGIN * 2, fontHeight, Qt::AlignCenter, precondition_value);
     }
-    if(m_selected)
-        paintSelected(painter);
+
+    UMLWidget::paint(painter, option, widget);
 }
 
 /**

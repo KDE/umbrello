@@ -96,9 +96,7 @@ void NoteWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
         break;
     }
 
-    if (m_selected) {
-        paintSelected(painter);
-    }
+    UMLWidget::paint(painter, option, widget);
 
 //    paintText(&p, 0, 0);
     paintTextWordWrap(painter);

@@ -99,9 +99,7 @@ void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     painter->drawText(0, (fontHeight*lines) + PACKAGE_MARGIN,
                w, fontHeight, Qt::AlignCenter, name() );
 
-    if(m_selected) {
-        paintSelected(painter);
-    }
+    UMLWidget::paint(painter, option, widget);
 }
 
 /**

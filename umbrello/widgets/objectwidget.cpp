@@ -138,8 +138,8 @@ void ObjectWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
         paintObject(painter);
 
     setPenFromSettings(painter);
-    if(m_selected)
-        paintSelected(painter);
+
+    UMLWidget::paint(painter, option, widget);
 }
 
 /**
