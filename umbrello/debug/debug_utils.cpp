@@ -50,7 +50,7 @@ Tracer::Tracer(QWidget *parent)
     setHeaderLabel(i18n("Class Name"));
     setContextMenuPolicy(Qt::CustomContextMenu);
     resize(300, 400);
-    connect(this, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(slotItemClicked(QTreeWidgetItem*, int)));
+    connect(this, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(slotItemClicked(QTreeWidgetItem*,int)));
 }
 
 /**

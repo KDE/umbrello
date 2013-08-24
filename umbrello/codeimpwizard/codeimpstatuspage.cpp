@@ -168,8 +168,8 @@ void CodeImpStatusPage::importCodeFile(bool noError)
     m_file = m_files.at(m_index++);
     messageToLog(m_file.fileName(), i18n("importing file ..."));
     CodeImpThread* worker = new CodeImpThread(m_file);
-    connect(worker, SIGNAL(messageToWiz(QString, QString)), this, SLOT(updateStatus(QString, QString)));
-    connect(worker, SIGNAL(messageToLog(QString, QString)), this, SLOT(messageToLog(QString, QString)));
+    connect(worker, SIGNAL(messageToWiz(QString,QString)), this, SLOT(updateStatus(QString,QString)));
+    connect(worker, SIGNAL(messageToLog(QString,QString)), this, SLOT(messageToLog(QString,QString)));
     connect(worker, SIGNAL(messageToApp(QString)), this, SLOT(messageToApp(QString)));
 #ifndef ENABLE_IMPORT_THREAD
     connect(worker, SIGNAL(finished(bool)), this, SLOT(importNextFile(bool)));

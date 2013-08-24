@@ -89,7 +89,7 @@ void ClassifierListPage::setupPage()
     enableWidgets(false);//disable widgets until an att is chosen
     m_pOldListItem = 0;
 
-    connect(m_pItemListLB, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), this, SLOT(slotActivateItem(QListWidgetItem*)));
+    connect(m_pItemListLB, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this, SLOT(slotActivateItem(QListWidgetItem*)));
     connect(m_pItemListLB, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(slotDoubleClick(QListWidgetItem*)));
     connect(m_pItemListLB, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotRightButtonPressed(QPoint)));
 

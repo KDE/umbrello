@@ -53,8 +53,8 @@ RefactoringAssistant::RefactoringAssistant(UMLDoc *doc, UMLClassifier *obj, QWid
 
     m_menu = new QMenu(this);
 
-    connect(this, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),
-            this, SLOT(itemExecuted(QTreeWidgetItem*, int)));
+    connect(this, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),
+            this, SLOT(itemExecuted(QTreeWidgetItem*,int)));
     connect(this, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(showContextMenu(QPoint)));
 
