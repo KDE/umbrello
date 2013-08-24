@@ -21,8 +21,6 @@
 #include <QDateTime>
 #include <QFont>
 
-class UMLWidgetController;
-
 class UMLObject;
 class UMLDoc;
 class ListPopupMenu;
@@ -46,10 +44,8 @@ public:
     static const UMLSceneSize DefaultMinimumSize;
     static const UMLSceneSize DefaultMaximumSize;
 
-    friend class UMLWidgetController;
-
-    explicit UMLWidget(UMLScene * scene, WidgetType type = wt_UMLWidget, UMLObject * o = 0, UMLWidgetController *widgetController = 0);
-    explicit UMLWidget(UMLScene * scene, WidgetType type = wt_UMLWidget, Uml::ID::Type id = Uml::ID::None, UMLWidgetController *widgetController = 0);
+    explicit UMLWidget(UMLScene * scene, WidgetType type = wt_UMLWidget, UMLObject * o = 0);
+    explicit UMLWidget(UMLScene * scene, WidgetType type = wt_UMLWidget, Uml::ID::Type id = Uml::ID::None);
     virtual ~UMLWidget();
 
     // Copy constructor - not implemented.
@@ -205,7 +201,6 @@ public:
     virtual bool loadFromXMI(QDomElement &qElement);
     virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
 
-    UMLWidgetController* getWidgetController();
     QPointF startMovePosition() const;
     QSizeF startResizeSize() const;
 
@@ -277,10 +272,7 @@ public:
     UMLSceneSize   m_minimumSize;
     UMLSceneSize   m_maximumSize;
 
-    /**
-     * It is true if the Activate Function has been called for this
-     * class instance
-     */
+    /// true if the activate function has been called for this class instance
     bool m_activated;
 
     /**
@@ -289,11 +281,6 @@ public:
     bool m_ignoreSnapToGrid;
     bool m_ignoreSnapComponentSizeToGrid;
     bool m_fixedAspectRatio;
-
-    /**
-     * Controller for user interaction events.
-     */
-    UMLWidgetController *m_widgetController;
 
 public Q_SLOTS:
     virtual void updateWidget();
@@ -310,7 +297,6 @@ public Q_SLOTS:
 signals:
     /**
      * Emit when the widget moves its' position.
-     *
      * @param id The id of the object behind the widget.
      */
     void sigWidgetMoved(Uml::ID::Type id);
@@ -321,7 +307,61 @@ protected:
     virtual void moveWidgetBy(qreal diffX, qreal diffY);
     virtual void constrainMovementForAllWidgets(qreal &diffX, qreal &diffY);
 
+    virtual bool isInResizeArea(QGraphicsSceneMouseEvent *me);
     virtual QCursor resizeCursor();
+
+    void selectSingle(QGraphicsSceneMouseEvent *me);
+    void selectMultiple(QGraphicsSceneMouseEvent *me);
+    void deselect(QGraphicsSceneMouseEvent *me);
+    // void resetSelection();
+
+    void setSelectionBounds();
+
+    void resize(QGraphicsSceneMouseEvent *me);
+
+    bool wasSizeChanged();
+    bool wasPositionChanged();
+
+    /// Timer that prevents excessive updates (be easy on the CPU).
+    QTime m_lastUpdate;
+
+    /**
+     * A list containing the selected widgets.
+     * It's filled by setSelectionBounds method. It must be filled again if
+     * selected widgets changed. It is cleared only in setSelectionBounds, just
+     * before filling it.
+     * Select, deselect and so on methods DON'T modify this list.
+     */
+    UMLWidgetList m_selectedWidgetsList;
+
+    /// The text in the status bar when the cursor was pressed.
+    QString m_oldStatusBarMsg;
+
+    /// The X/Y offset from the position of the cursor when it was pressed to the
+    /// upper left corner of the widget.
+    QPointF m_pressOffset;
+
+    /// The X/Y position the widget had when the movement started.
+    QPointF m_oldPos;
+
+    /// The width/height the widget had when the resize started.
+    qreal m_oldW, m_oldH;
+
+    /// If shift or control button were pressed in mouse press event.
+    bool m_shiftPressed;
+
+    /**
+     * If cursor was in move/resize area when left button was pressed (and no
+     * other widgets were selected).
+     */
+    bool m_inMoveArea, m_inResizeArea;
+
+    /**
+     * If the widget was selected/moved/resized in the press and release cycle.
+     * Moved/resized is true if the widget was moved/resized even if the final
+     * position/size is the same as the starting one.
+     */
+    bool m_moved, m_resized;
 
 private:
     void init();

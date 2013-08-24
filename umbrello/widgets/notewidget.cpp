@@ -36,7 +36,7 @@
  *                   The default (-1) will prompt a new ID.
  */
 NoteWidget::NoteWidget(UMLScene * scene, NoteType noteType , Uml::ID::Type id)
-  : UMLWidget(scene, WidgetBase::wt_Note, id, NULL),
+  : UMLWidget(scene, WidgetBase::wt_Note, id),
     m_diagramLink(Uml::ID::None),
     m_noteType(noteType)
 {

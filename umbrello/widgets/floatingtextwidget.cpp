@@ -51,7 +51,7 @@ DEBUG_REGISTER_DISABLED(FloatingTextWidget)
  * @param id The ID to assign (-1 will prompt a new ID.)
  */
 FloatingTextWidget::FloatingTextWidget(UMLScene * scene, Uml::TextRole::Enum role, const QString& text, Uml::ID::Type id)
-  : UMLWidget(scene, WidgetBase::wt_Text, id, NULL),
+  : UMLWidget(scene, WidgetBase::wt_Text, id),
     m_linkWidget(0),
     m_preText(QString()),
     m_postText(QString()),
