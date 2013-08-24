@@ -293,8 +293,7 @@ void ActivityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 
         break;
     }
-    if (m_selected)
-        paintSelected(painter);
+    UMLWidget::paint(painter, option, widget);
 }
 
 /**

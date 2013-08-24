@@ -70,8 +70,7 @@ void ActorWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
     painter->setPen(textColor());
     painter->drawText(A_MARGIN, h - fontHeight,
                w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
-    if(m_selected)
-        paintSelected(painter);
+    UMLWidget::paint(painter, option, widget);
 }
 
 /**

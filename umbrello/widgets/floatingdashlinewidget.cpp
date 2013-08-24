@@ -68,8 +68,8 @@ void FloatingDashLineWidget::paint(QPainter *painter, const QStyleOptionGraphics
                Qt::AlignLeft, '[' + m_Text + ']');
     painter->setPen(QPen(UMLWidget::lineColor(), 0, Qt::DashLine));
     painter->drawLine(0, 0, width(), 0);
-    if(m_selected)
-        paintSelected(painter);
+
+    UMLWidget::paint(painter, option, widget);
 }
 
 /**

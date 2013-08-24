@@ -678,8 +678,7 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
                     m_bodyOffsetY, fontHeight);
     }
 
-    if (m_selected)
-        paintSelected(painter);
+    UMLWidget::paint(painter, option, widget);
 }
 
 /**
@@ -706,9 +705,7 @@ void ClassifierWidget::drawAsCircle(QPainter *painter)
     painter->setFont(font);
     painter->drawText(0, CIRCLE_SIZE, w, fontHeight, Qt::AlignCenter, name);
 
-    if (m_selected) {
-        paintSelected(painter);
-    }
+    UMLWidget::paint(painter, 0);
 }
 
 /**

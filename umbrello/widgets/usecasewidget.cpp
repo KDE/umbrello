@@ -59,8 +59,8 @@ void UseCaseWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     painter->setPen(textColor());
     painter->drawText(UC_MARGIN, textStartY, w - UC_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
     setPenFromSettings(painter);
-    if(m_selected)
-        paintSelected(painter);
+
+    UMLWidget::paint(painter, option, widget);
 }
 
 /**

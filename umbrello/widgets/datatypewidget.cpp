@@ -79,9 +79,7 @@ void DatatypeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     painter->drawText(DATATYPE_MARGIN, fontHeight,
                w - DATATYPE_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
 
-    if (m_selected) {
-        paintSelected(painter);
-    }
+    UMLWidget::paint(painter, option, widget);
 }
 
 /**

@@ -104,9 +104,7 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
                    w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter, nameStr);
     }
 
-    if(m_selected) {
-        paintSelected(painter);
-    }
+    UMLWidget::paint(painter, option, widget);
 }
 
 /**

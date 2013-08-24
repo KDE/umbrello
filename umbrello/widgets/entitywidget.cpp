@@ -121,9 +121,7 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
         y+=fontHeight;
     }
 
-    if (m_selected) {
-        paintSelected(painter);
-    }
+    UMLWidget::paint(painter, option, widget);
 }
 
 /**

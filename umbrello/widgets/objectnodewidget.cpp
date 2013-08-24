@@ -116,9 +116,7 @@ void ObjectNodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         break;
     }
 
-    if(m_selected)
-        paintSelected(painter);
-
+    UMLWidget::paint(painter, option, widget);
 }
 
 /**

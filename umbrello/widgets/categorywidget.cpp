@@ -86,8 +86,8 @@ void CategoryWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 
     painter->drawText(UC_MARGIN, textStartY, r - UC_MARGIN * 2, fontHeight, Qt::AlignCenter, letterType);
     UMLWidget::setPenFromSettings(painter);
-    if(m_selected)
-        paintSelected(painter);
+
+    UMLWidget::paint(painter, option, widget);
 }
 
 /**
