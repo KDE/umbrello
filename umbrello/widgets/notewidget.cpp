@@ -59,8 +59,8 @@ void NoteWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     Q_UNUSED(widget);
 
     const int margin = 10;
-    int w = width()-1;
-    int h = height()-1;
+    int w = width();
+    int h = height();
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
     QPolygon poly(6);
