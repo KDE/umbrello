@@ -359,17 +359,6 @@ void UMLObject::emitModified()
 }
 
 /**
- * Sets the documentation for the object.
- *
- * @param d The documentation for the object.
- */
-void UMLObject::setDoc(const QString &d)
-{
-    m_Doc = d;
-    //emit modified();  No, this is done centrally at DocWindow::updateDocumentation()
-}
-
-/**
  * Returns the type of the object.
  *
  * @return  Returns the type of the object.
@@ -415,6 +404,17 @@ ID::Type UMLObject::id() const
 QString UMLObject::doc() const
 {
     return m_Doc;
+}
+
+/**
+ * Sets the documentation for the object.
+ *
+ * @param d The documentation for the object.
+ */
+void UMLObject::setDoc(const QString &d)
+{
+    m_Doc = d;
+    //emit modified();  No, this is done centrally at DocWindow::updateDocumentation()
 }
 
 /**

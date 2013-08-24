@@ -94,8 +94,8 @@ public:
     virtual void setID(Uml::ID::Type NewID);
     virtual Uml::ID::Type id() const;
 
-    void setDoc(const QString &d);
     QString doc() const;
+    void setDoc(const QString &d);
 
     void setVisibility(Uml::Visibility::Enum visibility);
     void setVisibilityCmd(Uml::Visibility::Enum visibility);
