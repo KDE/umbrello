@@ -91,6 +91,7 @@
 
 // static members
 const UMLSceneValue UMLScene::defaultCanvasSize = 5000;
+bool UMLScene::m_showDocumentationIndicator = false;
 
 using namespace Uml;
 
@@ -3309,6 +3310,11 @@ void UMLScene::slotMenuSelection(QAction* action)
         m_doc->setModified();
         break;
 
+    case ListPopupMenu::mt_ShowDocumentationIndicator:
+        setShowDocumentationIndicator(!isShowDocumentationIndicator());
+        update();
+        break;
+
     case ListPopupMenu::mt_Properties:
         if (m_view->showPropDialog() == true)
             m_doc->setModified();
@@ -3653,6 +3659,22 @@ void UMLScene::setSnapGridVisible(bool bShow)
 {
     m_layoutGrid->setVisible(bShow);
     emit sigShowGridToggled(bShow);
+}
+
+/**
+ *  Returns whether to show documentation indicator.
+ */
+bool UMLScene::isShowDocumentationIndicator() const
+{
+    return m_showDocumentationIndicator;
+}
+
+/**
+ *  sets whether to show documentation indicator.
+ */
+void UMLScene::setShowDocumentationIndicator(bool bShow)
+{
+    m_showDocumentationIndicator = bShow;
 }
 
 /**

@@ -1137,8 +1137,21 @@ void UMLWidget::setupFontType(QFont &font, UMLWidget::FontType fontType)
 
 void UMLWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
     if (m_selected)
         paintSelected(painter);
+
+    if (umlScene()->isShowDocumentationIndicator() && hasDocumentation()) {
+        const qreal h = height();
+        const qreal d = 8;
+        QPolygonF p;
+        p << QPointF(0, h - d) << QPointF(d, h) << QPointF(0, h);
+        painter->setPen(Qt::blue);
+        painter->setBrush(Qt::red);
+        painter->drawPolygon(p);
+    }
 }
 
 /**

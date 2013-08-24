@@ -137,6 +137,9 @@ public:
     bool isSnapGridVisible() const;
     void setSnapGridVisible(bool bShow);
 
+    bool isShowDocumentationIndicator() const;
+    void setShowDocumentationIndicator(bool bShow);
+
     bool useFillColor() const;
     void setUseFillColor(bool ufc);
 
@@ -373,6 +376,7 @@ protected:
 
 private:
     static const UMLSceneValue defaultCanvasSize;  ///< The default size of a diagram in pixels.
+    static bool m_showDocumentationIndicator; ///< Status of documentation indicator
 
     UMLView *m_view;   ///< The view to which this scene is related.
     UMLFolder *m_pFolder;  ///< The folder in which this UMLView is contained.
