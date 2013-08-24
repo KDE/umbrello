@@ -161,6 +161,18 @@ QString WidgetBase::documentation() const
 }
 
 /**
+ * Returns state of documentation for the widget.
+ *
+ * @return false if documentation is empty
+ */
+bool WidgetBase::hasDocumentation()
+{
+    if (m_umlObject)
+        return m_umlObject->hasDoc();
+    return !m_Doc.isEmpty();
+}
+
+/**
  * Used by some child classes to set documentation.
  *
  * @param doc   The documentation to be set in the UMLObject

@@ -407,6 +407,16 @@ QString UMLObject::doc() const
 }
 
 /**
+ * Returns state of documentation for the object.
+ *
+ * @return false if documentation is empty
+ */
+bool UMLObject::hasDoc() const
+{
+    return !m_Doc.isEmpty();
+}
+
+/**
  * Sets the documentation for the object.
  *
  * @param d The documentation for the object.

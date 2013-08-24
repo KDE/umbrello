@@ -89,6 +89,7 @@ public:
     UMLDoc* umlDoc() const;
 
     QString documentation() const;
+    bool hasDocumentation();
     void setDocumentation(const QString& doc);
 
     QString name() const;

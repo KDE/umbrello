@@ -193,6 +193,7 @@ public:
         mt_Change_Font,
         mt_Change_Font_Selection,
         mt_SnapToGrid,
+        mt_ShowDocumentationIndicator,
         mt_ShowSnapGrid,
         mt_Resize,
         mt_Activity_Selected,
