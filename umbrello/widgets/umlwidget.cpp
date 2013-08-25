@@ -275,6 +275,34 @@ void UMLWidget::constrainMovementForAllWidgets(qreal &diffX, qreal &diffY)
 }
 
 /**
+ * Bring the widget at the pressed position to the foreground.
+ */
+void UMLWidget::toForeground()
+{
+    QRectF rect = QRectF(scenePos(), QSizeF(width(), height()));
+    QList<QGraphicsItem*> items = scene()->items(rect, Qt::IntersectsItemShape, Qt::DescendingOrder);
+    DEBUG(DBG_SRC) << "items at " << rect << " = " << items.count();
+    if (items.count() > 1) {
+        foreach(QGraphicsItem* i, items) {
+            UMLWidget* w = dynamic_cast<UMLWidget*>(i);
+            if (w) {
+                DEBUG(DBG_SRC) << "item=" << w->name() << " with zValue=" << w->zValue();
+                if (w->name() != name()) {
+                    if (w->zValue() >= zValue()) {
+                        setZValue(w->zValue() + 1.0);
+                        DEBUG(DBG_SRC) << "bring to foreground with zValue: " << zValue();
+                    }
+                }
+            }
+        }
+    }
+    else {
+        setZValue(0.0);
+    }
+    DEBUG(DBG_SRC) << "zValue is " << zValue();
+}
+
+/**
  * Handles a mouse move event.
  * It resizes or moves the widget, depending on where the cursor is pressed
  * on the widget. Go on reading for more info about this.
@@ -340,10 +368,10 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 
     // moveWidget(diffX,diffY);
 
-    // uDebug() << "before constrainMovementForAllWidgets:"
+    // DEBUG(DBG_SRC) << "before constrainMovementForAllWidgets:"
     //     << " diffX=" << diffX << ", diffY=" << diffY;
     constrainMovementForAllWidgets(diffX, diffY);
-    // uDebug() << "after constrainMovementForAllWidgets:"
+    // DEBUG(DBG_SRC) << "after constrainMovementForAllWidgets:"
     //     << " diffX=" << diffX << ", diffY=" << diffY;
 
     // nothing to move
@@ -353,7 +381,7 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 
     if (m_lastUpdate.elapsed() > 25) {
         m_lastUpdate.restart();
-        uDebug() << "diffX=" << diffX << " / diffY=" << diffY;
+        DEBUG(DBG_SRC) << "diffX=" << diffX << " / diffY=" << diffY;
         adjustUnselectedAssocs(position.x(), position.y());
     }
 
@@ -406,18 +434,21 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
  */
 void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    DEBUG(DBG_SRC) << "widget = " << name() << " / type = " << baseTypeStr();
-    if ((event->button() == Qt::RightButton) ||
-        (event->button() == Qt::MiddleButton)) {
+    if (event->button() != Qt::LeftButton) {
         event->ignore();
         return;
     }
+    event->accept();
+    DEBUG(DBG_SRC) << "widget = " << name() << " / type = " << baseTypeStr();
+
+    toForeground();
+
     m_startMovePostion = pos();
     m_startResizeSize = QSizeF(width(), height());
 
     // saving the values of the widget
     m_pressOffset = event->scenePos() - pos();
-    uDebug() << "press offset=" << m_pressOffset;
+    DEBUG(DBG_SRC) << "press offset=" << m_pressOffset;
 
     m_oldStatusBarMsg = UMLApp::app()->statusBarMsg();
 
@@ -486,62 +517,35 @@ void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
  */
 void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
 {
-    if (me->button() != Qt::LeftButton && me->button() != Qt::RightButton) {
-//        if (m_middleButtonDown) {
-//            m_middleButtonDown = false;
-//            resetSelection();
-//        }
-    } else if (me->button() == Qt::LeftButton) {
-//        if (m_leftButtonDown) {
-//            m_leftButtonDown = false;
+    if (!m_moved && !m_resized) {
+        if (!m_shiftPressed && (m_scene->selectedCount(true) > 1)) {
+            selectSingle(me);
+        } else if (!isSelected()) {
+            deselect(me);
+        }
+    } else {
+        // Commands
+        if (m_moved) {
+            UMLApp::app()->executeCommand(new Uml::CmdMoveWidget(this));
+            m_moved = false;
+        } else {
+            UMLApp::app()->executeCommand(new Uml::CmdResizeWidget(this));
+            m_resized = false;
+        }
 
-            if (!m_moved && !m_resized) {
-                if (!m_shiftPressed && (m_scene->selectedCount(true) > 1)) {
-                    selectSingle(me);
-                } else if (!isSelected()) {
-                    deselect(me);
-                }
-            } else {
-                if (m_moved) {
+        if ((m_inMoveArea && wasPositionChanged()) ||
+                (m_inResizeArea && wasSizeChanged())) {
+            umlDoc()->setModified(true);
+        }
 
-                    // Commands
-                    UMLApp::app()->executeCommand(new Uml::CmdMoveWidget(this));
-                    m_moved = false;
-                } else {
-                    UMLApp::app()->executeCommand(new Uml::CmdResizeWidget(this));
-                    m_resized = false;
-                }
-
-                if ((m_inMoveArea && wasPositionChanged()) ||
-                        (m_inResizeArea && wasSizeChanged())) {
-                    umlDoc()->setModified(true);
-                }
-
-                UMLApp::app()->document()->writeToStatusBar(m_oldStatusBarMsg);
-            }
-
-            if (m_inResizeArea) {
-                m_inResizeArea = false;
-                m_scene->activeView()->setCursor(Qt::ArrowCursor);
-            } else {
-                m_inMoveArea = false;
-            }
-//        }
-//    } else if (me->button() == Qt::RightButton) {
-//        if (m_rightButtonDown) {
-//            m_rightButtonDown = false;
-//            showPopupMenu(me);
-//        } else if (m_leftButtonDown) {
+        UMLApp::app()->document()->writeToStatusBar(m_oldStatusBarMsg);
     }
 
-    // TODO: One has to click as long as the z value is higher than
-    //       the widget in the foreground.
-    UMLWidget *bkgnd = m_scene->widgetAt(me->scenePos());
-    if (bkgnd) {
-        uDebug() << "setting Z to " << bkgnd->zValue() + 1.0;
-        setZValue(bkgnd->zValue() + 1.0);
+    if (m_inResizeArea) {
+        m_inResizeArea = false;
+        m_scene->activeView()->setCursor(Qt::ArrowCursor);
     } else {
-        setZValue(0);
+        m_inMoveArea = false;
     }
 }
 
@@ -1215,6 +1219,9 @@ QSizeF UMLWidget::calculateSize()
     return QSizeF(width(), height());
 }
 
+/**
+ * Resize widget to minimum size.
+ */
 void UMLWidget::resize()
 {
     // @TODO minimumSize() do not work in all cases, we need a dedicated autoResize() method
@@ -1223,8 +1230,6 @@ void UMLWidget::resize()
     DEBUG(DBG_SRC) << "x=" << x() << " / y=" << y();
     adjustAssocs(x(), y());    // adjust assoc lines
 }
-
-//:TODO: two resize methods?
 
 /**
  * Resizes the widget and adjusts the associations.
@@ -1254,7 +1259,7 @@ void UMLWidget::resize(QGraphicsSceneMouseEvent *me)
 
     constrain(newW, newH);
     resizeWidget(newW, newH);
-    uDebug() << "event=" << me->scenePos() << "/ pos=" << pos() << " / newW=" << newW << " / newH=" << newH;
+    DEBUG(DBG_SRC) << "event=" << me->scenePos() << "/ pos=" << pos() << " / newW=" << newW << " / newH=" << newH;
     adjustAssocs(x(), y());
 
     m_scene->resizeSceneToItems();

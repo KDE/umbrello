@@ -1911,7 +1911,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, qreal x, qreal y)
     // Assoc to self - move all points:
     if ( m_role[RoleType::A].umlWidget == m_role[RoleType::B].umlWidget) {
         for (int i = 1; i < size-1; ++i) {
-            QPointF p = mapToScene(m_associationLine->point(i));
+            QPointF p = m_associationLine->point(i);
             qreal newX = p.x() + x - widget->x();
             qreal newY = p.y() + y - widget->y();
             newX = m_scene->snappedX(newX);
@@ -1919,7 +1919,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, qreal x, qreal y)
             DEBUG(DBG_SRC) << "newX=" << newX << " / newY=" << newY;
             p.setX(newX);
             p.setY(newY);
-            m_associationLine->setPoint(i, mapFromScene(p));
+            m_associationLine->setPoint(i, p);
         }
 
         if ( m_nameWidget && !m_nameWidget->isSelected() ) {

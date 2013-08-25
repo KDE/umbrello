@@ -361,6 +361,8 @@ protected:
 
 private:
     void init();
+    void toForeground();
+
 
 };
 #endif

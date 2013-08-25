@@ -810,8 +810,7 @@ void UMLScene::mouseMoveEvent(QGraphicsSceneMouseEvent* ome)
  */
 void UMLScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-    // do not handle right clicks here, leave it to contextMenuEvent
-    if (event->button() == Qt::RightButton) {
+    if (event->button() != Qt::LeftButton) {
         event->ignore();
         return;
     }
