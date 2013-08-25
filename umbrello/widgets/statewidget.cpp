@@ -170,13 +170,11 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
         break;
     case StateWidget::Choice:
         {
-            const qreal len = 26.0;
-            const qreal pnt = len / 2.0;
-            const int   x   = rect().x();
-            const int   y   = rect().y();
+            const qreal x = w / 2;
+            const qreal y = h / 2;
             QPolygonF polygon;
-            polygon << QPointF(x + pnt, y) << QPointF(x + len, y + pnt)
-                    << QPointF(x + pnt, y + len) << QPointF(x, y + pnt);
+            polygon << QPointF(x, 0) << QPointF(w, y)
+                    << QPointF(x, h) << QPointF(0, y);
             painter->setBrush(UMLWidget::fillColor());
             painter->drawPolygon(polygon);
         }
