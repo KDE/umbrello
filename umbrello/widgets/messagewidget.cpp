@@ -309,9 +309,7 @@ void MessageWidget::paintSynchronous(QPainter *painter)
         paintArrow(painter, offsetX + wr + 1, offsetY + h - arrowWidth + 1, w - wr - 1, Qt::RightArrow, true); // return arrow
     }
 
-    if(m_selected) {
-        paintSelected(painter, offsetX, offsetY);
-    }
+    UMLWidget::paint(painter, 0);
 }
 
 /**
@@ -359,8 +357,7 @@ void MessageWidget::paintAsynchronous(QPainter *painter)
         paintArrow(painter, offsetX, offsetY + 4, w, Qt::LeftArrow);
     }
 
-    if (m_selected)
-        paintSelected(painter, offsetX, offsetY);
+    UMLWidget::paint(painter, 0);
 }
 
 /**
@@ -396,8 +393,7 @@ void MessageWidget::paintCreation(QPainter *painter)
         paintArrow(painter, offsetX, lineY, w, Qt::LeftArrow);
     }
 
-    if (m_selected)
-        paintSelected(painter, offsetX, offsetY);
+    UMLWidget::paint(painter, 0);
 }
 
 
@@ -437,8 +433,7 @@ void MessageWidget::paintLost(QPainter *painter)
         paintArrow(painter, offsetX + h, offsetY + h/2, w - h, Qt::LeftArrow);
     }
 
-    if (m_selected)
-        paintSelected(painter, offsetX, offsetY);
+    UMLWidget::paint(painter, 0);
 }
 
 /**
@@ -477,8 +472,7 @@ void MessageWidget::paintFound(QPainter *painter)
         paintArrow(painter, offsetX, offsetY + h/2, w, Qt::RightArrow);
     }
 
-    if (m_selected)
-            paintSelected(painter, offsetX, offsetY);
+    UMLWidget::paint(painter, 0);
 }
 
 /**

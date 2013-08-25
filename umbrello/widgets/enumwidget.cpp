@@ -148,9 +148,7 @@ void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
         y+=fontHeight;
     }
 
-    if (m_selected) {
-        paintSelected(painter);
-    }
+    UMLWidget::paint(painter, option, widget);
 }
 
 /**

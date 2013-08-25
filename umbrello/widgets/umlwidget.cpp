@@ -590,38 +590,6 @@ void UMLWidget::setFillColorcmd(const QColor &color)
 }
 
 /**
- * Draws that the widget is selected.
- *
- * @param p Device on which is the selection is to be drawn.
- * @param offsetX The x-coordinate for drawing.
- * @param offsetY The y-coordinate for drawing.
- */
-void UMLWidget::paintSelected(QPainter * p, int offsetX, int offsetY)
-{
-    int w = width();
-    int h = height();
-    int s = 4;
-    QBrush brush(Qt::blue);
-    p->fillRect(offsetX, offsetY, s,  s, brush);
-    p->fillRect(offsetX, offsetY + h - s, s, s, brush);
-    p->fillRect(offsetX + w - s, offsetY, s, s, brush);
-
-    // Draw the resize anchor in the lower right corner.
-    // Don't draw it if the widget is so small that the
-    // resize anchor would cover up most of the widget.
-    if (m_resizable && w * h > (s*3) * (s*3)) {
-        brush.setColor(Qt::red);
-        const int right = offsetX + w;
-        const int bottom = offsetY + h;
-        p->drawLine(right - s, offsetY + h - 1, offsetX + w - 1, offsetY + h - s);
-        p->drawLine(right - (s*2), bottom - 1, right - 1, bottom - (s*2));
-        p->drawLine(right - (s*3), bottom - 1, right - 1, bottom - (s*3));
-    } else {
-        p->fillRect(offsetX + w - s, offsetY + h - s, s, s, brush);
-    }
-}
-
-/**
  * Activate the object after serializing it from a QDataStream
  *
  * @param ChangeLog
@@ -1140,8 +1108,29 @@ void UMLWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    if (m_selected)
-        paintSelected(painter);
+    if (m_selected) {
+        const qreal w = width();
+        const qreal h = height();
+        const qreal s = 4;
+        QBrush brush(Qt::blue);
+        painter->fillRect(0, 0, s,  s, brush);
+        painter->fillRect(0, 0 + h - s, s, s, brush);
+        painter->fillRect(0 + w - s, 0, s, s, brush);
+
+        // Draw the resize anchor in the lower right corner.
+        // Don't draw it if the widget is so small that the
+        // resize anchor would cover up most of the widget.
+        if (m_resizable && w * h > (s*3) * (s*3)) {
+            brush.setColor(Qt::red);
+            const int right = 0 + w;
+            const int bottom = 0 + h;
+            painter->drawLine(right - s, 0 + h - 1, 0 + w - 1, 0 + h - s);
+            painter->drawLine(right - (s*2), bottom - 1, right - 1, bottom - (s*2));
+            painter->drawLine(right - (s*3), bottom - 1, right - 1, bottom - (s*3));
+        } else {
+            painter->fillRect(0 + w - s, 0 + h - s, s, s, brush);
+        }
+    }
 
     if (umlScene()->isShowDocumentationIndicator() && hasDocumentation()) {
         const qreal h = height();
