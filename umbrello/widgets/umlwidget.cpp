@@ -430,8 +430,6 @@ void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
         if (!isSelected()) {
             selectMultiple(event);
-//        } else if (!m_rightButtonDown) {
-//            m_wasSelected = false;
         }
         return;
     }
@@ -460,8 +458,6 @@ void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
     // if widget wasn't selected, or it was selected but with other widgets also selected
     if (!isSelected() || count > 1) {
         selectSingle(event);
-//    } else if (!m_rightButtonDown) {
-//        m_wasSelected = false;
     }
 }
 

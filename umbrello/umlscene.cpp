@@ -575,7 +575,6 @@ void UMLScene::slotObjectCreated(UMLObject* o)
         return;
     }
 
-    newWidget->setVisible(true);
     newWidget->setActivated();
     newWidget->setFont(font());
     newWidget->slotFillColorChanged(ID());
@@ -583,13 +582,6 @@ void UMLScene::slotObjectCreated(UMLObject* o)
     newWidget->slotLineWidthChanged(ID());
     newWidget->updateGeometry();
 
-    if (m_Type == Uml::DiagramType::Sequence) {
-        // Set proper position on the sequence line widget which is
-        // attached to the object widget.
-        ObjectWidget *ow = dynamic_cast<ObjectWidget*>(newWidget);
-        if (ow)
-            ow->moveEvent(NULL);
-    }
     m_WidgetList.append(newWidget);
     newWidget->activate();
 

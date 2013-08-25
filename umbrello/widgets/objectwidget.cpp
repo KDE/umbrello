@@ -38,6 +38,8 @@
 #define A_HEIGHT 40
 #define A_MARGIN 5
 
+DEBUG_REGISTER_DISABLED(ObjectWidget)
+
 /**
  * The number of pixels margin between the lowest message
  * and the bottom of the vertical line
@@ -59,13 +61,15 @@ ObjectWidget::ObjectWidget(UMLScene * scene, UMLObject *o, Uml::ID::Type lid)
     m_isOnDestructionBox(false)
 {
     m_nLocalID = Uml::ID::None;
-    if( m_scene != NULL && m_scene->type() == Uml::DiagramType::Sequence ) {
+    if (m_scene != NULL && m_scene->type() == Uml::DiagramType::Sequence) {
         m_pLine = new SeqLineWidget( m_scene, this );
+        m_pLine->setStartPoint(x() + width() / 2, y() + height());
     } else {
         m_pLine = 0;
     }
-    if( lid != Uml::ID::None )
+    if (lid != Uml::ID::None) {
         m_nLocalID = lid;
+    }
 }
 
 /**
@@ -191,7 +195,7 @@ void ObjectWidget::slotMenuSelection(QAction* action)
             if (ok) {
                 m_instanceName = name;
                 updateGeometry();
-                moveEvent( 0 );
+                moveEvent(0);
                 update();
                 UMLApp::app()->document()->setModified(true);
             }
@@ -201,7 +205,7 @@ void ObjectWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Properties:
         showPropertiesDialog();
         updateGeometry();
-        moveEvent( 0 );
+        moveEvent(0);
         update();
         break;
 
@@ -347,11 +351,8 @@ void ObjectWidget::mousePressEvent(QGraphicsSceneMouseEvent *me)
  */
 void ObjectWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 {
-    if (me->button() != Qt::LeftButton) {
-        return;
-    }
-
     if (m_inResizeArea) {
+        DEBUG(DBG_SRC) << "resizing...";
         resize(me);
         return;
     }
@@ -496,9 +497,9 @@ void ObjectWidget::tabUp()
     int newY = y() - height();
     if (newY < topMargin())
         newY = topMargin();
-    setY( newY );
-    moveEvent( 0 );
-    adjustAssocs( x(), newY);
+    setY(newY);
+    moveEvent(0);
+    adjustAssocs(x(), newY);
 }
 
 /**
@@ -507,9 +508,9 @@ void ObjectWidget::tabUp()
 void ObjectWidget::tabDown()
 {
     int newY = y() + height();
-    setY( newY );
-    moveEvent( 0 );
-    adjustAssocs( x(), newY);
+    setY(newY);
+    moveEvent(0);
+    adjustAssocs(x(), newY);
 }
 
 /**
