@@ -179,7 +179,7 @@ void MessageWidget::updateResizability()
  *
  * @return The cursor to be shown when resizing the widget.
  */
-QCursor MessageWidget::resizeCursor()
+QCursor MessageWidget::resizeCursor() const
 {
     return Qt::SizeVerCursor;
 }

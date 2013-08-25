@@ -316,9 +316,9 @@ qreal ObjectWidget::centerX()
 /**
  * Overrides the standard operation.
  */
-void ObjectWidget::moveEvent(QGraphicsSceneMouseEvent *m)
+void ObjectWidget::moveEvent(QGraphicsSceneMouseEvent *event)
 {
-    Q_UNUSED(m)
+    Q_UNUSED(event)
     emit sigWidgetMoved( m_nLocalID );
     if (m_pLine) {
         m_pLine->setStartPoint(x() + width() / 2, y() + height());
@@ -356,10 +356,10 @@ void ObjectWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
         return;
     }
 
-    int diffY = me->scenePos().y() - m_oldPos.y();
+    qreal diffY = me->scenePos().y() - m_oldPos.y();
 
     if (m_isOnDestructionBox) {
-        moveDestructionBy (diffY);
+        moveDestructionBy(diffY);
     }
     else {
         UMLWidget::mouseMoveEvent(me);
@@ -663,7 +663,7 @@ SeqLineWidget *ObjectWidget::sequentialLine() const
  *
  * @return The cursor to be shown when resizing the widget.
  */
-QCursor ObjectWidget::resizeCursor()
+QCursor ObjectWidget::resizeCursor() const
 {
     return Qt::SizeHorCursor;
 }

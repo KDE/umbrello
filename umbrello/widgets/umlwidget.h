@@ -14,17 +14,18 @@
 #include "associationwidgetlist.h"
 #include "basictypes.h"
 #include "optionstate.h"
-#include "umlscene.h"
+#include "umlscene.h"  //:TODO: remove this when all UMLScene types are replaced
 #include "widgetbase.h"
 
 #include <QCursor>
 #include <QDateTime>
 #include <QFont>
 
-class UMLObject;
-class UMLDoc;
-class ListPopupMenu;
 class IDChangeLog;
+class ListPopupMenu;
+class UMLDoc;
+class UMLObject;
+class UMLScene;
 
 class QPainter;
 class QMoveEvent;
@@ -41,11 +42,14 @@ class UMLWidget : public WidgetBase
 {
     Q_OBJECT
 public:
-    static const UMLSceneSize DefaultMinimumSize;
-    static const UMLSceneSize DefaultMaximumSize;
 
-    explicit UMLWidget(UMLScene * scene, WidgetType type = wt_UMLWidget, UMLObject * o = 0);
-    explicit UMLWidget(UMLScene * scene, WidgetType type = wt_UMLWidget, Uml::ID::Type id = Uml::ID::None);
+    friend class ToolBarStateArrow;  // for calling the mouse*Event handlers
+
+    static const QSizeF DefaultMinimumSize;
+    static const QSizeF DefaultMaximumSize;
+
+    explicit UMLWidget(UMLScene *scene, WidgetType type = wt_UMLWidget, UMLObject *o = 0);
+    explicit UMLWidget(UMLScene *scene, WidgetType type = wt_UMLWidget, Uml::ID::Type id = Uml::ID::None);
     virtual ~UMLWidget();
 
     // Copy constructor - not implemented.
@@ -55,11 +59,11 @@ public:
 
     bool operator==(const UMLWidget& other) const;
 
-    virtual UMLSceneSize minimumSize();
-    void setMinimumSize(const UMLSceneSize &size);
+    virtual QSizeF minimumSize();
+    void setMinimumSize(const QSizeF &size);
 
-    virtual UMLSceneSize maximumSize();
-    void setMaximumSize(const UMLSceneSize &size);
+    virtual QSizeF maximumSize();
+    void setMaximumSize(const QSizeF &size);
 
     void setUseFillColor(bool fc);
 
@@ -89,14 +93,14 @@ public:
         m_selected = _select;
     }
 
-    void setScene(UMLScene * v);
+    void setScene(UMLScene *scene);
 
     virtual bool activate(IDChangeLog* ChangeLog = 0);
 
-    virtual UMLSceneValue onWidget(const UMLScenePoint & p);
+    virtual qreal onWidget(const QPointF &p);
 
-    void setPenFromSettings(QPainter & p);
-    void setPenFromSettings(QPainter * p);
+    void setPenFromSettings(QPainter &p);
+    void setPenFromSettings(QPainter *p);
 
     virtual QFont font() const;
     virtual void setFont(QFont font);
@@ -107,28 +111,28 @@ public:
      *
      * @return The moving state.
      */
-    bool getStartMove() {
+    bool getStartMove() const {
         return m_startMove;
     }
 
-    virtual void setX(UMLSceneValue x);
-    virtual void setY(UMLSceneValue y);
+    virtual void setX(qreal x);
+    virtual void setY(qreal y);
 
     /**
      * Returns the height of widget.
      */
-    int height() const {
+    qreal height() const {
         return rect().height();
     }
 
     /**
      * Returns the width of the widget.
      */
-    UMLSceneValue width() const {
+    qreal width() const {
         return rect().width();
     }
 
-    void setSize(UMLSceneValue width,UMLSceneValue height);
+    void setSize(qreal width, qreal height);
     void setSize(const QSizeF& size);
 
     virtual void resizeWidget(qreal newW, qreal newH);
@@ -181,12 +185,11 @@ public:
 
     virtual void showPropertiesDialog();
 
-    bool isActivated();
-
     virtual void adjustAssocs(qreal x, qreal y);
     void adjustUnselectedAssocs(qreal x, qreal y);
 
-    void setActivated(bool Active = true);
+    bool isActivated() const;
+    void setActivated(bool active = true);
 
     virtual void cleanup();
 
@@ -204,27 +207,14 @@ public:
     QPointF startMovePosition() const;
     QSizeF startResizeSize() const;
 
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-
-    virtual void moveEvent(QGraphicsSceneMouseEvent *event);
-
-    virtual void constrain(UMLSceneValue& width, UMLSceneValue& height);
-
-    virtual void paintSelected(QPainter * p, int offsetX = 0, int offsetY = 0);
-
-    virtual UMLSceneSize calculateSize();
+    virtual QSizeF calculateSize();
     void resize();
 
-    bool fixedAspectRatio()
-    {
+    bool fixedAspectRatio() const {
         return m_fixedAspectRatio;
     }
 
-    void setFixedAspectRatio(bool state)
-    {
+    void setFixedAspectRatio(bool state) {
         m_fixedAspectRatio = state;
     }
 
@@ -247,41 +237,6 @@ public:
     void setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm);
     void setupFontType(QFont &font, UMLWidget::FontType fontType);
 
-    ///////////////// Data Loaded/Saved /////////////////////////////////
-
-    /**
-     * A list of AssociationWidgets between the UMLWidget and other UMLWidgets in the diagram
-     */
-    AssociationWidgetList m_Assocs;
-
-    QFont m_Font;   ///< the font the widget will use
-
-    QString m_instanceName;  ///< instance name (used if on a deployment diagram)
-    bool m_isInstance;       ///< holds whether this widget is a component instance (i.e. on a deployment diagram)
-    bool m_showStereotype;   ///< should the stereotype be displayed
-
-    ///////////////// End of Data Loaded/Saved //////////////////////////
-
-    bool m_selected, m_startMove;
-    QPointF        m_startMovePostion;
-    QSizeF         m_startResizeSize;
-    int            m_nPosX;
-    UMLDoc        *m_doc;  ///< shortcut for UMLApp::app()->getDocument()
-    bool           m_resizable;
-    QFontMetrics  *m_pFontMetrics[FT_INVALID];
-    UMLSceneSize   m_minimumSize;
-    UMLSceneSize   m_maximumSize;
-
-    /// true if the activate function has been called for this class instance
-    bool m_activated;
-
-    /**
-     * Change Widget Behaviour
-     */
-    bool m_ignoreSnapToGrid;
-    bool m_ignoreSnapComponentSizeToGrid;
-    bool m_fixedAspectRatio;
-
 public Q_SLOTS:
     virtual void updateWidget();
     virtual void slotMenuSelection(QAction* action);
@@ -303,12 +258,20 @@ signals:
 
 protected:
     virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent* event);
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
+    virtual void moveEvent(QGraphicsSceneMouseEvent *event);
     virtual void moveWidgetBy(qreal diffX, qreal diffY);
     virtual void constrainMovementForAllWidgets(qreal &diffX, qreal &diffY);
+    virtual void constrain(qreal& width, qreal& height);
 
     virtual bool isInResizeArea(QGraphicsSceneMouseEvent *me);
-    virtual QCursor resizeCursor();
+    virtual QCursor resizeCursor() const;
+
+    virtual void paintSelected(QPainter * p, int offsetX = 0, int offsetY = 0);
 
     void selectSingle(QGraphicsSceneMouseEvent *me);
     void selectMultiple(QGraphicsSceneMouseEvent *me);
@@ -321,6 +284,39 @@ protected:
 
     bool wasSizeChanged();
     bool wasPositionChanged();
+
+    ///////////////// Data Loaded/Saved /////////////////////////////////
+
+    /// A list of AssociationWidgets between the UMLWidget and other UMLWidgets in the diagram
+    AssociationWidgetList m_Assocs;
+
+    QFont m_Font;   ///< the font the widget will use
+
+    QString m_instanceName;  ///< instance name (used if on a deployment diagram)
+    bool m_isInstance;       ///< holds whether this widget is a component instance (i.e. on a deployment diagram)
+    bool m_showStereotype;   ///< should the stereotype be displayed
+
+    ///////////////// End of Data Loaded/Saved //////////////////////////
+
+    bool m_selected, m_startMove;
+    QPointF        m_startMovePostion;
+    QSizeF         m_startResizeSize;
+    int            m_nPosX;
+    UMLDoc        *m_doc;  ///< shortcut for UMLApp::app()->getDocument()
+    bool           m_resizable;
+    QFontMetrics  *m_pFontMetrics[FT_INVALID];
+    QSizeF         m_minimumSize;
+    QSizeF         m_maximumSize;
+
+    /// true if the activate function has been called for this class instance
+    bool m_activated;
+
+    /**
+     * Change Widget Behaviour
+     */
+    bool m_ignoreSnapToGrid;
+    bool m_ignoreSnapComponentSizeToGrid;
+    bool m_fixedAspectRatio;
 
     /// Timer that prevents excessive updates (be easy on the CPU).
     QTime m_lastUpdate;

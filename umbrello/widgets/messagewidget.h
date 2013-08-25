@@ -154,7 +154,7 @@ protected:
     virtual void moveWidgetBy(qreal diffX, qreal diffY);
     virtual void constrainMovementForAllWidgets(qreal &diffX, qreal &diffY);
 
-    virtual QCursor resizeCursor();
+    virtual QCursor resizeCursor() const;
 
     void setLinkAndTextPos();
 

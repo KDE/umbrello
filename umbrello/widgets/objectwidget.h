@@ -51,8 +51,6 @@ public:
 
     bool activate(IDChangeLog* ChangeLog = 0);
 
-    virtual void moveEvent(QGraphicsSceneMouseEvent *m);
-
     void cleanup();
 
     void showPropertiesDialog();
@@ -93,10 +91,11 @@ protected:
 
     QSizeF minimumSize();
 
+    virtual void moveEvent(QGraphicsSceneMouseEvent *event);
     virtual void moveWidgetBy(qreal diffX, qreal diffY);
     virtual void constrainMovementForAllWidgets(qreal &diffX, qreal &diffY);
 
-    virtual QCursor resizeCursor();
+    virtual QCursor resizeCursor() const;
 
     void paintActor(QPainter *p);
     void paintObject(QPainter *p);

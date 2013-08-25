@@ -23,6 +23,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umlobject.h"
+#include "umlscene.h"
 #include "umlview.h"
 #include "uniqueid.h"
 
@@ -41,8 +42,8 @@ using namespace Uml;
 
 DEBUG_REGISTER_DISABLED(UMLWidget)
 
-const UMLSceneSize UMLWidget::DefaultMinimumSize(50, 20);
-const UMLSceneSize UMLWidget::DefaultMaximumSize(1000, 5000);
+const QSizeF UMLWidget::DefaultMinimumSize(50, 20);
+const QSizeF UMLWidget::DefaultMaximumSize(1000, 5000);
 
 /**
  * Creates a UMLWidget object.
@@ -181,9 +182,9 @@ bool UMLWidget::operator==(const UMLWidget& other) const
 /**
  * Compute the minimum possible width and height.
  *
- * @return UMLSceneSize(mininum_width, minimum_height)
+ * @return QSizeF(mininum_width, minimum_height)
  */
-UMLSceneSize UMLWidget::minimumSize()
+QSizeF UMLWidget::minimumSize()
 {
     return m_minimumSize;
 }
@@ -194,7 +195,7 @@ UMLSceneSize UMLWidget::minimumSize()
  *
  * @param newSize The size being set as minimum.
  */
-void UMLWidget::setMinimumSize(const UMLSceneSize& newSize)
+void UMLWidget::setMinimumSize(const QSizeF& newSize)
 {
     m_minimumSize = newSize;
 }
@@ -204,7 +205,7 @@ void UMLWidget::setMinimumSize(const UMLSceneSize& newSize)
  *
  * @return maximum size
  */
-UMLSceneSize UMLWidget::maximumSize()
+QSizeF UMLWidget::maximumSize()
 {
     return m_maximumSize;
 }
@@ -215,7 +216,7 @@ UMLSceneSize UMLWidget::maximumSize()
  *
  * @param newSize The size being set as maximum.
  */
-void UMLWidget::setMaximumSize(const UMLSceneSize& newSize)
+void UMLWidget::setMaximumSize(const QSizeF& newSize)
 {
     m_maximumSize = newSize;
 }
@@ -306,9 +307,6 @@ void UMLWidget::constrainMovementForAllWidgets(qreal &diffX, qreal &diffY)
  */
 void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 {
-//    if (!m_leftButtonDown)
-//        return;
-
     if (m_inResizeArea) {
         resize(me);
         return;
@@ -348,14 +346,14 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
     // uDebug() << "after constrainMovementForAllWidgets:"
     //     << " diffX=" << diffX << ", diffY=" << diffY;
 
-    //Nothing to move
+    // nothing to move
     if (diffX == 0 && diffY == 0) {
         return;
     }
 
     if (m_lastUpdate.elapsed() > 25) {
         m_lastUpdate.restart();
-        uDebug() << "********** diffX=" << diffX << " / diffY=" << diffY;
+        uDebug() << "diffX=" << diffX << " / diffY=" << diffY;
         adjustUnselectedAssocs(position.x(), position.y());
     }
 
@@ -417,15 +415,6 @@ void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
     m_startMovePostion = pos();
     m_startResizeSize = QSizeF(width(), height());
 
-//    if (me->button() == Qt::LeftButton) {
-//        m_leftButtonDown = true;
-//    } else if (me->button() == Qt::RightButton) {
-//        m_rightButtonDown = true;
-//    } else {
-//        m_middleButtonDown = true;
-//        return;
-//    }
-
     // saving the values of the widget
     m_pressOffset = event->scenePos() - pos();
     uDebug() << "press offset=" << m_pressOffset;
@@ -452,7 +441,7 @@ void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
     int count = m_scene->selectedCount(true);
     if (event->button() == Qt::LeftButton) {
         if (isSelected() && count > 1) {
-            //Single selection is made in release event if the widget wasn't moved
+            // single selection is made in release event if the widget wasn't moved
             m_inMoveArea = true;
             m_oldPos = pos();
             m_lastUpdate.start();
@@ -468,7 +457,7 @@ void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
         }
     }
 
-    //If widget wasn't selected, or it was selected but with other widgets also selected
+    // if widget wasn't selected, or it was selected but with other widgets also selected
     if (!isSelected() || count > 1) {
         selectSingle(event);
 //    } else if (!m_rightButtonDown) {
@@ -545,7 +534,7 @@ void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
 //    } else if (me->button() == Qt::RightButton) {
 //        if (m_rightButtonDown) {
 //            m_rightButtonDown = false;
-//            //:TODO: was showPopupMenu(me);
+//            showPopupMenu(me);
 //        } else if (m_leftButtonDown) {
     }
 
@@ -643,21 +632,21 @@ void UMLWidget::updateWidget()
  * @param width  input value, may be modified by the constraint
  * @param height input value, may be modified by the constraint
  */
-void UMLWidget::constrain(UMLSceneValue& width, UMLSceneValue& height)
+void UMLWidget::constrain(qreal& width, qreal& height)
 {
-    UMLSceneSize minSize = minimumSize();
+    QSizeF minSize = minimumSize();
     if (width < minSize.width())
         width = minSize.width();
     if (height < minSize.height())
         height = minSize.height();
-    UMLSceneSize maxSize = maximumSize();
+    QSizeF maxSize = maximumSize();
     if (width > maxSize.width())
         width = maxSize.width();
     if (height > maxSize.height())
         height = maxSize.height();
 
     if (fixedAspectRatio()) {
-        UMLSceneSize size = rect().size();
+        QSizeF size = rect().size();
         float aspectRatio = size.width() > 0 ? (float)size.height()/size.width() : 1;
         height = width * aspectRatio;
     }
@@ -966,7 +955,7 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
     updateGeometry();
     if (m_scene->getPaste()) {
         FloatingTextWidget * ft = 0;
-        UMLScenePoint point = m_scene->getPastePoint();
+        QPointF point = m_scene->getPastePoint();
         int x = point.x() + this->x();
         int y = point.y() + this->y();
         x = x < 0 ? 0 : x;
@@ -1020,7 +1009,7 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
  *
  * @return The activate status.
  */
-bool UMLWidget::isActivated()
+bool UMLWidget::isActivated() const
 {
     return m_activated;
 }
@@ -1030,9 +1019,9 @@ bool UMLWidget::isActivated()
  *
  * @param Active Status of activation is to be set.
  */
-void UMLWidget::setActivated(bool Active /*=true*/)
+void UMLWidget::setActivated(bool active /*=true*/)
 {
-    m_activated = Active;
+    m_activated = active;
 }
 
 /**
@@ -1134,14 +1123,14 @@ void UMLWidget::showPropertiesDialog()
  * @return 0 if the given point is not in the boundaries of the widget;
  *         (width()+height())/2 if the point is within the boundaries.
  */
-UMLSceneValue UMLWidget::onWidget(const UMLScenePoint & p)
+qreal UMLWidget::onWidget(const QPointF &p)
 {
-    const UMLSceneValue w = width();
-    const UMLSceneValue h = height();
-    const UMLSceneValue left = x();
-    const UMLSceneValue right = left + w;
-    const UMLSceneValue top = y();
-    const UMLSceneValue bottom = top + h;
+    const qreal w = width();
+    const qreal h = height();
+    const qreal left = x();
+    const qreal right = left + w;
+    const qreal top = y();
+    const qreal bottom = top + h;
     if (p.x() < left || p.x() > right ||
             p.y() < top || p.y() > bottom)   // Qt coord.sys. origin in top left corner
         return 0;
@@ -1184,7 +1173,7 @@ void UMLWidget::setPenFromSettings(QPainter *p)
  *
  * @return The cursor to be shown when resizing the widget.
  */
-QCursor UMLWidget::resizeCursor()
+QCursor UMLWidget::resizeCursor() const
 {
     return Qt::SizeFDiagCursor;
 }
@@ -1225,15 +1214,15 @@ bool UMLWidget::isInResizeArea(QGraphicsSceneMouseEvent *me)
  *
  * @return calculated widget size
  */
-UMLSceneSize UMLWidget::calculateSize()
+QSizeF UMLWidget::calculateSize()
 {
-    return UMLSceneSize(width(), height());
+    return QSizeF(width(), height());
 }
 
 void UMLWidget::resize()
 {
     // @TODO minimumSize() do not work in all cases, we need a dedicated autoResize() method
-    UMLSceneSize size = minimumSize();
+    QSizeF size = minimumSize();
     setSize(size.width(), size.height());
     DEBUG(DBG_SRC) << "x=" << x() << " / y=" << y();
     adjustAssocs(x(), y());    // adjust assoc lines
@@ -1409,14 +1398,14 @@ void UMLWidget::deselect(QGraphicsSceneMouseEvent *me)
  *
  * @param v The view the widget is on.
  */
-void UMLWidget::setScene(UMLScene * v)
+void UMLWidget::setScene(UMLScene *scene)
 {
     //remove signals from old view - was probably 0 anyway
     disconnect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
     disconnect(m_scene, SIGNAL(sigFillColorChanged(Uml::ID::Type)), this, SLOT(slotFillColorChanged(Uml::ID::Type)));
     disconnect(m_scene, SIGNAL(sigTextColorChanged(Uml::ID::Type)), this, SLOT(slotTextColorChanged(Uml::ID::Type)));
     disconnect(m_scene, SIGNAL(sigLineWidthChanged(Uml::ID::Type)), this, SLOT(slotLineWidthChanged(Uml::ID::Type)));
-    m_scene = v;
+    m_scene = scene;
     connect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
     connect(m_scene, SIGNAL(sigFillColorChanged(Uml::ID::Type)), this, SLOT(slotFillColorChanged(Uml::ID::Type)));
     connect(m_scene, SIGNAL(sigTextColorChanged(Uml::ID::Type)), this, SLOT(slotTextColorChanged(Uml::ID::Type)));
@@ -1430,7 +1419,7 @@ void UMLWidget::setScene(UMLScene * v)
  *
  * @param x The x-coordinate to be set.
  */
-void UMLWidget::setX(UMLSceneValue x)
+void UMLWidget::setX(qreal x)
 {
     QGraphicsObject::setX(x);
 }
@@ -1442,7 +1431,7 @@ void UMLWidget::setX(UMLSceneValue x)
  *
  * @param y The y-coordinate to be set.
  */
-void UMLWidget::setY(UMLSceneValue y)
+void UMLWidget::setY(qreal y)
 {
     QGraphicsObject::setY(y);
 }
@@ -1512,7 +1501,7 @@ bool UMLWidget::getIgnoreSnapToGrid() const
  * If m_scene->snapComponentSizeToGrid() is true, then
  * set the next larger size that snaps to the grid.
  */
-void UMLWidget::setSize(UMLSceneValue width, UMLSceneValue height)
+void UMLWidget::setSize(qreal width, qreal height)
 {
     // snap to the next larger size that is a multiple of the grid
     if (!m_ignoreSnapComponentSizeToGrid
@@ -1545,9 +1534,9 @@ void UMLWidget::updateGeometry()
 {
     if (m_doc->loading())
         return;
-    UMLSceneSize size = calculateSize();
-    UMLSceneValue clipWidth = size.width();
-    UMLSceneValue clipHeight = size.height();
+    QSizeF size = calculateSize();
+    qreal clipWidth = size.width();
+    qreal clipHeight = size.height();
     constrain(clipWidth, clipHeight);
     setSize(clipWidth, clipHeight);
     slotSnapToGrid();
@@ -1561,8 +1550,8 @@ void UMLWidget::updateGeometry()
  */
 void UMLWidget::clipSize()
 {
-    UMLSceneValue clipWidth = width();
-    UMLSceneValue clipHeight = height();
+    qreal clipWidth = width();
+    qreal clipHeight = height();
     constrain(clipWidth, clipHeight);
     setSize(clipWidth, clipHeight);
 }
