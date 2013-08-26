@@ -42,6 +42,7 @@ PinWidget::PinWidget(UMLScene* scene, UMLWidget* a, Uml::ID::Type id)
   : UMLWidget(scene, WidgetBase::wt_Pin, id),
     m_pOw(a)
 {
+    setParent(a);
     m_ignoreSnapToGrid = true;
     m_ignoreSnapComponentSizeToGrid = true;
     m_resizable = false;
@@ -64,6 +65,8 @@ PinWidget::PinWidget(UMLScene* scene, UMLWidget* a, Uml::ID::Type id)
  */
 PinWidget::~PinWidget()
 {
+    if (m_scene->widgetList().contains(this))
+        m_scene->widgetList().removeAll(this);
 }
 
 /**
