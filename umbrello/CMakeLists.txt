@@ -45,7 +45,6 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/codeimport/
   ${CMAKE_CURRENT_SOURCE_DIR}/codeimport/csharp/
   ${CMAKE_CURRENT_SOURCE_DIR}/codeimpwizard/
-  ${CMAKE_CURRENT_SOURCE_DIR}/controller/
   ${CMAKE_CURRENT_SOURCE_DIR}/debug/
   ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/
   ${CMAKE_CURRENT_SOURCE_DIR}/docgenerators/

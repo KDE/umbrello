@@ -66,7 +66,7 @@ AssociationLine::~AssociationLine()
  */
 QPointF AssociationLine::point(int index) const
 {
-    if ((index < 0) | (index > m_points.size() - 1)) {
+    if ((index < 0) | (index >= m_points.size())) {
         uWarning() << "Index " << index << " out of range [0.." << m_points.size() - 1 << "].";
         return QPointF(-1.0, -1.0);
     }
@@ -78,8 +78,8 @@ QPointF AssociationLine::point(int index) const
  */
 bool AssociationLine::setPoint(int index, const QPointF &point)
 {
-    if ((index < 0) | (index > m_points.size())) {
-        uWarning() << "Index " << index << " out of range [0.." << m_points.size() << "].";
+    if ((index < 0) | (index >= m_points.size())) {
+        uWarning() << "Index " << index << " out of range [0.." << m_points.size() - 1 << "].";
         return false;
     }
     if (m_points.at(index) == point) {
