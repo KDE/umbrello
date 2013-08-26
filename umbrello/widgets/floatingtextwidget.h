@@ -14,7 +14,6 @@
 #include "basictypes.h"
 #include "umlwidget.h"
 
-class FloatingTextWidgetController;
 class LinkWidget;
 class UMLScene;
 
@@ -38,8 +37,6 @@ class FloatingTextWidget : public UMLWidget
 {
     Q_OBJECT
 public:
-    friend class FloatingTextWidgetController;
-
     explicit FloatingTextWidget(UMLScene * scene, Uml::TextRole::Enum role = Uml::TextRole::Floating,
                                 const QString& text = "", Uml::ID::Type id = Uml::ID::None);
     virtual ~FloatingTextWidget();
@@ -86,7 +83,12 @@ public Q_SLOTS:
 protected:
     UMLSceneSize minimumSize();
 
+    virtual void moveWidgetBy(qreal diffX, qreal diffY);
+    virtual void constrainMovementForAllWidgets(qreal &diffX, qreal &diffY);
+
 private:
+    QPointF constrainPosition(qreal diffX, qreal diffY);
+
     /// The association or message widget we may be linked to.
     LinkWidget * m_linkWidget;
 
@@ -98,6 +100,22 @@ private:
     QString m_postText;
     /// The role the text widget will enact.
     Uml::TextRole::Enum m_textRole;
+
+    ////////
+
+    /// The horizontal position the widget would have if its move wasn't constrained.
+    qreal m_unconstrainedPositionX;
+
+    /// The vertical position the widget would have if its move wasn't constrained.
+    qreal m_unconstrainedPositionY;
+
+    /// The X direction the widget was moved when the constrain was applied.
+    /// -1 means left, 1 means right.
+    int m_movementDirectionX;
+
+    /// The Y direction the widget was moved when the constrain was applied.
+    /// -1 means up, 1 means down.
+    int m_movementDirectionY;
 
 };
 

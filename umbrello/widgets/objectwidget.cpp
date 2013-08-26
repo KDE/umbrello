@@ -16,11 +16,11 @@
 #include "debug_utils.h"
 #include "listpopupmenu.h"
 #include "messagewidget.h"
-#include "objectwidgetcontroller.h"
 #include "seqlinewidget.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlobject.h"
+#include "umlscene.h"
 #include "umlview.h"
 
 // kde includes
@@ -37,6 +37,8 @@
 #define A_WIDTH 20
 #define A_HEIGHT 40
 #define A_MARGIN 5
+
+DEBUG_REGISTER_DISABLED(ObjectWidget)
 
 /**
  * The number of pixels margin between the lowest message
@@ -55,19 +57,19 @@ ObjectWidget::ObjectWidget(UMLScene * scene, UMLObject *o, Uml::ID::Type lid)
   : UMLWidget(scene, WidgetBase::wt_Object, o),
     m_multipleInstance(false),
     m_drawAsActor(false),
-    m_showDestruction(false)
+    m_showDestruction(false),
+    m_isOnDestructionBox(false)
 {
     m_nLocalID = Uml::ID::None;
-    if(m_scene != NULL && m_scene->type() == Uml::DiagramType::Sequence) {
-        m_pLine = new SeqLineWidget(m_scene, this);
-        //Sets specific widget controller for sequence diagrams
-        delete m_widgetController;
-        m_widgetController = new ObjectWidgetController(this);
+    if (m_scene != NULL && m_scene->type() == Uml::DiagramType::Sequence) {
+        m_pLine = new SeqLineWidget( m_scene, this );
+        m_pLine->setStartPoint(x() + width() / 2, y() + height());
     } else {
         m_pLine = 0;
     }
-    if(lid != Uml::ID::None)
+    if (lid != Uml::ID::None) {
         m_nLocalID = lid;
+    }
 }
 
 /**
@@ -122,6 +124,36 @@ void ObjectWidget::setMultipleInstance(bool multiple)
 bool ObjectWidget::multipleInstance() const
 {
     return m_multipleInstance;
+}
+
+/**
+ * Overridden from UMLWidget.
+ * Moves the widget to a new position using the difference between the
+ * current position and the new position.
+ * Y position is ignored, and widget is only moved along X axis.
+ *
+ * @param diffX The difference between current X position and new X position.
+ * @param diffY The difference between current Y position and new Y position
+ *                          (isn't used).
+ */
+void ObjectWidget::moveWidgetBy(qreal diffX, qreal diffY)
+{
+    Q_UNUSED(diffY);
+    setX(x() + diffX);
+}
+
+/**
+ * Overridden from UMLWidget.
+ * Modifies the value of the diffX and diffY variables used to move the widgets.
+ * All the widgets are constrained to be moved only in X axis (diffY is set to 0).
+ *
+ * @param diffX The difference between current X position and new X position.
+ * @param diffY The difference between current Y position and new Y position.
+ */
+void ObjectWidget::constrainMovementForAllWidgets(qreal &diffX, qreal &diffY)
+{
+    Q_UNUSED(diffX);
+    diffY = 0;
 }
 
 /**
@@ -194,7 +226,7 @@ void ObjectWidget::slotMenuSelection(QAction* action)
 /**
  * Overrides method from UMLWidget
  */
-UMLSceneSize ObjectWidget::minimumSize()
+QSizeF ObjectWidget::minimumSize()
 {
     int width, height;
     const QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
@@ -215,7 +247,7 @@ UMLSceneSize ObjectWidget::minimumSize()
         }
     }//end else drawasactor
 
-    return UMLSceneSize(width, height);
+    return QSizeF(width, height);
 }
 
 /**
@@ -258,7 +290,7 @@ bool ObjectWidget::activate(IDChangeLog* ChangeLog /*= 0*/)
  *
  * @param x The x-coordinate to be set.
  */
-void ObjectWidget::setX(UMLSceneValue x)
+void ObjectWidget::setX(qreal x)
 {
     UMLWidget::setX(x);
     moveEvent(0);
@@ -270,7 +302,7 @@ void ObjectWidget::setX(UMLSceneValue x)
  *
  * @param y The y-coordinate to be set.
  */
-void ObjectWidget::setY(UMLSceneValue y)
+void ObjectWidget::setY(qreal y)
 {
     UMLWidget::setY(y);
     moveEvent(0);
@@ -280,7 +312,7 @@ void ObjectWidget::setY(UMLSceneValue y)
  * Return the x coordinate of the widgets center.
  * @return The x-coordinate of the widget center.
  */
-UMLSceneValue ObjectWidget::centerX()
+qreal ObjectWidget::centerX()
 {
     return x() + width()/2;
 }
@@ -288,13 +320,68 @@ UMLSceneValue ObjectWidget::centerX()
 /**
  * Overrides the standard operation.
  */
-void ObjectWidget::moveEvent(QGraphicsSceneMouseEvent *m)
+void ObjectWidget::moveEvent(QGraphicsSceneMouseEvent *event)
 {
-    Q_UNUSED(m)
+    Q_UNUSED(event)
     emit sigWidgetMoved(m_nLocalID);
     if (m_pLine) {
         m_pLine->setStartPoint(x() + width() / 2, y() + height());
     }
+}
+
+/**
+ * Overrides the standard operation.
+ */
+void ObjectWidget::mousePressEvent(QGraphicsSceneMouseEvent *me)
+{
+    UMLWidget::mousePressEvent(me);
+    m_isOnDestructionBox = false;
+    SeqLineWidget *pLine = sequentialLine();
+
+    if (pLine->onDestructionBox(me->scenePos())) {
+        m_isOnDestructionBox = true;
+        qreal oldX = x() + width() / 2;
+        qreal oldY = getEndLineY() - 10;
+        m_oldPos = QPointF(oldX, oldY);
+    }
+}
+
+/**
+ * Overrides the standard operation.
+ */
+void ObjectWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
+{
+    if (m_inResizeArea) {
+        DEBUG(DBG_SRC) << "resizing...";
+        resize(me);
+        moveEvent(0);
+        return;
+    }
+
+    qreal diffY = me->scenePos().y() - m_oldPos.y();
+
+    if (m_isOnDestructionBox) {
+        moveDestructionBy(diffY);
+    }
+    else {
+        UMLWidget::mouseMoveEvent(me);
+    }
+}
+
+/**
+ * Moves the destruction Box to a new position using the difference between the
+ * current position and the new position.
+ * The destruction box is only moved along Y axis.
+ *
+ * @param diffY The difference between current Y position and new Y position
+ */
+void ObjectWidget::moveDestructionBy(qreal diffY)
+{
+    // endLine = length of the life line + diffY - 10 to center on the destruction box
+    qreal endLine = getEndLineY() + diffY - 10;
+    SeqLineWidget *pLine = sequentialLine();
+    pLine->setEndOfLine(endLine);
+    m_oldPos.setY(endLine);
 }
 
 /**
@@ -546,14 +633,14 @@ void ObjectWidget::slotMessageMoved()
  * @param y               top of your message
  * @param messageWidget   pointer to your message so it doesn't check against itself
  */
-bool ObjectWidget::messageOverlap(UMLSceneValue y, MessageWidget* messageWidget)
+bool ObjectWidget::messageOverlap(qreal y, MessageWidget* messageWidget)
 {
     foreach (MessageWidget* message, m_messages) {
         if (message == messageWidget) {
             continue;
         }
-        const UMLSceneValue msgY = message->y();
-        const UMLSceneValue msgHeight = msgY + message->height();
+        const qreal msgY = message->y();
+        const qreal msgHeight = msgY + message->height();
         if (y >= msgY && y <= msgHeight) {
             return true;
         }
@@ -569,6 +656,32 @@ bool ObjectWidget::messageOverlap(UMLSceneValue y, MessageWidget* messageWidget)
 SeqLineWidget *ObjectWidget::sequentialLine() const
 {
     return m_pLine;
+}
+
+/**
+ * Overridden from UMLWidget.
+ * Returns the cursor to be shown when resizing the widget.
+ * The cursor shown is KCursor::sizeHorCursor().
+ *
+ * @return The cursor to be shown when resizing the widget.
+ */
+QCursor ObjectWidget::resizeCursor() const
+{
+    return Qt::SizeHorCursor;
+}
+
+/**
+ * Overridden from UMLWidget.
+ * Resizes the width of the object widget.
+ * Object widgets can only be resized horizontally, so height isn't modified.
+ *
+ * @param newW   The new width for the widget.
+ * @param newH   The new height for the widget (isn't used).
+ */
+void ObjectWidget::resizeWidget(qreal newW, qreal newH)
+{
+    Q_UNUSED(newH);
+    setSize(newW, height());
 }
 
 /**

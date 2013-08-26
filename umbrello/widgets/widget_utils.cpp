@@ -15,14 +15,13 @@
 #include "debug_utils.h"
 #include "objectwidget.h"
 #include "messagewidget.h"
-#include "uml.h"
-#include "umlscene.h"
-#include "umlview.h"
 #include "umlwidget.h"
 
 // qt includes
 #include <QBuffer>
 #include <QImageReader>
+#include <QGraphicsItem>
+#include <QGraphicsRectItem>
 #include <QPolygonF>
 
 // c++ include
@@ -63,20 +62,20 @@ namespace Widget_Utils
 
     /**
      * Creates the decoration point.
-     * @param p   the base point
-     * @return    the decoration point
+     * @param p        base point to decorate
+     * @param parent   parent item
+     * @return         decoration point
      */
-    QGraphicsRectItem* decoratePoint(const UMLScenePoint& p)
+    QGraphicsRectItem* decoratePoint(const QPointF &p, QGraphicsItem* parent)
     {
-        const int SIZE = 4;
-        UMLView *currentView = UMLApp::app()->currentView();
-        QGraphicsRectItem *rect = new QGraphicsRectItem(p.x() - SIZE / 2,
-                                                        p.y() - SIZE / 2,
-                                                        SIZE, SIZE);
-        currentView->umlScene()->addItem(rect);
+        const qreal SIZE = 4.0;
+        const qreal SIZE_HALF = SIZE / 2.0;
+        QGraphicsRectItem *rect = new QGraphicsRectItem(p.x() - SIZE_HALF,
+                                                        p.y() - SIZE_HALF,
+                                                        SIZE, SIZE,
+                                                        parent);
         rect->setBrush(QBrush(Qt::blue));
         rect->setPen(QPen(Qt::blue));
-        rect->setVisible(true);
         return rect;
     }
 
@@ -127,7 +126,7 @@ namespace Widget_Utils
      * @param triSize The size of the triange in the top-right corner.
      */
     void drawTriangledRect(QPainter *painter,
-                           const UMLSceneRect& rect, const UMLSceneSize& triSize)
+                           const QRectF &rect, const QSizeF &triSize)
     {
         // Draw outer boundary defined by polygon "poly".
         QPolygonF poly(5);
@@ -139,9 +138,9 @@ namespace Widget_Utils
         painter->drawPolygon(poly);
 
         // Now draw the triangle base and height edges.
-        UMLSceneLine heightEdge(poly[1], poly[1] + QPointF(0, triSize.height()));
+        QLineF heightEdge(poly[1], poly[1] + QPointF(0, triSize.height()));
         painter->drawLine(heightEdge);
-        UMLSceneLine baseEdge(heightEdge.p2(), poly[2]);
+        QLineF baseEdge(heightEdge.p2(), poly[2]);
         painter->drawLine(baseEdge);
     }
 

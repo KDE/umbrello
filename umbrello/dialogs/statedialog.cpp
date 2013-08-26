@@ -48,7 +48,6 @@ StateDialog::StateDialog(UMLView * pView, StateWidget * pWidget)
     setModal(true);
     showButtonSeparator(true);
     setFaceType(KPageDialog::List);
-
     setupPages();
     connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
     connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));

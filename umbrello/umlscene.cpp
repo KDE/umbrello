@@ -576,7 +576,6 @@ void UMLScene::slotObjectCreated(UMLObject* o)
         return;
     }
 
-    newWidget->setVisible(true);
     newWidget->setActivated();
     newWidget->setFont(font());
     newWidget->slotFillColorChanged(ID());
@@ -584,13 +583,6 @@ void UMLScene::slotObjectCreated(UMLObject* o)
     newWidget->slotLineWidthChanged(ID());
     newWidget->updateGeometry();
 
-    if (m_Type == Uml::DiagramType::Sequence) {
-        // Set proper position on the sequence line widget which is
-        // attached to the object widget.
-        ObjectWidget *ow = dynamic_cast<ObjectWidget*>(newWidget);
-        if (ow)
-            ow->moveEvent(NULL);
-    }
     m_WidgetList.append(newWidget);
     newWidget->activate();
 
@@ -819,8 +811,7 @@ void UMLScene::mouseMoveEvent(QGraphicsSceneMouseEvent* ome)
  */
 void UMLScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-    // do not handle right clicks here, leave it to contextMenuEvent
-    if (event->button() == Qt::RightButton) {
+    if (event->button() != Qt::LeftButton) {
         event->ignore();
         return;
     }
@@ -842,8 +833,9 @@ void UMLScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
         AssociationWidget* association = associationAt(event->scenePos());
         if (association) {
             DEBUG(DBG_SRC) << "association widget = " << association->name() << " / type = " << association->baseTypeStr();
-            showDocumentation(association, true);
-            event->accept();
+            // the following is done in AssociationWidget::setSelected()
+            // showDocumentation(association, true);
+            // event->accept();
         }
         //:TODO: else if (clicking on other elements with documentation) {
         //:TODO: showDocumentation(umlObject, true);
@@ -1215,23 +1207,23 @@ bool UMLScene::onItem(const UMLScenePoint& atPos)
 {
     UMLWidget* widget = widgetAt(atPos);
     if (widget) {
-        DEBUG(DBG_SRC) << "widget = " << widget->name() << " / type = " << widget->baseTypeStr();
+        DEBUG(DBG_SRC) << "uml widget = " << widget->name() << " / type = " << widget->baseTypeStr();
         return true;
     }
 
     AssociationWidget* association = associationAt(atPos);
     if (association) {
-        DEBUG(DBG_SRC) << "association widget = " << association->name() << " / type = " << association->baseTypeStr();
+        DEBUG(DBG_SRC) << "association = " << association->name() << " / type = " << association->baseTypeStr();
         return true;
     }
 
     MessageWidget* message = messageAt(atPos);
     if (message) {
-        DEBUG(DBG_SRC) << "message widget = " << message->name() << " / type = " << message->baseTypeStr();
+        DEBUG(DBG_SRC) << "message = " << message->name() << " / type = " << message->baseTypeStr();
         return true;
     }
 
-    DEBUG(DBG_SRC) << "not widget, not association, not message";
+    DEBUG(DBG_SRC) << "Not on any item!";
     return false;
 }
 
@@ -2268,12 +2260,12 @@ void UMLScene::removeAssocInViewAndDoc(AssociationWidget* a)
 /**
  * Removes all the associations related to Widget.
  *
- * @param pWidget  Pointer to the widget to remove.
+ * @param widget  Pointer to the widget to remove.
  */
-void UMLScene::removeAssociations(UMLWidget* Widget)
+void UMLScene::removeAssociations(UMLWidget* widget)
 {
     foreach(AssociationWidget* assocwidget, m_AssociationList) {
-        if (assocwidget->hasWidget(Widget)) {
+        if (assocwidget->containsAsEndpoint(widget)) {
             removeAssoc(assocwidget);
         }
     }
@@ -2966,16 +2958,13 @@ void UMLScene::resetToolbar()
  */
 void UMLScene::contextMenuEvent(QGraphicsSceneContextMenuEvent* contextMenuEvent)
 {
-    UMLWidget* widget = widgetAt(contextMenuEvent->scenePos());
-    AssociationWidget* association = associationAt(contextMenuEvent->scenePos());
-    if (widget || association) {
+    if (onItem(contextMenuEvent->scenePos())) {
         // forward the event to the item
         QGraphicsScene::contextMenuEvent(contextMenuEvent);
     }
     else {
         // set the position for the eventually created widget
         setPos(contextMenuEvent->scenePos());
-
         setMenu(contextMenuEvent->screenPos());
         contextMenuEvent->accept();
     }

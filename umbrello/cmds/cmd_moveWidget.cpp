@@ -11,7 +11,6 @@
 #include "cmd_moveWidget.h"
 
 // app includes
-#include "umlwidgetcontroller.h"
 #include "umlwidget.h"
 
 #include <klocale.h>
@@ -19,16 +18,14 @@
 namespace Uml
 {
 
-    CmdMoveWidget::CmdMoveWidget(UMLWidgetController* wc)
+    CmdMoveWidget::CmdMoveWidget(UMLWidget *widget)
       : QUndoCommand(),
-        m_widgetCtrl(wc)
+        m_widget(widget)
     {
-        UMLWidget * w = wc->getWidget();
-        setText(i18n("Move widget : %1", w->name()));
-        m_x = w->x();
-        m_y = w->y();
-        m_oldX = wc->getOldX();
-        m_oldY = wc->getOldY();
+        Q_ASSERT(widget != 0);
+        setText(i18n("Move widget : %1", widget->name()));
+        m_pos = widget->pos();
+        m_posOld = widget->startMovePosition();
     }
 
     CmdMoveWidget::~CmdMoveWidget()
@@ -37,29 +34,14 @@ namespace Uml
 
     void CmdMoveWidget::redo()
     {
-        m_widgetCtrl->insertSaveValues(m_oldX, m_oldY, m_x, m_y);
-        m_widgetCtrl->widgetMoved();
-
-        //UMLWidget * w =
-        //m_widgetCtrl->reverseOldNewValues();
-        //m_widgetCtrl->widgetMoved();
-        //m_widgetCtrl->moveWidget(diffX, diffY);
-        //m_widgetCtrl->moveWidget(10, 10);
-        //widget->getWidgetController()->moveWidgetBy(diffX, diffY);
+        m_widget->setPos(m_pos);
+        m_widget->updateGeometry();
     }
 
     void CmdMoveWidget::undo()
     {
-        //UMLWidget * w =
-        m_widgetCtrl->insertSaveValues(m_x, m_y, m_oldX, m_oldY);
-        m_widgetCtrl->widgetMoved();
-        //w->setX(m_oldX);
-        //w->setY(m_oldY);
-
-        //m_widgetCtrl->moveWidget(w->x() - m_oldX, w->y() - m_oldY);
-        //m_widgetCtrl->moveWidget(-10, -10);
-        //m_widgetCtrl->moveWidget(-diffX, -diffY);
-        //widget->getWidgetController()->moveWidgetBy(-diffX, -diffY);
+        m_widget->setPos(m_posOld);
+        m_widget->updateGeometry();
     }
 
 //    bool CmdMoveWidget::mergeWith(const QUndoCommand* other)

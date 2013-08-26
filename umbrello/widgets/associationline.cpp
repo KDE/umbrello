@@ -14,9 +14,7 @@
 // application includes
 #include "associationwidget.h"
 #include "debug_utils.h"
-#include "widget_utils.h"
-#include "umldoc.h"
-#include "uml.h"
+#include "umlwidget.h"
 
 // qt includes
 #include <QDomDocument>
@@ -28,63 +26,31 @@
 
 DEBUG_REGISTER_DISABLED(AssociationLine)
 
-AssociationLine::Circle::Circle(int radius, QGraphicsItem *parent)
-    : QGraphicsEllipseItem(-radius, -radius, radius * 2, radius * 2, parent)
-{
-}
-
-void AssociationLine::Circle::setRadius(int radius)
-{
-    QGraphicsEllipseItem::setRect(-radius, -radius, radius * 2, radius * 2);
-}
-
-int AssociationLine::Circle::getRadius() const
-{
-    return rect().height() / 2;
-}
-
-void AssociationLine::Circle::drawShape(QPainter& p)
-{
-    p.drawEllipse(rect());
-}
-
-AssociationLine::SubsetSymbol::SubsetSymbol(QGraphicsItem* parent)
-  : QGraphicsEllipseItem(parent),
-    inclination(0)
-{
-}
-
-void AssociationLine::SubsetSymbol::drawShape(QPainter& p)
-{
-    p.translate(QPoint((int)x(), (int)y()));
-    p.rotate(inclination);
-    int width = 30, height = 20;
-    int startAngle = 90, endAngle = 180;
-    p.drawArc(0, -height/2, width, height, startAngle*16, endAngle*16);
-    // revert back
-    p.rotate(-inclination);
-    p.translate(QPoint((int)-x(), (int)-y()));
-}
+// Initialize static variables.
+const qreal AssociationLine::Delta = 5;
+const qreal AssociationLine::SelectedPointDiameter = 4;
+const qreal AssociationLine::SelfAssociationMinimumHeight = 30;
 
 /**
  * Constructor.
+ * Constructs an AssociationLine item with its parent being \a parent.
  */
 AssociationLine::AssociationLine(AssociationWidget *association)
   : QGraphicsObject(association),
     m_associationWidget(association),
-    m_bSelected(false),
-    m_pClearPoly(0),
-    m_pCircle(0),
-    m_pSubsetSymbol(0),
-    m_DockRegion(TopBottom),
-    m_bHeadCreated(false),
-    m_bSubsetSymbolCreated(false),
-    m_bParallelLineCreated(false)
+    m_activePointIndex(-1),
+    m_activeSegmentIndex(-1),
+    m_startSymbol(0),
+    m_endSymbol(0),
+    m_subsetSymbol(0),
+    m_collaborationLineItem(0),
+    m_collaborationLineHead(0),
+    m_layout(Polyline)
 {
     Q_ASSERT(association);
     setFlag(QGraphicsLineItem::ItemIsSelectable);
-    m_PointArray.resize(4);
-    m_ParallelLines.resize(4);
+    setAcceptHoverEvents(true);
+    setZValue(3);
 }
 
 /**
@@ -96,58 +62,32 @@ AssociationLine::~AssociationLine()
 
 /**
  * Returns the point at the point index.
+ * @return point at given index
  */
 QPointF AssociationLine::point(int index) const
 {
-    int count = m_LineList.count();
-    if(count == 0 || index > count  || index < 0)
-        return QPointF(-1, -1);
-
-    if(index == count) {
-        QGraphicsLineItem* line = m_LineList.last();
-        return line->line().p2();
+    if ((index < 0) | (index > m_points.size() - 1)) {
+        uWarning() << "Index " << index << " out of range [0.." << m_points.size() - 1 << "].";
+        return QPointF(-1.0, -1.0);
     }
-    QGraphicsLineItem* line = m_LineList.at(index);
-    return line->line().p1();
+    return m_points.at(index);
 }
 
 /**
- * Sets the position of an already set point.
+ * Sets the point value at given index to \a point.
  */
 bool AssociationLine::setPoint(int index, const QPointF &point)
 {
-    int count = m_LineList.count();
-    if(count == 0 || index > count  || index < 0)
-        return false;
-    if (point.x() == 0 && point.y() == 0) {
-        uError() << "ignoring request for (0, 0)";
+    if ((index < 0) | (index > m_points.size())) {
+        uWarning() << "Index " << index << " out of range [0.." << m_points.size() << "].";
         return false;
     }
-
-    if (index == count) {
-        QGraphicsLineItem* line = m_LineList.last();
-        QPointF p = line->line().p1();
-        line->setLine(p.x(), p.y(), point.x(), point.y());
-        moveSelected(index);
-        update();
-        return true;
+    if (m_points.at(index) == point) {
+        return false;  // nothing to change
     }
-    if (index == 0) {
-        QGraphicsLineItem* line = m_LineList.first();
-        QPointF p = line->line().p2();
-        line->setLine(point.x(), point.y(), p.x(), p.y());
-        moveSelected(index);
-        update();
-        return true;
-    }
-    QGraphicsLineItem* line = m_LineList.at(index);
-    QPointF p = line->line().p2();
-    line->setLine(point.x(), point.y(), p.x(), p.y());
-    line = m_LineList.at(index - 1);
-    p = line->line().p1();
-    line->setLine(p.x(), p.y(), point.x(), point.y());
-    moveSelected(index);
-    update();
+    prepareGeometryChange();
+    m_points[index] = point;
+    alignSymbols();
     return true;
 }
 
@@ -156,171 +96,81 @@ bool AssociationLine::setPoint(int index, const QPointF &point)
  */
 QPointF AssociationLine::startPoint() const
 {
-    return point(0);
+    return m_points.at(0);
 }
 
 /**
- * Shortcut for point(count()-1).
+ * Shortcut for end point.
  */
 QPointF AssociationLine::endPoint() const
 {
-    return point(count()-1);
+    return m_points.at(m_points.size()-1);
 }
 
 /**
- * Inserts a point at the given index.
+ * Inserts the passed in \a point at the \a index passed in and
+ * recalculates the bounding rect.
  */
-bool AssociationLine::insertPoint(int index, const QPointF &point)
+void AssociationLine::insertPoint(int index, const QPointF &point)
 {
-    int count = m_LineList.count();
-    if(count == 0)
-        return false;
-    const bool bLoading = UMLApp::app()->document()->loading();
-
-    if(count == 1 || index == 1) {
-        QGraphicsLineItem* first = m_LineList.first();
-        QPointF sp = first->line().p1();
-        QPointF ep = first->line().p2();
-        first->setLine(sp.x(), sp.y(), point.x(), point.y());
-        QGraphicsLineItem* line = new QGraphicsLineItem(this);
-        line->setZValue(-2);
-        line->setLine(point.x(), point.y(), ep.x(), ep.y());
-        line->setPen(pen());
-        m_LineList.insert(1, line);
-        if (!bLoading)
-            setupSelected();
-        return true;
-    }
-    if(count + 1 == index) {
-        QGraphicsLineItem* before = m_LineList.last();
-        QPointF sp = before->line().p1();
-        QPointF ep = before->line().p2();
-        before->setLine(sp.x(), sp.y(), point.x(), point.y());
-        QGraphicsLineItem* line = new QGraphicsLineItem(this);
-        line->setLine(point.x(), point.y(), ep.x(), ep.y());
-        line->setZValue(-2);
-        line->setPen(pen());
-        m_LineList.append(line);
-        if (!bLoading)
-            setupSelected();
-        return true;
-    }
-    QGraphicsLineItem* before = m_LineList.at(index - 1);
-    QPointF sp = before->line().p1();
-    QPointF ep = before->line().p2();
-    before->setLine(sp.x(), sp.y(), point.x(), point.y());
-    QGraphicsLineItem* line = new QGraphicsLineItem(this);
-    line->setLine(point.x(), point.y(), ep.x(), ep.y());
-    line->setZValue(-2);
-    line->setPen(pen());
-    m_LineList.insert(index, line);
-    if (!bLoading)
-        setupSelected();
-    return true;
+    prepareGeometryChange();
+    m_points.insert(index, point);
+    alignSymbols();
 }
 
 /**
- * Removes the point on the line given by the index, at the coordinates
- * given by point with a fuzzy of delta.
+ * Removes the point at \a index passed in.
+ * @see removeNonEndPoint
  */
-bool AssociationLine::removePoint(int index, const QPointF &point, unsigned short delta)
+void AssociationLine::removePoint(int index)
 {
-    // get the number of line segments
-    int count = m_LineList.count();
-    if (index >= count)
-        return false;
-
-    if (!point.isNull()) {
-        // we don't know if the user clicked on the start- or endpoint of a
-        // line segment
-        QGraphicsLineItem* current_line = m_LineList.at(index);
-        if (abs(current_line->line().p2().x() - point.x()) <= delta
-                &&
-                abs(current_line->line().p2().y() - point.y()) <= delta)
-        {
-            // the user clicked on the end point of the line;
-            // we have to make sure that this isn't the last line segment
-            if (index >= count - 1)
-                return false;
-
-            // the next segment will get the starting point from the current one,
-            // which is going to be removed
-            QGraphicsLineItem* next_line = m_LineList.at(index + 1);
-            QPointF startPoint = current_line->line().p1();
-            QPointF endPoint = next_line->line().p2();
-            next_line->setLine(startPoint.x(), startPoint.y(),
-                               endPoint.x(), endPoint.y());
-
-        } else
-            if (abs(current_line->line().p1().x() - point.x()) <= delta
-                    &&
-                    abs(current_line->line().p1().y() - point.y()) <= delta)
-            {
-                // the user clicked on the start point of the line;
-                // we have to make sure that this isn't the first line segment
-                if (index < 1)
-                    return false;
-
-                // the previous segment will get the end point from the current one,
-                // which is going to be removed
-                QGraphicsLineItem* previous_line = m_LineList.at(index - 1);
-                QPointF startPoint = previous_line->line().p1();
-                QPointF endPoint = current_line->line().p2();
-                previous_line->setLine(startPoint.x(), startPoint.y(),
-                                       endPoint.x(), endPoint.y());
-            } else {
-                // the user clicked neither on the start- nor on the end point of
-                // the line; this really shouldn't happen, but just make sure
-                return false;
-            }
-    }
-    // remove the segment from the list
-    delete m_LineList.takeAt(index);
-
-    return true;
+    prepareGeometryChange();
+    m_points.remove(index);
+    alignSymbols();
 }
 
 /**
  * Returns the amount of POINTS on the line.
  * Includes start and end points.
+ * @return   number of points in the AssociationLine
  */
 int AssociationLine::count() const 
 {
-    return m_LineList.count() + 1;
+    return m_points.size();
 }
 
 /**
- * Removes and item created that are no longer needed.
+ * Removes all the points and signals a geometry update.
  */
 void AssociationLine::cleanup()
 {
-    if (m_associationWidget) {
-        qDeleteAll(m_LineList.begin(), m_LineList.end());
-        m_LineList.clear();
+    if (!m_points.isEmpty()) {
+        prepareGeometryChange();
+        m_points.clear();
+        alignSymbols();
     }
+}
 
-    qDeleteAll(m_HeadList.begin(), m_HeadList.end());
-    m_HeadList.clear();
-
-    qDeleteAll(m_RectList.begin(), m_RectList.end());
-    m_RectList.clear();
-
-    qDeleteAll(m_ParallelList.begin(), m_ParallelList.end());
-    m_ParallelList.clear();
-
-    delete m_pClearPoly;
-    m_pClearPoly = 0;
-    delete m_pCircle;
-    m_pCircle = 0;
-    delete m_pSubsetSymbol;
-    m_pSubsetSymbol = 0;
-
-    m_bHeadCreated = m_bParallelLineCreated = m_bSubsetSymbolCreated = false;
-    if (m_associationWidget) {
-        disconnect(m_associationWidget->umlScene(), SIGNAL(sigLineColorChanged(Uml::ID::Type)), this, SLOT(slotLineColorChanged(Uml::ID::Type)));
-        disconnect(m_associationWidget->umlScene(), SIGNAL(sigLineWidthChanged(Uml::ID::Type)), this, SLOT(slotLineWidthChanged(Uml::ID::Type)));
-        m_associationWidget = 0;
+/**
+ * This method optimizes the number of points in the
+ * AssociationLine. This can be used to reduce the clutter caused
+ * due to too many points.
+ * TODO: Use delta comparison 'closestPointIndex' instead of exact comparison.
+ * TODO: Not used anywhere.
+ */
+void AssociationLine::optimizeLinePoints()
+{
+    int i = 1;
+    prepareGeometryChange();
+    while (i < m_points.size()) {
+        if (m_points.at(i) == m_points.at(i-1)) {
+            m_points.remove(i);
+        }
+        else {
+            ++i;
+        }
     }
+    alignSymbols();
 }
 
 /**
@@ -332,16 +182,20 @@ void AssociationLine::cleanup()
  * @retval "Index" of the first line point closer to the \a point passed.
  * @retval -1 If no line point is closer to passed in \a point.
  */
-int AssociationLine::closestPointIndex(const QPointF &position, qreal delta) const
+int AssociationLine::closestPointIndex(const QPointF &point, qreal delta) const
 {
-    QRectF bounds(position, QSize());
-    bounds.adjust(-delta, -delta, delta, delta);
+    for(int i = 0; i < m_points.size(); ++i) {
+        const QPointF& linePoint = m_points.at(i);
+        // Apply distance formula to see point closeness.
+        qreal deltaXSquare = (point.x() - linePoint.x()) * (point.x() - linePoint.x());
+        qreal deltaYSquare = (point.y() - linePoint.y()) * (point.y() - linePoint.y());
 
-    int last = count();
-    for(int i = 0; i <= last; i++)
-    {
-        if (bounds.contains(point(i)))
+        qreal lhs = deltaXSquare + deltaYSquare;
+        qreal rhs = delta * delta;
+
+        if (lhs <= rhs) {
             return i;
+        }
     }
     return -1;
 }
@@ -354,47 +208,48 @@ int AssociationLine::closestPointIndex(const QPointF &position, qreal delta) con
  * @retval "Index" of the line segment closest to the \a point passed.
  * @retval -1 If no line segment is closer to passed in \a point.
  */
-int AssociationLine::closestSegmentIndex(const QPointF &position, int delta)
+int AssociationLine::closestSegmentIndex(const QPointF &point, qreal delta) const
 {
-    typedef QList<QGraphicsItem*> ItemList;
-    ItemList list = m_associationWidget->umlScene()->collisions(position, delta);
-    int index = -1;
+    QPainterPathStroker stroker;
+    stroker.setWidth(delta);
 
-    ItemList::iterator end(list.end());
-    for(ItemList::iterator item_it(list.begin()); item_it != end; ++item_it) {
-        if((index = m_LineList.indexOf((QGraphicsLineItem*)*item_it)) != -1)
-            break;
-    }//end for
-    return index;
+    for(int i = 1; i < m_points.size(); ++i) {
+        QLineF segment(m_points[i-1], m_points[i]);
+
+        QPainterPath path;
+        path.moveTo(segment.p1());
+        path.lineTo(segment.p2());
+
+        path = stroker.createStroke(path);
+
+        if (path.contains(point)) {
+            return i-1;
+        }
+    }
+    return -1;
 }
 
 /**
- * Checks, if we are at an end of the segment or somewhere in the middle.
- * We use the delta, because with the mouse it is hard to find the
- * exactly point.
+ * Retval True If point at \a index is start or end.
  */
-bool AssociationLine::isPoint(int index, const QPointF &point, unsigned short delta)
+bool AssociationLine::isEndPointIndex(int index) const
 {
-    int count = m_LineList.count();
-    if (index >= count)
-        return false;
+    const int size = m_points.size();
+    Q_ASSERT(index >= 0 && index < size);
 
-    QGraphicsLineItem* line = m_LineList.at(index);
+    return (index == 0 || index == (size - 1));
+}
 
-    // check if the given point is the start or end point of the line
-    if ((
-                abs(line->line().p2().x() - point.x()) <= delta
-                &&
-                abs(line->line().p2().y() - point.y()) <= delta
-           ) || (
-                abs(line->line().p1().x() - point.x()) <= delta
-                &&
-                abs(line->line().p1().y() - point.y()) <= delta
-           ))
-        return true;
+/**
+ * Retval True If segment at \a index is start or end.
+ */
+bool AssociationLine::isEndSegmentIndex(int index) const
+{
+    // num of seg = num of points - 1
+    const int size = m_points.size() - 1;
+    Q_ASSERT(index >= 0 && index < size);
 
-    // check if the given point is the start or end point of the line
-    return false;
+    return (index == 0 || index == (size - 1));
 }
 
 /**
@@ -402,35 +257,35 @@ bool AssociationLine::isPoint(int index, const QPointF &point, unsigned short de
  */
 bool AssociationLine::setEndPoints(const QPointF &start, const QPointF &end)
 {
-    int count = m_LineList.count();
-    if(count == 0) {
-        QGraphicsLineItem* line = new QGraphicsLineItem(this);
-        line->setLine(start.x(), start.y(), end.x(), end.y());
-        line->setZValue(-2);
-        line->setPen(pen());
-        m_LineList.append(line);
-        return true;
+    const int size = m_points.size();
+
+    prepareGeometryChange();
+
+    if (size == 0) {
+        m_points.insert(0, start);
+        m_points.insert(1, end);
     }
-    bool status = setPoint(0, start);
-    if(status)
-        return setPoint(count, end);
-    return false;
+    else if (size == 1) {
+        m_points[0] = start;
+        m_points.insert(1, end);
+    }
+    else {
+        m_points[0] = start;
+        m_points[size-1] = end;
+    }
+
+    alignSymbols();
+    return true;
 }
 
-bool AssociationLine::hasPoints() const
-{
-    int count = m_LineList.count();
-    if (count>1)
-        return true;
-    return false;
-}
-
+/**
+ * Debug helper method to write out the points.
+ */
 void AssociationLine::dumpPoints()
 {
-    int count = m_LineList.count();
-    for(int i = 1; i < count; i++) {
-        QPointF p = point(i);
-        DEBUG(DBG_SRC) <<" * point x:"<<p.x()<<" y:"<<p.y();
+    for (int i = 1; i < m_points.size(); ++i) {
+        QPointF p = m_points.at(i);
+        DEBUG(DBG_SRC) << i << ". point x:" << p.x() << " / y:" << p.y();
     }
 }
 
@@ -439,7 +294,13 @@ void AssociationLine::dumpPoints()
  */
 bool AssociationLine::loadFromXMI(QDomElement &qElement)
 {
+    QString layout = qElement.attribute("layout", "polyline");
+    m_layout = fromString(layout);
+
     QDomNode node = qElement.firstChild();
+
+    m_points.clear();
+
     QDomElement startElement = node.toElement();
     if(startElement.isNull() || startElement.tagName() != "startpoint") {
         return false;
@@ -486,26 +347,44 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
  */
 void AssociationLine::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 {
-    int count = m_LineList.count();
-    QPointF p = point(0);
+    QPointF point = m_associationWidget->mapToScene(startPoint());
     QDomElement lineElement = qDoc.createElement("linepath");
+    lineElement.setAttribute("layout", toString(m_layout));
     QDomElement startElement = qDoc.createElement("startpoint");
-    startElement.setAttribute("startx", p.x());
-    startElement.setAttribute("starty", p.y());
+    startElement.setAttribute("startx", point.x());
+    startElement.setAttribute("starty", point.y());
     lineElement.appendChild(startElement);
     QDomElement endElement = qDoc.createElement("endpoint");
-    p = point(count);
-    endElement.setAttribute("endx", p.x());
-    endElement.setAttribute("endy", p.y());
+    point = m_associationWidget->mapToScene(endPoint());
+    endElement.setAttribute("endx", point.x());
+    endElement.setAttribute("endy", point.y());
     lineElement.appendChild(endElement);
-    for(int i = 1; i < count; i++) {
+    for(int i = 1; i < count()-1; ++i) {
         QDomElement pointElement = qDoc.createElement("point");
-        p = point(i);
-        pointElement.setAttribute("x", p.x());
-        pointElement.setAttribute("y", p.y());
+        point = m_associationWidget->mapToScene(this->point(i));
+        pointElement.setAttribute("x", point.x());
+        pointElement.setAttribute("y", point.y());
         lineElement.appendChild(pointElement);
     }
     qElement.appendChild(lineElement);
+}
+
+/**
+ * Returns the type of brush to use depending on the type of Association.
+ */
+QBrush AssociationLine::brush() const
+{
+    QBrush brush(Qt::SolidPattern);
+    Uml::AssociationType::Enum type = m_associationWidget->associationType();
+    if (type == Uml::AssociationType::Aggregation    ||
+        type == Uml::AssociationType::Generalization ||
+        type == Uml::AssociationType::Realization) {
+        brush.setColor(Qt::white);
+    }
+    if (type == Uml::AssociationType::Composition) {
+        brush.setColor(m_associationWidget->lineColor());
+    }
+    return brush;
 }
 
 /**
@@ -513,732 +392,313 @@ void AssociationLine::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
  */
 QPen AssociationLine::pen() const
 {
-    Uml::AssociationType::Enum type = getAssocType();
-    if(type == Uml::AssociationType::Dependency || type == Uml::AssociationType::Realization || type == Uml::AssociationType::Anchor)
-        return QPen(lineColor(), lineWidth(), Qt::DashLine);
-    return QPen(lineColor(), lineWidth());
-}
-
-
-/**
- * Returns the Line Color to use.
- * Returns black if association not set.
- *
- * This class doesn't hold this information but is a wrapper
- * method to stop calls to undefined variable like m_associationWidget.
- */
-QColor AssociationLine::lineColor() const
-{
-    if(!m_associationWidget)
-        return Qt::black;
-    return m_associationWidget->lineColor();
+    QPen pen(m_associationWidget->lineColor(),
+             m_associationWidget->lineWidth(),
+             Qt::SolidLine,
+             Qt::RoundCap,
+             Qt::RoundJoin);
+    Uml::AssociationType::Enum type = m_associationWidget->associationType();
+    if (type == Uml::AssociationType::Dependency  ||
+        type == Uml::AssociationType::Realization ||
+        type == Uml::AssociationType::Anchor) {
+        pen.setStyle(Qt::DashLine);
+    }
+    return pen;
 }
 
 /**
- * Sets the line color used by the line.
+ * This method simply ensures presence of two points and delegates
+ * calculation to AssociationLine::calculateEndPoints()
  */
-void AssociationLine::setLineColor(const QColor &color)
+void AssociationLine::calculateInitialEndPoints()
 {
-    uint linewidth = 0;
-    QGraphicsLineItem* line = 0;
-
-    Q_FOREACH(line, m_LineList) {
-        linewidth = line->pen().width();
-        line->setPen(QPen(color, linewidth));
-    }
-
-    Q_FOREACH(line, m_HeadList) {
-        linewidth = line->pen().width();
-        line->setPen(QPen(color, linewidth));
-    }
-
-    Q_FOREACH(line, m_ParallelList) {
-        linewidth = line->pen().width();
-        line->setPen(QPen(color, linewidth));
-    }
-
-    if (getAssocType() == Uml::AssociationType::Aggregation) {
-        if (m_pClearPoly) {
-            m_pClearPoly->setBrush(QBrush(Qt::white));
+    if (m_associationWidget->isSelf() && count() < 4) {
+        for (int i = count(); i < 4; ++i) {
+            insertPoint(i, QPointF());
         }
-        else if(getAssocType() == Uml::AssociationType::Composition) {
-            if (m_pClearPoly) {
-                m_pClearPoly->setBrush(QBrush(color));
-            }
+        UMLWidget *wid = m_associationWidget->widgetForRole(Uml::RoleType::B);
+        if (!wid) {
+            uError() << "AssociationWidget is partially constructed."
+                "UMLWidget for role A is null.";
+            return;
         }
-    }
+        const QRectF rect = m_associationWidget->mapFromScene(
+                mapToScene(wid->rect()).boundingRect()).boundingRect();
 
-    if(m_pCircle) {
-        linewidth = m_pCircle->pen().width();
-        m_pCircle->setPen(QPen(color, linewidth));
+        qreal l = rect.left() + .25 * rect.width();
+        qreal r = rect.left() + .75 * rect.width();
+        bool drawAbove = rect.top() >= SelfAssociationMinimumHeight;
+        qreal y = drawAbove ? rect.top() : rect.bottom();
+        qreal yOffset = SelfAssociationMinimumHeight;
+        if (drawAbove) {
+            yOffset *= -1.0;
+        }
+
+        setPoint(0, QPointF(l, y));
+        setPoint(1, QPointF(l, y + yOffset));
+        setPoint(2, QPointF(r, y + yOffset));
+        setPoint(3, QPointF(r, y));
+    } else if (!m_associationWidget->isSelf() && count() < 2) {
+        setEndPoints(QPointF(), QPointF());
     }
 }
 
 /**
- * Returns the Line Width to use.
- * Returns 0 if association not set.
+ * This method creates, deletes symbols and collaboration lines based on
+ * m_associationWidget->associationType().
  *
- * This class doesn't hold this information but is a wrapper
- * method to stop calls to undefined variable like m_associationWidget.
+ * Call this method when associationType of m_associationWidget changes.
  */
-uint AssociationLine::lineWidth() const
+void AssociationLine::reconstructSymbols()
 {
-    if(!m_associationWidget)
-        return 0;
-    int viewLineWidth = m_associationWidget->lineWidth();
-    if (viewLineWidth >= 0 && viewLineWidth <= 10)
-        return viewLineWidth;
-    else {
-        uWarning() << "Ignore wrong LineWidth of " << viewLineWidth
-                   << " in AssociationLine::lineWidth";
-        return 0;
+    switch( m_associationWidget->associationType() ) {
+        case Uml::AssociationType::State:
+        case Uml::AssociationType::Activity:
+        case Uml::AssociationType::Exception:
+        case Uml::AssociationType::UniAssociation:
+        case Uml::AssociationType::Dependency:
+            setStartSymbol(Symbol::None);
+            setEndSymbol(Symbol::OpenArrow);
+            removeSubsetSymbol();
+            removeCollaborationLine();
+            break;
+
+        case Uml::AssociationType::Relationship:
+            setStartSymbol(Symbol::None);
+            setEndSymbol(Symbol::CrowFeet);
+            removeSubsetSymbol();
+            removeCollaborationLine();
+            break;
+
+        case Uml::AssociationType::Generalization:
+        case Uml::AssociationType::Realization:
+            setStartSymbol(Symbol::None);
+            setEndSymbol(Symbol::ClosedArrow);
+            removeSubsetSymbol();
+            removeCollaborationLine();
+            break;
+
+        case Uml::AssociationType::Composition:
+        case Uml::AssociationType::Aggregation:
+            setStartSymbol(Symbol::Diamond);
+            setEndSymbol(Symbol::None);
+            removeSubsetSymbol();
+            removeCollaborationLine();
+            break;
+
+        case Uml::AssociationType::Containment:
+            setStartSymbol(Symbol::Circle);
+            setEndSymbol(Symbol::None);
+            removeSubsetSymbol();
+            removeCollaborationLine();
+            break;
+
+        case Uml::AssociationType::Child2Category:
+            setStartSymbol(Symbol::None);
+            setEndSymbol(Symbol::None);
+            createSubsetSymbol();
+            removeCollaborationLine();
+            break;
+
+        case Uml::AssociationType::Coll_Message:
+        case Uml::AssociationType::Coll_Message_Self:
+            setStartSymbol(Symbol::None);
+            setEndSymbol(Symbol::None);
+            removeSubsetSymbol();
+            createCollaborationLine();
+            break;
+
+        default:
+            break;
     }
+    alignSymbols();
 }
 
 /**
- * Sets the line width used by the line.
- * @param width   the new width of the line
- */
-void AssociationLine::setLineWidth(uint width)
-{
-    QColor linecolor;
-    QGraphicsLineItem* line = 0;
-
-    Q_FOREACH(line, m_LineList) {
-        linecolor = line->pen().color();
-        line->setPen(QPen(linecolor, width));
-    }
-
-    Q_FOREACH(line, m_HeadList) {
-        linecolor = line->pen().color();
-        line->setPen(QPen(linecolor, width));
-    }
-
-    Q_FOREACH(line, m_ParallelList) {
-        linecolor = line->pen().color();
-        line->setPen(QPen(linecolor, width));
-    }
-
-    if(m_pCircle) {
-        linecolor = m_pCircle->pen().color();
-        m_pCircle->setPen(QPen(linecolor, width));
-    }
-}
-
-/**
- * Returns the Association type.
- * Returns Uml::AssociationType::Association if association hasn't been set.
+ * Sets the Symbol to appear at the first line segment to \a symbol.
  *
- * This class doesn't hold this information but is a wrapper
- * method to stop calls to undefined variable like m_associationWidget.
+ * If symbol == Symbol::None , then it deletes the symbol item.
  */
-Uml::AssociationType::Enum AssociationLine::getAssocType() const
+void AssociationLine::setStartSymbol(Symbol::SymbolType symbolType)
 {
-    if(m_associationWidget)
-        return m_associationWidget->associationType();
-    return Uml::AssociationType::Association;
-}
+    Q_ASSERT(symbolType != Symbol::Count);
+    if (symbolType == Symbol::None) {
+        delete m_startSymbol;
+        m_startSymbol = 0;
+        return;
+    }
 
-/**
- * Sets the Association type.
- */
-void AssociationLine::setAssocType(Uml::AssociationType::Enum type)
-{
-    QList<QGraphicsLineItem*>::Iterator it = m_LineList.begin();
-    QList<QGraphicsLineItem*>::Iterator end = m_LineList.end();
-
-    for(; it != end; ++it)
-        (*it)->setPen(pen());
-
-    delete m_pClearPoly;
-    m_pClearPoly = 0;
-    delete m_pCircle;
-    m_pCircle = 0;
-
-    if(type == Uml::AssociationType::Coll_Message) {
-        setupParallelLine();
+    if (m_startSymbol) {
+        m_startSymbol->setSymbolType(symbolType);
     }
     else {
-        createHeadLines();
-        createSubsetSymbol();
+        m_startSymbol = new Symbol(symbolType, m_associationWidget);
     }
-    update();
+    m_startSymbol->setPen(pen());
+    m_startSymbol->setBrush(brush());
 }
 
 /**
- * Equal to (==) operator.
- */
-bool AssociationLine::operator==(const AssociationLine & rhs) 
-{
-    if(this->m_LineList.count() != rhs.m_LineList.count())
-        return false;
-
-    //Check to see if all points at the same position
-    for(int i = 0; i< rhs.count() ; i++) {
-        if(this->point(i) != rhs.point(i))
-            return false;
-    }
-    return true;
-}
-
-/**
- * Copy (=) operator.
- */
-AssociationLine & AssociationLine::operator=(const AssociationLine & rhs)
-{
-    if(this == &rhs)
-        return *this;
-    //clear out the old scene objects
-    this->cleanup();
-
-    int count = rhs.m_LineList.count();
-    //setup start end points
-    this->setEndPoints(rhs.point(0), rhs.point(count));
-    //now insert the rest
-    for(int i = 1; i < count ; i++) {
-        this->insertPoint(i, rhs.point (i));
-    }
-    this->setAssocType(rhs.getAssocType());
-
-    return *this;
-}
-
-/**
- * Tell the line where the line docks.
- */
-void AssociationLine::setDockRegion(Region region)
-{
-    m_DockRegion = region;
-}
-
-/**
- * Sets the status of whether the line is selected or not.
- */
-void AssociationLine::setSelected(bool select) 
-{
-    if(select) {
-        setupSelected();
-    }
-    else if(!m_RectList.isEmpty()) {
-        qDeleteAll(m_RectList);
-        m_RectList.clear();
-    }
-}
-
-/**
- * Activates the line list.
- * This is needed because the m_associationWidget does not yet
- * exist at the time of the AssociationLine::loadFromXMI call.
- * However, this means that the points in the m_LineList
- * do not have a parent when they are loaded.
- * They need to be reparented by calling AssociationLine::activate()
- * once the m_associationWidget exists.
- */
-void AssociationLine::activate()
-{
-    int count = m_LineList.count();
-    if (count == 0)
-        return;
-    if (m_associationWidget->umlScene() == NULL)
-        return;
-    for (int i = 0; i < count ; i++) {
-        QGraphicsLineItem *line = m_LineList.at(i);
-        line->setPen(pen());
-    }
-}
-
-/**
- * Calls a group of methods to update the line. Used to save you calling multiple methods.
- */
-void AssociationLine::update()
-{
-    if (getAssocType() == Uml::AssociationType::Coll_Message) {
-        if (m_bParallelLineCreated) {
-            calculateParallelLine();
-            updateParallelLine();
-        } else
-            setupParallelLine();
-    } else if (m_bHeadCreated) {
-        calculateHead();
-        updateHead();
-    } else {
-        createHeadLines();
-    }
-
-    if (m_bSubsetSymbolCreated) {
-        updateSubsetSymbol();
-    } else {
-        createSubsetSymbol();
-    }
-}
-
-/**
- * Sets the line color used by the line.
+ * Sets the Symbol to appear at the last line segment to \a symbol.
  *
- * @param viewID The id of the object behind the widget.
+ * If symbol == Symbol::None , then it deletes the symbol item.
  */
-void AssociationLine::slotLineColorChanged(Uml::ID::Type viewID)
+void AssociationLine::setEndSymbol(Symbol::SymbolType symbolType)
 {
-    if(m_associationWidget->umlScene()->ID() != viewID) {
+    Q_ASSERT(symbolType != Symbol::Count);
+    if (symbolType == Symbol::None) {
+        delete m_endSymbol;
+        m_endSymbol = 0;
         return;
     }
-    setLineColor(m_associationWidget->umlScene()->lineColor());
-}
 
-/**
- * Sets the line width used by the line.
- *
- * @param viewID The id of the object behind the widget.
- */
-void AssociationLine::slotLineWidthChanged(Uml::ID::Type viewID)
-{
-    if(m_associationWidget->umlScene()->ID() != viewID) {
-        return;
+    if (m_endSymbol) {
+        m_endSymbol->setSymbolType(symbolType);
     }
-    setLineWidth(m_associationWidget->umlScene()->lineWidth());
-}
-
-/**
- * Moves the selected scene widgets.
- */
-void AssociationLine::moveSelected(int pointIndex)
-{
-    int lineCount = m_LineList.count();
-    if(!m_bSelected) {
-        qDeleteAll(m_RectList.begin(), m_RectList.end());
-        m_RectList.clear();
-        return;
+    else {
+        m_endSymbol = new Symbol(symbolType, m_associationWidget);
     }
-    if((int)m_RectList.count() + 1 != lineCount)
-        setupSelected();
-    QGraphicsRectItem* rect = 0;
-    QGraphicsLineItem* line = 0;
-    if(pointIndex == lineCount || lineCount == 1) {
-        line = m_LineList.last();
-        QPointF p = line->line().p2();
-        rect = m_RectList.last();
-        rect->setX(p.x());
-        rect->setY(p.y());
-        rect->setZValue(4);
-        return;
-    }
-    line = m_LineList.at(pointIndex);
-    QPointF p = line->line().p1();
-    rect = m_RectList.at(pointIndex);
-    rect->setX(p.x());
-    rect->setY(p.y());
-    rect->setZValue(4);
+    m_endSymbol->setPen(pen());
+    m_endSymbol->setBrush(brush());
 }
 
 /**
- * Sets up the selected canvases needed.
- */
-void AssociationLine::setupSelected()
-{
-    qDeleteAll(m_RectList.begin(), m_RectList.end());
-    m_RectList.clear();
-    QGraphicsLineItem* line = 0;
-
-    Q_FOREACH(line, m_LineList) {
-        QPointF sp = line->line().p1();
-        QGraphicsRectItem *rect = Widget_Utils::decoratePoint(sp);
-        m_RectList.append(rect);
-    }
-    //special case for last point
-    line = m_LineList.last();
-    QPointF p = line->line().p2();
-    QGraphicsRectItem *rect = Widget_Utils::decoratePoint(p);
-    m_RectList.append(rect);
-    update();
-}
-
-/**
- * Calculates the head points.
- */
-void AssociationLine::calculateHead()
-{
-    uint size = m_LineList.count();
-    QPointF farPoint;
-    int halfLength = 10;
-    double arrowAngle = 0.2618;   // 0.5 * atan(sqrt(3.0) / 3.0) = 0.2618
-    Uml::AssociationType::Enum at = getAssocType();
-    bool diamond = (at == Uml::AssociationType::Aggregation || at == Uml::AssociationType::Composition);
-    if (diamond || at == Uml::AssociationType::Containment) {
-        farPoint = point(1);
-        m_EgdePoint = point(0);
-        if (diamond) {
-            arrowAngle *= 1.5;  // wider
-            halfLength += 1;    // longer
-        } else {
-            // Containment has a circle-plus symbol at the
-            // containing object.  What we are tweaking here
-            // is the perpendicular line through the circle
-            // (i.e. the horizontal line of the plus sign if
-            // the objects are oriented north/south)
-            arrowAngle *= 2.5;  // wider
-            halfLength -= 4;    // shorter
-        }
-    } else {
-        farPoint = point(size - 1);
-        m_EgdePoint = point(size);
-        // We have an arrow.
-        arrowAngle *= 2.0;      // wider
-        halfLength += 3;        // longer
-    }
-    int xa = farPoint.x();
-    int ya = farPoint.y();
-    int xb = m_EgdePoint.x();
-    int yb = m_EgdePoint.y();
-    double deltaX = xb - xa;
-    double deltaY = yb - ya;
-    double hypotenuse = sqrt(deltaX*deltaX + deltaY*deltaY); // the length
-    double slope = atan2(deltaY, deltaX);       //slope of line
-    double arrowSlope = slope + arrowAngle;
-    double cosx, siny;
-    if (hypotenuse < 1.0e-6) {
-        cosx = 1.0;
-        siny = 0.0;
-    } else {
-        cosx = halfLength * deltaX/hypotenuse;
-        siny = halfLength * deltaY/hypotenuse;
-    }
-
-    m_ArrowPointA.setX((int)rint(xb - halfLength * cos(arrowSlope)));
-    m_ArrowPointA.setY((int)rint(yb - halfLength * sin(arrowSlope)));
-    arrowSlope = slope - arrowAngle;
-    m_ArrowPointB.setX((int)rint(xb - halfLength * cos(arrowSlope)));
-    m_ArrowPointB.setY((int)rint(yb - halfLength * sin(arrowSlope)));
-
-    if(xa > xb)
-        cosx = cosx > 0 ? cosx : cosx * -1;
-    else
-        cosx = cosx > 0 ? cosx * -1: cosx;
-
-    if(ya > yb)
-        siny = siny > 0 ? siny : siny * -1;
-    else
-        siny = siny > 0 ? siny * -1 : siny;
-
-    m_MidPoint.setX((int)rint(xb + cosx));
-    m_MidPoint.setY((int)rint(yb + siny));
-
-    m_PointArray.replace(0, m_EgdePoint);
-    m_PointArray.replace(1, m_ArrowPointA);
-    if(getAssocType() == Uml::AssociationType::Realization ||
-            getAssocType() == Uml::AssociationType::Generalization) {
-        m_PointArray.replace(2, m_ArrowPointB);
-        m_PointArray.replace(3, m_EgdePoint);
-    } else {
-        QPointF diamondFarPoint;
-        diamondFarPoint.setX((int)rint(xb + cosx * 2));
-        diamondFarPoint.setY((int)rint(yb + siny * 2));
-        m_PointArray.replace(2, diamondFarPoint);
-        m_PointArray.replace(3, m_ArrowPointB);
-    }
-
-}
-
-/**
- * Creates the head lines to display the head.
- */
-void AssociationLine::createHeadLines()
-{
-    DEBUG(DBG_SRC) << "association type = " << Uml::AssociationType::toString(getAssocType());
-    qDeleteAll(m_HeadList.begin(), m_HeadList.end());
-    m_HeadList.clear();
-    switch(getAssocType()) {
-    case Uml::AssociationType::Activity:
-    case Uml::AssociationType::Exception:
-    case Uml::AssociationType::State:
-    case Uml::AssociationType::Dependency:
-    case Uml::AssociationType::UniAssociation:
-    case Uml::AssociationType::Relationship:
-        growList(m_HeadList, 2);
-        break;
-
-    case Uml::AssociationType::Generalization:
-    case Uml::AssociationType::Realization:
-        growList(m_HeadList, 3);
-        m_pClearPoly = new QGraphicsPolygonItem(this);
-        m_pClearPoly->setBrush(QBrush(Qt::white));
-        m_pClearPoly->setZValue(-1);
-        break;
-
-    case Uml::AssociationType::Composition:
-    case Uml::AssociationType::Aggregation:
-        growList(m_HeadList, 4);
-        m_pClearPoly = new QGraphicsPolygonItem(this);
-        if(getAssocType() == Uml::AssociationType::Aggregation)
-            m_pClearPoly->setBrush(QBrush(Qt::white));
-        else
-            m_pClearPoly->setBrush(QBrush(lineColor()));
-        m_pClearPoly->setZValue(-1);
-        break;
-
-    case Uml::AssociationType::Containment:
-        growList(m_HeadList, 1);
-        m_pCircle = new Circle(6, this);
-        m_pCircle->setPen(QPen(lineColor(), lineWidth()));
-        break;
-
-    default:
-        break;
-    }
-    m_bHeadCreated = true;
-}
-
-/**
- * Updates the head lines. Call after calculating the new points.
- */
-void AssociationLine::updateHead()
-{
-    int count = m_HeadList.count();
-    QGraphicsLineItem* line = 0;
-
-    switch(getAssocType()) {
-    case Uml::AssociationType::State:
-    case Uml::AssociationType::Activity:
-    case Uml::AssociationType::Exception:
-    case Uml::AssociationType::UniAssociation:
-    case Uml::AssociationType::Dependency:
-        if(count < 2)
-            return;
-
-        line = m_HeadList.at(0);
-        line->setLine(m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointA.x(), m_ArrowPointA.y());
-
-        line = m_HeadList.at(1);
-        line->setLine(m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointB.x(), m_ArrowPointB.y());
-        break;
-
-    case Uml::AssociationType::Relationship:
-        if (count < 2) {
-            return;
-        }
-        {
-            int xoffset = 0;
-            int yoffset = 0;
-            if(m_DockRegion == TopBottom)
-                xoffset = 8;
-            else
-                yoffset = 8;
-            line = m_HeadList.at(0);
-            line->setLine(m_PointArray[2].x(), m_PointArray[2].y(),
-                           m_PointArray[0].x()-xoffset, m_PointArray[0].y()-yoffset);
-
-            line = m_HeadList.at(1);
-            line->setLine(m_PointArray[2].x(), m_PointArray[2].y(),
-                           m_PointArray[0].x()+xoffset, m_PointArray[0].y()+yoffset);
-        }
-
-    case Uml::AssociationType::Generalization:
-    case Uml::AssociationType::Realization:
-        if(count < 3)
-            return;
-        line = m_HeadList.at(0);
-        line->setLine(m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointA.x(), m_ArrowPointA.y());
-
-        line = m_HeadList.at(1);
-        line->setLine(m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointB.x(), m_ArrowPointB.y());
-
-        line = m_HeadList.at(2);
-        line->setLine(m_ArrowPointA.x(), m_ArrowPointA.y(), m_ArrowPointB.x(), m_ArrowPointB.y());
-        m_pClearPoly->setPolygon(m_PointArray);
-        break;
-
-    case Uml::AssociationType::Composition:
-    case Uml::AssociationType::Aggregation:
-        if(count < 4)
-            return;
-        line = m_HeadList.at(0);
-        line->setLine(m_PointArray[ 0 ].x(), m_PointArray[ 0 ].y(), m_PointArray[ 1 ].x(), m_PointArray[ 1 ].y());
-
-        line = m_HeadList.at(1);
-        line->setLine(m_PointArray[ 1 ].x(), m_PointArray[ 1 ].y(), m_PointArray[ 2 ].x(), m_PointArray[ 2 ].y());
-
-        line = m_HeadList.at(2);
-        line->setLine(m_PointArray[ 2 ].x(), m_PointArray[ 2 ].y(), m_PointArray[ 3 ].x(), m_PointArray[ 3 ].y());
-
-        line = m_HeadList.at(3);
-        line->setLine(m_PointArray[ 3 ].x(), m_PointArray[ 3 ].y(), m_PointArray[ 0 ].x(), m_PointArray[ 0 ].y());
-        m_pClearPoly->setPolygon(m_PointArray);
-        break;
-
-    case Uml::AssociationType::Containment:
-        if (count < 1)
-            return;
-        line = m_HeadList.at(0);
-        line->setLine(m_PointArray[ 1 ].x(), m_PointArray[ 1 ].y(),
-                       m_PointArray[ 3 ].x(), m_PointArray[ 3 ].y());
-        m_pCircle->setX(m_MidPoint.x());
-        m_pCircle->setY(m_MidPoint.y());
-        break;
-    default:
-        break;
-    }
-}
-
-/**
- * Calculates the position of the parallel line.
- */
-void AssociationLine::calculateParallelLine()
-{
-    int midCount = count() / 2;
-    double ATAN = atan(1.0);
-    int lineDist = 10;
-    //get  1/8(M) and 7/8(T) point
-    QPointF a = point(midCount - 1);
-    QPointF b = point(midCount);
-    int mx = (a.x() + b.x()) / 2;
-    int my = (a.y() + b.y()) / 2;
-    int tx = (mx + b.x()) / 2;
-    int ty = (my + b.y()) / 2;
-    //find dist between M and T points
-    int distX = (mx - tx);
-    distX *= distX;
-    int distY = (my - ty);
-    distY *= distY;
-    double angle = atan2(double(ty - my), double(tx - mx)) + (ATAN * 2);
-    //find point from M to start line from.
-    double cosx = cos(angle) * lineDist;
-    double siny = sin(angle) * lineDist;
-    QPointF pointM(mx + (int)cosx, my + (int)siny);
-    //find dist between P(xb, yb)
-    distX = (tx - b.x());
-    distX *= distX;
-    distY = (ty - b.y());
-    distY *= distY;
-    //find point from T to end line
-    cosx = cos(angle) * lineDist;
-    siny = sin(angle) * lineDist;
-    QPointF pointT(tx + (int)cosx, ty + (int)siny);
-    m_ParallelLines[ 1 ] = pointM;
-    m_ParallelLines[ 0 ] = pointT;
-
-    int arrowDist = 5;
-    angle = atan2(double(pointT.y() - pointM.y()),
-                   double(pointT.x() - pointM.x()));
-    double arrowSlope = angle + ATAN;
-    cosx = (cos(arrowSlope)) * arrowDist;
-    siny = (sin(arrowSlope)) * arrowDist;
-    m_ParallelLines[ 2 ] = QPoint(pointT.x() - (int)cosx, pointT.y() - (int)siny);
-    arrowSlope = angle - ATAN;
-    cosx = (cos(arrowSlope)) * arrowDist;
-    siny = (sin(arrowSlope)) * arrowDist;
-    m_ParallelLines[ 3 ] = QPoint(pointT.x() - (int)cosx, pointT.y() - (int)siny);
-}
-
-/**
- * Creates the line objects to display the parallel line.
- */
-void AssociationLine::setupParallelLine()
-{
-    qDeleteAll(m_ParallelList.begin(), m_ParallelList.end());
-    m_ParallelList.clear();
-    growList(m_ParallelList, 3);
-    m_bParallelLineCreated = true;
-}
-
-/**
- * Updates the parallel line.
- * Call after calculating the new position.
- */
-void AssociationLine::updateParallelLine() 
-{
-    if(!m_bParallelLineCreated)
-        return;
-    QGraphicsLineItem* line = 0;
-    QPointF common = m_ParallelLines.at(0);
-    QPointF p = m_ParallelLines.at(1);
-    line = m_ParallelList.at(0);
-    line->setLine(common.x(), common.y(), p.x(), p.y());
-
-    p = m_ParallelLines.at(2);
-    line = m_ParallelList.at(1);
-    line->setLine(common.x(), common.y(), p.x(), p.y());
-
-    p = m_ParallelLines.at(3);
-    line = m_ParallelList.at(2);
-    line->setLine(common.x(), common.y(), p.x(), p.y());
-}
-
-/**
- * Creates the subset symbol.
+ * Constructs a new subset symbol.
  */
 void AssociationLine::createSubsetSymbol()
 {
-    if (m_LineList.count() < 1) {
-        return;
-    }
-
-    switch(getAssocType()) {
-       case Uml::AssociationType::Child2Category:
-           m_pSubsetSymbol = new SubsetSymbol(this);
-           m_pSubsetSymbol->setPen(QPen(lineColor(), lineWidth()));
-           updateSubsetSymbol();
-           break;
-       default:
-           break;
-    }
-    m_bSubsetSymbolCreated = true;
+    delete m_subsetSymbol; // recreate
+    m_subsetSymbol = new Symbol(Symbol::Subset, m_associationWidget);
+    m_subsetSymbol->setPen(pen());
+    m_subsetSymbol->setBrush(brush());
 }
 
 /**
- * Updates the subset symbol.Call after calculating the new points.
+ * Removes the subset symbol if it existed by deleting appropriate items.
  */
-void AssociationLine::updateSubsetSymbol()
+void AssociationLine::removeSubsetSymbol()
 {
-    if (m_LineList.count() < 1) {
+    delete m_subsetSymbol;
+    m_subsetSymbol = 0;
+}
+
+/**
+ * Constructs the open arrow symbol and arrow line, that would represent Collaboration line.
+ */
+void AssociationLine::createCollaborationLine()
+{
+    const QPen p = pen();
+
+    // recreate
+    delete m_collaborationLineItem;
+    delete m_collaborationLineHead;
+
+    m_collaborationLineItem = new QGraphicsLineItem(m_associationWidget);
+    m_collaborationLineItem->setPen(p);
+
+    m_collaborationLineHead = new Symbol(Symbol::OpenArrow, m_associationWidget);
+    m_collaborationLineHead->setPen(p);
+}
+
+/**
+ * Removes collaboration line by deleting the head and line item.
+ */
+void AssociationLine::removeCollaborationLine()
+{
+    delete m_collaborationLineItem;
+    m_collaborationLineItem = 0;
+
+    delete m_collaborationLineHead;
+    m_collaborationLineHead = 0;
+}
+
+/**
+ * This method aligns both the \b "start" and \b "end" symbols to
+ * the current angles of the \b "first" and the \b "last" line
+ * segment respectively.
+ */
+void AssociationLine::alignSymbols()
+{
+    const int sz = m_points.size();
+    if (sz < 2) {
+        // cannot align if there is no line (one line = 2 points)
         return;
     }
-    QGraphicsLineItem* firstLine = m_LineList.first();
-    QPointF startPoint = firstLine->line().p1();
-    QPointF endPoint = firstLine->line().p2();
-    QPointF centrePoint;
-    centrePoint.setX((startPoint.x() + endPoint.x())/2);
-    centrePoint.setY((startPoint.y() + endPoint.y())/2);
 
-    if (m_pSubsetSymbol) {
+    if (m_startSymbol) {
+        QLineF segment(m_points[1], m_points[0]);
+        m_startSymbol->alignTo(segment);
+    }
 
-        double xDiff = endPoint.x() - startPoint.x();
-        double yDiff = endPoint.y() - startPoint.y();
+    if (m_endSymbol) {
+        QLineF segment(m_points[sz-2], m_points[sz - 1]);
+        m_endSymbol->alignTo(segment);
+    }
 
-        int inclination;
-        if (xDiff == 0) {
-            if (yDiff > 0)
-                inclination = 90;
-            else // yDiff < 0
-                inclination = 270;
-        } else {
-            inclination = (int)(atan(yDiff/xDiff)*180/3.14159) ;
-            // convert to 360 degree scale
-            if (xDiff < 0) {
-                inclination = 180 + inclination ;
-            } else if (xDiff > 0 && yDiff < 0) {
-                inclination = 360 +  inclination;
-            }
+    if (m_subsetSymbol) {
+        QLineF segment(m_points.at(0), (m_points.at(0) + m_points.at(1)) * .5);
+        DEBUG(DBG_SRC) << "points: " << m_points.at(0) << m_points.at(1);
+        DEBUG(DBG_SRC) << "segment: " << segment;
+        m_subsetSymbol->alignTo(segment);
+    }
+
+    if (m_collaborationLineItem) {
+        const qreal distance = 10;
+        const int midSegmentIndex = (sz - 1) / 2;
+
+        const QPointF a = m_points.at(midSegmentIndex);
+        const QPointF b = m_points.at(midSegmentIndex + 1);
+
+        const QPointF p1 = (a + b) / 2.0;
+        const QPointF p2 = (p1 + b) / 2.0;
+
+        // Reversed line as we want normal in opposite direction.
+        QLineF segment(p2, p1);
+        QLineF normal = segment.normalVector().unitVector();
+        normal.setLength(distance);
+
+        QLineF actualLine;
+        actualLine.setP2(normal.p2());
+
+        normal.translate(p1 - p2);
+        actualLine.setP1(normal.p2());
+
+        m_collaborationLineItem->setLine(actualLine);
+        m_collaborationLineHead->alignTo(actualLine);
+    }
+}
+
+/**
+ * @return The path of the AssociationLine.
+ */
+QPainterPath AssociationLine::path() const
+{
+    if (m_points.count() > 0) {
+        QPainterPath path;
+        switch (m_layout) {
+        case Direct:
+            path.moveTo(m_points.first());
+            path.lineTo(m_points.last());
+            break;
+
+        case Spline:
+            path = createCubicBezierCurve(m_points);
+            break;
+
+        case Orthogonal:
+            path = createOrthogonalPath(m_points);
+            break;
+
+        case Polyline:
+        default:
+            QPolygonF polygon(m_points);
+            path.addPolygon(polygon);
+            break;
         }
-
-        m_pSubsetSymbol->setInclination(inclination);
-        m_pSubsetSymbol->setX(centrePoint.x());
-        m_pSubsetSymbol->setY(centrePoint.y());
+        return path;
     }
-}
-
-/**
- * Create a number of new lines and append them to the given list.
- *
- * @param list  The list into which to append lines.
- * @param by    The number of lines to insert into the given list.
- */
-void AssociationLine::growList(LineList &list, int by)
-{
-    QPen pen(lineColor(), lineWidth());
-    for (int i = 0; i < by; i++) {
-        QGraphicsLineItem* line = new QGraphicsLineItem(this);
-        line->setZValue(0);
-        line->setPen(pen);
-        list.append(line);
+    else {
+        return QPainterPath();
     }
 }
 
@@ -1255,14 +715,125 @@ QRectF AssociationLine::boundingRect() const
  */
 QPainterPath AssociationLine::shape() const
 {
-    QPainterPath path;
-    Q_FOREACH(QGraphicsLineItem* line, m_LineList) {
-        path.addPath(line->shape());
-    }
-
     QPainterPathStroker stroker;
-    stroker.setWidth(qMax<qreal>(POINT_DELTA, pen().widthF()) + 2.0); // allow delta region
-    return stroker.createStroke(path);
+    stroker.setWidth(qMax<qreal>(2*SelectedPointDiameter, pen().widthF()) + 2.0);  // allow delta region
+    return stroker.createStroke(path());
+}
+
+/**
+ * Convert enum LayoutType to string.
+ */
+QString AssociationLine::toString(LayoutType layout)
+{
+    return QLatin1String(ENUM_NAME(AssociationLine, LayoutType, layout));
+}
+
+/**
+ * Convert string to enum LayoutType.
+ */
+AssociationLine::LayoutType AssociationLine::fromString(const QString &layout)
+{
+    if (layout == "Direct")
+        return Direct;
+    if (layout == "Spline")
+        return Spline;
+    if (layout == "Orthogonal")
+        return Orthogonal;
+    return Polyline;
+}
+
+/**
+ * Return the layout type of the association line.
+ * @return   the currently used layout
+ */
+AssociationLine::LayoutType AssociationLine::layout() const
+{
+    return m_layout;
+}
+
+/**
+ * Set the layout type of the association line.
+ * @param layout   the desired layout to set
+ */
+void AssociationLine::setLayout(LayoutType layout)
+{
+    prepareGeometryChange();
+    m_layout = layout;
+    DEBUG(DBG_SRC) << "new layout = " << toString(m_layout);
+    alignSymbols();
+}
+
+/**
+ * Returns a Bézier path from given points.
+ * @param points   points which define the Bézier curve
+ * @return   cubic Bézier spline
+ */
+QPainterPath AssociationLine::createCubicBezierCurve(QVector<QPointF> points)
+{
+    QPainterPath path;
+    if (points.size() > 3) {
+        path.moveTo(points.at(0));
+        int i = 1;
+        while (i + 2 < points.size()) {
+            path.cubicTo(points.at(i), points.at(i+1), points.at(i+2));
+            i += 3;
+        }
+        while (i < points.size()) {
+            path.lineTo(points.at(i));
+            ++i;
+        }
+    }
+    else {
+        QPolygonF polygon(points);
+        path.addPolygon(polygon);
+    }
+    return path;
+}
+
+/**
+ * Returns an orthogonal path constructed of vertical and horizontal segments
+ * through the given points.
+ * @param points   base points for the path
+ * @return   orthogonal path
+ */
+QPainterPath AssociationLine::createOrthogonalPath(QVector<QPointF> points)
+{
+    QPainterPath path;
+    if (points.size() > 1) {
+        QPointF start  = points.first();
+        QPointF end    = points.last();
+        qreal deltaX = abs(start.x() - end.x());
+        qreal deltaY = abs(start.y() - end.y());
+        // DEBUG("AssociationLine") << "start=" << start << " / end=" << end
+        //               << " / deltaX=" << deltaX << " / deltaY=" << deltaY;
+        QVector<QPointF> vector;
+        for (int i = 0; i < points.size() - 1; ++i) {
+            QPointF curr = points.at(i);
+            QPointF next = points.at(i+1);
+            QPointF center = (next + curr)/2.0;
+
+            vector.append(curr);
+            if (deltaX < deltaY) {
+                // go vertical first
+                vector.append(QPointF(curr.x(), center.y()));
+                vector.append(QPointF(next.x(), center.y()));
+            }
+            else {
+                // go horizontal first
+                vector.append(QPointF(center.x(), curr.y()));
+                vector.append(QPointF(center.x(), next.y()));
+            }
+            vector.append(next);
+        }
+
+        QPolygonF rectLine(vector);
+        path.addPolygon(rectLine);
+    }
+    else {
+        QPolygonF polygon(points);
+        path.addPolygon(polygon);
+    }
+    return path;
 }
 
 /**
@@ -1271,16 +842,470 @@ QPainterPath AssociationLine::shape() const
  */
 void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    Q_UNUSED(painter) Q_UNUSED(option) Q_UNUSED(widget)
+    Q_UNUSED(widget)
+    QPen _pen = pen();
+    const QColor orig = _pen.color().lighter();
+    QColor invertedColor(orig.green(), orig.blue(), orig.red());
+    if (invertedColor == _pen.color()) {
+        // Ensure different color.
+        invertedColor.setRed((invertedColor.red() + 50) % 256);
+    }
+    invertedColor.setAlpha(150);
+
+    int sz = m_points.size();
+    if (sz < 1) {
+        // not enough points - do nothing
+        return;
+    }
+
+    QPointF savedStart = m_points.first();
+    QPointF savedEnd = m_points.last();
+
+    // modify the m_points array not to include the Symbol, the value depends on Symbol
+    if (m_startSymbol) {
+        QPointF newStart = m_startSymbol->mapToParent(m_startSymbol->symbolEndPoints().first);
+        m_points[0] = newStart;
+    }
+
+    if (m_endSymbol) {
+        QPointF newEnd = m_endSymbol->mapToParent(m_endSymbol->symbolEndPoints().first);
+        m_points[sz - 1] = newEnd;
+    }
+
+    painter->setPen(_pen);
+    painter->setBrush(Qt::NoBrush);
+    painter->drawPath(path());
+
+    if (option->state & QStyle::State_Selected) {
+        // make the association broader in the selected state
+        QPainterPathStroker stroker;
+        stroker.setWidth(3.0);
+        QPainterPath outline = stroker.createStroke(path());
+        QColor shadowColor(Qt::lightGray);
+        shadowColor.setAlpha(80);
+        QBrush shadowBrush(shadowColor);
+        painter->setBrush(shadowBrush);
+        painter->setPen(Qt::NoPen);
+        painter->drawPath(outline);
+
+        // set color for selected painting
+        _pen.setColor(Qt::blue);
+        QRectF circle(0, 0, SelectedPointDiameter, SelectedPointDiameter);
+        painter->setBrush(_pen.color());
+        painter->setPen(Qt::NoPen);
+
+        // draw points
+        circle.moveCenter(savedStart);
+        painter->drawRect(circle);
+        for (int i = 1; i < sz-1; ++i) {
+            if (i != m_activePointIndex) {
+                circle.moveCenter(m_points.at(i));
+                painter->drawRect(circle);
+            }
+        }
+        circle.moveCenter(savedEnd);
+        painter->drawRect(circle);
+
+        if (m_activePointIndex != -1) {
+            painter->setBrush(invertedColor);
+            painter->setPen(Qt::NoPen);
+            circle.setWidth(1.5*SelectedPointDiameter);
+            circle.setHeight(1.5*SelectedPointDiameter);
+            circle.moveCenter(m_points.at(m_activePointIndex));
+            painter->drawEllipse(circle);
+        }
+        else if (m_activeSegmentIndex != -1) {
+            painter->setPen(QPen(invertedColor, _pen.widthF() + 1));
+            painter->setBrush(Qt::NoBrush);
+
+            QLineF segmentLine(m_points[m_activeSegmentIndex], m_points[m_activeSegmentIndex + 1]);
+            painter->drawLine(segmentLine);
+        }
+
+        // debug info
+        if (Tracer::instance()->isEnabled(metaObject()->className())) {
+            painter->setPen(Qt::green);
+            painter->setBrush(Qt::NoBrush);
+            painter->drawPath(shape());
+            painter->setPen(Qt::red);
+            painter->drawRect(boundingRect());
+            // origin
+            painter->drawLine(-10, 0, 10, 0);
+            painter->drawLine(0, -10, 0, 10);
+        }
+    }
+
+    // now restore the points array
+    m_points[0] = savedStart;
+    m_points[sz - 1] = savedEnd;
 }
 
 /**
- * Event handler for context menu events.
+ * Determines the active point or segment, the latter being given more priority.
  */
-//void AssociationLine::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
-//{
-//    uDebug() << "call AssociationWidget";
-//    event->ignore();
-//}
+void AssociationLine::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    DEBUG(DBG_SRC) << "at " << event->scenePos();
+    if (event->buttons() & Qt::LeftButton) {
+        m_activePointIndex = closestPointIndex(event->scenePos());
+        if (m_activePointIndex != -1 && isEndPointIndex(m_activePointIndex)) {
+            // end points are not drawn and hence not active
+            m_activePointIndex = -1;
+        }
+        // calculate only if active point index is -1
+        m_activeSegmentIndex = (m_activePointIndex != -1) ? -1 : closestSegmentIndex(event->scenePos());
+    }
+    else if (event->buttons() & Qt::RightButton) {
+        DEBUG(DBG_SRC) << "call context menu of association widget at " << event->scenePos();
+    }
+    else {
+        m_activePointIndex   = -1;
+        m_activeSegmentIndex = -1;
+    }
+}
+
+/**
+ * Moves the point or line if active.
+ */
+void AssociationLine::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    if (m_activePointIndex != -1) {
+        setPoint(m_activePointIndex, event->scenePos());
+    }
+    else if (m_activeSegmentIndex != -1 && !isEndSegmentIndex(m_activeSegmentIndex)) {
+        QPointF delta = event->scenePos() - event->lastScenePos();
+        setPoint(m_activeSegmentIndex, m_points[m_activeSegmentIndex] + delta);
+        setPoint(m_activeSegmentIndex + 1, m_points[m_activeSegmentIndex + 1] + delta);
+    }
+    else {
+        return;
+    }
+}
+
+/**
+ * Reset active indices and also push undo command.
+ */
+void AssociationLine::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    if (event->buttons() & Qt::LeftButton) {
+        m_activeSegmentIndex = -1;
+        m_activePointIndex   = -1;
+    }
+}
+
+/**
+ * Calculates the "to be highlighted" point and segment indicies
+ * and updates if necessary.
+ */
+void AssociationLine::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+{
+    DEBUG(DBG_SRC) << "at " << event->scenePos();
+    int oldPointIndex = m_activePointIndex;
+    int oldSegmentIndex = m_activeSegmentIndex;
+
+    m_activePointIndex = closestPointIndex(event->scenePos());
+    // End points are not drawn and hence not active.
+    if (m_activePointIndex != -1 && isEndPointIndex(m_activePointIndex)) {
+        m_activePointIndex = -1;
+    }
+    // Activate segment index only if point index is -1
+    m_activeSegmentIndex = (m_activePointIndex != -1) ? -1 : closestSegmentIndex(event->scenePos());
+
+    bool isChanged = (oldSegmentIndex != m_activeSegmentIndex || oldPointIndex != m_activePointIndex);
+    if (isChanged) {
+        m_associationWidget->update();
+    }
+}
+
+/**
+ * Calculates the "to be highlighted" point and segment indicies
+ * and updates if necessary.
+ */
+void AssociationLine::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
+{
+    int oldPointIndex = m_activePointIndex;
+    int oldSegmentIndex = m_activeSegmentIndex;
+
+    m_activePointIndex = closestPointIndex(event->scenePos());
+    // End points are not drawn and hence not active.
+    if (m_activePointIndex != -1 && isEndPointIndex(m_activePointIndex)) {
+        m_activePointIndex = -1;
+    }
+    // Activate segment index only if point index is -1
+    m_activeSegmentIndex = (m_activePointIndex != -1) ? -1 : closestSegmentIndex(event->scenePos());
+
+    bool isChanged = (oldSegmentIndex != m_activeSegmentIndex || oldPointIndex != m_activePointIndex);
+    if (isChanged) {
+        m_associationWidget->update();
+    }
+}
+
+/**
+ * Reset active indicies and updates.
+ */
+void AssociationLine::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+{
+    DEBUG(DBG_SRC) << "at " << event->scenePos();
+    //Q_UNUSED(event)
+    m_activePointIndex   = -1;
+    m_activeSegmentIndex = -1;
+    m_associationWidget->update();
+}
+
+//-----------------------------------------------------------------------------
+
+/**
+ * SymbolEndPoints:
+ * The first point is where the AssociationLine's visible line is
+ * supposed to end.
+ * The second points is where the actual symbol part is to appear.
+ */
+Symbol::SymbolProperty Symbol::symbolTable[Count] =
+{
+    {
+        QRectF(-6, 0, 12, 10), QPainterPath(), QLineF(0, 0, 0, 10),
+        SymbolEndPoints(QPointF(0, 10), QPointF(0, 10))
+    },
+    {
+        QRectF(-6, 0, 12, 10), QPainterPath(), QLineF(0, 0, 0, 10),
+        SymbolEndPoints(QPointF(0, 0), QPointF(0, 10))
+    },
+    {
+        QRectF(-6, 0, 12, 10), QPainterPath(), QLineF(0, 0, 0, 10),
+        SymbolEndPoints(QPointF(0, 10), QPointF(0, 10))
+    },
+    {
+        QRectF(-5, -10, 10, 20), QPainterPath(), QLineF(0, -10, 0, 10),
+        SymbolEndPoints(QPointF(0, -10), QPointF(0, 10))
+    },
+    {
+        QRectF(-15, -10, 30, 20), QPainterPath(), QLineF(-10, 0, 0, 0),
+        SymbolEndPoints(QPointF(0, 0), QPointF(0, 0))
+    },
+    {
+        QRectF(-8, -8, 16, 16), QPainterPath(), QLineF(0, -8, 0, 8),
+        SymbolEndPoints(QPointF(0, -8), QPointF(0, 8))
+    }
+
+};
+
+/**
+ * @internal A convenience method to setup shapes of all symbols.
+ */
+void Symbol::setupSymbolTable()
+{
+    SymbolProperty &openArrow = symbolTable[OpenArrow];
+    if (openArrow.shape.isEmpty()) {
+        QRectF rect = openArrow.boundRect;
+        // Defines a 'V' shape arrow fitting in the bound rect.
+        openArrow.shape.moveTo(rect.topLeft());
+        openArrow.shape.lineTo(rect.center().x(), rect.bottom());
+        openArrow.shape.lineTo(rect.topRight());
+    }
+
+    SymbolProperty &closedArrow = symbolTable[ClosedArrow];
+    if (closedArrow.shape.isEmpty()) {
+        QRectF rect = closedArrow.boundRect;
+        // Defines a 'V' shape arrow fitting in the bound rect.
+        closedArrow.shape.moveTo(rect.topLeft());
+        closedArrow.shape.lineTo(rect.center().x(), rect.bottom());
+        closedArrow.shape.lineTo(rect.topRight());
+        closedArrow.shape.lineTo(rect.topLeft());
+    }
+
+    SymbolProperty &crowFeet = symbolTable[CrowFeet];
+    if (crowFeet.shape.isEmpty()) {
+        QRectF rect = crowFeet.boundRect;
+        // Defines a crowFeet fitting in the bound rect.
+        QPointF topMid(rect.center().x(), rect.top());
+
+        // left leg
+        crowFeet.shape.moveTo(rect.bottomLeft());
+        crowFeet.shape.lineTo(topMid);
+
+        // middle leg
+        crowFeet.shape.moveTo(rect.center().x(), rect.bottom());
+        crowFeet.shape.lineTo(topMid);
+
+        // left leg
+        crowFeet.shape.moveTo(rect.bottomRight());
+        crowFeet.shape.lineTo(topMid);
+    }
+
+    SymbolProperty &diamond = symbolTable[Diamond];
+    if (diamond.shape.isEmpty()) {
+        QRectF rect = diamond.boundRect;
+        // Defines a 'diamond' shape fitting in the bound rect.
+        diamond.shape.moveTo(rect.center().x(), rect.top());
+        diamond.shape.lineTo(rect.left(), rect.center().y());
+        diamond.shape.lineTo(rect.center().x(), rect.bottom());
+        diamond.shape.lineTo(rect.right(), rect.center().y());
+        diamond.shape.lineTo(rect.center().x(), rect.top());
+    }
+
+    SymbolProperty &subset = symbolTable[Subset];
+    if (subset.shape.isEmpty()) {
+        QRectF rect = subset.boundRect;
+        // Defines an arc fitting in bound rect.
+        qreal start = 90, span = 180;
+        subset.shape.arcMoveTo(rect, start);
+        subset.shape.arcTo(rect, start, span);
+    }
+
+    SymbolProperty &circle = symbolTable[Circle];
+    if (circle.shape.isEmpty()) {
+        QRectF rect = circle.boundRect;
+        // Defines a circle with a horizontal-vertical cross lines.
+        circle.shape.addEllipse(rect);
+
+        circle.shape.moveTo(rect.center().x(), rect.top());
+        circle.shape.lineTo(rect.center().x(), rect.bottom());
+
+        circle.shape.moveTo(rect.left(), rect.center().y());
+        circle.shape.lineTo(rect.right(), rect.center().y());
+    }
+
+}
+
+/**
+ * Constructs a Symbol with current symbol being \a symbol and
+ * parented to \a parent.
+ */
+Symbol::Symbol(SymbolType symbolType, QGraphicsItem *parent)
+  : QGraphicsItem(parent),
+    m_symbolType(symbolType)
+{
+    // ensure SymbolTable is validly initialized
+    setupSymbolTable();
+}
+
+/**
+ * Destructor.
+ */
+Symbol::~Symbol()
+{
+}
+
+/**
+ * @return The current symbol being represented.
+ */
+Symbol::SymbolType Symbol::symbolType() const
+{
+    return m_symbolType;
+}
+
+/**
+ * Sets the current symbol type to \a symbol and updates the geometry.
+ */
+void Symbol::setSymbolType(SymbolType symbolType)
+{
+    prepareGeometryChange();  // calls update implicitly
+    m_symbolType = symbolType;
+}
+
+/**
+ * Draws the current symbol using the QPainterPath stored for the current
+ * symbol.
+ */
+void Symbol::paint(QPainter *painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
+{
+    Q_UNUSED(option) Q_UNUSED(widget)
+    painter->setPen(m_pen);
+    switch (m_symbolType) {
+    case ClosedArrow:
+    case CrowFeet:
+    case Diamond:
+        painter->setBrush(m_brush);
+        break;
+    default:
+        break;
+    }
+    painter->drawPath(Symbol::symbolTable[m_symbolType].shape);
+}
+
+/**
+ * @return The bound rectangle for this based on current symbol.
+ */
+QRectF Symbol::boundingRect() const
+{
+    const qreal adj = .5 * m_pen.widthF();
+    return Symbol::symbolTable[m_symbolType].boundRect.
+        adjusted(-adj, -adj, adj, adj);
+}
+
+/**
+ * @return The path for this based on current symbol.
+ */
+QPainterPath Symbol::shape() const
+{
+    QPainterPath path;
+    path.addRect(boundingRect());
+    return path;
+}
+
+/**
+ * This method aligns *this* Symbol to the line being
+ * passed. That is, it ensures that the axis of this symbol aligns
+ * exactly with the \a "to" line passed.
+ *
+ * Also this item is moved such that the second end point of the
+ * SymbolEndPoints for the current symbol *collides* with the second end
+ * point of \a "to" line.
+ */
+void Symbol::alignTo(const QLineF& to)
+{
+    QLineF toMapped(mapFromParent(to.p1()), mapFromParent(to.p2()));
+
+    QLineF origAxis = Symbol::symbolTable[m_symbolType].axisLine;
+    QLineF translatedAxis = origAxis.translated(toMapped.p2() - origAxis.p2());
+
+    qreal angle = translatedAxis.angleTo(toMapped);
+    rotate(-angle);
+
+    QPointF delta = to.p2() - mapToParent(symbolEndPoints().second);
+    moveBy(delta.x(), delta.y());
+}
+
+/**
+ * @return The end points for the symbol.
+ */
+Symbol::SymbolEndPoints Symbol::symbolEndPoints() const
+{
+    return Symbol::symbolTable[m_symbolType].endPoints;
+}
+
+/**
+ * @return The pen used to draw symbol.
+ */
+QPen Symbol::pen() const
+{
+    return m_pen;
+}
+
+/**
+ * Sets the pen used to draw the symbol.
+ */
+void Symbol::setPen(const QPen& pen)
+{
+    prepareGeometryChange();
+    m_pen = pen;
+}
+
+/**
+ * @return The brush used to fill symbol.
+ */
+QBrush Symbol::brush() const
+{
+    return m_brush;
+}
+
+/**
+ * Sets the brush used to fill symbol.
+ */
+void Symbol::setBrush(const QBrush &brush)
+{
+    m_brush = brush;
+    update();
+}
 
 #include "associationline.moc"

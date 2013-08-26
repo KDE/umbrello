@@ -13,6 +13,7 @@
 
 // app includes
 #include "activitywidget.h"
+#include "associationline.h"
 #include "category.h"
 #include "classifier.h"
 #include "classifierwidget.h"
@@ -902,6 +903,8 @@ void ListPopupMenu::insertAssociationItem(MenuType mt)
             insert(mt_Add_Point, Icon_Utils::SmallIcon(Icon_Utils::it_Add_Point), i18n("Add Point"));
         if (w->isPointRemovable())
             insert(mt_Delete_Point, Icon_Utils::SmallIcon(Icon_Utils::it_Delete_Point), i18n("Delete Point"));
+        addSeparator();
+        insertSubMenuLayout(w->associationLine());
     }
     addSeparator();
     insert(mt_Delete);
@@ -941,6 +944,34 @@ void ListPopupMenu::insertAssociationTextItem(const QString &label, MenuType mt)
     insert(mt_Change_Font);
     insert(mt_Reset_Label_Positions);
     insert(mt_Properties);
+}
+
+/**
+ * Inserts a sub menu for association layouts.
+ */
+void ListPopupMenu::insertSubMenuLayout(AssociationLine *associationLine)
+{
+    KMenu* layout = new KMenu(i18nc("Layout menu", "Layout"), this);
+    insert(mt_LayoutPolyline, layout, i18n("Polyline"), true);
+    insert(mt_LayoutDirect, layout, i18n("Direct"), true);
+    insert(mt_LayoutSpline, layout, i18n("Spline"), true);
+    insert(mt_LayoutOrthogonal, layout, i18n("Orthogonal"), true);
+    switch(associationLine->layout()) {
+    case AssociationLine::Direct:
+        m_actions[mt_LayoutDirect]->setChecked(true);
+        break;
+    case AssociationLine::Orthogonal:
+        m_actions[mt_LayoutOrthogonal]->setChecked(true);
+        break;
+    case AssociationLine::Spline:
+        m_actions[mt_LayoutSpline]->setChecked(true);
+        break;
+    case AssociationLine::Polyline:
+    default:
+        m_actions[mt_LayoutPolyline]->setChecked(true);
+        break;
+    }
+    addMenu(layout);
 }
 
 /**

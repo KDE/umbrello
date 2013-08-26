@@ -85,7 +85,7 @@ public:
 
     AssociationWidget *classAssociationWidget() const;
     void setClassAssociationWidget(AssociationWidget *assocwidget);
-    virtual void adjustAssociations(int x, int y);
+//    virtual void adjustAssociations(int x, int y);
 
     virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
     virtual bool loadFromXMI(QDomElement & qElement);

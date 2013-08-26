@@ -18,7 +18,6 @@
 #include "classifier.h"
 #include "cmds.h"
 #include "debug_utils.h"
-#include "floatingtextwidgetcontroller.h"
 #include "linkwidget.h"
 #include "listpopupmenu.h"
 #include "messagewidget.h"
@@ -52,14 +51,18 @@ DEBUG_REGISTER_DISABLED(FloatingTextWidget)
  * @param id The ID to assign (-1 will prompt a new ID.)
  */
 FloatingTextWidget::FloatingTextWidget(UMLScene * scene, Uml::TextRole::Enum role, const QString& text, Uml::ID::Type id)
-  : UMLWidget(scene, WidgetBase::wt_Text, id, new FloatingTextWidgetController(this)),
+  : UMLWidget(scene, WidgetBase::wt_Text, id),
     m_linkWidget(0),
     m_preText(QString()),
     m_postText(QString()),
-    m_textRole(role)
+    m_textRole(role),
+    m_unconstrainedPositionX(0),
+    m_unconstrainedPositionY(0),
+    m_movementDirectionX(0),
+    m_movementDirectionY(0)
 {
     m_Text = text;
-    UMLWidget::m_resizable = false;
+    m_resizable = false;
     setZValue(10); //make sure always on top.
 }
 
@@ -459,6 +462,116 @@ bool FloatingTextWidget::isTextValid(const QString &text)
         }
     }
     return false;
+}
+
+/**
+ * Returns a constrained position for the widget after applying the position
+ * difference.
+ * If no link widget exists, the position returned is the current widget
+ * position with the difference applied. If there's a link, the position
+ * to be returned is constrained using constrainTextPos method from the
+ * LinkWidget, if any.
+ *
+ * @param diffX The difference between current X position and new X position.
+ * @param diffY The difference between current Y position and new Y position.
+ * @return A QPointF with the constrained new position.
+ */
+QPointF FloatingTextWidget::constrainPosition(qreal diffX, qreal diffY)
+{
+    qreal newX = x() + diffX;
+    qreal newY = y() + diffY;
+
+    if (link()) {
+        link()->constrainTextPos(newX, newY, width(), height(), textRole());
+    }
+
+    return QPointF(newX, newY);
+}
+
+/**
+ * Overridden from UMLWidget.
+ * Moves the widget to a new position using the difference between the
+ * current position and the new position.
+ * If the floating text widget is part of a sequence message, and the
+ * message widget is selected, it does nothing: the message widget will
+ * update the text position when it's moved.
+ * In any other case, the floating text widget constrains its move using
+ * constrainPosition. When the position of the floating text is constrained,
+ * it's kept at that position until it can be moved to another valid
+ * position (m_unconstrainedPositionX/Y and m_movementDirectionX/Y are
+ * used for that).
+ * Moreover, if is part of a sequence message (and the message widget
+ * isn't selected), it updates the position of the message widget.
+ * @see constrainPosition
+ *
+ * @param diffX The difference between current X position and new X position.
+ * @param diffY The difference between current Y position and new Y position.
+ */
+void FloatingTextWidget::moveWidgetBy(qreal diffX, qreal diffY)
+{
+    if (textRole() == Uml::TextRole::Seq_Message_Self)
+        return;
+
+    if (textRole() == Uml::TextRole::Seq_Message
+                    && ((MessageWidget*)link())->isSelected()) {
+        return;
+    }
+
+    m_unconstrainedPositionX += diffX;
+    m_unconstrainedPositionY += diffY;
+    QPointF constrainedPosition = constrainPosition(diffX, diffY);
+
+    qreal newX = constrainedPosition.x();
+    qreal newY = constrainedPosition.y();
+
+    if (!m_movementDirectionX) {
+        if (m_unconstrainedPositionX != constrainedPosition.x()) {
+            m_movementDirectionX = (diffX > 0)? 1: -1;
+        }
+    } else if ((m_movementDirectionX < 0 && m_unconstrainedPositionX > x()) ||
+               (m_movementDirectionX > 0 && m_unconstrainedPositionX < x()) ) {
+        newX = m_unconstrainedPositionX;
+        m_movementDirectionX = 0;
+    }
+
+    if (!m_movementDirectionY) {
+        if (m_unconstrainedPositionY != constrainedPosition.y()) {
+            m_movementDirectionY = (diffY > 0)? 1: -1;
+        }
+    } else if ((m_movementDirectionY < 0 && m_unconstrainedPositionY > y()) ||
+               (m_movementDirectionY > 0 && m_unconstrainedPositionY < y()) ) {
+        newY = m_unconstrainedPositionY;
+        m_movementDirectionY = 0;
+    }
+
+    setX(newX);
+    setY(newY);
+
+    if (link()) {
+        link()->calculateNameTextSegment();
+        if (textRole() == Uml::TextRole::Seq_Message) {
+            MessageWidget* messageWidget = (MessageWidget*)link();
+            messageWidget->setY(newY + height());
+        }
+    }
+}
+
+/**
+ * Overridden from UMLWidget.
+ * Modifies the value of the diffX and diffY variables used to move the
+ * widgets.
+ * The values are constrained using constrainPosition.
+ * @see constrainPosition
+ *
+ * @param diffX The difference between current X position and new X position.
+ * @param diffY The difference between current Y position and new Y position.
+ */
+void FloatingTextWidget::constrainMovementForAllWidgets(qreal &diffX, qreal &diffY)
+{
+    QPointF constrainedPosition = constrainPosition(diffX, diffY);
+
+    diffX = constrainedPosition.x() - x();
+    diffY = constrainedPosition.y() - y();
 }
 
 /**

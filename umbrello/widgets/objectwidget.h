@@ -12,11 +12,11 @@
 #define OBJECTWIDGET_H
 
 #include "messagewidgetlist.h"
-#include "umlscene.h"
 #include "umlwidget.h"
 
 class MessageWidget;
 class SeqLineWidget;
+class UMLScene;
 
 /**
  * Displays an instance UMLObject of a concept.
@@ -33,13 +33,13 @@ class ObjectWidget : public UMLWidget
 {
     Q_OBJECT
 public:
-    ObjectWidget(UMLScene * scene, UMLObject *o, Uml::ID::Type lid = Uml::ID::None);
+    ObjectWidget(UMLScene *scene, UMLObject *o, Uml::ID::Type lid = Uml::ID::None);
     virtual ~ObjectWidget();
 
-    virtual void setX(UMLSceneValue x);
-    virtual void setY(UMLSceneValue y);
+    virtual void setX(qreal x);
+    virtual void setY(qreal y);
 
-    UMLSceneValue centerX();
+    qreal centerX();
 
     void setLocalID(Uml::ID::Type id);
     Uml::ID::Type localID() const;
@@ -50,8 +50,6 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     bool activate(IDChangeLog* ChangeLog = 0);
-
-    virtual void moveEvent(QGraphicsSceneMouseEvent *m);
 
     void cleanup();
 
@@ -73,9 +71,11 @@ public:
 
     bool canTabUp();
 
-    bool messageOverlap(UMLSceneValue y, MessageWidget* messageWidget);
+    bool messageOverlap(qreal y, MessageWidget* messageWidget);
 
     SeqLineWidget *sequentialLine() const;
+
+    virtual void resizeWidget(qreal newW, qreal newH);
 
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
     virtual bool loadFromXMI(QDomElement& qElement);
@@ -86,7 +86,16 @@ public slots:
     void slotMessageMoved();
 
 protected:
-    UMLSceneSize minimumSize();
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *me);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *me);
+
+    QSizeF minimumSize();
+
+    virtual void moveEvent(QGraphicsSceneMouseEvent *event);
+    virtual void moveWidgetBy(qreal diffX, qreal diffY);
+    virtual void constrainMovementForAllWidgets(qreal &diffX, qreal &diffY);
+
+    virtual QCursor resizeCursor() const;
 
     void paintActor(QPainter *p);
     void paintObject(QPainter *p);
@@ -95,12 +104,14 @@ private:
     void tabUp();
     void tabDown();
 
+    void moveDestructionBy(qreal diffY);
+
     SeqLineWidget* m_pLine;
     Uml::ID::Type  m_nLocalID; ///< local ID used on views
     bool m_multipleInstance;   ///< draw an object as a multiple object
     bool m_drawAsActor;        ///< object should be drawn as an Actor or an Object
     bool m_showDestruction;    ///< show object destruction on sequence diagram line
-
+    bool m_isOnDestructionBox;  ///< true when a click occurred on the destruction box
     MessageWidgetList m_messages;   ///< message widgets with an end on this widget
 
 };

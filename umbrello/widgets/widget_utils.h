@@ -13,14 +13,14 @@
 
 #include "basictypes.h"
 #include "messagewidgetlist.h"
-#include "umlscene.h"
 #include "umlwidgetlist.h"
 
 #include <QBrush>
 #include <QDomDocument>
-#include <QFont>
-#include <QPen>
-#include <QPoint>
+#include <QPointF>
+
+class QGraphicsItem;
+class QGraphicsRectItem;
 
 /**
  * General purpose widget utilities.
@@ -32,10 +32,10 @@ namespace Widget_Utils
                           const UMLWidgetList& widgets,
                           const MessageWidgetList* messages = 0);
 
-    QGraphicsRectItem* decoratePoint(const UMLScenePoint& p);
+    QGraphicsRectItem* decoratePoint(const QPointF& p, QGraphicsItem* parent = 0);
 
     void drawCrossInEllipse(QPainter *p, const QRectF& ellipse);
-    void drawTriangledRect(QPainter *painter, const UMLSceneRect& rect, const UMLSceneSize& triSize);
+    void drawTriangledRect(QPainter *painter, const QRectF& rect, const QSizeF& triSize);
     void drawArrowHead(QPainter *painter, const QPointF& arrowPos,
                        const QSizeF& arrowSize, Qt::ArrowType arrowType,
                        bool solid = false);

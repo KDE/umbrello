@@ -368,14 +368,6 @@ set(libwidgets_SRCS
     widgets/statusbartoolbutton.cpp
 )
 
-set (libcontroller_SRCS
-    controller/floatingtextwidgetcontroller.cpp
-    controller/messagewidgetcontroller.cpp
-#    controller/notewidgetcontroller.cpp
-    controller/objectwidgetcontroller.cpp
-    controller/umlwidgetcontroller.cpp
-)
-
 ########### next target ###############
 
 set(libumbrello_SRCS
@@ -450,7 +442,6 @@ kde4_add_kcfg_files(umbrello_SRCS umbrellosettings.kcfgc)
 
 set(umbrello_SRCS
     ${umbrello_SRCS}
-    ${libcontroller_SRCS}
     ${libdebug_SRCS}
     ${libdialogs_SRCS}
     ${librefactoring_SRCS}

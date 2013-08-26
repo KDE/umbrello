@@ -24,6 +24,7 @@ namespace WidgetList_Utils
 /**
  * Looks for the smallest x-value of the given UMLWidgets.
  * @param widgetList A list with UMLWidgets.
+ * @return The smallest X position.
  */
 qreal getSmallestX(const UMLWidgetList &widgetList)
 {
@@ -46,6 +47,7 @@ qreal getSmallestX(const UMLWidgetList &widgetList)
 /**
  * Looks for the smallest y-value of the given UMLWidgets.
  * @param widgetList A list with UMLWidgets.
+ * @return The smallest Y position.
  */
 qreal getSmallestY(const UMLWidgetList &widgetList)
 {
@@ -71,6 +73,7 @@ qreal getSmallestY(const UMLWidgetList &widgetList)
 /**
  * Looks for the biggest x-value of the given UMLWidgets.
  * @param widgetList A list with UMLWidgets.
+ * @return The biggest X position.
  */
 qreal getBiggestX(const UMLWidgetList &widgetList)
 {
@@ -97,6 +100,7 @@ qreal getBiggestX(const UMLWidgetList &widgetList)
 /**
  * Looks for the biggest y-value of the given UMLWidgets.
  * @param widgetList A list with UMLWidgets.
+ * @return The biggest Y position.
  */
 qreal getBiggestY(const UMLWidgetList &widgetList)
 {

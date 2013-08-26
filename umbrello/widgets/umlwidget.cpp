@@ -23,8 +23,8 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umlobject.h"
+#include "umlscene.h"
 #include "umlview.h"
-#include "umlwidgetcontroller.h"
 #include "uniqueid.h"
 
 // kde includes
@@ -42,24 +42,18 @@ using namespace Uml;
 
 DEBUG_REGISTER_DISABLED(UMLWidget)
 
-const UMLSceneSize UMLWidget::DefaultMinimumSize(50, 20);
-const UMLSceneSize UMLWidget::DefaultMaximumSize(1000, 5000);
+const QSizeF UMLWidget::DefaultMinimumSize(50, 20);
+const QSizeF UMLWidget::DefaultMaximumSize(1000, 5000);
 
 /**
  * Creates a UMLWidget object.
  *
  * @param scene The view to be displayed on.
  * @param o The UMLObject to represent.
- * @param widgetController The UMLWidgetController of this UMLWidget
  */
-UMLWidget::UMLWidget(UMLScene * scene, WidgetType type, UMLObject * o, UMLWidgetController *widgetController)
+UMLWidget::UMLWidget(UMLScene * scene, WidgetType type, UMLObject * o)
   : WidgetBase(scene, type)
 {
-    if (widgetController) {
-        m_widgetController = widgetController;
-    } else {
-        m_widgetController = new UMLWidgetController(this);
-    }
     init();
     m_umlObject = o;
     if (m_umlObject) {
@@ -74,16 +68,10 @@ UMLWidget::UMLWidget(UMLScene * scene, WidgetType type, UMLObject * o, UMLWidget
  * @param scene The view to be displayed on.
  * @param id The id of the widget.
  *  The default value (id_None) will prompt generation of a new ID.
- * @param widgetController The UMLWidgetController of this UMLWidget
  */
-UMLWidget::UMLWidget(UMLScene *scene, WidgetType type, Uml::ID::Type id, UMLWidgetController *widgetController)
+UMLWidget::UMLWidget(UMLScene *scene, WidgetType type, Uml::ID::Type id)
   : WidgetBase(scene, type)
 {
-    if (widgetController) {
-        m_widgetController = widgetController;
-    } else {
-        m_widgetController = new UMLWidgetController(this);
-    }
     init();
     if (id == Uml::ID::None)
         m_nId = UniqueID::gen();
@@ -96,7 +84,6 @@ UMLWidget::UMLWidget(UMLScene *scene, WidgetType type, Uml::ID::Type id, UMLWidg
  */
 UMLWidget::~UMLWidget()
 {
-    delete m_widgetController;
     cleanup();
 }
 
@@ -136,7 +123,6 @@ UMLWidget& UMLWidget::operator=(const UMLWidget & other)
     m_activated = other.m_activated;
     m_ignoreSnapToGrid = other.m_ignoreSnapToGrid;
     m_ignoreSnapComponentSizeToGrid = other.m_ignoreSnapComponentSizeToGrid;
-    // m_widgetController do not have any settings
     return *this;
 }
 
@@ -196,9 +182,9 @@ bool UMLWidget::operator==(const UMLWidget& other) const
 /**
  * Compute the minimum possible width and height.
  *
- * @return UMLSceneSize(mininum_width, minimum_height)
+ * @return QSizeF(mininum_width, minimum_height)
  */
-UMLSceneSize UMLWidget::minimumSize()
+QSizeF UMLWidget::minimumSize()
 {
     return m_minimumSize;
 }
@@ -209,7 +195,7 @@ UMLSceneSize UMLWidget::minimumSize()
  *
  * @param newSize The size being set as minimum.
  */
-void UMLWidget::setMinimumSize(const UMLSceneSize& newSize)
+void UMLWidget::setMinimumSize(const QSizeF& newSize)
 {
     m_minimumSize = newSize;
 }
@@ -219,7 +205,7 @@ void UMLWidget::setMinimumSize(const UMLSceneSize& newSize)
  *
  * @return maximum size
  */
-UMLSceneSize UMLWidget::maximumSize()
+QSizeF UMLWidget::maximumSize()
 {
     return m_maximumSize;
 }
@@ -230,7 +216,7 @@ UMLSceneSize UMLWidget::maximumSize()
  *
  * @param newSize The size being set as maximum.
  */
-void UMLWidget::setMaximumSize(const UMLSceneSize& newSize)
+void UMLWidget::setMaximumSize(const QSizeF& newSize)
 {
     m_maximumSize = newSize;
 }
@@ -244,42 +230,323 @@ void UMLWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 }
 
 /**
- * Calls the method with the same name in UMLWidgetController.
- * @see UMLWidgetController#mouseMoveEvent
+ * Moves the widget to a new position using the difference between the
+ * current position and the new position.
+ * This method doesn't adjust associations. It only moves the widget.
  *
- * @param event The QGraphicsSceneMouseEvent event.
+ * It can be overridden to constrain movement only in one axis even when
+ * the user isn't constraining the movement with shift or control buttons, for example.
+ * The movement policy set here is applied whenever the widget is moved, being it
+ * moving it explicitly, or as a part of a selection but not receiving directly the
+ * mouse events.
+ *
+ * Default behaviour is move the widget to the new position using the diffs.
+ * @see constrainMovementForAllWidgets
+ *
+ * @param diffX The difference between current X position and new X position.
+ * @param diffY The difference between current Y position and new Y position.
  */
-void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+void UMLWidget::moveWidgetBy(qreal diffX, qreal diffY)
 {
-    m_widgetController->mouseMoveEvent(event);
+    setX(x() + diffX);
+    setY(y() + diffY);
+}
+
+/**
+ * Modifies the value of the diffX and diffY variables used to move the widgets.
+ *
+ * It can be overridden to constrain movement of all the selected widgets only in one
+ * axis even when the user isn't constraining the movement with shift or control
+ * buttons, for example.
+ * The difference with moveWidgetBy is that the diff positions used here are
+ * applied to all the selected widgets instead of only to m_widget, and that
+ * moveWidgetBy, in fact, moves the widget, and here simply the diff positions
+ * are modified.
+ *
+ * Default behaviour is do nothing.
+ * @see moveWidgetBy
+ *
+ * @param diffX The difference between current X position and new X position.
+ * @param diffY The difference between current Y position and new Y position.
+ */
+void UMLWidget::constrainMovementForAllWidgets(qreal &diffX, qreal &diffY)
+{
+    Q_UNUSED(diffX) Q_UNUSED(diffY)
+}
+
+/**
+ * Bring the widget at the pressed position to the foreground.
+ */
+void UMLWidget::toForeground()
+{
+    QRectF rect = QRectF(scenePos(), QSizeF(width(), height()));
+    QList<QGraphicsItem*> items = scene()->items(rect, Qt::IntersectsItemShape, Qt::DescendingOrder);
+    DEBUG(DBG_SRC) << "items at " << rect << " = " << items.count();
+    if (items.count() > 1) {
+        foreach(QGraphicsItem* i, items) {
+            UMLWidget* w = dynamic_cast<UMLWidget*>(i);
+            if (w) {
+                DEBUG(DBG_SRC) << "item=" << w->name() << " with zValue=" << w->zValue();
+                if (w->name() != name()) {
+                    if (w->zValue() >= zValue()) {
+                        setZValue(w->zValue() + 1.0);
+                        DEBUG(DBG_SRC) << "bring to foreground with zValue: " << zValue();
+                    }
+                }
+            }
+        }
+    }
+    else {
+        setZValue(0.0);
+    }
+    DEBUG(DBG_SRC) << "zValue is " << zValue();
+}
+
+/**
+ * Handles a mouse move event.
+ * It resizes or moves the widget, depending on where the cursor is pressed
+ * on the widget. Go on reading for more info about this.
+ *
+ * If resizing, the widget is resized using UMLWidget::resizeWidget (where specific
+ * widget resize constrain can be applied), and then the associations are
+ * adjusted.
+ * The resizing can be constrained also to an specific axis using control
+ * and shift buttons. If on or another is pressed, it's constrained to X axis.
+ * If both are pressed, it's constrained to Y axis.
+ *
+ * If not resizing, the widget is being moved. If the move is being started,
+ * the selection bounds are set (which includes updating the list of selected
+ * widgets).
+ * The difference between the previous position of the selection and the new
+ * one is got (taking in account the selection bounds so widgets don't go
+ * beyond the scene limits). Then, it's constrained to X or Y axis depending
+ * on shift and control buttons.
+ * A further constrain is made using constrainMovementForAllWidgets (for example,
+ * if the widget that receives the event can only be moved in Y axis, with this
+ * method the movement of all the widgets in the selection can be constrained to
+ * be moved only in Y axis).
+ * Then, all the selected widgets are moved using moveWidgetBy (where specific
+ * widget movement constrain can be applied) and, if an specific amount of time
+ * passed from the last move event, the associations are also updated (they're
+ * not updated always to be easy on the CPU). Finally, the scene is resized,
+ * and selection bounds updated.
+ *
+ * @param me The QGraphicsSceneMouseEvent event.
+ */
+void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
+{
+    if (m_inResizeArea) {
+        resize(me);
+        return;
+    }
+
+    if (!m_moved) {
+        UMLApp::app()->document()->writeToStatusBar(i18n("Hold shift or ctrl to move in X axis. Hold shift and control to move in Y axis. Right button click to cancel move."));
+
+        m_moved = true;
+        //Maybe needed by AssociationWidget
+        m_startMove = true;
+
+        setSelectionBounds();
+    }
+
+    QPointF position = me->scenePos() - m_pressOffset;   //getPosition(me);
+    qreal diffX = position.x() - x();
+    qreal diffY = position.y() - y();
+
+    if ((me->modifiers() & Qt::ShiftModifier) && (me->modifiers() & Qt::ControlModifier)) {
+        //Move in Y axis
+        diffX = 0;
+    } else if ((me->modifiers() & Qt::ShiftModifier) || (me->modifiers() & Qt::ControlModifier)) {
+        //Move in X axis
+        diffY = 0;
+    }
+
+    /* Commands
+        UMLDoc* doc = UMLApp::app()->document();
+        doc->executeCommand(new CmdMoveWidget(this,diffX,diffY));*/
+
+    // moveWidget(diffX,diffY);
+
+    // DEBUG(DBG_SRC) << "before constrainMovementForAllWidgets:"
+    //     << " diffX=" << diffX << ", diffY=" << diffY;
+    constrainMovementForAllWidgets(diffX, diffY);
+    // DEBUG(DBG_SRC) << "after constrainMovementForAllWidgets:"
+    //     << " diffX=" << diffX << ", diffY=" << diffY;
+
+    // nothing to move
+    if (diffX == 0 && diffY == 0) {
+        return;
+    }
+
+    if (m_lastUpdate.elapsed() > 25) {
+        m_lastUpdate.restart();
+        DEBUG(DBG_SRC) << "diffX=" << diffX << " / diffY=" << diffY;
+        adjustUnselectedAssocs(position.x(), position.y());
+    }
+
+    foreach(UMLWidget* widget, m_selectedWidgetsList) {
+        Q_UNUSED(widget)
+        //UMLDoc* m_doc = UMLApp::app()->document();
+        //CmdMoveWidgetBy* cmd = new CmdMoveWidgetBy(widget,diffX,diffY);
+        //m_doc->executeCommand(cmd);
+        //m_doc->executeCommand(new CmdMoveWidgetBy(widget,diffX,diffY));
+        moveWidgetBy(diffX, diffY);
+    }
+
+    // Move any selected associations.
+    foreach(AssociationWidget* aw, m_scene->selectedAssocs()) {
+        if (aw->isSelected()) {
+            aw->moveEntireAssoc(diffX, diffY);
+        }
+    }
+
+    umlScene()->resizeSceneToItems();
     slotSnapToGrid();
 }
 
 /**
- * Calls the method with the same name in UMLWidgetController.
- * @see UMLWidgetController#mousePressEvent
+ * Handles a mouse press event.
+ * It'll select the widget (or mark it to be deselected) and prepare it to
+ * be moved or resized. Go on reading for more info about this.
  *
- * @param event The QGraphicsSceneMouseEvent event.
+ * Widget values and message bar status are saved.
+ *
+ * If shift or control buttons are pressed, we're in move area no matter
+ * where the button was pressed in the widget. Moreover, if the widget
+ * wasn't already selected, it's added to the selection. If already selected,
+ * it's marked to be deselected when releasing the button (provided it isn't
+ * moved).
+ * Also, if the widget is already selected with other widgets but shift nor
+ * control buttons are pressed, we're in move area. If finally we don't move
+ * the widget, it's selected and the other widgets deselected when releasing
+ * the left button.
+ *
+ * If shift nor control buttons are pressed, we're facing a single selection.
+ * Depending on the position of the cursor, we're in move or in resize area.
+ * If the widget wasn't selected (both when there are no widgets selected, or
+ * when there're other widgets selected but not the one receiving the press
+ * event) it's selected and the others deselected, if any. If already selected,
+ * it's marked to be deselected when releasing the button (provided it wasn't
+ * moved or resized).
+ *
+ * @param me The QGraphicsSceneMouseEvent event.
  */
 void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    uDebug() << "widget = " << name() << " / type = " << baseTypeStr();
-    if (event->button() == Qt::RightButton) {
+    if (event->button() != Qt::LeftButton) {
         event->ignore();
         return;
     }
-    m_widgetController->mousePressEvent(event);
+    event->accept();
+    DEBUG(DBG_SRC) << "widget = " << name() << " / type = " << baseTypeStr();
+
+    toForeground();
+
+    m_startMovePostion = pos();
+    m_startResizeSize = QSizeF(width(), height());
+
+    // saving the values of the widget
+    m_pressOffset = event->scenePos() - pos();
+    DEBUG(DBG_SRC) << "press offset=" << m_pressOffset;
+
+    m_oldStatusBarMsg = UMLApp::app()->statusBarMsg();
+
+    if (event->modifiers() == Qt::ShiftModifier || event->modifiers() == Qt::ControlModifier) {
+        m_shiftPressed = true;
+
+        if (event->button() == Qt::LeftButton) {
+            m_inMoveArea = true;
+        }
+
+        if (!isSelected()) {
+            selectMultiple(event);
+        }
+        return;
+    }
+
+    m_shiftPressed = false;
+
+    int count = m_scene->selectedCount(true);
+    if (event->button() == Qt::LeftButton) {
+        if (isSelected() && count > 1) {
+            // single selection is made in release event if the widget wasn't moved
+            m_inMoveArea = true;
+            m_oldPos = pos();
+            m_lastUpdate.start();
+            return;
+        }
+
+        if (isInResizeArea(event)) {
+            m_inResizeArea = true;
+            m_oldW = width();
+            m_oldH = height();
+        } else {
+            m_inMoveArea = true;
+        }
+    }
+
+    // if widget wasn't selected, or it was selected but with other widgets also selected
+    if (!isSelected() || count > 1) {
+        selectSingle(event);
+    }
 }
 
 /**
- * Calls the method with the same name in UMLWidgetController.
- * @see UMLWidgetController#mouseReleaseEvent
+ * Handles a mouse release event.
+ * It selects or deselects the widget and cancels or confirms the move or
+ * resize. Go on reading for more info about this.
+ * No matter which tool is selected, Z position of widget is updated.
+ *
+ * Middle button release resets the selection.
+ * Left button release, if it wasn't moved nor resized, selects the widget
+ * and deselect the others if it wasn't selected and there were other widgets
+ * selected. If the widget was marked to be deselected, deselects it.
+ * If it was moved or resized, the document is set to modified if position
+ * or size changed. Also, if moved, all the associations are adjusted because
+ * the timer could have prevented the adjustment in the last move event before
+ * the release.
+ * If mouse was pressed in resize area, cursor is set again to normal cursor
+ * Right button release if right button was pressed shows the pop up menu for
+ * the widget.
+ * If left button was pressed, it cancels the move or resize with a mouse move
+ * event at the same position than the cursor was when pressed. Another left
+ * button release is also sent.
  *
  * @param me The QGraphicsSceneMouseEvent event.
  */
 void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
 {
-    m_widgetController->mouseReleaseEvent(me);
+    if (!m_moved && !m_resized) {
+        if (!m_shiftPressed && (m_scene->selectedCount(true) > 1)) {
+            selectSingle(me);
+        } else if (!isSelected()) {
+            deselect(me);
+        }
+    } else {
+        // Commands
+        if (m_moved) {
+            UMLApp::app()->executeCommand(new Uml::CmdMoveWidget(this));
+            m_moved = false;
+        } else {
+            UMLApp::app()->executeCommand(new Uml::CmdResizeWidget(this));
+            m_resized = false;
+        }
+
+        if ((m_inMoveArea && wasPositionChanged()) ||
+                (m_inResizeArea && wasSizeChanged())) {
+            umlDoc()->setModified(true);
+        }
+
+        UMLApp::app()->document()->writeToStatusBar(m_oldStatusBarMsg);
+    }
+
+    if (m_inResizeArea) {
+        m_inResizeArea = false;
+        m_scene->activeView()->setCursor(Qt::ArrowCursor);
+    } else {
+        m_inMoveArea = false;
+    }
 }
 
 /**
@@ -289,7 +556,7 @@ void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
 void UMLWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
-        uDebug() << "widget = " << name() << " / type = " << baseTypeStr();
+        DEBUG(DBG_SRC) << "widget = " << name() << " / type = " << baseTypeStr();
         switch(baseType()) {
         case WidgetBase::wt_Message:  // will be handled in its class
             QGraphicsItem::mouseDoubleClickEvent(event);
@@ -300,6 +567,40 @@ void UMLWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
             break;
         }
     }
+}
+
+/**
+ * Return the start position of the move action.
+ * @return   point where the move began
+ */
+QPointF UMLWidget::startMovePosition() const
+{
+    return m_startMovePostion;
+}
+
+/**
+ * Return the start size of the resize action.
+ * @return   size where the resize began
+ */
+QSizeF UMLWidget::startResizeSize() const
+{
+    return m_startResizeSize;
+}
+
+/**
+ * Resizes the widget.
+ * It's called from resize, after the values are constrained and before
+ * the associations are adjusted.
+ *
+ * Default behaviour is resize the widget using the new size values.
+ * @see resize
+ *
+ * @param newW   The new width for the widget.
+ * @param newH   The new height for the widget.
+ */
+void UMLWidget::resizeWidget(qreal newW, qreal newH)
+{
+    setSize(newW, newH);
 }
 
 /**
@@ -331,21 +632,21 @@ void UMLWidget::updateWidget()
  * @param width  input value, may be modified by the constraint
  * @param height input value, may be modified by the constraint
  */
-void UMLWidget::constrain(UMLSceneValue& width, UMLSceneValue& height)
+void UMLWidget::constrain(qreal& width, qreal& height)
 {
-    UMLSceneSize minSize = minimumSize();
+    QSizeF minSize = minimumSize();
     if (width < minSize.width())
         width = minSize.width();
     if (height < minSize.height())
         height = minSize.height();
-    UMLSceneSize maxSize = maximumSize();
+    QSizeF maxSize = maximumSize();
     if (width > maxSize.width())
         width = maxSize.width();
     if (height > maxSize.height())
         height = maxSize.height();
 
     if (fixedAspectRatio()) {
-        UMLSceneSize size = rect().size();
+        QSizeF size = rect().size();
         float aspectRatio = size.width() > 0 ? (float)size.height()/size.width() : 1;
         height = width * aspectRatio;
     }
@@ -400,6 +701,18 @@ void UMLWidget::init()
     connect(m_scene, SIGNAL(sigLineWidthChanged(Uml::ID::Type)), this, SLOT(slotLineWidthChanged(Uml::ID::Type)));
 
     m_umlObject = 0;
+
+    m_oldPos = QPointF();
+    m_pressOffset = QPointF();
+    m_oldW = 0;
+    m_oldH = 0;
+
+    m_shiftPressed = false;
+    m_inMoveArea = false;
+    m_inResizeArea = false;
+    m_moved = false;
+    m_resized = false;
+
     setZValue(2.0);  // default for most widgets
 }
 
@@ -610,7 +923,7 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
     updateGeometry();
     if (m_scene->getPaste()) {
         FloatingTextWidget * ft = 0;
-        UMLScenePoint point = m_scene->getPastePoint();
+        QPointF point = m_scene->getPastePoint();
         int x = point.x() + this->x();
         int y = point.y() + this->y();
         x = x < 0 ? 0 : x;
@@ -664,7 +977,7 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
  *
  * @return The activate status.
  */
-bool UMLWidget::isActivated()
+bool UMLWidget::isActivated() const
 {
     return m_activated;
 }
@@ -674,9 +987,9 @@ bool UMLWidget::isActivated()
  *
  * @param Active Status of activation is to be set.
  */
-void UMLWidget::setActivated(bool Active /*=true*/)
+void UMLWidget::setActivated(bool active /*=true*/)
 {
-    m_activated = Active;
+    m_activated = active;
 }
 
 /**
@@ -707,7 +1020,7 @@ void UMLWidget::removeAssoc(AssociationWidget* pAssoc)
  * @param x The x-coordinate.
  * @param y The y-coordinate.
  */
-void UMLWidget::adjustAssocs(int x, int y)
+void UMLWidget::adjustAssocs(qreal x, qreal y)
 {
     // 2004-04-30: Achim Spangler
     // don't adjust Assocs on file load, as
@@ -738,10 +1051,9 @@ void UMLWidget::adjustAssocs(int x, int y)
  * @param x The x-coordinate.
  * @param y The y-coordinate.
  */
-void UMLWidget::adjustUnselectedAssocs(int x, int y)
+void UMLWidget::adjustUnselectedAssocs(qreal x, qreal y)
 {
     foreach(AssociationWidget* assocwidget, m_Assocs) {
-
         if (!assocwidget->isSelected())
             assocwidget->saveIdealTextPositions();
     }
@@ -779,14 +1091,14 @@ void UMLWidget::showPropertiesDialog()
  * @return 0 if the given point is not in the boundaries of the widget;
  *         (width()+height())/2 if the point is within the boundaries.
  */
-UMLSceneValue UMLWidget::onWidget(const UMLScenePoint & p)
+qreal UMLWidget::onWidget(const QPointF &p)
 {
-    const UMLSceneValue w = width();
-    const UMLSceneValue h = height();
-    const UMLSceneValue left = x();
-    const UMLSceneValue right = left + w;
-    const UMLSceneValue top = y();
-    const UMLSceneValue bottom = top + h;
+    const qreal w = width();
+    const qreal h = height();
+    const qreal left = x();
+    const qreal right = left + w;
+    const qreal top = y();
+    const qreal bottom = top + h;
     if (p.x() < left || p.x() > right ||
             p.y() < top || p.y() > bottom)   // Qt coord.sys. origin in top left corner
         return 0;
@@ -797,13 +1109,13 @@ UMLSceneValue UMLWidget::onWidget(const UMLScenePoint & p)
  * Move the widget by an X and Y offset relative to
  * the current position.
  */
-void UMLWidget::moveByLocal(int dx, int dy)
+void UMLWidget::moveByLocal(qreal dx, qreal dy)
 {
-    int newX = x() + dx;
-    int newY = y() + dy;
+    qreal newX = x() + dx;
+    qreal newY = y() + dy;
     setX(newX);
     setY(newY);
-    // DEBUG(DBG_SRC) << "********** x=" << newX << " / y=" << newY;
+    DEBUG(DBG_SRC) << "x=" << newX << " / y=" << newY;
     adjustAssocs(newX, newY);
 }
 
@@ -824,21 +1136,134 @@ void UMLWidget::setPenFromSettings(QPainter *p)
 }
 
 /**
+ * Returns the cursor to be shown when resizing the widget.
+ * Default cursor is KCursor::sizeFDiagCursor().
+ *
+ * @return The cursor to be shown when resizing the widget.
+ */
+QCursor UMLWidget::resizeCursor() const
+{
+    return Qt::SizeFDiagCursor;
+}
+
+/**
+ * Checks if the mouse is in resize area (right bottom corner), and sets
+ * the cursor depending on that.
+ * The cursor used when resizing is gotten from resizeCursor().
+ *
+ * @param me The QMouseEVent to check.
+ * @return true if the mouse is in resize area, false otherwise.
+ */
+bool UMLWidget::isInResizeArea(QGraphicsSceneMouseEvent *me)
+{
+    qreal m = 10.0;
+    const qreal w = width();
+    const qreal h = height();
+
+    // If the widget itself is very small then make the resize area small, too.
+    // Reason: Else it becomes impossible to do a move instead of resize.
+    if (w - m < m || h - m < m) {
+        m = 2.0;
+    }
+
+    if (m_resizable &&
+            me->scenePos().x() >= (x() + w - m) &&
+            me->scenePos().y() >= (y() + h - m)) {
+        m_scene->activeView()->setCursor(resizeCursor());
+        return true;
+    } else {
+        m_scene->activeView()->setCursor(Qt::ArrowCursor);
+        return false;
+    }
+}
+
+/**
  * calculate content related size of widget.
  *
  * @return calculated widget size
  */
-UMLSceneSize UMLWidget::calculateSize()
+QSizeF UMLWidget::calculateSize()
 {
-    return UMLSceneSize(width(), height());
+    return QSizeF(width(), height());
 }
 
+/**
+ * Resize widget to minimum size.
+ */
 void UMLWidget::resize()
 {
     // @TODO minimumSize() do not work in all cases, we need a dedicated autoResize() method
-    UMLSceneSize size = minimumSize();
+    QSizeF size = minimumSize();
     setSize(size.width(), size.height());
+    DEBUG(DBG_SRC) << "x=" << x() << " / y=" << y();
     adjustAssocs(x(), y());    // adjust assoc lines
+}
+
+/**
+ * Resizes the widget and adjusts the associations.
+ * It's called when a mouse move event happens and the cursor was
+ * in resize area when pressed.
+ * Resizing can be constrained to an specific axis using control and shift buttons.
+ *
+ * @param me The QGraphicsSceneMouseEvent to get the values from.
+ */
+void UMLWidget::resize(QGraphicsSceneMouseEvent *me)
+{
+    // TODO the status message lies for at least MessageWidget which could only be resized vertical
+    UMLApp::app()->document()->writeToStatusBar(i18n("Hold shift or ctrl to move in X axis. Hold shift and control to move in Y axis. Right button click to cancel resize."));
+
+    m_resized = true;
+
+    qreal newW = m_oldW + me->scenePos().x() - x() - m_pressOffset.x();
+    qreal newH = m_oldH + me->scenePos().y() - y() - m_pressOffset.y();
+
+    if ((me->modifiers() & Qt::ShiftModifier) && (me->modifiers() & Qt::ControlModifier)) {
+        //Move in Y axis
+        newW = m_oldW;
+    } else if ((me->modifiers() & Qt::ShiftModifier) || (me->modifiers() & Qt::ControlModifier)) {
+        //Move in X axis
+        newH = m_oldH;
+    }
+
+    constrain(newW, newH);
+    resizeWidget(newW, newH);
+    DEBUG(DBG_SRC) << "event=" << me->scenePos() << "/ pos=" << pos() << " / newW=" << newW << " / newH=" << newH;
+    adjustAssocs(x(), y());
+
+    m_scene->resizeSceneToItems();
+}
+
+/**
+ * Checks if the size of the widget changed respect to the size that
+ * it had when press event was fired.
+ *
+ * @return true if was resized, false otherwise.
+ */
+bool UMLWidget::wasSizeChanged()
+{
+    return m_oldW != width() || m_oldH != height();
+}
+
+/**
+ * Checks if the position of the widget changed respect to the position that
+ * it had when press event was fired.
+ *
+ * @return true if was moved, false otherwise.
+ */
+bool UMLWidget::wasPositionChanged()
+{
+    return m_oldPos != pos();
+}
+
+/**
+ * Fills m_selectedWidgetsList and sets the selection bounds ((m_min/m_max)X/Y attributes).
+ */
+void UMLWidget::setSelectionBounds()
+{
+    if (m_scene->selectedCount() > 0) {
+        m_selectedWidgetsList.clear();
+        m_selectedWidgetsList = m_scene->selectedWidgetsExt(false);
+    }
 }
 
 /**
@@ -874,8 +1299,6 @@ void UMLWidget::setSelected(bool _select)
     if (bkgnd && bkgnd != this && _select) {
         DEBUG(DBG_SRC) << "setting Z to " << bkgnd->zValue() + 1.0 << ", SelectState: " << _select;
         setZValue(bkgnd->zValue() + 1.0);
-//:TODO:    } else {
-//:TODO:        setZ(m_origZ);
     }
 
     update();
@@ -894,18 +1317,64 @@ void UMLWidget::slotClearAllSelected()
 }
 
 /**
+ * Selects the widget and clears the other selected widgets, if any.
+ *
+ * @param me The QGraphicsSceneMouseEvent which made the selection.
+ */
+void UMLWidget::selectSingle(QGraphicsSceneMouseEvent *me)
+{
+    m_scene->clearSelected();
+
+    //Adds the widget to the selected widgets list, but as it has been cleared
+    //only the current widget is selected
+    selectMultiple(me);
+}
+
+/**
+ * Selects the widget and adds it to the list of selected widgets.
+ *
+ * @param me The QGraphicsSceneMouseEvent which made the selection.
+ */
+void UMLWidget::selectMultiple(QGraphicsSceneMouseEvent *me)
+{
+    setSelected(true);
+    m_scene->setSelected(this, me);
+}
+
+/**
+ * Deselects the widget and removes it from the list of selected widgets.
+ *
+ * @param me The QGraphicsSceneMouseEvent which made the selection.
+ */
+void UMLWidget::deselect(QGraphicsSceneMouseEvent *me)
+{
+    setSelected(false);
+    m_scene->setSelected(this, me);
+}
+
+/**
+ * Clears the selection, resets the toolbar and deselects the widget.
+ */
+//void UMLWidget::resetSelection()
+//{
+//    m_scene->clearSelected();
+//    m_scene->resetToolbar();
+//    setSelected(false);
+//}
+
+/**
  * Sets the view the widget is on.
  *
  * @param v The view the widget is on.
  */
-void UMLWidget::setScene(UMLScene * v)
+void UMLWidget::setScene(UMLScene *scene)
 {
     //remove signals from old view - was probably 0 anyway
     disconnect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
     disconnect(m_scene, SIGNAL(sigFillColorChanged(Uml::ID::Type)), this, SLOT(slotFillColorChanged(Uml::ID::Type)));
     disconnect(m_scene, SIGNAL(sigTextColorChanged(Uml::ID::Type)), this, SLOT(slotTextColorChanged(Uml::ID::Type)));
     disconnect(m_scene, SIGNAL(sigLineWidthChanged(Uml::ID::Type)), this, SLOT(slotLineWidthChanged(Uml::ID::Type)));
-    m_scene = v;
+    m_scene = scene;
     connect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
     connect(m_scene, SIGNAL(sigFillColorChanged(Uml::ID::Type)), this, SLOT(slotFillColorChanged(Uml::ID::Type)));
     connect(m_scene, SIGNAL(sigTextColorChanged(Uml::ID::Type)), this, SLOT(slotTextColorChanged(Uml::ID::Type)));
@@ -919,7 +1388,7 @@ void UMLWidget::setScene(UMLScene * v)
  *
  * @param x The x-coordinate to be set.
  */
-void UMLWidget::setX(UMLSceneValue x)
+void UMLWidget::setX(qreal x)
 {
     QGraphicsObject::setX(x);
 }
@@ -931,7 +1400,7 @@ void UMLWidget::setX(UMLSceneValue x)
  *
  * @param y The y-coordinate to be set.
  */
-void UMLWidget::setY(UMLSceneValue y)
+void UMLWidget::setY(qreal y)
 {
     QGraphicsObject::setY(y);
 }
@@ -1001,7 +1470,7 @@ bool UMLWidget::getIgnoreSnapToGrid() const
  * If m_scene->snapComponentSizeToGrid() is true, then
  * set the next larger size that snaps to the grid.
  */
-void UMLWidget::setSize(UMLSceneValue width, UMLSceneValue height)
+void UMLWidget::setSize(qreal width, qreal height)
 {
     // snap to the next larger size that is a multiple of the grid
     if (!m_ignoreSnapComponentSizeToGrid
@@ -1020,18 +1489,27 @@ void UMLWidget::setSize(UMLSceneValue width, UMLSceneValue height)
 }
 
 /**
+ * Sets the size with another size.
+ */
+void UMLWidget::setSize(const QSizeF& size)
+{
+    setSize(size.width(), size.height());
+}
+
+/**
  * Update the size of this widget.
  */
 void UMLWidget::updateGeometry()
 {
     if (m_doc->loading())
         return;
-    UMLSceneSize size = calculateSize();
-    UMLSceneValue clipWidth = size.width();
-    UMLSceneValue clipHeight = size.height();
+    QSizeF size = calculateSize();
+    qreal clipWidth = size.width();
+    qreal clipHeight = size.height();
     constrain(clipWidth, clipHeight);
     setSize(clipWidth, clipHeight);
     slotSnapToGrid();
+    DEBUG(DBG_SRC) << "x=" << x() << " / y=" << y();
     adjustAssocs(x(), y());    // adjust assoc lines
 }
 
@@ -1041,8 +1519,8 @@ void UMLWidget::updateGeometry()
  */
 void UMLWidget::clipSize()
 {
-    UMLSceneValue clipWidth = width();
-    UMLSceneValue clipHeight = height();
+    qreal clipWidth = width();
+    qreal clipHeight = height();
     constrain(clipWidth, clipHeight);
     setSize(clipWidth, clipHeight);
 }
@@ -1303,14 +1781,6 @@ bool UMLWidget::loadFromXMI(QDomElement & qElement)
     QString showstereo = qElement.attribute("showstereotype", "0");
     m_showStereotype = (bool)showstereo.toInt();
     return true;
-}
-
-/**
- * Returns the UMLWdigetController for this widget.
- */
-UMLWidgetController* UMLWidget::getWidgetController()
-{
-    return m_widgetController;
 }
 
 #include "umlwidget.moc"

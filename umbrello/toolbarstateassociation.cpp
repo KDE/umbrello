@@ -14,6 +14,7 @@
 // app includes
 #include "assocrules.h"
 #include "association.h"
+#include "associationline.h"
 #include "associationwidget.h"
 #include "classifierwidget.h"
 #include "debug_utils.h"

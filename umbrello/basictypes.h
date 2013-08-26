@@ -282,7 +282,8 @@ namespace Uml
             NorthWest,
             NorthEast,
             SouthEast,
-            SouthWest
+            SouthWest,
+            Center
         };
         QString toString(Enum item);
         Enum fromString(const QString& item);
