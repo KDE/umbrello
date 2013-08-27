@@ -3299,7 +3299,7 @@ QLineF::IntersectType AssociationWidget::intersect(const QRectF &rect, const QLi
     lines << QLineF(rect.topRight(), rect.bottomRight());
     lines << QLineF(rect.bottomRight(), rect.bottomLeft());
     lines << QLineF(rect.bottomLeft(), rect.topLeft());
-    foreach (QLineF rectLine, lines) {
+    foreach (const QLineF& rectLine, lines) {
         QLineF::IntersectType type = rectLine.intersect(line, intersectionPoint);
         if (type == QLineF::BoundedIntersection) {
             return type;

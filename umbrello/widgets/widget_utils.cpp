@@ -413,7 +413,7 @@ namespace Widget_Utils
         QDomElement stopsElement = qDoc.createElement("stops");
         gradientElement.appendChild(stopsElement);
 
-        foreach(QGradientStop stop, gradient->stops()) {
+        foreach(const QGradientStop& stop, gradient->stops()) {
             QDomElement ele = qDoc.createElement("stop");
             ele.setAttribute("position", stop.first);
             ele.setAttribute("color", stop.second.name());
