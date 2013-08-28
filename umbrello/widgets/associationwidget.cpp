@@ -616,7 +616,7 @@ AssociationWidget& AssociationWidget::operator=(const AssociationWidget& other)
     m_activated = other.m_activated;
     m_unNameLineSegment = other.m_unNameLineSegment;
     m_pMenu = other.m_pMenu;
-    setUMLAssociation(other.getAssociation());
+    setUMLAssociation(other.association());
     m_selected = other.m_selected;
 
     return *this;
@@ -1884,7 +1884,7 @@ void AssociationWidget::saveIdealTextPositions()
 /**
  * Adjusts the ending point of the association that connects to Widget.
  */
-void AssociationWidget::widgetMoved(UMLWidget* widget, qreal x, qreal y)
+void AssociationWidget::widgetMoved(UMLWidget* widget, qreal dx, qreal dy)
 {
     // Simple Approach to block moveEvent during load of XMI
     /// @todo avoid trigger of this event during load
@@ -1912,8 +1912,8 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, qreal x, qreal y)
     if ( m_role[RoleType::A].umlWidget == m_role[RoleType::B].umlWidget) {
         for (int i = 1; i < size-1; ++i) {
             QPointF p = m_associationLine->point(i);
-            qreal newX = p.x() + x - widget->x();
-            qreal newY = p.y() + y - widget->y();
+            qreal newX = p.x() + dx;
+            qreal newY = p.y() + dy;
             newX = m_scene->snappedX(newX);
             newY = m_scene->snappedY(newY);
             DEBUG(DBG_SRC) << "newX=" << newX << " / newY=" << newY;

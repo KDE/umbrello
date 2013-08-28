@@ -185,8 +185,8 @@ public:
 
     virtual void showPropertiesDialog();
 
-    virtual void adjustAssocs(qreal x, qreal y);
-    void adjustUnselectedAssocs(qreal x, qreal y);
+    virtual void adjustAssocs(qreal dx, qreal dy);
+    void adjustUnselectedAssocs(qreal dx, qreal dy);
 
     bool isActivated() const;
     void setActivated(bool active = true);
@@ -317,9 +317,6 @@ protected:
     bool m_ignoreSnapToGrid;
     bool m_ignoreSnapComponentSizeToGrid;
     bool m_fixedAspectRatio;
-
-    /// Timer that prevents excessive updates (be easy on the CPU).
-    QTime m_lastUpdate;
 
     /**
      * A list containing the selected widgets.

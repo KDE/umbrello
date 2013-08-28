@@ -407,8 +407,8 @@ QPen AssociationLine::pen() const
 }
 
 /**
- * This method simply ensures presence of two points and delegates
- * calculation to AssociationLine::calculateEndPoints()
+ * This method simply ensures presence of two points and
+ * adds the needed points for self associations.
  */
 void AssociationLine::calculateInitialEndPoints()
 {

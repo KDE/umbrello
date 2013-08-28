@@ -350,15 +350,15 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
         setSelectionBounds();
     }
 
-    QPointF position = me->scenePos() - m_pressOffset;   //getPosition(me);
+    QPointF position = me->scenePos() - m_pressOffset;
     qreal diffX = position.x() - x();
     qreal diffY = position.y() - y();
 
     if ((me->modifiers() & Qt::ShiftModifier) && (me->modifiers() & Qt::ControlModifier)) {
-        //Move in Y axis
+        // move only in Y axis
         diffX = 0;
     } else if ((me->modifiers() & Qt::ShiftModifier) || (me->modifiers() & Qt::ControlModifier)) {
-        //Move in X axis
+        // move only in X axis
         diffY = 0;
     }
 
@@ -379,12 +379,10 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
         return;
     }
 
-    if (m_lastUpdate.elapsed() > 25) {
-        m_lastUpdate.restart();
-        DEBUG(DBG_SRC) << "diffX=" << diffX << " / diffY=" << diffY;
-        adjustUnselectedAssocs(position.x(), position.y());
-    }
+    QPointF delta = me->scenePos() - me->lastScenePos();
+    adjustUnselectedAssocs(delta.x(), delta.y());
 
+    DEBUG(DBG_SRC) << "diffX=" << diffX << " / diffY=" << diffY;
     foreach(UMLWidget* widget, m_selectedWidgetsList) {
         Q_UNUSED(widget)
         //UMLDoc* m_doc = UMLApp::app()->document();
@@ -473,7 +471,6 @@ void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
             // single selection is made in release event if the widget wasn't moved
             m_inMoveArea = true;
             m_oldPos = pos();
-            m_lastUpdate.start();
             return;
         }
 
@@ -1020,9 +1017,8 @@ void UMLWidget::removeAssoc(AssociationWidget* pAssoc)
  * @param x The x-coordinate.
  * @param y The y-coordinate.
  */
-void UMLWidget::adjustAssocs(qreal x, qreal y)
+void UMLWidget::adjustAssocs(qreal dx, qreal dy)
 {
-    // 2004-04-30: Achim Spangler
     // don't adjust Assocs on file load, as
     // the original positions, which are stored in XMI
     // should be reproduced exactly
@@ -1041,7 +1037,7 @@ void UMLWidget::adjustAssocs(qreal x, qreal y)
     }
 
     foreach(AssociationWidget* assocwidget, m_Assocs) {
-        assocwidget->widgetMoved(this, x, y);
+        assocwidget->widgetMoved(this, dx, dy);
     }
 }
 
@@ -1051,7 +1047,7 @@ void UMLWidget::adjustAssocs(qreal x, qreal y)
  * @param x The x-coordinate.
  * @param y The y-coordinate.
  */
-void UMLWidget::adjustUnselectedAssocs(qreal x, qreal y)
+void UMLWidget::adjustUnselectedAssocs(qreal dx, qreal dy)
 {
     foreach(AssociationWidget* assocwidget, m_Assocs) {
         if (!assocwidget->isSelected())
@@ -1059,8 +1055,9 @@ void UMLWidget::adjustUnselectedAssocs(qreal x, qreal y)
     }
 
     foreach(AssociationWidget* assocwidget, m_Assocs) {
-        if (!assocwidget->isSelected())
-            assocwidget->widgetMoved(this, x, y);
+        if (!assocwidget->isSelected()) {
+            assocwidget->widgetMoved(this, dx, dy);
+        }
     }
 }
 
@@ -1116,7 +1113,7 @@ void UMLWidget::moveByLocal(qreal dx, qreal dy)
     setX(newX);
     setY(newY);
     DEBUG(DBG_SRC) << "x=" << newX << " / y=" << newY;
-    adjustAssocs(newX, newY);
+    adjustAssocs(dx, dy);
 }
 
 /**
@@ -1192,11 +1189,13 @@ QSizeF UMLWidget::calculateSize()
  */
 void UMLWidget::resize()
 {
+    qreal oldW = width();
+    qreal oldH = height();
     // @TODO minimumSize() do not work in all cases, we need a dedicated autoResize() method
     QSizeF size = minimumSize();
     setSize(size.width(), size.height());
-    DEBUG(DBG_SRC) << "x=" << x() << " / y=" << y();
-    adjustAssocs(x(), y());    // adjust assoc lines
+    DEBUG(DBG_SRC) << "size=" << size;
+    adjustAssocs(size.width()-oldW, size.height()-oldH);
 }
 
 /**
@@ -1228,7 +1227,8 @@ void UMLWidget::resize(QGraphicsSceneMouseEvent *me)
     constrain(newW, newH);
     resizeWidget(newW, newH);
     DEBUG(DBG_SRC) << "event=" << me->scenePos() << "/ pos=" << pos() << " / newW=" << newW << " / newH=" << newH;
-    adjustAssocs(x(), y());
+    QPointF delta = me->scenePos() - me->lastScenePos();
+    adjustAssocs(delta.x(), delta.y());
 
     m_scene->resizeSceneToItems();
 }
@@ -1501,16 +1501,18 @@ void UMLWidget::setSize(const QSizeF& size)
  */
 void UMLWidget::updateGeometry()
 {
-    if (m_doc->loading())
+    if (m_doc->loading()) {
         return;
+    }
+    qreal oldW = width();
+    qreal oldH = height();
     QSizeF size = calculateSize();
     qreal clipWidth = size.width();
     qreal clipHeight = size.height();
     constrain(clipWidth, clipHeight);
     setSize(clipWidth, clipHeight);
     slotSnapToGrid();
-    DEBUG(DBG_SRC) << "x=" << x() << " / y=" << y();
-    adjustAssocs(x(), y());    // adjust assoc lines
+    adjustAssocs(size.width()-oldW, size.height()-oldH);
 }
 
 /**
