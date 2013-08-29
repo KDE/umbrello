@@ -18,7 +18,6 @@
 #include "widgetbase.h"
 
 #include <QCursor>
-#include <QDateTime>
 #include <QFont>
 
 class IDChangeLog;

@@ -2108,6 +2108,7 @@ QPointF AssociationWidget::swapXY(const QPointF &p)
     return swapped;
 }
 
+#if 0  // not used at the moment
 /**
  * Calculates which point of segment P1P2 has a distance equal to
  * Distance from P1.
@@ -2395,6 +2396,7 @@ float AssociationWidget::perpendicularProjection(const QPointF& P1, const QPoint
 
     return distance;
 }
+#endif
 
 /**
  * Calculates the position of the text widget depending on the role

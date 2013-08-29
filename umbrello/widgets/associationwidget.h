@@ -229,10 +229,10 @@ private:
 
     static QPointF swapXY(const QPointF &p);
 
-    static QPointF calculatePointAtDistance(const QPointF &P1, const QPointF &P2, float Distance);
-    static QPointF calculatePointAtDistanceOnPerpendicular(const QPointF &P1, const QPointF &P2, float Distance);
-
-    static float perpendicularProjection(const QPointF& P1, const QPointF& P2, const QPointF& P3, QPointF& ResultingPoint);
+    // not used at the moment
+    // static QPointF calculatePointAtDistance(const QPointF &P1, const QPointF &P2, float Distance);
+    // static QPointF calculatePointAtDistanceOnPerpendicular(const QPointF &P1, const QPointF &P2, float Distance);
+    // static float perpendicularProjection(const QPointF& P1, const QPointF& P2, const QPointF& P3, QPointF& ResultingPoint);
 
     static QPointF midPoint(const QPointF& p0, const QPointF& p1);
 
