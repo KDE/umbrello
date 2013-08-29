@@ -114,9 +114,6 @@ void StateDialog::applyPage(KPageWidgetItem*item)
  */
 void StateDialog::setupGeneralPage()
 {
-    QString types[ ] = { i18nc("initial state in statechart", "Initial state"),
-                         i18nc("state in statechart", "State"),
-                         i18nc("end state in statechart", "End state") };
     StateWidget::StateType type = m_pStateWidget->stateType();
 
     KVBox * page = new KVBox();
@@ -131,9 +128,42 @@ void StateDialog::setupGeneralPage()
     generalLayout->setSpacing(spacingHint());
     generalLayout->setMargin(fontMetrics().height());
 
+    QString typeStr;
+    switch (type) {
+    case StateWidget::Initial:
+        typeStr = i18nc("initial state in statechart", "Initial state");
+        break;
+    case StateWidget::Normal:
+        typeStr = i18nc("state in statechart", "State");
+        break;
+    case StateWidget::End:
+        typeStr = i18nc("end state in statechart", "End state");
+        break;
+    case StateWidget::Fork:
+        typeStr = i18nc("fork state in statechart", "Fork");
+        break;
+    case StateWidget::Join:
+        typeStr = i18nc("join state in statechart", "Join");
+        break;
+    case StateWidget::Junction:
+        typeStr = i18nc("junction state in statechart", "Junction");
+        break;
+    case StateWidget::DeepHistory:
+        typeStr = i18nc("deep history state in statechart", "DeepHistory");
+        break;
+    case StateWidget::ShallowHistory:
+        typeStr = i18nc("shallow history state in statechart", "ShallowHistory");
+        break;
+    case StateWidget::Choice:
+        typeStr = i18nc("choice state in statechart", "Choice");
+        break;
+    default:
+        typeStr = "???";
+        break;
+    }
     Dialog_Utils::makeLabeledEditField(m_GenPageWidgets.generalGB, generalLayout, 0,
-                                    m_GenPageWidgets.typeL, i18n("State type:"),
-                                    m_GenPageWidgets.typeLE, types[ (int)type ]);
+                                       m_GenPageWidgets.typeL, i18n("State type:"),
+                                       m_GenPageWidgets.typeLE, typeStr);
     m_GenPageWidgets.typeLE->setEnabled(false);
 
     Dialog_Utils::makeLabeledEditField(m_GenPageWidgets.generalGB, generalLayout, 1,
