@@ -21,16 +21,13 @@ namespace Uml
     class CmdChangeTextColor : public QUndoCommand
     {
     public:
-        //CmdChangeLineColor(UMLView *view, const QColor& col);
         CmdChangeTextColor(UMLWidget *w, const QColor& col);
         ~CmdChangeTextColor();
         void redo();
         void undo();
 
     private:
-        UMLWidget* m_umlWidget;
-        //UMLView* m_view;
-
+        UMLWidget* m_widget;
         QColor m_oldColor;
         QColor m_newColor;
     };

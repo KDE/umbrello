@@ -19,8 +19,10 @@
 namespace Uml
 {
     CmdChangeTextColor::CmdChangeTextColor(UMLWidget *w, const QColor& col)
-      : m_umlWidget(w), m_newColor(col)
+      : m_widget(w),
+        m_newColor(col)
     {
+        Q_ASSERT(w != 0);
         setText(i18n("Change text color : %1", w->name()));
         m_oldColor= w->textColor() ;
     }
@@ -31,12 +33,18 @@ namespace Uml
 
     void CmdChangeTextColor::redo()
     {
-        m_umlWidget->setTextColorcmd(m_newColor);
+        UMLScene* scene = m_widget->umlScene();
+        if (scene && scene->widgetOnDiagram(m_widget->id())) {
+            m_widget->setTextColorcmd(m_newColor);
+        }
     }
 
     void CmdChangeTextColor::undo()
     {
-        m_umlWidget->setTextColorcmd(m_oldColor);
+        UMLScene* scene = m_widget->umlScene();
+        if (scene && scene->widgetOnDiagram(m_widget->id())) {
+            m_widget->setTextColorcmd(m_oldColor);
+        }
     }
 
 }

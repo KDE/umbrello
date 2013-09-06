@@ -11,9 +11,11 @@
 #ifndef CMD_CREATE_UMLOBJECT_H
 #define CMD_CREATE_UMLOBJECT_H
 
+#include "umlobject.h"
+#include <QDomElement>
 #include <QUndoCommand>
 
-class UMLObject;
+class UMLPackage;
 
 namespace Uml
 {
@@ -27,7 +29,11 @@ namespace Uml
         void undo();
 
     private:
-        UMLObject*  m_obj;
+        UMLObject             *m_obj;
+        UMLPackage            *m_package;
+        UMLObject::ObjectType  m_type;
+        QString                m_name;
+        QDomElement            m_element;
     };
 }
 

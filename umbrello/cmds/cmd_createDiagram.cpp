@@ -37,16 +37,19 @@ namespace Uml
 
     void CmdCreateDiagram::redo()
     {
-        Uml::ModelType::Enum modelType = Model_Utils::convert_DT_MT(m_type);
-        UMLFolder* folder = m_pUMLDoc->rootFolder(modelType);
-        m_pUMLView = m_pUMLDoc->createDiagram(folder, m_type, m_name);
+        if (!m_pUMLDoc->findView(m_type, m_name, true)) {
+            Uml::ModelType::Enum modelType = Model_Utils::convert_DT_MT(m_type);
+            UMLFolder* folder = m_pUMLDoc->rootFolder(modelType);
+            m_pUMLView = m_pUMLDoc->createDiagram(folder, m_type, m_name);
+        }
     }
 
     void CmdCreateDiagram::undo()
     {
-        if (m_pUMLView) {
-            m_pUMLDoc->removeDiagram(m_pUMLView->umlScene()->ID());
-        }
+//:TODO: commented for preventing crash because of invalid pointers
+//        if (m_pUMLView) {
+//            m_pUMLDoc->removeDiagram(m_pUMLView->umlScene()->ID());
+//        }
     }
 
 }

@@ -29,8 +29,10 @@ namespace Uml
     }*/
 
     CmdChangeLineColor::CmdChangeLineColor(UMLWidget *w, const QColor& col)
-      : m_umlWidget(w), m_newColor(col)
+      : m_widget(w),
+        m_newColor(col)
     {
+        Q_ASSERT(w != 0);
         setText(i18n("Change line color : %1", w->name()));
         m_oldColor= w->lineColor() ;
     }
@@ -41,12 +43,18 @@ namespace Uml
 
     void CmdChangeLineColor::redo()
     {
-        m_umlWidget->setLineColorcmd(m_newColor);
+        UMLScene* scene = m_widget->umlScene();
+        if (scene && scene->widgetOnDiagram(m_widget->id())) {
+            m_widget->setLineColorcmd(m_newColor);
+        }
     }
 
     void CmdChangeLineColor::undo()
     {
-        m_umlWidget->setLineColorcmd(m_oldColor);
+        UMLScene* scene = m_widget->umlScene();
+        if (scene && scene->widgetOnDiagram(m_widget->id())) {
+            m_widget->setLineColorcmd(m_oldColor);
+        }
     }
 
 }

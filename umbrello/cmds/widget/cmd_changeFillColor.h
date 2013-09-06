@@ -31,7 +31,7 @@ namespace Uml
             void undo();
 
         private:
-            UMLWidget* m_umlWidget;
+            UMLWidget* m_widget;
             QColor     m_oldColor;  ///< old color
             QColor     m_color;     ///< new color
 

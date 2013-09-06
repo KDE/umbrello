@@ -34,14 +34,20 @@ namespace Uml
 
     void CmdMoveWidget::redo()
     {
-        m_widget->setPos(m_pos);
-        m_widget->updateGeometry();
+        UMLScene* scene = m_widget->umlScene();
+        if (scene && scene->widgetOnDiagram(m_widget->id())) {
+            m_widget->setPos(m_pos);
+            m_widget->updateGeometry();
+        }
     }
 
     void CmdMoveWidget::undo()
     {
-        m_widget->setPos(m_posOld);
-        m_widget->updateGeometry();
+        UMLScene* scene = m_widget->umlScene();
+        if (scene && scene->widgetOnDiagram(m_widget->id())) {
+            m_widget->setPos(m_posOld);
+            m_widget->updateGeometry();
+        }
     }
 
 //    bool CmdMoveWidget::mergeWith(const QUndoCommand* other)

@@ -14,21 +14,19 @@
 #include <QUndoCommand>
 
 class UMLWidget;
-class UMLScene;
 
 namespace Uml
 {
     class CmdCreateWidget : public QUndoCommand
     {
         public:
-            CmdCreateWidget(UMLScene* scene, UMLWidget* widget);
+            CmdCreateWidget(UMLWidget* widget);
             ~CmdCreateWidget();
 
             void redo();
             void undo();
 
         private:
-            UMLScene*   m_scene;
             UMLWidget*  m_widget;
     };
 }

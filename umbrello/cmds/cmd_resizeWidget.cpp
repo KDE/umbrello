@@ -35,7 +35,7 @@ namespace Uml
     void CmdResizeWidget::redo()
     {
         UMLScene* scene = m_widget->umlScene();
-        if (scene->widgetOnDiagram(m_widget->id())) {
+        if (scene && scene->widgetOnDiagram(m_widget->id())) {
             m_widget->setSize(m_size);
         }
     }
@@ -43,7 +43,7 @@ namespace Uml
     void CmdResizeWidget::undo()
     {
         UMLScene* scene = m_widget->umlScene();
-        if (scene->widgetOnDiagram(m_widget->id())) {
+        if (scene && scene->widgetOnDiagram(m_widget->id())) {
             m_widget->setSize(m_sizeOld);
         }
     }

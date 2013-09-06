@@ -137,7 +137,7 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
     }
     o->setUMLPackage(parentPkg);
 
-    // will be caled in cmdCreateUMLObject
+    // will be called in cmdCreateUMLObject
     //parentPkg->addObject(o);
 
     UMLApp::app()->executeCommand(new Uml::CmdCreateUMLObject(o));

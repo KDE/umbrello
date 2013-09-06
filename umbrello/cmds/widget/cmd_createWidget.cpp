@@ -20,16 +20,15 @@
 namespace Uml
 {
 
-    CmdCreateWidget::CmdCreateWidget(UMLScene* scene, UMLWidget* widget)
-      : m_scene(scene),
-        m_widget(widget)
+    CmdCreateWidget::CmdCreateWidget(UMLWidget* widget)
+      : m_widget(widget)
     {
+        Q_ASSERT(widget != 0);
         setText(i18n("Create widget : %1", widget->name()));
     }
 
     CmdCreateWidget::~CmdCreateWidget()
     {
-        //m_scene->removeWidget(m_widget);
     }
 
     /**
@@ -37,7 +36,10 @@ namespace Uml
      */
     void CmdCreateWidget::redo()
     {
-        m_widget->setVisible(true);
+        UMLScene* scene = m_widget->umlScene();
+        if (scene && scene->widgetOnDiagram(m_widget->id())) {
+            m_widget->setVisible(true);
+        }
     }
 
     /**
@@ -45,7 +47,10 @@ namespace Uml
      */
     void CmdCreateWidget::undo()
     {
-        m_widget->setVisible(false);
+        UMLScene* scene = m_widget->umlScene();
+        if (scene && scene->widgetOnDiagram(m_widget->id())) {
+            m_widget->setVisible(false);
+        }
     }
 
 }

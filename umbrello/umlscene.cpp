@@ -498,7 +498,7 @@ void UMLScene::setupNewWidget(UMLWidget *w)
     m_WidgetList.append(w);
     m_doc->setModified();
 
-    UMLApp::app()->executeCommand(new CmdCreateWidget(this, w));
+    UMLApp::app()->executeCommand(new CmdCreateWidget(w));
 }
 
 /**
@@ -561,7 +561,7 @@ void UMLScene::slotToolBarChanged(int c)
  */
 void UMLScene::slotObjectCreated(UMLObject* o)
 {
-    DEBUG(DBG_SRC) << "view=" << name() << " / object=" << o->name();
+    DEBUG(DBG_SRC) << "scene=" << name() << " / object=" << o->name();
     m_bPaste = false;
     //check to see if we want the message
     //may be wanted by someone else e.g. list view
