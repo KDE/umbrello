@@ -119,13 +119,9 @@ public:
 
     QString toolTip();
 
-    void setCreating(bool creating);
-    bool creating() const;
-
     void setIcon(Icon_Utils::IconType iconType);
 
     void startRename(int col);
-    void cancelRename(int col);
     void okRename(int col);
 
     void addClassifierListItem(UMLClassifierListItem *child, UMLListViewItem *childItem);
@@ -161,7 +157,6 @@ protected:
      */
     typedef QMap<UMLClassifierListItem*, UMLListViewItem*> ChildObjectMap;
 
-    bool               m_bCreating;  ///< flag to set the state of creating
     ListViewType       m_type;
     Uml::ID::Type      m_id;
     UMLObject *        m_object;

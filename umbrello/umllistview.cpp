@@ -152,16 +152,7 @@ void UMLListView::slotItemChanged(QTreeWidgetItem * item, int column)
     if (lvitem == NULL || m_editItem == NULL)
         return;
     QString text = item->text(column);
-    if (lvitem->creating()) {
-        lvitem->setCreating(false);
-        m_editItem = NULL;
-        if (text.isEmpty()) {
-            text = lvitem->getSavedText();
-            lvitem->setText(text);
-        }
-        DEBUG(DBG_SRC) << "creating text: " << text;
-        createItem(lvitem);
-    } else if (m_bRenameInProgress) {
+    if (m_bRenameInProgress) {
         DEBUG(DBG_SRC) << "text: " << text;
         endRename(lvitem);
     }
@@ -682,11 +673,6 @@ void UMLListView::popupMenuSel(QAction* action)
                 uWarning() << "calling properties on unknown type";
             }
         }
-        // Bug 268469: Changing the package of a class deletes the old widget.
-        // By reloading the current item we are sure to not use a destroyed object
-        currItem = (UMLListViewItem*)currentItem();
-        if (currItem)
-            currItem->cancelRename(0);
         break;
 
     case ListPopupMenu::mt_Logical_Folder:
@@ -2257,6 +2243,7 @@ void UMLListView::endUpdate()
  */
 void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListViewType type)
 {
+    UMLListViewItem *newItem;
     if (type == UMLListViewItem::lvt_Datatype) {
         parentItem = m_datatypeFolder;
     }
@@ -2270,7 +2257,7 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
     if (Model_Utils::typeIsDiagram(type)) {
         Uml::DiagramType::Enum dt = Model_Utils::convert_LVT_DT(type);
         name = uniqueDiagramName(dt);
-        m_editItem = new UMLListViewItem(parentItem, name, type, Uml::ID::None);
+        newItem = new UMLListViewItem(parentItem, name, type, Uml::ID::None);
     } else {
         UMLObject::ObjectType ot = Model_Utils::convert_LVT_OT(type);
         if (ot == UMLObject::ot_UMLObject) {
@@ -2290,14 +2277,12 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
         } else {
             name = Model_Utils::uniqObjectName(ot, parentPkg);
         }
-        m_editItem = new UMLListViewItem(parentItem, name, type, (UMLObject *)0);
+        newItem = new UMLListViewItem(parentItem, name, type, (UMLObject *)0);
     }
-    m_editItem->setIcon(icon);
-    m_editItem->setOpen(true);
+    newItem->setIcon(icon);
+    newItem->setOpen(true);
     blockSignals(false);
-    m_editItem->setCreating(true);
-    m_bRenameInProgress = true;
-    editItem(m_editItem, 0);
+    createItem(newItem);
 }
 
 /**
@@ -2310,7 +2295,6 @@ bool UMLListView::itemRenamed(UMLListViewItem * item, int col)
     UMLListViewItem * renamedItem = static_cast< UMLListViewItem *>(item) ;
     UMLListViewItem::ListViewType type = renamedItem->type();
     QString newText = renamedItem->text(col);
-    renamedItem->setCreating(false);
 
     // If the type is empty then delete it.
     if (newText.isEmpty() || newText.contains(QRegExp("^\\s+$"))) {
