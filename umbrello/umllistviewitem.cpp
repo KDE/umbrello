@@ -189,7 +189,6 @@ UMLListViewItem::~UMLListViewItem()
 void UMLListViewItem::init()
 {
     m_type = lvt_Unknown;
-    m_bCreating = false;
     m_object = 0;
     m_id = Uml::ID::None;
 }
@@ -448,18 +447,6 @@ QString UMLListViewItem::getSavedText() const
 }
 
 /**
- * Sets if the item is in the middle of being created.
- */
-void UMLListViewItem::setCreating(bool creating)
-{
-    m_bCreating = creating;
-}
-
-bool UMLListViewItem::creating() const {
-    return m_bCreating;
-}
-
-/**
  * Set the pixmap corresponding to the given IconType.
  */
 void UMLListViewItem::setIcon(Icon_Utils::IconType iconType)
@@ -486,16 +473,6 @@ void UMLListViewItem::okRename(int col)
     DEBUG(DBG_LVI) << this << " - column=" << col << ", text=" << text(col);
     UMLListView* listView = static_cast<UMLListView*>(treeWidget());
     UMLDoc* doc = listView->document();
-    if (m_bCreating) {
-        m_bCreating = false;
-        if (listView->itemRenamed(this, col)) {
-//:TODO:            listView->ensureItemVisible(this);
-            doc->setModified(true);
-        } else {
-            delete this;
-        }
-        return;
-    }
     QString newText = text(col);
     if (newText == m_label) {
         return;
@@ -718,19 +695,6 @@ void UMLListViewItem::cancelRenameWithMsg()
                        i18n("The name you entered was invalid.\nRenaming process has been canceled."),
                        i18n("Name Not Valid"));
     setText(m_label);
-}
-
-/**
- * Overrides default method to make public.
- */
-void UMLListViewItem::cancelRename(int col)
-{
-    DEBUG(DBG_LVI) << this << " - column=" << col << ", text=" << text(col);
-    Q_UNUSED(col);
-    if (m_bCreating) {
-        UMLListView* listView = static_cast<UMLListView*>(treeWidget());
-        listView->cancelRename(this);
-    }
 }
 
 /**
