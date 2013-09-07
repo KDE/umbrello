@@ -362,17 +362,7 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
         diffY = 0;
     }
 
-    /* Commands
-        UMLDoc* doc = UMLApp::app()->document();
-        doc->executeCommand(new CmdMoveWidget(this,diffX,diffY));*/
-
-    // moveWidget(diffX,diffY);
-
-    // DEBUG(DBG_SRC) << "before constrainMovementForAllWidgets:"
-    //     << " diffX=" << diffX << ", diffY=" << diffY;
     constrainMovementForAllWidgets(diffX, diffY);
-    // DEBUG(DBG_SRC) << "after constrainMovementForAllWidgets:"
-    //     << " diffX=" << diffX << ", diffY=" << diffY;
 
     // nothing to move
     if (diffX == 0 && diffY == 0) {
@@ -384,12 +374,7 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 
     DEBUG(DBG_SRC) << "diffX=" << diffX << " / diffY=" << diffY;
     foreach(UMLWidget* widget, m_selectedWidgetsList) {
-        Q_UNUSED(widget)
-        //UMLDoc* m_doc = UMLApp::app()->document();
-        //CmdMoveWidgetBy* cmd = new CmdMoveWidgetBy(widget,diffX,diffY);
-        //m_doc->executeCommand(cmd);
-        //m_doc->executeCommand(new CmdMoveWidgetBy(widget,diffX,diffY));
-        moveWidgetBy(diffX, diffY);
+        widget->moveWidgetBy(diffX, diffY);
     }
 
     // Move any selected associations.
@@ -523,7 +508,9 @@ void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
     } else {
         // Commands
         if (m_moved) {
-            UMLApp::app()->executeCommand(new Uml::CmdMoveWidget(this));
+            foreach(UMLWidget* widget, m_selectedWidgetsList) {
+                UMLApp::app()->executeCommand(new Uml::CmdMoveWidget(widget));
+            }
             m_moved = false;
         } else {
             UMLApp::app()->executeCommand(new Uml::CmdResizeWidget(this));
