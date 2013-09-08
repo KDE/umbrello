@@ -383,22 +383,27 @@ UMLObject* treeViewGetCurrentObject()
 
 /**
  * Return the UMLPackage if the current item
- * in the tree view is a package.
+ * in the tree view is a package. Return the
+ * closest package in the tree view or NULL otherwise
+ *
  * @return   the package or NULL
  */
 UMLPackage* treeViewGetPackageFromCurrent()
 {
     UMLListView *listView = UMLApp::app()->listView();
     UMLListViewItem *parentItem = (UMLListViewItem*)listView->currentItem();
-    if (parentItem) {
+    while (parentItem) {
         UMLListViewItem::ListViewType lvt = parentItem->type();
-        if (Model_Utils::typeIsContainer(lvt) ||
-            lvt == UMLListViewItem::lvt_Class ||
-            lvt == UMLListViewItem::lvt_Interface) {
+        if (Model_Utils::typeIsContainer(lvt)) {
             UMLObject *o = parentItem->umlObject();
             return static_cast<UMLPackage*>(o);
         }
+
+        // selected item is not a container, try to find the
+        // container higher up in the tree view
+        parentItem = static_cast<UMLListViewItem*>(parentItem->parent());
     }
+
     return NULL;
 }
 

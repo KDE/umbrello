@@ -231,7 +231,9 @@ void UMLView::dragEnterEvent(QDragEnterEvent *e)
                 bAccept = false;
             break;
         case Uml::DiagramType::EntityRelationship:
-            if (ot != UMLObject::ot_Entity)
+            if (umlScene()->widgetOnDiagram(id) ||
+                (ot != UMLObject::ot_Entity &&
+                 ot != UMLObject::ot_Category))
                 bAccept = false;
             break;
         default:
