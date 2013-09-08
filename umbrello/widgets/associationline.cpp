@@ -625,20 +625,25 @@ void AssociationLine::alignSymbols()
         return;
     }
 
+    QList<QPolygonF> polygons = path().toSubpathPolygons();
+
     if (m_startSymbol) {
-        QLineF segment(m_points[1], m_points[0]);
+        QPolygonF firstLine = polygons.first();
+        QLineF segment(firstLine.at(1), firstLine.at(0));
         m_startSymbol->alignTo(segment);
     }
 
     if (m_endSymbol) {
-        QLineF segment(m_points[sz-2], m_points[sz - 1]);
+        QPolygonF lastLine = polygons.last();
+        int maxIndex = lastLine.size();
+        QLineF segment(lastLine.at(maxIndex-2), lastLine.at(maxIndex-1));
         m_endSymbol->alignTo(segment);
     }
 
     if (m_subsetSymbol) {
-        QLineF segment(m_points.at(0), (m_points.at(0) + m_points.at(1)) * .5);
-        DEBUG(DBG_SRC) << "points: " << m_points.at(0) << m_points.at(1);
-        DEBUG(DBG_SRC) << "segment: " << segment;
+        QPointF p1 = path().pointAtPercent(0.4);
+        QPointF p2 = path().pointAtPercent(0.5);
+        QLineF segment(p1, p2);
         m_subsetSymbol->alignTo(segment);
     }
 
