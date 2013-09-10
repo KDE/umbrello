@@ -187,6 +187,8 @@ private:
 
     void alignSymbols();
 
+    void createSplinePoints();
+
     AssociationWidget *m_associationWidget;      ///< association widget for which this line represents
     QVector<QPointF>   m_points;                 ///< points representing the association line
     int                m_activePointIndex;       ///< index of active point which can be dragged to modify association line
@@ -198,7 +200,7 @@ private:
     Symbol            *m_collaborationLineHead;  ///< arrow head drawn at end of m_collaborationLineItem
     LayoutType         m_layout;
 
-    static QPainterPath createCubicBezierCurve(QVector<QPointF> points);
+    static QPainterPath createBezierCurve(QVector<QPointF> points);
     static QPainterPath createOrthogonalPath(QVector<QPointF> points);
 
     static const qreal Delta;  ///< default delta for fuzzy recognition of points closer to point

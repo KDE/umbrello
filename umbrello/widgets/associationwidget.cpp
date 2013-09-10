@@ -1691,7 +1691,7 @@ void AssociationWidget::calculateEndingPoints()
 
         m_associationLine->setEndPoints( QPointF( xa + wa , ya + ha/2 ) , QPointF( xb , yb + hb/2 ) );
         m_associationLine->insertPoint( 1, QPointF( xa + wa , ya + ha/2 ));
-        m_associationLine->insertPoint( 2 ,QPointF( xb , yb + hb/2 ));
+        m_associationLine->insertPoint( 2, QPointF( xb , yb + hb/2 ));
         updatePointsException();
         return;
     }
@@ -2027,7 +2027,7 @@ void AssociationWidget::updatePointsException()
 
     m_associationLine->setEndPoints(QPointF(xdeb, ydeb), QPointF(xfin, yfin));
     m_associationLine->setPoint(1, QPointF(p1.x() + ESPACEX, p1.y() + ESPACEY));
-    m_associationLine->setPoint(2 ,QPointF(p2.x() - ESPACEX, p2.y() - ESPACEY));
+    m_associationLine->setPoint(2, QPointF(p2.x() - ESPACEX, p2.y() - ESPACEY));
 
     m_role[RoleType::A].m_WidgetRegion = m_role[RoleType::B].m_WidgetRegion = Uml::Region::North;
 }

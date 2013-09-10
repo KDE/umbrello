@@ -687,7 +687,7 @@ QPainterPath AssociationLine::path() const
             break;
 
         case Spline:
-            path = createCubicBezierCurve(m_points);
+            path = createBezierCurve(m_points);
             break;
 
         case Orthogonal:
@@ -765,7 +765,47 @@ void AssociationLine::setLayout(LayoutType layout)
     prepareGeometryChange();
     m_layout = layout;
     DEBUG(DBG_SRC) << "new layout = " << toString(m_layout);
+    if (m_layout == Spline) {
+        createSplinePoints();
+    }
     alignSymbols();
+}
+
+/**
+ * For a cubic Bezier curve at least four points are needed.
+ * If there are less, the missing points will be created.
+ * Note: Implementation is only for two points.
+ */
+void AssociationLine::createSplinePoints()
+{
+    if (m_points.size() == 2) {  // create two points
+        QPointF p1 = m_points.first();  // start point
+        QPointF p2 = m_points.last();   // end point
+        qreal dx = p2.x() - p1.x();
+        qreal dy = p2.y() - p1.y();
+        QPointF c1;  // control point 1
+        QPointF c2;  // control point 2
+        qreal oneThirdX = 0.33 * dx;
+        qreal oneThirdY = 0.33 * dy;
+        if (dx > dy) {
+            c1.setX(p1.x() + oneThirdX);
+            c1.setY(p1.y() - oneThirdY);
+            c2.setX(p2.x() - oneThirdX);
+            c2.setY(p2.y() + oneThirdY);
+        }
+        else {
+            c1.setX(p1.x() + oneThirdX);
+            c1.setY(p1.y() - oneThirdY);
+            c2.setX(p2.x() - oneThirdX);
+            c2.setY(p2.y() + oneThirdY);
+        }
+        insertPoint(1, c1);
+        insertPoint(2, c2);
+    }
+    if (m_points.size() == 3) {  // create one point
+        // insertPoint(1 or 2, );
+        // Note: For now we use a quadratic Bezier curve in createBezierCurve(...).
+    }
 }
 
 /**
@@ -773,24 +813,30 @@ void AssociationLine::setLayout(LayoutType layout)
  * @param points   points which define the Bézier curve
  * @return   cubic Bézier spline
  */
-QPainterPath AssociationLine::createCubicBezierCurve(QVector<QPointF> points)
+QPainterPath AssociationLine::createBezierCurve(QVector<QPointF> points)
 {
     QPainterPath path;
-    if (points.size() > 3) {
+    if (points.size() > 3) {  // cubic Bezier curve(s)
         path.moveTo(points.at(0));
         int i = 1;
         while (i + 2 < points.size()) {
             path.cubicTo(points.at(i), points.at(i+1), points.at(i+2));
             i += 3;
         }
-        while (i < points.size()) {
+        while (i < points.size()) {  // draw a line if points are not modulo 3
             path.lineTo(points.at(i));
             ++i;
         }
     }
     else {
-        QPolygonF polygon(points);
-        path.addPolygon(polygon);
+        if (points.size() == 3) {  // quadratic Bezier curve
+            path.moveTo(points.at(0));
+            path.quadTo(points.at(1), points.at(2));
+        }
+        else {  // should not be reached
+            QPolygonF polygon(points);
+            path.addPolygon(polygon);
+        }
     }
     return path;
 }
