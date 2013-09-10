@@ -446,7 +446,7 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
     // force the widgets to update accordingly on paint
     forceUpdateWidgetFontMetrics(&pPainter);
 
-    UMLSceneRect source = diagramRect();
+    QRectF source = diagramRect();
     QRect paper = pPrinter->paperRect();
     QRect page = pPrinter->pageRect();
 
@@ -464,7 +464,7 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
         page.adjust(0, 0, 0, -margin);
     }
 
-    getDiagram(pPainter, UMLSceneRect(source), UMLSceneRect(page));
+    getDiagram(pPainter, QRectF(source), QRectF(page));
 
     //draw foot note
     if (isFooter) {
@@ -1193,7 +1193,7 @@ void UMLScene::setUseFillColor(bool ufc)
  *
  * @return Returns the smallest area to print.
  */
-UMLSceneRect UMLScene::diagramRect()
+QRectF UMLScene::diagramRect()
 {
     return itemsBoundingRect();
 }
@@ -1559,7 +1559,7 @@ void UMLScene::selectWidgets(UMLSceneValue px, UMLSceneValue py, UMLSceneValue q
 {
     clearSelected();
 
-    UMLSceneRect  rect;
+    QRectF  rect;
     if (px <= qx) {
         rect.setLeft(px);
         rect.setRight(qx);
@@ -1580,7 +1580,7 @@ void UMLScene::selectWidgets(UMLSceneValue px, UMLSceneValue py, UMLSceneValue q
         int y = temp->y();
         int w = temp->width();
         int h = temp->height();
-        UMLSceneRect  rect2(x, y, w, h);
+        QRectF  rect2(x, y, w, h);
 
         //see if any part of widget is in the rectangle
         if (!rect.intersects(rect2))
@@ -1636,7 +1636,7 @@ void UMLScene::selectWidgets(UMLWidgetList &widgets)
  * @param diagram the class to store PNG picture of the paste operation.
  * @param rect the area of the diagram to copy
  */
-void  UMLScene::getDiagram(QPixmap &diagram, const UMLSceneRect &rect)
+void  UMLScene::getDiagram(QPixmap &diagram, const QRectF &rect)
 {
     DEBUG(DBG_SRC) << "rect=" << rect << ", pixmap=" << diagram.rect();
     QPainter painter(&diagram);
@@ -1649,7 +1649,7 @@ void  UMLScene::getDiagram(QPixmap &diagram, const UMLSceneRect &rect)
  * @param source the area of the diagram to copy
  * @param target the rect where to paint into
  */
-void  UMLScene::getDiagram(QPainter &painter, const UMLSceneRect &source, const UMLSceneRect &target)
+void  UMLScene::getDiagram(QPainter &painter, const QRectF &source, const QRectF &target)
 {
     DEBUG(DBG_SRC) << "painter=" << painter.window() << ", source=" << source << ", target=" << target;
     //TODO unselecting and selecting later doesn't work now as the selection is
@@ -2877,7 +2877,7 @@ void UMLScene::findMaxBoundingRectangle(const FloatingTextWidget* ft, UMLSceneVa
 void UMLScene::copyAsImage(QPixmap*& pix)
 {
     //get the smallest rect holding the diagram
-    UMLSceneRect rect = diagramRect();
+    QRectF rect = diagramRect();
     QPixmap diagram(rect.width(), rect.height());
 
     //only draw what is selected
@@ -2930,7 +2930,7 @@ void UMLScene::copyAsImage(QPixmap*& pix)
         findMaxBoundingRectangle(changeB, px, py, qx, qy);
     }//end foreach
 
-    UMLSceneRect imageRect;  //area with respect to diagramRect()
+    QRectF imageRect;  //area with respect to diagramRect()
     //i.e. all widgets on the scene.  Was previously with
     //respect to whole scene
 

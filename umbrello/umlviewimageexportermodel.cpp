@@ -424,7 +424,7 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLScene* scene, const QString &
     // and the actual painting
     scene->forceUpdateWidgetFontMetrics(painter);
 
-    UMLSceneRect rect = scene->diagramRect();
+    QRectF rect = scene->diagramRect();
     painter->translate(-rect.x(), -rect.y());
     scene->getDiagram(*painter, rect);
 
@@ -461,7 +461,7 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLScene* scene, const QString &
     }
 
     bool exportSuccessful;
-    UMLSceneRect rect = scene->diagramRect();
+    QRectF rect = scene->diagramRect();
 
     QSvgGenerator generator;
     generator.setFileName(fileName);
@@ -509,7 +509,7 @@ bool UMLViewImageExporterModel::exportViewToPixmap(UMLScene* scene, const QStrin
         return false;
     }
 
-    UMLSceneRect rect = scene->diagramRect();
+    QRectF rect = scene->diagramRect();
     QPixmap diagram(rect.width(), rect.height());
     scene->getDiagram(diagram, rect);
     bool exportSuccessful = diagram.save(fileName, qPrintable(imageType.toUpper()));
@@ -529,7 +529,7 @@ bool UMLViewImageExporterModel::exportViewToPixmap(UMLScene* scene, const QStrin
  * @return True if the operation was successful,
  *         false if a problem occurred while exporting.
  */
-bool UMLViewImageExporterModel::fixEPS(const QString &fileName, const UMLSceneRect& rect) const
+bool UMLViewImageExporterModel::fixEPS(const QString &fileName, const QRectF& rect) const
 {
     // now open the file and make a correct eps out of it
     QFile epsfile(fileName);

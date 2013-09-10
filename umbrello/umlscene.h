@@ -62,7 +62,6 @@ class QShowEvent;
 /// uml related types - makes it easier to switch to QGraphicsScene types
 // base types
 typedef QPointF UMLScenePoint;
-typedef QRectF UMLSceneRect;
 typedef QSizeF UMLSceneSize;
 typedef QLineF UMLSceneLine;
 typedef qreal UMLSceneValue;
@@ -239,8 +238,8 @@ public:
 
     void updateDocumentation(bool clear);
 
-    void getDiagram(QPixmap & diagram, const UMLSceneRect &rect);
-    void getDiagram(QPainter &painter, const UMLSceneRect &source, const UMLSceneRect &target = UMLSceneRect());
+    void getDiagram(QPixmap & diagram, const QRectF &rect);
+    void getDiagram(QPainter &painter, const QRectF &source, const QRectF &target = QRectF());
 
     void copyAsImage(QPixmap*& pix);
 
@@ -354,7 +353,7 @@ protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent);
     virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent* contextMenuEvent);
 
-    UMLSceneRect diagramRect();
+    QRectF diagramRect();
 
     void makeSelected(UMLWidget* uw);
 

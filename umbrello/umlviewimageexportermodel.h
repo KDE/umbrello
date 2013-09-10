@@ -57,7 +57,7 @@ private:
     bool exportViewToSvg(UMLScene* scene, const QString &fileName) const;
     bool exportViewToPixmap(UMLScene* scene, const QString &imageType, const QString &fileName) const;
 
-    bool fixEPS(const QString &fileName, const UMLSceneRect& rect) const;
+    bool fixEPS(const QString &fileName, const QRectF& rect) const;
 
     static QStringList s_supportedImageTypesList;
     static QStringList s_supportedMimeTypesList;
