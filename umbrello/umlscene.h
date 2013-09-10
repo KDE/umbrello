@@ -63,7 +63,6 @@ class QShowEvent;
 // base types
 typedef QPointF UMLScenePoint;
 typedef QSizeF UMLSceneSize;
-typedef QLineF UMLSceneLine;
 typedef qreal UMLSceneValue;
 
 // migration wrapper for QGraphicsScene items
