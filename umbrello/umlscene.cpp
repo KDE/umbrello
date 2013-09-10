@@ -126,7 +126,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     //m_WidgetList.setAutoDelete(true);
     //m_MessageList.setAutoDelete(true);
 
-    m_PastePoint = UMLScenePoint(0, 0);
+    m_PastePoint = QPointF(0, 0);
 
     m_pImageExporter = new UMLViewImageExporter(this);
 
@@ -260,7 +260,7 @@ void UMLScene::setID(Uml::ID::Type id)
 /**
  * Returns the position of the diagram.
  */
-UMLScenePoint UMLScene::pos() const
+QPointF UMLScene::pos() const
 {
     return m_Pos;
 }
@@ -268,7 +268,7 @@ UMLScenePoint UMLScene::pos() const
 /**
  * Sets the position of the diagram.
  */
-void UMLScene::setPos(const UMLScenePoint &pos)
+void UMLScene::setPos(const QPointF &pos)
 {
     m_Pos = pos;
 }
@@ -880,7 +880,7 @@ void UMLScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* ome)
  * @return The widget thats line was clicked on.
  *  Returns 0 if no line was clicked on.
  */
-ObjectWidget * UMLScene::onWidgetLine(const UMLScenePoint &point) const
+ObjectWidget * UMLScene::onWidgetLine(const QPointF &point) const
 {
     foreach(UMLWidget* obj, m_WidgetList) {
         ObjectWidget *ow = dynamic_cast<ObjectWidget*>(obj);
@@ -905,7 +905,7 @@ ObjectWidget * UMLScene::onWidgetLine(const UMLScenePoint &point) const
  * @return The widget thats destruction box was clicked on.
  *  Returns 0 if no destruction box was clicked on.
  */
-ObjectWidget * UMLScene::onWidgetDestructionBox(const UMLScenePoint &point) const
+ObjectWidget * UMLScene::onWidgetDestructionBox(const QPointF &point) const
 {
     foreach(UMLWidget* obj,  m_WidgetList) {
         ObjectWidget *ow = dynamic_cast<ObjectWidget*>(obj);
@@ -940,7 +940,7 @@ UMLWidget* UMLScene::getFirstMultiSelectedWidget() const
  * Returns NULL if the point is not inside any widget.
  * TODO: What about using QGraphicsScene::items(...)?
  */
-UMLWidget* UMLScene::widgetAt(const UMLScenePoint& p)
+UMLWidget* UMLScene::widgetAt(const QPointF& p)
 {
     qreal relativeSize = 99990.0;  // start with an arbitrary large number
     UMLWidget  *retWid = 0;
@@ -962,7 +962,7 @@ UMLWidget* UMLScene::widgetAt(const UMLScenePoint& p)
  * Returns NULL if the point is not inside any association.
  * CHECK: This is the same method as in ToolBarState.
  */
-AssociationWidget* UMLScene::associationAt(const UMLScenePoint& p)
+AssociationWidget* UMLScene::associationAt(const QPointF& p)
 {
     foreach (AssociationWidget* association, associationList()) {
         if (association->onAssociation(p)) {
@@ -977,7 +977,7 @@ AssociationWidget* UMLScene::associationAt(const UMLScenePoint& p)
  * association widget for which the point is on the line.
  * Returns NULL if the point is not inside any association.
  */
-MessageWidget* UMLScene::messageAt(const UMLScenePoint& p)
+MessageWidget* UMLScene::messageAt(const QPointF& p)
 {
     foreach(MessageWidget *message, messageList()) {
         if (message->onWidget(p)) {
@@ -1203,7 +1203,7 @@ QRectF UMLScene::diagramRect()
  * @param atPos   the mouse position on the scene
  * @return true if there is a widget or an association line
  */
-bool UMLScene::onItem(const UMLScenePoint& atPos)
+bool UMLScene::onItem(const QPointF& atPos)
 {
     UMLWidget* widget = widgetAt(atPos);
     if (widget) {
@@ -1510,7 +1510,7 @@ bool UMLScene::isSavedInSeparateFile()
     return !folderFile.isEmpty();
 }
 
-UMLSceneItemList UMLScene::collisions(const UMLScenePoint &p, int delta)
+UMLSceneItemList UMLScene::collisions(const QPointF &p, int delta)
 {
     QPointF a = p-QPointF(delta, delta);
     QPointF b = p+QPointF(delta, delta);
@@ -3361,9 +3361,9 @@ void UMLScene::slotShowView()
  * Only call this straight after the event, the value won't stay valid.
  * Should only be called by Assoc widgets at the moment. no one else needs it.
  */
-UMLScenePoint UMLScene::getPastePoint()
+QPointF UMLScene::getPastePoint()
 {
-    UMLScenePoint point = m_PastePoint;
+    QPointF point = m_PastePoint;
     point.setX(point.x() - m_Pos.x());
     point.setY(point.y() - m_Pos.y());
     return point;

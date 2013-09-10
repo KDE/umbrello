@@ -11,9 +11,10 @@
 #ifndef SEQLINEWIDGET_H
 #define SEQLINEWIDGET_H
 
-#include "umlscene.h"
+#include <QGraphicsLineItem>
 
 class ObjectWidget;
+class UMLScene;
 
 /**
  * @short Widget class for graphical representation of sequence lines
@@ -26,9 +27,9 @@ public:
     SeqLineWidget(UMLScene *scene, ObjectWidget * pObject);
     virtual ~SeqLineWidget();
 
-    int onWidget(const UMLScenePoint & p);
+    int onWidget(const QPointF& p);
 
-    int onDestructionBox(const UMLScenePoint & p);
+    int onDestructionBox(const QPointF& p);
 
     void cleanup();
 

@@ -16,6 +16,7 @@
 
 class MessageWidget;
 class ObjectWidget;
+class QGraphicsLineItem;
 
 /**
  * Messages tool to create messages between objects in sequence diagrams.
@@ -113,8 +114,8 @@ private:
     /**
      * x and y clicked for lost and found messages
      */
-    UMLSceneValue xclick;
-    UMLSceneValue yclick;
+    qreal xclick;
+    qreal yclick;
 
 };
 

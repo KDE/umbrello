@@ -81,7 +81,7 @@ void ToolBarStateAssociation::mouseMove(QGraphicsSceneMouseEvent* ome)
     ToolBarStatePool::mouseMove(ome);
 
     if (m_associationLine) {
-        UMLScenePoint sp = m_associationLine->line().p1();
+        QPointF sp = m_associationLine->line().p1();
         m_associationLine->setLine(sp.x(), sp.y(), m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y());
     }
 }

@@ -11,14 +11,14 @@
 #ifndef TOOLBARSTATE_H
 #define TOOLBARSTATE_H
 
-#include "umlscene.h"
-
 #include <QEvent>
 #include <QObject>
+#include <QPointF>
 
 class AssociationWidget;
-class MessageWidget;
 class FloatingDashLineWidget;
+class MessageWidget;
+class QGraphicsSceneMouseEvent;
 class UMLScene;
 class UMLWidget;
 
@@ -113,9 +113,9 @@ protected:
 
     void setMouseEvent(QGraphicsSceneMouseEvent* ome, const QEvent::Type &type);
 
-    AssociationWidget* associationAt(const UMLScenePoint& pos);
-    MessageWidget* messageAt(const UMLScenePoint& pos);
-    FloatingDashLineWidget* floatingLineAt(const UMLScenePoint& pos);
+    AssociationWidget* associationAt(const QPointF& pos);
+    MessageWidget* messageAt(const QPointF& pos);
+    FloatingDashLineWidget* floatingLineAt(const QPointF& pos);
 
     UMLScene*                 m_pUMLScene;     ///< The UMLScene.
     QGraphicsSceneMouseEvent* m_pMouseEvent;   ///< The mouse event currently in use.

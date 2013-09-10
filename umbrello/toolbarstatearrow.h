@@ -15,6 +15,7 @@
 
 #include <QList>
 
+class QGraphicsLineItem;
 class UMLScene;
 
 /**
@@ -61,7 +62,7 @@ protected:
     /**
      * The start position of the selection rectangle.
      */
-    UMLScenePoint m_startPosition;
+    QPointF m_startPosition;
 
 };
 

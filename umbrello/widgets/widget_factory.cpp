@@ -66,7 +66,7 @@ namespace Widget_Factory {
  */
 UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
 {
-    UMLScenePoint pos = scene->pos();
+    QPointF pos = scene->pos();
     int y = pos.y();
     Uml::DiagramType::Enum diagramType = scene->type();
     UMLObject::ObjectType type = o->baseType();

@@ -12,9 +12,10 @@
 #include "seqlinewidget.h"
 
 //app includes
-#include "umlview.h"
-#include "objectwidget.h"
 #include "messagewidget.h"
+#include "objectwidget.h"
+#include "umlscene.h"
+#include "umlview.h"
 
 //qt includes
 #include <QPainter>
@@ -53,11 +54,11 @@ SeqLineWidget::~SeqLineWidget()
  * @param p The point to investigate.
  * @return  Non-zero if point is on this sequence line.
  */
-int SeqLineWidget::onWidget(const UMLScenePoint & p)
+int SeqLineWidget::onWidget(const QPointF & p)
 {
     int nOnWidget = 0;
-    UMLScenePoint sp = line().p1();
-    UMLScenePoint ep = line().p2();
+    QPointF sp = line().p1();
+    QPointF ep = line().p2();
     //see if on widget (for message creation)
     if(sp.x() - m_nMouseDownEpsilonX < p.x()
             && ep.x() + m_nMouseDownEpsilonX > p.x()
@@ -74,7 +75,7 @@ int SeqLineWidget::onWidget(const UMLScenePoint & p)
  * @param p The point to investigate.
  * @return  Non-zero if point is on the destruction box of this sequence line.
  */
-int SeqLineWidget::onDestructionBox(const UMLScenePoint & p)
+int SeqLineWidget::onDestructionBox(const QPointF & p)
 {
     int nOnDestructionBox = 0;
     int x = m_pObject->x() + m_pObject->width() / 2;
@@ -181,7 +182,7 @@ void SeqLineWidget::moveDestructionBox()
  */
 void SeqLineWidget::setEndOfLine(int yPosition)
 {
-    UMLScenePoint sp = line().p1();
+    QPointF sp = line().p1();
     int newY = yPosition;
     m_nLengthY = yPosition - m_pObject->y() - m_pObject->height();
     // normally the managing Objectwidget is responsible for the call of this function

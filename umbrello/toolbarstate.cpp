@@ -501,7 +501,7 @@ void ToolBarState::setMouseEvent(QGraphicsSceneMouseEvent* ome, const QEvent::Ty
  * @return The MessageWidget at the specified position, or null if there is none.
  * @todo Better handling for messages at the same point
  */
-MessageWidget* ToolBarState::messageAt(const UMLScenePoint& pos)
+MessageWidget* ToolBarState::messageAt(const QPointF& pos)
 {
     foreach (MessageWidget* message, m_pUMLScene->messageList()) {
         if (message->isVisible() && message->onWidget(pos)) {
@@ -519,7 +519,7 @@ MessageWidget* ToolBarState::messageAt(const UMLScenePoint& pos)
  * @return The AssociationWidget at the specified position, or null if there is none.
  * @todo Better handling for associations at the same point
  */
-AssociationWidget* ToolBarState::associationAt(const UMLScenePoint& pos)
+AssociationWidget* ToolBarState::associationAt(const QPointF& pos)
 {
     foreach (AssociationWidget* association, m_pUMLScene->associationList()) {
         if (association->onAssociation(pos)) {
@@ -536,7 +536,7 @@ AssociationWidget* ToolBarState::associationAt(const UMLScenePoint& pos)
  * @param pos The position to get the floatingLine.
  * @return The MessageWidget at the specified position, or null if there is none.
  */
-FloatingDashLineWidget* ToolBarState::floatingLineAt(const UMLScenePoint& pos)
+FloatingDashLineWidget* ToolBarState::floatingLineAt(const QPointF& pos)
 {
     FloatingDashLineWidget* floatingline = 0;
 

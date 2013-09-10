@@ -14,6 +14,8 @@
 #include "basictypes.h"
 #include "toolbarstatepool.h"
 
+class QGraphicsLineItem;
+
 /**
  * Association tool to create associations between widgets.
  * With association tool, two widgets are selected clicking with left button on

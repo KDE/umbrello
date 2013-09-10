@@ -61,7 +61,6 @@ class QShowEvent;
 
 /// uml related types - makes it easier to switch to QGraphicsScene types
 // base types
-typedef QPointF UMLScenePoint;
 typedef QSizeF UMLSceneSize;
 typedef qreal UMLSceneValue;
 
@@ -101,8 +100,8 @@ public:
     Uml::ID::Type ID() const;
     void setID(Uml::ID::Type id);
 
-    UMLScenePoint pos() const;
-    void setPos(const UMLScenePoint &pos);
+    QPointF pos() const;
+    void setPos(const QPointF &pos);
 
     const QColor& fillColor() const;
     void setFillColor(const QColor &color);
@@ -250,7 +249,7 @@ public:
 
     bool addWidget(UMLWidget * pWidget, bool isPasteOperation = false);
 
-    UMLScenePoint getPastePoint();
+    QPointF getPastePoint();
     void resetPastePoint();
 
     void setStartedCut();
@@ -293,14 +292,14 @@ public:
     void selectWidgets(UMLWidgetList &widgets);
     void selectWidgetsOfAssoc(AssociationWidget *a);
 
-    ObjectWidget * onWidgetLine(const UMLScenePoint &point) const;
-    ObjectWidget * onWidgetDestructionBox(const UMLScenePoint &point) const;
+    ObjectWidget * onWidgetLine(const QPointF &point) const;
+    ObjectWidget * onWidgetDestructionBox(const QPointF &point) const;
 
     UMLWidget* getFirstMultiSelectedWidget() const;
 
-    UMLWidget* widgetAt(const UMLScenePoint& p);
-    AssociationWidget* associationAt(const UMLScenePoint& p);
-    MessageWidget* messageAt(const UMLScenePoint& p);
+    UMLWidget* widgetAt(const QPointF& p);
+    AssociationWidget* associationAt(const QPointF& p);
+    MessageWidget* messageAt(const QPointF& p);
 
     void setupNewWidget(UMLWidget *w);
 
@@ -309,7 +308,7 @@ public:
 
     int generateCollaborationId();
 
-    UMLSceneItemList collisions(const UMLScenePoint &p, int delta = 3);
+    UMLSceneItemList collisions(const QPointF &p, int delta = 3);
 
 protected:
     // Methods and members related to loading/saving
@@ -365,7 +364,7 @@ protected:
     virtual void drawBackground(QPainter *painter, const QRectF &rect);
 
     int m_nCollaborationId;  ///< Used for creating unique name of collaboration messages.
-    UMLScenePoint m_Pos;
+    QPointF m_Pos;
     bool m_bCreateObject;
     bool m_bDrawSelectedOnly;
     bool m_bPaste;
@@ -384,7 +383,7 @@ private:
     IDChangeLog * m_pIDChangesLog;  ///< LocalID Changes Log for paste actions
     bool m_isActivated;             ///< True if the view was activated after the serialization(load).
     bool m_bPopupShowing;           ///< Status of a popupmenu on view. True - a popup is on view.
-    UMLScenePoint m_PastePoint;     ///< The offset at which to paste the clipboard.
+    QPointF m_PastePoint;     ///< The offset at which to paste the clipboard.
     UMLDoc* m_doc;                  ///< Pointer to the UMLDoc.
     UMLViewImageExporter* m_pImageExporter;  ///< Used to export the view.
     LayoutGrid*  m_layoutGrid;      ///< layout grid in the background
@@ -396,7 +395,7 @@ private:
                                          UMLForeignKeyConstraint* fkConstraint,
                                          UMLWidget* widget);
 
-    bool onItem(const UMLScenePoint& atPos);
+    bool onItem(const QPointF& atPos);
 
 public slots:
     void slotToolBarChanged(int c);

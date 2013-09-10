@@ -601,7 +601,7 @@ void MessageWidget::paintFound(QPainter *painter)
  *         between call line and return line does not count, i.e. if
  *         the point is located in that space the function returns 0.
  */
-UMLSceneValue MessageWidget::onWidget(const UMLScenePoint& p)
+UMLSceneValue MessageWidget::onWidget(const QPointF& p)
 {
     if (m_sequenceMessageType != Uml::SequenceMessage::Synchronous) {
         return UMLWidget::onWidget(p);

@@ -79,7 +79,7 @@ void ToolBarStateMessages::mouseMove(QGraphicsSceneMouseEvent* ome)
     ToolBarStatePool::mouseMove(ome);
 
     if (m_messageLine) {
-        UMLScenePoint sp = m_messageLine->line().p1();
+        QPointF sp = m_messageLine->line().p1();
         m_messageLine->setLine(sp.x(), sp.y(), m_pMouseEvent->scenePos().x(), m_pMouseEvent->scenePos().y());
     }
 }
@@ -259,7 +259,7 @@ void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageTy
     }
     //TODO shouldn't start position in the first widget be used also for normal messages
     //and not only for creation?
-    UMLSceneValue y = m_pMouseEvent->scenePos().y();
+    qreal y = m_pMouseEvent->scenePos().y();
     if (messageType == CreationMessage) {
         msgType = Uml::SequenceMessage::Creation;
         y = m_messageLine->line().p1().y();

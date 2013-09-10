@@ -83,7 +83,7 @@ void FloatingDashLineWidget::setText(const QString& text)
 /**
  * Returns true if the given point is near the floatingdashline.
  */
-bool FloatingDashLineWidget::onLine(const UMLScenePoint &point)
+bool FloatingDashLineWidget::onLine(const QPointF& point)
 {
     // check if the given point is the start or end point of the line
     if (((abs(y() + height() - point.y())) <= POINT_DELTA) || (abs(y() - point.y()) <= POINT_DELTA)) {

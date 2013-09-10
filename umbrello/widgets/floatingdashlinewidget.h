@@ -41,7 +41,7 @@ public:
 
     void slotMenuSelection(QAction* action);
 
-    bool onLine(const UMLScenePoint & point);
+    bool onLine(const QPointF& point);
 
     void setText(const QString& text);
 

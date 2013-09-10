@@ -131,7 +131,7 @@ public:
     int getMinY();
     int getMaxY();
 
-    UMLSceneValue onWidget(const UMLScenePoint & p);
+    UMLSceneValue onWidget(const QPointF& p);
 
     virtual void resizeWidget(qreal newW, qreal newH);
 
