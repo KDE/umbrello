@@ -87,7 +87,7 @@ void ActorWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 /**
  * Overrides method from UMLWidget.
  */
-UMLSceneSize ActorWidget::minimumSize()
+QSizeF ActorWidget::minimumSize()
 {
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
@@ -95,7 +95,7 @@ UMLSceneSize ActorWidget::minimumSize()
     int width = textWidth > A_WIDTH ? textWidth : A_WIDTH;
     int height = A_HEIGHT + fontHeight + A_MARGIN;
     width += A_MARGIN * 2;
-    return UMLSceneSize(width, height);
+    return QSizeF(width, height);
 }
 
 

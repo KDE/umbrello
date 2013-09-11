@@ -37,7 +37,7 @@ public:
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
-    UMLSceneSize minimumSize();
+    QSizeF minimumSize();
 
 private:
     ListPopupMenu* m_pMenu;  ///< the right mouse button menu

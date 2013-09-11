@@ -105,7 +105,7 @@ void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 /**
  * Overrides method from UMLWidget
  */
-UMLSceneSize PackageWidget::minimumSize()
+QSizeF PackageWidget::minimumSize()
 {
     if (!m_umlObject) {
         return UMLWidget::minimumSize();
@@ -131,7 +131,7 @@ UMLSceneSize PackageWidget::minimumSize()
 
     int height = (lines*fontHeight) + fontHeight + (PACKAGE_MARGIN * 2);
 
-    return UMLSceneSize(width, height);
+    return QSizeF(width, height);
 }
 
 /**

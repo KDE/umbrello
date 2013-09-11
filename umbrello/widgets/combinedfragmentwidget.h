@@ -75,7 +75,7 @@ public slots:
 
 
 protected:
-    UMLSceneSize minimumSize();
+    QSizeF minimumSize();
 
     /// Type of CombinedFragment.
     CombinedFragmentType m_CombinedFragment;

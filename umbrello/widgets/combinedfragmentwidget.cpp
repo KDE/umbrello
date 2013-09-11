@@ -183,7 +183,7 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
 /**
  * Overrides method from UMLWidget.
  */
-UMLSceneSize CombinedFragmentWidget::minimumSize()
+QSizeF CombinedFragmentWidget::minimumSize()
 {
     int width = 10, height = 10;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -199,7 +199,7 @@ UMLSceneSize CombinedFragmentWidget::minimumSize()
     width += COMBINED_FRAGMENT_MARGIN * 2;
     height += COMBINED_FRAGMENT_MARGIN * 2;
 
-    return UMLSceneSize(width, height);
+    return QSizeF(width, height);
 }
 
 /**

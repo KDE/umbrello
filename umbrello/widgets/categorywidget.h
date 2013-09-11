@@ -46,7 +46,7 @@ public:
     // For loading we can use the loadFromXMI() inherited from UMLWidget.
 
 protected:
-    UMLSceneSize minimumSize();
+    QSizeF minimumSize();
 
 public slots:
     void slotMenuSelection(QAction* action);

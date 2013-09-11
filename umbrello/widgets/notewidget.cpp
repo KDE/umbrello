@@ -263,7 +263,7 @@ void NoteWidget::slotMenuSelection(QAction* action)
 /**
  * Overrides method from UMLWidget.
  */
-UMLSceneSize NoteWidget::minimumSize()
+QSizeF NoteWidget::minimumSize()
 {
     int width = 60;
     int height = 30;
@@ -284,7 +284,7 @@ UMLSceneSize NoteWidget::minimumSize()
         width = textWidth > widthtemp ? textWidth : widthtemp;
         width += 10;
     }
-    return UMLSceneSize(width, height);
+    return QSizeF(width, height);
 }
 
 /**
@@ -295,7 +295,7 @@ UMLSceneSize NoteWidget::minimumSize()
  * calculate content related size of widget.
  * Overrides method from UMLWidget.
  */
-UMLSceneSize NoteWidget::calculateSize()
+QSizeF NoteWidget::calculateSize()
 {
     int width = this->width();
     int height = this->height();
@@ -320,7 +320,7 @@ UMLSceneSize NoteWidget::calculateSize()
     }
     else {
     }
-    return UMLSceneSize(width, height);
+    return QSizeF(width, height);
 }
 
 /**

@@ -44,7 +44,7 @@ public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);
 
 protected:
-    UMLSceneSize minimumSize();
+    QSizeF minimumSize();
 
     bool m_showPackage;
 };

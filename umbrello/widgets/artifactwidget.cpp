@@ -91,7 +91,7 @@ void ArtifactWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 /**
  * Overrides method from UMLWidget.
  */
-UMLSceneSize ArtifactWidget::minimumSize()
+QSizeF ArtifactWidget::minimumSize()
 {
     if (!m_umlObject) {
         return UMLWidget::minimumSize();

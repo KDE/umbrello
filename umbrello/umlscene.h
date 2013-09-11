@@ -61,7 +61,6 @@ class QShowEvent;
 
 /// uml related types - makes it easier to switch to QGraphicsScene types
 // base types
-typedef QSizeF UMLSceneSize;
 typedef qreal UMLSceneValue;
 
 // migration wrapper for QGraphicsScene items

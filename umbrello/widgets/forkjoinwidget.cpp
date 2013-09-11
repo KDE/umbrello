@@ -133,12 +133,12 @@ void ForkJoinWidget::slotMenuSelection(QAction* action)
 /**
  * Overrides the function from UMLWidget.
  */
-UMLSceneSize ForkJoinWidget::minimumSize()
+QSizeF ForkJoinWidget::minimumSize()
 {
     if (m_orientation == Qt::Vertical) {
-        return UMLSceneSize(4, 40);
+        return QSizeF(4, 40);
     } else {
-        return UMLSceneSize(40, 4);
+        return QSizeF(40, 4);
     }
 }
 

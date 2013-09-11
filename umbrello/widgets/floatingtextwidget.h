@@ -81,7 +81,7 @@ public Q_SLOTS:
     void setMessageText();
 
 protected:
-    UMLSceneSize minimumSize();
+    QSizeF minimumSize();
 
     virtual void moveWidgetBy(qreal diffX, qreal diffY);
     virtual void constrainMovementForAllWidgets(qreal &diffX, qreal &diffY);

@@ -380,7 +380,7 @@ void ActivityWidget::slotMenuSelection(QAction* action)
 /**
  * Overrides method from UMLWidget
  */
-UMLSceneSize ActivityWidget::minimumSize()
+QSizeF ActivityWidget::minimumSize()
 {
     if (m_activityType == Normal || m_activityType == Invok || m_activityType == Param) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -409,26 +409,26 @@ UMLSceneSize ActivityWidget::minimumSize()
         int width = textWidth > ACTIVITY_WIDTH ? textWidth : ACTIVITY_WIDTH;
 
         width += ACTIVITY_MARGIN * 4;
-        return UMLSceneSize(width, height);
+        return QSizeF(width, height);
     }
     else if (m_activityType == Branch) {
-        return UMLSceneSize(20, 20);
+        return QSizeF(20, 20);
     }
-    return UMLSceneSize(15, 15);
+    return QSizeF(15, 15);
 }
 
 /**
  * Overrides method from UMLWidget
  */
-UMLSceneSize ActivityWidget::maximumSize()
+QSizeF ActivityWidget::maximumSize()
 {
     if (m_activityType == Normal || m_activityType == Invok || m_activityType == Param) {
         return UMLWidget::maximumSize();
     }
     if (m_activityType == Branch) {
-        return UMLSceneSize(50, 50);
+        return QSizeF(50, 50);
     }
-    return UMLSceneSize(30, 30);
+    return QSizeF(30, 30);
 }
 
 

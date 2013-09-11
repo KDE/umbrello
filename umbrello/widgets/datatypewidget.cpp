@@ -103,7 +103,7 @@ void DatatypeWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 /**
  * Overrides method from UMLWidget.
  */
-UMLSceneSize DatatypeWidget::minimumSize()
+QSizeF DatatypeWidget::minimumSize()
 {
     if (!m_umlObject)  {
         return UMLWidget::minimumSize();
@@ -129,5 +129,5 @@ UMLSceneSize DatatypeWidget::minimumSize()
     //allow for width margin
     width += DATATYPE_MARGIN * 2;
 
-    return UMLSceneSize(width, height);
+    return QSizeF(width, height);
 }

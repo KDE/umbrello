@@ -41,7 +41,7 @@ public:
 public Q_SLOTS:
 
 protected:
-    UMLSceneSize minimumSize();
+    QSizeF minimumSize();
 
 };
 

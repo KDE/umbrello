@@ -381,7 +381,7 @@ int ClassifierWidget::displayedMembers(UMLObject::ObjectType ot)
 /**
  * Overrides method from UMLWidget.
  */
-UMLSceneSize ClassifierWidget::minimumSize()
+QSizeF ClassifierWidget::minimumSize()
 {
     if (!m_umlObject) {
         return UMLWidget::minimumSize();
@@ -474,7 +474,7 @@ UMLSceneSize ClassifierWidget::minimumSize()
     // allow for width margin
     width += MARGIN * 2;
 
-    return UMLSceneSize(width, height);
+    return QSizeF(width, height);
 }
 
 /**

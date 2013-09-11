@@ -51,7 +51,7 @@ public slots:
     void slotWidgetMoved(Uml::ID::Type id);
 
 protected:
-    UMLSceneSize minimumSize();
+    QSizeF minimumSize();
 
 private:
     void calculateWidget();

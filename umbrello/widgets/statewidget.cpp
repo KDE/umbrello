@@ -41,7 +41,7 @@ StateWidget::StateWidget(UMLScene * scene, StateType stateType, Uml::ID::Type id
     m_drawVertical = true;
     setAspectRatioMode();
     m_Text = "State";
-    UMLSceneSize size = minimumSize();
+    QSizeF size = minimumSize();
     setSize(size.width(), size.height());
 }
 
@@ -190,7 +190,7 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 /**
  * Overrides method from UMLWidget
  */
-UMLSceneSize StateWidget::minimumSize()
+QSizeF StateWidget::minimumSize()
 {
     int width = 10, height = 10;
     switch (m_stateType) {
@@ -246,27 +246,27 @@ UMLSceneSize StateWidget::minimumSize()
             break;
     }
 
-    return UMLSceneSize(width, height);
+    return QSizeF(width, height);
 }
 
 /**
  * Overrides method from UMLWidget
  */
-UMLSceneSize StateWidget::maximumSize()
+QSizeF StateWidget::maximumSize()
 {
     switch (m_stateType) {
         case StateWidget::Initial:
         case StateWidget::End:
         case StateWidget::Junction:
         case StateWidget::Choice:
-            return UMLSceneSize(35, 35);
+            return QSizeF(35, 35);
             break;
         case StateWidget::DeepHistory:
         case StateWidget::ShallowHistory:
             {
                 const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
                 const int fontHeight  = fm.lineSpacing();
-                return UMLSceneSize(fontHeight + 10, fontHeight + 10);
+                return QSizeF(fontHeight + 10, fontHeight + 10);
             }
             break;
         default:

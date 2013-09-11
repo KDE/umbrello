@@ -204,7 +204,7 @@ void EnumWidget::slotMenuSelection(QAction* action)
 /**
  * Overrides method from UMLWidget.
  */
-UMLSceneSize EnumWidget::minimumSize()
+QSizeF EnumWidget::minimumSize()
 {
     if (!m_umlObject) {
         return UMLWidget::minimumSize();
@@ -257,5 +257,5 @@ UMLSceneSize EnumWidget::minimumSize()
     //allow for width margin
     width += ENUM_MARGIN * 2;
 
-    return UMLSceneSize(width, height);
+    return QSizeF(width, height);
 }

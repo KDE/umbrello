@@ -99,7 +99,7 @@ void NodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     UMLWidget::paint(painter, option, widget);
 }
 
-UMLSceneSize NodeWidget::minimumSize()
+QSizeF NodeWidget::minimumSize()
 {
     if (m_umlObject == NULL) {
         DEBUG(DBG_SRC) << "m_umlObject is NULL";
@@ -126,7 +126,7 @@ UMLSceneSize NodeWidget::minimumSize()
 
     int height = (2*fontHeight) + DEPTH;
 
-    return UMLSceneSize(width, height);
+    return QSizeF(width, height);
 }
 
 void NodeWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)

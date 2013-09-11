@@ -103,7 +103,7 @@ private:
     void updateSignatureTypes();
     QSize calculateTemplatesBoxSize();
 
-    UMLSceneSize minimumSize();
+    QSizeF minimumSize();
 
     void drawAsCircle(QPainter *p);
     QSize calculateAsCircleSize();

@@ -39,7 +39,7 @@ public:
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
-    UMLSceneSize minimumSize();
+    QSizeF minimumSize();
 
 private:
     void paintAsFile(QPainter *painter);

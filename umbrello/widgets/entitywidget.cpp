@@ -188,7 +188,7 @@ void EntityWidget::slotMenuSelection(QAction* action)
 /**
  * Overrides method from UMLWidget.
  */
-UMLSceneSize EntityWidget::minimumSize()
+QSizeF EntityWidget::minimumSize()
 {
     if (!m_umlObject) {
         return UMLWidget::minimumSize();
@@ -241,5 +241,5 @@ UMLSceneSize EntityWidget::minimumSize()
     //allow for width margin
     width += ENTITY_MARGIN * 2;
 
-    return UMLSceneSize(width, height);
+    return QSizeF(width, height);
 }

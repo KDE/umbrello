@@ -112,7 +112,7 @@ void PreconditionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem
 /**
  * Overrides method from UMLWidget.
  */
-UMLSceneSize PreconditionWidget::minimumSize()
+QSizeF PreconditionWidget::minimumSize()
 {
     int width = 10, height = 10;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -124,7 +124,7 @@ UMLSceneSize PreconditionWidget::minimumSize()
     width += PRECONDITION_MARGIN * 2;
     height += PRECONDITION_MARGIN * 2;
 
-    return UMLSceneSize(width, height);
+    return QSizeF(width, height);
 }
 
 /**
@@ -173,7 +173,7 @@ void PreconditionWidget::calculateDimensions()
 
     x1 += w1;
 
-    UMLSceneSize q = minimumSize();
+    QSizeF q = minimumSize();
     w = q.width() > width() ? q.width() : width();
     h = q.height() > height() ? q.height() : height();
 

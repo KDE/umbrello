@@ -56,7 +56,7 @@ protected:
     /**
      * Overrides method from UMLWidget
      */
-    UMLSceneSize minimumSize();
+    QSizeF minimumSize();
 
     static const int DEPTH = 30;  ///< pixels on Z axis
 };

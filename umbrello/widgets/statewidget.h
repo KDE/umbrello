@@ -82,8 +82,8 @@ public:
     virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
 protected:
-    UMLSceneSize minimumSize();
-    UMLSceneSize maximumSize();
+    QSizeF minimumSize();
+    QSizeF maximumSize();
     void setAspectRatioMode();
 
 public Q_SLOTS:

@@ -336,7 +336,7 @@ void SignalWidget::slotMenuSelection(QAction* action)
 /**
  * Overrides method from UMLWidget
  */
-UMLSceneSize SignalWidget::minimumSize()
+QSizeF SignalWidget::minimumSize()
 {
         int width = SIGNAL_WIDTH, height = SIGNAL_HEIGHT;
         const QFontMetrics &fm = getFontMetrics(FT_BOLD);
@@ -354,7 +354,7 @@ UMLSceneSize SignalWidget::minimumSize()
         width  += SIGNAL_MARGIN * 2;
         height += SIGNAL_MARGIN * 2;
 
-    return UMLSceneSize(width, height);
+    return QSizeF(width, height);
 }
 
 #include "signalwidget.moc"

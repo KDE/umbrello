@@ -37,7 +37,7 @@ public:
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
-    UMLSceneSize minimumSize();
+    QSizeF minimumSize();
 
 };
 

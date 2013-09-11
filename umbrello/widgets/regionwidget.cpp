@@ -64,7 +64,7 @@ void RegionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 /**
  * Overrides method from UMLWidget
  */
-UMLSceneSize RegionWidget::minimumSize()
+QSizeF RegionWidget::minimumSize()
 {
     int width = 10, height = 10;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -77,7 +77,7 @@ UMLSceneSize RegionWidget::minimumSize()
     width  += REGION_MARGIN * 2;
     height += REGION_MARGIN * 2;
 
-    return UMLSceneSize(width, height);
+    return QSizeF(width, height);
 }
 
 /**
