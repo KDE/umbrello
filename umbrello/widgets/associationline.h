@@ -90,7 +90,7 @@ class Symbol : public QGraphicsItem
  * A convenience class that encapsulates geometry management, handles
  * mouse and hover events, embeds and aligns symbols and finally draws the
  * lines and points.
- * Context menu events are hadled in AssociationWidget.
+ * Context menu events are handled in AssociationWidget.
  *
  * This class is infact a draw and event handling proxy for
  * AssociationWidget.
@@ -170,10 +170,6 @@ public:
     void calculateInitialEndPoints();
 
     void reconstructSymbols();
-
-    enum Region {  ///< Enum to tell whether the line docks top/bottom or left/right.
-        TopBottom, LeftRight
-    };
 
 private:
     void setStartSymbol(Symbol::SymbolType symbolType);

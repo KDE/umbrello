@@ -708,11 +708,17 @@ QPainterPath AssociationLine::path() const
 }
 
 /**
+ * The points are used for the bounding rect. The reason is,
+ * that for splines the control points are further away from the path.
  * @return The bounding rectangle for the AssociationLine.
  */
 QRectF AssociationLine::boundingRect() const
 {
-    return shape().boundingRect();
+    QPolygonF polygon(m_points);
+    QRectF rect = polygon.boundingRect();
+    const qreal margin(5.0);
+    rect.adjust(-margin, -margin, margin, margin);
+    return rect;
 }
 
 /**
@@ -783,22 +789,12 @@ void AssociationLine::createSplinePoints()
         QPointF p2 = m_points.last();   // end point
         qreal dx = p2.x() - p1.x();
         qreal dy = p2.y() - p1.y();
-        QPointF c1;  // control point 1
-        QPointF c2;  // control point 2
         qreal oneThirdX = 0.33 * dx;
         qreal oneThirdY = 0.33 * dy;
-        if (dx > dy) {
-            c1.setX(p1.x() + oneThirdX);
-            c1.setY(p1.y() - oneThirdY);
-            c2.setX(p2.x() - oneThirdX);
-            c2.setY(p2.y() + oneThirdY);
-        }
-        else {
-            c1.setX(p1.x() + oneThirdX);
-            c1.setY(p1.y() - oneThirdY);
-            c2.setX(p2.x() - oneThirdX);
-            c2.setY(p2.y() + oneThirdY);
-        }
+        QPointF c1(p1.x() + oneThirdX,  // control point 1
+                   p1.y() - oneThirdY);
+        QPointF c2(p2.x() - oneThirdX,  // control point 2
+                   p2.y() + oneThirdY);
         insertPoint(1, c1);
         insertPoint(2, c2);
     }
