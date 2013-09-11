@@ -11,6 +11,7 @@
 #include "cmd_changeTextColor.h"
 
 // app includes
+#include "umlscene.h"
 #include "umlwidget.h"
 
 // kde includes

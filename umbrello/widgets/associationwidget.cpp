@@ -2713,14 +2713,14 @@ void AssociationWidget::setTextPositionRelatively(Uml::TextRole::Enum role, cons
     FloatingTextWidget *ft = textWidgetByRole(role);
     if (ft == NULL)
         return;
-    UMLSceneValue ftX = ft->x();
-    UMLSceneValue ftY = ft->y();
+    qreal ftX = ft->x();
+    qreal ftY = ft->y();
 
     QPointF pos = calculateTextPosition(role);
     int relX = pos.x() - oldPosition.x();
     int relY = pos.y() - oldPosition.y();
-    UMLSceneValue ftNewX = ftX + relX;
-    UMLSceneValue ftNewY = ftY + relY;
+    qreal ftNewX = ftX + relX;
+    qreal ftNewY = ftY + relY;
 
     bool oldIgnoreSnapToGrid = ft->getIgnoreSnapToGrid();
     ft->setIgnoreSnapToGrid(true);

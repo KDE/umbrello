@@ -90,7 +90,7 @@
 #include <cmath>  // for ceil
 
 // static members
-const UMLSceneValue UMLScene::defaultCanvasSize = 5000;
+const qreal UMLScene::defaultCanvasSize = 5000;
 bool UMLScene::m_showDocumentationIndicator = false;
 
 using namespace Uml;
@@ -1277,7 +1277,7 @@ void UMLScene::clearSelected()
  * @param dX The distance to move horizontally.
  * @param dY The distance to move vertically.
  */
-void UMLScene::moveSelectedBy(UMLSceneValue dX, UMLSceneValue dY)
+void UMLScene::moveSelectedBy(qreal dX, qreal dY)
 {
     // DEBUG(DBG_SRC) << "********** m_selectedList count=" << m_selectedList.count();
     foreach(UMLWidget *w, selectedWidgets()) {
@@ -1555,7 +1555,7 @@ void UMLScene::selectWidgetsOfAssoc(AssociationWidget * a)
 /**
  * Selects all the widgets within an internally kept rectangle.
  */
-void UMLScene::selectWidgets(UMLSceneValue px, UMLSceneValue py, UMLSceneValue qx, UMLSceneValue qy)
+void UMLScene::selectWidgets(qreal px, qreal py, qreal qx, qreal qy)
 {
     clearSelected();
 
@@ -2851,15 +2851,15 @@ void UMLScene::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignK
  *            updated if the Y coordinate of the upper right corner
  *            of ft is larger than the qy value passed in.
  */
-void UMLScene::findMaxBoundingRectangle(const FloatingTextWidget* ft, UMLSceneValue& px, UMLSceneValue& py, UMLSceneValue& qx, UMLSceneValue& qy)
+void UMLScene::findMaxBoundingRectangle(const FloatingTextWidget* ft, qreal& px, qreal& py, qreal& qx, qreal& qy)
 {
     if (ft == NULL || !ft->isVisible())
         return;
 
-    UMLSceneValue x = ft->x();
-    UMLSceneValue y = ft->y();
-    UMLSceneValue x1 = x + ft->width() - 1;
-    UMLSceneValue y1 = y + ft->height() - 1;
+    qreal x = ft->x();
+    qreal y = ft->y();
+    qreal x1 = x + ft->width() - 1;
+    qreal y1 = y + ft->height() - 1;
 
     if (px == -1 || x < px)
         px = x;
@@ -2886,14 +2886,14 @@ void UMLScene::copyAsImage(QPixmap*& pix)
     getDiagram(diagram, rect);
 
     //now get the selection cut
-    UMLSceneValue px = -1, py = -1, qx = -1, qy = -1;
+    qreal px = -1, py = -1, qx = -1, qy = -1;
 
     //first get the smallest rect holding the widgets
     foreach(UMLWidget* temp, m_selectedList) {
-        UMLSceneValue x = temp->x();
-        UMLSceneValue y = temp->y();
-        UMLSceneValue x1 = x + temp->width() - 1;
-        UMLSceneValue y1 = y + temp->height() - 1;
+        qreal x = temp->x();
+        qreal y = temp->y();
+        qreal x1 = x + temp->width() - 1;
+        qreal y1 = y + temp->height() - 1;
         if (px == -1 || x < px) {
             px = x;
         }
@@ -3604,7 +3604,7 @@ void UMLScene::setSnapSpacing(int x, int y)
 /**
  * Returns the input coordinate with possible grid-snap applied.
  */
-UMLSceneValue UMLScene::snappedX(UMLSceneValue _x)
+qreal UMLScene::snappedX(qreal _x)
 {
     int x = (int)_x;
     if (snapToGrid()) {
@@ -3620,7 +3620,7 @@ UMLSceneValue UMLScene::snappedX(UMLSceneValue _x)
 /**
  * Returns the input coordinate with possible grid-snap applied.
  */
-UMLSceneValue UMLScene::snappedY(UMLSceneValue _y)
+qreal UMLScene::snappedY(qreal _y)
 {
     int y = (int)_y;
     if (snapToGrid()) {

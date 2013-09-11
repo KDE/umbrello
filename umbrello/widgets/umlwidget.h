@@ -14,7 +14,7 @@
 #include "associationwidgetlist.h"
 #include "basictypes.h"
 #include "optionstate.h"
-#include "umlscene.h"  //:TODO: remove this when all UMLScene types are replaced
+#include "umlwidgetlist.h"
 #include "widgetbase.h"
 
 #include <QCursor>

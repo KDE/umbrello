@@ -17,6 +17,7 @@
 #include "debug_utils.h"
 #include "operation.h"
 #include "umldoc.h"
+#include "umlscene.h"
 #include "umlview.h"
 
 // qt includes

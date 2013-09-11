@@ -157,7 +157,7 @@ void ForkJoinWidget::paintSelected(QPainter * p, int offsetX, int offsetY)
 /**
  * Reimplement method from UMLWidget.
  */
-void ForkJoinWidget::constrain(UMLSceneValue& width, UMLSceneValue& height)
+void ForkJoinWidget::constrain(qreal& width, qreal& height)
 {
     if (m_orientation == Qt::Vertical) {
         if (width < 4)

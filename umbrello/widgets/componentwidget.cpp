@@ -14,6 +14,7 @@
 // app includes
 #include "component.h"
 #include "debug_utils.h"
+#include "umlscene.h"
 #include "umlview.h"
 
 /**

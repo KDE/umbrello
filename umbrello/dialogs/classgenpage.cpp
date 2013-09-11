@@ -26,6 +26,7 @@
 #include "package.h"
 #include "folder.h"
 #include "import_utils.h"
+#include "umlscene.h"
 
 // kde includes
 #include <klocale.h>

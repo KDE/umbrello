@@ -15,8 +15,9 @@
 #include "debug_utils.h"
 #include "listpopupmenu.h"
 #include "objectwidget.h"
-#include "uniqueid.h"   
 #include "uml.h"
+#include "umlscene.h"
+#include "uniqueid.h"
 
 // kde includes
 #include <kinputdialog.h>

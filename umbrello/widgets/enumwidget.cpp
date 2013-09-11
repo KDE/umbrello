@@ -22,6 +22,7 @@
 #include "uml.h"
 #include "umlclassifierlistitemlist.h"
 #include "umldoc.h"
+#include "umlscene.h"
 #include "umlview.h"
 
 /**

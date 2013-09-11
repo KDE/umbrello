@@ -52,7 +52,7 @@ public:
                   Uml::ID::Type id = Uml::ID::None);
     virtual ~MessageWidget();
 
-    virtual void setY(UMLSceneValue y);
+    virtual void setY(qreal y);
 
     //---------- LinkWidget Interface methods implemementation from now on.
 
@@ -71,7 +71,7 @@ public:
     virtual UMLClassifier* seqNumAndOp(QString& seqNum, QString& op);
     virtual void setSeqNumAndOp(const QString &seqNum, const QString &op);
 
-    virtual void constrainTextPos(UMLSceneValue &textX, UMLSceneValue &textY, UMLSceneValue textWidth, UMLSceneValue textHeight,
+    virtual void constrainTextPos(qreal &textX, qreal &textY, qreal textWidth, qreal textHeight,
                                   Uml::TextRole::Enum tr);
 
     //---------- End LinkWidget Interface methods implemementation.
@@ -131,7 +131,7 @@ public:
     int getMinY();
     int getMaxY();
 
-    UMLSceneValue onWidget(const QPointF& p);
+    qreal onWidget(const QPointF& p);
 
     virtual void resizeWidget(qreal newW, qreal newH);
 

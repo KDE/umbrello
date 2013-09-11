@@ -15,9 +15,10 @@
 #include "debug_utils.h"
 #include "listpopupmenu.h"
 #include "notedialog.h"
-#include "umldoc.h"
-#include "umlview.h"
 #include "uml.h"
+#include "umldoc.h"
+#include "umlscene.h"
+#include "umlview.h"
 
 // kde includes
 #include <klocale.h>

@@ -16,8 +16,9 @@
 #include "package.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "umlview.h"
 #include "umlobject.h"
+#include "umlscene.h"
+#include "umlview.h"
 
 // qt includes
 #include <QPainter>

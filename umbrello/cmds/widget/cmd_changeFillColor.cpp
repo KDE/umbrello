@@ -12,6 +12,7 @@
 
 #include "cmd_changeFillColor.h"
 
+#include "umlscene.h"
 #include "umlwidget.h"
 
 // kde includes

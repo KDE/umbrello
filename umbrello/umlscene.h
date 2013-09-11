@@ -59,10 +59,6 @@ class QMouseEvent;
 class QPrinter;
 class QShowEvent;
 
-/// uml related types - makes it easier to switch to QGraphicsScene types
-// base types
-typedef qreal UMLSceneValue;
-
 // migration wrapper for QGraphicsScene items
 typedef QList<QGraphicsItem*> UMLSceneItemList;
 
@@ -127,8 +123,8 @@ public:
     int snapY() const;
     void setSnapSpacing(int x, int y);
 
-    UMLSceneValue snappedX(UMLSceneValue x);
-    UMLSceneValue snappedY(UMLSceneValue y);
+    qreal snappedX(qreal x);
+    qreal snappedY(qreal y);
 
     bool isSnapGridVisible() const;
     void setSnapGridVisible(bool bShow);
@@ -180,7 +176,7 @@ public:
     UMLWidgetList selectedWidgets() const;
     void clearSelected();
 
-    void moveSelectedBy(UMLSceneValue dX, UMLSceneValue dY);
+    void moveSelectedBy(qreal dX, qreal dY);
 
     int selectedCount(bool filterText = false) const;
 
@@ -287,7 +283,7 @@ public:
 
     void addObject(UMLObject *object);
 
-    void selectWidgets(UMLSceneValue px, UMLSceneValue py, UMLSceneValue qx, UMLSceneValue qy);
+    void selectWidgets(qreal px, qreal py, qreal qx, qreal qy);
     void selectWidgets(UMLWidgetList &widgets);
     void selectWidgetsOfAssoc(AssociationWidget *a);
 
@@ -357,7 +353,7 @@ protected:
     void updateComponentSizes();
 
     void findMaxBoundingRectangle(const FloatingTextWidget* ft,
-                                  UMLSceneValue& px, UMLSceneValue& py, UMLSceneValue& qx, UMLSceneValue& qy);
+                                  qreal& px, qreal& py, qreal& qx, qreal& qy);
     void forceUpdateWidgetFontMetrics(QPainter *painter);
 
     virtual void drawBackground(QPainter *painter, const QRectF &rect);
@@ -371,7 +367,7 @@ protected:
     UMLWidgetList m_selectedList; ///< list of selected items TODO: migrate to QGraphicsScenes selection list
 
 private:
-    static const UMLSceneValue defaultCanvasSize;  ///< The default size of a diagram in pixels.
+    static const qreal defaultCanvasSize;  ///< The default size of a diagram in pixels.
     static bool m_showDocumentationIndicator; ///< Status of documentation indicator
 
     UMLView *m_view;   ///< The view to which this scene is related.

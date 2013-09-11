@@ -17,6 +17,7 @@
 #include "statedialog.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "umlscene.h"
 #include "umlview.h"
 #include "umlwidget.h"
 

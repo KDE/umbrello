@@ -11,6 +11,7 @@
 #include "cmd_resizeWidget.h"
 
 // app includes
+#include "umlscene.h"
 #include "umlwidget.h"
 
 #include <klocale.h>

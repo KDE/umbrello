@@ -46,7 +46,7 @@ protected:
 
     virtual void paintSelected(QPainter * p, int offsetX = 0, int offsetY = 0);
 
-    void constrain(UMLSceneValue& width, UMLSceneValue& height);
+    void constrain(qreal& width, qreal& height);
 
 private:
     Qt::Orientation m_orientation;   ///< whether to draw the plate horizontally or vertically

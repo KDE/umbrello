@@ -99,8 +99,8 @@ public:
      * Abstract operation implemented by inheriting classes.
      * Motivated by FloatingTextWidget::mouseMoveEvent()
      */
-    virtual void constrainTextPos(UMLSceneValue &textX, UMLSceneValue &textY,
-                                  UMLSceneValue textWidth, UMLSceneValue textHeight,
+    virtual void constrainTextPos(qreal &textX, qreal &textY,
+                                  qreal textWidth, qreal textHeight,
                                   Uml::TextRole::Enum tr) = 0;
 
     virtual void calculateNameTextSegment();

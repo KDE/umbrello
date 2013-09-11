@@ -332,7 +332,7 @@ void ActivityWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 /**
  * Overrides Method from UMLWidget.
  */
-void ActivityWidget::constrain(UMLSceneValue& width, UMLSceneValue& height)
+void ActivityWidget::constrain(qreal& width, qreal& height)
 {
     if (m_activityType == Normal || m_activityType == Invok || m_activityType == Param) {
         UMLWidget::constrain(width, height);

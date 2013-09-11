@@ -149,12 +149,12 @@ MessageWidget::~MessageWidget()
  *
  * @param y The y-coordinate to be set.
  */
-void MessageWidget::setY(UMLSceneValue y)
+void MessageWidget::setY(qreal y)
 {
     UMLWidget::setY(y);
     m_nY = y;
     if (m_sequenceMessageType == Uml::SequenceMessage::Creation) {
-        const UMLSceneValue objWidgetHalfHeight = m_pOw[Uml::RoleType::B]->height() / 2;
+        const qreal objWidgetHalfHeight = m_pOw[Uml::RoleType::B]->height() / 2;
         m_pOw[Uml::RoleType::B]->setY(y - objWidgetHalfHeight);
     }
     moveEvent(0);
@@ -601,7 +601,7 @@ void MessageWidget::paintFound(QPainter *painter)
  *         between call line and return line does not count, i.e. if
  *         the point is located in that space the function returns 0.
  */
-UMLSceneValue MessageWidget::onWidget(const QPointF& p)
+qreal MessageWidget::onWidget(const QPointF& p)
 {
     if (m_sequenceMessageType != Uml::SequenceMessage::Synchronous) {
         return UMLWidget::onWidget(p);
@@ -678,13 +678,13 @@ int MessageWidget::constrainX(int textX, int textWidth, Uml::TextRole::Enum tr)
  * @param textHeight   height of the text
  * @param tr           Uml::TextRole::Enum of the text
  */
-void MessageWidget::constrainTextPos(UMLSceneValue &textX, UMLSceneValue &textY, UMLSceneValue textWidth, UMLSceneValue textHeight,
+void MessageWidget::constrainTextPos(qreal &textX, qreal &textY, qreal textWidth, qreal textHeight,
                                      Uml::TextRole::Enum tr)
 {
     textX = constrainX(textX, textWidth, tr);
     // Constrain Y.
-    const UMLSceneValue minTextY = getMinY();
-    const UMLSceneValue maxTextY = getMaxY() - textHeight - 5;
+    const qreal minTextY = getMinY();
+    const qreal maxTextY = getMaxY() - textHeight - 5;
     if (textY < minTextY)
         textY = minTextY;
     else if (textY > maxTextY)

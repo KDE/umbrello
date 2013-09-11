@@ -18,6 +18,7 @@
 #include "objectnodedialog.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "umlscene.h"
 #include "umlview.h"
 
 // kde includes

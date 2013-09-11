@@ -42,8 +42,8 @@ public:
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
-    void setX(UMLSceneValue newX);
-    void setY(UMLSceneValue newY);
+    void setX(qreal newX);
+    void setY(qreal newY);
 
     virtual void setName(const QString &strName);
     virtual QString getName() const;

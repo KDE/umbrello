@@ -45,11 +45,11 @@ public:
 
     void setText(const QString& text);
 
-    void setY(UMLSceneValue y);
-    void setYMin(UMLSceneValue yMin);
-    void setYMax(UMLSceneValue yMax);
-    UMLSceneValue getYMin() const;
-    UMLSceneValue getDiffY() const;
+    void setY(qreal y);
+    void setYMin(qreal yMin);
+    void setYMax(qreal yMax);
+    qreal getYMin() const;
+    qreal getDiffY() const;
 
     void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
     bool loadFromXMI(QDomElement & qElement);
