@@ -144,97 +144,97 @@ namespace Widget_Utils
         painter->drawLine(baseEdge);
     }
 
-    /**
-     * Draws an arrow head with the given painter, with the arrow
-     * sharp point at \a headPos.
-     *
-     * @param painter    The painter with which this arrow should be drawn.
-     * @param headPos    The position where the head of the arrow should lie.
-     * @param arrowSize  This indicates the size of the arrow head.
-     * @param arrowType  This indicates direction of arrow as in LeftArrow, RightArrow..
-     * @param solid      If true, a solid head is drawn. Otherwise 2 lines are drawn.
-     */
-    void drawArrowHead(QPainter *painter, const QPointF &arrowPos,
-                       const QSizeF& arrowSize, Qt::ArrowType arrowType,
-                       bool  solid)
-    {
-        QPolygonF poly;
-        if (arrowType == Qt::LeftArrow) {
-            poly << QPointF(arrowPos.x() + arrowSize.width(), arrowPos.y() - .5 * arrowSize.height())
-                 << arrowPos
-                 << QPointF(arrowPos.x() + arrowSize.width(), arrowPos.y() + .5 * arrowSize.height());
-        }
-        else if (arrowType == Qt::RightArrow) {
-            poly << QPointF(arrowPos.x() - arrowSize.width(), arrowPos.y() - .5 * arrowSize.height())
-                 << arrowPos
-                 << QPointF(arrowPos.x() - arrowSize.width(), arrowPos.y() + .5 * arrowSize.height());
-        }
+//    /**
+//     * Draws an arrow head with the given painter, with the arrow
+//     * sharp point at \a headPos.
+//     *
+//     * @param painter    The painter with which this arrow should be drawn.
+//     * @param headPos    The position where the head of the arrow should lie.
+//     * @param arrowSize  This indicates the size of the arrow head.
+//     * @param arrowType  This indicates direction of arrow as in LeftArrow, RightArrow..
+//     * @param solid      If true, a solid head is drawn. Otherwise 2 lines are drawn.
+//     */
+//    void drawArrowHead(QPainter *painter, const QPointF &arrowPos,
+//                       const QSizeF& arrowSize, Qt::ArrowType arrowType,
+//                       bool  solid)
+//    {
+//        QPolygonF poly;
+//        if (arrowType == Qt::LeftArrow) {
+//            poly << QPointF(arrowPos.x() + arrowSize.width(), arrowPos.y() - .5 * arrowSize.height())
+//                 << arrowPos
+//                 << QPointF(arrowPos.x() + arrowSize.width(), arrowPos.y() + .5 * arrowSize.height());
+//        }
+//        else if (arrowType == Qt::RightArrow) {
+//            poly << QPointF(arrowPos.x() - arrowSize.width(), arrowPos.y() - .5 * arrowSize.height())
+//                 << arrowPos
+//                 << QPointF(arrowPos.x() - arrowSize.width(), arrowPos.y() + .5 * arrowSize.height());
+//        }
 
-        if (solid) {
-            painter->drawPolygon(poly);
-        }
-        else {
-            painter->drawPolyline(poly);
-        }
-    }
+//        if (solid) {
+//            painter->drawPolygon(poly);
+//        }
+//        else {
+//            painter->drawPolyline(poly);
+//        }
+//    }
 
-    /**
-     * Draws a rounded rect rounded at specified corners.
-     *
-     * @param painter The painter with which this round rect should be drawn.
-     * @param rect    The rectangle to be drawn.
-     * @param xRadius The x radius of rounded corner.
-     * @param yRadius The y radius of rounded corner.
-     * @param corners The corners to be rounded.
-     */
-    void drawRoundedRect(QPainter *painter, const QRectF& rect, qreal xRadius,
-            qreal yRadius, Uml::Corners corners)
-    {
-        if (xRadius < 0 || yRadius < 0) {
-            painter->drawRect(rect);
-            return;
-        }
-        QRectF arcRect(0, 0, 2 * xRadius, 2 * yRadius);
+//    /**
+//     * Draws a rounded rect rounded at specified corners.
+//     *
+//     * @param painter The painter with which this round rect should be drawn.
+//     * @param rect    The rectangle to be drawn.
+//     * @param xRadius The x radius of rounded corner.
+//     * @param yRadius The y radius of rounded corner.
+//     * @param corners The corners to be rounded.
+//     */
+//    void drawRoundedRect(QPainter *painter, const QRectF& rect, qreal xRadius,
+//            qreal yRadius, Uml::Corners corners)
+//    {
+//        if (xRadius < 0 || yRadius < 0) {
+//            painter->drawRect(rect);
+//            return;
+//        }
+//        QRectF arcRect(0, 0, 2 * xRadius, 2 * yRadius);
 
-        QPainterPath path;
-        path.moveTo(rect.left(), rect.top() + yRadius);
-        if (corners.testFlag(Uml::Corner::TopLeft)) {
-            arcRect.moveTopLeft(rect.topLeft());
-            path.arcTo(arcRect, 180, -90);
-        } else {
-            path.lineTo(rect.topLeft());
-        }
+//        QPainterPath path;
+//        path.moveTo(rect.left(), rect.top() + yRadius);
+//        if (corners.testFlag(Uml::Corner::TopLeft)) {
+//            arcRect.moveTopLeft(rect.topLeft());
+//            path.arcTo(arcRect, 180, -90);
+//        } else {
+//            path.lineTo(rect.topLeft());
+//        }
 
-        path.lineTo(rect.right() - xRadius, rect.top());
+//        path.lineTo(rect.right() - xRadius, rect.top());
 
-        if (corners.testFlag(Uml::Corner::TopRight)) {
-            arcRect.moveTopRight(rect.topRight());
-            path.arcTo(arcRect, 90, -90);
-        } else {
-            path.lineTo(rect.topRight());
-        }
+//        if (corners.testFlag(Uml::Corner::TopRight)) {
+//            arcRect.moveTopRight(rect.topRight());
+//            path.arcTo(arcRect, 90, -90);
+//        } else {
+//            path.lineTo(rect.topRight());
+//        }
 
-        path.lineTo(rect.right(), rect.bottom() - yRadius);
+//        path.lineTo(rect.right(), rect.bottom() - yRadius);
 
-        if (corners.testFlag(Uml::Corner::BottomRight)) {
-            arcRect.moveBottomRight(rect.bottomRight());
-            path.arcTo(arcRect, 0, -90);
-        } else {
-            path.lineTo(rect.bottomRight());
-        }
+//        if (corners.testFlag(Uml::Corner::BottomRight)) {
+//            arcRect.moveBottomRight(rect.bottomRight());
+//            path.arcTo(arcRect, 0, -90);
+//        } else {
+//            path.lineTo(rect.bottomRight());
+//        }
 
-        path.lineTo(rect.left() + xRadius, rect.bottom());
+//        path.lineTo(rect.left() + xRadius, rect.bottom());
 
-        if (corners.testFlag(Uml::Corner::BottomLeft)) {
-            arcRect.moveBottomLeft(rect.bottomLeft());
-            path.arcTo(arcRect, 270, 90);
-        } else {
-            path.lineTo(rect.bottomLeft());
-        }
+//        if (corners.testFlag(Uml::Corner::BottomLeft)) {
+//            arcRect.moveBottomLeft(rect.bottomLeft());
+//            path.arcTo(arcRect, 270, 90);
+//        } else {
+//            path.lineTo(rect.bottomLeft());
+//        }
 
-        path.closeSubpath();
-        painter->drawPath(path);
-    }
+//        path.closeSubpath();
+//        painter->drawPath(path);
+//    }
 
     /**
      * Converts a point to a comma separated string i.e "x,y"

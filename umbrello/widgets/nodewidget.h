@@ -28,34 +28,14 @@ class NodeWidget : public UMLWidget
 {
 public:
 
-    /**
-     * Constructs a NodeWidget.
-     *
-     * @param scene              The parent of this NodeWidget.
-     * @param n         The UMLNode this will be representing.
-     */
     NodeWidget(UMLScene * scene, UMLNode *n);
-
-    /**
-     * destructor
-     */
     virtual ~NodeWidget();
 
-    /**
-     * Overrides standard method.
-     */
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
-    /**
-     * Saves to the "nodewidget" XMI element.
-     * Note: For loading we use the method inherited from UMLWidget.
-     */
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
-    /**
-     * Overrides method from UMLWidget
-     */
     QSizeF minimumSize();
 
     static const int DEPTH = 30;  ///< pixels on Z axis

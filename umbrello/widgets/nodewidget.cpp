@@ -14,8 +14,6 @@
 // app includes
 #include "debug_utils.h"
 #include "node.h"
-#include "uml.h"
-#include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"
 
@@ -25,6 +23,12 @@
 
 DEBUG_REGISTER_DISABLED(NodeWidget)
 
+/**
+ * Constructs a NodeWidget.
+ *
+ * @param scene   The parent of this NodeWidget.
+ * @param n       The UMLNode this will be representing.
+ */
 NodeWidget::NodeWidget(UMLScene * scene, UMLNode *n)
   : UMLWidget(scene, WidgetBase::wt_Node, n)
 {
@@ -32,10 +36,16 @@ NodeWidget::NodeWidget(UMLScene * scene, UMLNode *n)
     setZValue(1);  // above box but below UMLWidget because may embed widgets
 }
 
+/**
+ * Destructor.
+ */
 NodeWidget::~NodeWidget()
 {
 }
 
+/**
+ * Overrides standard method.
+ */
 void NodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
@@ -100,6 +110,9 @@ void NodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     UMLWidget::paint(painter, option, widget);
 }
 
+/**
+ * Overrides method from UMLWidget.
+ */
 QSizeF NodeWidget::minimumSize()
 {
     if (m_umlObject == NULL) {
@@ -130,6 +143,10 @@ QSizeF NodeWidget::minimumSize()
     return QSizeF(width, height);
 }
 
+/**
+ * Saves to the "nodewidget" XMI element.
+ * Note: For loading we use the method inherited from UMLWidget.
+ */
 void NodeWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement conceptElement = qDoc.createElement("nodewidget");
