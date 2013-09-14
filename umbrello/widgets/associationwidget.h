@@ -164,6 +164,9 @@ public:
     void removeAssocClassLine();
     void computeAssocClassLine();
 
+    void setXEntireAssoc(qreal x);
+    void setYEntireAssoc(qreal y);
+
     void moveMidPointsBy(qreal x, qreal y);
     void moveEntireAssoc(qreal x, qreal y);
 

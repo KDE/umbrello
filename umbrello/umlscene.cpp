@@ -4254,9 +4254,17 @@ void UMLScene::alignVerticalMiddle()
     qreal middle = int((biggestY - smallestY) / 2) + smallestY;
 
     foreach(UMLWidget *widget, widgetList) {
-        widget->setY(middle - int(widget->height() / 2));
+        widget->setY(middle - widget->height() / 2);
         widget->adjustAssocs(widget->x(), widget->y());
     }
+
+    AssociationWidgetList assocList = selectedAssocs();
+    if (!assocList.isEmpty()) {
+        foreach (AssociationWidget *widget, assocList) {
+            widget->setYEntireAssoc(middle);
+        }
+    }
+
     //TODO: Push stored cmds to stack.
 }
 
@@ -4274,9 +4282,17 @@ void UMLScene::alignHorizontalMiddle()
     qreal middle = int((biggestX - smallestX) / 2) + smallestX;
 
     foreach(UMLWidget *widget, widgetList) {
-        widget->setX(middle - int(widget->width() / 2));
+        widget->setX(middle - widget->width() / 2);
         widget->adjustAssocs(widget->x(), widget->y());
     }
+
+    AssociationWidgetList assocList = selectedAssocs();
+    if (!assocList.isEmpty()) {
+        foreach (AssociationWidget *widget, assocList) {
+            widget->setXEntireAssoc(middle);
+        }
+    }
+
     //TODO: Push stored cmds to stack.
 }
 

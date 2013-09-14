@@ -3727,6 +3727,32 @@ void AssociationWidget::slotClearAllSelected()
 }
 
 /**
+ * Set all association points to x coordinate.
+ */
+void AssociationWidget::setXEntireAssoc(qreal x)
+{
+    for (int i = 0; i < m_associationLine->count(); ++i) {
+        QPointF p = m_associationLine->point(i);
+        qreal newX = m_scene->snappedX(x);
+        p.setX(newX);
+        m_associationLine->setPoint(i, p);
+    }
+}
+
+/**
+ * Set all association points to y coordinate.
+ */
+void AssociationWidget::setYEntireAssoc(qreal y)
+{
+    for (int i = 0; i < m_associationLine->count(); ++i) {
+        QPointF p = m_associationLine->point(i);
+        qreal newY = m_scene->snappedY(y);
+        p.setY(newY);
+        m_associationLine->setPoint(i, p);
+    }
+}
+
+/**
  * Moves all the mid points (all expcept start /end) by the given amount.
  */
 void AssociationWidget::moveMidPointsBy(qreal x, qreal y)
