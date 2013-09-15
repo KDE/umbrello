@@ -61,7 +61,7 @@ ObjectWidget::ObjectWidget(UMLScene * scene, UMLObject *o, Uml::ID::Type lid)
     m_isOnDestructionBox(false)
 {
     m_nLocalID = Uml::ID::None;
-    if (m_scene != NULL && m_scene->type() == Uml::DiagramType::Sequence) {
+    if (m_scene && (m_scene->type() == Uml::DiagramType::Sequence)) {
         m_pLine = new SeqLineWidget( m_scene, this );
         m_pLine->setStartPoint(x() + width() / 2, y() + height());
     } else {
@@ -109,11 +109,11 @@ Uml::ID::Type ObjectWidget::localID() const
 void ObjectWidget::setMultipleInstance(bool multiple)
 {
     //make sure only calling this in relation to an object on a collab. diagram
-    if(m_scene->type() != Uml::DiagramType::Collaboration)
-        return;
-    m_multipleInstance = multiple;
-    updateGeometry();
-    update();
+    if (m_scene && (m_scene->type() == Uml::DiagramType::Collaboration)) {
+        m_multipleInstance = multiple;
+        updateGeometry();
+        update();
+    }
 }
 
 /**
@@ -138,8 +138,10 @@ bool ObjectWidget::multipleInstance() const
  */
 void ObjectWidget::moveWidgetBy(qreal diffX, qreal diffY)
 {
-    Q_UNUSED(diffY);
     setX(x() + diffX);
+    if (m_scene && (m_scene->type() != Uml::DiagramType::Sequence)) {
+        setY(y() + diffY);
+    }
 }
 
 /**
@@ -153,7 +155,9 @@ void ObjectWidget::moveWidgetBy(qreal diffX, qreal diffY)
 void ObjectWidget::constrainMovementForAllWidgets(qreal &diffX, qreal &diffY)
 {
     Q_UNUSED(diffX);
-    diffY = 0;
+    if (m_scene && (m_scene->type() == Uml::DiagramType::Sequence)) {
+        diffY = 0;
+    }
 }
 
 /**
@@ -336,9 +340,7 @@ void ObjectWidget::mousePressEvent(QGraphicsSceneMouseEvent *me)
 {
     UMLWidget::mousePressEvent(me);
     m_isOnDestructionBox = false;
-    SeqLineWidget *pLine = sequentialLine();
-
-    if (pLine->onDestructionBox(me->scenePos())) {
+    if (m_pLine && m_pLine->onDestructionBox(me->scenePos())) {
         m_isOnDestructionBox = true;
         qreal oldX = x() + width() / 2;
         qreal oldY = getEndLineY() - 10;
@@ -358,9 +360,8 @@ void ObjectWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
         return;
     }
 
-    qreal diffY = me->scenePos().y() - m_oldPos.y();
-
     if (m_isOnDestructionBox) {
+        qreal diffY = me->scenePos().y() - m_oldPos.y();
         moveDestructionBy(diffY);
     }
     else {
@@ -564,7 +565,9 @@ bool ObjectWidget::showDestruction() const
  */
 void ObjectWidget::setEndLine(int yPosition)
 {
-    m_pLine->setEndOfLine(yPosition);
+    if (m_pLine) {
+        m_pLine->setEndOfLine(yPosition);
+    }
 }
 
 /**
@@ -616,14 +619,16 @@ void ObjectWidget::messageRemoved(MessageWidget* message)
  */
 void ObjectWidget::slotMessageMoved()
 {
-    int lowestMessage = 0;
-    foreach (MessageWidget* message, m_messages) {
-        int messageHeight = message->y() + message->height();
-        if (lowestMessage < messageHeight) {
-            lowestMessage = messageHeight;
+    if (m_pLine) {
+        int lowestMessage = 0;
+        foreach (MessageWidget* message, m_messages) {
+            int messageHeight = message->y() + message->height();
+            if (lowestMessage < messageHeight) {
+                lowestMessage = messageHeight;
+            }
         }
+        m_pLine->setEndOfLine(lowestMessage + sequenceLineMargin);
     }
-    m_pLine->setEndOfLine(lowestMessage + sequenceLineMargin);
 }
 
 /**
