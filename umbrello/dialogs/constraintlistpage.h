@@ -52,6 +52,7 @@ private slots:
     void slotNewPrimaryKeyConstraint();
     void slotNewForeignKeyConstraint();
     void slotNewCheckConstraint();
+    virtual UMLClassifierListItemList getItemList();
 
 protected:
 

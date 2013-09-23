@@ -63,7 +63,7 @@ private:
 
     void saveCurrentItemDocumentation();
 
-    UMLClassifierListItemList getItemList();
+    virtual UMLClassifierListItemList getItemList();
 
     bool addClassifier(UMLClassifierListItem* classifier, int position = -1);
 
