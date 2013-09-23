@@ -329,7 +329,9 @@ void ClassifierListPage::slotActivateItem(QListWidgetItem* item)
     // there are no items of course;
     //
     // for more information see Qt doc for void QListBox::clearSelection()
-    UMLClassifierListItem* listItem = NULL;
+    UMLClassifierListItemList itemList = getItemList();
+    int itemIndex;
+
     if (item == NULL) {
         if (m_pItemListLB->count() == 0) {
             enableWidgets(false);
@@ -338,25 +340,24 @@ void ClassifierListPage::slotActivateItem(QListWidgetItem* item)
             return;
         }
         m_pItemListLB->setCurrentRow(0);
-        listItem = getItemList().at(0);
+        itemIndex = 0;
     } else {
-        int relativeItemIndex = m_pItemListLB->row(item);
-        if (relativeItemIndex < 0) {
-            uDebug() << "Cannot find item in list.";
-        }
-        else {
-            listItem = getItemList().at(relativeItemIndex);
-        }
+        itemIndex = m_pItemListLB->row(item);
     }
 
-    if (listItem) {
-        //now update screen
+    // make sure the determined itemIndex is a valid position in the list
+    if (itemIndex >= 0 && itemIndex < itemList.size()) {
+        UMLClassifierListItem* listItem = itemList.at(itemIndex);
+
+        // now update screen
         m_docTE->setText(listItem->doc());
         if (m_itemType == UMLObject::ot_Operation) {
             m_pCodeTE->setPlainText(dynamic_cast<UMLOperation*>(listItem)->getSourceCode());
         }
         enableWidgets(true);
         m_pOldListItem = listItem;
+    } else {
+        uDebug() << "Cannot find item in list.";
     }
 }
 

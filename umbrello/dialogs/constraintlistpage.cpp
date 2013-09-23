@@ -237,4 +237,13 @@ bool ConstraintListPage::greaterThan(UMLObject::ObjectType ct1, UMLObject::Objec
     }
 }
 
+/**
+ * Get constraint list items for all types (unique, foreign-key
+ * and check-constraints)
+ */
+UMLClassifierListItemList ConstraintListPage::getItemList()
+{
+    return m_pClassifier->getFilteredList(UMLObject::ot_EntityConstraint);
+}
+
 #include "constraintlistpage.moc"
