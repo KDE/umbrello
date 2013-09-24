@@ -91,18 +91,15 @@ void UMLFileDialog::setMimeFilter(const QStringList &types, const QString &defau
     m_dialog->setFilter(filters.join(QLatin1String("\n")));
 }
 
+/**
+ * @brief return the mime type of the selected file
+ * @return mime type string
+ */
 QString UMLFileDialog::currentMimeFilter()
 {
-    QString currentFilter = m_dialog->currentFilter();
-    #ifdef Q_OS_WIN
-    // using native KFileDialog returns empty filter, so we need a workaround
-    if (currentFilter.isEmpty()) {
-        KUrl url = m_dialog->selectedUrl();
-        QFileInfo fi(url.toLocalFile());
-        return UMLViewImageExporterModel::imageTypeToMimeType(fi.suffix());
-    }
-    #endif
-    return UMLViewImageExporterModel::imageTypeToMimeType(currentFilter.remove("*."));
+    KUrl url = m_dialog->selectedUrl();
+    QFileInfo fi(url.toLocalFile());
+    return UMLViewImageExporterModel::imageTypeToMimeType(fi.suffix());
 }
 
 #include "umlfiledialog.moc"

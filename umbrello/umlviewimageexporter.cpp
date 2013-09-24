@@ -142,14 +142,6 @@ bool UMLViewImageExporter::getParametersFromUser()
         m_imageMimeType = dialog->currentMimeFilter();
         UMLApp::app()->setImageMimeType(m_imageMimeType);
         m_imageURL = dialog->selectedUrl();
-
-        // check if the extension is the extension of the mime type
-        QFileInfo info(m_imageURL.fileName());
-        QString ext = info.suffix();
-        QString extDef = UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType);
-        if (ext != extDef) {
-            m_imageURL.setFileName(m_imageURL.fileName() + '.' + extDef);
-        }
     }
     delete dialog;
     return success;
