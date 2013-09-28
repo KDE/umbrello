@@ -14,7 +14,6 @@
 // app includes
 #include "basictypes.h"
 #include "debug_utils.h"
-#include "docwindow.h"
 #include "floatingtextwidget.h"
 #include "linkwidget.h"
 #include "listpopupmenu.h"

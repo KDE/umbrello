@@ -2752,7 +2752,7 @@ void UMLApp::setCurrentView(UMLView* view)
     m_view = view;
     if (view == NULL) {
         DEBUG(DBG_SRC) << "view is NULL";
-        docWindow()->newDocumentation();
+        docWindow()->reset();
         return;
     }
 

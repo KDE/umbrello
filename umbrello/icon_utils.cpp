@@ -486,6 +486,8 @@ QString toString(IconType type)
             return "distribute-horizontal";
         case it_Code_Gen_Wizard:
             return "hi64-app-umbrello.png";
+        case it_Document_Edit:
+            return "document-edit";
         default:
             return QString();
     }

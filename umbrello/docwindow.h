@@ -15,6 +15,7 @@
 
 class AssociationWidget;
 class KTextEdit;
+class QLabel;
 class UMLObject;
 class UMLDoc;
 class UMLScene;
@@ -38,10 +39,9 @@ public:
 
     void updateDocumentation(bool clear = false, bool startup = false);
 
-    void newDocumentation();
+    void reset();
 
     bool isTyping();
-    bool isModified();
 
 public slots:
     void slotAssociationRemoved(AssociationWidget* association);
@@ -55,7 +55,7 @@ private:
      * Used internally to know which type of object we are showing
      * documentation for.
      */
-    enum Showing_Type {
+    enum ShowingType {
         st_Project,
         st_UMLScene,
         st_UMLObject,
@@ -63,18 +63,22 @@ private:
         st_Association
     };
 
-    UMLObject * m_pUMLObject;  ///< The UMLObject we are going to show documentation.
-    UMLScene *  m_pUMLScene;   ///< The UMLScene we are going to show documentation.
-    UMLDoc *    m_pUMLDoc;     ///< The Project we are going to show documentation.
-    UMLWidget * m_pUMLWidget;  ///< The UMLWidget we are going to show documentation.
-    AssociationWidget * m_pAssocWidget;  ///< The association we are going to show documentation.
+    UMLObject         *m_pUMLObject;    ///< The UMLObject we are going to show documentation.
+    UMLScene          *m_pUMLScene;     ///< The UMLScene we are going to show documentation.
+    UMLDoc            *m_pUMLDoc;       ///< The Project we are going to show documentation.
+    UMLWidget         *m_pUMLWidget;    ///< The UMLWidget we are going to show documentation.
+    AssociationWidget *m_pAssocWidget;  ///< The association we are going to show documentation.
 
-    Showing_Type m_Showing;  ///< Which type of documentation we are showing.
+    ShowingType m_Showing;  ///< Which type of documentation we are showing.
 
-    //visual widgets
-    KTextEdit *  m_docTE;
+    QLabel    *m_typeLabel;      ///< label for type icon
+    QLabel    *m_nameLabel;      ///< label for name text
+    QLabel    *m_modifiedLabel;  ///< label for modified flag icon
+    KTextEdit *m_docTE;          ///< documentation widget
 
-    bool m_modified; ///< state of text content
+    bool isModified();
+    QLabel* createPixmapLabel();
+    void updateLabel(const QString &name = QString());
 };
 
 #endif

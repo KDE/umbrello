@@ -321,7 +321,7 @@ void UMLDoc::closeDocument()
     m_Doc = "";
     DocWindow* dw = UMLApp::app()->docWindow();
     if (dw) {
-        dw->newDocumentation();
+        dw->reset();
     }
 
     UMLListView *listView = UMLApp::app()->listView();
@@ -2302,7 +2302,7 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node)
 
         m_nViewID = Uml::ID::fromString(viewID);
         UniqueID::set(Uml::ID::fromString(uniqueid));
-        UMLApp::app()->docWindow()->newDocumentation();
+        UMLApp::app()->docWindow()->reset();
 
     } else if (tag == "diagrams" || tag == "UISModelElement") {
         // For backward compatibility only:

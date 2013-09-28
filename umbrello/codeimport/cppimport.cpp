@@ -20,7 +20,6 @@
 #include "debug_utils.h"
 #include "import_utils.h"
 #include "umlobject.h"
-#include "docwindow.h"
 #include "package.h"
 #include "enum.h"
 #include "classifier.h"

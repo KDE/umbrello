@@ -14,6 +14,7 @@
 // local includes
 #include "associationwidget.h"
 #include "debug_utils.h"
+#include "icon_utils.h"
 #include "umldoc.h"
 #include "umlobject.h"
 #include "umlscene.h"
@@ -24,6 +25,8 @@
 #include <klocale.h>
 
 // qt includes
+#include <QLabel>
+#include <QGridLayout>
 #include <QVBoxLayout>
 
 /**
@@ -36,19 +39,28 @@ DocWindow::DocWindow(UMLDoc * doc, QWidget *parent)
     m_pUMLDoc(doc),
     m_pUMLWidget(0),
     m_pAssocWidget(0),
-    m_Showing(st_Project),
-    m_modified(false)
+    m_Showing(st_Project)
 {
     //setup visual display
-    QVBoxLayout * docLayout = new QVBoxLayout(this);
+    QGridLayout* statusLayout = new QGridLayout();
+    m_typeLabel = createPixmapLabel();
+    m_typeLabel->setToolTip(i18n("documentation type"));
+    statusLayout->addWidget(m_typeLabel, 0, 0, 1, 1);
+    m_nameLabel = new QLabel(this);
+    m_nameLabel->setFrameStyle(QFrame::Panel | QFrame::Raised);
+    m_nameLabel->setAlignment(Qt::AlignHCenter);
+    statusLayout->addWidget(m_nameLabel, 0, 1, 1, 4);
+    m_modifiedLabel = createPixmapLabel();
+    m_modifiedLabel->setToolTip(i18n("flag whether documentation was modified"));
+    statusLayout->addWidget(m_modifiedLabel, 0, 5, 1, 1);
     m_docTE = new KTextEdit(this);
     m_docTE->setText("");
+    //m_docTE->setWordWrapMode(QTextEdit::WidgetWidth);
+    QVBoxLayout* docLayout = new QVBoxLayout(this);
+    docLayout->addLayout(statusLayout);
     docLayout->addWidget(m_docTE);
     docLayout->setMargin(0);
-    //m_docTE->setWordWrapMode(QTextEdit::WidgetWidth);
 
-    //show projects documentation to start
-    updateDocumentation(true, true);
     connect(m_docTE, SIGNAL(textChanged()), this, SLOT(slotTextChanged()));
 }
 
@@ -65,7 +77,7 @@ DocWindow::~DocWindow()
  * be updated before being removed from the view.
  *
  * Also call this function if you update the documentation in another
- * place, such as a properties dialog.  Just set overwrite to true.
+ * place, such as a properties dialog. Just set overwrite to true.
  *
  * Overwrite is used when you believe that the documentation window
  * is already displaying documentation for the widget you wish to
@@ -74,20 +86,25 @@ DocWindow::~DocWindow()
  */
 void DocWindow::showDocumentation(UMLObject * object, bool overwrite)
 {
-    if(object == m_pUMLObject && !overwrite)
-        return;
-    if(object != m_pUMLObject)
-        updateDocumentation(true);
-    m_Showing = st_UMLObject;
-    if(!object) {
-        m_docTE->setText(m_pUMLDoc->documentation());
-        m_modified = false;
-        m_pUMLObject = 0;
+    if (!object) {
+        reset();
         return;
     }
+    if (object == m_pUMLObject) {
+        if (overwrite) {
+            updateDocumentation(true);
+        }
+        else {
+            return;
+        }
+    }
+    else {
+        updateDocumentation(true);
+    }
+    m_Showing = st_UMLObject;
     m_pUMLObject = object;
     m_docTE->setText(m_pUMLObject->doc());
-    m_modified = false;
+    updateLabel(m_pUMLObject->name());
 }
 
 /**
@@ -96,21 +113,25 @@ void DocWindow::showDocumentation(UMLObject * object, bool overwrite)
  */
 void DocWindow::showDocumentation(UMLScene * scene, bool overwrite)
 {
-    if(scene == m_pUMLScene && !overwrite)
+    if (!scene) {
+        reset();
         return;
-    if(scene != m_pUMLScene) {
+    }
+    if (scene == m_pUMLScene) {
+        if (overwrite) {
+            updateDocumentation(true);
+        }
+        else {
+            return;
+        }
+    }
+    else {
         updateDocumentation(true);
     }
     m_Showing = st_UMLScene;
-    if(!scene) {
-        m_docTE->setText(m_pUMLDoc->documentation());
-        m_pUMLScene = 0;
-        m_modified = false;
-        return;
-    }
     m_pUMLScene = scene;
     m_docTE->setText(m_pUMLScene->documentation());
-    m_modified = false;
+    updateLabel(m_pUMLScene->name());
 }
 
 /**
@@ -120,20 +141,25 @@ void DocWindow::showDocumentation(UMLScene * scene, bool overwrite)
  */
 void DocWindow::showDocumentation(UMLWidget * widget, bool overwrite)
 {
-    if(widget == m_pUMLWidget && !overwrite)
-        return;
-    if(widget != m_pUMLWidget)
-        updateDocumentation(true);
-    m_Showing = st_UMLWidget;
-    if(!widget) {
-        m_docTE->setText(m_pUMLDoc->documentation());
-        m_pUMLWidget = 0;
-        m_modified = false;
+    if (!widget) {
+        reset();
         return;
     }
+    if (widget == m_pUMLWidget) {
+        if (overwrite) {
+            updateDocumentation(true);
+        }
+        else {
+            return;
+        }
+    }
+    else {
+        updateDocumentation(true);
+    }
+    m_Showing = st_UMLWidget;
     m_pUMLWidget = widget;
     m_docTE->setText(m_pUMLWidget->documentation());
-    m_modified = false;
+    updateLabel(m_pUMLWidget->name());
 }
 
 /**
@@ -143,20 +169,25 @@ void DocWindow::showDocumentation(UMLWidget * widget, bool overwrite)
  */
 void DocWindow::showDocumentation(AssociationWidget * widget, bool overwrite)
 {
-    if(widget == m_pAssocWidget && !overwrite)
-        return;
-    if(widget != m_pAssocWidget)
-        updateDocumentation(true);
-    m_Showing = st_Association;
-    if(!widget) {
-        m_docTE->setText(m_pUMLDoc->documentation());
-        m_pAssocWidget = 0;
-        m_modified = false;
+    if (!widget) {
+        reset();
         return;
     }
+    if (widget == m_pAssocWidget) {
+        if (overwrite) {
+            updateDocumentation(true);
+        }
+        else {
+            return;
+        }
+    }
+    else {
+        updateDocumentation(true);
+    }
+    m_Showing = st_Association;
     m_pAssocWidget = widget;
     m_docTE->setText(m_pAssocWidget->documentation());
-    m_modified = false;
+    updateLabel(m_pAssocWidget->name());
 }
 
 /**
@@ -177,7 +208,7 @@ void DocWindow::updateDocumentation(bool clear, bool startup)
     // we don't do this on startup/load of a xmi file, because every time
     // modified is set, we get another undo/redo backup point
     if (isModified()) {
-        if(m_pUMLObject) {
+        if (m_pUMLObject) {
             m_pUMLObject->setDoc(m_docTE->toPlainText());
         } else if(m_pUMLScene) {
             m_pUMLScene->setDocumentation(m_docTE->toPlainText());
@@ -197,14 +228,14 @@ void DocWindow::updateDocumentation(bool clear, bool startup)
 
     // we should show the documentation of the whole project
     if (clear) {
-        newDocumentation();
+        reset();
     }
 }
 
 /**
  *  Re-initializes the class for a new document.
  */
-void DocWindow::newDocumentation()
+void DocWindow::reset()
 {
     m_pUMLScene = 0;
     m_pUMLObject = 0;
@@ -212,7 +243,7 @@ void DocWindow::newDocumentation()
     m_pAssocWidget = 0;
     m_Showing = st_Project;
     m_docTE->setText(m_pUMLDoc->documentation());
-    m_modified = false;
+    updateLabel(m_pUMLDoc->name());
 }
 
 /**
@@ -227,12 +258,46 @@ bool DocWindow::isTyping()
 }
 
 /**
- * check if the content in the documentation window has been changed
- * @return true when content has been changed
+ * Checks if the user is typing in the documentation edit window.
  */
 bool DocWindow::isModified()
 {
-   return m_modified;
+    bool modified = false;
+    const QString currentText = m_docTE->toPlainText();
+    QString originalText;
+    switch (m_Showing) {
+    case st_UMLObject:
+        if (m_pUMLObject) {
+            originalText = m_pUMLObject->doc();
+        }
+        break;
+    case st_UMLScene:
+        if (m_pUMLScene) {
+            originalText = m_pUMLScene->documentation();
+        }
+        break;
+    case st_UMLWidget:
+        if (m_pUMLWidget) {
+            originalText = m_pUMLWidget->documentation();
+        }
+        break;
+    case st_Association:
+        if (m_pAssocWidget) {
+            originalText = m_pAssocWidget->documentation();
+        }
+        break;
+    case st_Project:
+        if (m_pUMLDoc) {
+            originalText = m_pUMLDoc->documentation();
+        }
+        break;
+    default:
+        break;
+    }
+    if (QString::compare(originalText, currentText) != 0) {
+        modified = true;
+    }
+    return modified;
 }
 
 /**
@@ -245,7 +310,7 @@ void DocWindow::slotAssociationRemoved(AssociationWidget* association)
     if (association == m_pAssocWidget || association->umlObject() == m_pUMLObject) {
         // In old code, the below line crashed (bugs.kde.org/89860)
         // A hotfix was made and detailed analysis was To Be Done:
-        // newDocumentation()
+        // reset()
         // However, it seems to have been fixed and the below line seems to work fine
         updateDocumentation(true);
     }
@@ -268,7 +333,54 @@ void DocWindow::slotWidgetRemoved(UMLWidget* widget)
  */
 void DocWindow::slotTextChanged()
 {
-    m_modified = true;
+    updateLabel();
+}
+
+/**
+ * Updates the info label with the current state.
+ * If the given name is empty only the modified icon is set.
+ */
+void DocWindow::updateLabel(const QString& name)
+{
+    if (!name.isEmpty()) {
+        Icon_Utils::IconType icon = Icon_Utils::it_Home;
+        switch (m_Showing) {
+        case st_Project:
+            icon = Icon_Utils::it_Code_Gen_Wizard;
+            break;
+        case st_UMLScene:
+            icon = Icon_Utils::it_Diagram_Class;
+            break;
+        case st_UMLObject:
+            icon = Icon_Utils::it_Object;
+            break;
+        case st_UMLWidget:
+            icon = Icon_Utils::it_Class;
+            break;
+        case st_Association:
+            icon = Icon_Utils::it_Association;
+            break;
+        }
+        m_typeLabel->setPixmap(Icon_Utils::SmallIcon(icon));
+        m_nameLabel->setText(name);
+    }
+    if (isModified()) {
+        m_modifiedLabel->setPixmap(Icon_Utils::SmallIcon(Icon_Utils::it_Document_Edit));
+    }
+    else {
+        m_modifiedLabel->setPixmap(QPixmap());
+    }
+}
+
+/**
+ * Creates a QLabel used with a pixmap.
+ * @return   the just created QLabel
+ */
+QLabel* DocWindow::createPixmapLabel()
+{
+    QLabel* label = new QLabel(this);
+    label->setAlignment(Qt::AlignCenter);
+    return label;
 }
 
 #include "docwindow.moc"

@@ -14,7 +14,6 @@
 // app includes
 #include "debug_utils.h"
 #include "dialog_utils.h"
-#include "docwindow.h"
 #include "listpopupmenu.h"
 #include "uml.h"
 #include "umldoc.h"
