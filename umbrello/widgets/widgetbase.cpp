@@ -510,26 +510,26 @@ bool WidgetBase::loadFromXMI(QDomElement& qElement)
     QString lineColor = qElement.attribute("linecolour", "none");
     lineColor = qElement.attribute("linecolor", lineColor);
     if (lineColor != "none") {
-        setLineColor(QColor(lineColor));
+        m_lineColor = QColor(lineColor);
         m_usesDiagramLineColor = false;
     } else if (m_baseType != WidgetBase::wt_Box && m_scene != NULL) {
-        setLineColor(m_scene->lineColor());
+        m_lineColor = m_scene->lineColor();
         m_usesDiagramLineColor = true;
     }
     QString lineWidth = qElement.attribute("linewidth", "none");
     if (lineWidth != "none") {
-        setLineWidth(lineWidth.toInt());
+        m_lineWidth = lineWidth.toInt();
         m_usesDiagramLineWidth = false;
     } else if (m_scene) {
-        setLineWidth(m_scene->lineWidth());
+        m_lineWidth = m_scene->lineWidth();
         m_usesDiagramLineWidth = true;
     }
     QString textColor = qElement.attribute("textcolor", "none");
     if (textColor != "none") {
-        setTextColor(QColor(textColor));
+        m_textColor = QColor(textColor);
         m_usesDiagramTextColor = false;
     } else if (m_scene) {
-        setTextColor(m_scene->textColor());
+        m_textColor = m_scene->textColor();
         m_usesDiagramTextColor = true;
     }
     QString usefillcolor = qElement.attribute("usefillcolor", "1");
