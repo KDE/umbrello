@@ -20,6 +20,7 @@
 #include "classifier.h"
 #include "classifierwidget.h"
 #include "debug_utils.h"
+#include "docwindow.h"
 #include "entity.h"
 #include "floatingtextwidget.h"
 #include "listpopupmenu.h"
@@ -455,7 +456,7 @@ void AssociationWidget::showPropertiesDialog()
         setChangeability(changeability(RoleType::A), RoleType::A);
         setChangeability(changeability(RoleType::B), RoleType::B);
 
-        m_scene->showDocumentation(this, true);
+        UMLApp::app()->docWindow()->showDocumentation(this, true);
     }
     delete dlg;
 }
@@ -1700,7 +1701,7 @@ void AssociationWidget::calculateEndingPoints()
     qreal xB = pWidgetB->x() + pWidgetB->width() / 2;
     qreal yB = pWidgetB->y() + pWidgetB->height() / 2;
     if (size > 2) {
-        QPointF p = m_associationLine->point( 1 );
+        QPointF p = m_associationLine->point(1);
         xB = p.x();
         yB = p.y();
     }
@@ -1712,7 +1713,7 @@ void AssociationWidget::calculateEndingPoints()
     qreal xA = pWidgetA->x() + pWidgetA->width() / 2;
     qreal yA = pWidgetA->y() + pWidgetA->height() / 2;
     if (size > 2 ) {
-        QPointF p = m_associationLine->point( size - 2 );
+        QPointF p = m_associationLine->point(size - 2);
         xA = p.x();
         yA = p.y();
     }
@@ -2906,7 +2907,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
             // here just in case - remove later after testing
             DEBUG(DBG_SRC) << "mt_Properties: assoctype is " << atype;
         } else {  //standard assoc dialog
-            m_scene->updateDocumentation(false);
+            UMLApp::app()->docWindow()->updateDocumentation(false);
             showPropertiesDialog();
         }
         break;
@@ -3649,9 +3650,9 @@ void AssociationWidget::setSelected(bool _select /* = true */)
     // to win.
     if (_select) {
         if (m_scene->selectedCount() == 0)
-                m_scene->showDocumentation(this, false);
+                UMLApp::app()->docWindow()->showDocumentation(this, false);
     } else
-        m_scene->updateDocumentation(true);
+        UMLApp::app()->docWindow()->updateDocumentation(true);
     qApp->processEvents();
 
     m_associationLine->setSelected(_select);

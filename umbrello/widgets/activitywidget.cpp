@@ -14,6 +14,7 @@
 // app includes
 #include "activitydialog.h"
 #include "debug_utils.h"
+#include "docwindow.h"
 #include "listpopupmenu.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -29,9 +30,9 @@
 /**
  * Creates a Activity widget.
  *
- * @param scene              The parent of the widget.
- * @param activityType      The type of activity.
- * @param id                The ID to assign (-1 will prompt a new ID.)
+ * @param scene          The parent of the widget.
+ * @param activityType   The type of activity.
+ * @param id             The ID to assign (-1 will prompt a new ID.)
  */
 ActivityWidget::ActivityWidget(UMLScene * scene, ActivityType activityType, Uml::ID::Type id)
   : UMLWidget(scene, WidgetBase::wt_Activity, id),
@@ -152,11 +153,11 @@ void ActivityWidget::setPostconditionText(const QString& aPostText)
  */
 void ActivityWidget::showPropertiesDialog()
 {
-    umlScene()->updateDocumentation(false);
+    UMLApp::app()->docWindow()->updateDocumentation(false);
 
     QPointer<ActivityDialog> dialog = new ActivityDialog(umlScene()->activeView(), this);
     if (dialog->exec() && dialog->getChangesMade()) {
-        umlScene()->showDocumentation(this, true);
+        UMLApp::app()->docWindow()->showDocumentation(this, true);
         UMLApp::app()->document()->setModified(true);
     }
     delete dialog;

@@ -14,6 +14,7 @@
 // local includes
 #include "classpropdlg.h"
 #include "debug_utils.h"
+#include "docwindow.h"
 #include "listpopupmenu.h"
 #include "messagewidget.h"
 #include "seqlinewidget.h"
@@ -414,10 +415,10 @@ void ObjectWidget::cleanup()
  */
 void ObjectWidget::showPropertiesDialog()
 {
-    umlScene()->updateDocumentation(false);
+    UMLApp::app()->docWindow()->updateDocumentation(false);
     QPointer<ClassPropDlg> dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
     if (dlg->exec()) {
-        umlScene()->showDocumentation(this, true);
+        UMLApp::app()->docWindow()->showDocumentation(this, true);
         UMLApp::app()->document()->setModified(true);
     }
     dlg->close();

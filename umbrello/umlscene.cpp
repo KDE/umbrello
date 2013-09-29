@@ -826,7 +826,7 @@ void UMLScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
     UMLWidget* widget = widgetAt(event->scenePos());
     if (widget) {
         DEBUG(DBG_SRC) << "widget = " << widget->name() << " / type = " << widget->baseTypeStr();
-        showDocumentation(widget, true);
+        UMLApp::app()->docWindow()->showDocumentation(widget, true);
         event->accept();
     }
     else {
@@ -834,14 +834,14 @@ void UMLScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
         if (association) {
             DEBUG(DBG_SRC) << "association widget = " << association->name() << " / type = " << association->baseTypeStr();
             // the following is done in AssociationWidget::setSelected()
-            // showDocumentation(association, true);
+            // UMLApp::app()->docWindow()->showDocumentation(association, true);
             // event->accept();
         }
         //:TODO: else if (clicking on other elements with documentation) {
-        //:TODO: showDocumentation(umlObject, true);
+        //:TODO: UMLApp::app()->docWindow()->showDocumentation(umlObject, true);
         else {
             // clicking on an empty space in the diagram with arrow tool
-            showDocumentation(true);
+            UMLApp::app()->docWindow()->showDocumentation(this, true);
             event->accept();
         }
     }
@@ -1245,7 +1245,7 @@ void UMLScene::setSelected(UMLWidget *w, QGraphicsSceneMouseEvent *me)
 
     // if count == 1, widget will update the doc window with their data when selected
     if (count == 2)
-        updateDocumentation(true);  //clear doc window
+        UMLApp::app()->docWindow()->updateDocumentation(true);  //clear doc window
 
     // selection changed, we have to make sure the copy and paste items
     // are correctly enabled/disabled
@@ -2338,46 +2338,6 @@ void UMLScene::removeAllWidgets()
 
     qDeleteAll(m_WidgetList);
     m_WidgetList.clear();
-}
-
-/**
- * Calls the same method in the DocWindow.
- */
-void UMLScene::showDocumentation(bool overwrite)
-{
-    UMLApp::app()->docWindow()->showDocumentation(this, overwrite);
-}
-
-/**
- * Calls the same method in the DocWindow.
- */
-void UMLScene::showDocumentation(UMLObject* object, bool overwrite)
-{
-    UMLApp::app()->docWindow()->showDocumentation(object, overwrite);
-}
-
-/**
- * Calls the same method in the DocWindow.
- */
-void UMLScene::showDocumentation(UMLWidget* widget, bool overwrite)
-{
-    UMLApp::app()->docWindow()->showDocumentation(widget, overwrite);
-}
-
-/**
- * Calls the same method in the DocWindow.
- */
-void UMLScene::showDocumentation(AssociationWidget* widget, bool overwrite)
-{
-    UMLApp::app()->docWindow()->showDocumentation(widget, overwrite);
-}
-
-/**
- * Calls the same method in the DocWindow.
- */
-void UMLScene::updateDocumentation(bool clear)
-{
-    UMLApp::app()->docWindow()->updateDocumentation(clear);
 }
 
 /**

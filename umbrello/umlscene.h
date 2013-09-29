@@ -224,13 +224,6 @@ public:
 
     void removeAllWidgets();
 
-    void showDocumentation(bool overwrite = false);
-    void showDocumentation(UMLObject* object, bool overwrite = false);
-    void showDocumentation(UMLWidget* widget, bool overwrite = false);
-    void showDocumentation(AssociationWidget* widget, bool overwrite = false);
-
-    void updateDocumentation(bool clear);
-
     void getDiagram(QPixmap & diagram, const QRectF &rect);
     void getDiagram(QPainter &painter, const QRectF &source, const QRectF &target = QRectF());
 

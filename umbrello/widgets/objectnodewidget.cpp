@@ -13,6 +13,7 @@
 
 // app includes
 #include "debug_utils.h"
+#include "docwindow.h"
 #include "dialog_utils.h"
 #include "listpopupmenu.h"
 #include "objectnodedialog.h"
@@ -257,11 +258,11 @@ void ObjectNodeWidget::slotMenuSelection(QAction* action)
  */
 void ObjectNodeWidget::showPropertiesDialog()
 {
-    umlScene()->updateDocumentation(false);
+    UMLApp::app()->docWindow()->updateDocumentation(false);
 
     QPointer<ObjectNodeDialog> dialog = new ObjectNodeDialog(UMLApp::app()->currentView(), this);
     if (dialog->exec() && dialog->getChangesMade()) {
-        umlScene()->showDocumentation(this, true);
+        UMLApp::app()->docWindow()->showDocumentation(this, true);
         UMLApp::app()->document()->setModified(true);
     }
     delete dialog;

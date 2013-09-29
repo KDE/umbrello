@@ -1432,18 +1432,17 @@ void UMLDoc::renameChildUMLObject(UMLObject *o)
 void UMLDoc::changeCurrentView(Uml::ID::Type id)
 {
     DEBUG(DBG_SRC) << "id=" << Uml::ID::toString(id);
-    UMLApp* pApp = UMLApp::app();
     UMLView* view = findView(id);
     if (view) {
         UMLScene* scene = view->umlScene();
         scene->setIsOpen(true);
-        pApp->setCurrentView(view);
+        UMLApp::app()->setCurrentView(view);
         emit sigDiagramChanged(scene->type());
-        pApp->setDiagramMenuItemsState(true);
+        UMLApp::app()->setDiagramMenuItemsState(true);
         setModified(true);
         emit sigCurrentViewChanged();
         // when clicking on a tab, the documentation of diagram is upated in docwindow
-        scene->showDocumentation();
+        UMLApp::app()->docWindow()->showDocumentation(scene);
     }
     else {
         uWarning() << "New current view was not found with id=" << Uml::ID::toString(id) << "!";

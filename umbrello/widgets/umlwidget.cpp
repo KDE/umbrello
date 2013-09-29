@@ -16,6 +16,7 @@
 #include "classpropdlg.h"
 #include "cmds.h"
 #include "debug_utils.h"
+#include "docwindow.h"
 #include "floatingtextwidget.h"
 #include "idchangelog.h"
 #include "listpopupmenu.h"
@@ -1055,11 +1056,11 @@ void UMLWidget::showPropertiesDialog()
 {
     // will already be selected so make sure docWindow updates the doc
     // back it the widget
-    umlScene()->updateDocumentation(false);
+    UMLApp::app()->docWindow()->updateDocumentation(false);
     QPointer<ClassPropDlg> dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
 
     if (dlg->exec()) {
-        umlScene()->showDocumentation(umlObject(), true);
+        UMLApp::app()->docWindow()->showDocumentation(umlObject(), true);
         m_doc->setModified(true);
     }
     dlg->close(); //wipe from memory
@@ -1264,9 +1265,9 @@ void UMLWidget::setSelected(bool _select)
     if (_select) {
         if (m_scene->selectedCount() == 0) {
             if (widgetHasUMLObject(wt)) {
-                m_scene->showDocumentation(m_umlObject, false);
+                UMLApp::app()->docWindow()->showDocumentation(m_umlObject, false);
             } else {
-                m_scene->showDocumentation(this, false);
+                UMLApp::app()->docWindow()->showDocumentation(this, false);
             }
         }//end if
         /* if (wt != wt_Text && wt != wt_Box) {
@@ -1277,7 +1278,7 @@ void UMLWidget::setSelected(bool _select)
             setZ(m_origZ);
         } */
         if (m_selected)
-            m_scene->updateDocumentation(true);
+            UMLApp::app()->docWindow()->updateDocumentation(true);
     }
     m_selected = _select;
 

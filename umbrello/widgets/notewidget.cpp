@@ -13,6 +13,7 @@
 
 // app includes
 #include "debug_utils.h"
+#include "docwindow.h"
 #include "listpopupmenu.h"
 #include "notedialog.h"
 #include "uml.h"
@@ -230,12 +231,11 @@ void NoteWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 void NoteWidget::rename()
 {
     NoteDialog * dlg = 0;
-    UMLDoc *doc = UMLApp::app()->document();
-    umlScene()->updateDocumentation(false);
+    UMLApp::app()->docWindow()->updateDocumentation(false);
     dlg = new NoteDialog(umlScene()->activeView(), this);
     if (dlg->exec()) {
-        umlScene()->showDocumentation(this, true);
-        doc->setModified(true);
+        UMLApp::app()->docWindow()->showDocumentation(this, true);
+        UMLApp::app()->document()->setModified(true);
         update();
     }
     delete dlg;

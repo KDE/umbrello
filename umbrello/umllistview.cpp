@@ -251,16 +251,16 @@ void UMLListView::mousePressEvent(QMouseEvent *me)
     const Qt::MouseButton button = me->button();
 
     if (!item || (button != Qt::RightButton && button != Qt::LeftButton)) {
-        scene->updateDocumentation(true);
+        UMLApp::app()->docWindow()->updateDocumentation(true);
         return;
     }
 
     if (button == Qt::LeftButton) {
         UMLObject *o = item->umlObject();
         if (o)
-            scene->showDocumentation(o, false);
+            UMLApp::app()->docWindow()->showDocumentation(o, false);
         else
-            scene->updateDocumentation(true);
+            UMLApp::app()->docWindow()->updateDocumentation(true);
 
         m_dragStartPosition = me->pos();
     }
@@ -323,7 +323,7 @@ void UMLListView::mouseReleaseEvent(QMouseEvent *me)
     m_doc->changeCurrentView(item->ID());
     UMLView *view = m_doc->findView(item->ID());
     if (view && view->umlScene())
-        view->umlScene()->showDocumentation(false);
+        UMLApp::app()->docWindow()->showDocumentation(view->umlScene(), false);
     QTreeWidget::mouseReleaseEvent(me);
 }
 
@@ -605,9 +605,9 @@ void UMLListView::popupMenuSel(QAction* action)
         if (Model_Utils::typeIsDiagram(lvt)) {
             UMLView * pView = m_doc->findView(currItem->ID());
             if (pView) {
-                pView->umlScene()->updateDocumentation(false);
+                UMLApp::app()->docWindow()->updateDocumentation(false);
                 pView->showPropDialog();
-                pView->umlScene()->showDocumentation(true);
+                UMLApp::app()->docWindow()->showDocumentation(pView->umlScene(), true);
             }
             return;
         }
@@ -789,7 +789,7 @@ void UMLListView::slotDiagramCreated(Uml::ID::Type id)
             UMLListViewItem* p = findFolderForDiagram(dt);
             UMLListViewItem* item = new UMLListViewItem(p, scene->name(), Model_Utils::convert_DT_LVT(dt), id);
             setSelected(item, true);
-            scene->showDocumentation(false);
+            UMLApp::app()->docWindow()->showDocumentation(scene, false);
         }
     }
 }
@@ -1393,9 +1393,9 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
     if (Model_Utils::typeIsDiagram(lvType)) {
         UMLView * pView = m_doc->findView(item->ID());
         if (pView) {
-            pView->umlScene()->updateDocumentation(false);
+            UMLApp::app()->docWindow()->updateDocumentation(false);
             pView->showPropDialog();
-            pView->umlScene()->showDocumentation(true);
+            UMLApp::app()->docWindow()->showDocumentation(pView->umlScene(), true);
         }
         return;
     }
