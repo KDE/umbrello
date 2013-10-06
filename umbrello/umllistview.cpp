@@ -178,6 +178,17 @@ void UMLListView::slotItemSelectionChanged()
                 DEBUG(DBG_SRC) << "performing cancelRename";
             }
         }
+
+        // Update current view to selected object's view
+        if (Model_Utils::typeIsDiagram(currItem->type())) {
+            // If the user navigates to a diagram, load the diagram just like what
+            // would happen when clicking on it (includes saving/showing the documentation)
+            m_doc->changeCurrentView(currItem->ID());
+        } else {
+            // If the user navigates to any other item, save the current object's
+            // documentation and show selected object's documentation
+            UMLApp::app()->docWindow()->showDocumentation(currItem->umlObject(), true);
+        }
     }
 }
 
