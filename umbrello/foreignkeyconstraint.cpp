@@ -294,25 +294,32 @@ bool UMLForeignKeyConstraint::load( QDomElement & element )
         QString tag = tempElement.tagName();
         if (UMLDoc::tagEq(tag, "AttributeMap")) {
 
-            Uml::ID::Type keyId = Uml::ID::fromString(tempElement.attribute("key", ""));
-            Uml::ID::Type valueId = Uml::ID::fromString(tempElement.attribute("value", ""));
+            QString xmiKey = tempElement.attribute("key", "");
+            QString xmiValue = tempElement.attribute("value", "");
+            Uml::ID::Type keyId = Uml::ID::fromString(xmiKey);
+            Uml::ID::Type valueId = Uml::ID::fromString(xmiValue);
 
-            UMLEntity* parentEntity = static_cast<UMLEntity*>( parent() );
+            UMLEntity* parentEntity = static_cast<UMLEntity*>(parent());
             UMLObject* keyObj = parentEntity->findChildObjectById(keyId);
             UMLEntityAttribute* key = static_cast<UMLEntityAttribute*>(keyObj);
 
-            if ( m_ReferencedEntity == NULL ) {
+            if (keyObj == NULL) {
+                uWarning() << "unable to resolve foreign key referencing attribute " << xmiKey;
+            } else if (m_ReferencedEntity == NULL) {
                 // if referenced entity is null, then we won't find its attributes even
                 // save for resolving later
-                m_pEntityAttributeIDMap.insert( key, valueId );
+                m_pEntityAttributeIDMap.insert(key, valueId);
+            } else {
+                UMLObject* valueObj = m_ReferencedEntity->findChildObjectById(valueId);
+                if (valueObj == NULL) {
+                    uWarning() << "unable to resolve foreign key referenced attribute" << xmiValue;
+                } else {
+                    m_AttributeMap[key] = static_cast<UMLEntityAttribute*>(valueObj);
+                }
             }
-//            else {
-// unused        UMLObject* valueObj = m_ReferencedEntity->findChildObjectById(valueId);
-// unused        UMLEntityAttribute* value = static_cast<UMLEntityAttribute*>(valueObj);
-//            }
 
         } else {
-            uWarning() << "unknown child type in UMLUniqueConstraint::load";
+            uWarning() << "unknown child type in UMLForeignKeyConstraint::load";
         }
 
         node = node.nextSibling();
