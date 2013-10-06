@@ -62,12 +62,12 @@ void NodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     QPolygon pointArray(5);
     pointArray.setPoint(0, 0, bodyOffsetY);
     pointArray.setPoint(1, wDepth, 0);
-    pointArray.setPoint(2, w - 1, 0);
-    pointArray.setPoint(3, w - 1, bodyHeight );
-    pointArray.setPoint(4, bodyWidth, h - 1);
+    pointArray.setPoint(2, w, 0);
+    pointArray.setPoint(3, w, bodyHeight);
+    pointArray.setPoint(4, bodyWidth, h);
     painter->drawPolygon(pointArray);
     painter->drawRect(0, bodyOffsetY, bodyWidth, bodyHeight);
-    painter->drawLine(w - 1, 0, bodyWidth - 2, bodyOffsetY + 1);
+    painter->drawLine(w, 0, bodyWidth, bodyOffsetY);
 
     painter->setPen(textColor());
     painter->setFont(font);
