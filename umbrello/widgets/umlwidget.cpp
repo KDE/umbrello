@@ -1100,7 +1100,6 @@ void UMLWidget::moveByLocal(qreal dx, qreal dy)
     qreal newY = y() + dy;
     setX(newX);
     setY(newY);
-    DEBUG(DBG_SRC) << "x=" << newX << " / y=" << newY;
     adjustAssocs(dx, dy);
 }
 
@@ -1291,8 +1290,8 @@ void UMLWidget::setSelected(bool _select)
 
     update();
 
-    /* selection changed, we have to make sure the copy and paste items
-     * are correctly enabled/disabled */
+    // selection changed, we have to make sure the copy and paste items
+    // are correctly enabled/disabled
     UMLApp::app()->slotCopyChanged();
 }
 
@@ -1313,8 +1312,8 @@ void UMLWidget::selectSingle(QGraphicsSceneMouseEvent *me)
 {
     m_scene->clearSelected();
 
-    //Adds the widget to the selected widgets list, but as it has been cleared
-    //only the current widget is selected
+    // Adds the widget to the selected widgets list, but as it has been cleared
+    // only the current widget is selected.
     selectMultiple(me);
 }
 

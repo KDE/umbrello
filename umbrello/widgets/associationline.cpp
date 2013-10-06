@@ -962,11 +962,13 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
             painter->drawEllipse(circle);
         }
         else if (m_activeSegmentIndex != -1) {
-            painter->setPen(QPen(invertedColor, _pen.widthF() + 1));
-            painter->setBrush(Qt::NoBrush);
+            if (m_layout == Polyline) {
+                painter->setPen(QPen(invertedColor, _pen.widthF() + 1));
+                painter->setBrush(Qt::NoBrush);
 
-            QLineF segmentLine(m_points[m_activeSegmentIndex], m_points[m_activeSegmentIndex + 1]);
-            painter->drawLine(segmentLine);
+                QLineF segmentLine(m_points[m_activeSegmentIndex], m_points[m_activeSegmentIndex + 1]);
+                painter->drawLine(segmentLine);
+            }
         }
 
         // debug info

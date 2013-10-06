@@ -1650,52 +1650,26 @@ void AssociationWidget::calculateEndingPoints()
     }
 
     int size = m_associationLine->count();
-    if (size < 2)
+    if (size < 2) {
         m_associationLine->setEndPoints(pWidgetA->pos(), pWidgetB->pos());
+    }
 
     // See if an association to self.
     // See if it needs to be set up before we continue:
     // If self association/message and doesn't have the minimum 4 points
-    // then create it.  Make sure no points are out of bounds of viewing area.
+    // then create it. Make sure no points are out of bounds of viewing area.
     // This only happens on first time through that we are worried about.
-    if (pWidgetA == pWidgetB && size < 4) {
-        const int DISTANCE = 50;
-        qreal x = pWidgetA->x();
-        qreal y = pWidgetA->y();
-        qreal h = pWidgetA->height();
-        qreal w = pWidgetA->width();
-        //see if above widget ok to start
-        if ( y - DISTANCE > 0 ) {
-            m_associationLine->setEndPoints( QPointF( x + w / 4, y ) , QPointF( x + w * 3 / 4, y ) );
-            m_associationLine->insertPoint( 1, QPointF( x + w / 4, y - DISTANCE ) );
-            m_associationLine->insertPoint( 2 ,QPointF( x + w * 3 / 4, y - DISTANCE ) );
-            m_role[RoleType::A].m_WidgetRegion = m_role[RoleType::B].m_WidgetRegion = Uml::Region::North;
-        } else {
-            m_associationLine->setEndPoints( QPointF( x + w / 4, y + h ), QPointF( x + w * 3 / 4, y + h ) );
-            m_associationLine->insertPoint( 1, QPointF( x + w / 4, y + h + DISTANCE ) );
-            m_associationLine->insertPoint( 2, QPointF( x + w * 3 / 4, y + h + DISTANCE ) );
-            m_role[RoleType::A].m_WidgetRegion = m_role[RoleType::B].m_WidgetRegion = Uml::Region::South;
-        }
+    if (isSelf() && size < 4) {
+        createPointsSelfAssociation();
         return;
-    }//end a == b
+    }
 
     if (associationType() == AssociationType::Exception && size < 4) {
-        qreal xa = pWidgetA->x();
-        qreal ya = pWidgetA->y();
-        qreal ha = pWidgetA->height();
-        qreal wa = pWidgetA->width();
-
-        qreal xb = pWidgetB->x();
-        qreal yb = pWidgetB->y();
-        qreal hb = pWidgetB->height();
-        //qreal wb = pWidgetB->width();
-
-        m_associationLine->setEndPoints( QPointF( xa + wa , ya + ha/2 ) , QPointF( xb , yb + hb/2 ) );
-        m_associationLine->insertPoint( 1, QPointF( xa + wa , ya + ha/2 ));
-        m_associationLine->insertPoint( 2, QPointF( xb , yb + hb/2 ));
+        createPointsException();
         updatePointsException();
         return;
     }
+
     // If the line has more than one segment change the values to calculate
     // from widget to point 1.
     qreal xB = pWidgetB->x() + pWidgetB->width() / 2;
@@ -1873,13 +1847,13 @@ void AssociationWidget::mergeAssociationDataIntoUMLRepresentation()
  */
 void AssociationWidget::saveIdealTextPositions()
 {
-    m_oldNamePoint = calculateTextPosition(TextRole::Name);
-    m_oldMultiAPoint = calculateTextPosition(TextRole::MultiA);
-    m_oldMultiBPoint = calculateTextPosition(TextRole::MultiB);
+    m_oldNamePoint    = calculateTextPosition(TextRole::Name);
+    m_oldMultiAPoint  = calculateTextPosition(TextRole::MultiA);
+    m_oldMultiBPoint  = calculateTextPosition(TextRole::MultiB);
     m_oldChangeAPoint = calculateTextPosition(TextRole::ChangeA);
     m_oldChangeBPoint = calculateTextPosition(TextRole::ChangeB);
-    m_oldRoleAPoint = calculateTextPosition(TextRole::RoleAName);
-    m_oldRoleBPoint = calculateTextPosition(TextRole::RoleBName);
+    m_oldRoleAPoint   = calculateTextPosition(TextRole::RoleAName);
+    m_oldRoleBPoint   = calculateTextPosition(TextRole::RoleBName);
 }
 
 /**
@@ -1887,6 +1861,8 @@ void AssociationWidget::saveIdealTextPositions()
  */
 void AssociationWidget::widgetMoved(UMLWidget* widget, qreal dx, qreal dy)
 {
+    Q_UNUSED(dx); Q_UNUSED(dy);
+
     // Simple Approach to block moveEvent during load of XMI
     /// @todo avoid trigger of this event during load
     if (umlDoc()->loading()) {
@@ -1899,6 +1875,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, qreal dx, qreal dy)
         return;
     }
 
+    DEBUG(DBG_SRC) << "association type=" << Uml::AssociationType::toString(associationType());
     if (associationType() == AssociationType::Exception) {
         updatePointsException();
         setTextPosition(TextRole::Name);
@@ -1908,20 +1885,9 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, qreal dx, qreal dy)
         computeAssocClassLine();
     }
 
-    const int size = m_associationLine->count();
     // Assoc to self - move all points:
-    if ( m_role[RoleType::A].umlWidget == m_role[RoleType::B].umlWidget) {
-        for (int i = 1; i < size-1; ++i) {
-            QPointF p = m_associationLine->point(i);
-            qreal newX = p.x() + dx;
-            qreal newY = p.y() + dy;
-            newX = m_scene->snappedX(newX);
-            newY = m_scene->snappedY(newY);
-            DEBUG(DBG_SRC) << "newX=" << newX << " / newY=" << newY;
-            p.setX(newX);
-            p.setY(newY);
-            m_associationLine->setPoint(i, p);
-        }
+    if (isSelf()) {
+        updatePointsSelfAssociation();
 
         if (m_nameWidget && !m_nameWidget->isSelected()) {
             setTextPositionRelatively(TextRole::Name, m_oldNamePoint);
@@ -1935,6 +1901,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, qreal dx, qreal dy)
         }
     }//end if widgetA moved
     else if (m_role[RoleType::B].umlWidget == widget) {
+        const int size = m_associationLine->count();
         if (m_nameWidget && (m_unNameLineSegment == size-2) && !m_nameWidget->isSelected() ) {
             //only calculate position and move text if the segment it is on is moving
             setTextPositionRelatively(TextRole::Name, m_oldNamePoint);
@@ -1962,8 +1929,86 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, qreal dx, qreal dy)
 }
 
 /**
+ * Creates the points of the self association.
+ * Method called when a widget end points are calculated by calculateEndingPoints().
+ */
+void AssociationWidget::createPointsSelfAssociation()
+{
+    UMLWidget *pWidgetA = m_role[RoleType::A].umlWidget;
+
+    const int DISTANCE = 50;
+    qreal x = pWidgetA->x();
+    qreal y = pWidgetA->y();
+    qreal h = pWidgetA->height();
+    qreal w = pWidgetA->width();
+    // see if above widget ok to start
+    if (y - DISTANCE > 0) {
+        m_associationLine->setEndPoints(QPointF(x + w / 4, y) , QPointF(x + w * 3 / 4, y));
+        m_associationLine->insertPoint(1, QPointF(x + w / 4, y - DISTANCE));
+        m_associationLine->insertPoint(2, QPointF(x + w * 3 / 4, y - DISTANCE));
+        m_role[RoleType::A].m_WidgetRegion = m_role[RoleType::B].m_WidgetRegion = Uml::Region::North;
+    } else {
+        m_associationLine->setEndPoints(QPointF(x + w / 4, y + h), QPointF(x + w * 3 / 4, y + h));
+        m_associationLine->insertPoint(1, QPointF(x + w / 4, y + h + DISTANCE));
+        m_associationLine->insertPoint(2, QPointF(x + w * 3 / 4, y + h + DISTANCE));
+        m_role[RoleType::A].m_WidgetRegion = m_role[RoleType::B].m_WidgetRegion = Uml::Region::South;
+    }
+}
+
+/**
+ * Adjusts the points of the self association.
+ * Method called when a widget was moved by widgetMoved(widget, x, y).
+ */
+void AssociationWidget::updatePointsSelfAssociation()
+{
+    UMLWidget *pWidgetA = m_role[RoleType::A].umlWidget;
+
+    const int DISTANCE = 50;
+    qreal x = pWidgetA->x();
+    qreal y = pWidgetA->y();
+    qreal h = pWidgetA->height();
+    qreal w = pWidgetA->width();
+    // see if above widget ok to start
+    if (y - DISTANCE > 0) {
+        m_associationLine->setEndPoints(QPointF(x + w / 4, y) , QPointF(x + w * 3 / 4, y));
+        m_associationLine->setPoint(1, QPointF(x + w / 4, y - DISTANCE));
+        m_associationLine->setPoint(2, QPointF(x + w * 3 / 4, y - DISTANCE));
+        m_role[RoleType::A].m_WidgetRegion = m_role[RoleType::B].m_WidgetRegion = Uml::Region::North;
+    } else {
+        m_associationLine->setEndPoints(QPointF(x + w / 4, y + h), QPointF(x + w * 3 / 4, y + h));
+        m_associationLine->setPoint(1, QPointF(x + w / 4, y + h + DISTANCE));
+        m_associationLine->setPoint(2, QPointF(x + w * 3 / 4, y + h + DISTANCE));
+        m_role[RoleType::A].m_WidgetRegion = m_role[RoleType::B].m_WidgetRegion = Uml::Region::South;
+    }
+}
+
+/**
+ * Creates the points of the association exception.
+ * Method called when a widget end points are calculated by calculateEndingPoints().
+ */
+void AssociationWidget::createPointsException()
+{
+    UMLWidget *pWidgetA = m_role[RoleType::A].umlWidget;
+    UMLWidget *pWidgetB = m_role[RoleType::B].umlWidget;
+
+    qreal xa = pWidgetA->x();
+    qreal ya = pWidgetA->y();
+    qreal ha = pWidgetA->height();
+    qreal wa = pWidgetA->width();
+
+    qreal xb = pWidgetB->x();
+    qreal yb = pWidgetB->y();
+    qreal hb = pWidgetB->height();
+    //qreal wb = pWidgetB->width();
+
+    m_associationLine->setEndPoints(QPointF(xa + wa , ya + ha/2) , QPointF(xb , yb + hb/2));
+    m_associationLine->insertPoint(1, QPointF(xa + wa , ya + ha/2));
+    m_associationLine->insertPoint(2, QPointF(xb , yb + hb/2));
+}
+
+/**
  * Adjusts the points of the association exception.
- * Method called when a widget was moved by widgetMoved(widget, x, y)
+ * Method called when a widget was moved by widgetMoved(widget, x, y).
  */
 void AssociationWidget::updatePointsException()
 {
@@ -3503,7 +3548,7 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
     }
     // If the association is to self and the line ends are on the same region then
     // use a different calculation.
-    if (m_role[RoleType::A].umlWidget == m_role[RoleType::B].umlWidget &&
+    if (isSelf() &&
             m_role[RoleType::A].m_WidgetRegion == m_role[RoleType::B].m_WidgetRegion) {
         UMLWidget * pWidget = m_role[RoleType::A].umlWidget;
         qreal x = pWidget->x();

@@ -239,6 +239,9 @@ private:
 
     static QPointF midPoint(const QPointF& p0, const QPointF& p1);
 
+    void createPointsSelfAssociation();
+    void updatePointsSelfAssociation();
+    void createPointsException();
     void updatePointsException();
 
     /**
