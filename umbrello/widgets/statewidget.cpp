@@ -105,9 +105,9 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
                 QStringList::Iterator end(m_Activities.end());
                 for(QStringList::Iterator it(m_Activities.begin()); it != end; ++it) {
                     textStartY += fontHeight;
-                    painter->drawLine(0, linePosY, w - 1, linePosY);
+                    painter->drawLine(0, linePosY, w, linePosY);
                     painter->setPen(textColor());
-                    painter->drawText(STATE_MARGIN, textStartY, w - STATE_MARGIN * 2 - 1,
+                    painter->drawText(STATE_MARGIN, textStartY, w - STATE_MARGIN * 2,
                                fontHeight, Qt::AlignCenter, *it);
                     setPenFromSettings(painter);
                     linePosY += fontHeight;

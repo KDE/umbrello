@@ -647,7 +647,7 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     if (!showNameOnly) {
         m_bodyOffsetY += fontHeight;
         setPenFromSettings(painter);
-        painter->drawLine(0, m_bodyOffsetY, w - 1, m_bodyOffsetY);
+        painter->drawLine(0, m_bodyOffsetY, w, m_bodyOffsetY);
         painter->setPen(textColor());
     }
     font.setBold(false);
@@ -668,7 +668,7 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         else
             m_bodyOffsetY += fontHeight * numAtts;
         setPenFromSettings(painter);
-        painter->drawLine(0, m_bodyOffsetY, w - 1, m_bodyOffsetY);
+        painter->drawLine(0, m_bodyOffsetY, w, m_bodyOffsetY);
         painter->setPen(QPen(textColor()));
     }
 

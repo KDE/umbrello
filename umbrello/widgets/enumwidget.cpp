@@ -135,7 +135,7 @@ void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 
     setPenFromSettings(painter);
 
-    painter->drawLine(0, y, w - 1, y);
+    painter->drawLine(0, y, w, y);
 
     QFontMetrics fontMetrics(font);
     UMLClassifier *classifier = (UMLClassifier*)m_umlObject;
