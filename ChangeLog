@@ -1,3 +1,25 @@
+version 2.11.3 (4.11.3) unreleased
+
+* Update documentation window on key navigation (151047)
+* Fix potential crash on code generation. (Joris Steyn)
+* Fix multiple association widgets for single foreign key constraint. (319391 122304)
+* The problem with copy-pasting in the tree view is fixed. (291749)
+* Double click on a state other than initial, normal or end crashed the application. Fixed by using a string instead of an array. (324192 324192)
+* Rename all occurrences of uml.sf.net to umbrello.kde.org. (Ralf Habacker)
+
+version 2.11.2 (4.11.2)
+
+* Fix broken entries in tree view (with cleanup of obsolete code) (317602)
+
+version 2.11.1 (4.11.1)
+
+* Add visual feedback if widget has documentation. (324062)
+* Move of UMLWidget based selection paint handling to UMLWidget::paint(). (Ralf Habacker)
+* fix the SKIP regexp. (Allen Winter)
+* Crash fix. (324058)
+* Fix NoteWidget position of lower and right border, which are one unit to small. (Ralf Habacker)
+* Rename of uml-devel@uml.sf.net to umbrello-devel@kde.org backport to 4.11.1 (Burkhard Lück)
+
 version 2.11.0 (4.11.0)
 
 * Some alignment operations do not match menuitem label and icon (207692)
