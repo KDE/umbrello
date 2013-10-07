@@ -1,0 +1,5 @@
+#!/bin/bash
+#
+# list tags and related dates
+# 
+git for-each-ref --format '%(refname) %(taggerdate)' refs/tags
