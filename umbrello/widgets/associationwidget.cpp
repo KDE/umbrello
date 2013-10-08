@@ -1570,7 +1570,8 @@ void AssociationWidget::moveEvent(QGraphicsSceneMouseEvent *me)
     QPointF oldRoleBPoint = calculateTextPosition(TextRole::RoleBName);
 
     int movingPoint = m_associationLine->closestPointIndex(me->scenePos());
-    m_associationLine->setPoint(movingPoint, me->scenePos());
+    if (movingPoint != -1)
+        m_associationLine->setPoint(movingPoint, me->scenePos());
     int pos = m_associationLine->count() - 1;//set to last point for widget b
 
     if ( movingPoint == 1 || (movingPoint == pos-1) ) {
