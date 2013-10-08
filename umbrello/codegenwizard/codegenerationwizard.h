@@ -49,7 +49,6 @@ private:
     CodeGenOptionsPage *m_OptionsPage;
     CodeGenStatusPage  *m_StatusPage;
 
-    static const QSize c_pageSize;
 };
 
 #endif

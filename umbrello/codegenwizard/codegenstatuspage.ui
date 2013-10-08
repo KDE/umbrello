@@ -20,7 +20,7 @@
    <item>
     <widget class="KTabWidget" name="ui_tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="ui_statusTab">
       <attribute name="title">
@@ -58,51 +58,45 @@
       <attribute name="title">
        <string>Logger</string>
       </attribute>
-      <widget class="QWidget" name="verticalLayoutWidget_2">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>10</y>
-         <width>461</width>
-         <height>431</height>
-        </rect>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <widget class="QTextEdit" name="ui_textEditLogger"/>
-        </item>
-        <item>
-         <layout class="QGridLayout" name="gridLayout_4">
-          <item row="0" column="0">
-           <widget class="QPushButton" name="ui_pushButtonClear">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>Clear</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QPushButton" name="ui_pushButtonExport">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>Export...</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QTextEdit" name="ui_textEditLogger"/>
+         </item>
+         <item>
+          <layout class="QGridLayout" name="gridLayout_4">
+           <item row="0" column="0">
+            <widget class="QPushButton" name="ui_pushButtonClear">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Clear</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QPushButton" name="ui_pushButtonExport">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Export...</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>

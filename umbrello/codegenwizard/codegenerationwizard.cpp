@@ -28,8 +28,6 @@
 // qt includes
 #include <QWizardPage>
 
-const QSize CodeGenerationWizard::c_pageSize = QSize(520, 530);
-
 /**
  * Constructor. Sets up the wizard and loads the wizard pages.
  * Each wizard page has its own class.
@@ -64,7 +62,6 @@ QWizardPage* CodeGenerationWizard::createSelectionPage(UMLClassifierList *classL
 {
     m_SelectionPage = new CodeGenSelectPage(this);
     m_SelectionPage->setClassifierList(classList);
-    m_SelectionPage->setFixedSize(c_pageSize);
     return m_SelectionPage;
 }
 
@@ -76,7 +73,6 @@ QWizardPage* CodeGenerationWizard::createSelectionPage(UMLClassifierList *classL
 QWizardPage* CodeGenerationWizard::createOptionsPage()
 {
     m_OptionsPage = new CodeGenOptionsPage(this);
-    m_OptionsPage->setFixedSize(c_pageSize);
     return m_OptionsPage;
 }
 
@@ -88,7 +84,6 @@ QWizardPage* CodeGenerationWizard::createOptionsPage()
 QWizardPage* CodeGenerationWizard::createStatusPage()
 {
     m_StatusPage = new CodeGenStatusPage(this);
-    m_StatusPage->setFixedSize(c_pageSize);
     return m_StatusPage;
 }
 
