@@ -1222,7 +1222,7 @@ QString UMLDoc::uniqueViewName(const Uml::DiagramType::Enum type)
             break;
     }
     QString name = dname;
-    for (int number = 0; findView(type, name, true); ++number) {
+    for (int number = 1; findView(type, name, true); ++number) {
         name = dname + '_' + QString::number(number);
     }
     return name;
