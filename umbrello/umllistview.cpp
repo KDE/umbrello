@@ -2130,8 +2130,9 @@ void UMLListView::slotCollapsed(QTreeWidgetItem * item)
 void UMLListView::slotCutSuccessful()
 {
     if (m_bStartedCut) {
-        popupMenuSel(m_menu->getAction(ListPopupMenu::mt_Delete));
-        //deletion code here
+        UMLListViewItem* item = static_cast<UMLListViewItem*>(currentItem());
+        deleteItem(item);
+
         m_bStartedCut = false;
     }
 }
