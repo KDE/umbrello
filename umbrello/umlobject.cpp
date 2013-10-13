@@ -1066,9 +1066,8 @@ bool UMLObject::loadFromXMI(QDomElement & element)
         m_BaseType != ot_Template && m_BaseType != ot_Stereotype &&
         m_BaseType != ot_Role && m_BaseType != ot_UniqueConstraint &&
         m_BaseType != ot_ForeignKeyConstraint) {
-        if (m_bInPaste) {
+        if (m_bInPaste || !m_pUMLPackage) {
             m_pUMLPackage = Model_Utils::treeViewGetPackageFromCurrent();
-            this->setID(UniqueID::gen());
         }
         if (m_pUMLPackage) {
             m_pUMLPackage->addObject(this);
