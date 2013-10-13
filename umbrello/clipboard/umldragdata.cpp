@@ -307,12 +307,13 @@ bool UMLDragData::decodeClip1(const QMimeData* mimeData, UMLObjectList& objects)
     while (!element.isNull()) {
         pObject = 0;
         QString type = element.tagName();
+        QString stereotype = element.attribute("stereotype");
         if (type == "UML:Association") {
             objectElement = objectElement.nextSibling();
             element = objectElement.toElement();
             continue;
         }
-        pObject = Object_Factory::makeObjectFromXMI(type);
+        pObject = Object_Factory::makeObjectFromXMI(type, stereotype);
 
         if(!pObject) {
             uWarning() << "Given wrong type of umlobject to create: " << type;
@@ -394,8 +395,9 @@ bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
     while (!element.isNull()) {
         pObject = 0;
         QString type = element.tagName();
+        QString stereotype = element.attribute("stereotype");
         if (type != "UML:Association") {
-            pObject = Object_Factory::makeObjectFromXMI(type);
+            pObject = Object_Factory::makeObjectFromXMI(type, stereotype);
 
             if(!pObject) {
                 uWarning() << "Given wrong type of umlobject to create:" << type;
@@ -646,10 +648,11 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
 
         UMLDoc* doc = UMLApp::app()->document();
         Uml::ID::Type elmId = Uml::ID::fromString(element.attribute("xmi.id"));
+        QString stereotype = element.attribute("stereotype");
         pObject = doc->findObjectById(elmId);
 
         if (!pObject) {
-            pObject = Object_Factory::makeObjectFromXMI(type);
+            pObject = Object_Factory::makeObjectFromXMI(type, stereotype);
             if (!pObject) {
                 uWarning() << "Given wrong type of umlobject to create: " << type;
                 return false;

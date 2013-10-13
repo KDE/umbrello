@@ -355,14 +355,6 @@ void UMLListViewItem::updateObject()
         else
             icon = Icon_Utils::it_Package;
         break;
-        /*
-            case UMLObject::ot_Folder:
-                {
-                    ListViewType lvt = Model_Utils::convert_OT_LVT(m_object);
-                    icon = Model_Utils::convert_LVT_IT(lvt);
-                }
-                break;
-         */
     case UMLObject::ot_Operation:
         if (scope == Uml::Visibility::Public)
             icon = Icon_Utils::it_Public_Method;
