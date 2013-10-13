@@ -1979,101 +1979,6 @@ UMLListViewItem* UMLListView::createDiagramItem(UMLView *view)
 }
 
 /**
- * CHECK - This is perhaps redundant since the
- *         UMLListViewItemData => UMLListViewItem merge.
- * Creates a new UMLListViewItem from a UMLListViewItem, if
- * parent is null the ListView decides who is going to be the parent.
- */
-UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDChanges,
-        UMLListViewItem* parent /*= 0*/)
-{
-    UMLObject* pObject = 0;
-    UMLListViewItem* item = 0;
-    UMLListViewItem::ListViewType lvt = Data.type();
-    if (!parent) {
-        parent = determineParentItem(lvt);
-        if (!parent)
-            return 0;
-    }
-
-    switch (lvt) {
-    case UMLListViewItem::lvt_Actor:
-    case UMLListViewItem::lvt_UseCase:
-    case UMLListViewItem::lvt_Class:
-    case UMLListViewItem::lvt_Package:
-    case UMLListViewItem::lvt_Subsystem:
-    case UMLListViewItem::lvt_Component:
-    case UMLListViewItem::lvt_Node:
-    case UMLListViewItem::lvt_Artifact:
-    case UMLListViewItem::lvt_Interface:
-    case UMLListViewItem::lvt_Datatype:
-    case UMLListViewItem::lvt_Enum:
-    case UMLListViewItem::lvt_Entity:
-    case UMLListViewItem::lvt_Category:
-    case UMLListViewItem::lvt_Logical_Folder:
-    case UMLListViewItem::lvt_UseCase_Folder:
-    case UMLListViewItem::lvt_Component_Folder:
-    case UMLListViewItem::lvt_Deployment_Folder:
-    case UMLListViewItem::lvt_EntityRelationship_Folder:
-        /***
-        int newID = IDChanges.findNewID(Data.ID());
-        //if there is no ListViewItem associated with the new ID,
-        //it could exist an Item already asocciated if the user chose to reuse an uml object
-        if(!(item = findItem(newID))) {
-                pObject = m_doc->findObjectById(IDChanges.findNewID(Data.ID()));
-                item = new UMLListViewItem(parent, Data.text(0), lvt, pObject);
-        } ***/
-        pObject = m_doc->findObjectById(Data.ID());
-        item = new UMLListViewItem(parent, Data.text(0), lvt, pObject);
-        break;
-    case UMLListViewItem::lvt_Datatype_Folder:
-        item = new UMLListViewItem(parent, Data.text(0), lvt);
-        break;
-    case UMLListViewItem::lvt_Attribute:
-    case UMLListViewItem::lvt_EntityAttribute:
-    case UMLListViewItem::lvt_Operation:
-    case UMLListViewItem::lvt_Template:
-    case UMLListViewItem::lvt_EnumLiteral:
-    case UMLListViewItem::lvt_UniqueConstraint:
-    case UMLListViewItem::lvt_PrimaryKeyConstraint:
-    case UMLListViewItem::lvt_ForeignKeyConstraint:
-    case UMLListViewItem::lvt_CheckConstraint: {
-        UMLClassifier *pClass =  static_cast<UMLClassifier*>(parent->umlObject());
-        Uml::ID::Type newID = IDChanges.findNewID(Data.ID());
-        pObject = pClass->findChildObjectById(newID);
-        if (pObject) {
-            item = new UMLListViewItem(parent, Data.text(0), lvt, pObject);
-        } else {
-            item = 0;
-        }
-        break;
-    }
-    case UMLListViewItem::lvt_UseCase_Diagram:
-    case UMLListViewItem::lvt_Sequence_Diagram:
-    case UMLListViewItem::lvt_Collaboration_Diagram:
-    case UMLListViewItem::lvt_Class_Diagram:
-    case UMLListViewItem::lvt_State_Diagram:
-    case UMLListViewItem::lvt_Activity_Diagram:
-    case UMLListViewItem::lvt_Component_Diagram:
-    case UMLListViewItem::lvt_Deployment_Diagram:
-    case UMLListViewItem::lvt_EntityRelationship_Diagram: {
-        Uml::ID::Type newID = IDChanges.findNewID(Data.ID());
-        UMLView* v = m_doc->findView(newID);
-        if (v == 0) {
-            return 0;
-        }
-        const UMLListViewItem::ListViewType lvt = Model_Utils::convert_DT_LVT(v->umlScene()->type());
-        item = new UMLListViewItem(parent, v->umlScene()->name(), lvt, newID);
-    }
-    break;
-    default:
-        uWarning() << "createItem() called on unknown type";
-        break;
-    }
-    return item;
-}
-
-/**
  * Determine the parent ListViewItem given a ListViewType.
  * This parent is used for creating new UMLListViewItems.
  *
@@ -2229,22 +2134,6 @@ void UMLListView::slotCutSuccessful()
         //deletion code here
         m_bStartedCut = false;
     }
-}
-
-/**
- * TODO: still in use?
- */
-void UMLListView::startUpdate()
-{
-    setSortingEnabled(false);
-}
-
-/**
- * TODO: still in use?
- */
-void UMLListView::endUpdate()
-{
-    setSortingEnabled(true);
 }
 
 /**

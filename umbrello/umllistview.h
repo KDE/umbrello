@@ -66,13 +66,8 @@ public:
     UMLListViewItemList selectedItemsRoot();
     int selectedItemsCount();
 
-    void startUpdate();
-    void endUpdate();
-
     UMLListViewItem* createDiagramItem(UMLView *view);
 
-    UMLListViewItem* createItem(UMLListViewItem& Data, IDChangeLog& IDChanges,
-                                UMLListViewItem* parent = 0);
     bool createItem(UMLListViewItem *item);
 
     UMLListViewItem* findFolderForDiagram(Uml::DiagramType::Enum dt);

@@ -336,10 +336,6 @@ bool UMLDragData::decodeClip1(const QMimeData* mimeData, UMLObjectList& objects)
             if(!doc->assignNewIDs(pObject)) {
                 return false;
             }
-            UMLObject::ObjectType type = pObject->baseType();
-            QString newName = Model_Utils::uniqObjectName(type, pObject->umlPackage(),
-                                                                pObject->name());
-            pObject->setName(newName);
             /****************************************************************/
         }
 
@@ -600,9 +596,9 @@ bool UMLDragData::decodeClip3(const QMimeData* mimeData, UMLListViewItemList& um
 /**
  * For use when the user selects UML Objects from a
  * Diagram. The Selected widegets and the relationships
- * between only * selected widgets will be copied and
- * also its respective ListView Items, * decodes Mime
- * type = "application/x-uml-clip4
+ * between only selected widgets will be copied
+ *
+ * decodes Mime type = "application/x-uml-clip4"
  */
 bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
                           UMLWidgetList& widgets,
@@ -647,16 +643,24 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
         //FIXME associations don't load
         if (type == "UML:Association")
             continue;
-        pObject = Object_Factory::makeObjectFromXMI(type);
+
+        UMLDoc* doc = UMLApp::app()->document();
+        Uml::ID::Type elmId = Uml::ID::fromString(element.attribute("xmi.id"));
+        pObject = doc->findObjectById(elmId);
 
         if (!pObject) {
-            uWarning() << "Given wrong type of umlobject to create: " << type;
-            return false;
-        }
+            pObject = Object_Factory::makeObjectFromXMI(type);
+            if (!pObject) {
+                uWarning() << "Given wrong type of umlobject to create: " << type;
+                return false;
+            }
 
-        if (!pObject->loadFromXMI(element)) {
-            uWarning() << "Failed to load object from XMI.";
-            return false;
+            if (!pObject->loadFromXMI(element)) {
+                uWarning() << "Failed to load object from XMI.";
+                return false;
+            }
+
+            doc->signalUMLObjectCreated(pObject);
         }
 
         objects.append(pObject);

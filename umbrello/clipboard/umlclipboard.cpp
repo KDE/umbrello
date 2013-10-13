@@ -88,6 +88,13 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
         m_AssociationList = scene->selectedAssocs();
         scene->copyAsImage(png);
 
+        // Clip4 needs UMLObjects because it's possible the UMLObject
+        // is no longer there when pasting this mime data. This happens for
+        // example when using cut-paste or pasting to another Umbrello
+        // instance.
+        foreach (WidgetBase* widget, m_WidgetList) {
+            m_ObjectList.append(widget->umlObject());
+        }
     } else { //if the copy action is being performed from the ListView
         UMLListViewItemList itemsSelected = listView->selectedItems();
         if (itemsSelected.count() <= 0) {
@@ -456,24 +463,6 @@ bool UMLClipboard::pasteClip2(const QMimeData* data)
         }
     }
 
-    UMLListView *listView = UMLApp::app()->listView();
-    listView->startUpdate();
-
-    foreach (UMLListViewItem* itemdata, itemdatalist) {
-        UMLListViewItem* item = listView->createItem(*itemdata, *idchanges);
-        if(!item) {
-            listView->endUpdate();
-            return false;
-        }
-        if(itemdata->childCount()) {
-            if(!pasteChildren(item, idchanges)) {
-                listView->endUpdate();
-                return false;
-            }
-        }
-    }
-    listView->endUpdate();
-
     return result;
 }
 
@@ -498,18 +487,6 @@ bool UMLClipboard::pasteClip3(const QMimeData* data)
     if(!result) {
         return false;
     }
-
-    listView->startUpdate();
-    foreach (UMLListViewItem* itemdata, itemdatalist) {
-        UMLListViewItem* item = listView->createItem(*itemdata, *idchanges);
-        if(itemdata->childCount()) {
-            if(!pasteChildren(item, idchanges)) {
-                listView->endUpdate();
-                return false;
-            }
-        }
-    }
-    listView->endUpdate();
 
     return result;
 }
@@ -603,24 +580,6 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
     //Activate all the pasted associations and widgets
     currentScene->activate();
     currentScene->endPartialWidgetPaste();
-
-    /*
-    UMLListView *listView = UMLApp::app()->listView();
-    UMLListViewItem* item = 0;
-    UMLListViewItem* itemdata = 0;
-    UMLListViewItemListIt it(itemdatalist);
-    while ((itemdata=it.current()) != 0) {
-        item = listView->createItem(*itemdata, *idchanges);
-        if(!item) {
-            return false;
-        }
-        if(itemdata->childCount()) {
-            if(!pasteChildren(item, idchanges)) {
-                return false;
-            }
-        }
-        ++it;
-        }*/
 
     if (objectAlreadyExists) {
         pasteItemAlreadyExists();

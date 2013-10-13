@@ -1918,6 +1918,12 @@ bool UMLApp::editCutCopy(bool bFromView)
     UMLClipboard clipboard;
     QMimeData * clipdata = 0;
 
+    // If not from-view, list items are copied. This flag is
+    // used in UMLDragData to determine whether to assign new IDs
+    if (!bFromView) {
+        listView()->setStartedCopy(true);
+    }
+
     if ((clipdata = clipboard.copy(bFromView)) != 0) {
         QClipboard* clip = QApplication::clipboard();
         clip->setMimeData(clipdata);//the global clipboard takes ownership of the clipdata memory
