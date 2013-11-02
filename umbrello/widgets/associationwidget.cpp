@@ -3709,7 +3709,7 @@ void AssociationWidget::setSelected(bool _select /* = true */)
         // if _select is false.
         selectAssocClassLine(false);
     }
-    UMLApp::app()->document()->writeToStatusBar(_select ? i18n("Press crtl with left mouse click to delete a point") : "");
+    UMLApp::app()->document()->writeToStatusBar(_select ? i18n("Press Ctrl with left mouse click to delete a point") : "");
 }
 
 /**
