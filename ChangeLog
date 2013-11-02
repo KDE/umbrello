@@ -1,3 +1,8 @@
+version 2.12.x (4.12.x)
+
+* End of manual maintained changelog file
+* Bug and feature related changelog can be fetched from http://umbrello.kde.org/changelog.php?4.12 
+
 version 2.11.3 (4.11.3) unreleased
 
 * Update documentation window on key navigation (151047)
