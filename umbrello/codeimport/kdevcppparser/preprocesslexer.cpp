@@ -591,7 +591,7 @@ void PreprocessLexer::dumpToFile()
     if (!d.exists())
         d.mkdir(tempPath);
 
-    QString fileName = tempPath + '/' + currentPosition().file.toString().replace(QRegExp("[/:mn]"), "-");
+    QString fileName = tempPath + '/' + currentPosition().file.replace(QRegExp("[/:mn]"), "-");
     QFile f(fileName);
     if (f.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QTextStream out(&f);
