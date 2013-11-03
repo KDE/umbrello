@@ -27,7 +27,8 @@
 #include <QChar>
 #include <QDebug>
 
-typedef boost::spirit::classic::file_position_base<QString> PositionType;
+typedef QString PositionFilename;
+typedef boost::spirit::classic::file_position_base<PositionFilename> PositionType;
 
 class Position : public PositionType
 {
