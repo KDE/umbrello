@@ -312,7 +312,7 @@ PreprocessLexer::~PreprocessLexer()
 }
 
 void PreprocessLexer::setSource(const QString& source,
-                                PositionFilename const& p_filename)
+                                const QString& p_filename)
 {
     reset();
     m_source.set_source(source, p_filename);

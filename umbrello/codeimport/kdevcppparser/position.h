@@ -27,8 +27,7 @@
 #include <QChar>
 #include <QDebug>
 
-typedef QString PositionFilename;
-typedef boost::spirit::classic::file_position_base<PositionFilename> PositionType;
+typedef boost::spirit::classic::file_position_base<QString> PositionType;
 
 class Position : public PositionType
 {
@@ -37,7 +36,7 @@ public:
     {
     }
 
-    explicit Position(const PositionFilename &p) : PositionType(p)
+    explicit Position(const QString& fileName) : PositionType(fileName)
     {
     }
 

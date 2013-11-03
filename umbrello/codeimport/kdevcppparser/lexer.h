@@ -70,7 +70,7 @@ public:
                      const QString& str = QString())
     { m_preprocessLexer.addSkipWord( word, skipType, str); }
 
-    bool setSource( const QString& source, PositionFilename const& p_filename);
+    bool setSource( const QString& source, const QString& p_filename);
     void setRecordComments( bool record );
     Position currentPosition() const { return m_source.get_currentPosition(); }
 
@@ -131,7 +131,7 @@ private:
             m_startLine = true;
         }
 
-        void set_filename( PositionFilename const& p_filename) { m_filename = p_filename; }
+        void set_filename( const QString& p_filename) { m_filename = p_filename; }
         void set_source( QString const& source) {
             m_ptr = CharIterator(source.data(),
                                  source.data() + source.length(),
@@ -144,7 +144,7 @@ private:
         // setters
         void set_startLine( bool p) {m_startLine = p;}
     private:
-        PositionFilename m_filename;
+        QString m_filename;
         CharIterator m_ptr;
         const CharIterator m_endPtr;
         bool m_startLine;
