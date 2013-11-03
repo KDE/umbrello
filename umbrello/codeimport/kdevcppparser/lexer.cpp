@@ -325,7 +325,7 @@ Lexer::~Lexer()
 }
 
 bool Lexer::setSource(const QString& source,
-                      PositionFilename const& p_filename)
+                      const QString& p_filename)
 {
     reset();
     m_preprocessLexer.setSource(source, p_filename);
