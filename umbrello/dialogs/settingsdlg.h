@@ -121,6 +121,7 @@ private slots:
     void slotFillCBChecked(bool value);
     void slotGridCBChecked(bool value);
     void slotBgCBChecked(bool value);
+    void slotLineWidthCBChecked(bool value);
 };
 
 #endif
