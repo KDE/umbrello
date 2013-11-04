@@ -134,7 +134,8 @@ void SettingsDlg::setupUIPage()
     connect( m_UiWidgets.fillColorCB, SIGNAL(toggled(bool)), this, SLOT(slotFillCBChecked(bool)) );
     connect( m_UiWidgets.gridColorCB, SIGNAL(toggled(bool)), this, SLOT(slotGridCBChecked(bool)) );
     connect( m_UiWidgets.bgColorCB, SIGNAL(toggled(bool)), this, SLOT(slotBgCBChecked(bool)) );
-    
+    connect( m_UiWidgets.lineWidthCB, SIGNAL(toggled(bool)), this, SLOT(slotLineWidthCBChecked(bool)) );
+
     //TODO Once the new scene is complete, so something better, it does not worth it for now
     if (m_UiWidgets.textColorB->color() == TEXT_COLOR) {
         m_UiWidgets.textColorCB->setChecked(false);
@@ -158,6 +159,15 @@ void SettingsDlg::setupUIPage()
     }
     else {
         m_UiWidgets.lineColorCB->setChecked(true);
+    }
+
+    if (m_UiWidgets.lineWidthB->value() == 0) {
+        m_UiWidgets.lineWidthCB->setChecked(false);
+        m_UiWidgets.lineWidthB->setDisabled(true);
+    }
+    else {
+        m_UiWidgets.lineWidthCB->setChecked(true);
+        m_UiWidgets.lineWidthB->setDisabled(false);
     }
 }
 
@@ -397,6 +407,17 @@ void SettingsDlg::slotBgCBChecked(bool value)
     }
     else {
         m_UiWidgets.bgColorB->setDisabled(false);
+    }
+}
+
+void SettingsDlg::slotLineWidthCBChecked(bool value)
+{
+    if (value == false) {
+        m_UiWidgets.lineWidthB->setValue(0);
+        m_UiWidgets.lineWidthB->setDisabled(true);
+    }
+    else {
+        m_UiWidgets.lineWidthB->setDisabled(false);
     }
 }
 
