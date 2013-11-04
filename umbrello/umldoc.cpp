@@ -2923,6 +2923,7 @@ void UMLDoc::addDefaultDatatypes()
     for (QStringList::Iterator it = entries.begin(); it != end; ++it) {
         createDatatype(*it);
     }
+    UMLApp::app()->listView()->closeDatatypesFolder();
 }
 
 /**
@@ -2937,7 +2938,6 @@ void UMLDoc::createDatatype(const QString &name)
     if (!umlobject) {
         Object_Factory::createUMLObject(UMLObject::ot_Datatype, name, m_datatypeRoot);
     }
-    UMLApp::app()->listView()->closeDatatypesFolder();
 }
 
 /**
