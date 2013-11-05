@@ -101,7 +101,7 @@ void FloatingDashLineWidget::slotMenuSelection(QAction* action)
         {
             bool ok = false;
             QString name = m_Text;
-            name = KInputDialog::getText(i18n("Enter alternative Name"), i18n("Enter the alternative :"), m_Text, &ok);
+            name = KInputDialog::getText(i18n("Enter alternative Name"), i18n("Enter the alternative:"), m_Text, &ok);
             if (ok && name.length() > 0)
                 m_Text = name;
         }
