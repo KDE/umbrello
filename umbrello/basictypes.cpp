@@ -818,7 +818,7 @@ QString toString(Enum item)
         case JavaScript:
             return QString("JavaScript");
         case MySQL:
-             return QString("MySQL");
+            return QString("MySQL");
         case Pascal:
             return QString("Pascal");
         case Perl:
