@@ -44,14 +44,14 @@ DocWindow::DocWindow(UMLDoc * doc, QWidget *parent)
     //setup visual display
     QGridLayout* statusLayout = new QGridLayout();
     m_typeLabel = createPixmapLabel();
-    m_typeLabel->setToolTip(i18n("documentation type"));
+    m_typeLabel->setToolTip(i18n("Documentation type"));
     statusLayout->addWidget(m_typeLabel, 0, 0, 1, 1);
     m_nameLabel = new QLabel(this);
     m_nameLabel->setFrameStyle(QFrame::Panel | QFrame::Raised);
     m_nameLabel->setAlignment(Qt::AlignHCenter);
     statusLayout->addWidget(m_nameLabel, 0, 1, 1, 4);
     m_modifiedLabel = createPixmapLabel();
-    m_modifiedLabel->setToolTip(i18n("flag whether documentation was modified"));
+    m_modifiedLabel->setToolTip(i18n("Flag whether documentation was modified"));
     statusLayout->addWidget(m_modifiedLabel, 0, 5, 1, 1);
     m_docTE = new KTextEdit(this);
     m_docTE->setText("");
