@@ -226,7 +226,7 @@ QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &im
 
     // create the needed directories
     if (!prepareDirectory(url)) {
-        return i18n("Can not create directory: %1", url.directory());
+        return i18n("Cannot create directory: %1", url.directory());
     }
 
     // The fileName will be used when exporting the image. If the url isn't local,
@@ -243,7 +243,7 @@ QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &im
 
     QRectF rect = scene->diagramRect();
     if (rect.isEmpty()) {
-        return i18n("Can not save an empty diagram");
+        return i18n("Cannot save an empty diagram");
     }
 
     // exporting the view to the file

@@ -210,7 +210,7 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
         break;
     default:
         // do nothing..no idea what this is
-        uWarning() << "Warning: can not generate RubyCodeAccessorMethod for type: " << getType();
+        uWarning() << "Warning: cannot generate RubyCodeAccessorMethod for type: " << getType();
         break;
     }
 

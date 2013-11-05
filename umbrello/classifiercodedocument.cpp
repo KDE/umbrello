@@ -682,7 +682,7 @@ void ClassifierCodeDocument::loadClassFieldsFromXMI(QDomElement & elem)
                 m_classFieldMap.insert(cf->getParentObject(), cf);
 
             } else
-                uError()<<" LoadFromXMI: can not load classfield parent_id:"<<id<<" do you have a corrupt savefile?";
+                uError()<<" LoadFromXMI: cannot load classfield parent_id:"<<id<<" do you have a corrupt savefile?";
         }
         node = childElem.nextSibling();
         childElem= node.toElement();

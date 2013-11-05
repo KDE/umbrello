@@ -204,7 +204,7 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, int position)
 int UMLEnum::removeEnumLiteral(UMLEnumLiteral* literal)
 {
     if (!m_List.removeAll(literal)) {
-        uDebug() << "can not find att given in list";
+        uDebug() << "cannot find att given in list";
         return -1;
     }
     emit enumLiteralRemoved(literal);

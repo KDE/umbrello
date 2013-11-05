@@ -489,7 +489,7 @@ void CodeDocument::addChildTagToMap (const QString &tag, TextBlock * tb)
 }
 
 /**
- * Lookup a certain textblock by its tag value, returns NULL if it can not
+ * Lookup a certain textblock by its tag value, returns NULL if it cannot
  * find the TextBlock with such a tag. If descendIntoChildren is true, then
  * any child hierarchical textblocks will also be searched for a match.
  * @param tag                   the tag to look for

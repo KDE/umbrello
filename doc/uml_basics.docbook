@@ -370,19 +370,19 @@ exist on its own. They exist only inside the whole, and if the whole is destroye
 <para>Class diagrams can contain several other items besides classes.</para>
 <sect4 id="interfaces">
 <title>Interfaces</title>
-<para>Interfaces are abstract classes which means instances can not be directly created of them.  They can contain operations but no attributes.  Classes can inherit from interfaces (through a realisation association) and instances can then be made of these diagrams.</para>
+<para>Interfaces are abstract classes which means instances cannot be directly created of them.  They can contain operations but no attributes.  Classes can inherit from interfaces (through a realisation association) and instances can then be made of these diagrams.</para>
 <!-- FIXME screenshot -->
 </sect4>
 <sect4 id="datatype">
 <title>Datatypes</title>
 <para>Datatypes are primitives which are typically built into a programming language.  Common examples include integers and booleans.  
-They can not have relationships to classes but classes can have relationships to them.</para>
+They cannot have relationships to classes but classes can have relationships to them.</para>
 <!-- FIXME screenshot -->
 </sect4>
 <sect4 id="enum">
 <title>Enums</title>
 <para>Enums are a simple list of values.  A typical example is an enum for days of the week.  The options of an enum are called Enum Literals.
-Like datatypes they can not have relationships to classes but classes can have relationships to them.</para>
+Like datatypes they cannot have relationships to classes but classes can have relationships to them.</para>
 <!-- FIXME screenshot -->
 </sect4>
 <sect4 id="package">

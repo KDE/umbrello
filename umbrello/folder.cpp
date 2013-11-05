@@ -419,7 +419,7 @@ bool UMLFolder::loadFolderFile(const QString& path)
     QString error;
     int line;
     if (!doc.setContent(data, false, &error, &line)) {
-        uError() << "Can not set content:" << error << " line:" << line;
+        uError() << "Cannot set content:" << error << " line:" << line;
         return false;
     }
     QDomNode rootNode = doc.firstChild();

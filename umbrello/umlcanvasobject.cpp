@@ -117,7 +117,7 @@ bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc)
 int UMLCanvasObject::removeAssociationEnd(UMLAssociation * assoc)
 {
     if (!hasAssociation(assoc) || !m_List.removeAll(assoc)) {
-        DEBUG(DBG_SRC) << "can not find given assoc " << assoc << " in list";
+        DEBUG(DBG_SRC) << "cannot find given assoc " << assoc << " in list";
         return -1;
     }
     UMLApp::app()->document()->removeAssociation(assoc, false);

@@ -372,7 +372,7 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* att, int position)
 int UMLEntity::removeEntityAttribute(UMLClassifierListItem* att)
 {
     if (!m_List.removeAll((UMLEntityAttribute*)att)) {
-        uDebug() << "can not find att given in list";
+        uDebug() << "cannot find att given in list";
         return -1;
     }
     emit entityAttributeRemoved(att);

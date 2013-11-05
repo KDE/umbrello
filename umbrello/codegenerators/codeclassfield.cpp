@@ -291,7 +291,7 @@ void CodeClassField::setAttributesFromNode (QDomElement & root)
                 if(method)
                     method->loadFromXMI(element);
                 else
-                    uError()<<"Can not load code accessor method for type:"<<type<<" which does not exist in this codeclassfield. Is XMI out-dated or corrupt?";
+                    uError()<<"Cannot load code accessor method for type:"<<type<<" which does not exist in this codeclassfield. Is XMI out-dated or corrupt?";
 
             } else
                 if(tag == "header") {

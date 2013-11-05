@@ -274,7 +274,7 @@ UMLOperation* UMLClassifier::createOperation(
                 return NULL;
             } else if (checkOperationSignature(op->name(), op->getParmList())) {
                 KMessageBox::information(0,
-                                         i18n("An operation with the same name and signature already exists. You can not add it again."));
+                                         i18n("An operation with the same name and signature already exists. You cannot add it again."));
             } else {
                 break;
             }

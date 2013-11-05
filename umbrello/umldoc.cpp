@@ -1396,7 +1396,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o)
     bool ok = false;
     UMLClassifier* p = dynamic_cast<UMLClassifier *>(o->parent());
     if (!p) {
-        DEBUG(DBG_SRC) << "Can not create object, no parent found.";
+        DEBUG(DBG_SRC) << "Cannot create object, no parent found.";
         return;
     }
 
@@ -1807,7 +1807,7 @@ short UMLDoc::encoding(QIODevice & file)
     int line;
     QDomDocument doc;
     if (!doc.setContent(data, false, &error, &line)) {
-        uWarning() << "Can not set content: " << error << " Line: " << line;
+        uWarning() << "Cannot set content: " << error << " Line: " << line;
         return ENC_UNKNOWN;
     }
 
@@ -1898,7 +1898,7 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
     int line;
     QDomDocument doc;
     if (!doc.setContent(data, false, &error, &line)) {
-        uWarning() << "Can not set content:" << error << " Line:" << line;
+        uWarning() << "Cannot set content:" << error << " Line:" << line;
         return false;
     }
     qApp->processEvents();  // give UI events a chance

@@ -616,7 +616,7 @@ void RefactoringAssistant::createAttribute()
         QTreeWidgetItem *parent = item->parent();
         c = dynamic_cast<UMLClassifier*>(findUMLObject(parent));
         if (!c) {
-            uWarning() << "No classifier - can not create!";
+            uWarning() << "No classifier - cannot create!";
             return;
         }
     }

@@ -729,7 +729,7 @@ bool AssociationWidget::activate()
         setWidgetForRole(m_scene->findWidget(widgetIDForRole(RoleType::B)), RoleType::B);
 
     if(!m_role[RoleType::A].umlWidget || !m_role[RoleType::B].umlWidget) {
-        DEBUG(DBG_SRC) << "Can not make association!";
+        DEBUG(DBG_SRC) << "Cannot make association!";
         return false;
     }
 

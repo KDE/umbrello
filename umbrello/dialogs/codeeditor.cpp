@@ -876,7 +876,7 @@ void CodeEditor::slotCopyTextBlock()
     else if (dynamic_cast<CodeComment*>(m_selectedTextBlock))
         m_textBlockToPaste = CodeGenFactory::newCodeComment(m_parentDoc);
     else {
-        uError() << " ERROR: CodeEditor can not copy selected block:" << m_selectedTextBlock << " of unknown type";
+        uError() << " ERROR: CodeEditor cannot copy selected block:" << m_selectedTextBlock << " of unknown type";
         m_textBlockToPaste = 0;
         return; // error!
     }

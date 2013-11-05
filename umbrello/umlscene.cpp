@@ -1950,7 +1950,7 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
             pWidget->setID(newID);
         UMLObject * pObject = m_doc->findObjectById(newID);
         if (!pObject) {
-            DEBUG(DBG_SRC) << "addWidget: Can not find UMLObject for id "
+            DEBUG(DBG_SRC) << "addWidget: Cannot find UMLObject for id "
                            << Uml::ID::toString(newID);
             return false;
         }
@@ -2488,7 +2488,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
         } else if (roleBObj->id() == myID) {
             other = static_cast<UMLCanvasObject*>(roleAObj);
         } else {
-            DEBUG(DBG_SRC) << "Can not find own object "
+            DEBUG(DBG_SRC) << "Cannot find own object "
                            << Uml::ID::toString(myID) << " in UMLAssoc "
                            << Uml::ID::toString(assoc->id());
             continue;

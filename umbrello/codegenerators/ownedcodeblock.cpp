@@ -147,7 +147,7 @@ void OwnedCodeBlock::setAttributesFromNode (QDomElement & elem)
             initFields (obj); // just the regular approach
     } 
     else
-        uError() << "ERROR: can not load ownedcodeblock: parentUMLObject w/id:"
+        uError() << "ERROR: cannot load ownedcodeblock: parentUMLObject w/id:"
                  << Uml::ID::toString(id) << " not found, corrupt save file?";
 }
 

@@ -496,7 +496,7 @@ void ClassifierListPage::slotPopupMenuSel(QAction* action)
                 return;
             UMLClassifierListItem* listItem = getItemList().at(currentItemIndex);
             if (!listItem && id != ListPopupMenu::mt_New_Attribute) {
-                uDebug() << "can not find att from selection";
+                uDebug() << "cannot find att from selection";
                 return;
             }
             m_bSigWaiting = true;
@@ -685,7 +685,7 @@ void ClassifierListPage::slotDoubleClick(QListWidgetItem* item)
 
     UMLClassifierListItem* listItem  = getItemList().at(m_pItemListLB->row(item));
     if (!listItem) {
-        uDebug() << "can not find att from selection";
+        uDebug() << "cannot find att from selection";
         return;
     }
 
