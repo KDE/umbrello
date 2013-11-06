@@ -30,6 +30,7 @@
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QLabel>
+#include <QPushButton>
 #include <QRadioButton>
 #include <QVBoxLayout>
 
@@ -45,7 +46,7 @@ bool caseInsensitiveLessThan(const UMLOperation *s1, const UMLOperation *s2)
  *  @param  c       The concept to get the operations from.
  */
 SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c)
-   : KDialog(parent)
+   : KDialog(parent), m_classifier(c)
 {
     setCaption(i18n("Select Operation"));
     setButtons(Ok | Cancel);
@@ -72,30 +73,26 @@ SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c)
     m_pOpAS = new QCheckBox(i18n("Auto increment:"), m_pOpGB);
     mainLayout->addWidget(m_pOpAS, 0, 2);
 
-    m_pOpRB = new QRadioButton(i18n("Class operation:"), m_pOpGB);
-    connect(m_pOpRB, SIGNAL(clicked()), this, SLOT(slotSelectedOp()));
+    m_pOpRB = new QLabel(i18n("Class operation:"), m_pOpGB);
     mainLayout->addWidget(m_pOpRB, 1, 0);
 
     m_pOpCB = new KComboBox(m_pOpGB);
     m_pOpCB->setCompletionMode(KGlobalSettings::CompletionPopup);
     m_pOpCB->setDuplicatesEnabled(false); // only allow one of each type in box
-    mainLayout->addWidget(m_pOpCB, 1, 1);
+    connect(m_pOpCB, SIGNAL(currentIndexChanged(int)), this, SLOT(slotIndexChanged(int)));
+    mainLayout->addWidget(m_pOpCB, 1, 1, 1, 2);
 
-    m_pCustomRB = new QRadioButton(i18n("Custom operation:"), m_pOpGB);
-    connect(m_pCustomRB, SIGNAL(clicked()), this, SLOT(slotSelectedCustom()));
+    m_newOperationButton = new QPushButton(i18n("New"), m_pOpGB);
+    connect(m_newOperationButton, SIGNAL(clicked()), this, SLOT(slotNewOperation()));
+    mainLayout->addWidget(m_newOperationButton, 1, 3);
+
+    m_pCustomRB = new QLabel(i18n("Custom operation:"), m_pOpGB);
     mainLayout->addWidget(m_pCustomRB, 2, 0);
 
     m_pOpLE = new KLineEdit(m_pOpGB);
-    mainLayout->addWidget(m_pOpLE, 2, 1);
-
-    UMLOperationList list = c->getOpList(true);
-    qSort(list.begin(), list.end(), caseInsensitiveLessThan);
-    foreach (UMLOperation* obj, list) {
-        insertOperation(obj->toString(Uml::SignatureType::SigNoVis), list.count());
-    }
-
-    m_nOpCount = c->operations();
-    m_pOpRB->click();
+    connect(m_pOpLE, SIGNAL(textChanged(QString)), this, SLOT(slotTextChanged(QString)));
+    mainLayout->addWidget(m_pOpLE, 2, 1, 1, 2);
+    setupOperationsList();
 }
 
 /**
@@ -106,22 +103,13 @@ SelectOpDlg::~SelectOpDlg()
 }
 
 /**
- * Inserts @p type into the type-combobox as well as its completion object.
- */
-void SelectOpDlg::insertOperation(const QString& type, int index)
-{
-    m_pOpCB->insertItem(index, type);
-    m_pOpCB->completionObject()->addItem(type);
-}
-
-/**
  *  Returns the operation to display.
  *
  *  @return The operation to display.
  */
 QString SelectOpDlg::getOpText()
 {
-    if (m_pOpRB->isChecked())
+    if (m_pOpLE->text().isEmpty())
         return m_pOpCB->currentText();
     else
         return m_pOpLE->text();
@@ -139,22 +127,6 @@ bool SelectOpDlg::isClassOp() const
     return (m_id == OP);
 }
 
-void SelectOpDlg::slotSelectedOp()
-{
-    m_pOpLE->setEnabled(false);
-    if (m_nOpCount > 0) {
-        m_pOpCB->setEnabled(true);
-    }
-    m_id = OP;
-}
-
-void SelectOpDlg::slotSelectedCustom()
-{
-    m_pOpLE->setEnabled(true);
-    m_pOpCB->setEnabled(false);
-    m_id = CUSTOM;
-}
-
 /**
  * Set the custom operation text.
  *
@@ -163,9 +135,40 @@ void SelectOpDlg::slotSelectedCustom()
 void SelectOpDlg::setCustomOp(const QString &op)
 {
     m_pOpLE->setText(op);
-    if (op.length() > 0) {
-        slotSelectedCustom();
-        m_pCustomRB->setChecked(true);
+    slotTextChanged(op);
+}
+
+/**
+ * handle new operation button click
+ */
+void SelectOpDlg::slotNewOperation()
+{
+    UMLOperation *op = m_classifier->createOperation();
+    if (!op)
+        return;
+    setupOperationsList();
+    setClassOp(op->toString(Uml::SignatureType::SigNoVis));
+}
+
+/**
+ * Handle combox box changes.
+ */
+void SelectOpDlg::slotIndexChanged(int index)
+{
+    if (index != -1) {
+        m_pOpLE->setText("");
+        m_id = OP;
+    }
+}
+
+/**
+ * Handle custom line edit changes.
+ */
+void SelectOpDlg::slotTextChanged(const QString &text)
+{
+    if (!text.isEmpty()) {
+        m_pOpCB->setCurrentIndex(-1);
+        m_id = CUSTOM;
     }
 }
 
@@ -177,15 +180,30 @@ void SelectOpDlg::setCustomOp(const QString &op)
  */
 bool SelectOpDlg::setClassOp(const QString &op)
 {
-    for (int i = 1; i!= m_pOpCB->count(); ++i) {
+    for (int i = 1; i != m_pOpCB->count(); ++i) {
         if (m_pOpCB->itemText(i) == op) {
             m_pOpCB->setCurrentIndex(i);
-            m_pCustomRB->setChecked(false);
-            slotSelectedOp();
+            slotIndexChanged(i);
             return true;
         }
     }
     return false;
+}
+
+/**
+ * setup dialog operations list
+ */
+void SelectOpDlg::setupOperationsList()
+{
+    m_pOpCB->clear();
+    UMLOperationList list = m_classifier->getOpList(true);
+    qSort(list.begin(), list.end(), caseInsensitiveLessThan);
+    foreach(UMLOperation * obj, list) {
+        QString s = obj->toString(Uml::SignatureType::SigNoVis);
+        m_pOpCB->insertItem(list.count(), s);
+        m_pOpCB->completionObject()->addItem(s);
+    }
+    m_nOpCount = m_classifier->operations();
 }
 
 /**

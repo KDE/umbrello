@@ -974,8 +974,10 @@ void MessageWidget::setOperation(UMLOperation *op)
     if (m_umlObject && m_pFText)
         disconnect(m_umlObject, SIGNAL(modified()), m_pFText, SLOT(setMessageText()));
     m_umlObject = op;
-    if (m_umlObject && m_pFText)
+    if (m_umlObject && m_pFText) {
         connect(m_umlObject, SIGNAL(modified()), m_pFText, SLOT(setMessageText()));
+        m_pFText->setMessageText();
+    }
 }
 
 /**
