@@ -201,7 +201,7 @@ public:
     void addSkipWord(const QString& word, SkipType skipType = SkipWord,
                       const QString& str = QString());
     bool preprocess();
-    void setSource(const QString& source, PositionFilename const& p_filename);
+    void setSource(const QString& source, const QString& p_filename);
     void setRecordComments(bool record);
     QString const& preprocessedString() const {return m_preprocessedString;}
 private:
@@ -280,7 +280,7 @@ private:
             m_ptr = CharIterator();
         }
         void set_source(const QString& source,
-                        PositionFilename const& p_filename) {
+                        const QString& p_filename) {
             m_source = source;
             m_ptr = CharIterator(m_source.data(),
                                  m_source.data() + m_source.length(),
