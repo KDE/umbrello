@@ -52,8 +52,7 @@ public:
     bool setClassOp(const QString &op);
 
 protected:
-
-    void insertOperation(const QString& type, int index = -1);
+    void setupOperationsList();
 
 private:
     static const int OP     = 0;
@@ -63,16 +62,19 @@ private:
     KComboBox * m_pOpCB;
     QLabel * m_pSeqL;
     KLineEdit * m_pOpLE, * m_pSeqLE;
-    QRadioButton * m_pCustomRB, * m_pOpRB;
+    QLabel * m_pCustomRB, * m_pOpRB;
+    QPushButton * m_newOperationButton;
     QCheckBox * m_pOpAS;
     QString m_Text;
     int m_nOpCount;
     int m_id;  ///< takes on the value OP or CUSTOM according to what the user selected
     UMLView *m_pView;
+    UMLClassifier *m_classifier;
 
 public slots:
-    void slotSelectedOp();
-    void slotSelectedCustom();
+    void slotNewOperation();
+    void slotIndexChanged(int index);
+    void slotTextChanged(const QString &text);
 };
 
 #endif
