@@ -50,8 +50,6 @@ public slots:
     void show();
 
 protected:
-    void dragEnterEvent(QDragEnterEvent* mouseEvent);
-    void dropEvent(QDropEvent* mouseEvent);
     virtual void wheelEvent(QWheelEvent* event);
     virtual void resizeEvent(QResizeEvent* event);
     virtual void showEvent(QShowEvent *se);
