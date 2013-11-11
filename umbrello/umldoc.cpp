@@ -2042,9 +2042,7 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
             }
         }
     }
-#ifdef VERBOSE_DEBUGGING
-    DEBUG(DBG_SRC) << "m_objectList.count() is " << m_objectList.count();
-#endif
+
     resolveTypes();
     // set a default code generator if no <XMI.extensions><codegeneration> tag seen
     if (UMLApp::app()->generator() == 0) {
@@ -2084,8 +2082,8 @@ void UMLDoc::resolveTypes()
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
        UMLFolder *obj = m_root[i];
 #ifdef VERBOSE_DEBUGGING
-        DEBUG(DBG_SRC) << "UMLDoc: invoking resolveRef() for " << obj->getName()
-                       << " (id=" << Uml::ID::toString(obj->ID()) << ")";
+        DEBUG(DBG_SRC) << "UMLDoc: invoking resolveRef() for " << obj->name()
+                       << " (id=" << Uml::ID::toString(obj->id()) << ")";
 #endif
         obj->resolveRef();
     }

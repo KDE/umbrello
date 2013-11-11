@@ -170,9 +170,15 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
 bool UMLClipboard::paste(const QMimeData* data)
 {
     UMLDoc *doc = UMLApp::app()->document();
+
+    int codingType = UMLDragData::getCodingType(data);
+
+    QString mimeType = "application/x-uml-clip" + QString::number(codingType);
+    uDebug() << "Pasting mimeType=" << mimeType << "data=" << data->data(mimeType);
+
     bool result = false;
     doc->beginPaste();
-    switch(UMLDragData::getCodingType(data)) {
+    switch (codingType) {
     case 1:
         result = pasteClip1(data);
         break;

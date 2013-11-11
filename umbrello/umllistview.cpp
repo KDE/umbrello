@@ -165,7 +165,7 @@ void UMLListView::slotItemSelectionChanged()
 {
     UMLListViewItem* currItem = static_cast<UMLListViewItem*>(currentItem());
     if (currItem && currItem->isSelected()) {
-        DEBUG(DBG_SRC) << currItem->text(0);
+        DEBUG(DBG_SRC) << "UMLListView selection changed to" << currItem->text(0);
         if (m_editItem && m_bRenameInProgress) {
             if (m_editItem == currItem) {
                 // clicked on the item which is just edited
@@ -253,10 +253,10 @@ void UMLListView::mousePressEvent(QMouseEvent *me)
     // Get the UMLListViewItem at the point where the mouse pointer was pressed
     UMLListViewItem * item = static_cast<UMLListViewItem*>(itemAt(me->pos()));
     if (item) {
-        DEBUG(DBG_SRC) << UMLListViewItem::toString(item->type());
+        DEBUG(DBG_SRC) << "QMouseEvent on" << UMLListViewItem::toString(item->type());
     }
     else {
-        DEBUG(DBG_SRC) << "item is NULL";
+        DEBUG(DBG_SRC) << "QMouseEvent on empty space";
     }
 
     const Qt::MouseButton button = me->button();
@@ -900,8 +900,8 @@ void UMLListView::slotObjectCreated(UMLObject* object)
     UMLListViewItem* newItem = findUMLObject(object);
 
     if (newItem) {
-        DEBUG(DBG_SRC) << newItem->type();
-        DEBUG(DBG_SRC) << object->name() << ", id= " << Uml::ID::toString(object->id())
+        DEBUG(DBG_SRC) << object->name() << ", type=" << newItem->type()
+                       << ", id=" << Uml::ID::toString(object->id())
                        << ": item already exists.";
         Icon_Utils::IconType icon = Model_Utils::convert_LVT_IT(newItem->type());
         newItem->setIcon(icon);

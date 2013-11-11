@@ -1688,7 +1688,7 @@ void UMLApp::setModified(bool modified)
 
     if (m_loading == false)  {
         if (m_doc) {
-            DEBUG(DBG_SRC) << m_doc->url().fileName();
+            DEBUG(DBG_SRC) << "Modified file=" << m_doc->url().fileName();
             setCaption(m_doc->url().fileName(), modified); //add disk icon to taskbar if modified
         }
         else {
@@ -2792,7 +2792,7 @@ void UMLApp::setCurrentView(UMLView* view)
     if (lvitem) {
         m_listView->setCurrentItem(lvitem);
     }
-    DEBUG(DBG_SRC) << view->umlScene();
+    DEBUG(DBG_SRC) << "Changed view to" << view->umlScene();
 }
 
 /**
