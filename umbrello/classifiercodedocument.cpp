@@ -195,10 +195,23 @@ bool ClassifierCodeDocument::addCodeClassField (CodeClassField * add_object)
 void ClassifierCodeDocument::addAttributeClassField (UMLClassifierListItem *obj, bool syncToParentIfAdded)
 {
     UMLAttribute *at = (UMLAttribute*)obj;
+
+    // This can be signalled multiple times: after creation and after calling resolveRef,
+    // skip creation if the attribute is already there.
+    if (m_classFieldMap.contains(at)) {
+        return;
+    }
+
     CodeClassField * cf = CodeGenFactory::newCodeClassField(this, at);
-    if(cf)
-        if (addCodeClassField(cf) && syncToParentIfAdded)
+    if (cf) {
+        if (!addCodeClassField(cf)) {
+            // If cf was not added to m_classFieldMap, it must be deleted to
+            // ensure correct cleanup when closing umbrello.
+            delete cf;
+        } else if (syncToParentIfAdded) {
             updateContent();
+        }
+    }
 }
 
 /**
