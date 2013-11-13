@@ -1,0 +1,8 @@
+#!/bin/bash
+#
+# list changes of xmi files attributes
+# 
+# @author Ralf Habacker <ralf.habacker@freenet.de>
+# 
+#
+git log -p | gawk '$1 == "commit" {commit=$0} $1 == "---" {file=$0} $0 ~ /^[-+][^+].*setAttribute\(/ { print commit "\n" file "\n" $0 }'
