@@ -6,13 +6,22 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 
 set(KDE4_BUILD_TESTS ON)  # for unit tests
 
+set(VERSION_MAJOR "2")
+set(VERSION_MINOR "11")
+set(VERSION_PATCH "90")
+
 # set default umbrello version
 # umbrello version could be overriden by cmake command line using -DUMBRELLO_VERSION_STRING=major.minor.patch
 if(NOT UMBRELLO_VERSION_STRING)
-    set(UMBRELLO_VERSION_MAJOR "2")
-    set(UMBRELLO_VERSION_MINOR "11")
-    set(UMBRELLO_VERSION_PATCH "90")
-    set(UMBRELLO_VERSION_STRING "${UMBRELLO_VERSION_MAJOR}.${UMBRELLO_VERSION_MINOR}.${UMBRELLO_VERSION_PATCH}")
+    set(UMBRELLO_VERSION_STRING "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
+    if(EXISTS ${CMAKE_SOURCE_DIR}/.git)
+        execute_process(
+            COMMAND git rev-parse --short HEAD
+            OUTPUT_VARIABLE _hash
+        )
+        string(REPLACE "\n" "" hash ${_hash})
+        set(UMBRELLO_VERSION_STRING "${UMBRELLO_VERSION_STRING}-${hash}")
+    endif()
 endif()
 
 message(STATUS "Using umbrello version ${UMBRELLO_VERSION_STRING}")
