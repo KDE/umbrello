@@ -313,13 +313,34 @@ bool UMLDragData::decodeClip1(const QMimeData* mimeData, UMLObjectList& objects)
             element = objectElement.toElement();
             continue;
         }
-        pObject = Object_Factory::makeObjectFromXMI(type, stereotype);
 
+        // Remove ownedElements from containers: the clip already contains all children
+        // as a flat list (UMLClipboard::insertItemChildren)
+        if (type == "UML:Package" ||
+            type == "UML:Class" ||
+            type == "UML:Component") {
+            QDomNodeList list = element.childNodes();
+            for (int i=(list.length() - 1); i>=0; i--) {
+                QDomNode child = list.at(i);
+                QString tagName = child.toElement().tagName();
+                if (tagName == "UML:Namespace.ownedElement" ||
+                    tagName == "UML:Namespace.contents") {
+                    element.removeChild(child);
+                }
+            }
+        }
+
+        pObject = Object_Factory::makeObjectFromXMI(type, stereotype);
         if(!pObject) {
             uWarning() << "Given wrong type of umlobject to create: " << type;
             return false;
         }
         pObject->setInPaste(true);
+
+        // Note: element should not be used after calling loadFromXMI() because
+        // it can point to an arbitrary child node
+        QString oldParentId = element.attribute("namespace", "-1");
+
         if(!pObject->loadFromXMI(element)) {
             uWarning() << "Failed to load object of type " << type << " from XMI";
             delete pObject;
@@ -338,6 +359,33 @@ bool UMLDragData::decodeClip1(const QMimeData* mimeData, UMLObjectList& objects)
                 return false;
             }
             /****************************************************************/
+        }
+
+        // Determine the parent package of the pasted object
+        UMLPackage* newParent = 0;
+        if (oldParentId != "-1") {
+            Uml::ID::Type newParentId = doc->changeLog()->findNewID(
+                Uml::ID::fromString(oldParentId)
+            );
+
+            if (newParentId != "-1") {
+                // Find the newly pasted package
+                newParent = static_cast<UMLPackage*>(doc->findObjectById(newParentId));
+            } else {
+                // Package is not in this clip, determine the parent based
+                // on the selected tree view item
+                newParent = Model_Utils::treeViewGetPackageFromCurrent();
+            }
+        }
+
+        if (newParent != 0) {
+            UMLPackage* oldParent = pObject->umlPackage();
+            if (oldParent != 0) {
+                oldParent->removeObject(pObject);
+            }
+
+            pObject->setUMLPackage(newParent);
+            newParent->addObject(pObject);
         }
 
         pObject->resolveRef();

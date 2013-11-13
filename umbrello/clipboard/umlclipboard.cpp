@@ -333,10 +333,9 @@ bool UMLClipboard::insertItemChildren(UMLListViewItem * item, UMLListViewItemLis
         for(int i = 0; i < item->childCount(); i++) {
             UMLListViewItem * child = (UMLListViewItem*)item->child(i);
             m_ItemList.append(child);
-            int type = child->type();
-            if (type == UMLListViewItem::lvt_Actor ||
-                type == UMLListViewItem::lvt_UseCase ||
-                type == UMLListViewItem::lvt_Class) {
+            UMLListViewItem::ListViewType type = child->type();
+            if (!Model_Utils::typeIsClassifierList(type) &&
+                !Model_Utils::typeIsDiagram(type)) {
                 m_ObjectList.append(child->umlObject());
             }
             // If the child is selected, remove it from the list of selected items
