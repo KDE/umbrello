@@ -35,6 +35,7 @@
 #include "foreignkeyconstraint.h"
 #include "checkconstraint.h"
 #include "uml.h"
+#include "umlclipboard.h"
 #include "umldoc.h"
 #include "umllistviewitemlist.h"
 #include "umllistviewitem.h"
@@ -92,7 +93,8 @@ UMLListView::UMLListView(QWidget *parent)
     m_bCreatingChildObject(false),
     m_bRenameInProgress(false),
     m_dragStartPosition(QPoint()),
-    m_editItem(0)
+    m_editItem(0),
+    m_dragCopyData(0)
 {
     // setup list view
     setAcceptDrops(true);
@@ -153,7 +155,7 @@ void UMLListView::slotItemChanged(QTreeWidgetItem * item, int column)
         return;
     QString text = item->text(column);
     if (m_bRenameInProgress) {
-        DEBUG(DBG_SRC) << "text: " << text;
+        DEBUG(DBG_SRC) << "Item renamed to: " << text;
         endRename(lvitem);
     }
 }
@@ -309,9 +311,21 @@ void UMLListView::mouseMoveEvent(QMouseEvent* me)
     }
 
     DEBUG(DBG_SRC) << "initiating drag";
+
+    // Store a copy of selected list items in case the user
+    // will ctrl-drag (basically just copy/paste) an item
+    //
+    // The QDrag mime data is used for moving items onto the diagram
+    // or internally in the tree view
+    UMLClipboard clipboard;
+    if ((m_dragCopyData = clipboard.copy(false)) == 0) {
+        // This should never happen, this is just like using ctrl+c on the list view item
+        uError() << "Unable to obtain mime data for copy-drag operation";
+    }
+
     QDrag* drag = new QDrag(this);
     drag->setMimeData(getDragData());
-    drag->exec(Qt::CopyAction);
+    drag->exec(Qt::MoveAction | Qt::CopyAction, Qt::MoveAction);
 }
 
 /**
@@ -1456,141 +1470,64 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
  */
 bool UMLListView::acceptDrag(QDropEvent* event) const
 {
-    UMLListViewItem* item = (UMLListViewItem*)itemAt(event->pos());
-    if (!item) {
+    UMLListViewItem* target = (UMLListViewItem*)itemAt(event->pos());
+    if (!target) {
         DEBUG(DBG_SRC) << "itemAt(mouse position) returns 0";
         return false;
     }
-    ((QTreeWidget*)this)->setCurrentItem((QTreeWidgetItem*)item);
 
-    UMLDragData::LvTypeAndID_List list;
-    if (! UMLDragData::getClip3TypeAndID(event->mimeData(), list)) {
-        DEBUG(DBG_SRC) << "UMLDragData::getClip3TypeAndID returns false";
-        return false;
-    }
+    bool accept = false;
+    UMLListViewItem::ListViewType srcType;
+    UMLListViewItem::ListViewType dstType;
 
-    UMLDragData::LvTypeAndID_It it(list);
-    UMLDragData::LvTypeAndID * data = 0;
-    UMLListViewItem::ListViewType dstType = item->type();
-    bool accept = true;
-    while (accept && it.hasNext()) {
-        data = it.next();
-        UMLListViewItem::ListViewType srcType = data->type;
-        switch (srcType) {
-        case UMLListViewItem::lvt_Class:
-        case UMLListViewItem::lvt_Package:
-        case UMLListViewItem::lvt_Interface:
-        case UMLListViewItem::lvt_Enum:
-            if (dstType == UMLListViewItem::lvt_Logical_View ||
-                    dstType == UMLListViewItem::lvt_Class ||
-                    dstType == UMLListViewItem::lvt_Package) {
-                accept = !item->isOwnParent(data->id);
+    // Handle different drop actions
+    switch (event->proposedAction()) {
+        case Qt::CopyAction: {
+            // Instead of relying on the current item being the drag source,
+            // we should use the mime data to obtain the dragged type (or types
+            // if we implement multiple item selections in tree view)
+            srcType = static_cast<UMLListViewItem*>(currentItem())->type();
+            dstType = target->type();
+
+            // Copy of diagrams is not supported
+            if (Model_Utils::typeIsDiagram(srcType)) {
+                accept = false;
             } else {
-                accept = (dstType == UMLListViewItem::lvt_Logical_Folder);
+                accept = Model_Utils::typeIsAllowedInType(srcType, dstType);
             }
             break;
-        case UMLListViewItem::lvt_Attribute:
-            if (dstType == UMLListViewItem::lvt_Class) {
-                accept = !item->isOwnParent(data->id);
+        }
+        case Qt::MoveAction: {
+            UMLDragData::LvTypeAndID_List list;
+            if (!UMLDragData::getClip3TypeAndID(event->mimeData(), list)) {
+                uError() << "UMLDragData::getClip3TypeAndID returns false";
+                return false;
+            }
+
+            UMLDragData::LvTypeAndID_It it(list);
+            UMLDragData::LvTypeAndID * data = 0;
+            dstType = target->type();
+            while (it.hasNext()) {
+                data = it.next();
+                srcType = data->type;
+                accept = Model_Utils::typeIsAllowedInType(srcType, dstType);
+
+                // disallow drop of any child element is not allowed
+                if (!accept) break;
             }
             break;
-        case UMLListViewItem::lvt_EntityAttribute:
-            if (dstType == UMLListViewItem::lvt_Entity) {
-                accept = !item->isOwnParent(data->id);
-            }
-            break;
-        case UMLListViewItem::lvt_Operation:
-            if (dstType == UMLListViewItem::lvt_Class ||
-                    dstType == UMLListViewItem::lvt_Interface) {
-                accept = !item->isOwnParent(data->id);
-            }
-            break;
-        case UMLListViewItem::lvt_Datatype:
-            accept = (dstType == UMLListViewItem::lvt_Logical_Folder ||
-                      dstType == UMLListViewItem::lvt_Datatype_Folder ||
-                      dstType == UMLListViewItem::lvt_Class ||
-                      dstType == UMLListViewItem::lvt_Interface ||
-                      dstType == UMLListViewItem::lvt_Package);
-            break;
-        case UMLListViewItem::lvt_Class_Diagram:
-        case UMLListViewItem::lvt_Collaboration_Diagram:
-        case UMLListViewItem::lvt_State_Diagram:
-        case UMLListViewItem::lvt_Activity_Diagram:
-        case UMLListViewItem::lvt_Sequence_Diagram:
-            accept = (dstType == UMLListViewItem::lvt_Logical_Folder ||
-                      dstType == UMLListViewItem::lvt_Logical_View);
-            break;
-        case UMLListViewItem::lvt_Logical_Folder:
-            if (dstType == UMLListViewItem::lvt_Logical_Folder) {
-                accept = !item->isOwnParent(data->id);
-            } else {
-                accept = (dstType == UMLListViewItem::lvt_Logical_View);
-            }
-            break;
-        case UMLListViewItem::lvt_UseCase_Folder:
-            if (dstType == UMLListViewItem::lvt_UseCase_Folder) {
-                accept = !item->isOwnParent(data->id);
-            } else {
-                accept = (dstType == UMLListViewItem::lvt_UseCase_View);
-            }
-            break;
-        case UMLListViewItem::lvt_Component_Folder:
-            if (dstType == UMLListViewItem::lvt_Component_Folder) {
-                accept = !item->isOwnParent(data->id);
-            } else {
-                accept = (dstType == UMLListViewItem::lvt_Component_View);
-            }
-            break;
-        case UMLListViewItem::lvt_Deployment_Folder:
-            if (dstType == UMLListViewItem::lvt_Deployment_Folder) {
-                accept = !item->isOwnParent(data->id);
-            } else {
-                accept = (dstType == UMLListViewItem::lvt_Deployment_View);
-            }
-            break;
-        case UMLListViewItem::lvt_EntityRelationship_Folder:
-            if (dstType == UMLListViewItem::lvt_EntityRelationship_Folder) {
-                accept = !item->isOwnParent(data->id);
-            } else {
-                accept = (dstType == UMLListViewItem::lvt_EntityRelationship_Model);
-            }
-            break;
-        case UMLListViewItem::lvt_Actor:
-        case UMLListViewItem::lvt_UseCase:
-        case UMLListViewItem::lvt_UseCase_Diagram:
-            accept = (dstType == UMLListViewItem::lvt_UseCase_Folder ||
-                      dstType == UMLListViewItem::lvt_UseCase_View);
-            break;
-        case UMLListViewItem::lvt_Subsystem:
-            accept = (dstType == UMLListViewItem::lvt_Component_Folder ||
-                      dstType == UMLListViewItem::lvt_Subsystem);
-            break;
-        case UMLListViewItem::lvt_Component:
-            accept = (dstType == UMLListViewItem::lvt_Component_Folder ||
-                      dstType == UMLListViewItem::lvt_Component ||
-                      dstType == UMLListViewItem::lvt_Subsystem);
-            break;
-        case UMLListViewItem::lvt_Artifact:
-        case UMLListViewItem::lvt_Component_Diagram:
-            accept = (dstType == UMLListViewItem::lvt_Component_Folder ||
-                      dstType == UMLListViewItem::lvt_Component_View);
-            break;
-        case UMLListViewItem::lvt_Node:
-        case UMLListViewItem::lvt_Deployment_Diagram:
-            accept = (dstType == UMLListViewItem::lvt_Deployment_Folder);
-            break;
-        case UMLListViewItem::lvt_Entity:
-        case UMLListViewItem::lvt_EntityRelationship_Diagram:
-        case UMLListViewItem::lvt_Category:
-            accept = (dstType == UMLListViewItem::lvt_EntityRelationship_Folder);
-            break;
-        default:
-            accept = false;
-            break;
+        }
+        default: {
+            uError() << "Unsupported drop-action in acceptDrag()";
+            return false;
         }
     }
 
-    DEBUG(DBG_SRC) << "dstType = " << dstType << ", accept=" << accept;
+    if (!accept) {
+        uDebug() << "Disallowing drop because source type" << UMLListViewItem::toString(srcType)
+                 << "is not allowed in target type" << UMLListViewItem::toString(dstType);
+    }
+
     return accept;
 }
 
@@ -1657,7 +1594,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
     }
 
     UMLListViewItem::ListViewType newParentType = newParent->type();
-    DEBUG(DBG_SRC) << "newParentType is " << newParentType;
+    DEBUG(DBG_SRC) << "newParentType is " << UMLListViewItem::toString(newParentType);
     UMLListViewItem *newItem = 0;
 
     //make sure trying to place in correct location
@@ -1883,25 +1820,33 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
 /**
  * Something has been dragged and dropped onto the list view.
  */
-void UMLListView::slotDropped(QDropEvent* de, UMLListViewItem* parent, UMLListViewItem* item)
+void UMLListView::slotDropped(QDropEvent* de, UMLListViewItem* target)
 {
-    Q_UNUSED(parent);
-    item = (UMLListViewItem *)currentItem();
-    if (!item) {
-        DEBUG(DBG_SRC) << "item is 0 - doing nothing";
-        return;
-    }
-    UMLDragData::LvTypeAndID_List srcList;
-    if (! UMLDragData::getClip3TypeAndID(de->mimeData(), srcList)) {
-        return;
-    }
-    UMLListViewItem *newParent = (UMLListViewItem*)item;
-    DEBUG(DBG_SRC) << "slotDropped: newParent->text(0) is " << newParent->text(0);
-    UMLDragData::LvTypeAndID_It it(srcList);
-    UMLDragData::LvTypeAndID * src = 0;
-    while (it.hasNext()) {
-        src = it.next();
-        moveObject(src->id, src->type, newParent);
+    DEBUG(DBG_SRC) << "Dropping on target " << target->text(0);
+
+    // Copy or move tree items
+    if (de->dropAction() == Qt::CopyAction) {
+        UMLClipboard clipboard;
+
+        // Todo: refactor UMLClipboard to support pasting to a non-current item
+        setCurrentItem(target);
+
+        // Paste the data (not always clip3)
+        if (!clipboard.paste(m_dragCopyData)) {
+            uError() << "Unable to copy selected item into the target item";
+        }
+    } else {
+        UMLDragData::LvTypeAndID_List srcList;
+        if (! UMLDragData::getClip3TypeAndID(de->mimeData(), srcList)) {
+            uError() << "Unexpected mime data in drop event";
+            return;
+        }
+        UMLDragData::LvTypeAndID_It it(srcList);
+        UMLDragData::LvTypeAndID * src = 0;
+        while (it.hasNext()) {
+            src = it.next();
+            moveObject(src->id, src->type, target);
+        }
     }
 }
 
@@ -2191,7 +2136,7 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
  */
 bool UMLListView::itemRenamed(UMLListViewItem * item, int col)
 {
-    DEBUG(DBG_SRC) << item->text(col);
+    DEBUG(DBG_SRC) << "Renamed item to " << item->text(col);
     m_bRenameInProgress = false;
     UMLListViewItem * renamedItem = static_cast< UMLListViewItem *>(item) ;
     UMLListViewItem::ListViewType type = renamedItem->type();
@@ -2694,7 +2639,7 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
 void UMLListView::startRename(UMLListViewItem* item)
 {
     if (item) {
-        DEBUG(DBG_SRC) << item->text(0);
+        DEBUG(DBG_SRC) << "Starting rename: " << item->text(0);
         if (m_editItem) {
             cancelRename(m_editItem);
         }
@@ -2715,7 +2660,7 @@ void UMLListView::cancelRename(UMLListViewItem* item)
 {
     m_bRenameInProgress = false;
     if (item) {
-        DEBUG(DBG_SRC) << item->text(0);
+        DEBUG(DBG_SRC) << "Cancel rename " << item->text(0);
         // delete pointer first to lock slotItemChanged
         m_editItem = 0;
         closePersistentEditor(item, 0);
@@ -2733,7 +2678,7 @@ void UMLListView::endRename(UMLListViewItem* item)
 {
     m_bRenameInProgress = false;
     if (item) {
-        DEBUG(DBG_SRC) << item->text(0);
+        DEBUG(DBG_SRC) << "Finished rename: " << item->text(0);
         // delete pointer first to lock slotItemChanged
         m_editItem = 0;
         closePersistentEditor(item, 0);
@@ -3174,21 +3119,25 @@ bool UMLListView::deleteItem(UMLListViewItem *temp)
 }
 
 /**
- *
+ * Always allow starting a drag
  */
 void UMLListView::dragEnterEvent(QDragEnterEvent* event)
 {
     event->accept();
-    QTreeWidget::dragEnterEvent(event);
 }
 
 /**
- *
+ * Check drag destination and update move/copy action
  */
 void UMLListView::dragMoveEvent(QDragMoveEvent* event)
 {
-    event->accept();
-    QTreeWidget::dragMoveEvent(event);
+    // Check if drag destination is compatible with source
+    if (acceptDrag(event)) {
+        event->acceptProposedAction();
+    } else {
+        event->ignore();
+        return;
+    }
 }
 
 /**
@@ -3200,15 +3149,14 @@ void UMLListView::dropEvent(QDropEvent* event)
         event->ignore();
     }
     else {
-        UMLListViewItem* item = static_cast<UMLListViewItem*>(itemAt(event->pos()));
-        if (!item) {
+        UMLListViewItem* target = static_cast<UMLListViewItem*>(itemAt(event->pos()));
+        if (!target) {
             DEBUG(DBG_SRC) << "itemAt(mousePoint) returns 0";
             event->ignore();
             return;
         }
-        slotDropped(event, 0, item);
+        slotDropped(event, target);
     }
-    QTreeWidget::dropEvent(event);
 }
 
 /**

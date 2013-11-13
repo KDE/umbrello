@@ -171,7 +171,7 @@ public slots:
 
     void popupMenuSel(QAction* action);
 
-    void slotDropped(QDropEvent* de, UMLListViewItem* parent, UMLListViewItem* item);
+    void slotDropped(QDropEvent* de, UMLListViewItem* target);
 
     void expandAll(UMLListViewItem *item);
     void collapseAll(UMLListViewItem *item);
@@ -201,6 +201,7 @@ private:
     bool m_bRenameInProgress;
     QPoint m_dragStartPosition;
     UMLListViewItem* m_editItem;
+    QMimeData* m_dragCopyData;
 };
 
 #endif

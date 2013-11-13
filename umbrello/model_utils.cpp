@@ -1010,6 +1010,85 @@ bool typeIsClassifier(UMLListViewItem::ListViewType type)
 }
 
 /**
+ * Check if a listviewitem of type childType is allowed
+ * as child of type parentType
+ */
+bool typeIsAllowedInType(UMLListViewItem::ListViewType childType,
+    UMLListViewItem::ListViewType parentType)
+{
+    switch (childType) {
+    case UMLListViewItem::lvt_Class:
+    case UMLListViewItem::lvt_Package:
+    case UMLListViewItem::lvt_Interface:
+    case UMLListViewItem::lvt_Enum:
+        return parentType == UMLListViewItem::lvt_Logical_View ||
+               parentType == UMLListViewItem::lvt_Class ||
+               parentType == UMLListViewItem::lvt_Package ||
+               parentType == UMLListViewItem::lvt_Logical_Folder;
+    case UMLListViewItem::lvt_Attribute:
+    case UMLListViewItem::lvt_EntityAttribute:
+        return parentType == UMLListViewItem::lvt_Entity;
+    case UMLListViewItem::lvt_Operation:
+        return parentType == UMLListViewItem::lvt_Class ||
+               parentType == UMLListViewItem::lvt_Interface;
+    case UMLListViewItem::lvt_Datatype:
+        return parentType == UMLListViewItem::lvt_Logical_Folder ||
+               parentType == UMLListViewItem::lvt_Datatype_Folder ||
+               parentType == UMLListViewItem::lvt_Class ||
+               parentType == UMLListViewItem::lvt_Interface ||
+               parentType == UMLListViewItem::lvt_Package;
+    case UMLListViewItem::lvt_Class_Diagram:
+    case UMLListViewItem::lvt_Collaboration_Diagram:
+    case UMLListViewItem::lvt_State_Diagram:
+    case UMLListViewItem::lvt_Activity_Diagram:
+    case UMLListViewItem::lvt_Sequence_Diagram:
+        return parentType == UMLListViewItem::lvt_Logical_Folder ||
+               parentType == UMLListViewItem::lvt_Logical_View;
+    case UMLListViewItem::lvt_Logical_Folder:
+        return parentType == UMLListViewItem::lvt_Logical_Folder ||
+               parentType == UMLListViewItem::lvt_Logical_View;
+    case UMLListViewItem::lvt_UseCase_Folder:
+        return parentType == UMLListViewItem::lvt_UseCase_Folder ||
+               parentType == UMLListViewItem::lvt_UseCase_View;
+    case UMLListViewItem::lvt_Component_Folder:
+        return parentType == UMLListViewItem::lvt_Component_Folder ||
+               parentType == UMLListViewItem::lvt_Component_View;
+    case UMLListViewItem::lvt_Deployment_Folder:
+        return parentType == UMLListViewItem::lvt_Deployment_Folder ||
+               parentType == UMLListViewItem::lvt_Deployment_View;
+    case UMLListViewItem::lvt_EntityRelationship_Folder:
+        return parentType == UMLListViewItem::lvt_EntityRelationship_Folder ||
+               parentType == UMLListViewItem::lvt_EntityRelationship_Model;
+    case UMLListViewItem::lvt_Actor:
+    case UMLListViewItem::lvt_UseCase:
+    case UMLListViewItem::lvt_UseCase_Diagram:
+        return parentType == UMLListViewItem::lvt_UseCase_Folder ||
+               parentType == UMLListViewItem::lvt_UseCase_View;
+    case UMLListViewItem::lvt_Subsystem:
+        return parentType == UMLListViewItem::lvt_Component_Folder ||
+               parentType == UMLListViewItem::lvt_Subsystem;
+    case UMLListViewItem::lvt_Component:
+        return parentType == UMLListViewItem::lvt_Component_Folder ||
+               parentType == UMLListViewItem::lvt_Component ||
+               parentType == UMLListViewItem::lvt_Subsystem;
+    case UMLListViewItem::lvt_Artifact:
+    case UMLListViewItem::lvt_Component_Diagram:
+        return parentType == UMLListViewItem::lvt_Component_Folder ||
+               parentType == UMLListViewItem::lvt_Component_View;
+        break;
+    case UMLListViewItem::lvt_Node:
+    case UMLListViewItem::lvt_Deployment_Diagram:
+        return parentType == UMLListViewItem::lvt_Deployment_Folder;
+    case UMLListViewItem::lvt_Entity:
+    case UMLListViewItem::lvt_EntityRelationship_Diagram:
+    case UMLListViewItem::lvt_Category:
+        return parentType == UMLListViewItem::lvt_EntityRelationship_Folder;
+    default:
+        return false;
+    }
+}
+
+/**
  * Return true if the listview type is a diagram.
  */
 bool typeIsDiagram(UMLListViewItem::ListViewType type)

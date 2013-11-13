@@ -73,6 +73,8 @@ bool typeIsContainer(UMLListViewItem::ListViewType type);
 bool typeIsDiagram(UMLListViewItem::ListViewType type);
 bool typeIsClassifierList(UMLListViewItem::ListViewType type);
 bool typeIsClassifier(UMLListViewItem::ListViewType type);
+bool typeIsAllowedInType(UMLListViewItem::ListViewType childType,
+    UMLListViewItem::ListViewType parentType);
 
 Uml::ModelType::Enum convert_DT_MT(Uml::DiagramType::Enum dt);
 UMLListViewItem::ListViewType convert_MT_LVT(Uml::ModelType::Enum mt);

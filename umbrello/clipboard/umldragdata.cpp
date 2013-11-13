@@ -294,8 +294,6 @@ bool UMLDragData::decodeClip1(const QMimeData* mimeData, UMLObjectList& objects)
         return false;
     }
 
-    UMLListView *listView = UMLApp::app()->listView();
-
     //UMLObjects
     QDomNode objectsNode = xmiClipNode.firstChild();
     QDomNode objectElement = objectsNode.firstChild();
@@ -347,19 +345,10 @@ bool UMLDragData::decodeClip1(const QMimeData* mimeData, UMLObjectList& objects)
             return false;
         }
         pObject->setInPaste(false);
-        if (listView->startedCopy()) {
-            /****************************************************************
-            * If the clone() methods called IDChangeLog::addIDChange(),
-            * we could do the following:
-            UMLObject *newObj = pObject->clone();
-            delete pObject;
-            pObject = newObj;
-            * but since that's not currently the case we do: */
-            if(!doc->assignNewIDs(pObject)) {
-                return false;
-            }
-            /****************************************************************/
-        }
+
+        // Todo: skip "assignNewIDs" when not needed (when doing a move or
+        // cut-copy). This could also happen in UMLObject::clone().
+        doc->assignNewIDs(pObject);
 
         // Determine the parent package of the pasted object
         UMLPackage* newParent = 0;
