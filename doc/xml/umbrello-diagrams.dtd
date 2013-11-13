@@ -1,7 +1,7 @@
 
 <!-- 
 ========= umbrello specific ========= 
-    XMI_FILE_VERSION 1.6.1
+    XMI_FILE_VERSION 1.6.2
 =====================================  
 -->
 <!ELEMENT diagrams ANY >
@@ -123,6 +123,7 @@
 >
 <!ELEMENT linepath ANY >
 <!ATTLIST linepath
+          layout CDATA #IMPLIED
 >
 <!ELEMENT startpoint ANY >
 <!ATTLIST startpoint
