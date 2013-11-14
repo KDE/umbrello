@@ -1608,6 +1608,18 @@ void UMLWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->setBrush(Qt::red);
         painter->drawPolygon(p);
     }
+
+    // debug info
+    if (Tracer::instance()->isEnabled(metaObject()->className())) {
+        painter->setPen(Qt::green);
+        painter->setBrush(Qt::NoBrush);
+        painter->drawPath(shape());
+        painter->setPen(Qt::red);
+        painter->drawRect(boundingRect());
+        // origin
+        painter->drawLine(-10, 0, 10, 0);
+        painter->drawLine(0, -10, 0, 10);
+    }
 }
 
 /**
