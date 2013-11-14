@@ -1597,6 +1597,17 @@ void UMLWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         } else {
             painter->fillRect(0 + w - s, 0 + h - s, s, s, brush);
         }
+        // debug info
+        if (Tracer::instance()->isEnabled(metaObject()->className())) {
+            painter->setPen(Qt::green);
+            painter->setBrush(Qt::NoBrush);
+            painter->drawPath(shape());
+            painter->setPen(Qt::red);
+            painter->drawRect(boundingRect());
+            // origin
+            painter->drawLine(-10, 0, 10, 0);
+            painter->drawLine(0, -10, 0, 10);
+        }
     }
 
     if (umlScene()->isShowDocumentationIndicator() && hasDocumentation()) {
@@ -1607,18 +1618,6 @@ void UMLWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->setPen(Qt::blue);
         painter->setBrush(Qt::red);
         painter->drawPolygon(p);
-    }
-
-    // debug info
-    if (Tracer::instance()->isEnabled(metaObject()->className())) {
-        painter->setPen(Qt::green);
-        painter->setBrush(Qt::NoBrush);
-        painter->drawPath(shape());
-        painter->setPen(Qt::red);
-        painter->drawRect(boundingRect());
-        // origin
-        painter->drawLine(-10, 0, 10, 0);
-        painter->drawLine(0, -10, 0, 10);
     }
 }
 
