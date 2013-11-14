@@ -682,6 +682,20 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 }
 
 /**
+ * @return The shape of the ClassifierWidget.
+ */
+QPainterPath ClassifierWidget::shape() const
+{
+    if (classifier()->isInterface() && visualProperty(DrawAsCircle)) {
+        QPainterPath path;
+        path.addEllipse(width()/2 - CIRCLE_SIZE/2, 0, CIRCLE_SIZE, CIRCLE_SIZE);
+        path.addRect(0, CIRCLE_SIZE, width(), height() - CIRCLE_SIZE);
+        return path;
+    }
+    return UMLWidget::shape();
+}
+
+/**
  * Draws the interface as a circle with name underneath.
  * Only applies when m_umlObject->getBaseType() is ot_Interface.
  */

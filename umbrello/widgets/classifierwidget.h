@@ -91,6 +91,7 @@ public:
     virtual bool loadFromXMI(QDomElement & qElement);
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual QPainterPath shape() const;
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);
