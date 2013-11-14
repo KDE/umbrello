@@ -316,6 +316,7 @@ bool UMLDragData::decodeClip1(const QMimeData* mimeData, UMLObjectList& objects)
         // as a flat list (UMLClipboard::insertItemChildren)
         if (type == "UML:Package" ||
             type == "UML:Class" ||
+            type == "UML:Interface" ||
             type == "UML:Component") {
             QDomNodeList list = element.childNodes();
             for (int i=(list.length() - 1); i>=0; i--) {

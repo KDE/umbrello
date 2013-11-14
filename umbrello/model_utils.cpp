@@ -972,7 +972,9 @@ bool typeIsContainer(UMLListViewItem::ListViewType type)
         return true;
     return (type == UMLListViewItem::lvt_Package ||
             type == UMLListViewItem::lvt_Subsystem ||
-            type == UMLListViewItem::lvt_Component);
+            type == UMLListViewItem::lvt_Component ||
+            type == UMLListViewItem::lvt_Class ||
+            type == UMLListViewItem::lvt_Interface);
 }
 
 /**

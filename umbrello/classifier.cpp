@@ -1521,6 +1521,7 @@ bool UMLClassifier::load(QDomElement& element)
             continue;
         element = node.toElement();
         QString tag = element.tagName();
+        QString stereotype = element.attribute("stereotype");
         if (UMLDoc::tagEq(tag, "ModelElement.templateParameter") ||
                 UMLDoc::tagEq(tag, "Classifier.feature") ||
                 UMLDoc::tagEq(tag, "Namespace.ownedElement") ||
@@ -1554,7 +1555,7 @@ bool UMLClassifier::load(QDomElement& element)
                 totalSuccess = false;
             }
         } else if (!Model_Utils::isCommonXMIAttribute(tag)) {
-            UMLObject *pObject = Object_Factory::makeObjectFromXMI(tag);
+            UMLObject *pObject = Object_Factory::makeObjectFromXMI(tag, stereotype);
             if (pObject == NULL) {
                 // Not setting totalSuccess to false
                 // because we want a best effort.
