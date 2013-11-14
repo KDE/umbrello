@@ -17,6 +17,7 @@ if(NOT UMBRELLO_VERSION_STRING)
     if(EXISTS ${CMAKE_SOURCE_DIR}/.git)
         execute_process(
             COMMAND git rev-parse --short HEAD
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
             OUTPUT_VARIABLE _hash
         )
         string(REPLACE "\n" "" hash ${_hash})
