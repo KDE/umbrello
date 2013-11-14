@@ -970,6 +970,18 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
                 painter->drawLine(segmentLine);
             }
         }
+        // debug info
+        if (Tracer::instance()->isEnabled(metaObject()->className())) {
+            painter->setPen(Qt::green);
+            painter->setBrush(Qt::NoBrush);
+            painter->drawPath(shape());
+            painter->setPen(Qt::red);
+            painter->drawRect(boundingRect());
+            // origin
+            painter->drawLine(-10, 0, 10, 0);
+            painter->drawLine(0, -10, 0, 10);
+        }
+
     }
 
     // now restore the points array
