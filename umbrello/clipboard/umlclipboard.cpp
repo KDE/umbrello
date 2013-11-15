@@ -118,7 +118,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
                 foreach (UMLObject* o, objects) {
                     UMLListViewItem *item = listView->findUMLObject(o);
                     if (item) {
-                        listView->setCurrentItem(item);
+                        item->setSelected(true);
                     }
                 }
             }
