@@ -93,7 +93,9 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
         // example when using cut-paste or pasting to another Umbrello
         // instance.
         foreach (WidgetBase* widget, m_WidgetList) {
-            m_ObjectList.append(widget->umlObject());
+            if (widget->umlObject() != 0) {
+                m_ObjectList.append(widget->umlObject());
+            }
         }
     } else { //if the copy action is being performed from the ListView
         UMLListViewItemList itemsSelected = listView->selectedItems();
