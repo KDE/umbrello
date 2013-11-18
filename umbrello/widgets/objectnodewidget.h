@@ -44,7 +44,7 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     ObjectNodeType objectNodeType() const;
-    ObjectNodeType objectNodeType(const QString& type) const;
+    static ObjectNodeType toObjectNodeType(const QString& type);
 
     void setObjectNodeType(ObjectNodeType objectNodeType);
     void setObjectNodeType(const QString& type) ;

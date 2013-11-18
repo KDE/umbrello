@@ -175,9 +175,8 @@ ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::objectNodeType() const
 
 /**
  * Returns the type of object node.
- * TODO: static, rename to "toObjectNodeType(...).
  */
-ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::objectNodeType(const QString& type) const
+ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::toObjectNodeType(const QString& type)
 {
     if (type == "Central buffer")
        return ObjectNodeWidget::Buffer;
@@ -204,7 +203,7 @@ void ObjectNodeWidget::setObjectNodeType(ObjectNodeType objectNodeType)
  */
 void ObjectNodeWidget::setObjectNodeType(const QString& type)
 {
-   setObjectNodeType(ObjectNodeWidget::objectNodeType(type));
+   setObjectNodeType(ObjectNodeWidget::toObjectNodeType(type));
 }
 
 /**
