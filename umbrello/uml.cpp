@@ -149,6 +149,7 @@ UMLApp::UMLApp(QWidget* parent)
     s_instance = this;
     m_doc->init();
     m_printer->setFullPage(true);
+    layout()->setSizeConstraint(QLayout::SetNoConstraint);
 
     readOptionState();
     initActions();
