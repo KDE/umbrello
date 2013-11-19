@@ -79,6 +79,7 @@ protected:
     UMLDoc *                            m_doc;
     QMenu *                             m_menu;
     QMap<QTreeWidgetItem*, UMLObject*>  m_umlObjectMap;
+    QSet<UMLClassifier *>               m_alreadySeen; ///< recursive guard
 
 private slots:
 
