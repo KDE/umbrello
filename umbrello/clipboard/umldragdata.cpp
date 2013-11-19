@@ -47,11 +47,10 @@ UMLDragData::UMLDragData(UMLObjectList& objects, QWidget* dragSource /* = 0 */)
  * from the ListView to be copied, Mime type =
  * "application/x-uml-clip2
  */
-UMLDragData::UMLDragData(UMLObjectList& objects, UMLListViewItemList& umlListViewItems,
-                         UMLViewList& diagrams, QWidget* dragSource /* = 0 */)
+UMLDragData::UMLDragData(UMLObjectList& objects, UMLViewList& diagrams, QWidget* dragSource /* = 0 */)
 {
     Q_UNUSED(dragSource);
-    setUMLDataClip2(objects, umlListViewItems, diagrams);
+    setUMLDataClip2(objects, diagrams);
 }
 
 /**
@@ -125,9 +124,6 @@ void UMLDragData::setUMLDataClip1(UMLObjectList& objects)
         obj->saveToXMI(domDoc, objectsTag);
     }
 
-    QDomElement itemsTag = domDoc.createElement("umllistviewitems");
-    xmiclip.appendChild(itemsTag);
-
     setData("application/x-uml-clip1", domDoc.toString().toUtf8());
 }
 
@@ -135,8 +131,7 @@ void UMLDragData::setUMLDataClip1(UMLObjectList& objects)
  * For use when the user selects UML Object and Diagrams
  * from the ListView to be copied
  */
-void UMLDragData::setUMLDataClip2(UMLObjectList& objects, UMLListViewItemList& umlListViewItems,
-                              UMLViewList& diagrams)
+void UMLDragData::setUMLDataClip2(UMLObjectList& objects, UMLViewList& diagrams)
 {
     QDomDocument domDoc;
     QDomElement xmiclip = domDoc.createElement("xmiclip");
@@ -156,13 +151,6 @@ void UMLDragData::setUMLDataClip2(UMLObjectList& objects, UMLListViewItemList& u
 
     foreach(UMLView* view, diagrams) {
         view->umlScene()->saveToXMI(domDoc, viewsTag);
-    }
-
-    QDomElement itemsTag = domDoc.createElement("umllistviewitems");
-    xmiclip.appendChild(itemsTag);
-
-    foreach(UMLListViewItem* item, umlListViewItems) {
-        item->saveToXMI(domDoc, itemsTag);
     }
 
     setData("application/x-uml-clip2", domDoc.toString().toUtf8());
@@ -222,9 +210,6 @@ void UMLDragData::setUMLDataClip4(UMLObjectList& objects, UMLWidgetList& widgets
         association->saveToXMI(domDoc, associationWidgetsTag);
     }
 
-    QDomElement itemsTag = domDoc.createElement("umllistviewitems");
-    xmiclip.appendChild(itemsTag);
-
     setData("application/x-uml-clip4", domDoc.toString().toUtf8());
 
     QImage img = pngImage.toImage();
@@ -253,9 +238,6 @@ void UMLDragData::setUMLDataClip5(UMLObjectList& objects)
         obj->saveToXMI(domDoc, objectsTag);
     }
 
-    QDomElement itemsTag = domDoc.createElement("umllistviewitems");
-    xmiclip.appendChild(itemsTag);
-
     setData("application/x-uml-clip5", domDoc.toString().toUtf8());
 }
 
@@ -267,7 +249,6 @@ void UMLDragData::setUMLDataClip5(UMLObjectList& objects)
  */
 bool UMLDragData::decodeClip1(const QMimeData* mimeData, UMLObjectList& objects)
 {
-    UMLDoc* doc = UMLApp::app()->document();
     if (!mimeData->hasFormat("application/x-uml-clip1")) {
         return false;
     }
@@ -294,95 +275,9 @@ bool UMLDragData::decodeClip1(const QMimeData* mimeData, UMLObjectList& objects)
         return false;
     }
 
-    //UMLObjects
     QDomNode objectsNode = xmiClipNode.firstChild();
-    QDomNode objectElement = objectsNode.firstChild();
-    QDomElement element = objectElement.toElement();
-    if (element.isNull()) {
-        return false;//return ok as it means there is no umlobjects
-    }
-    UMLObject* pObject = 0;
-    while (!element.isNull()) {
-        pObject = 0;
-        QString type = element.tagName();
-        QString stereotype = element.attribute("stereotype");
-        if (type == "UML:Association") {
-            objectElement = objectElement.nextSibling();
-            element = objectElement.toElement();
-            continue;
-        }
-
-        // Remove ownedElements from containers: the clip already contains all children
-        // as a flat list (UMLClipboard::insertItemChildren)
-        if (type == "UML:Package" ||
-            type == "UML:Class" ||
-            type == "UML:Interface" ||
-            type == "UML:Component") {
-            QDomNodeList list = element.childNodes();
-            for (int i=(list.length() - 1); i>=0; i--) {
-                QDomNode child = list.at(i);
-                QString tagName = child.toElement().tagName();
-                if (tagName == "UML:Namespace.ownedElement" ||
-                    tagName == "UML:Namespace.contents") {
-                    element.removeChild(child);
-                }
-            }
-        }
-
-        pObject = Object_Factory::makeObjectFromXMI(type, stereotype);
-        if(!pObject) {
-            uWarning() << "Given wrong type of umlobject to create: " << type;
-            return false;
-        }
-        pObject->setInPaste(true);
-
-        // Note: element should not be used after calling loadFromXMI() because
-        // it can point to an arbitrary child node
-        QString oldParentId = element.attribute("namespace", "-1");
-
-        if(!pObject->loadFromXMI(element)) {
-            uWarning() << "Failed to load object of type " << type << " from XMI";
-            delete pObject;
-            return false;
-        }
-        pObject->setInPaste(false);
-
-        // Todo: skip "assignNewIDs" when not needed (when doing a move or
-        // cut-copy). This could also happen in UMLObject::clone().
-        doc->assignNewIDs(pObject);
-
-        // Determine the parent package of the pasted object
-        UMLPackage* newParent = 0;
-        if (oldParentId != "-1") {
-            Uml::ID::Type newParentId = doc->changeLog()->findNewID(
-                Uml::ID::fromString(oldParentId)
-            );
-
-            if (newParentId != "-1") {
-                // Find the newly pasted package
-                newParent = static_cast<UMLPackage*>(doc->findObjectById(newParentId));
-            } else {
-                // Package is not in this clip, determine the parent based
-                // on the selected tree view item
-                newParent = Model_Utils::treeViewGetPackageFromCurrent();
-            }
-        }
-
-        if (newParent != 0) {
-            UMLPackage* oldParent = pObject->umlPackage();
-            if (oldParent != 0) {
-                oldParent->removeObject(pObject);
-            }
-
-            pObject->setUMLPackage(newParent);
-            newParent->addObject(pObject);
-        }
-
-        pObject->resolveRef();
-
-        objects.append(pObject);
-        objectElement = objectElement.nextSibling();
-        element = objectElement.toElement();
+    if (!UMLDragData::decodeObjects(objectsNode, objects, false)) {
+        return false;
     }
 
     return true;
@@ -393,8 +288,7 @@ bool UMLDragData::decodeClip1(const QMimeData* mimeData, UMLObjectList& objects)
  * from the ListView to be copied, decodes Mime type =
  * "application/x-uml-clip2
  */
-bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
-                          UMLListViewItemList& umlListViewItems, UMLViewList& diagrams)
+bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects, UMLViewList& diagrams)
 {
     if (!mimeData->hasFormat("application/x-uml-clip2")) {
         return false;
@@ -422,85 +316,18 @@ bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
         return false;
     }
 
-    //UMLObjects
+    // Load UMLObjects
     QDomNode objectsNode = xmiClipNode.firstChild();
-    QDomNode objectElement = objectsNode.firstChild();
-    QDomElement element = objectElement.toElement();
-    if (element.isNull()) {
-        return false;//return ok as it means there is no umlobjects
-    }
-    UMLObject* pObject = 0;
-    while (!element.isNull()) {
-        pObject = 0;
-        QString type = element.tagName();
-        QString stereotype = element.attribute("stereotype");
-        if (type != "UML:Association") {
-            pObject = Object_Factory::makeObjectFromXMI(type, stereotype);
-
-            if(!pObject) {
-                uWarning() << "Given wrong type of umlobject to create:" << type;
-                return false;
-            }
-            if(!pObject->loadFromXMI(element)) {
-                uWarning() << "Failed to load object from XMI.";
-                return false;
-            }
-            objects.append(pObject);
-        }
-        objectElement = objectElement.nextSibling();
-        element = objectElement.toElement();
+    if (!UMLDragData::decodeObjects(objectsNode, objects, true)) {
+        return false;
     }
 
-    //UMLViews (diagrams)
+    // Load UMLViews (diagrams)
     QDomNode umlviewsNode = objectsNode.nextSibling();
-    QDomNode diagramNode = umlviewsNode.firstChild();
-    QDomElement diagramElement = diagramNode.toElement();
-    if (diagramElement.isNull()) {
-        uWarning() << "No diagrams in XMI clip.";
+    if (!UMLDragData::decodeViews(umlviewsNode, diagrams)) {
         return false;
-    }
-    UMLListView *listView = UMLApp::app()->listView();
-    while (!diagramElement.isNull()) {
-        QString type = diagramElement.attribute("type", "0");
-        Uml::DiagramType::Enum dt = Uml::DiagramType::fromInt(type.toInt());
-        UMLListViewItem *parent = listView->findFolderForDiagram(dt);
-        if (parent == NULL)
-            return false;
-        UMLObject *po = parent->umlObject();
-        if (po == NULL || po->baseType() != UMLObject::ot_Folder) {
-            uError() << "Bad parent for view.";
-            return false;
-        }
-        UMLFolder *f = static_cast<UMLFolder*>(po);
-        UMLView* view = new UMLView(f);
-        view->umlScene()->loadFromXMI(diagramElement);
-        diagrams.append(view);
-        diagramNode = diagramNode.nextSibling();
-        diagramElement = diagramNode.toElement();
     }
 
-    //listviewitems
-    QDomNode listItemNode = umlviewsNode.nextSibling();
-    QDomNode listItems = listItemNode.firstChild();
-    QDomElement listItemElement = listItems.toElement();
-    if (listItemElement.isNull()) {
-        uWarning() << "No listitems in XMI clip.";
-        return false;
-    }
-    UMLListViewItem *currentItem = (UMLListViewItem*)listView->currentItem();
-    while (!listItemElement.isNull()) {
-        UMLListViewItem* itemData;
-        if (currentItem)
-            itemData = new UMLListViewItem(currentItem);
-        else
-            itemData = new UMLListViewItem(listView);
-        if (itemData->loadFromXMI(listItemElement))
-            umlListViewItems.append(itemData);
-        else
-            delete itemData;
-        listItems = listItems.nextSibling();
-        listItemElement = listItems.toElement();
-    }
     return true;
 }
 
@@ -568,12 +395,11 @@ bool UMLDragData::getClip3TypeAndID(const QMimeData* mimeData,
     }
     return true;
 }
-
-/**
- * For use when the user selects UMLObjects from
- * the ListView to be copied, decodes Mime * type =
- * "application/x-uml-clip3
- */
+ /**
+- * For use when the user selects UMLObjects from
+- * the ListView to be copied, decodes Mime * type =
+- * "application/x-uml-clip3
+- */
 bool UMLDragData::decodeClip3(const QMimeData* mimeData, UMLListViewItemList& umlListViewItems,
                             const UMLListView* parentListView)
 {
@@ -674,41 +500,16 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
     }
 
     dType = Uml::DiagramType::fromInt(root.attribute("diagramtype", "0").toInt());
-
-    //UMLObjects
     QDomNode objectsNode = xmiClipNode.firstChild();
-    QDomNode objectElement = objectsNode.firstChild();
-    QDomElement element = objectElement.toElement();
-    while (!element.isNull()) {
-        UMLObject* pObject = 0;
-        QString type = element.tagName();
 
-        UMLDoc* doc = UMLApp::app()->document();
-        Uml::ID::Type elmId = Uml::ID::fromString(element.attribute("xmi.id"));
-        QString stereotype = element.attribute("stereotype");
-        pObject = doc->findObjectById(elmId);
+    // Load UMLObjects and do not fail if there are none in the clip
+    bool hasObjects = !objectsNode.firstChild().toElement().isNull();
 
-        if (!pObject) {
-            pObject = Object_Factory::makeObjectFromXMI(type, stereotype);
-            if (!pObject) {
-                uWarning() << "Given wrong type of umlobject to create: " << type;
-                return false;
-            }
-
-            if (!pObject->loadFromXMI(element)) {
-                uWarning() << "Failed to load object from XMI.";
-                return false;
-            }
-
-            doc->signalUMLObjectCreated(pObject);
-        }
-
-        objects.append(pObject);
-        objectElement = objectElement.nextSibling();
-        element = objectElement.toElement();
+    if (hasObjects && !UMLDragData::decodeObjects(objectsNode, objects, true)) {
+        return false;
     }
 
-    //widgets
+    // Load widgets
     QDomNode widgetsNode = objectsNode.nextSibling();
     QDomNode widgetNode = widgetsNode.firstChild();
     QDomElement widgetElement = widgetNode.toElement();
@@ -729,7 +530,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
         widgetElement = widgetNode.toElement();
     }
 
-    //AssociationWidgets
+    // Load AssociationWidgets
     QDomNode associationWidgetsNode = widgetsNode.nextSibling();
     QDomNode associationWidgetNode = associationWidgetsNode.firstChild();
     QDomElement associationWidgetElement = associationWidgetNode.toElement();
@@ -807,6 +608,145 @@ bool UMLDragData::decodeClip5(const QMimeData* mimeData, UMLObjectList& objects,
 
     return true;
 }
+
+/**
+ * Decode UMLObjects from clip
+ */
+bool UMLDragData::decodeObjects(QDomNode& objectsNode, UMLObjectList& objects, bool skipIfObjectExists)
+{
+    UMLDoc* doc = UMLApp::app()->document();
+    QDomNode objectElement = objectsNode.firstChild();
+    QDomElement element = objectElement.toElement();
+    if (element.isNull()) {
+        return false;//return ok as it means there is no umlobjects
+    }
+    UMLObject* pObject = 0;
+    while (!element.isNull()) {
+        pObject = 0;
+        QString type = element.tagName();
+        Uml::ID::Type elmId = Uml::ID::fromString(element.attribute("xmi.id"));
+        QString stereotype = element.attribute("stereotype");
+
+        bool objectExists = (doc->findObjectById(elmId) != 0);
+
+        // This happens when pasting clip4 (widgets): pasting widgets must
+        // not duplicate the UMLObjects, unless they don't exists (other
+        // instance of umbrello)
+        if (skipIfObjectExists && objectExists) {
+            objectElement = objectElement.nextSibling();
+            element = objectElement.toElement();
+            continue;
+        }
+
+        // Remove ownedElements from containers: the clip already contains all children
+        // as a flat list (UMLClipboard::insertItemChildren)
+        if (type == "UML:Package" ||
+            type == "UML:Class" ||
+            type == "UML:Interface" ||
+            type == "UML:Component") {
+            QDomNodeList list = element.childNodes();
+            for (int i=(list.length() - 1); i>=0; i--) {
+                QDomNode child = list.at(i);
+                QString tagName = child.toElement().tagName();
+                if (tagName == "UML:Namespace.ownedElement" ||
+                    tagName == "UML:Namespace.contents") {
+                    element.removeChild(child);
+                }
+            }
+        }
+
+        pObject = Object_Factory::makeObjectFromXMI(type, stereotype);
+        if(!pObject) {
+            uWarning() << "Given wrong type of umlobject to create: " << type;
+            return false;
+        }
+        pObject->setInPaste(true);
+
+        // Note: element should not be used after calling loadFromXMI() because
+        // it can point to an arbitrary child node
+        Uml::ID::Type oldParentId = Uml::ID::fromString(
+            element.attribute("namespace", "-1")
+        );
+
+        if(!pObject->loadFromXMI(element)) {
+            uWarning() << "Failed to load object of type " << type << " from XMI";
+            delete pObject;
+            return false;
+        }
+        pObject->setInPaste(false);
+
+        // Determine the parent package of the pasted object
+        UMLPackage* newParent = 0;
+        if (oldParentId != Uml::ID::None) {
+            Uml::ID::Type newParentId = doc->changeLog()->findNewID(oldParentId);
+
+            if (newParentId != Uml::ID::None) {
+                // Find the newly pasted package
+                newParent = static_cast<UMLPackage*>(doc->findObjectById(newParentId));
+            } else {
+                // Package is not in this clip, determine the parent based
+                // on the selected tree view item
+                newParent = Model_Utils::treeViewGetPackageFromCurrent();
+            }
+        }
+
+        if (newParent != 0) {
+            UMLPackage* oldParent = pObject->umlPackage();
+            if (oldParent != 0) {
+                oldParent->removeObject(pObject);
+            }
+
+            pObject->setUMLPackage(newParent);
+            newParent->addObject(pObject);
+        }
+
+        // only signal creation of the object did not exist before the paste
+        if (!objectExists) {
+            doc->signalUMLObjectCreated(pObject);
+        }
+
+        objects.append(pObject);
+        objectElement = objectElement.nextSibling();
+        element = objectElement.toElement();
+    }
+
+    return true;
+}
+
+/**
+ * Decode views from clip
+ */
+bool UMLDragData::decodeViews(QDomNode& umlviewsNode, UMLViewList& diagrams)
+{
+    QDomNode diagramNode = umlviewsNode.firstChild();
+    QDomElement diagramElement = diagramNode.toElement();
+    if (diagramElement.isNull()) {
+        uWarning() << "No diagrams in XMI clip.";
+        return false;
+    }
+    UMLListView *listView = UMLApp::app()->listView();
+    while (!diagramElement.isNull()) {
+        QString type = diagramElement.attribute("type", "0");
+        Uml::DiagramType::Enum dt = Uml::DiagramType::fromInt(type.toInt());
+        UMLListViewItem *parent = listView->findFolderForDiagram(dt);
+        if (parent == NULL)
+            return false;
+        UMLObject *po = parent->umlObject();
+        if (po == NULL || po->baseType() != UMLObject::ot_Folder) {
+            uError() << "Bad parent for view.";
+            return false;
+        }
+        UMLFolder *f = static_cast<UMLFolder*>(po);
+        UMLView* view = new UMLView(f);
+        view->umlScene()->loadFromXMI(diagramElement);
+        diagrams.append(view);
+        diagramNode = diagramNode.nextSibling();
+        diagramElement = diagramNode.toElement();
+    }
+
+    return true;
+}
+
 
 /**
  * Converts application/x-uml-clip[1-5] clip type to an integer

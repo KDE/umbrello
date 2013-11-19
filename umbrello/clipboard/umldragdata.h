@@ -40,8 +40,7 @@ public:
 
     explicit UMLDragData(UMLObjectList& Objects, QWidget* dragSource = 0);
 
-    UMLDragData(UMLObjectList &Objects, UMLListViewItemList& UMLListViewItems,
-                UMLViewList& Diagrams, QWidget * dragSource = 0);
+    UMLDragData(UMLObjectList &Objects, UMLViewList& Diagrams, QWidget * dragSource = 0);
 
     explicit UMLDragData(UMLListViewItemList& UMLListViewItems, QWidget* dragSource = 0);
 
@@ -56,13 +55,11 @@ public:
 
     static bool decodeClip1(const QMimeData* mimeData, UMLObjectList& objects);
 
-    static bool decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
-                            UMLListViewItemList& umlListViewItems,
-                            UMLViewList& diagrams);
+    static bool decodeClip2(const QMimeData* mimeData, UMLObjectList& objects, UMLViewList& diagrams);
 
     static bool decodeClip3(const QMimeData* mimeData,
-                            UMLListViewItemList& umlListViewItems,
-                            const UMLListView* parentListView=0);
+                                  UMLListViewItemList& umlListViewItems,
+                                  const UMLListView* parentListView=0);
 
     struct LvTypeAndID {
         UMLListViewItem::ListViewType type;
@@ -88,8 +85,7 @@ public:
 
     void setUMLDataClip1(UMLObjectList& Objects);
 
-    void setUMLDataClip2(UMLObjectList& Objects, UMLListViewItemList& UMLListViewItems,
-                         UMLViewList& Diagrams);
+    void setUMLDataClip2(UMLObjectList& Objects, UMLViewList& Diagrams);
 
     void setUMLDataClip3(UMLListViewItemList& UMLListViewItems);
 
@@ -100,6 +96,9 @@ public:
 
     void setUMLDataClip5(UMLObjectList& Objects);
 
+    static bool decodeObjects(QDomNode& objectsNode, UMLObjectList& objects, bool skipIfObjectExists = false);
+
+    static bool decodeViews(QDomNode& umlviewsNode, UMLViewList& diagrams);
 };
 
 #endif

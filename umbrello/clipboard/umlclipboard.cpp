@@ -65,9 +65,8 @@ UMLClipboard::~UMLClipboard()
  */
 QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
 {
-    //Clear previous copied data
+    // Clear previous copied data
     m_AssociationList.clear();
-    m_ItemList.clear();
     m_ObjectList.clear();
     m_ViewList.clear();
 
@@ -103,49 +102,56 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
                 m_ObjectList.append(widget->umlObject());
             }
         }
-    } else { //if the copy action is being performed from the ListView
+    } else {
+        // The copy action is being performed from the ListView
         UMLListViewItemList itemsSelected = listView->selectedItems();
         if (itemsSelected.count() <= 0) {
             return 0;
         }
-        //Set What type of copy operation are we performing and
-        //also fill m_ViewList with all the selected Diagrams
+
+        // Set What type of copy operation are we performing and
+        // also fill m_ViewList with all the selected Diagrams
         setCopyType(itemsSelected);
 
-        //if we are copying a diagram or part of a diagram, select the items
-        //on the ListView that correspond to a UseCase, Actor or Concept
-        //in the Diagram
+        // If we are copying a diagram or part of a diagram, select the items
+        // on the ListView that correspond to a UseCase, Actor or Concept
+        // in the Diagram
         if (m_type == clip2) {
-            //Fill the member lists with all the object and stuff to be copied
-            //to the clipboard
-            itemsSelected.clear();
-            //For each selected view select all the Actors, USe Cases and Concepts
-            //widgets in the ListView
             foreach (UMLView* view, m_ViewList) {
-                UMLObjectList objects = view->umlScene()->umlObjects();
-                foreach (UMLObject* o, objects) {
-                    UMLListViewItem *item = listView->findUMLObject(o);
-                    if (item) {
-                        item->setSelected(true);
+                UMLWidgetList widgets = view->umlScene()->widgetList();
+                foreach (UMLWidget* widget, widgets) {
+                    if (widget->umlObject() != 0) {
+                        m_ObjectList.append(widget->umlObject());
+                    }
+                }
+
+                AssociationWidgetList associations = view->umlScene()->associationList();
+                foreach (AssociationWidget* association, associations) {
+                    if (association->umlObject() != 0) {
+                        m_ObjectList.append(association->umlObject());
                     }
                 }
             }
-            itemsSelected = listView->selectedItems();
+        } else {
+            // Clip1, 4 and 5: fill the clip with only the specific objects
+            // selected in the list view
+            if (!fillSelectionLists(itemsSelected)) {
+                return 0;
+            }
+
             if (itemsSelected.count() <= 0) {
                 return 0;
             }
         }
-        if (!fillSelectionLists(itemsSelected)) {
-            return 0;
-        }
     }
+
     int i = 0;
     switch(m_type) {
     case clip1:
         data = new UMLDragData(m_ObjectList);
         break;
     case clip2:
-        data = new UMLDragData(m_ObjectList, m_ItemList, m_ViewList);
+        data = new UMLDragData(m_ObjectList, m_ViewList);
         break;
     case clip3:
         data = new UMLDragData(m_ItemList);
@@ -186,6 +192,7 @@ bool UMLClipboard::paste(const QMimeData* data)
 
     bool result = false;
     doc->beginPaste();
+
     switch (codingType) {
     case 1:
         result = pasteClip1(data);
@@ -226,12 +233,6 @@ bool UMLClipboard::fillSelectionLists(UMLListViewItemList& selectedItems)
             if (!Model_Utils::typeIsClassifierList(type)) {
                 m_ItemList.append(item);
                 insertItemChildren(item, selectedItems);
-                //Because it is being called when m_type is 3
-                //it will insert only child empty folders of other folders.
-                //If a child folder
-                //is not empty that means m_type wouldn't be 3 because if a folder is
-                //selected then its complete contents are treated as if
-                //they were selected
             }
         }
         break;
@@ -240,9 +241,6 @@ bool UMLClipboard::fillSelectionLists(UMLListViewItemList& selectedItems)
         foreach (UMLListViewItem* item, selectedItems) {
             type = item->type();
             if (!Model_Utils::typeIsClassifierList(type)) {
-
-                m_ItemList.append(item);
-
                 if (Model_Utils::typeIsCanvasWidget(type)) {
                     m_ObjectList.append(item->umlObject());
                 }
@@ -254,9 +252,7 @@ bool UMLClipboard::fillSelectionLists(UMLListViewItemList& selectedItems)
         foreach (UMLListViewItem* item, selectedItems) {
             type = item->type();
             if(Model_Utils::typeIsClassifierList(type)) {
-                m_ItemList.append(item);
                 m_ObjectList.append(item->umlObject());
-
             } else {
                 return false;
             }
@@ -330,7 +326,8 @@ void UMLClipboard::checkItemForCopyType(UMLListViewItem* item, bool & withDiagra
 }
 
 /**
- * Adds the children of a UMLListViewItem to m_ItemList.
+ * Traverse children of a UMLListViewItem and add its UMLObjects to the list
+ *
  * @param item            parent of the children to insert
  * @param selectedItems   list of selected items
  * @return                success flag
@@ -358,58 +355,6 @@ bool UMLClipboard::insertItemChildren(UMLListViewItem * item, UMLListViewItemLis
 }
 
 /**
- * Pastes the children of a UMLListViewItem (The Parent)
- * @param parent   parent of the children
- * @param chgLog   ID change log
- * @return         success flag
- */
-bool UMLClipboard::pasteChildren(UMLListViewItem *parent, IDChangeLog *chgLog)
-{
-    if (!parent) {
-        uWarning() << "Paste Children Error, parent missing";
-        return false;
-    }
-    UMLDoc *doc = UMLApp::app()->document();
-    UMLListView *listView = UMLApp::app()->listView();
-    for (int i = 0; i < parent->childCount(); i++) {
-        UMLListViewItem *childItem = static_cast<UMLListViewItem*>(parent->child(i));
-        Uml::ID::Type oldID = childItem->ID();
-        Uml::ID::Type newID = chgLog->findNewID(oldID);
-        UMLListViewItem *shouldNotExist = listView->findItem(newID);
-        if (shouldNotExist) {
-            uError() << "new list view item " << Uml::ID::toString(newID)
-                << " already exists (internal error)";
-            continue;
-        }
-        UMLObject *newObj = doc->findObjectById(newID);
-        if (newObj) {
-            uDebug() << "adjusting lvitem(" << Uml::ID::toString(oldID)
-                << ") to new UMLObject(" << Uml::ID::toString(newID) << ")";
-            childItem->setUMLObject(newObj);
-            childItem->setText(newObj->name());
-        } else {
-            uDebug() << "no UMLObject found for lvitem " << Uml::ID::toString(newID);
-        }
-    }
-    return true;
-}
-
-/**
- * Cleans the list of associations taking out the ones that point to an object
- * not in m_ObjectList.
- * @param associations   list of associations
- */
-void UMLClipboard::CleanAssociations(AssociationWidgetList& associations)
-{
-    AssociationWidgetListIt it(associations);
-
-    while (it.hasNext()) {
-        AssociationWidget* assoc = it.next();
-        Q_UNUSED(assoc);
-    }
-}
-
-/**
  * If clipboard has mime type application/x-uml-clip1,
  * Pastes the data from the clipboard into the current Doc.
  * @param data   mime type
@@ -420,23 +365,13 @@ bool UMLClipboard::pasteClip1(const QMimeData* data)
     if (! UMLDragData::decodeClip1(data, objects)) {
         return false;
     }
-    UMLListView *lv = UMLApp::app()->listView();
-    if (!lv->startedCopy())
-        return true;
-    lv->setStartedCopy(false);
-    /* If we get here we are pasting after a Copy and need to
-    // paste possible children.
-    UMLListViewItem* itemdata = 0;
-    UMLListViewItemListIt it(itemdatalist);
-    while ((itemdata=it.current()) != 0) {
-        if(itemdata->childCount()) {
-                if(!pasteChildren(itemdata, idchanges)) {
-                        return false;
-                }
-        }
-        ++it;
+
+    UMLDoc* doc = UMLApp::app()->document();
+    foreach (UMLObject* object, objects) {
+        doc->assignNewIDs(object);
+        object->resolveRef();
     }
-     */
+
     return true;
 }
 
@@ -449,25 +384,12 @@ bool UMLClipboard::pasteClip1(const QMimeData* data)
 bool UMLClipboard::pasteClip2(const QMimeData* data)
 {
     UMLDoc*             doc = UMLApp::app()->document();
-    UMLListViewItemList itemdatalist;
     UMLObjectList       objects;
     UMLViewList         views;
-    IDChangeLog*        idchanges = 0;
 
-    bool result = UMLDragData::decodeClip2(data, objects, itemdatalist, views);
+    bool result = UMLDragData::decodeClip2(data, objects, views);
     if(!result) {
         return false;
-    }
-
-    idchanges = doc->changeLog();
-    if(!idchanges) {
-        return false;
-    }
-    foreach (UMLObject* obj, objects) {
-        if(!doc->assignNewIDs(obj)) {
-            uDebug() << "UMLClipboard: error adding umlobject";
-            return false;
-        }
     }
 
     foreach (UMLView* pView, views) {
@@ -482,6 +404,14 @@ bool UMLClipboard::pasteClip2(const QMimeData* data)
 /**
  * If clipboard has mime type application/x-uml-clip3,
  * Pastes the data from the clipboard into the current Doc.
+ *
+ * Note: clip3 is only used to determine if the selected items can be dragged
+ * onto the view. Pasting only listview items makes no sense. Clip3 is implemented
+ * as a fallback-clip when clip 1, 2, 4 or 5 are not applicable. But that should
+ * never happen.
+ *
+ * Todo: remove clip3 alltogether.
+ *
  * @param data   mime type
  * @return       success flag
  */
@@ -742,24 +672,6 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
     }
 
     return result;
-}
-
-/**
- * Inserts the data of the children of the given item
- * into the item data list.  Used for clip type 4.  Used
- * to make * sure classes have all the attributes and
- * operations saved.
- * @param item   parent item, its children are inserted
- * @return       success flag
- */
-bool UMLClipboard::insertItemChildren(UMLListViewItem * item)
-{
-    for (int i = 0; i < item->childCount(); i++) {
-        UMLListViewItem * child =dynamic_cast<UMLListViewItem *>(item->child(i));
-        m_ItemList.append(child);
-        insertItemChildren(child);
-    }
-    return true;
 }
 
 /**

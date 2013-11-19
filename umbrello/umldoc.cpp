@@ -2777,10 +2777,7 @@ bool UMLDoc::addUMLView(UMLView * pView)
         return false;
     }
 
-    // Todo: find better way to update listview item. Depending on how we
-    // handle bug 327670, the diagram does not need a new ID.
     Uml::ID::Type oldID = pView->umlScene()->ID();
-    UMLListViewItem* listViewItem = UMLApp::app()->listView()->findItem(oldID);
 
     int i = 0;
     QString viewName = pView->umlScene()->name();
@@ -2790,17 +2787,18 @@ bool UMLDoc::addUMLView(UMLView * pView)
     }
     if (i) { //If name was modified
         pView->umlScene()->setName(name);
-        listViewItem->setText(name);
     }
 
     Uml::ID::Type newID = assignNewID(oldID);
     pView->umlScene()->setID(newID);
-    listViewItem->setID(newID);
 
     pView->umlScene()->activateAfterLoad(true);
     pView->umlScene()->endPartialWidgetPaste();
     pView->umlScene()->setOptionState(Settings::optionState());
     addView(pView);
+
+    emit sigDiagramCreated(pView->umlScene()->ID());
+
     setModified(true);
     return true;
 }

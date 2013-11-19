@@ -55,8 +55,6 @@ public:
 
 private:
 
-    void CleanAssociations(AssociationWidgetList& associations);
-
     bool pasteClip1(const QMimeData* data);
     bool pasteClip2(const QMimeData* data);
     bool pasteClip3(const QMimeData* data);
@@ -85,10 +83,6 @@ private:
 
     bool insertItemChildren(UMLListViewItem* item,
                             UMLListViewItemList& selectedItems);
-
-    bool insertItemChildren(UMLListViewItem* item);
-
-    bool pasteChildren(UMLListViewItem* parent, IDChangeLog *chgLog);
 
     void pasteItemAlreadyExists();
 };
