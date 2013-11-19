@@ -229,6 +229,8 @@ public:
 
     void removeAllWidgets();
 
+    void resizeAllWidgets();
+
     void getDiagram(QPixmap & diagram, const QRectF &rect);
     void getDiagram(QPainter &painter, const QRectF &source, const QRectF &target = QRectF());
 
