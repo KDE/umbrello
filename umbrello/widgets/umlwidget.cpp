@@ -722,8 +722,7 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
         break;
 
     case ListPopupMenu::mt_Resize:
-        resize();
-        m_doc->setModified();
+        umlScene()->resizeAllWidgets();
         break;
 
     default:

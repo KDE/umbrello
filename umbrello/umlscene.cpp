@@ -2366,6 +2366,19 @@ void UMLScene::removeAllWidgets()
 }
 
 /**
+ * resize all widgets of the diagram
+ */
+void UMLScene::resizeAllWidgets()
+{
+    if (selectedCount() == 0)
+        return;
+    foreach(UMLWidget *w, selectedWidgets()) {
+        w->resize();
+    }
+    m_doc->setModified();
+}
+
+/**
  * Refreshes containment association, i.e. removes possible old
  * containment and adds new containment association if applicable.
  *
