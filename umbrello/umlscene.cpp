@@ -1479,6 +1479,19 @@ void UMLScene::deleteSelection()
 }
 
 /**
+ * resize selected widgets
+ */
+void UMLScene::resizeSelection()
+{
+    if (selectedCount() == 0)
+        return;
+    foreach(UMLWidget *w, selectedWidgets()) {
+        w->resize();
+    }
+    m_doc->setModified();
+}
+
+/**
  * Selects all widgets
  */
 void UMLScene::selectAll()
@@ -2363,19 +2376,6 @@ void UMLScene::removeAllWidgets()
 
     qDeleteAll(m_WidgetList);
     m_WidgetList.clear();
-}
-
-/**
- * resize all widgets of the diagram
- */
-void UMLScene::resizeAllWidgets()
-{
-    if (selectedCount() == 0)
-        return;
-    foreach(UMLWidget *w, selectedWidgets()) {
-        w->resize();
-    }
-    m_doc->setModified();
 }
 
 /**

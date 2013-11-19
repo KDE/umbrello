@@ -193,6 +193,7 @@ public:
     void selectionToggleShow(int sel);
 
     void deleteSelection();
+    void resizeSelection();
 
     void selectAll();
 
@@ -228,8 +229,6 @@ public:
     void removeAllAssociations();
 
     void removeAllWidgets();
-
-    void resizeAllWidgets();
 
     void getDiagram(QPixmap & diagram, const QRectF &rect);
     void getDiagram(QPainter &painter, const QRectF &source, const QRectF &target = QRectF());
