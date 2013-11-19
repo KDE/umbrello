@@ -85,6 +85,7 @@ void RefactoringAssistant::refactor(UMLClassifier *obj)
     }
     DEBUG(DBG_SRC) << "called for " << m_umlObject->name();
 
+    m_alreadySeen.clear();
     addClassifier(obj, 0, true, true, true);
     QTreeWidgetItem *item = topLevelItem(0);
     item->setExpanded(true);
@@ -646,6 +647,7 @@ void RefactoringAssistant::addClassifier(UMLClassifier *classifier, QTreeWidgetI
         classifierItem = new QTreeWidgetItem(this, QStringList(classifier->name()));
         m_umlObjectMap[classifierItem] = classifier;
     }
+    m_alreadySeen << classifier;
 
     connect(classifier, SIGNAL(modified()),
             this, SLOT(objectModified()));
@@ -692,6 +694,10 @@ void RefactoringAssistant::addClassifier(UMLClassifier *classifier, QTreeWidgetI
             item->setExpanded(true);
             m_umlObjectMap[item] = cl;
             if (recurse) {
+                if (m_alreadySeen.contains(cl)) {
+                    DEBUG(DBG_SRC) << "super class already seen" << cl;
+                    continue;
+                }
                 addClassifier(cl, item, true, false, true);
             }
         }
@@ -707,6 +713,10 @@ void RefactoringAssistant::addClassifier(UMLClassifier *classifier, QTreeWidgetI
             item->setExpanded(true);
             m_umlObjectMap[item] = d;
             if (recurse) {
+                if (m_alreadySeen.contains(d)) {
+                    DEBUG(DBG_SRC) << "derived class already seen" << d;
+                    continue;
+                }
                 addClassifier(d, item, false, true, true);
             }
         }
