@@ -1496,7 +1496,7 @@ void UMLScene::resizeSelection()
  */
 void UMLScene::selectAll()
 {
-    selectWidgets(0, 0, width(), height());
+    selectWidgets(sceneRect().x(), sceneRect().y(), width(), height());
 }
 
 /**
