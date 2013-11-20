@@ -185,7 +185,7 @@ void ClassifierWidget::setVisualProperty(VisualProperty property, bool enable)
             m_visualProperties |= property;
         }
         else {
-            enable &= ~property;
+            m_visualProperties &= ~property;
         }
         setShowStereotype(enable);
     }
