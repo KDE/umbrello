@@ -1466,7 +1466,7 @@ void UMLScene::deleteSelection()
  */
 void UMLScene::selectAll()
 {
-    selectWidgets(sceneRect().x(), sceneRect().y(), width(), height());
+    selectWidgets(sceneRect().left(), sceneRect().top(), sceneRect().right(), sceneRect().bottom());
 }
 
 /**
