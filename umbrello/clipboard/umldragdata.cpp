@@ -618,6 +618,8 @@ bool UMLDragData::decodeClip3(const QMimeData* mimeData, UMLListViewItemList& um
         QString type = listItemElement.attribute("type", "-1");
         if (type == "-1") {
             uDebug() << "Type not found.";
+            listItems = listItems.nextSibling();
+            listItemElement = listItems.toElement();
             continue;
         }
         UMLListViewItem::ListViewType t = (UMLListViewItem::ListViewType)(type.toInt());
