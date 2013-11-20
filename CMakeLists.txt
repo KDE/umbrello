@@ -20,8 +20,10 @@ if(NOT UMBRELLO_VERSION_STRING)
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
             OUTPUT_VARIABLE _hash
         )
-        string(REPLACE "\n" "" hash ${_hash})
-        set(UMBRELLO_VERSION_STRING "${UMBRELLO_VERSION_STRING}-${hash}")
+        if(hash)
+           string(REPLACE "\n" "" hash ${_hash})
+           set(UMBRELLO_VERSION_STRING "${UMBRELLO_VERSION_STRING}-${hash}")
+        endif()
     endif()
 endif()
 
