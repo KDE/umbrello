@@ -680,9 +680,6 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
     while (!element.isNull()) {
         UMLObject* pObject = 0;
         QString type = element.tagName();
-        //FIXME associations don't load
-        if (type == "UML:Association")
-            continue;
 
         UMLDoc* doc = UMLApp::app()->document();
         Uml::ID::Type elmId = Uml::ID::fromString(element.attribute("xmi.id"));

@@ -97,6 +97,12 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
                 m_ObjectList.append(widget->umlObject());
             }
         }
+
+        foreach (WidgetBase* widget, m_AssociationList) {
+            if (widget->umlObject() != 0) {
+                m_ObjectList.append(widget->umlObject());
+            }
+        }
     } else { //if the copy action is being performed from the ListView
         UMLListViewItemList itemsSelected = listView->selectedItems();
         if (itemsSelected.count() <= 0) {
