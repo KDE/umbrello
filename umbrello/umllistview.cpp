@@ -1477,8 +1477,8 @@ bool UMLListView::acceptDrag(QDropEvent* event) const
     }
 
     bool accept = false;
-    UMLListViewItem::ListViewType srcType;
-    UMLListViewItem::ListViewType dstType;
+    UMLListViewItem::ListViewType srcType = UMLListViewItem::lvt_Unknown;
+    UMLListViewItem::ListViewType dstType = UMLListViewItem::lvt_Unknown;
 
     // Handle different drop actions
     switch (event->proposedAction()) {
