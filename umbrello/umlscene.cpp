@@ -879,14 +879,13 @@ void UMLScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
 void UMLScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 {
     m_pToolBarState->mouseDoubleClick(event);
-
-    if (!onItem(event->scenePos())) {
+    if (!event->isAccepted()) {
         // show properties dialog of the scene
         if (m_view->showPropDialog() == true) {
             m_doc->setModified();
         }
+        event->accept();
     }
-    event->accept();
 }
 
 /**
@@ -1221,35 +1220,6 @@ void UMLScene::setUseFillColor(bool ufc)
 QRectF UMLScene::diagramRect()
 {
     return itemsBoundingRect();
-}
-
-/**
- * Check if at the given point is a widget or an association widget.
- * @param atPos   the mouse position on the scene
- * @return true if there is a widget or an association line
- */
-bool UMLScene::onItem(const QPointF& atPos)
-{
-    UMLWidget* widget = widgetAt(atPos);
-    if (widget) {
-        DEBUG(DBG_SRC) << "uml widget = " << widget->name() << " / type = " << widget->baseTypeStr();
-        return true;
-    }
-
-    AssociationWidget* association = associationAt(atPos);
-    if (association) {
-        DEBUG(DBG_SRC) << "association = " << association->name() << " / type = " << association->baseTypeStr();
-        return true;
-    }
-
-    MessageWidget* message = messageAt(atPos);
-    if (message) {
-        DEBUG(DBG_SRC) << "message = " << message->name() << " / type = " << message->baseTypeStr();
-        return true;
-    }
-
-    DEBUG(DBG_SRC) << "Not on any item!";
-    return false;
 }
 
 /**
@@ -2956,12 +2926,8 @@ void UMLScene::resetToolbar()
  */
 void UMLScene::contextMenuEvent(QGraphicsSceneContextMenuEvent* contextMenuEvent)
 {
-    if (onItem(contextMenuEvent->scenePos())) {
-        // forward the event to the item
-        QGraphicsScene::contextMenuEvent(contextMenuEvent);
-    }
-    else {
-        // set the position for the eventually created widget
+    QGraphicsScene::contextMenuEvent(contextMenuEvent);
+    if (!contextMenuEvent->isAccepted()) {
         setPos(contextMenuEvent->scenePos());
         setMenu(contextMenuEvent->screenPos());
         contextMenuEvent->accept();
