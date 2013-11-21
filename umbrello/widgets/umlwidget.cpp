@@ -1280,6 +1280,7 @@ void UMLWidget::setSelected(bool _select)
     }
     m_selected = _select;
 
+    // TODO: isn't this handled by toForeground() ?
     const QPoint pos(x(), y());
     UMLWidget *bkgnd = m_scene->widgetAt(pos);
     if (bkgnd && bkgnd != this && _select) {
