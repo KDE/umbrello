@@ -2462,7 +2462,7 @@ QPointF AssociationWidget::calculateTextPosition(Uml::TextRole::Enum role)
         p = m_associationLine->point(0);
         q = m_associationLine->point(1);
     } else if (role == TextRole::MultiB || role == TextRole::ChangeB || role == TextRole::RoleBName) {
-        const uint lastSegment = m_associationLine->count() - 1;
+        const int lastSegment = m_associationLine->count() - 1;
         p = m_associationLine->point(lastSegment);
         q = m_associationLine->point(lastSegment - 1);
     } else if (role != TextRole::Name) {
@@ -2565,7 +2565,7 @@ void AssociationWidget::constrainTextPos(qreal &textX, qreal &textY,
 {
     const int textCenterX = textX + textWidth / 2;
     const int textCenterY = textY + textHeight / 2;
-    const uint lastSegment = m_associationLine->count() - 1;
+    const int lastSegment = m_associationLine->count() - 1;
     QPointF p0, p1;
     switch (tr) {
         case TextRole::RoleAName:
@@ -2596,7 +2596,7 @@ void AssociationWidget::constrainTextPos(qreal &textX, qreal &textY,
             {
                 int minDistSquare = 100000;  // utopian initial value
                 int lpIndex = 0;
-                for (uint i = 0; i < lastSegment; ++i) {
+                for (int i = 0; i < lastSegment; ++i) {
                     p0 = m_associationLine->point(i);
                     p1 = m_associationLine->point(i + 1);
                     QPointF midP = midPoint(p0, p1);
