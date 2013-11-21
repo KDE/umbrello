@@ -11,7 +11,7 @@ set(VERSION_MINOR "12")
 set(VERSION_PATCH "99")
 
 # set default umbrello version
-# umbrello version could be overriden by cmake command line using -DUMBRELLO_VERSION_STRING=major.minor.patch
+# umbrello version could be overridden by cmake command line using -DUMBRELLO_VERSION_STRING=major.minor.patch
 if(NOT UMBRELLO_VERSION_STRING)
     set(UMBRELLO_VERSION_STRING "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
     if(EXISTS ${CMAKE_SOURCE_DIR}/.git)
