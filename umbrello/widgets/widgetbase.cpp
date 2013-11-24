@@ -57,6 +57,7 @@ WidgetBase::WidgetBase(UMLScene *scene, WidgetType type)
         m_textColor = optionState.uiState.textColor;
         m_lineColor = optionState.uiState.lineColor;
         m_lineWidth  = optionState.uiState.lineWidth;
+        m_font = optionState.uiState.font;
     } else {
         uError() << "WidgetBase constructor: SERIOUS PROBLEM - m_scene is NULL";
     }
@@ -488,6 +489,7 @@ void WidgetBase::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
     } else {
         qElement.setAttribute("fillcolor", m_fillColor.name());
     }
+    qElement.setAttribute("font", m_font.toString());
 }
 
 /**
@@ -552,6 +554,16 @@ bool WidgetBase::loadFromXMI(QDomElement& qElement)
     QString usesDiagramUseFillColor = qElement.attribute("usesdiagramusefillcolour", "1");
     usesDiagramUseFillColor = qElement.attribute("usesdiagramusefillcolor", usesDiagramUseFillColor);
     m_usesDiagramUseFillColor = (bool)usesDiagramUseFillColor.toInt();
+
+    QString font = qElement.attribute("font", "");
+    if (!font.isEmpty()) {
+        QFont newFont;
+        newFont.fromString(font);
+        setFont(newFont);
+    } else {
+        uWarning() << "Using default font " << m_font.toString()
+                   << " for widget with xmi.id " << Uml::ID::toString(m_nId);
+    }
 
     return true;
 }

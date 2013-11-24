@@ -104,7 +104,6 @@ UMLWidget& UMLWidget::operator=(const UMLWidget & other)
     m_usesDiagramUseFillColor = other.m_usesDiagramUseFillColor;
     m_fillColor = other.m_fillColor;
     m_Assocs = other.m_Assocs;
-    m_Font = other.m_Font;
     m_isInstance = other.m_isInstance;
     m_instanceName = other.m_instanceName;
     m_instanceName = other.m_instanceName;
@@ -170,8 +169,6 @@ bool UMLWidget::operator==(const UMLWidget& other) const
     if(m_useFillColor != other.m_useFillColor)
         return false;
     if(m_nId != other.m_nId)
-        return false;
-    if(m_Font != other.m_Font)
         return false;
     if(m_nX  != other.m_nX)
         return false;
@@ -657,8 +654,6 @@ void UMLWidget::init()
         m_usesDiagramUseFillColor = true;
         const Settings::OptionState& optionState = m_scene->optionState();
         m_fillColor = optionState.uiState.fillColor;
-        // FIXME: using setFont() here let umbrello hang probably because of doc->loading() not set. 
-        m_Font = optionState.uiState.font;
         m_showStereotype = optionState.classState.showStereoType;
     } else {
         uError() << "SERIOUS PROBLEM - m_scene is NULL";
@@ -901,7 +896,7 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
             return false;
         }
     }
-    setFont(m_Font);
+    setFont(m_font);
     setSize(width(), height());
     m_activated = true;
     updateGeometry();
@@ -1518,8 +1513,8 @@ void UMLWidget::clipSize()
  */
 void UMLWidget::setDefaultFontMetrics(UMLWidget::FontType fontType)
 {
-    setupFontType(m_Font, fontType);
-    setFontMetrics(fontType, QFontMetrics(m_Font));
+    setupFontType(m_font, fontType);
+    setFontMetrics(fontType, QFontMetrics(m_font));
 }
 
 void UMLWidget::setupFontType(QFont &font, UMLWidget::FontType fontType)
@@ -1614,8 +1609,8 @@ void UMLWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
  */
 void UMLWidget::setDefaultFontMetrics(UMLWidget::FontType fontType, QPainter &painter)
 {
-    setupFontType(m_Font, fontType);
-    painter.setFont(m_Font);
+    setupFontType(m_font, fontType);
+    painter.setFont(m_font);
     setFontMetrics(fontType, painter.fontMetrics());
 }
 
@@ -1641,21 +1636,13 @@ void UMLWidget::setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm)
 }
 
 /**
- *  Returns the font the widget is to use.
- */
-QFont UMLWidget::font() const
-{
-    return m_Font;
-}
-
-/**
  * Sets the font the widget is to use.
  *
  * @param font Font to be set.
  */
-void UMLWidget::setFont(QFont font)
+void UMLWidget::setFont(const QFont &font)
 {
-    m_Font = font;
+    WidgetBase::setFont(font);
     forceUpdateFontMetrics(0);
     if (m_doc->loading())
         return;
@@ -1727,7 +1714,6 @@ void UMLWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     */
     WidgetBase::saveToXMI(qDoc, qElement);
     qElement.setAttribute("xmi.id", Uml::ID::toString(id()));
-    qElement.setAttribute("font", m_Font.toString());
     qElement.setAttribute("x", x());
     qElement.setAttribute("y", y());
     qElement.setAttribute("width", width());
@@ -1741,24 +1727,14 @@ void UMLWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 
 bool UMLWidget::loadFromXMI(QDomElement & qElement)
 {
-    WidgetBase::loadFromXMI(qElement);
     QString id = qElement.attribute("xmi.id", "-1");
-    QString font = qElement.attribute("font", "");
+    m_nId = Uml::ID::fromString(id);
+
+    WidgetBase::loadFromXMI(qElement);
     QString x = qElement.attribute("x", "0");
     QString y = qElement.attribute("y", "0");
     QString h = qElement.attribute("height", "0");
     QString w = qElement.attribute("width", "0");
-
-    m_nId = Uml::ID::fromString(id);
-
-    if (!font.isEmpty()) {
-        QFont newFont;
-        newFont.fromString(font);
-        setFont(newFont);
-    } else {
-        uWarning() << "Using default font " << m_Font.toString()
-                   << " for widget with xmi.id " << Uml::ID::toString(m_nId);
-    }
 
     setSize(w.toFloat(), h.toFloat());
     setX(x.toFloat());
