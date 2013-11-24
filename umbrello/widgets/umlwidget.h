@@ -101,8 +101,7 @@ public:
     void setPenFromSettings(QPainter &p);
     void setPenFromSettings(QPainter *p);
 
-    virtual QFont font() const;
-    virtual void setFont(QFont font);
+    virtual void setFont(const QFont &font);
 
     /**
      * Returns whether we triggered the update of position movement.
@@ -288,8 +287,6 @@ protected:
 
     /// A list of AssociationWidgets between the UMLWidget and other UMLWidgets in the diagram
     AssociationWidgetList m_Assocs;
-
-    QFont m_Font;   ///< the font the widget will use
 
     QString m_instanceName;  ///< instance name (used if on a deployment diagram)
     bool m_isInstance;       ///< holds whether this widget is a component instance (i.e. on a deployment diagram)

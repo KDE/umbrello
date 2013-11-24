@@ -125,8 +125,8 @@ public:
     bool usesDiagramUseFillColor() const;
     void setUsesDiagramUseFillColor(bool state);
 
-    QFont font() const;
-    void setFont(const QFont& font);
+    virtual QFont font() const;
+    virtual void setFont(const QFont& font);
 
     virtual void showPropertiesDialog();
 
