@@ -257,7 +257,8 @@ bool AdaImport::parseStmt()
                 umldoc->addAssociation(assoc);
                 skipStmt();
             } else {
-                m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
+                m_scope.append(static_cast<UMLPackage*>(ns));
+                m_scopeIndex = m_scope.size() - 1;
             }
         } else if (m_source[m_srcIndex] == "renames") {
             m_renaming[name] = advance();
@@ -441,7 +442,8 @@ bool AdaImport::parseStmt()
                     uError() << "end: expecting " << scopeName << ", found "
                               << m_source[m_srcIndex];
             }
-            m_scopeIndex--;
+            m_scope.takeLast();
+            m_scopeIndex = m_scope.size() - 1;
             m_currentAccess = Uml::Visibility::Public;   // @todo make a stack for this
         } else {
             uError() << "importAda: too many \"end\"";
