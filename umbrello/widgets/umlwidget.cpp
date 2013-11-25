@@ -113,7 +113,6 @@ UMLWidget& UMLWidget::operator=(const UMLWidget & other)
     setRect(rect().x(), rect().y(), other.width(), other.height());
 
     // assign volatile (non-saved) members
-    m_selected = other.m_selected;
     m_startMove = other.m_startMove;
     m_nPosX = other.m_nPosX;
     m_doc = other.m_doc;    //new
@@ -666,7 +665,6 @@ void UMLWidget::init()
     m_resizable = true;
     m_fixedAspectRatio = false;
 
-    m_selected = false;
     m_startMove = false;
     m_activated = false;
     m_ignoreSnapToGrid = false;
@@ -1247,6 +1245,11 @@ void UMLWidget::setSelectionBounds()
     }
 }
 
+void UMLWidget::setSelectedFlag(bool _select)
+{
+    WidgetBase::setSelected(_select);
+}
+
 /**
  * Sets the state of whether the widget is selected.
  *
@@ -1254,6 +1257,7 @@ void UMLWidget::setSelectionBounds()
  */
 void UMLWidget::setSelected(bool _select)
 {
+    WidgetBase::setSelected(_select);
     const WidgetBase::WidgetType wt = m_baseType;
     if (_select) {
         if (m_scene->selectedCount() == 0) {
@@ -1270,10 +1274,9 @@ void UMLWidget::setSelected(bool _select)
         /* if (wt != wt_Text && wt != wt_Box) {
             setZ(m_origZ);
         } */
-        if (m_selected)
+        if (isSelected())
             UMLApp::app()->docWindow()->updateDocumentation(true);
     }
-    m_selected = _select;
 
     // TODO: isn't this handled by toForeground() ?
     const QPoint pos(x(), y());
@@ -1570,7 +1573,7 @@ void UMLWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    if (m_selected) {
+    if (option->state & QStyle::State_Selected) {
         const qreal w = width();
         const qreal h = height();
         const qreal s = 4;

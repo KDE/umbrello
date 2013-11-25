@@ -45,9 +45,11 @@ WidgetBase::WidgetBase(UMLScene *scene, WidgetType type)
     m_usesDiagramLineColor(true),
     m_usesDiagramLineWidth(true)
 {
+    setSelected(false);
     scene->addItem(this);
 
     // TODO 310283
+    setFlags(ItemIsSelectable);
     //setFlags(ItemIsSelectable | ItemIsMovable |ItemSendsGeometryChanges);
     if (m_scene) {
         m_usesDiagramLineColor = true;
@@ -84,6 +86,16 @@ WidgetBase::WidgetType WidgetBase::baseType() const
 QLatin1String WidgetBase::baseTypeStr() const
 {
     return QLatin1String(ENUM_NAME(WidgetBase, WidgetType, m_baseType));
+}
+
+/*
+ * Sets the state of whether the widget is selected.
+ *
+ * @param select   The state of whether the widget is selected.
+ */
+void WidgetBase::setSelected(bool select)
+{
+    QGraphicsObject::setSelected(select);
 }
 
 /**
@@ -590,6 +602,7 @@ WidgetBase& WidgetBase::operator=(const WidgetBase& other)
     m_usesDiagramLineColor = other.m_usesDiagramLineColor;
     m_usesDiagramFillColor = other.m_usesDiagramFillColor;
     m_usesDiagramLineWidth  = other.m_usesDiagramLineWidth;
+    setSelected(other.isSelected());
 
     return *this;
 }
@@ -696,7 +709,7 @@ void WidgetBase::setupContextMenuActions(ListPopupMenu &menu)
     //so take that into account for popup menu.
 
     // determine multi state
-    bool multi = (m_selected && count > 1);
+    bool multi = (isSelected() && count > 1);
 
     // if multiple selected items have the same type
     bool unique = false;

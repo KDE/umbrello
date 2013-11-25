@@ -77,20 +77,8 @@ public:
     virtual void setFillColor(const QColor &color);
     void setFillColorcmd(const QColor &color);
 
+    void setSelectedFlag(bool _select);
     virtual void setSelected(bool _select);
-
-    /**
-     * Returns the state of whether the widget is selected.
-     *
-     * @return Returns the state of whether the widget is selected.
-     */
-    bool isSelected() const {
-        return m_selected;
-    }
-
-    void setSelectedFlag(bool _select) {
-        m_selected = _select;
-    }
 
     void setScene(UMLScene *scene);
 
@@ -294,7 +282,7 @@ protected:
 
     ///////////////// End of Data Loaded/Saved //////////////////////////
 
-    bool m_selected, m_startMove;
+    bool           m_startMove;
     QPointF        m_startMovePostion;
     QSizeF         m_startResizeSize;
     int            m_nPosX;

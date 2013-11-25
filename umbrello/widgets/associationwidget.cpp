@@ -64,7 +64,6 @@ AssociationWidget::AssociationWidget(UMLScene *scene)
     m_positions_len(0),
     m_activated(false),
     m_unNameLineSegment(-1),
-    m_selected(false),
     m_nLinePathSegmentIndex(-1),
     m_pAssocClassLine(0),
     m_pAssocClassLineSel0(0),
@@ -618,7 +617,7 @@ AssociationWidget& AssociationWidget::operator=(const AssociationWidget& other)
     m_unNameLineSegment = other.m_unNameLineSegment;
     m_pMenu = other.m_pMenu;
     setUMLAssociation(other.association());
-    m_selected = other.m_selected;
+    setSelected(other.isSelected());
 
     return *this;
 }
@@ -1332,7 +1331,7 @@ void AssociationWidget::cleanup()
  */
 bool AssociationWidget::isPointAddable()
 {
-    if (!m_selected || associationType() == Uml::AssociationType::Exception)
+    if (!isSelected() || associationType() == Uml::AssociationType::Exception)
         return false;
     int i = m_associationLine->closestPointIndex(m_eventScenePos);
     return i == -1;
@@ -1347,7 +1346,7 @@ bool AssociationWidget::isPointAddable()
  */
 bool AssociationWidget::isPointRemovable()
 {
-    if (!m_selected || associationType() == Uml::AssociationType::Exception || m_associationLine->count() <= 2)
+    if (!isSelected() || associationType() == Uml::AssociationType::Exception || m_associationLine->count() <= 2)
         return false;
     int i = m_associationLine->closestPointIndex(m_eventScenePos);
     return i > 0 && i < m_associationLine->count() - 1;
@@ -2909,11 +2908,11 @@ void AssociationWidget::mousePressEvent(QGraphicsSceneMouseEvent * me)
     QPointF mep = me->scenePos();
     // see if `mep' is on the connecting line to the association class
     if (onAssocClassLine(mep)) {
-        m_selected = true;
+        setSelected(true);
         selectAssocClassLine();
         return;
     }
-    setSelected( !m_selected );
+    setSelected(!isSelected());
     associationLine()->mousePressEvent(me);
 }
 
@@ -3239,7 +3238,7 @@ void AssociationWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
         return;
     }
 
-    setSelected();
+    setSelected(true);
 
     // new position for point
     QPointF p = me->scenePos();
@@ -3658,23 +3657,13 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
 }
 
 /**
- * Returns the state of whether the widget is selected.
- *
- * @return  Returns the state of whether the widget is selected.
- */
-bool AssociationWidget::isSelected() const
-{
-    return m_selected;
-}
-
-/**
  * Sets the state of whether the widget is selected.
  *
  * @param _select   The state of whether the widget is selected.
  */
 void AssociationWidget::setSelected(bool _select /* = true */)
 {
-    m_selected = _select;
+    WidgetBase::setSelected(_select);
     if ( m_nameWidget)
         m_nameWidget->setSelected( _select );
     if ( m_role[RoleType::A].roleWidget )

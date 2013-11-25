@@ -140,9 +140,6 @@ public:
     bool isActivated() const;
     void setActivated(bool active);
 
-    bool isSelected() const;
-    void setSelected(bool _select = true);
-
     AssociationLine* associationLine() const;
 
     virtual bool activate();
@@ -194,6 +191,7 @@ public:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
+    virtual void setSelected(bool _select);
 public Q_SLOTS:  //:TODO: all virtual?
     virtual void slotMenuSelection(QAction* action);
     void slotClearAllSelected();
@@ -301,7 +299,6 @@ private:
      * m_associationLine[m_unNameLineSegment] -- m_associationLine[m_unNameLineSegment+1]
      */
     int                 m_unNameLineSegment;
-    bool                m_selected;
 
     QPointF m_oldNamePoint;    ///< Position of name floatingtext saved by saveIdealTextPositions()
     QPointF m_oldMultiAPoint;  ///< Position of role A multiplicity floatingtext saved by saveIdealTextPositions()

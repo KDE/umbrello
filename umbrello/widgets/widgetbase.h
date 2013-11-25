@@ -85,6 +85,8 @@ public:
     WidgetType baseType() const;
     QLatin1String baseTypeStr() const;
 
+    virtual void setSelected(bool select);
+
     UMLScene* umlScene() const;
     UMLDoc* umlDoc() const;
 
