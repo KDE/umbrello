@@ -145,7 +145,7 @@ QString NativeImportBase::advance()
     while (m_srcIndex < m_source.count() - 1) {
         m_srcIndex++;
         if (m_source[m_srcIndex].startsWith(m_singleLineCommentIntro))
-            m_comment += m_source[m_srcIndex];
+            m_comment += m_source[m_srcIndex].mid(m_singleLineCommentIntro.length());
         else
             break;
     }
