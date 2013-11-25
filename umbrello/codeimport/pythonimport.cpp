@@ -103,6 +103,12 @@ bool PythonImport::preprocess(QString& line)
             m_srcIndex++;
         }
     }
+
+    if (m_braceWasOpened && m_srcIndentIndex == 0) {
+        m_source.append("}");
+        m_srcIndex++;
+    }
+
     if (line.endsWith(':')) {
         line.replace( QRegExp(":$"), "{" );
         m_braceWasOpened = true;
