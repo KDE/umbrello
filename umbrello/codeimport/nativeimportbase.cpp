@@ -213,11 +213,11 @@ bool NativeImportBase::preprocess(QString& line)
             delimIntroLen = m_multiLineAltCommentIntro.length();
     }
     if (pos != -1) {
-        int endpos = line.indexOf(m_multiLineCommentEnd);
+        int endpos = line.indexOf(m_multiLineCommentEnd, pos + delimIntroLen);
         if (endpos != -1) {
             delimEndLen = m_multiLineCommentEnd.length();
         } else if (!m_multiLineAltCommentEnd.isEmpty()) {
-            endpos = line.indexOf(m_multiLineAltCommentEnd);
+            endpos = line.indexOf(m_multiLineAltCommentEnd, pos + delimIntroLen);
             if (endpos != -1)
                 delimEndLen = m_multiLineAltCommentEnd.length();
         }
