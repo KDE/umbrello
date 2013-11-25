@@ -240,6 +240,12 @@ bool PythonImport::parseStmt()
             skipBody();
             return true;
         }
+
+        if (!m_klass->hasDoc() && !m_comment.isEmpty()) {
+            m_klass->setDoc(m_comment);
+            m_comment = "";
+        }
+
         const QString& name = advance();
         // operation
         UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
@@ -258,6 +264,11 @@ bool PythonImport::parseStmt()
                                    false /*isStatic*/, false /*isAbstract*/, false /*isFriend*/,
                                    false /*isConstructor*/, m_comment);
         op->setSourceCode(skipBody());
+
+        if (!op->hasDoc() && !m_comment.isEmpty()) {
+            op->setDoc(m_comment);
+            m_comment = "";
+        }
         log("def " + name);
 
         return true;
