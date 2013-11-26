@@ -325,7 +325,7 @@ void UMLWidget::toForeground()
  * it's marked to be deselected when releasing the button (provided it wasn't
  * moved or resized).
  *
- * @param me The QGraphicsSceneMouseEvent event.
+ * @param event The QGraphicsSceneMouseEvent event.
  */
 void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
@@ -415,12 +415,12 @@ void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
  * not updated always to be easy on the CPU). Finally, the scene is resized,
  * and selection bounds updated.
  *
- * @param me The QGraphicsSceneMouseEvent event.
+ * @param event The QGraphicsSceneMouseEvent event.
  */
-void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
+void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
     if (m_inResizeArea) {
-        resize(me);
+        resize(event);
         return;
     }
 
@@ -434,14 +434,14 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
         setSelectionBounds();
     }
 
-    QPointF position = me->scenePos() - m_pressOffset;
+    QPointF position = event->scenePos() - m_pressOffset;
     qreal diffX = position.x() - x();
     qreal diffY = position.y() - y();
 
-    if ((me->modifiers() & Qt::ShiftModifier) && (me->modifiers() & Qt::ControlModifier)) {
+    if ((event->modifiers() & Qt::ShiftModifier) && (event->modifiers() & Qt::ControlModifier)) {
         // move only in Y axis
         diffX = 0;
-    } else if ((me->modifiers() & Qt::ShiftModifier) || (me->modifiers() & Qt::ControlModifier)) {
+    } else if ((event->modifiers() & Qt::ShiftModifier) || (event->modifiers() & Qt::ControlModifier)) {
         // move only in X axis
         diffY = 0;
     }
@@ -453,7 +453,7 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
         return;
     }
 
-    QPointF delta = me->scenePos() - me->lastScenePos();
+    QPointF delta = event->scenePos() - event->lastScenePos();
     adjustUnselectedAssocs(delta.x(), delta.y());
 
     DEBUG(DBG_SRC) << "diffX=" << diffX << " / diffY=" << diffY;
@@ -493,15 +493,15 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
  * event at the same position than the cursor was when pressed. Another left
  * button release is also sent.
  *
- * @param me The QGraphicsSceneMouseEvent event.
+ * @param event The QGraphicsSceneMouseEvent event.
  */
-void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
+void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     if (!m_moved && !m_resized) {
         if (!m_shiftPressed && (m_scene->selectedCount(true) > 1)) {
-            selectSingle(me);
+            selectSingle(event);
         } else if (!isSelected()) {
-            deselect(me);
+            deselect(event);
         }
     } else {
         // Commands
