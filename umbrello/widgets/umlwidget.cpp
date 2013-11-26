@@ -301,92 +301,6 @@ void UMLWidget::toForeground()
 }
 
 /**
- * Handles a mouse move event.
- * It resizes or moves the widget, depending on where the cursor is pressed
- * on the widget. Go on reading for more info about this.
- *
- * If resizing, the widget is resized using UMLWidget::resizeWidget (where specific
- * widget resize constrain can be applied), and then the associations are
- * adjusted.
- * The resizing can be constrained also to an specific axis using control
- * and shift buttons. If on or another is pressed, it's constrained to X axis.
- * If both are pressed, it's constrained to Y axis.
- *
- * If not resizing, the widget is being moved. If the move is being started,
- * the selection bounds are set (which includes updating the list of selected
- * widgets).
- * The difference between the previous position of the selection and the new
- * one is got (taking in account the selection bounds so widgets don't go
- * beyond the scene limits). Then, it's constrained to X or Y axis depending
- * on shift and control buttons.
- * A further constrain is made using constrainMovementForAllWidgets (for example,
- * if the widget that receives the event can only be moved in Y axis, with this
- * method the movement of all the widgets in the selection can be constrained to
- * be moved only in Y axis).
- * Then, all the selected widgets are moved using moveWidgetBy (where specific
- * widget movement constrain can be applied) and, if an specific amount of time
- * passed from the last move event, the associations are also updated (they're
- * not updated always to be easy on the CPU). Finally, the scene is resized,
- * and selection bounds updated.
- *
- * @param me The QGraphicsSceneMouseEvent event.
- */
-void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
-{
-    if (m_inResizeArea) {
-        resize(me);
-        return;
-    }
-
-    if (!m_moved) {
-        UMLApp::app()->document()->writeToStatusBar(i18n("Hold shift or ctrl to move in X axis. Hold shift and control to move in Y axis. Right button click to cancel move."));
-
-        m_moved = true;
-        //Maybe needed by AssociationWidget
-        m_startMove = true;
-
-        setSelectionBounds();
-    }
-
-    QPointF position = me->scenePos() - m_pressOffset;
-    qreal diffX = position.x() - x();
-    qreal diffY = position.y() - y();
-
-    if ((me->modifiers() & Qt::ShiftModifier) && (me->modifiers() & Qt::ControlModifier)) {
-        // move only in Y axis
-        diffX = 0;
-    } else if ((me->modifiers() & Qt::ShiftModifier) || (me->modifiers() & Qt::ControlModifier)) {
-        // move only in X axis
-        diffY = 0;
-    }
-
-    constrainMovementForAllWidgets(diffX, diffY);
-
-    // nothing to move
-    if (diffX == 0 && diffY == 0) {
-        return;
-    }
-
-    QPointF delta = me->scenePos() - me->lastScenePos();
-    adjustUnselectedAssocs(delta.x(), delta.y());
-
-    DEBUG(DBG_SRC) << "diffX=" << diffX << " / diffY=" << diffY;
-    foreach(UMLWidget* widget, m_selectedWidgetsList) {
-        widget->moveWidgetBy(diffX, diffY);
-    }
-
-    // Move any selected associations.
-    foreach(AssociationWidget* aw, m_scene->selectedAssocs()) {
-        if (aw->isSelected()) {
-            aw->moveEntireAssoc(diffX, diffY);
-        }
-    }
-
-    umlScene()->resizeSceneToItems();
-    slotSnapToGrid();
-}
-
-/**
  * Handles a mouse press event.
  * It'll select the widget (or mark it to be deselected) and prepare it to
  * be moved or resized. Go on reading for more info about this.
@@ -470,6 +384,92 @@ void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
     if (!isSelected() || count > 1) {
         selectSingle(event);
     }
+}
+
+/**
+ * Handles a mouse move event.
+ * It resizes or moves the widget, depending on where the cursor is pressed
+ * on the widget. Go on reading for more info about this.
+ *
+ * If resizing, the widget is resized using UMLWidget::resizeWidget (where specific
+ * widget resize constrain can be applied), and then the associations are
+ * adjusted.
+ * The resizing can be constrained also to an specific axis using control
+ * and shift buttons. If on or another is pressed, it's constrained to X axis.
+ * If both are pressed, it's constrained to Y axis.
+ *
+ * If not resizing, the widget is being moved. If the move is being started,
+ * the selection bounds are set (which includes updating the list of selected
+ * widgets).
+ * The difference between the previous position of the selection and the new
+ * one is got (taking in account the selection bounds so widgets don't go
+ * beyond the scene limits). Then, it's constrained to X or Y axis depending
+ * on shift and control buttons.
+ * A further constrain is made using constrainMovementForAllWidgets (for example,
+ * if the widget that receives the event can only be moved in Y axis, with this
+ * method the movement of all the widgets in the selection can be constrained to
+ * be moved only in Y axis).
+ * Then, all the selected widgets are moved using moveWidgetBy (where specific
+ * widget movement constrain can be applied) and, if an specific amount of time
+ * passed from the last move event, the associations are also updated (they're
+ * not updated always to be easy on the CPU). Finally, the scene is resized,
+ * and selection bounds updated.
+ *
+ * @param me The QGraphicsSceneMouseEvent event.
+ */
+void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
+{
+    if (m_inResizeArea) {
+        resize(me);
+        return;
+    }
+
+    if (!m_moved) {
+        UMLApp::app()->document()->writeToStatusBar(i18n("Hold shift or ctrl to move in X axis. Hold shift and control to move in Y axis. Right button click to cancel move."));
+
+        m_moved = true;
+        //Maybe needed by AssociationWidget
+        m_startMove = true;
+
+        setSelectionBounds();
+    }
+
+    QPointF position = me->scenePos() - m_pressOffset;
+    qreal diffX = position.x() - x();
+    qreal diffY = position.y() - y();
+
+    if ((me->modifiers() & Qt::ShiftModifier) && (me->modifiers() & Qt::ControlModifier)) {
+        // move only in Y axis
+        diffX = 0;
+    } else if ((me->modifiers() & Qt::ShiftModifier) || (me->modifiers() & Qt::ControlModifier)) {
+        // move only in X axis
+        diffY = 0;
+    }
+
+    constrainMovementForAllWidgets(diffX, diffY);
+
+    // nothing to move
+    if (diffX == 0 && diffY == 0) {
+        return;
+    }
+
+    QPointF delta = me->scenePos() - me->lastScenePos();
+    adjustUnselectedAssocs(delta.x(), delta.y());
+
+    DEBUG(DBG_SRC) << "diffX=" << diffX << " / diffY=" << diffY;
+    foreach(UMLWidget* widget, m_selectedWidgetsList) {
+        widget->moveWidgetBy(diffX, diffY);
+    }
+
+    // Move any selected associations.
+    foreach(AssociationWidget* aw, m_scene->selectedAssocs()) {
+        if (aw->isSelected()) {
+            aw->moveEntireAssoc(diffX, diffY);
+        }
+    }
+
+    umlScene()->resizeSceneToItems();
+    slotSnapToGrid();
 }
 
 /**
