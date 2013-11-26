@@ -166,11 +166,11 @@ protected:
 
     void updateResizability();
 
-    void paintSynchronous(QPainter *painter);
-    void paintAsynchronous(QPainter *painter);
-    void paintCreation(QPainter *painter);
-    void paintLost(QPainter *painter);
-    void paintFound(QPainter *painter);
+    void paintSynchronous(QPainter *painter, const QStyleOptionGraphicsItem *option);
+    void paintAsynchronous(QPainter *painter, const QStyleOptionGraphicsItem *option);
+    void paintCreation(QPainter *painter, const QStyleOptionGraphicsItem *option);
+    void paintLost(QPainter *painter, const QStyleOptionGraphicsItem *option);
+    void paintFound(QPainter *painter, const QStyleOptionGraphicsItem *option);
 
     // Data loaded/saved
     QString m_SequenceNumber;

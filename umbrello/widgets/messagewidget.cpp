@@ -302,15 +302,15 @@ void MessageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     }
     setPenFromSettings(painter);
     if (m_sequenceMessageType == Uml::SequenceMessage::Synchronous) {
-        paintSynchronous(painter);
+        paintSynchronous(painter, option);
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Asynchronous) {
-        paintAsynchronous(painter);
+        paintAsynchronous(painter, option);
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Creation) {
-        paintCreation(painter);
+        paintCreation(painter, option);
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Lost) {
-        paintLost(painter);
+        paintLost(painter, option);
     } else if (m_sequenceMessageType == Uml::SequenceMessage::Found) {
-        paintFound(painter);
+        paintFound(painter, option);
     } else {
         uWarning() << "Unknown message type";
     }
@@ -367,7 +367,7 @@ void MessageWidget::paintArrow(QPainter *p, int x, int y, int w,
  * timeline box and the returning arrow with a dashed line and
  * stick arrowhead.
  */
-void MessageWidget::paintSynchronous(QPainter *painter)
+void MessageWidget::paintSynchronous(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
     int x1 = m_pOw[Uml::RoleType::A]->x();
     int x2 = m_pOw[Uml::RoleType::B]->x();
@@ -425,13 +425,13 @@ void MessageWidget::paintSynchronous(QPainter *painter)
         paintArrow(painter, offsetX + wr + 1, offsetY + h - arrowWidth + 1, w - wr - 1, Qt::RightArrow, true); // return arrow
     }
 
-    UMLWidget::paint(painter, 0);
+    UMLWidget::paint(painter, option);
 }
 
 /**
  * Draws a solid arrow line and a stick arrow head.
  */
-void MessageWidget::paintAsynchronous(QPainter *painter)
+void MessageWidget::paintAsynchronous(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
     int x1 = m_pOw[Uml::RoleType::A]->x();
     int x2 = m_pOw[Uml::RoleType::B]->x();
@@ -473,7 +473,7 @@ void MessageWidget::paintAsynchronous(QPainter *painter)
         paintArrow(painter, offsetX, offsetY + 4, w, Qt::LeftArrow);
     }
 
-    UMLWidget::paint(painter, 0);
+    UMLWidget::paint(painter, option);
 }
 
 /**
@@ -481,7 +481,7 @@ void MessageWidget::paintAsynchronous(QPainter *painter)
  * edge of the target object widget instead of to the
  * sequence line.
  */
-void MessageWidget::paintCreation(QPainter *painter)
+void MessageWidget::paintCreation(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
     int x1 = m_pOw[Uml::RoleType::A]->x();
     int x2 = m_pOw[Uml::RoleType::B]->x();
@@ -509,7 +509,7 @@ void MessageWidget::paintCreation(QPainter *painter)
         paintArrow(painter, offsetX, lineY, w, Qt::LeftArrow);
     }
 
-    UMLWidget::paint(painter, 0);
+    UMLWidget::paint(painter, option);
 }
 
 
@@ -517,7 +517,7 @@ void MessageWidget::paintCreation(QPainter *painter)
  * Draws a solid arrow line and a stick arrow head
  * and a circle
  */
-void MessageWidget::paintLost(QPainter *painter)
+void MessageWidget::paintLost(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
     int x1 = m_pOw[Uml::RoleType::A]->centerX();
     int x2 = xclicked;
@@ -549,13 +549,13 @@ void MessageWidget::paintLost(QPainter *painter)
         paintArrow(painter, offsetX + h, offsetY + h/2, w - h, Qt::LeftArrow);
     }
 
-    UMLWidget::paint(painter, 0);
+    UMLWidget::paint(painter, option);
 }
 
 /**
  * Draws a circle and a solid arrow line and a stick arrow head.
  */
-void MessageWidget::paintFound(QPainter *painter)
+void MessageWidget::paintFound(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
     int x1 = m_pOw[Uml::RoleType::A]->centerX();
     int x2 = xclicked;
@@ -588,7 +588,7 @@ void MessageWidget::paintFound(QPainter *painter)
         paintArrow(painter, offsetX, offsetY + h/2, w, Qt::RightArrow);
     }
 
-    UMLWidget::paint(painter, 0);
+    UMLWidget::paint(painter, option);
 }
 
 /**
