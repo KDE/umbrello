@@ -1021,7 +1021,6 @@ void UMLScene::checkMessages(ObjectWidget * w)
         return;
     }
 
-    MessageWidgetListIt it(m_MessageList);
     foreach(MessageWidget *obj, m_MessageList) {
         if (! obj->hasObjectWidget(w)) {
             continue;
