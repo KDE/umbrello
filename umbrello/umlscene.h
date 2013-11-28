@@ -149,7 +149,7 @@ public:
     const Settings::OptionState& optionState() const;
     void setOptionState(const Settings::OptionState& options);
 
-    AssociationWidgetList& associationList();
+    AssociationWidgetList associationList();
     UMLWidgetList& widgetList();
     MessageWidgetList& messageList();
     UMLObjectList umlObjects();
@@ -326,7 +326,6 @@ protected:
 
     MessageWidgetList      m_MessageList;      ///< All the message widgets on the diagram.
     UMLWidgetList          m_WidgetList;       ///< All the UMLWidgets on the diagram.
-    AssociationWidgetList  m_AssociationList;  ///< All the AssociationWidgets on the diagram.
 
     bool m_bUseSnapToGrid;  ///< Flag to use snap to grid. The default is off.
     bool m_bUseSnapComponentSizeToGrid;  ///< Flag to use snap to grid for component size. The default is off.

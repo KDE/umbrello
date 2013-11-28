@@ -413,9 +413,15 @@ void UMLScene::setOptionState(const Settings::OptionState& options)
 /**
  * Returns a reference to the association list.
  */
-AssociationWidgetList& UMLScene::associationList()
+AssociationWidgetList UMLScene::associationList()
 {
-    return m_AssociationList;
+    AssociationWidgetList list;
+    foreach(QGraphicsItem* a, items()) {
+        AssociationWidget* assocwidget = dynamic_cast<AssociationWidget*>(a);
+        if (assocwidget)
+            list.append(assocwidget);
+    }
+    return list;
 }
 
 /**
@@ -1093,7 +1099,7 @@ UMLWidget * UMLScene::findWidget(Uml::ID::Type id)
  */
 AssociationWidget * UMLScene::findAssocWidget(Uml::ID::Type id)
 {
-    foreach(AssociationWidget* obj, m_AssociationList) {
+    foreach(AssociationWidget* obj, associationList()) {
         UMLAssociation* umlassoc = obj->association();
         if (umlassoc && umlassoc->id() == id) {
             return obj;
@@ -1117,7 +1123,7 @@ AssociationWidget * UMLScene::findAssocWidget(Uml::ID::Type id)
 AssociationWidget * UMLScene::findAssocWidget(UMLWidget *pWidgetA,
                                               UMLWidget *pWidgetB, const QString& roleNameB)
 {
-    foreach(AssociationWidget* assoc, m_AssociationList) {
+    foreach(AssociationWidget* assoc, associationList()) {
         const Uml::AssociationType::Enum testType = assoc->associationType();
         if (testType != Uml::AssociationType::Association &&
                 testType != Uml::AssociationType::UniAssociation &&
@@ -1148,7 +1154,7 @@ AssociationWidget * UMLScene::findAssocWidget(UMLWidget *pWidgetA,
 AssociationWidget * UMLScene::findAssocWidget(AssociationType::Enum at,
                                               UMLWidget *pWidgetA, UMLWidget *pWidgetB)
 {
-    foreach(AssociationWidget* assoc, m_AssociationList) {
+    foreach(AssociationWidget* assoc, associationList()) {
         Uml::AssociationType::Enum testType = assoc->associationType();
         if (testType != at) {
             continue;
@@ -1424,7 +1430,7 @@ void UMLScene::deleteSelection()
     }
 
     // Delete any selected associations.
-    foreach(AssociationWidget* assocwidget, m_AssociationList) {
+    foreach(AssociationWidget* assocwidget, associationList()) {
         if (assocwidget->isSelected()) {
             removeAssoc(assocwidget);
         }
@@ -1775,7 +1781,7 @@ void UMLScene::activate()
 
     // Activate all association widgets
 
-    foreach(AssociationWidget* aw, m_AssociationList) {
+    foreach(AssociationWidget* aw, associationList()) {
         if (aw->activate()) {
             if (m_PastePoint.x() != 0) {
                 int x = m_PastePoint.x() - m_Pos.x();
@@ -1783,7 +1789,7 @@ void UMLScene::activate()
                 aw->moveEntireAssoc(x, y);
             }
         } else {
-            m_AssociationList.removeAll(aw);
+            associationList().removeAll(aw);
             delete aw;
         }
     }
@@ -1843,13 +1849,14 @@ UMLWidgetList UMLScene::selectedWidgetsExt(bool filterText /*= true*/)
  */
 AssociationWidgetList UMLScene::selectedAssocs()
 {
-    AssociationWidgetList assocWidgetList;
+    AssociationWidgetList list;
 
-    foreach(AssociationWidget* assocwidget, m_AssociationList) {
-        if (assocwidget->isSelected())
-            assocWidgetList.append(assocwidget);
+    foreach(QGraphicsItem* a, selectedItems()) {
+        AssociationWidget* assocwidget = dynamic_cast<AssociationWidget*>(a);
+        if (assocwidget)
+            list.append(assocwidget);
     }
-    return assocWidgetList;
+    return list;
 }
 
 /**
@@ -2147,14 +2154,14 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
 
     //make sure there isn't already the same assoc
 
-    foreach(AssociationWidget* assocwidget, m_AssociationList) {
+    foreach(AssociationWidget* assocwidget, associationList()) {
         if (*pAssoc == *assocwidget)
             // this is nuts. Paste operation wants to know if 'true'
             // for duplicate, but loadFromXMI needs 'false' value
             return (isPasteOperation ? true : false);
     }
 
-    m_AssociationList.append(pAssoc);
+    associationList().append(pAssoc);
 
     FloatingTextWidget *ft[5] = { pAssoc->nameWidget(),
                                   pAssoc->roleWidget(Uml::RoleType::A),
@@ -2226,7 +2233,7 @@ void UMLScene::removeAssoc(AssociationWidget* pAssoc)
     emit sigAssociationRemoved(pAssoc);
 
     pAssoc->cleanup();
-    m_AssociationList.removeAll(pAssoc);
+    associationList().removeAll(pAssoc);
     pAssoc->deleteLater();
     m_doc->setModified();
 }
@@ -2271,7 +2278,7 @@ void UMLScene::removeAssocInViewAndDoc(AssociationWidget* a)
  */
 void UMLScene::removeAssociations(UMLWidget* widget)
 {
-    foreach(AssociationWidget* assocwidget, m_AssociationList) {
+    foreach(AssociationWidget* assocwidget, associationList()) {
         if (assocwidget->containsAsEndpoint(widget)) {
             removeAssoc(assocwidget);
         }
@@ -2285,7 +2292,7 @@ void UMLScene::removeAssociations(UMLWidget* widget)
  */
 void UMLScene::selectAssociations(bool bSelect)
 {
-    foreach(AssociationWidget* assocwidget, m_AssociationList) {
+    foreach(AssociationWidget* assocwidget, associationList()) {
         UMLWidget *widA = assocwidget->widgetForRole(Uml::RoleType::A);
         UMLWidget *widB = assocwidget->widgetForRole(Uml::RoleType::B);
         if (bSelect &&
@@ -2306,7 +2313,7 @@ void UMLScene::getWidgetAssocs(UMLObject* Obj, AssociationWidgetList & Associati
     if (! Obj)
         return;
 
-    foreach(AssociationWidget* assocwidget, m_AssociationList) {
+    foreach(AssociationWidget* assocwidget, associationList()) {
         if (assocwidget->widgetForRole(Uml::RoleType::A)->umlObject() == Obj ||
             assocwidget->widgetForRole(Uml::RoleType::B)->umlObject() == Obj)
             Associations.append(assocwidget);
@@ -2320,12 +2327,12 @@ void UMLScene::getWidgetAssocs(UMLObject* Obj, AssociationWidgetList & Associati
 void UMLScene::removeAllAssociations()
 {
     //Remove All association widgets
-    foreach(AssociationWidget* assocwidget, m_AssociationList) {
+    foreach(AssociationWidget* assocwidget, associationList()) {
         removeAssoc(assocwidget);
     }
 
-    qDeleteAll(m_AssociationList);
-    m_AssociationList.clear();
+    qDeleteAll(associationList());
+    associationList().clear();
 }
 
 /**
@@ -2373,7 +2380,7 @@ void UMLScene::updateContainment(UMLCanvasObject *self)
     if (selfWidget == NULL)
         return;
     // Remove possibly obsoleted containment association.
-    foreach(AssociationWidget* a, m_AssociationList) {
+    foreach(AssociationWidget* a, associationList()) {
         if (a->associationType() != Uml::AssociationType::Containment)
             continue;
         // Container is at role A, containee at B.
@@ -2399,7 +2406,7 @@ void UMLScene::updateContainment(UMLCanvasObject *self)
     AssociationWidget *a = AssociationWidget::create
                              (this, newParentWidget,
                               Uml::AssociationType::Containment, selfWidget);
-    m_AssociationList.append(a);
+    associationList().append(a);
 }
 
 /**
@@ -2880,7 +2887,7 @@ void UMLScene::copyAsImage(QPixmap*& pix)
     //get each type of associations
     //This needs to be reimplemented to increase the rectangle
     //if a part of any association is not included
-    foreach(AssociationWidget *a, m_AssociationList) {
+    foreach(AssociationWidget *a, associationList()) {
         if (! a->isSelected())
             continue;
         const FloatingTextWidget* multiA = a->multiplicityWidget(Uml::RoleType::A);
@@ -3410,7 +3417,7 @@ void UMLScene::checkSelections()
     }//end for
     //check Associations
 
-    foreach(AssociationWidget *pAssoc, m_AssociationList) {
+    foreach(AssociationWidget *pAssoc, associationList()) {
         if (pAssoc->isSelected()) {
             pWA = pAssoc->widgetForRole(Uml::RoleType::A);
             pWB = pAssoc->widgetForRole(Uml::RoleType::B);
@@ -3747,7 +3754,7 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     viewElement.appendChild(messageElement);
     //now save the associations
     QDomElement assocElement = qDoc.createElement("associations");
-    if (m_AssociationList.count()) {
+    if (associationList().count()) {
         // We guard against (m_AssociationList.count() == 0) because
         // this code could be reached as follows:
         //  ^  UMLScene::saveToXMI()
@@ -3760,7 +3767,7 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
         //  ^  main()
         //
         AssociationWidget * assoc = 0;
-        foreach(assoc, m_AssociationList) {
+        foreach(assoc, associationList()) {
             assoc->saveToXMI(qDoc, assocElement);
         }
     }
@@ -4063,7 +4070,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
                     AssociationWidget *aw =
                         AssociationWidget::create(this, wA, at, wB, umla);
                     aw->syncToModel();
-                    m_AssociationList.append(aw);
+                    associationList().append(aw);
                 } else {
                     uError() << "cannot create assocwidget from (" ; //<< wA << ", " << wB << ")";
                 }
