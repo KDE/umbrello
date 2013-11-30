@@ -125,8 +125,6 @@ void ToolBarStateArrow::mouseReleaseEmpty()
         while (!m_selectionRect.isEmpty())
             delete m_selectionRect.takeFirst();
         m_selectionRect.clear();
-    } else if (m_pMouseEvent->button() == Qt::RightButton) {
-        m_pUMLScene->setMenu(m_pMouseEvent->scenePos().toPoint());
     }
 }
 
