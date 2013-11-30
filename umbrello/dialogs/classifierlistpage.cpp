@@ -346,7 +346,7 @@ void ClassifierListPage::slotActivateItem(QListWidgetItem* item)
     }
 
     if (itemIndex >= 0 && (itemIndex < getItemList().size())) {
-        listItem = getItemList().at( itemIndex );
+        UMLClassifierListItem* listItem = getItemList().at( itemIndex );
 
         //now update screen
         m_docTE->setText( listItem->doc() );
