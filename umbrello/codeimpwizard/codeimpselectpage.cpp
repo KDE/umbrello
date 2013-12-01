@@ -55,6 +55,7 @@ CodeImpSelectPage::CodeImpSelectPage(QWidget *parent)
 
     setupTreeView();
     connect(ui_treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(treeClicked(QModelIndex)));
+    connect(ui_treeView, SIGNAL(entered(QModelIndex)), this, SLOT(treeEntered(QModelIndex)));
 
     setupFileExtEdit();
     connect(ui_fileExtLineEdit, SIGNAL(editingFinished()), this, SLOT(fileExtChanged()));
@@ -115,6 +116,8 @@ void CodeImpSelectPage::setupTreeView()
     else {
         ui_treeView->setCurrentIndex(model->index(s_recentPath));
     }
+    ui_treeView->scrollTo(ui_treeView->currentIndex());
+    ui_treeView->setMouseTracking(true);
     ui_treeView->show();
 }
 
@@ -270,6 +273,11 @@ void CodeImpSelectPage::treeClicked(const QModelIndex& index)
     else {
         uWarning() << "Index not valid!";
     }
+
+void CodeImpSelectPage::treeEntered(const QModelIndex &index)
+{
+    Q_UNUSED(index);
+    ui_treeView->resizeColumnToContents(0);
 }
 
 /**

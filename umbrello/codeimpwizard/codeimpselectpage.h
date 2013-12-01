@@ -60,6 +60,7 @@ private:
 protected slots:
     void languageChanged(int id);
     void treeClicked(const QModelIndex& index);
+    void treeEntered(const QModelIndex& index);
 
 private slots:
     void changeLanguage();
