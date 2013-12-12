@@ -87,12 +87,6 @@ public:
 
     void changeIconOf(UMLObject *o, Icon_Utils::IconType to);
 
-    UMLObject *createUMLObject(UMLListViewItem * item, UMLObject::ObjectType type);
-    bool createChildUMLObject(UMLListViewItem * item, UMLObject::ObjectType type);
-    UMLView* createDiagram(UMLListViewItem * item, Uml::DiagramType::Enum type);
-
-    QString uniqueDiagramName(Uml::DiagramType::Enum type);
-
     bool isUnique(UMLListViewItem * item, const QString &name);
 
     void startRename(UMLListViewItem * item);
@@ -106,8 +100,6 @@ public:
 
     UMLListViewItem * moveObject(Uml::ID::Type srcId, UMLListViewItem::ListViewType srcType,
                                  UMLListViewItem *newParent);
-
-    bool itemRenamed(UMLListViewItem* item, int col);
 
     void closeDatatypesFolder();
 

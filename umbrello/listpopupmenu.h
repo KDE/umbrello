@@ -255,7 +255,6 @@ public:
     virtual ~ListPopupMenu();
 
     static UMLObject::ObjectType convert_MT_OT(MenuType mt);
-    static Uml::DiagramType::Enum convert_MT_DT(MenuType mt);
 
     static ListPopupMenu* menuFromAction(QAction *action);
     static MenuType       typeFromAction(QAction *action);

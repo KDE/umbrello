@@ -55,6 +55,7 @@
 #include "umluniqueconstraintdialog.h"
 #include "umlforeignkeyconstraintdialog.h"
 #include "umlcheckconstraintdialog.h"
+#include "object_factory.h"
 
 // kde includes
 #include <kfiledialog.h>
@@ -736,25 +737,18 @@ void UMLListView::popupMenuSel(QAction* action)
         UMLApp::app()->slotEditPaste();
         break;
 
-    default:
-        {
-            Uml::DiagramType::Enum dt = ListPopupMenu::convert_MT_DT(menuType);
-            if (dt == Uml::DiagramType::Undefined) {
-                uWarning() << "unknown type" << menuType;
-            } else {
-                UMLObject* object = currItem->umlObject();
-                UMLFolder* f = dynamic_cast<UMLFolder*>(object);
-                if (f == 0) {
-                    uError() << "menuType=" << menuType
-                             << ": current item's UMLObject is not a UMLFolder";
-                }
-                else {
-                    QString name = m_doc->createDiagramName(dt);
-                    m_doc->createDiagram(f, dt, name);
-                }
-            }
-        }
+    case ListPopupMenu::mt_Undefined:
+        // We got signalled for a menu action, but that menu action was not
+        // defined in ListPopupMenu. This is the case for "create diagram"
+        // actions which are defined and handled in UMLApp. This is fine,
+        // ignore them without warning.
         break;
+
+    default:
+        uError() << "unknown type" << menuType;
+
+        break;
+
     }//end switch
 }
 
@@ -2089,449 +2083,52 @@ void UMLListView::slotCutSuccessful()
  */
 void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListViewType type)
 {
-    UMLListViewItem *newItem;
     if (type == UMLListViewItem::lvt_Datatype) {
         parentItem = m_datatypeFolder;
     }
 
-    blockSignals(true);
     parentItem->setOpen(true);
 
-    Icon_Utils::IconType icon = Model_Utils::convert_LVT_IT(type);
-
-    QString name;
-    if (Model_Utils::typeIsDiagram(type)) {
-        Uml::DiagramType::Enum dt = Model_Utils::convert_LVT_DT(type);
-        name = uniqueDiagramName(dt);
-        newItem = new UMLListViewItem(parentItem, name, type, Uml::ID::None);
-    } else {
-        UMLObject::ObjectType ot = Model_Utils::convert_LVT_OT(type);
-        if (ot == UMLObject::ot_UMLObject) {
-            DEBUG(DBG_SRC) << "no UMLObject for type " << UMLListViewItem::toString(type);
-            return;
-        }
-        UMLPackage *parentPkg =
-            dynamic_cast<UMLPackage*>(parentItem->umlObject());
-        if (parentPkg == 0) {
-            uError() << "UMLListView::addNewItem - "
-                     << UMLListViewItem::toString(type) << ": parentPkg is 0";
-            return;
-        }
-        if (Model_Utils::typeIsClassifierList(type)) {
-            UMLClassifier *parent = static_cast<UMLClassifier*>(parentPkg);
-            name = parent->uniqChildName(ot);
-        } else {
-            name = Model_Utils::uniqObjectName(ot, parentPkg);
-        }
-        newItem = new UMLListViewItem(parentItem, name, type, (UMLObject *)0);
-    }
-    newItem->setIcon(icon);
-    newItem->setOpen(true);
-    blockSignals(false);
-    createItem(newItem);
-}
-
-/**
- * Called for informing the list view that an item was renamed.
- */
-bool UMLListView::itemRenamed(UMLListViewItem * item, int col)
-{
-    DEBUG(DBG_SRC) << "Renamed item to " << item->text(col);
-    m_bRenameInProgress = false;
-    UMLListViewItem * renamedItem = static_cast< UMLListViewItem *>(item) ;
-    UMLListViewItem::ListViewType type = renamedItem->type();
-    QString newText = renamedItem->text(col);
-
-    // If the type is empty then delete it.
-    if (newText.isEmpty() || newText.contains(QRegExp("^\\s+$"))) {
-        KMessageBox::error(
-            0,
-            i18n("The name you entered was invalid.\nCreation process has been canceled."),
-            i18n("Name Not Valid"));
-        return false;
+    // Determine the UMLObject belonging to the listview item we're using as parent
+    UMLObject* parent = parentItem->umlObject();
+    if (parent == 0) {
+        uError() << "UMLListView::addNewItem - "
+                 << UMLListViewItem::toString(type) << ": parentPkg is 0";
+        return;
     }
 
-    if (!isUnique(renamedItem, newText)) {
-        //if operation ask if ok not to be unique i.e overloading
-        if (type == UMLListViewItem::lvt_Operation) {
-            if (KMessageBox::warningYesNo(
-                        0,
-                        i18n("The name you entered was not unique.\nIs this what you wanted?"),
-                        i18n("Name Not Unique"), KGuiItem(i18n("Use Name")), KGuiItem(i18n("Enter New Name"))) == KMessageBox::No) {
-                return false;
+    // Determine the ObjectType of the new object
+    UMLObject::ObjectType objectType = Model_Utils::convert_LVT_OT(type);
+    if (objectType == UMLObject::ot_UMLObject) {
+        uError() << "no UMLObject for type " << UMLListViewItem::toString(type);
+        return;
+    }
+
+    if (Model_Utils::typeIsClassifierList(type)) {
+        UMLClassifier* classifier = dynamic_cast<UMLClassifier*>(parent);
+        QString name = classifier->uniqChildName(objectType);
+        UMLObject* object = Object_Factory::createChildObject(classifier, objectType, name);
+
+        // Handle primary key constraints (mark the unique constraint as PK on
+        // the parent entity)
+        if (type == UMLListViewItem::lvt_PrimaryKeyConstraint) {
+            UMLUniqueConstraint* uuc = static_cast<UMLUniqueConstraint*>(object);
+            UMLEntity* ent = static_cast<UMLEntity*>(uuc->parent());
+            if (ent) {
+                ent->setAsPrimaryKey(uuc);
             }
-        } else {
-            KMessageBox::error(
-                0,
-                i18n("The name you entered was not unique.\nCreation process has been canceled."),
-                i18n("Name Not Unique"));
-            return false;
+        }
+    } else {
+        UMLPackage* package = dynamic_cast<UMLPackage*>(parent);
+        QString name = Model_Utils::uniqObjectName(objectType, package);
+        UMLObject* object = Object_Factory::createUMLObject(objectType, name, package);
+
+        if (type == UMLListViewItem::lvt_Subsystem) {
+            object->setStereotype("subsystem");
+        } else if (Model_Utils::typeIsFolder(type)) {
+            object->setStereotype("folder");
         }
     }
-    return createItem(renamedItem);
-}
-
-bool UMLListView::createItem(UMLListViewItem *item)
-{
-    const UMLListViewItem::ListViewType type = item->type();
-    switch (type) {
-    case UMLListViewItem::lvt_Actor:
-    case UMLListViewItem::lvt_Class:
-    case UMLListViewItem::lvt_Package:
-    case UMLListViewItem::lvt_Logical_Folder:
-    case UMLListViewItem::lvt_UseCase_Folder:
-    case UMLListViewItem::lvt_Component_Folder:
-    case UMLListViewItem::lvt_Deployment_Folder:
-    case UMLListViewItem::lvt_EntityRelationship_Folder:
-    case UMLListViewItem::lvt_Subsystem:
-    case UMLListViewItem::lvt_Component:
-    case UMLListViewItem::lvt_Node:
-    case UMLListViewItem::lvt_Artifact:
-    case UMLListViewItem::lvt_Interface:
-    case UMLListViewItem::lvt_Datatype:
-    case UMLListViewItem::lvt_Enum:
-    case UMLListViewItem::lvt_Entity:
-    case UMLListViewItem::lvt_UseCase:
-    case UMLListViewItem::lvt_Category: {
-        UMLObject::ObjectType ot = Model_Utils::convert_LVT_OT(type);
-        if (! ot) {
-            uError() << "internal error";
-            return false;
-        }
-        UMLObject *o = createUMLObject(item, ot);
-        if (type == UMLListViewItem::lvt_Subsystem)
-            o->setStereotype("subsystem");
-        else if (Model_Utils::typeIsFolder(type))
-            o->setStereotype("folder");
-    }
-    break;
-
-    case UMLListViewItem::lvt_Attribute:
-    case UMLListViewItem::lvt_EntityAttribute:
-    case UMLListViewItem::lvt_Operation:
-    case UMLListViewItem::lvt_Template:
-    case UMLListViewItem::lvt_EnumLiteral:
-    case UMLListViewItem::lvt_UniqueConstraint:
-    case UMLListViewItem::lvt_ForeignKeyConstraint:
-    case UMLListViewItem::lvt_CheckConstraint:
-        return createChildUMLObject(item, Model_Utils::convert_LVT_OT(type));
-        break;
-
-    case UMLListViewItem::lvt_PrimaryKeyConstraint: {
-        bool result = createChildUMLObject(item, Model_Utils::convert_LVT_OT(type));
-        UMLObject* obj = item->umlObject();
-        UMLUniqueConstraint* uuc = static_cast<UMLUniqueConstraint*>(obj);
-        UMLEntity* ent = static_cast<UMLEntity*>(uuc->parent());
-        if (ent)
-            ent->setAsPrimaryKey(uuc);
-
-        return result;
-    }
-    break;
-
-    case UMLListViewItem::lvt_Class_Diagram:
-        createDiagram(item, Uml::DiagramType::Class);
-        break;
-
-    case UMLListViewItem::lvt_UseCase_Diagram:
-        createDiagram(item, Uml::DiagramType::UseCase);
-        break;
-
-    case UMLListViewItem::lvt_Sequence_Diagram:
-        createDiagram(item, Uml::DiagramType::Sequence);
-        break;
-
-    case UMLListViewItem::lvt_Collaboration_Diagram:
-        createDiagram(item, Uml::DiagramType::Collaboration);
-        break;
-
-    case UMLListViewItem::lvt_State_Diagram:
-        createDiagram(item, Uml::DiagramType::State);
-        break;
-
-    case UMLListViewItem::lvt_Activity_Diagram:
-        createDiagram(item, Uml::DiagramType::Activity);
-        break;
-
-    case UMLListViewItem::lvt_Component_Diagram:
-        createDiagram(item, Uml::DiagramType::Component);
-        break;
-
-    case UMLListViewItem::lvt_Deployment_Diagram:
-        createDiagram(item, Uml::DiagramType::Deployment);
-        break;
-
-    case UMLListViewItem::lvt_EntityRelationship_Diagram:
-        createDiagram(item, Uml::DiagramType::EntityRelationship);
-        break;
-
-    default:
-        break;
-    }
-    return true;
-}
-
-/**
- * Creates a UMLObject out of the given list view item.
- */
-UMLObject *UMLListView::createUMLObject(UMLListViewItem * item, UMLObject::ObjectType type)
-{
-    QString name = item->text(0);
-    UMLObject * object = 0;
-    switch (type) {
-    case UMLObject::ot_UseCase:
-        object = new UMLUseCase(name);
-        break;
-
-    case UMLObject::ot_Actor:
-        object = new UMLActor(name);
-        break;
-
-    case UMLObject::ot_Class:
-        object = new UMLClassifier(name);
-        break;
-
-    case UMLObject::ot_Package:
-        object = new UMLPackage(name);
-        break;
-
-    case UMLObject::ot_Folder:
-        object = new UMLFolder(name);
-        break;
-
-    case UMLObject::ot_Component:
-        object = new UMLComponent(name);
-        break;
-
-    case UMLObject::ot_Node:
-        object = new UMLNode(name);
-        break;
-
-    case UMLObject::ot_Artifact:
-        object = new UMLArtifact(name);
-        break;
-
-    case UMLObject::ot_Interface: {
-        UMLClassifier *c = new UMLClassifier(name);
-        c->setBaseType(UMLObject::ot_Interface);
-        object = c;
-    }
-    break;
-
-    case UMLObject::ot_Datatype: {
-        UMLClassifier *c = new UMLClassifier(name);
-        c->setBaseType(UMLObject::ot_Datatype);
-        object = c;
-    }
-    break;
-
-    case UMLObject::ot_Enum:
-        object = new UMLEnum(name);
-        break;
-
-    case UMLObject::ot_Entity:
-        object = new UMLEntity(name);
-        break;
-
-    case UMLObject::ot_Category:
-        object = new UMLCategory(name);
-        break;
-
-    default:
-        uWarning() << "creating UML Object of unknown type";
-        return 0;
-    }
-
-    UMLListViewItem * parentItem = static_cast<UMLListViewItem *>(item->parent());
-    const UMLListViewItem::ListViewType lvt = parentItem->type();
-    if (! Model_Utils::typeIsContainer(lvt)) {
-        uError() << object->name() << ": parentItem (" << lvt << " is not a container";
-        delete object;
-        return 0;
-    }
-    UMLPackage *pkg = static_cast<UMLPackage*>(parentItem->umlObject());
-    object->setUMLPackage(pkg);
-    pkg->addObject(object);
-    connectNewObjectsSlots(object);
-    item->setUMLObject(object);
-    item->setText(name);
-    return object;
-}
-
-/**
- * Creates a child UMLObject out of the given list view item.
- */
-bool UMLListView::createChildUMLObject(UMLListViewItem * item, UMLObject::ObjectType type)
-{
-    m_bCreatingChildObject = true;
-    QString text = item->text(0);
-    UMLObject* parent = static_cast<UMLListViewItem *>(item->parent())->umlObject();
-    if (!parent) {
-        uError() << "parent UMLObject is 0";
-        m_bCreatingChildObject = false;
-        return false;
-    }
-
-    UMLObject* newObject = 0;
-    if (type == UMLObject::ot_EnumLiteral) {
-        UMLEnum *owningEnum = static_cast<UMLEnum*>(parent);
-        newObject = owningEnum->createEnumLiteral(text);
-
-        UMLEnumLiteral* enumLiteral = static_cast<UMLEnumLiteral*>(newObject);
-        text = enumLiteral->toString(Uml::SignatureType::SigNoVis);
-    } else if (type == UMLObject::ot_Template)  {
-        UMLClassifier *owningClassifier = static_cast<UMLClassifier*>(parent);
-        Model_Utils::NameAndType nt;
-        Model_Utils::Parse_Status st = Model_Utils::parseTemplate(text, nt, owningClassifier);
-        if (st) {
-            KMessageBox::error(0,
-                               Model_Utils::psText(st),
-                               i18n("Creation canceled"));
-            m_bCreatingChildObject = false;
-            return false;
-        }
-        newObject = owningClassifier->createTemplate(nt.m_name);
-        UMLTemplate *tmplParm = static_cast<UMLTemplate*>(newObject);
-        tmplParm->setType(nt.m_type);
-        text = tmplParm->toString(Uml::SignatureType::SigNoVis);
-    } else if (type == UMLObject::ot_Attribute || type == UMLObject::ot_EntityAttribute)  {
-        UMLClassifier *owningClass = static_cast<UMLClassifier*>(parent);
-        Model_Utils::NameAndType nt;
-        Uml::Visibility::Enum vis;
-        Model_Utils::Parse_Status st;
-        st = Model_Utils::parseAttribute(text, nt, owningClass, &vis);
-        if (st) {
-            KMessageBox::error(0,
-                               Model_Utils::psText(st),
-                               i18n("Creation canceled"));
-            m_bCreatingChildObject = false;
-            return false;
-        }
-        newObject = owningClass->createAttribute(nt.m_name, nt.m_type, vis, nt.m_initialValue);
-        UMLAttribute *att = static_cast<UMLAttribute*>(newObject);
-        att->setParmKind(nt.m_direction);
-        text = att->toString(Uml::SignatureType::SigNoVis);
-    } else if (type == UMLObject::ot_Operation) {
-        UMLClassifier *owningClassifier = static_cast<UMLClassifier*>(parent);
-        Model_Utils::OpDescriptor od;
-        Model_Utils::Parse_Status st = Model_Utils::parseOperation(text, od, owningClassifier);
-        if (st) {
-            KMessageBox::error(0,
-                               Model_Utils::psText(st),
-                               i18n("Creation canceled"));
-            m_bCreatingChildObject = false;
-            return false;
-        }
-        bool isExistingOp = false;
-        newObject = owningClassifier->createOperation(od.m_name, &isExistingOp, &od.m_args);
-        if (newObject == 0 || isExistingOp) {
-            if (isExistingOp)
-                KMessageBox::error(
-                    0,
-                    i18n("The name you entered was not unique.\nCreation process has been canceled."),
-                    i18n("Name Not Unique"));
-            m_bCreatingChildObject = false;
-            return false;
-        }
-        UMLOperation *op = static_cast<UMLOperation*>(newObject);
-        if (od.m_pReturnType) {
-            op->setType(od.m_pReturnType);
-        }
-        text = op->toString(Uml::SignatureType::SigNoVis);
-    } else if (type == UMLObject::ot_UniqueConstraint || type == UMLObject::ot_ForeignKeyConstraint
-               || type == UMLObject::ot_CheckConstraint) {
-
-        UMLEntity *owningEntity = static_cast<UMLEntity*>(parent);
-
-        QString name;
-        Model_Utils::Parse_Status st = Model_Utils::parseConstraint(text, name, owningEntity);
-        if (st) {
-            KMessageBox::error(0,
-                               Model_Utils::psText(st),
-                               i18n("Creation canceled"));
-            m_bCreatingChildObject = false;
-            return false;
-        }
-
-        switch (type) {
-        case UMLObject::ot_UniqueConstraint:
-            newObject = owningEntity->createUniqueConstraint(name);
-            break;
-        case UMLObject::ot_ForeignKeyConstraint:
-            newObject = owningEntity->createForeignKeyConstraint(name);
-            break;
-        case UMLObject::ot_CheckConstraint:
-            newObject = owningEntity->createCheckConstraint(name);
-            break;
-        default:
-            break;
-        }
-
-        UMLEntityConstraint* uec = static_cast<UMLEntityConstraint*>(newObject);
-
-        text = uec->toString(Uml::SignatureType::SigNoVis);
-    } else  {
-        uError() << "called for type " << type << " (ignored)";
-        m_bCreatingChildObject = false;
-        return false;
-    }
-
-    // make changes to the object visible to this umllistviewitem
-    connectNewObjectsSlots(newObject);
-    item->setUMLObject(newObject);
-    item->setText(text);
-    scrollToItem(item);
-
-    // as it's a ClassifierListItem add it to the childObjectMap of the parent
-    UMLClassifierListItem* classifierListItem = static_cast<UMLClassifierListItem*>(newObject);
-    static_cast<UMLListViewItem*>(item->parent())->addClassifierListItem(classifierListItem, item);
-
-    m_bCreatingChildObject = false;
-
-    if (! m_doc->loading())
-        m_doc->setModified();
-    return true;
-}
-
-/**
- * Creates a diagram out of the given list view item.
- */
-UMLView* UMLListView::createDiagram(UMLListViewItem * item, Uml::DiagramType::Enum type)
-{
-    QString name = item->text(0);
-    DEBUG(DBG_SRC) << name << " / type=" << Uml::DiagramType::toString(type);
-    UMLView * view = m_doc->findView(type, name);
-    if (view) {
-        delete item;
-        return view;
-    }
-    UMLListViewItem *parentItem = static_cast<UMLListViewItem*>(item->parent());
-    UMLFolder *parentFolder = dynamic_cast<UMLFolder*>(parentItem->umlObject());
-    if (parentFolder == 0) {
-        uError() << name << ": parent UMLObject is not a UMLFolder";
-        delete item;
-        return 0;
-    }
-    view = new UMLView(parentFolder);
-    view->umlScene()->setName(name);
-    view->umlScene()->setType(type);
-    view->umlScene()->setID(UniqueID::gen());
-    m_doc->addView(view);
-    view->umlScene()->setOptionState(Settings::optionState());
-    item->setID(view->umlScene()->ID());
-    item->setText(0, name);
-    view->umlScene()->activate();
-    m_doc->changeCurrentView(view->umlScene()->ID());
-
-    return view;
-}
-
-/**
- * Returns a unique name for a diagram.
- */
-QString UMLListView::uniqueDiagramName(Uml::DiagramType::Enum type)
-{
-    return m_doc->uniqueViewName(type);
 }
 
 /**

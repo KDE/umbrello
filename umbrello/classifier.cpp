@@ -263,9 +263,12 @@ UMLOperation* UMLClassifier::createOperation(
             op->addParm(par);
         }
     }
-    if (nameNotSet || params == NULL) {
-        if (nameNotSet)
-            op->setName(uniqChildName(UMLObject::ot_Operation));
+
+    // Only show the operation dialog if no name was provided (allows quick-create
+    // from listview)
+    if (nameNotSet) {
+        op->setName(uniqChildName(UMLObject::ot_Operation));
+
         while (true) {
             QPointer<UMLOperationDialog> operationDialog = new UMLOperationDialog(0, op);
             if(operationDialog->exec() != KDialog::Accepted) {

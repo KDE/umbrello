@@ -28,7 +28,9 @@ UMLObject* createUMLObject(UMLObject::ObjectType type,
                            UMLPackage *parentPkg = 0,
                            bool solicitNewName = true);
 
-UMLClassifierListItem* createChildObject(UMLClassifier *parent, UMLObject::ObjectType type);
+UMLClassifierListItem* createChildObject(UMLClassifier *parent,
+                                         UMLObject::ObjectType type,
+                                         const QString& name = QString());
 
 UMLAttribute *createAttribute(UMLObject *parent, const QString& name,
                               UMLObject *type = 0);

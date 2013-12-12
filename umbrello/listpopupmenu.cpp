@@ -1147,47 +1147,6 @@ void ListPopupMenu::insertSubMenuColor(bool fc)
 }
 
 /**
- * Utility: Convert a MenuType value to a Diagram_Type value.
- */
-Uml::DiagramType::Enum ListPopupMenu::convert_MT_DT(MenuType mt)
-{
-    Uml::DiagramType::Enum type = Uml::DiagramType::Undefined;
-
-    switch (mt) {
-    case mt_UseCase_Diagram:
-        type = Uml::DiagramType::UseCase;
-        break;
-    case mt_Class_Diagram:
-        type = Uml::DiagramType::Class;
-        break;
-    case mt_Sequence_Diagram:
-        type = Uml::DiagramType::Sequence;
-        break;
-    case mt_Collaboration_Diagram:
-        type = Uml::DiagramType::Collaboration;
-        break;
-    case mt_State_Diagram:
-        type = Uml::DiagramType::State;
-        break;
-    case mt_Activity_Diagram:
-        type = Uml::DiagramType::Activity;
-        break;
-    case mt_Component_Diagram:
-        type = Uml::DiagramType::Component;
-        break;
-    case mt_Deployment_Diagram:
-        type = Uml::DiagramType::Deployment;
-        break;
-    case mt_EntityRelationship_Diagram:
-        type = Uml::DiagramType::EntityRelationship;
-        break;
-    default:
-        break;
-    }
-    return type;
-}
-
-/**
  * Utility: Convert a MenuType value to an ObjectType value.
  */
 UMLObject::ObjectType ListPopupMenu::convert_MT_OT(MenuType mt)

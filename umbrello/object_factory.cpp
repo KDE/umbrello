@@ -237,62 +237,63 @@ UMLOperation *createOperation(UMLClassifier *parent, const QString& name)
  *
  * @param parent    The parent concept
  * @param type      The type to create
+ * @param name      Optional name of object (skips creation dialog)
  * @return      Pointer to the UMLClassifierListItem created
  */
-UMLClassifierListItem* createChildObject(UMLClassifier* parent, UMLObject::ObjectType type)
+UMLClassifierListItem* createChildObject(UMLClassifier* parent, UMLObject::ObjectType type, const QString& name)
 {
     UMLObject* returnObject = NULL;
     switch (type) {
     case UMLObject::ot_Attribute: {
         UMLClassifier *c = dynamic_cast<UMLClassifier*>(parent);
             if (c && !c->isInterface())
-                returnObject = c->createAttribute();
+                returnObject = c->createAttribute(name);
             break;
         }
     case UMLObject::ot_EntityAttribute: {
          UMLEntity *e = dynamic_cast<UMLEntity*>(parent);
          if (e) {
-             returnObject = e->createAttribute();
+             returnObject = e->createAttribute(name);
          }
          break;
         }
     case UMLObject::ot_Operation: {
             UMLClassifier *c = dynamic_cast<UMLClassifier*>(parent);
             if (c)
-                returnObject = c->createOperation();
+                returnObject = c->createOperation(name);
             break;
         }
     case UMLObject::ot_Template: {
             UMLClassifier *c = dynamic_cast<UMLClassifier*>(parent);
             if (c)
-                returnObject = c->createTemplate();
+                returnObject = c->createTemplate(name);
             break;
         }
     case UMLObject::ot_EnumLiteral: {
             UMLEnum* umlenum = dynamic_cast<UMLEnum*>(parent);
             if (umlenum) {
-                returnObject = umlenum->createEnumLiteral();
+                returnObject = umlenum->createEnumLiteral(name);
             }
             break;
         }
     case UMLObject::ot_UniqueConstraint: {
             UMLEntity* umlentity = dynamic_cast<UMLEntity*>(parent);
             if (umlentity) {
-                returnObject = umlentity->createUniqueConstraint();
+                returnObject = umlentity->createUniqueConstraint(name);
             }
             break;
         }
     case UMLObject::ot_ForeignKeyConstraint: {
             UMLEntity* umlentity = dynamic_cast<UMLEntity*>(parent);
             if (umlentity) {
-                returnObject = umlentity->createForeignKeyConstraint();
+                returnObject = umlentity->createForeignKeyConstraint(name);
             }
             break;
         }
     case UMLObject::ot_CheckConstraint: {
             UMLEntity* umlentity = dynamic_cast<UMLEntity*>(parent);
             if (umlentity) {
-                returnObject = umlentity->createCheckConstraint();
+                returnObject = umlentity->createCheckConstraint(name);
             }
             break;
         }
