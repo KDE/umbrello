@@ -197,6 +197,8 @@ void SelectOpDlg::setupOperationsList()
 {
     m_pOpCB->clear();
     UMLOperationList list = m_classifier->getOpList(true);
+    if (list.count() > 0)
+        m_pOpCB->insertItem(0, "");
     qSort(list.begin(), list.end(), caseInsensitiveLessThan);
     foreach(UMLOperation * obj, list) {
         QString s = obj->toString(Uml::SignatureType::SigNoVis);
