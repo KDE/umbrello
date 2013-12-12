@@ -72,6 +72,7 @@ SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c)
 
     m_pOpAS = new QCheckBox(i18n("Auto increment:"), m_pOpGB);
     mainLayout->addWidget(m_pOpAS, 0, 2);
+    connect(m_pOpAS, SIGNAL(toggled(bool)), this, SLOT(slotAutoIncrementChecked(bool)));
 
     m_pOpRB = new QLabel(i18n("Class operation:"), m_pOpGB);
     mainLayout->addWidget(m_pOpRB, 1, 0);
@@ -136,6 +137,15 @@ void SelectOpDlg::setCustomOp(const QString &op)
 {
     m_pOpLE->setText(op);
     slotTextChanged(op);
+}
+
+/**
+ * handle auto increment checkbox click
+ */
+void SelectOpDlg::slotAutoIncrementChecked(bool state)
+{
+    if (state && m_pSeqLE->text().isEmpty())
+        m_pSeqLE->setText(QLatin1String("1"));
 }
 
 /**

@@ -72,6 +72,7 @@ private:
     UMLClassifier *m_classifier;
 
 public slots:
+    void slotAutoIncrementChecked(bool state);
     void slotNewOperation();
     void slotIndexChanged(int index);
     void slotTextChanged(const QString &text);
