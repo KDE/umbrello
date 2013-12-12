@@ -273,6 +273,7 @@ void CodeImpSelectPage::treeClicked(const QModelIndex& index)
     else {
         uWarning() << "Index not valid!";
     }
+}
 
 void CodeImpSelectPage::treeEntered(const QModelIndex &index)
 {
