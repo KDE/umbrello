@@ -1,0 +1,46 @@
+# CMake assets 
+CMakeCache.txt
+CMakeLists.txt.user
+CTestTestfile.cmake
+*.cmake
+CMakeFiles/
+CMakeTmp/
+Makefile
+FindPackageLog.txt
+
+# Umbrello build files 
+umbrello/umbrello
+umbrello/umbrello.shell
+umbrello/umbrello_automoc.cpp
+umbrello/umbrello_automoc.cpp.files
+umbrello/umbrellosettings.cpp
+umbrello/umbrellosettings.h
+unittests/TEST_basictypes
+unittests/TEST_basictypes.shell
+unittests/TEST_basictypes_automoc.cpp
+unittests/TEST_basictypes_automoc.cpp.files
+doc/index.cache.bz2
+
+# Qt generated files 
+*.moc
+umbrello/moc_*.cpp
+umbrello/ui_*.h
+
+# Vi, Emacs and ctags
+*.sw[p,o,n]
+*~
+\#*
+.\#*
+/tags
+/umbrello/tags
+
+# Dolphin, Kate, KDevelop
+.directory
+.*.kate-swp
+*.kdev4
+.kdev4/
+
+# OSX Finder, TextMate
+.DS_Store
+*.tmproj
+tmtags
