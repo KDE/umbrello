@@ -146,6 +146,11 @@ void ToolBarState::mouseDoubleClick(QGraphicsSceneMouseEvent* ome)
 
     UMLWidget* currentWidget = m_pUMLScene->widgetAt(m_pMouseEvent->scenePos());
     AssociationWidget* currentAssociation = associationAt(m_pMouseEvent->scenePos());
+
+    if (currentWidget || currentAssociation) {
+        ome->accept();
+    }
+
     if (currentWidget) {
         setCurrentWidget(currentWidget);
         mouseDoubleClickWidget();
