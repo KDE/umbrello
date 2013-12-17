@@ -1461,9 +1461,8 @@ void ListPopupMenu::setupMenu(MenuType type)
     case mt_Component_Diagram:
     case mt_Deployment_Diagram:
     case mt_EntityRelationship_Diagram:
-        //don't insert standard items because cut/copy are not currently
-        // possible with tabbed diagrams (it didn't work anyway)
-        //insertStdItems(false);
+        insertStdItems(false);
+        insert(mt_Clone);
         insert(mt_Rename);
         insert(mt_Delete);
         insert(mt_Export_Image);

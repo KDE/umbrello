@@ -737,6 +737,11 @@ void UMLListView::popupMenuSel(QAction* action)
         UMLApp::app()->slotEditPaste();
         break;
 
+    case ListPopupMenu::mt_Clone:
+        UMLApp::app()->slotEditCopy();
+        UMLApp::app()->slotEditPaste();
+        break;
+
     case ListPopupMenu::mt_Undefined:
         // We got signalled for a menu action, but that menu action was not
         // defined in ListPopupMenu. This is the case for "create diagram"
