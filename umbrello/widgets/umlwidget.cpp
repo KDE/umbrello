@@ -903,8 +903,6 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
         QPointF point = m_scene->getPastePoint();
         int x = point.x() + this->x();
         int y = point.y() + this->y();
-        x = x < 0 ? 0 : x;
-        y = y < 0 ? 0 : y;
         if (m_scene->type() == Uml::DiagramType::Sequence) {
             switch (baseType()) {
             case WidgetBase::wt_Object:
