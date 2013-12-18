@@ -27,6 +27,7 @@
 #include "associationwidget.h"
 #include "object_factory.h"
 #include "model_utils.h"
+#include "cmds.h"
 
 // qt includes
 #include <QDomDocument>
@@ -660,50 +661,50 @@ bool UMLDragData::decodeObjects(QDomNode& objectsNode, UMLObjectList& objects, b
             uWarning() << "Given wrong type of umlobject to create: " << type;
             return false;
         }
-        pObject->setInPaste(true);
 
-        // Note: element should not be used after calling loadFromXMI() because
-        // it can point to an arbitrary child node
         Uml::ID::Type oldParentId = Uml::ID::fromString(
             element.attribute("namespace", "-1")
         );
-
-        if(!pObject->loadFromXMI(element)) {
-            uWarning() << "Failed to load object of type " << type << " from XMI";
-            delete pObject;
-            return false;
-        }
-        pObject->setInPaste(false);
 
         // Determine the parent package of the pasted object
         UMLPackage* newParent = 0;
         if (oldParentId != Uml::ID::None) {
             Uml::ID::Type newParentId = doc->changeLog()->findNewID(oldParentId);
 
-            if (newParentId != Uml::ID::None) {
-                // Find the newly pasted package
-                newParent = static_cast<UMLPackage*>(doc->findObjectById(newParentId));
-            } else {
-                // Package is not in this clip, determine the parent based
-                // on the selected tree view item
-                newParent = Model_Utils::treeViewGetPackageFromCurrent();
-            }
-        }
-
-        if (newParent != 0) {
-            UMLPackage* oldParent = pObject->umlPackage();
-            if (oldParent != 0) {
-                oldParent->removeObject(pObject);
+            if (newParentId == Uml::ID::None) {
+                // Fallback to parent ID before paste (folder was not pasted in
+                // this paste operation)
+                newParentId = oldParentId;
             }
 
-            pObject->setUMLPackage(newParent);
-            newParent->addObject(pObject);
+            newParent = static_cast<UMLPackage*>(doc->findObjectById(newParentId));
         }
 
-        // only signal creation of the object did not exist before the paste
-        if (!objectExists) {
-            doc->signalUMLObjectCreated(pObject);
+        if (newParent == 0) {
+            // Package is not in this clip, determine the parent based
+            // on the selected tree view item
+            newParent = Model_Utils::treeViewGetPackageFromCurrent();
         }
+
+        pObject->setUMLPackage(newParent);
+
+        // Note: element should not be used after calling loadFromXMI() because
+        // it can point to an arbitrary child node
+        if(!pObject->loadFromXMI(element)) {
+            uWarning() << "Failed to load object of type " << type << " from XMI";
+            delete pObject;
+            return false;
+        }
+
+        // Assign a new ID if the object already existed before this paste,
+        // this happens when pasting on listview items in the same document.
+        if (objectExists) {
+            pObject->setID(
+                doc->assignNewID(pObject->id())
+            );
+        }
+
+        UMLApp::app()->executeCommand(new Uml::CmdCreateUMLObject(pObject));
 
         objects.append(pObject);
         objectElement = objectElement.nextSibling();

@@ -72,6 +72,8 @@ private:
 
 private:
 
+    void fillObjectListForWidgets(UMLWidgetList& widgets);
+
     bool fillSelectionLists(UMLListViewItemList& selectedItems);
 
     void setCopyType(UMLListViewItemList& selectedItems);

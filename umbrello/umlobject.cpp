@@ -103,7 +103,6 @@ void UMLObject::init()
     m_Doc.clear();
     m_bAbstract = false;
     m_bStatic = false;
-    m_bInPaste = false;
     m_bCreationWasSignalled = false;
     m_pSecondary = 0;
 }
@@ -321,11 +320,6 @@ void UMLObject::setAbstract(bool bAbstract)
 {
     m_bAbstract = bAbstract;
     emitModified();
-}
-
-void UMLObject::setInPaste(bool bInPaste /* =true */)
-{
-    m_bInPaste = bInPaste;
 }
 
 /**
@@ -1066,15 +1060,6 @@ bool UMLObject::loadFromXMI(QDomElement & element)
         m_BaseType != ot_Template && m_BaseType != ot_Stereotype &&
         m_BaseType != ot_Role && m_BaseType != ot_UniqueConstraint &&
         m_BaseType != ot_ForeignKeyConstraint) {
-        // Todo: refactor outside of loadFromXmi()
-        //
-        // Determine parent of new object:
-        // * if m_bInPaste=true, object was pasted in the tree view -> get package from current
-        // * if there's no package and we're not loading a XMI file, object was
-        //    pasted from another instance of umbrello -> get package from current
-        if (m_bInPaste || (!m_pUMLPackage && !umldoc->loading())) {
-            m_pUMLPackage = Model_Utils::treeViewGetPackageFromCurrent();
-        }
         if (m_pUMLPackage) {
             m_pUMLPackage->addObject(this);
         } else if (umldoc->rootFolderType(this) == Uml::ModelType::N_MODELTYPES) {

@@ -2067,6 +2067,11 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
         QString name = Model_Utils::uniqObjectName(objectType, package);
         UMLObject* object = Object_Factory::createUMLObject(objectType, name, package);
 
+        if (object == 0) {
+            // creation was cancelled by the user
+            return;
+        }
+
         if (type == UMLListViewItem::lvt_Subsystem) {
             object->setStereotype("subsystem");
         } else if (Model_Utils::typeIsFolder(type)) {

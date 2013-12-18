@@ -128,8 +128,6 @@ public:
     void setAbstract(bool bAbstract);
     bool isAbstract() const;
 
-    void setInPaste(bool bInPaste = true);
-
     // FIXME: merge with showPropertiesDialog()
     virtual bool showPropertiesPagedDialog(int page = 0, bool assoc = false);
 

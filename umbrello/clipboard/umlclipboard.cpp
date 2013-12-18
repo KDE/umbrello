@@ -91,11 +91,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
         // is no longer there when pasting this mime data. This happens for
         // example when using cut-paste or pasting to another Umbrello
         // instance.
-        foreach (WidgetBase* widget, m_WidgetList) {
-            if (widget->umlObject() != 0) {
-                m_ObjectList.append(widget->umlObject());
-            }
-        }
+        fillObjectListForWidgets(m_WidgetList);
 
         foreach (WidgetBase* widget, m_AssociationList) {
             if (widget->umlObject() != 0) {
@@ -118,12 +114,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
         // in the Diagram
         if (m_type == clip2) {
             foreach (UMLView* view, m_ViewList) {
-                UMLWidgetList widgets = view->umlScene()->widgetList();
-                foreach (UMLWidget* widget, widgets) {
-                    if (widget->umlObject() != 0) {
-                        m_ObjectList.append(widget->umlObject());
-                    }
-                }
+                fillObjectListForWidgets(view->umlScene()->widgetList());
 
                 AssociationWidgetList associations = view->umlScene()->associationList();
                 foreach (AssociationWidget* association, associations) {
@@ -214,6 +205,41 @@ bool UMLClipboard::paste(const QMimeData* data)
     }
     doc->endPaste();
     return result;
+}
+
+/**
+ * Fills object list based on a selection of widgets
+ *
+ * @param UMLWidgetList& widgets
+ */
+void UMLClipboard::fillObjectListForWidgets(UMLWidgetList& widgets)
+{
+    // The order of the packages in the clip matters. So we collect
+    // the packages and add them from the root package to the deeper levels
+    UMLObjectList packages;
+
+    foreach (UMLWidget* widget, widgets) {
+        UMLObject* widgetObject = widget->umlObject();
+        if (widgetObject != 0) {
+            packages.clear();
+
+            UMLPackage* package = widgetObject->umlPackage();
+            while (package != 0) {
+                packages.prepend(package);
+                package = package->umlPackage();
+            }
+
+            foreach (UMLObject* package, packages) {
+                if (!m_ObjectList.contains(package)) {
+                    m_ObjectList.append(package);
+                }
+            }
+
+            if (!m_ObjectList.contains(widgetObject)) {
+                m_ObjectList.append(widgetObject);
+            }
+        }
+    }
 }
 
 /**
@@ -362,17 +388,7 @@ bool UMLClipboard::insertItemChildren(UMLListViewItem * item, UMLListViewItemLis
 bool UMLClipboard::pasteClip1(const QMimeData* data)
 {
     UMLObjectList objects;
-    if (! UMLDragData::decodeClip1(data, objects)) {
-        return false;
-    }
-
-    UMLDoc* doc = UMLApp::app()->document();
-    foreach (UMLObject* object, objects) {
-        doc->assignNewIDs(object);
-        object->resolveRef();
-    }
-
-    return true;
+    return UMLDragData::decodeClip1(data, objects);
 }
 
 /**
@@ -387,8 +403,7 @@ bool UMLClipboard::pasteClip2(const QMimeData* data)
     UMLObjectList       objects;
     UMLViewList         views;
 
-    bool result = UMLDragData::decodeClip2(data, objects, views);
-    if(!result) {
+    if (!UMLDragData::decodeClip2(data, objects, views)) {
         return false;
     }
 
@@ -398,7 +413,7 @@ bool UMLClipboard::pasteClip2(const QMimeData* data)
         }
     }
 
-    return result;
+    return true;
 }
 
 /**
@@ -426,12 +441,7 @@ bool UMLClipboard::pasteClip3(const QMimeData* data)
     }
 
     UMLListView *listView = UMLApp::app()->listView();
-    bool result = UMLDragData::decodeClip3(data, itemdatalist, listView);
-    if(!result) {
-        return false;
-    }
-
-    return result;
+    return UMLDragData::decodeClip3(data, itemdatalist, listView);
 }
 
 /**

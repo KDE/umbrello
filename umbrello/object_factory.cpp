@@ -185,10 +185,15 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
             return o;
         }
     }
-    bool ok = false;
-    QString name = Model_Utils::uniqObjectName(type, parentPkg, n);
+
     bool bValidNameEntered = false;
-    do {
+    QString name = Model_Utils::uniqObjectName(type, parentPkg, n);
+    if (name == n) {
+        bValidNameEntered = true;
+    }
+
+    bool ok = false;
+    while (bValidNameEntered == false) {
         name = KInputDialog::getText(i18nc("UMLObject name", "Name"), i18n("Enter name:"), name, &ok, (QWidget*)UMLApp::app());
         if (!ok) {
             return 0;
@@ -210,7 +215,8 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
             continue;
         }
         bValidNameEntered = true;
-    } while (bValidNameEntered == false);
+    }
+
     UMLObject *o = createNewUMLObject(type, name, parentPkg);
     return o;
 }
