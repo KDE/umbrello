@@ -128,13 +128,12 @@ public:
 
 protected:
     bool event(QEvent *e);
-    bool eventFilter(QObject *o, QEvent *e);
     void mouseReleaseEvent(QMouseEvent *me);
     void mousePressEvent(QMouseEvent *me);
     void mouseMoveEvent(QMouseEvent *me);
     void mouseDoubleClickEvent(QMouseEvent *me);
     void focusOutEvent (QFocusEvent *fe);
-
+    void contextMenuEvent(QContextMenuEvent *me);
     UMLDragData* getDragData();
 
     bool acceptDrag(QDropEvent* event) const;
@@ -169,7 +168,7 @@ public slots:
 
     void slotObjectChanged();
 
-    void popupMenuSel(QAction* action);
+    void slotMenuSelection(QAction* action);
 
     void slotDropped(QDropEvent* de, UMLListViewItem* parent, UMLListViewItem* item);
 
@@ -193,7 +192,6 @@ private:
     UMLListViewItem* m_rv;         ///< root view (home)
     UMLListViewItem* m_lv[Uml::ModelType::N_MODELTYPES];  ///< predefined list view roots
     UMLListViewItem* m_datatypeFolder;
-    ListPopupMenu*   m_menu;
     UMLDoc*          m_doc;
     bool             m_bStartedCut;
     bool             m_bStartedCopy;
