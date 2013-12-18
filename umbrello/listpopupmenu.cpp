@@ -1463,8 +1463,6 @@ void ListPopupMenu::setupMenu(MenuType type)
     case mt_EntityRelationship_Diagram:
         insertStdItems(false);
         insert(mt_Clone);
-        insert(mt_Rename);
-        insert(mt_Delete);
         insert(mt_Export_Image);
         insert(mt_Properties);
         break;
