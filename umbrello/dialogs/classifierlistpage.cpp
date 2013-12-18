@@ -418,19 +418,6 @@ void ClassifierListPage::slotListItemModified()
     }
 }
 
-/**
- * Hide menu and free all its resources.
- */
-void ClassifierListPage::deleteMenu()
-{
-    if (m_pMenu) {
-        m_pMenu->hide();
-        disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotPopupMenuSel(QAction*)));
-        delete m_pMenu;
-        m_pMenu = 0;
-    }
-}
-
 void ClassifierListPage::slotRightButtonPressed(const QPoint& pos)
 {
     ListPopupMenu::MenuType type = ListPopupMenu::mt_Undefined;
@@ -463,19 +450,18 @@ void ClassifierListPage::slotRightButtonPressed(const QPoint& pos)
             uWarning() << "unknown type in ClassifierListPage";
         }
     }
-    deleteMenu();
-    m_pMenu = new ListPopupMenu(this, type);
 
-    m_pMenu->popup(mapToGlobal(pos) + QPoint(0, 40));
-    connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotPopupMenuSel(QAction*)));
+    ListPopupMenu popup(this, type);
+    QAction *triggered = popup.exec(mapToGlobal(pos) + QPoint(0, 40));
+    slotMenuSelection(triggered);
 }
 
 /**
  * Called when an item is selected in a right click menu.
  */
-void ClassifierListPage::slotPopupMenuSel(QAction* action)
+void ClassifierListPage::slotMenuSelection(QAction* action)
 {
-    ListPopupMenu::MenuType id = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType id = ListPopupMenu::typeFromAction(action);
     switch (id) {
     case ListPopupMenu::mt_New_Attribute:
     case ListPopupMenu::mt_New_Operation:

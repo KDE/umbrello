@@ -48,11 +48,6 @@ protected:
     StateWidget * m_pStateWidget;
 
     /**
-     *  Popup menu used.
-     */
-    ListPopupMenu * m_pMenu;
-
-    /**
      * GUI widgets
      */
     QListWidget* m_pActivityLW;

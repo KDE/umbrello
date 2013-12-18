@@ -251,13 +251,13 @@ void UMLOperationDialog::slotParmRightButtonPressed(const QPoint &p)
     }
     if (m_menu) {
         m_menu->hide();
-        disconnect(m_menu, SIGNAL(triggered(QAction*)), this, SLOT(slotParmPopupMenuSel(QAction*)));
+        disconnect(m_menu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
         delete m_menu;
         m_menu = 0;
     }
-    m_menu = new ListPopupMenu(this, type);
-    connect(m_menu, SIGNAL(triggered(QAction*)), this, SLOT(slotParmPopupMenuSel(QAction*)));
-    m_menu->exec(m_pParmsLW->mapToGlobal(p));
+    ListPopupMenu popup(this, type);
+    QAction *triggered = popup.exec(m_pParmsLW->mapToGlobal(p));
+    slotMenuSelection(triggered);
 }
 
 void UMLOperationDialog::slotParmDoubleClick(QListWidgetItem *item)
@@ -265,16 +265,15 @@ void UMLOperationDialog::slotParmDoubleClick(QListWidgetItem *item)
     if (!item) {
         return;
     }
-    if (!m_menu) {  // this happens, when there was no right click in the list widget
-        m_menu = new ListPopupMenu(this, ListPopupMenu::mt_Parameter_Selected);
-    }
-    QAction* action = m_menu->getAction(ListPopupMenu::mt_Properties);
-    slotParmPopupMenuSel(action);
+    // this happens, when there was no right click in the list widget
+    ListPopupMenu popup(this, ListPopupMenu::mt_Parameter_Selected);
+    QAction* action = popup.getAction(ListPopupMenu::mt_Properties);
+    slotMenuSelection(action);
 }
 
-void UMLOperationDialog::slotParmPopupMenuSel(QAction* action)
+void UMLOperationDialog::slotMenuSelection(QAction* action)
 {
-    ListPopupMenu::MenuType id = m_menu->getMenuType(action);
+    ListPopupMenu::MenuType id = ListPopupMenu::typeFromAction(action);
     if(id == ListPopupMenu::mt_Rename || id == ListPopupMenu::mt_Properties) {
         slotParameterProperties();
     } else if(id == ListPopupMenu::mt_New_Parameter) {

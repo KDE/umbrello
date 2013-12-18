@@ -52,7 +52,6 @@ AssocPage::AssocPage(QWidget *parent, UMLScene *s, UMLObject *o)
     layout->addWidget(m_pAssocLW);
     setMinimumSize(310, 330);
     fillListBox();
-    m_pMenu = 0;
 
     connect(m_pAssocLW, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
             this, SLOT(slotDoubleClick(QListWidgetItem*)));
@@ -106,29 +105,19 @@ void AssocPage::fillListBox()
 
 void AssocPage::slotRightButtonPressed(const QPoint &p)
 {
-    QListWidgetItem* item = m_pAssocLW->itemAt(p);
-    if (!item) {
-        return;
-    }
-    if (m_pMenu) {
-        m_pMenu->hide();
-        disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotPopupMenuSel(int)));
-        delete m_pMenu;
-        m_pMenu = 0;
-    }
-    m_pMenu = new ListPopupMenu(this, ListPopupMenu::mt_Association_Selected);
-    connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotPopupMenuSel(QAction*)));
-    m_pMenu->exec(m_pAssocLW->mapToGlobal(p));
+    ListPopupMenu popup(this, ListPopupMenu::mt_Association_Selected);
+    QAction *triggered = popup.exec(m_pAssocLW->mapToGlobal(p));
+    slotMenuSelection(triggered);
 }
 
-void AssocPage::slotPopupMenuSel(QAction* action)
+void AssocPage::slotMenuSelection(QAction* action)
 {
     int currentItemIndex = m_pAssocLW->currentRow();
     if (currentItemIndex == -1) {
         return;
     }
     AssociationWidget * a = m_List.at(currentItemIndex);
-    ListPopupMenu::MenuType id = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType id = ListPopupMenu::typeFromAction(action);
     switch (id) {
     case ListPopupMenu::mt_Delete:
         m_pScene->removeAssocInViewAndDoc(a);

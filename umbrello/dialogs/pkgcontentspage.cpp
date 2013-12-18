@@ -52,7 +52,6 @@ PkgContentsPage::PkgContentsPage(QWidget *parent, UMLPackage *pkg)
     layout->addWidget(m_contentLW);
     setMinimumSize(310, 330);
     fillListBox();
-    m_menu = 0;
 
     connect(m_contentLW, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
             this, SLOT(slotDoubleClick(QListWidgetItem*)));
@@ -108,23 +107,14 @@ void PkgContentsPage::fillListBox()
  */
 void PkgContentsPage::slotShowContextMenu(const QPoint &p)
 {
-    QListWidgetItem *item = m_contentLW->itemAt(p);
-    if (item) {
-        if (m_menu) {
-            m_menu->hide();
-            disconnect(m_menu, SIGNAL(triggered(QAction*)), this, SLOT(slotPopupMenuSel(QAction*)));
-            delete m_menu;
-            m_menu = 0;
-        }
-        m_menu = new ListPopupMenu(this, ListPopupMenu::mt_Association_Selected);
-        connect(m_menu, SIGNAL(triggered(QAction*)), this, SLOT(slotPopupMenuSel(QAction*)));
-        m_menu->exec(mapToGlobal(p) + QPoint(0, 20));
-    }
+    ListPopupMenu popup(this, ListPopupMenu::mt_Association_Selected);
+    QAction *triggered = popup.exec(mapToGlobal(p) + QPoint(0, 20));
+    slotMenuSelection(triggered);
 }
 
-void PkgContentsPage::slotPopupMenuSel(QAction* action)
+void PkgContentsPage::slotMenuSelection(QAction* action)
 {
-    ListPopupMenu::MenuType id = m_menu->getMenuType(action);
+    ListPopupMenu::MenuType id = ListPopupMenu::typeFromAction(action);
     switch(id) {
     case ListPopupMenu::mt_Delete:
         {

@@ -34,14 +34,13 @@ private:
     UMLPackage * m_package;
     QListWidget * m_contentLW;
     QGroupBox * m_contentGB;
-    ListPopupMenu * m_menu;
 
     void fillListBox();
 
 public slots:
     void slotDoubleClick(QListWidgetItem * item);
     void slotShowContextMenu(const QPoint&);
-    void slotPopupMenuSel(QAction* action);
+    void slotMenuSelection(QAction* action);
 };
 
 #endif
