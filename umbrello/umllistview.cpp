@@ -91,9 +91,7 @@ UMLListView::UMLListView(QWidget *parent)
     m_bStartedCut(false),
     m_bStartedCopy(false),
     m_bCreatingChildObject(false),
-    m_bRenameInProgress(false),
     m_dragStartPosition(QPoint()),
-    m_editItem(0),
     m_dragCopyData(0)
 {
     // setup list view
@@ -146,21 +144,6 @@ void UMLListView::setTitle(int column, const QString &text)
 }
 
 /**
- * Handler for item changed signals.
- */
-void UMLListView::slotItemChanged(QTreeWidgetItem * item, int column)
-{
-    UMLListViewItem *lvitem = dynamic_cast<UMLListViewItem*>(item);
-    if (lvitem == NULL || m_editItem == NULL)
-        return;
-    QString text = item->text(column);
-    if (m_bRenameInProgress) {
-        DEBUG(DBG_SRC) << "Item renamed to: " << text;
-        endRename(lvitem);
-    }
-}
-
-/**
  * Handler for item selection changed signals.
  */
 void UMLListView::slotItemSelectionChanged()
@@ -168,19 +151,6 @@ void UMLListView::slotItemSelectionChanged()
     UMLListViewItem* currItem = static_cast<UMLListViewItem*>(currentItem());
     if (currItem && currItem->isSelected()) {
         DEBUG(DBG_SRC) << "UMLListView selection changed to" << currItem->text(0);
-        if (m_editItem && m_bRenameInProgress) {
-            if (m_editItem == currItem) {
-                // clicked on the item which is just edited
-                DEBUG(DBG_SRC) << "performing endRename";
-                endRename(currItem);
-            }
-            else {
-                // other item was selected during editing
-                cancelRename(m_editItem);
-                DEBUG(DBG_SRC) << "performing cancelRename";
-            }
-        }
-
         // Update current view to selected object's view
         if (Model_Utils::typeIsDiagram(currItem->type())) {
             // If the user navigates to a diagram, load the diagram just like what
@@ -321,32 +291,16 @@ void UMLListView::mouseReleaseEvent(QMouseEvent *me)
  */
 void UMLListView::keyPressEvent(QKeyEvent *ke)
 {
-    UMLView *view = UMLApp::app()->currentView();
-    if (view && view->umlScene()->selectedCount()) {
-        // Widgets have been selected in the diagram area,
-        // assume they handle the keypress.
-        ke->accept();                 // munge and do nothing
-    }
-    else {
-        const int k = ke->key();
-        if (k == Qt::Key_F2) {
-            UMLListViewItem * currItem = static_cast<UMLListViewItem*>(currentItem());
-            startRename(currItem);
-        } else if (k == Qt::Key_Delete || k == Qt::Key_Backspace) {
-            // delete every selected item
-            UMLListViewItemList itemsSelected = selectedItemsRoot();
-            foreach(UMLListViewItem *item, itemsSelected) {
-                deleteItem(item);
-            }
-        } else if (k == Qt::Key_F3) {
-            // prelimary support for layout generator
-            LayoutGenerator r;
-            if (!r.generate(UMLApp::app()->currentView()->umlScene()))
-                return;
-            r.apply(UMLApp::app()->currentView()->umlScene());
-        } else  {
-            QTreeWidget::keyPressEvent(ke); // let parent handle it
-        }
+    QTreeWidget::keyPressEvent(ke); // let parent handle it
+    const int k = ke->key();
+    if (k == Qt::Key_Delete || k == Qt::Key_Backspace) {
+        slotDeleteSelectedItems();
+    } else if (k == Qt::Key_F3) {
+        // prelimary support for layout generator
+        LayoutGenerator r;
+        if (!r.generate(UMLApp::app()->currentView()->umlScene()))
+            return;
+        r.apply(UMLApp::app()->currentView()->umlScene());
     }
 }
 
@@ -581,7 +535,7 @@ void UMLListView::slotMenuSelection(QAction* action)
         }
 
     case ListPopupMenu::mt_Rename:
-        startRename(currItem);
+        edit(currentIndex());
         break;
 
     case ListPopupMenu::mt_Delete:
@@ -1334,7 +1288,6 @@ void UMLListView::init()
     //setup misc.
     m_bStartedCut = m_bStartedCopy = false;
     m_bCreatingChildObject = false;
-    m_bRenameInProgress = false;
     headerItem()->setHidden(true);
 }
 
@@ -2057,6 +2010,17 @@ void UMLListView::slotCutSuccessful()
 }
 
 /**
+ * Delete every selected item
+ */
+void UMLListView::slotDeleteSelectedItems()
+{
+    UMLListViewItemList itemsSelected = selectedItemsRoot();
+    foreach(UMLListViewItem *item, itemsSelected) {
+        deleteItem(item);
+    }
+}
+
+/**
  * Adds a new item to the tree of the given type under the given parent.
  * Method will take care of signalling anyone needed on creation of new item.
  * e.g. UMLDoc if an UMLObject is created.
@@ -2207,63 +2171,6 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
         break;
     }
     return false;
-}
-
-/**
- * Renaming of an item has started.
- * @param item   the item which will be renamed
- */
-void UMLListView::startRename(UMLListViewItem* item)
-{
-    if (item) {
-        DEBUG(DBG_SRC) << "Starting rename: " << item->text(0);
-        if (m_editItem) {
-            cancelRename(m_editItem);
-        }
-        m_bRenameInProgress = true;
-        item->startRename(0);
-        openPersistentEditor(item, 0);
-        m_editItem = item;
-    }
-    else {
-        uError() << "Called without an item!";
-    }
-}
-
-/**
- * Cancel rename event has occurred for the given item.
- */
-void UMLListView::cancelRename(UMLListViewItem* item)
-{
-    m_bRenameInProgress = false;
-    if (item) {
-        DEBUG(DBG_SRC) << "Cancel rename " << item->text(0);
-        // delete pointer first to lock slotItemChanged
-        m_editItem = 0;
-        closePersistentEditor(item, 0);
-    }
-    else {
-        uError() << "Called without an item!";
-    }
-}
-
-/**
- * Renaming of an item has ended.
- * @param item   the item which was renamed or not
- */
-void UMLListView::endRename(UMLListViewItem* item)
-{
-    m_bRenameInProgress = false;
-    if (item) {
-        DEBUG(DBG_SRC) << "Finished rename: " << item->text(0);
-        // delete pointer first to lock slotItemChanged
-        m_editItem = 0;
-        closePersistentEditor(item, 0);
-        item->okRename(0);
-    }
-    else {
-        uError() << "Called without an item!";
-    }
 }
 
 /**
