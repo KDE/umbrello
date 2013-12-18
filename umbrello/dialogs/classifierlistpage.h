@@ -109,7 +109,7 @@ protected slots:
 
     void slotActivateItem(QListWidgetItem* item);
 
-    void slotPopupMenuSel(QAction* action);
+    void slotMenuSelection(QAction* action);
 
     void slotListItemCreated(UMLObject* object);
     void slotListItemModified();

@@ -81,7 +81,7 @@ protected:
 public slots:
     void slotParmRightButtonPressed(const QPoint &p);
     void slotParmDoubleClick(QListWidgetItem *item);
-    void slotParmPopupMenuSel(QAction* action);
+    void slotMenuSelection(QAction* action);
     void slotNewParameter();
     void slotDeleteParameter();
     void slotParameterProperties();

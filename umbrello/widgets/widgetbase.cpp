@@ -674,9 +674,9 @@ void WidgetBase::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         }
     }
     setSelected(true);
-    QPointer<ListPopupMenu> menu = new ListPopupMenu(0, this, false, false);
-    setupContextMenuActions(*(menu.data()));
-    QAction *triggered = menu->exec(event->screenPos());
+    ListPopupMenu popup(0, this, false, false);
+    setupContextMenuActions(popup);
+    QAction *triggered = popup.exec(event->screenPos());
     ListPopupMenu *parentMenu = ListPopupMenu::menuFromAction(triggered);
 
     if (!parentMenu) {
@@ -692,8 +692,6 @@ void WidgetBase::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
             " or UMLObject is the one triggered in ListPopupMenu");
 
     ownerWidget->slotMenuSelection(triggered);
-
-    delete menu.data();
 }
 
 /**

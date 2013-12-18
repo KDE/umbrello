@@ -44,14 +44,13 @@ private:
     QListWidget           *m_pAssocLW;
     QGroupBox             *m_pAssocGB;
     AssociationWidgetList  m_List;
-    ListPopupMenu         *m_pMenu;
 
     void fillListBox();
 
 public slots:
     void slotDoubleClick(QListWidgetItem *item);
     void slotRightButtonPressed(const QPoint &p);
-    void slotPopupMenuSel(QAction* action);
+    void slotMenuSelection(QAction* action);
 };
 
 #endif

@@ -3929,8 +3929,8 @@ void AssociationWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     }
     setSelected(true);
     m_eventScenePos = event->scenePos();
-    QPointer<ListPopupMenu> menu = new ListPopupMenu(parent, menuType, this);
-    QAction *triggered = menu->exec(event->screenPos());
+    ListPopupMenu popup(parent, menuType, this);
+    QAction *triggered = popup.exec(event->screenPos());
     ListPopupMenu *parentMenu = ListPopupMenu::menuFromAction(triggered);
 
     if (!parentMenu) {
@@ -3946,8 +3946,6 @@ void AssociationWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
             " or UMLObject is the one triggered in ListPopupMenu");
 
     ownerWidget->slotMenuSelection(triggered);
-
-    delete menu.data();
 }
 
 /**

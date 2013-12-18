@@ -34,7 +34,6 @@
 ActivityPage::ActivityPage(QWidget * pParent, StateWidget * pWidget) : QWidget(pParent)
 {
     m_pStateWidget = pWidget;
-    m_pMenu = 0;
     setupPage();
 }
 
@@ -150,7 +149,7 @@ void ActivityPage::updateActivities()
  */
 void ActivityPage::slotMenuSelection(QAction* action)
 {
-    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     switch(sel) {
     case ListPopupMenu::mt_New_Activity:
         slotNewActivity();
@@ -214,15 +213,9 @@ void ActivityPage::slotRightButtonPressed(const QPoint & p)
         type = ListPopupMenu::mt_New_Activity;
     }
 
-    if (m_pMenu) {
-        m_pMenu->hide();
-        disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
-        delete m_pMenu;
-        m_pMenu = 0;
-    }
-    m_pMenu = new ListPopupMenu(this, type);
-    connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
-    m_pMenu->exec(m_pActivityLW->mapToGlobal(p));
+    ListPopupMenu popup(this, type);
+    QAction *triggered = popup.exec(m_pActivityLW->mapToGlobal(p));
+    slotMenuSelection(triggered);
 }
 
 void ActivityPage::slotTopClicked()

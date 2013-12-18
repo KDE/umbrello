@@ -88,7 +88,6 @@ UMLDoc::UMLDoc()
     m_pAutoSaveTimer(0),
     m_nViewID(Uml::ID::None),
     m_bTypesAreResolved(false),
-    m_pTabPopupMenu(0),
     m_pCurrentRoot(0),
     m_bClosing(false)
 {
@@ -2951,11 +2950,6 @@ void UMLDoc::createDatatype(const QString &name)
 void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point)
 {
     UMLView* view = (UMLView*) umlview;
-    if (m_pTabPopupMenu != 0) {
-        m_pTabPopupMenu->hide();
-        delete m_pTabPopupMenu;
-        m_pTabPopupMenu = 0;
-    }
 
     UMLListViewItem::ListViewType type = UMLListViewItem::lvt_Unknown;
     switch (view->umlScene()->type()) {
@@ -3000,25 +2994,9 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point)
         return;
     }//end switch
 
-    m_pTabPopupMenu = new ListPopupMenu(UMLApp::app()->mainViewWidget(), type, 0);
-    m_pTabPopupMenu->popup(point);
-    connect(m_pTabPopupMenu, SIGNAL(triggered(QAction*)), view->umlScene(), SLOT(slotMenuSelection(QAction*)));
-}
-
-/**
- * Find and return the user selected type of the popup menu.
- * See also m_pTabPopupMenu and slotDiagramPopupMenu.
- * @param action  the selected action
- * @return the selected menu type
- */
-ListPopupMenu::MenuType UMLDoc::popupMenuSelection(QAction* action)
-{
-    if (m_pTabPopupMenu) {
-        return m_pTabPopupMenu->getMenuType(action);
-    }
-    else {
-        return ListPopupMenu::mt_Undefined;
-    }
+    ListPopupMenu popup(UMLApp::app()->mainViewWidget(), type, 0);
+    QAction *triggered = popup.exec(point);
+    view->umlScene()->slotMenuSelection(triggered);
 }
 
 /**

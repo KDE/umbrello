@@ -2984,8 +2984,8 @@ void UMLScene::setMenu(const QPoint& pos)
     }//end switch
     if (menu != ListPopupMenu::mt_Undefined) {
         // DEBUG(DBG_SRC) << "create popup for MenuType " << ListPopupMenu::toString(menu);
-        ListPopupMenu* popup = new ListPopupMenu(activeView(), menu, activeView());
-        QAction *triggered = popup->exec(pos);
+        ListPopupMenu popup(activeView(), menu, activeView());
+        QAction *triggered = popup.exec(pos);
         slotMenuSelection(triggered);
     }
 }

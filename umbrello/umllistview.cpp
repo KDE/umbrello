@@ -1916,8 +1916,8 @@ void UMLListView::contextMenuEvent(QContextMenuEvent *me)
     UMLListViewItem * item = static_cast<UMLListViewItem*>(itemAt(me->pos()));
     if (item) {
         const UMLListViewItem::ListViewType type = item->type();
-        ListPopupMenu* popup = new ListPopupMenu(this, type, item->umlObject());
-        QAction *triggered = popup->exec(me->globalPos());
+        ListPopupMenu popup(this, type, item->umlObject());
+        QAction *triggered = popup.exec(me->globalPos());
         slotMenuSelection(triggered);
         me->accept();
     }

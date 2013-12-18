@@ -218,8 +218,6 @@ public:
 
     void resolveTypes();
 
-    ListPopupMenu::MenuType popupMenuSelection(QAction* action);
-
 private:
     void initSaveTimer();
     void createDatatypeFolder();
@@ -279,12 +277,6 @@ private:
      * True when type resolution pass has been executed.
      */
     bool m_bTypesAreResolved;
-
-    /**
-     * the context menu on the tabs,
-     * plugs into umlview::slotMenuSelection()
-     */
-    ListPopupMenu* m_pTabPopupMenu;
 
     /**
      * Auxiliary variable for currentRoot():
