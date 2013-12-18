@@ -243,7 +243,7 @@ public slots:
     void slotSnapToGridToggled(bool gridOn);
     void slotShowGridToggled(bool gridOn);
     void slotSelectAll();
-    void slotDeleteSelectedWidget();
+    void slotDeleteSelected();
     void slotDeleteDiagram();
     void slotCloseDiagram(QWidget* tab);
     void slotGenerateAllCode();

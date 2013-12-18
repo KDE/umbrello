@@ -352,7 +352,7 @@ void UMLApp::initActions()
     deleteSelectedWidget->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Delete));
     deleteSelectedWidget->setText(i18nc("delete selected widget", "Delete &Selected"));
     deleteSelectedWidget->setShortcut(QKeySequence(Qt::Key_Delete));
-    connect(deleteSelectedWidget, SIGNAL(triggered(bool)), this, SLOT(slotDeleteSelectedWidget()));
+    connect(deleteSelectedWidget, SIGNAL(triggered(bool)), this, SLOT(slotDeleteSelected()));
 
     // The different views
     newDiagram = actionCollection()->add<KActionMenu>( "new_view" );
@@ -1441,7 +1441,7 @@ void UMLApp::slotEditCut()
     bool fromview = (currentView() && currentView()->umlScene()->selectedCount());
     if ( editCutCopy(fromview) ) {
         emit sigCutSuccessful();
-        slotDeleteSelectedWidget();
+        slotDeleteSelected();
         m_doc->setModified(true);
     }
     resetStatusMsg();
@@ -2540,11 +2540,22 @@ void UMLApp::slotSelectAll()
 }
 
 /**
- * Deletes the selected widget.
+ * Deletes selected widgets or list view items.
  */
-void UMLApp::slotDeleteSelectedWidget()
+void UMLApp::slotDeleteSelected()
 {
-    if ( currentView() ) {
+    // deleteSelectedWidget grabs DEL key as shortcut,
+    // which prevents routing DEL key through the regular
+    // key press event handler
+    QWidget *f = focusWidget();
+    if (f == m_listView) {
+        QWidgetAction *o = static_cast<QWidgetAction *>(sender());
+        if (o->objectName() == "delete_selected") {
+            m_listView->slotDeleteSelectedItems();
+        }
+        return;
+    }
+    if (currentView()) {
         currentView()->umlScene()->deleteSelection();
     }
     else {

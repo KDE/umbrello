@@ -100,10 +100,6 @@ public:
 
     bool isUnique(UMLListViewItem * item, const QString &name);
 
-    void startRename(UMLListViewItem * item);
-    void cancelRename(UMLListViewItem * item);
-    void endRename(UMLListViewItem * item);
-
     void setSelected(UMLListViewItem * item, bool state) { setItemSelected((QTreeWidgetItem*)item,state);  }
     void setStartedCut(bool startedCut);
     void setStartedCopy(bool startedCopy);
@@ -182,9 +178,9 @@ public slots:
     void collapseAll(UMLListViewItem *item);
 
     void slotCutSuccessful();
+    void slotDeleteSelectedItems();
 
 protected slots:
-    void slotItemChanged(QTreeWidgetItem *, int);
     void slotItemSelectionChanged();
     void slotExpanded(QTreeWidgetItem* item);
     void slotCollapsed(QTreeWidgetItem* item);
@@ -203,9 +199,7 @@ private:
     bool             m_bStartedCut;
     bool             m_bStartedCopy;
     bool m_bCreatingChildObject;  ///< when creating an attribute or an operation to stop it adding a second listViewItem
-    bool m_bRenameInProgress;
     QPoint m_dragStartPosition;
-    UMLListViewItem* m_editItem;
 };
 
 #endif
