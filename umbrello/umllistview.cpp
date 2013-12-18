@@ -87,7 +87,6 @@ UMLListView::UMLListView(QWidget *parent)
   : QTreeWidget(parent),
     m_rv(0),
     m_datatypeFolder(0),
-    m_menu(0),
     m_doc(UMLApp::app()->document()),
     m_bStartedCut(false),
     m_bStartedCopy(false),
@@ -216,30 +215,6 @@ bool UMLListView::event(QEvent *e)
 }
 
 /**
- * Event filter.
- */
-bool UMLListView::eventFilter(QObject *o, QEvent *e)
-{
-    if (e->type() != QEvent::MouseButtonPress || qstrcmp("QHeader", metaObject()->className()) != 0)
-        return QTreeWidget::eventFilter(o, e);
-    QMouseEvent *me = static_cast<QMouseEvent*>(e);
-    if (me->button() == Qt::RightButton) {
-        if (m_menu) {
-            m_menu->hide();
-            disconnect(m_menu, SIGNAL(triggered(QAction*)), this, SLOT(popupMenuSel(QAction*)));
-            delete m_menu;
-            m_menu = 0;
-        }
-        UMLListViewItem * currItem = static_cast<UMLListViewItem*>(currentItem());
-        m_menu = new ListPopupMenu(this, UMLListViewItem::lvt_Model, currItem->umlObject());
-        m_menu->popup(me->globalPos());
-        connect(m_menu, SIGNAL(triggered(QAction*)), this, SLOT(popupMenuSel(QAction*)));
-        return true;
-    }
-    return QTreeWidget::eventFilter(o, e);
-}
-
-/**
  * Handler for mouse press events.
  * @param me   the mouse event
  */
@@ -278,19 +253,6 @@ void UMLListView::mousePressEvent(QMouseEvent *me)
 
         m_dragStartPosition = me->pos();
     }
-
-    if (button == Qt::RightButton) {
-        if (m_menu != 0) {
-            m_menu->hide();
-            disconnect(m_menu, SIGNAL(triggered(QAction*)), this, SLOT(popupMenuSel(QAction*)));
-            delete m_menu;
-            m_menu = 0;
-        }
-        const UMLListViewItem::ListViewType type = item->type();
-        m_menu = new ListPopupMenu(this, type, item->umlObject());
-        m_menu->popup(me->globalPos());
-        connect(m_menu, SIGNAL(triggered(QAction*)), this, SLOT(popupMenuSel(QAction*)));
-    }//end if right button
 
     QTreeWidget::mousePressEvent(me);
 }
@@ -392,7 +354,7 @@ void UMLListView::keyPressEvent(QKeyEvent *ke)
  * Called when a right mouse button menu has an item selected.
  * @param action   the selected action
  */
-void UMLListView::popupMenuSel(QAction* action)
+void UMLListView::slotMenuSelection(QAction* action)
 {
     UMLListViewItem * currItem = static_cast<UMLListViewItem*>(currentItem());
     if (!currItem) {
@@ -401,7 +363,7 @@ void UMLListView::popupMenuSel(QAction* action)
     }
     UMLListViewItem::ListViewType lvt = currItem->type();
     UMLObject::ObjectType umlType = UMLObject::ot_UMLObject;
-    ListPopupMenu::MenuType menuType = m_menu->getMenuType(action);
+    ListPopupMenu::MenuType menuType = ListPopupMenu::typeFromAction(action);
     QString name;
 
     switch (menuType) {
@@ -1370,8 +1332,6 @@ void UMLListView::init()
     m_datatypeFolder->setOpen(false);
 
     //setup misc.
-    delete m_menu;
-    m_menu = 0;
     m_bStartedCut = m_bStartedCopy = false;
     m_bCreatingChildObject = false;
     m_bRenameInProgress = false;
@@ -1995,6 +1955,21 @@ void UMLListView::focusOutEvent(QFocusEvent * fe)
     //repaint();
 
     QTreeWidget::focusOutEvent(fe);
+}
+
+void UMLListView::contextMenuEvent(QContextMenuEvent *me)
+{
+    // Get the UMLListViewItem at the point where the mouse pointer was pressed
+    UMLListViewItem * item = static_cast<UMLListViewItem*>(itemAt(me->pos()));
+    if (item) {
+        const UMLListViewItem::ListViewType type = item->type();
+        ListPopupMenu* popup = new ListPopupMenu(this, type, item->umlObject());
+        QAction *triggered = popup->exec(me->globalPos());
+        slotMenuSelection(triggered);
+        me->accept();
+    }
+
+    QTreeWidget::contextMenuEvent(me);
 }
 
 /**
