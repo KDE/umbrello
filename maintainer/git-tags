@@ -2,4 +2,4 @@
 #
 # list tags and related dates
 # 
-git for-each-ref --format '%(refname) %(taggerdate)' refs/tags
+git for-each-ref --format '%(refname) %(taggerdate) %(objectname)' refs/tags  | sort  -t. -k 1.12,1 -k 2n,2
