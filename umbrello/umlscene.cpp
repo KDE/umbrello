@@ -1639,6 +1639,14 @@ void UMLScene::selectWidgets(UMLWidgetList &widgets)
 }
 
 /**
+ * Add one widget to the selected widgets list
+ */
+void UMLScene::selectWidget(UMLWidget* widget)
+{
+    makeSelected(widget);
+}
+
+/**
  * Returns the PNG picture of the paste operation.
  * @param diagram the class to store PNG picture of the paste operation.
  * @param rect the area of the diagram to copy
@@ -3424,32 +3432,6 @@ void UMLScene::checkSelections()
             }
         }//end if
     }//end foreach
-}
-
-/**
- * This function checks if the currently selected items have all the same
- * type (class, interface, ...). If true, the selection is unique and true
- * will be returned.
- * If there are no items selected, the function will return always true.
- */
-bool UMLScene::checkUniqueSelection()
-{
-    // if there are no selected items, we return true
-    if (selectedWidgets().isEmpty())
-        return true;
-
-    // get the first item and its base type
-    UMLWidget * pTemp = (UMLWidget *) selectedWidgets().first();
-    WidgetBase::WidgetType tmpType = pTemp->baseType();
-
-    // check all selected items, if they have the same BaseType
-    foreach(pTemp, selectedWidgets()) {
-        if (pTemp->baseType() != tmpType) {
-            return false; // the base types are different, the list is not unique
-        }
-    } // for (through all selected items)
-
-    return true; // selected items are unique
 }
 
 /**

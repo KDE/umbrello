@@ -3040,16 +3040,6 @@ void AssociationWidget::slotMenuSelection(QAction* action)
         }
         break;
 
-    case ListPopupMenu::mt_Change_Font_Selection:
-        {
-            QFont fnt = font();
-            if (KFontDialog::getFont( fnt, KFontChooser::NoDisplayFlags, m_scene->activeView())) {
-                m_scene->selectionSetFont( fnt );
-                umlDoc()->setModified(true);
-            }
-        }
-        break;
-
     case ListPopupMenu::mt_Line_Color:
         {
             QColor newColor;

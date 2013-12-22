@@ -710,10 +710,6 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
 
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(trigger);
     switch (sel) {
-    case ListPopupMenu::mt_Delete:
-        umlScene()->removeWidget(this);
-        break;
-
     case ListPopupMenu::mt_Resize:
         umlScene()->resizeSelection();
         break;

@@ -277,55 +277,48 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type
  * @param parent   The parent to ListPopupMenu.
  * @param object   The WidgetBase to represent a menu for.
  * @param multi    True if multiple items are selected.
- * @param unique   True if multiple selected items all have
- *                 the same type (e.g. Class, Interface)
  */
-ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
-                             bool multi, bool unique)
+ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object, bool multi)
   : KMenu(parent)
 {
     m_TriggerObject.m_Widget = object;
     m_TriggerObjectType = tot_Widget;
-    //make the right menu for the type
-    //make menu for logical view
+
     if (!object)
         return;
-    WidgetBase::WidgetType type = object->baseType();
-    // uDebug() << "ListPopupMenu created with multi=" << multi << ", unique="
-    //          << unique << " for WidgetType=" << WidgetBase::toString(type);
 
     if (multi) {
-        ClassifierWidget *c = NULL;
-        if (unique && (type == WidgetBase::wt_Class || type == WidgetBase::wt_Interface)) {
-            c = static_cast<ClassifierWidget *>(object);
-            makeMultiClassifierPopup(c);
-        }
-        insertSubMenuColor(object->useFillColor());
-        addSeparator();
-        insert(mt_Cut);
-        insert(mt_Copy);
-        insert(mt_Paste);
-        addSeparator();
-        insert(mt_Change_Font_Selection, Icon_Utils::SmallIcon(Icon_Utils::it_Change_Font), i18n("Change Font..."));
-        insert(mt_Delete_Selection, Icon_Utils::SmallIcon(Icon_Utils::it_Delete), i18n("Delete Selected Items"));
-
-        // add this here and not above with the other stuff of the interface
-        // user might expect it at this position of the context menu
-        if (unique) {
-            if (type == WidgetBase::wt_Interface) {
-                insert(mt_DrawAsCircle_Selection, i18n("Draw as Circle"), CHECKABLE);
-                setActionChecked(mt_DrawAsCircle_Selection, c->visualProperty(ClassifierWidget::DrawAsCircle));
-                insert(mt_ChangeToClass_Selection, i18n("Change into Class"));
-            } else if (type == WidgetBase::wt_Class) {
-                UMLClassifier *umlc = c->classifier();
-                if (umlc->isAbstract() && umlc->attributes() == 0)
-                    insert(mt_ChangeToInterface_Selection, i18n("Change into Interface"));
-            }
-        }
-
-        return;
+        insertMultiSelectionMenu();
+    } else {
+        insertSingleSelectionMenu(object);
     }
 
+    bool bCutState = UMLApp::app()->isCutCopyState();
+    setActionEnabled(mt_Cut, bCutState);
+    setActionEnabled(mt_Copy, bCutState);
+    setActionEnabled(mt_Paste, false);
+    setupActionsData();
+}
+
+/**
+ * Standard destructor.
+ */
+ListPopupMenu::~ListPopupMenu()
+{
+    foreach (QAction* action, m_actions) {
+        delete action;
+    }
+    m_actions.clear();
+}
+
+/**
+ * Inserts the menu actions for a widget
+ *
+ * @param WidgetBase* object
+ */
+void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
+{
+    WidgetBase::WidgetType type = object->baseType();
     switch (type) {
     case WidgetBase::wt_Actor:
     case WidgetBase::wt_UseCase:
@@ -589,24 +582,34 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
         uWarning() << "unhandled WidgetType " << WidgetBase::toString(type);
         break;
     }//end switch
-
-    bool bCutState = UMLApp::app()->isCutCopyState();
-    setActionEnabled(mt_Cut, bCutState);
-    setActionEnabled(mt_Copy, bCutState);
-    setActionEnabled(mt_Paste, false);
-    setupActionsData();
 }
 
 /**
- * Standard destructor.
+ * Inserts the menu actions that work on the whole selection of widgets
  */
-ListPopupMenu::~ListPopupMenu()
+void ListPopupMenu::insertMultiSelectionMenu()
 {
-    foreach (QAction* action, m_actions) {
-        delete action;
-    }
-    m_actions.clear();
+    KMenu* color = new KMenu(i18nc("color menu", "Color"), this);
+    insert(mt_Line_Color, color, Icon_Utils::SmallIcon(Icon_Utils::it_Color_Line), i18n("Line Color..."));
+    insert(mt_Fill_Color, color, Icon_Utils::SmallIcon(Icon_Utils::it_Color_Fill), i18n("Fill Color..."));
+    insert(mt_Set_Use_Fill_Color_Selection, color, i18n("Use Fill Color"));
+    insert(mt_Unset_Use_Fill_Color_Selection, color, i18n("No Fill Color"));
+
+    addMenu(color);
+
+    addSeparator();
+    insert(mt_Cut);
+    insert(mt_Copy);
+
+    addSeparator();
+    insert(mt_Clone);
+    insert(mt_Delete);
+    insert(mt_Resize, i18n("Resize"));
+
+    addSeparator();
+    insert(mt_Change_Font, Icon_Utils::SmallIcon(Icon_Utils::it_Change_Font), i18n("Change Font..."));
 }
+
 
 /**
  * Shortcut for the frequently used addAction() calls.
@@ -1040,10 +1043,9 @@ void ListPopupMenu::insertLayoutItems(UMLView *view)
 }
 
 /**
- * Creates a popup menu for a multiple selection of class and
- * interface widgets.
+ * Creates the "Show" submenu for classifier widgets context menu
  */
-void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
+void ListPopupMenu::makeClassifierVisibilityPopup(ClassifierWidget *c)
 {
     WidgetBase::WidgetType type = c->baseType();
     ClassifierWidget *cls = NULL;
@@ -1094,7 +1096,7 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
     insert(mt_Template, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Template_New), i18n("Template..."));
     addMenu(menu);
 
-    makeMultiClassifierPopup(c);
+    makeClassifierVisibilityPopup(c);
 
     insertSubMenuColor(c->useFillColor());
     insertStdItems(true, type);

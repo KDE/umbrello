@@ -667,15 +667,37 @@ void WidgetBase::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     uDebug() << "widget = " << name() << " / type = " << baseTypeStr();
 
     UMLScene *scene = umlScene();
-    if (!isSelected() && scene && !scene->selectedItems().isEmpty()) {
+
+    // If right-click was done on a widget that was not selected, clear the
+    // current selection and select the new widget. The context menu is shown
+    // with actions for that single widget.
+    // If a keyboard modifier was used, add the widget to the current selection
+    // and show the menu with actions for the whole selection.
+    if (!isSelected()) {
         Qt::KeyboardModifiers forSelection = (Qt::ControlModifier | Qt::ShiftModifier);
         if ((event->modifiers() & forSelection) == 0) {
-            scene->clearSelection();
+            scene->clearSelected();
+        }
+
+        if (umlObject() != 0) {
+            scene->selectWidget(dynamic_cast<UMLWidget*>(this));
+        } else {
+            setSelected(true);
         }
     }
-    setSelected(true);
-    ListPopupMenu popup(0, this, false, false);
-    setupContextMenuActions(popup);
+
+    int count = scene->selectedCount(true);
+
+    // Determine multi state
+    bool multi = (isSelected() && count > 1);
+
+    ListPopupMenu popup(0, this, multi);
+
+    // Disable the "view code" menu for simple code generators
+    if (UMLApp::app()->isSimpleCodeGeneratorActive()) {
+        popup.setActionEnabled(ListPopupMenu::mt_ViewCode, false);
+    }
+
     QAction *triggered = popup.exec(event->screenPos());
     ListPopupMenu *parentMenu = ListPopupMenu::menuFromAction(triggered);
 
@@ -695,38 +717,6 @@ void WidgetBase::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 }
 
 /**
- *
- */
-void WidgetBase::setupContextMenuActions(ListPopupMenu &menu)
-{
-/* the following was code from UMLWidget::setupPopupMenu():
-    //if in a multi- selection to a specific m_pMenu for that
-    // NEW: ask UMLView to count ONLY the widgets and not their floatingtextwidgets
-    int count = m_scene->selectedCount(true);
-    //a MessageWidget when selected will select its text widget and vice versa
-    //so take that into account for popup menu.
-
-    // determine multi state
-    bool multi = (isSelected() && count > 1);
-
-    // if multiple selected items have the same type
-    bool unique = false;
-
-    // if multiple items are selected, we have to check if they all have the same
-    // base type
-    if (multi == true)
-        unique = m_scene->checkUniqueSelection();
-
-    // create the right click context menu
-    m_pMenu = new ListPopupMenu(m_scene->activeView(), this, multi, unique);
-*/
-
-    // disable the "view code" menu for simple code generators
-    if (UMLApp::app()->isSimpleCodeGeneratorActive())
-        menu.setActionEnabled(ListPopupMenu::mt_ViewCode, false);
-}
-
-/**
  * This is usually called synchronously after menu.exec() and \a
  * trigger's parent is always the ListPopupMenu which can be used to
  * get the type of action of \a trigger.
@@ -739,8 +729,7 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
     if (!trigger) {
         return;
     }
-    QColor newColour;
-    WidgetBase* widget = 0; // use for select the first object properties (fill, line color)
+    QColor newColor;
 
     const WidgetType wt = m_baseType; // short hand name
 
@@ -749,10 +738,6 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
     case ListPopupMenu::mt_Rename:
         umlDoc()->renameUMLObject(umlObject());
         break;
-
-    //case ListPopupMenu::mt_Delete:  // is done in UMLWidget
-    //    umlScene()->removeWidget(this);
-    //    break;
 
     case ListPopupMenu::mt_Properties:
         if (wt == WidgetBase::wt_Actor     || wt == WidgetBase::wt_UseCase   ||
@@ -772,30 +757,31 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
         break;
 
     case ListPopupMenu::mt_Line_Color:
-        widget = umlScene()->getFirstMultiSelectedWidget();
-        if (widget) {
-            newColour = widget->lineColor();
-        }
-        if (KColorDialog::getColor(newColour)) {
-            umlScene()->selectionSetLineColor(newColour);
+        newColor = this->lineColor();
+        if (KColorDialog::getColor(newColor)) {
+            umlScene()->selectionSetLineColor(newColor);
             umlDoc()->setModified(true);
         }
         break;
 
     case ListPopupMenu::mt_Fill_Color:
-        widget = umlScene()->getFirstMultiSelectedWidget();
-        if (widget) {
-//:TODO:            newColour = widget->brush().color();
-            newColour = widget->fillColor();
-        }
-        if (KColorDialog::getColor(newColour)) {
-            umlScene()->selectionSetFillColor(newColour);
+        newColor = this->fillColor();
+        if (KColorDialog::getColor(newColor)) {
+            umlScene()->selectionSetFillColor(newColor);
             umlDoc()->setModified(true);
         }
         break;
 
     case ListPopupMenu::mt_Use_Fill_Color:
-        umlScene()->selectionUseFillColor(!m_useFillColor);
+        this->setUseFillColor(!m_useFillColor);
+        break;
+
+    case ListPopupMenu::mt_Set_Use_Fill_Color_Selection:
+        umlScene()->selectionUseFillColor(true);
+        break;
+
+    case ListPopupMenu::mt_Unset_Use_Fill_Color_Selection:
+        umlScene()->selectionUseFillColor(false);
         break;
 
     case ListPopupMenu::mt_Show_Attributes_Selection:
@@ -819,16 +805,14 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
         break;
     }
 
-    case ListPopupMenu::mt_Delete_Selection:
+    case ListPopupMenu::mt_Delete:
         umlScene()->deleteSelection();
         break;
 
-    case ListPopupMenu::mt_Change_Font:
-    case ListPopupMenu::mt_Change_Font_Selection: {
+    case ListPopupMenu::mt_Change_Font: {
         QFont newFont = font();
         if (KFontDialog::getFont(newFont, KFontChooser::NoDisplayFlags, 0) == KFontDialog::Accepted) {
-            setFont(newFont);
-            //UMLApp::app()->executeCommand(new CmdChangeFontSelection(m_doc, m_pView, font));
+            m_scene->selectionSetFont(newFont);
         }
     }
         break;
@@ -854,10 +838,13 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
         break;
 
      case ListPopupMenu::mt_Clone:
-        // In principle we clone all the uml objects.
         {
-            UMLObject *pClone = umlObject()->clone();
-            umlScene()->addObject(pClone);
+            foreach (UMLWidget* widget, umlScene()->selectedWidgets()) {
+                if (Model_Utils::isCloneable(widget->baseType())) {
+                    UMLObject *clone = widget->umlObject()->clone();
+                    umlScene()->addObject(clone);
+                }
+            }
         }
         break;
 

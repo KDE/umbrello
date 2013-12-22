@@ -150,7 +150,6 @@ public Q_SLOTS:
 
 protected:
     virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
-    virtual void setupContextMenuActions(ListPopupMenu &menu);
 
     WidgetType  m_baseType;  ///< Type of widget.
     UMLScene   *m_scene;

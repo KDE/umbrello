@@ -258,8 +258,6 @@ public:
 
     void checkSelections();
 
-    bool checkUniqueSelection();
-
     void clearDiagram();
 
     void applyLayout(const QString &actionText);
@@ -284,6 +282,7 @@ public:
 
     void selectWidgets(qreal px, qreal py, qreal qx, qreal qy);
     void selectWidgets(UMLWidgetList &widgets);
+    void selectWidget(UMLWidget* widget);
     void selectWidgetsOfAssoc(AssociationWidget *a);
 
     ObjectWidget * onWidgetLine(const QPointF &point) const;

@@ -15,6 +15,7 @@
 #include "widgetbase.h"
 #include "umllistviewitem.h"
 #include "umlobject.h"
+#include "widgetbase.h"
 
 #include <kmenu.h>
 
@@ -179,11 +180,12 @@ public:
         mt_AttributeAssociation,                 // Rendering of an attribute as an association
         mt_RoleNameA,
         mt_RoleNameB,
-        mt_Delete_Selection,
         mt_Reset_Label_Positions,
         mt_Line_Color,
         mt_Fill_Color,
         mt_Use_Fill_Color,
+        mt_Set_Use_Fill_Color_Selection,
+        mt_Unset_Use_Fill_Color_Selection,
         mt_Default_Properties,
         mt_Rename_MultiA,
         mt_Rename_MultiB,
@@ -191,7 +193,6 @@ public:
         mt_Rename_RoleAName,
         mt_Rename_RoleBName,
         mt_Change_Font,
-        mt_Change_Font_Selection,
         mt_SnapToGrid,
         mt_ShowDocumentationIndicator,
         mt_ShowSnapGrid,
@@ -250,7 +251,7 @@ public:
     explicit ListPopupMenu(QWidget* parent, MenuType type = mt_Undefined, UMLView* view = 0);
     ListPopupMenu(QWidget* parent, MenuType type, WidgetBase *widget);
     ListPopupMenu(QWidget* parent, UMLListViewItem::ListViewType type, UMLObject* object);
-    ListPopupMenu(QWidget* parent, WidgetBase* object, bool multi = false, bool unique = false);
+    ListPopupMenu(QWidget* parent, WidgetBase* object, bool multi = false);
 
     virtual ~ListPopupMenu();
 
@@ -269,6 +270,9 @@ public:
 
 private:
 
+    void insertSingleSelectionMenu(WidgetBase* object);
+    void insertMultiSelectionMenu();
+
     void insert(MenuType m);
     void insert(const MenuType m, KMenu* menu);
     void insert(const MenuType m, const QIcon & icon, const QString & text);
@@ -285,8 +289,8 @@ private:
     void insertSubmodelAction();
     void insertLayoutItems(UMLView *view);
 
-    void makeMultiClassifierPopup(ClassifierWidget *c);
     void makeClassifierPopup(ClassifierWidget *c);
+    void makeClassifierVisibilityPopup(ClassifierWidget *c);
     KMenu* makeCategoryTypeMenu(UMLCategory* category);
 
     void insertSubMenuNew(MenuType type);
