@@ -857,7 +857,30 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
         ft->handleRename();
         break;
     }
-
+    case ListPopupMenu::mt_Align_Right:
+        umlScene()->alignRight();
+        break;
+    case ListPopupMenu::mt_Align_Left:
+        umlScene()->alignLeft();
+        break;
+    case ListPopupMenu::mt_Align_Top:
+        umlScene()->alignTop();
+        break;
+    case ListPopupMenu::mt_Align_Bottom:
+        umlScene()->alignBottom();
+        break;
+    case ListPopupMenu::mt_Align_VerticalMiddle:
+        umlScene()->alignVerticalMiddle();
+        break;
+    case ListPopupMenu::mt_Align_HorizontalMiddle:
+        umlScene()->alignHorizontalMiddle();
+        break;
+    case ListPopupMenu::mt_Align_VerticalDistribute:
+        umlScene()->alignVerticalDistribute();
+        break;
+    case ListPopupMenu::mt_Align_HorizontalDistribute:
+        umlScene()->alignHorizontalDistribute();
+        break;
     default:
         uDebug() << "MenuType " << ListPopupMenu::toString(sel) << " not implemented";
         break;

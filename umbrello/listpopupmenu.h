@@ -234,6 +234,15 @@ public:
         mt_LayoutOrthogonal,                     // associations with orthogonal lines
         mt_LayoutPolyline,                       // associations with polylines
 
+        mt_Align_Right,
+        mt_Align_Left,
+        mt_Align_Top,
+        mt_Align_Bottom,
+        mt_Align_VerticalMiddle,
+        mt_Align_HorizontalMiddle,
+        mt_Align_VerticalDistribute,
+        mt_Align_HorizontalDistribute,
+
         mt_Undefined  =  - 1
     };
 
@@ -294,6 +303,7 @@ private:
     KMenu* makeCategoryTypeMenu(UMLCategory* category);
 
     void insertSubMenuNew(MenuType type);
+    void insertSubMenuAlign();
     void insertSubMenuColor(bool fc);
 
     void setupDiagramMenu(UMLView* view);

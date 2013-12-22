@@ -589,6 +589,8 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
  */
 void ListPopupMenu::insertMultiSelectionMenu()
 {
+    insertSubMenuAlign();
+
     KMenu* color = new KMenu(i18nc("color menu", "Color"), this);
     insert(mt_Line_Color, color, Icon_Utils::SmallIcon(Icon_Utils::it_Color_Line), i18n("Line Color..."));
     insert(mt_Fill_Color, color, Icon_Utils::SmallIcon(Icon_Utils::it_Color_Fill), i18n("Fill Color..."));
@@ -1131,6 +1133,25 @@ ListPopupMenu::MenuType ListPopupMenu::typeFromAction(QAction *action)
         uError() << "Action's data field does not contain ListPopupMenu pointer!";
         return mt_Undefined;
     }
+}
+
+/**
+ * Add the align actions submenu
+ */
+void ListPopupMenu::insertSubMenuAlign()
+{
+    KMenu* alignment = new KMenu(i18nc("align menu", "Align"), this);
+    insert(mt_Align_Right, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_Right), i18n("Align Right"));
+    insert(mt_Align_Left, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_Left), i18n("Align Left"));
+    insert(mt_Align_Top, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_Top), i18n("Align Top"));
+    insert(mt_Align_Bottom, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_Bottom), i18n("Align Bottom"));
+
+    insert(mt_Align_VerticalMiddle, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_VerticalMiddle), i18n("Align Vertical Middle"));
+    insert(mt_Align_HorizontalMiddle, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_HorizontalMiddle), i18n("Align Horizontal Middle"));
+    insert(mt_Align_VerticalDistribute, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_VerticalDistribute), i18n("Align Vertical Distribute"));
+    insert(mt_Align_HorizontalDistribute, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_HorizontalDistribute), i18n("Align Hortizontal Distribute"));
+
+    addMenu(alignment);
 }
 
 /**
