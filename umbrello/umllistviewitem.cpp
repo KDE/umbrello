@@ -456,24 +456,15 @@ void UMLListViewItem::setIcon(Icon_Utils::IconType iconType)
 }
 
 /**
- * Start the rename process.
+ * This slot is called to finish item editing
  */
-void UMLListViewItem::startRename(int col)
+void UMLListViewItem::slotEditFinished(const QString &newText)
 {
-    DEBUG(DBG_LVI) << this << " - column=" << col << ", text=" << text(col);
-    m_label = text(col);  // keep the old text
-}
+    m_label = text(0);
 
-/**
- * This function is called if the user presses Enter during in-place renaming
- * of the item in column col.
- */
-void UMLListViewItem::okRename(int col)
-{
-    DEBUG(DBG_LVI) << this << " - column=" << col << ", text=" << text(col);
+    DEBUG(DBG_LVI) << this << "text=" << newText;
     UMLListView* listView = static_cast<UMLListView*>(treeWidget());
     UMLDoc* doc = listView->document();
-    QString newText = text(col);
     if (newText == m_label) {
         return;
     }
