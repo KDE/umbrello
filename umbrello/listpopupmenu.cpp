@@ -1149,7 +1149,7 @@ void ListPopupMenu::insertSubMenuAlign()
     insert(mt_Align_VerticalMiddle, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_VerticalMiddle), i18n("Align Vertical Middle"));
     insert(mt_Align_HorizontalMiddle, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_HorizontalMiddle), i18n("Align Horizontal Middle"));
     insert(mt_Align_VerticalDistribute, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_VerticalDistribute), i18n("Align Vertical Distribute"));
-    insert(mt_Align_HorizontalDistribute, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_HorizontalDistribute), i18n("Align Hortizontal Distribute"));
+    insert(mt_Align_HorizontalDistribute, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_HorizontalDistribute), i18n("Align Horizontal Distribute"));
 
     addMenu(alignment);
 }
