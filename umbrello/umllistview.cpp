@@ -3226,6 +3226,34 @@ void UMLListView::dropEvent(QDropEvent* event)
     QTreeWidget::dropEvent( event );
 }
 
+void UMLListView::commitData(QWidget *editor)
+{
+    if (!editor)
+        return;
+
+    QModelIndex index = currentIndex();
+    if (!index.isValid())
+        return;
+
+    QAbstractItemDelegate *delegate = itemDelegate(index);
+    editor->removeEventFilter(delegate);
+    QByteArray n = editor->metaObject()->userProperty().name();
+    if (n.isEmpty()) {
+        DEBUG(DBG_SRC) << "no name property found in list view item editor";
+        return;
+    }
+
+    QString newText = editor->property(n).toString();
+
+    UMLListViewItem *item = dynamic_cast<UMLListViewItem *>(currentItem());
+    if (!item) {
+        DEBUG(DBG_SRC) << "no item found after editing model index" << index;
+        return;
+    }
+    item->slotEditFinished(newText);
+    editor->installEventFilter(delegate);
+}
+
 /**
  * Set the background color.
  * @param color   the new background color
