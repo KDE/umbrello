@@ -129,6 +129,7 @@ protected:
     void dragEnterEvent(QDragEnterEvent* event);
     void dragMoveEvent(QDragMoveEvent* event);
     void dropEvent(QDropEvent* event);
+    void commitData(QWidget *editor);
 
     UMLListViewItem * findUMLObjectInFolder(UMLListViewItem *folder, UMLObject *obj);
 

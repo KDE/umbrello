@@ -121,9 +121,6 @@ public:
 
     void setIcon(Icon_Utils::IconType iconType);
 
-    void startRename(int col);
-    void okRename(int col);
-
     void addClassifierListItem(UMLClassifierListItem *child, UMLListViewItem *childItem);
 
     void deleteChildItem(UMLClassifierListItem *child);
@@ -143,6 +140,9 @@ public:
 
     bool isOpen() { return isExpanded(); }
     void setOpen(bool state);
+
+public slots:
+    void slotEditFinished(const QString &newText);
 
 protected:
     void init();
