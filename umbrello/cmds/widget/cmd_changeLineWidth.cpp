@@ -8,7 +8,7 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#include "cmd_changeLineColor.h"
+#include "cmd_changeLineWidth.h"
 
 // app includes
 #include "umlscene.h"
@@ -20,35 +20,32 @@
 namespace Uml
 {
 
-    CmdChangeLineColor::CmdChangeLineColor(UMLWidget *w, const QColor& col)
+    CmdChangeLineWidth::CmdChangeLineWidth(UMLWidget *w, const uint width)
       : m_widget(w),
-        m_newColor(col)
+        m_newWidth(width)
     {
         Q_ASSERT(w != 0);
-        setText(i18n("Change line color : %1", w->name()));
-        m_oldColor= w->lineColor() ;
-        m_oldUsesDiagramValue = w->usesDiagramLineColor();
+        setText(i18n("Change line width : %1", w->name()));
+        m_oldWidth = w->lineWidth() ;
     }
 
-    CmdChangeLineColor::~CmdChangeLineColor()
+    CmdChangeLineWidth::~CmdChangeLineWidth()
     {
     }
 
-    void CmdChangeLineColor::redo()
-    {
-        UMLScene* scene = m_widget->umlScene();
-        if (scene && scene->widgetOnDiagram(m_widget->id())) {
-            m_widget->setLineColorCmd(m_newColor);
-        }
-    }
-
-    void CmdChangeLineColor::undo()
+    void CmdChangeLineWidth::redo()
     {
         UMLScene* scene = m_widget->umlScene();
         if (scene && scene->widgetOnDiagram(m_widget->id())) {
-            m_widget->setLineColorCmd(m_oldColor);
-            m_widget->setUsesDiagramLineColor(m_oldUsesDiagramValue);
+            m_widget->setLineWidthCmd(m_newWidth);
         }
     }
 
+    void CmdChangeLineWidth::undo()
+    {
+        UMLScene* scene = m_widget->umlScene();
+        if (scene && scene->widgetOnDiagram(m_widget->id())) {
+            m_widget->setLineWidthCmd(m_oldWidth);
+        }
+    }
 }

@@ -277,8 +277,9 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type
  * @param parent   The parent to ListPopupMenu.
  * @param object   The WidgetBase to represent a menu for.
  * @param multi    True if multiple items are selected.
+ * @param uniqueType The type of widget shared by all selected widgets
  */
-ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object, bool multi)
+ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object, bool multi, WidgetBase::WidgetType uniqueType)
   : KMenu(parent)
 {
     m_TriggerObject.m_Widget = object;
@@ -288,7 +289,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object, bool multi)
         return;
 
     if (multi) {
-        insertMultiSelectionMenu();
+        insertMultiSelectionMenu(uniqueType);
     } else {
         insertSingleSelectionMenu(object);
     }
@@ -587,15 +588,21 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
 /**
  * Inserts the menu actions that work on the whole selection of widgets
  */
-void ListPopupMenu::insertMultiSelectionMenu()
+void ListPopupMenu::insertMultiSelectionMenu(WidgetBase::WidgetType uniqueType)
 {
     insertSubMenuAlign();
 
     KMenu* color = new KMenu(i18nc("color menu", "Color"), this);
-    insert(mt_Line_Color, color, Icon_Utils::SmallIcon(Icon_Utils::it_Color_Line), i18n("Line Color..."));
-    insert(mt_Fill_Color, color, Icon_Utils::SmallIcon(Icon_Utils::it_Color_Fill), i18n("Fill Color..."));
+    insert(mt_Line_Color_Selection, color, Icon_Utils::SmallIcon(Icon_Utils::it_Color_Line), i18n("Line Color..."));
+    insert(mt_Fill_Color_Selection, color, Icon_Utils::SmallIcon(Icon_Utils::it_Color_Fill), i18n("Fill Color..."));
     insert(mt_Set_Use_Fill_Color_Selection, color, i18n("Use Fill Color"));
     insert(mt_Unset_Use_Fill_Color_Selection, color, i18n("No Fill Color"));
+
+    // Add menu actions specific to classifiers
+    if (uniqueType == WidgetBase::wt_Class ||
+        uniqueType == WidgetBase::wt_Interface) {
+        makeMultiClassifierShowPopup(uniqueType);
+    }
 
     addMenu(color);
 
@@ -609,7 +616,7 @@ void ListPopupMenu::insertMultiSelectionMenu()
     insert(mt_Resize, i18n("Resize"));
 
     addSeparator();
-    insert(mt_Change_Font, Icon_Utils::SmallIcon(Icon_Utils::it_Change_Font), i18n("Change Font..."));
+    insert(mt_Change_Font_Selection, Icon_Utils::SmallIcon(Icon_Utils::it_Change_Font), i18n("Change Font..."));
 }
 
 
@@ -1045,9 +1052,9 @@ void ListPopupMenu::insertLayoutItems(UMLView *view)
 }
 
 /**
- * Creates the "Show" submenu for classifier widgets context menu
+ * Creates the "Show" submenu in the context menu of one classifier widget
  */
-void ListPopupMenu::makeClassifierVisibilityPopup(ClassifierWidget *c)
+void ListPopupMenu::makeClassifierShowPopup(ClassifierWidget *c)
 {
     WidgetBase::WidgetType type = c->baseType();
     ClassifierWidget *cls = NULL;
@@ -1056,30 +1063,75 @@ void ListPopupMenu::makeClassifierVisibilityPopup(ClassifierWidget *c)
     show->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Show));
     if (type == WidgetBase::wt_Class) {
         cls = static_cast<ClassifierWidget*>(c);
-        insert(mt_Show_Attributes_Selection, show, i18n("Attributes"), CHECKABLE);
-        setActionChecked(mt_Show_Attributes_Selection, cls->visualProperty(ClassifierWidget::ShowAttributes));
+        insert(mt_Show_Attributes, show, i18n("Attributes"), CHECKABLE);
+        setActionChecked(mt_Show_Attributes, cls->visualProperty(ClassifierWidget::ShowAttributes));
     }
-    insert(mt_Show_Operations_Selection, show, i18n("Operations"), CHECKABLE);
-    setActionChecked(mt_Show_Operations_Selection, c->visualProperty(ClassifierWidget::ShowOperations));
-    insert(mt_Show_Public_Only_Selection, show, i18n("Public Only"), CHECKABLE);
-    setActionChecked(mt_Show_Public_Only_Selection, c->visualProperty(ClassifierWidget::ShowPublicOnly));
-    insert(mt_Visibility_Selection, show, i18n("Visibility"), CHECKABLE);
-    setActionChecked(mt_Visibility_Selection, c->visualProperty(ClassifierWidget::ShowVisibility));
-    insert(mt_Show_Operation_Signature_Selection, show, i18n("Operation Signature"), CHECKABLE);
+    insert(mt_Show_Operations, show, i18n("Operations"), CHECKABLE);
+    setActionChecked(mt_Show_Operations, c->visualProperty(ClassifierWidget::ShowOperations));
+    insert(mt_Show_Public_Only, show, i18n("Public Only"), CHECKABLE);
+    setActionChecked(mt_Show_Public_Only, c->visualProperty(ClassifierWidget::ShowPublicOnly));
+    insert(mt_Visibility, show, i18n("Visibility"), CHECKABLE);
+    setActionChecked(mt_Visibility, c->visualProperty(ClassifierWidget::ShowVisibility));
+    insert(mt_Show_Operation_Signature, show, i18n("Operation Signature"), CHECKABLE);
     bool sig = (c->operationSignature() == Uml::SignatureType::SigNoVis ||
                 c->operationSignature() == Uml::SignatureType::ShowSig);
-    setActionChecked(mt_Show_Operation_Signature_Selection, sig);
+    setActionChecked(mt_Show_Operation_Signature, sig);
     if (type == WidgetBase::wt_Class) {
-        insert(mt_Show_Attribute_Signature_Selection, show, i18n("Attribute Signature"), CHECKABLE);
+        insert(mt_Show_Attribute_Signature, show, i18n("Attribute Signature"), CHECKABLE);
         sig = (cls->attributeSignature() == Uml::SignatureType::SigNoVis ||
                cls->attributeSignature() == Uml::SignatureType::ShowSig);
-        setActionChecked(mt_Show_Attribute_Signature_Selection, sig);
+        setActionChecked(mt_Show_Attribute_Signature, sig);
     }
-    insert(mt_Show_Packages_Selection, show, i18n("Package"), CHECKABLE);
-    setActionChecked(mt_Show_Packages_Selection, c->visualProperty(ClassifierWidget::ShowPackage));
+    insert(mt_Show_Packages, show, i18n("Package"), CHECKABLE);
+    setActionChecked(mt_Show_Packages, c->visualProperty(ClassifierWidget::ShowPackage));
     if (type == WidgetBase::wt_Class) {
-        insert(mt_Show_Stereotypes_Selection, show, i18n("Stereotype"), CHECKABLE);
-        setActionChecked(mt_Show_Stereotypes_Selection, cls->visualProperty(ClassifierWidget::ShowStereotype));
+        insert(mt_Show_Stereotypes, show, i18n("Stereotype"), CHECKABLE);
+        setActionChecked(mt_Show_Stereotypes, cls->visualProperty(ClassifierWidget::ShowStereotype));
+    }
+    addMenu(show);
+}
+
+/**
+ * Creates the "Show" submenu the context menu of multiple classifier widgets
+ */
+void ListPopupMenu::makeMultiClassifierShowPopup(WidgetBase::WidgetType type)
+{
+    KMenu* show = new KMenu(i18n("Show"), this);
+    show->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Show));
+
+    KMenu* attributes = new KMenu(i18n("Attributes"), this);
+    if (type == WidgetBase::wt_Class) {
+        insert(mt_Show_Attributes_Selection, attributes, i18n("Show"));
+        insert(mt_Hide_Attributes_Selection, attributes, i18n("Hide"));
+        insert(mt_Show_Attribute_Signature_Selection, attributes, i18n("Show Signatures"));
+        insert(mt_Hide_Attribute_Signature_Selection, attributes, i18n("Hide Signatures"));
+    }
+    show->addMenu(attributes);
+
+    KMenu* operations = new KMenu(i18n("Operations"), this);
+    insert(mt_Show_Operations_Selection, operations, i18n("Show"));
+    insert(mt_Hide_Operations_Selection, operations, i18n("Hide"));
+    insert(mt_Show_Operation_Signature_Selection, operations, i18n("Show Signatures"));
+    insert(mt_Hide_Operation_Signature_Selection, operations, i18n("Hide Signatures"));
+    show->addMenu(operations);
+
+    KMenu* visibility = new KMenu(i18n("Visibility"), this);
+    insert(mt_Show_Visibility_Selection, visibility, i18n("Show"));
+    insert(mt_Hide_Visibility_Selection, visibility, i18n("Hide"));
+    insert(mt_Hide_NonPublic_Selection, visibility, i18n("Hide Non-public members"));
+    insert(mt_Show_NonPublic_Selection, visibility, i18n("Show Non-public members"));
+    show->addMenu(visibility);
+
+    KMenu* packages = new KMenu(i18n("Packages"), this);
+    insert(mt_Show_Packages_Selection, packages, i18n("Show"));
+    insert(mt_Hide_Packages_Selection, packages, i18n("Hide"));
+    show->addMenu(packages);
+
+    if (type == WidgetBase::wt_Class) {
+        KMenu* stereotypes = new KMenu(i18n("Stereotypes"), this);
+        insert(mt_Show_Stereotypes_Selection, stereotypes, i18n("Show"));
+        insert(mt_Hide_Stereotypes_Selection, stereotypes, i18n("Hide"));
+        show->addMenu(stereotypes);
     }
     addMenu(show);
 }
@@ -1098,7 +1150,7 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
     insert(mt_Template, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Template_New), i18n("Template..."));
     addMenu(menu);
 
-    makeClassifierVisibilityPopup(c);
+    makeClassifierShowPopup(c);
 
     insertSubMenuColor(c->useFillColor());
     insertStdItems(true, type);

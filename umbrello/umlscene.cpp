@@ -1286,9 +1286,17 @@ void UMLScene::moveSelectedBy(qreal dX, qreal dY)
  */
 void UMLScene::selectionUseFillColor(bool useFC)
 {
+    if (useFC) {
+        UMLApp::app()->beginMacro(i18n("Use fill color"));
+    } else {
+        UMLApp::app()->beginMacro(i18n("No fill color"));
+    }
+
     foreach(UMLWidget* widget, selectedWidgets()) {
         widget->setUseFillColor(useFC);
     }
+
+    UMLApp::app()->endMacro();
 }
 
 /**
@@ -1296,9 +1304,13 @@ void UMLScene::selectionUseFillColor(bool useFC)
  */
 void UMLScene::selectionSetFont(const QFont &font)
 {
+    UMLApp::app()->beginMacro(i18n("Change font"));
+
     foreach(UMLWidget* temp, selectedWidgets()) {
         temp->setFont(font);
     }
+
+    UMLApp::app()->endMacro();
 }
 
 /**
@@ -1306,16 +1318,16 @@ void UMLScene::selectionSetFont(const QFont &font)
  */
 void UMLScene::selectionSetLineColor(const QColor &color)
 {
-    UMLApp::app()->beginMacro(i18n("Change Line Color"));
+    UMLApp::app()->beginMacro(i18n("Change line color"));
+
     foreach(UMLWidget *temp, selectedWidgets()) {
         temp->setLineColor(color);
-        temp->setUsesDiagramLineColor(false);
     }
     AssociationWidgetList assoclist = selectedAssocs();
     foreach(AssociationWidget *aw, assoclist) {
         aw->setLineColor(color);
-        aw->setUsesDiagramLineColor(false);
     }
+
     UMLApp::app()->endMacro();
 }
 
@@ -1324,6 +1336,8 @@ void UMLScene::selectionSetLineColor(const QColor &color)
  */
 void UMLScene::selectionSetLineWidth(uint width)
 {
+    UMLApp::app()->beginMacro(i18n("Change line width"));
+
     foreach(UMLWidget* temp, selectedWidgets()) {
         temp->setLineWidth(width);
         temp->setUsesDiagramLineWidth(false);
@@ -1333,6 +1347,8 @@ void UMLScene::selectionSetLineWidth(uint width)
         aw->setLineWidth(width);
         aw->setUsesDiagramLineWidth(false);
     }
+
+    UMLApp::app()->endMacro();
 }
 
 /**
@@ -1340,69 +1356,29 @@ void UMLScene::selectionSetLineWidth(uint width)
  */
 void UMLScene::selectionSetFillColor(const QColor &color)
 {
-    UMLApp::app()->beginMacro(i18n("Change Fill Color"));
+    UMLApp::app()->beginMacro(i18n("Change fill color"));
 
     foreach(UMLWidget* widget, selectedWidgets()) {
         widget->setFillColor(color);
         widget->setUsesDiagramFillColor(false);
     }
+
     UMLApp::app()->endMacro();
 }
 
 /**
- * Toggles the show setting sel of all selected items.
+ * Set or unset the visual property (show ..) setting of all selected items.
  */
-void UMLScene::selectionToggleShow(int sel)
+void UMLScene::selectionSetVisualProperty(ClassifierWidget::VisualProperty property, bool value)
 {
-    // loop through all selected items
-    foreach(UMLWidget *temp, selectedWidgets()) {
-        WidgetBase::WidgetType type = temp->baseType();
-        ClassifierWidget *cw = dynamic_cast<ClassifierWidget*>(temp);
+    UMLApp::app()->beginMacro(i18n("Change visual property"));
 
-        // toggle the show setting sel
-        switch (sel) {
-            // some setting are only available for class, some for interface and some
-            // for both
-        case ListPopupMenu::mt_Show_Attributes_Selection:
-            if (type == WidgetBase::wt_Class)
-                cw->toggleVisualProperty(ClassifierWidget::ShowAttributes);
-            break;
-        case ListPopupMenu::mt_Show_Operations_Selection:
-            if (cw)
-                cw->toggleVisualProperty(ClassifierWidget::ShowOperations);
-            break;
-        case ListPopupMenu::mt_Visibility_Selection:
-            if (cw)
-                cw->toggleVisualProperty(ClassifierWidget::ShowVisibility);
-            break;
-        case ListPopupMenu::mt_DrawAsCircle_Selection:
-            if (type == WidgetBase::wt_Interface)
-                cw->toggleVisualProperty(ClassifierWidget::DrawAsCircle);
-            break;
-        case ListPopupMenu::mt_Show_Operation_Signature_Selection:
-            if (cw)
-                cw->toggleVisualProperty(ClassifierWidget::ShowOperationSignature);
-            break;
-        case ListPopupMenu::mt_Show_Attribute_Signature_Selection:
-            if (type == WidgetBase::wt_Class)
-                cw->toggleVisualProperty(ClassifierWidget::ShowAttributeSignature);
-            break;
-        case ListPopupMenu::mt_Show_Packages_Selection:
-            if (cw)
-                cw->toggleVisualProperty(ClassifierWidget::ShowPackage);
-            break;
-        case ListPopupMenu::mt_Show_Stereotypes_Selection:
-            if (type == WidgetBase::wt_Class)
-                cw->toggleVisualProperty(ClassifierWidget::ShowStereotype);
-            break;
-        case ListPopupMenu::mt_Show_Public_Only_Selection:
-            if (cw)
-                cw->toggleVisualProperty(ClassifierWidget::ShowPublicOnly);
-            break;
-        default:
-            break;
-        } // switch (sel)
+    foreach(UMLWidget *temp, selectedWidgets()) {
+        ClassifierWidget *cw = dynamic_cast<ClassifierWidget*>(temp);
+        cw->setVisualProperty(property, value);
     }
+
+    UMLApp::app()->endMacro();
 }
 
 /**
@@ -3432,6 +3408,32 @@ void UMLScene::checkSelections()
             }
         }//end if
     }//end foreach
+}
+
+/**
+ * Returns the type of the selected widget or widgets.
+ *
+ * If multiple widgets of different types are selected. WidgetType::UMLWidget
+ * is returned.
+ */
+WidgetBase::WidgetType UMLScene::getUniqueSelectionType()
+{
+    if (selectedWidgets().isEmpty()) {
+        return WidgetBase::wt_UMLWidget;
+    }
+
+    // Get the first item and its base type
+    UMLWidget * pTemp = (UMLWidget *) selectedWidgets().first();
+    WidgetBase::WidgetType tmpType = pTemp->baseType();
+
+    // Check all selected items, if they have the same BaseType
+    foreach(pTemp, selectedWidgets()) {
+        if (pTemp->baseType() != tmpType) {
+            return WidgetBase::wt_UMLWidget;
+        }
+    }
+
+    return tmpType;
 }
 
 /**

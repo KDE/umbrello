@@ -135,22 +135,34 @@ public:
         mt_ForeignKeyConstraint_Selected,
         mt_CheckConstraint_Selected,
         mt_Association_Selected,                 // Association without role names
-        mt_Show_Attributes,
-        mt_Show_Attributes_Selection,            // SHOWATTS, multiple items
-        mt_Show_Operations,
-        mt_Show_Operations_Selection,            // SHOWOPS, multiple items
-        mt_Show_Packages,
-        mt_Show_Packages_Selection,              // SHOWPACKAGE, multiple items
+        mt_Show_Attributes,                      // Toggle visual property on a widget
+        mt_Show_Attributes_Selection,            // Set visual property on multiple widgets
+        mt_Hide_Attributes_Selection,            // Unset visual property on multiple widgets
+        mt_Show_Operations,                      // Toggle 'show operations'
+        mt_Show_Operations_Selection,            // Show operations
+        mt_Hide_Operations_Selection,            // Hide operations
+        mt_Show_Packages,                        // etc...
+        mt_Show_Packages_Selection,
+        mt_Hide_Packages_Selection,
+        mt_Show_Public_Only,
+        mt_Hide_NonPublic_Selection,             // Could be named "show public only"
+        mt_Show_NonPublic_Selection,             // Could be named "hide public only" (crazy!)
         mt_Show_Stereotypes,
-        mt_Show_Stereotypes_Selection,           // SHOWSTEREOTYPE, multiple items
+        mt_Show_Stereotypes_Selection,
+        mt_Hide_Stereotypes_Selection,
         mt_Visibility,
-        mt_Visibility_Selection,                 // SCOPE, multiple items
+        mt_Show_Visibility_Selection,
+        mt_Hide_Visibility_Selection,
+        mt_Show_Operation_Signature,
+        mt_Show_Operation_Signature_Selection,
+        mt_Hide_Operation_Signature_Selection,
+        mt_Show_Attribute_Signature,
+        mt_Show_Attribute_Signature_Selection,
+        mt_Hide_Attribute_Signature_Selection,
+
         mt_DrawAsCircle,
-        mt_DrawAsCircle_Selection,               // DRAWASCIRCLE, multiple items
         mt_ChangeToClass,
-        mt_ChangeToClass_Selection,
         mt_ChangeToInterface,
-        mt_ChangeToInterface_Selection,
         mt_Rename_Object,
         mt_Select_Operation,
         mt_Anchor,
@@ -166,10 +178,6 @@ public:
         mt_Redo,
         mt_Undo,
         mt_Link_Docs,
-        mt_Show_Operation_Signature,
-        mt_Show_Operation_Signature_Selection,   //SHOWOPSIG, multiple items
-        mt_Show_Attribute_Signature,
-        mt_Show_Attribute_Signature_Selection,   //SHOWATTSIG, multiple items
         mt_Message_Text,
         mt_Collaboration_Message,
         mt_FloatText,
@@ -182,7 +190,9 @@ public:
         mt_RoleNameB,
         mt_Reset_Label_Positions,
         mt_Line_Color,
+        mt_Line_Color_Selection,
         mt_Fill_Color,
+        mt_Fill_Color_Selection,
         mt_Use_Fill_Color,
         mt_Set_Use_Fill_Color_Selection,
         mt_Unset_Use_Fill_Color_Selection,
@@ -193,6 +203,7 @@ public:
         mt_Rename_RoleAName,
         mt_Rename_RoleBName,
         mt_Change_Font,
+        mt_Change_Font_Selection,
         mt_SnapToGrid,
         mt_ShowDocumentationIndicator,
         mt_ShowSnapGrid,
@@ -212,8 +223,6 @@ public:
         mt_Refactoring,
         mt_ViewCode,                             // view code document contents
         mt_Clone,                                // Create a deep copy of the object.
-        mt_Show_Public_Only,                     // (not currently used)
-        mt_Show_Public_Only_Selection,           // Show public operations/attributes only.
         mt_Externalize_Folder,                   // Mark folder for saving as separate submodel
         mt_Internalize_Folder,                   // Reintegrate separate submodel into main model
 
@@ -260,7 +269,8 @@ public:
     explicit ListPopupMenu(QWidget* parent, MenuType type = mt_Undefined, UMLView* view = 0);
     ListPopupMenu(QWidget* parent, MenuType type, WidgetBase *widget);
     ListPopupMenu(QWidget* parent, UMLListViewItem::ListViewType type, UMLObject* object);
-    ListPopupMenu(QWidget* parent, WidgetBase* object, bool multi = false);
+    ListPopupMenu(QWidget* parent, WidgetBase* object, bool multi = false,
+        WidgetBase::WidgetType uniqueType = WidgetBase::wt_UMLWidget);
 
     virtual ~ListPopupMenu();
 
@@ -280,7 +290,7 @@ public:
 private:
 
     void insertSingleSelectionMenu(WidgetBase* object);
-    void insertMultiSelectionMenu();
+    void insertMultiSelectionMenu(WidgetBase::WidgetType uniqueType);
 
     void insert(MenuType m);
     void insert(const MenuType m, KMenu* menu);
@@ -299,7 +309,8 @@ private:
     void insertLayoutItems(UMLView *view);
 
     void makeClassifierPopup(ClassifierWidget *c);
-    void makeClassifierVisibilityPopup(ClassifierWidget *c);
+    void makeMultiClassifierShowPopup(WidgetBase::WidgetType type);
+    void makeClassifierShowPopup(ClassifierWidget *c);
     KMenu* makeCategoryTypeMenu(UMLCategory* category);
 
     void insertSubMenuNew(MenuType type);

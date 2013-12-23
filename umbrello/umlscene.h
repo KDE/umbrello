@@ -14,12 +14,14 @@
 // local includes
 #include "associationwidgetlist.h"
 #include "basictypes.h"
+#include "classifierwidget.h"
 #include "messagewidgetlist.h"
 #include "optionstate.h"
 #include "umlobject.h"
 #include "umlobjectlist.h"
 #include "umlwidgetlist.h"
 #include "worktoolbar.h"
+#include "widgetbase.h"
 
 // Qt includes
 #include <QDomDocument>
@@ -190,7 +192,7 @@ public:
     void selectionSetLineColor(const QColor &color);
     void selectionSetLineWidth(uint width);
     void selectionSetFillColor(const QColor &color);
-    void selectionToggleShow(int sel);
+    void selectionSetVisualProperty(ClassifierWidget::VisualProperty property, bool value);
 
     void deleteSelection();
     void resizeSelection();
@@ -257,6 +259,8 @@ public:
     void setClassWidgetOptions(ClassOptionsPage * page);
 
     void checkSelections();
+
+    WidgetBase::WidgetType getUniqueSelectionType();
 
     void clearDiagram();
 

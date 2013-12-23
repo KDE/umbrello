@@ -8,31 +8,31 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#ifndef CMD_CHANGEFONTSELECTION_H
-#define CMD_CHANGEFONTSELECTION_H
+#ifndef CMD_CHANGEVISUALPROPERTY_H
+#define CMD_CHANGEVISUALPROPERTY_H
 
-#include <QFont>
+#include "classifierwidget.h"
+
 #include <QUndoCommand>
 
-class UMLDoc;
-class UMLScene;
+class UMLWidget;
 
 namespace Uml
 {
-    class CmdChangeFontSelection: public QUndoCommand
+    class CmdChangeVisualProperty : public QUndoCommand
     {
-        public:
-            CmdChangeFontSelection(UMLDoc* doc, UMLScene* scene, QFont fon);
+    public:
+        CmdChangeVisualProperty(ClassifierWidget* w, ClassifierWidget::VisualProperty property, bool value);
+        ~CmdChangeVisualProperty();
+        void redo();
+        void undo();
 
-            void undo();
-            void redo();
-
-        private:
-            UMLDoc*   m_doc;
-            UMLScene* m_scene;
-            QFont     m_newFont;
-            QFont     m_oldFont;
+    private:
+        ClassifierWidget* m_widget;
+        ClassifierWidget::VisualProperty m_property;
+        bool m_newValue;
+        bool m_oldValue;
     };
 }
 
-#endif // CMD_CHANGEFONTSELECTION_H
+#endif // CMD_CHANGEVISUALPROPERTY_H

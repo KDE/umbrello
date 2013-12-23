@@ -62,6 +62,7 @@ public:
 
     bool visualProperty(VisualProperty property) const;
     void setVisualProperty(VisualProperty property, bool enable = true);
+    void setVisualPropertyCmd(VisualProperty property, bool enable = true);
     void toggleVisualProperty(VisualProperty property);
 
     int displayedAttributes();

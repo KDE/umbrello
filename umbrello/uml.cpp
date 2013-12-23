@@ -24,6 +24,7 @@
 #include "cmds.h"
 #include "umbrellosettings.h"
 #include "statusbartoolbutton.h"
+
 // code generation
 #include "codegenerator.h"
 #include "codegenerationpolicy.h"
@@ -440,7 +441,7 @@ void UMLApp::initActions()
 
     deleteDiagram = actionCollection()->addAction("view_delete");
     deleteDiagram->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Delete));
-    deleteDiagram->setText(i18n("&Delete"));
+    deleteDiagram->setText(i18n("&Delete Diagram"));
     connect(deleteDiagram, SIGNAL(triggered(bool)), this, SLOT(slotDeleteDiagram()));
 
     viewExportImage = actionCollection()->addAction("view_export_image");

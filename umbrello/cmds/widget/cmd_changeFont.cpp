@@ -8,11 +8,9 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#include "cmd_changeFontSelection.h"
+#include "cmd_changeFont.h"
 
 // app includes
-#include "umldoc.h"
-#include "umlscene.h"
 #include "umlwidget.h"
 
 // kde includes
@@ -20,26 +18,23 @@
 
 namespace Uml
 {
-    CmdChangeFontSelection::CmdChangeFontSelection(UMLDoc* doc, UMLScene* scene, QFont fon)
+    CmdChangeFont::CmdChangeFont(UMLWidget* widget, QFont font)
     {
-        UMLWidget * widget = scene->getFirstMultiSelectedWidget();
         setText(i18n("Change font : %1", widget->name()));
-        m_doc = doc;
-        m_scene = scene;
-        m_newFont = fon;
+
+        m_widget = widget;
+        m_newFont = font;
         m_oldFont = widget->font();
     }
 
-    void CmdChangeFontSelection::undo()
+    void CmdChangeFont::undo()
     {
-        m_scene->selectionSetFont(m_oldFont);
-        m_doc->setModified(true);
+        m_widget->setFontCmd(m_oldFont);
     }
 
-    void CmdChangeFontSelection::redo()
+    void CmdChangeFont::redo()
     {
-        m_scene->selectionSetFont(m_newFont);
-        m_doc->setModified(true);
+        m_widget->setFontCmd(m_newFont);
     }
 
 }

@@ -33,10 +33,13 @@
  * Widgets
  ************************************************************/
 #include "cmds/widget/cmd_changeFillColor.h"
-#include "cmds/widget/cmd_changeFontSelection.h"
+#include "cmds/widget/cmd_changeFont.h"
 #include "cmds/widget/cmd_changeLineColor.h"
+#include "cmds/widget/cmd_changeLineWidth.h"
+#include "cmds/widget/cmd_changeUseFillColor.h"
 #include "cmds/widget/cmd_changeMultiplicity.h"
 #include "cmds/widget/cmd_changeTextColor.h"
+#include "cmds/widget/cmd_changeVisualProperty.h"
 #include "cmds/widget/cmd_createWidget.h"
 #include "cmds/widget/cmd_setName.h"
 #include "cmds/widget/cmd_setTxt.h"

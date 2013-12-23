@@ -14,6 +14,7 @@
 // app includes
 #include "associationwidget.h"
 #include "classifier.h"
+#include "cmds.h"
 #include "debug_utils.h"
 #include "listpopupmenu.h"
 #include "object_factory.h"
@@ -42,10 +43,10 @@ ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
     m_pAssocWidget(0)
 {
     const Settings::OptionState& ops = m_scene->optionState();
-    setVisualProperty(ShowVisibility, ops.classState.showVisibility);
-    setVisualProperty(ShowOperations, ops.classState.showOps);
-    setVisualProperty(ShowPublicOnly, ops.classState.showPublicOnly);
-    setVisualProperty(ShowPackage,    ops.classState.showPackage);
+    setVisualPropertyCmd(ShowVisibility, ops.classState.showVisibility);
+    setVisualPropertyCmd(ShowOperations, ops.classState.showOps);
+    setVisualPropertyCmd(ShowPublicOnly, ops.classState.showPublicOnly);
+    setVisualPropertyCmd(ShowPackage,    ops.classState.showPackage);
     m_attributeSignature = Uml::SignatureType::ShowSig;
     /*:TODO:
     setVisualProperty(ShowOperationSignature, ops.classState.showOpSig);
@@ -62,9 +63,9 @@ ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
     else
         m_operationSignature = Uml::SignatureType::SigNoVis;
 
-    setVisualProperty(ShowAttributes, ops.classState.showAtts);
-    setVisualProperty(ShowStereotype, ops.classState.showStereoType);
-    setVisualProperty(DrawAsCircle, false);
+    setVisualPropertyCmd(ShowAttributes, ops.classState.showAtts);
+    setVisualPropertyCmd(ShowStereotype, ops.classState.showStereoType);
+    setVisualPropertyCmd(DrawAsCircle, false);
 
     setShowAttSigs(ops.classState.showAttSig);
 
@@ -142,6 +143,8 @@ bool ClassifierWidget::visualProperty(VisualProperty property) const
 /**
  * A convenient method to set and reset individual VisualProperty
  *
+ * Undo command.
+ *
  * @param property The property to be set/reset.
  * @param enable   True/false to set/reset. (default = true)
  *
@@ -149,6 +152,22 @@ bool ClassifierWidget::visualProperty(VisualProperty property) const
  *       ShowOperationSignature specially.
  */
 void ClassifierWidget::setVisualProperty(VisualProperty property, bool enable)
+{
+    if (visualProperty(property) != enable) {
+        UMLApp::app()->executeCommand(new Uml::CmdChangeVisualProperty(this, property, enable));
+    }
+}
+
+/**
+ * A convenient method to set and reset individual VisualProperty
+ *
+ * @param property The property to be set/reset.
+ * @param enable   True/false to set/reset. (default = true)
+ *
+ * @note This method handles ShowAttributeSignature and
+ *       ShowOperationSignature specially.
+ */
+void ClassifierWidget::setVisualPropertyCmd(VisualProperty property, bool enable)
 {
     // Handle ShowAttributeSignature and ShowOperationSignature
     // specially.
@@ -960,57 +979,46 @@ void ClassifierWidget::slotMenuSelection(QAction* action)
             break;
         }
     case ListPopupMenu::mt_Show_Operations:
-    case ListPopupMenu::mt_Show_Operations_Selection:
         toggleVisualProperty(ShowOperations);
         break;
 
     case ListPopupMenu::mt_Show_Attributes:
-    case ListPopupMenu::mt_Show_Attributes_Selection:
         toggleVisualProperty(ShowAttributes);
         break;
 
     case ListPopupMenu::mt_Show_Public_Only:
-    case ListPopupMenu::mt_Show_Public_Only_Selection:
         toggleVisualProperty(ShowPublicOnly);
         break;
 
     case ListPopupMenu::mt_Show_Operation_Signature:
-    case ListPopupMenu::mt_Show_Operation_Signature_Selection:
         toggleVisualProperty(ShowOperationSignature);
         break;
 
     case ListPopupMenu::mt_Show_Attribute_Signature:
-    case ListPopupMenu::mt_Show_Attribute_Signature_Selection:
         toggleVisualProperty(ShowAttributeSignature);
         break;
 
     case ListPopupMenu::mt_Visibility:
-    case ListPopupMenu::mt_Visibility_Selection:
         toggleVisualProperty(ShowVisibility);
         break;
 
     case ListPopupMenu::mt_Show_Packages:
-    case ListPopupMenu::mt_Show_Packages_Selection:
         toggleVisualProperty(ShowPackage);
         break;
 
     case ListPopupMenu::mt_Show_Stereotypes:
-    case ListPopupMenu::mt_Show_Stereotypes_Selection:
         toggleVisualProperty(ShowStereotype);
         break;
 
     case ListPopupMenu::mt_DrawAsCircle:
-    case ListPopupMenu::mt_DrawAsCircle_Selection:
         toggleVisualProperty(DrawAsCircle);
         break;
 
     case ListPopupMenu::mt_ChangeToClass:
-    case ListPopupMenu::mt_ChangeToClass_Selection:
         changeToClass();
         break;
 
     case ListPopupMenu::mt_ChangeToInterface:
-    case ListPopupMenu::mt_ChangeToInterface_Selection:
         changeToInterface();
         break;
 

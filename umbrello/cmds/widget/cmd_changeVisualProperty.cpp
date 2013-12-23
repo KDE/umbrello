@@ -8,11 +8,11 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#include "cmd_changeLineColor.h"
+#include "cmd_changeVisualProperty.h"
 
 // app includes
 #include "umlscene.h"
-#include "umlwidget.h"
+#include "classifierwidget.h"
 
 // kde includes
 #include <klocale.h>
@@ -20,35 +20,36 @@
 namespace Uml
 {
 
-    CmdChangeLineColor::CmdChangeLineColor(UMLWidget *w, const QColor& col)
-      : m_widget(w),
-        m_newColor(col)
+    CmdChangeVisualProperty::CmdChangeVisualProperty(
+        ClassifierWidget* w,
+        ClassifierWidget::VisualProperty property,
+        bool value
+    ) : m_widget(w),
+        m_property(property),
+        m_newValue(value)
     {
         Q_ASSERT(w != 0);
-        setText(i18n("Change line color : %1", w->name()));
-        m_oldColor= w->lineColor() ;
-        m_oldUsesDiagramValue = w->usesDiagramLineColor();
+        setText(i18n("Change visual property : %1", w->name()));
+        m_oldValue = w->visualProperty(property);
     }
 
-    CmdChangeLineColor::~CmdChangeLineColor()
+    CmdChangeVisualProperty::~CmdChangeVisualProperty()
     {
     }
 
-    void CmdChangeLineColor::redo()
-    {
-        UMLScene* scene = m_widget->umlScene();
-        if (scene && scene->widgetOnDiagram(m_widget->id())) {
-            m_widget->setLineColorCmd(m_newColor);
-        }
-    }
-
-    void CmdChangeLineColor::undo()
+    void CmdChangeVisualProperty::redo()
     {
         UMLScene* scene = m_widget->umlScene();
         if (scene && scene->widgetOnDiagram(m_widget->id())) {
-            m_widget->setLineColorCmd(m_oldColor);
-            m_widget->setUsesDiagramLineColor(m_oldUsesDiagramValue);
+            m_widget->setVisualPropertyCmd(m_property, m_newValue);
         }
     }
 
+    void CmdChangeVisualProperty::undo()
+    {
+        UMLScene* scene = m_widget->umlScene();
+        if (scene && scene->widgetOnDiagram(m_widget->id())) {
+            m_widget->setVisualPropertyCmd(m_property, m_oldValue);
+        }
+    }
 }

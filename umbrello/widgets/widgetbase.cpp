@@ -691,7 +691,7 @@ void WidgetBase::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     // Determine multi state
     bool multi = (isSelected() && count > 1);
 
-    ListPopupMenu popup(0, this, multi);
+    ListPopupMenu popup(0, this, multi, scene->getUniqueSelectionType());
 
     // Disable the "view code" menu for simple code generators
     if (UMLApp::app()->isSimpleCodeGeneratorActive()) {
@@ -757,23 +757,34 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
         break;
 
     case ListPopupMenu::mt_Line_Color:
-        newColor = this->lineColor();
+    case ListPopupMenu::mt_Line_Color_Selection:
+        newColor = lineColor();
         if (KColorDialog::getColor(newColor)) {
-            umlScene()->selectionSetLineColor(newColor);
+            if (sel == ListPopupMenu::mt_Line_Color_Selection) {
+                umlScene()->selectionSetLineColor(newColor);
+            } else {
+                setLineColor(newColor);
+            }
+            setUsesDiagramLineColor(false);
             umlDoc()->setModified(true);
         }
         break;
 
     case ListPopupMenu::mt_Fill_Color:
-        newColor = this->fillColor();
+    case ListPopupMenu::mt_Fill_Color_Selection:
+        newColor = fillColor();
         if (KColorDialog::getColor(newColor)) {
-            umlScene()->selectionSetFillColor(newColor);
+            if (sel == ListPopupMenu::mt_Fill_Color_Selection) {
+                umlScene()->selectionSetFillColor(newColor);
+            } else {
+                setFillColor(newColor);
+            }
             umlDoc()->setModified(true);
         }
         break;
 
     case ListPopupMenu::mt_Use_Fill_Color:
-        this->setUseFillColor(!m_useFillColor);
+        setUseFillColor(!m_useFillColor);
         break;
 
     case ListPopupMenu::mt_Set_Use_Fill_Color_Selection:
@@ -785,17 +796,61 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
         break;
 
     case ListPopupMenu::mt_Show_Attributes_Selection:
-    case ListPopupMenu::mt_Show_Operations_Selection:
-    case ListPopupMenu::mt_Visibility_Selection:
-    case ListPopupMenu::mt_DrawAsCircle_Selection:
-    case ListPopupMenu::mt_Show_Operation_Signature_Selection:
-    case ListPopupMenu::mt_Show_Attribute_Signature_Selection:
-    case ListPopupMenu::mt_Show_Packages_Selection:
-    case ListPopupMenu::mt_Show_Stereotypes_Selection:
-    case ListPopupMenu::mt_Show_Public_Only_Selection:
-        umlScene()->selectionToggleShow(sel);
-        umlDoc()->setModified(true);
+    case ListPopupMenu::mt_Hide_Attributes_Selection:
+        umlScene()->selectionSetVisualProperty(
+            ClassifierWidget::ShowAttributes, sel != ListPopupMenu::mt_Hide_Attributes_Selection
+        );
         break;
+
+    case ListPopupMenu::mt_Show_Operations_Selection:
+    case ListPopupMenu::mt_Hide_Operations_Selection:
+        umlScene()->selectionSetVisualProperty(
+            ClassifierWidget::ShowOperations, sel != ListPopupMenu::mt_Hide_Operations_Selection
+        );
+        break;
+
+    case ListPopupMenu::mt_Show_Visibility_Selection:
+    case ListPopupMenu::mt_Hide_Visibility_Selection:
+        umlScene()->selectionSetVisualProperty(
+            ClassifierWidget::ShowVisibility, sel != ListPopupMenu::mt_Hide_Visibility_Selection
+        );
+        break;
+
+    case ListPopupMenu::mt_Show_Operation_Signature_Selection:
+    case ListPopupMenu::mt_Hide_Operation_Signature_Selection:
+        umlScene()->selectionSetVisualProperty(
+            ClassifierWidget::ShowOperationSignature, sel != ListPopupMenu::mt_Hide_Operation_Signature_Selection
+        );
+        break;
+
+    case ListPopupMenu::mt_Show_Attribute_Signature_Selection:
+    case ListPopupMenu::mt_Hide_Attribute_Signature_Selection:
+        umlScene()->selectionSetVisualProperty(
+            ClassifierWidget::ShowAttributeSignature, sel != ListPopupMenu::mt_Hide_Attribute_Signature_Selection
+        );
+        break;
+
+    case ListPopupMenu::mt_Show_Packages_Selection:
+    case ListPopupMenu::mt_Hide_Packages_Selection:
+        umlScene()->selectionSetVisualProperty(
+            ClassifierWidget::ShowPackage, sel != ListPopupMenu::mt_Hide_Packages_Selection
+        );
+        break;
+
+    case ListPopupMenu::mt_Show_Stereotypes_Selection:
+    case ListPopupMenu::mt_Hide_Stereotypes_Selection:
+        umlScene()->selectionSetVisualProperty(
+            ClassifierWidget::ShowStereotype, sel != ListPopupMenu::mt_Hide_Stereotypes_Selection
+        );
+        break;
+
+    case ListPopupMenu::mt_Hide_NonPublic_Selection:
+    case ListPopupMenu::mt_Show_NonPublic_Selection:
+        umlScene()->selectionSetVisualProperty(
+            ClassifierWidget::ShowPublicOnly, sel != ListPopupMenu::mt_Show_NonPublic_Selection
+        );
+        break;
+
 
     case ListPopupMenu::mt_ViewCode: {
         UMLClassifier *c = dynamic_cast<UMLClassifier*>(umlObject());
@@ -809,10 +864,15 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
         umlScene()->deleteSelection();
         break;
 
-    case ListPopupMenu::mt_Change_Font: {
+    case ListPopupMenu::mt_Change_Font:
+    case ListPopupMenu::mt_Change_Font_Selection: {
         QFont newFont = font();
         if (KFontDialog::getFont(newFont, KFontChooser::NoDisplayFlags, 0) == KFontDialog::Accepted) {
-            m_scene->selectionSetFont(newFont);
+            if (sel == ListPopupMenu::mt_Change_Font_Selection) {
+                m_scene->selectionSetFont(newFont);
+            } else {
+                setFont(newFont);
+            }
         }
     }
         break;

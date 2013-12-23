@@ -8,30 +8,28 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#ifndef CMD_CHANGELINECOLOR_H
-#define CMD_CHANGELINECOLOR_H
+#ifndef CMD_CHANGELINEWIDTH_H
+#define CMD_CHANGELINEWIDTH_H
 
-#include <QColor>
 #include <QUndoCommand>
 
 class UMLWidget;
 
 namespace Uml
 {
-    class CmdChangeLineColor : public QUndoCommand
+    class CmdChangeLineWidth : public QUndoCommand
     {
     public:
-        CmdChangeLineColor(UMLWidget *w, const QColor& col);
-        ~CmdChangeLineColor();
+        CmdChangeLineWidth(UMLWidget *w, const uint width);
+        ~CmdChangeLineWidth();
         void redo();
         void undo();
 
     private:
         UMLWidget* m_widget;
-        QColor m_oldColor;
-        QColor m_newColor;
-        bool m_oldUsesDiagramValue;
+        uint m_oldWidth;
+        uint m_newWidth;
     };
 }
 
-#endif // CMD_CHANGELINECOLOR_H
+#endif // CMD_CHANGELINEWIDTH_H

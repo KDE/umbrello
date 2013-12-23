@@ -116,7 +116,7 @@ public:
     void setUsesDiagramLineWidth(bool state);
 
     bool useFillColor();
-    void setUseFillColor(bool state);
+    virtual void setUseFillColor(bool state);
 
     bool usesDiagramTextColor() const;
     void setUsesDiagramTextColor(bool state);

@@ -30,6 +30,7 @@ namespace Uml
         UMLWidget* m_widget;
         QColor m_oldColor;
         QColor m_newColor;
+        bool m_oldUsesDiagramValue;
     };
 }
 

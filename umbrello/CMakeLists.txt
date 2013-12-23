@@ -300,11 +300,14 @@ set(libcmds_SRCS
     cmds/generic/cmd_createUMLObject.cpp
     cmds/generic/cmd_renameUMLObject.cpp
 
-    cmds/widget/cmd_changeFontSelection.cpp
+    cmds/widget/cmd_changeFont.cpp
     cmds/widget/cmd_changeTextColor.cpp
     cmds/widget/cmd_changeLineColor.cpp
+    cmds/widget/cmd_changeLineWidth.cpp
     cmds/widget/cmd_changeFillColor.cpp
+    cmds/widget/cmd_changeUseFillColor.cpp
     cmds/widget/cmd_changeMultiplicity.cpp
+    cmds/widget/cmd_changeVisualProperty.cpp
     cmds/widget/cmd_createWidget.cpp
     cmds/widget/cmd_setName.cpp
     cmds/widget/cmd_setTxt.cpp

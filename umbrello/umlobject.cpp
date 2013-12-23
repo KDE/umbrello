@@ -166,7 +166,9 @@ void UMLObject::setID(ID::Type NewID)
  */
 void UMLObject::setName(const QString &strName)
 {
-    UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObject(this, strName));
+    if (name() != strName) {
+        UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObject(this, strName));
+    }
 }
 
 /**
@@ -438,7 +440,9 @@ Visibility::Enum UMLObject::visibility() const
  */
 void UMLObject::setVisibility(Visibility::Enum visibility)
 {
-    UMLApp::app()->executeCommand(new CmdSetVisibility(this, visibility));
+    if (m_visibility != visibility) {
+        UMLApp::app()->executeCommand(new CmdSetVisibility(this, visibility));
+    }
 }
 
 /**

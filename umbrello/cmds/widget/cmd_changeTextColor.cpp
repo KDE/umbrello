@@ -26,6 +26,7 @@ namespace Uml
         Q_ASSERT(w != 0);
         setText(i18n("Change text color : %1", w->name()));
         m_oldColor= w->textColor() ;
+        m_oldUsesDiagramValue = w->usesDiagramTextColor();
     }
 
     CmdChangeTextColor::~CmdChangeTextColor()
@@ -36,7 +37,7 @@ namespace Uml
     {
         UMLScene* scene = m_widget->umlScene();
         if (scene && scene->widgetOnDiagram(m_widget->id())) {
-            m_widget->setTextColorcmd(m_newColor);
+            m_widget->setTextColorCmd(m_newColor);
         }
     }
 
@@ -44,7 +45,8 @@ namespace Uml
     {
         UMLScene* scene = m_widget->umlScene();
         if (scene && scene->widgetOnDiagram(m_widget->id())) {
-            m_widget->setTextColorcmd(m_oldColor);
+            m_widget->setTextColorCmd(m_oldColor);
+            m_widget->setUsesDiagramTextColor(m_oldUsesDiagramValue);
         }
     }
 

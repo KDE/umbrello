@@ -800,11 +800,23 @@ void UMLWidget::slotLineWidthChanged(Uml::ID::Type viewID)
 }
 
 /**
- * Set the status of using fill color.
+ * Set the status of using fill color (undo action)
  *
  * @param fc the status of using fill color.
  */
 void UMLWidget::setUseFillColor(bool fc)
+{
+    if (useFillColor() != fc) {
+        UMLApp::app()->executeCommand(new CmdChangeUseFillColor(this, fc));
+    }
+}
+
+/**
+ * Set the status of using fill color.
+ *
+ * @param fc the status of using fill color.
+ */
+void UMLWidget::setUseFillColorCmd(bool fc)
 {
     WidgetBase::setUseFillColor(fc);
     update();
@@ -813,7 +825,7 @@ void UMLWidget::setUseFillColor(bool fc)
 /**
  * Overrides the method from WidgetBase.
  */
-void UMLWidget::setTextColorcmd(const QColor &color)
+void UMLWidget::setTextColorCmd(const QColor &color)
 {
     WidgetBase::setTextColor(color);
     update();
@@ -824,14 +836,16 @@ void UMLWidget::setTextColorcmd(const QColor &color)
  */
 void UMLWidget::setTextColor(const QColor &color)
 {
-    UMLApp::app()->executeCommand(new CmdChangeTextColor(this, color));
-    update();
+    if (textColor() != color) {
+        UMLApp::app()->executeCommand(new CmdChangeTextColor(this, color));
+        update();
+    }
 }
 
 /**
  * Overrides the method from WidgetBase.
  */
-void UMLWidget::setLineColorcmd(const QColor &color)
+void UMLWidget::setLineColorCmd(const QColor &color)
 {
     WidgetBase::setLineColor(color);
     update();
@@ -842,13 +856,25 @@ void UMLWidget::setLineColorcmd(const QColor &color)
  */
 void UMLWidget::setLineColor(const QColor &color)
 {
-    UMLApp::app()->executeCommand(new CmdChangeLineColor(this, color));
+    if (lineColor() != color) {
+        UMLApp::app()->executeCommand(new CmdChangeLineColor(this, color));
+    }
+}
+
+/**
+ * Overrides the method from WidgetBase, execute CmdChangeLineWidth
+ */
+void UMLWidget::setLineWidth(uint width)
+{
+    if (lineWidth() != width) {
+        UMLApp::app()->executeCommand(new CmdChangeLineWidth(this, width));
+    }
 }
 
 /**
  * Overrides the method from WidgetBase.
  */
-void UMLWidget::setLineWidth(uint width)
+void UMLWidget::setLineWidthCmd(uint width)
 {
     WidgetBase::setLineWidth(width);
     update();
@@ -861,7 +887,9 @@ void UMLWidget::setLineWidth(uint width)
  */
 void UMLWidget::setFillColor(const QColor &color)
 {
-    UMLApp::app()->executeCommand(new CmdChangeFillColor(this, color));
+    if (fillColor() != color) {
+        UMLApp::app()->executeCommand(new CmdChangeFillColor(this, color));
+    }
 }
 
 /**
@@ -869,7 +897,7 @@ void UMLWidget::setFillColor(const QColor &color)
  *
  * @param color the new fill color
  */
-void UMLWidget::setFillColorcmd(const QColor &color)
+void UMLWidget::setFillColorCmd(const QColor &color)
 {
     WidgetBase::setFillColor(color);
     update();
@@ -1650,6 +1678,18 @@ void UMLWidget::setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm)
  * @param font Font to be set.
  */
 void UMLWidget::setFont(const QFont &font)
+{
+    if (m_font != font) {
+        UMLApp::app()->executeCommand(new CmdChangeFont(this, font));
+    }
+}
+
+/**
+ * Sets the font the widget is to use.
+ *
+ * @param font Font to be set.
+ */
+void UMLWidget::setFontCmd(const QFont &font)
 {
     WidgetBase::setFont(font);
     forceUpdateFontMetrics(0);

@@ -8,9 +8,8 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#include "cmd_changeLineColor.h"
+#include "cmd_changeUseFillColor.h"
 
-// app includes
 #include "umlscene.h"
 #include "umlwidget.h"
 
@@ -19,36 +18,36 @@
 
 namespace Uml
 {
-
-    CmdChangeLineColor::CmdChangeLineColor(UMLWidget *w, const QColor& col)
+    CmdChangeUseFillColor::CmdChangeUseFillColor(UMLWidget *w, bool value)
       : m_widget(w),
-        m_newColor(col)
+        m_newValue(value)
     {
         Q_ASSERT(w != 0);
-        setText(i18n("Change line color : %1", w->name()));
-        m_oldColor= w->lineColor() ;
-        m_oldUsesDiagramValue = w->usesDiagramLineColor();
+        if (value) {
+            setText(i18n("Use fill color : %1", w->name()));
+        } else {
+            setText(i18n("No fill color : %1", w->name()));
+        }
+        m_oldValue = w->useFillColor();
     }
 
-    CmdChangeLineColor::~CmdChangeLineColor()
+    CmdChangeUseFillColor::~CmdChangeUseFillColor()
     {
     }
 
-    void CmdChangeLineColor::redo()
+    void CmdChangeUseFillColor::redo()
     {
         UMLScene* scene = m_widget->umlScene();
         if (scene && scene->widgetOnDiagram(m_widget->id())) {
-            m_widget->setLineColorCmd(m_newColor);
+            m_widget->setUseFillColorCmd(m_newValue);
         }
     }
 
-    void CmdChangeLineColor::undo()
+    void CmdChangeUseFillColor::undo()
     {
         UMLScene* scene = m_widget->umlScene();
         if (scene && scene->widgetOnDiagram(m_widget->id())) {
-            m_widget->setLineColorCmd(m_oldColor);
-            m_widget->setUsesDiagramLineColor(m_oldUsesDiagramValue);
+            m_widget->setUseFillColorCmd(m_oldValue);
         }
     }
-
 }

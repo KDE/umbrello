@@ -64,18 +64,20 @@ public:
     virtual QSizeF maximumSize();
     void setMaximumSize(const QSizeF &size);
 
-    void setUseFillColor(bool fc);
+    virtual void setUseFillColor(bool fc);
+    void setUseFillColorCmd(bool fc);
 
     virtual void setTextColor(const QColor &color);
-    void setTextColorcmd(const QColor &color);
+    void setTextColorCmd(const QColor &color);
 
     virtual void setLineColor(const QColor &color);
-    void setLineColorcmd(const QColor &color);
+    void setLineColorCmd(const QColor &color);
 
     virtual void setLineWidth(uint width);
+    void setLineWidthCmd(uint width);
 
     virtual void setFillColor(const QColor &color);
-    void setFillColorcmd(const QColor &color);
+    void setFillColorCmd(const QColor &color);
 
     void setSelectedFlag(bool _select);
     virtual void setSelected(bool _select);
@@ -90,6 +92,7 @@ public:
     void setPenFromSettings(QPainter *p);
 
     virtual void setFont(const QFont &font);
+    void setFontCmd(const QFont &font);
 
     /**
      * Returns whether we triggered the update of position movement.

@@ -37,7 +37,7 @@ namespace Uml
     {
         UMLScene* scene = m_widget->umlScene();
         if (scene && scene->widgetOnDiagram(m_widget->id())) {
-            m_widget->setFillColorcmd(m_color);
+            m_widget->setFillColorCmd(m_color);
         }
     }
 
@@ -45,7 +45,7 @@ namespace Uml
     {
         UMLScene* scene = m_widget->umlScene();
         if (scene && scene->widgetOnDiagram(m_widget->id())) {
-            m_widget->setFillColorcmd(m_oldColor);
+            m_widget->setFillColorCmd(m_oldColor);
         }
     }
 }
