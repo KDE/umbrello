@@ -15,6 +15,7 @@
 #include "associationwidgetlist.h"
 #include "basictypes.h"
 #include "classifierwidget.h"
+#include "floatingtextwidget.h"
 #include "messagewidgetlist.h"
 #include "optionstate.h"
 #include "umlobject.h"
@@ -243,7 +244,7 @@ public:
 
     void removeAssocInViewAndDoc(AssociationWidget* assoc);
 
-    bool addWidget(UMLWidget * pWidget, bool isPasteOperation = false);
+    void addFloatingTextWidget(FloatingTextWidget* pWidget);
 
     QPointF getPastePoint();
     void resetPastePoint();

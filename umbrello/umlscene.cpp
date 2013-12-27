@@ -514,7 +514,7 @@ void UMLScene::setupNewWidget(UMLWidget *w)
     w->setX(m_Pos.x());
     w->setY(m_Pos.y());
     w->setVisible(true);
-    w->setActivated();
+    w->activate();
     w->setFont(font());
     w->slotFillColorChanged(ID());
     w->slotTextColorChanged(ID());
@@ -601,15 +601,7 @@ void UMLScene::slotObjectCreated(UMLObject* o)
         return;
     }
 
-    newWidget->setActivated();
-    newWidget->setFont(font());
-    newWidget->slotFillColorChanged(ID());
-    newWidget->slotTextColorChanged(ID());
-    newWidget->slotLineWidthChanged(ID());
-    newWidget->updateGeometry();
-
-    m_WidgetList.append(newWidget);
-    newWidget->activate();
+    setupNewWidget(newWidget);
 
     m_bCreateObject = false;
 
@@ -813,12 +805,15 @@ void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
         DEBUG(DBG_SRC) << "object id=" << Uml::ID::toString(id) << " not found";
         return;
     }
-    m_bCreateObject = true;
+
     m_Pos = e->scenePos();
 
-    slotObjectCreated(o);
+    UMLWidget* newWidget = Widget_Factory::createWidget(this, o);
+    if (!newWidget) {
+        return;
+    }
 
-    m_doc->setModified(true);
+    setupNewWidget(newWidget);
 }
 
 /**
@@ -1837,33 +1832,10 @@ AssociationWidgetList UMLScene::selectedAssocs()
 }
 
 /**
- * Adds a widget to the view from the given data.
- * Use this method when pasting.
+ * Adds a floating text widget to the view
  */
-bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
+void UMLScene::addFloatingTextWidget(FloatingTextWidget* pWidget)
 {
-    if (!pWidget) {
-        return false;
-    }
-    WidgetBase::WidgetType type = pWidget->baseType();
-    if (isPasteOperation) {
-        if (type == WidgetBase::wt_Message)
-            m_MessageList.append(static_cast<MessageWidget*>(pWidget));
-        else
-            m_WidgetList.append(pWidget);
-        return true;
-    }
-    if (!isPasteOperation && findWidget(pWidget->id())) {
-        uError() << "Not adding (id=" << Uml::ID::toString(pWidget->id())
-                 << "/type=" << pWidget->baseTypeStr() << "/name=" << pWidget->name()
-                 << ") because it is already there";
-        return false;
-    }
-    IDChangeLog * log = m_doc->changeLog();
-    if (isPasteOperation && (!log || !m_pIDChangesLog)) {
-        uError() << " Cannot addWidget to view in paste op because a log is not open";
-        return false;
-    }
     int wX = pWidget->x();
     int wY = pWidget->y();
     bool xIsOutOfRange = (wX < sceneRect().left() || wX > sceneRect().right());
@@ -1886,183 +1858,8 @@ bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
             wY = 0;
         }
     }
-    if (wX < m_Pos.x())
-        m_Pos.setX(wX);
-    if (wY < m_Pos.y())
-        m_Pos.setY(wY);
 
-    //see if we need a new id to match object
-    switch (type) {
-
-    case WidgetBase::wt_Class:
-    case WidgetBase::wt_Package:
-    case WidgetBase::wt_Component:
-    case WidgetBase::wt_Node:
-    case WidgetBase::wt_Artifact:
-    case WidgetBase::wt_Interface:
-    case WidgetBase::wt_Enum:
-    case WidgetBase::wt_Entity:
-    case WidgetBase::wt_Datatype:
-    case WidgetBase::wt_Actor:
-    case WidgetBase::wt_UseCase:
-    case WidgetBase::wt_Category: {
-        Uml::ID::Type id = pWidget->id();
-        Uml::ID::Type newID = log ? log->findNewID(id) : Uml::ID::None;
-        if (newID == Uml::ID::None) {   // happens after a cut
-            if (id == Uml::ID::None)
-                return false;
-            newID = id; //don't stop paste
-        } else
-            pWidget->setID(newID);
-        UMLObject * pObject = m_doc->findObjectById(newID);
-        if (!pObject) {
-            DEBUG(DBG_SRC) << "addWidget: Cannot find UMLObject for id "
-                           << Uml::ID::toString(newID);
-            return false;
-        }
-        pWidget->setUMLObject(pObject);
-        //make sure it doesn't already exist.
-        if (findWidget(newID)) {
-            DEBUG(DBG_SRC) << "Not adding (id=" << Uml::ID::toString(pWidget->id())
-                           << "/type=" << pWidget->baseTypeStr()
-                           << "/name=" << pWidget->name()
-                           << ") because it is already there";
-            delete pWidget; // Not nice but if _we_ don't do it nobody else will
-            return true;//don't stop paste just because widget found.
-        }
-        m_WidgetList.append(pWidget);
-    }
-    break;
-
-    case WidgetBase::wt_Message:
-    case WidgetBase::wt_Note:
-    case WidgetBase::wt_Box:
-    case WidgetBase::wt_Text:
-    case WidgetBase::wt_State:
-    case WidgetBase::wt_Activity:
-    case WidgetBase::wt_ObjectNode: {
-        Uml::ID::Type newID = m_doc->assignNewID(pWidget->id());
-        pWidget->setID(newID);
-        if (type != WidgetBase::wt_Message) {
-            m_WidgetList.append(pWidget);
-            return true;
-        }
-        // CHECK
-        // Handling of WidgetBase::wt_Message:
-        MessageWidget *pMessage = static_cast<MessageWidget *>(pWidget);
-        if (pMessage == NULL) {
-            DEBUG(DBG_SRC) << "pMessage is NULL";
-            return false;
-        }
-        ObjectWidget *objWidgetA = pMessage->objectWidget(Uml::RoleType::A);
-        ObjectWidget *objWidgetB = pMessage->objectWidget(Uml::RoleType::B);
-        Uml::ID::Type waID = objWidgetA->localID();
-        Uml::ID::Type wbID = objWidgetB->localID();
-        Uml::ID::Type newWAID = m_pIDChangesLog->findNewID(waID);
-        Uml::ID::Type newWBID = m_pIDChangesLog->findNewID(wbID);
-        if (newWAID == Uml::ID::None || newWBID == Uml::ID::None) {
-            DEBUG(DBG_SRC) << "Error with ids : " << Uml::ID::toString(newWAID)
-                           << " " << Uml::ID::toString(newWBID);
-            return false;
-        }
-        // Assumption here is that the A/B objectwidgets and the textwidget
-        // are pristine in the sense that we may freely change their local IDs.
-        objWidgetA->setLocalID(newWAID);
-        objWidgetB->setLocalID(newWBID);
-        FloatingTextWidget *ft = pMessage->floatingTextWidget();
-        if (ft == NULL) {
-            DEBUG(DBG_SRC) << "FloatingTextWidget of Message is NULL";
-        }
-        else if (ft->id() == Uml::ID::None) {
-            ft->setID(UniqueID::gen());
-        }
-        else {
-            Uml::ID::Type newTextID = m_doc->assignNewID(ft->id());
-            ft->setID(newTextID);
-        }
-        m_MessageList.append(pMessage);
-    }
-    break;
-
-    case WidgetBase::wt_Object: {
-        ObjectWidget* pObjectWidget = static_cast<ObjectWidget*>(pWidget);
-        if (pObjectWidget == NULL) {
-            DEBUG(DBG_SRC) << "pObjectWidget is NULL";
-            return false;
-        }
-        Uml::ID::Type nNewLocalID = localID();
-        Uml::ID::Type nOldLocalID = pObjectWidget->localID();
-        m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
-        pObjectWidget->setLocalID(nNewLocalID);
-        UMLObject *pObject = m_doc->findObjectById(pWidget->id());
-        if (!pObject) {
-            DEBUG(DBG_SRC) << "Cannot find UMLObject";
-            return false;
-        }
-        pWidget->setUMLObject(pObject);
-        m_WidgetList.append(pWidget);
-    }
-    break;
-
-    case WidgetBase::wt_Precondition: {
-        ObjectWidget* pObjectWidget = static_cast<ObjectWidget*>(pWidget);
-        if (pObjectWidget == NULL) {
-            DEBUG(DBG_SRC) << "pObjectWidget is NULL";
-            return false;
-        }
-        Uml::ID::Type newID = log->findNewID(pWidget->id());
-        if (newID == Uml::ID::None) {
-            return false;
-        }
-        pObjectWidget->setID(newID);
-        Uml::ID::Type nNewLocalID = localID();
-        Uml::ID::Type nOldLocalID = pObjectWidget->localID();
-        m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
-        pObjectWidget->setLocalID(nNewLocalID);
-        UMLObject *pObject = m_doc->findObjectById(newID);
-        if (!pObject) {
-            DEBUG(DBG_SRC) << "Cannot find UMLObject";
-            return false;
-        }
-        pWidget->setUMLObject(pObject);
-        m_WidgetList.append(pWidget);
-    }
-    break;
-
-    case WidgetBase::wt_Pin:
-    case WidgetBase::wt_CombinedFragment:
-    case WidgetBase::wt_Signal: {
-        ObjectWidget* pObjectWidget = static_cast<ObjectWidget*>(pWidget);
-        if (pObjectWidget == NULL) {
-            DEBUG(DBG_SRC) << "pObjectWidget is NULL";
-            return false;
-        }
-        Uml::ID::Type newID = log->findNewID(pWidget->id());
-        if (newID == Uml::ID::None) {
-            return false;
-        }
-        pObjectWidget->setID(newID);
-        Uml::ID::Type nNewLocalID = localID();
-        Uml::ID::Type nOldLocalID = pObjectWidget->localID();
-        m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
-        pObjectWidget->setLocalID(nNewLocalID);
-        UMLObject *pObject = m_doc->findObjectById(newID);
-        if (!pObject) {
-            DEBUG(DBG_SRC) << "Cannot find UMLObject";
-            return false;
-        }
-        pWidget->setUMLObject(pObject);
-        m_WidgetList.append(pWidget);
-    }
-    break;
-
-    default:
-        DEBUG(DBG_SRC) << "Trying to add an invalid widget type";
-        return false;
-        break;
-    }
-
-    return true;
+    m_WidgetList.append(pWidget);
 }
 
 /**
@@ -2150,7 +1947,7 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
         FloatingTextWidget *flotxt = ft[i];
         if (flotxt) {
             flotxt->updateGeometry();
-            addWidget(flotxt);
+            addFloatingTextWidget(flotxt);
         }
     }
 

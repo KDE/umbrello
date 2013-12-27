@@ -938,7 +938,7 @@ void AssociationWidget::setName(const QString &strName)
     setTextPosition(Uml::TextRole::Name);
     if (newLabel) {
         m_nameWidget->setActivated();
-        m_scene->addWidget(m_nameWidget);
+        m_scene->addFloatingTextWidget(m_nameWidget);
     }
 
     m_nameWidget->show();
@@ -1042,7 +1042,7 @@ void AssociationWidget::setFloatingText(Uml::TextRole::Enum role,
         ft->setLink(this);
         ft->activate();
         setTextPosition(role);
-        m_scene->addWidget(ft);
+        m_scene->addFloatingTextWidget(ft);
     } else {
         bool newLabel = ft->text().isEmpty();
         ft->setText(text);
@@ -1161,7 +1161,7 @@ void AssociationWidget::setChangeWidget(const QString &strChangeWidget, Uml::Rol
         m_role[role].changeabilityWidget = new FloatingTextWidget(m_scene, tr, strChangeWidget);
         m_role[role].changeabilityWidget->setParentItem(this);
         m_role[role].changeabilityWidget->setLink(this);
-        m_scene->addWidget(m_role[role].changeabilityWidget);
+        m_scene->addFloatingTextWidget(m_role[role].changeabilityWidget);
         m_role[role].changeabilityWidget->setPreText("{"); // all types have this
         m_role[role].changeabilityWidget->setPostText("}"); // all types have this
     } else {
