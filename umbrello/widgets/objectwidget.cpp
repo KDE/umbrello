@@ -54,22 +54,18 @@ static const int sequenceLineMargin = 20;
  * @param o       The object it will be representing.
  * @param lid     The local id for the object.
  */
-ObjectWidget::ObjectWidget(UMLScene * scene, UMLObject *o, Uml::ID::Type lid)
+ObjectWidget::ObjectWidget(UMLScene * scene, UMLObject *o)
   : UMLWidget(scene, WidgetBase::wt_Object, o),
     m_multipleInstance(false),
     m_drawAsActor(false),
     m_showDestruction(false),
     m_isOnDestructionBox(false)
 {
-    m_nLocalID = Uml::ID::None;
     if (m_scene && (m_scene->type() == Uml::DiagramType::Sequence)) {
         m_pLine = new SeqLineWidget( m_scene, this );
         m_pLine->setStartPoint(x() + width() / 2, y() + height());
     } else {
         m_pLine = 0;
-    }
-    if (lid != Uml::ID::None) {
-        m_nLocalID = lid;
     }
 }
 
@@ -78,28 +74,6 @@ ObjectWidget::ObjectWidget(UMLScene * scene, UMLObject *o, Uml::ID::Type lid)
  */
 ObjectWidget::~ObjectWidget()
 {
-}
-
-/**
- * Sets the local id of the object.
- *
- * @param id   The local id of the object.
- */
-void ObjectWidget::setLocalID(Uml::ID::Type id)
-{
-    m_nLocalID = id;
-}
-
-/**
- * Returns the local ID for this object.  This ID is used so that
- * many objects of the same @ref UMLObject instance can be on the
- * same diagram.
- *
- * @return  The local ID.
- */
-Uml::ID::Type ObjectWidget::localID() const
-{
-    return m_nLocalID;
 }
 
 /**
@@ -699,7 +673,6 @@ void ObjectWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
     UMLWidget::saveToXMI(qDoc, objectElement);
     objectElement.setAttribute("drawasactor", m_drawAsActor);
     objectElement.setAttribute("multipleinstance", m_multipleInstance);
-    objectElement.setAttribute("localid", Uml::ID::toString(m_nLocalID));
     objectElement.setAttribute("decon", m_showDestruction);
     qElement.appendChild(objectElement);
 }
@@ -713,12 +686,10 @@ bool ObjectWidget::loadFromXMI(QDomElement& qElement)
         return false;
     QString draw = qElement.attribute("drawasactor", "0");
     QString multi = qElement.attribute("multipleinstance", "0");
-    QString localid = qElement.attribute("localid", "0");
     QString decon = qElement.attribute("decon", "0");
 
     m_drawAsActor = (bool)draw.toInt();
     m_multipleInstance = (bool)multi.toInt();
-    m_nLocalID = Uml::ID::fromString(localid);
     m_showDestruction = (bool)decon.toInt();
     return true;
 }

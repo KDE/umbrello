@@ -18,8 +18,7 @@
 
 #include "cmds/cmd_createDiagram.h"
 #include "cmds/cmd_handleRename.h"
-#include "cmds/cmd_moveWidget.h"
-#include "cmds/cmd_resizeWidget.h"
+#include "cmds/cmd_removeDiagram.h"
 #include "cmds/cmd_setStereotype.h"
 #include "cmds/cmd_setVisibility.h"
 
@@ -27,6 +26,7 @@
  * Generic
  ************************************************************/
 #include "cmds/generic/cmd_createUMLObject.h"
+#include "cmds/generic/cmd_removeUMLObject.h"
 #include "cmds/generic/cmd_renameUMLObject.h"
 
 /************************************************************
@@ -36,11 +36,14 @@
 #include "cmds/widget/cmd_changeFont.h"
 #include "cmds/widget/cmd_changeLineColor.h"
 #include "cmds/widget/cmd_changeLineWidth.h"
-#include "cmds/widget/cmd_changeUseFillColor.h"
 #include "cmds/widget/cmd_changeMultiplicity.h"
 #include "cmds/widget/cmd_changeTextColor.h"
+#include "cmds/widget/cmd_changeUseFillColor.h"
 #include "cmds/widget/cmd_changeVisualProperty.h"
 #include "cmds/widget/cmd_createWidget.h"
+#include "cmds/widget/cmd_moveWidget.h"
+#include "cmds/widget/cmd_removeWidget.h"
+#include "cmds/widget/cmd_resizeWidget.h"
 #include "cmds/widget/cmd_setName.h"
 #include "cmds/widget/cmd_setTxt.h"
 

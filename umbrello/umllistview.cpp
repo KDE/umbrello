@@ -14,6 +14,7 @@
 // app includes
 #include "actor.h"
 #include "classifier.h"
+#include "cmds.h"
 #include "debug_utils.h"
 #include "package.h"
 #include "folder.h"
@@ -2594,7 +2595,8 @@ bool UMLListView::deleteItem(UMLListViewItem *temp)
             canvasObj->removeAllChildObjects();
         }
         if (object) {
-            m_doc->removeUMLObject(object);
+            UMLApp::app()->executeCommand(new Uml::CmdRemoveUMLObject(object));
+
             // Physical deletion of `temp' will be done by Qt signal, see
             // UMLDoc::removeUMLObject()
         } else {

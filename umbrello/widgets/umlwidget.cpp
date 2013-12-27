@@ -177,6 +177,28 @@ bool UMLWidget::operator==(const UMLWidget& other) const
 }
 
 /**
+ * Sets the local id of the object.
+ *
+ * @param id   The local id of the object.
+ */
+void UMLWidget::setLocalID(Uml::ID::Type id)
+{
+    m_nLocalID = id;
+}
+
+/**
+ * Returns the local ID for this object.  This ID is used so that
+ * many objects of the same @ref UMLObject instance can be on the
+ * same diagram.
+ *
+ * @return  The local ID.
+ */
+Uml::ID::Type UMLWidget::localID() const
+{
+    return m_nLocalID;
+}
+
+/**
  * Compute the minimum possible width and height.
  *
  * @return QSizeF(mininum_width, minimum_height)
@@ -505,8 +527,15 @@ void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     } else {
         // Commands
         if (m_moved) {
+            int selectionCount = m_selectedWidgetsList.count();
+            if (selectionCount > 1) {
+                UMLApp::app()->beginMacro(i18n("Move widgets"));
+            }
             foreach(UMLWidget* widget, m_selectedWidgetsList) {
                 UMLApp::app()->executeCommand(new Uml::CmdMoveWidget(widget));
+            }
+            if (selectionCount > 1) {
+                UMLApp::app()->endMacro();
             }
             m_moved = false;
         } else {
@@ -639,14 +668,15 @@ void UMLWidget::constrain(qreal& width, qreal& height)
 void UMLWidget::init()
 {
     m_nId = Uml::ID::None;
+    m_nLocalID = UniqueID::gen();
     m_isInstance = false;
     setMinimumSize(DefaultMinimumSize);
     setMaximumSize(DefaultMaximumSize);
-    
+
     for (int i = 0; i < (int)FT_INVALID; ++i) {
         m_pFontMetrics[(UMLWidget::FontType)i] = 0;
     }
-    
+
     if (m_scene) {
         m_useFillColor = true;
         m_usesDiagramFillColor = true;
@@ -1772,6 +1802,10 @@ void UMLWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
         qElement.setAttribute("instancename", m_instanceName);
     if (m_showStereotype)
         qElement.setAttribute("showstereotype", m_showStereotype);
+
+    // Unique identifier for widget (todo: id() should be unique, new attribute
+    // should indicate the UMLObject's ID it belongs to)
+    qElement.setAttribute("localid", Uml::ID::toString(m_nLocalID));
 }
 
 bool UMLWidget::loadFromXMI(QDomElement & qElement)
@@ -1793,6 +1827,12 @@ bool UMLWidget::loadFromXMI(QDomElement & qElement)
     m_instanceName = qElement.attribute("instancename", "");
     QString showstereo = qElement.attribute("showstereotype", "0");
     m_showStereotype = (bool)showstereo.toInt();
+
+    QString localid = qElement.attribute("localid", "0");
+    if (localid != "0") {
+        m_nLocalID = Uml::ID::fromString(localid);
+    }
+
     return true;
 }
 

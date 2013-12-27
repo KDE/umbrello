@@ -12,23 +12,22 @@
 #define CMD_CHANGEVISUALPROPERTY_H
 
 #include "classifierwidget.h"
-
-#include <QUndoCommand>
+#include "cmd_baseWidgetCommand.h"
 
 class UMLWidget;
+class UMLScene;
 
 namespace Uml
 {
-    class CmdChangeVisualProperty : public QUndoCommand
+    class CmdChangeVisualProperty : public CmdBaseWidgetCommand
     {
     public:
-        CmdChangeVisualProperty(ClassifierWidget* w, ClassifierWidget::VisualProperty property, bool value);
+        CmdChangeVisualProperty(ClassifierWidget* widget, ClassifierWidget::VisualProperty property, bool value);
         ~CmdChangeVisualProperty();
         void redo();
         void undo();
 
     private:
-        ClassifierWidget* m_widget;
         ClassifierWidget::VisualProperty m_property;
         bool m_newValue;
         bool m_oldValue;

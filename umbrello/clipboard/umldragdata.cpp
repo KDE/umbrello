@@ -12,22 +12,23 @@
 #include "umldragdata.h"
 
 // local includes
+#include "associationwidget.h"
+#include "classifier.h"
+#include "cmds.h"
+#include "cmds.h"
 #include "debug_utils.h"
+#include "folder.h"
 #include "idchangelog.h"
+#include "model_utils.h"
+#include "object_factory.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "umlscene.h"
-#include "umlview.h"
-#include "umlobject.h"
-#include "folder.h"
-#include "classifier.h"
-#include "umlwidget.h"
 #include "umllistview.h"
 #include "umllistviewitem.h"
-#include "associationwidget.h"
-#include "object_factory.h"
-#include "model_utils.h"
-#include "cmds.h"
+#include "umlobject.h"
+#include "umlscene.h"
+#include "umlview.h"
+#include "umlwidget.h"
 
 // qt includes
 #include <QDomDocument>
@@ -527,6 +528,8 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
         if (widget)
             widgets.append(widget);
 
+        UMLApp::app()->executeCommand(new Uml::CmdCreateWidget(widget));
+
         widgetNode = widgetNode.nextSibling();
         widgetElement = widgetNode.toElement();
     }
@@ -705,6 +708,7 @@ bool UMLDragData::decodeObjects(QDomNode& objectsNode, UMLObjectList& objects, b
         }
 
         UMLApp::app()->executeCommand(new Uml::CmdCreateUMLObject(pObject));
+        doc->signalUMLObjectCreated(pObject);
 
         objects.append(pObject);
         objectElement = objectElement.nextSibling();

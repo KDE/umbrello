@@ -8,37 +8,30 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
- /* Created By Krzywda Stanislas and Bouchikhi Mohamed-Amine ;) */
+#ifndef CMD_RESIZEWIDGET_H
+#define CMD_RESIZEWIDGET_H
 
-#include "cmd_changeFillColor.h"
+#include "cmd_baseWidgetCommand.h"
 
-#include "umlwidget.h"
+#include <QSizeF>
 
-// kde includes
-#include <klocale.h>
+class UMLWidget;
 
 namespace Uml
 {
-    CmdChangeFillColor::CmdChangeFillColor(UMLWidget* widget, const QColor& col)
-      : CmdBaseWidgetCommand::CmdBaseWidgetCommand(widget),
-        m_color(col)
+    class CmdResizeWidget : public CmdBaseWidgetCommand
     {
-        setText(i18n("Change fill color : %1", widget->name()));
+    public:
+        explicit CmdResizeWidget(UMLWidget* widget);
+        ~CmdResizeWidget();
 
-        m_oldColor = widget->fillColor();
-    }
+        void redo();
+        void undo();
 
-    CmdChangeFillColor::~CmdChangeFillColor()
-    {
-    }
-
-    void CmdChangeFillColor::redo()
-    {
-        widget()->setFillColorCmd(m_color);
-    }
-
-    void CmdChangeFillColor::undo()
-    {
-        widget()->setFillColorCmd(m_oldColor);
-    }
+    private:
+        QSizeF      m_size;
+        QSizeF      m_sizeOld;
+    };
 }
+
+#endif

@@ -33,7 +33,7 @@ namespace Uml
         UMLPackage            *m_package;
         UMLObject::ObjectType  m_type;
         QString                m_name;
-        QDomElement            m_element;
+        bool                   m_skipSignal;
     };
 }
 

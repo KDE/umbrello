@@ -8,9 +8,13 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#include "cmd_changeFont.h"
+#include "cmd_baseWidgetCommand.h"
 
 // app includes
+#include "uml.h"
+#include "umldoc.h"
+#include "umlscene.h"
+#include "umlview.h"
 #include "umlwidget.h"
 
 // kde includes
@@ -18,23 +22,38 @@
 
 namespace Uml
 {
-    CmdChangeFont::CmdChangeFont(UMLWidget* widget, QFont font)
-        : CmdBaseWidgetCommand::CmdBaseWidgetCommand(widget)
+    CmdBaseWidgetCommand::CmdBaseWidgetCommand(UMLWidget* widget)
     {
-        setText(i18n("Change font : %1", widget->name()));
-
-        m_newFont = font;
-        m_oldFont = widget->font();
+        setWidget(widget);
     }
 
-    void CmdChangeFont::undo()
+    CmdBaseWidgetCommand::~CmdBaseWidgetCommand()
     {
-        widget()->setFontCmd(m_oldFont);
     }
 
-    void CmdChangeFont::redo()
+    void CmdBaseWidgetCommand::setWidget(UMLWidget* widget)
     {
-        widget()->setFontCmd(m_newFont);
+        Q_ASSERT(widget);
+
+        m_widgetId = widget->localID();
+        m_sceneId = widget->umlScene()->ID();
     }
 
+    UMLScene* CmdBaseWidgetCommand::scene()
+    {
+        UMLView* umlView = UMLApp::app()->document()->findView(m_sceneId);
+
+        Q_ASSERT(umlView);
+
+        return umlView->umlScene();
+    }
+
+    UMLWidget* CmdBaseWidgetCommand::widget()
+    {
+        UMLWidget* umlWidget = scene()->findWidgetByLocalId(m_widgetId);
+
+        Q_ASSERT(umlWidget);
+
+        return umlWidget;
+    }
 }

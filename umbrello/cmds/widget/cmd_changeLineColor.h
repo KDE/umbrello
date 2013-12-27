@@ -11,14 +11,15 @@
 #ifndef CMD_CHANGELINECOLOR_H
 #define CMD_CHANGELINECOLOR_H
 
+#include "cmd_baseWidgetCommand.h"
+
 #include <QColor>
-#include <QUndoCommand>
 
 class UMLWidget;
 
 namespace Uml
 {
-    class CmdChangeLineColor : public QUndoCommand
+    class CmdChangeLineColor : public CmdBaseWidgetCommand
     {
     public:
         CmdChangeLineColor(UMLWidget *w, const QColor& col);
@@ -27,10 +28,9 @@ namespace Uml
         void undo();
 
     private:
-        UMLWidget* m_widget;
-        QColor m_oldColor;
-        QColor m_newColor;
-        bool m_oldUsesDiagramValue;
+        QColor        m_oldColor;
+        QColor        m_newColor;
+        bool          m_oldUsesDiagramValue;
     };
 }
 

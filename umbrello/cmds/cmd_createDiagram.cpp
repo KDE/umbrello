@@ -29,6 +29,8 @@ namespace Uml
     {
         QString msg = i18n("Create diagram %1: %2", DiagramType::toString(type), name);
         setText(msg);
+
+        m_sceneId = Uml::ID::None;
     }
 
     CmdCreateDiagram::~CmdCreateDiagram()
@@ -40,16 +42,20 @@ namespace Uml
         if (!m_pUMLDoc->findView(m_type, m_name, true)) {
             Uml::ModelType::Enum modelType = Model_Utils::convert_DT_MT(m_type);
             UMLFolder* folder = m_pUMLDoc->rootFolder(modelType);
-            m_pUMLView = m_pUMLDoc->createDiagram(folder, m_type, m_name);
+            m_pUMLView = m_pUMLDoc->createDiagram(folder, m_type, m_name, m_sceneId);
         }
+
+        // Remember the scene-ID, it might be auto generated. The ID must
+        // not change after undo/redo because other commands may try to
+        // lookup the diagram later.
+        m_sceneId = m_pUMLView->umlScene()->ID();
     }
 
     void CmdCreateDiagram::undo()
     {
-//:TODO: commented for preventing crash because of invalid pointers
-//        if (m_pUMLView) {
-//            m_pUMLDoc->removeDiagram(m_pUMLView->umlScene()->ID());
-//        }
+        if (m_pUMLView) {
+            m_pUMLDoc->removeDiagramCmd(m_sceneId);
+        }
     }
 
 }

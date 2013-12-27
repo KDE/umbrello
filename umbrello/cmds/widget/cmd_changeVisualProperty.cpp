@@ -11,8 +11,8 @@
 #include "cmd_changeVisualProperty.h"
 
 // app includes
-#include "umlscene.h"
 #include "classifierwidget.h"
+#include "umlwidget.h"
 
 // kde includes
 #include <klocale.h>
@@ -21,16 +21,16 @@ namespace Uml
 {
 
     CmdChangeVisualProperty::CmdChangeVisualProperty(
-        ClassifierWidget* w,
+        ClassifierWidget* widget,
         ClassifierWidget::VisualProperty property,
         bool value
-    ) : m_widget(w),
+    ) : CmdBaseWidgetCommand::CmdBaseWidgetCommand(widget),
         m_property(property),
         m_newValue(value)
     {
-        Q_ASSERT(w != 0);
-        setText(i18n("Change visual property : %1", w->name()));
-        m_oldValue = w->visualProperty(property);
+        setText(i18n("Change visual property : %1", widget->name()));
+
+        m_oldValue = widget->visualProperty(property);
     }
 
     CmdChangeVisualProperty::~CmdChangeVisualProperty()
@@ -39,17 +39,13 @@ namespace Uml
 
     void CmdChangeVisualProperty::redo()
     {
-        UMLScene* scene = m_widget->umlScene();
-        if (scene && scene->widgetOnDiagram(m_widget->id())) {
-            m_widget->setVisualPropertyCmd(m_property, m_newValue);
-        }
+        ClassifierWidget* classifier = dynamic_cast<ClassifierWidget*>(widget());
+        classifier->setVisualPropertyCmd(m_property, m_newValue);
     }
 
     void CmdChangeVisualProperty::undo()
     {
-        UMLScene* scene = m_widget->umlScene();
-        if (scene && scene->widgetOnDiagram(m_widget->id())) {
-            m_widget->setVisualPropertyCmd(m_property, m_oldValue);
-        }
+        ClassifierWidget* classifier = dynamic_cast<ClassifierWidget*>(widget());
+        classifier->setVisualPropertyCmd(m_property, m_oldValue);
     }
 }

@@ -20,13 +20,13 @@
 namespace Uml
 {
 
-    CmdChangeLineWidth::CmdChangeLineWidth(UMLWidget *w, const uint width)
-      : m_widget(w),
+    CmdChangeLineWidth::CmdChangeLineWidth(UMLWidget* widget, const uint width)
+      : CmdBaseWidgetCommand::CmdBaseWidgetCommand(widget),
         m_newWidth(width)
     {
-        Q_ASSERT(w != 0);
-        setText(i18n("Change line width : %1", w->name()));
-        m_oldWidth = w->lineWidth() ;
+        setText(i18n("Change line width : %1", widget->name()));
+
+        m_oldWidth = widget->lineWidth() ;
     }
 
     CmdChangeLineWidth::~CmdChangeLineWidth()
@@ -35,17 +35,11 @@ namespace Uml
 
     void CmdChangeLineWidth::redo()
     {
-        UMLScene* scene = m_widget->umlScene();
-        if (scene && scene->widgetOnDiagram(m_widget->id())) {
-            m_widget->setLineWidthCmd(m_newWidth);
-        }
+        widget()->setLineWidthCmd(m_newWidth);
     }
 
     void CmdChangeLineWidth::undo()
     {
-        UMLScene* scene = m_widget->umlScene();
-        if (scene && scene->widgetOnDiagram(m_widget->id())) {
-            m_widget->setLineWidthCmd(m_oldWidth);
-        }
+        widget()->setLineWidthCmd(m_oldWidth);
     }
 }

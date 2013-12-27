@@ -13,13 +13,13 @@
 
 // app includes
 #include "debug_utils.h"
+#include "model_utils.h"
+#include "object_factory.h"
+#include "optionstate.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "umlview.h"
-#include "optionstate.h"
-#include "object_factory.h"
-#include "model_utils.h"
 #include "umlscene.h"
+#include "umlview.h"
 
 // kde includes
 #include <klocale.h>
@@ -38,7 +38,7 @@ UMLFolder::UMLFolder(const QString & name, Uml::ID::Type id)
   : UMLPackage(name, id)
 {
     m_BaseType = UMLObject::ot_Folder;
-    UMLObject::setStereotype("folder");
+    UMLObject::setStereotypeCmd("folder");
 }
 
 /**

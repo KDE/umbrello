@@ -11,6 +11,7 @@
 #include "cmd_moveWidget.h"
 
 // app includes
+#include "basictypes.h"
 #include "umlscene.h"
 #include "umlwidget.h"
 
@@ -20,11 +21,10 @@ namespace Uml
 {
 
     CmdMoveWidget::CmdMoveWidget(UMLWidget *widget)
-      : QUndoCommand(),
-        m_widget(widget)
+      : CmdBaseWidgetCommand(widget)
     {
-        Q_ASSERT(widget != 0);
         setText(i18n("Move widget : %1", widget->name()));
+
         m_pos = widget->pos();
         m_posOld = widget->startMovePosition();
     }
@@ -35,20 +35,16 @@ namespace Uml
 
     void CmdMoveWidget::redo()
     {
-        UMLScene* scene = m_widget->umlScene();
-        if (scene && scene->widgetOnDiagram(m_widget->id())) {
-            m_widget->setPos(m_pos);
-            m_widget->updateGeometry();
-        }
+        UMLWidget* umlWidget = widget();
+        umlWidget->setPos(m_pos);
+        umlWidget->updateGeometry();
     }
 
     void CmdMoveWidget::undo()
     {
-        UMLScene* scene = m_widget->umlScene();
-        if (scene && scene->widgetOnDiagram(m_widget->id())) {
-            m_widget->setPos(m_posOld);
-            m_widget->updateGeometry();
-        }
+        UMLWidget* umlWidget = widget();
+        umlWidget->setPos(m_posOld);
+        umlWidget->updateGeometry();
     }
 
 //    bool CmdMoveWidget::mergeWith(const QUndoCommand* other)

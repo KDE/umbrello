@@ -8,37 +8,32 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
- /* Created By Krzywda Stanislas and Bouchikhi Mohamed-Amine ;) */
+#ifndef CMD_BASEWIDGETCOMMAND_H
+#define CMD_BASEWIDGETCOMMAND_H
 
-#include "cmd_changeFillColor.h"
+#include "basictypes.h"
 
-#include "umlwidget.h"
+#include <QUndoCommand>
 
-// kde includes
-#include <klocale.h>
+class UMLScene;
+class UMLWidget;
 
 namespace Uml
 {
-    CmdChangeFillColor::CmdChangeFillColor(UMLWidget* widget, const QColor& col)
-      : CmdBaseWidgetCommand::CmdBaseWidgetCommand(widget),
-        m_color(col)
+    class CmdBaseWidgetCommand : public QUndoCommand
     {
-        setText(i18n("Change fill color : %1", widget->name()));
+        public:
+            explicit CmdBaseWidgetCommand(UMLWidget* widget);
+            virtual ~CmdBaseWidgetCommand();
 
-        m_oldColor = widget->fillColor();
-    }
+        protected:
+            Uml::ID::Type m_sceneId;
+            Uml::ID::Type m_widgetId;
 
-    CmdChangeFillColor::~CmdChangeFillColor()
-    {
-    }
-
-    void CmdChangeFillColor::redo()
-    {
-        widget()->setFillColorCmd(m_color);
-    }
-
-    void CmdChangeFillColor::undo()
-    {
-        widget()->setFillColorCmd(m_oldColor);
-    }
+            void setWidget(UMLWidget* widget);
+            UMLWidget* widget();
+            UMLScene* scene();
+    };
 }
+
+#endif // CMD_BASEWIDGETCOMMAND_H

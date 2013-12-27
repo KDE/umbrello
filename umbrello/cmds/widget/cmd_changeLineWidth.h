@@ -11,13 +11,13 @@
 #ifndef CMD_CHANGELINEWIDTH_H
 #define CMD_CHANGELINEWIDTH_H
 
-#include <QUndoCommand>
+#include "cmd_baseWidgetCommand.h"
 
 class UMLWidget;
 
 namespace Uml
 {
-    class CmdChangeLineWidth : public QUndoCommand
+    class CmdChangeLineWidth : public CmdBaseWidgetCommand
     {
     public:
         CmdChangeLineWidth(UMLWidget *w, const uint width);
@@ -26,9 +26,8 @@ namespace Uml
         void undo();
 
     private:
-        UMLWidget* m_widget;
-        uint m_oldWidth;
-        uint m_newWidth;
+        uint          m_oldWidth;
+        uint          m_newWidth;
     };
 }
 

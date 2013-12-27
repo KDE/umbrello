@@ -11,23 +11,25 @@
 #ifndef CMD_CREATE_WIDGET_H
 #define CMD_CREATE_WIDGET_H
 
-#include <QUndoCommand>
+#include "cmd_baseWidgetCommand.h"
+
+#include <QDomElement>
 
 class UMLWidget;
 
 namespace Uml
 {
-    class CmdCreateWidget : public QUndoCommand
+    class CmdCreateWidget : public CmdBaseWidgetCommand
     {
-        public:
-            CmdCreateWidget(UMLWidget* widget);
-            ~CmdCreateWidget();
+    public:
+        explicit CmdCreateWidget(UMLWidget* widget);
+        ~CmdCreateWidget();
 
-            void redo();
-            void undo();
+        void redo();
+        void undo();
 
-        private:
-            UMLWidget*  m_widget;
+    private:
+        QDomElement  m_element;
     };
 }
 

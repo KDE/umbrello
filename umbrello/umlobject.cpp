@@ -487,24 +487,22 @@ void UMLObject::setUMLStereotype(UMLStereotype *stereo)
  * Sets the classes stereotype name.
  * Internally uses setUMLStereotype().
  *
- * @param _name     Sets the classes stereotype name.
+ * @param name     Sets the classes stereotype name.
  */
-void UMLObject::setStereotype(const QString &_name)
+void UMLObject::setStereotype(const QString &name)
 {
-    // UMLDoc* pDoc = UMLApp::app()->document();
-    // pDoc->executeCommand(new cmdSetStereotype(this, _name));
-    if (_name.isEmpty()) {
+    UMLApp::app()->executeCommand(new CmdSetStereotype(this, name));
+}
+
+void UMLObject::setStereotypeCmd(const QString& name)
+{
+    if (name.isEmpty()) {
         setUMLStereotype(NULL);
         return;
     }
     UMLDoc *pDoc = UMLApp::app()->document();
-    UMLStereotype *s = pDoc->findOrCreateStereotype(_name);
+    UMLStereotype *s = pDoc->findOrCreateStereotype(name);
     setUMLStereotype(s);
-}
-
-void UMLObject::setStereotypeCmd(const QString& /*_name*/)
-{
-//TODO: put SetStereotype into QundoStack
 }
 
 /**

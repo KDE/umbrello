@@ -19,14 +19,14 @@
 
 namespace Uml
 {
-    CmdChangeTextColor::CmdChangeTextColor(UMLWidget *w, const QColor& col)
-      : m_widget(w),
+    CmdChangeTextColor::CmdChangeTextColor(UMLWidget* widget, const QColor& col)
+      : CmdBaseWidgetCommand::CmdBaseWidgetCommand(widget),
         m_newColor(col)
     {
-        Q_ASSERT(w != 0);
-        setText(i18n("Change text color : %1", w->name()));
-        m_oldColor= w->textColor() ;
-        m_oldUsesDiagramValue = w->usesDiagramTextColor();
+        setText(i18n("Change text color : %1", widget->name()));
+
+        m_oldColor = widget->textColor() ;
+        m_oldUsesDiagramValue = widget->usesDiagramTextColor();
     }
 
     CmdChangeTextColor::~CmdChangeTextColor()
@@ -35,19 +35,14 @@ namespace Uml
 
     void CmdChangeTextColor::redo()
     {
-        UMLScene* scene = m_widget->umlScene();
-        if (scene && scene->widgetOnDiagram(m_widget->id())) {
-            m_widget->setTextColorCmd(m_newColor);
-        }
+        widget()->setTextColorCmd(m_newColor);
     }
 
     void CmdChangeTextColor::undo()
     {
-        UMLScene* scene = m_widget->umlScene();
-        if (scene && scene->widgetOnDiagram(m_widget->id())) {
-            m_widget->setTextColorCmd(m_oldColor);
-            m_widget->setUsesDiagramTextColor(m_oldUsesDiagramValue);
-        }
+        UMLWidget* umlWidget = widget();
+        umlWidget->setTextColorCmd(m_oldColor);
+        umlWidget->setUsesDiagramTextColor(m_oldUsesDiagramValue);
     }
 
 }

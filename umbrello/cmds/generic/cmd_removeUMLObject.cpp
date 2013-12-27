@@ -8,45 +8,52 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#include "cmd_resizeWidget.h"
+#include "cmd_removeUMLObject.h"
 
 // app includes
-#include "umlscene.h"
-#include "umlwidget.h"
+#include "uml.h"
+#include "umldoc.h"
 
+// kde includes
 #include <klocale.h>
 
 namespace Uml
 {
 
-    CmdResizeWidget::CmdResizeWidget(UMLWidget *widget)
+    /**
+     * Constructor.
+     */
+    CmdRemoveUMLObject::CmdRemoveUMLObject(UMLObject* o)
       : QUndoCommand(),
-        m_widget(widget)
+        m_obj(o)
     {
-        Q_ASSERT(widget != 0);
-        setText(i18n("Resize widget : %1", widget->name()));
-        m_size = QSizeF(widget->width(), widget->height());
-        m_sizeOld = widget->startResizeSize();
+        setText(i18n("Remove UML object : %1", m_obj->fullyQualifiedName()));
     }
 
-    CmdResizeWidget::~CmdResizeWidget()
+    /**
+     *  Destructor.
+     */
+    CmdRemoveUMLObject::~CmdRemoveUMLObject()
     {
     }
 
-    void CmdResizeWidget::redo()
+    /**
+     * Remove the UMLObject.
+     */
+    void CmdRemoveUMLObject::redo()
     {
-        UMLScene* scene = m_widget->umlScene();
-        if (scene && scene->widgetOnDiagram(m_widget->id())) {
-            m_widget->setSize(m_size);
-        }
+        UMLDoc *doc = UMLApp::app()->document();
+        doc->removeUMLObject(m_obj);
     }
 
-    void CmdResizeWidget::undo()
+    /**
+     * Suppress the UMLObject.
+     */
+    void CmdRemoveUMLObject::undo()
     {
-        UMLScene* scene = m_widget->umlScene();
-        if (scene && scene->widgetOnDiagram(m_widget->id())) {
-            m_widget->setSize(m_sizeOld);
-        }
+        UMLDoc *doc = UMLApp::app()->document();
+        doc->addUMLObject(m_obj);
+        doc->signalUMLObjectCreated(m_obj);
     }
 
 }

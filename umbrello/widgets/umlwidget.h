@@ -58,6 +58,9 @@ public:
 
     bool operator==(const UMLWidget& other) const;
 
+    void setLocalID(Uml::ID::Type id);
+    Uml::ID::Type localID() const;
+
     virtual QSizeF minimumSize();
     void setMinimumSize(const QSizeF &size);
 
@@ -285,6 +288,7 @@ protected:
 
     ///////////////// End of Data Loaded/Saved //////////////////////////
 
+    Uml::ID::Type  m_nLocalID;
     bool           m_startMove;
     QPointF        m_startMovePostion;
     QSizeF         m_startResizeSize;

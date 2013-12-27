@@ -291,15 +291,19 @@ set(libclipboard_SRCS
 
 set(libcmds_SRCS
     cmds/cmd_createDiagram.cpp
+    cmds/cmd_removeDiagram.cpp
     cmds/cmd_handleRename.cpp
-    cmds/cmd_moveWidget.cpp
-    cmds/cmd_resizeWidget.cpp
     cmds/cmd_setStereotype.cpp
     cmds/cmd_setVisibility.cpp
 
     cmds/generic/cmd_createUMLObject.cpp
+    cmds/generic/cmd_removeUMLObject.cpp
     cmds/generic/cmd_renameUMLObject.cpp
 
+    cmds/widget/cmd_baseWidgetCommand.cpp
+    cmds/widget/cmd_moveWidget.cpp
+    cmds/widget/cmd_resizeWidget.cpp
+    cmds/widget/cmd_removeWidget.cpp
     cmds/widget/cmd_changeFont.cpp
     cmds/widget/cmd_changeTextColor.cpp
     cmds/widget/cmd_changeLineColor.cpp

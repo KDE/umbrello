@@ -11,25 +11,25 @@
 #ifndef CMD_CHANGEFONT_H
 #define CMD_CHANGEFONT_H
 
-#include "umlwidget.h"
+#include "cmd_baseWidgetCommand.h"
 
 #include <QFont>
-#include <QUndoCommand>
+
+class UMLWidget;
 
 namespace Uml
 {
-    class CmdChangeFont: public QUndoCommand
+    class CmdChangeFont : public CmdBaseWidgetCommand
     {
         public:
-            CmdChangeFont(UMLWidget* widget, QFont fon);
+            CmdChangeFont(UMLWidget* widget, QFont font);
 
             void undo();
             void redo();
 
         private:
-            UMLWidget* m_widget;
-            QFont     m_newFont;
-            QFont     m_oldFont;
+            QFont         m_newFont;
+            QFont         m_oldFont;
     };
 }
 

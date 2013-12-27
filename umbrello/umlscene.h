@@ -171,6 +171,7 @@ public:
     void checkMessages(ObjectWidget * w);
 
     UMLWidget* findWidget(Uml::ID::Type id);
+    UMLWidget* findWidgetByLocalId(Uml::ID::Type id);
 
     AssociationWidget* findAssocWidget(Uml::ID::Type id);
     AssociationWidget* findAssocWidget(Uml::AssociationType::Enum at,
@@ -179,6 +180,7 @@ public:
                                        UMLWidget *pWidgetB, const QString& roleNameB);
 
     void removeWidget(UMLWidget *o);
+    void removeWidgetCmd(UMLWidget *o);
 
     void setSelected(UMLWidget *w, QGraphicsSceneMouseEvent *me);
     UMLWidgetList selectedWidgets() const;
@@ -199,8 +201,6 @@ public:
     void resizeSelection();
 
     void selectAll();
-
-    Uml::ID::Type localID();
 
     bool widgetOnDiagram(Uml::ID::Type id);
 

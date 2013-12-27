@@ -8,33 +8,38 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#ifndef CMD_CREATE_DIAGRAM_H
-#define CMD_CREATE_DIAGRAM_H
+#ifndef CMD_REMOVE_DIAGRAM_H
+#define CMD_REMOVE_DIAGRAM_H
 
 #include "basictypes.h"
 
+#include <QDomElement>
 #include <QUndoCommand>
 
 class UMLDoc;
 class UMLView;
+class UMLFolder;
 
 namespace Uml
 {
-    class CmdCreateDiagram : public QUndoCommand
+    class CmdRemoveDiagram : public QUndoCommand
     {
     public:
-        explicit CmdCreateDiagram(UMLDoc* doc, Uml::DiagramType::Enum type, const QString& name);
-        ~CmdCreateDiagram();
+        explicit CmdRemoveDiagram(UMLFolder* folder,
+                                  Uml::DiagramType::Enum type,
+                                  const QString& name,
+                                  Uml::ID::Type id);
+        ~CmdRemoveDiagram();
 
         void redo();
         void undo();
 
     private:
-        QString                 m_name;
-        Uml::DiagramType::Enum  m_type;
-        UMLDoc*                 m_pUMLDoc;
-        UMLView*                m_pUMLView;
-        Uml::ID::Type           m_sceneId;
+        UMLFolder*      m_folder;
+        Uml::DiagramType::Enum m_type;
+        QString         m_name;
+        Uml::ID::Type   m_sceneId;
+        QDomElement     m_element;
     };
 }
 

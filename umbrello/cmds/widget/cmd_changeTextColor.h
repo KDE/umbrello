@@ -11,14 +11,15 @@
 #ifndef CMD_CHANGETEXTCOLOR_H
 #define CMD_CHANGETEXTCOLOR_H
 
+#include "cmd_baseWidgetCommand.h"
+
 #include <QColor>
-#include <QUndoCommand>
 
 class UMLWidget;
 
 namespace Uml
 {
-    class CmdChangeTextColor : public QUndoCommand
+    class CmdChangeTextColor : public CmdBaseWidgetCommand
     {
     public:
         CmdChangeTextColor(UMLWidget *w, const QColor& col);
@@ -27,7 +28,6 @@ namespace Uml
         void undo();
 
     private:
-        UMLWidget* m_widget;
         QColor m_oldColor;
         QColor m_newColor;
         bool m_oldUsesDiagramValue;

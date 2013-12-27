@@ -51,8 +51,8 @@
 #include "seqlinewidget.h"
 #include "signalwidget.h"
 #include "statewidget.h"
-#include "toolbarstatefactory.h"
 #include "toolbarstate.h"
+#include "toolbarstatefactory.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umldragdata.h"
@@ -515,12 +515,11 @@ void UMLScene::setupNewWidget(UMLWidget *w)
     w->setY(m_Pos.y());
     w->setVisible(true);
     w->activate();
-    w->setFont(font());
+    w->setFontCmd(font());
     w->slotFillColorChanged(ID());
     w->slotTextColorChanged(ID());
     w->slotLineWidthChanged(ID());
     resizeSceneToItems();
-    m_WidgetList.append(w);
     m_doc->setModified();
 
     UMLApp::app()->executeCommand(new CmdCreateWidget(w));
@@ -1080,6 +1079,23 @@ UMLWidget * UMLScene::findWidget(Uml::ID::Type id)
 }
 
 /**
+ * Finds a widget with the given local ID.
+ * @param id The ID of the widget to find.
+ *
+ * @return Returns the widget found, returns 0 if no widget found.
+ */
+UMLWidget * UMLScene::findWidgetByLocalId(Uml::ID::Type id)
+{
+    foreach(UMLWidget* obj, m_WidgetList) {
+        if (obj->localID() == id) {
+            return obj;
+        }
+    }
+
+    return 0;
+}
+
+/**
  * Finds an association widget with the given ID.
  *
  * @param id The ID of the widget to find.
@@ -1158,11 +1174,21 @@ AssociationWidget * UMLScene::findAssocWidget(AssociationType::Enum at,
 }
 
 /**
- * Remove a widget from view.
+ * Remove a widget from view (undo command)
  *
  * @param o  The widget to remove.
  */
 void UMLScene::removeWidget(UMLWidget * o)
+{
+    UMLApp::app()->executeCommand(new CmdRemoveWidget(o));
+}
+
+/**
+ * Remove a widget from view.
+ *
+ * @param o  The widget to remove.
+ */
+void UMLScene::removeWidgetCmd(UMLWidget * o)
 {
     if (!o)
         return;
@@ -1381,10 +1407,17 @@ void UMLScene::selectionSetVisualProperty(ClassifierWidget::VisualProperty prope
  */
 void UMLScene::deleteSelection()
 {
-    //  Don't delete text widget that are connect to associations as these will
-    //  be cleaned up by the associations.
+    int selectionCount = (m_selectedList.count()
+        + m_AssociationList.count()
+        + m_MessageList.count());
+
+    if (selectionCount > 1) {
+        UMLApp::app()->beginMacro(i18n("Delete widgets"));
+    }
 
     foreach(UMLWidget* widget, selectedWidgets()) {
+        //  Don't delete text widget that are connect to associations as these will
+        //  be cleaned up by the associations.
         if (widget->baseType() == WidgetBase::wt_Text &&
                 static_cast<FloatingTextWidget*>(widget)->textRole() != Uml::TextRole::Floating) {
             m_selectedList.removeAt(m_selectedList.indexOf(widget));
@@ -1416,6 +1449,10 @@ void UMLScene::deleteSelection()
 
     //make sure list empty - it should be anyway, just a check.
     m_selectedList.clear();
+
+    if (selectionCount > 1) {
+        UMLApp::app()->endMacro();
+    }
 }
 
 /**
@@ -1423,12 +1460,22 @@ void UMLScene::deleteSelection()
  */
 void UMLScene::resizeSelection()
 {
+    int selectionCount = selectedWidgets().count();
+
+    if (selectionCount > 1) {
+        UMLApp::app()->beginMacro(i18n("Resize widgets"));
+    }
+
     if (selectedCount() == 0)
         return;
     foreach(UMLWidget *w, selectedWidgets()) {
         w->resize();
     }
     m_doc->setModified();
+
+    if (selectionCount > 1) {
+        UMLApp::app()->endMacro();
+    }
 }
 
 /**
@@ -1437,17 +1484,6 @@ void UMLScene::resizeSelection()
 void UMLScene::selectAll()
 {
     selectWidgets(sceneRect().left(), sceneRect().top(), sceneRect().right(), sceneRect().bottom());
-}
-
-/**
- * Return a unique ID for the diagram.  Used by the @ref ObjectWidget class.
- *
- * @return Return a unique ID for the diagram.
- */
-Uml::ID::Type UMLScene::localID()
-{
-    m_nLocalID = UniqueID::gen();
-    return m_nLocalID;
 }
 
 /**
@@ -2120,7 +2156,7 @@ void UMLScene::removeAllWidgets()
         // crashes on exit. Still to be analyzed.  --okellogg
         if (!(temp->baseType() == WidgetBase::wt_Text &&
               ((FloatingTextWidget *)temp)->textRole() != TextRole::Floating)) {
-            removeWidget(temp);
+            removeWidgetCmd(temp);
         }
     }
 

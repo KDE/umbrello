@@ -11,7 +11,6 @@
 #include "cmd_changeLineColor.h"
 
 // app includes
-#include "umlscene.h"
 #include "umlwidget.h"
 
 // kde includes
@@ -20,14 +19,14 @@
 namespace Uml
 {
 
-    CmdChangeLineColor::CmdChangeLineColor(UMLWidget *w, const QColor& col)
-      : m_widget(w),
+    CmdChangeLineColor::CmdChangeLineColor(UMLWidget* widget, const QColor& col)
+      : CmdBaseWidgetCommand::CmdBaseWidgetCommand(widget),
         m_newColor(col)
     {
-        Q_ASSERT(w != 0);
-        setText(i18n("Change line color : %1", w->name()));
-        m_oldColor= w->lineColor() ;
-        m_oldUsesDiagramValue = w->usesDiagramLineColor();
+        setText(i18n("Change line color : %1", widget->name()));
+
+        m_oldColor = widget->lineColor() ;
+        m_oldUsesDiagramValue = widget->usesDiagramLineColor();
     }
 
     CmdChangeLineColor::~CmdChangeLineColor()
@@ -36,19 +35,14 @@ namespace Uml
 
     void CmdChangeLineColor::redo()
     {
-        UMLScene* scene = m_widget->umlScene();
-        if (scene && scene->widgetOnDiagram(m_widget->id())) {
-            m_widget->setLineColorCmd(m_newColor);
-        }
+        widget()->setLineColorCmd(m_newColor);
     }
 
     void CmdChangeLineColor::undo()
     {
-        UMLScene* scene = m_widget->umlScene();
-        if (scene && scene->widgetOnDiagram(m_widget->id())) {
-            m_widget->setLineColorCmd(m_oldColor);
-            m_widget->setUsesDiagramLineColor(m_oldUsesDiagramValue);
-        }
+        UMLWidget* umlWidget = widget();
+        umlWidget->setLineColorCmd(m_oldColor);
+        umlWidget->setUsesDiagramLineColor(m_oldUsesDiagramValue);
     }
 
 }

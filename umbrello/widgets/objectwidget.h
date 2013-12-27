@@ -33,16 +33,13 @@ class ObjectWidget : public UMLWidget
 {
     Q_OBJECT
 public:
-    ObjectWidget(UMLScene *scene, UMLObject *o, Uml::ID::Type lid = Uml::ID::None);
+    ObjectWidget(UMLScene *scene, UMLObject *o);
     virtual ~ObjectWidget();
 
     virtual void setX(qreal x);
     virtual void setY(qreal y);
 
     qreal centerX();
-
-    void setLocalID(Uml::ID::Type id);
-    Uml::ID::Type localID() const;
 
     void setMultipleInstance(bool multiple);
     bool multipleInstance() const;
@@ -107,7 +104,6 @@ private:
     void moveDestructionBy(qreal diffY);
 
     SeqLineWidget* m_pLine;
-    Uml::ID::Type  m_nLocalID; ///< local ID used on views
     bool m_multipleInstance;   ///< draw an object as a multiple object
     bool m_drawAsActor;        ///< object should be drawn as an Actor or an Object
     bool m_showDestruction;    ///< show object destruction on sequence diagram line

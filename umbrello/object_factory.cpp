@@ -135,13 +135,22 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
             uWarning() << "error unknown type: " << UMLObject::toString(type);
             return NULL;
     }
+
+    // One user action can result in multiple commands when adding objects via
+    // the toolbar. E.g. "create uml object" and "create widget". Wrap all
+    // commands in one macro. When adding items via list view, this macro will
+    // contain only the "create uml object" command.
+    UMLApp::app()->beginMacro(i18n("Create UML object : %1", name));
+
     o->setUMLPackage(parentPkg);
 
-    // will be called in cmdCreateUMLObject
-    //parentPkg->addObject(o);
-
     UMLApp::app()->executeCommand(new Uml::CmdCreateUMLObject(o));
+
+    UMLApp::app()->document()->signalUMLObjectCreated(o);
+
     qApp->processEvents();
+
+    UMLApp::app()->endMacro();
     return o;
 }
 

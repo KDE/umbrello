@@ -107,8 +107,13 @@ public:
                                      bool *swap = 0);
 
     QString createDiagramName(Uml::DiagramType::Enum type, bool askForName = true);
-    UMLView* createDiagram(UMLFolder *folder, Uml::DiagramType::Enum type, const QString& name);
+    UMLView* createDiagram(UMLFolder *folder,
+                           Uml::DiagramType::Enum type,
+                           const QString& name,
+                           Uml::ID::Type id = Uml::ID::None);
+
     void removeDiagram(Uml::ID::Type id);
+    void removeDiagramCmd(Uml::ID::Type id);
     void renameDiagram(Uml::ID::Type id);
 
     void removeUMLObject(UMLObject* umlobject);

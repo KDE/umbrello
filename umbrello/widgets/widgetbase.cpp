@@ -571,7 +571,7 @@ bool WidgetBase::loadFromXMI(QDomElement& qElement)
     if (!font.isEmpty()) {
         QFont newFont;
         newFont.fromString(font);
-        setFont(newFont);
+        m_font = newFont;
     } else {
         uWarning() << "Using default font " << m_font.toString()
                    << " for widget with xmi.id " << Uml::ID::toString(m_nId);

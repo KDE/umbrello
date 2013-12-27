@@ -11,14 +11,15 @@
 #ifndef CMD_MOVEWIDGET_H
 #define CMD_MOVEWIDGET_H
 
+#include "cmd_baseWidgetCommand.h"
+
 #include <QPointF>
-#include <QUndoCommand>
 
 class UMLWidget;
 
 namespace Uml
 {
-    class CmdMoveWidget : public QUndoCommand
+    class CmdMoveWidget : public CmdBaseWidgetCommand
     {
     public:
         explicit CmdMoveWidget(UMLWidget* widget);
@@ -27,10 +28,7 @@ namespace Uml
         void redo();
         void undo();
 
-        // bool mergeWith(const QUndoCommand* other);
-
     private:
-        UMLWidget*  m_widget;
         QPointF     m_pos;
         QPointF     m_posOld;
 

@@ -1298,24 +1298,30 @@ QString UMLDoc::createDiagramName(Uml::DiagramType::Enum type, bool askForName /
  * @param type     the type of diagram to create
  * @param name     if true shows a dialog box asking for name,
  *                 else uses a default name
+ * @param id       optional ID of new diagram
  * @return         pointer to the UMLView of the new diagram
  */
-UMLView* UMLDoc::createDiagram(UMLFolder *folder, Uml::DiagramType::Enum type, const QString& name)
+UMLView* UMLDoc::createDiagram(UMLFolder *folder, Uml::DiagramType::Enum type, const QString& name, Uml::ID::Type id)
 {
     DEBUG(DBG_SRC) << "folder=" << folder->name()
                    << " / type=" << Uml::DiagramType::toString(type)
                    << " / name=" << name;
+
+    if (id == Uml::ID::None) {
+        id = UniqueID::gen();
+    }
+
     if (name.length() > 0) {
         UMLView* view = new UMLView(folder);
         view->umlScene()->setOptionState(Settings::optionState());
         view->umlScene()->setName(name);
         view->umlScene()->setType(type);
-        view->umlScene()->setID(UniqueID::gen());
+        view->umlScene()->setID(id);
         addView(view);
-        emit sigDiagramCreated(view->umlScene()->ID());
+        emit sigDiagramCreated(id);
         setModified(true);
         UMLApp::app()->enablePrint(true);
-        changeCurrentView(view->umlScene()->ID());
+        changeCurrentView(id);
         return view;
     }
     return 0;
@@ -1451,9 +1457,40 @@ void UMLDoc::changeCurrentView(Uml::ID::Type id)
 /**
  * Deletes a diagram from the current file.
  *
+ * Undo command
+ *
  * @param id   The ID of the diagram to delete.
  */
 void UMLDoc::removeDiagram(Uml::ID::Type id)
+{
+    UMLView* umlView = findView(id);
+    if (!umlView) {
+        uError() << "Request to remove diagram " << Uml::ID::toString(id) << ": Diagram not found!";
+        return;
+    }
+
+    UMLScene* umlScene = umlView->umlScene();
+    if (KMessageBox::warningContinueCancel(
+        0,
+        i18n("Are you sure you want to delete diagram %1?", umlScene->name()),
+        i18n("Delete Diagram"),
+        KGuiItem(i18n("&Delete"), "edit-delete")) == KMessageBox::Continue
+    ) {
+        UMLApp::app()->executeCommand(new Uml::CmdRemoveDiagram(
+            umlScene->folder(),
+            umlScene->type(),
+            umlScene->name(),
+            id
+        ));
+    }
+}
+
+/**
+ * Deletes a diagram from the current file.
+ *
+ * @param id   The ID of the diagram to delete.
+ */
+void UMLDoc::removeDiagramCmd(Uml::ID::Type id)
 {
     UMLApp::app()->docWindow()->updateDocumentation(true);
     UMLView* umlview = findView(id);
@@ -1461,19 +1498,10 @@ void UMLDoc::removeDiagram(Uml::ID::Type id)
         uError() << "Request to remove diagram " << Uml::ID::toString(id) << ": Diagram not found!";
         return;
     }
-    if (KMessageBox::warningContinueCancel(0, i18n("Are you sure you want to delete diagram %1?",
-                                                   umlview->umlScene()->name()), i18n("Delete Diagram"),
-                                           KGuiItem(i18n("&Delete"), "edit-delete")) == KMessageBox::Continue) {
-        removeView(umlview);
-        emit sigDiagramRemoved(id);
-        setModified(true);
-        /* if (infoWidget->isVisible()) {
-               emit sigDiagramChanged(Uml::DiagramType::Undefined);
-               UMLApp::app()->enablePrint(false);
-           }
-        */ //FIXME sort out all the KActions for when there's no diagram
-        //also remove the buttons from the WorkToolBar, then get rid of infowidget
-    }
+
+    removeView(umlview);
+    emit sigDiagramRemoved(id);
+    setModified(true);
 }
 
 /**

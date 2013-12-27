@@ -12,52 +12,52 @@
 #include "widget_factory.h"
 
 // app includes
-#include "debug_utils.h"
-#include "uml.h"
-#include "umldoc.h"
-#include "umlview.h"
-#include "object_factory.h"
-#include "floatingtextwidget.h"
-#include "classifierwidget.h"
-#include "classifier.h"
-#include "packagewidget.h"
-#include "package.h"
-#include "folder.h"
-#include "componentwidget.h"
-#include "component.h"
-#include "nodewidget.h"
-#include "node.h"
-#include "artifactwidget.h"
-#include "artifact.h"
-#include "datatypewidget.h"
-#include "enumwidget.h"
-#include "enum.h"
-#include "entitywidget.h"
-#include "entity.h"
-#include "regionwidget.h"
-#include "actorwidget.h"
+#include "activitywidget.h"
 #include "actor.h"
-#include "usecasewidget.h"
-#include "usecase.h"
-#include "notewidget.h"
+#include "actorwidget.h"
+#include "artifact.h"
+#include "artifactwidget.h"
+#include "associationwidget.h"
 #include "boxwidget.h"
 #include "category.h"
-#include "associationwidget.h"
-#include "messagewidget.h"
-#include "objectwidget.h"
-#include "statewidget.h"
-#include "forkjoinwidget.h"
-#include "activitywidget.h"
-#include "combinedfragmentwidget.h"
-#include "seqlinewidget.h"
-#include "preconditionwidget.h"
-#include "signalwidget.h"
-#include "floatingdashlinewidget.h"
-#include "objectnodewidget.h"
-#include "pinwidget.h"
 #include "categorywidget.h"
+#include "classifier.h"
+#include "classifierwidget.h"
 #include "cmds.h"
+#include "combinedfragmentwidget.h"
+#include "component.h"
+#include "componentwidget.h"
+#include "datatypewidget.h"
+#include "debug_utils.h"
+#include "entity.h"
+#include "entitywidget.h"
+#include "enum.h"
+#include "enumwidget.h"
+#include "floatingdashlinewidget.h"
+#include "floatingtextwidget.h"
+#include "folder.h"
+#include "forkjoinwidget.h"
+#include "messagewidget.h"
+#include "node.h"
+#include "nodewidget.h"
+#include "notewidget.h"
+#include "object_factory.h"
+#include "objectnodewidget.h"
+#include "objectwidget.h"
+#include "package.h"
+#include "packagewidget.h"
+#include "pinwidget.h"
+#include "preconditionwidget.h"
+#include "regionwidget.h"
+#include "seqlinewidget.h"
+#include "signalwidget.h"
+#include "statewidget.h"
+#include "uml.h"
+#include "umldoc.h"
 #include "umlscene.h"
+#include "umlview.h"
+#include "usecase.h"
+#include "usecasewidget.h"
 
 namespace Widget_Factory {
 
@@ -74,7 +74,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
     switch (type) {
     case UMLObject::ot_Actor:
         if (diagramType == Uml::DiagramType::Sequence) {
-            ObjectWidget *ow = new ObjectWidget(scene, o, scene->localID());
+            ObjectWidget *ow = new ObjectWidget(scene, o);
             ow->setDrawAsActor(true);
             y = ow->topMargin();
             newWidget = ow;
@@ -110,7 +110,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
         break;
     case UMLObject::ot_Interface:
         if (diagramType == Uml::DiagramType::Sequence || diagramType == Uml::DiagramType::Collaboration) {
-            ObjectWidget *ow = new ObjectWidget(scene, o, scene->localID());
+            ObjectWidget *ow = new ObjectWidget(scene, o);
             if (diagramType == Uml::DiagramType::Sequence) {
                 y = ow->topMargin();
             }
@@ -133,7 +133,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
                 cw->setDrawAsCircle(true);
             newWidget = cw;
         } else {
-            ObjectWidget *ow = new ObjectWidget(scene, o, scene->localID());
+            ObjectWidget *ow = new ObjectWidget(scene, o);
             if (diagramType == Uml::DiagramType::Sequence) {
                 y = ow->topMargin();
             }

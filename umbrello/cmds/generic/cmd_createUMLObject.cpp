@@ -11,14 +11,9 @@
 #include "cmd_createUMLObject.h"
 
 // app includes
-#include "debug_utils.h"
-#include "object_factory.h"
 #include "package.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "umlscene.h"
-#include "umlview.h"
-#include "widget_factory.h"
 
 // kde includes
 #include <klocale.h>
@@ -31,18 +26,14 @@ namespace Uml
      */
     CmdCreateUMLObject::CmdCreateUMLObject(UMLObject* o)
       : QUndoCommand(),
-        m_obj(o)
+        m_obj(o),
+        m_skipSignal(true)
     {
-        if (m_obj) {
-            setText(i18n("Create UML object : %1", m_obj->fullyQualifiedName()));
-            m_package = m_obj->umlPackage();
-            m_type    = m_obj->baseType();
-            m_name    = m_obj->name();
-            m_element.clear();
-        }
-        else {
-            setText(i18n("Create UML object : CANNOT DO THAT, OBJECT IS NULL!"));
-        }
+        setText(i18n("Create UML object : %1", m_obj->fullyQualifiedName()));
+
+        m_package = m_obj->umlPackage();
+        m_type    = m_obj->baseType();
+        m_name    = m_obj->name();
     }
 
     /**
@@ -57,43 +48,19 @@ namespace Uml
      */
     void CmdCreateUMLObject::redo()
     {
-        bool success = true;
-//:TODO: unfinished idea for preventing crash because of invalid pointers
-//        if (!m_element.isNull()) {
-//            m_obj = Object_Factory::createUMLObject(m_type, m_name, m_package, false);
-//            success = m_obj->loadFromXMI(m_element);
-//            if (success) {
-//                uDebug() << m_obj;
-//                UMLScene* scene = UMLApp::app()->currentView()->umlScene();
-//                if (scene) {
-//                    UMLWidget* widget = scene->findWidget(m_obj->id());
-//                    if (!widget) {
-//                        UMLWidget* newWidget = Widget_Factory::createWidget(scene, m_obj);
-//                        if (newWidget) {
-//                            scene->setupNewWidget(newWidget);  // vielleicht nicht so gut - code wie bei UMLScene::slotObjectCreated
-//                        }
-//                    }
-//                }
-//                else {
-//                    uDebug() << "There is no scene!";
-//                }
-//            }
-//            else {
-//                uDebug() << "UMLObject was not loaded from XMI structure!";
-//            }
-//        }
+        // This object was removed from it's package when it was deleted
+        // so add it back to it's package (if it belonged to one)
+        if (m_package) {
+            // add this object to its parent package
+            m_package->addObject(m_obj);
+        }
 
-        if (success) {
-            // This object was removed from it's package when it was deleted
-            // so add it back to it's package (if it belonged to one)
-            if (m_package) {
-                // add this object to its parent package
-                m_package->addObject(m_obj);
-
-            } else {
-                // object does not belong to any package
-            }
-
+        // The first call to redo, the object was created and signalled by the
+        // caller (umlscene). On subsequent calls we use the "umlobject created"
+        // signal to update Umbrello with the re-added object.
+        if (m_skipSignal) {
+            m_skipSignal = false;
+        } else {
             UMLDoc *doc = UMLApp::app()->document();
             doc->signalUMLObjectCreated(m_obj);
         }
@@ -104,12 +71,8 @@ namespace Uml
      */
     void CmdCreateUMLObject::undo()
     {
-//:TODO: commented for preventing crash because of invalid pointers
-//        QDomDocument qDoc;
-//        m_obj->saveToXMI(qDoc, m_element);
-
-//        UMLDoc *doc = UMLApp::app()->document();
-//        doc->removeUMLObject(m_obj);
+        UMLDoc *doc = UMLApp::app()->document();
+        doc->removeUMLObject(m_obj);
     }
 
 }

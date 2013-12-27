@@ -11,14 +11,14 @@
 #ifndef CMD_CHANGEUSEFILLCOLOR_H
 #define CMD_CHANGEUSEFILLCOLOR_H
 
-#include <QUndoCommand>
+#include "cmd_baseWidgetCommand.h"
 
 class UMLWidget;
 
 namespace Uml
 {
 
-    class CmdChangeUseFillColor : public QUndoCommand
+    class CmdChangeUseFillColor : public CmdBaseWidgetCommand
     {
         public:
             CmdChangeUseFillColor(UMLWidget* w, const bool value);
@@ -28,7 +28,6 @@ namespace Uml
             void undo();
 
         private:
-            UMLWidget* m_widget;
             bool       m_oldValue;
             bool       m_newValue;
     };

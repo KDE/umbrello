@@ -8,7 +8,7 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#include "cmd_createWidget.h"
+#include "cmd_removeWidget.h"
 
 // app includes
 #include "umlscene.h"
@@ -23,50 +23,47 @@ namespace Uml
     /**
      * Constructor.
      */
-    CmdCreateWidget::CmdCreateWidget(UMLWidget* widget)
+    CmdRemoveWidget::CmdRemoveWidget(UMLWidget* widget)
       : CmdBaseWidgetCommand(widget)
     {
-        setText(i18n("Create widget : %1", widget->name()));
+        setText(i18n("Remove widget : %1", widget->name()));
 
         QDomDocument doc;
         m_element = doc.createElement("widget");
         widget->saveToXMI(doc, m_element);
 
-        scene()->widgetList().append(widget);
     }
 
     /**
      *  Destructor.
      */
-    CmdCreateWidget::~CmdCreateWidget()
+    CmdRemoveWidget::~CmdRemoveWidget()
     {
-    }
-
-    /**
-     * Create the widget
-     */
-    void CmdCreateWidget::redo()
-    {
-        UMLWidget* umlWidget = scene()->findWidgetByLocalId(m_widgetId);
-        if (umlWidget == 0) {
-            // If the widget is not found, the add command was undone. Load the
-            // widget back from the saved XMI state.
-            QDomElement widgetElement = m_element.firstChild().toElement();
-            umlWidget = scene()->loadWidgetFromXMI(widgetElement);
-            umlWidget->setLocalID(m_widgetId);
-
-            scene()->widgetList().append(umlWidget);
-        }
     }
 
     /**
      * Remove the widget
      */
-    void CmdCreateWidget::undo()
+    void CmdRemoveWidget::redo()
     {
-        UMLWidget* umlWidget = widget();
-        if (umlWidget != 0) {
-            scene()->removeWidgetCmd(umlWidget);
+        UMLScene* umlScene = scene();
+        UMLWidget* widget = umlScene->findWidgetByLocalId(m_widgetId);
+        if (widget != 0) {
+            umlScene->removeWidgetCmd(widget);
         }
+    }
+
+    /**
+     * Add the widget back
+     */
+    void CmdRemoveWidget::undo()
+    {
+        QDomElement widgetElement = m_element.firstChild().toElement();
+
+        UMLScene* umlScene = scene();
+        UMLWidget* widget = umlScene->loadWidgetFromXMI(widgetElement);
+        widget->setLocalID(m_widgetId);
+
+        umlScene->widgetList().append(widget);
     }
 }

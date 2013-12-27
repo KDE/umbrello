@@ -18,17 +18,17 @@
 
 namespace Uml
 {
-    CmdChangeUseFillColor::CmdChangeUseFillColor(UMLWidget *w, bool value)
-      : m_widget(w),
+    CmdChangeUseFillColor::CmdChangeUseFillColor(UMLWidget* widget, bool value)
+      : CmdBaseWidgetCommand::CmdBaseWidgetCommand(widget),
         m_newValue(value)
     {
-        Q_ASSERT(w != 0);
         if (value) {
-            setText(i18n("Use fill color : %1", w->name()));
+            setText(i18n("Use fill color : %1", widget->name()));
         } else {
-            setText(i18n("No fill color : %1", w->name()));
+            setText(i18n("No fill color : %1", widget->name()));
         }
-        m_oldValue = w->useFillColor();
+
+        m_oldValue = widget->useFillColor();
     }
 
     CmdChangeUseFillColor::~CmdChangeUseFillColor()
@@ -37,17 +37,11 @@ namespace Uml
 
     void CmdChangeUseFillColor::redo()
     {
-        UMLScene* scene = m_widget->umlScene();
-        if (scene && scene->widgetOnDiagram(m_widget->id())) {
-            m_widget->setUseFillColorCmd(m_newValue);
-        }
+        widget()->setUseFillColorCmd(m_newValue);
     }
 
     void CmdChangeUseFillColor::undo()
     {
-        UMLScene* scene = m_widget->umlScene();
-        if (scene && scene->widgetOnDiagram(m_widget->id())) {
-            m_widget->setUseFillColorCmd(m_oldValue);
-        }
+        widget()->setUseFillColorCmd(m_oldValue);
     }
 }

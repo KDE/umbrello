@@ -8,30 +8,39 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#ifndef CMD_RESIZEWIDGET_H
-#define CMD_RESIZEWIDGET_H
+#include "cmd_resizeWidget.h"
 
-#include <QSizeF>
-#include <QUndoCommand>
+// app includes
+#include "umlscene.h"
+#include "umlwidget.h"
 
-class UMLWidget;
+#include <klocale.h>
 
 namespace Uml
 {
-    class CmdResizeWidget : public QUndoCommand
+
+    CmdResizeWidget::CmdResizeWidget(UMLWidget *widget)
+      : CmdBaseWidgetCommand(widget)
     {
-    public:
-        explicit CmdResizeWidget(UMLWidget* widget);
-        ~CmdResizeWidget();
+        Q_ASSERT(widget != 0);
+        setText(i18n("Resize widget : %1", widget->name()));
 
-        void redo();
-        void undo();
+        m_size = QSizeF(widget->width(), widget->height());
+        m_sizeOld = widget->startResizeSize();
+    }
 
-    private:
-        UMLWidget*  m_widget;
-        QSizeF      m_size;
-        QSizeF      m_sizeOld;
-    };
+    CmdResizeWidget::~CmdResizeWidget()
+    {
+    }
+
+    void CmdResizeWidget::redo()
+    {
+        widget()->setSize(m_size);
+    }
+
+    void CmdResizeWidget::undo()
+    {
+        widget()->setSize(m_sizeOld);
+    }
+
 }
-
-#endif
