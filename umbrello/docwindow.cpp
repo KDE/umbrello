@@ -14,6 +14,7 @@
 // local includes
 #include "associationwidget.h"
 #include "debug_utils.h"
+#include "folder.h"
 #include "icon_utils.h"
 #include "umldoc.h"
 #include "umlobject.h"
@@ -104,7 +105,12 @@ void DocWindow::showDocumentation(UMLObject * object, bool overwrite)
     m_Showing = st_UMLObject;
     m_pUMLObject = object;
     m_docTE->setText(m_pUMLObject->doc());
-    updateLabel(m_pUMLObject->name());
+    if (m_pUMLObject->baseType() == UMLObject::ot_Folder) {
+        UMLFolder *folder = dynamic_cast<UMLFolder*>(m_pUMLObject);
+        updateLabel(folder->localName());
+    }
+    else
+        updateLabel(m_pUMLObject->name());
 }
 
 /**
