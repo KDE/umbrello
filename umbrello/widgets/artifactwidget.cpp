@@ -57,16 +57,16 @@ void ArtifactWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
         UMLArtifact::Draw_Type drawType = umlart->getDrawAsType();
         switch (drawType) {
         case UMLArtifact::defaultDraw:
-            paintAsNormal(painter);
+            paintAsNormal(painter, option);
             break;
         case UMLArtifact::file:
-            paintAsFile(painter);
+            paintAsFile(painter, option);
             break;
         case UMLArtifact::library:
-            paintAsLibrary(painter);
+            paintAsLibrary(painter, option);
             break;
         case UMLArtifact::table:
-            paintAsTable(painter);
+            paintAsTable(painter, option);
             break;
         default:
             uWarning() << "Artifact drawn as unknown type";
@@ -147,7 +147,7 @@ QSize ArtifactWidget::calculateNormalSize()
 /**
  * draw as a file icon
  */
-void ArtifactWidget::paintAsFile(QPainter *painter)
+void ArtifactWidget::paintAsFile(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
     const int w = width();
     const int h = height();
@@ -175,13 +175,13 @@ void ArtifactWidget::paintAsFile(QPainter *painter)
     painter->drawText(0, h - fontHeight,
                w, fontHeight, Qt::AlignCenter, name());
 
-    UMLWidget::paint(painter, 0);
+    UMLWidget::paint(painter, option);
 }
 
 /**
  * draw as a library file icon
  */
-void ArtifactWidget::paintAsLibrary(QPainter *painter)
+void ArtifactWidget::paintAsLibrary(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
     //FIXME this should have gears on it
     const int w = width();
@@ -210,13 +210,13 @@ void ArtifactWidget::paintAsLibrary(QPainter *painter)
     painter->drawText(0, h - fontHeight,
                w, fontHeight, Qt::AlignCenter, name());
 
-    UMLWidget::paint(painter, 0);
+    UMLWidget::paint(painter, option);
 }
 
 /**
  * draw as a database table icon
  */
-void ArtifactWidget::paintAsTable(QPainter *painter)
+void ArtifactWidget::paintAsTable(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
     const int w = width();
     const int h = height();
@@ -247,13 +247,13 @@ void ArtifactWidget::paintAsTable(QPainter *painter)
     painter->drawText(0, h - fontHeight,
                w, fontHeight, Qt::AlignCenter, name());
 
-    UMLWidget::paint(painter, 0);
+    UMLWidget::paint(painter, option);
 }
 
 /**
  * draw as a box
  */
-void ArtifactWidget::paintAsNormal(QPainter *painter)
+void ArtifactWidget::paintAsNormal(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
     int w = width();
     int h = height();
@@ -288,6 +288,6 @@ void ArtifactWidget::paintAsNormal(QPainter *painter)
                    w, fontHeight, Qt::AlignCenter, name());
     }
 
-    UMLWidget::paint(painter, 0);
+    UMLWidget::paint(painter, option);
 }
 

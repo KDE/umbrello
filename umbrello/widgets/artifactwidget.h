@@ -42,10 +42,10 @@ protected:
     QSizeF minimumSize();
 
 private:
-    void paintAsFile(QPainter *painter);
-    void paintAsLibrary(QPainter *painter);
-    void paintAsTable(QPainter *painter);
-    void paintAsNormal(QPainter *painter);
+    void paintAsFile(QPainter *painter, const QStyleOptionGraphicsItem *option);
+    void paintAsLibrary(QPainter *painter, const QStyleOptionGraphicsItem *option);
+    void paintAsTable(QPainter *painter, const QStyleOptionGraphicsItem *option);
+    void paintAsNormal(QPainter *painter, const QStyleOptionGraphicsItem *option);
 
     QSize calculateIconSize();
     QSize calculateNormalSize();
