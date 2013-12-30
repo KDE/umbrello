@@ -917,12 +917,12 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
     QString showscope = qElement.attribute("showscope", "0");
     QString drawascircle = qElement.attribute("drawascircle", "0");
 
-    setVisualProperty(ShowAttributes, (bool)showatts.toInt());
-    setVisualProperty(ShowOperations, (bool)showops.toInt());
-    setVisualProperty(ShowPublicOnly, (bool)showpubliconly.toInt());
-    setVisualProperty(ShowPackage,    (bool)showpackage.toInt());
-    setVisualProperty(ShowVisibility, (bool)showscope.toInt());
-    setVisualProperty(DrawAsCircle,   (bool)drawascircle.toInt());
+    setVisualPropertyCmd(ShowAttributes, (bool)showatts.toInt());
+    setVisualPropertyCmd(ShowOperations, (bool)showops.toInt());
+    setVisualPropertyCmd(ShowPublicOnly, (bool)showpubliconly.toInt());
+    setVisualPropertyCmd(ShowPackage,    (bool)showpackage.toInt());
+    setVisualPropertyCmd(ShowVisibility, (bool)showscope.toInt());
+    setVisualPropertyCmd(DrawAsCircle,   (bool)drawascircle.toInt());
 
     m_attributeSignature = Uml::SignatureType::fromInt(showattsigs.toInt());
     m_operationSignature = Uml::SignatureType::fromInt(showopsigs.toInt());
