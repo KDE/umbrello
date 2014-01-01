@@ -203,7 +203,7 @@ bool UMLAttributeDialog::apply()
             // Import_Utils::createUMLObject works better for C++ namespace
             // and java package than Object_Factory::createUMLObject
             Import_Utils::setRelatedClassifier(pConcept);
-            obj = Import_Utils::createUMLObject(UMLObject::ot_Attribute, typeName);
+            obj = Import_Utils::createUMLObject(UMLObject::ot_UMLObject, typeName);
             Import_Utils::setRelatedClassifier(NULL);
         } else {
             // If it's obviously a pointer type (C++) then create a datatype.
