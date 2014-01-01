@@ -195,11 +195,22 @@ bool UMLAttributeDialog::apply()
         return true;
     }
     UMLDoc * pDoc = UMLApp::app()->document();
-    UMLObject *obj = pDoc->findUMLObject(typeName);
+
+    UMLObject *obj = 0;
+    if (!typeName.isEmpty()) {
+        obj = pDoc->findUMLObject(typeName);
+    }
+
     UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
     if (classifier == NULL) {
         Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
-        if (pl == Uml::ProgrammingLanguage::Cpp || pl == Uml::ProgrammingLanguage::Java) {
+        // Import_Utils does not handle creating a new object with empty name
+        // string well. Use Object_Factory in those cases.
+        if (
+            (!typeName.isEmpty()) &&
+            ((pl == Uml::ProgrammingLanguage::Cpp) ||
+                (pl == Uml::ProgrammingLanguage::Java))
+        ) {
             // Import_Utils::createUMLObject works better for C++ namespace
             // and java package than Object_Factory::createUMLObject
             Import_Utils::setRelatedClassifier(pConcept);
