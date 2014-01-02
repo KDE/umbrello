@@ -22,7 +22,7 @@
        <entry name="undo" type="Bool">
          <label>Undo Support</label>
          <whatsthis>Undo Support is enabled when this is true</whatsthis>
-         <default>false</default>
+         <default>true</default>
        </entry>
        <entry name="tabdiagrams" type="Bool">
          <label>Tabbed Diagrams</label>
