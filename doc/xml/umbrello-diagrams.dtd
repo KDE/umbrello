@@ -1,14 +1,18 @@
 
 <!-- 
 ========= umbrello specific ========= 
-    XMI_FILE_VERSION 1.6.2
+    XMI_FILE_VERSION 1.6.3
 =====================================  
 -->
+<!ENTITY % ids
+           'xmi.id CDATA #IMPLIED localid CDATA #IMPLIED'>
+
 <!ELEMENT diagrams ANY >
 <!ATTLIST diagrams
 >
 <!ELEMENT diagram ANY >
 <!ATTLIST diagram
+          %ids;
           showopsig CDATA #IMPLIED
           linecolor CDATA #IMPLIED
           snapx CDATA #IMPLIED
@@ -25,7 +29,6 @@
           font CDATA #IMPLIED
           canvasheight CDATA #IMPLIED
           canvaswidth CDATA #IMPLIED
-          localid CDATA #IMPLIED
           snapcsgrid CDATA #IMPLIED
           showgrid CDATA #IMPLIED
           showops CDATA #IMPLIED
@@ -34,7 +37,6 @@
           usefillcolor CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
           zoom CDATA #IMPLIED
-          xmi.id CDATA #IMPLIED
           documentation CDATA #IMPLIED
           showscope CDATA #IMPLIED
           snapgrid CDATA #IMPLIED
@@ -46,6 +48,7 @@
 >
 <!ELEMENT classwidget ANY >
 <!ATTLIST classwidget
+          %ids;
           linecolor CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           linewidth CDATA #IMPLIED
@@ -64,7 +67,6 @@
           isinstance CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
-          xmi.id CDATA #IMPLIED
           showscope CDATA #IMPLIED
           height CDATA #IMPLIED
           showopsigs CDATA #IMPLIED
@@ -72,6 +74,7 @@
 >
 <!ELEMENT notewidget ANY >
 <!ATTLIST notewidget
+          %ids;
           width CDATA #IMPLIED
           showstereotype CDATA #IMPLIED
           x CDATA #IMPLIED
@@ -83,7 +86,6 @@
           fillcolor CDATA #IMPLIED
           height CDATA #IMPLIED
           linecolor CDATA #IMPLIED
-          xmi.id CDATA #IMPLIED
           textcolor CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           linewidth CDATA #IMPLIED
@@ -98,6 +100,7 @@
 >
 <!ELEMENT assocwidget ANY >
 <!ATTLIST assocwidget
+          %ids;
           indexa CDATA #IMPLIED
           indexb CDATA #IMPLIED
           usesdiagramusefillcolor CDATA #IMPLIED
@@ -106,7 +109,6 @@
           fillcolor CDATA #IMPLIED
           linecolor CDATA #IMPLIED
           totalcounta CDATA #IMPLIED
-          xmi.id CDATA #IMPLIED
           widgetbid CDATA #IMPLIED
           totalcountb CDATA #IMPLIED
           type CDATA #IMPLIED
@@ -141,6 +143,7 @@
 >
 <!ELEMENT floatingtext ANY >
 <!ATTLIST floatingtext
+          %ids;
           linecolor CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           linewidth CDATA #IMPLIED
@@ -158,7 +161,6 @@
           posttext CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
-          xmi.id CDATA #IMPLIED
           height CDATA #IMPLIED
           roleBdoc CDATA #IMPLIED
           roleAdoc CDATA #IMPLIED
@@ -166,6 +168,7 @@
 >
 <!ELEMENT datatypewidget ANY >
 <!ATTLIST datatypewidget
+          %ids;
           width CDATA #IMPLIED
           showstereotype CDATA #IMPLIED
           x CDATA #IMPLIED
@@ -176,7 +179,6 @@
           fillcolor CDATA #IMPLIED
           height CDATA #IMPLIED
           linecolor CDATA #IMPLIED
-          xmi.id CDATA #IMPLIED
           textcolor CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           linewidth CDATA #IMPLIED
@@ -189,6 +191,7 @@
 >
 <!ELEMENT enumwidget ANY >
 <!ATTLIST enumwidget
+          %ids;
           width CDATA #IMPLIED
           showstereotype CDATA #IMPLIED
           x CDATA #IMPLIED
@@ -199,7 +202,6 @@
           fillcolor CDATA #IMPLIED
           height CDATA #IMPLIED
           linecolor CDATA #IMPLIED
-          xmi.id CDATA #IMPLIED
           showpackage CDATA #IMPLIED
           textcolor CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
@@ -208,6 +210,7 @@
 >
 <!ELEMENT boxwidget ANY >
 <!ATTLIST boxwidget
+          %ids;
           width CDATA #IMPLIED
           showstereotype CDATA #IMPLIED
           x CDATA #IMPLIED
@@ -218,7 +221,6 @@
           fillcolor CDATA #IMPLIED
           height CDATA #IMPLIED
           linecolor CDATA #IMPLIED
-          xmi.id CDATA #IMPLIED
           textcolor CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           linewidth CDATA #IMPLIED
@@ -226,6 +228,7 @@
 >
 <!ELEMENT interfacewidget ANY >
 <!ATTLIST interfacewidget
+          %ids;
           linecolor CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           linewidth CDATA #IMPLIED
@@ -243,13 +246,13 @@
           isinstance CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
-          xmi.id CDATA #IMPLIED
           showscope CDATA #IMPLIED
           height CDATA #IMPLIED
           showopsigs CDATA #IMPLIED
 >
 <!ELEMENT statewidget ANY >
 <!ATTLIST statewidget
+          %ids;
           linecolor CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           linewidth CDATA #IMPLIED
@@ -265,7 +268,6 @@
           isinstance CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
-          xmi.id CDATA #IMPLIED
           documentation CDATA #IMPLIED
           height CDATA #IMPLIED
           drawvertical CDATA #IMPLIED
@@ -401,6 +403,7 @@
 >
 <!ELEMENT objectwidget ANY >
 <!ATTLIST objectwidget
+          %ids;
           linecolor CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           linewidth CDATA #IMPLIED
@@ -411,18 +414,17 @@
           showstereotype CDATA #IMPLIED
           y CDATA #IMPLIED
           font CDATA #IMPLIED
-          localid CDATA #IMPLIED
           width CDATA #IMPLIED
           isinstance CDATA #IMPLIED
           multipleinstance CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
-          xmi.id CDATA #IMPLIED
           height CDATA #IMPLIED
           drawasactor CDATA #IMPLIED
 >
 <!ELEMENT messagewidget ANY >
 <!ATTLIST messagewidget
+          %ids;
           linecolor CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           widgetbid CDATA #IMPLIED
@@ -441,7 +443,6 @@
           isinstance CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
-          xmi.id CDATA #IMPLIED
           height CDATA #IMPLIED
           sequencemessagetype CDATA #IMPLIED
           xclicked CDATA #IMPLIED
@@ -449,6 +450,7 @@
 >
 <!ELEMENT actorwidget ANY >
 <!ATTLIST actorwidget
+          %ids;
           width CDATA #IMPLIED
           showstereotype CDATA #IMPLIED
           x CDATA #IMPLIED
@@ -459,7 +461,6 @@
           fillcolor CDATA #IMPLIED
           height CDATA #IMPLIED
           linecolor CDATA #IMPLIED
-          xmi.id CDATA #IMPLIED
           textcolor CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           linewidth CDATA #IMPLIED
@@ -467,6 +468,7 @@
 >
 <!ELEMENT usecasewidget ANY >
 <!ATTLIST usecasewidget
+          %ids;
           width CDATA #IMPLIED
           showstereotype CDATA #IMPLIED
           x CDATA #IMPLIED
@@ -477,7 +479,6 @@
           fillcolor CDATA #IMPLIED
           height CDATA #IMPLIED
           linecolor CDATA #IMPLIED
-          xmi.id CDATA #IMPLIED
           textcolor CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           linewidth CDATA #IMPLIED
@@ -485,6 +486,7 @@
 >
 <!ELEMENT packagewidget ANY >
 <!ATTLIST packagewidget
+          %ids;
           width CDATA #IMPLIED
           x CDATA #IMPLIED
           usesdiagramusefillcolor CDATA #IMPLIED
@@ -494,7 +496,6 @@
           fillcolor CDATA #IMPLIED
           height CDATA #IMPLIED
           linecolor CDATA #IMPLIED
-          xmi.id CDATA #IMPLIED
           textcolor CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           linewidth CDATA #IMPLIED
@@ -505,6 +506,7 @@
 >
 <!ELEMENT activitywidget ANY >
 <!ATTLIST activitywidget
+          %ids;
           linecolor CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           linewidth CDATA #IMPLIED
@@ -519,7 +521,6 @@
           usefillcolor CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
           activityname CDATA #IMPLIED
-          xmi.id CDATA #IMPLIED
           postcondition CDATA #IMPLIED
           documentation CDATA #IMPLIED
           activitytype CDATA #IMPLIED
@@ -530,6 +531,7 @@
 >
 <!ELEMENT signalwidget ANY >
 <!ATTLIST signalwidget
+          %ids;
           linecolor CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           signaltype CDATA #IMPLIED
@@ -544,7 +546,6 @@
           isinstance CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
-          xmi.id CDATA #IMPLIED
           signalname CDATA #IMPLIED
           documentation CDATA #IMPLIED
           height CDATA #IMPLIED
@@ -552,6 +553,7 @@
 >
 <!ELEMENT regionwidget ANY >
 <!ATTLIST regionwidget
+          %ids;
           width CDATA #IMPLIED
           showstereotype CDATA #IMPLIED
           x CDATA #IMPLIED
@@ -563,7 +565,6 @@
           height CDATA #IMPLIED
           linecolor CDATA #IMPLIED
           regionname CDATA #IMPLIED
-          xmi.id CDATA #IMPLIED
           textcolor CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           documentation CDATA #IMPLIED
@@ -572,6 +573,7 @@
 >
 <!ELEMENT pinwidget ANY >
 <!ATTLIST pinwidget
+          %ids;
           width CDATA #IMPLIED
           showstereotype CDATA #IMPLIED
           x CDATA #IMPLIED
@@ -583,7 +585,6 @@
           fillcolor CDATA #IMPLIED
           height CDATA #IMPLIED
           linecolor CDATA #IMPLIED
-          xmi.id CDATA #IMPLIED
           textcolor CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           linewidth CDATA #IMPLIED
@@ -591,6 +592,7 @@
 >
 <!ELEMENT objectnodewidget ANY >
 <!ATTLIST objectnodewidget
+          %ids;
           linecolor CDATA #IMPLIED
           usesdiagramfillcolor CDATA #IMPLIED
           linewidth CDATA #IMPLIED
@@ -606,7 +608,6 @@
           isinstance CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           fillcolor CDATA #IMPLIED
-          xmi.id CDATA #IMPLIED
           objectnodename CDATA #IMPLIED
           documentation CDATA #IMPLIED
           height CDATA #IMPLIED
