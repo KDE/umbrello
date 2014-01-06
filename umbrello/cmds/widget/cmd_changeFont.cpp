@@ -19,7 +19,7 @@
 namespace Uml
 {
     CmdChangeFont::CmdChangeFont(UMLWidget* widget, QFont font)
-        : CmdBaseWidgetCommand::CmdBaseWidgetCommand(widget)
+        : CmdBaseWidgetCommand(widget)
     {
         setText(i18n("Change font : %1", widget->name()));
 

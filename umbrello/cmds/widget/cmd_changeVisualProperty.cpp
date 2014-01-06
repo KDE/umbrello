@@ -24,7 +24,7 @@ namespace Uml
         ClassifierWidget* widget,
         ClassifierWidget::VisualProperty property,
         bool value
-    ) : CmdBaseWidgetCommand::CmdBaseWidgetCommand(widget),
+    ) : CmdBaseWidgetCommand(widget),
         m_property(property),
         m_newValue(value)
     {

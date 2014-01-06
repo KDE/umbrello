@@ -20,7 +20,7 @@
 namespace Uml
 {
     CmdChangeTextColor::CmdChangeTextColor(UMLWidget* widget, const QColor& col)
-      : CmdBaseWidgetCommand::CmdBaseWidgetCommand(widget),
+      : CmdBaseWidgetCommand(widget),
         m_newColor(col)
     {
         setText(i18n("Change text color : %1", widget->name()));

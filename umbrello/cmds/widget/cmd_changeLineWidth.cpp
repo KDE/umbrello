@@ -21,7 +21,7 @@ namespace Uml
 {
 
     CmdChangeLineWidth::CmdChangeLineWidth(UMLWidget* widget, const uint width)
-      : CmdBaseWidgetCommand::CmdBaseWidgetCommand(widget),
+      : CmdBaseWidgetCommand(widget),
         m_newWidth(width)
     {
         setText(i18n("Change line width : %1", widget->name()));

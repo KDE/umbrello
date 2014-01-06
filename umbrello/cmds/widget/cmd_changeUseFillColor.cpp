@@ -19,7 +19,7 @@
 namespace Uml
 {
     CmdChangeUseFillColor::CmdChangeUseFillColor(UMLWidget* widget, bool value)
-      : CmdBaseWidgetCommand::CmdBaseWidgetCommand(widget),
+      : CmdBaseWidgetCommand(widget),
         m_newValue(value)
     {
         if (value) {
