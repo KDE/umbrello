@@ -11,15 +11,11 @@
 #ifndef CMD_SETVISIBILITY_H
 #define CMD_SETVISIBILITY_H
 
-#include <QUndoCommand>
-
-#include "basictypes.h"
-
-class UMLObject;
+#include "cmd_baseObjectCommand.h"
 
 namespace Uml
 {
-    class CmdSetVisibility : public QUndoCommand
+    class CmdSetVisibility : public CmdBaseObjectCommand
     {
         public:
             CmdSetVisibility(UMLObject* obj, Uml::Visibility::Enum visibility);
@@ -31,7 +27,6 @@ namespace Uml
         private:
             Uml::Visibility::Enum  m_oldVisibility;
             Uml::Visibility::Enum  m_visibility;
-            UMLObject*             m_umlObject;
     };
 }
 

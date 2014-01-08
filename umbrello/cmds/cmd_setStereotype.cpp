@@ -19,7 +19,8 @@ namespace Uml
 {
 
     CmdSetStereotype::CmdSetStereotype(UMLObject * obj, const QString& stereo)
-        : m_stereo(stereo), m_umlObject(obj)
+      : CmdBaseObjectCommand(obj),
+        m_stereo(stereo)
     {
         m_oldStereo = obj->stereotype();
         setText(i18n("Set stereotype : %1 to %2", m_oldStereo, stereo));
@@ -31,12 +32,16 @@ namespace Uml
 
     void CmdSetStereotype::redo()
     {
-        m_umlObject->setStereotypeCmd(m_stereo);
+        UMLObject *umlObject = object();
+        if (umlObject)
+            umlObject->setStereotypeCmd(m_stereo);
     }
 
     void CmdSetStereotype::undo()
     {
-        m_umlObject->setStereotypeCmd(m_oldStereo);
+        UMLObject *umlObject = object();
+        if (umlObject)
+            umlObject->setStereotypeCmd(m_oldStereo);
     }
 
 }

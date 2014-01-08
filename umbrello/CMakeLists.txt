@@ -295,6 +295,7 @@ set(libcmds_SRCS
     cmds/cmd_handleRename.cpp
     cmds/cmd_setStereotype.cpp
     cmds/cmd_setVisibility.cpp
+    cmds/cmd_baseObjectCommand.cpp
 
     cmds/generic/cmd_createUMLObject.cpp
     cmds/generic/cmd_removeUMLObject.cpp

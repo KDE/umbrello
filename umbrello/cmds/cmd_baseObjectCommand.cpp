@@ -4,46 +4,45 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2013                                               *
+ *   copyright (C) 2007-2013                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#include "cmd_setVisibility.h"
+#include "cmd_baseObjectCommand.h"
 
 // app includes
 #include "uml.h"
 #include "umldoc.h"
 #include "umlobject.h"
 
+// kde includes
 #include <klocale.h>
 
 namespace Uml
 {
-
-    CmdSetVisibility::CmdSetVisibility(UMLObject * obj, Visibility::Enum visibility)
-      : CmdBaseObjectCommand(obj),
-        m_visibility(visibility)
+    CmdBaseObjectCommand::CmdBaseObjectCommand(UMLObject* object)
     {
-        setText(i18n("Change visibility : %1", obj->name()));
-        m_oldVisibility = obj->visibility();
+        setObject(object);
     }
 
-    CmdSetVisibility::~CmdSetVisibility()
+    CmdBaseObjectCommand::~CmdBaseObjectCommand()
     {
     }
 
-    void CmdSetVisibility::redo()
+    void CmdBaseObjectCommand::setObject(UMLObject* object)
     {
-        UMLObject *umlObject = object();
-        if (umlObject)
-            umlObject->setVisibilityCmd(m_visibility);
+        Q_ASSERT(object);
+
+        m_objectId = object->id();
     }
 
-    void CmdSetVisibility::undo()
+    UMLObject* CmdBaseObjectCommand::object()
     {
-        UMLObject *umlObject = object();
-        if (umlObject)
-            umlObject->setVisibilityCmd(m_oldVisibility);
-    }
+        UMLDoc *doc = UMLApp::app()->document();
+        UMLObject *umlObject = doc->findObjectById(m_objectId);
 
+        //Q_ASSERT(umlObject);
+
+        return umlObject;
+    }
 }

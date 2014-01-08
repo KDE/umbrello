@@ -20,7 +20,8 @@ namespace Uml
 {
 
     CmdSetName::CmdSetName(UMLObject * obj, const QString& name)
-      : m_umlObject(obj), m_name(name)
+      : CmdBaseObjectCommand(obj),
+        m_name(name)
     {
         setText(i18n("Set name : %1 to %2", obj->name(), name));
         m_oldname = obj->name();
@@ -32,12 +33,16 @@ namespace Uml
 
     void CmdSetName::redo()
     {
-        m_umlObject->setNameCmd(m_name);
+        UMLObject *umlObject = object();
+        if (umlObject)
+            umlObject->setNameCmd(m_name);
     }
 
     void CmdSetName::undo()
     {
-        m_umlObject->setNameCmd(m_oldname);
+        UMLObject *umlObject = object();
+        if (umlObject)
+            umlObject->setNameCmd(m_oldname);
     }
 
 }

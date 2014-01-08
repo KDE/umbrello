@@ -8,26 +8,29 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#ifndef CMD_SETSTEREOTYPE_H
-#define CMD_SETSTEREOTYPE_H
+#ifndef CMD_BASEOBJECTCOMMAND_H
+#define CMD_BASEOBJECTCOMMAND_H
 
-#include "cmd_baseObjectCommand.h"
+#include "basictypes.h"
+
+#include <QUndoCommand>
+
+class UMLObject;
 
 namespace Uml
 {
-    class CmdSetStereotype : public CmdBaseObjectCommand
+    class CmdBaseObjectCommand : public QUndoCommand
     {
         public:
-            CmdSetStereotype(UMLObject * obj, const QString& stereo);
-            ~CmdSetStereotype();
+            explicit CmdBaseObjectCommand(UMLObject *object);
+            virtual ~CmdBaseObjectCommand();
 
-            void redo();
-            void undo();
+        protected:
+            Uml::ID::Type m_objectId;
 
-        private:
-            QString    m_stereo;
-            QString    m_oldStereo;
+            void setObject(UMLObject* object);
+            UMLObject* object();
     };
 }
 
-#endif
+#endif // CMD_BASEOBJECTCOMMAND_H

@@ -11,13 +11,11 @@
 #ifndef CMD_SETNAME_H
 #define CMD_SETNAME_H
 
-#include <QUndoCommand>
-
-class UMLObject;
+#include "cmd_baseObjectCommand.h"
 
 namespace Uml
 {
-    class CmdSetName : public QUndoCommand
+    class CmdSetName : public CmdBaseObjectCommand
     {
         public:
             CmdSetName(UMLObject* obj, const QString& name);
@@ -28,7 +26,6 @@ namespace Uml
 
         private:
             QString m_oldname;
-            UMLObject* m_umlObject;
             QString m_name;
     };
 }
