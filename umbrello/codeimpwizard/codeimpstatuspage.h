@@ -53,6 +53,7 @@ public:
 private:
     QList<QFileInfo> m_files; ///< list of files to import
     bool             m_workDone;
+    bool             m_savedUndoEnabled; ///< saved undo enabled state
     int              m_index; ///< index in m_files
     QFileInfo        m_file; ///< current file
     bool             m_savedlistViewVisible; ///< indicates previous state of list view
