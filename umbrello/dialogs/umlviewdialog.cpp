@@ -13,6 +13,7 @@
 
 // local includes
 #include "classoptionspage.h"
+#include "diagrampropertiespage.h"
 #include "debug_utils.h"
 #include "icon_utils.h"
 #include "uml.h"
@@ -59,7 +60,7 @@ UMLViewDialog::~UMLViewDialog()
 
 void UMLViewDialog::slotOk()
 {
-    applyPage(m_pageGeneralItem);
+    applyPage(m_pageDiagramItem);
     applyPage(m_pageDisplayItem);
     applyPage(m_pageFontItem);
     applyPage(m_pageStyleItem);
@@ -88,29 +89,12 @@ void UMLViewDialog::setupPages()
 void UMLViewDialog::setupDiagramPropertiesPage()
 {
     KVBox *page = new KVBox();
-    m_pageGeneralItem = new KPageWidgetItem(page, i18nc("general settings page", "General"));
-    m_pageGeneralItem->setHeader(i18n("General Settings"));
-    m_pageGeneralItem->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General));
-    addPage(m_pageGeneralItem);
+    m_pageDiagramItem = new KPageWidgetItem(page, i18nc("general settings page", "General"));
+    m_pageDiagramItem->setHeader(i18n("General Settings"));
+    m_pageDiagramItem->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General));
+    addPage(m_pageDiagramItem);
 
-    m_diagramProperties = new DiagramPropertiesPage(page);
-
-    m_diagramProperties->ui_diagramName->setText(m_pScene->name());
-    m_diagramProperties->ui_zoom->setValue(m_pScene->activeView()->currentZoom());
-    m_diagramProperties->ui_showOpSigs->setChecked(m_pScene->showOpSig());
-
-    m_diagramProperties->ui_checkBoxShowGrid->setChecked(m_pScene->isSnapGridVisible());
-    m_diagramProperties->ui_snapToGrid->setChecked(m_pScene->snapToGrid());
-    m_diagramProperties->ui_snapComponentSizeToGrid->setChecked(m_pScene->snapComponentSizeToGrid());
-
-    m_diagramProperties->ui_gridSpaceX->setValue(m_pScene->snapX());
-    m_diagramProperties->ui_gridSpaceY->setValue(m_pScene->snapY());
-    m_diagramProperties->ui_lineWidth->setValue(m_pScene->lineWidth());
-    m_diagramProperties->ui_documentation->setText(m_pScene->documentation());
-    if (m_pScene->type() == Uml::DiagramType::Sequence) {
-        m_diagramProperties->ui_autoIncrementSequence->setVisible(true);
-        m_diagramProperties->ui_autoIncrementSequence->setChecked(m_pScene->autoIncrementSequence());
-    }
+    m_diagramPropertiesPage = new DiagramPropertiesPage(page, m_pScene);
 }
 
 /**
@@ -168,21 +152,9 @@ void UMLViewDialog::setupFontPage()
  */
 void UMLViewDialog::applyPage(KPageWidgetItem *item)
 {
-    if (item == m_pageGeneralItem)
+    if (item == m_pageDiagramItem)
     {
-        checkName();
-//:TODO:        m_pScene->setZoom(m_diagramProperties->ui_zoom->value());
-        m_pScene->setDocumentation(m_diagramProperties->ui_documentation->toPlainText());
-        m_pScene->setSnapSpacing(m_diagramProperties->ui_gridSpaceX->value(),
-                                  m_diagramProperties->ui_gridSpaceY->value());
-        m_pScene->setLineWidth(m_diagramProperties->ui_lineWidth->value());
-        m_pScene->setSnapToGrid(m_diagramProperties->ui_snapToGrid->isChecked());
-        m_pScene->setSnapComponentSizeToGrid(m_diagramProperties->ui_snapComponentSizeToGrid->isChecked());
-        m_pScene->setSnapGridVisible(m_diagramProperties->ui_checkBoxShowGrid->isChecked());
-        m_pScene->setShowOpSig(m_diagramProperties->ui_showOpSigs->isChecked());
-        if (m_pScene->type() == Uml::DiagramType::Sequence) {
-            m_pScene->setAutoIncrementSequence(m_diagramProperties->ui_autoIncrementSequence->isChecked());
-        }
+        m_diagramPropertiesPage->apply();
     }
     else if (item == m_pageStyleItem)
     {
@@ -216,35 +188,6 @@ void UMLViewDialog::applyPage(KPageWidgetItem *item)
         //       showSig = !(sig == Uml::st_NoSig || sig == Uml::st_NoSigNoVis);
         //       options.classState.showAttSig = showSig;
         m_pScene->setOptionState(m_options);
-    }
-}
-
-/**
- * Checks whether the name is unique and sets it if it is.
- */
-void UMLViewDialog::checkName()
-{
-    QString newName = m_diagramProperties->ui_diagramName->text();
-    if (newName.length() == 0) {
-        KMessageBox::sorry(this, i18n("The name you have entered is invalid."),
-                           i18n("Invalid Name"), 0);
-        m_diagramProperties->ui_diagramName->setText(m_pScene->name());
-        return;
-    }
-
-    if (newName != m_pScene->name()) {
-        UMLDoc* doc = UMLApp::app()->document();
-        UMLView* view = doc->findView(m_pScene->type(), newName);
-        if (view) {
-            KMessageBox::sorry(this, i18n("The name you have entered is not unique."),
-                               i18n("Name Not Unique"), 0);
-            m_diagramProperties->ui_diagramName->setText(m_pScene->name());
-        }
-        else {
-            // uDebug() << "Cannot find view with name " << newName;
-            m_pScene->setName(newName);
-            doc->signalDiagramRenamed(m_pScene->activeView());
-        }
     }
 }
 

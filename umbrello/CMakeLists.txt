@@ -189,6 +189,7 @@ set(libdialogs_SRCS
     dialogs/codetextedit.cpp
     dialogs/codetexthighlighter.cpp
     dialogs/defaultcodegenpolicypage.cpp
+    dialogs/diagrampropertiespage.cpp
     dialogs/diagramprintpage.cpp
     dialogs/dialog_utils.cpp
     dialogs/dialogbase.cpp

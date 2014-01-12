@@ -17,9 +17,9 @@
 
 // app includes
 #include "optionstate.h"
-#include "ui_diagrampropertiespage.h"
 
 class ClassOptionsPage;
+class DiagramPropertiesPage;
 class UMLScene;
 class UMLView;
 class UMLWidgetStylePage;
@@ -29,13 +29,6 @@ class KFontChooser;
  * @author Paul Hensgen
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-
-class DiagramPropertiesPage : public QWidget, public Ui::DiagramPropertiesPage
-{
-public:
-    explicit DiagramPropertiesPage(QWidget *parent) : QWidget(parent) { setupUi(this); }
-};
-
 class UMLViewDialog : public KPageDialog
 {
     Q_OBJECT
@@ -58,13 +51,13 @@ protected:
     UMLScene*              m_pScene;  ///< the scene to represent
     Settings::OptionState  m_options;
     KFontChooser*          m_pChooser;
-    DiagramPropertiesPage* m_diagramProperties;
+    DiagramPropertiesPage* m_diagramPropertiesPage;
     ClassOptionsPage*      m_pOptionsPage;
     UMLWidgetStylePage*    m_pStylePage;
     KPageWidgetItem*       m_pageStyleItem;
     KPageWidgetItem*       m_pageFontItem;
     KPageWidgetItem*       m_pageDisplayItem;
-    KPageWidgetItem*       m_pageGeneralItem;
+    KPageWidgetItem*       m_pageDiagramItem;
 
 public slots:
     void slotOk();
