@@ -41,7 +41,6 @@ DiagramPropertiesPage::DiagramPropertiesPage(QWidget *parent, UMLScene *scene)
 
     ui_gridSpaceX->setValue(scene->snapX());
     ui_gridSpaceY->setValue(scene->snapY());
-    ui_lineWidth->setValue(scene->lineWidth());
     ui_documentation->setText(scene->documentation());
     if (scene->type() == Uml::DiagramType::Sequence) {
         ui_autoIncrementSequence->setVisible(true);
@@ -105,7 +104,6 @@ void DiagramPropertiesPage::apply()
     //:TODO: m_pScene->setZoom(m_diagramProperties->ui_zoom->value());
     m_scene->setDocumentation(ui_documentation->toPlainText());
     m_scene->setSnapSpacing(ui_gridSpaceX->value(), ui_gridSpaceY->value());
-    m_scene->setLineWidth(ui_lineWidth->value());
     m_scene->setSnapToGrid(ui_snapToGrid->isChecked());
     m_scene->setSnapComponentSizeToGrid(ui_snapComponentSizeToGrid->isChecked());
     m_scene->setSnapGridVisible(ui_checkBoxShowGrid->isChecked());
