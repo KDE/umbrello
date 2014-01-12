@@ -100,13 +100,18 @@ public:
     void setModified(bool _m);
 
     void enablePrint(bool enable);
-    void enableUndo(bool enable);
-    void enableRedo(bool enable);
 
-    bool isUndoEnabled() const;
-    bool isRedoEnabled() const;
     bool isPasteState() const;
     bool isCutCopyState() const;
+
+    bool isUndoEnabled();
+    void enableUndo(bool enable);
+
+    bool isUndoActionEnabled() const;
+    void enableUndoAction(bool enable);
+
+    bool isRedoActionEnabled() const;
+    void enableRedoAction(bool enable);
 
     bool isSimpleCodeGeneratorActive();
 
@@ -428,6 +433,7 @@ private:
     XhtmlGenerator* m_xhtmlGenerator;
 
     KUndoStack* m_pUndoStack;  ///< UndoStack used to store actions, to provide Undo/Redo feature.
+    bool m_undoEnabled; ///< Undo enabled flag
 
     bool m_hasBegunMacro;  ///< Macro creation flag.
 

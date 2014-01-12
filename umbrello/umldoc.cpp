@@ -385,7 +385,7 @@ bool UMLDoc::newDocument()
     setModified(false);
     initSaveTimer();
 
-    UMLApp::app()->enableUndo(false);
+    UMLApp::app()->enableUndoAction(false);
     UMLApp::app()->clearUndoStack();
 
     return true;
@@ -555,7 +555,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
     m_bLoading = false;
     initSaveTimer();
 
-    UMLApp::app()->enableUndo(false);
+    UMLApp::app()->enableUndoAction(false);
     UMLApp::app()->clearUndoStack();
     // for compatibility
     addDefaultStereotypes();

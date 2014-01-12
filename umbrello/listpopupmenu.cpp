@@ -1864,8 +1864,8 @@ void ListPopupMenu::setupMenu(MenuType type)
 
     if(m_TriggerObjectType == tot_View) {
         bool bCutState = UMLApp::app()->isCutCopyState();
-        setActionEnabled(mt_Undo, UMLApp::app()->isUndoEnabled());
-        setActionEnabled(mt_Redo, UMLApp::app()->isRedoEnabled());
+        setActionEnabled(mt_Undo, UMLApp::app()->isUndoActionEnabled());
+        setActionEnabled(mt_Redo, UMLApp::app()->isRedoActionEnabled());
         setActionEnabled(mt_Cut, bCutState);
         setActionEnabled(mt_Copy, bCutState);
         setActionEnabled(mt_Paste, UMLApp::app()->isPasteState());
