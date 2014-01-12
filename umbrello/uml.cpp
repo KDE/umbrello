@@ -1019,6 +1019,7 @@ void UMLApp::readOptions()
     fileOpenRecent->loadEntries(m_config->group("Recent Files"));
     setImageMimeType(UmbrelloSettings::imageMimeType());
     resize(UmbrelloSettings::geometry());
+    enableUndo(Settings::optionState().generalState.undo);
 }
 
 /**
@@ -1711,28 +1712,6 @@ void UMLApp::enablePrint(bool enable)
 }
 
 /**
- * Set whether to allow Undo.
- * It will enable/disable the menu/toolbar options.
- *
- * @param enable    Set whether to allow printing.
- */
-void UMLApp::enableUndo(bool enable)
-{
-    editUndo->setEnabled(enable);
-}
-
-/**
- * Set whether to allow Redo.
- * It will enable/disable the menu/toolbar options.
- *
- * @param enable    Set whether to allow printing.
- */
-void UMLApp::enableRedo(bool enable)
-{
-    editRedo->setEnabled(enable);
-}
-
-/**
  * Initialize Qt's global clipboard support for the application.
  */
 void UMLApp::initClip()
@@ -1825,6 +1804,8 @@ void UMLApp::slotApplyPrefs()
     if (m_settingsDlg) {
         // we need this to sync both values
         Settings::OptionState& optionState = Settings::optionState();
+        enableUndo(optionState.generalState.undo);
+
         bool stackBrowsing = (m_layout->indexOf(m_tabWidget) != -1);
         bool tabBrowsing = optionState.generalState.tabdiagrams;
         DEBUG(DBG_SRC) << "stackBrowsing=" << stackBrowsing << " / tabBrowsing=" << tabBrowsing;
@@ -1872,26 +1853,6 @@ void UMLApp::slotApplyPrefs()
 }
 
 /**
- * Returns the undo state. Is used for popupmenu of a view.
- *
- * @return  True if Undo is enabled.
- */
-bool UMLApp::isUndoEnabled() const
-{
-    return editUndo->isEnabled();
-}
-
-/**
- * Returns the redo state.
- *
- * @return  True if Redo is enabled. Is used for popupmenu of a view.
- */
-bool UMLApp::isRedoEnabled() const
-{
-    return editRedo->isEnabled();
-}
-
-/**
  * Returns the paste state.
  *
  * @return  True if Paste is enabled.
@@ -1909,6 +1870,73 @@ bool UMLApp::isPasteState() const
 bool UMLApp::isCutCopyState() const
 {
     return editCopy->isEnabled();
+}
+
+/**
+ * Returns the state of undo support.
+ *
+ * @return  True if undo is enabled.
+ */
+bool UMLApp::isUndoEnabled()
+{
+    return m_undoEnabled;
+
+}
+
+/**
+ * Set the state of undo support.
+ *
+ */
+void UMLApp::enableUndo(bool enable)
+{
+    m_undoEnabled = enable;
+    editRedo->setVisible(enable);
+    editUndo->setVisible(enable);
+    viewShowCmdHistory->setVisible(enable);
+    clearUndoStack();
+    slotShowCmdHistoryView(enable);
+}
+
+/**
+ * Returns the undo state. Is used for popupmenu of a view.
+ *
+ * @return  True if Undo is enabled.
+ */
+bool UMLApp::isUndoActionEnabled() const
+{
+    return editUndo->isEnabled();
+}
+
+/**
+ * Set whether to allow Undo.
+ * It will enable/disable the menu/toolbar options.
+ *
+ * @param enable    Set whether to allow printing.
+ */
+void UMLApp::enableUndoAction(bool enable)
+{
+    editUndo->setEnabled(enable);
+}
+
+/**
+ * Returns the redo state.
+ *
+ * @return  True if Redo is enabled. Is used for popupmenu of a view.
+ */
+bool UMLApp::isRedoActionEnabled() const
+{
+    return editRedo->isEnabled();
+}
+
+/**
+ * Set whether to allow Redo.
+ * It will enable/disable the menu/toolbar options.
+ *
+ * @param enable    Set whether to allow printing.
+ */
+void UMLApp::enableRedoAction(bool enable)
+{
+    editRedo->setEnabled(enable);
 }
 
 /**
@@ -3002,17 +3030,20 @@ void UMLApp::clearUndoStack()
  */
 void UMLApp::undo()
 {
+    if (!isUndoEnabled())
+        return;
+
     DEBUG(DBG_SRC) << m_pUndoStack->undoText() << " [" << m_pUndoStack->count() << "]";
     m_pUndoStack->undo();
 
     if (m_pUndoStack->canUndo()) {
-        UMLApp::app()->enableUndo(true);
+        UMLApp::app()->enableUndoAction(true);
     }
     else {
-        UMLApp::app()->enableUndo(false);
+        UMLApp::app()->enableUndoAction(false);
     }
 
-    UMLApp::app()->enableRedo(true);
+    UMLApp::app()->enableRedoAction(true);
 }
 
 /**
@@ -3020,17 +3051,20 @@ void UMLApp::undo()
  */
 void UMLApp::redo()
 {
+    if (!isUndoEnabled())
+        return;
+
     DEBUG(DBG_SRC) << m_pUndoStack->redoText() << " [" << m_pUndoStack->count() << "]";
     m_pUndoStack->redo();
 
     if (m_pUndoStack->canRedo()) {
-        UMLApp::app()->enableRedo(true);
+        UMLApp::app()->enableRedoAction(true);
     }
     else {
-        UMLApp::app()->enableRedo(false);
+        UMLApp::app()->enableRedoAction(false);
     }
 
-    UMLApp::app()->enableUndo(true);
+    UMLApp::app()->enableUndoAction(true);
 }
 
 /**
@@ -3038,12 +3072,15 @@ void UMLApp::redo()
  */
 void UMLApp::executeCommand(QUndoCommand* cmd)
 {
-    if (cmd != NULL) {
+    if (cmd == NULL)
+        return;
+    if (isUndoEnabled()) {
         m_pUndoStack->push(cmd);
         DEBUG(DBG_SRC) << cmd->text() << " [" << m_pUndoStack->count() << "]";
+        UMLApp::app()->enableUndoAction(true);
+    } else {
+        cmd->redo();
     }
-
-    UMLApp::app()->enableUndo(true);
 }
 
 /**
@@ -3051,6 +3088,9 @@ void UMLApp::executeCommand(QUndoCommand* cmd)
  */
 void UMLApp::beginMacro(const QString & text)
 {
+    if (!isUndoEnabled()) {
+        return;
+    }
     if (m_hasBegunMacro) {
         return;
     }
@@ -3064,6 +3104,9 @@ void UMLApp::beginMacro(const QString & text)
  */
 void UMLApp::endMacro()
 {
+    if (!isUndoEnabled()) {
+        return;
+    }
     if (m_hasBegunMacro) {
         m_pUndoStack->endMacro();
     }
