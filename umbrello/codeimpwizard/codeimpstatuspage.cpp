@@ -49,6 +49,7 @@
 CodeImpStatusPage::CodeImpStatusPage(QWidget *parent)
   : QWizardPage(parent),
     m_workDone(false),
+    m_savedUndoEnabled(false),
     m_index(0),
     m_savedlistViewVisible(false)
 #ifdef ENABLE_IMPORT_THREAD
@@ -137,6 +138,9 @@ void CodeImpStatusPage::importCode()
     ui_textEditLogger->setHtml(i18np("<b>Code import of 1 file:</b><br>", "<b>Code import of %1 files:</b><br>", m_files.size()));
     m_index = 0;
     m_workDone = false;
+    m_savedUndoEnabled = UMLApp::app()->isUndoEnabled();
+    UMLApp::app()->enableUndo(false);
+
 #ifdef ENABLE_IMPORT_THREAD
     m_thread = new QThread;
     //connect(thread, SIGNAL(started()), this, SLOT(importCodeFile()));
@@ -195,6 +199,9 @@ void CodeImpStatusPage::importNextFile(bool noError)
 void CodeImpStatusPage::importCodeFinish()
 {
     UMLDoc* doc = UMLApp::app()->document();
+
+    UMLApp::app()->enableUndo(m_savedUndoEnabled);
+
     doc->setLoading(false);
     // Modification is set after the import is made, because the file was modified when adding the classes.
     // Allowing undo of the whole class importing. I think it eats a lot of memory.
@@ -228,6 +235,8 @@ void CodeImpStatusPage::importCodeStop()
 {
     messageToLog(m_file.fileName(), i18n("importing file ... stopped<br>"));
     updateStatus(m_file.fileName(), i18n("Import stopped"));
+
+    UMLApp::app()->enableUndo(m_savedUndoEnabled);
 
     UMLDoc* doc = UMLApp::app()->document();
     doc->setLoading(false);
