@@ -2591,7 +2591,7 @@ void UMLApp::slotDeleteSelected()
     QWidget *f = focusWidget();
     if (f == m_listView) {
         QWidgetAction *o = static_cast<QWidgetAction *>(sender());
-        if (o->objectName() == "delete_selected") {
+        if (o && o->objectName() == "delete_selected") {
             m_listView->slotDeleteSelectedItems();
         }
         return;
