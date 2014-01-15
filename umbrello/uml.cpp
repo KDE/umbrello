@@ -1513,7 +1513,8 @@ void UMLApp::resetStatusMsg()
 void UMLApp::createDiagram(Uml::DiagramType::Enum type)
 {
     QString diagramName = m_doc->createDiagramName(type);
-    executeCommand(new Uml::CmdCreateDiagram(m_doc, type, diagramName));
+    if (!diagramName.isEmpty())
+        executeCommand(new Uml::CmdCreateDiagram(m_doc, type, diagramName));
 }
 
 /**
