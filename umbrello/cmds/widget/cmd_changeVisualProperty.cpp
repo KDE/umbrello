@@ -13,6 +13,7 @@
 // app includes
 #include "classifierwidget.h"
 #include "umlwidget.h"
+#include "debug_utils.h"
 
 // kde includes
 #include <klocale.h>
@@ -40,12 +41,18 @@ namespace Uml
     void CmdChangeVisualProperty::redo()
     {
         ClassifierWidget* classifier = dynamic_cast<ClassifierWidget*>(widget());
-        classifier->setVisualPropertyCmd(m_property, m_newValue);
+        if (classifier)
+            classifier->setVisualPropertyCmd(m_property, m_newValue);
+        else
+            uWarning() << "could not find classifier widget with id" << Uml::ID::toString(m_widgetId);
     }
 
     void CmdChangeVisualProperty::undo()
     {
         ClassifierWidget* classifier = dynamic_cast<ClassifierWidget*>(widget());
-        classifier->setVisualPropertyCmd(m_property, m_oldValue);
+        if (classifier)
+            classifier->setVisualPropertyCmd(m_property, m_oldValue);
+        else
+            uWarning() << "could not find classifier widget with id" << Uml::ID::toString(m_widgetId);
     }
 }
