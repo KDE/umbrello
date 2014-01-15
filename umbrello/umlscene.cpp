@@ -1092,6 +1092,12 @@ UMLWidget * UMLScene::findWidgetByLocalId(Uml::ID::Type id)
         }
     }
 
+    foreach(UMLWidget* obj, m_MessageList) {
+        if (obj->localID() == id) {
+            return obj;
+        }
+    }
+
     return 0;
 }
 
