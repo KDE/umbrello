@@ -41,6 +41,8 @@
 
 #define PREPROCESSLEXER_DEBUG
 
+DEBUG_REGISTER_DISABLED(PreprocessLexer)
+
 template <class _Tp>
 struct identity : public std::unary_function<_Tp, _Tp> {
   _Tp& operator()(_Tp& __x) const { return __x; }

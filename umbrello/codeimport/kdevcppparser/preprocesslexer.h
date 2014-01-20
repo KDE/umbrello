@@ -190,8 +190,9 @@ private:
     QString m_text;
 };
 
-class PreprocessLexer
+class PreprocessLexer : public QObject
 {
+Q_OBJECT
 public:
     typedef rule<scanner<CharIterator, CharPolicies> > CharRule;
 

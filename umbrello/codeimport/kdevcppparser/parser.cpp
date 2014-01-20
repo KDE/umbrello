@@ -31,6 +31,8 @@
 #include <QString>
 #include <QStringList>
 
+DEBUG_REGISTER_DISABLED(Parser)
+
 bool Parser::advance(int tk, char const* descr)
 {
     const Token& token = (*m_tokenIt);
@@ -81,7 +83,7 @@ Parser::~Parser()
 
 bool Parser::reportError(const Error& err)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::reportError()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::reportError()";
     if (m_problems < m_maxProblems) {
         ++m_problems;
         const Token& token = (*m_tokenIt);
@@ -100,7 +102,7 @@ bool Parser::reportError(const Error& err)
 
 bool Parser::reportError(const QString& msg)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::reportError()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::reportError()";
     if (m_problems < m_maxProblems) {
         ++m_problems;
         const Token& token = (*m_tokenIt);
@@ -119,7 +121,7 @@ void Parser::syntaxError()
 
 bool Parser::skipUntil(int token)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::skipUntil()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::skipUntil()";
     while (!(*m_tokenIt).isNull()) {
         if ((*m_tokenIt) == token)
             return true;
@@ -132,7 +134,7 @@ bool Parser::skipUntil(int token)
 
 bool Parser::skipUntilDeclaration()
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::skipUntilDeclaration()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::skipUntilDeclaration()";
 
     while (!(*m_tokenIt).isNull()) {
 
@@ -184,7 +186,7 @@ bool Parser::skipUntilDeclaration()
 
 bool Parser::skipUntilStatement()
 {
-    //uDebug()<< "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::skipUntilStatement() -- token = " << (*m_tokenIt).text();
+    DEBUG(DBG_SRC)<< "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::skipUntilStatement() -- token = " << (*m_tokenIt).text();
 
     while (!(*m_tokenIt).isNull()) {
         switch ((*m_tokenIt)) {
@@ -260,7 +262,7 @@ bool Parser::skip(int l, int r)
 
 bool Parser::skipCommaExpression(AST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::skipCommaExpression()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::skipCommaExpression()";
 
     TokenIterator start = m_tokenIt;
 
@@ -288,7 +290,7 @@ bool Parser::skipCommaExpression(AST::Node& node)
 
 bool Parser::skipExpression(AST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::skipExpression()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::skipExpression()";
 
     TokenIterator start = m_tokenIt;
 
@@ -346,7 +348,7 @@ bool Parser::skipExpression(AST::Node& node)
 
 bool Parser::parseName(NameAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseName()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseName()";
 
     GroupAST::Node winDeclSpec;
     parseWinDeclSpec(winDeclSpec);
@@ -390,9 +392,9 @@ bool Parser::parseName(NameAST::Node& node)
 
 bool Parser::parseTranslationUnit(TranslationUnitAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseTranslationUnit()";
-
     TokenIterator start = m_tokenIt = lex->tokenBegin();
+
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseTranslationUnit()";
 
     m_problems = 0;
     TranslationUnitAST::Node tun = CreateNode<TranslationUnitAST>();
@@ -419,7 +421,7 @@ bool Parser::parseTranslationUnit(TranslationUnitAST::Node& node)
 
 bool Parser::parseDeclaration(DeclarationAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseDeclaration()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseDeclaration()";
 
     // catch first comment
     Position ps = m_tokenIt->getStartPosition();
@@ -433,7 +435,7 @@ bool Parser::parseDeclaration(DeclarationAST::Node& node)
             ast->setComment(comment);
             ++m_tokenIt;
         }
-        //uDebug() << m_driver->currentFileName() << comment;
+        DEBUG(DBG_SRC) << m_driver->currentFileName() << comment;
         node = ast;
         return true;
     }
@@ -513,7 +515,7 @@ bool Parser::parseDeclaration(DeclarationAST::Node& node)
                 return false;
 
             if (!comment.isEmpty()) {
-                //uDebug() << "Parser::parseDeclaration(spec): comment is " << comment;
+                DEBUG(DBG_SRC) << "Parser::parseDeclaration(spec): comment is " << comment;
                 spec->setComment(comment);
             }
 
@@ -534,7 +536,7 @@ bool Parser::parseDeclaration(DeclarationAST::Node& node)
     } // end switch
 
     if (success && !comment.isEmpty()) {
-        //uDebug() << "Parser::parseDeclaration(): comment is " << comment;
+        DEBUG(DBG_SRC) << "Parser::parseDeclaration(): comment is " << comment;
         node->setComment(comment);
     }
     return success;
@@ -542,7 +544,7 @@ bool Parser::parseDeclaration(DeclarationAST::Node& node)
 
 bool Parser::parseLinkageSpecification(DeclarationAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseLinkageSpecification()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseLinkageSpecification()";
 
     TokenIterator start = m_tokenIt;
 
@@ -583,7 +585,7 @@ bool Parser::parseLinkageSpecification(DeclarationAST::Node& node)
 
 bool Parser::parseLinkageBody(LinkageBodyAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseLinkageBody()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseLinkageBody()";
 
     TokenIterator start = m_tokenIt;
 
@@ -624,7 +626,7 @@ bool Parser::parseLinkageBody(LinkageBodyAST::Node& node)
 
 bool Parser::parseNamespace(DeclarationAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseNamespace()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseNamespace()";
 
     TokenIterator start = m_tokenIt;
 
@@ -679,7 +681,7 @@ bool Parser::parseNamespace(DeclarationAST::Node& node)
 
 bool Parser::parseUsing(DeclarationAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseUsing()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseUsing()";
 
     TokenIterator start = m_tokenIt;
 
@@ -723,7 +725,7 @@ bool Parser::parseUsing(DeclarationAST::Node& node)
 
 bool Parser::parseUsingDirective(DeclarationAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseUsingDirective()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseUsingDirective()";
 
     TokenIterator start = m_tokenIt;
 
@@ -751,7 +753,7 @@ bool Parser::parseUsingDirective(DeclarationAST::Node& node)
 
 bool Parser::parseOperatorFunctionId(AST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseOperatorFunctionId()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseOperatorFunctionId()";
 
     TokenIterator start = m_tokenIt;
 
@@ -795,7 +797,7 @@ bool Parser::parseOperatorFunctionId(AST::Node& node)
 
 bool Parser::parseTemplateArgumentList(TemplateArgumentListAST::Node& node, bool reportError)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseTemplateArgumentList()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseTemplateArgumentList()";
 
     TokenIterator start = m_tokenIt;
 
@@ -831,7 +833,7 @@ bool Parser::parseTemplateArgumentList(TemplateArgumentListAST::Node& node, bool
 
 bool Parser::parseTypedef(DeclarationAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseTypedef()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseTypedef()";
 
     TokenIterator start = m_tokenIt;
 
@@ -866,7 +868,7 @@ bool Parser::parseTypedef(DeclarationAST::Node& node)
 
 bool Parser::parseAsmDefinition(DeclarationAST::Node& /*node*/)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseAsmDefinition()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseAsmDefinition()";
 
     if (!advance(Token_asm, "asm"))
         return false;
@@ -885,7 +887,7 @@ bool Parser::parseAsmDefinition(DeclarationAST::Node& /*node*/)
 
 bool Parser::parseTemplateDeclaration(DeclarationAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseTemplateDeclaration()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseTemplateDeclaration()";
 
     TokenIterator start = m_tokenIt;
 
@@ -931,7 +933,7 @@ bool Parser::parseTemplateDeclaration(DeclarationAST::Node& node)
 
 bool Parser::parseOperator(AST::Node& /*node*/)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseOperator()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseOperator()";
     QString text = (*m_tokenIt).text();
 
     switch ((*m_tokenIt)) {
@@ -991,7 +993,7 @@ bool Parser::parseOperator(AST::Node& /*node*/)
 
 bool Parser::parseCvQualify(GroupAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseCvQualify()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseCvQualify()";
 
     TokenIterator start = m_tokenIt;
 
@@ -1015,7 +1017,7 @@ bool Parser::parseCvQualify(GroupAST::Node& node)
         return false;
 
 
-    //uDebug() << "-----------------> token = " << (*m_tokenIt).text();
+    DEBUG(DBG_SRC) << "-----------------> token = " << (*m_tokenIt).text();
     update_pos(ast, start, m_tokenIt);
 
     node = ast;
@@ -1081,7 +1083,7 @@ bool Parser::parseSimpleTypeSpecifier(TypeSpecifierAST::Node& node)
 
 bool Parser::parsePtrOperator(AST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parsePtrOperator()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parsePtrOperator()";
 
     TokenIterator start = m_tokenIt;
 
@@ -1110,7 +1112,7 @@ bool Parser::parsePtrOperator(AST::Node& node)
 
 bool Parser::parseTemplateArgument(AST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseTemplateArgument()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseTemplateArgument()";
 
     TokenIterator start = m_tokenIt;
     if (parseTypeId(node)) {
@@ -1128,7 +1130,7 @@ bool Parser::parseTemplateArgument(AST::Node& node)
 
 bool Parser::parseTypeSpecifier(TypeSpecifierAST::Node& spec)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseTypeSpecifier()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseTypeSpecifier()";
 
     GroupAST::Node cv;
     parseCvQualify(cv);
@@ -1148,7 +1150,7 @@ bool Parser::parseTypeSpecifier(TypeSpecifierAST::Node& spec)
 
 bool Parser::parseDeclarator(DeclaratorAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseDeclarator()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseDeclarator()";
 
     TokenIterator start = m_tokenIt;
 
@@ -1230,7 +1232,7 @@ bool Parser::parseDeclarator(DeclaratorAST::Node& node)
 
             ParameterDeclarationClauseAST::Node params;
             if (!parseParameterDeclarationClause(params)) {
-                //uDebug() << "----------------------> not a parameter declaration, maybe an initializer!?";
+                DEBUG(DBG_SRC) << "----------------------> not a parameter declaration, maybe an initializer!?";
                 m_tokenIt = index;
                 goto update_pos;
             }
@@ -1274,7 +1276,7 @@ update_pos:
 
 bool Parser::parseAbstractDeclarator(DeclaratorAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseDeclarator()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseDeclarator()";
     TokenIterator start = m_tokenIt;
 
     DeclaratorAST::Node ast = CreateNode<DeclaratorAST>();
@@ -1371,7 +1373,7 @@ update_pos:
 
 bool Parser::parseEnumSpecifier(TypeSpecifierAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseEnumSpecifier()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseEnumSpecifier()";
 
     QString comment;
     while ((*m_tokenIt) == Token_comment) {
@@ -1439,7 +1441,7 @@ bool Parser::parseEnumSpecifier(TypeSpecifierAST::Node& node)
 
 bool Parser::parseTemplateParameterList(TemplateParameterListAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseTemplateParameterList()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseTemplateParameterList()";
 
     TokenIterator start = m_tokenIt;
 
@@ -1474,7 +1476,7 @@ bool Parser::parseTemplateParameterList(TemplateParameterListAST::Node& node)
 
 bool Parser::parseTemplateParameter(TemplateParameterAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseTemplateParameter()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseTemplateParameter()";
 
     TokenIterator start = m_tokenIt;
     TemplateParameterAST::Node ast = CreateNode<TemplateParameterAST>();
@@ -1502,7 +1504,7 @@ ok:
 
 bool Parser::parseTypeParameter(TypeParameterAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseTypeParameter()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseTypeParameter()";
 
     TokenIterator start = m_tokenIt;
     TypeParameterAST::Node ast = CreateNode<TypeParameterAST>();
@@ -1589,7 +1591,7 @@ bool Parser::parseTypeParameter(TypeParameterAST::Node& node)
 
 bool Parser::parseStorageClassSpecifier(GroupAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseStorageClassSpecifier()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseStorageClassSpecifier()";
 
     TokenIterator start = m_tokenIt;
     GroupAST::Node ast = CreateNode<GroupAST>();
@@ -1618,7 +1620,7 @@ bool Parser::parseStorageClassSpecifier(GroupAST::Node& node)
 
 bool Parser::parseFunctionSpecifier(GroupAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseFunctionSpecifier()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseFunctionSpecifier()";
 
     TokenIterator start = m_tokenIt;
     GroupAST::Node ast = CreateNode<GroupAST>();
@@ -1647,7 +1649,7 @@ bool Parser::parseFunctionSpecifier(GroupAST::Node& node)
 
 bool Parser::parseTypeId(AST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseTypeId()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseTypeId()";
 
     /// @todo implement the AST for typeId
     TokenIterator start = m_tokenIt;
@@ -1669,7 +1671,7 @@ bool Parser::parseTypeId(AST::Node& node)
 
 bool Parser::parseInitDeclaratorList(InitDeclaratorListAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseInitDeclaratorList()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseInitDeclaratorList()";
 
     TokenIterator start = m_tokenIt;
 
@@ -1694,7 +1696,7 @@ bool Parser::parseInitDeclaratorList(InitDeclaratorListAST::Node& node)
             decl->setComment(comment);
         ast->addInitDeclarator(decl);
     }
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseInitDeclaratorList() -- end";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseInitDeclaratorList() -- end";
 
     update_pos(ast, start, m_tokenIt);
     node = ast;
@@ -1704,7 +1706,7 @@ bool Parser::parseInitDeclaratorList(InitDeclaratorListAST::Node& node)
 
 bool Parser::parseParameterDeclarationClause(ParameterDeclarationClauseAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseParameterDeclarationClause()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseParameterDeclarationClause()";
 
     TokenIterator start = m_tokenIt;
 
@@ -1743,7 +1745,7 @@ good:
 
 bool Parser::parseParameterDeclarationList(ParameterDeclarationListAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseParameterDeclarationList()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseParameterDeclarationList()";
 
     TokenIterator start = m_tokenIt;
 
@@ -1781,7 +1783,7 @@ bool Parser::parseParameterDeclarationList(ParameterDeclarationListAST::Node& no
 
 bool Parser::parseParameterDeclaration(ParameterDeclarationAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseParameterDeclaration()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseParameterDeclaration()";
 
     TokenIterator start = m_tokenIt;
 
@@ -1824,7 +1826,7 @@ bool Parser::parseParameterDeclaration(ParameterDeclarationAST::Node& node)
 
 bool Parser::parseClassSpecifier(TypeSpecifierAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseClassSpecifier()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseClassSpecifier()";
 
     TokenIterator start = m_tokenIt;
 
@@ -1903,7 +1905,7 @@ bool Parser::parseClassSpecifier(TypeSpecifierAST::Node& node)
 
 bool Parser::parseAccessSpecifier(AST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseAccessSpecifier()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseAccessSpecifier()";
 
     TokenIterator start = m_tokenIt;
 
@@ -1958,7 +1960,7 @@ AST::Node Parser::ast_from_token(TokenIterator tk) const
 
 bool Parser::parseMemberSpecification(DeclarationAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseMemberSpecification()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseMemberSpecification()";
 
     QString comment;
     while ((*m_tokenIt) == Token_comment) {
@@ -2037,7 +2039,7 @@ bool Parser::parseMemberSpecification(DeclarationAST::Node& node)
             return false;
 
         if (!comment.isEmpty()) {
-            //uDebug() << "Parser::parseMemberSpecification(spec): comment is " << comment;
+            DEBUG(DBG_SRC) << "Parser::parseMemberSpecification(spec): comment is " << comment;
             spec->setComment(comment);
         }
 
@@ -2055,14 +2057,14 @@ bool Parser::parseMemberSpecification(DeclarationAST::Node& node)
     bool success = parseDeclarationInternal(node, comment);
     if (success && !comment.isEmpty()) {
         node->setComment(comment);
-        //uDebug() << "Parser::parseMemberSpecification(): comment is " << comment;
+        DEBUG(DBG_SRC) << "Parser::parseMemberSpecification(): comment is " << comment;
     }
     return success;
 }
 
 bool Parser::parseCtorInitializer(AST::Node& /*node*/)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseCtorInitializer()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseCtorInitializer()";
 
     if ((*m_tokenIt) != ':') {
         return false;
@@ -2079,7 +2081,7 @@ bool Parser::parseCtorInitializer(AST::Node& /*node*/)
 
 bool Parser::parseElaboratedTypeSpecifier(TypeSpecifierAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseElaboratedTypeSpecifier()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseElaboratedTypeSpecifier()";
 
     TokenIterator start = m_tokenIt;
 
@@ -2112,13 +2114,13 @@ bool Parser::parseElaboratedTypeSpecifier(TypeSpecifierAST::Node& node)
 
 bool Parser::parseDeclaratorId(NameAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseDeclaratorId()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseDeclaratorId()";
     return parseName(node);
 }
 
 bool Parser::parseExceptionSpecification(GroupAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseExceptionSpecification()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseExceptionSpecification()";
 
     if ((*m_tokenIt) != Token_throw) {
         return false;
@@ -2147,7 +2149,7 @@ bool Parser::parseExceptionSpecification(GroupAST::Node& node)
 
 bool Parser::parseEnumerator(EnumeratorAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseEnumerator()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseEnumerator()";
 
     QString comment;
     while ((*m_tokenIt) == Token_comment) {
@@ -2188,7 +2190,7 @@ bool Parser::parseEnumerator(EnumeratorAST::Node& node)
 
 bool Parser::parseInitDeclarator(InitDeclaratorAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseInitDeclarator()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseInitDeclarator()";
 
     TokenIterator start = m_tokenIt;
 
@@ -2213,7 +2215,7 @@ bool Parser::parseInitDeclarator(InitDeclaratorAST::Node& node)
 
 bool Parser::parseBaseClause(BaseClauseAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseBaseClause()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseBaseClause()";
 
     TokenIterator start = m_tokenIt;
     if ((*m_tokenIt) != ':') {
@@ -2251,7 +2253,7 @@ bool Parser::parseBaseClause(BaseClauseAST::Node& node)
 
 bool Parser::parseInitializer(AST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseInitializer()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseInitializer()";
 
     if ((*m_tokenIt) == '=') {
         ++m_tokenIt;
@@ -2275,7 +2277,7 @@ bool Parser::parseInitializer(AST::Node& node)
 
 bool Parser::parseMemInitializerList(AST::Node& /*node*/)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseMemInitializerList()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseMemInitializerList()";
 
     AST::Node init;
     if (!parseMemInitializer(init)) {
@@ -2298,7 +2300,7 @@ bool Parser::parseMemInitializerList(AST::Node& /*node*/)
 
 bool Parser::parseMemInitializer(AST::Node& /*node*/)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseMemInitializer()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseMemInitializer()";
 
     NameAST::Node initId;
     if (!parseMemInitializerId(initId)) {
@@ -2317,7 +2319,7 @@ bool Parser::parseMemInitializer(AST::Node& /*node*/)
 
 bool Parser::parseTypeIdList(GroupAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseTypeIdList()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseTypeIdList()";
 
     TokenIterator start = m_tokenIt;
 
@@ -2350,7 +2352,7 @@ bool Parser::parseTypeIdList(GroupAST::Node& node)
 
 bool Parser::parseBaseSpecifier(BaseSpecifierAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseBaseSpecifier()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseBaseSpecifier()";
 
     TokenIterator start = m_tokenIt;
     BaseSpecifierAST::Node ast = CreateNode<BaseSpecifierAST>();
@@ -2389,7 +2391,7 @@ bool Parser::parseBaseSpecifier(BaseSpecifierAST::Node& node)
 
 bool Parser::parseInitializerClause(AST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseInitializerClause()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseInitializerClause()";
 
     if ((*m_tokenIt) == '{') {
         if (!skip('{', '}')) {
@@ -2407,14 +2409,14 @@ bool Parser::parseInitializerClause(AST::Node& node)
 
 bool Parser::parseMemInitializerId(NameAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseMemInitializerId()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseMemInitializerId()";
 
     return parseName(node);
 }
 
 bool Parser::parsePtrToMember(AST::Node& /*node*/)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parsePtrToMember()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parsePtrToMember()";
 
     if ((*m_tokenIt) == Token_scope) {
         ++m_tokenIt;
@@ -2436,7 +2438,7 @@ bool Parser::parsePtrToMember(AST::Node& /*node*/)
 
 bool Parser::parseUnqualifiedName(ClassOrNamespaceNameAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseUnqualifiedName()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseUnqualifiedName()";
 
     TokenIterator start = m_tokenIt;
     bool isDestructor = false;
@@ -2510,7 +2512,7 @@ bool Parser::parseStringLiteral(AST::Node& /*node*/)
 
 bool Parser::skipExpressionStatement(StatementAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::skipExpressionStatement()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::skipExpressionStatement()";
 
     TokenIterator start = m_tokenIt;
 
@@ -2530,7 +2532,7 @@ bool Parser::skipExpressionStatement(StatementAST::Node& node)
 
 bool Parser::parseStatement(StatementAST::Node& node)   // thanks to fiore@8080.it ;)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseStatement()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseStatement()";
     switch ((*m_tokenIt)) {
 
     case Token_while:
@@ -2588,7 +2590,7 @@ bool Parser::parseStatement(StatementAST::Node& node)   // thanks to fiore@8080.
         break;
     }
 
-    //uDebug() << "------------> try with declaration statement";
+    DEBUG(DBG_SRC) << "------------> try with declaration statement";
     if (parseDeclarationStatement(node))
         return true;
 
@@ -2597,7 +2599,7 @@ bool Parser::parseStatement(StatementAST::Node& node)   // thanks to fiore@8080.
 
 bool Parser::parseCondition(ConditionAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseCondition()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseCondition()";
 
     TokenIterator start = m_tokenIt;
 
@@ -2638,7 +2640,7 @@ bool Parser::parseCondition(ConditionAST::Node& node)
 
 bool Parser::parseWhileStatement(StatementAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseWhileStatement()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseWhileStatement()";
     TokenIterator start = m_tokenIt;
 
     if (!advance(Token_while, "while"))
@@ -2671,7 +2673,7 @@ bool Parser::parseWhileStatement(StatementAST::Node& node)
 
 bool Parser::parseDoStatement(StatementAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseDoStatement()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseDoStatement()";
     TokenIterator start = m_tokenIt;
 
     if (!advance(Token_do, "do"))
@@ -2706,7 +2708,7 @@ bool Parser::parseDoStatement(StatementAST::Node& node)
 
 bool Parser::parseForStatement(StatementAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseForStatement()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseForStatement()";
     TokenIterator start = m_tokenIt;
 
     if (!advance(Token_for, "for"))
@@ -2747,7 +2749,7 @@ bool Parser::parseForStatement(StatementAST::Node& node)
 
 bool Parser::parseForInitStatement(StatementAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseForInitStatement()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseForInitStatement()";
 
     if (parseDeclarationStatement(node))
         return true;
@@ -2757,7 +2759,7 @@ bool Parser::parseForInitStatement(StatementAST::Node& node)
 
 bool Parser::parseCompoundStatement(StatementAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseCompoundStatement()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseCompoundStatement()";
     TokenIterator start = m_tokenIt;
 
     if ((*m_tokenIt) != '{') {
@@ -2796,7 +2798,7 @@ bool Parser::parseCompoundStatement(StatementAST::Node& node)
 
 bool Parser::parseIfStatement(StatementAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseIfStatement()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseIfStatement()";
 
     TokenIterator start = m_tokenIt;
 
@@ -2843,7 +2845,7 @@ bool Parser::parseIfStatement(StatementAST::Node& node)
 
 bool Parser::parseSwitchStatement(StatementAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseSwitchStatement()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseSwitchStatement()";
     TokenIterator start = m_tokenIt;
     if (!advance(Token_switch, "switch"))
         return false;
@@ -2876,7 +2878,7 @@ bool Parser::parseSwitchStatement(StatementAST::Node& node)
 
 bool Parser::parseLabeledStatement(StatementAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseLabeledStatement()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseLabeledStatement()";
     switch ((*m_tokenIt)) {
     case Token_identifier:
     case Token_default:
@@ -2923,7 +2925,7 @@ bool Parser::parseLabeledStatement(StatementAST::Node& node)
 
 bool Parser::parseBlockDeclaration(DeclarationAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseBlockDeclaration()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseBlockDeclaration()";
     switch ((*m_tokenIt)) {
     case Token_typedef:
         return parseTypedef(node);
@@ -2998,7 +3000,7 @@ bool Parser::parseNamespaceAliasDefinition(DeclarationAST::Node& /*node*/)
 
 bool Parser::parseDeclarationStatement(StatementAST::Node& node)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseDeclarationStatement()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseDeclarationStatement()";
 
     TokenIterator start = m_tokenIt;
 
@@ -3012,13 +3014,13 @@ bool Parser::parseDeclarationStatement(StatementAST::Node& node)
     update_pos(ast, start, m_tokenIt);
     node = ast;
 
-    //uDebug() << "---------------------> found a block declaration";
+    DEBUG(DBG_SRC) << "---------------------> found a block declaration";
     return true;
 }
 
 bool Parser::parseDeclarationInternal(DeclarationAST::Node& node, QString& comment)
 {
-    //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseDeclarationInternal()";
+    DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseDeclarationInternal()";
 
     TokenIterator start = m_tokenIt;
 
@@ -3214,7 +3216,7 @@ return false;
 
 bool Parser::parseFunctionBody(StatementListAST::Node& node)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseFunctionBody()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseFunctionBody()";
 
 TokenIterator start = m_tokenIt;
 if ((*m_tokenIt) != '{') {
@@ -3275,7 +3277,7 @@ return false;
 
 bool Parser::parseTryBlockStatement(StatementAST::Node& node)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseTryBlockStatement()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseTryBlockStatement()";
 
 if ((*m_tokenIt) != Token_try) {
     return false;
@@ -3318,7 +3320,7 @@ return true;
 
 bool Parser::parsePrimaryExpression(AST::Node& /*node*/)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parsePrimarExpression()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parsePrimarExpression()";
 
 
 switch ((*m_tokenIt)) {
@@ -3374,7 +3376,7 @@ case Token_typeid: {
 
 case '(': {
         ++m_tokenIt;
-        //uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "token = " << (*m_tokenIt).text();
+        DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "token = " << (*m_tokenIt).text();
         AST::Node expr;
         if (!parseExpression(expr)) {
             return false;
@@ -3408,7 +3410,7 @@ return false;
 
 bool Parser::parsePostfixExpression(AST::Node& /*node*/)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parsePostfixExpression()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parsePostfixExpression()";
 
 AST::Node expr;
 if (!parsePrimaryExpression(expr))
@@ -3481,7 +3483,7 @@ return true;
 
 bool Parser::parseUnaryExpression(AST::Node& node)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseUnaryExpression()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseUnaryExpression()";
 
 switch ((*m_tokenIt)) {
 case Token_incr:
@@ -3525,7 +3527,7 @@ return parsePostfixExpression(node);
 
 bool Parser::parseNewExpression(AST::Node& /*node*/)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseNewExpression()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseNewExpression()";
 if ((*m_tokenIt) == Token_scope && lex->lookAhead(m_tokenIt, 1) == Token_new)
     ++m_tokenIt;
 
@@ -3558,7 +3560,7 @@ return true;
 
 bool Parser::parseNewTypeId(AST::Node& /*node*/)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseNewTypeId()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseNewTypeId()";
 TypeSpecifierAST::Node typeSpec;
 if (parseTypeSpecifier(typeSpec)) {
     AST::Node declarator;
@@ -3571,7 +3573,7 @@ return false;
 
 bool Parser::parseNewDeclarator(AST::Node& /*node*/)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseNewDeclarator()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseNewDeclarator()";
 AST::Node ptrOp;
 if (parsePtrOperator(ptrOp)) {
     AST::Node declarator;
@@ -3595,7 +3597,7 @@ return false;
 
 bool Parser::parseNewInitializer(AST::Node& /*node*/)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseNewInitializer()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseNewInitializer()";
 if ((*m_tokenIt) != '(')
     return false;
 
@@ -3610,7 +3612,7 @@ return true;
 
 bool Parser::parseDeleteExpression(AST::Node& /*node*/)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseDeleteExpression()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseDeleteExpression()";
 if ((*m_tokenIt) == Token_scope && lex->lookAhead(m_tokenIt, 1) == Token_delete)
     ++m_tokenIt;
 
@@ -3629,7 +3631,7 @@ return parseCastExpression(expr);
 
 bool Parser::parseCastExpression(AST::Node& /*node*/)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseCastExpression()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseCastExpression()";
 
 TokenIterator index = m_tokenIt;
 
@@ -3654,7 +3656,7 @@ return parseUnaryExpression(expr);
 
 bool Parser::parsePmExpression(AST::Node& /*node*/)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser:parsePmExpression()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser:parsePmExpression()";
 AST::Node expr;
 if (!parseCastExpression(expr))
     return false;
@@ -3671,7 +3673,7 @@ return true;
 
 bool Parser::parseMultiplicativeExpression(AST::Node& /*node*/)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseMultiplicativeExpression()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseMultiplicativeExpression()";
 AST::Node expr;
 if (!parsePmExpression(expr))
     return false;
@@ -3689,7 +3691,7 @@ return true;
 
 bool Parser::parseAdditiveExpression(AST::Node& /*node*/)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseAdditiveExpression()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseAdditiveExpression()";
 AST::Node expr;
 if (!parseMultiplicativeExpression(expr))
     return false;
@@ -3706,7 +3708,7 @@ return true;
 
 bool Parser::parseShiftExpression(AST::Node& /*node*/)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseShiftExpression()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseShiftExpression()";
 AST::Node expr;
 if (!parseAdditiveExpression(expr))
     return false;
@@ -3723,7 +3725,7 @@ return true;
 
 bool Parser::parseRelationalExpression(AST::Node& /*node*/, bool templArgs)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseRelationalExpression()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseRelationalExpression()";
 AST::Node expr;
 if (!parseShiftExpression(expr))
     return false;
@@ -3741,7 +3743,7 @@ return true;
 
 bool Parser::parseEqualityExpression(AST::Node& /*node*/, bool templArgs)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseEqualityExpression()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseEqualityExpression()";
 AST::Node expr;
 if (!parseRelationalExpression(expr, templArgs))
     return false;
@@ -3758,7 +3760,7 @@ return true;
 
 bool Parser::parseAndExpression(AST::Node& /*node*/, bool templArgs)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseAndExpression()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseAndExpression()";
 AST::Node expr;
 if (!parseEqualityExpression(expr, templArgs))
     return false;
@@ -3775,7 +3777,7 @@ return true;
 
 bool Parser::parseExclusiveOrExpression(AST::Node& /*node*/, bool templArgs)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseExclusiveOrExpression()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseExclusiveOrExpression()";
 AST::Node expr;
 if (!parseAndExpression(expr, templArgs))
     return false;
@@ -3792,7 +3794,7 @@ return true;
 
 bool Parser::parseInclusiveOrExpression(AST::Node& /*node*/, bool templArgs)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseInclusiveOrExpression()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseInclusiveOrExpression()";
 AST::Node expr;
 if (!parseExclusiveOrExpression(expr, templArgs))
     return false;
@@ -3809,7 +3811,7 @@ return true;
 
 bool Parser::parseLogicalAndExpression(AST::Node& /*node*/, bool templArgs)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseLogicalAndExpression()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseLogicalAndExpression()";
 
 AST::Node expr;
 if (!parseInclusiveOrExpression(expr, templArgs))
@@ -3827,7 +3829,7 @@ return true;
 
 bool Parser::parseLogicalOrExpression(AST::Node& node, bool templArgs)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseLogicalOrExpression()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseLogicalOrExpression()";
 
 TokenIterator start = m_tokenIt;
 
@@ -3850,7 +3852,7 @@ return true;
 
 bool Parser::parseConditionalExpression(AST::Node& /*node*/)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseConditionalExpression()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseConditionalExpression()";
 AST::Node expr;
 if (!parseLogicalOrExpression(expr))
     return false;
@@ -3873,7 +3875,7 @@ return true;
 
 bool Parser::parseAssignmentExpression(AST::Node& node)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseAssignmentExpression()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseAssignmentExpression()";
 TokenIterator start = m_tokenIt;
 AST::Node expr;
 if ((*m_tokenIt) == Token_throw && !parseThrowExpression(expr))
@@ -3896,7 +3898,7 @@ return true;
 
 bool Parser::parseConstantExpression(AST::Node& node)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseConstantExpression()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseConstantExpression()";
 TokenIterator start = m_tokenIt;
 if (parseConditionalExpression(node)) {
     AST::Node ast = CreateNode<AST>();
@@ -3909,7 +3911,7 @@ return false;
 
 bool Parser::parseExpression(AST::Node& node)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseExpression()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseExpression()";
 
 TokenIterator start = m_tokenIt;
 
@@ -3924,7 +3926,7 @@ return true;
 
 bool Parser::parseCommaExpression(AST::Node& node)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseCommaExpression()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseCommaExpression()";
 TokenIterator start = m_tokenIt;
 
 AST::Node expr;
@@ -3950,7 +3952,7 @@ return true;
 
 bool Parser::parseThrowExpression(AST::Node& /*node*/)
 {
-//uDebug() << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseThrowExpression()";
+DEBUG(DBG_SRC) << "--- tok = " << (*m_tokenIt).text() << " -- "  << "Parser::parseThrowExpression()";
 if ((*m_tokenIt) != Token_throw)
     return false;
 

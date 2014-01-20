@@ -37,6 +37,8 @@
 
 #include "assignFunctor.hpp"
 
+DEBUG_REGISTER_DISABLED(Lexer)
+
 namespace boost {
     namespace spirit {
         namespace classic {

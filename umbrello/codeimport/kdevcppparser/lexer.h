@@ -56,8 +56,9 @@ typedef CharParser::skip_scanner_policies_t CharPolicies;
 
 struct LexerData;
 
-class Lexer
+class Lexer : public QObject
 {
+    Q_OBJECT
     typedef std::list<Token> TokenList;
 public:
     typedef rule<scanner<CharIterator, CharPolicies> > CharRule;

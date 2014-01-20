@@ -31,8 +31,9 @@ class Driver;
 class Lexer;
 struct Error;
 
-class Parser
+class Parser : QObject
 {
+    Q_OBJECT
     typedef Lexer::TokenIterator TokenIterator;
 public:
     Parser(Driver* driver, Lexer* lexer);
