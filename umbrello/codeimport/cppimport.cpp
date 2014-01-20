@@ -18,6 +18,7 @@
 // app includes
 #include "debug_utils.h"
 #include "import_utils.h"
+#include "uml.h"
 #include "umlobject.h"
 #include "package.h"
 #include "enum.h"
@@ -29,6 +30,7 @@
 #include "optionstate.h"
 
 // qt includes
+#include <QListWidget>
 #include <QMap>
 
 // static members
