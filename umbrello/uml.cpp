@@ -94,6 +94,7 @@
 #include <QTimer>
 #include <QToolButton>
 #include <QUndoView>
+#include <QListWidget>
 
 #include <cmath>
 
@@ -422,6 +423,10 @@ void UMLApp::initActions()
     viewShowDoc = actionCollection()->add<KToggleAction>("view_show_doc");
     viewShowDoc->setText(i18n("&Documentation"));
     connect(viewShowDoc, SIGNAL(triggered(bool)), this, SLOT(slotShowDocumentationView(bool)));
+
+    viewShowLog = actionCollection()->add<KToggleAction>("view_show_log");
+    viewShowLog->setText(i18n("&Logging"));
+    connect(viewShowLog, SIGNAL(triggered(bool)), this, SLOT(slotShowLogView(bool)));
 
     viewShowCmdHistory = actionCollection()->add<KToggleAction>("view_show_undo");
     viewShowCmdHistory->setText(i18n("&Command history"));
@@ -842,12 +847,22 @@ void UMLApp::initView()
     m_cmdHistoryDock->setWidget(m_pQUndoView);
     connect(m_cmdHistoryDock, SIGNAL(visibilityChanged(bool)), viewShowCmdHistory, SLOT(setChecked(bool)));
 
+    // create the log viewer
+    m_logDock = new QDockWidget(i18n("&Log"), this);
+    m_logDock->setObjectName("LogDock");
+    addDockWidget(Qt::LeftDockWidgetArea, m_logDock);
+    m_logWindow = new QListWidget(m_logDock);
+    m_logWindow->setObjectName("LOGWINDOW");
+    m_logDock->setWidget(m_logWindow);
+    connect(m_logDock, SIGNAL(visibilityChanged(bool)), viewShowLog, SLOT(setChecked(bool)));
+
     // create the property viewer
     //m_propertyDock = new QDockWidget(i18n("&Properties"), this);
     //m_propertyDock->setObjectName("PropertyDock");
     //addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
 
     tabifyDockWidget(m_documentationDock, m_cmdHistoryDock);
+    tabifyDockWidget(m_cmdHistoryDock, m_logDock);
     //tabifyDockWidget(m_cmdHistoryDock, m_propertyDock);  //:TODO:
 }
 
@@ -1678,6 +1693,16 @@ DocWindow* UMLApp::docWindow() const
 }
 
 /**
+ * Returns the log window used.
+ *
+ * @return the log window being used
+ */
+QListWidget* UMLApp::logWindow() const
+{
+    return m_logWindow;
+}
+
+/**
  * Sets whether the program has been modified.
  * This will change how the program saves/exits.
  *
@@ -2402,6 +2427,12 @@ void UMLApp::slotShowCmdHistoryView(bool state)
 {
     m_cmdHistoryDock->setVisible(state);
     viewShowCmdHistory->setChecked(state);
+}
+
+void UMLApp::slotShowLogView(bool state)
+{
+    m_logDock->setVisible(state);
+    viewShowLog->setChecked(state);
 }
 
 /**

@@ -58,6 +58,7 @@ class QUndoCommand;
 class QUndoView;
 class QPushButton;
 class QLabel;
+class QListWidget;
 class QSlider;
 
 /**
@@ -96,6 +97,8 @@ public:
     UMLListView* listView() const;
     WorkToolBar* workToolBar() const;
     DocWindow * docWindow() const;
+    QListWidget *logWindow() const;
+
 
     void setModified(bool _m);
 
@@ -236,6 +239,7 @@ public slots:
     void slotShowTreeView(bool state);
     void slotShowDocumentationView(bool state);
     void slotShowCmdHistoryView(bool state);
+    void slotShowLogView(bool state);
     void slotCurrentViewClearDiagram();
     void slotCurrentViewToggleSnapToGrid();
     void slotCurrentViewToggleShowGrid();
@@ -351,8 +355,10 @@ private:
     QDockWidget* m_documentationDock;  ///< Contains the documentation DocWindow widget.
     QDockWidget* m_cmdHistoryDock;     ///< Contains the undo/redo viewer widget.
     QDockWidget* m_propertyDock;       ///< Contains the property browser widget.
+    QDockWidget* m_logDock;            ///< Contains the log window widget.
 
     DocWindow*   m_docWindow;         ///< Documentation window.
+    QListWidget* m_logWindow;         ///< Logging window.
     QUndoView*   m_pQUndoView;         ///< Undo / Redo Viewer
     RefactoringAssistant* m_refactoringAssist;  ///< Refactoring assistant.
 
@@ -368,6 +374,7 @@ private:
 
     QAction* viewShowTree;
     QAction* viewShowDoc;
+    QAction* viewShowLog;
     QAction* viewShowCmdHistory;
 
     KActionMenu* newDiagram;
