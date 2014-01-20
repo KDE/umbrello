@@ -283,6 +283,11 @@ void UMLApp::initActions()
     impWizard->setText(i18n("Code &Importing Wizard..."));
     connect(impWizard, SIGNAL(triggered(bool)), this, SLOT(slotImportingWizard()));
 
+    QAction* importProject = actionCollection()->addAction("import_project");
+    importProject->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Import_Project));
+    importProject->setText(i18n("Import &Project..."));
+    connect(importProject, SIGNAL(triggered(bool)), this, SLOT(slotImportProject()));
+
     QAction* genWizard = actionCollection()->addAction("generation_wizard");
     genWizard->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Export_Files));
     genWizard->setText(i18n("&Code Generation Wizard..."));
@@ -2538,6 +2543,11 @@ void UMLApp::slotUpdateViews()
 void UMLApp::importFiles(QStringList* fileList)
 {
     if (! fileList->isEmpty()) {
+        bool saveState = listView()->parentWidget()->isVisible();
+        listView()->parentWidget()->setVisible(false);
+        logWindow()->parentWidget()->setVisible(true);
+        logWindow()->clear();
+
         const QString& firstFile = fileList->first();
         ClassImport *classImporter = ClassImport::createImporterByFileExt(firstFile);
         classImporter->importFiles(*fileList);
@@ -2547,6 +2557,52 @@ void UMLApp::importFiles(QStringList* fileList)
         // Allowing undo of the whole class importing. I think it eats a lot of memory.
         // Setting the modification, but without allowing undo.
         m_doc->setModified(true);
+        listView()->parentWidget()->setVisible(saveState);
+    }
+}
+
+/**
+ * Import class menu selection.
+ */
+void UMLApp::slotImportClass()
+{
+    QStringList filters = Uml::ProgrammingLanguage::toExtensions(UMLApp::app()->activeLanguage());
+    QString f = filters.join(" ") + QLatin1String("|") + Uml::ProgrammingLanguage::toExtensionsDescription(UMLApp::app()->activeLanguage());
+
+    QStringList files = KFileDialog::getOpenFileNames(KUrl(), f, this, i18n("Select file(s) to import:"));
+    if (!files.isEmpty()) {
+        importFiles(&files);
+    }
+}
+
+/**
+ * @brief getFiles
+ * @param files
+ * @param path
+ * @param filters
+ */
+void getFiles(QStringList& files, const QString& path, QStringList& filters)
+{
+    QDir searchDir(path);
+    if (searchDir.exists()) {
+        foreach (const QFileInfo &file, searchDir.entryList(filters, QDir::Files))
+            files.append(searchDir.absoluteFilePath(file.fileName()));
+        foreach (const QFileInfo &subDir, searchDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks))
+            getFiles(files, searchDir.absoluteFilePath(subDir.fileName()), filters);
+    }
+}
+
+/**
+ * Import project menu selection.
+ */
+void UMLApp::slotImportProject()
+{
+    QStringList listFile;
+    QString dir = KFileDialog::getExistingDirectory(KUrl(),this, i18n("Select directory to import:"));
+    if (!dir.isEmpty()) {
+        QStringList filter = Uml::ProgrammingLanguage::toExtensions(UMLApp::app()->activeLanguage());
+        getFiles(listFile, dir, filter);
+        importFiles(&listFile);
     }
 }
 

@@ -235,6 +235,8 @@ public slots:
     void slotCopyChanged();
     void slotPrefs();
     void slotApplyPrefs();
+    void slotImportClass();
+    void slotImportProject();
     void slotUpdateViews();
     void slotShowTreeView(bool state);
     void slotShowDocumentationView(bool state);

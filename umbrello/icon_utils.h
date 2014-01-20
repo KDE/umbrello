@@ -150,6 +150,8 @@ namespace Icon_Utils {
         it_Parameter_New,
         it_Color_Line,
         it_Color_Fill,
+        it_Import_File,
+        it_Import_Project,
         it_Import_Files,
         it_Export_Files,
         it_Export_Picture,
