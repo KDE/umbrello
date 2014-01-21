@@ -191,7 +191,7 @@ struct numberLiteral :
 
         definition(numberLiteral const& self) {
             main =
-                ( + digit_p)
+                (ch_p('0') >> ch_p('x') >> + xdigit_p | + digit_p)
                 [ self.result_ = construct_<Token>(Token_number_literal, arg1, arg2)];
         }
     };

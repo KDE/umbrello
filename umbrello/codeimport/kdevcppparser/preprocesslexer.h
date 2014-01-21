@@ -23,10 +23,11 @@
 #include <QChar>
 
 namespace boost { namespace spirit { namespace classic { namespace impl {
-  bool isalnum_( QChar const& c);
-  bool isalpha_( QChar const& c);
-  bool isblank_( QChar const& c);
-  bool isdigit_( QChar const& c);
+  bool isalnum_(QChar const& c);
+  bool isalpha_(QChar const& c);
+  bool isblank_(QChar const& c);
+  bool isdigit_(QChar const& c);
+  bool isxdigit_(QChar const& c);
 }}}}
 
 // must be first for msvc (see position.h for more information)

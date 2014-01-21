@@ -45,6 +45,7 @@ namespace boost {
                 bool isalpha_(QChar const& c) { return isalpha_(c.toAscii()); }
                 bool isblank_(QChar const& c) { return isblank_(c.toAscii()); }
                 bool isdigit_(QChar const& c) { return isdigit_(c.toAscii()); }
+                bool isxdigit_(QChar const& c) { return isxdigit_(c.toAscii()); }
             }
         }
     }
@@ -195,7 +196,7 @@ struct numberLiteral :
 
         definition(numberLiteral const& self) {
             main =
-                ( + digit_p)
+                (ch_p('0') >> ch_p('x') >> + xdigit_p | + digit_p)
                 [ self.result_ = construct_<Token>(Token_number_literal, arg1, arg2)];
         }
     };
