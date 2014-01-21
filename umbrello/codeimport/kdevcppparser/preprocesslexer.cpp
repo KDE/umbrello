@@ -389,8 +389,13 @@ void PreprocessLexer::nextLine()
         while (!m_source.parse(eol_p).hit) {
             Token tk;
             nextToken(tk);
-            if (tk.type() != -1)
+            if (tk.type() != -1) {
                 m_preprocessedString += tk.text();
+                // TODO: Find a generic way to handle not expanded macros
+                // which are combined into invalid c code like Q_OBJECTpublic;
+                if (tk.type() == Token_Q_OBJECT)
+                    m_preprocessedString += QLatin1Char(';');
+            }
             if (m_source.currentChar().isNull())
                 break;
         }
