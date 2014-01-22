@@ -632,6 +632,11 @@ QString CppTree2Uml::typeOfDeclaration(TypeSpecifierAST* typeSpec, DeclaratorAST
         text += ptrOpList.at(i)->text();
     }
 
+    QList<AST*> arrays = declarator->arrayDimensionList();
+    for(int i = 0; i < arrays.size(); ++i) {
+        text += arrays.at(i)->text().replace(QLatin1String(" "), QLatin1String(""));
+    }
+
     return text;
 }
 
