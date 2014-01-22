@@ -372,6 +372,20 @@ int PreprocessLexer::toInt(const Token& token)
     }
 }
 
+int PreprocessLexer::evaluateMacro(const QString &token)
+{
+    if (!m_driver->hasMacro(token)) {
+        uError() << "undefined macro" << token;
+        return 0;
+    }
+    Macro &m = m_driver->macro(token);
+    QString value = m.body().trimmed();
+    PreprocessLexer lexer(m_driver);
+    lexer.setSource(value, token);
+    int result = lexer.macroExpression();
+    return result;
+}
+
 void PreprocessLexer::nextLine()
 {
     m_source.parse((*gr_whiteSpace)
@@ -859,8 +873,7 @@ int PreprocessLexer::macroPrimary()
             m_source.parse(
                 identifier_pg[assignFunctorResult<1>
                               (result,
-                               boost::bind(&Driver::hasMacro, m_driver,
-                                           _1))]
+                               boost::bind(&PreprocessLexer::evaluateMacro, boost::ref(*this), _1))]
                 | numberLiteral_pg[assignFunctorResult<1>
                                    (result,
                                     boost::bind(&PreprocessLexer::toInt, _1))]
