@@ -3049,7 +3049,7 @@ void UMLApp::undo()
 }
 
 /**
- * Redo last 'undoed' command. Is called from popupmenu of a view.
+ * Redo last 'undone' command. Is called from popupmenu of a view.
  */
 void UMLApp::redo()
 {
@@ -3070,7 +3070,7 @@ void UMLApp::redo()
 }
 
 /**
- * Execute a command and pushit in the stack.
+ * Execute a command and push it in the stack.
  */
 void UMLApp::executeCommand(QUndoCommand* cmd)
 {
