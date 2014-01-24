@@ -107,7 +107,7 @@ private:
 
     QSizeF minimumSize();
 
-    void drawAsCircle(QPainter *p);
+    void drawAsCircle(QPainter *p, const QStyleOptionGraphicsItem *option);
     QSize calculateAsCircleSize();
 
     int displayedMembers(UMLObject::ObjectType ot);

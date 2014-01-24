@@ -586,7 +586,7 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         painter->setBrush(m_scene->activeView()->viewport()->palette().color(QPalette::Background));
 
     if (classifier()->isInterface() && visualProperty(DrawAsCircle)) {
-        drawAsCircle(painter);
+        drawAsCircle(painter, option);
         return;
     }
 
@@ -718,7 +718,7 @@ QPainterPath ClassifierWidget::shape() const
  * Draws the interface as a circle with name underneath.
  * Only applies when m_umlObject->getBaseType() is ot_Interface.
  */
-void ClassifierWidget::drawAsCircle(QPainter *painter)
+void ClassifierWidget::drawAsCircle(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
     int w = width();
 
@@ -738,7 +738,7 @@ void ClassifierWidget::drawAsCircle(QPainter *painter)
     painter->setFont(font);
     painter->drawText(0, CIRCLE_SIZE, w, fontHeight, Qt::AlignCenter, name);
 
-    UMLWidget::paint(painter, 0);
+    UMLWidget::paint(painter, option);
 }
 
 /**
