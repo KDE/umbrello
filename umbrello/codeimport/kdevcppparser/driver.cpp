@@ -342,6 +342,7 @@ void Driver::setupLexer(Lexer * lexer)
     lexer->addSkipWord("QT_NC_MSGBOX");
     lexer->addSkipWord("Q_VARIANT_AS", SkipWordAndArguments);
     lexer->addSkipWord("CALLBACK_CALL_TYPE");
+    lexer->addSkipWord("Q_SLOTS");
 
     // flex
     lexer->addSkipWord("yyconst");
