@@ -194,6 +194,11 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
         //     << "): parentPkg is NULL, assuming Logical View";
         parentPkg = logicalView;
     }
+    if (parentPkg->baseType() == UMLObject::ot_Artifact) {
+        DEBUG(DBG_SRC) << "Import_Utils::createUMLObject(" << name
+                       << "): Artifact as parent package is not supported yet, using Logical View";
+        parentPkg = logicalView;
+    }
     UMLObject * o = umldoc->findUMLObject(name, type, parentPkg);
     bNewUMLObjectWasCreated = false;
     if (o == NULL) {
