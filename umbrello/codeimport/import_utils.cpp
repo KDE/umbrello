@@ -37,6 +37,9 @@
 #include <QMap>
 #include <QRegExp>
 
+DEBUG_REGISTER_DISABLED(Import_Utils)
+#define DBG_SRC "Import_Utils"
+
 namespace Import_Utils {
 
 /**
@@ -182,12 +185,12 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
         UMLArtifact *a = static_cast<UMLArtifact*>(o);
         a->setDrawAsType(UMLArtifact::file);
         a->setDoc(comment);
-        uDebug() << name << comment;
+        DEBUG(DBG_SRC) << name << comment;
         return o;
     }
     UMLFolder *logicalView = umldoc->rootFolder(Uml::ModelType::Logical);
     if (parentPkg == NULL) {
-        // uDebug() << "Import_Utils::createUMLObject(" << name
+        // DEBUG(DBG_SRC) << "Import_Utils::createUMLObject(" << name
         //     << "): parentPkg is NULL, assuming Logical View";
         parentPkg = logicalView;
     }
@@ -363,7 +366,7 @@ UMLObject* insertAttribute(UMLClassifier *owner,
     Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
     if (! (ot == UMLObject::ot_Class ||
            (ot == UMLObject::ot_Interface && pl == Uml::ProgrammingLanguage::Java))) {
-        uDebug() << "insertAttribute: Don not know what to do with "
+        DEBUG(DBG_SRC) << "insertAttribute: Don not know what to do with "
                  << owner->name() << " (object type " << UMLObject::toString(ot) << ")";
         return NULL;
     }
