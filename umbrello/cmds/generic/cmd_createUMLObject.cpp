@@ -11,6 +11,7 @@
 #include "cmd_createUMLObject.h"
 
 // app includes
+#include "debug_utils.h"
 #include "package.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -51,8 +52,12 @@ namespace Uml
         // This object was removed from it's package when it was deleted
         // so add it back to it's package (if it belonged to one)
         if (m_package) {
-            // add this object to its parent package
-            m_package->addObject(m_obj);
+            if (m_package->baseType() != UMLObject::ot_Association) {
+                // add this object to its parent package
+                m_package->addObject(m_obj);
+            }
+            else
+                uError() << "Try to use an unsuppoprted Association as parent";
         }
 
         // The first call to redo, the object was created and signalled by the

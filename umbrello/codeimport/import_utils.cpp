@@ -194,10 +194,13 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
         // DEBUG(DBG_SRC) << "Import_Utils::createUMLObject(" << name
         //     << "): parentPkg is NULL, assuming Logical View";
         parentPkg = logicalView;
-    }
-    if (parentPkg->baseType() == UMLObject::ot_Artifact) {
+    } else if (parentPkg->baseType() == UMLObject::ot_Artifact) {
         DEBUG(DBG_SRC) << "Import_Utils::createUMLObject(" << name
                        << "): Artifact as parent package is not supported yet, using Logical View";
+        parentPkg = logicalView;
+    } else if (parentPkg->baseType() == UMLObject::ot_Association) {
+        DEBUG(DBG_SRC) << "Import_Utils::createUMLObject(" << name
+                       << "): Association as parent package is not supported yet, using Logical View";
         parentPkg = logicalView;
     }
     UMLObject * o = umldoc->findUMLObject(name, type, parentPkg);
