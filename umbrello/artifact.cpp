@@ -20,7 +20,7 @@
  * @param id     The unique id of the Concept.
  */
 UMLArtifact::UMLArtifact(const QString & name, Uml::ID::Type id)
-  : UMLCanvasObject(name, id),
+  : UMLPackage(name, id),
     m_drawAsType(defaultDraw)
 {
     m_BaseType = UMLObject::ot_Artifact;
