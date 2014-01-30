@@ -240,6 +240,7 @@ public slots:
     void slotImportProject();
     void slotUpdateViews();
     void slotShowTreeView(bool state);
+    void slotShowDebugView(bool state);
     void slotShowDocumentationView(bool state);
     void slotShowCmdHistoryView(bool state);
     void slotShowLogView(bool state);
@@ -353,6 +354,7 @@ private:
 
     QDockWidget* m_mainDock;           ///< The widget which shows the diagrams.
     QDockWidget* m_listDock;           ///< Contains the UMLListView tree view.
+    QDockWidget* m_debugDock;          ///< Contains the debug DocWindow widget.
     QDockWidget* m_documentationDock;  ///< Contains the documentation DocWindow widget.
     QDockWidget* m_cmdHistoryDock;     ///< Contains the undo/redo viewer widget.
     QDockWidget* m_propertyDock;       ///< Contains the property browser widget.
@@ -374,6 +376,7 @@ private:
     QAction* editRedo;
 
     QAction* viewShowTree;
+    QAction* viewShowDebug;
     QAction* viewShowDoc;
     QAction* viewShowLog;
     QAction* viewShowCmdHistory;

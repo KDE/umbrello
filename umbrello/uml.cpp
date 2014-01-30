@@ -425,6 +425,10 @@ void UMLApp::initActions()
     viewShowTree->setText(i18n("&Tree View"));
     connect(viewShowTree, SIGNAL(triggered(bool)), this, SLOT(slotShowTreeView(bool)));
 
+    viewShowDebug = actionCollection()->add<KToggleAction>("view_show_debug");
+    viewShowDebug->setText(i18n("&Debugging"));
+    connect(viewShowDebug, SIGNAL(triggered(bool)), this, SLOT(slotShowDebugView(bool)));
+
     viewShowDoc = actionCollection()->add<KToggleAction>("view_show_doc");
     viewShowDoc->setText(i18n("&Documentation"));
     connect(viewShowDoc, SIGNAL(triggered(bool)), this, SLOT(slotShowDocumentationView(bool)));
@@ -830,6 +834,12 @@ void UMLApp::initView()
     m_listView->init();
     m_listDock->setWidget(m_listView);
     connect(m_listDock, SIGNAL(visibilityChanged(bool)), viewShowTree, SLOT(setChecked(bool)));
+
+    m_debugDock = new QDockWidget(i18n("&Debug"), this);
+    m_debugDock->setObjectName("DebugDock");
+    addDockWidget(Qt::LeftDockWidgetArea, m_debugDock);
+    m_debugDock->setWidget(Tracer::instance());
+    connect(m_debugDock, SIGNAL(visibilityChanged(bool)), viewShowLog, SLOT(setChecked(bool)));
 
     // create the documentation viewer
     m_documentationDock = new QDockWidget(i18n("Doc&umentation"), this);
@@ -2420,6 +2430,12 @@ void UMLApp::slotShowTreeView(bool state)
 {
     m_listDock->setVisible(state);
     viewShowTree->setChecked(state);
+}
+
+void UMLApp::slotShowDebugView(bool state)
+{
+    m_debugDock->setVisible(state);
+    viewShowDebug->setChecked(state);
 }
 
 void UMLApp::slotShowDocumentationView(bool state)
