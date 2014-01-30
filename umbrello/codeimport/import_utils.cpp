@@ -38,6 +38,7 @@
 #include <QRegExp>
 
 DEBUG_REGISTER_DISABLED(Import_Utils)
+#undef DBG_SRC
 #define DBG_SRC "Import_Utils"
 
 namespace Import_Utils {
