@@ -76,6 +76,7 @@
 
 // qt includes
 #include <QClipboard>
+#include <QDesktopWidget>
 #include <QDockWidget>
 #include <QKeyEvent>
 #include <QLabel>
@@ -1018,7 +1019,10 @@ void UMLApp::readOptions()
     m_toolsbar->applySettings(m_config->group("workbar"));
     fileOpenRecent->loadEntries(m_config->group("Recent Files"));
     setImageMimeType(UmbrelloSettings::imageMimeType());
-    resize(UmbrelloSettings::geometry());
+    QSize size = UmbrelloSettings::geometry();
+    if (size.width() == -1 && size.height() == -1)
+        size = QApplication::desktop()->screenGeometry().size();
+    resize(size);
     enableUndo(Settings::optionState().generalState.undo);
 }
 
