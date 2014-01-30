@@ -11,7 +11,7 @@
 #ifndef ARTIFACT_H
 #define ARTIFACT_H
 
-#include "umlcanvasobject.h"
+#include "package.h"
 
 /**
  * This class contains the non-graphical information required for a UML
@@ -24,7 +24,7 @@
  * @see UMLCanvasObject
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class UMLArtifact : public UMLCanvasObject
+class UMLArtifact : public UMLPackage
 {
     Q_OBJECT
 public:
