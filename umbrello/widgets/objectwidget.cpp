@@ -475,7 +475,6 @@ void ObjectWidget::tabUp()
     if (newY < topMargin())
         newY = topMargin();
     setY(newY);
-    moveEvent(0);
     adjustAssocs(x(), newY);
 }
 
@@ -486,7 +485,6 @@ void ObjectWidget::tabDown()
 {
     int newY = y() + height();
     setY(newY);
-    moveEvent(0);
     adjustAssocs(x(), newY);
 }
 
