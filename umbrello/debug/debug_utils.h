@@ -99,6 +99,7 @@ private:
 #define DBG_SRC  QString(metaObject()->className())
 #define DEBUG_SHOW_FILTER() Tracer::instance()->show()
 #define DEBUG(src)  if (Tracer::instance()->isEnabled(src)) uDebug()
+#define IS_DEBUG_ENABLED(src) Tracer::instance()->isEnabled(src)
 #define DEBUG_REGISTER(src) class src##Tracer { public: src##Tracer() { Tracer::registerClass(#src, true); } }; static src##Tracer src##TracerGlobal;
 #define DEBUG_REGISTER_DISABLED(src) class src##Tracer { public: src##Tracer() { Tracer::registerClass(#src, false); } }; static src##Tracer src##TracerGlobal;
 
