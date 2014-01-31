@@ -511,8 +511,11 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
  */
 void UMLScene::setupNewWidget(UMLWidget *w)
 {
-    w->setX(m_Pos.x());
-    w->setY(m_Pos.y());
+    // Objects position is handled inside the widget
+    if (w->baseType() != WidgetBase::wt_Object) {
+        w->setX(m_Pos.x());
+        w->setY(m_Pos.y());
+    }
     w->setVisible(true);
     w->activate();
     w->setFontCmd(font());
