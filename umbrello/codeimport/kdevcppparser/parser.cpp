@@ -962,7 +962,7 @@ bool Parser::parseOperator(AST::Node& /*node*/)
     case '>':
     case ',':
     case Token_assign:
-    case Token_shift:
+    case Token_left_shift:
     case Token_eq:
     case Token_not_eq:
     case Token_leq:
@@ -3713,7 +3713,11 @@ AST::Node expr;
 if (!parseAdditiveExpression(expr))
     return false;
 
-while ((*m_tokenIt) == Token_shift) {
+if ((*m_tokenIt) == '>') {
+    uWarning() << "TODO: add support for '>>'";
+}
+
+while ((*m_tokenIt) == Token_left_shift) {
     ++m_tokenIt;
 
     if (!parseAdditiveExpression(expr))
