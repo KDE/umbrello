@@ -140,7 +140,7 @@ struct operator_ :
                 (str_p("::")[ main.result_ = Token_scope]
                  | (str_p("->*") | ".*")[ main.result_ = Token_ptrmem]
                  | (str_p("<<=") | ">>=" | "+=" | "-=" | "*=" | "/=" | "%=" | "^=" | "&=" | "|=")[ main.result_ = Token_assign]
-                 | (str_p("<<") | ">>")[ main.result_ = Token_shift]
+                 | str_p("<<")[ main.result_ = Token_left_shift]
                  | (str_p("==") | "!=")[ main.result_ = Token_eq]
                  | str_p("<=")[ main.result_ = Token_leq]
                  | str_p(">=")[ main.result_ = Token_geq]

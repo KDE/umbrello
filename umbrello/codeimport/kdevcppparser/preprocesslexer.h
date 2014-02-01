@@ -70,7 +70,7 @@ enum Type {
     Token_ptrmem,
     Token_ellipsis,
     Token_scope,
-    Token_shift,
+    Token_left_shift,
     Token_eq,
     Token_leq,
     Token_geq,
