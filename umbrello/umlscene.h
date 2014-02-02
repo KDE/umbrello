@@ -182,7 +182,6 @@ public:
     void removeWidget(UMLWidget *o);
     void removeWidgetCmd(UMLWidget *o);
 
-    void setSelected(UMLWidget *w, QGraphicsSceneMouseEvent *me);
     UMLWidgetList selectedWidgets() const;
     void clearSelected();
 
@@ -367,7 +366,6 @@ protected:
     bool m_bDrawSelectedOnly;
     bool m_bPaste;
     bool m_bStartedCut;  ///< Flag if view/children started cut operation.
-    UMLWidgetList m_selectedList; ///< list of selected items TODO: migrate to QGraphicsScenes selection list
 
 private:
     static const qreal defaultCanvasSize;  ///< The default size of a diagram in pixels.

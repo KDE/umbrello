@@ -1218,7 +1218,6 @@ void MessageWidget::setSelected(bool _select)
     if(!isSelected() && !m_pFText->isSelected())
         return;
 
-    m_scene->setSelected(m_pFText, 0);
     m_pFText->setSelected(isSelected());
 }
 

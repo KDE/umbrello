@@ -949,9 +949,9 @@ ObjectWidget * UMLScene::onWidgetDestructionBox(const QPointF &point) const
  */
 UMLWidget* UMLScene::getFirstMultiSelectedWidget() const
 {
-    if (m_selectedList.size() == 0)
+    if (selectedWidgets().size() == 0)
         return 0;
-    return m_selectedList.first();
+    return selectedWidgets().first();
 }
 
 /**
@@ -1025,8 +1025,7 @@ void UMLScene::checkMessages(ObjectWidget * w)
         //make sure message doesn't have any associations
         removeAssociations(obj);
         obj->cleanup();
-        //make sure not in selected list
-        m_selectedList.removeAll(obj);
+        obj->setSelectedFlag(false);
         m_MessageList.removeAll(obj);
         obj->deleteLater();
     }
@@ -1212,7 +1211,7 @@ void UMLScene::removeWidgetCmd(UMLWidget * o)
     }
 
     o->cleanup();
-    m_selectedList.removeAll(o);
+    o->setSelectedFlag(false);
     disconnect(this, SIGNAL(sigClearAllSelected()), o, SLOT(slotClearAllSelected()));
     disconnect(this, SIGNAL(sigFillColorChanged(Uml::ID::Type)), o, SLOT(slotFillColorChanged(Uml::ID::Type)));
     disconnect(this, SIGNAL(sigLineColorChanged(Uml::ID::Type)), o, SLOT(slotLineColorChanged(Uml::ID::Type)));
@@ -1252,36 +1251,21 @@ QRectF UMLScene::diagramRect()
 }
 
 /**
- * Sets a widget to a selected state and adds it to a list of selected widgets.
- * This method also sets the state of the cut and copy menu entries.
- *
- * @param w The widget to set to selected.
- * @param me The mouse event containing the information about the selection.
- */
-void UMLScene::setSelected(UMLWidget *w, QGraphicsSceneMouseEvent *me)
-{
-    Q_UNUSED(me);
-    //only add if wasn't in list
-    if (!m_selectedList.removeAll(w))
-        m_selectedList.append(w);
-    int count = m_selectedList.count();
-    //only call once - if we select more, no need to keep clearing  window
-
-    // if count == 1, widget will update the doc window with their data when selected
-    if (count == 2)
-        UMLApp::app()->docWindow()->updateDocumentation(true);  //clear doc window
-
-    // selection changed, we have to make sure the copy and paste items
-    // are correctly enabled/disabled
-    UMLApp::app()->slotCopyChanged();
-}
-
-/**
  * Returns a list of selected widgets.
+ * QGraphicsScene calls widgets isSelected() to determine selection state.
  */
 UMLWidgetList UMLScene::selectedWidgets() const
 {
-    return m_selectedList;
+    QList<QGraphicsItem *> items = selectedItems();
+    uDebug() << items.size();
+
+    UMLWidgetList widgets;
+    foreach(QGraphicsItem *item, items) {
+        UMLWidget *w = dynamic_cast<UMLWidget*>(item);
+        if (w)
+            widgets.append(w);
+    }
+    return widgets;
 }
 
 /**
@@ -1289,7 +1273,7 @@ UMLWidgetList UMLScene::selectedWidgets() const
  */
 void UMLScene::clearSelected()
 {
-    m_selectedList.clear();
+    clearSelection();
     emit sigClearAllSelected();
     //m_doc->enableCutCopy(false);
 }
@@ -1416,7 +1400,7 @@ void UMLScene::selectionSetVisualProperty(ClassifierWidget::VisualProperty prope
  */
 void UMLScene::deleteSelection()
 {
-    int selectionCount = (m_selectedList.count()
+    int selectionCount = (selectedWidgets().count()
         + m_AssociationList.count()
         + m_MessageList.count());
 
@@ -1429,7 +1413,7 @@ void UMLScene::deleteSelection()
         //  be cleaned up by the associations.
         if (widget->baseType() == WidgetBase::wt_Text &&
                 static_cast<FloatingTextWidget*>(widget)->textRole() != Uml::TextRole::Floating) {
-            m_selectedList.removeAt(m_selectedList.indexOf(widget));
+            widget->setSelectedFlag(false);
             widget->hide();
         } else {
             removeWidget(widget);
@@ -1453,11 +1437,11 @@ void UMLScene::deleteSelection()
     }
 
     // sometimes we miss one widget, so call this function again to remove it as well
-    if (m_selectedList.count() != 0)
-        deleteSelection();
+    //if (selectedWidgets().count() != 0)
+    //    deleteSelection();
 
     //make sure list empty - it should be anyway, just a check.
-    m_selectedList.clear();
+    clearSelected();
 
     if (selectionCount > 1) {
         UMLApp::app()->endMacro();
@@ -1550,8 +1534,6 @@ void UMLScene::makeSelected(UMLWidget* uw)
 {
     if (uw) {
         uw->setSelected(true);
-        m_selectedList.removeAll(uw);  // make sure not in there
-        m_selectedList.append(uw);
     }
 }
 
@@ -2682,7 +2664,7 @@ void UMLScene::copyAsImage(QPixmap*& pix)
     qreal px = -1, py = -1, qx = -1, qy = -1;
 
     //first get the smallest rect holding the widgets
-    foreach(UMLWidget* temp, m_selectedList) {
+    foreach(UMLWidget* temp, selectedWidgets()) {
         qreal x = temp->x();
         qreal y = temp->y();
         qreal x1 = x + temp->width() - 1;
@@ -3226,11 +3208,9 @@ void UMLScene::checkSelections()
             pWB = pMessage->objectWidget(Uml::RoleType::B);
             if (!pWA->isSelected()) {
                 pWA->setSelectedFlag(true);
-                m_selectedList.append(pWA);
             }
             if (!pWB->isSelected()) {
                 pWB->setSelectedFlag(true);
-                m_selectedList.append(pWB);
             }
         }//end if
     }//end for
@@ -3242,11 +3222,9 @@ void UMLScene::checkSelections()
             pWB = pAssoc->widgetForRole(Uml::RoleType::B);
             if (!pWA->isSelected()) {
                 pWA->setSelectedFlag(true);
-                m_selectedList.append(pWA);
             }
             if (!pWB->isSelected()) {
                 pWB->setSelectedFlag(true);
-                m_selectedList.append(pWB);
             }
         }//end if
     }//end foreach
