@@ -190,7 +190,7 @@ private:
 
     ObjectWidget * m_pOw[2];
     FloatingTextWidget * m_pFText;
-    int m_nY;
+    qreal m_nY;
 
     int xclicked;
     int yclicked;
