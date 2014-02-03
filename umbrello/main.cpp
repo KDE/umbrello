@@ -78,6 +78,7 @@ int main(int argc, char *argv[])
     options.add("export <extension>", ki18n("export diagrams to extension and exit"));
     options.add("export-formats", ki18n("list available export extensions"));
     options.add("directory <url>", ki18n("the local directory to save the exported diagrams in"), I18N_NOOP("the directory of the file"));
+    options.add("import-files", ki18n("import files"));
     options.add("use-folders", ki18n("keep the tree structure used to store the views in the document in the target directory"));
     KCmdLineArgs::addCmdLineOptions(options); // Add our own options.
 
@@ -104,6 +105,11 @@ int main(int argc, char *argv[])
                 fprintf(stdout, "%s\n", qPrintable(type));
             return 0;
         }
+        else if (args->isSet("import-files")) {
+            QStringList importList = args->getOptionList("import-files");
+            uml->importFiles(&importList);
+        }
+
         // export option
         QStringList exportOpt = args->getOptionList("export");
         if (exportOpt.size() > 0) {

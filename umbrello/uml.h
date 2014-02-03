@@ -169,6 +169,7 @@ public:
     QString activeLanguageScopeSeparator();
 
     KConfig* config();
+    void importFiles(QStringList* fileList);
 
 protected:
     virtual void keyPressEvent(QKeyEvent* e);
@@ -319,8 +320,6 @@ private:
 
     void initClip();
     void initSavedCodeGenerators();
-
-    void importFiles(QStringList* fileList);
 
     void createDiagram(Uml::DiagramType::Enum type);
 

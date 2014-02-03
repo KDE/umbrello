@@ -2542,7 +2542,7 @@ void UMLApp::slotUpdateViews()
  */
 void UMLApp::importFiles(QStringList* fileList)
 {
-    if (! fileList->isEmpty()) {
+    if (!fileList->isEmpty()) {
         bool saveState = listView()->parentWidget()->isVisible();
         listView()->parentWidget()->setVisible(false);
         logWindow()->parentWidget()->setVisible(true);
