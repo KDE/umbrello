@@ -13,9 +13,9 @@ add_subdirectory( headings )
 #add_definitions(-DDEBUG_PRINTING)                # umlview
 #add_definitions(-DVERBOSE_DEBUGGING)             # listpopupmenu, association, petaltree2uml,
                                                   # umlobject, umldoc, classifierlistpage
-
-# Some Boost require exceptions
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  ${KDE4_ENABLE_EXCEPTIONS}")
+if(UNIX)
+    add_definitions(-D_GLIBCXX_PERMIT_BACKWARD_HASH)
+endif()
 
 include_directories(
   ${LIBXML2_INCLUDE_DIR}
@@ -51,6 +51,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/refactoring/
   ${CMAKE_CURRENT_SOURCE_DIR}/widgets/
   ${CMAKE_SOURCE_DIR}/lib/cppparser/
+  ${CMAKE_SOURCE_DIR}/lib/interfaces/
 )
 
 set(libdebug_SRCS
@@ -275,13 +276,15 @@ list(APPEND libcodeimport_SRCS
 set(libkdevcppparser_SRCS
     ${CMAKE_SOURCE_DIR}/lib/cppparser/ast.cpp
     ${CMAKE_SOURCE_DIR}/lib/cppparser/ast_utils.cpp
+    ${CMAKE_SOURCE_DIR}/lib/cppparser/cachemanager.cpp
     ${CMAKE_SOURCE_DIR}/lib/cppparser/driver.cpp
     ${CMAKE_SOURCE_DIR}/lib/cppparser/errors.cpp
     ${CMAKE_SOURCE_DIR}/lib/cppparser/lexer.cpp
+    ${CMAKE_SOURCE_DIR}/lib/cppparser/lexercache.cpp
     ${CMAKE_SOURCE_DIR}/lib/cppparser/lookup.cpp
     ${CMAKE_SOURCE_DIR}/lib/cppparser/parser.cpp
-    ${CMAKE_SOURCE_DIR}/lib/cppparser/preprocesslexer.cpp
     ${CMAKE_SOURCE_DIR}/lib/cppparser/tree_parser.cpp
+    ${CMAKE_SOURCE_DIR}/lib/interfaces/hashedstring.cpp
     codeimport/kdevcppparser/cpptree2uml.cpp
 )
 

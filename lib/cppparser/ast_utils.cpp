@@ -19,31 +19,6 @@
 
 #include <klocale.h>
 
-AST* findNodeAt(AST* node, Position const& position)
-{
-    // uDebug() << "findNodeAt(" << node << ")";
-
-    if(!node)
-        return 0;
-
-    Position startPosition = node->getStartPosition();
-    Position endPosition = node->getEndPosition();
-
-    if((position >= startPosition) && (position < endPosition)) {
-        QList<AST*> children = node->children();
-        for(int i = 0; i < children.size(); ++i) {
-            AST* a = children.at(i);
-            AST* r = findNodeAt(a, position);
-            if(r)
-                return r;
-        }
-
-        return node;
-    }
-
-    return 0;
-}
-
 void scopeOfNode(AST* ast, QStringList& scope)
 {
     if(!ast)

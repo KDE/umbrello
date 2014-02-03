@@ -13,15 +13,13 @@
 
     You should have received a copy of the GNU Library General Public License
     along with this library; see the file COPYING.LIB.  If not, write to
-    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-    Boston, MA 02110-1301, USA.
+    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+    Boston, MA 02111-1307, USA.
 */
 
 #include "ast.h"
-
-#include "debug_utils.h"
-
 #include <QStringList>
+#include <kdebug.h>
 
 QString nodeTypeToString(int type)
 {
@@ -85,8 +83,16 @@ QString nodeTypeToString(int type)
         return "DoStatement";
     case NodeType_ForStatement:
         return "ForStatement";
+    case NodeType_ForEachStatement: // qt4 [erbsland]
+        return "ForEachStatement";
     case NodeType_SwitchStatement:
         return "SwitchStatement";
+    case NodeType_CatchStatement:
+        return "CatchStatement";
+    case NodeType_CatchStatementList:
+        return "CatchStatementList";
+    case NodeType_TryBlockStatement:
+        return "TryBlockStatement";
     case NodeType_DeclarationStatement:
         return "DeclarationStatement";
     case NodeType_StatementList:
@@ -122,11 +128,12 @@ QString nodeTypeToString(int type)
     return QString();
 }
 
-// ------------------------------------------------------------------------
 
+// ------------------------------------------------------------------------
 AST::AST()
     : m_nodeType(NodeType_Generic), m_parent(0),
-    m_startPosition(), m_endPosition()
+      m_startLine(0), m_startColumn(0),
+      m_endLine(0), m_endColumn(0)
 {
 }
 
@@ -138,13 +145,35 @@ AST::~AST()
 #endif
 }
 
-void AST::setStartPosition(Position const& p) {m_startPosition = p;}
+void AST::setStartPosition(int line, int col)
+{
+   m_startLine = line;
+   m_startColumn = col;
+}
 
-Position const& AST::getStartPosition() const {return m_startPosition;}
+void AST::getStartPosition(int* line, int* col) const
+{
+    if(line)
+        *line = m_startLine;
 
-void AST::setEndPosition(Position const& p) {m_endPosition = p;}
+    if(col)
+        * col = m_startColumn;
+}
 
-Position const& AST::getEndPosition() const {return m_endPosition;}
+void AST::setEndPosition(int line, int col)
+{
+   m_endLine = line;
+   m_endColumn = col;
+}
+
+void AST::getEndPosition(int* line, int* col) const
+{
+    if(line)
+        *line = m_endLine;
+
+    if(col)
+        * col = m_endColumn;
+}
 
 void AST::setParent(AST* parent)
 {
@@ -174,7 +203,6 @@ void AST::removeChild(AST* child)
 #endif
 
 // ------------------------------------------------------------------------
-
 NameAST::NameAST()
     : m_global(false)
 {
@@ -221,19 +249,16 @@ QString NameAST::text() const
 }
 
 // ------------------------------------------------------------------------
-
 DeclarationAST::DeclarationAST()
 {
 }
 
 // ------------------------------------------------------------------------
-
 FileAST::FileAST()
 {
 }
 
 // ------------------------------------------------------------------------
-
 LinkageBodyAST::LinkageBodyAST()
 {
 }
@@ -248,7 +273,6 @@ void LinkageBodyAST::addDeclaration(DeclarationAST::Node& ast)
 }
 
 // ------------------------------------------------------------------------
-
 LinkageSpecificationAST::LinkageSpecificationAST()
 {
 }
@@ -272,7 +296,6 @@ void LinkageSpecificationAST::setDeclaration(DeclarationAST::Node& decl)
 }
 
 // ------------------------------------------------------------------------
-
 TranslationUnitAST::TranslationUnitAST()
 {
 }
@@ -287,7 +310,6 @@ void TranslationUnitAST::addDeclaration(DeclarationAST::Node& ast)
 }
 
 // ------------------------------------------------------------------------
-
 NamespaceAST::NamespaceAST()
 {
 }
@@ -304,8 +326,8 @@ void NamespaceAST::setLinkageBody(LinkageBodyAST::Node& linkageBody)
     if(m_linkageBody.get()) m_linkageBody->setParent(this);
 }
 
-// ------------------------------------------------------------------------
 
+// ------------------------------------------------------------------------
 NamespaceAliasAST::NamespaceAliasAST()
 {
 }
@@ -323,7 +345,6 @@ void NamespaceAliasAST::setAliasName(NameAST::Node& name)
 }
 
 // ------------------------------------------------------------------------
-
 UsingAST::UsingAST()
 {
 }
@@ -341,7 +362,6 @@ void UsingAST::setName(NameAST::Node& name)
 }
 
 // ------------------------------------------------------------------------
-
 UsingDirectiveAST::UsingDirectiveAST()
 {
 }
@@ -375,7 +395,6 @@ void TypedefAST::setInitDeclaratorList(InitDeclaratorListAST::Node& initDeclarat
 }
 
 // ------------------------------------------------------------------------
-
 TemplateArgumentListAST::TemplateArgumentListAST()
 {
 }
@@ -401,7 +420,6 @@ QString TemplateArgumentListAST::text() const
 }
 
 // ------------------------------------------------------------------------
-
 TemplateDeclarationAST::TemplateDeclarationAST()
 {
 }
@@ -425,7 +443,6 @@ void TemplateDeclarationAST::setDeclaration(DeclarationAST::Node& declaration)
 }
 
 // ------------------------------------------------------------------------
-
 ClassOrNamespaceNameAST::ClassOrNamespaceNameAST()
 {
 }
@@ -455,7 +472,6 @@ QString ClassOrNamespaceNameAST::text() const
 }
 
 // ------------------------------------------------------------------------
-
 TypeSpecifierAST::TypeSpecifierAST()
 {
 }
@@ -477,7 +493,7 @@ QString TypeSpecifierAST::text() const
     QString str;
 
     if(m_cvQualify.get())
-        str += m_cvQualify->text() + ' ';
+        str += m_cvQualify->text() + " ";
 
     if(m_name.get())
         str += m_name->text();
@@ -489,7 +505,6 @@ QString TypeSpecifierAST::text() const
 }
 
 // ------------------------------------------------------------------------
-
 ClassSpecifierAST::ClassSpecifierAST()
 {
 }
@@ -516,7 +531,6 @@ void ClassSpecifierAST::setBaseClause(BaseClauseAST::Node& baseClause)
 }
 
 // ------------------------------------------------------------------------
-
 EnumSpecifierAST::EnumSpecifierAST()
 {
 }
@@ -532,7 +546,6 @@ void EnumSpecifierAST::addEnumerator(EnumeratorAST::Node& enumerator)
 
 
 // ------------------------------------------------------------------------
-
 ElaboratedTypeSpecifierAST::ElaboratedTypeSpecifierAST()
 {
 }
@@ -546,19 +559,17 @@ void ElaboratedTypeSpecifierAST::setKind(AST::Node& kind)
 QString ElaboratedTypeSpecifierAST::text() const
 {
     if(m_kind.get())
-        return m_kind->text() + ' ' + TypeSpecifierAST::text();
+        return m_kind->text() + " " + TypeSpecifierAST::text();
 
     return TypeSpecifierAST::text();
 }
 
 // ------------------------------------------------------------------------
-
 StatementAST::StatementAST()
 {
 }
 
 // ------------------------------------------------------------------------
-
 EnumeratorAST::EnumeratorAST()
 {
 }
@@ -576,7 +587,6 @@ void EnumeratorAST::setExpr(AST::Node& expr)
 }
 
 // ------------------------------------------------------------------------
-
 BaseClauseAST::BaseClauseAST()
 {
 }
@@ -591,7 +601,6 @@ void BaseClauseAST::addBaseSpecifier(BaseSpecifierAST::Node& baseSpecifier)
 }
 
 // ------------------------------------------------------------------------
-
 BaseSpecifierAST::BaseSpecifierAST()
 {
 }
@@ -615,7 +624,6 @@ void BaseSpecifierAST::setName(NameAST::Node& name)
 }
 
 // ------------------------------------------------------------------------
-
 SimpleDeclarationAST::SimpleDeclarationAST()
 {
 }
@@ -652,7 +660,6 @@ void SimpleDeclarationAST::setWinDeclSpec(GroupAST::Node& winDeclSpec)
 
 
 // ------------------------------------------------------------------------
-
 InitDeclaratorListAST::InitDeclaratorListAST()
 {
 }
@@ -667,7 +674,6 @@ void InitDeclaratorListAST::addInitDeclarator(InitDeclaratorAST::Node& decl)
 }
 
 // ------------------------------------------------------------------------
-
 DeclaratorAST::DeclaratorAST()
 {
 }
@@ -727,7 +733,6 @@ void DeclaratorAST::addPtrOp(AST::Node& ptrOp)
 }
 
 // --------------------------------------------------------------------------
-
 InitDeclaratorAST::InitDeclaratorAST()
 {
 }
@@ -745,7 +750,6 @@ void InitDeclaratorAST::setInitializer(AST::Node& initializer)
 }
 
 // --------------------------------------------------------------------------
-
 FunctionDefinitionAST::FunctionDefinitionAST()
 {
 }
@@ -787,7 +791,6 @@ void FunctionDefinitionAST::setWinDeclSpec(GroupAST::Node& winDeclSpec)
 }
 
 // --------------------------------------------------------------------------
-
 StatementListAST::StatementListAST()
 {
 }
@@ -802,7 +805,6 @@ void StatementListAST::addStatement(StatementAST::Node& statement)
 }
 
 // --------------------------------------------------------------------------
-
 IfStatementAST::IfStatementAST()
 {
 }
@@ -826,7 +828,6 @@ void IfStatementAST::setElseStatement(StatementAST::Node& elseStatement)
 }
 
 // --------------------------------------------------------------------------
-
 WhileStatementAST::WhileStatementAST()
 {
 }
@@ -844,7 +845,6 @@ void WhileStatementAST::setStatement(StatementAST::Node& statement)
 }
 
 // --------------------------------------------------------------------------
-
 DoStatementAST::DoStatementAST()
 {
 }
@@ -862,7 +862,6 @@ void DoStatementAST::setStatement(StatementAST::Node& statement)
 }
 
 // --------------------------------------------------------------------------
-
 ForStatementAST::ForStatementAST()
 {
 }
@@ -892,7 +891,29 @@ void ForStatementAST::setInitStatement(StatementAST::Node& initStatement)
 }
 
 // --------------------------------------------------------------------------
+ForEachStatementAST::ForEachStatementAST()
+{
+}
 
+void ForEachStatementAST::setExpression(AST::Node& expression)
+{
+    m_expression = expression;
+    if(m_expression.get()) m_expression->setParent(this);
+}
+
+void ForEachStatementAST::setStatement(StatementAST::Node& statement)
+{
+    m_statement = statement;
+    if(m_statement.get()) m_statement->setParent(this);
+}
+
+void ForEachStatementAST::setInitStatement(StatementAST::Node& initStatement)
+{
+    m_initStatement = initStatement;
+    if(m_initStatement.get()) m_initStatement->setParent(this);
+}
+
+// --------------------------------------------------------------------------
 SwitchStatementAST::SwitchStatementAST()
 {
 }
@@ -910,7 +931,54 @@ void SwitchStatementAST::setStatement(StatementAST::Node& statement)
 }
 
 // --------------------------------------------------------------------------
+CatchStatementListAST::CatchStatementListAST()
+{
+}
 
+void CatchStatementListAST::addStatement(CatchStatementAST::Node& statement)
+{
+    if(!statement.get())
+        return;
+
+    statement->setParent(this);
+    m_statementList.append(statement.release());
+}
+
+// --------------------------------------------------------------------------
+CatchStatementAST::CatchStatementAST()
+{
+}
+
+void CatchStatementAST::setCondition(ConditionAST::Node& condition)
+{
+    m_condition = condition;
+    if(m_condition.get()) m_condition->setParent(this);
+}
+
+void CatchStatementAST::setStatement(StatementAST::Node& statement)
+{
+    m_statement = statement;
+    if(m_statement.get()) m_statement->setParent(this);
+}
+
+// --------------------------------------------------------------------------
+TryBlockStatementAST::TryBlockStatementAST()
+{
+}
+
+void TryBlockStatementAST::setStatement(StatementAST::Node& statement)
+{
+    m_statement = statement;
+    if(m_statement.get()) m_statement->setParent(this);
+}
+
+void TryBlockStatementAST::setCatchStatementList(CatchStatementListAST::Node& statementList)
+{
+    m_catchStatementList = statementList;
+    if(m_catchStatementList.get()) m_catchStatementList->setParent(this);
+}
+
+// --------------------------------------------------------------------------
 DeclarationStatementAST::DeclarationStatementAST()
 {
 }
@@ -922,7 +990,6 @@ void DeclarationStatementAST::setDeclaration(DeclarationAST::Node& declaration)
 }
 
 // --------------------------------------------------------------------------
-
 ExpressionStatementAST::ExpressionStatementAST()
 {
 }
@@ -935,7 +1002,6 @@ void ExpressionStatementAST::setExpression(AST::Node& expression)
 
 
 // --------------------------------------------------------------------------
-
 ParameterDeclarationAST::ParameterDeclarationAST()
 {
 }
@@ -962,7 +1028,7 @@ QString ParameterDeclarationAST::text() const
 {
     QString str;
     if(m_typeSpec.get())
-        str += m_typeSpec->text() + ' ';
+        str += m_typeSpec->text() + " ";
 
     if(m_declarator.get())
         str += m_declarator->text();
@@ -974,7 +1040,6 @@ QString ParameterDeclarationAST::text() const
 }
 
 // --------------------------------------------------------------------------
-
 ParameterDeclarationListAST::ParameterDeclarationListAST()
 {
 }
@@ -997,8 +1062,8 @@ QString ParameterDeclarationListAST::text() const
     return l.join(", ");
 }
 
-// --------------------------------------------------------------------------
 
+// --------------------------------------------------------------------------
 ParameterDeclarationClauseAST::ParameterDeclarationClauseAST()
 {
 }
@@ -1028,8 +1093,8 @@ QString ParameterDeclarationClauseAST::text() const
     return str;
 }
 
-// --------------------------------------------------------------------------
 
+// --------------------------------------------------------------------------
 GroupAST::GroupAST()
 {
 }
@@ -1053,7 +1118,6 @@ QString GroupAST::text() const
 }
 
 // --------------------------------------------------------------------------
-
 AccessDeclarationAST::AccessDeclarationAST()
 {
 }
@@ -1077,7 +1141,6 @@ QString AccessDeclarationAST::text() const
 }
 
 // --------------------------------------------------------------------------
-
 TypeParameterAST::TypeParameterAST()
 {
 }
@@ -1107,7 +1170,6 @@ void TypeParameterAST::setTypeId(AST::Node& typeId)
 }
 
 // --------------------------------------------------------------------------
-
 TemplateParameterAST::TemplateParameterAST()
 {
 }
@@ -1125,7 +1187,6 @@ void TemplateParameterAST::setTypeValueParameter(ParameterDeclarationAST::Node& 
 }
 
 // --------------------------------------------------------------------------
-
 TemplateParameterListAST::TemplateParameterListAST()
 {
 }
@@ -1140,7 +1201,6 @@ void TemplateParameterListAST::addTemplateParameter(TemplateParameterAST::Node& 
 }
 
 // --------------------------------------------------------------------------
-
 ConditionAST::ConditionAST()
 {
 }

@@ -13,13 +13,13 @@
 
     You should have received a copy of the GNU Library General Public License
     along with this library; see the file COPYING.LIB.  If not, write to
-    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-    Boston, MA 02110-1301, USA.
+    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+    Boston, MA 02111-1307, USA.
 */
 
 #include "errors.h"
 #include <klocale.h>
 
-QT_STATIC_CONST_IMPL Error& Errors::InternalError = Error(1, -1, ki18n("Internal Error"));
-QT_STATIC_CONST_IMPL Error& Errors::SyntaxError = Error(2, -1, ki18n("Syntax Error before '%1'"));
-QT_STATIC_CONST_IMPL Error& Errors::ParseError = Error(3, -1, ki18n("Parse Error before '%1'"));
+QT_STATIC_CONST_IMPL Error& Errors::InternalError = Error(1, -1, i18n("Internal Error"));
+QT_STATIC_CONST_IMPL Error& Errors::SyntaxError = Error(2, -1, i18n("Syntax Error before '%1'"));
+QT_STATIC_CONST_IMPL Error& Errors::ParseError = Error(3, -1, i18n("Parse Error before '%1'"));

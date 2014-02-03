@@ -13,17 +13,18 @@
 
     You should have received a copy of the GNU Library General Public License
     along with this library; see the file COPYING.LIB.  If not, write to
-    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-    Boston, MA 02110-1301, USA.
+    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+    Boston, MA 02111-1307, USA.
 */
 
-#ifndef AST_H
-#define AST_H
+#ifndef __ast_h
+#define __ast_h
 
-#include "position.h"
+#include <KSharedPtr>
+
 #include <memory>
-#include <QList>
 #include <QString>
+#include <QStringList>
 
 #if defined(Q_OS_WIN32) || defined(Q_CC_SUN)
 
@@ -125,7 +126,7 @@ template <class T> typename T::Node NullNode()
 }
 
 enum NodeType
-  {
+{
     NodeType_Generic = 0,
 
     NodeType_TemplateArgumentList = 1000,
@@ -157,7 +158,11 @@ enum NodeType
     NodeType_WhileStatement,
     NodeType_DoStatement,
     NodeType_ForStatement,
+    NodeType_ForEachStatement, // qt4 [erbsland]
     NodeType_SwitchStatement,
+    NodeType_CatchStatement,
+    NodeType_CatchStatementList,
+    NodeType_TryBlockStatement,
     NodeType_DeclarationStatement,
     NodeType_TranslationUnit,
     NodeType_FunctionDefinition,
@@ -174,7 +179,7 @@ enum NodeType
     NodeType_File,
 
     NodeType_Custom = 2000
-  };
+};
 
 QString nodeTypeToString(int type);
 
@@ -199,7 +204,42 @@ QString nodeTypeToString(int type);
 
 #endif
 
-class AST
+struct Slice
+{
+    QString source;
+    int position;
+    int length;
+    
+    inline Slice()
+        : position(0), length(0) {}
+};
+
+
+class CommentAST {
+    QString m_comment;
+public:
+    void setComment(const QString& comment) {
+        m_comment = comment;
+    }
+
+    void addComment(const QString& comment) {
+        if(!m_comment.isEmpty()) {
+            m_comment += "\n(" + comment + ")";
+        } else {
+            m_comment = comment;
+        }
+    }
+
+    QString comment() const {
+        return m_comment;
+    }
+
+    bool haveComment() const {
+        return !m_comment.isEmpty();
+    }
+};
+
+class AST : public CommentAST
 {
 public:
     typedef AUTO_PTR<AST> Node;
@@ -217,11 +257,11 @@ public:
     AST* parent() { return m_parent; }
     void setParent(AST* parent);
 
-    void setStartPosition(Position const& p);
-    Position const& getStartPosition() const;
+    void setStartPosition(int line, int col);
+    void getStartPosition(int* line, int* col) const;
 
-    void setEndPosition(Position const& p);
-    Position const& getEndPosition() const;
+    void setEndPosition(int line, int col);
+    void getEndPosition(int* line, int* col) const;
 
 #ifndef CPPPARSER_NO_CHILDREN
     QList<AST*> children() { return m_children; }
@@ -229,35 +269,32 @@ public:
     void removeChild(AST* child);
 #endif
 
-    virtual inline QString text() const
-    { return m_slice; }
-
-    QString comment() const
-    { return m_comment; }
-
-    inline void setSlice(const QString& slice)
+    virtual inline QString text() const 
+    { return m_slice.source.mid(m_slice.position, m_slice.length); }
+    
+    inline void setSlice(const Slice& slice) 
     { m_slice = slice; }
 
     inline void setSlice(const QString &text, int position, int length)
     {
-        m_slice = text.mid(position, length);
+        CommentAST a;
+        m_slice.source = text;
+        m_slice.position = position;
+        m_slice.length = length;
     }
 
     inline void setText(const QString &text)
     { setSlice(text, 0, text.length()); }
 
-    void setComment(const QString &comment)
-    { m_comment = comment; }
-
 private:
     int m_nodeType;
     AST* m_parent;
-    Position m_startPosition, m_endPosition;
-    QString m_slice;
+    int m_startLine, m_startColumn;
+    int m_endLine, m_endColumn;
+    Slice m_slice;
 #ifndef CPPPARSER_NO_CHILDREN
     QList<AST*> m_children;
 #endif
-    QString m_comment;
 
 private:
     AST(const AST& source);
@@ -271,8 +308,8 @@ public:
     enum { Type = NodeType_Group };
 
     DECLARE_ALLOC(GroupAST)
-
-    public:
+    
+public:
     GroupAST();
 
     QList<AST*> nodeList() { return m_nodeList; }
@@ -296,8 +333,8 @@ public:
     enum { Type = NodeType_TemplateArgumentList };
 
     DECLARE_ALLOC(TemplateArgumentListAST)
-
-    public:
+    
+public:
     TemplateArgumentListAST();
 
     void addArgument(AST::Node& arg);
@@ -320,8 +357,8 @@ public:
     enum { Type = NodeType_ClassOrNamespaceName };
 
     DECLARE_ALLOC(ClassOrNamespaceNameAST)
-
-    public:
+    
+public:
     ClassOrNamespaceNameAST();
 
     AST* name() { return m_name.get(); }
@@ -348,8 +385,8 @@ public:
     enum { Type = NodeType_Name };
 
     DECLARE_ALLOC(NameAST)
-
-    public:
+    
+public:
     NameAST();
 
     bool isGlobal() const { return m_global; }
@@ -380,8 +417,8 @@ public:
     enum { Type = NodeType_TypeParameter };
 
     DECLARE_ALLOC(TypeParameterAST)
-
-    public:
+    
+public:
     TypeParameterAST();
 
     AST* kind() { return m_kind.get(); }
@@ -414,8 +451,8 @@ public:
     enum { Type = NodeType_Declaration };
 
     DECLARE_ALLOC(DeclarationAST)
-
-    public:
+    
+public:
     DeclarationAST();
 
 private:
@@ -433,7 +470,7 @@ public:
 
     public:
     FileAST();
-    
+
     QString fileName() { return m_fileName; }
     void setFileName(QString fileName) { m_fileName = fileName; }
 
@@ -456,8 +493,8 @@ public:
     enum { Type = NodeType_AccessDeclaration };
 
     DECLARE_ALLOC(AccessDeclarationAST)
-
-    public:
+    
+public:
     AccessDeclarationAST();
 
     QList<AST*> accessList() { return m_accessList; }
@@ -480,8 +517,8 @@ public:
     enum { Type = NodeType_TypeSpecifier };
 
     DECLARE_ALLOC(TypeSpecifierAST)
-
-    public:
+    
+public:
     TypeSpecifierAST();
 
     virtual NameAST* name() { return m_name.get(); }
@@ -512,8 +549,8 @@ public:
     enum { Type = NodeType_BaseSpecifier };
 
     DECLARE_ALLOC(BaseSpecifierAST)
-
-    public:
+    
+public:
     BaseSpecifierAST();
 
     AST* isVirtual() { return m_isVirtual.get(); }
@@ -542,8 +579,8 @@ public:
     enum { Type = NodeType_BaseClause };
 
     DECLARE_ALLOC(BaseClauseAST)
-
-    public:
+    
+public:
     BaseClauseAST();
 
     void addBaseSpecifier(BaseSpecifierAST::Node& baseSpecifier);
@@ -564,8 +601,8 @@ public:
     enum { Type = NodeType_ClassSpecifier };
 
     DECLARE_ALLOC(ClassSpecifierAST)
-
-    public:
+    
+public:
     ClassSpecifierAST();
 
     GroupAST* winDeclSpec() { return m_winDeclSpec.get(); }
@@ -598,8 +635,8 @@ public:
     enum { Type = NodeType_Enumerator };
 
     DECLARE_ALLOC(EnumeratorAST)
-
-    public:
+    
+public:
     EnumeratorAST();
 
     AST* id() { return m_id.get(); }
@@ -624,8 +661,8 @@ public:
     enum { Type = NodeType_EnumSpecifier };
 
     DECLARE_ALLOC(EnumSpecifierAST)
-
-    public:
+    
+public:
     EnumSpecifierAST();
 
     void addEnumerator(EnumeratorAST::Node& enumerator);
@@ -646,8 +683,8 @@ public:
     enum { Type = NodeType_ElaboratedTypeSpecifier };
 
     DECLARE_ALLOC(ElaboratedTypeSpecifierAST)
-
-    public:
+    
+public:
     ElaboratedTypeSpecifierAST();
 
     AST* kind() { return m_kind.get(); }
@@ -670,8 +707,8 @@ public:
     enum { Type = NodeType_LinkageBody };
 
     DECLARE_ALLOC(LinkageBodyAST)
-
-    public:
+    
+public:
     LinkageBodyAST();
 
     void addDeclaration(DeclarationAST::Node& ast);
@@ -692,8 +729,8 @@ public:
     enum { Type = NodeType_LinkageSpecification };
 
     DECLARE_ALLOC(LinkageSpecificationAST)
-
-    public:
+    
+public:
     LinkageSpecificationAST();
 
     AST* externType() { return m_externType.get(); }
@@ -722,8 +759,8 @@ public:
     enum { Type = NodeType_Namespace };
 
     DECLARE_ALLOC(NamespaceAST)
-
-    public:
+    
+public:
     NamespaceAST();
 
     AST* namespaceName() { return m_namespaceName.get(); }
@@ -748,8 +785,8 @@ public:
     enum { Type = NodeType_NamespaceAlias };
 
     DECLARE_ALLOC(NamespaceAliasAST)
-
-    public:
+    
+public:
     NamespaceAliasAST();
 
     AST* namespaceName() { return m_namespaceName.get(); }
@@ -774,8 +811,8 @@ public:
     enum { Type = NodeType_Using };
 
     DECLARE_ALLOC(UsingAST)
-
-    public:
+    
+public:
     UsingAST();
 
     AST* typeName() { return m_typeName.get(); }
@@ -800,8 +837,8 @@ public:
     enum { Type = NodeType_UsingDirective };
 
     DECLARE_ALLOC(UsingDirectiveAST)
-
-    public:
+    
+public:
     UsingDirectiveAST();
 
     NameAST* name() { return m_name.get(); }
@@ -822,15 +859,15 @@ public:
     enum { Type = NodeType_Declarator };
 
     DECLARE_ALLOC(DeclaratorAST)
-
-    public:
+    
+public:
     DeclaratorAST();
 
     QList<AST*> ptrOpList() { return m_ptrOpList; }
     void addPtrOp(AST::Node& ptrOp);
 
     DeclaratorAST* subDeclarator() { return m_subDeclarator.get(); }
-    void setSubDeclarator(Node& subDeclarator);
+    void setSubDeclarator(AUTO_PTR<DeclaratorAST>& subDeclarator);
 
     NameAST* declaratorId() { return m_declaratorId.get(); }
     void setDeclaratorId(NameAST::Node& declaratorId);
@@ -853,7 +890,7 @@ public:
 
 private:
     QList<AST*> m_ptrOpList;
-    Node m_subDeclarator;
+    AUTO_PTR<DeclaratorAST> m_subDeclarator;
     NameAST::Node m_declaratorId;
     AST::Node m_bitfieldInitialization;
     QList<AST*> m_arrayDimensionList;
@@ -873,8 +910,8 @@ public:
     enum { Type = NodeType_ParameterDeclaration };
 
     DECLARE_ALLOC(ParameterDeclarationAST)
-
-    public:
+    
+public:
     ParameterDeclarationAST();
 
     TypeSpecifierAST* typeSpec() { return m_typeSpec.get(); }
@@ -905,8 +942,8 @@ public:
     enum { Type = NodeType_ParameterDeclarationList };
 
     DECLARE_ALLOC(ParameterDeclarationListAST)
-
-    public:
+    
+public:
     ParameterDeclarationListAST();
 
     QList<ParameterDeclarationAST*> parameterList() { return m_parameterList; }
@@ -929,8 +966,8 @@ public:
     enum { Type = NodeType_ParameterDeclarationClause };
 
     DECLARE_ALLOC(ParameterDeclarationClauseAST)
-
-    public:
+    
+public:
     ParameterDeclarationClauseAST();
 
     ParameterDeclarationListAST* parameterDeclarationList() { return m_parameterDeclarationList.get(); }
@@ -958,8 +995,8 @@ public:
     enum { Type = NodeType_InitDeclarator };
 
     DECLARE_ALLOC(InitDeclaratorAST)
-
-    public:
+    
+public:
     InitDeclaratorAST();
 
     DeclaratorAST* declarator() { return m_declarator.get(); }
@@ -984,8 +1021,8 @@ public:
     enum { Type = NodeType_InitDeclaratorList };
 
     DECLARE_ALLOC(InitDeclaratorListAST)
-
-    public:
+    
+public:
     InitDeclaratorListAST();
 
     QList<InitDeclaratorAST*> initDeclaratorList() { return m_initDeclaratorList; }
@@ -1006,8 +1043,8 @@ public:
     enum { Type = NodeType_Typedef };
 
     DECLARE_ALLOC(TypedefAST)
-
-    public:
+    
+public:
     TypedefAST();
 
     TypeSpecifierAST* typeSpec() { return m_typeSpec.get(); }
@@ -1032,8 +1069,8 @@ public:
     enum { Type = NodeType_TemplateParameter };
 
     DECLARE_ALLOC(TemplateParameterAST)
-
-    public:
+    
+public:
     TemplateParameterAST();
 
     TypeParameterAST* typeParameter() { return m_typeParameter.get(); }
@@ -1058,8 +1095,8 @@ public:
     enum { Type = NodeType_TemplateParameterList };
 
     DECLARE_ALLOC(TemplateParameterListAST)
-
-    public:
+    
+public:
     TemplateParameterListAST();
 
     QList<TemplateParameterAST*> templateParameterList() { return m_templateParameterList; }
@@ -1080,8 +1117,8 @@ public:
     enum { Type = NodeType_TemplateDeclaration };
 
     DECLARE_ALLOC(TemplateDeclarationAST)
-
-    public:
+    
+public:
     TemplateDeclarationAST();
 
     AST* exported() { return m_exported.get(); }
@@ -1110,8 +1147,8 @@ public:
     enum { Type = NodeType_SimpleDeclaration };
 
     DECLARE_ALLOC(SimpleDeclarationAST)
-
-    public:
+    
+public:
     SimpleDeclarationAST();
 
     GroupAST* functionSpecifier() { return m_functionSpecifier.get(); }
@@ -1148,8 +1185,8 @@ public:
     enum { Type = NodeType_Statement };
 
     DECLARE_ALLOC(StatementAST)
-
-    public:
+    
+public:
     StatementAST();
 
 private:
@@ -1164,8 +1201,8 @@ public:
     enum { Type = NodeType_ExpressionStatement };
 
     DECLARE_ALLOC(ExpressionStatementAST)
-
-    public:
+    
+public:
     ExpressionStatementAST();
 
     AST* expression() { return m_expression.get(); }
@@ -1186,8 +1223,8 @@ public:
     enum { Type = NodeType_Condition };
 
     DECLARE_ALLOC(ConditionAST)
-
-    public:
+    
+public:
     ConditionAST();
 
     TypeSpecifierAST* typeSpec() { return m_typeSpec.get(); }
@@ -1216,8 +1253,8 @@ public:
     enum { Type = NodeType_IfStatement };
 
     DECLARE_ALLOC(IfStatementAST)
-
-    public:
+    
+public:
     IfStatementAST();
 
     ConditionAST* condition() const { return m_condition.get(); }
@@ -1246,8 +1283,8 @@ public:
     enum { Type = NodeType_WhileStatement };
 
     DECLARE_ALLOC(WhileStatementAST)
-
-    public:
+    
+public:
     WhileStatementAST();
 
     ConditionAST* condition() const { return m_condition.get(); }
@@ -1272,8 +1309,8 @@ public:
     enum { Type = NodeType_DoStatement };
 
     DECLARE_ALLOC(DoStatementAST)
-
-    public:
+    
+public:
     DoStatementAST();
 
     ConditionAST* condition() const { return m_condition.get(); }
@@ -1298,8 +1335,8 @@ public:
     enum { Type = NodeType_ForStatement };
 
     DECLARE_ALLOC(ForStatementAST)
-
-    public:
+    
+public:
     ForStatementAST();
 
     StatementAST* initStatement() { return m_initStatement.get(); }
@@ -1325,6 +1362,37 @@ private:
     void operator = (const ForStatementAST& source);
 };
 
+// qt4 [erbsland]
+class ForEachStatementAST: public StatementAST
+{
+public:
+    typedef AUTO_PTR<ForEachStatementAST> Node;
+    enum { Type = NodeType_ForEachStatement };
+
+    DECLARE_ALLOC(ForEachStatementAST)
+    
+public:
+    ForEachStatementAST();
+
+    StatementAST* initStatement() { return m_initStatement.get(); }
+    void setInitStatement(StatementAST::Node& statement);
+
+    StatementAST* statement() { return m_statement.get(); }
+    void setStatement(StatementAST::Node& statement);
+    
+    AST* expression() const { return m_expression.get(); }
+    void setExpression(AST::Node& expression);
+
+private:
+    StatementAST::Node m_initStatement;
+    StatementAST::Node m_statement;
+    AST::Node m_expression;
+
+private:
+    ForEachStatementAST(const ForEachStatementAST& source);
+    void operator = (const ForEachStatementAST& source);
+};
+
 class SwitchStatementAST: public StatementAST
 {
 public:
@@ -1332,8 +1400,8 @@ public:
     enum { Type = NodeType_SwitchStatement };
 
     DECLARE_ALLOC(SwitchStatementAST)
-
-    public:
+    
+public:
     SwitchStatementAST();
 
     ConditionAST* condition() const { return m_condition.get(); }
@@ -1358,8 +1426,8 @@ public:
     enum { Type = NodeType_StatementList };
 
     DECLARE_ALLOC(StatementListAST)
-
-    public:
+    
+public:
     StatementListAST();
 
     QList<StatementAST*> statementList() { return m_statementList; }
@@ -1373,6 +1441,80 @@ private:
     void operator = (const StatementListAST& source);
 };
 
+class CatchStatementAST: public StatementAST
+{
+public:
+    typedef AUTO_PTR<CatchStatementAST> Node;
+    enum { Type = NodeType_CatchStatement };
+
+    DECLARE_ALLOC(CatchStatementAST)
+    
+public:
+    CatchStatementAST();
+
+    ConditionAST* condition() const { return m_condition.get(); }
+    void setCondition(ConditionAST::Node& condition);
+
+    StatementAST* statement() { return m_statement.get(); }
+    void setStatement(StatementAST::Node& statement);
+
+private:
+    ConditionAST::Node m_condition;
+    StatementAST::Node m_statement;
+
+private:
+    CatchStatementAST(const CatchStatementAST& source);
+    void operator = (const CatchStatementAST& source);
+};
+
+class CatchStatementListAST: public StatementAST
+{
+public:
+    typedef AUTO_PTR<CatchStatementListAST> Node;
+    enum { Type = NodeType_CatchStatementList };
+
+    DECLARE_ALLOC(CatchStatementListAST)
+    
+public:
+    CatchStatementListAST();
+
+    QList<CatchStatementAST*> statementList() { return m_statementList; }
+    void addStatement(CatchStatementAST::Node& statement);
+
+private:
+    QList<CatchStatementAST*> m_statementList;
+
+private:
+    CatchStatementListAST(const CatchStatementListAST& source);
+    void operator = (const CatchStatementListAST& source);
+};
+
+class TryBlockStatementAST: public StatementAST
+{
+public:
+    typedef AUTO_PTR<TryBlockStatementAST> Node;
+    enum { Type = NodeType_TryBlockStatement };
+
+    DECLARE_ALLOC(TryBlockStatementAST)
+    
+public:
+    TryBlockStatementAST();
+
+    StatementAST* statement() { return m_statement.get(); }
+    void setStatement(StatementAST::Node& statement);
+
+    CatchStatementListAST* catchStatementList() { return m_catchStatementList.get(); }
+    void setCatchStatementList(CatchStatementListAST::Node& statementList);
+
+private:
+    StatementAST::Node m_statement;
+    CatchStatementListAST::Node m_catchStatementList;
+
+private:
+    TryBlockStatementAST(const TryBlockStatementAST& source);
+    void operator = (const TryBlockStatementAST& source);
+};
+
 class DeclarationStatementAST: public StatementAST
 {
 public:
@@ -1380,8 +1522,8 @@ public:
     enum { Type = NodeType_DeclarationStatement };
 
     DECLARE_ALLOC(DeclarationStatementAST)
-
-    public:
+    
+public:
     DeclarationStatementAST();
 
     DeclarationAST* declaration() { return m_declaration.get(); }
@@ -1402,8 +1544,8 @@ public:
     enum { Type = NodeType_FunctionDefinition };
 
     DECLARE_ALLOC(FunctionDefinitionAST)
-
-    public:
+    
+public:
     FunctionDefinitionAST();
 
     GroupAST* functionSpecifier() { return m_functionSpecifier.get(); }
@@ -1438,15 +1580,15 @@ private:
 };
 
 
-class TranslationUnitAST: public AST
+class TranslationUnitAST: public AST, public KShared
 {
 public:
-    typedef AUTO_PTR<TranslationUnitAST> Node;
+    typedef KSharedPtr<TranslationUnitAST> Node;
     enum { Type = NodeType_TranslationUnit };
 
     DECLARE_ALLOC(TranslationUnitAST)
-
-    public:
+    
+public:
     TranslationUnitAST();
 
     void addDeclaration(DeclarationAST::Node& ast);

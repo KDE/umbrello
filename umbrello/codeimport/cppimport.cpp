@@ -90,13 +90,13 @@ void CppImport::feedTheModel(const QString& fileName)
                 feedTheModel(includeFile);
         }
     }
-    TranslationUnitAST *ast = ms_driver->translationUnit(fileName);
-    if (ast == NULL) {
+    ParsedFilePointer ast = ms_driver->translationUnit(fileName);
+    if (ast.isNull()) {
         uError() << fileName << " not found";
         return;
     }
     CppTree2Uml modelFeeder(fileName, m_thread);
-    modelFeeder.parseTranslationUnit(ast);
+    modelFeeder.parseTranslationUnit(*ast);
 }
 
 /**

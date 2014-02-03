@@ -13,59 +13,260 @@
 
     You should have received a copy of the GNU Library General Public License
     along with this library; see the file COPYING.LIB.  If not, write to
-    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-    Boston, MA 02110-1301, USA.
+    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+    Boston, MA 02111-1307, USA.
 */
 
 #ifndef PARSER_H
 #define PARSER_H
 
 #include "ast.h"
-#include "lexer.h"
 
 #include <QString>
+#include <QStringList>
+#include <QList>
+#include <set>
+#include <iostream>
 
 struct ParserPrivateData;
 
 class Driver;
 class Lexer;
+class Token;
 struct Error;
 
-class Parser : QObject
+
+class CommentFormatter {
+    static inline bool isWhite(QChar c) {
+        return c.isSpace();
+    }
+    
+    static void rStrip(QString str, QString& from) {
+        if(str.isEmpty()) return;
+        
+        int i = 0;
+        int ip = from.length();
+        int s = from.length();
+        
+        for(int a = s-1; a >= 0; a--) {
+            if(isWhite(from[a])) {
+                continue;
+            } else {
+                if(from[a] == str[i]) {
+                    i++;
+                    ip = a;
+                    if(i == (int)str.length()) break;
+                } else {
+                    break;
+                }
+            }
+        }
+        
+        if(ip != (int)from.length()) from = from.left(ip);
+    }
+        
+    static void strip(QString str, QString& from) {
+        if(str.isEmpty()) return;
+        
+        int i = 0;
+        int ip = 0;
+        int s = from.length();
+        
+        for(int a = 0; a < s; a++) {
+            if(isWhite(from[a])) {
+                continue;
+            } else {
+                if(from[a] == str[i]) {
+                    i++;
+                    ip = a+1;
+                    if(i == (int)str.length()) break;
+                } else {
+                    break;
+                }
+            }
+        }
+        
+        if(ip) from = from.mid(ip);
+    }
+    
+    public:
+    
+    static QString formatComment(QString comment) {
+        QString ret;
+        int i = 0;
+        int s = comment.length();
+        while(i < s && comment[i] == '/') {
+            i++;
+        }
+        
+        if(i > 1) {
+            ret = comment.mid(i);
+        } else {
+            ///remove the star in each line
+            QStringList lines = comment.split("\n");
+            
+            if(lines.isEmpty()) return ret;
+            
+            strip("/**", lines.front());
+            rStrip("/**", lines.back());
+            
+            QStringList::iterator it = lines.begin();
+            ++it;
+            QStringList::iterator eit = lines.end();
+            
+            if(it != lines.end()) {
+                --eit; 
+                
+                for(; it != eit; ++it) {
+                    strip("*", *it);
+                }
+                
+                if(lines.front().trimmed().isEmpty())
+                    lines.pop_front();
+            
+                if(lines.back().trimmed().isEmpty())
+                    lines.pop_back();
+            }
+            
+            ret = lines.join("\n");
+        }
+        
+        return ret;
+    }
+};
+
+class Comment {
+    QString m_text;
+    int m_line;
+    bool m_formatted;
+    
+    
+    void format() {
+        if(m_formatted) return;
+        m_formatted = true;
+        m_text = CommentFormatter::formatComment(m_text);
+    }
+    
+    public:
+        Comment(QString text = "", int line = -1) : m_text(text), m_line(line), m_formatted(false) {
+        }
+        
+        Comment(int line) : m_line(line) {
+        }
+        
+        void operator += (Comment rhs) {
+            format();
+            rhs.format();
+            m_text += " " + rhs.m_text;
+        }
+        
+        operator bool() const {
+            return !m_text.isEmpty();
+        }
+        
+        operator QString() {
+            format();
+            return m_text;
+        }
+        
+        inline int line() const {
+            return m_line;
+        }
+        
+        bool operator < (Comment& rhs) const {
+            return m_line < rhs.m_line;
+        }
+        
+        bool isSame (const Comment& rhs) {
+            if(rhs.m_formatted) format();
+            return m_text == rhs.m_text;
+        }
+        
+        struct cmp {
+            bool operator () (const Comment& c1, const Comment& c2) const {
+                return c1.line() < c2.line();
+            }
+        };
+};
+
+
+class CommentStore {
+    private:
+        typedef std::set< Comment, Comment::cmp > CommentSet;
+        CommentSet m_comments;
+
+    public:
+        
+        ///Returns the comment nearest to "end"(inclusive), and returns & removes it
+        Comment getCommentInRange(int end, int start = 0) {
+            CommentSet::iterator it = m_comments.lower_bound(end);
+            
+            
+            while(it != m_comments.begin() && (*it).line() > end) {
+                --it;
+            }
+            
+            if(it != m_comments.end() && (*it).line() >= start && (*it).line() <= end) {
+                Comment ret = *it;
+                m_comments.erase(it);
+                return ret;
+            } else {
+                return Comment();
+            }
+        }
+        
+        ///Returns and removes the comment in the line
+        Comment getComment(int line) {
+            CommentSet::iterator it = m_comments.find(line);
+            if(it != m_comments.end()) {
+                Comment ret = *it;
+                m_comments.erase(it);
+                return ret;
+            } else {
+                return Comment();
+            }
+        }
+        
+        void addComment(Comment comment) {
+            
+            CommentSet::iterator it = m_comments.find(comment);
+            if(it != m_comments.end()) {
+                if(comment.isSame(*it)) return;
+                Comment c = *it;
+                c += comment;
+                comment = c;
+                m_comments.erase(it);
+            }
+            
+            m_comments.insert(comment);
+        }
+        
+        ///Does not delete the comment
+        Comment latestComment() {
+            CommentSet::iterator it = m_comments.end(); 
+            if(it == m_comments.begin()) return Comment();
+            --it;
+            return *it;
+        }
+        
+        void clear() {
+            m_comments.clear();
+        }
+};
+
+
+class Parser
 {
-    Q_OBJECT
-    typedef Lexer::TokenIterator TokenIterator;
 public:
     Parser(Driver* driver, Lexer* lexer);
     virtual ~Parser();
 
 private:
-    bool advance(int tk, char const* descr);
-    void advance_nr(int tk, char const* descr);
-    AST::Node ast_from_token(TokenIterator tk) const;
-    bool check(int tk);
     virtual bool reportError(const Error& err);
     /** @todo remove*/ virtual bool reportError(const QString& msg);
     /** @todo remove*/ virtual void syntaxError();
-    template <class _astType>
-    void update_pos(AUTO_PTR<_astType> const& node, TokenIterator start, TokenIterator end) const
-    {
-        Token const& a = *start;
-        TokenIterator l_tmp = end;
-        if(l_tmp != start)
-            --l_tmp;
-        Token const& b = *l_tmp;
-        node->setStartPosition(a.getStartPosition());
-        node->setEndPosition(b.getEndPosition());
-        if(node->nodeType() == NodeType_Generic) {
-            if (start == l_tmp)
-                node->setSlice(a.text());
-            else
-                node->setText(toString(start, end));
-        }
-    }
 
-public: /*rules*/
+public /*rules*/ :
 
     bool parseTranslationUnit(TranslationUnitAST::Node& node);
 
@@ -80,8 +281,8 @@ public: /*rules*/
     bool parseTypedef(DeclarationAST::Node& node);
     bool parseAsmDefinition(DeclarationAST::Node& node);
     bool parseTemplateDeclaration(DeclarationAST::Node& node);
-    bool parseDeclarationInternal(DeclarationAST::Node& node, QString& comment);
-
+    bool parseDeclarationInternal(DeclarationAST::Node& node);
+    
     bool parseUnqualifiedName(ClassOrNamespaceNameAST::Node& node);
     bool parseStringLiteral(AST::Node& node);
     bool parseName(NameAST::Node& node);
@@ -166,6 +367,7 @@ public: /*rules*/
     bool parseWhileStatement(StatementAST::Node& node);
     bool parseDoStatement(StatementAST::Node& node);
     bool parseForStatement(StatementAST::Node& node);
+    bool parseForEachStatement(StatementAST::Node& node); // qt4 [erbsland]
     bool parseCompoundStatement(StatementAST::Node& node);
     bool parseForInitStatement(StatementAST::Node& node);
     bool parseIfStatement(StatementAST::Node& node);
@@ -173,7 +375,7 @@ public: /*rules*/
     bool parseLabeledStatement(StatementAST::Node& node);
     bool parseDeclarationStatement(StatementAST::Node& node);
     bool parseTryBlockStatement(StatementAST::Node& node);
-
+    
     // objective c
     bool parseObjcDef(DeclarationAST::Node& node);
     bool parseObjcClassDef(DeclarationAST::Node& node);
@@ -182,56 +384,70 @@ public: /*rules*/
     bool parseObjcAliasDecl(DeclarationAST::Node& node);
     bool parseObjcProtocolDef(DeclarationAST::Node& node);
     bool parseObjcMethodDef(DeclarationAST::Node& node);
-
-    bool parseIvarDeclList(AST::Node& node);
-    bool parseIvarDecls(AST::Node& node);
-    bool parseIvarDecl(AST::Node& node);
-    bool parseIvars(AST::Node& node);
+    
+    bool parseIvarDeclList(AST::Node& node); 
+    bool parseIvarDecls(AST::Node& node); 
+    bool parseIvarDecl(AST::Node& node); 
+    bool parseIvars(AST::Node& node); 
     bool parseIvarDeclarator(AST::Node& node);
-    bool parseMethodDecl(AST::Node& node);
-    bool parseUnarySelector(AST::Node& node);
-    bool parseKeywordSelector(AST::Node& node);
+    bool parseMethodDecl(AST::Node& node); 
+    bool parseUnarySelector(AST::Node& node); 
+    bool parseKeywordSelector(AST::Node& node); 
     bool parseSelector(AST::Node& node);
-    bool parseKeywordDecl(AST::Node& node);
-    bool parseReceiver(AST::Node& node);
-    bool parseObjcMessageExpr(AST::Node& node);
+    bool parseKeywordDecl(AST::Node& node); 
+    bool parseReceiver(AST::Node& node); 
+    bool parseObjcMessageExpr(AST::Node& node); 
     bool parseMessageArgs(AST::Node& node);
-    bool parseKeywordExpr(AST::Node& node);
-    bool parseKeywordArgList(AST::Node& node);
-    bool parseKeywordArg(AST::Node& node);
+    bool parseKeywordExpr(AST::Node& node); 
+    bool parseKeywordArgList(AST::Node& node); 
+    bool parseKeywordArg(AST::Node& node); 
     bool parseReservedWord(AST::Node& node);
-    bool parseMyParms(AST::Node& node);
-    bool parseMyParm(AST::Node& node);
-    bool parseOptParmList(AST::Node& node);
+    bool parseMyParms(AST::Node& node); 
+    bool parseMyParm(AST::Node& node); 
+    bool parseOptParmList(AST::Node& node); 
     bool parseObjcSelectorExpr(AST::Node& node);
-    bool parseSelectorArg(AST::Node& node);
-    bool parseKeywordNameList(AST::Node& node);
-    bool parseKeywordName(AST::Node& node);
+    bool parseSelectorArg(AST::Node& node); 
+    bool parseKeywordNameList(AST::Node& node); 
+    bool parseKeywordName(AST::Node& node); 
     bool parseObjcEncodeExpr(AST::Node& node);
-    bool parseObjcString(AST::Node& node);
-    bool parseProtocolRefs(AST::Node& node);
-    bool parseIdentifierList(GroupAST::Node& node);
+    bool parseObjcString(AST::Node& node); 
+    bool parseProtocolRefs(AST::Node& node); 
+    bool parseIdentifierList(GroupAST::Node& node); 
     bool parseIdentifierColon(AST::Node& node);
-    bool parseObjcProtocolExpr(AST::Node& node);
-    bool parseObjcOpenBracketExpr(AST::Node& node);
+    bool parseObjcProtocolExpr(AST::Node& node); 
+    bool parseObjcOpenBracketExpr(AST::Node& node); 
     bool parseObjcCloseBracket(AST::Node& node);
-
-    void advanceAndCheckTrailingComment(QString& comment);
-
+  
+    void nextToken(bool skipComments = true);
+    
+    ///parses all comments until the end of the line
+    Comment comment();
+    void preparseLineComments(int line);
+    void processComment(int offset = 0);
+    void clearComment();
+    
     bool skipUntil(int token);
     bool skipUntilDeclaration();
     bool skipUntilStatement();
     bool skip(int l, int r);
-    QString toString(TokenIterator start, TokenIterator end, const QString& sep=" ") const;
+    QString toString(int start, int end, const QString& sep=" ") const;
 
 private:
+    int currentLine();
+    CommentStore m_commentStore;
+    
+    template<class Type>
+    void eventuallyTakeComment(int startLn, int line, Type& ast);
+    template<class Type>
+    void eventuallyTakeComment(Type& ast);
+    
     ParserPrivateData* d;
     Driver* m_driver;
     Lexer* lex;
+    Comment m_currentComment;
     int m_problems;
     int m_maxProblems;
     bool objcp;
-    TokenIterator m_tokenIt;
 
 private:
     Parser(const Parser& source);

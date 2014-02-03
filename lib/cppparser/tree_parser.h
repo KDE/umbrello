@@ -13,24 +13,25 @@
 
     You should have received a copy of the GNU Library General Public License
     along with this library; see the file COPYING.LIB.  If not, write to
-    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-    Boston, MA 02110-1301, USA.
+    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+    Boston, MA 02111-1307, USA.
 */
 
-#ifndef TREE_PARSER_H
-#define TREE_PARSER_H
+#ifndef __tree_parser_h
+#define __tree_parser_h
 
 #include "ast.h"
+class ParsedFile;
 
 class TreeParser
 {
 public:
     TreeParser();
     virtual ~TreeParser();
-
+    
     // translation-unit
-    virtual void parseTranslationUnit(TranslationUnitAST*);
-
+    virtual void parseTranslationUnit(const ParsedFile&);
+    
     // declarations
     virtual void parseDeclaration(DeclarationAST*);
     virtual void parseFile(FileAST*);
@@ -57,4 +58,4 @@ private:
     void operator = (const TreeParser& source);
 };
 
-#endif // TREE_PARSER_H
+#endif // __tree_parser_h
