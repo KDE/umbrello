@@ -11,9 +11,8 @@
 // own header
 #include "cppimport.h"
 
-// must be located here for win32 msvc (see kdevcppparser/position.h)
-#include "kdevcppparser/lexer.h"
-#include "kdevcppparser/driver.h"
+#include "lexer.h"
+#include "driver.h"
 #include "kdevcppparser/cpptree2uml.h"
 
 // app includes

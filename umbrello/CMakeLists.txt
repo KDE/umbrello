@@ -50,7 +50,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/docgenerators/
   ${CMAKE_CURRENT_SOURCE_DIR}/refactoring/
   ${CMAKE_CURRENT_SOURCE_DIR}/widgets/
-  ${Boost_INCLUDE_DIR}
+  ${CMAKE_SOURCE_DIR}/lib/cppparser/
 )
 
 set(libdebug_SRCS
@@ -271,16 +271,17 @@ set(libcodeimport_SRCS
 list(APPEND libcodeimport_SRCS
     codeimport/cppimport.cpp
 )
+
 set(libkdevcppparser_SRCS
-    codeimport/kdevcppparser/ast.cpp
-    codeimport/kdevcppparser/driver.cpp
-    codeimport/kdevcppparser/errors.cpp
-    codeimport/kdevcppparser/lexer.cpp
-    codeimport/kdevcppparser/lookup.cpp
-    codeimport/kdevcppparser/parser.cpp
-    codeimport/kdevcppparser/preprocesslexer.cpp
-    codeimport/kdevcppparser/tree_parser.cpp
-    codeimport/kdevcppparser/ast_utils.cpp
+    ${CMAKE_SOURCE_DIR}/lib/cppparser/ast.cpp
+    ${CMAKE_SOURCE_DIR}/lib/cppparser/ast_utils.cpp
+    ${CMAKE_SOURCE_DIR}/lib/cppparser/driver.cpp
+    ${CMAKE_SOURCE_DIR}/lib/cppparser/errors.cpp
+    ${CMAKE_SOURCE_DIR}/lib/cppparser/lexer.cpp
+    ${CMAKE_SOURCE_DIR}/lib/cppparser/lookup.cpp
+    ${CMAKE_SOURCE_DIR}/lib/cppparser/parser.cpp
+    ${CMAKE_SOURCE_DIR}/lib/cppparser/preprocesslexer.cpp
+    ${CMAKE_SOURCE_DIR}/lib/cppparser/tree_parser.cpp
     codeimport/kdevcppparser/cpptree2uml.cpp
 )
 
