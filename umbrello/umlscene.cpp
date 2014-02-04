@@ -1257,7 +1257,6 @@ QRectF UMLScene::diagramRect()
 UMLWidgetList UMLScene::selectedWidgets() const
 {
     QList<QGraphicsItem *> items = selectedItems();
-    uDebug() << items.size();
 
     UMLWidgetList widgets;
     foreach(QGraphicsItem *item, items) {
