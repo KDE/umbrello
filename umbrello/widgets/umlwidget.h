@@ -309,15 +309,6 @@ protected:
     bool m_ignoreSnapComponentSizeToGrid;
     bool m_fixedAspectRatio;
 
-    /**
-     * A list containing the selected widgets.
-     * It's filled by setSelectionBounds method. It must be filled again if
-     * selected widgets changed. It is cleared only in setSelectionBounds, just
-     * before filling it.
-     * Select, deselect and so on methods DON'T modify this list.
-     */
-    UMLWidgetList m_selectedWidgetsList;
-
     /// The text in the status bar when the cursor was pressed.
     QString m_oldStatusBarMsg;
 

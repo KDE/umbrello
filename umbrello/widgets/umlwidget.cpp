@@ -478,7 +478,7 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     adjustUnselectedAssocs(delta.x(), delta.y());
 
     DEBUG(DBG_SRC) << "diffX=" << diffX << " / diffY=" << diffY;
-    foreach(UMLWidget* widget, m_selectedWidgetsList) {
+    foreach(UMLWidget* widget, umlScene()->selectedWidgets()) {
         widget->moveWidgetBy(diffX, diffY);
     }
 
@@ -527,11 +527,11 @@ void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     } else {
         // Commands
         if (m_moved) {
-            int selectionCount = m_selectedWidgetsList.count();
+            int selectionCount = umlScene()->selectedWidgets().count();
             if (selectionCount > 1) {
                 UMLApp::app()->beginMacro(i18n("Move widgets"));
             }
-            foreach(UMLWidget* widget, m_selectedWidgetsList) {
+            foreach(UMLWidget* widget, umlScene()->selectedWidgets()) {
                 UMLApp::app()->executeCommand(new Uml::CmdMoveWidget(widget));
             }
             if (selectionCount > 1) {
@@ -1291,10 +1291,6 @@ bool UMLWidget::wasPositionChanged()
  */
 void UMLWidget::setSelectionBounds()
 {
-    if (m_scene->selectedCount() > 0) {
-        m_selectedWidgetsList.clear();
-        m_selectedWidgetsList = m_scene->selectedWidgetsExt(false);
-    }
 }
 
 void UMLWidget::setSelectedFlag(bool _select)
@@ -1375,7 +1371,6 @@ void UMLWidget::selectSingle(QGraphicsSceneMouseEvent *me)
 void UMLWidget::selectMultiple(QGraphicsSceneMouseEvent *me)
 {
     setSelected(true);
-    m_scene->setSelected(this, me);
 }
 
 /**
@@ -1386,7 +1381,6 @@ void UMLWidget::selectMultiple(QGraphicsSceneMouseEvent *me)
 void UMLWidget::deselect(QGraphicsSceneMouseEvent *me)
 {
     setSelected(false);
-    m_scene->setSelected(this, me);
 }
 
 /**
