@@ -144,7 +144,7 @@ bool CppImport::parseFile(const QString& fileName)
             level = "fixme";
 
         QString item = QString("%1:%2:%3: %4: %5")
-                .arg(problem.fileName()).arg(problem.line()+1)
+                .arg(fileName).arg(problem.line()+1)
                 .arg(problem.column()).arg(level).arg(problem.text());
         UMLApp::app()->logWindow()->addItem(item);
     }
