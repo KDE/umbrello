@@ -131,7 +131,24 @@ bool CppImport::parseFile(const QString& fileName)
 {
     if (ms_seenFiles.indexOf(fileName) != -1)
         return true;
-    if (!ms_driver->parseFile(fileName))
+    bool result = ms_driver->parseFile(fileName);
+    foreach(const Problem &problem, ms_driver->problems(fileName)) {
+        QString level;
+        if (problem.level() == Problem::Level_Error)
+            level = "error";
+        else if (problem.level() == Problem::Level_Warning)
+            level = "warning";
+        else if (problem.level() == Problem::Level_Todo)
+            level = "todo";
+        else if (problem.level() == Problem::Level_Fixme)
+            level = "fixme";
+
+        QString item = QString("%1:%2:%3: %4: %5")
+                .arg(problem.fileName()).arg(problem.line()+1)
+                .arg(problem.column()).arg(level).arg(problem.text());
+        UMLApp::app()->logWindow()->addItem(item);
+    }
+    if (!result)
         return false;
     feedTheModel(fileName);
     return true;
