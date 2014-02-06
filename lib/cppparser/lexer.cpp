@@ -27,6 +27,8 @@
 #include <qmap.h>
 #include <QList>
 
+DEBUG_REGISTER_DISABLED(Lexer)
+
 #if defined(KDEVELOP_BGPARSER)
 #include <QThread>
 

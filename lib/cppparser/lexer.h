@@ -21,6 +21,7 @@
 #define LEXER_H
 
 #include "driver.h"
+#include "debug_utils.h"
 
 #include <qglobal.h>
 #include <QString>
@@ -359,6 +360,7 @@ inline Token::Token(int type, int position, int length, const QString& text)
       m_length(length),
       m_text(text)
 {
+    DEBUG("Lexer") << type << position << length << text.mid(position, length);
 }
 
 inline Token::Token(const Token& source)
@@ -517,7 +519,9 @@ inline const Token& Lexer::tokenAt(int n) const
 
 inline const Token& Lexer::lookAhead(int n) const
 {
-    return *m_tokens[ qMin(m_index + n, m_size-1) ];
+    Token &t = *m_tokens[ qMin(m_index + n, m_size-1) ];
+    DEBUG("Lexer") << t;
+    return t;
 }
 
 inline int Lexer::tokenPosition(const Token& token) const
