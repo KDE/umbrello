@@ -774,7 +774,7 @@ inline int Lexer::findOperator2() const
 	else if(ch == '&' && ch1 == '=') return Token_assign;
 	else if(ch == '|' && ch1 == '=') return Token_assign;
 	else if(ch == '<' && ch1 == '<') return Token_shift;
-	else if(ch == '>' && ch1 == '>') return Token_shift;
+    //else if(ch == '>' && ch1 == '>') return Token_shift;
 	else if(ch == '=' && ch1 == '=') return Token_eq;
 	else if(ch == '!' && ch1 == '=') return Token_eq;
 	else if(ch == '<' && ch1 == '=') return Token_leq;

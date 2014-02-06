@@ -776,6 +776,9 @@ bool Parser::parseOperatorFunctionId(AST::Node& node)
 	node = asn;
 	UPDATE_POS(node, start, lex->index());
 	return true;
+        if (node->text() == "operator > >")
+            node->setText("operator >>");
+        return true;
     } else {
 	// parse cast operator
 	GroupAST::Node cv;
@@ -986,7 +989,9 @@ bool Parser::parseOperator(AST::Node& /*node*/)
     case Token_ptrmem:
     case Token_arrow:
 	nextToken();
-	return true;
+        if (lex->lookAhead(0) == '>')
+            nextToken();
+        return true;
 
     default:
 	if(lex->lookAhead(0) == '(' && lex->lookAhead(1) == ')'){
@@ -3767,12 +3772,12 @@ bool Parser::parseAdditiveExpression(AST::Node& /*node*/)
 
 bool Parser::parseShiftExpression(AST::Node& /*node*/)
 {
-    ////kdDebug(9007)<< "--- tok = " << lex->lookAhead(0).text() << " -- "  << "Parser::parseShiftExpression()" << endl;
+    DEBUG("Parser") << "--- tok = " << lex->lookAhead(0).text() << " -- "  << "Parser::parseShiftExpression()" << endl;
     AST::Node expr;
     if(!parseAdditiveExpression(expr))
         return false;
 
-    while(lex->lookAhead(0) == Token_shift){
+    while (lex->lookAhead(0) == Token_shift || (lex->lookAhead(0) == '>' && lex->lookAhead(1) == '>')) {
         nextToken();
 
         if(!parseAdditiveExpression(expr))
