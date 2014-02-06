@@ -21,6 +21,7 @@
 #include "idchangelog.h"
 #include "model_utils.h"
 #include "object_factory.h"
+#include "uniqueid.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umllistview.h"
@@ -525,6 +526,11 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
     while (!widgetElement.isNull()) {
 
         UMLWidget* widget = scene->loadWidgetFromXMI(widgetElement);
+
+        // Generate a unique 'local ID' so second widget for the same UMLObject
+        // can be distinguished from the first widget
+        widget->setLocalID(UniqueID::gen());
+
         if (widget)
             widgets.append(widget);
 
