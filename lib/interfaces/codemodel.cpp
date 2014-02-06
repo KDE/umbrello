@@ -24,73 +24,77 @@
 
 ///Little helper-functions to save a lot of typing and possible errors
 template<class MapContainer>
-bool eachCanUpdate(const MapContainer& old, const MapContainer& newMap) {
-  if(old.size() != newMap.size()) return false;
+bool eachCanUpdate(const MapContainer& old, const MapContainer& newMap)
+{
+    if (old.size() != newMap.size()) return false;
 
-  typename MapContainer::const_iterator oldIt = old.begin();
-  typename MapContainer::const_iterator newIt = newMap.begin();
-  while(oldIt != old.end()) {
-    typedef typename MapContainer::mapped_type ListType;
-    if((*oldIt).size() != (*newIt).size()) return false;
-    typename ListType::const_iterator it1 = (*oldIt).begin();
-    typename ListType::const_iterator it2 = (*newIt).begin();
+    typename MapContainer::const_iterator oldIt = old.begin();
+    typename MapContainer::const_iterator newIt = newMap.begin();
+    while (oldIt != old.end()) {
+        typedef typename MapContainer::mapped_type ListType;
+        if ((*oldIt).size() != (*newIt).size()) return false;
+        typename ListType::const_iterator it1 = (*oldIt).begin();
+        typename ListType::const_iterator it2 = (*newIt).begin();
 
-    while(it1 != (*oldIt).end()) {
-      if(!(*it1)->canUpdate(*it2)) return false;
-      ++it1;
-      ++it2;
+        while (it1 != (*oldIt).end()) {
+            if (!(*it1)->canUpdate(*it2)) return false;
+            ++it1;
+            ++it2;
+        }
+        ++oldIt;
+        ++newIt;
     }
-    ++oldIt;
-    ++newIt;
-  }
-  return true;
+    return true;
 }
 
 template<class MapContainer>
-void eachUpdate(MapContainer& old, const MapContainer& newMap) {
-  if(old.size() != newMap.size()) kdError(9007) << "error in eachUpdate(...) 1" << endl;
-  typename MapContainer::iterator oldIt = old.begin();
-  typename MapContainer::const_iterator newIt = newMap.begin();
-  while(oldIt != old.end()) {
-    if((*oldIt).size() != (*newIt).size()) kdError(9007) << "error in eachUpdate(...) 2" << endl;
-    typedef typename MapContainer::mapped_type ListType;
-    typename ListType::iterator it1 = (*oldIt).begin();
-    typename ListType::const_iterator it2 = (*newIt).begin();
-    while(it1 != (*oldIt).end()) {
-      (*it1)->update(*it2);
-      ++it1;
-      ++it2;
+void eachUpdate(MapContainer& old, const MapContainer& newMap)
+{
+    if (old.size() != newMap.size()) kdError(9007) << "error in eachUpdate(...) 1" << endl;
+    typename MapContainer::iterator oldIt = old.begin();
+    typename MapContainer::const_iterator newIt = newMap.begin();
+    while (oldIt != old.end()) {
+        if ((*oldIt).size() != (*newIt).size()) kdError(9007) << "error in eachUpdate(...) 2" << endl;
+        typedef typename MapContainer::mapped_type ListType;
+        typename ListType::iterator it1 = (*oldIt).begin();
+        typename ListType::const_iterator it2 = (*newIt).begin();
+        while (it1 != (*oldIt).end()) {
+            (*it1)->update(*it2);
+            ++it1;
+            ++it2;
+        }
+        ++oldIt;
+        ++newIt;
     }
-    ++oldIt;
-    ++newIt;
-  }
 }
 
 ///Versions for contains that do not contain maps again
 template<class MapContainer>
-bool eachCanUpdateSingle(const MapContainer& old, const MapContainer& newMap) {
-  if(old.size() != newMap.size()) return false;
+bool eachCanUpdateSingle(const MapContainer& old, const MapContainer& newMap)
+{
+    if (old.size() != newMap.size()) return false;
 
-  typename MapContainer::const_iterator oldIt = old.begin();
-  typename MapContainer::const_iterator newIt = newMap.begin();
-  while(oldIt != old.end()) {
-    if(!(*oldIt)->canUpdate(*newIt)) return false;
-    ++oldIt;
-    ++newIt;
-  }
-  return true;
+    typename MapContainer::const_iterator oldIt = old.begin();
+    typename MapContainer::const_iterator newIt = newMap.begin();
+    while (oldIt != old.end()) {
+        if (!(*oldIt)->canUpdate(*newIt)) return false;
+        ++oldIt;
+        ++newIt;
+    }
+    return true;
 }
 
 template<class MapContainer>
-void eachUpdateSingle(MapContainer& old, const MapContainer& newMap) {
-  if(old.size() != newMap.size()) kdError(9007) << "error in eachUpdate(...) 1" << endl;
-  typename MapContainer::iterator oldIt = old.begin();
-  typename MapContainer::const_iterator newIt = newMap.begin();
-  while(oldIt != old.end()) {
-    (*oldIt)->update(*newIt);
-    ++oldIt;
-    ++newIt;
-  }
+void eachUpdateSingle(MapContainer& old, const MapContainer& newMap)
+{
+    if (old.size() != newMap.size()) kdError(9007) << "error in eachUpdate(...) 1" << endl;
+    typename MapContainer::iterator oldIt = old.begin();
+    typename MapContainer::const_iterator newIt = newMap.begin();
+    while (oldIt != old.end()) {
+        (*oldIt)->update(*newIt);
+        ++oldIt;
+        ++newIt;
+    }
 }
 
 CodeModel::CodeModel()
@@ -103,83 +107,91 @@ CodeModel::~ CodeModel()
 {
 }
 
-int CodeModel::newGroupId() {
+int CodeModel::newGroupId()
+{
     return (m_currentGroupId++) * 2;
 }
 
-inline bool isSingleGroup(const int group) {
+inline bool isSingleGroup(const int group)
+{
     return (group % 2) == 0;
 }
 
-QStringList CodeModel::getGroupStrings(int gid) const {
+QStringList CodeModel::getGroupStrings(int gid) const
+{
     QStringList ret;
-    for(QMap<QString, FileDom>::ConstIterator it = m_files.begin(); it != m_files.end(); ++it) {
-        if((*it)->groupId() == gid) ret.append((*it)-> name());
+    for (QMap<QString, FileDom>::ConstIterator it = m_files.begin(); it != m_files.end(); ++it) {
+        if ((*it)->groupId() == gid) ret.append((*it)-> name());
     }
     return ret;
 }
 
 
-FileList CodeModel::getGroup(int gid) const {
+FileList CodeModel::getGroup(int gid) const
+{
     FileList ret;
-    for(QMap<QString, FileDom>::ConstIterator it = m_files.begin(); it != m_files.end(); ++it) {
-        if((*it)->groupId() == gid) ret.append(*it);
+    for (QMap<QString, FileDom>::ConstIterator it = m_files.begin(); it != m_files.end(); ++it) {
+        if ((*it)->groupId() == gid) ret.append(*it);
     }
     return ret;
 }
 
-FileList CodeModel::getGroup(const FileDom& dom) const {
+FileList CodeModel::getGroup(const FileDom& dom) const
+{
     return getGroup(dom->groupId());
 }
 
-int CodeModel::mergeGroups(int g1, int g2) {
-    if(!g1 || !g2) return 0;
-    if(g1 == g2) return g1;
+int CodeModel::mergeGroups(int g1, int g2)
+{
+    if (!g1 || !g2) return 0;
+    if (g1 == g2) return g1;
     int ng = isSingleGroup(g1) ? g2 : g1;
-    if(isSingleGroup(ng))
+    if (isSingleGroup(ng))
         ng = newGroupId() + 1;
-    
-    for(QMap<QString, FileDom>::iterator it = m_files.begin(); it != m_files.end(); ++it) {
-        if((*it)->groupId() == g2 || (*it)->groupId() == g1) (*it)->setGroupId(ng);
+
+    for (QMap<QString, FileDom>::iterator it = m_files.begin(); it != m_files.end(); ++it) {
+        if ((*it)->groupId() == g2 || (*it)->groupId() == g1) (*it)->setGroupId(ng);
     }
     return ng;
 }
 
-template<class Type> static void dumpMap(std::ostream& file, QMap<QString, Type>& map) {
+template<class Type> static void dumpMap(std::ostream& file, QMap<QString, Type>& map)
+{
     typename QMap<QString, Type>::Iterator it = map.begin();
-    for(; it != map.end(); ++it) {
+    for (; it != map.end(); ++it) {
         typename Type::Iterator it2 = (*it).begin();
-        for(; it2 != (*it).end(); ++it2) {
+        for (; it2 != (*it).end(); ++it2) {
             (*it2) -> dump(file, true);
         }
     }
 }
 
-template<class Type> static void dumpMapDirect(std::ostream& file, QMap<QString, Type>& map) {
+template<class Type> static void dumpMapDirect(std::ostream& file, QMap<QString, Type>& map)
+{
     typename QMap<QString, Type>::Iterator it = map.begin();
-    for(; it != map.end(); ++it) {
+    for (; it != map.end(); ++it) {
         (*it) -> dump(file, true);
     }
 }
 
-void CodeModelItem::dump(std::ostream& file, bool recurse, QString Info) 
+void CodeModelItem::dump(std::ostream& file, bool recurse, QString Info)
 {
     ostringstream str(ostringstream::out);
-    
+
     str << "name: " << name().ascii() << "\n";
     str << "kind: " << m_kind << "  ";
-    
-    if(isFile()) str << "isFile ";
-    if(isNamespace()) str << "isNamespace ";
-    if(isClass()) str << "isClass ";
-    if(isFunction()) str << "isFunction ";
-    if(isFunctionDefinition()) str << "isFunctionDefinition ";
-    if(isVariable()) str << "isVariable ";
-    if(isArgument()) str << "isArgument ";
-    if(isEnum()) str << "isEnum ";
-    if(isEnumerator()) str << "isEnumerator ";
-    if(isTypeAlias()) str << "isTypeAlias ";
-    if(isCustom()) str << "isCustom ";
+
+    if (isFile()) str << "isFile ";
+    if (isNamespace()) str << "isNamespace ";
+    if (isClass()) str << "isClass ";
+    if (isFunction()) str << "isFunction ";
+    if (isFunctionDefinition()) str << "isFunctionDefinition ";
+    if (isVariable()) str << "isVariable ";
+    if (isArgument()) str << "isArgument ";
+    if (isEnum()) str << "isEnum ";
+    if (isEnumerator()) str << "isEnumerator ";
+    if (isTypeAlias()) str << "isTypeAlias ";
+    if (isCustom()) str << "isCustom ";
     str << "\n";
     str << "File: " << fileName().ascii() << " ";
     int line, col;
@@ -187,52 +199,56 @@ void CodeModelItem::dump(std::ostream& file, bool recurse, QString Info)
     str << "s:(" << line << ", " << col << ") ";
     getEndPosition(&line, &col);
     str << "e:(" << line << ", " << col << ")\n";
-    
-    
+
+
     Info.prepend(str.str().c_str());
-    
+
     file << Info.ascii() << "\n";
-    if(recurse) {} ///just to get rid of the warning
+    if (recurse) {} ///just to get rid of the warning
 }
 
-void ClassModel::dump(std::ostream& file, bool recurse, QString Info) 
+void ClassModel::dump(std::ostream& file, bool recurse, QString Info)
 {
     ostringstream str(ostringstream::out);
-    
-    
+
+
     str << "scope: " << m_scope.join("::").ascii() << "\n";
     str << "bases: " << m_baseClassList.join(" ").ascii() << "\n";
-    
+
     Info.prepend(str.str().c_str());
-    
+
     CodeModelItem::dump(file, false, Info);
-    
-    if(recurse) {
+
+    if (recurse) {
         dumpMap(file, m_classes);
     }
 }
 
-void NamespaceAliasModel::read(QDataStream& stream) {
-  QString tempFileName;
-  stream >> m_name >> m_aliasName >> tempFileName;
-  m_fileName = HashedString(tempFileName);
+void NamespaceAliasModel::read(QDataStream& stream)
+{
+    QString tempFileName;
+    stream >> m_name >> m_aliasName >> tempFileName;
+    m_fileName = HashedString(tempFileName);
 }
 
-void NamespaceAliasModel::write(QDataStream& stream) const {
-  stream << m_name << m_aliasName << m_fileName.str();
+void NamespaceAliasModel::write(QDataStream& stream) const
+{
+    stream << m_name << m_aliasName << m_fileName.str();
 }
 
-void NamespaceImportModel::read(QDataStream& stream) {
-  QString tempFileName;
-  stream >> m_name >> tempFileName;
-  m_fileName = HashedString(tempFileName);
+void NamespaceImportModel::read(QDataStream& stream)
+{
+    QString tempFileName;
+    stream >> m_name >> tempFileName;
+    m_fileName = HashedString(tempFileName);
 }
 
-void NamespaceImportModel::write(QDataStream& stream) const {
-  stream << m_name << m_fileName.str();
+void NamespaceImportModel::write(QDataStream& stream) const
+{
+    stream << m_name << m_fileName.str();
 }
 
-void NamespaceModel::dump(std::ostream& file, bool recurse, QString Info) 
+void NamespaceModel::dump(std::ostream& file, bool recurse, QString Info)
 {
     ostringstream str(ostringstream::out);
 
@@ -240,123 +256,125 @@ void NamespaceModel::dump(std::ostream& file, bool recurse, QString Info)
 
     ClassModel::dump(file, false, Info);
 
-    if(recurse) {
+    if (recurse) {
         dumpMapDirect(file, m_namespaces);
     }
-}    
+}
 
-void ArgumentModel::dump(std::ostream& file, bool recurse, QString Info) 
+void ArgumentModel::dump(std::ostream& file, bool recurse, QString Info)
 {
     ostringstream str(ostringstream::out);
 
     str << "type: " << m_type.ascii() << " default: " << m_defaultValue.ascii() << "\n";
-    
+
     Info.prepend(str.str().c_str());
 
     CodeModelItem::dump(file, false, Info);
-    
-    if(recurse) {} ///just to get rid of the warning
+
+    if (recurse) {} ///just to get rid of the warning
 }
 
-void FunctionModel::dump(std::ostream& file, bool recurse, QString Info) 
+void FunctionModel::dump(std::ostream& file, bool recurse, QString Info)
 {
     ostringstream str(ostringstream::out);
 
     str << "access: " << m_access;
-        
+
     str << " scope: " << m_scope.join("::").ascii() << "\n";
-        
-    if(isAbstract()) str << "isAbstract ";
-    if(isConstant()) str << "isConstant ";
-    if(isFunction()) str << "isFunction ";
-    if(isInline()) str << "isInline ";
-    if(isSignal()) str << "isSignal ";
-    if(isSlot()) str << "isSlot ";
-    if(isStatic()) str << "isStatic ";
-    if(isVirtual()) str << "isVirtual ";
-        
+
+    if (isAbstract()) str << "isAbstract ";
+    if (isConstant()) str << "isConstant ";
+    if (isFunction()) str << "isFunction ";
+    if (isInline()) str << "isInline ";
+    if (isSignal()) str << "isSignal ";
+    if (isSlot()) str << "isSlot ";
+    if (isStatic()) str << "isStatic ";
+    if (isVirtual()) str << "isVirtual ";
+
     str << "\n";
     str << "result-type: " << resultType().ascii() << "\n";
-        
+
     Info.prepend(str.str().c_str());
 
     CodeModelItem::dump(file, false, Info);
 
-    if(recurse) {
-        for(ArgumentList::iterator it = m_arguments.begin(); it != m_arguments.end(); ++it) {
+    if (recurse) {
+        for (ArgumentList::iterator it = m_arguments.begin(); it != m_arguments.end(); ++it) {
             (*it) -> dump(file, true);
         }
     }
 }
 
-void VariableModel::dump(std::ostream& file, bool recurse, QString Info) 
+void VariableModel::dump(std::ostream& file, bool recurse, QString Info)
 {
     ostringstream str(ostringstream::out);
 
     str << "access: " << m_access << "type: " << m_type.ascii() << "\n";
-    
-    if(isStatic()) str << "isStatic ";
+
+    if (isStatic()) str << "isStatic ";
 
     str << "\n";
 
     Info.prepend(str.str().c_str());
 
     CodeModelItem::dump(file, false, Info);
-    
-    if(recurse) {} ///just to get rid of the warning
+
+    if (recurse) {} ///just to get rid of the warning
 }
 
-void CodeModel::dump(std::ostream& file, QString Info) {
+void CodeModel::dump(std::ostream& file, QString Info)
+{
     ostringstream str(ostringstream::out);
-            
+
     Info.prepend(str.str().c_str());
-    
+
     file << Info.ascii() << "\n";
-    
+
     QMap<QString, FileDom>::iterator it = m_files.begin();
-    for(; it != m_files.end(); ++it) {
+    for (; it != m_files.end(); ++it) {
         (*it) -> dump(file, true);
     }
 }
 
-void EnumModel::dump(std::ostream& file, bool recurse, QString Info) 
+void EnumModel::dump(std::ostream& file, bool recurse, QString Info)
 {
     ostringstream str(ostringstream::out);
 
     str << "access: " << m_access << "\n";
-    
+
     Info.prepend(str.str().c_str());
 
     CodeModelItem::dump(file, false, Info);
-    
-    if(recurse) {
+
+    if (recurse) {
         dumpMapDirect(file, m_enumerators);
     }
 }
 
-void EnumeratorModel::dump(std::ostream& file, bool recurse, QString Info) 
+void EnumeratorModel::dump(std::ostream& file, bool recurse, QString Info)
 {
     ostringstream str(ostringstream::out);
 
     str << "value: " << m_value.ascii() << "\n";
-    
+
     Info.prepend(str.str().c_str());
 
     CodeModelItem::dump(file, false, Info);
-    
-    if(recurse) {} ///just to get rid of the warning
+
+    if (recurse) {} ///just to get rid of the warning
 }
 
-void TypeAliasModel::dump(std::ostream& file, bool recurse, QString Info) {
+void TypeAliasModel::dump(std::ostream& file, bool recurse, QString Info)
+{
     ostringstream str(ostringstream::out);
 
     str << "type: " << m_type.ascii() << "\n";
-    
+
     Info.prepend(str.str().c_str());
 
     CodeModelItem::dump(file, false, Info);
-    
-    if(recurse) {} ///just to get rid of the warning
+
+    if (recurse) {} ///just to get rid of the warning
 }
 
 void CodeModel::wipeout()
@@ -386,33 +404,33 @@ bool CodeModel::hasFile(const QString & name) const
 FileDom CodeModel::fileByName(const QString & name)
 {
     QMap<QString, FileDom>::const_iterator it = m_files.find(name);
-    if(it != m_files.end()) {
-      return *it;
+    if (it != m_files.end()) {
+        return *it;
     } else {
-      return FileDom();
+        return FileDom();
     }
 }
 
 const FileDom CodeModel::fileByName(const QString & name) const
 {
     QMap<QString, FileDom>::const_iterator it = m_files.find(name);
-    if(it != m_files.end()) {
-      return *it;
+    if (it != m_files.end()) {
+        return *it;
     } else {
-      return FileDom();
+        return FileDom();
     }
 }
 
 void CodeModel::addNamespace(NamespaceDom target, NamespaceDom source)
 {
-    if(source->name().isEmpty()){
-	return;
-    } else if(!target->hasNamespace(source->name())){
-	NamespaceDom ns = this->create<NamespaceModel>();
-	ns->setName(source->name());
-	ns->setFileName(source->fileName()); /// \FIXME ROBE
-	ns->setScope(source->scope());
-	target->addNamespace(ns);
+    if (source->name().isEmpty()) {
+        return;
+    } else if (!target->hasNamespace(source->name())) {
+        NamespaceDom ns = this->create<NamespaceModel>();
+        ns->setName(source->name());
+        ns->setFileName(source->fileName()); /// \FIXME ROBE
+        ns->setScope(source->scope());
+        target->addNamespace(ns);
     }
 
     NamespaceDom ns = target->namespaceByName(source->name());
@@ -427,30 +445,30 @@ void CodeModel::addNamespace(NamespaceDom target, NamespaceDom source)
     const NamespaceModel::NamespaceAliasModelList& namespaceAliases = source->namespaceAliases();
     const NamespaceModel::NamespaceImportModelList& namespaceImports = source->namespaceImports();
 
-    for(NamespaceList::Iterator it=namespaceList.begin(); it!=namespaceList.end(); ++it)
-	addNamespace(ns, *it);
-    for(ClassList::Iterator it=classList.begin(); it!=classList.end(); ++it)
-	ns->addClass(*it);
-    for(FunctionList::Iterator it=functionList.begin(); it!=functionList.end(); ++it)
-	ns->addFunction(*it);
-    for(FunctionDefinitionList::Iterator it=functionDefinitionList.begin(); it!=functionDefinitionList.end(); ++it)
-	ns->addFunctionDefinition(*it);
-    for(VariableList::Iterator it=variableList.begin(); it!=variableList.end(); ++it)
-	ns->addVariable(*it);
-    for(EnumList::Iterator it=enumList.begin(); it!=enumList.end(); ++it)
-	ns->addEnum(*it);
-    for(TypeAliasList::Iterator it=typeAliasList.begin(); it!=typeAliasList.end(); ++it)
-	ns->addTypeAlias(*it);
-  for(NamespaceModel::NamespaceAliasModelList::const_iterator it=namespaceAliases.begin(); it != namespaceAliases.end(); ++it)
-    ns->addNamespaceAlias(*it);
-  for(NamespaceModel::NamespaceImportModelList::const_iterator it=namespaceImports.begin(); it != namespaceImports.end(); ++it)
-    ns->addNamespaceImport(*it);
+    for (NamespaceList::Iterator it=namespaceList.begin(); it!=namespaceList.end(); ++it)
+        addNamespace(ns, *it);
+    for (ClassList::Iterator it=classList.begin(); it!=classList.end(); ++it)
+        ns->addClass(*it);
+    for (FunctionList::Iterator it=functionList.begin(); it!=functionList.end(); ++it)
+        ns->addFunction(*it);
+    for (FunctionDefinitionList::Iterator it=functionDefinitionList.begin(); it!=functionDefinitionList.end(); ++it)
+        ns->addFunctionDefinition(*it);
+    for (VariableList::Iterator it=variableList.begin(); it!=variableList.end(); ++it)
+        ns->addVariable(*it);
+    for (EnumList::Iterator it=enumList.begin(); it!=enumList.end(); ++it)
+        ns->addEnum(*it);
+    for (TypeAliasList::Iterator it=typeAliasList.begin(); it!=typeAliasList.end(); ++it)
+        ns->addTypeAlias(*it);
+    for (NamespaceModel::NamespaceAliasModelList::const_iterator it=namespaceAliases.begin(); it != namespaceAliases.end(); ++it)
+        ns->addNamespaceAlias(*it);
+    for (NamespaceModel::NamespaceImportModelList::const_iterator it=namespaceImports.begin(); it != namespaceImports.end(); ++it)
+        ns->addNamespaceImport(*it);
 }
 
 void CodeModel::removeNamespace(NamespaceDom target, NamespaceDom source)
 {
-    if(source->name().isEmpty() || !target->hasNamespace(source->name()))
-	return;
+    if (source->name().isEmpty() || !target->hasNamespace(source->name()))
+        return;
 
     NamespaceDom ns = target->namespaceByName(source->name());
 
@@ -463,50 +481,49 @@ void CodeModel::removeNamespace(NamespaceDom target, NamespaceDom source)
     TypeAliasList typeAliasList = source->typeAliasList();
     const NamespaceModel::NamespaceAliasModelList& namespaceAliases = source->namespaceAliases();
     const NamespaceModel::NamespaceImportModelList& namespaceImports = source->namespaceImports();
-  
-    for(NamespaceList::Iterator it=namespaceList.begin(); it!=namespaceList.end(); ++it)
-	removeNamespace(ns, *it);
-    for(ClassList::Iterator it=classList.begin(); it!=classList.end(); ++it)
-	ns->removeClass(*it);
-    for(FunctionList::Iterator it=functionList.begin(); it!=functionList.end(); ++it)
-	ns->removeFunction(*it);
-    for(FunctionDefinitionList::Iterator it=functionDefinitionList.begin(); it!=functionDefinitionList.end(); ++it)
-	ns->removeFunctionDefinition(*it);
-    for(VariableList::Iterator it=variableList.begin(); it!=variableList.end(); ++it)
-	ns->removeVariable(*it);
-    for(EnumList::Iterator it=enumList.begin(); it!=enumList.end(); ++it)
-	ns->removeEnum(*it);
-    for(TypeAliasList::Iterator it=typeAliasList.begin(); it!=typeAliasList.end(); ++it)
-	ns->removeTypeAlias(*it);
-  for(NamespaceModel::NamespaceAliasModelList::const_iterator it=namespaceAliases.begin(); it != namespaceAliases.end(); ++it)
-    ns->removeNamespaceAlias(*it);
-  for(NamespaceModel::NamespaceImportModelList::const_iterator it=namespaceImports.begin(); it != namespaceImports.end(); ++it)
-    ns->removeNamespaceImport(*it);
-  
-    if(ns->namespaceList().isEmpty() && 
-    	ns->classList().isEmpty() && 
-	ns->functionList().isEmpty() && 
-	ns->functionDefinitionList().isEmpty() && 
-	ns->variableList().isEmpty() &&
-	ns->enumList().isEmpty() && 
-	ns->typeAliasList().isEmpty() &&
-  ns->namespaceImports().empty() &&
-  ns->namespaceAliases().empty())
-    {
+
+    for (NamespaceList::Iterator it=namespaceList.begin(); it!=namespaceList.end(); ++it)
+        removeNamespace(ns, *it);
+    for (ClassList::Iterator it=classList.begin(); it!=classList.end(); ++it)
+        ns->removeClass(*it);
+    for (FunctionList::Iterator it=functionList.begin(); it!=functionList.end(); ++it)
+        ns->removeFunction(*it);
+    for (FunctionDefinitionList::Iterator it=functionDefinitionList.begin(); it!=functionDefinitionList.end(); ++it)
+        ns->removeFunctionDefinition(*it);
+    for (VariableList::Iterator it=variableList.begin(); it!=variableList.end(); ++it)
+        ns->removeVariable(*it);
+    for (EnumList::Iterator it=enumList.begin(); it!=enumList.end(); ++it)
+        ns->removeEnum(*it);
+    for (TypeAliasList::Iterator it=typeAliasList.begin(); it!=typeAliasList.end(); ++it)
+        ns->removeTypeAlias(*it);
+    for (NamespaceModel::NamespaceAliasModelList::const_iterator it=namespaceAliases.begin(); it != namespaceAliases.end(); ++it)
+        ns->removeNamespaceAlias(*it);
+    for (NamespaceModel::NamespaceImportModelList::const_iterator it=namespaceImports.begin(); it != namespaceImports.end(); ++it)
+        ns->removeNamespaceImport(*it);
+
+    if (ns->namespaceList().isEmpty() &&
+        ns->classList().isEmpty() &&
+        ns->functionList().isEmpty() &&
+        ns->functionDefinitionList().isEmpty() &&
+        ns->variableList().isEmpty() &&
+        ns->enumList().isEmpty() &&
+        ns->typeAliasList().isEmpty() &&
+        ns->namespaceImports().empty() &&
+        ns->namespaceAliases().empty()) {
         target->removeNamespace(ns);
     }
 }
 
 bool CodeModel::addFile(FileDom file)
 {
-    if(file->name().isEmpty())
-		return false;
+    if (file->name().isEmpty())
+        return false;
 
-		if(m_files.find(file->name()) != m_files.end()) {
-			///the error-channel is set to 9007 because this problem appears with the cpp-support, so it is needed while debugging it
-			kdDebug(9007) << "file " << file->name() << " was added to code-model without removing it before! \n" << kdBacktrace() << endl;
-			removeFile(fileByName(file->name()));
-		}
+    if (m_files.find(file->name()) != m_files.end()) {
+        ///the error-channel is set to 9007 because this problem appears with the cpp-support, so it is needed while debugging it
+        kdDebug(9007) << "file " << file->name() << " was added to code-model without removing it before! \n" << kdBacktrace() << endl;
+        removeFile(fileByName(file->name()));
+    }
 
     // update global namespace
     NamespaceList namespaceList = file->namespaceList();
@@ -518,26 +535,26 @@ bool CodeModel::addFile(FileDom file)
     TypeAliasList typeAliasList = file->typeAliasList();
     const NamespaceModel::NamespaceAliasModelList& namespaceAliases = file->namespaceAliases();
     const NamespaceModel::NamespaceImportModelList& namespaceImports = file->namespaceImports();
-  
-    for(NamespaceList::Iterator it=namespaceList.begin(); it!=namespaceList.end(); ++it)
-	addNamespace(m_globalNamespace, *it);
-    for(ClassList::Iterator it=classList.begin(); it!=classList.end(); ++it)
-	m_globalNamespace->addClass(*it);
-    for(FunctionList::Iterator it=functionList.begin(); it!=functionList.end(); ++it)
-	m_globalNamespace->addFunction(*it);
-    for(FunctionDefinitionList::Iterator it=functionDefinitionList.begin(); it!=functionDefinitionList.end(); ++it)
-	m_globalNamespace->addFunctionDefinition(*it);
-    for(VariableList::Iterator it=variableList.begin(); it!=variableList.end(); ++it)
-	m_globalNamespace->addVariable(*it);
-    for(EnumList::Iterator it=enumList.begin(); it!=enumList.end(); ++it)
-	m_globalNamespace->addEnum(*it);
-    for(TypeAliasList::Iterator it=typeAliasList.begin(); it!=typeAliasList.end(); ++it)
-	m_globalNamespace->addTypeAlias(*it);
-  for(NamespaceModel::NamespaceAliasModelList::const_iterator it=namespaceAliases.begin(); it != namespaceAliases.end(); ++it)
-    m_globalNamespace->addNamespaceAlias(*it);
-  for(NamespaceModel::NamespaceImportModelList::const_iterator it=namespaceImports.begin(); it != namespaceImports.end(); ++it)
-    m_globalNamespace->addNamespaceImport(*it);
-  
+
+    for (NamespaceList::Iterator it=namespaceList.begin(); it!=namespaceList.end(); ++it)
+        addNamespace(m_globalNamespace, *it);
+    for (ClassList::Iterator it=classList.begin(); it!=classList.end(); ++it)
+        m_globalNamespace->addClass(*it);
+    for (FunctionList::Iterator it=functionList.begin(); it!=functionList.end(); ++it)
+        m_globalNamespace->addFunction(*it);
+    for (FunctionDefinitionList::Iterator it=functionDefinitionList.begin(); it!=functionDefinitionList.end(); ++it)
+        m_globalNamespace->addFunctionDefinition(*it);
+    for (VariableList::Iterator it=variableList.begin(); it!=variableList.end(); ++it)
+        m_globalNamespace->addVariable(*it);
+    for (EnumList::Iterator it=enumList.begin(); it!=enumList.end(); ++it)
+        m_globalNamespace->addEnum(*it);
+    for (TypeAliasList::Iterator it=typeAliasList.begin(); it!=typeAliasList.end(); ++it)
+        m_globalNamespace->addTypeAlias(*it);
+    for (NamespaceModel::NamespaceAliasModelList::const_iterator it=namespaceAliases.begin(); it != namespaceAliases.end(); ++it)
+        m_globalNamespace->addNamespaceAlias(*it);
+    for (NamespaceModel::NamespaceImportModelList::const_iterator it=namespaceImports.begin(); it != namespaceImports.end(); ++it)
+        m_globalNamespace->addNamespaceImport(*it);
+
     m_files.insert(file->name(), file);
     return true;
 }
@@ -554,26 +571,26 @@ void CodeModel::removeFile(FileDom file)
     TypeAliasList typeAliasList = file->typeAliasList();
     const NamespaceModel::NamespaceAliasModelList& namespaceAliases = file->namespaceAliases();
     const NamespaceModel::NamespaceImportModelList& namespaceImports = file->namespaceImports();
-  
-    for(NamespaceList::Iterator it=namespaceList.begin(); it!=namespaceList.end(); ++it)
-	removeNamespace(m_globalNamespace, *it);
-    for(ClassList::Iterator it=classList.begin(); it!=classList.end(); ++it)
-	m_globalNamespace->removeClass(*it);
-    for(FunctionList::Iterator it=functionList.begin(); it!=functionList.end(); ++it)
-	m_globalNamespace->removeFunction(*it);
-    for(FunctionDefinitionList::Iterator it=functionDefinitionList.begin(); it!=functionDefinitionList.end(); ++it)
-	m_globalNamespace->removeFunctionDefinition(*it);
-    for(VariableList::Iterator it=variableList.begin(); it!=variableList.end(); ++it)
-	m_globalNamespace->removeVariable(*it);
-    for(EnumList::Iterator it=enumList.begin(); it!=enumList.end(); ++it)
-	m_globalNamespace->removeEnum(*it);
-    for(TypeAliasList::Iterator it=typeAliasList.begin(); it!=typeAliasList.end(); ++it)
-	m_globalNamespace->removeTypeAlias(*it);
-  for(NamespaceModel::NamespaceAliasModelList::const_iterator it=namespaceAliases.begin(); it != namespaceAliases.end(); ++it)
-    m_globalNamespace->removeNamespaceAlias(*it);
-  for(NamespaceModel::NamespaceImportModelList::const_iterator it=namespaceImports.begin(); it != namespaceImports.end(); ++it)
-    m_globalNamespace->removeNamespaceImport(*it);
-  
+
+    for (NamespaceList::Iterator it=namespaceList.begin(); it!=namespaceList.end(); ++it)
+        removeNamespace(m_globalNamespace, *it);
+    for (ClassList::Iterator it=classList.begin(); it!=classList.end(); ++it)
+        m_globalNamespace->removeClass(*it);
+    for (FunctionList::Iterator it=functionList.begin(); it!=functionList.end(); ++it)
+        m_globalNamespace->removeFunction(*it);
+    for (FunctionDefinitionList::Iterator it=functionDefinitionList.begin(); it!=functionDefinitionList.end(); ++it)
+        m_globalNamespace->removeFunctionDefinition(*it);
+    for (VariableList::Iterator it=variableList.begin(); it!=variableList.end(); ++it)
+        m_globalNamespace->removeVariable(*it);
+    for (EnumList::Iterator it=enumList.begin(); it!=enumList.end(); ++it)
+        m_globalNamespace->removeEnum(*it);
+    for (TypeAliasList::Iterator it=typeAliasList.begin(); it!=typeAliasList.end(); ++it)
+        m_globalNamespace->removeTypeAlias(*it);
+    for (NamespaceModel::NamespaceAliasModelList::const_iterator it=namespaceAliases.begin(); it != namespaceAliases.end(); ++it)
+        m_globalNamespace->removeNamespaceAlias(*it);
+    for (NamespaceModel::NamespaceImportModelList::const_iterator it=namespaceImports.begin(); it != namespaceImports.end(); ++it)
+        m_globalNamespace->removeNamespaceImport(*it);
+
     m_files.remove(file->name());
 }
 
@@ -624,8 +641,8 @@ void CodeModelItem::setFileName(const QString& fileName)
 
 void CodeModelItem::getStartPosition(int * line, int * column) const
 {
-    if(line) *line = m_startLine;
-    if(column) *column = m_startColumn;
+    if (line) *line = m_startLine;
+    if (column) *column = m_startColumn;
 }
 
 void CodeModelItem::setStartPosition(int line, int column)
@@ -636,8 +653,8 @@ void CodeModelItem::setStartPosition(int line, int column)
 
 void CodeModelItem::getEndPosition(int * line, int * column) const
 {
-    if(line) *line = m_endLine;
-    if(column) *column = m_endColumn;
+    if (line) *line = m_endLine;
+    if (column) *column = m_endColumn;
 }
 
 void CodeModelItem::setEndPosition(int line, int column)
@@ -646,17 +663,19 @@ void CodeModelItem::setEndPosition(int line, int column)
     m_endColumn = column;
 }
 
-void CodeModelItem::update(const CodeModelItem* i) {
-  m_startLine = i->m_startLine;
-  m_startColumn = i->m_startColumn;
-  m_endLine = i->m_endLine;
-  m_endColumn = i->m_endColumn;
+void CodeModelItem::update(const CodeModelItem* i)
+{
+    m_startLine = i->m_startLine;
+    m_startColumn = i->m_startColumn;
+    m_endLine = i->m_endLine;
+    m_endColumn = i->m_endColumn;
 }
 
-bool CodeModelItem::canUpdate(const CodeModelItem* i) const {
-  if(i->m_kind != m_kind || i->m_name != m_name)
-    return false;
-  return true;
+bool CodeModelItem::canUpdate(const CodeModelItem* i) const
+{
+    if (i->m_kind != m_kind || i->m_name != m_name)
+        return false;
+    return true;
 }
 
 
@@ -694,8 +713,8 @@ bool NamespaceModel::hasNamespace(const QString & name) const
 
 bool NamespaceModel::addNamespace(NamespaceDom ns)
 {
-    if(ns->name().isEmpty())
-	return false;
+    if (ns->name().isEmpty())
+        return false;
 
     m_namespaces[ ns->name() ] = ns;
     return true;
@@ -738,9 +757,9 @@ ClassList ClassModel::classList()
 {
     ClassList l;
     QMap<QString, ClassList>::Iterator it = m_classes.begin();
-    while(it != m_classes.end()){
-	l += *it;
-	++it;
+    while (it != m_classes.end()) {
+        l += *it;
+        ++it;
     }
 
     return l;
@@ -750,9 +769,9 @@ const ClassList ClassModel::classList() const
 {
     ClassList l;
     QMap<QString, ClassList>::ConstIterator it = m_classes.begin();
-    while(it != m_classes.end()){
-	l += *it;
-	++it;
+    while (it != m_classes.end()) {
+        l += *it;
+        ++it;
     }
 
     return l;
@@ -775,8 +794,8 @@ const ClassList ClassModel::classByName(const QString & name) const
 
 bool ClassModel::addClass(ClassDom klass)
 {
-    if(klass->name().isEmpty())
-	return false;
+    if (klass->name().isEmpty())
+        return false;
 
     m_classes[ klass->name() ].push_back(klass);
     return true;
@@ -786,17 +805,17 @@ void ClassModel::removeClass(ClassDom klass)
 {
     m_classes[ klass->name() ].remove(klass);
 
-    if(m_classes[klass->name()].isEmpty())
-	m_classes.remove(klass->name());
+    if (m_classes[klass->name()].isEmpty())
+        m_classes.remove(klass->name());
 }
 
 FunctionList ClassModel::functionList()
 {
     FunctionList l;
     QMap<QString, FunctionList>::Iterator it = m_functions.begin();
-    while(it != m_functions.end()){
-	l += *it;
-	++it;
+    while (it != m_functions.end()) {
+        l += *it;
+        ++it;
     }
 
     return l;
@@ -806,9 +825,9 @@ const FunctionList ClassModel::functionList() const
 {
     FunctionList l;
     QMap<QString, FunctionList>::ConstIterator it = m_functions.begin();
-    while(it != m_functions.end()){
-	l += *it;
-	++it;
+    while (it != m_functions.end()) {
+        l += *it;
+        ++it;
     }
 
     return l;
@@ -831,8 +850,8 @@ const FunctionList ClassModel::functionByName(const QString & name) const
 
 bool ClassModel::addFunction(FunctionDom fun)
 {
-    if(fun->name().isEmpty())
-	return false;
+    if (fun->name().isEmpty())
+        return false;
 
     m_functions[ fun->name() ].push_back(fun);
     return true;
@@ -842,17 +861,17 @@ void ClassModel::removeFunction(FunctionDom fun)
 {
     m_functions[ fun->name() ].remove(fun);
 
-    if(m_functions[fun->name()].isEmpty())
-	m_functions.remove(fun->name());
+    if (m_functions[fun->name()].isEmpty())
+        m_functions.remove(fun->name());
 }
 
 FunctionDefinitionList ClassModel::functionDefinitionList()
 {
     FunctionDefinitionList l;
     QMap<QString, FunctionDefinitionList>::Iterator it = m_functionDefinitions.begin();
-    while(it != m_functionDefinitions.end()){
-	l += *it;
-	++it;
+    while (it != m_functionDefinitions.end()) {
+        l += *it;
+        ++it;
     }
 
     return l;
@@ -862,9 +881,9 @@ const FunctionDefinitionList ClassModel::functionDefinitionList() const
 {
     FunctionDefinitionList l;
     QMap<QString, FunctionDefinitionList>::ConstIterator it = m_functionDefinitions.begin();
-    while(it != m_functionDefinitions.end()){
-	l += *it;
-	++it;
+    while (it != m_functionDefinitions.end()) {
+        l += *it;
+        ++it;
     }
 
     return l;
@@ -887,8 +906,8 @@ const FunctionDefinitionList ClassModel::functionDefinitionByName(const QString 
 
 bool ClassModel::addFunctionDefinition(FunctionDefinitionDom fun)
 {
-    if(fun->name().isEmpty())
-	return false;
+    if (fun->name().isEmpty())
+        return false;
 
     m_functionDefinitions[ fun->name() ].push_back(fun);
     return true;
@@ -898,8 +917,8 @@ void ClassModel::removeFunctionDefinition(FunctionDefinitionDom fun)
 {
     m_functionDefinitions[ fun->name() ].remove(fun);
 
-    if(m_functionDefinitions[fun->name()].isEmpty())
-	m_functionDefinitions.remove(fun->name());
+    if (m_functionDefinitions[fun->name()].isEmpty())
+        m_functionDefinitions.remove(fun->name());
 }
 
 VariableList ClassModel::variableList()
@@ -929,8 +948,8 @@ bool ClassModel::hasVariable(const QString & name) const
 
 bool ClassModel::addVariable(VariableDom var)
 {
-    if(var->name().isEmpty())
-	return false;
+    if (var->name().isEmpty())
+        return false;
 
     m_variables.insert(var->name(), var);
     return true;
@@ -968,33 +987,35 @@ bool ClassModel::hasEnum(const QString & name) const
 
 bool ClassModel::addEnum(EnumDom e)
 {
-    if(e->name().isEmpty())
-	return false;
+    if (e->name().isEmpty())
+        return false;
 
     m_enumerators.insert(e->name(), e);
     return true;
 }
 
-void ClassModel::update(const ClassModel* klass) {
-  CodeModelItem::update(klass);
-  eachUpdate(m_classes, klass->m_classes) ;
-  eachUpdate(m_functions, klass->m_functions) ;
-  eachUpdate(m_functionDefinitions, klass->m_functionDefinitions) ;
-  eachUpdateSingle(m_variables, klass->m_variables) ;
-  eachUpdateSingle(m_enumerators, klass->m_enumerators) ;
-  eachUpdate(m_typeAliases, klass->m_typeAliases);
+void ClassModel::update(const ClassModel* klass)
+{
+    CodeModelItem::update(klass);
+    eachUpdate(m_classes, klass->m_classes) ;
+    eachUpdate(m_functions, klass->m_functions) ;
+    eachUpdate(m_functionDefinitions, klass->m_functionDefinitions) ;
+    eachUpdateSingle(m_variables, klass->m_variables) ;
+    eachUpdateSingle(m_enumerators, klass->m_enumerators) ;
+    eachUpdate(m_typeAliases, klass->m_typeAliases);
 }
 
-bool ClassModel::canUpdate(const ClassModel* klass) const {
-    if(!CodeModelItem::canUpdate(klass))
-      return false;
-    
+bool ClassModel::canUpdate(const ClassModel* klass) const
+{
+    if (!CodeModelItem::canUpdate(klass))
+        return false;
+
     return eachCanUpdate(m_classes, klass->m_classes) &&
-        eachCanUpdate(m_functions, klass->m_functions) &&
-        eachCanUpdate(m_functionDefinitions, klass->m_functionDefinitions) &&
-        eachCanUpdateSingle(m_variables, klass->m_variables) &&
-        eachCanUpdateSingle(m_enumerators, klass->m_enumerators) &&
-        eachCanUpdate(m_typeAliases, klass->m_typeAliases);
+           eachCanUpdate(m_functions, klass->m_functions) &&
+           eachCanUpdate(m_functionDefinitions, klass->m_functionDefinitions) &&
+           eachCanUpdateSingle(m_variables, klass->m_variables) &&
+           eachCanUpdateSingle(m_enumerators, klass->m_enumerators) &&
+           eachCanUpdate(m_typeAliases, klass->m_typeAliases);
 }
 
 void ClassModel::removeEnum(EnumDom e)
@@ -1006,9 +1027,9 @@ TypeAliasList ClassModel::typeAliasList()
 {
     TypeAliasList l;
     QMap<QString, TypeAliasList>::Iterator it = m_typeAliases.begin();
-    while(it != m_typeAliases.end()){
-	l += *it;
-	++it;
+    while (it != m_typeAliases.end()) {
+        l += *it;
+        ++it;
     }
 
     return l;
@@ -1018,9 +1039,9 @@ const TypeAliasList ClassModel::typeAliasList() const
 {
     TypeAliasList l;
     QMap<QString, TypeAliasList>::ConstIterator it = m_typeAliases.begin();
-    while(it != m_typeAliases.end()){
-	l += *it;
-	++it;
+    while (it != m_typeAliases.end()) {
+        l += *it;
+        ++it;
     }
 
     return l;
@@ -1043,8 +1064,8 @@ const TypeAliasList ClassModel::typeAliasByName(const QString & name) const
 
 bool ClassModel::addTypeAlias(TypeAliasDom typeAlias)
 {
-    if(typeAlias->name().isEmpty())
-	return false;
+    if (typeAlias->name().isEmpty())
+        return false;
 
     m_typeAliases[ typeAlias->name() ].push_back(typeAlias);
     return true;
@@ -1054,8 +1075,8 @@ void ClassModel::removeTypeAlias(TypeAliasDom typeAlias)
 {
     m_typeAliases[ typeAlias->name() ].remove(typeAlias);
 
-    if(m_typeAliases[typeAlias->name()].isEmpty())
-	m_typeAliases.remove(typeAlias->name());
+    if (m_typeAliases[typeAlias->name()].isEmpty())
+        m_typeAliases.remove(typeAlias->name());
 }
 
 
@@ -1181,17 +1202,19 @@ void FunctionModel::removeArgument(ArgumentDom arg)
     m_arguments.remove(arg);
 }
 
-void FunctionModel::update(const FunctionModel* i) {
-  m_access = i->m_access;
-  CodeModelItem::update(i);
+void FunctionModel::update(const FunctionModel* i)
+{
+    m_access = i->m_access;
+    CodeModelItem::update(i);
 }
 
-bool FunctionModel::canUpdate(const FunctionModel* i) const {
-  if(!CodeModelItem::canUpdate(i))
-    return false;
-  if(m_resultType != i->m_resultType || m_arguments.count() != i->m_arguments.count() || m_scope != i->m_scope)
-    return false;
-  return true;
+bool FunctionModel::canUpdate(const FunctionModel* i) const
+{
+    if (!CodeModelItem::canUpdate(i))
+        return false;
+    if (m_resultType != i->m_resultType || m_arguments.count() != i->m_arguments.count() || m_scope != i->m_scope)
+        return false;
+    return true;
 }
 
 
@@ -1201,7 +1224,7 @@ VariableModel::VariableModel(CodeModel* model)
 {
     m_access = Public;
     m_static = false;
-		m_isEnumeratorVariable = false;
+    m_isEnumeratorVariable = false;
 }
 
 bool VariableModel::isStatic() const
@@ -1224,12 +1247,14 @@ void VariableModel::setType(const QString& type)
     m_type = type;
 }
 
-bool VariableModel::isEnumeratorVariable() const {
-	return m_isEnumeratorVariable;
+bool VariableModel::isEnumeratorVariable() const
+{
+    return m_isEnumeratorVariable;
 }
 
-void VariableModel::setEnumeratorVariable(bool b) {
-	m_isEnumeratorVariable = b;
+void VariableModel::setEnumeratorVariable(bool b)
+{
+    m_isEnumeratorVariable = b;
 }
 
 int FunctionModel::access() const
@@ -1285,18 +1310,18 @@ const NamespaceDom CodeModel::globalNamespace() const
 void CodeModelItem::read(QDataStream & stream)
 {
     stream
-	>> m_kind
-	>> m_name
-	>> m_fileName
-	>> m_startLine
-	>> m_startColumn
-	>> m_endLine
-	>> m_endColumn
-        >> m_comment;
-    
-    if(isTemplateable()) {
+            >> m_kind
+            >> m_name
+            >> m_fileName
+            >> m_startLine
+            >> m_startColumn
+            >> m_endLine
+            >> m_endColumn
+            >> m_comment;
+
+    if (isTemplateable()) {
         TemplateModelItem* t = (TemplateModelItem*)(this);
-        
+
         t->read(stream);
     }
 }
@@ -1304,16 +1329,16 @@ void CodeModelItem::read(QDataStream & stream)
 void CodeModelItem::write(QDataStream & stream) const
 {
     stream
-	<< m_kind
-	<< m_name
-	<< m_fileName
-	<< m_startLine
-	<< m_startColumn
-	<< m_endLine
-	<< m_endColumn
-        << m_comment;
-    
-    if(isTemplateable()) {
+            << m_kind
+            << m_name
+            << m_fileName
+            << m_startLine
+            << m_startColumn
+            << m_endLine
+            << m_endColumn
+            << m_comment;
+
+    if (isTemplateable()) {
         TemplateModelItem* t = (TemplateModelItem*)(this);
         t-> write(stream);
     }
@@ -1323,58 +1348,58 @@ void ClassModel::read(QDataStream & stream)
 {
     CodeModelItem::read(stream);
 
-		TemplateModelItem::read(stream);
-		
+    TemplateModelItem::read(stream);
+
     stream >> m_scope >> m_baseClassList;
 
     int n;
 
     m_classes.clear();
     stream >> n;
-    for(int i=0; i<n; ++i){
-	ClassDom klass = codeModel()->create<ClassModel>();
-	klass->read(stream);
-	addClass(klass);
+    for (int i=0; i<n; ++i) {
+        ClassDom klass = codeModel()->create<ClassModel>();
+        klass->read(stream);
+        addClass(klass);
     }
 
     m_functions.clear();
     stream >> n;
-    for(int i=0; i<n; ++i){
-	FunctionDom fun = codeModel()->create<FunctionModel>();
-	fun->read(stream);
-	addFunction(fun);
+    for (int i=0; i<n; ++i) {
+        FunctionDom fun = codeModel()->create<FunctionModel>();
+        fun->read(stream);
+        addFunction(fun);
     }
 
     m_functionDefinitions.clear();
     stream >> n;
-    for(int i=0; i<n; ++i){
-	FunctionDefinitionDom fun = codeModel()->create<FunctionDefinitionModel>();
-	fun->read(stream);
-	addFunctionDefinition(fun);
+    for (int i=0; i<n; ++i) {
+        FunctionDefinitionDom fun = codeModel()->create<FunctionDefinitionModel>();
+        fun->read(stream);
+        addFunctionDefinition(fun);
     }
 
     m_variables.clear();
     stream >> n;
-    for(int i=0; i<n; ++i){
-	VariableDom var = codeModel()->create<VariableModel>();
-	var->read(stream);
-	addVariable(var);
+    for (int i=0; i<n; ++i) {
+        VariableDom var = codeModel()->create<VariableModel>();
+        var->read(stream);
+        addVariable(var);
     }
-    
+
     m_enumerators.clear();
     stream >> n;
-    for(int i=0; i<n; ++i){
-	EnumDom e = codeModel()->create<EnumModel>();
-	e->read(stream);
-	addEnum(e);
+    for (int i=0; i<n; ++i) {
+        EnumDom e = codeModel()->create<EnumModel>();
+        e->read(stream);
+        addEnum(e);
     }
 
     m_typeAliases.clear();
     stream >> n;
-    for(int i=0; i<n; ++i){
-	TypeAliasDom typeAlias = codeModel()->create<TypeAliasModel>();
-	typeAlias->read(stream);
-	addTypeAlias(typeAlias);
+    for (int i=0; i<n; ++i) {
+        TypeAliasDom typeAlias = codeModel()->create<TypeAliasModel>();
+        typeAlias->read(stream);
+        addTypeAlias(typeAlias);
     }
 }
 
@@ -1382,40 +1407,40 @@ void ClassModel::write(QDataStream & stream) const
 {
     CodeModelItem::write(stream);
 
-		TemplateModelItem::write(stream);
-		
+    TemplateModelItem::write(stream);
+
     stream << m_scope << m_baseClassList;
 
     const ClassList class_list = classList();
     stream << int(class_list.size());
-    for(ClassList::ConstIterator it = class_list.begin(); it!=class_list.end(); ++it)
-	(*it)->write(stream);
+    for (ClassList::ConstIterator it = class_list.begin(); it!=class_list.end(); ++it)
+        (*it)->write(stream);
 
     const FunctionList function_list = functionList();
     stream << int(function_list.size());
-    for(FunctionList::ConstIterator it = function_list.begin(); it!=function_list.end(); ++it)
-	(*it)->write(stream);
+    for (FunctionList::ConstIterator it = function_list.begin(); it!=function_list.end(); ++it)
+        (*it)->write(stream);
 
     const FunctionDefinitionList function_definition_list = functionDefinitionList();
     stream << int(function_definition_list.size());
-    for(FunctionDefinitionList::ConstIterator it = function_definition_list.begin(); it!=function_definition_list.end(); ++it)
-	(*it)->write(stream);
+    for (FunctionDefinitionList::ConstIterator it = function_definition_list.begin(); it!=function_definition_list.end(); ++it)
+        (*it)->write(stream);
 
     const VariableList variable_list = variableList();
     stream << int(variable_list.size());
-    for(VariableList::ConstIterator it = variable_list.begin(); it!=variable_list.end(); ++it)
-	(*it)->write(stream);
-    
+    for (VariableList::ConstIterator it = variable_list.begin(); it!=variable_list.end(); ++it)
+        (*it)->write(stream);
+
     const EnumList enum_list = enumList();
     stream << int(enum_list.size());
-    for(EnumList::ConstIterator it = enum_list.begin(); it!=enum_list.end(); ++it)
-	(*it)->write(stream);    
-	
+    for (EnumList::ConstIterator it = enum_list.begin(); it!=enum_list.end(); ++it)
+        (*it)->write(stream);
+
     const TypeAliasList type_alias_list = typeAliasList();
     stream << int(type_alias_list.size());
-    for(TypeAliasList::ConstIterator it = type_alias_list.begin(); it!=type_alias_list.end(); ++it)
-	(*it)->write(stream);    
-	
+    for (TypeAliasList::ConstIterator it = type_alias_list.begin(); it!=type_alias_list.end(); ++it)
+        (*it)->write(stream);
+
 }
 
 void NamespaceModel::read(QDataStream & stream)
@@ -1424,42 +1449,48 @@ void NamespaceModel::read(QDataStream & stream)
 
     int n;
 
-    m_namespaces.clear(); m_namespaceAliases.clear(); m_namespaceImports.clear();
+    m_namespaces.clear();
+    m_namespaceAliases.clear();
+    m_namespaceImports.clear();
     stream >> n;
-    for(int i=0; i<n; ++i){
-	NamespaceDom ns = codeModel()->create<NamespaceModel>();
-	ns->read(stream);
-	addNamespace(ns);
+    for (int i=0; i<n; ++i) {
+        NamespaceDom ns = codeModel()->create<NamespaceModel>();
+        ns->read(stream);
+        addNamespace(ns);
     }
 
-  stream >> n;
-  for(int a = 0; a < n; a++) {
-    NamespaceAliasModel m;
-    m.read(stream);
-    m_namespaceAliases.insert(m);
-  }
-  stream >> n;
-  for(int a = 0; a < n; a++) {
-    NamespaceImportModel m;
-    m.read(stream);
-    m_namespaceImports.insert(m);
-  }
+    stream >> n;
+    for (int a = 0; a < n; a++) {
+        NamespaceAliasModel m;
+        m.read(stream);
+        m_namespaceAliases.insert(m);
+    }
+    stream >> n;
+    for (int a = 0; a < n; a++) {
+        NamespaceImportModel m;
+        m.read(stream);
+        m_namespaceImports.insert(m);
+    }
 }
 
-void NamespaceModel::addNamespaceImport(const NamespaceImportModel& import) {
-  m_namespaceImports.insert(import);
+void NamespaceModel::addNamespaceImport(const NamespaceImportModel& import)
+{
+    m_namespaceImports.insert(import);
 }
 
-void NamespaceModel::addNamespaceAlias(const NamespaceAliasModel& alias) {
-  m_namespaceAliases.insert(alias);
+void NamespaceModel::addNamespaceAlias(const NamespaceAliasModel& alias)
+{
+    m_namespaceAliases.insert(alias);
 }
 
-void NamespaceModel::removeNamespaceImport(const NamespaceImportModel& import) {
-  m_namespaceImports.erase(import);
+void NamespaceModel::removeNamespaceImport(const NamespaceImportModel& import)
+{
+    m_namespaceImports.erase(import);
 }
 
-void NamespaceModel::removeNamespaceAlias(const NamespaceAliasModel& alias) {
-  m_namespaceAliases.erase(alias);
+void NamespaceModel::removeNamespaceAlias(const NamespaceAliasModel& alias)
+{
+    m_namespaceAliases.erase(alias);
 }
 
 void NamespaceModel::write(QDataStream & stream) const
@@ -1468,57 +1499,58 @@ void NamespaceModel::write(QDataStream & stream) const
 
     const NamespaceList namespace_list = namespaceList();
     stream << int(namespace_list.size());
-    for(NamespaceList::ConstIterator it = namespace_list.begin(); it!=namespace_list.end(); ++it)
-	(*it)->write(stream);
+    for (NamespaceList::ConstIterator it = namespace_list.begin(); it!=namespace_list.end(); ++it)
+        (*it)->write(stream);
 
-  stream << int(m_namespaceAliases.size());
-  for(NamespaceAliasModelList::const_iterator it = m_namespaceAliases.begin(); it != m_namespaceAliases.end(); ++it)
-    (*it).write(stream);
-  stream << int(m_namespaceImports.size());
-  for(NamespaceImportModelList::const_iterator it = m_namespaceImports.begin(); it != m_namespaceImports.end(); ++it)
-    (*it).write(stream);
+    stream << int(m_namespaceAliases.size());
+    for (NamespaceAliasModelList::const_iterator it = m_namespaceAliases.begin(); it != m_namespaceAliases.end(); ++it)
+        (*it).write(stream);
+    stream << int(m_namespaceImports.size());
+    for (NamespaceImportModelList::const_iterator it = m_namespaceImports.begin(); it != m_namespaceImports.end(); ++it)
+        (*it).write(stream);
 }
 
-bool NamespaceModel::canUpdate(const NamespaceModel* ns) const {
-  if(!ClassModel::canUpdate(ns))
-    return false;
-    
+bool NamespaceModel::canUpdate(const NamespaceModel* ns) const
+{
+    if (!ClassModel::canUpdate(ns))
+        return false;
+
     const NamespaceAliasModelList& aliases = namespaceAliases();
     const NamespaceImportModelList& imports = namespaceImports();
     const NamespaceAliasModelList& aliases2 = ns->namespaceAliases();
     const NamespaceImportModelList& imports2 = ns->namespaceImports();
 
-    if(aliases.size() != aliases2.size()) return false;
-    if(imports.size() != imports2.size()) return false;
+    if (aliases.size() != aliases2.size()) return false;
+    if (imports.size() != imports2.size()) return false;
 
     ///Test if all aliases are same, if not return false
     NamespaceModel::NamespaceAliasModelList::const_iterator it_al1 = aliases.begin();
     NamespaceModel::NamespaceAliasModelList::const_iterator it_al2 = aliases2.begin();
-    while(it_al1 != aliases.end()) {
-      if(!(*it_al1 == *it_al2))
-        return false;
+    while (it_al1 != aliases.end()) {
+        if (!(*it_al1 == *it_al2))
+            return false;
 
-      ++it_al1;
-      ++it_al2;
+        ++it_al1;
+        ++it_al2;
     }
-    
+
     ///Test if all imports are same, if not return false
     NamespaceModel::NamespaceImportModelList::const_iterator it_ip1 = imports.begin();
     NamespaceModel::NamespaceImportModelList::const_iterator it_ip2 = imports2.begin();
-    while(it_ip1 != imports.end()) {
-      if(!(*it_ip1 == *it_ip2))
-        return false;
+    while (it_ip1 != imports.end()) {
+        if (!(*it_ip1 == *it_ip2))
+            return false;
 
-      ++it_ip1;
-      ++it_ip2;
+        ++it_ip1;
+        ++it_ip2;
     }
-    
+
     return eachCanUpdateSingle(m_namespaces, ns->m_namespaces);
 }
 
 void NamespaceModel::update(const NamespaceModel* ns)
 {
-  ClassModel::update(ns);
+    ClassModel::update(ns);
 
     eachUpdateSingle(m_namespaces, ns->m_namespaces);
 }
@@ -1528,15 +1560,15 @@ void FileModel::read(QDataStream & stream)
     stream >> m_groupId;
     bool b;
     stream >> b;
-    if(b) {
-      int i;
-      stream >> i;
-      ParsedFileType t((ParsedFileType) i);
-      switch(t) {
-      case CppParsedFile:
-        m_parseResult = (AbstractParseResult*)(new ParsedFile(stream));
-        break;
-      }
+    if (b) {
+        int i;
+        stream >> i;
+        ParsedFileType t((ParsedFileType) i);
+        switch (t) {
+        case CppParsedFile:
+            m_parseResult = (AbstractParseResult*)(new ParsedFile(stream));
+            break;
+        }
     }
 
     NamespaceModel::read(stream);
@@ -1547,19 +1579,19 @@ void FileModel::write(QDataStream & stream) const
     stream << m_groupId;
     bool b = m_parseResult;
     stream << b;
-    if(b) {
+    if (b) {
         int i = m_parseResult->type();
         stream << i;
         m_parseResult->write(stream);
     }
-    
+
     NamespaceModel::write(stream);
 }
 
 void ArgumentModel::read(QDataStream & stream)
 {
     CodeModelItem::read(stream);
-  
+
 
     stream >> m_type >> m_defaultValue;
 }
@@ -1574,7 +1606,7 @@ void ArgumentModel::write(QDataStream & stream) const
 void FunctionModel::read(QDataStream & stream)
 {
     CodeModelItem::read(stream);
-		TemplateModelItem::read(stream);
+    TemplateModelItem::read(stream);
 
     stream >> m_scope;
     stream >> d.flags;
@@ -1583,31 +1615,31 @@ void FunctionModel::read(QDataStream & stream)
 
     m_arguments.clear();
     stream >> n;
-    for(int i=0; i<n; ++i){
-	ArgumentDom arg = codeModel()->create<ArgumentModel>();
-	arg->read(stream);
-	addArgument(arg);
+    for (int i=0; i<n; ++i) {
+        ArgumentDom arg = codeModel()->create<ArgumentModel>();
+        arg->read(stream);
+        addArgument(arg);
     }
 
     stream
-	>> m_resultType;
+            >> m_resultType;
 }
 
 void FunctionModel::write(QDataStream & stream) const
 {
     CodeModelItem::write(stream);
-		TemplateModelItem::write(stream);
+    TemplateModelItem::write(stream);
 
     stream << m_scope;
     stream << d.flags;
 
     const ArgumentList argument_list = argumentList();
     stream << int(argument_list.size());
-    for(ArgumentList::ConstIterator it = argument_list.begin(); it!=argument_list.end(); ++it)
-	(*it)->write(stream);
+    for (ArgumentList::ConstIterator it = argument_list.begin(); it!=argument_list.end(); ++it)
+        (*it)->write(stream);
 
     stream
-	<< m_resultType;
+            << m_resultType;
 }
 
 void CodeModel::read(QDataStream & stream)
@@ -1617,10 +1649,10 @@ void CodeModel::read(QDataStream & stream)
     m_files.clear();
 
     stream >> n;
-    for(int i=0; i<n; ++i){
-	FileDom file = this->create<FileModel>();
-	file->read(stream);
-	addFile(file);
+    for (int i=0; i<n; ++i) {
+        FileDom file = this->create<FileModel>();
+        file->read(stream);
+        addFile(file);
     }
 }
 
@@ -1628,33 +1660,35 @@ void CodeModel::write(QDataStream & stream) const
 {
     const FileList file_list = fileList();
     stream << int(file_list.size());
-    for(FileList::ConstIterator it = file_list.begin(); it!=file_list.end(); ++it)
-	(*it)->write(stream);
+    for (FileList::ConstIterator it = file_list.begin(); it!=file_list.end(); ++it)
+        (*it)->write(stream);
 }
 
 void VariableModel::read(QDataStream & stream)
 {
     CodeModelItem::read(stream);
-		stream >> m_access >> m_static >> m_type >> m_isEnumeratorVariable;
+    stream >> m_access >> m_static >> m_type >> m_isEnumeratorVariable;
 }
 
 void VariableModel::write(QDataStream & stream) const
 {
     CodeModelItem::write(stream);
-		stream << m_access << m_static << m_type << m_isEnumeratorVariable;
+    stream << m_access << m_static << m_type << m_isEnumeratorVariable;
 }
 
-void VariableModel::update(const VariableModel* i) {
-  m_access = i->m_access;
-  CodeModelItem::update(i);
+void VariableModel::update(const VariableModel* i)
+{
+    m_access = i->m_access;
+    CodeModelItem::update(i);
 }
 
-bool VariableModel::canUpdate(const VariableModel* i) const {
-  if(!CodeModelItem::canUpdate(i))
-    return false;
-  if(m_access != i->m_access || m_static != i->m_static || m_type != i->m_type || m_isEnumeratorVariable != i->m_isEnumeratorVariable)
-    return false;
-  return true;
+bool VariableModel::canUpdate(const VariableModel* i) const
+{
+    if (!CodeModelItem::canUpdate(i))
+        return false;
+    if (m_access != i->m_access || m_static != i->m_static || m_type != i->m_type || m_isEnumeratorVariable != i->m_isEnumeratorVariable)
+        return false;
+    return true;
 }
 
 // -------------------------------------------------------
@@ -1692,25 +1726,25 @@ void EnumModel::read(QDataStream & stream)
 {
     CodeModelItem::read(stream);
     stream >> m_access;
-    
+
     int n;
     stream >> n;
-    for(int i=0; i<n; ++i){
-	EnumeratorDom e = codeModel()->create<EnumeratorModel>();
-	e->read(stream);
-	addEnumerator(e);
+    for (int i=0; i<n; ++i) {
+        EnumeratorDom e = codeModel()->create<EnumeratorModel>();
+        e->read(stream);
+        addEnumerator(e);
     }
 }
 
 void EnumModel::write(QDataStream & stream) const
 {
     CodeModelItem::write(stream);
-    
+
     stream << m_access;
     const EnumeratorList enumerator_list = enumeratorList();
     stream << int(enumerator_list.size());
-    for(EnumeratorList::ConstIterator it = enumerator_list.begin(); it!=enumerator_list.end(); ++it)
-	(*it)->write(stream);
+    for (EnumeratorList::ConstIterator it = enumerator_list.begin(); it!=enumerator_list.end(); ++it)
+        (*it)->write(stream);
 }
 
 EnumeratorModel::EnumeratorModel(CodeModel * model)
@@ -1745,18 +1779,20 @@ void EnumModel::removeEnumerator(EnumeratorDom e)
     m_enumerators.remove(e->name());
 }
 
-void EnumModel::update(const EnumModel* i) {
-  m_access = i->m_access;
-  CodeModelItem::update(i);
+void EnumModel::update(const EnumModel* i)
+{
+    m_access = i->m_access;
+    CodeModelItem::update(i);
 }
 
-bool EnumModel::canUpdate(const EnumModel* i) const {
-  if(!CodeModelItem::canUpdate(i))
-    return false;
-  ///@todo check not complete
-  if(m_access != i->m_access || m_enumerators.count() != i->m_enumerators.count())
-    return false;
-  return true;
+bool EnumModel::canUpdate(const EnumModel* i) const
+{
+    if (!CodeModelItem::canUpdate(i))
+        return false;
+    ///@todo check not complete
+    if (m_access != i->m_access || m_enumerators.count() != i->m_enumerators.count())
+        return false;
+    return true;
 }
 
 // ---------------------------------------------------------------
@@ -1768,14 +1804,14 @@ TypeAliasModel::TypeAliasModel(CodeModel * model)
 void TypeAliasModel::read(QDataStream & stream)
 {
     CodeModelItem::read(stream);
-    
+
     stream >> m_type;
 }
 
 void TypeAliasModel::write(QDataStream & stream) const
 {
     CodeModelItem::write(stream);
-    
+
     stream << m_type;
 }
 
@@ -1789,35 +1825,42 @@ void TypeAliasModel::setType(const QString & type)
     m_type = type;
 }
 
-void TypeAliasModel::update(const TypeAliasModel* i) {
-  CodeModelItem::update(i);
+void TypeAliasModel::update(const TypeAliasModel* i)
+{
+    CodeModelItem::update(i);
 }
 
-bool TypeAliasModel::canUpdate(const TypeAliasModel* i) const {
-  if(!CodeModelItem::canUpdate(i))
-    return false;
-  return m_type == i->m_type;
+bool TypeAliasModel::canUpdate(const TypeAliasModel* i) const
+{
+    if (!CodeModelItem::canUpdate(i))
+        return false;
+    return m_type == i->m_type;
 }
 
-void FileModel::update(const FileModel* file) {
-  m_parseResult = file->m_parseResult;
-  NamespaceModel::update(file);
+void FileModel::update(const FileModel* file)
+{
+    m_parseResult = file->m_parseResult;
+    NamespaceModel::update(file);
 }
 
-FileList FileModel::wholeGroup() {
-    if(isSingleGroup(m_groupId)) return (FileList() << FileDom(this));
+FileList FileModel::wholeGroup()
+{
+    if (isSingleGroup(m_groupId)) return (FileList() << FileDom(this));
     return codeModel()->getGroup(m_groupId);
 }
 
-QStringList FileModel::wholeGroupStrings() const {
-    if(isSingleGroup(m_groupId)) return (QStringList() << name());
+QStringList FileModel::wholeGroupStrings() const
+{
+    if (isSingleGroup(m_groupId)) return (QStringList() << name());
     return codeModel()->getGroupStrings(m_groupId);
 }
 
-ParseResultPointer FileModel::parseResult() const {
+ParseResultPointer FileModel::parseResult() const
+{
     return m_parseResult;
 }
 
-void FileModel::setParseResult(const ParseResultPointer& result) {
+void FileModel::setParseResult(const ParseResultPointer& result)
+{
     m_parseResult = result;
 }

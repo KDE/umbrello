@@ -39,10 +39,9 @@
 class Lexer;
 class Parser;
 
-enum
-{
-  Dep_Global,
-  Dep_Local
+enum {
+    Dep_Global,
+    Dep_Local
 };
 
 typedef QPair<QString, int> Dependence;
@@ -50,21 +49,23 @@ typedef QPair<QString, int> Dependence;
 class ParsedFile;
 typedef KSharedPtr<ParsedFile> ParsedFilePointer;
 
-class ParsedFile: public AbstractParseResult {
-  public:
-      struct IncludeDesc {
-          bool local; //Whether it is a local include(#include "local.h", not #include <global.h>)
-          QString includePath;
-          ParsedFilePointer parsed; //May be zero!
-      };
+class ParsedFile: public AbstractParseResult
+{
+public:
+    struct IncludeDesc {
+        bool local; //Whether it is a local include(#include "local.h", not #include <global.h>)
+        QString includePath;
+        ParsedFilePointer parsed; //May be zero!
+    };
 //     ParsedFile() {
 //     }
-      ParsedFile(QDataStream& s) {
-	read(s);
-      }
+    ParsedFile(QDataStream& s)
+    {
+        read(s);
+    }
 
     ParsedFile(const QString& fileName, const QDateTime& timeStamp);
-    
+
     ///Deserializes the ParsedFile from a previous call to serialize(). AST will always be zero after a call to this.
     ParsedFile(const QByteArray& array);
 
@@ -86,11 +87,11 @@ class ParsedFile: public AbstractParseResult {
      * @return Absolutely all files included by this one(no matter through how many other files they were included)
      */
 //     HashedStringSet& includeFiles();
-    
+
     const HashedStringSet& includeFiles() const;
 
     void addIncludeFiles(const HashedStringSet& includeFiles);
-    
+
     void addIncludeFile(const QString& includePath, const ParsedFilePointer& parsed, bool localInclude);
 
     ///If this file was parsed while resolving the dependencies of another file, this returns the file this one was included from. Else returns an empty string.
@@ -102,13 +103,15 @@ class ParsedFile: public AbstractParseResult {
      */
     const QList<IncludeDesc>& directIncludeFiles() const;
 
-    operator TranslationUnitAST* () const { // May be zero
-      if(!this) return 0;
-      return (TranslationUnitAST*)m_translationUnit.data();
+    operator TranslationUnitAST* () const   // May be zero
+    {
+        if (!this) return 0;
+        return (TranslationUnitAST*)m_translationUnit.data();
     }
 
-    TranslationUnitAST* operator -> () const {
-        if(!this) return 0;
+    TranslationUnitAST* operator -> () const
+    {
+        if (!this) return 0;
         return (TranslationUnitAST*)m_translationUnit.data();
     }
 
@@ -123,18 +126,19 @@ class ParsedFile: public AbstractParseResult {
 
     /*void read(QDataStream& stream);
     void write(QDataStream& stream) const;*/
-    
-    virtual void read(QDataStream& stream) {
+
+    virtual void read(QDataStream& stream)
+    {
         int directIncludeFilesCount;
         stream >> directIncludeFilesCount;
         m_directIncludeFiles.clear();
-        for(int a = 0; a < directIncludeFilesCount; a++) {
+        for (int a = 0; a < directIncludeFilesCount; a++) {
             IncludeDesc i;
             Q_INT8 in;
             stream >> in;
             i.local = in;
             stream >> i.includePath;
-        //"parsed" will not be reconstructed
+            //"parsed" will not be reconstructed
             m_directIncludeFiles.push_back(i);
         }
         stream >> m_skippedLines;
@@ -146,10 +150,11 @@ class ParsedFile: public AbstractParseResult {
         m_includeFiles.read(stream);
     }
 
-    virtual void write(QDataStream& stream) const {
-      int i = m_directIncludeFiles.size();
-      stream << i;
-        for(QList<IncludeDesc>::const_iterator it = m_directIncludeFiles.begin(); it != m_directIncludeFiles.end(); ++it) {
+    virtual void write(QDataStream& stream) const
+    {
+        int i = m_directIncludeFiles.size();
+        stream << i;
+        for (QList<IncludeDesc>::const_iterator it = m_directIncludeFiles.begin(); it != m_directIncludeFiles.end(); ++it) {
             Q_INT8 i = (*it).local;
             stream << i;
             stream << (*it).includePath;
@@ -162,11 +167,12 @@ class ParsedFile: public AbstractParseResult {
         m_includeFiles.write(stream);
     }
 
-    virtual ParsedFileType type() const {
-      return CppParsedFile;
+    virtual ParsedFileType type() const
+    {
+        return CppParsedFile;
     }
 
-    private:
+private:
     QList<IncludeDesc> m_directIncludeFiles;
     MacroSet m_usedMacros;
     TranslationUnitAST::Node m_translationUnit;
@@ -180,8 +186,9 @@ class ParsedFile: public AbstractParseResult {
 /**
  * An interface that provides source code to the Driver
  */
-class SourceProvider {
-  public:
+class SourceProvider
+{
+public:
     SourceProvider() {}
     virtual ~SourceProvider() {}
 
@@ -202,13 +209,14 @@ class SourceProvider {
      */
     virtual bool isModified(const QString& fileName) = 0;
 
-  private:
+private:
     SourceProvider(const SourceProvider& source);
     void operator = (const SourceProvider& source);
 };
 
-class Driver {
-  public:
+class Driver
+{
+public:
     Driver();
     virtual ~Driver();
 
@@ -254,7 +262,7 @@ class Driver {
      * @param fileName The name of the file to remove
      */
     virtual void remove
-      (const QString& fileName);
+    (const QString& fileName);
 
     /**
      * Add a dependency on another header file for @p fileName
@@ -279,11 +287,12 @@ class Driver {
     /**
      * The current file name the driver is working with
      */
-    QString currentFileName() const {
-      return m_currentFileName;
+    QString currentFileName() const
+    {
+        return m_currentFileName;
     }
     ParsedFilePointer takeTranslationUnit(const QString& fileName);
-    
+
     void takeTranslationUnit(const ParsedFile& file);
     /**
      * Get the translation unit contained in the driver for @p fileName.
@@ -334,7 +343,7 @@ class Driver {
      * @override
      * @param name The name of the macro to get
      * @return A non-const reference of the macro object represented by @p name
-     * 
+     *
      */
     Macro& macro(const HashedString& name);
 
@@ -346,24 +355,26 @@ class Driver {
 
     /**
        * Remove all macros from the driver for a certain file
-       * @param fileName The file name 
+       * @param fileName The file name
        */
     virtual void removeAllMacrosInFile(const QString& fileName); ///Check when this is called. It may be wrong.
 
-    QStringList includePaths() const {
-      return m_includePaths;
+    QStringList includePaths() const
+    {
+        return m_includePaths;
     }
 
     virtual QStringList getCustomIncludePath(const QString&);
 
-  
+
     virtual void addIncludePath(const QString &path);
 
     virtual void clearIncludePaths();
 
     /// @todo remove
-    const QMap<QString, ParsedFilePointer> &parsedUnits() const {
-      return m_parsedUnits;
+    const QMap<QString, ParsedFilePointer> &parsedUnits() const
+    {
+        return m_parsedUnits;
     }
 
     /**
@@ -375,8 +386,9 @@ class Driver {
      * \return true if dependency resolving is enabled
      * \return false if dependency resolving is disabled
      */
-    bool isResolveDependencesEnabled() const {
-      return depresolv;
+    bool isResolveDependencesEnabled() const
+    {
+        return depresolv;
     }
 
     void setMaxDependenceDepth(int depth);
@@ -395,9 +407,9 @@ class Driver {
     ///This uses getCustomIncludePath(..) to resolve the include-path internally
     QString findIncludeFile(const Dependence& dep, const QString& fromFile);
 
-  protected:
+protected:
     ///This uses the state of the parser to find the include-file
-     QString findIncludeFile(const Dependence& dep) const;
+    QString findIncludeFile(const Dependence& dep) const;
 
     /**
      * Set up the lexer.
@@ -421,15 +433,15 @@ class Driver {
     virtual bool shouldParseIncludedFile(const ParsedFilePointer& /*file*/);
 
     void clearMacros();
-    
+
     void clearParsedMacros();
 
-    private:
+private:
     QMap<QString, Dependence>& findOrInsertDependenceList(const QString& fileName);
     QList<Problem>& findOrInsertProblemList(const QString& fileName);
 
-    
-  private:
+
+private:
     QString m_currentFileName;
     QString m_currentMasterFileName;
     typedef QMap<QString, Dependence> DependenceMap;
@@ -439,7 +451,7 @@ class Driver {
     QMap< QString, QList<Problem> > m_problems;
     QMap<QString, ParsedFilePointer> m_parsedUnits;
     QStringList m_includePaths;
-    uint depresolv :
+uint depresolv :
     1;
     Lexer *lexer;
     SourceProvider* m_sourceProvider;
@@ -450,11 +462,11 @@ class Driver {
 
     int m_dependenceDepth;
     int m_maxDependenceDepth;
-    
+
     class ParseHelper;
     friend class ParseHelper;
 
-  private:
+private:
     Driver(const Driver& source);
     void operator = (const Driver& source);
 };

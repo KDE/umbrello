@@ -1,7 +1,7 @@
-// 
+//
 // Keywords file is included in lookup.cpp
 // [erbsland] replacement for old hash table
-// 
+//
 #define INSERT(x, y) keywords.insert(std::pair<HashedString, Type>(x, y))
 // KDE Keywords
 INSERT("K_DCOP", Token_K_DCOP);

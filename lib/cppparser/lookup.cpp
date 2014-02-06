@@ -1,4 +1,4 @@
-/* This file is part of KDevelop    
+/* This file is part of KDevelop
     Copyright (C) 2005 Tobias Erbsland <te@profzone.ch>
     Copyright (C) 2002, 2003 Roberto Raggi <roberto@kdevelop.org>
 
@@ -23,7 +23,7 @@
 int Lookup::find(const HashedString& s)
 {
     KeywordMap::const_iterator it = keywords().find(s);
-    if(it == keywords().end())
+    if (it == keywords().end())
         return -1;
     return static_cast<int>((*it).second);
 }
@@ -31,12 +31,11 @@ int Lookup::find(const HashedString& s)
 const Lookup::KeywordMap& Lookup::keywords()
 {
     static KeywordMap keywords;
-    
-    if(keywords.empty())
-    {
+
+    if (keywords.empty()) {
 #include "keywords.h"
     }
-    
+
     return keywords;
 }
 

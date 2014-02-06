@@ -27,14 +27,16 @@
 
 class LexerCache;
 
-class CachedLexedFile : public KShared, public CacheNode {
-  public:
+class CachedLexedFile : public KShared, public CacheNode
+{
+public:
     ///@todo add and manage the set of included files
     CachedLexedFile(const HashedString& fileName, LexerCache* manager);
-    
-    inline void addString(const HashedString& string) {
-        if(!m_definedMacroNames[ string ]) {
-          m_strings.insert(string);
+
+    inline void addString(const HashedString& string)
+    {
+        if (!m_definedMacroNames[ string ]) {
+            m_strings.insert(string);
         }
     }
 
@@ -44,8 +46,9 @@ class CachedLexedFile : public KShared, public CacheNode {
 
     void addIncludeFile(const HashedString& file, const QDateTime& modificationTime);
 
-    inline bool hasString(const HashedString& string) const {
-      return m_strings[string];
+    inline bool hasString(const HashedString& string) const
+    {
+        return m_strings[string];
     }
 
     QDateTime modificationTime() const;
@@ -57,34 +60,40 @@ class CachedLexedFile : public KShared, public CacheNode {
     //The parameter should be a CachedLexedFile that was lexed AFTER the content of this file
     void merge(const CachedLexedFile& file);
 
-    bool operator <  (const CachedLexedFile& rhs) const {
-      return m_fileName < rhs.m_fileName;
+    bool operator <  (const CachedLexedFile& rhs) const
+    {
+        return m_fileName < rhs.m_fileName;
     }
 
     size_t hash() const;
 
-    HashedString fileName() const {
-      return m_fileName;
-    }
-    
-    const HashedStringSet& includeFiles() const {
-      return m_includeFiles;
+    HashedString fileName() const
+    {
+        return m_fileName;
     }
 
-    const MacroSet& definedMacros() const {
-      return m_definedMacros;
+    const HashedStringSet& includeFiles() const
+    {
+        return m_includeFiles;
     }
-    
-    const MacroSet& usedMacros() const {
-      return m_usedMacros;
+
+    const MacroSet& definedMacros() const
+    {
+        return m_definedMacros;
+    }
+
+    const MacroSet& usedMacros() const
+    {
+        return m_usedMacros;
     }
 
     ///Should contain a modification-time for each include-file
-    const QMap<HashedString, QDateTime>& allModificationTimes() const {
-      return m_allModificationTimes;
+    const QMap<HashedString, QDateTime>& allModificationTimes() const
+    {
+        return m_allModificationTimes;
     }
 
-  private:
+private:
     friend class LexerCache;
     HashedString m_fileName;
     QDateTime m_modificationTime;
@@ -109,15 +118,17 @@ class CachedLexedFile : public KShared, public CacheNode {
 typedef KSharedPtr<CachedLexedFile>  CachedLexedFilePointer;
 
 struct CachedLexedFilePointerCompare {
-  bool operator() (const CachedLexedFilePointer& lhs, const CachedLexedFilePointer& rhs) const {
-    return (*lhs) < (*rhs);
-  }
+    bool operator() (const CachedLexedFilePointer& lhs, const CachedLexedFilePointer& rhs) const
+    {
+        return (*lhs) < (*rhs);
+    }
 };
 
 class Driver;
 
-class LexerCache : public CacheManager {
-  public:
+class LexerCache : public CacheManager
+{
+public:
     LexerCache(Driver* d);
     virtual ~LexerCache() {}
 
@@ -128,17 +139,18 @@ class LexerCache : public CacheManager {
 
     void clear();
 
-    const HashedString& unifyString(const HashedString& str) {
-      __gnu_cxx::hash_set<HashedString>::const_iterator it = m_totalStringSet.find(str);
-      if(it != m_totalStringSet.end()) {
-        return *it;
-      } else {
-        m_totalStringSet.insert(str);
-        return str;
-      }
+    const HashedString& unifyString(const HashedString& str)
+    {
+        __gnu_cxx::hash_set<HashedString>::const_iterator it = m_totalStringSet.find(str);
+        if (it != m_totalStringSet.end()) {
+            return *it;
+        } else {
+            m_totalStringSet.insert(str);
+            return str;
+        }
     }
     virtual void saveMemory();
-  private:
+private:
     ///before this can be called, initFileModificationCache should be called once
     QDateTime fileModificationTimeCached(const HashedString& fileName);
     void initFileModificationCache();
@@ -149,8 +161,8 @@ class LexerCache : public CacheManager {
     CachedLexedFileMap m_files;
     __gnu_cxx::hash_set<HashedString> m_totalStringSet; ///This is used to reduce memory-usage: Most strings appear again and again. Because QString is reference-counted, this set contains a unique copy of each string to used for each appearance of the string
     struct FileModificationCache {
-      QDateTime m_readTime;
-      QDateTime m_modificationTime;
+        QDateTime m_readTime;
+        QDateTime m_modificationTime;
     };
     typedef __gnu_cxx::hash_map<HashedString, FileModificationCache> FileModificationMap;
     FileModificationMap m_fileModificationCache;

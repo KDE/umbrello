@@ -28,10 +28,10 @@ class TreeParser
 public:
     TreeParser();
     virtual ~TreeParser();
-    
+
     // translation-unit
     virtual void parseTranslationUnit(const ParsedFile&);
-    
+
     // declarations
     virtual void parseDeclaration(DeclarationAST*);
     virtual void parseFile(FileAST*);

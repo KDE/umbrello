@@ -23,17 +23,18 @@
 #include <QString>
 
 
-struct Error{
+struct Error {
     int code;
     int level;
     QString text;
 
     Error(int c, int l, const QString& s)
         : code(c), level(l), text(s)
-        {}
+    {}
 };
 
-class Errors{
+class Errors
+{
 public:
     QT_STATIC_CONST Error& InternalError;
     QT_STATIC_CONST Error& SyntaxError;

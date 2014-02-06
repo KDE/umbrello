@@ -30,11 +30,11 @@ Utility functions and classes for the CodeModel.
 
 /**
 @class Pred
-The predicate. 
+The predicate.
 Pred is not a real class, it is only a template parameter used in @ref CodeModelUtils functions.
 
 <b>How to create the predicate:</b>@n
-Predicate is simply a class that have 
+Predicate is simply a class that have
 @code bool operator() (predicateArgument) @endcode.
 The return value of that operator is the result of a predicate.
 
@@ -51,7 +51,7 @@ public:
     {
         return def->name() == m_name;
     }
-    
+
 private:
     QString m_name;
 };
@@ -63,155 +63,155 @@ private:
 namespace CodeModelUtils
 {
 
-/**Finds function definitions which match given predicate in files. 
-    
+/**Finds function definitions which match given predicate in files.
+
 Predicate can be considered as a condition. If it is true then the function definition is
 added to the result list otherwise it is skipped.
 @see Pred class documentation for a detailed description on how to create and use predicates.
-    
+
 @param pred Predicate which is applied to a function definition before it is returned.
 @param fileList The list of files to find function definitions in.
 @param lst The reference to a list of function definitions. Will be filled by this function.*/
 template <class Pred> void findFunctionDefinitions(Pred pred, const FileList& fileList, FunctionDefinitionList & lst);
 
-/**Finds function definitions which match given predicate in the namespace. 
-    
+/**Finds function definitions which match given predicate in the namespace.
+
 Predicate can be considered as a condition. If it is true then the function definition is
 added to the result list otherwise it is skipped.
 @see Pred class documentation for a detailed description on how to create and use predicates.
-    
+
 @param pred Predicate which is applied to a function definition before it is returned.
 @param ns The namespace to find function definitions in.
 @param lst The reference to a list of function definitions. Will be filled by this function.*/
 template <class Pred> void findFunctionDefinitions(Pred pred, const NamespaceDom& ns, FunctionDefinitionList & lst);
 
-/**Finds function definitions which match given predicate in namespaces. 
-    
+/**Finds function definitions which match given predicate in namespaces.
+
 Predicate can be considered as a condition. If it is true then the function definition is
 added to the result list otherwise it is skipped.
 @see Pred class documentation for a detailed description on how to create and use predicates.
-    
+
 @param pred Predicate which is applied to a function definition before it is returned.
 @param namespaceList The list of namespaces to find function definitions in.
 @param lst The reference to a list of function definitions. Will be filled by this function.*/
 template <class Pred> void findFunctionDefinitions(Pred pred, const NamespaceList& namespaceList, FunctionDefinitionList & lst);
 
-/**Finds function definitions which match given predicate in classes. 
-    
+/**Finds function definitions which match given predicate in classes.
+
 Predicate can be considered as a condition. If it is true then the function definition is
 added to the result list otherwise it is skipped.
 @see Pred class documentation for a detailed description on how to create and use predicates.
-    
+
 @param pred Predicate which is applied to a function definition before it is returned.
 @param classList The list of classes to find function definitions in.
 @param lst The reference to a list of function definitions. Will be filled by this function.*/
 template <class Pred> void findFunctionDefinitions(Pred pred, const ClassList& classList, FunctionDefinitionList & lst);
 
-/**Finds function definitions which match given predicate in the list of function definitions. 
-    
+/**Finds function definitions which match given predicate in the list of function definitions.
+
 Predicate can be considered as a condition. If it is true then the function definition is
 added to the result list otherwise it is skipped.
 @see Pred class documentation for a detailed description on how to create and use predicates.
-    
+
 @param pred Predicate which is applied to a function definition before it is returned.
 @param functionDefinitionList The list of function definitions to find function definitions in.
 @param lst The reference to a list of function definitions. Will be filled by this function.*/
 template <class Pred> void findFunctionDefinitions(Pred pred, const FunctionDefinitionList& functionDefinitionList, FunctionDefinitionList & lst);
 
-/**Finds function definitions which match given predicate in the class. 
-    
+/**Finds function definitions which match given predicate in the class.
+
 Predicate can be considered as a condition. If it is true then the function definition is
 added to the result list otherwise it is skipped.
 @see Pred class documentation for a detailed description on how to create and use predicates.
-    
+
 @param pred Predicate which is applied to a function definition before it is returned.
 @param klass The class to find function definitions in.
 @param lst The reference to a list of function definitions. Will be filled by this function.*/
 template <class Pred> void findFunctionDefinitions(Pred pred, const ClassDom& klass, FunctionDefinitionList & lst);
 
-/**Applies a predicate to a function definition. 
-    
+/**Applies a predicate to a function definition.
+
 Predicate can be considered as a condition. If it is true then the function definition is
 added to the result list otherwise it is skipped.
 @see Pred class documentation for a detailed description on how to create and use predicates.
-    
+
 @param pred Predicate which is applied to a function definition before it is returned.
 @param fun The function definition.
 @param lst The reference to a list of function definitions. Will be filled by this function.*/
 template <class Pred> void findFunctionDefinitions(Pred pred, const FunctionDefinitionDom& fun, FunctionDefinitionList & lst);
 
-/**Finds function declarations which match given predicate in files. 
-    
+/**Finds function declarations which match given predicate in files.
+
 Predicate can be considered as a condition. If it is true then the function declaration is
 added to the result list otherwise it is skipped.
 @see Pred class documentation for a detailed description on how to create and use predicates.
-    
+
 @param pred Predicate which is applied to a function declaration before it is returned.
 @param fileList The list of files to find function declarations in.
 @param lst The reference to a list of function declarations. Will be filled by this function.*/
 template <class Pred> void findFunctionDeclarations(Pred pred, const FileList& fileList, FunctionList & lst);
 
-/**Finds function declarations which match given predicate in the namespace. 
-    
+/**Finds function declarations which match given predicate in the namespace.
+
 Predicate can be considered as a condition. If it is true then the function declaration is
 added to the result list otherwise it is skipped.
 @see Pred class documentation for a detailed description on how to create and use predicates.
-    
+
 @param pred Predicate which is applied to a function declaration before it is returned.
 @param ns The namespace to find function declarations in.
 @param lst The reference to a list of function declarations. Will be filled by this function.*/
 template <class Pred> void findFunctionDeclarations(Pred pred, const NamespaceDom& ns, FunctionList & lst);
 
-/**Finds function declarations which match given predicate in namespaces. 
-    
+/**Finds function declarations which match given predicate in namespaces.
+
 Predicate can be considered as a condition. If it is true then the function declaration is
 added to the result list otherwise it is skipped.
 @see Pred class documentation for a detailed description on how to create and use predicates.
-    
+
 @param pred Predicate which is applied to a function declaration before it is returned.
 @param namespaceList The list of namespaces to find function declarations in.
 @param lst The reference to a list of function declarations. Will be filled by this function.*/
 template <class Pred> void findFunctionDeclarations(Pred pred, const NamespaceList& namespaceList, FunctionList & lst);
 
-/**Finds function declarations which match given predicate in classes. 
-    
+/**Finds function declarations which match given predicate in classes.
+
 Predicate can be considered as a condition. If it is true then the function declaration is
 added to the result list otherwise it is skipped.
 @see Pred class documentation for a detailed description on how to create and use predicates.
-    
+
 @param pred Predicate which is applied to a function declaration before it is returned.
 @param classList The list of classes to find function declarations in.
 @param lst The reference to a list of function declarations. Will be filled by this function.*/
 template <class Pred> void findFunctionDeclarations(Pred pred, const ClassList& classList, FunctionList & lst);
 
-/**Finds function declarations which match given predicate in the list of function declarations. 
-    
+/**Finds function declarations which match given predicate in the list of function declarations.
+
 Predicate can be considered as a condition. If it is true then the function declaration is
 added to the result list otherwise it is skipped.
 @see Pred class documentation for a detailed description on how to create and use predicates.
-    
+
 @param pred Predicate which is applied to a function declaration before it is returned.
 @param functionList The list of function declarations to find function declarations in.
 @param lst The reference to a list of function declarations. Will be filled by this function.*/
 template <class Pred> void findFunctionDeclarations(Pred pred, const FunctionList& functionList, FunctionList & lst);
 
-/**Finds function declarations which match given predicate in the class. 
-    
+/**Finds function declarations which match given predicate in the class.
+
 Predicate can be considered as a condition. If it is true then the function declaration is
 added to the result list otherwise it is skipped.
 @see Pred class documentation for a detailed description on how to create and use predicates.
-    
+
 @param pred Predicate which is applied to a function declaration before it is returned.
 @param klass The class to find function declarations in.
 @param lst The reference to a list of function declarations. Will be filled by this function.*/
 template <class Pred> void findFunctionDeclarations(Pred pred, const ClassDom& klass, FunctionList & lst);
 
-/**Applies a predicate to a function declaration. 
-    
+/**Applies a predicate to a function declaration.
+
 Predicate can be considered as a condition. If it is true then the function declaration is
 added to the result list otherwise it is skipped.
 @see Pred class documentation for a detailed description on how to create and use predicates.
-    
+
 @param pred Predicate which is applied to a function declaration before it is returned.
 @param fun The function declaration.
 @param lst The reference to a list of function declarations. Will be filled by this function.*/
@@ -223,8 +223,8 @@ template <class Pred> void findFunctionDeclarations(Pred pred, const FunctionDom
 template <class Pred>
 void findFunctionDefinitions(Pred pred, const FileList& fileList, FunctionDefinitionList & lst)
 {
-    for(FileList::ConstIterator it=fileList.begin(); it!=fileList.end(); ++it)
-	findFunctionDefinitions(pred, model_cast<NamespaceDom>(*it), lst);
+    for (FileList::ConstIterator it=fileList.begin(); it!=fileList.end(); ++it)
+        findFunctionDefinitions(pred, model_cast<NamespaceDom>(*it), lst);
 }
 
 template <class Pred>
@@ -238,22 +238,22 @@ void findFunctionDefinitions(Pred pred, const NamespaceDom& ns, FunctionDefiniti
 template <class Pred>
 void findFunctionDefinitions(Pred pred, const NamespaceList& namespaceList, FunctionDefinitionList & lst)
 {
-    for(NamespaceList::ConstIterator it=namespaceList.begin(); it!=namespaceList.end(); ++it)
-	findFunctionDefinitions(pred, *it, lst);
+    for (NamespaceList::ConstIterator it=namespaceList.begin(); it!=namespaceList.end(); ++it)
+        findFunctionDefinitions(pred, *it, lst);
 }
 
 template <class Pred>
 void findFunctionDefinitions(Pred pred, const ClassList& classList, FunctionDefinitionList & lst)
 {
-    for(ClassList::ConstIterator it=classList.begin(); it!=classList.end(); ++it)
-	findFunctionDefinitions(pred, *it, lst);
+    for (ClassList::ConstIterator it=classList.begin(); it!=classList.end(); ++it)
+        findFunctionDefinitions(pred, *it, lst);
 }
 
 template <class Pred>
 void findFunctionDefinitions(Pred pred, const FunctionDefinitionList& functionDefinitionList, FunctionDefinitionList & lst)
 {
-    for(FunctionDefinitionList::ConstIterator it=functionDefinitionList.begin(); it!=functionDefinitionList.end(); ++it)
-	findFunctionDefinitions(pred, *it, lst);
+    for (FunctionDefinitionList::ConstIterator it=functionDefinitionList.begin(); it!=functionDefinitionList.end(); ++it)
+        findFunctionDefinitions(pred, *it, lst);
 }
 
 template <class Pred>
@@ -266,8 +266,8 @@ void findFunctionDefinitions(Pred pred, const ClassDom& klass, FunctionDefinitio
 template <class Pred>
 void findFunctionDefinitions(Pred pred, const FunctionDefinitionDom& fun, FunctionDefinitionList & lst)
 {
-    if(pred(fun))
-	lst << fun;
+    if (pred(fun))
+        lst << fun;
 }
 
 
@@ -275,8 +275,8 @@ void findFunctionDefinitions(Pred pred, const FunctionDefinitionDom& fun, Functi
 template <class Pred>
 void findFunctionDeclarations(Pred pred, const FileList& fileList, FunctionList & lst)
 {
-    for(FileList::ConstIterator it=fileList.begin(); it!=fileList.end(); ++it)
-	findFunctionDeclarations(pred, model_cast<NamespaceDom>(*it), lst);
+    for (FileList::ConstIterator it=fileList.begin(); it!=fileList.end(); ++it)
+        findFunctionDeclarations(pred, model_cast<NamespaceDom>(*it), lst);
 }
 
 template <class Pred>
@@ -290,22 +290,22 @@ void findFunctionDeclarations(Pred pred, const NamespaceDom& ns, FunctionList & 
 template <class Pred>
 void findFunctionDeclarations(Pred pred, const NamespaceList& namespaceList, FunctionList & lst)
 {
-    for(NamespaceList::ConstIterator it=namespaceList.begin(); it!=namespaceList.end(); ++it)
-	findFunctionDeclarations(pred, *it, lst);
+    for (NamespaceList::ConstIterator it=namespaceList.begin(); it!=namespaceList.end(); ++it)
+        findFunctionDeclarations(pred, *it, lst);
 }
 
 template <class Pred>
 void findFunctionDeclarations(Pred pred, const ClassList& classList, FunctionList & lst)
 {
-    for(ClassList::ConstIterator it=classList.begin(); it!=classList.end(); ++it)
-	findFunctionDeclarations(pred, *it, lst);
+    for (ClassList::ConstIterator it=classList.begin(); it!=classList.end(); ++it)
+        findFunctionDeclarations(pred, *it, lst);
 }
 
 template <class Pred>
 void findFunctionDeclarations(Pred pred, const FunctionList& functionList, FunctionList & lst)
 {
-    for(FunctionList::ConstIterator it=functionList.begin(); it!=functionList.end(); ++it)
-	findFunctionDeclarations(pred, *it, lst);
+    for (FunctionList::ConstIterator it=functionList.begin(); it!=functionList.end(); ++it)
+        findFunctionDeclarations(pred, *it, lst);
 }
 
 template <class Pred>
@@ -318,12 +318,12 @@ void findFunctionDeclarations(Pred pred, const ClassDom& klass, FunctionList & l
 template <class Pred>
 void findFunctionDeclarations(Pred pred, const FunctionDom& fun, FunctionList & lst)
 {
-    if(pred(fun))
-	lst << fun;
+    if (pred(fun))
+        lst << fun;
 }
 
 /**A scope.*/
-struct Scope{
+struct Scope {
     /**Class.*/
     ClassDom klass;
     /**Namespace.*/
@@ -331,14 +331,14 @@ struct Scope{
 };
 
 /**Information about functions.*/
-struct AllFunctions{
+struct AllFunctions {
     /**Scope of functions.*/
     QMap<FunctionDom, Scope> relations;
     /**List of functions.*/
     FunctionList functionList;
 };
 /**Information about function definitions.*/
-struct AllFunctionDefinitions{
+struct AllFunctionDefinitions {
     /**Scope of function definitions.*/
     QMap<FunctionDefinitionDom, Scope> relations;
     /**List of function definitions.*/
@@ -346,7 +346,8 @@ struct AllFunctionDefinitions{
 };
 
 /**Namespace with utilities to find functions in the @ref CodeModel.*/
-namespace Functions{
+namespace Functions
+{
 /**Looks for functions in the class.
 @param list The list of functions found by this routine.
 @param dom The class to look for functions.*/
@@ -363,7 +364,7 @@ void processNamespaces(FunctionList &list, const NamespaceDom dom);
 @param relations The scope information.*/
 void processClasses(FunctionList &list, const ClassDom dom, QMap<FunctionDom, Scope> &relations);
 
-/**Looks for functions in the class and also saves their scope. 
+/**Looks for functions in the class and also saves their scope.
 Used for classes withing a namespace.
 @param list The list of functions found by this routine.
 @param dom The class to look for functions.
@@ -379,7 +380,8 @@ void processNamespaces(FunctionList &list, const NamespaceDom dom, QMap<Function
 }
 
 /**Namespace with utilities to find function definitions in the @ref CodeModel.*/
-namespace FunctionDefinitions{
+namespace FunctionDefinitions
+{
 /**Looks for function definitions in the class.
 @param list The list of function definitions found by this routine.
 @param dom The class to look for function definitions.*/
@@ -396,7 +398,7 @@ void processNamespaces(FunctionDefinitionList &list, const NamespaceDom dom);
 @param relations The scope information.*/
 void processClasses(FunctionDefinitionList &list, const ClassDom dom, QMap<FunctionDefinitionDom, Scope> &relations);
 
-/**Looks for function definitions in the class and also saves their scope. 
+/**Looks for function definitions in the class and also saves their scope.
 Used for classes withing a namespace.
 @param list The list of function definitions found by this routine.
 @param dom The class to look for function definitions .
@@ -434,29 +436,31 @@ bool compareDeclarationToDefinition(const FunctionDom& dec, const FunctionDefini
  * @sa Pred documentation to learn more about predicates used with code model.
  * @author Jonas Jacobi
  */
-class PredDefinitionMatchesDeclaration{
+class PredDefinitionMatchesDeclaration
+{
 public:
-	PredDefinitionMatchesDeclaration(const FunctionDom& func) : m_declaration(func){};
-	bool operator() (const FunctionDefinitionDom& def) const
-	{
-		return compareDeclarationToDefinition(m_declaration, def);
-	}
-	
+    PredDefinitionMatchesDeclaration(const FunctionDom& func) : m_declaration(func) {};
+    bool operator() (const FunctionDefinitionDom& def) const
+    {
+        return compareDeclarationToDefinition(m_declaration, def);
+    }
+
 private:
-	const FunctionDom m_declaration;
+    const FunctionDom m_declaration;
 };
 
 template <class InputDomType>
-class PredAmOwner{
-    public:
-        PredAmOwner(const FileDom& file) : m_file(file){};
-        bool operator() (const InputDomType& def) const
-        {
-            return def->file() == m_file;
-        }
-	
-    private:
-        const FileDom m_file;
+class PredAmOwner
+{
+public:
+    PredAmOwner(const FileDom& file) : m_file(file) {};
+    bool operator() (const InputDomType& def) const
+    {
+        return def->file() == m_file;
+    }
+
+private:
+    const FileDom m_file;
 };
 
 /**@return A list of all functions in the file.
@@ -501,7 +505,7 @@ FunctionDefinitionList allFunctionDefinitionsExhaustive(FileDom &dom);
 ClassDom findClassByPosition(NamespaceModel* nameSpace, int line, int col);
 
 /**
- * Same as above, just searches inside a class instead of a namespace. 
+ * Same as above, just searches inside a class instead of a namespace.
  */
 ClassDom findClassByPosition(ClassModel* aClass, int line, int col);
 
@@ -510,7 +514,7 @@ ClassDom findClassByPosition(ClassModel* aClass, int line, int col);
  * This can be used e.g. to find a position to new methods to the class.
  * @param aClass class to search for method.
  * @param access the access specifier with which methods are searched for.
- * @return The last line a Method with access specifier access is found, 
+ * @return The last line a Method with access specifier access is found,
  * or -1 if no method with that access specifier was found.
  * @author Jonas Jacobi <j.jacobi@gmx.de>
  */
@@ -520,7 +524,7 @@ int findLastMethodLine(ClassDom aClass, CodeModelItem::Access access);
  * Same as above, but finds a membervariable instead of a method.
  */
 int findLastVariableLine(ClassDom aClass, CodeModelItem::Access access);
-	
+
 /**
  * Get the string representation of an accesss pecifier
  * @param access An access specifier to get a string representation of.
@@ -530,39 +534,40 @@ int findLastVariableLine(ClassDom aClass, CodeModelItem::Access access);
 QString accessSpecifierToString(CodeModelItem::Access access);
 
 
-class CodeModelHelper {
-    private:
-        CodeModel* m_model;
-        FileList m_files;
-        QString m_fileName;
-    
-        FunctionDefinitionDom functionDefinitionAt(NamespaceDom ns, int line, int column);
-    
-        FunctionDefinitionDom functionDefinitionAt(ClassDom klass, int line, int column);
-    
-        FunctionDefinitionDom functionDefinitionAt(FunctionDefinitionDom fun, int line, int);
+class CodeModelHelper
+{
+private:
+    CodeModel* m_model;
+    FileList m_files;
+    QString m_fileName;
 
-        FunctionDom functionDeclarationAt(NamespaceDom ns, int line, int column);
-    
-        FunctionDom functionDeclarationAt(ClassDom klass, int line, int column);
-    
-        FunctionDom functionDeclarationAt(FunctionDom fun, int line, int column);
+    FunctionDefinitionDom functionDefinitionAt(NamespaceDom ns, int line, int column);
 
-    
-        ClassDom classAt(NamespaceDom ns, int line, int column);
-    
-        ClassDom classAt(ClassDom klass, int line, int column);
-    
-    public:
-        CodeModelHelper(CodeModel* model, FileDom file);
-        
-        enum FunctionTypes {
-            Declaration = 1,
-            Definition = 2
-        };
-        
-        FunctionDom functionAt(int line, int column, FunctionTypes types = (FunctionTypes)3);
-        ClassDom classAt(int line, int column);
+    FunctionDefinitionDom functionDefinitionAt(ClassDom klass, int line, int column);
+
+    FunctionDefinitionDom functionDefinitionAt(FunctionDefinitionDom fun, int line, int);
+
+    FunctionDom functionDeclarationAt(NamespaceDom ns, int line, int column);
+
+    FunctionDom functionDeclarationAt(ClassDom klass, int line, int column);
+
+    FunctionDom functionDeclarationAt(FunctionDom fun, int line, int column);
+
+
+    ClassDom classAt(NamespaceDom ns, int line, int column);
+
+    ClassDom classAt(ClassDom klass, int line, int column);
+
+public:
+    CodeModelHelper(CodeModel* model, FileDom file);
+
+    enum FunctionTypes {
+        Declaration = 1,
+        Definition = 2
+    };
+
+    FunctionDom functionAt(int line, int column, FunctionTypes types = (FunctionTypes)3);
+    ClassDom classAt(int line, int column);
 };
 
 }

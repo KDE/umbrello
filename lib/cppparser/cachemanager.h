@@ -22,52 +22,61 @@
 class CacheManager;
 
 
-class CacheNode {
-  typedef CacheManager Manager;
-  public:
-  CacheNode(Manager* manager);
-  
-  virtual ~CacheNode();
+class CacheNode
+{
+    typedef CacheManager Manager;
+public:
+    CacheNode(Manager* manager);
 
-  void access() const;
+    virtual ~CacheNode();
 
-  inline uint value() const {
-    return m_value;
-  }
+    void access() const;
 
-  inline void setValue(const uint v) const {
-    m_value = v;
-  }
+    inline uint value() const
+    {
+        return m_value;
+    }
 
-  inline void addValue(const uint diff) const {
-    m_value += diff;
-  }
-  
-  private:
+    inline void setValue(const uint v) const
+    {
+        m_value = v;
+    }
+
+    inline void addValue(const uint diff) const
+    {
+        m_value += diff;
+    }
+
+private:
     Manager* m_manager;
     mutable uint m_value; //This value stands for the priority of the node(higher is better)
 };
 
-class CacheNodeCompare {
-  public:
-  bool operator() (const CacheNode* lhs, const CacheNode* rhs) const {
-    if(lhs->value() != rhs->value())
-      return lhs->value() < rhs->value();
-    else
-      return lhs < rhs; //To be able to identify nodes precisely
-  }
+class CacheNodeCompare
+{
+public:
+    bool operator() (const CacheNode* lhs, const CacheNode* rhs) const
+    {
+        if (lhs->value() != rhs->value())
+            return lhs->value() < rhs->value();
+        else
+            return lhs < rhs; //To be able to identify nodes precisely
+    }
 };
 
 
-class CacheManager {
-  typedef std::set< const CacheNode*, CacheNodeCompare > SetType;
-  public:
-    CacheManager(int maxNodes = 1000) : m_currentFrame(1), m_maxNodes(maxNodes), m_currentMax(1) {
+class CacheManager
+{
+    typedef std::set< const CacheNode*, CacheNodeCompare > SetType;
+public:
+    CacheManager(int maxNodes = 1000) : m_currentFrame(1), m_maxNodes(maxNodes), m_currentMax(1)
+    {
     };
     virtual ~CacheManager() {};
 
-    inline int currentFrame() const {
-      return m_currentFrame;
+    inline int currentFrame() const
+    {
+        return m_currentFrame;
     }
 
     void access(const CacheNode* node);
@@ -77,18 +86,19 @@ class CacheManager {
 
     void increaseFrame();
 
-    ///Can be used on a regular basis(time-triggered) to save memory: Removes half of all triggered 
+    ///Can be used on a regular basis(time-triggered) to save memory: Removes half of all triggered
     void removeLowerHalf();
 
     virtual void saveMemory();
 
-    int currentMax() const {
-      return m_currentMax;
+    int currentMax() const
+    {
+        return m_currentMax;
     }
 
     ///This triggered function should erase the given node.
     virtual void erase(const CacheNode* node) = 0;
-  private:
+private:
     void restart(uint normalizeby);
     friend class CacheNode;
     void remove(const CacheNode* node);

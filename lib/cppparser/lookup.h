@@ -1,4 +1,4 @@
-/* This file is part of KDevelop    
+/* This file is part of KDevelop
     Copyright (C) 2005 Tobias Erbsland <te@profzone.ch>
     Copyright (C) 2002, 2003 Roberto Raggi <roberto@kdevelop.org>
 
@@ -31,7 +31,8 @@
 /**
 * @short Fast keyword lookup.
 */
-class Lookup {
+class Lookup
+{
 public:
     typedef __gnu_cxx::hash_map<HashedString,Type> KeywordMap;
     /**

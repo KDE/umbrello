@@ -24,44 +24,51 @@
 #include <string>
 
 ///A simple class that stores a string together with it's appropriate hash-key
-class HashedString {
-  public:
+class HashedString
+{
+public:
     HashedString() : m_hash(0) {}
 
-    HashedString(const QString& str) : m_str(str) {
-      initHash();
-    }
-    
-    HashedString(const char* str) : m_str(str) {
-      initHash();
+    HashedString(const QString& str) : m_str(str)
+    {
+        initHash();
     }
 
-    inline size_t hash() const {
-      return m_hash;
+    HashedString(const char* str) : m_str(str)
+    {
+        initHash();
     }
 
-    QString str() const {
-      return m_str;
+    inline size_t hash() const
+    {
+        return m_hash;
     }
 
-    bool operator == (const HashedString& rhs) const {
-      if (m_hash != rhs.m_hash)
-        return false;
-      return m_str == rhs.m_str;
+    QString str() const
+    {
+        return m_str;
+    }
+
+    bool operator == (const HashedString& rhs) const
+    {
+        if (m_hash != rhs.m_hash)
+            return false;
+        return m_str == rhs.m_str;
     }
 
     ///Does not compare alphabetically, uses the hash-key for ordering.
-    bool operator < (const HashedString& rhs) const {
-      if (m_hash < rhs.m_hash)
-        return true;
-      if (m_hash == rhs.m_hash)
-        return m_str < rhs.m_str;
-      return false;
+    bool operator < (const HashedString& rhs) const
+    {
+        if (m_hash < rhs.m_hash)
+            return true;
+        if (m_hash == rhs.m_hash)
+            return m_str < rhs.m_str;
+        return false;
     }
 
     static size_t hashString(const QString& str);
 
-  private:
+private:
     void initHash();
 
     QString m_str;
@@ -79,8 +86,9 @@ class HashedStringSetData;
 class HashedStringSetGroup;
 
 ///This is a reference-counting string-set optimized for fast lookup of hashed strings
-class HashedStringSet {
-  public:
+class HashedStringSet
+{
+public:
     HashedStringSet();
 
     ~HashedStringSet();
@@ -99,7 +107,7 @@ class HashedStringSet {
     void insert(const HashedString& str);
 
     HashedStringSet& operator +=(const HashedStringSet&);
-    
+
     HashedStringSet& operator -=(const HashedStringSet&);
 
     ///intersection-test
@@ -113,8 +121,8 @@ class HashedStringSet {
 
     std::string print() const;
 
-  size_t hash() const;
-  private:
+    size_t hash() const;
+private:
     friend class HashedStringSetGroup;
     void makeDataPrivate();
     KSharedPtr<HashedStringSetData> m_data; //this implies some additional cost because KShared's destructor is virtual. Maybe change that by copying KShared without the virtual destructor.
@@ -123,18 +131,21 @@ class HashedStringSet {
 
 HashedStringSet operator + (const HashedStringSet& lhs, const HashedStringSet& rhs);
 
-namespace __gnu_cxx {
+namespace __gnu_cxx
+{
 template<>
 struct hash<HashedString> {
-  size_t operator () (const HashedString& str) const {
-    return str.hash();
-  }
+    size_t operator () (const HashedString& str) const
+    {
+        return str.hash();
+    }
 };
 }
 
 ///Used to find all registered HashedStringSet's that contain all strings given to findGroups(..)
-class HashedStringSetGroup {
-  public:
+class HashedStringSetGroup
+{
+public:
     typedef std::set<size_t> ItemSet;
     void addSet(size_t id, const HashedStringSet& set);
     void enableSet(size_t id);
@@ -145,7 +156,7 @@ class HashedStringSetGroup {
     //Writes the ids of all registered and not disabled HashedStringSet's that are completely included in the given HashedStringSet efficiently)
     void findGroups(HashedStringSet strings, ItemSet& target) const;
 
-  private:
+private:
     typedef __gnu_cxx::hash_map<HashedString, ItemSet> GroupMap;
     typedef __gnu_cxx::hash_map<size_t, size_t> SizeMap;
     GroupMap m_map;

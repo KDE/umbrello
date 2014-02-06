@@ -1,6 +1,6 @@
 /* This file is part of KDevelop
    Copyright (C) 2003 Roberto Raggi <roberto@kdevelop.org>
-   Copyright (C) 2004 Matt Rogers <mattr@kde.org> 
+   Copyright (C) 2004 Matt Rogers <mattr@kde.org>
    Copyright (C) 2004 Alexander Dymo <adymo@kdevelop.org>
 
    This library is free software; you can redistribute it and/or
@@ -42,21 +42,22 @@ Code Model - a memory symbol store.
 #include <set>
 
 enum ParsedFileType {
-  CppParsedFile
+    CppParsedFile
 };
 
-class AbstractParseResult : public KShared {
+class AbstractParseResult : public KShared
+{
 public:
-  virtual ~AbstractParseResult() {}
-  virtual void read(QDataStream& stream) = 0;
+    virtual ~AbstractParseResult() {}
+    virtual void read(QDataStream& stream) = 0;
 
-  virtual void write(QDataStream& stream) const = 0;
+    virtual void write(QDataStream& stream) const = 0;
 
-  virtual ParsedFileType type() const = 0;
+    virtual ParsedFileType type() const = 0;
 };
 
 typedef KSharedPtr<AbstractParseResult> ParseResultPointer;
-  
+
 using namespace std;
 
 class CodeModel;
@@ -263,8 +264,8 @@ QStringList sortedNameList(const ItemList& lst)
     QStringList nameList;
 
     typename ItemList::ConstIterator it = lst.begin();
-    while(it != lst.end()){
-        if(!(*it)->name().isEmpty())
+    while (it != lst.end()) {
+        if (!(*it)->name().isEmpty())
             nameList << (*it)->name();
         ++it;
     }
@@ -334,7 +335,7 @@ public:
 
     /**Creates a code model item. This should be used to create
     code model items.
-    
+
     For example, to create a class model somewhere in your plugin, use:
     @code
     klass = codeModel()->create<ClassModel>();
@@ -389,40 +390,40 @@ public:
 
     /**Reads the model from a stream.
     Use this to save the memory symbol store to a file.
-    
-    Language support plugins usually save symbols from projects before the project is 
+
+    Language support plugins usually save symbols from projects before the project is
     closed to avoid reparsing when the project is opened next time.
     @param stream Stream to read from.
     @return whether the read succeeded(may fail when the store-format is deprecated).*/
     virtual void read(QDataStream& stream);
     /**Writes the model to a stream.
     Use this to restore the memory symbol store to a file.
-    
-    Language support plugins usually save symbols from projects before the project is 
+
+    Language support plugins usually save symbols from projects before the project is
     closed to avoid reparsing when the project is opened next time.
     @param stream Stream to write to.*/
     virtual void write(QDataStream& stream) const;
-    
+
     /** this will dump the whole tree into dot-file-format so it can be inspected, not ready yet*/
     virtual void dump(std::ostream& file, QString Info="");
-    
+
     /** Merges two groups, by changing the group-ids of the files.
     Returns the id of the new group, or 0 on fail.
     @param g1 first group
     @param g2 second group */
     int mergeGroups(int g1, int g2);
-    
-    /** Returns all files within the given group 
-    it should be preferred calling FileModel::wholeGroup and 
+
+    /** Returns all files within the given group
+    it should be preferred calling FileModel::wholeGroup and
     FileModel::wholeGroupStrings because those return in constant
     time if they are the only member of the group */
     FileList getGroup(int gid) const;
-    
+
     FileList getGroup(const FileDom& file) const;
-    
+
     /** Same as above, but returns the names instead of the objects */
     virtual QStringList getGroupStrings(int gid) const;
-    
+
 private:
     /**Adds a namespace to the store.
     @param target The NamespaceDom object that the namespace will be added to.
@@ -443,7 +444,7 @@ private:
     ///Files can have slaves that are owned by other files within the same group.
     ///While parsing, whole groups should always be parsed/reparsed together.
     int m_currentGroupId;   ///normally, each file has its own group.
-    
+
 private:
     CodeModel(const CodeModel& source);
     void operator = (const CodeModel& source);
@@ -468,8 +469,7 @@ public:
     typedef ItemDom Ptr;
 
     /**A type of a code model item.*/
-    enum Kind
-    {
+    enum Kind {
         File,                /**<File.*/
         Namespace,           /**<Namespace.*/
         Class,               /**<Class.*/
@@ -478,16 +478,15 @@ public:
         Argument,            /**<Function or method parameter.*/
         FunctionDefinition,  /**<Function definition.*/
         Enum,                /**<Enum.*/
-        Enumerator,          /**<Enumerator - a member of an Enum (example: @code enum Type { A, B, C} @endcode 
+        Enumerator,          /**<Enumerator - a member of an Enum (example: @code enum Type { A, B, C} @endcode
                                 Type will be an Enum; A, B and C - Enumerators.*/
         TypeAlias,           /**<Type alias (aka typedef in c++).*/
-    
+
         Custom = 1000        /**<Custom model items should have type greater than 1000*/
     };
 
     /**An access to the code model item.*/
-    enum Access
-    {
+    enum Access {
         Public,        /**<Public.*/
         Protected,     /**<Protected.*/
         Private        /**<Private.*/
@@ -506,23 +505,31 @@ public:
     virtual ~CodeModelItem();
 
     /**@return The type (kind) of item.*/
-    int kind() const { return m_kind; }
+    int kind() const
+    {
+        return m_kind;
+    }
 
     /**Sets the type (kind) of item.
     @param kind The type, see also @ref CodeModelItem::Kind.*/
-    void setKind(int kind) { m_kind = kind; }
+    void setKind(int kind)
+    {
+        m_kind = kind;
+    }
 
     /**@return The name of the item.*/
     QString name() const;
 
-    QString comment() const {
+    QString comment() const
+    {
         return m_comment;
     }
-    
-    void setComment(QString comment) {
+
+    void setComment(QString comment)
+    {
         m_comment = comment;
     }
-    
+
     /**Sets the name of the item.
     @param name The name.*/
     void setName(const QString& name);
@@ -564,29 +571,65 @@ public:
     void setEndPosition(int line, int col);
 
     /**@return true if an item is a FileModel.*/
-    virtual bool isFile() const { return false; }
+    virtual bool isFile() const
+    {
+        return false;
+    }
     /**@return true if an item is a NamespaceModel.*/
-    virtual bool isNamespace() const { return false; }
+    virtual bool isNamespace() const
+    {
+        return false;
+    }
     /**@return true if an item is a ClassModel.*/
-    virtual bool isClass() const { return false; }
+    virtual bool isClass() const
+    {
+        return false;
+    }
     /**@return true if an item is a FunctionModel.*/
-    virtual bool isFunction() const { return false; }
+    virtual bool isFunction() const
+    {
+        return false;
+    }
     /**@return true if an item is a FileDefinitionModel.*/
-    virtual bool isFunctionDefinition() const { return false; }
+    virtual bool isFunctionDefinition() const
+    {
+        return false;
+    }
     /**@return true if an item is a VariableModel.*/
-    virtual bool isVariable() const { return false; }
+    virtual bool isVariable() const
+    {
+        return false;
+    }
     /**@return true if an item is an ArgumentModel.*/
-    virtual bool isArgument() const { return false; }
+    virtual bool isArgument() const
+    {
+        return false;
+    }
     /**@return true if an item is a EnumModel.*/
-    virtual bool isEnum() const { return false; }
+    virtual bool isEnum() const
+    {
+        return false;
+    }
     /**@return true if an item is a EnumeratorModel.*/
-    virtual bool isEnumerator() const { return false; }
+    virtual bool isEnumerator() const
+    {
+        return false;
+    }
     /**@return true if an item is a TypeAliasModel.*/
-    virtual bool isTypeAlias() const { return false; }
+    virtual bool isTypeAlias() const
+    {
+        return false;
+    }
     /**@return true if an item is a custom item.*/
-    virtual bool isCustom() const { return false; }
-    
-    virtual bool isTemplateable() const { return false; }
+    virtual bool isCustom() const
+    {
+        return false;
+    }
+
+    virtual bool isTemplateable() const
+    {
+        return false;
+    }
 
     /**Reads an item from the stream.
     @param stream The stream to read from.*/
@@ -596,13 +639,19 @@ public:
     virtual void write(QDataStream& stream) const;
 
     virtual void dump(std::ostream& file, bool recurse=false, QString Info="");
-    
+
     /**@return The code model for this item.*/
-    CodeModel* codeModel() { return m_model; }
+    CodeModel* codeModel()
+    {
+        return m_model;
+    }
 
     /**@note This is a const version provided for convenience.
     @return The code model for this item*/
-    const CodeModel* codeModel() const { return m_model; }
+    const CodeModel* codeModel() const
+    {
+        return m_model;
+    }
 
 private:
     int m_kind;
@@ -620,74 +669,88 @@ private:
 
 
 
-class TemplateModelItem {
-    public:
-        typedef QPair< QString, QString > ParamPair;
-        typedef QVector< ParamPair > ParamMap; ///The first is the name, and the second the default-parameter, or "" if there is none.
-        
-        virtual ~TemplateModelItem() {}
+class TemplateModelItem
+{
+public:
+    typedef QPair< QString, QString > ParamPair;
+    typedef QVector< ParamPair > ParamMap; ///The first is the name, and the second the default-parameter, or "" if there is none.
 
-        virtual const ParamMap& getTemplateParams() {
-            return m_params;
+    virtual ~TemplateModelItem() {}
+
+    virtual const ParamMap& getTemplateParams()
+    {
+        return m_params;
+    }
+
+    virtual void addTemplateParam(QString name, QString def = "")
+    {
+        m_params.push_back(ParamPair(name, def));
+    }
+
+    virtual void clearTemplateParams()
+    {
+        m_params.clear();
+    }
+
+    bool hasSpecializationDeclaration() const
+    {
+        return !m_specialization.isEmpty();
+    }
+
+    virtual QString getSpecializationDeclaration() const
+    {
+        return m_specialization;
+    }
+
+    void setSpecializationDeclaration(const QString& str)
+    {
+        m_specialization = str;
+    }
+
+    ///returns -1 if the parameter does not exist
+    virtual int findTemplateParam(const QString& name) const
+    {
+        for (int a = 0; a< m_params.size(); a++)
+            if (m_params[a].first == name) return a;
+        return -1;
+    }
+
+    const ParamPair getParam(int index) const
+    {
+        return m_params[index];
+    }
+
+    virtual bool isTemplateable() const
+    {
+        return true;
+    }
+
+    void write(QDataStream & stream) const
+    {
+        stream << m_specialization;
+        stream << (int)m_params.size();
+        for (ParamMap::const_iterator it = m_params.begin(); it != m_params.end(); ++it) {
+            stream << (*it).first;
+            stream << (*it).second;
         }
-        
-        virtual void addTemplateParam(QString name, QString def = "") {
-            m_params.push_back(ParamPair(name, def));
+    }
+
+    void read(QDataStream & stream)
+    {
+        int count;
+        stream >> m_specialization;
+        stream >> count;
+        for (int a = 0; a < count; a++) {
+            ParamPair tmp;
+            stream >> tmp.first;
+            stream >> tmp.second;
+            m_params.push_back(tmp);
         }
-        
-        virtual void clearTemplateParams() {
-            m_params.clear();
-        }
+    }
 
-				bool hasSpecializationDeclaration() const {
-					return !m_specialization.isEmpty();
-				}
-
-				virtual QString getSpecializationDeclaration() const {
-					return m_specialization;
-				}
-
-				void setSpecializationDeclaration(const QString& str) {
-					m_specialization = str;
-				}
-        
-        ///returns -1 if the parameter does not exist
-        virtual int findTemplateParam(const QString& name) const {
-            for(int a = 0; a< m_params.size(); a++)
-                if(m_params[a].first == name) return a;
-            return -1;
-       }
-        
-       const ParamPair getParam(int index) const {
-           return m_params[index];
-       }
-       
-       virtual bool isTemplateable() const  { return true; }
-    
-       void write(QDataStream & stream) const {
-			 		 stream << m_specialization;
-           stream << (int)m_params.size();
-           for(ParamMap::const_iterator it = m_params.begin(); it != m_params.end(); ++it) {
-               stream << (*it).first;
-               stream << (*it).second;
-           }
-       }
-       
-       void read(QDataStream & stream)  {
-           int count;
-					 stream >> m_specialization;
-           stream >> count;
-           for(int a = 0; a < count; a++) {
-               ParamPair tmp;
-               stream >> tmp.first;
-               stream >> tmp.second;
-               m_params.push_back(tmp);
-           }
-       }
-    
-    protected:
-        ParamMap m_params;
-				QString m_specialization;
+protected:
+    ParamMap m_params;
+    QString m_specialization;
 };
 
 
@@ -709,13 +772,22 @@ public:
     /**A definition of safe pointer to the class model.*/
     typedef ClassDom Ptr;
 
-    virtual bool isClass() const { return true; }
+    virtual bool isClass() const
+    {
+        return true;
+    }
 
     /**@return The scope of the class. Scope is a string list composed from names of parent classes and namespaces.*/
-    QStringList scope() const { return m_scope; }
+    QStringList scope() const
+    {
+        return m_scope;
+    }
     /**Sets the scope of this class.
     @param scope The scope - a list of parent classes and namespaces.*/
-    void setScope(const QStringList& scope) { m_scope = scope; }
+    void setScope(const QStringList& scope)
+    {
+        m_scope = scope;
+    }
 
     /**@return The list of base class names.*/
     QStringList baseClassList() const;
@@ -755,7 +827,7 @@ public:
     bool addClass(ClassDom klass);
 
     /**Removes a class from the model.
-    @param klass The class model to remove.*/    
+    @param klass The class model to remove.*/
     void removeClass(ClassDom klass);
 
     /**@return A list of functions in the model.*/
@@ -925,12 +997,12 @@ public:
 
     void update(const ClassModel* i);
     bool canUpdate(const ClassModel* i) const;
-    
+
     virtual void read(QDataStream& stream);
     virtual void write(QDataStream& stream) const;
 
     virtual void dump(std::ostream& file, bool recurse=false, QString Info="");
-    
+
 private:
     QStringList m_scope;
     QStringList m_baseClassList;
@@ -947,93 +1019,109 @@ private:
     friend class CodeModel;
 };
 
-class NamespaceAliasModel {
+class NamespaceAliasModel
+{
 public:
-  virtual ~NamespaceAliasModel() {}
+    virtual ~NamespaceAliasModel() {}
 
-  virtual void read(QDataStream& stream);
-  virtual void write(QDataStream& stream) const;
+    virtual void read(QDataStream& stream);
+    virtual void write(QDataStream& stream) const;
 
-  QString name() const {
-    return m_name;
-  }
-
-  void setName(const QString& name) {
-    m_name = name;
-  }
-
-  void setAliasName(const QString& theValue) {
-    m_aliasName = theValue;
-  }
-
-  QString aliasName() const {
-    return m_aliasName;
-  }
-
-  void setFileName(const HashedString& theValue) {
-    m_fileName = theValue;
-  }
-
-  HashedString fileName() const {
-    return m_fileName;
-  }
-
-  bool operator < (const NamespaceAliasModel& rhs) const {
-    if(m_name < rhs.m_name) return true;
-    if(m_name == rhs.m_name) {
-      if(m_aliasName < rhs.m_aliasName) return true;
-      if(m_aliasName == rhs.m_aliasName && m_fileName < rhs.m_fileName) return true;
+    QString name() const
+    {
+        return m_name;
     }
-    return false;
-  }
 
-  bool operator == (const NamespaceAliasModel& rhs) const {
-    return m_name == rhs.m_name && m_aliasName == rhs.m_aliasName && m_fileName == rhs.m_fileName;
-  }
-  
+    void setName(const QString& name)
+    {
+        m_name = name;
+    }
+
+    void setAliasName(const QString& theValue)
+    {
+        m_aliasName = theValue;
+    }
+
+    QString aliasName() const
+    {
+        return m_aliasName;
+    }
+
+    void setFileName(const HashedString& theValue)
+    {
+        m_fileName = theValue;
+    }
+
+    HashedString fileName() const
+    {
+        return m_fileName;
+    }
+
+    bool operator < (const NamespaceAliasModel& rhs) const
+    {
+        if (m_name < rhs.m_name) return true;
+        if (m_name == rhs.m_name) {
+            if (m_aliasName < rhs.m_aliasName) return true;
+            if (m_aliasName == rhs.m_aliasName && m_fileName < rhs.m_fileName) return true;
+        }
+        return false;
+    }
+
+    bool operator == (const NamespaceAliasModel& rhs) const
+    {
+        return m_name == rhs.m_name && m_aliasName == rhs.m_aliasName && m_fileName == rhs.m_fileName;
+    }
+
 private:
-  QString m_name;
-  QString m_aliasName;
-  HashedString m_fileName;
+    QString m_name;
+    QString m_aliasName;
+    HashedString m_fileName;
 };
 
-class NamespaceImportModel {
+class NamespaceImportModel
+{
 public:
-  virtual ~NamespaceImportModel() {}
-  virtual void read(QDataStream& stream);
-  virtual void write(QDataStream& stream) const;
-  
-  QString name() const {
-    return m_name;
-  }
-  
-  HashedString fileName() const {
-    return m_fileName;
-  }
+    virtual ~NamespaceImportModel() {}
+    virtual void read(QDataStream& stream);
+    virtual void write(QDataStream& stream) const;
 
-  void setName(const QString& name) {
-    m_name = name;
-  }
+    QString name() const
+    {
+        return m_name;
+    }
 
-  void setFileName(const HashedString& file) {
-    m_fileName = file;
-  }
-  
-  bool operator < (const NamespaceImportModel& rhs) const {
-    if(m_name < rhs.m_name) return true;
-    if(m_name == rhs.m_name)
-      if(m_fileName < rhs.m_fileName) return true;
+    HashedString fileName() const
+    {
+        return m_fileName;
+    }
 
-    return false;
-  }
-  
-  bool operator == (const NamespaceImportModel& rhs) const {
-    return m_name == rhs.m_name && m_fileName == rhs.m_fileName;
-  }
-  
+    void setName(const QString& name)
+    {
+        m_name = name;
+    }
+
+    void setFileName(const HashedString& file)
+    {
+        m_fileName = file;
+    }
+
+    bool operator < (const NamespaceImportModel& rhs) const
+    {
+        if (m_name < rhs.m_name) return true;
+        if (m_name == rhs.m_name)
+            if (m_fileName < rhs.m_fileName) return true;
+
+        return false;
+    }
+
+    bool operator == (const NamespaceImportModel& rhs) const
+    {
+        return m_name == rhs.m_name && m_fileName == rhs.m_fileName;
+    }
+
 private:
-  QString m_name;
-  HashedString m_fileName;
+    QString m_name;
+    HashedString m_fileName;
 };
 
 /**
@@ -1052,14 +1140,20 @@ protected:
     NamespaceModel(CodeModel* model);
 
 public:
-  typedef std::set<NamespaceAliasModel> NamespaceAliasModelList; ///I'm using std-sets here, because Qt-3 has no appropriate replacement
-  typedef std::set<NamespaceImportModel> NamespaceImportModelList;
-  
+    typedef std::set<NamespaceAliasModel> NamespaceAliasModelList; ///I'm using std-sets here, because Qt-3 has no appropriate replacement
+    typedef std::set<NamespaceImportModel> NamespaceImportModelList;
+
     /**A definition of safe pointer to the namespace model.*/
     typedef NamespaceDom Ptr;
 
-    virtual bool isClass() const { return false; }
-    virtual bool isNamespace() const { return true; }
+    virtual bool isClass() const
+    {
+        return false;
+    }
+    virtual bool isNamespace() const
+    {
+        return true;
+    }
 
     /**@return The list of namespaces in this model.*/
     NamespaceList namespaceList();
@@ -1100,7 +1194,7 @@ public:
     */
     void update(const NamespaceModel* ns);
     bool canUpdate(const NamespaceModel* ns) const;
-    
+
     virtual void read(QDataStream& stream);
     virtual void write(QDataStream& stream) const;
 
@@ -1112,13 +1206,15 @@ public:
     void removeNamespaceAlias(const NamespaceAliasModel& alias);
 
     ///Must not be called on temporary objects because a reference is returned(for performance-reasons)
-    const NamespaceAliasModelList& namespaceAliases() const {
-      return m_namespaceAliases;
+    const NamespaceAliasModelList& namespaceAliases() const
+    {
+        return m_namespaceAliases;
     }
-  
+
     ///Must not be called on temporary objects because a reference is returned(for performance-reasons)
-    const NamespaceImportModelList& namespaceImports() const {
-      return m_namespaceImports;
+    const NamespaceImportModelList& namespaceImports() const
+    {
+        return m_namespaceImports;
     }
 private:
     QMap<QString, NamespaceDom> m_namespaces;
@@ -1126,7 +1222,7 @@ private:
     NamespaceImportModelList m_namespaceImports;
 
 private:
-  
+
     NamespaceModel(const NamespaceModel& source);
     void operator = (const NamespaceModel& source);
     friend class CodeModel;
@@ -1154,33 +1250,38 @@ public:
     /**A definition of safe pointer to the file model.*/
     typedef FileDom Ptr;
 
-    virtual bool isFile() const { return true; }
+    virtual bool isFile() const
+    {
+        return true;
+    }
 
-    virtual int groupId() const {
+    virtual int groupId() const
+    {
         return m_groupId;
     }
-    
-    virtual void setGroupId(int newId) {
+
+    virtual void setGroupId(int newId)
+    {
         m_groupId = newId;
     }
-    
+
     /** This function additionally does version-checking and
         should be used instead of read when read should be called
         from outside.
     @return whether the read was successful */
-    
+
     virtual void write(QDataStream& stream) const;
 
     FileList wholeGroup() ;
-    
+
     QStringList wholeGroupStrings() const;
-    
+
     virtual void read(QDataStream& stream);
 
     ParseResultPointer parseResult() const;
     void setParseResult(const ParseResultPointer& result);
 
-  void update(const FileModel* i);
+    void update(const FileModel* i);
 private:
     int m_groupId;
     ParseResultPointer m_parseResult;
@@ -1205,7 +1306,10 @@ public:
     /**A definition of safe pointer to the argument model.*/
     typedef ArgumentDom Ptr;
 
-    virtual bool isArgument() const { return true; }
+    virtual bool isArgument() const
+    {
+        return true;
+    }
 
     /**@return The type of this argument.*/
     QString type() const;
@@ -1225,7 +1329,7 @@ public:
     virtual void write(QDataStream& stream) const;
 
     virtual void dump(std::ostream& file, bool recurse=false, QString Info="");
-    
+
 private:
     QString m_type;
     QString m_defaultValue;
@@ -1245,7 +1349,7 @@ Represents:
 - class methods;
 .
 In languages that have separate function declarations and definitions (c++)
-this represents only function declarations. @see FunctionDefinitionModel 
+this represents only function declarations. @see FunctionDefinitionModel
 for a model of function definitions.
 
 Instances of this class should be created using @ref CodeModel::create method.
@@ -1261,17 +1365,26 @@ public:
     /**A definition of safe pointer to the function model.*/
     typedef FunctionDom Ptr;
 
-    virtual bool isFunction() const { return true; }
+    virtual bool isFunction() const
+    {
+        return true;
+    }
 
-    /**@return The scope of the function. Scope is a string list composed 
+    /**@return The scope of the function. Scope is a string list composed
     from names of parent functions, classes and namespaces.*/
-    QStringList scope() const { return m_scope; }
+    QStringList scope() const
+    {
+        return m_scope;
+    }
 
     /**Sets the scope of the function.
     @param scope The scope to set.*/
-    void setScope(const QStringList& scope) { m_scope = scope; }
+    void setScope(const QStringList& scope)
+    {
+        m_scope = scope;
+    }
 
-    /**@return The access level of the function. Can return either values of type @ref CodeModelItem::Access or 
+    /**@return The access level of the function. Can return either values of type @ref CodeModelItem::Access or
     other integers if the function has other access level (for example pascal methods can have "published"
     access level).*/
     int access() const;
@@ -1352,10 +1465,10 @@ public:
     virtual void write(QDataStream& stream) const;
 
     virtual void dump(std::ostream& file, bool recurse=false, QString Info="");
-    
+
     void update(const FunctionModel* i);
     bool canUpdate(const FunctionModel* i) const;
-    
+
 private:
     QStringList m_scope;
     int m_access;
@@ -1399,7 +1512,10 @@ public:
     /**A definition of safe pointer to the function definition model.*/
     typedef FunctionDefinitionDom Ptr;
 
-    virtual bool isFunctionDefinition() const { return true; }
+    virtual bool isFunctionDefinition() const
+    {
+        return true;
+    }
 
 private:
     FunctionDefinitionModel(const FunctionDefinitionModel& source);
@@ -1425,9 +1541,12 @@ public:
     /**A definition of safe pointer to the variable model.*/
     typedef VariableDom Ptr;
 
-    virtual bool isVariable() const { return true; }
+    virtual bool isVariable() const
+    {
+        return true;
+    }
 
-    /**@return The access level of the variable. Can return either values of type @ref CodeModelItem::Access or 
+    /**@return The access level of the variable. Can return either values of type @ref CodeModelItem::Access or
     other integers if the variable has other access level (for example pascal attributes can have "published"
     access level).*/
     int access() const;
@@ -1447,10 +1566,10 @@ public:
     @param type The type name.*/
     void setType(const QString& type);
 
-		/**@return If this is an enumerator, the enum it is part of, else an empty string. This is just a hack, necessary because EnumeratorModel is not used at all by the cpp-code-model. */
-		bool isEnumeratorVariable() const;
+    /**@return If this is an enumerator, the enum it is part of, else an empty string. This is just a hack, necessary because EnumeratorModel is not used at all by the cpp-code-model. */
+    bool isEnumeratorVariable() const;
 
-		void setEnumeratorVariable(bool b);
+    void setEnumeratorVariable(bool b);
 
     virtual void read(QDataStream& stream);
     virtual void write(QDataStream& stream) const;
@@ -1459,12 +1578,12 @@ public:
 
     void update(const VariableModel* i);
     bool canUpdate(const VariableModel* i) const;
-    
+
 private:
     int m_access;
     int m_static;
     QString m_type;
-		int m_isEnumeratorVariable;
+    int m_isEnumeratorVariable;
 
 private:
     VariableModel(const VariableModel& source);
@@ -1490,15 +1609,18 @@ public:
     /**A definition of safe pointer to the enum model.*/
     typedef EnumDom Ptr;
 
-    virtual bool isEnum() const { return true; }
+    virtual bool isEnum() const
+    {
+        return true;
+    }
 
-    /**@return The access level of the enum. Can return either values 
+    /**@return The access level of the enum. Can return either values
     of type @ref CodeModelItem::Access or other integers if the enum has other access level.*/
     int access() const;
     /**Sets the access level of the enum.
     @param access The access level.*/
     void setAccess(int access);
-    
+
     /**@return The list of enumerators in this enum.*/
     EnumeratorList enumeratorList();
     /**@return The list of enumerators in this enum.
@@ -1519,7 +1641,7 @@ public:
 
     void update(const EnumModel* i);
     bool canUpdate(const EnumModel* i) const;
-    
+
 private:
     int m_access;
     QMap<QString, EnumeratorDom> m_enumerators;
@@ -1553,8 +1675,11 @@ public:
     /**A definition of safe pointer to the enumerator model.*/
     typedef EnumeratorDom Ptr;
 
-    virtual bool isEnumerator() const { return true; }
-    
+    virtual bool isEnumerator() const
+    {
+        return true;
+    }
+
     /**@return The value of an enumerator.*/
     QString value() const;
     /**Sets the value of an enumerator.
@@ -1565,10 +1690,10 @@ public:
     virtual void write(QDataStream& stream) const;
 
     virtual void dump(std::ostream& file, bool recurse=false, QString Info="");
-    
+
 private:
     QString m_value;
-    
+
 private:
     EnumeratorModel(const EnumeratorModel& source);
     void operator = (const EnumeratorModel& source);
@@ -1591,26 +1716,29 @@ public:
     /**A definition of safe pointer to the type alias model.*/
     typedef TypeAliasDom Ptr;
 
-    virtual bool isTypeAlias() const { return true; }
-    
+    virtual bool isTypeAlias() const
+    {
+        return true;
+    }
+
     /**@return The actual type of an alias.*/
     QString type() const;
     /**Sets the type of an alias.
     @param type The type name.*/
     void setType(const QString& type);
-    
+
     virtual void read(QDataStream& stream);
     virtual void write(QDataStream& stream) const;
 
-    
+
     virtual void dump(std::ostream& file, bool recurse=false, QString Info="");
-    
+
     void update(const TypeAliasModel* i);
     bool canUpdate(const TypeAliasModel* i) const;
 
 private:
     QString m_type;
-    
+
 private:
     TypeAliasModel(const TypeAliasModel& source);
     void operator = (const TypeAliasModel& source);

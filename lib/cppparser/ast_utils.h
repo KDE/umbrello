@@ -19,7 +19,10 @@ class DeclaratorAST;
 class TypeSpecifierAST;
 class QStringList;
 
-namespace KTextEditor{ class EditInterface; }
+namespace KTextEditor
+{
+class EditInterface;
+}
 
 void scopeOfNode(AST* ast, QStringList&);
 QString typeSpecToString(TypeSpecifierAST* typeSpec);
