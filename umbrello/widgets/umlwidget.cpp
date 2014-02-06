@@ -1370,6 +1370,8 @@ void UMLWidget::selectSingle(QGraphicsSceneMouseEvent *me)
  */
 void UMLWidget::selectMultiple(QGraphicsSceneMouseEvent *me)
 {
+    Q_UNUSED(me);
+
     setSelected(true);
 }
 
@@ -1380,6 +1382,8 @@ void UMLWidget::selectMultiple(QGraphicsSceneMouseEvent *me)
  */
 void UMLWidget::deselect(QGraphicsSceneMouseEvent *me)
 {
+    Q_UNUSED(me);
+
     setSelected(false);
 }
 
