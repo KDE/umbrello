@@ -2631,7 +2631,7 @@ void AssociationWidget::constrainTextPos(qreal &textX, qreal &textY,
     const int y0 = p0.y();
     const int x1 = p1.x();
     const int y1 = p1.y();
-    double r = sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0)) / 2;
+    double r = sqrt((double)((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0))) / 2;
     if (textWidth > r)
         r = textWidth;
     // swap textCenter{X,Y} to convert from Qt coord.system.

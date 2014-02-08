@@ -86,7 +86,7 @@ void FloatingDashLineWidget::setText(const QString& text)
 bool FloatingDashLineWidget::onLine(const QPointF& point)
 {
     // check if the given point is the start or end point of the line
-    if (((abs(y() + height() - point.y())) <= POINT_DELTA) || (abs(y() - point.y()) <= POINT_DELTA)) {
+    if (((abs((long)(y() + height() - point.y()))) <= POINT_DELTA) || (abs((long)(y() - point.y())) <= POINT_DELTA)) {
         return true;
     }
     // check if the given point is the start or end point of the line
