@@ -299,7 +299,7 @@ public:
 
         if (force && it != m_driver->m_parsedUnits.end()) {
             m_driver->takeTranslationUnit(m_absoluteFilePath);
-        } else if (it != m_driver->m_parsedUnits.end() && *it != 0) {
+        } else if (it != m_driver->m_parsedUnits.end() && *it != (ParsedFilePointer)0) {
             // file already processed
             return ;
         }
