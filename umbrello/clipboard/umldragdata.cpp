@@ -21,6 +21,9 @@
 #include "idchangelog.h"
 #include "model_utils.h"
 #include "object_factory.h"
+#include "objectwidget.h"
+#include "preconditionwidget.h"
+#include "messagewidget.h"
 #include "uniqueid.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -521,23 +524,56 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
         return false;
     }
 
+    UMLDoc *doc = UMLApp::app()->document();
     UMLView *view = UMLApp::app()->currentView();
     UMLScene *scene = view->umlScene();
+
     while (!widgetElement.isNull()) {
 
         UMLWidget* widget = scene->loadWidgetFromXMI(widgetElement);
+        if (widget) {
+            // Generate a new unique 'local ID' so a second widget for the same
+            // UMLObject can be distinguished from the first widget
+            widget->setLocalID(
+                doc->assignNewID(widget->localID())
+            );
 
-        // Generate a unique 'local ID' so second widget for the same UMLObject
-        // can be distinguished from the first widget
-        widget->setLocalID(UniqueID::gen());
-
-        if (widget)
+            // Add the widget to the UMLWidgetList for reference in
+            // UMLClipboard
             widgets.append(widget);
-
-        UMLApp::app()->executeCommand(new Uml::CmdCreateWidget(widget));
+        } else {
+            uWarning() << "Unable to paste widget" << widgetElement.tagName();
+        }
 
         widgetNode = widgetNode.nextSibling();
         widgetElement = widgetNode.toElement();
+    }
+
+    IDChangeLog* log = doc->changeLog();
+
+    // Make sure all object widgets are loaded before adding messages or
+    // preconditions
+    foreach (UMLWidget* widget, widgets) {
+        if (widget->baseType() == WidgetBase::wt_Object) {
+            executeCreateWidgetCommand(widget);
+        }
+    }
+
+    // Now add all remaining widgets
+    foreach (UMLWidget* widget, widgets) {
+        if (widget->baseType() == WidgetBase::wt_Message) {
+            MessageWidget* message = dynamic_cast<MessageWidget*>(widget);
+            message->resolveObjectWidget(log);
+        }
+
+        if (widget->baseType() == WidgetBase::wt_Precondition) {
+            PreconditionWidget* precondition = dynamic_cast<PreconditionWidget*>(widget);
+            precondition->resolveObjectWidget(log);
+        }
+
+        if (widget->baseType() != WidgetBase::wt_Object) {
+            executeCreateWidgetCommand(widget);
+        }
     }
 
     // Load AssociationWidgets
@@ -617,6 +653,14 @@ bool UMLDragData::decodeClip5(const QMimeData* mimeData, UMLObjectList& objects,
     }
 
     return true;
+}
+
+/**
+ * Execute the CmdCreateWidget undo command
+ */
+void UMLDragData::executeCreateWidgetCommand(UMLWidget* widget)
+{
+    UMLApp::app()->executeCommand(new Uml::CmdCreateWidget(widget));
 }
 
 /**
@@ -757,7 +801,6 @@ bool UMLDragData::decodeViews(QDomNode& umlviewsNode, UMLViewList& diagrams)
 
     return true;
 }
-
 
 /**
  * Converts application/x-uml-clip[1-5] clip type to an integer

@@ -22,8 +22,8 @@
 #include <QList>
 #include <QMimeData>
 
-class UMLListView;
 class UMLClassifier;
+class UMLListView;
 class QPixmap;
 
 /**
@@ -96,7 +96,10 @@ public:
 
     void setUMLDataClip5(UMLObjectList& Objects);
 
-    static bool decodeObjects(QDomNode& objectsNode, UMLObjectList& objects, bool skipIfObjectExists = false);
+    static void executeCreateWidgetCommand(UMLWidget* widget);
+
+    static bool decodeObjects(QDomNode& objectsNode, UMLObjectList& objects,
+                              bool skipIfObjectExists = false);
 
     static bool decodeViews(QDomNode& umlviewsNode, UMLViewList& diagrams);
 };

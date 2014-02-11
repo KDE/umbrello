@@ -1019,15 +1019,9 @@ void UMLScene::checkMessages(ObjectWidget * w)
     }
 
     foreach(MessageWidget *obj, m_MessageList) {
-        if (! obj->hasObjectWidget(w)) {
-            continue;
+        if (obj->hasObjectWidget(w)) {
+            removeWidget(obj);
         }
-        //make sure message doesn't have any associations
-        removeAssociations(obj);
-        obj->cleanup();
-        obj->setSelectedFlag(false);
-        m_MessageList.removeAll(obj);
-        obj->deleteLater();
     }
 }
 

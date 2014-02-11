@@ -112,6 +112,7 @@ public:
     void calculateWidget();
 
     virtual bool activate(IDChangeLog * Log = 0);
+    void resolveObjectWidget(IDChangeLog* log);
 
     void calculateDimensions();
     void calculateDimensionsSynchronous();

@@ -22,6 +22,7 @@
 #include "umldoc.h"
 #include "umlview.h"
 #include "uniqueid.h"
+#include "idchangelog.h"
 
 //qt includes
 #include <QMoveEvent>
@@ -851,6 +852,15 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
 }
 
 /**
+ * Resolve references of this message so they reference the correct
+ * new object widgets after paste.
+ */
+void MessageWidget::resolveObjectWidget(IDChangeLog* log) {
+    m_widgetAId = log->findNewID(m_widgetAId);
+    m_widgetBId = log->findNewID(m_widgetBId);
+}
+
+/**
  * Overrides operation from LinkWidget.
  * Required by FloatingTextWidget.
  *
@@ -1172,7 +1182,7 @@ void MessageWidget::cleanup()
 
     UMLWidget::cleanup();
     if (m_pFText) {
-        m_scene->removeWidget(m_pFText);
+        m_scene->removeWidgetCmd(m_pFText);
         m_pFText = NULL;
     }
 }

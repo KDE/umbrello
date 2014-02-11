@@ -26,7 +26,6 @@
 #include "enumliteral.h"
 #include "entityattribute.h"
 #include "model_utils.h"
-#include "messagewidget.h"
 #include "umldoc.h"
 #include "umllistview.h"
 #include "umllistviewitem.h"
@@ -509,14 +508,6 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
             if (currentScene->type() == Uml::DiagramType::Activity ||
                 currentScene->type() == Uml::DiagramType::State) {
                 widget->setID(doc->assignNewID(widget->id()));
-            }
-
-            if (widget->baseType() == WidgetBase::wt_Message) {
-                currentScene->messageList().append(
-                    dynamic_cast<MessageWidget*>(widget)
-                );
-            } else {
-                currentScene->widgetList().append(widget);
             }
         }
     }

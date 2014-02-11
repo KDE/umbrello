@@ -31,6 +31,7 @@ namespace Uml
             Uml::ID::Type m_widgetId;
 
             void setWidget(UMLWidget* widget);
+            void addWidgetToScene(UMLWidget* widget);
             UMLWidget* widget();
             UMLScene* scene();
     };

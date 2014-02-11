@@ -28,11 +28,11 @@ namespace Uml
     {
         setText(i18n("Create widget : %1", widget->name()));
 
+        addWidgetToScene(widget);
+
         QDomDocument doc;
         m_element = doc.createElement("widget");
         widget->saveToXMI(doc, m_element);
-
-        scene()->widgetList().append(widget);
     }
 
     /**
@@ -53,9 +53,8 @@ namespace Uml
             // widget back from the saved XMI state.
             QDomElement widgetElement = m_element.firstChild().toElement();
             umlWidget = scene()->loadWidgetFromXMI(widgetElement);
-            umlWidget->setLocalID(m_widgetId);
 
-            scene()->widgetList().append(umlWidget);
+            addWidgetToScene(umlWidget);
         }
     }
 

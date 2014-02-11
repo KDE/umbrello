@@ -18,6 +18,7 @@
 #include "uml.h"
 #include "umlscene.h"
 #include "uniqueid.h"
+#include "idchangelog.h"
 
 // kde includes
 #include <kinputdialog.h>
@@ -150,8 +151,12 @@ bool PreconditionWidget::activate(IDChangeLog * Log /*= 0*/)
 {
     m_scene->resetPastePoint();
     UMLWidget::activate(Log);
-    if (m_objectWidget == NULL) {
-        DEBUG(DBG_SRC) << "cannot make precondition";
+
+    loadObjectWidget();
+
+    if (!m_objectWidget) {
+        DEBUG(DBG_SRC) << "role A widget " << Uml::ID::toString(m_widgetAId)
+            << " could not be found";
         return false;
     }
 
@@ -159,6 +164,14 @@ bool PreconditionWidget::activate(IDChangeLog * Log /*= 0*/)
 
     calculateDimensions();
     return true;
+}
+
+/**
+ * Resolve references of this precondition so it references the correct
+ * new object widget after paste.
+ */
+void PreconditionWidget::resolveObjectWidget(IDChangeLog* log) {
+    m_widgetAId = log->findNewID(m_widgetAId);
 }
 
 /**
@@ -283,15 +296,28 @@ bool PreconditionWidget::loadFromXMI(QDomElement& qElement)
     setName(qElement.attribute("preconditionname", ""));
     setDocumentation(qElement.attribute("documentation", ""));
 
-    Uml::ID::Type aId = Uml::ID::fromString(widgetaid);
+    m_widgetAId = Uml::ID::fromString(widgetaid);
 
-    m_objectWidget = dynamic_cast<ObjectWidget*>(umlScene()->findWidget(aId));
-    if (!m_objectWidget) {
-        DEBUG(DBG_SRC) << "role A widget " << Uml::ID::toString(aId) << " is not an ObjectWidget";
-        return false;
-    }
+    // Lookup the ObjectWidget, if it can't be found, assume it will be
+    // resolved later
+    loadObjectWidget();
 
     return true;
+}
+
+/**
+ * Load the object widget from m_widgetAId
+ *
+ * This method is called in loadFromXMI() when loading an XMI file, and called
+ * from activate() when activating a widget after pasting.
+ */
+void PreconditionWidget::loadObjectWidget()
+{
+    if (m_objectWidget == 0) {
+        m_objectWidget = dynamic_cast<ObjectWidget*>(
+            umlScene()->findWidget(m_widgetAId)
+        );
+    }
 }
 
 #include "preconditionwidget.moc"

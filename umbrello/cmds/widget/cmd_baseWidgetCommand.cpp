@@ -11,6 +11,7 @@
 #include "cmd_baseWidgetCommand.h"
 
 // app includes
+#include "messagewidget.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlscene.h"
@@ -55,5 +56,23 @@ namespace Uml
         Q_ASSERT(umlWidget);
 
         return umlWidget;
+    }
+
+    /**
+     * Add widget to scene
+     *
+     * @param UMLWidget* widget
+     */
+    void CmdBaseWidgetCommand::addWidgetToScene(UMLWidget* umlWidget)
+    {
+        if (umlWidget->baseType() == WidgetBase::wt_Message) {
+            scene()->messageList().append(
+                dynamic_cast<MessageWidget*>(umlWidget)
+            );
+        } else {
+            scene()->widgetList().append(umlWidget);
+        }
+
+        umlWidget->activate();
     }
 }

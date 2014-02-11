@@ -49,7 +49,6 @@
 #include "pinwidget.h"
 #include "preconditionwidget.h"
 #include "regionwidget.h"
-#include "seqlinewidget.h"
 #include "signalwidget.h"
 #include "statewidget.h"
 #include "uml.h"

@@ -31,7 +31,6 @@ namespace Uml
         QDomDocument doc;
         m_element = doc.createElement("widget");
         widget->saveToXMI(doc, m_element);
-
     }
 
     /**
@@ -62,8 +61,7 @@ namespace Uml
 
         UMLScene* umlScene = scene();
         UMLWidget* widget = umlScene->loadWidgetFromXMI(widgetElement);
-        widget->setLocalID(m_widgetId);
 
-        umlScene->widgetList().append(widget);
+        addWidgetToScene(widget);
     }
 }

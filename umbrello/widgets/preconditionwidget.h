@@ -42,9 +42,12 @@ public:
     int maxY() const;
 
     bool activate(IDChangeLog* Log = 0);
+    void resolveObjectWidget(IDChangeLog* log);
 
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
     virtual bool loadFromXMI(QDomElement& qElement);
+
+    void setObjectWidget(ObjectWidget* widget);
 
 public slots:
     void slotMenuSelection(QAction* action);
@@ -59,6 +62,9 @@ private:
 
     ObjectWidget* m_objectWidget;
     int m_nY;
+
+    Uml::ID::Type m_widgetAId;
+    void loadObjectWidget();
 };
 
 #endif
