@@ -264,6 +264,8 @@ namespace Uml
         QString toString(Enum item);
         Enum fromString(const QString& item);
         Enum fromInt(int item);
+        QStringList toExtensions(Enum item);
+        QString toExtensionsDescription(Enum item);
     }
 
     /**

@@ -44,10 +44,6 @@ macro_log_feature(LIBXSLT_FOUND "LibXSLT" "A library to transform XMLfiles into 
 macro_optional_find_package(LibXml2)
 macro_log_feature(LIBXML2_FOUND "LibXML2" "Libraries used to develop XML applications" "http://xmlsoft.org" FALSE "" "Required to build Umbrello.")
 
-set(Boost_MINIMUM_VERSION 1.33.1)
-macro_optional_find_package(Boost)
-macro_log_feature(Boost_FOUND "boost" "Boost C++ Libraries" "http://www.boost.org" FALSE "1.33.1" "Required to build Umbrello.")
-
 add_definitions (${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 include_directories(
     ${KDE4_INCLUDES}
@@ -57,7 +53,7 @@ macro_display_feature_log()
 
 KDE4_NO_ENABLE_FINAL(umbrello)
 
-if(LIBXSLT_FOUND AND LIBXML2_FOUND AND Boost_FOUND)
+if(LIBXSLT_FOUND AND LIBXML2_FOUND)
     add_subdirectory( umbrello )
     add_subdirectory( doc )
     # do we build the unit tests
@@ -65,4 +61,4 @@ if(LIBXSLT_FOUND AND LIBXML2_FOUND AND Boost_FOUND)
         ENABLE_TESTING()
         add_subdirectory(unittests)
     endif(KDE4_BUILD_TESTS)
-endif(LIBXSLT_FOUND AND LIBXML2_FOUND AND Boost_FOUND)
+endif(LIBXSLT_FOUND AND LIBXML2_FOUND)

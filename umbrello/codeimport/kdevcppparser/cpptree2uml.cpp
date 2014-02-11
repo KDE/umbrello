@@ -41,7 +41,7 @@ CppTree2Uml::~CppTree2Uml()
 {
 }
 
-void CppTree2Uml::parseTranslationUnit(TranslationUnitAST* ast)
+void CppTree2Uml::parseTranslationUnit(const ParsedFile &file)
 {
     m_currentScope.clear();
     m_currentNamespace[0] = NULL;  // index 0 is reserved (always NULL)
@@ -57,7 +57,7 @@ void CppTree2Uml::parseTranslationUnit(TranslationUnitAST* ast)
     m_currentDeclarator = 0;
     m_anon = 0;
 
-    TreeParser::parseTranslationUnit(ast);
+    TreeParser::parseTranslationUnit(file);
 }
 
 void CppTree2Uml::parseFile(FileAST* ast)

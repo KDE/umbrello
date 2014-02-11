@@ -18,6 +18,7 @@
 // app includes
 #include "debug_utils.h"
 #include "import_utils.h"
+#include "uml.h"
 #include "umlobject.h"
 #include "package.h"
 #include "enum.h"
@@ -29,6 +30,7 @@
 #include "optionstate.h"
 
 // qt includes
+#include <QListWidget>
 #include <QMap>
 
 // static members
@@ -90,13 +92,13 @@ void CppImport::feedTheModel(const QString& fileName)
                 feedTheModel(includeFile);
         }
     }
-    TranslationUnitAST *ast = ms_driver->translationUnit(fileName);
-    if (ast == NULL) {
+    ParsedFilePointer ast = ms_driver->translationUnit(fileName);
+    if (ast.isNull()) {
         uError() << fileName << " not found";
         return;
     }
     CppTree2Uml modelFeeder(fileName, m_thread);
-    modelFeeder.parseTranslationUnit(ast);
+    modelFeeder.parseTranslationUnit(*ast);
 }
 
 /**
@@ -131,7 +133,24 @@ bool CppImport::parseFile(const QString& fileName)
 {
     if (ms_seenFiles.indexOf(fileName) != -1)
         return true;
-    if (!ms_driver->parseFile(fileName))
+    bool result = ms_driver->parseFile(fileName);
+    foreach(const Problem &problem, ms_driver->problems(fileName)) {
+        QString level;
+        if (problem.level() == Problem::Level_Error)
+            level = "error";
+        else if (problem.level() == Problem::Level_Warning)
+            level = "warning";
+        else if (problem.level() == Problem::Level_Todo)
+            level = "todo";
+        else if (problem.level() == Problem::Level_Fixme)
+            level = "fixme";
+
+        QString item = QString("%1:%2:%3: %4: %5")
+                .arg(fileName).arg(problem.line()+1)
+                .arg(problem.column()).arg(level).arg(problem.text());
+        UMLApp::app()->logWindow()->addItem(item);
+    }
+    if (!result)
         return false;
     feedTheModel(fileName);
     return true;

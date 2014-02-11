@@ -13,62 +13,21 @@
 
     You should have received a copy of the GNU Library General Public License
     along with this library; see the file COPYING.LIB.  If not, write to
-    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-    Boston, MA 02110-1301, USA.
+    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+    Boston, MA 02111-1307, USA.
 */
 
 #include "lexer.h"
-
-#include "debug_utils.h"
 #include "lookup.h"
-#include "keywords.lut.h"
 
+#include <kdebug.h>
 #include <klocale.h>
 
-#include <QChar>
+#include <qregexp.h>
+#include <qmap.h>
 #include <QList>
-#include <QMap>
-#include <QRegExp>
-
-#include <boost/bind.hpp>
-#include <boost/function.hpp>
-#include <boost/spirit/include/classic_if.hpp>
-#include <boost/spirit/include/phoenix1_functions.hpp>
-
-#include "assignFunctor.hpp"
 
 DEBUG_REGISTER_DISABLED(Lexer)
-
-namespace boost {
-    namespace spirit {
-        namespace classic {
-            namespace impl {
-                bool isalnum_(QChar const& c) { return isalnum_(c.toAscii()); }
-                bool isalpha_(QChar const& c) { return isalpha_(c.toAscii()); }
-                bool isblank_(QChar const& c) { return isblank_(c.toAscii()); }
-                bool isdigit_(QChar const& c) { return isdigit_(c.toAscii()); }
-                bool isxdigit_(QChar const& c) { return isxdigit_(c.toAscii()); }
-            }
-        }
-    }
-}
-
-template <class _Tp>
-struct tilde : public std::unary_function<_Tp, _Tp> {
-    _Tp operator()(_Tp& __x) const {
-        return ~__x;
-    }
-};
-
-using namespace boost::spirit::classic;
-using phoenix::arg1;
-using phoenix::arg2;
-using phoenix::arg3;
-using phoenix::construct_;
-using phoenix::function;
-using phoenix::var;
-
-SkipRule Lexer::m_SkipRule = nothing_p;
 
 #if defined(KDEVELOP_BGPARSER)
 #include <QThread>
@@ -76,7 +35,10 @@ SkipRule Lexer::m_SkipRule = nothing_p;
 class KDevTread: public QThread
 {
 public:
-    static void yield() { msleep(0); }
+    static void yield()
+    {
+        msleep(0);
+    }
 };
 
 inline void qthread_yield()
@@ -86,184 +48,8 @@ inline void qthread_yield()
 
 #endif
 
-/** Utility closure that defines a result value.
-    Used to return values from grammars (copied from cpp lexer in spirit
-    repository). */
-template < typename ResultT >
-struct result_closure : closure<result_closure<ResultT>, ResultT> {
-    typedef closure<result_closure<ResultT>, ResultT> base_t;
-    typename base_t::member1 result_;
-};
-
-/** Stuff to construct a QString from iterators */
-struct constructQString_impl {
-    template <typename _Arg1, typename _Arg2>
-    struct result {
-        typedef QString type;
-    };
-
-    template <typename _Arg1, typename _Arg2>
-    QString operator()(_Arg1 const& first, _Arg2 const& last) {
-        return QString(&*first, &*last - &*first);
-    }
-};
-
-const function<constructQString_impl> constructQString =
-    constructQString_impl();
-
-struct identifier :
-            grammar<identifier, result_closure<QString>::context_t> {
-    template < typename ScannerT >
-    struct definition {
-        typedef rule<ScannerT> rule_t;
-        rule_t main;
-
-        rule_t const& start() const {
-            return main;
-        }
-
-        definition(identifier const& self) {
-            main = (lexeme_d[
-                        ((alpha_p | '_') >> *(alnum_p | '_'))
-                        [self.result_ = constructQString(arg1, arg2)]
-                    ]);
-        }
-    };
-} identifier_g;
-
-struct operator_ :
-            grammar<operator_, result_closure<Token>::context_t> {
-    template < typename ScannerT >
-    struct definition {
-        typedef rule<ScannerT, result_closure<int>::context_t> rule_t;
-        rule_t main;
-
-        rule_t const& start() const {
-            return main;
-        }
-
-        definition(operator_ const& self) {
-            main =
-                (str_p("::")[ main.result_ = Token_scope]
-                 | (str_p("->*") | ".*")[ main.result_ = Token_ptrmem]
-                 | (str_p("<<=") | ">>=" | "+=" | "-=" | "*=" | "/=" | "%=" | "^=" | "&=" | "|=")[ main.result_ = Token_assign]
-                 | str_p("<<")[ main.result_ = Token_left_shift]
-                 | (str_p("==") | "!=")[ main.result_ = Token_eq]
-                 | str_p("<=")[ main.result_ = Token_leq]
-                 | str_p(">=")[ main.result_ = Token_geq]
-                 | str_p("&&")[ main.result_ = Token_and]
-                 | str_p("||")[ main.result_ = Token_or]
-                 | str_p("++")[ main.result_ = Token_incr]
-                 | str_p("--")[ main.result_ = Token_decr]
-                 | str_p("->")[ main.result_ = Token_arrow]
-                 | str_p("##")[ main.result_ = Token_concat]
-                 | str_p("...")[ main.result_ = Token_ellipsis]
-               )
-                [ self.result_ = construct_<Token>(main.result_, arg1, arg2)];
-        }
-    };
-} operator_g;
-
-struct charLiteral :
-            grammar<charLiteral, result_closure<Token>::context_t> {
-    template < typename ScannerT >
-    struct definition {
-        typedef rule<ScannerT, result_closure<int>::context_t> rule_t;
-        rule_t main;
-
-        rule_t const& start() const {
-            return main;
-        }
-
-        definition(charLiteral const& self) {
-            main =
-                (!ch_p('L') >> ch_p('\'')
-                 >> *((anychar_p - '\'' - '\\') | gr_escapeSequence)
-                 >> '\'')
-                [ self.result_ = construct_<Token>(Token_char_literal, arg1, arg2)];
-        }
-    };
-} charLiteral_g;
-
-struct numberLiteral :
-            grammar<numberLiteral, result_closure<Token>::context_t> {
-    template < typename ScannerT >
-    struct definition {
-        typedef rule<ScannerT, result_closure<int>::context_t> rule_t;
-        rule_t main;
-
-        rule_t const& start() const {
-            return main;
-        }
-
-        definition(numberLiteral const& self) {
-            main =
-                (ch_p('0') >> ch_p('x') >> + xdigit_p | + digit_p)
-                [ self.result_ = construct_<Token>(Token_number_literal, arg1, arg2)];
-        }
-    };
-} numberLiteral_g;
-
-typedef std::pair<QString, int> Dependency;
-
-struct DependencyClosure
-            : boost::spirit::classic::closure<DependencyClosure, QString, int> {
-    member1 m_word;
-    member2 m_scope;
-};
-
-Lexer::CharRule gr_stringLiteral =
-    ch_p('"') >> *((anychar_p - '"' - '\\') | gr_escapeSequence) >> '"';
-Lexer::CharRule gr_whiteSpace = blank_p | (ch_p('\\') >> eol_p);
-Lexer::CharRule gr_lineComment = (str_p("//") >> (*(anychar_p - eol_p)));
-Lexer::CharRule gr_multiLineComment = confix_p("/*", *anychar_p, "*/");
-Lexer::CharRule gr_skipTillEol =
-    *(gr_whiteSpace | gr_lineComment | gr_multiLineComment | charLiteral_g
-      | gr_stringLiteral | (anychar_p - '\\' - eol_p) | (ch_p('\\') >> eol_p));
-
-Token::Token()
-        : m_type(-1),
-        m_start(),
-        m_end(),
-        m_text()
-{
-}
-
-Token::Token(int type, CharIterator start, CharIterator end)
-        : m_type(type),
-        m_start(start.get_position()),
-        m_end(end.get_position()),
-        m_text(&*start, &*end - &*start)
-{
-}
-
-Token& Token::operator=(Token const & p)
-{
-    if (this != &p) {
-        m_type = p.m_type;
-        m_start = p.m_start;
-        m_end = p.m_end;
-        m_text = p.m_text;
-    }
-    return *this;
-}
-
-QDebug operator<<(QDebug out, const Token &t)
-{
-    out << "Token("
-    << "type:" << t.type()
-    << "text:" << t.text()
-    << "start:" << t.getStartPosition()
-    << "end:" << t.getEndPosition()
-    << ")";
-    return out;
-}
-
-Token Lexer::Source::createToken(int type, CharIterator start,
-                                 CharIterator end) const
-{
-    return Token(type, start, end);
-}
+#define CREATE_TOKEN(type, start, len) Token((type), (start), (len), m_source)
+#define ADD_TOKEN(tk) m_tokens.insert(m_size++, new Token(tk));
 
 using namespace std;
 
@@ -273,21 +59,25 @@ struct LexerData {
 
     StaticChain staticChain;
 
-    void beginScope() {
+    void beginScope()
+    {
         Scope scope;
         staticChain.push_front(scope);
     }
 
-    void endScope() {
+    void endScope()
+    {
         staticChain.pop_front();
     }
 
-    void bind(const QString& name, const QString& value) {
+    void bind(const QString& name, const QString& value)
+    {
         Q_ASSERT(staticChain.size() > 0);
         staticChain.front().insert(name, value);
     }
 
-    bool hasBind(const QString& name) const {
+    bool hasBind(const QString& name) const
+    {
         StaticChain::ConstIterator it = staticChain.begin();
         while (it != staticChain.end()) {
             const Scope& scope = *it;
@@ -300,7 +90,8 @@ struct LexerData {
         return false;
     }
 
-    QString apply(const QString& name) const {
+    QString apply(const QString& name) const
+    {
         StaticChain::ConstIterator it = staticChain.begin();
         while (it != staticChain.end()) {
             const Scope& scope = *it;
@@ -310,140 +101,931 @@ struct LexerData {
                 return scope[ name ];
         }
 
-        return QString();
+        return QString::null;
     }
 
 };
 
 Lexer::Lexer(Driver* driver)
-        : m_driver(driver),
-        m_recordComments(false),
-        m_preprocessLexer(m_driver)
+    : d(new LexerData),
+      m_driver(driver),
+      m_recordComments(true),
+      m_recordWhiteSpaces(false),
+      m_skipWordsEnabled(true),
+      m_preprocessorEnabled(true),
+      m_reportWarnings(false),
+      m_reportMessages(false)
 {
     reset();
+    d->beginScope();
 }
 
 Lexer::~Lexer()
 {
+    d->endScope();
+    delete(d);
+    qDeleteAll(m_tokens);
+    m_tokens.clear();
 }
 
-bool Lexer::setSource(const QString& source,
-                      const QString& p_filename)
+void Lexer::setSource(const QString& source)
 {
     reset();
-    m_preprocessLexer.setSource(source, p_filename);
-    m_source.set_filename(p_filename);
-    return tokenize();
+    m_source = source;
+    m_ptr = offset(0);
+    m_endPtr = offset(m_source.length());
+    m_inPreproc = false;
+    if (!source.isEmpty()) {
+        m_currentChar = m_source[0];
+    } else {
+        m_currentChar = QChar();
+    }
 
+    tokenize();
+}
+
+int Lexer::skippedLines() const
+{
+    return m_skippedLines;
 }
 
 void Lexer::reset()
 {
+    m_skippedLines = 0;
+    m_index = 0;
+    m_size = 0;
     m_tokens.clear();
-    m_source.reset();
+    m_source = QString::null;
+    m_ptr = 0;
+    m_endPtr = 0;
+    m_startLine = false;
+    m_ifLevel = 0;
+    m_skipping.resize(200);
+    m_skipping.fill(0);
+    m_trueTest.resize(200);
+    m_trueTest.fill(0);
+
+    m_currentLine = 0;
+    m_currentColumn = 0;
 }
 
-Position const& Lexer::getTokenPosition(const Token& token) const
+// ### should all be done with a "long" type IMO
+int Lexer::toInt(const Token& token)
 {
-    return token.getStartPosition();
+    QString s = token.text();
+    if (token.type() == Token_number_literal) {
+        // hex literal ?
+        if (s[0] == '0' && (s[1] == 'x' || s[1] == 'X'))
+            return s.mid(2).toInt(0, 16);
+        QString n;
+        int i = 0;
+        while (i < int(s.length()) && s[i].isDigit())
+            n += s[i++];
+        // ### respect more prefixes and suffixes ?
+        return n.toInt();
+    } else if (token.type() == Token_char_literal) {
+        int i = s[0] == 'L' ? 2 : 1; // wide char ?
+        if (s[i] == '\\') {
+            // escaped char
+            int c = s[i+1].unicode();
+            switch (c) {
+            case '0':
+                return 0;
+            case 'n':
+                return '\n';
+            // ### more
+            default:
+                return c;
+            }
+        } else {
+            return s[i].unicode();
+        }
+    } else {
+        return 0;
+    }
 }
 
-void Lexer::nextToken(Token& tk)
+void Lexer::getTokenPosition(const Token& token, int* line, int* col)
 {
-    m_source.parse(*gr_whiteSpace);
+    token.getStartPosition(line, col);
+}
 
-    Position startPosition(currentPosition());
+void Lexer::nextToken(Token& tk, bool stopOnNewline)
+{
+    int op = 0;
 
-    QChar ch = m_source.currentChar();
+    if (m_size == (int)m_tokens.size()) {
+        m_tokens.resize(m_tokens.size() + 5000 + 1);
+    }
+
+    readWhiteSpaces(!stopOnNewline);
+
+    int startLine = m_currentLine;
+    int startColumn = m_currentColumn;
+
+    QChar ch = currentChar();
+    QChar ch1 = peekChar();
+
     if (ch.isNull() || ch.isSpace()) {
         /* skip */
-    } else if (m_source.get_startLine()
-               && m_source.parse(ch_p('#') >> *gr_whiteSpace).hit) {
-        m_source.set_startLine(false);
+    } else if (m_startLine && ch == '#') {
 
-        QString directive;
-        m_source.parse(identifier_g[ assign(directive)]);  // read the directive
+        nextChar(); // skip #
+        readWhiteSpaces(false);     // skip white spaces
+        m_startLine = false;
+
+        int start = currentPosition();
+        readIdentifier(); // read the directive
+        QString directive = m_source.mid(start, currentPosition() - start);
 
         handleDirective(directive);
-    } else if (m_source.parse
-               (
-                   if_p(var(m_recordComments))
-                   [ gr_lineComment | gr_multiLineComment
-                     [var(tk) = construct_<Token>(Token_comment, arg1, arg2)]
-                   ]
-                   .else_p[ gr_lineComment | gr_multiLineComment]
-                   | charLiteral_g[assign(tk)]
-                   |
-                   gr_stringLiteral
-                   [var(tk) = construct_<Token>(Token_string_literal, arg1, arg2)]
-              ).hit) {
-    } else if (ch.isLetter() || ch == '_') {
-        CharIterator start = m_source.get_ptr();
-        QString ide;
-        m_source.parse(identifier_g[assign(ide)]);
-        int k = Lookup::find(&keyword, ide);
-        if (k != -1) {
-            tk = m_source.createToken(k, start);
-        } else {
-            tk = m_source.createToken(Token_identifier, start);
+    } else if (m_startLine && m_skipping[ m_ifLevel ]) {
+        // skip line and continue
+        m_startLine = false;
+        int ppe = preprocessorEnabled();
+        setPreprocessorEnabled(false);
+        while (!currentChar().isNull() && currentChar() != '\n') {
+            Token tok(m_source);
+            nextToken(tok, true);
         }
-    } else if (m_source.parse(numberLiteral_g[assign(tk)]
-                              | operator_g[ assign(tk)]
-                            ).hit) {
+        ++m_skippedLines;
+        m_startLine = true;
+        setPreprocessorEnabled(ppe);
+        return;
+    } else if (ch == '/' && ch1 == '/') {
+        int start = currentPosition();
+        readLineComment();
+        if (recordComments()) {
+            tk = CREATE_TOKEN(Token_comment, start, currentPosition() - start);
+            tk.setStartPosition(startLine, startColumn);
+            tk.setEndPosition(m_currentLine, m_currentColumn);
+        }
+    } else if (ch == '/' && ch1 == '*') {
+        int start = currentPosition();
+        nextChar(2);
+        readMultiLineComment();
+
+        if (recordComments()) {
+            tk = CREATE_TOKEN(Token_comment, start, currentPosition() - start);
+            tk.setStartPosition(startLine, startColumn);
+            tk.setEndPosition(m_currentLine, m_currentColumn);
+        }
+    } else if (ch == '\'' || (ch == 'L' && ch1 == '\'')) {
+        int start = currentPosition();
+        readCharLiteral();
+        tk = CREATE_TOKEN(Token_char_literal, start, currentPosition() - start);
+        tk.setStartPosition(startLine, startColumn);
+        tk.setEndPosition(m_currentLine, m_currentColumn);
+    } else if (ch == '"') {
+        int start = currentPosition();
+        readStringLiteral();
+        tk = CREATE_TOKEN(Token_string_literal, start, currentPosition() - start);
+        tk.setStartPosition(startLine, startColumn);
+        tk.setEndPosition(m_currentLine, m_currentColumn);
+    } else if (ch.isLetter() || ch == '_') {
+        int start = currentPosition();
+        readIdentifier();
+        HashedString ide = m_source.mid(start, currentPosition() - start);
+        int k = Lookup::find(ide);
+        if (k == -1 && m_preprocessorEnabled) m_driver->usingString(ide);
+
+        if (m_preprocessorEnabled && m_driver->hasMacro(ide) &&
+            (k == -1 || !m_driver->macro(ide).body().isEmpty())) {
+
+
+            bool preproc = m_preprocessorEnabled;
+            m_preprocessorEnabled = false;
+
+            d->beginScope();
+
+            int svLine = currentLine();
+            int svColumn = currentColumn();
+
+            Macro m = m_driver->macro(ide);
+            m_driver->usingMacro(m);
+
+            QString ellipsisArg;
+
+            if (m.hasArguments()) {
+                int endIde = currentPosition();
+
+                readWhiteSpaces();
+                if (currentChar() == '(') {
+                    nextChar();
+                    int argIdx = 0;
+                    int argCount = m.argumentList().size();
+                    while (!currentChar().isNull() && argIdx<argCount) {
+                        readWhiteSpaces();
+
+                        QString argName = m.argumentList()[ argIdx ];
+
+                        bool ellipsis = argName == "...";
+
+                        QString arg = readArgument();
+
+                        if (!ellipsis)
+                            d->bind(argName, arg);
+                        else
+                            ellipsisArg += arg;
+
+                        if (currentChar() == ',') {
+                            nextChar();
+                            if (!ellipsis) {
+                                ++argIdx;
+                            } else {
+                                ellipsisArg += ", ";
+                            }
+                        } else if (currentChar() == ')') {
+                            break;
+                        }
+                    }
+                    if (currentChar() == ')') {
+                        // valid macro
+                        nextChar();
+                    }
+                } else {
+                    tk = CREATE_TOKEN(Token_identifier, start, endIde - start);
+                    tk.setStartPosition(svLine, svColumn);
+                    tk.setEndPosition(svLine, svColumn + (endIde - start));
+
+                    m_startLine = false;
+
+                    d->endScope();        // OPS!!
+                    m_preprocessorEnabled = preproc;
+                    return;
+                }
+            }
+
+            int argsEndAtLine = currentLine();
+            int argsEndAtColumn = currentColumn();
+
+#if defined(KDEVELOP_BGPARSER)
+            qthread_yield();
+#endif
+            insertCurrent(m.body());
+
+            // tokenize the macro body
+
+            QString textToInsert;
+
+            setEndPtr(offset(currentPosition() + m.body().length()));
+
+            while (!currentChar().isNull()) {
+
+                readWhiteSpaces();
+
+                Token tok(m_source);
+                nextToken(tok);
+
+                bool stringify = !m_inPreproc && tok == '#';
+                bool merge = !m_inPreproc && tok == Token_concat;
+
+                if (stringify || merge)
+                    nextToken(tok);
+
+                if (tok == Token_eof)
+                    break;
+
+                QString tokText = tok.text();
+                HashedString str = (tok == Token_identifier && d->hasBind(tokText)) ? d->apply(tokText) : tokText;
+                if (str == ide) {
+                    //Problem p(i18n("unsafe use of macro '%1', macro is ignored").arg(ide.str()), m_currentLine, m_currentColumn, Problem::Level_Warning);
+                    //m_driver->addProblem(m_driver->currentFileName(), p);
+                    m_driver->removeMacro(ide);
+                    // str = QString::null;
+                }
+
+                if (stringify) {
+                    textToInsert.append(QString::fromLatin1("\"") + str.str() + QString::fromLatin1("\" "));
+                } else if (merge) {
+                    textToInsert.truncate(textToInsert.length() - 1);
+                    textToInsert.append(str.str()  + QString::fromLatin1(" "));
+                } else if (tok == Token_ellipsis && d->hasBind("...")) {
+                    textToInsert.append(ellipsisArg);
+                } else {
+                    textToInsert.append(str.str() + QString::fromLatin1(" "));
+                }
+            }
+
+#if defined(KDEVELOP_BGPARSER)
+            qthread_yield();
+#endif
+            insertCurrent(textToInsert); //also corrects the end-pointer
+
+            d->endScope();
+            m_preprocessorEnabled = preproc;
+            //m_driver->addMacro(m);
+            m_currentLine = argsEndAtLine;
+            m_currentColumn = argsEndAtColumn;
+        } else if (k != -1) {
+            tk = CREATE_TOKEN(k, start, currentPosition() - start);
+            tk.setStartPosition(startLine, startColumn);
+            tk.setEndPosition(m_currentLine, m_currentColumn);
+        } else if (m_skipWordsEnabled) {
+            __gnu_cxx::hash_map< HashedString, QPair<SkipType, QString> >::iterator pos = m_words.find(ide);
+            if (pos != m_words.end()) {
+                if ((*pos).second.first == SkipWordAndArguments) {
+                    readWhiteSpaces();
+                    if (currentChar() == '(')
+                        skip('(', ')');
+                }
+                if (!(*pos).second.second.isEmpty()) {
+#if defined(KDEVELOP_BGPARSER)
+                    qthread_yield();
+#endif
+                    insertCurrent(QString(" ") + (*pos).second.second + QString(" "));
+                }
+            } else if ( /*qt_rx.exactMatch(ide) ||*/
+                ide.str().endsWith("EXPORT") ||
+                (ide.str().startsWith("Q_EXPORT") && ide.str() != "Q_EXPORT_INTERFACE") ||
+                ide.str().startsWith("QM_EXPORT") ||
+                ide.str().startsWith("QM_TEMPLATE")) {
+
+                readWhiteSpaces();
+                if (currentChar() == '(')
+                    skip('(', ')');
+            } else if (ide.str().startsWith("K_TYPELIST_") || ide.str().startsWith("TYPELIST_")) {
+                tk = CREATE_TOKEN(Token_identifier, start, currentPosition() - start);
+                tk.setStartPosition(startLine, startColumn);
+                tk.setEndPosition(m_currentLine, m_currentColumn);
+                readWhiteSpaces();
+                if (currentChar() == '(')
+                    skip('(', ')');
+            } else {
+                tk = CREATE_TOKEN(Token_identifier, start, currentPosition() - start);
+                tk.setStartPosition(startLine, startColumn);
+                tk.setEndPosition(m_currentLine, m_currentColumn);
+            }
+        } else {
+            tk = CREATE_TOKEN(Token_identifier, start, currentPosition() - start);
+            tk.setStartPosition(startLine, startColumn);
+            tk.setEndPosition(m_currentLine, m_currentColumn);
+        }
+    } else if (ch.isNumber()) {
+        int start = currentPosition();
+        readNumberLiteral();
+        tk = CREATE_TOKEN(Token_number_literal, start, currentPosition() - start);
+        tk.setStartPosition(startLine, startColumn);
+        tk.setEndPosition(m_currentLine, m_currentColumn);
+    } else if (-1 != (op = findOperator3())) {
+        tk = CREATE_TOKEN(op, currentPosition(), 3);
+        nextChar(3);
+        tk.setStartPosition(startLine, startColumn);
+        tk.setEndPosition(m_currentLine, m_currentColumn);
+    } else if (-1 != (op = findOperator2())) {
+        tk = CREATE_TOKEN(op, currentPosition(), 2);
+        nextChar(2);
+        tk.setStartPosition(startLine, startColumn);
+        tk.setEndPosition(m_currentLine, m_currentColumn);
     } else {
-        CharIterator l_ptr = m_source.get_ptr();
-        m_source.nextChar();
-        tk = m_source.createToken(ch.unicode(), l_ptr);
+        tk = CREATE_TOKEN(ch.unicode(), currentPosition(), 1);
+        nextChar();
+        tk.setStartPosition(startLine, startColumn);
+        tk.setEndPosition(m_currentLine, m_currentColumn);
     }
-    if (m_source.parse(eol_p).hit)
-        m_source.set_startLine(true);
-    else
-        m_source.set_startLine(false);
+
+    m_startLine = false;
 }
 
-bool Lexer::tokenize()
+
+void Lexer::tokenize()
 {
-    if (!m_preprocessLexer.preprocess())
-        return false;
-#if 0
-    QByteArray l_tmp = m_preprocessLexer.preprocessedString().toAscii();
-    for (int i = 0; i < l_tmp.size(); ++i)
-        std::cout << l_tmp.at(i);
-    std::cout << std::endl;
-#endif
-    m_source.set_source(m_preprocessLexer.preprocessedString());
-    m_source.set_startLine(true);
+    m_startLine = true;
+    m_size = 0;
+
     for (;;) {
-        Token tk;
+        Token tk(m_source);
         nextToken(tk);
 
         if (tk.type() != -1)
-            m_tokens.push_back(tk);
+            ADD_TOKEN(tk);
 
-        if (m_source.currentChar().isNull())
+        if (currentChar().isNull())
             break;
     }
 
-    Token tk = m_source.createToken(Token_eof, m_source.get_ptr());
-    m_tokens.push_back(tk);
-    return true;
+    Token tk = CREATE_TOKEN(Token_eof, currentPosition(), 0);
+    tk.setStartPosition(m_currentLine, m_currentColumn);
+    tk.setEndPosition(m_currentLine, m_currentColumn);
+    ADD_TOKEN(tk);
+}
+
+void Lexer::resetSkipWords()
+{
+    m_words.clear();
+}
+
+void Lexer::addSkipWord(const QString& word, SkipType skipType, const QString& str)
+{
+    m_words[ word ] = qMakePair(skipType, str);
+}
+
+void Lexer::skip(int l, int r)
+{
+    int svCurrentLine = m_currentLine;
+    int svCurrentColumn = m_currentColumn;
+
+    int count = 0;
+
+    while (!eof()) {
+        Token tk(m_source);
+        nextToken(tk);
+
+        if ((int)tk == l)
+            ++count;
+        else if ((int)tk == r)
+            --count;
+
+        if (count == 0)
+            break;
+    }
+
+    m_currentLine = svCurrentLine;
+    m_currentColumn = svCurrentColumn;
+}
+
+QString Lexer::readArgument()
+{
+    int count = 0;
+
+    QString arg;
+
+    readWhiteSpaces();
+    while (!currentChar().isNull()) {
+
+        readWhiteSpaces();
+        QChar ch = currentChar();
+
+        if (ch.isNull() || (!count && (ch == ',' || ch == ')')))
+            break;
+
+        Token tk(m_source);
+        nextToken(tk);
+
+        if (tk == '(') {
+            ++count;
+        } else if (tk == ')') {
+            --count;
+        }
+
+        if (tk != -1)
+            arg += tk.text() + " ";
+    }
+
+    return arg.trimmed();
 }
 
 void Lexer::handleDirective(const QString& directive)
 {
-    Q_UNUSED(directive);
-    assert(directive != "define");
-    assert(directive != "else");
-    assert(directive != "elif");
-    assert(directive != "endif");
-    assert(directive != "if");
-    assert(directive != "ifdef");
-    assert(directive != "ifndef");
-    assert(directive != "include");
-    assert(directive != "undef");
-    assert(0);
+    m_inPreproc = true;
+
+    bool skip = skipWordsEnabled();
+    bool preproc = preprocessorEnabled();
+
+    setSkipWordsEnabled(false);
+    setPreprocessorEnabled(false);
+
+    if (directive == "define") {
+        if (!m_skipping[ m_ifLevel ]) {
+            Macro m;
+            processDefine(m);
+        }
+    } else if (directive == "else") {
+        processElse();
+    } else if (directive == "elif") {
+        processElif();
+    } else if (directive == "endif") {
+        processEndif();
+    } else if (directive == "if") {
+        processIf();
+    } else if (directive == "ifdef") {
+        processIfdef();
+    } else if (directive == "ifndef") {
+        processIfndef();
+    } else if (directive == "include") {
+        if (!m_skipping[ m_ifLevel ]) {
+            processInclude();
+        }
+    } else if (directive == "undef") {
+        if (!m_skipping[ m_ifLevel ]) {
+            processUndef();
+        }
+    }
+
     // skip line
-    m_source.parse(gr_skipTillEol);
+    while (!currentChar().isNull() && currentChar() != '\n') {
+        Token tk(m_source);
+        nextToken(tk, true);
+    }
+
+    setSkipWordsEnabled(skip);
+    setPreprocessorEnabled(preproc);
+
+    m_inPreproc = false;
+}
+
+int Lexer::testIfLevel()
+{
+    int rtn = !m_skipping[ m_ifLevel++ ];
+    m_skipping[ m_ifLevel ] = m_skipping[ m_ifLevel - 1 ];
+    return rtn;
+}
+
+int Lexer::macroDefined()
+{
+    readWhiteSpaces(false);
+    int startWord = currentPosition();
+    readIdentifier();
+    HashedString word = m_source.mid(startWord, currentPosition() - startWord);
+    m_driver->usingString(word);
+    bool r = m_driver->hasMacro(word);
+
+    if (r) m_driver->usingMacro(m_driver->macro(word));
+
+    return r;
+}
+
+void Lexer::processDefine(Macro& m)
+{
+    m.setFileName(m_driver->currentFileName());
+    m.setLine(m_currentLine);
+    m.setColumn(m_currentColumn);
+    readWhiteSpaces(false);
+
+    int startMacroName = currentPosition();
+    readIdentifier();
+    QString macroName = m_source.mid(startMacroName, int(currentPosition()-startMacroName));
+    m.setName(macroName);
+
+    if (currentChar() == '(') {
+        m.setHasArguments(true);
+        nextChar();
+
+        readWhiteSpaces(false);
+
+        while (!currentChar().isNull() && currentChar() != ')') {
+            readWhiteSpaces(false);
+
+            int startArg = currentPosition();
+
+            if (currentChar() == '.' && peekChar() == '.' && peekChar(2) == '.')
+                nextChar(3);
+            else
+                readIdentifier();
+
+            QString arg = m_source.mid(startArg, int(currentPosition()-startArg));
+
+            m.addArgument(Macro::Argument(arg));
+
+            readWhiteSpaces(false);
+            if (currentChar() != ',')
+                break;
+
+            nextChar(); // skip ','
+        }
+
+        if (currentChar() == ')')
+            nextChar(); // skip ')'
+    }
+
+    setPreprocessorEnabled(true);
+
+    QString body;
+    while (!currentChar().isNull() && currentChar() != '\n') {
+
+        if (currentChar().isSpace()) {
+            readWhiteSpaces(false);
+            body += " ";
+        } else {
+
+            Token tk(m_source);
+            nextToken(tk, true);
+
+            //Do not ignore c-style comments, those may be useful in the body, and ignoring them using this check causes problems
+            if (tk.type() != -1 && (tk.type() != Token_comment || (tk.text().length() >= 2 && tk.text()[1] == '*'))) {
+                QString s = tk.text();
+                body += s;
+            }
+        }
+    }
+
+    m.setBody(body);
+    m_driver->addMacro(m);
+}
+
+void Lexer::processElse()
+{
+    if (m_ifLevel == 0)
+        /// @todo report error
+        return;
+
+    if (m_ifLevel > 0 && m_skipping[m_ifLevel-1])
+        m_skipping[ m_ifLevel ] = m_skipping[ m_ifLevel - 1 ];
+    else
+        m_skipping[ m_ifLevel ] = m_trueTest[ m_ifLevel ];
+}
+
+void Lexer::processElif()
+{
+    if (m_ifLevel == 0)
+        /// @todo report error
+        return;
+
+    if (!m_trueTest[m_ifLevel]) {
+        /// @todo implement the correct semantic for elif!!
+        bool inSkip = m_ifLevel > 0 && m_skipping[ m_ifLevel-1 ];
+        m_trueTest[ m_ifLevel ] = macroExpression() != 0;
+        m_skipping[ m_ifLevel ] = inSkip ? inSkip : !m_trueTest[ m_ifLevel ];
+    } else
+        m_skipping[ m_ifLevel ] = true;
+}
+
+void Lexer::processEndif()
+{
+    if (m_ifLevel == 0)
+        /// @todo report error
+        return;
+
+    m_skipping[ m_ifLevel ] = 0;
+    m_trueTest[ m_ifLevel-- ] = 0;
+}
+
+void Lexer::processIf()
+{
+    bool inSkip = m_skipping[ m_ifLevel ];
+
+    if (testIfLevel()) {
+#if 0
+        int n;
+        if ((n = testDefined()) != 0) {
+            int isdef = macroDefined();
+            m_trueTest[ m_ifLevel ] = (n == 1 && isdef) || (n == -1 && !isdef);
+        } else
+#endif
+            m_trueTest[ m_ifLevel ] = macroExpression() != 0;
+        m_skipping[ m_ifLevel ] = inSkip ? inSkip : !m_trueTest[ m_ifLevel ];
+    }
+}
+
+void Lexer::processIfdef()
+{
+    bool inSkip = m_skipping[ m_ifLevel ];
+
+    if (testIfLevel()) {
+        m_trueTest[ m_ifLevel ] = macroDefined();
+        m_skipping[ m_ifLevel ] = inSkip ? inSkip : !m_trueTest[ m_ifLevel ];
+    }
+}
+
+void Lexer::processIfndef()
+{
+    bool inSkip = m_skipping[ m_ifLevel ];
+
+    if (testIfLevel()) {
+        m_trueTest[ m_ifLevel ] = !macroDefined();
+        m_skipping[ m_ifLevel ] = inSkip ? inSkip : !m_trueTest[ m_ifLevel ];
+    }
+}
+
+void Lexer::processInclude()
+{
+    if (m_skipping[m_ifLevel])
+        return;
+
+    readWhiteSpaces(false);
+    if (!currentChar().isNull()) {
+        QChar ch = currentChar();
+        if (ch == '"' || ch == '<') {
+            nextChar();
+            QChar ch2 = ch == QChar('"') ? QChar('"') : QChar('>');
+
+            int startWord = currentPosition();
+            while (!currentChar().isNull() && currentChar() != ch2)
+                nextChar();
+            if (!currentChar().isNull()) {
+                QString word = m_source.mid(startWord, int(currentPosition()-startWord));
+                m_driver->addDependence(m_driver->currentFileName(),
+                                        Dependence(word, ch == '"' ? Dep_Local : Dep_Global));
+                nextChar();
+            }
+        }
+    }
+}
+
+void Lexer::processUndef()
+{
+    readWhiteSpaces();
+    int startWord = currentPosition();
+    readIdentifier();
+    QString word = m_source.mid(startWord, currentPosition() - startWord);
+
+    Macro m(word, "");
+    m.setFileName(m_driver->currentFileName());
+    m.setUndef();
+
+    ///Adds an undef-macro that shadows the previous macro
+    m_driver->addMacro(m);
+}
+
+int Lexer::macroPrimary()
+{
+    readWhiteSpaces(false);
+    int result = 0;
+    switch (currentChar().toAscii()) {
+    case '(':
+        nextChar();
+        result = macroExpression();
+        if (currentChar() != ')') {
+            /// @todo report error
+            return 0;
+        }
+        nextChar();
+        return result;
+
+    case '+':
+    case '-':
+    case '!':
+    case '~': {
+        QChar tk = currentChar();
+        nextChar();
+        int result = macroPrimary();
+        if (tk == '-') return -result;
+        else if (tk == '!') return !result;
+        else if (tk == '~') return ~result;
+    }
+    break;
+
+    default: {
+        Token tk(m_source);
+        nextToken(tk, false);
+        switch (tk.type()) {
+        case Token_identifier:
+            if (tk.text() == "defined") {
+                return macroPrimary();
+            }
+            /// @todo implement
+            {
+                HashedString h(tk.text());
+                m_driver->usingString(h);
+                if (m_driver->hasMacro(h)) {
+                    m_driver->usingMacro(m_driver->macro(h));
+                    Macro &m = m_driver->macro(h);
+                    Lexer lexer(m_driver);
+                    lexer.setSource(m.body());
+                    int result = lexer.macroExpression();
+                    return result;
+                } else {
+                    return false;
+                }
+            }
+        case Token_number_literal:
+        case Token_char_literal:
+            return toInt(tk);
+        default:
+            break;
+        } // end switch
+
+    } // end default
+
+    } // end switch
+
+    return 0;
+}
+
+int Lexer::macroMultiplyDivide()
+{
+    int result = macroPrimary();
+    int iresult, op;
+    for (;;) {
+        readWhiteSpaces(false);
+        if (currentChar() == '*')
+            op = 0;
+        else if (currentChar() == '/' && !(peekChar() == '*' || peekChar() == '/'))
+            op = 1;
+        else if (currentChar() == '%')
+            op = 2;
+        else
+            break;
+        nextChar();
+        iresult = macroPrimary();
+        result = op == 0 ? (result * iresult) :
+                 op == 1 ? (iresult == 0 ? 0 : (result / iresult)) :
+                 (iresult == 0 ? 0 : (result % iresult)) ;
+    }
+    return result;
+}
+
+int Lexer::macroAddSubtract()
+{
+    int result = macroMultiplyDivide();
+    int iresult, ad;
+    readWhiteSpaces(false);
+    while (currentChar() == '+' || currentChar() == '-') {
+        ad = currentChar() == '+';
+        nextChar();
+        iresult = macroMultiplyDivide();
+        result = ad ? (result+iresult) : (result-iresult);
+    }
+    return result;
+}
+
+int Lexer::macroRelational()
+{
+    int result = macroAddSubtract();
+    int iresult;
+    readWhiteSpaces(false);
+    while (currentChar() == '<' || currentChar() == '>') {
+        int lt = currentChar() == '<';
+        nextChar();
+        if (currentChar() == '=') {
+            nextChar();
+
+            iresult = macroAddSubtract();
+            result = lt ? (result <= iresult) : (result >= iresult);
+        } else {
+            iresult = macroAddSubtract();
+            result = lt ? (result < iresult) : (result > iresult);
+        }
+    }
+
+    return result;
+}
+
+int Lexer::macroEquality()
+{
+    int result = macroRelational();
+    int iresult, eq;
+    readWhiteSpaces(false);
+    while ((currentChar() == '=' || currentChar() == '!') && peekChar() == '=') {
+        eq = currentChar() == '=';
+        nextChar(2);
+        iresult = macroRelational();
+        result = eq ? (result==iresult) : (result!=iresult);
+    }
+    return result;
+}
+
+int Lexer::macroBoolAnd()
+{
+    int result = macroEquality();
+    readWhiteSpaces(false);
+    while (currentChar() == '&' && peekChar() != '&') {
+        nextChar();
+        result &= macroEquality();
+    }
+    return result;
+}
+
+int Lexer::macroBoolXor()
+{
+    int result = macroBoolAnd();
+    readWhiteSpaces(false);
+    while (currentChar() == '^') {
+        nextChar();
+        result ^= macroBoolAnd();
+    }
+    return result;
+}
+
+int Lexer::macroBoolOr()
+{
+    int result = macroBoolXor();
+    readWhiteSpaces(false);
+    while (currentChar() == '|' && peekChar() != '|') {
+        nextChar();
+        result |= macroBoolXor();
+    }
+    return result;
+}
+
+int Lexer::macroLogicalAnd()
+{
+    int result = macroBoolOr();
+    readWhiteSpaces(false);
+    while (currentChar() == '&' && peekChar() == '&') {
+        nextChar(2);
+        int start = currentPosition();
+        result = macroBoolOr() && result;
+        QString s = m_source.mid(start, currentPosition() - start);
+    }
+    return result;
+}
+
+int Lexer::macroLogicalOr()
+{
+    int result = macroLogicalAnd();
+    readWhiteSpaces(false);
+    while (currentChar() == '|' && peekChar() == '|') {
+        nextChar(2);
+        result = macroLogicalAnd() || result;
+    }
+    return result;
+}
+
+int Lexer::macroExpression()
+{
+    readWhiteSpaces(false);
+    return macroLogicalOr();
 }
 
 // *IMPORTANT*

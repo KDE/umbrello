@@ -905,6 +905,78 @@ Enum fromInt(int item)
     return Enum(item);
 }
 
+/**
+ * Return extensions associated with the requested language.
+ * @param item programming language index
+ * @return extensions list
+ */
+QStringList toExtensions(Enum item)
+{
+    QStringList result;
+    switch (item) {  //:TODO: More languages?
+        case Uml::ProgrammingLanguage::Ada:
+            result << "*.ads" << "*.adb" << "*.ada";
+            break;
+        case Uml::ProgrammingLanguage::Cpp:
+            result << "*.h" << "*.hpp" << "*.hh" << "*.hxx" << "*.H";
+            break;
+        case Uml::ProgrammingLanguage::IDL:
+            result << "*.idl";
+            break;
+        case Uml::ProgrammingLanguage::Java:
+            result << "*.java";
+            break;
+        case Uml::ProgrammingLanguage::Pascal:
+            result << "*.pas";
+            break;
+        case Uml::ProgrammingLanguage::Python:
+            result << "*.py" << "*.pyw";
+            break;
+        case Uml::ProgrammingLanguage::CSharp:
+            result << "*.cs";
+            break;
+        default:
+            break;
+    }
+    return result;
+}
+
+/**
+ * Return clear text file extension description for the requested language.
+ * @param item programming language index
+ * @return extension
+ */
+QString toExtensionsDescription(Enum item)
+{
+    QString result = "Files";
+    switch (item) {  //:TODO: More languages?
+        case Uml::ProgrammingLanguage::Ada:
+            result = "Source files";
+            break;
+        case Uml::ProgrammingLanguage::Cpp:
+            result = "Header files";
+            break;
+        case Uml::ProgrammingLanguage::IDL:
+            result = "Source files";
+            break;
+        case Uml::ProgrammingLanguage::Java:
+            result = "Source files";
+            break;
+        case Uml::ProgrammingLanguage::Pascal:
+            result = "Source files";
+            break;
+        case Uml::ProgrammingLanguage::Python:
+            result = "Source files";
+            break;
+        case Uml::ProgrammingLanguage::CSharp:
+            result = "Source files";
+            break;
+        default:
+            break;
+    }
+    return toString(item) + QLatin1String(" ") + result;
+}
+
 }  // end namespace ProgrammingLanguage
 
 //-----------------------------------------------------------------------------

@@ -1,34 +1,80 @@
 /* This file is part of KDevelop
-    Copyright (C) 2002, 2003 Roberto Raggi <roberto@kdevelop.org>
+   Copyright (C) 2002, 2003 Roberto Raggi <roberto@kdevelop.org>
+   Copyright (C) 2006 David Nolden <david.nolden.kdevelop@art-master.de>
 
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Library General Public
-    License as published by the Free Software Foundation; either
-    version 2 of the License, or (at your option) any later version.
+   This library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Library General Public
+   License as published by the Free Software Foundation; either
+   version 2 of the License, or (at your option) any later version.
 
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Library General Public License for more details.
+   This library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Library General Public License for more details.
 
-    You should have received a copy of the GNU Library General Public License
-    along with this library; see the file COPYING.LIB.  If not, write to
-    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-    Boston, MA 02110-1301, USA.
+   You should have received a copy of the GNU Library General Public License
+   along with this library; see the file COPYING.LIB.  If not, write to
+   the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+   Boston, MA 02111-1307, USA.
 */
 
-#include "driver.h"
+#define CACHELEXER
 
+#include "driver.h"
 #include "lexer.h"
 #include "parser.h"
-#include "debug_utils.h"
-
+#include <kdebug.h>
+#include <klocale.h>
 #include <stdlib.h>
+#include <qfile.h>
+#include <qfileinfo.h>
+#include <qdir.h>
+#include <qdatastream.h>
+#include <qbuffer.h>
+#include <assert.h>
 
-#include <QFile>
-#include <QFileInfo>
-#include <QDir>
-#include <QTextStream>
+#include <iostream>
+
+
+//     void Macro::read(QDataStream& stream) {
+//         stream >> m_idHashValid;
+//         stream >> m_valueHashValid;
+//         stream >> m_idHash;
+//         stream >> m_valueHash;
+//         stream >> m_name;
+//         stream >> m_body;
+//         stream >> m_fileName;
+//         stream >> m_hasArguments;
+//         stream >> m_argumentList;
+//     }
+//
+//     void Macro::write(QDataStream& stream) const {
+//         stream << m_idHashValid;
+//         stream << m_valueHashValid;
+//         stream << m_idHash;
+//         stream << m_valueHash;
+//         stream << m_name;
+//         stream << m_body;
+//         stream << m_fileName;
+//         stream << m_hasArguments;
+//         stream << m_argumentList;
+//     }
+
+
+class IntIncreaser
+{
+public:
+    IntIncreaser(int& i) : m_i(i)
+    {
+        ++m_i;
+    }
+    ~IntIncreaser()
+    {
+        --m_i;
+    }
+private:
+    int& m_i;
+};
 
 class DefaultSourceProvider: public SourceProvider
 {
@@ -40,7 +86,7 @@ public:
         QString source;
 
         QFile f(fileName);
-        if(f.open(QIODevice::ReadOnly)){
+        if (f.open(QIODevice::ReadOnly)) {
             QTextStream s(&f);
             source = s.readAll();
             f.close();
@@ -61,7 +107,7 @@ private:
 
 
 Driver::Driver()
-    : depresolv(false), lexer(0)
+    : depresolv(FALSE), lexer(0), m_lexerCache(this), m_dependenceDepth(0), m_maxDependenceDepth(20)
 {
     m_sourceProvider = new DefaultSourceProvider();
 }
@@ -69,7 +115,12 @@ Driver::Driver()
 Driver::~Driver()
 {
     reset();
-    delete(m_sourceProvider);
+    delete m_sourceProvider;
+}
+
+void Driver::setMaxDependenceDepth(int depth)
+{
+    m_maxDependenceDepth = depth;
 }
 
 SourceProvider* Driver::sourceProvider()
@@ -79,113 +130,360 @@ SourceProvider* Driver::sourceProvider()
 
 void Driver::setSourceProvider(SourceProvider* sourceProvider)
 {
-    if(m_sourceProvider)
-        delete(m_sourceProvider);
+    delete m_sourceProvider;
     m_sourceProvider = sourceProvider;
 }
 
 void Driver::reset()
 {
+    m_lexerCache.clear();
     m_dependences.clear();
-    m_macroManager.reset();
+    m_macros.clear();
     m_problems.clear();
     m_includePaths.clear();
 
-    QMapIterator<QString, TranslationUnitAST*> it(m_parsedUnits);
-    while (it.hasNext()){
-        it.next();
-        delete(it.value());
-    }
-    m_parsedUnits.clear();
-}
-
-void Driver::MacroManager::reset()
-{
-    m_macros.clear();
-}
-
-void Driver::MacroManager::removeAllMacrosInFile(const QString& fileName)
-{
-  /** \todo use a find */
-  MacroMap::iterator l_it = m_macros.begin();
-  while(l_it != m_macros.end()){
-    if(l_it->second.fileName() == fileName)
-      m_macros.erase(l_it);
-    else
-      ++l_it;
+    while (m_parsedUnits.size()) {
+        //TranslationUnitAST* unit = **m_parsedUnits.begin();
+        m_parsedUnits.erase(m_parsedUnits.begin());
+        //delete(unit);
     }
 }
 
-TranslationUnitAST::Node Driver::takeTranslationUnit(const QString& fileName)
+QStringList Driver::getCustomIncludePath(const QString&)
 {
-    QMap<QString, TranslationUnitAST*>::Iterator it = m_parsedUnits.find(fileName);
-    TranslationUnitAST::Node unit(*it);
-    m_parsedUnits[ fileName] = 0;
+    return includePaths();
+}
+
+void Driver::remove
+(const QString & fileName)
+{
+    m_dependences.remove(fileName);
+    m_problems.remove(fileName);
+    if (!isResolveDependencesEnabled())
+        removeAllMacrosInFile(fileName);
+
+    QMap<QString, ParsedFilePointer>::Iterator it = m_parsedUnits.find(fileName);
+    if (it != m_parsedUnits.end()) {
+        //TranslationUnitAST * unit = **it;
+        m_parsedUnits.erase(it);
+        //delete(unit);
+    }
+}
+
+void Driver::removeAllMacrosInFile(const QString& fileName)
+{
+    MacroMap::iterator it = m_macros.begin();
+    while (it != m_macros.end()) {
+        Macro m = (*it).second;
+        if (m.fileName() == fileName) {
+            m_macros.erase(it++);
+        } else {
+            ++it;
+        }
+    }
+}
+
+void Driver::usingString(const HashedString& str)
+{
+#ifdef CACHELEXER
+    if (m_currentLexerCache) {
+        m_currentLexerCache->addString(m_lexerCache.unifyString(str));
+    }
+#endif
+}
+
+bool Driver::hasMacro(const HashedString& name)
+{
+    std::pair< MacroMap::const_iterator, MacroMap::const_iterator > range = m_macros.equal_range(name);
+    if (range.first == range.second) {
+        return false;
+    } else {
+        const Macro& m((*(--range.second)).second);
+        if (m.isUndef())
+            return false;
+        else
+            return true;
+    }
+    return false;
+}
+
+QString deepCopy(const QString& str)
+{
+    return str;
+    //return str.ascii();
+}
+
+const Macro& Driver::macro(const HashedString& name) const
+{
+    std::pair< MacroMap::const_iterator, MacroMap::const_iterator > range = m_macros.equal_range(name);
+    if (range.first == range.second) {
+        return (*const_cast<MacroMap&>(m_macros).insert(std::make_pair(deepCopy(name.str()), Macro()))).second;  ///Since we need to return a reference, there's no other way.
+    } else {
+        return (*(--range.second)).second;
+    }
+}
+Macro& Driver::macro(const HashedString& name)
+{
+    std::pair< MacroMap::iterator, MacroMap::iterator > range = m_macros.equal_range(name);
+    if (range.first == range.second) {
+        return (*m_macros.insert(std::make_pair(deepCopy(name.str()), Macro()))).second;
+    } else {
+        return (*(--range.second)).second;
+    }
+}
+
+void Driver::addMacro(const Macro & macro)
+{
+    std::pair< MacroMap::iterator, MacroMap::iterator > range = m_macros.equal_range(macro.name());
+
+    if (range.first == range.second) {
+        m_macros.insert(std::make_pair(deepCopy(macro.name()), macro));
+    } else {
+        ///Insert behind the other macros
+        m_macros.insert(range.second, std::make_pair(deepCopy(macro.name()), macro));
+        Macro cp = this->macro(macro.name());
+        assert(macro == cp);
+    }
+
+#ifdef CACHELEXER
+    if (m_currentLexerCache)
+        m_currentLexerCache->addDefinedMacro(macro);
+#endif
+}
+
+void Driver::removeMacro(const HashedString& macroName)
+{
+    std::pair< MacroMap::iterator, MacroMap::iterator > range = m_macros.equal_range(macroName);
+    if (range.first != range.second) {
+        m_macros.erase(--range.second);
+    }
+}
+
+ParsedFilePointer Driver::takeTranslationUnit(const QString& fileName)
+{
+    QMap<QString, ParsedFilePointer>::const_iterator it = m_parsedUnits.constFind(fileName);
+    ParsedFilePointer unit(*it);
+    m_parsedUnits[ fileName ] = 0;
     return unit;
 }
 
-TranslationUnitAST* Driver::translationUnit(const QString& fileName) const
+void Driver::takeTranslationUnit(const ParsedFile& file)
 {
-    QMap<QString, TranslationUnitAST*>::ConstIterator it = m_parsedUnits.find(fileName);
-    return it != m_parsedUnits.end() ? *it : 0;
+    m_parsedUnits[ file.fileName() ] = 0;
 }
+
+ParsedFilePointer Driver::translationUnit(const QString& fileName) const
+{
+    QMap<QString, ParsedFilePointer>::const_iterator it = m_parsedUnits.constFind(fileName);
+    if (it != m_parsedUnits.constEnd())
+        return it.value();
+    else
+        return ParsedFilePointer();
+}
+
+class Driver::ParseHelper
+{
+public:
+    ParseHelper(const QString& fileName, bool force, Driver* driver, bool reportMessages = true, QString includedFrom = QString()) : m_wasReset(false), m_fileName(fileName), m_previousFileName(driver->m_currentFileName),  m_previousLexer(driver->lexer), m_previousParsedFile(driver->m_currentParsedFile), m_previousCachedLexedFile(driver->m_currentLexerCache), m_force(force), m_driver(driver), m_lex(m_driver)
+    {
+        QFileInfo fileInfo(fileName);
+        m_driver->m_currentParsedFile = new ParsedFile(fileName, fileInfo.lastModified());
+        if (!includedFrom.isEmpty())
+            m_driver->m_currentParsedFile->setIncludedFrom(includedFrom);
+#ifdef CACHELEXER
+        m_driver->m_currentLexerCache = new CachedLexedFile(fileName, &m_driver->m_lexerCache);
+#endif
+        m_absoluteFilePath = fileInfo.absoluteFilePath();
+
+        QMap<QString, ParsedFilePointer>::Iterator it = m_driver->m_parsedUnits.find(m_absoluteFilePath);
+
+        if (force && it != m_driver->m_parsedUnits.end()) {
+            m_driver->takeTranslationUnit(m_absoluteFilePath);
+        } else if (it != m_driver->m_parsedUnits.end() && *it != 0) {
+            // file already processed
+            return ;
+        }
+
+        CachedLexedFilePointer lexedFileP = m_driver->m_lexerCache.lexedFile(HashedString(fileName));
+
+        m_driver->m_dependences.remove(fileName);
+        m_driver->m_problems.remove(fileName);
+
+        driver->m_currentFileName = fileName;
+
+        m_driver->lexer = &m_lex;
+        m_driver->setupLexer(&m_lex);
+
+        m_lex.setReportMessages(reportMessages);
+
+        //kdDebug(9007) << "lexing file " << fileName << endl;
+        m_lex.setSource(m_driver->sourceProvider() ->contents(fileName));
+        if (m_previousCachedLexedFile)
+            m_previousCachedLexedFile->merge(*m_driver->m_currentLexerCache);
+        else
+            m_driver->findOrInsertProblemList(m_driver->m_currentMasterFileName)  += m_driver->m_currentLexerCache->problems();
+
+        if (!lexedFileP && m_previousParsedFile) //only add the new cache-instance if a fitting isn't already stored, and if this file was included by another one.
+            m_driver->m_lexerCache.addLexedFile(m_driver->m_currentLexerCache);
+
+        //Copy the recursive include-files into the ParsedFile
+        m_driver->m_currentParsedFile->addIncludeFiles(m_driver->m_currentLexerCache->includeFiles());
+        m_driver->m_currentParsedFile->setSkippedLines(m_lex.skippedLines());
+    }
+
+    void parse()
+    {
+        QString oldMasterFileName = m_driver->m_currentMasterFileName; //Change the master-file so problems will be reported correctly
+        m_driver->m_currentMasterFileName = m_absoluteFilePath;
+
+        CachedLexedFilePointer lf = m_driver->m_currentLexerCache; //Set the lexer-cache to zero, so the problems registered through addProblem go directly into the file
+        m_driver->m_currentLexerCache = 0;
+
+        Parser parser(m_driver, m_driver->lexer);
+        m_driver->setupParser(&parser);
+
+        TranslationUnitAST::Node unit;
+        parser.parseTranslationUnit(unit);
+        m_driver->m_currentParsedFile->setTranslationUnit(unit);
+        m_driver->m_parsedUnits.insert(m_fileName, m_driver->m_currentParsedFile);
+        m_driver->fileParsed(*m_driver->m_currentParsedFile);
+
+        m_driver->m_currentLexerCache = lf;
+
+        m_driver->m_currentMasterFileName = oldMasterFileName;
+    }
+
+    ParsedFilePointer parsedFile() const
+    {
+        return m_driver->m_currentParsedFile;
+    }
+
+    void reset()
+    {
+        if (!m_wasReset) {
+            m_driver->m_currentFileName = m_previousFileName;
+            m_driver->lexer = m_previousLexer;
+            m_driver->m_currentParsedFile = m_previousParsedFile;
+            m_driver->m_currentLexerCache = m_previousCachedLexedFile;
+            m_wasReset = true;
+        }
+    }
+
+    ~ParseHelper()
+    {
+        reset();
+    }
+
+
+private:
+    bool m_wasReset;
+    QString m_fileName;
+    QString m_absoluteFilePath;
+    QString m_previousFileName;
+    Lexer* m_previousLexer;
+    ParsedFilePointer m_previousParsedFile;
+    CachedLexedFilePointer m_previousCachedLexedFile;
+    bool m_force;
+    Driver* m_driver;
+    Lexer m_lex;
+};
+
 
 void Driver::addDependence(const QString & fileName, const Dependence & dep)
 {
+
+    // this can happen if the parser was invoked on a snippet of text and not a file
+    if (fileName.isEmpty() || !m_currentParsedFile)
+        return;
+
+    //@todo prevent cyclic dependency-loops
     QFileInfo fileInfo(dep.first);
     QString fn = fileInfo.absoluteFilePath();
 
-    if (!depresolv){
+    if (!depresolv) {
         findOrInsertDependenceList(fileName).insert(fn, dep);
-        return;
+        m_currentParsedFile->addIncludeFile(dep.first, ParsedFilePointer(), dep.second == Dep_Local);
+        return ;
     }
 
     QString file = findIncludeFile(dep);
-    findOrInsertDependenceList(fileName).insert(file, dep);
 
-    if (m_parsedUnits.find(file) != m_parsedUnits.end())
-        return;
+    findOrInsertDependenceList(fileName).insert(file, dep);
+    m_currentParsedFile->addIncludeFile(file, ParsedFilePointer(), dep.second == Dep_Local);
 
     if (!QFile::exists(file)) {
-        Problem p("Could not find include file " + dep.first,
-                   lexer ? lexer->currentPosition() : Position());
+        Problem p(i18n("Could not find include file %1").arg(dep.first),
+                  lexer ? lexer->currentLine() : -1,
+                  lexer ? lexer->currentColumn() : -1, Problem::Level_Warning);
         addProblem(fileName, p);
+        return ;
+    }
+
+    if (m_currentLexerCache)
+        m_currentLexerCache->addIncludeFile(file, QDateTime()); ///The time will be overwritten in CachedLexedFile::merge(...)
+
+    /**What should be done:
+     * 1. Lex the file to get all the macros etc.
+     * 2. TODO: Check what previously set macros the file was affected by, and compare those macros to any previously parsed instances of this file.
+     *  2.1 If there is a parse-instance of the file where all macros that played a role had the same values, we do not need to reparse this file.
+     *  2.2 If there is no such fitting instance, the file needs to be parsed and put to the code-model.
+     *
+     * It'll be necessary to have multiple versions of one file in the code-model.
+     */
+
+    IntIncreaser i(m_dependenceDepth);
+    if (m_dependenceDepth > m_maxDependenceDepth) {
+        //kdDebug(9007) << "maximum dependence-depth of " << m_maxDependenceDepth << " was reached, " << fileName << " will not be processed" << endl;
         return;
     }
 
-    QString cfn = m_currentFileName;
-    Lexer *l = lexer;
-    parseFile(file);
-    m_currentFileName = cfn;
-    lexer = l;
-}
+    CachedLexedFilePointer lexedFileP = m_lexerCache.lexedFile(HashedString(file));
+    if (lexedFileP) {
+        CachedLexedFile& lexedFile(*lexedFileP);
+        m_currentLexerCache->merge(lexedFile); //The ParseHelper will will copy the include-files into the result later
+        for (MacroSet::Macros::const_iterator it = lexedFile.definedMacros().macros().begin(); it != lexedFile.definedMacros().macros().end(); ++it) {
+            addMacro((*it));
+        }
+        ///@todo fill usingMacro(...)
+        return;
+    }
 
-void Driver::MacroManager::addMacro(const Macro & macro)
-{
-    m_macros.insert(MacroMap::value_type(macro.name(), macro));
+    ParseHelper h(file, true, this, false, m_currentMasterFileName);
+
+    /*if (m_parsedUnits.find(file) != m_parsedUnits.end())
+        return;*/
+
+    if (shouldParseIncludedFile(m_currentParsedFile)) ///Until the ParseHelper is destroyed, m_currentParsedFile will stay the included file
+        h.parse();
 }
 
 void Driver::addProblem(const QString & fileName, const Problem & problem)
 {
-    findOrInsertProblemList(fileName).append(problem);
+    Problem p(problem);
+    p.setFileName(fileName);
+
+    if (m_currentLexerCache)
+        m_currentLexerCache->addProblem(p);
+    else
+        findOrInsertProblemList(m_currentMasterFileName).append(problem);
 }
 
 QMap< QString, Dependence >& Driver::findOrInsertDependenceList(const QString & fileName)
 {
     QMap<QString, QMap<QString, Dependence> >::Iterator it = m_dependences.find(fileName);
-    if(it != m_dependences.end())
-        return it.value();
+    if (it != m_dependences.end())
+        return *it;
 
     QMap<QString, Dependence> l;
-    m_dependences.insert(fileName, l);
+    m_dependences.insert(deepCopy(fileName), l);
     return m_dependences[ fileName ];
 }
 
 QList < Problem >& Driver::findOrInsertProblemList(const QString & fileName)
 {
     QMap<QString, QList<Problem> >::Iterator it = m_problems.find(fileName);
-    if(it != m_problems.end())
-        return it.value();
+    if (it != m_problems.end())
+        return *it;
 
     QList<Problem> l;
     m_problems.insert(fileName, l);
@@ -195,60 +493,78 @@ QList < Problem >& Driver::findOrInsertProblemList(const QString & fileName)
 QMap< QString, Dependence > Driver::dependences(const QString & fileName) const
 {
     QMap<QString, QMap<QString, Dependence> >::ConstIterator it = m_dependences.find(fileName);
-    if(it != m_dependences.end())
-        return it.value();
+    if (it != m_dependences.end())
+        return *it;
     return QMap<QString, Dependence>();
 }
 
-Driver::MacroMap const& Driver::MacroManager::macros() const
-{return m_macros;}
+const Driver::MacroMap& Driver::macros() const
+{
+    return m_macros;
+}
+
+void Driver::insertMacros(const MacroSet& macros)
+{
+    for (MacroSet::Macros::const_iterator it = macros.m_usedMacros.begin(); it != macros.m_usedMacros.end(); ++it) {
+        addMacro(*it);
+    }
+}
 
 QList < Problem > Driver::problems(const QString & fileName) const
 {
     QMap<QString, QList<Problem> >::ConstIterator it = m_problems.find(fileName);
-    if(it != m_problems.end())
-        return it.value();
+    if (it != m_problems.end())
+        return *it;
     return QList<Problem>();
 }
 
-bool Driver::parseFile(const QString& fileName, bool onlyPreProcess, bool force)
+void Driver::clearMacros()
 {
-    QFileInfo fileInfo(fileName);
-    QString absoluteFilePath = fileInfo.absoluteFilePath();
+    m_macros.clear();
+}
 
-    QMap<QString, TranslationUnitAST*>::Iterator it = m_parsedUnits.find(absoluteFilePath);
-
-    if(force && it != m_parsedUnits.end()){
-        takeTranslationUnit(absoluteFilePath);
-    } else if(it != m_parsedUnits.end() && *it != 0){
-        // file already processed
-        return true;
+void Driver::clearParsedMacros()
+{
+    //Keep global macros
+    for (MacroMap::iterator it = m_macros.begin(); it != m_macros.end();) {
+        if (!(*it).second.fileName().isEmpty()) {
+            m_macros.erase(it++);
+        } else {
+            ++it;
+        }
     }
+}
 
-    m_dependences.remove(fileName);
+bool Driver::parseFile(const QString& fileName, bool onlyPreProcess, bool force , bool macrosGlobal)
+{
+    QString oldMasterFileName = m_currentMasterFileName;
+    m_currentMasterFileName = fileName;
+
+//if(isResolveDependencesEnabled())
+    clearParsedMacros(); ///Since everything will be re-lexed, we do not need any old macros
+
+    m_lexerCache.increaseFrame();
+
+    //Remove the problems now instead of in ParseHelper, because this way the problems reported by getCustomIncludePath(...) will not be discarded
     m_problems.remove(fileName);
 
-    m_currentFileName = fileName;
+    QStringList oldIncludePaths = m_includePaths;
+    m_includePaths = getCustomIncludePath(fileName);
 
-    Lexer lex(this);
-    lexer = &lex;
-    setupLexer(&lex);
-
-    if (!lex.setSource(sourceProvider()->contents(fileName), fileName))
-        return false;
-
-    if(!onlyPreProcess){
-        Parser parser(this, &lex);
-        setupParser(&parser);
-
-        TranslationUnitAST :: Node translationUnit;
-        parser.parseTranslationUnit(translationUnit);
-        m_parsedUnits.insert(fileName, translationUnit.release());
-        fileParsed(fileName);
+    ParseHelper p(fileName, force, this);
+    if (!onlyPreProcess) {
+        p.parse();
+    }
+    if (macrosGlobal) {
+        for (MacroMap::iterator it = m_macros.begin(); it != m_macros.end(); ++it) {
+            if ((*it).second.fileName() == fileName) {
+                (*it).second.setFileName(QString::null);
+            }
+        }
     }
 
-    m_currentFileName.clear();
-    lexer = 0;
+    m_includePaths = oldIncludePaths;
+    m_currentMasterFileName = oldMasterFileName;
     return true;
 }
 
@@ -267,7 +583,7 @@ void Driver::setupLexer(Lexer * lexer)
     lexer->addSkipWord("__STL_UNWIND", SkipWordAndArguments);
     lexer->addSkipWord("__GC_CONST");
     lexer->addSkipWord("__HASH_ALLOC_INIT", SkipWordAndArguments);
-    lexer->addSkipWord("__STL_DEFAULT_ALLOCATOR",  SkipWordAndArguments, "T");
+    lexer->addSkipWord("__STL_DEFAULT_ALLOCATOR", SkipWordAndArguments, "T");
     lexer->addSkipWord("__STL_MUTEX_INITIALIZER");
     lexer->addSkipWord("__STL_NULL_TMPL_ARGS");
 
@@ -321,6 +637,7 @@ void Driver::setupLexer(Lexer * lexer)
     lexer->addSkipWord("KDE_DEPRECATED");
 
     // qt
+    lexer->addSkipWord("Q_OBJECT");
     lexer->addSkipWord("Q_OVERRIDE", SkipWordAndArguments);
     lexer->addSkipWord("Q_ENUMS", SkipWordAndArguments);
     lexer->addSkipWord("Q_PROPERTY", SkipWordAndArguments);
@@ -342,7 +659,10 @@ void Driver::setupLexer(Lexer * lexer)
     lexer->addSkipWord("QT_NC_MSGBOX");
     lexer->addSkipWord("Q_VARIANT_AS", SkipWordAndArguments);
     lexer->addSkipWord("CALLBACK_CALL_TYPE");
-    lexer->addSkipWord("Q_SLOTS");
+
+    // qt4 [erbsland]
+    lexer->addSkipWord("Q_DECLARE_FLAGS", SkipWordAndArguments);
+    lexer->addSkipWord("Q_DECLARE_OPERATORS_FOR_FLAGS", SkipWordAndArguments);
 
     // flex
     lexer->addSkipWord("yyconst");
@@ -368,13 +688,13 @@ void Driver::setupLexer(Lexer * lexer)
     lexer->addSkipWord("CALLBACK");
 
     // gcc extensions
-    addMacro(Macro("__asm__", "asm"));
-    addMacro(Macro("__inline", "inline"));
-    addMacro(Macro("__inline__", "inline"));
-    addMacro(Macro("__const", "const"));
-    addMacro(Macro("__const__", "const"));
-    addMacro(Macro("__volatile__", "volatile"));
-    addMacro(Macro("__complex__", ""));
+    if (!hasMacro("__asm__")) addMacro(Macro("__asm__", "asm"));
+    if (!hasMacro("__inline")) addMacro(Macro("__inline", "inline"));
+    if (!hasMacro("__inline__")) addMacro(Macro("__inline__", "inline"));
+    if (!hasMacro("__const")) addMacro(Macro("__const", "const"));
+    if (!hasMacro("__const__")) addMacro(Macro("__const__", "const"));
+    if (!hasMacro("__volatile__")) addMacro(Macro("__volatile__", "volatile"));
+    if (!hasMacro("__complex__")) addMacro(Macro("__complex__", ""));
 }
 
 void Driver::setupParser(Parser * parser)
@@ -382,37 +702,57 @@ void Driver::setupParser(Parser * parser)
     Q_UNUSED(parser);
 }
 
-void Driver::MacroManager::removeMacro(const QString& macroName)
+void Driver::clearIncludePaths()
 {
-    m_macros.erase(macroName);
+    m_includePaths.clear();
 }
 
 void Driver::addIncludePath(const QString &path)
 {
-    if(!path.trimmed().isEmpty())
+    if (!path.trimmed().isEmpty())
         m_includePaths << path;
+}
+
+QString Driver::findIncludeFile(const Dependence& dep, const QString& fromFile)
+{
+    QString fileName = dep.first;
+
+    if (dep.second == Dep_Local) {
+        QString path = QFileInfo(fromFile).absolutePath();
+        QFileInfo fileInfo(QFileInfo(path, fileName));
+        if (fileInfo.exists() && fileInfo.isFile())
+            return fileInfo.absoluteFilePath();
+    }
+
+    QStringList includePaths = getCustomIncludePath(fromFile);
+
+    for (QStringList::ConstIterator it = includePaths.begin(); it != includePaths.end(); ++it) {
+        QFileInfo fileInfo(*it, fileName);
+        if (fileInfo.exists() && fileInfo.isFile())
+            return fileInfo.absoluteFilePath();
+    }
+
+    return QString::null;
 }
 
 QString Driver::findIncludeFile(const Dependence& dep) const
 {
     QString fileName = dep.first;
 
-    if(dep.second == Dep_Local){
+    if (dep.second == Dep_Local) {
         QString path = QFileInfo(currentFileName()).absolutePath();
         QFileInfo fileInfo(QFileInfo(path, fileName));
         if (fileInfo.exists() && fileInfo.isFile())
             return fileInfo.absoluteFilePath();
-
     }
 
-    QStringList::ConstIterator end(m_includePaths.end());
-    for (QStringList::ConstIterator it(m_includePaths.begin()); it != end; ++it) {
+    for (QStringList::ConstIterator it = m_includePaths.begin(); it != m_includePaths.end(); ++it) {
         QFileInfo fileInfo(*it, fileName);
         if (fileInfo.exists() && fileInfo.isFile())
             return fileInfo.absoluteFilePath();
     }
 
-    return QString();
+    return QString::null;
 }
 
 void Driver::setResolveDependencesEnabled(bool enabled)
@@ -422,11 +762,274 @@ void Driver::setResolveDependencesEnabled(bool enabled)
         setupPreProcessor();
 }
 
-void Driver::setupPreProcessor()
+bool Driver::shouldParseIncludedFile(const ParsedFilePointer& /*file*/)
 {
+    return false;
 }
 
-void Driver::fileParsed(const QString & fileName)
+void Driver::setupPreProcessor() {}
+
+void Driver::fileParsed(ParsedFile & fileName)
 {
     Q_UNUSED(fileName);
 }
+
+void Driver::usingMacro(const Macro& macro)
+{
+    if (m_currentParsedFile)
+        m_currentParsedFile->usedMacros().addMacro(macro);
+#ifdef CACHELEXER
+    if (m_currentLexerCache)
+        m_currentLexerCache->addUsedMacro(macro);
+#endif
+}
+
+// void Macro::computeHash() const {
+//     m_idHash = 7 * (HashedString::hashString(m_name) + m_argumentList.count() * 13);
+//     int a = 1;
+//     m_idHash += 31 * m_argumentList.count();
+//
+//     m_valueHash = 27 * (HashedString::hashString(m_body) +  (m_isUndefMacro ? 1 : 0));
+//
+//     for(QList<Argument>::const_iterator it = m_argumentList.begin(); it != m_argumentList.end(); ++it) {
+//         a *= 19;
+//         m_valueHash += a * HashedString::hashString(*it);
+//     }
+//     m_valueHashValid = true;
+//     m_idHashValid = true;
+// }
+
+// MacroSet::MacroSet() : m_idHashValid(false), m_valueHashValid(false) {
+// }
+
+void MacroSet::addMacro(const Macro& macro)
+{
+    std::pair<Macros::const_iterator, bool> r = m_usedMacros.insert(macro);
+    if (!r.second) {
+        //Make sure the macro added later will be used
+        m_usedMacros.erase(r.first);
+        m_usedMacros.insert(macro);
+    }
+
+    m_idHashValid = m_valueHashValid = false;
+}
+
+void MacroSet::merge(const MacroSet& macros)
+{
+    Macros m = macros.m_usedMacros; //Swap is needed so the merged macros take precedence
+    m.insert(m_usedMacros.begin(), m_usedMacros.end());
+    m_usedMacros = m;
+    m_idHashValid = m_valueHashValid = false;
+}
+
+
+size_t MacroSet::idHash() const
+{
+    if (!m_idHashValid) computeHash();
+    return m_idHash;
+}
+
+size_t MacroSet::valueHash() const
+{
+    if (!m_valueHashValid) computeHash();
+    return m_valueHash;
+}
+
+void MacroSet::computeHash() const
+{
+    m_idHash = 0;
+    m_valueHash = 0;
+    int mult = 1;
+    for (Macros::const_iterator it = m_usedMacros.begin(); it != m_usedMacros.end(); ++it) {
+        mult *= 31;
+        m_idHash += (*it).idHash();
+        m_valueHash += (*it).valueHash();
+    }
+}
+
+// void MacroSet::read(QDataStream& stream)  {
+//     stream >> m_idHashValid >> m_idHash >> m_valueHashValid >> m_valueHash;
+//     int cnt;
+//     stream >> cnt;
+//     m_usedMacros.clear();
+//     Macro m;
+//     for(int a = 0; a < cnt; a++) {
+//         m.read(stream);
+//         m_usedMacros.insert(m);
+//     }
+// }
+//
+// void MacroSet::write(QDataStream& stream) const {
+//     stream << m_idHashValid << m_idHash << m_valueHashValid << m_valueHash;
+//     stream << m_usedMacros.size();
+//     for(Macros::const_iterator it = m_usedMacros.begin(); it != m_usedMacros.end(); ++it) {
+//         (*it).write(stream);
+//     }
+// }
+
+/**
+ * @return All Macros that were used while processing this translation-unit
+ * */
+MacroSet& ParsedFile::usedMacros()
+{
+    return m_usedMacros;
+}
+
+const MacroSet& ParsedFile::usedMacros() const
+{
+    return m_usedMacros;
+}
+
+ParsedFile::ParsedFile(const QString& fileName, const QDateTime& timeStamp) : m_translationUnit(0), m_fileName(fileName), m_timeStamp(timeStamp)
+{
+    m_includeFiles.insert(fileName);
+}
+
+ParsedFile::ParsedFile(const QByteArray& array)
+{
+    QByteArray a(array);
+    QBuffer b(&a);
+    QDataStream d(&b);
+    read(d);
+}
+
+QString ParsedFile::includedFrom() const
+{
+    return m_includedFrom;
+}
+
+void ParsedFile::setIncludedFrom(const QString& str)
+{
+    m_includedFrom = str;
+}
+
+QByteArray ParsedFile::serialize() const
+{
+    QByteArray array;
+    QBuffer b(&array);
+    QDataStream d(&b);
+    write(d);
+    return array;
+}
+
+// void ParsedFile::read(QDataStream& stream) {
+//     int directIncludeFilesCount;
+//     stream >> directIncludeFilesCount;
+//     m_directIncludeFiles.clear();
+//     for(int a = 0; a < directIncludeFilesCount; a++) {
+//         IncludeDesc i;
+//         stream >> i.local;
+//         stream >> i.includePath;
+//         //"parsed" will not be reconstructed
+//         m_directIncludeFiles.push_back(i);
+//     }
+//     stream >> m_fileName;
+//     stream >> m_timeStamp;
+//     m_usedMacros.read(stream);
+//     m_translationUnit = 0;
+//     m_includeFiles.read(stream);
+// }
+//
+// void ParsedFile::write(QDataStream& stream) const {
+//     for(QList<IncludeDesc>::const_iterator it = m_directIncludeFiles.begin(); it != m_directIncludeFiles.end(); ++it) {
+//         stream << (*it).local;
+//         stream << (*it).includePath;
+//     }
+//     stream << m_fileName;
+//     stream << m_timeStamp;
+//     m_usedMacros.write(stream);
+//     m_includeFiles.write(stream);
+// }
+
+void ParsedFile::setTranslationUnit(const TranslationUnitAST::Node& trans)
+{
+    m_translationUnit = trans;
+}
+
+// HashedStringSet& ParsedFile::includeFiles() {
+//     return m_includeFiles;
+// }
+
+int ParsedFile::skippedLines() const
+{
+    return m_skippedLines;
+}
+
+void ParsedFile::setSkippedLines(int lines)
+{
+    m_skippedLines = lines;
+}
+
+const HashedStringSet& ParsedFile::includeFiles() const
+{
+    return m_includeFiles;
+}
+
+QString ParsedFile::fileName() const
+{
+    return m_fileName;
+}
+
+QDateTime ParsedFile::timeStamp() const
+{
+    return m_timeStamp;
+}
+
+void ParsedFile::addIncludeFiles(const HashedStringSet& includeFiles)
+{
+    m_includeFiles += includeFiles;
+}
+
+void ParsedFile::addIncludeFile(const QString& includePath, const ParsedFilePointer& parsed, bool localInclude)
+{
+    m_includeFiles.insert(includePath);
+    if (parsed)
+        m_includeFiles += parsed->includeFiles();
+    IncludeDesc d;
+    d.local = localInclude;
+    d.includePath = includePath;
+    d.parsed = parsed;
+    m_directIncludeFiles << d;
+}
+
+const QList<ParsedFile::IncludeDesc>& ParsedFile::directIncludeFiles() const
+{
+    return m_directIncludeFiles;
+}
+
+bool MacroSet::hasMacro(const QString& name) const
+{
+    Macros::const_iterator it = m_usedMacros.find(Macro(name, ""));
+    if (it != m_usedMacros.end()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool MacroSet::hasMacro(const HashedString& name) const
+{
+    Macros::const_iterator it = m_usedMacros.find(Macro(name.str(), ""));
+    if (it != m_usedMacros.end()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+Macro MacroSet::macro(const QString& name) const
+{
+    Macros::const_iterator it = m_usedMacros.find(Macro(name, ""));
+
+    if (it != m_usedMacros.end()) {
+        return *it;
+    } else {
+        return Macro();
+    }
+}
+
+LexerCache* Driver::lexerCache()
+{
+    return &m_lexerCache;
+}
+

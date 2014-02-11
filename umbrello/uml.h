@@ -58,6 +58,7 @@ class QUndoCommand;
 class QUndoView;
 class QPushButton;
 class QLabel;
+class QListWidget;
 class QSlider;
 
 /**
@@ -96,6 +97,8 @@ public:
     UMLListView* listView() const;
     WorkToolBar* workToolBar() const;
     DocWindow * docWindow() const;
+    QListWidget *logWindow() const;
+
 
     void setModified(bool _m);
 
@@ -166,6 +169,7 @@ public:
     QString activeLanguageScopeSeparator();
 
     KConfig* config();
+    void importFiles(QStringList* fileList);
 
 protected:
     virtual void keyPressEvent(QKeyEvent* e);
@@ -232,10 +236,14 @@ public slots:
     void slotCopyChanged();
     void slotPrefs();
     void slotApplyPrefs();
+    void slotImportClass();
+    void slotImportProject();
     void slotUpdateViews();
     void slotShowTreeView(bool state);
+    void slotShowDebugView(bool state);
     void slotShowDocumentationView(bool state);
     void slotShowCmdHistoryView(bool state);
+    void slotShowLogView(bool state);
     void slotCurrentViewClearDiagram();
     void slotCurrentViewToggleSnapToGrid();
     void slotCurrentViewToggleShowGrid();
@@ -314,8 +322,6 @@ private:
     void initClip();
     void initSavedCodeGenerators();
 
-    void importFiles(QStringList* fileList);
-
     void createDiagram(Uml::DiagramType::Enum type);
 
     QMenu* m_langSelect;  ///< For selecting the active language.
@@ -348,11 +354,14 @@ private:
 
     QDockWidget* m_mainDock;           ///< The widget which shows the diagrams.
     QDockWidget* m_listDock;           ///< Contains the UMLListView tree view.
+    QDockWidget* m_debugDock;          ///< Contains the debug DocWindow widget.
     QDockWidget* m_documentationDock;  ///< Contains the documentation DocWindow widget.
     QDockWidget* m_cmdHistoryDock;     ///< Contains the undo/redo viewer widget.
     QDockWidget* m_propertyDock;       ///< Contains the property browser widget.
+    QDockWidget* m_logDock;            ///< Contains the log window widget.
 
     DocWindow*   m_docWindow;         ///< Documentation window.
+    QListWidget* m_logWindow;         ///< Logging window.
     QUndoView*   m_pQUndoView;         ///< Undo / Redo Viewer
     RefactoringAssistant* m_refactoringAssist;  ///< Refactoring assistant.
 
@@ -367,7 +376,9 @@ private:
     QAction* editRedo;
 
     QAction* viewShowTree;
+    QAction* viewShowDebug;
     QAction* viewShowDoc;
+    QAction* viewShowLog;
     QAction* viewShowCmdHistory;
 
     KActionMenu* newDiagram;

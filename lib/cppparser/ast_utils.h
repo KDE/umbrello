@@ -19,9 +19,11 @@ class DeclaratorAST;
 class TypeSpecifierAST;
 class QStringList;
 
-namespace KTextEditor{ class EditInterface; }
+namespace KTextEditor
+{
+class EditInterface;
+}
 
-AST* findNodeAt(AST* unit, int line, int column);
 void scopeOfNode(AST* ast, QStringList&);
 QString typeSpecToString(TypeSpecifierAST* typeSpec);
 QString declaratorToString(DeclaratorAST* declarator, const QString& scope = QString(), bool skipPtrOp=false);

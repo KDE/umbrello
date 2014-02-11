@@ -170,6 +170,8 @@ public:
         mt_Rename,
         mt_Delete,
         mt_Export_Image,
+        mt_Import_Class,
+        mt_Import_Project,
         mt_Sequence_Number,
         mt_Cut,
         mt_Copy,

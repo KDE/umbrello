@@ -31,7 +31,7 @@ public:
     //FileDom file() { return m_file; }
 
     // translation-unit
-    virtual void parseTranslationUnit(TranslationUnitAST*);
+    virtual void parseTranslationUnit(const ParsedFile &file);
 
     // declarations
     //virtual void parseDeclaration(DeclarationAST*);  // use parent method
