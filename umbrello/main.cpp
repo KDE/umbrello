@@ -172,6 +172,7 @@ int main(int argc, char *argv[])
     options.add("export-formats", ki18n("list available export extensions"));
     options.add("directory <url>", ki18n("the local directory to save the exported diagrams in"), I18N_NOOP("the directory of the file"));
     options.add("import-files", ki18n("import files"));
+    options.add("languages", ki18n("list supported languages"));
     options.add("use-folders", ki18n("keep the tree structure used to store the views in the document in the target directory"));
     KCmdLineArgs::addCmdLineOptions(options); // Add our own options.
     KApplication app;
@@ -190,6 +191,12 @@ int main(int argc, char *argv[])
 #endif
             foreach(const QString& type, UMLViewImageExporterModel::supportedImageTypes())
                 fprintf(stdout, "%s\n", qPrintable(type));
+            return 0;
+        } else if (args->isSet("languages")) {
+            for(int i = Uml::ProgrammingLanguage::ActionScript; i < Uml::ProgrammingLanguage::Reserved; i++) {
+                Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromInt(i);
+                fprintf(stdout, "%s\n", qPrintable(Uml::ProgrammingLanguage::toString(pl)));
+            }
             return 0;
         }
 
