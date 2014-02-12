@@ -89,8 +89,14 @@ int main(int argc, char *argv[])
         kRestoreMainWindows< UMLApp >();
     } else {
         KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-        bool showGUI = getShowGUI(args);
 
+        if (args->isSet("export-formats")) {
+            foreach(const QString& type, UMLViewImageExporterModel::supportedImageTypes())
+                fprintf(stdout, "%s\n", qPrintable(type));
+            return 0;
+        }
+
+        bool showGUI = getShowGUI(args);
         UMLApp* uml = new UMLApp();
         app.processEvents();
 
@@ -107,11 +113,6 @@ int main(int argc, char *argv[])
         } else
             initDocument(args);
 
-        if (args->isSet("export-formats")) {
-            foreach(const QString& type, UMLViewImageExporterModel::supportedImageTypes())
-                fprintf(stdout, "%s\n", qPrintable(type));
-            return 0;
-        }
 
         // export option
         QStringList exportOpt = args->getOptionList("export");
