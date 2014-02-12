@@ -98,16 +98,19 @@ int main(int argc, char *argv[])
             uml->show();
         }
 
-        initDocument(args);
+        if (args->isSet("import-files") && args->count() > 0) {
+            QStringList importList;
+            for (int i = 0; i < args->count(); i++)
+                importList.append(args->url(i).toLocalFile());
+            uml->newDocument();
+            uml->importFiles(&importList);
+        } else
+            initDocument(args);
 
         if (args->isSet("export-formats")) {
             foreach(const QString& type, UMLViewImageExporterModel::supportedImageTypes())
                 fprintf(stdout, "%s\n", qPrintable(type));
             return 0;
-        }
-        else if (args->isSet("import-files")) {
-            QStringList importList = args->getOptionList("import-files");
-            uml->importFiles(&importList);
         }
 
         // export option
