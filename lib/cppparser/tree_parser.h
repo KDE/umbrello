@@ -34,7 +34,6 @@ public:
 
     // declarations
     virtual void parseDeclaration(DeclarationAST*);
-    virtual void parseFile(FileAST*);
     virtual void parseLinkageSpecification(LinkageSpecificationAST*);
     virtual void parseNamespace(NamespaceAST*);
     virtual void parseNamespaceAlias(NamespaceAliasAST*);

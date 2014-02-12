@@ -48,12 +48,6 @@ void TreeParser::parseTranslationUnit(const ParsedFile& translationUnit)
     }
 }
 
-void TreeParser::parseFile(FileAST* decl)
-{
-    DEBUG("TreeParser") << "TreeParser::parseFile()";
-    Q_UNUSED(decl);
-}
-
 void TreeParser::parseDeclaration(DeclarationAST* declaration)
 {
     DEBUG("TreeParser") << "TreeParser::parseDeclaration()" << endl;

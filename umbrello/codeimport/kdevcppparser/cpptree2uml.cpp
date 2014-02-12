@@ -17,7 +17,9 @@
 #include "debug_utils.h"
 #include "ast_utils.h"
 #include "codeimpthread.h"
+#include "driver.h"
 #include "import_utils.h"
+
 // FIXME: The sole reason for the next 2 includes is parseTypedef().
 // Make capsule methods in ClassImport, and remove these includes.
 #include "classifier.h"
@@ -57,14 +59,9 @@ void CppTree2Uml::parseTranslationUnit(const ParsedFile &file)
     m_currentDeclarator = 0;
     m_anon = 0;
 
-    TreeParser::parseTranslationUnit(file);
-}
+    Import_Utils::createUMLObject(UMLObject::ot_Artifact, file.fileName(), 0, file->comment());
 
-void CppTree2Uml::parseFile(FileAST* ast)
-{
-    Import_Utils::createUMLObject(UMLObject::ot_Artifact, ast->fileName(),
-                                  0,
-                                  ast->comment());
+    TreeParser::parseTranslationUnit(file);
 }
 
 void CppTree2Uml::parseNamespace(NamespaceAST* ast)
