@@ -57,7 +57,6 @@ MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, ObjectWidget* b,
     init();
     m_pOw[Uml::RoleType::A] = a;
     m_pOw[Uml::RoleType::B] = b;
-    m_nY = y;
     m_sequenceMessageType = sequenceMessageType;
     if (m_sequenceMessageType == Uml::SequenceMessage::Creation) {
         y -= m_pOw[Uml::RoleType::B]->height() / 2;
@@ -67,7 +66,7 @@ MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, ObjectWidget* b,
     calculateWidget();
     y = y < getMinY() ? getMinY() : y;
     y = y > getMaxY() ? getMaxY() : y;
-    m_nY = y;
+    setY(y);
 
     this->activate();
 }
@@ -107,17 +106,15 @@ MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, int xclick, int 
     m_pOw[Uml::RoleType::B] = a;
 
     m_sequenceMessageType = sequenceMessageType;
-    m_nY = yclick;
 
     xclicked = xclick;
     yclicked = yclick;
-    m_nY = yclick;
 
     updateResizability();
     calculateWidget();
     yclick = yclick < getMinY() ? getMinY() : yclick;
     yclick = yclick > getMaxY() ? getMaxY() : yclick;
-    m_nY = yclick;
+    setY(yclick);
     yclicked = yclick;
 
     this->activate();
@@ -132,7 +129,6 @@ void MessageWidget::init()
     m_ignoreSnapComponentSizeToGrid = true;
     m_pOw[Uml::RoleType::A] = m_pOw[Uml::RoleType::B] = NULL;
     m_pFText = NULL;
-    m_nY = 0;
     m_unconstrainedPositionY = 0;
 }
 
@@ -152,7 +148,6 @@ MessageWidget::~MessageWidget()
 void MessageWidget::setY(qreal y)
 {
     UMLWidget::setY(y);
-    m_nY = y;
     if (m_sequenceMessageType == Uml::SequenceMessage::Creation) {
         const qreal objWidgetHalfHeight = m_pOw[Uml::RoleType::B]->height() / 2;
         m_pOw[Uml::RoleType::B]->setY(y - objWidgetHalfHeight);
@@ -731,11 +726,7 @@ void MessageWidget::calculateWidget()
 {
     setMessageText(m_pFText);
     calculateDimensions();
-
     setVisible(true);
-
-    setX(m_nPosX);
-    UMLWidget::setY(m_nY);
 }
 
 void MessageWidget::slotWidgetMoved(Uml::ID::Type id)
@@ -747,11 +738,12 @@ void MessageWidget::slotWidgetMoved(Uml::ID::Type id)
             << ", idB=" << Uml::ID::toString(idB);
         return;
     }
-    m_nY = y();
-    if (m_nY < getMinY())
-        m_nY = getMinY();
-    if (m_nY > getMaxY())
-        m_nY = getMaxY();
+    qreal y = this->y();
+    if (y < getMinY())
+        y = getMinY();
+    if (y > getMaxY())
+        y = getMaxY();
+    setY(y);
     calculateWidget();
     if(!m_pFText)
         return;
@@ -1068,7 +1060,7 @@ void MessageWidget::calculateDimensionsSynchronous()
         widgetHeight = height();
     }
 
-    m_nPosX = x;
+    setX(x);
     setSize(widgetWidth, widgetHeight);
 }
 
@@ -1101,7 +1093,7 @@ void MessageWidget::calculateDimensionsAsynchronous()
     }
     x += 1;
     widgetWidth -= 2;
-    m_nPosX = x;
+    setX(x);
     setSize(widgetWidth, widgetHeight);
 }
 
@@ -1130,8 +1122,8 @@ void MessageWidget::calculateDimensionsCreation()
     }
     x += 1;
     widgetWidth -= 2;
-    m_nPosX = x;
-    m_nY = m_pOw[Uml::RoleType::B]->y() + m_pOw[Uml::RoleType::B]->height() / 2;
+    setX(x);
+    setY(m_pOw[Uml::RoleType::B]->y() + m_pOw[Uml::RoleType::B]->height() / 2);
     setSize(widgetWidth, widgetHeight);
 }
 
@@ -1154,7 +1146,7 @@ void MessageWidget::calculateDimensionsLost()
         x = x2 - circleWidth/2;
         widgetWidth = x1 - x2 + circleWidth/2;
     }
-    m_nPosX = x;
+    setX(x);
     setSize(widgetWidth, widgetHeight);
 }
 
@@ -1178,7 +1170,7 @@ void MessageWidget::calculateDimensionsFound()
         widgetWidth = x1 - x2 + circleWidth/2;
     }
 
-    m_nPosX = x;
+    setX(x);
     setSize(widgetWidth, widgetHeight);
 }
 
@@ -1368,7 +1360,6 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
     m_widgetAId = Uml::ID::fromString(widgetaid);
     m_widgetBId = Uml::ID::fromString(widgetbid);
     m_textId = Uml::ID::fromString(textid);
-    m_nY = y();
 
     Uml::TextRole::Enum tr = Uml::TextRole::Seq_Message;
     if (m_widgetAId == m_widgetBId)
