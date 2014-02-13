@@ -156,7 +156,11 @@ void MessageWidget::setY(qreal y)
         const qreal objWidgetHalfHeight = m_pOw[Uml::RoleType::B]->height() / 2;
         m_pOw[Uml::RoleType::B]->setY(y - objWidgetHalfHeight);
     }
-    moveEvent(0);
+
+    if (m_pFText) {
+        setTextPosition();
+        emit sigMessageMoved();
+    }
 }
 
 /**
@@ -691,22 +695,6 @@ void MessageWidget::setLinkAndTextPos()
         m_pFText->setLink(this);
         setTextPosition();
     }
-}
-
-void MessageWidget::moveEvent(QGraphicsSceneMouseEvent* /*m*/)
-{
-    //DEBUG(DBG_SRC) << "m_pFText is " << m_pFText;
-    if (!m_pFText) {
-        return;
-    }
-    //TODO why this condition?
-/*    if (m_scene->selectedCount() > 2) {
-        return;
-    }*/
-
-    setTextPosition();
-
-    emit sigMessageMoved();
 }
 
 void MessageWidget::resizeEvent(QResizeEvent* /*re*/)
