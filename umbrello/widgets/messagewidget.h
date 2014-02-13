@@ -181,7 +181,6 @@ protected:
     Uml::SequenceMessage::Enum m_sequenceMessageType;
 
 private:
-    void moveEvent(QGraphicsSceneMouseEvent *m);
     void resizeEvent(QResizeEvent *re);
 
     qreal constrainPositionY(qreal diffY);
