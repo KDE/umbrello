@@ -201,9 +201,6 @@ private:
      */
     Uml::ID::Type m_widgetAId, m_widgetBId, m_textId;
 
-    /// The vertical position the widget would have if its move wasn't constrained.
-    qreal m_unconstrainedPositionY;
-
 public slots:
     void slotWidgetMoved(Uml::ID::Type id);
     void slotMenuSelection(QAction* action);
