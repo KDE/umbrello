@@ -129,7 +129,6 @@ void MessageWidget::init()
     m_ignoreSnapComponentSizeToGrid = true;
     m_pOw[Uml::RoleType::A] = m_pOw[Uml::RoleType::B] = NULL;
     m_pFText = NULL;
-    m_unconstrainedPositionY = 0;
 }
 
 /**
@@ -147,6 +146,11 @@ MessageWidget::~MessageWidget()
  */
 void MessageWidget::setY(qreal y)
 {
+    if (y < getMinY()) {
+        DEBUG(DBG_SRC) << "got out of bounds y position, check the reason" << this->y() << getMinY();
+        return;
+    }
+
     UMLWidget::setY(y);
     if (m_sequenceMessageType == Uml::SequenceMessage::Creation) {
         const qreal objWidgetHalfHeight = m_pOw[Uml::RoleType::B]->height() / 2;
@@ -254,17 +258,7 @@ qreal MessageWidget::constrainPositionY(qreal diffY)
 void MessageWidget::moveWidgetBy(qreal diffX, qreal diffY)
 {
     Q_UNUSED(diffX);
-    m_unconstrainedPositionY += diffY;
     qreal newY = constrainPositionY(diffY);
-
-    if (m_unconstrainedPositionY != newY) {
-        if (m_unconstrainedPositionY > y()) {
-            newY = m_unconstrainedPositionY;
-        } else {
-            return;
-        }
-    }
-
     setY(newY);
 }
 
