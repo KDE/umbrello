@@ -607,6 +607,8 @@ bool FloatingTextWidget::loadFromXMI(QDomElement & qElement)
     if(!UMLWidget::loadFromXMI(qElement))
         return false;
 
+    m_unconstrainedPositionX = x();
+    m_unconstrainedPositionY = y();
     QString role = qElement.attribute("role", "");
     if(!role.isEmpty())
         m_textRole = Uml::TextRole::fromInt(role.toInt());
