@@ -33,6 +33,7 @@ DiagramPropertiesPage::DiagramPropertiesPage(QWidget *parent, UMLScene *scene)
 
     ui_diagramName->setText(scene->name());
     ui_zoom->setValue(scene->activeView()->currentZoom());
+    ui_showOpSigs->setChecked(scene->showOpSig());
 
     ui_checkBoxShowGrid->setChecked(scene->isSnapGridVisible());
     ui_snapToGrid->setChecked(scene->snapToGrid());
@@ -108,6 +109,7 @@ void DiagramPropertiesPage::apply()
     m_scene->setSnapToGrid(ui_snapToGrid->isChecked());
     m_scene->setSnapComponentSizeToGrid(ui_snapComponentSizeToGrid->isChecked());
     m_scene->setSnapGridVisible(ui_checkBoxShowGrid->isChecked());
+    m_scene->setShowOpSig(ui_showOpSigs->isChecked());
     if (m_scene->type() == Uml::DiagramType::Sequence) {
         m_scene->setAutoIncrementSequence(ui_autoIncrementSequence->isChecked());
     }
