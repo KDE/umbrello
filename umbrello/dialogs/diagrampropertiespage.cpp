@@ -44,6 +44,8 @@ DiagramPropertiesPage::DiagramPropertiesPage(QWidget *parent, UMLScene *scene)
     if (scene->type() == Uml::DiagramType::Sequence) {
         ui_autoIncrementSequence->setVisible(true);
         ui_autoIncrementSequence->setChecked(scene->autoIncrementSequence());
+    } else {
+        ui_autoIncrementSequence->setVisible(false);
     }
 }
 
