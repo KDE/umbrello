@@ -80,7 +80,7 @@ void UMLViewDialog::setupPages()
     setupDiagramPropertiesPage();
     setupStylePage();
     setupFontPage();
-    setupClassPage();
+    setupDisplayPage();
 }
 
 /**
@@ -98,9 +98,9 @@ void UMLViewDialog::setupDiagramPropertiesPage()
 }
 
 /**
- * Sets up the Class page
+ * Sets up the display page
  */
-void UMLViewDialog::setupClassPage()
+void UMLViewDialog::setupDisplayPage()
 {
     if (m_pScene->type() != Uml::DiagramType::Class) {
         return;

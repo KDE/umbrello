@@ -40,7 +40,7 @@ protected:
     void setupPages();
 
     void setupDiagramPropertiesPage();
-    void setupClassPage();
+    void setupDisplayPage();
     void setupStylePage();
     void setupFontPage();
 
