@@ -110,6 +110,8 @@ void UMLViewDialog::setupDiagramPropertiesPage()
     if (m_pScene->type() == Uml::DiagramType::Sequence) {
         m_diagramProperties->ui_autoIncrementSequence->setVisible(true);
         m_diagramProperties->ui_autoIncrementSequence->setChecked(m_pScene->autoIncrementSequence());
+    } else {
+        m_diagramProperties->ui_autoIncrementSequence->setVisible(false);
     }
 }
 
