@@ -811,7 +811,7 @@ void ClassifierWidget::drawMembers(QPainter * painter, UMLObject::ObjectType ot,
  */
 void ClassifierWidget::setDrawAsCircle(bool drawAsCircle)
 {
-    setVisualProperty(DrawAsCircle, drawAsCircle);
+    setVisualPropertyCmd(DrawAsCircle, drawAsCircle);
     updateGeometry();
     update();
 }
