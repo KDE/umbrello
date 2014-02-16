@@ -102,6 +102,7 @@ void UMLViewDialog::setupDiagramPropertiesPage()
  */
 void UMLViewDialog::setupDisplayPage()
 {
+    m_pageDisplayItem = 0;
     // Display page currently only shows class-related display options that are
     // applicable for class- and sequence diagram
     if (m_pScene->type() != Uml::DiagramType::Class &&
