@@ -102,6 +102,14 @@ void UMLViewDialog::setupDiagramPropertiesPage()
  */
 void UMLViewDialog::setupDisplayPage()
 {
+    // Display page currently only shows class-related display options that are
+    // applicable for class- and sequence diagram
+    if (m_pScene->type() != Uml::DiagramType::Class &&
+        m_pScene->type() != Uml::DiagramType::Sequence) {
+        return;
+    }
+
+
     QFrame * newPage = new QFrame();
     m_pageDisplayItem = new KPageWidgetItem(newPage, i18nc("classes display options page", "Display"));
     m_pageDisplayItem->setHeader(i18n("Classes Display Options"));
@@ -115,6 +123,7 @@ void UMLViewDialog::setupDisplayPage()
     else {
         m_pOptionsPage = new ClassOptionsPage(newPage, &m_options);
     }
+
     pOptionsLayout->addWidget(m_pOptionsPage);
 }
 
