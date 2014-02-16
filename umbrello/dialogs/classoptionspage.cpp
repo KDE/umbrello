@@ -12,6 +12,7 @@
 #include "classoptionspage.h"
 
 // local includes
+#include "umlscene.h"
 #include "umlview.h"
 #include "classifierwidget.h"
 #include "widgetbase.h"
@@ -31,12 +32,22 @@
  * Constructor - observe and modify a Widget
  */
 ClassOptionsPage::ClassOptionsPage(QWidget* pParent, ClassifierWidget* pWidget)
-  : QWidget(pParent)
+  : QWidget(pParent),
+    m_isDiagram(false)
 {
     init();
     //WidgetType type = pWidget->baseType();
     m_pWidget = pWidget;
     setupPage();
+}
+
+ClassOptionsPage::ClassOptionsPage(QWidget *pParent, UMLScene *scene)
+  : QWidget(pParent),
+    m_isDiagram(false)
+{
+    init();
+    m_scene = scene;
+    setupPageFromScene();
 }
 
 /**
@@ -84,6 +95,8 @@ void ClassOptionsPage::apply()
         applyWidget();
     } else if (m_options) {
         applyOptionState();
+    } else if (m_scene) {
+        applyScene();
     }
 }
 
@@ -166,6 +179,25 @@ void ClassOptionsPage::setupPage()
         m_drawAsCircleCB->setChecked(m_pWidget->visualProperty(ClassifierWidget::DrawAsCircle));
         visibilityLayout->addWidget(m_drawAsCircleCB, 2, 0);
     }
+}
+
+void ClassOptionsPage::setupPageFromScene()
+{
+    int margin = fontMetrics().height();
+
+    QVBoxLayout * topLayout = new QVBoxLayout(this);
+
+    topLayout->setSpacing(6);
+    m_visibilityGB = new QGroupBox(i18n("Show"), this);
+    topLayout->addWidget(m_visibilityGB);
+    QGridLayout * visibilityLayout = new QGridLayout(m_visibilityGB);
+    visibilityLayout->setSpacing(10);
+    visibilityLayout->setMargin(margin);
+    visibilityLayout->setRowStretch(3, 1);
+
+    m_showOpSigCB = new QCheckBox(i18n("O&peration signature"), m_visibilityGB);
+    m_showOpSigCB->setChecked(m_scene->showOpSig());
+    visibilityLayout->addWidget(m_showOpSigCB, 1, 0);
 }
 
 /**
@@ -297,10 +329,19 @@ void ClassOptionsPage::applyOptionState()
 }
 
 /**
+ * Sets the UMLScene's properties to those selected in this dialog page.
+ */
+void ClassOptionsPage::applyScene()
+{
+    m_scene->setShowOpSig(m_showOpSigCB->isChecked());
+}
+
+/**
  * Initialize optional items
  */
 void ClassOptionsPage::init()
 {
+    m_scene = NULL;
     m_options = NULL;
     m_pWidget = NULL;
     m_showStereotypeCB = NULL;

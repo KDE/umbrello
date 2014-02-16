@@ -102,9 +102,6 @@ void UMLViewDialog::setupDiagramPropertiesPage()
  */
 void UMLViewDialog::setupDisplayPage()
 {
-    if (m_pScene->type() != Uml::DiagramType::Class) {
-        return;
-    }
     QFrame * newPage = new QFrame();
     m_pageDisplayItem = new KPageWidgetItem(newPage, i18nc("classes display options page", "Display"));
     m_pageDisplayItem->setHeader(i18n("Classes Display Options"));
@@ -112,7 +109,12 @@ void UMLViewDialog::setupDisplayPage()
     addPage(m_pageDisplayItem);
 
     QHBoxLayout * pOptionsLayout = new QHBoxLayout(newPage);
-    m_pOptionsPage = new ClassOptionsPage(newPage, &m_options);
+    if (m_pScene->type() != Uml::DiagramType::Class) {
+        m_pOptionsPage = new ClassOptionsPage(newPage, m_pScene);
+    }
+    else {
+        m_pOptionsPage = new ClassOptionsPage(newPage, &m_options);
+    }
     pOptionsLayout->addWidget(m_pOptionsPage);
 }
 
@@ -176,10 +178,10 @@ void UMLViewDialog::applyPage(KPageWidgetItem *item)
     }
     else if (item == m_pageDisplayItem)
     {
+        m_pOptionsPage->apply();
         if (m_pScene->type() != Uml::DiagramType::Class) {
             return;
         }
-        m_pOptionsPage->apply();
         m_pScene->setClassWidgetOptions(m_pOptionsPage);
         //       sig = m_pTempWidget->getShowOpSigs();
         //       showSig = !(sig == Uml::st_NoSig || sig == Uml::st_NoSigNoVis);
