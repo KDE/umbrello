@@ -2081,9 +2081,9 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
         }
 
         if (type == UMLListViewItem::lvt_Subsystem) {
-            object->setStereotype("subsystem");
+            object->setStereotypeCmd("subsystem");
         } else if (Model_Utils::typeIsFolder(type)) {
-            object->setStereotype("folder");
+            object->setStereotypeCmd("folder");
         }
     }
 }

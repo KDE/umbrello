@@ -85,17 +85,17 @@ void UMLClassifier::setBaseType(UMLObject::ObjectType ot)
     Icon_Utils::IconType newIcon;
     switch (ot) {
         case ot_Interface:
-            UMLObject::setStereotype("interface");
+            UMLObject::setStereotypeCmd("interface");
             UMLObject::m_bAbstract = true;
             newIcon = Icon_Utils::it_Interface;
             break;
         case ot_Class:
-            UMLObject::setStereotype(QString());
+            UMLObject::setStereotypeCmd(QString());
             UMLObject::m_bAbstract = false;
             newIcon = Icon_Utils::it_Class;
             break;
         case ot_Datatype:
-            UMLObject::setStereotype("datatype");
+            UMLObject::setStereotypeCmd("datatype");
             UMLObject::m_bAbstract = false;
             newIcon = Icon_Utils::it_Datatype;
             break;

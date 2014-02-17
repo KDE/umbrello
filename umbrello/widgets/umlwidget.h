@@ -192,6 +192,7 @@ public:
     void clipSize();
 
     void forceUpdateFontMetrics(QPainter *painter);
+    void forceUpdateFontMetrics(QFont &font, QPainter *painter);
 
     virtual bool loadFromXMI(QDomElement &qElement);
     virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
@@ -222,8 +223,8 @@ public:
         FT_INVALID = 8
     } FontType;
 
-    virtual void setDefaultFontMetrics(UMLWidget::FontType fontType);
-    virtual void setDefaultFontMetrics(UMLWidget::FontType fontType, QPainter &painter);
+    virtual void setDefaultFontMetrics(QFont &font, UMLWidget::FontType fontType);
+    virtual void setDefaultFontMetrics(QFont &font, UMLWidget::FontType fontType, QPainter &painter);
 
     QFontMetrics &getFontMetrics(UMLWidget::FontType fontType);
     void setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm);

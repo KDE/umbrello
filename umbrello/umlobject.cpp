@@ -491,7 +491,9 @@ void UMLObject::setUMLStereotype(UMLStereotype *stereo)
  */
 void UMLObject::setStereotype(const QString &name)
 {
-    UMLApp::app()->executeCommand(new CmdSetStereotype(this, name));
+    if (name != stereotype()) {
+        UMLApp::app()->executeCommand(new CmdSetStereotype(this, name));
+    }
 }
 
 void UMLObject::setStereotypeCmd(const QString& name)
@@ -992,7 +994,7 @@ bool UMLObject::loadFromXMI(QDomElement & element)
         } else {
             uDebug() << m_name << ": UMLStereotype " << Uml::ID::toString(stereoID)
                      << " not found, creating now.";
-            setStereotype(stereo);
+            setStereotypeCmd(stereo);
         }
     }
 

@@ -637,8 +637,9 @@ void UMLAssociation::setChangeability(Uml::Changeability::Enum value, Uml::RoleT
  */
 void UMLAssociation::setMultiplicity(const QString &multi, Uml::RoleType::Enum role)
 {
-    UMLApp::app()->executeCommand(new CmdChangeMultiplicity(m_pRole[role], multi));
-    //m_pRole[role]->setMultiplicity(multi);
+    if (m_pRole[role]->multiplicity() != multi) {
+        UMLApp::app()->executeCommand(new CmdChangeMultiplicity(m_pRole[role], multi));
+    }
 }
 
 /**

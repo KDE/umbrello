@@ -948,7 +948,7 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
             return false;
         }
     }
-    setFont(m_font);
+    setFontCmd(m_font);
     setSize(width(), height());
     m_activated = true;
     updateGeometry();
@@ -1565,10 +1565,10 @@ void UMLWidget::clipSize()
 /**
  * Template Method, override this to set the default font metric.
  */
-void UMLWidget::setDefaultFontMetrics(UMLWidget::FontType fontType)
+void UMLWidget::setDefaultFontMetrics(QFont &font, UMLWidget::FontType fontType)
 {
-    setupFontType(m_font, fontType);
-    setFontMetrics(fontType, QFontMetrics(m_font));
+    setupFontType(font, fontType);
+    setFontMetrics(fontType, QFontMetrics(font));
 }
 
 void UMLWidget::setupFontType(QFont &font, UMLWidget::FontType fontType)
@@ -1672,10 +1672,10 @@ void UMLWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 /**
  * Template Method, override this to set the default font metric.
  */
-void UMLWidget::setDefaultFontMetrics(UMLWidget::FontType fontType, QPainter &painter)
+void UMLWidget::setDefaultFontMetrics(QFont &font, UMLWidget::FontType fontType, QPainter &painter)
 {
-    setupFontType(m_font, fontType);
-    painter.setFont(m_font);
+    setupFontType(font, fontType);
+    painter.setFont(font);
     setFontMetrics(fontType, painter.fontMetrics());
 }
 
@@ -1686,7 +1686,7 @@ void UMLWidget::setDefaultFontMetrics(UMLWidget::FontType fontType, QPainter &pa
 QFontMetrics &UMLWidget::getFontMetrics(UMLWidget::FontType fontType)
 {
     if (m_pFontMetrics[fontType] == 0) {
-        setDefaultFontMetrics(fontType);
+        setDefaultFontMetrics(m_font, fontType);
     }
     return *m_pFontMetrics[fontType];
 }
@@ -1707,7 +1707,10 @@ void UMLWidget::setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm)
  */
 void UMLWidget::setFont(const QFont &font)
 {
-    if (m_font != font) {
+    QFont newFont = font;
+    forceUpdateFontMetrics(newFont, 0);
+
+    if (m_font != newFont) {
         UMLApp::app()->executeCommand(new CmdChangeFont(this, font));
     }
 }
@@ -1727,23 +1730,31 @@ void UMLWidget::setFontCmd(const QFont &font)
 }
 
 /**
+ * Updates font metrics for widgets current m_font
+ */
+void UMLWidget::forceUpdateFontMetrics(QPainter *painter)
+{
+    forceUpdateFontMetrics(m_font, painter);
+}
+
+/**
  * @note For performance Reasons, only FontMetrics for already used
  *  font types are updated. Not yet used font types will not get a font metric
  *  and will get the same font metric as if painter was zero.
  *  This behaviour is acceptable, because diagrams will always be showed on Display
  *  first before a special painter like a printer device is used.
  */
-void UMLWidget::forceUpdateFontMetrics(QPainter *painter)
+void UMLWidget::forceUpdateFontMetrics(QFont& font, QPainter *painter)
 {
     if (painter == 0) {
         for (int i = 0; i < (int)UMLWidget::FT_INVALID; ++i) {
             if (m_pFontMetrics[(UMLWidget::FontType)i] != 0)
-                setDefaultFontMetrics((UMLWidget::FontType)i);
+                setDefaultFontMetrics(font, (UMLWidget::FontType)i);
         }
     } else {
         for (int i2 = 0; i2 < (int)UMLWidget::FT_INVALID; ++i2) {
             if (m_pFontMetrics[(UMLWidget::FontType)i2] != 0)
-                setDefaultFontMetrics((UMLWidget::FontType)i2, *painter);
+                setDefaultFontMetrics(font, (UMLWidget::FontType)i2, *painter);
         }
     }
     if (m_doc->loading())

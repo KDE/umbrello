@@ -75,7 +75,7 @@ UMLObject* UMLEnum::clone() const
 void UMLEnum::init()
 {
     m_BaseType = UMLObject::ot_Enum;
-    setStereotype("enum");
+    setStereotypeCmd("enum");
 }
 
 /**
