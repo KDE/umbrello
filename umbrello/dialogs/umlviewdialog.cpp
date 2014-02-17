@@ -164,7 +164,11 @@ void UMLViewDialog::setupFontPage()
  */
 void UMLViewDialog::applyPage(KPageWidgetItem *item)
 {
-    if (item == m_pageDiagramItem)
+    if (item == 0) {
+        // Page not loaded in this dialog
+        return;
+    }
+    else if (item == m_pageDiagramItem)
     {
         m_diagramPropertiesPage->apply();
     }
