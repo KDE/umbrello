@@ -373,6 +373,7 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
     DEBUG(DBG_SRC) << "diffX=" << diffX << " / diffY=" << diffY;
     foreach(UMLWidget* widget, m_selectedWidgetsList) {
         widget->moveWidgetBy(diffX, diffY);
+        widget->slotSnapToGrid();
     }
 
     // Move any selected associations.
@@ -383,7 +384,6 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
     }
 
     umlScene()->resizeSceneToItems();
-    slotSnapToGrid();
 }
 
 /**
