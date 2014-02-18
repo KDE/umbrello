@@ -3604,15 +3604,17 @@ void UMLScene::setSnapSpacing(int x, int y)
  */
 qreal UMLScene::snappedX(qreal _x)
 {
-    int x = (int)_x;
     if (snapToGrid()) {
+        int x = (int)_x;
         int gridX = snapX();
         int modX = x % gridX;
         x -= modX;
         if (modX >= gridX / 2)
             x += gridX;
+        return x;
     }
-    return x;
+    else
+        return _x;
 }
 
 /**
@@ -3620,15 +3622,17 @@ qreal UMLScene::snappedX(qreal _x)
  */
 qreal UMLScene::snappedY(qreal _y)
 {
-    int y = (int)_y;
     if (snapToGrid()) {
+        int y = (int)_y;
         int gridY = snapY();
         int modY = y % gridY;
         y -= modY;
         if (modY >= gridY / 2)
             y += gridY;
+        return y;
     }
-    return y;
+    else
+        return _y;
 }
 
 /**
