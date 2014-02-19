@@ -1457,7 +1457,7 @@ void UMLWidget::slotSnapToGrid()
     if (!m_ignoreSnapToGrid) {
         qreal newX = m_scene->snappedX(x());
         setX(newX);
-        qreal newY = m_scene->snappedX(y());
+        qreal newY = m_scene->snappedY(y());
         setY(newY);
     }
 }
