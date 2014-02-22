@@ -3190,6 +3190,8 @@ void UMLApp::executeCommand(QUndoCommand* cmd)
     } else {
         cmd->redo();
     }
+
+    m_doc->setModified(true);
 }
 
 /**
