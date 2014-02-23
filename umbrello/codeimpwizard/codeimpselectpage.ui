@@ -74,7 +74,7 @@
      <item>
       <widget class="QLabel" name="ui_fileExtLabel">
        <property name="text">
-        <string>List of file extensions</string>
+        <string>List of file extensions:</string>
        </property>
       </widget>
      </item>
