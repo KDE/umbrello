@@ -286,7 +286,7 @@ public:
 
     void selectWidgets(qreal px, qreal py, qreal qx, qreal qy);
     void selectWidgets(UMLWidgetList &widgets);
-    void selectWidget(UMLWidget* widget);
+    void selectWidget(UMLWidget* widget, QRectF* rect = 0);
     void selectWidgetsOfAssoc(AssociationWidget *a);
 
     ObjectWidget * onWidgetLine(const QPointF &point) const;

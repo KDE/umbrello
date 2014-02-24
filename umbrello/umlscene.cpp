@@ -1573,51 +1573,75 @@ void UMLScene::selectWidgets(qreal px, qreal py, qreal qx, qreal qy)
         rect.setBottom(py);
     }
 
+    // Select UMLWidgets that fall within the selection rectangle
     foreach(UMLWidget* temp, m_WidgetList) {
-        int x = temp->x();
-        int y = temp->y();
-        int w = temp->width();
-        int h = temp->height();
-        QRectF  rect2(x, y, w, h);
-
-        //see if any part of widget is in the rectangle
-        if (!rect.intersects(rect2))
-            continue;
-        //if it is text that is part of an association then select the association
-        //and the objects that are connected to it.
-        if (temp->baseType() == WidgetBase::wt_Text) {
-            FloatingTextWidget *ft = static_cast<FloatingTextWidget*>(temp);
-            Uml::TextRole::Enum t = ft->textRole();
-            LinkWidget *lw = ft->link();
-            MessageWidget * mw = dynamic_cast<MessageWidget*>(lw);
-            if (mw) {
-                makeSelected(mw);
-                makeSelected(mw->objectWidget(Uml::RoleType::A));
-                makeSelected(mw->objectWidget(Uml::RoleType::B));
-            } else if (t != Uml::TextRole::Floating) {
-                AssociationWidget * a = dynamic_cast<AssociationWidget*>(lw);
-                if (a)
-                    selectWidgetsOfAssoc(a);
-            }
-        } else if (temp->baseType() == WidgetBase::wt_Message) {
-            MessageWidget *mw = static_cast<MessageWidget*>(temp);
-            makeSelected(mw->objectWidget(Uml::RoleType::A));
-            makeSelected(mw->objectWidget(Uml::RoleType::B));
-        }
-        if (temp->isVisible()) {
-            makeSelected(temp);
-        }
+        selectWidget(temp, &rect);
     }
+
+    // Select messages that fall within the selection rectangle
+    foreach(MessageWidget* temp, m_MessageList) {
+        selectWidget(dynamic_cast<UMLWidget*>(temp), &rect);
+    }
+
+    // Select associations of selected widgets
     selectAssociations(true);
 
-    //now do the same for the messagewidgets
-
+    // Automatically select all messages if two object widgets are selected
     foreach(MessageWidget *w, m_MessageList) {
         if (w->objectWidget(Uml::RoleType::A)->isSelected() &&
                 w->objectWidget(Uml::RoleType::B)->isSelected()) {
             makeSelected(w);
-        }//end if
-    }//end foreach
+        }
+    }
+}
+
+/**
+ * Select a single widget
+ *
+ * If QRectF* rect is provided, the selection is only made if the widget is
+ * visible within the rectangle.
+ */
+void UMLScene::selectWidget(UMLWidget* widget, QRectF* rect)
+{
+    if (rect == 0) {
+        makeSelected(widget);
+        return;
+    }
+
+    int x = widget->x();
+    int y = widget->y();
+    int w = widget->width();
+    int h = widget->height();
+    QRectF  rect2(x, y, w, h);
+
+    //see if any part of widget is in the rectangle
+    if (!rect->intersects(rect2)) {
+        return;
+    }
+
+    //if it is text that is part of an association then select the association
+    //and the objects that are connected to it.
+    if (widget->baseType() == WidgetBase::wt_Text) {
+        FloatingTextWidget *ft = static_cast<FloatingTextWidget*>(widget);
+        Uml::TextRole::Enum t = ft->textRole();
+        LinkWidget *lw = ft->link();
+        MessageWidget * mw = dynamic_cast<MessageWidget*>(lw);
+        if (mw) {
+            makeSelected(mw);
+            makeSelected(mw->objectWidget(Uml::RoleType::A));
+            makeSelected(mw->objectWidget(Uml::RoleType::B));
+        } else if (t != Uml::TextRole::Floating) {
+            AssociationWidget * a = dynamic_cast<AssociationWidget*>(lw);
+            if (a)
+                selectWidgetsOfAssoc(a);
+        }
+    } else if (widget->baseType() == WidgetBase::wt_Message) {
+        MessageWidget *mw = static_cast<MessageWidget*>(widget);
+        makeSelected(mw);
+    }
+    if (widget->isVisible()) {
+        makeSelected(widget);
+    }
 }
 
 /**
@@ -1627,14 +1651,6 @@ void UMLScene::selectWidgets(UMLWidgetList &widgets)
 {
     foreach (UMLWidget* widget, widgets)
         makeSelected(widget);
-}
-
-/**
- * Add one widget to the selected widgets list
- */
-void UMLScene::selectWidget(UMLWidget* widget)
-{
-    makeSelected(widget);
 }
 
 /**
