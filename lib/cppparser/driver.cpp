@@ -726,7 +726,7 @@ QString Driver::findIncludeFile(const Dependence& dep, const QString& fromFile)
 
     QStringList includePaths = getCustomIncludePath(fromFile);
 
-    for (QStringList::ConstIterator it = includePaths.begin(); it != includePaths.end(); ++it) {
+    for (QStringList::ConstIterator it = includePaths.constBegin(); it != includePaths.constEnd(); ++it) {
         QFileInfo fileInfo(*it, fileName);
         if (fileInfo.exists() && fileInfo.isFile())
             return fileInfo.absoluteFilePath();
