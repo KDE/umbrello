@@ -436,15 +436,15 @@ void Lexer::nextToken(Token& tk, bool stopOnNewline)
                     insertCurrent(QString(" ") + (*pos).second.second + QString(" "));
                 }
             } else if ( /*qt_rx.exactMatch(ide) ||*/
-                ide.str().endsWith("EXPORT") ||
-                (ide.str().startsWith("Q_EXPORT") && ide.str() != "Q_EXPORT_INTERFACE") ||
-                ide.str().startsWith("QM_EXPORT") ||
-                ide.str().startsWith("QM_TEMPLATE")) {
+                ide.str().endsWith(QLatin1String("EXPORT")) ||
+                (ide.str().startsWith(QLatin1String("Q_EXPORT")) && ide.str() != QLatin1String("Q_EXPORT_INTERFACE")) ||
+                ide.str().startsWith(QLatin1String("QM_EXPORT")) ||
+                ide.str().startsWith(QLatin1String("QM_TEMPLATE"))) {
 
                 readWhiteSpaces();
                 if (currentChar() == '(')
                     skip('(', ')');
-            } else if (ide.str().startsWith("K_TYPELIST_") || ide.str().startsWith("TYPELIST_")) {
+            } else if (ide.str().startsWith(QLatin1String("K_TYPELIST_")) || ide.str().startsWith(QLatin1String("TYPELIST_"))) {
                 tk = CREATE_TOKEN(Token_identifier, start, currentPosition() - start);
                 tk.setStartPosition(startLine, startColumn);
                 tk.setEndPosition(m_currentLine, m_currentColumn);
