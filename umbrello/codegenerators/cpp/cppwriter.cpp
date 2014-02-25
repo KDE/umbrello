@@ -1194,7 +1194,7 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
             doc += policyExt()->getDocToolTag() + "param  " + atName + ' ' + at->doc() + m_endl;
         }
         doc = doc.remove(doc.size() - 1, 1);  // remove last endl of comment
-        str += ")";
+        str += ')';
 
         if (op->getConst())
             str += " const";

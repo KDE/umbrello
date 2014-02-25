@@ -922,7 +922,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java)
         str += ((op->isAbstract() && !m_isInterface) ? "abstract ":"");
         str += Uml::Visibility::toString(op->visibility()) + ' ';
         str += (op->isStatic() ? "static ":"");
-        str += methodReturnType + ' ' + cleanName(op->name()) + "(";
+        str += methodReturnType + ' ' + cleanName(op->name()) + '(';
 
         atl = op->getParmList();
         i= atl.count();
@@ -939,7 +939,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java)
             j++;
         }
         doc = doc.remove(doc.size() - 1, 1);  // remove last endl of comment
-        str+= ")";
+        str+= ')';
 
         // method only gets a body IF it is not abstract
         if (op->isAbstract() || m_isInterface)

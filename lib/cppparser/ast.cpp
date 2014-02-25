@@ -487,7 +487,7 @@ QString TypeSpecifierAST::text() const
     QString str;
 
     if (m_cvQualify.get())
-        str += m_cvQualify->text() + " ";
+        str += m_cvQualify->text() + ' ';
 
     if (m_name.get())
         str += m_name->text();
@@ -553,7 +553,7 @@ void ElaboratedTypeSpecifierAST::setKind(AST::Node& kind)
 QString ElaboratedTypeSpecifierAST::text() const
 {
     if (m_kind.get())
-        return m_kind->text() + " " + TypeSpecifierAST::text();
+        return m_kind->text() + ' ' + TypeSpecifierAST::text();
 
     return TypeSpecifierAST::text();
 }
@@ -1022,7 +1022,7 @@ QString ParameterDeclarationAST::text() const
 {
     QString str;
     if (m_typeSpec.get())
-        str += m_typeSpec->text() + " ";
+        str += m_typeSpec->text() + ' ';
 
     if (m_declarator.get())
         str += m_declarator->text();

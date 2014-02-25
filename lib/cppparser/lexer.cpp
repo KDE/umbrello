@@ -569,7 +569,7 @@ QString Lexer::readArgument()
         }
 
         if (tk != -1)
-            arg += tk.text() + " ";
+            arg += tk.text() + ' ';
     }
 
     return arg.trimmed();
@@ -695,7 +695,7 @@ void Lexer::processDefine(Macro& m)
 
         if (currentChar().isSpace()) {
             readWhiteSpaces(false);
-            body += " ";
+            body += ' ';
         } else {
 
             Token tk(m_source);

@@ -102,7 +102,7 @@ QString declaratorToString(DeclaratorAST* declarator, const QString& scope, bool
     }
 
     if (declarator->parameterDeclarationClause()) {
-        text += "(";
+        text += '(';
 
         ParameterDeclarationListAST* l = declarator->parameterDeclarationClause()->parameterDeclarationList();
         if (l != 0) {
@@ -119,7 +119,7 @@ QString declaratorToString(DeclaratorAST* declarator, const QString& scope, bool
             }
         }
 
-        text += ")";
+        text += ')';
 
         if (declarator->constant() != 0)
             text += " const";
