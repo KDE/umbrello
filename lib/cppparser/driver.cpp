@@ -558,7 +558,7 @@ bool Driver::parseFile(const QString& fileName, bool onlyPreProcess, bool force 
     if (macrosGlobal) {
         for (MacroMap::iterator it = m_macros.begin(); it != m_macros.end(); ++it) {
             if ((*it).second.fileName() == fileName) {
-                (*it).second.setFileName(QString::null);
+                (*it).second.setFileName(QString());
             }
         }
     }
@@ -732,7 +732,7 @@ QString Driver::findIncludeFile(const Dependence& dep, const QString& fromFile)
             return fileInfo.absoluteFilePath();
     }
 
-    return QString::null;
+    return QString();
 }
 
 QString Driver::findIncludeFile(const Dependence& dep) const
@@ -752,7 +752,7 @@ QString Driver::findIncludeFile(const Dependence& dep) const
             return fileInfo.absoluteFilePath();
     }
 
-    return QString::null;
+    return QString();
 }
 
 void Driver::setResolveDependencesEnabled(bool enabled)

@@ -217,7 +217,7 @@ public:
     void setPreprocessorEnabled(bool enabled);
 
     void resetSkipWords();
-    void addSkipWord(const QString& word, SkipType skipType=SkipWord, const QString& str = QString::null);
+    void addSkipWord(const QString& word, SkipType skipType=SkipWord, const QString& str = QString());
 
     QString source() const;
     void setSource(const QString& source);
