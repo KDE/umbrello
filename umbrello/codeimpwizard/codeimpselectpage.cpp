@@ -108,7 +108,11 @@ void CodeImpSelectPage::setupTreeView()
     ui_treeView->setModel(model);
     ui_treeView->setIndentation(20);
     ui_treeView->setColumnWidth(0, 200);
+
     ui_treeView->setSortingEnabled(true);
+    ui_treeView->header()
+        ->setSortIndicator(0, Qt::AscendingOrder);
+
     ui_treeView->setWindowTitle(i18n("File System Model"));
     if (s_recentPath.isEmpty()) {
         ui_treeView->setCurrentIndex(model->index(QDir::currentPath()));
