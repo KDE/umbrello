@@ -107,7 +107,7 @@ private:
 
 
 Driver::Driver()
-    : depresolv(FALSE), lexer(0), m_lexerCache(this), m_dependenceDepth(0), m_maxDependenceDepth(20)
+    : depresolv(0), lexer(0), m_lexerCache(this), m_dependenceDepth(0), m_maxDependenceDepth(20)
 {
     m_sourceProvider = new DefaultSourceProvider();
 }
