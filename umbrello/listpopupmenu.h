@@ -12,7 +12,6 @@
 #define LISTPOPUPMENU_H
 
 #include "basictypes.h"
-#include "widgetbase.h"
 #include "umllistviewitem.h"
 #include "umlobject.h"
 #include "widgetbase.h"

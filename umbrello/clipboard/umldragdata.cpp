@@ -15,7 +15,6 @@
 #include "associationwidget.h"
 #include "classifier.h"
 #include "cmds.h"
-#include "cmds.h"
 #include "debug_utils.h"
 #include "folder.h"
 #include "idchangelog.h"
