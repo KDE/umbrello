@@ -365,7 +365,7 @@ void processNamespaces(FunctionList &list, const NamespaceDom dom);
 void processClasses(FunctionList &list, const ClassDom dom, QMap<FunctionDom, Scope> &relations);
 
 /**Looks for functions in the class and also saves their scope.
-Used for classes withing a namespace.
+Used for classes within a namespace.
 @param list The list of functions found by this routine.
 @param dom The class to look for functions.
 @param relations The scope information.
@@ -399,7 +399,7 @@ void processNamespaces(FunctionDefinitionList &list, const NamespaceDom dom);
 void processClasses(FunctionDefinitionList &list, const ClassDom dom, QMap<FunctionDefinitionDom, Scope> &relations);
 
 /**Looks for function definitions in the class and also saves their scope.
-Used for classes withing a namespace.
+Used for classes within a namespace.
 @param list The list of function definitions found by this routine.
 @param dom The class to look for function definitions .
 @param relations The scope information.
@@ -414,7 +414,7 @@ void processNamespaces(FunctionDefinitionList &list, const NamespaceDom dom, QMa
 }
 
 /**
- * Compares a declaration and a defintion of a function.
+ * Compares a declaration and a definition of a function.
  * @param dec declaration
  * @param def definition
  * @return true, if dec is the declaration of the function definition def, false otherwise
@@ -423,7 +423,7 @@ void processNamespaces(FunctionDefinitionList &list, const NamespaceDom dom, QMa
 bool compareDeclarationToDefinition(const FunctionDom& dec, const FunctionDefinitionDom& def);
 
 /**
- * Compares a declaration and a defintion of a function.
+ * Compares a declaration and a definition of a function.
  * @param dec declaration
  * @param def definition
  * @param nsImports namespace imports for the namespace the definition appears in
@@ -432,7 +432,7 @@ bool compareDeclarationToDefinition(const FunctionDom& dec, const FunctionDefini
 bool compareDeclarationToDefinition(const FunctionDom& dec, const FunctionDefinitionDom& def, const std::set<NamespaceImportModel>& nsImports);
 
 /**
- * Predicate for use with findFunctionDefintions. Searches for a defintion matching a declaration.
+ * Predicate for use with findFunctionDefinitions. Searches for a definition matching a declaration.
  * @sa Pred documentation to learn more about predicates used with code model.
  * @author Jonas Jacobi
  */
@@ -498,7 +498,7 @@ FunctionDefinitionList allFunctionDefinitionsExhaustive(FileDom &dom);
  * In the case of nested classes the innermost class which is declared at/around the provided position.
  * @param nameSpace A namespace to search for the class.
  * @param line A linenumber inside the class declaration.
- * @param col The colum of line.
+ * @param col The column of line.
  * @return The innermost class, which is declared at/around position defined with line / col, or 0 if no class is found.
  * @author Jonas Jacobi <j.jacobi@gmx.de>
  */
