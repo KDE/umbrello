@@ -147,5 +147,11 @@ QSizeF ComponentWidget::minimumSize()
 
     int height = (2*fontHeight) + (COMPONENT_MARGIN * 3);
 
+    UMLComponent *umlcomp = static_cast<UMLComponent*>(m_umlObject);
+    if (umlcomp && umlcomp->getExecutable()) {
+        width  += 2;
+        height += 2;
+    }
+
     return QSizeF(width, height);
 }
