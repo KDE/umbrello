@@ -1338,6 +1338,8 @@ void Symbol::setPen(const QPen& pen)
 {
     prepareGeometryChange();
     m_pen = pen;
+    if (m_symbolType == ClosedArrow)
+        m_pen.setStyle(Qt::SolidLine);
 }
 
 /**
