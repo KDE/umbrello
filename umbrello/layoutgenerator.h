@@ -235,15 +235,15 @@ public:
 
             QString id;
             if (m_edgeParameters.contains("id::" + key) && m_edgeParameters["id::" + key] == "swap")
-                id = fixID(Uml::ID::toString(assoc->widgetIDForRole(Uml::RoleType::A)) + Uml::ID::toString(assoc->widgetIDForRole(Uml::RoleType::B)));
+                id = fixID(Uml::ID::toString(assoc->widgetLocalIDForRole(Uml::RoleType::A)) + Uml::ID::toString(assoc->widgetLocalIDForRole(Uml::RoleType::B)));
             else
-                id = fixID(Uml::ID::toString(assoc->widgetIDForRole(Uml::RoleType::B)) + Uml::ID::toString(assoc->widgetIDForRole(Uml::RoleType::A)));
+                id = fixID(Uml::ID::toString(assoc->widgetLocalIDForRole(Uml::RoleType::B)) + Uml::ID::toString(assoc->widgetLocalIDForRole(Uml::RoleType::A)));
 
             // adjust associations not used in the dot file
             if (!m_edges.contains(id)) {
                 // shorten line path
                 AssociationLine *path = assoc->associationLine();
-                if (path->count() > 2 && assoc->widgetIDForRole(Uml::RoleType::A) != assoc->widgetIDForRole(Uml::RoleType::B)) {
+                if (path->count() > 2 && assoc->widgetLocalIDForRole(Uml::RoleType::A) != assoc->widgetLocalIDForRole(Uml::RoleType::B)) {
                     while(path->count() > 2)
                         path->removePoint(1);
                 }
@@ -276,7 +276,7 @@ public:
         }
 
         foreach(UMLWidget *widget, scene->widgetList()) {
-            QString id = Uml::ID::toString(widget->id());
+            QString id = Uml::ID::toString(widget->localID());
             if (!m_nodes.contains(id))
                 continue;
             QPoint p = origin(id);
