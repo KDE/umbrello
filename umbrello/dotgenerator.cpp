@@ -363,7 +363,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
 #ifdef DOTGENERATOR_DATA_DEBUG
         uDebug() << type << params;
 #endif
-        QString id = fixID(Uml::ID::toString(widget->id()));
+        QString id = fixID(Uml::ID::toString(widget->localID()));
         if (widget->baseType() != WidgetBase::wt_Text)
             out << "\"" << id << "\""
                 << " [" << params.join(",") << "];\n";
@@ -426,8 +426,8 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
 #ifdef DOTGENERATOR_DATA_DEBUG
         uDebug() << type << params;
 #endif
-        QString aID = fixID(Uml::ID::toString(assoc->widgetIDForRole(swapId ? Uml::RoleType::A : Uml::RoleType::B)));
-        QString bID = fixID(Uml::ID::toString(assoc->widgetIDForRole(swapId ? Uml::RoleType::B : Uml::RoleType::A)));
+        QString aID = fixID(Uml::ID::toString(assoc->widgetLocalIDForRole(swapId ? Uml::RoleType::A : Uml::RoleType::B)));
+        QString bID = fixID(Uml::ID::toString(assoc->widgetLocalIDForRole(swapId ? Uml::RoleType::B : Uml::RoleType::A)));
 
         out << "\"" << aID << "\" -> \"" << bID << "\"" << " [" << params.join(",") << "];\n";
     }

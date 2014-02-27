@@ -122,6 +122,7 @@ public:
     void setChangeability(Uml::Changeability::Enum value, Uml::RoleType::Enum role);
 
     Uml::ID::Type widgetIDForRole(Uml::RoleType::Enum role) const;
+    Uml::ID::Type widgetLocalIDForRole(Uml::RoleType::Enum role) const;
     UMLWidget* widgetForRole(Uml::RoleType::Enum role) const;
     void setWidgetForRole(UMLWidget* widget, Uml::RoleType::Enum role);
 

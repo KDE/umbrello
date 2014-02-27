@@ -1488,6 +1488,25 @@ Uml::ID::Type AssociationWidget::widgetIDForRole(Uml::RoleType::Enum role) const
 }
 
 /**
+ * Gets the local ID of the given role widget.
+ */
+Uml::ID::Type AssociationWidget::widgetLocalIDForRole(Uml::RoleType::Enum role) const
+{
+    if (m_role[role].umlWidget == NULL) {
+        if (m_umlObject && m_umlObject->baseType() == UMLObject::ot_Association) {
+            UMLAssociation *umla = static_cast<UMLAssociation*>(m_umlObject);
+            return umla->getObjectId(role);
+        }
+        uError() << "umlWidget is NULL";
+        return Uml::ID::None;
+    }
+    if (m_role[role].umlWidget->baseType() == WidgetBase::wt_Object)
+        return static_cast<ObjectWidget*>(m_role[role].umlWidget)->localID();
+    Uml::ID::Type id = m_role[role].umlWidget->localID();
+    return id;
+}
+
+/**
  * Returns a QString Object representing this AssociationWidget.
  */
 QString AssociationWidget::toString() const
