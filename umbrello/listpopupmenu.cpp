@@ -14,6 +14,7 @@
 // app includes
 #include "activitywidget.h"
 #include "associationline.h"
+#include "associationwidget.h"
 #include "category.h"
 #include "classifier.h"
 #include "classifierwidget.h"
