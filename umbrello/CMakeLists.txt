@@ -392,6 +392,7 @@ set(libumbrello_SRCS
     foreignkeyconstraint.cpp
     icon_utils.cpp
     import_rose.cpp
+    layoutgenerator.cpp
     listpopupmenu.cpp
     main.cpp
     model_utils.cpp
