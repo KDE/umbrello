@@ -60,13 +60,6 @@
        </property>
       </spacer>
      </item>
-     <item>
-      <widget class="QCheckBox" name="ui_subdirCheckBox">
-       <property name="text">
-        <string>Include Subdirectories.</string>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
    <item>
@@ -112,16 +105,19 @@
       <number>20</number>
      </property>
      <item>
-      <widget class="QPushButton" name="ui_deselectAllButton">
+      <widget class="QPushButton" name="ui_clearSelectionButton">
        <property name="text">
-        <string>Deselect all</string>
+        <string>Clear selection</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="ui_selectAllButton">
+      <widget class="QCheckBox" name="ui_selectFolderCheckBox">
        <property name="text">
-        <string>Select all</string>
+        <string>Recursive directory import</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

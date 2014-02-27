@@ -60,9 +60,8 @@ CodeImpSelectPage::CodeImpSelectPage(QWidget *parent)
     setupFileExtEdit();
     connect(ui_fileExtLineEdit, SIGNAL(editingFinished()), this, SLOT(fileExtChanged()));
 
-    connect(ui_subdirCheckBox, SIGNAL(stateChanged(int)), this, SLOT(subdirStateChanged(int)));
-    connect(ui_selectAllButton, SIGNAL(clicked()), this, SLOT(selectAll()));
-    connect(ui_deselectAllButton, SIGNAL(clicked()), this, SLOT(deselectAll()));
+    connect(ui_selectFolderCheckBox, SIGNAL(stateChanged(int)), this, SLOT(selectFolderStateChanged(int)));
+    connect(ui_clearSelectionButton, SIGNAL(clicked()), this, SLOT(clearSelection()));
 
     setupToolTips();
     // update file extensions
@@ -113,16 +112,38 @@ void CodeImpSelectPage::setupTreeView()
     ui_treeView->header()
         ->setSortIndicator(0, Qt::AscendingOrder);
 
+    setupInitialSelection();
+
     ui_treeView->setWindowTitle(i18n("File System Model"));
-    if (s_recentPath.isEmpty()) {
-        ui_treeView->setCurrentIndex(model->index(QDir::currentPath()));
-    }
-    else {
-        ui_treeView->setCurrentIndex(model->index(s_recentPath));
-    }
     ui_treeView->scrollTo(ui_treeView->currentIndex());
     ui_treeView->setMouseTracking(true);
     ui_treeView->show();
+}
+
+/**
+ * Setup the tree view selection to an initial state
+ */
+void CodeImpSelectPage::setupInitialSelection()
+{
+    QFileSystemModel* model = (QFileSystemModel*)ui_treeView->model();
+
+    if (s_recentPath.isEmpty()) {
+        ui_treeView->setCurrentIndex(model->index(QDir::currentPath()));
+    } else {
+        ui_treeView->setCurrentIndex(model->index(s_recentPath));
+    }
+
+    QDir::Filters filters = QDir::AllDirs | QDir::NoDotAndDotDot;
+
+    if (ui_selectFolderCheckBox->checkState() == Qt::Checked) {
+        ui_treeView->setSelectionMode(QAbstractItemView::SingleSelection);
+        model->setFilter(filters);
+    } else {
+        ui_treeView->setSelectionMode(QAbstractItemView::MultiSelection);
+        model->setFilter(filters | QDir::Files);
+    }
+
+    updateSelectionCounter();
 }
 
 /**
@@ -141,9 +162,8 @@ void CodeImpSelectPage::setupFileExtEdit()
 void CodeImpSelectPage::setupToolTips()
 {
     ui_languageBox->setToolTip(i18n("Select the desired language to filter files."));
-    ui_subdirCheckBox->setToolTip(i18n("Select also all the files in the subdirectories."));
-    ui_selectAllButton->setToolTip(i18n("Select all the files below the current directory."));
-    ui_deselectAllButton->setToolTip(i18n("Clear all selections."));
+    ui_selectFolderCheckBox->setToolTip(i18n("Select a single folder and import all files recursively."));
+    ui_clearSelectionButton->setToolTip(i18n("Clear all selections."));
     ui_fileExtLineEdit->setToolTip(i18n("Add file extensions like e.g. '*.h *.hpp'."));
 }
 
@@ -167,41 +187,10 @@ bool CodeImpSelectPage::matchFilter(const QFileInfo& path)
 }
 
 /**
- * Recursively get all the sources files that matches the filters from the given path.
- * :TODO: still in use?
- * @param path      path to the parent directory
- * @param filters   file extensions of the wanted files
- */
-/*void CodeImpSelectPage::files(const QString& path, QStringList& filters)
-{
-    //uDebug() << "files from path " << path;
-    QDir searchDir(path);
-    if (searchDir.exists()) {
-        QString indent = QString();
-        foreach (const QFileInfo &file, searchDir.entryInfoList(filters, QDir::Files)) {
-            if (matchFilter(file)) {
-                m_fileList.append(file);
-                uDebug() << "file = " << file.absoluteFilePath();
-            }
-        }
-        if (ui_subdirCheckBox->isChecked()) {
-            foreach (const QFileInfo &subDir, searchDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks)) {
-                m_fileList.append(subDir);
-                //uDebug() << "directory = " << subDir.fileName();
-                files(searchDir.absoluteFilePath(subDir.fileName()), filters);
-            }
-        }
-    }
-    else {
-        uDebug() << "searchDir does not exist: " << searchDir.path();
-    }
-}*/
-
-/**
- * Slot for the stateChanged event of the subdirectory check box.
+ * Slot for the stateChanged event of the "select folder" check box.
  * @param state   check box state (Qt::Checked / Qt::Unchecked)
  */
-void CodeImpSelectPage::subdirStateChanged(int state)
+void CodeImpSelectPage::selectFolderStateChanged(int state)
 {
     QString strState;
     switch (state) {
@@ -215,7 +204,10 @@ void CodeImpSelectPage::subdirStateChanged(int state)
         strState = "not known";
         break;
     }
+
     uDebug() << "state set to " << strState;
+
+    setupInitialSelection();
 }
 
 /**
@@ -238,45 +230,16 @@ void CodeImpSelectPage::fileExtChanged()
  */
 void CodeImpSelectPage::treeClicked(const QModelIndex& index)
 {
-    if (index.isValid()) {
-        uDebug() << "item at row=" << index.row() << " / column=" << index.column();
-        QFileSystemModel* indexModel = (QFileSystemModel*)index.model();
-        QFileInfo fileInfo = indexModel->fileInfo(index);
-        if (fileInfo.isDir()) {
-            int rows = indexModel->rowCount(index);
-            uDebug() << "item has directory and has children = " << rows;
-            QItemSelectionModel* selectionModel = ui_treeView->selectionModel();
-            for(int row = 0; row < rows; ++row) {
-                QModelIndex childIndex = indexModel->index(row, 0, index);
-                if (selectionModel->isSelected(index)) {
-                    // uDebug() << "select all children";
-                    QFileInfo childInfo = indexModel->fileInfo(childIndex);
-                    if (childInfo.isDir() && ui_subdirCheckBox->isChecked()) {
-                        treeClicked(childIndex);
-                    }
-                    else {
-                        if (matchFilter(childInfo)) {
-                            selectionModel->select(childIndex, QItemSelectionModel::Select);
-                        }
-                        else {
-                            selectionModel->select(childIndex, QItemSelectionModel::Deselect);
-                        }
-                    }
-                }
-                else {
-                    // uDebug() << "deselect all children";
-                    selectionModel->select(childIndex, QItemSelectionModel::Deselect);
-                }
-            }
-            // keep the latest clicked directory
-            s_recentPath = fileInfo.filePath();
-        }
-        updateSelectionCounter();
-        emit selectionChanged();
+    QFileSystemModel* indexModel = (QFileSystemModel*)index.model();
+    QFileInfo fileInfo = indexModel->fileInfo(index);
+
+    if (fileInfo.isDir()) {
+        // keep the latest clicked directory
+        s_recentPath = fileInfo.filePath();
     }
-    else {
-        uWarning() << "Index not valid!";
-    }
+
+    updateSelectionCounter();
+    emit selectionChanged();
 }
 
 void CodeImpSelectPage::treeEntered(const QModelIndex &index)
@@ -356,6 +319,9 @@ void CodeImpSelectPage::changeLanguage()
     model->setNameFilters(m_fileExtensions);
 
     ui_fileExtLineEdit->setText(m_fileExtensions.join(", "));
+
+    // Clear selection and select initial selected directory
+    setupInitialSelection();
 }
 
 /**
@@ -383,6 +349,9 @@ QList<QFileInfo> CodeImpSelectPage::selectedFiles()
             if (fileInfo.isFile() && matchFilter(fileInfo)) {
                 fileList.append(fileInfo);
             }
+            if (fileInfo.isDir() && ui_selectFolderCheckBox->isChecked()) {
+                selectRecursive(fileInfo, fileList);
+            }
             row = idx.row();
         }
     }
@@ -390,33 +359,20 @@ QList<QFileInfo> CodeImpSelectPage::selectedFiles()
 }
 
 /**
- * Slot for clicked event on the button widget.
- * Select all items in the current selected directory.
- * If the checkbox 'ui_subdirCheckBox' is selected
- * also all the files in the subdirectories are selected.
+ * Recursively look for files in a directory matching the filter pattern
  */
-void CodeImpSelectPage::selectAll()
+void CodeImpSelectPage::selectRecursive(QFileInfo parent, QList<QFileInfo>& fileList)
 {
-    QModelIndex currIndex = ui_treeView->selectionModel()->currentIndex();
-    if (currIndex.isValid()) {
-        QFileSystemModel* model = (QFileSystemModel*)ui_treeView->model();
-        QFileInfo fileInfo = model->fileInfo(currIndex);
-        if (fileInfo.isDir()) {
-            QItemSelectionModel* selectionModel = ui_treeView->selectionModel();
-            Q_UNUSED(selectionModel);
-            //...
-            if (ui_subdirCheckBox->isChecked()) {
-                //...
-                ui_treeView->selectAll();
-                updateSelectionCounter();
+    QDirIterator iterator(parent.absoluteFilePath(), QDirIterator::Subdirectories);
+
+    while (iterator.hasNext()) {
+        iterator.next();
+        if (!iterator.fileInfo().isDir()) {
+            QFileInfo fileInfo = iterator.fileInfo();
+            if (fileInfo.isFile() && matchFilter(fileInfo)) {
+                fileList.append(fileInfo);
             }
         }
-        else {
-            uWarning() << "No directory was selected!";
-        }
-    }
-    else {
-        uWarning() << "No directory was selected!";
     }
 }
 
@@ -424,7 +380,7 @@ void CodeImpSelectPage::selectAll()
  * Slot for clicked event on the button widget.
  * Deselects all items in the entire tree.
  */
-void CodeImpSelectPage::deselectAll()
+void CodeImpSelectPage::clearSelection()
 {
     ui_treeView->clearSelection();
     updateSelectionCounter();

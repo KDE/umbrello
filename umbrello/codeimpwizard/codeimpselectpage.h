@@ -54,8 +54,11 @@ private:
 
     void setupLanguageBox();
     void setupTreeView();
+    void setupInitialSelection();
     void setupFileExtEdit();
     void setupToolTips();
+
+    void selectRecursive(QFileInfo parent, QList<QFileInfo>& fileList);
 
 protected slots:
     void languageChanged(int id);
@@ -64,10 +67,9 @@ protected slots:
 
 private slots:
     void changeLanguage();
-    void subdirStateChanged(int state);
+    void selectFolderStateChanged(int state);
     void fileExtChanged();
-    void selectAll();
-    void deselectAll();
+    void clearSelection();
     void updateSelectionCounter();
 
 signals:
