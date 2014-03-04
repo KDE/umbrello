@@ -355,7 +355,7 @@ private:
 };
 
 
-inline Token::Token(const QString & text = "")
+inline Token::Token(const QString & text)
     : m_type(-1),
       m_position(0),
       m_length(0),
