@@ -381,8 +381,20 @@ bool loadFromMDL(QIODevice& file)
     while (!(line = stream.readLine()).isNull()) {
         linum++;
         if (line.contains(QRegExp("^\\s*\\(object Petal"))) {
-            while (!(line = stream.readLine()).isNull() && !line.contains(')')) {
+            bool finish = false;
+            while (!(line = stream.readLine()).isNull()) {
                 linum++; // CHECK: do we need petal version info?
+                if (line.contains(')')) {
+                    finish = true;
+                    line = line.replace(QLatin1String(")"),QLatin1String(""));
+                }
+                QStringList a = line.trimmed().split(QRegExp("\\s+"));
+                if (a.size() == 2) {
+                    if (a[0] == "charSet" && a[1] == "134")
+                        stream.setCodec("GB18030");
+                }
+                if (finish)
+                     break;
             }
             if (line.isNull())
                 break;
