@@ -605,6 +605,35 @@ bool umbrellify(PetalNode *node, const QString& modelsName, UMLListViewItem *par
 }
 
 /**
+ * import logical view
+ * @param root root node
+ * @return true on success
+ */
+bool importLogicalView(PetalNode *root, const QString& rootName, const QString& modelsName)
+{
+    PetalNode *viewRoot = root->findAttribute(rootName).node;
+    if (viewRoot == NULL) {
+        uError() << "importLogicalView: cannot find " << rootName;
+        return false;
+    }
+    if (viewRoot->name() != "Class_Category") {
+        uError() << "importLogicalView: expecting root_category object Class_Category";
+        return false;
+    }
+    PetalNode *models = viewRoot->findAttribute(modelsName).node;
+    if (models == NULL) {
+        uError() << "importLogicalView: cannot find " << modelsName
+                 << " of " << rootName;
+        return false;
+    }
+    PetalNode::NameValueList atts = models->attributes();
+    for (int i = 0; i < atts.count(); ++i) {
+        umbrellify(atts[i].second.node);
+    }
+    return true;
+}
+
+/**
  * Auxiliary function for UseCase/Component/Deployment view import
  */
 bool importView(PetalNode *root, const QString& rootName,
@@ -689,6 +718,11 @@ bool petalTree2Uml(PetalNode *root, UMLPackage *parentPkg /* = 0 */)
 
     // Shorthand for UMLApp::app()->listView()
     UMLListView *lv = UMLApp::app()->listView();
+
+    UMLDoc *umldoc = UMLApp::app()->document();
+    umldoc->setCurrentRoot(Uml::ModelType::Logical);
+    Import_Utils::assignUniqueIdOnCreation(false);
+    importLogicalView(root, "root_category", "logical_models");
 
     //*************************** import Use Case View ********************************
     umldoc->setCurrentRoot(Uml::ModelType::UseCase);
