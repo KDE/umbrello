@@ -538,9 +538,11 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
             status = Import_Rose::loadFromMDL(file);
             if (status) {
                 m_doc_url.setFileName(i18n("Untitled"));
-                QString name = createDiagramName(Uml::DiagramType::Class, false);
-                createDiagram(m_root[Uml::ModelType::Logical], Uml::DiagramType::Class, name);
-                m_pCurrentRoot = m_root[Uml::ModelType::Logical];
+                if (UMLApp::app()->currentView() == 0) {
+                    QString name = createDiagramName(Uml::DiagramType::Class, false);
+                    createDiagram(m_root[Uml::ModelType::Logical], Uml::DiagramType::Class, name);
+                    setCurrentRoot(Uml::ModelType::Logical);
+                }
             }
             else
                 newDocument();
