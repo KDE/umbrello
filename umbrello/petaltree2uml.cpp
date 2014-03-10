@@ -15,6 +15,7 @@
 #include "debug_utils.h"
 #include "petalnode.h"
 #include "import_utils.h"
+#include "import_rose.h"
 #include "package.h"
 #include "classifier.h"
 #include "attribute.h"
@@ -25,16 +26,19 @@
 #include "usecase.h"
 #include "component.h"
 #include "node.h"
+#include "notewidget.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umllistview.h"
 #include "umllistviewitem.h"
-#include "import_rose.h"
+#include "umlscene.h"
+#include "umlview.h"
+#include "widget_factory.h"
 
 // qt includes
 #include <QtGlobal>
-#include <QRegExp>
 #include <QFile>
+#include <QRegExp>
 
 namespace Import_Rose {
 
@@ -74,6 +78,48 @@ QString quidu(const PetalNode *node)
         return QString();
     quiduStr.remove('\"');
     return quiduStr;
+}
+
+/**
+ * Extract the location attribute from a petal node.
+ */
+QPointF fetchLocation(const PetalNode *node)
+{
+    QString location = node->findAttribute("location").string;
+    QStringList a = location.split(' ');
+    if (a.size() != 2) {
+        return QPointF();
+    }
+    bool ok;
+    qreal x = a[0].toDouble(&ok);
+    if (!ok)
+        QPointF();
+    qreal y = a[1].toDouble(&ok);
+    if (!ok)
+        QPointF();
+    return QPointF(x, y);
+}
+
+/**
+ * Extract a double attribute from a petal node.
+ */
+qreal fetchDouble(const PetalNode *node, const QString &attribute, qreal defaultValue = 0)
+{
+    bool ok;
+    QString s = node->findAttribute(attribute).string;
+    qreal value = s.toDouble(&ok);
+    return ok ? value : defaultValue;
+}
+
+/**
+ * Extract a int attribute from a petal node.
+ */
+qreal fetchInt(const PetalNode *node, const QString &attribute, int defaultValue = 0)
+{
+    bool ok;
+    QString s = node->findAttribute(attribute).string;
+    qreal value = s.toInt(&ok);
+    return ok ? value : defaultValue;
 }
 
 /**
@@ -503,8 +549,71 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL)
         }
         UMLApp::app()->document()->addAssociation(assoc);
 
+    } else if (objType == "ClassDiagram" || objType == "UseCaseDiagram") {
+        UMLDoc *umlDoc = UMLApp::app()->document();
+        UMLFolder *logicalView = umlDoc->rootFolder(Uml::ModelType::Logical);
+        UMLView *view = umlDoc->createDiagram(logicalView, Uml::DiagramType::Class, name, id);
+        PetalNode *items = node->findAttribute("items").node;
+        PetalNode::NameValueList atts = items->attributes();
+        for (int i = 0; i < atts.count(); ++i) {
+            PetalNode *attr = atts[i].second.node;
+            QStringList args = attr->initialArgs();
+            QString objType = args[0];
+            QString name = clean(args[1]);
+            UMLWidget *w = 0;
+            if (objType == "CategoryView" || objType == "ClassView" || objType == "UseCaseView") {
+                QString objID = quidu(attr);
+                UMLObject *o = umlDoc->findObjectById(Uml::ID::fromString(objID));
+                if (!o) {
+                    uError() << "umbrellify: object type " << objType
+                             << " could not be found";
+                    continue;
+                }
+                w = Widget_Factory::createWidget(view->umlScene(), o);
+                qreal width = fetchDouble(attr, "width");
+                qreal height = fetchDouble(attr, "height");
+                if (width > 0 && height > 0)
+                    w->setSize(width, height);
+            } else if (objType == "NoteView") {
+                w = new NoteWidget(view->umlScene(), NoteWidget::Normal);
+                qreal width = fetchDouble(attr, "width");
+                qreal height = fetchDouble(attr, "height");
+                if (width > 0 && height > 0)
+                    w->setSize(width, height);
+            } else if (objType == "Label") {
+                QString label = attr->findAttribute("label").string;
+                w = new FloatingTextWidget(view->umlScene(), Uml::TextRole::Floating, label);
+                int nlines = fetchInt(attr, "nlines");
+                qreal width = fetchDouble(attr, "max_width");
+                w->setSize(width, nlines * 12); // TODO check line height
+            }
+            else {
+                uDebug() << "unsupported object type" << objType;
+                continue;
+            }
+
+            QPointF pos = fetchLocation(attr);
+            if (!pos.isNull())
+                w->setPos(pos);
+
+#if 0
+            QString line_color = attr->findAttribute("line_color").string;
+            unsigned int lineColor = line_color.toUInt();
+            QString hexLineColor = QLatin1Char('#') + QString::number(lineColor, 16);
+            QColor c(hexLineColor);
+            w->setLineColorCmd(c);
+
+            QString fill_color = attr->findAttribute("fill_color").string;
+            unsigned int fillColor = fill_color.toUInt();
+            QString hexFillColor = QLatin1Char('#') + QString::number(fillColor, 16);
+            QColor f(hexFillColor);
+            w->setFillColorCmd(f);
+#endif
+            view->umlScene()->setupNewWidget(w, false);
+        }
     } else {
-        uDebug() << "object type " << objType << " is not yet implemented";
+        uDebug() << "umbrellify: object type " << objType
+                 << " is not yet implemented";
     }
     return true;
 }
@@ -600,6 +709,29 @@ bool umbrellify(PetalNode *node, const QString& modelsName, UMLListViewItem *par
             obj->setDoc(doc);
         UMLDoc *theDocument = UMLApp::app()->document();
         theDocument->addUMLObject(obj);
+    }
+    return true;
+}
+
+bool importLogicalPresentations(PetalNode *root, const QString &category)
+{
+    PetalNode *root_category = root->findAttribute(category).node;
+    if (root_category == NULL) {
+        uError() << "importLogicalPresentations: cannot find" << category;
+        return false;
+    }
+    if (root_category->name() != "Class_Category") {
+        uError() << "importLogicalPresentations: expecting root_category object Class_Category";
+        return false;
+    }
+    PetalNode *logical_presentations = root_category->findAttribute("logical_presentations").node;
+    if (logical_presentations == NULL) {
+        uError() << "petalTree2Uml: cannot find logical_presentations";
+        return false;
+    }
+    PetalNode::NameValueList atts = logical_presentations->attributes();
+    for (int i = 0; i < atts.count(); ++i) {
+        umbrellify(atts[i].second.node);
     }
     return true;
 }
@@ -719,10 +851,11 @@ bool petalTree2Uml(PetalNode *root, UMLPackage *parentPkg /* = 0 */)
     // Shorthand for UMLApp::app()->listView()
     UMLListView *lv = UMLApp::app()->listView();
 
-    UMLDoc *umldoc = UMLApp::app()->document();
     umldoc->setCurrentRoot(Uml::ModelType::Logical);
     Import_Utils::assignUniqueIdOnCreation(false);
     importLogicalView(root, "root_category", "logical_models");
+    importLogicalPresentations(root, "root_category");
+    importLogicalPresentations(root, "root_usecase_package");
 
     //*************************** import Use Case View ********************************
     umldoc->setCurrentRoot(Uml::ModelType::UseCase);
