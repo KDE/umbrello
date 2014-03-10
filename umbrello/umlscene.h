@@ -298,7 +298,7 @@ public:
     AssociationWidget* associationAt(const QPointF& p);
     MessageWidget* messageAt(const QPointF& p);
 
-    void setupNewWidget(UMLWidget *w);
+    void setupNewWidget(UMLWidget *w, bool setPosition=true);
 
     bool getCreateObject() const;
     void setCreateObject(bool bCreate);

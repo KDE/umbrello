@@ -523,10 +523,10 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
  * Initialize and announce a newly created widget.
  * Auxiliary to contentsMouseReleaseEvent().
  */
-void UMLScene::setupNewWidget(UMLWidget *w)
+void UMLScene::setupNewWidget(UMLWidget *w, bool setPosition)
 {
     // Objects position is handled inside the widget
-    if (w->baseType() != WidgetBase::wt_Object) {
+    if (setPosition && w->baseType() != WidgetBase::wt_Object) {
         w->setX(m_Pos.x());
         w->setY(m_Pos.y());
     }
