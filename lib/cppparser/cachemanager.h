@@ -21,6 +21,13 @@
 
 class CacheManager;
 
+#ifndef inline
+#define inline __inline
+#endif
+
+#ifdef _MSC_VER
+typedef unsigned int uint;
+#endif
 
 class CacheNode
 {

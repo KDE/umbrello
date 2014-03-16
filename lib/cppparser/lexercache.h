@@ -15,12 +15,11 @@
 #ifndef LEXERCACHE_H
 #define LEXERCACHE_H
 #include <hashedstring.h>
-#include <ext/hash_map>
 #include "macro.h"
 #include <kdebug.h>
 #include <qdatetime.h>
 #include <qfileinfo.h>
-#include <ext/hash_set>
+#include <hash_set>
 #include "cachemanager.h"
 
 //#define LEXERCACHE_DEBUG
@@ -141,7 +140,7 @@ public:
 
     const HashedString& unifyString(const HashedString& str)
     {
-        __gnu_cxx::hash_set<HashedString>::const_iterator it = m_totalStringSet.find(str);
+        QSet<HashedString>::const_iterator it = m_totalStringSet.find(str);
         if (it != m_totalStringSet.end()) {
             return *it;
         } else {
@@ -159,12 +158,12 @@ private:
     //typedef __gnu_cxx::hash_multimap<HashedString, CachedLexedFilePointer> CachedLexedFileMap;
     typedef std::multimap<HashedString, CachedLexedFilePointer> CachedLexedFileMap;
     CachedLexedFileMap m_files;
-    __gnu_cxx::hash_set<HashedString> m_totalStringSet; ///This is used to reduce memory-usage: Most strings appear again and again. Because QString is reference-counted, this set contains a unique copy of each string to used for each appearance of the string
+    QSet<HashedString> m_totalStringSet; ///This is used to reduce memory-usage: Most strings appear again and again. Because QString is reference-counted, this set contains a unique copy of each string to used for each appearance of the string
     struct FileModificationCache {
         QDateTime m_readTime;
         QDateTime m_modificationTime;
     };
-    typedef __gnu_cxx::hash_map<HashedString, FileModificationCache> FileModificationMap;
+    typedef QHash<HashedString, FileModificationCache> FileModificationMap;
     FileModificationMap m_fileModificationCache;
     Driver* m_driver;
     QDateTime m_currentDateTime;
