@@ -26,7 +26,6 @@
 #include <hashedstring.h>
 #include <kdatastream.h>
 #include <codemodel.h>
-#include <ext/hash_map>
 
 typedef signed char Q_INT8;
 

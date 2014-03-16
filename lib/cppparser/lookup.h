@@ -25,7 +25,6 @@
 #include <qmap.h>
 
 #include "lexer.h"
-#include <ext/hash_map>
 #include <hashedstring.h>
 
 /**
@@ -34,7 +33,7 @@
 class Lookup
 {
 public:
-    typedef __gnu_cxx::hash_map<HashedString,Type> KeywordMap;
+    typedef QHash<HashedString,Type> KeywordMap;
     /**
     * Find an entry in the table, and return its value
     */

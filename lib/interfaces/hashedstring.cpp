@@ -17,9 +17,9 @@
 #include <sstream>
 #include <algorithm>
 #include <iterator>
-#include<ext/hash_set>
-#include<set>
-#include<algorithm>
+#include <hash_set>
+#include <set>
+#include <algorithm>
 
 //It needs to be measured whether this flag should be turned on or off. It seems just to move the complexity from one position to the other, without any variant being really better.
 #define USE_HASHMAP
@@ -67,9 +67,9 @@ class HashedStringSetData : public KShared
 {
 public:
 #ifdef USE_HASHMAP
-    typedef __gnu_cxx::hash_set<HashedString> StringSet;
+    typedef QSet<HashedString> StringSet;
 #else
-    typedef std::set<HashedString> StringSet; //must be a set, so the set-algorithms work
+    typedef QSet<HashedString> StringSet; //must be a set, so the set-algorithms work
 #endif
     StringSet m_files;
     mutable bool m_hashValid;
@@ -139,7 +139,9 @@ HashedStringSet& HashedStringSet::operator +=(const HashedStringSet& rhs)
     std::set_union(oldData->m_files.begin(), oldData->m_files.end(), rhs.m_data->m_files.begin(), rhs.m_data->m_files.end(), std::insert_iterator<HashedStringSetData::StringSet>(m_data->m_files, m_data->m_files.end()));
 #else
     makeDataPrivate();
-    m_data->m_files.insert(rhs.m_data->m_files.begin(), rhs.m_data->m_files.end());
+    for (HashedStringSetData::StringSet::const_iterator it = rhs.m_data->m_files.begin(); it != rhs.m_data->m_files.end(); ++it) {
+        m_data->m_files.insert(*it);
+    }
     /*HashedStringSetData::StringSet::const_iterator end = rhs.m_data->m_files.end();
     HashedStringSetData::StringSet& mySet(m_data->m_files);
     for(HashedStringSetData::StringSet::const_iterator it = rhs.m_data->m_files.begin(); it != end; ++it) {
@@ -163,7 +165,7 @@ HashedStringSet& HashedStringSet::operator -=(const HashedStringSet& rhs)
     HashedStringSetData::StringSet::const_iterator end = rhs.m_data->m_files.end();
     HashedStringSetData::StringSet& mySet(m_data->m_files);
     for (HashedStringSetData::StringSet::const_iterator it = rhs.m_data->m_files.begin(); it != end; ++it) {
-        mySet.erase(*it);
+        mySet.remove(*it);
     }
 
 #endif
@@ -314,9 +316,9 @@ void HashedStringSetGroup::addSet(size_t id, const HashedStringSet& set)
         for (HashedStringSetData::StringSet::const_iterator it = set.m_data->m_files.begin(); it != set.m_data->m_files.end(); ++it) {
             GroupMap::iterator itr = m_map.find(*it);
             if (itr == m_map.end()) {
-                itr = m_map.insert(std::make_pair(*it, ItemSet())).first;
+                itr = m_map.insert(*it, ItemSet());
             }
-            itr->second.insert(id);
+            itr->insert(id);
         }
     } else {
         m_global.insert(id);
@@ -342,9 +344,9 @@ void HashedStringSetGroup::removeSet(size_t id)
 {
     m_disabled.erase(id);
     m_global.erase(id);
-    m_sizeMap.erase(id);
+    m_sizeMap.remove(id);
     for (GroupMap::iterator it = m_map.begin(); it != m_map.end(); ++it) {
-        it->second.erase(id);
+        it->erase(id);
     }
 }
 
@@ -356,7 +358,7 @@ void HashedStringSetGroup::findGroups(HashedStringSet strings, ItemSet& target) 
         return;
     }
     //This might yet be optimized by sorting the sets according to their size, and starting the intersectioning with the smallest ones.
-    __gnu_cxx::hash_map<size_t, uint> hitCounts;
+    QHash<size_t, uint> hitCounts;
 
     for (HashedStringSetData::StringSet::const_iterator it = strings.m_data->m_files.begin(); it != strings.m_data->m_files.end(); ++it) {
         GroupMap::const_iterator itr = m_map.find(*it);
@@ -365,10 +367,10 @@ void HashedStringSetGroup::findGroups(HashedStringSet strings, ItemSet& target) 
             continue;
         }
 
-        for (ItemSet::const_iterator it2 = itr->second.begin(); it2 != itr->second.end(); ++it2) {
-            __gnu_cxx::hash_map<size_t, uint>::iterator v = hitCounts.find(*it2);
+        for (ItemSet::const_iterator it2 = itr->begin(); it2 != itr->end(); ++it2) {
+            QHash<size_t, uint>::iterator v = hitCounts.find(*it2);
             if (v != hitCounts.end()) {
-                ++(*v).second;
+                ++(*v);
             } else {
                 hitCounts[*it2] = 1;
             }
@@ -377,9 +379,9 @@ void HashedStringSetGroup::findGroups(HashedStringSet strings, ItemSet& target) 
 
     //Now count together all groups that are completely within the given string-set(their hitCount equals their size)
     ItemSet found;
-    for (__gnu_cxx::hash_map<size_t, uint>::const_iterator it = hitCounts.begin(); it != hitCounts.end(); ++it) {
-        if ((*it).second == (*m_sizeMap.find((*it).first)).second)
-            found.insert((*it).first);
+    for (QHash<size_t, uint>::const_iterator it = hitCounts.begin(); it != hitCounts.end(); ++it) {
+        if (it.value() == (*m_sizeMap.find(it.key())))
+            found.insert(it.key());
     }
 
 
@@ -388,4 +390,9 @@ void HashedStringSetGroup::findGroups(HashedStringSet strings, ItemSet& target) 
     target.swap(found);
     target.clear();
     std::set_difference(found.begin(), found.end(), m_disabled.begin(), m_disabled.end(), std::insert_iterator<ItemSet>(target, target.end()));
+}
+
+uint qHash(const HashedString &key)
+{
+    return key.hash();
 }

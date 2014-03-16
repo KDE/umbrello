@@ -422,18 +422,18 @@ void Lexer::nextToken(Token& tk, bool stopOnNewline)
             tk.setStartPosition(startLine, startColumn);
             tk.setEndPosition(m_currentLine, m_currentColumn);
         } else if (m_skipWordsEnabled) {
-            __gnu_cxx::hash_map< HashedString, QPair<SkipType, QString> >::iterator pos = m_words.find(ide);
+            QHash< HashedString, QPair<SkipType, QString> >::iterator pos = m_words.find(ide);
             if (pos != m_words.end()) {
-                if ((*pos).second.first == SkipWordAndArguments) {
+                if ((*pos).first == SkipWordAndArguments) {
                     readWhiteSpaces();
                     if (currentChar() == '(')
                         skip('(', ')');
                 }
-                if (!(*pos).second.second.isEmpty()) {
+                if (!(*pos).second.isEmpty()) {
 #if defined(KDEVELOP_BGPARSER)
                     qthread_yield();
 #endif
-                    insertCurrent(QString(" ") + (*pos).second.second + QString(" "));
+                    insertCurrent(QString(" ") + (*pos).second + QString(" "));
                 }
             } else if ( /*qt_rx.exactMatch(ide) ||*/
                 ide.str().endsWith(QLatin1String("EXPORT")) ||

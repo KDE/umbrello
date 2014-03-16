@@ -17,10 +17,11 @@
 
 #include "ast.h"
 
+#include <QHash>
+#include <QSet>
 #include <QString>
 #include <qdatastream.h>
 #include <set>
-#include <ext/hash_map>
 #include <string>
 
 ///A simple class that stores a string together with it's appropriate hash-key
@@ -131,17 +132,6 @@ private:
 
 HashedStringSet operator + (const HashedStringSet& lhs, const HashedStringSet& rhs);
 
-namespace __gnu_cxx
-{
-template<>
-struct hash<HashedString> {
-    size_t operator () (const HashedString& str) const
-    {
-        return str.hash();
-    }
-};
-}
-
 ///Used to find all registered HashedStringSet's that contain all strings given to findGroups(..)
 class HashedStringSetGroup
 {
@@ -157,11 +147,14 @@ public:
     void findGroups(HashedStringSet strings, ItemSet& target) const;
 
 private:
-    typedef __gnu_cxx::hash_map<HashedString, ItemSet> GroupMap;
-    typedef __gnu_cxx::hash_map<size_t, size_t> SizeMap;
+    typedef QHash<HashedString, ItemSet> GroupMap;
+    typedef QHash<size_t, size_t> SizeMap;
     GroupMap m_map;
     SizeMap m_sizeMap;
     ItemSet m_disabled;
     ItemSet m_global;
 };
+
+uint qHash(const HashedString &key);
+
 #endif

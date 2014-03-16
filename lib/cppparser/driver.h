@@ -32,7 +32,6 @@
 #include <map>
 #include <set>
 #include <hashedstring.h>
-#include <ext/hash_map>
 #include "lexercache.h"
 
 

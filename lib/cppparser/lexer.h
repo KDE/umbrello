@@ -28,7 +28,6 @@
 #include <qmap.h>
 #include <qpair.h>
 #include <hashedstring.h>
-#include <ext/hash_map>
 
 #define CHARTYPE QChar
 
@@ -331,7 +330,7 @@ private:
     bool m_recordComments;
     bool m_recordWhiteSpaces;
     bool m_startLine;
-    __gnu_cxx::hash_map< HashedString, QPair<SkipType, QString> > m_words;
+    QHash< HashedString, QPair<SkipType, QString> > m_words;
 
 
     int m_skippedLines;
