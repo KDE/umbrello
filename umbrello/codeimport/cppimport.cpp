@@ -75,7 +75,6 @@ void CppImport::feedTheModel(const QString& fileName)
 {
     if (ms_seenFiles.indexOf(fileName) != -1)
         return;
-    ms_seenFiles.append(fileName);
     QMap<QString, Dependence> deps = ms_driver->dependences(fileName);
     if (! deps.empty()) {
         QMap<QString, Dependence>::Iterator it;
@@ -97,6 +96,7 @@ void CppImport::feedTheModel(const QString& fileName)
         uError() << fileName << " not found";
         return;
     }
+    ms_seenFiles.append(fileName);
     CppTree2Uml modelFeeder(fileName, m_thread);
     modelFeeder.parseTranslationUnit(*ast);
 }
