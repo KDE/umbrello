@@ -132,7 +132,8 @@ public:
     Macro(const QString &n, const QString &b) : m_idHashValid(false), m_valueHashValid(false), m_name(n), m_line(0), m_column(0), m_body(b), m_hasArguments(false), m_isUndefMacro(false) {}
 
     //Sorts the macros by their hash-value, then by their name.
-    struct NameArgCompare {
+    class NameArgCompare {
+    public:
         bool operator () (const Macro& lhs, const Macro& rhs) const
         {
             size_t lhash = lhs.idHash();
@@ -156,7 +157,8 @@ public:
             return false;
         }
     };
-    struct NameCompare {
+    class NameCompare {
+    public:
         bool operator () (const Macro& lhs, const Macro& rhs) const
         {
             size_t lhash = lhs.idHash();
@@ -169,14 +171,16 @@ public:
         }
     };
 
-    struct NameArgHash {
+    class NameArgHash {
+    public:
         size_t operator () (const Macro& macro) const
         {
             return macro.idHash();
         }
     };
 
-    struct NameArgEqual {
+    class NameArgEqual {
+    public:
         bool operator () (const Macro& lhs, const Macro& rhs) const
         {
             int df = lhs.m_name.compare(rhs.m_name);
