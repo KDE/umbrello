@@ -112,8 +112,8 @@ CachedLexedFilePointer LexerCache::lexedFile(const HashedString& fileName)
 
 QDateTime LexerCache::fileModificationTimeCached(const HashedString& fileName)
 {
-    FileModificationMap::const_iterator it = m_fileModificationCache.find(fileName);
-    if (it != m_fileModificationCache.end()) {
+    FileModificationMap::const_iterator it = m_fileModificationCache.constFind(fileName);
+    if (it != m_fileModificationCache.constEnd()) {
         ///Use the cache for 10 seconds
         if ((*it).m_readTime.secsTo(m_currentDateTime) < 10) {
             return (*it).m_modificationTime;

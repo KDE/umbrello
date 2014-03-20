@@ -379,7 +379,7 @@ void HashedStringSetGroup::findGroups(HashedStringSet strings, ItemSet& target) 
 
     //Now count together all groups that are completely within the given string-set(their hitCount equals their size)
     ItemSet found;
-    for (QHash<size_t, uint>::const_iterator it = hitCounts.begin(); it != hitCounts.end(); ++it) {
+    for (QHash<size_t, uint>::const_iterator it = hitCounts.constBegin(); it != hitCounts.constEnd(); ++it) {
         if (it.value() == (*m_sizeMap.find(it.key())))
             found.insert(it.key());
     }
