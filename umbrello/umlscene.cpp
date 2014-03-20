@@ -624,14 +624,7 @@ void UMLScene::slotObjectCreated(UMLObject* o)
             // We need to invoke createAutoAttributeAssociations()
             // on all other widgets again because the newly created
             // widget might saturate some latent attribute assocs.
-            foreach(UMLWidget* w,  m_WidgetList) {
-                if (w != newWidget) {
-                    createAutoAttributeAssociations(w);
-
-                    if (o->baseType() == UMLObject::ot_Entity)
-                        createAutoConstraintAssociations(w);
-                }
-            }
+            createAutoAttributeAssociations2(newWidget);
             break;
         default:
             break;
@@ -2615,6 +2608,18 @@ void UMLScene::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignK
         }
     }
 
+}
+
+void UMLScene::createAutoAttributeAssociations2(UMLWidget *widget)
+{
+    foreach(UMLWidget* w,  m_WidgetList) {
+        if (w != widget) {
+            createAutoAttributeAssociations(w);
+
+            if (widget->umlObject() && widget->umlObject()->baseType() == UMLObject::ot_Entity)
+                createAutoConstraintAssociations(w);
+        }
+    }
 }
 
 /**
