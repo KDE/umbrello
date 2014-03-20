@@ -809,6 +809,8 @@ void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
     }
 
     setupNewWidget(newWidget);
+    createAutoAssociations(newWidget);
+    createAutoAttributeAssociations2(newWidget);
 }
 
 /**
