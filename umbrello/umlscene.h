@@ -253,6 +253,7 @@ public:
     void createAutoAssociations(UMLWidget * widget);
     void createAutoAttributeAssociations(UMLWidget *widget);
     void createAutoConstraintAssociations(UMLWidget* widget);
+    void createAutoAttributeAssociations2(UMLWidget *widget);
 
     void updateContainment(UMLCanvasObject *self);
 
