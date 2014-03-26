@@ -229,11 +229,21 @@ void UMLScene::setAutoIncrementSequence(bool state)
 QString UMLScene::autoIncrementSequenceValue()
 {
     int sequenceNumber = 0;
-    foreach (MessageWidget* message, messageList()) {
-        bool ok;
-        int value = message->sequenceNumber().toInt(&ok);
-        if (ok && value > sequenceNumber)
-           sequenceNumber = value;
+    if (type() == Uml::DiagramType::Sequence) {
+        foreach (MessageWidget* message, messageList()) {
+            bool ok;
+            int value = message->sequenceNumber().toInt(&ok);
+            if (ok && value > sequenceNumber)
+               sequenceNumber = value;
+        }
+    }
+    else if (type() == Uml::DiagramType::Collaboration) {
+        foreach (AssociationWidget* assoc, associationList()) {
+            bool ok;
+            int value = assoc->sequenceNumber().toInt(&ok);
+            if (ok && value > sequenceNumber)
+               sequenceNumber = value;
+        }
     }
     return QString::number(sequenceNumber + 1);
 }
