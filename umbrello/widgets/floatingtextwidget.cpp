@@ -201,8 +201,10 @@ void FloatingTextWidget::showChangeTextDialog()
 
 /**
  * Shows an operation dialog box.
+ *
+ * @param enableAutoIncrement Enable auto increment checkbox
  */
-void FloatingTextWidget::showOperationDialog()
+void FloatingTextWidget::showOperationDialog(bool enableAutoIncrement)
 {
     if (!m_linkWidget) {
         uError() << "m_linkWidget is NULL";
@@ -215,8 +217,8 @@ void FloatingTextWidget::showOperationDialog()
         return;
     }
 
-    QPointer<SelectOpDlg> selectDlg = new SelectOpDlg(m_scene->activeView(), c);
-    if (m_scene->autoIncrementSequence()) {
+    QPointer<SelectOpDlg> selectDlg = new SelectOpDlg(m_scene->activeView(), c, enableAutoIncrement);
+    if (enableAutoIncrement && m_scene->autoIncrementSequence()) {
         seqNum = m_scene->autoIncrementSequenceValue(1);
         selectDlg->setAutoIncrementSequence(true);
     }
@@ -260,10 +262,11 @@ void FloatingTextWidget::showOperationDialog()
             m_linkWidget->setOperation(0);
         }
         m_linkWidget->setSeqNumAndOp(seqNum, opText);
-        m_scene->setAutoIncrementSequence(selectDlg->autoIncrementSequence());
-        if (selectDlg->autoIncrementSequence())
-            m_scene->setAutoIncrementSequenceValue(seqNum);
-
+        if (enableAutoIncrement) {
+            m_scene->setAutoIncrementSequence(selectDlg->autoIncrementSequence());
+            if (selectDlg->autoIncrementSequence())
+                m_scene->setAutoIncrementSequenceValue(seqNum);
+        }
         setMessageText();
     }
     delete selectDlg;
@@ -279,7 +282,7 @@ void FloatingTextWidget::showPropertiesDialog()
 {
     if (m_textRole == Uml::TextRole::Coll_Message || m_textRole == Uml::TextRole::Coll_Message_Self ||
             m_textRole == Uml::TextRole::Seq_Message || m_textRole == Uml::TextRole::Seq_Message_Self) {
-        showOperationDialog();
+        showOperationDialog(false);
     } else if (m_textRole == Uml::TextRole::Floating) {
         // double clicking on a text line opens the dialog to change the text
         handleRename();
@@ -689,7 +692,7 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Select_Operation:
-        showOperationDialog();
+        showOperationDialog(false);
         break;
 
     case ListPopupMenu::mt_Rename:

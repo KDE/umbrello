@@ -33,7 +33,7 @@ class SelectOpDlg : public KDialog
 {
     Q_OBJECT
 public:
-    SelectOpDlg(QWidget * parent, UMLClassifier * c);
+    SelectOpDlg(QWidget * parent, UMLClassifier * c, bool enableAutoIncrement = true);
     ~SelectOpDlg();
 
     QString getOpText();

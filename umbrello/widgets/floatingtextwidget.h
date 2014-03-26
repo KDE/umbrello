@@ -55,7 +55,7 @@ public:
     QString displayText() const;
 
     void showChangeTextDialog();
-    void showOperationDialog();
+    void showOperationDialog(bool enableAutoIncrement = true);
     virtual void showPropertiesDialog();
 
     LinkWidget* link() const;
