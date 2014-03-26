@@ -384,17 +384,16 @@ void AssociationWidget::resetTextPositions()
  */
 void AssociationWidget::setMessageText(FloatingTextWidget *ft)
 {
-    QString message;
     if (isCollaboration()) {
+        ft->setSequenceNumber(m_SequenceNumber);
         if (m_umlObject != NULL) {
-            message = multiplicity(RoleType::A) + ": " + operationText(m_scene);
+            ft->setText(operationText(m_scene));
         } else {
-            message = multiplicity(RoleType::A) + ": " + name();
+            ft->setText(name());
         }
     } else {
-        message = name();
+        ft->setText(name());
     }
-    ft->setText(message);
 }
 
 /**
@@ -469,7 +468,7 @@ void AssociationWidget::showPropertiesDialog()
  */
 UMLClassifier* AssociationWidget::seqNumAndOp(QString& seqNum, QString& op)
 {
-    seqNum = multiplicity(RoleType::A);
+    seqNum = m_SequenceNumber;
     op = name();
     UMLObject *o = widgetForRole(RoleType::B)->umlObject();
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
@@ -488,7 +487,7 @@ void AssociationWidget::setSeqNumAndOp(const QString &seqNum, const QString &op)
     if (!op.isEmpty()) {
         setName(op);
     }
-    setMultiplicity(seqNum, RoleType::A);
+    setSequenceNumber(seqNum);
 }
 
 /**
@@ -3989,6 +3988,7 @@ void AssociationWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
     QDomElement assocElement = qDoc.createElement("assocwidget");
 
     WidgetBase::saveToXMI(qDoc, assocElement);
+    LinkWidget::saveToXMI(qDoc, assocElement);
     if (m_umlObject) {
         assocElement.setAttribute("xmi.id", Uml::ID::toString(m_umlObject->id()));
     }
@@ -4060,6 +4060,10 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
                                     const MessageWidgetList* messages)
 {
     if (!WidgetBase::loadFromXMI(qElement)) {
+        return false;
+    }
+
+    if (!LinkWidget::loadFromXMI(qElement)) {
         return false;
     }
 
@@ -4235,6 +4239,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
             // always need this
             ft->setParentItem(this);
             ft->setLink(this);
+            ft->setSequenceNumber(m_SequenceNumber);
 
             switch(role) {
             case Uml::TextRole::MultiA:
