@@ -228,6 +228,9 @@ void ToolBarStateAssociation::setSecondWidget()
     }
     if (valid) {
         AssociationWidget *temp = AssociationWidget::create(m_pUMLScene, widgetA, type, widgetB);
+        FloatingTextWidget *wt = temp->textWidgetByRole(Uml::TextRole::Coll_Message);
+        if (wt)
+            wt->showOperationDialog();
         if (addAssociationInViewAndDoc(temp)) {
             if (type == Uml::AssociationType::Containment) {
                 UMLObject *newContainer = widgetA->umlObject();
