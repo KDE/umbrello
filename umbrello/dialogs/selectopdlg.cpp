@@ -44,8 +44,9 @@ bool caseInsensitiveLessThan(const UMLOperation *s1, const UMLOperation *s2)
  *
  *  @param  parent  The parent to this instance.
  *  @param  c       The concept to get the operations from.
+ *  @param  enableAutoIncrement Flag to enable auto increment checkbox
  */
-SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c)
+SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c, bool enableAutoIncrement)
    : KDialog(parent), m_classifier(c)
 {
     setCaption(i18n("Select Operation"));
@@ -73,6 +74,7 @@ SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c)
     m_pOpAS = new QCheckBox(i18n("Auto increment:"), m_pOpGB);
     mainLayout->addWidget(m_pOpAS, 0, 2);
     connect(m_pOpAS, SIGNAL(toggled(bool)), this, SLOT(slotAutoIncrementChecked(bool)));
+    m_pOpAS->setEnabled(enableAutoIncrement);
 
     m_pOpRB = new QLabel(i18n("Class operation:"), m_pOpGB);
     mainLayout->addWidget(m_pOpRB, 1, 0);
