@@ -41,7 +41,8 @@ DiagramPropertiesPage::DiagramPropertiesPage(QWidget *parent, UMLScene *scene)
     ui_gridSpaceX->setValue(scene->snapX());
     ui_gridSpaceY->setValue(scene->snapY());
     ui_documentation->setText(scene->documentation());
-    if (scene->type() == Uml::DiagramType::Sequence) {
+    if (scene->type() == Uml::DiagramType::Sequence ||
+        scene->type() == Uml::DiagramType::Collaboration) {
         ui_autoIncrementSequence->setVisible(true);
         ui_autoIncrementSequence->setChecked(scene->autoIncrementSequence());
     } else {
@@ -108,7 +109,8 @@ void DiagramPropertiesPage::apply()
     m_scene->setSnapToGrid(ui_snapToGrid->isChecked());
     m_scene->setSnapComponentSizeToGrid(ui_snapComponentSizeToGrid->isChecked());
     m_scene->setSnapGridVisible(ui_checkBoxShowGrid->isChecked());
-    if (m_scene->type() == Uml::DiagramType::Sequence) {
+    if (m_scene->type() == Uml::DiagramType::Sequence ||
+        m_scene->type() == Uml::DiagramType::Collaboration) {
         m_scene->setAutoIncrementSequence(ui_autoIncrementSequence->isChecked());
     }
     emit applyClicked();
