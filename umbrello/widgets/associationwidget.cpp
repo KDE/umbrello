@@ -327,6 +327,8 @@ void AssociationWidget::setOperation(UMLOperation *op)
     m_umlObject = op;
     if (m_umlObject)
         connect(m_umlObject, SIGNAL(modified()), m_nameWidget, SLOT(setMessageText()));
+    if (m_nameWidget)
+        m_nameWidget->setMessageText();
 }
 
 /**
