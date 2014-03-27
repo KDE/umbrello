@@ -654,6 +654,9 @@ void AssociationLine::alignSymbols()
         const QPointF a = m_points.at(midSegmentIndex);
         const QPointF b = m_points.at(midSegmentIndex + 1);
 
+        if (a == b)
+            return;
+
         const QPointF p1 = (a + b) / 2.0;
         const QPointF p2 = (p1 + b) / 2.0;
 
