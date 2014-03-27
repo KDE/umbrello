@@ -223,7 +223,7 @@ void FloatingTextWidget::showOperationDialog(bool enableAutoIncrement)
 
     QPointer<SelectOpDlg> selectDlg = new SelectOpDlg(m_scene->activeView(), c, enableAutoIncrement);
     if (enableAutoIncrement && m_scene->autoIncrementSequence()) {
-        seqNum = m_scene->autoIncrementSequenceValue(1);
+        seqNum = m_scene->autoIncrementSequenceValue();
         selectDlg->setAutoIncrementSequence(true);
     }
     selectDlg->setSeqNumber(seqNum);
@@ -268,8 +268,6 @@ void FloatingTextWidget::showOperationDialog(bool enableAutoIncrement)
         m_linkWidget->setSeqNumAndOp(seqNum, opText);
         if (enableAutoIncrement) {
             m_scene->setAutoIncrementSequence(selectDlg->autoIncrementSequence());
-            if (selectDlg->autoIncrementSequence())
-                m_scene->setAutoIncrementSequenceValue(seqNum);
         }
         setMessageText();
     }

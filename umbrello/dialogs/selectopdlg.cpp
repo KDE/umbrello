@@ -17,6 +17,7 @@
 #include "debug_utils.h"
 #include "operation.h"
 #include "umlclassifierlistitemlist.h"
+#include "umlscene.h"
 #include "umlview.h"
 #include "dialog_utils.h"
 
@@ -46,8 +47,8 @@ bool caseInsensitiveLessThan(const UMLOperation *s1, const UMLOperation *s2)
  *  @param  c       The concept to get the operations from.
  *  @param  enableAutoIncrement Flag to enable auto increment checkbox
  */
-SelectOpDlg::SelectOpDlg(QWidget * parent, UMLClassifier * c, bool enableAutoIncrement)
-   : KDialog(parent), m_classifier(c)
+SelectOpDlg::SelectOpDlg(UMLView *parent, UMLClassifier * c, bool enableAutoIncrement)
+   : KDialog(parent), m_pView(parent), m_classifier(c)
 {
     setCaption(i18n("Select Operation"));
     setButtons(Ok | Cancel);
@@ -147,7 +148,7 @@ void SelectOpDlg::setCustomOp(const QString &op)
 void SelectOpDlg::slotAutoIncrementChecked(bool state)
 {
     if (state && m_pSeqLE->text().isEmpty())
-        m_pSeqLE->setText(QLatin1String("1"));
+        m_pSeqLE->setText(m_pView->umlScene()->autoIncrementSequenceValue());
 }
 
 /**

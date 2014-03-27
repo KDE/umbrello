@@ -91,8 +91,7 @@ public:
 
     bool autoIncrementSequence() const;
     void setAutoIncrementSequence(bool state);
-    QString autoIncrementSequenceValue(int increment=0) const;
-    void setAutoIncrementSequenceValue(const QString &value);
+    QString autoIncrementSequenceValue();
 
     QString name() const;
     void setName(const QString &name);
@@ -385,7 +384,6 @@ private:
     UMLViewImageExporter* m_pImageExporter;  ///< Used to export the view.
     LayoutGrid*  m_layoutGrid;      ///< layout grid in the background
     bool m_autoIncrementSequence; ///< state of auto increment sequence
-    int m_autoIncrementSequenceValue; ///< current auto increment value
 
     void createAutoAttributeAssociation(UMLClassifier *type,
                                         UMLAttribute *attr,
