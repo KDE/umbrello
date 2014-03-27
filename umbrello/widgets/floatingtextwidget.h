@@ -69,6 +69,9 @@ public:
     void handleRename();
     void changeName(const QString& newText);
 
+    void setSequenceNumber(const QString &sequenceNumber);
+    QString sequenceNumber() const;
+
     static bool isTextValid(const QString &text);
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
@@ -117,6 +120,8 @@ private:
     /// -1 means up, 1 means down.
     int m_movementDirectionY;
 
+    /// Contains sequence number for sequence or collaboration diagram message.
+    QString m_SequenceNumber;
 };
 
 #endif

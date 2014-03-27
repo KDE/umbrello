@@ -870,8 +870,8 @@ void MessageWidget::setMessageText(FloatingTextWidget *ft)
 {
     if (ft == NULL)
         return;
-    QString displayText = m_SequenceNumber + ": " + operationText(m_scene);
-    ft->setText(displayText);
+    ft->setSequenceNumber(m_SequenceNumber);
+    ft->setText(operationText(m_scene));
     setTextPosition();
 }
 
@@ -1369,6 +1369,8 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
                 delete m_pFText;
                 m_pFText = NULL;
             }
+            else
+                m_pFText->setSequenceNumber(m_SequenceNumber);
         } else {
             uError() << "unknown tag " << tag;
         }
