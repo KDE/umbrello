@@ -121,8 +121,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     m_pIDChangesLog(0),
     m_isActivated(false),
     m_bPopupShowing(false),
-    m_autoIncrementSequence(false),
-    m_autoIncrementSequenceValue(0)
+    m_autoIncrementSequence(false)
 {
     //m_AssociationList.setAutoDelete(true);
     //m_WidgetList.setAutoDelete(true);
@@ -224,14 +223,19 @@ void UMLScene::setAutoIncrementSequence(bool state)
     m_autoIncrementSequence = state;
 }
 
-QString UMLScene::autoIncrementSequenceValue(int increment) const
+/**
+ * Return the next auto increment sequence value
+ */
+QString UMLScene::autoIncrementSequenceValue()
 {
-    return QString::number(m_autoIncrementSequenceValue + increment);
-}
-
-void UMLScene::setAutoIncrementSequenceValue(const QString &value)
-{
-    m_autoIncrementSequenceValue = value.toInt();
+    int sequenceNumber = 0;
+    foreach (MessageWidget* message, messageList()) {
+        bool ok;
+        int value = message->sequenceNumber().toInt(&ok);
+        if (ok && value > sequenceNumber)
+           sequenceNumber = value;
+    }
+    return QString::number(sequenceNumber + 1);
 }
 
 /**
