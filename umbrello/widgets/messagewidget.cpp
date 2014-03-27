@@ -902,22 +902,6 @@ void MessageWidget::setSeqNumAndOp(const QString &seqNum, const QString &op)
 }
 
 /**
- * Write property of QString m_SequenceNumber.
- */
-void MessageWidget::setSequenceNumber(const QString &sequenceNumber)
-{
-    m_SequenceNumber = sequenceNumber;
-}
-
-/**
- * Read property of QString m_SequenceNumber.
- */
-QString MessageWidget::sequenceNumber() const
-{
-    return m_SequenceNumber;
-}
-
-/**
  * Implements operation from LinkWidget.
  * Required by FloatingTextWidget.
  */
@@ -1306,6 +1290,7 @@ void MessageWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement messageElement = qDoc.createElement("messagewidget");
     UMLWidget::saveToXMI(qDoc, messageElement);
+    LinkWidget::saveToXMI(qDoc, messageElement);
     messageElement.setAttribute("widgetaid", Uml::ID::toString(m_pOw[Uml::RoleType::A]->localID()));
     messageElement.setAttribute("widgetbid", Uml::ID::toString(m_pOw[Uml::RoleType::B]->localID()));
     UMLOperation *pOperation = operation();
@@ -1313,7 +1298,6 @@ void MessageWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
         messageElement.setAttribute("operation", Uml::ID::toString(pOperation->id()));
     else
         messageElement.setAttribute("operation", m_CustomOp);
-    messageElement.setAttribute("seqnum", m_SequenceNumber);
     messageElement.setAttribute("sequencemessagetype", m_sequenceMessageType);
     if (m_sequenceMessageType == Uml::SequenceMessage::Lost || m_sequenceMessageType == Uml::SequenceMessage::Found) {
         messageElement.setAttribute("xclicked", xclicked);
@@ -1337,11 +1321,13 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
     if (!UMLWidget::loadFromXMI(qElement)) {
         return false;
     }
+    if (!LinkWidget::loadFromXMI(qElement)) {
+        return false;
+    }
     QString textid = qElement.attribute("textid", "-1");
     QString widgetaid = qElement.attribute("widgetaid", "-1");
     QString widgetbid = qElement.attribute("widgetbid", "-1");
     m_CustomOp = qElement.attribute("operation", "");
-    m_SequenceNumber = qElement.attribute("seqnum", "");
     QString sequenceMessageType = qElement.attribute("sequencemessagetype", "1001");
     m_sequenceMessageType = Uml::SequenceMessage::fromInt(sequenceMessageType.toInt());
     if (m_sequenceMessageType == Uml::SequenceMessage::Lost || m_sequenceMessageType == Uml::SequenceMessage::Found) {
