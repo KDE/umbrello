@@ -105,10 +105,10 @@ void FloatingTextWidget::setText(const QString &t)
     if (m_textRole == Uml::TextRole::Seq_Message || m_textRole == Uml::TextRole::Seq_Message_Self) {
         QString seqNum, op;
         m_linkWidget->seqNumAndOp(seqNum, op);
-        if (seqNum.length() > 0 || op.length() > 0) {
-            if (! m_scene->showOpSig())
+        if (op.length() > 0) {
+            if (!m_scene->showOpSig())
                 op.replace(QRegExp("\\(.*\\)"), "()");
-            m_Text = seqNum.append(": ").append(op);
+            m_Text = op;
         }
         else
             m_Text = t;
@@ -154,7 +154,11 @@ void FloatingTextWidget::setPostText(const QString &t)
  */
 QString FloatingTextWidget::displayText() const
 {
-    QString displayText = m_Text;
+    QString displayText;
+    if (!m_SequenceNumber.isEmpty())
+        displayText = m_SequenceNumber + ": " + m_Text;
+    else
+        displayText = m_Text;
     displayText.prepend(m_preText);
     displayText.append(m_postText);
     return displayText;
@@ -453,6 +457,22 @@ void FloatingTextWidget::changeName(const QString& newText)
     setVisible(true);
     updateGeometry();
     update();
+}
+
+/**
+ * Write property of QString m_SequenceNumber.
+ */
+void FloatingTextWidget::setSequenceNumber(const QString &sequenceNumber)
+{
+    m_SequenceNumber = sequenceNumber;
+}
+
+/**
+ * Read property of QString m_SequenceNumber.
+ */
+QString FloatingTextWidget::sequenceNumber() const
+{
+    return m_SequenceNumber;
 }
 
 /**
