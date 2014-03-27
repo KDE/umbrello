@@ -97,6 +97,7 @@ SelectOpDlg::SelectOpDlg(UMLView *parent, UMLClassifier * c, bool enableAutoIncr
     connect(m_pOpLE, SIGNAL(textChanged(QString)), this, SLOT(slotTextChanged(QString)));
     mainLayout->addWidget(m_pOpLE, 2, 1, 1, 2);
     setupOperationsList();
+    enableButtonOk(false);
 }
 
 /**
@@ -161,6 +162,7 @@ void SelectOpDlg::slotNewOperation()
         return;
     setupOperationsList();
     setClassOp(op->toString(Uml::SignatureType::SigNoVis));
+    enableButtonOk(true);
 }
 
 /**
@@ -171,6 +173,7 @@ void SelectOpDlg::slotIndexChanged(int index)
     if (index != -1) {
         m_pOpLE->setText("");
         m_id = OP;
+        enableButtonOk(true);
     }
 }
 
@@ -182,6 +185,7 @@ void SelectOpDlg::slotTextChanged(const QString &text)
     if (!text.isEmpty()) {
         m_pOpCB->setCurrentIndex(-1);
         m_id = CUSTOM;
+        enableButtonOk(true);
     }
 }
 
