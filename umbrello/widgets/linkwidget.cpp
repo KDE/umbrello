@@ -83,3 +83,39 @@ void LinkWidget::showPropertiesDialog()
 void LinkWidget::calculateNameTextSegment()
 {
 }
+
+
+/**
+ * Write property of QString m_SequenceNumber.
+ */
+void LinkWidget::setSequenceNumber(const QString &sequenceNumber)
+{
+    m_SequenceNumber = sequenceNumber;
+}
+
+/**
+ * Read property of QString m_SequenceNumber.
+ */
+QString LinkWidget::sequenceNumber() const
+{
+    return m_SequenceNumber;
+}
+
+/**
+ * Load data from XMI.
+ */
+bool LinkWidget::loadFromXMI(QDomElement &qElement)
+{
+    m_SequenceNumber = qElement.attribute("seqnum", "");
+    return true;
+}
+
+/**
+ * Save data to XMI.
+ */
+void LinkWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
+{
+    Q_UNUSED(qDoc);
+
+    qElement.setAttribute("seqnum", m_SequenceNumber);
+}

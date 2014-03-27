@@ -76,9 +76,6 @@ public:
 
     //---------- End LinkWidget Interface methods implemementation.
 
-    QString sequenceNumber() const;
-    void setSequenceNumber(const QString &sequenceNumber);
-
     /// @return Whether the message is synchronous or asynchronous
     Uml::SequenceMessage::Enum sequenceMessageType() const {
         return m_sequenceMessageType;
@@ -174,7 +171,6 @@ protected:
     void paintFound(QPainter *painter, const QStyleOptionGraphicsItem *option);
 
     // Data loaded/saved
-    QString m_SequenceNumber;
     QString m_CustomOp;
     /**
      * Whether the message is synchronous or asynchronous

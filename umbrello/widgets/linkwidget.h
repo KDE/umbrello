@@ -105,6 +105,14 @@ public:
 
     virtual void calculateNameTextSegment();
 
+    void setSequenceNumber(const QString &sequenceNumber);
+    QString sequenceNumber() const;
+
+    virtual bool loadFromXMI(QDomElement &qElement);
+    virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
+
+protected:
+    QString m_SequenceNumber;
 };
 
 #endif
