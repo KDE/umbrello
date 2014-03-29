@@ -217,7 +217,7 @@ void TEST_basictypes::test_DiagramType_forLoop()
 
 void TEST_basictypes::test_AssociationType_toString_fromString()
 {
-    for (int i = Uml::AssociationType::Generalization; i < Uml::AssociationType::Relationship; ++i) {
+    for (int i = Uml::AssociationType::Generalization; i < Uml::AssociationType::Reserved; ++i) {
         Uml::AssociationType::Enum at = Uml::AssociationType::fromString(
                                       Uml::AssociationType::toString(
                                           Uml::AssociationType::fromInt(i)));
