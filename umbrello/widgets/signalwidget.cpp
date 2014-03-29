@@ -141,13 +141,15 @@ void SignalWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
             setPenFromSettings(painter);
         }
-        if (m_pName->x() == 0 && m_pName->y() == 0) {
-            //the floating text has not been linked with the signal
-            m_pName->setX(w/2 - m_pName->width()/2);
-            m_pName->setY(h);
+        if (m_pName) {
+            if (m_pName->x() == 0 && m_pName->y() == 0) {
+                //the floating text has not been linked with the signal
+                m_pName->setX(w/2 - m_pName->width()/2);
+                m_pName->setY(h);
+            }
+            m_pName->setVisible((m_pName->text().length() > 0));
+            m_pName->updateGeometry();
         }
-        m_pName->setVisible((m_pName->text().length() > 0));
-        m_pName->updateGeometry();
 
         break;
     default:
