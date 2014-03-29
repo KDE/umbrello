@@ -336,7 +336,9 @@ QString toStringI18n(Enum item)
           case Association_Self:
               return i18n("Self Association");
           case Coll_Message_Asynchronous:
-              return i18n("Collaboration Message");
+              return i18n("Collaboration Asynchronous Message");
+          case Coll_Message_Synchronous:
+              return i18n("Collaboration Synchronous Message");
           case Seq_Message:
               return i18n("Sequence Message");
           case Coll_Message_Self:
