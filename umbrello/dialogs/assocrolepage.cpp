@@ -102,7 +102,7 @@ void AssocRolePage::constructWidget()
     propsBLayout->setMargin(margin);
 
     QStringList multiplicities;
-    multiplicities << "1" << "*" << "1..*" << "0..1";
+    multiplicities << "" << "1" << "*" << "1..*" << "0..1";
 
     // Properties
     //
