@@ -1408,7 +1408,9 @@ bool AssociationWidget::containsAsEndpoint(UMLWidget* widget)
 bool AssociationWidget::isCollaboration() const
 {
     Uml::AssociationType::Enum at = associationType();
-    return (at == AssociationType::Coll_Message || at == AssociationType::Coll_Message_Self);
+    return (at == AssociationType::Coll_Message_Synchronous
+            || at == AssociationType::Coll_Message_Asynchronous
+            || at == AssociationType::Coll_Message_Self);
 }
 
 /**
