@@ -165,7 +165,8 @@ namespace Uml
             RoleAName,          //RoleA text on associations
             RoleBName,          //RoleB text on associations
             ChangeA,            //Changeability A text on associations
-            ChangeB             //Changeability B text on associations
+            ChangeB,            //Changeability B text on associations
+            Reserved            //Enter new entries before this line
         };
         QString toString(Enum item);
         Enum fromString(const QString& item);

@@ -243,7 +243,7 @@ void TEST_basictypes::test_SignatureType_toString_fromString()
 
 void TEST_basictypes::test_TextRole_toString_fromString()
 {
-    for (int i = Uml::TextRole::Floating; i < Uml::TextRole::ChangeB; ++i) {
+    for (int i = Uml::TextRole::Floating; i < Uml::TextRole::Reserved; ++i) {
         Uml::TextRole::Enum at = Uml::TextRole::fromString(
                                       Uml::TextRole::toString(
                                           Uml::TextRole::fromInt(i)));
