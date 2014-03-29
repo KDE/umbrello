@@ -77,7 +77,8 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType, UMLWidge
     case Uml::AssociationType::Association:
     case Uml::AssociationType::UniAssociation:
     case Uml::AssociationType::Dependency:
-    case Uml::AssociationType::Coll_Message:
+    case Uml::AssociationType::Coll_Message_Synchronous:
+    case Uml::AssociationType::Coll_Message_Asynchronous:
     case Uml::AssociationType::Generalization://can have many sub/super types
     case Uml::AssociationType::Aggregation:
     case Uml::AssociationType::Relationship:
@@ -180,7 +181,8 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType,
     case Uml::AssociationType::Association:
     case Uml::AssociationType::UniAssociation:
     case Uml::AssociationType::Dependency:
-    case Uml::AssociationType::Coll_Message:
+    case Uml::AssociationType::Coll_Message_Synchronous:
+    case Uml::AssociationType::Coll_Message_Asynchronous:
     case Uml::AssociationType::Aggregation:
     case Uml::AssociationType::Relationship:
         return true;  // doesn't matter what's already connected to widget
@@ -434,7 +436,8 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
     { Uml::AssociationType::Containment,      WidgetBase::wt_Interface,  WidgetBase::wt_Datatype,    false,  false,  false,  false },
     { Uml::AssociationType::Containment,      WidgetBase::wt_Component,  WidgetBase::wt_Component,   false,  false,  false,  false },
     { Uml::AssociationType::Containment,      WidgetBase::wt_Component,  WidgetBase::wt_Artifact,    false,  false,  false,  false },
-    { Uml::AssociationType::Coll_Message,     WidgetBase::wt_Object,     WidgetBase::wt_Object,      true,   false,  true,   true  },
+    { Uml::AssociationType::Coll_Message_Synchronous, WidgetBase::wt_Object, WidgetBase::wt_Object,  true,   false,  true,   true  },
+    { Uml::AssociationType::Coll_Message_Asynchronous, WidgetBase::wt_Object, WidgetBase::wt_Object, true,   false,  true,   true  },
     { Uml::AssociationType::State,            WidgetBase::wt_State,      WidgetBase::wt_State,       true,   false,  true,   true  },
     { Uml::AssociationType::State,            WidgetBase::wt_ForkJoin,   WidgetBase::wt_State,       true,   false,  true,   true  },
     { Uml::AssociationType::State,            WidgetBase::wt_State,      WidgetBase::wt_ForkJoin,    true,   false,  true,   true  },

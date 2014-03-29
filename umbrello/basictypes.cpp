@@ -279,7 +279,7 @@ QString toString(Enum item)
             return QString("Association");
         case Association_Self:
             return QString("Association_Self");
-        case Coll_Message:
+        case Coll_Message_Asynchronous:
             return QString("Coll_Message");
         case Seq_Message:
             return QString("Seq_Message");
@@ -333,7 +333,7 @@ QString toStringI18n(Enum item)
               return i18n("Association");
           case Association_Self:
               return i18n("Self Association");
-          case Coll_Message:
+          case Coll_Message_Asynchronous:
               return i18n("Collaboration Message");
           case Seq_Message:
               return i18n("Sequence Message");
@@ -388,7 +388,7 @@ Enum fromString(const QString& item)
     else if (item == "Association_Self")
         return Association_Self;
     else if (item == "Coll_Message")
-        return Coll_Message;
+        return Coll_Message_Asynchronous;
     else if (item == "Seq_Message")
         return Seq_Message;
     else if (item == "Coll_Message_Self")

@@ -137,7 +137,8 @@ void WorkToolBar::slotCheckToolBar(Uml::DiagramType::Enum dt)
 
     case Uml::DiagramType::Collaboration:
         insertHotBtn(tbb_Object);
-        insertHotBtn(tbb_Coll_Message);
+        insertHotBtn(tbb_Coll_Message_Asynchronous);
+        insertHotBtn(tbb_Coll_Message_Synchronous);
         break;
 
     case Uml::DiagramType::State:
@@ -353,7 +354,8 @@ void WorkToolBar::loadPixmaps()
         { tbb_Final_Activity,           i18n("Final Activity"),          Icon_Utils::it_Activity_Final,          SLOT(slotFinal_Activity()) },
         { tbb_Pin,                      i18n("Pin"),                     Icon_Utils::it_Pin,                     SLOT(slotPin()) },
         { tbb_Initial_Activity,         i18n("Initial Activity"),        Icon_Utils::it_Activity_Initial,        SLOT(slotInitial_Activity()) },
-        { tbb_Coll_Message,             i18n("Message"),                 Icon_Utils::it_Message,                 SLOT(slotColl_Message()) },
+        { tbb_Coll_Message_Synchronous, i18n("Synchronous Message"),     Icon_Utils::it_Message_Synchronous,     SLOT(slotColl_Message_Synchronous()) },
+        { tbb_Coll_Message_Asynchronous,i18n("Asynchronous Message"),    Icon_Utils::it_Message_Asynchronous,    SLOT(slotColl_Message_Asynchronous()) },
         { tbb_Exception,                i18n("Exception"),               Icon_Utils::it_Exception,               SLOT(slotException()) },
         { tbb_Object_Node,              i18n("Object Node"),             Icon_Utils::it_Object_Node,             SLOT(slotObject_Node()) },
         { tbb_PrePostCondition,         i18n("Pre/Post condition"),      Icon_Utils::it_Condition_PrePost,       SLOT(slotPrePostCondition()) },
@@ -395,7 +397,8 @@ void WorkToolBar::slotAggregation()              { buttonChanged(tbb_Aggregation
 void WorkToolBar::slotDependency()               { buttonChanged(tbb_Dependency);               }
 void WorkToolBar::slotAssociation()              { buttonChanged(tbb_Association);              }
 void WorkToolBar::slotContainment()              { buttonChanged(tbb_Containment);              }
-void WorkToolBar::slotColl_Message()             { buttonChanged(tbb_Coll_Message);             }
+void WorkToolBar::slotColl_Message_Synchronous() { buttonChanged(tbb_Coll_Message_Synchronous); }
+void WorkToolBar::slotColl_Message_Asynchronous(){ buttonChanged(tbb_Coll_Message_Asynchronous);}
 void WorkToolBar::slotSeq_Message_Synchronous()  { buttonChanged(tbb_Seq_Message_Synchronous);  }
 void WorkToolBar::slotSeq_Message_Asynchronous() { buttonChanged(tbb_Seq_Message_Asynchronous); }
 void WorkToolBar::slotSeq_Message_Found()        { buttonChanged(tbb_Seq_Message_Found);        }

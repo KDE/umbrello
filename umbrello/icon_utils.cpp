@@ -86,6 +86,7 @@ KIcon DesktopIcon(IconType type)
  */
 QCursor Cursor(IconType type)
 {
+    // TODO: generate from a 32x32 cursor template and place requested icon into
     return QCursor(UserIcon("cursor-" + toString(type)), 9, 9);
 }
 
@@ -454,8 +455,10 @@ QString toString(IconType type)
             return "pin";
         case it_Activity_Initial:
             return "initial_state";
-        case it_Message:
-            return "umbr-message-asynchronous";
+        case it_Message_Synchronous:
+            return "umbr-coll-message-synchronous";
+        case it_Message_Asynchronous:
+            return "umbr-coll-message-asynchronous";
         case it_Exception:
             return "exception";
         case it_Object_Node:
