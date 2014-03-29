@@ -117,6 +117,13 @@ void AssocGenPage::constructWidget()
         if (assocType == currentType)
             continue;
 
+        // UMLScene based checks
+        if (m_pAssociationWidget->umlScene()->type() == Uml::DiagramType::Collaboration
+                && !(assocType == Uml::AssociationType::Coll_Message_Asynchronous
+                    || assocType == Uml::AssociationType::Coll_Message_Synchronous
+                    || assocType == Uml::AssociationType::Anchor))
+            continue;
+
         if (AssocRules::allowAssociation(assocType,
                                          m_pAssociationWidget->widgetForRole(Uml::RoleType::A),
                                          m_pAssociationWidget->widgetForRole(Uml::RoleType::B))) {
