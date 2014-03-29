@@ -96,13 +96,14 @@ namespace Uml
      */
     namespace AssociationType
     {
+        // only append entries to this type
+        // it is used as xmi file attribute
         enum Enum {
             Generalization  =  500,
             Aggregation,
             Dependency,
             Association,
             Association_Self,
-            Coll_Message_Synchronous,
             Coll_Message_Asynchronous,
             Seq_Message,
             Coll_Message_Self,
@@ -118,6 +119,7 @@ namespace Uml
             Category2Parent,
             Child2Category,
             Relationship,
+            Coll_Message_Synchronous,
             Unknown  =  - 1
         };
         QString toString(Enum item);
