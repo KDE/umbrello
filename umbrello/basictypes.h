@@ -120,6 +120,8 @@ namespace Uml
             Child2Category,
             Relationship,
             Coll_Message_Synchronous,
+            // enter new entries before this line
+            Reserved,
             Unknown  =  - 1
         };
         QString toString(Enum item);

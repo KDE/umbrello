@@ -405,7 +405,7 @@ bool UMLAssociation::load(QDomElement & element)
     } else {
         int assocTypeNum = assocTypeStr.toInt();
         if (assocTypeNum < (int)Uml::AssociationType::Generalization ||   // first enum
-            assocTypeNum > (int)Uml::AssociationType::Relationship) {     // last enum
+            assocTypeNum >= (int)Uml::AssociationType::Reserved) {     // last enum
             uWarning() << "bad assoctype of UML:AssociationType::Enum " << Uml::ID::toString(id());
             return false;
         }

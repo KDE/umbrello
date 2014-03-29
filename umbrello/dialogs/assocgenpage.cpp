@@ -111,7 +111,7 @@ void AssocGenPage::constructWidget()
     uDebug() << "current type = " << Uml::AssociationType::toString(currentType);
 
     // dynamically load all allowed associations
-    for (int i = Uml::AssociationType::Generalization; i <= Uml::AssociationType::Relationship;  ++i) {
+    for (int i = Uml::AssociationType::Generalization; i < Uml::AssociationType::Reserved;  ++i) {
         // we don't need to check for current type
         Uml::AssociationType::Enum assocType = Uml::AssociationType::fromInt(i);
         if (assocType == currentType)
