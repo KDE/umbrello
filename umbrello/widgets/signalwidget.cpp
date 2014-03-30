@@ -186,7 +186,14 @@ void SignalWidget::setName(const QString &strName)
     m_Text = strName;
     updateGeometry();
     if (signalType() == SignalWidget::Time) {
-        m_pName->setText(m_Text);
+        if (!m_pName) {
+            m_pName = new FloatingTextWidget(umlScene(), Uml::TextRole::Floating, m_Text);
+            umlScene()->setupNewWidget(m_pName);
+            m_pName->setX(0);
+            m_pName->setY(0);
+        }
+        else
+            m_pName->setText(m_Text);
     }
 }
 
