@@ -165,6 +165,15 @@ QString FloatingTextWidget::displayText() const
 }
 
 /**
+ * Return state if no pre, post and main text is empty
+ * @return true if widget contains no text
+ */
+bool FloatingTextWidget::isEmpty()
+{
+    return m_Text.isEmpty() && m_preText.isEmpty() && m_postText.isEmpty();
+}
+
+/**
  * Overrides method from UMLWidget.
  */
 QSizeF FloatingTextWidget::minimumSize()
@@ -642,7 +651,7 @@ bool FloatingTextWidget::loadFromXMI(QDomElement & qElement)
     // CAVEAT: The caller should not interpret the false return value
     //  as an indication of failure since previous umbrello versions
     //  saved lots of these empty FloatingTexts.
-    bool usefullWidget = !(m_Text.isEmpty() && m_preText.isEmpty() && m_postText.isEmpty());
+    bool usefullWidget = !isEmpty();
     return usefullWidget;
 }
 

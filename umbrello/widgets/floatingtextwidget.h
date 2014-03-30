@@ -54,6 +54,8 @@ public:
 
     QString displayText() const;
 
+    bool isEmpty();
+
     void showChangeTextDialog();
     void showOperationDialog(bool enableAutoIncrement = true);
     virtual void showPropertiesDialog();

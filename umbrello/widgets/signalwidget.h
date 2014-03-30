@@ -79,6 +79,9 @@ protected:
     FloatingTextWidget* m_pName;
 
     SignalType m_signalType; ///< Type of signal
+
+protected Q_SLOTS:
+    void slotTextDestroyed();
 };
 
 #endif

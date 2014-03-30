@@ -48,6 +48,7 @@ SignalWidget::SignalWidget(UMLScene *scene, SignalType signalType, Uml::ID::Type
         scene->setupNewWidget(m_pName);
         m_pName->setX(0);
         m_pName->setY(0);
+        connect(m_pName, SIGNAL(destroyed()), this, SLOT(slotTextDestroyed()));
     }
 }
 
@@ -191,6 +192,7 @@ void SignalWidget::setName(const QString &strName)
             umlScene()->setupNewWidget(m_pName);
             m_pName->setX(0);
             m_pName->setY(0);
+            connect(m_pName, SIGNAL(destroyed()), this, SLOT(slotTextDestroyed()));
         }
         else
             m_pName->setText(m_Text);
@@ -291,6 +293,8 @@ bool SignalWidget::loadFromXMI(QDomElement & qElement)
                 delete m_pName;
                 m_pName = NULL;
             }
+            else
+                connect(m_pName, SIGNAL(destroyed()), this, SLOT(slotTextDestroyed()));
         } else {
             uError() << "unknown tag " << tag;
         }
@@ -363,6 +367,14 @@ QSizeF SignalWidget::minimumSize()
     height += SIGNAL_MARGIN * 2;
 
     return QSizeF(width, height);
+}
+
+/**
+ * Called if user deletes text widget
+ */
+void SignalWidget::slotTextDestroyed()
+{
+    m_pName = 0;
 }
 
 #include "signalwidget.moc"
