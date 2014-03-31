@@ -95,7 +95,7 @@ public:
     void setDocumentation(const QString& doc);
 
     QString name() const;
-    void setName(const QString &strName);
+    virtual void setName(const QString &strName);
 
     QColor lineColor() const;
     virtual void setLineColor(const QColor& color);

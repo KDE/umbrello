@@ -93,7 +93,7 @@ void SignalWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
             painter->setFont(font);
             painter->drawText(SIGNAL_MARGIN, textStartY,
                            w - SIGNAL_MARGIN * 2, fontHeight,
-                           Qt::AlignCenter, getName());
+                           Qt::AlignCenter, name());
             setPenFromSettings(painter);
         }
         break;
@@ -118,7 +118,7 @@ void SignalWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
             painter->setFont(font);
             painter->drawText(SIGNAL_MARGIN, textStartY,
                            w - SIGNAL_MARGIN * 2 + (w/3), fontHeight,
-                           Qt::AlignCenter, getName());
+                           Qt::AlignCenter, name());
             setPenFromSettings(painter);
         }
         break;
@@ -184,7 +184,7 @@ void SignalWidget::setY(qreal newY)
  */
 void SignalWidget::setName(const QString &strName)
 {
-    m_Text = strName;
+    UMLWidget::setName(strName);
     updateGeometry();
     if (signalType() == SignalWidget::Time) {
         if (!m_pName) {
@@ -197,14 +197,6 @@ void SignalWidget::setName(const QString &strName)
         else
             m_pName->setText(m_Text);
     }
-}
-
-/**
- * Returns the name of the Signal.
- */
-QString SignalWidget::getName() const
-{
-    return m_Text;
 }
 
 /**
