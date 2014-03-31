@@ -39,9 +39,9 @@ cursor-initial_state.png  cursor-package.png  cursor-aggregation.png
 cursor-component.png  cursor-containment.png  cursor-interface.png
 cursor-datatype.png  cursor-enum.png  cursor-text.png
 cursor-anchor.png cursor-pin.png cursor-composition.png
+cursor-umbr-coll-message-synchronous.png  cursor-umbr-coll-message-asynchronous.png
 cursor-umbr-message-synchronous.png  cursor-umbr-message-asynchronous.png
-cursor-umbr-message-asynchronous.png  cursor-class.png  cursor-artifact.png
-cursor-dependency.png  cursor-umbr-message-synchronous.png  cursor-uniassociation.png
+cursor-class.png  cursor-artifact.png cursor-dependency.png  cursor-uniassociation.png
 cursor-association.png  cursor-end_state.png  cursor-final_activity.png
 cursor-node.png  cursor-box.png  cursor-activity-fork.png
 cursor-note.png  cursor-branch.png  cursor-generalisation.png
