@@ -346,21 +346,21 @@ void SignalWidget::slotMenuSelection(QAction* action)
  */
 QSizeF SignalWidget::minimumSize()
 {
-        int width = SIGNAL_WIDTH, height = SIGNAL_HEIGHT;
-        const QFontMetrics &fm = getFontMetrics(FT_BOLD);
-        const int fontHeight  = fm.lineSpacing();
-        int textWidth = fm.width(getName());
+    int width = SIGNAL_WIDTH, height = SIGNAL_HEIGHT;
+    const QFontMetrics &fm = getFontMetrics(FT_BOLD);
+    const int fontHeight  = fm.lineSpacing();
+    int textWidth = fm.width(name());
 
-        if (m_signalType == Accept)
-             textWidth = int((float)textWidth * 1.3f);
-        height  = fontHeight;
-        if (m_signalType != Time)
-        {
-              width   = textWidth > SIGNAL_WIDTH?textWidth:SIGNAL_WIDTH;
-              height  = height > SIGNAL_HEIGHT?height:SIGNAL_HEIGHT;
-        }
-        width  += SIGNAL_MARGIN * 2;
-        height += SIGNAL_MARGIN * 2;
+    if (m_signalType == Accept)
+         textWidth = int((float)textWidth * 1.3f);
+    height  = fontHeight;
+    if (m_signalType != Time)
+    {
+          width   = textWidth > SIGNAL_WIDTH?textWidth:SIGNAL_WIDTH;
+          height  = height > SIGNAL_HEIGHT?height:SIGNAL_HEIGHT;
+    }
+    width  += SIGNAL_MARGIN * 2;
+    height += SIGNAL_MARGIN * 2;
 
     return QSizeF(width, height);
 }
