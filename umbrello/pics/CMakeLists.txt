@@ -19,6 +19,7 @@ CVpublic_var.png  CVstruct.png
 deep-history.png  shallow-history.png
 dependency.png  final_activity.png  end_state.png  generalisation.png
 initial_state.png  interface.png  join.png  junction.png  datatype.png  enum.png  
+umbr-coll-message-synchronous.png  umbr-coll-message-asynchronous.png
 umbr-message-synchronous.png  umbr-message-asynchronous.png
 note.png pin.png object_node.png object.png  
 startlogo.png  template.png  text.png  refactor.png  
@@ -38,6 +39,7 @@ cursor-initial_state.png  cursor-package.png  cursor-aggregation.png
 cursor-component.png  cursor-containment.png  cursor-interface.png
 cursor-datatype.png  cursor-enum.png  cursor-text.png
 cursor-anchor.png cursor-pin.png cursor-composition.png
+cursor-umbr-message-synchronous.png  cursor-umbr-message-asynchronous.png
 cursor-umbr-message-asynchronous.png  cursor-class.png  cursor-artifact.png
 cursor-dependency.png  cursor-umbr-message-synchronous.png  cursor-uniassociation.png
 cursor-association.png  cursor-end_state.png  cursor-final_activity.png
