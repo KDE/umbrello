@@ -40,14 +40,14 @@ CacheNode::~CacheNode()
     m_manager->remove(this);
 };
 
-void CacheManager::restart(uint normalizeby)
+void CacheManager::restart(unsigned int normalizeby)
 {
     m_currentFrame = 1;
     m_currentMax = 1;
     SetType oldSet = m_set;
     m_set = SetType();
     for (SetType::iterator it = oldSet.begin(); it != oldSet.end(); ++it) {
-        uint newValue = (*it)->value() / (normalizeby / 1000);
+        unsigned int newValue = (*it)->value() / (normalizeby / 1000);
         if (newValue > m_currentMax) m_currentMax = newValue;
         (*it)->setValue(newValue); ///This way not all information is discarded
         m_set.insert(*it);
@@ -56,7 +56,7 @@ void CacheManager::restart(uint normalizeby)
 
 void CacheManager::access(const CacheNode* node)
 {
-    static const uint limit = (std::numeric_limits<uint>::max() / 3)*2;
+    static const unsigned int limit = (std::numeric_limits<unsigned int>::max() / 3)*2;
     m_set.erase(node);
     node->setValue(m_currentMax+1);
     m_set.insert(node);
