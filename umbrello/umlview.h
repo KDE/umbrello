@@ -55,12 +55,13 @@ protected:
     virtual void showEvent(QShowEvent *se);
     virtual void hideEvent(QHideEvent *he);
     virtual void closeEvent(QCloseEvent* ce);
+    virtual void mousePressEvent(QMouseEvent* event);
+    virtual void mouseReleaseEvent(QMouseEvent* event);
 
     void setCenter(const QPointF& centerPoint);
     QPointF center();
 
     QPointF m_currentCenterPoint;  ///< holds the current centerpoint for the view, used for panning and zooming
-    QPoint  m_lastPanPoint;        ///< from panning the view
     int m_nZoom;        ///< zoom level in percent, default 100
 };
 

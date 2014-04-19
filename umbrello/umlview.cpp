@@ -224,6 +224,34 @@ void UMLView::closeEvent(QCloseEvent* ce)
 }
 
 /**
+ * Override standard method.
+ */
+void UMLView::mousePressEvent(QMouseEvent* event)
+{
+    if (event->button() == Qt::MidButton) {
+        setDragMode(QGraphicsView::ScrollHandDrag);
+        setInteractive(false);
+        QMouseEvent fake(event->type(), event->pos(), Qt::LeftButton, Qt::LeftButton, event->modifiers());
+        QGraphicsView::mousePressEvent(&fake);
+    } else
+        QGraphicsView::mousePressEvent(event);
+}
+
+/**
+ * Override standard method.
+ */
+void UMLView::mouseReleaseEvent(QMouseEvent* event)
+{
+    if (event->button() == Qt::MidButton) {
+        QMouseEvent fake(event->type(), event->pos(), Qt::LeftButton, Qt::LeftButton, event->modifiers());
+        QGraphicsView::mouseReleaseEvent(&fake);
+        setInteractive(true);
+        setDragMode(QGraphicsView::NoDrag);
+    } else
+        QGraphicsView::mouseReleaseEvent(event);
+}
+
+/**
  * Sets the current centerpoint.  Also updates the scene's center point.
  * Unlike centerOn, which has no way of getting the floating point center
  * back, setCenter() stores the center point.  It also handles the special
