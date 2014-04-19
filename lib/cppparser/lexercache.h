@@ -19,7 +19,6 @@
 #include <kdebug.h>
 #include <qdatetime.h>
 #include <qfileinfo.h>
-#include <hash_set>
 #include "cachemanager.h"
 
 //#define LEXERCACHE_DEBUG
