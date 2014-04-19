@@ -1853,21 +1853,29 @@ short UMLDoc::encoding(QIODevice & file)
     }
     QDomElement root = node.toElement();
     if (root.isNull()) {
+        uWarning() << "Null element at " << node.nodeName() << " : " << node.nodeValue();
         return ENC_UNKNOWN;
     }
     //  make sure it is an XMI file
-    if (root.tagName() != "XMI") {
+    if (root.tagName() != "XMI" && root.tagName() != "xmi:XMI") {
+        uWarning() << "Unknown tag at " << root.tagName();
+        return ENC_UNKNOWN;
+    }
+
+    if (node.firstChild().isNull()) {
+        uWarning() << "No child at " << node.nodeName() << " : " << node.nodeValue();
         return ENC_UNKNOWN;
     }
     node = node.firstChild();
 
-    if (node.isNull()) {
-        return ENC_UNKNOWN;
-    }
-
     QDomElement element = node.toElement();
     // check header
-    if (element.isNull() || element.tagName() != "XMI.header") {
+    if (element.isNull()) {
+        uWarning() << "No element at " << node.nodeName() << " : " << node.nodeValue();
+        return ENC_UNKNOWN;
+    }
+    if (element.tagName() != "XMI.header") {
+        uWarning() << "Expecting XMI.header at " << element.tagName();
         return ENC_UNKNOWN;
     }
 
