@@ -450,8 +450,7 @@ private:
     QMap< QString, QList<Problem> > m_problems;
     QMap<QString, ParsedFilePointer> m_parsedUnits;
     QStringList m_includePaths;
-uint depresolv :
-    1;
+    unsigned int depresolv : 1;
     Lexer *lexer;
     SourceProvider* m_sourceProvider;
 

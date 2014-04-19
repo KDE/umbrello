@@ -25,10 +25,6 @@ class CacheManager;
 #define inline __inline
 #endif
 
-#ifdef _MSC_VER
-typedef unsigned int uint;
-#endif
-
 class CacheNode
 {
     typedef CacheManager Manager;
@@ -39,24 +35,24 @@ public:
 
     void access() const;
 
-    inline uint value() const
+    inline unsigned int value() const
     {
         return m_value;
     }
 
-    inline void setValue(const uint v) const
+    inline void setValue(const unsigned int v) const
     {
         m_value = v;
     }
 
-    inline void addValue(const uint diff) const
+    inline void addValue(const unsigned int diff) const
     {
         m_value += diff;
     }
 
 private:
     Manager* m_manager;
-    mutable uint m_value; //This value stands for the priority of the node(higher is better)
+    mutable unsigned int m_value; //This value stands for the priority of the node(higher is better)
 };
 
 class CacheNodeCompare
@@ -106,13 +102,13 @@ public:
     ///This triggered function should erase the given node.
     virtual void erase(const CacheNode* node) = 0;
 private:
-    void restart(uint normalizeby);
+    void restart(unsigned int normalizeby);
     friend class CacheNode;
     void remove(const CacheNode* node);
     void add(const CacheNode* node);
     int m_currentFrame;
-    uint m_maxNodes;
-    uint m_currentMax;
+    unsigned int m_maxNodes;
+    unsigned int m_currentMax;
     SetType m_set;
 };
 
