@@ -440,7 +440,7 @@ bool UMLFolder::loadFolderFile(const QString& path)
 }
 
 /**
- * Loads the UML:Component element.
+ * Loads the owned elements of the <UML:Model>.
  */
 bool UMLFolder::load(QDomElement& element)
 {
