@@ -20,11 +20,13 @@ class UMLFolder;
 class UMLScene;
 
 /**
- * UMLView instances represent diagrams.
- * The UMLApp instance manages a QWidgetStack of UMLView instances.
- * The visible diagram is at the top of stack.
- * The UMLView class inherits from QGraphicsView and it owns the
- * objects displayed on its related QGraphicsScene (see m_WidgetList.)
+ * UMLView instances represent views onto diagrams (scenes).
+ * The UMLApp instance manages the visibility of UMLView instances.
+ * The visible view (and therefore diagram) is at the top of stack.
+ * The UMLView class inherits from QGraphicsView.
+ * Construction of an UMLView implicitly constructs an UMLScene, i.e.
+ * there is a one to one relation between diagram and view.
+ * The UMLFolder instances own the UMLView instances.
  *
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
