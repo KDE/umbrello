@@ -53,7 +53,7 @@ const bool CHECKABLE = true;
  * @param view     The UMLView object
  */
 ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, UMLView * view)
-  : KMenu(parent)
+  : KMenu(parent), m_isListView(false)
 {
     m_TriggerObject.m_View = view;
     m_TriggerObjectType = tot_View;
@@ -69,7 +69,7 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, UMLView * view)
  * @param object   The WidgetBase object.
  */
 ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, WidgetBase *widget)
-  : KMenu(parent)
+  : KMenu(parent), m_isListView(false)
 {
     m_TriggerObject.m_Widget = widget;
     m_TriggerObjectType = tot_Widget;
@@ -85,7 +85,7 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, WidgetBase *widget)
  * @param object   The UMLObject of the ListViewItem
  */
 ListPopupMenu::ListPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type, UMLObject* object)
-  : KMenu(parent)
+  : KMenu(parent), m_isListView(true)
 {
     m_TriggerObject.m_Object = object;
     m_TriggerObjectType = tot_Object;
@@ -865,7 +865,8 @@ void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
     else if (Model_Utils::isCloneable(type))
         insert(mt_Clone);
     insert(mt_Delete);
-    insert(mt_Resize, i18n("Resize"));
+    if (!m_isListView)
+        insert(mt_Resize, i18n("Resize"));
 }
 
 /**

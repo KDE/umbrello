@@ -340,6 +340,7 @@ private:
     TriggerObjectType m_TriggerObjectType;
 
     QHash<MenuType, QAction*> m_actions;
+    bool m_isListView;
 
 };
 
