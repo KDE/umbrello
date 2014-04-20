@@ -32,7 +32,8 @@
 
 #define ENC_UNKNOWN 0
 #define ENC_UNICODE 1
-#define ENC_OLD_ENC 2
+#define ENC_WINDOWS 2
+#define ENC_OLD_ENC 3
 
 // forward declarations
 class QDomNode;

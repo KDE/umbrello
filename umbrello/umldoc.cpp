@@ -1848,35 +1848,52 @@ short UMLDoc::encoding(QIODevice & file)
     // we start at the beginning and go to the point in the header where we can
     // find out if the file was saved using Unicode
     QDomNode node = doc.firstChild();
+    short enc = ENC_UNKNOWN;
     while (node.isComment() || node.isProcessingInstruction()) {
+        if (node.isProcessingInstruction()) {
+            const QDomProcessingInstruction& pi = node.toProcessingInstruction();
+            QRegExp rx("\\bencoding=['\"]([^'\"]+)['\"]");
+            const int pos = rx.indexIn(pi.data());
+            if (pos >= 0) {
+                const QString& encData = rx.cap(1);
+                if (encData == "UTF-8") {
+                    enc = ENC_UNICODE;
+                } else if (encData == "windows-1252") {
+                    enc = ENC_WINDOWS;
+                } else {
+                    uDebug() << "ProcessingInstruction encoding=" << encData << " is not yet implemented";
+                    enc = ENC_OLD_ENC;
+                }
+            }
+        }
         node = node.nextSibling();
     }
     QDomElement root = node.toElement();
     if (root.isNull()) {
-        uWarning() << "Null element at " << node.nodeName() << " : " << node.nodeValue();
-        return ENC_UNKNOWN;
+        uDebug() << "Null element at " << node.nodeName() << " : " << node.nodeValue();
+        return enc;
     }
     //  make sure it is an XMI file
     if (root.tagName() != "XMI" && root.tagName() != "xmi:XMI") {
-        uWarning() << "Unknown tag at " << root.tagName();
-        return ENC_UNKNOWN;
+        uDebug() << "Unknown tag at " << root.tagName();
+        return enc;
     }
 
     if (node.firstChild().isNull()) {
-        uWarning() << "No child at " << node.nodeName() << " : " << node.nodeValue();
-        return ENC_UNKNOWN;
+        uDebug() << "No child at " << node.nodeName() << " : " << node.nodeValue();
+        return enc;
     }
     node = node.firstChild();
 
     QDomElement element = node.toElement();
     // check header
     if (element.isNull()) {
-        uWarning() << "No element at " << node.nodeName() << " : " << node.nodeValue();
-        return ENC_UNKNOWN;
+        uDebug() << "No element at " << node.nodeName() << " : " << node.nodeValue();
+        return enc;
     }
     if (element.tagName() != "XMI.header") {
-        uWarning() << "Expecting XMI.header at " << element.tagName();
-        return ENC_UNKNOWN;
+        uDebug() << "Expecting XMI.header at " << element.tagName();
+        return enc;
     }
 
     QDomNode headerNode = node.firstChild();
@@ -1896,7 +1913,7 @@ short UMLDoc::encoding(QIODevice & file)
             // mark a file as saved with Unicode
             if (! docuElement.isNull() &&
                     docuElement.tagName() == "XMI.exporterEncoding") {
-                // at the moment this if isn't really necessary, but maybe
+                // at the moment this isn't really necessary but maybe
                 // later we will have other encoding standards
                 if (docuElement.text() == QString("UnicodeUTF8")) {
                     return ENC_UNICODE; // stop here
@@ -1932,6 +1949,8 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
     QTextStream stream(&file);
     if (encode == ENC_UNICODE) {
         stream.setCodec("UTF-8");
+    } else if (encode == ENC_WINDOWS) {
+        stream.setCodec("windows-1252");
     }
 
     QString data = stream.readAll();
@@ -1956,7 +1975,7 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
         return false;
     }
     //  make sure it is an XMI file
-    if(root.tagName() != "XMI") {
+    if (root.tagName() != "XMI" && root.tagName() != "xmi:XMI") {
         return false;
     }
 
