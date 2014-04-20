@@ -389,9 +389,46 @@ bool loadFromMDL(QIODevice& file)
                     line = line.replace(QLatin1String(")"),QLatin1String(""));
                 }
                 QStringList a = line.trimmed().split(QRegExp("\\s+"));
-                if (a.size() == 2) {
-                    if (a[0] == "charSet" && a[1] == "134")
-                        stream.setCodec("GB18030");
+                if (a.size() == 2 && a[0] == "charSet") {
+                    const QString& charSet = a[1];
+                    if (charSet == "0")         // ASCII
+                        ;
+                    else if (charSet == "1")    // Default
+                        stream.setCodec("System");
+                    else if (charSet == "2")    // Symbol
+                        ; // @todo stream.setCodec("what");
+                    else if (charSet == "77")   // Mac
+                        stream.setCodec("macintosh");
+                    else if (charSet == "128")  // ShiftJIS (Japanese)
+                        stream.setCodec("Shift_JIS");
+                    else if (charSet == "129")  // Hangul (Korean)
+                        stream.setCodec("EUC-KR");
+                    else if (charSet == "130")  // Johab (Korean)
+                        stream.setCodec("EUC-KR");
+                    else if (charSet == "134")  // GB2312 (Chinese)
+                        stream.setCodec("GB18030");  // "Don't use GB2312 here" (Ralf H.)
+                    else if (charSet == "136")  // ChineseBig5
+                        stream.setCodec("Big5");
+                    else if (charSet == "161")  // Greek
+                        stream.setCodec("windows-1253");
+                    else if (charSet == "162")  // Turkish
+                        stream.setCodec("windows-1254");
+                    else if (charSet == "163")  // Vietnamese
+                        stream.setCodec("windows-1258");
+                    else if (charSet == "177")  // Hebrew
+                        stream.setCodec("windows-1255");
+                    else if (charSet == "178")  // Arabic
+                        stream.setCodec("windows-1256");
+                    else if (charSet == "186")  // Baltic
+                        stream.setCodec("windows-1257");
+                    else if (charSet == "204")  // Russian
+                        stream.setCodec("windows-1251");
+                    else if (charSet == "222")  // Thai
+                        stream.setCodec("TIS-620");
+                    else if (charSet == "238")  // EastEurope
+                        stream.setCodec("windows-1250");
+                    else if (charSet == "255")  // OEM (extended ASCII)
+                        stream.setCodec("windows-1252");
                 }
                 if (finish)
                      break;
