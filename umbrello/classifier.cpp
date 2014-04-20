@@ -1490,9 +1490,11 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 UMLClassifierListItem* UMLClassifier::makeChildObject(const QString& xmiTag)
 {
     UMLClassifierListItem* pObject = NULL;
-    if (UMLDoc::tagEq(xmiTag, "Operation")) {
+    if (UMLDoc::tagEq(xmiTag, "Operation") ||
+        UMLDoc::tagEq(xmiTag, "ownedOperation")) {
         pObject = new UMLOperation(this);
-    } else if (UMLDoc::tagEq(xmiTag, "Attribute")) {
+    } else if (UMLDoc::tagEq(xmiTag, "Attribute") ||
+               UMLDoc::tagEq(xmiTag, "ownedAttribute")) {
         if (baseType() != UMLObject::ot_Class)
             return NULL;
         pObject = new UMLAttribute(this);

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2013                                               *
+ *   copyright (C) 2004-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -62,6 +62,7 @@ QString uniqObjectName(UMLObject::ObjectType type,
                        UMLPackage *parentPkg,
                        QString prefix = QString());
 
+QString getXmiId(QDomElement element);
 bool isCommonXMIAttribute(const QString &tag);
 bool isCommonDataType(QString type);
 bool isClassifierListitem(UMLObject::ObjectType ot);

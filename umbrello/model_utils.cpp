@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2013                                               *
+ *   copyright (C) 2004-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -495,7 +495,18 @@ QString uniqObjectName(UMLObject::ObjectType type, UMLPackage *parentPkg, QStrin
 }
 
 /**
- * Return true if the given tag is a one of the common XMI
+ * Return the xmi.id (XMI-1) or xmi:id (XMI-2) of a QDomElement.
+ */
+QString getXmiId(QDomElement element)
+{
+    QString idStr = element.attribute("xmi.id", "");
+    if (idStr.isEmpty())
+        idStr = element.attribute("xmi:id", "");
+    return idStr;
+}
+
+/**
+ * Return true if the given tag is one of the common XMI
  * attributes, such as:
  * "name" | "visibility" | "isRoot" | "isLeaf" | "isAbstract" |
  * "isActive" | "ownerScope"

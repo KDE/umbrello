@@ -475,6 +475,9 @@ bool UMLPackage::load(QDomElement& element)
             if (! load(tempElement))
                 return false;
             continue;
+        } else if (UMLDoc::tagEq(type, "packagedElement") ||
+                   UMLDoc::tagEq(type, "ownedElement")) {
+            type = tempElement.attribute("xmi:type", "");
         }
         UMLObject *pObject = Object_Factory::makeObjectFromXMI(type);
         if(!pObject) {

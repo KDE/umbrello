@@ -465,6 +465,9 @@ bool UMLFolder::load(QDomElement& element)
                 totalSuccess = false;
             }
             continue;
+        } else if (UMLDoc::tagEq(type, "packagedElement") ||
+                   UMLDoc::tagEq(type, "ownedElement")) {
+            type = tempElement.attribute("xmi:type", "");
         } else if (type == "XMI.extension") {
             for (QDomNode xtnode = node.firstChild(); !xtnode.isNull();
                                               xtnode = xtnode.nextSibling()) {
@@ -501,7 +504,7 @@ bool UMLFolder::load(QDomElement& element)
         }
         UMLObject *pObject = 0;
         // Avoid duplicate creation of forward declared object
-        QString idStr = tempElement.attribute("xmi.id", "");
+        QString idStr = Model_Utils::getXmiId(tempElement);
         if (!idStr.isEmpty()) {
             Uml::ID::Type id = Uml::ID::fromString(idStr);
             pObject = umldoc->findObjectById(id);

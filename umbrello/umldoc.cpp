@@ -2005,6 +2005,16 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
                 extensionsNode = extensionsNode.nextSibling();
             }
             recognized = true;
+        } else if (tagEq(outerTag, "Model") ||
+                   tagEq(outerTag, "Package")) {
+            if(!loadUMLObjectsFromXMI(element)) {
+                uWarning() << "failed load on objects";
+                return false;
+            }
+            m_Name = element.attribute("name", i18n("UML Model"));
+            UMLListView *lv = UMLApp::app()->listView();
+            lv->setTitle(0, m_Name);
+            recognized = true;
         }
         if (outerTag != "XMI.content") {
             if (!recognized) {
@@ -2251,8 +2261,12 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         // and foreign files
         if (Model_Utils::isCommonXMIAttribute(type)) {
             continue;
+        } else if (tagEq(type, "packagedElement") ||
+                   tagEq(type, "ownedElement")) {
+            type = tempElement.attribute("xmi:type");
         }
-        if (! tempElement.hasAttribute("xmi.id")) {
+        if (!tempElement.hasAttribute("xmi.id") &&
+            !tempElement.hasAttribute("xmi:id")) {
             QString idref = tempElement.attribute("xmi.idref", "");
             if (! idref.isEmpty()) {
                 DEBUG(DBG_SRC) << "resolution of xmi.idref " << idref

@@ -919,7 +919,7 @@ bool UMLObject::loadFromXMI(QDomElement & element)
     // Read the name first so that if we encounter a problem, the error
     // message can say the name.
     m_name = element.attribute("name", "");
-    QString id = element.attribute("xmi.id", "");
+    QString id = Model_Utils::getXmiId(element);
     if (id.isEmpty() || id == "-1") {
         if (m_BaseType == ot_Role) {
             // Before version 1.4, Umbrello did not save the xmi.id

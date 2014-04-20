@@ -14,6 +14,7 @@
 // app includes
 #include "attribute.h"
 #include "classifier.h"
+#include "model_utils.h"
 #include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -530,7 +531,7 @@ bool UMLOperation::load(QDomElement & element)
                 }
             }
             if (kind == "return") {
-                QString returnId = attElement.attribute("xmi.id", "");
+                QString returnId = Model_Utils::getXmiId(attElement);
                 if (!returnId.isEmpty())
                     m_returnId = Uml::ID::fromString(returnId);
                 m_SecondaryId = attElement.attribute("type", "");
@@ -548,13 +549,13 @@ bool UMLOperation::load(QDomElement & element)
                             node = node.nextSibling();
                             continue;
                         }
-                        m_SecondaryId = tempElement.attribute("xmi.id", "");
+                        m_SecondaryId = Model_Utils::getXmiId(tempElement);
                         if (m_SecondaryId.isEmpty())
                             m_SecondaryId = tempElement.attribute("xmi.idref", "");
                         if (m_SecondaryId.isEmpty()) {
                             QDomNode inner = node.firstChild();
                             QDomElement tmpElem = inner.toElement();
-                            m_SecondaryId = tmpElem.attribute("xmi.id", "");
+                            m_SecondaryId = Model_Utils::getXmiId(tmpElem);
                             if (m_SecondaryId.isEmpty())
                                 m_SecondaryId = tmpElem.attribute("xmi.idref", "");
                         }
