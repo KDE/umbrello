@@ -18,6 +18,7 @@
 #include "umlobject.h"
 #include "umldoc.h"
 #include "uml.h"
+#include "folder.h"
 #include "umlattributedialog.h"
 #include "object_factory.h"
 
@@ -295,20 +296,37 @@ bool UMLAttribute::load(QDomElement & element)
                 node = node.nextSibling();
                 continue;
             }
-            m_SecondaryId = tempElement.attribute("xmi.id", "");
+            m_SecondaryId = Model_Utils::getXmiId(tempElement);
             if (m_SecondaryId.isEmpty())
                 m_SecondaryId = tempElement.attribute("xmi.idref", "");
             if (m_SecondaryId.isEmpty()) {
-                QDomNode inner = node.firstChild();
-                QDomElement tmpElem = inner.toElement();
-                m_SecondaryId = tmpElem.attribute("xmi.id", "");
-                if (m_SecondaryId.isEmpty())
-                    m_SecondaryId = tmpElem.attribute("xmi.idref", "");
+                QString href = tempElement.attribute("href", "");
+                if (href.isEmpty()) {
+                    QDomNode inner = node.firstChild();
+                    QDomElement tmpElem = inner.toElement();
+                    m_SecondaryId = Model_Utils::getXmiId(tmpElem);
+                    if (m_SecondaryId.isEmpty())
+                        m_SecondaryId = tmpElem.attribute("xmi.idref", "");
+                } else {
+                    int hashpos = href.lastIndexOf(QChar('#'));
+                    if (hashpos < 0) {
+                        uDebug() << name() << ": cannot find type " << href;
+                    } else {
+                        QString typeName = href.mid(hashpos + 1);
+                        UMLFolder *dtFolder = UMLApp::app()->document()->datatypeFolder();
+                        m_pSecondary = Model_Utils::findUMLObject(dtFolder->containedObjects(),
+                                                                  typeName, UMLObject::ot_Datatype);
+                        if (!m_pSecondary) {
+                            m_pSecondary = Object_Factory::createUMLObject(UMLObject::ot_Datatype,
+                                                                           typeName, dtFolder);
+                        }
+                    }
+                }
             }
             break;
         }
         if (m_SecondaryId.isEmpty()) {
-            uDebug() << name() << ": " << "cannot find type.";
+            uDebug() << name() << ": cannot find type.";
         }
     }
     m_InitialValue = element.attribute("initialValue", "");

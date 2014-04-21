@@ -351,8 +351,10 @@ UMLObject* makeObjectFromXMI(const QString& xmiTag,
         UMLClassifier *c = new UMLClassifier();
         c->setBaseType(UMLObject::ot_Interface);
         pObject = c;
-    } else if (UMLDoc::tagEq(xmiTag, "DataType") || UMLDoc::tagEq(xmiTag, "Primitive")
-               || UMLDoc::tagEq(xmiTag, "Datatype")) {   // for bkwd compat.
+    } else if (UMLDoc::tagEq(xmiTag, "DataType")
+            || UMLDoc::tagEq(xmiTag, "Datatype")   // for bkwd compat.
+            || UMLDoc::tagEq(xmiTag, "Primitive")
+            || UMLDoc::tagEq(xmiTag, "PrimitiveType")) {
         UMLClassifier *c = new UMLClassifier();
         c->setBaseType(UMLObject::ot_Datatype);
         pObject = c;
