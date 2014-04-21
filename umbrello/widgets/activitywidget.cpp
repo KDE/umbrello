@@ -233,7 +233,7 @@ void ActivityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
         UMLWidget::setPenFromSettings(painter);
         if (UMLWidget::useFillColor()) {
             painter->setBrush(UMLWidget::fillColor());
-		}
+        }
         {
             QPolygon array(4);
             array[ 0 ] = QPoint(w / 2, 0);

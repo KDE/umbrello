@@ -29,7 +29,7 @@ public:
 
     virtual void cleanBeforeChange();
 
-	// FIXME: obsolate
+    // FIXME: obsolete
     virtual void mouseMove(QGraphicsSceneMouseEvent* ome);
 
 public Q_SLOTS:

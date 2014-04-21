@@ -617,8 +617,8 @@ bool AdaImport::parseStmt()
     UMLObject *o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name,
                                                  typeName, m_comment);
     if (o) {
-	UMLAttribute *attr = static_cast<UMLAttribute*>(o);
-	attr->setInitialValue(initialValue);
+        UMLAttribute *attr = static_cast<UMLAttribute*>(o);
+        attr->setInitialValue(initialValue);
     }
     skipStmt();
     return true;

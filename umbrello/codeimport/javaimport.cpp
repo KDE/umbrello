@@ -477,20 +477,20 @@ bool JavaImport::parseStmt()
         advance();
         if (m_srcIndex == srcLength)
             return false;
-	keyword = m_source[m_srcIndex];
+        keyword = m_source[m_srcIndex];
     }
     // At this point, we expect `keyword' to be a type name
     // (of a member of class or interface, or return type
     // of an operation.) Up next is the name of the attribute
     // or operation.
     if (! keyword.contains(QRegExp("^\\w"))) {
-	if (m_klass) {
+        if (m_klass) {
             uError() << "importJava: ignoring " << keyword <<
                 " at " << m_srcIndex << ", " << m_source.count() << " in " << m_klass->name();
-	} else {
+        } else {
             uError() << "importJava: ignoring " << keyword <<
                 " at " << m_srcIndex << ", " << m_source.count() << " (outside class)";
-	}
+        }
         return false;
     }
     QString typeName = m_source[m_srcIndex];
