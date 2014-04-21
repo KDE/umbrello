@@ -635,6 +635,9 @@ void ListPopupMenu::insert(MenuType m)
     case mt_Rename:
         m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Rename), i18n("Rename..."));
         break;
+    case mt_Show:
+        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Show), i18n("Show"));
+        break;
     case mt_Delete:
         m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Delete), i18n("Delete"));
         break;
@@ -1638,6 +1641,8 @@ void ListPopupMenu::setupMenu(MenuType type)
     case mt_Class:
         insertSubMenuNew(type);
         insertStdItems();
+        if (m_isListView)
+            insert(mt_Show);
         addSeparator();
         insert(mt_Import_Class);
         addSeparator();

@@ -64,6 +64,7 @@
 #include <kmessagebox.h>
 #include <kinputdialog.h>
 #include <kapplication.h>
+#include <ktabwidget.h>
 
 // qt includes
 #include <QDropEvent>
@@ -548,6 +549,37 @@ void UMLListView::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Delete:
         deleteItem(currItem);
+        break;
+
+    case ListPopupMenu::mt_Show:
+        // first check if we are on a diagram
+        if (!Model_Utils::typeIsDiagram(lvt)) {
+            UMLObject * object = currItem->umlObject();
+            if (!object) {
+                uError() << "UMLObjet of ... is null! Doing nothing.";
+                return;
+            }
+            umlType = object->baseType();
+            if (Model_Utils::typeIsCanvasWidget(lvt)) {
+                UMLViewList views = m_doc->viewIterator();
+                foreach (UMLView *view, views) {
+                    foreach(UMLWidget *widget, view->umlScene()->widgetList()) {
+                        if (object == widget->umlObject()) {
+                            if (UMLApp::app()->tabWidget()->indexOf(view) == -1) {
+                                int tabIndex = UMLApp::app()->tabWidget()->addTab(view, view->umlScene()->name());
+                                UMLApp::app()->tabWidget()->setTabIcon(tabIndex, Icon_Utils::iconSet(view->umlScene()->type()));
+                                UMLApp::app()->tabWidget()->setTabToolTip(tabIndex, view->umlScene()->name());
+                            }
+                            disconnect(UMLApp::app()->tabWidget(), SIGNAL(currentChanged(QWidget*)), UMLApp::app(), SLOT(slotTabChanged(QWidget*)));
+                            UMLApp::app()->tabWidget()->setCurrentWidget(view);
+                            connect(UMLApp::app()->tabWidget(), SIGNAL(currentChanged(QWidget*)), UMLApp::app(), SLOT(slotTabChanged(QWidget*)));
+                            view->centerOn(widget->pos());
+                            widget->setSelected(true);
+                        }
+                    }
+                }
+            }
+        }
         break;
 
     case ListPopupMenu::mt_Properties:
