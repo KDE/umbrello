@@ -38,7 +38,7 @@
 /**
  * Constructs a ParmPropDlg.
  * @param parent   the parent of the dialog
- * @param doc      
+ * @param doc      UMLDoc instance for access to classifiers and stereotypes
  * @param attr     the parameter to represent
  */
 ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * attr)

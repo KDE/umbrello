@@ -28,7 +28,7 @@
  */
 CodeDocument::CodeDocument () : CodeGenObjectWithTextBlocks(this),
     m_lastTagIndex(0), m_filename(QString()), m_fileExtension(QString()),
-    m_ID(QString()), m_pathName(QString()), m_package(NULL), m_writeOutCode(true)  
+    m_ID(QString()), m_pathName(QString()), m_package(NULL), m_writeOutCode(true)
 {
     setHeader(new CodeComment(this));
     //  m_dialog = new CodeDocumentDialog();

@@ -42,7 +42,7 @@ public:
 
 private:
     bool m_generationDone;
-      
+
 protected slots:
     void generateCode();
     void classGenerated(UMLClassifier* concept, bool generated);
