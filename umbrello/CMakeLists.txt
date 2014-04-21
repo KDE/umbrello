@@ -48,6 +48,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/debug/
   ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/
   ${CMAKE_CURRENT_SOURCE_DIR}/docgenerators/
+  ${CMAKE_CURRENT_SOURCE_DIR}/finder/
   ${CMAKE_CURRENT_SOURCE_DIR}/refactoring/
   ${CMAKE_CURRENT_SOURCE_DIR}/widgets/
   ${CMAKE_SOURCE_DIR}/lib/cppparser/
@@ -195,6 +196,7 @@ set(libdialogs_SRCS
     dialogs/dialog_utils.cpp
     dialogs/dialogbase.cpp
     dialogs/exportallviewsdialog.cpp
+    dialogs/finddialog.cpp
     dialogs/generaloptionpage.cpp
     dialogs/notedialog.cpp
     dialogs/objectnodedialog.cpp
@@ -223,6 +225,7 @@ kde4_add_ui_files(  libdialogs_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codeviewerdialogbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codevieweroptionsbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/exportallviewsdialogbase.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/finddialog.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/umlrolepropertiesbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/diagrampropertiespage.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codeimportoptionspage.ui
@@ -364,6 +367,14 @@ set(libwidgets_SRCS
     widgets/statusbartoolbutton.cpp
 )
 
+set(libfinder_SRCS
+    finder/findresults.cpp
+    finder/umlfinder.cpp
+    finder/umldocfinder.cpp
+    finder/umllistviewfinder.cpp
+    finder/umlscenefinder.cpp
+)
+
 ########### next target ###############
 
 set(libumbrello_SRCS
@@ -441,6 +452,7 @@ set(umbrello_SRCS
     ${umbrello_SRCS}
     ${libdebug_SRCS}
     ${libdialogs_SRCS}
+    ${libfinder_SRCS}
     ${librefactoring_SRCS}
     ${libcodegenwizard_SRCS}
     ${libcodeimpwizard_SRCS}

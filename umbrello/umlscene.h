@@ -61,6 +61,7 @@ class QHideEvent;
 class QMouseEvent;
 class QPrinter;
 class QShowEvent;
+class UMLScenePrivate;
 
 // migration wrapper for QGraphicsScene items
 typedef QList<QGraphicsItem*> UMLSceneItemList;
@@ -368,6 +369,7 @@ protected:
     bool m_bStartedCut;  ///< Flag if view/children started cut operation.
 
 private:
+    UMLScenePrivate *m_d;
     static const qreal defaultCanvasSize;  ///< The default size of a diagram in pixels.
     static bool m_showDocumentationIndicator; ///< Status of documentation indicator
 

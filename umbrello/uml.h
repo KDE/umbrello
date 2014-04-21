@@ -60,6 +60,7 @@ class QPushButton;
 class QLabel;
 class QListWidget;
 class QSlider;
+class UMLAppPrivate;
 
 /**
  * The base class for UML application windows. It sets up the main
@@ -211,6 +212,9 @@ public slots:
     void slotFileQuit();
     void slotFileExportDocbook();
     void slotFileExportXhtml();
+    void slotFind();
+    void slotFindNext();
+    void slotFindPrevious();
     void slotEditCut();
     void slotEditCopy();
     void slotEditPaste();
@@ -305,6 +309,7 @@ private slots:
 
 private:
     static UMLApp* s_instance;  ///< The last created instance of this class.
+    UMLAppPrivate *m_d;
 
     QMenu* findMenu(const QString &name);
 

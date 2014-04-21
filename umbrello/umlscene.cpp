@@ -98,6 +98,17 @@ using namespace Uml;
 DEBUG_REGISTER(UMLScene)
 
 /**
+ * The class UMLScenePrivate is intended to hold private
+ * members/classes to reduce the size of the public class
+ * and to speed up recompiling.
+ * The migration to this class is not complete yet.
+ */
+class UMLScenePrivate {
+public:
+    UMLScenePrivate() {}
+};
+
+/**
  * Constructor.
  */
 UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
@@ -116,6 +127,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
     m_bDrawSelectedOnly(false),
     m_bPaste(false),
     m_bStartedCut(false),
+    m_d(new UMLScenePrivate),
     m_view(view),
     m_pFolder(parentFolder),
     m_pIDChangesLog(0),
@@ -168,6 +180,7 @@ UMLScene::~UMLScene()
 
     delete m_pToolBarStateFactory;
     m_pToolBarStateFactory = 0;
+    delete m_d;
 }
 
 /**

@@ -187,6 +187,8 @@ private:
     bool m_bCreatingChildObject;  ///< when creating an attribute or an operation to stop it adding a second listViewItem
     QPoint m_dragStartPosition;
     QMimeData* m_dragCopyData;
+    QList<QTreeWidgetItem*> m_findItems;
+    int n_findIndex;
 };
 
 #endif

@@ -24,6 +24,7 @@
 #include "cmds.h"
 #include "umbrellosettings.h"
 #include "statusbartoolbutton.h"
+#include "findresults.h"
 
 // code generation
 #include "codegenerator.h"
@@ -42,6 +43,7 @@
 #include "codeviewerdialog.h"
 #include "diagramprintpage.h"
 #include "settingsdlg.h"
+#include "finddialog.h"
 #include "classimport.h"
 #include "refactoringassistant.h"
 // clipboard
@@ -61,6 +63,7 @@
 #include <kconfig.h>
 #include <kcursor.h>
 #include <kfiledialog.h>
+#include <KInputDialog>
 #include <klocale.h>
 #include <kmenubar.h>
 #include <kmessagebox.h>
@@ -98,6 +101,23 @@
 
 #include <cmath>
 
+/**
+ * Class UMLAppPrivate holds private class members/methods
+ * to reduce the size of the public class and to speed up
+ * recompiling.
+ * The migration to this class is not complete yet.
+ **/
+class UMLAppPrivate {
+public:
+    FindDialog findDialog;
+    FindResults findResults;
+
+    UMLAppPrivate(UMLApp *parent)
+        : findDialog(parent)
+    {
+    }
+};
+
 /** Static pointer, holding the last created instance. */
 UMLApp* UMLApp::s_instance;
 
@@ -125,6 +145,7 @@ DEBUG_REGISTER(UMLApp)
  */
 UMLApp::UMLApp(QWidget* parent)
   : KXmlGuiWindow(parent),
+    m_d(new UMLAppPrivate(this)),
     m_langSelect(0),
     m_zoomSelect(0),
     m_activeLanguage(Uml::ProgrammingLanguage::Reserved),
@@ -200,6 +221,7 @@ UMLApp::~UMLApp()
     delete m_refactoringAssist;
     delete m_pUndoStack;
     delete m_printer;
+    delete m_d;
 }
 
 /**
@@ -234,6 +256,9 @@ void UMLApp::initActions()
     QAction* fileSaveAs = KStandardAction::saveAs(this, SLOT(slotFileSaveAs()), actionCollection());
     QAction* fileClose = KStandardAction::close(this, SLOT(slotFileClose()), actionCollection());
     filePrint = KStandardAction::print(this, SLOT(slotFilePrint()), actionCollection());
+    KStandardAction::find(this, SLOT(slotFind()), actionCollection());
+    KStandardAction::findNext(this, SLOT(slotFindNext()), actionCollection());
+    KStandardAction::findPrev(this, SLOT(slotFindPrevious()), actionCollection());
     printPreview = KStandardAction::printPreview(this, SLOT(slotPrintPreview()), actionCollection());
 #if QT_VERSION >= 0x040600
     filePrint->setPriority(QAction::LowPriority);  // icon only
@@ -1324,6 +1349,46 @@ void UMLApp::slotFileClose()
 {
     slotStatusMsg(i18n("Closing file..."));
     slotFileNew();
+}
+
+/**
+ * find text
+ */
+void UMLApp::slotFind()
+{
+    if (!m_d->findDialog.exec()) {
+        UMLApp::app()->document()->writeToStatusBar(i18n("No search term entered"));
+        return;
+    }
+
+    int count;
+    if (m_d->findDialog.filter() == FindDialog::TreeView)
+        count = m_d->findResults.collect(FindResults::TreeView, FindResults::Class, m_d->findDialog.text());
+    else if (m_d->findDialog.filter() == FindDialog::CurrentDiagram)
+        count = m_d->findResults.collect(FindResults::CurrentDiagram, FindResults::Class, m_d->findDialog.text());
+    else if (m_d->findDialog.filter() == FindDialog::AllDiagrams)
+        count = m_d->findResults.collect(FindResults::AllDiagrams, FindResults::Class, m_d->findDialog.text());
+
+    UMLApp::app()->document()->writeToStatusBar(i18np("'%1': %2 found", "'%1': %2 founds", m_d->findDialog.text(), count));
+    slotFindNext();
+}
+
+/**
+ * Slot for showing next find result
+ */
+void UMLApp::slotFindNext()
+{
+    if (!m_d->findResults.displayNext())
+        m_d->findResults.displayNext();
+}
+
+/**
+ * Slot for showing previous find result
+ */
+void UMLApp::slotFindPrevious()
+{
+    if (!m_d->findResults.displayPrevious())
+        m_d->findResults.displayPrevious();
 }
 
 /**

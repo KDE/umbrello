@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FindDialog</class>
+ <widget class="QWidget" name="FindDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>293</width>
+    <height>118</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QFormLayout" name="formLayout">
+   <item row="0" column="0">
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Filter:</string>
+         </property>
+         <property name="buddy">
+          <cstring>ui_CurrentDiagram</cstring>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QRadioButton" name="ui_treeView">
+           <property name="text">
+            <string>Tree View</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">buttonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="ui_CurrentDiagram">
+           <property name="text">
+            <string>&amp;Current diagram</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">buttonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="ui_Diagrams">
+           <property name="text">
+            <string>&amp;All diagrams</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">buttonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Search Term:</string>
+         </property>
+         <property name="buddy">
+          <cstring>ui_searchTerm</cstring>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="KLineEdit" name="ui_searchTerm"/>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>ui_searchTerm</tabstop>
+  <tabstop>ui_treeView</tabstop>
+  <tabstop>ui_CurrentDiagram</tabstop>
+  <tabstop>ui_Diagrams</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+ </buttongroups>
+</ui>

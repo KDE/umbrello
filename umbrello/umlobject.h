@@ -46,6 +46,7 @@ class UMLObject : public QObject
 public:
     enum ObjectType
     {
+        ot_Unknown = -1,
         ot_UMLObject  = 100,
         ot_Actor,
         ot_UseCase,
