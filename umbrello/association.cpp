@@ -217,8 +217,22 @@ bool UMLAssociation::load(QDomElement & element)
         m_AssocType == Uml::AssociationType::Realization    ||
         m_AssocType == Uml::AssociationType::Dependency     ||
         m_AssocType == Uml::AssociationType::Child2Category ||
-        m_AssocType == Uml::AssociationType::Category2Parent
-       ) {
+        m_AssocType == Uml::AssociationType::Category2Parent) {
+        QString general = element.attribute("general", "");
+        if (!general.isEmpty()) {
+            UMLClassifier *owningClassifier = dynamic_cast<UMLClassifier*>(m_pUMLPackage);
+            if (owningClassifier == NULL){
+                uWarning() << "Cannot load UML2 generalization: m_pUMLPackage is expected "
+                           << "to be the owning classifier (=client)";
+                return false;
+            }
+            m_pRole[RoleType::A]->setObject(owningClassifier);
+            m_pRole[RoleType::B]->setSecondaryId(general);     // defer resolution to resolveRef()
+            owningClassifier->addAssociationEnd(this);
+            m_pUMLPackage = m_pUMLPackage->umlPackage();       // reparent
+            m_pUMLPackage->addObject(this);
+            return true;
+        }
         for (unsigned r = RoleType::A; r <= RoleType::B; ++r) {
             const QString fetch = (m_AssocType == Uml::AssociationType::Generalization ?
                                    r == RoleType::A ? "child" : "parent"

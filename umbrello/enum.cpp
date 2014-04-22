@@ -261,6 +261,7 @@ bool UMLEnum::load(QDomElement& element)
         QDomElement tempElement = node.toElement();
         QString tag = tempElement.tagName();
         if (UMLDoc::tagEq(tag, "EnumerationLiteral") ||
+            UMLDoc::tagEq(tag, "ownedLiteral") ||
                 UMLDoc::tagEq(tag, "EnumLiteral")) {   // for backward compatibility
             UMLEnumLiteral* pEnumLiteral = new UMLEnumLiteral(this);
             if(!pEnumLiteral->loadFromXMI(tempElement)) {

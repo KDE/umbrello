@@ -370,7 +370,8 @@ UMLObject* makeObjectFromXMI(const QString& xmiTag,
     } else if (UMLDoc::tagEq(xmiTag, "Association") ||
                UMLDoc::tagEq(xmiTag, "AssociationClass")) {
         pObject = new UMLAssociation();
-    } else if (UMLDoc::tagEq(xmiTag, "Generalization")) {
+    } else if (UMLDoc::tagEq(xmiTag, "Generalization") ||
+               UMLDoc::tagEq(xmiTag, "generalization")) {
         pObject = new UMLAssociation(Uml::AssociationType::Generalization);
     } else if (UMLDoc::tagEq(xmiTag, "Realization") ||
                UMLDoc::tagEq(xmiTag, "Abstraction")) {
