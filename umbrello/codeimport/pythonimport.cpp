@@ -172,7 +172,7 @@ QString PythonImport::skipBody()
        In order to return the body, we try to reconstruct the original Python
        syntax by reverting those changes.
      */
-    QString body = ":\n";
+    QString body = "";
     if (m_source[m_srcIndex] != "{")
         skipStmt("{");
     bool firstTokenAfterNewline = true;
