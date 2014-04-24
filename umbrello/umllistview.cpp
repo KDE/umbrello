@@ -565,14 +565,7 @@ void UMLListView::slotMenuSelection(QAction* action)
                 foreach (UMLView *view, views) {
                     foreach(UMLWidget *widget, view->umlScene()->widgetList()) {
                         if (object == widget->umlObject()) {
-                            if (UMLApp::app()->tabWidget()->indexOf(view) == -1) {
-                                int tabIndex = UMLApp::app()->tabWidget()->addTab(view, view->umlScene()->name());
-                                UMLApp::app()->tabWidget()->setTabIcon(tabIndex, Icon_Utils::iconSet(view->umlScene()->type()));
-                                UMLApp::app()->tabWidget()->setTabToolTip(tabIndex, view->umlScene()->name());
-                            }
-                            //disconnect(UMLApp::app()->tabWidget(), SIGNAL(currentChanged(QWidget*)), UMLApp::app(), SLOT(slotTabChanged(QWidget*)));
-                            UMLApp::app()->tabWidget()->setCurrentWidget(view);
-                            //connect(UMLApp::app()->tabWidget(), SIGNAL(currentChanged(QWidget*)), UMLApp::app(), SLOT(slotTabChanged(QWidget*)));
+                            UMLApp::app()->setCurrentView(view, false);
                             view->centerOn(widget->pos());
                             widget->setSelected(true);
                         }

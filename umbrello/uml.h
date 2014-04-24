@@ -133,7 +133,7 @@ public:
 
     QWidget* mainViewWidget();
 
-    void setCurrentView(UMLView* view);
+    void setCurrentView(UMLView* view, bool updateTreeView = true);
     UMLView* currentView() const;
 
     void setImageMimeType(const QString& mimeType);

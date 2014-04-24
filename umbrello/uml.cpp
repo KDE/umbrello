@@ -2908,7 +2908,7 @@ QWidget* UMLApp::mainViewWidget()
  *
  * @param view   Pointer to the UMLView to push.
  */
-void UMLApp::setCurrentView(UMLView* view)
+void UMLApp::setCurrentView(UMLView* view, bool updateTreeView)
 {
     m_view = view;
     if (view == NULL) {
@@ -2925,7 +2925,11 @@ void UMLApp::setCurrentView(UMLView* view)
             m_tabWidget->setTabIcon(tabIndex, Icon_Utils::iconSet(view->umlScene()->type()));
             m_tabWidget->setTabToolTip(tabIndex, view->umlScene()->name());
         }
+        if (!updateTreeView)
+            disconnect(m_tabWidget, SIGNAL(currentChanged(QWidget*)), this, SLOT(slotTabChanged(QWidget*)));
         m_tabWidget->setCurrentIndex(tabIndex);
+        if (!updateTreeView)
+            connect(m_tabWidget, SIGNAL(currentChanged(QWidget*)), SLOT(slotTabChanged(QWidget*)));
     }
     else {
         if (m_viewStack->indexOf(view) < 0) {
@@ -2937,9 +2941,11 @@ void UMLApp::setCurrentView(UMLView* view)
     setZoom(view->zoom());
     qApp->processEvents();
     slotStatusMsg(view->umlScene()->name());
-    UMLListViewItem* lvitem = m_listView->findView(view);
-    if (lvitem) {
-        m_listView->setCurrentItem(lvitem);
+    if (updateTreeView) {
+        UMLListViewItem* lvitem = m_listView->findView(view);
+        if (lvitem) {
+            m_listView->setCurrentItem(lvitem);
+        }
     }
     DEBUG(DBG_SRC) << "Changed view to" << view->umlScene();
 }
