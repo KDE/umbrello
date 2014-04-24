@@ -1950,19 +1950,19 @@ void UMLListView::focusOutEvent(QFocusEvent * fe)
     QTreeWidget::focusOutEvent(fe);
 }
 
-void UMLListView::contextMenuEvent(QContextMenuEvent *me)
+void UMLListView::contextMenuEvent(QContextMenuEvent *event)
 {
     // Get the UMLListViewItem at the point where the mouse pointer was pressed
-    UMLListViewItem * item = static_cast<UMLListViewItem*>(itemAt(me->pos()));
+    UMLListViewItem * item = static_cast<UMLListViewItem*>(itemAt(event->pos()));
     if (item) {
         const UMLListViewItem::ListViewType type = item->type();
         ListPopupMenu popup(this, type, item->umlObject());
-        QAction *triggered = popup.exec(me->globalPos());
+        QAction *triggered = popup.exec(event->globalPos());
         slotMenuSelection(triggered);
-        me->accept();
+        event->accept();
     }
 
-    QTreeWidget::contextMenuEvent(me);
+    QTreeWidget::contextMenuEvent(event);
 }
 
 /**

@@ -121,7 +121,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *me);
     void mouseDoubleClickEvent(QMouseEvent *me);
     void focusOutEvent (QFocusEvent *fe);
-    void contextMenuEvent(QContextMenuEvent *me);
+    void contextMenuEvent(QContextMenuEvent *event);
     UMLDragData* getDragData();
 
     bool acceptDrag(QDropEvent* event) const;
