@@ -157,7 +157,7 @@ public slots:
 
     void slotObjectChanged();
 
-    void slotMenuSelection(QAction* action);
+    void slotMenuSelection(QAction* action, const QPoint &position = QPoint());
 
     void slotDropped(QDropEvent* de, UMLListViewItem* target);
 

@@ -309,7 +309,7 @@ void UMLListView::keyPressEvent(QKeyEvent *ke)
  * Called when a right mouse button menu has an item selected.
  * @param action   the selected action
  */
-void UMLListView::slotMenuSelection(QAction* action)
+void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
 {
     UMLListViewItem * currItem = static_cast<UMLListViewItem*>(currentItem());
     if (!currItem) {
@@ -559,19 +559,52 @@ void UMLListView::slotMenuSelection(QAction* action)
                 uError() << "UMLObjet of ... is null! Doing nothing.";
                 return;
             }
-            umlType = object->baseType();
+            QList<UMLWidget*> findResults;
+
             if (Model_Utils::typeIsCanvasWidget(lvt)) {
                 UMLViewList views = m_doc->viewIterator();
                 foreach (UMLView *view, views) {
                     foreach(UMLWidget *widget, view->umlScene()->widgetList()) {
                         if (object == widget->umlObject()) {
-                            UMLApp::app()->setCurrentView(view, false);
-                            view->centerOn(widget->pos());
-                            widget->setSelected(true);
+                            findResults.append(widget);
                         }
                     }
                 }
             }
+
+            if (findResults.size() == 0)  {
+                break;
+            }
+
+            UMLWidget *selectedResult = 0;
+
+            if (findResults.size() > 1) {
+                QMenu menu(this);
+                int i = 0;
+                foreach(UMLWidget *w, findResults) {
+                    QAction *action = menu.addAction(w->umlScene()->name() + ':' + w->name());
+                    action->setData(i++);
+                }
+                QAction *action = menu.exec(position);
+                if (action) {
+                    selectedResult = findResults.at(action->data().toInt());
+                }
+            } else {
+                selectedResult = findResults.first();
+            }
+
+            if (!selectedResult) {
+                break;
+            }
+
+            UMLView *view = selectedResult->umlScene()->activeView();
+            selectedResult->umlScene()->setIsOpen(true);
+            view->setZoom(100);
+            if (UMLApp::app()->currentView() != view) {
+                UMLApp::app()->setCurrentView(view, false);
+            }
+            view->centerOn(selectedResult->pos());
+            selectedResult->setSelected(true);
         }
         break;
 
@@ -1951,7 +1984,7 @@ void UMLListView::contextMenuEvent(QContextMenuEvent *event)
         const UMLListViewItem::ListViewType type = item->type();
         ListPopupMenu popup(this, type, item->umlObject());
         QAction *triggered = popup.exec(event->globalPos());
-        slotMenuSelection(triggered);
+        slotMenuSelection(triggered, event->globalPos());
         event->accept();
     }
 
