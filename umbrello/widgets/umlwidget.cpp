@@ -23,6 +23,7 @@
 #include "settingsdlg.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "umllistview.h"
 #include "umlobject.h"
 #include "umlscene.h"
 #include "umlview.h"
@@ -1339,6 +1340,15 @@ void UMLWidget::setSelected(bool _select)
     // selection changed, we have to make sure the copy and paste items
     // are correctly enabled/disabled
     UMLApp::app()->slotCopyChanged();
+
+    // select in tree view as done for diagrams
+    if (_select) {
+        UMLListViewItem * item = UMLApp::app()->listView()->findItem(id());
+        if (item)
+            UMLApp::app()->listView()->setCurrentItem(item);
+        else
+            UMLApp::app()->listView()->clearSelection();
+    }
 }
 
 /**
