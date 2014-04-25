@@ -1652,12 +1652,16 @@ void ListPopupMenu::setupMenu(MenuType type)
     case mt_Interface:
         insertSubMenuNew(type);
         insertStdItems();
+        if (m_isListView)
+            insert(mt_Show);
         insert(mt_Properties);
         break;
 
     case mt_Package:
         insertContainerItems(false);
         insertStdItems();
+        if (m_isListView)
+            insert(mt_Show);
         insert(mt_Properties);
         addSeparator();
         insert(mt_Expand_All);
