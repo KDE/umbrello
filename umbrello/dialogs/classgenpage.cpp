@@ -13,6 +13,7 @@
 
 // app includes
 #include "debug_utils.h"
+#include "classifier.h"
 #include "umlobject.h"
 #include "objectwidget.h"
 #include "uml.h"
@@ -131,13 +132,23 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
         m_pStereoTypeCB->setEditable(false);
     }
 
+    int row = 2;
+    UMLClassifier *c = static_cast<UMLClassifier*>(m_pObject);
+    if (c->isReference() && c->originType()) {
+        QLabel *label = new QLabel(i18n("Reference:"), this);
+        m_pNameLayout->addWidget(label, row, 0);
+        QLabel *reference = new QLabel(c->originType()->name(), this);
+        m_pNameLayout->addWidget(reference, row, 1);
+        ++row;
+    }
+
     if (t == UMLObject::ot_Class || t == UMLObject::ot_Interface) {
         m_pPackageL = new QLabel(i18n("Package path:"), this);
-        m_pNameLayout->addWidget(m_pPackageL, 2, 0);
+        m_pNameLayout->addWidget(m_pPackageL, row, 0);
 
         m_pPackageCB = new KComboBox(this);
         m_pPackageCB->setEditable(true);
-        m_pNameLayout->addWidget(m_pPackageCB, 2, 1);
+        m_pNameLayout->addWidget(m_pPackageCB, row, 1);
 
         UMLPackageList packageList = m_pUmldoc->packages();
         QStringList packages;
@@ -158,6 +169,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
         else {
             m_pPackageCB->setEditText(packagePath);
         }
+        ++row;
     }
 
     if (t == UMLObject::ot_Class || t == UMLObject::ot_UseCase) {
@@ -169,13 +181,15 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
         }
         m_pAbstractCB = new QCheckBox(abstractCaption, this);
         m_pAbstractCB->setChecked(m_pObject->isAbstract());
-        m_pNameLayout->addWidget(m_pAbstractCB, 3, 0);
+        m_pNameLayout->addWidget(m_pAbstractCB, row, 0);
+        ++row;
     }
 
     if (t == UMLObject::ot_Component) {
         m_pExecutableCB = new QCheckBox(i18nc("component is executable", "&Executable"), this);
         m_pExecutableCB->setChecked((static_cast<UMLComponent*>(o))->getExecutable());
-        m_pNameLayout->addWidget(m_pExecutableCB, 3, 0);
+        m_pNameLayout->addWidget(m_pExecutableCB, row, 0);
+        ++row;
     }
 
     if (t == UMLObject::ot_Artifact) {
