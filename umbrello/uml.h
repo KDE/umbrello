@@ -188,7 +188,6 @@ protected:
     void initView();
 
     virtual bool queryClose();
-    virtual bool queryExit();
 
     virtual void saveProperties(KConfigGroup & cfg);
     virtual void readProperties(const KConfigGroup & cfg);

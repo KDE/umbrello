@@ -1164,26 +1164,12 @@ void UMLApp::readProperties(const KConfigGroup & cfg)     //:TODO: applyMainWind
  */
 bool UMLApp::queryClose()
 {
-    return m_doc->saveModified();
-}
-
-/**
- * queryExit is called by KMainWindow when the last
- * window of the application is going to be closed during
- * the closeEvent().  In contrast to the default
- * implementation that just returns true, this calls
- * saveOptions() to save the settings of the last
- * window's properties.
- * @see KMainWindow#queryExit
- * @see KMainWindow#closeEvent
- *
- * @return  True if window may be closed.
- */
-bool UMLApp::queryExit()
-{
-    saveOptions();
-    m_doc->closeDocument();
-    return true;
+    if (m_doc->saveModified()) {
+        saveOptions();
+        m_doc->closeDocument();
+        return true;
+    }
+    return false;
 }
 
 /**
