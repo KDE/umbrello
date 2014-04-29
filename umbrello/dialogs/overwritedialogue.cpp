@@ -30,7 +30,7 @@ OverwriteDialogue::OverwriteDialogue(
   : KDialog(parent)
 {
     setCaption(i18n("Destination File Already Exists"));
-    setButtons(Help | Ok | Cancel);
+    setButtons(Ok | Apply | Cancel);
     setDefaultButton(Yes);
     setModal(true);
     showButtonSeparator(true);
