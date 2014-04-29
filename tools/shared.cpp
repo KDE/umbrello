@@ -42,7 +42,8 @@ using namespace std;
 QStringList XMILanguagesAttributes()
 {
     return QStringList() << "comment" << "documentation"
-                         << "name" << "text" << "pretext" << "posttext"
+                         << "label" << "name"
+                         << "pretext" << "posttext" << "text"
                          << "statename" << "activityname" << "instancename";
 }
 
