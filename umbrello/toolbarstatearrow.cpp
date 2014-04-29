@@ -71,6 +71,9 @@ void ToolBarStateArrow::mousePressWidget()
  */
 void ToolBarStateArrow::mousePressEmpty()
 {
+    if (!m_pMouseEvent)
+        return;
+
     if (m_pMouseEvent->button() != Qt::LeftButton) {
         // Leave widgets selected upon RMB press on empty diagram area.
         // The popup menu is activated upon RMB release.
