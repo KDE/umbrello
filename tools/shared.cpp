@@ -175,6 +175,7 @@ bool fetchPoFile(const QString &fileName, TranslationMap &map)
         return false;
 
     QTextStream in(&file);
+    in.setCodec("UTF-8");
     QString key, value;
     bool multiLineID = false;
     bool multiLineValue = false;
