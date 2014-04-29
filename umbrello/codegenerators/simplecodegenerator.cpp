@@ -181,7 +181,7 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
         break;
     case CodeGenerationPolicy::Ask:               //ask if we can overwrite
         switch(overwriteDialogue->exec()) {
-        case KDialog::Yes:  //overwrite file
+        case QDialog::Accepted:  //overwrite file
             if (overwriteDialogue->applyToAllRemaining()) {
                 commonPolicy->setOverwritePolicy(CodeGenerationPolicy::Ok);
             } else {
@@ -202,7 +202,7 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
                 m_applyToAllRemaining = false;
             }
             break;
-        case KDialog::Cancel: //don't output anything
+        case QDialog::Rejected: //don't output anything
             if (overwriteDialogue->applyToAllRemaining()) {
                 commonPolicy->setOverwritePolicy(CodeGenerationPolicy::Cancel);
             } else {
