@@ -3700,7 +3700,6 @@ void AssociationWidget::setSelected(bool _select /* = true */)
                 UMLApp::app()->docWindow()->showDocumentation(this, false);
     } else
         UMLApp::app()->docWindow()->updateDocumentation(true);
-    qApp->processEvents();
 
     m_associationLine->setSelected(_select);
     if (! _select) {
