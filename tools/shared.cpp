@@ -78,16 +78,18 @@ bool extractAttributesFromXMI(const char *fileName, const QStringList &attribute
             if (value.isEmpty())
                 continue;
 
-            POEntry entry;
-            entry.tagName = xmlReader.qualifiedName().toString();
-            entry.attributeName = attributeName;
-            entry.value = value;
-            entry.lineNumbers.append(xmlReader.lineNumber());
-            QString key = entry.tagName + ":" + entry.attributeName + ":" + value;
-            if (result.contains(key))
-                result[key].lineNumbers.append(entry.lineNumbers);
-            else
+            QString tagName = xmlReader.name().toString() + ":" + attributeName;
+            QString key = value;
+            if (result.contains(key)) {
+                result[key].lineNumbers.append(xmlReader.lineNumber());
+                result[key].tagNames.append(tagName);
+            } else {
+                POEntry entry;
+                entry.tagNames.append(tagName);
+                entry.value = value;
+                entry.lineNumbers.append(xmlReader.lineNumber());
                 result[key] = entry;
+            }
         }
     }
     if (xmlReader.hasError()) {
@@ -251,27 +253,36 @@ QString applyTranslationToXMIFile(const char *fileName, const QStringList &attri
                 QXmlStreamNamespaceDeclaration ns = reader.namespaceDeclarations().first();
                 writer.writeNamespace(ns.namespaceUri().toString(), ns.prefix().toString());
             }
+            QXmlStreamAttributes writerAttributes;
             for(int index = 0; index < reader.attributes().size(); index++)
             {
-                QXmlStreamAttribute &attr = reader.attributes()[index];
+                QXmlStreamAttribute attr = reader.attributes()[index];
                 QString name = attr.qualifiedName().toString();
-                if (!attributes.contains(name))
+                if (!attributes.contains(name)) {
+                    writerAttributes.append(attr);
                     continue;
+                }
                 QString value = attr.value().toString();
-                if (value.isEmpty())
+                if (value.isEmpty()) {
+                    writerAttributes.append(attr);
                     continue;
-                cerr << qPrintable(name) << " " << qPrintable(value) << endl;
+                }
                 if (!translations.contains(value))
                 {
                     cerr << "could not find translation for attribute '" << qPrintable(name) << "':'" << qPrintable(value) << "'" << std::endl;
                     continue;
                 }
-                value = translations[value];
-                if (value.isEmpty())
+                QString newValue = translations[value];
+                if (newValue.isEmpty()) {
+                    writerAttributes.append(attr);
                     continue;
-                reader.attributes().replace(index, QXmlStreamAttribute(name, value));
+                }
+                //cerr << name.toUtf8().data() << ":" << value.toUtf8().data() << "->" << newValue.toUtf8().data() << endl;
+                QXmlStreamAttribute newAttribute(name, newValue);
+                writerAttributes.append(newAttribute);
+                //qDebug() << writerAttributes;
             }
-            writer.writeAttributes(reader.attributes());
+            writer.writeAttributes(writerAttributes);
             //QString content = xmlReader.readElementText(QXmlStreamReader::SkipChildElements);
             //writer.writeCharacters(content);
             break;

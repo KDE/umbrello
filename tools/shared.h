@@ -22,8 +22,7 @@ QStringList XMILanguagesAttributes();
 
 class POEntry {
 public:
-    QString tagName;
-    QString attributeName;
+    QStringList tagNames;
     QString value;
     QList<int> lineNumbers;
 };
