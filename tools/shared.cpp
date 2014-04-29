@@ -19,6 +19,18 @@
 #include <QStringList>
 #include <QTextStream>
 #include <QXmlStreamReader>
+#include <QtDebug>
+
+QDebug operator <<(QDebug out, const QXmlStreamAttribute &a)
+{
+    out << "QXmlStreamAttribute("
+        << "prefix:" << a.prefix().toString()
+        << "namespaceuri:" << a.namespaceUri().toString()
+        << "name:" << a.name().toString()
+        << " value:" << a.value().toString()
+        << ")";
+    return out;
+}
 
 using namespace std;
 
