@@ -1354,7 +1354,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
     QDomElement element = node.toElement();
     if (!element.isNull()) {
         QString tag = element.tagName();
-        if (tag == "floatingtext") {
+        if (tag == "floatingtext" || tag == "UML::FloatingTextWidget") {
             m_pFText = new FloatingTextWidget(m_scene, tr, operationText(m_scene), m_textId);
             m_scene->addFloatingTextWidget(m_pFText);
             if(! m_pFText->loadFromXMI(element)) {
