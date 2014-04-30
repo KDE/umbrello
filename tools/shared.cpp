@@ -217,14 +217,14 @@ QString applyTranslationToXMIFile(const char *fileName, const QStringList &attri
 
     QFile file(fileName);
     QXmlStreamReader reader;
-    QString output;
 
     if (!file.open(QIODevice::ReadOnly))
-        return output;
+        return QString();
 
     reader.setDevice(&file);
 
-    QXmlStreamWriter writer(&output);
+    QTextStream output(stdout);
+    QXmlStreamWriter writer(output.device());
     writer.setAutoFormatting (true);
     writer.setAutoFormattingIndent(1);
     writer.setCodec(reader.documentEncoding().toAscii().constData());
@@ -310,5 +310,5 @@ QString applyTranslationToXMIFile(const char *fileName, const QStringList &attri
         }
 
     }
-    return output;
+    return output.readAll();
 }
