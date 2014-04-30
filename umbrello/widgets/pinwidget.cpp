@@ -52,7 +52,7 @@ PinWidget::PinWidget(UMLScene* scene, UMLWidget* a, Uml::ID::Type id)
     m_nY = y() < getMinY() ? getMinY() : y();
 
     m_pName = new FloatingTextWidget(scene, Uml::TextRole::Floating, "");
-    scene->setupNewWidget(m_pName);
+    m_scene->addFloatingTextWidget(m_pName);
     m_pName->setX(0);
     m_pName->setY(0);
 
