@@ -237,7 +237,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         } else if (tag == "usecasewidget" || tag ==  "UML:UseCaseWidget") {
             if (validateObjType(UMLObject::ot_UseCase, o, id))
                 widget = new UseCaseWidget(scene, static_cast<UMLUseCase*>(o));
-        } else if (tag == "classwidget" || tag == "UML:ClassWidget") {
+        } else if (tag == "classwidget" || tag == "UML:ClassWidget" || tag == "UML:ConceptWidget") {
             if (validateObjType(UMLObject::ot_Class, o, id))
                 widget = new ClassifierWidget(scene, static_cast<UMLClassifier*>(o));
         } else if (tag == "packagewidget") {
