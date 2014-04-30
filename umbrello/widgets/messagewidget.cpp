@@ -826,8 +826,9 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
         Uml::TextRole::Enum tr = Uml::TextRole::Seq_Message;
         if (isSelf())
             tr = Uml::TextRole::Seq_Message_Self;
-        m_pFText = new FloatingTextWidget(m_scene, tr, "");
-        m_pFText->setFont(UMLWidget::font());
+        m_pFText = new FloatingTextWidget(m_scene, tr, operationText(m_scene));
+        m_scene->addFloatingTextWidget(m_pFText);
+        m_pFText->setFontCmd(UMLWidget::font());
     }
     if (op)
         setOperation(op);  // This requires a valid m_pFText.
@@ -845,7 +846,12 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     m_pOw[Uml::RoleType::A]->messageAdded(this);
     if (!isSelf())
         m_pOw[Uml::RoleType::B]->messageAdded(this);
+
+    // Calculate the size and position of the message widget
     calculateDimensions();
+
+    // Position the floating text accordingly
+    setTextPosition();
 
     emit sigMessageMoved();
     return true;
@@ -1350,6 +1356,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
         QString tag = element.tagName();
         if (tag == "floatingtext") {
             m_pFText = new FloatingTextWidget(m_scene, tr, operationText(m_scene), m_textId);
+            m_scene->addFloatingTextWidget(m_pFText);
             if(! m_pFText->loadFromXMI(element)) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pFText;
