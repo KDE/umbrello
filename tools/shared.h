@@ -38,6 +38,6 @@ typedef QMap<QString,QString> TranslationMap;
 
 bool fetchPoFile(const QString &fileName, TranslationMap &map);
 
-QString applyTranslationToXMIFile(const char *fileName, const QStringList &attributes, TranslationMap &translations);
+bool applyTranslationToXMIFile(const char *fileName, const QStringList &attributes, TranslationMap &translations);
 
 #endif

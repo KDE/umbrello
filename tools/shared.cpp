@@ -212,19 +212,17 @@ bool fetchPoFile(const QString &fileName, TranslationMap &map)
     return true;
 }
 
-QString applyTranslationToXMIFile(const char *fileName, const QStringList &attributes, TranslationMap &translations)
+bool applyTranslationToXMIFile(const char *fileName, const QStringList &attributes, TranslationMap &translations)
 {
 
     QFile file(fileName);
-    QXmlStreamReader reader;
-
     if (!file.open(QIODevice::ReadOnly))
-        return QString();
-
-    reader.setDevice(&file);
-
-    QTextStream output(stdout);
-    QXmlStreamWriter writer(output.device());
+        return false;
+    QXmlStreamReader reader(&file);
+    QFile outFile;
+    if (!outFile.open(stdout, QIODevice::WriteOnly))
+        return false;
+    QXmlStreamWriter writer(&outFile);
     writer.setAutoFormatting (true);
     writer.setAutoFormattingIndent(1);
     writer.setCodec(reader.documentEncoding().toAscii().constData());
@@ -310,5 +308,6 @@ QString applyTranslationToXMIFile(const char *fileName, const QStringList &attri
         }
 
     }
-    return output.readAll();
+    outFile.close();
+    return true;
 }

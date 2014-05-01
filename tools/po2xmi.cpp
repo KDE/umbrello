@@ -35,10 +35,8 @@ int main( int argc, char **argv )
    TranslationMap translationMap;
    if (!fetchPoFile(argv[2], translationMap)) {
        cerr << "failed to fetch po file: '" << argv[2] << "'" << endl;
-       exit(3);
+       exit(2);
    }
 
-   QString output = applyTranslationToXMIFile(argv[1], XMILanguagesAttributes(), translationMap);
-   cout << output.toUtf8().data();
-   return 0;
+   return applyTranslationToXMIFile(argv[1], XMILanguagesAttributes(), translationMap) ? 0 : 2;
 }
