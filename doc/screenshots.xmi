@@ -157,7 +157,7 @@
      </UML:Namespace.ownedElement>
      <XMI.extension xmi.extender="umbrello">
       <diagrams>
-       <diagram showopsig="1" linecolor="#ff0000" snapx="25" showattribassocs="1" snapy="25" linewidth="0" showattsig="1" textcolor="#000000" isopen="1" showpackage="1" showpubliconly="0" showstereotype="1" name="Class Diagram" font="Sans Serif,9,-1,0,50,0,0,0,0,0" canvasheight="453,7692307692307" canvaswidth="678,4215158315806" localid="-1" snapcsgrid="0" showgrid="0" showops="1" griddotcolor="#d3d3d3" backgroundcolor="#ffffff" usefillcolor="1" fillcolor="#ffff00" zoom="104" xmi.id="uFddb9czKqlQ" documentation="" showscope="1" snapgrid="0" showatts="1" type="1">
+       <diagram showopsig="1" linecolor="#ff0000" snapx="25" showattribassocs="1" snapy="25" linewidth="0" showattsig="1" textcolor="#000000" isopen="1" showpackage="1" showpubliconly="0" showstereotype="1" name="Class Diagram" font="Sans Serif,9,-1,0,50,0,0,0,0,0" canvasheight="453,7692307692307" canvaswidth="678,4215158315806" localid="-1" snapcsgrid="0" showgrid="0" showops="1" griddotcolor="#d3d3d3" backgroundcolor="#ffffff" usefillcolor="1" fillcolor="#ffff00" zoom="104" xmi.id="class-diagram" documentation="" showscope="1" snapgrid="0" showatts="1" type="1">
         <widgets>
          <classwidget linecolor="none" usesdiagramfillcolor="0" linewidth="0" showoperations="1" textcolor="#000000" usesdiagramusefillcolor="0" showpubliconly="0" showpackage="1" x="457,5753619854268" showattsigs="601" showstereotype="1" y="66,3659662099985" showattributes="1" font="Sans Serif,9,-1,0,75,0,0,0,0,0" localid="LTHh2w0wHTIt" width="141" isinstance="0" usefillcolor="1" fillcolor="#ffff00" xmi.id="AxibzvtOee4v" showscope="1" height="68" showopsigs="601"/>
          <classwidget linecolor="none" usesdiagramfillcolor="0" linewidth="0" showoperations="1" textcolor="#000000" usesdiagramusefillcolor="0" showpubliconly="0" showpackage="1" x="281,8846153846154" showattsigs="601" showstereotype="1" y="108,8461538461538" showattributes="1" font="Sans Serif,9,-1,0,75,0,0,0,0,0" localid="yZUaBYVX0lC2" width="77" isinstance="0" usefillcolor="1" fillcolor="#ffff00" xmi.id="3QH0wDM782i6" showscope="1" height="33" showopsigs="601"/>
@@ -190,7 +190,7 @@
          </assocwidget>
         </associations>
        </diagram>
-       <diagram showopsig="1" linecolor="#ff0000" snapx="25" showattribassocs="1" snapy="25" linewidth="0" showattsig="1" textcolor="#000000" isopen="1" showpackage="1" showpubliconly="0" showstereotype="1" name="State Diagram" font="Sans Serif,9,-1,0,50,0,0,0,0,0" canvasheight="332" canvaswidth="501,5" localid="-1" snapcsgrid="0" showgrid="0" showops="1" griddotcolor="#d3d3d3" backgroundcolor="#ffffff" usefillcolor="1" fillcolor="#ffff00" zoom="100" xmi.id="620uup3hgqXV" documentation="" showscope="1" snapgrid="0" showatts="1" type="5">
+       <diagram showopsig="1" linecolor="#ff0000" snapx="25" showattribassocs="1" snapy="25" linewidth="0" showattsig="1" textcolor="#000000" isopen="1" showpackage="1" showpubliconly="0" showstereotype="1" name="State Diagram" font="Sans Serif,9,-1,0,50,0,0,0,0,0" canvasheight="332" canvaswidth="501,5" localid="-1" snapcsgrid="0" showgrid="0" showops="1" griddotcolor="#d3d3d3" backgroundcolor="#ffffff" usefillcolor="1" fillcolor="#ffff00" zoom="100" xmi.id="state-diagram" documentation="" showscope="1" snapgrid="0" showatts="1" type="5">
         <widgets>
          <statewidget linecolor="#ff0000" usesdiagramfillcolor="0" linewidth="0" textcolor="#000000" usesdiagramusefillcolor="0" x="8" y="-38" font="Sans Serif,9,-1,0,75,0,0,0,0,0" localid="q95NWknbmoVg" statename="State" statetype="0" width="20" isinstance="0" usefillcolor="1" fillcolor="#ffff00" xmi.id="s3pk5SrqydTz" documentation="" height="20">
           <Activities/>
@@ -265,7 +265,7 @@
          </assocwidget>
         </associations>
        </diagram>
-       <diagram showopsig="1" linecolor="#ff0000" snapx="25" showattribassocs="1" snapy="25" linewidth="0" showattsig="1" textcolor="#000000" isopen="0" showpackage="1" showpubliconly="0" showstereotype="1" name="Activity Diagram" font="Sans Serif,9,-1,0,50,0,0,0,0,0" canvasheight="741,9737157821655" canvaswidth="539,7625274658203" localid="-1" snapcsgrid="0" showgrid="0" showops="1" griddotcolor="#d3d3d3" backgroundcolor="#ffffff" usefillcolor="1" fillcolor="#ffff00" zoom="100" xmi.id="PqT85MdOivNY" documentation="" showscope="1" snapgrid="0" showatts="1" type="6">
+       <diagram showopsig="1" linecolor="#ff0000" snapx="25" showattribassocs="1" snapy="25" linewidth="0" showattsig="1" textcolor="#000000" isopen="0" showpackage="1" showpubliconly="0" showstereotype="1" name="Activity Diagram" font="Sans Serif,9,-1,0,50,0,0,0,0,0" canvasheight="741,9737157821655" canvaswidth="539,7625274658203" localid="-1" snapcsgrid="0" showgrid="0" showops="1" griddotcolor="#d3d3d3" backgroundcolor="#ffffff" usefillcolor="1" fillcolor="#ffff00" zoom="100" xmi.id="activity-diagram" documentation="" showscope="1" snapgrid="0" showatts="1" type="6">
         <widgets>
          <activitywidget linecolor="#ff0000" usesdiagramfillcolor="0" linewidth="0" textcolor="#000000" usesdiagramusefillcolor="0" x="-173,3852081298828" y="385,6217041015625" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="ck09DMXcA0jF" width="179" isinstance="0" usefillcolor="1" fillcolor="#ffffc0" activityname="Check available space" xmi.id="bZ6AnMNkqyzt" postcondition="" documentation="" activitytype="1" height="27" precondition=""/>
          <activitywidget linecolor="#ff0000" usesdiagramfillcolor="0" linewidth="0" textcolor="#000000" usesdiagramusefillcolor="0" x="138,5764007568359" y="610,8623657226562" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="tzsaID7ctmTk" width="20" isinstance="0" usefillcolor="1" fillcolor="#ffff00" activityname="Activity" xmi.id="U3ZfAaRj8Vuv" postcondition="" documentation="" activitytype="2" height="20" precondition=""/>
@@ -374,7 +374,7 @@
          </assocwidget>
         </associations>
        </diagram>
-       <diagram showopsig="1" linecolor="#ff0000" snapx="25" showattribassocs="1" snapy="25" linewidth="0" showattsig="1" textcolor="#000000" isopen="1" showpackage="1" showpubliconly="0" showstereotype="1" name="Sequence Diagram" font="Sans Serif,9,-1,0,50,0,0,0,0,0" canvasheight="277" canvaswidth="701" localid="-1" snapcsgrid="0" showgrid="0" showops="1" griddotcolor="#d3d3d3" backgroundcolor="#ffffff" autoincrementsequence="0" usefillcolor="1" fillcolor="#ffff00" zoom="100" xmi.id="mMOZQezNS4FI" documentation="" showscope="1" snapgrid="0" showatts="1" type="3">
+       <diagram showopsig="1" linecolor="#ff0000" snapx="25" showattribassocs="1" snapy="25" linewidth="0" showattsig="1" textcolor="#000000" isopen="1" showpackage="1" showpubliconly="0" showstereotype="1" name="Sequence Diagram" font="Sans Serif,9,-1,0,50,0,0,0,0,0" canvasheight="277" canvaswidth="701" localid="-1" snapcsgrid="0" showgrid="0" showops="1" griddotcolor="#d3d3d3" backgroundcolor="#ffffff" autoincrementsequence="0" usefillcolor="1" fillcolor="#ffff00" zoom="100" xmi.id="sequence-diagram" documentation="" showscope="1" snapgrid="0" showatts="1" type="3">
         <widgets>
          <objectwidget linecolor="#ff0000" usesdiagramfillcolor="1" linewidth="0" textcolor="#000000" usesdiagramusefillcolor="1" x="-413" decon="0" showstereotype="1" y="80" font="Sans Serif,9,-1,0,50,0,1,0,0,0" localid="uLTMecAOyWyM" width="145" isinstance="0" multipleinstance="0" usefillcolor="1" fillcolor="none" xmi.id="QjniIhPONaeL" height="27" drawasactor="0"/>
          <objectwidget linecolor="#ff0000" usesdiagramfillcolor="1" linewidth="0" textcolor="#000000" usesdiagramusefillcolor="1" x="-222" decon="0" showstereotype="1" y="80" font="Sans Serif,9,-1,0,50,0,1,0,0,0" localid="51HLMSVCPVh7" width="140" isinstance="0" multipleinstance="0" usefillcolor="1" fillcolor="none" xmi.id="E3ePM6RoJ4ls" height="27" drawasactor="0"/>
@@ -397,7 +397,7 @@
         </messages>
         <associations/>
        </diagram>
-       <diagram showopsig="1" linecolor="#ff0000" snapx="25" showattribassocs="1" snapy="25" linewidth="0" showattsig="1" textcolor="#000000" isopen="1" showpackage="1" showpubliconly="0" showstereotype="1" name="Collaboration Diagram" font="Sans Serif,9,-1,0,50,0,0,0,0,0" canvasheight="383,7952880859375" canvaswidth="932,3385772705078" localid="-1" snapcsgrid="0" showgrid="0" showops="1" griddotcolor="#d3d3d3" backgroundcolor="#ffffff" usefillcolor="1" fillcolor="#ffff00" zoom="129" xmi.id="KgB3KDwvV78c" documentation="" showscope="1" snapgrid="0" showatts="1" type="4">
+       <diagram showopsig="1" linecolor="#ff0000" snapx="25" showattribassocs="1" snapy="25" linewidth="0" showattsig="1" textcolor="#000000" isopen="1" showpackage="1" showpubliconly="0" showstereotype="1" name="Collaboration Diagram" font="Sans Serif,9,-1,0,50,0,0,0,0,0" canvasheight="383,7952880859375" canvaswidth="932,3385772705078" localid="-1" snapcsgrid="0" showgrid="0" showops="1" griddotcolor="#d3d3d3" backgroundcolor="#ffffff" usefillcolor="1" fillcolor="#ffff00" zoom="129" xmi.id="collaboration-diagram" documentation="" showscope="1" snapgrid="0" showatts="1" type="4">
         <widgets>
          <objectwidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" instancename="responses" x="137,5590515136719" decon="0" y="267,7952880859375" font="Nimbus Sans l,12,-1,5,50,0,1,0,0,0" localid="t1x7i209bpWp" width="179" isinstance="0" multipleinstance="0" usefillcolor="1" fillcolor="none" xmi.id="ijSdYPw9Myur" height="35" drawasactor="0"/>
          <objectwidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" instancename="session_map" x="168" decon="0" y="-20" font="Nimbus Sans l,12,-1,5,50,0,1,0,0,0" localid="Q85K9p53RAeo" width="183" isinstance="0" multipleinstance="0" usefillcolor="1" fillcolor="none" xmi.id="4KyXIGwvRJNA" height="35" drawasactor="0"/>
@@ -540,7 +540,7 @@
      </UML:Namespace.ownedElement>
      <XMI.extension xmi.extender="umbrello">
       <diagrams>
-       <diagram showopsig="1" linecolor="#ff0000" snapx="25" showattribassocs="1" snapy="25" linewidth="0" showattsig="1" textcolor="#000000" isopen="1" showpackage="1" showpubliconly="0" showstereotype="1" name="Use Case Diagram" font="Sans Serif,9,-1,0,50,0,0,0,0,0" canvasheight="426,9895782470703" canvaswidth="792,4412536621094" localid="-1" snapcsgrid="0" showgrid="0" showops="1" griddotcolor="#d3d3d3" backgroundcolor="#ffffff" usefillcolor="1" fillcolor="#ffff00" zoom="64" xmi.id="enYrLpp253OJ" documentation="" showscope="1" snapgrid="0" showatts="1" type="2">
+       <diagram showopsig="1" linecolor="#ff0000" snapx="25" showattribassocs="1" snapy="25" linewidth="0" showattsig="1" textcolor="#000000" isopen="1" showpackage="1" showpubliconly="0" showstereotype="1" name="Use Case Diagram" font="Sans Serif,9,-1,0,50,0,0,0,0,0" canvasheight="426,9895782470703" canvaswidth="792,4412536621094" localid="-1" snapcsgrid="0" showgrid="0" showops="1" griddotcolor="#d3d3d3" backgroundcolor="#ffffff" usefillcolor="1" fillcolor="#ffff00" zoom="64" xmi.id="use-case-diagram" documentation="" showscope="1" snapgrid="0" showatts="1" type="2">
         <widgets>
          <actorwidget width="103" showstereotype="1" x="271,9020690917969" usesdiagramusefillcolor="0" y="-25,67218208312988" usesdiagramfillcolor="0" isinstance="0" localid="FMAlIJUu62lP" fillcolor="#ffff00" height="62" linecolor="none" xmi.id="S0gDbRC8UHSG" textcolor="#000000" usefillcolor="1" linewidth="0" font="Sans Serif,9,-1,0,50,0,0,0,0,0"/>
          <actorwidget width="134" showstereotype="1" x="597,5775146484375" usesdiagramusefillcolor="0" y="102,827522277832" usesdiagramfillcolor="0" isinstance="0" localid="HQSlfu1vHBgZ" fillcolor="#ffff00" height="62" linecolor="none" xmi.id="rYPubnB3nrEM" textcolor="#000000" usefillcolor="1" linewidth="0" font="Sans Serif,9,-1,0,50,0,0,0,0,0"/>
@@ -673,7 +673,7 @@
      </UML:Namespace.ownedElement>
      <XMI.extension xmi.extender="umbrello">
       <diagrams>
-       <diagram showopsig="1" linecolor="#ff0000" snapx="25" showattribassocs="1" snapy="25" linewidth="0" showattsig="1" textcolor="#000000" isopen="1" showpackage="1" showpubliconly="0" showstereotype="1" name="Entity Relationship Diagram" font="Sans Serif,9,-1,0,50,0,0,0,0,0" canvasheight="388,5" canvaswidth="446" localid="-1" snapcsgrid="0" showgrid="0" showops="1" griddotcolor="#d3d3d3" backgroundcolor="#ffffff" usefillcolor="1" fillcolor="#ffff00" zoom="101" xmi.id="cKrvIJSKdk8D" documentation="" showscope="1" snapgrid="0" showatts="1" type="9">
+       <diagram showopsig="1" linecolor="#ff0000" snapx="25" showattribassocs="1" snapy="25" linewidth="0" showattsig="1" textcolor="#000000" isopen="1" showpackage="1" showpubliconly="0" showstereotype="1" name="Entity Relationship Diagram" font="Sans Serif,9,-1,0,50,0,0,0,0,0" canvasheight="388,5" canvaswidth="446" localid="-1" snapcsgrid="0" showgrid="0" showops="1" griddotcolor="#d3d3d3" backgroundcolor="#ffffff" usefillcolor="1" fillcolor="#ffff00" zoom="101" xmi.id="entity-relationship-diagram" documentation="" showscope="1" snapgrid="0" showatts="1" type="9">
         <widgets>
          <entitywidget width="100" showstereotype="1" x="-462" usesdiagramusefillcolor="0" y="-548" usesdiagramfillcolor="0" isinstance="0" localid="igQVq7CSR3Lj" fillcolor="#ffff00" height="68" linecolor="none" xmi.id="KEvAg9c4E7EG" textcolor="#000000" usefillcolor="1" linewidth="0" font="Sans Serif,9,-1,0,75,1,0,0,0,0"/>
          <entitywidget width="100" showstereotype="1" x="-386" usesdiagramusefillcolor="0" y="-445" usesdiagramfillcolor="0" isinstance="0" localid="Aa2OhEcOu3rk" fillcolor="#ffff00" height="68" linecolor="none" xmi.id="Ln1wV99qM200" textcolor="#000000" usefillcolor="1" linewidth="0" font="Sans Serif,9,-1,0,75,1,0,0,0,0"/>
@@ -735,7 +735,7 @@
   </UML:Model>
  </XMI.content>
  <XMI.extensions xmi.extender="umbrello">
-  <docsettings viewid="uFddb9czKqlQ" uniqueid="GJLOp4t43d4D" documentation=""/>
+  <docsettings viewid="class-diagram" uniqueid="GJLOp4t43d4D" documentation=""/>
   <listview>
    <listitem open="1" type="800" id="Views">
     <listitem open="1" type="821" id="Component View"/>
@@ -761,7 +761,7 @@
       <listitem open="0" type="833" id="uDIAW7kcyIFW"/>
       <listitem open="0" type="833" id="HP2cwft9BglZ"/>
      </listitem>
-     <listitem open="0" type="834" id="cKrvIJSKdk8D" label="Entity Relationship Diagram"/>
+     <listitem open="0" type="834" id="entity-relationship-diagram" label="Entity Relationship Diagram"/>
      <listitem open="0" type="832" id="xcEpd5al6jIB">
       <listitem open="0" type="833" id="S9nhEdszLAsi"/>
       <listitem open="0" type="833" id="rANpSbJBca5a"/>
@@ -769,10 +769,10 @@
      </listitem>
     </listitem>
     <listitem open="1" type="801" id="Logical View">
-     <listitem open="0" type="809" id="PqT85MdOivNY" label="Activity Diagram"/>
+     <listitem open="0" type="809" id="activity-diagram" label="Activity Diagram"/>
      <listitem open="1" type="813" id="T4ZTpjTSvNOX"/>
-     <listitem open="0" type="807" id="uFddb9czKqlQ" label="Class Diagram"/>
-     <listitem open="0" type="806" id="KgB3KDwvV78c" label="Collaboration Diagram"/>
+     <listitem open="0" type="807" id="class-diagram" label="Class Diagram"/>
+     <listitem open="0" type="806" id="collaboration-diagram" label="Collaboration Diagram"/>
      <listitem open="0" type="830" id="Datatypes">
       <listitem open="1" type="829" id="YLyt9iHXHKHm"/>
       <listitem open="1" type="829" id="JziKFBo7OPkz"/>
@@ -817,9 +817,9 @@
      <listitem open="0" type="813" id="aWjZXEU9JfzG">
       <listitem open="0" type="815" id="jeE5HjjBBHTt"/>
      </listitem>
-     <listitem open="0" type="810" id="mMOZQezNS4FI" label="Sequence Diagram"/>
+     <listitem open="0" type="810" id="sequence-diagram" label="Sequence Diagram"/>
      <listitem open="1" type="813" id="fCwweCnhc4fY"/>
-     <listitem open="0" type="808" id="620uup3hgqXV" label="State Diagram"/>
+     <listitem open="0" type="808" id="state-diagram" label="State Diagram"/>
      <listitem open="1" type="813" id="Fi8r5MnrLXdG"/>
      <listitem open="0" type="813" id="3BjozMqWi3FJ">
       <listitem open="0" type="814" id="x15FwePzn8nm"/>
@@ -846,7 +846,7 @@
      <listitem open="1" type="811" id="rYPubnB3nrEM"/>
      <listitem open="1" type="811" id="SATYACxzkMuK"/>
      <listitem open="1" type="811" id="S0gDbRC8UHSG"/>
-     <listitem open="0" type="805" id="enYrLpp253OJ" label="Use Case Diagram"/>
+     <listitem open="0" type="805" id="use-case-diagram" label="Use Case Diagram"/>
     </listitem>
    </listitem>
   </listview>
