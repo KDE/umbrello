@@ -14,6 +14,8 @@
 #include "version.h"
 #include "umldoc.h"
 #include "cmdlineexportallviewsevent.h"
+#include "umlscene.h"
+#include "umlview.h"
 #include "umlviewimageexportermodel.h"
 #include "umbrellosettings.h"
 
@@ -80,6 +82,7 @@ int main(int argc, char *argv[])
     options.add("directory <url>", ki18n("the local directory to save the exported diagrams in"), I18N_NOOP("the directory of the file"));
     options.add("import-files", ki18n("import files"));
     options.add("use-folders", ki18n("keep the tree structure used to store the views in the document in the target directory"));
+    options.add("show-diagram <diagram-name or -id>", ki18n("show diagram with the mentioned name or id from the loaded file"));
     KCmdLineArgs::addCmdLineOptions(options); // Add our own options.
 
     // NOTE: for deprecated net.sf.umbrello dbus service name
@@ -114,10 +117,21 @@ int main(int argc, char *argv[])
             initDocument(args);
 
 
-        // export option
-        QStringList exportOpt = args->getOptionList("export");
-        if (exportOpt.size() > 0) {
-             exportAllViews(args, exportOpt);
+        if (args->isSet("show-diagram")) {
+            QStringList opts = args->getOptionList("show-diagram");
+            if (opts.size() == 1) {
+                QString name = opts[0];
+                foreach(UMLView* view, uml->document()->viewIterator()) {
+                    if (Uml::ID::toString(view->umlScene()->ID()).contains(name) || view->umlScene()->name().contains(name))
+                        uml->setCurrentView(view);
+                }
+            }
+        } else {
+            // export option
+            QStringList exportOpt = args->getOptionList("export");
+            if (exportOpt.size() > 0) {
+                 exportAllViews(args, exportOpt);
+            }
         }
     }
     return app.exec();
