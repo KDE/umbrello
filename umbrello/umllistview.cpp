@@ -2293,7 +2293,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
         } else if (Model_Utils::typeIsFolder(lvType)) {
             // Pre-1.2 format: Folders did not have their ID set.
             // Pull a new ID now.
-            nID = UniqueID::get();
+            nID = m_doc->rootFolder(Uml::ModelType::Logical)->id();
         } else {
             uError() << "item of type " << type << " has no ID, skipping.";
             domElement = node.toElement();
@@ -2322,27 +2322,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
             item = findItem(nID);
             if (item == 0) {
                 uError() << "INTERNAL ERROR: "
-                    << "findItem(id " << Uml::ID::toString(nID) << ") returns 0";
-                /*
-                if (pObject && pObject->getUMLPackage() &&
-                        parent->type() != UMLListViewItem::lvt_Package) {
-                    // Pre-1.2 file format:
-                    // Objects were not nested in their packages.
-                    // Synthesize the nesting here.
-                    UMLPackage *umlpkg = pObject->getUMLPackage();
-                    UMLListViewItem *pkgItem = findUMLObject(umlpkg);
-                    if (pkgItem == 0) {
-                        DEBUG(DBG_SRC) << "synthesizing ListViewItem for package "
-                                       << Uml::ID::toString(umlpkg->ID());
-                        pkgItem = new UMLListViewItem(parent, umlpkg->getName(),
-                                                      UMLListViewItem::lvt_Package, umlpkg);
-                        pkgItem->setOpen(true);
-                    }
-                    item = new UMLListViewItem(pkgItem, label, lvType, pObject);
-                } else {
-                    item = new UMLListViewItem(parent, label, lvType, pObject);
-                }
-                 */
+                         << "findItem(id " << Uml::ID::toString(nID) << ") returns 0";
             } else if (parent != item->parent()) {
                 // The existing item was created by the slot event triggered
                 // by the loading of the corresponding model object from the
