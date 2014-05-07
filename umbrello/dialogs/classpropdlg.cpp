@@ -126,11 +126,6 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget *w)
 void ClassPropDlg::init()
 {
     setCaption(i18n("Properties"));
-    setButtons(Ok | Apply | Cancel | Help);
-    setDefaultButton(Ok);
-    setModal(true);
-    showButtonSeparator(true);
-    setFaceType(KPageDialog::List);
     m_pGenPage = 0;
     m_pAttPage = 0;
     m_pOpsPage = 0;
@@ -156,7 +151,7 @@ ClassPropDlg::~ClassPropDlg()
 void ClassPropDlg::slotOk()
 {
     slotApply();
-    KDialog::accept();
+    accept();
 }
 
 /**

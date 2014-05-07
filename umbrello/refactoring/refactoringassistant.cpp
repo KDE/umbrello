@@ -330,7 +330,11 @@ void RefactoringAssistant::editProperties(UMLObject *obj)
     KDialog *dia(0);
     UMLObject::ObjectType t = obj->baseType();
     if (t == UMLObject::ot_Class || t == UMLObject::ot_Interface) {
-        dia = new ClassPropDlg(this, obj, true);
+        ClassPropDlg *dialog = new ClassPropDlg(this, obj, true);
+        if (dialog && dialog->exec()) {
+            // need to update something?
+        }
+        delete dialog;
     }
     else if (t == UMLObject::ot_Operation) {
         dia = new UMLOperationDialog(this, static_cast<UMLOperation*>(obj));

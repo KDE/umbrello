@@ -52,12 +52,6 @@ AssocPropDlg::AssocPropDlg (QWidget *parent, AssociationWidget * assocWidget, in
 {
     Q_UNUSED(pageNum)
     setCaption(i18n("Association Properties"));
-    setButtons(Ok | Apply | Cancel | Help);
-    setDefaultButton(Ok);
-    setModal(true);
-    setFaceType(KPageDialog::List);
-    showButtonSeparator(true);
-
     setupPages();
 
     connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
@@ -74,7 +68,7 @@ AssocPropDlg::~AssocPropDlg()
 void AssocPropDlg::slotOk()
 {
     slotApply();
-    KDialog::accept();
+    accept();
 }
 
 void AssocPropDlg::slotApply()

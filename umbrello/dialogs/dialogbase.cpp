@@ -13,21 +13,49 @@
 
 // local includes
 #include "icon_utils.h"
-#include "umlwidgetstylepage.h"
-#include "klocale.h"
-#include <KFontChooser>
+#include "uml.h"
 #include "umlwidget.h"
+#include "umlwidgetstylepage.h"
+
+#include <KFontChooser>
+#include <KLocale>
+#include <KPageDialog>
+#include <KPageWidget>
 
 // qt includes
+#include <QApplication>
+#include <QDockWidget>
 #include <QFrame>
 #include <QHBoxLayout>
 
 /**
  * Constructor
  */
-DialogBase::DialogBase(QWidget *parent)
-  : KPageDialog(parent)
+DialogBase::DialogBase(QWidget *parent, bool asWidget)
+  : QWidget(parent),
+    m_pageDialog(0),
+    m_pageWidget(0),
+    m_useDialog(!asWidget)
 {
+    if (m_useDialog) {
+        m_pageDialog = new KPageDialog(parent);
+        m_pageDialog->setButtons(KDialog::Ok | KDialog::Apply | KDialog::Cancel | KDialog::Help);
+        m_pageDialog->setDefaultButton(KDialog::Ok);
+        m_pageDialog->showButtonSeparator(true);
+        m_pageDialog->setFaceType(KPageDialog::List);
+        m_pageDialog->setModal(true);
+        connect(m_pageDialog, SIGNAL(okClicked()), this, SLOT(slotOkClicked()));
+        connect(m_pageDialog, SIGNAL(applyClicked()), this, SLOT(slotApplyClicked()));
+    } else {
+        m_pageWidget = new KPageWidget(this);
+        m_pageWidget->setFaceType(KPageView::Tabbed);
+    }
+}
+
+DialogBase::~DialogBase()
+{
+    delete m_pageDialog;
+    delete m_pageWidget;
 }
 
 /**
@@ -92,4 +120,62 @@ void DialogBase::saveStylePageData(UMLWidget *widget)
 {
     Q_UNUSED(widget);
     m_pStylePage->updateUMLWidget();
+}
+
+void DialogBase::setCaption(const QString &caption)
+{
+    if (m_pageDialog)
+        m_pageDialog->setCaption(caption);
+}
+
+void DialogBase::accept()
+{
+    if (m_pageDialog)
+        m_pageDialog->accept();
+}
+
+void DialogBase::reject()
+{
+    if (m_pageDialog)
+        m_pageDialog->reject();
+}
+
+KPageWidgetItem *DialogBase::currentPage()
+{
+    if (m_pageDialog)
+        return m_pageDialog->currentPage();
+    else
+        return m_pageWidget->currentPage();
+}
+
+void DialogBase::addPage(KPageWidgetItem *page)
+{
+    if (m_pageDialog)
+        m_pageDialog->addPage(page);
+    else
+        m_pageWidget->addPage(page);
+}
+
+int DialogBase::spacingHint()
+{
+    return KDialog::spacingHint();
+}
+
+int DialogBase::exec()
+{
+    if (m_pageDialog)
+        return m_pageDialog->exec();
+    else {
+        return 0;
+    }
+}
+
+void DialogBase::slotOkClicked()
+{
+    emit okClicked();
+}
+
+void DialogBase::slotApplyClicked()
+{
+    emit applyClicked();
 }

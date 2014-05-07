@@ -43,11 +43,6 @@ StateDialog::StateDialog(UMLView * pView, StateWidget * pWidget)
     m_bChangesMade(false)
 {
     setCaption(i18n("Properties"));
-    setButtons(Help | Default | Apply | Ok | Cancel);
-    setDefaultButton(Ok);
-    setModal(true);
-    showButtonSeparator(true);
-    setFaceType(KPageDialog::List);
     setupPages();
     connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
     connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));

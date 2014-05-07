@@ -43,11 +43,6 @@ ObjectNodeDialog::ObjectNodeDialog(UMLView * pView, ObjectNodeWidget * pWidget)
     m_bChangesMade(false)
 {
     setCaption(i18n("Properties"));
-    setButtons(Ok | Apply | Cancel | Help);
-    setDefaultButton(Ok);
-    setModal(true);
-    setFaceType(KPageDialog::List);
-    showButtonSeparator(true);
     setupPages();
     connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
     connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));

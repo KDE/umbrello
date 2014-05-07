@@ -13,14 +13,16 @@
 
 #include "icon_utils.h"
 
-// kde class includes
-#include <kpagedialog.h>
+#include <kpagewidget.h>
+
+// qt class includes
+#include <QWidget>
 
 //forward declarations
+class KFontChooser;
+class KPageDialog;
 class QFrame;
 class UMLWidget;
-class KFontChooser;
-class KPageWidgetItem;
 class UMLWidgetStylePage;
 
 /**
@@ -34,12 +36,13 @@ class UMLWidgetStylePage;
  *
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class DialogBase : public KPageDialog
+class DialogBase : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit DialogBase(QWidget *parent);
+    explicit DialogBase(QWidget *parent, bool asWidget=false);
+    virtual ~DialogBase();
     QFrame* createPage(const QString& name, const QString& header, Icon_Utils::IconType icon);
     KPageWidgetItem *setupFontPage(UMLWidget *widget);
     void saveFontPageData(UMLWidget *widget);
@@ -47,11 +50,29 @@ public:
     KPageWidgetItem *setupStylePage(UMLWidget *widget);
     void saveStylePageData(UMLWidget *widget);
 
+    void setCaption(const QString &caption);
+    void accept();
+    void reject();
+    KPageWidgetItem *currentPage();
+    void addPage(KPageWidgetItem *page);
+    static int spacingHint();
+    int exec();
+
+signals:
+    void okClicked();
+    void applyClicked();
+
+private slots:
+    void slotOkClicked();
+    void slotApplyClicked();
+
 protected:
     KFontChooser *m_fontChooser;
     UMLWidgetStylePage *m_pStylePage;
     KPageWidgetItem *m_pageItem;
-
+    KPageDialog *m_pageDialog;
+    KPageWidget *m_pageWidget;
+    bool m_useDialog;
 };
 
 #endif
