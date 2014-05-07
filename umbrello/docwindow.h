@@ -42,6 +42,7 @@ public:
     void reset();
 
     bool isTyping();
+    void setFocus();
 
 public slots:
     void slotAssociationRemoved(AssociationWidget* association);

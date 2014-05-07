@@ -263,6 +263,12 @@ bool DocWindow::isTyping()
         return false;
 }
 
+void DocWindow::setFocus()
+{
+    parentWidget()->setVisible(true);
+    m_docTE->setFocus();
+}
+
 /**
  * Checks if the user is typing in the documentation edit window.
  */
