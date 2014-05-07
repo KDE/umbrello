@@ -198,7 +198,6 @@ set(libdialogs_SRCS
     dialogs/exportallviewsdialog.cpp
     dialogs/finddialog.cpp
     dialogs/generaloptionpage.cpp
-    dialogs/notedialog.cpp
     dialogs/objectnodedialog.cpp
     dialogs/overwritedialogue.cpp
     dialogs/pkgcontentspage.cpp
