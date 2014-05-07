@@ -1140,6 +1140,7 @@ UMLAssociation* UMLDoc::createUMLAssociation(UMLObject *a, UMLObject *b,
     UMLAssociation *assoc = findAssociation(type, a, b, &swap);
     if (assoc == 0) {
         assoc = new UMLAssociation(type, a, b);
+        assoc->setUMLPackage(a->umlPackage());
         addAssociation(assoc);
     }
     return assoc;
