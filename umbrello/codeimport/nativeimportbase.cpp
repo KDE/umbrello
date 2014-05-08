@@ -413,6 +413,7 @@ bool NativeImportBase::parseFile(const QString& filename)
     m_klass = NULL;
     m_currentAccess = Uml::Visibility::Public;
     m_scopeIndex = 0;
+    m_scope.clear();
     m_scope.append(NULL);  // index 0 is reserved for global scope
     const int srcLength = m_source.count();
     for (m_srcIndex = 0; m_srcIndex < srcLength; ++m_srcIndex) {
