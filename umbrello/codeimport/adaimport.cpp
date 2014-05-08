@@ -136,7 +136,7 @@ void AdaImport::fillSource(const QString& word)
                 m_source.append(lexeme);
                 lexeme.clear();
             }
-            if (c == ':' && word[i + 1] == '=') {
+            if (c == ':' && i < len - 1 && word[i + 1] == '=') {
                 m_source.append(":=");
                 i++;
             } else {
