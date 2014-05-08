@@ -195,7 +195,8 @@ bool IDLImport::parseFile(const QString& filename)
 
     // Parse the QStringList m_source.
     m_scopeIndex = 0;
-    m_scope[0] = NULL;
+    m_scope.clear();
+    m_scope.append(NULL);
     const int srcLength = m_source.count();
     for (m_srcIndex = 0; m_srcIndex < srcLength; ++m_srcIndex) {
         const QString& keyword = m_source[m_srcIndex];
@@ -219,11 +220,13 @@ bool IDLImport::parseStmt()
 {
     const QString& keyword = m_source[m_srcIndex];
     const int srcLength = m_source.count();
+    uDebug() << "keyword is " << keyword;
     if (keyword == "module") {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
                         name, m_scope[m_scopeIndex], m_comment);
-        m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
+        m_scope.append(static_cast<UMLPackage*>(ns));
+        ++m_scopeIndex;
         m_scope[m_scopeIndex]->setStereotype("CORBAModule");
         if (advance() != "{") {
             uError() << "importIDL: unexpected: " << m_source[m_srcIndex];
@@ -242,7 +245,8 @@ bool IDLImport::parseStmt()
         m_comment.clear();
         if (advance() == ";")   // forward declaration
             return true;
-        m_scope[++m_scopeIndex] = m_klass;
+        m_scope.append(m_klass);
+        ++m_scopeIndex;
         if (m_source[m_srcIndex] == ":") {
             while (++m_srcIndex < srcLength && m_source[m_srcIndex] != "{") {
                 const QString& baseName = m_source[m_srcIndex];
@@ -261,7 +265,9 @@ bool IDLImport::parseStmt()
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class,
                         name, m_scope[m_scopeIndex], m_comment);
-        m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
+        m_klass = static_cast<UMLClassifier*>(ns);
+        m_scope.append(m_klass);
+        ++m_scopeIndex;
         if (keyword == "struct")
             m_klass->setStereotype("CORBAStruct");
         else
@@ -273,7 +279,10 @@ bool IDLImport::parseStmt()
         return true;
     }
     if (keyword == "union") {
-        // TBD. <gulp>
+        // mostly TBD.
+        const QString& name = advance();
+        Import_Utils::createUMLObject(UMLObject::ot_Class,
+                        name, m_scope[m_scopeIndex], m_comment, "CORBAUnion");
         skipStmt("}");
         m_srcIndex++;  // advance to ';'
         return true;
@@ -293,7 +302,11 @@ bool IDLImport::parseStmt()
         return true;
     }
     if (keyword == "typedef") {
+        const QString& oldType = advance();
         const QString& newType = advance();
+        uDebug() << "oldType is " << oldType
+                 << ", newType is " << newType
+                 << ", m_scopeIndex is " << m_scopeIndex;
         Import_Utils::createUMLObject(UMLObject::ot_Class, newType, m_scope[m_scopeIndex],
                                      m_comment, "CORBATypedef" /* stereotype */);
         // @todo How do we convey the existingType ?
@@ -320,7 +333,8 @@ bool IDLImport::parseStmt()
         m_isAbstract = false;
         if (advance() == ";")   // forward declaration
             return true;
-        m_scope[++m_scopeIndex] = m_klass;
+        m_scope.append(m_klass);
+        ++m_scopeIndex;
         if (m_source[m_srcIndex] == ":") {
             if (advance() == "truncatable")
                 m_srcIndex++;

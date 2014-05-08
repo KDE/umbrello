@@ -155,7 +155,8 @@ bool PascalImport::parseStmt()
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package, name,
                                                       m_scope[m_scopeIndex], m_comment);
-        m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
+        m_scope.append(static_cast<UMLPackage*>(ns));
+        ++m_scopeIndex;
         skipStmt();
         return true;
     }

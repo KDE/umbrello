@@ -284,7 +284,8 @@ bool JavaImport::parseStmt()
             log(keyword + ' ' + name);
             UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
                             name, m_scope[m_scopeIndex], m_comment);
-            m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
+            m_scope.append(static_cast<UMLPackage*>(ns));
+            ++m_scopeIndex;
         }
         if (advance() != ";") {
             uError() << "importJava: unexpected: " << m_source[m_srcIndex];
@@ -297,7 +298,9 @@ bool JavaImport::parseStmt()
         const UMLObject::ObjectType t = (keyword == "class" ? UMLObject::ot_Class : UMLObject::ot_Interface);
         log(keyword + ' ' + name);
         UMLObject *ns = Import_Utils::createUMLObject(t, name, m_scope[m_scopeIndex], m_comment);
-        m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
+        m_klass = static_cast<UMLClassifier*>(ns);
+        m_scope.append(m_klass);
+        ++m_scopeIndex;
         m_klass->setAbstract(m_isAbstract);
         m_klass->setStatic(m_isStatic);
         m_klass->setVisibility(m_currentAccess);
