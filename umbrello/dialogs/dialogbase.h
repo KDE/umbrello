@@ -16,6 +16,7 @@
 #include <kpagewidget.h>
 
 // qt class includes
+#include <QDialog>
 #include <QWidget>
 
 //forward declarations

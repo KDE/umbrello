@@ -50,7 +50,7 @@ DialogBase::DialogBase(QWidget *parent)
         connect(m_pageDialog, SIGNAL(applyClicked()), this, SLOT(slotApplyClicked()));
     } else {
         m_pageWidget = new KPageWidget(this);
-        m_pageWidget->setFaceType(KPageView::Tabbed);
+        m_pageWidget->setFaceType(KPageView::Tree);
     }
 }
 
@@ -71,8 +71,11 @@ QFrame* DialogBase::createPage(const QString& name, const QString& header, Icon_
 {
     QFrame* page = new QFrame();
     m_pageItem = new KPageWidgetItem(page, name);
-    m_pageItem->setHeader(header);
-    m_pageItem->setIcon(Icon_Utils::DesktopIcon(icon));
+    if (!m_pageWidget) {
+        m_pageItem->setHeader(header);
+        m_pageItem->setIcon(Icon_Utils::DesktopIcon(icon));
+    } else
+        m_pageItem->setHeader("");
     addPage(m_pageItem);
     //page->setMinimumSize(310, 330);
     return page;
