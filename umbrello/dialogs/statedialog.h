@@ -32,7 +32,7 @@ class StateDialog : public DialogBase
 {
     Q_OBJECT
 public:
-    StateDialog(UMLView * pView, StateWidget * pWidget);
+    StateDialog(QWidget *parent, StateWidget * pWidget);
 
     /**
      * Returns whether changes were made.
@@ -54,7 +54,6 @@ protected:
 
     ActivityPage *m_pActivityPage;
     StateWidget  *m_pStateWidget;  ///< the widget to represent
-    UMLView      *m_pView;         ///< the diagram the widget is on
     bool          m_bChangesMade;  ///< holds whether changes in the dialog have been made
 
     struct GeneralPageWidgets {

@@ -35,11 +35,10 @@
 /**
  * Constructor.
  */
-StateDialog::StateDialog(UMLView * pView, StateWidget * pWidget)
-  : DialogBase(pView),
+StateDialog::StateDialog(QWidget * parent, StateWidget * pWidget)
+  : DialogBase(parent),
     m_pActivityPage(0),
     m_pStateWidget(pWidget),
-    m_pView(pView),
     m_bChangesMade(false)
 {
     setCaption(i18n("Properties"));
