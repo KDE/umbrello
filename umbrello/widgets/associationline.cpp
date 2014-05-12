@@ -728,6 +728,7 @@ QPainterPath AssociationLine::shape() const
 {
     QPainterPathStroker stroker;
     stroker.setWidth(qMax<qreal>(2*SelectedPointDiameter, pen().widthF()) + 2.0);  // allow delta region
+    stroker.setCapStyle(Qt::FlatCap);
     return stroker.createStroke(path());
 }
 

@@ -3749,9 +3749,8 @@ bool AssociationWidget::onAssociation(const QPointF& point)
 {
     // check the path
     const qreal diameter(4.0);
-    QRectF circle(point.x(), point.y(), diameter, diameter);
     QPainterPath path = m_associationLine->shape();
-    if (path.intersects(circle)) {
+    if (path.contains(point)) {
         DEBUG(DBG_SRC) << "on path";
         return true;
     }
