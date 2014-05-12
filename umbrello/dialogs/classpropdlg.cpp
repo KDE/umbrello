@@ -146,6 +146,14 @@ ClassPropDlg::~ClassPropDlg()
 }
 
 /**
+ * Calls slotApply()
+ */
+void ClassPropDlg::apply()
+{
+    slotApply();
+}
+
+/**
  * Calls slotApply() and accepts (closes) the dialog.
  */
 void ClassPropDlg::slotOk()

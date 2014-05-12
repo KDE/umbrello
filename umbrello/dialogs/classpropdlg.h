@@ -44,6 +44,8 @@ public:
     enum Page{page_gen = 0, page_att, page_op, page_entatt, page_constraint, page_template,
               page_assoc, page_options, page_color, page_font};
 
+    virtual void apply();
+
 protected slots:
     void slotOk();
     void slotApply();
