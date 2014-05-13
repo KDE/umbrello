@@ -156,7 +156,7 @@ bool LayoutGenerator::generate(UMLScene *scene, const QString &variant)
     if (!createDotFile(scene, in.fileName(), variant))
         return false;
 
-    QString executable = m_dotPath + "/" + m_generator;
+    QString executable = m_dotPath + '/' + m_generator;
 
     QProcess p;
     QStringList args;
@@ -281,7 +281,7 @@ bool LayoutGenerator::availableConfigFiles(UMLScene *scene, QHash<QString,QStrin
         QFileInfo fi(fileName);
         QString baseName;
         if (fi.baseName().contains("-"))
-            baseName = fi.baseName().remove(diagramType + "-");
+            baseName = fi.baseName().remove(diagramType + '-');
         else if (fi.baseName() == diagramType)
             baseName = fi.baseName();
         else
@@ -487,7 +487,7 @@ bool LayoutGenerator::parseLine(const QString &line)
         return true;
     // transistion
     } else if (line.contains("->")) {
-        QStringList k = keyword.split(" ");
+        QStringList k = keyword.split(' ');
         if (k.size() < 3)
             return false;
         QString key = fixID(k[0]+k[2]);
@@ -528,7 +528,7 @@ bool LayoutGenerator::parseLine(const QString &line)
         QString id = fixID(keyword);
         if (attributes.contains("pos")) {
             QStringList &a = attributes["pos"];
-            QStringList b = a[0].split(",");
+            QStringList b = a[0].split(',');
             f.setLeft(b[0].toDouble());
             f.setTop(b[1].toDouble());
         }
