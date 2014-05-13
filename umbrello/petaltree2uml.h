@@ -23,7 +23,7 @@ class PetalNode;
  */
 namespace Import_Rose {
 
-    bool petalTree2Uml(PetalNode *root);
+    bool petalTree2Uml(PetalNode *root, bool requireDesign = true);
 
 }
 

@@ -21,7 +21,7 @@
  */
 namespace Import_Rose {
 
-    bool loadFromMDL(QIODevice & file);
+    bool loadFromMDL(QIODevice & file, bool requireDesign = true);
 
 }
 

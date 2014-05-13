@@ -365,23 +365,29 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
     return node;
 }
 
+#define SETCODEC(str)  stream.setCodec(str); break
+
 /**
  * Parse a file into the PetalNode internal tree representation
  * and then create Umbrello objects by traversing the tree.
  *
  * @return  True for success, false in case of error.
  */
-bool loadFromMDL(QIODevice& file) 
+bool loadFromMDL(QIODevice& file, bool requireDesign /* = true */) 
 {
     QTextStream stream(&file);
     stream.setCodec("ISO 8859-1");
     QString line;
     PetalNode *root = NULL;
+    uint nClosures_sav = nClosures;
+    uint linum_sav = linum;
+    nClosures = 0;
     linum = 0;
     while (!(line = stream.readLine()).isNull()) {
         linum++;
         if (line.contains(QRegExp("^\\s*\\(object Petal"))) {
             bool finish = false;
+            // Nested loop determines character set to use
             while (!(line = stream.readLine()).isNull()) {
                 linum++; // CHECK: do we need petal version info?
                 if (line.contains(')')) {
@@ -391,44 +397,55 @@ bool loadFromMDL(QIODevice& file)
                 QStringList a = line.trimmed().split(QRegExp("\\s+"));
                 if (a.size() == 2 && a[0] == "charSet") {
                     const QString& charSet = a[1];
-                    if (charSet == "0")         // ASCII
-                        ;
-                    else if (charSet == "1")    // Default
-                        stream.setCodec("System");
-                    else if (charSet == "2")    // Symbol
-                        ; // @todo stream.setCodec("what");
-                    else if (charSet == "77")   // Mac
-                        stream.setCodec("macintosh");
-                    else if (charSet == "128")  // ShiftJIS (Japanese)
-                        stream.setCodec("Shift_JIS");
-                    else if (charSet == "129")  // Hangul (Korean)
-                        stream.setCodec("EUC-KR");
-                    else if (charSet == "130")  // Johab (Korean)
-                        stream.setCodec("EUC-KR");
-                    else if (charSet == "134")  // GB2312 (Chinese)
-                        stream.setCodec("GB18030");  // "Don't use GB2312 here" (Ralf H.)
-                    else if (charSet == "136")  // ChineseBig5
-                        stream.setCodec("Big5");
-                    else if (charSet == "161")  // Greek
-                        stream.setCodec("windows-1253");
-                    else if (charSet == "162")  // Turkish
-                        stream.setCodec("windows-1254");
-                    else if (charSet == "163")  // Vietnamese
-                        stream.setCodec("windows-1258");
-                    else if (charSet == "177")  // Hebrew
-                        stream.setCodec("windows-1255");
-                    else if (charSet == "178")  // Arabic
-                        stream.setCodec("windows-1256");
-                    else if (charSet == "186")  // Baltic
-                        stream.setCodec("windows-1257");
-                    else if (charSet == "204")  // Russian
-                        stream.setCodec("windows-1251");
-                    else if (charSet == "222")  // Thai
-                        stream.setCodec("TIS-620");
-                    else if (charSet == "238")  // EastEurope
-                        stream.setCodec("windows-1250");
-                    else if (charSet == "255")  // OEM (extended ASCII)
-                        stream.setCodec("windows-1252");
+                    if (!charSet.contains(QRegExp("^\\d+$"))) {
+                        uWarning() << "Unimplemented charSet " << charSet;
+                        if (finish)
+                            break;
+                        continue;
+                    }
+                    const int charSetNum = charSet.toInt();
+                    switch (charSetNum) {
+                        case 0:         // ASCII
+                            ;
+                        case 1:    // Default
+                            SETCODEC("System");
+                        case 2:    // Symbol
+                            ; // @todo     SETCODEC("what");
+                        case 77:   // Mac
+                            SETCODEC("macintosh");
+                        case 128:  // ShiftJIS (Japanese)
+                            SETCODEC("Shift_JIS");
+                        case 129:  // Hangul (Korean)
+                            SETCODEC("EUC-KR");
+                        case 130:  // Johab (Korean)
+                            SETCODEC("EUC-KR");
+                        case 134:  // GB2312 (Chinese)
+                            SETCODEC("GB18030");  // "Don't use GB2312 here" (Ralf H.)
+                        case 136:  // ChineseBig5
+                            SETCODEC("Big5");
+                        case 161:  // Greek
+                            SETCODEC("windows-1253");
+                        case 162:  // Turkish
+                            SETCODEC("windows-1254");
+                        case 163:  // Vietnamese
+                            SETCODEC("windows-1258");
+                        case 177:  // Hebrew
+                            SETCODEC("windows-1255");
+                        case 178:  // Arabic
+                            SETCODEC("windows-1256");
+                        case 186:  // Baltic
+                            SETCODEC("windows-1257");
+                        case 204:  // Russian
+                            SETCODEC("windows-1251");
+                        case 222:  // Thai
+                            SETCODEC("TIS-620");
+                        case 238:  // EastEurope
+                            SETCODEC("windows-1250");
+                        case 255:  // OEM (extended ASCII)
+                            SETCODEC("windows-1252");
+                        default:
+                            uWarning() << "Unimplemented charSet number" << charSetNum;
+                    }
                 }
                 if (finish)
                      break;
@@ -446,10 +463,14 @@ bool loadFromMDL(QIODevice& file)
         }
     }
     file.close();
+    nClosures = nClosures_sav;
+    linum = linum_sav;
     if (root == NULL)
         return false;
-    return petalTree2Uml(root);
+    return petalTree2Uml(root, requireDesign);
 }
+
+#undef SETCODEC
 
 }
 
