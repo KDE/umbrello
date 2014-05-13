@@ -13,6 +13,8 @@
 
 #include <qiodevice.h>
 
+class UMLPackage;
+
 /**
  * Rose model import
  *
@@ -21,7 +23,7 @@
  */
 namespace Import_Rose {
 
-    bool loadFromMDL(QIODevice & file, bool requireDesign = true);
+    bool loadFromMDL(QIODevice & file, UMLPackage *parentPkg = 0);
 
 }
 

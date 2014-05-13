@@ -32,6 +32,7 @@
 #include "import_rose.h"
 
 // qt includes
+#include <QtGlobal>
 #include <QRegExp>
 #include <QFile>
 
@@ -329,7 +330,7 @@ protected:
  */
 bool handleControlledUnit(PetalNode *node, const QString& name, Uml::ID::Type id, UMLPackage * parentPkg)
 {
-    Q_UNUSED(id); Q_UNUSED(parentPkg);
+    Q_UNUSED(id);
     if (node->findAttribute("is_unit").string != "TRUE")
         return false;
     //bool is_loaded = (node->findAttribute("is_loaded").string != "FALSE");
@@ -376,7 +377,7 @@ bool handleControlledUnit(PetalNode *node, const QString& name, Uml::ID::Type id
         uError() << name << ": file_name " << file_name << " cannot be opened";
         return false;
     }
-    bool status = loadFromMDL(file, false);
+    bool status = loadFromMDL(file, parentPkg);
     file.close();
     return status;
 }
@@ -634,14 +635,14 @@ bool importView(PetalNode *root, const QString& rootName,
  * @param root   the root of the tree
  * @return  true for success.
  */
-bool petalTree2Uml(PetalNode *root, bool requireDesign /* = true */)
+bool petalTree2Uml(PetalNode *root, UMLPackage *parentPkg /* = 0 */)
 {
     if (root == NULL) {
         uError() << "root is NULL";
         return false;
     }
     PetalNode *root_category;
-    if (requireDesign) {
+    if (parentPkg == NULL) {
         if (root->name() != "Design") {
             uError() << "expecting root name Design";
             return false;
@@ -659,22 +660,30 @@ bool petalTree2Uml(PetalNode *root, bool requireDesign /* = true */)
         uError() << "expecting root_category object Class_Category";
         return false;
     }
+    if (parentPkg) {
+        QStringList args = root->initialArgs();
+        QString name = clean(args[1]);
+        const Uml::ID::Type id = quid(root);
+        UMLObject *o = Import_Utils::createUMLObject(UMLObject::ot_Package, name, parentPkg);
+        o->setID(id);
+        parentPkg = static_cast<UMLPackage*>(o);
+    }
     PetalNode *logical_models = root_category->findAttribute("logical_models").node;
     if (logical_models == NULL) {
         uError() << "cannot find logical_models";
         return false;
     }
     UMLDoc *umldoc = UMLApp::app()->document();
-    if (requireDesign) {
+    if (parentPkg == NULL) {
         umldoc->setCurrentRoot(Uml::ModelType::Logical);
         Import_Utils::assignUniqueIdOnCreation(false);
     }
     PetalNode::NameValueList atts = logical_models->attributes();
     for (int i = 0; i < atts.count(); ++i) {
-        umbrellify(atts[i].second.node);
+        umbrellify(atts[i].second.node, parentPkg);
     }
 
-    if (!requireDesign) {
+    if (parentPkg) {
         return true;
     }
 

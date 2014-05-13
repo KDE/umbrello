@@ -373,7 +373,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
  *
  * @return  True for success, false in case of error.
  */
-bool loadFromMDL(QIODevice& file, bool requireDesign /* = true */) 
+bool loadFromMDL(QIODevice& file, UMLPackage *parentPkg /* = 0 */) 
 {
     QTextStream stream(&file);
     stream.setCodec("ISO 8859-1");
@@ -467,7 +467,7 @@ bool loadFromMDL(QIODevice& file, bool requireDesign /* = true */)
     linum = linum_sav;
     if (root == NULL)
         return false;
-    return petalTree2Uml(root, requireDesign);
+    return petalTree2Uml(root, parentPkg);
 }
 
 #undef SETCODEC

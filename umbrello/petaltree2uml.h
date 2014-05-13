@@ -13,6 +13,7 @@
 
 // fwd decl
 class PetalNode;
+class UMLPackage;
 
 /**
  * Traverse the PetalNode tree and create corresponding Umbrello objects
@@ -23,7 +24,7 @@ class PetalNode;
  */
 namespace Import_Rose {
 
-    bool petalTree2Uml(PetalNode *root, bool requireDesign = true);
+    bool petalTree2Uml(PetalNode *root, UMLPackage *parentPkg = 0);
 
 }
 
