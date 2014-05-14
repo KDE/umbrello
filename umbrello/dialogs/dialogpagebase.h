@@ -28,6 +28,10 @@ public:
     explicit DialogPageBase(QWidget *parent);
     virtual ~DialogPageBase();
     virtual bool isModified();
+
+protected:
+    bool m_isModified;
+    virtual void keyPressEvent(QKeyEvent *event);
 };
 
 #endif

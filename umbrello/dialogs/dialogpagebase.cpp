@@ -11,11 +11,15 @@
 // own header
 #include "dialogpagebase.h"
 
+// qt includes
+#include <QKeyEvent>
+
 /**
  * Constructor
  */
 DialogPageBase::DialogPageBase(QWidget *parent)
-  : QWidget(parent)
+  : QWidget(parent),
+    m_isModified(false)
 {
 }
 
@@ -32,5 +36,19 @@ DialogPageBase::~DialogPageBase()
  */
 bool DialogPageBase::isModified()
 {
-    return false;
+    return m_isModified;
+}
+
+/**
+ * Handle key press event.
+ * @param event key press event
+ */
+void DialogPageBase::keyPressEvent(QKeyEvent *event)
+{
+    // Set modified state if any text has been typed in
+    if (event->key() >= Qt::Key_Space
+            && event->key() < Qt::Key_Multi_key)
+        m_isModified = true;
+
+    QWidget::keyPressEvent(event);
 }
