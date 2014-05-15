@@ -58,6 +58,8 @@ public:
     static int spacingHint();
     int exec();
 
+    virtual bool isModified();
+
 signals:
     void okClicked();
     void applyClicked();
@@ -73,6 +75,8 @@ protected:
     KPageDialog *m_pageDialog;
     KPageWidget *m_pageWidget;
     bool m_useDialog;
+    bool m_isModified;
+    virtual void keyPressEvent(QKeyEvent *event);
 };
 
 #endif

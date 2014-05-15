@@ -27,6 +27,7 @@
 #include <QDockWidget>
 #include <QFrame>
 #include <QHBoxLayout>
+#include <QKeyEvent>
 
 /**
  * Constructor
@@ -35,7 +36,8 @@ DialogBase::DialogBase(QWidget *parent)
   : QWidget(parent),
     m_pageDialog(0),
     m_pageWidget(0),
-    m_useDialog(strcmp(parent->metaObject()->className(),"PropertiesWindow") != 0)
+    m_useDialog(strcmp(parent->metaObject()->className(),"PropertiesWindow") != 0),
+    m_isModified(false)
 {
     if (m_useDialog) {
         m_pageDialog = new KPageDialog(parent);
@@ -170,6 +172,16 @@ int DialogBase::exec()
     }
 }
 
+/**
+ * Return state if any data has been changed in the dialog.
+ *
+ * @return true data has been changed
+ */
+bool DialogBase::isModified()
+{
+    return m_isModified;
+}
+
 void DialogBase::slotOkClicked()
 {
     emit okClicked();
@@ -178,4 +190,19 @@ void DialogBase::slotOkClicked()
 void DialogBase::slotApplyClicked()
 {
     emit applyClicked();
+}
+
+/**
+ * Handle key press event.
+ *
+ * @param event key press event
+ */
+void DialogBase::keyPressEvent(QKeyEvent *event)
+{
+    // Set modified state if any text has been typed in
+    if (event->key() >= Qt::Key_Space
+            && event->key() < Qt::Key_Multi_key)
+        m_isModified = true;
+
+    QWidget::keyPressEvent(event);
 }
