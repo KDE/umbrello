@@ -31,11 +31,11 @@
 /**
  * Constructor
  */
-DialogBase::DialogBase(QWidget *parent, bool asWidget)
+DialogBase::DialogBase(QWidget *parent)
   : QWidget(parent),
     m_pageDialog(0),
     m_pageWidget(0),
-    m_useDialog(!asWidget)
+    m_useDialog(strcmp(parent->metaObject()->className(),"PropertiesWindow") != 0)
 {
     if (m_useDialog) {
         m_pageDialog = new KPageDialog(parent);

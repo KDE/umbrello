@@ -41,7 +41,7 @@ class DialogBase : public QWidget
     Q_OBJECT
 
 public:
-    explicit DialogBase(QWidget *parent, bool asWidget=false);
+    explicit DialogBase(QWidget *parent);
     virtual ~DialogBase();
     QFrame* createPage(const QString& name, const QString& header, Icon_Utils::IconType icon);
     KPageWidgetItem *setupFontPage(UMLWidget *widget);
