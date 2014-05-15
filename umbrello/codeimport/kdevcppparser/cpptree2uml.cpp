@@ -211,6 +211,10 @@ void CppTree2Uml::parseSimpleDeclaration(SimpleDeclarationAST* ast)
 {
     TypeSpecifierAST* typeSpec = ast->typeSpec();
     InitDeclaratorListAST* declarators = ast->initDeclaratorList();
+    GroupAST* storageSpec = ast->storageSpecifier();
+
+    if (storageSpec && storageSpec->text() == "friend")
+        return;
 
     m_comment = ast->comment();
 
