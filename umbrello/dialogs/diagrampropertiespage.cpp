@@ -27,7 +27,7 @@
  * @param parent   the parent (wizard) of this wizard page
  */
 DiagramPropertiesPage::DiagramPropertiesPage(QWidget *parent, UMLScene *scene)
-    : QWidget(parent), m_scene(scene)
+  : DialogPageBase(parent), m_scene(scene)
 {
     setupUi(this);
 

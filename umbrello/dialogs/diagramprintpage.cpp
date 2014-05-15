@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2013                                               *
+ *   copyright (C) 2002-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -37,7 +37,7 @@
  *  @param doc    The @ref UMLDoc class instance being used.
  */
 DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * doc)
-  : QWidget(parent),
+  : DialogPageBase(parent),
     m_doc(doc)
 {
     int margin = fontMetrics().height();

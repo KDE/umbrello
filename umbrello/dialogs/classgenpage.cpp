@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2013                                               *
+ *   copyright (C) 2002-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -46,7 +46,7 @@
 #include <QVBoxLayout>
 
 ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
-  : QWidget(parent),
+  : DialogPageBase(parent),
     m_pObject(o), m_pWidget(0), m_pInstanceWidget(0), m_pUmldoc(d)
 {
     if (!m_pObject) {
@@ -281,7 +281,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 }
 
 ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
-  : QWidget(parent),
+  : DialogPageBase(parent),
     m_pObject(0), m_pWidget(o), m_pInstanceWidget(0), m_pUmldoc(d)
 {
     if (!m_pWidget) {
@@ -351,8 +351,8 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
 }
 
 ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget)
-    : QWidget(parent),
-      m_pObject(0), m_pWidget(0), m_pInstanceWidget(widget), m_pUmldoc(d)
+  : DialogPageBase(parent),
+    m_pObject(0), m_pWidget(0), m_pInstanceWidget(widget), m_pUmldoc(d)
 {
     m_pDeconCB = 0;
     m_pMultiCB = 0;

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2003-2013                                                *
+ *  copyright (C) 2003-2014                                                *
  *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                 *
  ***************************************************************************/
 
@@ -48,7 +48,7 @@
  */
 ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifier,
                                        UMLDoc* doc, UMLObject::ObjectType type)
-  : QWidget(parent)
+  : DialogPageBase(parent)
 {
     m_itemType = type;
     m_bSigWaiting = false;

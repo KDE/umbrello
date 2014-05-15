@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2013                                               *
+ *   copyright (C) 2003-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -40,7 +40,7 @@
  *  @param  a       The AssociationWidget to display the properties of.
  */
 AssocRolePage::AssocRolePage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc)
-  : QWidget(parent),
+  : DialogPageBase(parent),
     m_pRoleALE(0),
     m_pRoleBLE(0),
     m_pMultiACB(0),

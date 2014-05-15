@@ -11,7 +11,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2013                                               *
+ *   copyright (C) 2004-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -30,7 +30,7 @@
  * code generator.
  */
 CodeGenerationPolicyPage::CodeGenerationPolicyPage(QWidget *parent, const char *name, CodeGenPolicyExt * policy)
-        :QWidget(parent)
+  : DialogPageBase(parent)
 {
     setObjectName(name);
     m_parentPolicy = policy;

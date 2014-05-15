@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2013                                               *
+ *   copyright (C) 2003-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -12,6 +12,7 @@
 #define ASSOCGENPAGE_H
 
 #include "basictypes.h"
+#include "dialogpagebase.h"
 
 #include <QList>
 #include <QWidget>
@@ -32,7 +33,7 @@ class UMLObject;
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class AssocGenPage : public QWidget
+class AssocGenPage : public DialogPageBase
 {
     Q_OBJECT
 public:

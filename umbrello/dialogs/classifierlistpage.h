@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2013                                               *
+ *   copyright (C) 2003-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -12,11 +12,9 @@
 #define CLASSIFIERLISTPAGE_H
 
 //app includes
+#include "dialogpagebase.h"
 #include "umlclassifierlistitemlist.h"
 #include "umlobject.h"
-
-//qt  includes
-#include <QWidget>
 
 class CodeTextEdit;
 class ListPopupMenu;
@@ -39,7 +37,7 @@ class QVBoxLayout;
  * @author Paul Hensgen, Jonathan Riddell
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class ClassifierListPage : public QWidget
+class ClassifierListPage : public DialogPageBase
 {
     Q_OBJECT
 public:

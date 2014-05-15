@@ -4,19 +4,20 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2013                                               *
+ *   copyright (C) 2003-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 #ifndef UMLROLEPROPERTIES_H
 #define UMLROLEPROPERTIES_H
 
+#include "dialogpagebase.h"
 #include "ui_umlrolepropertiesbase.h"
 #include "umlrole.h"
 
-class UMLRolePropertiesBase : public QWidget, public Ui::UMLRolePropertiesBase
+class UMLRolePropertiesBase : public DialogPageBase, public Ui::UMLRolePropertiesBase
 {
 public:
-  explicit UMLRolePropertiesBase(QWidget *parent) : QWidget(parent) {
+  explicit UMLRolePropertiesBase(QWidget *parent) : DialogPageBase(parent) {
     setupUi(this);
   }
 };

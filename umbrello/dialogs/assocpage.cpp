@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2013                                               *
+ *   copyright (C) 2002-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -13,6 +13,7 @@
 #include "associationwidget.h"
 #include "assocpropdlg.h"
 #include "debug_utils.h"
+#include "dialogpagebase.h"
 #include "listpopupmenu.h"
 #include "umlobject.h"
 #include "umlscene.h"
@@ -31,7 +32,7 @@
  *  @param  o       The UMLObject being represented
  */
 AssocPage::AssocPage(QWidget *parent, UMLScene *s, UMLObject *o)
-  : QWidget(parent),
+  : DialogPageBase(parent),
     m_pObject(o),
     m_pScene(s)
 {

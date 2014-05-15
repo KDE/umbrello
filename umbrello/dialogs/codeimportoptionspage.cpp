@@ -1,5 +1,5 @@
 /***************************************************************************
- * Copyright (C) 2011 by Ralf Habacker <ralf.habacker@gmail.com>           *
+ * Copyright (C) 2011-2014 by Ralf Habacker <ralf.habacker@freenet.de>     *
  *                                                                         *
  * This is free software; you can redistribute it and/or modify            *
  * it under the terms of the GNU General Public License as published by    *
@@ -31,7 +31,7 @@
  * @param parent   the parent (wizard) of this wizard page
  */
 CodeImportOptionsPage::CodeImportOptionsPage(QWidget *parent)
-    : QWidget(parent)
+  : DialogPageBase(parent)
 {
     setupUi(this);
     createArtifactCheckBox->setChecked(Settings::optionState().codeImportState.createArtifacts);

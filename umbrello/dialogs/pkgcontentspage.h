@@ -4,13 +4,13 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2013                                               *
+ *   copyright (C) 2003-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 #ifndef PKGCONTENTSPAGE_H
 #define PKGCONTENTSPAGE_H
 
-#include <QWidget>
+#include "dialogpagebase.h"
 
 class ListPopupMenu;
 class UMLPackage;
@@ -23,7 +23,7 @@ class QListWidgetItem;
  * @author Oliver Kellogg <okellogg@users.sourceforge.net>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class PkgContentsPage : public QWidget
+class PkgContentsPage : public DialogPageBase
 {
     Q_OBJECT
 public:

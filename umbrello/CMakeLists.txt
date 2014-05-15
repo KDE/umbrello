@@ -195,6 +195,7 @@ set(libdialogs_SRCS
     dialogs/diagramprintpage.cpp
     dialogs/dialog_utils.cpp
     dialogs/dialogbase.cpp
+    dialogs/dialogpagebase.cpp
     dialogs/exportallviewsdialog.cpp
     dialogs/finddialog.cpp
     dialogs/generaloptionpage.cpp

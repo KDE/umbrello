@@ -4,36 +4,30 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2014                                               *
+ *   copyright (C) 2014                                                    *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#ifndef DIAGRAMPROPERTIESPAGE_H
-#define DIAGRAMPROPERTIESPAGE_H
+#ifndef DIALOGPAGEBASE_H
+#define DIALOGPAGEBASE_H
 
-#include "dialogpagebase.h"
-#include "ui_diagrampropertiespage.h"
-
-class UMLScene;
+// qt class includes
+#include <QWidget>
 
 /**
- * A dialog page to display diagram properties
+ * Base class for property dialogs
+ *
+ * @author Ralf Habacker <ralf.habacker@freenet.de>
+ *
+ * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class DiagramPropertiesPage : public DialogPageBase, public Ui::DiagramPropertiesPage
+class DialogPageBase : public QWidget
 {
     Q_OBJECT
 public:
-    explicit DiagramPropertiesPage(QWidget *parent, UMLScene *scene);
-    virtual ~DiagramPropertiesPage();
-
-    void setDefaults();
-    void apply();
-
-signals:
-    void applyClicked();
-
-protected:
-    UMLScene *m_scene;
-    bool checkUniqueDiagramName();
+    explicit DialogPageBase(QWidget *parent);
+    virtual ~DialogPageBase();
+    virtual bool isModified();
 };
+
 #endif

@@ -12,8 +12,7 @@
 #define ASSOCPAGE_H
 
 #include "associationwidgetlist.h"
-
-#include <QWidget>
+#include "dialogpagebase.h"
 
 class AssociationWidget;
 class ListPopupMenu;
@@ -31,7 +30,7 @@ class UMLScene;
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class AssocPage : public QWidget
+class AssocPage : public DialogPageBase
 {
     Q_OBJECT
 public:

@@ -4,36 +4,33 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2014                                               *
+ *   copyright (C) 2014                                                    *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#ifndef DIAGRAMPROPERTIESPAGE_H
-#define DIAGRAMPROPERTIESPAGE_H
-
+// own header
 #include "dialogpagebase.h"
-#include "ui_diagrampropertiespage.h"
-
-class UMLScene;
 
 /**
- * A dialog page to display diagram properties
+ * Constructor
  */
-class DiagramPropertiesPage : public DialogPageBase, public Ui::DiagramPropertiesPage
+DialogPageBase::DialogPageBase(QWidget *parent)
+  : QWidget(parent)
 {
-    Q_OBJECT
-public:
-    explicit DiagramPropertiesPage(QWidget *parent, UMLScene *scene);
-    virtual ~DiagramPropertiesPage();
+}
 
-    void setDefaults();
-    void apply();
+DialogPageBase::~DialogPageBase()
+{
+}
 
-signals:
-    void applyClicked();
-
-protected:
-    UMLScene *m_scene;
-    bool checkUniqueDiagramName();
-};
-#endif
+/**
+ * Return state if page has been modified by user.
+ *
+ * The state will be used to determine changed pages.
+ *
+ * @return true page has been modified
+ */
+bool DialogPageBase::isModified()
+{
+    return false;
+}

@@ -4,16 +4,15 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2013                                               *
+ *   copyright (C) 2002-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
 #ifndef AUTOLAYOUTOPTIONPAGE_H
 #define AUTOLAYOUTOPTIONPAGE_H
 
+#include "dialogpagebase.h"
 #include "ui_autolayoutoptionpage.h"
-
-#include <QWidget>
 
 /**
  * A dialog page to display auto layouts options
@@ -22,7 +21,7 @@
  *
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class AutoLayoutOptionPage : public QWidget, private Ui::AutoLayoutOptionPage
+class AutoLayoutOptionPage : public DialogPageBase, private Ui::AutoLayoutOptionPage
 {
     Q_OBJECT
 public:

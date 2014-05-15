@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2013                                               *
+ *   copyright (C) 2002-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -12,6 +12,7 @@
 #define DIAGRAMPRINTPAGE_H
 
 #include "basictypes.h"
+#include "dialogpagebase.h"
 #include "umlview.h"
 
 #include <QList>
@@ -33,7 +34,7 @@ class UMLDoc;
  * @see    KPrinter
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class DiagramPrintPage : public QWidget
+class DiagramPrintPage : public DialogPageBase
 {
     Q_OBJECT
 public:
