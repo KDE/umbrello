@@ -42,7 +42,7 @@
 #include "codeimportingwizard.h"
 #include "codeviewerdialog.h"
 #include "diagramprintpage.h"
-#include "settingsdlg.h"
+#include "settingsdialog.h"
 #include "finddialog.h"
 #include "classimport.h"
 #include "refactoringassistant.h"
@@ -162,7 +162,7 @@ UMLApp::UMLApp(QWidget* parent)
     m_copyTimer(0),
     m_loading(false),
     m_imageMimeType(QString()),
-    m_settingsDlg(0),
+    m_settingsDialog(0),
     m_imageExporterAll(new UMLViewImageExporterAll()),
     m_xhtmlGenerator(0),
     m_pUndoStack(new KUndoStack(this)),
@@ -1882,15 +1882,15 @@ void UMLApp::slotPrefs()
 {
        Settings::OptionState& optionState = Settings::optionState();
 
-       m_settingsDlg = new SettingsDlg(this, &optionState);
-       connect(m_settingsDlg, SIGNAL(applyClicked()), this, SLOT(slotApplyPrefs()));
+       m_settingsDialog = new SettingsDialog(this, &optionState);
+       connect(m_settingsDialog, SIGNAL(applyClicked()), this, SLOT(slotApplyPrefs()));
 
-       if (m_settingsDlg->exec() == QDialog::Accepted && m_settingsDlg->getChangesApplied()) {
+       if (m_settingsDialog->exec() == QDialog::Accepted && m_settingsDialog->getChangesApplied()) {
            slotApplyPrefs();
        }
 
-       delete m_settingsDlg;
-       m_settingsDlg = 0;
+       delete m_settingsDialog;
+       m_settingsDialog = 0;
 }
 
 /**
@@ -1898,7 +1898,7 @@ void UMLApp::slotPrefs()
  */
 void UMLApp::slotApplyPrefs()
 {
-    if (m_settingsDlg) {
+    if (m_settingsDialog) {
         // we need this to sync both values
         Settings::OptionState& optionState = Settings::optionState();
         enableUndo(optionState.generalState.undo);
@@ -1943,7 +1943,7 @@ void UMLApp::slotApplyPrefs()
         }
 
         m_doc->settingsChanged(optionState);
-        const QString plStr = m_settingsDlg->getCodeGenerationLanguage();
+        const QString plStr = m_settingsDialog->getCodeGenerationLanguage();
         Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromString(plStr);
         setGenerator(pl);
     }

@@ -13,14 +13,14 @@
 // local includes
 #include "associationwidget.h"
 #include "classifier.h"
-#include "classpropdlg.h"
+#include "classpropdialog.h"
 #include "cmds.h"
 #include "debug_utils.h"
 #include "docwindow.h"
 #include "floatingtextwidget.h"
 #include "idchangelog.h"
 #include "listpopupmenu.h"
-#include "settingsdlg.h"
+#include "settingsdialog.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umllistview.h"
@@ -1102,7 +1102,7 @@ void UMLWidget::showPropertiesDialog()
     // will already be selected so make sure docWindow updates the doc
     // back it the widget
     UMLApp::app()->docWindow()->updateDocumentation(false);
-    QPointer<ClassPropDlg> dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
+    QPointer<ClassPropDialog> dlg = new ClassPropDialog((QWidget*)UMLApp::app(), this);
 
     if (dlg->exec()) {
         UMLApp::app()->docWindow()->showDocumentation(umlObject(), true);

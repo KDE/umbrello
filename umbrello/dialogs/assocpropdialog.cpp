@@ -9,14 +9,14 @@
  ***************************************************************************/
 
 // own header
-#include "assocpropdlg.h"
+#include "assocpropdialog.h"
 
 // local includes
 #include "associationwidget.h"
 #include "assocgenpage.h"
 #include "assocrolepage.h"
 #include "classgenpage.h"
-#include "classpropdlg.h"
+#include "classpropdialog.h"
 #include "debug_utils.h"
 #include "icon_utils.h"
 #include "objectwidget.h"
@@ -40,11 +40,11 @@
 
 /**
  *  Sets up a Association Properties Dialog.
- *  @param  parent  The parent of the AssocPropDlg
+ *  @param  parent  The parent of the AssocPropDialog
  *  @param  a       The Association Widget to display properties of.
  *  @param  pageNum The page to show first.
  */
-AssocPropDlg::AssocPropDlg (QWidget *parent, AssociationWidget * assocWidget, int pageNum)
+AssocPropDialog::AssocPropDialog (QWidget *parent, AssociationWidget * assocWidget, int pageNum)
   : DialogBase(parent),
     m_pGenPage(0),
     m_pRolePage(0),
@@ -61,17 +61,17 @@ AssocPropDlg::AssocPropDlg (QWidget *parent, AssociationWidget * assocWidget, in
 /**
  *  Standard destructor.
  */
-AssocPropDlg::~AssocPropDlg()
+AssocPropDialog::~AssocPropDialog()
 {
 }
 
-void AssocPropDlg::slotOk()
+void AssocPropDialog::slotOk()
 {
     slotApply();
     accept();
 }
 
-void AssocPropDlg::slotApply()
+void AssocPropDialog::slotApply()
 {
     if (m_pGenPage) {
         m_pGenPage->updateObject();
@@ -90,7 +90,7 @@ void AssocPropDlg::slotApply()
     }
 }
 
-void AssocPropDlg::setupPages()
+void AssocPropDialog::setupPages()
 {
     UMLDoc* umlDoc = UMLApp::app()->document();
 
@@ -121,4 +121,4 @@ void AssocPropDlg::setupPages()
     layout->addWidget(m_pChooser);
 }
 
-#include "assocpropdlg.moc"
+#include "assocpropdialog.moc"

@@ -23,7 +23,7 @@ class UMLObject;
 class UMLScene;
 
 /**
- * Displays a page on the tabbed dialog window of @ref ClassPropDlg.
+ * Displays a page on the tabbed dialog window of @ref ClassPropDialog.
  * The page shows all the Associations that belong to a UMLClassifier.
  *
  * @short The page shows all the Associations that belong to a UMLClassifier.

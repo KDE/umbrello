@@ -8,8 +8,8 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#ifndef SELECTOPDLG_H
-#define SELECTOPDLG_H
+#ifndef SELECTOPDIALOG_H
+#define SELECTOPDIALOG_H
 
 #include <kdialog.h>
 
@@ -29,12 +29,12 @@ class UMLView;
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class SelectOpDlg : public KDialog
+class SelectOpDialog : public KDialog
 {
     Q_OBJECT
 public:
-    SelectOpDlg(UMLView * parent, UMLClassifier * c, bool enableAutoIncrement = true);
-    ~SelectOpDlg();
+    SelectOpDialog(UMLView * parent, UMLClassifier * c, bool enableAutoIncrement = true);
+    ~SelectOpDialog();
 
     QString getOpText();
 

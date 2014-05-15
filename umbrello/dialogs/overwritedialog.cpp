@@ -9,7 +9,7 @@
  ***************************************************************************/
 
 // own header
-#include "overwritedialogue.h"
+#include "overwritedialog.h"
 
 // kde includes
 #include <klocale.h>
@@ -23,7 +23,7 @@
 /**
  * Constructor sets up the dialog, adding checkbox and label.
  */
-OverwriteDialogue::OverwriteDialogue(
+OverwriteDialog::OverwriteDialog(
         const QString& fileName,
         const QString& outputDirectory,
         bool applyToAllRemaining, QWidget* parent)
@@ -60,7 +60,7 @@ OverwriteDialogue::OverwriteDialogue(
 /**
  * Destructor.
  */
-OverwriteDialogue::~OverwriteDialogue()
+OverwriteDialog::~OverwriteDialog()
 {
 }
 
@@ -68,7 +68,7 @@ OverwriteDialogue::~OverwriteDialogue()
  * Overrides standard operation to call QDialog::done(Yes).
  * This is a kludge, see note in class description.
  */
-void OverwriteDialogue::slotOk()
+void OverwriteDialog::slotOk()
 {
     done(Yes);
 }
@@ -76,7 +76,7 @@ void OverwriteDialogue::slotOk()
 /**
  * Overrides standard operation to call QDialog::done(No).
  */
-void OverwriteDialogue::slotApply()
+void OverwriteDialog::slotApply()
 {
     done(No);
 }
@@ -84,7 +84,7 @@ void OverwriteDialogue::slotApply()
 /**
  * Overrides standard operation to call QDialog::done(Cancel).
  */
-void OverwriteDialogue::slotCancel()
+void OverwriteDialog::slotCancel()
 {
     done(Cancel);
 }
@@ -92,9 +92,9 @@ void OverwriteDialogue::slotCancel()
 /**
  * @return the value of the Apply To All Remaining Files checkbox
  */
-bool OverwriteDialogue::applyToAllRemaining()
+bool OverwriteDialog::applyToAllRemaining()
 {
     return m_applyToAllRemaining->isChecked();
 }
 
-#include "overwritedialogue.moc"
+#include "overwritedialog.moc"

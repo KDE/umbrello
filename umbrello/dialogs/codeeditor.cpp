@@ -30,7 +30,7 @@
 #include "codegenfactory.h"
 
 #include "codeviewerdialog.h"
-#include "classpropdlg.h"
+#include "classpropdialog.h"
 #include "umlattributedialog.h"
 #include "umlroledialog.h"
 #include "umloperationdialog.h"
@@ -102,7 +102,7 @@ void CodeEditor::clearText()
  */
 Settings::CodeViewerState CodeEditor::state()
 {
-    return m_parentDlg->state();
+    return m_parentDialog->state();
 }
 
 /**
@@ -111,7 +111,7 @@ Settings::CodeViewerState CodeEditor::state()
  */
 QLabel * CodeEditor::componentLabel()
 {
-    return m_parentDlg->ui_componentLabel;
+    return m_parentDialog->ui_componentLabel;
 }
 
 /**
@@ -123,7 +123,7 @@ void CodeEditor::clicked(int para, int pos)
 {
     QString txt = "position:" + QString::number(para) +
                   " / row (block):" + QString::number(pos);
-    if (m_parentDlg->ui_highlightCheckBox->isChecked()) {
+    if (m_parentDialog->ui_highlightCheckBox->isChecked()) {
         TextBlock* tb = findTextBlockAt(para);
         if (tb) {
             TextBlockInfo* info = m_tbInfoMap[tb];
@@ -930,17 +930,17 @@ void CodeEditor::slotRedrawText()
 
 /**
  * Initialisation routine which is used in the construtors.
- * @param parentDlg   the parent @ref CodeViewerDialog
+ * @param parentDialog   the parent @ref CodeViewerDialog
  * @param parentDoc   the parent @ref CodeDocument
  */
-void CodeEditor::init(CodeViewerDialog * parentDlg, CodeDocument * parentDoc)
+void CodeEditor::init(CodeViewerDialog * parentDialog, CodeDocument * parentDoc)
 {
     // safety to insure that we are up to date
     parentDoc->synchronize();
 
     setObjectName("CodeEditor");
 
-    m_parentDlg = parentDlg;
+    m_parentDialog = parentDialog;
     m_parentDoc = parentDoc;
 
     setUndoRedoEnabled(false);

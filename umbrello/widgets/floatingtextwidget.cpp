@@ -14,7 +14,7 @@
 // local includes
 #include "association.h"
 #include "associationwidget.h"
-#include "assocpropdlg.h"
+#include "assocpropdialog.h"
 #include "classifier.h"
 #include "cmds.h"
 #include "debug_utils.h"
@@ -24,7 +24,7 @@
 #include "model_utils.h"
 #include "object_factory.h"
 #include "operation.h"
-#include "selectopdlg.h"
+#include "selectopdialog.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
@@ -230,21 +230,21 @@ void FloatingTextWidget::showOperationDialog(bool enableAutoIncrement)
         return;
     }
 
-    QPointer<SelectOpDlg> selectDlg = new SelectOpDlg(m_scene->activeView(), c, enableAutoIncrement);
+    QPointer<SelectOpDialog> selectDialog = new SelectOpDialog(m_scene->activeView(), c, enableAutoIncrement);
     if (enableAutoIncrement && m_scene->autoIncrementSequence()) {
         seqNum = m_scene->autoIncrementSequenceValue();
-        selectDlg->setAutoIncrementSequence(true);
+        selectDialog->setAutoIncrementSequence(true);
     }
-    selectDlg->setSeqNumber(seqNum);
+    selectDialog->setSeqNumber(seqNum);
     if (m_linkWidget->operation() == 0) {
-        selectDlg->setCustomOp(opText);
+        selectDialog->setCustomOp(opText);
     } else {
-        selectDlg->setClassOp(opText);
+        selectDialog->setClassOp(opText);
     }
-    if (selectDlg->exec()) {
-        seqNum = selectDlg->getSeqNumber();
-        opText = selectDlg->getOpText();
-        if (selectDlg->isClassOp()) {
+    if (selectDialog->exec()) {
+        seqNum = selectDialog->getSeqNumber();
+        opText = selectDialog->getOpText();
+        if (selectDialog->isClassOp()) {
             Model_Utils::OpDescriptor od;
             Model_Utils::Parse_Status st = Model_Utils::parseOperation(opText, od, c);
             if (st == Model_Utils::PS_OK) {
@@ -276,11 +276,11 @@ void FloatingTextWidget::showOperationDialog(bool enableAutoIncrement)
         }
         m_linkWidget->setSeqNumAndOp(seqNum, opText);
         if (enableAutoIncrement) {
-            m_scene->setAutoIncrementSequence(selectDlg->autoIncrementSequence());
+            m_scene->setAutoIncrementSequence(selectDialog->autoIncrementSequence());
         }
         setMessageText();
     }
-    delete selectDlg;
+    delete selectDialog;
 }
 
 /**

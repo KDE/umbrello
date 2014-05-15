@@ -7,8 +7,8 @@
  *  copyright (C) 2002-2013                                                *
  *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                 *
  ***************************************************************************/
-#ifndef SETTINGSDLG_H
-#define SETTINGSDLG_H
+#ifndef SETTINGSDIALOG_H
+#define SETTINGSDIALOG_H
 
 // app includes
 #include "optionstate.h"
@@ -41,13 +41,13 @@ class GeneralOptionPage;
  * modified by brian thomas Aug-2003
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class SettingsDlg : public KPageDialog
+class SettingsDialog : public KPageDialog
 {
     Q_OBJECT
 
 public:
-    SettingsDlg(QWidget * parent, Settings::OptionState *state);
-    ~SettingsDlg();
+    SettingsDialog(QWidget * parent, Settings::OptionState *state);
+    ~SettingsDialog();
 
     //public methods
     bool getChangesApplied() {

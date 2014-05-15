@@ -59,7 +59,7 @@ class QDomElement;
  * together with a factory class (see below) and you are ready to go.
  *
  * Note for "simple" code generators:
- * Code can be entered into a QTextEdit widget in the ClassPropDlg. This
+ * Code can be entered into a QTextEdit widget in the ClassPropDialog. This
  * code is then stored in the respective UMLOperation, written to the
  * xmi file, and also used when generating the source files.
  * The code fragments are stored into the xmi file in the section "codegeneration"
@@ -178,7 +178,7 @@ protected:
     QHash<QString, CodeDocument*> m_codeDocumentDictionary;
 
     /**
-     * Used by overwriteDialogue to know if the apply to all
+     * Used by OverwriteDialog to know if the apply to all
      * remaining files checkbox should be checked (is by default).
      */
     bool m_applyToAllRemaining;

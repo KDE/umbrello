@@ -14,7 +14,7 @@
 #include "attribute.h"
 #include "basictypes.h"
 #include "classifier.h"
-#include "classpropdlg.h"
+#include "classpropdialog.h"
 #include "debug_utils.h"
 #include "object_factory.h"
 #include "operation.h"
@@ -330,7 +330,7 @@ void RefactoringAssistant::editProperties(UMLObject *obj)
     KDialog *dia(0);
     UMLObject::ObjectType t = obj->baseType();
     if (t == UMLObject::ot_Class || t == UMLObject::ot_Interface) {
-        ClassPropDlg *dialog = new ClassPropDlg(this, obj, true);
+        ClassPropDialog *dialog = new ClassPropDialog(this, obj, true);
         if (dialog && dialog->exec()) {
             // need to update something?
         }

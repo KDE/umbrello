@@ -9,7 +9,7 @@
  ***************************************************************************/
 
 // own header
-#include "parmpropdlg.h"
+#include "parmpropdialog.h"
 
 // local includes
 #include "classifier.h"
@@ -36,12 +36,12 @@
 #include <QVBoxLayout>
 
 /**
- * Constructs a ParmPropDlg.
+ * Constructs a ParmPropDialog.
  * @param parent   the parent of the dialog
  * @param doc      UMLDoc instance for access to classifiers and stereotypes
  * @param attr     the parameter to represent
  */
-ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * attr)
+ParmPropDialog::ParmPropDialog(QWidget * parent, UMLDoc * doc, UMLAttribute * attr)
         : KDialog(parent)
 {
     setCaption(i18n("Parameter Properties"));
@@ -164,7 +164,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * attr)
 /**
  * Standard destructor.
  */
-ParmPropDlg::~ParmPropDlg()
+ParmPropDialog::~ParmPropDialog()
 {
 }
 
@@ -174,13 +174,13 @@ ParmPropDlg::~ParmPropDlg()
  * sorted and then added again.
  * @param type   a new type to add and selected
  */
-void ParmPropDlg::insertTypesSorted(const QString& type)
+void ParmPropDialog::insertTypesSorted(const QString& type)
 {
     QStringList types;
     // add template parameters
     UMLClassifier *pConcept = dynamic_cast<UMLClassifier*>(m_pAtt->parent()->parent());
     if (pConcept == NULL) {
-        uError() << "ParmPropDlg: grandparent of " << m_pAtt->name()
+        uError() << "ParmPropDialog: grandparent of " << m_pAtt->name()
                  << " is not a UMLClassifier";
     } else {
         UMLTemplateList tmplParams(pConcept->getTemplateList());
@@ -215,7 +215,7 @@ void ParmPropDlg::insertTypesSorted(const QString& type)
  * sorted and then added again.
  * @param type   a new type to add and selected
  */
-void ParmPropDlg::insertStereotypesSorted(const QString& type)
+void ParmPropDialog::insertStereotypesSorted(const QString& type)
 {
     QStringList types;
     types << ""; // an empty stereotype is the default
@@ -243,7 +243,7 @@ void ParmPropDlg::insertStereotypesSorted(const QString& type)
  * @return  The Uml::ParameterDirection::Enum corresponding to
  *          the selected "Kind" radiobutton.
  */
-Uml::ParameterDirection::Enum ParmPropDlg::getParmKind()
+Uml::ParameterDirection::Enum ParmPropDialog::getParmKind()
 {
     Uml::ParameterDirection::Enum pk = Uml::ParameterDirection::In;
     if (m_pOut->isChecked())
@@ -257,7 +257,7 @@ Uml::ParameterDirection::Enum ParmPropDlg::getParmKind()
  * Validates the fields in the dialog box.
  * @return success state
  */
-bool ParmPropDlg::validate()
+bool ParmPropDialog::validate()
 {
     // currently only validates whether the name is not null.
     if (getName().trimmed().length() == 0) {
@@ -272,7 +272,7 @@ bool ParmPropDlg::validate()
  * Activated when a button is clicked
  * @param button The button that was clicked
  */
-void ParmPropDlg::slotButtonClicked(int button)
+void ParmPropDialog::slotButtonClicked(int button)
 {
     if (button == KDialog::Ok) {
         if (!validate()) {
@@ -285,7 +285,7 @@ void ParmPropDlg::slotButtonClicked(int button)
 /**
  * Ok clicked slot.
  */
-void ParmPropDlg::slotOk()
+void ParmPropDialog::slotOk()
 {
     if (m_pAtt != NULL) {
 
@@ -330,4 +330,4 @@ void ParmPropDlg::slotOk()
     }
 }
 
-#include "parmpropdlg.moc"
+#include "parmpropdialog.moc"

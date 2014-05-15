@@ -13,7 +13,7 @@
 #include "simplecodegenerator.h"
 
 // app includes
-#include "overwritedialogue.h"
+#include "overwritedialog.h"
 #include "model_utils.h"
 #include "attribute.h"
 #include "umloperationlist.h"
@@ -173,16 +173,16 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
     }
 
     int suffix;
-    QPointer<OverwriteDialogue> overwriteDialogue =
-        new OverwriteDialogue(filename, outputDir.absolutePath(),
+    QPointer<OverwriteDialog> overwriteDialog =
+        new OverwriteDialog(filename, outputDir.absolutePath(),
                               m_applyToAllRemaining, kapp->activeWindow());
     switch(commonPolicy->getOverwritePolicy()) {  //if it exists, check the OverwritePolicy we should use
     case CodeGenerationPolicy::Ok:                //ok to overwrite file
         break;
     case CodeGenerationPolicy::Ask:               //ask if we can overwrite
-        switch(overwriteDialogue->exec()) {
+        switch(overwriteDialog->exec()) {
         case QDialog::Accepted:  //overwrite file
-            if (overwriteDialogue->applyToAllRemaining()) {
+            if (overwriteDialog->applyToAllRemaining()) {
                 commonPolicy->setOverwritePolicy(CodeGenerationPolicy::Ok);
             } else {
                 m_applyToAllRemaining = false;
@@ -196,19 +196,19 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
                     break;
                 suffix++;
             }
-            if (overwriteDialogue->applyToAllRemaining()) {
+            if (overwriteDialog->applyToAllRemaining()) {
                 commonPolicy->setOverwritePolicy(CodeGenerationPolicy::Never);
             } else {
                 m_applyToAllRemaining = false;
             }
             break;
         case QDialog::Rejected: //don't output anything
-            if (overwriteDialogue->applyToAllRemaining()) {
+            if (overwriteDialog->applyToAllRemaining()) {
                 commonPolicy->setOverwritePolicy(CodeGenerationPolicy::Cancel);
             } else {
                 m_applyToAllRemaining = false;
             }
-            delete overwriteDialogue;
+            delete overwriteDialog;
             return QString();
             break;
         }
@@ -223,13 +223,13 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
         }
         break;
     case CodeGenerationPolicy::Cancel: //don't output anything
-        delete overwriteDialogue;
+        delete overwriteDialog;
         return QString();
         break;
     }
 
     m_fileMap.insert(concept, filename);
-    delete overwriteDialogue;
+    delete overwriteDialog;
     return filename;
 }
 

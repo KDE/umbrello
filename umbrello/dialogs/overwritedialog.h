@@ -8,8 +8,8 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#ifndef OVERWRITEDIALOGUE_H
-#define OVERWRITEDIALOGUE_H
+#ifndef OVERWRITEDIALOG_H
+#define OVERWRITEDIALOG_H
 
 #include <kdialog.h>
 
@@ -26,15 +26,15 @@ class QCheckBox;
  * @author Jonathan Riddell <jr@jriddell.org>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class OverwriteDialogue: public KDialog
+class OverwriteDialog: public KDialog
 {
     Q_OBJECT
 
 public:
 
-    OverwriteDialogue(const QString& fileName, const QString& outputDirectory,
+    OverwriteDialog(const QString& fileName, const QString& outputDirectory,
                       bool applyToAllRemaining, QWidget* parent=0);
-    ~OverwriteDialogue();
+    ~OverwriteDialog();
 
     bool applyToAllRemaining();
 

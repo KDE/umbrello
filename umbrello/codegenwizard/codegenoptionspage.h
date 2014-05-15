@@ -26,7 +26,7 @@ class CodeGenerationPolicyPage;
 
 /**
  * This class is used in the code generation wizard and
- * also in SettingsDlg.
+ * also in SettingsDialog.
  *
  * @author Luis De la Parra
  * @author Brian Thomas

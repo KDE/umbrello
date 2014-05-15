@@ -86,12 +86,12 @@ public:
     virtual void showPropertiesDialog();
 
     /**
-     * Motivated by FloatingTextWidget::showOpDlg()
+     * Motivated by FloatingTextWidget::showOpDialog()
      */
     virtual UMLClassifier *seqNumAndOp(QString& seqNum, QString& op) = 0;
 
     /**
-     * Motivated by FloatingTextWidget::showOpDlg()
+     * Motivated by FloatingTextWidget::showOpDialog()
      */
     virtual void setSeqNumAndOp(const QString &seqNum, const QString &op) = 0;
 

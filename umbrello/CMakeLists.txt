@@ -172,8 +172,8 @@ set(libdocgenerator_SRCS
 
 set(libdialogs_SRCS
     dialogs/activitydialog.cpp
-    dialogs/assocpropdlg.cpp
-    dialogs/classpropdlg.cpp
+    dialogs/assocpropdialog.cpp
+    dialogs/classpropdialog.cpp
     dialogs/classwizard.cpp
     dialogs/codeeditor.cpp
     dialogs/codeviewerdialog.cpp
@@ -184,10 +184,10 @@ set(libdialogs_SRCS
     dialogs/exportallviewsdialog.cpp
     dialogs/finddialog.cpp
     dialogs/objectnodedialog.cpp
-    dialogs/overwritedialogue.cpp
-    dialogs/parmpropdlg.cpp
-    dialogs/selectopdlg.cpp
-    dialogs/settingsdlg.cpp
+    dialogs/overwritedialog.cpp
+    dialogs/parmpropdialog.cpp
+    dialogs/selectopdialog.cpp
+    dialogs/settingsdialog.cpp
     dialogs/statedialog.cpp
     dialogs/umlattributedialog.cpp
     dialogs/umlcheckconstraintdialog.cpp

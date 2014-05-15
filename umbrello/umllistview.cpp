@@ -48,7 +48,7 @@
 #include "uniqueid.h"
 #include "idchangelog.h"
 #include "umldragdata.h"
-#include "classpropdlg.h"
+#include "classpropdialog.h"
 #include "umlattributedialog.h"
 #include "umlentityattributedialog.h"
 #include "umloperationdialog.h"
@@ -629,7 +629,7 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
             umlType = object->baseType();
 
             if (Model_Utils::typeIsCanvasWidget(lvt)) {
-                object->showPropertiesPagedDialog(ClassPropDlg::page_gen);
+                object->showPropertiesPagedDialog(ClassPropDialog::page_gen);
             } else if (umlType == UMLObject::ot_EnumLiteral) {
                 // Show the Enum Literal Dialog
                 UMLEnumLiteral* selectedEnumLiteral = static_cast<UMLEnumLiteral*>(object);
@@ -1410,7 +1410,7 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
     }
 
     UMLObject::ObjectType type = object->baseType();
-    int page = ClassPropDlg::page_gen;
+    int page = ClassPropDialog::page_gen;
     if (Model_Utils::isClassifierListitem(type)) {
         object = (UMLObject *)object->parent();
     }
@@ -1418,21 +1418,21 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
     switch (type) {
 
     case UMLObject::ot_Attribute:
-        page = ClassPropDlg::page_att;
+        page = ClassPropDialog::page_att;
         break;
     case UMLObject::ot_Operation:
-        page = ClassPropDlg::page_op;
+        page = ClassPropDialog::page_op;
         break;
     case UMLObject::ot_EntityAttribute:
-        page = ClassPropDlg::page_entatt;
+        page = ClassPropDialog::page_entatt;
         break;
     case UMLObject::ot_UniqueConstraint:
     case UMLObject::ot_ForeignKeyConstraint:
     case UMLObject::ot_CheckConstraint:
-        page = ClassPropDlg::page_constraint;
+        page = ClassPropDialog::page_constraint;
         break;
     default:
-        page = ClassPropDlg::page_gen;
+        page = ClassPropDialog::page_gen;
         break;
     }
 

@@ -8,8 +8,8 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#ifndef ASSOCPROPDLG_H
-#define ASSOCPROPDLG_H
+#ifndef ASSOCPROPDIALOG_H
+#define ASSOCPROPDIALOG_H
 
 #include "dialogbase.h"
 
@@ -20,16 +20,16 @@ class KFontChooser;
 class UMLWidgetStylePage;
 
 /**
- * Based off of AssocPropDlg class
+ * Based off of AssocPropDialog class
  * @author Brian Thomas <Brian.A.Thomas@gsfc.nasa.gov>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class AssocPropDlg : public DialogBase
+class AssocPropDialog : public DialogBase
 {
     Q_OBJECT
 public:
-    AssocPropDlg(QWidget *parent, AssociationWidget *a, int pageNum = 0);
-    ~AssocPropDlg();
+    AssocPropDialog(QWidget *parent, AssociationWidget *a, int pageNum = 0);
+    ~AssocPropDialog();
 
     enum Page { page_gen = 0, page_role, page_font };
 
