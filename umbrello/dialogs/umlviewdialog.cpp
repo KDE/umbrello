@@ -36,14 +36,9 @@
  * Constructor.
  */
 UMLViewDialog::UMLViewDialog(QWidget * pParent, UMLScene * pScene)
-  : KPageDialog(pParent)
+  : DialogBase(pParent)
 {
     setCaption(i18n("Properties"));
-    setButtons(Ok | Apply | Cancel | Help);
-    setDefaultButton(Ok);
-    setModal(true);
-    setFaceType(KPageDialog::List);
-    showButtonSeparator(true);
     m_pScene = pScene;
     m_options = m_pScene->optionState();
     setupPages();
@@ -56,6 +51,11 @@ UMLViewDialog::UMLViewDialog(QWidget * pParent, UMLScene * pScene)
  */
 UMLViewDialog::~UMLViewDialog()
 {
+}
+
+void UMLViewDialog::apply()
+{
+    slotOk();
 }
 
 void UMLViewDialog::slotOk()

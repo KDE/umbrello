@@ -13,9 +13,9 @@
 // qt includes
 
 // kde includes
-#include <kpagedialog.h>
 
 // app includes
+#include "dialogbase.h"
 #include "optionstate.h"
 
 class ClassOptionsPage;
@@ -29,12 +29,14 @@ class KFontChooser;
  * @author Paul Hensgen
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class UMLViewDialog : public KPageDialog
+class UMLViewDialog : public DialogBase
 {
     Q_OBJECT
 public:
     UMLViewDialog(QWidget * pParent, UMLScene * pScene);
     ~UMLViewDialog();
+
+    virtual void apply();
 
 protected:
     void setupPages();
