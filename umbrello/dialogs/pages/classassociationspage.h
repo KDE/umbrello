@@ -30,12 +30,12 @@ class UMLScene;
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class AssocPage : public DialogPageBase
+class ClassAssociationsPage : public DialogPageBase
 {
     Q_OBJECT
 public:
-    AssocPage(QWidget *parent, UMLScene * scene, UMLObject * o);
-    ~AssocPage();
+    ClassAssociationsPage(QWidget *parent, UMLScene * scene, UMLObject * o);
+    ~ClassAssociationsPage();
 
 private:
     UMLObject             *m_pObject;

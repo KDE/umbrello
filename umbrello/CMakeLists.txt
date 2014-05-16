@@ -201,9 +201,9 @@ set(libdialogs_SRCS
     dialogs/umlviewdialog.cpp
     dialogs/pages/activitypage.cpp
     dialogs/pages/assocgenpage.cpp
-    dialogs/pages/assocpage.cpp
     dialogs/pages/assocrolepage.cpp
     dialogs/pages/autolayoutoptionpage.cpp
+    dialogs/pages/classassociationspage.cpp
     dialogs/pages/classgenpage.cpp
     dialogs/pages/classifierlistpage.cpp
     dialogs/pages/classoptionspage.cpp

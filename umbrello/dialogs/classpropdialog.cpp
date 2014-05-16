@@ -12,7 +12,7 @@
 #include "classpropdialog.h"
 
 // app includes
-#include "assocpage.h"
+#include "classassociationspage.h"
 #include "classgenpage.h"
 #include "classifierlistpage.h"
 #include "classifierwidget.h"
@@ -366,7 +366,7 @@ void ClassPropDialog::setupAssociationsPage()
 {
     QFrame* page = createPage(i18n("Associations"), i18n("Class Associations"),
                                Icon_Utils::it_Properties_Associations);
-    m_pAssocPage = new AssocPage(page, UMLApp::app()->currentView()->umlScene(), m_pObject);
+    m_pAssocPage = new ClassAssociationsPage(page, UMLApp::app()->currentView()->umlScene(), m_pObject);
     QHBoxLayout* assocLayout = new QHBoxLayout(page);
     assocLayout->addWidget(m_pAssocPage);
 }

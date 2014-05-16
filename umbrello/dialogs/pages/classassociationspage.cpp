@@ -8,7 +8,7 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#include "assocpage.h"
+#include "classassociationspage.h"
 
 #include "associationwidget.h"
 #include "assocpropdialog.h"
@@ -31,7 +31,7 @@
  *  @param  v       The view the UMLObject being represented.
  *  @param  o       The UMLObject being represented
  */
-AssocPage::AssocPage(QWidget *parent, UMLScene *s, UMLObject *o)
+ClassAssociationsPage::ClassAssociationsPage(QWidget *parent, UMLScene *s, UMLObject *o)
   : DialogPageBase(parent),
     m_pObject(o),
     m_pScene(s)
@@ -63,7 +63,7 @@ AssocPage::AssocPage(QWidget *parent, UMLScene *s, UMLObject *o)
 /**
  *  Standard destructor.
  */
-AssocPage::~AssocPage()
+ClassAssociationsPage::~ClassAssociationsPage()
 {
     disconnect(m_pAssocLW, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
                this, SLOT(slotDoubleClick(QListWidgetItem*)));
@@ -71,7 +71,7 @@ AssocPage::~AssocPage()
                this, SLOT(slotRightButtonPressed(QPoint)));
 }
 
-void AssocPage::slotDoubleClick(QListWidgetItem * item)
+void ClassAssociationsPage::slotDoubleClick(QListWidgetItem * item)
 {
     if (!item) {
         return;
@@ -90,7 +90,7 @@ void AssocPage::slotDoubleClick(QListWidgetItem * item)
 /**
  *  Fills the list box with the objects associations.
  */
-void AssocPage::fillListBox()
+void ClassAssociationsPage::fillListBox()
 {
     m_List.clear();
     m_pAssocLW->clear();
@@ -104,14 +104,14 @@ void AssocPage::fillListBox()
     }
 }
 
-void AssocPage::slotRightButtonPressed(const QPoint &p)
+void ClassAssociationsPage::slotRightButtonPressed(const QPoint &p)
 {
     ListPopupMenu popup(this, ListPopupMenu::mt_Association_Selected);
     QAction *triggered = popup.exec(m_pAssocLW->mapToGlobal(p));
     slotMenuSelection(triggered);
 }
 
-void AssocPage::slotMenuSelection(QAction* action)
+void ClassAssociationsPage::slotMenuSelection(QAction* action)
 {
     int currentItemIndex = m_pAssocLW->currentRow();
     if (currentItemIndex == -1) {
@@ -139,4 +139,4 @@ void AssocPage::slotMenuSelection(QAction* action)
     }
 }
 
-#include "assocpage.moc"
+#include "classassociationspage.moc"

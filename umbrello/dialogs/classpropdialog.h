@@ -13,7 +13,7 @@
 
 #include "dialogbase.h"
 
-class AssocPage;
+class ClassAssociationsPage;
 class ClassGenPage;
 class ClassifierListPage;
 class ClassOptionsPage;
@@ -76,7 +76,7 @@ private:
     ClassifierListPage*  m_pEntityAttributePage;
     ConstraintListPage*  m_pEntityConstraintPage;
     PkgContentsPage*     m_pPkgContentsPage;
-    AssocPage*           m_pAssocPage;
+    ClassAssociationsPage* m_pAssocPage;
     ClassOptionsPage*    m_pOptionsPage;
     UMLWidgetStylePage*  m_pStylePage;
 
