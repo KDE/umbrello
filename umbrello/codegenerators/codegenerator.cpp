@@ -592,6 +592,9 @@ bool CodeGenerator::openFile(QFile & file, const QString &fileName)
     }
     else {
         QDir outputDirectory = UMLApp::app()->commonPolicy()->getOutputDirectory();
+        if (!outputDirectory.exists())
+            outputDirectory.mkpath(outputDirectory.absolutePath());
+
         file.setFileName(outputDirectory.absoluteFilePath(fileName));
         if(!file.open(QIODevice::WriteOnly)) {
             KMessageBox::sorry(0, i18n("Cannot open file %1 for writing. Please make sure the folder exists and you have permissions to write to it.", file.fileName()), i18n("Cannot Open File"));
