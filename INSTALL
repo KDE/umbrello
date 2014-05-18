@@ -1,3 +1,14 @@
-Build instructions can be found at 
-http://techbase.kde.org/Getting_Started/Build/KDE4
+General build instructions for KDE packages can be found at 
+  http://techbase.kde.org/Getting_Started/Build/KDE4
+but these pages are currently being rewritten.
+
+Specific build instructions for Umbrello can be found at 
+  http://umbrello.kde.org/installation.php
+
+In short, here is how to build current git master on Linux :
+  git clone git://anongit.kde.org/umbrello  
+  cd umbrello
+  mkdir build
+  cd build
+  cmake -DCMAKE_INSTALL_PREFIX=$HOME/umbrello -DCMAKE_BUILD_TYPE=Debug  ../
 
