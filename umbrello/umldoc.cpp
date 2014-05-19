@@ -537,6 +537,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
         if (filetype.endsWith(QLatin1String(".mdl"))) {
             status = Import_Rose::loadFromMDL(file);
             if (status) {
+                m_doc_url.setFileName(i18n("Untitled"));
                 QString name = createDiagramName(Uml::DiagramType::Class, false);
                 createDiagram(m_root[Uml::ModelType::Logical], Uml::DiagramType::Class, name);
                 m_pCurrentRoot = m_root[Uml::ModelType::Logical];
