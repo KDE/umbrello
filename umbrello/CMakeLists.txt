@@ -200,7 +200,7 @@ set(libdialogs_SRCS
     dialogs/umluniqueconstraintdialog.cpp
     dialogs/umlviewdialog.cpp
     dialogs/pages/activitypage.cpp
-    dialogs/pages/assocgenpage.cpp
+    dialogs/pages/associationgeneralpage.cpp
     dialogs/pages/associationrolepage.cpp
     dialogs/pages/autolayoutoptionpage.cpp
     dialogs/pages/classassociationspage.cpp

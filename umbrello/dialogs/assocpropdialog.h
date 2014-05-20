@@ -15,7 +15,7 @@
 
 class AssociationWidget;
 class AssociationRolePage;
-class AssocGenPage;
+class AssociationGeneralPage;
 class KFontChooser;
 class UMLWidgetStylePage;
 
@@ -41,7 +41,7 @@ protected slots:
     void slotApply();
 
 private:
-    AssocGenPage       *m_pGenPage;
+    AssociationGeneralPage *m_pGenPage;
     AssociationRolePage *m_pRolePage;
     UMLWidgetStylePage *m_pStylePage;
     KFontChooser       *m_pChooser;
