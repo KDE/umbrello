@@ -14,7 +14,7 @@
 // local includes
 #include "associationwidget.h"
 #include "assocgenpage.h"
-#include "assocrolepage.h"
+#include "associationrolepage.h"
 #include "classgeneralpage.h"
 #include "classpropdialog.h"
 #include "debug_utils.h"
@@ -103,7 +103,7 @@ void AssocPropDialog::setupPages()
     // role page
     page = createPage(i18nc("role page name", "Roles"), i18n("Role Settings"), Icon_Utils::it_Properties_Roles);
     layout = new QHBoxLayout(page);
-    m_pRolePage = new AssocRolePage(umlDoc, page, m_pAssoc),
+    m_pRolePage = new AssociationRolePage(umlDoc, page, m_pAssoc),
     layout->addWidget(m_pRolePage);
 
     // style page

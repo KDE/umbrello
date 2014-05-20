@@ -8,8 +8,8 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#ifndef ASSOCROLEPAGE_H
-#define ASSOCROLEPAGE_H
+#ifndef ASSOCIATIONROLEPAGE_H
+#define ASSOCIATIONROLEPAGE_H
 
 #include "dialogpagebase.h"
 
@@ -30,12 +30,12 @@ class UMLObject;
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class AssocRolePage : public DialogPageBase
+class AssociationRolePage : public DialogPageBase
 {
     Q_OBJECT
 public:
-    AssocRolePage(UMLDoc *d, QWidget *parent, AssociationWidget *a);
-    ~AssocRolePage();
+    AssociationRolePage(UMLDoc *d, QWidget *parent, AssociationWidget *a);
+    ~AssociationRolePage();
 
     void updateObject();
 

@@ -14,7 +14,7 @@
 #include "dialogbase.h"
 
 class AssociationWidget;
-class AssocRolePage;
+class AssociationRolePage;
 class AssocGenPage;
 class KFontChooser;
 class UMLWidgetStylePage;
@@ -42,7 +42,7 @@ protected slots:
 
 private:
     AssocGenPage       *m_pGenPage;
-    AssocRolePage      *m_pRolePage;
+    AssociationRolePage *m_pRolePage;
     UMLWidgetStylePage *m_pStylePage;
     KFontChooser       *m_pChooser;
     AssociationWidget  *m_pAssoc;
