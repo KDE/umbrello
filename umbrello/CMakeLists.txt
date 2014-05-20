@@ -204,7 +204,7 @@ set(libdialogs_SRCS
     dialogs/pages/assocrolepage.cpp
     dialogs/pages/autolayoutoptionpage.cpp
     dialogs/pages/classassociationspage.cpp
-    dialogs/pages/classgenpage.cpp
+    dialogs/pages/classgeneralpage.cpp
     dialogs/pages/classifierlistpage.cpp
     dialogs/pages/classoptionspage.cpp
     dialogs/pages/codegenerationpolicypage.cpp

@@ -13,7 +13,7 @@
 
 // app includes
 #include "classassociationspage.h"
-#include "classgenpage.h"
+#include "classgeneralpage.h"
 #include "classifierlistpage.h"
 #include "classifierwidget.h"
 #include "classoptionspage.h"
@@ -246,7 +246,7 @@ void ClassPropDialog::setupGeneralPage()
                                Icon_Utils::it_Properties_General);
     page->setMinimumSize(310, 330);
     QHBoxLayout * topLayout = new QHBoxLayout(page);
-    m_pGenPage = new ClassGenPage(m_doc, page, m_pObject);
+    m_pGenPage = new ClassGeneralPage(m_doc, page, m_pObject);
     topLayout->addWidget(m_pGenPage);
 }
 
@@ -380,7 +380,7 @@ void ClassPropDialog::setupInstancePages()
                                Icon_Utils::it_Properties_General);
     QHBoxLayout* genLayout = new QHBoxLayout(page);
     page->setMinimumSize(310, 330);
-    m_pGenPage = new ClassGenPage(m_doc, page, m_pWidget);
+    m_pGenPage = new ClassGeneralPage(m_doc, page, m_pWidget);
     genLayout->addWidget(m_pGenPage);
     m_pAssocPage = 0;
 }

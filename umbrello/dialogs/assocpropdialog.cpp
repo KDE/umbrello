@@ -15,7 +15,7 @@
 #include "associationwidget.h"
 #include "assocgenpage.h"
 #include "assocrolepage.h"
-#include "classgenpage.h"
+#include "classgeneralpage.h"
 #include "classpropdialog.h"
 #include "debug_utils.h"
 #include "icon_utils.h"

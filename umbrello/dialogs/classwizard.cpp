@@ -16,7 +16,7 @@
 #include "classifier.h"
 #include "classifierlistitem.h"
 #include "classifierlistpage.h"
-#include "classgenpage.h"
+#include "classgeneralpage.h"
 #include "operation.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -82,7 +82,7 @@ QWizardPage* ClassWizard::createGeneralPage()
     m_GeneralPage->setTitle(i18n("New Class"));
     m_GeneralPage->setSubTitle(i18n("Add general info about the new class."));
 
-    m_pGenPage = new ClassGenPage(m_doc, this, m_pClass);
+    m_pGenPage = new ClassGeneralPage(m_doc, this, m_pClass);
 
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(m_pGenPage);

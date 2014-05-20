@@ -14,7 +14,7 @@
 #include "dialogbase.h"
 
 class ClassAssociationsPage;
-class ClassGenPage;
+class ClassGeneralPage;
 class ClassifierListPage;
 class ClassOptionsPage;
 class ConstraintListPage;
@@ -68,7 +68,7 @@ protected:
 
 private:
     KFontChooser*        m_pChooser;
-    ClassGenPage*        m_pGenPage;
+    ClassGeneralPage*    m_pGenPage;
     ClassifierListPage*  m_pAttPage;
     ClassifierListPage*  m_pOpsPage;
     ClassifierListPage*  m_pTemplatePage;
