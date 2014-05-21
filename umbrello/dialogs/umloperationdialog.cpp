@@ -23,7 +23,7 @@
 #include "classifierlistitem.h"
 #include "umlclassifierlistitemlist.h"
 #include "dialog_utils.h"
-#include "parmpropdialog.h"
+#include "parameterpropertiesdialog.h"
 #include "stereotype.h"
 #include "uniqueid.h"
 
@@ -291,7 +291,7 @@ void UMLOperationDialog::slotNewParameter()
     QString currentName = m_operation->getUniqueParameterName();
     UMLAttribute* newAttribute = new UMLAttribute(m_operation, currentName, Uml::ID::Reserved);
 
-    QPointer<ParmPropDialog> dlg = new ParmPropDialog(this, m_doc, newAttribute);
+    QPointer<ParameterPropertiesDialog> dlg = new ParameterPropertiesDialog(this, m_doc, newAttribute);
     if (dlg->exec()) {
         pAtt = m_operation->findParm(newAttribute->name());
 
@@ -340,7 +340,7 @@ void UMLOperationDialog::slotParameterProperties()
     UMLAttribute* tempAttribute = static_cast<UMLAttribute*>(pOldAtt->clone()); // create a clone of the parameter
 
     // send the clone to the properties dialog box. it will fill in the new parameters.
-    QPointer<ParmPropDialog> dlg = new ParmPropDialog(this, m_doc, tempAttribute); 
+    QPointer<ParameterPropertiesDialog> dlg = new ParameterPropertiesDialog(this, m_doc, tempAttribute);
     if (dlg->exec()) {
         bool namingConflict = false;
         QString newName = tempAttribute->name();

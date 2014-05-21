@@ -185,7 +185,7 @@ set(libdialogs_SRCS
     dialogs/finddialog.cpp
     dialogs/objectnodedialog.cpp
     dialogs/overwritedialog.cpp
-    dialogs/parmpropdialog.cpp
+    dialogs/parameterpropertiesdialog.cpp
     dialogs/selectopdialog.cpp
     dialogs/settingsdialog.cpp
     dialogs/statedialog.cpp
