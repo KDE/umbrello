@@ -26,11 +26,11 @@ class QLabel;
 /**
  * A dialog page to display options for class related options.
  * This dialog is either embedded into @ref SettingsDialog,
- * @ref UMLViewDialog and @ref ClassPropDialog
+ * @ref UMLViewDialog and @ref ClassPropertiesDialog
  *
  * @short A dialog page to display the class related options.
  * @author Paul Hensgen <phensgen@techie.com>
- * @see ClassPropDialog
+ * @see ClassPropertiesDialog
  * @see SettingsDialog
  * @see UMLViewDialog
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org

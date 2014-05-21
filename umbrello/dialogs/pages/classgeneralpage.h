@@ -28,7 +28,7 @@ class UMLDoc;
 
 /**
  * Displays properties of a UMLObject in a dialog box.  This is not usually directly
- * called.  The class @ref ClassPropDialog will set this up for you.
+ * called.  The class @ref ClassPropertiesDialog will set this up for you.
  *
  * @short Display properties on a UMLObject.
  * @author Paul Hensgen <phensgen@techie.com>

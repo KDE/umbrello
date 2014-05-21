@@ -48,7 +48,7 @@
 #include "uniqueid.h"
 #include "idchangelog.h"
 #include "umldragdata.h"
-#include "classpropdialog.h"
+#include "classpropertiesdialog.h"
 #include "umlattributedialog.h"
 #include "umlentityattributedialog.h"
 #include "umloperationdialog.h"
@@ -629,7 +629,7 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
             umlType = object->baseType();
 
             if (Model_Utils::typeIsCanvasWidget(lvt)) {
-                object->showPropertiesPagedDialog(ClassPropDialog::page_gen);
+                object->showPropertiesPagedDialog(ClassPropertiesDialog::page_gen);
             } else if (umlType == UMLObject::ot_EnumLiteral) {
                 // Show the Enum Literal Dialog
                 UMLEnumLiteral* selectedEnumLiteral = static_cast<UMLEnumLiteral*>(object);
@@ -1410,7 +1410,7 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
     }
 
     UMLObject::ObjectType type = object->baseType();
-    int page = ClassPropDialog::page_gen;
+    int page = ClassPropertiesDialog::page_gen;
     if (Model_Utils::isClassifierListitem(type)) {
         object = (UMLObject *)object->parent();
     }
@@ -1418,21 +1418,21 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
     switch (type) {
 
     case UMLObject::ot_Attribute:
-        page = ClassPropDialog::page_att;
+        page = ClassPropertiesDialog::page_att;
         break;
     case UMLObject::ot_Operation:
-        page = ClassPropDialog::page_op;
+        page = ClassPropertiesDialog::page_op;
         break;
     case UMLObject::ot_EntityAttribute:
-        page = ClassPropDialog::page_entatt;
+        page = ClassPropertiesDialog::page_entatt;
         break;
     case UMLObject::ot_UniqueConstraint:
     case UMLObject::ot_ForeignKeyConstraint:
     case UMLObject::ot_CheckConstraint:
-        page = ClassPropDialog::page_constraint;
+        page = ClassPropertiesDialog::page_constraint;
         break;
     default:
-        page = ClassPropDialog::page_gen;
+        page = ClassPropertiesDialog::page_gen;
         break;
     }
 

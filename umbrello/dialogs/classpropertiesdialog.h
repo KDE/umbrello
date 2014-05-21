@@ -8,8 +8,8 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#ifndef CLASSPROPDIALOG_H
-#define CLASSPROPDIALOG_H
+#ifndef CLASSPROPERTIESDIALOG_H
+#define CLASSPROPERTIESDIALOG_H
 
 #include "dialogbase.h"
 
@@ -31,15 +31,15 @@ class UMLWidgetStylePage;
  * @version 1.0
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class ClassPropDialog : public DialogBase
+class ClassPropertiesDialog : public DialogBase
 {
     Q_OBJECT
 public:
-    ClassPropDialog(QWidget *parent, UMLObject *c, bool assoc = false);
-    ClassPropDialog(QWidget *parent, ObjectWidget * o);
-    ClassPropDialog(QWidget *parent, UMLWidget * o);
+    ClassPropertiesDialog(QWidget *parent, UMLObject *c, bool assoc = false);
+    ClassPropertiesDialog(QWidget *parent, ObjectWidget * o);
+    ClassPropertiesDialog(QWidget *parent, UMLWidget * o);
 
-    ~ClassPropDialog();
+    ~ClassPropertiesDialog();
 
     enum Page{page_gen = 0, page_att, page_op, page_entatt, page_constraint, page_template,
               page_assoc, page_options, page_color, page_font};

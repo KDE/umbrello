@@ -9,7 +9,7 @@
  ***************************************************************************/
 
 // own header
-#include "classpropdialog.h"
+#include "classpropertiesdialog.h"
 
 // app includes
 #include "classassociationspage.h"
@@ -44,7 +44,7 @@
  *  @param c         The UMLObject to display properties of.
  *  @param assoc     Determines whether to display associations
  */
-ClassPropDialog::ClassPropDialog(QWidget *parent, UMLObject * c, bool assoc)
+ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, UMLObject * c, bool assoc)
   : DialogBase(parent)
 {
     init();
@@ -64,7 +64,7 @@ ClassPropDialog::ClassPropDialog(QWidget *parent, UMLObject * c, bool assoc)
  *  @param  parent  The parent of the ClassPropDialog
  *  @param  o       The ObjectWidget to display properties of.
  */
-ClassPropDialog::ClassPropDialog(QWidget *parent, ObjectWidget *o)
+ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, ObjectWidget *o)
   : DialogBase(parent)
 {
     init();
@@ -88,7 +88,7 @@ ClassPropDialog::ClassPropDialog(QWidget *parent, ObjectWidget *o)
  *  @param  parent  The parent of the ClassPropDialog
  *  @param  o       The UMLWidget to display properties of.
  */
-ClassPropDialog::ClassPropDialog(QWidget *parent, UMLWidget *w)
+ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, UMLWidget *w)
   : DialogBase(parent)
 {
     init();
@@ -123,7 +123,7 @@ ClassPropDialog::ClassPropDialog(QWidget *parent, UMLWidget *w)
     connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
 }
 
-void ClassPropDialog::init()
+void ClassPropertiesDialog::init()
 {
     setCaption(i18n("Properties"));
     m_pGenPage = 0;
@@ -141,14 +141,14 @@ void ClassPropDialog::init()
 /**
  *  Standard destructor.
  */
-ClassPropDialog::~ClassPropDialog()
+ClassPropertiesDialog::~ClassPropertiesDialog()
 {
 }
 
 /**
  * Calls slotApply()
  */
-void ClassPropDialog::apply()
+void ClassPropertiesDialog::apply()
 {
     slotApply();
 }
@@ -156,7 +156,7 @@ void ClassPropDialog::apply()
 /**
  * Calls slotApply() and accepts (closes) the dialog.
  */
-void ClassPropDialog::slotOk()
+void ClassPropertiesDialog::slotOk()
 {
     slotApply();
     accept();
@@ -165,7 +165,7 @@ void ClassPropDialog::slotOk()
 /**
  * Applies the settings in the dialog to the widget and object.
  */
-void ClassPropDialog::slotApply()
+void ClassPropertiesDialog::slotApply()
 {
     if (m_pGenPage) {
         m_pGenPage->updateObject();
@@ -202,7 +202,7 @@ void ClassPropDialog::slotApply()
 /**
  * Sets up the general, attribute, operations, template and association pages as appropriate.
  */
-void ClassPropDialog::setupPages(bool assoc)
+void ClassPropertiesDialog::setupPages(bool assoc)
 {
     setupGeneralPage();
 
@@ -240,7 +240,7 @@ void ClassPropDialog::setupPages(bool assoc)
 /**
  * Sets up the page "General" for the component.
  */
-void ClassPropDialog::setupGeneralPage()
+void ClassPropertiesDialog::setupGeneralPage()
 {
     QFrame* page = createPage(i18nc("general settings page name", "General"), i18n("General Settings"),
                                Icon_Utils::it_Properties_General);
@@ -253,7 +253,7 @@ void ClassPropDialog::setupGeneralPage()
 /**
  * Sets up the page "Style" for the component.
  */
-void ClassPropDialog::setupStylePage()
+void ClassPropertiesDialog::setupStylePage()
 {
     QFrame * page = createPage(i18nc("widget style page name", "Style"), i18n("Widget Style"),
                                 Icon_Utils::it_Properties_Color);
@@ -265,7 +265,7 @@ void ClassPropDialog::setupStylePage()
 /**
  * Sets up the page "Display" for the component.
  */
-void ClassPropDialog::setupDisplayPage()
+void ClassPropertiesDialog::setupDisplayPage()
 {
     QFrame* page = createPage(i18nc("display option page name", "Display"), i18n("Display Options"),
                                Icon_Utils::it_Properties_Display);
@@ -278,7 +278,7 @@ void ClassPropDialog::setupDisplayPage()
 /**
  * Sets up the page "Attributes" for the component.
  */
-void ClassPropDialog::setupAttributesPage()
+void ClassPropertiesDialog::setupAttributesPage()
 {
     QFrame* page = createPage(i18n("Attributes"), i18n("Attribute Settings"),
                                Icon_Utils::it_Properties_Attributes);
@@ -290,7 +290,7 @@ void ClassPropDialog::setupAttributesPage()
 /**
  * Sets up the page "Operations" for the component.
  */
-void ClassPropDialog::setupOperationsPage()
+void ClassPropertiesDialog::setupOperationsPage()
 {
     QFrame* page = createPage(i18n("Operations"), i18n("Operation Settings"),
                                Icon_Utils::it_Properties_Operations);
@@ -302,7 +302,7 @@ void ClassPropDialog::setupOperationsPage()
 /**
  * Sets up the page "Templates" for the component.
  */
-void ClassPropDialog::setupTemplatesPage()
+void ClassPropertiesDialog::setupTemplatesPage()
 {
     QFrame* page = createPage(i18n("Templates"), i18n("Templates Settings"),
                                Icon_Utils::it_Properties_Templates);
@@ -314,7 +314,7 @@ void ClassPropDialog::setupTemplatesPage()
 /**
  * Sets up the page "Enum Literals" for the component.
  */
-void ClassPropDialog::setupEnumLiteralsPage()
+void ClassPropertiesDialog::setupEnumLiteralsPage()
 {
     QFrame* page = createPage(i18n("Enum Literals"), i18n("Enum Literals Settings"),
                                Icon_Utils::it_Properties_EnumLiterals);
@@ -326,7 +326,7 @@ void ClassPropDialog::setupEnumLiteralsPage()
 /**
  * Sets up the page "Entity Attributes" for the component.
  */
-void ClassPropDialog::setupEntityAttributesPage()
+void ClassPropertiesDialog::setupEntityAttributesPage()
 {
     QFrame* page = createPage(i18n("Entity Attributes"), i18n("Entity Attributes Settings"),
                                Icon_Utils::it_Properties_EntityAttributes);
@@ -338,7 +338,7 @@ void ClassPropDialog::setupEntityAttributesPage()
 /**
  * Sets up the page "Entity Constraints" for the component.
  */
-void ClassPropDialog::setupEntityConstraintsPage()
+void ClassPropertiesDialog::setupEntityConstraintsPage()
 {
     QFrame* page = createPage(i18n("Entity Constraints"), i18n("Entity Constraints Settings"),
                                Icon_Utils::it_Properties_EntityConstraints);
@@ -350,7 +350,7 @@ void ClassPropDialog::setupEntityConstraintsPage()
 /**
  * Sets up the page "Contents" for the component.
  */
-void ClassPropDialog::setupContentsPage()
+void ClassPropertiesDialog::setupContentsPage()
 {
     QFrame* page = createPage(i18nc("contents settings page name", "Contents"), i18n("Contents Settings"),
                                Icon_Utils::it_Properties_Contents);
@@ -362,7 +362,7 @@ void ClassPropDialog::setupContentsPage()
 /**
  * Sets up the page "Associations" for the component.
  */
-void ClassPropDialog::setupAssociationsPage()
+void ClassPropertiesDialog::setupAssociationsPage()
 {
     QFrame* page = createPage(i18n("Associations"), i18n("Class Associations"),
                                Icon_Utils::it_Properties_Associations);
@@ -374,7 +374,7 @@ void ClassPropDialog::setupAssociationsPage()
 /**
  * Sets up the general page for the component.
  */
-void ClassPropDialog::setupInstancePages()
+void ClassPropertiesDialog::setupInstancePages()
 {
     QFrame* page = createPage(i18nc("instance general settings page name", "General"), i18n("General Settings"),
                                Icon_Utils::it_Properties_General);
@@ -388,7 +388,7 @@ void ClassPropDialog::setupInstancePages()
 /**
  * Sets up the font page.
  */
-void ClassPropDialog::setupFontPage()
+void ClassPropertiesDialog::setupFontPage()
 {
     if (!m_pWidget) {
         return;
@@ -402,4 +402,4 @@ void ClassPropDialog::setupFontPage()
     m_pChooser->setFont(m_pWidget->font());
 }
 
-#include "classpropdialog.moc"
+#include "classpropertiesdialog.moc"

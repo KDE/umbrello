@@ -12,7 +12,7 @@
 #include "objectwidget.h"
 
 // local includes
-#include "classpropdialog.h"
+#include "classpropertiesdialog.h"
 #include "debug_utils.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
@@ -390,7 +390,7 @@ void ObjectWidget::cleanup()
 void ObjectWidget::showPropertiesDialog()
 {
     UMLApp::app()->docWindow()->updateDocumentation(false);
-    QPointer<ClassPropDialog> dlg = new ClassPropDialog((QWidget*)UMLApp::app(), this);
+    QPointer<ClassPropertiesDialog> dlg = new ClassPropertiesDialog((QWidget*)UMLApp::app(), this);
     if (dlg->exec()) {
         UMLApp::app()->docWindow()->showDocumentation(this, true);
         UMLApp::app()->document()->setModified(true);

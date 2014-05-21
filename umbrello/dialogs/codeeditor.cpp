@@ -30,7 +30,7 @@
 #include "codegenfactory.h"
 
 #include "codeviewerdialog.h"
-#include "classpropdialog.h"
+#include "classpropertiesdialog.h"
 #include "umlattributedialog.h"
 #include "umlroledialog.h"
 #include "umloperationdialog.h"

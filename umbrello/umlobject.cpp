@@ -24,7 +24,7 @@
 #include "model_utils.h"
 #include "import_utils.h"
 #include "docwindow.h"
-#include "classpropdialog.h"
+#include "classpropertiesdialog.h"
 #include "cmds.h"
 
 // kde includes
@@ -121,7 +121,7 @@ bool UMLObject::showPropertiesPagedDialog(int page, bool assoc)
     Q_UNUSED(page);
     DocWindow *docwindow = UMLApp::app()->docWindow();
     docwindow->updateDocumentation(false);
-    QPointer<ClassPropDialog> dlg = new ClassPropDialog((QWidget*)UMLApp::app(), this, assoc);
+    QPointer<ClassPropertiesDialog> dlg = new ClassPropertiesDialog((QWidget*)UMLApp::app(), this, assoc);
     bool modified = false;
     if (dlg->exec()) {
         docwindow->showDocumentation(this, true);

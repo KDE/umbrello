@@ -31,7 +31,7 @@ class QVBoxLayout;
 
 /**
  * A dialog page to display classifier list properties.  This is not normally setup
- * by you.  It is used by the @ref ClassPropDialog and new class wizard.
+ * by you.  It is used by the @ref ClassPropertiesDialog and new class wizard.
  *
  * @short A dialog page to display classifier properties.
  * @author Paul Hensgen, Jonathan Riddell

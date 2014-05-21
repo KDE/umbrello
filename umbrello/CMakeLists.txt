@@ -173,7 +173,7 @@ set(libdocgenerator_SRCS
 set(libdialogs_SRCS
     dialogs/activitydialog.cpp
     dialogs/assocpropdialog.cpp
-    dialogs/classpropdialog.cpp
+    dialogs/classpropertiesdialog.cpp
     dialogs/classwizard.cpp
     dialogs/codeeditor.cpp
     dialogs/codeviewerdialog.cpp

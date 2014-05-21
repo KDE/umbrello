@@ -10,7 +10,7 @@
 
 #include "pkgcontentspage.h"
 
-#include "classpropdialog.h"
+#include "classpropertiesdialog.h"
 #include "debug_utils.h"
 #include "listpopupmenu.h"
 #include "package.h"
@@ -81,7 +81,7 @@ void PkgContentsPage::slotDoubleClick(QListWidgetItem *item)
     }
     UMLObjectList contents = m_package->containedObjects();
     UMLObject *o = contents.at(index);
-    QPointer<ClassPropDialog> dlg = new ClassPropDialog(this, o, true);
+    QPointer<ClassPropertiesDialog> dlg = new ClassPropertiesDialog(this, o, true);
     dlg->exec();
     delete dlg;
 }

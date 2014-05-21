@@ -16,7 +16,7 @@
 #include "associationgeneralpage.h"
 #include "associationrolepage.h"
 #include "classgeneralpage.h"
-#include "classpropdialog.h"
+#include "classpropertiesdialog.h"
 #include "debug_utils.h"
 #include "icon_utils.h"
 #include "objectwidget.h"
