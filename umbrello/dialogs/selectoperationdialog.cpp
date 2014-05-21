@@ -9,7 +9,7 @@
  ***************************************************************************/
 
 // own header
-#include "selectopdialog.h"
+#include "selectoperationdialog.h"
 
 // local includes
 #include "attribute.h"
@@ -41,13 +41,13 @@ bool caseInsensitiveLessThan(const UMLOperation *s1, const UMLOperation *s2)
 }
 
 /**
- *  Constructs a SelectOpDialog instance.
+ *  Constructs a SelectOperationDialog instance.
  *
  *  @param  parent  The parent to this instance.
  *  @param  c       The concept to get the operations from.
  *  @param  enableAutoIncrement Flag to enable auto increment checkbox
  */
-SelectOpDialog::SelectOpDialog(UMLView *parent, UMLClassifier * c, bool enableAutoIncrement)
+SelectOperationDialog::SelectOperationDialog(UMLView *parent, UMLClassifier * c, bool enableAutoIncrement)
    : KDialog(parent), m_pView(parent), m_classifier(c)
 {
     setCaption(i18n("Select Operation"));
@@ -103,7 +103,7 @@ SelectOpDialog::SelectOpDialog(UMLView *parent, UMLClassifier * c, bool enableAu
 /**
  *  Standard destructor.
  */
-SelectOpDialog::~SelectOpDialog()
+SelectOperationDialog::~SelectOperationDialog()
 {
 }
 
@@ -112,7 +112,7 @@ SelectOpDialog::~SelectOpDialog()
  *
  *  @return The operation to display.
  */
-QString SelectOpDialog::getOpText()
+QString SelectOperationDialog::getOpText()
 {
     if (m_pOpLE->text().isEmpty())
         return m_pOpCB->currentText();
@@ -127,7 +127,7 @@ QString SelectOpDialog::getOpText()
  * @return  True if user selected a class operation,
  *          false if user selected a custom operation
  */
-bool SelectOpDialog::isClassOp() const
+bool SelectOperationDialog::isClassOp() const
 {
     return (m_id == OP);
 }
@@ -137,7 +137,7 @@ bool SelectOpDialog::isClassOp() const
  *
  *  @param op The operation to set as the custom operation.
  */
-void SelectOpDialog::setCustomOp(const QString &op)
+void SelectOperationDialog::setCustomOp(const QString &op)
 {
     m_pOpLE->setText(op);
     slotTextChanged(op);
@@ -146,7 +146,7 @@ void SelectOpDialog::setCustomOp(const QString &op)
 /**
  * handle auto increment checkbox click
  */
-void SelectOpDialog::slotAutoIncrementChecked(bool state)
+void SelectOperationDialog::slotAutoIncrementChecked(bool state)
 {
     if (state && m_pSeqLE->text().isEmpty())
         m_pSeqLE->setText(m_pView->umlScene()->autoIncrementSequenceValue());
@@ -155,7 +155,7 @@ void SelectOpDialog::slotAutoIncrementChecked(bool state)
 /**
  * handle new operation button click
  */
-void SelectOpDialog::slotNewOperation()
+void SelectOperationDialog::slotNewOperation()
 {
     UMLOperation *op = m_classifier->createOperation();
     if (!op)
@@ -168,7 +168,7 @@ void SelectOpDialog::slotNewOperation()
 /**
  * Handle combox box changes.
  */
-void SelectOpDialog::slotIndexChanged(int index)
+void SelectOperationDialog::slotIndexChanged(int index)
 {
     if (index != -1) {
         m_pOpLE->setText("");
@@ -180,7 +180,7 @@ void SelectOpDialog::slotIndexChanged(int index)
 /**
  * Handle custom line edit changes.
  */
-void SelectOpDialog::slotTextChanged(const QString &text)
+void SelectOperationDialog::slotTextChanged(const QString &text)
 {
     if (!text.isEmpty()) {
         m_pOpCB->setCurrentIndex(-1);
@@ -195,7 +195,7 @@ void SelectOpDialog::slotTextChanged(const QString &text)
  *  @param op The operation to set as the class operation.
  * @return false if no such operation exists.
  */
-bool SelectOpDialog::setClassOp(const QString &op)
+bool SelectOperationDialog::setClassOp(const QString &op)
 {
     for (int i = 1; i != m_pOpCB->count(); ++i) {
         if (m_pOpCB->itemText(i) == op) {
@@ -210,7 +210,7 @@ bool SelectOpDialog::setClassOp(const QString &op)
 /**
  * setup dialog operations list
  */
-void SelectOpDialog::setupOperationsList()
+void SelectOperationDialog::setupOperationsList()
 {
     m_pOpCB->clear();
     UMLOperationList list = m_classifier->getOpList(true);
@@ -230,7 +230,7 @@ void SelectOpDialog::setupOperationsList()
  *
  *  @return Returns the sequence number for the operation.
  */
-QString SelectOpDialog::getSeqNumber()
+QString SelectOperationDialog::getSeqNumber()
 {
     return m_pSeqLE->text();
 }
@@ -240,23 +240,23 @@ QString SelectOpDialog::getSeqNumber()
  *
  *  @param  num     The number to set the sequence to.
  */
-void SelectOpDialog::setSeqNumber(const QString &num)
+void SelectOperationDialog::setSeqNumber(const QString &num)
 {
     m_pSeqLE->setText(num);
 }
 
 /**
  */
-void SelectOpDialog::setAutoIncrementSequence(bool state)
+void SelectOperationDialog::setAutoIncrementSequence(bool state)
 {
    m_pOpAS->setChecked(state);
 }
 
 /**
  */
-bool SelectOpDialog::autoIncrementSequence()
+bool SelectOperationDialog::autoIncrementSequence()
 {
    return m_pOpAS->isChecked();
 }
 
-#include "selectopdialog.moc"
+#include "selectoperationdialog.moc"

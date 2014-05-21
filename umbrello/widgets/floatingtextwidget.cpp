@@ -24,7 +24,7 @@
 #include "model_utils.h"
 #include "object_factory.h"
 #include "operation.h"
-#include "selectopdialog.h"
+#include "selectoperationdialog.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
@@ -230,7 +230,7 @@ void FloatingTextWidget::showOperationDialog(bool enableAutoIncrement)
         return;
     }
 
-    QPointer<SelectOpDialog> selectDialog = new SelectOpDialog(m_scene->activeView(), c, enableAutoIncrement);
+    QPointer<SelectOperationDialog> selectDialog = new SelectOperationDialog(m_scene->activeView(), c, enableAutoIncrement);
     if (enableAutoIncrement && m_scene->autoIncrementSequence()) {
         seqNum = m_scene->autoIncrementSequenceValue();
         selectDialog->setAutoIncrementSequence(true);
