@@ -34,17 +34,11 @@
 
 
 SettingsDialog::SettingsDialog(QWidget * parent, Settings::OptionState *state)
-        : KPageDialog(parent)
+  : DialogBase(parent)
 {
     setCaption(i18n("Umbrello Setup"));
-    setButtons(Help | Default | Apply | Ok | Cancel);
-    setDefaultButton(Ok);
-    setModal(true);
-    showButtonSeparator(true);
-    setFaceType(KPageDialog::List);
     m_bChangesApplied = false;
     m_pOptionState = state;
-    setHelp("umbrello/index.html", QString());
     setupGeneralPage();
     setupFontPage();
     setupUIPage();

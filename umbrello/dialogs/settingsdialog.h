@@ -11,12 +11,12 @@
 #define SETTINGSDIALOG_H
 
 // app includes
+#include "dialogbase.h"
 #include "optionstate.h"
 
 // kde includes
 #include <kcombobox.h>
 #include <kfontdialog.h>
-#include <kpagedialog.h>
 #include <kcolorbutton.h>
 #include <knuminput.h>
 #include <klineedit.h>
@@ -41,7 +41,7 @@ class GeneralOptionPage;
  * modified by brian thomas Aug-2003
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class SettingsDialog : public KPageDialog
+class SettingsDialog : public DialogBase
 {
     Q_OBJECT
 
