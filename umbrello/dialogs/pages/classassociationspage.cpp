@@ -11,7 +11,7 @@
 #include "classassociationspage.h"
 
 #include "associationwidget.h"
-#include "assocpropdialog.h"
+#include "associationpropertiesdialog.h"
 #include "debug_utils.h"
 #include "dialogpagebase.h"
 #include "listpopupmenu.h"

@@ -14,7 +14,7 @@
 // local includes
 #include "association.h"
 #include "associationwidget.h"
-#include "assocpropdialog.h"
+#include "associationpropertiesdialog.h"
 #include "classifier.h"
 #include "cmds.h"
 #include "debug_utils.h"

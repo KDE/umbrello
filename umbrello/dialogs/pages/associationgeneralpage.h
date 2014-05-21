@@ -27,7 +27,7 @@ class UMLObject;
 
 /**
  * Displays properties of a UMLObject in a dialog box.  This is not usually directly
- * called.  The class @ref AssocPropDialog will set this up for you.
+ * called.  The class @ref AssociationPropertiesDialog will set this up for you.
  *
  * @short Display properties on a UMLObject.
  * @author Paul Hensgen <phensgen@techie.com>
