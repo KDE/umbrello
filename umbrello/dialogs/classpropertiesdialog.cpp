@@ -21,7 +21,7 @@
 #include "constraintlistpage.h"
 #include "entity.h"
 #include "objectwidget.h"
-#include "pkgcontentspage.h"
+#include "packagecontentspage.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlobject.h"
@@ -354,7 +354,7 @@ void ClassPropertiesDialog::setupContentsPage()
 {
     QFrame* page = createPage(i18nc("contents settings page name", "Contents"), i18n("Contents Settings"),
                                Icon_Utils::it_Properties_Contents);
-    m_pPkgContentsPage = new PkgContentsPage(page, (UMLPackage*)m_pObject);
+    m_pPkgContentsPage = new PackageContentsPage(page, (UMLPackage*)m_pObject);
     QHBoxLayout* contentsLayout = new QHBoxLayout(page);
     contentsLayout->addWidget(m_pPkgContentsPage);
 }

@@ -8,7 +8,7 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#include "pkgcontentspage.h"
+#include "packagecontentspage.h"
 
 #include "classpropertiesdialog.h"
 #include "debug_utils.h"
@@ -27,11 +27,11 @@
 #include <QPointer>
 
 /**
- * Constructs an instance of PkgContentsPage.
+ * Constructs an instance of PackageContentsPage.
  * @param parent    The parent of the page.
  * @param pkg       The UMLPackage being represented.
  */
-PkgContentsPage::PkgContentsPage(QWidget *parent, UMLPackage *pkg)
+PackageContentsPage::PackageContentsPage(QWidget *parent, UMLPackage *pkg)
   : DialogPageBase(parent)
 {
     m_package = pkg;
@@ -62,7 +62,7 @@ PkgContentsPage::PkgContentsPage(QWidget *parent, UMLPackage *pkg)
 /**
  * Standard destructor.
  */
-PkgContentsPage::~PkgContentsPage()
+PackageContentsPage::~PackageContentsPage()
 {
     disconnect(m_contentLW, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
                this, SLOT(slotDoubleClick(QListWidgetItem*)));
@@ -70,7 +70,7 @@ PkgContentsPage::~PkgContentsPage()
                this, SLOT(slotShowContextMenu(QPoint)));
 }
 
-void PkgContentsPage::slotDoubleClick(QListWidgetItem *item)
+void PackageContentsPage::slotDoubleClick(QListWidgetItem *item)
 {
     if (!item) {
         return;
@@ -89,7 +89,7 @@ void PkgContentsPage::slotDoubleClick(QListWidgetItem *item)
 /**
  * Fills the list box with the package's contents.
  */
-void PkgContentsPage::fillListBox()
+void PackageContentsPage::fillListBox()
 {
     m_contentLW->clear();
     UMLObjectList contents = m_package->containedObjects();
@@ -105,14 +105,14 @@ void PkgContentsPage::fillListBox()
  * Slot for the context menu by right clicking in the list widget.
  * @param p   point of the right click inside the list widget
  */
-void PkgContentsPage::slotShowContextMenu(const QPoint &p)
+void PackageContentsPage::slotShowContextMenu(const QPoint &p)
 {
     ListPopupMenu popup(this, ListPopupMenu::mt_Association_Selected);
     QAction *triggered = popup.exec(mapToGlobal(p) + QPoint(0, 20));
     slotMenuSelection(triggered);
 }
 
-void PkgContentsPage::slotMenuSelection(QAction* action)
+void PackageContentsPage::slotMenuSelection(QAction* action)
 {
     ListPopupMenu::MenuType id = ListPopupMenu::typeFromAction(action);
     switch(id) {
@@ -136,4 +136,4 @@ void PkgContentsPage::slotMenuSelection(QAction* action)
     }
 }
 
-#include "pkgcontentspage.moc"
+#include "packagecontentspage.moc"

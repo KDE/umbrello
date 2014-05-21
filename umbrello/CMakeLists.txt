@@ -215,7 +215,7 @@ set(libdialogs_SRCS
     dialogs/pages/diagrampropertiespage.cpp
     dialogs/pages/dialogpagebase.cpp
     dialogs/pages/generaloptionpage.cpp
-    dialogs/pages/pkgcontentspage.cpp
+    dialogs/pages/packagecontentspage.cpp
     dialogs/pages/diagramprintpage.cpp
     dialogs/pages/umlroleproperties.cpp
     dialogs/pages/umlwidgetstylepage.cpp

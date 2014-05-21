@@ -19,7 +19,7 @@ class ClassifierListPage;
 class ClassOptionsPage;
 class ConstraintListPage;
 class KFontChooser;
-class PkgContentsPage;
+class PackageContentsPage;
 class ObjectWidget;
 class UMLDoc;
 class UMLObject;
@@ -75,7 +75,7 @@ private:
     ClassifierListPage*  m_pEnumLiteralPage;
     ClassifierListPage*  m_pEntityAttributePage;
     ConstraintListPage*  m_pEntityConstraintPage;
-    PkgContentsPage*     m_pPkgContentsPage;
+    PackageContentsPage* m_pPkgContentsPage;
     ClassAssociationsPage* m_pAssocPage;
     ClassOptionsPage*    m_pOptionsPage;
     UMLWidgetStylePage*  m_pStylePage;
