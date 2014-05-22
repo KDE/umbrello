@@ -1291,7 +1291,10 @@ UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o)
         break;
 
     case UMLObject::ot_Package:
-        type = UMLListViewItem::lvt_Package;
+        if (o->stereotype() == "subsystem")
+            type = UMLListViewItem::lvt_Subsystem;
+        else
+            type = UMLListViewItem::lvt_Package;
         break;
 
     case UMLObject::ot_Folder:
