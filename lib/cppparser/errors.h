@@ -36,11 +36,14 @@ struct Error {
 class Errors
 {
 public:
-    QT_STATIC_CONST Error& InternalError;
-    QT_STATIC_CONST Error& SyntaxError;
-    QT_STATIC_CONST Error& ParseError;
+    static Error& _InternalError();
+    static Error& _SyntaxError();
+    static Error& _ParseError();
 };
 
+#define InternalError _InternalError()
+#define SyntaxError _SyntaxError()
+#define ParseError _ParseError()
 
 
 #endif
