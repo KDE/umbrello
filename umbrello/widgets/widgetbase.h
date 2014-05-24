@@ -68,7 +68,8 @@ public:
         wt_Pin,
         wt_ObjectNode,
         wt_Region,
-        wt_Category                 // has UMLObject representation
+        wt_Category,                // has UMLObject representation
+        wt_Port                     // has UMLObject representation
     };
 
     static QString toString(WidgetType wt);

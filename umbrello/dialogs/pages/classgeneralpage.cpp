@@ -82,6 +82,9 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     case  UMLObject::ot_Component:
         name = i18n("Component &name:");
         break;
+    case  UMLObject::ot_Port:
+        name = i18n("Port &name:");
+        break;
     case  UMLObject::ot_Node:
         name = i18n("Node &name:");
         break;

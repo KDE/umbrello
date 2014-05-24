@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   id="svg1"
+   sodipodi:version="0.32"
+   inkscape:version="0.37"
+   width="22pt"
+   height="22pt"
+   sodipodi:docbase="/home/jr/tmp/umbrello/icons/inkscape-svg"
+   sodipodi:docname="node.svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xml="http://www.w3.org/XML/1998/namespace"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs
+     id="defs3">
+    <linearGradient
+       id="linearGradient830">
+      <stop
+         style="stop-color:#ebffff;stop-opacity:0.0000000;"
+         offset="0.0000000"
+         id="stop831" />
+      <stop
+         style="stop-color:#fff;stop-opacity:1;"
+         offset="1"
+         id="stop832" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient826">
+      <stop
+         style="stop-color:#000;stop-opacity:1;"
+         offset="0"
+         id="stop827" />
+      <stop
+         style="stop-color:#fff;stop-opacity:1;"
+         offset="1"
+         id="stop828" />
+    </linearGradient>
+    <linearGradient
+       xlink:href="#linearGradient830"
+       id="linearGradient829"
+       x1="1.5500000"
+       y1="0.52343750"
+       x2="0.20422535"
+       y2="-0.12195122"
+       spreadMethod="reflect" />
+    <linearGradient
+       xlink:href="#linearGradient830"
+       id="linearGradient834"
+       x1="-0.31159419"
+       y1="0.19531250"
+       x2="0.77536231"
+       y2="0.94531250" />
+    <linearGradient
+       xlink:href="#linearGradient830"
+       id="linearGradient836" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="22.6274170"
+     inkscape:cx="8.96789045"
+     inkscape:cy="11.0305950"
+     inkscape:window-width="1016"
+     inkscape:window-height="693"
+     gridspacingy="1.0000000pt"
+     gridspacingx="1.0000000pt"
+     gridtolerance="1.0000000px"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     showgrid="true" />
+  <path
+     style="font-size:12;fill:#ffff00;fill-rule:evenodd;stroke:#ff0000;stroke-width:1.21561;"
+     d="M 10.627136 0.70957548 L 0.95934281 8.1782719 L 18.381224 8.3835186 L 26.830203 0.65256253 L 18.403285 8.8168169 L 18.403285 26.850013 L 26.929473 19.66068 L 26.835718 0.6867703 L 10.627136 0.70957548 z M 0.4850529 8.6343755 L 0.70565286 26.895623 L 18.259895 26.895623 L 18.259895 8.8624273 L 0.4850529 8.6343755 z "
+     id="path942"
+     sodipodi:nodetypes="cccccccccccccc" />
+  <rect
+     style="font-size:12;fill:url(#linearGradient829);fill-opacity:0.75;fill-rule:evenodd;stroke-width:0.456527pt;"
+     id="rect825"
+     width="16.51280659"
+     height="16.97894525"
+     ry="0"
+     x="1.10901392"
+     y="9.30482388" />
+  <path
+     style="font-size:12;fill:url(#linearGradient829);fill-opacity:0.75;fill-rule:evenodd;stroke-width:0.456527pt;"
+     d="M 18.887334 9.2865065 L 19.01291 25.592705 L 26.288674 19.298496 L 26.263384 2.0156589 L 18.887334 9.2865065 z "
+     id="path944"
+     sodipodi:nodetypes="ccccc" />
+  <path
+     style="font-size:12;fill:url(#linearGradient829);fill-opacity:0.75;fill-rule:evenodd;stroke-width:0.456527pt;"
+     d="M 11.035012 1.2781133 L 2.8924094 7.5753492 L 18.102003 7.784321 L 25.13882 1.2781133 L 11.035012 1.2781133 z "
+     id="path946"
+     sodipodi:nodetypes="ccccc" />
+  <text
+     xml:space="preserve"
+     style="font-size:12;font-weight:bold;font-stretch:normal;stroke-width:1pt;font-family:Bitstream Vera Sans Mono;font-style:normal;text-anchor:start;writing-mode:lr;"
+     x="2.47432498"
+     y="22.8059085"
+     id="text838"
+     transform="scale(0.963354,0.987729)"
+     sodipodi:linespacing="100%"><tspan
+       x="2.47432494"
+       y="22.8059082"
+       sodipodi:role="line"
+       id="tspan981">XY</tspan></text>
+</svg>

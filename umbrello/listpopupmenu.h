@@ -79,6 +79,7 @@ public:
         mt_Package,
         mt_Subsystem,
         mt_Component,
+        mt_Port,
         mt_Node,
         mt_Artifact,
         mt_Interface,

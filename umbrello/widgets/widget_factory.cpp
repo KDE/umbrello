@@ -47,6 +47,8 @@
 #include "package.h"
 #include "packagewidget.h"
 #include "pinwidget.h"
+#include "port.h"
+#include "portwidget.h"
 #include "preconditionwidget.h"
 #include "regionwidget.h"
 #include "signalwidget.h"
@@ -91,6 +93,9 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
         if (diagramType == Uml::DiagramType::Deployment) {
             newWidget->setIsInstance(true);
         }
+        break;
+    case UMLObject::ot_Port:
+        newWidget = new PortWidget(scene, static_cast<UMLPort*>(o));
         break;
     case UMLObject::ot_Node:
         newWidget = new NodeWidget(scene, static_cast<UMLNode*>(o));

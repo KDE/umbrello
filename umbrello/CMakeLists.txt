@@ -353,6 +353,7 @@ set(libwidgets_SRCS
     widgets/objectwidget.cpp
     widgets/packagewidget.cpp
     widgets/pinwidget.cpp
+    widgets/portwidget.cpp
     widgets/preconditionwidget.cpp
     widgets/regionwidget.cpp
     widgets/seqlinewidget.cpp
@@ -415,6 +416,7 @@ set(libumbrello_SRCS
     package.cpp
     petalnode.cpp
     petaltree2uml.cpp
+    port.cpp
     stereotype.cpp
     template.cpp
     toolbarstate.cpp

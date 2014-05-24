@@ -683,6 +683,7 @@ void UMLScene::dragEnterEvent(QGraphicsSceneDragDropEvent *e)
 {
     UMLDragData::LvTypeAndID_List tidList;
     if (!UMLDragData::getClip3TypeAndID(e->mimeData(), tidList)) {
+        DEBUG(DBG_SRC) << "UMLDragData::getClip3TypeAndID returned false";
         return;
     }
     UMLDragData::LvTypeAndID_It tidIt(tidList);
@@ -760,6 +761,7 @@ void UMLScene::dragEnterEvent(QGraphicsSceneDragDropEvent *e)
             (ot != UMLObject::ot_Interface &&
              ot != UMLObject::ot_Package &&
              ot != UMLObject::ot_Component &&
+             ot != UMLObject::ot_Port &&
              ot != UMLObject::ot_Artifact &&
              ot != UMLObject::ot_Class))
             bAccept = false;

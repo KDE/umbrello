@@ -26,7 +26,7 @@ startlogo.png  template.png  text.png  refactor.png
 class.png  uniassociation.png  usecase.png
 category.png child2category.png category2parent.png branch.png
 activity-fork.png  state-fork.png  package.png  artifact.png  
-box.png  node.png  entity.png  relationship.png
+box.png  node.png  port.png  entity.png  relationship.png
 subsystem.png foreignkey_constraint.png unique_constraint.png
 primarykey_constraint.png check_constraint.png
 cursor-actor.png  umbr-message-found.png  accept_signal.png

@@ -45,6 +45,7 @@ struct GeneralState {
     Uml::DiagramType::Enum diagram;
     Uml::ProgrammingLanguage::Enum defaultLanguage;
     QString lastFile;
+    bool uml2;
 };
 
 struct UIState {

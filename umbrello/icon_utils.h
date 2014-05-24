@@ -81,6 +81,7 @@ namespace Icon_Utils {
         it_Package,
         it_Subsystem,
         it_Component,
+        it_Port,
         it_Node,
         it_Artifact,
         it_Interface,

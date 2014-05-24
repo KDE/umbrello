@@ -16,7 +16,7 @@ namespace Settings {
 
     /*
      * Impt: This ensures creation of OptionState object after
-     * QApplication there by avoiding nasty font rendering issues
+     * QApplication thereby avoiding nasty font rendering issues
      * which occurs due to creation of QFont objects before
      * QApplication object is created.
      */

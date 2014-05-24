@@ -1485,6 +1485,7 @@ bool UMLWidget::widgetHasUMLObject(WidgetBase::WidgetType type)
             type == WidgetBase::wt_Datatype  ||
             type == WidgetBase::wt_Package   ||
             type == WidgetBase::wt_Component ||
+            type == WidgetBase::wt_Port ||
             type == WidgetBase::wt_Node      ||
             type == WidgetBase::wt_Artifact  ||
             type == WidgetBase::wt_Object) {

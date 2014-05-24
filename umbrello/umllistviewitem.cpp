@@ -480,6 +480,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
     case lvt_EnumLiteral:
     case lvt_Subsystem:
     case lvt_Component:
+    case lvt_Port:
     case lvt_Node:
     case lvt_Category:
         if (m_object == 0 || !doc->isUnique(newText)) {
@@ -987,6 +988,8 @@ QString UMLListViewItem::toString(ListViewType type)
             return "lvt_Deployment_Folder";
         case lvt_Deployment_View:
             return "lvt_Deployment_View";
+        case lvt_Port:
+            return "lvt_Port";
         case lvt_Node:
             return "lvt_Node";
         case lvt_Datatype:

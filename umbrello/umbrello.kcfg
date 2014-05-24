@@ -124,6 +124,11 @@
          <whatsthis></whatsthis>
          <default></default>
        </entry>
+       <entry name="uml2" type="Bool">
+         <label>Use UML-2.x Notation</label>
+         <whatsthis>Enables/Disables UML2 notation</whatsthis>
+         <default>true</default>
+       </entry>
     </group>
     <group name="UI Options">
        <entry name="useFillColor" type="Bool">

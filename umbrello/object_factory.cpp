@@ -25,6 +25,7 @@
 #include "actor.h"
 #include "usecase.h"
 #include "component.h"
+#include "port.h"
 #include "node.h"
 #include "artifact.h"
 #include "stereotype.h"
@@ -100,6 +101,9 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
             break;
         case UMLObject::ot_Component:
             o = new UMLComponent(name, g_predefinedId);
+            break;
+        case UMLObject::ot_Port:
+            o = new UMLPort(name, g_predefinedId);
             break;
         case UMLObject::ot_Node:
             o = new UMLNode(name, g_predefinedId);
@@ -343,6 +347,8 @@ UMLObject* makeObjectFromXMI(const QString& xmiTag,
             pObject = new UMLPackage();
     } else if (UMLDoc::tagEq(xmiTag, "Component")) {
         pObject = new UMLComponent();
+    } else if (UMLDoc::tagEq(xmiTag, "Port")) {
+        pObject = new UMLPort();
     } else if (UMLDoc::tagEq(xmiTag, "Node")) {
         pObject = new UMLNode();
     } else if (UMLDoc::tagEq(xmiTag, "Artifact")) {

@@ -239,6 +239,8 @@ QString toString(IconType type)
             return "subsystem";
         case it_Component:
             return "component";
+        case it_Port:
+            return "port";
         case it_Node:
             return "node";
         case it_Artifact:

@@ -16,6 +16,7 @@
 #include "debug_utils.h"
 #include "umlscene.h"
 #include "umlview.h"
+#include "optionstate.h"
 
 /**
  * Constructs a ComponentWidget.
@@ -55,10 +56,11 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     if (umlcomp == NULL)
         return;
     setPenFromSettings(painter);
+    QPen origPen = painter->pen();
+    QPen pen = origPen;
     if (umlcomp->getExecutable()) {
-        QPen thickerPen = painter->pen();
-        thickerPen.setWidth(2);
-        painter->setPen(thickerPen);
+        pen.setWidth(origPen.width() + 2);
+        painter->setPen(pen);
     }
     if (UMLWidget::useFillColor()) {
         painter->setBrush(UMLWidget::fillColor());
@@ -75,9 +77,19 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     QString nameStr = name();
     const QString stereotype = m_umlObject->stereotype();
 
-    painter->drawRect(2*COMPONENT_MARGIN, 0, w - 2*COMPONENT_MARGIN, h);
-    painter->drawRect(0, h/2 - fontHeight/2 - fontHeight, COMPONENT_MARGIN*4, fontHeight);
-    painter->drawRect(0, h/2 + fontHeight/2, COMPONENT_MARGIN*4, fontHeight);
+    if (Settings::optionState().generalState.uml2) {
+        painter->drawRect(0, 0, w, h);
+        // draw small component symbol in upper right corner
+        painter->setPen(origPen);
+        painter->drawRect(w - 17,  5, 11, 13);
+        painter->drawRect(w - 19,  7,  2,  2);
+        painter->drawRect(w - 19, 11,  2,  2);
+        painter->setPen(pen);
+    } else {
+        painter->drawRect(2*COMPONENT_MARGIN, 0, w - 2*COMPONENT_MARGIN, h);
+        painter->drawRect(0, h/2 - fontHeight/2 - fontHeight, COMPONENT_MARGIN*4, fontHeight);
+        painter->drawRect(0, h/2 + fontHeight/2, COMPONENT_MARGIN*4, fontHeight);
+    }
 
     painter->setPen(textColor());
     painter->setFont(font);

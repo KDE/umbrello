@@ -191,6 +191,10 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type
         mt = mt_Component;
         break;
 
+    case UMLListViewItem::lvt_Port:
+        mt = mt_Port;
+        break;
+
     case UMLListViewItem::lvt_Node:
         mt = mt_Node;
         break;
@@ -375,6 +379,13 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
         insertStdItems(false, type);
         insert(mt_Rename);
         insert(mt_Change_Font);
+        insert(mt_Properties);
+        break;
+
+    case WidgetBase::wt_Port:
+        insertSubMenuColor(object->useFillColor());
+        insertStdItems(false, type);
+        insert(mt_Rename);
         insert(mt_Properties);
         break;
 
@@ -723,6 +734,9 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
     case mt_Component:
         m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Component), i18n("Component"));
         break;
+    case mt_Port:
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Port), i18n("Port"));
+        break;
     case mt_Artifact:
         m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Artifact), i18n("Artifact"));
         break;
@@ -846,7 +860,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu, const QString & text, 
 }
 
 /**
- * Shortcut for the frequently used insertStdItem() calls.
+ * Shortcut for the frequently used insert() calls.
  *
  * @param insertLeadingSeparator   Set this true if the group shall
  *                                 start with a separator.
@@ -1327,6 +1341,8 @@ void ListPopupMenu::insertSubMenuNew(MenuType type)
             break;
         case mt_Component:
             insert(mt_Component, menu);
+            if (Settings::optionState().generalState.uml2)
+                insert(mt_Port, menu);
             insert(mt_Artifact, menu);
             break;
         case mt_Component_View:
@@ -1388,6 +1404,8 @@ void ListPopupMenu::insertSubMenuNew(MenuType type)
         case mt_On_Component_Diagram:
             insert(mt_Subsystem, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Subsystem), i18n("Subsystem..."));
             insert(mt_Component, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Component), i18n("Component..."));
+            if (Settings::optionState().generalState.uml2)
+                insert(mt_Port, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Port), i18n("Port..."));
             insert(mt_Artifact, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Artifact), i18n("Artifact..."));
             break;
         case mt_On_Deployment_Diagram:
@@ -1700,6 +1718,7 @@ void ListPopupMenu::setupMenu(MenuType type)
 
     case mt_Datatype:
     case mt_EnumLiteral:
+    case mt_Port:
     case mt_Node:
     case mt_Artifact:
     case mt_Actor:

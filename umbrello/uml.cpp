@@ -971,6 +971,7 @@ void UMLApp::saveOptions()
     UmbrelloSettings::setAutosavetime(optionState.generalState.autosavetime);
     UmbrelloSettings::setAutosavesuffix(optionState.generalState.autosavesuffix);
     UmbrelloSettings::setLoadlast(optionState.generalState.loadlast);
+    UmbrelloSettings::setUml2(optionState.generalState.uml2);
 
     UmbrelloSettings::setDiagram(optionState.generalState.diagram);
     UmbrelloSettings::setDefaultLanguage(optionState.generalState.defaultLanguage);
@@ -2080,6 +2081,7 @@ void UMLApp::readOptionState()
     optionState.generalState.newcodegen = UmbrelloSettings::newcodegen();
     optionState.generalState.angularlines = UmbrelloSettings::angularlines();
     optionState.generalState.footerPrinting =  UmbrelloSettings::footerPrinting();
+    optionState.generalState.uml2 = UmbrelloSettings::uml2();
     optionState.autoLayoutState.autoDotPath =  UmbrelloSettings::autoDotPath();
     optionState.autoLayoutState.dotPath =  UmbrelloSettings::dotPath();
     optionState.autoLayoutState.showExportLayout =  UmbrelloSettings::showExportLayout();
