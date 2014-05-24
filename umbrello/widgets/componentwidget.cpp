@@ -70,6 +70,8 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 
     const int w = width();
     const int h = height();
+    const int halfHeight = h / 2;
+    int   textXOffset = 0;
     QFont font = UMLWidget::font();
     font.setBold(true);
     const QFontMetrics &fm = getFontMetrics(FT_BOLD);
@@ -87,8 +89,9 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
         painter->setPen(pen);
     } else {
         painter->drawRect(2*COMPONENT_MARGIN, 0, w - 2*COMPONENT_MARGIN, h);
-        painter->drawRect(0, h/2 - fontHeight/2 - fontHeight, COMPONENT_MARGIN*4, fontHeight);
-        painter->drawRect(0, h/2 + fontHeight/2, COMPONENT_MARGIN*4, fontHeight);
+        painter->drawRect(0, halfHeight - fontHeight/2 - fontHeight, COMPONENT_MARGIN*4, fontHeight);
+        painter->drawRect(0, halfHeight + fontHeight/2, COMPONENT_MARGIN*4, fontHeight);
+        textXOffset = COMPONENT_MARGIN * 4;
     }
 
     painter->setPen(textColor());
@@ -97,8 +100,8 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     int lines = 1;
 
     if (!stereotype.isEmpty()) {
-        painter->drawText((COMPONENT_MARGIN*4), (h/2) - fontHeight,
-                   w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter,
+        painter->drawText(textXOffset, halfHeight - fontHeight,
+                   w - textXOffset, fontHeight, Qt::AlignCenter,
                    m_umlObject->stereotype(true));
         lines = 2;
     }
@@ -110,11 +113,11 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     }
 
     if (lines == 1) {
-        painter->drawText((COMPONENT_MARGIN*4), (h/2) - (fontHeight/2),
-                   w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter, nameStr);
+        painter->drawText(textXOffset, halfHeight - (fontHeight/2),
+                   w - textXOffset, fontHeight, Qt::AlignCenter, nameStr);
     } else {
-        painter->drawText((COMPONENT_MARGIN*4), (h/2),
-                   w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter, nameStr);
+        painter->drawText(textXOffset, halfHeight,
+                   w - textXOffset, fontHeight, Qt::AlignCenter, nameStr);
     }
 
     UMLWidget::paint(painter, option, widget);
