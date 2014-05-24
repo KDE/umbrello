@@ -48,49 +48,49 @@ SeqLineWidget::~SeqLineWidget()
 }
 
 /**
- * Return whether on seq. line.
+ * Return whether point is on sequence line.
  * Takes into account destruction box if shown.
  *
  * @param p The point to investigate.
- * @return  Non-zero if point is on this sequence line.
+ * @return  True if point is on this sequence line.
  */
-int SeqLineWidget::onWidget(const QPointF & p)
+bool SeqLineWidget::onWidget(const QPointF & p)
 {
-    int nOnWidget = 0;
+    bool isOnWidget = false;
     QPointF sp = line().p1();
     QPointF ep = line().p2();
     //see if on widget (for message creation)
-    if(sp.x() - m_nMouseDownEpsilonX < p.x()
+    if (sp.x() - m_nMouseDownEpsilonX < p.x()
             && ep.x() + m_nMouseDownEpsilonX > p.x()
             && sp.y() < p.y() && ep.y() + 3 > p.y())
     {
-        nOnWidget = 1;
+        isOnWidget = true;
     }
-    return nOnWidget;
+    return isOnWidget;
 }
 
 /**
- * Return whether on the destruction box.
+ * Return whether point is on the destruction box.
  *
  * @param p The point to investigate.
- * @return  Non-zero if point is on the destruction box of this sequence line.
+ * @return  True if point is on the destruction box of this sequence line.
  */
-int SeqLineWidget::onDestructionBox(const QPointF & p)
+bool SeqLineWidget::onDestructionBox(const QPointF & p)
 {
-    int nOnDestructionBox = 0;
+    bool isOnDestructionBox = false;
     int x = m_pObject->x() + m_pObject->width() / 2;
     int y = m_pObject->y() + m_pObject->height() + m_nLengthY;
 
     //see if on destruction box
-    if(!m_pObject->showDestruction()) {
-        return 0;
+    if (!m_pObject->showDestruction()) {
+        return false;
     }
-    if(x - 10 < p.x() && x + 10 > p.x()
+    if (x - 10 < p.x() && x + 10 > p.x()
             && y - 10 < p.y() && y + 10 > p.y())
     {
-        nOnDestructionBox = 1;
+        isOnDestructionBox = true;
     }
-    return nOnDestructionBox;
+    return isOnDestructionBox;
 }
 
 /**

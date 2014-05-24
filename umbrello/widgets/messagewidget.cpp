@@ -590,12 +590,12 @@ void MessageWidget::paintFound(QPainter *painter, const QStyleOptionGraphicsItem
  *
  * @param p Point to be checked.
  *
- * @return Non-zero if the point is on a part of the MessageWidget.
+ * @return True if the point is on a part of the MessageWidget.
  *         NB In case of a synchronous message, the empty space
  *         between call line and return line does not count, i.e. if
- *         the point is located in that space the function returns 0.
+ *         the point is located in that space the function returns false.
  */
-qreal MessageWidget::onWidget(const QPointF& p)
+bool MessageWidget::onWidget(const QPointF& p)
 {
     if (m_sequenceMessageType != Uml::SequenceMessage::Synchronous) {
         return UMLWidget::onWidget(p);
@@ -603,18 +603,18 @@ qreal MessageWidget::onWidget(const QPointF& p)
     // Synchronous message:
     // Consists of top arrow (call) and bottom arrow (return.)
     if (p.x() < x() || p.x() > x() + width())
-        return 0;
+        return false;
     const int tolerance = 5;  // pixels
     const int pY = p.y();
     const int topArrowY = y() + 3;
     const int bottomArrowY = y() + height() - 3;
     if (pY < topArrowY - tolerance || pY > bottomArrowY + tolerance)
-        return 0;
+        return false;
     if (height() <= 2 * tolerance)
-        return 1;
+        return true;
     if (pY > topArrowY + tolerance && pY < bottomArrowY - tolerance)
-        return 0;
-    return 1;
+        return false;
+    return true;
 }
 
 /**

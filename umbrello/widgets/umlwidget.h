@@ -89,7 +89,7 @@ public:
 
     virtual bool activate(IDChangeLog* ChangeLog = 0);
 
-    virtual qreal onWidget(const QPointF &p);
+    virtual bool onWidget(const QPointF &p);
 
     void setPenFromSettings(QPainter &p);
     void setPenFromSettings(QPainter *p);
