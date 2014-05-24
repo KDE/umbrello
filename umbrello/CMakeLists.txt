@@ -404,6 +404,7 @@ set(libumbrello_SRCS
     folder.cpp
     foreignkeyconstraint.cpp
     icon_utils.cpp
+    import_argo.cpp
     import_rose.cpp
     layoutgenerator.cpp
     listpopupmenu.cpp

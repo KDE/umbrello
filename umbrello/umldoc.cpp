@@ -29,6 +29,7 @@
 #include "stereotype.h"
 #include "classifierlistitem.h"
 #include "object_factory.h"
+#include "import_argo.h"
 #include "import_rose.h"
 #include "model_utils.h"
 #include "uml.h"
@@ -541,6 +542,14 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
                 QString name = createDiagramName(Uml::DiagramType::Class, false);
                 createDiagram(m_root[Uml::ModelType::Logical], Uml::DiagramType::Class, name);
                 m_pCurrentRoot = m_root[Uml::ModelType::Logical];
+            }
+            else
+                newDocument();
+        }
+        else if (filetype.endsWith(QLatin1String(".zargo"))) {
+            status = Import_Argo::loadFromZArgoFile(file);
+            if (status) {
+                m_doc_url.setFileName(i18n("Untitled"));
             }
             else
                 newDocument();

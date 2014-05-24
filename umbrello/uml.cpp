@@ -1205,11 +1205,13 @@ void UMLApp::slotFileOpen()
     } 
     else {
         KUrl url=KFileDialog::getOpenUrl(KUrl(),
-            i18n("*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl|All Supported Files (*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.mdl)\n"
+            i18n("*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl *.zargo|All Supported Files (*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.mdl, *.zargo)\n"
                  "*.xmi|Uncompressed XMI Files (*.xmi)\n"
                  "*.xmi.tgz|Gzip Compressed XMI Files (*.xmi.tgz)\n"
                  "*.xmi.tar.bz2|Bzip2 Compressed XMI Files (*.xmi.tar.bz2)\n"
-                 "*.mdl|Rose model files"), this, i18n("Open File"));
+                 "*.mdl|Rose model files (*.mdl)\n"
+                 "*.zargo|Compressed argo Files(*.zargo)\n"
+                 ), this, i18n("Open File"));
         if (!url.isEmpty()) {
             m_listView->setSortingEnabled(false);
             if (m_doc->openDocument(url)) {
