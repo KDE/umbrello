@@ -40,6 +40,8 @@
 #include "messagewidget.h"
 #include "node.h"
 #include "nodewidget.h"
+#include "port.h"
+#include "portwidget.h"
 #include "notewidget.h"
 #include "object_factory.h"
 #include "objectnodewidget.h"
@@ -251,6 +253,9 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         } else if (tag == "componentwidget") {
             if (validateObjType(UMLObject::ot_Component, o, id))
                 widget = new ComponentWidget(scene, static_cast<UMLComponent*>(o));
+        } else if (tag == "portwidget") {
+            if (validateObjType(UMLObject::ot_Port, o, id))
+                widget = new PortWidget(scene, static_cast<UMLPort*>(o));
         } else if (tag == "nodewidget") {
             if (validateObjType(UMLObject::ot_Node, o, id))
                 widget = new NodeWidget(scene, static_cast<UMLNode*>(o));
