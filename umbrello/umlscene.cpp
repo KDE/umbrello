@@ -3575,7 +3575,8 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     viewElement.setAttribute("canvasheight", height());
     viewElement.setAttribute("canvaswidth", width());
     viewElement.setAttribute("isopen", isOpen());
-    if (type() == Uml::DiagramType::Sequence)
+    if (type() == Uml::DiagramType::Sequence ||
+        type() == Uml::DiagramType::Collaboration)
         viewElement.setAttribute("autoincrementsequence", autoIncrementSequence());
 
     //now save all the widgets
@@ -3700,7 +3701,8 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     }
     m_nLocalID = Uml::ID::fromString(localid);
 
-    if (m_Type == Uml::DiagramType::Sequence) {
+    if (m_Type == Uml::DiagramType::Sequence ||
+        m_Type == Uml::DiagramType::Collaboration) {
         QString autoIncrementSequence = qElement.attribute("autoincrementsequence", "0");
         m_autoIncrementSequence = (bool)autoIncrementSequence.toInt();
     }
