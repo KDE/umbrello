@@ -34,6 +34,8 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     virtual void updateWidget();
+    virtual void moveWidgetBy(qreal diffX, qreal diffY);
+    void attachToOwningComponent();
 
     bool loadFromXMI(QDomElement& qElement);
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);

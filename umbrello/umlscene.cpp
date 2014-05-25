@@ -25,6 +25,7 @@
 #include "classoptionspage.h"
 #include "cmds.h"
 #include "componentwidget.h"
+#include "portwidget.h"
 #include "datatypewidget.h"
 #include "debug_utils.h"
 #include "docwindow.h"
@@ -538,8 +539,11 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
  */
 void UMLScene::setupNewWidget(UMLWidget *w)
 {
-    // Objects position is handled inside the widget
-    if (w->baseType() != WidgetBase::wt_Object) {
+    if (w->baseType() == WidgetBase::wt_Port) {
+        PortWidget *pw = static_cast<PortWidget*>(w);
+        pw->attachToOwningComponent();
+    } else if (w->baseType() != WidgetBase::wt_Object) {
+        // ObjectWidget's position is handled by the widget
         w->setX(m_Pos.x());
         w->setY(m_Pos.y());
     }
@@ -765,7 +769,9 @@ void UMLScene::dragEnterEvent(QGraphicsSceneDragDropEvent *e)
              ot != UMLObject::ot_Artifact &&
              ot != UMLObject::ot_Class))
             bAccept = false;
-        if (ot == UMLObject::ot_Class && !temp->isAbstract())
+        else if (ot == UMLObject::ot_Class && !temp->isAbstract())
+            bAccept = false;
+        else if (ot == UMLObject::ot_Port && !widgetOnDiagram(temp->umlPackage()->id()))
             bAccept = false;
         break;
     case DiagramType::EntityRelationship:
@@ -922,7 +928,7 @@ void UMLScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* ome)
  * Determine whether on a sequence diagram we have clicked on a line
  * of an Object.
  *
- * @return The widget thats line was clicked on.
+ * @return The widget owning the line which was clicked.
  *  Returns 0 if no line was clicked on.
  */
 ObjectWidget * UMLScene::onWidgetLine(const QPointF &point) const
@@ -947,7 +953,7 @@ ObjectWidget * UMLScene::onWidgetLine(const QPointF &point) const
  * Determine whether on a sequence diagram we have clicked on
  * the destruction box of an Object.
  *
- * @return The widget thats destruction box was clicked on.
+ * @return The widget owning the destruction box which was clicked.
  *  Returns 0 if no destruction box was clicked on.
  */
 ObjectWidget * UMLScene::onWidgetDestructionBox(const QPointF &point) const
@@ -1054,21 +1060,21 @@ void UMLScene::checkMessages(ObjectWidget * w)
  *
  * @param id The id of the widget to check for.
  *
- * @return Returns true if the widget is already on the diagram, false if not.
+ * @return Returns pointer to the widget if it is on the diagram, NULL if not.
  */
-bool UMLScene::widgetOnDiagram(Uml::ID::Type id)
+UMLWidget* UMLScene::widgetOnDiagram(Uml::ID::Type id)
 {
     foreach(UMLWidget *obj, m_WidgetList) {
         if (id == obj->id())
-            return true;
+            return obj;
     }
 
     foreach(UMLWidget *obj, m_MessageList) {
         if (id == obj->id())
-            return true;
+            return obj;
     }
 
-    return false;
+    return NULL;
 }
 
 /**

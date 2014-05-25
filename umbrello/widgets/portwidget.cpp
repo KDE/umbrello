@@ -13,6 +13,7 @@
 
 // app includes
 #include "port.h"
+#include "package.h"
 #include "debug_utils.h"
 #include "umldoc.h"
 #include "umlscene.h"
@@ -21,7 +22,10 @@
 // qt includes
 #include <QPainter>
 
-const QSizeF PortWidget::FixedSize(30, 20);
+// sys includes
+#include <cmath>
+
+const QSizeF PortWidget::FixedSize(15, 15);
 
 /**
  * Constructs a PortWidget.
@@ -59,6 +63,70 @@ void PortWidget::updateWidget()
     QString strName = m_umlObject->name();
     uDebug() << " port name is " << strName;
     setToolTip(strName);
+}
+
+/**
+ * Overridden from UMLWidget.
+ * Moves the widget to a new position using the difference between the
+ * current position and the new position.
+ * Movement is constrained such that the port is always attached to its
+ * component.
+ *
+ * @param diffX The difference between current X position and new X position.
+ * @param diffY The difference between current Y position and new Y position.
+ */
+void PortWidget::moveWidgetBy(qreal diffX, qreal diffY)
+{
+    UMLWidget* owner = m_scene->widgetOnDiagram(m_umlObject->umlPackage()->id());
+    if (owner == NULL) {
+        uError() << "m_scene->widgetOnDiagram returns NULL for owner";
+        setX(x() + diffX);
+        setY(y() + diffY);
+        return;
+    }
+    const qreal deltaTop    = fabs(y() + height() - owner->y());
+    const qreal deltaBottom = fabs(owner->y() + owner->height() - y());
+    const qreal deltaLeft   = fabs(x() + width() - owner->x());
+    const qreal deltaRight  = fabs(owner->x() + owner->width() - x());
+    bool didAnyMovement = false;
+    if (deltaTop <= 1.0 || deltaBottom <= 1.0) {
+        setX(x() + diffX);
+        didAnyMovement = true;
+    }
+    if (deltaLeft <= 1.0 || deltaRight <= 1.0) {
+        setY(y() + diffY);
+        didAnyMovement = true;
+    }
+    if (!didAnyMovement) {
+        uDebug() << "constraint failed for (" << diffX << ", " << diffY << ")";
+        setX(x() + diffX);
+        setY(y() + diffY);
+    }
+}
+
+/**
+ * Align this PortWidget's position such that it is attached at one of the
+ * sides of its owner's widget.
+ */
+void PortWidget::attachToOwningComponent() {
+    UMLWidget *owner = m_scene->widgetOnDiagram(m_umlObject->umlPackage()->id());
+    const QPointF scenePos = m_scene->pos();
+    if (owner) {
+        if (scenePos.x() <= owner->x() + (owner->width() / 2)) {
+            setX(owner->x() - 15);
+        } else {
+            setX(owner->x() + owner->width());
+        }
+        if (scenePos.y() <= owner->y() + (owner->height() / 2)) {
+            setY(owner->y() - 15);
+        } else {
+            setY(owner->y() + owner->height());
+        }
+    } else {
+        uError() << "port : widgetOnDiagram(umlObject) returns NULL";
+        setX(scenePos.x());
+        setY(scenePos.y());
+    }
 }
 
 /**
