@@ -427,12 +427,12 @@ void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
  * one is got (taking in account the selection bounds so widgets don't go
  * beyond the scene limits). Then, it's constrained to X or Y axis depending
  * on shift and control buttons.
- * A further constrain is made using constrainMovementForAllWidgets (for example,
+ * A further constraint is made using constrainMovementForAllWidgets (for example,
  * if the widget that receives the event can only be moved in Y axis, with this
  * method the movement of all the widgets in the selection can be constrained to
  * be moved only in Y axis).
  * Then, all the selected widgets are moved using moveWidgetBy (where specific
- * widget movement constrain can be applied) and, if an specific amount of time
+ * widget movement constraint can be applied) and, if a certain amount of time
  * passed from the last move event, the associations are also updated (they're
  * not updated always to be easy on the CPU). Finally, the scene is resized,
  * and selection bounds updated.
