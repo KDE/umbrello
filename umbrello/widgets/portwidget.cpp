@@ -78,10 +78,12 @@ void PortWidget::updateWidget()
 void PortWidget::moveWidgetBy(qreal diffX, qreal diffY)
 {
     UMLWidget* owner = m_scene->widgetOnDiagram(m_umlObject->umlPackage()->id());
+    qreal newX = x() + diffX;
+    qreal newY = y() + diffY;
     if (owner == NULL) {
         uError() << "m_scene->widgetOnDiagram returns NULL for owner";
-        setX(x() + diffX);
-        setY(y() + diffY);
+        setX(newX);
+        setY(newY);
         return;
     }
     const qreal deltaTop    = fabs(y() + height() - owner->y());
@@ -89,18 +91,26 @@ void PortWidget::moveWidgetBy(qreal diffX, qreal diffY)
     const qreal deltaLeft   = fabs(x() + width() - owner->x());
     const qreal deltaRight  = fabs(owner->x() + owner->width() - x());
     bool didAnyMovement = false;
-    if (deltaTop <= 1.0 || deltaBottom <= 1.0) {
-        setX(x() + diffX);
+    if (deltaTop < 1.0 || deltaBottom < 1.0) {
+        if (newX < owner->x() - width())
+            newX = owner->x() - width();
+        else if (newX > owner->x() + owner->width())
+            newX = owner->x() + owner->width();
+        setX(newX);
         didAnyMovement = true;
     }
-    if (deltaLeft <= 1.0 || deltaRight <= 1.0) {
-        setY(y() + diffY);
+    if (deltaLeft < 1.0 || deltaRight < 1.0) {
+        if (newY < owner->y() - height())
+            newY = owner->y() - height();
+        else if (newY > owner->y() + owner->height())
+            newY = owner->y() + owner->height();
+        setY(newY);
         didAnyMovement = true;
     }
     if (!didAnyMovement) {
         uDebug() << "constraint failed for (" << diffX << ", " << diffY << ")";
-        setX(x() + diffX);
-        setY(y() + diffY);
+        setX(newX);
+        setY(newY);
     }
 }
 
@@ -112,16 +122,18 @@ void PortWidget::attachToOwningComponent() {
     UMLWidget *owner = m_scene->widgetOnDiagram(m_umlObject->umlPackage()->id());
     const QPointF scenePos = m_scene->pos();
     if (owner) {
-        if (scenePos.x() <= owner->x() + (owner->width() / 2)) {
-            setX(owner->x() - 15);
-        } else {
+        if (scenePos.x() < owner->x() - width())
+            setX(owner->x() - width());
+        else if (scenePos.x() <= owner->x() + owner->width())
+            setX(scenePos.x());
+        else
             setX(owner->x() + owner->width());
-        }
-        if (scenePos.y() <= owner->y() + (owner->height() / 2)) {
-            setY(owner->y() - 15);
-        } else {
+        if (scenePos.y() < owner->y() - height())
+            setY(owner->y() - height());
+        else if (scenePos.y() <= owner->y() + owner->height())
+            setY(scenePos.y());
+        else
             setY(owner->y() + owner->height());
-        }
     } else {
         uError() << "port : widgetOnDiagram(umlObject) returns NULL";
         setX(scenePos.x());
