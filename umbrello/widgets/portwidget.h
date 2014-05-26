@@ -40,7 +40,8 @@ public:
     bool loadFromXMI(QDomElement& qElement);
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-public Q_SLOTS:
+public slots:
+    void slotCompMoved(qreal diffX, qreal diffY);
 
 protected:
 

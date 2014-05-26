@@ -17,6 +17,7 @@
 #include "umlscene.h"
 #include "umlview.h"
 #include "optionstate.h"
+#include "portwidget.h"
 
 /**
  * Constructs a ComponentWidget.
@@ -124,6 +125,15 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 }
 
 /**
+ * Overridden from UMLWidget due to emission of signal sigCompMoved()
+ */
+void ComponentWidget::moveWidgetBy(qreal diffX, qreal diffY)
+{
+    UMLWidget::moveWidgetBy(diffX, diffY);
+    emit sigCompMoved(diffX, diffY);
+}
+
+/**
  * Saves to the "componentwidget" XMI element.
  */
 void ComponentWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
@@ -170,3 +180,5 @@ QSizeF ComponentWidget::minimumSize()
 
     return QSizeF(width, height);
 }
+
+#include "componentwidget.moc"

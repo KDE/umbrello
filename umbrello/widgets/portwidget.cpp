@@ -18,6 +18,7 @@
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"
+#include "componentwidget.h"
 
 // qt includes
 #include <QPainter>
@@ -43,6 +44,15 @@ PortWidget::PortWidget(UMLScene *scene, UMLPort *d)
     setMaximumSize(FixedSize);
     setSize(FixedSize);
     setToolTip(d->name());
+
+    const Uml::ID::Type compWidgetId = m_umlObject->umlPackage()->id();
+    UMLWidget *owner = m_scene->widgetOnDiagram(compWidgetId);
+    if (owner) {
+        ComponentWidget *compWidget = static_cast<ComponentWidget*>(owner);
+        connect(compWidget, SIGNAL(sigCompMoved(qreal, qreal)), this, SLOT(slotCompMoved(qreal, qreal)));
+    } else {
+        uError() << "m_scene->widgetOnDiagram(" << Uml::ID::toString(compWidgetId) << ") returns NULL";
+    }
 }
 
 /**
@@ -77,11 +87,12 @@ void PortWidget::updateWidget()
  */
 void PortWidget::moveWidgetBy(qreal diffX, qreal diffY)
 {
-    UMLWidget* owner = m_scene->widgetOnDiagram(m_umlObject->umlPackage()->id());
+    const Uml::ID::Type compWidgetId = m_umlObject->umlPackage()->id();
+    UMLWidget* owner = m_scene->widgetOnDiagram(compWidgetId);
     qreal newX = x() + diffX;
     qreal newY = y() + diffY;
     if (owner == NULL) {
-        uError() << "m_scene->widgetOnDiagram returns NULL for owner";
+        uError() << "m_scene->widgetOnDiagram(" << Uml::ID::toString(compWidgetId) << ") returns NULL";
         setX(newX);
         setY(newY);
         return;
@@ -119,26 +130,27 @@ void PortWidget::moveWidgetBy(qreal diffX, qreal diffY)
  * sides of its owner's widget.
  */
 void PortWidget::attachToOwningComponent() {
-    UMLWidget *owner = m_scene->widgetOnDiagram(m_umlObject->umlPackage()->id());
+    const Uml::ID::Type compWidgetId = m_umlObject->umlPackage()->id();
+    UMLWidget *owner = m_scene->widgetOnDiagram(compWidgetId);
     const QPointF scenePos = m_scene->pos();
-    if (owner) {
-        if (scenePos.x() < owner->x() - width())
-            setX(owner->x() - width());
-        else if (scenePos.x() <= owner->x() + owner->width())
-            setX(scenePos.x());
-        else
-            setX(owner->x() + owner->width());
-        if (scenePos.y() < owner->y() - height())
-            setY(owner->y() - height());
-        else if (scenePos.y() <= owner->y() + owner->height())
-            setY(scenePos.y());
-        else
-            setY(owner->y() + owner->height());
-    } else {
-        uError() << "port : widgetOnDiagram(umlObject) returns NULL";
+    if (owner == NULL) {
+        uError() << "m_scene->widgetOnDiagram(" << Uml::ID::toString(compWidgetId) << ") returns NULL";
         setX(scenePos.x());
         setY(scenePos.y());
+        return;
     }
+    if (scenePos.x() < owner->x() - width())
+        setX(owner->x() - width());
+    else if (scenePos.x() <= owner->x() + owner->width())
+        setX(scenePos.x());
+    else
+        setX(owner->x() + owner->width());
+    if (scenePos.y() < owner->y() - height())
+        setY(owner->y() - height());
+    else if (scenePos.y() <= owner->y() + owner->height())
+        setY(scenePos.y());
+    else
+        setY(owner->y() + owner->height());
 }
 
 /**
@@ -161,6 +173,12 @@ void PortWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     UMLWidget::paint(painter, option, widget);
 }
 
+void PortWidget::slotCompMoved(qreal diffX, qreal diffY)
+{
+    setX(x() + diffX);
+    setY(y() + diffY);
+}
+
 /**
  * Loads from a "portwidget" XMI element.
  */
@@ -179,3 +197,4 @@ void PortWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     qElement.appendChild(conceptElement);
 }
 
+#include "portwidget.moc"

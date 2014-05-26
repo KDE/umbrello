@@ -28,13 +28,24 @@ class UMLComponent;
  */
 class ComponentWidget : public UMLWidget 
 {
+    Q_OBJECT
 public:
     ComponentWidget(UMLScene * scene, UMLComponent *c);
     virtual ~ComponentWidget();
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void moveWidgetBy(qreal diffX, qreal diffY);
 
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+
+signals:
+    /**
+     * Emitted when the component widget is moved.
+     * Provides the delta X and delta Y amount by which the widget was moved
+     * relative to the previous position.
+     * Slots into PortWidget::slotCompMoved()
+     */
+    void sigCompMoved(qreal diffX, qreal diffY);
 
 protected:
     QSizeF minimumSize();
