@@ -547,12 +547,15 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
                 newDocument();
         }
         else if (filetype.endsWith(QLatin1String(".zargo"))) {
+            m_doc_url.setFileName(i18n("Untitled"));
             status = Import_Argo::loadFromZArgoFile(file);
-            if (status) {
-                m_doc_url.setFileName(i18n("Untitled"));
-            }
-            else
+            if (!status) {
+                KMessageBox::error(0, i18n("There was a problem loading file: %1", url.pathOrUrl()),
+                                       i18n("Load Error"));
+                m_bLoading = false;
                 newDocument();
+                return false;
+            }
         }
         else {
             status = loadFromXMI(file, ENC_UNKNOWN);
