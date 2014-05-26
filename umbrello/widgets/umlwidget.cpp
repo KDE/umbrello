@@ -414,9 +414,9 @@ void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
  * on the widget. Go on reading for more info about this.
  *
  * If resizing, the widget is resized using UMLWidget::resizeWidget (where specific
- * widget resize constrain can be applied), and then the associations are
+ * widget resize constraint can be applied), and then the associations are
  * adjusted.
- * The resizing can be constrained also to an specific axis using control
+ * The resizing can be constrained also to a specific axis using control
  * and shift buttons. If on or another is pressed, it's constrained to X axis.
  * If both are pressed, it's constrained to Y axis.
  *
