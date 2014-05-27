@@ -1,0 +1,31 @@
+#!/bin/sh
+#
+# create language specific screenshots
+# 
+# author Ralf Habacker
+#
+export DISPLAY=:1
+UMBRELLO=../umbrello-build/umbrello/umbrello
+XMIFILE=doc/screenshots-de.xmi
+SCREEN=1680x1050x24
+DIAGRAMS=" activity-diagram class-diagram collaboration-diagram entity-relationship-diagram state-diagram sequence-diagram use-case-diagram"
+
+Xvfb :1 -screen 0 $SCREEN &
+xvfb_pid=$!
+TMPDIR=/tmp/umbrello
+if ! test -d $TMPDIR; then
+    mkdir -p $TMPDIR
+else
+    rm -rf $TMPDIR/*
+fi
+$UMBRELLO $XMIFILE --export png -directory $TMPDIR
+for i in `echo $DIAGRAMS`; do
+    $UMBRELLO $XMIFILE --show-diagram $i &
+    umbrello_pid=$!
+    sleep 5
+    xwd -root | convert - $TMPDIR/umbrello-$i-$SCREEN.jpg
+    kill -s KILL $umbrello_pid
+done
+kill -s KILL $xvfb_pid
+
+
