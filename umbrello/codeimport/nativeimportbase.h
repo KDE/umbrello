@@ -107,7 +107,7 @@ protected:
      * whether the name is already present in this list in order to
      * avoid parsing the same file multiple times.
      */
-    QStringList m_parsedFiles;
+    static QStringList m_parsedFiles;
 
     QString m_multiLineCommentIntro;  ///< multi line comment delimiter intro
     QString m_multiLineCommentEnd;    ///< multi line comment delimiter end
