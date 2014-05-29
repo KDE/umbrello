@@ -356,7 +356,7 @@ Uml::AssociationType::Enum AssocRules::isGeneralisationOrRealisation(UMLWidget* 
     return Uml::AssociationType::Generalization;
 }
 
-AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
+AssocRules::Assoc_Rule AssocRules::m_AssocRules[] = {
     // Association                            widgetA                    widgetB                     role    multi   bidir.  self
     //---------------------------------------+--------------------------+---------------------------+-------+-------+-------+--------
     { Uml::AssociationType::Association_Self, WidgetBase::wt_Class,      WidgetBase::wt_Class,       true,   true,   true,   true  },
