@@ -52,6 +52,7 @@ void PythonImport::initVars()
     m_srcIndentIndex = 0;
     m_srcIndent[m_srcIndentIndex] = 0;
     m_braceWasOpened = false;
+    m_isStatic = false;
 }
 
 /**
@@ -234,6 +235,13 @@ bool PythonImport::parseStmt()
         log("class " + name);
         return true;
     }
+    if (keyword == "@") {
+        const QString& annotation = m_source[++m_srcIndex];
+        uDebug() << "annotation:" << annotation;
+        if (annotation == "staticmethod")
+            m_isStatic = true;
+        return true;
+    }
     if (keyword == "def") {
         if (m_klass == NULL) {
             // skip functions outside of a class
@@ -254,15 +262,25 @@ bool PythonImport::parseStmt()
             skipBody();
             return true;
         }
+        bool firstParam = true;
         while (m_srcIndex < srcLength && advance() != ")") {
             const QString& parName = m_source[m_srcIndex];
-            /*UMLAttribute *att =*/ Import_Utils::addMethodParameter(op, "string", parName);
+            if (firstParam) {
+                if (parName.compare("self", Qt::CaseInsensitive) != 0) {
+                    m_isStatic = true;
+                    Import_Utils::addMethodParameter(op, "string", parName);
+                }
+                firstParam = false;
+            } else {
+                /*UMLAttribute *att =*/ Import_Utils::addMethodParameter(op, "string", parName);
+            }
             if (advance() != ",")
                 break;
         }
         Import_Utils::insertMethod(m_klass, op, Uml::Visibility::Public, "string",
-                                   false /*isStatic*/, false /*isAbstract*/, false /*isFriend*/,
+                                   m_isStatic, false /*isAbstract*/, false /*isFriend*/,
                                    false /*isConstructor*/, m_comment);
+        m_isStatic = false;
         op->setSourceCode(skipBody());
 
         if (!op->hasDoc() && !m_comment.isEmpty()) {
