@@ -17,6 +17,8 @@
 #include "umlscene.h"
 #include "umlview.h"
 #include "optionstate.h"
+#include "umldoc.h"
+#include "package.h"
 #include "portwidget.h"
 
 /**
@@ -131,6 +133,27 @@ void ComponentWidget::moveWidgetBy(qreal diffX, qreal diffY)
 {
     UMLWidget::moveWidgetBy(diffX, diffY);
     emit sigCompMoved(diffX, diffY);
+}
+
+/**
+ * Override method from UMLWidget for adjustment of attached PortWidgets.
+ */
+void ComponentWidget::adjustAssocs(qreal dx, qreal dy)
+{
+    if (m_doc->loading()) {
+        // don't recalculate the assocs during load of XMI
+        // -> return immediately without action
+        return;
+    }
+    UMLWidget::adjustAssocs(dx, dy);
+    UMLPackage *comp = static_cast<UMLPackage*>(m_umlObject);
+    foreach (UMLObject *o, comp->containedObjects()) {
+        if (o->baseType() != UMLObject::ot_Port)
+            continue;
+        UMLWidget *portW = m_scene->widgetOnDiagram(o->id());
+        if (portW)
+            portW->adjustAssocs(dx, dy);
+    }
 }
 
 /**
