@@ -1242,8 +1242,9 @@ void UMLScene::removeWidgetCmd(UMLWidget * o)
     disconnect(this, SIGNAL(sigTextColorChanged(Uml::ID::Type)), o, SLOT(slotTextColorChanged(Uml::ID::Type)));
     if (t == WidgetBase::wt_Message) {
         m_MessageList.removeAll(static_cast<MessageWidget*>(o));
-    } else
+    } else {
         m_WidgetList.removeAll(o);
+    }
     o->deleteLater();
     m_doc->setModified(true);
 }
