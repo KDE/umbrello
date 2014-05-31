@@ -74,9 +74,6 @@ PinWidget::~PinWidget()
  */
 void PinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    Q_UNUSED(option);
-    Q_UNUSED(widget);
-
     int w = 10;
     int h = 10;
     int widthActivity = m_pOw->width();
@@ -88,17 +85,18 @@ void PinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
+    const bool floTxtNeedsPositioning = m_pName && !m_pName->text().isEmpty() && m_pName->x() == 0 && m_pName->y() == 0;
 
     if ((offsetY + heightActivity/2) <= m_pOw->y() + heightActivity){
-        y = m_pOw->y()-5;
-        if (m_pName->x() == 0 && m_pName->y() == 0) {
+        y = m_pOw->y() - 5;
+        if (floTxtNeedsPositioning) {
             //the floating text has not been linked with the signal
             m_pName->setX(x + 5 - m_Text.length()/2);
             m_pName->setY(y -fontHeight);
         }
     } else if((offsetY + heightActivity/2) > m_pOw->y() + heightActivity){
-       y = (m_pOw->y() + heightActivity)-5;
-        if (m_pName->x() == 0 && m_pName->y() == 0) {
+        y = m_pOw->y() + heightActivity - 5;
+        if (floTxtNeedsPositioning) {
             //the floating text has not been linked with the signal
             m_pName->setX(x + 5 - m_Text.length()/2);
             m_pName->setY(y + fontHeight);
@@ -109,7 +107,7 @@ void PinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
          && (offsetY > m_pOw->y() +5 && offsetY < m_pOw->y() + heightActivity - 5)){
         x = m_pOw->x() -5;
         y = m_pOw->y() + (heightActivity/2) -5;
-        if (m_pName->x() == 0 && m_pName->y() == 0) {
+        if (floTxtNeedsPositioning) {
             m_pName->setX(x - m_Text.length());
             m_pName->setY(y - fontHeight);
         }
@@ -117,7 +115,7 @@ void PinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
          && (offsetY > m_pOw->y() +5 && offsetY < m_pOw->y() + heightActivity - 5)){
         x = m_pOw->x() + widthActivity -5;
         y = m_pOw->y() + (heightActivity/2) -5;
-        if (m_pName->x() == 0 && m_pName->y() == 0) {
+        if (floTxtNeedsPositioning) {
             //the floating text has not been linked with the signal
             m_pName->setX(x + 10);
             m_pName->setY(y - fontHeight);
@@ -145,8 +143,10 @@ void PinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     //make sure it's always above the others
     setZValue(20);
     setPenFromSettings(painter);
-    m_pName->setVisible((m_pName->text().length() > 0));
-    m_pName->updateGeometry();
+    if (m_pName) {
+        m_pName->setVisible((m_pName->text().length() > 0));
+        m_pName->updateGeometry();
+    }
 
     UMLWidget::paint(painter, option, widget);
 }
@@ -158,12 +158,17 @@ void PinWidget::setName(const QString &strName)
 {
     m_Text = strName;
     updateGeometry();
-    m_pName->setText(m_Text);
+    if (m_pName) {
+        m_pName->setText(m_Text);
+    } else {
+        m_pName = new FloatingTextWidget(m_scene, Uml::TextRole::Floating, strName);
+        m_scene->addFloatingTextWidget(m_pName);
+    }
 }
 
 /**
  * Returns the minimum height this widget should be set at on
- * a sequence diagrams.  Takes into account the widget positions
+ * a sequence diagram.  Takes into account the widget positions
  * it is related to.
  */
 int PinWidget::getMinY()
@@ -183,7 +188,7 @@ void PinWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
     UMLWidget::mouseMoveEvent(me);
     int diffX = m_oldX - x();
     int diffY = m_oldY - y();
-    if (m_pName!=NULL && !(m_pName->text()).isEmpty()) {
+    if (m_pName && !m_pName->text().isEmpty()) {
         m_pName->setX(m_pName->x() - diffX);
         m_pName->setY(m_pName->y() - diffY);
     }
