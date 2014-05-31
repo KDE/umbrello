@@ -168,6 +168,7 @@ public:
         mt_Anchor,
         mt_Properties,
         mt_Rename,
+        mt_NameAsTooltip,
         mt_Show,
         mt_Delete,
         mt_Export_Image,

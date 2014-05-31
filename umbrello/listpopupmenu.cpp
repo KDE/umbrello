@@ -27,6 +27,7 @@
 #include "model_utils.h"
 #include "objectnodewidget.h"
 #include "objectwidget.h"
+#include "portwidget.h"
 #include "preconditionwidget.h"
 #include "signalwidget.h"
 #include "statewidget.h"
@@ -386,6 +387,13 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
         insertSubMenuColor(object->useFillColor());
         insertStdItems(false, type);
         insert(mt_Rename);
+        insert(mt_NameAsTooltip, "Name as Tooltip", CHECKABLE);
+        {
+            PortWidget *portW = static_cast<PortWidget*>(object);
+            FloatingTextWidget *ft = portW->floatingTextWidget();
+            if (ft == NULL)
+                m_actions[mt_NameAsTooltip]->setChecked(true);
+        }
         insert(mt_Properties);
         break;
 

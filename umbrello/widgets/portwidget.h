@@ -14,6 +14,7 @@
 #include "umlwidget.h"
 
 class UMLPort;
+class FloatingTextWidget;
 
 /**
  * Defines a graphical version of the port.  Most of the functionality
@@ -37,15 +38,20 @@ public:
     virtual void moveWidgetBy(qreal diffX, qreal diffY);
     void attachToOwningComponent();
 
+    FloatingTextWidget *floatingTextWidget();
+    void setFloatingTextWidget(FloatingTextWidget *ft);
+
     bool loadFromXMI(QDomElement& qElement);
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 public slots:
     void slotCompMoved(qreal diffX, qreal diffY);
+    void slotMenuSelection(QAction* action);
 
 protected:
 
     static const QSizeF FixedSize;
+    FloatingTextWidget *m_pName;
 
 };
 
