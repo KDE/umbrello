@@ -42,7 +42,7 @@ class DialogBase : public QWidget
     Q_OBJECT
 
 public:
-    explicit DialogBase(QWidget *parent);
+    explicit DialogBase(QWidget *parent, bool withDefaultButton=false);
     virtual ~DialogBase();
     QFrame* createPage(const QString& name, const QString& header, Icon_Utils::IconType icon);
     KPageWidgetItem *setupFontPage(UMLWidget *widget);
@@ -64,10 +64,12 @@ public:
 signals:
     void okClicked();
     void applyClicked();
+    void defaultClicked();
 
 private slots:
     void slotOkClicked();
     void slotApplyClicked();
+    void slotDefaultClicked();
 
 protected:
     KFontChooser *m_fontChooser;
