@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2002      Heiko Nardmann  <h.nardmann@secunet.de>       *
  *                           Thorsten Kunz   <tk AT bytecrash DOT net>     *
- *   copyright (C) 2003-2013                                               *
+ *   copyright (C) 2003-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 

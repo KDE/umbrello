@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2002                                                    *
  *   Luis De la Parra  <luis@delaparra.org>                                *
- *   copyright (C) 2003-2013                                               *
+ *   copyright (C) 2003-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 #ifndef CODEGENSTATUSPAGE_H
