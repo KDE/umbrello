@@ -23,7 +23,7 @@
 #include "driver.h"
 #include "lexer.h"
 #include "parser.h"
-#include <kdebug.h>
+
 #include <klocale.h>
 #include <stdlib.h>
 #include <qfile.h>
@@ -35,6 +35,7 @@
 
 #include <iostream>
 
+DEBUG_REGISTER_DISABLED(Driver)
 
 //     void Macro::read(QDataStream& stream) {
 //         stream >> m_idHashValid;
@@ -316,7 +317,7 @@ public:
 
         m_lex.setReportMessages(reportMessages);
 
-        //kdDebug(9007) << "lexing file " << fileName << endl;
+        DEBUG("Driver") << "lexing file " << fileName << endl;
         m_lex.setSource(m_driver->sourceProvider() ->contents(fileName));
         if (m_previousCachedLexedFile)
             m_previousCachedLexedFile->merge(*m_driver->m_currentLexerCache);
@@ -433,7 +434,7 @@ void Driver::addDependence(const QString & fileName, const Dependence & dep)
 
     IntIncreaser i(m_dependenceDepth);
     if (m_dependenceDepth > m_maxDependenceDepth) {
-        //kdDebug(9007) << "maximum dependence-depth of " << m_maxDependenceDepth << " was reached, " << fileName << " will not be processed" << endl;
+        DEBUG("Driver") << "maximum dependence-depth of " << m_maxDependenceDepth << " was reached, " << fileName << " will not be processed" << endl;
         return;
     }
 
