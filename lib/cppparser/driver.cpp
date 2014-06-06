@@ -466,7 +466,7 @@ void Driver::addProblem(const QString & fileName, const Problem & problem)
     if (m_currentLexerCache)
         m_currentLexerCache->addProblem(p);
     else
-        findOrInsertProblemList(m_currentMasterFileName).append(problem);
+        findOrInsertProblemList(m_currentMasterFileName).append(p);
 }
 
 QMap< QString, Dependence >& Driver::findOrInsertDependenceList(const QString & fileName)
