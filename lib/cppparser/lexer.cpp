@@ -20,7 +20,6 @@
 #include "lexer.h"
 #include "lookup.h"
 
-#include <kdebug.h>
 #include <klocale.h>
 
 #include <qregexp.h>
