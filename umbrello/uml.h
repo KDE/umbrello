@@ -365,7 +365,6 @@ private:
     QDockWidget* m_logDock;            ///< Contains the log window widget.
 
     DocWindow*   m_docWindow;         ///< Documentation window.
-    QListWidget* m_logWindow;         ///< Logging window.
     QUndoView*   m_pQUndoView;         ///< Undo / Redo Viewer
     RefactoringAssistant* m_refactoringAssist;  ///< Refactoring assistant.
 

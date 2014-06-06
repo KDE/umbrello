@@ -77,11 +77,17 @@
 #include <kdeprintdialog.h>
 #include <kundostack.h>
 #include <kstatusbar.h>
+#include <ktexteditor/configinterface.h>
+#include <ktexteditor/document.h>
+#include <ktexteditor/editor.h>
+#include <ktexteditor/editorchooser.h>
+#include <ktexteditor/view.h>
 
 // qt includes
 #include <QClipboard>
 #include <QDesktopWidget>
 #include <QDockWidget>
+#include <QFileInfo>
 #include <QKeyEvent>
 #include <QLabel>
 #include <QMenu>
@@ -107,14 +113,54 @@
  * recompiling.
  * The migration to this class is not complete yet.
  **/
-class UMLAppPrivate {
+class UMLAppPrivate : public QObject
+{
+    Q_OBJECT
 public:
+    UMLApp *parent;
     FindDialog findDialog;
     FindResults findResults;
+    QListWidget *logWindow;         ///< Logging window.
 
-    UMLAppPrivate(UMLApp *parent)
-        : findDialog(parent)
+    KTextEditor::Editor *editor;
+    KTextEditor::View *view;
+    KTextEditor::Document *document;
+
+    UMLAppPrivate(UMLApp *_parent)
+      : parent(_parent),
+        findDialog(_parent),
+        view(0),
+        document(0)
     {
+        editor = KTextEditor::EditorChooser::editor();
+        logWindow = new QListWidget;
+        connect(logWindow, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(slotLogWindowItemDoubleClicked(QListWidgetItem *)));
+    }
+
+public slots:
+    void slotLogWindowItemDoubleClicked(QListWidgetItem *item)
+    {
+        QStringList columns = item->text().split(':');
+
+        QFileInfo file(columns[0]);
+        if (!file.exists())
+            return;
+
+        document = editor->createDocument(0);
+        view = document->createView(parent);
+        view->document()->openUrl(columns[0]);
+        view->document()->setReadWrite(false);
+        view->setCursorPosition(KTextEditor::Cursor(columns[1].toInt()-1,columns[2].toInt()));
+        KTextEditor::ConfigInterface *iface = qobject_cast<KTextEditor::ConfigInterface*>(view);
+        if(iface)
+            iface->setConfigValue("line-numbers", true);
+
+        KDialog *dialog = new KDialog(parent);
+        dialog->setMainWidget(view);
+        dialog->setMinimumSize(800, 800);
+        dialog->exec();
+        delete dialog;
+        delete document;
     }
 };
 
@@ -891,9 +937,7 @@ void UMLApp::initView()
     m_logDock = new QDockWidget(i18n("&Log"), this);
     m_logDock->setObjectName("LogDock");
     addDockWidget(Qt::LeftDockWidgetArea, m_logDock);
-    m_logWindow = new QListWidget(m_logDock);
-    m_logWindow->setObjectName("LOGWINDOW");
-    m_logDock->setWidget(m_logWindow);
+    m_logDock->setWidget(m_d->logWindow);
     connect(m_logDock, SIGNAL(visibilityChanged(bool)), viewShowLog, SLOT(setChecked(bool)));
 
     // create the property viewer
@@ -1768,7 +1812,7 @@ DocWindow* UMLApp::docWindow() const
  */
 QListWidget* UMLApp::logWindow() const
 {
-    return m_logWindow;
+    return m_d->logWindow;
 }
 
 /**
