@@ -13,7 +13,10 @@
  ***************************************************************************/
 
 #include "cachemanager.h"
-#include <kdebug.h>
+
+#include "debug_utils.h"
+
+DEBUG_REGISTER_DISABLED(CacheManager)
 
 void CacheNode::access() const
 {
@@ -76,14 +79,14 @@ void CacheManager::increaseFrame()
 {
     m_currentFrame ++;
     if (m_set.size() > m_maxNodes) {
-        //kdDebug(9007) << "CacheManager: Have " << m_set.size() << " nodes, maximum is " << m_maxNodes << ", erasing." << endl;
+        DEBUG("CacheManager") << "Have " << m_set.size() << " nodes, maximum is " << m_maxNodes << ", erasing." << endl;
         int mustErase = m_set.size() - m_maxNodes;
         while (!m_set.empty() && mustErase != 0) {
             --mustErase;
             SetType::iterator it = m_set.begin();
             erase(*it);
         }
-        //kdDebug(9007) << "CacheManager: Have " << m_set.size() << " nodes after erasing." << endl;
+        DEBUG("CacheManager") << "Have " << m_set.size() << " nodes after erasing." << endl;
     }
 }
 
