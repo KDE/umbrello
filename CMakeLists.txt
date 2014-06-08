@@ -35,6 +35,9 @@ find_package(KDE4 REQUIRED)
 include(KDE4Defaults)
 include(MacroLibrary)
 
+message(STATUS "Using automoc4 version ${AUTOMOC4_VERSION}")
+message(STATUS "Using cmake version ${CMAKE_VERSION}")
+
 # The FindKDE4.cmake module sets _KDE4_PLATFORM_DEFINITIONS with
 # definitions like _GNU_SOURCE that are needed on each platform.
 set(CMAKE_REQUIRED_DEFINITIONS ${_KDE4_PLATFORM_DEFINITIONS} -DQT_STRICT_ITERATORS)
