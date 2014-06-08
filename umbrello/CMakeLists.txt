@@ -448,6 +448,7 @@ set(libumbrello_SRCS
     uniqueid.cpp
     usecase.cpp
     worktoolbar.cpp
+    umlappprivate.cpp
 )
 
 kde4_add_kcfg_files(umbrello_SRCS umbrellosettings.kcfgc)

@@ -8,12 +8,13 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#ifndef UMLAPP_P_H
-#define UMLAPP_P_H
+#ifndef UMLAPPPRIVATE_H
+#define UMLAPPPRIVATE_H
 
 // app includes
 #include "finddialog.h"
 #include "findresults.h"
+#include "uml.h"
 
 // kde includes
 #include <ktexteditor/configinterface.h>
@@ -27,6 +28,8 @@
 #include <QFileInfo>
 #include <QListWidget>
 #include <QObject>
+
+class QWidget;
 
 /**
  * Class UMLAppPrivate holds private class members/methods

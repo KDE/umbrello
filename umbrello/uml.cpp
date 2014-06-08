@@ -12,7 +12,7 @@
 #include "uml.h"
 
 // app includes
-#include "uml_p.h"
+#include "umlappprivate.h"
 #include "umldoc.h"
 #include "umllistview.h"
 #include "umlviewlist.h"
