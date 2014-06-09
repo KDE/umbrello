@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2006-2013                                                *
+ *  copyright (C) 2006-2014                                                *
  *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                 *
  ***************************************************************************/
 
@@ -56,7 +56,16 @@ ClassImport *ClassImport::createImporterByFileExt(const QString &fileName, CodeI
 }
 
 /**
- * Import files.  :TODO: can be deleted
+ * Do initializations before importing a single file.
+ * This is called by importFile() before calling parseFile().
+ * @todo check if the default implementation should do anything
+ */
+void ClassImport::initPerFile()
+{
+}
+
+/**
+ * Import files.
  * @param fileNames  List of files to import.
  */
 bool ClassImport::importFiles(const QStringList& fileNames)
@@ -69,7 +78,7 @@ bool ClassImport::importFiles(const QStringList& fileNames)
     foreach (const QString& fileName, fileNames) {
         umldoc->writeToStatusBar(i18n("Importing file: %1 Progress: %2/%3",
                                  fileName, processedFilesCount, fileNames.size()));
-        if (!parseFile(fileName))
+        if (!importFile(fileName))
             result = false;
         processedFilesCount++;
     }
@@ -79,12 +88,12 @@ bool ClassImport::importFiles(const QStringList& fileNames)
 }
 
 /**
- * Import files.
- * @param files  List of files to import.
+ * Import a single file.
+ * @param fileName  The file to import.
  */
 bool ClassImport::importFile(const QString& fileName)
 {
-    initialize();
+    initPerFile();
     return parseFile(fileName);
 }
 
