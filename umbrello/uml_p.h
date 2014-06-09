@@ -38,7 +38,7 @@ class UMLAppPrivate : public QObject
 {
     Q_OBJECT
 public:
-    UMLApp *parent;
+    QWidget *parent;
     FindDialog findDialog;
     FindResults findResults;
     QListWidget *logWindow;         ///< Logging window.
@@ -47,7 +47,7 @@ public:
     KTextEditor::View *view;
     KTextEditor::Document *document;
 
-    UMLAppPrivate(UMLApp *_parent)
+    UMLAppPrivate(QWidget *_parent)
       : parent(_parent),
         findDialog(_parent),
         view(0),
