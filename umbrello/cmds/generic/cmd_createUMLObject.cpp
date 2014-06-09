@@ -49,15 +49,15 @@ namespace Uml
      */
     void CmdCreateUMLObject::redo()
     {
-        // This object was removed from it's package when it was deleted
-        // so add it back to it's package (if it belonged to one)
+        // This object was removed from its package when it was deleted
+        // so add it back to its package (if it belonged to one)
         if (m_package) {
             if (m_package->baseType() != UMLObject::ot_Association) {
                 // add this object to its parent package
                 m_package->addObject(m_obj);
             }
             else
-                uError() << "Try to use an unsuppoprted Association as parent";
+                uError() << "Try to use an unsupported Association as parent";
         }
 
         // The first call to redo, the object was created and signalled by the
