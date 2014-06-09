@@ -143,6 +143,11 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     QString name = inName;
+    const bool atGlobalScope = name.startsWith("::");
+    if (atGlobalScope) {
+        name = name.mid(2);
+        currentObj = NULL;
+    }
     QStringList components;
 #ifdef TRY_BUGFIX_120682
     // If we have a pointer or a reference in cpp we need to remove
@@ -170,7 +175,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
             currentObj = static_cast<UMLObject*>(currentObj->parent());
         }
         pkg = dynamic_cast<UMLPackage*>(currentObj);
-        if (pkg == NULL)
+        if (pkg == NULL || pkg->baseType() == UMLObject::ot_Association)
             pkg = currentObj->umlPackage();
         // Remember packages that we've seen - for avoiding cycles.
         UMLPackageList seenPkgs;
@@ -226,8 +231,8 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                     foundType != UMLObject::ot_Class &&
                     foundType != UMLObject::ot_Interface &&
                     foundType != UMLObject::ot_Component) {
-                    uDebug() << "found \"" << name
-                        << "\" is not a package (?)";
+                    uDebug() << "found " << UMLObject::toString(foundType) << name
+                             << " is not a package (?)";
                     continue;
                 }
                 UMLPackage *pkg = static_cast<UMLPackage*>(obj);
@@ -261,8 +266,8 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
             foundType != UMLObject::ot_Class &&
             foundType != UMLObject::ot_Interface &&
             foundType != UMLObject::ot_Component) {
-            uDebug() << "found \"" << name
-                << "\" is not a package (?)";
+            uDebug() << "found " << name << "(" << UMLObject::toString(foundType) << ")"
+                     << " is not a package (?)";
             continue;
         }
         UMLPackage *pkg = static_cast<UMLPackage*>(obj);

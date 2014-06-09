@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2005-2013                                                *
+ *  copyright (C) 2005-2014                                                *
  *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                 *
  ***************************************************************************/
 
@@ -88,6 +88,7 @@ void CppImport::feedTheModel(const QString& fileName)
             }
             uDebug() << fileName << ": " << includeFile << " => " << it.value().first;
             if (ms_seenFiles.indexOf(includeFile) == -1)
+                ms_seenFiles.append(includeFile);
                 feedTheModel(includeFile);
         }
     }
@@ -122,6 +123,13 @@ void CppImport::initialize()
             ms_driver->addIncludePath(*i);
         }
     }
+}
+
+/**
+ * Reimplement method from ClassImport
+ */
+void CppImport::initPerFile()
+{
     ms_seenFiles.clear();
 }
 
