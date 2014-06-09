@@ -11,7 +11,7 @@
 #ifndef CMDLINEEXPORTALLVIEWSEVENT_H
 #define CMDLINEEXPORTALLVIEWSEVENT_H
 
-#include <kurl.h>
+#include <QUrl>
 #include <QEvent>
 
 /**
@@ -30,7 +30,7 @@ public:
 
     static QEvent::Type eventType();
 
-    CmdLineExportAllViewsEvent(const QString &imageType, const KUrl &directory, const bool useFolders);
+    CmdLineExportAllViewsEvent(const QString &imageType, const QUrl &directory, const bool useFolders);
 
     virtual ~CmdLineExportAllViewsEvent();
 
@@ -41,7 +41,7 @@ private:
     static const QEvent::Type type_;
 
     QString m_imageType;   ///< The type of the images the views will be exported to.
-    KUrl    m_directory;   ///< The url of the directory where the images will be saved.
+    QUrl    m_directory;   ///< The url of the directory where the images will be saved.
     bool    m_useFolders;  ///< If tree structure of the views in the document must be created in the target directory.
 
 };

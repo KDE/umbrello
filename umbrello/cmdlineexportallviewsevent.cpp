@@ -42,7 +42,7 @@ QEvent::Type CmdLineExportAllViewsEvent::eventType()
  * @param useFolders If the tree structure of the views in the document must be created
  *                   in the target directory.
  */
-CmdLineExportAllViewsEvent::CmdLineExportAllViewsEvent(const QString &imageType, const KUrl &directory, const bool useFolders)
+CmdLineExportAllViewsEvent::CmdLineExportAllViewsEvent(const QString &imageType, const QUrl &directory, const bool useFolders)
   : QEvent(type_),
     m_imageType(imageType),
     m_directory(directory),
