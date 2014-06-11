@@ -25,10 +25,6 @@
 // qt includes
 #include <QPainter>
 
-#define PIN_MARGIN 5
-#define PIN_WIDTH 1
-#define PIN_HEIGHT 1
-
 DEBUG_REGISTER_DISABLED(PinWidget)
 
 /**
@@ -167,9 +163,8 @@ void PinWidget::setName(const QString &strName)
 }
 
 /**
- * Returns the minimum height this widget should be set at on
- * a sequence diagram.  Takes into account the widget positions
- * it is related to.
+ * Returns the minimum height this widget should be set at.
+ * Takes into account the position of the widget it is related to.
  */
 int PinWidget::getMinY()
 {
