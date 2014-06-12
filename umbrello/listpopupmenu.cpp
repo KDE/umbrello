@@ -387,7 +387,7 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
         insertSubMenuColor(object->useFillColor());
         insertStdItems(false, type);
         insert(mt_Rename);
-        insert(mt_NameAsTooltip, "Name as Tooltip", CHECKABLE);
+        insert(mt_NameAsTooltip, i18n("Name as Tooltip"), CHECKABLE);
         {
             PortWidget *portW = static_cast<PortWidget*>(object);
             FloatingTextWidget *ft = portW->floatingTextWidget();
