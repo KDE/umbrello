@@ -1762,33 +1762,6 @@ void UMLScene::slotActivate()
 }
 
 /**
- * Returns a List of all the UMLObjects(Use Cases, Concepts and Actors) in the View
- */
-UMLObjectList UMLScene::umlObjects()
-{
-    UMLObjectList list;
-    foreach(UMLWidget* w,  m_WidgetList) {
-
-        switch (w->baseType()) { //use switch for easy future expansion
-        case WidgetBase::wt_Actor:
-        case WidgetBase::wt_Class:
-        case WidgetBase::wt_Interface:
-        case WidgetBase::wt_Package:
-        case WidgetBase::wt_Component:
-        case WidgetBase::wt_Node:
-        case WidgetBase::wt_Artifact:
-        case WidgetBase::wt_UseCase:
-        case WidgetBase::wt_Object:
-            list.append(w->umlObject());
-            break;
-        default:
-            break;
-        }
-    }
-    return list;
-}
-
-/**
  * Activate all the objects and associations after a load from the clipboard
  */
 void UMLScene::activate()
