@@ -284,7 +284,8 @@ void ObjectWidget::setX(qreal x)
 void ObjectWidget::setY(qreal y)
 {
     UMLWidget::setY(y);
-    moveEvent(0);
+    if (!UMLApp::app()->document()->loading())
+        moveEvent(0);
 }
 
 /**
