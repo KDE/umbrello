@@ -158,7 +158,7 @@ void MessageWidget::setY(qreal y)
         m_pOw[Uml::RoleType::B]->setY(y - objWidgetHalfHeight);
     }
 
-    if (m_pFText) {
+    if (m_pFText && !UMLApp::app()->document()->loading()) {
         setTextPosition();
         emit sigMessageMoved();
     }
