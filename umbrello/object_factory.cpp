@@ -332,38 +332,27 @@ UMLObject* makeObjectFromXMI(const QString& xmiTag,
     UMLObject* pObject = 0;
     if (UMLDoc::tagEq(xmiTag, "UseCase")) {
         pObject = new UMLUseCase();
-        pObject->setBaseType(UMLObject::ot_UseCase);
     } else if (UMLDoc::tagEq(xmiTag, "Actor")) {
         pObject = new UMLActor();
-        pObject->setBaseType(UMLObject::ot_Actor);
     } else if (UMLDoc::tagEq(xmiTag, "Class")) {
         pObject = new UMLClassifier();
-        pObject->setBaseType(UMLObject::ot_Class);
     } else if (UMLDoc::tagEq(xmiTag, "Package")) {
         if (!stereoID.isEmpty()) {
             UMLDoc *doc = UMLApp::app()->document();
             UMLObject *stereo = doc->findStereotypeById(Uml::ID::fromString(stereoID));
-            if (stereo && stereo->name() == "folder") {
+            if (stereo && stereo->name() == "folder")
                 pObject = new UMLFolder();
-                pObject->setBaseType(UMLObject::ot_Folder);
-            }
         }
-        if (pObject == NULL) {
+        if (pObject == NULL)
             pObject = new UMLPackage();
-            pObject->setBaseType(UMLObject::ot_Package);
-        }
     } else if (UMLDoc::tagEq(xmiTag, "Component")) {
         pObject = new UMLComponent();
-        pObject->setBaseType(UMLObject::ot_Component);
     } else if (UMLDoc::tagEq(xmiTag, "Port")) {
         pObject = new UMLPort();
-        pObject->setBaseType(UMLObject::ot_Port);
     } else if (UMLDoc::tagEq(xmiTag, "Node")) {
         pObject = new UMLNode();
-        pObject->setBaseType(UMLObject::ot_Node);
     } else if (UMLDoc::tagEq(xmiTag, "Artifact")) {
         pObject = new UMLArtifact();
-        pObject->setBaseType(UMLObject::ot_Artifact);
     } else if (UMLDoc::tagEq(xmiTag, "Interface")) {
         UMLClassifier *c = new UMLClassifier();
         c->setBaseType(UMLObject::ot_Interface);
@@ -378,16 +367,12 @@ UMLObject* makeObjectFromXMI(const QString& xmiTag,
     } else if (UMLDoc::tagEq(xmiTag, "Enumeration") ||
                UMLDoc::tagEq(xmiTag, "Enum")) {   // for bkwd compat.
         pObject = new UMLEnum();
-        pObject->setBaseType(UMLObject::ot_Enum);
     } else if (UMLDoc::tagEq(xmiTag, "Entity")) {
         pObject = new UMLEntity();
-        pObject->setBaseType(UMLObject::ot_Entity);
     } else if (UMLDoc::tagEq(xmiTag, "Category")) {
         pObject = new UMLCategory();
-        pObject->setBaseType(UMLObject::ot_Category);
     } else if (UMLDoc::tagEq(xmiTag, "Stereotype")) {
         pObject = new UMLStereotype();
-        pObject->setBaseType(UMLObject::ot_Stereotype);
     } else if (UMLDoc::tagEq(xmiTag, "Association") ||
                UMLDoc::tagEq(xmiTag, "AssociationClass")) {
         pObject = new UMLAssociation();
