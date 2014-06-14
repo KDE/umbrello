@@ -177,6 +177,7 @@ void WorkToolBar::slotCheckToolBar(Uml::DiagramType::Enum dt)
     case Uml::DiagramType::Component:
         insertHotBtn(tbb_Interface);
         insertHotBtn(tbb_Component);
+        insertHotBtn(tbb_Pin);
         insertHotBtn(tbb_Artifact);
         insertBasicAssociations();
         break;

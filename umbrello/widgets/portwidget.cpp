@@ -146,18 +146,29 @@ void PortWidget::attachToOwningComponent() {
         setY(scenePos.y());
         return;
     }
-    if (scenePos.x() < owner->x() - width())
+    bool xIsWithinComponent = false;
+    if (scenePos.x() < owner->x() - width()) {
         setX(owner->x() - width());
-    else if (scenePos.x() <= owner->x() + owner->width())
+    } else if (scenePos.x() <= owner->x() + owner->width()) {
         setX(scenePos.x());
-    else
+        xIsWithinComponent = true;
+    } else {
         setX(owner->x() + owner->width());
-    if (scenePos.y() < owner->y() - height())
+    }
+    if (scenePos.y() < owner->y() - height()) {
         setY(owner->y() - height());
-    else if (scenePos.y() <= owner->y() + owner->height())
-        setY(scenePos.y());
-    else
+    } else if (scenePos.y() <= owner->y() + owner->height()) {
+        if (xIsWithinComponent) {
+            if (scenePos.y() <= owner->y() + owner->height() / 2.0)
+                setY(owner->y() - height());
+            else
+                setY(owner->y() + owner->height());
+        } else {
+            setY(scenePos.y());
+        }
+    } else {
         setY(owner->y() + owner->height());
+    }
 }
 
 /**
