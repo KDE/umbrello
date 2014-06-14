@@ -20,7 +20,7 @@ class FloatingTextWidget;
  * Defines a graphical version of the port.  Most of the functionality
  * will come from the @ref UMLWidget class from which class inherits from.
  *
- * @short A graphical version of an port.
+ * @short A graphical version of a port on a component.
  * @author Oliver Kellogg
  * @see UMLWidget
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
