@@ -41,6 +41,8 @@ public:
 
     int getMinY();
 
+    UMLWidget* onWidget(const QPointF& p);
+
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
     bool loadFromXMI(QDomElement& qElement);
 

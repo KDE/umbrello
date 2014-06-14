@@ -243,6 +243,26 @@ void PortWidget::setFloatingTextWidget(FloatingTextWidget *ft) {
     m_pName = ft;
 }
 
+/**
+ * Override method from UMLWidget in order to additionally check m_pName.
+ *
+ * @param p Point to be checked.
+ *
+ * @return 'this' if UMLWidget::onWidget(p) returns non NULL;
+ *         m_pName if m_pName is non NULL and m_pName->onWidget(p) returns non NULL;
+ *         else NULL.
+ */
+UMLWidget* PortWidget::onWidget(const QPointF &p)
+{
+    if (UMLWidget::onWidget(p) != NULL)
+        return this;
+    if (m_pName) {
+        uDebug() << "floatingtext: " << m_pName->text();
+        return m_pName->onWidget(p);
+    }
+    return NULL;
+}
+
 
 /**
  * Loads from a "portwidget" XMI element.

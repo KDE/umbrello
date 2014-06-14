@@ -996,12 +996,13 @@ UMLWidget* UMLScene::widgetAt(const QPointF& p)
     qreal relativeSize = 99990.0;  // start with an arbitrary large number
     UMLWidget  *retWid = 0;
     foreach(UMLWidget* wid, widgetList()) {
-        if (!wid->onWidget(p))
+        UMLWidget* w = wid->onWidget(p);
+        if (w == NULL)
             continue;
-        const qreal s = (wid->width() + wid->height()) / 2.0;
+        const qreal s = (w->width() + w->height()) / 2.0;
         if (s < relativeSize) {
             relativeSize = s;
-            retWid = wid;
+            retWid = w;
         }
     }
     return retWid;

@@ -37,6 +37,8 @@ public:
     virtual void updateWidget();
     virtual void moveWidgetBy(qreal diffX, qreal diffY);
     void attachToOwningComponent();
+ 
+    UMLWidget* onWidget(const QPointF& p);
 
     FloatingTextWidget *floatingTextWidget();
     void setFloatingTextWidget(FloatingTextWidget *ft);

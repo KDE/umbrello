@@ -190,6 +190,24 @@ void PinWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 }
 
 /**
+ * Override method from UMLWidget in order to additionally check m_pName.
+ *
+ * @param p Point to be checked.
+ *
+ * @return 'this' if UMLWidget::onWidget(p) returns non NULL;
+ *         m_pName if m_pName is non NULL and m_pName->onWidget(p) returns non NULL;
+ *         else NULL.
+ */
+UMLWidget* PinWidget::onWidget(const QPointF &p)
+{
+    if (UMLWidget::onWidget(p) != NULL)
+        return this;
+    if (m_pName)
+        return m_pName->onWidget(p);
+    return NULL;
+}
+
+/**
  * Captures any popup menu signals for menus it created.
  */
 void PinWidget::slotMenuSelection(QAction* action)
