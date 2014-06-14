@@ -61,6 +61,8 @@ public:
     void setLocalID(Uml::ID::Type id);
     Uml::ID::Type localID() const;
 
+    virtual UMLWidget* widgetWithID(Uml::ID::Type id);
+
     virtual QSizeF minimumSize();
     void setMinimumSize(const QSizeF &size);
 

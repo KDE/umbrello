@@ -39,6 +39,7 @@ public:
     void attachToOwningComponent();
  
     UMLWidget* onWidget(const QPointF& p);
+    UMLWidget* widgetWithID(Uml::ID::Type id);
 
     FloatingTextWidget *floatingTextWidget();
     void setFloatingTextWidget(FloatingTextWidget *ft);

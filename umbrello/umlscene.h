@@ -170,7 +170,6 @@ public:
     void checkMessages(ObjectWidget * w);
 
     UMLWidget* findWidget(Uml::ID::Type id);
-    UMLWidget* findWidgetByLocalId(Uml::ID::Type id);
 
     AssociationWidget* findAssocWidget(Uml::ID::Type id);
     AssociationWidget* findAssocWidget(Uml::AssociationType::Enum at,

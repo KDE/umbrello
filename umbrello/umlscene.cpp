@@ -771,8 +771,11 @@ void UMLScene::dragEnterEvent(QGraphicsSceneDragDropEvent *e)
             bAccept = false;
         else if (ot == UMLObject::ot_Class && !temp->isAbstract())
             bAccept = false;
-        else if (ot == UMLObject::ot_Port && !widgetOnDiagram(temp->umlPackage()->id()))
-            bAccept = false;
+        else if (ot == UMLObject::ot_Port) {
+            const bool componentOnDiagram = widgetOnDiagram(temp->umlPackage()->id());
+            DEBUG(DBG_SRC) << "ot_Port: componentOnDiagram = " << componentOnDiagram;
+            bAccept = componentOnDiagram;
+        }
         break;
     case DiagramType::EntityRelationship:
         if (ot != UMLObject::ot_Entity && ot != UMLObject::ot_Category)
@@ -803,6 +806,7 @@ void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
 {
     UMLDragData::LvTypeAndID_List tidList;
     if (!UMLDragData::getClip3TypeAndID(e->mimeData(), tidList)) {
+        DEBUG(DBG_SRC) << "UMLDragData::getClip3TypeAndID returned error";
         return;
     }
     UMLDragData::LvTypeAndID_It tidIt(tidList);
@@ -1066,11 +1070,14 @@ void UMLScene::checkMessages(ObjectWidget * w)
 UMLWidget* UMLScene::widgetOnDiagram(Uml::ID::Type id)
 {
     foreach(UMLWidget *obj, m_WidgetList) {
-        if (id == obj->id())
-            return obj;
+        UMLWidget* w = obj->widgetWithID(id);
+        if (w)
+            return w;
     }
 
     foreach(UMLWidget *obj, m_MessageList) {
+        // CHECK: Should MessageWidget reimplement widgetWithID() ?
+        //       If yes then we should use obj->widgetWithID(id) here too.
         if (id == obj->id())
             return obj;
     }
@@ -1088,41 +1095,18 @@ UMLWidget* UMLScene::widgetOnDiagram(Uml::ID::Type id)
 UMLWidget * UMLScene::findWidget(Uml::ID::Type id)
 {
     foreach(UMLWidget* obj, m_WidgetList) {
-        // object widgets are special..the widget id is held by 'localId' attribute (crappy!)
-        if (obj->baseType() == WidgetBase::wt_Object) {
-            if (static_cast<ObjectWidget *>(obj)->localID() == id)
-                return obj;
-        } else if (obj->id() == id) {
-            return obj;
+        UMLWidget* w = obj->widgetWithID(id);
+        if (w) {
+            return w;
         }
     }
 
     foreach(UMLWidget* obj, m_MessageList) {
-        if (obj->id() == id)
+        // CHECK: Should MessageWidget reimplement widgetWithID() ?
+        //       If yes then we should use obj->widgetWithID(id) here too.
+        if (obj->localID() == id ||
+            obj->id() == id)
             return obj;
-    }
-
-    return 0;
-}
-
-/**
- * Finds a widget with the given local ID.
- * @param id The ID of the widget to find.
- *
- * @return Returns the widget found, returns 0 if no widget found.
- */
-UMLWidget * UMLScene::findWidgetByLocalId(Uml::ID::Type id)
-{
-    foreach(UMLWidget* obj, m_WidgetList) {
-        if (obj->localID() == id) {
-            return obj;
-        }
-    }
-
-    foreach(UMLWidget* obj, m_MessageList) {
-        if (obj->localID() == id) {
-            return obj;
-        }
     }
 
     return 0;

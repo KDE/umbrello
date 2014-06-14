@@ -196,13 +196,14 @@ void PortWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_NameAsTooltip:
         if (m_pName) {
             action->setChecked(true);
-            m_scene->removeWidget(m_pName);
             delete m_pName;
             m_pName = NULL;
             setToolTip(m_umlObject->name());
         } else {
             action->setChecked(false);
             m_pName = new FloatingTextWidget(m_scene, Uml::TextRole::Floating, m_umlObject->name());
+            m_pName->setParentItem(this);
+            m_pName->setText(m_umlObject->name());  // to get geometry update
             m_pName->activate();
             const Uml::ID::Type compWidgetId = m_umlObject->umlPackage()->id();
             UMLWidget* owner = m_scene->widgetOnDiagram(compWidgetId);
@@ -212,19 +213,19 @@ void PortWidget::slotMenuSelection(QAction* action)
                 setY(y());
             } else {
                 if (x() < owner->x())
-                    m_pName->setX(x() - m_pName->width());
+                    m_pName->setX(-m_pName->width());
                 else if (x() >= owner->x() + owner->width())
-                    m_pName->setX(x() + 15);
+                    m_pName->setX(15);
                 else
-                    m_pName->setX(x() - m_pName->width() / 2.0 + 7);
+                    m_pName->setX(-m_pName->width() / 2.0 + 7);
                 if (y() < owner->y())
-                    m_pName->setY(y() - m_pName->height() - 2);
+                    m_pName->setY(-m_pName->height() - 2);
                 else if (y() >= owner->y() + owner->height())
-                    m_pName->setY(y() + 15);
+                    m_pName->setY(15);
                 else
-                    m_pName->setY(y() - m_pName->height() / 2.0 + 7);
+                    m_pName->setY(-m_pName->height() / 2.0 + 7);
             }
-            m_scene->addFloatingTextWidget(m_pName);
+            m_pName->update();
             setToolTip(QString());
             QToolTip::hideText();
         }
@@ -241,6 +242,8 @@ FloatingTextWidget *PortWidget::floatingTextWidget() {
 
 void PortWidget::setFloatingTextWidget(FloatingTextWidget *ft) {
     m_pName = ft;
+    if (m_pName)
+        m_pName->setParentItem(this);
 }
 
 /**
@@ -263,6 +266,18 @@ UMLWidget* PortWidget::onWidget(const QPointF &p)
     return NULL;
 }
 
+/**
+ * Reimplement function from UMLWidget
+ */
+UMLWidget* PortWidget::widgetWithID(Uml::ID::Type id)
+{
+    if (UMLWidget::widgetWithID(id))
+        return this;
+    if (m_pName && m_pName->widgetWithID(id))
+        return m_pName;
+    return NULL;
+}
+
 
 /**
  * Loads from a "portwidget" XMI element.
@@ -272,35 +287,22 @@ bool PortWidget::loadFromXMI(QDomElement & qElement)
     if (!UMLWidget::loadFromXMI(qElement))
         return false;
 
-    QString textid = qElement.attribute("textid", "-1");
-    Uml::ID::Type textId = Uml::ID::fromString(textid);
-    if (textId != Uml::ID::None) {
-        UMLWidget *flotext = m_scene -> findWidget(textId);
-        if (flotext != NULL) {
-            if (flotext->baseType() == WidgetBase::wt_Text) {
-                uWarning() << "Check XMI file: floatingtext " << textid
-                           << " is already defined";
-                m_pName = static_cast<FloatingTextWidget*>(flotext);
-                return true;
-            } else {
-                uError() << "floatingtext xmi.id" << textid
-                         << " conflicts with existing " << flotext->baseType();
-                return false;
-            }
-        }
-    }
-
     // Optional child element: floatingtext
     QDomNode node = qElement.firstChild();
     QDomElement element = node.toElement();
     if (!element.isNull()) {
         QString tag = element.tagName();
         if (tag == "floatingtext") {
-            m_pName = new FloatingTextWidget(m_scene, Uml::TextRole::Floating, m_umlObject->name(), textId);
+            m_pName = new FloatingTextWidget(m_scene, Uml::TextRole::Floating,
+                                             m_umlObject->name(), Uml::ID::Reserved);
             if (!m_pName->loadFromXMI(element)) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pName;
                 m_pName = NULL;
+            } else {
+                m_pName->setParentItem(this);
+                m_pName->activate();
+                m_pName->update();
             }
         } else {
             uError() << "unknown tag " << tag;
@@ -317,7 +319,6 @@ void PortWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     QDomElement conceptElement = qDoc.createElement("portwidget");
     UMLWidget::saveToXMI(qDoc, conceptElement);
     if (m_pName && !m_pName->text().isEmpty()) {
-        conceptElement.setAttribute("textid", Uml::ID::toString(m_pName->id()));
         m_pName -> saveToXMI(qDoc, conceptElement);
     }
     qElement.appendChild(conceptElement);

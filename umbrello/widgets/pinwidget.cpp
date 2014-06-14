@@ -266,19 +266,24 @@ bool PinWidget::loadFromXMI(QDomElement& qElement)
 
     m_pOw = pWA;
 
+    // We dont' really need the textid.
+    // @todo remove this code
     QString textid = qElement.attribute("textid", "-1");
     Uml::ID::Type textId = Uml::ID::fromString(textid);
     if (textId != Uml::ID::None) {
         UMLWidget *flotext = m_scene -> findWidget(textId);
         if (flotext != NULL) {
-            // This only happens when loading files produced by
-            // umbrello-1.3-beta2.
-            m_pName = static_cast<FloatingTextWidget*>(flotext);
-            //return true;
+            if (flotext->baseType() == WidgetBase::wt_Text) {
+                uWarning() << "Check XMI file: floatingtext " << textid
+                           << " is already defined";
+                m_pName = static_cast<FloatingTextWidget*>(flotext);
+                return true;
+            } else {
+                uError() << "floatingtext xmi.id" << textid
+                         << " conflicts with existing " << flotext->baseType();
+                return false;
+            }
         }
-    } else {
-        // no textid stored -> get unique new one
-        textId = UniqueID::gen();
     }
 
     //now load child elements

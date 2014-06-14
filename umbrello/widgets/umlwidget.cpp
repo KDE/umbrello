@@ -200,6 +200,27 @@ Uml::ID::Type UMLWidget::localID() const
 }
 
 /**
+ * Returns the widget with the given ID.
+ * The default implementation tests the following IDs:
+ * - m_nLocalID
+ * - if m_umlObject is non NULL: m_umlObject->id()
+ * - m_nID
+ * Composite widgets override this function to test further owned widgets.
+ *
+ * @param id  The ID to test this widget against.
+ * @return  'this' if id is either of m_nLocalID, m_umlObject->id(), or m_nId;
+ *           else NULL.
+ */
+UMLWidget* UMLWidget::widgetWithID(Uml::ID::Type id)
+{
+    if (id == m_nLocalID ||
+        (m_umlObject != NULL && id == m_umlObject->id()) ||
+        id == m_nId)
+        return this;
+    return NULL;
+}
+
+/**
  * Compute the minimum possible width and height.
  *
  * @return QSizeF(mininum_width, minimum_height)
