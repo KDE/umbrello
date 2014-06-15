@@ -541,7 +541,7 @@ void UMLScene::setupNewWidget(UMLWidget *w)
 {
     if (w->baseType() == WidgetBase::wt_Port) {
         PortWidget *pw = static_cast<PortWidget*>(w);
-        pw->attachToOwningComponent();
+        pw->attachToOwner();
     } else if (w->baseType() != WidgetBase::wt_Object) {
         // ObjectWidget's position is handled by the widget
         w->setX(m_Pos.x());

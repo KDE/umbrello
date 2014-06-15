@@ -32,11 +32,13 @@ public:
     PortWidget(UMLScene *scene, UMLPort *d);
     virtual ~PortWidget();
 
+    UMLWidget* ownerWidget();
+
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     virtual void updateWidget();
     virtual void moveWidgetBy(qreal diffX, qreal diffY);
-    void attachToOwningComponent();
+    void attachToOwner();
  
     UMLWidget* onWidget(const QPointF& p);
     UMLWidget* widgetWithID(Uml::ID::Type id);
@@ -48,7 +50,7 @@ public:
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 public slots:
-    void slotCompMoved(qreal diffX, qreal diffY);
+    void slotOwnerMoved(qreal diffX, qreal diffY);
     void slotMenuSelection(QAction* action);
 
 protected:

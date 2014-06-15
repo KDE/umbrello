@@ -48,13 +48,12 @@ PortWidget::PortWidget(UMLScene *scene, UMLPort *d)
     setSize(FixedSize);
     setToolTip(d->name());
 
-    const Uml::ID::Type compWidgetId = m_umlObject->umlPackage()->id();
-    UMLWidget *owner = m_scene->widgetOnDiagram(compWidgetId);
+    UMLWidget *owner = ownerWidget();
     if (owner) {
         ComponentWidget *compWidget = static_cast<ComponentWidget*>(owner);
-        connect(compWidget, SIGNAL(sigCompMoved(qreal, qreal)), this, SLOT(slotCompMoved(qreal, qreal)));
+        connect(compWidget, SIGNAL(sigCompMoved(qreal, qreal)), this, SLOT(slotOwnerMoved(qreal, qreal)));
     } else {
-        uError() << "m_scene->widgetOnDiagram(" << Uml::ID::toString(compWidgetId) << ") returns NULL";
+        uError() << "ownerWidget() returns NULL";
     }
 }
 
@@ -65,6 +64,12 @@ PortWidget::~PortWidget()
 {
 }
 
+UMLWidget* PortWidget::ownerWidget()
+{
+    const Uml::ID::Type compWidgetId = m_umlObject->umlPackage()->id();
+    return m_scene->widgetOnDiagram(compWidgetId);
+}
+
 /**
  * Overrides method from UMLWidget in order to set a tooltip.
  * The tooltip is set to the port name.
@@ -73,7 +78,7 @@ PortWidget::~PortWidget()
  */
 void PortWidget::updateWidget()
 {
-    QString strName = m_umlObject->name();
+    QString strName = name();
     uDebug() << " port name is " << strName;
     if (m_pName) {
         m_pName->setText(strName);
@@ -94,12 +99,11 @@ void PortWidget::updateWidget()
  */
 void PortWidget::moveWidgetBy(qreal diffX, qreal diffY)
 {
-    const Uml::ID::Type compWidgetId = m_umlObject->umlPackage()->id();
-    UMLWidget* owner = m_scene->widgetOnDiagram(compWidgetId);
+    UMLWidget* owner = ownerWidget();
     qreal newX = x() + diffX;
     qreal newY = y() + diffY;
     if (owner == NULL) {
-        uError() << "m_scene->widgetOnDiagram(" << Uml::ID::toString(compWidgetId) << ") returns NULL";
+        uError() << "ownerWidget() returns NULL";
         setX(newX);
         setY(newY);
         return;
@@ -136,12 +140,11 @@ void PortWidget::moveWidgetBy(qreal diffX, qreal diffY)
  * Align this PortWidget's position such that it is attached at one of the
  * sides of its owner's widget.
  */
-void PortWidget::attachToOwningComponent() {
-    const Uml::ID::Type compWidgetId = m_umlObject->umlPackage()->id();
-    UMLWidget *owner = m_scene->widgetOnDiagram(compWidgetId);
+void PortWidget::attachToOwner() {
+    UMLWidget *owner = ownerWidget();
     const QPointF scenePos = m_scene->pos();
     if (owner == NULL) {
-        uError() << "m_scene->widgetOnDiagram(" << Uml::ID::toString(compWidgetId) << ") returns NULL";
+        uError() << "ownerWidget() returns NULL";
         setX(scenePos.x());
         setY(scenePos.y());
         return;
@@ -191,7 +194,7 @@ void PortWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     UMLWidget::paint(painter, option, widget);
 }
 
-void PortWidget::slotCompMoved(qreal diffX, qreal diffY)
+void PortWidget::slotOwnerMoved(qreal diffX, qreal diffY)
 {
     setX(x() + diffX);
     setY(y() + diffY);
@@ -209,17 +212,16 @@ void PortWidget::slotMenuSelection(QAction* action)
             action->setChecked(true);
             delete m_pName;
             m_pName = NULL;
-            setToolTip(m_umlObject->name());
+            setToolTip(name());
         } else {
             action->setChecked(false);
-            m_pName = new FloatingTextWidget(m_scene, Uml::TextRole::Floating, m_umlObject->name());
+            m_pName = new FloatingTextWidget(m_scene, Uml::TextRole::Floating, name());
             m_pName->setParentItem(this);
-            m_pName->setText(m_umlObject->name());  // to get geometry update
+            m_pName->setText(name());  // to get geometry update
             m_pName->activate();
-            const Uml::ID::Type compWidgetId = m_umlObject->umlPackage()->id();
-            UMLWidget* owner = m_scene->widgetOnDiagram(compWidgetId);
+            UMLWidget* owner = ownerWidget();
             if (owner == NULL) {
-                uError() << "m_scene->widgetOnDiagram(" << Uml::ID::toString(compWidgetId) << ") returns NULL";
+                uError() << "ownerWidget() returns NULL";
                 setX(x());
                 setY(y());
             } else {
@@ -305,7 +307,7 @@ bool PortWidget::loadFromXMI(QDomElement & qElement)
         QString tag = element.tagName();
         if (tag == "floatingtext") {
             m_pName = new FloatingTextWidget(m_scene, Uml::TextRole::Floating,
-                                             m_umlObject->name(), Uml::ID::Reserved);
+                                             name(), Uml::ID::Reserved);
             if (!m_pName->loadFromXMI(element)) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pName;
