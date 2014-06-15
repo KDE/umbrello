@@ -60,6 +60,7 @@ bool isCloneable(WidgetBase::WidgetType type)
     case WidgetBase::wt_Datatype:
     case WidgetBase::wt_Package:
     case WidgetBase::wt_Component:
+    case WidgetBase::wt_Port:
     case WidgetBase::wt_Node:
     case WidgetBase::wt_Artifact:
         return true;
@@ -143,6 +144,11 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     QString name = inName;
+    const bool atGlobalScope = name.startsWith("::");
+    if (atGlobalScope) {
+        name = name.mid(2);
+        currentObj = NULL;
+    }
     QStringList components;
 #ifdef TRY_BUGFIX_120682
     // If we have a pointer or a reference in cpp we need to remove
@@ -170,7 +176,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
             currentObj = static_cast<UMLObject*>(currentObj->parent());
         }
         pkg = dynamic_cast<UMLPackage*>(currentObj);
-        if (pkg == NULL)
+        if (pkg == NULL || pkg->baseType() == UMLObject::ot_Association)
             pkg = currentObj->umlPackage();
         // Remember packages that we've seen - for avoiding cycles.
         UMLPackageList seenPkgs;
@@ -226,8 +232,8 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                     foundType != UMLObject::ot_Class &&
                     foundType != UMLObject::ot_Interface &&
                     foundType != UMLObject::ot_Component) {
-                    uDebug() << "found \"" << name
-                        << "\" is not a package (?)";
+                    uDebug() << "found " << UMLObject::toString(foundType) << name
+                             << " is not a package (?)";
                     continue;
                 }
                 UMLPackage *pkg = static_cast<UMLPackage*>(obj);
@@ -261,8 +267,8 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
             foundType != UMLObject::ot_Class &&
             foundType != UMLObject::ot_Interface &&
             foundType != UMLObject::ot_Component) {
-            uDebug() << "found \"" << name
-                << "\" is not a package (?)";
+            uDebug() << "found " << name << "(" << UMLObject::toString(foundType) << ")"
+                     << " is not a package (?)";
             continue;
         }
         UMLPackage *pkg = static_cast<UMLPackage*>(obj);
@@ -463,6 +469,8 @@ QString uniqObjectName(UMLObject::ObjectType type, UMLPackage *parentPkg, QStrin
             currentName = i18n("new_package");
         else if(type == UMLObject::ot_Component)
             currentName = i18n("new_component");
+        else if(type == UMLObject::ot_Port)
+            currentName = i18n("new_port");
         else if(type == UMLObject::ot_Node)
             currentName = i18n("new_node");
         else if(type == UMLObject::ot_Artifact)
@@ -587,7 +595,7 @@ Uml::ModelType::Enum guessContainer(UMLObject *o)
         return Uml::ModelType::Component;
     Uml::ModelType::Enum mt = Uml::ModelType::N_MODELTYPES;
     switch (ot) {
-        case UMLObject::ot_Package:   // CHECK: packages may appear in other views?
+        case UMLObject::ot_Package:   // trouble: package can also appear in Component view
         case UMLObject::ot_Interface:
         case UMLObject::ot_Datatype:
         case UMLObject::ot_Enum:
@@ -603,6 +611,7 @@ Uml::ModelType::Enum guessContainer(UMLObject *o)
             mt = Uml::ModelType::UseCase;
             break;
         case UMLObject::ot_Component:
+        case UMLObject::ot_Port:
         case UMLObject::ot_Artifact:  // trouble: artifact can also appear at Deployment
             mt = Uml::ModelType::Component;
             break;
@@ -940,6 +949,7 @@ bool typeIsCanvasWidget(UMLListViewItem::ListViewType type)
         case UMLListViewItem::lvt_EntityRelationship_Folder:
         case UMLListViewItem::lvt_Subsystem:
         case UMLListViewItem::lvt_Component:
+        case UMLListViewItem::lvt_Port:
         case UMLListViewItem::lvt_Node:
         case UMLListViewItem::lvt_Artifact:
         case UMLListViewItem::lvt_Interface:
@@ -1081,6 +1091,7 @@ bool typeIsAllowedInType(UMLListViewItem::ListViewType childType,
         return parentType == UMLListViewItem::lvt_Component_Folder ||
                parentType == UMLListViewItem::lvt_Subsystem;
     case UMLListViewItem::lvt_Component:
+    case UMLListViewItem::lvt_Port:
         return parentType == UMLListViewItem::lvt_Component_Folder ||
                parentType == UMLListViewItem::lvt_Component ||
                parentType == UMLListViewItem::lvt_Subsystem;
@@ -1291,7 +1302,10 @@ UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o)
         break;
 
     case UMLObject::ot_Package:
-        type = UMLListViewItem::lvt_Package;
+        if (o->stereotype() == "subsystem")
+            type = UMLListViewItem::lvt_Subsystem;
+        else
+            type = UMLListViewItem::lvt_Package;
         break;
 
     case UMLObject::ot_Folder:
@@ -1330,6 +1344,10 @@ UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o)
 
     case UMLObject::ot_Component:
         type = UMLListViewItem::lvt_Component;
+        break;
+
+    case UMLObject::ot_Port:
+        type = UMLListViewItem::lvt_Port;
         break;
 
     case UMLObject::ot_Node:
@@ -1434,6 +1452,10 @@ UMLObject::ObjectType convert_LVT_OT(UMLListViewItem::ListViewType lvt)
 
     case UMLListViewItem::lvt_Component:
         ot = UMLObject::ot_Component;
+        break;
+
+    case UMLListViewItem::lvt_Port:
+        ot = UMLObject::ot_Port;
         break;
 
     case UMLListViewItem::lvt_Node:
@@ -1559,6 +1581,9 @@ Icon_Utils::IconType convert_LVT_IT(UMLListViewItem::ListViewType lvt)
             break;
         case UMLListViewItem::lvt_Component:
             icon = Icon_Utils::it_Component;
+            break;
+        case UMLListViewItem::lvt_Port:
+            icon = Icon_Utils::it_Port;
             break;
         case UMLListViewItem::lvt_Node:
             icon = Icon_Utils::it_Node;
@@ -1698,6 +1723,7 @@ Uml::ModelType::Enum convert_OT_MT(UMLObject::ObjectType ot)
             mt = Uml::ModelType::UseCase;
             break;
         case UMLObject::ot_Component:
+        case UMLObject::ot_Port:
         case UMLObject::ot_Artifact:
             mt = Uml::ModelType::Component;
             break;

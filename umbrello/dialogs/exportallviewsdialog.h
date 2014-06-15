@@ -30,9 +30,7 @@ class ExportAllViewsDialog : public KDialog, private Ui::ExportAllViewsDialogBas
 
 public:
 
-    explicit ExportAllViewsDialog(QWidget* parent = 0, const char* name = 0,
-                         bool modal = false, Qt::WindowFlags fl = 0,
-                         const QString& defaultMimeType = "image/png");
+    explicit ExportAllViewsDialog(QWidget* parent = 0, const char* name = 0);
 
     ~ExportAllViewsDialog();
 

@@ -47,7 +47,7 @@ namespace Uml
      */
     void CmdCreateWidget::redo()
     {
-        UMLWidget* umlWidget = scene()->findWidgetByLocalId(m_widgetId);
+        UMLWidget* umlWidget = scene()->findWidget(m_widgetId);
         if (umlWidget == 0) {
             // If the widget is not found, the add command was undone. Load the
             // widget back from the saved XMI state.

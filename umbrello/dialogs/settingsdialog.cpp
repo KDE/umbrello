@@ -9,7 +9,7 @@
  ***************************************************************************/
 
 // own header
-#include "settingsdlg.h"
+#include "settingsdialog.h"
 
 // app includes
 #include "autolayoutoptionpage.h"
@@ -33,18 +33,12 @@
 #define TEXT_COLOR Qt::black
 
 
-SettingsDlg::SettingsDlg(QWidget * parent, Settings::OptionState *state)
-        : KPageDialog(parent)
+SettingsDialog::SettingsDialog(QWidget * parent, Settings::OptionState *state)
+  : DialogBase(parent, true)
 {
     setCaption(i18n("Umbrello Setup"));
-    setButtons(Help | Default | Apply | Ok | Cancel);
-    setDefaultButton(Ok);
-    setModal(true);
-    showButtonSeparator(true);
-    setFaceType(KPageDialog::List);
     m_bChangesApplied = false;
     m_pOptionState = state;
-    setHelp("umbrello/index.html", QString());
     setupGeneralPage();
     setupFontPage();
     setupUIPage();
@@ -58,11 +52,11 @@ SettingsDlg::SettingsDlg(QWidget * parent, Settings::OptionState *state)
     connect(this, SIGNAL(defaultClicked()), this, SLOT(slotDefault()));
 }
 
-SettingsDlg::~SettingsDlg()
+SettingsDialog::~SettingsDialog()
 {
 }
 
-void SettingsDlg::setupUIPage()
+void SettingsDialog::setupUIPage()
 {
     // FIXME: merge with UMLWidgetStylePage
     //setup UI page
@@ -171,7 +165,7 @@ void SettingsDlg::setupUIPage()
     }
 }
 
-void SettingsDlg::setupGeneralPage()
+void SettingsDialog::setupGeneralPage()
 {
     //setup General page
     KVBox * page = new KVBox();
@@ -182,7 +176,7 @@ void SettingsDlg::setupGeneralPage()
     m_pGeneralPage = new GeneralOptionPage(page);
 }
 
-void SettingsDlg::setupClassPage()
+void SettingsDialog::setupClassPage()
 {
     //setup class settings page
     KVBox * page = new KVBox();
@@ -193,7 +187,7 @@ void SettingsDlg::setupClassPage()
     m_pClassPage = new ClassOptionsPage(page, m_pOptionState, false);
 }
 
-void SettingsDlg::setupCodeImportPage()
+void SettingsDialog::setupCodeImportPage()
 {
     //setup code importer settings page
     KVBox * page = new KVBox();
@@ -204,7 +198,7 @@ void SettingsDlg::setupCodeImportPage()
     m_pCodeImportPage = new CodeImportOptionsPage(page);
 }
 
-void SettingsDlg::setupCodeGenPage()
+void SettingsDialog::setupCodeGenPage()
 {
     //setup code generation settings page
     KVBox * page = new KVBox();
@@ -216,7 +210,7 @@ void SettingsDlg::setupCodeGenPage()
     connect(m_pCodeGenPage, SIGNAL(languageChanged()), this, SLOT(slotApply()));
 }
 
-void SettingsDlg::setupCodeViewerPage(Settings::CodeViewerState options)
+void SettingsDialog::setupCodeViewerPage(Settings::CodeViewerState options)
 {
     //setup code generation settings page
     KVBox * page = new KVBox();
@@ -227,7 +221,7 @@ void SettingsDlg::setupCodeViewerPage(Settings::CodeViewerState options)
     m_pCodeViewerPage = new CodeViewerOptionsPage(options, page);
 }
 
-void SettingsDlg::setupFontPage()
+void SettingsDialog::setupFontPage()
 {
     KVBox * page = new KVBox();
     pageFont = new KPageWidgetItem(page, i18n("Font"));
@@ -238,7 +232,7 @@ void SettingsDlg::setupFontPage()
     m_FontWidgets.chooser->setFont(m_pOptionState->uiState.font);
 }
 
-void SettingsDlg::setupAutoLayoutPage()
+void SettingsDialog::setupAutoLayoutPage()
 {
     KVBox * page = new KVBox();
     pageAutoLayout = new KPageWidgetItem(page, i18n("Auto Layout"));
@@ -248,14 +242,14 @@ void SettingsDlg::setupAutoLayoutPage()
     m_pAutoLayoutPage = new AutoLayoutOptionPage(page);
 }
 
-void SettingsDlg::slotApply()
+void SettingsDialog::slotApply()
 {
     applyPage(currentPage());
     //do no emit signal applyClicked in the slot slotApply->infinite loop
     //emit applyClicked();
 }
 
-void SettingsDlg::slotOk()
+void SettingsDialog::slotOk()
 {
     applyPage(pageClass);
     applyPage(pageGeneral);
@@ -268,7 +262,7 @@ void SettingsDlg::slotOk()
     accept();
 }
 
-void SettingsDlg::slotDefault()
+void SettingsDialog::slotDefault()
 {
     // Defaults hard coded.  Make sure that this is alright.
     // If defaults are set anywhere else, like in setting up config file, make sure the same.
@@ -309,7 +303,7 @@ void SettingsDlg::slotDefault()
     }
 }
 
-void SettingsDlg::applyPage(KPageWidgetItem*item)
+void SettingsDialog::applyPage(KPageWidgetItem*item)
 {
     m_bChangesApplied = true;
     if (item == pageGeneral)
@@ -353,7 +347,7 @@ void SettingsDlg::applyPage(KPageWidgetItem*item)
     }
 }
 
-void SettingsDlg::slotTextCBChecked(bool value)
+void SettingsDialog::slotTextCBChecked(bool value)
 {
     if (value == false) {
         m_UiWidgets.textColorB->setColor(TEXT_COLOR);
@@ -364,7 +358,7 @@ void SettingsDlg::slotTextCBChecked(bool value)
     }
 }
 
-void SettingsDlg::slotLineCBChecked(bool value)
+void SettingsDialog::slotLineCBChecked(bool value)
 {
     if (value == false) {
         m_UiWidgets.lineColorB->setColor(LINK_COLOR);
@@ -375,7 +369,7 @@ void SettingsDlg::slotLineCBChecked(bool value)
     }
 }
 
-void SettingsDlg::slotFillCBChecked(bool value)
+void SettingsDialog::slotFillCBChecked(bool value)
 {
     if (value == false) {
         m_UiWidgets.fillColorB->setColor(FILL_COLOR);
@@ -386,7 +380,7 @@ void SettingsDlg::slotFillCBChecked(bool value)
     }
 }
 
-void SettingsDlg::slotGridCBChecked(bool value)
+void SettingsDialog::slotGridCBChecked(bool value)
 {
     if (value == false) {
         QPalette palette;
@@ -398,7 +392,7 @@ void SettingsDlg::slotGridCBChecked(bool value)
     }
 }
 
-void SettingsDlg::slotBgCBChecked(bool value)
+void SettingsDialog::slotBgCBChecked(bool value)
 {
     if (value == false) {
         QPalette palette;
@@ -410,7 +404,7 @@ void SettingsDlg::slotBgCBChecked(bool value)
     }
 }
 
-void SettingsDlg::slotLineWidthCBChecked(bool value)
+void SettingsDialog::slotLineWidthCBChecked(bool value)
 {
     if (value == false) {
         m_UiWidgets.lineWidthB->setValue(0);
@@ -421,9 +415,9 @@ void SettingsDlg::slotLineWidthCBChecked(bool value)
     }
 }
 
-QString SettingsDlg::getCodeGenerationLanguage()
+QString SettingsDialog::getCodeGenerationLanguage()
 {
     return m_pCodeGenPage->getLanguage();
 }
 
-#include "settingsdlg.moc"
+#include "settingsdialog.moc"

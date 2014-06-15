@@ -27,6 +27,6 @@ inline QByteArray umbrelloVersion()
 }
 
 // Update this version when changing the XMI file format
-#define XMI_FILE_VERSION "1.6.4"
+#define XMI_FILE_VERSION "1.6.7"
 
 #endif

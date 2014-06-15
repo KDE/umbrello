@@ -8,8 +8,8 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#ifndef PARMPROPDLG_H
-#define PARMPROPDLG_H
+#ifndef PARAMETERPROPERTIESDIALOG_H
+#define PARAMETERPROPERTIESDIALOG_H
 
 #include "attribute.h"
 
@@ -33,13 +33,13 @@ class QRadioButton;
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class ParmPropDlg : public KDialog
+class ParameterPropertiesDialog : public KDialog
 {
     Q_OBJECT
 public:
 
-    ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * attr);
-    ~ParmPropDlg();
+    ParameterPropertiesDialog(QWidget * parent, UMLDoc * doc, UMLAttribute * attr);
+    ~ParameterPropertiesDialog();
 
 public slots:
 

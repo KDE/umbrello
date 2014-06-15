@@ -16,7 +16,7 @@
 
 class QWizardPage;
 class ClassifierListPage;
-class ClassGenPage;
+class ClassGeneralPage;
 class UMLClassifier;
 class UMLDoc;
 
@@ -35,7 +35,7 @@ private:
     UMLDoc             * m_doc;      //< Document currently opened.
     UMLClassifier      * m_pClass;    //< Class to create.
 
-    ClassGenPage       * m_pGenPage;  //< General class info.
+    ClassGeneralPage   * m_pGenPage;  //< General class info.
     ClassifierListPage * m_pAttPage;  //< Class attributes.
     ClassifierListPage * m_pOpPage;   //< Class operations.
 

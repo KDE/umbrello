@@ -8,8 +8,8 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#ifndef CLASSGENPAGE_H
-#define CLASSGENPAGE_H
+#ifndef CLASSGENERALPAGE_H
+#define CLASSGENERALPAGE_H
 
 #include "dialogpagebase.h"
 
@@ -28,13 +28,13 @@ class UMLDoc;
 
 /**
  * Displays properties of a UMLObject in a dialog box.  This is not usually directly
- * called.  The class @ref ClassPropDlg will set this up for you.
+ * called.  The class @ref ClassPropertiesDialog will set this up for you.
  *
  * @short Display properties on a UMLObject.
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class ClassGenPage : public DialogPageBase
+class ClassGeneralPage : public DialogPageBase
 {
     Q_OBJECT
 public:
@@ -45,7 +45,7 @@ public:
      * @param  parent  The parent to the ClassGenPage.
      * @param  o       The UMLObject to display the properties of.
      */
-    ClassGenPage(UMLDoc *d, QWidget *parent, UMLObject * o);
+    ClassGeneralPage(UMLDoc *d, QWidget *parent, UMLObject * o);
 
     /**
      * Sets up the ClassGenPage for an ObjectWidget
@@ -53,7 +53,7 @@ public:
      * @param  parent  The parent to the ClassGenPage.
      * @param  o       The ObjectWidget to display the properties of.
      */
-    ClassGenPage(UMLDoc *d, QWidget *parent, ObjectWidget * o);
+    ClassGeneralPage(UMLDoc *d, QWidget *parent, ObjectWidget * o);
 
     /**
      *  Sets up the ClassGenPage for a UMLWidget instance (used
@@ -63,12 +63,12 @@ public:
      *  @param  parent  The parent to the ClassGenPage.
      *  @param  widget  The UMLWidget to display the properties of.
      */
-    ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget);
+    ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget);
 
     /**
      * Standard deconstructor.
      */
-    ~ClassGenPage();
+    ~ClassGeneralPage();
 
     void updateObject();
 

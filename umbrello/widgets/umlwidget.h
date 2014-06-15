@@ -61,6 +61,8 @@ public:
     void setLocalID(Uml::ID::Type id);
     Uml::ID::Type localID() const;
 
+    virtual UMLWidget* widgetWithID(Uml::ID::Type id);
+
     virtual QSizeF minimumSize();
     void setMinimumSize(const QSizeF &size);
 
@@ -89,7 +91,7 @@ public:
 
     virtual bool activate(IDChangeLog* ChangeLog = 0);
 
-    virtual qreal onWidget(const QPointF &p);
+    virtual UMLWidget* onWidget(const QPointF &p);
 
     void setPenFromSettings(QPainter &p);
     void setPenFromSettings(QPainter *p);

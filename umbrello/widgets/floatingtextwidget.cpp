@@ -14,17 +14,18 @@
 // local includes
 #include "association.h"
 #include "associationwidget.h"
-#include "assocpropdlg.h"
+#include "associationpropertiesdialog.h"
 #include "classifier.h"
 #include "cmds.h"
 #include "debug_utils.h"
 #include "linkwidget.h"
+#include "portwidget.h"
 #include "listpopupmenu.h"
 #include "messagewidget.h"
 #include "model_utils.h"
 #include "object_factory.h"
 #include "operation.h"
-#include "selectopdlg.h"
+#include "selectoperationdialog.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
@@ -104,7 +105,8 @@ void FloatingTextWidget::setText(const QString &t)
 {
     if (m_textRole == Uml::TextRole::Seq_Message || m_textRole == Uml::TextRole::Seq_Message_Self) {
         QString seqNum, op;
-        m_linkWidget->seqNumAndOp(seqNum, op);
+        if (m_linkWidget)
+            m_linkWidget->seqNumAndOp(seqNum, op);
         if (op.length() > 0) {
             if (!m_scene->showOpSig())
                 op.replace(QRegExp("\\(.*\\)"), "()");
@@ -230,21 +232,21 @@ void FloatingTextWidget::showOperationDialog(bool enableAutoIncrement)
         return;
     }
 
-    QPointer<SelectOpDlg> selectDlg = new SelectOpDlg(m_scene->activeView(), c, enableAutoIncrement);
+    QPointer<SelectOperationDialog> selectDialog = new SelectOperationDialog(m_scene->activeView(), c, enableAutoIncrement);
     if (enableAutoIncrement && m_scene->autoIncrementSequence()) {
         seqNum = m_scene->autoIncrementSequenceValue();
-        selectDlg->setAutoIncrementSequence(true);
+        selectDialog->setAutoIncrementSequence(true);
     }
-    selectDlg->setSeqNumber(seqNum);
+    selectDialog->setSeqNumber(seqNum);
     if (m_linkWidget->operation() == 0) {
-        selectDlg->setCustomOp(opText);
+        selectDialog->setCustomOp(opText);
     } else {
-        selectDlg->setClassOp(opText);
+        selectDialog->setClassOp(opText);
     }
-    if (selectDlg->exec()) {
-        seqNum = selectDlg->getSeqNumber();
-        opText = selectDlg->getOpText();
-        if (selectDlg->isClassOp()) {
+    if (selectDialog->exec()) {
+        seqNum = selectDialog->getSeqNumber();
+        opText = selectDialog->getOpText();
+        if (selectDialog->isClassOp()) {
             Model_Utils::OpDescriptor od;
             Model_Utils::Parse_Status st = Model_Utils::parseOperation(opText, od, c);
             if (st == Model_Utils::PS_OK) {
@@ -276,11 +278,11 @@ void FloatingTextWidget::showOperationDialog(bool enableAutoIncrement)
         }
         m_linkWidget->setSeqNumAndOp(seqNum, opText);
         if (enableAutoIncrement) {
-            m_scene->setAutoIncrementSequence(selectDlg->autoIncrementSequence());
+            m_scene->setAutoIncrementSequence(selectDialog->autoIncrementSequence());
         }
         setMessageText();
     }
-    delete selectDlg;
+    delete selectDialog;
 }
 
 /**
@@ -453,7 +455,8 @@ void FloatingTextWidget::changeName(const QString& newText)
         return;
     }
 
-    if (m_linkWidget && m_textRole != Uml::TextRole::Seq_Message && m_textRole != Uml::TextRole::Seq_Message_Self) {
+    if (m_linkWidget && m_textRole != Uml::TextRole::Seq_Message
+                     && m_textRole != Uml::TextRole::Seq_Message_Self) {
         m_linkWidget->setText(this, newText);
     }
     else {
@@ -613,6 +616,37 @@ void FloatingTextWidget::constrainMovementForAllWidgets(qreal &diffX, qreal &dif
 }
 
 /**
+ * Override method from UMLWidget in order to additionally check PortWidget parentage.
+ *
+ * @param p Point to be checked.
+ *
+ * @return 'this' if UMLWidget::onWidget(p) returns non NULL;
+ *         else NULL.
+ */
+UMLWidget* FloatingTextWidget::onWidget(const QPointF &p)
+{
+    if (UMLWidget::onWidget(p) != NULL)
+        return this;
+    PortWidget *pw = dynamic_cast<PortWidget*>(parentItem());
+    if (pw) {
+        const qreal w = width();
+        const qreal h = height();
+        const qreal left = pw->x() + x();
+        const qreal right = left + w;
+        const qreal top = pw->y() + y();
+        const qreal bottom = top + h;
+        uDebug() << "child_of_pw; p=(" << p.x() << "," << p.y() << "), x=" << left << ", y=" << top << ", w=" << w << ", h=" << h
+                 << "; right=" << right << ", bottom=" << bottom;
+        if (p.x() >= left && p.x() <= right &&
+            p.y() >= top && p.y() <= bottom) { // Qt coord.sys. origin in top left corner
+            uDebug() << "floatingtext: " << m_Text;
+            return this;
+        }
+    }
+    return NULL;
+}
+
+/**
  * Overrides default method
  */
 void FloatingTextWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -645,14 +679,14 @@ bool FloatingTextWidget::loadFromXMI(QDomElement & qElement)
 
     m_preText = qElement.attribute("pretext", "");
     m_postText = qElement.attribute("posttext", "");
-    m_Text = qElement.attribute("text", "");
+    setText(qElement.attribute("text", ""));  // use setText for geometry update
     // If all texts are empty then this is a useless widget.
     // In that case we return false.
     // CAVEAT: The caller should not interpret the false return value
     //  as an indication of failure since previous umbrello versions
     //  saved lots of these empty FloatingTexts.
-    bool usefullWidget = !isEmpty();
-    return usefullWidget;
+    bool usefulWidget = !isEmpty();
+    return usefulWidget;
 }
 
 /**
@@ -661,6 +695,9 @@ bool FloatingTextWidget::loadFromXMI(QDomElement & qElement)
  */
 void FloatingTextWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
+    if (isEmpty())
+        return;
+
     QDomElement textElement = qDoc.createElement("floatingtext");
     UMLWidget::saveToXMI(qDoc, textElement);
     textElement.setAttribute("text", m_Text);
@@ -690,6 +727,9 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Delete:
+        hide();   // This is only a workaround; if set then m_linkWidget should
+                  // really delete this FloatingTextWidget.
+        update();
         m_scene->removeWidget(this);
         break;
 

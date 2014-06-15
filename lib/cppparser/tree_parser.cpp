@@ -41,7 +41,7 @@ void TreeParser::parseTranslationUnit(const ParsedFile& translationUnit)
     QList<DeclarationAST*>::const_iterator it = declarations.constBegin();
     for (; it != declarations.constEnd(); it++) {
         if ((*it) == 0) {
-            //kdDebug(9007) << "declaration is zero" << endl;
+            DEBUG("TreeParser") << "declaration is zero" << endl;
             continue;
         }
         parseDeclaration(*it);

@@ -24,6 +24,8 @@
 #include <QRegExp>
 #include <QTextStream>
 
+QStringList NativeImportBase::m_parsedFiles;  // static, see nativeimportbase.h
+
 /**
  * Constructor
  * @param singleLineCommentIntro  "//" for IDL and Java, "--" for Ada
@@ -170,6 +172,8 @@ QString NativeImportBase::advance()
  */
 bool NativeImportBase::preprocess(QString& line)
 {
+    if (line.isEmpty())
+        return true;
     if (m_multiLineCommentIntro.isEmpty())
         return false;
     // Check for end of multi line comment.
@@ -211,6 +215,13 @@ bool NativeImportBase::preprocess(QString& line)
         pos = line.indexOf(m_multiLineAltCommentIntro);
         if (pos != -1)
             delimIntroLen = m_multiLineAltCommentIntro.length();
+    }
+    if (pos != -1) {
+        int sPos = line.indexOf(m_singleLineCommentIntro);
+        if (sPos != -1 && sPos < pos) {
+            // multi line comment intro found in single line comment
+            pos = -1;      // is no multi line comment after all
+        }
     }
     if (pos != -1) {
         int endpos = line.indexOf(m_multiLineCommentEnd, pos + delimIntroLen);

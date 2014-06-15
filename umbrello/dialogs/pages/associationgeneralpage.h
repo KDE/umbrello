@@ -8,8 +8,8 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#ifndef ASSOCGENPAGE_H
-#define ASSOCGENPAGE_H
+#ifndef ASSOCIATIONGENERALPAGE_H
+#define ASSOCIATIONGENERALPAGE_H
 
 #include "basictypes.h"
 #include "dialogpagebase.h"
@@ -27,18 +27,18 @@ class UMLObject;
 
 /**
  * Displays properties of a UMLObject in a dialog box.  This is not usually directly
- * called.  The class @ref AssocPropDlg will set this up for you.
+ * called.  The class @ref AssociationPropertiesDialog will set this up for you.
  *
  * @short Display properties on a UMLObject.
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class AssocGenPage : public DialogPageBase
+class AssociationGeneralPage : public DialogPageBase
 {
     Q_OBJECT
 public:
-    AssocGenPage(UMLDoc *d, QWidget *parent, AssociationWidget *a);
-    ~AssocGenPage();
+    AssociationGeneralPage(UMLDoc *d, QWidget *parent, AssociationWidget *a);
+    ~AssociationGeneralPage();
 
     void updateObject();
 

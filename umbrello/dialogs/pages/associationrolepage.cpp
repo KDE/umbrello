@@ -9,7 +9,7 @@
  ***************************************************************************/
 
 // own header
-#include "assocrolepage.h"
+#include "associationrolepage.h"
 
 // local includes
 #include "associationwidget.h"
@@ -34,12 +34,12 @@
 #include <QRadioButton>
 
 /**
- *  Sets up the AssocRolePage.
+ *  Sets up the AssociationRolePage.
  *  @param  d       The UMLDoc which controls controls object creation.
- *  @param  parent  The parent to the AssocRolePage.
+ *  @param  parent  The parent to the AssociationRolePage.
  *  @param  a       The AssociationWidget to display the properties of.
  */
-AssocRolePage::AssocRolePage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc)
+AssociationRolePage::AssociationRolePage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc)
   : DialogPageBase(parent),
     m_pRoleALE(0),
     m_pRoleBLE(0),
@@ -55,11 +55,11 @@ AssocRolePage::AssocRolePage (UMLDoc *d, QWidget *parent, AssociationWidget *ass
 /**
  *  Standard destructor.
  */
-AssocRolePage::~AssocRolePage()
+AssociationRolePage::~AssociationRolePage()
 {
 }
 
-void AssocRolePage::constructWidget()
+void AssociationRolePage::constructWidget()
 {
     // underlying roles and objects
     QString nameA = m_pAssociationWidget->roleName(Uml::RoleType::A);
@@ -298,7 +298,7 @@ void AssocRolePage::constructWidget()
  *  Will move information from the dialog into the object.
  *  Call when the ok or apply button is pressed.
  */
-void AssocRolePage::updateObject()
+void AssociationRolePage::updateObject()
 {
     if (m_pAssociationWidget) {
 
@@ -346,4 +346,4 @@ void AssocRolePage::updateObject()
     } //end if m_pAssociationWidget
 }
 
-#include "assocrolepage.moc"
+#include "associationrolepage.moc"

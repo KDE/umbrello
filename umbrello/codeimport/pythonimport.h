@@ -49,6 +49,7 @@ protected:
     int m_srcIndentIndex;
 
     bool m_braceWasOpened;  ///< Flag denoting the opening of a block.
+    bool m_isStatic;        ///< Flag denoting staticness of defined method
 };
 
 #endif

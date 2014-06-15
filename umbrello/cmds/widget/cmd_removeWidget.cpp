@@ -46,7 +46,7 @@ namespace Uml
     void CmdRemoveWidget::redo()
     {
         UMLScene* umlScene = scene();
-        UMLWidget* widget = umlScene->findWidgetByLocalId(m_widgetId);
+        UMLWidget* widget = umlScene->findWidget(m_widgetId);
         if (widget != 0) {
             umlScene->removeWidgetCmd(widget);
         }

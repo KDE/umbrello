@@ -25,7 +25,7 @@
 
 /**
  * This class is used in the code generation wizard and
- * also in SettingsDlg.
+ * also in SettingsDialog.
  *
  * @author Ralf Habacker
  */

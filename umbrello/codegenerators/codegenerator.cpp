@@ -14,7 +14,7 @@
 
 // app includes
 #include "debug_utils.h"
-#include "overwritedialogue.h"
+#include "overwritedialog.h"
 #include "codeviewerdialog.h"
 #include "simplecodegenerator.h"
 #include "attribute.h"
@@ -510,8 +510,8 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
     }
 
     int suffix;
-    QPointer<OverwriteDialogue> overwriteDialog =
-        new OverwriteDialogue(name, outputDirectory.absolutePath(),
+    QPointer<OverwriteDialog> overwriteDialog =
+        new OverwriteDialog(name, outputDirectory.absolutePath(),
                               m_applyToAllRemaining, kapp->activeWindow());
     switch (pol->getOverwritePolicy()) {  //if it exists, check the OverwritePolicy we should use
     case CodeGenerationPolicy::Ok:              //ok to overwrite file

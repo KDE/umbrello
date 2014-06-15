@@ -12,7 +12,7 @@
 #include "objectwidget.h"
 
 // local includes
-#include "classpropdlg.h"
+#include "classpropertiesdialog.h"
 #include "debug_utils.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
@@ -284,7 +284,8 @@ void ObjectWidget::setX(qreal x)
 void ObjectWidget::setY(qreal y)
 {
     UMLWidget::setY(y);
-    moveEvent(0);
+    if (!UMLApp::app()->document()->loading())
+        moveEvent(0);
 }
 
 /**
@@ -390,7 +391,7 @@ void ObjectWidget::cleanup()
 void ObjectWidget::showPropertiesDialog()
 {
     UMLApp::app()->docWindow()->updateDocumentation(false);
-    QPointer<ClassPropDlg> dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
+    QPointer<ClassPropertiesDialog> dlg = new ClassPropertiesDialog((QWidget*)UMLApp::app(), this);
     if (dlg->exec()) {
         UMLApp::app()->docWindow()->showDocumentation(this, true);
         UMLApp::app()->document()->setModified(true);

@@ -45,10 +45,11 @@
 #include "umlviewimageexporter.h"
 #include "usecase.h"
 #include "model_utils.h"
+#include "optionstate.h"
 #include "uniqueid.h"
 #include "idchangelog.h"
 #include "umldragdata.h"
-#include "classpropdlg.h"
+#include "classpropertiesdialog.h"
 #include "umlattributedialog.h"
 #include "umlentityattributedialog.h"
 #include "umloperationdialog.h"
@@ -336,6 +337,11 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
 
     case ListPopupMenu::mt_Component:
         addNewItem(currItem, UMLListViewItem::lvt_Component);
+        break;
+
+    case ListPopupMenu::mt_Port:
+        if (Settings::optionState().generalState.uml2)
+            addNewItem(currItem, UMLListViewItem::lvt_Port);
         break;
 
     case ListPopupMenu::mt_Node:
@@ -629,7 +635,7 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
             umlType = object->baseType();
 
             if (Model_Utils::typeIsCanvasWidget(lvt)) {
-                object->showPropertiesPagedDialog(ClassPropDlg::page_gen);
+                object->showPropertiesPagedDialog(ClassPropertiesDialog::page_gen);
             } else if (umlType == UMLObject::ot_EnumLiteral) {
                 // Show the Enum Literal Dialog
                 UMLEnumLiteral* selectedEnumLiteral = static_cast<UMLEnumLiteral*>(object);
@@ -810,6 +816,7 @@ void UMLListView::slotDiagramCreated(Uml::ID::Type id)
 UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const
 {
     UMLListViewItem* parentItem = 0;
+    UMLPackage*      pkg = 0;
     UMLListViewItem* current = (UMLListViewItem*) currentItem();
     UMLListViewItem::ListViewType lvt = UMLListViewItem::lvt_Unknown;
     if (current)
@@ -833,8 +840,8 @@ UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const
     case UMLObject::ot_Stereotype:
         return 0;  // currently no representation in list view
         break;
-    default: {
-        UMLPackage *pkg = object->umlPackage();
+    default:
+        pkg = object->umlPackage();
         if (pkg) {
             UMLListViewItem* pkgItem = findUMLObject(pkg);
             if (pkgItem == 0)
@@ -853,8 +860,7 @@ UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const
             Uml::ModelType::Enum guess = Model_Utils::guessContainer(object);
             parentItem = m_lv[guess];
         }
-    }
-    break;
+        break;
     }
     return parentItem;
 }
@@ -992,6 +998,7 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object)
     case UMLObject::ot_Actor:
     case UMLObject::ot_UseCase:
     case UMLObject::ot_Component:
+    case UMLObject::ot_Port:
     case UMLObject::ot_Artifact:
     case UMLObject::ot_Node:
     case UMLObject::ot_Folder:
@@ -1184,6 +1191,7 @@ UMLListViewItem * UMLListView::findUMLObjectInFolder(UMLListViewItem* folder, UM
         case UMLListViewItem::lvt_Package :
         case UMLListViewItem::lvt_Subsystem :
         case UMLListViewItem::lvt_Component :
+        case UMLListViewItem::lvt_Port :
         case UMLListViewItem::lvt_Node :
         case UMLListViewItem::lvt_Artifact :
         case UMLListViewItem::lvt_Interface :
@@ -1410,7 +1418,7 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
     }
 
     UMLObject::ObjectType type = object->baseType();
-    int page = ClassPropDlg::page_gen;
+    int page = ClassPropertiesDialog::page_gen;
     if (Model_Utils::isClassifierListitem(type)) {
         object = (UMLObject *)object->parent();
     }
@@ -1418,21 +1426,21 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
     switch (type) {
 
     case UMLObject::ot_Attribute:
-        page = ClassPropDlg::page_att;
+        page = ClassPropertiesDialog::page_att;
         break;
     case UMLObject::ot_Operation:
-        page = ClassPropDlg::page_op;
+        page = ClassPropertiesDialog::page_op;
         break;
     case UMLObject::ot_EntityAttribute:
-        page = ClassPropDlg::page_entatt;
+        page = ClassPropertiesDialog::page_entatt;
         break;
     case UMLObject::ot_UniqueConstraint:
     case UMLObject::ot_ForeignKeyConstraint:
     case UMLObject::ot_CheckConstraint:
-        page = ClassPropDlg::page_constraint;
+        page = ClassPropertiesDialog::page_constraint;
         break;
     default:
-        page = ClassPropDlg::page_gen;
+        page = ClassPropertiesDialog::page_gen;
         break;
     }
 
@@ -1490,8 +1498,9 @@ bool UMLListView::acceptDrag(QDropEvent* event) const
                 srcType = data->type;
                 accept = Model_Utils::typeIsAllowedInType(srcType, dstType);
 
-                // disallow drop of any child element is not allowed
-                if (!accept) break;
+                // disallow drop if any child element is not allowed
+                if (!accept)
+                    break;
             }
             break;
         }
@@ -1621,6 +1630,16 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
                 newParentType == UMLListViewItem::lvt_Component_View ||
                 newParentType == UMLListViewItem::lvt_Component ||
                 newParentType == UMLListViewItem::lvt_Subsystem) {
+            newItem = move->deepCopy(newParent);
+            if (m_doc->loading())         // deletion is not safe while loading
+                move->setVisible(false);  // (the <listview> XMI may be corrupted)
+            else
+                delete move;
+            addAtContainer(newItem, newParent);
+        }
+        break;
+    case UMLListViewItem::lvt_Port:
+        if (newParentType == UMLListViewItem::lvt_Component) {
             newItem = move->deepCopy(newParent);
             if (m_doc->loading())         // deletion is not safe while loading
                 move->setVisible(false);  // (the <listview> XMI may be corrupted)
@@ -1923,6 +1942,7 @@ UMLListViewItem* UMLListView::determineParentItem(UMLListViewItem::ListViewType 
         break;
     case UMLListViewItem::lvt_Component_Diagram:
     case UMLListViewItem::lvt_Component:
+    case UMLListViewItem::lvt_Port:
     case UMLListViewItem::lvt_Artifact:
         parent = m_lv[Uml::ModelType::Component];
         break;
@@ -2205,6 +2225,7 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
     case UMLListViewItem::lvt_Enum:
     case UMLListViewItem::lvt_Entity:
     case UMLListViewItem::lvt_Component:
+    case UMLListViewItem::lvt_Port:
     case UMLListViewItem::lvt_Subsystem:
     case UMLListViewItem::lvt_Logical_Folder:
     case UMLListViewItem::lvt_UseCase_Folder:
@@ -2369,6 +2390,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
         case UMLListViewItem::lvt_Package:
         case UMLListViewItem::lvt_Subsystem:
         case UMLListViewItem::lvt_Component:
+        case UMLListViewItem::lvt_Port:
         case UMLListViewItem::lvt_Node:
         case UMLListViewItem::lvt_Artifact:
         case UMLListViewItem::lvt_Logical_Folder:

@@ -129,7 +129,7 @@ public:
     int getMinY();
     int getMaxY();
 
-    qreal onWidget(const QPointF& p);
+    UMLWidget* onWidget(const QPointF& p);
 
     virtual void resizeWidget(qreal newW, qreal newH);
 

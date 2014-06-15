@@ -29,6 +29,7 @@
 #include "stereotype.h"
 #include "classifierlistitem.h"
 #include "object_factory.h"
+#include "import_argo.h"
 #include "import_rose.h"
 #include "model_utils.h"
 #include "uml.h"
@@ -546,6 +547,17 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
             }
             else
                 newDocument();
+        }
+        else if (filetype.endsWith(QLatin1String(".zargo"))) {
+            m_doc_url.setFileName(i18n("Untitled"));
+            status = Import_Argo::loadFromZArgoFile(file);
+            if (!status) {
+                KMessageBox::error(0, i18n("There was a problem loading file: %1", url.pathOrUrl()),
+                                       i18n("Load Error"));
+                m_bLoading = false;
+                newDocument();
+                return false;
+            }
         }
         else {
             status = loadFromXMI(file, ENC_UNKNOWN);

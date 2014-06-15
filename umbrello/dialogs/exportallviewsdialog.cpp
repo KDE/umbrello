@@ -23,23 +23,14 @@
  *
  * @param parent The parent of the dialog.
  * @param name The internal name.
- * @param modal If modal is true the dialog will block input to other the windows
- *              in the application until it's closed.
- * @param fl Window flags.
- * @param defaultMimeType The default mime type that appears in the mime types list.
  *
  * @see KDialog::KDialog
  */
-ExportAllViewsDialog::ExportAllViewsDialog(
-        QWidget* parent /* = 0 */,
-        const char* name /* = 0 */,
-        bool modal /* = false */,
-        Qt::WindowFlags fl /* = 0*/,
-        const QString& defaultMimeType /*= "image/png"*/)
-  : KDialog(parent, fl)
+ExportAllViewsDialog::ExportAllViewsDialog(QWidget* parent, const char* name)
+  : KDialog(parent)
 {
     setObjectName(name);
-    setModal(modal);
+    setModal(false);
     setupUi(mainWidget());
 
     // create and initialize m_imageType
@@ -51,7 +42,7 @@ ExportAllViewsDialog::ExportAllViewsDialog(
     m_imageType->setSizePolicy(sp);
     m_imageType->setEditable(false);
 
-    m_imageType->setMimeFilter(UMLViewImageExporterModel::supportedMimeTypes(), defaultMimeType);
+    m_imageType->setMimeFilter(UMLViewImageExporterModel::supportedMimeTypes(), "image/png");
 
     // Cannot give an object name to the layout when using QtDesigner,
     // therefore go and use an editor and add it by hand.

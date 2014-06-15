@@ -8,18 +8,18 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#ifndef CLASSPROPDLG_H
-#define CLASSPROPDLG_H
+#ifndef CLASSPROPERTIESDIALOG_H
+#define CLASSPROPERTIESDIALOG_H
 
 #include "dialogbase.h"
 
-class AssocPage;
-class ClassGenPage;
+class ClassAssociationsPage;
+class ClassGeneralPage;
 class ClassifierListPage;
 class ClassOptionsPage;
 class ConstraintListPage;
 class KFontChooser;
-class PkgContentsPage;
+class PackageContentsPage;
 class ObjectWidget;
 class UMLDoc;
 class UMLObject;
@@ -31,15 +31,15 @@ class UMLWidgetStylePage;
  * @version 1.0
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class ClassPropDlg : public DialogBase
+class ClassPropertiesDialog : public DialogBase
 {
     Q_OBJECT
 public:
-    ClassPropDlg(QWidget *parent, UMLObject *c, bool assoc = false);
-    ClassPropDlg(QWidget *parent, ObjectWidget * o);
-    ClassPropDlg(QWidget *parent, UMLWidget * o);
+    ClassPropertiesDialog(QWidget *parent, UMLObject *c, bool assoc = false);
+    ClassPropertiesDialog(QWidget *parent, ObjectWidget * o);
+    ClassPropertiesDialog(QWidget *parent, UMLWidget * o);
 
-    ~ClassPropDlg();
+    ~ClassPropertiesDialog();
 
     enum Page{page_gen = 0, page_att, page_op, page_entatt, page_constraint, page_template,
               page_assoc, page_options, page_color, page_font};
@@ -68,15 +68,15 @@ protected:
 
 private:
     KFontChooser*        m_pChooser;
-    ClassGenPage*        m_pGenPage;
+    ClassGeneralPage*    m_pGenPage;
     ClassifierListPage*  m_pAttPage;
     ClassifierListPage*  m_pOpsPage;
     ClassifierListPage*  m_pTemplatePage;
     ClassifierListPage*  m_pEnumLiteralPage;
     ClassifierListPage*  m_pEntityAttributePage;
     ConstraintListPage*  m_pEntityConstraintPage;
-    PkgContentsPage*     m_pPkgContentsPage;
-    AssocPage*           m_pAssocPage;
+    PackageContentsPage* m_pPkgContentsPage;
+    ClassAssociationsPage* m_pAssocPage;
     ClassOptionsPage*    m_pOptionsPage;
     UMLWidgetStylePage*  m_pStylePage;
 

@@ -336,6 +336,16 @@ QStringList JavaCodeGenerator::defaultDatatypes()
     l.append("short");
     l.append("long");
     l.append("String");
+    l.append("Integer");
+    l.append("Character");
+    l.append("Boolean");
+    l.append("Float");
+    l.append("Double");
+    l.append("Byte");
+    l.append("Short");
+    l.append("Long");
+    l.append("StringBuffer");
+    l.append("StringBuilder");
     return l;
 }
 

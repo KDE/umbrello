@@ -16,6 +16,10 @@
 #include "debug_utils.h"
 #include "umlscene.h"
 #include "umlview.h"
+#include "optionstate.h"
+#include "umldoc.h"
+#include "package.h"
+#include "portwidget.h"
 
 /**
  * Constructs a ComponentWidget.
@@ -55,10 +59,11 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     if (umlcomp == NULL)
         return;
     setPenFromSettings(painter);
+    QPen origPen = painter->pen();
+    QPen pen = origPen;
     if (umlcomp->getExecutable()) {
-        QPen thickerPen = painter->pen();
-        thickerPen.setWidth(2);
-        painter->setPen(thickerPen);
+        pen.setWidth(origPen.width() + 2);
+        painter->setPen(pen);
     }
     if (UMLWidget::useFillColor()) {
         painter->setBrush(UMLWidget::fillColor());
@@ -68,6 +73,8 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 
     const int w = width();
     const int h = height();
+    const int halfHeight = h / 2;
+    int   textXOffset = 0;
     QFont font = UMLWidget::font();
     font.setBold(true);
     const QFontMetrics &fm = getFontMetrics(FT_BOLD);
@@ -75,9 +82,20 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     QString nameStr = name();
     const QString stereotype = m_umlObject->stereotype();
 
-    painter->drawRect(2*COMPONENT_MARGIN, 0, w - 2*COMPONENT_MARGIN, h);
-    painter->drawRect(0, h/2 - fontHeight/2 - fontHeight, COMPONENT_MARGIN*4, fontHeight);
-    painter->drawRect(0, h/2 + fontHeight/2, COMPONENT_MARGIN*4, fontHeight);
+    if (Settings::optionState().generalState.uml2) {
+        painter->drawRect(0, 0, w, h);
+        // draw small component symbol in upper right corner
+        painter->setPen(origPen);
+        painter->drawRect(w - 17,  5, 11, 13);
+        painter->drawRect(w - 19,  7,  2,  2);
+        painter->drawRect(w - 19, 11,  2,  2);
+        painter->setPen(pen);
+    } else {
+        painter->drawRect(2*COMPONENT_MARGIN, 0, w - 2*COMPONENT_MARGIN, h);
+        painter->drawRect(0, halfHeight - fontHeight/2 - fontHeight, COMPONENT_MARGIN*4, fontHeight);
+        painter->drawRect(0, halfHeight + fontHeight/2, COMPONENT_MARGIN*4, fontHeight);
+        textXOffset = COMPONENT_MARGIN * 4;
+    }
 
     painter->setPen(textColor());
     painter->setFont(font);
@@ -85,8 +103,8 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     int lines = 1;
 
     if (!stereotype.isEmpty()) {
-        painter->drawText((COMPONENT_MARGIN*4), (h/2) - fontHeight,
-                   w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter,
+        painter->drawText(textXOffset, halfHeight - fontHeight,
+                   w - textXOffset, fontHeight, Qt::AlignCenter,
                    m_umlObject->stereotype(true));
         lines = 2;
     }
@@ -98,14 +116,44 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     }
 
     if (lines == 1) {
-        painter->drawText((COMPONENT_MARGIN*4), (h/2) - (fontHeight/2),
-                   w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter, nameStr);
+        painter->drawText(textXOffset, halfHeight - (fontHeight/2),
+                   w - textXOffset, fontHeight, Qt::AlignCenter, nameStr);
     } else {
-        painter->drawText((COMPONENT_MARGIN*4), (h/2),
-                   w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter, nameStr);
+        painter->drawText(textXOffset, halfHeight,
+                   w - textXOffset, fontHeight, Qt::AlignCenter, nameStr);
     }
 
     UMLWidget::paint(painter, option, widget);
+}
+
+/**
+ * Overridden from UMLWidget due to emission of signal sigCompMoved()
+ */
+void ComponentWidget::moveWidgetBy(qreal diffX, qreal diffY)
+{
+    UMLWidget::moveWidgetBy(diffX, diffY);
+    emit sigCompMoved(diffX, diffY);
+}
+
+/**
+ * Override method from UMLWidget for adjustment of attached PortWidgets.
+ */
+void ComponentWidget::adjustAssocs(qreal dx, qreal dy)
+{
+    if (m_doc->loading()) {
+        // don't recalculate the assocs during load of XMI
+        // -> return immediately without action
+        return;
+    }
+    UMLWidget::adjustAssocs(dx, dy);
+    UMLPackage *comp = static_cast<UMLPackage*>(m_umlObject);
+    foreach (UMLObject *o, comp->containedObjects()) {
+        if (o->baseType() != UMLObject::ot_Port)
+            continue;
+        UMLWidget *portW = m_scene->widgetOnDiagram(o->id());
+        if (portW)
+            portW->adjustAssocs(dx, dy);
+    }
 }
 
 /**
@@ -155,3 +203,5 @@ QSizeF ComponentWidget::minimumSize()
 
     return QSizeF(width, height);
 }
+
+#include "componentwidget.moc"

@@ -13,14 +13,14 @@
 // local includes
 #include "associationwidget.h"
 #include "classifier.h"
-#include "classpropdlg.h"
+#include "classpropertiesdialog.h"
 #include "cmds.h"
 #include "debug_utils.h"
 #include "docwindow.h"
 #include "floatingtextwidget.h"
 #include "idchangelog.h"
 #include "listpopupmenu.h"
-#include "settingsdlg.h"
+#include "settingsdialog.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umllistview.h"
@@ -197,6 +197,27 @@ void UMLWidget::setLocalID(Uml::ID::Type id)
 Uml::ID::Type UMLWidget::localID() const
 {
     return m_nLocalID;
+}
+
+/**
+ * Returns the widget with the given ID.
+ * The default implementation tests the following IDs:
+ * - m_nLocalID
+ * - if m_umlObject is non NULL: m_umlObject->id()
+ * - m_nID
+ * Composite widgets override this function to test further owned widgets.
+ *
+ * @param id  The ID to test this widget against.
+ * @return  'this' if id is either of m_nLocalID, m_umlObject->id(), or m_nId;
+ *           else NULL.
+ */
+UMLWidget* UMLWidget::widgetWithID(Uml::ID::Type id)
+{
+    if (id == m_nLocalID ||
+        (m_umlObject != NULL && id == m_umlObject->id()) ||
+        id == m_nId)
+        return this;
+    return NULL;
 }
 
 /**
@@ -414,9 +435,9 @@ void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
  * on the widget. Go on reading for more info about this.
  *
  * If resizing, the widget is resized using UMLWidget::resizeWidget (where specific
- * widget resize constrain can be applied), and then the associations are
+ * widget resize constraint can be applied), and then the associations are
  * adjusted.
- * The resizing can be constrained also to an specific axis using control
+ * The resizing can be constrained also to a specific axis using control
  * and shift buttons. If on or another is pressed, it's constrained to X axis.
  * If both are pressed, it's constrained to Y axis.
  *
@@ -427,12 +448,12 @@ void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
  * one is got (taking in account the selection bounds so widgets don't go
  * beyond the scene limits). Then, it's constrained to X or Y axis depending
  * on shift and control buttons.
- * A further constrain is made using constrainMovementForAllWidgets (for example,
+ * A further constraint is made using constrainMovementForAllWidgets (for example,
  * if the widget that receives the event can only be moved in Y axis, with this
  * method the movement of all the widgets in the selection can be constrained to
  * be moved only in Y axis).
  * Then, all the selected widgets are moved using moveWidgetBy (where specific
- * widget movement constrain can be applied) and, if an specific amount of time
+ * widget movement constraint can be applied) and, if a certain amount of time
  * passed from the last move event, the associations are also updated (they're
  * not updated always to be easy on the CPU). Finally, the scene is resized,
  * and selection bounds updated.
@@ -1102,7 +1123,7 @@ void UMLWidget::showPropertiesDialog()
     // will already be selected so make sure docWindow updates the doc
     // back it the widget
     UMLApp::app()->docWindow()->updateDocumentation(false);
-    QPointer<ClassPropDlg> dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
+    QPointer<ClassPropertiesDialog> dlg = new ClassPropertiesDialog((QWidget*)UMLApp::app(), this);
 
     if (dlg->exec()) {
         UMLApp::app()->docWindow()->showDocumentation(umlObject(), true);
@@ -1113,15 +1134,14 @@ void UMLWidget::showPropertiesDialog()
 }
 
 /**
- * Returns 0 if the given point is not in the boundaries of the widget,
- * else returns a number which is proportional to the size of the widget.
+ * Default implementation returns 'this' if the given point is in the
+ * boundaries of the widget, else returns NULL.
  *
  * @param p Point to be checked.
  *
- * @return 0 if the given point is not in the boundaries of the widget;
- *         (width()+height())/2 if the point is within the boundaries.
+ * @return 'this' if the given point is in the boundaries of the widget.
  */
-qreal UMLWidget::onWidget(const QPointF &p)
+UMLWidget* UMLWidget::onWidget(const QPointF &p)
 {
     const qreal w = width();
     const qreal h = height();
@@ -1129,10 +1149,15 @@ qreal UMLWidget::onWidget(const QPointF &p)
     const qreal right = left + w;
     const qreal top = y();
     const qreal bottom = top + h;
+    uDebug() << "p=(" << p.x() << "," << p.y() << "), x=" << left << ", y=" << top << ", w=" << w << ", h=" << h
+             << "; right=" << right << ", bottom=" << bottom;
     if (p.x() < left || p.x() > right ||
-            p.y() < top || p.y() > bottom)   // Qt coord.sys. origin in top left corner
-        return 0;
-    return (w + h) / 2;
+            p.y() < top || p.y() > bottom) { // Qt coord.sys. origin in top left corner
+        uDebug() << "returning NULL";
+        return NULL;
+    }
+    uDebug() << "returning this";
+    return this;
 }
 
 /**
@@ -1485,6 +1510,7 @@ bool UMLWidget::widgetHasUMLObject(WidgetBase::WidgetType type)
             type == WidgetBase::wt_Datatype  ||
             type == WidgetBase::wt_Package   ||
             type == WidgetBase::wt_Component ||
+            type == WidgetBase::wt_Port ||
             type == WidgetBase::wt_Node      ||
             type == WidgetBase::wt_Artifact  ||
             type == WidgetBase::wt_Object) {

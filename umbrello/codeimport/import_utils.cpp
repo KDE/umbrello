@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2013                                               *
+ *   copyright (C) 2005-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -201,6 +201,9 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
     } else if (parentPkg->baseType() == UMLObject::ot_Association) {
         DEBUG(DBG_SRC) << "Import_Utils::createUMLObject(" << name
                        << "): Association as parent package is not supported yet, using Logical View";
+        parentPkg = logicalView;
+    } else if (name.startsWith("::")) {
+        name = name.mid(2);
         parentPkg = logicalView;
     }
     UMLObject * o = umldoc->findUMLObject(name, type, parentPkg);

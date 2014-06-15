@@ -9,14 +9,14 @@
  ***************************************************************************/
 
 // own header
-#include "assocpropdlg.h"
+#include "associationpropertiesdialog.h"
 
 // local includes
 #include "associationwidget.h"
-#include "assocgenpage.h"
-#include "assocrolepage.h"
-#include "classgenpage.h"
-#include "classpropdlg.h"
+#include "associationgeneralpage.h"
+#include "associationrolepage.h"
+#include "classgeneralpage.h"
+#include "classpropertiesdialog.h"
 #include "debug_utils.h"
 #include "icon_utils.h"
 #include "objectwidget.h"
@@ -40,11 +40,11 @@
 
 /**
  *  Sets up a Association Properties Dialog.
- *  @param  parent  The parent of the AssocPropDlg
+ *  @param  parent  The parent of the AssociationPropertiesDialog
  *  @param  a       The Association Widget to display properties of.
  *  @param  pageNum The page to show first.
  */
-AssocPropDlg::AssocPropDlg (QWidget *parent, AssociationWidget * assocWidget, int pageNum)
+AssociationPropertiesDialog::AssociationPropertiesDialog (QWidget *parent, AssociationWidget * assocWidget, int pageNum)
   : DialogBase(parent),
     m_pGenPage(0),
     m_pRolePage(0),
@@ -61,17 +61,17 @@ AssocPropDlg::AssocPropDlg (QWidget *parent, AssociationWidget * assocWidget, in
 /**
  *  Standard destructor.
  */
-AssocPropDlg::~AssocPropDlg()
+AssociationPropertiesDialog::~AssociationPropertiesDialog()
 {
 }
 
-void AssocPropDlg::slotOk()
+void AssociationPropertiesDialog::slotOk()
 {
     slotApply();
     accept();
 }
 
-void AssocPropDlg::slotApply()
+void AssociationPropertiesDialog::slotApply()
 {
     if (m_pGenPage) {
         m_pGenPage->updateObject();
@@ -90,20 +90,20 @@ void AssocPropDlg::slotApply()
     }
 }
 
-void AssocPropDlg::setupPages()
+void AssociationPropertiesDialog::setupPages()
 {
     UMLDoc* umlDoc = UMLApp::app()->document();
 
     // general page
     QFrame *page = createPage(i18nc("general settings", "General"), i18n("General Settings"), Icon_Utils::it_Properties_General);
     QHBoxLayout *layout = new QHBoxLayout(page);
-    m_pGenPage = new AssocGenPage (umlDoc, page, m_pAssoc);
+    m_pGenPage = new AssociationGeneralPage (umlDoc, page, m_pAssoc);
     layout->addWidget(m_pGenPage);
 
     // role page
     page = createPage(i18nc("role page name", "Roles"), i18n("Role Settings"), Icon_Utils::it_Properties_Roles);
     layout = new QHBoxLayout(page);
-    m_pRolePage = new AssocRolePage(umlDoc, page, m_pAssoc),
+    m_pRolePage = new AssociationRolePage(umlDoc, page, m_pAssoc),
     layout->addWidget(m_pRolePage);
 
     // style page
@@ -121,4 +121,4 @@ void AssocPropDlg::setupPages()
     layout->addWidget(m_pChooser);
 }
 
-#include "assocpropdlg.moc"
+#include "associationpropertiesdialog.moc"

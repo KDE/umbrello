@@ -23,19 +23,19 @@ class UMLObject;
 class UMLScene;
 
 /**
- * Displays a page on the tabbed dialog window of @ref ClassPropDlg.
+ * Displays a page on the tabbed dialog window of @ref ClassPropertiesDialog.
  * The page shows all the Associations that belong to a UMLClassifier.
  *
  * @short The page shows all the Associations that belong to a UMLClassifier.
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class AssocPage : public DialogPageBase
+class ClassAssociationsPage : public DialogPageBase
 {
     Q_OBJECT
 public:
-    AssocPage(QWidget *parent, UMLScene * scene, UMLObject * o);
-    ~AssocPage();
+    ClassAssociationsPage(QWidget *parent, UMLScene * scene, UMLObject * o);
+    ~ClassAssociationsPage();
 
 private:
     UMLObject             *m_pObject;

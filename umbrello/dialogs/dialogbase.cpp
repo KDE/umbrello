@@ -32,7 +32,7 @@
 /**
  * Constructor
  */
-DialogBase::DialogBase(QWidget *parent)
+DialogBase::DialogBase(QWidget *parent, bool withDefaultButton)
   : QWidget(parent),
     m_pageDialog(0),
     m_pageWidget(0),
@@ -41,13 +41,18 @@ DialogBase::DialogBase(QWidget *parent)
 {
     if (m_useDialog) {
         m_pageDialog = new KPageDialog(parent);
-        m_pageDialog->setButtons(KDialog::Ok | KDialog::Apply | KDialog::Cancel | KDialog::Help);
+        KDialog::ButtonCodes buttons = KDialog::Ok | KDialog::Apply | KDialog::Cancel | KDialog::Help;
+        if (withDefaultButton)
+            buttons |=  KDialog::Default;
+        m_pageDialog->setButtons(buttons);
         m_pageDialog->setDefaultButton(KDialog::Ok);
         m_pageDialog->showButtonSeparator(true);
         m_pageDialog->setFaceType(KPageDialog::List);
         m_pageDialog->setModal(true);
+        m_pageDialog->setHelp("umbrello/index.html", QString());
         connect(m_pageDialog, SIGNAL(okClicked()), this, SLOT(slotOkClicked()));
         connect(m_pageDialog, SIGNAL(applyClicked()), this, SLOT(slotApplyClicked()));
+        connect(m_pageDialog, SIGNAL(defaultClicked()), this, SLOT(slotDefaultClicked()));
     } else {
         m_pageWidget = new KPageWidget(this);
         m_pageWidget->setFaceType(KPageView::Tree);
@@ -185,14 +190,28 @@ bool DialogBase::isModified()
     return m_isModified;
 }
 
+/**
+ * Handle click on ok button.
+ */
 void DialogBase::slotOkClicked()
 {
     emit okClicked();
 }
 
+/**
+ * Handle click on apply button.
+ */
 void DialogBase::slotApplyClicked()
 {
     emit applyClicked();
+}
+
+/**
+ * Handle click on default button, if enabled in constructor.
+ */
+void DialogBase::slotDefaultClicked()
+{
+    emit defaultClicked();
 }
 
 /**

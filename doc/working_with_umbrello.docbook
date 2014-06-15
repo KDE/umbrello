@@ -272,10 +272,8 @@ representation on the diagram.
 </para>
 
 <para>
-For most &UML; elements you can also open the properties dialog by
-double clicking on it if you are using the selection tool (arrow). The
-exception to this is Associations, in which case a double click
-creates an anchor point. For associations you need to use the &RMB; context menu to get the properties dialog.
+For &UML; elements you can also open the properties dialog by
+double clicking on it if you are using the selection tool (arrow).
 </para>
 
 <para>

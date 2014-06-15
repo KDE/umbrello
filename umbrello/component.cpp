@@ -70,8 +70,7 @@ void UMLComponent::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 }
 
 /**
- * Loads the UML:Component element including its operations,
- * attributes and templates
+ * Loads the UML:Component element including its ports et al.
  */
 bool UMLComponent::load(QDomElement& element)
 {

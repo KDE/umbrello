@@ -7,7 +7,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 set(KDE4_BUILD_TESTS ON)  # for unit tests
 
 set(VERSION_MAJOR "2")
-set(VERSION_MINOR "12")
+set(VERSION_MINOR "13")
 set(VERSION_PATCH "99")
 
 # set default umbrello version
@@ -34,6 +34,9 @@ add_definitions(-DUMBRELLO_VERSION_STRING="${UMBRELLO_VERSION_STRING}")
 find_package(KDE4 REQUIRED)
 include(KDE4Defaults)
 include(MacroLibrary)
+
+message(STATUS "Using automoc4 version ${AUTOMOC4_VERSION}")
+message(STATUS "Using cmake version ${CMAKE_VERSION}")
 
 # The FindKDE4.cmake module sets _KDE4_PLATFORM_DEFINITIONS with
 # definitions like _GNU_SOURCE that are needed on each platform.

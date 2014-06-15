@@ -9,7 +9,7 @@
  ***************************************************************************/
 
 // my own header
-#include "classgenpage.h"
+#include "classgeneralpage.h"
 
 // app includes
 #include "debug_utils.h"
@@ -45,7 +45,7 @@
 #include <QRadioButton>
 #include <QVBoxLayout>
 
-ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
+ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
   : DialogPageBase(parent),
     m_pObject(o), m_pWidget(0), m_pInstanceWidget(0), m_pUmldoc(d)
 {
@@ -81,6 +81,9 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
         break;
     case  UMLObject::ot_Component:
         name = i18n("Component &name:");
+        break;
+    case  UMLObject::ot_Port:
+        name = i18n("Port &name:");
         break;
     case  UMLObject::ot_Node:
         name = i18n("Node &name:");
@@ -280,7 +283,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     m_doc->setLineWrapMode(QTextEdit::WidgetWidth);
 }
 
-ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
+ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
   : DialogPageBase(parent),
     m_pObject(0), m_pWidget(o), m_pInstanceWidget(0), m_pUmldoc(d)
 {
@@ -350,7 +353,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     }
 }
 
-ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget)
+ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget)
   : DialogPageBase(parent),
     m_pObject(0), m_pWidget(0), m_pInstanceWidget(widget), m_pUmldoc(d)
 {
@@ -411,11 +414,11 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget)
     docLayout->addWidget(m_doc);
 }
 
-ClassGenPage::~ClassGenPage()
+ClassGeneralPage::~ClassGeneralPage()
 {
 }
 
-void ClassGenPage::insertStereotypesSorted(const QString& type)
+void ClassGeneralPage::insertStereotypesSorted(const QString& type)
 {
     QStringList types;
     types << "";  // an empty stereotype is the default
@@ -443,7 +446,7 @@ void ClassGenPage::insertStereotypesSorted(const QString& type)
  * Will move information from the dialog into the object.
  * Call when the ok or apply button is pressed.
  */
-void ClassGenPage::updateObject()
+void ClassGeneralPage::updateObject()
 {
     if (m_pObject) {
         QString name = m_pClassNameLE->text();
@@ -554,11 +557,11 @@ void ClassGenPage::updateObject()
  * as multi instance need to be enabled/disabled. They
  * both can't be available at the same time.
  */
-void ClassGenPage::slotActorToggled(bool state)
+void ClassGeneralPage::slotActorToggled(bool state)
 {
     if (m_pMultiCB) {
         m_pMultiCB->setEnabled(!state);
     }
 }
 
-#include "classgenpage.moc"
+#include "classgeneralpage.moc"

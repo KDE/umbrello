@@ -26,17 +26,14 @@
 #include <QTabWidget>
 
 CodeViewerDialog::CodeViewerDialog (QWidget* parent, CodeDocument * doc,
-                                     Settings::CodeViewerState state,
-                                     const char* name, bool modal, Qt::WFlags fl)
-        : KDialog (parent, fl), m_state(state)
+                                     Settings::CodeViewerState state)
+  : KDialog (parent), m_state(state)
 {
-    setObjectName(name);
-    uDebug() << "setObjectName(" << name << ")";
-    setModal(modal);
+    setModal(false);
     setButtons(KDialog::Cancel);
     setupUi(mainWidget());
     setInitialSize(QSize(630, 730));
-    initGUI(name);
+    initGUI();
     addCodeDocument(doc);
     connect(this, SIGNAL(cancelClicked()), mainWidget(), SLOT(close()));
 }
@@ -46,12 +43,8 @@ CodeViewerDialog::~CodeViewerDialog()
     // no need to delete child widgets, Qt does it all for us
 }
 
-void CodeViewerDialog::initGUI (const char * name)
+void CodeViewerDialog::initGUI()
 {
-    if (!name) {
-        setObjectName("CodeViewerDialog");
-    }
-
     setFont(state().font);
 
     ui_highlightCheckBox->setChecked(state().blocksAreHighlighted);

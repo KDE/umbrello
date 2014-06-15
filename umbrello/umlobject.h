@@ -72,7 +72,8 @@ public:
         ot_UniqueConstraint,
         ot_ForeignKeyConstraint,
         ot_CheckConstraint,
-        ot_Category
+        ot_Category,
+        ot_Port
     };
 
     static QString toString(ObjectType ot);

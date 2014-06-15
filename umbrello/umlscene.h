@@ -155,7 +155,6 @@ public:
     AssociationWidgetList& associationList();
     UMLWidgetList& widgetList();
     MessageWidgetList& messageList();
-    UMLObjectList umlObjects();
 
     bool isOpen() const;
     void setIsOpen(bool isOpen);
@@ -171,7 +170,6 @@ public:
     void checkMessages(ObjectWidget * w);
 
     UMLWidget* findWidget(Uml::ID::Type id);
-    UMLWidget* findWidgetByLocalId(Uml::ID::Type id);
 
     AssociationWidget* findAssocWidget(Uml::ID::Type id);
     AssociationWidget* findAssocWidget(Uml::AssociationType::Enum at,
@@ -201,7 +199,7 @@ public:
 
     void selectAll();
 
-    bool widgetOnDiagram(Uml::ID::Type id);
+    UMLWidget* widgetOnDiagram(Uml::ID::Type id);
 
     bool isSavedInSeparateFile();
 

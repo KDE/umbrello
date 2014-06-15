@@ -9,7 +9,7 @@
  ***************************************************************************/
 
 // own header
-#include "assocgenpage.h"
+#include "associationgeneralpage.h"
 
 // local includes
 #include "associationwidget.h"
@@ -36,13 +36,13 @@
 #include <QVBoxLayout>
 
 /**
- *  Sets up the AssocGenPage.
+ *  Sets up the AssociationGeneralPage.
  *
  *  @param  d       The UMLDoc which controls controls object creation.
- *  @param  parent  The parent to the AssocGenPage.
+ *  @param  parent  The parent to the AssociationGeneralPage.
  *  @param  a       The AssociationWidget to display the properties of.
  */
-AssocGenPage::AssocGenPage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc)
+AssociationGeneralPage::AssociationGeneralPage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc)
   : DialogPageBase(parent),
     m_pAssocNameLE(0),
     m_pTypeCB(0),
@@ -56,14 +56,14 @@ AssocGenPage::AssocGenPage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc
 /**
  *  Standard destructor.
  */
-AssocGenPage::~AssocGenPage()
+AssociationGeneralPage::~AssociationGeneralPage()
 {
 }
 
 /**
  * Construct all the widgets for this dialog.
  */
-void AssocGenPage::constructWidget()
+void AssociationGeneralPage::constructWidget()
 {
     // general configuration of the GUI
     int margin = fontMetrics().height();
@@ -163,7 +163,7 @@ void AssocGenPage::constructWidget()
  *  Will move information from the dialog into the object.
  *  Call when the ok or apply button is pressed.
  */
-void AssocGenPage::updateObject()
+void AssociationGeneralPage::updateObject()
 {
     if (m_pAssociationWidget) {
         int comboBoxItem = m_pTypeCB->currentIndex();
@@ -174,4 +174,4 @@ void AssocGenPage::updateObject()
     }
 }
 
-#include "assocgenpage.moc"
+#include "associationgeneralpage.moc"

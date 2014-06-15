@@ -61,7 +61,7 @@ public:
 
     virtual void setUMLObject(UMLObject *obj);
 
-    //---------- LinkWidget Interface methods implemementation from now on.
+    //---------- LinkWidget Interface methods implementation from now on.
 
     virtual void lwSetFont(QFont font);
     virtual UMLClassifier *operationOwner();
@@ -88,7 +88,7 @@ public:
 
     virtual void calculateNameTextSegment();
 
-    //---------- End LinkWidget Interface methods implemementation.
+    //---------- End LinkWidget Interface methods implementation.
 
     UMLAssociation* association() const;
     UMLAttribute* attribute() const;

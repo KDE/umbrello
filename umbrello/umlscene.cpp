@@ -25,6 +25,7 @@
 #include "classoptionspage.h"
 #include "cmds.h"
 #include "componentwidget.h"
+#include "portwidget.h"
 #include "datatypewidget.h"
 #include "debug_utils.h"
 #include "docwindow.h"
@@ -538,10 +539,15 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
  */
 void UMLScene::setupNewWidget(UMLWidget *w, bool setPosition)
 {
-    // Objects position is handled inside the widget
-    if (setPosition && w->baseType() != WidgetBase::wt_Object) {
-        w->setX(m_Pos.x());
-        w->setY(m_Pos.y());
+    if (setPosition) {
+        if (w->baseType() == WidgetBase::wt_Port) {
+            PortWidget *pw = static_cast<PortWidget*>(w);
+            pw->attachToOwningComponent();
+        } else if (w->baseType() != WidgetBase::wt_Object) {
+            // ObjectWidget's position is handled by the widget
+            w->setX(m_Pos.x());
+            w->setY(m_Pos.y());
+        }
     }
     w->setVisible(true);
     w->activate();
@@ -683,6 +689,7 @@ void UMLScene::dragEnterEvent(QGraphicsSceneDragDropEvent *e)
 {
     UMLDragData::LvTypeAndID_List tidList;
     if (!UMLDragData::getClip3TypeAndID(e->mimeData(), tidList)) {
+        DEBUG(DBG_SRC) << "UMLDragData::getClip3TypeAndID returned false";
         return;
     }
     UMLDragData::LvTypeAndID_It tidIt(tidList);
@@ -760,11 +767,17 @@ void UMLScene::dragEnterEvent(QGraphicsSceneDragDropEvent *e)
             (ot != UMLObject::ot_Interface &&
              ot != UMLObject::ot_Package &&
              ot != UMLObject::ot_Component &&
+             ot != UMLObject::ot_Port &&
              ot != UMLObject::ot_Artifact &&
              ot != UMLObject::ot_Class))
             bAccept = false;
-        if (ot == UMLObject::ot_Class && !temp->isAbstract())
+        else if (ot == UMLObject::ot_Class && !temp->isAbstract())
             bAccept = false;
+        else if (ot == UMLObject::ot_Port) {
+            const bool componentOnDiagram = widgetOnDiagram(temp->umlPackage()->id());
+            DEBUG(DBG_SRC) << "ot_Port: componentOnDiagram = " << componentOnDiagram;
+            bAccept = componentOnDiagram;
+        }
         break;
     case DiagramType::EntityRelationship:
         if (ot != UMLObject::ot_Entity && ot != UMLObject::ot_Category)
@@ -795,6 +808,7 @@ void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
 {
     UMLDragData::LvTypeAndID_List tidList;
     if (!UMLDragData::getClip3TypeAndID(e->mimeData(), tidList)) {
+        DEBUG(DBG_SRC) << "UMLDragData::getClip3TypeAndID returned error";
         return;
     }
     UMLDragData::LvTypeAndID_It tidIt(tidList);
@@ -920,7 +934,7 @@ void UMLScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* ome)
  * Determine whether on a sequence diagram we have clicked on a line
  * of an Object.
  *
- * @return The widget thats line was clicked on.
+ * @return The widget owning the line which was clicked.
  *  Returns 0 if no line was clicked on.
  */
 ObjectWidget * UMLScene::onWidgetLine(const QPointF &point) const
@@ -945,7 +959,7 @@ ObjectWidget * UMLScene::onWidgetLine(const QPointF &point) const
  * Determine whether on a sequence diagram we have clicked on
  * the destruction box of an Object.
  *
- * @return The widget thats destruction box was clicked on.
+ * @return The widget owning the destruction box which was clicked.
  *  Returns 0 if no destruction box was clicked on.
  */
 ObjectWidget * UMLScene::onWidgetDestructionBox(const QPointF &point) const
@@ -988,12 +1002,13 @@ UMLWidget* UMLScene::widgetAt(const QPointF& p)
     qreal relativeSize = 99990.0;  // start with an arbitrary large number
     UMLWidget  *retWid = 0;
     foreach(UMLWidget* wid, widgetList()) {
-        const int s = wid->onWidget(p);
-        if (!s)
+        UMLWidget* w = wid->onWidget(p);
+        if (w == NULL)
             continue;
+        const qreal s = (w->width() + w->height()) / 2.0;
         if (s < relativeSize) {
             relativeSize = s;
-            retWid = wid;
+            retWid = w;
         }
     }
     return retWid;
@@ -1052,21 +1067,24 @@ void UMLScene::checkMessages(ObjectWidget * w)
  *
  * @param id The id of the widget to check for.
  *
- * @return Returns true if the widget is already on the diagram, false if not.
+ * @return Returns pointer to the widget if it is on the diagram, NULL if not.
  */
-bool UMLScene::widgetOnDiagram(Uml::ID::Type id)
+UMLWidget* UMLScene::widgetOnDiagram(Uml::ID::Type id)
 {
     foreach(UMLWidget *obj, m_WidgetList) {
-        if (id == obj->id())
-            return true;
+        UMLWidget* w = obj->widgetWithID(id);
+        if (w)
+            return w;
     }
 
     foreach(UMLWidget *obj, m_MessageList) {
+        // CHECK: Should MessageWidget reimplement widgetWithID() ?
+        //       If yes then we should use obj->widgetWithID(id) here too.
         if (id == obj->id())
-            return true;
+            return obj;
     }
 
-    return false;
+    return NULL;
 }
 
 /**
@@ -1079,41 +1097,18 @@ bool UMLScene::widgetOnDiagram(Uml::ID::Type id)
 UMLWidget * UMLScene::findWidget(Uml::ID::Type id)
 {
     foreach(UMLWidget* obj, m_WidgetList) {
-        // object widgets are special..the widget id is held by 'localId' attribute (crappy!)
-        if (obj->baseType() == WidgetBase::wt_Object) {
-            if (static_cast<ObjectWidget *>(obj)->localID() == id)
-                return obj;
-        } else if (obj->id() == id) {
-            return obj;
+        UMLWidget* w = obj->widgetWithID(id);
+        if (w) {
+            return w;
         }
     }
 
     foreach(UMLWidget* obj, m_MessageList) {
-        if (obj->id() == id)
+        // CHECK: Should MessageWidget reimplement widgetWithID() ?
+        //       If yes then we should use obj->widgetWithID(id) here too.
+        if (obj->localID() == id ||
+            obj->id() == id)
             return obj;
-    }
-
-    return 0;
-}
-
-/**
- * Finds a widget with the given local ID.
- * @param id The ID of the widget to find.
- *
- * @return Returns the widget found, returns 0 if no widget found.
- */
-UMLWidget * UMLScene::findWidgetByLocalId(Uml::ID::Type id)
-{
-    foreach(UMLWidget* obj, m_WidgetList) {
-        if (obj->localID() == id) {
-            return obj;
-        }
-    }
-
-    foreach(UMLWidget* obj, m_MessageList) {
-        if (obj->localID() == id) {
-            return obj;
-        }
     }
 
     return 0;
@@ -1234,8 +1229,9 @@ void UMLScene::removeWidgetCmd(UMLWidget * o)
     disconnect(this, SIGNAL(sigTextColorChanged(Uml::ID::Type)), o, SLOT(slotTextColorChanged(Uml::ID::Type)));
     if (t == WidgetBase::wt_Message) {
         m_MessageList.removeAll(static_cast<MessageWidget*>(o));
-    } else
+    } else {
         m_WidgetList.removeAll(o);
+    }
     o->deleteLater();
     m_doc->setModified(true);
 }
@@ -1750,33 +1746,6 @@ UMLViewImageExporter* UMLScene::getImageExporter()
 void UMLScene::slotActivate()
 {
     m_doc->changeCurrentView(ID());
-}
-
-/**
- * Returns a List of all the UMLObjects(Use Cases, Concepts and Actors) in the View
- */
-UMLObjectList UMLScene::umlObjects()
-{
-    UMLObjectList list;
-    foreach(UMLWidget* w,  m_WidgetList) {
-
-        switch (w->baseType()) { //use switch for easy future expansion
-        case WidgetBase::wt_Actor:
-        case WidgetBase::wt_Class:
-        case WidgetBase::wt_Interface:
-        case WidgetBase::wt_Package:
-        case WidgetBase::wt_Component:
-        case WidgetBase::wt_Node:
-        case WidgetBase::wt_Artifact:
-        case WidgetBase::wt_UseCase:
-        case WidgetBase::wt_Object:
-            list.append(w->umlObject());
-            break;
-        default:
-            break;
-        }
-    }
-    return list;
 }
 
 /**
@@ -3575,7 +3544,8 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     viewElement.setAttribute("canvasheight", height());
     viewElement.setAttribute("canvaswidth", width());
     viewElement.setAttribute("isopen", isOpen());
-    if (type() == Uml::DiagramType::Sequence)
+    if (type() == Uml::DiagramType::Sequence ||
+        type() == Uml::DiagramType::Collaboration)
         viewElement.setAttribute("autoincrementsequence", autoIncrementSequence());
 
     //now save all the widgets
@@ -3700,7 +3670,8 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     }
     m_nLocalID = Uml::ID::fromString(localid);
 
-    if (m_Type == Uml::DiagramType::Sequence) {
+    if (m_Type == Uml::DiagramType::Sequence ||
+        m_Type == Uml::DiagramType::Collaboration) {
         QString autoIncrementSequence = qElement.attribute("autoincrementsequence", "0");
         m_autoIncrementSequence = (bool)autoIncrementSequence.toInt();
     }

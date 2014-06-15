@@ -14,7 +14,7 @@
 // app includes
 #include "association.h"
 #include "associationline.h"
-#include "assocpropdlg.h"
+#include "associationpropertiesdialog.h"
 #include "assocrules.h"
 #include "attribute.h"
 #include "classifier.h"
@@ -434,7 +434,7 @@ void AssociationWidget::setText(FloatingTextWidget *ft, const QString &text)
  */
 void AssociationWidget::showPropertiesDialog()
 {
-    QPointer<AssocPropDlg> dlg = new AssocPropDlg(static_cast<QWidget*>(m_scene->activeView()), this);
+    QPointer<AssociationPropertiesDialog> dlg = new AssociationPropertiesDialog(static_cast<QWidget*>(m_scene->activeView()), this);
     if (dlg->exec()) {
         //rules built into these functions to stop updating incorrect values
         setName(name());

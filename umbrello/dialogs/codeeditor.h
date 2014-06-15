@@ -98,7 +98,7 @@ protected:
 private:
     QString            m_parentDocName;
     CodeDocument *     m_parentDoc;
-    CodeViewerDialog * m_parentDlg;
+    CodeViewerDialog * m_parentDialog;
 
     int m_lastPara;
     int m_lastPos;
@@ -128,7 +128,7 @@ private:
     void updateTextBlockFromText(TextBlock * block);
 
     void initText(CodeDocument * doc);
-    void init(CodeViewerDialog * parentDlg, CodeDocument * parentDoc);
+    void init(CodeViewerDialog * parentDialog, CodeDocument * parentDoc);
 
     void changeTextBlockHighlighting(TextBlock * tb, bool selected);
     void setParagraphBackgroundColor(int position, const QColor& color);

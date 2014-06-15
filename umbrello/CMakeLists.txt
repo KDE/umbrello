@@ -47,6 +47,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/codeimpwizard/
   ${CMAKE_CURRENT_SOURCE_DIR}/debug/
   ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/
+  ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/pages/
   ${CMAKE_CURRENT_SOURCE_DIR}/docgenerators/
   ${CMAKE_CURRENT_SOURCE_DIR}/finder/
   ${CMAKE_CURRENT_SOURCE_DIR}/refactoring/
@@ -170,41 +171,23 @@ set(libdocgenerator_SRCS
 )
 
 set(libdialogs_SRCS
-    dialogs/autolayoutoptionpage.cpp
     dialogs/activitydialog.cpp
-    dialogs/activitypage.cpp
-    dialogs/assocgenpage.cpp
-    dialogs/assocpage.cpp
-    dialogs/assocpropdlg.cpp
-    dialogs/assocrolepage.cpp
-    dialogs/classgenpage.cpp
-    dialogs/classifierlistpage.cpp
-    dialogs/constraintlistpage.cpp
-    dialogs/classoptionspage.cpp
-    dialogs/classpropdlg.cpp
+    dialogs/associationpropertiesdialog.cpp
+    dialogs/classpropertiesdialog.cpp
     dialogs/classwizard.cpp
     dialogs/codeeditor.cpp
-    dialogs/codegenerationpolicypage.cpp
-    dialogs/codeimportoptionspage.cpp
     dialogs/codeviewerdialog.cpp
-    dialogs/codevieweroptionspage.cpp
     dialogs/codetextedit.cpp
     dialogs/codetexthighlighter.cpp
-    dialogs/defaultcodegenpolicypage.cpp
-    dialogs/diagrampropertiespage.cpp
-    dialogs/diagramprintpage.cpp
     dialogs/dialog_utils.cpp
     dialogs/dialogbase.cpp
-    dialogs/dialogpagebase.cpp
     dialogs/exportallviewsdialog.cpp
     dialogs/finddialog.cpp
-    dialogs/generaloptionpage.cpp
     dialogs/objectnodedialog.cpp
-    dialogs/overwritedialogue.cpp
-    dialogs/pkgcontentspage.cpp
-    dialogs/parmpropdlg.cpp
-    dialogs/selectopdlg.cpp
-    dialogs/settingsdlg.cpp
+    dialogs/overwritedialog.cpp
+    dialogs/parameterpropertiesdialog.cpp
+    dialogs/selectoperationdialog.cpp
+    dialogs/settingsdialog.cpp
     dialogs/statedialog.cpp
     dialogs/umlattributedialog.cpp
     dialogs/umlcheckconstraintdialog.cpp
@@ -214,21 +197,39 @@ set(libdialogs_SRCS
     dialogs/umloperationdialog.cpp
     dialogs/umltemplatedialog.cpp
     dialogs/umlroledialog.cpp
-    dialogs/umlroleproperties.cpp
     dialogs/umluniqueconstraintdialog.cpp
     dialogs/umlviewdialog.cpp
-    dialogs/umlwidgetstylepage.cpp
+    dialogs/pages/activitypage.cpp
+    dialogs/pages/associationgeneralpage.cpp
+    dialogs/pages/associationrolepage.cpp
+    dialogs/pages/autolayoutoptionpage.cpp
+    dialogs/pages/classassociationspage.cpp
+    dialogs/pages/classgeneralpage.cpp
+    dialogs/pages/classifierlistpage.cpp
+    dialogs/pages/classoptionspage.cpp
+    dialogs/pages/codegenerationpolicypage.cpp
+    dialogs/pages/codeimportoptionspage.cpp
+    dialogs/pages/codevieweroptionspage.cpp
+    dialogs/pages/constraintlistpage.cpp
+    dialogs/pages/defaultcodegenpolicypage.cpp
+    dialogs/pages/diagrampropertiespage.cpp
+    dialogs/pages/dialogpagebase.cpp
+    dialogs/pages/generaloptionpage.cpp
+    dialogs/pages/packagecontentspage.cpp
+    dialogs/pages/diagramprintpage.cpp
+    dialogs/pages/umlroleproperties.cpp
+    dialogs/pages/umlwidgetstylepage.cpp
 )
 
 kde4_add_ui_files(  libdialogs_SRCS
-    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/autolayoutoptionpage.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codeviewerdialogbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codevieweroptionsbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/exportallviewsdialogbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/finddialog.ui
-    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/umlrolepropertiesbase.ui
-    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/diagrampropertiespage.ui
-    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codeimportoptionspage.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/pages/autolayoutoptionpage.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/pages/codeimportoptionspage.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/pages/diagrampropertiespage.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/pages/umlrolepropertiesbase.ui
 )
 
 set(librefactoring_SRCS
@@ -352,6 +353,7 @@ set(libwidgets_SRCS
     widgets/objectwidget.cpp
     widgets/packagewidget.cpp
     widgets/pinwidget.cpp
+    widgets/portwidget.cpp
     widgets/preconditionwidget.cpp
     widgets/regionwidget.cpp
     widgets/seqlinewidget.cpp
@@ -402,6 +404,7 @@ set(libumbrello_SRCS
     folder.cpp
     foreignkeyconstraint.cpp
     icon_utils.cpp
+    import_argo.cpp
     import_rose.cpp
     layoutgenerator.cpp
     listpopupmenu.cpp
@@ -414,6 +417,7 @@ set(libumbrello_SRCS
     package.cpp
     petalnode.cpp
     petaltree2uml.cpp
+    port.cpp
     stereotype.cpp
     template.cpp
     toolbarstate.cpp
@@ -444,6 +448,7 @@ set(libumbrello_SRCS
     uniqueid.cpp
     usecase.cpp
     worktoolbar.cpp
+    umlappprivate.cpp
 )
 
 kde4_add_kcfg_files(umbrello_SRCS umbrellosettings.kcfgc)
@@ -469,7 +474,7 @@ set(umbrello_SRCS
 
 kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi*-app-umbrello.png")
 kde4_add_executable(umbrello ${umbrello_SRCS})
-target_link_libraries(umbrello ${KDE4_KFILE_LIBS} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES})
+target_link_libraries(umbrello ${KDE4_KFILE_LIBS} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${KDE4_KTEXTEDITOR_LIBS})
 install(TARGETS umbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files #############

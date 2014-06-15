@@ -7,8 +7,8 @@
  *   copyright (C) 2003-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
-#ifndef PKGCONTENTSPAGE_H
-#define PKGCONTENTSPAGE_H
+#ifndef PACKAGECONTENTSPAGE_H
+#define PACKAGECONTENTSPAGE_H
 
 #include "dialogpagebase.h"
 
@@ -23,12 +23,12 @@ class QListWidgetItem;
  * @author Oliver Kellogg <okellogg@users.sourceforge.net>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class PkgContentsPage : public DialogPageBase
+class PackageContentsPage : public DialogPageBase
 {
     Q_OBJECT
 public:
-    PkgContentsPage(QWidget *parent, UMLPackage *pkg);
-    ~PkgContentsPage();
+    PackageContentsPage(QWidget *parent, UMLPackage *pkg);
+    ~PackageContentsPage();
 
 private:
     UMLPackage * m_package;

@@ -18,18 +18,23 @@
 #include "messagewidget.h"
 #include "objectwidget.h"
 #include "pinwidget.h"
+#include "portwidget.h"
 #include "preconditionwidget.h"
 #include "regionwidget.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlwidget.h"
+#include "object_factory.h"
+#include "package.h"
+#include "widget_factory.h"
 
 // kde includes
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <kinputdialog.h>
 
-using namespace Uml;
+// using namespace Uml;
 
 /**
  * Creates a new ToolBarStateOneWidget.
@@ -126,9 +131,10 @@ void ToolBarStateOneWidget::mouseReleaseWidget()
         m_firstObject = 0;
     }
 
-    if (m_pMouseEvent->button() != Qt::LeftButton ||(
-                currentWidget()->baseType() != WidgetBase::wt_Object &&
+    if (m_pMouseEvent->button() != Qt::LeftButton ||
+               (currentWidget()->baseType() != WidgetBase::wt_Object &&
                 currentWidget()->baseType() != WidgetBase::wt_Activity &&
+                currentWidget()->baseType() != WidgetBase::wt_Component &&
                 currentWidget()->baseType() != WidgetBase::wt_Region)) {
         return;
     }
@@ -178,8 +184,19 @@ void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject)
     }
 
     if (widgetType() == WidgetBase::wt_Pin) {
-        umlwidget = new PinWidget(m_pUMLScene, m_firstObject);
+        if (m_firstObject->baseType() == WidgetBase::wt_Activity) {
+            umlwidget = new PinWidget(m_pUMLScene, m_firstObject);
             // Create the widget. Some setup functions can remove the widget.
+        } else if (m_firstObject->baseType() == WidgetBase::wt_Component) {
+            bool pressedOK = false;
+            QString name = KInputDialog::getText(i18n("Enter Port Name"), i18n("Enter the port"), i18n("new port"),
+                                                 &pressedOK, UMLApp::app());
+            if (pressedOK) {
+                UMLPackage* component = static_cast<UMLPackage*>(m_firstObject->umlObject());
+                UMLObject *port = Object_Factory::createUMLObject(UMLObject::ot_Port, name, component);
+                umlwidget = Widget_Factory::createWidget(m_pUMLScene, port);
+            }
+        }
     }
 
     if (umlwidget) {

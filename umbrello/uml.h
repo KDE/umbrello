@@ -28,7 +28,7 @@ class UMLDoc;
 class UMLListView;
 class UMLView;
 class WorkToolBar;
-class SettingsDlg;
+class SettingsDialog;
 class UMLViewImageExporterAll;
 class RefactoringAssistant;
 class XhtmlGenerator;
@@ -365,7 +365,6 @@ private:
     QDockWidget* m_logDock;            ///< Contains the log window widget.
 
     DocWindow*   m_docWindow;         ///< Documentation window.
-    QListWidget* m_logWindow;         ///< Logging window.
     QUndoView*   m_pQUndoView;         ///< Undo / Redo Viewer
     RefactoringAssistant* m_refactoringAssist;  ///< Refactoring assistant.
 
@@ -428,7 +427,7 @@ private:
 
     QString m_imageMimeType;  ///< Default mime type to use for image export.
 
-    SettingsDlg* m_settingsDlg;  ///< The global UML settings dialog.
+    SettingsDialog* m_settingsDialog;  ///< The global UML settings dialog.
 
     UMLViewImageExporterAll* m_imageExporterAll;  ///< Used to export all the views.
 

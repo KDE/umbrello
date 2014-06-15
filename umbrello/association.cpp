@@ -502,6 +502,8 @@ UMLObject* UMLAssociation::getObject(Uml::RoleType::Enum role) const
 Uml::ID::Type UMLAssociation::getObjectId(Uml::RoleType::Enum role) const
 {
     UMLRole *roleObj = m_pRole[role];
+    if (roleObj == NULL)
+        return Uml::ID::None;
     UMLObject *o = roleObj->object();
     if (o == NULL) {
         QString auxID = roleObj->secondaryId();

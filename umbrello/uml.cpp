@@ -12,6 +12,7 @@
 #include "uml.h"
 
 // app includes
+#include "umlappprivate.h"
 #include "umldoc.h"
 #include "umllistview.h"
 #include "umlviewlist.h"
@@ -42,7 +43,7 @@
 #include "codeimportingwizard.h"
 #include "codeviewerdialog.h"
 #include "diagramprintpage.h"
-#include "settingsdlg.h"
+#include "settingsdialog.h"
 #include "finddialog.h"
 #include "classimport.h"
 #include "refactoringassistant.h"
@@ -101,23 +102,6 @@
 
 #include <cmath>
 
-/**
- * Class UMLAppPrivate holds private class members/methods
- * to reduce the size of the public class and to speed up
- * recompiling.
- * The migration to this class is not complete yet.
- **/
-class UMLAppPrivate {
-public:
-    FindDialog findDialog;
-    FindResults findResults;
-
-    UMLAppPrivate(UMLApp *parent)
-        : findDialog(parent)
-    {
-    }
-};
-
 /** Static pointer, holding the last created instance. */
 UMLApp* UMLApp::s_instance;
 
@@ -162,7 +146,7 @@ UMLApp::UMLApp(QWidget* parent)
     m_copyTimer(0),
     m_loading(false),
     m_imageMimeType(QString()),
-    m_settingsDlg(0),
+    m_settingsDialog(0),
     m_imageExporterAll(new UMLViewImageExporterAll()),
     m_xhtmlGenerator(0),
     m_pUndoStack(new KUndoStack(this)),
@@ -891,9 +875,7 @@ void UMLApp::initView()
     m_logDock = new QDockWidget(i18n("&Log"), this);
     m_logDock->setObjectName("LogDock");
     addDockWidget(Qt::LeftDockWidgetArea, m_logDock);
-    m_logWindow = new QListWidget(m_logDock);
-    m_logWindow->setObjectName("LOGWINDOW");
-    m_logDock->setWidget(m_logWindow);
+    m_logDock->setWidget(m_d->logWindow);
     connect(m_logDock, SIGNAL(visibilityChanged(bool)), viewShowLog, SLOT(setChecked(bool)));
 
     // create the property viewer
@@ -971,6 +953,7 @@ void UMLApp::saveOptions()
     UmbrelloSettings::setAutosavetime(optionState.generalState.autosavetime);
     UmbrelloSettings::setAutosavesuffix(optionState.generalState.autosavesuffix);
     UmbrelloSettings::setLoadlast(optionState.generalState.loadlast);
+    UmbrelloSettings::setUml2(optionState.generalState.uml2);
 
     UmbrelloSettings::setDiagram(optionState.generalState.diagram);
     UmbrelloSettings::setDefaultLanguage(optionState.generalState.defaultLanguage);
@@ -1204,11 +1187,13 @@ void UMLApp::slotFileOpen()
     } 
     else {
         KUrl url=KFileDialog::getOpenUrl(KUrl(),
-            i18n("*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl|All Supported Files (*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.mdl)\n"
+            i18n("*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl *.zargo|All Supported Files (*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.mdl, *.zargo)\n"
                  "*.xmi|Uncompressed XMI Files (*.xmi)\n"
                  "*.xmi.tgz|Gzip Compressed XMI Files (*.xmi.tgz)\n"
                  "*.xmi.tar.bz2|Bzip2 Compressed XMI Files (*.xmi.tar.bz2)\n"
-                 "*.mdl|Rose model files"), this, i18n("Open File"));
+                 "*.mdl|Rose model files (*.mdl)\n"
+                 "*.zargo|Compressed argo Files(*.zargo)\n"
+                 ), this, i18n("Open File"));
         if (!url.isEmpty()) {
             m_listView->setSortingEnabled(false);
             if (m_doc->openDocument(url)) {
@@ -1765,7 +1750,7 @@ DocWindow* UMLApp::docWindow() const
  */
 QListWidget* UMLApp::logWindow() const
 {
-    return m_logWindow;
+    return m_d->logWindow;
 }
 
 /**
@@ -1882,15 +1867,15 @@ void UMLApp::slotPrefs()
 {
        Settings::OptionState& optionState = Settings::optionState();
 
-       m_settingsDlg = new SettingsDlg(this, &optionState);
-       connect(m_settingsDlg, SIGNAL(applyClicked()), this, SLOT(slotApplyPrefs()));
+       m_settingsDialog = new SettingsDialog(this, &optionState);
+       connect(m_settingsDialog, SIGNAL(applyClicked()), this, SLOT(slotApplyPrefs()));
 
-       if (m_settingsDlg->exec() == QDialog::Accepted && m_settingsDlg->getChangesApplied()) {
+       if (m_settingsDialog->exec() == QDialog::Accepted && m_settingsDialog->getChangesApplied()) {
            slotApplyPrefs();
        }
 
-       delete m_settingsDlg;
-       m_settingsDlg = 0;
+       delete m_settingsDialog;
+       m_settingsDialog = 0;
 }
 
 /**
@@ -1898,7 +1883,7 @@ void UMLApp::slotPrefs()
  */
 void UMLApp::slotApplyPrefs()
 {
-    if (m_settingsDlg) {
+    if (m_settingsDialog) {
         // we need this to sync both values
         Settings::OptionState& optionState = Settings::optionState();
         enableUndo(optionState.generalState.undo);
@@ -1943,7 +1928,7 @@ void UMLApp::slotApplyPrefs()
         }
 
         m_doc->settingsChanged(optionState);
-        const QString plStr = m_settingsDlg->getCodeGenerationLanguage();
+        const QString plStr = m_settingsDialog->getCodeGenerationLanguage();
         Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromString(plStr);
         setGenerator(pl);
     }
@@ -2080,6 +2065,7 @@ void UMLApp::readOptionState()
     optionState.generalState.newcodegen = UmbrelloSettings::newcodegen();
     optionState.generalState.angularlines = UmbrelloSettings::angularlines();
     optionState.generalState.footerPrinting =  UmbrelloSettings::footerPrinting();
+    optionState.generalState.uml2 = UmbrelloSettings::uml2();
     optionState.autoLayoutState.autoDotPath =  UmbrelloSettings::autoDotPath();
     optionState.autoLayoutState.dotPath =  UmbrelloSettings::dotPath();
     optionState.autoLayoutState.showExportLayout =  UmbrelloSettings::showExportLayout();

@@ -745,6 +745,7 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
             wt == WidgetBase::wt_Datatype  || wt == WidgetBase::wt_Node      ||
             wt == WidgetBase::wt_Component || wt == WidgetBase::wt_Artifact  ||
             wt == WidgetBase::wt_Enum      || wt == WidgetBase::wt_Entity    ||
+            wt == WidgetBase::wt_Port      ||
             (wt == WidgetBase::wt_Class && umlScene()->type() == Uml::DiagramType::Class)) {
 
             showPropertiesDialog();

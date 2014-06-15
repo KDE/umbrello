@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2013                                               *
+ *   copyright (C) 2003-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -22,8 +22,6 @@
 
 // qt includes
 #include <QPainter>
-
-#define CIRCLE_SIZE 30
 
 /**
  * Constructs an DatatypeWidget.
@@ -49,9 +47,6 @@ DatatypeWidget::~DatatypeWidget()
  */
 void DatatypeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    Q_UNUSED(option);
-    Q_UNUSED(widget);
-
     setPenFromSettings(painter);
     if (UMLWidget::useFillColor())  {
         painter->setBrush(UMLWidget::fillColor());

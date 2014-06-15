@@ -51,7 +51,7 @@ namespace Uml
 
     UMLWidget* CmdBaseWidgetCommand::widget()
     {
-        UMLWidget* umlWidget = scene()->findWidgetByLocalId(m_widgetId);
+        UMLWidget* umlWidget = scene()->findWidget(m_widgetId);
 
         Q_ASSERT(umlWidget);
 

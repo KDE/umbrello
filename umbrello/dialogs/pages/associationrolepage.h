@@ -8,8 +8,8 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#ifndef ASSOCROLEPAGE_H
-#define ASSOCROLEPAGE_H
+#ifndef ASSOCIATIONROLEPAGE_H
+#define ASSOCIATIONROLEPAGE_H
 
 #include "dialogpagebase.h"
 
@@ -24,18 +24,18 @@ class UMLObject;
 
 /**
  * Displays properties of a UMLObject in a dialog box.  This is not usually directly
- * called.  The class @ref AssocPropDlg will set this up for you.
+ * called.  The class @ref AssociationPropertiesDialog will set this up for you.
  *
  * @short Display properties on a UMLObject.
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class AssocRolePage : public DialogPageBase
+class AssociationRolePage : public DialogPageBase
 {
     Q_OBJECT
 public:
-    AssocRolePage(UMLDoc *d, QWidget *parent, AssociationWidget *a);
-    ~AssocRolePage();
+    AssociationRolePage(UMLDoc *d, QWidget *parent, AssociationWidget *a);
+    ~AssociationRolePage();
 
     void updateObject();
 

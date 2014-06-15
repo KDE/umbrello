@@ -76,6 +76,8 @@ public:
 
     static bool isTextValid(const QString &text);
 
+    UMLWidget* onWidget(const QPointF& p);
+
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);

@@ -87,6 +87,7 @@ public:
         lvt_ForeignKeyConstraint,
         lvt_CheckConstraint,
         lvt_Category,
+        lvt_Port,
         lvt_Unknown = -1
     };
 

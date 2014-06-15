@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2005-2013                                                *
+ *  copyright (C) 2005-2014                                                *
  *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                 *
  ***************************************************************************/
 
@@ -49,6 +49,8 @@ protected:
      * To be implemented by inheriting classes.
      */
     virtual void initialize() = 0;
+
+    virtual void initPerFile();
 
     /**
      * Import a single file.
