@@ -27,7 +27,7 @@
 #include "model_utils.h"
 #include "objectnodewidget.h"
 #include "objectwidget.h"
-#include "portwidget.h"
+#include "pinportbase.h"
 #include "preconditionwidget.h"
 #include "signalwidget.h"
 #include "statewidget.h"
@@ -389,8 +389,8 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
         insert(mt_Rename);
         insert(mt_NameAsTooltip, i18n("Name as Tooltip"), CHECKABLE);
         {
-            PortWidget *portW = static_cast<PortWidget*>(object);
-            FloatingTextWidget *ft = portW->floatingTextWidget();
+            PinPortBase *pW = static_cast<PinPortBase*>(object);
+            FloatingTextWidget *ft = pW->floatingTextWidget();
             if (ft == NULL)
                 m_actions[mt_NameAsTooltip]->setChecked(true);
         }
@@ -535,6 +535,13 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
         insert(mt_Clear, Icon_Utils::SmallIcon(Icon_Utils::it_Clear), i18nc("clear precondition", "Clear"));
         addSeparator();
         insert(mt_Rename, i18n("Change Text..."));
+        if (type == WidgetBase::wt_Pin) {
+            insert(mt_NameAsTooltip, i18n("Name as Tooltip"), CHECKABLE);
+            PinPortBase *pW = static_cast<PinPortBase*>(object);
+            FloatingTextWidget *ft = pW->floatingTextWidget();
+            if (ft == NULL)
+                m_actions[mt_NameAsTooltip]->setChecked(true);
+        }
         insert(mt_Delete);
         insert(mt_Change_Font);
         break;

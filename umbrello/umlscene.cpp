@@ -25,7 +25,7 @@
 #include "classoptionspage.h"
 #include "cmds.h"
 #include "componentwidget.h"
-#include "portwidget.h"
+#include "pinportbase.h"
 #include "datatypewidget.h"
 #include "debug_utils.h"
 #include "docwindow.h"
@@ -539,8 +539,8 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
  */
 void UMLScene::setupNewWidget(UMLWidget *w)
 {
-    if (w->baseType() == WidgetBase::wt_Port) {
-        PortWidget *pw = static_cast<PortWidget*>(w);
+    if (w->baseType() == WidgetBase::wt_Pin || w->baseType() == WidgetBase::wt_Port) {
+        PinPortBase *pw = static_cast<PinPortBase*>(w);
         pw->attachToOwner();
     } else if (w->baseType() != WidgetBase::wt_Object) {
         // ObjectWidget's position is handled by the widget

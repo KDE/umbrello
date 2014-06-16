@@ -11,10 +11,9 @@
 #ifndef PORTWIDGET_H
 #define PORTWIDGET_H
 
-#include "umlwidget.h"
+#include "pinportbase.h"
 
 class UMLPort;
-class FloatingTextWidget;
 
 /**
  * Defines a graphical version of the port.  Most of the functionality
@@ -25,7 +24,7 @@ class FloatingTextWidget;
  * @see UMLWidget
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class PortWidget : public UMLWidget
+class PortWidget : public PinPortBase
 {
     Q_OBJECT
 public:
@@ -33,30 +32,10 @@ public:
     virtual ~PortWidget();
 
     UMLWidget* ownerWidget();
-
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
-
-    virtual void updateWidget();
-    virtual void moveWidgetBy(qreal diffX, qreal diffY);
-    void attachToOwner();
- 
-    UMLWidget* onWidget(const QPointF& p);
-    UMLWidget* widgetWithID(Uml::ID::Type id);
-
-    FloatingTextWidget *floatingTextWidget();
-    void setFloatingTextWidget(FloatingTextWidget *ft);
-
-    bool loadFromXMI(QDomElement& qElement);
-    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    void connectOwnerMotion();
 
 public slots:
-    void slotOwnerMoved(qreal diffX, qreal diffY);
     void slotMenuSelection(QAction* action);
-
-protected:
-
-    static const QSizeF FixedSize;
-    FloatingTextWidget *m_pName;
 
 };
 
