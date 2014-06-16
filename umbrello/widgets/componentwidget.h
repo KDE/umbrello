@@ -45,6 +45,8 @@ signals:
      * Provides the delta X and delta Y amount by which the widget was moved
      * relative to the previous position.
      * Slots into PortWidget::slotCompMoved()
+     * @param diffX The difference between previous and new X value.
+     * @param diffY The difference between previous and new Y value.
      */
     void sigCompMoved(qreal diffX, qreal diffY);
 
