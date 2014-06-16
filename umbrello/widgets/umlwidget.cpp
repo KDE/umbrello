@@ -1149,14 +1149,15 @@ UMLWidget* UMLWidget::onWidget(const QPointF &p)
     const qreal right = left + w;
     const qreal top = y();
     const qreal bottom = top + h;
-    uDebug() << "p=(" << p.x() << "," << p.y() << "), x=" << left << ", y=" << top << ", w=" << w << ", h=" << h
-             << "; right=" << right << ", bottom=" << bottom;
+    // uDebug() << "p=(" << p.x() << "," << p.y()
+    //          << "), x=" << left << ", y=" << top << ", w=" << w << ", h=" << h
+    //          << "; right=" << right << ", bottom=" << bottom;
     if (p.x() < left || p.x() > right ||
             p.y() < top || p.y() > bottom) { // Qt coord.sys. origin in top left corner
-        uDebug() << "returning NULL";
+        // uDebug() << "returning NULL";
         return NULL;
     }
-    uDebug() << "returning this";
+    // uDebug() << "returning this";
     return this;
 }
 
