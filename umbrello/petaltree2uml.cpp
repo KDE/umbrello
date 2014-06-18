@@ -43,6 +43,14 @@
 namespace Import_Rose {
 
 /**
+ * The Rose diagram coordinate system is roughly twice the scale of Qt.
+ * I.e. when going from Rose diagram-object location/width/height to Qt,
+ * we need to shrink everything.
+ * The exact factor can be configured here.
+ */
+const qreal Rose2Qt = 0.5;
+
+/**
  * Return the given string without surrounding quotation marks.
  * Also remove a possible prefix "Logical View::", it is not modeled in Umbrello.
  */
@@ -57,7 +65,7 @@ QString clean(const QString& s)
 }
 
 /**
- * Extract the quid attribute from a petal node and return it as a Uml::IDType.
+ * Extract the quid attribute from a petal node and return it as a Uml::ID::Type.
  */
 Uml::ID::Type quid(const PetalNode *node)
 {
@@ -95,9 +103,10 @@ QPointF fetchLocation(const PetalNode *node)
     if (!ok)
         QPointF();
     qreal y = a[1].toDouble(&ok);
-    if (!ok)
-        QPointF();
-    return QPointF(x, y);
+    if (!ok) {
+        return QPointF();
+    }
+    return QPointF(x * Rose2Qt, y * Rose2Qt);
 }
 
 /**
@@ -108,11 +117,11 @@ qreal fetchDouble(const PetalNode *node, const QString &attribute, qreal default
     bool ok;
     QString s = node->findAttribute(attribute).string;
     qreal value = s.toDouble(&ok);
-    return ok ? value : defaultValue;
+    return ok ? value * Rose2Qt : defaultValue;
 }
 
 /**
- * Extract a int attribute from a petal node.
+ * Extract an int attribute from a petal node.
  */
 qreal fetchInt(const PetalNode *node, const QString &attribute, int defaultValue = 0)
 {
@@ -125,7 +134,7 @@ qreal fetchInt(const PetalNode *node, const QString &attribute, int defaultValue
 /**
  * Determine the model type corresponding to a name.
  * If the given name consists only of letters, digits, underscores, and
- * scope separators, then return Uml::ot_Class, else return Uml::ot_Datatype.
+ * scope separators then return ot_Class, else return ot_Datatype.
  */
 UMLObject::ObjectType typeToCreate(const QString& name)
 {
@@ -555,6 +564,8 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL)
         UMLView *view = umlDoc->createDiagram(logicalView, Uml::DiagramType::Class, name, id);
         PetalNode *items = node->findAttribute("items").node;
         PetalNode::NameValueList atts = items->attributes();
+        qreal width = 0.0;
+        qreal height = 0.0;
         for (int i = 0; i < atts.count(); ++i) {
             PetalNode *attr = atts[i].second.node;
             QStringList args = attr->initialArgs();
@@ -570,22 +581,23 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL)
                     continue;
                 }
                 w = Widget_Factory::createWidget(view->umlScene(), o);
-                qreal width = fetchDouble(attr, "width");
-                qreal height = fetchDouble(attr, "height");
+                width = fetchDouble(attr, "width");
+                height = fetchDouble(attr, "height");
                 if (width > 0 && height > 0)
                     w->setSize(width, height);
             } else if (objType == "NoteView") {
                 w = new NoteWidget(view->umlScene(), NoteWidget::Normal);
-                qreal width = fetchDouble(attr, "width");
-                qreal height = fetchDouble(attr, "height");
+                width = fetchDouble(attr, "width");
+                height = fetchDouble(attr, "height");
                 if (width > 0 && height > 0)
                     w->setSize(width, height);
             } else if (objType == "Label") {
                 QString label = attr->findAttribute("label").string;
                 w = new FloatingTextWidget(view->umlScene(), Uml::TextRole::Floating, label);
                 int nlines = fetchInt(attr, "nlines");
-                qreal width = fetchDouble(attr, "max_width");
-                w->setSize(width, nlines * 12); // TODO check line height
+                width = fetchDouble(attr, "max_width");
+                height = nlines * 12;  // TODO check line height
+                w->setSize(width, height);
             }
             else {
                 uDebug() << "unsupported object type" << objType;
@@ -593,8 +605,13 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL)
             }
 
             QPointF pos = fetchLocation(attr);
-            if (!pos.isNull())
-                w->setPos(pos);
+            if (!pos.isNull()) {
+                // Rose diagram locations denote the object _center_ thus:
+                // - for X we must subtract width/2
+                // - for Y we must subtract height/2
+                w->setX(pos.x() - width / 2.0);
+                w->setY(pos.y() - height / 2.0);
+            }
 
 #if 0
             QString line_color = attr->findAttribute("line_color").string;
