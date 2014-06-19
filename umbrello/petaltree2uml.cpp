@@ -14,6 +14,7 @@
 // app includes
 #include "debug_utils.h"
 #include "petalnode.h"
+#include "model_utils.h"
 #include "import_utils.h"
 #include "import_rose.h"
 #include "package.h"
@@ -574,9 +575,11 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL)
         UMLApp::app()->document()->addAssociation(assoc);
 
     } else if (objType == "ClassDiagram" || objType == "UseCaseDiagram") {
+        Uml::DiagramType::Enum dt = (objType == "UseCaseDiagram" ? Uml::DiagramType::UseCase
+                                                                 : Uml::DiagramType::Class);
         UMLDoc *umlDoc = UMLApp::app()->document();
-        UMLFolder *logicalView = umlDoc->rootFolder(Uml::ModelType::Logical);
-        UMLView *view = umlDoc->createDiagram(logicalView, Uml::DiagramType::Class, name, id);
+        UMLFolder *rootFolder = umlDoc->rootFolder(Model_Utils::convert_DT_MT(dt));
+        UMLView *view = umlDoc->createDiagram(rootFolder, dt, name, id);
         PetalNode *items = node->findAttribute("items").node;
         PetalNode::NameValueList atts = items->attributes();
         qreal width = 0.0;
@@ -881,15 +884,17 @@ bool petalTree2Uml(PetalNode *root, UMLPackage *parentPkg /* = 0 */)
     // Shorthand for UMLApp::app()->listView()
     UMLListView *lv = UMLApp::app()->listView();
 
-    umldoc->setCurrentRoot(Uml::ModelType::Logical);
-    Import_Utils::assignUniqueIdOnCreation(false);
+    /* The code above in effect performs importLogicalView()
+       but at the same time deals with controlled units.
+       Perhaps these two tasks should be separated more cleanly.
     importLogicalView(root, "root_category", "logical_models");
+     */
     importLogicalPresentations(root, "root_category");
-    importLogicalPresentations(root, "root_usecase_package");
 
     //*************************** import Use Case View ********************************
     umldoc->setCurrentRoot(Uml::ModelType::UseCase);
     importView(root, "root_usecase_package", "logical_models", lv->theUseCaseView());
+    importLogicalPresentations(root, "root_usecase_package");
 
     //*************************** import Component View *******************************
     umldoc->setCurrentRoot(Uml::ModelType::Component);
