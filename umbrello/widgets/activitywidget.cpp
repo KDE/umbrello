@@ -298,6 +298,15 @@ void ActivityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 }
 
 /**
+ * Overridden from UMLWidget due to emission of signal sigActMoved()
+ */
+void ActivityWidget::moveWidgetBy(qreal diffX, qreal diffY)
+{
+    UMLWidget::moveWidgetBy(diffX, diffY);
+    emit sigActMoved(diffX, diffY);
+}
+
+/**
  * Loads the widget from the "activitywidget" XMI element.
  */
 bool ActivityWidget::loadFromXMI(QDomElement& qElement)

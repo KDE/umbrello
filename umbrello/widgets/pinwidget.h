@@ -11,9 +11,7 @@
 #ifndef PINWIDGET_H
 #define PINWIDGET_H
 
-#include "umlwidget.h"
-
-class FloatingTextWidget;
+#include "pinportbase.h"
 
 /**
  * This class is the graphical version of a UML Pin. A pinWidget is created
@@ -27,7 +25,7 @@ class FloatingTextWidget;
  * @author Hassan KOUCH <hkouch@hotmail.com>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class PinWidget : public UMLWidget
+class PinWidget : public PinPortBase
 {
     Q_OBJECT
 public:
@@ -35,30 +33,14 @@ public:
     PinWidget(UMLScene* scene, UMLWidget* a, Uml::ID::Type id = Uml::ID::None);
     virtual ~PinWidget();
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
-
-    virtual void setName(const QString &strName);
-
-    int getMinY();
-
-    UMLWidget* onWidget(const QPointF& p);
-
-    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
-    bool loadFromXMI(QDomElement& qElement);
-
-    void mouseMoveEvent(QGraphicsSceneMouseEvent* me);
+    void connectOwnerMotion();
+    // int getMinY();
 
 public slots:
     void slotMenuSelection(QAction* action);
 
-private:
-    UMLWidget* m_pOw;
-    FloatingTextWidget* m_pName;  ///< displays the name of the signal widget
-
-    int m_oldX;  ///< save the value to know how to move the floatingtext in x
-    int m_oldY;  ///< save the value to know how to move the floatingtext in x
-
-    int m_nY;
+// private:
+    // int m_nY;
 };
 
 #endif

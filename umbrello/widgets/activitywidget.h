@@ -64,11 +64,23 @@ public:
 
     virtual void showPropertiesDialog();
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void moveWidgetBy(qreal diffX, qreal diffY);
 
     virtual bool loadFromXMI(QDomElement & qElement);
     virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
     void constrain(qreal& width, qreal& height);
+
+signals:
+    /**
+     * Emitted when the activity widget is moved.
+     * Provides the delta X and delta Y amount by which the widget was moved
+     * relative to the previous position.
+     * Slots into PinWidget::slotActMoved()
+     * @param diffX The difference between previous and new X value.
+     * @param diffY The difference between previous and new Y value.
+     */
+    void sigActMoved(qreal diffX, qreal diffY);
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);

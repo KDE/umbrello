@@ -432,9 +432,9 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
     // check if the xmi file is a compressed archive like tar.bzip2 or tar.gz
     QString filetype = m_doc_url.fileName();
     QString mimetype = "";
-    if (filetype.indexOf(QRegExp("\\.tgz$")) != -1) {
+    if (filetype.endsWith(".tgz") || filetype.endsWith(".tar.gz")) {
         mimetype = "application/x-gzip";
-    } else if (filetype.indexOf(QRegExp("\\.tar.bz2$")) != -1) {
+    } else if (filetype.endsWith(".tar.bz2")) {
         mimetype = "application/x-bzip";
     }
 
@@ -1319,8 +1319,7 @@ QString UMLDoc::createDiagramName(Uml::DiagramType::Enum type, bool askForName /
  *
  * @param folder   the folder in which tp create the diagram.
  * @param type     the type of diagram to create
- * @param name     if true shows a dialog box asking for name,
- *                 else uses a default name
+ * @param name     the name for the diagram to create
  * @param id       optional ID of new diagram
  * @return         pointer to the UMLView of the new diagram
  */

@@ -352,6 +352,7 @@ set(libwidgets_SRCS
     widgets/objectnodewidget.cpp
     widgets/objectwidget.cpp
     widgets/packagewidget.cpp
+    widgets/pinportbase.cpp
     widgets/pinwidget.cpp
     widgets/portwidget.cpp
     widgets/preconditionwidget.cpp

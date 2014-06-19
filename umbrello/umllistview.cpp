@@ -790,7 +790,8 @@ UMLListViewItem *UMLListView::findFolderForDiagram(Uml::DiagramType::Enum dt)
  */
 void UMLListView::slotDiagramCreated(Uml::ID::Type id)
 {
-    if (m_doc->loading()) {
+    if (findItem(id)) {
+        uDebug() << "list view item " << Uml::ID::toString(id) << " already exists";
         return;
     }
     UMLView *v = m_doc->findView(id);
@@ -1107,8 +1108,8 @@ void UMLListView::slotDiagramRenamed(Uml::ID::Type id)
 }
 
 /**
- * Sets the document his is associated with.  This is important as
- * this is required as to setup the callbacks.
+ * Sets the document this is associated with.  This is important as
+ * this is required as to set up the callbacks.
  *
  * @param doc   The document to associate with this class.
  */

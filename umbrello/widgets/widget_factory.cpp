@@ -97,7 +97,11 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
         }
         break;
     case UMLObject::ot_Port:
-        newWidget = new PortWidget(scene, static_cast<UMLPort*>(o));
+        {
+            PinPortBase *pw = new PortWidget(scene, static_cast<UMLPort*>(o));
+            pw->attachToOwner();
+            newWidget = pw;
+        }
         break;
     case UMLObject::ot_Node:
         newWidget = new NodeWidget(scene, static_cast<UMLNode*>(o));
@@ -223,7 +227,9 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
     } else if (tag == "regionwidget") {
         widget = new RegionWidget(scene, Uml::ID::Reserved);
     } else if (tag == "pinwidget") {
-        widget = new PinWidget(scene, NULL, Uml::ID::Reserved);
+        PinPortBase *pw = new PinWidget(scene, NULL, Uml::ID::Reserved);
+        pw->attachToOwner();
+        widget = pw;
     }
     else
     {
