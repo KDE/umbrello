@@ -28,6 +28,12 @@
 
 namespace Import_Rose {
 
+/**
+ * Directory prefix of .mdl file is buffered for possibly finding .cat/.sub
+ * controlled units (if no path is given at their definition.)
+ */
+QString dirPrefix;
+
 uint nClosures; // Multiple closing parentheses may appear on a single
                 // line. The parsing is done line-by-line and using
                 // recursive descent. This means that we can only handle
@@ -43,6 +49,11 @@ QString g_methodName;
 void methodName(const QString& m)
 {
     g_methodName = m;
+}
+
+QString mdlPath()
+{
+    return dirPrefix;
 }
 
 /**
@@ -373,8 +384,15 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
  *
  * @return  True for success, false in case of error.
  */
-bool loadFromMDL(QIODevice& file, UMLPackage *parentPkg /* = 0 */) 
+bool loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */) 
 {
+    if (parentPkg == NULL) {
+        QString fName = file.fileName();
+        int lastSlash = fName.lastIndexOf('/');
+        if (lastSlash > 0) {
+            dirPrefix = fName.left(lastSlash + 1);
+        }
+    }
     QTextStream stream(&file);
     stream.setCodec("ISO 8859-1");
     QString line;

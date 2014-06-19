@@ -17,6 +17,7 @@
 #include "import_utils.h"
 #include "import_rose.h"
 #include "package.h"
+#include "folder.h"
 #include "classifier.h"
 #include "attribute.h"
 #include "operation.h"
@@ -91,7 +92,7 @@ QString quidu(const PetalNode *node)
 /**
  * Extract the location attribute from a petal node.
  */
-QPointF fetchLocation(const PetalNode *node)
+QPointF fetchLocation(const PetalNode *node, qreal width, qreal height)
 {
     QString location = node->findAttribute("location").string;
     QStringList a = location.split(' ');
@@ -100,13 +101,19 @@ QPointF fetchLocation(const PetalNode *node)
     }
     bool ok;
     qreal x = a[0].toDouble(&ok);
-    if (!ok)
-        QPointF();
+    if (!ok) {
+        return QPointF();
+    }
     qreal y = a[1].toDouble(&ok);
     if (!ok) {
         return QPointF();
     }
-    return QPointF(x * Rose2Qt, y * Rose2Qt);
+    x *= Rose2Qt;  // adjust scale to Qt
+    y *= Rose2Qt;  // adjust scale to Qt
+    // Rose diagram locations denote the object _center_ thus:
+    // - for X we must subtract width/2
+    // - for Y we must subtract height/2
+    return QPointF(x - width / 2.0, y - height / 2.0);
 }
 
 /**
@@ -421,7 +428,15 @@ bool handleControlledUnit(PetalNode *node, const QString& name, Uml::ID::Type id
         uDebug() << name << ": envVar " << envVarName << " contains " << envVar;
         if (envVar.endsWith("/"))
             envVar.chop(1);
-        file_name = envVar + file_name.mid(firstSlash);
+        if (firstSlash < 0)
+            file_name = envVar;
+        else
+            file_name = envVar + file_name.mid(firstSlash);
+    }
+    if (!file_name.startsWith("/")) {
+        // Must have an absolute path by now.
+        // If we don't then use the directory of the .mdl file.
+        file_name = Import_Rose::mdlPath() + file_name;
     }
     QFile file(file_name);
     if (!file.exists()) {
@@ -604,13 +619,9 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL)
                 continue;
             }
 
-            QPointF pos = fetchLocation(attr);
+            QPointF pos = fetchLocation(attr, width, height);
             if (!pos.isNull()) {
-                // Rose diagram locations denote the object _center_ thus:
-                // - for X we must subtract width/2
-                // - for Y we must subtract height/2
-                w->setX(pos.x() - width / 2.0);
-                w->setY(pos.y() - height / 2.0);
+                w->setPos(pos);
             }
 
 #if 0
@@ -743,7 +754,7 @@ bool importLogicalPresentations(PetalNode *root, const QString &category)
     }
     PetalNode *logical_presentations = root_category->findAttribute("logical_presentations").node;
     if (logical_presentations == NULL) {
-        uError() << "petalTree2Uml: cannot find logical_presentations";
+        uError() << "importLogicalPresentations: cannot find logical_presentations";
         return false;
     }
     PetalNode::NameValueList atts = logical_presentations->attributes();
@@ -838,6 +849,7 @@ bool petalTree2Uml(PetalNode *root, UMLPackage *parentPkg /* = 0 */)
         uError() << "expecting root_category object Class_Category";
         return false;
     }
+    UMLPackage *parentPkg_sav = parentPkg;
     if (parentPkg) {
         QStringList args = root->initialArgs();
         QString name = clean(args[1]);
@@ -854,6 +866,7 @@ bool petalTree2Uml(PetalNode *root, UMLPackage *parentPkg /* = 0 */)
     UMLDoc *umldoc = UMLApp::app()->document();
     if (parentPkg == NULL) {
         umldoc->setCurrentRoot(Uml::ModelType::Logical);
+        parentPkg = umldoc->rootFolder(Uml::ModelType::Logical);
         Import_Utils::assignUniqueIdOnCreation(false);
     }
     PetalNode::NameValueList atts = logical_models->attributes();
@@ -861,7 +874,7 @@ bool petalTree2Uml(PetalNode *root, UMLPackage *parentPkg /* = 0 */)
         umbrellify(atts[i].second.node, parentPkg);
     }
 
-    if (parentPkg) {
+    if (parentPkg_sav) {
         return true;
     }
 

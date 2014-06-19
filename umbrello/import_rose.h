@@ -11,7 +11,7 @@
 #ifndef IMPORT_ROSE__H
 #define IMPORT_ROSE__H
 
-#include <qiodevice.h>
+#include <QFile>
 
 class UMLPackage;
 
@@ -23,7 +23,9 @@ class UMLPackage;
  */
 namespace Import_Rose {
 
-    bool loadFromMDL(QIODevice & file, UMLPackage *parentPkg = 0);
+    bool loadFromMDL(QFile & file, UMLPackage *parentPkg = 0);
+
+    QString mdlPath();
 
 }
 
