@@ -29,7 +29,6 @@
 #include "usecase.h"
 #include "component.h"
 #include "node.h"
-#include "notewidget.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umllistview.h"
@@ -37,6 +36,8 @@
 #include "umlscene.h"
 #include "umlview.h"
 #include "widget_factory.h"
+#include "notewidget.h"
+#include "associationwidget.h"
 
 // qt includes
 #include <QtGlobal>
@@ -345,6 +346,7 @@ public:
     void insertAtParent(const PetalNode *, UMLObject *item) {
         UMLAssociation *assoc = static_cast<UMLAssociation*>(item);
         assoc->setObject(m_classifier, Uml::RoleType::A);
+        assoc->setUMLPackage(m_classifier->umlPackage());
         UMLApp::app()->document()->addAssociation(assoc);
     }
 protected:
@@ -379,6 +381,7 @@ public:
     void insertAtParent(const PetalNode *, UMLObject *item) {
         UMLAssociation *assoc = static_cast<UMLAssociation*>(item);
         assoc->setObject(m_classifier, Uml::RoleType::A);
+        assoc->setUMLPackage(m_classifier->umlPackage());
         UMLApp::app()->document()->addAssociation(assoc);
     }
 protected:
@@ -615,6 +618,62 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                 height = fetchDouble(attr, "height");
                 if (width > 0 && height > 0)
                     w->setSize(width, height);
+            } else if (objType == "InheritView") {
+                QString idStr = quidu(attr);
+                Uml::ID::Type assocID = Uml::ID::fromString(idStr);
+                if (assocID == Uml::ID::None) {
+                    uError() << "umbrellify: generalization illegal id " << idStr;
+                } else {
+                    UMLObject *o = umlDoc->findObjectById(assocID);
+                    if (o) {
+                        if (o->baseType() != UMLObject::ot_Association) {
+                            uError() << "umbrellify: generalization " << idStr
+                                     << " has wrong type " << o->baseType();
+                        } else {
+                            QString supplier = attr->findAttribute("supplier").string;
+                            QString client   = attr->findAttribute("client").string;
+                            PetalNode *sup = NULL, *cli = NULL;
+                            for (int c = 0; c < atts.count(); ++c) {
+                                PetalNode *n = atts[c].second.node;
+                                QStringList initArgs = n->initialArgs();
+                                QString tag = initArgs.last();
+                                if (tag == client)
+                                    cli = n;
+                                else if (tag == supplier)
+                                    sup = n;
+                            }
+                            if (sup && cli) {
+                                QString spIdStr = quidu(sup);
+                                Uml::ID::Type spId = Uml::ID::fromString(spIdStr);
+                                QString clIdStr = quidu(cli);
+                                Uml::ID::Type clId = Uml::ID::fromString(clIdStr);
+                                if (spId != Uml::ID::None && clId != Uml::ID::None) {
+                                    UMLWidget *supW = view->umlScene()->widgetOnDiagram(spId);
+                                    UMLWidget *cliW = view->umlScene()->widgetOnDiagram(clId);
+                                    if (supW && cliW) {
+                                        // UMLAssociation *a = static_cast<UMLAssociation*>(o);
+                                        AssociationWidget *aw = AssociationWidget::create
+                                                             (view->umlScene(), cliW,
+                                                              Uml::AssociationType::Generalization,
+                                                              supW, o);
+                                        view->umlScene()->addAssociation(aw);
+                                    } else {
+                                        uError() << "InheritView: client widget " << clIdStr
+                                                 << " is not on diagram (?)";
+                                    }
+                                } else {
+                                    uError() << "InheritView: bad or nonexistent quidu at client "
+                                             << client << " (" << cli->name() << ")";
+                                }
+                            } else {
+                                uError() << "InheritView: could not find client with tag " << client;
+                            }
+                        }
+                    } else {
+                        uError() << "umbrellify: generalization " << idStr << " not found";
+                    }
+                }
+                continue;   // code below dereferences `w' which is unused here
             } else if (objType == "NoteView") {
                 w = new NoteWidget(view->umlScene(), NoteWidget::Normal);
                 width = fetchDouble(attr, "width");
@@ -643,7 +702,6 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
             if (!pos.isNull()) {
                 w->setPos(pos);
             }
-
 #if 0
             QString line_color = attr->findAttribute("line_color").string;
             unsigned int lineColor = line_color.toUInt();
