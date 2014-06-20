@@ -12,7 +12,11 @@
 #include "import_rose.h"
 
 // app includes
+#include "uml.h"
+#include "umldoc.h"
+#include "folder.h"
 #include "debug_utils.h"
+#include "import_utils.h"
 #include "petalnode.h"
 #include "petaltree2uml.h"
 
@@ -485,7 +489,47 @@ bool loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
     linum = linum_sav;
     if (root == NULL)
         return false;
-    return petalTree2Uml(root, parentPkg);
+
+    if (parentPkg) {
+        return petalTree2Uml(root, parentPkg);
+    }
+
+    if (root->name() != "Design") {
+        uError() << "expecting root name Design";
+        return false;
+    }
+    Import_Utils::assignUniqueIdOnCreation(false);
+    UMLDoc *umldoc = UMLApp::app()->document();
+
+    //*************************** import Logical View *********************************
+    umldoc->setCurrentRoot(Uml::ModelType::Logical);
+    UMLPackage *logicalView = umldoc->rootFolder(Uml::ModelType::Logical);
+    importView(root, "root_category", "logical_models", logicalView);
+    importLogicalPresentations(root, "root_category", logicalView);
+
+    //*************************** import Use Case View ********************************
+    umldoc->setCurrentRoot(Uml::ModelType::UseCase);
+    UMLPackage *useCaseView = umldoc->rootFolder(Uml::ModelType::UseCase);
+    importView(root, "root_usecase_package", "logical_models", useCaseView);
+    importLogicalPresentations(root, "root_usecase_package", useCaseView);
+
+    //*************************** import Component View *******************************
+    umldoc->setCurrentRoot(Uml::ModelType::Component);
+    UMLPackage *componentView = umldoc->rootFolder(Uml::ModelType::Component);
+    importView(root, "root_subsystem", "physical_models", componentView);
+    importLogicalPresentations(root, "root_subsystem", componentView);
+
+    //*************************** import Deployment View ******************************
+    umldoc->setCurrentRoot(Uml::ModelType::Deployment);
+    UMLPackage *deploymentView = umldoc->rootFolder(Uml::ModelType::Deployment);
+    importView(root, "process_structure", "ProcsNDevs", deploymentView);
+    // importPresentations(root, "process_structure", deploymentView);
+
+    //***************************       wrap up        ********************************
+    umldoc->setCurrentRoot(Uml::ModelType::Logical);
+    Import_Utils::assignUniqueIdOnCreation(true);
+    umldoc->resolveTypes();
+    return true;
 }
 
 #undef SETCODEC

@@ -11,6 +11,8 @@
 #ifndef PETALTREE2UML_H
 #define PETALTREE2UML_H
 
+#include <QString>
+
 // fwd decl
 class PetalNode;
 class UMLPackage;
@@ -24,7 +26,13 @@ class UMLPackage;
  */
 namespace Import_Rose {
 
-    bool petalTree2Uml(PetalNode *root, UMLPackage *parentPkg = 0);
+    bool importView(PetalNode *root, const QString& rootName,
+                    const QString& modelsName, UMLPackage *parent);
+
+    bool importLogicalPresentations(PetalNode *root, const QString &category,
+                                    UMLPackage *parent);
+
+    bool petalTree2Uml(PetalNode *root, UMLPackage *parentPkg);
 
 }
 
