@@ -31,8 +31,6 @@
 #include "node.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "umllistview.h"
-#include "umllistviewitem.h"
 #include "umlscene.h"
 #include "umlview.h"
 #include "widget_factory.h"
@@ -459,6 +457,51 @@ bool handleControlledUnit(PetalNode *node, const QString& name, Uml::ID::Type id
     return status;
 }
 
+void handleAssocView(PetalNode *attr,
+                     const PetalNode::NameValueList& parentAttrs,
+                     Uml::AssociationType::Enum assocType,
+                     UMLView *view,
+                     UMLObject *umlAssoc = 0)
+{
+    QString supplier = attr->findAttribute("supplier").string;
+    QString client   = attr->findAttribute("client").string;
+    PetalNode *sup = NULL, *cli = NULL;
+    for (int c = 0; c < parentAttrs.count(); ++c) {
+        PetalNode *n = parentAttrs[c].second.node;
+        QStringList initArgs = n->initialArgs();
+        QString tag = initArgs.last();
+        if (tag == client)
+            cli = n;
+        else if (tag == supplier)
+            sup = n;
+    }
+    if (sup && cli) {
+        QString spIdStr = quidu(sup);
+        Uml::ID::Type spId = Uml::ID::fromString(spIdStr);
+        QString clIdStr = quidu(cli);
+        Uml::ID::Type clId = Uml::ID::fromString(clIdStr);
+        if (spId != Uml::ID::None && clId != Uml::ID::None) {
+            UMLWidget *supW = view->umlScene()->widgetOnDiagram(spId);
+            UMLWidget *cliW = view->umlScene()->widgetOnDiagram(clId);
+            if (supW && cliW) {
+                // UMLAssociation *a = static_cast<UMLAssociation*>(o);
+                AssociationWidget *aw = AssociationWidget::create
+                                         (view->umlScene(), cliW, assocType,
+                                          supW, umlAssoc);
+                view->umlScene()->addAssociation(aw);
+            } else {
+                uError() << "InheritView: client widget " << clIdStr
+                         << " is not on diagram (?)";
+            }
+        } else {
+            uError() << "InheritView: bad or nonexistent quidu at client "
+                     << client << " (" << cli->name() << ")";
+        }
+    } else {
+        uError() << "InheritView: could not find client with tag " << client;
+    }
+}
+
 /**
  * Create an Umbrello object from a PetalNode of the Logical View.
  *
@@ -618,11 +661,11 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                 height = fetchDouble(attr, "height");
                 if (width > 0 && height > 0)
                     w->setSize(width, height);
-            } else if (objType == "InheritView") {
+            } else if (objType == "InheritView" || objType == "RealizeView") {
                 QString idStr = quidu(attr);
                 Uml::ID::Type assocID = Uml::ID::fromString(idStr);
                 if (assocID == Uml::ID::None) {
-                    uError() << "umbrellify: generalization illegal id " << idStr;
+                    uError() << "InheritView has illegal id " << idStr;
                 } else {
                     UMLObject *o = umlDoc->findObjectById(assocID);
                     if (o) {
@@ -630,50 +673,28 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                             uError() << "umbrellify: generalization " << idStr
                                      << " has wrong type " << o->baseType();
                         } else {
-                            QString supplier = attr->findAttribute("supplier").string;
-                            QString client   = attr->findAttribute("client").string;
-                            PetalNode *sup = NULL, *cli = NULL;
-                            for (int c = 0; c < atts.count(); ++c) {
-                                PetalNode *n = atts[c].second.node;
-                                QStringList initArgs = n->initialArgs();
-                                QString tag = initArgs.last();
-                                if (tag == client)
-                                    cli = n;
-                                else if (tag == supplier)
-                                    sup = n;
-                            }
-                            if (sup && cli) {
-                                QString spIdStr = quidu(sup);
-                                Uml::ID::Type spId = Uml::ID::fromString(spIdStr);
-                                QString clIdStr = quidu(cli);
-                                Uml::ID::Type clId = Uml::ID::fromString(clIdStr);
-                                if (spId != Uml::ID::None && clId != Uml::ID::None) {
-                                    UMLWidget *supW = view->umlScene()->widgetOnDiagram(spId);
-                                    UMLWidget *cliW = view->umlScene()->widgetOnDiagram(clId);
-                                    if (supW && cliW) {
-                                        // UMLAssociation *a = static_cast<UMLAssociation*>(o);
-                                        AssociationWidget *aw = AssociationWidget::create
-                                                             (view->umlScene(), cliW,
-                                                              Uml::AssociationType::Generalization,
-                                                              supW, o);
-                                        view->umlScene()->addAssociation(aw);
-                                    } else {
-                                        uError() << "InheritView: client widget " << clIdStr
-                                                 << " is not on diagram (?)";
-                                    }
-                                } else {
-                                    uError() << "InheritView: bad or nonexistent quidu at client "
-                                             << client << " (" << cli->name() << ")";
-                                }
-                            } else {
-                                uError() << "InheritView: could not find client with tag " << client;
-                            }
+                            Uml::AssociationType::Enum t = Uml::AssociationType::Generalization;
+                            if (objType == "RealizeView")
+                                t = Uml::AssociationType::Realization;
+                            handleAssocView(attr, atts, t, view, o);
                         }
                     } else {
                         uError() << "umbrellify: generalization " << idStr << " not found";
                     }
                 }
                 continue;   // code below dereferences `w' which is unused here
+            } else if (objType == "AttachView" || objType == "UsesView") {
+                QString idStr = quidu(attr);
+                Uml::ID::Type assocID = Uml::ID::fromString(idStr);
+                if (assocID == Uml::ID::None) {
+                    uError() << "AttachView has illegal id " << idStr;
+                } else {
+                    Uml::AssociationType::Enum assocType = Uml::AssociationType::Anchor;
+                    if (objType == "UsesView")
+                        assocType = Uml::AssociationType::Dependency;
+                    handleAssocView(attr, atts, assocType, view);
+                }
+                continue;
             } else if (objType == "NoteView") {
                 w = new NoteWidget(view->umlScene(), NoteWidget::Normal);
                 width = fetchDouble(attr, "width");
