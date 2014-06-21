@@ -16,6 +16,7 @@
 #include "petalnode.h"
 #include "model_utils.h"
 #include "import_utils.h"
+#include "object_factory.h"
 #include "import_rose.h"
 #include "uniqueid.h"
 #include "package.h"
@@ -463,8 +464,39 @@ void handleAssocView(PetalNode *attr,
                      UMLView *view,
                      UMLObject *umlAssoc = 0)
 {
-    QString supplier = attr->findAttribute("supplier").string;
-    QString client   = attr->findAttribute("client").string;
+    QString assocStr = Uml::AssociationType::toString(assocType);
+    PetalNode *roleview_list = attr->findAttribute("roleview_list").node;
+    PetalNode::StringOrNode supElem, cliElem;
+    if (roleview_list) {
+        PetalNode::NameValueList roles = roleview_list->attributes();
+        if (roles.length() < 2) {
+            uError() << assocStr << " roleview_list should have 2 elements";
+            return;
+        }
+        PetalNode *supNode = roles[0].second.node;
+        PetalNode *cliNode = roles[1].second.node;
+        if (supNode && cliNode) {
+            supElem = supNode->findAttribute("supplier");
+            cliElem = cliNode->findAttribute("supplier");  // not a typo, really "supplier"
+        } else {
+            uError() << assocStr << " roleview_list roles are incomplete";
+            return;
+        }
+    } else {
+        supElem = attr->findAttribute("supplier");
+        cliElem = attr->findAttribute("client");
+    }
+    QString supplier = supElem.string;
+    QString client   = cliElem.string;
+    if (supplier.isEmpty() || client.isEmpty()) {
+        if (supElem.node || cliElem.node) {
+            uError() << assocStr << " unexpected supplier and/or client type"
+                     << " (actual: NODE; expected: STRING)";
+        } else {
+            uError() << assocStr << " supplier and/or client non-existent or empty";
+        }
+        return;
+    }
     PetalNode *sup = NULL, *cli = NULL;
     for (int c = 0; c < parentAttrs.count(); ++c) {
         PetalNode *n = parentAttrs[c].second.node;
@@ -483,22 +515,25 @@ void handleAssocView(PetalNode *attr,
         if (spId != Uml::ID::None && clId != Uml::ID::None) {
             UMLWidget *supW = view->umlScene()->widgetOnDiagram(spId);
             UMLWidget *cliW = view->umlScene()->widgetOnDiagram(clId);
-            if (supW && cliW) {
+            if (supW == NULL) {
+                uError() << assocStr << " supplier widget " << spIdStr
+                         << " is not on diagram (?)";
+            } else if (cliW == NULL) {
+                uError() << assocStr << " client widget " << clIdStr
+                         << " is not on diagram (?)";
+            } else {
                 // UMLAssociation *a = static_cast<UMLAssociation*>(o);
                 AssociationWidget *aw = AssociationWidget::create
                                          (view->umlScene(), cliW, assocType,
                                           supW, umlAssoc);
                 view->umlScene()->addAssociation(aw);
-            } else {
-                uError() << "InheritView: client widget " << clIdStr
-                         << " is not on diagram (?)";
             }
         } else {
-            uError() << "InheritView: bad or nonexistent quidu at client "
+            uError() << assocStr << " bad or nonexistent quidu at client "
                      << client << " (" << cli->name() << ")";
         }
     } else {
-        uError() << "InheritView: could not find client with tag " << client;
+        uError() << assocStr << " could not find client with tag " << client;
     }
 }
 
@@ -534,14 +569,16 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
             uWarning() << objType << " handleControlledUnit(" << name
                 << ") returned an error";
         }
+        parentPkg->addObject(o);
 
     } else if (objType == "Class") {
         QString stereotype = clean(node->findAttribute("stereotype").string);
+        UMLObject *o = NULL;
         if (stereotype == "Actor") {
-            UMLObject *o = Import_Utils::createUMLObject(UMLObject::ot_Actor, name, parentPkg);
+            o = Object_Factory::createUMLObject(UMLObject::ot_Actor, name, parentPkg, false);
             o->setID(id);
         } else {
-            UMLObject *o = Import_Utils::createUMLObject(UMLObject::ot_Class, name, parentPkg);
+            o = Object_Factory::createUMLObject(UMLObject::ot_Class, name, parentPkg, false);
             o->setID(id);
             UMLClassifier *c = static_cast<UMLClassifier*>(o);
             // set stereotype
@@ -564,10 +601,12 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
             RealizationsReader realReader(c);
             realReader.read(node, c->name());
         }
+        parentPkg->addObject(o);
 
     } else if (objType == "UseCase") {
-        UMLObject *o = Import_Utils::createUMLObject(UMLObject::ot_UseCase, name, parentPkg);
+        UMLObject *o = Object_Factory::createUMLObject(UMLObject::ot_UseCase, name, parentPkg, false);
         o->setID(id);
+        parentPkg->addObject(o);
 
     } else if (objType == "Association") {
         PetalNode *roles = node->findAttribute("roles").node;
@@ -630,6 +669,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
             if (! doc.isEmpty())
                 role->setDoc(doc);
         }
+        assoc->setUMLPackage(parentPkg);
         UMLApp::app()->document()->addAssociation(assoc);
 
     } else if (objType == "ClassDiagram" || objType == "UseCaseDiagram") {
@@ -658,19 +698,28 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                 }
                 w = Widget_Factory::createWidget(view->umlScene(), o);
                 width = fetchDouble(attr, "width");
+                if (width == 0) {
+                    // Set default value to get it displayed at all.
+                    width = name.length() * 12;  // to be verified
+                    uError() << objType << " " << name << ": no width found, using default" << width;
+                }
                 height = fetchDouble(attr, "height");
-                if (width > 0 && height > 0)
-                    w->setSize(width, height);
+                if (height == 0) {
+                    // Set default value to get it displayed at all.
+                    height = 100.0;
+                    uError() << objType << " " << name << ": no height found, using default" << height;
+                }
+                w->setSize(width, height);
             } else if (objType == "InheritView" || objType == "RealizeView") {
                 QString idStr = quidu(attr);
                 Uml::ID::Type assocID = Uml::ID::fromString(idStr);
                 if (assocID == Uml::ID::None) {
-                    uError() << "InheritView has illegal id " << idStr;
+                    uError() << objType << " has illegal id " << idStr;
                 } else {
                     UMLObject *o = umlDoc->findObjectById(assocID);
                     if (o) {
                         if (o->baseType() != UMLObject::ot_Association) {
-                            uError() << "umbrellify: generalization " << idStr
+                            uError() << objType << " " << idStr
                                      << " has wrong type " << o->baseType();
                         } else {
                             Uml::AssociationType::Enum t = Uml::AssociationType::Generalization;
@@ -679,10 +728,22 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                             handleAssocView(attr, atts, t, view, o);
                         }
                     } else {
-                        uError() << "umbrellify: generalization " << idStr << " not found";
+                        uError() << objType << " " << idStr << " not found";
                     }
                 }
                 continue;   // code below dereferences `w' which is unused here
+            } else if (objType == "AssociationViewNew") {
+                QString idStr = quidu(attr);
+                Uml::ID::Type assocID = Uml::ID::fromString(idStr);
+                if (assocID == Uml::ID::None) {
+                    uError() << objType << " has illegal id " << idStr;
+                } else {
+                    UMLObject *o = umlDoc->findObjectById(assocID);
+                    Uml::AssociationType::Enum t = Uml::AssociationType::UniAssociation;
+                    // @todo check if we need to change `t' to a different type for certain associations
+                    handleAssocView(attr, atts, t, view, o);
+                }
+                continue;
             } else if (objType == "AttachView" || objType == "UsesView") {
                 QString idStr = quidu(attr);
                 Uml::ID::Type assocID = Uml::ID::fromString(idStr);
@@ -706,6 +767,14 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                     QString label = lblNode->findAttribute("label").string;
                     w->setDocumentation(label);
                 }
+                // Add an artificial "quidu" attribute onto `attr' because
+                // handling of AttachView depends on it:
+                PetalNode::NameValueList innerAtts = attr->attributes();
+                PetalNode::StringOrNode value;
+                value.string = Uml::ID::toString(w->id());
+                PetalNode::NameValue synthQuidu("quidu", value);
+                innerAtts.append(synthQuidu);
+                attr->setAttributes(innerAtts);
             } else if (objType == "Label") {
                 QString label = attr->findAttribute("label").string;
                 w = new FloatingTextWidget(view->umlScene(), Uml::TextRole::Floating, label);
@@ -810,7 +879,7 @@ bool petalTree2Uml(PetalNode *root, UMLPackage *parentPkg)
     QStringList args = root->initialArgs();
     QString name = clean(args[1]);
     const Uml::ID::Type id = quid(root);
-    UMLObject *o = Import_Utils::createUMLObject(UMLObject::ot_Package, name, parentPkg);
+    UMLObject *o = Object_Factory::createUMLObject(UMLObject::ot_Package, name, parentPkg, false);
     o->setID(id);
     parentPkg = static_cast<UMLPackage*>(o);
     PetalNode *logical_models = root->findAttribute("logical_models").node;
