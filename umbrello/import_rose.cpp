@@ -504,26 +504,25 @@ bool loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
     //*************************** import Logical View *********************************
     umldoc->setCurrentRoot(Uml::ModelType::Logical);
     UMLPackage *logicalView = umldoc->rootFolder(Uml::ModelType::Logical);
-    importView(root, "root_category", "logical_models", logicalView);
-    importLogicalPresentations(root, "root_category", logicalView);
+    importView(root, logicalView,
+               "root_category", "logical_models", "Class_Category", "logical_presentations");
 
     //*************************** import Use Case View ********************************
     umldoc->setCurrentRoot(Uml::ModelType::UseCase);
     UMLPackage *useCaseView = umldoc->rootFolder(Uml::ModelType::UseCase);
-    importView(root, "root_usecase_package", "logical_models", useCaseView);
-    importLogicalPresentations(root, "root_usecase_package", useCaseView);
+    importView(root, useCaseView,
+               "root_usecase_package", "logical_models", "Class_Category", "logical_presentations");
 
     //*************************** import Component View *******************************
     umldoc->setCurrentRoot(Uml::ModelType::Component);
     UMLPackage *componentView = umldoc->rootFolder(Uml::ModelType::Component);
-    importView(root, "root_subsystem", "physical_models", componentView);
-    importLogicalPresentations(root, "root_subsystem", componentView);
+    importView(root, componentView,
+               "root_subsystem", "physical_models", "SubSystem", "physical_presentations");
 
     //*************************** import Deployment View ******************************
     umldoc->setCurrentRoot(Uml::ModelType::Deployment);
     UMLPackage *deploymentView = umldoc->rootFolder(Uml::ModelType::Deployment);
-    importView(root, "process_structure", "ProcsNDevs", deploymentView);
-    // importPresentations(root, "process_structure", deploymentView);
+    importView(root, deploymentView, "process_structure", "ProcsNDevs", "Processes");
 
     //***************************       wrap up        ********************************
     umldoc->setCurrentRoot(Uml::ModelType::Logical);

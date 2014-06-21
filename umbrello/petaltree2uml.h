@@ -26,11 +26,12 @@ class UMLPackage;
  */
 namespace Import_Rose {
 
-    bool importView(PetalNode *root, const QString& rootName,
-                    const QString& modelsName, UMLPackage *parent);
-
-    bool importLogicalPresentations(PetalNode *root, const QString &category,
-                                    UMLPackage *parent);
+    bool importView(PetalNode *root,
+                    UMLPackage *parent,
+                    const QString& rootName,
+                    const QString& modelsName,
+                    const QString& firstNodeName,
+                    const QString& presentationsName = QString());
 
     bool petalTree2Uml(PetalNode *root, UMLPackage *parentPkg);
 
