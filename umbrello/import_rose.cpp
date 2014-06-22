@@ -12,7 +12,11 @@
 #include "import_rose.h"
 
 // app includes
+#include "uml.h"
+#include "umldoc.h"
+#include "folder.h"
 #include "debug_utils.h"
+#include "import_utils.h"
 #include "petalnode.h"
 #include "petaltree2uml.h"
 
@@ -27,6 +31,12 @@
 #include <QTextStream>
 
 namespace Import_Rose {
+
+/**
+ * Directory prefix of .mdl file is buffered for possibly finding .cat/.sub
+ * controlled units (if no path is given at their definition.)
+ */
+QString dirPrefix;
 
 uint nClosures; // Multiple closing parentheses may appear on a single
                 // line. The parsing is done line-by-line and using
@@ -43,6 +53,11 @@ QString g_methodName;
 void methodName(const QString& m)
 {
     g_methodName = m;
+}
+
+QString mdlPath()
+{
+    return dirPrefix;
 }
 
 /**
@@ -365,23 +380,36 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
     return node;
 }
 
+#define SETCODEC(str)  stream.setCodec(str); break
+
 /**
  * Parse a file into the PetalNode internal tree representation
  * and then create Umbrello objects by traversing the tree.
  *
  * @return  True for success, false in case of error.
  */
-bool loadFromMDL(QIODevice& file) 
+bool loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */) 
 {
+    if (parentPkg == NULL) {
+        QString fName = file.fileName();
+        int lastSlash = fName.lastIndexOf('/');
+        if (lastSlash > 0) {
+            dirPrefix = fName.left(lastSlash + 1);
+        }
+    }
     QTextStream stream(&file);
     stream.setCodec("ISO 8859-1");
     QString line;
     PetalNode *root = NULL;
+    uint nClosures_sav = nClosures;
+    uint linum_sav = linum;
+    nClosures = 0;
     linum = 0;
     while (!(line = stream.readLine()).isNull()) {
         linum++;
         if (line.contains(QRegExp("^\\s*\\(object Petal"))) {
             bool finish = false;
+            // Nested loop determines character set to use
             while (!(line = stream.readLine()).isNull()) {
                 linum++; // CHECK: do we need petal version info?
                 if (line.contains(')')) {
@@ -389,9 +417,57 @@ bool loadFromMDL(QIODevice& file)
                     line = line.replace(QLatin1String(")"),QLatin1String(""));
                 }
                 QStringList a = line.trimmed().split(QRegExp("\\s+"));
-                if (a.size() == 2) {
-                    if (a[0] == "charSet" && a[1] == "134")
-                        stream.setCodec("GB18030");
+                if (a.size() == 2 && a[0] == "charSet") {
+                    const QString& charSet = a[1];
+                    if (!charSet.contains(QRegExp("^\\d+$"))) {
+                        uWarning() << "Unimplemented charSet " << charSet;
+                        if (finish)
+                            break;
+                        continue;
+                    }
+                    const int charSetNum = charSet.toInt();
+                    switch (charSetNum) {
+                        case 0:         // ASCII
+                            ;
+                        case 1:    // Default
+                            SETCODEC("System");
+                        case 2:    // Symbol
+                            ; // @todo     SETCODEC("what");
+                        case 77:   // Mac
+                            SETCODEC("macintosh");
+                        case 128:  // ShiftJIS (Japanese)
+                            SETCODEC("Shift_JIS");
+                        case 129:  // Hangul (Korean)
+                            SETCODEC("EUC-KR");
+                        case 130:  // Johab (Korean)
+                            SETCODEC("EUC-KR");
+                        case 134:  // GB2312 (Chinese)
+                            SETCODEC("GB18030");  // "Don't use GB2312 here" (Ralf H.)
+                        case 136:  // ChineseBig5
+                            SETCODEC("Big5");
+                        case 161:  // Greek
+                            SETCODEC("windows-1253");
+                        case 162:  // Turkish
+                            SETCODEC("windows-1254");
+                        case 163:  // Vietnamese
+                            SETCODEC("windows-1258");
+                        case 177:  // Hebrew
+                            SETCODEC("windows-1255");
+                        case 178:  // Arabic
+                            SETCODEC("windows-1256");
+                        case 186:  // Baltic
+                            SETCODEC("windows-1257");
+                        case 204:  // Russian
+                            SETCODEC("windows-1251");
+                        case 222:  // Thai
+                            SETCODEC("TIS-620");
+                        case 238:  // EastEurope
+                            SETCODEC("windows-1250");
+                        case 255:  // OEM (extended ASCII)
+                            SETCODEC("windows-1252");
+                        default:
+                            uWarning() << "Unimplemented charSet number" << charSetNum;
+                    }
                 }
                 if (finish)
                      break;
@@ -409,10 +485,53 @@ bool loadFromMDL(QIODevice& file)
         }
     }
     file.close();
+    nClosures = nClosures_sav;
+    linum = linum_sav;
     if (root == NULL)
         return false;
-    return petalTree2Uml(root);
+
+    if (parentPkg) {
+        return petalTree2Uml(root, parentPkg);
+    }
+
+    if (root->name() != "Design") {
+        uError() << "expecting root name Design";
+        return false;
+    }
+    Import_Utils::assignUniqueIdOnCreation(false);
+    UMLDoc *umldoc = UMLApp::app()->document();
+
+    //*************************** import Logical View *********************************
+    umldoc->setCurrentRoot(Uml::ModelType::Logical);
+    UMLPackage *logicalView = umldoc->rootFolder(Uml::ModelType::Logical);
+    importView(root, logicalView,
+               "root_category", "logical_models", "Class_Category", "logical_presentations");
+
+    //*************************** import Use Case View ********************************
+    umldoc->setCurrentRoot(Uml::ModelType::UseCase);
+    UMLPackage *useCaseView = umldoc->rootFolder(Uml::ModelType::UseCase);
+    importView(root, useCaseView,
+               "root_usecase_package", "logical_models", "Class_Category", "logical_presentations");
+
+    //*************************** import Component View *******************************
+    umldoc->setCurrentRoot(Uml::ModelType::Component);
+    UMLPackage *componentView = umldoc->rootFolder(Uml::ModelType::Component);
+    importView(root, componentView,
+               "root_subsystem", "physical_models", "SubSystem", "physical_presentations");
+
+    //*************************** import Deployment View ******************************
+    umldoc->setCurrentRoot(Uml::ModelType::Deployment);
+    UMLPackage *deploymentView = umldoc->rootFolder(Uml::ModelType::Deployment);
+    importView(root, deploymentView, "process_structure", "ProcsNDevs", "Processes");
+
+    //***************************       wrap up        ********************************
+    umldoc->setCurrentRoot(Uml::ModelType::Logical);
+    Import_Utils::assignUniqueIdOnCreation(true);
+    umldoc->resolveTypes();
+    return true;
 }
+
+#undef SETCODEC
 
 }
 

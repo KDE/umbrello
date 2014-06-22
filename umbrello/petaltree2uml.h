@@ -11,8 +11,11 @@
 #ifndef PETALTREE2UML_H
 #define PETALTREE2UML_H
 
+#include <QString>
+
 // fwd decl
 class PetalNode;
+class UMLPackage;
 
 /**
  * Traverse the PetalNode tree and create corresponding Umbrello objects
@@ -23,7 +26,14 @@ class PetalNode;
  */
 namespace Import_Rose {
 
-    bool petalTree2Uml(PetalNode *root);
+    bool importView(PetalNode *root,
+                    UMLPackage *parent,
+                    const QString& rootName,
+                    const QString& modelsName,
+                    const QString& firstNodeName,
+                    const QString& presentationsName = QString());
+
+    bool petalTree2Uml(PetalNode *root, UMLPackage *parentPkg);
 
 }
 

@@ -11,6 +11,66 @@
 // own header
 #include "petalnode.h"
 
+#include "debug_utils.h"
+
+// todo avoid '"' on QString output
+
+QString a;
+
+class Indenter : public QDebug
+{
+public:
+    Indenter(QDebug &out, const char *className)
+        : QDebug(out)
+    {
+        level++;
+        *this << className
+              << "(\n"
+              << QString().fill('.', level).toAscii().constData()
+              ;
+    }
+
+    ~Indenter()
+    {
+        --level;
+        *this << "\n"
+              << QString().fill(',', level).toAscii().constData()
+              << ")";
+              ;
+    }
+
+    static int level;
+};
+
+int Indenter::level = 0;
+
+QDebug operator<<(QDebug _out, const PetalNode::StringOrNode &p)
+{
+    Indenter out(_out.nospace(), "PetalNode::StringOrNode");
+    if (!p.string.isEmpty())
+        out << "string: " << p.string;
+    if (p.node)
+        out << "node: " << *p.node;
+    return out;
+}
+
+QDebug operator<<(QDebug _out, const PetalNode::NameValue &p)
+{
+    Indenter out(_out.nospace(), "PetalNode::NameValue");
+    out << "name: " << p.first
+        << "value: " << p.second;
+    return out;
+}
+
+QDebug operator<<(QDebug _out, const PetalNode::NameValueList &p)
+{
+    Indenter out(_out.nospace(), "PetalNode::NameValueList");
+    for (int i = 0; i < p.count(); ++i) {
+        out << i << ": " << p[i];
+    }
+    return out;
+}
+
 PetalNode::PetalNode(NodeType nt)
 {
     m_type = nt;
@@ -71,4 +131,13 @@ PetalNode::StringOrNode PetalNode::findAttribute(const QString& name) const
             return m_attributes[i].second;
     }
     return StringOrNode();
+}
+
+QDebug operator<<(QDebug _out, const PetalNode &p)
+{
+    Indenter out(_out.nospace(), "PetalNode");
+    out << "type: " << p.type()
+        << "name: " << p.name()
+        << "attributes: " << p.attributes();
+    return out;
 }

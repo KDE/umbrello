@@ -78,7 +78,13 @@ private:
     NodeType m_type;
     QStringList m_initialArgs;
     NameValueList m_attributes;
+
+    friend QDebug operator<<(QDebug out, const PetalNode &p);
 };
 
+QDebug operator<<(QDebug out, const PetalNode::StringOrNode &p);
+QDebug operator<<(QDebug out, const PetalNode::NameValue &p);
+QDebug operator<<(QDebug out, const PetalNode::NameValueList &p);
+QDebug operator<<(QDebug out, const PetalNode &p);
 #endif
 
