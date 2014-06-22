@@ -200,7 +200,7 @@ public:
 
     void selectAll();
 
-    bool widgetOnDiagram(Uml::ID::Type id);
+    UMLWidget* widgetOnDiagram(Uml::ID::Type id);
 
     bool isSavedInSeparateFile();
 

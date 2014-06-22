@@ -1041,16 +1041,16 @@ void UMLScene::checkMessages(ObjectWidget * w)
  *
  * @return Returns true if the widget is already on the diagram, false if not.
  */
-bool UMLScene::widgetOnDiagram(Uml::ID::Type id)
+UMLWidget* UMLScene::widgetOnDiagram(Uml::ID::Type id)
 {
     foreach(UMLWidget *obj, m_WidgetList) {
         if (id == obj->id())
-            return true;
+            return obj;
     }
 
     foreach(UMLWidget *obj, m_MessageList) {
         if (id == obj->id())
-            return true;
+            return obj;
     }
 
     return false;
