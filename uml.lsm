@@ -1,6 +1,6 @@
 Begin3
 Title:          Umbrello UML Modeller
-Version:        2.11.0
+Version:        2.14.0
 Entered-date:   
 Description:  A UML diagram Modeller
 Keywords:   uml diagram modeller
@@ -9,6 +9,6 @@ Maintained-by:  Umbrello UML Modeller developers <umbrello-devel @ kde.org>
 Primary-site:   http://umbrello.kde.org
 Home-page:      http://umbrello.kde.org
 Original-site:  
-Platforms:      KDE 4.11
+Platforms:      KDE 4.x
 Copying-policy: GPL
 End
