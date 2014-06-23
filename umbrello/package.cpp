@@ -312,30 +312,6 @@ void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
 }
 
 /**
- * Append all classes from this package (and those from
- * nested packages) to the given UMLClassifierList.
- *
- * @param classes         The list to append to.
- * @param includeNested   Whether to include the classes from
- *                        nested packages (default: true.)
- */
-void UMLPackage::appendClasses(UMLClassifierList& classes,
-                               bool includeNested /* = true */)
-{
-    for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
-        UMLObject *o = oit.next();
-        ObjectType ot = o->baseType();
-        if (ot == ot_Class) {
-            UMLClassifier *c = static_cast<UMLClassifier*>(o);
-            classes.append(c);
-        } else if (includeNested && (ot == ot_Package || ot == ot_Folder)) {
-            UMLPackage *inner = static_cast<UMLPackage *>(o);
-            inner->appendClasses(classes);
-        }
-    }
-}
-
-/**
  * Append all entities from this package (and those
  * from nested packages) to the given UMLEntityList.
  *
@@ -379,30 +355,6 @@ void UMLPackage::appendClassesAndInterfaces(UMLClassifierList& classifiers,
         } else if (includeNested && (ot == ot_Package || ot == ot_Folder)) {
             UMLPackage *inner = static_cast<UMLPackage *>(o);
             inner->appendClassesAndInterfaces(classifiers);
-        }
-    }
-}
-
-/**
- * Append all interfaces from this package (and those from
- * nested packages) to the given UMLClassifierList.
- *
- * @param interfaces      The list to append to.
- * @param includeNested   Whether to include the interfaces from
- *                        nested packages (default: true.)
- */
-void UMLPackage::appendInterfaces(UMLClassifierList& interfaces,
-                                   bool includeNested /* = true */)
-{
-    for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
-        UMLObject *o = oit.next();
-        ObjectType ot = o->baseType();
-        if (ot == ot_Interface) {
-            UMLClassifier *c = static_cast<UMLClassifier*>(o);
-            interfaces.append(c);
-        } else if (includeNested && (ot == ot_Package || ot == ot_Folder)) {
-            UMLPackage *inner = static_cast<UMLPackage *>(o);
-            inner->appendInterfaces(interfaces);
         }
     }
 }

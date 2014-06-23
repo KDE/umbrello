@@ -168,10 +168,8 @@ public:
     void signalUMLObjectCreated(UMLObject * o);
 
     UMLClassifierList concepts(bool includeNested = true);
-    UMLClassifierList classes(bool includeNested = true);
     UMLClassifierList classesAndInterfaces(bool includeNested = true);
     UMLEntityList entities(bool includeNested = true);
-    UMLClassifierList interfaces(bool includeNested = true);
     UMLFolder * datatypeFolder() const;
     UMLClassifierList datatypes();
     UMLAssociationList associations();

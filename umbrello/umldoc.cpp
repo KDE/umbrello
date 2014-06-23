@@ -2550,20 +2550,6 @@ UMLClassifierList UMLDoc::concepts(bool includeNested /* =true */)
 }
 
 /**
- * Returns a list of the classes in this UMLDoc.
- *
- * @param includeNested   Whether to include the concepts from
- *                        nested packages (default: true.)
- * @return  List of UML classes.
- */
-UMLClassifierList UMLDoc::classes(bool includeNested /* =true */)
-{
-    UMLClassifierList conceptList;
-    m_root[Uml::ModelType::Logical]->appendClasses(conceptList, includeNested);
-    return conceptList;
-}
-
-/**
  * Returns a list of the classes and interfaces in this UMLDoc.
  *
  * @param includeNested   Whether to include the concepts from
@@ -2589,20 +2575,6 @@ UMLEntityList UMLDoc::entities(bool includeNested /* =true */)
     UMLEntityList entityList;
     m_root[Uml::ModelType::EntityRelationship]->appendEntities(entityList, includeNested);
     return entityList;
-}
-
-/**
- * Returns a list of the interfaces in this UMLDoc.
- *
- * @param includeNested   Whether to include the concepts from
- *                        nested packages (default: true.)
- * @return  List of UML interfaces.
- */
-UMLClassifierList UMLDoc::interfaces(bool includeNested /* =true */)
-{
-    UMLClassifierList interfaceList;
-    m_root[Uml::ModelType::Logical]->appendInterfaces(interfaceList, includeNested);
-    return interfaceList;
 }
 
 /**
