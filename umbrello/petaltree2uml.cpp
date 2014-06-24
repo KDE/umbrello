@@ -393,19 +393,21 @@ protected:
  * @param node       Pointer to the PetalNode which may contain a controlled unit
  * @param name       Name of the current node
  * @param id         QUID of the current node
- * @param parentPkg  Pointer to the current parent UMLPackage.
- * @return      True if the node actually contained a controlled unit.
+ * @param parentPkg  Pointer to the current parent UMLPackage or UMLFolder.
+ * @return      Pointer to UMLFolder created for controlled unit on success;
+ *              NULL on error.
  */
-bool handleControlledUnit(PetalNode *node, const QString& name, Uml::ID::Type id, UMLPackage * parentPkg)
+UMLPackage* handleControlledUnit(PetalNode *node, const QString& name,
+                                  Uml::ID::Type id, UMLPackage * parentPkg)
 {
     Q_UNUSED(id);
     if (node->findAttribute("is_unit").string != "TRUE")
-        return false;
+        return NULL;
     //bool is_loaded = (node->findAttribute("is_loaded").string != "FALSE");
     QString file_name = node->findAttribute("file_name").string;
     if (file_name.isEmpty()) {
         uError() << name << ": attribute file_name not found (?)";
-        return true;
+        return NULL;
     }
     file_name = file_name.mid(1, file_name.length() - 2);  // remove sourrounding ""
     /* I wanted to use
@@ -428,7 +430,7 @@ bool handleControlledUnit(PetalNode *node, const QString& name, Uml::ID::Type id
         if (envVarBA.isNull() || envVarBA.isEmpty()) {
             uError() << name << "cannot process file_name " << file_name
                      << " because environment variable " << envVarName << " not set";
-            return false;
+            return NULL;
         }
         QString envVar(envVarBA);
         uDebug() << name << ": envVar " << envVarName << " contains " << envVar;
@@ -447,15 +449,15 @@ bool handleControlledUnit(PetalNode *node, const QString& name, Uml::ID::Type id
     QFile file(file_name);
     if (!file.exists()) {
         uError() << name << ": file_name " << file_name << " not found";
-        return false;
+        return NULL;
     }
     if (!file.open(QIODevice::ReadOnly)) {
         uError() << name << ": file_name " << file_name << " cannot be opened";
-        return false;
+        return NULL;
     }
-    bool status = loadFromMDL(file, parentPkg);
+    UMLPackage *controlledUnit = loadFromMDL(file, parentPkg);
     file.close();
-    return status;
+    return controlledUnit;
 }
 
 void handleAssocView(PetalNode *attr,
@@ -541,8 +543,20 @@ void handleAssocView(PetalNode *attr,
     }
 }
 
+Uml::DiagramType::Enum diagramType(QString objType)
+{
+    Uml::DiagramType::Enum dt;
+    dt = (objType == "ClassDiagram"    ? Uml::DiagramType::Class :
+          objType == "UseCaseDiagram"  ? Uml::DiagramType::UseCase :
+          objType == "Module_Diagram"  ? Uml::DiagramType::Component :
+          objType == "Process_Diagram" ? Uml::DiagramType::Deployment :
+          // not yet implemented: Sequence, Collaboration, State, Activity
+                                         Uml::DiagramType::Undefined);
+    return dt;
+}
+
 /**
- * Create an Umbrello object from a PetalNode of the Logical View.
+ * Create an Umbrello object from a PetalNode.
  *
  * @return   True for success.
  *           Given a PetalNode for which the mapping to Umbrello is not yet
@@ -558,22 +572,39 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
     QString objType = args[0];
     QString name = clean(args[1]);
     Uml::ID::Type id = quid(node);
+    Uml::DiagramType::Enum dt = Uml::DiagramType::Undefined;
 
     if (objType == "Class_Category" || objType == "SubSystem") {
         const bool isSubsystem = (objType == "SubSystem");
-        UMLObject *o = Import_Utils::createUMLObject(UMLObject::ot_Package, name, parentPkg);
-        o->setID(id);
         QString modelsAttr(isSubsystem ? "physical_models" : "logical_models");
         PetalNode *models = node->findAttribute(modelsAttr).node;
+        UMLObject *o = NULL;
         if (models) {
-            UMLPackage *localParent = static_cast<UMLPackage*>(o);
             PetalNode::NameValueList atts = models->attributes();
+            QString presAttr(isSubsystem ? "physical_presentations" : "logical_presentations");
+            PetalNode::NameValueList pratts;
+            PetalNode *pres = node->findAttribute(presAttr).node;
+            if (pres) {
+                pratts = pres->attributes();
+            }
+            if (pratts.isEmpty())
+                o = Import_Utils::createUMLObject(UMLObject::ot_Package, name, parentPkg);
+            else
+                o = Object_Factory::createUMLObject(UMLObject::ot_Folder, name, parentPkg);
+            o->setID(id);
+            UMLPackage *localParent = static_cast<UMLPackage*>(o);
             for (int i = 0; i < atts.count(); ++i) {
                 umbrellify(atts[i].second.node, localParent);
             }
-        } else if (!handleControlledUnit(node, name, id, parentPkg)) {
-            uWarning() << objType << " handleControlledUnit(" << name
-                << ") returned an error";
+            for (int i = 0; i < pratts.count(); ++i) {
+                umbrellify(pratts[i].second.node, localParent);
+            }
+        } else {
+            o = handleControlledUnit(node, name, id, parentPkg);
+            if (o == NULL) {
+                uWarning() << objType << " handleControlledUnit(" << name << ") returns error";
+                return false;
+            }
         }
         if (isSubsystem)
             o->setStereotype("subsystem");
@@ -688,16 +719,13 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
         assoc->setUMLPackage(parentPkg);
         UMLApp::app()->document()->addAssociation(assoc);
 
-    } else if (objType == "ClassDiagram" ||
-               objType == "UseCaseDiagram" ||
-               objType == "Module_Diagram" ||
-               objType == "Process_Diagram") {
-        Uml::DiagramType::Enum dt = (objType == "ClassDiagram"   ? Uml::DiagramType::Class :
-                                     objType == "UseCaseDiagram" ? Uml::DiagramType::UseCase :
-                                     objType == "Module_Diagram" ? Uml::DiagramType::Component :
-                                                                   Uml::DiagramType::Deployment);
+    } else if ((dt = diagramType(objType)) != Uml::DiagramType::Undefined) {
+        if (parentPkg->baseType() != UMLObject::ot_Folder) {
+            uError() << "umbrellify: internal error - parentPkg must be UMLFolder for diagrams";
+            return false;
+        }
         UMLDoc *umlDoc = UMLApp::app()->document();
-        UMLFolder *rootFolder = umlDoc->rootFolder(Model_Utils::convert_DT_MT(dt));
+        UMLFolder *rootFolder = static_cast<UMLFolder*>(parentPkg);
         UMLView *view = umlDoc->createDiagram(rootFolder, dt, name, id);
         PetalNode *items = node->findAttribute("items").node;
         if (items == NULL) {
@@ -897,34 +925,40 @@ bool importView(PetalNode *root,
  * coupled with the parser (other than by the PetalNode.)
  *
  * @param root   the root of the tree
- * @return  true for success.
+ * @return  pointer to the newly created UMLPackage on success, NULL on error
  */
-bool petalTree2Uml(PetalNode *root, UMLPackage *parentPkg)
+UMLPackage * petalTree2Uml(PetalNode *root, UMLPackage *parentPkg)
 {
     if (root == NULL) {
         uError() << "petalTree2Uml: root is NULL";
-        return false;
+        return NULL;
+    }
+    UMLPackage *rootPkg = Model_Utils::rootPackage(parentPkg);
+    if (rootPkg == NULL) {
+        uError() << "petalTree2Uml: internal error - rootPkg is NULL";
+        return NULL;
+    }
+    UMLDoc *umlDoc = UMLApp::app()->document();
+    Uml::ModelType::Enum mt = umlDoc->rootFolderType(rootPkg);
+    QString modelsAttr(mt == Uml::ModelType::Component ? "physical_models" : "logical_models");
+    PetalNode *models = root->findAttribute(modelsAttr).node;
+    if (models == NULL) {
+        uError() << "petalTree2Uml: cannot find " << modelsAttr;
+        return NULL;
     }
     QStringList args = root->initialArgs();
     QString name = clean(args[1]);
     const Uml::ID::Type id = quid(root);
-    UMLObject *o = Object_Factory::createUMLObject(UMLObject::ot_Package, name, parentPkg, false);
+    UMLObject *o = Object_Factory::createUMLObject(UMLObject::ot_Folder, name, parentPkg, false);
     o->setID(id);
     parentPkg = static_cast<UMLPackage*>(o);
-    PetalNode *logical_models = root->findAttribute("logical_models").node;
-    if (logical_models == NULL) {
-        uError() << "petalTree2Uml: cannot find logical_models";
-        return false;
-    }
-    PetalNode::NameValueList atts = logical_models->attributes();
-    bool status = true;
+    PetalNode::NameValueList atts = models->attributes();
     for (int i = 0; i < atts.count(); ++i) {
         if (!umbrellify(atts[i].second.node, parentPkg)) {
-            status = false;
             break;
         }
     }
-    return status;
+    return parentPkg;
 }
 
 }  // namespace Import_Rose

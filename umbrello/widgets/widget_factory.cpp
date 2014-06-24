@@ -87,6 +87,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
     case UMLObject::ot_UseCase:
         newWidget = new UseCaseWidget(scene, static_cast<UMLUseCase*>(o));
         break;
+    case UMLObject::ot_Folder:
     case UMLObject::ot_Package:
         newWidget = new PackageWidget(scene, static_cast<UMLPackage*>(o));
         break;
@@ -154,7 +155,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
         newWidget = new CategoryWidget(scene, static_cast<UMLCategory*>(o));
         break;
     default:
-        uWarning() << "trying to create an invalid widget";
+        uWarning() << "trying to create an invalid widget (" << UMLObject::toString(type) << ")";
     }
 
     if (newWidget) {

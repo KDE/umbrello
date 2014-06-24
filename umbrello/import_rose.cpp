@@ -386,9 +386,11 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
  * Parse a file into the PetalNode internal tree representation
  * and then create Umbrello objects by traversing the tree.
  *
- * @return  True for success, false in case of error.
+ * @return  In case of error: NULL
+ *          In case of success with non NULL parentPkg: pointer to UMLPackage created for controlled unit
+ *          In case of success with NULL parentPkg: pointer to root folder of Logical View
  */
-bool loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */) 
+UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */) 
 {
     if (parentPkg == NULL) {
         QString fName = file.fileName();
@@ -488,7 +490,7 @@ bool loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
     nClosures = nClosures_sav;
     linum = linum_sav;
     if (root == NULL)
-        return false;
+        return NULL;
 
     if (parentPkg) {
         return petalTree2Uml(root, parentPkg);
@@ -496,7 +498,7 @@ bool loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
 
     if (root->name() != "Design") {
         uError() << "expecting root name Design";
-        return false;
+        return NULL;
     }
     Import_Utils::assignUniqueIdOnCreation(false);
     UMLDoc *umldoc = UMLApp::app()->document();
@@ -528,7 +530,7 @@ bool loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
     umldoc->setCurrentRoot(Uml::ModelType::Logical);
     Import_Utils::assignUniqueIdOnCreation(true);
     umldoc->resolveTypes();
-    return true;
+    return logicalView;
 }
 
 #undef SETCODEC

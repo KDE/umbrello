@@ -33,7 +33,7 @@ namespace Import_Rose {
                     const QString& firstNodeName,
                     const QString& presentationsName = QString());
 
-    bool petalTree2Uml(PetalNode *root, UMLPackage *parentPkg);
+    UMLPackage* petalTree2Uml(PetalNode *root, UMLPackage *parentPkg);
 
 }
 

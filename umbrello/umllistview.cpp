@@ -799,7 +799,7 @@ void UMLListView::slotDiagramCreated(Uml::ID::Type id)
         UMLScene *scene = v->umlScene();
         if (scene) {
             const Uml::DiagramType::Enum dt = scene->type();
-            UMLListViewItem* p = findFolderForDiagram(dt);
+            UMLListViewItem* p = findUMLObject(scene->folder());
             UMLListViewItem* item = new UMLListViewItem(p, scene->name(), Model_Utils::convert_DT_LVT(dt), id);
             setSelected(item, true);
             UMLApp::app()->docWindow()->showDocumentation(scene, false);
@@ -909,7 +909,16 @@ void UMLListView::slotObjectCreated(UMLObject* object)
         newItem->setIcon(icon);
         return;
     }
-    UMLListViewItem* parentItem = determineParentItem(object);
+    UMLListViewItem* parentItem = 0;
+    UMLPackage *p = object->umlPackage();
+    if (p) {
+        parentItem = findUMLObject(p);
+        if (parentItem == 0)
+            parentItem = determineParentItem(object);
+    } else {
+        uWarning() << object->name() << " : umlPackage not set on object";
+        parentItem = determineParentItem(object);
+    }
     if (parentItem == 0)
         return;
     UMLObject::ObjectType type = object->baseType();
