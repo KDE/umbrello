@@ -12,13 +12,16 @@
 
 #include "associationline.h"
 #include "associationwidget.h"
+#include "cmds.h"
 #include "debug_utils.h"
 #include "floatingtextwidget.h"
+#include "uml.h"
 #include "umlwidget.h"
 
-// app includes
+// kde includes
 #include <KConfigGroup>
 #include <KDesktopFile>
+#include <KLocale>
 #include <KStandardDirs>
 
 // qt includes
@@ -245,15 +248,21 @@ bool LayoutGenerator::apply(UMLScene *scene)
         */
     }
 
+    UMLApp::app()->beginMacro(i18n("Apply layout"));
+
     foreach(UMLWidget *widget, scene->widgetList()) {
         QString id = Uml::ID::toString(widget->localID());
         if (!m_nodes.contains(id))
             continue;
         QPoint p = origin(id);
+        widget->setStartMovePosition(widget->pos());
         widget->setX(p.x());
         widget->setY(p.y()-widget->height());
         widget->adjustAssocs(widget->x(), widget->y());    // adjust assoc lines
+
+        UMLApp::app()->executeCommand(new Uml::CmdMoveWidget(widget));
     }
+    UMLApp::app()->endMacro();
 
     foreach(AssociationWidget *assoc, scene->associationList()) {
         assoc->calculateEndingPoints();

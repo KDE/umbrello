@@ -200,6 +200,8 @@ public:
     virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
 
     QPointF startMovePosition() const;
+    void setStartMovePosition(const QPointF &position);
+
     QSizeF startResizeSize() const;
 
     virtual QSizeF calculateSize();

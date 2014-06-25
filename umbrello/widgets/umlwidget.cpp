@@ -611,6 +611,15 @@ QPointF UMLWidget::startMovePosition() const
 }
 
 /**
+ * Set the start position of the move action.
+ * @param position point where the move began
+ */
+void UMLWidget::setStartMovePosition(const QPointF &position)
+{
+    m_startMovePostion = position;
+}
+
+/**
  * Return the start size of the resize action.
  * @return   size where the resize began
  */
