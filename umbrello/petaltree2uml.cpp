@@ -15,7 +15,6 @@
 #include "debug_utils.h"
 #include "petalnode.h"
 #include "model_utils.h"
-#include "import_utils.h"
 #include "object_factory.h"
 #include "import_rose.h"
 #include "uniqueid.h"
@@ -588,7 +587,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                 pratts = pres->attributes();
             }
             if (pratts.isEmpty())
-                o = Import_Utils::createUMLObject(UMLObject::ot_Package, name, parentPkg);
+                o = Object_Factory::createUMLObject(UMLObject::ot_Package, name, parentPkg);
             else
                 o = Object_Factory::createUMLObject(UMLObject::ot_Folder, name, parentPkg);
             o->setID(id);
