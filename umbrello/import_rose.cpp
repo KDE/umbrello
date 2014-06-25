@@ -483,6 +483,7 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
                 QStringList initialArgs = scan(line);
                 initialArgs.pop_front();  // remove opening parenthesis
                 root = readAttributes(initialArgs, stream);
+                break;
             }
         }
     }
