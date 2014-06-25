@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2013                                                *
+ *  copyright (C) 2002-2014                                                *
  *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                 *
  ***************************************************************************/
 
@@ -79,19 +79,19 @@ void UMLEntityAttributeDialog::setupDialog()
     valuesLayout->addWidget(m_pTypeCB, 0, 1);
     m_pTypeL->setBuddy(m_pTypeCB);
 
-    Dialog_Utils::makeLabeledEditField(m_pValuesGB, valuesLayout, 1,
+    Dialog_Utils::makeLabeledEditField(valuesLayout, 1,
                                     m_pNameL, i18nc("name of entity attribute", "&Name:"),
                                     m_pNameLE, m_pEntityAttribute->name());
 
-    Dialog_Utils::makeLabeledEditField(m_pValuesGB, valuesLayout, 2,
+    Dialog_Utils::makeLabeledEditField(valuesLayout, 2,
                                     m_pInitialL, i18n("&Default value:"),
                                     m_pInitialLE, m_pEntityAttribute->getInitialValue());
 
-    Dialog_Utils::makeLabeledEditField(m_pValuesGB, valuesLayout, 3,
+    Dialog_Utils::makeLabeledEditField(valuesLayout, 3,
                                     m_pStereoTypeL, i18n("Stereotype name:"),
                                     m_pStereoTypeLE, m_pEntityAttribute->stereotype());
 
-    Dialog_Utils::makeLabeledEditField(m_pValuesGB, valuesLayout, 4,
+    Dialog_Utils::makeLabeledEditField(valuesLayout, 4,
                                     m_pValuesL, i18n("Length/Values:"),
                                     m_pValuesLE, m_pEntityAttribute->getValues());
 

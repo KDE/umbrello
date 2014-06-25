@@ -109,7 +109,7 @@ void AssociationRolePage::constructWidget()
 
     // Rolename A
     QLabel *pRoleAL = NULL;
-    Dialog_Utils::makeLabeledEditField(propsAGB, propsALayout, 0,
+    Dialog_Utils::makeLabeledEditField(propsALayout, 0,
                                     pRoleAL, i18n("Rolename:"),
                                     m_pRoleALE, nameA);
 
@@ -186,7 +186,7 @@ void AssociationRolePage::constructWidget()
 
     // Rolename B
     QLabel * pRoleBL = NULL;
-    Dialog_Utils::makeLabeledEditField(propsBGB, propsBLayout, 0,
+    Dialog_Utils::makeLabeledEditField(propsBLayout, 0,
                                     pRoleBL, i18n("Rolename:"),
                                     m_pRoleBLE, nameB);
 

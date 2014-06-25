@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2013                                               *
+ *   copyright (C) 2004-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -26,7 +26,7 @@ class KLineEdit;
  */
 namespace Dialog_Utils {
 
-KLineEdit* makeLabeledEditField(QGroupBox *containingBox, QGridLayout *layout, int row,
+KLineEdit* makeLabeledEditField(QGridLayout *layout, int row,
                                 QLabel * &label, const QString& labelText,
                                 KLineEdit * &editField,
                                 const QString& editFieldText = QString());

@@ -155,12 +155,12 @@ void StateDialog::setupGeneralPage()
         typeStr = "???";
         break;
     }
-    Dialog_Utils::makeLabeledEditField(m_GenPageWidgets.generalGB, generalLayout, 0,
+    Dialog_Utils::makeLabeledEditField(generalLayout, 0,
                                        m_GenPageWidgets.typeL, i18n("State type:"),
                                        m_GenPageWidgets.typeLE, typeStr);
     m_GenPageWidgets.typeLE->setEnabled(false);
 
-    Dialog_Utils::makeLabeledEditField(m_GenPageWidgets.generalGB, generalLayout, 1,
+    Dialog_Utils::makeLabeledEditField(generalLayout, 1,
                                     m_GenPageWidgets.nameL, i18n("State name:"),
                                     m_GenPageWidgets.nameLE);
 

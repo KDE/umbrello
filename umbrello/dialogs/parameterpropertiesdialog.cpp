@@ -82,11 +82,11 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
     propLayout->addWidget(m_pTypeCB, 0, 1);
     m_pTypeL->setBuddy(m_pTypeCB);
 
-    Dialog_Utils::makeLabeledEditField(m_pParmGB, propLayout, 1,
+    Dialog_Utils::makeLabeledEditField(propLayout, 1,
                                     m_pNameL, i18nc("property name", "&Name:"),
                                     m_pNameLE, name);
 
-    Dialog_Utils::makeLabeledEditField(m_pParmGB, propLayout, 2,
+    Dialog_Utils::makeLabeledEditField(propLayout, 2,
                                     m_pInitialL, i18n("&Initial value:"),
                                     m_pInitialLE, initialValue);
 

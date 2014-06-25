@@ -77,15 +77,15 @@ void UMLAttributeDialog::setupDialog()
     valuesLayout->addWidget(m_pTypeCB, 0, 1);
     m_pTypeL->setBuddy(m_pTypeCB);
 
-    Dialog_Utils::makeLabeledEditField(m_pValuesGB, valuesLayout, 1,
+    Dialog_Utils::makeLabeledEditField(valuesLayout, 1,
                                     m_pNameL, i18nc("attribute name", "&Name:"),
                                     m_pNameLE, m_pAttribute->name());
 
-    Dialog_Utils::makeLabeledEditField(m_pValuesGB, valuesLayout, 2,
+    Dialog_Utils::makeLabeledEditField(valuesLayout, 2,
                                     m_pInitialL, i18n("&Initial value:"),
                                     m_pInitialLE, m_pAttribute->getInitialValue());
 
-    Dialog_Utils::makeLabeledEditField(m_pValuesGB, valuesLayout, 3,
+    Dialog_Utils::makeLabeledEditField(valuesLayout, 3,
                                     m_pStereoTypeL, i18n("Stereotype name:"),
                                     m_pStereoTypeLE, m_pAttribute->stereotype());
 

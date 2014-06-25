@@ -153,16 +153,16 @@ void ObjectNodeDialog::setupGeneralPage()
     else {
         uWarning() << "type of ObjectNodeWidget is out of range! Value = " << type;
     }
-    Dialog_Utils::makeLabeledEditField(m_GenPageWidgets.generalGB, generalLayout, 0,
+    Dialog_Utils::makeLabeledEditField(generalLayout, 0,
                                     m_GenPageWidgets.typeL, i18n("Object Node type:"),
                                     m_GenPageWidgets.typeLE, objType);
     m_GenPageWidgets.typeLE->setEnabled(false);
 
-    Dialog_Utils::makeLabeledEditField(m_GenPageWidgets.generalGB, generalLayout, 1,
+    Dialog_Utils::makeLabeledEditField(generalLayout, 1,
                                     m_GenPageWidgets.nameL, i18n("Object Node name:"),
                                     m_GenPageWidgets.nameLE);
 
-    Dialog_Utils::makeLabeledEditField(m_GenPageWidgets.generalGB, generalLayout, 2,
+    Dialog_Utils::makeLabeledEditField(generalLayout, 2,
                                     m_GenPageWidgets.stateL, i18nc("enter state label", "State :"),
                                     m_GenPageWidgets.stateLE);
     m_GenPageWidgets.stateL->hide();

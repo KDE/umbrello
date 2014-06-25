@@ -150,20 +150,20 @@ void ActivityDialog::setupGeneralPage()
     generalLayout->setMargin(fontMetrics().height());
 
     QString actType (types[ (int)type ]);
-    Dialog_Utils::makeLabeledEditField(m_GenPageWidgets.generalGB, generalLayout, 0,
+    Dialog_Utils::makeLabeledEditField(generalLayout, 0,
                                     m_GenPageWidgets.typeL, i18n("Activity type:"),
                                     m_GenPageWidgets.typeLE, actType);
     m_GenPageWidgets.typeLE->setEnabled(false);
 
-    Dialog_Utils::makeLabeledEditField(m_GenPageWidgets.generalGB, generalLayout, 1,
+    Dialog_Utils::makeLabeledEditField(generalLayout, 1,
                                     m_GenPageWidgets.nameL, i18n("Activity name:"),
                                     m_GenPageWidgets.nameLE);
 
-    Dialog_Utils::makeLabeledEditField(m_GenPageWidgets.generalGB, generalLayout, 2,
+    Dialog_Utils::makeLabeledEditField(generalLayout, 2,
                                     m_GenPageWidgets.preL, i18n("Precondition :"),
                                     m_GenPageWidgets.preLE);
 
-    Dialog_Utils::makeLabeledEditField(m_GenPageWidgets.generalGB, generalLayout, 3,
+    Dialog_Utils::makeLabeledEditField(generalLayout, 3,
                                     m_GenPageWidgets.postL, i18n("Postcondition :"),
                                     m_GenPageWidgets.postLE);
     m_GenPageWidgets.preL->hide();

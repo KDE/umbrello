@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2013                                               *
+ *   copyright (C) 2004-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -31,7 +31,6 @@ namespace Dialog_Utils {
 /**
  * Create a labeled text lineedit widget.
  *
- * @param containingBox         The containing QGroupBox (unused).
  * @param layout                The QGridLayout to use.
  * @param row                   The row number within the QGridLayout.
  * @param label                 The QLabel object allocated (return value)
@@ -40,9 +39,10 @@ namespace Dialog_Utils {
  * @param editFieldText         Initialization text in the editField (optional.)
  * @return a pointer to the KLineEdit so you can setFocus() if necessary
  */
-KLineEdit* makeLabeledEditField(QGroupBox *containingBox, QGridLayout *layout, int row, QLabel * &label, const QString& labelText, KLineEdit * &editField, const QString& editFieldText /* = QString() */)
+KLineEdit* makeLabeledEditField(QGridLayout* layout,    int row,
+                                QLabel*     &label,     const QString& labelText,
+                                KLineEdit*  &editField, const QString& editFieldText /* = QString() */)
 {
-    Q_UNUSED(containingBox);
     label = new QLabel(labelText);
     layout->addWidget(label, row, 0);
     editField = new KLineEdit(editFieldText);

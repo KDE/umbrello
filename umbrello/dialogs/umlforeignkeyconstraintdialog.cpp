@@ -209,7 +209,7 @@ void UMLForeignKeyConstraintDialog::setupGeneralPage()
     generalLayout->setSpacing(spacingHint());
     generalLayout->setMargin(fontMetrics().height());
 
-    Dialog_Utils::makeLabeledEditField(m_GeneralWidgets.generalGB, generalLayout, 0,
+    Dialog_Utils::makeLabeledEditField(generalLayout, 0,
                                        m_GeneralWidgets.nameL, i18nc("label for entering name", "Name"),
                                        m_GeneralWidgets.nameT);
 

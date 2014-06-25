@@ -85,7 +85,7 @@ void AssociationGeneralPage::constructWidget()
 
     //Association name
     QLabel *pAssocNameL = NULL;
-    KLineEdit* nameField = Dialog_Utils::makeLabeledEditField(nameGB, nameLayout, 0,
+    KLineEdit* nameField = Dialog_Utils::makeLabeledEditField(nameLayout, 0,
                            pAssocNameL, i18nc("name of association widget", "Name:"),
                            m_pAssocNameLE, m_pAssociationWidget->name());
     nameField->setFocus();

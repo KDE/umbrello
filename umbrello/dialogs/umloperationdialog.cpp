@@ -94,7 +94,7 @@ void UMLOperationDialog::setupDialog()
     genLayout->setMargin(margin);
     genLayout->setSpacing(10);
 
-    Dialog_Utils::makeLabeledEditField(m_pGenGB, genLayout, 0,
+    Dialog_Utils::makeLabeledEditField(genLayout, 0,
                                     m_pNameL, i18nc("operation name", "&Name:"),
                                     m_pNameLE, m_operation->name());
 

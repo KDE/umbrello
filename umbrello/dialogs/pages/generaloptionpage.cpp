@@ -85,7 +85,7 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     autosaveLayout->addWidget(m_GeneralWidgets.timeISB, 1, 1);
 
     // Allow definition of Suffix for autosave (default: ".xmi")generator
-    Dialog_Utils::makeLabeledEditField(m_GeneralWidgets.autosaveGB, autosaveLayout, 2,
+    Dialog_Utils::makeLabeledEditField(autosaveLayout, 2,
                                         m_GeneralWidgets.autosaveSuffixL, i18n("Set autosave suffix:"),
                                         m_GeneralWidgets.autosaveSuffixT, optionState.generalState.autosavesuffix);
                                         QString autoSaveSuffixToolTip = i18n("<qt><p>The autosave file will be saved to ~/autosave.xmi if the autosaving occurs "
