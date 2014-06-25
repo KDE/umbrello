@@ -71,36 +71,30 @@ void AssociationGeneralPage::constructWidget()
     QVBoxLayout * topLayout = new QVBoxLayout(this);
     topLayout->setSpacing(6);
 
-    // group boxes for name, documentation properties
-    QGroupBox *nameGB = new QGroupBox(this);
+    // group boxes for name/type, documentation properties
+    QGroupBox *nameAndTypeGB = new QGroupBox(this);
     QGroupBox *docGB = new QGroupBox(this);
-    nameGB->setTitle(i18n("Properties"));
+    nameAndTypeGB->setTitle(i18n("Properties"));
     docGB->setTitle(i18n("Documentation"));
-    topLayout->addWidget(nameGB);
+    topLayout->addWidget(nameAndTypeGB);
     topLayout->addWidget(docGB);
 
-    QGridLayout * nameLayout = new QGridLayout(nameGB);
-    nameLayout->setSpacing(6);
-    nameLayout->setMargin(margin);
+    QGridLayout * nameAndTypeLayout = new QGridLayout(nameAndTypeGB);
+    nameAndTypeLayout->setSpacing(6);
+    nameAndTypeLayout->setMargin(margin);
 
-    //Association name
+    // Association name
     QLabel *pAssocNameL = NULL;
-    KLineEdit* nameField = Dialog_Utils::makeLabeledEditField(nameLayout, 0,
+    KLineEdit* nameField = Dialog_Utils::makeLabeledEditField(nameAndTypeLayout, 0,
                            pAssocNameL, i18nc("name of association widget", "Name:"),
                            m_pAssocNameLE, m_pAssociationWidget->name());
     nameField->setFocus();
 
-    // document
-    QHBoxLayout * docLayout = new QHBoxLayout(docGB);
-    docLayout->setMargin(margin);
-
-    m_doc = new KTextEdit(docGB);
-    docLayout->addWidget(m_doc);
-    m_doc->setText(m_pAssociationWidget->documentation());
+    // type
     Uml::AssociationType::Enum currentType =  m_pAssociationWidget->associationType();
     QString currentTypeAsString = Uml::AssociationType::toStringI18n(currentType);
-    QLabel *pTypeL = new QLabel(i18n("Type:"), nameGB);
-    nameLayout->addWidget(pTypeL, 1, 0);
+    QLabel *pTypeL = new QLabel(i18n("Type:"), nameAndTypeGB);
+    nameAndTypeLayout->addWidget(pTypeL, 1, 0);
 
     // Here is a list of all the supported choices for changing
     // association types.
@@ -148,15 +142,23 @@ void AssociationGeneralPage::constructWidget()
         m_AssocTypeStrings << currentTypeAsString;
     }
 
-    m_pTypeCB = new KComboBox(nameGB);
+    m_pTypeCB = new KComboBox(nameAndTypeGB);
     pTypeL->setBuddy(m_pTypeCB);
     m_pTypeCB->addItems(m_AssocTypeStrings);
     m_pTypeCB->setCompletedItems(m_AssocTypeStrings);
 
     m_pTypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
     m_pTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
+    nameAndTypeLayout->addWidget(m_pTypeCB, 1, 1);
+
+    // document
+    QHBoxLayout * docLayout = new QHBoxLayout(docGB);
+    docLayout->setMargin(margin);
+
+    m_doc = new KTextEdit(docGB);
+    docLayout->addWidget(m_doc);
+    m_doc->setText(m_pAssociationWidget->documentation());
     m_doc->setWordWrapMode(QTextOption::WordWrap);
-    nameLayout->addWidget(m_pTypeCB, 1, 1);
 }
 
 /**
