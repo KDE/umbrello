@@ -280,7 +280,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
 
 /**
  * Find the UML object of the given type and name in the passed-in list.
- * This methods search for the raw name.
+ * This method searches for the raw name.
  *
  * @param inList        List in which to seek the object.
  * @param name          Name of the object to find.
