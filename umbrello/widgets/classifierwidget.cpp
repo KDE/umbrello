@@ -389,7 +389,10 @@ void ClassifierWidget::toggleShowAttSigs()
 int ClassifierWidget::displayedMembers(UMLObject::ObjectType ot)
 {
     int count = 0;
-    UMLClassifierListItemList list = classifier()->getFilteredList(ot);
+    UMLClassifier *classifier = this->classifier();
+    if (!classifier)
+        return count;
+    UMLClassifierListItemList list = classifier->getFilteredList(ot);
     foreach (UMLClassifierListItem *m, list) {
       if (!(visualProperty(ShowPublicOnly) && m->visibility() != Uml::Visibility::Public))
             count++;
