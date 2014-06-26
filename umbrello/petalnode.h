@@ -64,6 +64,7 @@ public:
     NodeType type() const;
     QStringList initialArgs() const;  // name and other initial args
     QString name() const;  // convenience function: equal to initialArgs().first()
+    QString documentation() const;
     NameValueList attributes() const;
 
     // setters

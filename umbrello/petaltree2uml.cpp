@@ -247,9 +247,7 @@ public:
             QString type = clean(attNode->findAttribute(m_itemTypeDesignator).string);
             setTypeReferences(item, quidref, type);
             transferVisibility(attNode, item);
-            QString doc = attNode->findAttribute("documentation").string;
-            if (! doc.isEmpty())
-                item->setDoc(doc);
+            item->setDoc(attNode->documentation());
             insertAtParent(attNode, item);
         }
     }
@@ -644,16 +642,19 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
             RealizationsReader realReader(c);
             realReader.read(node, c->name());
         }
+        o->setDoc(node->documentation());
         parentPkg->addObject(o);
 
     } else if (objType == "UseCase") {
         UMLObject *o = Object_Factory::createUMLObject(UMLObject::ot_UseCase, name, parentPkg, false);
         o->setID(id);
+        o->setDoc(node->documentation());
         parentPkg->addObject(o);
 
     } else if (objType == "Component" || objType == "module") {
         UMLObject *o = Object_Factory::createUMLObject(UMLObject::ot_Component, name, parentPkg, false);
         o->setID(id);
+        o->setDoc(node->documentation());
         parentPkg->addObject(o);
 
     } else if (objType == "Association") {
@@ -713,9 +714,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
             if (containment == "By Value") {
                 assoc->setAssociationType(Uml::AssociationType::Composition);
             }
-            QString doc = roleNode->findAttribute("documentation").string;
-            if (! doc.isEmpty())
-                role->setDoc(doc);
+            role->setDoc(roleNode->documentation());
         }
         assoc->setUMLPackage(parentPkg);
         UMLApp::app()->document()->addAssociation(assoc);
@@ -896,6 +895,7 @@ bool importView(PetalNode *root,
         uError() << "cannot find " << modelsName << " of " << rootName;
         return false;
     }
+    parent->setDoc(viewRoot->documentation());
 
     PetalNode::NameValueList atts = models->attributes();
     bool status = true;

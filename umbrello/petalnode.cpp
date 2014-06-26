@@ -97,6 +97,23 @@ QString PetalNode::name() const
     return m_initialArgs.first();
 }
 
+/**
+ * Return the documentation from a petal node with carriage
+ * return handling and removed surrounding quotation marks
+ * if present.
+ */
+QString PetalNode::documentation() const
+{
+    QString s = findAttribute("documentation").string.trimmed();
+    if (s.isEmpty())
+        return s;
+    s.replace("\\n", "\n");
+    if (s.startsWith('\"') && s.endsWith('\"'))
+        return s.mid(1 ,s.length()-2);
+    else
+        return s;
+}
+
 PetalNode::NameValueList PetalNode::attributes() const
 {
     return m_attributes;
