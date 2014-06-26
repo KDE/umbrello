@@ -376,8 +376,9 @@ bool NativeImportBase::parseFile(const QString& filename)
         uDebug() << msgPrefix << "adding path " << path;
         Import_Utils::addIncludePath(path);
     }
-    if (! QFile::exists(filename)) {
-        if (filename.startsWith('/')) {
+    if (!QFile::exists(filename)) {
+        QFileInfo fi(filename);
+        if (fi.isAbsolute()) {
             uError() << msgPrefix << "cannot find file";
             return false;
         }
