@@ -440,7 +440,9 @@ UMLPackage* handleControlledUnit(PetalNode *node, const QString& name,
         else
             file_name = envVar + file_name.mid(firstSlash);
     }
-    if (!file_name.startsWith("/")) {
+
+    QFileInfo fi(file_name);
+    if (!fi.isAbsolute()) {
         // Must have an absolute path by now.
         // If we don't then use the directory of the .mdl file.
         file_name = Import_Rose::mdlPath() + file_name;
