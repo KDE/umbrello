@@ -13,6 +13,7 @@
 
 // app includes
 #include "debug_utils.h"
+#include "dialog_utils.h"
 #include "classifier.h"
 #include "umlobject.h"
 #include "objectwidget.h"
@@ -278,7 +279,7 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     // manage stereotypes
     m_pStereoTypeCB->setDuplicatesEnabled(false);  // only allow one of each type in box
     m_pStereoTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
-    insertStereotypesSorted(m_pObject->stereotype());
+    Dialog_Utils::insertStereotypesSorted(m_pStereoTypeCB, m_pObject->stereotype());
 
     m_doc->setLineWrapMode(QTextEdit::WidgetWidth);
 }
@@ -416,30 +417,6 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget
 
 ClassGeneralPage::~ClassGeneralPage()
 {
-}
-
-void ClassGeneralPage::insertStereotypesSorted(const QString& type)
-{
-    QStringList types;
-    types << "";  // an empty stereotype is the default
-    foreach (UMLStereotype* ust, m_pUmldoc->stereotypes()) {
-        types << ust->name();
-    }
-    // add the given parameter
-    if (!types.contains(type)) {
-        types << type;
-    }
-    types.sort();
-
-    m_pStereoTypeCB->clear();
-    m_pStereoTypeCB->insertItems(-1, types);
-
-    // select the given parameter
-    int currentIndex = m_pStereoTypeCB->findText(type);
-    if (currentIndex > -1) {
-        m_pStereoTypeCB->setCurrentIndex(currentIndex);
-    }
-    m_pStereoTypeCB->completionObject()->addItem(type);
 }
 
 /**

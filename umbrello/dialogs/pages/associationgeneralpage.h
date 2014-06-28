@@ -18,6 +18,9 @@
 #include <QWidget>
 
 class AssociationWidget;
+class QCheckBox;
+class QGridLayout;
+class QLabel;
 class KComboBox;
 class KLineEdit;
 class KTextEdit;
@@ -43,7 +46,11 @@ public:
     void updateObject();
 
 private:
-    KLineEdit *m_pAssocNameLE;
+    QGridLayout *m_pNameAndTypeLayout;
+    QLabel    *m_pAssocNameL;
+    KLineEdit *m_pAssocNameLE;   // is used if m_pStereoChkB is unchecked
+    KComboBox *m_pAssocNameComB; // is used if m_pStereoChkB is checked
+    QCheckBox *m_pStereoChkB;
     KComboBox *m_pTypeCB;
 
     /* Choices for the QComboBox, and we store ints and strings
@@ -59,12 +66,7 @@ private:
     void constructWidget();
 
 public slots:
-//    /**
-//     *  When the draw as actor check box is toggled, the draw
-//     *  as multi instance need to be enabled/disabled.  They
-//     *  both can't be available at the same time.
-//     */
-//    void slotActorToggled(bool state);
+    void slotStereoCheckboxChanged(int state);
 
 };
 

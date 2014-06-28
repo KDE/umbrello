@@ -13,12 +13,14 @@
 
 // local includes
 #include "associationwidget.h"
+#include "floatingtextwidget.h"
 #include "assocrules.h"
 #include "debug_utils.h"
 #include "dialog_utils.h"
 #include "objectwidget.h"
 #include "umldoc.h"
 #include "umlobject.h"
+#include "association.h"
 
 // kde includes
 #include <kcombobox.h>
@@ -31,6 +33,7 @@
 #include <QHBoxLayout>
 #include <QGridLayout>
 #include <QGroupBox>
+#include <QCheckBox>
 #include <QLabel>
 #include <QLayout>
 #include <QVBoxLayout>
@@ -44,7 +47,10 @@
  */
 AssociationGeneralPage::AssociationGeneralPage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc)
   : DialogPageBase(parent),
+    m_pAssocNameL(0),
     m_pAssocNameLE(0),
+    m_pAssocNameComB(0),
+    m_pStereoChkB(0),
     m_pTypeCB(0),
     m_pAssociationWidget(assoc),
     m_pUmldoc(d),
@@ -71,7 +77,7 @@ void AssociationGeneralPage::constructWidget()
     QVBoxLayout * topLayout = new QVBoxLayout(this);
     topLayout->setSpacing(6);
 
-    // group boxes for name/type, documentation properties
+    // group boxes for name+type, documentation properties
     QGroupBox *nameAndTypeGB = new QGroupBox(this);
     QGroupBox *docGB = new QGroupBox(this);
     nameAndTypeGB->setTitle(i18n("Properties"));
@@ -79,22 +85,45 @@ void AssociationGeneralPage::constructWidget()
     topLayout->addWidget(nameAndTypeGB);
     topLayout->addWidget(docGB);
 
-    QGridLayout * nameAndTypeLayout = new QGridLayout(nameAndTypeGB);
-    nameAndTypeLayout->setSpacing(6);
-    nameAndTypeLayout->setMargin(margin);
+    m_pNameAndTypeLayout = new QGridLayout(nameAndTypeGB);
+    m_pNameAndTypeLayout->setSpacing(6);
+    m_pNameAndTypeLayout->setMargin(margin);
 
     // Association name
-    QLabel *pAssocNameL = NULL;
-    KLineEdit* nameField = Dialog_Utils::makeLabeledEditField(nameAndTypeLayout, 0,
-                           pAssocNameL, i18nc("name of association widget", "Name:"),
-                           m_pAssocNameLE, m_pAssociationWidget->name());
-    nameField->setFocus();
+    m_pAssocNameL = new QLabel(i18nc("name of association widget", "Name:"));
+    m_pNameAndTypeLayout->addWidget(m_pAssocNameL, 0, 0);
+
+    m_pAssocNameLE = new KLineEdit(m_pAssociationWidget->name());
+    m_pAssocNameComB = new KComboBox(true, nameAndTypeGB);
+    m_pAssocNameComB->setCompletionMode(KGlobalSettings::CompletionPopup);
+    m_pAssocNameComB->setDuplicatesEnabled(false);  // only allow one of each type in box
+
+    QWidget *nameInputWidget = m_pAssocNameLE;
+    UMLAssociation *umlAssoc = m_pAssociationWidget->association();
+    if (umlAssoc && umlAssoc->umlStereotype()) {
+        m_pAssocNameLE->hide();
+        Dialog_Utils::insertStereotypesSorted(m_pAssocNameComB, umlAssoc->stereotype());
+        nameInputWidget = m_pAssocNameComB;
+    } else {
+        m_pAssocNameComB->hide();
+    }
+    m_pNameAndTypeLayout->addWidget(nameInputWidget, 0, 1);
+    nameInputWidget->setFocus();
+    m_pAssocNameL->setBuddy(nameInputWidget);
+
+    if (umlAssoc) {
+        // stereotype checkbox
+        m_pStereoChkB = new QCheckBox(i18n("Stereotype"), nameAndTypeGB);
+        m_pStereoChkB->setChecked(umlAssoc->umlStereotype() != NULL);
+        connect(m_pStereoChkB, SIGNAL(stateChanged(int)), this, SLOT(slotStereoCheckboxChanged(int)));
+        m_pNameAndTypeLayout->addWidget(m_pStereoChkB, 0, 2);
+    }
 
     // type
     Uml::AssociationType::Enum currentType =  m_pAssociationWidget->associationType();
     QString currentTypeAsString = Uml::AssociationType::toStringI18n(currentType);
     QLabel *pTypeL = new QLabel(i18n("Type:"), nameAndTypeGB);
-    nameAndTypeLayout->addWidget(pTypeL, 1, 0);
+    m_pNameAndTypeLayout->addWidget(pTypeL, 1, 0);
 
     // Here is a list of all the supported choices for changing
     // association types.
@@ -149,7 +178,7 @@ void AssociationGeneralPage::constructWidget()
 
     m_pTypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
     m_pTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
-    nameAndTypeLayout->addWidget(m_pTypeCB, 1, 1);
+    m_pNameAndTypeLayout->addWidget(m_pTypeCB, 1, 1);
 
     // document
     QHBoxLayout * docLayout = new QHBoxLayout(docGB);
@@ -159,6 +188,26 @@ void AssociationGeneralPage::constructWidget()
     docLayout->addWidget(m_doc);
     m_doc->setText(m_pAssociationWidget->documentation());
     m_doc->setWordWrapMode(QTextOption::WordWrap);
+}
+
+void AssociationGeneralPage::slotStereoCheckboxChanged(int state)
+{
+    QWidget *nameInputWidget = NULL;
+    if (state) {
+        m_pAssocNameLE->hide();
+        m_pNameAndTypeLayout->removeWidget(m_pAssocNameLE);
+        UMLAssociation *umlAssoc = m_pAssociationWidget->association();
+        Dialog_Utils::insertStereotypesSorted(m_pAssocNameComB, umlAssoc->stereotype());
+        nameInputWidget = m_pAssocNameComB;
+    } else {
+        m_pAssocNameComB->hide();
+        m_pNameAndTypeLayout->removeWidget(m_pAssocNameComB);
+        nameInputWidget = m_pAssocNameLE;
+    }
+    m_pNameAndTypeLayout->addWidget(nameInputWidget, 0, 1);
+    nameInputWidget->show();
+    nameInputWidget->setFocus();
+    m_pAssocNameL->setBuddy(nameInputWidget);
 }
 
 /**
@@ -171,8 +220,16 @@ void AssociationGeneralPage::updateObject()
         int comboBoxItem = m_pTypeCB->currentIndex();
         Uml::AssociationType::Enum newType = m_AssocTypes[comboBoxItem];
         m_pAssociationWidget->setAssociationType(newType);
-        m_pAssociationWidget->setName(m_pAssocNameLE->text());
         m_pAssociationWidget->setDocumentation(m_doc->toPlainText());
+        if (m_pStereoChkB->isChecked()) {
+            UMLAssociation *umlAssoc = m_pAssociationWidget->association();
+            QString stereo = m_pAssocNameComB->currentText();
+            umlAssoc->setStereotype(stereo);
+            FloatingTextWidget* ft = m_pAssociationWidget->nameWidget();
+            ft->setText(umlAssoc->stereotype(true));
+        } else {
+            m_pAssociationWidget->setName(m_pAssocNameLE->text());
+        }
     }
 }
 

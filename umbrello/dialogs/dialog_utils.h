@@ -18,6 +18,7 @@ class QGridLayout;
 class QLabel;
 class UMLWidget;
 class KLineEdit;
+class KComboBox;
 
 /**
  * Dialog utilities.
@@ -34,6 +35,7 @@ KLineEdit* makeLabeledEditField(QGridLayout *layout, int row,
 void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
                       const QString& dialogPrompt, const QString& defaultName);
 
+void insertStereotypesSorted(KComboBox *kcb, const QString& type);
 
 }
 

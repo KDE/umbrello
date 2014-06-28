@@ -13,6 +13,8 @@
 
 // app includes
 #include "uml.h"
+#include "umldoc.h"
+#include "stereotype.h"
 #include "umlwidget.h"
 
 // kde includes
@@ -20,6 +22,7 @@
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <klineedit.h>
+#include <kcombobox.h>
 
 // qt includes
 #include <QGridLayout>
@@ -75,6 +78,37 @@ void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
         delete targetWidget;
         targetWidget = NULL;
     }
+}
+
+/**
+ * Helper function for inserting available stereotypes into a KComboBox
+ *
+ * @param kcb    The KComboBox into which to insert the stereotypes
+ * @param type   The stereotype to activate
+ */
+void insertStereotypesSorted(KComboBox *kcb, const QString& type)
+{
+    UMLDoc *umldoc = UMLApp::app()->document();
+    QStringList types;
+    types << "";  // an empty stereotype is the default
+    foreach (UMLStereotype* ust, umldoc->stereotypes()) {
+        types << ust->name();
+    }
+    // add the given parameter
+    if (!types.contains(type)) {
+        types << type;
+    }
+    types.sort();
+
+    kcb->clear();
+    kcb->insertItems(-1, types);
+
+    // select the given parameter
+    int currentIndex = kcb->findText(type);
+    if (currentIndex > -1) {
+        kcb->setCurrentIndex(currentIndex);
+    }
+    kcb->completionObject()->addItem(type);
 }
 
 }  // end namespace Dialog_Utils
