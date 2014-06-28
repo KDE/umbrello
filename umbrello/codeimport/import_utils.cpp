@@ -563,6 +563,10 @@ void createGeneralization(UMLClassifier *child, UMLClassifier *parent)
 /**
  * Create a generalization from the existing child UMLObject to the given
  * parent class name.
+ * This method does not handle scopes well and is only a last resort.
+ * The method
+ *   createGeneralization(UMLClassifier *child, UMLClassifier *parent)
+ * should be used instead.
  */
 void createGeneralization(UMLClassifier *child, const QString &parentName)
 {

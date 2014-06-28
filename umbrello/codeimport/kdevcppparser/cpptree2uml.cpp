@@ -579,7 +579,11 @@ void CppTree2Uml::parseBaseClause(BaseClauseAST * baseClause, UMLClassifier* kla
         }
 
         QString baseName = baseSpecifier->name()->text();
-        Import_Utils::createGeneralization(klass, baseName);
+        // uDebug() << "CppTree2Uml::parseBaseClause : baseSpecifier is " << baseName;
+        UMLObject *c = Import_Utils::createUMLObject(UMLObject::ot_Class, baseName,
+                                                     m_currentNamespace[m_nsCnt],
+                                                     baseSpecifier->comment());
+        Import_Utils::createGeneralization(klass, static_cast<UMLClassifier*>(c));
     }
 }
 
