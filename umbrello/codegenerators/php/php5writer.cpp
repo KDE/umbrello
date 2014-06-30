@@ -3208,6 +3208,10 @@ void Php5Writer::writeOperations(UMLClassifier *c, QTextStream &php)
             // we know its a classifier if its in the list
             UMLClassifier *real = (UMLClassifier*)a->getObject(Uml::RoleType::B);
 
+            // exclude realizations to self
+            if (real == c)
+                continue;
+
             UMLOperationList opl(real->getOpList());
             foreach(UMLOperation *op, opl) {
                 opreal.append(op);
