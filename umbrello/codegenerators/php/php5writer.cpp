@@ -3049,7 +3049,7 @@ void Php5Writer::writeClass(UMLClassifier *c)
         php << " */" << m_endl ;
     }
 
-    UMLClassifierList superclasses = c->getSuperClasses();
+    UMLClassifierList superclasses = c->getSuperClasses(false);
     UMLAssociationList aggregations = c->getAggregations();
     UMLAssociationList compositions = c->getCompositions();
     UMLAssociationList realizations = c->getRealizations();

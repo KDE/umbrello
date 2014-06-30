@@ -354,9 +354,10 @@ UMLAssociationList UMLCanvasObject::getAssociations()
  * TODO: This overlaps with UMLClassifier::findSuperClassConcepts(),
  *       see if we can merge the two.
  *
+ * @param withRealizations include realizations in the returned list (default=yes)
  * @return  The list of superclasses for the concept.
  */
-UMLClassifierList UMLCanvasObject::getSuperClasses()
+UMLClassifierList UMLCanvasObject::getSuperClasses(bool withRealizations)
 {
     UMLClassifierList list;
     UMLAssociationList assocs = getAssociations();
@@ -364,6 +365,7 @@ UMLClassifierList UMLCanvasObject::getSuperClasses()
         uIgnoreZeroPointer(a);
         if ((a->getAssocType() != Uml::AssociationType::Generalization &&
              a->getAssocType() != Uml::AssociationType::Realization) ||
+             (!withRealizations && a->getAssocType() == Uml::AssociationType::Realization) ||
                 a->getObjectId(Uml::RoleType::A) != id())
             continue;
         UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::RoleType::B));
