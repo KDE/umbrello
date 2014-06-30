@@ -59,7 +59,7 @@ public:
 
     UMLAssociationList getSpecificAssocs(Uml::AssociationType::Enum assocType);
 
-    UMLClassifierList getSuperClasses();
+    UMLClassifierList getSuperClasses(bool withRealizations = true);
     UMLClassifierList getSubClasses();
 
     virtual UMLAssociationList getRealizations();
