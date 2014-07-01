@@ -59,7 +59,7 @@ void CppTree2Uml::parseTranslationUnit(const ParsedFile &file)
     m_currentDeclarator = 0;
     m_anon = 0;
 
-    Import_Utils::createUMLObject(UMLObject::ot_Artifact, file.fileName(), 0, file->comment());
+    Import_Utils::createArtifact(file.fileName(), 0, file->comment());
 
     TreeParser::parseTranslationUnit(file);
 }

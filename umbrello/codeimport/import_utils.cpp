@@ -175,21 +175,6 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
 {
     QString name = inName;
     UMLDoc *umldoc = UMLApp::app()->document();
-    if (type == UMLObject::ot_Artifact) {
-        if (!Settings::optionState().codeImportState.createArtifacts)
-            return 0;
-        QFileInfo fi(name);
-        UMLFolder *componentView = umldoc->rootFolder(Uml::ModelType::Component);
-        UMLObject *o = umldoc->findUMLObjectRaw(componentView, fi.fileName(), type);
-        if (o)
-            return o;
-        o = Object_Factory::createUMLObject(type, fi.fileName(), componentView, false);
-        UMLArtifact *a = static_cast<UMLArtifact*>(o);
-        a->setDrawAsType(UMLArtifact::file);
-        a->setDoc(comment);
-        DEBUG(DBG_SRC) << name << comment;
-        return o;
-    }
     UMLFolder *logicalView = umldoc->rootFolder(Uml::ModelType::Logical);
     if (parentPkg == NULL) {
         // DEBUG(DBG_SRC) << "Import_Utils::createUMLObject(" << name
@@ -566,6 +551,32 @@ void createGeneralization(UMLClassifier *child, UMLClassifier *parent)
     UMLDoc *umldoc = UMLApp::app()->document();
     assoc->setUMLPackage(umldoc->rootFolder(Uml::ModelType::Logical));
     umldoc->addAssociation(assoc);
+}
+
+/**
+ * Create an artifact with the given name.
+ */
+UMLObject *createArtifact(const QString& name,
+                          UMLPackage *parentPkg,
+                          const QString &comment)
+{
+    Q_UNUSED(parentPkg);
+
+    UMLObject::ObjectType type = UMLObject::ot_Artifact;
+    if (!Settings::optionState().codeImportState.createArtifacts)
+        return 0;
+    UMLDoc *umldoc = UMLApp::app()->document();
+    UMLFolder *componentView = umldoc->rootFolder(Uml::ModelType::Component);
+    QFileInfo fi(name);
+    UMLObject *o = umldoc->findUMLObjectRaw(componentView, fi.fileName(), type);
+    if (o)
+        return o;
+    o = Object_Factory::createUMLObject(type, fi.fileName(), componentView, false);
+    UMLArtifact *a = static_cast<UMLArtifact*>(o);
+    a->setDrawAsType(UMLArtifact::file);
+    a->setDoc(comment);
+    DEBUG(DBG_SRC) << name << comment;
+    return o;
 }
 
 /**

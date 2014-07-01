@@ -29,6 +29,10 @@ class UMLEnum;
  */
 namespace Import_Utils {
 
+    UMLObject *createArtifact(const QString& name,
+                              UMLPackage *parentPkg = NULL,
+                              const QString &comment = QString());
+
     UMLObject* createUMLObject(UMLObject::ObjectType type,
                                const QString& name,
                                UMLPackage *parentPkg = NULL,
