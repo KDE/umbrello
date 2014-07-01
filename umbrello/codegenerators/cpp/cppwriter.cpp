@@ -473,7 +473,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
 
     // end of class namespace, if any
     if(!c->package().isEmpty() && policyExt()->getPackageIsNamespace())
-        cpp << "}; // end of package namespace" << m_endl;
+        cpp << "} // end of package namespace" << m_endl;
 
 }
 
