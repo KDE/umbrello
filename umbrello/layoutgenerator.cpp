@@ -367,7 +367,8 @@ bool LayoutGenerator::parseLine(const QString &line)
         return true;
     } else if (a[0] == "node") {
         QString key = fixID(a[1]);
-        m_nodes[key] = QRectF(a[2].toDouble()*m_scale, a[3].toDouble()*m_scale, a[4].toDouble()*m_scale, a[5].toDouble()*m_scale);
+        m_nodes[key] = QRectF(a[2].toDouble()*m_scale, a[3].toDouble()*m_scale,
+                              a[4].toDouble()*m_scale, a[5].toDouble()*m_scale);
         return true;
     } else if (a[0] == "edge") {
         QString key = fixID(a[1]+a[2]);
@@ -429,18 +430,18 @@ bool LayoutGenerator::splitParameters(QMap<QString,QStringList> &map, const QStr
         if (key == "pos") {
             value.remove("e,");
             data = value.split(' ');
-    } else if (key.startsWith('_')) {
-        data = value.split(' ');
-    }
-    else if (key == "label")
-        data = QStringList() << value;
-    else
-        data = value.split(',');
+        } else if (key.startsWith('_')) {
+            data = value.split(' ');
+        }
+        else if (key == "label")
+            data = QStringList() << value;
+        else
+            data = value.split(',');
 
-    if (map.contains(key))
-        map[key] << data;
-    else
-        map[key] = data;
+        if (map.contains(key))
+            map[key] << data;
+        else
+            map[key] = data;
     }
     return true;
 }
