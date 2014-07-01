@@ -174,6 +174,8 @@ protected:
 
     void writeListedCodeDocsToFile(CodeDocumentList * docs);
 
+    virtual void finalizeRun();
+
     // map of what code documents we currently have in this generator.
     QHash<QString, CodeDocument*> m_codeDocumentDictionary;
 

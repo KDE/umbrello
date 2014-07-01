@@ -2245,12 +2245,11 @@ CodeGenerator *UMLApp::setGenerator(Uml::ProgrammingLanguage::Enum pl)
         }
         return NULL;
     }
-    // does the code generator already exist?
-    // then simply return that
     if (m_codegen) {
-        if (m_codegen->language() == pl) {
-            return m_codegen;
-        }
+        // Do not return a possible preexisting code generator:
+        //    if (m_codegen->language() == pl) return m_codegen;
+        // Some languages depend on a new generator instance being created
+        // for each run.
         delete m_codegen;  // ATTENTION! remove all refs to it or its policy first
         m_codegen = NULL;
     }

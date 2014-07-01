@@ -13,10 +13,14 @@
 #define ADAWRITER_H
 
 #include "simplecodegenerator.h"
+#include "umlclassifierlist.h"
+
+#include <QMap>
 
 class UMLAssociation;
 class UMLOperation;
 class QTextStream;
+class QFile;
 
 /**
  * Class AdaWriter is a code generator for UMLClassifier objects.
@@ -45,20 +49,38 @@ public:
 
 private:
 
+    void declareClass(UMLClassifier *c, QTextStream &ada);
+
     void writeOperation(UMLOperation *op, QTextStream &ada, bool is_comment = false);
 
     void computeAssocTypeAndRole(UMLClassifier *c,
                                  UMLAssociation *a,
                                  QString& typeName, QString& roleName);
 
-    bool isOOClass(UMLClassifier *c);
+    static bool isOOClass(UMLClassifier *c);
 
     QString className(UMLClassifier *c, bool inOwnScope = true);
 
-    QString packageName(UMLPackage *p);
+    static QString packageName(UMLPackage *p);
+
+    void finalizeRun();
 
     static const QString defaultPackageSuffix;
 
+    typedef QMap<QString, QFile*> PackageFileMap;
+
+    /**
+     * Map package name to QFile.
+     * Required for closing opened files in finalizeRun().
+     */
+    PackageFileMap m_pkgsGenerated;
+
+    /**
+     * List of classifiers generated.
+     * Required for ensuring order of code generation which
+     * satisfies order of dependencies among classifiers.
+     */
+    UMLClassifierList m_classesGenerated;
 };
 
 #endif // ADAWRITER_H

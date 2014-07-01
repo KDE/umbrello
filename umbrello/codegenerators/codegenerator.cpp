@@ -390,6 +390,7 @@ CodeDocument * CodeGenerator::findCodeDocumentByClassifier(UMLClassifier * class
 void CodeGenerator::writeCodeToFile()
 {
     writeListedCodeDocsToFile(&m_codedocumentVector);
+    finalizeRun();
 }
 
 /**
@@ -409,6 +410,7 @@ void CodeGenerator::writeCodeToFile(UMLClassifierList & concepts)
     }
 
     writeListedCodeDocsToFile(&docs);
+    finalizeRun();
 }
 
 // Main method. Will write out passed code documents to file as appropriate.
@@ -449,6 +451,19 @@ void CodeGenerator::writeListedCodeDocsToFile(CodeDocumentList * docs)
             emit codeGenerated(cdoc->getParentClassifier(), codeGenSuccess);
         }
     }
+}
+
+/**
+ * A single call to writeCodeToFile() usually entails processing many
+ * items (e.g. as classifiers) for which code is generated.
+ * This method is called after all code of one call to writeCodeToFile()
+ * has been generated.
+ * It can be reimplemented by concrete code generators to perform additional
+ * cleanups or other actions that can only be performed once all code has
+ * been written.
+ */
+void CodeGenerator::finalizeRun()
+{
 }
 
 /**

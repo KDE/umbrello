@@ -40,6 +40,7 @@ const QString AdaWriter::defaultPackageSuffix = "_Holder";
 AdaWriter::AdaWriter()
  : SimpleCodeGenerator()
 {
+    m_indentLevel = 1;  // due to different handling, see finalizeRun()
 }
 
 /**
@@ -59,7 +60,7 @@ Uml::ProgrammingLanguage::Enum AdaWriter::language() const
 }
 
 /**
- * ...
+ * Return true if `c' is a tagged type or Ada2005 interface.
  */
 bool AdaWriter::isOOClass(UMLClassifier *c)
 {
@@ -77,7 +78,7 @@ bool AdaWriter::isOOClass(UMLClassifier *c)
             stype == "CORBAStruct" || stype == "CORBAUnion")
         return false;
     // CORBAValue, CORBAInterface, and all empty/unknown stereotypes are
-    // assumed to be OO classes.
+    // assumed to be object oriented classes.
     return true;
 }
 
@@ -173,6 +174,36 @@ void AdaWriter::computeAssocTypeAndRole(UMLClassifier *c,
         typeName.append("_Ptr");
 }
 
+void AdaWriter::declareClass(UMLClassifier *c, QTextStream &ada)
+{
+    UMLClassifierList superclasses = c->getSuperClasses();
+    UMLClassifier *firstSuperClass = NULL;
+    if (!superclasses.isEmpty()) {
+        foreach (UMLClassifier* super, superclasses) {
+            if (!super->isInterface()) {
+                firstSuperClass = super;
+                break;
+            }
+        }
+        if (firstSuperClass == NULL)
+            firstSuperClass = superclasses.first();
+    }
+    const QString name = className(c);
+    ada << indent() << "type " << name << " is ";
+    if (c->isAbstract())
+        ada << "abstract ";
+    if (superclasses.isEmpty()) {
+        ada << "tagged ";
+    } else {
+        ada << "new " << className(firstSuperClass, false);
+        foreach (UMLClassifier* super, superclasses) {
+            if (super->isInterface() && super != firstSuperClass)
+                ada << " and " << className(super, false);
+        }
+        ada << " with ";
+    }
+}
+
 /**
  * Call this method to generate Ada code for a UMLClassifier.
  * @param c the class to generate code for
@@ -183,10 +214,13 @@ void AdaWriter::writeClass(UMLClassifier *c)
         uDebug() << "Cannot write class of NULL concept!";
         return;
     }
+    if (m_classesGenerated.contains(c))
+        return;
 
     const bool isClass = !c->isInterface();
     QString classname = cleanName(c->name());
-    QString fileName = packageName(c).toLower();
+    QString pkg = packageName(c);
+    QString fileName = pkg.toLower();
     fileName.replace('.', '-');
 
     //find an appropriate name for our file
@@ -196,70 +230,84 @@ void AdaWriter::writeClass(UMLClassifier *c)
         return;
     }
 
-    QFile file;
-    if (!openFile(file, fileName)) {
-        emit codeGenerated(c, false);
-        return;
+    QFile *file = NULL;
+    bool isNewFile = false;
+    PackageFileMap::iterator it = m_pkgsGenerated.find(pkg);
+    if (it != m_pkgsGenerated.end()) {
+        file = it.value();
+    } else {
+        file = new QFile();
+        if (!openFile(*file, fileName)) {
+            emit codeGenerated(c, false);
+            delete file;
+            return;
+        }
+        m_pkgsGenerated[pkg] = file;
+        isNewFile = true;
     }
 
     // Start generating the code.
 
-    QTextStream ada(&file);
-    //try to find a heading file(license, comments, etc)
-    QString str;
-    str = getHeadingFile(".ads");
-    if (!str.isEmpty()) {
-        str.replace(QRegExp("%filename%"), fileName);
-        str.replace(QRegExp("%filepath%"), file.fileName());
-        ada << str << endl;
-    }
-
-    // Import referenced classes.
-    UMLPackageList imports;
-    findObjectsRelated(c, imports);
-    if (imports.count()) {
-        foreach (UMLPackage* con, imports) {
-            if (con->baseType() != UMLObject::ot_Datatype)
-                ada << "with " << packageName(con) << "; " << m_endl;
+    QTextStream ada(file);
+    if (isNewFile) {
+        //try to find a heading file(license, comments, etc)
+        QString str;
+        str = getHeadingFile(".ads");
+        if (!str.isEmpty()) {
+            str.replace(QRegExp("%filename%"), fileName);
+            str.replace(QRegExp("%filepath%"), file->fileName());
+            ada << str << m_endl;
         }
-        ada << m_endl;
-    }
 
-    // Generate generic formals.
-    UMLTemplateList template_params = c->getTemplateList();
-    if (template_params.count()) {
-        ada << indent() << "generic" << m_endl;
-        m_indentLevel++;
-        foreach (UMLTemplate* t, template_params) {
-            QString formalName = t->name();
-            QString typeName = t->getTypeName();
-            if (typeName == "class") {
-                ada << indent() << "type " << formalName << " is tagged private;"
-                << m_endl;
-            } else {
-                // Check whether it's a data type.
-                UMLClassifier *typeObj = t->getType();
-                if (typeObj == NULL) {
-                    uError() << "template_param " << typeName << ": typeObj is NULL";
-                    ada << indent() << "type " << formalName << " is new " << typeName
-                    << " with private;  -- CHECK: codegen error"
-                    << m_endl;
-                } else if (typeObj->baseType() == UMLObject::ot_Datatype) {
-                    ada << indent() << formalName << " : " << typeName << ";"
+        // Import referenced classes.
+        UMLPackageList imports;
+        findObjectsRelated(c, imports);
+        if (imports.count()) {
+            foreach (UMLPackage* con, imports) {
+                if (con->baseType() == UMLObject::ot_Datatype)
+                    continue;
+                QString pkgDep = packageName(con);
+                if (pkgDep != pkg)
+                    ada << "with " << pkgDep << "; " << m_endl;
+            }
+            ada << m_endl;
+        }
+
+        // Generate generic formals.
+        UMLTemplateList template_params = c->getTemplateList();
+        if (template_params.count()) {
+            ada << indent() << "generic" << m_endl;
+            m_indentLevel++;
+            foreach (UMLTemplate* t, template_params) {
+                QString formalName = t->name();
+                QString typeName = t->getTypeName();
+                if (typeName == "class") {
+                    ada << indent() << "type " << formalName << " is tagged private;"
                     << m_endl;
                 } else {
-                    ada << indent() << "type " << typeName << " is new "
-                    << formalName << " with private;" << m_endl;
+                    // Check whether it's a data type.
+                    UMLClassifier *typeObj = t->getType();
+                    if (typeObj == NULL) {
+                        uError() << "template_param " << typeName << ": typeObj is NULL";
+                        ada << indent() << "type " << formalName << " is new " << typeName
+                        << " with private;  -- CHECK: codegen error"
+                        << m_endl;
+                    } else if (typeObj->baseType() == UMLObject::ot_Datatype) {
+                        ada << indent() << formalName << " : " << typeName << ";"
+                        << m_endl;
+                    } else {
+                        ada << indent() << "type " << typeName << " is new "
+                        << formalName << " with private;" << m_endl;
+                    }
                 }
             }
+            m_indentLevel--;
         }
-        m_indentLevel--;
+
+        // Here comes the package proper.
+        ada << "package " << pkg << " is" << m_endl << m_endl;
     }
 
-    // Here comes the package proper.
-    QString pkg = packageName(c);
-    ada << indent() << "package " << pkg << " is" << m_endl << m_endl;
-    m_indentLevel++;
     if (c->baseType() == UMLObject::ot_Enum) {
         UMLEnum *ue = static_cast<UMLEnum*>(c);
         UMLClassifierListItemList litList = ue->getFilteredList(UMLObject::ot_EnumLiteral);
@@ -274,8 +322,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
         }
         m_indentLevel--;
         ada << ");" << m_endl << m_endl;
-        m_indentLevel--;
-        ada << indent() << "end " << pkg << ";" << m_endl << m_endl;
+        ada << "end " << pkg << ";" << m_endl << m_endl;
         return;
     }
     if (! isOOClass(c)) {
@@ -306,33 +353,41 @@ void AdaWriter::writeClass(UMLClassifier *c)
         } else {
             ada << indent() << "-- " << stype << ": Unknown stereotype" << m_endl << m_endl;
         }
-        m_indentLevel--;
-        ada << indent() << "end " << pkg << ";" << m_endl << m_endl;
+        ada << "end " << pkg << ";" << m_endl << m_endl;
         return;
     }
+
+    UMLClassifierList superclasses = c->getSuperClasses();
+    if (!superclasses.isEmpty()) {
+        // Ensure that superclasses in same package are declared before this class.
+        foreach (UMLClassifier* super, superclasses) {
+            if (packageName(super) == pkg && !m_classesGenerated.contains(super)) {
+                writeClass(super);
+            }
+        }
+    }
+    m_classesGenerated.append(c);
 
     // Write class Documentation if non-empty or if force option set.
     if (forceDoc() || !c->doc().isEmpty()) {
         ada << "--" << m_endl;
-        ada << "-- class " << classname << endl;
+        ada << "-- class " << classname << m_endl;
         ada << formatDoc(c->doc(), "-- ");
         ada << m_endl;
     }
 
-    UMLClassifierList superclasses = c->getSuperClasses();
-
     const QString name = className(c);
-    ada << indent() << "type " << name << " is ";
-    if (c->isAbstract())
-        ada << "abstract ";
-    if (superclasses.isEmpty()) {
-        ada << "tagged ";
+    if (isClass) {
+        declareClass(c, ada);
+        ada << "private;" << m_endl << m_endl;
     } else {
-        // FIXME: Multiple inheritance is not yet supported
-        UMLClassifier* parent = superclasses.first();
-        ada << "new " << className(parent, false) << " with ";
+        ada << indent() << "type " << name << " is interface";
+        foreach (UMLClassifier* super, superclasses) {
+            if (super->isInterface())
+                ada << " and " << className(super, false);
+        }
+        ada << ";" << m_endl << m_endl;
     }
-    ada << "private;" << m_endl << m_endl;
     ada << indent() << "type " << name << "_Ptr is access all " << name << "'Class;" << m_endl << m_endl;
     ada << indent() << "type " << name << "_Array is array (Positive range <>) of " << name << "_Ptr;" << m_endl << m_endl;
     ada << indent() << "type " << name << "_Array_Ptr is access " << name << "_Array;" << m_endl << m_endl;
@@ -378,122 +433,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
         writeOperation(op, ada);
     }
 
-    m_indentLevel--;
-    ada << indent() << "private" << m_endl << m_endl;
-    m_indentLevel++;
-
-    UMLAssociationList aggregations = c->getAggregations();
-    UMLAssociationList compositions = c->getCompositions();
-
-    ada << indent() << "type " << name << " is ";
-    if (c->isAbstract())
-        ada << "abstract ";
-    if (superclasses.isEmpty()) {
-        ada << "tagged ";
-    } else {
-        // FIXME: Multiple inheritance is not yet supported
-        UMLClassifier* parent = superclasses.first();
-        ada << "new " << className(parent, false) << " with ";
-    }
-    ada << "record" << m_endl;
-    m_indentLevel++;
-
-    if (forceSections() || !aggregations.isEmpty()) {
-        ada << indent() << "-- Aggregations:" << m_endl;
-        foreach (UMLAssociation *a, aggregations) {
-            if (c != a->getObject(Uml::RoleType::A))
-                continue;
-            QString typeName, roleName;
-            computeAssocTypeAndRole(c, a, typeName, roleName);
-            ada << indent() << roleName << " : " << typeName << ";" << m_endl;
-        }
-        ada << endl;
-    }
-    if (forceSections() || !compositions.isEmpty()) {
-        ada << indent() << "-- Compositions:" << m_endl;
-        foreach (UMLAssociation *a, compositions) {
-            if (c != a->getObject(Uml::RoleType::A))
-                continue;
-            QString typeName, roleName;
-            computeAssocTypeAndRole(c, a, typeName, roleName);
-            ada << indent() << roleName << " : " << typeName << ";" << m_endl;
-        }
-        ada << endl;
-    }
-
-    if (isClass && (forceSections() || atl.count())) {
-        ada << indent() << "-- Attributes:" << m_endl;
-        foreach (UMLAttribute* at, atl) {
-            if (at->isStatic())
-                continue;
-            ada << indent() << cleanName(at->name()) << " : "
-            << at->getTypeName();
-            if (at && ! at->getInitialValue().isEmpty() && ! at->getInitialValue().toLatin1().isEmpty())
-                ada << " := " << at->getInitialValue();
-            ada << ";" << m_endl;
-        }
-    }
-    bool haveAttrs = (isClass && atl.count());
-    if (aggregations.isEmpty() && compositions.isEmpty() && !haveAttrs)
-        ada << indent() << "null;" << m_endl;
-    m_indentLevel--;
-    ada << indent() << "end record;" << m_endl << m_endl;
-    if (haveAttrs) {
-        bool seen_static_attr = false;
-        foreach (UMLAttribute* at, atl) {
-            if (! at->isStatic())
-                continue;
-            if (! seen_static_attr) {
-                ada << indent() << "-- Static attributes:" << m_endl;
-                seen_static_attr = true;
-            }
-            ada << indent();
-            if (at->visibility() == Uml::Visibility::Private)
-                ada << "-- Private:  ";
-            ada << cleanName(at->name()) << " : " << at->getTypeName();
-            if (at && ! at->getInitialValue().isEmpty() && ! at->getInitialValue().toLatin1().isEmpty())
-                ada << " := " << at->getInitialValue();
-            ada << ";" << m_endl;
-        }
-        if (seen_static_attr)
-            ada << m_endl;
-    }
-    // Generate protected operations.
-    UMLOperationList opprot;
-    foreach (UMLOperation* op,  opl) {
-        if (op->visibility() == Uml::Visibility::Protected)
-            opprot.append(op);
-    }
-    if (forceSections() || opprot.count())
-        ada << indent() << "-- Protected methods:" << m_endl << m_endl;
-    foreach (UMLOperation* op, opprot) {
-        writeOperation(op, ada);
-    }
-
-    // Generate private operations.
-    // These are currently only generated as comments in the private part
-    // of the spec.
-    // Once umbrello supports the merging of automatically generated and
-    // hand written code sections, private operations should be generated
-    // into the package body.
-    UMLOperationList oppriv;
-    foreach (UMLOperation* op, opl) {
-        const Uml::Visibility::Enum vis = op->visibility();
-        if (vis == Uml::Visibility::Private ||
-            vis == Uml::Visibility::Implementation)
-        oppriv.append(op);
-    }
-    if (forceSections() || oppriv.count())
-        ada << indent() << "-- Private methods:" << m_endl << m_endl;
-    foreach (UMLOperation* op, oppriv) {
-        writeOperation(op, ada, true);
-    }
-
-    m_indentLevel--;
-    ada << indent() << "end " << pkg << ";" << m_endl << m_endl;
-    file.close();
     emit codeGenerated(c, true);
-    emit showGeneratedFile(file.fileName());
 }
 
 /**
@@ -650,6 +590,7 @@ QStringList AdaWriter::reservedKeywords() const
         keywords.append("in");
         keywords.append("Index_Error");
         keywords.append("Integer");
+        keywords.append("interface");
         keywords.append("is");
         keywords.append("Layout_Error");
         keywords.append("Length_Error");
@@ -723,5 +664,127 @@ QStringList AdaWriter::reservedKeywords() const
 
     return keywords;
 }
+
+void AdaWriter::finalizeRun()
+{
+    PackageFileMap::iterator end(m_pkgsGenerated.end());
+    for (PackageFileMap::iterator i = m_pkgsGenerated.begin(); i != end; ++i) {
+        QString pkg = i.key();
+        QFile *file = i.value();
+        QTextStream ada(file);
+        ada << m_endl << "private" << m_endl << m_endl;
+        foreach (UMLClassifier* c, m_classesGenerated) {
+            if (packageName(c) != pkg)
+                continue;
+            bool isClass = !c->isInterface();
+            if (isClass) {
+                declareClass(c, ada);
+                ada << "record" << m_endl;
+                m_indentLevel++;
+
+                UMLAssociationList aggregations = c->getAggregations();
+                UMLAssociationList compositions = c->getCompositions();
+
+                if (forceSections() || !aggregations.isEmpty()) {
+                    ada << indent() << "-- Aggregations:" << m_endl;
+                    foreach (UMLAssociation *a, aggregations) {
+                        if (c != a->getObject(Uml::RoleType::A))
+                            continue;
+                        QString typeName, roleName;
+                        computeAssocTypeAndRole(c, a, typeName, roleName);
+                        ada << indent() << roleName << " : " << typeName << ";" << m_endl;
+                    }
+                    ada << m_endl;
+                }
+                if (forceSections() || !compositions.isEmpty()) {
+                    ada << indent() << "-- Compositions:" << m_endl;
+                    foreach (UMLAssociation *a, compositions) {
+                        if (c != a->getObject(Uml::RoleType::A))
+                            continue;
+                        QString typeName, roleName;
+                        computeAssocTypeAndRole(c, a, typeName, roleName);
+                        ada << indent() << roleName << " : " << typeName << ";" << m_endl;
+                    }
+                    ada << m_endl;
+                }
+
+                UMLAttributeList atl = c->getAttributeList();
+                if (forceSections() || atl.count()) {
+                    ada << indent() << "-- Attributes:" << m_endl;
+                    foreach (UMLAttribute* at, atl) {
+                        if (at->isStatic())
+                            continue;
+                        ada << indent() << cleanName(at->name()) << " : "
+                        << at->getTypeName();
+                        if (at && ! at->getInitialValue().isEmpty() && ! at->getInitialValue().toLatin1().isEmpty())
+                            ada << " := " << at->getInitialValue();
+                        ada << ";" << m_endl;
+                    }
+                }
+                const bool haveAttrs = (atl.count() != 0);
+                if (aggregations.isEmpty() && compositions.isEmpty() && !haveAttrs)
+                    ada << indent() << "null;" << m_endl;
+                m_indentLevel--;
+                ada << indent() << "end record;" << m_endl << m_endl;
+                if (haveAttrs) {
+                    bool seen_static_attr = false;
+                    foreach (UMLAttribute* at, atl) {
+                        if (! at->isStatic())
+                            continue;
+                        if (! seen_static_attr) {
+                            ada << indent() << "-- Static attributes:" << m_endl;
+                            seen_static_attr = true;
+                        }
+                        ada << indent();
+                        if (at->visibility() == Uml::Visibility::Private)
+                            ada << "-- Private:  ";
+                        ada << cleanName(at->name()) << " : " << at->getTypeName();
+                        if (at && ! at->getInitialValue().isEmpty() && ! at->getInitialValue().toLatin1().isEmpty())
+                            ada << " := " << at->getInitialValue();
+                        ada << ";" << m_endl;
+                    }
+                    if (seen_static_attr)
+                        ada << m_endl;
+                }
+            }
+            UMLOperationList opl(c->getOpList());
+            // Generate protected operations.
+            UMLOperationList opprot;
+            foreach (UMLOperation* op,  opl) {
+                if (op->visibility() == Uml::Visibility::Protected)
+                    opprot.append(op);
+            }
+            if (forceSections() || opprot.count())
+                ada << indent() << "-- Protected methods:" << m_endl << m_endl;
+            foreach (UMLOperation* op, opprot) {
+                writeOperation(op, ada);
+            }
+
+            // Generate private operations.
+            // These are currently only generated as comments in the private part
+            // of the spec.
+            // Once umbrello supports the merging of automatically generated and
+            // hand written code sections, private operations should be generated
+            // into the package body.
+            UMLOperationList oppriv;
+            foreach (UMLOperation* op, opl) {
+                const Uml::Visibility::Enum vis = op->visibility();
+                if (vis == Uml::Visibility::Private ||
+                    vis == Uml::Visibility::Implementation)
+                oppriv.append(op);
+            }
+            if (forceSections() || oppriv.count())
+                ada << indent() << "-- Private methods:" << m_endl << m_endl;
+            foreach (UMLOperation* op, oppriv) {
+                writeOperation(op, ada, true);
+            }
+        }
+        ada << m_endl << "end " << i.key() << ";" << m_endl;
+        file->close();
+        emit showGeneratedFile(file->fileName());
+        delete file;
+    }
+}
+
 
 #include "adawriter.moc"
