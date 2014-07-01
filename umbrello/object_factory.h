@@ -28,6 +28,10 @@ UMLObject* createUMLObject(UMLObject::ObjectType type,
                            UMLPackage *parentPkg = 0,
                            bool solicitNewName = true);
 
+UMLObject* createNewUMLObject(UMLObject::ObjectType type,
+                              const QString &n,
+                              UMLPackage *parentPkg);
+
 UMLClassifierListItem* createChildObject(UMLClassifier *parent,
                                          UMLObject::ObjectType type,
                                          const QString& name = QString());

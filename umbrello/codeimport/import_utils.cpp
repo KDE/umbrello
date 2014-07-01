@@ -170,7 +170,8 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
                            const QString& inName,
                            UMLPackage *parentPkg,
                            const QString& comment,
-                           const QString& stereotype)
+                           const QString& stereotype,
+                           bool doNotSearch)
 {
     QString name = inName;
     UMLDoc *umldoc = UMLApp::app()->document();
@@ -206,8 +207,15 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
         name = name.mid(2);
         parentPkg = logicalView;
     }
-    UMLObject * o = umldoc->findUMLObject(name, type, parentPkg);
-    bNewUMLObjectWasCreated = false;
+    UMLObject *o = NULL;
+    if (!doNotSearch) {
+        o = umldoc->findUMLObject(name, type, parentPkg);
+        bNewUMLObjectWasCreated = false;
+    } else {
+        o = Object_Factory::createNewUMLObject(type, name, parentPkg);
+        bNewUMLObjectWasCreated = true;
+        bPutAtGlobalScope = false;
+    }
     if (o == NULL) {
         // Strip possible adornments and look again.
         const bool isConst = name.contains(QRegExp("^const "));

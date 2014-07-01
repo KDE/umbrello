@@ -336,7 +336,7 @@ void CppTree2Uml::parseClassSpecifier(ClassSpecifierAST* ast)
     }
     UMLObject * o = Import_Utils::createUMLObject(UMLObject::ot_Class, className,
                                                    m_currentNamespace[m_nsCnt],
-                                                   ast->comment());
+                                                   ast->comment(), QString(), true);
     UMLClassifier *klass = static_cast<UMLClassifier*>(o);
     flushTemplateParams(klass);
     if (ast->baseClause())

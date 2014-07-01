@@ -33,7 +33,8 @@ namespace Import_Utils {
                                const QString& name,
                                UMLPackage *parentPkg = NULL,
                                const QString& comment = QString(),
-                               const QString& stereotype = QString());
+                               const QString& stereotype = QString(),
+                               bool doNotSearch = false);
 
     void putAtGlobalScope(bool yesno);
 
