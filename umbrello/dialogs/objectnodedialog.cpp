@@ -72,9 +72,7 @@ void ObjectNodeDialog::slotShowState()
     m_GenPageWidgets.stateL->show();
     m_GenPageWidgets.stateLE->show();
 
-    if (m_pObjectNodeWidget->state() != NULL) {
-        m_GenPageWidgets.stateLE->setText(m_pObjectNodeWidget->state());
-    }
+    m_GenPageWidgets.stateLE->setText(m_pObjectNodeWidget->state());
 }
 
 void ObjectNodeDialog::slotHideState()
@@ -204,7 +202,7 @@ void ObjectNodeDialog::setupGeneralPage()
 
     if (type != ObjectNodeWidget::Buffer && type != ObjectNodeWidget::Data && type != ObjectNodeWidget::Flow) {
         m_GenPageWidgets.nameLE->setEnabled(false);
-        m_GenPageWidgets.nameLE->setText("");
+        m_GenPageWidgets.nameLE->setText(QString());
     } else
         m_GenPageWidgets.nameLE->setText(m_pObjectNodeWidget->name());
 }
@@ -217,9 +215,7 @@ void ObjectNodeDialog::showState()
     m_GenPageWidgets.stateL->show();
     m_GenPageWidgets.stateLE->show();
 
-    if (m_pObjectNodeWidget->state() != NULL) {
-        m_GenPageWidgets.stateLE->setText(m_pObjectNodeWidget->state());
-    }
+    m_GenPageWidgets.stateLE->setText(m_pObjectNodeWidget->state());
 }
 
 #include "objectnodedialog.moc"
