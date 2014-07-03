@@ -2828,13 +2828,6 @@ void UMLApp::keyPressEvent(QKeyEvent *e)
         e->accept();
         break;
 
-    case Qt::Key_D:
-        if (e->modifiers() & Qt::ControlModifier) {  // Ctrl + D
-            DEBUG(DBG_SRC) << "Ctrl + D is pressed. Show debug config dialog...";
-            DEBUG_SHOW_FILTER();
-        }
-        break;
-
     default:
         e->ignore();
     }
