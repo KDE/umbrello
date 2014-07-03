@@ -246,6 +246,14 @@ QCursor WorkToolBar::currentCursor()
     return m_ToolButtons[m_CurrentButtonID].Cursor;
 }
 
+/**
+ * Returns the default cursor
+ */
+QCursor WorkToolBar::defaultCursor()
+{
+    return Qt::ArrowCursor;
+}
+
 void WorkToolBar::slotResetToolBar()
 {
     if (m_CurrentButtonID == tbb_Undefined)
@@ -257,12 +265,9 @@ void WorkToolBar::slotResetToolBar()
     m_actions[m_CurrentButtonID]->toggle();
     emit sigButtonChanged(m_CurrentButtonID);
 
-    QCursor curs;
-    curs.setShape(Qt::ArrowCursor);
-
     UMLView* view = UMLApp::app()->currentView();
     if (view != NULL) {
-        view->setCursor(curs);
+        view->setCursor(defaultCursor());
     }
 }
 

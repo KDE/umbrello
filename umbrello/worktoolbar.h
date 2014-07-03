@@ -149,6 +149,7 @@ private:
     void loadPixmaps();
 
     QCursor currentCursor();
+    QCursor defaultCursor();
 
     QAction* insertHotBtn(ToolBar_Buttons tbb);
 

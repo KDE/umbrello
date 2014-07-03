@@ -100,6 +100,7 @@ public:
     DocWindow * docWindow() const;
     QListWidget *logWindow() const;
 
+    QCursor defaultCursor();
 
     void setModified(bool _m);
 
