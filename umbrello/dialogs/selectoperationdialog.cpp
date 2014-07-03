@@ -171,7 +171,7 @@ void SelectOperationDialog::slotNewOperation()
 void SelectOperationDialog::slotIndexChanged(int index)
 {
     if (index != -1) {
-        m_pOpLE->setText("");
+        m_pOpLE->setText(QString());
         m_id = OP;
         enableButtonOk(true);
     }
@@ -215,7 +215,7 @@ void SelectOperationDialog::setupOperationsList()
     m_pOpCB->clear();
     UMLOperationList list = m_classifier->getOpList(true);
     if (list.count() > 0)
-        m_pOpCB->insertItem(0, "");
+        m_pOpCB->insertItem(0, QString());
     qSort(list.begin(), list.end(), caseInsensitiveLessThan);
     foreach(UMLOperation * obj, list) {
         QString s = obj->toString(Uml::SignatureType::SigNoVis);

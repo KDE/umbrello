@@ -320,7 +320,7 @@ bool UMLRole::load(QDomElement & element)
     obj = doc->findObjectById(Uml::ID::fromString(m_SecondaryId));
     if (obj) {
         m_pSecondary = obj;
-        m_SecondaryId = "";
+        m_SecondaryId = QString();
     }
 
     // block signals to prevent needless updating

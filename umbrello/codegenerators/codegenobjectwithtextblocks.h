@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2013                                               *
+ *   copyright (C) 2004-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -51,7 +51,7 @@ public:
 
     virtual CodeBlockWithComments * getCodeBlockWithComments(const QString &tag, const QString &comment, int indentLevel);
 
-    CodeComment * addOrUpdateTaggedCodeComment(const QString &tag = "", const QString &text = "", int indentationLevel = 0);
+    CodeComment * addOrUpdateTaggedCodeComment(const QString &tag = QString(), const QString &text = QString(), int indentationLevel = 0);
 
     CodeBlockWithComments * addOrUpdateTaggedCodeBlockWithComments
                              (const QString &tag, const QString &text, const QString &ctext,
@@ -63,7 +63,7 @@ public:
      * @return  QString
      * @param   prefix
      */
-    virtual QString getUniqueTag(const QString& prefix = "") = 0;
+    virtual QString getUniqueTag(const QString& prefix = QString()) = 0;
 
     /**
      * Virtual methods that return a new code document objects.

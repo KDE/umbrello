@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2013                                               *
+ *   copyright (C) 2004-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -141,7 +141,7 @@ bool ToolBarStateOther::newWidget()
             break;
 
         case WorkToolBar::tbb_Text:
-            umlWidget = new FloatingTextWidget(m_pUMLScene, Uml::TextRole::Floating, "");
+            umlWidget = new FloatingTextWidget(m_pUMLScene, Uml::TextRole::Floating, QString());
             break;
 
         // Activity buttons

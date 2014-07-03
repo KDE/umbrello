@@ -197,7 +197,7 @@ bool NativeImportBase::preprocess(QString& line)
         }
         m_source.append(m_singleLineCommentIntro + m_comment);  // denotes comments in `m_source'
         m_srcIndex++;
-        m_comment = "";
+        m_comment = QString();
         m_inComment = false;
         pos += delimiterLen;  // pos now points behind the closed comment
         if (pos == (int)line.length())

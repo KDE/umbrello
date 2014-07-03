@@ -364,7 +364,7 @@ UMLObject* insertAttribute(UMLClassifier *owner,
                            Uml::Visibility::Enum scope,
                            const QString& name,
                            UMLClassifier *attrType,
-                           const QString& comment /* ="" */,
+                           const QString& comment /* =QString() */,
                            bool isStatic /* =false */)
 {
     UMLObject::ObjectType ot = owner->baseType();
@@ -397,7 +397,7 @@ UMLObject* insertAttribute(UMLClassifier *owner,
 UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility::Enum scope,
                            const QString& name,
                            const QString& type,
-                           const QString& comment /* ="" */,
+                           const QString& comment /* =QString() */,
                            bool isStatic /* =false */)
 {
     UMLObject *attrType = owner->findTemplate(type);

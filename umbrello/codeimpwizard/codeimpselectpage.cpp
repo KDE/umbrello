@@ -33,7 +33,7 @@
 /**
  * Keep the last clicked directory for setting it the next time.
  */
-QString CodeImpSelectPage::s_recentPath = "";
+QString CodeImpSelectPage::s_recentPath;
 
 /**
  * Constructor.
@@ -98,7 +98,7 @@ void CodeImpSelectPage::setupLanguageBox()
 void CodeImpSelectPage::setupTreeView()
 {
     QFileSystemModel* model = new QFileSystemModel();
-    model->setRootPath("");
+    model->setRootPath(QString());
     model->setNameFilterDisables(false);
 
     m_fileExtensions << "*.h" << "*.hpp" << "*.hh" << "*.hxx" << "*.H";  //:TODO set according to the current language!

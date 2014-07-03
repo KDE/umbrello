@@ -81,7 +81,7 @@ protected:
     void appendText(CodeClassFieldDeclarationBlock * db);
     void appendText(TextBlockList * items);
     void appendText(CodeMethodBlock * mb);
-    void appendText(CodeComment * comment, TextBlock * parent, UMLObject * umlObj = 0, const QString & compName = "");
+    void appendText(CodeComment * comment, TextBlock * parent, UMLObject * umlObj = 0, const QString & compName = QString());
     void appendText(CodeBlockWithComments * cb);
 
     void rebuildView(int startCursorPos);
@@ -117,7 +117,7 @@ private:
 
     void insertText(const QString & text, TextBlock * parent, bool isEditable = false,
                  const QColor & fgcolor = QColor("black"), const QColor & bgcolor = QColor("white"),
-                 UMLObject * umlobj = 0, const QString & displayName = "", int startLine = -1);
+                 UMLObject * umlobj = 0, const QString & displayName = QString(), int startLine = -1);
 
     void editTextBlock(TextBlock * tBlock, int para);
     void clearText();

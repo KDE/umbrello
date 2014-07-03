@@ -245,7 +245,7 @@ void JavaANTCodeDocument::updateContent()
 {
     // FIX : fill in more content based on classes
     // which exist
-    CodeBlockWithComments * xmlDecl = getCodeBlockWithComments("xmlDecl","", 0);
+    CodeBlockWithComments * xmlDecl = getCodeBlockWithComments("xmlDecl", QString(), 0);
     xmlDecl->setText("<?xml version=\"1.0\"?>");
     addTextBlock(xmlDecl);
 

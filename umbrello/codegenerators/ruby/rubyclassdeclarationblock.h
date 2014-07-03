@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2013                                               *
+ *   copyright (C) 2006-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -26,7 +26,7 @@ public:
     /**
      * Empty Constructor
      */
-    explicit RubyClassDeclarationBlock (RubyClassifierCodeDocument * parentDoc, const QString &start = "", const QString &endText = "end", const QString &comment = "");
+    explicit RubyClassDeclarationBlock (RubyClassifierCodeDocument * parentDoc, const QString &start = QString(), const QString &endText = "end", const QString &comment = QString());
 
     /**
      * Empty Destructor

@@ -155,7 +155,7 @@ class Comment
     }
 
 public:
-    Comment(QString text = "", int line = -1) : m_text(text), m_line(line), m_formatted(false)
+    Comment(QString text = QString(), int line = -1) : m_text(text), m_line(line), m_formatted(false)
     {
     }
 

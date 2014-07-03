@@ -579,7 +579,7 @@ const UMLStereotype * UMLObject::umlStereotype()
 QString UMLObject::stereotype(bool includeAdornments /* = false */) const
 {
     if (m_pStereotype == NULL)
-        return "";
+        return QString();
     QString name = m_pStereotype->name();
     if (includeAdornments)
         name = QString::fromUtf8("«") + name + QString::fromUtf8("»");
@@ -605,7 +605,7 @@ QString UMLObject::package(const QString& separator, bool includeRoot)
         tempSeparator = UMLApp::app()->activeLanguageScopeSeparator();
     QString fqn = fullyQualifiedName(tempSeparator, includeRoot);
     if (!fqn.contains(tempSeparator))
-        return "";
+        return QString();
     QString scope = fqn.left(fqn.length() - tempSeparator.length() - m_name.length());
     return scope;
 }
@@ -724,7 +724,7 @@ bool UMLObject::resolveRef()
                 m_pStereotype->incrRefCount();
                 m_pSecondary = NULL;
             }
-            m_SecondaryId = "";
+            m_SecondaryId = QString();
             maybeSignalObjectCreated();
             return true;
         }
@@ -749,7 +749,7 @@ bool UMLObject::resolveRef()
     // than the xmi.id of the model object of the attribute type.
     m_pSecondary = pDoc->findUMLObject(m_SecondaryId, ot_UMLObject, this);
     if (m_pSecondary) {
-        m_SecondaryId = "";
+        m_SecondaryId = QString();
         maybeSignalObjectCreated();
         return true;
     }
@@ -768,7 +768,7 @@ bool UMLObject::resolveRef()
                 uDebug() << "Import_Utils::createUMLObject() returned an existing type for "
                          << m_SecondaryId;
             }
-            m_SecondaryId = "";
+            m_SecondaryId = QString();
             return true;
         }
         uError() << "Import_Utils::createUMLObject() failed to create a new type for "
@@ -791,7 +791,7 @@ bool UMLObject::resolveRef()
     m_pSecondary = Object_Factory::createUMLObject(ot, m_SecondaryId, NULL);
     if (m_pSecondary == NULL)
         return false;
-    m_SecondaryId = "";
+    m_SecondaryId = QString();
     maybeSignalObjectCreated();
     //qApp->processEvents();
     return true;

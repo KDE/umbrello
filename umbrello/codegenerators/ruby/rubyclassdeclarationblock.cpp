@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2013                                               *
+ *   copyright (C) 2006-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -77,7 +77,7 @@ void RubyClassDeclarationBlock::updateContent ()
         getComment()->setWriteOutText(false);
 
     // Now set START/ENDING Text
-    QString startText = "";
+    QString startText;
 
     if (parentDoc->parentIsInterface()) {
         startText.append("module ");

@@ -128,7 +128,7 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ex
         if (!pathDir.exists())
         {
             const QStringList dirs = pathDir.absolutePath().split('/');
-            QString currentDir = "";
+            QString currentDir;
 
             QStringList::const_iterator end(dirs.end());
             for (QStringList::const_iterator dir(dirs.begin()); dir != end; ++dir)

@@ -173,7 +173,7 @@ QString PythonImport::skipBody()
        In order to return the body, we try to reconstruct the original Python
        syntax by reverting those changes.
      */
-    QString body = "";
+    QString body;
     if (m_source[m_srcIndex] != "{")
         skipStmt("{");
     bool firstTokenAfterNewline = true;
@@ -251,7 +251,7 @@ bool PythonImport::parseStmt()
 
         if (!m_klass->hasDoc() && !m_comment.isEmpty()) {
             m_klass->setDoc(m_comment);
-            m_comment = "";
+            m_comment = QString();
         }
 
         const QString& name = advance();
@@ -285,7 +285,7 @@ bool PythonImport::parseStmt()
 
         if (!op->hasDoc() && !m_comment.isEmpty()) {
             op->setDoc(m_comment);
-            m_comment = "";
+            m_comment = QString();
         }
         log("def " + name);
 

@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2013                                               *
+ *   copyright (C) 2006-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -40,7 +40,7 @@ void RubyCodeDocumentation::saveToXMI(QDomDocument & doc, QDomElement & root)
 
 QString RubyCodeDocumentation::toString() const
 {
-    QString output = "";
+    QString output;
 
     // simple output method
     if(getWriteOutText())

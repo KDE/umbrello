@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2013                                               *
+ *   copyright (C) 2006-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -41,7 +41,7 @@ QString RubyCodeComment::unformatText(const QString & text, const QString & inde
 
 QString RubyCodeComment::toString() const
 {
-    QString output = "";
+    QString output;
 
     // simple output method
     if (getWriteOutText()) {

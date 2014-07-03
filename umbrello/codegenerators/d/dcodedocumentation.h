@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008                                                    *
+ *   copyright (C) 2008-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -31,7 +31,7 @@ public:
     /**
      * Constructors
      */
-    explicit DCodeDocumentation (CodeDocument * doc, const QString & text = "");
+    explicit DCodeDocumentation (CodeDocument * doc, const QString & text = QString());
 
     /**
      * Empty Destructor
@@ -57,7 +57,7 @@ public:
      * UnFormat a long text string. Typically, this means removing
      * the indentaion (linePrefix) and/or newline chars from each line.
      */
-    virtual QString unformatText (const QString & text, const QString & indent = "");
+    virtual QString unformatText (const QString & text, const QString & indent = QString());
 
     /**
      * A special version here because we want to not only indent

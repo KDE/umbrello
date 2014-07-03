@@ -979,7 +979,7 @@ void AssociationWidget::setRoleName(const QString &strRole, Uml::RoleType::Enum 
             m_role[role].roleWidget->setPreText(Uml::Visibility::toString(vis, true));
             //m_role[role].roleWidget->show();
         } else {
-            m_role[role].roleWidget->setPreText("");
+            m_role[role].roleWidget->setPreText(QString());
             //m_role[role].roleWidget->hide();
         }
     }
@@ -1452,21 +1452,21 @@ void AssociationWidget::setAssociationType(Uml::AssociationType::Enum type)
     // those widgets are also stored in the UMLView::m_WidgetList.
     if (!AssocRules::allowMultiplicity(type, widgetForRole(RoleType::A)->baseType())) {
         if (m_role[RoleType::A].multiplicityWidget) {
-            m_role[RoleType::A].multiplicityWidget->setName("");
+            m_role[RoleType::A].multiplicityWidget->setName(QString());
         }
         if (m_role[RoleType::B].multiplicityWidget) {
-            m_role[RoleType::B].multiplicityWidget->setName("");
+            m_role[RoleType::B].multiplicityWidget->setName(QString());
         }
     }
     if (!AssocRules::allowRole(type)) {
         if (m_role[RoleType::A].roleWidget) {
-            m_role[RoleType::A].roleWidget->setName("");
+            m_role[RoleType::A].roleWidget->setName(QString());
         }
         if (m_role[RoleType::B].roleWidget) {
-            m_role[RoleType::B].roleWidget->setName("");
+            m_role[RoleType::B].roleWidget->setName(QString());
         }
-        setRoleDocumentation("", RoleType::A);
-        setRoleDocumentation("", RoleType::B);
+        setRoleDocumentation(QString(), RoleType::A);
+        setRoleDocumentation(QString(), RoleType::B);
     }
     m_associationLine->reconstructSymbols();
 }
@@ -3002,7 +3002,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
         if (m_role[r].multiplicityWidget)
             oldText = m_role[r].multiplicityWidget->text();
         else
-            oldText = "";
+            oldText = QString();
         newText = KInputDialog::getText(i18n("Multiplicity"),
                                         i18n("Enter multiplicity:"),
                                         oldText, NULL, m_scene->activeView(), &v);
@@ -3020,7 +3020,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
         if (m_nameWidget)
             oldText = m_nameWidget->text();
         else
-            oldText = "";
+            oldText = QString();
         newText = KInputDialog::getText(i18n("Association Name"),
                                         i18n("Enter association name:"),
                                         oldText, NULL, m_scene->activeView(), &v);
@@ -3040,7 +3040,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
         if (m_role[r].roleWidget)
             oldText = m_role[r].roleWidget->text();
         else
-            oldText = "";
+            oldText = QString();
         newText = KInputDialog::getText(i18n("Role Name"),
                                         i18n("Enter role name:"),
                                         oldText, NULL, m_scene->activeView(), &v);
@@ -3709,7 +3709,7 @@ void AssociationWidget::setSelected(bool _select /* = true */)
         // if _select is false.
         selectAssocClassLine(false);
     }
-    UMLApp::app()->document()->writeToStatusBar(_select ? i18n("Press Ctrl with left mouse click to delete a point") : "");
+    UMLApp::app()->document()->writeToStatusBar(_select ? i18n("Press Ctrl with left mouse click to delete a point") : QString());
 }
 
 /**
@@ -4230,7 +4230,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
             if (r == "-1")
                 return false;
             Uml::TextRole::Enum role = Uml::TextRole::fromInt(r.toInt());
-            FloatingTextWidget *ft = new FloatingTextWidget(m_scene, role, "", Uml::ID::Reserved);
+            FloatingTextWidget *ft = new FloatingTextWidget(m_scene, role, QString(), Uml::ID::Reserved);
             if (! ft->loadFromXMI(element)) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete ft;

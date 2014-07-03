@@ -61,7 +61,7 @@ void CodeImpThread::run()
 
         if (!classImporter->importFile(fileName)) {
             emit messageToApp(i18nc("show failed on status bar", "Failed."));
-            emit messageToWiz(m_file.fileName(), "");
+            emit messageToWiz(m_file.fileName(), QString());
             emit messageToLog(m_file.fileName(), "...import failed");
             emit finished(false);
         }

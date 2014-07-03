@@ -318,7 +318,7 @@ void UMLDoc::closeDocument()
 {
     m_bClosing = true;
     UMLApp::app()->setGenerator(Uml::ProgrammingLanguage::Reserved);  // delete the codegen
-    m_Doc = "";
+    m_Doc = QString();
     DocWindow* dw = UMLApp::app()->docWindow();
     if (dw) {
         dw->reset();
@@ -431,7 +431,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
 
     // check if the xmi file is a compressed archive like tar.bzip2 or tar.gz
     QString filetype = m_doc_url.fileName();
-    QString mimetype = "";
+    QString mimetype;
     if (filetype.endsWith(".tgz") || filetype.endsWith(".tar.gz")) {
         mimetype = "application/x-gzip";
     } else if (filetype.endsWith(".tar.bz2")) {

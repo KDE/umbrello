@@ -38,7 +38,7 @@ class FloatingTextWidget : public UMLWidget
     Q_OBJECT
 public:
     explicit FloatingTextWidget(UMLScene * scene, Uml::TextRole::Enum role = Uml::TextRole::Floating,
-                                const QString& text = "", Uml::ID::Type id = Uml::ID::None);
+                                const QString& text = QString(), Uml::ID::Type id = Uml::ID::None);
     virtual ~FloatingTextWidget();
 
     QString text() const;

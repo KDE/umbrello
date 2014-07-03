@@ -963,7 +963,7 @@ void CodeEditor::init(CodeViewerDialog * parentDialog, CodeDocument * parentDoc)
     if (cdoc)
         m_parentDocName = cdoc->getParentClassifier()->name();
     else
-        m_parentDocName = "";
+        m_parentDocName = QString();
 
     // set some viewability parameters
     //int margin = fontMetrics().height();

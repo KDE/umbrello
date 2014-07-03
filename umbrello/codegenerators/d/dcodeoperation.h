@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008                                                    *
+ *   copyright (C) 2008-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -26,7 +26,7 @@ public:
     /**
      * Empty Constructor
      */
-    DCodeOperation (DClassifierCodeDocument * doc, UMLOperation * op, const QString & body = "", const QString & comment = "");
+    DCodeOperation (DClassifierCodeDocument * doc, UMLOperation * op, const QString & body = QString(), const QString & comment = QString());
 
     /**
      * Empty Destructor

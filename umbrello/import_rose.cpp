@@ -416,7 +416,7 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
                 linum++; // CHECK: do we need petal version info?
                 if (line.contains(')')) {
                     finish = true;
-                    line = line.replace(QLatin1String(")"),QLatin1String(""));
+                    line = line.replace(QLatin1String(")"), QString());
                 }
                 QStringList a = line.trimmed().split(QRegExp("\\s+"));
                 if (a.size() == 2 && a[0] == "charSet") {

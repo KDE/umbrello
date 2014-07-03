@@ -208,7 +208,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
     } else if (tag == "boxwidget") {
         widget = new BoxWidget(scene, Uml::ID::Reserved);
     } else if (tag == "floatingtext" || tag == "UML:FloatingTextWidget") {
-        widget = new FloatingTextWidget(scene, Uml::TextRole::Floating, "", Uml::ID::Reserved);
+        widget = new FloatingTextWidget(scene, Uml::TextRole::Floating, QString(), Uml::ID::Reserved);
     } else if (tag == "activitywidget" || tag == "UML:ActivityWidget") {
         widget = new ActivityWidget(scene, ActivityWidget::Initial, Uml::ID::Reserved);
     } else if (tag == "messagewidget") {

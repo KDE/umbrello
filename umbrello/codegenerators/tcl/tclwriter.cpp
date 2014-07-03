@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2005      Rene Meyer <rene.meyer@sturmit.de>            *
- *   copyright (C) 2006-2013                                               *
+ *   copyright (C) 2006-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -436,8 +436,6 @@ void TclWriter::writeUse(UMLClassifier * c)
 
     if (!c->package().isEmpty()) {
         myNs = cleanName(c->package());
-    } else {
-        myNs = "";
     }
     // if different package
     if (QString("::"+myNs) != mNamespace) {
@@ -703,8 +701,8 @@ void TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility::Enum pe
         writeComm("Operations");
     }
     foreach (UMLOperation* op, oplist) {
-        QString doc = "";
-        QString code = "";
+        QString doc;
+        QString code;
         QString methodReturnType = fixTypeName(op->getTypeName());
         QString name = cleanName(op->name());
         QString scope = Uml::Visibility::toString(permitScope);
@@ -775,7 +773,7 @@ void TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility::Enum pe
 
     // generate source for each operation given
     foreach (UMLOperation* op, oplist) {
-        QString code = "";
+        QString code;
         QString methodReturnType = fixTypeName(op->getTypeName());
         QString name;
         // no code needed

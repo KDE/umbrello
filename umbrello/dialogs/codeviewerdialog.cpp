@@ -63,7 +63,7 @@ void CodeViewerDialog::addCodeDocument(CodeDocument * doc)
     QString name = doc->getFileName();
     QString ext = doc->getFileExtension();
     uDebug() << "name=" << name << " / ext=" << ext;
-    ui_tabWidget->addTab(page, (name + (ext.isEmpty() ? "" : ext)));
+    ui_tabWidget->addTab(page, (name + (ext.isEmpty() ? QString() : ext)));
 
     connect(ui_highlightCheckBox, SIGNAL(stateChanged(int)), page, SLOT(changeHighlighting(int)));
     connect(ui_showHiddenCodeCB, SIGNAL(stateChanged(int)), page, SLOT(changeShowHidden(int)));

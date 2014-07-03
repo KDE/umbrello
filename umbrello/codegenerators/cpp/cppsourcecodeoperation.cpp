@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2013                                               *
+ *   copyright (C) 2004-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -40,7 +40,7 @@ void CPPSourceCodeOperation::updateContent()
     bool isInlineMethod = policy->getOperationsAreInline();
 
     if (!isInlineMethod) {
-        setText("");  // change whatever it is to ""
+        setText(QString());  // change whatever it is to ""
     }
 }
 
@@ -79,7 +79,7 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
 
     // no return type for constructors/destructors
     if (o->isLifeOperation())
-        returnType = "";
+        returnType = QString();
     // if an operation isn't a constructor/destructor and it has no return type
     // this operation should be  void
     else if (returnType.isEmpty())

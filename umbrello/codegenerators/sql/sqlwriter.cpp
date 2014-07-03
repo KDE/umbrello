@@ -363,7 +363,7 @@ QStringList SQLWriter::reservedKeywords() const
  */
 void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList entityAttributeList)
 {
-    QString attrDoc = "";
+    QString attrDoc;
 
     bool first = true;
 

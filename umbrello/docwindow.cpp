@@ -55,7 +55,7 @@ DocWindow::DocWindow(UMLDoc * doc, QWidget *parent)
     m_modifiedLabel->setToolTip(i18n("Flag whether documentation was modified"));
     statusLayout->addWidget(m_modifiedLabel, 0, 5, 1, 1);
     m_docTE = new KTextEdit(this);
-    m_docTE->setText("");
+    m_docTE->setText(QString());
     //m_docTE->setWordWrapMode(QTextEdit::WidgetWidth);
     QVBoxLayout* docLayout = new QVBoxLayout(this);
     docLayout->addLayout(statusLayout);

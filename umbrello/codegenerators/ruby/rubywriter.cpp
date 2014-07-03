@@ -95,7 +95,7 @@ void RubyWriter::writeClass(UMLClassifier *c)
     // write inheritances out
     UMLClassifier *concept;
 
-    h<< "class " << cppToRubyType(className_) << (superclasses.count() > 0 ? " < ":"");
+    h<< "class " << cppToRubyType(className_) << (superclasses.count() > 0 ? " < " : QString());
 
     int i = 0;
     foreach (concept, superclasses) {

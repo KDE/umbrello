@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2013                                               *
+ *   copyright (C) 2004-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -27,7 +27,7 @@ class TextBlock
     friend class ClassifierCodeDocument;
 public:
 
-    explicit TextBlock(CodeDocument * parent, const QString & text = "");
+    explicit TextBlock(CodeDocument * parent, const QString & text = QString());
     virtual ~TextBlock();
 
     void setText(const QString & text);
@@ -55,7 +55,7 @@ public:
                                   const QString & breakStr,
                                   bool addBreak = true, bool lastLineHasBreak = true);
 
-    virtual QString unformatText(const QString & text, const QString & indent = "");
+    virtual QString unformatText(const QString & text, const QString & indent = QString());
 
     virtual QString toString() const;
 

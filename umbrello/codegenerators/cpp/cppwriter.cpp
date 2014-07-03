@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2003       Brian Thomas                                 *
  *                            <brian.thomas@gsfc.nasa.gov>                 *
- *   copyright (C) 2004-2013  Umbrello UML Modeller Authors                *
+ *   copyright (C) 2004-2014  Umbrello UML Modeller Authors                *
  *                            <umbrello-devel@kde.org>                       *
  ***************************************************************************/
 
@@ -499,7 +499,7 @@ void CppWriter::writeAttributeDecls (UMLClassifier *c, Uml::Visibility::Enum vis
     if (forceDoc() || list.count() > 0)
     {
         QString strVis = Codegen_Utils::capitalizeFirstLetter(Uml::Visibility::toString(visibility));
-        QString strStatic = writeStatic ? "Static ":"";
+        QString strStatic = writeStatic ? "Static " : QString();
         writeComment(strStatic + strVis + " attributes", indent(), stream);
         writeComment(" ", indent(), stream);
         writeBlankLine(stream);
@@ -524,7 +524,7 @@ void CppWriter::writeAttributeDecls (UMLClassifier *c, Uml::Visibility::Enum vis
 
             QString varName = getAttributeVariableName(at);
 
-            QString staticValue = at->isStatic() ? "static " : "";
+            QString staticValue = at->isStatic() ? "static " : QString();
             QString typeName = fixTypeName(at->getTypeName());
             if(!documentation.isEmpty())
                 writeComment(documentation, indent(), stream);
@@ -575,7 +575,7 @@ void CppWriter::writeAttributeMethods(UMLAttributeList attribs,
     if (forceDoc() || attribs.count() > 0)
     {
         QString strVis = Codegen_Utils::capitalizeFirstLetter(Uml::Visibility::toString(visibility));
-        QString strStatic = (isStatic ? " static" : "");
+        QString strStatic = (isStatic ? " static" : QString());
         writeBlankLine(stream);
         writeComment(strVis + strStatic + " attribute accessor methods", indent(), stream);
         writeComment(" ", indent(), stream);
@@ -764,7 +764,7 @@ void CppWriter::writeAssociationMethods (UMLAssociationList associations,
             {
                 // only write out IF there is a rolename given
                 if (!a->getRoleName(Uml::RoleType::B).isEmpty()) {
-                    QString fieldClassName = umlObjectName(a->getObject(Uml::RoleType::B)) + (writePointerVar ? " *":"");
+                    QString fieldClassName = umlObjectName(a->getObject(Uml::RoleType::B)) + (writePointerVar ? " *" : QString());
                     writeAssociationRoleMethod(fieldClassName,
                                                isHeaderMethod,
                                                writeMethodBody,
@@ -778,7 +778,7 @@ void CppWriter::writeAssociationMethods (UMLAssociationList associations,
             {
                 // only write out IF there is a rolename given
                 if (!a->getRoleName(Uml::RoleType::A).isEmpty()) {
-                    QString fieldClassName = umlObjectName(a->getObject(Uml::RoleType::A)) + (writePointerVar ? " *":"");
+                    QString fieldClassName = umlObjectName(a->getObject(Uml::RoleType::A)) + (writePointerVar ? " *" : QString());
                     writeAssociationRoleMethod(fieldClassName,
                                                isHeaderMethod,
                                                writeMethodBody,
@@ -838,7 +838,7 @@ void CppWriter::writeVectorAttributeAccessorMethods (
     // ONLY IF changeability is NOT Frozen
     if (changeType != Uml::Changeability::Frozen)
     {
-        writeDocumentation("Add a " + fldName + " object to the " + fieldVarName + " List", description,"", stream);
+        writeDocumentation("Add a " + fldName + " object to the " + fieldVarName + " List", description, QString(), stream);
         stream << indnt << "void ";
         if(!isHeaderMethod)
             stream << className_ << "::";
@@ -861,7 +861,7 @@ void CppWriter::writeVectorAttributeAccessorMethods (
     if (changeType == Uml::Changeability::Changeable)
     {
         writeDocumentation("Remove a " + fldName + " object from " + fieldVarName + " List",
-                           description, "", stream);
+                           description, QString(), stream);
         stream << indnt << "void ";
         if(!isHeaderMethod)
             stream << className_ << "::";
@@ -983,9 +983,9 @@ void CppWriter::writeConstructorDecls(QTextStream &stream)
     if (!generateEmptyConstructors)
         return;
 
-    writeDocumentation("", "Empty Constructor", "", stream);
+    writeDocumentation(QString(), "Empty Constructor", QString(), stream);
     stream << indent() << className_ << " ();" << m_endl;
-    writeDocumentation("", "Empty Destructor", "", stream);
+    writeDocumentation(QString(), "Empty Destructor", QString(), stream);
     stream << indent();
     stream << "virtual ~" << className_ << " ();" << m_endl;
     writeBlankLine(stream);
@@ -1216,7 +1216,7 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
         }
 
         // write it out
-        writeDocumentation("", op->doc(), doc, cpp);
+        writeDocumentation(QString(), op->doc(), doc, cpp);
         cpp << indent() << str << m_endl;
         writeBlankLine(cpp);
     }

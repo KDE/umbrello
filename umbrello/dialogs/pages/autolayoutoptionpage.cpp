@@ -69,7 +69,8 @@ void AutoLayoutOptionPage::setDefaults()
 void AutoLayoutOptionPage::apply()
 {
     Settings::optionState().autoLayoutState.autoDotPath = m_autoDotPath->isChecked();
-    Settings::optionState().autoLayoutState.dotPath = m_autoDotPath->isChecked() ? "" : m_dotPath->text();
+    Settings::optionState().autoLayoutState.dotPath = m_autoDotPath->isChecked() ? QString()
+                                                                                 : m_dotPath->text();
     Settings::optionState().autoLayoutState.showExportLayout = m_showExportLayout->isChecked();
     emit applyClicked();
 }

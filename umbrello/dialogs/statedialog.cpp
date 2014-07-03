@@ -176,7 +176,7 @@ void StateDialog::setupGeneralPage()
 
     if (type != StateWidget::Normal) {
         m_GenPageWidgets.nameLE->setEnabled(false);
-        m_GenPageWidgets.nameLE->setText("");
+        m_GenPageWidgets.nameLE->setText(QString());
     } else
         m_GenPageWidgets.nameLE->setText(m_pStateWidget->name());
 }

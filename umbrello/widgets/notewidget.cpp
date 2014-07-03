@@ -407,9 +407,9 @@ void NoteWidget::paintTextWordWrap(QPainter *painter)
     painter->setFont(font);
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
-    QString word = "";
-    QString fullLine = "";
-    QString testCombineLine = "";
+    QString word;
+    QString fullLine;
+    QString testCombineLine;
     const int margin = fm.width("W");
     int textY = fontHeight / 2;
     int textX = margin;
@@ -437,7 +437,7 @@ void NoteWidget::paintTextWordWrap(QPainter *painter)
                 painter->drawText(textX, textY,
                             textWidth, fontHeight, Qt::AlignLeft, fullLine);
                 fullLine = word;
-                word = "";
+                word = QString();
                 // update write position
                 textX = margin;
                 textY += fontHeight;
@@ -449,7 +449,7 @@ void NoteWidget::paintTextWordWrap(QPainter *painter)
                     // print "word" - which is now "fullLine" and set to next line
                     painter->drawText(textX, textY,
                                 textWidth, fontHeight, Qt::AlignLeft, fullLine);
-                    fullLine = "";
+                    fullLine = QString();
                     textX = margin;
                     textY += fontHeight;
                     if(textY > height) return;
@@ -460,7 +460,7 @@ void NoteWidget::paintTextWordWrap(QPainter *painter)
                 // in one line
                 painter->drawText(textX, textY,
                             textWidth, fontHeight, Qt::AlignLeft, testCombineLine);
-                fullLine = word = "";
+                fullLine = word = QString();
                 textX = margin;
                 textY += fontHeight;
                 if (textY > height)
@@ -468,7 +468,7 @@ void NoteWidget::paintTextWordWrap(QPainter *painter)
             } else {
                 // word delimiter found, and combination of "fullLine", space and "word" fits into one line
                 fullLine = testCombineLine;
-                word = "";
+                word = QString();
             }
         } else {
             // no word delimiter found --> add current char to "word"

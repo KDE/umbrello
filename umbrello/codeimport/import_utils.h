@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2013                                               *
+ *   copyright (C) 2005-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -54,7 +54,7 @@ namespace Import_Utils {
     UMLObject* insertAttribute(UMLClassifier *klass, Uml::Visibility::Enum scope,
                                const QString& name,
                                UMLClassifier *attrType,
-                               const QString& comment /* ="" */,
+                               const QString& comment /* =QString() */,
                                bool isStatic /* =false */);
 
     UMLOperation* makeOperation(UMLClassifier *parent, const QString &name);

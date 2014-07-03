@@ -248,7 +248,7 @@ void ValaWriter::writeClass(UMLClassifier *c)
         cs << m_endl;
     }
 
-    m_container_indent = "";
+    m_container_indent = QString();
 
     if (container) {
         cs << "namespace " << container->fullyQualifiedName(".") << m_endl;
@@ -288,7 +288,7 @@ void ValaWriter::writeClass(UMLClassifier *c)
             cs << "abstract ";
         }
 
-        cs << "class " << classname << (superclasses.count() > 0 ? " : ":"");
+        cs << "class " << classname << (superclasses.count() > 0 ? " : " : QString());
 
         // write baseclass, ignore interfaces, write error on multiple inheritance
         if (superclasses.count() > 0) {
@@ -535,9 +535,9 @@ void ValaWriter::writeOperations(UMLOperationList opList,
             //write parameter documentation
             foreach (UMLAttribute* at, atl) {
                 if (forceDoc() || !at->doc().isEmpty()) {
-                    cs << m_container_indent << m_indentation << " * @param " << cleanName(at->name()) << "";
+                    cs << m_container_indent << m_indentation << " * @param " << cleanName(at->name());
                     //removing newlines from parameter doc
-                    cs << formatDoc(at->doc(), "").replace('\n', ' ').remove('\r').remove(QRegExp(" $"));
+                    cs << formatDoc(at->doc(), QString()).replace('\n', ' ').remove('\r').remove(QRegExp(" $"));
                     cs << m_endl;
                 }
             }
@@ -596,7 +596,7 @@ void ValaWriter::writeOperations(UMLOperationList opList,
             //<< (!(at->getInitialValue().isEmpty()) ?
             //    (QString(" = ")+at->getInitialValue()) :
             //    QString())
-            cs << ((j < i-1)?", ":"");
+            cs << ((j < i-1) ? ", " : QString());
         }
         cs << ")";
 
@@ -731,12 +731,12 @@ void ValaWriter::writeAssociatedAttributes(UMLAssociationList &associated, UMLCl
         //FIXME:is this simple condition enough?
         if (a->getMultiplicity(Uml::RoleType::B).isEmpty() || a->getMultiplicity(Uml::RoleType::B) == "1")  {
             // normal attribute
-            writeAttribute(roleDoc, a->visibility(Uml::RoleType::B), false, typeName, roleName, "", (a->visibility(Uml::RoleType::B) != Uml::Visibility::Private), cs);
+            writeAttribute(roleDoc, a->visibility(Uml::RoleType::B), false, typeName, roleName, QString(), (a->visibility(Uml::RoleType::B) != Uml::Visibility::Private), cs);
         }
         else {
             // array
             roleDoc += "\n(Array of " + typeName + ')';
-            writeAttribute(roleDoc, a->visibility(Uml::RoleType::B), false, "ArrayList", roleName, "", (a->visibility(Uml::RoleType::B) != Uml::Visibility::Private), cs);
+            writeAttribute(roleDoc, a->visibility(Uml::RoleType::B), false, "ArrayList", roleName, QString(), (a->visibility(Uml::RoleType::B) != Uml::Visibility::Private), cs);
         }
     }
 }

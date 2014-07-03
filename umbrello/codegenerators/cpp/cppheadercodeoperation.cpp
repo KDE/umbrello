@@ -28,9 +28,9 @@ CPPHeaderCodeOperation::CPPHeaderCodeOperation
     // these things never change..
     setOverallIndentationLevel(1);
 
-    setText("");
-    setStartMethodText("");
-    setEndMethodText("");
+    setText(QString());
+    setStartMethodText(QString());
+    setEndMethodText(QString());
 }
 
 CPPHeaderCodeOperation::~CPPHeaderCodeOperation()
@@ -48,7 +48,7 @@ void CPPHeaderCodeOperation::updateContent()
     bool isInlineMethod = policy->getOperationsAreInline();
 
     if(isInlineMethod)
-        setText(""); // change whatever it is to "";
+        setText(QString()); // change whatever it is to "";
 }
 
 // we basically want to update the doc and start text of this method
@@ -102,7 +102,7 @@ void CPPHeaderCodeOperation::updateMethodDeclaration()
 
     // if an operation isn't a constructor or a destructor and it has no return type
     if (o->isLifeOperation())         // constructor/destructor has no type
-        methodReturnType = "";
+        methodReturnType = QString();
     else if (methodReturnType.isEmpty())  // this operation should be 'void'
         methodReturnType = QString("void");
 
@@ -135,7 +135,7 @@ void CPPHeaderCodeOperation::applyStereotypes (QString& prototype, UMLOperation 
     // if the class is an interface, all methods will be declared as pure
     // virtual functions
     start = (inlinePolicy ? " {" : ";");
-    end = (inlinePolicy ? "}" : "");
+    end = (inlinePolicy ? "}" : QString());
     if (pOp->getConst())
         prototype += " const";
     if (interface || pOp->isAbstract()) {
@@ -144,7 +144,7 @@ void CPPHeaderCodeOperation::applyStereotypes (QString& prototype, UMLOperation 
            prototype = "virtual " + prototype + " = 0";
            if (inlinePolicy) {
                start = ';';
-               end = "";
+               end = QString();
            }
        }
     } // constructors could not be declared as static

@@ -833,7 +833,7 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     if (op)
         setOperation(op);  // This requires a valid m_pFText.
     setLinkAndTextPos();
-    m_pFText->setText("");
+    m_pFText->setText(QString());
     m_pFText->setActivated();
     QString messageText = m_pFText->text();
     m_pFText->setVisible(messageText.length() > 1);

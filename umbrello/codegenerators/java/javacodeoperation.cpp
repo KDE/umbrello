@@ -71,7 +71,7 @@ void JavaCodeOperation::updateMethodDeclaration()
     // e.g. they have no body
     if(isInterface) {
         startText += ';';
-        setEndMethodText("");
+        setEndMethodText(QString());
     } else {
         startText += " {";
         setEndMethodText("}");

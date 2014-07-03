@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2013                                               *
+ *   copyright (C) 2006-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -30,7 +30,7 @@ public:
     /**
      * Constructors
      */
-    explicit RubyCodeComment (CodeDocument * doc, const QString & text = "");
+    explicit RubyCodeComment (CodeDocument * doc, const QString & text = QString());
 
     /**
      * Empty Destructor
@@ -46,7 +46,7 @@ public:
      * UnFormat a long text string. Typically, this means removing
      * the indentaion (linePrefix) and/or newline chars from each line.
      */
-    virtual QString unformatText (const QString & text, const QString & indent = "");
+    virtual QString unformatText (const QString & text, const QString & indent = QString());
 
     /**
      * A special version here because we want to not only indent

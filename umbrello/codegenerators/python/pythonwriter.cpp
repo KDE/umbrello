@@ -256,11 +256,11 @@ void PythonWriter::writeClass(UMLClassifier *c)
 
     foreach (UMLClassifier *obj, superclasses) {
 
-        h << cleanName(obj->name()) << (i>1?", ":"");
+        h << cleanName(obj->name()) << (i>1 ? ", " : QString());
         i--;
     }
 
-    h<<(superclasses.count() > 0 ? ")":"")<<":"<<m_endl<<m_endl;
+    h << (superclasses.count() > 0 ? ")" : QString()) << ":" << m_endl << m_endl;
 
     if (forceDoc() || !c->doc().isEmpty()) {
         h << m_indentation << "\"\"\"" << m_endl;

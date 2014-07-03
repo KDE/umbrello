@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2013                                               *
+ *   copyright (C) 2004-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -77,11 +77,11 @@ public:
     /** More flexible generation. We want to allow the user to specify how the
      *  bodies of the vector methods should be auto-generated.
      */
-    QString getVectorMethodAppend(const QString & variableName ="", const QString & itemClassName = "");
-    QString getVectorMethodRemove(const QString & variableName ="", const QString & itemClassName = "");
-    QString getVectorMethodInit(const QString & variableName ="", const QString & itemClassName = "");
+    QString getVectorMethodAppend(const QString & variableName = QString(), const QString & itemClassName = QString());
+    QString getVectorMethodRemove(const QString & variableName = QString(), const QString & itemClassName = QString());
+    QString getVectorMethodInit(const QString & variableName = QString(), const QString & itemClassName = QString());
 
-    QString getObjectMethodInit(const QString & variableName ="", const QString & itemClassName = "");
+    QString getObjectMethodInit(const QString & variableName = QString(), const QString & itemClassName = QString());
 
     virtual void setDefaults (CPPCodeGenerationPolicy * cppclone, bool emitUpdateSignal = true);
     virtual void setDefaults(bool emitUpdateSignal = true);

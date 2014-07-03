@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2013                                               *
+ *   copyright (C) 2006-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -297,7 +297,7 @@ bool UMLViewImageExporterModel::prepareDirectory(const KUrl &url) const
 {
     // the KUrl is copied to get protocol, user and so on and then the path is cleaned
     KUrl directory = url;
-    directory.setPath("");
+    directory.setPath(QString());
 
     // creates the directory and any needed parent directories
     QStringList dirs = url.directory().split(QDir::separator(), QString::SkipEmptyParts);

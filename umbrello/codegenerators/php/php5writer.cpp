@@ -3063,7 +3063,7 @@ void Php5Writer::writeClass(UMLClassifier *c)
         //check if class is abstract and / or has abstract methods
         if (c->isAbstract())
             php << "abstract ";
-        php << "class " << classname << (superclasses.count() > 0 ? " extends ":"");
+        php << "class " << classname << (superclasses.count() > 0 ? " extends " : QString());
         if (superclasses.count() > 0) {
             //php5 does not support multiple inheritance so only use the first one and print a warning if more are used
             UMLClassifier *obj = superclasses.first();
@@ -3080,7 +3080,7 @@ void Php5Writer::writeClass(UMLClassifier *c)
                 QString typeName = cleanName(o->name());
                 if (ri == rc)
                     php << m_endl << m_indentation << m_indentation << m_indentation <<  "implements ";
-                php << typeName << (--rc == 0 ? "" : ", ");
+                php << typeName << (--rc == 0 ? QString() : ", ");
             }
         }
     }
@@ -3252,7 +3252,7 @@ void Php5Writer::writeOperations(const QString & classname, UMLOperationList &op
             {
                 if (forceDoc() || !at->doc().isEmpty()) {
                     php <<m_indentation << " * @param " + at->getTypeName() + ' ' + cleanName(at->name());
-                    php << ' ' + formatDoc(at->doc(),"") << m_endl;
+                    php << ' ' + formatDoc(at->doc(), QString()) << m_endl;
                 }
             }//end for : write parameter documentation
             QString str = op->getTypeName();
@@ -3301,9 +3301,9 @@ void Php5Writer::writeOperations(const QString & classname, UMLOperationList &op
         foreach (UMLAttribute* at, atl) {
             php << " $" << cleanName(at->name())
             << (!(at->getInitialValue().isEmpty()) ?
-                (QString(" = ")+at->getInitialValue()) :
+                (QString(" = ") + at->getInitialValue()) :
                 QString())
-            << ((j < i-1)?", ":"");
+            << ((j < i-1) ? ", " : QString());
             j++;
         }
         php << ")";

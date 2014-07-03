@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2013                                               *
+ *   copyright (C) 2008-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -64,7 +64,7 @@ void DCodeAccessorMethod::updateContent()
     DCodeClassField * dfield = dynamic_cast<DCodeClassField*>(parentField);
     QString fieldName = dfield->getFieldName();
 
-    QString text = "";
+    QString text;
     switch(getType()) {
     case CodeAccessorMethod::ADD:
         {
@@ -148,10 +148,10 @@ void DCodeAccessorMethod::updateMethodDeclaration()
     }
 
     // some variables we will need to populate
-    QString headerText = "";
-    QString methodReturnType = "";
-    QString methodName = "";
-    QString methodParams = "";
+    QString headerText;
+    QString methodReturnType;
+    QString methodName;
+    QString methodParams;
 
     switch(getType()) {
     case CodeAccessorMethod::ADD:

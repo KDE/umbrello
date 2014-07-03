@@ -460,7 +460,7 @@ void RubyClassifierCodeDocument::updateContent()
 
     // get/create the method codeblock
     // public methods
-    HierarchicalCodeBlock * pubMethodsBlock = publicBlock->getHierarchicalCodeBlock("pubMethodsBlock", "", 1);
+    HierarchicalCodeBlock * pubMethodsBlock = publicBlock->getHierarchicalCodeBlock("pubMethodsBlock", QString(), 1);
     CodeComment * pubMethodsComment = pubMethodsBlock->getComment();
     bool forceDoc = pol->getCodeVerboseDocumentComments();
     // set conditions for showing this comment
@@ -470,7 +470,7 @@ void RubyClassifierCodeDocument::updateContent()
         pubMethodsComment->setWriteOutText(true);
 
     // protected methods
-    HierarchicalCodeBlock * protMethodsBlock = protectedBlock->getHierarchicalCodeBlock("protMethodsBlock", "", 1);
+    HierarchicalCodeBlock * protMethodsBlock = protectedBlock->getHierarchicalCodeBlock("protMethodsBlock", QString(), 1);
     CodeComment * protMethodsComment = protMethodsBlock->getComment();
     // set conditions for showing this comment
     if (!forceDoc && !hasClassFields() && !hasOperationMethods)
@@ -479,7 +479,7 @@ void RubyClassifierCodeDocument::updateContent()
         protMethodsComment->setWriteOutText(true);
 
     // private methods
-    HierarchicalCodeBlock * privMethodsBlock = privateBlock->getHierarchicalCodeBlock("privMethodsBlock", "", 1);
+    HierarchicalCodeBlock * privMethodsBlock = privateBlock->getHierarchicalCodeBlock("privMethodsBlock", QString(), 1);
     CodeComment * privMethodsComment = privMethodsBlock->getComment();
     // set conditions for showing this comment
     if (!forceDoc && !hasClassFields() && !hasOperationMethods)
@@ -550,18 +550,18 @@ void RubyClassifierCodeDocument::updateContent()
 
     // now, 2 sub-sub sections in accessor block
     // add/update accessor methods for attributes
-    HierarchicalCodeBlock * pubStaticAccessors = pubAccessorBlock->getHierarchicalCodeBlock("pubStaticAccessorMethods", "", 1);
-    HierarchicalCodeBlock * pubRegularAccessors = pubAccessorBlock->getHierarchicalCodeBlock("pubRegularAccessorMethods", "", 1);
+    HierarchicalCodeBlock * pubStaticAccessors = pubAccessorBlock->getHierarchicalCodeBlock("pubStaticAccessorMethods", QString(), 1);
+    HierarchicalCodeBlock * pubRegularAccessors = pubAccessorBlock->getHierarchicalCodeBlock("pubRegularAccessorMethods", QString(), 1);
     pubStaticAccessors->getComment()->setWriteOutText(false); // never write block comment
     pubRegularAccessors->getComment()->setWriteOutText(false); // never write block comment
 
-    HierarchicalCodeBlock * protStaticAccessors = protAccessorBlock->getHierarchicalCodeBlock("protStaticAccessorMethods", "", 1);
-    HierarchicalCodeBlock * protRegularAccessors = protAccessorBlock->getHierarchicalCodeBlock("protRegularAccessorMethods", "", 1);
+    HierarchicalCodeBlock * protStaticAccessors = protAccessorBlock->getHierarchicalCodeBlock("protStaticAccessorMethods", QString(), 1);
+    HierarchicalCodeBlock * protRegularAccessors = protAccessorBlock->getHierarchicalCodeBlock("protRegularAccessorMethods", QString(), 1);
     protStaticAccessors->getComment()->setWriteOutText(false); // never write block comment
     protRegularAccessors->getComment()->setWriteOutText(false); // never write block comment
 
-    HierarchicalCodeBlock * privStaticAccessors = privAccessorBlock->getHierarchicalCodeBlock("privStaticAccessorMethods", "", 1);
-    HierarchicalCodeBlock * privRegularAccessors = privAccessorBlock->getHierarchicalCodeBlock("privRegularAccessorMethods", "", 1);
+    HierarchicalCodeBlock * privStaticAccessors = privAccessorBlock->getHierarchicalCodeBlock("privStaticAccessorMethods", QString(), 1);
+    HierarchicalCodeBlock * privRegularAccessors = privAccessorBlock->getHierarchicalCodeBlock("privRegularAccessorMethods", QString(), 1);
     privStaticAccessors->getComment()->setWriteOutText(false); // never write block comment
     privRegularAccessors->getComment()->setWriteOutText(false); // never write block comment
     // now add in accessors as appropriate

@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008                                                    *
+ *   copyright (C) 2008-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -25,7 +25,7 @@ public:
     /**
      * Empty Constructor
      */
-    explicit DClassDeclarationBlock (DClassifierCodeDocument * parentDoc, const QString &start = "", const QString &endText = "}", const QString &comment = "");
+    explicit DClassDeclarationBlock (DClassifierCodeDocument * parentDoc, const QString &start = QString(), const QString &endText = "}", const QString &comment = QString());
 
     /**
      * Empty Destructor

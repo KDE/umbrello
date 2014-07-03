@@ -214,9 +214,9 @@ void DWriter::writeClass(UMLClassifier *c)
     // write comment for section IF needed
     if (forceDoc() || hasAccessorMethods)
     {
-        writeComment("", m_indentation, d);
+        writeComment(QString(), m_indentation, d);
         writeComment("Fields", m_indentation, d);
-        writeComment("", m_indentation, d);
+        writeComment(QString(), m_indentation, d);
         writeBlankLine(d);
     }
 
@@ -238,9 +238,9 @@ void DWriter::writeClass(UMLClassifier *c)
 
     // write comment for sub-section IF needed
     if (forceDoc() || hasAccessorMethods) {
-        writeComment("", m_indentation, d);
+        writeComment(QString(), m_indentation, d);
         writeComment("Accessors", m_indentation, d);
-        writeComment("", m_indentation, d);
+        writeComment(QString(), m_indentation, d);
         writeBlankLine(d);
     }
 
@@ -265,9 +265,9 @@ void DWriter::writeClass(UMLClassifier *c)
 
     // write comment for sub-section IF needed
     if (forceDoc() || hasOperationMethods) {
-        writeComment("", m_indentation, d);
+        writeComment(QString(), m_indentation, d);
         writeComment("Other methods", m_indentation, d);
-        writeComment("", m_indentation, d);
+        writeComment(QString(), m_indentation, d);
         writeBlankLine(d);
     }
 
@@ -283,7 +283,7 @@ void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d)
 {
     // class documentation
     if (!c->doc().isEmpty()) {
-        writeDocumentation("", c->doc(), "", "", d);
+        writeDocumentation(QString(), c->doc(), QString(), QString(), d);
     }
 
     /*
@@ -622,7 +622,7 @@ void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QStri
     // ONLY IF changeability is NOT Frozen
     if (changeType != Uml::Changeability::Frozen) {
         writeDocumentation("Adds a " + fieldNameUP + " to the list of " +
-                           fieldName + '.', description, "", m_indentation, d);
+                           fieldName + '.', description, QString(), m_indentation, d);
 
         d << m_indentation << "void add" << fieldNameUC << "(";
         d << fieldClassName << " new" << fieldNameUC << ") {";
@@ -633,7 +633,7 @@ void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QStri
     // ONLY IF changeability is Changeable
     if (changeType == Uml::Changeability::Changeable) {
         writeDocumentation("Removes a " + fieldNameUP + " from the list of " +
-                           fieldName + '.', description, "", m_indentation, d);
+                           fieldName + '.', description, QString(), m_indentation, d);
 
         d << m_indentation << "void remove" << fieldNameUC << "(";
         d << fieldClassName << " " << fieldNameUP << ") {" << startline;
@@ -694,9 +694,9 @@ void DWriter::writeConstructor(UMLClassifier *c, QTextStream &d)
     if (forceDoc())
     {
         d<<startline;
-        writeComment("", m_indentation, d);
+        writeComment(QString(), m_indentation, d);
         writeComment("Constructors", m_indentation, d);
-        writeComment("", m_indentation, d);
+        writeComment(QString(), m_indentation, d);
         writeBlankLine(d);
     }
 
@@ -886,7 +886,7 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d)
 
     // generate method decl for each operation given
     foreach (UMLOperation* op, oplist) {
-        QString doc = "";
+        QString doc;
         // write documentation
 
         QString methodReturnType = fixTypeName(op->getTypeName());
@@ -896,7 +896,7 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d)
             doc += "@return " + methodReturnType + m_endl;
         }
 
-        str = ""; // reset for next method
+        str = QString(); // reset for next method
         if (op->isAbstract() && !isInterface) str += "abstract ";
         if (op->isStatic()) str += "static ";
 
@@ -913,7 +913,7 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d)
                    (!(at->getInitialValue().isEmpty()) ?
                     (QString(" = ")+at->getInitialValue()) :
                     QString())
-                   + ((j < i-1)?", ":"");
+                   + ((j < i-1) ? ", " : QString());
             doc += "@param " + atName+' '+at->doc() + m_endl;
         }
         doc = doc.remove(doc.size() - 1, 1);  // remove last endl of comment
@@ -935,7 +935,7 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d)
         }
 
         // write it out
-        writeDocumentation("", op->doc(), doc, m_indentation, d);
+        writeDocumentation(QString(), op->doc(), doc, m_indentation, d);
         d << m_indentation << str << m_endl << m_endl;
     }
 }

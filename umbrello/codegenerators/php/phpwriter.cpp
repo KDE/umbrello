@@ -3057,7 +3057,7 @@ void PhpWriter::writeClass(UMLClassifier *c)
         << "  Inherit from it instead and create only objects from the derived classes" << m_endl
         << "*****************************************************************************/" << m_endl << m_endl;
 
-    php << "class " << classname << (superclasses.count() > 0 ? " extends ":"");
+    php << "class " << classname << (superclasses.count() > 0 ? " extends " : QString());
     foreach (UMLClassifier *obj, superclasses) {
         php << cleanName(obj->name());
     }
@@ -3212,7 +3212,7 @@ void PhpWriter::writeOperations(const QString& classname,
             {
                 if (forceDoc() || !at->doc().isEmpty()) {
                     php <<m_indentation << " * @param " + at->getTypeName() + " " + cleanName(at->name());
-                    php << " " + formatDoc(at->doc(),"");
+                    php << " " + formatDoc(at->doc(), QString());
                 }
             }//end for : write parameter documentation
             php << m_indentation << " * @return " << op->getTypeName() << m_endl;
@@ -3241,9 +3241,9 @@ void PhpWriter::writeOperations(const QString& classname,
         foreach (UMLAttribute* at, atl) {
             php << " $" << cleanName(at->name())
             << (!(at->getInitialValue().isEmpty()) ?
-                (QString(" = ")+at->getInitialValue()) :
+                (QString(" = ") + at->getInitialValue()) :
                 QString())
-            << ((j < i-1)?", ":"");
+            << ((j < i-1) ? ", " : QString());
             j++;
         }
         php <<")" << m_endl;

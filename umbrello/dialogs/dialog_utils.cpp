@@ -90,7 +90,7 @@ void insertStereotypesSorted(KComboBox *kcb, const QString& type)
 {
     UMLDoc *umldoc = UMLApp::app()->document();
     QStringList types;
-    types << "";  // an empty stereotype is the default
+    types << QString();  // an empty stereotype is the default
     foreach (UMLStereotype* ust, umldoc->stereotypes()) {
         types << ust->name();
     }

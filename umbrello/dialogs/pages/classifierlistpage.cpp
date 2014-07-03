@@ -263,9 +263,9 @@ void ClassifierListPage::enableWidgets(bool state)
     }
     //if disabled clear contents
     if (!state) {
-        m_docTE->setText("");
+        m_docTE->setText(QString());
         if (m_itemType == UMLObject::ot_Operation) {
-            m_pCodeTE->setPlainText("");
+            m_pCodeTE->setPlainText(QString());
         }
         m_pTopArrowB->setEnabled(false);
         m_pUpArrowB->setEnabled(false);

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2013                                               *
+ *   copyright (C) 2002-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -38,7 +38,7 @@ protected:
 
     bool apply();
 
-    void insertTypesSorted(const QString& type = "");
+    void insertTypesSorted(const QString& type = QString());
 
     void insertAttribute(const QString& type, int index = -1);
 

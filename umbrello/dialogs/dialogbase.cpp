@@ -80,7 +80,7 @@ QFrame* DialogBase::createPage(const QString& name, const QString& header, Icon_
         m_pageItem->setHeader(header);
         m_pageItem->setIcon(Icon_Utils::DesktopIcon(icon));
     } else
-        m_pageItem->setHeader("");
+        m_pageItem->setHeader(QString());
     addPage(m_pageItem);
     //page->setMinimumSize(310, 330);
     return page;

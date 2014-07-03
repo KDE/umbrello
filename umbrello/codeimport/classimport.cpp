@@ -118,5 +118,5 @@ void ClassImport::log(const QString& file, const QString& text)
  */
 void ClassImport::log(const QString& text)
 {
-    log("", text);
+    log(QString(), text);
 }

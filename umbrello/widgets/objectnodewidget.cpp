@@ -46,7 +46,7 @@ ObjectNodeWidget::ObjectNodeWidget(UMLScene * scene, ObjectNodeType objectNodeTy
   : UMLWidget(scene, WidgetBase::wt_ObjectNode, id)
 {
     setObjectNodeType(objectNodeType);
-    setState("");
+    setState(QString());
 }
 
 /**
@@ -308,7 +308,6 @@ void ObjectNodeWidget::askForObjectNodeType(UMLWidget* &targetWidget)
     QString type = KInputDialog::getItem (i18n("Select Object node type"),  i18n("Select the object node type"), list, current, false, &pressedOK, UMLApp::app());
 
     if (pressedOK) {
-       // QString type = result.join("");
         dynamic_cast<ObjectNodeWidget*>(targetWidget)->setObjectNodeType(type);
         if (type == "Data store")
             Dialog_Utils::askNameForWidget(targetWidget, i18n("Enter the name of the data store node"), i18n("Enter the name of the data store node"), i18n("data store name"));

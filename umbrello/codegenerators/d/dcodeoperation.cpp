@@ -97,7 +97,7 @@ void DCodeOperation::updateMethodDeclaration()
     // (h) function body
     if(isInterface) {
         startText += ';';
-        setEndMethodText("");
+        setEndMethodText(QString());
     } else {
         startText += " {";
         setEndMethodText("}");

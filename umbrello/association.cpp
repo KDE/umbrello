@@ -159,7 +159,7 @@ void UMLAssociation::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     if (m_AssocType == Uml::AssociationType::Generalization) {
         QDomElement assocElement = UMLObject::save("UML:Generalization", qDoc);
-        assocElement.setAttribute("discriminator", "");
+        assocElement.setAttribute("discriminator", QString());
         assocElement.setAttribute("child", Uml::ID::toString(getObjectId(RoleType::A)));
         assocElement.setAttribute("parent", Uml::ID::toString(getObjectId(RoleType::B)));
         qElement.appendChild(assocElement);
@@ -237,7 +237,7 @@ bool UMLAssociation::load(QDomElement & element)
             const QString fetch = (m_AssocType == Uml::AssociationType::Generalization ?
                                    r == RoleType::A ? "child" : "parent"
                        : r == RoleType::A ? "client" : "supplier");
-            QString roleIdStr = element.attribute(fetch, "");
+            QString roleIdStr = element.attribute(fetch);
             if (roleIdStr.isEmpty()) {
                 // Might be given as a child node instead - see below.
                 continue;
@@ -709,7 +709,7 @@ void UMLAssociation::init(Uml::AssociationType::Enum type, UMLObject *roleAObj, 
 {
     m_AssocType = type;
     m_BaseType = ot_Association;
-    m_Name = "";
+    m_Name = QString();
     m_bOldLoadMode = false;
     nrof_parent_widgets = -1;
     if (!UMLApp::app()->document()->loading()) {

@@ -69,9 +69,9 @@ protected:
 
     Uml::ParameterDirection::Enum getParmKind();
 
-    void insertTypesSorted(const QString& type = "");
+    void insertTypesSorted(const QString& type = QString());
 
-    void insertStereotypesSorted(const QString& type = "");
+    void insertStereotypesSorted(const QString& type = QString());
 
     bool validate();
 

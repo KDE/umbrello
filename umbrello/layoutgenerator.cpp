@@ -115,7 +115,7 @@ QString LayoutGenerator::currentDotPath()
     if (list.size() > 0) {
         QString dotPath = list.at(0).absoluteFilePath();
         QString exePath = QFile::exists(dotPath + "\\bin") ? dotPath + "\\bin" : dotPath;
-        return QFile::exists(exePath + "\\dot.exe") ? exePath : "";
+        return QFile::exists(exePath + "\\dot.exe") ? exePath : QString();
     }
 #endif
     return QString();

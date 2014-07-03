@@ -284,7 +284,7 @@ void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, cons
     QStringList result = KInputDialog::getItemList (dialogTitle, dialogPrompt, list, select, false, &pressedOK, UMLApp::app());
 
     if (pressedOK) {
-        QString type = result.join("");
+        QString type = result.join(QString());
         dynamic_cast<CombinedFragmentWidget*>(targetWidget)->setCombinedFragmentType(type);
         if (type == "Reference")
             Dialog_Utils::askNameForWidget(targetWidget, i18n("Enter the name of the diagram referenced"), i18n("Enter the name of the diagram referenced"), i18n("Diagram name"));

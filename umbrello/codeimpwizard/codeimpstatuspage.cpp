@@ -317,7 +317,7 @@ void CodeImpStatusPage::updateStatus(const QString& file, const QString& text)
  */
 void CodeImpStatusPage::loggerClear()
 {
-    ui_textEditLogger->setHtml("");
+    ui_textEditLogger->setHtml(QString());
 }
 
 /**

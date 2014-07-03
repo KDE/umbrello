@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2013                                               *
+ *   copyright (C) 2006-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -82,7 +82,7 @@ void RubyCodeAccessorMethod::updateContent()
     QString fieldName = rubyfield->getFieldName();
     QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
 
-    QString text = "";
+    QString text;
     switch(getType()) {
     case CodeAccessorMethod::ADD:
         {
@@ -169,15 +169,15 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
         }
 
     // some variables we will need to populate
-    QString headerText = "";
-    QString methodReturnType = "";
-    QString methodName = "";
-    QString methodParams = "";
+    QString headerText;
+    QString methodReturnType;
+    QString methodName;
+    QString methodParams;
 
     switch(getType()) {
     case CodeAccessorMethod::ADD:
         methodName = "add" + Codegen_Utils::capitalizeFirstLetter(fieldType);
-        methodReturnType = "";
+        methodReturnType = QString();
         methodParams = objectType+" value ";
         headerText = "Add an object of type "+objectType+" to the Array "+fieldName+endLine+description+endLine+"@return nil";
         setStartMethodText("def "+ methodName + '(' + methodParams + ')');
@@ -186,18 +186,18 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
     case CodeAccessorMethod::GET:
         headerText = "Get the value of " + fieldName + endLine + description;
         setStartMethodText(QString("attr_reader :") + fieldName);
-        setEndMethodText("");
+        setEndMethodText(QString());
         break;
     case CodeAccessorMethod::LIST:
         methodName = "get" + Codegen_Utils::capitalizeFirstLetter(fieldType)+"List";
-        methodReturnType = "";
+        methodReturnType = QString();
         headerText = "Get the list of "+fieldName+endLine+description+endLine+"_returns_ List of "+fieldName;
         setStartMethodText("def "+ methodName + '(' + methodParams + ')');
         setEndMethodText("end");
         break;
     case CodeAccessorMethod::REMOVE:
         methodName = "remove" + Codegen_Utils::capitalizeFirstLetter(fieldType);
-        methodReturnType = "";
+        methodReturnType = QString();
         methodParams = objectType+" value ";
         headerText = "Remove an object of type "+objectType+" from the List "+fieldName+endLine+description;
         setStartMethodText("def "+ methodName + '(' + methodParams + ')');
@@ -206,7 +206,7 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
     case CodeAccessorMethod::SET:
         headerText = "Set the value of " + fieldName + endLine + description;
         setStartMethodText(QString("attr_writer :") + fieldName);
-        setEndMethodText("");
+        setEndMethodText(QString());
         break;
     default:
         // do nothing..no idea what this is

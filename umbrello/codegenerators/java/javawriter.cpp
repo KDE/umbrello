@@ -185,9 +185,9 @@ void JavaWriter::writeClass(UMLClassifier *c)
     // write comment for section IF needed
     if (forceDoc() || hasAccessorMethods)
     {
-        writeComment("", m_indentation, java);
+        writeComment(QString(), m_indentation, java);
         writeComment("Fields", m_indentation, java);
-        writeComment("", m_indentation, java);
+        writeComment(QString(), m_indentation, java);
         writeBlankLine(java);
     }
 
@@ -211,9 +211,9 @@ void JavaWriter::writeClass(UMLClassifier *c)
     if (forceDoc() || hasAccessorMethods || hasOperationMethods)
     {
         java<<m_startline;
-        writeComment("", m_indentation, java);
+        writeComment(QString(), m_indentation, java);
         writeComment("Methods", m_indentation, java);
-        writeComment("", m_indentation, java);
+        writeComment(QString(), m_indentation, java);
         writeBlankLine(java);
         writeBlankLine(java);
     }
@@ -221,9 +221,9 @@ void JavaWriter::writeClass(UMLClassifier *c)
     // write comment for sub-section IF needed
     if (forceDoc() || hasAccessorMethods)
     {
-        writeComment("", m_indentation, java);
+        writeComment(QString(), m_indentation, java);
         writeComment("Accessor methods", m_indentation, java);
-        writeComment("", m_indentation, java);
+        writeComment(QString(), m_indentation, java);
         writeBlankLine(java);
     }
 
@@ -249,9 +249,9 @@ void JavaWriter::writeClass(UMLClassifier *c)
     // write comment for sub-section IF needed
     if (forceDoc() || hasOperationMethods)
     {
-        writeComment("", m_indentation, java);
+        writeComment(QString(), m_indentation, java);
         writeComment("Other methods", m_indentation, java);
-        writeComment("", m_indentation, java);
+        writeComment(QString(), m_indentation, java);
         writeBlankLine(java);
     }
     writeOperations(c, java);
@@ -275,15 +275,15 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
     if (forceDoc() || !c->doc().isEmpty())
     {
         if (m_isInterface)
-            writeDocumentation("Interface "+classname, c->doc(),"","", java);
+            writeDocumentation("Interface "+classname, c->doc(), QString(), QString(), java);
         else
-            writeDocumentation("Class "+classname, c->doc(),"","", java);
+            writeDocumentation("Class "+classname, c->doc(), QString(), QString(), java);
 
         writeBlankLine(java);
     }
 
     // Now write the actual class declaration
-    QString scope = ""; // = c->getVisibility().toString();
+    QString scope; // = c->getVisibility().toString();
     if (c->visibility() != Uml::Visibility::Public) {
         // We should emit a warning in here .. java doesn't like to allow
         // private/protected classes. The best we can do (I believe)
@@ -372,7 +372,7 @@ void JavaWriter::writeAttributeDecls(UMLAttributeList &atpub, UMLAttributeList &
 {
     foreach (UMLAttribute *at, atpub) {
         QString documentation = at->doc();
-        QString staticValue = at->isStatic() ? "static " : "";
+        QString staticValue = at->isStatic() ? "static " : QString();
         QString typeName = fixTypeName(at->getTypeName());
         QString initialValue = fixInitialStringDeclValue(at->getInitialValue(), typeName);
         if (!documentation.isEmpty())
@@ -384,7 +384,7 @@ void JavaWriter::writeAttributeDecls(UMLAttributeList &atpub, UMLAttributeList &
     foreach (UMLAttribute *at, atprot){
         QString documentation = at->doc();
         QString typeName = fixTypeName(at->getTypeName());
-        QString staticValue = at->isStatic() ? "static " : "";
+        QString staticValue = at->isStatic() ? "static " : QString();
         QString initialValue = fixInitialStringDeclValue(at->getInitialValue(), typeName);
         if (!documentation.isEmpty())
             writeComment(documentation, m_indentation, java, true);
@@ -395,7 +395,7 @@ void JavaWriter::writeAttributeDecls(UMLAttributeList &atpub, UMLAttributeList &
     foreach (UMLAttribute *at, atpriv) {
         QString documentation = at->doc();
         QString typeName = fixTypeName(at->getTypeName());
-        QString staticValue = at->isStatic() ? "static " : "";
+        QString staticValue = at->isStatic() ? "static " : QString();
         QString initialValue = fixInitialStringDeclValue(at->getInitialValue(), typeName);
         if (!documentation.isEmpty())
             writeComment(documentation, m_indentation, java, true);
@@ -641,7 +641,8 @@ void JavaWriter::writeVectorAttributeAccessorMethods(QString fieldClassName, QSt
     // ONLY IF changeability is NOT Frozen
     if (changeType != Uml::Changeability::Frozen)
     {
-        writeDocumentation("Add a "+fieldName+" object to the "+fieldVarName+" List", description,"", m_indentation, java);
+        writeDocumentation("Add a "+fieldName+" object to the "+fieldVarName+" List",
+                           description, QString(), m_indentation, java);
         java<<m_startline<<strVis<<" void add"<<fieldName<<" ("<<fieldClassName<<" new_object) {";
         java<<m_startline<<m_indentation<<fieldVarName<<".add(new_object);";
         java<<m_startline<<"}"<<m_endl;
@@ -650,7 +651,8 @@ void JavaWriter::writeVectorAttributeAccessorMethods(QString fieldClassName, QSt
     // ONLY IF changeability is Changeable
     if (changeType == Uml::Changeability::Changeable)
     {
-        writeDocumentation("Remove a "+fieldName+" object from "+fieldVarName+" List", description,"", m_indentation, java);
+        writeDocumentation("Remove a "+fieldName+" object from "+fieldVarName+" List",
+                           description, QString(), m_indentation, java);
         java<<m_startline<<strVis<<" void remove"<<fieldName<<" ("<<fieldClassName<<" new_object)";
         java<<m_startline<<"{";
         java<<m_startline<<m_indentation<<fieldVarName<<".remove(new_object);";
@@ -700,9 +702,9 @@ void JavaWriter::writeConstructor(UMLClassifier *c, QTextStream &java)
 {
     if (forceDoc()) {
         java<<m_startline;
-        writeComment("", m_indentation, java);
+        writeComment(QString(), m_indentation, java);
         writeComment("Constructors", m_indentation, java);
-        writeComment("", m_indentation, java);
+        writeComment(QString(), m_indentation, java);
         writeBlankLine(java);
     }
 
@@ -921,17 +923,17 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java)
     // generate method decl for each operation given
     foreach(UMLOperation* op,  oplist){
 
-        QString doc = "";
+        QString doc;
         // write documentation
 
         QString methodReturnType = fixTypeName(op->getTypeName());
         if (methodReturnType != "void")
             doc += "@return       " + methodReturnType + '\n';
 
-        str = ""; // reset for next method
-        str += ((op->isAbstract() && !m_isInterface) ? "abstract ":"");
+        str = QString(); // reset for next method
+        str += ((op->isAbstract() && !m_isInterface) ? "abstract " : QString());
         str += Uml::Visibility::toString(op->visibility()) + ' ';
-        str += (op->isStatic() ? "static ":"");
+        str += (op->isStatic() ? "static " : QString());
         str += methodReturnType + ' ' + cleanName(op->name()) + '(';
 
         atl = op->getParmList();
@@ -944,7 +946,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java)
                    (!(at->getInitialValue().isEmpty()) ?
                     (QString(" = ")+at->getInitialValue()) :
                     QString())
-                   + ((j < i-1)?", ":"");
+                   + ((j < i-1)?", " : QString());
             doc += "@param        " + atName + ' ' + at->doc() + '\n';
             j++;
         }
@@ -967,7 +969,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java)
         }
 
         // write it out
-        writeDocumentation("", op->doc(), doc, m_indentation, java);
+        writeDocumentation(QString(), op->doc(), doc, m_indentation, java);
         java << m_startline << str;
     }
 }

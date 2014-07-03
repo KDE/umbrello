@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2013                                               *
+ *   copyright (C) 2004-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -22,7 +22,7 @@ XMLCodeComment::~XMLCodeComment ()
 
 QString XMLCodeComment::toString () const
 {
-    QString output = "";
+    QString output;
 
     // simple output method
     if (getWriteOutText())

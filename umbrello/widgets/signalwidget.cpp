@@ -44,7 +44,7 @@ SignalWidget::SignalWidget(UMLScene *scene, SignalType signalType, Uml::ID::Type
     m_signalType = signalType;
     m_pName = NULL;
     if (signalType == SignalWidget::Time) {
-        m_pName = new FloatingTextWidget(scene, Uml::TextRole::Floating,"");
+        m_pName = new FloatingTextWidget(scene, Uml::TextRole::Floating, QString());
         scene->setupNewWidget(m_pName);
         m_pName->setX(0);
         m_pName->setY(0);

@@ -218,7 +218,7 @@ void ParameterPropertiesDialog::insertTypesSorted(const QString& type)
 void ParameterPropertiesDialog::insertStereotypesSorted(const QString& type)
 {
     QStringList types;
-    types << ""; // an empty stereotype is the default
+    types << QString(); // an empty stereotype is the default
     foreach (UMLStereotype* currentSt, m_pUmldoc->stereotypes()) {
         types << currentSt->name();
     }
@@ -319,7 +319,7 @@ void ParameterPropertiesDialog::slotOk()
             // Nothing found: Create a new type on the fly.
             // @todo There should be an extra dialog to decide whether to
             // create a datatype or a class. For now, we create a class.
-            uDebug() << "" << typeName << " not found."
+            uDebug() << typeName << " not found."
                 << " Creating a new class for the type.";
             UMLObject *newObj = Object_Factory::createUMLObject(UMLObject::ot_Class, typeName);
             m_pAtt->setType(newObj);

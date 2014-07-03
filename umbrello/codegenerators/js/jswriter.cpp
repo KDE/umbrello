@@ -266,7 +266,7 @@ void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
         foreach (UMLAttribute* at, atl) {
             js << cleanName(at->name())
             << (!(at->getInitialValue().isEmpty()) ? (QString(" = ")+at->getInitialValue()) : QString())
-            << ((j < i-1)?", ":"");
+            << ((j < i-1) ? ", " : QString());
             j++;
         }
         js << ")" << m_endl << "{" << m_endl;

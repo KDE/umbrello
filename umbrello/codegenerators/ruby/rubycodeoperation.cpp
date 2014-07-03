@@ -61,7 +61,7 @@ void RubyCodeOperation::updateMethodDeclaration()
     if (methodName.startsWith('~')
          || QRegExp("operator\\s*(=|--|\\+\\+|!=)$").exactMatch(methodName))
     {
-        getComment()->setText("");
+        getComment()->setText(QString());
         return;
     }
 
@@ -100,7 +100,7 @@ void RubyCodeOperation::updateMethodDeclaration()
         startText = "def "+ methodName + '(' + paramStr +')';
     }
 
-    startText += "";
+    // startText += "";  ???
     setEndMethodText("end");
 
     setStartMethodText(startText);

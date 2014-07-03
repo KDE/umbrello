@@ -82,7 +82,7 @@ void CppTree2Uml::parseNamespace(NamespaceAST* ast)
     }
     uDebug() << nsName;
     if (m_thread) {
-        m_thread->emitMessageToLog("", "namespace " + nsName);
+        m_thread->emitMessageToLog(QString(), "namespace " + nsName);
     }
     UMLObject * o = Import_Utils::createUMLObject(UMLObject::ot_Package, nsName,
                                                   m_currentNamespace[m_nsCnt],
@@ -151,7 +151,7 @@ void CppTree2Uml::parseTypedef(TypedefAST* ast)
             } else {
                 Import_Utils::createUMLObject(UMLObject::ot_Class, id,
                                                m_currentNamespace[m_nsCnt],
-                                               "" /* doc */,
+                                               QString() /* doc */,
                                                "typedef" /* stereotype */);
             }
         }
@@ -269,7 +269,7 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
 
     QString id = d->declaratorId()->unqualifiedName()->text().trimmed();
     if (m_thread) {
-        m_thread->emitMessageToLog("", "method " + id);
+        m_thread->emitMessageToLog(QString(), "method " + id);
     }
     uDebug() << id;
 
@@ -289,7 +289,7 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
     parseFunctionArguments(d, m);
     Import_Utils::insertMethod(c, m, m_currentAccess, returnType,
                               isStatic, false /*isAbstract*/, isFriend, isConstructor, m_comment);
-    m_comment = "";
+    m_comment = QString();
 
 /* For reference, Kdevelop does some more:
     method->setFileName(m_fileName);
@@ -323,7 +323,7 @@ void CppTree2Uml::parseClassSpecifier(ClassSpecifierAST* ast)
     }
     uDebug() << "name=" << className;
     if (m_thread) {
-        m_thread->emitMessageToLog("", "class " + className);
+        m_thread->emitMessageToLog(QString(), "class " + className);
     }
     if(!scopeOfName(ast->name(), QStringList()).isEmpty()){
         uDebug() << "skip private class declarations";
@@ -394,7 +394,7 @@ void CppTree2Uml::parseElaboratedTypeSpecifier(ElaboratedTypeSpecifierAST* typeS
     QString text = typeSpec->text();
     uDebug() << "forward declaration of " << text;
     if (m_thread) {
-        m_thread->emitMessageToLog("", "forward declaration of " + text);
+        m_thread->emitMessageToLog(QString(), "forward declaration of " + text);
     }
     text.remove(QRegExp("^class\\s+"));
 #if 0
@@ -462,7 +462,7 @@ void CppTree2Uml::parseDeclaration2(GroupAST* funSpec, GroupAST* storageSpec,
 
     Import_Utils::insertAttribute(c, m_currentAccess, id, typeName,
                                   m_comment, isStatic);
-    m_comment = "";
+    m_comment = QString();
 }
 
 void CppTree2Uml::parseAccessDeclaration(AccessDeclarationAST * access)
@@ -524,7 +524,7 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
     parseFunctionArguments(d, m);
     Import_Utils::insertMethod(c, m, m_currentAccess, returnType,
                                isStatic, isPure, isFriend, isConstructor, m_comment);
-    m_comment = "";
+    m_comment = QString();
 }
 
 void CppTree2Uml::parseFunctionArguments(DeclaratorAST* declarator,

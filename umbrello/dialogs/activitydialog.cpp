@@ -209,7 +209,7 @@ void ActivityDialog::setupGeneralPage()
 
     if (type != ActivityWidget::Normal && type != ActivityWidget::Invok && type != ActivityWidget::Param) {
         m_GenPageWidgets.nameLE->setEnabled(false);
-        m_GenPageWidgets.nameLE->setText("");
+        m_GenPageWidgets.nameLE->setText(QString());
     } else
         m_GenPageWidgets.nameLE->setText(m_pActivityWidget->name());
 }
