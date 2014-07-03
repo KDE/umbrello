@@ -936,6 +936,9 @@ void UMLApp::saveOptions()
     m_toolsbar->saveSettings(workBarConfig);
     fileOpenRecent->saveEntries(m_config->group("Recent Files"));
 
+    KConfigGroup shortcutConfig(m_config, "Shortcuts");
+    actionCollection()->writeSettings(&shortcutConfig, false);
+
     UmbrelloSettings::setGeometry(size());
 
     Settings::OptionState& optionState = Settings::optionState();
@@ -1063,6 +1066,10 @@ void UMLApp::readOptions()
         size = QApplication::desktop()->screenGeometry().size();
     resize(size);
     enableUndo(Settings::optionState().generalState.undo);
+
+    KConfigGroup shortCutConfig(m_config, "Shortcuts");
+    actionCollection()->readSettings(&shortCutConfig);
+    m_toolsbar->setupActions();
 }
 
 /**

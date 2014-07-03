@@ -20,9 +20,10 @@
 
 // kde include files
 #include <klocale.h>
+#include <KAction>
+#include <KActionCollection>
 
 // qt include files
-#include <QAction>
 #include <QToolButton>
 
 /**
@@ -64,9 +65,8 @@ WorkToolBar::~WorkToolBar()
  */
 QAction* WorkToolBar::insertHotBtn(ToolBar_Buttons tbb)
 {
-    QAction* action = addAction(QIcon(m_ToolButtons[tbb].Symbol), m_ToolButtons[tbb].Label,
-                                /*receiver*/this, /*member*/m_ToolButtons[tbb].Slot);
-    m_actions[tbb] = action;
+    KAction *action = m_actions[tbb];
+    addAction(action);
     action->setChecked(true);
     return action;
 }
@@ -243,7 +243,7 @@ void WorkToolBar::buttonChanged(int b)
  */
 QCursor WorkToolBar::currentCursor()
 {
-    return m_ToolButtons[m_CurrentButtonID].Cursor;
+    return m_cursors[m_CurrentButtonID];
 }
 
 /**
@@ -305,7 +305,7 @@ void WorkToolBar::loadPixmaps()
         const Icon_Utils::IconType icon;
         const char *slotName;
     } buttonInfo[] = {
-
+        { tbb_Arrow,                    i18nc("selection arrow", "Select"), Icon_Utils::it_Arrow,                SLOT(slotArrow()) },
         { tbb_Object,                   i18n("Object"),                  Icon_Utils::it_Object,                  SLOT(slotObject()) },
         { tbb_Seq_Message_Synchronous,  i18n("Synchronous Message"),     Icon_Utils::it_Message_Sync,            SLOT(slotSeq_Message_Synchronous()) },
         { tbb_Seq_Message_Asynchronous, i18n("Asynchronous Message"),    Icon_Utils::it_Message_Async,           SLOT(slotSeq_Message_Asynchronous()) },
@@ -372,26 +372,20 @@ void WorkToolBar::loadPixmaps()
     };
 
     const size_t n_buttonInfos = sizeof(buttonInfo) / sizeof(ButtonInfo);
-
-    /*    m_ToolButtons.insert(tbb_Undefined,
-                             ToolButton(i18n("UNDEFINED"),
-                                        Icon_Utils::BarIcon(Icon_Utils::Arrow),
-                                        QCursor(),
-                                        SLOT(slotArrow())));    */
-    m_ToolButtons.insert(tbb_Arrow,
-                         ToolButton(i18nc("selection arrow", "Select"),
-                                    Icon_Utils::BarIcon(Icon_Utils::it_Arrow),
-                                    QCursor(),
-                                    SLOT(slotArrow())));
+    KActionCollection *collection = UMLApp::app()->actionCollection();
 
     for (uint i = 0; i < n_buttonInfos; ++i) {
         const ButtonInfo& info = buttonInfo[i];
-        m_ToolButtons.insert(info.tbb,
-                             ToolButton(info.btnName,
-                                        Icon_Utils::BarIcon(info.icon),
-                                        Icon_Utils::Cursor(info.icon),
-                                        info.slotName));
+        QString key = QLatin1String(ENUM_NAME(WorkToolBar, ToolBar_Buttons, info.tbb));
+        KAction *action = collection->addAction(key, this, info.slotName);
+        action->setIcon(KIcon(Icon_Utils::BarIcon(info.icon)));
+        action->setText(info.btnName);
+        m_actions[info.tbb] = action;
+        m_cursors[info.tbb] = Icon_Utils::Cursor(info.icon);
     }
+    // umbrello code use qt provided arrow cursor
+    m_cursors[tbb_Arrow] = defaultCursor();
+    setupActions();
 }
 
 /**
@@ -460,5 +454,19 @@ void WorkToolBar::slotPrePostCondition()         { buttonChanged(tbb_PrePostCond
 void WorkToolBar::slotCategory()                 { buttonChanged(tbb_Category);                 }
 void WorkToolBar::slotCategory2Parent()          { buttonChanged(tbb_Category2Parent);          }
 void WorkToolBar::slotChild2Category()           { buttonChanged(tbb_Child2Category);           }
+
+/**
+ * Setup actions after reading shortcuts from settings
+ */
+void WorkToolBar::setupActions()
+{
+    foreach(QAction *action, m_actions) {
+        if (!action->shortcut().isEmpty()) {
+            action->setToolTip(action->text() + "\t[" + action->shortcut().toString() + "]");
+        }
+        else
+            action->setToolTip(action->text());
+    }
+}
 
 #include "worktoolbar.moc"

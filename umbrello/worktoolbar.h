@@ -20,7 +20,7 @@
 #include <QPixmap>
 
 class QMainWindow;
-class QAction;
+class KAction;
 
 /**
  * This is the toolbar that is displayed on the right-hand side of the program
@@ -48,6 +48,8 @@ public:
 
     void setOldTool();
     void setDefaultTool();
+
+    void setupActions();
 
     /**
      * Enumeration of all available toolbar buttons.
@@ -121,29 +123,13 @@ public:
 private:
 
     typedef QMap<Uml::DiagramType::Enum, ToolBar_Buttons> OldToolMap;
-
-    /**
-     * This inner class holds label, symbol, and cursor of a tool button.
-     */
-    class ToolButton
-    {
-    public:
-        QString Label;
-        QPixmap Symbol;
-        QCursor Cursor;
-        const char* Slot;
-        ToolButton() : Label(QString("?")), Symbol(QPixmap()), Cursor(QCursor()), Slot("") { }
-        ToolButton(const QString& lbl, const QPixmap& smb, const QCursor& cur, const char* slot) :
-                Label(lbl), Symbol(smb), Cursor(cur), Slot(slot) { }
-    };
-
-    typedef QMap<ToolBar_Buttons, ToolButton> ToolButtonMap;
-    typedef QMap<ToolBar_Buttons, QAction*> ActionsMap;
+    typedef QMap<ToolBar_Buttons, QCursor> CursorMap;
+    typedef QMap<ToolBar_Buttons, KAction*> ActionsMap;
 
     ToolBar_Buttons          m_CurrentButtonID;
     OldToolMap               m_map;
     Uml::DiagramType::Enum   m_Type;
-    ToolButtonMap            m_ToolButtons;
+    CursorMap                m_cursors;
     ActionsMap               m_actions;
 
     void loadPixmaps();
