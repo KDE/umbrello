@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2013                                               *
+ *   copyright (C) 2008-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -912,7 +912,7 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d)
             str += typeName + ' ' + atName +
                    (!(at->getInitialValue().isEmpty()) ?
                     (QString(" = ")+at->getInitialValue()) :
-                    QString(""))
+                    QString())
                    + ((j < i-1)?", ":"");
             doc += "@param " + atName+' '+at->doc() + m_endl;
         }

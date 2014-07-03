@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2013                                               *
+ *   copyright (C) 2008-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -162,7 +162,7 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     if(name == "codeaccessormethod" ||
                             name == "ccfdeclarationcodeblock"
                      ) {
-                        QString acctag = element.attribute("tag","");
+                        QString acctag = element.attribute("tag");
                         // search for our method in the
                         TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
                         if(!tb || !addTextBlock(tb))

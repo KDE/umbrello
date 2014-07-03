@@ -467,7 +467,7 @@ bool UMLFolder::load(QDomElement& element)
             continue;
         } else if (UMLDoc::tagEq(type, "packagedElement") ||
                    UMLDoc::tagEq(type, "ownedElement")) {
-            type = tempElement.attribute("xmi:type", "");
+            type = tempElement.attribute("xmi:type");
         } else if (type == "XMI.extension") {
             for (QDomNode xtnode = node.firstChild(); !xtnode.isNull();
                                               xtnode = xtnode.nextSibling()) {
@@ -479,7 +479,7 @@ bool UMLFolder::load(QDomElement& element)
                         totalSuccess = false;
                 } else if (xtag == "external_file") {
                     const QString rootDir(umldoc->url().directory());
-                    QString fileName = el.attribute("name", "");
+                    QString fileName = el.attribute("name");
                     const QString path(rootDir + '/' + fileName);
                     if (loadFolderFile(path))
                         m_folderFile = fileName;
@@ -494,7 +494,7 @@ bool UMLFolder::load(QDomElement& element)
         // it already exists.
         UMLFolder *logicalView = umldoc->rootFolder(Uml::ModelType::Logical);
         if (this == logicalView && UMLDoc::tagEq(type, "Package")) {
-            QString thisName = tempElement.attribute("name", "");
+            QString thisName = tempElement.attribute("name");
             if (thisName == "Datatypes") {
                 UMLFolder *datatypeFolder = umldoc->datatypeFolder();
                 if (!datatypeFolder->loadFromXMI(tempElement))
@@ -513,7 +513,7 @@ bool UMLFolder::load(QDomElement& element)
             }
         }
         if (pObject == 0) {
-            QString stereoID = tempElement.attribute("stereotype", "");
+            QString stereoID = tempElement.attribute("stereotype");
             pObject = Object_Factory::makeObjectFromXMI(type, stereoID);
             if (!pObject) {
                 uWarning() << "Unknown type of umlobject to create: " << type;

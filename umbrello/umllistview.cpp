@@ -2327,7 +2327,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
         }
         QString id = domElement.attribute("id", "-1");
         QString type = domElement.attribute("type", "-1");
-        QString label = domElement.attribute("label", "");
+        QString label = domElement.attribute("label");
         QString open = domElement.attribute("open", "1");
         if (type == "-1")
             return false;

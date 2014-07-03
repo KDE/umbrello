@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2013                                               *
+ *   copyright (C) 2004-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -386,9 +386,9 @@ void CodeDocument::setAttributesOnNode (QDomDocument & doc, QDomElement & docEle
 void CodeDocument::setAttributesFromNode (QDomElement & root)
 {
     // now set local attributes
-    setFileName(root.attribute("fileName",""));
-    setFileExtension(root.attribute("fileExt",""));
-    QString pkgStr = root.attribute("package","");
+    setFileName(root.attribute("fileName"));
+    setFileExtension(root.attribute("fileExt"));
+    QString pkgStr = root.attribute("package");
     if (!pkgStr.isEmpty() && pkgStr != "-1") {
         UMLDoc *umldoc = UMLApp::app()->document();
         if (pkgStr.contains(QRegExp("\\D"))) {
@@ -403,7 +403,7 @@ void CodeDocument::setAttributesFromNode (QDomElement & root)
         }
     }
     setWriteOutCode(root.attribute("writeOutCode","true") == "true" ? true : false);
-    setID(root.attribute("id",""));
+    setID(root.attribute("id"));
 
     // load comment now
     // by looking for our particular child element

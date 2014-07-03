@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2013                                               *
+ *   copyright (C) 2004-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -237,7 +237,7 @@ void CodeParameter::setAttributesFromNode(QDomElement & root)
             << Uml::ID::toString(id) << " not found, corrupt save file?";
 
     // other attribs now
-    setInitialValue(root.attribute("initialValue",""));
+    setInitialValue(root.attribute("initialValue"));
 
     // load comment now
     // by looking for our particular child element

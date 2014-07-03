@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003       Alexander Blum  <blum@kewbee.de>             *
- *   copyright (C) 2004-2013                                               *
+ *   copyright (C) 2004-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -265,7 +265,7 @@ void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
         int j=0;
         foreach (UMLAttribute* at, atl) {
             js << cleanName(at->name())
-            << (!(at->getInitialValue().isEmpty()) ? (QString(" = ")+at->getInitialValue()) : QString(""))
+            << (!(at->getInitialValue().isEmpty()) ? (QString(" = ")+at->getInitialValue()) : QString())
             << ((j < i-1)?", ":"");
             j++;
         }

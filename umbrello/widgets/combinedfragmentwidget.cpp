@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2013                                               *
+ *   copyright (C) 2002-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -325,9 +325,9 @@ bool CombinedFragmentWidget::loadFromXMI(QDomElement & qElement)
 {
     if(!UMLWidget::loadFromXMI(qElement))
         return false;
-    m_Text = qElement.attribute("combinedFragmentname", "");
-    m_Doc = qElement.attribute("documentation", "");
-    QString type = qElement.attribute("CombinedFragmenttype", "");
+    m_Text = qElement.attribute("combinedFragmentname");
+    m_Doc = qElement.attribute("documentation");
+    QString type = qElement.attribute("CombinedFragmenttype");
 
     //now load child elements
     QDomNode node = qElement.firstChild();

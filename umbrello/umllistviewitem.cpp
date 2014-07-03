@@ -903,7 +903,7 @@ bool UMLListViewItem::loadFromXMI(QDomElement& qElement)
 {
     QString id = qElement.attribute("id", "-1");
     QString type = qElement.attribute("type", "-1");
-    QString label = qElement.attribute("label", "");
+    QString label = qElement.attribute("label");
     QString open = qElement.attribute("open", "1");
     if (!label.isEmpty())
         setText(label);

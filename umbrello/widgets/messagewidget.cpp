@@ -1333,7 +1333,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
     QString textid = qElement.attribute("textid", "-1");
     QString widgetaid = qElement.attribute("widgetaid", "-1");
     QString widgetbid = qElement.attribute("widgetbid", "-1");
-    m_CustomOp = qElement.attribute("operation", "");
+    m_CustomOp = qElement.attribute("operation");
     QString sequenceMessageType = qElement.attribute("sequencemessagetype", "1001");
     m_sequenceMessageType = Uml::SequenceMessage::fromInt(sequenceMessageType.toInt());
     if (m_sequenceMessageType == Uml::SequenceMessage::Lost || m_sequenceMessageType == Uml::SequenceMessage::Found) {

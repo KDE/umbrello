@@ -1879,7 +1879,7 @@ bool UMLWidget::loadFromXMI(QDomElement & qElement)
     setY(y.toFloat());
     QString isinstance = qElement.attribute("isinstance", "0");
     m_isInstance = (bool)isinstance.toInt();
-    m_instanceName = qElement.attribute("instancename", "");
+    m_instanceName = qElement.attribute("instancename");
     QString showstereo = qElement.attribute("showstereotype", "0");
     m_showStereotype = (bool)showstereo.toInt();
 

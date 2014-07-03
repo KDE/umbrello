@@ -60,27 +60,27 @@ namespace Settings {
         // uistate
         QString usefillcolor = element.attribute("usefillcolor", "0");
         optstate.uiState.useFillColor = (bool)usefillcolor.toInt();
-        QString fillcolor = element.attribute("fillcolor", "");
+        QString fillcolor = element.attribute("fillcolor");
         if (!fillcolor.isEmpty())
             optstate.uiState.fillColor = QColor(fillcolor);
-        QString linecolor = element.attribute("linecolor", "");
+        QString linecolor = element.attribute("linecolor");
         if (!linecolor.isEmpty())
             optstate.uiState.lineColor = QColor(linecolor);
-        QString linewidth = element.attribute("linewidth", "");
+        QString linewidth = element.attribute("linewidth");
         if (!linewidth.isEmpty())
             optstate.uiState.lineWidth = linewidth.toInt();
-        QString textColor = element.attribute("textcolor", "");
+        QString textColor = element.attribute("textcolor");
         if (!textColor.isEmpty())
             optstate.uiState.textColor = QColor(textColor);
-        QString font = element.attribute("font", "");
+        QString font = element.attribute("font");
         if (!font.isEmpty()) {
             optstate.uiState.font.fromString(font);
             optstate.uiState.font.setUnderline(false);
         }
-        QString backgroundColor = element.attribute("backgroundcolor", "");
+        QString backgroundColor = element.attribute("backgroundcolor");
         if (!backgroundColor.isEmpty())
             optstate.uiState.backgroundColor = QColor(backgroundColor);
-        QString gridDotColor = element.attribute("griddotcolor", "");
+        QString gridDotColor = element.attribute("griddotcolor");
         if (!gridDotColor.isEmpty())
             optstate.uiState.gridDotColor = QColor(gridDotColor);
         // classstate

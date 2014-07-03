@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2009-2013                                               *
+ *   copyright (C) 2009-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -595,7 +595,7 @@ void ValaWriter::writeOperations(UMLOperationList opList,
             // no initial values in Vala
             //<< (!(at->getInitialValue().isEmpty()) ?
             //    (QString(" = ")+at->getInitialValue()) :
-            //    QString(""))
+            //    QString())
             cs << ((j < i-1)?", ":"");
         }
         cs << ")";

@@ -959,7 +959,7 @@ void UMLApp::saveOptions()
     UmbrelloSettings::setDefaultLanguage(optionState.generalState.defaultLanguage);
 
     if(m_doc->url().fileName() == i18n("Untitled")) {
-        UmbrelloSettings::setLastFile("");
+        UmbrelloSettings::setLastFile(QString());
     }
     else {
         UmbrelloSettings::setLastFile(m_doc->url().prettyUrl());

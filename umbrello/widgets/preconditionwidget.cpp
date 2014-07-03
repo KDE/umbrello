@@ -293,8 +293,8 @@ bool PreconditionWidget::loadFromXMI(QDomElement& qElement)
     if(!UMLWidget::loadFromXMI(qElement))
         return false;
     QString widgetaid = qElement.attribute("widgetaid", "-1");
-    setName(qElement.attribute("preconditionname", ""));
-    setDocumentation(qElement.attribute("documentation", ""));
+    setName(qElement.attribute("preconditionname"));
+    setDocumentation(qElement.attribute("documentation"));
 
     m_widgetAId = Uml::ID::fromString(widgetaid);
 

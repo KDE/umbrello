@@ -293,7 +293,7 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
     } else
         scope = "public ";
 
-    java << ((c->isAbstract() && !m_isInterface) ? QString("abstract ") : QString("")) << scope;
+    java << ((c->isAbstract() && !m_isInterface) ? QString("abstract ") : QString()) << scope;
     if (m_isInterface)
         java << "interface ";
     else
@@ -378,7 +378,7 @@ void JavaWriter::writeAttributeDecls(UMLAttributeList &atpub, UMLAttributeList &
         if (!documentation.isEmpty())
             writeComment(documentation, m_indentation, java, true);
         java<<m_startline<<staticValue<<"public "<<typeName<<" "<<cleanName(at->name())
-        <<(initialValue.isEmpty()?QString(""):QString(" = ") + initialValue)<<";";
+        <<(initialValue.isEmpty()?QString():QString(" = ") + initialValue)<<";";
     }
 
     foreach (UMLAttribute *at, atprot){
@@ -389,7 +389,7 @@ void JavaWriter::writeAttributeDecls(UMLAttributeList &atpub, UMLAttributeList &
         if (!documentation.isEmpty())
             writeComment(documentation, m_indentation, java, true);
         java<<m_startline<<staticValue<<"protected "<<typeName<<" "<<cleanName(at->name())
-        <<(initialValue.isEmpty()?QString(""):QString(" = ") + initialValue)<<";";
+        <<(initialValue.isEmpty()?QString():QString(" = ") + initialValue)<<";";
     }
 
     foreach (UMLAttribute *at, atpriv) {
@@ -400,7 +400,7 @@ void JavaWriter::writeAttributeDecls(UMLAttributeList &atpub, UMLAttributeList &
         if (!documentation.isEmpty())
             writeComment(documentation, m_indentation, java, true);
         java<<m_startline<<staticValue<<"private "<<typeName<<" "<<cleanName(at->name())
-        <<(initialValue.isEmpty()?QString(""):QString(" = ") + initialValue)<<";";
+        <<(initialValue.isEmpty()?QString():QString(" = ") + initialValue)<<";";
     }
 
 }
@@ -943,7 +943,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java)
             str += typeName + ' ' + atName +
                    (!(at->getInitialValue().isEmpty()) ?
                     (QString(" = ")+at->getInitialValue()) :
-                    QString(""))
+                    QString())
                    + ((j < i-1)?", ":"");
             doc += "@param        " + atName + ' ' + at->doc() + '\n';
             j++;

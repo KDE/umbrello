@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2002      Heiko Nardmann  <h.nardmann@secunet.de>       *
- *   copyright (C) 2003-2013                                               *
+ *   copyright (C) 2003-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -3242,7 +3242,7 @@ void PhpWriter::writeOperations(const QString& classname,
             php << " $" << cleanName(at->name())
             << (!(at->getInitialValue().isEmpty()) ?
                 (QString(" = ")+at->getInitialValue()) :
-                QString(""))
+                QString())
             << ((j < i-1)?", ":"");
             j++;
         }

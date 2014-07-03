@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2013                                               *
+ *   copyright (C) 2002-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -101,8 +101,8 @@ bool RegionWidget::loadFromXMI(QDomElement& qElement)
     if (!UMLWidget::loadFromXMI(qElement)) {
         return false;
     }
-    setName(qElement.attribute("regionname", ""));
-    setDocumentation(qElement.attribute("documentation", ""));
+    setName(qElement.attribute("regionname"));
+    setDocumentation(qElement.attribute("documentation"));
     return true;
 }
 

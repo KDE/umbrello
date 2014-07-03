@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2013                                               *
+ *   copyright (C) 2004-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -45,9 +45,9 @@ void JavaCodeOperation::updateMethodDeclaration()
     QString strVis = Uml::Visibility::toString(o->visibility());
     // no return type for constructors
     QString fixedReturn = JavaCodeGenerator::fixTypeName(o->getTypeName());
-    QString returnType = o->isConstructorOperation() ? QString("") : (fixedReturn + QString(" "));
+    QString returnType = o->isConstructorOperation() ? QString() : (fixedReturn + QString(" "));
     QString methodName = o->name();
-    QString paramStr = QString("");
+    QString paramStr = QString();
 
     // assemble parameters
     UMLAttributeList list = getParentOperation()->getParmList();

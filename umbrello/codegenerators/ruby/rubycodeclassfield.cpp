@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2013                                               *
+ *   copyright (C) 2006-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -78,7 +78,7 @@ QString RubyCodeClassField::getInitialValue()
         if(fieldIsSingleValue()) {
             // FIX : IF the multiplicity is "1" then we should init a new object here, if it is 0 or 1,
             //       then we can just return 'empty' string (minor problem).
-            return QString("");
+            return QString();
         } else {
             return RubyCodeGenerator::getListFieldClassName()+".new()";
         }

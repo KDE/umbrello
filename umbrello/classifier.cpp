@@ -1514,7 +1514,7 @@ UMLClassifierListItem* UMLClassifier::makeChildObject(const QString& xmiTag)
 bool UMLClassifier::load(QDomElement& element)
 {
     UMLClassifierListItem *child = NULL;
-    m_SecondaryId = element.attribute("elementReference", "");
+    m_SecondaryId = element.attribute("elementReference");
     if (!m_SecondaryId.isEmpty()) {
         // @todo We do not currently support composition.
         m_isRef = true;

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2013                                               *
+ *   copyright (C) 2003-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -219,7 +219,7 @@ void UMLRole::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 bool UMLRole::load(QDomElement & element)
 {
     UMLDoc * doc = UMLApp::app()->document();
-    QString type = element.attribute("type", "");
+    QString type = element.attribute("type");
     if (!type.isEmpty()) {
         if (!m_SecondaryId.isEmpty())
             uWarning() << "overwriting old m_SecondaryId \"" << m_SecondaryId
@@ -270,8 +270,8 @@ bool UMLRole::load(QDomElement & element)
             }
             QString multiUpper;
             if (tempElement.hasAttribute("lower")) {
-                m_Multi = tempElement.attribute("lower", "");
-                multiUpper = tempElement.attribute("upper", "");
+                m_Multi = tempElement.attribute("lower");
+                multiUpper = tempElement.attribute("upper");
                 if (!multiUpper.isEmpty()) {
                     if (!m_Multi.isEmpty())
                         m_Multi.append("..");
@@ -298,15 +298,15 @@ bool UMLRole::load(QDomElement & element)
         } else if (m_SecondaryId.isEmpty() &&
                    (UMLDoc::tagEq(tag, "type") ||
                     UMLDoc::tagEq(tag, "participant"))) {
-            m_SecondaryId = tempElement.attribute("xmi.id", "");
+            m_SecondaryId = tempElement.attribute("xmi.id");
             if (m_SecondaryId.isEmpty())
-                m_SecondaryId = tempElement.attribute("xmi.idref", "");
+                m_SecondaryId = tempElement.attribute("xmi.idref");
             if (m_SecondaryId.isEmpty()) {
                 QDomNode inner = tempElement.firstChild();
                 QDomElement innerElem = inner.toElement();
-                m_SecondaryId = innerElem.attribute("xmi.id", "");
+                m_SecondaryId = innerElem.attribute("xmi.id");
                 if (m_SecondaryId.isEmpty())
-                    m_SecondaryId = innerElem.attribute("xmi.idref", "");
+                    m_SecondaryId = innerElem.attribute("xmi.idref");
             }
         }
     }
@@ -377,13 +377,13 @@ bool UMLRole::load(QDomElement & element)
     }
 
     if (m_Multi.isEmpty())
-        m_Multi = element.attribute("multiplicity", "");
+        m_Multi = element.attribute("multiplicity");
 
     // Changeability defaults to Changeable if it cant set it here..
     m_Changeability = Uml::Changeability::Changeable;
-    QString changeability = element.attribute("changeability", "");
+    QString changeability = element.attribute("changeability");
     if (changeability.isEmpty())
-        element.attribute("changeable", "");  // for backward compatibility
+        element.attribute("changeable");  // for backward compatibility
     if (changeability == "frozen")
         m_Changeability = Uml::Changeability::Frozen;
     else if (changeability == "addOnly")

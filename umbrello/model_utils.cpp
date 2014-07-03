@@ -507,9 +507,9 @@ QString uniqObjectName(UMLObject::ObjectType type, UMLPackage *parentPkg, QStrin
  */
 QString getXmiId(QDomElement element)
 {
-    QString idStr = element.attribute("xmi.id", "");
+    QString idStr = element.attribute("xmi.id");
     if (idStr.isEmpty())
-        idStr = element.attribute("xmi:id", "");
+        idStr = element.attribute("xmi:id");
     return idStr;
 }
 

@@ -875,7 +875,7 @@ bool UMLObject::loadStereotype(QDomElement & element)
     QString tag = element.tagName();
     if (!UMLDoc::tagEq(tag, "stereotype"))
         return false;
-    QString stereo = element.attribute("xmi.value", "");
+    QString stereo = element.attribute("xmi.value");
     if (stereo.isEmpty() && element.hasChildNodes()) {
         /* like so:
          <UML:ModelElement.stereotype>
@@ -886,7 +886,7 @@ bool UMLObject::loadStereotype(QDomElement & element)
         QDomElement stereoElem = stereoNode.toElement();
         tag = stereoElem.tagName();
         if (UMLDoc::tagEq(tag, "Stereotype")) {
-            stereo = stereoElem.attribute("xmi.idref", "");
+            stereo = stereoElem.attribute("xmi.idref");
         }
     }
     if (stereo.isEmpty())
@@ -918,7 +918,7 @@ bool UMLObject::loadFromXMI(QDomElement & element)
     }
     // Read the name first so that if we encounter a problem, the error
     // message can say the name.
-    m_name = element.attribute("name", "");
+    m_name = element.attribute("name");
     QString id = Model_Utils::getXmiId(element);
     if (id.isEmpty() || id == "-1") {
         if (m_BaseType == ot_Role) {
@@ -946,13 +946,13 @@ bool UMLObject::loadFromXMI(QDomElement & element)
     }
 
     if (element.hasAttribute("documentation"))  // for bkwd compat.
-        m_Doc = element.attribute("documentation", "");
+        m_Doc = element.attribute("documentation");
     else
-        m_Doc = element.attribute("comment", "");    //CHECK: need a UML:Comment?
+        m_Doc = element.attribute("comment");    //CHECK: need a UML:Comment?
 
     m_visibility = Uml::Visibility::Public;
     if (element.hasAttribute("scope")) {        // for bkwd compat.
-        QString scope = element.attribute("scope", "");
+        QString scope = element.attribute("scope");
         if (scope == "instance_level")         // nsuml compat.
             m_bStatic = false;
         else if (scope == "classifier_level")  // nsuml compat.
@@ -985,7 +985,7 @@ bool UMLObject::loadFromXMI(QDomElement & element)
             m_visibility = Uml::Visibility::Implementation;
     }
 
-    QString stereo = element.attribute("stereotype", "");
+    QString stereo = element.attribute("stereotype");
     if (!stereo.isEmpty()) {
         Uml::ID::Type stereoID = Uml::ID::fromString(stereo);
         m_pStereotype = umldoc->findStereotypeById(stereoID);
@@ -1024,11 +1024,11 @@ bool UMLObject::loadFromXMI(QDomElement & element)
         while (!elem.isNull()) {
             QString tag = elem.tagName();
             if (UMLDoc::tagEq(tag, "name")) {
-                m_name = elem.attribute("xmi.value", "");
+                m_name = elem.attribute("xmi.value");
                 if (m_name.isEmpty())
                     m_name = elem.text();
             } else if (UMLDoc::tagEq(tag, "visibility")) {
-                QString vis = elem.attribute("xmi.value", "");
+                QString vis = elem.attribute("xmi.value");
                 if (vis.isEmpty())
                     vis = elem.text();
                 if (vis == "private" || vis == "private_vis")
@@ -1038,12 +1038,12 @@ bool UMLObject::loadFromXMI(QDomElement & element)
                 else if (vis == "implementation")
                     m_visibility = Uml::Visibility::Implementation;
             } else if (UMLDoc::tagEq(tag, "isAbstract")) {
-                QString isAbstract = elem.attribute("xmi.value", "");
+                QString isAbstract = elem.attribute("xmi.value");
                 if (isAbstract.isEmpty())
                     isAbstract = elem.text();
                 m_bAbstract = (isAbstract == "true");
             } else if (UMLDoc::tagEq(tag, "ownerScope")) {
-                QString ownerScope = elem.attribute("xmi.value", "");
+                QString ownerScope = elem.attribute("xmi.value");
                 if (ownerScope.isEmpty())
                     ownerScope = elem.text();
                 m_bStatic = (ownerScope == "classifier");

@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2013                                               *
+ *   copyright (C) 2008-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -80,7 +80,7 @@ QString DCodeClassField::getInitialValue()
         if(fieldIsSingleValue()) {
             // FIX : IF the multiplicity is "1" then we should init a new object here, if its 0 or 1,
             //       then we can just return 'empty' string (minor problem).
-            return QString("");
+            return QString();
         } else {
             return " new "+DCodeGenerator::getListFieldClassName()+"()";
         }

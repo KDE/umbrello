@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2013                                               *
+ *   copyright (C) 2006-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -51,7 +51,7 @@ void RubyCodeOperation::updateMethodDeclaration()
     //:UNUSED: QString strVis = o->visibility().toString();
     // no return type for constructors
     QString fixedReturn = RubyCodeGenerator::cppToRubyType(o->getTypeName());
-    QString returnType = o->isConstructorOperation() ? QString("") : (fixedReturn + QString(" "));
+    QString returnType = o->isConstructorOperation() ? QString() : (fixedReturn + QString(" "));
     QString methodName = o->name();
 
     QString RubyClassName = rubydoc->getRubyClassName(c->name());
@@ -72,7 +72,7 @@ void RubyCodeOperation::updateMethodDeclaration()
     methodName.remove(QRegExp("operator\\s*"));
     methodName = methodName.mid(0, 1).toLower() + methodName.mid(1);
 
-    QString paramStr = QString("");
+    QString paramStr = QString();
     QStringList commentedParams;
 
     // assemble parameters

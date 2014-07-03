@@ -372,7 +372,7 @@ void PythonWriter::writeOperations(const QString& classname, UMLOperationList &o
     switch (access)
     {
     case Uml::Visibility::Public:
-        sAccess = QString("");
+        sAccess = QString();
         break;
     case Uml::Visibility::Private:
         sAccess = QString("__");
@@ -398,7 +398,7 @@ void PythonWriter::writeOperations(const QString& classname, UMLOperationList &o
             h << ", " << cleanName(at->name())
             << (!(at->getInitialValue().isEmpty()) ?
                 (QString(" = ")+at->getInitialValue()) :
-                QString(""));
+                QString());
             j++;
         }
 

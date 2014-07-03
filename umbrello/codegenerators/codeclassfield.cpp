@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2013                                               *
+ *   copyright (C) 2004-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -272,7 +272,7 @@ void CodeClassField::setAttributesFromNode (QDomElement & root)
     initFields();
 
     setWriteOutMethods(root.attribute("writeOutMethods","true") == "true" ? true : false);
-    m_listClassName = root.attribute("listClassName","");
+    m_listClassName = root.attribute("listClassName");
     m_classFieldType = (ClassFieldType) root.attribute("field_type","0").toInt();
 
     // load accessor methods now

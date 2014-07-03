@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2013                                               *
+ *   copyright (C) 2002-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -195,7 +195,7 @@ bool UMLUniqueConstraint::load(QDomElement & element)
         QString tag = tempElement.tagName();
         if (UMLDoc::tagEq(tag, "EntityAttribute")) {
 
-            QString attName = tempElement.attribute("name","");
+            QString attName = tempElement.attribute("name");
             UMLObject* obj = parentEnt->findChildObject(attName);
 
             UMLEntityAttribute* entAtt = static_cast<UMLEntityAttribute*>(obj);

@@ -567,7 +567,7 @@ bool WidgetBase::loadFromXMI(QDomElement& qElement)
     usesDiagramUseFillColor = qElement.attribute("usesdiagramusefillcolor", usesDiagramUseFillColor);
     m_usesDiagramUseFillColor = (bool)usesDiagramUseFillColor.toInt();
 
-    QString font = qElement.attribute("font", "");
+    QString font = qElement.attribute("font");
     if (!font.isEmpty()) {
         QFont newFont;
         newFont.fromString(font);

@@ -275,7 +275,7 @@ void UMLAttribute::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
  */
 bool UMLAttribute::load(QDomElement & element)
 {
-    m_SecondaryId = element.attribute("type", "");
+    m_SecondaryId = element.attribute("type");
     // We use the m_SecondaryId as a temporary store for the xmi.id
     // of the attribute type model object.
     // It is resolved later on, when all classes have been loaded.
@@ -298,15 +298,15 @@ bool UMLAttribute::load(QDomElement & element)
             }
             m_SecondaryId = Model_Utils::getXmiId(tempElement);
             if (m_SecondaryId.isEmpty())
-                m_SecondaryId = tempElement.attribute("xmi.idref", "");
+                m_SecondaryId = tempElement.attribute("xmi.idref");
             if (m_SecondaryId.isEmpty()) {
-                QString href = tempElement.attribute("href", "");
+                QString href = tempElement.attribute("href");
                 if (href.isEmpty()) {
                     QDomNode inner = node.firstChild();
                     QDomElement tmpElem = inner.toElement();
                     m_SecondaryId = Model_Utils::getXmiId(tmpElem);
                     if (m_SecondaryId.isEmpty())
-                        m_SecondaryId = tmpElem.attribute("xmi.idref", "");
+                        m_SecondaryId = tmpElem.attribute("xmi.idref");
                 } else {
                     int hashpos = href.lastIndexOf(QChar('#'));
                     if (hashpos < 0) {
@@ -329,10 +329,10 @@ bool UMLAttribute::load(QDomElement & element)
             uDebug() << name() << ": cannot find type.";
         }
     }
-    m_InitialValue = element.attribute("initialValue", "");
+    m_InitialValue = element.attribute("initialValue");
     if (m_InitialValue.isEmpty()) {
         // for backward compatibility
-        m_InitialValue = element.attribute("value", "");
+        m_InitialValue = element.attribute("value");
     }
     return true;
 }

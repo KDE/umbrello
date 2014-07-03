@@ -2062,7 +2062,7 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
                        tagEq(tag, "Interface")) {
                 // These tests are only for foreign XMI files that
                 // are missing the <Model> tag (e.g. NSUML)
-                QString stID = element.attribute("stereotype", "");
+                QString stID = element.attribute("stereotype");
                 UMLObject *pObject = Object_Factory::makeObjectFromXMI(tag, stID);
                 if (!pObject) {
                     uWarning() << "Unknown type of umlobject to create: " << tag;
@@ -2102,11 +2102,11 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
                     DEBUG(DBG_SRC) << "skipping TaggedValue because not seen_UMLObjects";
                     continue;
                 }
-                tag = element.attribute("tag", "");
+                tag = element.attribute("tag");
                 if (tag != "documentation") {
                     continue;
                 }
-                QString modelElement = element.attribute("modelElement", "");
+                QString modelElement = element.attribute("modelElement");
                 if (modelElement.isEmpty()) {
                     DEBUG(DBG_SRC) << "skipping TaggedValue(documentation) because "
                                    << "modelElement.isEmpty()";
@@ -2118,7 +2118,7 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
                                    << " for modelElement " << modelElement;
                     continue;
                 }
-                QString value = element.attribute("value", "");
+                QString value = element.attribute("value");
                 if (! value.isEmpty()) {
                     o->setDoc(value);
                 }
@@ -2188,7 +2188,7 @@ bool UMLDoc::validateXMIHeader(QDomNode& headerNode)
     while (!headerNode.isNull()) {
         /*  //Seems older Umbrello files used a different metamodel, so don't validate it for now
           if(!headerElement.isNull() && headerElement.tagName() == "XMI.metamodel") {
-              String metamodel = headerElement.attribute("xmi.name", "");
+              String metamodel = headerElement.attribute("xmi.name");
               if (metamodel != "UML") {
                   return false;
               }
@@ -2282,7 +2282,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         }
         if (!tempElement.hasAttribute("xmi.id") &&
             !tempElement.hasAttribute("xmi:id")) {
-            QString idref = tempElement.attribute("xmi.idref", "");
+            QString idref = tempElement.attribute("xmi.idref");
             if (! idref.isEmpty()) {
                 DEBUG(DBG_SRC) << "resolution of xmi.idref " << idref
                                << " is not yet implemented";
@@ -2292,7 +2292,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
             }
             continue;
         }
-        QString stID = tempElement.attribute("stereotype", "");
+        QString stID = tempElement.attribute("stereotype");
         UMLObject *pObject = Object_Factory::makeObjectFromXMI(type, stID);
         if (!pObject) {
             uWarning() << "Unknown type of umlobject to create: " << type;
@@ -2384,7 +2384,7 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node)
 
     if (tag == "docsettings") {
         QString viewID = element.attribute("viewid", "-1");
-        m_Doc = element.attribute("documentation", "");
+        m_Doc = element.attribute("documentation");
         QString uniqueid = element.attribute("uniqueid", "0");
 
         m_nViewID = Uml::ID::fromString(viewID);

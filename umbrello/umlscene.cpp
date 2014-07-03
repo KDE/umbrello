@@ -3601,9 +3601,9 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     m_nID = Uml::ID::fromString(id);
     if (m_nID == Uml::ID::None)
         return false;
-    setName(qElement.attribute("name", ""));
+    setName(qElement.attribute("name"));
     QString type = qElement.attribute("type", "0");
-    m_Documentation = qElement.attribute("documentation", "");
+    m_Documentation = qElement.attribute("documentation");
     QString localid = qElement.attribute("localid", "0");
     // option state
     Settings::loadFromXMI(qElement, m_Options);
@@ -3859,7 +3859,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
             } else if (UMLDoc::tagEq(tag, "Presentation.model")) {
                 QDomNode mnode = e.firstChild();
                 QDomElement melem = mnode.toElement();
-                idStr = melem.attribute("xmi.idref", "");
+                idStr = melem.attribute("xmi.idref");
             } else {
                 DEBUG(DBG_SRC) << "ignoring tag " << tag;
             }
@@ -3929,7 +3929,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
  */
 bool UMLScene::loadUISDiagram(QDomElement & qElement)
 {
-    QString idStr = qElement.attribute("xmi.id", "");
+    QString idStr = qElement.attribute("xmi.id");
     if (idStr.isEmpty())
         return false;
     m_nID = Uml::ID::fromString(idStr);

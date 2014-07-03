@@ -673,13 +673,13 @@ bool FloatingTextWidget::loadFromXMI(QDomElement & qElement)
 
     m_unconstrainedPositionX = x();
     m_unconstrainedPositionY = y();
-    QString role = qElement.attribute("role", "");
+    QString role = qElement.attribute("role");
     if(!role.isEmpty())
         m_textRole = Uml::TextRole::fromInt(role.toInt());
 
-    m_preText = qElement.attribute("pretext", "");
-    m_postText = qElement.attribute("posttext", "");
-    setText(qElement.attribute("text", ""));  // use setText for geometry update
+    m_preText = qElement.attribute("pretext");
+    m_postText = qElement.attribute("posttext");
+    setText(qElement.attribute("text"));  // use setText for geometry update
     // If all texts are empty then this is a useless widget.
     // In that case we return false.
     // CAVEAT: The caller should not interpret the false return value
@@ -705,8 +705,8 @@ void FloatingTextWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     textElement.setAttribute("posttext", m_postText);
 
     /* No need to save these - the messagewidget already did it.
-    m_Operation  = qElement.attribute("operation", "");
-    m_SeqNum = qElement.attribute("seqnum", "");
+    m_Operation  = qElement.attribute("operation");
+    m_SeqNum = qElement.attribute("seqnum");
      */
 
     textElement.setAttribute("role", m_textRole);

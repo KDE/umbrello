@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2013                                               *
+ *   copyright (C) 2002-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -262,10 +262,10 @@ bool UMLEntityAttribute::load(QDomElement & element)
         return false;
     int indexType = element.attribute("dbindex_type", "1100").toInt();
     m_indexType = (UMLEntityAttribute::DBIndex_Type)indexType;
-    m_values = element.attribute("values", "");
-    m_attributes = element.attribute("attributes", "");
-    m_autoIncrement = (bool)element.attribute("auto_increment", "").toInt();
-    m_null = (bool)element.attribute("allow_null", "").toInt();
+    m_values = element.attribute("values");
+    m_attributes = element.attribute("attributes");
+    m_autoIncrement = (bool)element.attribute("auto_increment").toInt();
+    m_null = (bool)element.attribute("allow_null").toInt();
     return true;
 }
 

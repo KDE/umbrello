@@ -313,10 +313,10 @@ bool ActivityWidget::loadFromXMI(QDomElement& qElement)
 {
     if(!UMLWidget::loadFromXMI(qElement))
         return false;
-    setName(qElement.attribute("activityname", ""));
-    setDocumentation(qElement.attribute("documentation", ""));
-    setPreconditionText(qElement.attribute("precondition", ""));
-    setPostconditionText(qElement.attribute("postcondition", ""));
+    setName(qElement.attribute("activityname"));
+    setDocumentation(qElement.attribute("documentation"));
+    setPreconditionText(qElement.attribute("precondition"));
+    setPostconditionText(qElement.attribute("postcondition"));
 
     QString type = qElement.attribute("activitytype", "1");
     setActivityType((ActivityType)type.toInt());

@@ -496,8 +496,8 @@ void UMLOperation::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
  */
 bool UMLOperation::load(QDomElement & element)
 {
-    m_SecondaryId = element.attribute("type", "");
-    QString isQuery = element.attribute("isQuery", "");
+    m_SecondaryId = element.attribute("type");
+    QString isQuery = element.attribute("isQuery");
     if (!isQuery.isEmpty()) {
         // We need this extra test for isEmpty() because load() might have been
         // called again by the processing for BehavioralFeature.parameter (see below)
@@ -513,7 +513,7 @@ bool UMLOperation::load(QDomElement & element)
             if (! load(attElement))
                 return false;
         } else if (UMLDoc::tagEq(tag, "Parameter")) {
-            QString kind = attElement.attribute("kind", "");
+            QString kind = attElement.attribute("kind");
             if (kind.isEmpty()) {
                 // Perhaps the kind is stored in a child node:
                 for (QDomNode n = attElement.firstChild(); !n.isNull(); n = n.nextSibling()) {
@@ -523,7 +523,7 @@ bool UMLOperation::load(QDomElement & element)
                     QString tag = tempElement.tagName();
                     if (!UMLDoc::tagEq(tag, "kind"))
                         continue;
-                    kind = tempElement.attribute("xmi.value", "");
+                    kind = tempElement.attribute("xmi.value");
                     break;
                 }
                 if (kind.isEmpty()) {
@@ -534,7 +534,7 @@ bool UMLOperation::load(QDomElement & element)
                 QString returnId = Model_Utils::getXmiId(attElement);
                 if (!returnId.isEmpty())
                     m_returnId = Uml::ID::fromString(returnId);
-                m_SecondaryId = attElement.attribute("type", "");
+                m_SecondaryId = attElement.attribute("type");
                 if (m_SecondaryId.isEmpty()) {
                     // Perhaps the type is stored in a child node:
                     QDomNode node = attElement.firstChild();
@@ -551,13 +551,13 @@ bool UMLOperation::load(QDomElement & element)
                         }
                         m_SecondaryId = Model_Utils::getXmiId(tempElement);
                         if (m_SecondaryId.isEmpty())
-                            m_SecondaryId = tempElement.attribute("xmi.idref", "");
+                            m_SecondaryId = tempElement.attribute("xmi.idref");
                         if (m_SecondaryId.isEmpty()) {
                             QDomNode inner = node.firstChild();
                             QDomElement tmpElem = inner.toElement();
                             m_SecondaryId = Model_Utils::getXmiId(tmpElem);
                             if (m_SecondaryId.isEmpty())
-                                m_SecondaryId = tmpElem.attribute("xmi.idref", "");
+                                m_SecondaryId = tmpElem.attribute("xmi.idref");
                         }
                         break;
                     }

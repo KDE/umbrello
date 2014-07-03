@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2013                                               *
+ *   copyright (C) 2002-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -271,7 +271,7 @@ bool UMLForeignKeyConstraint::load(QDomElement & element)
 {
     UMLDoc* doc = UMLApp::app()->document();
 
-    Uml::ID::Type referencedEntityId = Uml::ID::fromString(element.attribute("referencedEntity", ""));
+    Uml::ID::Type referencedEntityId = Uml::ID::fromString(element.attribute("referencedEntity"));
 
     UMLObject* obj = doc->findObjectById(referencedEntityId);
     m_ReferencedEntity = static_cast<UMLEntity*>(obj);
@@ -294,8 +294,8 @@ bool UMLForeignKeyConstraint::load(QDomElement & element)
         QString tag = tempElement.tagName();
         if (UMLDoc::tagEq(tag, "AttributeMap")) {
 
-            QString xmiKey = tempElement.attribute("key", "");
-            QString xmiValue = tempElement.attribute("value", "");
+            QString xmiKey = tempElement.attribute("key");
+            QString xmiValue = tempElement.attribute("value");
             Uml::ID::Type keyId = Uml::ID::fromString(xmiKey);
             Uml::ID::Type valueId = Uml::ID::fromString(xmiValue);
 

@@ -201,11 +201,11 @@ bool NoteWidget::loadFromXMI(QDomElement & qElement)
     if (!UMLWidget::loadFromXMI(qElement))
         return false;
     setZValue(20); //make sure always on top.
-    setDocumentation(qElement.attribute("text", ""));
-    QString diagramlink = qElement.attribute("diagramlink", "");
+    setDocumentation(qElement.attribute("text"));
+    QString diagramlink = qElement.attribute("diagramlink");
     if (!diagramlink.isEmpty())
         m_diagramLink = Uml::ID::fromString(diagramlink);
-    QString type = qElement.attribute("noteType", "");
+    QString type = qElement.attribute("noteType");
     setNoteType((NoteType)type.toInt());
     return true;
 }

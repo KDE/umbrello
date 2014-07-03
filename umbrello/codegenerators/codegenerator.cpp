@@ -236,7 +236,7 @@ void CodeGenerator::loadCodeForOperation(const QString& idStr, const QDomElement
     UMLObject *obj = m_document->findObjectById(id);
     if (obj) {
         uDebug() << "found UMLObject for id:" << idStr;
-        QString value = codeDocElement.attribute("value", "");
+        QString value = codeDocElement.attribute("value");
 
         UMLObject::ObjectType t = obj->baseType();
         if (t == UMLObject::ot_Operation) {

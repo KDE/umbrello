@@ -251,9 +251,9 @@ bool SignalWidget::loadFromXMI(QDomElement & qElement)
 {
     if(!UMLWidget::loadFromXMI(qElement))
         return false;
-    m_Text = qElement.attribute("signalname", "");
-    m_Doc = qElement.attribute("documentation", "");
-    QString type = qElement.attribute("signaltype", "");
+    m_Text = qElement.attribute("signalname");
+    m_Doc = qElement.attribute("documentation");
+    QString type = qElement.attribute("signaltype");
     QString textid = qElement.attribute("textid", "-1");
     Uml::ID::Type textId = Uml::ID::fromString(textid);
 

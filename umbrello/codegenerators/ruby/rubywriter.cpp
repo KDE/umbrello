@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2013                                               *
+ *   copyright (C) 2006-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -345,7 +345,7 @@ void RubyWriter::writeOperations(const QString &classname, const UMLOperationLis
             }
             h << (!(at->getInitialValue().isEmpty()) ?
                 (QString(" = ") + cppToRubyType(at->getInitialValue())) :
-                QString(""));
+                QString());
             j++;
         }
 

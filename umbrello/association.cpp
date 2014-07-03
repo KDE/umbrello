@@ -218,7 +218,7 @@ bool UMLAssociation::load(QDomElement & element)
         m_AssocType == Uml::AssociationType::Dependency     ||
         m_AssocType == Uml::AssociationType::Child2Category ||
         m_AssocType == Uml::AssociationType::Category2Parent) {
-        QString general = element.attribute("general", "");
+        QString general = element.attribute("general");
         if (!general.isEmpty()) {
             UMLClassifier *owningClassifier = dynamic_cast<UMLClassifier*>(m_pUMLPackage);
             if (owningClassifier == NULL){
@@ -270,15 +270,15 @@ bool UMLAssociation::load(QDomElement & element)
                 // Permitted tag names:
                 //  roleA: "child" "subtype" "client"
                 //  roleB: "parent" "supertype" "supplier"
-                QString idStr = tempElement.attribute("xmi.id", "");
+                QString idStr = tempElement.attribute("xmi.id");
                 if (idStr.isEmpty())
-                    idStr = tempElement.attribute("xmi.idref", "");
+                    idStr = tempElement.attribute("xmi.idref");
                 if (idStr.isEmpty()) {
                     QDomNode inner = node.firstChild();
                     QDomElement tmpElem = inner.toElement();
-                    idStr = tmpElem.attribute("xmi.id", "");
+                    idStr = tmpElem.attribute("xmi.id");
                     if (idStr.isEmpty())
-                        idStr = tmpElem.attribute("xmi.idref", "");
+                        idStr = tmpElem.attribute("xmi.idref");
                 }
                 if (idStr.isEmpty()) {
                     uError() << "type " << m_AssocType
@@ -451,14 +451,14 @@ bool UMLAssociation::load(QDomElement & element)
     else
         return false;
 
-    setMultiplicity(element.attribute("multia", ""), RoleType::A);
-    setMultiplicity(element.attribute("multib", ""), RoleType::B);
+    setMultiplicity(element.attribute("multia"), RoleType::A);
+    setMultiplicity(element.attribute("multib"), RoleType::B);
 
-    setRoleName(element.attribute("namea", ""), RoleType::A);
-    setRoleName(element.attribute("nameb", ""), RoleType::B);
+    setRoleName(element.attribute("namea"), RoleType::A);
+    setRoleName(element.attribute("nameb"), RoleType::B);
 
-    setRoleDoc(element.attribute("doca", ""), RoleType::A);
-    setRoleDoc(element.attribute("docb", ""), RoleType::B);
+    setRoleDoc(element.attribute("doca"), RoleType::A);
+    setRoleDoc(element.attribute("docb"), RoleType::B);
 
     // Visibility defaults to Public if it cant set it here..
     QString visibilityA = element.attribute("visibilitya", "0");

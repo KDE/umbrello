@@ -106,7 +106,7 @@ QString LinkWidget::sequenceNumber() const
  */
 bool LinkWidget::loadFromXMI(QDomElement &qElement)
 {
-    m_SequenceNumber = qElement.attribute("seqnum", "");
+    m_SequenceNumber = qElement.attribute("seqnum");
     return true;
 }
 

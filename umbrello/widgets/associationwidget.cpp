@@ -4136,9 +4136,9 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
             }
         }
 
-        setDocumentation(qElement.attribute("documentation", ""));
-        setRoleDocumentation(qElement.attribute("roleAdoc", ""), RoleType::A);
-        setRoleDocumentation(qElement.attribute("roleBdoc", ""), RoleType::B);
+        setDocumentation(qElement.attribute("documentation"));
+        setRoleDocumentation(qElement.attribute("roleAdoc"), RoleType::A);
+        setRoleDocumentation(qElement.attribute("roleBdoc"), RoleType::B);
 
         // visibility defaults to Public if it cant set it here..
         QString visibilityA = qElement.attribute("visibilityA", "0");
@@ -4202,7 +4202,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
     m_role[RoleType::A].m_nTotalCount = totalcounta.toInt();
     m_role[RoleType::B].m_nTotalCount = totalcountb.toInt();
 
-    QString assocclassid = qElement.attribute("assocclass", "");
+    QString assocclassid = qElement.attribute("assocclass");
     if (! assocclassid.isEmpty()) {
         Uml::ID::Type acid = Uml::ID::fromString(assocclassid);
         UMLWidget *w = Widget_Utils::findWidget(acid, widgets);
