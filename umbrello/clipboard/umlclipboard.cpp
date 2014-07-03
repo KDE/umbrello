@@ -586,7 +586,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
                 if (parent->addAttribute(att, idchanges)) {
                     result = true;
                 } else {
-                    uError() << "" << parent->name() << "->addAttribute("
+                    uError() << parent->name() << "->addAttribute("
                              << att->name() << ") failed";
                 }
                 break;
@@ -602,7 +602,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
                 if (parent->addOperation(op, idchanges)) {
                     result = true;
                 } else {
-                    uError() << "" << parent->name() << "->addOperation("
+                    uError() << parent->name() << "->addOperation("
                              << op->name() << ") failed";
                 }
                 break;
@@ -618,7 +618,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
                 if (parent->addTemplate(tp, idchanges)) {
                     result = true;
                 } else {
-                    uError() << "" << parent->name() << "->addTemplate("
+                    uError() << parent->name() << "->addTemplate("
                              << tp->name() << ") failed";
                 }
                 break;
@@ -643,7 +643,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
                if (enumParent->addEnumLiteral(enl, idchanges)) {
                    result = true;
                } else {
-                   uError() << "" << enumParent->name() << "->addEnumLiteral("
+                   uError() << enumParent->name() << "->addEnumLiteral("
                             << enl->name() << ") failed";
                }
                break;
@@ -667,7 +667,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
                 if (entityParent->addEntityAttribute(att, idchanges)) {
                     result = true;
                 } else {
-                    uError() << "" << parent->name() << "->addEntityAttribute(" << att->name() << ") failed";
+                    uError() << parent->name() << "->addEntityAttribute(" << att->name() << ") failed";
                 }
                 break;
             }
