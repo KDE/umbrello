@@ -801,7 +801,7 @@ void UMLListView::slotDiagramCreated(Uml::ID::Type id)
             const Uml::DiagramType::Enum dt = scene->type();
             UMLListViewItem* p = findUMLObject(scene->folder());
             UMLListViewItem* item = new UMLListViewItem(p, scene->name(), Model_Utils::convert_DT_LVT(dt), id);
-            setSelected(item, true);
+            item->setSelected(true);
             UMLApp::app()->docWindow()->showDocumentation(scene, false);
         }
     }
@@ -944,7 +944,7 @@ void UMLListView::slotObjectCreated(UMLObject* object)
     scrollToItem(newItem);
     newItem->setOpen(true);
     clearSelection();
-    setSelected(newItem, true);
+    newItem->setSelected(true);
     UMLApp::app()->docWindow()->showDocumentation(object, false);
 }
 
@@ -1080,7 +1080,7 @@ void UMLListView::childObjectAdded(UMLClassifierListItem* child, UMLClassifier* 
         if (! m_doc->loading()) {
             scrollToItem(childItem);
             clearSelection();
-            setSelected(childItem, true);
+            childItem->setSelected(true);
         }
         connectNewObjectsSlots(child);
     }
@@ -1398,7 +1398,7 @@ void UMLListView::setView(UMLView * view)
         return;
     UMLListViewItem * temp = findView(view);
     if (temp)
-        setSelected(temp, true);
+        temp->setSelected(true);
 }
 
 /**

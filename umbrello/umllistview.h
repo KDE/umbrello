@@ -89,7 +89,6 @@ public:
 
     bool isUnique(UMLListViewItem * item, const QString &name);
 
-    void setSelected(UMLListViewItem * item, bool state) { setItemSelected((QTreeWidgetItem*)item, state);  }
     void setStartedCut(bool startedCut);
     void setStartedCopy(bool startedCopy);
     bool startedCopy() const;
