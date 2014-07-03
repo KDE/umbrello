@@ -726,7 +726,7 @@ void MessageWidget::slotWidgetMoved(Uml::ID::Type id)
         y = getMinY();
     if (y > getMaxY())
         y = getMaxY();
-    setY(y);
+    setPos(x(), y);
     calculateWidget();
     if(!m_pFText)
         return;
@@ -1104,8 +1104,7 @@ void MessageWidget::calculateDimensionsCreation()
     }
     x += 1;
     widgetWidth -= 2;
-    setX(x);
-    setY(m_pOw[Uml::RoleType::B]->y() + m_pOw[Uml::RoleType::B]->height() / 2);
+    setPos(x, m_pOw[Uml::RoleType::B]->y() + m_pOw[Uml::RoleType::B]->height() / 2);
     setSize(widgetWidth, widgetHeight);
 }
 
