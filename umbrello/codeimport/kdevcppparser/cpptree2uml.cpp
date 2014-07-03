@@ -139,9 +139,13 @@ void CppTree2Uml::parseTypedef(TypedefAST* ast)
             bool isDatatype = Import_Utils::isDatatype(typeId, m_currentNamespace[m_nsCnt]);
 
             if (type.contains('*') || isDatatype) {
-                UMLObject *inner =
-                Import_Utils::createUMLObject(UMLObject::ot_Class, typeId,
-                                               m_currentNamespace[m_nsCnt]);
+                UMLObject *inner = 0;
+                if (m_currentNamespace[m_nsCnt]->baseType() == UMLObject::ot_Class &&
+                        typeId == m_currentNamespace[m_nsCnt]->name())
+                    inner = m_currentNamespace[m_nsCnt];
+                else
+                    inner = Import_Utils::createUMLObject(UMLObject::ot_Class, typeId,
+                                                          m_currentNamespace[m_nsCnt]);
                 UMLObject *typedefObj =
                 Import_Utils::createUMLObject(UMLObject::ot_Datatype, id,
                                                m_currentNamespace[m_nsCnt]);
