@@ -405,7 +405,7 @@ public:
     virtual void write(QDataStream& stream) const;
 
     /** this will dump the whole tree into dot-file-format so it can be inspected, not ready yet*/
-    virtual void dump(std::ostream& file, QString Info="");
+    virtual void dump(std::ostream& file, QString Info = QString());
 
     /** Merges two groups, by changing the group-ids of the files.
     Returns the id of the new group, or 0 on fail.

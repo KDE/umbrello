@@ -452,7 +452,7 @@ public /*rules*/ :
     bool skipUntilDeclaration();
     bool skipUntilStatement();
     bool skip(int l, int r);
-    QString toString(int start, int end, const QString& sep=" ") const;
+    QString toString(int start, int end, const QString& sep=QLatin1String(" ")) const;
 
 private:
     int currentLine();
