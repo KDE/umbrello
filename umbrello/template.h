@@ -28,7 +28,7 @@ class UMLTemplate : public UMLClassifierListItem
 public:
 
     UMLTemplate(UMLObject *parent, const QString& name,
-                Uml::ID::Type id = Uml::ID::None, const QString& type = "class");
+                Uml::ID::Type id = Uml::ID::None, const QString& type = QLatin1String("class"));
 
     explicit UMLTemplate(UMLObject *parent);
 

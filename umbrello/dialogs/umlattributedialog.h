@@ -38,7 +38,7 @@ protected:
 
     bool apply();
 
-    void insertTypesSorted(const QString& type = "");
+    void insertTypesSorted(const QString& type = QString());
 
     /**
      *   The Attribute to represent
