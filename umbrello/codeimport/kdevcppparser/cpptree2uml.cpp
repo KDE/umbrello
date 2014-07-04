@@ -140,7 +140,8 @@ void CppTree2Uml::parseTypedef(TypedefAST* ast)
 
             if (type.contains(QLatin1Char('*')) || isDatatype) {
                 UMLObject *inner = 0;
-                if (m_currentNamespace[m_nsCnt]->baseType() == UMLObject::ot_Class &&
+                if (m_currentNamespace[m_nsCnt] &&
+                        m_currentNamespace[m_nsCnt]->baseType() == UMLObject::ot_Class &&
                         typeId == m_currentNamespace[m_nsCnt]->name())
                     inner = m_currentNamespace[m_nsCnt];
                 else
