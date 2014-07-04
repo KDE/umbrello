@@ -638,7 +638,7 @@ public:
     @param stream The stream to write to.*/
     virtual void write(QDataStream& stream) const;
 
-    virtual void dump(std::ostream& file, bool recurse=false, QString Info="");
+    virtual void dump(std::ostream& file, bool recurse=false, QString Info = QString());
 
     /**@return The code model for this item.*/
     CodeModel* codeModel()
@@ -1001,7 +1001,7 @@ public:
     virtual void read(QDataStream& stream);
     virtual void write(QDataStream& stream) const;
 
-    virtual void dump(std::ostream& file, bool recurse=false, QString Info="");
+    virtual void dump(std::ostream& file, bool recurse=false, QString Info = QString());
 
 private:
     QStringList m_scope;
@@ -1198,7 +1198,7 @@ public:
     virtual void read(QDataStream& stream);
     virtual void write(QDataStream& stream) const;
 
-    virtual void dump(std::ostream& file, bool recurse=false, QString Info="");
+    virtual void dump(std::ostream& file, bool recurse=false, QString Info = QString());
 
     void addNamespaceImport(const NamespaceImportModel& import);
     void addNamespaceAlias(const NamespaceAliasModel& alias);
@@ -1328,7 +1328,7 @@ public:
     virtual void read(QDataStream& stream);
     virtual void write(QDataStream& stream) const;
 
-    virtual void dump(std::ostream& file, bool recurse=false, QString Info="");
+    virtual void dump(std::ostream& file, bool recurse=false, QString Info = QString());
 
 private:
     QString m_type;
@@ -1464,7 +1464,7 @@ public:
     virtual void read(QDataStream& stream);
     virtual void write(QDataStream& stream) const;
 
-    virtual void dump(std::ostream& file, bool recurse=false, QString Info="");
+    virtual void dump(std::ostream& file, bool recurse=false, QString Info = QString());
 
     void update(const FunctionModel* i);
     bool canUpdate(const FunctionModel* i) const;
@@ -1574,7 +1574,7 @@ public:
     virtual void read(QDataStream& stream);
     virtual void write(QDataStream& stream) const;
 
-    virtual void dump(std::ostream& file, bool recurse=false, QString Info="");
+    virtual void dump(std::ostream& file, bool recurse=false, QString Info = QString());
 
     void update(const VariableModel* i);
     bool canUpdate(const VariableModel* i) const;
@@ -1637,7 +1637,7 @@ public:
     virtual void write(QDataStream& stream) const;
 
     ///The dump-function is not ready yet
-    virtual void dump(std::ostream& file, bool recurse=false, QString Info="");
+    virtual void dump(std::ostream& file, bool recurse=false, QString Info = QString());
 
     void update(const EnumModel* i);
     bool canUpdate(const EnumModel* i) const;
@@ -1689,7 +1689,7 @@ public:
     virtual void read(QDataStream& stream);
     virtual void write(QDataStream& stream) const;
 
-    virtual void dump(std::ostream& file, bool recurse=false, QString Info="");
+    virtual void dump(std::ostream& file, bool recurse=false, QString Info = QString());
 
 private:
     QString m_value;
@@ -1731,7 +1731,7 @@ public:
     virtual void write(QDataStream& stream) const;
 
 
-    virtual void dump(std::ostream& file, bool recurse=false, QString Info="");
+    virtual void dump(std::ostream& file, bool recurse=false, QString Info = QString());
 
     void update(const TypeAliasModel* i);
     bool canUpdate(const TypeAliasModel* i) const;
