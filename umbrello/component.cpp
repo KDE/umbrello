@@ -55,11 +55,11 @@ UMLObject* UMLComponent::clone() const
  */
 void UMLComponent::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
-    QDomElement componentElement = UMLObject::save("UML:Component", qDoc);
-    componentElement.setAttribute("executable", m_executable);
+    QDomElement componentElement = UMLObject::save(QLatin1String("UML:Component"), qDoc);
+    componentElement.setAttribute(QLatin1String("executable"), m_executable);
     // Save contained components if any.
     if (m_objects.count()) {
-        QDomElement ownedElement = qDoc.createElement("UML:Namespace.ownedElement");
+        QDomElement ownedElement = qDoc.createElement(QLatin1String("UML:Namespace.ownedElement"));
         for (UMLObjectListIt objectsIt(m_objects); objectsIt.hasNext();) {
             UMLObject* obj = objectsIt.next();
             obj->saveToXMI (qDoc, ownedElement);
@@ -74,7 +74,7 @@ void UMLComponent::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
  */
 bool UMLComponent::load(QDomElement& element)
 {
-    QString executable = element.attribute("executable", "0");
+    QString executable = element.attribute(QLatin1String("executable"), QLatin1String("0"));
     m_executable = (bool)executable.toInt();
     for (QDomNode node = element.firstChild(); !node.isNull();
             node = node.nextSibling()) {
@@ -84,8 +84,8 @@ bool UMLComponent::load(QDomElement& element)
         QString type = tempElement.tagName();
         if (Model_Utils::isCommonXMIAttribute(type))
             continue;
-        if (UMLDoc::tagEq(type, "Namespace.ownedElement") ||
-                UMLDoc::tagEq(type, "Namespace.contents")) {
+        if (UMLDoc::tagEq(type, QLatin1String("Namespace.ownedElement")) ||
+                UMLDoc::tagEq(type, QLatin1String("Namespace.contents"))) {
             //CHECK: Umbrello currently assumes that nested elements
             // are ownedElements anyway.
             // Therefore these tags are not further interpreted.
@@ -94,7 +94,7 @@ bool UMLComponent::load(QDomElement& element)
             continue;
         }
         UMLObject *pObject = Object_Factory::makeObjectFromXMI(type);
-        if(!pObject) {
+        if (!pObject) {
             uWarning() << "Unknown type of umlobject to create: " << type;
             continue;
         }

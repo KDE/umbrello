@@ -65,7 +65,7 @@ void FloatingDashLineWidget::paint(QPainter *painter, const QStyleOptionGraphics
     painter->setFont(UMLWidget::font());
     painter->drawText(FLOATING_DASH_LINE_TEXT_MARGIN, 0,
                width() - FLOATING_DASH_LINE_TEXT_MARGIN * 2, fontHeight,
-               Qt::AlignLeft, '[' + m_Text + ']');
+               Qt::AlignLeft, QLatin1Char('[') + m_Text + QLatin1Char(']'));
     painter->setPen(QPen(UMLWidget::lineColor(), 0, Qt::DashLine));
     painter->drawLine(0, 0, width(), 0);
 
@@ -157,12 +157,12 @@ qreal FloatingDashLineWidget::getDiffY() const
  */
 void FloatingDashLineWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
-    QDomElement textElement = qDoc.createElement("floatingdashlinewidget");
+    QDomElement textElement = qDoc.createElement(QLatin1String("floatingdashlinewidget"));
     UMLWidget::saveToXMI(qDoc, textElement);
-    textElement.setAttribute("text", m_Text);
-    textElement.setAttribute("y", y());
-    textElement.setAttribute("minY", m_yMin);
-    textElement.setAttribute("maxY", m_yMax);
+    textElement.setAttribute(QLatin1String("text"), m_Text);
+    textElement.setAttribute(QLatin1String("y"), y());
+    textElement.setAttribute(QLatin1String("minY"), m_yMin);
+    textElement.setAttribute(QLatin1String("maxY"), m_yMax);
 
     qElement.appendChild(textElement);
 }
@@ -176,9 +176,9 @@ bool FloatingDashLineWidget::loadFromXMI(QDomElement & qElement)
         return false;
     }
     DEBUG(DBG_SRC) << "load.......";
-    m_yMax = qElement.attribute("maxY").toFloat();
-    m_yMin = qElement.attribute("minY").toFloat();
-    m_Text = qElement.attribute("text");
+    m_yMax = qElement.attribute(QLatin1String("maxY")).toFloat();
+    m_yMin = qElement.attribute(QLatin1String("minY")).toFloat();
+    m_Text = qElement.attribute(QLatin1String("text"));
     DEBUG(DBG_SRC) << "m_y......." << m_y;
     return true;
 }

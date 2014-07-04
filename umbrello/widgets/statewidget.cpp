@@ -42,7 +42,7 @@ StateWidget::StateWidget(UMLScene * scene, StateType stateType, Uml::ID::Type id
     m_stateType = stateType;
     m_drawVertical = true;
     setAspectRatioMode();
-    m_Text = "State";
+    m_Text = QLatin1String("State");
     QSizeF size = minimumSize();
     setSize(size.width(), size.height());
 }
@@ -150,12 +150,12 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
             painter->setFont(UMLWidget::font());
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing() / 2;
-            const int xStar = fm.boundingRect("H").width();
+            const int xStar = fm.boundingRect(QLatin1String("H")).width();
             const int yStar = fontHeight / 4;
             painter->drawText((w / 6),
-                       (h / 4) + fontHeight, "H");
+                       (h / 4) + fontHeight, QLatin1String("H"));
             painter->drawText((w / 6) + xStar,
-                       (h / 4) + fontHeight - yStar, "*");
+                       (h / 4) + fontHeight - yStar, QLatin1String("*"));
         }
         break;
     case StateWidget::ShallowHistory:
@@ -167,7 +167,7 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing() / 2;
             painter->drawText((w / 6),
-                       (h / 4) + fontHeight, "H");
+                       (h / 4) + fontHeight, QLatin1String("H"));
         }
         break;
     case StateWidget::Choice:
@@ -416,20 +416,20 @@ void StateWidget::showPropertiesDialog()
  */
 void StateWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
-    QDomElement stateElement = qDoc.createElement("statewidget");
+    QDomElement stateElement = qDoc.createElement(QLatin1String("statewidget"));
     UMLWidget::saveToXMI(qDoc, stateElement);
-    stateElement.setAttribute("statename", m_Text);
-    stateElement.setAttribute("documentation", m_Doc);
-    stateElement.setAttribute("statetype", m_stateType);
+    stateElement.setAttribute(QLatin1String("statename"), m_Text);
+    stateElement.setAttribute(QLatin1String("documentation"), m_Doc);
+    stateElement.setAttribute(QLatin1String("statetype"), m_stateType);
     if (m_stateType == Fork || m_stateType == Join)
-        stateElement.setAttribute("drawvertical", m_drawVertical);
+        stateElement.setAttribute(QLatin1String("drawvertical"), m_drawVertical);
     //save states activities
-    QDomElement activitiesElement = qDoc.createElement("Activities");
+    QDomElement activitiesElement = qDoc.createElement(QLatin1String("Activities"));
 
     QStringList::Iterator end(m_Activities.end());
     for(QStringList::Iterator it(m_Activities.begin()); it != end; ++it) {
-        QDomElement tempElement = qDoc.createElement("Activity");
-        tempElement.setAttribute("name", *it);
+        QDomElement tempElement = qDoc.createElement(QLatin1String("Activity"));
+        tempElement.setAttribute(QLatin1String("name"), *it);
         activitiesElement.appendChild(tempElement);
     }//end for
     stateElement.appendChild(activitiesElement);
@@ -443,22 +443,22 @@ bool StateWidget::loadFromXMI(QDomElement & qElement)
 {
     if(!UMLWidget::loadFromXMI(qElement))
         return false;
-    m_Text = qElement.attribute("statename");
-    m_Doc = qElement.attribute("documentation");
-    QString type = qElement.attribute("statetype", "1");
+    m_Text = qElement.attribute(QLatin1String("statename"));
+    m_Doc = qElement.attribute(QLatin1String("documentation"));
+    QString type = qElement.attribute(QLatin1String("statetype"), QLatin1String("1"));
     m_stateType = (StateType)type.toInt();
     setAspectRatioMode();
-    QString drawVertical = qElement.attribute("drawvertical", "1");
+    QString drawVertical = qElement.attribute(QLatin1String("drawvertical"), QLatin1String("1"));
     m_drawVertical = (bool)drawVertical.toInt();
     //load states activities
     QDomNode node = qElement.firstChild();
     QDomElement tempElement = node.toElement();
-    if(!tempElement.isNull() && tempElement.tagName() == "Activities") {
+    if(!tempElement.isNull() && tempElement.tagName() == QLatin1String("Activities")) {
         QDomNode node = tempElement.firstChild();
         QDomElement activityElement = node.toElement();
         while(!activityElement.isNull()) {
-            if(activityElement.tagName() == "Activity") {
-                QString name = activityElement.attribute("name");
+            if(activityElement.tagName() == QLatin1String("Activity")) {
+                QString name = activityElement.attribute(QLatin1String("name"));
                 if(!name.isEmpty())
                     m_Activities.append(name);
             }//end if

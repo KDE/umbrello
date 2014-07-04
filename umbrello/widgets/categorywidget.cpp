@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2013                                               *
+ *   copyright (C) 2002-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -69,16 +69,16 @@ void CategoryWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     painter->drawEllipse(0, 0, r, r);
     painter->setPen(textColor());
 
-    QString letterType('D');
+    QString letterType(QLatin1Char('D'));
     switch(static_cast<UMLCategory*>(m_umlObject)->getType()) {
        case UMLCategory::ct_Disjoint_Specialisation:
-           letterType = 'D';
+           letterType = QLatin1Char('D');
            break;
        case UMLCategory::ct_Overlapping_Specialisation:
-           letterType = 'O';
+           letterType = QLatin1Char('O');
            break;
        case UMLCategory::ct_Union:
-           letterType = 'U';
+           letterType = QLatin1Char('U');
            break;
        default:
            break;
@@ -108,7 +108,7 @@ QSizeF CategoryWidget::minimumSize()
  */
 void CategoryWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
-    QDomElement categoryElement = qDoc.createElement("categorywidget");
+    QDomElement categoryElement = qDoc.createElement(QLatin1String("categorywidget"));
     UMLWidget::saveToXMI(qDoc, categoryElement);
     qElement.appendChild(categoryElement);
 }

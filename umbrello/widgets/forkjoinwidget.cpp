@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2013                                               *
+ *   copyright (C) 2005-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -78,7 +78,7 @@ bool ForkJoinWidget::loadFromXMI(QDomElement& qElement)
         return false;
     }
 
-    QString drawVerticalStr = qElement.attribute("drawvertical", "0");
+    QString drawVerticalStr = qElement.attribute(QLatin1String("drawvertical"), QLatin1String("0"));
     bool drawVertical = (bool)drawVerticalStr.toInt();
     if (drawVertical) {
         setOrientation(Qt::Vertical);
@@ -96,13 +96,13 @@ bool ForkJoinWidget::loadFromXMI(QDomElement& qElement)
  */
 void ForkJoinWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
-    QDomElement fjElement = qDoc.createElement("forkjoin");
+    QDomElement fjElement = qDoc.createElement(QLatin1String("forkjoin"));
     UMLWidget::saveToXMI(qDoc, fjElement);
     bool drawVertical = true;
     if (m_orientation == Qt::Horizontal) {
         drawVertical = false;
     }
-    fjElement.setAttribute("drawvertical", drawVertical);
+    fjElement.setAttribute(QLatin1String("drawvertical"), drawVertical);
     qElement.appendChild(fjElement);
 }
 

@@ -1692,7 +1692,7 @@ void UMLWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
             painter->fillRect(0 + w - s, 0 + h - s, s, s, brush);
         }
         // debug info
-        if (Tracer::instance()->isEnabled(metaObject()->className())) {
+        if (Tracer::instance()->isEnabled(QLatin1String(metaObject()->className()))) {
             painter->setPen(Qt::green);
             painter->setBrush(Qt::NoBrush);
             painter->drawPath(shape());
@@ -1847,44 +1847,44 @@ void UMLWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
       Type must be set in the child class.
     */
     WidgetBase::saveToXMI(qDoc, qElement);
-    qElement.setAttribute("xmi.id", Uml::ID::toString(id()));
-    qElement.setAttribute("x", x());
-    qElement.setAttribute("y", y());
-    qElement.setAttribute("width", width());
-    qElement.setAttribute("height", height());
-    qElement.setAttribute("isinstance", m_isInstance);
+    qElement.setAttribute(QLatin1String("xmi.id"), Uml::ID::toString(id()));
+    qElement.setAttribute(QLatin1String("x"), x());
+    qElement.setAttribute(QLatin1String("y"), y());
+    qElement.setAttribute(QLatin1String("width"), width());
+    qElement.setAttribute(QLatin1String("height"), height());
+    qElement.setAttribute(QLatin1String("isinstance"), m_isInstance);
     if (!m_instanceName.isEmpty())
-        qElement.setAttribute("instancename", m_instanceName);
+        qElement.setAttribute(QLatin1String("instancename"), m_instanceName);
     if (m_showStereotype)
-        qElement.setAttribute("showstereotype", m_showStereotype);
+        qElement.setAttribute(QLatin1String("showstereotype"), m_showStereotype);
 
     // Unique identifier for widget (todo: id() should be unique, new attribute
     // should indicate the UMLObject's ID it belongs to)
-    qElement.setAttribute("localid", Uml::ID::toString(m_nLocalID));
+    qElement.setAttribute(QLatin1String("localid"), Uml::ID::toString(m_nLocalID));
 }
 
 bool UMLWidget::loadFromXMI(QDomElement & qElement)
 {
-    QString id = qElement.attribute("xmi.id", "-1");
+    QString id = qElement.attribute(QLatin1String("xmi.id"), QLatin1String("-1"));
     m_nId = Uml::ID::fromString(id);
 
     WidgetBase::loadFromXMI(qElement);
-    QString x = qElement.attribute("x", "0");
-    QString y = qElement.attribute("y", "0");
-    QString h = qElement.attribute("height", "0");
-    QString w = qElement.attribute("width", "0");
+    QString x = qElement.attribute(QLatin1String("x"), QLatin1String("0"));
+    QString y = qElement.attribute(QLatin1String("y"), QLatin1String("0"));
+    QString h = qElement.attribute(QLatin1String("height"), QLatin1String("0"));
+    QString w = qElement.attribute(QLatin1String("width"), QLatin1String("0"));
 
     setSize(w.toFloat(), h.toFloat());
     setX(x.toFloat());
     setY(y.toFloat());
-    QString isinstance = qElement.attribute("isinstance", "0");
+    QString isinstance = qElement.attribute(QLatin1String("isinstance"), QLatin1String("0"));
     m_isInstance = (bool)isinstance.toInt();
-    m_instanceName = qElement.attribute("instancename");
-    QString showstereo = qElement.attribute("showstereotype", "0");
+    m_instanceName = qElement.attribute(QLatin1String("instancename"));
+    QString showstereo = qElement.attribute(QLatin1String("showstereotype"), QLatin1String("0"));
     m_showStereotype = (bool)showstereo.toInt();
 
-    QString localid = qElement.attribute("localid", "0");
-    if (localid != "0") {
+    QString localid = qElement.attribute(QLatin1String("localid"), QLatin1String("0"));
+    if (localid != QLatin1String("0")) {
         m_nLocalID = Uml::ID::fromString(localid);
     }
 

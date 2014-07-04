@@ -467,13 +467,13 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
             }
             // configure & show the file dialog
             const QString rootDir(m_doc->url().directory());
-            QPointer<KFileDialog> fileDialog = new KFileDialog(rootDir, "*.xml", this);
+            QPointer<KFileDialog> fileDialog = new KFileDialog(rootDir, QLatin1String("*.xml"), this);
             fileDialog->setCaption(i18n("Externalize Folder"));
             fileDialog->setOperationMode(KFileDialog::Other);
             // set a sensible default filename
             QString defaultFilename = current->text(0).toLower();
-            defaultFilename.replace(QRegExp("\\W+"), "_");
-            defaultFilename.append(".xml");  // default extension
+            defaultFilename.replace(QRegExp(QLatin1String("\\W+")), QLatin1String("_"));
+            defaultFilename.append(QLatin1String(".xml"));  // default extension
             fileDialog->setSelection(defaultFilename);
             KUrl selURL;
             if (fileDialog->exec() == QDialog::Accepted) {
@@ -514,8 +514,8 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
             modelFolder->setFolderFile(fileName);
             // Recompute text of the folder
             QString folderText = current->text(0);
-            folderText.remove(QRegExp("\\s*\\(.*$"));
-            folderText.append(" (" + fileName + ')');
+            folderText.remove(QRegExp(QLatin1String("\\s*\\(.*$")));
+            folderText.append(QLatin1String(" (") + fileName + QLatin1Char(')'));
             current->setText(folderText);
             break;
         }
@@ -531,7 +531,7 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
             modelFolder->setFolderFile(QString());
             // Recompute text of the folder
             QString folderText = current->text(0);
-            folderText.remove(QRegExp("\\s*\\(.*$"));
+            folderText.remove(QRegExp(QLatin1String("\\s*\\(.*$")));
             current->setText(folderText);
             break;
         }
@@ -588,7 +588,7 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
                 QMenu menu(this);
                 int i = 0;
                 foreach(UMLWidget *w, findResults) {
-                    QAction *action = menu.addAction(w->umlScene()->name() + ':' + w->name());
+                    QAction *action = menu.addAction(w->umlScene()->name() + QLatin1Char(':') + w->name());
                     action->setData(i++);
                 }
                 QAction *action = menu.exec(position);
@@ -930,7 +930,7 @@ void UMLListView::slotObjectCreated(UMLObject* object)
         UMLFolder *f = static_cast<UMLFolder*>(object);
         QString folderFile = f->folderFile();
         if (!folderFile.isEmpty())
-            name.append(" (" + folderFile + ')');
+            name.append(QLatin1String(" (") + folderFile + QLatin1Char(')'));
     }
     newItem = new UMLListViewItem(parentItem, name, lvt, object);
     if (mayHaveChildItems(type)) {
@@ -2169,9 +2169,9 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
         }
 
         if (type == UMLListViewItem::lvt_Subsystem) {
-            object->setStereotypeCmd("subsystem");
+            object->setStereotypeCmd(QLatin1String("subsystem"));
         } else if (Model_Utils::typeIsFolder(type)) {
-            object->setStereotypeCmd("folder");
+            object->setStereotypeCmd(QLatin1String("folder"));
         }
     }
 }
@@ -2280,7 +2280,7 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
  */
 void UMLListView::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
-    QDomElement listElement = qDoc.createElement("listview");
+    QDomElement listElement = qDoc.createElement(QLatin1String("listview"));
     m_rv->saveToXMI(qDoc, listElement);
     qElement.appendChild(listElement);
 }
@@ -2294,9 +2294,9 @@ bool UMLListView::loadFromXMI(QDomElement & element)
     QDomElement domElement = node.toElement();
     m_doc->writeToStatusBar(i18n("Loading listview..."));
     while (!domElement.isNull()) {
-        if (domElement.tagName() == "listitem") {
-            QString type = domElement.attribute("type", "-1");
-            if (type == "-1")
+        if (domElement.tagName() == QLatin1String("listitem")) {
+            QString type = domElement.attribute(QLatin1String("type"), QLatin1String("-1"));
+            if (type == QLatin1String("-1"))
                 return false;
             UMLListViewItem::ListViewType lvType = (UMLListViewItem::ListViewType)type.toInt();
             if (lvType == UMLListViewItem::lvt_View) {
@@ -2321,15 +2321,15 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
     QDomElement domElement = node.toElement();
     while (!domElement.isNull()) {
         node = domElement.nextSibling();
-        if (domElement.tagName() != "listitem") {
+        if (domElement.tagName() != QLatin1String("listitem")) {
             domElement = node.toElement();
             continue;
         }
-        QString id = domElement.attribute("id", "-1");
-        QString type = domElement.attribute("type", "-1");
-        QString label = domElement.attribute("label");
-        QString open = domElement.attribute("open", "1");
-        if (type == "-1")
+        QString id = domElement.attribute(QLatin1String("id"), QLatin1String("-1"));
+        QString type = domElement.attribute(QLatin1String("type"), QLatin1String("-1"));
+        QString label = domElement.attribute(QLatin1String("label"));
+        QString open = domElement.attribute(QLatin1String("open"), QLatin1String("1"));
+        if (type == QLatin1String("-1"))
             return false;
         UMLListViewItem::ListViewType lvType = (UMLListViewItem::ListViewType)type.toInt();
         bool bOpen = (bool)open.toInt();
@@ -2436,7 +2436,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                     item = newItem;
                     if (item) {
                         DEBUG(DBG_SRC) << "Attempted reparenting of " << item->text(0)
-                                       << "(current parent: " << (itmParent ? itmParent->text(0) : "0")
+                                       << "(current parent: " << (itmParent ? itmParent->text(0) : QLatin1String("0"))
                                        << ", new parent: " << parent->text(0) << ")";
                     }
                 }

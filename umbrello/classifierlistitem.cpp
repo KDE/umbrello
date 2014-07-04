@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2013                                               *
+ *   copyright (C) 2003-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -138,7 +138,7 @@ void UMLClassifierListItem::setType(UMLObject *type)
  */
 void UMLClassifierListItem::setTypeName(const QString &type)
 {
-    if (type.isEmpty() || type == "void") {
+    if (type.isEmpty() || type == QLatin1String("void")) {
         m_pSecondary = NULL;
         m_SecondaryId.clear();
         return;
@@ -147,7 +147,7 @@ void UMLClassifierListItem::setTypeName(const QString &type)
     m_pSecondary = pDoc->findUMLObject(type);
     if (m_pSecondary == NULL) {
         // Make data type for easily identified cases
-        if (Model_Utils::isCommonDataType(type) || type.contains('*')) {
+        if (Model_Utils::isCommonDataType(type) || type.contains(QLatin1Char('*'))) {
             m_pSecondary = Object_Factory::createUMLObject(UMLObject::ot_Datatype, type);
             uDebug() << "created datatype for " << type;
         } else {

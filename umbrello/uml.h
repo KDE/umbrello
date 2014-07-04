@@ -318,7 +318,7 @@ private:
 
     void resetStatusMsg();
 
-    void setProgLangAction(Uml::ProgrammingLanguage::Enum pl, const QString& name, const QString& action);
+    void setProgLangAction(Uml::ProgrammingLanguage::Enum pl, const char* name, const char* action);
 
     static bool canDecode(const QMimeData* mimeSource);
 

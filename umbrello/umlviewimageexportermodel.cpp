@@ -40,7 +40,7 @@
 // system includes
 #include <cmath>
 
-#define DBG_IEM "UMLViewImageExporterModel"
+#define DBG_IEM QLatin1String("UMLViewImageExporterModel")
 
 DEBUG_REGISTER(UMLViewImageExporterModel)
 
@@ -59,17 +59,17 @@ QStringList UMLViewImageExporterModel::supportedImageTypes()
         // QT supported formats
         QList<QByteArray> qImageFormats = QImageWriter::supportedImageFormats();
         Q_FOREACH(const QByteArray& it, qImageFormats) {
-            const QString format = it.toLower();
+            const QString format = QString::fromLatin1(it.toLower());
             if (!s_supportedImageTypesList.contains(format))
                 s_supportedImageTypesList << format;
         }
         // specific supported formats
-        if (!s_supportedImageTypesList.contains("dot"))
-            s_supportedImageTypesList << "dot";
-        if (!s_supportedImageTypesList.contains("eps"))
-            s_supportedImageTypesList << "eps";
-        if (!s_supportedImageTypesList.contains("svg"))
-            s_supportedImageTypesList << "svg";
+        if (!s_supportedImageTypesList.contains(QLatin1String("dot")))
+            s_supportedImageTypesList << QLatin1String("dot");
+        if (!s_supportedImageTypesList.contains(QLatin1String("eps")))
+            s_supportedImageTypesList << QLatin1String("eps");
+        if (!s_supportedImageTypesList.contains(QLatin1String("svg")))
+            s_supportedImageTypesList << QLatin1String("svg");
     }
     s_supportedImageTypesList.sort();
 
@@ -107,17 +107,25 @@ QStringList UMLViewImageExporterModel::supportedMimeTypes()
 QString UMLViewImageExporterModel::imageTypeToMimeType(const QString& imageType)
 {
     const QString imgType = imageType.toLower();
-    if (QString("bmp") == imgType) return "image/bmp";
-    if (QString("dot") == imgType) return "image/x-dot";
-    if (QString("jpeg") == imgType) return "image/jpeg";
-    if (QString("pbm") == imgType) return "image/x-portable-bitmap";
-    if (QString("pgm") == imgType) return "image/x-portable-graymap";
-    if (QString("png") == imgType) return "image/png";
-    if (QString("ppm") == imgType) return "image/x-portable-pixmap";
-    if (QString("xbm") == imgType) return "image/x-xbitmap";
-    if (QString("xpm") == imgType) return "image/x-xpixmap";
-    if (QString("eps") == imgType) return "image/x-eps";
-    if (QString("svg") == imgType) return "image/svg+xml";
+    struct lut_t { const char *key, *value; };
+    const struct lut_t lut[] =
+               { { "bmp", "image/bmp"                },
+                 { "dot", "image/x-dot"              },
+                 { "jpeg","image/jpeg"               },
+                 { "pbm", "image/x-portable-bitmap"  },
+                 { "pgm", "image/x-portable-graymap" },
+                 { "png", "image/png"                },
+                 { "ppm", "image/x-portable-pixmap"  },
+                 { "xbm", "image/x-xbitmap"          },
+                 { "xpm", "image/x-xpixmap"          },
+                 { "eps", "image/x-eps"              },
+                 { "svg", "image/svg+xml"            } };
+    const size_t lut_len = sizeof(lut) / sizeof(lut_t);
+    for (size_t i = 0; i < lut_len; i++) {
+        const lut_t& ent = lut[i];
+        if (imgType == QString::fromLatin1(ent.key))
+            return QString::fromLatin1(ent.value);
+    }
     return QString();
 }
 
@@ -131,17 +139,25 @@ QString UMLViewImageExporterModel::imageTypeToMimeType(const QString& imageType)
  */
 QString UMLViewImageExporterModel::mimeTypeToImageType(const QString& mimeType)
 {
-    if (QString("image/bmp") == mimeType) return "bmp";
-    if (QString("image/x-dot") == mimeType) return "dot";
-    if (QString("image/jpeg") == mimeType) return "jpeg";
-    if (QString("image/x-portable-bitmap") == mimeType) return "pbm";
-    if (QString("image/x-portable-graymap") == mimeType) return "pgm";
-    if (QString("image/png") == mimeType) return "png";
-    if (QString("image/x-portable-pixmap") == mimeType) return "ppm";
-    if (QString("image/x-xbitmap") == mimeType) return "xbm";
-    if (QString("image/x-xpixmap") == mimeType) return "xpm";
-    if (QString("image/x-eps") == mimeType) return "eps";
-    if (QString("image/svg+xml") == mimeType) return "svg";
+    struct lut_t { const char *key, *value; };
+    const struct lut_t lut[] =
+               { { "image/bmp",                "bmp" },
+                 { "image/x-dot",              "dot" },
+                 { "image/jpeg",               "jpeg"},
+                 { "image/x-portable-bitmap",  "pbm" },
+                 { "image/x-portable-graymap", "pgm" },
+                 { "image/png",                "png" },
+                 { "image/x-portable-pixmap",  "ppm" },
+                 { "image/x-xbitmap",          "xbm" },
+                 { "image/x-xpixmap",          "xpm" },
+                 { "image/x-eps",              "eps" },
+                 { "image/svg+xml",            "svg" } };
+    const size_t lut_len = sizeof(lut) / sizeof(lut_t);
+    for (size_t i = 0; i < lut_len; i++) {
+        const lut_t& ent = lut[i];
+        if (mimeType == QString::fromLatin1(ent.key))
+            return QString::fromLatin1(ent.value);
+    }
     return QString();
 }
 
@@ -196,7 +212,7 @@ QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, 
         QString returnString = exportView(view->umlScene(), imageType, url);
         if (!returnString.isNull()) {
             // [PORT]
-            errors.append(view->umlScene()->name() + ": " + returnString);
+            errors.append(view->umlScene()->name() + QLatin1String(": ") + returnString);
         }
     }
 
@@ -276,7 +292,7 @@ QString UMLViewImageExporterModel::getDiagramFileName(UMLScene* scene, const QSt
             return Model_Utils::treeViewBuildDiagramName(scene->ID());
         }
         else {
-            return scene->name() + '.' + imageType.toLower();;
+            return scene->name() + QLatin1Char('.') + imageType.toLower();
         }
     }
     else {
@@ -335,15 +351,15 @@ bool UMLViewImageExporterModel::exportViewTo(UMLScene* scene, const QString &ima
     scene->clearSelected();
 
     QString imageMimeType = UMLViewImageExporterModel::imageTypeToMimeType(imageType);
-    if (imageMimeType == "image/x-dot") {
+    if (imageMimeType == QLatin1String("image/x-dot")) {
         if (!exportViewToDot(scene, fileName)) {
             return false;
         }
-    } else if (imageMimeType == "image/x-eps") {
+    } else if (imageMimeType == QLatin1String("image/x-eps")) {
         if (!exportViewToEps(scene, fileName, true)) {
             return false;
         }
-    } else if (imageMimeType == "image/svg+xml") {
+    } else if (imageMimeType == QLatin1String("image/svg+xml")) {
         if (!exportViewToSvg(scene, fileName)) {
             return false;
         }
@@ -542,7 +558,7 @@ bool UMLViewImageExporterModel::fixEPS(const QString &fileName, const QRectF& re
     epsfile.close();
     
     // read information
-    QRegExp rx("%%BoundingBox:\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)");
+    QRegExp rx(QLatin1String("%%BoundingBox:\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)"));
     const int pos = rx.indexIn(fileContent);
     if (pos < 0) {
         uError() << fileName << ": cannot find %%BoundingBox";
@@ -566,7 +582,7 @@ bool UMLViewImageExporterModel::fixEPS(const QString &fileName, const QRectF& re
     
     // modify content
     fileContent.replace(pos, rx.cap(0).length(),
-                        QString("%%BoundingBox: %1 %2 %3 %4").arg(left).arg(bottom).arg(right).arg(top));
+                        QString::fromLatin1("%%BoundingBox: %1 %2 %3 %4").arg(left).arg(bottom).arg(right).arg(top));
     
     ts << fileContent;
     epsfile.close();

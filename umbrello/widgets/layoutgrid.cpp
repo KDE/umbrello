@@ -26,6 +26,7 @@
 #include <QPainter>
 #include <QVarLengthArray>
 
+#define DBG_LOG() DEBUG(QLatin1String("LayoutGrid"))
 DEBUG_REGISTER_DISABLED(LayoutGrid)
 
 /**
@@ -81,7 +82,7 @@ int LayoutGrid::gridSpacingY() const
 
 void LayoutGrid::setGridSpacing(int sizeX, int sizeY)
 {
-    DEBUG("LayoutGrid") << "x = " << sizeX << " / y = " << sizeY;
+    DBG_LOG() << "x = " << sizeX << " / y = " << sizeY;
     m_gridSpacingX= sizeX;
     m_gridSpacingY= sizeY;
 }
@@ -93,7 +94,7 @@ const QColor& LayoutGrid::gridDotColor() const
 
 void LayoutGrid::setGridDotColor(const QColor& color)
 {
-    DEBUG("LayoutGrid") << "color = " << color;
+    DBG_LOG() << "color = " << color;
     m_gridDotColor = color;
 }
 
@@ -105,7 +106,7 @@ bool LayoutGrid::isVisible() const
 void LayoutGrid::setVisible(bool visible)
 {
     if (m_isVisible != visible) {
-        DEBUG("LayoutGrid") << "visible = " << visible;
+        DBG_LOG() << "visible = " << visible;
         m_isVisible = visible;
         m_scene->update();
     }

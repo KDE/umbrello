@@ -65,7 +65,8 @@ QString mdlPath()
  */
 QString loc()
 {
-    return "Import_Rose::" + g_methodName + " line " + QString::number(linum) + ": ";
+    return QLatin1String("Import_Rose::") + g_methodName +
+           QLatin1String(" line ") + QString::number(linum) + QLatin1String(": ");
 }
 
 /**
@@ -82,7 +83,7 @@ QStringList scan(const QString& lin)
     bool inString = false;
     for (uint i = 0; i < len; ++i) {
         QChar c = line[i];
-        if (c == '"') {
+        if (c == QLatin1Char('"')) {
             lexeme += c;
             if (inString) {
                 result.append(lexeme);
@@ -90,7 +91,7 @@ QStringList scan(const QString& lin)
             }
             inString = !inString;
         } else if (inString ||
-                   c.isLetterOrNumber() || c == '_' || c == '@') {
+                   c.isLetterOrNumber() || c == QLatin1Char('_') || c == QLatin1Char('@')) {
             lexeme += c;
         } else {
             if (!lexeme.isEmpty()) {
@@ -124,12 +125,12 @@ bool checkClosing(QStringList& tokens)
 {
     if (tokens.count() == 0)
         return false;
-    if (tokens.last() == ")") {
+    if (tokens.last() == QLatin1String(")")) {
         // For a single closing parenthesis, we just return true.
         // But if there are more closing parentheses, we need to increment
         // nClosures for each scope.
         tokens.pop_back();
-        while (tokens.count() && tokens.last() == ")") {
+        while (tokens.count() && tokens.last() == QLatin1String(")")) {
             nClosures++;
             tokens.pop_back();
         }
@@ -145,7 +146,7 @@ bool checkClosing(QStringList& tokens)
  */
 bool isImmediateValue(QString s)
 {
-    return s.contains(QRegExp("^[\\d\\-\"]"));
+    return s.contains(QRegExp(QLatin1String("^[\\d\\-\"]")));
 }
 
 /**
@@ -164,7 +165,7 @@ QString extractImmediateValues(QStringList& l)
 {
     if (l.count() == 0)
         return QString();
-    if (l.first() == "(")
+    if (l.first() == QLatin1String("("))
         l.pop_front();
     QString result;
     bool start = true;
@@ -172,14 +173,14 @@ QString extractImmediateValues(QStringList& l)
         if (start)
             start = false;
         else
-            result += ' ';
+            result += QLatin1Char(' ');
         result += shift(l);
-        if (l.first() == ",")
+        if (l.first() == QLatin1String(","))
             l.pop_front();
     }
-    if (l.first() == ")")
+    if (l.first() == QLatin1String(")"))
         l.pop_front();
-    while (l.count() && l.first() == ")") {
+    while (l.count() && l.first() == QLatin1String(")")) {
         nClosures++;
         l.pop_front();
     }
@@ -190,17 +191,17 @@ QString collectVerbatimText(QTextStream& stream)
 {
     QString result;
     QString line;
-    methodName("collectVerbatimText");
+    methodName(QLatin1String("collectVerbatimText"));
     while (!(line = stream.readLine()).isNull()) {
         linum++;
         line = line.trimmed();
-        if (line.isEmpty() || line.startsWith(')'))
+        if (line.isEmpty() || line.startsWith(QLatin1Char(')')))
             break;
-        if (line[0] != '|') {
+        if (line[0] != QLatin1Char('|')) {
             uError() << loc() << "expecting '|' at start of verbatim text";
             return QString();
         } else {
-            result += line.mid(1) + '\n';
+            result += line.mid(1) + QLatin1Char('\n');
         }
     }
     if (line.isNull()) {
@@ -210,7 +211,7 @@ QString collectVerbatimText(QTextStream& stream)
     if (! line.isEmpty()) {
         for (int i = 0; i < line.length(); ++i) {
             const QChar& clParenth = line[i];
-            if (clParenth != ')') {
+            if (clParenth != QLatin1Char(')')) {
                 uError() << loc() << "expected ')', found: " << clParenth;
                 return QString();
             }
@@ -242,12 +243,12 @@ QString collectVerbatimText(QTextStream& stream)
  */
 QString extractValue(QStringList& l, QTextStream& stream)
 {
-    methodName("extractValue");
+    methodName(QLatin1String("extractValue"));
     if (l.count() == 0)
         return QString();
-    if (l.first() == "(")
+    if (l.first() == QLatin1String("("))
         l.pop_front();
-    if (l.first() != "value")
+    if (l.first() != QLatin1String("value"))
         return QString();
     l.pop_front();  // remove "value"
     l.pop_front();  // remove the value type: could be e.g. "Text" or "cardinality"
@@ -258,13 +259,13 @@ QString extractValue(QStringList& l, QTextStream& stream)
         return text;
     } else {
         result = shift(l);
-        if (l.first() != ")") {
+        if (l.first() != QLatin1String(")")) {
             uError() << loc() << "expecting closing parenthesis";
             return result;
         }
         l.pop_front();
     }
-    while (l.count() && l.first() == ")") {
+    while (l.count() && l.first() == QLatin1String(")")) {
         nClosures++;
         l.pop_front();
     }
@@ -280,16 +281,16 @@ QString extractValue(QStringList& l, QTextStream& stream)
  */
 PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
 {
-    methodName("readAttributes");
+    methodName(QLatin1String("readAttributes"));
     if (initialArgs.count() == 0) {
         uError() << loc() << "initialArgs is empty";
         return NULL;
     }
     PetalNode::NodeType nt;
     QString type = shift(initialArgs);
-    if (type == "object")
+    if (type == QLatin1String("object"))
         nt = PetalNode::nt_object;
-    else if (type == "list")
+    else if (type == QLatin1String("list"))
         nt = PetalNode::nt_list;
     else {
         uError() << loc() << "unknown node type " << type;
@@ -310,7 +311,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
         QStringList tokens = scan(line);
         QString stringOrNodeOpener = shift(tokens);
         QString name;
-        if (nt == PetalNode::nt_object && !stringOrNodeOpener.contains(QRegExp("^[A-Za-z]"))) {
+        if (nt == PetalNode::nt_object && !stringOrNodeOpener.contains(QRegExp(QLatin1String("^[A-Za-z]")))) {
             uError() << loc() << "unexpected line " << line;
             return NULL;
         }
@@ -332,12 +333,12 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
                 continue;
             }
             stringOrNodeOpener = shift(tokens);
-        } else if (stringOrNodeOpener != "(") {
+        } else if (stringOrNodeOpener != QLatin1String("(")) {
             value.string = stringOrNodeOpener;
             PetalNode::NameValue attr;
             attr.second = value;
             attrs.append(attr);
-            if (tokens.count() && tokens.first() != ")") {
+            if (tokens.count() && tokens.first() != QLatin1String(")")) {
                 uDebug() << loc()
                     << "NYI - immediate list entry with more than one item";
             }
@@ -345,11 +346,11 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
                 break;
             continue;
         }
-        if (stringOrNodeOpener == "(") {
+        if (stringOrNodeOpener == QLatin1String("(")) {
             QString nxt = tokens.first();
             if (isImmediateValue(nxt)) {
                 value.string = extractImmediateValues(tokens);
-            } else if (nxt == "value" || nxt.startsWith('\"')) {
+            } else if (nxt == QLatin1String("value") || nxt.startsWith(QLatin1Char('"'))) {
                 value.string = extractValue(tokens, stream);
             } else {
                 value.node = readAttributes(tokens, stream);
@@ -394,7 +395,7 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
 {
     if (parentPkg == NULL) {
         QString fName = file.fileName();
-        int lastSlash = fName.lastIndexOf('/');
+        int lastSlash = fName.lastIndexOf(QLatin1Char('/'));
         if (lastSlash > 0) {
             dirPrefix = fName.left(lastSlash + 1);
         }
@@ -409,19 +410,19 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
     linum = 0;
     while (!(line = stream.readLine()).isNull()) {
         linum++;
-        if (line.contains(QRegExp("^\\s*\\(object Petal"))) {
+        if (line.contains(QRegExp(QLatin1String("^\\s*\\(object Petal")))) {
             bool finish = false;
             // Nested loop determines character set to use
             while (!(line = stream.readLine()).isNull()) {
                 linum++; // CHECK: do we need petal version info?
-                if (line.contains(')')) {
+                if (line.contains(QLatin1Char(')'))) {
                     finish = true;
-                    line = line.replace(QLatin1String(")"), QString());
+                    line = line.replace(QLatin1String(QLatin1String(")")), QString());
                 }
-                QStringList a = line.trimmed().split(QRegExp("\\s+"));
-                if (a.size() == 2 && a[0] == "charSet") {
+                QStringList a = line.trimmed().split(QRegExp(QLatin1String("\\s+")));
+                if (a.size() == 2 && a[0] == QLatin1String("charSet")) {
                     const QString& charSet = a[1];
-                    if (!charSet.contains(QRegExp("^\\d+$"))) {
+                    if (!charSet.contains(QRegExp(QLatin1String("^\\d+$")))) {
                         uWarning() << "Unimplemented charSet " << charSet;
                         if (finish)
                             break;
@@ -477,7 +478,7 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
             if (line.isNull())
                 break;
         } else {
-            QRegExp objectRx("^\\s*\\(object ");
+            QRegExp objectRx(QLatin1String("^\\s*\\(object "));
             if (line.contains(objectRx)) {
                 nClosures = 0;
                 QStringList initialArgs = scan(line);
@@ -497,7 +498,7 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
         return petalTree2Uml(root, parentPkg);
     }
 
-    if (root->name() != "Design") {
+    if (root->name() != QLatin1String("Design")) {
         uError() << "expecting root name Design";
         return NULL;
     }
@@ -508,24 +509,28 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
     umldoc->setCurrentRoot(Uml::ModelType::Logical);
     UMLPackage *logicalView = umldoc->rootFolder(Uml::ModelType::Logical);
     importView(root, logicalView,
-               "root_category", "logical_models", "Class_Category", "logical_presentations");
+               QLatin1String("root_category"), QLatin1String("logical_models"),
+               QLatin1String("Class_Category"), QLatin1String("logical_presentations"));
 
     //*************************** import Use Case View ********************************
     umldoc->setCurrentRoot(Uml::ModelType::UseCase);
     UMLPackage *useCaseView = umldoc->rootFolder(Uml::ModelType::UseCase);
     importView(root, useCaseView,
-               "root_usecase_package", "logical_models", "Class_Category", "logical_presentations");
+               QLatin1String("root_usecase_package"), QLatin1String("logical_models"),
+               QLatin1String("Class_Category"), QLatin1String("logical_presentations"));
 
     //*************************** import Component View *******************************
     umldoc->setCurrentRoot(Uml::ModelType::Component);
     UMLPackage *componentView = umldoc->rootFolder(Uml::ModelType::Component);
     importView(root, componentView,
-               "root_subsystem", "physical_models", "SubSystem", "physical_presentations");
+               QLatin1String("root_subsystem"), QLatin1String("physical_models"),
+               QLatin1String("SubSystem"), QLatin1String("physical_presentations"));
 
     //*************************** import Deployment View ******************************
     umldoc->setCurrentRoot(Uml::ModelType::Deployment);
     UMLPackage *deploymentView = umldoc->rootFolder(Uml::ModelType::Deployment);
-    importView(root, deploymentView, "process_structure", "ProcsNDevs", "Processes");
+    importView(root, deploymentView, QLatin1String("process_structure"),
+                                     QLatin1String("ProcsNDevs"), QLatin1String("Processes"));
 
     //***************************       wrap up        ********************************
     umldoc->setCurrentRoot(Uml::ModelType::Logical);

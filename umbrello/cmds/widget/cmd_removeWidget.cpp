@@ -29,7 +29,7 @@ namespace Uml
         setText(i18n("Remove widget : %1", widget->name()));
 
         QDomDocument doc;
-        m_element = doc.createElement("widget");
+        m_element = doc.createElement(QLatin1String("widget"));
         widget->saveToXMI(doc, m_element);
     }
 

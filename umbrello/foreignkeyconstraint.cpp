@@ -123,18 +123,18 @@ QString UMLForeignKeyConstraint::toString(Uml::SignatureType::Enum sig)
     QString s;
 
     if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::SigNoVis) {
-        s = name() + ':';
-        s += " Foreign Key (";
+        s = name() + QLatin1Char(':');
+        s += QLatin1String(" Foreign Key (");
         QList<UMLEntityAttribute*> keys = m_AttributeMap.keys();
         bool first = true;
         foreach(UMLEntityAttribute* key, keys) {
             if (first) {
                 first = false;
             } else
-                s += ',';
+                s += QLatin1Char(',');
             s += key->name();
         }
-        s += ')';
+        s += QLatin1Char(')');
     }
 
     return s;
@@ -145,21 +145,21 @@ QString UMLForeignKeyConstraint::toString(Uml::SignatureType::Enum sig)
  */
 void UMLForeignKeyConstraint::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
-    QDomElement foreignKeyConstraintElement = UMLObject::save("UML:ForeignKeyConstraint", qDoc);
+    QDomElement foreignKeyConstraintElement = UMLObject::save(QLatin1String("UML:ForeignKeyConstraint"), qDoc);
 
-    foreignKeyConstraintElement.setAttribute("referencedEntity", Uml::ID::toString(m_ReferencedEntity->id()));
+    foreignKeyConstraintElement.setAttribute(QLatin1String("referencedEntity"), Uml::ID::toString(m_ReferencedEntity->id()));
 
     int updateAction = (int)m_UpdateAction;
     int deleteAction = (int)m_DeleteAction;
 
-    foreignKeyConstraintElement.setAttribute("updateAction", updateAction);
-    foreignKeyConstraintElement.setAttribute("deleteAction", deleteAction);
+    foreignKeyConstraintElement.setAttribute(QLatin1String("updateAction"), updateAction);
+    foreignKeyConstraintElement.setAttribute(QLatin1String("deleteAction"), deleteAction);
 
     QMap<UMLEntityAttribute*, UMLEntityAttribute*>::iterator i;
     for (i = m_AttributeMap.begin(); i!= m_AttributeMap.end() ; ++i) {
-        QDomElement mapElement = qDoc.createElement("AttributeMap");
-        mapElement.setAttribute("key", Uml::ID::toString((i.key())->id()));
-        mapElement.setAttribute("value", Uml::ID::toString((i.value())->id()));
+        QDomElement mapElement = qDoc.createElement(QLatin1String("AttributeMap"));
+        mapElement.setAttribute(QLatin1String("key"), Uml::ID::toString((i.key())->id()));
+        mapElement.setAttribute(QLatin1String("value"), Uml::ID::toString((i.value())->id()));
         foreignKeyConstraintElement.appendChild(mapElement);
     }
 
@@ -228,8 +228,8 @@ bool UMLForeignKeyConstraint::addEntityAttributePair(UMLEntityAttribute* pAttr, 
 
      QMap<UMLEntityAttribute*, UMLEntityAttribute*>::iterator i;
      for (i = m_AttributeMap.begin(); i != m_AttributeMap.end(); ++i)
-         uDebug() << i.key()->name() << " " << i.key()->baseType()
-                 << " " << i.value()->name() << " " << i.value()->baseType();
+         uDebug() << i.key()->name() << QLatin1String(" ") << i.key()->baseType()
+                 << QLatin1String(" ") << i.value()->name() << QLatin1String(" ") << i.value()->baseType();
 
      return true;
 }
@@ -271,7 +271,7 @@ bool UMLForeignKeyConstraint::load(QDomElement & element)
 {
     UMLDoc* doc = UMLApp::app()->document();
 
-    Uml::ID::Type referencedEntityId = Uml::ID::fromString(element.attribute("referencedEntity"));
+    Uml::ID::Type referencedEntityId = Uml::ID::fromString(element.attribute(QLatin1String("referencedEntity")));
 
     UMLObject* obj = doc->findObjectById(referencedEntityId);
     m_ReferencedEntity = static_cast<UMLEntity*>(obj);
@@ -281,8 +281,8 @@ bool UMLForeignKeyConstraint::load(QDomElement & element)
         m_pReferencedEntityID = referencedEntityId;
     }
 
-    m_UpdateAction = (UpdateDeleteAction)element.attribute("updateAction").toInt();
-    m_DeleteAction = (UpdateDeleteAction)element.attribute("deleteAction").toInt();
+    m_UpdateAction = (UpdateDeleteAction)element.attribute(QLatin1String("updateAction")).toInt();
+    m_DeleteAction = (UpdateDeleteAction)element.attribute(QLatin1String("deleteAction")).toInt();
 
     QDomNode node = element.firstChild();
     while (!node.isNull()) {
@@ -292,10 +292,10 @@ bool UMLForeignKeyConstraint::load(QDomElement & element)
         }
         QDomElement tempElement = node.toElement();
         QString tag = tempElement.tagName();
-        if (UMLDoc::tagEq(tag, "AttributeMap")) {
+        if (UMLDoc::tagEq(tag, QLatin1String("AttributeMap"))) {
 
-            QString xmiKey = tempElement.attribute("key");
-            QString xmiValue = tempElement.attribute("value");
+            QString xmiKey = tempElement.attribute(QLatin1String("key"));
+            QString xmiValue = tempElement.attribute(QLatin1String("value"));
             Uml::ID::Type keyId = Uml::ID::fromString(xmiKey);
             Uml::ID::Type valueId = Uml::ID::fromString(xmiValue);
 

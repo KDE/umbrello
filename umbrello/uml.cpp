@@ -172,18 +172,18 @@ UMLApp::UMLApp(QWidget* parent)
     readOptions();
 
     //get a reference to the Code->Active Language and to the Diagram->Zoom menu
-    m_langSelect = findMenu(QString("active_lang_menu"));
+    m_langSelect = findMenu(QLatin1String("active_lang_menu"));
     //in case langSelect hasn't been initialized we create the Popup menu.
     //it will be hidden, but at least we wont crash if someone takes the entry away from the ui.rc file
     if (m_langSelect == NULL) {
-        m_langSelect = new QMenu(QString("active_lang_menu"), this);
+        m_langSelect = new QMenu(QLatin1String("active_lang_menu"), this);
     }
 
-    m_zoomSelect = findMenu(QString("zoom_menu"));
+    m_zoomSelect = findMenu(QLatin1String("zoom_menu"));
     //in case zoomSelect hasn't been initialized we create the Popup menu.
     //it will be hidden, but at least we wont crash if some one takes the entry away from the ui.rc file
     if (m_zoomSelect == NULL) {
-        m_zoomSelect = new QMenu(QString("zoom_menu"), this);
+        m_zoomSelect = new QMenu(QLatin1String("zoom_menu"), this);
     }
 
     //connect zoomSelect menu
@@ -219,10 +219,10 @@ UMLApp* UMLApp::app()
 /**
  * Helper method to setup the programming language action.
  */
-void UMLApp::setProgLangAction(Uml::ProgrammingLanguage::Enum pl, const QString& name, const QString& action)
+void UMLApp::setProgLangAction(Uml::ProgrammingLanguage::Enum pl, const char* name, const char* action)
 {
-    m_langAct[pl] = actionCollection()->addAction(action);
-    m_langAct[pl]->setText(name);
+    m_langAct[pl] = actionCollection()->addAction(QString::fromLatin1(action));
+    m_langAct[pl]->setText(QString::fromLatin1(name));
     m_langAct[pl]->setCheckable(true);
 }
 
@@ -269,40 +269,40 @@ void UMLApp::initActions()
 
     /* QAction* selectAll = */ KStandardAction::selectAll(this, SLOT(slotSelectAll()), actionCollection());
 
-    QAction* fileExportDocbook = actionCollection()->addAction("file_export_docbook");
+    QAction* fileExportDocbook = actionCollection()->addAction(QLatin1String("file_export_docbook"));
     fileExportDocbook->setText(i18n("&Export model to DocBook"));
     connect(fileExportDocbook, SIGNAL(triggered(bool)), this, SLOT(slotFileExportDocbook()));
 
-    QAction* fileExportXhtml = actionCollection()->addAction("file_export_xhtml");
+    QAction* fileExportXhtml = actionCollection()->addAction(QLatin1String("file_export_xhtml"));
     fileExportXhtml->setText(i18n("&Export model to XHTML"));
     connect(fileExportXhtml, SIGNAL(triggered(bool)), this, SLOT(slotFileExportXhtml()));
 
-    QAction* classWizard = actionCollection()->addAction("class_wizard");
+    QAction* classWizard = actionCollection()->addAction(QLatin1String("class_wizard"));
     classWizard->setText(i18n("&New Class Wizard..."));
     connect(classWizard, SIGNAL(triggered(bool)), this, SLOT(slotClassWizard()));
 
-    QAction* addDefDatatypes = actionCollection()->addAction("create_default_datatypes");
+    QAction* addDefDatatypes = actionCollection()->addAction(QLatin1String("create_default_datatypes"));
     addDefDatatypes->setText(i18n("&Add Default Datatypes for Active Language"));
     connect(addDefDatatypes, SIGNAL(triggered(bool)), this, SLOT(slotAddDefaultDatatypes()));
 
     QAction* preferences = KStandardAction::preferences(this, SLOT(slotPrefs()), actionCollection());
 
-    QAction* impWizard = actionCollection()->addAction("importing_wizard");
+    QAction* impWizard = actionCollection()->addAction(QLatin1String("importing_wizard"));
     impWizard->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Import_Files));
     impWizard->setText(i18n("Code &Importing Wizard..."));
     connect(impWizard, SIGNAL(triggered(bool)), this, SLOT(slotImportingWizard()));
 
-    QAction* importProject = actionCollection()->addAction("import_project");
+    QAction* importProject = actionCollection()->addAction(QLatin1String("import_project"));
     importProject->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Import_Project));
     importProject->setText(i18n("Import &Project..."));
     connect(importProject, SIGNAL(triggered(bool)), this, SLOT(slotImportProject()));
 
-    QAction* genWizard = actionCollection()->addAction("generation_wizard");
+    QAction* genWizard = actionCollection()->addAction(QLatin1String("generation_wizard"));
     genWizard->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Export_Files));
     genWizard->setText(i18n("&Code Generation Wizard..."));
     connect(genWizard, SIGNAL(triggered(bool)), this, SLOT(slotExecGenerationWizard()));
 
-    QAction* genAll = actionCollection()->addAction("generate_all");
+    QAction* genAll = actionCollection()->addAction(QLatin1String("generate_all"));
     genAll->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Export_Files));
     genAll->setText(i18n("&Generate All Code"));
     connect(genAll, SIGNAL(triggered(bool)), this, SLOT(slotGenerateAllCode()));
@@ -365,120 +365,120 @@ void UMLApp::initActions()
     editPaste->setToolTip(i18n("Pastes the contents of the clipboard"));
     preferences->setToolTip(i18n("Set the default program preferences"));
 
-    deleteSelectedWidget = actionCollection()->addAction("delete_selected");
+    deleteSelectedWidget = actionCollection()->addAction(QLatin1String("delete_selected"));
     deleteSelectedWidget->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Delete));
     deleteSelectedWidget->setText(i18nc("delete selected widget", "Delete &Selected"));
     deleteSelectedWidget->setShortcut(QKeySequence(Qt::Key_Delete));
     connect(deleteSelectedWidget, SIGNAL(triggered(bool)), this, SLOT(slotDeleteSelected()));
 
     // The different views
-    newDiagram = actionCollection()->add<KActionMenu>("new_view");
+    newDiagram = actionCollection()->add<KActionMenu>(QLatin1String("new_view"));
     newDiagram->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_New));
-    newDiagram->setText("new_view");
+    newDiagram->setText(QLatin1String("new_view"));
 
-    QAction* classDiagram = actionCollection()->addAction("new_class_diagram");
+    QAction* classDiagram = actionCollection()->addAction(QLatin1String("new_class_diagram"));
     classDiagram->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Class));
     classDiagram->setText(i18n("&Class Diagram..."));
     connect(classDiagram, SIGNAL(triggered(bool)), this, SLOT(slotClassDiagram()));
     newDiagram->addAction(classDiagram);
 
-    QAction* sequenceDiagram= actionCollection()->addAction("new_sequence_diagram");
+    QAction* sequenceDiagram= actionCollection()->addAction(QLatin1String("new_sequence_diagram"));
     sequenceDiagram->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Sequence));
     sequenceDiagram->setText(i18n("&Sequence Diagram..."));
     connect(sequenceDiagram, SIGNAL(triggered(bool)), this, SLOT(slotSequenceDiagram()));
     newDiagram->addAction(sequenceDiagram);
 
-    QAction* collaborationDiagram = actionCollection()->addAction("new_collaboration_diagram");
+    QAction* collaborationDiagram = actionCollection()->addAction(QLatin1String("new_collaboration_diagram"));
     collaborationDiagram->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Collaboration));
     collaborationDiagram->setText(i18n("C&ollaboration Diagram..."));
     connect(collaborationDiagram, SIGNAL(triggered(bool)), this, SLOT(slotCollaborationDiagram()));
     newDiagram->addAction(collaborationDiagram);
 
-    QAction* useCaseDiagram = actionCollection()->addAction("new_use_case_diagram");
+    QAction* useCaseDiagram = actionCollection()->addAction(QLatin1String("new_use_case_diagram"));
     useCaseDiagram->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Usecase));
     useCaseDiagram->setText(i18n("&Use Case Diagram..."));
     connect(useCaseDiagram, SIGNAL(triggered(bool)), this, SLOT(slotUseCaseDiagram()));
     newDiagram->addAction(useCaseDiagram);
 
-    QAction* stateDiagram = actionCollection()->addAction("new_state_diagram");
+    QAction* stateDiagram = actionCollection()->addAction(QLatin1String("new_state_diagram"));
     stateDiagram->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_State));
     stateDiagram->setText(i18n("S&tate Diagram..."));
     connect(stateDiagram, SIGNAL(triggered(bool)), this, SLOT(slotStateDiagram()));
     newDiagram->addAction(stateDiagram);
 
-    QAction* activityDiagram = actionCollection()->addAction("new_activity_diagram");
+    QAction* activityDiagram = actionCollection()->addAction(QLatin1String("new_activity_diagram"));
     activityDiagram->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Activity));
     activityDiagram->setText(i18n("&Activity Diagram..."));
     connect(activityDiagram, SIGNAL(triggered(bool)), this, SLOT(slotActivityDiagram()));
     newDiagram->addAction(activityDiagram);
 
-    QAction* componentDiagram = actionCollection()->addAction("new_component_diagram");
+    QAction* componentDiagram = actionCollection()->addAction(QLatin1String("new_component_diagram"));
     componentDiagram->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Component));
     componentDiagram->setText(i18n("Co&mponent Diagram..."));
     connect(componentDiagram, SIGNAL(triggered(bool)), this, SLOT(slotComponentDiagram()));
     newDiagram->addAction(componentDiagram);
 
-    QAction* deploymentDiagram = actionCollection()->addAction("new_deployment_diagram");
+    QAction* deploymentDiagram = actionCollection()->addAction(QLatin1String("new_deployment_diagram"));
     deploymentDiagram->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Deployment));
     deploymentDiagram->setText(i18n("&Deployment Diagram..."));
     connect(deploymentDiagram, SIGNAL(triggered(bool)), this, SLOT(slotDeploymentDiagram()));
     newDiagram->addAction(deploymentDiagram);
 
-    QAction* entityRelationshipDiagram = actionCollection()->addAction("new_entityrelationship_diagram");
+    QAction* entityRelationshipDiagram = actionCollection()->addAction(QLatin1String("new_entityrelationship_diagram"));
     entityRelationshipDiagram->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_EntityRelationship));
     entityRelationshipDiagram->setText(i18n("&Entity Relationship Diagram..."));
     connect(entityRelationshipDiagram, SIGNAL(triggered(bool)), this, SLOT(slotEntityRelationshipDiagram()));
     newDiagram->addAction(entityRelationshipDiagram);
 
-    viewShowTree = actionCollection()->add<KToggleAction>("view_show_tree");
+    viewShowTree = actionCollection()->add<KToggleAction>(QLatin1String("view_show_tree"));
     viewShowTree->setText(i18n("&Tree View"));
     connect(viewShowTree, SIGNAL(triggered(bool)), this, SLOT(slotShowTreeView(bool)));
 
-    viewShowDebug = actionCollection()->add<KToggleAction>("view_show_debug");
+    viewShowDebug = actionCollection()->add<KToggleAction>(QLatin1String("view_show_debug"));
     viewShowDebug->setText(i18n("&Debugging"));
     connect(viewShowDebug, SIGNAL(triggered(bool)), this, SLOT(slotShowDebugView(bool)));
 
-    viewShowDoc = actionCollection()->add<KToggleAction>("view_show_doc");
+    viewShowDoc = actionCollection()->add<KToggleAction>(QLatin1String("view_show_doc"));
     viewShowDoc->setText(i18n("&Documentation"));
     connect(viewShowDoc, SIGNAL(triggered(bool)), this, SLOT(slotShowDocumentationView(bool)));
 
-    viewShowLog = actionCollection()->add<KToggleAction>("view_show_log");
+    viewShowLog = actionCollection()->add<KToggleAction>(QLatin1String("view_show_log"));
     viewShowLog->setText(i18n("&Logging"));
     connect(viewShowLog, SIGNAL(triggered(bool)), this, SLOT(slotShowLogView(bool)));
 
-    viewShowCmdHistory = actionCollection()->add<KToggleAction>("view_show_undo");
+    viewShowCmdHistory = actionCollection()->add<KToggleAction>(QLatin1String("view_show_undo"));
     viewShowCmdHistory->setText(i18n("&Command history"));
     connect(viewShowCmdHistory, SIGNAL(triggered(bool)), this, SLOT(slotShowCmdHistoryView(bool)));
 
-    viewClearDiagram = actionCollection()->addAction("view_clear_diagram");
+    viewClearDiagram = actionCollection()->addAction(QLatin1String("view_clear_diagram"));
     viewClearDiagram->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Clear));
     viewClearDiagram->setText(i18n("&Clear Diagram"));
     connect(viewClearDiagram, SIGNAL(triggered(bool)), this, SLOT(slotCurrentViewClearDiagram()));
 
-    viewSnapToGrid = actionCollection()->add<KToggleAction>("view_snap_to_grid");
+    viewSnapToGrid = actionCollection()->add<KToggleAction>(QLatin1String("view_snap_to_grid"));
     viewSnapToGrid->setText(i18n("&Snap to Grid"));
     connect(viewSnapToGrid, SIGNAL(triggered(bool)), this, SLOT(slotCurrentViewToggleSnapToGrid()));
 
-    viewShowGrid = actionCollection()->add<KToggleAction>("view_show_grid");
+    viewShowGrid = actionCollection()->add<KToggleAction>(QLatin1String("view_show_grid"));
     viewShowGrid->setText(i18n("S&how Grid"));
     connect(viewShowGrid, SIGNAL(triggered(bool)), this, SLOT(slotCurrentViewToggleShowGrid()));
 
-    deleteDiagram = actionCollection()->addAction("view_delete");
+    deleteDiagram = actionCollection()->addAction(QLatin1String("view_delete"));
     deleteDiagram->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Delete));
     deleteDiagram->setText(i18n("&Delete Diagram"));
     connect(deleteDiagram, SIGNAL(triggered(bool)), this, SLOT(slotDeleteDiagram()));
 
-    viewExportImage = actionCollection()->addAction("view_export_image");
+    viewExportImage = actionCollection()->addAction(QLatin1String("view_export_image"));
     viewExportImage->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Export_Picture));
     viewExportImage->setText(i18n("&Export as Picture..."));
     connect(viewExportImage, SIGNAL(triggered(bool)), this, SLOT(slotCurrentViewExportImage()));
 
-    QAction* viewExportImageAll = actionCollection()->addAction("view_export_image_all");
+    QAction* viewExportImageAll = actionCollection()->addAction(QLatin1String("view_export_image_all"));
     viewExportImageAll->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Export_Picture));
     viewExportImageAll->setText(i18n("Export &All Diagrams as Pictures..."));
     connect(viewExportImageAll, SIGNAL(triggered(bool)), this, SLOT(slotAllViewsExportImage()));
 
-    viewProperties = actionCollection()->addAction("view_properties");
+    viewProperties = actionCollection()->addAction(QLatin1String("view_properties"));
     viewProperties->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Properties));
     viewProperties->setText(i18n("&Properties"));
     connect(viewProperties, SIGNAL(triggered(bool)), this, SLOT(slotCurrentViewProperties()));
@@ -493,61 +493,61 @@ void UMLApp::initActions()
     viewExportImage->setEnabled(false);
     viewProperties->setEnabled(false);
 
-    zoom100Action = actionCollection()->addAction("zoom100");
+    zoom100Action = actionCollection()->addAction(QLatin1String("zoom100"));
     zoom100Action->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Zoom_100));
     zoom100Action->setText(i18n("Z&oom to 100%"));
     connect(zoom100Action, SIGNAL(triggered(bool)), this, SLOT(slotZoom100()));
 
-    QAction* alignRight = actionCollection()->addAction("align_right");
+    QAction* alignRight = actionCollection()->addAction(QLatin1String("align_right"));
     alignRight->setText(i18n("Align Right"));
     alignRight->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Align_Right));
     connect(alignRight, SIGNAL(triggered(bool)), this, SLOT(slotAlignRight()));
 
-    QAction* alignLeft = actionCollection()->addAction("align_left");
+    QAction* alignLeft = actionCollection()->addAction(QLatin1String("align_left"));
     alignLeft->setText(i18n("Align Left"));
     alignLeft->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Align_Left));
     connect(alignLeft, SIGNAL(triggered(bool)), this, SLOT(slotAlignLeft()));
 
-    QAction* alignTop = actionCollection()->addAction("align_top");
+    QAction* alignTop = actionCollection()->addAction(QLatin1String("align_top"));
     alignTop->setText(i18n("Align Top"));
     alignTop->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Align_Top));
     connect(alignTop, SIGNAL(triggered(bool)), this, SLOT(slotAlignTop()));
 
-    QAction* alignBottom = actionCollection()->addAction("align_bottom");
+    QAction* alignBottom = actionCollection()->addAction(QLatin1String("align_bottom"));
     alignBottom->setText(i18n("Align Bottom"));
     alignBottom->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Align_Bottom));
     connect(alignBottom, SIGNAL(triggered(bool)), this, SLOT(slotAlignBottom()));
 
-    QAction* alignVerticalMiddle = actionCollection()->addAction("align_vertical_middle");
+    QAction* alignVerticalMiddle = actionCollection()->addAction(QLatin1String("align_vertical_middle"));
     alignVerticalMiddle->setText(i18n("Align Vertical Middle"));
     alignVerticalMiddle->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Align_VerticalMiddle));
     connect(alignVerticalMiddle, SIGNAL(triggered(bool)), this, SLOT(slotAlignVerticalMiddle()));
 
-    QAction* alignHorizontalMiddle = actionCollection()->addAction("align_horizontal_middle");
+    QAction* alignHorizontalMiddle = actionCollection()->addAction(QLatin1String("align_horizontal_middle"));
     alignHorizontalMiddle->setText(i18n("Align Horizontal Middle"));
     alignHorizontalMiddle->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Align_HorizontalMiddle));
     connect(alignHorizontalMiddle, SIGNAL(triggered(bool)), this, SLOT(slotAlignHorizontalMiddle()));
 
-    QAction* alignVerticalDistribute = actionCollection()->addAction("align_vertical_distribute");
+    QAction* alignVerticalDistribute = actionCollection()->addAction(QLatin1String("align_vertical_distribute"));
     alignVerticalDistribute->setText(i18n("Align Vertical Distribute"));
     alignVerticalDistribute->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Align_VerticalDistribute));
     connect(alignVerticalDistribute, SIGNAL(triggered(bool)), this, SLOT(slotAlignVerticalDistribute()));
 
-    QAction* alignHorizontalDistribute = actionCollection()->addAction("align_horizontal_distribute");
+    QAction* alignHorizontalDistribute = actionCollection()->addAction(QLatin1String("align_horizontal_distribute"));
     alignHorizontalDistribute->setText(i18n("Align Horizontal Distribute"));
     alignHorizontalDistribute->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Align_HorizontalDistribute));
     connect(alignHorizontalDistribute, SIGNAL(triggered(bool)), this, SLOT(slotAlignHorizontalDistribute()));
 
     QString moveTabLeftString = i18n("&Move Tab Left");
     QString moveTabRightString = i18n("&Move Tab Right");
-    KAction* moveTabLeft = actionCollection()->addAction("move_tab_left");
+    KAction* moveTabLeft = actionCollection()->addAction(QLatin1String("move_tab_left"));
     moveTabLeft->setIcon(Icon_Utils::SmallIcon(QApplication::layoutDirection() ? Icon_Utils::it_Go_Next : Icon_Utils::it_Go_Previous));
     moveTabLeft->setText(QApplication::layoutDirection() ? moveTabRightString : moveTabLeftString);
     moveTabLeft->setShortcut(QApplication::layoutDirection() ?
                  QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left));
     connect(moveTabLeft, SIGNAL(triggered(bool)), this, SLOT(slotMoveTabLeft()));
 
-    KAction* moveTabRight = actionCollection()->addAction("move_tab_right");
+    KAction* moveTabRight = actionCollection()->addAction(QLatin1String("move_tab_right"));
     moveTabRight->setIcon(Icon_Utils::SmallIcon(QApplication::layoutDirection() ? Icon_Utils::it_Go_Previous : Icon_Utils::it_Go_Next));
     moveTabRight->setText(QApplication::layoutDirection() ? moveTabLeftString : moveTabRightString);
     moveTabRight->setShortcut(QApplication::layoutDirection() ?
@@ -556,20 +556,20 @@ void UMLApp::initActions()
 
     QString selectTabLeftString = i18n("Select Diagram on Left");
     QString selectTabRightString = i18n("Select Diagram on Right");
-    KAction* changeTabLeft = actionCollection()->addAction("previous_tab");
+    KAction* changeTabLeft = actionCollection()->addAction(QLatin1String("previous_tab"));
     changeTabLeft->setText(QApplication::layoutDirection() ? selectTabRightString : selectTabLeftString);
     changeTabLeft->setShortcut(QApplication::layoutDirection() ?
                    QKeySequence(Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::SHIFT+Qt::Key_Left));
     connect(changeTabLeft, SIGNAL(triggered(bool)), this, SLOT(slotChangeTabLeft()));
 
-    KAction* changeTabRight = actionCollection()->addAction("next_tab");
+    KAction* changeTabRight = actionCollection()->addAction(QLatin1String("next_tab"));
     changeTabRight->setText(QApplication::layoutDirection() ? selectTabLeftString : selectTabRightString);
     changeTabRight->setShortcut(QApplication::layoutDirection() ?
                     QKeySequence(Qt::SHIFT+Qt::Key_Left) : QKeySequence(Qt::SHIFT+Qt::Key_Right));
     connect(changeTabRight, SIGNAL(triggered(bool)), this, SLOT(slotChangeTabRight()));
 
 // @todo Check if this should be ported
-//     QMenu* menu = findMenu(QString("settings"));
+//     QMenu* menu = findMenu(QLatin1String("settings"));
 //     menu->insertItem(i18n("&Windows"), dockHideShowMenu(), -1, 0);
 
     // disable actions at startup
@@ -648,7 +648,7 @@ void UMLApp::setZoom(int zoom)
 {
     currentView()->setZoom(zoom);
     m_pZoomSlider->setValue(zoom);
-    m_zoomValueLbl->setText(QString::number(zoom) + '%');
+    m_zoomValueLbl->setText(QString::number(zoom) + QLatin1Char('%'));
 }
 
 /**
@@ -672,7 +672,7 @@ QAction* UMLApp::createZoomAction(int zoom, int currentZoom)
     //IMPORTANT: The zoom value is added to the action.
     QAction* action = new QAction(this);
     action->setCheckable(true);
-    action->setText(" &" + QString::number(zoom) + '%');
+    action->setText(QLatin1String(" &") + QString::number(zoom) + QLatin1Char('%'));
     action->setData(zoom);
     if (zoom == currentZoom) {
         action->setChecked(true);
@@ -731,12 +731,12 @@ void UMLApp::initStatusBar()
     zoomLayout->setSpacing(0);
     zoomLayout->addItem(new QSpacerItem(0, 20, QSizePolicy::Expanding, QSizePolicy::Minimum));
 
-    m_zoomValueLbl = new QLabel("100%");
+    m_zoomValueLbl = new QLabel(QLatin1String("100%"));
     m_zoomValueLbl->setContentsMargins(10, 0, 10, 0);
     zoomLayout->addWidget(m_zoomValueLbl);
 
     m_pZoomFitSBTB = new StatusBarToolButton(this);
-    m_pZoomFitSBTB->setText("Fit");
+    m_pZoomFitSBTB->setText(QLatin1String("Fit"));
     m_pZoomFitSBTB->setGroupPosition(StatusBarToolButton::GroupLeft);
     zoomLayout->addWidget(m_pZoomFitSBTB);
     m_pZoomFitSBTB->setContentsMargins(0, 0, 0, 0);
@@ -744,7 +744,7 @@ void UMLApp::initStatusBar()
     connect(m_pZoomFitSBTB, SIGNAL(clicked()), this, SLOT(slotZoomFit()));
 
     m_pZoomFullSBTB = new StatusBarToolButton(this);
-    m_pZoomFullSBTB->setText("100%");
+    m_pZoomFullSBTB->setText(QLatin1String("100%"));
     m_pZoomFullSBTB->setGroupPosition(StatusBarToolButton::GroupRight);
     m_pZoomFullSBTB->setContentsMargins(0, 0, 0, 0);
     zoomLayout->addWidget(m_pZoomFullSBTB);
@@ -753,7 +753,7 @@ void UMLApp::initStatusBar()
     statusBar()->addPermanentWidget(defaultZoomWdg);
 
     m_pZoomOutPB = new QPushButton(this);
-    m_pZoomOutPB->setIcon(KIcon("zoom-out"));
+    m_pZoomOutPB->setIcon(KIcon(QLatin1String("zoom-out")));
     m_pZoomOutPB->setFlat(true);
     m_pZoomOutPB->setMaximumSize(30, 30);
     statusBar()->addPermanentWidget(m_pZoomOutPB);
@@ -771,7 +771,7 @@ void UMLApp::initStatusBar()
     statusBar()->addPermanentWidget(m_pZoomSlider);
 
     m_pZoomInPB = new QPushButton(this);
-    m_pZoomInPB->setIcon(KIcon("zoom-in"));
+    m_pZoomInPB->setIcon(KIcon(QLatin1String("zoom-in")));
     m_pZoomInPB->setFlat(true);
     m_pZoomInPB->setMaximumSize(30, 30);
     statusBar()->addPermanentWidget(m_pZoomInPB);
@@ -835,7 +835,7 @@ void UMLApp::initView()
 
     // create the tree viewer
     m_listDock = new QDockWidget(i18n("&Tree View"), this);
-    m_listDock->setObjectName("TreeViewDock");
+    m_listDock->setObjectName(QLatin1String("TreeViewDock"));
     addDockWidget(Qt::LeftDockWidgetArea, m_listDock);
     m_listView = new UMLListView(m_listDock);
     //m_listView->setSorting(-1);
@@ -845,17 +845,17 @@ void UMLApp::initView()
     connect(m_listDock, SIGNAL(visibilityChanged(bool)), viewShowTree, SLOT(setChecked(bool)));
 
     m_debugDock = new QDockWidget(i18n("&Debug"), this);
-    m_debugDock->setObjectName("DebugDock");
+    m_debugDock->setObjectName(QLatin1String("DebugDock"));
     addDockWidget(Qt::LeftDockWidgetArea, m_debugDock);
     m_debugDock->setWidget(Tracer::instance());
     connect(m_debugDock, SIGNAL(visibilityChanged(bool)), viewShowLog, SLOT(setChecked(bool)));
 
     // create the documentation viewer
     m_documentationDock = new QDockWidget(i18n("Doc&umentation"), this);
-    m_documentationDock->setObjectName("DocumentationDock");
+    m_documentationDock->setObjectName(QLatin1String("DocumentationDock"));
     addDockWidget(Qt::LeftDockWidgetArea, m_documentationDock);
     m_docWindow = new DocWindow(m_doc, m_documentationDock);
-    m_docWindow->setObjectName("DOCWINDOW");
+    m_docWindow->setObjectName(QLatin1String("DOCWINDOW"));
     m_documentationDock->setWidget(m_docWindow);
     connect(m_documentationDock, SIGNAL(visibilityChanged(bool)), viewShowDoc, SLOT(setChecked(bool)));
 
@@ -863,7 +863,7 @@ void UMLApp::initView()
 
     // create the command history viewer
     m_cmdHistoryDock = new QDockWidget(i18n("Co&mmand history"), this);
-    m_cmdHistoryDock->setObjectName("CmdHistoryDock");
+    m_cmdHistoryDock->setObjectName(QLatin1String("CmdHistoryDock"));
     addDockWidget(Qt::LeftDockWidgetArea, m_cmdHistoryDock);
     m_pQUndoView = new QUndoView(m_cmdHistoryDock);
     m_pQUndoView->setCleanIcon(Icon_Utils::SmallIcon(Icon_Utils::it_UndoView));
@@ -873,14 +873,14 @@ void UMLApp::initView()
 
     // create the log viewer
     m_logDock = new QDockWidget(i18n("&Log"), this);
-    m_logDock->setObjectName("LogDock");
+    m_logDock->setObjectName(QLatin1String("LogDock"));
     addDockWidget(Qt::LeftDockWidgetArea, m_logDock);
     m_logDock->setWidget(m_d->logWindow);
     connect(m_logDock, SIGNAL(visibilityChanged(bool)), viewShowLog, SLOT(setChecked(bool)));
 
     // create the property viewer
     //m_propertyDock = new QDockWidget(i18n("&Properties"), this);
-    //m_propertyDock->setObjectName("PropertyDock");
+    //m_propertyDock->setObjectName(QLatin1String("PropertyDock"));
     //addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
 
     tabifyDockWidget(m_documentationDock, m_cmdHistoryDock);
@@ -931,7 +931,7 @@ void UMLApp::saveOptions()
 {
     // The Toolbar settings will be handled by the respective classes (KToolBar)
     KConfigGroup cg(m_config, "toolbar");
-    toolBar("mainToolBar")->saveSettings(cg);
+    toolBar(QLatin1String("mainToolBar"))->saveSettings(cg);
     KConfigGroup workBarConfig(m_config, "workbar");
     m_toolsbar->saveSettings(workBarConfig);
     fileOpenRecent->saveEntries(m_config->group("Recent Files"));
@@ -1056,7 +1056,7 @@ void UMLApp::saveOptions()
 void UMLApp::readOptions()
 {
     // bar status settings
-    toolBar("mainToolBar")->applySettings(m_config->group("toolbar"));
+    toolBar(QLatin1String("mainToolBar"))->applySettings(m_config->group("toolbar"));
     // do config for work toolbar
     m_toolsbar->applySettings(m_config->group("workbar"));
     fileOpenRecent->loadEntries(m_config->group("Recent Files"));
@@ -2206,7 +2206,8 @@ void UMLApp::viewCodeDocument(UMLClassifier* classifier)
 void UMLApp::refactor(UMLClassifier* classifier)
 {
     if (!m_refactoringAssist) {
-        m_refactoringAssist = new RefactoringAssistant(m_doc, 0, 0, "refactoring_assistant");
+        m_refactoringAssist = new RefactoringAssistant(m_doc, 0, 0,
+                                                       QLatin1String("refactoring_assistant"));
     }
     m_refactoringAssist->refactor(classifier);
     m_refactoringAssist->show();
@@ -2465,8 +2466,8 @@ QString UMLApp::activeLanguageScopeSeparator()
         pl == Uml::ProgrammingLanguage::JavaScript ||
         pl == Uml::ProgrammingLanguage::Vala ||
         pl == Uml::ProgrammingLanguage::Python)  // CHECK: more?
-        return ".";
-    return "::";
+        return QLatin1String(".");
+    return QLatin1String("::");
 }
 
 void UMLApp::slotShowTreeView(bool state)
@@ -2575,13 +2576,13 @@ void UMLApp::setDiagramMenuItemsState(bool bState)
  */
 void UMLApp::slotUpdateViews()
 {
-    QMenu* menu = findMenu(QString("views"));
+    QMenu* menu = findMenu(QLatin1String(QLatin1String("views")));
     if (!menu) {
         uWarning() << "view menu not found";
         return;
     }
 
-    menu = findMenu(QString("show_view"));
+    menu = findMenu(QLatin1String(QLatin1String("show_view")));
     if (!menu) {
         uWarning() << "show menu not found";
         return;
@@ -2626,7 +2627,8 @@ void UMLApp::importFiles(QStringList* fileList)
 void UMLApp::slotImportClass()
 {
     QStringList filters = Uml::ProgrammingLanguage::toExtensions(UMLApp::app()->activeLanguage());
-    QString f = filters.join(" ") + QLatin1String("|") + Uml::ProgrammingLanguage::toExtensionsDescription(UMLApp::app()->activeLanguage());
+    QString f = filters.join(QLatin1String(" ")) + QLatin1String("|") +
+                             Uml::ProgrammingLanguage::toExtensionsDescription(UMLApp::app()->activeLanguage());
 
     QStringList files = KFileDialog::getOpenFileNames(KUrl(), f, this, i18n("Select file(s) to import:"));
     if (!files.isEmpty()) {
@@ -2742,7 +2744,7 @@ void UMLApp::slotDeleteSelected()
     QWidget *f = focusWidget();
     if (f == m_listView) {
         QWidgetAction *o = static_cast<QWidgetAction *>(sender());
-        if (o && o->objectName() == "delete_selected") {
+        if (o && o->objectName() == QLatin1String("delete_selected")) {
             m_listView->slotDeleteSelectedItems();
         }
         return;
@@ -3090,7 +3092,7 @@ void UMLApp::slotChangeTabRight()
 /* for debugging only
 static void showTabTexts(KTabWidget* tabWidget)
 {
-    QString out = QString("tab texts ");
+    QString out = QLatin1String("tab texts ");
     for (int i = 0; i < tabWidget->count(); ++i) {
         out += " <" + tabWidget->tabText(i) + '>';
     }

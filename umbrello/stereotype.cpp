@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2013                                               *
+ *   copyright (C) 2003-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -98,7 +98,7 @@ UMLObject* UMLStereotype::clone() const
 void UMLStereotype::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     //FIXME: uml13.dtd compliance
-    QDomElement stereotypeElement = UMLObject::save("UML:Stereotype", qDoc);
+    QDomElement stereotypeElement = UMLObject::save(QLatin1String("UML:Stereotype"), qDoc);
     qElement.appendChild(stereotypeElement);
 }
 

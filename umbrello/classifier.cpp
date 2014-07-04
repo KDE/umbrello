@@ -85,7 +85,7 @@ void UMLClassifier::setBaseType(UMLObject::ObjectType ot)
     Icon_Utils::IconType newIcon;
     switch (ot) {
         case ot_Interface:
-            UMLObject::setStereotypeCmd("interface");
+            UMLObject::setStereotypeCmd(QLatin1String("interface"));
             UMLObject::m_bAbstract = true;
             newIcon = Icon_Utils::it_Interface;
             break;
@@ -95,7 +95,7 @@ void UMLClassifier::setBaseType(UMLObject::ObjectType ot)
             newIcon = Icon_Utils::it_Class;
             break;
         case ot_Datatype:
-            UMLObject::setStereotypeCmd("datatype");
+            UMLObject::setStereotypeCmd(QLatin1String("datatype"));
             UMLObject::m_bAbstract = false;
             newIcon = Icon_Utils::it_Datatype;
             break;
@@ -203,7 +203,7 @@ UMLOperation* UMLClassifier::findOperation(const QString& name,
             if (type == NULL && testType == NULL) { //no parameter type
                 continue;
             } else if (type == NULL) {  //template parameter
-                if (testType->name() != "class")
+                if (testType->name() != QLatin1String("class"))
                     break;
             } else if (type != testType)
                 break;
@@ -322,7 +322,7 @@ bool UMLClassifier::addOperation(UMLOperation* op, int position)
         UMLClassifierListItemList itemList = getFilteredList(UMLObject::ot_Operation);
         QString buf;
         foreach (UMLClassifierListItem* currentAtt, itemList) {
-            buf.append(' ' + currentAtt->name());
+            buf.append(QLatin1Char(' ') + currentAtt->name());
         }
         uDebug() << "  list after change: " << buf;
     }
@@ -1193,9 +1193,9 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
         uIgnoreZeroPointer(currentAtt);
         QString txt = currentAtt->name();
         if (txt.isEmpty()) {
-           txt = "Type-" + QString::number((int) currentAtt->baseType());
+           txt = QLatin1String("Type-") + QString::number((int) currentAtt->baseType());
         }
-        buf.append(' ' + currentAtt->name());
+        buf.append(QLatin1Char(' ') + currentAtt->name());
     }
     uDebug() << "  UMLClassifier::takeItem (before): m_List is " << buf;
 
@@ -1408,13 +1408,13 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     QString tag;
     switch (m_BaseType) {
         case UMLObject::ot_Class:
-            tag = "UML:Class";
+            tag = QLatin1String("UML:Class");
             break;
         case UMLObject::ot_Interface:
-            tag = "UML:Interface";
+            tag = QLatin1String("UML:Interface");
             break;
         case UMLObject::ot_Datatype:
-            tag = "UML:DataType";
+            tag = QLatin1String("UML:DataType");
             break;
         default:
             uError() << "internal error: basetype is " << m_BaseType;
@@ -1422,13 +1422,13 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     }
     QDomElement classifierElement = UMLObject::save(tag, qDoc);
     if (m_BaseType == UMLObject::ot_Datatype && m_pSecondary != NULL)
-        classifierElement.setAttribute("elementReference",
+        classifierElement.setAttribute(QLatin1String("elementReference"),
                                         Uml::ID::toString(m_pSecondary->id()));
 
     //save templates
     UMLClassifierListItemList list = getFilteredList(UMLObject::ot_Template);
     if (list.count()) {
-        QDomElement tmplElement = qDoc.createElement("UML:ModelElement.templateParameter");
+        QDomElement tmplElement = qDoc.createElement(QLatin1String("UML:ModelElement.templateParameter"));
         foreach (UMLClassifierListItem *tmpl, list) {
             tmpl->saveToXMI(qDoc, tmplElement);
         }
@@ -1438,14 +1438,14 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     //save generalizations (we are the subclass, the other end is the superclass)
     UMLAssociationList generalizations = getSpecificAssocs(AssociationType::Generalization);
     if (generalizations.count()) {
-        QDomElement genElement = qDoc.createElement("UML:GeneralizableElement.generalization");
+        QDomElement genElement = qDoc.createElement(QLatin1String("UML:GeneralizableElement.generalization"));
         foreach (UMLAssociation *a, generalizations) {
             // We are the subclass if we are at the role A end.
             if (m_nId != a->getObjectId(RoleType::A)) {
                 continue;
             }
-            QDomElement gElem = qDoc.createElement("UML:Generalization");
-            gElem.setAttribute("xmi.idref", Uml::ID::toString(a->id()));
+            QDomElement gElem = qDoc.createElement(QLatin1String("UML:Generalization"));
+            gElem.setAttribute(QLatin1String("xmi.idref"), Uml::ID::toString(a->id()));
             genElement.appendChild(gElem);
         }
         if (genElement.hasChildNodes()) {
@@ -1454,7 +1454,7 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     }
 
     // save attributes
-    QDomElement featureElement = qDoc.createElement("UML:Classifier.feature");
+    QDomElement featureElement = qDoc.createElement(QLatin1String("UML:Classifier.feature"));
     UMLClassifierListItemList attList = getFilteredList(UMLObject::ot_Attribute);
     foreach (UMLClassifierListItem *pAtt, attList) {
         pAtt->saveToXMI(qDoc, featureElement);
@@ -1471,7 +1471,7 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 
     // save contained objects
     if (m_objects.count()) {
-        QDomElement ownedElement = qDoc.createElement("UML:Namespace.ownedElement");
+        QDomElement ownedElement = qDoc.createElement(QLatin1String("UML:Namespace.ownedElement"));
         foreach (UMLObject* obj, m_objects) {
             obj->saveToXMI (qDoc, ownedElement);
         }
@@ -1490,15 +1490,15 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 UMLClassifierListItem* UMLClassifier::makeChildObject(const QString& xmiTag)
 {
     UMLClassifierListItem* pObject = NULL;
-    if (UMLDoc::tagEq(xmiTag, "Operation") ||
-        UMLDoc::tagEq(xmiTag, "ownedOperation")) {
+    if (UMLDoc::tagEq(xmiTag, QLatin1String("Operation")) ||
+        UMLDoc::tagEq(xmiTag, QLatin1String("ownedOperation"))) {
         pObject = new UMLOperation(this);
-    } else if (UMLDoc::tagEq(xmiTag, "Attribute") ||
-               UMLDoc::tagEq(xmiTag, "ownedAttribute")) {
+    } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Attribute")) ||
+               UMLDoc::tagEq(xmiTag, QLatin1String("ownedAttribute"))) {
         if (baseType() != UMLObject::ot_Class)
             return NULL;
         pObject = new UMLAttribute(this);
-    } else if (UMLDoc::tagEq(xmiTag, "TemplateParameter")) {
+    } else if (UMLDoc::tagEq(xmiTag, QLatin1String("TemplateParameter"))) {
         pObject = new UMLTemplate(this);
     }
     return pObject;
@@ -1514,7 +1514,7 @@ UMLClassifierListItem* UMLClassifier::makeChildObject(const QString& xmiTag)
 bool UMLClassifier::load(QDomElement& element)
 {
     UMLClassifierListItem *child = NULL;
-    m_SecondaryId = element.attribute("elementReference");
+    m_SecondaryId = element.attribute(QLatin1String("elementReference"));
     if (!m_SecondaryId.isEmpty()) {
         // @todo We do not currently support composition.
         m_isRef = true;
@@ -1526,11 +1526,11 @@ bool UMLClassifier::load(QDomElement& element)
             continue;
         element = node.toElement();
         QString tag = element.tagName();
-        QString stereotype = element.attribute("stereotype");
-        if (UMLDoc::tagEq(tag, "ModelElement.templateParameter") ||
-                UMLDoc::tagEq(tag, "Classifier.feature") ||
-                UMLDoc::tagEq(tag, "Namespace.ownedElement") ||
-                UMLDoc::tagEq(tag, "Namespace.contents")) {
+        QString stereotype = element.attribute(QLatin1String("stereotype"));
+        if (UMLDoc::tagEq(tag, QLatin1String("ModelElement.templateParameter")) ||
+                UMLDoc::tagEq(tag, QLatin1String("Classifier.feature")) ||
+                UMLDoc::tagEq(tag, QLatin1String("Namespace.ownedElement")) ||
+                UMLDoc::tagEq(tag, QLatin1String("Namespace.contents"))) {
             load(element);
             // Not evaluating the return value from load()
             // because we want a best effort.

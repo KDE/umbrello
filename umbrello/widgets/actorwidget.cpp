@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2013                                               *
+ *   copyright (C) 2002-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -79,7 +79,7 @@ void ActorWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
  */
 void ActorWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
-    QDomElement actorElement = qDoc.createElement("actorwidget");
+    QDomElement actorElement = qDoc.createElement(QLatin1String("actorwidget"));
     UMLWidget::saveToXMI(qDoc, actorElement);
     qElement.appendChild(actorElement);
 }

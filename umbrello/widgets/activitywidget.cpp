@@ -278,8 +278,8 @@ void ActivityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing();
-            QString preCond= "<<precondition>> "+preconditionText();
-            QString postCond= "<<postcondition>> "+postconditionText();
+            QString preCond= QLatin1String("<<precondition>> ") + preconditionText();
+            QString postCond= QLatin1String("<<postcondition>> ") + postconditionText();
             //int textStartY = (h / 2) - (fontHeight / 2);
             painter->drawRoundRect(0, 0, w, h, (h * 60) / w, 60);
             painter->setPen(textColor());
@@ -313,12 +313,12 @@ bool ActivityWidget::loadFromXMI(QDomElement& qElement)
 {
     if(!UMLWidget::loadFromXMI(qElement))
         return false;
-    setName(qElement.attribute("activityname"));
-    setDocumentation(qElement.attribute("documentation"));
-    setPreconditionText(qElement.attribute("precondition"));
-    setPostconditionText(qElement.attribute("postcondition"));
+    setName(qElement.attribute(QLatin1String("activityname")));
+    setDocumentation(qElement.attribute(QLatin1String("documentation")));
+    setPreconditionText(qElement.attribute(QLatin1String("precondition")));
+    setPostconditionText(qElement.attribute(QLatin1String("postcondition")));
 
-    QString type = qElement.attribute("activitytype", "1");
+    QString type = qElement.attribute(QLatin1String("activitytype"), QLatin1String("1"));
     setActivityType((ActivityType)type.toInt());
 
     return true;
@@ -329,13 +329,13 @@ bool ActivityWidget::loadFromXMI(QDomElement& qElement)
  */
 void ActivityWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
-    QDomElement activityElement = qDoc.createElement("activitywidget");
+    QDomElement activityElement = qDoc.createElement(QLatin1String("activitywidget"));
     UMLWidget::saveToXMI(qDoc, activityElement);
-    activityElement.setAttribute("activityname", name());
-    activityElement.setAttribute("documentation", documentation());
-    activityElement.setAttribute("precondition", preconditionText());
-    activityElement.setAttribute("postcondition", postconditionText());
-    activityElement.setAttribute("activitytype", m_activityType);
+    activityElement.setAttribute(QLatin1String("activityname"), name());
+    activityElement.setAttribute(QLatin1String("documentation"), documentation());
+    activityElement.setAttribute(QLatin1String("precondition"), preconditionText());
+    activityElement.setAttribute(QLatin1String("postcondition"), postconditionText());
+    activityElement.setAttribute(QLatin1String("activitytype"), m_activityType);
     qElement.appendChild(activityElement);
 }
 

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2013                                               *
+ *   copyright (C) 2003-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -160,7 +160,7 @@ bool EnumWidget::loadFromXMI(QDomElement & qElement)
     if (!UMLWidget::loadFromXMI(qElement)) {
         return false;
     }
-    QString showpackage = qElement.attribute("showpackage", "0");
+    QString showpackage = qElement.attribute(QLatin1String("showpackage"), QLatin1String("0"));
 
     m_showPackage = (bool)showpackage.toInt();
 
@@ -172,10 +172,10 @@ bool EnumWidget::loadFromXMI(QDomElement & qElement)
  */
 void EnumWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
-    QDomElement conceptElement = qDoc.createElement("enumwidget");
+    QDomElement conceptElement = qDoc.createElement(QLatin1String("enumwidget"));
     UMLWidget::saveToXMI(qDoc, conceptElement);
 
-    conceptElement.setAttribute("showpackage", m_showPackage);
+    conceptElement.setAttribute(QLatin1String("showpackage"), m_showPackage);
     qElement.appendChild(conceptElement);
 }
 

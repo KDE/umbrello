@@ -387,8 +387,8 @@ bool UMLPackage::resolveRef()
  */
 void UMLPackage::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
-    QDomElement packageElement = UMLObject::save("UML:Package", qDoc);
-    QDomElement ownedElement = qDoc.createElement("UML:Namespace.ownedElement");
+    QDomElement packageElement = UMLObject::save(QLatin1String("UML:Package"), qDoc);
+    QDomElement ownedElement = qDoc.createElement(QLatin1String("UML:Namespace.ownedElement"));
     UMLObject *obj = NULL;
     // save classifiers etc.
     for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
@@ -419,17 +419,17 @@ bool UMLPackage::load(QDomElement& element)
         QString type = tempElement.tagName();
         if (Model_Utils::isCommonXMIAttribute(type))
             continue;
-        if (UMLDoc::tagEq(type, "Namespace.ownedElement") ||
-                UMLDoc::tagEq(type, "Namespace.contents")) {
+        if (UMLDoc::tagEq(type, QLatin1String("Namespace.ownedElement")) ||
+                UMLDoc::tagEq(type, QLatin1String("Namespace.contents"))) {
             //CHECK: Umbrello currently assumes that nested elements
             // are ownedElements anyway.
             // Therefore these tags are not further interpreted.
             if (! load(tempElement))
                 return false;
             continue;
-        } else if (UMLDoc::tagEq(type, "packagedElement") ||
-                   UMLDoc::tagEq(type, "ownedElement")) {
-            type = tempElement.attribute("xmi:type");
+        } else if (UMLDoc::tagEq(type, QLatin1String("packagedElement")) ||
+                   UMLDoc::tagEq(type, QLatin1String("ownedElement"))) {
+            type = tempElement.attribute(QLatin1String("xmi:type"));
         }
         UMLObject *pObject = Object_Factory::makeObjectFromXMI(type);
         if(!pObject) {

@@ -911,14 +911,14 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
         return false;
     }
 
-    QString showatts = qElement.attribute("showattributes", "0");
-    QString showops = qElement.attribute("showoperations", "1");
-    QString showpubliconly = qElement.attribute("showpubliconly", "0");
-    QString showattsigs = qElement.attribute("showattsigs", "600");
-    QString showopsigs = qElement.attribute("showopsigs", "600");
-    QString showpackage = qElement.attribute("showpackage", "0");
-    QString showscope = qElement.attribute("showscope", "0");
-    QString drawascircle = qElement.attribute("drawascircle", "0");
+    QString showatts = qElement.attribute(QLatin1String("showattributes"), QLatin1String("0"));
+    QString showops = qElement.attribute(QLatin1String("showoperations"), QLatin1String("1"));
+    QString showpubliconly = qElement.attribute(QLatin1String("showpubliconly"), QLatin1String("0"));
+    QString showattsigs = qElement.attribute(QLatin1String("showattsigs"), QLatin1String("600"));
+    QString showopsigs = qElement.attribute(QLatin1String("showopsigs"), QLatin1String("600"));
+    QString showpackage = qElement.attribute(QLatin1String("showpackage"), QLatin1String("0"));
+    QString showscope = qElement.attribute(QLatin1String("showscope"), QLatin1String("0"));
+    QString drawascircle = qElement.attribute(QLatin1String("drawascircle"), QLatin1String("0"));
 
     setVisualPropertyCmd(ShowAttributes, (bool)showatts.toInt());
     setVisualPropertyCmd(ShowOperations, (bool)showops.toInt());
@@ -941,21 +941,21 @@ void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     QDomElement conceptElement;
     UMLClassifier *umlc = classifier();
     if (umlc->isInterface())
-        conceptElement = qDoc.createElement("interfacewidget");
+        conceptElement = qDoc.createElement(QLatin1String("interfacewidget"));
     else
-        conceptElement = qDoc.createElement("classwidget");
+        conceptElement = qDoc.createElement(QLatin1String("classwidget"));
     UMLWidget::saveToXMI(qDoc, conceptElement);
-    conceptElement.setAttribute("showoperations", visualProperty(ShowOperations));
-    conceptElement.setAttribute("showpubliconly", visualProperty(ShowPublicOnly));
-    conceptElement.setAttribute("showopsigs",     m_operationSignature);
-    conceptElement.setAttribute("showpackage",    visualProperty(ShowPackage));
-    conceptElement.setAttribute("showscope",      visualProperty(ShowVisibility));
+    conceptElement.setAttribute(QLatin1String("showoperations"), visualProperty(ShowOperations));
+    conceptElement.setAttribute(QLatin1String("showpubliconly"), visualProperty(ShowPublicOnly));
+    conceptElement.setAttribute(QLatin1String("showopsigs"),     m_operationSignature);
+    conceptElement.setAttribute(QLatin1String("showpackage"),    visualProperty(ShowPackage));
+    conceptElement.setAttribute(QLatin1String("showscope"),      visualProperty(ShowVisibility));
     if (! umlc->isInterface()) {
-        conceptElement.setAttribute("showattributes", visualProperty(ShowAttributes));
-        conceptElement.setAttribute("showattsigs",    m_attributeSignature);
+        conceptElement.setAttribute(QLatin1String("showattributes"), visualProperty(ShowAttributes));
+        conceptElement.setAttribute(QLatin1String("showattsigs"),    m_attributeSignature);
     }
     if (umlc->isInterface() || umlc->isAbstract())
-        conceptElement.setAttribute("drawascircle", visualProperty(DrawAsCircle));
+        conceptElement.setAttribute(QLatin1String("drawascircle"), visualProperty(DrawAsCircle));
     qElement.appendChild(conceptElement);
 }
 

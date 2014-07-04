@@ -1,5 +1,7 @@
 /*
     Copyright 2008  Andreas Fischer  <andi.fischer@hispeed.ch>
+    Copyright (C) 2009-2014                                               *
+    Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License as
@@ -87,7 +89,7 @@ KIcon DesktopIcon(IconType type)
 QCursor Cursor(IconType type)
 {
     // TODO: generate from a 32x32 cursor template and place requested icon into
-    return QCursor(UserIcon("cursor-" + toString(type)), 9, 9);
+    return QCursor(UserIcon(QLatin1String("cursor-") + toString(type)), 9, 9);
 }
 
 /**
@@ -132,371 +134,371 @@ QString toString(IconType type)
 {
     switch (type) {
         case it_Home:
-            return "user-home";
+            return QLatin1String("user-home");
         case it_Arrow:
-            return "arrow";
+            return QLatin1String("arrow");
         case it_Folder:
-            return "folder-new";
+            return QLatin1String("folder-new");
         case it_Folder_Cyan:
-            return "folder";
+            return QLatin1String("folder");
         case it_Folder_Cyan_Open:
-            return "folder-open";
+            return QLatin1String("folder-open");
         case it_Folder_Green:
-            return "folder-green";
+            return QLatin1String("folder-green");
         case it_Folder_Green_Open:
-            return "folder-green";   //FIXME was folder_green_open
+            return QLatin1String("folder-green");   //FIXME was folder_green_open
         case it_Folder_Orange:
-            return "folder-orange";
+            return QLatin1String("folder-orange");
         case it_Folder_Orange_Open:
-            return "folder-orange";  //FIXME was folder_orange_open
+            return QLatin1String("folder-orange");  //FIXME was folder_orange_open
         case it_Folder_Grey:
-            return "folder-grey";
+            return QLatin1String("folder-grey");
         case it_Folder_Grey_Open:
-            return "folder-grey";    //FIXME was folder_grey_open
+            return QLatin1String("folder-grey");    //FIXME was folder_grey_open
         case it_Folder_Red:
-            return "folder-red";
+            return QLatin1String("folder-red");
         case it_Folder_Red_Open:
-            return "folder-red";     //FIXME was folder_red_open
+            return QLatin1String("folder-red");     //FIXME was folder_red_open
         case it_Folder_Violet:
-            return "folder-violet";
+            return QLatin1String("folder-violet");
         case it_Folder_Violet_Open:
-            return "folder-violet";  //FIXME was folder_violet_open
+            return QLatin1String("folder-violet");  //FIXME was folder_violet_open
         case it_Properties_General:
-            return "preferences-other";
+            return QLatin1String("preferences-other");
         case it_Properties_Color:
-            return "preferences-desktop-color";
+            return QLatin1String("preferences-desktop-color");
         case it_Properties_Display:
-            return "preferences-desktop-theme";
+            return QLatin1String("preferences-desktop-theme");
         case it_Properties_Attributes:
-            return "preferences-other";
+            return QLatin1String("preferences-other");
         case it_Properties_Operations:
-            return "preferences-other";
+            return QLatin1String("preferences-other");
         case it_Properties_Templates:
-            return "preferences-other";
+            return QLatin1String("preferences-other");
         case it_Properties_EnumLiterals:
-            return "preferences-other";
+            return QLatin1String("preferences-other");
         case it_Properties_EntityAttributes:
-            return "preferences-other";
+            return QLatin1String("preferences-other");
         case it_Properties_EntityConstraints:
-            return "preferences-other";
+            return QLatin1String("preferences-other");
         case it_Properties_Contents:
-            return "preferences-other";
+            return QLatin1String("preferences-other");
         case it_Properties_Associations:
-            return "preferences-other";
+            return QLatin1String("preferences-other");
         case it_Properties_Font:
-            return "preferences-desktop-font";
+            return QLatin1String("preferences-desktop-font");
         case it_Properties_Activities:
-            return "text-x-generic";
+            return QLatin1String("text-x-generic");
         case it_Properties_Roles:
-            return "preferences-other";
+            return QLatin1String("preferences-other");
         case it_Properties_UserInterface:
-            return "preferences-desktop-theme";
+            return QLatin1String("preferences-desktop-theme");
         case it_Properties_Class:
-            return "document-properties";
+            return QLatin1String("document-properties");
         case it_Properties_CodeImport:
-            return "text-x-generic";
+            return QLatin1String("text-x-generic");
         case it_Properties_CodeGeneration:
-            return "text-x-generic";
+            return QLatin1String("text-x-generic");
         case it_Properties_CodeViewer:
-            return "text-x-generic";
+            return QLatin1String("text-x-generic");
         case it_Properties_Columns:
-            return "preferences-other";
+            return QLatin1String("preferences-other");
         case it_Properties_AutoLayout:
-            return "preferences-other";
+            return QLatin1String("preferences-other");
         case it_Diagram_Activity:
-            return "umbrello_diagram_activity";
+            return QLatin1String("umbrello_diagram_activity");
         case it_Diagram_Class:
-            return "umbrello_diagram_class";
+            return QLatin1String("umbrello_diagram_class");
         case it_Diagram_Component:
-            return "umbrello_diagram_component";
+            return QLatin1String("umbrello_diagram_component");
         case it_Diagram_State:
-            return "umbrello_diagram_state";
+            return QLatin1String("umbrello_diagram_state");
         case it_Diagram_Sequence:
-            return "umbrello_diagram_sequence";
+            return QLatin1String("umbrello_diagram_sequence");
         case it_Diagram_Deployment:
-            return "umbrello_diagram_deployment";
+            return QLatin1String("umbrello_diagram_deployment");
         case it_Diagram_EntityRelationship:
-            return "umbrello_diagram_deployment";
+            return QLatin1String("umbrello_diagram_deployment");
         case it_Diagram_Usecase:
-            return "umbrello_diagram_usecase";
+            return QLatin1String("umbrello_diagram_usecase");
         case it_Diagram_Collaboration:
-            return "umbrello_diagram_collaboration";
+            return QLatin1String("umbrello_diagram_collaboration");
         case it_Diagram:
-            return "CVnamespace";
+            return QLatin1String("CVnamespace");
         case it_Class:
-            return "class";
+            return QLatin1String("class");
         case it_Object:
-            return "object";
+            return QLatin1String("object");
         case it_Template:
-            return "template";
+            return QLatin1String("template");
         case it_Template_Class:
-            return "format-justify-fill";
+            return QLatin1String("format-justify-fill");
         case it_Template_Interface:
-            return "text-x-generic-template";
+            return QLatin1String("text-x-generic-template");
         case it_Package:
-            return "package";
+            return QLatin1String("package");
         case it_Subsystem:
-            return "subsystem";
+            return QLatin1String("subsystem");
         case it_Component:
-            return "component";
+            return QLatin1String("component");
         case it_Port:
-            return "port";
+            return QLatin1String("port");
         case it_Node:
-            return "node";
+            return QLatin1String("node");
         case it_Artifact:
-            return "artifact";
+            return QLatin1String("artifact");
         case it_Interface:
-            return "interface";
+            return QLatin1String("interface");
         case it_Datatype:
-            return "datatype";
+            return QLatin1String("datatype");
         case it_Enum:
-            return "enum";
+            return QLatin1String("enum");
         case it_Entity:
-            return "entity";
+            return QLatin1String("entity");
         case it_Actor:
-            return "actor";
+            return QLatin1String("actor");
         case it_UseCase:
-            return "usecase";
+            return QLatin1String("usecase");
         case it_Public_Method:
-            return "CVpublic_meth";
+            return QLatin1String("CVpublic_meth");
         case it_Private_Method:
-            return "CVprivate_meth";
+            return QLatin1String("CVprivate_meth");
         case it_Protected_Method:
-            return "CVprotected_meth";
+            return QLatin1String("CVprotected_meth");
         case it_Implementation_Method:
-            return "CVimplementation_meth";
+            return QLatin1String("CVimplementation_meth");
         case it_Public_Attribute:
-            return "CVpublic_var";
+            return QLatin1String("CVpublic_var");
         case it_Private_Attribute:
-            return "CVprivate_var";
+            return QLatin1String("CVprivate_var");
         case it_Protected_Attribute:
-            return "CVprotected_var";
+            return QLatin1String("CVprotected_var");
         case it_Implementation_Attribute:
-            return "CVimplementation_var";
+            return QLatin1String("CVimplementation_var");
         case it_PrimaryKey_Constraint:
-            return "primarykey_constraint";
+            return QLatin1String("primarykey_constraint");
         case it_ForeignKey_Constraint:
-            return "foreignkey_constraint";
+            return QLatin1String("foreignkey_constraint");
         case it_Unique_Constraint:
-            return "unique_constraint";
+            return QLatin1String("unique_constraint");
         case it_Check_Constraint:
-            return "check_constraint";
+            return QLatin1String("check_constraint");
         case it_Generalisation:
-            return "generalisation";
+            return QLatin1String("generalisation");
         case it_Association:
-            return "association";
+            return QLatin1String("association");
         case it_Uniassociation:
-            return "uniassociation";
+            return QLatin1String("uniassociation");
         case it_Text:
-            return "text";
+            return QLatin1String("text");
         case it_Note:
-            return "note";
+            return QLatin1String("note");
         case it_Box:
-            return "box";
+            return QLatin1String("box");
         case it_Anchor:
-            return "anchor";
+            return QLatin1String("anchor");
         case it_Containment:
-            return "containment";
+            return QLatin1String("containment");
         case it_InitialState:
-            return "initial_state";
+            return QLatin1String("initial_state");
         case it_EndState:
-            return "end_state";
+            return QLatin1String("end_state");
         case it_Branch:
-            return "branch";
+            return QLatin1String("branch");
         case it_New:
-            return "document-new";
+            return QLatin1String("document-new");
         case it_Delete:
-            return "edit-delete";
+            return QLatin1String("edit-delete");
         case it_Add_Point:
-            return "format-add-node";
+            return QLatin1String("format-add-node");
         case it_Delete_Point:
-            return "format-remove-node";
+            return QLatin1String("format-remove-node");
         case it_Rename:
-            return "edit-rename";
+            return QLatin1String("edit-rename");
         case it_Cut:
-            return "edit-cut";
+            return QLatin1String("edit-cut");
         case it_Copy:
-            return "edit-copy";
+            return QLatin1String("edit-copy");
         case it_Paste:
-            return "edit-paste";
+            return QLatin1String("edit-paste");
         case it_Undo:
-            return "edit-undo";
+            return QLatin1String("edit-undo");
         case it_Redo:
-            return "edit-redo";
+            return QLatin1String("edit-redo");
         case it_UndoView:
-            return "document-save";
+            return QLatin1String("document-save");
         case it_Go_Next:
-            return "go-next";
+            return QLatin1String("go-next");
         case it_Go_Previous:
-            return "go-previous";
+            return QLatin1String("go-previous");
         case it_Properties:
-            return "document-properties";
+            return QLatin1String("document-properties");
         case it_Show:
-            return "document-preview";
+            return QLatin1String("document-preview");
         case it_Refactor:
-            return "refactor";
+            return QLatin1String("refactor");
         case it_View_Code:
-            return "text-x-generic";
+            return QLatin1String("text-x-generic");
         case it_Tab_New:
-            return "tab-new";
+            return QLatin1String("tab-new");
         case it_Tab_Close:
-            return "tab-close";
+            return QLatin1String("tab-close");
         case it_Change_Font:
-            return "preferences-desktop-font";
+            return QLatin1String("preferences-desktop-font");
         case it_Arrow_Up:
-            return "arrow-up";
+            return QLatin1String("arrow-up");
         case it_Arrow_Down:
-            return "arrow-down";
+            return QLatin1String("arrow-down");
         case it_Clear:
-            return "edit-clear";
+            return QLatin1String("edit-clear");
         case it_Operation_New:
-            return "document-new";
+            return QLatin1String("document-new");
         case it_Operation_Public_New:
-            return "CVpublic_meth";
+            return QLatin1String("CVpublic_meth");
         case it_Attribute_New:
-            return "CVpublic_var";
+            return QLatin1String("CVpublic_var");
         case it_Template_New:
-            return "text-x-generic-template";
+            return QLatin1String("text-x-generic-template");
         case it_Literal_New:
-            return "text-x-generic";
+            return QLatin1String("text-x-generic");
         case it_Entity_Attribute_New:
-            return "text-x-generic";
+            return QLatin1String("text-x-generic");
         case it_Parameter_New:
-            return "text-x-generic";
+            return QLatin1String("text-x-generic");
         case it_Color_Line:
-            return "draw-brush";
+            return QLatin1String("draw-brush");
         case it_Color_Fill:
-            return "fill-color";
+            return QLatin1String("fill-color");
         case it_Import_File:
-            return "document-import";
+            return QLatin1String("document-import");
         case it_Import_Project:
-            return "document-import";
+            return QLatin1String("document-import");
         case it_Import_Files:
-            return "document-import";
+            return QLatin1String("document-import");
         case it_Export_Files:
-            return "document-export";
+            return QLatin1String("document-export");
         case it_Export_Picture:
-            return "image-x-generic";
+            return QLatin1String("image-x-generic");
         case it_Entity_Attribute:
-            return "text-x-generic";
+            return QLatin1String("text-x-generic");
         case it_Constraint_PrimaryKey:
-            return "primarykey_constraint";
+            return QLatin1String("primarykey_constraint");
         case it_Constraint_ForeignKey:
-            return "foreignkey_constraint";
+            return QLatin1String("foreignkey_constraint");
         case it_Constraint_Check:
-            return "check_constraint";
+            return QLatin1String("check_constraint");
         case it_Constraint_Unique:
-            return "unique_constraint";
+            return QLatin1String("unique_constraint");
         case it_Enum_Literal:
-            return "text-x-generic";
+            return QLatin1String("text-x-generic");
         case it_State_Activity:
-            return "text-x-generic";
+            return QLatin1String("text-x-generic");
         case it_Message_Sync:
-            return "umbr-message-synchronous";
+            return QLatin1String("umbr-message-synchronous");
         case it_Message_Async:
-            return "umbr-message-asynchronous";
+            return QLatin1String("umbr-message-asynchronous");
         case it_Message_Found:
-            return "umbr-message-found";
+            return QLatin1String("umbr-message-found");
         case it_Message_Lost:
-            return "umbr-message-lost";
+            return QLatin1String("umbr-message-lost");
         case it_Combined_Fragment:
-            return "combined_fragment";
+            return QLatin1String("combined_fragment");
         case it_Precondition:
-            return "precondition";
+            return QLatin1String("precondition");
         case it_Dependency:
-            return "dependency";
+            return QLatin1String("dependency");
         case it_Aggregation:
-            return "aggregation";
+            return QLatin1String("aggregation");
         case it_Relationship:
-            return "relationship";
+            return QLatin1String("relationship");
         case it_Directional_Association:
-            return "uniassociation";
+            return QLatin1String("uniassociation");
         case it_Implements:
-            return "generalisation";
+            return QLatin1String("generalisation");
         case it_Composition:
-            return "composition";
+            return QLatin1String("composition");
         case it_Region:
-            return "region";
+            return QLatin1String("region");
         case it_Send_Signal:
-            return "send_signal";
+            return QLatin1String("send_signal");
         case it_Accept_Signal:
-            return "accept_signal";
+            return QLatin1String("accept_signal");
         case it_Accept_TimeEvent:
-            return "accept_time_event";
+            return QLatin1String("accept_time_event");
         case it_Fork_Join:
-            return "activity-fork";
+            return QLatin1String("activity-fork");
         case it_History_Deep:
-            return "deep-history";
+            return QLatin1String("deep-history");
         case it_History_Shallow:
-            return "shallow-history";
+            return QLatin1String("shallow-history");
         case it_Join:
-            return "join";
+            return QLatin1String("join");
         case it_Fork_State:
-            return "state-fork";
+            return QLatin1String("state-fork");
         case it_Junction:
-            return "junction";
+            return QLatin1String("junction");
         case it_Choice_Round:
-            return "choice-round";
+            return QLatin1String("choice-round");
         case it_Choice_Rhomb:
-            return "choice-rhomb";
+            return QLatin1String("choice-rhomb");
         case it_And_Line:
-            return "andline";
+            return QLatin1String("andline");
         case it_State_Transition:
-            return "uniassociation";
+            return QLatin1String("uniassociation");
         case it_Activity_Transition:
-            return "uniassociation";
+            return QLatin1String("uniassociation");
         case it_Activity:
-            return "usecase";
+            return QLatin1String("usecase");
         case it_State:
-            return "usecase";
+            return QLatin1String("usecase");
         case it_Activity_End:
-            return "end_state";
+            return QLatin1String("end_state");
         case it_Activity_Final:
-            return "final_activity";
+            return QLatin1String("final_activity");
         case it_Pin:
-            return "pin";
+            return QLatin1String("pin");
         case it_Activity_Initial:
-            return "initial_state";
+            return QLatin1String("initial_state");
         case it_Message_Synchronous:
-            return "umbr-coll-message-synchronous";
+            return QLatin1String("umbr-coll-message-synchronous");
         case it_Message_Asynchronous:
-            return "umbr-coll-message-asynchronous";
+            return QLatin1String("umbr-coll-message-asynchronous");
         case it_Exception:
-            return "exception";
+            return QLatin1String("exception");
         case it_Object_Node:
-            return "object_node";
+            return QLatin1String("object_node");
         case it_Condition_PrePost:
-            return "PrePostCondition";
+            return QLatin1String("PrePostCondition");
         case it_Category:
-            return "category";
+            return QLatin1String("category");
         case it_Category_Parent:
-            return "category2parent";
+            return QLatin1String("category2parent");
         case it_Category_Child:
-            return "child2category";
+            return QLatin1String("child2category");
         case it_Zoom_Slider:
-            return "zoom-original";
+            return QLatin1String("zoom-original");
         case it_Zoom_100:
-            return "zoom-original";
+            return QLatin1String("zoom-original");
         case it_Align_Right:
-            return "align-horizontal-right";
+            return QLatin1String("align-horizontal-right");
         case it_Align_Left:
-            return "align-horizontal-left";
+            return QLatin1String("align-horizontal-left");
         case it_Align_Top:
-            return "align-vertical-top";
+            return QLatin1String("align-vertical-top");
         case it_Align_Bottom:
-            return "align-vertical-bottom";
+            return QLatin1String("align-vertical-bottom");
         case it_Align_VerticalMiddle:
-            return "align-vertical-center";
+            return QLatin1String("align-vertical-center");
         case it_Align_HorizontalMiddle:
-            return "align-horizontal-center";
+            return QLatin1String("align-horizontal-center");
         case it_Align_VerticalDistribute:
-            return "distribute-vertical";
+            return QLatin1String("distribute-vertical");
         case it_Align_HorizontalDistribute:
-            return "distribute-horizontal";
+            return QLatin1String("distribute-horizontal");
         case it_Code_Gen_Wizard:
-            return "hi64-app-umbrello.png";
+            return QLatin1String("hi64-app-umbrello.png");
         case it_Document_Edit:
-            return "document-edit";
+            return QLatin1String("document-edit");
         default:
             return QString();
     }

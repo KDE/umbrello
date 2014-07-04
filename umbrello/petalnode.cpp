@@ -26,7 +26,7 @@ public:
         level++;
         *this << className
               << "(\n"
-              << QString().fill('.', level).toAscii().constData()
+              << QString().fill(QLatin1Char('.'), level).toAscii().constData()
               ;
     }
 
@@ -34,7 +34,7 @@ public:
     {
         --level;
         *this << "\n"
-              << QString().fill(',', level).toAscii().constData()
+              << QString().fill(QLatin1Char(','), level).toAscii().constData()
               << ")";
               ;
     }
@@ -104,11 +104,11 @@ QString PetalNode::name() const
  */
 QString PetalNode::documentation() const
 {
-    QString s = findAttribute("documentation").string.trimmed();
+    QString s = findAttribute(QLatin1String("documentation")).string.trimmed();
     if (s.isEmpty())
         return s;
-    s.replace("\\n", "\n");
-    if (s.startsWith('\"') && s.endsWith('\"'))
+    s.replace(QLatin1String("\\n"), QLatin1String("\n"));
+    if (s.startsWith(QLatin1Char('\"')) && s.endsWith(QLatin1Char('\"')))
         return s.mid(1 ,s.length()-2);
     else
         return s;

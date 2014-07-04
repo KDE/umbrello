@@ -54,10 +54,10 @@ UMLTemplate::~UMLTemplate()
 QString UMLTemplate::toString(Uml::SignatureType::Enum sig)
 {
     Q_UNUSED(sig);
-    if (m_pSecondary == NULL || m_pSecondary->name() == "class") {
+    if (m_pSecondary == NULL || m_pSecondary->name() == QLatin1String("class")) {
         return name();
     } else {
-        return name() + " : " + m_pSecondary->name();
+        return name() + QLatin1String(" : ") + m_pSecondary->name();
     }
 }
 
@@ -72,7 +72,7 @@ QString UMLTemplate::toString(Uml::SignatureType::Enum sig)
 QString UMLTemplate::getTypeName() const
 {
     if (m_pSecondary == NULL)
-        return "class";
+        return QLatin1String("class");
     return m_pSecondary->name();
 }
 
@@ -119,9 +119,9 @@ UMLObject* UMLTemplate::clone() const
 void UMLTemplate::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     //FIXME: uml13.dtd compliance
-    QDomElement attributeElement = UMLObject::save("UML:TemplateParameter", qDoc);
+    QDomElement attributeElement = UMLObject::save(QLatin1String("UML:TemplateParameter"), qDoc);
     if (m_pSecondary)
-        attributeElement.setAttribute("type", Uml::ID::toString(m_pSecondary->id()));
+        attributeElement.setAttribute(QLatin1String("type"), Uml::ID::toString(m_pSecondary->id()));
     qElement.appendChild(attributeElement);
 }
 
@@ -130,7 +130,7 @@ void UMLTemplate::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
  */
 bool UMLTemplate::load(QDomElement& element)
 {
-    m_SecondaryId = element.attribute("type");
+    m_SecondaryId = element.attribute(QLatin1String("type"));
     return true;
 }
 

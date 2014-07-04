@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2013                                               *
+ *   copyright (C) 2003-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -218,13 +218,13 @@ QString UMLCanvasObject::uniqChildName(const UMLObject::ObjectType type,
                 break;
             default:
                 uWarning() << "uniqChildName() called for unknown child type " << UMLObject::toString(type);
-                return "ERROR_in_UMLCanvasObject_uniqChildName";
+                return QLatin1String("ERROR_in_UMLCanvasObject_uniqChildName");
         }
     }
 
     QString name = currentName;
     for (int number = 1; findChildObject(name); ++number) {
-        name = currentName + '_' + QString::number(number);
+        name = currentName + QLatin1Char('_') + QString::number(number);
     }
     return name;
 }

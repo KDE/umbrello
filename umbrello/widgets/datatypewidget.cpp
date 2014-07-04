@@ -91,7 +91,7 @@ bool DatatypeWidget::loadFromXMI(QDomElement & qElement)
  */
 void DatatypeWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
-    QDomElement conceptElement = qDoc.createElement("datatypewidget");
+    QDomElement conceptElement = qDoc.createElement(QLatin1String("datatypewidget"));
     UMLWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }

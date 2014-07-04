@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2008-2013                                               *
+ *   copyright (C) 2008-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -65,7 +65,7 @@ void DocbookGeneratorJob::run()
     int nbparams = 0;
     params[nbparams] = NULL;
 
-    QString xsltFile(KGlobal::dirs()->findResource("appdata", "xmi2docbook.xsl"));
+    QString xsltFile(KGlobal::dirs()->findResource("appdata", QLatin1String("xmi2docbook.xsl")));
 
     xmlSubstituteEntitiesDefault(1);
     xmlLoadExtDtdDefaultValue = 1;

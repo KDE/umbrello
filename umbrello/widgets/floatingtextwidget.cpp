@@ -90,7 +90,7 @@ QString FloatingTextWidget::text() const
     // the text -b.t.
     if (m_textRole == Uml::TextRole::Seq_Message || m_textRole == Uml::TextRole::Seq_Message_Self ||
             m_textRole == Uml::TextRole::Coll_Message || m_textRole == Uml::TextRole::Coll_Message_Self) {
-        if (m_Text.length() <= 1 || m_Text == ": ")
+        if (m_Text.length() <= 1 || m_Text == QLatin1String(": "))
             return QString();
     }
     return m_Text;
@@ -109,7 +109,7 @@ void FloatingTextWidget::setText(const QString &t)
             m_linkWidget->seqNumAndOp(seqNum, op);
         if (op.length() > 0) {
             if (!m_scene->showOpSig())
-                op.replace(QRegExp("\\(.*\\)"), "()");
+                op.replace(QRegExp(QLatin1String("\\(.*\\)")), QLatin1String("()"));
             m_Text = op;
         }
         else
@@ -158,7 +158,7 @@ QString FloatingTextWidget::displayText() const
 {
     QString displayText;
     if (!m_SequenceNumber.isEmpty())
-        displayText = m_SequenceNumber + ": " + m_Text;
+        displayText = m_SequenceNumber + QLatin1String(": ") + m_Text;
     else
         displayText = m_Text;
     displayText.prepend(m_preText);
@@ -385,7 +385,7 @@ Uml::TextRole::Enum FloatingTextWidget::textRole() const
  */
 void FloatingTextWidget::handleRename()
 {
-    QRegExpValidator v(QRegExp(".*"), 0);
+    QRegExpValidator v(QRegExp(QLatin1String(".*")), 0);
     QString t;
     if (m_textRole == Uml::TextRole::RoleAName || m_textRole == Uml::TextRole::RoleBName) {
         t = i18n("Enter role name:");
@@ -673,13 +673,13 @@ bool FloatingTextWidget::loadFromXMI(QDomElement & qElement)
 
     m_unconstrainedPositionX = x();
     m_unconstrainedPositionY = y();
-    QString role = qElement.attribute("role");
+    QString role = qElement.attribute(QLatin1String("role"));
     if(!role.isEmpty())
         m_textRole = Uml::TextRole::fromInt(role.toInt());
 
-    m_preText = qElement.attribute("pretext");
-    m_postText = qElement.attribute("posttext");
-    setText(qElement.attribute("text"));  // use setText for geometry update
+    m_preText = qElement.attribute(QLatin1String("pretext"));
+    m_postText = qElement.attribute(QLatin1String("posttext"));
+    setText(qElement.attribute(QLatin1String("text")));  // use setText for geometry update
     // If all texts are empty then this is a useless widget.
     // In that case we return false.
     // CAVEAT: The caller should not interpret the false return value
@@ -698,18 +698,18 @@ void FloatingTextWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     if (isEmpty())
         return;
 
-    QDomElement textElement = qDoc.createElement("floatingtext");
+    QDomElement textElement = qDoc.createElement(QLatin1String("floatingtext"));
     UMLWidget::saveToXMI(qDoc, textElement);
-    textElement.setAttribute("text", m_Text);
-    textElement.setAttribute("pretext", m_preText);
-    textElement.setAttribute("posttext", m_postText);
+    textElement.setAttribute(QLatin1String("text"), m_Text);
+    textElement.setAttribute(QLatin1String("pretext"), m_preText);
+    textElement.setAttribute(QLatin1String("posttext"), m_postText);
 
     /* No need to save these - the messagewidget already did it.
     m_Operation  = qElement.attribute("operation");
     m_SeqNum = qElement.attribute("seqnum");
      */
 
-    textElement.setAttribute("role", m_textRole);
+    textElement.setAttribute(QLatin1String("role"), m_textRole);
     qElement.appendChild(textElement);
 }
 

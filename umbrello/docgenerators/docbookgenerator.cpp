@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2006      Gael de Chalendar (aka Kleag) kleag@free.fr   *
- *   copyright (C) 2006-2013                                               *
+ *   copyright (C) 2006-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -60,7 +60,7 @@ bool DocbookGenerator::generateDocbookForProject()
 {
   KUrl url = umlDoc->url();
   QString fileName = url.fileName();
-  fileName.remove(QRegExp(".xmi$"));
+  fileName.remove(QRegExp(QLatin1String(".xmi$")));
   url.setFileName(fileName);
   uDebug() << "Exporting to directory: " << url;
   generateDocbookForProjectInto(url);
@@ -80,7 +80,7 @@ void DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDir)
     umlDoc->writeToStatusBar(i18n("Exporting all views..."));
 
     QStringList errors = UMLViewImageExporterModel().exportAllViews(
-        UMLViewImageExporterModel::mimeTypeToImageType("image/png"), destDir, false);
+        UMLViewImageExporterModel::mimeTypeToImageType(QLatin1String("image/png")), destDir, false);
     if (!errors.empty()) {
         KMessageBox::errorList(UMLApp::app(), i18n("Some errors happened when exporting the images:"), errors);
         return;
@@ -100,7 +100,7 @@ void DocbookGenerator::slotDocbookGenerationFinished(const QString& tmpFileName)
     uDebug() << "Generation Finished" << tmpFileName;
     KUrl url = umlDoc->url();
     QString fileName = url.fileName();
-    fileName.replace(QRegExp(".xmi$"),".docbook");
+    fileName.replace(QRegExp(QLatin1String(".xmi$")), QLatin1String(".docbook"));
     url.setPath(m_destDir.path());
     url.addPath(fileName);
 

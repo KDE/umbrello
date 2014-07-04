@@ -163,7 +163,7 @@ void ObjectWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Rename_Object:
         {
             bool ok;
-            QRegExpValidator* validator = new QRegExpValidator(QRegExp(".*"), 0);
+            QRegExpValidator* validator = new QRegExpValidator(QRegExp(QLatin1String(".*")), 0);
             QString name = KInputDialog::getText
                    (i18n("Rename Object"),
                     i18n("Enter object name:"),
@@ -210,7 +210,7 @@ QSizeF ObjectWidget::minimumSize()
     int width, height;
     const QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
     const int fontHeight  = fm.lineSpacing();
-    const QString t = m_instanceName + " : " + name();
+    const QString t = m_instanceName + QLatin1String(" : ") + name();
     const int textWidth = fm.width(t);
     if (m_drawAsActor) {
         width = textWidth > A_WIDTH?textWidth:A_WIDTH;
@@ -418,7 +418,7 @@ void ObjectWidget::paintObject(QPainter *painter)
     const int w = width();
     const int h = height();
 
-    const QString t = m_instanceName + " : " + name();
+    const QString t = m_instanceName + QLatin1String(" : ") + name();
     int multiInstOfst = 0;
     if (m_multipleInstance) {
         painter->drawRect(10, 10, w - 10, h - 10);
@@ -462,7 +462,7 @@ void ObjectWidget::paintActor(QPainter *painter)
                middleX + A_WIDTH / 2, thirdH + thirdH / 2);//arms
     //draw text
     painter->setPen(textColor());
-    QString t = m_instanceName + " : " + name();
+    QString t = m_instanceName + QLatin1String(" : ") + name();
     painter->drawText(A_MARGIN, textStartY,
                w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, t);
 }
@@ -668,11 +668,11 @@ void ObjectWidget::resizeWidget(qreal newW, qreal newH)
  */
 void ObjectWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
-    QDomElement objectElement = qDoc.createElement("objectwidget");
+    QDomElement objectElement = qDoc.createElement(QLatin1String("objectwidget"));
     UMLWidget::saveToXMI(qDoc, objectElement);
-    objectElement.setAttribute("drawasactor", m_drawAsActor);
-    objectElement.setAttribute("multipleinstance", m_multipleInstance);
-    objectElement.setAttribute("decon", m_showDestruction);
+    objectElement.setAttribute(QLatin1String("drawasactor"), m_drawAsActor);
+    objectElement.setAttribute(QLatin1String("multipleinstance"), m_multipleInstance);
+    objectElement.setAttribute(QLatin1String("decon"), m_showDestruction);
     qElement.appendChild(objectElement);
 }
 
@@ -683,9 +683,9 @@ bool ObjectWidget::loadFromXMI(QDomElement& qElement)
 {
     if(!UMLWidget::loadFromXMI(qElement))
         return false;
-    QString draw = qElement.attribute("drawasactor", "0");
-    QString multi = qElement.attribute("multipleinstance", "0");
-    QString decon = qElement.attribute("decon", "0");
+    QString draw = qElement.attribute(QLatin1String("drawasactor"), QLatin1String("0"));
+    QString multi = qElement.attribute(QLatin1String("multipleinstance"), QLatin1String("0"));
+    QString decon = qElement.attribute(QLatin1String("decon"), QLatin1String("0"));
 
     m_drawAsActor = (bool)draw.toInt();
     m_multipleInstance = (bool)multi.toInt();

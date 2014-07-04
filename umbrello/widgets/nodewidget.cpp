@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2013                                               *
+ *   copyright (C) 2003-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -96,7 +96,7 @@ void NodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     if (UMLWidget::isInstance()) {
         font.setUnderline(true);
         painter->setFont(font);
-        nameStr = UMLWidget::instanceName() + " : " + nameStr;
+        nameStr = UMLWidget::instanceName() + QLatin1String(" : ") + nameStr;
     }
 
     if (lines == 1) {
@@ -125,7 +125,7 @@ QSizeF NodeWidget::minimumSize()
 
     QString name = m_umlObject->name();
     if (UMLWidget::isInstance()) {
-        name = UMLWidget::instanceName() + " : " + name;
+        name = UMLWidget::instanceName() + QLatin1String(" : ") + name;
     }
 
     int width = fm.width(name);
@@ -149,7 +149,7 @@ QSizeF NodeWidget::minimumSize()
  */
 void NodeWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
-    QDomElement conceptElement = qDoc.createElement("nodewidget");
+    QDomElement conceptElement = qDoc.createElement(QLatin1String("nodewidget"));
     UMLWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }

@@ -52,8 +52,8 @@ UMLObject* UMLArtifact::clone() const
  */
 void UMLArtifact::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) 
 {
-    QDomElement artifactElement = UMLObject::save("UML:Artifact", qDoc);
-    artifactElement.setAttribute("drawas", m_drawAsType);
+    QDomElement artifactElement = UMLObject::save(QLatin1String("UML:Artifact"), qDoc);
+    artifactElement.setAttribute(QLatin1String("drawas"), m_drawAsType);
     qElement.appendChild(artifactElement);
 }
 
@@ -65,7 +65,7 @@ void UMLArtifact::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
  */
 bool UMLArtifact::load(QDomElement& element) 
 {
-    QString drawAs = element.attribute("drawas", "0");
+    QString drawAs = element.attribute(QLatin1String("drawas"), QLatin1String("0"));
     m_drawAsType = (Draw_Type)drawAs.toInt();
     return true;
 }

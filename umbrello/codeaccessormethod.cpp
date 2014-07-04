@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2013                                               *
+ *   copyright (C) 2004-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -109,7 +109,7 @@ void CodeAccessorMethod::loadFromXMI(QDomElement & root)
  */
 void CodeAccessorMethod::saveToXMI(QDomDocument & doc, QDomElement & root)
 {
-    QDomElement docElement = doc.createElement("codeaccessormethod");
+    QDomElement docElement = doc.createElement(QLatin1String("codeaccessormethod"));
 
     setAttributesOnNode(doc, docElement);
 
@@ -126,8 +126,8 @@ void CodeAccessorMethod::setAttributesOnNode(QDomDocument & doc, QDomElement & e
     CodeMethodBlock::setAttributesOnNode(doc, elem);
 
     // set local class attributes
-    elem.setAttribute("accessType", getType());
-    elem.setAttribute("classfield_id", getParentClassField()->ID());
+    elem.setAttribute(QLatin1String("accessType"), getType());
+    elem.setAttribute(QLatin1String("classfield_id"), getParentClassField()->ID());
 }
 
 /**
@@ -161,7 +161,7 @@ void CodeAccessorMethod::setAttributesFromNode(QDomElement & root)
 
     */
     // now load/set other local attributes
-    setType((AccessorType)root.attribute("accessType","0").toInt());
+    setType((AccessorType)root.attribute(QLatin1String("accessType"),QLatin1String("0")).toInt());
 }
 
 /**

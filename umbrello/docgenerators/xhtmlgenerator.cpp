@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2006      Gael de Chalendar (aka Kleag) kleag@free.fr   *
- *   copyright (C) 2006-2013                                               *
+ *   copyright (C) 2006-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -60,7 +60,7 @@ bool XhtmlGenerator::generateXhtmlForProject()
 {
     KUrl url = m_umlDoc->url();
     QString fileName = url.fileName();
-    fileName.remove(QRegExp(".xmi$"));
+    fileName.remove(QRegExp(QLatin1String(".xmi$")));
     url.setFileName(fileName);
     uDebug() << "Exporting to directory: " << url;
     return generateXhtmlForProjectInto(url);
@@ -101,7 +101,7 @@ void XhtmlGenerator::slotDocbookToXhtml(bool status)
     else {
         KUrl url = m_umlDoc->url();
         QString fileName = url.fileName();
-        fileName.replace(QRegExp(".xmi$"),".docbook");
+        fileName.replace(QRegExp(QLatin1String(".xmi$")), QLatin1String(".docbook"));
         url.setPath(m_destDir.path());
         url.addPath(fileName);
 
@@ -125,7 +125,7 @@ void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
     uDebug() << "HTML Generated " << tmpFileName;
     KUrl url = m_umlDoc->url();
     QString fileName = url.fileName();
-    fileName.replace(QRegExp(".xmi$"),".html");
+    fileName.replace(QRegExp(QLatin1String(".xmi$")), QLatin1String(".html"));
     url.setPath(m_destDir.path());
     url.addPath(fileName);
 
@@ -139,9 +139,9 @@ void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
 
     m_umlDoc->writeToStatusBar(i18n("Copying CSS..."));
 
-    QString cssFileName(KGlobal::dirs()->findResource("appdata","xmi.css"));
+    QString cssFileName(KGlobal::dirs()->findResource("appdata", QLatin1String("xmi.css")));
     KUrl cssUrl = m_destDir;
-    cssUrl.addPath("xmi.css");
+    cssUrl.addPath(QLatin1String("xmi.css"));
     KIO::Job* cssJob = KIO::file_copy(cssFileName, cssUrl, -1, KIO::Overwrite | KIO::HideProgressInfo);
 
     if (KIO::NetAccess::synchronousRun(cssJob, (QWidget*)UMLApp::app())) {

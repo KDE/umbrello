@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2013                                               *
+ *   copyright (C) 2003-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -130,7 +130,7 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
  */
 void EntityWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
-    QDomElement conceptElement = qDoc.createElement("entitywidget");
+    QDomElement conceptElement = qDoc.createElement(QLatin1String("entitywidget"));
     UMLWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
@@ -225,11 +225,11 @@ QSizeF EntityWidget::minimumSize()
     //set width to name to start with
     // FIXME spaces to get round beastie with font width,
     // investigate UMLWidget::getFontMetrics()
-    width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(' ' + name() + ' ').width();
-
+    width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(QLatin1Char(' ') + name() +
+                                                        QLatin1Char(' ')).width();
     const int w = getFontMetrics(FT_BOLD).boundingRect(m_umlObject->stereotype(true)).width();
 
-    width = w > width?w:width;
+    width = w > width ? w : width;
 
     UMLClassifier* classifier = (UMLClassifier*)m_umlObject;
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EntityAttribute);

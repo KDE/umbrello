@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2013                                               *
+ *   copyright (C) 2003-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -82,7 +82,7 @@ UMLObject* UMLEnumLiteral::clone() const
  */
 void UMLEnumLiteral::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
-    QDomElement attributeElement = UMLObject::save("UML:EnumerationLiteral", qDoc);
+    QDomElement attributeElement = UMLObject::save(QLatin1String("UML:EnumerationLiteral"), qDoc);
     qElement.appendChild(attributeElement);
 }
 

@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2013                                               *
+ *   copyright (C) 2004-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -132,8 +132,8 @@ bool ClassifierCodeDocument::hasObjectVectorClassFields()
             UMLRole * role = dynamic_cast<UMLRole*>((*it)->getParentObject());
             QString multi = role->multiplicity();
             if (
-                multi.contains(QRegExp("[23456789\\*]")) ||
-                multi.contains(QRegExp("1\\d"))
+                multi.contains(QRegExp(QLatin1String("[23456789\\*]"))) ||
+                multi.contains(QRegExp(QLatin1String("1\\d")))
            )
                 return true;
         }
@@ -624,7 +624,7 @@ void ClassifierCodeDocument::setAttributesFromNode (QDomElement & elem)
     QDomElement childElem = node.toElement();
     while(!childElem.isNull()) {
         QString tag = childElem.tagName();
-        if(tag == "classfields") {
+        if(tag == QLatin1String("classfields")) {
             // load classfields
             loadClassFieldsFromXMI(childElem);
             break;
@@ -677,10 +677,10 @@ void ClassifierCodeDocument::loadClassFieldsFromXMI(QDomElement & elem)
     QDomElement childElem = node.toElement();
     while(!childElem.isNull()) {
         QString nodeName = childElem.tagName();
-        if(nodeName == "codeclassfield")
+        if(nodeName == QLatin1String("codeclassfield"))
         {
-            QString id = childElem.attribute("parent_id","-1");
-            int role_id = childElem.attribute("role_id","-1").toInt();
+            QString id = childElem.attribute(QLatin1String("parent_id"), QLatin1String("-1"));
+            int role_id = childElem.attribute(QLatin1String("role_id"), QLatin1String("-1")).toInt();
             CodeClassField * cf = findCodeClassFieldFromParentID(Uml::ID::fromString(id), role_id);
             if(cf)
             {
@@ -718,7 +718,7 @@ void ClassifierCodeDocument::saveToXMI (QDomDocument & doc, QDomElement & root)
            return;
     }
 #endif
-    QDomElement docElement = doc.createElement("classifiercodedocument");
+    QDomElement docElement = doc.createElement(QLatin1String("classifiercodedocument"));
 
     setAttributesOnNode(doc, docElement);
 
@@ -747,11 +747,11 @@ void ClassifierCodeDocument::setAttributesOnNode (QDomDocument & doc, QDomElemen
     CodeDocument::setAttributesOnNode(doc, docElement);
 
     // cache local attributes/fields
-    docElement.setAttribute("parent_class", Uml::ID::toString(getParentClassifier()->id()));
+    docElement.setAttribute(QLatin1String("parent_class"), Uml::ID::toString(getParentClassifier()->id()));
 
     // (code) class fields
     // which we will store in its own separate child node block
-    QDomElement fieldsElement = doc.createElement("classfields");
+    QDomElement fieldsElement = doc.createElement(QLatin1String("classfields"));
     CodeClassFieldList::Iterator it = m_classfieldVector.begin();
     CodeClassFieldList::Iterator end = m_classfieldVector.end();
     for (; it!= end; ++it)

@@ -84,13 +84,13 @@ void NoteWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     painter->setPen(textColor());
     switch(m_noteType) {
     case NoteWidget::PreCondition :
-        painter->drawText(0, margin, w, fontHeight, Qt::AlignCenter, "<< precondition >>");
+        painter->drawText(0, margin, w, fontHeight, Qt::AlignCenter, QLatin1String("<< precondition >>"));
         break;
     case NoteWidget::PostCondition :
-        painter->drawText(0, margin, w, fontHeight, Qt::AlignCenter, "<< postcondition >>");
+        painter->drawText(0, margin, w, fontHeight, Qt::AlignCenter, QLatin1String("<< postcondition >>"));
         break;
     case NoteWidget::Transformation :
-        painter->drawText(0, margin, w, fontHeight, Qt::AlignCenter, "<< transformation >>");
+        painter->drawText(0, margin, w, fontHeight, Qt::AlignCenter, QLatin1String("<< transformation >>"));
         break;
     case NoteWidget::Normal :
     default :
@@ -116,11 +116,11 @@ NoteWidget::NoteType NoteWidget::noteType() const
  */
 NoteWidget::NoteType NoteWidget::stringToNoteType(const QString& noteType)
 {
-    if (noteType == "Precondition")
+    if (noteType == QLatin1String("Precondition"))
         return NoteWidget::PreCondition;
-    else if (noteType == "Postcondition")
+    else if (noteType == QLatin1String("Postcondition"))
         return NoteWidget::PostCondition;
-    else if (noteType == "Transformation")
+    else if (noteType == QLatin1String("Transformation"))
         return NoteWidget::Transformation;
     else
         return NoteWidget::Normal;
@@ -167,7 +167,7 @@ void NoteWidget::setDiagramLink(Uml::ID::Type viewID)
         uError() << "no view found for viewID " << Uml::ID::toString(viewID);
         return;
     }
-    QString linkText("Diagram: " + view->umlScene()->name());
+    QString linkText(QLatin1String("Diagram: ") + view->umlScene()->name());
     setDocumentation(linkText);
     m_diagramLink = viewID;
 }
@@ -201,11 +201,11 @@ bool NoteWidget::loadFromXMI(QDomElement & qElement)
     if (!UMLWidget::loadFromXMI(qElement))
         return false;
     setZValue(20); //make sure always on top.
-    setDocumentation(qElement.attribute("text"));
-    QString diagramlink = qElement.attribute("diagramlink");
+    setDocumentation(qElement.attribute(QLatin1String("text")));
+    QString diagramlink = qElement.attribute(QLatin1String("diagramlink"));
     if (!diagramlink.isEmpty())
         m_diagramLink = Uml::ID::fromString(diagramlink);
-    QString type = qElement.attribute("noteType");
+    QString type = qElement.attribute(QLatin1String("noteType"));
     setNoteType((NoteType)type.toInt());
     return true;
 }
@@ -215,12 +215,12 @@ bool NoteWidget::loadFromXMI(QDomElement & qElement)
  */
 void NoteWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
-    QDomElement noteElement = qDoc.createElement("notewidget");
+    QDomElement noteElement = qDoc.createElement(QLatin1String("notewidget"));
     UMLWidget::saveToXMI(qDoc, noteElement);
-    noteElement.setAttribute("text", documentation());
+    noteElement.setAttribute(QLatin1String("text"), documentation());
     if (m_diagramLink != Uml::ID::None)
-        noteElement.setAttribute("diagramlink", Uml::ID::toString(m_diagramLink));
-    noteElement.setAttribute("noteType", m_noteType);
+        noteElement.setAttribute(QLatin1String("diagramlink"), Uml::ID::toString(m_diagramLink));
+    noteElement.setAttribute(QLatin1String("noteType"), m_noteType);
     qElement.appendChild(noteElement);
 }
 
@@ -263,17 +263,17 @@ QSizeF NoteWidget::minimumSize()
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int textWidth = fm.width(documentation());
     if (m_noteType == PreCondition) {
-        const int widthtemp = fm.width("<< precondition >>");
+        const int widthtemp = fm.width(QLatin1String("<< precondition >>"));
         width = textWidth > widthtemp ? textWidth : widthtemp;
         width += 10;
     }
     else if (m_noteType == PostCondition) {
-        const int widthtemp = fm.width("<< postcondition >>");
+        const int widthtemp = fm.width(QLatin1String("<< postcondition >>"));
         width = textWidth > widthtemp ? textWidth : widthtemp;
         width += 10;
     }
     else if (m_noteType == Transformation) {
-        const int widthtemp = fm.width("<< transformation >>");
+        const int widthtemp = fm.width(QLatin1String("<< transformation >>"));
         width = textWidth > widthtemp ? textWidth : widthtemp;
         width += 10;
     }
@@ -293,21 +293,21 @@ QSizeF NoteWidget::calculateSize()
     int width = this->width();
     int height = this->height();
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const int margin = fm.width("W");
+    const int margin = fm.width(QLatin1String("W"));
     QSize size = fm.size (0, documentation());
     const int textWidth = size.width();
     if (m_noteType == PreCondition) {
-        const int widthtemp = fm.width("<< precondition >>");
+        const int widthtemp = fm.width(QLatin1String("<< precondition >>"));
         width = textWidth > widthtemp ? textWidth : widthtemp;
         width += 2 * margin;
     }
     else if (m_noteType == PostCondition) {
-        const int widthtemp = fm.width("<< postcondition >>");
+        const int widthtemp = fm.width(QLatin1String("<< postcondition >>"));
         width = textWidth > widthtemp ? textWidth : widthtemp;
         width += 2 * margin;
     }
     else if (m_noteType == Transformation) {
-        const int widthtemp = fm.width("<< transformation >>");
+        const int widthtemp = fm.width(QLatin1String("<< transformation >>"));
         width = textWidth > widthtemp ? textWidth : widthtemp;
         width += 2 * margin;
     }
@@ -337,7 +337,7 @@ void NoteWidget::paintText(QPainter *painter)
 
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
-    const int margin      = fm.width("W");
+    const int margin      = fm.width(QLatin1String("W"));
     const QSize textSize  = fm.size(Qt::TextExpandTabs, text);
 
     const int width = this->width() - margin * 2;
@@ -353,7 +353,7 @@ void NoteWidget::paintText(QPainter *painter)
     }
     else {
         // not all text can be drawn
-        QStringList lines = text.split(QChar('\n'));
+        QStringList lines = text.split(QLatin1Char('\n'));
         foreach(const QString& line, lines) {
             int lineWidth = fm.width(line);
             if (lineWidth < width) {
@@ -410,12 +410,12 @@ void NoteWidget::paintTextWordWrap(QPainter *painter)
     QString word;
     QString fullLine;
     QString testCombineLine;
-    const int margin = fm.width("W");
+    const int margin = fm.width(QLatin1String("W"));
     int textY = fontHeight / 2;
     int textX = margin;
     const int width = this -> width() - margin * 2;
     const int height = this -> height() - fontHeight;
-    QChar returnChar('\n');
+    QChar returnChar = QChar::fromLatin1('\n');
     QChar c;
 
     for (int i = 0; i <= text.length(); ++i) {
@@ -428,7 +428,7 @@ void NoteWidget::paintTextWordWrap(QPainter *painter)
         }
         if (c == returnChar || c.isSpace()) {
             // new word delimiter found -> it is time to decide on word wrap
-            testCombineLine = fullLine + ' ' + word;
+            testCombineLine = fullLine + QLatin1Char(' ') + word;
             int textWidth = fm.width(testCombineLine);
             if (textX + textWidth > width) {
                 // combination of "fullLine" and "word" doesn't fit into one line ->
@@ -472,7 +472,7 @@ void NoteWidget::paintTextWordWrap(QPainter *painter)
             }
         } else {
             // no word delimiter found --> add current char to "word"
-            if (c != '\0')
+            if (c != QLatin1Char('\0'))
                 word += c;
         }
     }//end for

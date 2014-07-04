@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2013                                               *
+ *   copyright (C) 2003-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -73,7 +73,7 @@ void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     const int fontHeight  = fm.lineSpacing();
 
     painter->drawRect(0, 0, 50, fontHeight);
-    if (m_umlObject->stereotype() == "subsystem") {
+    if (m_umlObject->stereotype() == QLatin1String("subsystem")) {
         const int fHalf = fontHeight / 2;
         const int symY = fHalf;
         const int symX = 38;
@@ -140,7 +140,7 @@ QSizeF PackageWidget::minimumSize()
  */
 void PackageWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
-    QDomElement conceptElement = qDoc.createElement("packagewidget");
+    QDomElement conceptElement = qDoc.createElement(QLatin1String("packagewidget"));
     UMLWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }

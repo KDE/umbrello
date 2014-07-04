@@ -172,13 +172,13 @@ QString UMLEntityAttribute::toString(Uml::SignatureType::Enum sig)
     //FIXME
 
     if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::NoSig) {
-        s = Uml::Visibility::toString(m_visibility, true) + ' ';
+        s = Uml::Visibility::toString(m_visibility, true) + QLatin1Char(' ');
     }
 
     if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::SigNoVis) {
-        QString string = s + name() + " : " + getTypeName();
+        QString string = s + name() + QLatin1String(" : ") + getTypeName();
         if(m_InitialValue.length() > 0)
-            string += " = " + m_InitialValue;
+            string += QLatin1String(" = ") + m_InitialValue;
         return string;
     } else
         return s + name();
@@ -237,19 +237,19 @@ UMLObject* UMLEntityAttribute::clone() const
  */
 void UMLEntityAttribute::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
-    QDomElement entityattributeElement = UMLObject::save("UML:EntityAttribute", qDoc);
+    QDomElement entityattributeElement = UMLObject::save(QLatin1String("UML:EntityAttribute"), qDoc);
     if (m_pSecondary == NULL) {
         uDebug() << name() << ": m_pSecondary is NULL, using local name " << m_SecondaryId;
-        entityattributeElement.setAttribute("type", m_SecondaryId);
+        entityattributeElement.setAttribute(QLatin1String("type"), m_SecondaryId);
     } else {
-        entityattributeElement.setAttribute("type", Uml::ID::toString(m_pSecondary->id()));
+        entityattributeElement.setAttribute(QLatin1String("type"), Uml::ID::toString(m_pSecondary->id()));
     }
-    entityattributeElement.setAttribute("initialValue", m_InitialValue);
-    entityattributeElement.setAttribute("dbindex_type", m_indexType);
-    entityattributeElement.setAttribute("values", m_values);
-    entityattributeElement.setAttribute("attributes", m_attributes);
-    entityattributeElement.setAttribute("auto_increment", m_autoIncrement);
-    entityattributeElement.setAttribute("allow_null", m_null);
+    entityattributeElement.setAttribute(QLatin1String("initialValue"), m_InitialValue);
+    entityattributeElement.setAttribute(QLatin1String("dbindex_type"), m_indexType);
+    entityattributeElement.setAttribute(QLatin1String("values"), m_values);
+    entityattributeElement.setAttribute(QLatin1String("attributes"), m_attributes);
+    entityattributeElement.setAttribute(QLatin1String("auto_increment"), m_autoIncrement);
+    entityattributeElement.setAttribute(QLatin1String("allow_null"), m_null);
     qElement.appendChild(entityattributeElement);
 }
 
@@ -260,12 +260,12 @@ bool UMLEntityAttribute::load(QDomElement & element)
 {
     if (! UMLAttribute::load(element))
         return false;
-    int indexType = element.attribute("dbindex_type", "1100").toInt();
+    int indexType = element.attribute(QLatin1String("dbindex_type"), QLatin1String("1100")).toInt();
     m_indexType = (UMLEntityAttribute::DBIndex_Type)indexType;
-    m_values = element.attribute("values");
-    m_attributes = element.attribute("attributes");
-    m_autoIncrement = (bool)element.attribute("auto_increment").toInt();
-    m_null = (bool)element.attribute("allow_null").toInt();
+    m_values = element.attribute(QLatin1String("values"));
+    m_attributes = element.attribute(QLatin1String("attributes"));
+    m_autoIncrement = (bool)element.attribute(QLatin1String("auto_increment")).toInt();
+    m_null = (bool)element.attribute(QLatin1String("allow_null")).toInt();
     return true;
 }
 

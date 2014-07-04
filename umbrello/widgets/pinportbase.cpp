@@ -318,8 +318,9 @@ UMLWidget* PinPortBase::widgetWithID(Uml::ID::Type id)
  */
 void PinPortBase::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
-    QDomElement element = qDoc.createElement(m_baseType == wt_Pin ? "pinwidget" : "portwidget");
-    element.setAttribute("widgetaid", Uml::ID::toString(ownerWidget()->id()));
+    QDomElement element = qDoc.createElement(m_baseType == wt_Pin ? QLatin1String("pinwidget")
+                                                                  : QLatin1String("portwidget"));
+    element.setAttribute(QLatin1String("widgetaid"), Uml::ID::toString(ownerWidget()->id()));
     UMLWidget::saveToXMI(qDoc, element);
     if (m_pName && !m_pName->text().isEmpty()) {
         m_pName->saveToXMI(qDoc, element);
@@ -335,7 +336,7 @@ bool PinPortBase::loadFromXMI(QDomElement & qElement)
     if (!UMLWidget::loadFromXMI(qElement))
         return false;
 
-    QString widgetaid = qElement.attribute("widgetaid", "-1");
+    QString widgetaid = qElement.attribute(QLatin1String("widgetaid"), QLatin1String("-1"));
     Uml::ID::Type aId = Uml::ID::fromString(widgetaid);
     UMLWidget *owner = m_scene->findWidget(aId);
     if (owner == NULL) {
@@ -349,7 +350,7 @@ bool PinPortBase::loadFromXMI(QDomElement & qElement)
     QDomElement element = node.toElement();
     if (!element.isNull()) {
         QString tag = element.tagName();
-        if (tag == "floatingtext") {
+        if (tag == QLatin1String("floatingtext")) {
             m_pName = new FloatingTextWidget(m_scene, Uml::TextRole::Floating,
                                              name(), Uml::ID::Reserved);
             if (!m_pName->loadFromXMI(element)) {

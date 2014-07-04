@@ -757,7 +757,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
         break;
     case mt_Component_Diagram:
         {
-            QAction* act = UMLApp::app()->actionCollection()->action("new_component_diagram");
+            QAction* act = UMLApp::app()->actionCollection()->action(QLatin1String("new_component_diagram"));
             //don't keep a local copy of pointer which resides somewhere else (in this case - in actionCollection())
             //m_actions[m] = act;
             menu->addAction(act);
@@ -768,7 +768,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
         break;
     case mt_Deployment_Diagram:
         {
-            QAction* act = UMLApp::app()->actionCollection()->action("new_deployment_diagram");
+            QAction* act = UMLApp::app()->actionCollection()->action(QLatin1String("new_deployment_diagram"));
             //m_actions[m] = act;
             menu->addAction(act);
         }
@@ -784,7 +784,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
         break;
     case mt_EntityRelationship_Diagram:
         {
-            QAction* act = UMLApp::app()->actionCollection()->action("new_entityrelationship_diagram");
+            QAction* act = UMLApp::app()->actionCollection()->action(QLatin1String("new_entityrelationship_diagram"));
             //m_actions[m] = act;
             menu->addAction(act);
         }
@@ -800,7 +800,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
         break;
     case mt_UseCase_Diagram:
         {
-            QAction* act = UMLApp::app()->actionCollection()->action("new_use_case_diagram");
+            QAction* act = UMLApp::app()->actionCollection()->action(QLatin1String("new_use_case_diagram"));
             //m_actions[m] = act;
             menu->addAction(act);
         }
@@ -920,11 +920,11 @@ void ListPopupMenu::insertContainerItems(bool folderAndDiagrams)
     insert(mt_Enum, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Enum), i18n("Enum"));
     insert(mt_Package, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Package), i18n("Package"));
     if (folderAndDiagrams) {
-        menu->addAction(UMLApp::app()->actionCollection()->action("new_class_diagram"));
-        menu->addAction(UMLApp::app()->actionCollection()->action("new_sequence_diagram"));
-        menu->addAction(UMLApp::app()->actionCollection()->action("new_collaboration_diagram"));
-        menu->addAction(UMLApp::app()->actionCollection()->action("new_state_diagram"));
-        menu->addAction(UMLApp::app()->actionCollection()->action("new_activity_diagram"));
+        menu->addAction(UMLApp::app()->actionCollection()->action(QLatin1String("new_class_diagram")));
+        menu->addAction(UMLApp::app()->actionCollection()->action(QLatin1String("new_sequence_diagram")));
+        menu->addAction(UMLApp::app()->actionCollection()->action(QLatin1String("new_collaboration_diagram")));
+        menu->addAction(UMLApp::app()->actionCollection()->action(QLatin1String("new_state_diagram")));
+        menu->addAction(UMLApp::app()->actionCollection()->action(QLatin1String("new_activity_diagram")));
     }
     addMenu(menu);
 }
@@ -1065,7 +1065,11 @@ void ListPopupMenu::insertSubmodelAction()
 void ListPopupMenu::insertLayoutItems(UMLView *view)
 {
     QList<MenuType> types;
-    types << mt_Apply_Layout << mt_Apply_Layout1 << mt_Apply_Layout2 << mt_Apply_Layout3 << mt_Apply_Layout4 << mt_Apply_Layout5 << mt_Apply_Layout6 << mt_Apply_Layout7 << mt_Apply_Layout8 << mt_Apply_Layout9;
+    types << mt_Apply_Layout  << mt_Apply_Layout1
+          << mt_Apply_Layout2 << mt_Apply_Layout3
+          << mt_Apply_Layout4 << mt_Apply_Layout5
+          << mt_Apply_Layout6 << mt_Apply_Layout7
+          << mt_Apply_Layout8 << mt_Apply_Layout9;
     LayoutGenerator generator;
     if (generator.isEnabled()) {
         QHash<QString, QString> configFiles;
@@ -1074,7 +1078,8 @@ void ListPopupMenu::insertLayoutItems(UMLView *view)
             foreach(const QString &key, configFiles.keys()) {
                 if (i >= types.size())
                     break;
-                if (key == "export" && !Settings::optionState().autoLayoutState.showExportLayout)
+                if (key == QLatin1String("export") &&
+                        !Settings::optionState().autoLayoutState.showExportLayout)
                     continue;
                 insert(types[i], QPixmap(), i18n("apply '%1'", configFiles[key]));
                 QAction* action = getAction(types[i]);

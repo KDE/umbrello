@@ -135,7 +135,7 @@ QString UMLAttribute::toString(Uml::SignatureType::Enum sig)
     QString s;
 
     if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::NoSig) {
-        s = Uml::Visibility::toString(m_visibility, true) + ' ';
+        s = Uml::Visibility::toString(m_visibility, true) + QLatin1Char(' ');
     }
 
     if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::SigNoVis) {
@@ -165,13 +165,13 @@ QString UMLAttribute::toString(Uml::SignatureType::Enum sig)
         // Perhaps we should include a pd_Unspecified in
         // Uml::ParameterDirection::Enum to have better control over this.
         if (m_ParmKind == Uml::ParameterDirection::InOut)
-            s += "inout ";
+            s += QLatin1String("inout ");
         else if (m_ParmKind == Uml::ParameterDirection::Out)
-            s += "out ";
+            s += QLatin1String("out ");
         // Construct the attribute text.
-        QString string = s + name() + " : " + typeName;
+        QString string = s + name() + QLatin1String(" : ") + typeName;
         if (m_InitialValue.length() > 0)
-            string += " = " + m_InitialValue;
+            string += QLatin1String(" = ") + m_InitialValue;
         return string;
     }
     return s + name();
@@ -258,15 +258,15 @@ UMLObject* UMLAttribute::clone() const
  */
 void UMLAttribute::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
-    QDomElement attributeElement = UMLObject::save("UML:Attribute", qDoc);
+    QDomElement attributeElement = UMLObject::save(QLatin1String("UML:Attribute"), qDoc);
     if (m_pSecondary == NULL) {
         uDebug() << name() << ": m_pSecondary is NULL, m_SecondaryId is '"
             << m_SecondaryId << "'";
     } else {
-        attributeElement.setAttribute("type", Uml::ID::toString(m_pSecondary->id()));
+        attributeElement.setAttribute(QLatin1String("type"), Uml::ID::toString(m_pSecondary->id()));
     }
     if (! m_InitialValue.isEmpty())
-        attributeElement.setAttribute("initialValue", m_InitialValue);
+        attributeElement.setAttribute(QLatin1String("initialValue"), m_InitialValue);
     qElement.appendChild(attributeElement);
 }
 
@@ -275,7 +275,7 @@ void UMLAttribute::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
  */
 bool UMLAttribute::load(QDomElement & element)
 {
-    m_SecondaryId = element.attribute("type");
+    m_SecondaryId = element.attribute(QLatin1String("type"));
     // We use the m_SecondaryId as a temporary store for the xmi.id
     // of the attribute type model object.
     // It is resolved later on, when all classes have been loaded.
@@ -292,23 +292,23 @@ bool UMLAttribute::load(QDomElement & element)
             }
             QDomElement tempElement = node.toElement();
             QString tag = tempElement.tagName();
-            if (!UMLDoc::tagEq(tag, "type")) {
+            if (!UMLDoc::tagEq(tag, QLatin1String("type"))) {
                 node = node.nextSibling();
                 continue;
             }
             m_SecondaryId = Model_Utils::getXmiId(tempElement);
             if (m_SecondaryId.isEmpty())
-                m_SecondaryId = tempElement.attribute("xmi.idref");
+                m_SecondaryId = tempElement.attribute(QLatin1String("xmi.idref"));
             if (m_SecondaryId.isEmpty()) {
-                QString href = tempElement.attribute("href");
+                QString href = tempElement.attribute(QLatin1String("href"));
                 if (href.isEmpty()) {
                     QDomNode inner = node.firstChild();
                     QDomElement tmpElem = inner.toElement();
                     m_SecondaryId = Model_Utils::getXmiId(tmpElem);
                     if (m_SecondaryId.isEmpty())
-                        m_SecondaryId = tmpElem.attribute("xmi.idref");
+                        m_SecondaryId = tmpElem.attribute(QLatin1String("xmi.idref"));
                 } else {
-                    int hashpos = href.lastIndexOf(QChar('#'));
+                    int hashpos = href.lastIndexOf(QChar(QLatin1Char('#')));
                     if (hashpos < 0) {
                         uDebug() << name() << ": cannot find type " << href;
                     } else {
@@ -329,10 +329,10 @@ bool UMLAttribute::load(QDomElement & element)
             uDebug() << name() << ": cannot find type.";
         }
     }
-    m_InitialValue = element.attribute("initialValue");
+    m_InitialValue = element.attribute(QLatin1String("initialValue"));
     if (m_InitialValue.isEmpty()) {
         // for backward compatibility
-        m_InitialValue = element.attribute("value");
+        m_InitialValue = element.attribute(QLatin1String("value"));
     }
     return true;
 }
@@ -355,17 +355,17 @@ void UMLAttribute::setTemplateParams(const QString& templateParam, UMLClassifier
         return;
     QString type = templateParam.simplified();
 
-    int start = type.indexOf(QChar('<'));
+    int start = type.indexOf(QLatin1Char('<'));
     if (start >= 0) {
         int end = start;
         int count = 1;
         int len = type.length();
         while (count != 0 && ++end < len) {
             QChar c = type.at(end);
-            if (c == QChar('<')) {
+            if (c == QLatin1Char('<')) {
                 count++;
             }
-            if (c == QChar('>')) {
+            if (c == QLatin1Char('>')) {
                 count--;
             }
         }
@@ -376,14 +376,14 @@ void UMLAttribute::setTemplateParams(const QString& templateParam, UMLClassifier
         setTemplateParams(type.mid(start + 1, end - start - 1), templateParamList);
         setTemplateParams(type.left(start) + type.right(len - end - 1), templateParamList);
     } else {
-        QStringList paramsList = type.split(QChar(','));
+        QStringList paramsList = type.split(QLatin1Char(','));
         for (QStringList::Iterator it = paramsList.begin(); it != paramsList.end(); ++it) {
             QString param = *it;
             if (!param.isEmpty()) {
                 UMLDoc *pDoc = UMLApp::app()->document();
                 UMLObject* obj = pDoc->findUMLObject(param);
                 if (obj == NULL) {
-                    obj = pDoc->findUMLObject(param.remove(QChar(' ')));
+                    obj = pDoc->findUMLObject(param.remove(QLatin1Char(' ')));
                 }
                 if (obj != NULL) {
                     //We want to list only the params that already exist in this document
@@ -410,9 +410,9 @@ UMLClassifierList UMLAttribute::getTemplateParams()
     const Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
     if (pl == Uml::ProgrammingLanguage::Cpp  ||
         pl == Uml::ProgrammingLanguage::Java || pl == Uml::ProgrammingLanguage::D) {
-        int start = type.indexOf(QChar('<'));
+        int start = type.indexOf(QLatin1Char('<'));
         if (start >= 0) {
-            int end = type.lastIndexOf(QChar('>'));
+            int end = type.lastIndexOf(QLatin1Char('>'));
             if (end > start) {
                 templateParam = type.mid(start + 1, end - start - 1);
                 setTemplateParams(templateParam, templateParamList);

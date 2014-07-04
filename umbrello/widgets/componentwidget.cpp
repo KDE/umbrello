@@ -112,7 +112,7 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     if (UMLWidget::isInstance()) {
         font.setUnderline(true);
         painter->setFont(font);
-        nameStr = UMLWidget::instanceName() + " : " + nameStr;
+        nameStr = UMLWidget::instanceName() + QLatin1String(" : ") + nameStr;
     }
 
     if (lines == 1) {
@@ -161,7 +161,7 @@ void ComponentWidget::adjustAssocs(qreal dx, qreal dy)
  */
 void ComponentWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
-    QDomElement conceptElement = qDoc.createElement("componentwidget");
+    QDomElement conceptElement = qDoc.createElement(QLatin1String("componentwidget"));
     UMLWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
@@ -179,7 +179,7 @@ QSizeF ComponentWidget::minimumSize()
 
     QString name = m_umlObject->name();
     if (UMLWidget::isInstance()) {
-        name = UMLWidget::instanceName() + " : " + name;
+        name = UMLWidget::instanceName() + QLatin1String(" : ") + name;
     }
 
     int width = fm.width(name);

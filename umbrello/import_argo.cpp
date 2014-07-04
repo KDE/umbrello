@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2014                                              *
+ *   copyright (C) 2014                                                    *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -44,13 +44,13 @@ bool Import_Argo::loadFromArgoFile(const KZip &zipFile, const QString &fileName)
         xml.readNext();
         if (xml.name() == "member") {
             QXmlStreamAttributes attributes = xml.attributes();
-            QString type = attributes.value("type").toString();
-            QString name = attributes.value("name").toString();
-            if (type == "xmi")
+            QString type = attributes.value(QLatin1String("type")).toString();
+            QString name = attributes.value(QLatin1String("name")).toString();
+            if (type == QLatin1String("xmi"))
                 loadFromXMIFile(zipFile, name);
-            else if (type == "pgml")
+            else if (type == QLatin1String("pgml"))
                 loadFromPGMLFile(zipFile, name);
-            else if (type == "todo")
+            else if (type == QLatin1String("todo"))
                 loadFromTodoFile(zipFile, name);
             else
                 uError() << "unknown file type" << type << "in file" << zipFile.fileName() << ":" << fileName;
@@ -138,7 +138,7 @@ bool Import_Argo::loadFromZArgoFile(QIODevice &file, UMLPackage *parentPkg)
                 uError() << "Could not read file from" << file;
                 continue;
             }
-            if (name.endsWith(".argo"))
+            if (name.endsWith(QLatin1String(".argo")))
                 result = loadFromArgoFile(zipFile, name);
         }
     }

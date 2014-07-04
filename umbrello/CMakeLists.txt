@@ -4,6 +4,9 @@ add_subdirectory( headings )
 ########### set variables #############
 
 # Some definitions for experimental code or debugging
+add_definitions(-DQT_NO_CAST_TO_ASCII)
+add_definitions(-DQT_NO_CAST_FROM_ASCII)
+#add_definitions(-DQT_NO_CAST_FROM_BYTEARRAY)
 #add_definitions(-DWANT_LVTOOLTIP)                # umllistiew
 #add_definitions(-DXMI_FLAT_PACKAGES)             # umlobject
 #add_definitions(-DDEBUG_LVITEM_INSERTION_ORDER)  # umllistviewitem

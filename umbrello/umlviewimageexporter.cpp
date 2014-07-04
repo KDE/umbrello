@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2013                                               *
+ *   copyright (C) 2006-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -160,7 +160,7 @@ void UMLViewImageExporter::prepareFileDialog(UMLFileDialog *fileDialog)
 
     QHash<QString, QString> configFiles;
     if (!DotGenerator::availableConfigFiles(m_scene, configFiles) || configFiles.size() == 0)
-        mimeTypes.removeOne("image/x-dot");
+        mimeTypes.removeOne(QLatin1String("image/x-dot"));
 
     fileDialog->setCaption(i18n("Save As"));
     fileDialog->setOperationMode(KFileDialog::Saving);
@@ -173,7 +173,7 @@ void UMLViewImageExporter::prepareFileDialog(UMLFileDialog *fileDialog)
         directory.setPath(docURL.directory());
 
         fileDialog->setUrl(directory);
-        fileDialog->setSelection(m_scene->name() + '.' + UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType));
+        fileDialog->setSelection(m_scene->name() + QLatin1Char('.') + UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType));
     } else {
         fileDialog->setUrl(m_imageURL);
         fileDialog->setSelection(m_imageURL.fileName());

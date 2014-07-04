@@ -95,7 +95,7 @@ UMLObject::~UMLObject()
  */
 void UMLObject::init()
 {
-    setObjectName("UMLObject");
+    setObjectName(QLatin1String("UMLObject"));
     m_BaseType = ot_UMLObject;
     m_pUMLPackage = 0;
     m_visibility = Uml::Visibility::Public;
@@ -731,7 +731,7 @@ bool UMLObject::resolveRef()
         if (m_SecondaryFallback.isEmpty()) {
             uDebug() << "object with xmi.id=" << m_SecondaryId << " not found, setting to undef";
             UMLFolder *datatypes = pDoc->datatypeFolder();
-            m_pSecondary = Object_Factory::createUMLObject(ot_Datatype, "undef", datatypes, false);
+            m_pSecondary = Object_Factory::createUMLObject(ot_Datatype, QLatin1String("undef"), datatypes, false);
             return true;
         }
     }
@@ -755,7 +755,7 @@ bool UMLObject::resolveRef()
     }
     // Work around Object_Factory::createUMLObject()'s incapability
     // of on-the-fly scope creation:
-    if (m_SecondaryId.contains("::")) {
+    if (m_SecondaryId.contains(QLatin1String("::"))) {
         // TODO: Merge Import_Utils::createUMLObject() into Object_Factory::createUMLObject()
         m_pSecondary = Import_Utils::createUMLObject(ot_UMLObject, m_SecondaryId, m_pUMLPackage);
         if (m_pSecondary) {
@@ -779,8 +779,8 @@ bool UMLObject::resolveRef()
     // This is very C++ specific - we rely on  some '*' or
     // '&' to decide it's a ref type. Plus, we don't recognize
     // typedefs of ref types.
-    bool isReferenceType = (m_SecondaryId.contains('*') ||
-                            m_SecondaryId.contains('&'));
+    bool isReferenceType = (m_SecondaryId.contains(QLatin1Char('*')) ||
+                            m_SecondaryId.contains(QLatin1Char('&')));
     ObjectType ot = ot_Class;
     if (isReferenceType) {
         ot = ot_Datatype;
@@ -810,19 +810,19 @@ QDomElement UMLObject::save(const QString &tag, QDomDocument & qDoc)
       This creates the QDomElement with which to work.
     */
     QDomElement qElement = qDoc.createElement(tag);
-    qElement.setAttribute("isSpecification", "false");
+    qElement.setAttribute(QLatin1String("isSpecification"), QLatin1String("false"));
     if (m_BaseType != ot_Association &&
         m_BaseType != ot_Role &&
         m_BaseType != ot_Attribute) {
-        qElement.setAttribute("isLeaf", "false");
-        qElement.setAttribute("isRoot", "false");
+        qElement.setAttribute(QLatin1String("isLeaf"), QLatin1String("false"));
+        qElement.setAttribute(QLatin1String("isRoot"), QLatin1String("false"));
         if (m_bAbstract)
-            qElement.setAttribute("isAbstract", "true");
+            qElement.setAttribute(QLatin1String("isAbstract"), QLatin1String("true"));
         else
-            qElement.setAttribute("isAbstract", "false");
+            qElement.setAttribute(QLatin1String("isAbstract"), QLatin1String("false"));
     }
-    qElement.setAttribute("xmi.id", Uml::ID::toString(m_nId));
-    qElement.setAttribute("name", m_name);
+    qElement.setAttribute(QLatin1String("xmi.id"), Uml::ID::toString(m_nId));
+    qElement.setAttribute(QLatin1String("name"), m_name);
     if (m_BaseType != ot_Operation &&
         m_BaseType != ot_Role &&
         m_BaseType != ot_Attribute) {
@@ -831,20 +831,20 @@ QDomElement UMLObject::save(const QString &tag, QDomDocument & qDoc)
             nmSpc = m_pUMLPackage->id();
         else
             nmSpc = UMLApp::app()->document()->modelID();
-        qElement.setAttribute("namespace", Uml::ID::toString(nmSpc));
+        qElement.setAttribute(QLatin1String("namespace"), Uml::ID::toString(nmSpc));
     }
     if (! m_Doc.isEmpty())
-        qElement.setAttribute("comment", m_Doc);    //CHECK: uml13.dtd compliance
+        qElement.setAttribute(QLatin1String("comment"), m_Doc);    //CHECK: uml13.dtd compliance
 #ifdef XMI_FLAT_PACKAGES
     if (m_pUMLPackage)             //FIXME: uml13.dtd compliance
-        qElement.setAttribute("package", m_pUMLPackage->ID());
+        qElement.setAttribute(QLatin1String("package"), m_pUMLPackage->ID());
 #endif
     QString visibility = Uml::Visibility::toString(m_visibility, false);
-    qElement.setAttribute("visibility", visibility);
+    qElement.setAttribute(QLatin1String("visibility"), visibility);
     if (m_pStereotype != NULL)
-        qElement.setAttribute("stereotype", Uml::ID::toString(m_pStereotype->id()));
+        qElement.setAttribute(QLatin1String("stereotype"), Uml::ID::toString(m_pStereotype->id()));
     if (m_bStatic)
-        qElement.setAttribute("ownerScope", "classifier");
+        qElement.setAttribute(QLatin1String("ownerScope"), QLatin1String("classifier"));
     /* else
         qElement.setAttribute("ownerScope", "instance");
      *** ownerScope defaults to instance if not set **********/
@@ -873,9 +873,9 @@ bool UMLObject::load(QDomElement&)
 bool UMLObject::loadStereotype(QDomElement & element)
 {
     QString tag = element.tagName();
-    if (!UMLDoc::tagEq(tag, "stereotype"))
+    if (!UMLDoc::tagEq(tag, QLatin1String("stereotype")))
         return false;
-    QString stereo = element.attribute("xmi.value");
+    QString stereo = element.attribute(QLatin1String("xmi.value"));
     if (stereo.isEmpty() && element.hasChildNodes()) {
         /* like so:
          <UML:ModelElement.stereotype>
@@ -885,8 +885,8 @@ bool UMLObject::loadStereotype(QDomElement & element)
         QDomNode stereoNode = element.firstChild();
         QDomElement stereoElem = stereoNode.toElement();
         tag = stereoElem.tagName();
-        if (UMLDoc::tagEq(tag, "Stereotype")) {
-            stereo = stereoElem.attribute("xmi.idref");
+        if (UMLDoc::tagEq(tag, QLatin1String("Stereotype"))) {
+            stereo = stereoElem.attribute(QLatin1String("xmi.idref"));
         }
     }
     if (stereo.isEmpty())
@@ -918,9 +918,9 @@ bool UMLObject::loadFromXMI(QDomElement & element)
     }
     // Read the name first so that if we encounter a problem, the error
     // message can say the name.
-    m_name = element.attribute("name");
+    m_name = element.attribute(QLatin1String("name"));
     QString id = Model_Utils::getXmiId(element);
-    if (id.isEmpty() || id == "-1") {
+    if (id.isEmpty() || id == QLatin1String("-1")) {
         if (m_BaseType == ot_Role) {
             // Before version 1.4, Umbrello did not save the xmi.id
             // of UMLRole objects.
@@ -945,17 +945,17 @@ bool UMLObject::loadFromXMI(QDomElement & element)
         m_nId = nId;
     }
 
-    if (element.hasAttribute("documentation"))  // for bkwd compat.
-        m_Doc = element.attribute("documentation");
+    if (element.hasAttribute(QLatin1String("documentation")))  // for bkwd compat.
+        m_Doc = element.attribute(QLatin1String("documentation"));
     else
-        m_Doc = element.attribute("comment");    //CHECK: need a UML:Comment?
+        m_Doc = element.attribute(QLatin1String("comment"));    //CHECK: need a UML:Comment?
 
     m_visibility = Uml::Visibility::Public;
-    if (element.hasAttribute("scope")) {        // for bkwd compat.
-        QString scope = element.attribute("scope");
-        if (scope == "instance_level")         // nsuml compat.
+    if (element.hasAttribute(QLatin1String("scope"))) {        // for bkwd compat.
+        QString scope = element.attribute(QLatin1String("scope"));
+        if (scope == QLatin1String("instance_level"))         // nsuml compat.
             m_bStatic = false;
-        else if (scope == "classifier_level")  // nsuml compat.
+        else if (scope == QLatin1String("classifier_level"))  // nsuml compat.
             m_bStatic = true;
         else {
             int nScope = scope.toInt();
@@ -974,18 +974,18 @@ bool UMLObject::loadFromXMI(QDomElement & element)
             }
         }
     } else {
-        QString visibility = element.attribute("visibility", "public");
-        if (visibility == "private"
-                || visibility == "private_vis")    // for compatibility with other programs
+        QString visibility = element.attribute(QLatin1String("visibility"), QLatin1String("public"));
+        if (visibility == QLatin1String("private")
+                || visibility == QLatin1String("private_vis"))    // for compatibility with other programs
             m_visibility = Uml::Visibility::Private;
-        else if (visibility == "protected"
-                 || visibility == "protected_vis")  // for compatibility with other programs
+        else if (visibility == QLatin1String("protected")
+                 || visibility == QLatin1String("protected_vis"))  // for compatibility with other programs
             m_visibility = Uml::Visibility::Protected;
-        else if (visibility == "implementation")
+        else if (visibility == QLatin1String("implementation"))
             m_visibility = Uml::Visibility::Implementation;
     }
 
-    QString stereo = element.attribute("stereotype");
+    QString stereo = element.attribute(QLatin1String("stereotype"));
     if (!stereo.isEmpty()) {
         Uml::ID::Type stereoID = Uml::ID::fromString(stereo);
         m_pStereotype = umldoc->findStereotypeById(stereoID);
@@ -998,20 +998,20 @@ bool UMLObject::loadFromXMI(QDomElement & element)
         }
     }
 
-    if (element.hasAttribute("abstract")) {      // for bkwd compat.
-        QString abstract = element.attribute("abstract", "0");
+    if (element.hasAttribute(QLatin1String("abstract"))) {      // for bkwd compat.
+        QString abstract = element.attribute(QLatin1String("abstract"), QLatin1String("0"));
         m_bAbstract = (bool)abstract.toInt();
     } else {
-        QString isAbstract = element.attribute("isAbstract", "false");
-        m_bAbstract = (isAbstract == "true");
+        QString isAbstract = element.attribute(QLatin1String("isAbstract"), QLatin1String("false"));
+        m_bAbstract = (isAbstract == QLatin1String("true"));
     }
 
-    if (element.hasAttribute("static")) {        // for bkwd compat.
-        QString staticScope = element.attribute("static", "0");
+    if (element.hasAttribute(QLatin1String("static"))) {        // for bkwd compat.
+        QString staticScope = element.attribute(QLatin1String("static"), QLatin1String("0"));
         m_bStatic = (bool)staticScope.toInt();
     } else {
-        QString ownerScope = element.attribute("ownerScope", "instance");
-        m_bStatic = (ownerScope == "classifier");
+        QString ownerScope = element.attribute(QLatin1String("ownerScope"), QLatin1String("instance"));
+        m_bStatic = (ownerScope == QLatin1String("classifier"));
     }
 
     // If the node has child nodes, check whether attributes can be
@@ -1023,30 +1023,30 @@ bool UMLObject::loadFromXMI(QDomElement & element)
         QDomElement elem = node.toElement();
         while (!elem.isNull()) {
             QString tag = elem.tagName();
-            if (UMLDoc::tagEq(tag, "name")) {
-                m_name = elem.attribute("xmi.value");
+            if (UMLDoc::tagEq(tag, QLatin1String("name"))) {
+                m_name = elem.attribute(QLatin1String("xmi.value"));
                 if (m_name.isEmpty())
                     m_name = elem.text();
-            } else if (UMLDoc::tagEq(tag, "visibility")) {
-                QString vis = elem.attribute("xmi.value");
+            } else if (UMLDoc::tagEq(tag, QLatin1String("visibility"))) {
+                QString vis = elem.attribute(QLatin1String("xmi.value"));
                 if (vis.isEmpty())
                     vis = elem.text();
-                if (vis == "private" || vis == "private_vis")
+                if (vis == QLatin1String("private") || vis == QLatin1String("private_vis"))
                     m_visibility = Uml::Visibility::Private;
-                else if (vis == "protected" || vis == "protected_vis")
+                else if (vis == QLatin1String("protected") || vis == QLatin1String("protected_vis"))
                     m_visibility = Uml::Visibility::Protected;
-                else if (vis == "implementation")
+                else if (vis == QLatin1String("implementation"))
                     m_visibility = Uml::Visibility::Implementation;
-            } else if (UMLDoc::tagEq(tag, "isAbstract")) {
-                QString isAbstract = elem.attribute("xmi.value");
+            } else if (UMLDoc::tagEq(tag, QLatin1String("isAbstract"))) {
+                QString isAbstract = elem.attribute(QLatin1String("xmi.value"));
                 if (isAbstract.isEmpty())
                     isAbstract = elem.text();
-                m_bAbstract = (isAbstract == "true");
-            } else if (UMLDoc::tagEq(tag, "ownerScope")) {
-                QString ownerScope = elem.attribute("xmi.value");
+                m_bAbstract = (isAbstract == QLatin1String("true"));
+            } else if (UMLDoc::tagEq(tag, QLatin1String("ownerScope"))) {
+                QString ownerScope = elem.attribute(QLatin1String("xmi.value"));
                 if (ownerScope.isEmpty())
                     ownerScope = elem.text();
-                m_bStatic = (ownerScope == "classifier");
+                m_bStatic = (ownerScope == QLatin1String("classifier"));
             } else {
                 loadStereotype(elem);
             }

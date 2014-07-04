@@ -38,7 +38,7 @@ namespace Uml
 
         // Save diagram XMI for undo
         QDomDocument doc;
-        QDomElement container = doc.createElement("diagram");
+        QDomElement container = doc.createElement(QLatin1String("diagram"));
         scene->saveToXMI(doc, container);
 
         // The first child element contains the diagram XMI

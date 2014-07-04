@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2013                                               *
+ *   copyright (C) 2004-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -241,7 +241,7 @@ namespace Widget_Utils
      */
     QString pointToString(const QPointF& point)
     {
-        return QString("%1,%2").arg(point.x()).arg(point.y());
+        return QString::fromLatin1("%1,%2").arg(point.x()).arg(point.y());
     }
 
     /**
@@ -250,7 +250,7 @@ namespace Widget_Utils
     QPointF stringToPoint(const QString& str)
     {
         QPointF retVal;
-        QStringList list = str.split(',');
+        QStringList list = str.split(QLatin1Char(','));
 
         if(list.size() == 2) {
             retVal.setX(list.first().toDouble());
@@ -274,7 +274,7 @@ namespace Widget_Utils
         if (pixEle.isNull()) {
             return false;
         }
-        QDomElement xpmElement = pixEle.firstChildElement("xpm");
+        QDomElement xpmElement = pixEle.firstChildElement(QLatin1String("xpm"));
 
         QByteArray xpmData = xpmElement.text().toLatin1();
         QBuffer buffer(&xpmData);
@@ -302,9 +302,9 @@ namespace Widget_Utils
      */
     void savePixmapToXMI(QDomDocument &qDoc, QDomElement &qElement, const QPixmap& pixmap)
     {
-        QDomElement pixmapElement = qDoc.createElement("pixmap");
+        QDomElement pixmapElement = qDoc.createElement(QLatin1String("pixmap"));
 
-        QDomElement xpmElement = qDoc.createElement("xpm");
+        QDomElement xpmElement = qDoc.createElement(QLatin1String("xpm"));
         pixmapElement.appendChild(xpmElement);
 
         QBuffer buffer;
@@ -312,7 +312,7 @@ namespace Widget_Utils
         pixmap.save(&buffer, "xpm");
         buffer.close();
 
-        xpmElement.appendChild(qDoc.createTextNode(QString(buffer.data())));
+        xpmElement.appendChild(qDoc.createTextNode(QString::fromLatin1(buffer.data())));
 
         qElement.appendChild(pixmapElement);
     }
@@ -343,14 +343,14 @@ namespace Widget_Utils
         QGradient::CoordinateMode cmode = QGradient::LogicalMode;
         QGradient::Spread spread = QGradient::PadSpread;
 
-        type_as_int = gradientElement.attribute("type").toInt();
+        type_as_int = gradientElement.attribute(QLatin1String("type")).toInt();
         type = QGradient::Type(type_as_int);
-        type_as_int = gradientElement.attribute("spread").toInt();
+        type_as_int = gradientElement.attribute(QLatin1String("spread")).toInt();
         spread = QGradient::Spread(type_as_int);
-        type_as_int = gradientElement.attribute("coordinatemode").toInt();
+        type_as_int = gradientElement.attribute(QLatin1String("coordinatemode")).toInt();
         cmode = QGradient::CoordinateMode(type_as_int);
 
-        QDomElement stopElement = gradientElement.firstChildElement("stops");
+        QDomElement stopElement = gradientElement.firstChildElement(QLatin1String("stops"));
         if(stopElement.isNull()) {
             return false;
         }
@@ -360,25 +360,25 @@ namespace Widget_Utils
                 continue;
             }
 
-            qreal posn = ele.attribute("position").toDouble();
-            QColor color = QColor(ele.attribute("color"));
+            qreal posn = ele.attribute(QLatin1String("position")).toDouble();
+            QColor color = QColor(ele.attribute(QLatin1String("color")));
             stops << QGradientStop(posn, color);
         }
 
         if (type == QGradient::LinearGradient) {
-            QPointF p1 = stringToPoint(gradientElement.attribute("start"));
-            QPointF p2 = stringToPoint(gradientElement.attribute("finalstop"));
+            QPointF p1 = stringToPoint(gradientElement.attribute(QLatin1String("start")));
+            QPointF p2 = stringToPoint(gradientElement.attribute(QLatin1String("finalstop")));
             gradient = new QLinearGradient(p1, p2);
         }
         else if (type == QGradient::RadialGradient) {
-            QPointF center = stringToPoint(gradientElement.attribute("center"));
-            QPointF focal = stringToPoint(gradientElement.attribute("focalpoint"));
-            double radius = gradientElement.attribute("radius").toDouble();
+            QPointF center = stringToPoint(gradientElement.attribute(QLatin1String("center")));
+            QPointF focal = stringToPoint(gradientElement.attribute(QLatin1String("focalpoint")));
+            double radius = gradientElement.attribute(QLatin1String("radius")).toDouble();
             gradient = new QRadialGradient(center, radius, focal);
         }
         else { // type == QGradient::ConicalGradient
-            QPointF center = stringToPoint(gradientElement.attribute("center"));
-            double angle = gradientElement.attribute("angle").toDouble();
+            QPointF center = stringToPoint(gradientElement.attribute(QLatin1String("center")));
+            double angle = gradientElement.attribute(QLatin1String("angle")).toDouble();
             gradient = new QConicalGradient(center, angle);
         }
 
@@ -404,19 +404,19 @@ namespace Widget_Utils
      */
     void saveGradientToXMI(QDomDocument &qDoc, QDomElement &qElement, const QGradient *gradient)
     {
-        QDomElement gradientElement = qDoc.createElement("gradient");
+        QDomElement gradientElement = qDoc.createElement(QLatin1String("gradient"));
 
-        gradientElement.setAttribute("type", int(gradient->type()));
-        gradientElement.setAttribute("spread", int(gradient->spread()));
-        gradientElement.setAttribute("coordinatemode", int(gradient->coordinateMode()));
+        gradientElement.setAttribute(QLatin1String("type"), int(gradient->type()));
+        gradientElement.setAttribute(QLatin1String("spread"), int(gradient->spread()));
+        gradientElement.setAttribute(QLatin1String("coordinatemode"), int(gradient->coordinateMode()));
 
-        QDomElement stopsElement = qDoc.createElement("stops");
+        QDomElement stopsElement = qDoc.createElement(QLatin1String("stops"));
         gradientElement.appendChild(stopsElement);
 
         foreach(const QGradientStop& stop, gradient->stops()) {
-            QDomElement ele = qDoc.createElement("stop");
-            ele.setAttribute("position", stop.first);
-            ele.setAttribute("color", stop.second.name());
+            QDomElement ele = qDoc.createElement(QLatin1String("stop"));
+            ele.setAttribute(QLatin1String("position"), stop.first);
+            ele.setAttribute(QLatin1String("color"), stop.second.name());
             stopsElement.appendChild(ele);
         }
 
@@ -424,19 +424,19 @@ namespace Widget_Utils
 
         if(type == QGradient::LinearGradient) {
             const QLinearGradient *lg = static_cast<const QLinearGradient*>(gradient);
-            gradientElement.setAttribute("start", pointToString(lg->start()));
-            gradientElement.setAttribute("finalstop", pointToString(lg->finalStop()));
+            gradientElement.setAttribute(QLatin1String("start"), pointToString(lg->start()));
+            gradientElement.setAttribute(QLatin1String("finalstop"), pointToString(lg->finalStop()));
         }
         else if(type == QGradient::RadialGradient) {
             const QRadialGradient *rg = static_cast<const QRadialGradient*>(gradient);
-            gradientElement.setAttribute("center", pointToString(rg->center()));
-            gradientElement.setAttribute("focalpoint", pointToString(rg->focalPoint()));
-            gradientElement.setAttribute("radius", rg->radius());
+            gradientElement.setAttribute(QLatin1String("center"), pointToString(rg->center()));
+            gradientElement.setAttribute(QLatin1String("focalpoint"), pointToString(rg->focalPoint()));
+            gradientElement.setAttribute(QLatin1String("radius"), rg->radius());
         }
         else { //type == QGradient::ConicalGradient
             const QConicalGradient *cg = static_cast<const QConicalGradient*>(gradient);
-            gradientElement.setAttribute("center", pointToString(cg->center()));
-            gradientElement.setAttribute("angle", cg->angle());
+            gradientElement.setAttribute(QLatin1String("center"), pointToString(cg->center()));
+            gradientElement.setAttribute(QLatin1String("angle"), cg->angle());
         }
 
         qElement.appendChild(gradientElement);
@@ -458,14 +458,14 @@ namespace Widget_Utils
             return false;
         }
 
-        quint8 style = qElement.attribute("style").toShort();
-        const QString colorString = qElement.attribute("color");
+        quint8 style = qElement.attribute(QLatin1String("style")).toShort();
+        const QString colorString = qElement.attribute(QLatin1String("color"));
         QColor color;
         color.setNamedColor(colorString);
 
         if(style == Qt::TexturePattern) {
             QPixmap pixmap;
-            QDomElement pixElement = qElement.firstChildElement("pixmap");
+            QDomElement pixElement = qElement.firstChildElement(QLatin1String("pixmap"));
             if(!loadPixmapFromXMI(pixElement, pixmap)) {
                 return false;
             }
@@ -476,7 +476,7 @@ namespace Widget_Utils
                 || style == Qt::RadialGradientPattern
                 || style == Qt::ConicalGradientPattern) {
             QGradient *gradient = 0;
-            QDomElement gradElement = qElement.firstChildElement("gradient");
+            QDomElement gradElement = qElement.firstChildElement(QLatin1String("gradient"));
 
             if(!loadGradientFromXMI(gradElement, gradient) || !gradient) {
                 delete gradient;
@@ -509,10 +509,10 @@ namespace Widget_Utils
     void saveBrushToXMI(QDomDocument &qDoc, QDomElement &qElement,
                         const QBrush& brush)
     {
-        QDomElement brushElement = qDoc.createElement("brush");
+        QDomElement brushElement = qDoc.createElement(QLatin1String("brush"));
 
-        brushElement.setAttribute("style", (quint8)brush.style());
-        brushElement.setAttribute("color", brush.color().name());
+        brushElement.setAttribute(QLatin1String("style"), (quint8)brush.style());
+        brushElement.setAttribute(QLatin1String("color"), brush.color().name());
 
         if(brush.style() == Qt::TexturePattern) {
             savePixmapToXMI(qDoc, brushElement, brush.texture());

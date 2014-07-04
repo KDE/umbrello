@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2013                                               *
+ *   copyright (C) 2002-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -52,7 +52,7 @@ UMLObject* UMLUseCase::clone() const
  */
 void UMLUseCase::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
-    QDomElement usecaseElement = UMLObject::save("UML:UseCase", qDoc);
+    QDomElement usecaseElement = UMLObject::save(QLatin1String("UML:UseCase"), qDoc);
     qElement.appendChild(usecaseElement);
 }
 

@@ -54,7 +54,7 @@ UMLObject* UMLPort::clone() const
  */
 void UMLPort::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
-    QDomElement portElement = UMLObject::save("UML:Port", qDoc);
+    QDomElement portElement = UMLObject::save(QLatin1String("UML:Port"), qDoc);
     qElement.appendChild(portElement);
 }
 

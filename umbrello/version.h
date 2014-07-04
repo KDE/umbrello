@@ -16,9 +16,9 @@
 inline QByteArray umbrelloVersion()
 {
 #ifdef UMBRELLO_VERSION_STRING
-    QString versionStr = QString(UMBRELLO_VERSION_STRING);
+    QString versionStr = QString::fromLatin1(UMBRELLO_VERSION_STRING);
 #else
-    QString versionStr = QString("%1.%2.%3")
+    QString versionStr = QString::fromLatin1("%1.%2.%3")
         .arg(KDE::versionMajor()-2)
         .arg(KDE::versionMinor())
         .arg(KDE::versionRelease());

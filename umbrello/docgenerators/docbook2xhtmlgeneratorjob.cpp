@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2007-2013                                               *
+ *   copyright (C) 2007-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -55,20 +55,20 @@ void Docbook2XhtmlGeneratorJob::run()
 
   umlDoc->writeToStatusBar(i18n("Exporting to XHTML..."));
 
-  QString xsltFileName(KGlobal::dirs()->findResource("appdata","docbook2xhtml.xsl"));
-  uDebug() << "XSLT file is'"<<xsltFileName<<"'";
+  QString xsltFileName(KGlobal::dirs()->findResource("appdata", QLatin1String("docbook2xhtml.xsl")));
+  uDebug() << "XSLT file is'" << xsltFileName << "'";
   QFile xsltFile(xsltFileName);
   xsltFile.open(QIODevice::ReadOnly);
-  QString xslt = xsltFile.readAll();
-  uDebug() << "XSLT is'"<<xslt<<"'";
+  QString xslt = QString::fromLatin1(xsltFile.readAll());
+  uDebug() << "XSLT is'" << xslt << "'";
   xsltFile.close();
 
-  QString localXsl = KGlobal::dirs()->findResource("data","ksgmltools2/docbook/xsl/html/docbook.xsl");
-  uDebug() << "Local xsl is'"<<localXsl<<"'";
+  QString localXsl = KGlobal::dirs()->findResource("data", QLatin1String("ksgmltools2/docbook/xsl/html/docbook.xsl"));
+  uDebug() << "Local xsl is'" << localXsl << "'";
   if (!localXsl.isEmpty())
   {
-    localXsl = QString("href=\"file://") + localXsl + "\"";
-    xslt.replace(QRegExp("href=\"http://[^\"]*\""), localXsl);
+    localXsl = QLatin1String("href=\"file://") + localXsl + QLatin1String("\"");
+    xslt.replace(QRegExp(QLatin1String("href=\"http://[^\"]*\"")), localXsl);
   }
   KTemporaryFile tmpXsl;
   tmpXsl.setAutoRemove(false);

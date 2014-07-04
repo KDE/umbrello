@@ -760,7 +760,7 @@ void UMLScene::dragEnterEvent(QGraphicsSceneDragDropEvent *e)
                  ot != UMLObject::ot_Node)
             bAccept = false;
         else if (ot == UMLObject::ot_Package &&
-                 temp->stereotype() != "subsystem")
+                 temp->stereotype() != QLatin1String("subsystem"))
             bAccept = false;
         break;
     case DiagramType::Component:
@@ -1502,7 +1502,7 @@ bool UMLScene::isSavedInSeparateFile()
         // when tabbed diagrams are enabled.
         return false;
     }
-    const QString msgPrefix("UMLScene::isSavedInSeparateFile(" + name() + "): ");
+    const QString msgPrefix(QLatin1String("UMLScene::isSavedInSeparateFile(") + name() + QLatin1String("): "));
     UMLListView *listView = UMLApp::app()->listView();
     UMLListViewItem *lvItem = listView->findItem(m_nID);
     if (lvItem == NULL) {
@@ -2485,7 +2485,7 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
             AssocRules::allowAssociation(assocType, widget, w)) {
             // Create a composition AssocWidget, or, if the attribute type is
             // stereotyped <<CORBAInterface>>, create a UniAssociation widget.
-            if (type->stereotype() == "CORBAInterface")
+            if (type->stereotype() == QLatin1String("CORBAInterface"))
                 assocType = Uml::AssociationType::UniAssociation;
             a = AssociationWidget::create(this, widget, assocType, w, attr);
             a->setVisibility(attr->visibility(), Uml::RoleType::B);
@@ -2519,7 +2519,7 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
                                                    Uml::AssociationType::Aggregation, w, attr);
                     a->setVisibility(attr->visibility(), Uml::RoleType::B);
                     //a->setChangeability(true, Uml::RoleType::B);
-                    a->setMultiplicity("0..1", Uml::RoleType::B);
+                    a->setMultiplicity(QLatin1String("0..1"), Uml::RoleType::B);
                     a->setRoleName(attr->name(), Uml::RoleType::B);
                     a->setActivated(true);
                     if (! addAssociation(a))
@@ -3278,7 +3278,7 @@ void UMLScene::clearDiagram()
     if (KMessageBox::Continue == KMessageBox::warningContinueCancel(activeView(),
                                      i18n("You are about to delete the entire diagram.\nAre you sure?"),
                                      i18n("Delete Diagram?"),
-                                     KGuiItem(i18n("&Delete"), "edit-delete"))) {
+                                     KGuiItem(i18n("&Delete"), QLatin1String("edit-delete")))) {
         removeAllWidgets();
     }
 }
@@ -3526,31 +3526,31 @@ void UMLScene::drawBackground(QPainter *painter, const QRectF &rect)
 void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     resizeSceneToItems();
-    QDomElement viewElement = qDoc.createElement("diagram");
-    viewElement.setAttribute("xmi.id", Uml::ID::toString(m_nID));
-    viewElement.setAttribute("name", name());
-    viewElement.setAttribute("type", m_Type);
-    viewElement.setAttribute("documentation", m_Documentation);
+    QDomElement viewElement = qDoc.createElement(QLatin1String("diagram"));
+    viewElement.setAttribute(QLatin1String("xmi.id"), Uml::ID::toString(m_nID));
+    viewElement.setAttribute(QLatin1String("name"), name());
+    viewElement.setAttribute(QLatin1String("type"), m_Type);
+    viewElement.setAttribute(QLatin1String("documentation"), m_Documentation);
     //option state
     Settings::saveToXMI(viewElement, m_Options);
     //misc
-    viewElement.setAttribute("localid", Uml::ID::toString(m_nLocalID));
-    viewElement.setAttribute("showgrid", m_layoutGrid->isVisible());
-    viewElement.setAttribute("snapgrid", m_bUseSnapToGrid);
-    viewElement.setAttribute("snapcsgrid", m_bUseSnapComponentSizeToGrid);
-    viewElement.setAttribute("snapx", m_layoutGrid->gridSpacingX());
-    viewElement.setAttribute("snapy", m_layoutGrid->gridSpacingY());
+    viewElement.setAttribute(QLatin1String("localid"), Uml::ID::toString(m_nLocalID));
+    viewElement.setAttribute(QLatin1String("showgrid"), m_layoutGrid->isVisible());
+    viewElement.setAttribute(QLatin1String("snapgrid"), m_bUseSnapToGrid);
+    viewElement.setAttribute(QLatin1String("snapcsgrid"), m_bUseSnapComponentSizeToGrid);
+    viewElement.setAttribute(QLatin1String("snapx"), m_layoutGrid->gridSpacingX());
+    viewElement.setAttribute(QLatin1String("snapy"), m_layoutGrid->gridSpacingY());
     // FIXME: move to UMLView
-    viewElement.setAttribute("zoom", activeView()->zoom());
-    viewElement.setAttribute("canvasheight", height());
-    viewElement.setAttribute("canvaswidth", width());
-    viewElement.setAttribute("isopen", isOpen());
+    viewElement.setAttribute(QLatin1String("zoom"), activeView()->zoom());
+    viewElement.setAttribute(QLatin1String("canvasheight"), height());
+    viewElement.setAttribute(QLatin1String("canvaswidth"), width());
+    viewElement.setAttribute(QLatin1String("isopen"), isOpen());
     if (type() == Uml::DiagramType::Sequence ||
         type() == Uml::DiagramType::Collaboration)
-        viewElement.setAttribute("autoincrementsequence", autoIncrementSequence());
+        viewElement.setAttribute(QLatin1String("autoincrementsequence"), autoIncrementSequence());
 
     //now save all the widgets
-    QDomElement widgetElement = qDoc.createElement("widgets");
+    QDomElement widgetElement = qDoc.createElement(QLatin1String("widgets"));
     foreach(UMLWidget *widget, m_WidgetList) {
         // Having an exception is bad I know, but gotta work with
         // system we are given.
@@ -3564,13 +3564,13 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     }
     viewElement.appendChild(widgetElement);
     //now save the message widgets
-    QDomElement messageElement = qDoc.createElement("messages");
+    QDomElement messageElement = qDoc.createElement(QLatin1String("messages"));
     foreach(UMLWidget* widget, m_MessageList) {
         widget->saveToXMI(qDoc, messageElement);
     }
     viewElement.appendChild(messageElement);
     //now save the associations
-    QDomElement assocElement = qDoc.createElement("associations");
+    QDomElement assocElement = qDoc.createElement(QLatin1String("associations"));
     if (m_AssociationList.count()) {
         // We guard against (m_AssociationList.count() == 0) because
         // this code could be reached as follows:
@@ -3597,37 +3597,37 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
  */
 bool UMLScene::loadFromXMI(QDomElement & qElement)
 {
-    QString id = qElement.attribute("xmi.id", "-1");
+    QString id = qElement.attribute(QLatin1String("xmi.id"), QLatin1String("-1"));
     m_nID = Uml::ID::fromString(id);
     if (m_nID == Uml::ID::None)
         return false;
-    setName(qElement.attribute("name"));
-    QString type = qElement.attribute("type", "0");
-    m_Documentation = qElement.attribute("documentation");
-    QString localid = qElement.attribute("localid", "0");
+    setName(qElement.attribute(QLatin1String("name")));
+    QString type = qElement.attribute(QLatin1String("type"), QLatin1String("0"));
+    m_Documentation = qElement.attribute(QLatin1String("documentation"));
+    QString localid = qElement.attribute(QLatin1String("localid"), QLatin1String("0"));
     // option state
     Settings::loadFromXMI(qElement, m_Options);
     setBackgroundBrush(m_Options.uiState.backgroundColor);
     setGridDotColor(m_Options.uiState.gridDotColor);
     //misc
-    QString showgrid = qElement.attribute("showgrid", "0");
+    QString showgrid = qElement.attribute(QLatin1String("showgrid"), QLatin1String("0"));
     m_layoutGrid->setVisible((bool)showgrid.toInt());
 
-    QString snapgrid = qElement.attribute("snapgrid", "0");
+    QString snapgrid = qElement.attribute(QLatin1String("snapgrid"), QLatin1String("0"));
     m_bUseSnapToGrid = (bool)snapgrid.toInt();
 
-    QString snapcsgrid = qElement.attribute("snapcsgrid", "0");
+    QString snapcsgrid = qElement.attribute(QLatin1String("snapcsgrid"), QLatin1String("0"));
     m_bUseSnapComponentSizeToGrid = (bool)snapcsgrid.toInt();
 
-    QString snapx = qElement.attribute("snapx", "10");
-    QString snapy = qElement.attribute("snapy", "10");
+    QString snapx = qElement.attribute(QLatin1String("snapx"), QLatin1String("10"));
+    QString snapy = qElement.attribute(QLatin1String("snapy"), QLatin1String("10"));
     m_layoutGrid->setGridSpacing(snapx.toInt(), snapy.toInt());
 
-    QString zoom = qElement.attribute("zoom", "100");
+    QString zoom = qElement.attribute(QLatin1String("zoom"), QLatin1String("100"));
     activeView()->setZoom(zoom.toInt());
     resizeSceneToItems();
 
-    QString isOpen = qElement.attribute("isopen", "1");
+    QString isOpen = qElement.attribute(QLatin1String("isopen"), QLatin1String("1"));
     m_isOpen = (bool)isOpen.toInt();
 
     int nType = type.toInt();
@@ -3673,7 +3673,8 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
 
     if (m_Type == Uml::DiagramType::Sequence ||
         m_Type == Uml::DiagramType::Collaboration) {
-        QString autoIncrementSequence = qElement.attribute("autoincrementsequence", "0");
+        QString autoIncrementSequence = qElement.attribute(QLatin1String("autoincrementsequence"),
+                                                           QLatin1String("0"));
         m_autoIncrementSequence = (bool)autoIncrementSequence.toInt();
     }
 
@@ -3682,11 +3683,11 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     while (!node.isNull()) {
         QDomElement element = node.toElement();
         if (!element.isNull()) {
-            if (element.tagName() == "widgets")
+            if (element.tagName() == QLatin1String("widgets"))
                 widgetsLoaded = loadWidgetsFromXMI(element);
-            else if (element.tagName() == "messages")
+            else if (element.tagName() == QLatin1String("messages"))
                 messagesLoaded = loadMessagesFromXMI(element);
-            else if (element.tagName() == "associations")
+            else if (element.tagName() == QLatin1String("associations"))
                 associationsLoaded = loadAssociationsFromXMI(element);
         }
         node = node.nextSibling();
@@ -3741,7 +3742,7 @@ UMLWidget* UMLScene::loadWidgetFromXMI(QDomElement& widgetElement)
     }
 
     QString tag  = widgetElement.tagName();
-    QString idstr  = widgetElement.attribute("xmi.id", "-1");
+    QString idstr  = widgetElement.attribute(QLatin1String("xmi.id"), QLatin1String("-1"));
     UMLWidget* widget = Widget_Factory::makeWidgetFromXMI(tag, idstr, this);
 
     if (widget == NULL)
@@ -3762,8 +3763,8 @@ bool UMLScene::loadMessagesFromXMI(QDomElement & qElement)
     while (!messageElement.isNull()) {
         QString tag = messageElement.tagName();
         DEBUG(DBG_SRC) << "tag = " << tag;
-        if (tag == "messagewidget" ||
-            tag == "UML:MessageWidget") {   // for bkwd compatibility
+        if (tag == QLatin1String("messagewidget") ||
+            tag == QLatin1String("UML:MessageWidget")) {   // for bkwd compatibility
             message = new MessageWidget(this, SequenceMessage::Asynchronous,
                                         Uml::ID::Reserved);
             if (!message->loadFromXMI(messageElement)) {
@@ -3790,8 +3791,8 @@ bool UMLScene::loadAssociationsFromXMI(QDomElement & qElement)
     int countr = 0;
     while (!assocElement.isNull()) {
         QString tag = assocElement.tagName();
-        if (tag == "assocwidget" ||
-            tag == "UML:AssocWidget") {  // for bkwd compatibility
+        if (tag == QLatin1String("assocwidget") ||
+            tag == QLatin1String("UML:AssocWidget")) {  // for bkwd compatibility
             countr++;
             AssociationWidget *assoc = AssociationWidget::create(this);
             if (!assoc->loadFromXMI(assocElement)) {
@@ -3834,7 +3835,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
     for (QDomNode node = qElement.firstChild(); !node.isNull(); node = node.nextSibling()) {
         QDomElement elem = node.toElement();
         QString tag = elem.tagName();
-        if (! UMLDoc::tagEq(tag, "Presentation")) {
+        if (! UMLDoc::tagEq(tag, QLatin1String("Presentation"))) {
             uError() << "ignoring unknown UisDiagramPresentation tag " << tag;
             continue;
         }
@@ -3845,21 +3846,21 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
         while (!e.isNull()) {
             tag = e.tagName();
             DEBUG(DBG_SRC) << "Presentation: tag = " << tag;
-            if (UMLDoc::tagEq(tag, "Presentation.geometry")) {
+            if (UMLDoc::tagEq(tag, QLatin1String("Presentation.geometry"))) {
                 QDomNode gnode = e.firstChild();
                 QDomElement gelem = gnode.toElement();
                 QString csv = gelem.text();
-                QStringList dim = csv.split(',');
+                QStringList dim = csv.split(QLatin1Char(','));
                 x = dim[0].toInt();
                 y = dim[1].toInt();
                 w = dim[2].toInt();
                 h = dim[3].toInt();
-            } else if (UMLDoc::tagEq(tag, "Presentation.style")) {
+            } else if (UMLDoc::tagEq(tag, QLatin1String("Presentation.style"))) {
                 // TBD
-            } else if (UMLDoc::tagEq(tag, "Presentation.model")) {
+            } else if (UMLDoc::tagEq(tag, QLatin1String("Presentation.model"))) {
                 QDomNode mnode = e.firstChild();
                 QDomElement melem = mnode.toElement();
-                idStr = melem.attribute("xmi.idref");
+                idStr = melem.attribute(QLatin1String("xmi.idref"));
             } else {
                 DEBUG(DBG_SRC) << "ignoring tag " << tag;
             }
@@ -3929,7 +3930,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
  */
 bool UMLScene::loadUISDiagram(QDomElement & qElement)
 {
-    QString idStr = qElement.attribute("xmi.id");
+    QString idStr = qElement.attribute(QLatin1String("xmi.id"));
     if (idStr.isEmpty())
         return false;
     m_nID = Uml::ID::fromString(idStr);
@@ -3939,13 +3940,13 @@ bool UMLScene::loadUISDiagram(QDomElement & qElement)
             continue;
         QDomElement elem = node.toElement();
         QString tag = elem.tagName();
-        if (tag == "uisDiagramName") {
+        if (tag == QLatin1String("uisDiagramName")) {
             setName(elem.text());
             if (ulvi)
                 ulvi->setText(name());
-        } else if (tag == "uisDiagramStyle") {
+        } else if (tag == QLatin1String("uisDiagramStyle")) {
             QString diagramStyle = elem.text();
-            if (diagramStyle != "ClassDiagram") {
+            if (diagramStyle != QLatin1String("ClassDiagram")) {
                 uError() << "diagram style " << diagramStyle << " is not yet implemented";
                 continue;
             }
@@ -3954,9 +3955,9 @@ bool UMLScene::loadUISDiagram(QDomElement & qElement)
             UMLListView *lv = UMLApp::app()->listView();
             ulvi = new UMLListViewItem(lv->theLogicalView(), name(),
                                        UMLListViewItem::lvt_Class_Diagram, m_nID);
-        } else if (tag == "uisDiagramPresentation") {
+        } else if (tag == QLatin1String("uisDiagramPresentation")) {
             loadUisDiagramPresentation(elem);
-        } else if (tag != "uisToolName") {
+        } else if (tag != QLatin1String("uisToolName")) {
             DEBUG(DBG_SRC) << "ignoring tag " << tag;
         }
     }

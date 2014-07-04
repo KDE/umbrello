@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2013                                               *
+ *   copyright (C) 2002-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -67,8 +67,8 @@ UMLObject* UMLCategory::clone() const
  */
 void UMLCategory::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
-     QDomElement categoryElement = UMLObject::save("UML:Category", qDoc);
-     categoryElement.setAttribute("categoryType", (int)m_CategoryType);
+     QDomElement categoryElement = UMLObject::save(QLatin1String("UML:Category"), qDoc);
+     categoryElement.setAttribute(QLatin1String("categoryType"), (int)m_CategoryType);
      qElement.appendChild(categoryElement);
 }
 
@@ -77,7 +77,8 @@ void UMLCategory::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
  */
 bool UMLCategory::load(QDomElement& element)
 {
-    m_CategoryType = (Category_Type)element.attribute("categoryType", "0").toInt();
+    m_CategoryType = (Category_Type)element.attribute(QLatin1String("categoryType"),
+                                                      QLatin1String("0")).toInt();
     return true;
 }
 

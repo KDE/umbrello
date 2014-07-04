@@ -1293,25 +1293,25 @@ void MessageWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
  */
 void MessageWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
-    QDomElement messageElement = qDoc.createElement("messagewidget");
+    QDomElement messageElement = qDoc.createElement(QLatin1String("messagewidget"));
     UMLWidget::saveToXMI(qDoc, messageElement);
     LinkWidget::saveToXMI(qDoc, messageElement);
-    messageElement.setAttribute("widgetaid", Uml::ID::toString(m_pOw[Uml::RoleType::A]->localID()));
-    messageElement.setAttribute("widgetbid", Uml::ID::toString(m_pOw[Uml::RoleType::B]->localID()));
+    messageElement.setAttribute(QLatin1String("widgetaid"), Uml::ID::toString(m_pOw[Uml::RoleType::A]->localID()));
+    messageElement.setAttribute(QLatin1String("widgetbid"), Uml::ID::toString(m_pOw[Uml::RoleType::B]->localID()));
     UMLOperation *pOperation = operation();
     if (pOperation)
-        messageElement.setAttribute("operation", Uml::ID::toString(pOperation->id()));
+        messageElement.setAttribute(QLatin1String("operation"), Uml::ID::toString(pOperation->id()));
     else
-        messageElement.setAttribute("operation", m_CustomOp);
-    messageElement.setAttribute("sequencemessagetype", m_sequenceMessageType);
+        messageElement.setAttribute(QLatin1String("operation"), m_CustomOp);
+    messageElement.setAttribute(QLatin1String("sequencemessagetype"), m_sequenceMessageType);
     if (m_sequenceMessageType == Uml::SequenceMessage::Lost || m_sequenceMessageType == Uml::SequenceMessage::Found) {
-        messageElement.setAttribute("xclicked", xclicked);
-        messageElement.setAttribute("yclicked", yclicked);
+        messageElement.setAttribute(QLatin1String("xclicked"), xclicked);
+        messageElement.setAttribute(QLatin1String("yclicked"), yclicked);
     }
 
     // save the corresponding message text
     if (m_pFText && !m_pFText->text().isEmpty()) {
-        messageElement.setAttribute("textid", Uml::ID::toString(m_pFText->id()));
+        messageElement.setAttribute(QLatin1String("textid"), Uml::ID::toString(m_pFText->id()));
         m_pFText->saveToXMI(qDoc, messageElement);
     }
 
@@ -1329,15 +1329,15 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
     if (!LinkWidget::loadFromXMI(qElement)) {
         return false;
     }
-    QString textid = qElement.attribute("textid", "-1");
-    QString widgetaid = qElement.attribute("widgetaid", "-1");
-    QString widgetbid = qElement.attribute("widgetbid", "-1");
-    m_CustomOp = qElement.attribute("operation");
-    QString sequenceMessageType = qElement.attribute("sequencemessagetype", "1001");
+    QString textid = qElement.attribute(QLatin1String("textid"), QLatin1String("-1"));
+    QString widgetaid = qElement.attribute(QLatin1String("widgetaid"), QLatin1String("-1"));
+    QString widgetbid = qElement.attribute(QLatin1String("widgetbid"), QLatin1String("-1"));
+    m_CustomOp = qElement.attribute(QLatin1String("operation"));
+    QString sequenceMessageType = qElement.attribute(QLatin1String("sequencemessagetype"), QLatin1String("1001"));
     m_sequenceMessageType = Uml::SequenceMessage::fromInt(sequenceMessageType.toInt());
     if (m_sequenceMessageType == Uml::SequenceMessage::Lost || m_sequenceMessageType == Uml::SequenceMessage::Found) {
-        xclicked = qElement.attribute("xclicked", "-1").toFloat();
-        yclicked = qElement.attribute("yclicked", "-1").toFloat();
+        xclicked = qElement.attribute(QLatin1String("xclicked"), QLatin1String("-1")).toFloat();
+        yclicked = qElement.attribute(QLatin1String("yclicked"), QLatin1String("-1")).toFloat();
     }
 
     m_widgetAId = Uml::ID::fromString(widgetaid);
@@ -1353,7 +1353,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
     QDomElement element = node.toElement();
     if (!element.isNull()) {
         QString tag = element.tagName();
-        if (tag == "floatingtext" || tag == "UML::FloatingTextWidget") {
+        if (tag == QLatin1String("floatingtext") || tag == QLatin1String("UML::FloatingTextWidget")) {
             m_pFText = new FloatingTextWidget(m_scene, tr, operationText(m_scene), m_textId);
             m_scene->addFloatingTextWidget(m_pFText);
             if(! m_pFText->loadFromXMI(element)) {
