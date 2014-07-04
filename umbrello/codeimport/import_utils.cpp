@@ -437,7 +437,7 @@ void insertMethod(UMLClassifier *klass, UMLOperation* &op,
                   bool isFriend, bool isConstructor,
                   const QString& comment)
 {
-    op->setVisibility(scope);
+    op->setVisibilityCmd(scope);
     if (!type.isEmpty()     // return type may be missing (constructor/destructor)
         && type != QLatin1String("void")) {
         if (type == klass->name()) {
