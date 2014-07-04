@@ -682,7 +682,7 @@ public:
         return m_params;
     }
 
-    virtual void addTemplateParam(QString name, QString def = "")
+    virtual void addTemplateParam(QString name, QString def = QString)
     {
         m_params.push_back(ParamPair(name, def));
     }
