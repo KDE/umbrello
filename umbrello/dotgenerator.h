@@ -32,9 +32,9 @@ public:
     void setUseFullNodeLabels(bool state);
 
     static bool availableConfigFiles(UMLScene *scene, QHash<QString, QString> &configFiles);
-    bool readConfigFile(QString diagramType, const QString &variant = "default");
+    bool readConfigFile(QString diagramType, const QString &variant = QLatin1String("default"));
 
-    bool createDotFile(UMLScene *scene, const QString &fileName, const QString &variant = "default");
+    bool createDotFile(UMLScene *scene, const QString &fileName, const QString &variant = QLatin1String("default"));
 
 protected:
     bool findItem(QStringList &params, const QString &search);

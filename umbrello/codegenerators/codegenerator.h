@@ -122,7 +122,7 @@ public:
 
     static QString cleanName(const QString &name);
 
-    static QString formatDoc(const QString& text, const QString& linePrefix = " *", int lineWidth = 80);
+    static QString formatDoc(const QString& text, const QString& linePrefix = QLatin1String(" *"), int lineWidth = 80);
 
     static QString formatSourceCode(const QString& code, const QString& indentation);
 

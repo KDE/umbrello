@@ -25,7 +25,7 @@ public:
     /**
      * Empty Constructor
      */
-    explicit CPPHeaderClassDeclarationBlock (CPPHeaderCodeDocument * parentDoc, const QString &start = QString(), const QString &endText = "}", const QString &comment = QString());
+    explicit CPPHeaderClassDeclarationBlock (CPPHeaderCodeDocument * parentDoc, const QString &start = QString(), const QString &endText = QLatin1String("}"), const QString &comment = QString());
 
     /**
      * Empty Destructor

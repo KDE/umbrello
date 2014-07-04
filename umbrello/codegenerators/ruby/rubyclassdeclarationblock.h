@@ -26,7 +26,7 @@ public:
     /**
      * Empty Constructor
      */
-    explicit RubyClassDeclarationBlock (RubyClassifierCodeDocument * parentDoc, const QString &start = QString(), const QString &endText = "end", const QString &comment = QString());
+    explicit RubyClassDeclarationBlock (RubyClassifierCodeDocument * parentDoc, const QString &start = QString(), const QString &endText = QLatin1String("end"), const QString &comment = QString());
 
     /**
      * Empty Destructor
