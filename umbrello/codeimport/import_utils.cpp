@@ -171,7 +171,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
                            UMLPackage *parentPkg,
                            const QString& comment,
                            const QString& stereotype,
-                           bool doNotSearch)
+                           bool searchInParentPackageOnly)
 {
     QString name = inName;
     UMLDoc *umldoc = UMLApp::app()->document();
@@ -192,14 +192,14 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
         name = name.mid(2);
         parentPkg = logicalView;
     }
-    UMLObject *o = NULL;
-    if (!doNotSearch) {
-        o = umldoc->findUMLObject(name, type, parentPkg);
-        bNewUMLObjectWasCreated = false;
-    } else {
-        o = Object_Factory::createNewUMLObject(type, name, parentPkg);
-        bNewUMLObjectWasCreated = true;
-        bPutAtGlobalScope = false;
+    UMLObject *o = umldoc->findUMLObject(name, type, parentPkg);
+    bNewUMLObjectWasCreated = false;
+    if (searchInParentPackageOnly) {
+        if (o && o->umlPackage() != parentPkg) {
+            o = Object_Factory::createNewUMLObject(type, name, parentPkg);
+            bNewUMLObjectWasCreated = true;
+            bPutAtGlobalScope = false;
+        }
     }
     if (o == NULL) {
         // Strip possible adornments and look again.
