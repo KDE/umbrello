@@ -102,7 +102,7 @@ void UMLTemplateDialog::insertTypesSorted(const QString& type)
 {
     QStringList types;
     // "class" is the nominal type of template parameter
-    types << "class";
+    types << QLatin1String("class");
     // add the active data types to combo box
     UMLDoc *pDoc = UMLApp::app()->document();
     UMLClassifierList namesList(pDoc->concepts());

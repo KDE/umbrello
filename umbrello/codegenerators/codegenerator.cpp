@@ -93,11 +93,11 @@ QString CodeGenerator::getUniqueID(CodeDocument * codeDoc)
         id = Uml::ID::toString(c->id()); // this is supposed to be unique already..
     }
     else {
-        QString prefix = "doc";
-        QString id = prefix + "_0";
+        QString prefix = QLatin1String("doc");
+        QString id = prefix + QLatin1String("_0");
         int number = m_lastIDIndex;
         for (; findCodeDocumentByID(id); ++number) {
-            id = prefix + '_' + QString::number(number);
+            id = prefix + QLatin1Char('_') + QString::number(number);
         }
         m_lastIDIndex = number;
     }
@@ -195,8 +195,8 @@ void CodeGenerator::loadFromXMI(QDomElement & qElement)
     QDomElement element = node.toElement();
     QString langType = Uml::ProgrammingLanguage::toString(language());
 
-    if (qElement.tagName() != "codegenerator"
-            || qElement.attribute("language", "UNKNOWN") != langType) {
+    if (qElement.tagName() != QLatin1String("codegenerator")
+        || qElement.attribute(QLatin1String("language"), QLatin1String("UNKNOWN")) != langType) {
         return;
     }
     // got our code generator element, now load
@@ -205,11 +205,11 @@ void CodeGenerator::loadFromXMI(QDomElement & qElement)
     QDomElement codeDocElement = codeDocNode.toElement();
     while (!codeDocElement.isNull()) {
         QString docTag = codeDocElement.tagName();
-        QString id = codeDocElement.attribute("id", "-1");
-        if (docTag == "sourcecode") {
+        QString id = codeDocElement.attribute(QLatin1String("id"), QLatin1String("-1"));
+        if (docTag == QLatin1String("sourcecode")) {
             loadCodeForOperation(id, codeDocElement);
         }
-        else if (docTag == "codedocument" || docTag == "classifiercodedocument") {
+        else if (docTag == QLatin1String("codedocument") || docTag == QLatin1String("classifiercodedocument")) {
             CodeDocument * codeDoc = findCodeDocumentByID(id);
             if (codeDoc) {
                 codeDoc->loadFromXMI(codeDocElement);
@@ -236,7 +236,7 @@ void CodeGenerator::loadCodeForOperation(const QString& idStr, const QDomElement
     UMLObject *obj = m_document->findObjectById(id);
     if (obj) {
         uDebug() << "found UMLObject for id:" << idStr;
-        QString value = codeDocElement.attribute("value");
+        QString value = codeDocElement.attribute(QLatin1String("value"));
 
         UMLObject::ObjectType t = obj->baseType();
         if (t == UMLObject::ot_Operation) {
@@ -258,8 +258,8 @@ void CodeGenerator::loadCodeForOperation(const QString& idStr, const QDomElement
 void CodeGenerator::saveToXMI(QDomDocument & doc, QDomElement & root)
 {
     QString langType = Uml::ProgrammingLanguage::toString(language());
-    QDomElement docElement = doc.createElement("codegenerator");
-    docElement.setAttribute("language", langType);
+    QDomElement docElement = doc.createElement(QLatin1String("codegenerator"));
+    docElement.setAttribute(QLatin1String("language"), langType);
 
     if (dynamic_cast<SimpleCodeGenerator*>(this)) {
         UMLClassifierList concepts = m_document->classesAndInterfaces();
@@ -271,9 +271,9 @@ void CodeGenerator::saveToXMI(QDomDocument & doc, QDomElement & root)
                 if (code.isEmpty()) {
                     continue;
                 }
-                QDomElement codeElement = doc.createElement("sourcecode");
-                codeElement.setAttribute("id", Uml::ID::toString(op->id()));
-                codeElement.setAttribute("value", code);
+                QDomElement codeElement = doc.createElement(QLatin1String("sourcecode"));
+                codeElement.setAttribute(QLatin1String("id"), Uml::ID::toString(op->id()));
+                codeElement.setAttribute(QLatin1String("value"), code);
                 docElement.appendChild(codeElement);
             }
         }
@@ -546,7 +546,7 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
         case KDialog::No: //generate similar name
             suffix = 1;
             while (1) {
-                filename = name + "__" + QString::number(suffix) + extension;
+                filename = name + QLatin1String("__") + QString::number(suffix) + extension;
                 if (!outputDirectory.exists(filename))
                     break;
                 suffix++;
@@ -573,7 +573,7 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
     case CodeGenerationPolicy::Never: //generate similar name
         suffix = 1;
         while (1) {
-            filename = name + "__" + QString::number(suffix) + extension;
+            filename = name + QLatin1String("__") + QString::number(suffix) + extension;
             if (!outputDirectory.exists(filename)) {
                 break;
             }
@@ -627,7 +627,7 @@ bool CodeGenerator::openFile(QFile & file, const QString &fileName)
 QString CodeGenerator::cleanName(const QString &name)
 {
     QString retval = name;
-    retval.replace(QRegExp("\\W+"), "_");
+    retval.replace(QRegExp(QLatin1String("\\W+")), QLatin1String("_"));
     return retval;
 }
 
@@ -648,16 +648,16 @@ QString CodeGenerator::findFileName(CodeDocument * codeDocument)
     // if path is given add this as a directory to the file name
     QString name;
     if (!path.isEmpty()) {
-        path.replace(QRegExp("::"), "/"); // Simple hack!
-        name = path + '/' + codeDocument->getFileName();
-        path = '/' + path;
+        path.replace(QRegExp(QLatin1String("::")), QLatin1String("/")); // Simple hack!
+        name = path + QLatin1Char('/') + codeDocument->getFileName();
+        path = QLatin1Char('/') + path;
     }
     else {  // determine the "natural" file name
         name = codeDocument->getFileName();
     }
 
     // Convert all "::" to "/" : Platform-specific path separator
-    name.replace(QRegExp("::"), "/"); // Simple hack!
+    name.replace(QRegExp(QLatin1String("::")), QLatin1String("/")); // Simple hack!
 
     // if a path name exists check the existence of the path directory
     if (!path.isEmpty()) {
@@ -667,24 +667,24 @@ QString CodeGenerator::findFileName(CodeDocument * codeDocument)
         // does our complete output directory exist yet? if not, try to create it
         if (!pathDir.exists()) {
             // ugh. dir separator here is UNIX specific..
-            const QStringList dirs = pathDir.absolutePath().split('/');
+            const QStringList dirs = pathDir.absolutePath().split(QLatin1Char('/'));
             QString currentDir;
 
             QStringList::const_iterator end(dirs.end());
             for (QStringList::const_iterator dir(dirs.begin()); dir != end; ++dir) {
-                currentDir += '/' + *dir;
+                currentDir += QLatin1Char('/') + *dir;
                 if (! (pathDir.exists(currentDir) || pathDir.mkdir(currentDir))) {
                     KMessageBox::error(0, i18n("Cannot create the folder:\n") +
                                        pathDir.absolutePath() + i18n("\nPlease check the access rights"),
                                        i18n("Cannot Create Folder"));
-                    return NULL;
+                    return QString();
                 }
             }
         }
     }
 
     name.simplified();
-    name.replace(QRegExp(" "),"_");
+    name.replace(QRegExp(QLatin1String(" ")), QLatin1String("_"));
 
     return overwritableName(name, codeDocument->getFileExtension());
 }
@@ -794,13 +794,13 @@ QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix,
     QStringList lines = text.split(endLine);
     for (QStringList::ConstIterator lit = lines.constBegin(); lit != lines.constEnd(); ++lit) {
         QString input = *lit;
-        input.remove(QRegExp("\\s+$"));
+        input.remove(QRegExp(QLatin1String("\\s+$")));
         if (input.length() < lineWidth) {
             output += linePrefix + input + endLine;
             continue;
         }
         int index;
-        while ((index = input.lastIndexOf(" ", lineWidth)) >= 0) {
+        while ((index = input.lastIndexOf(QLatin1String(" "), lineWidth)) >= 0) {
             output += linePrefix + input.left(index) + endLine; // add line
             input.remove(0, index + 1); // remove processed string, including white space
         }

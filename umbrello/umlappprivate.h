@@ -64,7 +64,7 @@ public:
 public slots:
     void slotLogWindowItemDoubleClicked(QListWidgetItem *item)
     {
-        QStringList columns = item->text().split(':');
+        QStringList columns = item->text().split(QChar::fromLatin1(':'));
 
         QFileInfo file(columns[0]);
         if (!file.exists())
@@ -77,7 +77,7 @@ public slots:
         view->setCursorPosition(KTextEditor::Cursor(columns[1].toInt()-1,columns[2].toInt()));
         KTextEditor::ConfigInterface *iface = qobject_cast<KTextEditor::ConfigInterface*>(view);
         if(iface)
-            iface->setConfigValue("line-numbers", true);
+            iface->setConfigValue(QString::fromLatin1("line-numbers"), true);
 
         KDialog *dialog = new KDialog(parent);
         dialog->setMainWidget(view);

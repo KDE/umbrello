@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2013                                               *
+ *   copyright (C) 2004-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -71,7 +71,7 @@ UMLOperation * CodeOperation::getParentOperation()
  */
 void CodeOperation::saveToXMI (QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement("codeoperation");
+    QDomElement blockElement = doc.createElement(QLatin1String("codeoperation"));
     // set attributes
     setAttributesOnNode(doc, blockElement);
     root.appendChild(blockElement);
@@ -90,7 +90,7 @@ void CodeOperation::loadFromXMI (QDomElement & root)
  */
 QString CodeOperation::findTag (UMLOperation * op)
 {
-    return QString("operation_" + Uml::ID::toString(op->id()));
+    return QString(QLatin1String("operation_") + Uml::ID::toString(op->id()));
 }
 
 /**
@@ -116,7 +116,7 @@ void CodeOperation::setAttributesFromNode (QDomElement & element)
     // we simply need to record the parent operation here
     // m_parentOperation->disconnect(this); // always disconnect from current parent
 
-    QString idStr = element.attribute("parent_id","-1");
+    QString idStr = element.attribute(QLatin1String("parent_id"), QLatin1String("-1"));
     Uml::ID::Type id = Uml::ID::fromString(idStr);
     UMLObject * obj = UMLApp::app()->document()->findObjectById(id);
     UMLOperation * op = dynamic_cast<UMLOperation*>(obj);

@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2013                                               *
+ *   copyright (C) 2004-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -53,7 +53,7 @@ CodeComment * CodeBlockWithComments::getComment () const
  */
 void CodeBlockWithComments::saveToXMI (QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement("codeblockwithcomments");
+    QDomElement blockElement = doc.createElement(QLatin1String("codeblockwithcomments"));
 
     // set attributes
     setAttributesOnNode(doc, blockElement);
@@ -72,7 +72,7 @@ void CodeBlockWithComments::setAttributesOnNode (QDomDocument & doc, QDomElement
 
     // set local attributes now..e.g. a comment
     // which we will store in its own separate child node block
-    QDomElement commElement = doc.createElement("header");
+    QDomElement commElement = doc.createElement(QLatin1String("header"));
     getComment()->saveToXMI(doc, commElement); // comment
     blockElement.appendChild(commElement);
 }
@@ -114,7 +114,7 @@ void CodeBlockWithComments::setAttributesFromNode(QDomElement & root)
     bool gotComment = false;
     while (!element.isNull()) {
         QString tag = element.tagName();
-        if (tag == "header") {
+        if (tag == QLatin1String("header")) {
             QDomNode cnode = element.firstChild();
             QDomElement celem = cnode.toElement();
             getComment()->loadFromXMI(celem);

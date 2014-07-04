@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2013                                                *
+ *  copyright (C) 2002-2014                                                *
  *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                 *
  ***************************************************************************/
 
@@ -41,38 +41,38 @@ QStringList PostgreSQLWriter::defaultDatatypes()
 {
     QStringList l;
 
-    l.append("bigint");
-    l.append("bigserial");
-    l.append("bit");
-    l.append("bit varying");
-    l.append("boolean");
-    l.append("box");
-    l.append("bytea");
-    l.append("character varying");
-    l.append("character");
-    l.append("cidr");
-    l.append("circle");
-    l.append("date");
-    l.append("decimal");
-    l.append("double precision");
-    l.append("inet");
-    l.append("integer");
-    l.append("interval");
-    l.append("line");
-    l.append("lseg");
-    l.append("macaddr");
-    l.append("money");
-    l.append("numeric");
-    l.append("path");
-    l.append("point");
-    l.append("polygon");
-    l.append("real");
-    l.append("serial");
-    l.append("smallint");
-    l.append("time without time zone");
-    l.append("time with time zone");
-    l.append("timestamp without time zone");
-    l.append("timestamp with time zone");
+    l.append(QLatin1String("bigint"));
+    l.append(QLatin1String("bigserial"));
+    l.append(QLatin1String("bit"));
+    l.append(QLatin1String("bit varying"));
+    l.append(QLatin1String("boolean"));
+    l.append(QLatin1String("box"));
+    l.append(QLatin1String("bytea"));
+    l.append(QLatin1String("character varying"));
+    l.append(QLatin1String("character"));
+    l.append(QLatin1String("cidr"));
+    l.append(QLatin1String("circle"));
+    l.append(QLatin1String("date"));
+    l.append(QLatin1String("decimal"));
+    l.append(QLatin1String("double precision"));
+    l.append(QLatin1String("inet"));
+    l.append(QLatin1String("integer"));
+    l.append(QLatin1String("interval"));
+    l.append(QLatin1String("line"));
+    l.append(QLatin1String("lseg"));
+    l.append(QLatin1String("macaddr"));
+    l.append(QLatin1String("money"));
+    l.append(QLatin1String("numeric"));
+    l.append(QLatin1String("path"));
+    l.append(QLatin1String("point"));
+    l.append(QLatin1String("polygon"));
+    l.append(QLatin1String("real"));
+    l.append(QLatin1String("serial"));
+    l.append(QLatin1String("smallint"));
+    l.append(QLatin1String("time without time zone"));
+    l.append(QLatin1String("time with time zone"));
+    l.append(QLatin1String("timestamp without time zone"));
+    l.append(QLatin1String("timestamp with time zone"));
 
     return l;
 }
@@ -85,7 +85,7 @@ void PostgreSQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeL
     // rules
     // postgres has no such thing as auto increment
     // instead it uses sequences. For simulating auto increment, set default value of
-    // each attribute to the nextval() of it's very own sequence
+    // each attribute to the nextval() of its very own sequence
 
     foreach(UMLEntityAttribute* ea, entAttList) {
         if (!ea->getAutoIncrement())
@@ -93,7 +93,7 @@ void PostgreSQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeL
 
         QString sequenceName;
         // we keep the sequence name as entityName + '_' + entityAttributeName
-        sequenceName = m_pEntity->name() + '_' + ea->name();
+        sequenceName = m_pEntity->name() + QLatin1Char('_') + ea->name();
 
         // we assume the sequence count starts with 1 and interval is 1 too
         // change the values when we start supporting different start values and

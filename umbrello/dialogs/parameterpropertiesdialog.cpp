@@ -101,13 +101,13 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
     QHBoxLayout * kindLayout = new QHBoxLayout(m_pKind);
     kindLayout->setMargin(margin);
 
-    m_pIn =  new QRadioButton("in", m_pKind);
+    m_pIn =  new QRadioButton(QString::fromLatin1("in"), m_pKind);
     kindLayout->addWidget(m_pIn);
 
-    m_pInOut =  new QRadioButton("inout", m_pKind);
+    m_pInOut =  new QRadioButton(QString::fromLatin1("inout"), m_pKind);
     kindLayout->addWidget(m_pInOut);
 
-    m_pOut =  new QRadioButton("out", m_pKind);
+    m_pOut =  new QRadioButton(QString::fromLatin1("out"), m_pKind);
     kindLayout->addWidget(m_pOut);
 
     topLayout->addWidget(m_pKind);

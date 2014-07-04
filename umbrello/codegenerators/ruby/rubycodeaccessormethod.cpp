@@ -89,22 +89,22 @@ void RubyCodeAccessorMethod::updateContent()
             int maxOccurs = rubyfield->maximumListOccurances();
             QString fieldType = rubyfield->getTypeName();
             QString indent = getIndentation();
-            if(maxOccurs > 0)
-                text += "if "+fieldName+".size() < "+ QString::number(maxOccurs)+' '+endLine+indent;
-            text += fieldName+".push(value)";
-            if(maxOccurs > 0)
+            if (maxOccurs > 0)
+                text += QLatin1String("if ") + fieldName + QLatin1String(".size() < ")+ QString::number(maxOccurs) + QLatin1Char(' ') + endLine + indent;
+            text += fieldName + QLatin1String(".push(value)");
+            if (maxOccurs > 0)
             {
-                text += endLine+"else"+endLine;
-                text += indent + "puts(\"ERROR: Cannot add" + fieldType + " to " + fieldName
-                     + ", minimum number of items reached.\")" + endLine + "end" + endLine;
+                text += endLine + QLatin1String("else") + endLine;
+                text += indent + QLatin1String("puts(\"ERROR: Cannot add") + fieldType + QLatin1String(" to ") + fieldName
+                     + QLatin1String(", minimum number of items reached.\")") + endLine + QLatin1String("end") + endLine;
             }
             break;
         }
     case CodeAccessorMethod::GET:
-//        text = "return "+fieldName;
+//        text = QLatin1String("return ") + fieldName;
         break;
     case CodeAccessorMethod::LIST:
-        text = "return "+fieldName;
+        text = QLatin1String("return ") + fieldName;
         break;
     case CodeAccessorMethod::REMOVE:
         {
@@ -112,18 +112,18 @@ void RubyCodeAccessorMethod::updateContent()
             QString fieldType = rubyfield->getTypeName();
             QString indent = getIndentation();
 
-            if(minOccurs > 0)
-                text += "if "+fieldName+".size() >= "+ QString::number(minOccurs)+endLine+indent;
-            text += fieldName+".delete(value)";
-            if(minOccurs > 0)
+            if (minOccurs > 0)
+                text += QLatin1String("if ") + fieldName + QLatin1String(".size() >= ") + QString::number(minOccurs) + endLine + indent;
+            text += fieldName + QLatin1String(".delete(value)");
+            if (minOccurs > 0)
             {
-                text += endLine+"else"+endLine;
-                text += indent + "puts(\"ERROR: Cant remove"+fieldType+" from "+fieldName+", minimum number of items reached.\")"+endLine+"end"+endLine;
+                text += endLine + QLatin1String("else") + endLine;
+                text += indent + QLatin1String("puts(\"ERROR: Cant remove") + fieldType + QLatin1String(" from ") + fieldName + QLatin1String(", minimum number of items reached.\")") + endLine + QLatin1String("end") + endLine;
             }
             break;
         }
     case CodeAccessorMethod::SET:
-//        text = fieldName+" = value";
+//        text = fieldName + QLatin1String(" = value");
         break;
     default:
         // do nothing
@@ -144,18 +144,18 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
     QString fieldName = RubyCodeGenerator::cppToRubyName(rubyfield->getFieldName());
     QString fieldType = RubyCodeGenerator::cppToRubyType(rubyfield->getTypeName());
     QString objectType = rubyfield->getListObjectType();
-    if(objectType.isEmpty())
+    if (objectType.isEmpty())
         objectType = fieldName;
     QString endLine = p->getNewLineEndingChars();
 
     QString description = getParentObject()->doc();
-    description.remove(QRegExp("m_[npb](?=[A-Z])"));
-    description.remove("m_");
-    description.replace(QRegExp("[\\n\\r]+[\\t ]*"), endLine);
+    description.remove(QRegExp(QLatin1String("m_[npb](?=[A-Z])")));
+    description.remove(QLatin1String("m_"));
+    description.replace(QRegExp(QLatin1String("[\\n\\r]+[\\t ]*")), endLine);
 
     // set scope of this accessor appropriately..if its an attribute,
     // we need to be more sophisticated
-    if(rubyfield->parentIsAttribute())
+    if (rubyfield->parentIsAttribute())
         switch (scopePolicy) {
         case Uml::Visibility::Public:
         case Uml::Visibility::Private:
@@ -176,36 +176,36 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
 
     switch(getType()) {
     case CodeAccessorMethod::ADD:
-        methodName = "add" + Codegen_Utils::capitalizeFirstLetter(fieldType);
+        methodName = QLatin1String("add") + Codegen_Utils::capitalizeFirstLetter(fieldType);
         methodReturnType = QString();
-        methodParams = objectType+" value ";
-        headerText = "Add an object of type "+objectType+" to the Array "+fieldName+endLine+description+endLine+"@return nil";
-        setStartMethodText("def "+ methodName + '(' + methodParams + ')');
-        setEndMethodText("end");
+        methodParams = objectType + QLatin1String(" value ");
+        headerText = QLatin1String("Add an object of type ") + objectType + QLatin1String(" to the Array ") + fieldName + endLine + description + endLine + QLatin1String("@return nil");
+        setStartMethodText(QLatin1String("def ")+ methodName + QLatin1Char('(') + methodParams + QLatin1Char(')'));
+        setEndMethodText(QLatin1String("end"));
         break;
     case CodeAccessorMethod::GET:
-        headerText = "Get the value of " + fieldName + endLine + description;
-        setStartMethodText(QString("attr_reader :") + fieldName);
+        headerText = QLatin1String("Get the value of ") + fieldName + endLine + description;
+        setStartMethodText(QString(QLatin1String("attr_reader :")) + fieldName);
         setEndMethodText(QString());
         break;
     case CodeAccessorMethod::LIST:
-        methodName = "get" + Codegen_Utils::capitalizeFirstLetter(fieldType)+"List";
+        methodName = QLatin1String("get") + Codegen_Utils::capitalizeFirstLetter(fieldType) + QLatin1String("List");
         methodReturnType = QString();
-        headerText = "Get the list of "+fieldName+endLine+description+endLine+"_returns_ List of "+fieldName;
-        setStartMethodText("def "+ methodName + '(' + methodParams + ')');
-        setEndMethodText("end");
+        headerText = QLatin1String("Get the list of ") + fieldName + endLine + description + endLine + QLatin1String("_returns_ List of ") + fieldName;
+        setStartMethodText(QLatin1String("def ")+ methodName + QLatin1Char('(') + methodParams + QLatin1Char(')'));
+        setEndMethodText(QLatin1String("end"));
         break;
     case CodeAccessorMethod::REMOVE:
-        methodName = "remove" + Codegen_Utils::capitalizeFirstLetter(fieldType);
+        methodName = QLatin1String("remove") + Codegen_Utils::capitalizeFirstLetter(fieldType);
         methodReturnType = QString();
-        methodParams = objectType+" value ";
-        headerText = "Remove an object of type "+objectType+" from the List "+fieldName+endLine+description;
-        setStartMethodText("def "+ methodName + '(' + methodParams + ')');
-        setEndMethodText("end");
+        methodParams = objectType + QLatin1String(" value ");
+        headerText = QLatin1String("Remove an object of type ") + objectType + QLatin1String(" from the List ") + fieldName + endLine + description;
+        setStartMethodText(QLatin1String("def ") + methodName + QLatin1Char('(') + methodParams + QLatin1Char(')'));
+        setEndMethodText(QLatin1String("end"));
         break;
     case CodeAccessorMethod::SET:
-        headerText = "Set the value of " + fieldName + endLine + description;
-        setStartMethodText(QString("attr_writer :") + fieldName);
+        headerText = QLatin1String("Set the value of ") + fieldName + endLine + description;
+        setStartMethodText(QString(QLatin1String("attr_writer :")) + fieldName);
         setEndMethodText(QString());
         break;
     default:

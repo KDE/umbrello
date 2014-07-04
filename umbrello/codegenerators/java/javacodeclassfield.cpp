@@ -51,7 +51,7 @@ QString JavaCodeClassField::getFieldName()
         if(fieldIsSingleValue()) {
             return roleName.replace(0, 1, roleName.left(1).toLower());
         } else {
-            return roleName.toLower() + "Vector";
+            return roleName.toLower() + QLatin1String("Vector");
         }
     }
 }
@@ -76,7 +76,7 @@ QString JavaCodeClassField::getInitialValue()
             //       then we can just return 'empty' string (minor problem).
             return QString();
         } else {
-            return " new "+JavaCodeGenerator::getListFieldClassName()+"()";
+            return QLatin1String(" new ") + JavaCodeGenerator::getListFieldClassName() + QLatin1String("()");
         }
     }
 }

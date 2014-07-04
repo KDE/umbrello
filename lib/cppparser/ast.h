@@ -240,7 +240,7 @@ public:
     void addComment(const QString& comment)
     {
         if (!m_comment.isEmpty()) {
-            m_comment += "\n(" + comment + ")";
+            m_comment += QLatin1String("\n(") + comment + QLatin1String(")");
         } else {
             m_comment = comment;
         }

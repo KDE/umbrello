@@ -51,7 +51,7 @@ ClassWizard::ClassWizard(UMLDoc* doc)
         pTemp = m_doc->findUMLObject(newName);
         num.setNum(++i);
         newName = name;
-        newName.append("_").append(num);
+        newName.append(QChar::fromLatin1('_')).append(num);
     } while(pTemp);
 
     setWizardStyle(QWizard::ModernStyle);

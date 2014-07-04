@@ -74,27 +74,27 @@ private:
      */
 //    void writeAttributes(UMLClassifier *c, QTextStream &j);
 
-    void writeElementDecl(const QString &elementName, const QString &elementTypeName, QTextStream &XMLschema);
+    void writeElementDecl(const QString &elementName, const QString &elementTypeName, QTextStream &xs);
 
-    void writeAttributeDecls(UMLAttributeList &attribs, QTextStream &XMLschema);
+    void writeAttributeDecls(UMLAttributeList &attribs, QTextStream &xs);
 
-    void writeAttributeDecl(UMLAttribute *attrib, QTextStream &XMLschema);
+    void writeAttributeDecl(UMLAttribute *attrib, QTextStream &xs);
 
     UMLAttributeList findAttributes(UMLClassifier *c);
 
     QStringList findAttributeGroups(UMLClassifier *c);
 
     bool writeAssociationDecls(UMLAssociationList associations, bool noRoleOK, bool didOne,
-                               Uml::ID::Type id, QTextStream &XMLschema);
+                               Uml::ID::Type id, QTextStream &xs);
 
-    void writeAttributeGroupDecl(const QString &elementName, UMLAttributeList &attribs, QTextStream &XMLschema);
+    void writeAttributeGroupDecl(const QString &elementName, UMLAttributeList &attribs, QTextStream &xs);
 
-    void writeAssociationRoleDecl(UMLClassifier *c, const QString &multi, QTextStream &XMLschema);
+    void writeAssociationRoleDecl(UMLClassifier *c, const QString &multi, QTextStream &xs);
 
     QString makeSchemaTag(QString tagName);
     QString makePackageTag(QString tagName);
 
-    void writeComment(const QString &text, QTextStream &XMLschema);
+    void writeComment(const QString &text, QTextStream &xs);
 
     UMLObjectList findChildObjsInAssociations(UMLClassifier *c, UMLAssociationList associations);
 

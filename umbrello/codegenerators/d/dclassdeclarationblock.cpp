@@ -40,7 +40,7 @@ void DClassDeclarationBlock::setAttributesFromObject (TextBlock * obj)
 
 void DClassDeclarationBlock::saveToXMI (QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement("dclassdeclarationblock");
+    QDomElement blockElement = doc.createElement(QLatin1String("dclassdeclarationblock"));
 
     setAttributesOnNode(doc, blockElement);
 
@@ -59,7 +59,7 @@ void DClassDeclarationBlock::updateContent ()
     // COMMENT
 
     getComment()->setText(
-        (isInterface ? "Interface " : "Class ") +
+        (isInterface ? QLatin1String("Interface ") : QLatin1String("Class ")) +
         DClassName + endLine + c->doc());
 
     bool forceDoc = commonPolicy->getCodeVerboseDocumentComments();
@@ -77,19 +77,19 @@ void DClassDeclarationBlock::updateContent ()
 
     // (a) visibility modifier
     switch(c->visibility()) {
-        case Uml::Visibility::Private: startText += "private "; break;
+        case Uml::Visibility::Private: startText += QLatin1String("private "); break;
         default: break;
     }
 
     // (b) keyword
     if (isInterface) {
-        startText += "interface ";
+        startText += QLatin1String("interface ");
     } else {
         if (c->isAbstract()) {
-            startText += "abstract ";
+            startText += QLatin1String("abstract ");
         }
 
-        startText += "class ";
+        startText += QLatin1String("class ");
     }
 
     // (c) class name
@@ -103,7 +103,7 @@ void DClassDeclarationBlock::updateContent ()
 
     int count = superclasses.count() + superinterfaces.count();
 
-    if (count > 0) startText += " : ";
+    if (count > 0) startText += QLatin1String(QLatin1String(" : "));
 
     // (e) base classes
     foreach (UMLClassifier* concept, superclasses) {
@@ -111,7 +111,7 @@ void DClassDeclarationBlock::updateContent ()
 
         count--;
 
-        if (count>0) startText += ", ";
+        if (count>0) startText += QLatin1String(QLatin1String(", "));
     }
 
     // (f) interfaces
@@ -120,11 +120,11 @@ void DClassDeclarationBlock::updateContent ()
 
         count--;
 
-        if (count>0) startText += ", ";
+        if (count>0) startText += QLatin1String(QLatin1String(", "));
     }
 
     // (g) block start
-    startText += " {";
+    startText += QLatin1String(QLatin1String(" {"));
 
     setStartText(startText);
 }
@@ -134,7 +134,7 @@ void DClassDeclarationBlock::init (DClassifierCodeDocument *parentDoc, const QSt
     setComment(new DCodeDocumentation(parentDoc));
     getComment()->setText(comment);
 
-    setEndText("}");
+    setEndText(QLatin1String(QLatin1String("}")));
 }
 
 

@@ -26,7 +26,7 @@ DCodeComment::~DCodeComment ()
 
 void DCodeComment::saveToXMI (QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement("dcodecomment");
+    QDomElement blockElement = doc.createElement(QLatin1String("dcodecomment"));
 
     // as we added no additional fields to this class we may
     // just use parent TextBlock method
@@ -47,11 +47,11 @@ QString DCodeComment::toString () const
 
         // check the need for multiline comments
         if (body.indexOf(QRegExp(endLine)) >= 0) {
-            output += indent + "/**" + endLine;
-            output += formatMultiLineText (body, indent + " * ", endLine);
-            output += indent + " */" + endLine;
+            output += indent + QLatin1String("/**") + endLine;
+            output += formatMultiLineText (body, indent + QLatin1String(" * "), endLine);
+            output += indent + QLatin1String(" */") + endLine;
         } else {
-            output += formatMultiLineText (body, indent + "// ", endLine);
+            output += formatMultiLineText (body, indent + QLatin1String("// "), endLine);
         }
     }
 
@@ -61,7 +61,7 @@ QString DCodeComment::toString () const
 // TODO: where is this used?
 QString DCodeComment::getNewEditorLine (int amount)
 {
-    QString line = getIndentationString(amount) + "// ";
+    QString line = getIndentationString(amount) + QLatin1String("// ");
     return line;
 }
 
@@ -72,6 +72,6 @@ QString DCodeComment::unformatText (const QString & text, const QString & indent
     QString mytext = TextBlock::unformatText(text, indent);
 
     // now leading slashes
-    mytext.remove(QRegExp("^\\/\\/\\s*"));
+    mytext.remove(QRegExp(QLatin1String("^\\/\\/\\s*")));
     return mytext;
 }

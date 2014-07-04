@@ -121,14 +121,14 @@ QLabel * CodeEditor::componentLabel()
  */
 void CodeEditor::clicked(int para, int pos)
 {
-    QString txt = "position:" + QString::number(para) +
-                  " / row (block):" + QString::number(pos);
+    QString txt = QString::fromLatin1("position:") + QString::number(para) +
+                  QString::fromLatin1(" / row (block):") + QString::number(pos);
     if (m_parentDialog->ui_highlightCheckBox->isChecked()) {
         TextBlock* tb = findTextBlockAt(para);
         if (tb) {
             TextBlockInfo* info = m_tbInfoMap[tb];
             if (info) {
-                txt += " / <b>" + info->displayName() + "</b>";
+                txt += QString::fromLatin1(" / <b>") + info->displayName() + QString::fromLatin1("</b>");
             }
         }
     }
@@ -232,7 +232,7 @@ void CodeEditor::keyPressEvent(QKeyEvent * e)
         m_backspacePressed = true;
     }
     // Q: can the MAC or WIN/DOS sequences occur?
-    if ((e->key() == 10) || (e->key() == 13) || (e->text() == "\r\n")) {
+    if ((e->key() == 10) || (e->key() == 13) || (e->text() == QString::fromLatin1("\r\n"))) {
         m_newLinePressed = true;
     }
     KTextEdit::keyPressEvent(e);
@@ -253,7 +253,7 @@ void CodeEditor::loadFromDocument()
 
     // header for document
     QString header = m_parentDoc->getHeader()->toString();
-    QString componentName = QString("header for file ") + caption;
+    QString componentName = QString::fromLatin1("header for file ") + caption;
     if (isNonBlank(header)) {
         DEBUG(DBG_SRC) << "header for document: " << header;
         insertText(header, m_parentDoc->getHeader(), false, state().fontColor,
@@ -309,7 +309,7 @@ void CodeEditor::insertText(const QString & text, TextBlock * parent,
         textCursor().insertText(text);
     }
 
-    int endLine = text.count('\n') + startLine;
+    int endLine = text.count(QChar::fromLatin1('\n')) + startLine;
     // now do 'paragraph' background highlighting
     if (m_isHighlighted) {
         for (int ln = startLine; ln <= endLine; ++ln) {
@@ -461,10 +461,10 @@ void CodeEditor::appendText(CodeBlockWithComments * cb)
         return;
 
     QString indent = cb->getIndentationString();
-    QString body = cb->formatMultiLineText(cb->getText(), indent, "\n");
+    QString body = cb->formatMultiLineText(cb->getText(), indent, QString::fromLatin1("\n"));
 
     QColor bgcolor = state().editBlockColor;
-    QString componentName = QString("CodeBlock");
+    QString componentName = QString::fromLatin1("CodeBlock");
 
     appendText(cb->getComment(), cb, 0, componentName);
 
@@ -486,7 +486,7 @@ void CodeEditor::appendText(CodeClassFieldDeclarationBlock * db)
         return;
 
     QString indent = db->getIndentationString();
-    QString body = db->formatMultiLineText (db->getText(), indent, "\n");
+    QString body = db->formatMultiLineText (db->getText(), indent, QString::fromLatin1("\n"));
 
     UMLObject * parentObj = db->getParentClassField()->getParentObject();
 
@@ -495,11 +495,11 @@ void CodeEditor::appendText(CodeClassFieldDeclarationBlock * db)
     if (parentObj)
     {
         if (db->getParentClassField()->parentIsAttribute()) {
-            componentName = m_parentDocName + "::attribute_field(" + parentObj->name() + ')';
+            componentName = m_parentDocName + QString::fromLatin1("::attribute_field(") + parentObj->name() + QChar::fromLatin1(')');
         }
         else {
             UMLRole * role = dynamic_cast<UMLRole*>(parentObj);
-            componentName = m_parentDocName + "::association_field(" + role->name() + ')';
+            componentName = m_parentDocName + QString::fromLatin1("::association_field(") + role->name() + QChar::fromLatin1(')');
         }
         bgcolor = state().umlObjectColor;
     }
@@ -530,19 +530,19 @@ void CodeEditor::appendText(CodeMethodBlock * mb)
     QString indent = mb->getIndentationString();
     QString bodyIndent = mb->getIndentationString(mb->getIndentationLevel()+1);
 
-    QString startText = mb->formatMultiLineText (mb->getStartMethodText(), indent, "\n");
-    QString body = mb->formatMultiLineText (mb->getText(), bodyIndent, "\n");
-    QString endText = mb->formatMultiLineText(mb->getEndMethodText(), indent, "\n");
+    QString startText = mb->formatMultiLineText (mb->getStartMethodText(), indent, QString::fromLatin1("\n"));
+    QString body = mb->formatMultiLineText (mb->getText(), bodyIndent, QString::fromLatin1("\n"));
+    QString endText = mb->formatMultiLineText(mb->getEndMethodText(), indent, QString::fromLatin1("\n"));
 
     if (body.isEmpty())
-        body = " \n";
+        body = QString::fromLatin1(" \n");
 
     if (!mb->getWriteOutText() && m_showHiddenBlocks) {
         // it gets the 'hidden' color
         bgcolor = state().hiddenColor;
     }
 
-    QString componentName = QString("<b>parentless method\?</b>");
+    QString componentName = QString::fromLatin1("<b>parentless method\?</b>");
 
     // ugly, but we need to know if there is a parent object here.
     CodeOperation * op = dynamic_cast<CodeOperation*>(mb);
@@ -551,18 +551,18 @@ void CodeEditor::appendText(CodeMethodBlock * mb)
     if (op) {
         parentObj = op->getParentOperation();
         if (((UMLOperation*)parentObj)->isConstructorOperation())
-            componentName = m_parentDocName + "::operation("+ parentObj->name()+") constructor method";
+            componentName = m_parentDocName + QString::fromLatin1("::operation(")+ parentObj->name()+QString::fromLatin1(") constructor method");
         else
-            componentName = m_parentDocName + "::operation("+ parentObj->name()+") method";
+            componentName = m_parentDocName + QString::fromLatin1("::operation(")+ parentObj->name()+QString::fromLatin1(") method");
     }
     if (accessor) {
         parentObj = accessor->getParentObject();
         if (accessor->getParentClassField()->parentIsAttribute()) {
-            componentName = m_parentDocName + "::attribute_field(" + parentObj->name() + ") accessor method";
+            componentName = m_parentDocName + QString::fromLatin1("::attribute_field(") + parentObj->name() + QString::fromLatin1(") accessor method");
         }
         else {
             UMLRole * role = dynamic_cast<UMLRole*>(parentObj);
-            componentName = m_parentDocName + "::association_field(" + role->name() + ") accessor method";
+            componentName = m_parentDocName + QString::fromLatin1("::association_field(") + role->name() + QString::fromLatin1(") accessor method");
         }
     }
 
@@ -616,13 +616,13 @@ void CodeEditor::appendText(HierarchicalCodeBlock * hblock)
         if (c) {
             QString typeStr;
             if (c->isInterface())
-                typeStr = "Interface";
+                typeStr = QString::fromLatin1("Interface");
             else
-                typeStr = "Class";
-            componentName = m_parentDocName + "::" + typeStr + '(' + parentObj->name() + ')';
+                typeStr = QString::fromLatin1("Class");
+            componentName = m_parentDocName + QString::fromLatin1("::") + typeStr + QChar::fromLatin1('(') + parentObj->name() + QChar::fromLatin1(')');
         }
         else {
-            componentName = m_parentDocName + "::UNKNOWN(" + parentObj->name() + ')';
+            componentName = m_parentDocName + QString::fromLatin1("::UNKNOWN(") + parentObj->name() + QChar::fromLatin1(')');
         }
 
         paperColor = state().umlObjectColor;
@@ -633,8 +633,8 @@ void CodeEditor::appendText(HierarchicalCodeBlock * hblock)
 
     TextBlockList * items = hblock->getTextBlockList();
     QString indent = hblock->getIndentationString();
-    QString startText = hblock->formatMultiLineText (hblock->getStartText(), indent, "\n");
-    QString endText = hblock->formatMultiLineText(hblock->getEndText(), indent, "\n");
+    QString startText = hblock->formatMultiLineText (hblock->getStartText(), indent, QString::fromLatin1("\n"));
+    QString endText = hblock->formatMultiLineText(hblock->getEndText(), indent, QString::fromLatin1("\n"));
 
     appendText(hblock->getComment(), hblock, parentObj, componentName);
 
@@ -722,17 +722,17 @@ void CodeEditor::slotInsertCodeBlockBeforeSelected()
 {
     TextBlock * tb = m_selectedTextBlock;
     CodeBlockWithComments * newBlock = m_parentDoc->newCodeBlockWithComments();
-    newBlock->setText("<<INSERT>>");
+    newBlock->setText(QString::fromLatin1("<<INSERT>>"));
     newBlock->getComment()->setWriteOutText(false);
 
     m_parentDoc->insertTextBlock(newBlock, tb, false);
 
     int location = m_textBlockList.indexOf(m_selectedTextBlock); // find first para of selected block
 
-    QString body = newBlock->formatMultiLineText(newBlock->getText(), newBlock->getIndentationString(), "\n");
+    QString body = newBlock->formatMultiLineText(newBlock->getText(), newBlock->getIndentationString(), QString::fromLatin1("\n"));
 
     insertText(body, newBlock, true, state().fontColor,
-           state().editBlockColor, 0, QString("CodeBlock"), location);
+           state().editBlockColor, 0, QString::fromLatin1("CodeBlock"), location);
 }
 
 /**
@@ -742,7 +742,7 @@ void CodeEditor::slotInsertCodeBlockAfterSelected()
 {
     TextBlock * tb = m_selectedTextBlock;
     CodeBlockWithComments * newBlock = m_parentDoc->newCodeBlockWithComments();
-    newBlock->setText("<<INSERT>>");
+    newBlock->setText(QString::fromLatin1("<<INSERT>>"));
     newBlock->getComment()->setWriteOutText(false);
 
     m_parentDoc->insertTextBlock(newBlock, tb, true);
@@ -752,10 +752,10 @@ void CodeEditor::slotInsertCodeBlockAfterSelected()
     ParaInfo * lastpi = tbinfo->m_paraList.last();
     int location = m_textBlockList.indexOf(m_selectedTextBlock) + lastpi->start + lastpi->size + 1;
 
-    QString body = newBlock->formatMultiLineText(newBlock->getText(), newBlock->getIndentationString(), "\n");
+    QString body = newBlock->formatMultiLineText(newBlock->getText(), newBlock->getIndentationString(), QString::fromLatin1("\n"));
 
     insertText(body, newBlock, true, state().fontColor,
-           state().editBlockColor, 0, QString("CodeBlock"), location);
+           state().editBlockColor, 0, QString::fromLatin1("CodeBlock"), location);
 }
 
 /**
@@ -938,7 +938,7 @@ void CodeEditor::init(CodeViewerDialog * parentDialog, CodeDocument * parentDoc)
     // safety to insure that we are up to date
     parentDoc->synchronize();
 
-    setObjectName("CodeEditor");
+    setObjectName(QString::fromLatin1("CodeEditor"));
 
     m_parentDialog = parentDialog;
     m_parentDoc = parentDoc;
@@ -1011,7 +1011,7 @@ void CodeEditor::updateTextBlockFromText(TextBlock * block)
                         // \n are implicit in the editor (!) so we should put them
                         // back in, if there is any content from the line
                         if (!line.isEmpty() && para != lastLineToAddNewLine)
-                            content += '\n';
+                            content += QChar::fromLatin1('\n');
                     }
                 }
             }
@@ -1098,7 +1098,7 @@ void CodeEditor::slotCursorPositionChanged()
         int minPos = baseIndent.length();
 
         // add indent chars to the current line, if missing
-        if (!m_backspacePressed && !currentParaText.contains(QRegExp('^'+baseIndent))) {
+        if (!m_backspacePressed && !currentParaText.contains(QRegExp(QChar::fromLatin1('^')+baseIndent))) {
             textCursor().setPosition(para);
             textCursor().insertText(baseIndent);
 //:TODO:            setCursorPosition(para, pos+minPos);  // crashes the application !?
@@ -1142,7 +1142,7 @@ void CodeEditor::slotCursorPositionChanged()
 
                     // furthermore, If it is nothing but indentation + whitespace
                     // we switch this back to Auto-Generated.
-                    if (cmb && contents.contains(QRegExp('^'+baseIndent+"\\s$"))) {
+                    if (cmb && contents.contains(QRegExp(QChar::fromLatin1('^')+baseIndent+QString::fromLatin1("\\s$")))) {
                         cmb->setContentType(CodeBlock::AutoGenerated);
                         cmb->syncToParent();
                     }
@@ -1479,7 +1479,7 @@ void CodeEditor::contentsMouseMoveEvent(QMouseEvent * e)
         changeTextBlockHighlighting(tblock, true);
 
         // FIX: update the label that shows what type of component this is
-        componentLabel()->setText("<b>"+info->displayName()+"</b>");
+        componentLabel()->setText(QString::fromLatin1("<b>")+info->displayName()+QString::fromLatin1("</b>"));
 
         m_selectedTextBlock = tblock;
 

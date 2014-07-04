@@ -32,7 +32,7 @@ JavaClassDeclarationBlock::~JavaClassDeclarationBlock ()
  */
 void JavaClassDeclarationBlock::saveToXMI (QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement("javaclassdeclarationblock");
+    QDomElement blockElement = doc.createElement(QLatin1String("javaclassdeclarationblock"));
     setAttributesOnNode(doc, blockElement);
     root.appendChild(blockElement);
 }
@@ -59,9 +59,9 @@ void JavaClassDeclarationBlock::updateContent ()
 
     // COMMENT
     if (isInterface)
-        getComment()->setText("Interface "+JavaClassName+endLine+c->doc());
+        getComment()->setText(QLatin1String("Interface ")+JavaClassName+endLine+c->doc());
     else
-        getComment()->setText("Class "+JavaClassName+endLine+c->doc());
+        getComment()->setText(QLatin1String("Class ")+JavaClassName+endLine+c->doc());
 
     bool forceDoc = UMLApp::app()->commonPolicy()->getCodeVerboseDocumentComments();
     if (forceDoc || !c->doc().isEmpty())
@@ -73,7 +73,7 @@ void JavaClassDeclarationBlock::updateContent ()
     QString startText;
     // In Java, we need declare abstract only on classes
     if (c->isAbstract() && !isInterface)
-        startText.append("abstract ");
+        startText.append(QLatin1String("abstract "));
 
     if (c->visibility() != Uml::Visibility::Public) {
         // We should probably emit a warning in here .. java doesn't like to allow
@@ -82,12 +82,12 @@ void JavaClassDeclarationBlock::updateContent ()
         // which is a level between traditional "private" and "protected"
         // scopes. To get this visibility level we just print nothing..
     } else
-        startText.append("public ");
+        startText.append(QLatin1String("public "));
 
     if (parentDoc->parentIsInterface())
-        startText.append("interface ");
+        startText.append(QLatin1String("interface "));
     else
-        startText.append("class ");
+        startText.append(QLatin1String("class "));
 
     startText.append(JavaClassName);
 
@@ -102,11 +102,11 @@ void JavaClassDeclarationBlock::updateContent ()
     // write out inheritance
     int i = 0;
     if (nrof_superclasses >0)
-        startText.append(" extends ");
+        startText.append(QLatin1String(" extends "));
     foreach (UMLClassifier* concept, superclasses) {
         startText.append(parentDoc->cleanName(concept->name()));
         if(i != (nrof_superclasses-1))
-            startText.append(", ");
+            startText.append(QLatin1String(", "));
         i++;
     }
 
@@ -116,28 +116,28 @@ void JavaClassDeclarationBlock::updateContent ()
     {
         // In Java interfaces "extend" other interfaces. Classes "implement" interfaces
         if(isInterface)
-            startText.append(" extends ");
+            startText.append(QLatin1String(" extends "));
         else
-            startText.append(" implements ");
+            startText.append(QLatin1String(" implements "));
     }
     foreach (UMLClassifier* concept, superinterfaces) {
         startText.append(parentDoc->cleanName(concept->name()));
         if(i != (nrof_superinterfaces-1))
-            startText.append(", ");
+            startText.append(QLatin1String(", "));
         i++;
     }
 
     // Set the header and end text for the hier.codeblock
-    setStartText(startText+" {");
+    setStartText(startText+QLatin1String(" {"));
 
-    // setEndText("}"); // not needed
+    // setEndText(QLatin1String("}")); // not needed
 }
 
 void JavaClassDeclarationBlock::init (JavaClassifierCodeDocument *parentDoc, const QString &comment)
 {
     setComment(new JavaCodeDocumentation(parentDoc));
     getComment()->setText(comment);
-    setEndText("}");
+    setEndText(QLatin1String("}"));
 }
 
 

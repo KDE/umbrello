@@ -47,7 +47,7 @@ void CPPHeaderClassDeclarationBlock::setAttributesFromObject (TextBlock * obj)
  */
 void CPPHeaderClassDeclarationBlock::saveToXMI (QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement("cppheaderclassdeclarationblock");
+    QDomElement blockElement = doc.createElement(QLatin1String("cppheaderclassdeclarationblock"));
 
     setAttributesOnNode(doc, blockElement);
 
@@ -71,16 +71,16 @@ void CPPHeaderClassDeclarationBlock::updateContent ()
     //check if class is abstract.. it should have abstract methods
     if(!isInterface && c->isAbstract() && !c->hasAbstractOps())
     {
-        getComment()->setText("******************************* Abstract Class ****************************"+endLine
-                              +CPPHeaderClassName+" does not have any pure virtual methods, but its author"+endLine
-                              +"  defined it as an abstract class, so you should not use it directly."+endLine
-                              +"  Inherit from it instead and create only objects from the derived classes"+endLine
-                              +"*****************************************************************************");
+        getComment()->setText(QLatin1String("******************************* Abstract Class ****************************") + endLine
+                              + CPPHeaderClassName + QLatin1String(" does not have any pure virtual methods, but its author") + endLine
+                              + QLatin1String("  defined it as an abstract class, so you should not use it directly.") + endLine
+                              + QLatin1String("  Inherit from it instead and create only objects from the derived classes") + endLine
+                              + QLatin1String("*****************************************************************************"));
     } else {
         if(isInterface)
-            getComment()->setText("Interface "+CPPHeaderClassName+endLine+c->doc());
+            getComment()->setText(QLatin1String("Interface ") + CPPHeaderClassName + endLine + c->doc());
         else
-            getComment()->setText("Class "+CPPHeaderClassName+endLine+c->doc());
+            getComment()->setText(QLatin1String("Class ") + CPPHeaderClassName + endLine + c->doc());
     }
 
     if(forceDoc || !c->doc().isEmpty())
@@ -97,10 +97,10 @@ void CPPHeaderClassDeclarationBlock::updateContent ()
 
     /*
         if(parentDoc->parentIsInterface())
-                startText.append("interface ");
+                startText.append(QLatin1String("interface "));
         else
     */
-    startText.append("class ");
+    startText.append(QLatin1String("class "));
 
     startText.append(CPPHeaderClassName);
 
@@ -111,19 +111,19 @@ void CPPHeaderClassDeclarationBlock::updateContent ()
     // write out inheritance
     int i = 0;
     if(nrof_superclasses >0)
-        startText.append(" : ");
+        startText.append(QLatin1String(" : "));
     foreach (UMLClassifier* concept, superclasses) {
-        startText.append(Uml::Visibility::toString(concept->visibility()) + ' ' +
+        startText.append(Uml::Visibility::toString(concept->visibility()) + QLatin1Char(' ') +
             CodeGenerator::cleanName(concept->name()));
         if(i != (nrof_superclasses-1))
-            startText.append(", ");
+            startText.append(QLatin1String(", "));
         i++;
     }
 
     // Set the header and end text for the hier.codeblock
-    setStartText(startText+" {");
+    setStartText(startText + QLatin1String(" {"));
 
-    // setEndText("}"); // not needed
+    // setEndText(QLatin1String("}")); // not needed
 }
 
 void CPPHeaderClassDeclarationBlock::init (CPPHeaderCodeDocument *parentDoc, const QString &comment)
@@ -131,7 +131,7 @@ void CPPHeaderClassDeclarationBlock::init (CPPHeaderCodeDocument *parentDoc, con
     setComment(new CPPCodeDocumentation(parentDoc));
     getComment()->setText(comment);
 
-    setEndText("};");
+    setEndText(QLatin1String("};"));
 }
 
 #include "cppheaderclassdeclarationblock.moc"

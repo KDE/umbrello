@@ -117,7 +117,7 @@ void AssociationPropertiesDialog::setupPages()
     layout = new QHBoxLayout(page);
     m_pChooser = new KFontChooser(page, KFontChooser::NoDisplayFlags, QStringList(), false);
     m_pChooser->setFont(m_pAssoc->font());
-    m_pChooser->setSampleText("Association font");
+    m_pChooser->setSampleText(QString::fromLatin1("Association font"));
     layout->addWidget(m_pChooser);
 }
 

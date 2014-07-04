@@ -100,7 +100,7 @@ public:
         QString ret;
         int i = 0;
         int s = comment.length();
-        while (i < s && comment[i] == '/') {
+        while (i < s && comment[i] == QLatin1Char('/')) {
             i++;
         }
 
@@ -108,12 +108,12 @@ public:
             ret = comment.mid(i);
         } else {
             ///remove the star in each line
-            QStringList lines = comment.split("\n");
+            QStringList lines = comment.split(QLatin1String("\n"));
 
             if (lines.isEmpty()) return ret;
 
-            strip("/**", lines.front());
-            rStrip("/**", lines.back());
+            strip(QLatin1String("/**"), lines.front());
+            rStrip(QLatin1String("/**"), lines.back());
 
             QStringList::iterator it = lines.begin();
             ++it;
@@ -123,7 +123,7 @@ public:
                 --eit;
 
                 for (; it != eit; ++it) {
-                    strip("*", *it);
+                    strip(QLatin1String("*"), *it);
                 }
 
                 if (lines.front().trimmed().isEmpty())
@@ -133,7 +133,7 @@ public:
                     lines.pop_back();
             }
 
-            ret = lines.join("\n");
+            ret = lines.join(QLatin1String("\n"));
         }
 
         return ret;
@@ -167,7 +167,7 @@ public:
     {
         format();
         rhs.format();
-        m_text += " " + rhs.m_text;
+        m_text += QLatin1String(" ") + rhs.m_text;
     }
 
     operator bool() const

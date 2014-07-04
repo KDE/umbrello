@@ -115,9 +115,9 @@ void UMLEntityAttributeDialog::setupDialog()
     m_pTypeL->setBuddy(m_pAttributesCB);
 
     insertAttribute(m_pEntityAttribute->getAttributes());
-    insertAttribute("binary", m_pAttributesCB->count());
-    insertAttribute("unsigned", m_pAttributesCB->count());
-    insertAttribute("unsigned zerofill", m_pAttributesCB->count());
+    insertAttribute(QString::fromLatin1("binary"), m_pAttributesCB->count());
+    insertAttribute(QString::fromLatin1("unsigned"), m_pAttributesCB->count());
+    insertAttribute(QString::fromLatin1("unsigned zerofill"), m_pAttributesCB->count());
 
     mainLayout->addWidget(m_pValuesGB);
 
@@ -228,7 +228,8 @@ bool UMLEntityAttributeDialog::apply()
         // If it's obviously a pointer type (C++) then create a datatype.
         // Else we don't know what it is so as a compromise create a class.
         UMLObject::ObjectType ot =
-            (typeName.contains('*') ? UMLObject::ot_Datatype : UMLObject::ot_Class);
+            (typeName.contains(QChar::fromLatin1('*')) ? UMLObject::ot_Datatype
+                                                      : UMLObject::ot_Class);
         obj = Object_Factory::createUMLObject(ot, typeName);
         if (obj == NULL)
             return false;

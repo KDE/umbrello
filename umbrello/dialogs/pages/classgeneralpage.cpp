@@ -102,7 +102,7 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
         name = i18n("Entity &name:");
         break;
     default:
-        name = "<unknown> &name:";
+        name = QLatin1String("<unknown> &name:");
         uWarning() << "creating class gen page for unknown widget type";
         break;
     }

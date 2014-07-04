@@ -178,7 +178,7 @@ bool UMLClipboard::paste(const QMimeData* data)
 
     int codingType = UMLDragData::getCodingType(data);
 
-    QString mimeType = "application/x-uml-clip" + QString::number(codingType);
+    QString mimeType = QLatin1String("application/x-uml-clip") + QString::number(codingType);
     uDebug() << "Pasting mimeType=" << mimeType << "data=" << data->data(mimeType);
 
     bool result = false;

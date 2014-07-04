@@ -30,11 +30,11 @@ QString XMLCodeComment::toString () const
         QString indent = getIndentationString();
         QString endLine = getNewLineEndingChars();
         QString body = getText();
-        output.append(indent+"<!-- ");
+        output.append(indent + QLatin1String("<!-- "));
         if (!body.isEmpty()) {
             output.append(formatMultiLineText (body, indent, endLine));
         }
-        output.append(indent+"-->"+endLine);
+        output.append(indent + QLatin1String("-->") + endLine);
     }
 
     return output;

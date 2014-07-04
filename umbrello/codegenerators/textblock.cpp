@@ -260,7 +260,7 @@ QString TextBlock::unformatText(const QString & text, const QString & indent)
 
     if (!output.isEmpty()) {
         // remove indenation from this text block.
-        output.remove(QRegExp('^' + myIndent));
+        output.remove(QRegExp(QLatin1Char('^') + myIndent));
     }
 
     return output;
@@ -295,7 +295,7 @@ QString TextBlock::formatMultiLineText(const QString & work, const QString & lin
     if (matches >= 0) {
         // check that last part of string matches, if not, then
         // we have to tack on extra match
-        if (!text.contains(QRegExp(breakStr + "\\$")))
+        if (!text.contains(QRegExp(breakStr + QLatin1String("\\$"))))
             matches++;
 
         for (int i=0; i < matches; ++i) {
@@ -325,17 +325,19 @@ void TextBlock::setAttributesOnNode(QDomDocument & doc, QDomElement & blockEleme
 
     QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
 
-    blockElement.setAttribute("tag", getTag());
+    blockElement.setAttribute(QLatin1String("tag"), getTag());
 
     // only write these if different from defaults
+    const QString trueStr  = QLatin1String("true");
+    const QString falseStr = QLatin1String("false");
     if (getIndentationLevel())
-        blockElement.setAttribute("indentLevel", QString::number(getIndentationLevel()));
+        blockElement.setAttribute(QLatin1String("indentLevel"), QString::number(getIndentationLevel()));
     if (!m_text.isEmpty())
-        blockElement.setAttribute("text", encodeText(m_text, endLine));
+        blockElement.setAttribute(QLatin1String("text"), encodeText(m_text, endLine));
     if (!getWriteOutText())
-        blockElement.setAttribute("writeOutText", getWriteOutText()?"true":"false");
+        blockElement.setAttribute(QLatin1String("writeOutText"), getWriteOutText() ? trueStr : falseStr);
     if (!canDelete())
-        blockElement.setAttribute("canDelete", canDelete()?"true":"false");
+        blockElement.setAttribute(QLatin1String("canDelete"), canDelete() ? trueStr : falseStr);
 }
 
 /**
@@ -360,11 +362,12 @@ void TextBlock::setAttributesFromNode(QDomElement & root)
 {
     QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
 
-    setIndentationLevel(root.attribute("indentLevel", "0").toInt());
-    setTag(root.attribute("tag"));
-    setText(decodeText(root.attribute("text"), endLine));
-    setWriteOutText(root.attribute("writeOutText", "true") == "true" ? true : false);
-    m_canDelete = root.attribute("canDelete", "true") == "true" ? true : false;
+    setIndentationLevel(root.attribute(QLatin1String("indentLevel"), QLatin1String("0")).toInt());
+    setTag(root.attribute(QLatin1String("tag")));
+    setText(decodeText(root.attribute(QLatin1String("text")), endLine));
+    const QString trueStr = QLatin1String("true");
+    setWriteOutText(root.attribute(QLatin1String("writeOutText"), trueStr) == trueStr);
+    m_canDelete = root.attribute(QLatin1String("canDelete"), trueStr) == trueStr;
 }
 
 /**
@@ -378,7 +381,7 @@ void TextBlock::setAttributesFromNode(QDomElement & root)
 QString TextBlock::encodeText(const QString & text, const QString & endLine)
 {
     QString encoded = text;
-    encoded.replace(QRegExp(endLine), "&#010;");
+    encoded.replace(QRegExp(endLine), QLatin1String("&#010;"));
     return encoded;
 }
 
@@ -392,7 +395,7 @@ QString TextBlock::encodeText(const QString & text, const QString & endLine)
 QString TextBlock::decodeText(const QString & text, const QString & endLine)
 {
     QString decoded = text;
-    decoded.replace(QRegExp("&#010;"), endLine);
+    decoded.replace(QRegExp(QLatin1String("&#010;")), endLine);
     return decoded;
 }
 
@@ -422,7 +425,8 @@ QDebug operator<<(QDebug os, const TextBlock& obj)
        << ", writeOutText=" << (obj.getWriteOutText() ? "true" : "false")
        << ", canDelete=" << (obj.canDelete() ? "true" : "false")
        << ", indentationLevel=" << obj.getIndentationLevel()
-       << ", parentDocument id=" << (obj.getParentDocument() ? obj.getParentDocument()->ID() : "null")
+       << ", parentDocument id=" << (obj.getParentDocument() ? obj.getParentDocument()->ID()
+                                                             : QLatin1String("null"))
        << ", text=" << obj.getText();
     return os.space();
 }

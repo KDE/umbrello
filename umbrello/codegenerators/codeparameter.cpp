@@ -29,7 +29,7 @@
 CodeParameter::CodeParameter(ClassifierCodeDocument * parentDoc, UMLObject * parentObject)
         : QObject(parentObject)
 {
-    setObjectName("ACodeParam");
+    setObjectName(QLatin1String("ACodeParam"));
     initFields(parentDoc, parentObject);
 }
 
@@ -148,7 +148,7 @@ UMLObject * CodeParameter::getParentObject()
 QString CodeParameter::ID()
 {
     UMLRole * role = dynamic_cast<UMLRole*>(m_parentObject);
-    if(role)
+    if (role)
     {
         // cant use Role "ID" as that is used to distinquish if its
         // role "A" or "B"
@@ -166,21 +166,21 @@ QString CodeParameter::ID()
 void CodeParameter::setAttributesOnNode(QDomDocument & doc, QDomElement & blockElement)
 {
     // set local attributes
-    blockElement.setAttribute("parent_id", ID());
+    blockElement.setAttribute(QLatin1String("parent_id"), ID());
 
     // setting ID's takes special treatment
     // as UMLRoles arent properly stored in the XMI right now.
     // (change would break the XMI format..save for big version change)
     UMLRole * role = dynamic_cast<UMLRole*>(m_parentObject);
-    if(role)
-        blockElement.setAttribute("role_id", role->role());
+    if (role)
+        blockElement.setAttribute(QLatin1String("role_id"), role->role());
     else
-        blockElement.setAttribute("role_id","-1");
+        blockElement.setAttribute(QLatin1String("role_id"), QLatin1String("-1"));
 
-    blockElement.setAttribute("initialValue", getInitialValue());
+    blockElement.setAttribute(QLatin1String("initialValue"), getInitialValue());
 
     // a comment which we will store in its own separate child node block
-    QDomElement commElement = doc.createElement("header");
+    QDomElement commElement = doc.createElement(QLatin1String("header"));
     getComment()->saveToXMI(doc, commElement); // comment
     blockElement.appendChild(commElement);
 }
@@ -192,7 +192,7 @@ void CodeParameter::setAttributesOnNode(QDomDocument & doc, QDomElement & blockE
 void CodeParameter::setAttributesFromNode(QDomElement & root)
 {
     // set local attributes, parent object first
-    QString idStr = root.attribute("parent_id","-1");
+    QString idStr = root.attribute(QLatin1String("parent_id"), QLatin1String("-1"));
     Uml::ID::Type id = Uml::ID::fromString(idStr);
 
     // always disconnect
@@ -200,7 +200,7 @@ void CodeParameter::setAttributesFromNode(QDomElement & root)
 
     // now, what is the new object we want to set?
     UMLObject * obj = UMLApp::app()->document()->findObjectById(id);
-    if(obj)
+    if (obj)
     {
         // FIX..one day.
         // Ugh. This is UGLY, but we have to do it this way because UMLRoles
@@ -213,13 +213,13 @@ void CodeParameter::setAttributesFromNode(QDomElement & root)
         // change appears to be needed for only this part, I'll do this crappy
         // change instead. -b.t.
         UMLAssociation * assoc = dynamic_cast<UMLAssociation*>(obj);
-        if(assoc) {
+        if (assoc) {
             // In this case we init with indicated role child obj.
             UMLRole * role = 0;
-            int role_id = root.attribute("role_id","-1").toInt();
-            if(role_id == 1)
+            int role_id = root.attribute(QLatin1String("role_id"), QLatin1String("-1")).toInt();
+            if (role_id == 1)
                 role = assoc->getUMLRole(Uml::RoleType::A);
-            else if(role_id == 0)
+            else if (role_id == 0)
                 role = assoc->getUMLRole(Uml::RoleType::B);
             else
                 uError() << "corrupt save file? "
@@ -237,16 +237,16 @@ void CodeParameter::setAttributesFromNode(QDomElement & root)
             << Uml::ID::toString(id) << " not found, corrupt save file?";
 
     // other attribs now
-    setInitialValue(root.attribute("initialValue"));
+    setInitialValue(root.attribute(QLatin1String("initialValue")));
 
     // load comment now
     // by looking for our particular child element
     QDomNode node = root.firstChild();
     QDomElement element = node.toElement();
     bool gotComment = false;
-    while(!element.isNull()) {
+    while (!element.isNull()) {
         QString tag = element.tagName();
-        if(tag == "header") {
+        if (tag == QLatin1String("header")) {
             QDomNode cnode = element.firstChild();
             QDomElement celem = cnode.toElement();
             getComment()->loadFromXMI(celem);
@@ -257,7 +257,7 @@ void CodeParameter::setAttributesFromNode(QDomElement & root)
         element = node.toElement();
     }
 
-    if(!gotComment)
+    if (!gotComment)
         uWarning()<<" loadFromXMI : Warning: unable to initialize CodeComment in codeparam:"<<this;
 }
 

@@ -37,10 +37,10 @@ QString IDLImport::m_preProcessor;
 QStringList IDLImport::m_preProcessorArguments;
 bool IDLImport::m_preProcessorChecked = false;
 
-IDLImport::IDLImport(CodeImpThread* thread) : NativeImportBase("//", thread)
+IDLImport::IDLImport(CodeImpThread* thread) : NativeImportBase(QLatin1String("//"), thread)
 {
     m_isOneway = m_isReadonly = m_isAttribute = false;
-    setMultiLineComment("/*", "*/");
+    setMultiLineComment(QLatin1String("/*"), QLatin1String("*/"));
 
     // we do not want to find the executable on each imported file
     if (m_preProcessorChecked) {
@@ -49,20 +49,20 @@ IDLImport::IDLImport(CodeImpThread* thread) : NativeImportBase("//", thread)
     }
 
     QStringList arguments;
-    QString executable = KStandardDirs::findExe("cpp");
+    QString executable = KStandardDirs::findExe(QLatin1String("cpp"));
     if (!executable.isEmpty()) {
-        arguments << "-C";   // -C means "preserve comments"
+        arguments << QLatin1String("-C");   // -C means "preserve comments"
     }
 #ifdef Q_WS_WIN
     else {
-        executable = KStandardDirs::findExe("cl");
+        executable = KStandardDirs::findExe(QLatin1String("cl"));
         if (executable.isEmpty()) {
-            QString path = qgetenv("VS100COMNTOOLS");
+            QString path = qgetenv(QLatin1String("VS100COMNTOOLS"));
             if (!path.isEmpty())
-                executable = KStandardDirs::findExe("cl", path + "/../../VC/bin");
+                executable = KStandardDirs::findExe(QLatin1String("cl"), path + QLatin1String("/../../VC/bin"));
         }
         if (!executable.isEmpty()) {
-            arguments << "-E";   // -E means "preprocess to stdout"
+            arguments << QLatin1String("-E");   // -E means "preprocess to stdout"
         }
     }
 #endif
@@ -85,11 +85,12 @@ IDLImport::~IDLImport()
 QString IDLImport::joinTypename()
 {
     QString typeName = m_source[m_srcIndex];
-    if (m_source[m_srcIndex] == "unsigned")
-        typeName += ' ' + advance();
-    if (m_source[m_srcIndex] == "long" &&
-            (m_source[m_srcIndex + 1] == "long" || m_source[m_srcIndex + 1] == "double"))
-        typeName += ' ' + advance();
+    if (m_source[m_srcIndex] == QLatin1String("unsigned"))
+        typeName += QLatin1Char(' ') + advance();
+    if (m_source[m_srcIndex] == QLatin1String("long") &&
+            (m_source[m_srcIndex + 1] == QLatin1String("long") ||
+             m_source[m_srcIndex + 1] == QLatin1String("double")))
+        typeName += QLatin1Char(' ') + advance();
     return typeName;
 }
 
@@ -99,7 +100,7 @@ QString IDLImport::joinTypename()
 bool IDLImport::preprocess(QString& line)
 {
     // Ignore C preprocessor generated lines.
-    if (line.startsWith('#'))
+    if (line.startsWith(QLatin1Char('#')))
         return true;  // done
 
 /**
@@ -117,17 +118,17 @@ void IDLImport::fillSource(const QString& word)
     const uint len = word.length();
     for (uint i = 0; i < len; ++i) {
         QChar c = word[i];
-        if (c.isLetterOrNumber() || c == '_') {
+        if (c.isLetterOrNumber() || c == QLatin1Char('_')) {
             lexeme += c;
-        } else if (c == ':' && i < len-1 && word[i + 1] == ':') {
+        } else if (c == QLatin1Char(':') && i < len-1 && word[i + 1] == QLatin1Char(':')) {
             // compress scoped name into lexeme
-            lexeme += "::";
+            lexeme += QLatin1String("::");
             i++;
-        } else if (c == '<') {
+        } else if (c == QLatin1Char('<')) {
             // compress sequence or bounded string into lexeme
             do {
                 lexeme += word[i];
-            } while (word[i] != '>' && ++i < len);
+            } while (word[i] != QLatin1Char('>') && ++i < len);
         } else {
             if (!lexeme.isEmpty()) {
                 m_source.append(lexeme);
@@ -146,9 +147,9 @@ void IDLImport::fillSource(const QString& word)
  */
 bool IDLImport::parseFile(const QString& filename)
 {
-    if (filename.contains('/')) {
+    if (filename.contains(QLatin1Char('/'))) {
         QString path = filename;
-        path.remove(QRegExp("/[^/]+$"));
+        path.remove(QRegExp(QLatin1String("/[^/]+$")));
         uDebug() << "adding path " << path;
         Import_Utils::addIncludePath(path);
     }
@@ -164,7 +165,7 @@ bool IDLImport::parseFile(const QString& filename)
     for (QStringList::ConstIterator pathIt = includePaths.begin();
             pathIt != includePaths.end(); ++pathIt) {
         QString path = (*pathIt);
-        arguments << "-I" + path;
+        arguments << QLatin1String("-I") + path;
     }
     arguments << filename;
     uDebug() << "importIDL: " << m_preProcessor << arguments;
@@ -200,7 +201,7 @@ bool IDLImport::parseFile(const QString& filename)
     const int srcLength = m_source.count();
     for (m_srcIndex = 0; m_srcIndex < srcLength; ++m_srcIndex) {
         const QString& keyword = m_source[m_srcIndex];
-        //uDebug() << '"' << keyword << '"';
+        //uDebug() << QLatin1Char('"') << keyword << QLatin1Char('"');
         if (keyword.startsWith(m_singleLineCommentIntro)) {
             m_comment = keyword.mid(m_singleLineCommentIntro.length());
             continue;
@@ -221,158 +222,158 @@ bool IDLImport::parseStmt()
     const QString& keyword = m_source[m_srcIndex];
     const int srcLength = m_source.count();
     uDebug() << "keyword is " << keyword;
-    if (keyword == "module") {
+    if (keyword == QLatin1String("module")) {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
                         name, m_scope[m_scopeIndex], m_comment);
         m_scope.append(static_cast<UMLPackage*>(ns));
         ++m_scopeIndex;
-        m_scope[m_scopeIndex]->setStereotype("CORBAModule");
-        if (advance() != "{") {
+        m_scope[m_scopeIndex]->setStereotype(QLatin1String("CORBAModule"));
+        if (advance() != QLatin1String("{")) {
             uError() << "importIDL: unexpected: " << m_source[m_srcIndex];
-            skipStmt("{");
+            skipStmt(QLatin1String("{"));
         }
         return true;
     }
-    if (keyword == "interface") {
+    if (keyword == QLatin1String("interface")) {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class,
                         name, m_scope[m_scopeIndex], m_comment);
         m_klass = static_cast<UMLClassifier*>(ns);
-        m_klass->setStereotype("CORBAInterface");
+        m_klass->setStereotype(QLatin1String("CORBAInterface"));
         m_klass->setAbstract(m_isAbstract);
         m_isAbstract = false;
         m_comment.clear();
-        if (advance() == ";")   // forward declaration
+        if (advance() == QLatin1String(";"))   // forward declaration
             return true;
         m_scope.append(m_klass);
         ++m_scopeIndex;
-        if (m_source[m_srcIndex] == ":") {
-            while (++m_srcIndex < srcLength && m_source[m_srcIndex] != "{") {
+        if (m_source[m_srcIndex] == QLatin1String(":")) {
+            while (++m_srcIndex < srcLength && m_source[m_srcIndex] != QLatin1String("{")) {
                 const QString& baseName = m_source[m_srcIndex];
                 Import_Utils::createGeneralization(m_klass, baseName);
-                if (advance() != ",")
+                if (advance() != QLatin1String(","))
                     break;
             }
         }
-        if (m_source[m_srcIndex] != "{") {
+        if (m_source[m_srcIndex] != QLatin1String("{")) {
             uError() << "importIDL: ignoring excess chars at " << name;
-            skipStmt("{");
+            skipStmt(QLatin1String("{"));
         }
         return true;
     }
-    if (keyword == "struct" || keyword == "exception") {
+    if (keyword == QLatin1String("struct") || keyword == QLatin1String("exception")) {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class,
                         name, m_scope[m_scopeIndex], m_comment);
         m_klass = static_cast<UMLClassifier*>(ns);
         m_scope.append(m_klass);
         ++m_scopeIndex;
-        if (keyword == "struct")
-            m_klass->setStereotype("CORBAStruct");
+        if (keyword == QLatin1String("struct"))
+            m_klass->setStereotype(QLatin1String("CORBAStruct"));
         else
-            m_klass->setStereotype("CORBAException");
-        if (advance() != "{") {
+            m_klass->setStereotype(QLatin1String("CORBAException"));
+        if (advance() != QLatin1String("{")) {
             uError() << "importIDL: expecting '{' at " << name;
-            skipStmt("{");
+            skipStmt(QLatin1String("{"));
         }
         return true;
     }
-    if (keyword == "union") {
+    if (keyword == QLatin1String("union")) {
         // mostly TBD.
         const QString& name = advance();
         Import_Utils::createUMLObject(UMLObject::ot_Class,
-                        name, m_scope[m_scopeIndex], m_comment, "CORBAUnion");
-        skipStmt("}");
+                        name, m_scope[m_scopeIndex], m_comment, QLatin1String("CORBAUnion"));
+        skipStmt(QLatin1String("}"));
         m_srcIndex++;  // advance to ';'
         return true;
     }
-    if (keyword == "enum") {
+    if (keyword == QLatin1String("enum")) {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
                         name, m_scope[m_scopeIndex], m_comment);
         UMLEnum *enumType = static_cast<UMLEnum*>(ns);
         m_srcIndex++;  // skip name
-        while (++m_srcIndex < srcLength && m_source[m_srcIndex] != "}") {
+        while (++m_srcIndex < srcLength && m_source[m_srcIndex] != QLatin1String("}")) {
             Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
-            if (advance() != ",")
+            if (advance() != QLatin1String(","))
                 break;
         }
         skipStmt();
         return true;
     }
-    if (keyword == "typedef") {
+    if (keyword == QLatin1String("typedef")) {
         const QString& oldType = advance();
         const QString& newType = advance();
         uDebug() << "oldType is " << oldType
                  << ", newType is " << newType
                  << ", m_scopeIndex is " << m_scopeIndex;
         Import_Utils::createUMLObject(UMLObject::ot_Class, newType, m_scope[m_scopeIndex],
-                                     m_comment, "CORBATypedef" /* stereotype */);
+                                     m_comment, QLatin1String("CORBATypedef") /* stereotype */);
         // @todo How do we convey the existingType ?
         skipStmt();
         return true;
     }
-    if (keyword == "const") {
+    if (keyword == QLatin1String("const")) {
         skipStmt();
         return true;
     }
-    if (keyword == "custom") {
+    if (keyword == QLatin1String("custom")) {
         return true;
     }
-    if (keyword == "abstract") {
+    if (keyword == QLatin1String("abstract")) {
         m_isAbstract = true;
         return true;
     }
-    if (keyword == "valuetype") {
+    if (keyword == QLatin1String("valuetype")) {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class,
                         name, m_scope[m_scopeIndex], m_comment);
         m_klass = static_cast<UMLClassifier*>(ns);
         m_klass->setAbstract(m_isAbstract);
         m_isAbstract = false;
-        if (advance() == ";")   // forward declaration
+        if (advance() == QLatin1String(";"))   // forward declaration
             return true;
         m_scope.append(m_klass);
         ++m_scopeIndex;
-        if (m_source[m_srcIndex] == ":") {
-            if (advance() == "truncatable")
+        if (m_source[m_srcIndex] == QLatin1String(":")) {
+            if (advance() == QLatin1String("truncatable"))
                 m_srcIndex++;
-            while (m_srcIndex < srcLength && m_source[m_srcIndex] != "{") {
+            while (m_srcIndex < srcLength && m_source[m_srcIndex] != QLatin1String("{")) {
                 const QString& baseName = m_source[m_srcIndex];
                 Import_Utils::createGeneralization(m_klass, baseName);
-                if (advance() != ",")
+                if (advance() != QLatin1String(","))
                     break;
                 m_srcIndex++;
             }
         }
-        if (m_source[m_srcIndex] != "{") {
+        if (m_source[m_srcIndex] != QLatin1String("{")) {
             uError() << "importIDL: ignoring excess chars at "
             << name;
-            skipStmt("{");
+            skipStmt(QLatin1String("{"));
         }
         return true;
     }
-    if (keyword == "public") {
+    if (keyword == QLatin1String("public")) {
         return true;
     }
-    if (keyword == "private") {
+    if (keyword == QLatin1String("private")) {
         m_currentAccess = Uml::Visibility::Private;
         return true;
     }
-    if (keyword == "readonly") {
+    if (keyword == QLatin1String("readonly")) {
         m_isReadonly = true;
         return true;
     }
-    if (keyword == "attribute") {
+    if (keyword == QLatin1String("attribute")) {
         m_isAttribute = true;
         return true;
     }
-    if (keyword == "oneway") {
+    if (keyword == QLatin1String("oneway")) {
         m_isOneway = true;
         return true;
     }
-    if (keyword == "}") {
+    if (keyword == QLatin1String("}")) {
         if (m_scopeIndex)
             m_klass = dynamic_cast<UMLClassifier*>(m_scope[--m_scopeIndex]);
         else
@@ -380,19 +381,19 @@ bool IDLImport::parseStmt()
         m_srcIndex++;  // skip ';'
         return true;
     }
-    if (keyword == ";")
+    if (keyword == QLatin1String(";"))
         return true;
     // At this point, we expect `keyword' to be a type name
     // (of a member of struct or valuetype, or return type
     // of an operation.) Up next is the name of the attribute
     // or operation.
-    if (! keyword.contains(QRegExp("^\\w"))) {
+    if (! keyword.contains(QRegExp(QLatin1String("^\\w")))) {
         uError() << "importIDL: ignoring " << keyword;
         return false;
     }
     QString typeName = joinTypename();
     QString name = advance();
-    if (name.contains(QRegExp("\\W"))) {
+    if (name.contains(QRegExp(QLatin1String("\\W")))) {
         uError() << "importIDL: expecting name in " << name;
         return false;
     }
@@ -402,11 +403,11 @@ bool IDLImport::parseStmt()
         return false;
     }
     QString nextToken = advance();
-    if (nextToken == "(") {
+    if (nextToken == QLatin1String("(")) {
         // operation
         UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
         m_srcIndex++;
-        while (m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
+        while (m_srcIndex < srcLength && m_source[m_srcIndex] != QLatin1String(")")) {
             const QString &direction = m_source[m_srcIndex++];
             QString typeName = joinTypename();
             const QString &parName = advance();
@@ -417,14 +418,14 @@ bool IDLImport::parseStmt()
             else
                 uError() << "importIDL: expecting parameter direction at "
                 << direction;
-            if (advance() != ",")
+            if (advance() != QLatin1String(","))
                 break;
             m_srcIndex++;
         }
         Import_Utils::insertMethod(m_klass, op, Uml::Visibility::Public, typeName,
                                   false, false, false, false, m_comment);
         if (m_isOneway) {
-            op->setStereotype("oneway");
+            op->setStereotype(QLatin1String("oneway"));
             m_isOneway = false;
         }
         skipStmt();  // skip possible "raises" clause
@@ -432,17 +433,17 @@ bool IDLImport::parseStmt()
     }
     // At this point we know it's some kind of attribute declaration.
     while (1) {
-        while (nextToken != "," && nextToken != ";") {
+        while (nextToken != QLatin1String(",") && nextToken != QLatin1String(";")) {
             name += nextToken;  // add possible array dimensions to `name'
             nextToken = advance();
         }
         UMLObject *o = Import_Utils::insertAttribute(m_klass, m_currentAccess, name, typeName, m_comment);
         UMLAttribute *attr = static_cast<UMLAttribute*>(o);
         if (m_isReadonly) {
-            attr->setStereotype("readonly");
+            attr->setStereotype(QLatin1String("readonly"));
             m_isReadonly = false;
         }
-        if (nextToken != ",")
+        if (nextToken != QLatin1String(","))
             break;
         name = advance();
         nextToken = advance();

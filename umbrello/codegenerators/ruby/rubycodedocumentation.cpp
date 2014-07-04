@@ -32,7 +32,7 @@ RubyCodeDocumentation::~RubyCodeDocumentation()
 
 void RubyCodeDocumentation::saveToXMI(QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement("rubycodedocumentation");
+    QDomElement blockElement = doc.createElement(QLatin1String("rubycodedocumentation"));
     setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
     // just use parent TextBlock method
     root.appendChild(blockElement);
@@ -43,26 +43,26 @@ QString RubyCodeDocumentation::toString() const
     QString output;
 
     // simple output method
-    if(getWriteOutText())
+    if (getWriteOutText())
     {
         bool  useHashOutput = true;
 
         // need to figure out output type from ruby policy
         CodeGenerationPolicy *p = UMLApp::app()->commonPolicy();
-        if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
+        if (p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
              useHashOutput = false;
 
         QString indent = getIndentationString();
         QString endLine = getNewLineEndingChars();
         QString body = getText();
-        if(useHashOutput)
+        if (useHashOutput)
         {
-            if(!body.isEmpty())
-                output.append(formatMultiLineText (body, indent +"# ", endLine));
+            if (!body.isEmpty())
+                output.append(formatMultiLineText (body, indent + QLatin1String("# "), endLine));
         } else {
-            output.append("=begin rdoc"+endLine);
-            output.append(formatMultiLineText (body, indent +' ', endLine));
-            output.append("=end"+endLine);
+            output.append(QLatin1String("=begin rdoc") + endLine);
+            output.append(formatMultiLineText (body, indent + QLatin1Char(' '), endLine));
+            output.append(QLatin1String("=end") + endLine);
         }
     }
 
@@ -72,16 +72,16 @@ QString RubyCodeDocumentation::toString() const
 QString RubyCodeDocumentation::getNewEditorLine(int amount)
 {
     CodeGenerationPolicy *p = UMLApp::app()->commonPolicy();
-    if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
-        return getIndentationString(amount) + ' ';
+    if (p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
+        return getIndentationString(amount) + QLatin1Char(' ');
     else
-        return getIndentationString(amount) + "# ";
+        return getIndentationString(amount) + QLatin1String("# ");
 }
 
 int RubyCodeDocumentation::firstEditableLine()
 {
     CodeGenerationPolicy *p = UMLApp::app()->commonPolicy();
-    if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
+    if (p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
         return 1;
     return 0;
 }
@@ -89,7 +89,7 @@ int RubyCodeDocumentation::firstEditableLine()
 int RubyCodeDocumentation::lastEditableLine()
 {
     CodeGenerationPolicy *p = UMLApp::app()->commonPolicy();
-    if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
+    if (p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
     {
         return -1; // very last line is NOT editable
     }
@@ -101,13 +101,13 @@ QString RubyCodeDocumentation::unformatText(const QString & text, const QString 
     QString mytext = TextBlock::unformatText(text, indent);
     CodeGenerationPolicy *p = UMLApp::app()->commonPolicy();
     // remove leading or trailing comment stuff
-    mytext.remove(QRegExp('^'+indent));
-    if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
+    mytext.remove(QRegExp(QLatin1Char('^') + indent));
+    if (p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
     {
-        mytext.remove(QRegExp("^=begin\\s*(rdoc)?\\s*\n?"));
-        mytext.remove(QRegExp("^=end\\s*\n?$"));
+        mytext.remove(QRegExp(QLatin1String("^=begin\\s*(rdoc)?\\s*\n?")));
+        mytext.remove(QRegExp(QLatin1String("^=end\\s*\n?$")));
     } else
-        mytext.remove(QRegExp("^#\\s*"));
+        mytext.remove(QRegExp(QLatin1String("^#\\s*")));
 
     return mytext;
 }

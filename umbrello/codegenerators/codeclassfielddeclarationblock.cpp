@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2013                                               *
+ *   copyright (C) 2004-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -79,7 +79,7 @@ void CodeClassFieldDeclarationBlock::forceRelease()
  */
 void CodeClassFieldDeclarationBlock::saveToXMI(QDomDocument & doc, QDomElement & elem)
 {
-    QDomElement docElement = doc.createElement("ccfdeclarationcodeblock");
+    QDomElement docElement = doc.createElement(QLatin1String("ccfdeclarationcodeblock"));
     setAttributesOnNode(doc, docElement);
     elem.appendChild(docElement);
 }

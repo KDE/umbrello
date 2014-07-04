@@ -33,7 +33,7 @@
 /**
  * Keep the last clicked directory for setting it the next time.
  */
-QString CodeImpSelectPage::s_recentPath;
+QString CodeImpSelectPage::s_recentPath = QString();
 
 /**
  * Constructor.
@@ -101,7 +101,11 @@ void CodeImpSelectPage::setupTreeView()
     model->setRootPath(QString());
     model->setNameFilterDisables(false);
 
-    m_fileExtensions << "*.h" << "*.hpp" << "*.hh" << "*.hxx" << "*.H";  //:TODO set according to the current language!
+    m_fileExtensions << QLatin1String("*.h")
+                     << QLatin1String("*.hpp")
+                     << QLatin1String("*.hh")
+                     << QLatin1String("*.hxx")
+                     << QLatin1String("*.H");  //:TODO set according to the current language!
     model->setNameFilters(m_fileExtensions);
 
     ui_treeView->setSelectionMode(QAbstractItemView::MultiSelection);
@@ -131,7 +135,7 @@ void CodeImpSelectPage::setupTreeView()
  */
 void CodeImpSelectPage::setupFileExtEdit()
 {
-    ui_fileExtLineEdit->setText(m_fileExtensions.join(", "));
+    ui_fileExtLineEdit->setText(m_fileExtensions.join(QLatin1String(", ")));
 }
 
 /**
@@ -157,7 +161,7 @@ bool CodeImpSelectPage::matchFilter(const QFileInfo& path)
     bool found = false;
     QString filename = path.fileName();
     foreach (QString extension, m_fileExtensions) {
-        extension.remove('*');
+        extension.remove(QLatin1Char('*'));
         if (filename.endsWith(extension)) {
             found = true;
             break;
@@ -206,13 +210,13 @@ void CodeImpSelectPage::subdirStateChanged(int state)
     QString strState;
     switch (state) {
     case Qt::Unchecked:
-        strState = "Unchecked";
+        strState = QLatin1String("Unchecked");
         break;
     case Qt::Checked:
-        strState = "Checked";
+        strState = QLatin1String("Checked");
         break;
     default:
-        strState = "not known";
+        strState = QLatin1String("not known");
         break;
     }
     uDebug() << "state set to " << strState;
@@ -224,7 +228,7 @@ void CodeImpSelectPage::subdirStateChanged(int state)
 void CodeImpSelectPage::fileExtChanged()
 {
     QString inputStr = ui_fileExtLineEdit->text();
-    m_fileExtensions = inputStr.split(QRegExp("[,;: ]*"));
+    m_fileExtensions = inputStr.split(QRegExp(QLatin1String("[,;: ]*")));
     uDebug() << "editing of file extension line edit finished and set to "
              << m_fileExtensions;
 
@@ -327,25 +331,26 @@ void CodeImpSelectPage::changeLanguage()
     m_fileExtensions.clear();
     switch (pl) {  //:TODO: More languages?
     case Uml::ProgrammingLanguage::Ada:
-        m_fileExtensions << "*.ads" << "*.adb" << "*.ada";
+        m_fileExtensions << QLatin1String("*.ads") << QLatin1String("*.adb") << QLatin1String("*.ada");
         break;
     case Uml::ProgrammingLanguage::Cpp:
-        m_fileExtensions << "*.h" << "*.hpp" << "*.hh" << "*.hxx" << "*.H";
+        m_fileExtensions << QLatin1String("*.h") << QLatin1String("*.hpp") << QLatin1String("*.hh")
+                         << QLatin1String("*.hxx") << QLatin1String("*.H");
         break;
     case Uml::ProgrammingLanguage::IDL:
-        m_fileExtensions << "*.idl";
+        m_fileExtensions << QLatin1String("*.idl");
         break;
     case Uml::ProgrammingLanguage::Java:
-        m_fileExtensions << "*.java";
+        m_fileExtensions << QLatin1String("*.java");
         break;
     case Uml::ProgrammingLanguage::Pascal:
-        m_fileExtensions << "*.pas";
+        m_fileExtensions << QLatin1String("*.pas");
         break;
     case Uml::ProgrammingLanguage::Python:
-        m_fileExtensions << "*.py" << "*.pyw";
+        m_fileExtensions << QLatin1String("*.py") << QLatin1String("*.pyw");
         break;
     case Uml::ProgrammingLanguage::CSharp:
-        m_fileExtensions << "*.cs";
+        m_fileExtensions << QLatin1String("*.cs");
         break;
     default:
         break;
@@ -355,7 +360,7 @@ void CodeImpSelectPage::changeLanguage()
     QFileSystemModel* model = (QFileSystemModel*)ui_treeView->model();
     model->setNameFilters(m_fileExtensions);
 
-    ui_fileExtLineEdit->setText(m_fileExtensions.join(", "));
+    ui_fileExtLineEdit->setText(m_fileExtensions.join(QLatin1String(", ")));
 }
 
 /**

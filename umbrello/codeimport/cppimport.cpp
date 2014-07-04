@@ -112,10 +112,10 @@ void CppImport::initialize()
     ms_driver->setResolveDependencesEnabled(Settings::optionState().codeImportState.resolveDependencies);
     // FIXME: port to win32
     // Add some standard include paths
-    ms_driver->addIncludePath("/usr/include");
-    ms_driver->addIncludePath("/usr/include/c++");
-    ms_driver->addIncludePath("/usr/include/g++");
-    ms_driver->addIncludePath("/usr/local/include");
+    ms_driver->addIncludePath(QLatin1String("/usr/include"));
+    ms_driver->addIncludePath(QLatin1String("/usr/include/c++"));
+    ms_driver->addIncludePath(QLatin1String("/usr/include/g++"));
+    ms_driver->addIncludePath(QLatin1String("/usr/local/include"));
     const QStringList incPathList = Import_Utils::includePathList();
     if (incPathList.count()) {
         QStringList::ConstIterator end(incPathList.end());
@@ -145,15 +145,15 @@ bool CppImport::parseFile(const QString& fileName)
     foreach(const Problem &problem, ms_driver->problems(fileName)) {
         QString level;
         if (problem.level() == Problem::Level_Error)
-            level = "error";
+            level = QLatin1String("error");
         else if (problem.level() == Problem::Level_Warning)
-            level = "warning";
+            level = QLatin1String("warning");
         else if (problem.level() == Problem::Level_Todo)
-            level = "todo";
+            level = QLatin1String("todo");
         else if (problem.level() == Problem::Level_Fixme)
-            level = "fixme";
+            level = QLatin1String("fixme");
 
-        QString item = QString("%1:%2:%3: %4: %5")
+        QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
                 .arg(problem.fileName()).arg(problem.line()+1)
                 .arg(problem.column()).arg(level).arg(problem.text());
         UMLApp::app()->logWindow()->addItem(item);

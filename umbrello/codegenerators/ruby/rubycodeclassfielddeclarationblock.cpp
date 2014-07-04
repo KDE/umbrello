@@ -51,11 +51,11 @@ void RubyCodeClassFieldDeclarationBlock::updateContent()
     getComment()->setText(notes);
 
     // Set the body
-    QString staticValue = getParentObject()->isStatic() ? "static " : QString();
+    QString staticValue = getParentObject()->isStatic() ? QLatin1String("static ") : QString();
     QString scopeStr = Uml::Visibility::toString(getParentObject()->visibility());
 
     // IF this is from an association, then scope taken as appropriate to policy
-    if(!rcf->parentIsAttribute())
+    if (!rcf->parentIsAttribute())
     {
         switch (scopePolicy) {
         case Uml::Visibility::Public:
@@ -75,11 +75,11 @@ void RubyCodeClassFieldDeclarationBlock::updateContent()
     QString initialV = rcf->getInitialValue();
 
     if (!cf->parentIsAttribute() && !cf->fieldIsSingleValue())
-        typeName = "Array";
+        typeName = QLatin1String("Array");
 
-    QString body = staticValue+scopeStr+' '+typeName+' '+fieldName;
+    QString body = staticValue + scopeStr + QLatin1Char(' ') + typeName + QLatin1Char(' ') + fieldName;
     if (!initialV.isEmpty())
-        body.append(" = " + initialV);
+        body.append(QLatin1String(" = ") + initialV);
     else if (!cf->parentIsAttribute())
     {
         UMLRole * role = dynamic_cast<UMLRole*>(cf->getParentObject());
@@ -90,12 +90,12 @@ void RubyCodeClassFieldDeclarationBlock::updateContent()
 
             // FIX?: IF a constructor method exists in the classifiercodedoc
             // of the parent Object, then we can use that instead (if its empty).
-            if(cf->fieldIsSingleValue())
+            if (cf->fieldIsSingleValue())
             {
-                if(!typeName.isEmpty())
-                    body.append(" = " + typeName + ".new()");
+                if (!typeName.isEmpty())
+                    body.append(QLatin1String(" = ") + typeName + QLatin1String(".new()"));
             } else
-                body.append(" = []");
+                body.append(QLatin1String(" = []"));
         }
     }
 

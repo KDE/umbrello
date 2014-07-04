@@ -40,11 +40,11 @@ ClassImport *ClassImport::createImporterByFileExt(const QString &fileName, CodeI
     ClassImport *classImporter;
     if (fileName.endsWith(QLatin1String(".idl")))
         classImporter = new IDLImport(thread);
-    else if (fileName.contains(QRegExp("\\.pyw?$")))
+    else if (fileName.contains(QRegExp(QLatin1String("\\.pyw?$"))))
         classImporter = new PythonImport(thread);
     else if (fileName.endsWith(QLatin1String(".java")))
         classImporter = new JavaImport(thread);
-    else if (fileName.contains(QRegExp("\\.ad[sba]$")))
+    else if (fileName.contains(QRegExp(QLatin1String("\\.ad[sba]$"))))
         classImporter = new AdaImport(thread);
     else if (fileName.endsWith(QLatin1String(".pas")))
         classImporter = new PascalImport(thread);

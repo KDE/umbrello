@@ -406,7 +406,7 @@ void CodeGenObjectWithTextBlocks::setAttributesFromObject (CodeGenObjectWithText
 void CodeGenObjectWithTextBlocks::setAttributesOnNode (QDomDocument & doc, QDomElement & root)
 {
     // set a section to hold document content
-    QDomElement tblockElement = doc.createElement("textblocks");
+    QDomElement tblockElement = doc.createElement(QLatin1String("textblocks"));
 
     // only concrete calls to textblocks are saved
     TextBlockList * tbList = getTextBlockList();
@@ -446,7 +446,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & roo
     while (!telement.isNull()) {
         QString nodeName = telement.tagName();
 
-        if (nodeName != "textblocks") {
+        if (nodeName != QLatin1String("textblocks")) {
             tnode = telement.nextSibling();
             telement = tnode.toElement();
             continue;
@@ -461,7 +461,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & roo
         while (!element.isNull()) {
             QString name = element.tagName();
 
-            if (name == "codecomment") {
+            if (name == QLatin1String("codecomment")) {
                 CodeComment * block = CodeGenFactory::newCodeComment(m_pCodeDoc);
                 block->loadFromXMI(element);
                 if (!addTextBlock(block)) {
@@ -470,9 +470,9 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & roo
                 } else
                     loadCheckForChildrenOK = true;
 
-            } else if (name == "codeaccessormethod" ||
-                       name == "ccfdeclarationcodeblock") {
-                QString acctag = element.attribute("tag");
+            } else if (name == QLatin1String("codeaccessormethod") ||
+                       name == QLatin1String("ccfdeclarationcodeblock")) {
+                QString acctag = element.attribute(QLatin1String("tag"));
                 // search for our method in the
                 TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
                 if (!tb || !addTextBlock(tb)) {
@@ -482,7 +482,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & roo
                 } else
                     loadCheckForChildrenOK = true;
 
-            } else if(name == "codeblock") {
+            } else if(name == QLatin1String("codeblock")) {
                 CodeBlock * block = newCodeBlock();
                 block->loadFromXMI(element);
                 if (!addTextBlock(block)) {
@@ -491,7 +491,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & roo
                 } else
                     loadCheckForChildrenOK = true;
 
-            } else if (name == "codeblockwithcomments") {
+            } else if (name == QLatin1String("codeblockwithcomments")) {
                 CodeBlockWithComments * block = newCodeBlockWithComments();
                 block->loadFromXMI(element);
                 if (!addTextBlock(block)) {
@@ -500,10 +500,10 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & roo
                 } else
                     loadCheckForChildrenOK = true;
 
-            } else if (name == "header") {
+            } else if (name == QLatin1String("header")) {
                 // do nothing.. this is treated elsewhere
 
-            } else if (name == "hierarchicalcodeblock") {
+            } else if (name == QLatin1String("hierarchicalcodeblock")) {
                 HierarchicalCodeBlock * block = new HierarchicalCodeBlock(m_pCodeDoc);
                 block->loadFromXMI(element);
                 if (!addTextBlock(block)) {
@@ -512,9 +512,9 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode (QDomElement & roo
                 } else
                     loadCheckForChildrenOK = true;
 
-            } else if (name == "codeoperation") {
+            } else if (name == QLatin1String("codeoperation")) {
                 // find the code operation by id
-                QString id = element.attribute("parent_id","-1");
+                QString id = element.attribute(QLatin1String("parent_id"), QLatin1String("-1"));
                 UMLObject * obj = UMLApp::app()->document()->findObjectById(Uml::ID::fromString(id));
                 UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
                 if (op) {

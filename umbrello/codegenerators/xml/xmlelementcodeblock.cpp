@@ -33,7 +33,7 @@ XMLElementCodeBlock::~XMLElementCodeBlock ()
  */
 void XMLElementCodeBlock::saveToXMI (QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement("xmlelementblock");
+    QDomElement blockElement = doc.createElement(QLatin1String("xmlelementblock"));
 
     setAttributesOnNode(doc, blockElement);
 
@@ -58,7 +58,7 @@ void XMLElementCodeBlock::setAttributesOnNode (QDomDocument & doc, QDomElement &
     HierarchicalCodeBlock::setAttributesOnNode(doc, docElement);
 
     // now set local attributes/fields
-    docElement.setAttribute("nodeName", getNodeName());
+    docElement.setAttribute(QLatin1String("nodeName"), getNodeName());
 }
 
 /**
@@ -71,7 +71,7 @@ void XMLElementCodeBlock::setAttributesFromNode (QDomElement & root)
     HierarchicalCodeBlock::setAttributesFromNode(root);
 
     // now set local attributes
-    setNodeName(root.attribute("nodeName","UNKNOWN"));
+    setNodeName(root.attribute(QLatin1String("nodeName"), QLatin1String("UNKNOWN")));
 }
 
 void XMLElementCodeBlock::setNodeName (const QString &name)
@@ -104,27 +104,27 @@ void XMLElementCodeBlock::updateContent ()
     QString nodeName = getNodeName();
 
     // Now update START/ENDING Text
-    QString startText = '<' + nodeName;
+    QString startText = QLatin1Char('<') + nodeName;
     QString endText;
 
     UMLAttributeList * alist = getAttributeList();
     foreach (UMLAttribute *at, *alist)
     {
         if(at->getInitialValue().isEmpty())
-            uWarning()<<" XMLElementCodeBlock : cant print out attribute that lacks an initial value";
+            uWarning() << " XMLElementCodeBlock : cant print out attribute that lacks an initial value";
         else {
-            startText.append(" " +at->name()+"=\"");
-            startText.append(at->getInitialValue()+"\"");
+            startText.append(QLatin1String(" ") + at->name() + QLatin1String("=\""));
+            startText.append(at->getInitialValue() + QLatin1String("\""));
         }
     }
 
     // now set close of starting/ending node, the style depending on whether we have child text or not
     if(getTextBlockList()->count())
     {
-        startText.append(">");
-        endText = "</" + nodeName + '>';
+        startText.append(QLatin1String(">"));
+        endText = QLatin1String("</") + nodeName + QLatin1Char('>');
     } else {
-        startText.append("/>");
+        startText.append(QLatin1String("/>"));
         endText = QString();
     }
 

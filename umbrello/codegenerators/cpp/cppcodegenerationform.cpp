@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2013                                               *
+ *   copyright (C) 2004-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -30,7 +30,7 @@
 CPPCodeGenerationForm::CPPCodeGenerationForm(QWidget *parent, const char *name)
   : QWidget(parent)
 {
-    setObjectName(name);
+    setObjectName(QLatin1String(name));
     setupUi(this);
 
     Qt::ItemFlags flags = Qt::ItemIsUserCheckable | Qt::ItemIsEnabled;
@@ -84,17 +84,17 @@ CPPCodeGenerationForm::~CPPCodeGenerationForm()
 void CPPCodeGenerationForm::browseClicked()
 {
     QString button = sender()->objectName();
-    QString file = KFileDialog::getOpenFileName(KUrl(), "*.h", this, "Get Header File");
+    QString file = KFileDialog::getOpenFileName(KUrl(), QLatin1String("*.h"), this, QLatin1String("Get Header File"));
 
     if (file.isEmpty()) {
         return;
     }
 
-    if (button == "m_browseStringButton") {
+    if (button == QLatin1String("m_browseStringButton")) {
         // search for match in history list, if absent, then add it
         ui_stringIncludeFileHistoryCombo->setCurrentItem(file, true);
     }
-    else if (button == "m_browseListButton") {
+    else if (button == QLatin1String("m_browseListButton")) {
         // search for match in history list, if absent, then add it
         ui_listIncludeFileHistoryCombo->setCurrentItem(file, true);
     }

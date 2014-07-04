@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2013                                               *
+ *   copyright (C) 2004-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -61,7 +61,7 @@ void OwnedHierarchicalCodeBlock::setAttributesOnNode(QDomDocument & doc, QDomEle
     OwnedCodeBlock::setAttributesOnNode(doc, elem);
 
     // set local class attributes
-    elem.setAttribute("parent_id", Uml::ID::toString(getParentObject()->id()));
+    elem.setAttribute(QLatin1String("parent_id"), Uml::ID::toString(getParentObject()->id()));
 
     // setting ID's takes special treatment
     // as UMLRoles arent properly stored in the XMI right now.
@@ -69,7 +69,7 @@ void OwnedHierarchicalCodeBlock::setAttributesOnNode(QDomDocument & doc, QDomEle
     UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
     if(role) {
         // see comment on role_id at OwnedCodeBlock::setAttributesOnNode()
-        elem.setAttribute("role_id", (role->role() == Uml::RoleType::A));
+        elem.setAttribute(QLatin1String("role_id"), (role->role() == Uml::RoleType::A));
     }
     /* else
             elem.setAttribute("role_id","-1");

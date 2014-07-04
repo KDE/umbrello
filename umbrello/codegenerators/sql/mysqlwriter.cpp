@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2013                                                *
+ *  copyright (C) 2002-2014                                                *
  *  Umbrello UML Modeller Authors <umbrello-devel@kde.org>                 *
  ***************************************************************************/
 
@@ -44,38 +44,38 @@ QStringList MySQLWriter::defaultDatatypes()
 {
     QStringList l;
 
-    l.append("ascii");
-    l.append("bigint");
-    l.append("bit");
-    l.append("binary");
-    l.append("blob");
-    l.append("bool");
-    l.append("char");
-    l.append("charset");
-    l.append("date");
-    l.append("datetime");
-    l.append("decimal");
-    l.append("double");
-    l.append("enum");
-    l.append("float");
-    l.append("integer");
-    l.append("longblob");
-    l.append("longtext");
-    l.append("mediumblob");
-    l.append("mediumint");
-    l.append("mediumtext");
-    l.append("varbinary");
-    l.append("varchar");
-    l.append("serial");
-    l.append("set");
-    l.append("smallint");
-    l.append("timestamp");
-    l.append("time");
-    l.append("tinyblob");
-    l.append("tinyint");
-    l.append("tinytext");
-    l.append("text");
-    l.append("unicode");
+    l.append(QLatin1String("ascii"));
+    l.append(QLatin1String("bigint"));
+    l.append(QLatin1String("bit"));
+    l.append(QLatin1String("binary"));
+    l.append(QLatin1String("blob"));
+    l.append(QLatin1String("bool"));
+    l.append(QLatin1String("char"));
+    l.append(QLatin1String("charset"));
+    l.append(QLatin1String("date"));
+    l.append(QLatin1String("datetime"));
+    l.append(QLatin1String("decimal"));
+    l.append(QLatin1String("double"));
+    l.append(QLatin1String("enum"));
+    l.append(QLatin1String("float"));
+    l.append(QLatin1String("integer"));
+    l.append(QLatin1String("longblob"));
+    l.append(QLatin1String("longtext"));
+    l.append(QLatin1String("mediumblob"));
+    l.append(QLatin1String("mediumint"));
+    l.append(QLatin1String("mediumtext"));
+    l.append(QLatin1String("serial"));
+    l.append(QLatin1String("set"));
+    l.append(QLatin1String("smallint"));
+    l.append(QLatin1String("timestamp"));
+    l.append(QLatin1String("time"));
+    l.append(QLatin1String("tinyblob"));
+    l.append(QLatin1String("tinyint"));
+    l.append(QLatin1String("tinytext"));
+    l.append(QLatin1String("text"));
+    l.append(QLatin1String("unicode"));
+    l.append(QLatin1String("varbinary"));
+    l.append(QLatin1String("varchar"));
 
     return l;
 }
@@ -137,19 +137,19 @@ void MySQLWriter::printAutoIncrements(QTextStream& sql, const UMLEntityAttribute
     printIndex(sql, m_pEntity, indexList);
 
     // now alter the table and this column to add the auto increment
-    sql<<"ALTER TABLE "<<cleanName(m_pEntity->name())
-       <<" CHANGE "<<cleanName(autoIncrementEntAtt->name())
-       <<" "<<cleanName(autoIncrementEntAtt->name())
-       <<" "<<cleanName(autoIncrementEntAtt->getTypeName())
-       <<" "<<cleanName(autoIncrementEntAtt->getAttributes())
-       <<" "<<" NOT NULL AUTO_INCREMENT ;";
+    sql << "ALTER TABLE " << cleanName(m_pEntity->name())
+        << " CHANGE " << cleanName(autoIncrementEntAtt->name())
+        << " " << cleanName(autoIncrementEntAtt->name())
+        << " " << cleanName(autoIncrementEntAtt->getTypeName())
+        << " " << cleanName(autoIncrementEntAtt->getAttributes())
+        << " " << " NOT NULL AUTO_INCREMENT ;";
 
-    sql<<m_endl;
+    sql << m_endl;
 
     // we don't support start values currently, but when we do, uncomment the following
-    //sql<<" ALTER TABLE "<<cleanName(m_pEntity->getName())
-    //   <<" AUTO_INCREMENT = "<<theValue;
-    //sql<<m_endl;
+    //sql << " ALTER TABLE " << cleanName(m_pEntity->getName())
+    //   <<" AUTO_INCREMENT = " << theValue;
+    //sql << m_endl;
 }
 
 /**
@@ -157,11 +157,11 @@ void MySQLWriter::printAutoIncrements(QTextStream& sql, const UMLEntityAttribute
  */
 void MySQLWriter::printCheckConstraints(QTextStream& sql, UMLClassifierListItemList constrList)
 {
-    sql<<m_endl;
-    sql<<"-- CHECK Constraints are not supported in Mysql (as of version 5.x)";
-    sql<<m_endl;
-    sql<<"-- But it'll parse the statements without error ";
-    sql<<m_endl;
+    sql << m_endl;
+    sql << "-- CHECK Constraints are not supported in Mysql (as of version 5.x)";
+    sql << m_endl;
+    sql << "-- But it'll parse the statements without error ";
+    sql << m_endl;
 
     // call base class
     SQLWriter::printCheckConstraints(sql, constrList);

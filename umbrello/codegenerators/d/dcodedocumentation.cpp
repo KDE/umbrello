@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2013                                               *
+ *   copyright (C) 2008-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -32,7 +32,7 @@ DCodeDocumentation::~DCodeDocumentation()
 
 void DCodeDocumentation::saveToXMI(QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement("dcodedocumentation");
+    QDomElement blockElement = doc.createElement(QLatin1String("dcodedocumentation"));
     setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
     // just use parent TextBlock method
     root.appendChild(blockElement);
@@ -59,12 +59,12 @@ QString DCodeDocumentation::toString() const
         if(useDoubleDashOutput)
         {
             if(!body.isEmpty()) {
-                output += (formatMultiLineText (body, indent + "// ", endLine));
+                output += (formatMultiLineText (body, indent + QLatin1String("// "), endLine));
             }
         } else {
-            output += indent + "/**" + endLine;
-            output += formatMultiLineText (body, indent + " * ", endLine);
-            output += indent + " */" + endLine;
+            output += indent + QLatin1String("/**") + endLine;
+            output += formatMultiLineText (body, indent + QLatin1String(" * "), endLine);
+            output += indent + QLatin1String(" */") + endLine;
         }
     }
 
@@ -75,9 +75,9 @@ QString DCodeDocumentation::getNewEditorLine(int amount)
 {
     CodeGenerationPolicy * p = UMLApp::app()->commonPolicy();
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
-        return getIndentationString(amount) + " * ";
+        return getIndentationString(amount) + QLatin1String(" * ");
     else
-        return getIndentationString(amount) + "// ";
+        return getIndentationString(amount) + QLatin1String("// ");
 }
 
 int DCodeDocumentation::firstEditableLine()
@@ -107,14 +107,14 @@ QString DCodeDocumentation::unformatText(const QString & text, const QString & i
     QString mytext = TextBlock::unformatText(text, indent);
     CodeGenerationPolicy * p = UMLApp::app()->commonPolicy();
     // remove leading or trailing comment stuff
-    mytext.remove(QRegExp('^'+indent));
+    mytext.remove(QRegExp(QLatin1Char('^') + indent));
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
     {
-        mytext.remove(QRegExp("^\\/\\*\\*\\s*\n?"));
-        mytext.remove(QRegExp("\\s*\\*\\/\\s*\n?$"));
-        mytext.remove(QRegExp("^\\s*\\*\\s*"));
+        mytext.remove(QRegExp(QLatin1String("^\\/\\*\\*\\s*\n?")));
+        mytext.remove(QRegExp(QLatin1String("\\s*\\*\\/\\s*\n?$")));
+        mytext.remove(QRegExp(QLatin1String("^\\s*\\*\\s*")));
     } else
-        mytext.remove(QRegExp("^\\/\\/\\s*"));
+        mytext.remove(QRegExp(QLatin1String("^\\/\\/\\s*")));
 
     return mytext;
 }

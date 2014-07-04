@@ -95,25 +95,25 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ex
     //else, determine the "natural" file name
     QString name;
     // Get the package name
-    QString package = concept->package(".");
+    QString package = concept->package(QLatin1String("."));
 
     // Replace all white spaces with blanks
     package = package.simplified();
 
     // Replace all blanks with underscore
-    package.replace(QRegExp(" "), "_");
+    package.replace(QRegExp(QLatin1String(" ")), QLatin1String("_"));
 
     // Convert all "::" to "/" : Platform-specific path separator
-    // package.replace(QRegExp("::"), "/");
+    // package.replace(QRegExp(QLatin1String("::")), QLatin1String("/"));
 
     // if package is given add this as a directory to the file name
     if (!package.isEmpty() && m_createDirHierarchyForPackages) {
-        name = package + '.' + concept->name();
-        name.replace(QRegExp("\\."),"/");
-        package.replace(QRegExp("\\."), "/");
-        package = '/' + package;
+        name = package + QLatin1Char('.') + concept->name();
+        name.replace(QRegExp(QLatin1String("\\.")), QLatin1String("/"));
+        package.replace(QRegExp(QLatin1String("\\.")), QLatin1String("/"));
+        package = QLatin1Char('/') + package;
     } else {
-        name = concept->fullyQualifiedName("-");
+        name = concept->fullyQualifiedName(QLatin1String("-"));
     }
 
     if (! UMLApp::app()->activeLanguageIsCaseSensitive()) {
@@ -127,30 +127,30 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ex
         // does our complete output directory exist yet? if not, try to create it
         if (!pathDir.exists())
         {
-            const QStringList dirs = pathDir.absolutePath().split('/');
+            const QStringList dirs = pathDir.absolutePath().split(QLatin1Char('/'));
             QString currentDir;
 
             QStringList::const_iterator end(dirs.end());
             for (QStringList::const_iterator dir(dirs.begin()); dir != end; ++dir)
             {
-                currentDir += '/' + *dir;
+                currentDir += QLatin1Char('/') + *dir;
                 if (! (pathDir.exists(currentDir)
                         || pathDir.mkdir(currentDir)))
                 {
                     KMessageBox::error(0, i18n("Cannot create the folder:\n") +
                                        pathDir.absolutePath() + i18n("\nPlease check the access rights"),
                                        i18n("Cannot Create Folder"));
-                    return NULL;
+                    return QString();
                 }
             }
         }
     }
 
     name = name.simplified();
-    name.replace(QRegExp(" "),"_");
+    name.replace(QRegExp(QLatin1String(" ")), QLatin1String("_"));
 
     QString extension = ext.simplified();
-    extension.replace(' ', '_');
+    extension.replace(QLatin1Char(' '), QLatin1Char('_'));
 
     return overwritableName(concept, name, extension);
 }
@@ -167,7 +167,7 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
     CodeGenerationPolicy *commonPolicy = UMLApp::app()->commonPolicy();
     QDir outputDir = commonPolicy->getOutputDirectory();
     QString filename = name + ext;
-    if(!outputDir.exists(filename)) {
+    if (!outputDir.exists(filename)) {
         m_fileMap.insert(concept, filename);
         return filename; //if not, "name" is OK and we have not much to to
     }
@@ -191,7 +191,7 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
         case KDialog::No: //generate similar name
             suffix = 1;
             while (1) {
-                filename = name + "__" + QString::number(suffix) + ext;
+                filename = name + QLatin1String("__") + QString::number(suffix) + ext;
                 if (!outputDir.exists(filename))
                     break;
                 suffix++;
@@ -216,7 +216,7 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
     case CodeGenerationPolicy::Never: //generate similar name
         suffix = 1;
         while (1) {
-            filename = name + "__" + QString::number(suffix) + ext;
+            filename = name + QLatin1String("__") + QString::number(suffix) + ext;
             if (!outputDir.exists(filename))
                 break;
             suffix++;
@@ -242,7 +242,7 @@ bool SimpleCodeGenerator::hasDefaultValueAttr(UMLClassifier *c)
 {
     UMLAttributeList atl = c->getAttributeList();
     foreach (UMLAttribute* at, atl) {
-        if(!at->getInitialValue().isEmpty())
+        if (!at->getInitialValue().isEmpty())
             return true;
     }
     return false;
@@ -257,7 +257,7 @@ bool SimpleCodeGenerator::hasAbstractOps(UMLClassifier *c)
 {
     UMLOperationList opl(c->getOpList());
     foreach (UMLOperation* op, opl) {
-        if(op->isAbstract())
+        if (op->isAbstract())
             return true;
     }
     return false;

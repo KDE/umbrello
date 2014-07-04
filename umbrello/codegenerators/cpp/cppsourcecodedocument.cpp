@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2003-2013                                               *
+ *   copyright (C) 2003-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -36,7 +36,7 @@
 CPPSourceCodeDocument::CPPSourceCodeDocument (UMLClassifier * concept)
         : ClassifierCodeDocument (concept)
 {
-    setFileExtension(".cpp");
+    setFileExtension(QLatin1String(".cpp"));
 
     m_methodsBlock = 0;
     m_constructorBlock = 0;
@@ -110,15 +110,15 @@ void CPPSourceCodeDocument::updateContent()
     QString includeStatement;
     // Include own header file
     QString myOwnName(getParentClassifier()->name());
-    includeStatement.append("#include \""+CodeGenerator::cleanName(myOwnName.toLower())+".h\""+endLine);
-    CodeBlockWithComments * iblock = addOrUpdateTaggedCodeBlockWithComments("includes", includeStatement, QString(), 0, false);
+    includeStatement.append(QLatin1String("#include \"") + CodeGenerator::cleanName(myOwnName.toLower()) + QLatin1String(".h\"") + endLine);
+    CodeBlockWithComments * iblock = addOrUpdateTaggedCodeBlockWithComments(QLatin1String("includes"), includeStatement, QString(), 0, false);
     iblock->setWriteOutText(true);
 
     // After the includes we have just 2 big blocks basically, the "constructor" block and the
     // block for the rest of our methods (operations + accessors)
 
-    m_constructorBlock = getHierarchicalCodeBlock("constructionMethodsBlock", "Constructors/Destructors", 0);
-    m_methodsBlock = getHierarchicalCodeBlock("otherMethodsBlock", "Methods", 0);
+    m_constructorBlock = getHierarchicalCodeBlock(QLatin1String("constructionMethodsBlock"), QLatin1String("Constructors/Destructors"), 0);
+    m_methodsBlock = getHierarchicalCodeBlock(QLatin1String("otherMethodsBlock"), QLatin1String("Methods"), 0);
 
     // add accessors to the methods block
     m_methodsBlock->addCodeClassFieldMethods(staticAttribClassFields);

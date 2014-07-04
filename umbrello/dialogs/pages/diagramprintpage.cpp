@@ -135,7 +135,7 @@ QString DiagramPrintPage::printUmlDiagram(int sel)
         if (isSelected(i)) {
             if (count == sel) {
                 UMLView *view = (UMLView *)m_doc->findView(m_nIdList[i]);
-                QString sID = QString("%1").arg(Uml::ID::toString(view->umlScene()->ID()));
+                QString sID = QString::fromLatin1("%1").arg(Uml::ID::toString(view->umlScene()->ID()));
                 return sID;
             }
             count++;

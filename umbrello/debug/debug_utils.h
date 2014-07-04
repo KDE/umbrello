@@ -96,12 +96,12 @@ private:
 #define uError()   kError(8060)
 #define uWarning() kWarning(8060)
 
-#define DBG_SRC  QString(metaObject()->className())
+#define DBG_SRC  QString::fromLatin1(metaObject()->className())
 #define DEBUG_SHOW_FILTER() Tracer::instance()->show()
 #define DEBUG(src)  if (Tracer::instance()->isEnabled(src)) uDebug()
 #define IS_DEBUG_ENABLED(src) Tracer::instance()->isEnabled(src)
-#define DEBUG_REGISTER(src) class src##Tracer { public: src##Tracer() { Tracer::registerClass(#src, true); } }; static src##Tracer src##TracerGlobal;
-#define DEBUG_REGISTER_DISABLED(src) class src##Tracer { public: src##Tracer() { Tracer::registerClass(#src, false); } }; static src##Tracer src##TracerGlobal;
+#define DEBUG_REGISTER(src) class src##Tracer { public: src##Tracer() { Tracer::registerClass(QString::fromLatin1(#src), true); } }; static src##Tracer src##TracerGlobal;
+#define DEBUG_REGISTER_DISABLED(src) class src##Tracer { public: src##Tracer() { Tracer::registerClass(QString::fromLatin1(#src), false); } }; static src##Tracer src##TracerGlobal;
 
 #define uIgnoreZeroPointer(a) if (!a) { uDebug() << "zero pointer detected" << __FILE__ << __LINE__; continue; }
 

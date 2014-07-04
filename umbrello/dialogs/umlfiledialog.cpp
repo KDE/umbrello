@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2012-2013                                               *
+ *   copyright (C) 2012-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -28,8 +28,8 @@ static QStringList mime2KdeFilter(const QStringList &mimeTypes, QString *allExte
             kdeFilter.append(mime->patterns().join(QLatin1String(" ")) + QLatin1Char('|') +
             mime->comment(emptyUrl));
         }
-        else if (mimeType == "image/x-dot") {
-            allExt += "*.dot";
+        else if (mimeType == QString::fromLatin1("image/x-dot")) {
+            allExt += QString::fromLatin1("*.dot");
             kdeFilter.append(QLatin1String("*.dot|Dot Files"));
         }
     }

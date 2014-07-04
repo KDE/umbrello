@@ -70,7 +70,7 @@ QString typeSpecToString(TypeSpecifierAST* typeSpec)  /// @todo remove
     if (!typeSpec)
         return QString();
 
-    return typeSpec->text().replace(QRegExp(" :: "), "::");
+    return typeSpec->text().replace(QRegExp(QLatin1String(" :: ")), QLatin1String("::"));
 }
 
 QString declaratorToString(DeclaratorAST* declarator, const QString& scope, bool skipPtrOp)
@@ -85,7 +85,7 @@ QString declaratorToString(DeclaratorAST* declarator, const QString& scope, bool
         for (int i = 0; i < ptrOpList.size(); ++i) {
             text += ptrOpList.at(i)->text();
         }
-        text += ' ';
+        text += QLatin1Char(' ');
     }
 
     text += scope;
@@ -98,11 +98,11 @@ QString declaratorToString(DeclaratorAST* declarator, const QString& scope, bool
 
     QList<AST*> arrays = declarator->arrayDimensionList();
     for (int i = 0; i < arrays.size(); ++i) {
-        text += "[]";
+        text += QLatin1String("[]");
     }
 
     if (declarator->parameterDeclarationClause()) {
-        text += '(';
+        text += QLatin1Char('(');
 
         ParameterDeclarationListAST* l = declarator->parameterDeclarationClause()->parameterDeclarationList();
         if (l != 0) {
@@ -111,19 +111,19 @@ QString declaratorToString(DeclaratorAST* declarator, const QString& scope, bool
                 QString type = typeSpecToString(params.at(i)->typeSpec());
                 text += type;
                 if (!type.isEmpty())
-                    text += ' ';
+                    text += QLatin1Char(' ');
                 text += declaratorToString(params.at(i)->declarator());
 
                 if (params.at(i))
-                    text += ", ";
+                    text += QLatin1String(", ");
             }
         }
 
-        text += ')';
+        text += QLatin1Char(')');
 
         if (declarator->constant() != 0)
-            text += " const";
+            text += QLatin1String(" const");
     }
 
-    return text.replace(QRegExp(" :: "), "::").simplified();
+    return text.replace(QRegExp(QLatin1String(" :: ")), QLatin1String("::")).simplified();
 }

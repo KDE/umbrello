@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2013                                               *
+ *   copyright (C) 2004-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -69,7 +69,7 @@ Uml::ProgrammingLanguage::Enum CPPCodeGenerator::language() const
 void CPPCodeGenerator::setCreateProjectMakefile(bool buildIt)
 {
     m_createMakefile = buildIt;
-    CodeDocument * antDoc = findCodeDocumentByID(CPPMakefileCodeDocument::DOCUMENT_ID_VALUE);
+    CodeDocument * antDoc = findCodeDocumentByID(QLatin1String(CPPMakefileCodeDocument::DOCUMENT_ID_VALUE));
     if (antDoc) {
         antDoc->setWriteOutCode(buildIt);
     }
@@ -95,7 +95,7 @@ bool CPPCodeGenerator::addHeaderCodeDocument(CPPHeaderCodeDocument * doc)
 
     // assign a tag if one doesn't already exist
     if (tag.isEmpty()) {
-        tag = "cppheader"+Uml::ID::toString(doc->getParentClassifier()->id());
+        tag = QLatin1String("cppheader")+Uml::ID::toString(doc->getParentClassifier()->id());
         doc->setID(tag);
     }
 
@@ -157,7 +157,7 @@ CodeViewerDialog * CPPCodeGenerator::getCodeViewerDialog(QWidget* parent, CodeDo
         }
         // add in makefile if available and desired
         if (getCreateProjectMakefile()) {
-            dialog->addCodeDocument(findCodeDocumentByID(CPPMakefileCodeDocument::DOCUMENT_ID_VALUE));
+            dialog->addCodeDocument(findCodeDocumentByID(QLatin1String(CPPMakefileCodeDocument::DOCUMENT_ID_VALUE)));
         }
         return dialog;
     }
@@ -182,8 +182,8 @@ QString CPPCodeGenerator::fixTypeName(const QString &name)
  */
 void CPPCodeGenerator::saveToXMI(QDomDocument & doc, QDomElement & root)
 {
-    QDomElement docElement = doc.createElement("codegenerator");
-    docElement.setAttribute("language", "C++");
+    QDomElement docElement = doc.createElement(QLatin1String("codegenerator"));
+    docElement.setAttribute(QLatin1String("language"), QLatin1String("C++"));
 
     const CodeDocumentList * docList = getCodeDocumentList();
     CodeDocumentList::ConstIterator it  = docList->begin();
@@ -262,7 +262,7 @@ void CPPCodeGenerator::writeCodeToFile(UMLClassifierList & concepts)
  */
 CPPHeaderCodeDocument * CPPCodeGenerator::findHeaderCodeDocumentByClassifier(UMLClassifier * classifier)
 {
-    CodeDocument * doc = findCodeDocumentByID("cppheader"+Uml::ID::toString(classifier->id()));
+    CodeDocument * doc = findCodeDocumentByID(QLatin1String("cppheader")+Uml::ID::toString(classifier->id()));
     return dynamic_cast<CPPHeaderCodeDocument*>(doc);
 }
 

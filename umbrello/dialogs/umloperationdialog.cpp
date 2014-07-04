@@ -519,7 +519,7 @@ void UMLOperationDialog::insertTypesSorted(const QString& type)
     // For example, the Ada generator would interpret the return type
     // "void" as an instruction to generate a procedure instead of a
     // function.
-    types << "void";
+    types << QLatin1String("void");
     // add template parameters
     UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(m_operation->parent());
     if (classifier) {

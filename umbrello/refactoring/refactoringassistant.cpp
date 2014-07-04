@@ -230,7 +230,7 @@ void RefactoringAssistant::operationAdded(UMLClassifierListItem *listItem)
     }
     for (int i = 0; i < item->childCount(); ++i) {
         QTreeWidgetItem *folder = item->child(i);
-        if (folder->text(1) == "operations") {
+        if (folder->text(1) == QLatin1String("operations")) {
             item = new QTreeWidgetItem(folder, QStringList(op->name()));
             m_umlObjectMap[item] = op;
             connect(op, SIGNAL(modified()), this, SLOT(objectModified()));
@@ -277,7 +277,7 @@ void RefactoringAssistant::attributeAdded(UMLClassifierListItem *listItem)
     }
     for (int i = 0; i < item->childCount(); ++i) {
         QTreeWidgetItem *folder = item->child(i);
-        if (folder->text(1) == "attributes") {
+        if (folder->text(1) == QLatin1String("attributes")) {
             item = new QTreeWidgetItem(folder, QStringList(att->name()));
             m_umlObjectMap[item] = att;
             connect(att, SIGNAL(modified()), this, SLOT(objectModified()));
@@ -461,10 +461,10 @@ void RefactoringAssistant::showContextMenu(const QPoint& p)
         m_menu->addAction(createAction(i18n("Delete"), SLOT(deleteItem()), Icon_Utils::it_Delete));
     }
     else { //menu for other ViewItems
-        if (item->text(1) == "operations") {
+        if (item->text(1) == QLatin1String("operations")) {
             m_menu->addAction(createAction(i18n("Add Operation"), SLOT(createOperation()), Icon_Utils::it_Public_Method));
         }
-        else if (item->text(1) == "attributes") {
+        else if (item->text(1) == QLatin1String("attributes")) {
             m_menu->addAction(createAction(i18n("Add Attribute"), SLOT(createAttribute()), Icon_Utils::it_Public_Attribute));
         }
         else {
@@ -663,7 +663,7 @@ void RefactoringAssistant::addClassifier(UMLClassifier *classifier, QTreeWidgetI
             this, SLOT(attributeRemoved(UMLClassifierListItem*)));
 
     QStringList itemTextAt;
-    itemTextAt << i18n("Attributes") << "attributes";
+    itemTextAt << i18n("Attributes") << QLatin1String("attributes");
     QTreeWidgetItem *attsFolder = new QTreeWidgetItem(classifierItem, itemTextAt);
     attsFolder->setIcon(0, Icon_Utils::SmallIcon(Icon_Utils::it_Folder_Orange));
     attsFolder->setExpanded(true);
@@ -679,7 +679,7 @@ void RefactoringAssistant::addClassifier(UMLClassifier *classifier, QTreeWidgetI
             this, SLOT(operationRemoved(UMLClassifierListItem*)));
 
     QStringList itemTextOp;
-    itemTextOp << i18n("Operations") << "operations";
+    itemTextOp << i18n("Operations") << QLatin1String("operations");
     QTreeWidgetItem *opsFolder = new QTreeWidgetItem(classifierItem, itemTextOp);
     opsFolder->setIcon(0, Icon_Utils::SmallIcon(Icon_Utils::it_Folder_Orange));
     opsFolder->setExpanded(true);
@@ -742,14 +742,14 @@ void RefactoringAssistant::dragMoveEvent(QDragMoveEvent *event)
             //first check if we can accept dropping
             QTreeWidgetItem* parent = item->parent();
             if (parent) {
-                if ((target->text(1) == "operations") &&
-                    (parent->text(1) == "operations")) {
+                if ((target->text(1) == QLatin1String("operations")) &&
+                    (parent->text(1) == QLatin1String("operations"))) {
 DEBUG(DBG_SRC) << "accept operation " << item->text(0);  //:TODO:fischer
                     event->accept();
                     return;
                 }
-                if ((target->text(1) == "attributes") &&
-                    (parent->text(1) == "attributes")) {
+                if ((target->text(1) == QLatin1String("attributes")) &&
+                    (parent->text(1) == QLatin1String("attributes"))) {
 DEBUG(DBG_SRC) << "accept attribute " << item->text(0);  //:TODO:fischer
                     event->accept();
                     return;
@@ -805,8 +805,9 @@ DEBUG(DBG_SRC) << "acceptProposedAction";  //:TODO:fischer
     UMLObject::ObjectType t = movingObject->baseType();
     newClassifier = dynamic_cast<UMLClassifier*>(findUMLObject(parentItem));
     if (!newClassifier) {
-        if ((parentItem->text(1) == "operations" && t == UMLObject::ot_Operation)
-                || (parentItem->text(1) == "attributes" && t == UMLObject::ot_Attribute)) {
+        const QString parentText = parentItem->text(1);
+        if ((parentText == QLatin1String("operations") && t == UMLObject::ot_Operation) ||
+            (parentText == QLatin1String("attributes") && t == UMLObject::ot_Attribute)) {
             newClassifier = dynamic_cast<UMLClassifier*>(findUMLObject(parentItem->parent()));
         }
         if (!newClassifier) {

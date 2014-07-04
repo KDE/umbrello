@@ -37,7 +37,7 @@
 CPPHeaderCodeDocument::CPPHeaderCodeDocument(UMLClassifier* concept)
   : ClassifierCodeDocument(concept)
 {
-    setFileExtension(".h");
+    setFileExtension(QLatin1String(".h"));
 
     //initCodeClassFields(); // this is dubious because it calls down to
                              // CodeGenFactory::newCodeClassField(this)
@@ -72,7 +72,7 @@ CPPHeaderClassDeclarationBlock * CPPHeaderCodeDocument::getClassDecl()
     if(!m_classDeclCodeBlock) {
         m_classDeclCodeBlock = new CPPHeaderClassDeclarationBlock (this); // was deleted before our load
         m_classDeclCodeBlock->updateContent();
-        m_classDeclCodeBlock->setTag("classDeclarationBlock");
+        m_classDeclCodeBlock->setTag(QLatin1String("classDeclarationBlock"));
     }
     return m_classDeclCodeBlock;
 }
@@ -89,7 +89,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
     while(!telement.isNull()) {
         QString nodeName = telement.tagName();
 
-        if(nodeName == "textblocks") {
+        if(nodeName == QLatin1String("textblocks")) {
 
             QDomNode node = telement.firstChild();
             QDomElement element = node.toElement();
@@ -100,7 +100,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
             while(!element.isNull()) {
                 QString name = element.tagName();
 
-                if(name == "codecomment") {
+                if(name == QLatin1String("codecomment")) {
                     CodeComment * block = new CPPCodeDocumentation(this);
                     block->loadFromXMI(element);
                     if(!addTextBlock(block))
@@ -110,10 +110,9 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                     } else
                         loadCheckForChildrenOK= true;
                 } else
-                    if(name == "codeaccessormethod" ||
-                            name == "ccfdeclarationcodeblock"
-                     ) {
-                        QString acctag = element.attribute("tag");
+                    if(name == QLatin1String("codeaccessormethod") ||
+                            name == QLatin1String("ccfdeclarationcodeblock")) {
+                        QString acctag = element.attribute(QLatin1String("tag"));
                         // search for our method in the
                         TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
                         if(!tb || !addTextBlock(tb))
@@ -124,7 +123,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                             loadCheckForChildrenOK= true;
 
                     } else
-                        if(name == "codeblock") {
+                        if(name == QLatin1String("codeblock")) {
                             CodeBlock * block = newCodeBlock();
                             block->loadFromXMI(element);
                             if(!addTextBlock(block))
@@ -134,7 +133,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                             } else
                                 loadCheckForChildrenOK= true;
                         } else
-                            if(name == "codeblockwithcomments") {
+                            if(name == QLatin1String("codeblockwithcomments")) {
                                 CodeBlockWithComments * block = newCodeBlockWithComments();
                                 block->loadFromXMI(element);
                                 if(!addTextBlock(block))
@@ -144,10 +143,10 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                                 } else
                                     loadCheckForChildrenOK= true;
                             } else
-                                if(name == "header") {
+                                if(name == QLatin1String("header")) {
                                     // do nothing.. this is treated elsewhere
                                 } else
-                                    if(name == "hierarchicalcodeblock") {
+                                    if(name == QLatin1String("hierarchicalcodeblock")) {
                                         HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
                                         block->loadFromXMI(element);
                                         if(!addTextBlock(block))
@@ -157,9 +156,9 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                                         } else
                                             loadCheckForChildrenOK= true;
                                     } else
-                                        if(name == "codeoperation") {
+                                        if(name == QLatin1String("codeoperation")) {
                                             // find the code operation by id
-                                            QString id = element.attribute("parent_id","-1");
+                                            QString id = element.attribute(QLatin1String("parent_id"),QLatin1String("-1"));
                                             UMLObject * obj = UMLApp::app()->document()->findObjectById(Uml::ID::fromString(id));
                                             UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
                                             if(op) {
@@ -178,13 +177,13 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                                                 uError()<<"Unable to find operation create codeoperation for:"<<this;
                                         }
                                         else
-                                            if(name == "cppheaderclassdeclarationblock")
+                                            if(name == QLatin1String("cppheaderclassdeclarationblock"))
                                             {
                                                 CPPHeaderClassDeclarationBlock * block = getClassDecl();
                                                 block->loadFromXMI(element);
                                                 // normally this would be populated by the following syncToparent
                                                 // call, but we cant wait for it, so lets just do it now.
-                                                m_namespaceBlock = getHierarchicalCodeBlock("namespace", "Namespace", 0);
+                                                m_namespaceBlock = getHierarchicalCodeBlock(QLatin1String("namespace"), QLatin1String("Namespace"), 0);
 
                                                 if(!m_namespaceBlock || !m_namespaceBlock->addTextBlock(block))
                                                 {
@@ -403,8 +402,8 @@ void CPPHeaderCodeDocument::updateContent()
     // Write the hash define stuff to prevent multiple parsing/inclusion of header
     QString cppClassName = CodeGenerator::cleanName(c->name());
     QString hashDefine = CodeGenerator::cleanName(c->name().toUpper().simplified());
-    QString defText = "#ifndef "+hashDefine + "_H"+ endLine + "#define "+ hashDefine + "_H";
-    addOrUpdateTaggedCodeBlockWithComments("hashDefBlock", defText, QString(), 0, false);
+    QString defText = QLatin1String("#ifndef ") + hashDefine + QLatin1String("_H") + endLine + QLatin1String("#define ") + hashDefine + QLatin1String("_H");
+    addOrUpdateTaggedCodeBlockWithComments(QLatin1String("hashDefBlock"), defText, QString(), 0, false);
 
     // INCLUDE CODEBLOCK
     //
@@ -413,16 +412,16 @@ void CPPHeaderCodeDocument::updateContent()
     //    don't slow down or anything. (TZ)
     QString includeStatement;
     bool stringGlobal = policy->stringIncludeIsGlobal();
-    QString sStartBrak = stringGlobal ? "<" : "\"";
-    QString sEndBrak = stringGlobal ? ">" : "\"";
-    includeStatement.append("#include "+sStartBrak+policy->getStringClassNameInclude()+sEndBrak+endLine);
+    QString sStartBrak = stringGlobal ? QLatin1String("<") : QLatin1String("\"");
+    QString sEndBrak = stringGlobal ? QLatin1String(">") : QLatin1String("\"");
+    includeStatement.append(QLatin1String("#include ") + sStartBrak + policy->getStringClassNameInclude() + sEndBrak + endLine);
     if (hasObjectVectorClassFields())
     {
         bool vecGlobal = policy->vectorIncludeIsGlobal();
-        QString vStartBrak = vecGlobal ? "<" : "\"";
-        QString vEndBrak = vecGlobal ? ">" : "\"";
-        QString value ="#include "+vStartBrak+policy->getVectorClassNameInclude()+vEndBrak;
-        includeStatement.append(value+endLine);
+        QString vStartBrak = vecGlobal ? QLatin1String("<") : QLatin1String("\"");
+        QString vEndBrak = vecGlobal ? QLatin1String(">") : QLatin1String("\"");
+        QString value =QLatin1String("#include ") + vStartBrak + policy->getVectorClassNameInclude() + vEndBrak;
+        includeStatement.append(value + endLine);
     }
 
     //only include classes in a different package from this class
@@ -434,11 +433,11 @@ void CPPHeaderCodeDocument::updateContent()
         if (con->baseType() != UMLObject::ot_Datatype && !packageMap.contains(con)) {
             packageMap.insert(con, con->package());
             if(con != getParentClassifier())
-                includeStatement.append("#include \""+CodeGenerator::cleanName(con->name().toLower())+".h\""+endLine);
+                includeStatement.append(QLatin1String("#include \"") + CodeGenerator::cleanName(con->name().toLower()) + QLatin1String(".h\"") + endLine);
         }
     }
     // now, add/update the includes codeblock
-    CodeBlockWithComments * inclBlock = addOrUpdateTaggedCodeBlockWithComments("includes", includeStatement, QString(), 0, false);
+    CodeBlockWithComments * inclBlock = addOrUpdateTaggedCodeBlockWithComments(QLatin1String("includes"), includeStatement, QString(), 0, false);
     if(includeStatement.isEmpty() && inclBlock->contentType() == CodeBlock::AutoGenerated)
         inclBlock->setWriteOutText(false);
     else
@@ -448,10 +447,10 @@ void CPPHeaderCodeDocument::updateContent()
     QString usingStatement;
     foreach(UMLClassifier* classifier, superclasses) {
         if(classifier->package()!=c->package() && !classifier->package().isEmpty()) {
-            usingStatement.append("using "+CodeGenerator::cleanName(c->package())+"::"+cleanName(c->name())+';'+endLine);
+            usingStatement.append(QLatin1String("using ") + CodeGenerator::cleanName(c->package()) + QLatin1String("::") + cleanName(c->name()) + QLatin1Char(';') + endLine);
         }
     }
-    CodeBlockWithComments * usingBlock = addOrUpdateTaggedCodeBlockWithComments("using", usingStatement, QString(), 0, false);
+    CodeBlockWithComments * usingBlock = addOrUpdateTaggedCodeBlockWithComments(QLatin1String("using"), usingStatement, QString(), 0, false);
     if(usingStatement.isEmpty() && usingBlock->contentType() == CodeBlock::AutoGenerated)
         usingBlock->setWriteOutText(false);
     else
@@ -468,18 +467,18 @@ void CPPHeaderCodeDocument::updateContent()
         hasNamespace = false;
 
     // set start/end text of namespace block
-    m_namespaceBlock = getHierarchicalCodeBlock("namespace", "Namespace", 0);
+    m_namespaceBlock = getHierarchicalCodeBlock(QLatin1String("namespace"), QLatin1String("Namespace"), 0);
     if(hasNamespace) {
         UMLPackageList pkgList = c->packages();
         QString pkgs;
         UMLPackage *pkg;
         foreach (pkg, pkgList) {
-            pkgs += "namespace " + CodeGenerator::cleanName(pkg->name()) + " { ";
+            pkgs += QLatin1String("namespace ") + CodeGenerator::cleanName(pkg->name()) + QLatin1String(" { ");
         }
         m_namespaceBlock->setStartText(pkgs);
         QString closingBraces;
         foreach (pkg, pkgList) {
-            closingBraces += "} ";
+            closingBraces += QLatin1String("} ");
         }
         m_namespaceBlock->setEndText(closingBraces);
         m_namespaceBlock->getComment()->setWriteOutText(true);
@@ -495,26 +494,26 @@ void CPPHeaderCodeDocument::updateContent()
         QString indent = UMLApp::app()->commonPolicy()->getIndentation();
         UMLEnum* e = dynamic_cast<UMLEnum*>(c);
         if (e) {
-            enumStatement.append(indent + "enum " + cppClassName + " {" + endLine);
+            enumStatement.append(indent + QLatin1String("enum ") + cppClassName + QLatin1String(" {") + endLine);
 
             // populate
             UMLClassifierListItemList ell = e->getFilteredList(UMLObject::ot_EnumLiteral);
             for (UMLClassifierListItemListIt elit(ell) ; elit.hasNext() ;) {
                 UMLClassifierListItem* el = elit.next();
-                enumStatement.append(indent+indent);
+                enumStatement.append(indent + indent);
                 enumStatement.append(CodeGenerator::cleanName(el->name()));
                 if (elit.hasNext()) {
                     el=elit.next();
-                    enumStatement.append(", "+endLine);
+                    enumStatement.append(QLatin1String(", ") + endLine);
                 } else {
                     break;
                 }
                 enumStatement.append(endLine);
             }
-            enumStatement.append(indent+"};");
+            enumStatement.append(indent + QLatin1String("};"));
             isEnumeration = true;
         }
-        m_namespaceBlock->addOrUpdateTaggedCodeBlockWithComments("enums", enumStatement, QString(), 0, false);
+        m_namespaceBlock->addOrUpdateTaggedCodeBlockWithComments(QLatin1String("enums"), enumStatement, QString(), 0, false);
     }
 
     // CLASS DECLARATION BLOCK
@@ -537,19 +536,19 @@ void CPPHeaderCodeDocument::updateContent()
     // declare public, protected and private methods, attributes (fields).
     // set the start text ONLY if this is the first time we created the objects.
     bool createdPublicBlock = m_publicBlock == 0 ? true : false;
-    m_publicBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("publicBlock","Public stuff", 0);
+    m_publicBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock(QLatin1String("publicBlock"),QLatin1String("Public stuff"), 0);
     if (createdPublicBlock)
-        m_publicBlock->setStartText("public:");
+        m_publicBlock->setStartText(QLatin1String("public:"));
 
     bool createdProtBlock = m_protectedBlock == 0 ? true : false;
-    m_protectedBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("protectedBlock","Protected stuff", 0);
+    m_protectedBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock(QLatin1String("protectedBlock"),QLatin1String("Protected stuff"), 0);
     if(createdProtBlock)
-        m_protectedBlock->setStartText("protected:");
+        m_protectedBlock->setStartText(QLatin1String("protected:"));
 
     bool createdPrivBlock = m_privateBlock == 0 ? true : false;
-    m_privateBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock("privateBlock","Private stuff", 0);
+    m_privateBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock(QLatin1String("privateBlock"),QLatin1String("Private stuff"), 0);
     if(createdPrivBlock)
-        m_privateBlock->setStartText("private:");
+        m_privateBlock->setStartText(QLatin1String("private:"));
 
     //
     // * CLASS FIELD declaration section
@@ -559,7 +558,7 @@ void CPPHeaderCodeDocument::updateContent()
     //
 
     // public fields: Update the comment: we only set comment to appear under the following conditions
-    HierarchicalCodeBlock * publicFieldDeclBlock = m_publicBlock->getHierarchicalCodeBlock("publicFieldsDecl", "Fields", 1);
+    HierarchicalCodeBlock * publicFieldDeclBlock = m_publicBlock->getHierarchicalCodeBlock(QLatin1String("publicFieldsDecl"), QLatin1String("Fields"), 1);
     CodeComment * pubFcomment = publicFieldDeclBlock->getComment();
     if (!forcedoc && !hasclassFields)
         pubFcomment->setWriteOutText(false);
@@ -567,7 +566,7 @@ void CPPHeaderCodeDocument::updateContent()
         pubFcomment->setWriteOutText(true);
 
     // protected fields: Update the comment: we only set comment to appear under the following conditions
-    HierarchicalCodeBlock * protectedFieldDeclBlock = m_protectedBlock->getHierarchicalCodeBlock("protectedFieldsDecl", "Fields", 1);
+    HierarchicalCodeBlock * protectedFieldDeclBlock = m_protectedBlock->getHierarchicalCodeBlock(QLatin1String("protectedFieldsDecl"), QLatin1String("Fields"), 1);
     CodeComment * protFcomment = protectedFieldDeclBlock->getComment();
     if (!forcedoc && !hasclassFields)
         protFcomment->setWriteOutText(false);
@@ -575,7 +574,7 @@ void CPPHeaderCodeDocument::updateContent()
         protFcomment->setWriteOutText(true);
 
     // private fields: Update the comment: we only set comment to appear under the following conditions
-    HierarchicalCodeBlock * privateFieldDeclBlock = m_privateBlock->getHierarchicalCodeBlock("privateFieldsDecl", "Fields", 1);
+    HierarchicalCodeBlock * privateFieldDeclBlock = m_privateBlock->getHierarchicalCodeBlock(QLatin1String("privateFieldsDecl"), QLatin1String("Fields"), 1);
     CodeComment * privFcomment = privateFieldDeclBlock->getComment();
     if (!forcedoc && !hasclassFields)
         privFcomment->setWriteOutText(false);
@@ -614,7 +613,7 @@ void CPPHeaderCodeDocument::updateContent()
     // get/create the method codeblock
 
     // public methods
-    HierarchicalCodeBlock * pubMethodsBlock = m_publicBlock->getHierarchicalCodeBlock("pubMethodsBlock", QString(), 1);
+    HierarchicalCodeBlock * pubMethodsBlock = m_publicBlock->getHierarchicalCodeBlock(QLatin1String("pubMethodsBlock"), QString(), 1);
     CodeComment * pubMethodsComment = pubMethodsBlock->getComment();
     // set conditions for showing this comment
     if (!forcedoc && !hasclassFields && !hasOperationMethods)
@@ -623,7 +622,7 @@ void CPPHeaderCodeDocument::updateContent()
         pubMethodsComment->setWriteOutText(true);
 
     // protected methods
-    HierarchicalCodeBlock * protMethodsBlock = m_protectedBlock->getHierarchicalCodeBlock("protMethodsBlock", QString(), 1);
+    HierarchicalCodeBlock * protMethodsBlock = m_protectedBlock->getHierarchicalCodeBlock(QLatin1String("protMethodsBlock"), QString(), 1);
     CodeComment * protMethodsComment = protMethodsBlock->getComment();
     // set conditions for showing this comment
     if (!forcedoc && !hasclassFields && !hasOperationMethods)
@@ -632,7 +631,7 @@ void CPPHeaderCodeDocument::updateContent()
         protMethodsComment->setWriteOutText(true);
 
     // private methods
-    HierarchicalCodeBlock * privMethodsBlock = m_privateBlock->getHierarchicalCodeBlock("privMethodsBlock", QString(), 1);
+    HierarchicalCodeBlock * privMethodsBlock = m_privateBlock->getHierarchicalCodeBlock(QLatin1String("privMethodsBlock"), QString(), 1);
     CodeComment * privMethodsComment = privMethodsBlock->getComment();
     // set conditions for showing this comment
     if (!forcedoc && !hasclassFields && !hasOperationMethods)
@@ -648,7 +647,7 @@ void CPPHeaderCodeDocument::updateContent()
     // setup/get/create the constructor codeblocks
 
     // public
-    m_pubConstructorBlock = pubMethodsBlock->getHierarchicalCodeBlock("constructionMethods", "Constructors", 1);
+    m_pubConstructorBlock = pubMethodsBlock->getHierarchicalCodeBlock(QLatin1String("constructionMethods"), QLatin1String("Constructors"), 1);
     // special condiions for showing comment: only when autogenerateding empty constructors
     // Although, we *should* check for other constructor methods too
     CodeComment * pubConstComment = m_pubConstructorBlock->getComment();
@@ -658,7 +657,7 @@ void CPPHeaderCodeDocument::updateContent()
         pubConstComment->setWriteOutText(true);
 
     // protected
-    m_protConstructorBlock = protMethodsBlock->getHierarchicalCodeBlock("constructionMethods", "Constructors", 1);
+    m_protConstructorBlock = protMethodsBlock->getHierarchicalCodeBlock(QLatin1String("constructionMethods"), QLatin1String("Constructors"), 1);
     // special condiions for showing comment: only when autogenerateding empty constructors
     // Although, we *should* check for other constructor methods too
     CodeComment * protConstComment = m_protConstructorBlock->getComment();
@@ -668,7 +667,7 @@ void CPPHeaderCodeDocument::updateContent()
         protConstComment->setWriteOutText(true);
 
     // private
-    m_privConstructorBlock = privMethodsBlock->getHierarchicalCodeBlock("constructionMethods", "Constructors", 1);
+    m_privConstructorBlock = privMethodsBlock->getHierarchicalCodeBlock(QLatin1String("constructionMethods"), QLatin1String("Constructors"), 1);
     // special condiions for showing comment: only when autogenerateding empty constructors
     // Although, we *should* check for other constructor methods too
     CodeComment * privConstComment = m_privConstructorBlock->getComment();
@@ -681,14 +680,14 @@ void CPPHeaderCodeDocument::updateContent()
     // meta-data to state what the scope of this method is, we will make it
     // "public" as a default. This might present problems if the user wants
     // to move the block into the "private" or "protected" blocks.
-    QString emptyConstStatement = cppClassName + " () { }";
+    QString emptyConstStatement = cppClassName + QLatin1String(" () { }");
 
     // search for this first in the entire document. IF not present, put
     // it in the public constructor method block
-    TextBlock * emptyConstTb = findTextBlockByTag("emptyconstructor", true);
+    TextBlock * emptyConstTb = findTextBlockByTag(QLatin1String("emptyconstructor"), true);
     CodeBlockWithComments * emptyConstBlock = dynamic_cast<CodeBlockWithComments*>(emptyConstTb);
     if(!emptyConstBlock)
-        emptyConstBlock = m_pubConstructorBlock->addOrUpdateTaggedCodeBlockWithComments("emptyconstructor", emptyConstStatement, "Empty Constructor", 1, false);
+        emptyConstBlock = m_pubConstructorBlock->addOrUpdateTaggedCodeBlockWithComments(QLatin1String("emptyconstructor"), emptyConstStatement, QLatin1String("Empty Constructor"), 1, false);
 
     // Now, as an additional condition we only show the empty constructor block
     // IF it was desired to be shown
@@ -704,7 +703,7 @@ void CPPHeaderCodeDocument::updateContent()
     // get/create the accessor codeblock
 
     // public
-    HierarchicalCodeBlock * pubAccessorBlock = pubMethodsBlock->getHierarchicalCodeBlock("accessorMethods", "Accessor Methods", 1);
+    HierarchicalCodeBlock * pubAccessorBlock = pubMethodsBlock->getHierarchicalCodeBlock(QLatin1String("accessorMethods"), QLatin1String("Accessor Methods"), 1);
     // set conditions for showing section comment
     CodeComment * pubAccessComment = pubAccessorBlock->getComment();
     if (!forcedoc && !hasclassFields)
@@ -713,7 +712,7 @@ void CPPHeaderCodeDocument::updateContent()
         pubAccessComment->setWriteOutText(true);
 
     // protected
-    HierarchicalCodeBlock * protAccessorBlock = protMethodsBlock->getHierarchicalCodeBlock("accessorMethods", "Accessor Methods", 1);
+    HierarchicalCodeBlock * protAccessorBlock = protMethodsBlock->getHierarchicalCodeBlock(QLatin1String("accessorMethods"), QLatin1String("Accessor Methods"), 1);
     // set conditions for showing section comment
     CodeComment * protAccessComment = protAccessorBlock->getComment();
     if (!forcedoc && !hasclassFields)
@@ -722,7 +721,7 @@ void CPPHeaderCodeDocument::updateContent()
         protAccessComment->setWriteOutText(true);
 
     // private
-    HierarchicalCodeBlock * privAccessorBlock = privMethodsBlock->getHierarchicalCodeBlock("accessorMethods", "Accessor Methods", 1);
+    HierarchicalCodeBlock * privAccessorBlock = privMethodsBlock->getHierarchicalCodeBlock(QLatin1String("accessorMethods"), QLatin1String("Accessor Methods"), 1);
     // set conditions for showing section comment
     CodeComment * privAccessComment = privAccessorBlock->getComment();
     // We've to copy the private accessorMethods to the public block
@@ -733,18 +732,18 @@ void CPPHeaderCodeDocument::updateContent()
 
     // now, 2 sub-sub sections in accessor block
     // add/update accessor methods for attributes
-    HierarchicalCodeBlock * pubStaticAccessors = pubAccessorBlock->getHierarchicalCodeBlock("pubStaticAccessorMethods", QString(), 1);
-    HierarchicalCodeBlock * pubRegularAccessors = pubAccessorBlock->getHierarchicalCodeBlock("pubRegularAccessorMethods", QString(), 1);
+    HierarchicalCodeBlock * pubStaticAccessors = pubAccessorBlock->getHierarchicalCodeBlock(QLatin1String("pubStaticAccessorMethods"), QString(), 1);
+    HierarchicalCodeBlock * pubRegularAccessors = pubAccessorBlock->getHierarchicalCodeBlock(QLatin1String("pubRegularAccessorMethods"), QString(), 1);
     pubStaticAccessors->getComment()->setWriteOutText(false); // never write block comment
     pubRegularAccessors->getComment()->setWriteOutText(false); // never write block comment
 
-    HierarchicalCodeBlock * protStaticAccessors = protAccessorBlock->getHierarchicalCodeBlock("protStaticAccessorMethods", QString(), 1);
-    HierarchicalCodeBlock * protRegularAccessors = protAccessorBlock->getHierarchicalCodeBlock("protRegularAccessorMethods", QString(), 1);
+    HierarchicalCodeBlock * protStaticAccessors = protAccessorBlock->getHierarchicalCodeBlock(QLatin1String("protStaticAccessorMethods"), QString(), 1);
+    HierarchicalCodeBlock * protRegularAccessors = protAccessorBlock->getHierarchicalCodeBlock(QLatin1String("protRegularAccessorMethods"), QString(), 1);
     protStaticAccessors->getComment()->setWriteOutText(false); // never write block comment
     protRegularAccessors->getComment()->setWriteOutText(false); // never write block comment
 
-    HierarchicalCodeBlock * privStaticAccessors = privAccessorBlock->getHierarchicalCodeBlock("privStaticAccessorMethods", QString(), 1);
-    HierarchicalCodeBlock * privRegularAccessors = privAccessorBlock->getHierarchicalCodeBlock("privRegularAccessorMethods", QString(), 1);
+    HierarchicalCodeBlock * privStaticAccessors = privAccessorBlock->getHierarchicalCodeBlock(QLatin1String("privStaticAccessorMethods"), QString(), 1);
+    HierarchicalCodeBlock * privRegularAccessors = privAccessorBlock->getHierarchicalCodeBlock(QLatin1String("privRegularAccessorMethods"), QString(), 1);
     privStaticAccessors->getComment()->setWriteOutText(false); // never write block comment
     privRegularAccessors->getComment()->setWriteOutText(false); // never write block comment
 
@@ -794,7 +793,7 @@ void CPPHeaderCodeDocument::updateContent()
     // setup/get/create the operations codeblock
 
     // public
-    m_pubOperationsBlock = pubMethodsBlock->getHierarchicalCodeBlock("operationMethods", "Operations", 1);
+    m_pubOperationsBlock = pubMethodsBlock->getHierarchicalCodeBlock(QLatin1String("operationMethods"), QLatin1String("Operations"), 1);
     // set conditions for showing section comment
     CodeComment * pubOcomment = m_pubOperationsBlock->getComment();
     if (!forcedoc && !hasOperationMethods)
@@ -803,7 +802,7 @@ void CPPHeaderCodeDocument::updateContent()
         pubOcomment->setWriteOutText(true);
 
     //protected
-    m_protOperationsBlock = protMethodsBlock->getHierarchicalCodeBlock("operationMethods", "Operations", 1);
+    m_protOperationsBlock = protMethodsBlock->getHierarchicalCodeBlock(QLatin1String("operationMethods"), QLatin1String("Operations"), 1);
     // set conditions for showing section comment
     CodeComment * protOcomment = m_protOperationsBlock->getComment();
     if (!forcedoc && !hasOperationMethods)
@@ -812,7 +811,7 @@ void CPPHeaderCodeDocument::updateContent()
         protOcomment->setWriteOutText(true);
 
     //private
-    m_privOperationsBlock = privMethodsBlock->getHierarchicalCodeBlock("operationMethods", "Operations", 1);
+    m_privOperationsBlock = privMethodsBlock->getHierarchicalCodeBlock(QLatin1String("operationMethods"), QLatin1String("Operations"), 1);
     // set conditions for showing section comment
     CodeComment * privOcomment = m_privOperationsBlock->getComment();
     if (!forcedoc && !hasOperationMethods)
@@ -826,8 +825,8 @@ void CPPHeaderCodeDocument::updateContent()
     // in the right place using the "addCodeOperation" method we defined in this class
 
     // FINISH up with hash def block close
-    QString defTextEnd = "#endif //"+hashDefine + "_H";
-    addOrUpdateTaggedCodeBlockWithComments("hashDefBlockEnd", defTextEnd, QString(), 0, false);
+    QString defTextEnd = QLatin1String("#endif //") + hashDefine + QLatin1String("_H");
+    addOrUpdateTaggedCodeBlockWithComments(QLatin1String("hashDefBlockEnd"), defTextEnd, QString(), 0, false);
 }
 
 #include "cppheadercodedocument.moc"

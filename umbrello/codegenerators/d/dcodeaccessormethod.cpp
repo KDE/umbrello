@@ -73,20 +73,20 @@ void DCodeAccessorMethod::updateContent()
             QString indent = getIndentation();
             QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
             if(maxOccurs > 0)
-                text += "if ("+fieldName+".size() < "+ QString::number(maxOccurs)+") {"+endLine+indent;
-            text += fieldName+".add(value);";
+                text += QLatin1String("if (") + fieldName + QLatin1String(".size() < ")+ QString::number(maxOccurs) + QLatin1String(") {") + endLine + indent;
+            text += fieldName + QLatin1String(".add(value);");
             if(maxOccurs > 0)
             {
-                text += endLine+"} else {"+endLine;
-                text += indent + "System.err.println(\"ERROR: Cant add"+fieldType+" to "+fieldName+", minimum number of items reached.\");"+endLine+'}'+endLine;
+                text += endLine + QLatin1String("} else {") + endLine;
+                text += indent + QLatin1String("System.err.println(\"ERROR: Cant add") + fieldType + QLatin1String(" to ") + fieldName + QLatin1String(", minimum number of items reached.\");") + endLine + QLatin1Char('}') + endLine;
             }
             break;
         }
     case CodeAccessorMethod::GET:
-        text = "return "+fieldName+';';
+        text = QLatin1String("return ") + fieldName + QLatin1Char(';');
         break;
     case CodeAccessorMethod::LIST:
-        text = "return (List) "+fieldName+';';
+        text = QLatin1String("return (List) ") + fieldName + QLatin1Char(';');
         break;
     case CodeAccessorMethod::REMOVE:
         {
@@ -96,17 +96,17 @@ void DCodeAccessorMethod::updateContent()
             QString indent = getIndentation();
 
             if(minOccurs > 0)
-                text += "if ("+fieldName+".size() >= "+ QString::number(minOccurs)+") {"+endLine+indent;
-            text += fieldName+".remove(value);";
+                text += QLatin1String("if (") + fieldName + QLatin1String(".size() >= ")+ QString::number(minOccurs) + QLatin1String(") {") + endLine + indent;
+            text += fieldName + QLatin1String(".remove(value);");
             if(minOccurs > 0)
             {
-                text += endLine+"} else {"+endLine;
-                text += indent + "System.err.println(\"ERROR: Cant remove"+fieldType+" from "+fieldName+", minimum number of items reached.\");"+endLine+'}'+endLine;
+                text += endLine + QLatin1String("} else {") + endLine;
+                text += indent + QLatin1String("System.err.println(\"ERROR: Cant remove") + fieldType + QLatin1String(" from ") + fieldName + QLatin1String(", minimum number of items reached.\");") + endLine + QLatin1Char('}') + endLine;
             }
             break;
         }
     case CodeAccessorMethod::SET:
-        text = fieldName+" = value;";
+        text = fieldName + QLatin1String(" = value;");
         break;
     default:
         // do nothing
@@ -155,32 +155,32 @@ void DCodeAccessorMethod::updateMethodDeclaration()
 
     switch(getType()) {
     case CodeAccessorMethod::ADD:
-        methodName = "add" + Codegen_Utils::capitalizeFirstLetter(fieldType);
-        methodReturnType = "void";
-        methodParams = objectType+" value ";
-        headerText = "Add an object of type "+objectType+" to the List "+fieldName+endLine+getParentObject()->doc()+endLine+"@return void";
+        methodName = QLatin1String("add") + Codegen_Utils::capitalizeFirstLetter(fieldType);
+        methodReturnType = QLatin1String("void");
+        methodParams = objectType + QLatin1String(" value ");
+        headerText = QLatin1String("Add an object of type ") + objectType + QLatin1String(" to the List ") + fieldName + endLine + getParentObject()->doc() + endLine + QLatin1String("@return void");
         break;
     case CodeAccessorMethod::GET:
-        methodName = "get" + Codegen_Utils::capitalizeFirstLetter(fieldName);
+        methodName = QLatin1String("get") + Codegen_Utils::capitalizeFirstLetter(fieldName);
         methodReturnType = fieldType;
-        headerText = "Get the value of "+fieldName+endLine+getParentObject()->doc()+endLine+"@return the value of "+fieldName;
+        headerText = QLatin1String("Get the value of ") + fieldName + endLine + getParentObject()->doc() + endLine + QLatin1String("@return the value of ") + fieldName;
         break;
     case CodeAccessorMethod::LIST:
-        methodName = "get" + Codegen_Utils::capitalizeFirstLetter(fieldType)+"List";
-        methodReturnType = "List";
-        headerText = "Get the list of "+fieldName+endLine+getParentObject()->doc()+endLine+"@return List of "+fieldName;
+        methodName = QLatin1String("get") + Codegen_Utils::capitalizeFirstLetter(fieldType) + QLatin1String("List");
+        methodReturnType = QLatin1String("List");
+        headerText = QLatin1String("Get the list of ") + fieldName + endLine + getParentObject()->doc() + endLine + QLatin1String("@return List of ") + fieldName;
         break;
     case CodeAccessorMethod::REMOVE:
-        methodName = "remove" + Codegen_Utils::capitalizeFirstLetter(fieldType);
-        methodReturnType = "void";
-        methodParams = objectType+" value ";
-        headerText = "Remove an object of type "+objectType+" from the List "+fieldName+endLine+getParentObject()->doc();
+        methodName = QLatin1String("remove") + Codegen_Utils::capitalizeFirstLetter(fieldType);
+        methodReturnType = QLatin1String("void");
+        methodParams = objectType + QLatin1String(" value ");
+        headerText = QLatin1String("Remove an object of type ") + objectType + QLatin1String(" from the List ") + fieldName + endLine + getParentObject()->doc();
         break;
     case CodeAccessorMethod::SET:
-        methodName = "set" + Codegen_Utils::capitalizeFirstLetter(fieldName);
-        methodReturnType = "void";
-        methodParams = fieldType + " value ";
-        headerText = "Set the value of "+fieldName+endLine+getParentObject()->doc()+endLine;
+        methodName = QLatin1String("set") + Codegen_Utils::capitalizeFirstLetter(fieldName);
+        methodReturnType = QLatin1String("void");
+        methodParams = fieldType + QLatin1String(" value ");
+        headerText = QLatin1String("Set the value of ") + fieldName + endLine + getParentObject()->doc() + endLine;
         break;
     default:
         // do nothing..no idea what this is
@@ -193,8 +193,8 @@ void DCodeAccessorMethod::updateMethodDeclaration()
         getComment()->setText(headerText);
 
     // set start/end method text
-    setStartMethodText(strVis+' '+methodReturnType+' '+methodName+" ("+methodParams+") {");
-    setEndMethodText("}");
+    setStartMethodText(strVis + QLatin1Char(' ') + methodReturnType + QLatin1Char(' ') + methodName + QLatin1String(" (") + methodParams + QLatin1String(") {"));
+    setEndMethodText(QLatin1String("}"));
 }
 
 void DCodeAccessorMethod::update()

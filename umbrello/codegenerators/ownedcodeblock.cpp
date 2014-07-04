@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2013                                               *
+ *   copyright (C) 2004-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -28,7 +28,7 @@
 OwnedCodeBlock::OwnedCodeBlock (UMLObject * parent)
     : QObject (parent)
 {
-    setObjectName("anOwnedCodeBlock");
+    setObjectName(QLatin1String("anOwnedCodeBlock"));
     initFields(parent);
 }
 
@@ -86,16 +86,16 @@ void OwnedCodeBlock::setAttributesOnNode(QDomDocument& /*doc*/, QDomElement& ele
     // (change would break the XMI format..save for big version change)
     UMLRole * role = dynamic_cast<UMLRole*>(m_parentObject);
     if (role) {
-        elem.setAttribute("parent_id", Uml::ID::toString(role->parentAssociation()->id()));
+        elem.setAttribute(QLatin1String("parent_id"), Uml::ID::toString(role->parentAssociation()->id()));
         // CAUTION: role_id here is numerically inverted wrt Uml::Role_Type,
         //          i.e. role A is 1 and role B is 0.
         //          I'll resist the temptation to change this -
         //          in order to maintain backward compatibility.
-        elem.setAttribute("role_id", (role->role() == Uml::RoleType::A));
+        elem.setAttribute(QLatin1String("role_id"), (role->role() == Uml::RoleType::A));
     }
     else {
-        elem.setAttribute("parent_id", Uml::ID::toString(m_parentObject->id()));
-        //elem.setAttribute("role_id","-1");
+        elem.setAttribute(QLatin1String("parent_id"), Uml::ID::toString(m_parentObject->id()));
+        //elem.setAttribute(QLatin1String("role_id"),QLatin1String("-1"));
     }
 }
 
@@ -106,7 +106,7 @@ void OwnedCodeBlock::setAttributesOnNode(QDomDocument& /*doc*/, QDomElement& ele
 void OwnedCodeBlock::setAttributesFromNode (QDomElement & elem)
 {
     // set local attributes, parent object first
-    QString idStr = elem.attribute("parent_id","-1");
+    QString idStr = elem.attribute(QLatin1String("parent_id"), QLatin1String("-1"));
     Uml::ID::Type id = Uml::ID::fromString(idStr);
 
     // always disconnect from current parent
@@ -129,7 +129,7 @@ void OwnedCodeBlock::setAttributesFromNode (QDomElement & elem)
         if (assoc) {
             // In this case we init with indicated role child obj.
             UMLRole * role = 0;
-            int role_id = elem.attribute("role_id","-1").toInt();
+            int role_id = elem.attribute(QLatin1String("role_id"), QLatin1String("-1")).toInt();
             // see comment on role_id at setAttributesOnNode()
             if (role_id == 1)
                 role = assoc->getUMLRole(Uml::RoleType::A);

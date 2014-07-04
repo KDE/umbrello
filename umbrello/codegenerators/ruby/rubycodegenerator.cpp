@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2013                                               *
+ *   copyright (C) 2006-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -98,7 +98,7 @@ bool RubyCodeGenerator::getAutoGenerateAssocAccessors()
  */
 QString RubyCodeGenerator::getListFieldClassName()
 {
-    return QString("Array");
+    return QString(QLatin1String("Array"));
 }
 
 /**
@@ -110,17 +110,17 @@ QString RubyCodeGenerator::getListFieldClassName()
 QString RubyCodeGenerator::cppToRubyType(const QString &cppType)
 {
     QString type = cleanName(cppType);
-    type.remove("const ");
-    type.remove(QRegExp("[*&\\s]"));
-    type.replace(QRegExp("[<>]"), "_");
-    type.replace("QStringList", "Array");
-    type.replace(QRegExp("^string$"),"String");
-    type.replace("QString", "String");
-    type.replace("bool", "true|false");
-    type.replace(QRegExp("^(uint|int|ushort|short|ulong|long)$"), "Integer");
-    type.replace(QRegExp("^(float|double)$"), "Float");
-    type.replace(QRegExp("^Q(?=[A-Z])"), "Qt::");
-    type.replace(QRegExp("^K(?!(DE|Parts|IO)"), "KDE::");
+    type.remove(QLatin1String("const "));
+    type.remove(QRegExp(QLatin1String("[*&\\s]")));
+    type.replace(QRegExp(QLatin1String("[<>]")), QLatin1String("_"));
+    type.replace(QLatin1String("QStringList"), QLatin1String("Array"));
+    type.replace(QRegExp(QLatin1String("^string$")),QLatin1String("String"));
+    type.replace(QLatin1String("QString"), QLatin1String("String"));
+    type.replace(QLatin1String("bool"), QLatin1String("true|false"));
+    type.replace(QRegExp(QLatin1String("^(uint|int|ushort|short|ulong|long)$")), QLatin1String("Integer"));
+    type.replace(QRegExp(QLatin1String("^(float|double)$")), QLatin1String("Float"));
+    type.replace(QRegExp(QLatin1String("^Q(?=[A-Z])")), QLatin1String("Qt::"));
+    type.replace(QRegExp(QLatin1String("^K(?!(DE|Parts|IO)")), QLatin1String("KDE::"));
 
     return type;
 }
@@ -134,8 +134,8 @@ QString RubyCodeGenerator::cppToRubyType(const QString &cppType)
 QString RubyCodeGenerator::cppToRubyName(const QString &cppName)
 {
     QString name = cleanName(cppName);
-    name.remove(QRegExp("^m_"));
-    name.remove(QRegExp("^[pbn](?=[A-Z])"));
+    name.remove(QRegExp(QLatin1String("^m_")));
+    name.remove(QRegExp(QLatin1String("^[pbn](?=[A-Z])")));
     name = name.mid(0, 1).toLower() + name.mid(1);
     return name;
 }
@@ -161,46 +161,47 @@ QStringList RubyCodeGenerator::reservedKeywords() const
     static QStringList keywords;
 
     if (keywords.isEmpty()) {
-        keywords << "__FILE__"
-        << "__LINE__"
-        << "BEGIN"
-        << "END"
-        << "alias"
-        << "and"
-        << "begin"
-        << "break"
-        << "case"
-        << "class"
-        << "def"
-        << "defined?"
-        << "do"
-        << "else"
-        << "elsif"
-        << "end"
-        << "ensure"
-        << "false"
-        << "for"
-        << "if"
-        << "in"
-        << "module"
-        << "next"
-        << "nil"
-        << "not"
-        << "or"
-        << "redo"
-        << "rescue"
-        << "retry"
-        << "return"
-        << "self"
-        << "super"
-        << "then"
-        << "true"
-        << "undef"
-        << "unless"
-        << "until"
-        << "when"
-        << "while"
-        << "yield";
+        keywords
+          << QLatin1String("__FILE__")
+          << QLatin1String("__LINE__")
+          << QLatin1String("BEGIN")
+          << QLatin1String("END")
+          << QLatin1String("alias")
+          << QLatin1String("and")
+          << QLatin1String("begin")
+          << QLatin1String("break")
+          << QLatin1String("case")
+          << QLatin1String("class")
+          << QLatin1String("def")
+          << QLatin1String("defined?")
+          << QLatin1String("do")
+          << QLatin1String("else")
+          << QLatin1String("elsif")
+          << QLatin1String("end")
+          << QLatin1String("ensure")
+          << QLatin1String("false")
+          << QLatin1String("for")
+          << QLatin1String("if")
+          << QLatin1String("in")
+          << QLatin1String("module")
+          << QLatin1String("next")
+          << QLatin1String("nil")
+          << QLatin1String("not")
+          << QLatin1String("or")
+          << QLatin1String("redo")
+          << QLatin1String("rescue")
+          << QLatin1String("retry")
+          << QLatin1String("return")
+          << QLatin1String("self")
+          << QLatin1String("super")
+          << QLatin1String("then")
+          << QLatin1String("true")
+          << QLatin1String("undef")
+          << QLatin1String("unless")
+          << QLatin1String("until")
+          << QLatin1String("when")
+          << QLatin1String("while")
+          << QLatin1String("yield");
     }
 
     return keywords;

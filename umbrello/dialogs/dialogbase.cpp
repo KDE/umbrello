@@ -49,7 +49,7 @@ DialogBase::DialogBase(QWidget *parent, bool withDefaultButton)
         m_pageDialog->showButtonSeparator(true);
         m_pageDialog->setFaceType(KPageDialog::List);
         m_pageDialog->setModal(true);
-        m_pageDialog->setHelp("umbrello/index.html", QString());
+        m_pageDialog->setHelp(QString::fromLatin1("umbrello/index.html"), QString());
         connect(m_pageDialog, SIGNAL(okClicked()), this, SLOT(slotOkClicked()));
         connect(m_pageDialog, SIGNAL(applyClicked()), this, SLOT(slotApplyClicked()));
         connect(m_pageDialog, SIGNAL(defaultClicked()), this, SLOT(slotDefaultClicked()));

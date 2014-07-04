@@ -35,7 +35,7 @@ CPPCodeDocumentation::~CPPCodeDocumentation()
  */
 void CPPCodeDocumentation::saveToXMI(QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement("cppcodedocumentation");
+    QDomElement blockElement = doc.createElement(QLatin1String("cppcodedocumentation"));
     setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
     // just use parent TextBlock method
     root.appendChild(blockElement);
@@ -64,11 +64,11 @@ QString CPPCodeDocumentation::toString() const
         if(useDoubleDashOutput)
         {
             if(!body.isEmpty())
-                output.append(formatMultiLineText (body, indent +"// ", endLine));
+                output.append(formatMultiLineText (body, indent + QLatin1String("// "), endLine));
         } else {
-            output.append(indent+"/**"+endLine);
-            output.append(formatMultiLineText (body, indent +" * ", endLine));
-            output.append(indent+" */"+endLine);
+            output.append(indent + QLatin1String("/**") + endLine);
+            output.append(formatMultiLineText (body, indent + QLatin1String(" * "), endLine));
+            output.append(indent + QLatin1String(" */") + endLine);
         }
     }
 
@@ -79,9 +79,9 @@ QString CPPCodeDocumentation::getNewEditorLine(int amount)
 {
     CodeGenerationPolicy * p = UMLApp::app()->commonPolicy();
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
-        return getIndentationString(amount) + " * ";
+        return getIndentationString(amount) + QLatin1String(" * ");
     else
-        return getIndentationString(amount) + "// ";
+        return getIndentationString(amount) + QLatin1String("// ");
 }
 
 int CPPCodeDocumentation::firstEditableLine()
@@ -110,14 +110,14 @@ QString CPPCodeDocumentation::unformatText(const QString & text, const QString &
     QString mytext = TextBlock::unformatText(text, indent);
     CodeGenerationPolicy * p = UMLApp::app()->commonPolicy();
     // remove leading or trailing comment stuff
-    mytext.remove(QRegExp('^'+indent));
+    mytext.remove(QRegExp(QLatin1Char('^') + indent));
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
     {
-        mytext.remove(QRegExp("^\\/\\*\\*\\s*\n?"));
-        mytext.remove(QRegExp("\\s*\\*\\/\\s*\n?$"));
-        mytext.remove(QRegExp("^\\s*\\*\\s*"));
+        mytext.remove(QRegExp(QLatin1String("^\\/\\*\\*\\s*\n?")));
+        mytext.remove(QRegExp(QLatin1String("\\s*\\*\\/\\s*\n?$")));
+        mytext.remove(QRegExp(QLatin1String("^\\s*\\*\\s*")));
     } else
-        mytext.remove(QRegExp("^\\/\\/\\s*"));
+        mytext.remove(QRegExp(QLatin1String("^\\/\\/\\s*")));
 
     return mytext;
 }

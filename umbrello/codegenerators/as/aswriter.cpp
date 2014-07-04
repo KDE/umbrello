@@ -486,7 +486,7 @@ void ASWriter::writeClass(UMLClassifier *c)
     QString fileName = c->name().toLower();
 
     //find an appropriate name for our file
-    fileName = findFileName(c,".as");
+    fileName = findFileName(c, QLatin1String(".as"));
     if (fileName.isEmpty())
     {
         emit codeGenerated(c, false);
@@ -507,11 +507,11 @@ void ASWriter::writeClass(UMLClassifier *c)
 
     //try to find a heading file (license, coments, etc)
     QString str;
-    str = getHeadingFile(".as");
+    str = getHeadingFile(QLatin1String(".as"));
     if (!str.isEmpty())
     {
-        str.replace(QRegExp("%filename%"), fileName+".as");
-        str.replace(QRegExp("%filepath%"), fileas.fileName());
+        str.replace(QRegExp(QLatin1String("%filename%")), fileName + QLatin1String(".as"));
+        str.replace(QRegExp(QLatin1String("%filepath%")), fileas.fileName());
         as << str << m_endl;
     }
 
@@ -519,10 +519,10 @@ void ASWriter::writeClass(UMLClassifier *c)
     UMLPackageList includes;
     findObjectsRelated(c, includes);
     foreach (UMLPackage* conc, includes) {
-        QString headerName = findFileName(conc, ".as");
+        QString headerName = findFileName(conc, QLatin1String(".as"));
         if (!headerName.isEmpty())
         {
-            as << "#include \"" << findFileName(conc,".as") << "\"" << m_endl;
+            as << "#include \"" << findFileName(conc, QLatin1String(".as")) << "\"" << m_endl;
         }
     }
     as << m_endl;
@@ -532,7 +532,7 @@ void ASWriter::writeClass(UMLClassifier *c)
     {
         as << m_endl << "/**" << m_endl;
         as << "  * class " << classname << m_endl;
-        as << formatDoc(c->doc(),"  * ");
+        as << formatDoc(c->doc(), QLatin1String("  * "));
         as << "  */" << m_endl << m_endl;
     }
 
@@ -566,10 +566,10 @@ void ASWriter::writeClass(UMLClassifier *c)
         UMLAttributeList atl = c->getAttributeList();
 
         as << "/**" << m_endl;
-        QString temp = "_init sets all " + classname +
-                       " attributes to their default values. " +
-                       "Make sure to call this method within your class constructor";
-        as << formatDoc(temp, " * ");
+        QString temp = QLatin1String("_init sets all ") + classname +
+                       QLatin1String(" attributes to their default values. ") +
+                       QLatin1String("Make sure to call this method within your class constructor");
+        as << formatDoc(temp, QLatin1String(" * "));
         as << " */" << m_endl;
         as << classname << ".prototype._init = function ()" << m_endl;
         as << "{" << m_endl;
@@ -577,10 +577,10 @@ void ASWriter::writeClass(UMLClassifier *c)
             if (forceDoc() || !at->doc().isEmpty())
             {
                 as << m_indentation << "/**" << m_endl
-                << formatDoc(at->doc(), m_indentation + " * ")
+                << formatDoc(at->doc(), m_indentation + QLatin1String(" * "))
                 << m_indentation << " */" << m_endl;
             }
-            if(!at->getInitialValue().isEmpty())
+            if (!at->getInitialValue().isEmpty())
             {
                 as << m_indentation << "this.m_" << cleanName(at->name()) << " = " << at->getInitialValue() << ";" << m_endl;
             }
@@ -680,14 +680,14 @@ void ASWriter::writeAssociation(QString& classname, UMLAssociationList& assocLis
             // association doc
             if (forceDoc() || !a->doc().isEmpty()) {
                 as << m_indentation << "/**" << m_endl
-                << formatDoc(a->doc(), m_indentation + " * ")
+                << formatDoc(a->doc(), m_indentation + QLatin1String(" * "))
                 << m_indentation << " */" << m_endl;
             }
 
             // role doc
             if (forceDoc() || !a->getRoleDoc(role).isEmpty()) {
                 as << m_indentation << "/**" << m_endl
-                << formatDoc(a->getRoleDoc(role), m_indentation + " * ")
+                << formatDoc(a->getRoleDoc(role), m_indentation + QLatin1String(" * "))
                 << m_indentation << " */" << m_endl;
             }
 
@@ -734,14 +734,14 @@ void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
             writeDoc |= !at->doc().isEmpty();
         }
 
-        if(writeDoc)  //write method documentation
+        if (writeDoc)  //write method documentation
         {
-            as << "/**" << m_endl << formatDoc(op->doc()," * ");
+            as << "/**" << m_endl << formatDoc(op->doc(), QLatin1String(" * "));
 
             foreach (UMLAttribute* at,  atl) {
-                if(forceDoc() || !at->doc().isEmpty()) {
-                    as << " * @param " + cleanName(at->name())<<m_endl;
-                    as << formatDoc(at->doc(),"    *      ");
+                if (forceDoc() || !at->doc().isEmpty()) {
+                    as << " * @param " << cleanName(at->name()) << m_endl;
+                    as << formatDoc(at->doc(), QLatin1String("    *      "));
                 }
             }//end for : write parameter documentation
             as << " */" << m_endl;
@@ -754,8 +754,8 @@ void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
         for (UMLAttributeListIt atlIt(atl); atlIt.hasNext(); ++j) {
             UMLAttribute* at = atlIt.next();
             as << cleanName(at->name())
-            << (!(at->getInitialValue().isEmpty()) ? (QString(" = ")+at->getInitialValue()) : QString())
-            << ((j < i-1) ? ", " : QString());
+            << (!(at->getInitialValue().isEmpty()) ? (QLatin1String(" = ") + at->getInitialValue()) : QString())
+            << ((j < i-1) ? QLatin1String(", ") : QString());
         }
         as << ")" << m_endl << "{" << m_endl;
         QString sourceCode = op->getSourceCode();
@@ -789,7 +789,7 @@ QStringList ASWriter::reservedKeywords() const
 
     if (keywords.isEmpty()) {
         for (int i = 0; reserved_words[i]; ++i) {
-            keywords.append(reserved_words[i]);
+            keywords.append(QLatin1String(reserved_words[i]));
         }
     }
 

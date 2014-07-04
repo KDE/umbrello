@@ -35,7 +35,7 @@ public:
         initHash();
     }
 
-    HashedString(const char* str) : m_str(str)
+    HashedString(const char* str) : m_str(QLatin1String(str))
     {
         initHash();
     }

@@ -2998,7 +2998,7 @@ void PhpWriter::writeClass(UMLClassifier *c)
 
     QString classname = cleanName(c->name());
     //find an appropriate name for our file
-    QString fileName = findFileName(c, ".php");
+    QString fileName = findFileName(c, QLatin1String(".php"));
     if (fileName.isEmpty()) {
         emit codeGenerated(c, false);
         return;
@@ -3017,10 +3017,10 @@ void PhpWriter::writeClass(UMLClassifier *c)
 
     //try to find a heading file (license, coments, etc)
     QString str;
-    str = getHeadingFile(".php");
+    str = getHeadingFile(QLatin1String(".php"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp("%filename%"), fileName);
-        str.replace(QRegExp("%filepath%"), filephp.fileName());
+        str.replace(QRegExp(QLatin1String("%filename%")), fileName);
+        str.replace(QRegExp(QLatin1String("%filepath%")), filephp.fileName());
         php << str << m_endl;
     }
 
@@ -3029,7 +3029,7 @@ void PhpWriter::writeClass(UMLClassifier *c)
     findObjectsRelated(c, includes);
 
     foreach(UMLPackage* conc, includes) {
-        QString headerName = findFileName(conc, ".php");
+        QString headerName = findFileName(conc, QLatin1String(".php"));
         if (headerName.isEmpty()) {
             php << "include '" << headerName << "';" << m_endl;
         }
@@ -3040,7 +3040,7 @@ void PhpWriter::writeClass(UMLClassifier *c)
     if (forceDoc() || !c->doc().isEmpty()) {
         php << m_endl << "/**" << m_endl;
         php << " * class " << classname << m_endl;
-        php << formatDoc(c->doc()," * ");
+        php << formatDoc(c->doc(), QLatin1String(" * "));
         php << " */" << m_endl ;
     }
 
@@ -3052,12 +3052,12 @@ void PhpWriter::writeClass(UMLClassifier *c)
     //FG        if(c->getAbstract() && !hasAbstractOps(c))
     if (c->isAbstract())
         php << "/******************************* Abstract Class ****************************" << m_endl << "  "
-        << classname << " does not have any pure virtual methods, but its author" << m_endl
-        << "  defined it as an abstract class, so you should not use it directly." << m_endl
-        << "  Inherit from it instead and create only objects from the derived classes" << m_endl
-        << "*****************************************************************************/" << m_endl << m_endl;
+            << classname << " does not have any pure virtual methods, but its author" << m_endl
+            << "  defined it as an abstract class, so you should not use it directly." << m_endl
+            << "  Inherit from it instead and create only objects from the derived classes" << m_endl
+            << "*****************************************************************************/" << m_endl << m_endl;
 
-    php << "class " << classname << (superclasses.count() > 0 ? " extends " : QString());
+    php << "class " << classname << (superclasses.count() > 0 ? QLatin1String(" extends ") : QString());
     foreach (UMLClassifier *obj, superclasses) {
         php << cleanName(obj->name());
     }
@@ -3065,9 +3065,9 @@ void PhpWriter::writeClass(UMLClassifier *c)
 
     //associations
     if (forceSections() || !aggregations.isEmpty()) {
-        php<< m_endl << m_indentation << "/** Aggregations: */" << m_endl;
+        php <<  m_endl << m_indentation << "/** Aggregations: */" << m_endl;
         foreach (UMLAssociation* a, aggregations) {
-            php<< m_endl;
+            php <<  m_endl;
             //maybe we should parse the string here and take multiplicity into account to decide
             //which container to use.
             //:UNUSED: UMLObject *o = a->getObject(Uml::RoleType::A);
@@ -3081,7 +3081,7 @@ void PhpWriter::writeClass(UMLClassifier *c)
     }
 
     if (forceSections() || !compositions.isEmpty()) {
-        php<< m_endl << m_indentation << "/** Compositions: */" << m_endl;
+        php <<  m_endl << m_indentation << "/** Compositions: */" << m_endl;
         foreach (UMLAssociation* a, compositions) {
             // see comment on Aggregation about multiplicity...
             //:UNUSED: UMLObject *o = a->getObject(Uml::RoleType::A);
@@ -3108,11 +3108,11 @@ void PhpWriter::writeClass(UMLClassifier *c)
         php << m_endl;
 
         php << m_indentation << "/**" << m_endl;
-        QString temp = "initAttributes sets all " + classname + " attributes to its default value."
-                       " Make sure to call this method within your class constructor";
-        php << formatDoc(temp, m_indentation + " * ");
+        QString temp = QLatin1String("initAttributes sets all ") + classname + QLatin1String(" attributes to its default value.")
+                     + QLatin1String(" Make sure to call this method within your class constructor");
+        php << formatDoc(temp, m_indentation + QLatin1String(" * "));
         php << m_indentation << " */" << m_endl;
-        php << m_indentation << "function "<<"initAttributes()" << m_endl;
+        php << m_indentation << "function " << "initAttributes()" << m_endl;
         php << m_indentation << "{" << m_endl;
         foreach (UMLAttribute* at, atl)  {
             if (!at->getInitialValue().isEmpty())  {
@@ -3205,14 +3205,14 @@ void PhpWriter::writeOperations(const QString& classname,
 
         if (writeDoc)  //write method documentation
         {
-            php <<m_indentation << "/**" << m_endl <<formatDoc(op->doc(), m_indentation + " * ");
+            php <<m_indentation << "/**" << m_endl <<formatDoc(op->doc(), m_indentation + QLatin1String(" * "));
             php << m_indentation << " *" << m_endl;
 
             foreach (UMLAttribute* at, atl)  //write parameter documentation
             {
                 if (forceDoc() || !at->doc().isEmpty()) {
-                    php <<m_indentation << " * @param " + at->getTypeName() + " " + cleanName(at->name());
-                    php << " " + formatDoc(at->doc(), QString());
+                    php << m_indentation << " * @param " << at->getTypeName() << " " << cleanName(at->name());
+                    php << " " << formatDoc(at->doc(), QString());
                 }
             }//end for : write parameter documentation
             php << m_indentation << " * @return " << op->getTypeName() << m_endl;
@@ -3240,10 +3240,9 @@ void PhpWriter::writeOperations(const QString& classname,
         int j=0;
         foreach (UMLAttribute* at, atl) {
             php << " $" << cleanName(at->name())
-            << (!(at->getInitialValue().isEmpty()) ?
-                (QString(" = ") + at->getInitialValue()) :
-                QString())
-            << ((j < i-1) ? ", " : QString());
+                << (!(at->getInitialValue().isEmpty()) ?
+                    QLatin1String(" = ") + at->getInitialValue() : QString())
+                << ((j < i-1) ? QLatin1String(", ") : QString());
             j++;
         }
         php <<")" << m_endl;
@@ -3255,7 +3254,7 @@ void PhpWriter::writeOperations(const QString& classname,
         else {
             php << formatSourceCode(sourceCode, m_indentation + m_indentation);
         }
-        php << m_indentation << "} // end of member function " + cleanName(op->name()) + m_endl;
+        php << m_indentation << "} // end of member function " << cleanName(op->name()) << m_endl;
         php << m_endl;
     }//end for
 }
@@ -3291,7 +3290,7 @@ void PhpWriter::writeAttributes(UMLClassifier *c, QTextStream &php)
     }
 
     if (forceSections() || atl.count())
-        php<< m_endl << m_indentation << " /*** Attributes: ***/" << m_endl <<m_endl;
+        php <<  m_endl << m_indentation << " /*** Attributes: ***/" << m_endl << m_endl;
 
     if (forceSections() || atpub.count()) {
         writeAttributes(atpub, php);
@@ -3315,7 +3314,7 @@ void PhpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &php)
 {
     foreach (UMLAttribute *at, atList) {
         if (forceDoc() || !at->doc().isEmpty()) {
-            php << m_indentation << "/**" << m_endl << formatDoc(at->doc(), m_indentation + " * ");
+            php << m_indentation << "/**" << m_endl << formatDoc(at->doc(), m_indentation + QLatin1String(" * "));
             switch(at->visibility()) {
               case Uml::Visibility::Public:
                 php << m_indentation << " * @access public" << m_endl;
@@ -3357,7 +3356,7 @@ QStringList PhpWriter::reservedKeywords() const
 
     if (keywords.isEmpty()) {
         for (int i = 0; reserved_words[i]; ++i)
-            keywords.append(reserved_words[i]);
+            keywords.append(QLatin1String(reserved_words[i]));
     }
 
     return keywords;

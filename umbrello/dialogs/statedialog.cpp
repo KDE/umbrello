@@ -152,7 +152,7 @@ void StateDialog::setupGeneralPage()
         typeStr = i18nc("choice state in statechart", "Choice");
         break;
     default:
-        typeStr = "???";
+        typeStr = QString::fromLatin1("???");
         break;
     }
     Dialog_Utils::makeLabeledEditField(generalLayout, 0,

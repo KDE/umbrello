@@ -3,7 +3,7 @@
     Copyright 2010  Nokia Corporation and/or its subsidiary(-ies) <qt-info@nokia.com>
                     Code based on examples of the Qt Toolkit under BSD license,
                     <http://doc.qt.nokia.com/4.6/richtext-syntaxhighlighter.html>.
-    Copyright 2010  Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    Copyright 2010-2014 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License as
@@ -50,30 +50,30 @@ CodeTextHighlighter::CodeTextHighlighter(QTextDocument *parent)
 
     m_classFormat.setFontWeight(QFont::Bold);
     m_classFormat.setForeground(Qt::darkMagenta);
-    rule.pattern = QRegExp("\\bQ[A-Za-z]+\\b");
+    rule.pattern = QRegExp(QString::fromLatin1("\\bQ[A-Za-z]+\\b"));
     rule.format = m_classFormat;
     m_highlightingRules.append(rule);
 
     m_singleLineCommentFormat.setForeground(Qt::red);
-    rule.pattern = QRegExp("//[^\n]*");
+    rule.pattern = QRegExp(QString::fromLatin1("//[^\n]*"));
     rule.format = m_singleLineCommentFormat;
     m_highlightingRules.append(rule);
 
     m_multiLineCommentFormat.setForeground(Qt::red);
 
     m_quotationFormat.setForeground(Qt::darkGreen);
-    rule.pattern = QRegExp("\".*\"");
+    rule.pattern = QRegExp(QString::fromLatin1("\".*\""));
     rule.format = m_quotationFormat;
     m_highlightingRules.append(rule);
 
     m_functionFormat.setFontItalic(true);
     m_functionFormat.setForeground(Qt::blue);
-    rule.pattern = QRegExp("\\b[A-Za-z0-9_]+(?=\\()");
+    rule.pattern = QRegExp(QString::fromLatin1("\\b[A-Za-z0-9_]+(?=\\()"));
     rule.format = m_functionFormat;
     m_highlightingRules.append(rule);
 
-    m_commentStartExpression = QRegExp("/\\*");
-    m_commentEndExpression = QRegExp("\\*/");
+    m_commentStartExpression = QRegExp(QString::fromLatin1("/\\*"));
+    m_commentEndExpression = QRegExp(QString::fromLatin1("\\*/"));
 }
 
 /**

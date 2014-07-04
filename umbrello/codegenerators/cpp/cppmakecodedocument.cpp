@@ -17,9 +17,9 @@ const char * CPPMakefileCodeDocument::DOCUMENT_ID_VALUE = "Makefile_DOC";
 
 CPPMakefileCodeDocument::CPPMakefileCodeDocument ()
 {
-    setFileName("Makefile"); // default name
+    setFileName(QLatin1String("Makefile")); // default name
     setFileExtension(QString());
-    setID(DOCUMENT_ID_VALUE); // default id tag for this type of document
+    setID(QLatin1String(DOCUMENT_ID_VALUE)); // default id tag for this type of document
 }
 
 CPPMakefileCodeDocument::~CPPMakefileCodeDocument ()
@@ -38,7 +38,7 @@ void CPPMakefileCodeDocument::updateContent()
  */
 QString CPPMakefileCodeDocument::toString ()
 {
-    return "# cpp make build document";
+    return QLatin1String("# cpp make build document");
 }
 
 // We overwritten by CPP language implementation to get lowercase path
@@ -50,10 +50,10 @@ QString CPPMakefileCodeDocument::getPath ()
     path.simplified();
 
     // Replace all blanks with underscore
-    path.replace(QRegExp(" "), "_");
+    path.replace(QRegExp(QLatin1String(" ")), QLatin1String("_"));
 
-    path.replace(QRegExp("\\."),"/");
-    path.replace(QRegExp("::"),"/");
+    path.replace(QRegExp(QLatin1String("\\.")),QLatin1String("/"));
+    path.replace(QRegExp(QLatin1String("::")), QLatin1String("/"));
 
     path = path.toLower();
 

@@ -105,12 +105,13 @@ QString CodeDocument::getPath ()
     path = path.simplified();
 
     // Replace all blanks with underscore
-    path.replace(QRegExp(" "), "_");
+    path.replace(QRegExp(QLatin1String(" ")), QLatin1String("_"));
 
     // this allows multiple directory paths (ala Java, some other languages)
     // in from the package specification
-    path.replace(QRegExp("\\."),"/"); // Simple hack!.. but this is more or less language
-    // dependant and should probably be commented out.
+    path.replace(QRegExp(QLatin1String("\\.")), QLatin1String("/"));
+    // Simple hack!.. but this is more or less language
+    // dependent and should probably be commented out.
     // Still, as a general default it may be useful -b.t.
     return path;
 }
@@ -193,12 +194,12 @@ QString CodeDocument::getUniqueTag (const QString& prefix)
 {
     QString tag = prefix ;
     if(tag.isEmpty())
-        tag += "tblock";
+        tag += QLatin1String("tblock");
 
-    tag = tag + "_0";
+    tag = tag + QLatin1String("_0");
     int number = m_lastTagIndex;
     for (; findTextBlockByTag(tag, true); ++number) {
-        tag = prefix + '_' + QString::number(number);
+        tag = prefix + QLatin1Char('_') + QString::number(number);
     }
     m_lastTagIndex = number;
     return tag;
@@ -280,10 +281,10 @@ void CodeDocument::updateHeader ()
     //try to find a heading file (license, coments, etc) then extract its text
     QString headingText = UMLApp::app()->commonPolicy()->getHeadingFile(getFileExtension());
 
-    headingText.replace(QRegExp("%filename%"), getFileName()+getFileExtension());
-    headingText.replace(QRegExp("%filepath%"), getPath());
-    headingText.replace(QRegExp("%time%"), QTime::currentTime().toString());
-    headingText.replace(QRegExp("%date%"), QDate::currentDate().toString());
+    headingText.replace(QRegExp(QLatin1String("%filename%")), getFileName()+getFileExtension());
+    headingText.replace(QRegExp(QLatin1String("%filepath%")), getPath());
+    headingText.replace(QRegExp(QLatin1String("%time%")), QTime::currentTime().toString());
+    headingText.replace(QRegExp(QLatin1String("%date%")), QDate::currentDate().toString());
 
     getHeader()->setText(headingText);
 
@@ -359,18 +360,19 @@ void CodeDocument::setAttributesOnNode (QDomDocument & doc, QDomElement & docEle
     CodeGenObjectWithTextBlocks::setAttributesOnNode(doc, docElement);
 
     // now set local attributes/fields
-    docElement.setAttribute("fileName", getFileName());
-    docElement.setAttribute("fileExt", getFileExtension());
+    docElement.setAttribute(QLatin1String("fileName"), getFileName());
+    docElement.setAttribute(QLatin1String("fileExt"), getFileExtension());
     Uml::ID::Type pkgId = Uml::ID::None;
     if (m_package)
         pkgId = m_package->id();
-    docElement.setAttribute("package", Uml::ID::toString(pkgId));
-    docElement.setAttribute("writeOutCode", getWriteOutCode() ? "true" : "false");
-    docElement.setAttribute("id", ID());
+    docElement.setAttribute(QLatin1String("package"), Uml::ID::toString(pkgId));
+    docElement.setAttribute(QLatin1String("writeOutCode"), getWriteOutCode() ? QLatin1String("true")
+                                                                             : QLatin1String("false"));
+    docElement.setAttribute(QLatin1String("id"), ID());
 
     // set the a header
     // which we will store in its own separate child node block
-    QDomElement commElement = doc.createElement("header");
+    QDomElement commElement = doc.createElement(QLatin1String("header"));
     getHeader()->saveToXMI(doc, commElement); // comment
     docElement.appendChild(commElement);
 
@@ -386,12 +388,12 @@ void CodeDocument::setAttributesOnNode (QDomDocument & doc, QDomElement & docEle
 void CodeDocument::setAttributesFromNode (QDomElement & root)
 {
     // now set local attributes
-    setFileName(root.attribute("fileName"));
-    setFileExtension(root.attribute("fileExt"));
-    QString pkgStr = root.attribute("package");
-    if (!pkgStr.isEmpty() && pkgStr != "-1") {
+    setFileName(root.attribute(QLatin1String("fileName")));
+    setFileExtension(root.attribute(QLatin1String("fileExt")));
+    QString pkgStr = root.attribute(QLatin1String("package"));
+    if (!pkgStr.isEmpty() && pkgStr != QLatin1String("-1")) {
         UMLDoc *umldoc = UMLApp::app()->document();
-        if (pkgStr.contains(QRegExp("\\D"))) {
+        if (pkgStr.contains(QRegExp(QLatin1String("\\D")))) {
             // suspecting pre-1.5.3 file format where the package name was
             // saved instead of the package ID.
             UMLObject *o = umldoc->findUMLObject(pkgStr);
@@ -402,8 +404,10 @@ void CodeDocument::setAttributesFromNode (QDomElement & root)
             m_package = dynamic_cast<UMLPackage*>(o);
         }
     }
-    setWriteOutCode(root.attribute("writeOutCode","true") == "true" ? true : false);
-    setID(root.attribute("id"));
+    const QString trueStr = QLatin1String("true");
+    const QString wrOutCode = root.attribute(QLatin1String("writeOutCode"), trueStr);
+    setWriteOutCode(wrOutCode == trueStr);
+    setID(root.attribute(QLatin1String("id")));
 
     // load comment now
     // by looking for our particular child element
@@ -411,7 +415,7 @@ void CodeDocument::setAttributesFromNode (QDomElement & root)
     QDomElement element = node.toElement();
     while (!element.isNull()) {
         QString tag = element.tagName();
-        if (tag == "header") {
+        if (tag == QLatin1String("header")) {
             QDomNode cnode = element.firstChild();
             QDomElement celem = cnode.toElement();
             getHeader()->loadFromXMI(celem);
@@ -432,7 +436,7 @@ void CodeDocument::setAttributesFromNode (QDomElement & root)
  */
 void CodeDocument::saveToXMI (QDomDocument & doc, QDomElement & root)
 {
-    QDomElement docElement = doc.createElement("codedocument");
+    QDomElement docElement = doc.createElement(QLatin1String("codedocument"));
     setAttributesOnNode(doc, docElement);
     root.appendChild(docElement);
 }

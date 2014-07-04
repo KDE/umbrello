@@ -27,7 +27,7 @@ CPPCodeComment::~CPPCodeComment ()
 
 void CPPCodeComment::saveToXMI (QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement("cppcodecomment");
+    QDomElement blockElement = doc.createElement(QLatin1String("cppcodecomment"));
     setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
     // just use parent TextBlock method
     root.appendChild(blockElement);
@@ -42,7 +42,7 @@ QString CPPCodeComment::toString () const
     {
         QString indent = getIndentationString();
         QString endLine = getNewLineEndingChars();
-        output.append(formatMultiLineText (getText()+endLine, indent +"// ", endLine));
+        output.append(formatMultiLineText (getText() + endLine, indent + QLatin1String("// "), endLine));
     }
 
     return output;
@@ -50,7 +50,7 @@ QString CPPCodeComment::toString () const
 
 QString CPPCodeComment::getNewEditorLine (int amount)
 {
-    QString line = getIndentationString(amount) + "// ";
+    QString line = getIndentationString(amount) + QLatin1String("// ");
     return line;
 }
 
@@ -60,6 +60,6 @@ QString CPPCodeComment::unformatText (const QString & text, const QString & inde
     QString mytext = TextBlock::unformatText(text, indent);
 
     // now leading slashes
-    mytext.remove(QRegExp("^\\/\\/\\s*"));
+    mytext.remove(QRegExp(QLatin1String("^\\/\\/\\s*")));
     return mytext;
 }

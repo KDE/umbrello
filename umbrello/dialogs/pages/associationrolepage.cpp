@@ -69,9 +69,9 @@ void AssociationRolePage::constructWidget()
     QString widgetNameA = m_pAssociationWidget->widgetForRole(Uml::RoleType::A)->name();
     QString widgetNameB = m_pAssociationWidget->widgetForRole(Uml::RoleType::B)->name();
     if(!widgetNameA.isEmpty())
-        titleA.append(" (" + widgetNameA + ')');
+        titleA.append(QLatin1String(" (") + widgetNameA + QLatin1Char(')'));
     if(!widgetNameB.isEmpty())
-        titleB.append(" (" + widgetNameB + ')');
+        titleB.append(QLatin1String(" (") + widgetNameB + QLatin1Char(')'));
 
     // general configuration of the GUI
     int margin = fontMetrics().height();
@@ -102,7 +102,11 @@ void AssociationRolePage::constructWidget()
     propsBLayout->setMargin(margin);
 
     QStringList multiplicities;
-    multiplicities << QString() << "1" << "*" << "1..*" << "0..1";
+    multiplicities << QString()
+                   << QLatin1String("1")
+                   << QLatin1String("*")
+                   << QLatin1String("1..*")
+                   << QLatin1String("0..1");
 
     // Properties
     //

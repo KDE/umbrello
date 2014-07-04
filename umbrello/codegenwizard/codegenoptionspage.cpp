@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2002                                                    *
  *   Luis De la Parra <luis@delaparra.org>                                 *
- *   copyright (C) 2003-2013                                               *
+ *   copyright (C) 2003-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -324,10 +324,10 @@ void CodeGenOptionsPage::browseClicked()
     if (dir.isEmpty()) {
         return;
     }
-    if (button == "ui_browseOutput") {
+    if (button == QLatin1String("ui_browseOutput")) {
         ui_outputDir->setText(dir);
     }
-    else if (button == "ui_browseHeadings") {
+    else if (button == QLatin1String("ui_browseHeadings")) {
         ui_headingsDir->setText(dir);
     }
 }

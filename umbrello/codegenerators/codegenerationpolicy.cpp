@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2003-2013                                               *
+ *   copyright (C) 2003-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -218,14 +218,14 @@ void CodeGenerationPolicy::setLineEndingType (NewLineType type)
     Settings::optionState().codeGenerationState.lineEndingType = type;
     switch (Settings::optionState().codeGenerationState.lineEndingType) {
     case MAC:
-        m_lineEndingChars = QString("\r\n");
+        m_lineEndingChars = QString(QLatin1String("\r\n"));
         break;
     case DOS:
-        m_lineEndingChars = QString("\r");
+        m_lineEndingChars = QString(QLatin1String("\r"));
         break;
     case UNIX:
     default:
-        m_lineEndingChars = QString("\n");
+        m_lineEndingChars = QString(QLatin1String("\n"));
         break;
     }
     emit modifiedCodeContent();
@@ -312,11 +312,11 @@ void CodeGenerationPolicy::calculateIndentation ()
     case NONE:
         break;
     case TAB:
-        indent = QString("\t");
+        indent = QString(QLatin1String("\t"));
         break;
     default:
     case SPACE:
-        indent = QString(" ");
+        indent = QString(QLatin1String(" "));
         break;
     }
 
@@ -476,13 +476,13 @@ void CodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
 
     QString path = UmbrelloSettings::outputDirectory();
     if (path.isEmpty())
-        path = QDir::homePath() + "/uml-generated-code/";
+        path = QDir::homePath() + QLatin1String("/uml-generated-code/");
     setOutputDirectory (QDir (path));
 
     path = UmbrelloSettings::headingsDirectory();
     if (path.isEmpty()) {
         KStandardDirs stddirs;
-        path =  stddirs.findDirs("data","umbrello/headings").first();
+        path =  stddirs.findDirs("data", QLatin1String("umbrello/headings")).first();
     }
     setHeadingFileDir (path);
 
@@ -541,7 +541,7 @@ QString CodeGenerationPolicy::getHeadingFile(const QString& str)
 {
     if (!getIncludeHeadings() || str.isEmpty())
         return QString();
-    if (str.contains(" ") || str.contains(";")) {
+    if (str.contains(QLatin1String(" ")) || str.contains(QLatin1String(";"))) {
         uWarning() << "File folder must not have spaces or semi colons!";
         return QString();
     }
@@ -550,12 +550,12 @@ QString CodeGenerationPolicy::getHeadingFile(const QString& str)
     // get any file with the same extension
     QString filename;
     QDir headingFiles = Settings::optionState().codeGenerationState.headingsDirectory;
-    if (str.startsWith('.')) {
-        if (QFile::exists(headingFiles.absoluteFilePath("heading"+str)))
-            filename = headingFiles.absoluteFilePath("heading"+str);
+    if (str.startsWith(QLatin1Char('.'))) {
+        if (QFile::exists(headingFiles.absoluteFilePath(QLatin1String("heading") + str)))
+            filename = headingFiles.absoluteFilePath(QLatin1String("heading") + str);
         else {
             QStringList filters;
-            filters << '*' + str;
+            filters << QLatin1Char('*') + str;
             headingFiles.setNameFilters(filters);
             //if there is more than one match we just take the first one
             QStringList fileList = headingFiles.entryList();
@@ -584,10 +584,11 @@ QString CodeGenerationPolicy::getHeadingFile(const QString& str)
     }
 
     //do variable substitution
-    retstr.replace(QRegExp("%author%"), QString(qgetenv("USER")));  //get the user name from some where else
-    retstr.replace(QRegExp("%headingpath%"), filename);
-    retstr.replace(QRegExp("%time%"), QTime::currentTime().toString());
-    retstr.replace(QRegExp("%date%"), QDate::currentDate().toString());
+    retstr.replace(QRegExp(QLatin1String("%author%")),
+                   QString::fromLatin1(qgetenv("USER")));  //get the user name from some where else
+    retstr.replace(QRegExp(QLatin1String("%headingpath%")), filename);
+    retstr.replace(QRegExp(QLatin1String("%time%")), QTime::currentTime().toString());
+    retstr.replace(QRegExp(QLatin1String("%date%")), QDate::currentDate().toString());
     // the replace filepath, time parts are also in the code document updateHeader method
     // (which is not a virtual function)...
 

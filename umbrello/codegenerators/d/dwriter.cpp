@@ -109,7 +109,7 @@ void DWriter::writeClass(UMLClassifier *c)
     QString fileName = cleanName(c->name().toLower());
 
     //find an appropriate name for our file
-    fileName = findFileName(c, ".d");
+    fileName = findFileName(c, QLatin1String(".d"));
     if (fileName.isEmpty()) {
         emit codeGenerated(c, false);
         return;
@@ -127,10 +127,10 @@ void DWriter::writeClass(UMLClassifier *c)
 
     //try to find a heading file (license, coments, etc)
     QString str;
-    str = getHeadingFile(".d");
-    if(!str.isEmpty()) {
-        str.replace(QRegExp("%filename%"), fileName);
-        str.replace(QRegExp("%filepath%"), file.fileName());
+    str = getHeadingFile(QLatin1String(".d"));
+    if (!str.isEmpty()) {
+        str.replace(QRegExp(QLatin1String("%filename%")), fileName);
+        str.replace(QRegExp(QLatin1String("%filepath%")), file.fileName());
         d<<str<<m_endl;
     }
 
@@ -161,31 +161,31 @@ void DWriter::writeClass(UMLClassifier *c)
             switch(at->visibility())
             {
                 case Uml::Visibility::Public:
-                    if(at->isStatic())
+                    if (at->isStatic())
                         final_atpub.append(at);
                     else
                         atpub.append(at);
                     break;
                 case Uml::Visibility::Protected:
-                    if(at->isStatic())
+                    if (at->isStatic())
                         final_atprot.append(at);
                     else
                         atprot.append(at);
                     break;
                 case Uml::Visibility::Private:
-                    if(at->isStatic())
+                    if (at->isStatic())
                         final_atpriv.append(at);
                     else
                         atpriv.append(at);
                     break;/* TODO: requires support from the gui & other structures
                 case Uml::Visibility::Package:
-                    if(at->getStatic())
+                    if (at->getStatic())
                     final_atpkg.append(at);
                     else
                     atpkg.append(at);
                     break;
                 case Uml::Visibility::Export:
-                    if(at->getStatic())
+                    if (at->getStatic())
                     final_atexport.append(at);
                     else
                     atexport.append(at);
@@ -215,7 +215,7 @@ void DWriter::writeClass(UMLClassifier *c)
     if (forceDoc() || hasAccessorMethods)
     {
         writeComment(QString(), m_indentation, d);
-        writeComment("Fields", m_indentation, d);
+        writeComment(QLatin1String("Fields"), m_indentation, d);
         writeComment(QString(), m_indentation, d);
         writeBlankLine(d);
     }
@@ -231,7 +231,7 @@ void DWriter::writeClass(UMLClassifier *c)
     //FIXME: find constructors and write them here
 
     // write constructors
-    if(!isInterface) writeConstructor(c, d);
+    if (!isInterface) writeConstructor(c, d);
 
     // METHODS
     //
@@ -239,7 +239,7 @@ void DWriter::writeClass(UMLClassifier *c)
     // write comment for sub-section IF needed
     if (forceDoc() || hasAccessorMethods) {
         writeComment(QString(), m_indentation, d);
-        writeComment("Accessors", m_indentation, d);
+        writeComment(QLatin1String("Accessors"), m_indentation, d);
         writeComment(QString(), m_indentation, d);
         writeBlankLine(d);
     }
@@ -266,7 +266,7 @@ void DWriter::writeClass(UMLClassifier *c)
     // write comment for sub-section IF needed
     if (forceDoc() || hasOperationMethods) {
         writeComment(QString(), m_indentation, d);
-        writeComment("Other methods", m_indentation, d);
+        writeComment(QLatin1String("Other methods"), m_indentation, d);
         writeComment(QString(), m_indentation, d);
         writeBlankLine(d);
     }
@@ -324,7 +324,7 @@ void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d)
             UMLTemplate* t = tlit.next();
             // TODO: hm, leaving the type blank results in "class"
             // so we omit it (also because "class" in this context is illegal)
-            if (t->getTypeName() != "class") {
+            if (t->getTypeName() != QLatin1String("class")) {
                 d << t->getTypeName();
                 d << " ";
             }
@@ -430,7 +430,7 @@ void DWriter::writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility::En
     foreach (UMLAttribute* at, atpub) {
         QString fieldName = cleanName(at->name());
         writeSingleAttributeAccessorMethods(
-            at->getTypeName(), "m_" + fieldName, fieldName, at->doc(),
+            at->getTypeName(), QLatin1String("m_") + fieldName, fieldName, at->doc(),
             visibility, Uml::Changeability::Changeable, at->isStatic(), d);
     }
 }
@@ -442,7 +442,7 @@ void DWriter::writeComment(const QString &comment, const QString &myIndent,
         d << myIndent << "/**" << m_endl;
     }
 
-    QStringList lines = comment.split("\n");
+    QStringList lines = comment.split(QLatin1String("\n"));
 
     if (lines.count() == 0) lines << comment;
 
@@ -450,8 +450,8 @@ void DWriter::writeComment(const QString &comment, const QString &myIndent,
         QString tmp = lines[i];
 
         while (tmp.count() > 77) {
-            int l = tmp.left(77).lastIndexOf(' ');
-            if (l < 1) l = tmp.indexOf(' ', 77);
+            int l = tmp.left(77).lastIndexOf(QLatin1Char(' '));
+            if (l < 1) l = tmp.indexOf(QLatin1Char(' '), 77);
             if (l < 1 || l > tmp.count()) {
                 d << myIndent << (dDocStyle ? " * " : "// ") << tmp << m_endl;
                 break;
@@ -472,14 +472,14 @@ void DWriter::writeDocumentation(QString header, QString body, QString end, QStr
 {
     d << indent << "/**" << m_endl;
     if (!header.isEmpty())
-        d << formatDoc(header, indent+" * ");
+        d << formatDoc(header, indent + QLatin1String(" * "));
     if (!body.isEmpty())
-        d << formatDoc(body, indent+" * ");
+        d << formatDoc(body, indent + QLatin1String(" * "));
     if (!end.isEmpty())
     {
-        QStringList lines = end.split("\n");
+        QStringList lines = end.split(QLatin1String("\n"));
         for (int i= 0; i < lines.count(); ++i) {
-            d << formatDoc(lines[i], indent + " * ");
+            d << formatDoc(lines[i], indent + QLatin1String(" * "));
         }
     }
     d << indent << " */" << m_endl;
@@ -537,7 +537,7 @@ void DWriter::writeAssociationRoleDecl(QString fieldClassName,
     // declare the association based on whether it is this a single variable
     // or a List (Vector). One day this will be done correctly with special
     // multiplicity object that we don't have to figure out what it means via regex.
-    if (multi.isEmpty() || multi.contains(QRegExp("^[01]$"))) {
+    if (multi.isEmpty() || multi.contains(QRegExp(QLatin1String("^[01]$")))) {
         d << m_indentation << fieldClassName << " ";
 
         if (hasAccessors) d << "m_";
@@ -596,13 +596,13 @@ void DWriter::writeAssociationRoleMethod (QString fieldClassName, QString roleNa
         QString description, Uml::Visibility::Enum visib, Uml::Changeability::Enum change,
         QTextStream &d)
 {
-    if (multi.isEmpty() || multi.contains(QRegExp("^[01]$"))) {
-        QString fieldVarName = "m_" + deCapitaliseFirstLetter(roleName);
+    if (multi.isEmpty() || multi.contains(QRegExp(QLatin1String("^[01]$")))) {
+        QString fieldVarName = QLatin1String("m_") + deCapitaliseFirstLetter(roleName);
 
         writeSingleAttributeAccessorMethods(
             fieldClassName, fieldVarName, roleName, description, visib, change, false, d);
     } else {
-        QString fieldVarName = "m_" + pluralize(deCapitaliseFirstLetter(roleName));
+        QString fieldVarName = QLatin1String("m_") + pluralize(deCapitaliseFirstLetter(roleName));
 
         writeVectorAttributeAccessorMethods(
             fieldClassName, fieldVarName, pluralize(roleName), description, visib, change, d);
@@ -621,8 +621,8 @@ void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QStri
 
     // ONLY IF changeability is NOT Frozen
     if (changeType != Uml::Changeability::Frozen) {
-        writeDocumentation("Adds a " + fieldNameUP + " to the list of " +
-                           fieldName + '.', description, QString(), m_indentation, d);
+        writeDocumentation(QLatin1String("Adds a ") + fieldNameUP + QLatin1String(" to the list of ") +
+                           fieldName + QLatin1Char('.'), description, QString(), m_indentation, d);
 
         d << m_indentation << "void add" << fieldNameUC << "(";
         d << fieldClassName << " new" << fieldNameUC << ") {";
@@ -632,8 +632,8 @@ void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QStri
 
     // ONLY IF changeability is Changeable
     if (changeType == Uml::Changeability::Changeable) {
-        writeDocumentation("Removes a " + fieldNameUP + " from the list of " +
-                           fieldName + '.', description, QString(), m_indentation, d);
+        writeDocumentation(QLatin1String("Removes a ") + fieldNameUP + QLatin1String(" from the list of ") +
+                           fieldName + QLatin1Char('.'), description, QString(), m_indentation, d);
 
         d << m_indentation << "void remove" << fieldNameUC << "(";
         d << fieldClassName << " " << fieldNameUP << ") {" << startline;
@@ -649,8 +649,8 @@ void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QStri
     }
 
     // always allow getting the list of stuff
-    writeDocumentation("Returns the list of " + fieldName + '.',
-                       description, "@return List of " + fieldName + '.',
+    writeDocumentation(QLatin1String("Returns the list of ") + fieldName + QLatin1Char('.'),
+                       description, QLatin1String("@return List of ") + fieldName + QLatin1Char('.'),
                        m_indentation, d);
 
     d << m_indentation << fieldClassName << "[] get" << fieldName << "() {";
@@ -665,12 +665,12 @@ void DWriter::writeSingleAttributeAccessorMethods(QString fieldClassName,
 
     fieldClassName = fixTypeName(fieldClassName);
     QString fieldNameUC = Codegen_Utils::capitalizeFirstLetter(fieldName);
-    if (fieldName.left(2) == "m_") fieldName = fieldName.right(fieldName.count()-2);
+    if (fieldName.left(2) == QLatin1String("m_")) fieldName = fieldName.right(fieldName.count()-2);
 
     // set method
     if (change == Uml::Changeability::Changeable && !isFinal) {
-        writeDocumentation("Sets the value of " + fieldName + '.', description,
-                           "@param new" + fieldNameUC + " The new value of " + fieldName + '.',
+        writeDocumentation(QLatin1String("Sets the value of ") + fieldName + QLatin1Char('.'), description,
+                           QLatin1String("@param new") + fieldNameUC + QLatin1String(" The new value of ") + fieldName + QLatin1Char('.'),
                            m_indentation, d);
 
         d << m_indentation << fieldClassName << " " << fieldName << "(";
@@ -680,8 +680,8 @@ void DWriter::writeSingleAttributeAccessorMethods(QString fieldClassName,
     }
 
     // get method
-    writeDocumentation("Returns the value of " + fieldName + '.', description,
-                       "@return The value of " + fieldName + '.',
+    writeDocumentation(QLatin1String("Returns the value of ") + fieldName + QLatin1Char('.'), description,
+                       QLatin1String("@return The value of ") + fieldName + QLatin1Char('.'),
                        m_indentation, d);
 
     d << m_indentation << fieldClassName << " " << fieldName << "() {";
@@ -695,7 +695,7 @@ void DWriter::writeConstructor(UMLClassifier *c, QTextStream &d)
     {
         d<<startline;
         writeComment(QString(), m_indentation, d);
-        writeComment("Constructors", m_indentation, d);
+        writeComment(QLatin1String("Constructors"), m_indentation, d);
         writeComment(QString(), m_indentation, d);
         writeBlankLine(d);
     }
@@ -711,15 +711,15 @@ void DWriter::writeConstructor(UMLClassifier *c, QTextStream &d)
 QString DWriter::fixTypeName(const QString& string)
 {
     if (string.isEmpty())
-        return "void";
-    if (string == "string")
-        return "char[]";
-    if (string == "unsigned short")
-        return "ushort";
-    if (string == "unsigned int")
-        return "uint";
-    if (string == "unsigned long")
-        return "ulong";
+        return QLatin1String("void");
+    if (string == QLatin1String("string"))
+        return QLatin1String("char[]");
+    if (string == QLatin1String("unsigned short"))
+        return QLatin1String("ushort");
+    if (string == QLatin1String("unsigned int"))
+        return QLatin1String("uint");
+    if (string == QLatin1String("unsigned long"))
+        return QLatin1String("ulong");
     return string;
 }
 
@@ -731,30 +731,30 @@ QString DWriter::fixTypeName(const QString& string)
 QStringList DWriter::defaultDatatypes()
 {
     QStringList l;
-    l << "void"
-    << "bool"
-    << "byte"
-    << "ubyte"
-    << "short"
-    << "ushort"
-    << "int"
-    << "uint"
-    << "long"
-    << "ulong"
-    << "cent"
-    << "ucent"
-    << "float"
-    << "double"
-    << "real"
-    << "ifloat"
-    << "idouble"
-    << "ireal"
-    << "cfloat"
-    << "cdouble"
-    << "creal"
-    << "char"
-    << "wchar"
-    << "dchar";
+    l << QLatin1String("void")
+      << QLatin1String("bool")
+      << QLatin1String("byte")
+      << QLatin1String("ubyte")
+      << QLatin1String("short")
+      << QLatin1String("ushort")
+      << QLatin1String("int")
+      << QLatin1String("uint")
+      << QLatin1String("long")
+      << QLatin1String("ulong")
+      << QLatin1String("cent")
+      << QLatin1String("ucent")
+      << QLatin1String("float")
+      << QLatin1String("double")
+      << QLatin1String("real")
+      << QLatin1String("ifloat")
+      << QLatin1String("idouble")
+      << QLatin1String("ireal")
+      << QLatin1String("cfloat")
+      << QLatin1String("cdouble")
+      << QLatin1String("creal")
+      << QLatin1String("char")
+      << QLatin1String("wchar")
+      << QLatin1String("dchar");
     return l;
 }
 
@@ -852,7 +852,7 @@ void DWriter::writeOperations(UMLClassifier *c, QTextStream &d)
 
     // do people REALLY want these comments? Hmm.
     /*
-      if(forceSections() || oppub.count())
+      if (forceSections() || oppub.count())
       {
       writeComment("public operations", m_indentation, d);
         writeBlankLine(d);
@@ -892,15 +892,15 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d)
         QString methodReturnType = fixTypeName(op->getTypeName());
 
         //TODO: return type comment
-        if (methodReturnType != "void") {
-            doc += "@return " + methodReturnType + m_endl;
+        if (methodReturnType != QLatin1String("void")) {
+            doc += QLatin1String("@return ") + methodReturnType + m_endl;
         }
 
         str = QString(); // reset for next method
-        if (op->isAbstract() && !isInterface) str += "abstract ";
-        if (op->isStatic()) str += "static ";
+        if (op->isAbstract() && !isInterface) str += QLatin1String("abstract ");
+        if (op->isStatic()) str += QLatin1String("static ");
 
-        str += methodReturnType + ' ' + cleanName(op->name()) + '(';
+        str += methodReturnType + QLatin1Char(' ') + cleanName(op->name()) + QLatin1Char('(');
 
         atl = op->getParmList();
         int i = atl.count();
@@ -909,21 +909,20 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d)
             UMLAttribute* at = atlIt.next();
             QString typeName = fixTypeName(at->getTypeName());
             QString atName = cleanName(at->name());
-            str += typeName + ' ' + atName +
+            str += typeName + QLatin1Char(' ') + atName +
                    (!(at->getInitialValue().isEmpty()) ?
-                    (QString(" = ")+at->getInitialValue()) :
-                    QString())
-                   + ((j < i-1) ? ", " : QString());
-            doc += "@param " + atName+' '+at->doc() + m_endl;
+                    (QLatin1String(" = ") + at->getInitialValue()) : QString())
+                   + ((j < i-1) ? QLatin1String(", ") : QString());
+            doc += QLatin1String("@param ") + atName + QLatin1Char(' ') + at->doc() + m_endl;
         }
         doc = doc.remove(doc.size() - 1, 1);  // remove last endl of comment
-        str+= ')';
+        str += QLatin1Char(')');
 
         // method only gets a body IF it is not abstract
         if (op->isAbstract() || isInterface)
-            str += ';'; // terminate now
+            str += QLatin1Char(';'); // terminate now
         else {
-            str += startline + '{' + m_endl;
+            str += startline + QLatin1Char('{') + m_endl;
             QString sourceCode = op->getSourceCode();
             if (sourceCode.isEmpty()) {
                 // empty method body - TODO: throw exception
@@ -931,7 +930,7 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d)
             else {
                 str += formatSourceCode(sourceCode, m_indentation + m_indentation);
             }
-            str += m_indentation + '}';
+            str += m_indentation + QLatin1Char('}');
         }
 
         // write it out
@@ -944,11 +943,11 @@ QString DWriter::fixInitialStringDeclValue(const QString& val, const QString& ty
 {
     QString value = val;
     // check for strings only
-    if (!value.isEmpty() && type == "String") {
-        if (!value.startsWith('"'))
-            value.prepend('"');
-        if (!value.endsWith('"'))
-            value.append('"');
+    if (!value.isEmpty() && type == QLatin1String("String")) {
+        if (!value.startsWith(QLatin1Char('"')))
+            value.prepend(QLatin1Char('"'));
+        if (!value.endsWith(QLatin1Char('"')))
+            value.append(QLatin1Char('"'));
     }
     return value;
 }
@@ -956,7 +955,7 @@ QString DWriter::fixInitialStringDeclValue(const QString& val, const QString& ty
 // methods like this _shouldn't_ be needed IF we properly did things thruought the code.
 QString DWriter::getUMLObjectName(UMLObject *obj)
 {
-    return(obj!=0)?obj->name():QString("NULL");
+    return (obj ? obj->name() : QLatin1String("NULL"));
 }
 
 QString DWriter::deCapitaliseFirstLetter(const QString& str)
@@ -968,18 +967,18 @@ QString DWriter::deCapitaliseFirstLetter(const QString& str)
 
 QString DWriter::pluralize(const QString& string)
 {
-    return string + (string.right(1) == "s" ? "es" : "s");
+    return string + (string.right(1) == QLatin1String("s") ? QLatin1String("es") : QLatin1String("s"));
 }
 
 QString DWriter::unPluralize(const QString& string)
 {
     // does not handle special cases liek datum -> data, etc.
 
-    if (string.count() > 2 && string.right(3) == "ses") {
+    if (string.count() > 2 && string.right(3) == QLatin1String("ses")) {
         return string.left(string.count() - 2);
     }
 
-    if (string.right(1) == "s") {
+    if (string.right(1) == QLatin1String("s")) {
         return string.left(string.count() - 1);
     }
 

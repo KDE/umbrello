@@ -272,10 +272,10 @@ bool CodeImpStatusPage::isComplete() const
 void CodeImpStatusPage::messageToLog(const QString& file, const QString& text)
 {
     if (file.isEmpty()) {
-        ui_textEditLogger->insertHtml("\n    " + text + "<br>");
+        ui_textEditLogger->insertHtml(QLatin1String("\n    ") + text + QLatin1String("<br>"));
     }
     else {
-        ui_textEditLogger->insertHtml("\n<b>" + file + ":</b> " + text + "<br>");
+        ui_textEditLogger->insertHtml(QLatin1String("\n<b>") + file + QLatin1String(":</b> ") + text + QLatin1String("<br>"));
     }
 }
 

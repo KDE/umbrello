@@ -31,9 +31,9 @@
  * Constructor.
  */
 PythonImport::PythonImport(CodeImpThread* thread)
-  : NativeImportBase("#", thread)
+  : NativeImportBase(QLatin1String("#"), thread)
 {
-    setMultiLineComment("\"\"\"", "\"\"\"");
+    setMultiLineComment(QLatin1String("\"\"\""), QLatin1String("\"\"\""));
     initVars();
 }
 
@@ -78,14 +78,14 @@ bool PythonImport::preprocess(QString& line)
         if (pos == 0)
             return true;
         line = line.left(pos);
-        line.remove(QRegExp("\\s+$"));
+        line.remove(QRegExp(QLatin1String("\\s+$")));
     }
     // Transform changes in indentation into braces a la C++/Java/Perl/...
-    pos = line.indexOf(QRegExp("\\S"));
+    pos = line.indexOf(QRegExp(QLatin1String("\\S")));
     if (pos == -1)
         return true;
     bool isContinuation = false;
-    int leadingWhite = line.left(pos).count(QRegExp("\\s"));
+    int leadingWhite = line.left(pos).count(QRegExp(QLatin1String("\\s")));
     if (leadingWhite > m_srcIndent[m_srcIndentIndex]) {
         if (m_srcIndex == 0) {
             uError() << "internal error";
@@ -100,24 +100,24 @@ bool PythonImport::preprocess(QString& line)
     } else {
         while (m_srcIndentIndex > 0 && leadingWhite < m_srcIndent[m_srcIndentIndex]) {
             m_srcIndentIndex--;
-            m_source.append("}");
+            m_source.append(QLatin1String("}"));
             m_srcIndex++;
         }
     }
 
     if (m_braceWasOpened && m_srcIndentIndex == 0) {
-        m_source.append("}");
+        m_source.append(QLatin1String("}"));
         m_srcIndex++;
     }
 
-    if (line.endsWith(':')) {
-        line.replace(QRegExp(":$"), "{");
+    if (line.endsWith(QLatin1Char(':'))) {
+        line.replace(QRegExp(QLatin1String(":$")), QLatin1String("{"));
         m_braceWasOpened = true;
     } else {
         m_braceWasOpened = false;
     }
     if (!isContinuation && !m_braceWasOpened)
-        line += ';';
+        line += QLatin1Char(';');
     return false;  // The input was not completely consumed by preprocessing.
 }
 
@@ -131,7 +131,7 @@ void PythonImport::fillSource(const QString& word)
     const uint len = word.length();
     for (uint i = 0; i < len; ++i) {
         const QChar& c = word[i];
-        if (c.isLetterOrNumber() || c == '_' || c == '.') {
+        if (c.isLetterOrNumber() || c == QLatin1Char('_') || c == QLatin1Char('.')) {
             lexeme += c;
         } else {
             if (!lexeme.isEmpty()) {
@@ -157,7 +157,7 @@ QString PythonImport::indentation(int level)
 {
     QString spaces;
     for (int i = 0; i < level; ++i) {
-        spaces += "  ";
+        spaces += QLatin1String("  ");
     }
     return spaces;
 }
@@ -174,31 +174,32 @@ QString PythonImport::skipBody()
        syntax by reverting those changes.
      */
     QString body;
-    if (m_source[m_srcIndex] != "{")
-        skipStmt("{");
+    if (m_source[m_srcIndex] != QLatin1String("{"))
+        skipStmt(QLatin1String("{"));
     bool firstTokenAfterNewline = true;
     int braceNesting = 0;
     QString token;
     while (!(token = advance()).isNull()) {
-        if (token == "}") {
+        if (token == QLatin1String("}")) {
             if (braceNesting <= 0)
                 break;
             braceNesting--;
-            body += '\n';
+            body += QLatin1Char('\n');
             firstTokenAfterNewline = true;
-        } else if (token == "{") {
+        } else if (token == QLatin1String("{")) {
             braceNesting++;
-            body += ":\n";
+            body += QLatin1String(":\n");
             firstTokenAfterNewline = true;
-        } else if (token == ";") {
-            body += '\n';
+        } else if (token == QLatin1String(";")) {
+            body += QLatin1Char('\n');
             firstTokenAfterNewline = true;
         } else {
             if (firstTokenAfterNewline) {
                 body += indentation(braceNesting);
                 firstTokenAfterNewline = false;
-            } else if (body.contains(QRegExp("\\w$")) && token.contains(QRegExp("^\\w"))) {
-                body += ' ';
+            } else if (body.contains(QRegExp(QLatin1String("\\w$"))) &&
+                       token.contains(QRegExp(QLatin1String("^\\w")))) {
+                body += QLatin1Char(' ');
             }
             body += token;
         }
@@ -214,35 +215,35 @@ bool PythonImport::parseStmt()
 {
     const int srcLength = m_source.count();
     const QString& keyword = m_source[m_srcIndex];
-    if (keyword == "class") {
+    if (keyword == QLatin1String("class")) {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class, name,
                                                       m_scope[m_scopeIndex], m_comment);
         m_scope.append(m_klass = static_cast<UMLClassifier*>(ns));
         m_scopeIndex = m_scope.size() - 1;
         m_comment.clear();
-        if (advance() == "(") {
-            while (m_srcIndex < srcLength - 1 && advance() != ")") {
+        if (advance() == QLatin1String("(")) {
+            while (m_srcIndex < srcLength - 1 && advance() != QLatin1String(")")) {
                 const QString& baseName = m_source[m_srcIndex];
                 Import_Utils::createGeneralization(m_klass, baseName);
-                if (advance() != ",")
+                if (advance() != QLatin1String(","))
                     break;
             }
         }
-        if (m_source[m_srcIndex] != "{") {
-            skipStmt("{");
+        if (m_source[m_srcIndex] != QLatin1String("{")) {
+            skipStmt(QLatin1String("{"));
         }
-        log("class " + name);
+        log(QLatin1String("class ") + name);
         return true;
     }
-    if (keyword == "@") {
+    if (keyword == QLatin1String("@")) {
         const QString& annotation = m_source[++m_srcIndex];
         uDebug() << "annotation:" << annotation;
-        if (annotation == "staticmethod")
+        if (annotation == QLatin1String("staticmethod"))
             m_isStatic = true;
         return true;
     }
-    if (keyword == "def") {
+    if (keyword == QLatin1String("def")) {
         if (m_klass == NULL) {
             // skip functions outside of a class
             skipBody();
@@ -257,27 +258,27 @@ bool PythonImport::parseStmt()
         const QString& name = advance();
         // operation
         UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
-        if (advance() != "(") {
+        if (advance() != QLatin1String("(")) {
             uError() << "importPython def " << name << ": expecting \"(\"";
             skipBody();
             return true;
         }
         bool firstParam = true;
-        while (m_srcIndex < srcLength && advance() != ")") {
+        while (m_srcIndex < srcLength && advance() != QLatin1String(")")) {
             const QString& parName = m_source[m_srcIndex];
             if (firstParam) {
-                if (parName.compare("self", Qt::CaseInsensitive) != 0) {
+                if (parName.compare(QLatin1String("self"), Qt::CaseInsensitive) != 0) {
                     m_isStatic = true;
-                    Import_Utils::addMethodParameter(op, "string", parName);
+                    Import_Utils::addMethodParameter(op, QLatin1String("string"), parName);
                 }
                 firstParam = false;
             } else {
-                /*UMLAttribute *att =*/ Import_Utils::addMethodParameter(op, "string", parName);
+                /*UMLAttribute *att =*/ Import_Utils::addMethodParameter(op, QLatin1String("string"), parName);
             }
-            if (advance() != ",")
+            if (advance() != QLatin1String(","))
                 break;
         }
-        Import_Utils::insertMethod(m_klass, op, Uml::Visibility::Public, "string",
+        Import_Utils::insertMethod(m_klass, op, Uml::Visibility::Public, QLatin1String("string"),
                                    m_isStatic, false /*isAbstract*/, false /*isFriend*/,
                                    false /*isConstructor*/, m_comment);
         m_isStatic = false;
@@ -287,11 +288,11 @@ bool PythonImport::parseStmt()
             op->setDoc(m_comment);
             m_comment = QString();
         }
-        log("def " + name);
+        log(QLatin1String("def ") + name);
 
         return true;
     }
-    if (keyword == "}") {
+    if (keyword == QLatin1String("}")) {
         if (m_scopeIndex) {
             m_klass = dynamic_cast<UMLClassifier*>(m_scope.takeLast());
             m_scopeIndex = m_scope.size() - 1;

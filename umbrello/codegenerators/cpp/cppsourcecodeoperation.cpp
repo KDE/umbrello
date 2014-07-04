@@ -26,7 +26,7 @@ CPPSourceCodeOperation::CPPSourceCodeOperation(CPPSourceCodeDocument * doc, UMLO
 
     // these things never change..
     setOverallIndentationLevel(0);
-    setEndMethodText("}");
+    setEndMethodText(QLatin1String("}"));
 }
 
 CPPSourceCodeOperation::~CPPSourceCodeOperation()
@@ -70,11 +70,11 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
     foreach (UMLAttribute* parm, list) {
         QString rType = parm->getTypeName();
         QString paramName = parm->name();
-        paramStr += rType + ' ' + paramName;
+        paramStr += rType + QLatin1Char(' ') + paramName;
         paramNum++;
 
         if (paramNum != nrofParam)
-            paramStr  += ", ";
+            paramStr  += QLatin1String(", ");
     }
 
     // no return type for constructors/destructors
@@ -83,18 +83,18 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
     // if an operation isn't a constructor/destructor and it has no return type
     // this operation should be  void
     else if (returnType.isEmpty())
-        returnType = QString("void");
+        returnType = QString(QLatin1String("void"));
 
-    QString startText = returnType + ' ';
+    QString startText = returnType + QLatin1Char(' ');
 
     // if a property has a friend stereotype, the operation should
     // not be a class name
-    if (o->stereotype() != "friend")
-        startText += className + "::";
-    startText += methodName + " (" + paramStr + ')';
+    if (o->stereotype() != QLatin1String("friend"))
+        startText += className + QLatin1String("::");
+    startText += methodName + QLatin1String(" (") + paramStr + QLatin1Char(')');
     if (o->getConst())
-        startText += " const";
-    startText += " {";
+        startText += QLatin1String(" const");
+    startText += QLatin1String(" {");
 
     setStartMethodText(startText);
 

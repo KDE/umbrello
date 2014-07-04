@@ -71,7 +71,7 @@ void CPPHeaderCodeOperation::updateMethodDeclaration()
     {
         UMLAttributeList parameters = o->getParmList();
         foreach (UMLAttribute* currentAtt, parameters) {
-            comment += endLine + tag + "param " + currentAtt->name() + ' ';
+            comment += endLine + tag + QLatin1String("param ") + currentAtt->name() + QLatin1Char(' ');
             comment += currentAtt->doc();
         }
         getComment()->setText(comment);
@@ -90,31 +90,31 @@ void CPPHeaderCodeOperation::updateMethodDeclaration()
         QString rType = parm->getTypeName();
         QString paramName = parm->name();
         QString initialValue = parm->getInitialValue();
-        paramStr += rType + ' ' + paramName;
+        paramStr += rType + QLatin1Char(' ') + paramName;
         if(!initialValue.isEmpty())
-            paramStr += '=' + initialValue;
+            paramStr += QLatin1Char('=') + initialValue;
 
         paramNum++;
 
         if (paramNum != nrofParam)
-            paramStr  += ", ";
+            paramStr  += QLatin1String(", ");
     }
 
     // if an operation isn't a constructor or a destructor and it has no return type
     if (o->isLifeOperation())         // constructor/destructor has no type
         methodReturnType = QString();
     else if (methodReturnType.isEmpty())  // this operation should be 'void'
-        methodReturnType = QString("void");
+        methodReturnType = QString(QLatin1String("void"));
 
     // set start/end method text
-    QString prototype = methodReturnType+' '+methodName+" ("+paramStr+')';
+    QString prototype = methodReturnType + QLatin1Char(' ') + methodName + QLatin1String(" (") + paramStr + QLatin1Char(')');
 
     QString startText;
     QString endText;
 
     applyStereotypes (prototype, o, isInlineMethod, isInterface, startText, endText);
 
-    setStartMethodText(prototype+startText);
+    setStartMethodText(prototype + startText);
     setEndMethodText(endText);
 }
 
@@ -134,28 +134,28 @@ void CPPHeaderCodeOperation::applyStereotypes (QString& prototype, UMLOperation 
 {
     // if the class is an interface, all methods will be declared as pure
     // virtual functions
-    start = (inlinePolicy ? " {" : ";");
-    end = (inlinePolicy ? "}" : QString());
+    start = (inlinePolicy ? QLatin1String(" {") : QLatin1String(";"));
+    end = (inlinePolicy ? QLatin1String("}") : QString());
     if (pOp->getConst())
-        prototype += " const";
+        prototype += QLatin1String(" const");
     if (interface || pOp->isAbstract()) {
        // constructor can't be virtual or abstract
        if (!pOp->isLifeOperation()) {
-           prototype = "virtual " + prototype + " = 0";
+           prototype = QLatin1String("virtual ") + prototype + QLatin1String(" = 0");
            if (inlinePolicy) {
-               start = ';';
+               start = QLatin1Char(';');
                end = QString();
            }
        }
     } // constructors could not be declared as static
     else if (pOp->isStatic() && !pOp->isLifeOperation()) {
-       prototype = "static " + prototype;
+       prototype = QLatin1String("static ") + prototype;
     }
     // apply the stereotypes
     if (!pOp->stereotype().isEmpty()) {
-        if ((pOp->stereotype() == "friend") || (pOp->stereotype(false) == "virtual")) {
+        if ((pOp->stereotype() == QLatin1String("friend")) || (pOp->stereotype(false) == QLatin1String("virtual"))) {
             if (!pOp->isLifeOperation() && !(interface || pOp->isAbstract()) && !pOp->isStatic())
-                prototype = pOp->stereotype() + ' ' + prototype;
+                prototype = pOp->stereotype() + QLatin1Char(' ') + prototype;
         }
     }
 }

@@ -22,7 +22,7 @@ CodeViewerOptionsPage::CodeViewerOptionsPage(Settings::CodeViewerState options, 
   : DialogPageBase(parent),
     m_options(options)
 {
-    setObjectName(name);
+    setObjectName(QLatin1String(name));
     setupUi(this);
 
     // set widget stuff

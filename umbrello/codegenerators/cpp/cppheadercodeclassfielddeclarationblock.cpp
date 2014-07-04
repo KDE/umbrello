@@ -44,7 +44,7 @@ void CPPHeaderCodeClassFieldDeclarationBlock::updateContent()
         getComment()->setWriteOutText(true);
 
     // Set the body
-    QString staticValue = umlparent->isStatic() ? "static " : QString();
+    QString staticValue = umlparent->isStatic() ? QLatin1String("static ") : QString();
     QString typeName = hcppcf->getTypeName();
     QString fieldName = hcppcf->getFieldName();
 
@@ -52,7 +52,7 @@ void CPPHeaderCodeClassFieldDeclarationBlock::updateContent()
     if (!cf->parentIsAttribute() && !cf->fieldIsSingleValue())
         typeName = hcppcf->getListFieldClassName();
 
-    QString body = staticValue + ' ' + typeName + ' ' + fieldName + ';';
+    QString body = staticValue + QLatin1Char(' ') + typeName + QLatin1Char(' ') + fieldName + QLatin1Char(';');
     setText(body);
 }
 

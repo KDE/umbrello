@@ -100,16 +100,16 @@ bool NativeImportBase::skipToClosing(QChar opener)
     QString closing;
     switch (opener.toLatin1()) {
         case '{':
-            closing = '}';
+            closing = QLatin1String("}");
             break;
         case '[':
-            closing = ']';
+            closing = QLatin1String("]");
             break;
         case '(':
-            closing = ')';
+            closing = QLatin1String(")");
             break;
         case '<':
-            closing = '>';
+            closing = QLatin1String(">");
             break;
         default:
             uError() << "opener='" << opener << "': illegal input character";
@@ -184,7 +184,7 @@ bool NativeImportBase::preprocess(QString& line)
             if (! m_multiLineAltCommentEnd.isEmpty())
                 pos = line.indexOf(m_multiLineAltCommentEnd);
             if (pos == -1) {
-                m_comment += line + '\n';
+                m_comment += line + QLatin1Char('\n');
                 return true;  // done
             }
             delimiterLen = m_multiLineAltCommentEnd.length();
@@ -236,7 +236,7 @@ bool NativeImportBase::preprocess(QString& line)
             m_inComment = true;
             if (pos + delimIntroLen < (int)line.length()) {
                 QString cmnt = line.mid(pos + delimIntroLen);
-                m_comment += cmnt.trimmed() + '\n';
+                m_comment += cmnt.trimmed() + QLatin1Char('\n');
             }
             if (pos == 0)
                 return true;  // done
@@ -280,19 +280,19 @@ QStringList NativeImportBase::split(const QString& line)
         if (stringIntro.toLatin1()) {        // we are in a string
             listElement += c;
             if (c == stringIntro) {
-                if (ln[i - 1] != '\\') {
+                if (ln[i - 1] != QLatin1Char('\\')) {
                     list.append(listElement);
                     listElement.clear();
                     stringIntro = 0;  // we are no longer in a string
                 }
             }
-        } else if (c == '"' || c == '\'') {
+        } else if (c == QLatin1Char('"') || c == QLatin1Char('\'')) {
             if (!listElement.isEmpty()) {
                 list.append(listElement);
             }
             listElement = stringIntro = c;
             seenSpace = false;
-        } else if (c == ' ' || c == '\t') {
+        } else if (c == QLatin1Char(' ') || c == QLatin1Char('\t')) {
             if (seenSpace)
                 continue;
             seenSpace = true;
@@ -332,12 +332,12 @@ void NativeImportBase::scan(const QString& line)
             return;
         ln = ln.left(pos);
     }
-    if (ln.contains(QRegExp("^\\s*$")))
+    if (ln.contains(QRegExp(QLatin1String("^\\s*$"))))
         return;
     const QStringList words = split(ln);
     for (QStringList::ConstIterator it = words.begin(); it != words.end(); ++it) {
         QString word = *it;
-        if (word[0] == '"' || word[0] == '\'')
+        if (word[0] == QLatin1Char('"') || word[0] == QLatin1Char('\''))
             m_source.append(word);  // string constants are handled by split()
         else
             fillSource(word);
@@ -364,15 +364,15 @@ void NativeImportBase::initVars()
 bool NativeImportBase::parseFile(const QString& filename)
 {
     QString nameWithoutPath = filename;
-    nameWithoutPath.remove(QRegExp("^.*/"));
+    nameWithoutPath.remove(QRegExp(QLatin1String("^.*/")));
     if (m_parsedFiles.contains(nameWithoutPath))
         return true;
     m_parsedFiles.append(nameWithoutPath);
     QString fname = filename;
-    const QString msgPrefix = filename + ": ";
-    if (filename.contains('/')) {
+    const QString msgPrefix = filename + QLatin1String(": ");
+    if (filename.contains(QLatin1Char('/'))) {
         QString path = filename;
-        path.remove(QRegExp("/[^/]+$"));
+        path.remove(QRegExp(QLatin1String("/[^/]+$")));
         uDebug() << msgPrefix << "adding path " << path;
         Import_Utils::addIncludePath(path);
     }
@@ -387,8 +387,8 @@ bool NativeImportBase::parseFile(const QString& filename)
         for (QStringList::ConstIterator pathIt = includePaths.begin();
                                    pathIt != includePaths.end(); ++pathIt) {
             QString path = (*pathIt);
-            if (! path.endsWith('/')) {
-                path.append('/');
+            if (! path.endsWith(QLatin1Char('/'))) {
+                path.append(QLatin1Char('/'));
             }
             if (QFile::exists(path + filename)) {
                 fname.prepend(path);
@@ -406,7 +406,7 @@ bool NativeImportBase::parseFile(const QString& filename)
         uError() << msgPrefix << "cannot open file";
         return false;
     }
-    log(nameWithoutPath, "parsing...");
+    log(nameWithoutPath, QLatin1String("parsing..."));
     // Scan the input file into the QStringList m_source.
     m_source.clear();
     m_srcIndex = 0;
@@ -418,8 +418,8 @@ bool NativeImportBase::parseFile(const QString& filename)
         lineCount++;
         scan(line);
     }
-    log(nameWithoutPath, "file size: " + QString::number(file.size()) +
-                         " / lines: " + QString::number(lineCount));
+    log(nameWithoutPath, QLatin1String("file size: ") + QString::number(file.size()) +
+                         QLatin1String(" / lines: ") + QString::number(lineCount));
     file.close();
     // Parse the QStringList m_source.
     m_klass = NULL;
@@ -439,7 +439,7 @@ bool NativeImportBase::parseFile(const QString& filename)
            skipStmt();
         m_comment.clear();
     }
-    log(nameWithoutPath, "...end of parse");
+    log(nameWithoutPath, QLatin1String("...end of parse"));
     return true;
 }
 

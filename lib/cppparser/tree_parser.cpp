@@ -23,6 +23,7 @@
 
 #include <kdebug.h>
 
+#define DBG_TPAR  DEBUG(QLatin1String("TreeParser"))
 DEBUG_REGISTER_DISABLED(TreeParser)
 
 TreeParser::TreeParser()
@@ -35,13 +36,13 @@ TreeParser::~TreeParser()
 
 void TreeParser::parseTranslationUnit(const ParsedFile& translationUnit)
 {
-    DEBUG("TreeParser") << "TreeParser::parseTranslationUnit()" << endl;
+    DBG_TPAR << "TreeParser::parseTranslationUnit()" << endl;
 
     QList<DeclarationAST*> declarations = translationUnit->declarationList();
     QList<DeclarationAST*>::const_iterator it = declarations.constBegin();
     for (; it != declarations.constEnd(); it++) {
         if ((*it) == 0) {
-            DEBUG("TreeParser") << "declaration is zero" << endl;
+            DBG_TPAR << "declaration is zero" << endl;
             continue;
         }
         parseDeclaration(*it);
@@ -50,7 +51,7 @@ void TreeParser::parseTranslationUnit(const ParsedFile& translationUnit)
 
 void TreeParser::parseDeclaration(DeclarationAST* declaration)
 {
-    DEBUG("TreeParser") << "TreeParser::parseDeclaration()" << endl;
+    DBG_TPAR << "TreeParser::parseDeclaration()" << endl;
 
     if (!declaration)
         return;
@@ -100,7 +101,7 @@ void TreeParser::parseDeclaration(DeclarationAST* declaration)
 
 void TreeParser::parseLinkageSpecification(LinkageSpecificationAST* ast)
 {
-    DEBUG("TreeParser") << "TreeParser::parseLinkageSpecification()" << endl;
+    DBG_TPAR << "TreeParser::parseLinkageSpecification()" << endl;
     if (ast->linkageBody())
         parseLinkageBody(ast->linkageBody());
     else if (ast->declaration())
@@ -109,57 +110,57 @@ void TreeParser::parseLinkageSpecification(LinkageSpecificationAST* ast)
 
 void TreeParser::parseNamespace(NamespaceAST* decl)
 {
-    DEBUG("TreeParser") << "TreeParser::parseNamespace()" << endl;
+    DBG_TPAR << "TreeParser::parseNamespace()" << endl;
     if (decl->linkageBody())
         parseLinkageBody(decl->linkageBody());
 }
 
 void TreeParser::parseNamespaceAlias(NamespaceAliasAST* decl)
 {
-    DEBUG("TreeParser") << "TreeParser::parseNamespaceAlias()" << endl;
+    DBG_TPAR << "TreeParser::parseNamespaceAlias()" << endl;
     Q_UNUSED(decl);
 }
 
 void TreeParser::parseUsing(UsingAST* decl)
 {
-    DEBUG("TreeParser") << "TreeParser::parseUsing()" << endl;
+    DBG_TPAR << "TreeParser::parseUsing()" << endl;
     Q_UNUSED(decl);
 }
 
 void TreeParser::parseUsingDirective(UsingDirectiveAST* decl)
 {
-    DEBUG("TreeParser") << "TreeParser::parseUsingDirective()" << endl;
+    DBG_TPAR << "TreeParser::parseUsingDirective()" << endl;
     Q_UNUSED(decl);
 }
 
 void TreeParser::parseTypedef(TypedefAST* decl)
 {
-    DEBUG("TreeParser") << "TreeParser::parseTypedef()" << endl;
+    DBG_TPAR << "TreeParser::parseTypedef()" << endl;
     if (decl->typeSpec())
         parseTypeSpecifier(decl->typeSpec());
 }
 
 void TreeParser::parseTemplateDeclaration(TemplateDeclarationAST* decl)
 {
-    DEBUG("TreeParser") << "TreeParser::parseTemplateDeclaration()" << endl;
+    DBG_TPAR << "TreeParser::parseTemplateDeclaration()" << endl;
     Q_UNUSED(decl);
 }
 
 void TreeParser::parseSimpleDeclaration(SimpleDeclarationAST* decl)
 {
-    DEBUG("TreeParser") << "TreeParser::parseSimpleDeclaration()" << endl;
+    DBG_TPAR << "TreeParser::parseSimpleDeclaration()" << endl;
     Q_UNUSED(decl);
 }
 
 void TreeParser::parseFunctionDefinition(FunctionDefinitionAST* def)
 {
-    DEBUG("TreeParser") << "TreeParser::parseFunctionDefinition()" << endl;
+    DBG_TPAR << "TreeParser::parseFunctionDefinition()" << endl;
     Q_UNUSED(def);
 }
 
 void TreeParser::parseLinkageBody(LinkageBodyAST* linkageBody)
 {
-    DEBUG("TreeParser") << "TreeParser::parseLinkageBody()" << endl;
+    DBG_TPAR << "TreeParser::parseLinkageBody()" << endl;
     QList<DeclarationAST*> declarations = linkageBody->declarationList();
     QList<DeclarationAST*>::const_iterator it = declarations.constBegin();
     for (; it != declarations.constEnd(); ++it) {
@@ -169,7 +170,7 @@ void TreeParser::parseLinkageBody(LinkageBodyAST* linkageBody)
 
 void TreeParser::parseTypeSpecifier(TypeSpecifierAST* typeSpec)
 {
-    DEBUG("TreeParser") << "TreeParser::parseTypeSpecifier()" << endl;
+    DBG_TPAR << "TreeParser::parseTypeSpecifier()" << endl;
     switch (typeSpec->nodeType()) {
     case NodeType_ClassSpecifier:
         parseClassSpecifier(static_cast<ClassSpecifierAST*>(typeSpec));
@@ -187,7 +188,7 @@ void TreeParser::parseTypeSpecifier(TypeSpecifierAST* typeSpec)
 
 void TreeParser::parseClassSpecifier(ClassSpecifierAST* classSpec)
 {
-    DEBUG("TreeParser") << "TreeParser::parseClassSpecifier()" << endl;
+    DBG_TPAR << "TreeParser::parseClassSpecifier()" << endl;
     QList<DeclarationAST*> declarations = classSpec->declarationList();
     QList<DeclarationAST*>::const_iterator it = declarations.constBegin();
     for (; it != declarations.constEnd(); ++it) {
@@ -197,19 +198,19 @@ void TreeParser::parseClassSpecifier(ClassSpecifierAST* classSpec)
 
 void TreeParser::parseEnumSpecifier(EnumSpecifierAST* enumSpec)
 {
-    DEBUG("TreeParser") << "TreeParser::parseEnumSpecifier()" << endl;
+    DBG_TPAR << "TreeParser::parseEnumSpecifier()" << endl;
     Q_UNUSED(enumSpec);
 }
 
 void TreeParser::parseElaboratedTypeSpecifier(ElaboratedTypeSpecifierAST* typeSpec)
 {
-    DEBUG("TreeParser") << "TreeParser::parseElaboratedTypeSpecifier()" << endl;
+    DBG_TPAR << "TreeParser::parseElaboratedTypeSpecifier()" << endl;
     Q_UNUSED(typeSpec);
 }
 
 void TreeParser::parseAccessDeclaration (AccessDeclarationAST * access)
 {
-    DEBUG("TreeParser") << "TreeParser::parseAccessDeclaration()" << endl;
+    DBG_TPAR << "TreeParser::parseAccessDeclaration()" << endl;
     Q_UNUSED(access);
 }
 

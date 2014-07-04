@@ -25,103 +25,103 @@ QString nodeTypeToString(int type)
 {
     switch (type) {
     case NodeType_Generic:
-        return "Generic";
+        return QLatin1String("Generic");
     case NodeType_TemplateArgumentList:
-        return "TemplateArgumentList";
+        return QLatin1String("TemplateArgumentList");
     case NodeType_ClassOrNamespaceName:
-        return "ClassOrNamespaceName";
+        return QLatin1String("ClassOrNamespaceName");
     case NodeType_Name:
-        return "Name";
+        return QLatin1String("Name");
     case NodeType_Declaration:
-        return "Declaration";
+        return QLatin1String("Declaration");
     case NodeType_TypeSpecifier:
-        return "TypeSpecifier";
+        return QLatin1String("TypeSpecifier");
     case NodeType_BaseSpecifier:
-        return "BaseSpecifier";
+        return QLatin1String("BaseSpecifier");
     case NodeType_BaseClause:
-        return "BaseClause";
+        return QLatin1String("BaseClause");
     case NodeType_ClassSpecifier:
-        return "ClassSpecifier";
+        return QLatin1String("ClassSpecifier");
     case NodeType_Enumerator:
-        return "Enumerator";
+        return QLatin1String("Enumerator");
     case NodeType_EnumSpecifier:
-        return "EnumSpecifier";
+        return QLatin1String("EnumSpecifier");
     case NodeType_ElaboratedTypeSpecifier:
-        return "ElaboratedTypeSpecifier";
+        return QLatin1String("ElaboratedTypeSpecifier");
     case NodeType_LinkageBody:
-        return "LinkageBody";
+        return QLatin1String("LinkageBody");
     case NodeType_LinkageSpecification:
-        return "LinkageSpecification";
+        return QLatin1String("LinkageSpecification");
     case NodeType_Namespace:
-        return "Namespace";
+        return QLatin1String("Namespace");
     case NodeType_NamespaceAlias:
-        return "NamespaceAlias";
+        return QLatin1String("NamespaceAlias");
     case NodeType_Using:
-        return "Using";
+        return QLatin1String("Using");
     case NodeType_UsingDirective:
-        return "UsingDirective";
+        return QLatin1String("UsingDirective");
     case NodeType_InitDeclaratorList:
-        return "InitDeclaratorList";
+        return QLatin1String("InitDeclaratorList");
     case NodeType_Typedef:
-        return "Typedef";
+        return QLatin1String("Typedef");
     case NodeType_Declarator:
-        return "Declarator";
+        return QLatin1String("Declarator");
     case NodeType_InitDeclarator:
-        return "InitDeclarator";
+        return QLatin1String("InitDeclarator");
     case NodeType_TemplateDeclaration:
-        return "TemplateDeclaration";
+        return QLatin1String("TemplateDeclaration");
     case NodeType_SimpleDeclaration:
-        return "SimpleDeclaration";
+        return QLatin1String("SimpleDeclaration");
     case NodeType_Statement:
-        return "Statement";
+        return QLatin1String("Statement");
     case NodeType_IfStatement:
-        return "IfStatement";
+        return QLatin1String("IfStatement");
     case NodeType_WhileStatement:
-        return "WhileStatement";
+        return QLatin1String("WhileStatement");
     case NodeType_DoStatement:
-        return "DoStatement";
+        return QLatin1String("DoStatement");
     case NodeType_ForStatement:
-        return "ForStatement";
+        return QLatin1String("ForStatement");
     case NodeType_ForEachStatement: // qt4 [erbsland]
-        return "ForEachStatement";
+        return QLatin1String("ForEachStatement");
     case NodeType_SwitchStatement:
-        return "SwitchStatement";
+        return QLatin1String("SwitchStatement");
     case NodeType_CatchStatement:
-        return "CatchStatement";
+        return QLatin1String("CatchStatement");
     case NodeType_CatchStatementList:
-        return "CatchStatementList";
+        return QLatin1String("CatchStatementList");
     case NodeType_TryBlockStatement:
-        return "TryBlockStatement";
+        return QLatin1String("TryBlockStatement");
     case NodeType_DeclarationStatement:
-        return "DeclarationStatement";
+        return QLatin1String("DeclarationStatement");
     case NodeType_StatementList:
-        return "StatementList";
+        return QLatin1String("StatementList");
     case NodeType_TranslationUnit:
-        return "TranslationUnit";
+        return QLatin1String("TranslationUnit");
     case NodeType_FunctionDefinition:
-        return "FunctionDefinition";
+        return QLatin1String("FunctionDefinition");
     case NodeType_ExpressionStatement:
-        return "ExpressionStatement";
+        return QLatin1String("ExpressionStatement");
     case NodeType_ParameterDeclaration:
-        return "ParameterDeclaration";
+        return QLatin1String("ParameterDeclaration");
     case NodeType_ParameterDeclarationList:
-        return "ParameterDeclarationList";
+        return QLatin1String("ParameterDeclarationList");
     case NodeType_ParameterDeclarationClause:
-        return "ParameterDeclarationClause";
+        return QLatin1String("ParameterDeclarationClause");
     case NodeType_Group:
-        return "Group";
+        return QLatin1String("Group");
     case NodeType_AccessDeclaration:
-        return "AccessDeclaration";
+        return QLatin1String("AccessDeclaration");
     case NodeType_TypeParameter:
-        return "TypeParameter";
+        return QLatin1String("TypeParameter");
     case NodeType_TemplateParameter:
-        return "TemplateParameter";
+        return QLatin1String("TemplateParameter");
     case NodeType_TemplateParameterList:
-        return "TemplateParameterList";
+        return QLatin1String("TemplateParameterList");
     case NodeType_Condition:
-        return "Condition";
+        return QLatin1String("Condition");
     case NodeType_Custom:
-        return "Custom";
+        return QLatin1String("Custom");
     }
 
     return QString();
@@ -235,10 +235,10 @@ QString NameAST::text() const
     QString str;
 
     if (m_global)
-        str += "::";
+        str += QLatin1String("::");
 
     for (int i = 0; i < m_classOrNamespaceNameList.size(); ++i) {
-        str += m_classOrNamespaceNameList.at(i)->text() + "::";
+        str += m_classOrNamespaceNameList.at(i)->text() + QLatin1String("::");
     }
 
     if (m_unqualifiedName.get())
@@ -410,7 +410,7 @@ QString TemplateArgumentListAST::text() const
         l.append(m_argumentList.at(i)->text());
     }
 
-    return l.join(", ");
+    return l.join(QLatin1String(", "));
 }
 
 // ------------------------------------------------------------------------
@@ -487,13 +487,13 @@ QString TypeSpecifierAST::text() const
     QString str;
 
     if (m_cvQualify.get())
-        str += m_cvQualify->text() + ' ';
+        str += m_cvQualify->text() + QLatin1Char(' ');
 
     if (m_name.get())
         str += m_name->text();
 
     if (m_cv2Qualify.get())
-        str += QString(" ") + m_cv2Qualify->text();
+        str += QString::fromLatin1(" ") + m_cv2Qualify->text();
 
     return str;
 }
@@ -553,7 +553,7 @@ void ElaboratedTypeSpecifierAST::setKind(AST::Node& kind)
 QString ElaboratedTypeSpecifierAST::text() const
 {
     if (m_kind.get())
-        return m_kind->text() + ' ' + TypeSpecifierAST::text();
+        return m_kind->text() + QLatin1Char(' ') + TypeSpecifierAST::text();
 
     return TypeSpecifierAST::text();
 }
@@ -1022,13 +1022,13 @@ QString ParameterDeclarationAST::text() const
 {
     QString str;
     if (m_typeSpec.get())
-        str += m_typeSpec->text() + ' ';
+        str += m_typeSpec->text() + QLatin1Char(' ');
 
     if (m_declarator.get())
         str += m_declarator->text();
 
     if (m_expression.get())
-        str += QString(" = ") + m_expression->text();
+        str += QString::fromLatin1(" = ") + m_expression->text();
 
     return str;
 }
@@ -1053,7 +1053,7 @@ QString ParameterDeclarationListAST::text() const
     for (int i = 0; i  < m_parameterList.size(); ++i) {
         l.append(m_parameterList.at(i)->text());
     }
-    return l.join(", ");
+    return l.join(QLatin1String(", "));
 }
 
 
@@ -1082,7 +1082,7 @@ QString ParameterDeclarationClauseAST::text() const
         str += m_parameterDeclarationList->text();
 
     if (m_ellipsis.get())
-        str += " ...";
+        str += QLatin1String(" ...");
 
     return str;
 }
@@ -1108,7 +1108,7 @@ QString GroupAST::text() const
     for (int i = 0; i < m_nodeList.size();  ++i) {
         l.append(m_nodeList.at(i)->text());
     }
-    return l.join(" ");
+    return l.join(QLatin1String(" "));
 }
 
 // --------------------------------------------------------------------------
@@ -1131,7 +1131,7 @@ QString AccessDeclarationAST::text() const
     for (int i = 0; i < m_accessList.size(); ++i) {
         l.append(m_accessList.at(i)->text());
     }
-    return l.join(" ");
+    return l.join(QLatin1String(" "));
 }
 
 // --------------------------------------------------------------------------

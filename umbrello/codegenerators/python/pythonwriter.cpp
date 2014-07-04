@@ -192,7 +192,7 @@ void PythonWriter::writeClass(UMLClassifier *c)
     m_bNeedPass = true;
 
     //find an appropriate name for our file
-    QString fileName = findFileName(c, ".py");
+    QString fileName = findFileName(c, QLatin1String(".py"));
     if (fileName.isEmpty()) {
         emit codeGenerated(c, false);
         return;
@@ -212,10 +212,10 @@ void PythonWriter::writeClass(UMLClassifier *c)
     //try to find a heading file (license, coments, etc)
     QString str;
 
-    str = getHeadingFile(".py");
+    str = getHeadingFile(QLatin1String(".py"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp("%filename%"), fileName);
-        str.replace(QRegExp("%filepath%"), fileh.fileName());
+        str.replace(QRegExp(QLatin1String("%filename%")), fileName);
+        str.replace(QRegExp(QLatin1String("%filepath%")), fileh.fileName());
         h<<str<<m_endl;
     }
 
@@ -223,16 +223,16 @@ void PythonWriter::writeClass(UMLClassifier *c)
     str = cleanName(c->name());
     QString pkg = cleanName(c->package());
     if (!pkg.isEmpty())
-        str.prepend(pkg + '.');
+        str.prepend(pkg + QLatin1Char('.'));
     QStringList includesList  = QStringList(str); //save imported classes
     int i = superclasses.count();
     foreach (UMLClassifier *classifier,  superclasses) {
         str = cleanName(classifier->name());
         pkg = cleanName(classifier->package());
         if (!pkg.isEmpty())
-            str.prepend(pkg + '.');
+            str.prepend(pkg + QLatin1Char('.'));
         includesList.append(str);
-        h << "from " + str + " import *" << m_endl;
+        h << "from " << str << " import *" << m_endl;
         i--;
     }
 
@@ -241,30 +241,30 @@ void PythonWriter::writeClass(UMLClassifier *c)
     findObjectsRelated(c, includes);
 
     foreach(UMLPackage* conc, includes) {
-        QString headerName = findFileName(conc, ".py");
+        QString headerName = findFileName(conc, QLatin1String(".py"));
         if (!headerName.isEmpty()) {
-            headerName.remove(QRegExp(".py$"));
-            str = headerName.replace(QChar('/'), QChar('.'));
+            headerName.remove(QRegExp(QLatin1String(".py$")));
+            str = headerName.replace(QLatin1Char('/'), QLatin1Char('.'));
             if (includesList.indexOf(str) < 0)  // not yet imported
                 h << "from " << str << " import *" << m_endl;
         }
     }
     h << m_endl;
 
-    h << "class " << classname << (superclasses.count() > 0 ? " (" : "(object)");
+    h << "class " << classname << (superclasses.count() > 0 ? QLatin1String(" (") : QLatin1String("(object)"));
     i = superclasses.count();
 
     foreach (UMLClassifier *obj, superclasses) {
 
-        h << cleanName(obj->name()) << (i>1 ? ", " : QString());
+        h << cleanName(obj->name()) << (i>1 ? QLatin1String(", ") : QString());
         i--;
     }
 
-    h << (superclasses.count() > 0 ? ")" : QString()) << ":" << m_endl << m_endl;
+    h << (superclasses.count() > 0 ? QLatin1String(")") : QString()) << ":" << m_endl << m_endl;
 
     if (forceDoc() || !c->doc().isEmpty()) {
         h << m_indentation << "\"\"\"" << m_endl;
-        h << formatDoc(c->doc(), m_indentation + ' ') << m_endl;
+        h << formatDoc(c->doc(), m_indentation + QLatin1Char(' ')) << m_endl;
         h << m_indentation << ":version:" << m_endl;
         h << m_indentation << ":author:" << m_endl;
         h << m_indentation << "\"\"\"" << m_endl << m_endl;
@@ -303,7 +303,7 @@ void PythonWriter::writeAttributes(UMLAttributeList atList, QTextStream &py)
         return;
     py << m_indentation << "\"\"\" ATTRIBUTES" << m_endl << m_endl;
     foreach (UMLAttribute *at, atList) {
-        py << formatDoc(at->doc(), m_indentation + ' ') << m_endl;
+        py << formatDoc(at->doc(), m_indentation + QLatin1Char(' ')) << m_endl;
         Uml::Visibility::Enum vis = at->visibility();
         py << m_indentation << cleanName(at->name()) << "  ("
             << Uml::Visibility::toString(vis) << ")" << m_endl << m_endl ;
@@ -375,10 +375,10 @@ void PythonWriter::writeOperations(const QString& classname, UMLOperationList &o
         sAccess = QString();
         break;
     case Uml::Visibility::Private:
-        sAccess = QString("__");
+        sAccess = QLatin1String("__");
         break;
     case Uml::Visibility::Protected:
-        sAccess = QString("_");
+        sAccess = QLatin1String("_");
         break;
     default:
         break;
@@ -396,9 +396,8 @@ void PythonWriter::writeOperations(const QString& classname, UMLOperationList &o
         int j=0;
         foreach (UMLAttribute* at, atl) {
             h << ", " << cleanName(at->name())
-            << (!(at->getInitialValue().isEmpty()) ?
-                (QString(" = ")+at->getInitialValue()) :
-                QString());
+              << (!(at->getInitialValue().isEmpty()) ?
+                  (QLatin1String(" = ") + at->getInitialValue()) : QString());
             j++;
         }
 
@@ -407,7 +406,7 @@ void PythonWriter::writeOperations(const QString& classname, UMLOperationList &o
         if (writeDoc)  //write method documentation
         {
             h << m_indentation << m_indentation << "\"\"\"" << m_endl;
-            h << formatDoc(op->doc(), m_indentation + m_indentation + ' ') << m_endl;
+            h << formatDoc(op->doc(), m_indentation + m_indentation + QLatin1Char(' ')) << m_endl;
 
             foreach (UMLAttribute* at, atl)  //write parameter documentation
             {
@@ -417,7 +416,7 @@ void PythonWriter::writeOperations(const QString& classname, UMLOperationList &o
                     h<<" : "<<at->doc()<<m_endl;
                 }
             }//end for : write parameter documentation
-            h << m_indentation << m_indentation << "@return " + op->getTypeName() << " :" << m_endl;
+            h << m_indentation << m_indentation << "@return " << op->getTypeName() << " :" << m_endl;
             h << m_indentation << m_indentation << "@author" << m_endl;
             h << m_indentation << m_indentation << "\"\"\"" << m_endl;
         }
@@ -447,16 +446,16 @@ Uml::ProgrammingLanguage::Enum PythonWriter::language() const
 QStringList PythonWriter::defaultDatatypes()
 {
     QStringList l;
-    l.append("array");
-    l.append("bool");
-    l.append("tuple");
-    l.append("float");
-    l.append("int");
-    l.append("long");
-    l.append("dict");
-    l.append("object");
-    l.append("set");
-    l.append("string");
+    l.append(QLatin1String("array"));
+    l.append(QLatin1String("bool"));
+    l.append(QLatin1String("tuple"));
+    l.append(QLatin1String("float"));
+    l.append(QLatin1String("int"));
+    l.append(QLatin1String("long"));
+    l.append(QLatin1String("dict"));
+    l.append(QLatin1String("object"));
+    l.append(QLatin1String("set"));
+    l.append(QLatin1String("string"));
     return l;
 }
 
@@ -470,7 +469,7 @@ QStringList PythonWriter::reservedKeywords() const
 
     if (keywords.isEmpty()) {
         for (int i = 0; reserved_words[i]; ++i) {
-            keywords.append(reserved_words[i]);
+            keywords.append(QLatin1String(reserved_words[i]));
         }
     }
 

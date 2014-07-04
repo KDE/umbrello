@@ -224,7 +224,7 @@ Uml::ProgrammingLanguage::Enum JavaCodeGenerator::language() const
 void JavaCodeGenerator::setCreateANTBuildFile(bool buildIt)
 {
     m_createANTBuildFile = buildIt;
-    CodeDocument * antDoc = findCodeDocumentByID("ANTDOC");
+    CodeDocument * antDoc = findCodeDocumentByID(QLatin1String("ANTDOC"));
     if (antDoc)
         antDoc->setWriteOutCode(buildIt);
 }
@@ -247,7 +247,7 @@ CodeViewerDialog * JavaCodeGenerator::getCodeViewerDialog(QWidget* parent, CodeD
 {
     CodeViewerDialog *dialog = new CodeViewerDialog(parent, doc, state);
     if(getCreateANTBuildFile())
-        dialog->addCodeDocument(findCodeDocumentByID("ANTDOC"));
+        dialog->addCodeDocument(findCodeDocumentByID(QLatin1String("ANTDOC")));
     return dialog;
 }
 
@@ -280,7 +280,7 @@ bool JavaCodeGenerator::getAutoGenerateAssocAccessors()
  */
 QString JavaCodeGenerator::getListFieldClassName()
 {
-    return QString("Vector");
+    return QLatin1String("Vector");
 }
 
 /**
@@ -290,12 +290,12 @@ QString JavaCodeGenerator::getListFieldClassName()
  */
 QString JavaCodeGenerator::fixTypeName(const QString &string)
 {
-    if (string.isEmpty() || string.contains(QRegExp("^\\s+$")))
-        return "void";
-    if (string == "string")
-        return "String";
-    if (string == "bool")
-        return "boolean";
+    if (string.isEmpty() || string.contains(QRegExp(QLatin1String("^\\s+$"))))
+        return QLatin1String("void");
+    if (string == QLatin1String("string"))
+        return QLatin1String("String");
+    if (string == QLatin1String("bool"))
+        return QLatin1String("boolean");
     return cleanName(string);
 }
 
@@ -327,25 +327,25 @@ CodeDocument * JavaCodeGenerator::newClassifierCodeDocument(UMLClassifier * clas
 QStringList JavaCodeGenerator::defaultDatatypes()
 {
     QStringList l;
-    l.append("int");
-    l.append("char");
-    l.append("boolean");
-    l.append("float");
-    l.append("double");
-    l.append("byte");
-    l.append("short");
-    l.append("long");
-    l.append("String");
-    l.append("Integer");
-    l.append("Character");
-    l.append("Boolean");
-    l.append("Float");
-    l.append("Double");
-    l.append("Byte");
-    l.append("Short");
-    l.append("Long");
-    l.append("StringBuffer");
-    l.append("StringBuilder");
+    l.append(QLatin1String("int"));
+    l.append(QLatin1String("char"));
+    l.append(QLatin1String("boolean"));
+    l.append(QLatin1String("float"));
+    l.append(QLatin1String("double"));
+    l.append(QLatin1String("byte"));
+    l.append(QLatin1String("short"));
+    l.append(QLatin1String("long"));
+    l.append(QLatin1String("String"));
+    l.append(QLatin1String("Integer"));
+    l.append(QLatin1String("Character"));
+    l.append(QLatin1String("Boolean"));
+    l.append(QLatin1String("Float"));
+    l.append(QLatin1String("Double"));
+    l.append(QLatin1String("Byte"));
+    l.append(QLatin1String("Short"));
+    l.append(QLatin1String("Long"));
+    l.append(QLatin1String("StringBuffer"));
+    l.append(QLatin1String("StringBuilder"));
     return l;
 }
 
@@ -359,7 +359,7 @@ QStringList JavaCodeGenerator::reservedKeywords() const
 
     if (keywords.isEmpty()) {
         for (int i = 0; reserved_words[i]; ++i) {
-            keywords.append(reserved_words[i]);
+            keywords.append(QLatin1String(reserved_words[i]));
         }
     }
 

@@ -25,7 +25,7 @@ RubyCodeComment::~RubyCodeComment()
 
 QString RubyCodeComment::getNewEditorLine(int amount)
 {
-    QString line = getIndentationString(amount) + "# ";
+    QString line = getIndentationString(amount) + QLatin1String("# ");
     return line;
 }
 
@@ -35,7 +35,7 @@ QString RubyCodeComment::unformatText(const QString & text, const QString & inde
     QString mytext = TextBlock::unformatText(text, indent);
 
     // now leading hash
-    mytext.remove(QRegExp("^#\\s*"));
+    mytext.remove(QRegExp(QLatin1String("^#\\s*")));
     return mytext;
 }
 
@@ -47,7 +47,7 @@ QString RubyCodeComment::toString() const
     if (getWriteOutText()) {
         QString indent = getIndentationString();
         QString endLine = getNewLineEndingChars();
-        output.append(formatMultiLineText(getText(), indent + "# ", endLine + endLine));
+        output.append(formatMultiLineText(getText(), indent + QLatin1String("# "), endLine + endLine));
     }
 
     return output;

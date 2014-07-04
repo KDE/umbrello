@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2013                                               *
+ *   copyright (C) 2003-2014                                               *
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
@@ -38,10 +38,10 @@ IDLWriter::~IDLWriter()
 bool IDLWriter::isOOClass(UMLClassifier *c)
 {
     QString stype = c->stereotype();
-    if (stype == "CORBAConstant" || stype == "CORBAEnum" ||
-            stype == "CORBAStruct" || stype == "CORBAUnion" ||
-            stype == "CORBASequence" || stype == "CORBAArray" ||
-            stype == "CORBATypedef")
+    if (stype == QLatin1String("CORBAConstant") || stype == QLatin1String("CORBAEnum") ||
+            stype == QLatin1String("CORBAStruct") || stype == QLatin1String("CORBAUnion") ||
+            stype == QLatin1String("CORBASequence") || stype == QLatin1String("CORBAArray") ||
+            stype == QLatin1String("CORBATypedef"))
         return false;
 
     // CORBAValue, CORBAInterface, and all empty/unknown stereotypes are
@@ -90,8 +90,8 @@ void IDLWriter::computeAssocTypeAndRole(UMLAssociation *a, UMLClassifier *c,
         multiplicity = a->getMultiplicity(Uml::RoleType::B);
     else
         multiplicity = a->getMultiplicity(Uml::RoleType::A);
-    if (!multiplicity.isEmpty() && multiplicity != "1")
-        typeName.append("Vector");
+    if (!multiplicity.isEmpty() && multiplicity != QLatin1String("1"))
+        typeName.append(QLatin1String("Vector"));
     // Construct the member name:
     if (IAmRoleA)
         roleName = a->getRoleName(Uml::RoleType::B);
@@ -100,7 +100,7 @@ void IDLWriter::computeAssocTypeAndRole(UMLAssociation *a, UMLClassifier *c,
     if (roleName.isEmpty()) {
         roleName = a->name();
         if (roleName.isEmpty()) {
-            roleName = "m_" + typeName;
+            roleName = QLatin1String("m_") + typeName;
         }
     }
 }
@@ -120,7 +120,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
     QString classname = cleanName(c->name());
 
     //find an appropriate name for our file
-    QString fileName = findFileName(c, ".idl");
+    QString fileName = findFileName(c, QLatin1String(".idl"));
     if (fileName.isEmpty()) {
         emit codeGenerated(c, false);
         return;
@@ -137,10 +137,10 @@ void IDLWriter::writeClass(UMLClassifier *c)
     QTextStream idl(&file);
     //try to find a heading file(license, comments, etc)
     QString str;
-    str = getHeadingFile(".idl");
+    str = getHeadingFile(QLatin1String(".idl"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp("%filename%"), fileName);
-        str.replace(QRegExp("%filepath%"), file.fileName());
+        str.replace(QRegExp(QLatin1String("%filename%")), fileName);
+        str.replace(QRegExp(QLatin1String("%filepath%")), file.fileName());
         idl << str << m_endl;
     }
 
@@ -151,7 +151,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
         foreach (UMLPackage* conc, includes) {
             if (conc->baseType() == UMLObject::ot_Datatype)
                 continue;
-            QString incName = findFileName(conc, ".idl");
+            QString incName = findFileName(conc, QLatin1String(".idl"));
             if (!incName.isEmpty())
                 idl << "#include \"" << incName << "\"" << m_endl;
         }
@@ -171,7 +171,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
     if (forceDoc() || !c->doc().isEmpty()) {
         idl << "//" << m_endl;
         idl << "// class " << classname << m_endl;
-        idl << formatDoc(c->doc(), "// ");
+        idl << formatDoc(c->doc(), QLatin1String("// "));
         idl << m_endl;
     }
 
@@ -198,18 +198,18 @@ void IDLWriter::writeClass(UMLClassifier *c)
     }
     if (! isOOClass(c)) {
         QString stype = c->stereotype();
-        if (stype == "CORBAConstant") {
+        if (stype == QLatin1String("CORBAConstant")) {
             uError() << "The stereotype " << stype << " cannot be applied to "
-            << c->name() << ", but only to attributes.";
+                     << c->name() << ", but only to attributes.";
             return;
         }
         if (!isClass) {
             uError() << "The stereotype " << stype
-            << " cannot be applied to " << c->name()
-            << ", but only to classes.";
+                     << " cannot be applied to " << c->name()
+                     << ", but only to classes.";
             return;
         }
-        if (stype == "CORBAEnum") {
+        if (stype == QLatin1String("CORBAEnum")) {
             UMLAttributeList atl = c->getAttributeList();
 
             idl << indent() << "enum " << classname << " {" << m_endl;
@@ -224,7 +224,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
             }
             m_indentLevel--;
             idl << indent() << "};" << m_endl << m_endl;
-        } else if (stype == "CORBAStruct") {
+        } else if (stype == QLatin1String("CORBAStruct")) {
             UMLAttributeList atl = c->getAttributeList();
 
             idl << indent() << "struct " << classname << " {" << m_endl;
@@ -254,14 +254,14 @@ void IDLWriter::writeClass(UMLClassifier *c)
             }
             m_indentLevel--;
             idl << indent() << "};" << m_endl << m_endl;
-        } else if (stype == "CORBAUnion") {
+        } else if (stype == QLatin1String("CORBAUnion")) {
             idl << indent() << "// " << stype << " " << c->name()
-            << " is Not Yet Implemented" << m_endl << m_endl;
-        } else if (stype == "CORBATypedef") {
+                << " is Not Yet Implemented" << m_endl << m_endl;
+        } else if (stype == QLatin1String("CORBATypedef")) {
             UMLClassifierList superclasses = c->getSuperClasses();
             UMLClassifier* firstParent = superclasses.first();
             idl << indent() << "typedef " << firstParent->name() << " "
-            << c->name() << ";" << m_endl << m_endl;
+                << c->name() << ";" << m_endl << m_endl;
         } else {
             idl << indent() << "// " << stype << ": Unknown stereotype" << m_endl << m_endl;
         }
@@ -276,7 +276,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
     idl << indent();
     if (c->isAbstract())
         idl << "abstract ";
-    bool isValuetype = (c->stereotype() == "CORBAValue");
+    bool isValuetype = (c->stereotype() == QLatin1String("CORBAValue"));
     if (isValuetype)
         idl << "valuetype ";
     else
@@ -288,7 +288,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
         int count = superclasses.count();
         foreach(UMLClassifier* parent, superclasses) {
             count--;
-            idl << parent->fullyQualifiedName("::");
+            idl << parent->fullyQualifiedName(QLatin1String("::"));
             if (count)
                 idl << ", ";
         }
@@ -304,7 +304,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
         if (! assocTypeIsMappableToAttribute(a->getAssocType()))
             continue;
         QString multiplicity = a->getMultiplicity(Uml::RoleType::A);
-        if (multiplicity.isEmpty() || multiplicity == "1")
+        if (multiplicity.isEmpty() || multiplicity == QLatin1String("1"))
             continue;
         if (!didComment) {
             idl << indent() << "// Types for association multiplicities" << m_endl << m_endl;
@@ -312,8 +312,8 @@ void IDLWriter::writeClass(UMLClassifier *c)
         }
         UMLClassifier* other = (UMLClassifier*)a->getObject(Uml::RoleType::A);
         QString bareName = cleanName(other->name());
-        idl << indent() << "typedef sequence<" << other->fullyQualifiedName("::")
-        << "> " << bareName << "Vector;" << m_endl << m_endl;
+        idl << indent() << "typedef sequence<" << other->fullyQualifiedName(QLatin1String("::"))
+            << "> " << bareName << "Vector;" << m_endl << m_endl;
     }
 
     // Generate public attributes.
@@ -333,14 +333,14 @@ void IDLWriter::writeClass(UMLClassifier *c)
                 } else {
                     if (scope != Uml::Visibility::Public) {
                         idl << "// visibility should be: "
-                        << Uml::Visibility::toString(scope)
-                        << m_endl;
+                            << Uml::Visibility::toString(scope)
+                            << m_endl;
                         idl << indent();
                     }
                     idl << "attribute ";
                 }
                 idl << at->getTypeName() << " " << attName << ";"
-                << m_endl << m_endl;
+                    << m_endl << m_endl;
             }
         }
     }
@@ -405,7 +405,7 @@ void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comme
     QString rettype = op->getTypeName();
 
     if (rettype.isEmpty())
-        rettype = "void";
+        rettype = QLatin1String("void");
     idl << indent();
     if (is_comment)
         idl << "// ";
@@ -437,17 +437,17 @@ void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comme
 QStringList IDLWriter::defaultDatatypes()
 {
     QStringList l;
-    l.append("boolean");
-    l.append("char");
-    l.append("octet");
-    l.append("short");
-    l.append("unsigned short");
-    l.append("long");
-    l.append("unsigned long");
-    l.append("float");
-    l.append("double");
-    l.append("string");
-    l.append("any");
+    l.append(QLatin1String("boolean"));
+    l.append(QLatin1String("char"));
+    l.append(QLatin1String("octet"));
+    l.append(QLatin1String("short"));
+    l.append(QLatin1String("unsigned short"));
+    l.append(QLatin1String("long"));
+    l.append(QLatin1String("unsigned long"));
+    l.append(QLatin1String("float"));
+    l.append(QLatin1String("double"));
+    l.append(QLatin1String("string"));
+    l.append(QLatin1String("any"));
     return l;
 }
 
@@ -459,39 +459,40 @@ QStringList IDLWriter::reservedKeywords() const
     static QStringList keywords;
 
     if (keywords.isEmpty()) {
-        keywords << "any"
-        << "attribute"
-        << "boolean"
-        << "case"
-        << "char"
-        << "const"
-        << "context"
-        << "default"
-        << "double"
-        << "enum"
-        << "exception"
-        << "FALSE"
-        << "float"
-        << "in"
-        << "inout"
-        << "interface"
-        << "long"
-        << "module"
-        << "octet"
-        << "oneway"
-        << "out"
-        << "raises"
-        << "readonly"
-        << "sequence"
-        << "short"
-        << "string"
-        << "struct"
-        << "switch"
-        << "TRUE"
-        << "typedef"
-        << "union"
-        << "unsigned"
-        << "void";
+        keywords
+          << QLatin1String("any")
+          << QLatin1String("attribute")
+          << QLatin1String("boolean")
+          << QLatin1String("case")
+          << QLatin1String("char")
+          << QLatin1String("const")
+          << QLatin1String("context")
+          << QLatin1String("default")
+          << QLatin1String("double")
+          << QLatin1String("enum")
+          << QLatin1String("exception")
+          << QLatin1String("FALSE")
+          << QLatin1String("float")
+          << QLatin1String("in")
+          << QLatin1String("inout")
+          << QLatin1String("interface")
+          << QLatin1String("long")
+          << QLatin1String("module")
+          << QLatin1String("octet")
+          << QLatin1String("oneway")
+          << QLatin1String("out")
+          << QLatin1String("raises")
+          << QLatin1String("readonly")
+          << QLatin1String("sequence")
+          << QLatin1String("short")
+          << QLatin1String("string")
+          << QLatin1String("struct")
+          << QLatin1String("switch")
+          << QLatin1String("TRUE")
+          << QLatin1String("typedef")
+          << QLatin1String("union")
+          << QLatin1String("unsigned")
+          << QLatin1String("void");
     }
 
     return keywords;

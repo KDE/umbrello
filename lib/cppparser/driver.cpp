@@ -19,6 +19,7 @@
 */
 
 #define CACHELEXER
+#define DBG_DRV DEBUG(QLatin1String("Driver"))
 
 #include "driver.h"
 #include "lexer.h"
@@ -317,7 +318,7 @@ public:
 
         m_lex.setReportMessages(reportMessages);
 
-        DEBUG("Driver") << "lexing file " << fileName << endl;
+        DBG_DRV << "lexing file " << fileName << endl;
         m_lex.setSource(m_driver->sourceProvider() ->contents(fileName));
         if (m_previousCachedLexedFile)
             m_previousCachedLexedFile->merge(*m_driver->m_currentLexerCache);
@@ -434,7 +435,7 @@ void Driver::addDependence(const QString & fileName, const Dependence & dep)
 
     IntIncreaser i(m_dependenceDepth);
     if (m_dependenceDepth > m_maxDependenceDepth) {
-        DEBUG("Driver") << "maximum dependence-depth of " << m_maxDependenceDepth << " was reached, " << fileName << " will not be processed" << endl;
+        DBG_DRV << "maximum dependence-depth of " << m_maxDependenceDepth << " was reached, " << fileName << " will not be processed" << endl;
         return;
     }
 
@@ -572,223 +573,223 @@ bool Driver::parseFile(const QString& fileName, bool onlyPreProcess, bool force 
 void Driver::setupLexer(Lexer * lexer)
 {
     // stl
-    lexer->addSkipWord("__STL_BEGIN_NAMESPACE");
-    lexer->addSkipWord("__STL_END_NAMESPACE");
-    lexer->addSkipWord("__STL_BEGIN_RELOPS_NAMESPACE");
-    lexer->addSkipWord("__STL_END_RELOPS_NAMESPACE");
-    lexer->addSkipWord("__STL_TEMPLATE_NULL");
-    lexer->addSkipWord("__STL_TRY");
-    lexer->addSkipWord("__STL_UNWIND");
-    lexer->addSkipWord("__STL_NOTHROW");
-    lexer->addSkipWord("__STL_NULL_TMPL_ARGS");
-    lexer->addSkipWord("__STL_UNWIND", SkipWordAndArguments);
-    lexer->addSkipWord("__GC_CONST");
-    lexer->addSkipWord("__HASH_ALLOC_INIT", SkipWordAndArguments);
-    lexer->addSkipWord("__STL_DEFAULT_ALLOCATOR", SkipWordAndArguments, "T");
-    lexer->addSkipWord("__STL_MUTEX_INITIALIZER");
-    lexer->addSkipWord("__STL_NULL_TMPL_ARGS");
+    lexer->addSkipWord(QLatin1String("__STL_BEGIN_NAMESPACE"));
+    lexer->addSkipWord(QLatin1String("__STL_END_NAMESPACE"));
+    lexer->addSkipWord(QLatin1String("__STL_BEGIN_RELOPS_NAMESPACE"));
+    lexer->addSkipWord(QLatin1String("__STL_END_RELOPS_NAMESPACE"));
+    lexer->addSkipWord(QLatin1String("__STL_TEMPLATE_NULL"));
+    lexer->addSkipWord(QLatin1String("__STL_TRY"));
+    lexer->addSkipWord(QLatin1String("__STL_UNWIND"));
+    lexer->addSkipWord(QLatin1String("__STL_NOTHROW"));
+    lexer->addSkipWord(QLatin1String("__STL_NULL_TMPL_ARGS"));
+    lexer->addSkipWord(QLatin1String("__STL_UNWIND"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("__GC_CONST"));
+    lexer->addSkipWord(QLatin1String("__HASH_ALLOC_INIT"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("__STL_DEFAULT_ALLOCATOR"), SkipWordAndArguments, QLatin1String("T"));
+    lexer->addSkipWord(QLatin1String("__STL_MUTEX_INITIALIZER"));
+    lexer->addSkipWord(QLatin1String("__STL_NULL_TMPL_ARGS"));
 
     // antlr
-    lexer->addSkipWord("ANTLR_BEGIN_NAMESPACE", SkipWordAndArguments);
-    lexer->addSkipWord("ANTLR_USE_NAMESPACE", SkipWordAndArguments);
-    lexer->addSkipWord("ANTLR_USING_NAMESPACE", SkipWordAndArguments);
-    lexer->addSkipWord("ANTLR_END_NAMESPACE");
-    lexer->addSkipWord("ANTLR_C_USING", SkipWordAndArguments);
-    lexer->addSkipWord("ANTLR_API");
+    lexer->addSkipWord(QLatin1String("ANTLR_BEGIN_NAMESPACE"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("ANTLR_USE_NAMESPACE"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("ANTLR_USING_NAMESPACE"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("ANTLR_END_NAMESPACE"));
+    lexer->addSkipWord(QLatin1String("ANTLR_C_USING"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("ANTLR_API"));
 
     // gnu
-    lexer->addSkipWord("__extension__", SkipWordAndArguments);
-    lexer->addSkipWord("__attribute__", SkipWordAndArguments);
-    lexer->addSkipWord("__BEGIN_DECLS");
-    lexer->addSkipWord("__END_DECLS");
-    lexer->addSkipWord("__THROW");
-    lexer->addSkipWord("__restrict");
-    lexer->addSkipWord("__restrict__");
-    lexer->addSkipWord("__attribute_pure__");
-    lexer->addSkipWord("__attribute_malloc__");
-    lexer->addSkipWord("__attribute_format_strfmon__");
-    lexer->addSkipWord("__asm__", SkipWordAndArguments);
-    lexer->addSkipWord("__devinit");
-    lexer->addSkipWord("__devinit__");
-    lexer->addSkipWord("__init");
-    lexer->addSkipWord("__init__");
-    lexer->addSkipWord("__signed");
-    lexer->addSkipWord("__signed__");
-    lexer->addSkipWord("__unsigned");
-    lexer->addSkipWord("__unsigned__");
-    lexer->addSkipWord("asmlinkage");
-    lexer->addSkipWord("____cacheline_aligned");
-    lexer->addSkipWord("__glibcpp_class_requires", SkipWordAndArguments);
-    lexer->addSkipWord("__glibcpp_class2_requires", SkipWordAndArguments);
-    lexer->addSkipWord("__glibcpp_class4_requires", SkipWordAndArguments);
-    lexer->addSkipWord("__glibcpp_function_requires", SkipWordAndArguments);
-    lexer->addSkipWord("restrict");
+    lexer->addSkipWord(QLatin1String("__extension__"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("__attribute__"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("__BEGIN_DECLS"));
+    lexer->addSkipWord(QLatin1String("__END_DECLS"));
+    lexer->addSkipWord(QLatin1String("__THROW"));
+    lexer->addSkipWord(QLatin1String("__restrict"));
+    lexer->addSkipWord(QLatin1String("__restrict__"));
+    lexer->addSkipWord(QLatin1String("__attribute_pure__"));
+    lexer->addSkipWord(QLatin1String("__attribute_malloc__"));
+    lexer->addSkipWord(QLatin1String("__attribute_format_strfmon__"));
+    lexer->addSkipWord(QLatin1String("__asm__"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("__devinit"));
+    lexer->addSkipWord(QLatin1String("__devinit__"));
+    lexer->addSkipWord(QLatin1String("__init"));
+    lexer->addSkipWord(QLatin1String("__init__"));
+    lexer->addSkipWord(QLatin1String("__signed"));
+    lexer->addSkipWord(QLatin1String("__signed__"));
+    lexer->addSkipWord(QLatin1String("__unsigned"));
+    lexer->addSkipWord(QLatin1String("__unsigned__"));
+    lexer->addSkipWord(QLatin1String("asmlinkage"));
+    lexer->addSkipWord(QLatin1String("____cacheline_aligned"));
+    lexer->addSkipWord(QLatin1String("__glibcpp_class_requires"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("__glibcpp_class2_requires"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("__glibcpp_class4_requires"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("__glibcpp_function_requires"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("restrict"));
 
-    lexer->addSkipWord("__BEGIN_NAMESPACE_STD");
-    lexer->addSkipWord("__END_NAMESPACE_STD");
-    lexer->addSkipWord("__BEGIN_NAMESPACE_C99");
-    lexer->addSkipWord("__END_NAMESPACE_C99");
-    lexer->addSkipWord("__USING_NAMESPACE_STD", SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("__BEGIN_NAMESPACE_STD"));
+    lexer->addSkipWord(QLatin1String("__END_NAMESPACE_STD"));
+    lexer->addSkipWord(QLatin1String("__BEGIN_NAMESPACE_C99"));
+    lexer->addSkipWord(QLatin1String("__END_NAMESPACE_C99"));
+    lexer->addSkipWord(QLatin1String("__USING_NAMESPACE_STD"), SkipWordAndArguments);
 
     // kde
-    lexer->addSkipWord("K_SYCOCATYPE", SkipWordAndArguments);
-    lexer->addSkipWord("EXPORT_DOCKCLASS");
-    lexer->addSkipWord("K_EXPORT_COMPONENT_FACTORY", SkipWordAndArguments);
-    lexer->addSkipWord("K_SYCOCAFACTORY", SkipWordAndArguments);
-    lexer->addSkipWord("KDE_DEPRECATED");
+    lexer->addSkipWord(QLatin1String("K_SYCOCATYPE"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("EXPORT_DOCKCLASS"));
+    lexer->addSkipWord(QLatin1String("K_EXPORT_COMPONENT_FACTORY"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("K_SYCOCAFACTORY"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("KDE_DEPRECATED"));
 
     // qt
-    lexer->addSkipWord("Q_OBJECT");
-    lexer->addSkipWord("Q_INLINE_TEMPLATES");
-    lexer->addSkipWord("Q_TEMPLATE_EXTERN");
-    lexer->addSkipWord("Q_TYPENAME");
-    lexer->addSkipWord("Q_REFCOUNT");
-    lexer->addSkipWord("Q_EXPLICIT");
-    lexer->addSkipWord("QMAC_PASCAL");
-    lexer->addSkipWord("QT_STATIC_CONST");
-    lexer->addSkipWord("QT_STATIC_CONST_IMPL");
-    lexer->addSkipWord("QT_WIN_PAINTER_MEMBERS");
-    lexer->addSkipWord("QT_NC_MSGBOX");
-    lexer->addSkipWord("CALLBACK_CALL_TYPE");
+    lexer->addSkipWord(QLatin1String("Q_OBJECT"));
+    lexer->addSkipWord(QLatin1String("Q_INLINE_TEMPLATES"));
+    lexer->addSkipWord(QLatin1String("Q_TEMPLATE_EXTERN"));
+    lexer->addSkipWord(QLatin1String("Q_TYPENAME"));
+    lexer->addSkipWord(QLatin1String("Q_REFCOUNT"));
+    lexer->addSkipWord(QLatin1String("Q_EXPLICIT"));
+    lexer->addSkipWord(QLatin1String("QMAC_PASCAL"));
+    lexer->addSkipWord(QLatin1String("QT_STATIC_CONST"));
+    lexer->addSkipWord(QLatin1String("QT_STATIC_CONST_IMPL"));
+    lexer->addSkipWord(QLatin1String("QT_WIN_PAINTER_MEMBERS"));
+    lexer->addSkipWord(QLatin1String("QT_NC_MSGBOX"));
+    lexer->addSkipWord(QLatin1String("CALLBACK_CALL_TYPE"));
 
-    lexer->addSkipWord("ACTIVATE_SIGNAL_WITH_PARAM", SkipWordAndArguments);
-    lexer->addSkipWord("Q_ALIGNOF", SkipWordAndArguments);
-    lexer->addSkipWord("Q_ARG", SkipWordAndArguments);
-    lexer->addSkipWord("Q_ASSERT", SkipWordAndArguments);
-    lexer->addSkipWord("Q_ASSERT_X", SkipWordAndArguments);
-    lexer->addSkipWord("Q_BASIC_ATOMIC_INITIALIZER", SkipWordAndArguments);
-    lexer->addSkipWord("Q_CHECK_INVALID_SOCKETLAYER", SkipWordAndArguments);
-    lexer->addSkipWord("Q_CHECK_NOT_STATE", SkipWordAndArguments);
-    lexer->addSkipWord("Q_CHECK_PTR", SkipWordAndArguments);
-    lexer->addSkipWord("Q_CHECK_SOCKETENGINE", SkipWordAndArguments);
-    lexer->addSkipWord("Q_CHECK_STATE", SkipWordAndArguments);
-    lexer->addSkipWord("Q_CHECK_STATES", SkipWordAndArguments);
-    lexer->addSkipWord("Q_CHECK_TYPE", SkipWordAndArguments);
-    lexer->addSkipWord("Q_CHECK_VALID_SOCKETLAYER", SkipWordAndArguments);
-    lexer->addSkipWord("Q_CLASSINFO", SkipWordAndArguments);
-    lexer->addSkipWord("Q_CLEANUP_RESOURCE", SkipWordAndArguments);
-    lexer->addSkipWord("Q_COMPLEX_TYPE", SkipWordAndArguments);
-    lexer->addSkipWord("Q_CONSTRUCTOR_FUNCTION", SkipWordAndArguments);
-    lexer->addSkipWord("Q_CONSTRUCTOR_FUNCTION0", SkipWordAndArguments);
-    lexer->addSkipWord("Q_D", SkipWordAndArguments);
-    lexer->addSkipWord("Q_DECL_ALIGN", SkipWordAndArguments);
-    lexer->addSkipWord("Q_DECLARE_ASSOCIATIVE_ITERATOR", SkipWordAndArguments);
-    lexer->addSkipWord("Q_DECLARE_BUILTIN_METATYPE", SkipWordAndArguments);
-    lexer->addSkipWord("Q_DECLARE_EXTENSION_INTERFACE", SkipWordAndArguments);
-    lexer->addSkipWord("Q_DECLARE_FLAGS", SkipWordAndArguments);
-    lexer->addSkipWord("Q_DECLARE_INCOMPATIBLE_FLAGS", SkipWordAndArguments);
-    lexer->addSkipWord("Q_DECLARE_INTERFACE", SkipWordAndArguments);
-    lexer->addSkipWord("Q_DECLARE_METATYPE", SkipWordAndArguments);
-    lexer->addSkipWord("Q_DECLARE_MUTABLE_ASSOCIATIVE_ITERATOR", SkipWordAndArguments);
-    lexer->addSkipWord("Q_DECLARE_MUTABLE_SEQUENTIAL_ITERATOR", SkipWordAndArguments);
-    lexer->addSkipWord("Q_DECLARE_OPERATORS_FOR_FLAGS", SkipWordAndArguments);
-    lexer->addSkipWord("Q_DECLARE_PRIVATE", SkipWordAndArguments);
-    lexer->addSkipWord("Q_DECLARE_PRIVATE_D", SkipWordAndArguments);
-    lexer->addSkipWord("Q_DECLARE_PUBLIC", SkipWordAndArguments);
-    lexer->addSkipWord("Q_DECLARE_SEQUENTIAL_ITERATOR", SkipWordAndArguments);
-    lexer->addSkipWord("Q_DECLARE_SHARED", SkipWordAndArguments);
-    lexer->addSkipWord("Q_DECLARE_SHARED_STL", SkipWordAndArguments);
-    lexer->addSkipWord("Q_DECLARE_TR_FUNCTIONS", SkipWordAndArguments);
-    lexer->addSkipWord("Q_DECLARE_TYPEINFO", SkipWordAndArguments);
-    lexer->addSkipWord("Q_DECLARE_TYPEINFO_BODY", SkipWordAndArguments);
-    lexer->addSkipWord("Q_DECL_METATYPE_HELPER", SkipWordAndArguments);
-    lexer->addSkipWord("Q_DESTRUCTOR_FUNCTION", SkipWordAndArguments);
-    lexer->addSkipWord("Q_DESTRUCTOR_FUNCTION0", SkipWordAndArguments);
-    lexer->addSkipWord("Q_DF", SkipWordAndArguments);
-    lexer->addSkipWord("Q_DISABLE_COPY", SkipWordAndArguments);
-    lexer->addSkipWord("Q_DUMMY_COMPARISON_OPERATOR", SkipWordAndArguments);
-    lexer->addSkipWord("Q_ENUMS", SkipWordAndArguments);
-    lexer->addSkipWord("Q_EXPORT_PLUGIN", SkipWordAndArguments);
-    lexer->addSkipWord("Q_EXPORT_PLUGIN2", SkipWordAndArguments);
-    lexer->addSkipWord("Q_EXPORT_STATIC_PLUGIN", SkipWordAndArguments);
-    lexer->addSkipWord("Q_EXPORT_STATIC_PLUGIN2", SkipWordAndArguments);
-    lexer->addSkipWord("Q_FLAGS", SkipWordAndArguments);
-    lexer->addSkipWord("Q_FOREACH", SkipWordAndArguments);
-    lexer->addSkipWord("Q_FT_GLYPHSLOT_EMBOLDEN", SkipWordAndArguments);
-    lexer->addSkipWord("Q_FUNC_INFO", SkipWordAndArguments);
-    lexer->addSkipWord("Q_GLOBAL_STATIC", SkipWordAndArguments);
-    lexer->addSkipWord("Q_GLOBAL_STATIC_INIT", SkipWordAndArguments);
-    lexer->addSkipWord("Q_GLOBAL_STATIC_WITH_ARGS", SkipWordAndArguments);
-    lexer->addSkipWord("Q_GLOBAL_STATIC_WITH_INITIALIZER", SkipWordAndArguments);
-    lexer->addSkipWord("Q_GTK_IS_WIDGET", SkipWordAndArguments);
-    lexer->addSkipWord("Q_HASH_DECLARE_INT_NODES", SkipWordAndArguments);
-    lexer->addSkipWord("Q_IMPL_METATYPE_HELPER", SkipWordAndArguments);
-    lexer->addSkipWord("Q_IMPORT_PLUGIN", SkipWordAndArguments);
-    lexer->addSkipWord("Q_IN", SkipWordAndArguments);
-    lexer->addSkipWord("Q_INFINITY", SkipWordAndArguments);
-    lexer->addSkipWord("Q_INIT_CHECK", SkipWordAndArguments);
-    lexer->addSkipWord("Q_INIT_RESOURCE", SkipWordAndArguments);
-    lexer->addSkipWord("Q_INIT_RESOURCE_EXTERN", SkipWordAndArguments);
-    lexer->addSkipWord("Q_INT64_C", SkipWordAndArguments);
-    lexer->addSkipWord("Q_INTERFACES", SkipWordAndArguments);
-    lexer->addSkipWord("Q_LIKELY", SkipWordAndArguments);
-    lexer->addSkipWord("Q_MAX_3", SkipWordAndArguments);
-    lexer->addSkipWord("Q_MAXINT", SkipWordAndArguments);
-    lexer->addSkipWord("Q_MIN_3", SkipWordAndArguments);
-    lexer->addSkipWord("Q_MM", SkipWordAndArguments);
-    lexer->addSkipWord("Q_NEAR_CLIP", SkipWordAndArguments);
-    lexer->addSkipWord("Q_NONE", SkipWordAndArguments);
-    lexer->addSkipWord("Q_OVERRIDE", SkipWordAndArguments);
-    lexer->addSkipWord("Q_PID", SkipWordAndArguments);
-    lexer->addSkipWord("Q_PLUGIN_INSTANCE", SkipWordAndArguments);
-    lexer->addSkipWord("Q_PRIVATE_PROPERTY", SkipWordAndArguments);
-    lexer->addSkipWord("Q_PRIVATE_SLOT", SkipWordAndArguments);
-    lexer->addSkipWord("Q_PROPERTY", SkipWordAndArguments);
-    lexer->addSkipWord("Q_Q", SkipWordAndArguments);
-    lexer->addSkipWord("Q_QNAN", SkipWordAndArguments);
-    lexer->addSkipWord("Q_REGISTER_METATYPE", SkipWordAndArguments);
-    lexer->addSkipWord("Q_RETURN_ARG", SkipWordAndArguments);
-    lexer->addSkipWord("Q_REVISION", SkipWordAndArguments);
-    lexer->addSkipWord("Q_SCRIPT_DECLARE_QMETAOBJECT", SkipWordAndArguments);
-    lexer->addSkipWord("Q_SETS", SkipWordAndArguments);
-    lexer->addSkipWord("Q_SNAN", SkipWordAndArguments);
-    lexer->addSkipWord("Q_TOOL_BASE", SkipWordAndArguments);
-    lexer->addSkipWord("Q_TR", SkipWordAndArguments);
-    lexer->addSkipWord("Q_TYPEID", SkipWordAndArguments);
-    lexer->addSkipWord("Q_TYPEOF", SkipWordAndArguments);
-    lexer->addSkipWord("Q_UINT64_C", SkipWordAndArguments);
-    lexer->addSkipWord("Q_UNLIKELY", SkipWordAndArguments);
-    lexer->addSkipWord("Q_UNREACHABLE", SkipWordAndArguments);
-    lexer->addSkipWord("Q_UNSET", SkipWordAndArguments);
-    lexer->addSkipWord("Q_UNUSED", SkipWordAndArguments);
-    lexer->addSkipWord("Q_VARIANT_AS", SkipWordAndArguments);
-    lexer->addSkipWord("QT_MODULE", SkipWordAndArguments);
-    lexer->addSkipWord("QT_BEGIN_HEADER");
-    lexer->addSkipWord("QT_BEGIN_NAMESPACE");
-    lexer->addSkipWord("QT_END_HEADER");
-    lexer->addSkipWord("QT_END_NAMESPACE");
+    lexer->addSkipWord(QLatin1String("ACTIVATE_SIGNAL_WITH_PARAM"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_ALIGNOF"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_ARG"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_ASSERT"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_ASSERT_X"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_BASIC_ATOMIC_INITIALIZER"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_CHECK_INVALID_SOCKETLAYER"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_CHECK_NOT_STATE"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_CHECK_PTR"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_CHECK_SOCKETENGINE"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_CHECK_STATE"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_CHECK_STATES"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_CHECK_TYPE"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_CHECK_VALID_SOCKETLAYER"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_CLASSINFO"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_CLEANUP_RESOURCE"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_COMPLEX_TYPE"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_CONSTRUCTOR_FUNCTION"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_CONSTRUCTOR_FUNCTION0"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_D"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_DECL_ALIGN"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_DECLARE_ASSOCIATIVE_ITERATOR"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_DECLARE_BUILTIN_METATYPE"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_DECLARE_EXTENSION_INTERFACE"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_DECLARE_FLAGS"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_DECLARE_INCOMPATIBLE_FLAGS"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_DECLARE_INTERFACE"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_DECLARE_METATYPE"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_DECLARE_MUTABLE_ASSOCIATIVE_ITERATOR"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_DECLARE_MUTABLE_SEQUENTIAL_ITERATOR"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_DECLARE_OPERATORS_FOR_FLAGS"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_DECLARE_PRIVATE"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_DECLARE_PRIVATE_D"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_DECLARE_PUBLIC"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_DECLARE_SEQUENTIAL_ITERATOR"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_DECLARE_SHARED"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_DECLARE_SHARED_STL"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_DECLARE_TR_FUNCTIONS"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_DECLARE_TYPEINFO"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_DECLARE_TYPEINFO_BODY"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_DECL_METATYPE_HELPER"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_DESTRUCTOR_FUNCTION"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_DESTRUCTOR_FUNCTION0"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_DF"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_DISABLE_COPY"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_DUMMY_COMPARISON_OPERATOR"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_ENUMS"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_EXPORT_PLUGIN"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_EXPORT_PLUGIN2"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_EXPORT_STATIC_PLUGIN"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_EXPORT_STATIC_PLUGIN2"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_FLAGS"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_FOREACH"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_FT_GLYPHSLOT_EMBOLDEN"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_FUNC_INFO"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_GLOBAL_STATIC"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_GLOBAL_STATIC_INIT"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_GLOBAL_STATIC_WITH_ARGS"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_GLOBAL_STATIC_WITH_INITIALIZER"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_GTK_IS_WIDGET"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_HASH_DECLARE_INT_NODES"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_IMPL_METATYPE_HELPER"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_IMPORT_PLUGIN"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_IN"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_INFINITY"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_INIT_CHECK"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_INIT_RESOURCE"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_INIT_RESOURCE_EXTERN"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_INT64_C"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_INTERFACES"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_LIKELY"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_MAX_3"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_MAXINT"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_MIN_3"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_MM"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_NEAR_CLIP"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_NONE"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_OVERRIDE"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_PID"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_PLUGIN_INSTANCE"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_PRIVATE_PROPERTY"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_PRIVATE_SLOT"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_PROPERTY"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_Q"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_QNAN"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_REGISTER_METATYPE"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_RETURN_ARG"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_REVISION"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_SCRIPT_DECLARE_QMETAOBJECT"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_SETS"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_SNAN"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_TOOL_BASE"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_TR"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_TYPEID"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_TYPEOF"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_UINT64_C"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_UNLIKELY"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_UNREACHABLE"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_UNSET"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_UNUSED"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("Q_VARIANT_AS"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("QT_MODULE"), SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("QT_BEGIN_HEADER"));
+    lexer->addSkipWord(QLatin1String("QT_BEGIN_NAMESPACE"));
+    lexer->addSkipWord(QLatin1String("QT_END_HEADER"));
+    lexer->addSkipWord(QLatin1String("QT_END_NAMESPACE"));
 
     // flex
-    lexer->addSkipWord("yyconst");
-    lexer->addSkipWord("YY_RULE_SETUP");
-    lexer->addSkipWord("YY_BREAK");
-    lexer->addSkipWord("YY_RESTORE_YY_MORE_OFFSET");
+    lexer->addSkipWord(QLatin1String("yyconst"));
+    lexer->addSkipWord(QLatin1String("YY_RULE_SETUP"));
+    lexer->addSkipWord(QLatin1String("YY_BREAK"));
+    lexer->addSkipWord(QLatin1String("YY_RESTORE_YY_MORE_OFFSET"));
 
     // gtk
-    lexer->addSkipWord("G_BEGIN_DECLS");
-    lexer->addSkipWord("G_END_DECLS");
-    lexer->addSkipWord("G_GNUC_CONST");
-    lexer->addSkipWord("G_CONST_RETURN");
-    lexer->addSkipWord("GTKMAIN_C_VAR");
-    lexer->addSkipWord("GTKVAR");
-    lexer->addSkipWord("GDKVAR");
-    lexer->addSkipWord("G_GNUC_PRINTF", SkipWordAndArguments);
+    lexer->addSkipWord(QLatin1String("G_BEGIN_DECLS"));
+    lexer->addSkipWord(QLatin1String("G_END_DECLS"));
+    lexer->addSkipWord(QLatin1String("G_GNUC_CONST"));
+    lexer->addSkipWord(QLatin1String("G_CONST_RETURN"));
+    lexer->addSkipWord(QLatin1String("GTKMAIN_C_VAR"));
+    lexer->addSkipWord(QLatin1String("GTKVAR"));
+    lexer->addSkipWord(QLatin1String("GDKVAR"));
+    lexer->addSkipWord(QLatin1String("G_GNUC_PRINTF"), SkipWordAndArguments);
 
     // windows
-    lexer->addSkipWord("WINAPI");
-    lexer->addSkipWord("__stdcall");
-    lexer->addSkipWord("__cdecl");
-    lexer->addSkipWord("_cdecl");
-    lexer->addSkipWord("CALLBACK");
+    lexer->addSkipWord(QLatin1String("WINAPI"));
+    lexer->addSkipWord(QLatin1String("__stdcall"));
+    lexer->addSkipWord(QLatin1String("__cdecl"));
+    lexer->addSkipWord(QLatin1String("_cdecl"));
+    lexer->addSkipWord(QLatin1String("CALLBACK"));
 
     // gcc extensions
-    if (!hasMacro("__asm__")) addMacro(Macro("__asm__", "asm"));
-    if (!hasMacro("__inline")) addMacro(Macro("__inline", "inline"));
-    if (!hasMacro("__inline__")) addMacro(Macro("__inline__", "inline"));
-    if (!hasMacro("__const")) addMacro(Macro("__const", "const"));
-    if (!hasMacro("__const__")) addMacro(Macro("__const__", "const"));
-    if (!hasMacro("__volatile__")) addMacro(Macro("__volatile__", "volatile"));
-    if (!hasMacro("__complex__")) addMacro(Macro("__complex__", ""));
+    if (!hasMacro("__asm__")) addMacro(Macro(QLatin1String("__asm__"), QLatin1String("asm")));
+    if (!hasMacro("__inline")) addMacro(Macro(QLatin1String("__inline"), QLatin1String("inline")));
+    if (!hasMacro("__inline__")) addMacro(Macro(QLatin1String("__inline__"), QLatin1String("inline")));
+    if (!hasMacro("__const")) addMacro(Macro(QLatin1String("__const"), QLatin1String("const")));
+    if (!hasMacro("__const__")) addMacro(Macro(QLatin1String("__const__"), QLatin1String("const")));
+    if (!hasMacro("__volatile__")) addMacro(Macro(QLatin1String("__volatile__"), QLatin1String("volatile")));
+    if (!hasMacro("__complex__")) addMacro(Macro(QLatin1String("__complex__"), QString()));
 }
 
 void Driver::setupParser(Parser * parser)
@@ -1093,7 +1094,7 @@ const QList<ParsedFile::IncludeDesc>& ParsedFile::directIncludeFiles() const
 
 bool MacroSet::hasMacro(const QString& name) const
 {
-    Macros::const_iterator it = m_usedMacros.find(Macro(name, ""));
+    Macros::const_iterator it = m_usedMacros.find(Macro(name, QString()));
     if (it != m_usedMacros.end()) {
         return true;
     } else {
@@ -1103,7 +1104,7 @@ bool MacroSet::hasMacro(const QString& name) const
 
 bool MacroSet::hasMacro(const HashedString& name) const
 {
-    Macros::const_iterator it = m_usedMacros.find(Macro(name.str(), ""));
+    Macros::const_iterator it = m_usedMacros.find(Macro(name.str(), QString()));
     if (it != m_usedMacros.end()) {
         return true;
     } else {
@@ -1113,7 +1114,7 @@ bool MacroSet::hasMacro(const HashedString& name) const
 
 Macro MacroSet::macro(const QString& name) const
 {
-    Macros::const_iterator it = m_usedMacros.find(Macro(name, ""));
+    Macros::const_iterator it = m_usedMacros.find(Macro(name, QString()));
 
     if (it != m_usedMacros.end()) {
         return *it;

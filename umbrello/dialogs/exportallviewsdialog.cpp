@@ -29,7 +29,7 @@
 ExportAllViewsDialog::ExportAllViewsDialog(QWidget* parent, const char* name)
   : KDialog(parent)
 {
-    setObjectName(name);
+    setObjectName(QString::fromLatin1(name));
     setModal(false);
     setupUi(mainWidget());
 
@@ -42,7 +42,7 @@ ExportAllViewsDialog::ExportAllViewsDialog(QWidget* parent, const char* name)
     m_imageType->setSizePolicy(sp);
     m_imageType->setEditable(false);
 
-    m_imageType->setMimeFilter(UMLViewImageExporterModel::supportedMimeTypes(), "image/png");
+    m_imageType->setMimeFilter(UMLViewImageExporterModel::supportedMimeTypes(), QString::fromLatin1("image/png"));
 
     // Cannot give an object name to the layout when using QtDesigner,
     // therefore go and use an editor and add it by hand.

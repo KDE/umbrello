@@ -127,52 +127,52 @@ ValaWriter::~ValaWriter()
 QStringList ValaWriter::defaultDatatypes()
 {
     QStringList l;
-    l.append("bool");
-    l.append("char");
-    l.append("uchar");
-    l.append("unichar");
-    l.append("int");
-    l.append("int8");
-    l.append("int16");
-    l.append("int32");
-    l.append("int64");
-    l.append("uint");
-    l.append("uint8");
-    l.append("uint16");
-    l.append("uint32");
-    l.append("uint64");
-    l.append("long");
-    l.append("ulong");
-    l.append("short");
-    l.append("ushort");
-    l.append("float");
-    l.append("double");
-    l.append("struct");
-    l.append("enum");
-    l.append("string");
-    l.append("bool[]");
-    l.append("char[]");
-    l.append("uchar[]");
-    l.append("unichar[]");
-    l.append("int[]");
-    l.append("int8[]");
-    l.append("int16[]");
-    l.append("int32[]");
-    l.append("int64[]");
-    l.append("uint[]");
-    l.append("uint8[]");
-    l.append("uint16[]");
-    l.append("uint32[]");
-    l.append("uint64[]");
-    l.append("long[]");
-    l.append("ulong[]");
-    l.append("short[]");
-    l.append("ushort[]");
-    l.append("float[]");
-    l.append("double[]");
-    l.append("struct[]");
-    l.append("enum[]");
-    l.append("string[]");
+    l.append(QLatin1String("bool"));
+    l.append(QLatin1String("char"));
+    l.append(QLatin1String("uchar"));
+    l.append(QLatin1String("unichar"));
+    l.append(QLatin1String("int"));
+    l.append(QLatin1String("int8"));
+    l.append(QLatin1String("int16"));
+    l.append(QLatin1String("int32"));
+    l.append(QLatin1String("int64"));
+    l.append(QLatin1String("uint"));
+    l.append(QLatin1String("uint8"));
+    l.append(QLatin1String("uint16"));
+    l.append(QLatin1String("uint32"));
+    l.append(QLatin1String("uint64"));
+    l.append(QLatin1String("long"));
+    l.append(QLatin1String("ulong"));
+    l.append(QLatin1String("short"));
+    l.append(QLatin1String("ushort"));
+    l.append(QLatin1String("float"));
+    l.append(QLatin1String("double"));
+    l.append(QLatin1String("struct"));
+    l.append(QLatin1String("enum"));
+    l.append(QLatin1String("string"));
+    l.append(QLatin1String("bool[]"));
+    l.append(QLatin1String("char[]"));
+    l.append(QLatin1String("uchar[]"));
+    l.append(QLatin1String("unichar[]"));
+    l.append(QLatin1String("int[]"));
+    l.append(QLatin1String("int8[]"));
+    l.append(QLatin1String("int16[]"));
+    l.append(QLatin1String("int32[]"));
+    l.append(QLatin1String("int64[]"));
+    l.append(QLatin1String("uint[]"));
+    l.append(QLatin1String("uint8[]"));
+    l.append(QLatin1String("uint16[]"));
+    l.append(QLatin1String("uint32[]"));
+    l.append(QLatin1String("uint64[]"));
+    l.append(QLatin1String("long[]"));
+    l.append(QLatin1String("ulong[]"));
+    l.append(QLatin1String("short[]"));
+    l.append(QLatin1String("ushort[]"));
+    l.append(QLatin1String("float[]"));
+    l.append(QLatin1String("double[]"));
+    l.append(QLatin1String("struct[]"));
+    l.append(QLatin1String("enum[]"));
+    l.append(QLatin1String("string[]"));
     return l;
 }
 
@@ -189,7 +189,7 @@ void ValaWriter::writeClass(UMLClassifier *c)
 
     QString classname = cleanName(c->name());
     //find an appropriate name for our file
-    QString fileName = findFileName(c, ".vala");
+    QString fileName = findFileName(c, QLatin1String(".vala"));
     if (fileName.isEmpty()) {
         emit codeGenerated(c, false);
         return;
@@ -208,10 +208,10 @@ void ValaWriter::writeClass(UMLClassifier *c)
 
     //try to find a heading file (license, coments, etc)
     QString str;
-    str = getHeadingFile(".vala");
+    str = getHeadingFile(QLatin1String(".vala"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp("%filename%"), fileName);
-        str.replace(QRegExp("%filepath%"), filecs.fileName());
+        str.replace(QRegExp(QLatin1String("%filename%")), fileName);
+        str.replace(QRegExp(QLatin1String("%filepath%")), filecs.fileName());
         cs << str << m_endl;
     }
 
@@ -241,7 +241,7 @@ void ValaWriter::writeClass(UMLClassifier *c)
                 p = cl->umlPackage();
             }
             if (p != logicalView && m_seenIncludes.indexOf(p) == -1 && p != container) {
-                cs << "using " << p->fullyQualifiedName(".") << ";" << m_endl;
+                cs << "using " << p->fullyQualifiedName(QLatin1String(".")) << ";" << m_endl;
                 m_seenIncludes.append(p);
             }
         }
@@ -251,7 +251,7 @@ void ValaWriter::writeClass(UMLClassifier *c)
     m_container_indent = QString();
 
     if (container) {
-        cs << "namespace " << container->fullyQualifiedName(".") << m_endl;
+        cs << "namespace " << container->fullyQualifiedName(QLatin1String(".")) << m_endl;
         cs << "{" << m_endl << m_endl;
         m_container_indent = m_indentation;
         m_seenIncludes.append(container);
@@ -261,10 +261,10 @@ void ValaWriter::writeClass(UMLClassifier *c)
     if (forceDoc() || !c->doc().isEmpty()) {
         cs << m_container_indent << "/**" << m_endl;
         if (c->doc().isEmpty()) {
-            cs << formatDoc(c->doc(), m_container_indent + " * TODO: Add documentation here.");
+            cs << formatDoc(c->doc(), m_container_indent + QLatin1String(" * TODO: Add documentation here."));
         }
         else {
-            cs << formatDoc(c->doc(), m_container_indent + m_indentation + " * ");
+            cs << formatDoc(c->doc(), m_container_indent + m_indentation + QLatin1String(" * "));
         }
         cs << m_container_indent << " */" << m_endl ;
     }
@@ -288,7 +288,7 @@ void ValaWriter::writeClass(UMLClassifier *c)
             cs << "abstract ";
         }
 
-        cs << "class " << classname << (superclasses.count() > 0 ? " : " : QString());
+        cs << "class " << classname << (superclasses.count() > 0 ? QLatin1String(" : ") : QString());
 
         // write baseclass, ignore interfaces, write error on multiple inheritance
         if (superclasses.count() > 0) {
@@ -349,7 +349,7 @@ void ValaWriter::writeClass(UMLClassifier *c)
 
     if (container) {
         cs << "}  // end of namespace "
-            << container->fullyQualifiedName(".") << m_endl << m_endl;
+            << container->fullyQualifiedName(QLatin1String(".")) << m_endl << m_endl;
     }
 
     //close files and notfiy we are done
@@ -526,19 +526,22 @@ void ValaWriter::writeOperations(UMLOperationList opList,
         if (writeDoc && !isOverride) {
             cs << m_container_indent << m_indentation << "/**" << m_endl;
             if (op->doc().isEmpty()) {
-                cs << formatDoc(op->doc(), m_container_indent + m_indentation + " * TODO: Add documentation here. ");
+                cs << formatDoc(op->doc(), m_container_indent + m_indentation + QLatin1String(" * TODO: Add documentation here. "));
             }
             else {
-                cs << formatDoc(op->doc(), m_container_indent + m_indentation + " * ");
+                cs << formatDoc(op->doc(), m_container_indent + m_indentation + QLatin1String(" * "));
             }
 
             //write parameter documentation
             foreach (UMLAttribute* at, atl) {
                 if (forceDoc() || !at->doc().isEmpty()) {
                     cs << m_container_indent << m_indentation << " * @param " << cleanName(at->name());
+                    QString doc = formatDoc(at->doc(), QString());
                     //removing newlines from parameter doc
-                    cs << formatDoc(at->doc(), QString()).replace('\n', ' ').remove('\r').remove(QRegExp(" $"));
-                    cs << m_endl;
+                    doc.replace(QLatin1Char('\n'), QLatin1Char(' '));
+                    doc.remove(QLatin1Char('\r'));
+                    doc.remove(QRegExp(QLatin1String(" $")));
+                    cs << doc << m_endl;
                 }
             }
 
@@ -596,7 +599,7 @@ void ValaWriter::writeOperations(UMLOperationList opList,
             //<< (!(at->getInitialValue().isEmpty()) ?
             //    (QString(" = ")+at->getInitialValue()) :
             //    QString())
-            cs << ((j < i-1) ? ", " : QString());
+            cs << ((j < i-1) ? QLatin1String(", ") : QString());
         }
         cs << ")";
 
@@ -724,19 +727,19 @@ void ValaWriter::writeAssociatedAttributes(UMLAssociationList &associated, UMLCl
         QString roleName = cleanName(a->getRoleName(Uml::RoleType::B));
         QString typeName = cleanName(o->name());
         if (roleName.isEmpty()) {
-            roleName = QString("UnnamedRoleB_%1").arg(m_unnamedRoles++);
+            roleName = QString::fromLatin1("UnnamedRoleB_%1").arg(m_unnamedRoles++);
         }
         QString roleDoc = a->getRoleDoc(Uml::RoleType::B);
 
         //FIXME:is this simple condition enough?
-        if (a->getMultiplicity(Uml::RoleType::B).isEmpty() || a->getMultiplicity(Uml::RoleType::B) == "1")  {
+        if (a->getMultiplicity(Uml::RoleType::B).isEmpty() || a->getMultiplicity(Uml::RoleType::B) == QLatin1String("1"))  {
             // normal attribute
             writeAttribute(roleDoc, a->visibility(Uml::RoleType::B), false, typeName, roleName, QString(), (a->visibility(Uml::RoleType::B) != Uml::Visibility::Private), cs);
         }
         else {
             // array
-            roleDoc += "\n(Array of " + typeName + ')';
-            writeAttribute(roleDoc, a->visibility(Uml::RoleType::B), false, "ArrayList", roleName, QString(), (a->visibility(Uml::RoleType::B) != Uml::Visibility::Private), cs);
+            roleDoc += QLatin1String("\n(Array of ") + typeName + QLatin1Char(')');
+            writeAttribute(roleDoc, a->visibility(Uml::RoleType::B), false, QLatin1String("ArrayList"), roleName, QString(), (a->visibility(Uml::RoleType::B) != Uml::Visibility::Private), cs);
         }
     }
 }
@@ -764,10 +767,10 @@ void ValaWriter::writeAttribute(const QString& doc,
     if (forceDoc() || !doc.isEmpty()) {
         cs << m_container_indent << m_indentation << "/**" << m_endl;
         if (doc.isEmpty()) {
-            cs << formatDoc(doc, m_container_indent +  m_indentation + " * TODO: Add documentation here.");
+            cs << formatDoc(doc, m_container_indent +  m_indentation + QLatin1String(" * TODO: Add documentation here."));
         }
         else {
-            cs << formatDoc(doc, m_container_indent + m_indentation + " * ");
+            cs << formatDoc(doc, m_container_indent + m_indentation + QLatin1String(" * "));
         }
         cs << m_container_indent << m_indentation << " */" << m_endl;
     }
@@ -847,7 +850,7 @@ QStringList ValaWriter::reservedKeywords() const
 
     if (keywords.isEmpty()) {
         for (int i = 0; reserved_words[i]; ++i) {
-            keywords.append(reserved_words[i]);
+            keywords.append(QLatin1String(reserved_words[i]));
         }
     }
 

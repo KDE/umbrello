@@ -37,7 +37,7 @@ void JSWriter::writeClass(UMLClassifier *c)
 {
     if (!c)
     {
-        uDebug()<<"Cannot write class of NULL concept!";
+        uDebug() << "Cannot write class of NULL concept!";
         return;
     }
 
@@ -45,7 +45,7 @@ void JSWriter::writeClass(UMLClassifier *c)
     QString fileName = c->name().toLower();
 
     //find an appropriate name for our file
-    fileName = findFileName(c,".js");
+    fileName = findFileName(c, QLatin1String(".js"));
     if (fileName.isEmpty())
     {
         emit codeGenerated(c, false);
@@ -66,11 +66,11 @@ void JSWriter::writeClass(UMLClassifier *c)
 
     //try to find a heading file (license, coments, etc)
     QString str;
-    str = getHeadingFile(".js");
+    str = getHeadingFile(QLatin1String(".js"));
     if (!str.isEmpty())
     {
-        str.replace(QRegExp("%filename%"), fileName);
-        str.replace(QRegExp("%filepath%"), filejs.fileName());
+        str.replace(QRegExp(QLatin1String("%filename%")), fileName);
+        str.replace(QRegExp(QLatin1String("%filepath%")), filejs.fileName());
         js << str << m_endl;
     }
 
@@ -78,7 +78,7 @@ void JSWriter::writeClass(UMLClassifier *c)
     UMLPackageList includes;
     findObjectsRelated(c, includes);
     foreach (UMLPackage* conc,  includes) {
-        QString headerName = findFileName(conc, ".js");
+        QString headerName = findFileName(conc, QLatin1String(".js"));
         if (!headerName.isEmpty())
         {
             js << "#include \"" << headerName << "\"" << m_endl;
@@ -91,17 +91,17 @@ void JSWriter::writeClass(UMLClassifier *c)
     {
         js << m_endl << "/**" << m_endl;
         js << "  * class " << classname << m_endl;
-        js << formatDoc(c->doc(),"  * ");
+        js << formatDoc(c->doc(), QLatin1String("  * "));
         js << "  */" << m_endl << m_endl;
     }
 
     //check if class is abstract and / or has abstract methods
     if (c->isAbstract() && !hasAbstractOps(c))
         js << "/******************************* Abstract Class ****************************" << m_endl << "  "
-        << classname << " does not have any pure virtual methods, but its author" << m_endl
-        << "  defined it as an abstract class, so you should not use it directly." << m_endl
-        << "  Inherit from it instead and create only objects from the derived classes" << m_endl
-        << "*****************************************************************************/" << m_endl << m_endl;
+           << classname << " does not have any pure virtual methods, but its author" << m_endl
+           << "  defined it as an abstract class, so you should not use it directly." << m_endl
+           << "  Inherit from it instead and create only objects from the derived classes" << m_endl
+           << "*****************************************************************************/" << m_endl << m_endl;
 
     js << classname << " = function ()" << m_endl;
     js << "{" << m_endl;
@@ -120,9 +120,9 @@ void JSWriter::writeClass(UMLClassifier *c)
         UMLAttributeList atl = c->getAttributeList();
 
         js << "/**" << m_endl;
-        QString temp = "_init sets all " + classname + " attributes to their default value."
-                       " Make sure to call this method within your class constructor";
-        js << formatDoc(temp, " * ");
+        QString temp = QLatin1String("_init sets all ") + classname + QLatin1String(" attributes to their default value.")
+                     + QLatin1String(" Make sure to call this method within your class constructor");
+        js << formatDoc(temp, QLatin1String(" * "));
         js << " */" << m_endl;
         js << classname << ".prototype._init = function ()" << m_endl;
         js << "{" << m_endl;
@@ -130,8 +130,8 @@ void JSWriter::writeClass(UMLClassifier *c)
             if (forceDoc() || !at->doc().isEmpty())
             {
                 js << m_indentation << "/**" << m_endl
-                << formatDoc(at->doc(), m_indentation + " * ")
-                << m_indentation << " */" << m_endl;
+                   << formatDoc(at->doc(), m_indentation + QLatin1String(" * "))
+                   << m_indentation << " */" << m_endl;
             }
             if (!at->getInitialValue().isEmpty())
             {
@@ -200,7 +200,7 @@ void JSWriter::writeAssociation(QString& classname, UMLAssociationList& assocLis
             if (forceDoc() || !a->doc().isEmpty())
             {
                 js << m_indentation << "/**" << m_endl
-                   << formatDoc(a->doc(), m_indentation + " * ")
+                   << formatDoc(a->doc(), m_indentation + QLatin1String(" * "))
                    << m_indentation << " */" << m_endl;
             }
 
@@ -208,7 +208,7 @@ void JSWriter::writeAssociation(QString& classname, UMLAssociationList& assocLis
             if (forceDoc() || !a->getRoleDoc(role).isEmpty())
             {
                 js << m_indentation << "/**" << m_endl
-                   << formatDoc(a->getRoleDoc(role), m_indentation + " * ")
+                   << formatDoc(a->getRoleDoc(role), m_indentation + QLatin1String(" * "))
                    << m_indentation << " */" << m_endl;
             }
 
@@ -244,16 +244,16 @@ void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
         foreach (UMLAttribute* at, atl)
             writeDoc |= !at->doc().isEmpty();
 
-        if(writeDoc)  //write method documentation
+        if (writeDoc)  //write method documentation
         {
-            js << "/**" << m_endl << formatDoc(op->doc()," * ");
+            js << "/**" << m_endl << formatDoc(op->doc(), QLatin1String(" * "));
 
             foreach (UMLAttribute* at, atl)  //write parameter documentation
             {
-                if(forceDoc() || !at->doc().isEmpty())
+                if (forceDoc() || !at->doc().isEmpty())
                 {
-                    js << " * @param " + cleanName(at->name())<<m_endl;
-                    js << formatDoc(at->doc(),"    *      ");
+                    js << " * @param " << cleanName(at->name()) << m_endl;
+                    js << formatDoc(at->doc(), QLatin1String("    *      "));
                 }
             }//end for : write parameter documentation
             js << " */" << m_endl;
@@ -265,8 +265,8 @@ void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
         int j=0;
         foreach (UMLAttribute* at, atl) {
             js << cleanName(at->name())
-            << (!(at->getInitialValue().isEmpty()) ? (QString(" = ")+at->getInitialValue()) : QString())
-            << ((j < i-1) ? ", " : QString());
+               << (!(at->getInitialValue().isEmpty()) ? QLatin1String(" = ") + at->getInitialValue() : QString())
+               << ((j < i-1) ? QLatin1String(", ") : QString());
             j++;
         }
         js << ")" << m_endl << "{" << m_endl;
@@ -300,25 +300,26 @@ QStringList JSWriter::reservedKeywords() const
     static QStringList keywords;
 
     if (keywords.isEmpty()) {
-        keywords << "break"
-        << "case"
-        << "const"
-        << "continue"
-        << "default"
-        << "else"
-        << "false"
-        << "for"
-        << "function"
-        << "if"
-        << "in"
-        << "new"
-        << "return"
-        << "switch"
-        << "this"
-        << "true"
-        << "var"
-        << "while"
-        << "with";
+        keywords
+          << QLatin1String("break")
+          << QLatin1String("case")
+          << QLatin1String("const")
+          << QLatin1String("continue")
+          << QLatin1String("default")
+          << QLatin1String("else")
+          << QLatin1String("false")
+          << QLatin1String("for")
+          << QLatin1String("function")
+          << QLatin1String("if")
+          << QLatin1String("in")
+          << QLatin1String("new")
+          << QLatin1String("return")
+          << QLatin1String("switch")
+          << QLatin1String("this")
+          << QLatin1String("true")
+          << QLatin1String("var")
+          << QLatin1String("while")
+          << QLatin1String("with");
     }
 
     return keywords;

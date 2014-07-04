@@ -39,7 +39,7 @@
 
 DEBUG_REGISTER_DISABLED(Import_Utils)
 #undef DBG_SRC
-#define DBG_SRC "Import_Utils"
+#define DBG_SRC QLatin1String("Import_Utils")
 
 namespace Import_Utils {
 
@@ -122,10 +122,10 @@ QString formatComment(const QString &comment)
     if (comment.isEmpty())
         return comment;
 
-    QStringList lines = comment.split('\n');
+    QStringList lines = comment.split(QLatin1Char('\n'));
     QString& first = lines.first();
-    QRegExp wordex("\\w");
-    if (first.startsWith(QLatin1String("/*"))) {
+    QRegExp wordex(QLatin1String("\\w"));
+    if (first.startsWith(QLatin1String(QLatin1String("/*")))) {
         int wordpos = wordex.indexIn(first);
         if (wordpos != -1)
             first = first.mid(wordpos);  // remove comment start
@@ -136,7 +136,7 @@ QString formatComment(const QString &comment)
         return QString();
 
     QString& last = lines.last();
-    int endpos = last.indexOf("*/");
+    int endpos = last.indexOf(QLatin1String("*/"));
     if (endpos != -1) {
         if (last.contains(wordex))
             last = last.mid(0, endpos - 1);  // remove comment end
@@ -148,10 +148,10 @@ QString formatComment(const QString &comment)
 
     QStringList::Iterator end(lines.end());
     for (QStringList::Iterator lit(lines.begin()); lit != end; ++lit) {
-        (*lit).remove(QRegExp("^\\s+"));
-        (*lit).remove(QRegExp("^\\*+\\s?"));
+        (*lit).remove(QRegExp(QLatin1String("^\\s+")));
+        (*lit).remove(QRegExp(QLatin1String("^\\*+\\s?")));
     }
-    return lines.join("\n");
+    return lines.join(QLatin1String("\n"));
 }
 
 /*
@@ -188,7 +188,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
         DEBUG(DBG_SRC) << "Import_Utils::createUMLObject(" << name
                        << "): Association as parent package is not supported yet, using Logical View";
         parentPkg = logicalView;
-    } else if (name.startsWith("::")) {
+    } else if (name.startsWith(QLatin1String("::"))) {
         name = name.mid(2);
         parentPkg = logicalView;
     }
@@ -203,13 +203,13 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
     }
     if (o == NULL) {
         // Strip possible adornments and look again.
-        const bool isConst = name.contains(QRegExp("^const "));
-        name.remove(QRegExp("^const\\s+"));
+        const bool isConst = name.contains(QRegExp(QLatin1String("^const ")));
+        name.remove(QRegExp(QLatin1String("^const\\s+")));
         QString typeName(name);
-        bool isAdorned = typeName.contains(QRegExp("[^\\w:\\. ]"));
-        const bool isPointer = typeName.contains('*');
-        const bool isRef = typeName.contains('&');
-        typeName.remove(QRegExp("[^\\w:\\. ].*$"));
+        bool isAdorned = typeName.contains(QRegExp(QLatin1String("[^\\w:\\. ]")));
+        const bool isPointer = typeName.contains(QLatin1Char('*'));
+        const bool isRef = typeName.contains(QLatin1Char('&'));
+        typeName.remove(QRegExp(QLatin1String("[^\\w:\\. ].*$")));
         typeName = typeName.simplified();
         UMLObject *origType = umldoc->findUMLObject(typeName, UMLObject::ot_UMLObject, parentPkg);
         if (origType == NULL) {
@@ -218,15 +218,15 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
                 parentPkg = logicalView;
             // Find, or create, the scopes.
             QStringList components;
-            if (typeName.contains("::")) {
-                components = typeName.split("::");
-            } else if (typeName.contains("...")) {
+            if (typeName.contains(QLatin1String("::"))) {
+                components = typeName.split(QLatin1String("::"));
+            } else if (typeName.contains(QLatin1String("..."))) {
                 // Java variable length arguments
                 type = UMLObject::ot_Datatype;
                 parentPkg = umldoc->datatypeFolder();
                 isAdorned = false;
-            } else if (typeName.contains(".")) {
-                components = typeName.split('.');
+            } else if (typeName.contains(QLatin1String("."))) {
+                components = typeName.split(QLatin1Char('.'));
             }
             if (components.count() > 1) {
                 typeName = components.back();
@@ -243,7 +243,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
                     const Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
                     if (pl == Uml::ProgrammingLanguage::Cpp) {
                         // We know std and Qt are namespaces.
-                        if (scopeName != "std" && scopeName != "Qt") {
+                        if (scopeName != QLatin1String("std") && scopeName != QLatin1String("Qt")) {
                             wantNamespace = KMessageBox::questionYesNo(NULL,
                                         i18n("Is the scope %1 a namespace or a class?", scopeName),
                                         i18n("C++ Import Requests Your Help"),
@@ -268,7 +268,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
         if (isConst || isAdorned) {
             // Create the full given type (including adornments.)
             if (isConst)
-                name.prepend("const ");
+                name.prepend(QLatin1String("const "));
             o = Object_Factory::createUMLObject(UMLObject::ot_Datatype, name,
                                                 umldoc->datatypeFolder(),
                                                 false); //solicitNewName
@@ -313,13 +313,13 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
     }
     if (gRelatedClassifier == NULL || gRelatedClassifier == o)
         return o;
-    QRegExp templateInstantiation("^[\\w:\\.]+\\s*<(.*)>");
+    QRegExp templateInstantiation(QLatin1String("^[\\w:\\.]+\\s*<(.*)>"));
     int pos = templateInstantiation.indexIn(name);
     if (pos == -1)
         return o;
     // Create dependencies on template parameters.
     QString caption = templateInstantiation.cap(1);
-    const QStringList params = caption.split(QRegExp("[^\\w:\\.]+"));
+    const QStringList params = caption.split(QRegExp(QLatin1String("[^\\w:\\.]+")));
     if (!params.count())
         return o;
     QStringList::ConstIterator end(params.end());
@@ -439,7 +439,7 @@ void insertMethod(UMLClassifier *klass, UMLOperation* &op,
 {
     op->setVisibility(scope);
     if (!type.isEmpty()     // return type may be missing (constructor/destructor)
-        && type != "void") {
+        && type != QLatin1String("void")) {
         if (type == klass->name()) {
             op->setType(klass);
         } else {
@@ -460,10 +460,10 @@ void insertMethod(UMLClassifier *klass, UMLOperation* &op,
 
     // if the operation is friend, add it as a stereotype
     if (isFriend)
-        op->setStereotype("friend");
+        op->setStereotype(QLatin1String("friend"));
     // if the operation is a constructor, add it as a stereotype
     if (isConstructor)
-        op->setStereotype("constructor");
+        op->setStereotype(QLatin1String("constructor"));
 
     QString strippedComment = formatComment(comment);
     if (! strippedComment.isEmpty()) {
@@ -603,9 +603,9 @@ void createGeneralization(UMLClassifier *child, const QString &parentName)
 QStringList includePathList()
 {
     QStringList includePathList(incPathList);
-    QString umbrello_incpath = QString(qgetenv("UMBRELLO_INCPATH"));
+    QString umbrello_incpath = QString::fromLatin1(qgetenv("UMBRELLO_INCPATH"));
     if (!umbrello_incpath.isEmpty()) {
-        includePathList += umbrello_incpath.split(':');
+        includePathList += umbrello_incpath.split(QLatin1Char(':'));
     }
     return includePathList;
 }

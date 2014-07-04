@@ -57,7 +57,7 @@ void DCodeOperation::updateMethodDeclaration()
     //FIXME: startText += o->getVisibility().toString() + " ";
 
     // (b) static
-    if (o->isStatic()) startText += "static ";
+    if (o->isStatic()) startText += QLatin1String("static ");
 
     // (c) abstract
     //TODO
@@ -67,14 +67,14 @@ void DCodeOperation::updateMethodDeclaration()
 
     // (e) return type
     if (!o->isConstructorOperation()) {
-    //FIXME:     startText += DCodeGenerator::fixTypeName(o->getTypeName()) + " ";
+    //FIXME:     startText += DCodeGenerator::fixTypeName(o->getTypeName()) + QLatin1String(" ");
     }
 
     // (f) name
     startText += o->name();
 
     // (g) params
-    startText += '(';
+    startText += QLatin1Char('(');
 
     // assemble parameters
     QString paramStr = QString();
@@ -84,23 +84,23 @@ void DCodeOperation::updateMethodDeclaration()
     foreach (UMLAttribute* parm, list) {
         QString rType = parm->getTypeName();
         QString paramName = parm->name();
-        paramStr += rType + ' ' + paramName;
+        paramStr += rType + QLatin1Char(' ') + paramName;
         paramNum--;
 
-        if (paramNum > 0) paramStr += ", ";
+        if (paramNum > 0) paramStr += QLatin1String(", ");
     }
 
     startText += paramStr;
 
-    startText += ')';
+    startText += QLatin1Char(')');
 
     // (h) function body
     if(isInterface) {
-        startText += ';';
+        startText += QLatin1Char(';');
         setEndMethodText(QString());
     } else {
-        startText += " {";
-        setEndMethodText("}");
+        startText += QLatin1String(" {");
+        setEndMethodText(QLatin1String("}"));
     }
 
     setStartMethodText(startText);
@@ -112,13 +112,13 @@ void DCodeOperation::updateMethodDeclaration()
     {
         UMLAttributeList parameters = o->getParmList();
         foreach (UMLAttribute* currentAtt, parameters) {
-            comment += endLine + "@param " + currentAtt->name() + ' ';
+            comment += endLine + QLatin1String("@param ") + currentAtt->name() + QLatin1Char(' ');
             comment += currentAtt->doc();
         }
         // add a returns statement too
         // TODO proper return type comments
         //if(!returnType.isEmpty())
-        //    comment += endLine + "@return " + returnType + ' ';
+        //    comment += endLine + QLatin1String("@return ") + returnType + QLatin1Char(' ');
 
         getComment()->setText(comment);
     }

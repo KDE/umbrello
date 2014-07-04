@@ -31,7 +31,7 @@ RubyClassDeclarationBlock::~RubyClassDeclarationBlock ()
  */
 void RubyClassDeclarationBlock::saveToXMI (QDomDocument & doc, QDomElement & root)
 {
-    QDomElement blockElement = doc.createElement("rubyclassdeclarationblock");
+    QDomElement blockElement = doc.createElement(QLatin1String("rubyclassdeclarationblock"));
 
     setAttributesOnNode(doc, blockElement);
 
@@ -61,15 +61,15 @@ void RubyClassDeclarationBlock::updateContent ()
 
     // COMMENT
     QString comment = c->doc();
-    comment.remove("@ref ");
-    comment.replace("@see", "_See_");
-    comment.replace("@short", "_Summary_");
-    comment.replace("@author", "_Author_");
+    comment.remove(QLatin1String("@ref "));
+    comment.replace(QLatin1String("@see"), QLatin1String("_See_"));
+    comment.replace(QLatin1String("@short"), QLatin1String("_Summary_"));
+    comment.replace(QLatin1String("@author"), QLatin1String("_Author_"));
 
     if (isInterface)
-        getComment()->setText("Module " + RubyClassName + endLine + comment);
+        getComment()->setText(QLatin1String("Module ") + RubyClassName + endLine + comment);
     else
-        getComment()->setText("Class " + RubyClassName + endLine + comment);
+        getComment()->setText(QLatin1String("Class ") + RubyClassName + endLine + comment);
 
     if (forceDoc || !c->doc().isEmpty())
         getComment()->setWriteOutText(true);
@@ -80,9 +80,9 @@ void RubyClassDeclarationBlock::updateContent ()
     QString startText;
 
     if (parentDoc->parentIsInterface()) {
-        startText.append("module ");
+        startText.append(QLatin1String("module "));
     } else {
-        startText.append("class ");
+        startText.append(QLatin1String("class "));
     }
 
     UMLClassifierList superclasses = c->findSuperClassConcepts(UMLClassifier::CLASS);
@@ -94,18 +94,18 @@ void RubyClassDeclarationBlock::updateContent ()
     int i = 0;
     foreach (UMLClassifier* concept, superclasses) {
         if (i == 0) {
-            startText.append(QString(" < ") + RubyCodeGenerator::cppToRubyType(concept->name()) + endLine);
+            startText.append(QString(QLatin1String(" < ")) + RubyCodeGenerator::cppToRubyType(concept->name()) + endLine);
         } else {
             // After the first superclass name in the list, assume the classes
             // are ruby modules that can be mixed in,
-            startText.append("include " + RubyCodeGenerator::cppToRubyType(concept->name()) + endLine);
+            startText.append(QLatin1String("include ") + RubyCodeGenerator::cppToRubyType(concept->name()) + endLine);
         }
         i++;
     }
 
     // Write out the interfaces we 'implement'. Are these modules to be mixed in, in Ruby?
     foreach (UMLClassifier* concept, superinterfaces) {
-        startText.append(QString("include ") + RubyCodeGenerator::cppToRubyType(concept->name()) + endLine);
+        startText.append(QString(QLatin1String("include ")) + RubyCodeGenerator::cppToRubyType(concept->name()) + endLine);
     }
 
     // Set the header and end text for the hier.codeblock
@@ -117,7 +117,7 @@ void RubyClassDeclarationBlock::init (RubyClassifierCodeDocument *parentDoc, con
     setComment(new RubyCodeDocumentation(parentDoc));
     getComment()->setText(comment);
 
-    setEndText("end");
+    setEndText(QLatin1String("end"));
 }
 
 #include "rubyclassdeclarationblock.moc"

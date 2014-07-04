@@ -24,7 +24,7 @@ JavaCodeComment::~JavaCodeComment ()
 
 QString JavaCodeComment::getNewEditorLine (int amount)
 {
-    QString line = getIndentationString(amount) + "// ";
+    QString line = getIndentationString(amount) + QLatin1String("// ");
     return line;
 }
 
@@ -37,7 +37,7 @@ QString JavaCodeComment::unformatText (const QString & text, const QString & ind
     QString mytext = TextBlock::unformatText(text, indent);
 
     // now leading slashes
-    mytext.remove(QRegExp("^\\/\\/\\s*"));
+    mytext.remove(QRegExp(QLatin1String("^\\/\\/\\s*")));
     return mytext;
 }
 
@@ -49,11 +49,10 @@ QString JavaCodeComment::toString () const
     QString output;
 
     // simple output method
-    if (getWriteOutText())
-    {
+    if (getWriteOutText()) {
         QString indent = getIndentationString();
         QString endLine = getNewLineEndingChars();
-        output.append(formatMultiLineText (getText(), indent +"// ", endLine));
+        output.append(formatMultiLineText (getText(), indent + QLatin1String("// "), endLine));
     }
 
     return output;

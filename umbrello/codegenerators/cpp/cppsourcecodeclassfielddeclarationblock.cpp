@@ -34,17 +34,17 @@ void CPPSourceCodeClassFieldDeclarationBlock::updateContent()
     getComment()->setText(notes);
 
     // Set the body
-    QString staticValue = getParentObject()->isStatic() ? "static " : QString();
+    QString staticValue = getParentObject()->isStatic() ? QLatin1String("static ") : QString();
     QString scopeStr = Uml::Visibility::toString(getParentObject()->visibility());
 
     QString typeName = jcf->getTypeName();
     QString fieldName = jcf->getFieldName();
     QString initialV = jcf->getInitialValue();
 
-    QString body = staticValue+scopeStr + ' ' + typeName + ' ' + fieldName;
+    QString body = staticValue+scopeStr + QLatin1Char(' ') + typeName + QLatin1Char(' ') + fieldName;
     if (!initialV.isEmpty())
-            body.append(" = " + initialV);
-    setText(body + ';');
+            body.append(QLatin1String(" = ") + initialV);
+    setText(body + QLatin1Char(';'));
 }
 
 #include "cppsourcecodeclassfielddeclarationblock.moc"

@@ -178,21 +178,21 @@ void CodeGenStatusPage::classGenerated(UMLClassifier* concept, bool generated)
  */
 void CodeGenStatusPage::showFileGenerated(const QString& filename)
 {
-    ui_textEditLogger->insertHtml("<b>" + filename + ":</b><br>");
+    ui_textEditLogger->insertHtml(QLatin1String("<b>") + filename + QLatin1String(":</b><br>"));
 
     QFile file(filename);
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QTextStream in(&file);
         while (!in.atEnd()) {
             QString line = in.readLine();
-            ui_textEditLogger->insertHtml(line + "<br>");
+            ui_textEditLogger->insertHtml(line + QLatin1String("<br>"));
         }
         file.close();
     }
     else {
-        ui_textEditLogger->insertHtml(i18n("Cannot open file!") + "<br>");
+        ui_textEditLogger->insertHtml(i18n("Cannot open file!") + QLatin1String("<br>"));
     }
-    ui_textEditLogger->insertHtml("<br><HR><br>");
+    ui_textEditLogger->insertHtml(QLatin1String("<br><HR><br>"));
 }
 
 /**
