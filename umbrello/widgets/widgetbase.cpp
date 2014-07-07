@@ -702,7 +702,7 @@ void WidgetBase::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     ListPopupMenu *parentMenu = ListPopupMenu::menuFromAction(triggered);
 
     if (!parentMenu) {
-        uError() << "Action's data field does not contain ListPopupMenu pointer";
+        uDebug() << "Action's data field does not contain ListPopupMenu pointer";
         return;
     }
 
