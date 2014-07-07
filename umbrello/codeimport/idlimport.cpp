@@ -57,7 +57,7 @@ IDLImport::IDLImport(CodeImpThread* thread) : NativeImportBase(QLatin1String("//
     else {
         executable = KStandardDirs::findExe(QLatin1String("cl"));
         if (executable.isEmpty()) {
-            QString path = qgetenv(QLatin1String("VS100COMNTOOLS"));
+            QString path = QLatin1String(qgetenv("VS100COMNTOOLS").constData());
             if (!path.isEmpty())
                 executable = KStandardDirs::findExe(QLatin1String("cl"), path + QLatin1String("/../../VC/bin"));
         }
