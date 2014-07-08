@@ -28,6 +28,8 @@
 // qt includes
 #include <QPainter>
 
+NoteWidget * NoteWidget::s_pCurrentNote;
+
 /**
  * Constructs a NoteWidget.
  *
@@ -170,6 +172,7 @@ void NoteWidget::setDiagramLink(Uml::ID::Type viewID)
     QString linkText(QLatin1String("Diagram: ") + view->umlScene()->name());
     setDocumentation(linkText);
     m_diagramLink = viewID;
+    update();
 }
 
 /**
@@ -281,11 +284,7 @@ QSizeF NoteWidget::minimumSize()
 }
 
 /**
- * Overrides method from UMLWidget.
- */
-
-/**
- * calculate content related size of widget.
+ * Calculate content related size of widget.
  * Overrides method from UMLWidget.
  */
 QSizeF NoteWidget::calculateSize()

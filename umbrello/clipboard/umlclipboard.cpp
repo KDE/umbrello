@@ -26,6 +26,7 @@
 #include "enumliteral.h"
 #include "entityattribute.h"
 #include "model_utils.h"
+#include "notewidget.h"
 #include "umldoc.h"
 #include "umllistview.h"
 #include "umllistviewitem.h"
@@ -404,12 +405,17 @@ bool UMLClipboard::pasteClip2(const QMimeData* data)
     UMLViewList         views;
 
     if (!UMLDragData::decodeClip2(data, objects, views)) {
+        uDebug() << "UMLDragData::decodeClip2 returned error";
         return false;
     }
 
-    foreach (UMLView* pView, views) {
-        if(!doc->addUMLView(pView)) {
-            return false;
+    if (NoteWidget::s_pCurrentNote) {
+        NoteWidget::s_pCurrentNote = NULL;
+    } else {
+        foreach (UMLView* pView, views) {
+            if (!doc->addUMLView(pView)) {
+                return false;
+            }
         }
     }
 

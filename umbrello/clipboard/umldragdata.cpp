@@ -21,6 +21,7 @@
 #include "model_utils.h"
 #include "object_factory.h"
 #include "objectwidget.h"
+#include "notewidget.h"
 #include "preconditionwidget.h"
 #include "messagewidget.h"
 #include "uniqueid.h"
@@ -323,8 +324,10 @@ bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
 
     // Load UMLObjects
     QDomNode objectsNode = xmiClipNode.firstChild();
-    if (!UMLDragData::decodeObjects(objectsNode, objects, true)) {
-        return false;
+    if (NoteWidget::s_pCurrentNote == NULL) {
+        if (!UMLDragData::decodeObjects(objectsNode, objects, true)) {
+            return false;
+        }
     }
 
     // Load UMLViews (diagrams)
@@ -780,6 +783,16 @@ bool UMLDragData::decodeViews(QDomNode& umlviewsNode, UMLViewList& diagrams)
     }
     UMLListView *listView = UMLApp::app()->listView();
     while (!diagramElement.isNull()) {
+        if (NoteWidget::s_pCurrentNote) {
+            QString idStr = diagramElement.attribute(QLatin1String("xmi.id"), QLatin1String("-1"));
+            Uml::ID::Type id = Uml::ID::fromString(idStr);
+            if (id == Uml::ID::None) {
+                uDebug() << "Cannot paste diagram hyperlink to note because decoding of xmi.id failed";
+                return false;
+            }
+            NoteWidget::s_pCurrentNote->setDiagramLink(id);
+            return true;
+        }
         QString type = diagramElement.attribute(QLatin1String("type"), QLatin1String("0"));
         Uml::DiagramType::Enum dt = Uml::DiagramType::fromInt(type.toInt());
         UMLListViewItem *parent = listView->findFolderForDiagram(dt);

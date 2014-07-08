@@ -27,6 +27,7 @@
 #include "model_utils.h"
 #include "objectnodewidget.h"
 #include "objectwidget.h"
+#include "notewidget.h"
 #include "pinportbase.h"
 #include "preconditionwidget.h"
 #include "signalwidget.h"
@@ -35,6 +36,8 @@
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"
+#include "umllistview.h"
+#include "umllistviewitem.h"
 #include "widget_utils.h"
 #include "widgetbase.h"
 
@@ -303,7 +306,13 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object, bool multi, 
     bool bCutState = UMLApp::app()->isCutCopyState();
     setActionEnabled(mt_Cut, bCutState);
     setActionEnabled(mt_Copy, bCutState);
-    setActionEnabled(mt_Paste, false);
+    bool pasteAvailable = false;
+    if (object->baseType() == WidgetBase::wt_Note &&
+            UMLApp::app()->listView()->startedCopy()) {
+        NoteWidget::s_pCurrentNote = static_cast<NoteWidget*>(object);
+        pasteAvailable = true;
+    }
+    setActionEnabled(mt_Paste, pasteAvailable);
     setupActionsData();
 }
 
