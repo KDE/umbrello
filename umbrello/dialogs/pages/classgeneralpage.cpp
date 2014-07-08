@@ -62,7 +62,7 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     topLayout->setSpacing(6);
 
     // setup name
-    QString name = QString();
+    QString name;
     UMLObject::ObjectType t = m_pObject->baseType();
     switch (t) {
     case UMLObject::ot_Class:

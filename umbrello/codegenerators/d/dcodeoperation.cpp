@@ -77,7 +77,7 @@ void DCodeOperation::updateMethodDeclaration()
     startText += QLatin1Char('(');
 
     // assemble parameters
-    QString paramStr = QString();
+    QString paramStr;
     UMLAttributeList list = getParentOperation()->getParmList();
     int paramNum = list.count();
 

@@ -33,7 +33,7 @@
 /**
  * Keep the last clicked directory for setting it the next time.
  */
-QString CodeImpSelectPage::s_recentPath = QString();
+QString CodeImpSelectPage::s_recentPath;
 
 /**
  * Constructor.

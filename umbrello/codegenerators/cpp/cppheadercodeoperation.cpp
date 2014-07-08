@@ -80,7 +80,7 @@ void CPPHeaderCodeOperation::updateMethodDeclaration()
     // no return type for constructors
     QString methodReturnType = o->getTypeName();
     QString methodName = o->name();
-    QString paramStr = QString();
+    QString paramStr;
 
     // assemble parameters
     UMLAttributeList list = getParentOperation()->getParmList();

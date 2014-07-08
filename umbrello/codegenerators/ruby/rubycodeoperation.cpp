@@ -72,7 +72,7 @@ void RubyCodeOperation::updateMethodDeclaration()
     methodName.remove(QRegExp(QLatin1String("operator\\s*")));
     methodName = methodName.mid(0, 1).toLower() + methodName.mid(1);
 
-    QString paramStr = QString();
+    QString paramStr;
     QStringList commentedParams;
 
     // assemble parameters

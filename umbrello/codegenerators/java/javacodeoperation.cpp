@@ -47,7 +47,7 @@ void JavaCodeOperation::updateMethodDeclaration()
     QString fixedReturn = JavaCodeGenerator::fixTypeName(o->getTypeName());
     QString returnType = o->isConstructorOperation() ? QString() : (fixedReturn + QLatin1String(" "));
     QString methodName = o->name();
-    QString paramStr = QString();
+    QString paramStr;
 
     // assemble parameters
     UMLAttributeList list = getParentOperation()->getParmList();
