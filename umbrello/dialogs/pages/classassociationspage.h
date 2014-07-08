@@ -8,8 +8,8 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-#ifndef ASSOCPAGE_H
-#define ASSOCPAGE_H
+#ifndef CLASSASSOCIATIONSPAGE_H
+#define CLASSASSOCIATIONSPAGE_H
 
 #include "associationwidgetlist.h"
 #include "dialogpagebase.h"

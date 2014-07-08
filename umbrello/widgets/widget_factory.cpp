@@ -40,8 +40,6 @@
 #include "messagewidget.h"
 #include "node.h"
 #include "nodewidget.h"
-#include "port.h"
-#include "portwidget.h"
 #include "notewidget.h"
 #include "object_factory.h"
 #include "objectnodewidget.h"

@@ -17,8 +17,8 @@
     Boston, MA 02111-1307, USA.
 */
 
-#include "codemodel.h"
 #include "codemodel_treeparser.h"
+#include "codemodel.h"
 
 CodeModelTreeParser::CodeModelTreeParser()
 {

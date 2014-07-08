@@ -17,8 +17,8 @@
     Boston, MA 02111-1307, USA.
 */
 
-#include "debug_utils.h"
 #include "tree_parser.h"
+#include "debug_utils.h"
 #include "driver.h"
 
 #include <kdebug.h>

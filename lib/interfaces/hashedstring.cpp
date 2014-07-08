@@ -18,7 +18,6 @@
 #include <algorithm>
 #include <iterator>
 #include <set>
-#include <algorithm>
 
 //It needs to be measured whether this flag should be turned on or off. It seems just to move the complexity from one position to the other, without any variant being really better.
 #define USE_HASHMAP

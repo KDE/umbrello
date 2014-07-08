@@ -18,9 +18,9 @@
 */
 
 // c++ support
+#include "parser.h"
 #include "driver.h"
 #include "lexer.h"
-#include "parser.h"
 #include "errors.h"
 
 // qt
