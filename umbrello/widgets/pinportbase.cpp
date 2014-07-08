@@ -73,7 +73,7 @@ UMLWidget* PinPortBase::ownerWidget()
  * Overrides method from UMLWidget in order to set a tooltip.
  * The tooltip is set to the name().
  * The reason for using a tooltip for the name is that the size of this
- * widget is not large enough to accomodate the average name.
+ * widget is not large enough to accommodate the average name.
  */
 void PinPortBase::updateWidget()
 {
