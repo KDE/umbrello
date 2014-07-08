@@ -60,7 +60,7 @@ PinWidget::~PinWidget()
 void PinWidget::connectOwnerMotion()
 {
     ActivityWidget *owner = static_cast<ActivityWidget*>(ownerWidget());
-    connect(owner, SIGNAL(sigActMoved(qreal, qreal)), this, SLOT(slotOwnerMoved(qreal, qreal)));
+    connect(owner, SIGNAL(sigActMoved(qreal,qreal)), this, SLOT(slotOwnerMoved(qreal,qreal)));
 }
 
 /**
