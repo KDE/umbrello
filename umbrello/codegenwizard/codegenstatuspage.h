@@ -65,10 +65,10 @@ class LedStatus : public QWidget
             layout->addWidget(m_led);
             layout->addItem(new QSpacerItem(20, 20));
             setLayout(layout);
-        };
-        ~LedStatus() {};
-        void setColor(const QColor& color) { m_led->setColor(color); };
-        void setOn(bool isOn) { isOn ? m_led->setState(KLed::On) : m_led->setState(KLed::Off); };
+        }
+        ~LedStatus() {}
+        void setColor(const QColor& color) { m_led->setColor(color); }
+        void setOn(bool isOn) { isOn ? m_led->setState(KLed::On) : m_led->setState(KLed::Off); }
     private:
         KLed *m_led;
 };
