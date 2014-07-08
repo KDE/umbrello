@@ -50,7 +50,7 @@ public:
     KTextEditor::View *view;
     KTextEditor::Document *document;
 
-    UMLAppPrivate(QWidget *_parent)
+    explicit UMLAppPrivate(QWidget *_parent)
       : parent(_parent),
         findDialog(_parent),
         view(0),

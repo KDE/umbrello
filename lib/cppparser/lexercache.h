@@ -127,7 +127,7 @@ class Driver;
 class LexerCache : public CacheManager
 {
 public:
-    LexerCache(Driver* d);
+    explicit LexerCache(Driver* d);
     virtual ~LexerCache() {}
 
     void addLexedFile(const CachedLexedFilePointer& file);

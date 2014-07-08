@@ -58,7 +58,7 @@ public:
     };
 //     ParsedFile() {
 //     }
-    ParsedFile(QDataStream& s)
+    explicit ParsedFile(QDataStream& s)
     {
         read(s);
     }
@@ -66,7 +66,7 @@ public:
     ParsedFile(const QString& fileName, const QDateTime& timeStamp);
 
     ///Deserializes the ParsedFile from a previous call to serialize(). AST will always be zero after a call to this.
-    ParsedFile(const QByteArray& array);
+    explicit ParsedFile(const QByteArray& array);
 
     virtual ~ParsedFile() {}
 

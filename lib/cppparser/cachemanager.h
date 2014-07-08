@@ -29,7 +29,7 @@ class CacheNode
 {
     typedef CacheManager Manager;
 public:
-    CacheNode(Manager* manager);
+    explicit CacheNode(Manager* manager);
 
     virtual ~CacheNode();
 
@@ -75,7 +75,7 @@ public:
     CacheManager(int maxNodes = 1000) : m_currentFrame(1), m_maxNodes(maxNodes), m_currentMax(1)
     {
     };
-    virtual ~CacheManager() {};
+    virtual ~CacheManager() {}
 
     inline int currentFrame() const
     {

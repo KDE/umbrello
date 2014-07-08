@@ -24,7 +24,7 @@ class UMLWidget;
 class UMLSceneFinder : public UMLFinder
 {
 public:
-    UMLSceneFinder(UMLView *view);
+    explicit UMLSceneFinder(UMLView *view);
     virtual ~UMLSceneFinder();
     virtual int collect(Category category, const QString &text);
 

@@ -439,7 +439,7 @@ bool compareDeclarationToDefinition(const FunctionDom& dec, const FunctionDefini
 class PredDefinitionMatchesDeclaration
 {
 public:
-    PredDefinitionMatchesDeclaration(const FunctionDom& func) : m_declaration(func) {};
+    explicit PredDefinitionMatchesDeclaration(const FunctionDom& func) : m_declaration(func) {}
     bool operator() (const FunctionDefinitionDom& def) const
     {
         return compareDeclarationToDefinition(m_declaration, def);
@@ -453,7 +453,7 @@ template <class InputDomType>
 class PredAmOwner
 {
 public:
-    PredAmOwner(const FileDom& file) : m_file(file) {};
+    PredAmOwner(const FileDom& file) : m_file(file) {}
     bool operator() (const InputDomType& def) const
     {
         return def->file() == m_file;

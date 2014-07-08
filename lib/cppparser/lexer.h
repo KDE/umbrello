@@ -154,7 +154,7 @@ struct LexerData;
 
 class Token
 {
-    Token(const QString &);
+    explicit Token(const QString &);
     Token(int type, int position, int length, const QString& text);
     Token(const Token& source);
 
@@ -198,7 +198,7 @@ private:
 class Lexer
 {
 public:
-    Lexer(Driver* driver);
+    explicit Lexer(Driver* driver);
     ~Lexer();
 
     bool recordComments() const;
