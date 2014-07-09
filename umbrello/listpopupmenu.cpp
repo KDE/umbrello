@@ -70,7 +70,7 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, UMLView * view)
  *
  * @param parent   The parent to ListPopupMenu.
  * @param type     The type of menu to display.
- * @param object   The WidgetBase object.
+ * @param widget   The WidgetBase object.
  */
 ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, WidgetBase *widget)
   : KMenu(parent), m_isListView(false)

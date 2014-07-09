@@ -205,7 +205,7 @@ void ConstraintListPage::slotNewCheckConstraint()
 // }
 
 /**
- * Will return true if ot1 has a higher (top)  place in the list than ot2
+ * Will return true if ct1 has a higher (top)  place in the list than ct2
  *
  * @param ct1 Contraint Type 1
  * @param ct2 Constraint Type 2
@@ -222,7 +222,7 @@ bool ConstraintListPage::greaterThan(UMLObject::ObjectType ct1, UMLObject::Objec
             break;
        case UMLObject::ot_ForeignKeyConstraint:
            if (ct2 != UMLObject::ot_UniqueConstraint)
-             return true;
+               return true;
            else
                return false;
            break;

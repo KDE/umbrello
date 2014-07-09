@@ -794,7 +794,7 @@ void UMLWidget::slotWidgetMoved(Uml::ID::Type /*id*/)
 /**
  * Captures a color change signal.
  *
- * @param sceneID The id of the object behind the widget.
+ * @param viewID  The id of the UMLScene behind the widget.
  */
 void UMLWidget::slotFillColorChanged(Uml::ID::Type viewID)
 {
@@ -814,7 +814,7 @@ void UMLWidget::slotFillColorChanged(Uml::ID::Type viewID)
 /**
  * Captures a text color change signal.
  *
- * @param sceneID The id of the object behind the widget.
+ * @param viewID  The id of the UMLScene behind the widget.
  */
 void UMLWidget::slotTextColorChanged(Uml::ID::Type viewID)
 {
@@ -829,7 +829,7 @@ void UMLWidget::slotTextColorChanged(Uml::ID::Type viewID)
 /**
  * Captures a line color change signal.
  *
- * @param sceneID The id of the object behind the widget.
+ * @param viewID  The id of the UMLScene behind the widget.
  */
 void UMLWidget::slotLineColorChanged(Uml::ID::Type viewID)
 {
@@ -846,7 +846,7 @@ void UMLWidget::slotLineColorChanged(Uml::ID::Type viewID)
 /**
  * Captures a linewidth change signal.
  *
- * @param sceneID The id of the object behind the widget.
+ * @param viewID  The id of the UMLScene behind the widget.
  */
 void UMLWidget::slotLineWidthChanged(Uml::ID::Type viewID)
 {
@@ -1045,7 +1045,7 @@ bool UMLWidget::isActivated() const
 /**
  * Set the m_activated flag of a widget but does not perform the Activate method
  *
- * @param Active Status of activation is to be set.
+ * @param active  Status of activation is to be set.
  */
 void UMLWidget::setActivated(bool active /*=true*/)
 {
@@ -1077,8 +1077,8 @@ void UMLWidget::removeAssoc(AssociationWidget* pAssoc)
 /**
  * Adjusts associations with the given co-ordinates
  *
- * @param x The x-coordinate.
- * @param y The y-coordinate.
+ * @param dx  The amount by which the widget moved in X direction.
+ * @param dy  The amount by which the widget moved in Y direction.
  */
 void UMLWidget::adjustAssocs(qreal dx, qreal dy)
 {
@@ -1107,8 +1107,8 @@ void UMLWidget::adjustAssocs(qreal dx, qreal dy)
 /**
  * Adjusts all unselected associations with the given co-ordinates
  *
- * @param x The x-coordinate.
- * @param y The y-coordinate.
+ * @param dx  The amount by which the widget moved in X direction.
+ * @param dy  The amount by which the widget moved in Y direction.
  */
 void UMLWidget::adjustUnselectedAssocs(qreal dx, qreal dy)
 {
@@ -1445,7 +1445,7 @@ void UMLWidget::deselect(QGraphicsSceneMouseEvent *me)
 /**
  * Sets the view the widget is on.
  *
- * @param v The view the widget is on.
+ * @param scene  The UMLScene the widget is on.
  */
 void UMLWidget::setScene(UMLScene *scene)
 {
@@ -1836,8 +1836,9 @@ bool UMLWidget::showStereotype() const
  *
  * @param me The move event.
  */
-void UMLWidget::moveEvent(QGraphicsSceneMouseEvent* /*me*/)
+void UMLWidget::moveEvent(QGraphicsSceneMouseEvent* me)
 {
+  Q_UNUSED(me)
 }
 
 void UMLWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)

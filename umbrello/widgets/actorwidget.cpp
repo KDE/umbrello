@@ -19,7 +19,7 @@
  * Constructs an ActorWidget.
  *
  * @param scene   The parent of this ActorWidget.
- * @param o      The Actor class this ActorWidget will display.
+ * @param a      The Actor class this ActorWidget will display.
  */
 ActorWidget::ActorWidget(UMLScene * scene, UMLActor *a)
   : UMLWidget(scene, WidgetBase::wt_Actor, a)

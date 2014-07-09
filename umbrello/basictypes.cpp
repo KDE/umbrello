@@ -606,7 +606,7 @@ namespace Changeability {
 
 /**
  * Convert Changeability::Enum value into QString representation.
- * @param type   The Changeability enum value to convert.
+ * @param item   The Changeability enum value to convert.
  */
 QString toString(Enum item)
 {

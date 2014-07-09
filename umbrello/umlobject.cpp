@@ -436,7 +436,7 @@ Visibility::Enum UMLObject::visibility() const
 /**
  * Sets the visibility of the object.
  *
- * @param s   The visibility of the object.
+ * @param visibility  The visibility of the object.
  */
 void UMLObject::setVisibility(Visibility::Enum visibility)
 {

@@ -81,8 +81,8 @@ namespace Widget_Utils
 
     /**
      * Calculates and draws a cross inside an ellipse
-     * @param p Pointer to a QPainter object.
-     * @param ellipse The rectangle describing the ellipse.
+     * @param p  Pointer to a QPainter object.
+     * @param r  The rectangle describing the ellipse.
      */
     void drawCrossInEllipse(QPainter *p, const QRectF& r)
     {
@@ -262,12 +262,11 @@ namespace Widget_Utils
     /**
      * Loads pixmap from xmi.
      *
-     * @param qElement The dom element from which pixmap should be
-     *                 loaded.
+     * @param pixEle  The dom element from which pixmap should be loaded.
      *
-     * @param pixmap The pixmap into which the image should be loaded.
+     * @param pixmap  The pixmap into which the image should be loaded.
      *
-     * @return True or false based on success or failure of this method.
+     * @return  True or false based on success or failure of this method.
      */
     bool loadPixmapFromXMI(QDomElement &pixEle, QPixmap &pixmap)
     {
@@ -322,8 +321,8 @@ namespace Widget_Utils
      * and the new gradient object will be created inside this method.
      * The gradient should later be deleted externally.
      *
-     * @param qElement The dom element from which gradient should be
-     *                 loaded.
+     * @param gradientElement The DOM element from which gradient should be
+     *                        loaded.
      *
      * @param gradient The pointer to gradient into which the gradient
      *                 should be loaded. (Allocated inside this

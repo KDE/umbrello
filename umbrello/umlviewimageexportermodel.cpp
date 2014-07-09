@@ -228,11 +228,11 @@ QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, 
  *
  * If some problem occurs when exporting, an error message is returned.
  *
- * @param view The view to export.
- * @param imageType The type of the image the view will be exported to.
- * @param url The url where the image will be saved.
- * @return The message error if some problem occurred when exporting, or
- *         QString() if all went fine.
+ * @param scene      The UMLScene to export.
+ * @param imageType  The type of the image the view will be exported to.
+ * @param url        The url where the image will be saved.
+ * @return  The error message if some problem occurred when exporting, or
+ *          QString() if all went fine.
  */
 QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &imageType, const KUrl &url) const
 {

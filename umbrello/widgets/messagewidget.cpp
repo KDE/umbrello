@@ -75,9 +75,9 @@ MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, ObjectWidget* b,
 /**
  * Constructs a MessageWidget.
  *
- * @param scene              The parent to this class.
- * @param sequenceMessageType The Uml::SequenceMessage::Enum of this message widget
- * @param id                The ID to assign (-1 will prompt a new ID.)
+ * @param scene       The parent to this class.
+ * @param seqMsgType  The Uml::SequenceMessage::Enum of this message widget
+ * @param id          The ID to assign (-1 will prompt a new ID.)
  */
 MessageWidget::MessageWidget(UMLScene * scene, Uml::SequenceMessage::Enum seqMsgType,
                              Uml::ID::Type id)
@@ -1275,7 +1275,7 @@ void MessageWidget::setyclicked(int yclick)
 
 /**
  * Event handler for mouse double click events.
- * @param me QGraphicsSceneMouseEvent which triggered the double click event
+ * @param event QGraphicsSceneMouseEvent which triggered the double click event
  */
 void MessageWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {

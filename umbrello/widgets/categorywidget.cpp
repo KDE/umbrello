@@ -23,8 +23,8 @@
 /**
  *  Creates a Category widget.
  *
- *  @param  view   The parent of the widget.
- *  @param  o      The UMLObject to represent.
+ *  @param  scene  The parent of the widget.
+ *  @param  o      The UMLCategory to represent.
  */
 CategoryWidget::CategoryWidget(UMLScene * scene, UMLCategory *o)
   : UMLWidget(scene, WidgetBase::wt_Category, o)

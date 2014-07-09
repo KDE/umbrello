@@ -41,7 +41,7 @@ using namespace Uml;
 
 /**
  * Creates a new ToolBarStateOther.
- * @param umlView The UMLView to use.
+ * @param umlScene The UMLScene to use.
  */
 ToolBarStateOther::ToolBarStateOther(UMLScene *umlScene)
   : ToolBarStatePool(umlScene)

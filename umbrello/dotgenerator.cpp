@@ -449,9 +449,9 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
 
 /**
  * Find string starting with the search string in string list
- * @params params string list to search in
- * @params search string
- * @return true, when search string has been found
+ * @param  params string list to search in
+ * @param  search string
+ * @return true when search string has been found
  */
 bool DotGenerator::findItem(QStringList &params, const QString &search)
 {

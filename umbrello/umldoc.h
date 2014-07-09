@@ -135,8 +135,6 @@ public:
                                 const QString &name,
                                 UMLObject::ObjectType type = UMLObject::ot_UMLObject);
 
-    //:TODO: UMLObject* findObjectByAuxId(const QString &idStr);
-
     UMLClassifier * findUMLClassifier(const QString &name);
 
     UMLStereotype * findStereotype(const QString &name);

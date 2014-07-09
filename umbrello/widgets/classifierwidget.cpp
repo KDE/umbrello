@@ -36,7 +36,7 @@ const int ClassifierWidget::CIRCLE_SIZE = 30;
  * Constructs a ClassifierWidget.
  *
  * @param scene   The parent of this ClassifierWidget.
- * @param o       The UMLObject to represent.
+ * @param c       The UMLClassifier to represent.
  */
 ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
   : UMLWidget(scene, WidgetBase::wt_Class, c),
@@ -121,8 +121,8 @@ void ClassifierWidget::setVisualProperties(VisualProperties properties)
 /**
  * @return The status of the property passed in.
  *
- * @note Use @ref attributeSignatureType() and @ref
- *       operationSignatureType() to get signature status.  This
+ * @note Use @ref attributeSignature() and @ref
+ *       operationSignature() to get signature status.  This
  *       method only indicates whether signature is visible or not.
  */
 bool ClassifierWidget::visualProperty(VisualProperty property) const

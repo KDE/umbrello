@@ -23,9 +23,9 @@
 /**
  * Sets up an association.
  *
- * @param parent    The parent (association) of this UMLRole.
- * @param parentUMLObject The Parent UML Object of this UMLRole
- * @param role  The Uml::RoleType::Enum of this UMLRole
+ * @param parent     The parent (association) of this UMLRole.
+ * @param parentObj  The Parent UML Object of this UMLRole
+ * @param role       The Uml::RoleType::Enum of this UMLRole
  */
 UMLRole::UMLRole(UMLAssociation * parent, UMLObject * parentObj, Uml::RoleType::Enum role)
   : UMLObject(const_cast<UMLAssociation*>(parent)),
@@ -235,7 +235,7 @@ bool UMLRole::load(QDomElement & element)
         if (UMLDoc::tagEq(tag, QLatin1String("name"))) {
             m_name = tempElement.text();
         } else if (UMLDoc::tagEq(tag, QLatin1String("AssociationEnd.multiplicity"))) {
-            /**
+            /*
              * There are different ways in which the multiplicity might be given:
              *  - direct value in the <AssociationEnd.multiplicity> tag,
              *  - attributes "lower" and "upper" of a subordinate <MultiplicityRange>,

@@ -193,8 +193,8 @@ void UMLDoc::addView(UMLView *view)
  * Removes a view from the list of currently connected views.
  *
  * @param view             Pointer to the UMLView to remove.
- * @param enforceOneView   switch to determine if we have a current view or not.
- *                         most of the time, we DO want this, except when exiting the program.
+ * @param enforceCurrentView   Switch to determine if we have a current view or not.
+ *                         Most of the time, we DO want this, except when exiting the program.
  */
 void UMLDoc::removeView(UMLView *view, bool enforceCurrentView)
 {
@@ -695,7 +695,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
         //     original content is preserved
         //     (e.g. if umbrello dies in the middle of the document model parsing
         //      for saveToXMI due to some problems)
-        /// @TODO insert some checks in saveToXMI to detect a failed save attempt
+        /// @todo insert some checks in saveToXMI to detect a failed save attempt
 
         // lets open the file for writing
         if (!tmpfile.open()) {
@@ -880,20 +880,6 @@ UMLObject* UMLDoc::findUMLObjectRaw(UMLFolder *folder,
         return 0;
     return Model_Utils::findUMLObjectRaw(list, name, type, 0);
 }
-
-//:TODO:
-//    /**
-//     * Used to find a reference to a @ref UMLObject given its non-numeric
-//     * ID string.
-//     * Only used for intermediate processing while loading files
-//     * containing objects with non-numeric xmi.id's.
-//     *
-//     * @param idStr   The AuxId for the @ref UMLObject to find.*/
-//     * @return  Pointer to the UMLObject found, or NULL if not found.
-//     */
-//    UMLObject* UMLDoc::findObjectByAuxId(const QString &idStr)
-//    {
-//    }
 
 /**
  * Used to find a @ref UMLClassifier by its name.

@@ -130,7 +130,7 @@ UMLObject* WidgetBase::umlObject() const
 /**
  * Sets the @ref UMLObject to represent.
  *
- * @param o The object to represent.
+ * @param obj  The object to represent.
  */
 void WidgetBase::setUMLObject(UMLObject *obj)
 {
@@ -282,7 +282,7 @@ QColor WidgetBase::fillColor() const
 /**
  * Sets the fill color
  *
- * @param colour   The new fill color
+ * @param color   The new fill color
  */
 void WidgetBase::setFillColor(const QColor &color)
 {
@@ -447,10 +447,6 @@ QFont WidgetBase::font() const
 
 /**
  * Set the font used to display text inside this widget.
- *
- * This method issues @ref FontHasChanged notification after setting
- * the new font.
- * @see WidgetBase::attributeChange
  */
 void WidgetBase::setFont(const QFont& font)
 {
@@ -474,7 +470,7 @@ void WidgetBase::showPropertiesDialog()
  * called to save basic widget properties.
  *
  * @param qDoc A QDomDocument object representing the xml document.
- * @oaram qElement A QDomElement representing xml element data.
+ * @param qElement A QDomElement representing xml element data.
  */
 void WidgetBase::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
  {
@@ -648,9 +644,9 @@ QRectF WidgetBase::boundingRect() const
 /**
  * Draws the UMLWidget on the given paint device
  *
- * @param p The painter for the drawing device
- * @param offsetX x position to start the drawing.
- * @param offsetY y position to start the drawing.
+ * @param painter The painter for the drawing device
+ * @param option  Painting related options
+ * @param widget  Background widget on which to paint (optional)
  *
  */
 void WidgetBase::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

@@ -61,7 +61,7 @@ namespace Uml
     /**
      * Add widget to scene
      *
-     * @param UMLWidget* widget
+     * @param widget  Pointer to UMLWidget to add
      */
     void CmdBaseWidgetCommand::addWidgetToScene(UMLWidget* umlWidget)
     {

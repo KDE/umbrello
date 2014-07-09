@@ -17,8 +17,8 @@
 
 /**
  *  Creates a UseCase widget.
- *  @param  view   The parent of the widget.
- *  @param  o      The UMLObject to represent.
+ *  @param  scene  The parent of the widget.
+ *  @param  o      The UMLUseCase to represent.
  */
 UseCaseWidget::UseCaseWidget(UMLScene * scene, UMLUseCase *o)
   : UMLWidget(scene, WidgetBase::wt_UseCase, o)

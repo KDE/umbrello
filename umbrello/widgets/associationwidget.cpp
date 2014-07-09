@@ -118,9 +118,9 @@ AssociationWidget* AssociationWidget::create(UMLScene *scene)
   * Preferred constructor (static factory method.)
   *
   * @param scene      The parent view of this widget.
-  * @param WidgetA    Pointer to the role A widget for the association.
+  * @param pWidgetA   Pointer to the role A widget for the association.
   * @param assocType  The AssociationType::Enum for this association.
-  * @param WidgetB    Pointer to the role B widget for the association.
+  * @param pWidgetB   Pointer to the role B widget for the association.
   * @param umlobject  Pointer to the underlying UMLObject (if applicable.)
   */
 AssociationWidget* AssociationWidget::create
@@ -2838,7 +2838,7 @@ void AssociationWidget::createAssocClassLine()
  * Creates the association class connecting line using the specified
  * ClassifierWidget.
  *
- * @param classifierWidget The ClassifierWidget to use.
+ * @param classifier The ClassifierWidget to use.
  * @param linePathSegmentIndex The index of the segment where the
  *        association class is created.
  */

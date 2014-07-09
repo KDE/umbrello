@@ -38,7 +38,6 @@
 /**
  * Constructor. Sets up the wizard and loads the wizard pages.
  * Each wizard page has its own class.
- * @param classList   the list of classes, which have to be generated
  */
 CodeImportingWizard::CodeImportingWizard()
   : QWizard((QWidget*)UMLApp::app())

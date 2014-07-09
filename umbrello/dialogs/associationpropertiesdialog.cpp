@@ -39,9 +39,9 @@
 #include <QHBoxLayout>
 
 /**
- *  Sets up a Association Properties Dialog.
+ *  Sets up an Association Properties Dialog.
  *  @param  parent  The parent of the AssociationPropertiesDialog
- *  @param  a       The Association Widget to display properties of.
+ *  @param  assocWidget  The Association Widget to display properties of.
  *  @param  pageNum The page to show first.
  */
 AssociationPropertiesDialog::AssociationPropertiesDialog (QWidget *parent, AssociationWidget * assocWidget, int pageNum)

@@ -43,7 +43,7 @@
  *
  *  @param  d       The UMLDoc which controls controls object creation.
  *  @param  parent  The parent to the AssociationGeneralPage.
- *  @param  a       The AssociationWidget to display the properties of.
+ *  @param  assoc   The AssociationWidget to display the properties of.
  */
 AssociationGeneralPage::AssociationGeneralPage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc)
   : DialogPageBase(parent),

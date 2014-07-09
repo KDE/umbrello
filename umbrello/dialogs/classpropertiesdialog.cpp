@@ -86,7 +86,7 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, ObjectWidget *o)
  *  Sets up a ClassPropDialog.
  *
  *  @param  parent  The parent of the ClassPropDialog
- *  @param  o       The UMLWidget to display properties of.
+ *  @param  w       The UMLWidget to display properties of.
  */
 ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, UMLWidget *w)
   : DialogBase(parent)

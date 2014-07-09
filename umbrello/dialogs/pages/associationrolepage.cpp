@@ -37,7 +37,7 @@
  *  Sets up the AssociationRolePage.
  *  @param  d       The UMLDoc which controls controls object creation.
  *  @param  parent  The parent to the AssociationRolePage.
- *  @param  a       The AssociationWidget to display the properties of.
+ *  @param  assoc   The AssociationWidget to display the properties of.
  */
 AssociationRolePage::AssociationRolePage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc)
   : DialogPageBase(parent),

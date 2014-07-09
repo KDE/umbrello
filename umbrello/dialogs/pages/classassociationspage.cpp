@@ -28,7 +28,7 @@
  *  Constructs an instance of AssocPage.
  *
  *  @param  parent  The parent of the page
- *  @param  v       The view the UMLObject being represented.
+ *  @param  s       The scene on which the UMLObject is being represented
  *  @param  o       The UMLObject being represented
  */
 ClassAssociationsPage::ClassAssociationsPage(QWidget *parent, UMLScene *s, UMLObject *o)

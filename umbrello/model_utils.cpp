@@ -127,7 +127,7 @@ UMLObject* findObjectInList(Uml::ID::Type id, const UMLObjectList& inList)
  * Find the UML object of the given type and name in the passed-in list.
  *
  * @param inList        List in which to seek the object.
- * @param name          Name of the object to find.
+ * @param inName        Name of the object to find.
  * @param type          ObjectType of the object to find (optional.)
  *                      When the given type is ot_UMLObject the type is
  *                      disregarded, i.e. the given name is the only

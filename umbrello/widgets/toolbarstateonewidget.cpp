@@ -39,7 +39,7 @@
 /**
  * Creates a new ToolBarStateOneWidget.
  *
- * @param umlView The UMLView to use.
+ * @param umlScene The UMLScene to use.
  */
 ToolBarStateOneWidget::ToolBarStateOneWidget(UMLScene *umlScene)
   : ToolBarStatePool(umlScene),

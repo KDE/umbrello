@@ -159,7 +159,7 @@ Uml::ID::Type NoteWidget::diagramLink() const
  * Set the ID of the diagram hyperlinked to this note.
  * To switch off the hyperlink, set this to Uml::id_None.
  *
- * @param sceneID    ID of an UMLView.
+ * @param viewID    ID of an UMLScene.
  */
 void NoteWidget::setDiagramLink(Uml::ID::Type viewID)
 {

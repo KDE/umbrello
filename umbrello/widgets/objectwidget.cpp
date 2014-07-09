@@ -52,7 +52,6 @@ static const int sequenceLineMargin = 20;
  *
  * @param scene   The parent to this object.
  * @param o       The object it will be representing.
- * @param lid     The local id for the object.
  */
 ObjectWidget::ObjectWidget(UMLScene * scene, UMLObject *o)
   : UMLWidget(scene, WidgetBase::wt_Object, o),
