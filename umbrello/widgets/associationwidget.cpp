@@ -482,15 +482,13 @@ UMLClassifier* AssociationWidget::seqNumAndOp(QString& seqNum, QString& op)
  * Overrides operation from LinkWidget.
  * Required by FloatingTextWidget.
  *
- * @param seqNum   The new sequence number string to set.
  * @param op       The new operation string to set.
  */
-void AssociationWidget::setSeqNumAndOp(const QString &seqNum, const QString &op)
+void AssociationWidget::setOperationText(const QString &op)
 {
     if (!op.isEmpty()) {
         setName(op);
     }
-    setSequenceNumber(seqNum);
 }
 
 /**

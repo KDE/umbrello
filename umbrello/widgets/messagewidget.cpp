@@ -898,12 +898,10 @@ void MessageWidget::setText(FloatingTextWidget *ft, const QString &newText)
  * Overrides operation from LinkWidget.
  * Required by FloatingTextWidget.
  *
- * @param seqNum    The new sequence number string to set.
  * @param op        The new operation string to set.
  */
-void MessageWidget::setSeqNumAndOp(const QString &seqNum, const QString &op)
+void MessageWidget::setOperationText(const QString &op)
 {
-    setSequenceNumber(seqNum);
     m_CustomOp = op;   ///FIXME m_pOperation
 }
 

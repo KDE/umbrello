@@ -93,7 +93,7 @@ public:
     /**
      * Motivated by FloatingTextWidget::showOpDialog()
      */
-    virtual void setSeqNumAndOp(const QString &seqNum, const QString &op) = 0;
+    virtual void setOperationText(const QString &op) = 0;
 
     /**
      * Abstract operation implemented by inheriting classes.

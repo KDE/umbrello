@@ -276,7 +276,8 @@ void FloatingTextWidget::showOperationDialog(bool enableAutoIncrement)
         } else {
             m_linkWidget->setOperation(0);
         }
-        m_linkWidget->setSeqNumAndOp(seqNum, opText);
+        m_linkWidget->setSequenceNumber(seqNum);
+        m_linkWidget->setOperationText(opText);
         if (enableAutoIncrement) {
             m_scene->setAutoIncrementSequence(selectDialog->autoIncrementSequence());
         }
