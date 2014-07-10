@@ -88,7 +88,7 @@ public:
     /**
      * Motivated by FloatingTextWidget::showOpDialog()
      */
-    virtual UMLClassifier *seqNumAndOp(QString& seqNum, QString& op) = 0;
+    virtual UMLClassifier *seqNumAndOp(QString& op) = 0;
 
     /**
      * Motivated by FloatingTextWidget::showOpDialog()

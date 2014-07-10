@@ -469,9 +469,8 @@ void AssociationWidget::showPropertiesDialog()
  * @param seqNum    Return this AssociationWidget's sequence number string.
  * @param op        Return this AssociationWidget's operation string.
  */
-UMLClassifier* AssociationWidget::seqNumAndOp(QString& seqNum, QString& op)
+UMLClassifier* AssociationWidget::seqNumAndOp(QString& op)
 {
-    seqNum = m_SequenceNumber;
     op = name();
     UMLObject *o = widgetForRole(RoleType::B)->umlObject();
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
