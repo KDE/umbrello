@@ -241,7 +241,6 @@ public Q_SLOTS:
     virtual void slotTextColorChanged(Uml::ID::Type viewID);
     virtual void slotLineWidthChanged(Uml::ID::Type viewID);
 
-    void slotClearAllSelected();
     void slotSnapToGrid();
 
 signals:
