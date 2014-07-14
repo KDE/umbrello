@@ -418,7 +418,6 @@ signals:
     void sigLineColorChanged(Uml::ID::Type);
     void sigTextColorChanged(Uml::ID::Type);
     void sigLineWidthChanged(Uml::ID::Type);
-    void sigClearAllSelected();
     void sigSnapToGridToggled(bool);
     void sigSnapComponentSizeToGridToggled(bool);
     void sigShowGridToggled(bool);

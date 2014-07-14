@@ -195,7 +195,6 @@ public:
     virtual void setSelected(bool _select);
 public Q_SLOTS:  //:TODO: all virtual?
     virtual void slotMenuSelection(QAction* action);
-    void slotClearAllSelected();
     void slotClassifierListItemRemoved(UMLClassifierListItem* obj);
     void slotAttributeChanged();
 
