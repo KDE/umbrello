@@ -1224,7 +1224,6 @@ void UMLScene::removeWidgetCmd(UMLWidget * o)
 
     o->cleanup();
     o->setSelectedFlag(false);
-    disconnect(this, SIGNAL(sigClearAllSelected()), o, SLOT(slotClearAllSelected()));
     disconnect(this, SIGNAL(sigFillColorChanged(Uml::ID::Type)), o, SLOT(slotFillColorChanged(Uml::ID::Type)));
     disconnect(this, SIGNAL(sigLineColorChanged(Uml::ID::Type)), o, SLOT(slotLineColorChanged(Uml::ID::Type)));
     disconnect(this, SIGNAL(sigTextColorChanged(Uml::ID::Type)), o, SLOT(slotTextColorChanged(Uml::ID::Type)));
@@ -1286,7 +1285,6 @@ UMLWidgetList UMLScene::selectedWidgets() const
 void UMLScene::clearSelected()
 {
     clearSelection();
-    emit sigClearAllSelected();
     //m_doc->enableCutCopy(false);
 }
 

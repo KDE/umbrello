@@ -732,8 +732,6 @@ void UMLWidget::init()
     m_ignoreSnapComponentSizeToGrid = false;
     m_doc = UMLApp::app()->document();
     m_nPosX = 0;
-    connect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
-
     connect(m_scene, SIGNAL(sigFillColorChanged(Uml::ID::Type)), this, SLOT(slotFillColorChanged(Uml::ID::Type)));
     connect(m_scene, SIGNAL(sigLineColorChanged(Uml::ID::Type)), this, SLOT(slotLineColorChanged(Uml::ID::Type)));
     connect(m_scene, SIGNAL(sigTextColorChanged(Uml::ID::Type)), this, SLOT(slotTextColorChanged(Uml::ID::Type)));
@@ -1387,14 +1385,6 @@ void UMLWidget::setSelected(bool _select)
 }
 
 /**
- *   Captures a sigClearAllSelected signal sent by @ref UMLView
- */
-void UMLWidget::slotClearAllSelected()
-{
-    setSelected(false);
-}
-
-/**
  * Selects the widget and clears the other selected widgets, if any.
  *
  * @param me The QGraphicsSceneMouseEvent which made the selection.
@@ -1450,12 +1440,10 @@ void UMLWidget::deselect(QGraphicsSceneMouseEvent *me)
 void UMLWidget::setScene(UMLScene *scene)
 {
     //remove signals from old view - was probably 0 anyway
-    disconnect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
     disconnect(m_scene, SIGNAL(sigFillColorChanged(Uml::ID::Type)), this, SLOT(slotFillColorChanged(Uml::ID::Type)));
     disconnect(m_scene, SIGNAL(sigTextColorChanged(Uml::ID::Type)), this, SLOT(slotTextColorChanged(Uml::ID::Type)));
     disconnect(m_scene, SIGNAL(sigLineWidthChanged(Uml::ID::Type)), this, SLOT(slotLineWidthChanged(Uml::ID::Type)));
     m_scene = scene;
-    connect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
     connect(m_scene, SIGNAL(sigFillColorChanged(Uml::ID::Type)), this, SLOT(slotFillColorChanged(Uml::ID::Type)));
     connect(m_scene, SIGNAL(sigTextColorChanged(Uml::ID::Type)), this, SLOT(slotTextColorChanged(Uml::ID::Type)));
     connect(m_scene, SIGNAL(sigLineWidthChanged(Uml::ID::Type)), this, SLOT(slotLineWidthChanged(Uml::ID::Type)));

@@ -96,8 +96,6 @@ AssociationWidget::AssociationWidget(UMLScene *scene)
     m_role[RoleType::A].changeability = Uml::Changeability::Changeable;
     m_role[RoleType::B].changeability = Uml::Changeability::Changeable;
 
-    connect(m_scene, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
-
     setFlag(QGraphicsLineItem::ItemIsSelectable);
     setAcceptHoverEvents(true);
 }
@@ -3763,14 +3761,6 @@ bool AssociationWidget::onAssociation(const QPointF& point)
         }
     }
     return onAssocClassLine(point);
-}
-
-/**
- * Handles any signals that tells everyone not to be selected.
- */
-void AssociationWidget::slotClearAllSelected()
-{
-    setSelected(false);
 }
 
 /**
