@@ -474,7 +474,7 @@ void insertMethod(UMLClassifier *klass, UMLOperation* &op,
     UMLOperation *exist = klass->checkOperationSignature(op->name(), params);
     if (exist) {
         // copy contents to existing operation
-        exist->setVisibility(scope);
+        exist->setVisibilityCmd(scope);
         exist->setStatic(isStatic);
         exist->setAbstract(isAbstract);
         if (! strippedComment.isEmpty())
@@ -483,7 +483,7 @@ void insertMethod(UMLClassifier *klass, UMLOperation* &op,
         for (UMLAttributeListIt it(params), exIt(exParams) ; it.hasNext() ;) {
             UMLAttribute *param = it.next(), *exParam = exIt.next();
             exParam->setName(param->name());
-            exParam->setVisibility(param->visibility());
+            exParam->setVisibilityCmd(param->visibility());
             exParam->setStatic(param->isStatic());
             exParam->setAbstract(param->isAbstract());
             exParam->setDoc(param->doc());

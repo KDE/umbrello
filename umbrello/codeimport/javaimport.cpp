@@ -304,7 +304,7 @@ bool JavaImport::parseStmt()
         ++m_scopeIndex;
         m_klass->setAbstract(m_isAbstract);
         m_klass->setStatic(m_isStatic);
-        m_klass->setVisibility(m_currentAccess);
+        m_klass->setVisibilityCmd(m_currentAccess);
         // The UMLObject found by createUMLObject might originally have been created as a
         // placeholder with a type of class but if is really an interface, then we need to
         // change it.
