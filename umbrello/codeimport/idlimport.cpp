@@ -195,9 +195,8 @@ bool IDLImport::parseFile(const QString& filename)
     }
 
     // Parse the QStringList m_source.
-    m_scopeIndex = 0;
     m_scope.clear();
-    m_scope.append(NULL);
+    pushScope(0); // global scope
     const int srcLength = m_source.count();
     for (m_srcIndex = 0; m_srcIndex < srcLength; ++m_srcIndex) {
         const QString& keyword = m_source[m_srcIndex];
@@ -225,10 +224,9 @@ bool IDLImport::parseStmt()
     if (keyword == QLatin1String("module")) {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
-                        name, m_scope[m_scopeIndex], m_comment);
-        m_scope.append(static_cast<UMLPackage*>(ns));
-        ++m_scopeIndex;
-        m_scope[m_scopeIndex]->setStereotype(QLatin1String("CORBAModule"));
+                        name, currentScope(), m_comment);
+        pushScope(static_cast<UMLPackage*>(ns));
+        currentScope()->setStereotype(QLatin1String("CORBAModule"));
         if (advance() != QLatin1String("{")) {
             uError() << "importIDL: unexpected: " << m_source[m_srcIndex];
             skipStmt(QLatin1String("{"));
@@ -238,7 +236,7 @@ bool IDLImport::parseStmt()
     if (keyword == QLatin1String("interface")) {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class,
-                        name, m_scope[m_scopeIndex], m_comment);
+                        name, currentScope(), m_comment);
         m_klass = static_cast<UMLClassifier*>(ns);
         m_klass->setStereotype(QLatin1String("CORBAInterface"));
         m_klass->setAbstract(m_isAbstract);
@@ -246,8 +244,7 @@ bool IDLImport::parseStmt()
         m_comment.clear();
         if (advance() == QLatin1String(";"))   // forward declaration
             return true;
-        m_scope.append(m_klass);
-        ++m_scopeIndex;
+        pushScope(m_klass);
         if (m_source[m_srcIndex] == QLatin1String(":")) {
             while (++m_srcIndex < srcLength && m_source[m_srcIndex] != QLatin1String("{")) {
                 const QString& baseName = m_source[m_srcIndex];
@@ -265,10 +262,9 @@ bool IDLImport::parseStmt()
     if (keyword == QLatin1String("struct") || keyword == QLatin1String("exception")) {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class,
-                        name, m_scope[m_scopeIndex], m_comment);
+                        name, currentScope(), m_comment);
         m_klass = static_cast<UMLClassifier*>(ns);
-        m_scope.append(m_klass);
-        ++m_scopeIndex;
+        pushScope(m_klass);
         if (keyword == QLatin1String("struct"))
             m_klass->setStereotype(QLatin1String("CORBAStruct"));
         else
@@ -283,7 +279,7 @@ bool IDLImport::parseStmt()
         // mostly TBD.
         const QString& name = advance();
         Import_Utils::createUMLObject(UMLObject::ot_Class,
-                        name, m_scope[m_scopeIndex], m_comment, QLatin1String("CORBAUnion"));
+                        name, currentScope(), m_comment, QLatin1String("CORBAUnion"));
         skipStmt(QLatin1String("}"));
         m_srcIndex++;  // advance to ';'
         return true;
@@ -291,7 +287,7 @@ bool IDLImport::parseStmt()
     if (keyword == QLatin1String("enum")) {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
-                        name, m_scope[m_scopeIndex], m_comment);
+                        name, currentScope(), m_comment);
         UMLEnum *enumType = static_cast<UMLEnum*>(ns);
         m_srcIndex++;  // skip name
         while (++m_srcIndex < srcLength && m_source[m_srcIndex] != QLatin1String("}")) {
@@ -307,8 +303,8 @@ bool IDLImport::parseStmt()
         const QString& newType = advance();
         uDebug() << "oldType is " << oldType
                  << ", newType is " << newType
-                 << ", m_scopeIndex is " << m_scopeIndex;
-        Import_Utils::createUMLObject(UMLObject::ot_Class, newType, m_scope[m_scopeIndex],
+                 << ", scopeIndex is " << scopeIndex();
+        Import_Utils::createUMLObject(UMLObject::ot_Class, newType, currentScope(),
                                      m_comment, QLatin1String("CORBATypedef") /* stereotype */);
         // @todo How do we convey the existingType ?
         skipStmt();
@@ -328,14 +324,13 @@ bool IDLImport::parseStmt()
     if (keyword == QLatin1String("valuetype")) {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class,
-                        name, m_scope[m_scopeIndex], m_comment);
+                        name, currentScope(), m_comment);
         m_klass = static_cast<UMLClassifier*>(ns);
         m_klass->setAbstract(m_isAbstract);
         m_isAbstract = false;
         if (advance() == QLatin1String(";"))   // forward declaration
             return true;
-        m_scope.append(m_klass);
-        ++m_scopeIndex;
+        pushScope(m_klass);
         if (m_source[m_srcIndex] == QLatin1String(":")) {
             if (advance() == QLatin1String("truncatable"))
                 m_srcIndex++;
@@ -374,8 +369,8 @@ bool IDLImport::parseStmt()
         return true;
     }
     if (keyword == QLatin1String("}")) {
-        if (m_scopeIndex)
-            m_klass = dynamic_cast<UMLClassifier*>(m_scope[--m_scopeIndex]);
+        if (scopeIndex())
+            m_klass = dynamic_cast<UMLClassifier*>(popScope());
         else
             uError() << "importIDL: too many }";
         m_srcIndex++;  // skip ';'

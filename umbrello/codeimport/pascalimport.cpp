@@ -154,9 +154,8 @@ bool PascalImport::parseStmt()
     if (keyword == QLatin1String("unit")) {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package, name,
-                                                      m_scope[m_scopeIndex], m_comment);
-        m_scope.append(static_cast<UMLPackage*>(ns));
-        ++m_scopeIndex;
+                                                      currentScope(), m_comment);
+        pushScope(static_cast<UMLPackage*>(ns));
         skipStmt();
         return true;
     }
@@ -219,8 +218,8 @@ bool PascalImport::parseStmt()
     if (keyword == QLatin1String("end")) {
         if (m_klass) {
             m_klass = NULL;
-        } else if (m_scopeIndex) {
-            m_scopeIndex--;
+        } else if (scopeIndex()) {
+            popScope();
             m_currentAccess = Uml::Visibility::Public;
         } else {
             uError() << "importPascal: too many \"end\"";
@@ -323,7 +322,7 @@ bool PascalImport::parseStmt()
         if (keyword == QLatin1String("(")) {
             // enum type
             UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
-                            name, m_scope[m_scopeIndex], m_comment);
+                            name, currentScope(), m_comment);
             UMLEnum *enumType = static_cast<UMLEnum*>(ns);
             while (++m_srcIndex < srcLength && m_source[m_srcIndex] != QLatin1String(")")) {
                 Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
@@ -353,7 +352,7 @@ bool PascalImport::parseStmt()
             UMLObject::ObjectType t = (keyword == QLatin1String("class") ? UMLObject::ot_Class
                                                                          : UMLObject::ot_Interface);
             UMLObject *ns = Import_Utils::createUMLObject(t, name,
-                                                          m_scope[m_scopeIndex], m_comment);
+                                                          currentScope(), m_comment);
             UMLClassifier *klass = static_cast<UMLClassifier*>(ns);
             m_comment.clear();
             QString lookAhead = m_source[m_srcIndex + 1];
@@ -387,14 +386,14 @@ bool PascalImport::parseStmt()
         }
         if (keyword == QLatin1String("record")) {
             UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class, name,
-                                                          m_scope[m_scopeIndex], m_comment);
+                                                          currentScope(), m_comment);
             ns->setStereotype(QLatin1String("record"));
             m_klass = static_cast<UMLClassifier*>(ns);
             return true;
         }
         if (keyword == QLatin1String("function") || keyword == QLatin1String("procedure")) {
             /*UMLObject *ns =*/ Import_Utils::createUMLObject(UMLObject::ot_Datatype, name,
-                                                          m_scope[m_scopeIndex], m_comment);
+                                                          currentScope(), m_comment);
             if (m_source[m_srcIndex + 1] == QLatin1String("("))
                 skipToClosing(QLatin1Char('('));
             skipStmt();

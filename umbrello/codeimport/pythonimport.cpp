@@ -218,9 +218,8 @@ bool PythonImport::parseStmt()
     if (keyword == QLatin1String("class")) {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class, name,
-                                                      m_scope[m_scopeIndex], m_comment);
-        m_scope.append(m_klass = static_cast<UMLClassifier*>(ns));
-        m_scopeIndex = m_scope.size() - 1;
+                                                      currentScope(), m_comment);
+        pushScope(m_klass = static_cast<UMLClassifier*>(ns));
         m_comment.clear();
         if (advance() == QLatin1String("(")) {
             while (m_srcIndex < srcLength - 1 && advance() != QLatin1String(")")) {
@@ -293,9 +292,8 @@ bool PythonImport::parseStmt()
         return true;
     }
     if (keyword == QLatin1String("}")) {
-        if (m_scopeIndex) {
-            m_klass = dynamic_cast<UMLClassifier*>(m_scope.takeLast());
-            m_scopeIndex = m_scope.size() - 1;
+        if (scopeIndex()) {
+            m_klass = dynamic_cast<UMLClassifier*>(popScope());
         }
         else
             uError() << "parsing: too many }";

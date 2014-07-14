@@ -172,9 +172,9 @@ UMLObject* CSharpImport::resolveClass(const QString& className)
         if (isArray) {
             // we have imported the type. For arrays we want to return
             // the array type
-            return Import_Utils::createUMLObject(UMLObject::ot_Class, className, m_scope[m_scopeIndex]);
+            return Import_Utils::createUMLObject(UMLObject::ot_Class, className, currentScope());
         }
-        return findObject(baseClassName, m_scope[m_scopeIndex]);
+        return findObject(baseClassName, currentScope());
     }
 
     // the class we want is not in the same package as the one being imported.
@@ -202,7 +202,7 @@ UMLObject* CSharpImport::resolveClass(const QString& className)
                 spawnImport(aFile);
                 // we need to set the package for the class that will be resolved
                 // start at the root package
-                UMLPackage *parent = m_scope[0];
+                UMLPackage *parent = 0;
                 UMLPackage *current = NULL;
 
                 for (QStringList::Iterator it = split.begin(); it != split.end(); ++it) {
@@ -345,8 +345,8 @@ bool CSharpImport::parseStmt()
     }
 
     if (keyword == QLatin1String("}")) {
-        if (m_scopeIndex)
-            m_klass = dynamic_cast<UMLClassifier*>(m_scope[--m_scopeIndex]);
+        if (scopeIndex())
+            m_klass = dynamic_cast<UMLClassifier*>(popScope());
         else
             uError() << "too many }";
         return true;
@@ -623,7 +623,7 @@ bool CSharpImport::parseEnumDeclaration()
     const QString& name = advance();
     log(QLatin1String("enum ") + name);
     UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
-                        name, m_scope[m_scopeIndex], m_comment);
+                        name, currentScope(), m_comment);
     UMLEnum *enumType = static_cast<UMLEnum*>(ns);
     skipStmt(QLatin1String("{"));
     while (m_srcIndex < m_source.count() - 1 && advance() != QLatin1String("}")) {
@@ -683,8 +683,8 @@ bool CSharpImport::parseClassDeclaration(const QString& keyword)
     const UMLObject::ObjectType ot = (keyword == QLatin1String("class") ? UMLObject::ot_Class
                                                                         : UMLObject::ot_Interface);
     log(keyword + QLatin1Char(' ') + name);
-    UMLObject *ns = Import_Utils::createUMLObject(ot, name, m_scope[m_scopeIndex], m_comment);
-    m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
+    UMLObject *ns = Import_Utils::createUMLObject(ot, name, currentScope(), m_comment);
+    pushScope(m_klass = static_cast<UMLClassifier*>(ns));
     m_klass->setAbstract(m_isAbstract);
     m_klass->setStatic(m_isStatic);
     m_klass->setVisibilityCmd(m_currentAccess);

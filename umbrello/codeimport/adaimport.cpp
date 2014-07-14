@@ -245,12 +245,12 @@ bool AdaImport::parseStmt()
         UMLObject *ns = NULL;
         if (advance() == QLatin1String("is")) {
             ns = Import_Utils::createUMLObject(UMLObject::ot_Package, name,
-                                               m_scope[m_scopeIndex], m_comment);
+                                               currentScope(), m_comment);
             if (m_source[m_srcIndex + 1] == QLatin1String("new")) {
                 m_srcIndex++;
                 QString pkgName = advance();
                 UMLObject *gp = Import_Utils::createUMLObject(UMLObject::ot_Package, pkgName,
-                                                              m_scope[m_scopeIndex]);
+                                                              currentScope());
                 gp->setStereotype(QLatin1String("generic"));
                 // Add binding from instantiator to instantiatee
                 UMLAssociation *assoc = new UMLAssociation(Uml::AssociationType::Dependency, ns, gp);
@@ -261,8 +261,7 @@ bool AdaImport::parseStmt()
                 umldoc->addAssociation(assoc);
                 skipStmt();
             } else {
-                m_scope.append(static_cast<UMLPackage*>(ns));
-                m_scopeIndex = m_scope.size() - 1;
+                pushScope(static_cast<UMLPackage*>(ns));
             }
         } else if (m_source[m_srcIndex] == QLatin1String("renames")) {
             m_renaming[name] = advance();
@@ -283,12 +282,12 @@ bool AdaImport::parseStmt()
         advance();  // "is"
         QString base = expand(advance());
         base.remove(QLatin1String("Standard."), Qt::CaseInsensitive);
-        UMLObject *type = umldoc->findUMLObject(base, UMLObject::ot_UMLObject, m_scope[m_scopeIndex]);
+        UMLObject *type = umldoc->findUMLObject(base, UMLObject::ot_UMLObject, currentScope());
         if (type == NULL) {
-            type = Import_Utils::createUMLObject(UMLObject::ot_Datatype, base, m_scope[m_scopeIndex]);
+            type = Import_Utils::createUMLObject(UMLObject::ot_Datatype, base, currentScope());
         }
         UMLObject *subtype = Import_Utils::createUMLObject(type->baseType(), name,
-                                                           m_scope[m_scopeIndex], m_comment);
+                                                           currentScope(), m_comment);
         UMLAssociation *assoc = new UMLAssociation(Uml::AssociationType::Dependency, subtype, type);
         assoc->setUMLPackage(umldoc->rootFolder(Uml::ModelType::Logical));
         assoc->setStereotype(QLatin1String("subtype"));
@@ -305,7 +304,7 @@ bool AdaImport::parseStmt()
             uDebug() << name << ": discriminant handling is not yet implemented";
             // @todo Find out how to map discriminated record to UML.
             //       For now, we just create a pro forma empty record.
-            Import_Utils::createUMLObject(UMLObject::ot_Class, name, m_scope[m_scopeIndex],
+            Import_Utils::createUMLObject(UMLObject::ot_Class, name, currentScope(),
                                           m_comment, QLatin1String("record"));
             skipStmt(QLatin1String("end"));
             if ((next = advance()) == QLatin1String("case"))
@@ -315,7 +314,7 @@ bool AdaImport::parseStmt()
         }
         if (next == QLatin1String(";")) {
             // forward declaration
-            Import_Utils::createUMLObject(UMLObject::ot_Class, name, m_scope[m_scopeIndex],
+            Import_Utils::createUMLObject(UMLObject::ot_Class, name, currentScope(),
                                           m_comment);
             return true;
         }
@@ -327,7 +326,7 @@ bool AdaImport::parseStmt()
         if (next == QLatin1String("(")) {
             // enum type
             UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
-                            name, m_scope[m_scopeIndex], m_comment);
+                            name, currentScope(), m_comment);
             UMLEnum *enumType = static_cast<UMLEnum*>(ns);
             while ((next = advance()) != QLatin1String(")")) {
                 Import_Utils::addEnumLiteral(enumType, next, m_comment);
@@ -360,12 +359,12 @@ bool AdaImport::parseStmt()
              m_source[m_srcIndex+1] == QLatin1String("record"))) {
             UMLObject::ObjectType t = (next == QLatin1String("interface") ? UMLObject::ot_Interface
                                                                           : UMLObject::ot_Class);
-            UMLObject *ns = Import_Utils::createUMLObject(t, name, m_scope[m_scopeIndex], m_comment);
+            UMLObject *ns = Import_Utils::createUMLObject(t, name, currentScope(), m_comment);
             if (t == UMLObject::ot_Interface) {
                 while ((next = advance()) == QLatin1String("and")) {
                     UMLClassifier *klass = static_cast<UMLClassifier*>(ns);
                     QString base = expand(advance());
-                    UMLObject *p = Import_Utils::createUMLObject(UMLObject::ot_Interface, base, m_scope[m_scopeIndex]);
+                    UMLObject *p = Import_Utils::createUMLObject(UMLObject::ot_Interface, base, currentScope());
                     UMLClassifier *parent = static_cast<UMLClassifier*>(p);
                     Import_Utils::createGeneralization(klass, parent);
                 }
@@ -397,12 +396,12 @@ bool AdaImport::parseStmt()
                 t = UMLObject::ot_Class;
             } else {
                 base.remove(QLatin1String("Standard."), Qt::CaseInsensitive);
-                UMLObject *known = umldoc->findUMLObject(base, UMLObject::ot_UMLObject, m_scope[m_scopeIndex]);
+                UMLObject *known = umldoc->findUMLObject(base, UMLObject::ot_UMLObject, currentScope());
                 t = (known ? known->baseType() : UMLObject::ot_Datatype);
             }
             UMLObject *ns = Import_Utils::createUMLObject(t, base, NULL);
             UMLClassifier *parent = static_cast<UMLClassifier*>(ns);
-            ns = Import_Utils::createUMLObject(t, name, m_scope[m_scopeIndex], m_comment);
+            ns = Import_Utils::createUMLObject(t, name, currentScope(), m_comment);
             if (isExtension) {
                 next = advance();
                 if (next == QLatin1String("null") || next == QLatin1String("record")) {
@@ -416,7 +415,7 @@ bool AdaImport::parseStmt()
                         t = UMLObject::ot_Interface;
                         QStringList::Iterator end(baseInterfaces.end());
                         for (QStringList::Iterator bi(baseInterfaces.begin()); bi != end; ++bi) {
-                             ns = Import_Utils::createUMLObject(t, *bi, m_scope[m_scopeIndex]);
+                             ns = Import_Utils::createUMLObject(t, *bi, currentScope());
                              parent = static_cast<UMLClassifier*>(ns);
                              Import_Utils::createGeneralization(klass, parent);
                         }
@@ -440,15 +439,14 @@ bool AdaImport::parseStmt()
                           << m_source[m_srcIndex];
             }
             m_klass = NULL;
-        } else if (m_scopeIndex) {
+        } else if (scopeIndex()) {
             if (advance() != QLatin1String(";")) {
-                QString scopeName = m_scope[m_scopeIndex]->fullyQualifiedName();
+                QString scopeName = currentScope()->fullyQualifiedName();
                 if (scopeName.toLower() != m_source[m_srcIndex].toLower())
                     uError() << "end: expecting " << scopeName << ", found "
                               << m_source[m_srcIndex];
             }
-            m_scope.takeLast();
-            m_scopeIndex = m_scope.size() - 1;
+            popScope();
             m_currentAccess = Uml::Visibility::Public;   // @todo make a stack for this
         } else {
             uError() << "importAda: too many \"end\"";
@@ -517,7 +515,7 @@ bool AdaImport::parseStmt()
             typeName = expand(typeName);
             if (op == NULL) {
                 // In Ada, the first parameter indicates the class.
-                UMLObject *type = Import_Utils::createUMLObject(UMLObject::ot_Class, typeName, m_scope[m_scopeIndex]);
+                UMLObject *type = Import_Utils::createUMLObject(UMLObject::ot_Class, typeName, currentScope());
                 UMLObject::ObjectType t = type->baseType();
                 if ((t != UMLObject::ot_Interface &&
                      (t != UMLObject::ot_Class || type->stereotype() == QLatin1String("record"))) ||

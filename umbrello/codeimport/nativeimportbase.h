@@ -85,11 +85,15 @@ protected:
 
     QString advance();
 
+    void pushScope(UMLPackage *p);
+    UMLPackage *popScope();
+    UMLPackage *currentScope();
+    int scopeIndex();
+
     QString                m_singleLineCommentIntro;  ///< start token of a single line comment
     QStringList            m_source;         ///< the scanned lexemes
     int                    m_srcIndex;       ///< used for indexing m_source
     QList<UMLPackage *>    m_scope;          ///< stack of scopes for use by the specific importer
-    uint                   m_scopeIndex;     ///< indexes m_scope, index 0 is reserved for global scope
     UMLClassifier         *m_klass;          ///< class currently being processed
     Uml::Visibility::Enum  m_currentAccess;  ///< current access (public/protected/private)
     QString                m_comment;        ///< intermediate accumulator for comment text
