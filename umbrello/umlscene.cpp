@@ -1053,7 +1053,7 @@ UMLWidget* UMLScene::widgetOnDiagram(Uml::ID::Type id)
             return obj;
     }
 
-    return false;
+    return 0;
 }
 
 /**
