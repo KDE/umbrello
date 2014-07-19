@@ -30,6 +30,7 @@ DEBUG_REGISTER_DISABLED(FloatingDashLineWidget)
  * Creates a floating dash line.
  * @param scene   The parent of the widget
  * @param id      The ID to assign (-1 will prompt a new ID)
+ * @param parent  The CombinedFragmentWidget which acts as the parent
  */
 FloatingDashLineWidget::FloatingDashLineWidget(UMLScene * scene, Uml::ID::Type id, CombinedFragmentWidget *parent)
   : UMLWidget(scene, WidgetBase::wt_FloatingDashLine, id),

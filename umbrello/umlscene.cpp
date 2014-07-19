@@ -1685,6 +1685,7 @@ void  UMLScene::getDiagram(QPixmap &diagram, const QRectF &rect)
 
 /**
  * Paint diagram to the paint device
+ * @param painter the QPainter to which the diagram is painted
  * @param source the area of the diagram to copy
  * @param target the rect where to paint into
  */

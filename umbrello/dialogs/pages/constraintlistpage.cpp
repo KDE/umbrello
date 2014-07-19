@@ -140,8 +140,8 @@ void ConstraintListPage::slotNewCheckConstraint()
 // /**
 //  * Calculates the new index to be assigned when an object of type ot is to
 //  * be added to the list box. The default Implementation is to add it to the end of the list
-//  * @param ot The Object Type to be added
-//  * @return The index
+//  *  param ot The Object Type to be added
+//  *  return The index
 //  */
 // int ConstraintListPage::calculateNewIndex(Uml::ObjectType ot)
 // {

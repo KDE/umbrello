@@ -148,11 +148,11 @@ namespace Widget_Utils
 //     * Draws an arrow head with the given painter, with the arrow
 //     * sharp point at \a headPos.
 //     *
-//     * @param painter    The painter with which this arrow should be drawn.
-//     * @param headPos    The position where the head of the arrow should lie.
-//     * @param arrowSize  This indicates the size of the arrow head.
-//     * @param arrowType  This indicates direction of arrow as in LeftArrow, RightArrow..
-//     * @param solid      If true, a solid head is drawn. Otherwise 2 lines are drawn.
+//     *  param painter    The painter with which this arrow should be drawn.
+//     *  param headPos    The position where the head of the arrow should lie.
+//     *  param arrowSize  This indicates the size of the arrow head.
+//     *  param arrowType  This indicates direction of arrow as in LeftArrow, RightArrow..
+//     *  param solid      If true, a solid head is drawn. Otherwise 2 lines are drawn.
 //     */
 //    void drawArrowHead(QPainter *painter, const QPointF &arrowPos,
 //                       const QSizeF& arrowSize, Qt::ArrowType arrowType,
@@ -181,11 +181,11 @@ namespace Widget_Utils
 //    /**
 //     * Draws a rounded rect rounded at specified corners.
 //     *
-//     * @param painter The painter with which this round rect should be drawn.
-//     * @param rect    The rectangle to be drawn.
-//     * @param xRadius The x radius of rounded corner.
-//     * @param yRadius The y radius of rounded corner.
-//     * @param corners The corners to be rounded.
+//     *  param painter The painter with which this round rect should be drawn.
+//     *  param rect    The rectangle to be drawn.
+//     *  param xRadius The x radius of rounded corner.
+//     *  param yRadius The y radius of rounded corner.
+//     *  param corners The corners to be rounded.
 //     */
 //    void drawRoundedRect(QPainter *painter, const QRectF& rect, qreal xRadius,
 //            qreal yRadius, Uml::Corners corners)
@@ -238,6 +238,7 @@ namespace Widget_Utils
 
     /**
      * Converts a point to a comma separated string i.e "x,y"
+     * @param point  The QPointF to convert.
      */
     QString pointToString(const QPointF& point)
     {

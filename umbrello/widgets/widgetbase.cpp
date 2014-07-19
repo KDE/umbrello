@@ -29,6 +29,8 @@
  * Creates a WidgetBase object.
  *
  * @param scene   The view to be displayed on.
+ * @param type    The WidgetType to construct.  This must be set to the appropriate
+ *                value by the constructors of inheriting classes.
  */
 WidgetBase::WidgetBase(UMLScene *scene, WidgetType type)
   : QGraphicsObject(),

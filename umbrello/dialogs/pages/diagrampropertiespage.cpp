@@ -25,6 +25,7 @@
 /**
  * Constructor
  * @param parent   the parent (wizard) of this wizard page
+ * @param scene    the UMLScene to which the properties apply
  */
 DiagramPropertiesPage::DiagramPropertiesPage(QWidget *parent, UMLScene *scene)
   : DialogPageBase(parent), m_scene(scene)

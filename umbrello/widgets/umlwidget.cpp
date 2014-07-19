@@ -51,6 +51,8 @@ const QSizeF UMLWidget::DefaultMaximumSize(1000, 5000);
  * Creates a UMLWidget object.
  *
  * @param scene The view to be displayed on.
+ * @param type  The WidgetType to construct.
+ *              This must be set to the appropriate value by the constructors of inheriting classes.
  * @param o The UMLObject to represent.
  */
 UMLWidget::UMLWidget(UMLScene * scene, WidgetType type, UMLObject * o)
@@ -68,6 +70,8 @@ UMLWidget::UMLWidget(UMLScene * scene, WidgetType type, UMLObject * o)
  * Creates a UMLWidget object.
  *
  * @param scene The view to be displayed on.
+ * @param type  The WidgetType to construct.
+ *              This must be set to the appropriate value by the constructors of inheriting classes.
  * @param id The id of the widget.
  *  The default value (id_None) will prompt generation of a new ID.
  */

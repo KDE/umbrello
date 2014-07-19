@@ -2945,6 +2945,7 @@ QWidget* UMLApp::mainViewWidget()
  * visible to the user.
  *
  * @param view   Pointer to the UMLView to push.
+ * @param updateTreeView   A false value disables updating of the tree view
  */
 void UMLApp::setCurrentView(UMLView* view, bool updateTreeView)
 {
