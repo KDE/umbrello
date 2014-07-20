@@ -464,7 +464,6 @@ void AssociationWidget::showPropertiesDialog()
  * Overrides operation from LinkWidget.
  * Required by FloatingTextWidget.
  *
- * @param seqNum    Return this AssociationWidget's sequence number string.
  * @param op        Return this AssociationWidget's operation string.
  */
 UMLClassifier* AssociationWidget::seqNumAndOp(QString& op)
