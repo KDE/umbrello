@@ -559,7 +559,12 @@ void UMLScene::setupNewWidget(UMLWidget *w, bool setPosition)
     resizeSceneToItems();
     m_doc->setModified();
 
-    UMLApp::app()->executeCommand(new CmdCreateWidget(w));
+    if (m_doc->loading()) {  // do not emit signals while loading
+        m_WidgetList.append(w);
+        // w->activate();  // will be done by UMLDoc::activateAllViews() after loading
+    } else {
+        UMLApp::app()->executeCommand(new CmdCreateWidget(w));
+    }
 }
 
 /**
