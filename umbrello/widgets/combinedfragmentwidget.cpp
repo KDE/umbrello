@@ -374,6 +374,22 @@ void CombinedFragmentWidget::removeDashLine(FloatingDashLineWidget *line)
 }
 
 /**
+ * Overrides the function from UMLWidget. Deletes all FloatingDashLineWidgets
+ * that are associated with this instance.
+ */
+void CombinedFragmentWidget::cleanup()
+{
+  foreach (FloatingDashLineWidget* w, m_dashLines)
+  {
+    if (!w->isSelected()) {
+      // no need to make this undoable, since the dashlines will be
+      // reconstructed when deleting the combined fragment is undone.
+      umlScene()->removeWidgetCmd(w);
+    }
+  }
+}
+
+/**
  * Overrides the function from UMLWidget.
  *
  * @param action  The command to be executed.
