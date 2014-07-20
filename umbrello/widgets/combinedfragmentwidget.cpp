@@ -231,7 +231,7 @@ void CombinedFragmentWidget::setCombinedFragmentType(CombinedFragmentType combin
         m_dashLines.back()->setYMax(y() + height());
         m_dashLines.back()->setY(y() + height()/2);
         m_dashLines.back()->setSize(width(), m_dashLines.back()->height());
-        m_scene->setupNewWidget(m_dashLines.back());
+        m_scene->widgetList().append(m_dashLines.back());
     }
 }
 
