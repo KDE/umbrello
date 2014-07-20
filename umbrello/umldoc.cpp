@@ -2604,6 +2604,7 @@ UMLAssociationList UMLDoc::associations()
  * Controls the printing of the program.
  *
  * @param pPrinter  The printer (object) to use.
+ * @param selectPage  The DiagramPrintPage by which diagrams are selected for printing
  */
 void UMLDoc::print(QPrinter * pPrinter, DiagramPrintPage * selectPage)
 {

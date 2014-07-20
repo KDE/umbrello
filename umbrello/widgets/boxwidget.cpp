@@ -16,6 +16,7 @@
  *
  * @param scene   The parent to this widget.
  * @param id      The ID to assign (-1 will prompt a new ID.)
+ * @param type    The WidgetType (wt_Box.)
  */
 BoxWidget::BoxWidget(UMLScene * scene, Uml::ID::Type id, WidgetType type)
   : UMLWidget(scene, type, id)

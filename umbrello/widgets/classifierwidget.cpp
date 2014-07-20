@@ -340,7 +340,7 @@ void ClassifierWidget::setOperationSignature(Uml::SignatureType::Enum sig)
  * Sets whether to show attribute signature
  * Only applies when m_umlObject->getBaseType() is ot_Class.
  *
- * @param _show   True if attribute signatures shall be shown.
+ * @param _status  True if attribute signatures shall be shown.
  */
 void ClassifierWidget::setShowAttSigs(bool _status)
 {
@@ -885,8 +885,8 @@ void ClassifierWidget::changeToInterface()
  * updated.
  * TODO: This is never called.
  *
- * @param x The x-coordinate.
- * @param y The y-coordinate.
+ *  param x The x-coordinate.
+ *  param y The y-coordinate.
  */
 //void ClassifierWidget::adjustAssociations(int x, int y)
 //{

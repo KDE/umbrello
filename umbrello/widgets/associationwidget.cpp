@@ -467,9 +467,8 @@ void AssociationWidget::showPropertiesDialog()
  * @param seqNum    Return this AssociationWidget's sequence number string.
  * @param op        Return this AssociationWidget's operation string.
  */
-UMLClassifier* AssociationWidget::seqNumAndOp(QString& seqNum, QString& op)
+UMLClassifier* AssociationWidget::seqNumAndOp(QString& op)
 {
-    seqNum = m_SequenceNumber;
     op = name();
     UMLObject *o = widgetForRole(RoleType::B)->umlObject();
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
@@ -480,15 +479,13 @@ UMLClassifier* AssociationWidget::seqNumAndOp(QString& seqNum, QString& op)
  * Overrides operation from LinkWidget.
  * Required by FloatingTextWidget.
  *
- * @param seqNum   The new sequence number string to set.
  * @param op       The new operation string to set.
  */
-void AssociationWidget::setSeqNumAndOp(const QString &seqNum, const QString &op)
+void AssociationWidget::setOperationText(const QString &op)
 {
     if (!op.isEmpty()) {
         setName(op);
     }
-    setSequenceNumber(seqNum);
 }
 
 /**

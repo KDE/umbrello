@@ -269,6 +269,7 @@ bool LayoutGenerator::apply(UMLScene *scene)
         if (assoc->associationLine())
             assoc->associationLine()->update();
         assoc->resetTextPositions();
+        assoc->saveIdealTextPositions();
     }
     return true;
 }

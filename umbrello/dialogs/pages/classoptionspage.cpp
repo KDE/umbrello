@@ -53,7 +53,7 @@ ClassOptionsPage::ClassOptionsPage(QWidget *pParent, UMLScene *scene)
 /**
  * Constructor - observe and modify an OptionState structure
  *
- * @param parent Parent widget
+ * @param pParent Parent widget
  * @param options Settings to read from/save into
  * @param isDiagram Flag if object is for display diagram class options
  */

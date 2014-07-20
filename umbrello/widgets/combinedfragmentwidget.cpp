@@ -352,7 +352,8 @@ bool CombinedFragmentWidget::loadFromXMI(QDomElement & qElement)
                 return false;
             }
             else {
-                m_scene->setupNewWidget(fdlwidget);
+                m_scene->widgetList().append(fdlwidget);
+                fdlwidget->clipSize();
             }
         } else {
             uError() << "unknown tag " << tag;

@@ -309,6 +309,7 @@ void UMLListView::keyPressEvent(QKeyEvent *ke)
 /**
  * Called when a right mouse button menu has an item selected.
  * @param action   the selected action
+ * @param position the position of the menu on the diagram (only used for multi selection "Show")
  */
 void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
 {

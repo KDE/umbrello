@@ -931,6 +931,7 @@ bool importView(PetalNode *root,
  * coupled with the parser (other than by the PetalNode.)
  *
  * @param root   the root of the tree
+ * @param parentPkg   the owning package within which objects are created
  * @return  pointer to the newly created UMLPackage on success, NULL on error
  */
 UMLPackage * petalTree2Uml(PetalNode *root, UMLPackage *parentPkg)

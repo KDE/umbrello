@@ -205,8 +205,8 @@ int AssociationLine::closestPointIndex(const QPointF &point, qreal delta) const
  *
  * @param point The point which is to be tested for closeness.
  *
- * @retval "Index" of the line segment closest to the \a point passed.
- * @retval -1 If no line segment is closer to passed in \a point.
+ * @return Index of the line segment closest to the \a point passed;
+ *         -1 if no line segment is closer to passed in \a point.
  */
 int AssociationLine::closestSegmentIndex(const QPointF &point, qreal delta) const
 {

@@ -285,8 +285,9 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
  * and associations of the provided scene
  * @note This method could also be used as a base to export diagrams as dot file
  *
- * @param fileName Filename where to create the dot file
  * @param scene The diagram from which the widget information is fetched
+ * @param fileName Filename where to create the dot file
+ * @param variant  Variant string passed to readConfigFile()
  *
  * @return true if generating finished successfully
  */
