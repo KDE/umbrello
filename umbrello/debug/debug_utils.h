@@ -73,7 +73,7 @@ public:
     void enableAll();
     void disableAll();
 
-    static void registerClass(const QString& name, bool state=true);
+    static void registerClass(const QString& name, bool state=true, const QString &filePath=QString());
 
 protected:
     void update(const QString &name);
@@ -83,8 +83,18 @@ private slots:
     void slotItemClicked(QTreeWidgetItem* item, int column);
 
 private:
+    class MapEntry {
+    public:
+        QString filePath;
+        bool state;
+        MapEntry() : state(false) {}
+        MapEntry(const QString &_filePath, bool _state) : filePath(_filePath), state(_state) {}
+    };
+
+    typedef QMap<QString, MapEntry> MapType;
+
     static Tracer* m_instance;
-    static QMap<QString, bool> *m_classes;
+    static MapType *m_classes;
 
     explicit Tracer(QWidget *parent = 0);
 };
@@ -100,8 +110,8 @@ private:
 #define DEBUG_SHOW_FILTER() Tracer::instance()->show()
 #define DEBUG(src)  if (Tracer::instance()->isEnabled(src)) uDebug()
 #define IS_DEBUG_ENABLED(src) Tracer::instance()->isEnabled(src)
-#define DEBUG_REGISTER(src) class src##Tracer { public: src##Tracer() { Tracer::registerClass(QString::fromLatin1(#src), true); } }; static src##Tracer src##TracerGlobal;
-#define DEBUG_REGISTER_DISABLED(src) class src##Tracer { public: src##Tracer() { Tracer::registerClass(QString::fromLatin1(#src), false); } }; static src##Tracer src##TracerGlobal;
+#define DEBUG_REGISTER(src) class src##Tracer { public: src##Tracer() { Tracer::registerClass(QString::fromLatin1(#src), true, QLatin1String(__FILE__)); } }; static src##Tracer src##TracerGlobal;
+#define DEBUG_REGISTER_DISABLED(src) class src##Tracer { public: src##Tracer() { Tracer::registerClass(QString::fromLatin1(#src), false, QLatin1String(__FILE__)); } }; static src##Tracer src##TracerGlobal;
 
 #define uIgnoreZeroPointer(a) if (!a) { uDebug() << "zero pointer detected" << __FILE__ << __LINE__; continue; }
 

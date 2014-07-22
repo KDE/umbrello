@@ -23,8 +23,10 @@
 
 #include <klocale.h>
 
+#include <QFileInfo>
+
 Tracer* Tracer::m_instance = 0;
-QMap<QString, bool> *Tracer::m_classes = 0;
+Tracer::MapType *Tracer::m_classes = 0;
 
 
 Tracer* Tracer::instance()
@@ -44,7 +46,7 @@ Tracer::Tracer(QWidget *parent)
 {
     // in case no one called registerClass() before
     if (!m_classes)
-        m_classes = new QMap<QString, bool>;
+        m_classes = new Tracer::MapType;
     setRootIsDecorated(true);
     setAlternatingRowColors(true);
     setHeaderLabel(i18n("Class Name"));
@@ -67,7 +69,7 @@ Tracer::~Tracer()
  */
 bool Tracer::isEnabled(const QString& name)
 {
-    return (*m_classes)[name];
+    return (*m_classes)[name].state;
 }
 
 /**
@@ -76,7 +78,7 @@ bool Tracer::isEnabled(const QString& name)
  */
 void Tracer::enable(const QString& name)
 {
-    (*m_classes)[name] = true;
+    (*m_classes)[name].state = true;
     update(name);
 }
 
@@ -86,7 +88,7 @@ void Tracer::enable(const QString& name)
  */
 void Tracer::disable(const QString& name)
 {
-    (*m_classes)[name] = false;
+    (*m_classes)[name].state = false;
     update(name);
 }
 
@@ -105,11 +107,15 @@ void Tracer::disableAll()
  * @param name   class name
  * @param state  initial enabled state
  */
-void Tracer::registerClass(const QString& name, bool state)
+void Tracer::registerClass(const QString& name, bool state, const QString &filePath)
 {
     if (!m_classes)
-        m_classes = new QMap<QString, bool>;
-    (*m_classes)[name] = state;
+        m_classes = new MapType;
+    QFileInfo fi(filePath);
+    QString dirName = fi.absolutePath();
+    QFileInfo f(dirName);
+    QString path = f.fileName();
+    (*m_classes)[name] = MapEntry(path, state);
 }
 
 /**
@@ -122,7 +128,7 @@ void Tracer::update(const QString &name)
         return;
     QList<QTreeWidgetItem*> items = findItems(name, Qt::MatchFixedString);
     foreach(QTreeWidgetItem* item, items) {
-        item->setCheckState(0, (*m_classes)[name] ? Qt::Checked : Qt::Unchecked);
+        item->setCheckState(0, (*m_classes)[name].state ? Qt::Checked : Qt::Unchecked);
     }
 }
 
@@ -134,13 +140,20 @@ void Tracer::showEvent(QShowEvent* e)
     Q_UNUSED(e);
 
     clear();
-    QMapIterator<QString, bool> i(*m_classes);
-    while (i.hasNext()) {
-        i.next();
-        QTreeWidgetItem* item = new QTreeWidgetItem(QStringList(i.key()));
+    MapType::const_iterator i = m_classes->constBegin();
+    for(; i != m_classes->constEnd(); i++) {
+        QList<QTreeWidgetItem*> items = findItems(i.value().filePath, Qt::MatchFixedString);
+        QTreeWidgetItem* topLevel = 0;
+        if (items.size() == 0) {
+            topLevel = new QTreeWidgetItem(QStringList(i.value().filePath));
+            addTopLevelItem(topLevel);
+        }
+        else
+            topLevel = items.first();
+
+        QTreeWidgetItem* item = new QTreeWidgetItem(topLevel, QStringList(i.key()));
         item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
-        item->setCheckState(0, i.value() ? Qt::Checked : Qt::Unchecked);
-        addTopLevelItem(item);
+        item->setCheckState(0, i.value().state ? Qt::Checked : Qt::Unchecked);
     }
 }
 
@@ -153,5 +166,5 @@ void Tracer::slotItemClicked(QTreeWidgetItem* item, int column)
 {
     Q_UNUSED(column);
 
-    (*m_classes)[item->text(0)] = !(*m_classes)[item->text(0)];
+    (*m_classes)[item->text(0)].state = !(*m_classes)[item->text(0)].state;
 }
