@@ -731,12 +731,12 @@ void UMLApp::initStatusBar()
     zoomLayout->setSpacing(0);
     zoomLayout->addItem(new QSpacerItem(0, 20, QSizePolicy::Expanding, QSizePolicy::Minimum));
 
-    m_zoomValueLbl = new QLabel(QLatin1String("100%"));
+    m_zoomValueLbl = new QLabel(i18n("100%"));
     m_zoomValueLbl->setContentsMargins(10, 0, 10, 0);
     zoomLayout->addWidget(m_zoomValueLbl);
 
     m_pZoomFitSBTB = new StatusBarToolButton(this);
-    m_pZoomFitSBTB->setText(QLatin1String("Fit"));
+    m_pZoomFitSBTB->setText(i18n("Fit"));
     m_pZoomFitSBTB->setGroupPosition(StatusBarToolButton::GroupLeft);
     zoomLayout->addWidget(m_pZoomFitSBTB);
     m_pZoomFitSBTB->setContentsMargins(0, 0, 0, 0);
@@ -744,7 +744,7 @@ void UMLApp::initStatusBar()
     connect(m_pZoomFitSBTB, SIGNAL(clicked()), this, SLOT(slotZoomFit()));
 
     m_pZoomFullSBTB = new StatusBarToolButton(this);
-    m_pZoomFullSBTB->setText(QLatin1String("100%"));
+    m_pZoomFullSBTB->setText(i18n("100%"));
     m_pZoomFullSBTB->setGroupPosition(StatusBarToolButton::GroupRight);
     m_pZoomFullSBTB->setContentsMargins(0, 0, 0, 0);
     zoomLayout->addWidget(m_pZoomFullSBTB);
