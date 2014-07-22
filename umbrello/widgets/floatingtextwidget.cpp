@@ -226,10 +226,11 @@ void FloatingTextWidget::showOperationDialog(bool enableAutoIncrement)
         return;
     }
     QString seqNum = m_linkWidget->sequenceNumber();
+    UMLClassifier* c = m_linkWidget->lwClassifier();
     QString opText;
-    UMLClassifier* c = m_linkWidget->seqNumAndOp(opText);
+    m_linkWidget->seqNumAndOp(opText);
     if (!c) {
-        uError() << "m_linkWidget->seqNumAndOp() returns a NULL classifier";
+        uError() << "m_linkWidget->lwClassifier() returns a NULL classifier";
         return;
     }
 

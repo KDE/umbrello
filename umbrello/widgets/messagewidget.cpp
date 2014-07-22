@@ -971,7 +971,11 @@ void MessageWidget::setCustomOpText(const QString &opText)
     m_pFText->setMessageText();
 }
 
-UMLClassifier * MessageWidget::seqNumAndOp(QString& op)
+/**
+ * Overrides operation from LinkWidget.
+ * Required by FloatingTextWidget.
+ */
+void MessageWidget::seqNumAndOp(QString& op)
 {
     UMLOperation *pOperation = operation();
     if (pOperation != NULL) {
@@ -979,6 +983,14 @@ UMLClassifier * MessageWidget::seqNumAndOp(QString& op)
     } else {
         op = m_CustomOp;
     }
+}
+
+/**
+ * Overrides operation from LinkWidget.
+ * Required by FloatingTextWidget.
+ */
+UMLClassifier *MessageWidget::lwClassifier()
+{
     UMLObject *o = m_pOw[Uml::RoleType::B]->umlObject();
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
     return c;
