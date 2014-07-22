@@ -975,13 +975,13 @@ void MessageWidget::setCustomOpText(const QString &opText)
  * Overrides operation from LinkWidget.
  * Required by FloatingTextWidget.
  */
-void MessageWidget::seqNumAndOp(QString& op)
+QString MessageWidget::lwOperationText()
 {
     UMLOperation *pOperation = operation();
     if (pOperation != NULL) {
-        op = pOperation->toString(Uml::SignatureType::SigNoVis);
+        return pOperation->toString(Uml::SignatureType::SigNoVis);
     } else {
-        op = m_CustomOp;
+        return customOpText();
     }
 }
 

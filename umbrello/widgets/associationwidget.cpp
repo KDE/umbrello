@@ -466,9 +466,9 @@ void AssociationWidget::showPropertiesDialog()
  *
  * @param op        Return this AssociationWidget's operation string.
  */
-void AssociationWidget::seqNumAndOp(QString& op)
+QString AssociationWidget::lwOperationText()
 {
-    op = name();
+    return name();
 }
 
 /**

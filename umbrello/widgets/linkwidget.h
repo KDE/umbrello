@@ -88,7 +88,7 @@ public:
     /**
      * Motivated by FloatingTextWidget::showOpDialog()
      */
-    virtual void seqNumAndOp(QString& op) = 0;
+    virtual QString lwOperationText() = 0;
 
     /**
      * Motivated by FloatingTextWidget::showOpDialog()
