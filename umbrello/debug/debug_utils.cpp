@@ -132,6 +132,8 @@ void Tracer::update(const QString &name)
     }
 }
 
+QMap<QString,Qt::CheckState> states;
+
 /**
  * Update check box of parent items.
  *
@@ -150,6 +152,8 @@ void Tracer::updateParentItemCheckBox(QTreeWidgetItem* parent)
         parent->setCheckState(0, Qt::Unchecked);
     else
         parent->setCheckState(0, Qt::PartiallyChecked);
+
+    states[parent->text(0)] = parent->checkState(0);
 }
 
 /**
@@ -186,8 +190,9 @@ void Tracer::showEvent(QShowEvent* e)
  */
 void Tracer::slotParentItemClicked(QTreeWidgetItem* parent)
 {
-    // @TODO click on checkbox do notwork
-    Qt::CheckState state = parent->checkState(0);
+    // @TODO parent->checkState(0) do not return the correct state
+    // Qt::CheckState state = parent->checkState(0);
+    Qt::CheckState state = states[parent->text(0)];
     if (state == Qt::PartiallyChecked || state == Qt::Unchecked) {
         for(int i = 0; i < parent->childCount(); i++) {
             QString text = parent->child(i)->text(0);
