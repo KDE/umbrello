@@ -464,12 +464,21 @@ void AssociationWidget::showPropertiesDialog()
  * Overrides operation from LinkWidget.
  * Required by FloatingTextWidget.
  *
- * @param seqNum    Return this AssociationWidget's sequence number string.
  * @param op        Return this AssociationWidget's operation string.
  */
-UMLClassifier* AssociationWidget::seqNumAndOp(QString& op)
+QString AssociationWidget::lwOperationText()
 {
-    op = name();
+    return name();
+}
+
+/**
+ * Overrides operation from LinkWidget.
+ * Required by FloatingTextWidget.
+ *
+ * @return classifier
+ */
+UMLClassifier* AssociationWidget::lwClassifier()
+{
     UMLObject *o = widgetForRole(RoleType::B)->umlObject();
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
     return c;

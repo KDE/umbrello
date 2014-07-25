@@ -164,7 +164,7 @@ void transferVisibility(const PetalNode *from, UMLObject *to)
     QString vis = from->findAttribute(QLatin1String("exportControl")).string;
     if (!vis.isEmpty()) {
         Uml::Visibility::Enum v = Uml::Visibility::fromString(clean(vis.toLower()));
-        to->setVisibility(v);
+        to->setVisibilityCmd(v);
     }
 }
 

@@ -106,7 +106,7 @@ void FloatingTextWidget::setText(const QString &t)
     if (m_textRole == Uml::TextRole::Seq_Message || m_textRole == Uml::TextRole::Seq_Message_Self) {
         QString op;
         if (m_linkWidget)
-            m_linkWidget->seqNumAndOp(op);
+            op = m_linkWidget->lwOperationText();
         if (op.length() > 0) {
             if (!m_scene->showOpSig())
                 op.replace(QRegExp(QLatin1String("\\(.*\\)")), QLatin1String("()"));
@@ -226,10 +226,10 @@ void FloatingTextWidget::showOperationDialog(bool enableAutoIncrement)
         return;
     }
     QString seqNum = m_linkWidget->sequenceNumber();
-    QString opText;
-    UMLClassifier* c = m_linkWidget->seqNumAndOp(opText);
+    UMLClassifier* c = m_linkWidget->lwClassifier();
+    QString opText = m_linkWidget->lwOperationText();
     if (!c) {
-        uError() << "m_linkWidget->seqNumAndOp() returns a NULL classifier";
+        uError() << "m_linkWidget->lwClassifier() returns a NULL classifier";
         return;
     }
 

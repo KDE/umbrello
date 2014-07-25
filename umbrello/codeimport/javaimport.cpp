@@ -178,9 +178,9 @@ UMLObject* JavaImport::resolveClass (const QString& className)
         if (isArray) {
             // we have imported the type. For arrays we want to return
             // the array type
-            return Import_Utils::createUMLObject(UMLObject::ot_Class, className, m_scope[m_scopeIndex]);
+            return Import_Utils::createUMLObject(UMLObject::ot_Class, className, currentScope());
         }
-        return findObject(baseClassName, m_scope[m_scopeIndex]);
+        return findObject(baseClassName, currentScope());
     }
 
     // the class we want is not in the same package as the one being imported.
@@ -216,7 +216,7 @@ UMLObject* JavaImport::resolveClass (const QString& className)
                 spawnImport(aFile);
                 // we need to set the package for the class that will be resolved
                 // start at the root package
-                UMLPackage *parent = m_scope[0];
+                UMLPackage *parent = 0;
                 UMLPackage *current = NULL;
 
                 for (QStringList::Iterator it = split.begin(); it != split.end(); ++it) {
@@ -283,9 +283,8 @@ bool JavaImport::parseStmt()
             QString name = (*it);
             log(keyword + QLatin1Char(' ') + name);
             UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
-                            name, m_scope[m_scopeIndex], m_comment);
-            m_scope.append(static_cast<UMLPackage*>(ns));
-            ++m_scopeIndex;
+                            name, currentScope(), m_comment);
+            pushScope(static_cast<UMLPackage*>(ns));
         }
         if (advance() != QLatin1String(";")) {
             uError() << "importJava: unexpected: " << m_source[m_srcIndex];
@@ -298,13 +297,12 @@ bool JavaImport::parseStmt()
         const UMLObject::ObjectType ot = (keyword == QLatin1String("class") ? UMLObject::ot_Class
                                                                             : UMLObject::ot_Interface);
         log(keyword + QLatin1Char(' ') + name);
-        UMLObject *ns = Import_Utils::createUMLObject(ot, name, m_scope[m_scopeIndex], m_comment);
+        UMLObject *ns = Import_Utils::createUMLObject(ot, name, currentScope(), m_comment);
         m_klass = static_cast<UMLClassifier*>(ns);
-        m_scope.append(m_klass);
-        ++m_scopeIndex;
+        pushScope(m_klass);
         m_klass->setAbstract(m_isAbstract);
         m_klass->setStatic(m_isStatic);
-        m_klass->setVisibility(m_currentAccess);
+        m_klass->setVisibilityCmd(m_currentAccess);
         // The UMLObject found by createUMLObject might originally have been created as a
         // placeholder with a type of class but if is really an interface, then we need to
         // change it.
@@ -385,7 +383,7 @@ bool JavaImport::parseStmt()
         const QString& name = advance();
         log(keyword + QLatin1Char(' ') + name);
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
-                        name, m_scope[m_scopeIndex], m_comment);
+                        name, currentScope(), m_comment);
         UMLEnum *enumType = static_cast<UMLEnum*>(ns);
         skipStmt(QLatin1String("{"));
         while (m_srcIndex < srcLength - 1 && advance() != QLatin1String("}")) {
@@ -466,8 +464,9 @@ bool JavaImport::parseStmt()
         return true;
     }
     if (keyword == QLatin1String("}")) {
-        if (m_scopeIndex)
-            m_klass = dynamic_cast<UMLClassifier*>(m_scope[--m_scopeIndex]);
+        if (scopeIndex()) {
+            m_klass = dynamic_cast<UMLClassifier*>(popScope());
+        }
         else
             uError() << "importJava: too many }";
         return true;

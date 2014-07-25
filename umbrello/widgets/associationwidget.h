@@ -79,7 +79,8 @@ public:
 
     virtual void showPropertiesDialog();
 
-    virtual UMLClassifier* seqNumAndOp(QString& op);
+    virtual QString lwOperationText();
+    virtual UMLClassifier *lwClassifier();
     virtual void setOperationText(const QString &op);
 
     virtual void constrainTextPos(qreal &textX, qreal &textY,

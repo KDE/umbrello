@@ -68,7 +68,8 @@ public:
     virtual void setMessageText(FloatingTextWidget *ft);
     virtual void setText(FloatingTextWidget *ft, const QString &newText);
 
-    virtual UMLClassifier* seqNumAndOp(QString& op);
+    virtual QString lwOperationText();
+    virtual UMLClassifier *lwClassifier();
     virtual void setOperationText(const QString &op);
 
     virtual void constrainTextPos(qreal &textX, qreal &textY, qreal textWidth, qreal textHeight,

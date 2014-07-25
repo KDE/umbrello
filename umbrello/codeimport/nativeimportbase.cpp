@@ -35,7 +35,6 @@ NativeImportBase::NativeImportBase(const QString &singleLineCommentIntro, CodeIm
   : ClassImport(thread),
     m_singleLineCommentIntro(singleLineCommentIntro),
     m_srcIndex(0),
-    m_scopeIndex(0),  // index 0 is reserved for global scope
     m_klass(0),
     m_currentAccess(Uml::Visibility::Public),
     m_inComment(false),
@@ -134,6 +133,49 @@ bool NativeImportBase::skipToClosing(QChar opener)
     if (m_srcIndex == srcLength)
         return false;
     return true;
+}
+
+/**
+ * Set package as current scope.
+
+ * @param p UML package to set as current scope
+ */
+void NativeImportBase::pushScope(UMLPackage *p)
+{
+    m_scope.append(p);
+}
+
+/**
+ * Return previously defined scope.
+ *
+ * @return previous scope
+ */
+UMLPackage *NativeImportBase::popScope()
+{
+    m_scope.takeLast();
+    UMLPackage *p = m_scope.last();
+    return p;
+}
+
+/**
+ * Return current scope.
+ *
+ * @return scope
+ */
+UMLPackage *NativeImportBase::currentScope()
+{
+    UMLPackage *p = m_scope.last();
+    return p;
+}
+
+/**
+ * Return current scope index.
+ *
+ * @return >= 0 index, -1 empty
+ */
+int NativeImportBase::scopeIndex()
+{
+    return m_scope.size() - 1;
 }
 
 /**
@@ -424,9 +466,8 @@ bool NativeImportBase::parseFile(const QString& filename)
     // Parse the QStringList m_source.
     m_klass = NULL;
     m_currentAccess = Uml::Visibility::Public;
-    m_scopeIndex = 0;
     m_scope.clear();
-    m_scope.append(NULL);  // index 0 is reserved for global scope
+    pushScope(0); // index 0 is reserverd for the global scope
     const int srcLength = m_source.count();
     for (m_srcIndex = 0; m_srcIndex < srcLength; ++m_srcIndex) {
         const QString& firstToken = m_source[m_srcIndex];

@@ -420,6 +420,7 @@ bool UMLPackage::load(QDomElement& element)
         if (Model_Utils::isCommonXMIAttribute(type))
             continue;
         if (UMLDoc::tagEq(type, QLatin1String("Namespace.ownedElement")) ||
+                UMLDoc::tagEq(type, QLatin1String("Element.ownedElement")) ||  // Embarcadero's Describe
                 UMLDoc::tagEq(type, QLatin1String("Namespace.contents"))) {
             //CHECK: Umbrello currently assumes that nested elements
             // are ownedElements anyway.
