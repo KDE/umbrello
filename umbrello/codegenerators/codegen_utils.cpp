@@ -420,6 +420,8 @@ void createCppStereotypes()
  */
 QString capitalizeFirstLetter(const QString &string)
 {
+    if (string.isEmpty())
+        return QString();
     QChar firstChar = string.at(0);
     return firstChar.toUpper() + string.mid(1);
 }
