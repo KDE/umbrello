@@ -124,6 +124,10 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
     Uml::Visibility::Enum scopePolicy = commonpolicy->getAttributeAccessorScope();
     QString strVis = Uml::Visibility::toString(javafield->getVisibility());
     QString fieldName = javafield->getFieldName();
+    if (fieldName.isEmpty()) {
+        uError() << "empty FieldName in ParentClassField";
+        return;
+    }
     QString fieldType = javafield->getTypeName();
     QString objectType = javafield->getListObjectType();
     if(objectType.isEmpty())
