@@ -1530,6 +1530,7 @@ bool UMLClassifier::load(QDomElement& element)
         if (UMLDoc::tagEq(tag, QLatin1String("ModelElement.templateParameter")) ||
                 UMLDoc::tagEq(tag, QLatin1String("Classifier.feature")) ||
                 UMLDoc::tagEq(tag, QLatin1String("Namespace.ownedElement")) ||
+                UMLDoc::tagEq(tag, QLatin1String("Element.ownedElement")) ||  // Embarcadero's Describe
                 UMLDoc::tagEq(tag, QLatin1String("Namespace.contents"))) {
             load(element);
             // Not evaluating the return value from load()

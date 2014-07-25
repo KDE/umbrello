@@ -268,10 +268,13 @@ bool UMLEnum::load(QDomElement& element)
                 return false;
             }
             m_List.append(pEnumLiteral);
+        } else if (UMLDoc::tagEq(tag, QLatin1String("Enumeration.literal"))) {  // Embarcadero's Describe
+            if (! load(tempElement))
+                return false;
         } else if (tag == QLatin1String("stereotype")) {
             uDebug() << name() << ": losing old-format stereotype.";
         } else {
-            uWarning() << "unknown child type in UMLEnum::load";
+            uWarning() << "unknown child type: " << tag;
         }
         node = node.nextSibling();
     }//end while

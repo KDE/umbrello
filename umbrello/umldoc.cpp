@@ -2036,6 +2036,7 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
             QString tag = element.tagName();
             if (tag == QLatin1String("umlobjects")  // for bkwd compat.
                     || tagEq(tag, QLatin1String("Subsystem"))
+                    || tagEq(tag, QLatin1String("Project"))  // Embarcadero's Describe
                     || tagEq(tag, QLatin1String("Model"))) {
                 if(!loadUMLObjectsFromXMI(element)) {
                     uWarning() << "failed load on objects";
@@ -2246,6 +2247,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         }
         if (tagEq(type, QLatin1String("Namespace.ownedElement")) ||
                 tagEq(type, QLatin1String("Namespace.contents")) ||
+                tagEq(type, QLatin1String("Element.ownedElement")) ||  // Embarcadero's Describe
                 tagEq(type, QLatin1String("Model"))) {
             //CHECK: Umbrello currently assumes that nested elements
             // are ownedElements anyway.

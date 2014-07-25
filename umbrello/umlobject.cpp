@@ -921,14 +921,10 @@ bool UMLObject::loadFromXMI(QDomElement & element)
     m_name = element.attribute(QLatin1String("name"));
     QString id = Model_Utils::getXmiId(element);
     if (id.isEmpty() || id == QLatin1String("-1")) {
-        if (m_BaseType == ot_Role) {
-            // Before version 1.4, Umbrello did not save the xmi.id
-            // of UMLRole objects.
-            m_nId = UniqueID::gen();
-        } else {
-            uError() << m_name << ": nonexistent or illegal xmi.id";
-            return false;
-        }
+        // Before version 1.4, Umbrello did not save the xmi.id of UMLRole objects.
+        // Some tools (such as Embarcadero's) do not have an xmi.id on all attributes.
+        m_nId = UniqueID::gen();
+        uWarning() << m_name << ": xmi.id not present, generating a new one";
     } else {
         Uml::ID::Type nId = Uml::ID::fromString(id);
         if (m_BaseType == ot_Role) {

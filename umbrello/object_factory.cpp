@@ -384,6 +384,8 @@ UMLObject* makeObjectFromXMI(const QString& xmiTag,
         pObject = new UMLAssociation(Uml::AssociationType::Realization);
     } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Dependency"))) {
         pObject = new UMLAssociation(Uml::AssociationType::Dependency);
+    } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Aggregation"))) {  // Embarcadero's Describe
+        pObject = new UMLAssociation(Uml::AssociationType::Aggregation);
     } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Child2Category"))) {
         pObject = new UMLAssociation(Uml::AssociationType::Child2Category);
     } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Category2Parent"))) {

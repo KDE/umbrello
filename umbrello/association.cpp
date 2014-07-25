@@ -315,6 +315,7 @@ bool UMLAssociation::load(QDomElement & element)
         if (Model_Utils::isCommonXMIAttribute(tag))
             continue;
         if (!UMLDoc::tagEq(tag, QLatin1String("Association.connection")) &&
+                !UMLDoc::tagEq(tag, QLatin1String("Association.end")) &&  // Embarcadero's Describe
                 !UMLDoc::tagEq(tag, QLatin1String("Namespace.ownedElement")) &&
                 !UMLDoc::tagEq(tag, QLatin1String("Namespace.contents"))) {
             uWarning() << "unknown child node " << tag;
@@ -330,8 +331,10 @@ bool UMLAssociation::load(QDomElement & element)
             return false;
         }
         tag = tempElement.tagName();
-        if (!UMLDoc::tagEq(tag, QLatin1String("AssociationEndRole")) &&
-                !UMLDoc::tagEq(tag, QLatin1String("AssociationEnd"))) {
+        if (UMLDoc::tagEq(tag, QLatin1String("NavigableEnd"))) {  // Embarcadero's Describe
+            m_AssocType = Uml::AssociationType::UniAssociation;
+        } else if (!UMLDoc::tagEq(tag, QLatin1String("AssociationEndRole")) &&
+                   !UMLDoc::tagEq(tag, QLatin1String("AssociationEnd"))) {
             uWarning() << "unknown child (A) tag " << tag;
             return false;
         }
@@ -347,8 +350,10 @@ bool UMLAssociation::load(QDomElement & element)
             return false;
         }
         tag = tempElement.tagName();
-        if (!UMLDoc::tagEq(tag, QLatin1String("AssociationEndRole")) &&
-                !UMLDoc::tagEq(tag, QLatin1String("AssociationEnd"))) {
+        if (UMLDoc::tagEq(tag, QLatin1String("NavigableEnd"))) {  // Embarcadero's Describe
+            m_AssocType = Uml::AssociationType::UniAssociation;
+        } else if (!UMLDoc::tagEq(tag, QLatin1String("AssociationEndRole")) &&
+                   !UMLDoc::tagEq(tag, QLatin1String("AssociationEnd"))) {
             uWarning() << "unknown child (B) tag " << tag;
             return false;
         }

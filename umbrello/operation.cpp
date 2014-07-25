@@ -508,28 +508,33 @@ bool UMLOperation::load(QDomElement & element)
     QDomElement attElement = node.toElement();
     while (!attElement.isNull()) {
         QString tag = attElement.tagName();
-        if (UMLDoc::tagEq(tag, QLatin1String("BehavioralFeature.parameter"))) {
+        if (UMLDoc::tagEq(tag, QLatin1String("BehavioralFeature.parameter")) ||
+            UMLDoc::tagEq(tag, QLatin1String("Element.ownedElement"))) {  // Embarcadero's Describe
             if (! load(attElement))
                 return false;
         } else if (UMLDoc::tagEq(tag, QLatin1String("Parameter"))) {
             QString kind = attElement.attribute(QLatin1String("kind"));
             if (kind.isEmpty()) {
-                // Perhaps the kind is stored in a child node:
-                for (QDomNode n = attElement.firstChild(); !n.isNull(); n = n.nextSibling()) {
-                    if (n.isComment())
-                        continue;
-                    QDomElement tempElement = n.toElement();
-                    QString tag = tempElement.tagName();
-                    if (!UMLDoc::tagEq(tag, QLatin1String("kind")))
-                        continue;
-                    kind = tempElement.attribute(QLatin1String("xmi.value"));
-                    break;
+                kind = attElement.attribute(QLatin1String("direction"));  // Embarcadero's Describe
+                if (kind.isEmpty()) {
+                    // Perhaps the kind is stored in a child node:
+                    for (QDomNode n = attElement.firstChild(); !n.isNull(); n = n.nextSibling()) {
+                        if (n.isComment())
+                            continue;
+                        QDomElement tempElement = n.toElement();
+                        QString tag = tempElement.tagName();
+                        if (!UMLDoc::tagEq(tag, QLatin1String("kind")))
+                            continue;
+                        kind = tempElement.attribute(QLatin1String("xmi.value"));
+                        break;
+                    }
                 }
                 if (kind.isEmpty()) {
                     kind = QLatin1String("in");
                 }
             }
-            if (kind == QLatin1String("return")) {
+            if (kind == QLatin1String("return") ||
+                kind == QLatin1String("result")) {  // Embarcadero's Describe
                 QString returnId = Model_Utils::getXmiId(attElement);
                 if (!returnId.isEmpty())
                     m_returnId = Uml::ID::fromString(returnId);
