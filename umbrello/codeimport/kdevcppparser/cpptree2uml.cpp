@@ -14,6 +14,9 @@
 #include "cpptree2uml.h"
 
 // app includes
+#include "uml.h"
+#include "umldoc.h"
+#include "umllistview.h"
 #include "debug_utils.h"
 #include "ast_utils.h"
 #include "codeimpthread.h"
@@ -84,9 +87,18 @@ void CppTree2Uml::parseNamespace(NamespaceAST* ast)
     if (m_thread) {
         m_thread->emitMessageToLog(QString(), QLatin1String("namespace ") + nsName);
     }
-    UMLObject * o = Import_Utils::createUMLObject(UMLObject::ot_Package, nsName,
-                                                  m_currentNamespace[m_nsCnt],
-                                                  ast->comment());
+    UMLObject *o = UMLApp::app()->document()->findUMLObject(nsName, UMLObject::ot_Package, m_currentNamespace[m_nsCnt]);
+    if (!o)
+        o = UMLApp::app()->document()->findUMLObject(nsName, UMLObject::ot_Class, m_currentNamespace[m_nsCnt]);
+    if (o && o->stereotype() == QLatin1String("class-or-package")) {
+        o->setStereotype(QString());
+        o->setBaseType(UMLObject::ot_Package);
+    }
+    // TODO reduce multiple finds
+    else
+        o = Import_Utils::createUMLObject(UMLObject::ot_Package, nsName,
+                                          m_currentNamespace[m_nsCnt],
+                                          ast->comment());
     UMLPackage *ns = (UMLPackage *)o;
     m_currentScope.push_back(nsName);
     if (++m_nsCnt > STACKSIZE) {
@@ -339,9 +351,19 @@ void CppTree2Uml::parseClassSpecifier(ClassSpecifierAST* ast)
         className = QLatin1String("anon_") + QString::number(m_anon);
         m_anon++;
     }
-    UMLObject * o = Import_Utils::createUMLObject(UMLObject::ot_Class, className,
-                                                   m_currentNamespace[m_nsCnt],
-                                                   ast->comment(), QString(), true);
+    UMLObject *o = UMLApp::app()->document()->findUMLObject(className, UMLObject::ot_Class, m_currentNamespace[m_nsCnt]);
+    if (!o)
+        o = UMLApp::app()->document()->findUMLObject(className, UMLObject::ot_Datatype, m_currentNamespace[m_nsCnt]);
+    if (o && o->stereotype() == QLatin1String("class-or-package")) {
+        o->setStereotype(QString());
+        o->setBaseType(UMLObject::ot_Class);
+    }
+    // TODO reduce multiple finds
+    else
+        o = Import_Utils::createUMLObject(UMLObject::ot_Class, className,
+                                          m_currentNamespace[m_nsCnt],
+                                          ast->comment(), QString(), true);
+
     UMLClassifier *klass = static_cast<UMLClassifier*>(o);
     flushTemplateParams(klass);
     if (ast->baseClause())

@@ -163,6 +163,7 @@ public:
         mt_DrawAsCircle,
         mt_ChangeToClass,
         mt_ChangeToInterface,
+        mt_ChangeToPackage,
         mt_Rename_Object,
         mt_Select_Operation,
         mt_Anchor,

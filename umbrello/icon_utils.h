@@ -220,6 +220,7 @@ namespace Icon_Utils {
         it_Code_Gen_Wizard,
         it_Properties_AutoLayout,
         it_Document_Edit,
+        it_ClassOrPackage,
         N_ICONTYPES    // must remain last
     };
 
