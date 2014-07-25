@@ -731,6 +731,22 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
         UMLApp::app()->slotEditPaste();
         break;
 
+    case ListPopupMenu::mt_ChangeToClass:
+        {
+            UMLClassifier* o = static_cast<UMLClassifier*>(currItem->umlObject());
+            o->setStereotypeCmd(QString());
+            currItem->updateObject();
+        }
+        break;
+    case ListPopupMenu::mt_ChangeToPackage:
+        {
+            UMLClassifier* o = static_cast<UMLClassifier*>(currItem->umlObject());
+            o->setStereotypeCmd(QString());
+            o->setBaseType(UMLObject::ot_Package);
+            currItem->updateObject();
+        }
+        break;
+
     case ListPopupMenu::mt_Undefined:
         // We got signalled for a menu action, but that menu action was not
         // defined in ListPopupMenu. This is the case for "create diagram"

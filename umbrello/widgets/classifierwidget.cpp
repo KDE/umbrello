@@ -26,6 +26,8 @@
 #include "umldoc.h"
 #include "umlview.h"
 
+#define PACKAGE_MARGIN 5
+
 // qt includes
 #include <QPainter>
 
@@ -78,6 +80,42 @@ ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
         setShowStereotype(true);
         updateSignatureTypes();
     }
+}
+
+/**
+ * Constructs a ClassifierWidget.
+ *
+ * @param scene   The parent of this ClassifierWidget.
+ * @param c       The UMLClassifier to represent.
+ */
+ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLPackage *o)
+  : UMLWidget(scene, WidgetBase::wt_Package, o),
+    m_pAssocWidget(0),
+    m_pInterfaceName(0)
+{
+    const Settings::OptionState& ops = m_scene->optionState();
+    setVisualPropertyCmd(ShowVisibility, ops.classState.showVisibility);
+    setVisualPropertyCmd(ShowOperations, ops.classState.showOps);
+    setVisualPropertyCmd(ShowPublicOnly, ops.classState.showPublicOnly);
+    setVisualPropertyCmd(ShowPackage,    ops.classState.showPackage);
+    m_attributeSignature = Uml::SignatureType::ShowSig;
+
+    if(!ops.classState.showOpSig) {
+        if (visualProperty(ShowVisibility))
+            m_operationSignature = Uml::SignatureType::NoSig;
+        else
+            m_operationSignature = Uml::SignatureType::NoSigNoVis;
+
+    } else if (visualProperty(ShowVisibility))
+        m_operationSignature = Uml::SignatureType::ShowSig;
+    else
+        m_operationSignature = Uml::SignatureType::SigNoVis;
+
+    setVisualPropertyCmd(ShowAttributes, ops.classState.showAtts);
+    setVisualPropertyCmd(ShowStereotype, ops.classState.showStereoType);
+    setVisualPropertyCmd(DrawAsPackage, true);
+
+    setShowAttSigs(ops.classState.showAttSig);
 }
 
 /**
@@ -435,6 +473,9 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
     if (classifier()->isInterface() && visualProperty(DrawAsCircle)) {
         return calculateAsCircleSize();
     }
+    else if (m_umlObject->baseType() == UMLObject::ot_Package) {
+        return calculateAsPackageSize();
+    }
 
     const QFontMetrics &fm = getFontMetrics(UMLWidget::FT_NORMAL);
     const int fontHeight = fm.lineSpacing();
@@ -617,8 +658,12 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         drawAsCircle(painter, option);
         return;
     }
+    else if (classifier()->baseType() == UMLObject::ot_Package) {
+        drawAsPackage(painter, option);
+        return;
+    }
 
-    // Draw the main bounding rectangle (without template box)
+    // Draw the bounding rectangle
     QSize templatesBoxSize = calculateTemplatesBoxSize();
     int bodyOffsetY = 0;
     if (templatesBoxSize.height() > 0)
@@ -831,6 +876,71 @@ QSize ClassifierWidget::calculateAsCircleSize() const
     return QSize(circleSize, circleSize);
 }
 
+void ClassifierWidget::drawAsPackage(QPainter *painter, const QStyleOptionGraphicsItem *option)
+{
+    int w = width();
+    int h = height();
+    QFont font = UMLWidget::font();
+    font.setBold(true);
+    //FIXME italic is true when a package is first created until you click elsewhere, not sure why
+    font.setItalic(false);
+    const QFontMetrics &fm = getFontMetrics(FT_BOLD);
+    const int fontHeight  = fm.lineSpacing();
+
+    painter->drawRect(0, 0, 50, fontHeight);
+    if (m_umlObject->stereotype() == QLatin1String("subsystem")) {
+        const int fHalf = fontHeight / 2;
+        const int symY = fHalf;
+        const int symX = 38;
+        painter->drawLine(symX, symY, symX, symY + fHalf - 2);          // left leg
+        painter->drawLine(symX + 8, symY, symX + 8, symY + fHalf - 2);  // right leg
+        painter->drawLine(symX, symY, symX + 8, symY);                  // waist
+        painter->drawLine(symX + 4, symY, symX + 4, symY - fHalf + 2);  // head
+    }
+    painter->drawRect(0, fontHeight - 1, w, h - fontHeight);
+
+    painter->setPen(textColor());
+    painter->setFont(font);
+
+    int lines = 1;
+    if (m_umlObject != NULL) {
+        QString stereotype = m_umlObject->stereotype();
+        if (!stereotype.isEmpty()) {
+            painter->drawText(0, fontHeight + PACKAGE_MARGIN,
+                       w, fontHeight, Qt::AlignCenter, m_umlObject->stereotype(true));
+            lines = 2;
+        }
+    }
+
+    painter->drawText(0, (fontHeight*lines) + PACKAGE_MARGIN,
+               w, fontHeight, Qt::AlignCenter, name());
+}
+
+QSize ClassifierWidget::calculateAsPackageSize() const
+{
+    const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
+    const int fontHeight = fm.lineSpacing();
+
+    int lines = 1;
+
+    int width = fm.width(m_umlObject->name());
+
+    int tempWidth = 0;
+    if (!m_umlObject->stereotype().isEmpty()) {
+        tempWidth = fm.width(m_umlObject->stereotype(true));
+        lines = 2;
+    }
+    if (tempWidth > width)
+        width = tempWidth;
+    width += PACKAGE_MARGIN * 2;
+    if (width < 70)
+        width = 70;  // minumin width of 70
+
+    int height = (lines*fontHeight) + fontHeight + (PACKAGE_MARGIN * 2);
+
+    return QSize(width, height);
+}
+
 /**
  * Auxiliary method for draw() of child classes:
  * Draw the attributes or operations.
@@ -985,6 +1095,22 @@ void ClassifierWidget::changeToInterface()
 {
     m_baseType = WidgetBase::wt_Interface;
     classifier()->setBaseType(UMLObject::ot_Interface);
+
+    setVisualProperty(ShowAttributes, false);
+    setVisualProperty(ShowStereotype, true);
+
+    updateGeometry();
+    update();
+}
+
+/**
+ * Changes this classifier from an "class-or-package" to a package.
+ * This widget is also updated.
+ */
+void ClassifierWidget::changeToPackage()
+{
+    m_baseType = WidgetBase::wt_Package;
+    classifier()->setBaseType(UMLObject::ot_Package);
 
     setVisualProperty(ShowAttributes, false);
     setVisualProperty(ShowStereotype, true);
@@ -1171,6 +1297,10 @@ void ClassifierWidget::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_ChangeToInterface:
         changeToInterface();
+        break;
+
+    case ListPopupMenu::mt_ChangeToPackage:
+        changeToPackage();
         break;
 
     default:

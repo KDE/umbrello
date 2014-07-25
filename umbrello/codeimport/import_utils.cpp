@@ -26,6 +26,7 @@
 #include "template.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "umllistview.h"
 #include "umlobject.h"
 #include "umbrellosettings.h"
 
@@ -239,6 +240,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
                         parentPkg = static_cast<UMLPackage*>(o);
                         continue;
                     }
+#if 0
                     int wantNamespace = KMessageBox::Yes;
                     const Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
                     if (pl == Uml::ProgrammingLanguage::Cpp) {
@@ -252,6 +254,12 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
                     }
                     UMLObject::ObjectType ot = (wantNamespace == KMessageBox::Yes ? UMLObject::ot_Package : UMLObject::ot_Class);
                     o = Object_Factory::createUMLObject(ot, scopeName, parentPkg);
+#else
+                    o = Object_Factory::createUMLObject(UMLObject::ot_Class, scopeName, parentPkg);
+                    o->setStereotypeCmd(QLatin1String("class-or-package"));
+                    UMLListViewItem *item = UMLApp::app()->listView()->findUMLObject(o);
+                    item->updateObject();
+#endif
                     parentPkg = static_cast<UMLPackage*>(o);
                     Model_Utils::treeViewSetCurrentItem(o);
                 }

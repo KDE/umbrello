@@ -382,6 +382,13 @@ void UMLListViewItem::updateObject()
         icon = Model_Utils::convert_LVT_IT(m_type);
         break;
 
+    case UMLObject::ot_Class:
+        if (m_object->stereotype() == QLatin1String("class-or-package"))
+            icon = Icon_Utils::it_ClassOrPackage;
+        else
+            icon = Model_Utils::convert_LVT_IT(m_type);
+        break;
+
     default:
         icon = Model_Utils::convert_LVT_IT(m_type);
         break;
