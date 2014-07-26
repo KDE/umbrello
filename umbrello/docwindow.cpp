@@ -314,7 +314,7 @@ bool DocWindow::isModified()
 
 /**
  * An association was removed from the UMLScene.
- * If the association removed was the association which documentation is
+ * If the association removed was the association whose documentation is
  * being shown, m_pAssocWidget is set to 0.
  */
 void DocWindow::slotAssociationRemoved(AssociationWidget* association)
