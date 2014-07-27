@@ -1400,8 +1400,10 @@ UMLAssociationList  UMLClassifier::getUniAssociationToBeImplemented()
 }
 
 /**
- * Auxiliary to saveToXMI of inheriting classes:
- * Saves template parameters to the given QDomElement.
+ * Creates XML tag <UML:Class>, <UML:Interface>, or <UML:DataType>
+ * depending on m_BaseType.
+ * Saves possible template parameters, generalizations, attributes,
+ * operations, and contained objects to the given QDomElement.
  */
 void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {

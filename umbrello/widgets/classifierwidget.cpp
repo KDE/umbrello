@@ -13,6 +13,7 @@
 
 // app includes
 #include "associationwidget.h"
+#include "associationline.h"
 #include "classifier.h"
 #include "cmds.h"
 #include "debug_utils.h"
@@ -31,6 +32,7 @@ DEBUG_REGISTER_DISABLED(ClassifierWidget)
 
 const int ClassifierWidget::MARGIN = 5;
 const int ClassifierWidget::CIRCLE_SIZE = 30;
+const int ClassifierWidget::SOCKET_INCREMENT = 10;
 
 /**
  * Constructs a ClassifierWidget.
@@ -710,7 +712,10 @@ QPainterPath ClassifierWidget::shape() const
 {
     if (classifier()->isInterface() && visualProperty(DrawAsCircle)) {
         QPainterPath path;
-        path.addEllipse(width()/2 - CIRCLE_SIZE/2, 0, CIRCLE_SIZE, CIRCLE_SIZE);
+        int cirleSize = CIRCLE_SIZE;
+        if (m_Assocs.size() > 1)
+            cirleSize += SOCKET_INCREMENT;
+        path.addEllipse(width()/2 - cirleSize/2, 0, cirleSize, cirleSize);
         path.addRect(0, CIRCLE_SIZE, width(), height() - CIRCLE_SIZE);
         return path;
     }
@@ -723,7 +728,65 @@ QPainterPath ClassifierWidget::shape() const
  */
 void ClassifierWidget::drawAsCircle(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
-    int w = width();
+    const int w = width();
+
+    painter->drawEllipse(w/2 - CIRCLE_SIZE/2, 0, CIRCLE_SIZE, CIRCLE_SIZE);
+    if (m_Assocs.size() > 1) {
+        // Draw socket for required interface.
+        const qreal angleSpan = 180;   // 360.0 / (m_Assocs.size() + 1.0);
+        const int arcDiameter = CIRCLE_SIZE + SOCKET_INCREMENT;
+        QRect requireArc(w/2 - arcDiameter/2, -(SOCKET_INCREMENT / 2), arcDiameter, arcDiameter);
+        const QPointF center(x() + w/2, y() + arcDiameter/2);
+        const qreal cX = center.x();
+        const qreal cY = center.y();
+        foreach (AssociationWidget *aw, m_Assocs) {
+            const Uml::AssociationType::Enum aType = aw->associationType();
+            if (aType == Uml::AssociationType::UniAssociation ||
+                   aType == Uml::AssociationType::Association)  // provider
+                continue;
+            UMLWidget *otherEnd = aw->widgetForRole(Uml::RoleType::A);
+            const WidgetBase::WidgetType oType = otherEnd->baseType();
+            if (oType != WidgetBase::wt_Component && oType != WidgetBase::wt_Port)
+                continue;
+
+            AssociationLine *assocLine = aw->associationLine();
+            const QPointF p(assocLine->endPoint());
+            const qreal tolerance = 18.0;
+            bool drawArc = true;
+            qreal midAngle;
+            if (p.x() < cX - tolerance) {
+                if (p.y() < cY - tolerance)
+                    midAngle = 135;
+                else if (p.y() > cY + tolerance)
+                    midAngle = 225;
+                else
+                    midAngle = 180;
+            } else if (p.x() > cX + tolerance) {
+                if (p.y() < cY - tolerance)
+                    midAngle = 45;
+                else if (p.y() > cY + tolerance)
+                    midAngle = 315;
+                else
+                    midAngle = 0;
+            } else {
+                if (p.y() < cY - tolerance)
+                    midAngle = 90;
+                else if (p.y() > cY + tolerance)
+                    midAngle = 270;
+                else
+                    drawArc = false;
+            }
+            if (drawArc) {
+                uDebug() << "number of assocs: " << m_Assocs.size()
+                         << ", p: " << p << ", center: " << center
+                         << ", midAngle: " << midAngle << ", angleSpan: " << angleSpan;
+                painter->drawArc(requireArc, 16 * (midAngle - angleSpan/2), 16 * angleSpan);
+            } else {
+                uError() << "socket: assocLine endPoint " << p
+                         << " too close to own center" << center;
+            }
+        }
+    }
 
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
@@ -734,7 +797,6 @@ void ClassifierWidget::drawAsCircle(QPainter *painter, const QStyleOptionGraphic
         name = this->name();
     }
 
-    painter->drawEllipse(w/2 - CIRCLE_SIZE/2, 0, CIRCLE_SIZE, CIRCLE_SIZE);
     painter->setPen(QPen(textColor()));
 
     QFont font = UMLWidget::font();

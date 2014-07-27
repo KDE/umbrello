@@ -116,6 +116,7 @@ private:
 
     static const int MARGIN;           ///< text width margin
     static const int CIRCLE_SIZE;      ///< size of circle when interface is rendered as such
+    static const int SOCKET_INCREMENT; ///< augmentation of circle for socket (required interface)
 
     VisualProperties   m_visualProperties;
     Uml::SignatureType::Enum m_attributeSignature;   ///< Loaded/saved item.
