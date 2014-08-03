@@ -419,7 +419,7 @@ void AssociationLine::calculateInitialEndPoints()
         UMLWidget *wid = m_associationWidget->widgetForRole(Uml::RoleType::B);
         if (!wid) {
             uError() << "AssociationWidget is partially constructed."
-                "UMLWidget for role A is null.";
+                "UMLWidget for role B is null.";
             return;
         }
         const QRectF rect = m_associationWidget->mapFromScene(
