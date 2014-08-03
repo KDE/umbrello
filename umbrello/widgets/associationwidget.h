@@ -103,6 +103,7 @@ public:
     FloatingTextWidget* nameWidget() const;
     QString name() const;
     void setName(const QString &strRole);
+    void setStereotype(const QString &stereo);
 
     FloatingTextWidget* roleWidget(Uml::RoleType::Enum role) const;
     QString roleName(Uml::RoleType::Enum role) const;

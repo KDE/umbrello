@@ -950,6 +950,18 @@ void AssociationWidget::setName(const QString &strName)
     m_nameWidget->show();
 }
 
+void AssociationWidget::setStereotype(const QString &stereo) {
+    UMLAssociation *umlassoc = association();
+    if (umlassoc) {
+        umlassoc->setStereotype(stereo);
+    }
+    if (m_nameWidget) {
+        m_nameWidget->setText(umlassoc->stereotype(true));
+    } else {
+        uDebug() << "not setting " << stereo << " because m_nameWidget is NULL";
+    }
+}
+
 /**
  * Return the given role's FloatingTextWidget widget text.
  *
