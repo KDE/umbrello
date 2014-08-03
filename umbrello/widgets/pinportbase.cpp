@@ -47,7 +47,7 @@ PinPortBase::~PinPortBase()
 }
 
 /**
- * Perfoms initializations which are common to PinWidget and PortWidget.
+ * Performs initializations which are common to PinWidget and PortWidget.
  */
 void PinPortBase::init(UMLWidget *owner)
 {
