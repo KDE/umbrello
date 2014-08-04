@@ -16,6 +16,7 @@
 #include "umlwidget.h"
 
 class AssociationWidget;
+class FloatingTextWidget;
 class QPainter;
 class UMLClassifier;
 
@@ -87,12 +88,15 @@ public:
     AssociationWidget *classAssociationWidget() const;
     void setClassAssociationWidget(AssociationWidget *assocwidget);
 //    virtual void adjustAssociations(int x, int y);
-
-    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
-    virtual bool loadFromXMI(QDomElement & qElement);
+ 
+    UMLWidget* onWidget(const QPointF& p);
+    UMLWidget* widgetWithID(Uml::ID::Type id);
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
     virtual QPainterPath shape() const;
+
+    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
+    virtual bool loadFromXMI(QDomElement & qElement);
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);
@@ -122,6 +126,7 @@ private:
     Uml::SignatureType::Enum m_attributeSignature;   ///< Loaded/saved item.
     Uml::SignatureType::Enum m_operationSignature;   ///< Loaded/saved item.
     AssociationWidget *m_pAssocWidget; ///< related AssociationWidget in case this classifier acts as an association class
+    FloatingTextWidget *m_pInterfaceName;  ///< Separate widget for name in case of interface drawn as circle
 
 };
 

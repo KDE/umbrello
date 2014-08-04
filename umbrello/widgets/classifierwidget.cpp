@@ -12,6 +12,7 @@
 #include "classifierwidget.h"
 
 // app includes
+#include "floatingtextwidget.h"
 #include "associationwidget.h"
 #include "associationline.h"
 #include "classifier.h"
@@ -42,7 +43,7 @@ const int ClassifierWidget::SOCKET_INCREMENT = 10;
  */
 ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
   : UMLWidget(scene, WidgetBase::wt_Class, c),
-    m_pAssocWidget(0)
+    m_pAssocWidget(0), m_pInterfaceName(0)
 {
     const Settings::OptionState& ops = m_scene->optionState();
     setVisualPropertyCmd(ShowVisibility, ops.classState.showVisibility);
@@ -86,6 +87,10 @@ ClassifierWidget::~ClassifierWidget()
 {
     if (m_pAssocWidget)
         m_pAssocWidget->removeAssocClassLine();
+    if (m_pInterfaceName) {
+        delete m_pInterfaceName;
+        m_pInterfaceName = 0;
+    }
 }
 
 /**
@@ -720,30 +725,26 @@ QPainterPath ClassifierWidget::shape() const
 {
     if (classifier()->isInterface() && visualProperty(DrawAsCircle)) {
         QPainterPath path;
-        int cirleSize = CIRCLE_SIZE;
-        if (m_Assocs.size() > 1)
-            cirleSize += SOCKET_INCREMENT;
-        path.addEllipse(width()/2 - cirleSize/2, 0, cirleSize, cirleSize);
-        path.addRect(0, CIRCLE_SIZE, width(), height() - CIRCLE_SIZE);
+        path.addEllipse(rect());
         return path;
     }
     return UMLWidget::shape();
 }
 
 /**
- * Draws the interface as a circle with name underneath.
+ * Draws the interface as a circle.
  * Only applies when m_umlObject->getBaseType() is ot_Interface.
  */
 void ClassifierWidget::drawAsCircle(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
     const int w = width();
 
-    painter->drawEllipse(w/2 - CIRCLE_SIZE/2, 0, CIRCLE_SIZE, CIRCLE_SIZE);
+    painter->drawEllipse(w/2 - CIRCLE_SIZE/2, SOCKET_INCREMENT / 2, CIRCLE_SIZE, CIRCLE_SIZE);
     if (m_Assocs.size() > 1) {
         // Draw socket for required interface.
         const qreal angleSpan = 180;   // 360.0 / (m_Assocs.size() + 1.0);
         const int arcDiameter = CIRCLE_SIZE + SOCKET_INCREMENT;
-        QRect requireArc(w/2 - arcDiameter/2, -(SOCKET_INCREMENT / 2), arcDiameter, arcDiameter);
+        QRect requireArc(w/2 - arcDiameter/2, 0, arcDiameter, arcDiameter);
         const QPointF center(x() + w/2, y() + arcDiameter/2);
         const qreal cX = center.x();
         const qreal cY = center.y();
@@ -785,9 +786,9 @@ void ClassifierWidget::drawAsCircle(QPainter *painter, const QStyleOptionGraphic
                     drawArc = false;
             }
             if (drawArc) {
-                uDebug() << "number of assocs: " << m_Assocs.size()
-                         << ", p: " << p << ", center: " << center
-                         << ", midAngle: " << midAngle << ", angleSpan: " << angleSpan;
+                // uDebug() << "number of assocs: " << m_Assocs.size()
+                //          << ", p: " << p << ", center: " << center
+                //          << ", midAngle: " << midAngle << ", angleSpan: " << angleSpan;
                 painter->drawArc(requireArc, 16 * (midAngle - angleSpan/2), 16 * angleSpan);
             } else {
                 uError() << "socket: assocLine endPoint " << p
@@ -795,21 +796,6 @@ void ClassifierWidget::drawAsCircle(QPainter *painter, const QStyleOptionGraphic
             }
         }
     }
-
-    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const int fontHeight  = fm.lineSpacing();
-    QString name;
-    if (visualProperty(ShowPackage)) {
-        name = m_umlObject->fullyQualifiedName();
-    } else {
-        name = this->name();
-    }
-
-    painter->setPen(QPen(textColor()));
-
-    QFont font = UMLWidget::font();
-    painter->setFont(font);
-    painter->drawText(0, CIRCLE_SIZE, w, fontHeight, Qt::AlignCenter, name);
 
     UMLWidget::paint(painter, option);
 }
@@ -820,24 +806,10 @@ void ClassifierWidget::drawAsCircle(QPainter *painter, const QStyleOptionGraphic
  */
 QSize ClassifierWidget::calculateAsCircleSize()
 {
-    const QFontMetrics &fm = UMLWidget::getFontMetrics(UMLWidget::FT_ITALIC_UNDERLINE);
-    const int fontHeight = fm.lineSpacing();
-
-    int height = CIRCLE_SIZE + fontHeight;
-
-    int width = CIRCLE_SIZE;
-    QString displayedName;
-    if (visualProperty(ShowPackage)) {
-        displayedName = m_umlObject->fullyQualifiedName();
-    } else {
-        displayedName = m_umlObject->name();
-    }
-    const int nameWidth = fm.size(0, displayedName).width();
-    if (nameWidth > width)
-        width = nameWidth;
-    width += MARGIN * 2;
-
-    return QSize(width, height);
+    int circleSize = CIRCLE_SIZE;
+    if (m_Assocs.size() > 1)
+        circleSize += SOCKET_INCREMENT;
+    return QSize(circleSize, circleSize);
 }
 
 /**
@@ -877,6 +849,38 @@ void ClassifierWidget::drawMembers(QPainter * painter, UMLObject::ObjectType ot,
 }
 
 /**
+ * Override method from UMLWidget in order to additionally check m_pInterfaceName.
+ *
+ * @param p Point to be checked.
+ *
+ * @return 'this' if UMLWidget::onWidget(p) returns non NULL;
+ *         m_pInterfaceName if m_pName is non NULL and
+ *         m_pInterfaceName->onWidget(p) returns non NULL; else NULL.
+ */
+UMLWidget* ClassifierWidget::onWidget(const QPointF &p)
+{
+    if (UMLWidget::onWidget(p) != NULL)
+        return this;
+    if (getDrawAsCircle() && m_pInterfaceName) {
+        uDebug() << "floatingtext: " << m_pInterfaceName->text();
+        return m_pInterfaceName->onWidget(p);
+    }
+    return NULL;
+}
+
+/**
+ * Reimplement function from UMLWidget.
+ */
+UMLWidget* ClassifierWidget::widgetWithID(Uml::ID::Type id)
+{
+    if (UMLWidget::widgetWithID(id))
+        return this;
+    if (getDrawAsCircle() && m_pInterfaceName && m_pInterfaceName->widgetWithID(id))
+        return m_pInterfaceName;
+    return NULL;
+}
+
+/**
  * Sets whether to draw as circle.
  * Only applies when m_umlObject->getBaseType() is ot_Interface.
  *
@@ -885,6 +889,29 @@ void ClassifierWidget::drawMembers(QPainter * painter, UMLObject::ObjectType ot,
 void ClassifierWidget::setDrawAsCircle(bool drawAsCircle)
 {
     setVisualPropertyCmd(DrawAsCircle, drawAsCircle);
+    int circleSize = CIRCLE_SIZE;
+    if (m_Assocs.size() > 1)
+        circleSize += SOCKET_INCREMENT;
+    if (drawAsCircle) {
+        setX(x() + (width()/2 - circleSize/2));
+        setY(y() + (height()/2 - circleSize/2));
+        setSize(circleSize, circleSize);
+        if (m_pInterfaceName) {
+            m_pInterfaceName->show();
+        } else {
+            m_pInterfaceName = new FloatingTextWidget(m_scene, Uml::TextRole::Floating, name());
+            m_pInterfaceName->setParentItem(this);
+            m_pInterfaceName->setText(name());  // to get geometry update
+            m_pInterfaceName->setX(circleSize/2 - m_pInterfaceName->width() / 2);
+            m_pInterfaceName->setY(circleSize + SOCKET_INCREMENT);
+        }
+    } else {
+        setSize(ClassifierWidget::minimumSize());
+        setX(x() - (width()/2 - circleSize/2));
+        setY(y() - (height()/2 - circleSize/2));
+        if (m_pInterfaceName)
+            m_pInterfaceName->hide();
+    }
     updateGeometry();
     update();
 }
@@ -921,7 +948,7 @@ void ClassifierWidget::changeToClass()
 {
     m_baseType = WidgetBase::wt_Class;
     classifier()->setBaseType(UMLObject::ot_Class);
-
+    setVisualPropertyCmd(DrawAsCircle, false);
     const Settings::OptionState& ops = m_scene->optionState();
     setVisualProperty(ShowAttributes, ops.classState.showAtts);
     setVisualProperty(ShowStereotype, ops.classState.showStereoType);
@@ -1000,6 +1027,34 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
     m_attributeSignature = Uml::SignatureType::fromInt(showattsigs.toInt());
     m_operationSignature = Uml::SignatureType::fromInt(showopsigs.toInt());
 
+    if (!getDrawAsCircle())
+        return true;
+
+    // Optional child element: floatingtext
+    QDomNode node = qElement.firstChild();
+    QDomElement element = node.toElement();
+    if (!element.isNull()) {
+        QString tag = element.tagName();
+        if (tag == QLatin1String("floatingtext")) {
+            if (m_pInterfaceName == NULL) {
+                m_pInterfaceName = new FloatingTextWidget(m_scene,
+                                                          Uml::TextRole::Floating,
+                                                          name(), Uml::ID::Reserved);
+                m_pInterfaceName->setParentItem(this);
+            }
+            if (!m_pInterfaceName->loadFromXMI(element)) {
+                // Most likely cause: The FloatingTextWidget is empty.
+                delete m_pInterfaceName;
+                m_pInterfaceName = NULL;
+            } else {
+                m_pInterfaceName->activate();
+                m_pInterfaceName->update();
+            }
+        } else {
+            uError() << "unknown tag " << tag;
+        }
+    }
+
     return true;
 }
 
@@ -1024,8 +1079,12 @@ void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
         conceptElement.setAttribute(QLatin1String("showattributes"), visualProperty(ShowAttributes));
         conceptElement.setAttribute(QLatin1String("showattsigs"),    m_attributeSignature);
     }
-    if (umlc->isInterface() || umlc->isAbstract())
+    if (umlc->isInterface() || umlc->isAbstract()) {
         conceptElement.setAttribute(QLatin1String("drawascircle"), visualProperty(DrawAsCircle));
+        if (visualProperty(DrawAsCircle) && m_pInterfaceName) {
+            m_pInterfaceName->saveToXMI(qDoc, conceptElement);
+        }
+    }
     qElement.appendChild(conceptElement);
 }
 

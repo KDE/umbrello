@@ -42,6 +42,7 @@
 #include <kcolordialog.h>
 
 // qt includes
+#include <QPainterPath>
 #include <QPointer>
 #include <QRegExpValidator>
 #include <QApplication>
@@ -1690,7 +1691,18 @@ void AssociationWidget::calculateEndingPoints()
 
     int size = m_associationLine->count();
     if (size < 2) {
-        m_associationLine->setEndPoints(pWidgetA->pos(), pWidgetB->pos());
+        QPolygonF polyA = pWidgetA->shape().toFillPolygon();
+        QPolygonF polyB = pWidgetB->shape().toFillPolygon();
+        QPointF pA = pWidgetA->pos();
+        QPointF pB = pWidgetB->pos();
+        QLineF nearestPoints = Widget_Utils::closestPoints(polyA, polyB);
+        if (nearestPoints.isNull()) {
+            uError() << "Widget_Utils::closestPoints failed, falling back to simple widget posistions";
+        } else {
+            pA = nearestPoints.p1();
+            pB = nearestPoints.p2();
+        }
+        m_associationLine->setEndPoints(pA, pB);
     }
 
     // See if an association to self.
@@ -2118,7 +2130,7 @@ void AssociationWidget::updatePointsException()
 }
 
 /**
- * Finds out in which region of rectangle 'rect' contains the point 'pos' and returns the region
+ * Finds out which region of rectangle 'rect' contains the point 'pos' and returns the region
  * number:
  * 1 = Region 1
  * 2 = Region 2

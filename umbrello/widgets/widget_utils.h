@@ -18,6 +18,8 @@
 #include <QBrush>
 #include <QDomDocument>
 #include <QPointF>
+#include <QLineF>
+#include <QPolygonF>
 
 class QGraphicsItem;
 class QGraphicsRectItem;
@@ -57,6 +59,8 @@ namespace Widget_Utils
 
     bool hasSmallerX(const UMLWidget* widget1, const UMLWidget* widget2);
     bool hasSmallerY(const UMLWidget* widget1, const UMLWidget* widget2);
+
+    QLineF closestPoints(const QPolygonF& self, const QPolygonF& other);
 }
 
 #endif

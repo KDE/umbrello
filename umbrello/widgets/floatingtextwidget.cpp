@@ -19,7 +19,7 @@
 #include "cmds.h"
 #include "debug_utils.h"
 #include "linkwidget.h"
-#include "portwidget.h"
+#include "classifierwidget.h"
 #include "listpopupmenu.h"
 #include "messagewidget.h"
 #include "model_utils.h"
@@ -627,10 +627,18 @@ void FloatingTextWidget::constrainMovementForAllWidgets(qreal &diffX, qreal &dif
  */
 UMLWidget* FloatingTextWidget::onWidget(const QPointF &p)
 {
-    if (UMLWidget::onWidget(p) != NULL)
-        return this;
-    PortWidget *pw = dynamic_cast<PortWidget*>(parentItem());
-    if (pw) {
+    UMLWidget *pw = dynamic_cast<UMLWidget*>(parentItem());
+    if (pw == NULL)
+        return NULL;
+    const WidgetBase::WidgetType t = pw->baseType();
+    bool isWidgetChild = false;
+    if (t == WidgetBase::wt_Interface) {
+        ClassifierWidget *cw = static_cast<ClassifierWidget*>(pw);
+        isWidgetChild = cw->getDrawAsCircle();
+    } else if (t == WidgetBase::wt_Port /* @todo || t == WidgetBase::wt_Pin */) {
+        isWidgetChild = true;
+    }
+    if (isWidgetChild) {
         const qreal w = width();
         const qreal h = height();
         const qreal left = pw->x() + x();
@@ -644,8 +652,9 @@ UMLWidget* FloatingTextWidget::onWidget(const QPointF &p)
             uDebug() << "floatingtext: " << m_Text;
             return this;
         }
+        return NULL;
     }
-    return NULL;
+    return UMLWidget::onWidget(p);
 }
 
 /**
