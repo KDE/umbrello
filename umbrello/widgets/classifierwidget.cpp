@@ -178,8 +178,7 @@ void ClassifierWidget::setVisualPropertyCmd(VisualProperty property, bool enable
         if (!enable) {
             m_attributeSignature = visualProperty(ShowVisibility) ?
                 Uml::SignatureType::NoSig : Uml::SignatureType::NoSigNoVis;
-        }
-        else {
+        } else {
             m_attributeSignature = visualProperty(ShowVisibility) ?
                 Uml::SignatureType::ShowSig : Uml::SignatureType::SigNoVis;
         }
@@ -191,8 +190,7 @@ void ClassifierWidget::setVisualPropertyCmd(VisualProperty property, bool enable
         if (!enable) {
             m_operationSignature = visualProperty(ShowVisibility) ?
                 Uml::SignatureType::NoSig : Uml::SignatureType::NoSigNoVis;
-        }
-        else {
+        } else {
             m_operationSignature = visualProperty(ShowVisibility) ?
                 Uml::SignatureType::ShowSig : Uml::SignatureType::SigNoVis;
         }
@@ -204,11 +202,22 @@ void ClassifierWidget::setVisualPropertyCmd(VisualProperty property, bool enable
         // Now just update flag and use base method for actual work.
         if (enable) {
             m_visualProperties |= property;
-        }
-        else {
+        } else {
             m_visualProperties &= ~property;
         }
         setShowStereotype(enable);
+    }
+
+    else if (property == DrawAsCircle) {
+        // Don't do anything if the flag status is same.
+        if (visualProperty(property) == enable)
+            return;
+        if (enable) {
+            m_visualProperties |= property;
+        } else {
+            m_visualProperties &= ~property;
+        }
+        setDrawAsCircle(enable);
     }
 
     // Some other flag.
@@ -221,8 +230,7 @@ void ClassifierWidget::setVisualPropertyCmd(VisualProperty property, bool enable
         // Call setVisualProperties appropriately based on enbable.
         if (enable) {
             setVisualProperties(visualProperties() | property);
-        }
-        else {
+        } else {
             setVisualProperties(visualProperties() & ~property);
         }
     }
