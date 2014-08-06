@@ -889,9 +889,7 @@ UMLWidget* ClassifierWidget::widgetWithID(Uml::ID::Type id)
 void ClassifierWidget::setDrawAsCircle(bool drawAsCircle)
 {
     setVisualPropertyCmd(DrawAsCircle, drawAsCircle);
-    int circleSize = CIRCLE_SIZE;
-    if (m_Assocs.size() > 1)
-        circleSize += SOCKET_INCREMENT;
+    const int circleSize = CIRCLE_SIZE + SOCKET_INCREMENT;
     if (drawAsCircle) {
         setX(x() + (width()/2 - circleSize/2));
         setY(y() + (height()/2 - circleSize/2));
