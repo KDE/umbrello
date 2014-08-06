@@ -905,12 +905,14 @@ void ClassifierWidget::setDrawAsCircle(bool drawAsCircle)
             m_pInterfaceName->setX(circleSize/2 - m_pInterfaceName->width() / 2);
             m_pInterfaceName->setY(circleSize + SOCKET_INCREMENT);
         }
+        m_resizable = false;
     } else {
         setSize(ClassifierWidget::minimumSize());
         setX(x() - (width()/2 - circleSize/2));
         setY(y() - (height()/2 - circleSize/2));
         if (m_pInterfaceName)
             m_pInterfaceName->hide();
+        m_resizable = true;
     }
     updateGeometry();
     update();
