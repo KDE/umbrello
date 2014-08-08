@@ -3742,6 +3742,35 @@ void AssociationWidget::setSelected(bool _select /* = true */)
 }
 
 /**
+ * Reimplement method from WidgetBase in order to check owned floating texts.
+ *
+ * @param p Point to be checked.
+ *
+ * @return m_nameWidget if m_nameWidget is non NULL and m_nameWidget->onWidget(p) returns non NULL;
+ *         m_role[0].(multiplicity|changeability|role)Widget if the resp. widget is non NULL and
+ *         its onWidget(p) returns non NULL;
+ *         m_role[1].(multiplicity|changeability|role)Widget if the resp. widget is non NULL and
+ *         its onWidget(p) returns non NULL;
+ *         else NULL.
+ */
+UMLWidget* AssociationWidget::onWidget(const QPointF &p)
+{
+    if (m_nameWidget && m_nameWidget->onWidget(p)) {
+        return m_nameWidget;
+    }
+    for (int i = 0; i <= 1; i++) {
+        const WidgetRole& r = m_role[i];
+        if (r.multiplicityWidget && r.multiplicityWidget->onWidget(p))
+            return r.multiplicityWidget;
+        if (r.changeabilityWidget && r.changeabilityWidget->onWidget(p))
+            return r.changeabilityWidget;
+        if (r.roleWidget && r.roleWidget->onWidget(p))
+            return r.roleWidget;
+    }
+    return NULL;
+}
+
+/**
  * Returns true if the given point is on the connecting line to
  * the association class. Returns false if there is no association
  * class attached, or if the given point is not on the connecting

@@ -644,6 +644,38 @@ QRectF WidgetBase::boundingRect() const
 }
 
 /**
+ * Test if point is inside the bounding rectangle of the widget.
+ * Inheriting classes may reimplement this to test possible child widgets.
+ *
+ * @param p Point to be checked.
+ *
+ * @return 'this' if the given point is in the boundaries of the widget;
+ *         else NULL.
+ */
+UMLWidget* WidgetBase::onWidget(const QPointF &p)
+{
+    UMLWidget *uw = dynamic_cast<UMLWidget*>(this);
+    if (uw == NULL)
+        return NULL;
+    const qreal w = m_rect.width();
+    const qreal h = m_rect.height();
+    const qreal left = x();  // don't use m_rect.x() for this, it is always 0
+    const qreal right = left + w;
+    const qreal top = y();   // don't use m_rect.y() for this, it is always 0
+    const qreal bottom = top + h;
+    // uDebug() << "p=(" << p.x() << "," << p.y()
+    //          << "), x=" << left << ", y=" << top << ", w=" << w << ", h=" << h
+    //          << "; right=" << right << ", bottom=" << bottom;
+    if (p.x() < left || p.x() > right ||
+            p.y() < top || p.y() > bottom) { // Qt coord.sys. origin in top left corner
+        // uDebug() << "returning NULL";
+        return NULL;
+    }
+    // uDebug() << "returning this";
+    return uw;
+}
+
+/**
  * Draws the UMLWidget on the given paint device
  *
  * @param painter The painter for the drawing device

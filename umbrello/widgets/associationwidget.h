@@ -153,6 +153,7 @@ public:
 
     void saveIdealTextPositions();
 
+    UMLWidget* onWidget(const QPointF &p);
     bool onAssociation(const QPointF& point);
     bool onAssocClassLine(const QPointF& point);
 
