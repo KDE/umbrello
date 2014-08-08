@@ -26,6 +26,7 @@ class QAction;
 class UMLDoc;
 class UMLObject;
 class UMLScene;
+class UMLWidget;   // required by function onWidget()
 
 /**
  * @short       Common base class for UMLWidget and AssociationWidget
@@ -143,6 +144,8 @@ public:
     void setRect(qreal x, qreal y, qreal width, qreal height);
 
     virtual QRectF boundingRect() const;
+
+    virtual UMLWidget* onWidget(const QPointF &p);
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 

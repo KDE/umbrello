@@ -13,7 +13,6 @@
 
 // local includes
 #include "associationwidget.h"
-#include "floatingtextwidget.h"
 #include "assocrules.h"
 #include "debug_utils.h"
 #include "dialog_utils.h"
@@ -222,11 +221,8 @@ void AssociationGeneralPage::updateObject()
         m_pAssociationWidget->setAssociationType(newType);
         m_pAssociationWidget->setDocumentation(m_doc->toPlainText());
         if (m_pStereoChkB->isChecked()) {
-            UMLAssociation *umlAssoc = m_pAssociationWidget->association();
             QString stereo = m_pAssocNameComB->currentText();
-            umlAssoc->setStereotype(stereo);
-            FloatingTextWidget* ft = m_pAssociationWidget->nameWidget();
-            ft->setText(umlAssoc->stereotype(true));
+            m_pAssociationWidget->setStereotype(stereo);
         } else {
             m_pAssociationWidget->setName(m_pAssocNameLE->text());
         }

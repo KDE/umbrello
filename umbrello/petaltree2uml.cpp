@@ -36,6 +36,7 @@
 #include "widget_factory.h"
 #include "notewidget.h"
 #include "associationwidget.h"
+#include "floatingtextwidget.h"
 
 // qt includes
 #include <QtGlobal>

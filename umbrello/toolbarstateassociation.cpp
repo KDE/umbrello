@@ -17,6 +17,7 @@
 #include "associationline.h"
 #include "associationwidget.h"
 #include "classifierwidget.h"
+#include "floatingtextwidget.h"
 #include "debug_utils.h"
 #include "folder.h"
 #include "model_utils.h"

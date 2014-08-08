@@ -19,7 +19,7 @@
 #include "cmds.h"
 #include "debug_utils.h"
 #include "linkwidget.h"
-#include "portwidget.h"
+#include "classifierwidget.h"
 #include "listpopupmenu.h"
 #include "messagewidget.h"
 #include "model_utils.h"
@@ -627,23 +627,35 @@ void FloatingTextWidget::constrainMovementForAllWidgets(qreal &diffX, qreal &dif
  */
 UMLWidget* FloatingTextWidget::onWidget(const QPointF &p)
 {
-    if (UMLWidget::onWidget(p) != NULL)
+    WidgetBase *pw = dynamic_cast<WidgetBase*>(parentItem());
+    if (pw == NULL) {
+        return WidgetBase::onWidget(p);
+    }
+    const WidgetBase::WidgetType t = pw->baseType();
+    bool isWidgetChild = false;
+    if (t == WidgetBase::wt_Interface) {
+        ClassifierWidget *cw = static_cast<ClassifierWidget*>(pw);
+        isWidgetChild = cw->getDrawAsCircle();
+    } else if (t == wt_Association ||
+               t == WidgetBase::wt_Port /* @todo || t == WidgetBase::wt_Pin */) {
+        isWidgetChild = true;
+    }
+    if (!isWidgetChild) {
+        return WidgetBase::onWidget(p);
+    }
+    const qreal w = width();
+    const qreal h = height();
+    const qreal left = pw->x() + x();
+    const qreal right = left + w;
+    const qreal top = pw->y() + y();
+    const qreal bottom = top + h;
+    // uDebug() << "child_of_pw; p=(" << p.x() << "," << p.y() << "), "
+    //          << "x=" << left << ", y=" << top << ", w=" << w << ", h=" << h
+    //          << "; right=" << right << ", bottom=" << bottom;
+    if (p.x() >= left && p.x() <= right &&
+        p.y() >= top && p.y() <= bottom) { // Qt coord.sys. origin in top left corner
+        // uDebug() << "floatingtext: " << m_Text;
         return this;
-    PortWidget *pw = dynamic_cast<PortWidget*>(parentItem());
-    if (pw) {
-        const qreal w = width();
-        const qreal h = height();
-        const qreal left = pw->x() + x();
-        const qreal right = left + w;
-        const qreal top = pw->y() + y();
-        const qreal bottom = top + h;
-        uDebug() << "child_of_pw; p=(" << p.x() << "," << p.y() << "), x=" << left << ", y=" << top << ", w=" << w << ", h=" << h
-                 << "; right=" << right << ", bottom=" << bottom;
-        if (p.x() >= left && p.x() <= right &&
-            p.y() >= top && p.y() <= bottom) { // Qt coord.sys. origin in top left corner
-            uDebug() << "floatingtext: " << m_Text;
-            return this;
-        }
     }
     return NULL;
 }

@@ -42,6 +42,7 @@
 #include <kcolordialog.h>
 
 // qt includes
+#include <QPainterPath>
 #include <QPointer>
 #include <QRegExpValidator>
 #include <QApplication>
@@ -950,6 +951,18 @@ void AssociationWidget::setName(const QString &strName)
     m_nameWidget->show();
 }
 
+void AssociationWidget::setStereotype(const QString &stereo) {
+    UMLAssociation *umlassoc = association();
+    if (umlassoc) {
+        umlassoc->setStereotype(stereo);
+    }
+    if (m_nameWidget) {
+        m_nameWidget->setText(umlassoc->stereotype(true));
+    } else {
+        uDebug() << "not setting " << stereo << " because m_nameWidget is NULL";
+    }
+}
+
 /**
  * Return the given role's FloatingTextWidget widget text.
  *
@@ -1678,7 +1691,18 @@ void AssociationWidget::calculateEndingPoints()
 
     int size = m_associationLine->count();
     if (size < 2) {
-        m_associationLine->setEndPoints(pWidgetA->pos(), pWidgetB->pos());
+        QPolygonF polyA = pWidgetA->shape().toFillPolygon();
+        QPolygonF polyB = pWidgetB->shape().toFillPolygon();
+        QPointF pA = pWidgetA->pos();
+        QPointF pB = pWidgetB->pos();
+        QLineF nearestPoints = Widget_Utils::closestPoints(polyA, polyB);
+        if (nearestPoints.isNull()) {
+            uError() << "Widget_Utils::closestPoints failed, falling back to simple widget posistions";
+        } else {
+            pA = nearestPoints.p1();
+            pB = nearestPoints.p2();
+        }
+        m_associationLine->setEndPoints(pA, pB);
     }
 
     // See if an association to self.
@@ -2106,7 +2130,7 @@ void AssociationWidget::updatePointsException()
 }
 
 /**
- * Finds out in which region of rectangle 'rect' contains the point 'pos' and returns the region
+ * Finds out which region of rectangle 'rect' contains the point 'pos' and returns the region
  * number:
  * 1 = Region 1
  * 2 = Region 2
@@ -3715,6 +3739,35 @@ void AssociationWidget::setSelected(bool _select /* = true */)
         selectAssocClassLine(false);
     }
     UMLApp::app()->document()->writeToStatusBar(_select ? i18n("Press Ctrl with left mouse click to delete a point") : QString());
+}
+
+/**
+ * Reimplement method from WidgetBase in order to check owned floating texts.
+ *
+ * @param p Point to be checked.
+ *
+ * @return m_nameWidget if m_nameWidget is non NULL and m_nameWidget->onWidget(p) returns non NULL;
+ *         m_role[0].(multiplicity|changeability|role)Widget if the resp. widget is non NULL and
+ *         its onWidget(p) returns non NULL;
+ *         m_role[1].(multiplicity|changeability|role)Widget if the resp. widget is non NULL and
+ *         its onWidget(p) returns non NULL;
+ *         else NULL.
+ */
+UMLWidget* AssociationWidget::onWidget(const QPointF &p)
+{
+    if (m_nameWidget && m_nameWidget->onWidget(p)) {
+        return m_nameWidget;
+    }
+    for (int i = 0; i <= 1; i++) {
+        const WidgetRole& r = m_role[i];
+        if (r.multiplicityWidget && r.multiplicityWidget->onWidget(p))
+            return r.multiplicityWidget;
+        if (r.changeabilityWidget && r.changeabilityWidget->onWidget(p))
+            return r.changeabilityWidget;
+        if (r.roleWidget && r.roleWidget->onWidget(p))
+            return r.roleWidget;
+    }
+    return NULL;
 }
 
 /**

@@ -103,6 +103,7 @@ public:
     FloatingTextWidget* nameWidget() const;
     QString name() const;
     void setName(const QString &strRole);
+    void setStereotype(const QString &stereo);
 
     FloatingTextWidget* roleWidget(Uml::RoleType::Enum role) const;
     QString roleName(Uml::RoleType::Enum role) const;
@@ -152,6 +153,7 @@ public:
 
     void saveIdealTextPositions();
 
+    UMLWidget* onWidget(const QPointF &p);
     bool onAssociation(const QPointF& point);
     bool onAssocClassLine(const QPointF& point);
 

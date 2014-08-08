@@ -1145,34 +1145,6 @@ void UMLWidget::showPropertiesDialog()
 }
 
 /**
- * Default implementation returns 'this' if the given point is in the
- * boundaries of the widget, else returns NULL.
- *
- * @param p Point to be checked.
- *
- * @return 'this' if the given point is in the boundaries of the widget.
- */
-UMLWidget* UMLWidget::onWidget(const QPointF &p)
-{
-    const qreal w = width();
-    const qreal h = height();
-    const qreal left = x();
-    const qreal right = left + w;
-    const qreal top = y();
-    const qreal bottom = top + h;
-    // uDebug() << "p=(" << p.x() << "," << p.y()
-    //          << "), x=" << left << ", y=" << top << ", w=" << w << ", h=" << h
-    //          << "; right=" << right << ", bottom=" << bottom;
-    if (p.x() < left || p.x() > right ||
-            p.y() < top || p.y() > bottom) { // Qt coord.sys. origin in top left corner
-        // uDebug() << "returning NULL";
-        return NULL;
-    }
-    // uDebug() << "returning this";
-    return this;
-}
-
-/**
  * Move the widget by an X and Y offset relative to
  * the current position.
  */
