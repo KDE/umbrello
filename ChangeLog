@@ -8,6 +8,14 @@ version 2.14.0 (4.14.0)
 * Improved loading of Rose models: Added support for controlled units and class diagrams
 * Support for loading ArgoUML files (without diagrams)
 * Support for loading Embarcadero Describe files (without diagrams)
+* Umbrello crashes when Generate code function is used. (256716)
+* Umbrello Crash when opening XMI (332612)
+* Segmentation fault when opening a file that contains an "alternative" combined fragment (337606)
+* class importer inserts classes in the wrong package (191894)
+* Instable position of activity pins (335399)
+* Ada is generated only for one class per package (336933)
+* Slow click selection reaction in state diagram (337463)
+* Find in diagram function (116354)
 
 
 version 2.12.x (4.12.x)
@@ -766,104 +774,104 @@ Version 1.1.1
 
 * No longer crashes when printing
 
-* Capitalisation corrections in strings	
+* Capitalisation corrections in strings
 
 Version 1.1 (including 1.1 rc 2)
 
 * Activites can have multiple outgoing associations
-	
+
 * Updated and translated tips file
-	
+
 * New handbook help file
-	
+
 * Slovak translation added
 
 * Updated German translation
-	
+
 * hopefully last changes needed for the name conversion to Umbrello
 
 * i18n fixes
 
-* Many bug fixes	
+* Many bug fixes
 
 Version 1.1 rc 1
 
 * Pasteing in sequence diagrams now works correctly
-	
+
 * Paste operation now shows dialogue messages when it can't paste everything or at all
-	
+
 * Cut now works
-	
+
 * Code generation wizard checks directory exists
-	
+
 * Code generation overwrite dialogue now lets you apply option to all remaining files
-	
+
 * Activity widgets now have borders
-	
+
 * Actors can be generalised from other actors
-	
+
 * Multiple objects can now be moved at once
 
 * check for metamodel=UML when loading files
-	
+
 * Saved files have XML header
-	
-* code generation wizard gives feedback on whether the file was generated	
-	
+
+* code generation wizard gives feedback on whether the file was generated
+
 * improved RPM spec file for multiple distributions
-	
+
 * tokenizer.l compatibility improved
-	
+
 * Can select which language to generate to from code generation panel
-	
+
 * User interface improvements (`new attribute' etc buttons added)
-	
+
 * Operations and attributes can have classifier scope (static)
-	
+
 * PHP code generation
-	
+
 * Some menu improvements
 
 * Compiler warnings reduced
 
 * i18n() added where it was missing
 
-* Various operations which made it crash fixed	
-	
+* Various operations which made it crash fixed
+
 * Typos fixed
 
 Version 1.1 beta 2
 
 * Name changed to Umbrello UML Modeller
-	
+
 * Java filenames have corret capitalisation
-	
-* Grid is no longer printed	
-	
+
+* Grid is no longer printed
+
 * Widgets now keep track of their colours and use diagram colours by default
-	
-* Open and save dialogues correctly remember where they were last	
-	
-* Checks on saving to PNG if user really wants to save to an already existing file	
-	
+
+* Open and save dialogues correctly remember where they were last
+
+* Checks on saving to PNG if user really wants to save to an already existing file
+
 * Sequence and collaboration messages always update when they should
-	
+
 * Consistant position for labels on sequence messages
-	
+
 * Nicer looking selection box
-	
+
 * "New operation" from sequence diagram messages will now be used automaticaly on that message
-	
+
 * Some improvements in menu consistency
-	
+
 * Delete selected widgets with Delete key
-	
+
 * Select all widgets on current diagram ability
-	
+
 * Size of left hand list view now saved
-	
+
 * White space removed from copying to PNG
-	
+
 * Import of file format 4 from UML version 1.0.3
 
 * Solaris compatibility with setenv(), hopefully
@@ -872,18 +880,18 @@ Version 1.1 beta 2
 
 Version 1.1 beta 1
 
-* The AssocCopy, MesdsageCopy and CutCopPaste classes have been
+* The AssocCopy, MessageCopy and CutCopyPaste classes have been
 	replaced with CUMLDrag and CUMLClipboard.
 	It supports 5 copy&paste types:
-                -- multiple empty folders (selected from the listview)
-                -- folders and multiple umlobjects (selected from the listview)
-                -- folders, multiple umlobjects and umlviews (selected from the listview)
-                -- multiple widget selection (from a diagram)
-                -- multiple operation and attribute selection (from the listview)
-                -- PNG clipboard support when copying for a diagram.
+	-- multiple empty folders (selected from the listview)
+	-- folders and multiple umlobjects (selected from the listview)
+	-- folders, multiple umlobjects and umlviews (selected from the listview)
+	-- multiple widget selection (from a diagram)
+	-- multiple operation and attribute selection (from the listview)
+	-- PNG clipboard support when copying for a diagram.
 	currently there is no ability to cut
 
-* Assosiation can be non-streight, just double click on the line.
+* Association can be non-straight, just double click on the line.
 
 * the ..widgetData classes abstract widget data from actual widgets so there only
 	needs to be as many widgets in memory as there are in the current diagram
@@ -893,7 +901,7 @@ Version 1.1 beta 1
 * all UMLObjects now have associated documentation
 
 * activity and state diagrams
-	
+
 * XMI based file system
 
 * unicode UMLObject and diagram names
@@ -908,9 +916,9 @@ Version 1.1 beta 1
 
 * Fixed dos line endings and untagged binary files in CVS
 
-* New project admin (Jonathan Riddell).  No thanks to Sourceforge.	
-	
-	
+* New project admin (Jonathan Riddell).  No thanks to Sourceforge.
+
+
 Version 1.0.3
 
 * Added rename, delete options to folders
@@ -1002,9 +1010,9 @@ if this works)
 
 * Text Lines e.g. messages, lines of text, etc. are printed transparently.
 
-*	Association prop. Dialog	now has default OK button instead of Cancel.
+* Association prop. Dialog now has default OK button instead of Cancel.
 
-*	Added options page for UML icons
+* Added options page for UML icons
 
 * Objects set to correct background colour when not using fill colour
 
