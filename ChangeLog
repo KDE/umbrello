@@ -1,3 +1,15 @@
+version 2.14.0 (4.14.0)
+
+* Reopening of changelog for stuff not covered by "Version Fixed In" queries at http://bugs.kde.org
+* UML2 ports on components
+* UML2 interface ball and socket notation 
+* Improved C++ import (map declarations to correct namespace)
+* Crash fixes in all language importers
+* Improved loading of Rose models: Added support for controlled units and class diagrams
+* Support for loading ArgoUML files (without diagrams)
+* Support for loading Embarcadero Describe files (without diagrams)
+
+
 version 2.12.x (4.12.x)
 
 * End of manual maintained changelog file
