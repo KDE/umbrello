@@ -51,7 +51,7 @@ signals:
     void sigCompMoved(qreal diffX, qreal diffY);
 
 protected:
-    QSizeF minimumSize();
+    QSizeF minimumSize() const;
 
 };
 

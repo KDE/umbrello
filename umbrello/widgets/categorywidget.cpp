@@ -93,7 +93,7 @@ void CategoryWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 /**
  * Overrides method from UMLWidget.
  */
-QSizeF CategoryWidget::minimumSize()
+QSizeF CategoryWidget::minimumSize() const
 {
     const UMLWidget::FontType ft = (m_umlObject->isAbstract() ? FT_BOLD_ITALIC : FT_BOLD);
     const QFontMetrics &fm = UMLWidget::getFontMetrics(ft);

@@ -86,7 +86,7 @@ public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);
 
 protected:
-    virtual QSizeF minimumSize();
+    virtual QSizeF minimumSize() const;
     virtual QSizeF maximumSize();
 
     ActivityType m_activityType; ///< Type of activity.

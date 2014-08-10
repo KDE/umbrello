@@ -609,6 +609,13 @@ namespace Widget_Utils
         return poly.at(index + 1);
     }
 
+    qreal middle(qreal a, qreal b)
+    {
+        qreal minVal = fmin(a, b);
+        qreal absDiff = fabs(a - b);
+        return minVal + absDiff / 2.0;
+    }
+
     /**
      * Determine the approximate closest points of two polygons.
      * @param self  First QPolygonF.
@@ -667,8 +674,8 @@ namespace Widget_Utils
                 selfPoint2 = next;
             }
             // Use the middle value of the X values
-            result.setLine(fabs(selfPoint2.x() - selfPoint1.x()) / 2.0, selfPoint1.y(),
-                           fabs(otherPoint2.x() - otherPoint1.x()) / 2.0, otherPoint1.y());
+            result.setLine(middle(selfPoint2.x() ,selfPoint1.x()), selfPoint1.y(),
+                           middle(otherPoint2.x() ,otherPoint1.x()), otherPoint1.y());
             break;
 
         case Uml::Region::South:
@@ -705,8 +712,8 @@ namespace Widget_Utils
                 selfPoint2 = next;
             }
             // Use the middle value of the X values
-            result.setLine(fabs(selfPoint2.x() - selfPoint1.x()) / 2.0, selfPoint1.y(),
-                           fabs(otherPoint2.x() - otherPoint1.x()) / 2.0, otherPoint1.y());
+            result.setLine(middle(selfPoint2.x() ,selfPoint1.x()), selfPoint1.y(),
+                           middle(otherPoint2.x() ,otherPoint1.x()), otherPoint1.y());
             break;
 
         case Uml::Region::West:
@@ -743,8 +750,8 @@ namespace Widget_Utils
                 selfPoint2 = next;
             }
             // Use the middle value of the Y values
-            result.setLine(selfPoint1.x(), fabs(selfPoint2.y() - selfPoint1.y()) / 2.0,
-                           otherPoint1.x(), fabs(otherPoint2.y() - otherPoint1.y()) / 2.0);
+            result.setLine(selfPoint1.x(), middle(selfPoint2.y() ,selfPoint1.y()),
+                           otherPoint1.x(), middle(otherPoint2.y() ,otherPoint1.y()));
             break;
 
         case Uml::Region::East:
@@ -781,8 +788,8 @@ namespace Widget_Utils
                 selfPoint2 = next;
             }
             // Use the middle value of the Y values
-            result.setLine(selfPoint1.x(), fabs(selfPoint2.y() - selfPoint1.y()) / 2.0,
-                           otherPoint1.x(), fabs(otherPoint2.y() - otherPoint1.y()) / 2.0);
+            result.setLine(selfPoint1.x(), middle(selfPoint2.y() ,selfPoint1.y()),
+                           otherPoint1.x(), middle(otherPoint2.y() ,otherPoint1.y()));
             break;
 
         case Uml::Region::NorthWest:

@@ -36,6 +36,7 @@
 #include <kmessagebox.h>
 
 // qt includes
+#include <QApplication>
 #include <QColor>
 #include <QPainter>
 #include <QPointer>
@@ -229,7 +230,7 @@ UMLWidget* UMLWidget::widgetWithID(Uml::ID::Type id)
  *
  * @return QSizeF(mininum_width, minimum_height)
  */
-QSizeF UMLWidget::minimumSize()
+QSizeF UMLWidget::minimumSize() const
 {
     return m_minimumSize;
 }
@@ -708,8 +709,11 @@ void UMLWidget::init()
     setMinimumSize(DefaultMinimumSize);
     setMaximumSize(DefaultMaximumSize);
 
-    for (int i = 0; i < (int)FT_INVALID; ++i) {
-        m_pFontMetrics[(UMLWidget::FontType)i] = 0;
+    m_font = QApplication::font();
+    for (int i = (int)FT_INVALID - 1; i >= 0; --i) {
+        FontType fontType = (FontType)i;
+        setupFontType(m_font, fontType);
+        m_pFontMetrics[fontType] = new QFontMetrics(m_font);
     }
 
     if (m_scene) {
@@ -1220,8 +1224,9 @@ bool UMLWidget::isInResizeArea(QGraphicsSceneMouseEvent *me)
  *
  * @return calculated widget size
  */
-QSizeF UMLWidget::calculateSize()
+QSizeF UMLWidget::calculateSize(bool withExtensions /* = true */) const
 {
+    Q_UNUSED(withExtensions)
     return QSizeF(width(), height());
 }
 
@@ -1693,11 +1698,8 @@ void UMLWidget::setDefaultFontMetrics(QFont &font, UMLWidget::FontType fontType,
  * Returns the font metric used by this object for Text
  * which uses bold/italic fonts.
  */
-QFontMetrics &UMLWidget::getFontMetrics(UMLWidget::FontType fontType)
+QFontMetrics &UMLWidget::getFontMetrics(UMLWidget::FontType fontType) const
 {
-    if (m_pFontMetrics[fontType] == 0) {
-        setDefaultFontMetrics(m_font, fontType);
-    }
     return *m_pFontMetrics[fontType];
 }
 
@@ -1751,18 +1753,18 @@ void UMLWidget::forceUpdateFontMetrics(QPainter *painter)
  * @note For performance Reasons, only FontMetrics for already used
  *  font types are updated. Not yet used font types will not get a font metric
  *  and will get the same font metric as if painter was zero.
- *  This behaviour is acceptable, because diagrams will always be showed on Display
+ *  This behaviour is acceptable, because diagrams will always be shown on Display
  *  first before a special painter like a printer device is used.
  */
 void UMLWidget::forceUpdateFontMetrics(QFont& font, QPainter *painter)
 {
     if (painter == 0) {
-        for (int i = 0; i < (int)UMLWidget::FT_INVALID; ++i) {
+        for (int i = (int)FT_INVALID - 1; i >= 0; --i) {
             if (m_pFontMetrics[(UMLWidget::FontType)i] != 0)
                 setDefaultFontMetrics(font, (UMLWidget::FontType)i);
         }
     } else {
-        for (int i2 = 0; i2 < (int)UMLWidget::FT_INVALID; ++i2) {
+        for (int i2 = (int)FT_INVALID - 1; i2 >= 0; --i2) {
             if (m_pFontMetrics[(UMLWidget::FontType)i2] != 0)
                 setDefaultFontMetrics(font, (UMLWidget::FontType)i2, *painter);
         }

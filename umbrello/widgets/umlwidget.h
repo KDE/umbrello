@@ -63,7 +63,7 @@ public:
 
     virtual UMLWidget* widgetWithID(Uml::ID::Type id);
 
-    virtual QSizeF minimumSize();
+    virtual QSizeF minimumSize() const;
     void setMinimumSize(const QSizeF &size);
 
     virtual QSizeF maximumSize();
@@ -202,7 +202,7 @@ public:
 
     QSizeF startResizeSize() const;
 
-    virtual QSizeF calculateSize();
+    virtual QSizeF calculateSize(bool withExtensions = true) const;
     void resize();
 
     bool fixedAspectRatio() const {
@@ -228,7 +228,7 @@ public:
     virtual void setDefaultFontMetrics(QFont &font, UMLWidget::FontType fontType);
     virtual void setDefaultFontMetrics(QFont &font, UMLWidget::FontType fontType, QPainter &painter);
 
-    QFontMetrics &getFontMetrics(UMLWidget::FontType fontType);
+    QFontMetrics &getFontMetrics(UMLWidget::FontType fontType) const;
     void setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm);
     void setupFontType(QFont &font, UMLWidget::FontType fontType);
 

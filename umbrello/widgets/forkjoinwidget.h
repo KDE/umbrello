@@ -42,7 +42,7 @@ public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);
 
 protected:
-    QSizeF minimumSize();
+    QSizeF minimumSize() const;
 
     virtual void paintSelected(QPainter * p, int offsetX = 0, int offsetY = 0);
 

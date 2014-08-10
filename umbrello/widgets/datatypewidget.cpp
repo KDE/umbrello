@@ -99,7 +99,7 @@ void DatatypeWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 /**
  * Overrides method from UMLWidget.
  */
-QSizeF DatatypeWidget::minimumSize()
+QSizeF DatatypeWidget::minimumSize() const
 {
     if (!m_umlObject)  {
         return UMLWidget::minimumSize();

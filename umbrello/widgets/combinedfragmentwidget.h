@@ -75,7 +75,7 @@ public slots:
 
 
 protected:
-    QSizeF minimumSize();
+    QSizeF minimumSize() const;
 
     /// Type of CombinedFragment.
     CombinedFragmentType m_CombinedFragment;

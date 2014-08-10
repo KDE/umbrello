@@ -39,7 +39,7 @@ public:
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
-    QSizeF minimumSize();
+    QSizeF minimumSize() const;
 
 private:
     void paintAsFile(QPainter *painter, const QStyleOptionGraphicsItem *option);
@@ -47,8 +47,8 @@ private:
     void paintAsTable(QPainter *painter, const QStyleOptionGraphicsItem *option);
     void paintAsNormal(QPainter *painter, const QStyleOptionGraphicsItem *option);
 
-    QSize calculateIconSize();
-    QSize calculateNormalSize();
+    QSize calculateIconSize() const;
+    QSize calculateNormalSize() const;
 
 };
 

@@ -86,7 +86,7 @@ protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *me);
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *me);
 
-    QSizeF minimumSize();
+    QSizeF minimumSize() const;
 
     virtual void moveEvent(QGraphicsSceneMouseEvent *event);
     virtual void moveWidgetBy(qreal diffX, qreal diffY);

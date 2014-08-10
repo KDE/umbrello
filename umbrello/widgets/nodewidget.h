@@ -36,7 +36,7 @@ public:
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
-    QSizeF minimumSize();
+    QSizeF minimumSize() const;
 
     static const int DEPTH = 30;  ///< pixels on Z axis
 };

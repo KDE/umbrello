@@ -41,7 +41,7 @@ public:
 public Q_SLOTS:
 
 protected:
-    QSizeF minimumSize();
+    QSizeF minimumSize() const;
 
 };
 

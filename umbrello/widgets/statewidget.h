@@ -82,7 +82,7 @@ public:
     virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
 protected:
-    QSizeF minimumSize();
+    QSizeF minimumSize() const;
     QSizeF maximumSize();
     void setAspectRatioMode();
 

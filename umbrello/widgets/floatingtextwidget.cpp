@@ -178,7 +178,7 @@ bool FloatingTextWidget::isEmpty()
 /**
  * Overrides method from UMLWidget.
  */
-QSizeF FloatingTextWidget::minimumSize()
+QSizeF FloatingTextWidget::minimumSize() const
 {
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     int h = fm.lineSpacing();

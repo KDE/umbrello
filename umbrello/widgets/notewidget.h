@@ -67,8 +67,8 @@ public Q_SLOTS:
     void slotMenuSelection(QAction* action);
 
 protected:
-    virtual QSizeF minimumSize();
-    virtual QSizeF calculateSize();
+    virtual QSizeF minimumSize() const;
+    virtual QSizeF calculateSize(bool withExtensions = true) const;
     void paintText(QPainter *painter);
     void paintTextWordWrap(QPainter *painter);
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);

@@ -88,7 +88,7 @@ public Q_SLOTS:
     void setMessageText();
 
 protected:
-    QSizeF minimumSize();
+    QSizeF minimumSize() const;
 
     virtual void moveWidgetBy(qreal diffX, qreal diffY);
     virtual void constrainMovementForAllWidgets(qreal &diffX, qreal &diffY);
