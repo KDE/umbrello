@@ -16,12 +16,12 @@
 class UMLPort;
 
 /**
- * Defines a graphical version of the port.  Most of the functionality
- * will come from the @ref UMLWidget class from which class inherits from.
+ * Defines a graphical version of the UML2 port.  Most of the functionality
+ * comes from the @ref PinPortBase class from which this class inherits.
  *
  * @short A graphical version of a port on a component.
  * @author Oliver Kellogg
- * @see UMLWidget
+ * @see PinPortBase, UMLWidget
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
 class PortWidget : public PinPortBase
