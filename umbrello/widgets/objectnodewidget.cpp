@@ -124,7 +124,7 @@ void ObjectNodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 /**
  * Overrides method from UMLWidget.
  */
-QSizeF ObjectNodeWidget::minimumSize()
+QSizeF ObjectNodeWidget::minimumSize() const
 {
     int widthtmp = 10, height = 10, width=10;
     if (m_objectNodeType == Buffer) {

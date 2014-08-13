@@ -192,7 +192,7 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 /**
  * Overrides method from UMLWidget
  */
-QSizeF StateWidget::minimumSize()
+QSizeF StateWidget::minimumSize() const
 {
     int width = 10, height = 10;
     switch (m_stateType) {
@@ -206,8 +206,8 @@ QSizeF StateWidget::minimumSize()
             if(count > 0) {
                 height = fontHeight * (count + 1);
 
-                QStringList::Iterator end(m_Activities.end());
-                for(QStringList::Iterator it(m_Activities.begin()); it != end; ++it) {
+                QStringList::ConstIterator end(m_Activities.end());
+                for(QStringList::ConstIterator it(m_Activities.begin()); it != end; ++it) {
                     int w = fm.width(*it);
                     if(w > textWidth)
                         textWidth = w;

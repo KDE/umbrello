@@ -92,7 +92,7 @@ void ArtifactWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 /**
  * Overrides method from UMLWidget.
  */
-QSizeF ArtifactWidget::minimumSize()
+QSizeF ArtifactWidget::minimumSize() const
 {
     if (!m_umlObject) {
         return UMLWidget::minimumSize();
@@ -108,7 +108,7 @@ QSizeF ArtifactWidget::minimumSize()
 /**
  * calculates the size when drawing as an icon (it's the same size for all icons)
  */
-QSize ArtifactWidget::calculateIconSize()
+QSize ArtifactWidget::calculateIconSize() const
 {
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
     const int fontHeight  = fm.lineSpacing();
@@ -125,7 +125,7 @@ QSize ArtifactWidget::calculateIconSize()
 /**
  * calculates the size for drawing as a box
  */
-QSize ArtifactWidget::calculateNormalSize()
+QSize ArtifactWidget::calculateNormalSize() const
 {
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
     const int fontHeight  = fm.lineSpacing();

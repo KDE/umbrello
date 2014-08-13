@@ -66,8 +66,8 @@ public:
     void setVisualPropertyCmd(VisualProperty property, bool enable = true);
     void toggleVisualProperty(VisualProperty property);
 
-    int displayedAttributes();
-    int displayedOperations();
+    int displayedAttributes() const;
+    int displayedOperations() const;
 
     Uml::SignatureType::Enum attributeSignature() const;
     void setAttributeSignature(Uml::SignatureType::Enum sig);
@@ -92,6 +92,8 @@ public:
     UMLWidget* onWidget(const QPointF& p);
     UMLWidget* widgetWithID(Uml::ID::Type id);
 
+    QSizeF calculateSize(bool withExtensions = true) const;
+
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
     virtual QPainterPath shape() const;
 
@@ -107,14 +109,14 @@ private Q_SLOTS:
 
 private:
     void updateSignatureTypes();
-    QSize calculateTemplatesBoxSize();
+    QSize calculateTemplatesBoxSize() const;
 
-    QSizeF minimumSize();
+    QSizeF minimumSize() const;
 
     void drawAsCircle(QPainter *p, const QStyleOptionGraphicsItem *option);
-    QSize calculateAsCircleSize();
+    QSize calculateAsCircleSize() const;
 
-    int displayedMembers(UMLObject::ObjectType ot);
+    int displayedMembers(UMLObject::ObjectType ot) const;
     void drawMembers(QPainter *painter, UMLObject::ObjectType ot, Uml::SignatureType::Enum sigType,
                      int x, int y, int fontHeight);
 

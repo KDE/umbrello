@@ -394,8 +394,7 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
 
     case WidgetBase::wt_Port:
         insertSubMenuColor(object->useFillColor());
-        insertStdItems(false, type);
-        insert(mt_Rename);
+        insertStdItems(false);
         insert(mt_NameAsTooltip, i18n("Name as Tooltip"), CHECKABLE);
         {
             PinPortBase *pW = static_cast<PinPortBase*>(object);

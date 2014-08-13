@@ -259,7 +259,7 @@ void NoteWidget::slotMenuSelection(QAction* action)
 /**
  * Overrides method from UMLWidget.
  */
-QSizeF NoteWidget::minimumSize()
+QSizeF NoteWidget::minimumSize() const
 {
     int width = 60;
     int height = 30;
@@ -287,8 +287,9 @@ QSizeF NoteWidget::minimumSize()
  * Calculate content related size of widget.
  * Overrides method from UMLWidget.
  */
-QSizeF NoteWidget::calculateSize()
+QSizeF NoteWidget::calculateSize(bool withExtensions /* = true */) const
 {
+    Q_UNUSED(withExtensions)
     int width = this->width();
     int height = this->height();
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -309,8 +310,6 @@ QSizeF NoteWidget::calculateSize()
         const int widthtemp = fm.width(QLatin1String("<< transformation >>"));
         width = textWidth > widthtemp ? textWidth : widthtemp;
         width += 2 * margin;
-    }
-    else {
     }
     return QSizeF(width, height);
 }

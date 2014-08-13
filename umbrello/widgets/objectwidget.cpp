@@ -204,7 +204,7 @@ void ObjectWidget::slotMenuSelection(QAction* action)
 /**
  * Overrides method from UMLWidget
  */
-QSizeF ObjectWidget::minimumSize()
+QSizeF ObjectWidget::minimumSize() const
 {
     int width, height;
     const QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);

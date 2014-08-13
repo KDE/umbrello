@@ -1691,13 +1691,13 @@ void AssociationWidget::calculateEndingPoints()
 
     int size = m_associationLine->count();
     if (size < 2) {
-        QPolygonF polyA = pWidgetA->shape().toFillPolygon();
-        QPolygonF polyB = pWidgetB->shape().toFillPolygon();
         QPointF pA = pWidgetA->pos();
         QPointF pB = pWidgetB->pos();
+        QPolygonF polyA = pWidgetA->shape().toFillPolygon().translated(pA);
+        QPolygonF polyB = pWidgetB->shape().toFillPolygon().translated(pB);
         QLineF nearestPoints = Widget_Utils::closestPoints(polyA, polyB);
         if (nearestPoints.isNull()) {
-            uError() << "Widget_Utils::closestPoints failed, falling back to simple widget posistions";
+            uError() << "Widget_Utils::closestPoints failed, falling back to simple widget positions";
         } else {
             pA = nearestPoints.p1();
             pB = nearestPoints.p2();
@@ -3664,29 +3664,42 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
     if (angular) {
         pt = QPointF(snapX, snapY);
     } else {
-        switch(region) {
-            case Uml::Region::West:
-                pt.setX(x);
-                pt.setY(snapY);
-                break;
-            case Uml::Region::North:
-                pt.setX(snapX);
-                pt.setY(y);
-                break;
-            case Uml::Region::East:
-                pt.setX(x + ww);
-                pt.setY(snapY);
-                break;
-            case Uml::Region::South:
-                pt.setX(snapX);
-                pt.setY(y + wh);
-                break;
-            case Uml::Region::Center:
-                pt.setX(x + ww / 2);
-                pt.setY(y + wh / 2);
-                break;
-            default:
-                break;
+        UMLWidget *pWidgetA = m_role[RoleType::A].umlWidget;
+        UMLWidget *pWidgetB = m_role[RoleType::B].umlWidget;
+        QPolygonF polyA = pWidgetA->shape().toFillPolygon().translated(pWidgetA->pos());
+        QPolygonF polyB = pWidgetB->shape().toFillPolygon().translated(pWidgetB->pos());
+        QLineF nearestPoints = Widget_Utils::closestPoints(polyA, polyB);
+        if (nearestPoints.isNull()) {
+            uError() << "Widget_Utils::closestPoints failed, falling back to simple widget positions";
+            switch(region) {
+                case Uml::Region::West:
+                    pt.setX(x);
+                    pt.setY(snapY);
+                    break;
+                case Uml::Region::North:
+                    pt.setX(snapX);
+                    pt.setY(y);
+                    break;
+                case Uml::Region::East:
+                    pt.setX(x + ww);
+                    pt.setY(snapY);
+                    break;
+                case Uml::Region::South:
+                    pt.setX(snapX);
+                    pt.setY(y + wh);
+                    break;
+                case Uml::Region::Center:
+                    pt.setX(x + ww / 2);
+                    pt.setY(y + wh / 2);
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            if (role == RoleType::A)
+                pt = nearestPoints.p1();
+            else
+                pt = nearestPoints.p2();
         }
     }
     if (role == RoleType::A) {

@@ -401,7 +401,7 @@ void ClassifierWidget::toggleShowAttSigs()
  * Return the number of displayed members of the given ObjectType.
  * Takes into consideration m_showPublicOnly but not other settings.
  */
-int ClassifierWidget::displayedMembers(UMLObject::ObjectType ot)
+int ClassifierWidget::displayedMembers(UMLObject::ObjectType ot) const
 {
     int count = 0;
     UMLClassifier *classifier = this->classifier();
@@ -418,7 +418,16 @@ int ClassifierWidget::displayedMembers(UMLObject::ObjectType ot)
 /**
  * Overrides method from UMLWidget.
  */
-QSizeF ClassifierWidget::minimumSize()
+QSizeF ClassifierWidget::minimumSize() const
+{
+    return calculateSize();
+}
+
+/**
+ * Calculate content related size of widget.
+ * Overrides method from UMLWidget.
+ */
+QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
 {
     if (!m_umlObject) {
         return UMLWidget::minimumSize();
@@ -492,16 +501,17 @@ QSizeF ClassifierWidget::minimumSize()
         }
     }
 
-    // consider template box _as last_ !
-    QSize templatesBoxSize = calculateTemplatesBoxSize();
-    if (templatesBoxSize.width() != 0) {
-        // add width to largest 'word'
-        width += templatesBoxSize.width() / 2;
+    if (withExtensions) {
+        // consider template box _as last_ !
+        QSize templatesBoxSize = calculateTemplatesBoxSize();
+        if (templatesBoxSize.width() != 0) {
+            // add width to largest 'word'
+            width += templatesBoxSize.width() / 2;
+        }
+        if (templatesBoxSize.height() != 0) {
+            height += templatesBoxSize.height() - MARGIN;
+        }
     }
-    if (templatesBoxSize.height() != 0) {
-        height += templatesBoxSize.height() - MARGIN;
-    }
-
 
     // allow for height margin
     if (!visualProperty(ShowOperations) && !visualProperty(ShowAttributes) && !m_showStereotype) {
@@ -520,7 +530,7 @@ QSizeF ClassifierWidget::minimumSize()
  *
  * @return  QSize of the templates flap.
  */
-QSize ClassifierWidget::calculateTemplatesBoxSize()
+QSize ClassifierWidget::calculateTemplatesBoxSize() const
 {
     UMLTemplateList list = classifier()->getTemplateList();
     int count = list.count();
@@ -550,7 +560,7 @@ QSize ClassifierWidget::calculateTemplatesBoxSize()
 /**
  * Return the number of displayed attributes.
  */
-int ClassifierWidget::displayedAttributes()
+int ClassifierWidget::displayedAttributes() const
 {
     if (!visualProperty(ShowAttributes))
         return 0;
@@ -560,7 +570,7 @@ int ClassifierWidget::displayedAttributes()
 /**
  * Return the number of displayed operations.
  */
-int ClassifierWidget::displayedOperations()
+int ClassifierWidget::displayedOperations() const
 {
     if (!visualProperty(ShowOperations))
         return 0;
@@ -608,18 +618,18 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         return;
     }
 
-    // Draw the bounding rectangle
+    // Draw the main bounding rectangle (without template box)
     QSize templatesBoxSize = calculateTemplatesBoxSize();
-    int m_bodyOffsetY = 0;
+    int bodyOffsetY = 0;
     if (templatesBoxSize.height() > 0)
-        m_bodyOffsetY += templatesBoxSize.height() - MARGIN;
+        bodyOffsetY += templatesBoxSize.height() - MARGIN;
     int w = width();
     if (templatesBoxSize.width() > 0)
         w -= templatesBoxSize.width() / 2;
     int h = height();
     if (templatesBoxSize.height() > 0)
         h -= templatesBoxSize.height() - MARGIN;
-    painter->drawRect(0, m_bodyOffsetY, w, h);
+    painter->drawRect(0, bodyOffsetY, w, h);
 
     QFont font = UMLWidget::font();
     font.setUnderline(false);
@@ -667,8 +677,8 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     } else if (showStereotype) {
         painter->setFont(font);
         stereo = m_umlObject->stereotype(true);
-        painter->drawText(textX, m_bodyOffsetY, textWidth, fontHeight, Qt::AlignCenter, stereo);
-        m_bodyOffsetY += fontHeight;
+        painter->drawText(textX, bodyOffsetY, textWidth, fontHeight, Qt::AlignCenter, stereo);
+        bodyOffsetY += fontHeight;
     }
 
     // draw name
@@ -680,11 +690,11 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     }
     font.setItalic(m_umlObject->isAbstract());
     painter->setFont(font);
-    painter->drawText(textX, m_bodyOffsetY, textWidth, nameHeight, Qt::AlignCenter, name);
+    painter->drawText(textX, bodyOffsetY, textWidth, nameHeight, Qt::AlignCenter, name);
     if (!showNameOnly) {
-        m_bodyOffsetY += fontHeight;
+        bodyOffsetY += fontHeight;
         setPenFromSettings(painter);
-        painter->drawLine(0, m_bodyOffsetY, w, m_bodyOffsetY);
+        painter->drawLine(0, bodyOffsetY, w, bodyOffsetY);
         painter->setPen(textColor());
     }
     font.setBold(false);
@@ -695,24 +705,24 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     const int numAtts = displayedAttributes();
     if (visualProperty(ShowAttributes)) {
         drawMembers(painter, UMLObject::ot_Attribute, m_attributeSignature, textX,
-                    m_bodyOffsetY, fontHeight);
+                    bodyOffsetY, fontHeight);
     }
 
     // draw dividing line between attributes and operations
     if (!showNameOnly) {
         if (numAtts == 0)
-            m_bodyOffsetY += fontHeight / 2;  // no atts, so just add a bit of space
+            bodyOffsetY += fontHeight / 2;  // no atts, so just add a bit of space
         else
-            m_bodyOffsetY += fontHeight * numAtts;
+            bodyOffsetY += fontHeight * numAtts;
         setPenFromSettings(painter);
-        painter->drawLine(0, m_bodyOffsetY, w, m_bodyOffsetY);
+        painter->drawLine(0, bodyOffsetY, w, bodyOffsetY);
         painter->setPen(QPen(textColor()));
     }
 
     // draw operations
     if (visualProperty(ShowOperations)) {
         drawMembers(painter, UMLObject::ot_Operation, m_operationSignature, textX,
-                    m_bodyOffsetY, fontHeight);
+                    bodyOffsetY, fontHeight);
     }
 
     UMLWidget::paint(painter, option, widget);
@@ -723,12 +733,21 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
  */
 QPainterPath ClassifierWidget::shape() const
 {
+    QPainterPath path;
     if (classifier()->isInterface() && visualProperty(DrawAsCircle)) {
-        QPainterPath path;
         path.addEllipse(rect());
         return path;
     }
-    return UMLWidget::shape();
+    QSizeF mainSize = calculateSize(false);
+    QSize templatesBoxSize = calculateTemplatesBoxSize();
+    qreal mainY = 0.0;
+    if (templatesBoxSize.height() > 0) {
+        mainY += templatesBoxSize.height() - MARGIN;
+        path.addRect(QRectF(mainSize.width() - templatesBoxSize.width() / 2, 0.0,
+                            templatesBoxSize.width(), templatesBoxSize.height()));
+    }
+    path.addRect(QRectF(0.0, mainY, mainSize.width(), mainSize.height()));
+    return path;
 }
 
 /**
@@ -804,7 +823,7 @@ void ClassifierWidget::drawAsCircle(QPainter *painter, const QStyleOptionGraphic
  * Calculates the size of the object when drawn as a circle.
  * Only applies when m_umlObject->getBaseType() is ot_Interface.
  */
-QSize ClassifierWidget::calculateAsCircleSize()
+QSize ClassifierWidget::calculateAsCircleSize() const
 {
     int circleSize = CIRCLE_SIZE;
     if (m_Assocs.size() > 1)

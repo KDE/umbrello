@@ -106,7 +106,7 @@ void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 /**
  * Overrides method from UMLWidget
  */
-QSizeF PackageWidget::minimumSize()
+QSizeF PackageWidget::minimumSize() const
 {
     if (!m_umlObject) {
         return UMLWidget::minimumSize();

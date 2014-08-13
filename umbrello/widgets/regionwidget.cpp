@@ -64,7 +64,7 @@ void RegionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 /**
  * Overrides method from UMLWidget
  */
-QSizeF RegionWidget::minimumSize()
+QSizeF RegionWidget::minimumSize() const
 {
     int width = 10, height = 10;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);

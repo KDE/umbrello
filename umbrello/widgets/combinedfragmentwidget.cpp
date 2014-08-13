@@ -183,7 +183,7 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
 /**
  * Overrides method from UMLWidget.
  */
-QSizeF CombinedFragmentWidget::minimumSize()
+QSizeF CombinedFragmentWidget::minimumSize() const
 {
     int width = 10, height = 10;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);

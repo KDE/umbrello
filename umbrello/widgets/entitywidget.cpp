@@ -189,7 +189,7 @@ void EntityWidget::slotMenuSelection(QAction* action)
 /**
  * Overrides method from UMLWidget.
  */
-QSizeF EntityWidget::minimumSize()
+QSizeF EntityWidget::minimumSize() const
 {
     if (!m_umlObject) {
         return UMLWidget::minimumSize();

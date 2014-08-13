@@ -114,7 +114,7 @@ void PreconditionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem
 /**
  * Overrides method from UMLWidget.
  */
-QSizeF PreconditionWidget::minimumSize()
+QSizeF PreconditionWidget::minimumSize() const
 {
     int width = 10, height = 10;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);

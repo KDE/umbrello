@@ -178,7 +178,7 @@ bool FloatingTextWidget::isEmpty()
 /**
  * Overrides method from UMLWidget.
  */
-QSizeF FloatingTextWidget::minimumSize()
+QSizeF FloatingTextWidget::minimumSize() const
 {
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     int h = fm.lineSpacing();
@@ -618,7 +618,7 @@ void FloatingTextWidget::constrainMovementForAllWidgets(qreal &diffX, qreal &dif
 }
 
 /**
- * Override method from UMLWidget in order to additionally check PortWidget parentage.
+ * Override method from UMLWidget in order to additionally check widget parentage.
  *
  * @param p Point to be checked.
  *
@@ -637,7 +637,7 @@ UMLWidget* FloatingTextWidget::onWidget(const QPointF &p)
         ClassifierWidget *cw = static_cast<ClassifierWidget*>(pw);
         isWidgetChild = cw->getDrawAsCircle();
     } else if (t == wt_Association ||
-               t == WidgetBase::wt_Port /* @todo || t == WidgetBase::wt_Pin */) {
+               t == WidgetBase::wt_Port || t == WidgetBase::wt_Pin) {
         isWidgetChild = true;
     }
     if (!isWidgetChild) {

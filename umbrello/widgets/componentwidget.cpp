@@ -169,7 +169,7 @@ void ComponentWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 /**
  * Overrides method from UMLWidget.
  */
-QSizeF ComponentWidget::minimumSize()
+QSizeF ComponentWidget::minimumSize() const
 {
     if (!m_umlObject) {
         return QSizeF(70, 70);

@@ -76,7 +76,7 @@ void UseCaseWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 /**
  * Overrides method from UMLWidget
  */
-QSizeF UseCaseWidget::minimumSize()
+QSizeF UseCaseWidget::minimumSize() const
 {
     const UMLWidget::FontType ft = (m_umlObject->isAbstract() ? FT_BOLD_ITALIC : FT_BOLD);
     const QFontMetrics &fm = UMLWidget::getFontMetrics(ft);

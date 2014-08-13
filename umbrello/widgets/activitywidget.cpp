@@ -390,7 +390,7 @@ void ActivityWidget::slotMenuSelection(QAction* action)
 /**
  * Overrides method from UMLWidget
  */
-QSizeF ActivityWidget::minimumSize()
+QSizeF ActivityWidget::minimumSize() const
 {
     if (m_activityType == Normal || m_activityType == Invok || m_activityType == Param) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);

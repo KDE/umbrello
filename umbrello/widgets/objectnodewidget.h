@@ -61,7 +61,7 @@ public:
     virtual bool loadFromXMI(QDomElement& qElement);
 
 protected:
-    QSizeF minimumSize();
+    QSizeF minimumSize() const;
 
 public slots:
     void slotMenuSelection(QAction* action);

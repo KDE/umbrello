@@ -29,7 +29,7 @@ public:
     bool loadFromXMI(QDomElement& qElement);
 
 protected:
-    QSizeF minimumSize();
+    QSizeF minimumSize() const;
 
 };
 

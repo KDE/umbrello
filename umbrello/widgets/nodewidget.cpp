@@ -113,7 +113,7 @@ void NodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 /**
  * Overrides method from UMLWidget.
  */
-QSizeF NodeWidget::minimumSize()
+QSizeF NodeWidget::minimumSize() const
 {
     if (m_umlObject == NULL) {
         DEBUG(DBG_SRC) << "m_umlObject is NULL";
