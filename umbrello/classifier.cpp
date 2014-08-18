@@ -1423,6 +1423,10 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
         case UMLObject::ot_Datatype:
             tag = QLatin1String("UML:DataType");
             break;
+        case UMLObject::ot_Package:
+            UMLPackage::saveToXMI(qDoc, qElement);
+            return;
+            break;
         default:
             uError() << "internal error: basetype is " << m_BaseType;
             return;
