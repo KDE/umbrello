@@ -90,7 +90,8 @@ ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
  */
 ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLPackage *o)
   : UMLWidget(scene, WidgetBase::wt_Package, o),
-    m_pAssocWidget(0)
+    m_pAssocWidget(0),
+    m_pInterfaceName(0)
 {
     const Settings::OptionState& ops = m_scene->optionState();
     setVisualPropertyCmd(ShowVisibility, ops.classState.showVisibility);
