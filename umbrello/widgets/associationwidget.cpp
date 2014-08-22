@@ -3666,8 +3666,22 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
     } else {
         UMLWidget *pWidgetA = m_role[RoleType::A].umlWidget;
         UMLWidget *pWidgetB = m_role[RoleType::B].umlWidget;
-        QPolygonF polyA = pWidgetA->shape().toFillPolygon().translated(pWidgetA->pos());
-        QPolygonF polyB = pWidgetB->shape().toFillPolygon().translated(pWidgetB->pos());
+        QList<QPolygonF> polyListA = pWidgetA->shape().toSubpathPolygons();
+        QPolygonF polyA = polyListA.at(0);
+        if (polyListA.size() > 1) {
+            for (int i = 1; i < polyListA.size(); i++) {
+                 polyA = polyA.united(polyListA.at(i));
+            }
+        }
+        polyA = polyA.translated(pWidgetA->pos());
+        QList<QPolygonF> polyListB = pWidgetB->shape().toSubpathPolygons();
+        QPolygonF polyB = polyListB.at(0);
+        if (polyListB.size() > 1) {
+            for (int i = 1; i < polyListB.size(); i++) {
+                 polyB = polyB.united(polyListB.at(i));
+            }
+        }
+        polyB = polyB.translated(pWidgetB->pos());
         QLineF nearestPoints = Widget_Utils::closestPoints(polyA, polyB);
         if (nearestPoints.isNull()) {
             uError() << "Widget_Utils::closestPoints failed, falling back to simple widget positions";
