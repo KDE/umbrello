@@ -83,7 +83,7 @@ Uml::ModelType::Enum convert_LVT_MT(UMLListViewItem::ListViewType lvt);
 UMLListViewItem::ListViewType convert_DT_LVT(Uml::DiagramType::Enum dt);
 UMLObject::ObjectType convert_LVT_OT(UMLListViewItem::ListViewType lvt);
 UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o);
-Icon_Utils::IconType convert_LVT_IT(UMLListViewItem::ListViewType lvt);
+Icon_Utils::IconType convert_LVT_IT(UMLListViewItem::ListViewType lvt, UMLObject *o=0);
 Uml::DiagramType::Enum convert_LVT_DT(UMLListViewItem::ListViewType lvt);
 Uml::ModelType::Enum convert_OT_MT(UMLObject::ObjectType ot);
 

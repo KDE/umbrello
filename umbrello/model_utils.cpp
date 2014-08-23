@@ -1537,7 +1537,7 @@ UMLObject::ObjectType convert_LVT_OT(UMLListViewItem::ListViewType lvt)
  * @return  The Icon_Utils::IconType corresponding to the lvt.
  *          Returns it_Home in case no mapping to IconType exists.
  */
-Icon_Utils::IconType convert_LVT_IT(UMLListViewItem::ListViewType lvt)
+Icon_Utils::IconType convert_LVT_IT(UMLListViewItem::ListViewType lvt, UMLObject *o)
 {
     Icon_Utils::IconType icon = Icon_Utils::it_Home;
     switch (lvt) {
@@ -1571,7 +1571,10 @@ Icon_Utils::IconType convert_LVT_IT(UMLListViewItem::ListViewType lvt)
             icon = Icon_Utils::it_UseCase;
             break;
         case UMLListViewItem::lvt_Class:
-            icon = Icon_Utils::it_Class;
+            if (o && o->stereotype() == QLatin1String("class-or-package"))
+                icon = Icon_Utils::it_ClassOrPackage;
+            else
+                icon = Icon_Utils::it_Class;
             break;
         case UMLListViewItem::lvt_Package:
             icon = Icon_Utils::it_Package;
