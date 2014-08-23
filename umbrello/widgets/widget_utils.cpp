@@ -93,9 +93,9 @@ namespace Widget_Utils
         qreal xc = ellipse.center().x();
         qreal yc = ellipse.center().y();
 
-        // The first point's x value is chose to be center.x() + 70% of x radius.
+        // The first point's x value is chosen to be center.x() + 70% of x radius.
         qreal x1 = ellipse.center().x() + .7 * .5 * ellipse.width();
-        // Calculate y1 correspoding to x1 using formula.
+        // Calculate y1 corresponding to x1 using formula.
         qreal y1_sqr = b*b*(1 - (x1 * x1) / (a*a));
         qreal y1 = std::sqrt(y1_sqr);
 
@@ -123,7 +123,7 @@ namespace Widget_Utils
      *
      * @param painter The painter with which this shape is to be drawn.
      * @param rect    The rectangle dimensions.
-     * @param triSize The size of the triange in the top-right corner.
+     * @param triSize The size of the triangle in the top-right corner.
      */
     void drawTriangledRect(QPainter *painter,
                            const QRectF &rect, const QSizeF &triSize)
@@ -291,11 +291,11 @@ namespace Widget_Utils
     }
 
     /**
-     * Saves pixmap informatin into dom element \a qElement.
+     * Saves pixmap information into DOM element \a qElement.
      *
-     * @param qDoc The dom document object.
+     * @param qDoc The DOM document object.
      *
-     * @param qElement The dom element into which the pixmap should be
+     * @param qElement The DOM element into which the pixmap should be
      *                 saved.
      *
      * @param pixmap The pixmap to be saved.
@@ -393,11 +393,11 @@ namespace Widget_Utils
     }
 
     /**
-     * Saves gradient information into dom element \a qElement.
+     * Saves gradient information into DOM element \a qElement.
      *
-     * @param qDoc The dom document object.
+     * @param qDoc The DOM document object.
      *
-     * @param qElement The dom element into which the gradient should be
+     * @param qElement The DOM element into which the gradient should be
      *                 saved.
      *
      * @param gradient The gradient to be saved.
@@ -446,7 +446,7 @@ namespace Widget_Utils
      * Extracts the QBrush properties into brush from the XMI xml
      * element qElement.
      *
-     * @param qElement The dom element from which the xmi info should
+     * @param qElement The DOM element from which the xmi info should
      *                 be extracted.
      *
      * @param brush The QBrush object into which brush details should
@@ -497,7 +497,7 @@ namespace Widget_Utils
     }
 
     /**
-     * Saves the brush info as xmi into the dom element \a qElement.
+     * Saves the brush info as xmi into the DOM element \a qElement.
      *
      * @param qDoc The QDomDocument object pointing to the xmi document.
      *
@@ -550,8 +550,8 @@ namespace Widget_Utils
     }
 
     /**
-     * Find the region in which the rectangle 'other' lies with respect to
-     * the rectangle 'self'.
+     * Find the region in which the rectangle \a other lies with respect to
+     * the rectangle \a self.
      * Beware that the Qt coordinate system has its origin point (0,0) in
      * the upper left corner with Y values growing downwards, thus the Y
      * related comparisons might look inverted if your are used to the
@@ -593,6 +593,11 @@ namespace Widget_Utils
         return region;
     }
 
+    /**
+     * Return the point in \a poly which precedes the point at index \a index.
+     * If \a index is 0 then return the last (or, if \a poly.isClosed() is
+     * true, the second to last) point.
+     */
     QPointF prevPoint(int index, const QPolygonF& poly) {
         if (poly.size() < 3 || index >= poly.size())
             return QPoint();
@@ -601,6 +606,11 @@ namespace Widget_Utils
         return poly.at(index - 1);
     }
 
+    /**
+     * Return the point in \a poly which follows the point at index \a index.
+     * If \a index is the last index then return the first (or, if
+     * \a poly.isClosed() is true, the second) point.
+     */
     QPointF nextPoint(int index, const QPolygonF& poly) {
         if (poly.size() < 3 || index >= poly.size())
             return QPoint();
@@ -609,11 +619,12 @@ namespace Widget_Utils
         return poly.at(index + 1);
     }
 
+    /**
+     * Return the middle value between \a a and \a b.
+     */
     qreal middle(qreal a, qreal b)
     {
-        qreal minVal = fmin(a, b);
-        qreal absDiff = fabs(a - b);
-        return minVal + absDiff / 2.0;
+        return (a + b) / 2.0;
     }
 
     /**
