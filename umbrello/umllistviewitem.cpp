@@ -383,10 +383,7 @@ void UMLListViewItem::updateObject()
         break;
 
     case UMLObject::ot_Class:
-        if (m_object->stereotype() == QLatin1String("class-or-package"))
-            icon = Icon_Utils::it_ClassOrPackage;
-        else
-            icon = Model_Utils::convert_LVT_IT(m_type);
+        icon = Model_Utils::convert_LVT_IT(m_type, m_object);
         break;
 
     default:
@@ -402,7 +399,8 @@ void UMLListViewItem::updateObject()
  */
 void UMLListViewItem::updateFolder()
 {
-    Icon_Utils::IconType icon = Model_Utils::convert_LVT_IT(m_type);
+    Icon_Utils::IconType icon = Model_Utils::convert_LVT_IT(m_type, m_object);
+
     if (icon) {
         if (Model_Utils::typeIsFolder(m_type))
             icon = (Icon_Utils::IconType)((int)icon + (int)isExpanded());
