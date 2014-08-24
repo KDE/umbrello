@@ -3657,12 +3657,12 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
         cw = ww * index / totalCount;
     }
 
-    qreal snapX = m_scene->snappedX(x + cw);
-    qreal snapY = m_scene->snappedY(y + ch);
+    qreal newX = x + cw;
+    qreal newY = y + ch;
 
     QPointF pt;
     if (angular) {
-        pt = QPointF(snapX, snapY);
+        pt = QPointF(newX, newY);
     } else {
         UMLWidget *pWidgetA = m_role[RoleType::A].umlWidget;
         UMLWidget *pWidgetB = m_role[RoleType::B].umlWidget;
@@ -3688,18 +3688,18 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
             switch(region) {
                 case Uml::Region::West:
                     pt.setX(x);
-                    pt.setY(snapY);
+                    pt.setY(newY);
                     break;
                 case Uml::Region::North:
-                    pt.setX(snapX);
+                    pt.setX(newX);
                     pt.setY(y);
                     break;
                 case Uml::Region::East:
                     pt.setX(x + ww);
-                    pt.setY(snapY);
+                    pt.setY(newY);
                     break;
                 case Uml::Region::South:
-                    pt.setX(snapX);
+                    pt.setX(newX);
                     pt.setY(y + wh);
                     break;
                 case Uml::Region::Center:
