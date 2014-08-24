@@ -1028,16 +1028,49 @@ void AssociationLine::mousePressEvent(QGraphicsSceneMouseEvent *event)
  */
 void AssociationLine::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+    UMLScene* scene = m_associationWidget->umlScene();
+
+    QPointF oldPos = event->scenePos();
+    QPointF newPos(
+        scene->snappedX(oldPos.x()),
+        scene->snappedY(oldPos.y())
+    );
+
+    // Prevent the moving vertex from disappearing underneath a widget
+    // (else there's no way to get it back.)
+    UMLWidget *onW = scene->widgetAt(newPos);
+    if (onW && onW->baseType() != WidgetBase::wt_Box) {  // boxes are transparent
+        const qreal pX = newPos.x();
+        const qreal pY = newPos.y();
+        const qreal wX = onW->x();
+        const qreal wY = onW->y();
+        const qreal wWidth = onW->width();
+        const qreal wHeight = onW->height();
+        if (pX > wX && pX < wX + wWidth) {
+            const qreal midX = wX + wWidth / 2.0;
+            if (pX <= midX)
+                newPos.setX(wX);
+            else
+                newPos.setX(wX + wWidth);
+        }
+        if (pY > wY && pY < wY + wHeight) {
+            const qreal midY = wY + wHeight / 2.0;
+            if (pY <= midY)
+                newPos.setY(wY);
+            else
+                newPos.setY(wY + wHeight);
+        }
+    }
+
     if (m_activePointIndex != -1) {
-        setPoint(m_activePointIndex, event->scenePos());
+        // Move a single point (snap behaviour)
+        setPoint(m_activePointIndex, newPos);
     }
     else if (m_activeSegmentIndex != -1 && !isEndSegmentIndex(m_activeSegmentIndex)) {
+        // Move a segment (between two points, snap behaviour not implemented)
         QPointF delta = event->scenePos() - event->lastScenePos();
         setPoint(m_activeSegmentIndex, m_points[m_activeSegmentIndex] + delta);
         setPoint(m_activeSegmentIndex + 1, m_points[m_activeSegmentIndex + 1] + delta);
-    }
-    else {
-        return;
     }
 }
 

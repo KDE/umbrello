@@ -3281,41 +3281,6 @@ void AssociationWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 
     setSelected(true);
 
-    // new position for point
-    QPointF p = me->scenePos();
-    if (m_scene->snapToGrid()) {
-        qreal newX = m_scene->snappedX(p.x());
-        qreal newY = m_scene->snappedY(p.y());
-        p.setX(newX);
-        p.setY(newY);
-    }
-
-    // Prevent the moving vertex from disappearing underneath a widget
-    // (else there's no way to get it back.)
-    UMLWidget *onW = m_scene->widgetAt(p);
-    if (onW && onW->baseType() != WidgetBase::wt_Box) {  // boxes are transparent
-        const qreal pX = p.x();
-        const qreal pY = p.y();
-        const qreal wX = onW->x();
-        const qreal wY = onW->y();
-        const qreal wWidth = onW->width();
-        const qreal wHeight = onW->height();
-        if (pX > wX && pX < wX + wWidth) {
-            const qreal midX = wX + wWidth / 2.0;
-            if (pX <= midX)
-                p.setX(wX);
-            else
-                p.setX(wX + wWidth);
-        }
-        if (pY > wY && pY < wY + wHeight) {
-            const qreal midY = wY + wHeight / 2.0;
-            if (pY <= midY)
-                p.setY(wY);
-            else
-                p.setY(wY + wHeight);
-        }
-    }
-
     associationLine()->mouseMoveEvent(me);
     moveEvent(me);
     m_scene->resizeSceneToItems();
