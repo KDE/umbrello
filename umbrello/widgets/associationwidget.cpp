@@ -3821,8 +3821,7 @@ void AssociationWidget::setXEntireAssoc(qreal x)
 {
     for (int i = 0; i < m_associationLine->count(); ++i) {
         QPointF p = m_associationLine->point(i);
-        qreal newX = m_scene->snappedX(x);
-        p.setX(newX);
+        p.setX(x);
         m_associationLine->setPoint(i, p);
     }
 }
@@ -3834,8 +3833,7 @@ void AssociationWidget::setYEntireAssoc(qreal y)
 {
     for (int i = 0; i < m_associationLine->count(); ++i) {
         QPointF p = m_associationLine->point(i);
-        qreal newY = m_scene->snappedY(y);
-        p.setY(newY);
+        p.setY(y);
         m_associationLine->setPoint(i, p);
     }
 }
@@ -3850,8 +3848,6 @@ void AssociationWidget::moveMidPointsBy(qreal x, qreal y)
         QPointF p = m_associationLine->point( i );
         qreal newX = p.x() + x;
         qreal newY = p.y() + y;
-        newX = m_scene->snappedX( newX );
-        newY = m_scene->snappedY( newY );
         p.setX( newX );
         p.setY( newY );
         m_associationLine->setPoint( i, p );
