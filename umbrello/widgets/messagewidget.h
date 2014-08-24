@@ -17,7 +17,6 @@
 // forward declarations
 class FloatingTextWidget;
 class ObjectWidget;
-class QMoveEvent;
 class QResizeEvent;
 class UMLOperation;
 

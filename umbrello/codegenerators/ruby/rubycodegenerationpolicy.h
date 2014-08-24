@@ -18,7 +18,6 @@
 
 #include <QString>
 
-class KConfig;
 class CodeGenerationPolicyPage;
 
 class RubyCodeGenerationPolicy : public CodeGenPolicyExt

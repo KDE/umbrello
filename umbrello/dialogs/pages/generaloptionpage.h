@@ -19,7 +19,6 @@ class KComboBox;
 class QGroupBox;
 class QCheckBox;
 class QLabel;
-class QGridLayout;
 
 /**
  * A dialog page to display auto layouts options

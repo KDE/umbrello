@@ -19,7 +19,6 @@
 #include <QString>
 #include <QStringList>
 
-class UMLDoc;
 
 /**
  * A simple code generator interface designed to work with

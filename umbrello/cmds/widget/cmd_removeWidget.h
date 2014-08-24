@@ -15,7 +15,6 @@
 
 #include <QDomElement>
 
-class UMLScene;
 class UMLWidget;
 
 namespace Uml

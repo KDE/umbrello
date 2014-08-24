@@ -27,7 +27,6 @@
 class UMLDoc;
 class UMLObject;
 class ClassifierCodeDocument;
-class CodeBlock;
 class CodeDocument;
 class CodeViewerDialog;
 class QDomDocument;

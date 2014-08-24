@@ -18,7 +18,6 @@
 #include <QWidget>
 
 class StateWidget;
-class ListPopupMenu;
 class QGroupBox;
 class QListWidget;
 class QPushButton;

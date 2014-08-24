@@ -14,8 +14,6 @@
 #include "classifierwidget.h"
 #include "cmd_baseWidgetCommand.h"
 
-class UMLWidget;
-class UMLScene;
 
 namespace Uml
 {

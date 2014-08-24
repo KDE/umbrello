@@ -21,7 +21,6 @@
 #include <QPainter>
 
 // forward declarations
-class ListPopupMenu;
 class QAction;
 class UMLDoc;
 class UMLObject;

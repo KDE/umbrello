@@ -21,13 +21,11 @@
 #include <QFont>
 
 class IDChangeLog;
-class ListPopupMenu;
 class UMLDoc;
 class UMLObject;
 class UMLScene;
 
 class QPainter;
-class QMoveEvent;
 class QFontMetrics;
 
 /**
