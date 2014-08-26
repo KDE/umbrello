@@ -78,8 +78,18 @@ bool assignUniqueIdOnCreation()
     return (g_predefinedId == Uml::ID::None);
 }
 
+/**
+ * Creates a new UMLObject of the given type.
+ * No check is made for whether the object named \a name already exists.
+ * If the name shall be checked then use @ref createUMLObject.
+ *
+ * @param type      The type of @ref UMLObject to create.
+ * @param name      Name to give to the object (mandatory.)
+ * @param parentPkg The object's parent package.
+ * @param undoable  Whether to insert the object creation into the undo stack (default: true.)
+ */
 UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
-                              UMLPackage *parentPkg)
+                              UMLPackage *parentPkg, bool undoable /* = true */)
 {
     if (parentPkg == NULL) {
         uError() << name << ": parentPkg is NULL";
@@ -140,6 +150,13 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
             return NULL;
     }
 
+    if (!undoable) {
+        o->setUMLPackage(parentPkg);
+        UMLApp::app()->document()->signalUMLObjectCreated(o);
+        qApp->processEvents();
+        return o;
+    }
+
     // One user action can result in multiple commands when adding objects via
     // the toolbar. E.g. "create uml object" and "create widget". Wrap all
     // commands in one macro. When adding items via list view, this macro will
@@ -194,7 +211,7 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
             if (!solicitNewName)
                 return o;
         } else {
-            o = createNewUMLObject(type, n, parentPkg);
+            o = createNewUMLObject(type, n, parentPkg, solicitNewName);
             return o;
         }
     }

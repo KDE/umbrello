@@ -30,7 +30,8 @@ UMLObject* createUMLObject(UMLObject::ObjectType type,
 
 UMLObject* createNewUMLObject(UMLObject::ObjectType type,
                               const QString &n,
-                              UMLPackage *parentPkg);
+                              UMLPackage *parentPkg,
+                              bool undoable = true);
 
 UMLClassifierListItem* createChildObject(UMLClassifier *parent,
                                          UMLObject::ObjectType type,
