@@ -181,7 +181,10 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
         // Remember packages that we've seen - for avoiding cycles.
         UMLPackageList seenPkgs;
         for (; pkg; pkg = currentObj->umlPackage()) {
-            if (nameWithoutFirstPrefix.isEmpty()) {
+            if (nameWithoutFirstPrefix.isEmpty()
+                && (type == UMLObject::ot_UMLObject ||
+                    type == UMLObject::ot_Folder ||
+                    type == UMLObject::ot_Package || type == pkg->baseType())) {
                 if (caseSensitive) {
                     if (pkg->name() == name)
                         return pkg;
