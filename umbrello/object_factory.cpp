@@ -208,8 +208,18 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
     if (!n.isEmpty()) {
         UMLObject *o = doc->findUMLObject(n, type, parentPkg);
         if (o) {
-            if (!solicitNewName)
+            if (!solicitNewName) {
+                if (type == UMLObject::ot_UMLObject || o->baseType() == type) {
+                    uDebug() << o->name() << " already known - returning existing object";
+                    return o;
+                }
+                uWarning() << o->name() << " exists but is of type "
+                           << UMLObject::toString(o->baseType())
+                           << " - creating new object of type "
+                           << UMLObject::toString(type);
+                o = createNewUMLObject(type, n, parentPkg, false);
                 return o;
+            }
         } else {
             o = createNewUMLObject(type, n, parentPkg, solicitNewName);
             return o;
