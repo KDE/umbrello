@@ -17,7 +17,6 @@
 
 #include <QString>
 
-class KConfig;
 class CodeGenerationPolicyPage;
 
 class DCodeGenerationPolicy : public CodeGenPolicyExt

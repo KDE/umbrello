@@ -14,7 +14,6 @@
 #include <QObject>
 
 class QWidget;
-class KConfig;
 class CodeGenerationPolicyPage;
 
 /**

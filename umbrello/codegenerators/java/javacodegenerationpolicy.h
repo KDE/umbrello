@@ -17,7 +17,6 @@
 
 #include <QString>
 
-class KConfig;
 class CodeGenerationPolicyPage;
 
 class JavaCodeGenerationPolicy : public CodeGenPolicyExt

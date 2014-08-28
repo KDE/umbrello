@@ -18,7 +18,6 @@
 #include "umlviewlist.h"
 #include "umlwidgetlist.h"
 
-class IDChangeLog;
 class QMimeData;
 
 /**

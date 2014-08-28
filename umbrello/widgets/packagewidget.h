@@ -14,6 +14,7 @@
 #include "umlwidget.h"
 
 class UMLPackage;
+class ListPopupMenu;
 
 #define PACKAGE_MARGIN 5
 

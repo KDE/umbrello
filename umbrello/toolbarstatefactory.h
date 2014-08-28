@@ -18,7 +18,6 @@
 
 #define NR_OF_TOOLBAR_STATES 5
 
-class UMLView;
 
 
 /**

@@ -15,7 +15,6 @@
 #include "dialogpagebase.h"
 
 class AssociationWidget;
-class ListPopupMenu;
 class QGroupBox;
 class QListWidget;
 class QListWidgetItem;

@@ -16,7 +16,6 @@
 
 //forward declarations
 class ActivityPage;
-class UMLView;
 class StateWidget;
 class KLineEdit;
 class QGroupBox;

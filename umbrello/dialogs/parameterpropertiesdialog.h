@@ -19,7 +19,6 @@
 #include <ktextedit.h>
 
 class UMLDoc;
-class QComboBox;
 class QGroupBox;
 class QLabel;
 class QRadioButton;

@@ -18,7 +18,6 @@ class KLineEdit;
 class QCheckBox;
 class QGroupBox;
 class QLabel;
-class QRadioButton;
 class UMLClassifier;
 class UMLView;
 

@@ -24,7 +24,6 @@
 #include <QList>
 #include <QString>
 
-class UMLRole;
 
 /**
   * class ClassifierCodeDocument

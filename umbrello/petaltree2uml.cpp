@@ -610,7 +610,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
             }
         }
         if (isSubsystem)
-            o->setStereotype(QLatin1String("subsystem"));
+            o->setStereotypeCmd(QLatin1String("subsystem"));
         parentPkg->addObject(o);
 
     } else if (objType == QLatin1String("Class")) {
@@ -630,7 +630,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
                 } else {
                     if (stereotype == QLatin1String("CORBAInterface"))
                         c->setBaseType(UMLObject::ot_Interface);
-                    c->setStereotype(stereotype);
+                    c->setStereotypeCmd(stereotype);
                 }
             }
             // insert attributes

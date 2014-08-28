@@ -14,7 +14,6 @@
 #include "umlfinder.h"
 
 class UMLView;
-class UMLWidget;
 
 /**
   * UMLListViewFinder provides finding of items in the tree view

@@ -15,7 +15,6 @@
 #include "codeblock.h"
 #include "codecomment.h"
 
-class HierarchicalCodeBlock;
 
 /**
  * class CodeBlockWithComments

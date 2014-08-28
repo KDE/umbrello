@@ -27,8 +27,6 @@ class QMouseEvent;
 class QFocusEvent;
 class QKeyEvent;
 class QDropEvent;
-class IDChangeLog;
-class ListPopupMenu;
 class UMLClassifier;
 class UMLDoc;
 class UMLView;

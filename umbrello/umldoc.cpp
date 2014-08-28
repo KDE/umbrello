@@ -849,7 +849,7 @@ UMLObject* UMLDoc::findUMLObject(const QString &name,
 /**
  * Used to find a @ref UMLObject by its type and raw name.
  *
- * @param modelType    The Mmdel type in which to search for the object
+ * @param modelType    The model type in which to search for the object
  * @param name         The raw name of the @ref UMLObject to find.
  * @param type         ObjectType of the object to find
  * @return  Pointer to the UMLObject found, or NULL if not found.

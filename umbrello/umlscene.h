@@ -37,13 +37,11 @@
 class ClassOptionsPage;
 class IDChangeLog;
 class LayoutGrid;
-class ListPopupMenu;
 class FloatingTextWidget;
 class ObjectWidget;
 class ToolBarState;
 class ToolBarStateFactory;
 class UMLFolder;
-class UMLApp;
 class UMLDoc;
 class UMLAttribute;
 class UMLCanvasObject;
@@ -53,9 +51,6 @@ class UMLForeignKeyConstraint;
 class UMLEntity;
 class UMLView;
 
-class QCloseEvent;
-class QDragEnterEvent;
-class QDropEvent;
 class QHideEvent;
 class QMouseEvent;
 class QPrinter;

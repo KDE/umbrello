@@ -3281,41 +3281,6 @@ void AssociationWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 
     setSelected(true);
 
-    // new position for point
-    QPointF p = me->scenePos();
-    if (m_scene->snapToGrid()) {
-        qreal newX = m_scene->snappedX(p.x());
-        qreal newY = m_scene->snappedY(p.y());
-        p.setX(newX);
-        p.setY(newY);
-    }
-
-    // Prevent the moving vertex from disappearing underneath a widget
-    // (else there's no way to get it back.)
-    UMLWidget *onW = m_scene->widgetAt(p);
-    if (onW && onW->baseType() != WidgetBase::wt_Box) {  // boxes are transparent
-        const qreal pX = p.x();
-        const qreal pY = p.y();
-        const qreal wX = onW->x();
-        const qreal wY = onW->y();
-        const qreal wWidth = onW->width();
-        const qreal wHeight = onW->height();
-        if (pX > wX && pX < wX + wWidth) {
-            const qreal midX = wX + wWidth / 2.0;
-            if (pX <= midX)
-                p.setX(wX);
-            else
-                p.setX(wX + wWidth);
-        }
-        if (pY > wY && pY < wY + wHeight) {
-            const qreal midY = wY + wHeight / 2.0;
-            if (pY <= midY)
-                p.setY(wY);
-            else
-                p.setY(wY + wHeight);
-        }
-    }
-
     associationLine()->mouseMoveEvent(me);
     moveEvent(me);
     m_scene->resizeSceneToItems();
@@ -3666,8 +3631,22 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
     } else {
         UMLWidget *pWidgetA = m_role[RoleType::A].umlWidget;
         UMLWidget *pWidgetB = m_role[RoleType::B].umlWidget;
-        QPolygonF polyA = pWidgetA->shape().toFillPolygon().translated(pWidgetA->pos());
-        QPolygonF polyB = pWidgetB->shape().toFillPolygon().translated(pWidgetB->pos());
+        QList<QPolygonF> polyListA = pWidgetA->shape().toSubpathPolygons();
+        QPolygonF polyA = polyListA.at(0);
+        if (polyListA.size() > 1) {
+            for (int i = 1; i < polyListA.size(); i++) {
+                 polyA = polyA.united(polyListA.at(i));
+            }
+        }
+        polyA = polyA.translated(pWidgetA->pos());
+        QList<QPolygonF> polyListB = pWidgetB->shape().toSubpathPolygons();
+        QPolygonF polyB = polyListB.at(0);
+        if (polyListB.size() > 1) {
+            for (int i = 1; i < polyListB.size(); i++) {
+                 polyB = polyB.united(polyListB.at(i));
+            }
+        }
+        polyB = polyB.translated(pWidgetB->pos());
         QLineF nearestPoints = Widget_Utils::closestPoints(polyA, polyB);
         if (nearestPoints.isNull()) {
             uError() << "Widget_Utils::closestPoints failed, falling back to simple widget positions";
@@ -3842,8 +3821,7 @@ void AssociationWidget::setXEntireAssoc(qreal x)
 {
     for (int i = 0; i < m_associationLine->count(); ++i) {
         QPointF p = m_associationLine->point(i);
-        qreal newX = m_scene->snappedX(x);
-        p.setX(newX);
+        p.setX(x);
         m_associationLine->setPoint(i, p);
     }
 }
@@ -3855,8 +3833,7 @@ void AssociationWidget::setYEntireAssoc(qreal y)
 {
     for (int i = 0; i < m_associationLine->count(); ++i) {
         QPointF p = m_associationLine->point(i);
-        qreal newY = m_scene->snappedY(y);
-        p.setY(newY);
+        p.setY(y);
         m_associationLine->setPoint(i, p);
     }
 }
@@ -3871,8 +3848,6 @@ void AssociationWidget::moveMidPointsBy(qreal x, qreal y)
         QPointF p = m_associationLine->point( i );
         qreal newX = p.x() + x;
         qreal newY = p.y() + y;
-        newX = m_scene->snappedX( newX );
-        newY = m_scene->snappedY( newY );
         p.setX( newX );
         p.setY( newY );
         m_associationLine->setPoint( i, p );

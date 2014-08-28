@@ -13,7 +13,6 @@
 
 #include <QString>
 
-class QGroupBox;
 class QGridLayout;
 class QLabel;
 class UMLWidget;

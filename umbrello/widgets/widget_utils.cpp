@@ -93,9 +93,9 @@ namespace Widget_Utils
         qreal xc = ellipse.center().x();
         qreal yc = ellipse.center().y();
 
-        // The first point's x value is chose to be center.x() + 70% of x radius.
+        // The first point's x value is chosen to be center.x() + 70% of x radius.
         qreal x1 = ellipse.center().x() + .7 * .5 * ellipse.width();
-        // Calculate y1 correspoding to x1 using formula.
+        // Calculate y1 corresponding to x1 using formula.
         qreal y1_sqr = b*b*(1 - (x1 * x1) / (a*a));
         qreal y1 = std::sqrt(y1_sqr);
 
@@ -117,13 +117,13 @@ namespace Widget_Utils
     }
 
     /**
-     * Draws a polygon which is almost rectanguar except for the top
+     * Draws a polygon which is almost rectangular except for the top
      * right corner. A triangle is drawn in top right corner of the
      * rectangle.
      *
      * @param painter The painter with which this shape is to be drawn.
      * @param rect    The rectangle dimensions.
-     * @param triSize The size of the triange in the top-right corner.
+     * @param triSize The size of the triangle in the top-right corner.
      */
     void drawTriangledRect(QPainter *painter,
                            const QRectF &rect, const QSizeF &triSize)
@@ -291,11 +291,11 @@ namespace Widget_Utils
     }
 
     /**
-     * Saves pixmap informatin into dom element \a qElement.
+     * Saves pixmap information into DOM element \a qElement.
      *
-     * @param qDoc The dom document object.
+     * @param qDoc The DOM document object.
      *
-     * @param qElement The dom element into which the pixmap should be
+     * @param qElement The DOM element into which the pixmap should be
      *                 saved.
      *
      * @param pixmap The pixmap to be saved.
@@ -393,11 +393,11 @@ namespace Widget_Utils
     }
 
     /**
-     * Saves gradient information into dom element \a qElement.
+     * Saves gradient information into DOM element \a qElement.
      *
-     * @param qDoc The dom document object.
+     * @param qDoc The DOM document object.
      *
-     * @param qElement The dom element into which the gradient should be
+     * @param qElement The DOM element into which the gradient should be
      *                 saved.
      *
      * @param gradient The gradient to be saved.
@@ -446,7 +446,7 @@ namespace Widget_Utils
      * Extracts the QBrush properties into brush from the XMI xml
      * element qElement.
      *
-     * @param qElement The dom element from which the xmi info should
+     * @param qElement The DOM element from which the xmi info should
      *                 be extracted.
      *
      * @param brush The QBrush object into which brush details should
@@ -497,7 +497,7 @@ namespace Widget_Utils
     }
 
     /**
-     * Saves the brush info as xmi into the dom element \a qElement.
+     * Saves the brush info as xmi into the DOM element \a qElement.
      *
      * @param qDoc The QDomDocument object pointing to the xmi document.
      *
@@ -550,8 +550,8 @@ namespace Widget_Utils
     }
 
     /**
-     * Find the region in which the rectangle 'other' lies with respect to
-     * the rectangle 'self'.
+     * Find the region in which the rectangle \a other lies with respect to
+     * the rectangle \a self.
      * Beware that the Qt coordinate system has its origin point (0,0) in
      * the upper left corner with Y values growing downwards, thus the Y
      * related comparisons might look inverted if your are used to the
@@ -593,27 +593,89 @@ namespace Widget_Utils
         return region;
     }
 
+    /**
+     * Return the point in \a poly which precedes the point at index \a index.
+     * If \a index is 0 then return the last (or, if \a poly.isClosed() is
+     * true, the second to last) point.
+     */
     QPointF prevPoint(int index, const QPolygonF& poly) {
-        if (poly.size() < 3 || index > poly.size() - 1)
+        if (poly.size() < 3 || index >= poly.size())
             return QPoint();
         if (index == 0)
-            return poly.at(poly.size() - 1);
+            return poly.at(poly.size() - 1 - (int)poly.isClosed());
         return poly.at(index - 1);
     }
 
+    /**
+     * Return the point in \a poly which follows the point at index \a index.
+     * If \a index is the last index then return the first (or, if
+     * \a poly.isClosed() is true, the second) point.
+     */
     QPointF nextPoint(int index, const QPolygonF& poly) {
-        if (poly.size() < 3 || index > poly.size() - 1)
+        if (poly.size() < 3 || index >= poly.size())
             return QPoint();
         if (index == poly.size() - 1)
-            return poly.at(0);
+            return poly.at((int)poly.isClosed());
         return poly.at(index + 1);
     }
 
+    /**
+     * Return the middle value between \a a and \a b.
+     */
     qreal middle(qreal a, qreal b)
     {
-        qreal minVal = fmin(a, b);
-        qreal absDiff = fabs(a - b);
-        return minVal + absDiff / 2.0;
+        return (a + b) / 2.0;
+    }
+
+    /**
+     * Auxiliary type for function findLine()
+     */
+    enum Axis_Type { X , Y };
+
+    /**
+     * Auxiliary type for function findLine()
+     */
+    enum Comparison_Type { Smallest, Largest };
+
+    /**
+     * Find the line of \a poly with the smallest or largest value (controlled by \a seek)
+     * along the axis controlled by \a axis.
+     * In case \a axis is X, do not consider lines whose Y values lie outside the Y values
+     * defined by \a boundingRect.
+     * In case \a axis is Y, do not consider lines whose X values lie outside the X values
+     * defined by \a boundingRect.
+     */
+    QLineF findLine(const QPolygonF& poly, Axis_Type axis, Comparison_Type seek, const QRectF& boundingRect)
+    {
+        const int lastIndex = poly.size() - 1 - (int)poly.isClosed();
+        QPointF prev = poly.at(lastIndex), curr;
+        QPointF p1(seek == Smallest ? QPointF(1.0e6, 1.0e6) : QPointF(-1.0e6, -1.0e6));
+        QPointF p2;
+        for (int i = 0; i <= lastIndex; i++) {
+            curr = poly.at(i);
+            // uDebug() << "  poly[" << i << "] = " << curr;
+            if (axis == X) {
+                if (fmin(prev.y(), curr.y()) > boundingRect.y() + boundingRect.height() ||
+                    fmax(prev.y(), curr.y()) < boundingRect.y()) {
+                    // line is outside Y-axis range defined by boundingRect
+                } else if ((seek == Smallest && curr.x() <= p1.x()) ||
+                           (seek == Largest  && curr.x() >= p1.x())) {
+                    p1 = curr;
+                    p2 = prev;
+                }
+            } else {
+                if (fmin(prev.x(), curr.x()) > boundingRect.x() + boundingRect.width() ||
+                    fmax(prev.x(), curr.x()) < boundingRect.x()) {
+                    // line is outside X-axis range defined by boundingRect
+                } else if ((seek == Smallest && curr.y() <= p1.y()) ||
+                           (seek == Largest  && curr.y() >= p1.y())) {
+                    p1 = curr;
+                    p2 = prev;
+                }
+            }
+            prev = curr;
+        }
+        return QLineF(p1, p2);
     }
 
     /**
@@ -625,7 +687,9 @@ namespace Widget_Utils
      */
     QLineF closestPoints(const QPolygonF& self, const QPolygonF& other)
     {
-        Uml::Region::Enum region = findRegion(self.boundingRect(), other.boundingRect());
+        const QRectF& selfRect = self.boundingRect();
+        const QRectF& otherRect = other.boundingRect();
+        Uml::Region::Enum region = findRegion(selfRect, otherRect);
         if (region == Uml::Region::Center)
             return QLineF();
         if (self.size() < 3 || other.size() < 3)
@@ -633,245 +697,123 @@ namespace Widget_Utils
         QLineF result;
         const int selfLastIndex  = self.size()  - 1 - (int)self.isClosed();
         const int otherLastIndex = other.size() - 1 - (int)other.isClosed();
-        int selfIndex = selfLastIndex;
-        int otherIndex = otherLastIndex;
-        QPointF selfPoint1(self.at(selfIndex));
-        QPointF otherPoint1(other.at(otherIndex));
-        QPointF prev, next, selfPoint2, otherPoint2;
+        QPointF selfPoint(self.at(selfLastIndex));
+        QPointF otherPoint(other.at(otherLastIndex));
+        QLineF selfLine, otherLine;
         int i;
 
         switch (region) {
 
         case Uml::Region::North:
             // Find other's line with largest Y values
-            for (i = 0; i < otherLastIndex; i++) {
-                QPointF current(other.at(i));
-                if (current.y() > otherPoint1.y()) {
-                    otherIndex = i;
-                    otherPoint1 = current;
-                }
-            }
-            prev = prevPoint(otherIndex, other);
-            next = nextPoint(otherIndex, other);
-            if (prev.y() > next.y()) {
-                otherPoint2 = otherPoint1;
-                otherPoint1 = prev;
-            } else {
-                otherPoint2 = next;
-            }
+            otherLine = findLine(other, Y, Largest, selfRect);
             // Find own line with smallest Y values
-            for (i = 0; i < selfLastIndex; i++) {
-                QPointF current(self.at(i));
-                if (current.y() < selfPoint1.y()) {
-                    selfIndex = i;
-                    selfPoint1 = current;
-                }
-            }
-            prev = prevPoint(selfIndex, self);
-            next = nextPoint(selfIndex, self);
-            if (prev.y() < next.y()) {
-                selfPoint2 = selfPoint1;
-                selfPoint1 = prev;
-            } else {
-                selfPoint2 = next;
-            }
+            selfLine = findLine(self, Y, Smallest, otherRect);
             // Use the middle value of the X values
-            result.setLine(middle(selfPoint2.x() ,selfPoint1.x()), selfPoint1.y(),
-                           middle(otherPoint2.x() ,otherPoint1.x()), otherPoint1.y());
+            result.setLine(middle(selfLine.p2().x(), selfLine.p1().x()), selfLine.p1().y(),
+                           middle(otherLine.p2().x(), otherLine.p1().x()), otherLine.p1().y());
             break;
 
         case Uml::Region::South:
             // Find other's line with smallest Y values
-            for (i = 0; i < otherLastIndex; i++) {
-                QPointF current(other.at(i));
-                if (current.y() < otherPoint1.y()) {
-                    otherIndex = i;
-                    otherPoint1 = current;
-                }
-            }
-            prev = prevPoint(otherIndex, other);
-            next = nextPoint(otherIndex, other);
-            if (prev.y() < next.y()) {
-                otherPoint2 = otherPoint1;
-                otherPoint1 = prev;
-            } else {
-                otherPoint2 = next;
-            }
+            otherLine = findLine(other, Y, Smallest, selfRect);
             // Find own line with largest Y values
-            for (i = 0; i < selfLastIndex; i++) {
-                QPointF current(self.at(i));
-                if (current.y() > selfPoint1.y()) {
-                    selfIndex = i;
-                    selfPoint1 = current;
-                }
-            }
-            prev = prevPoint(selfIndex, self);
-            next = nextPoint(selfIndex, self);
-            if (prev.y() > next.y()) {
-                selfPoint2 = selfPoint1;
-                selfPoint1 = prev;
-            } else {
-                selfPoint2 = next;
-            }
+            selfLine = findLine(self, Y, Largest, otherRect);
             // Use the middle value of the X values
-            result.setLine(middle(selfPoint2.x() ,selfPoint1.x()), selfPoint1.y(),
-                           middle(otherPoint2.x() ,otherPoint1.x()), otherPoint1.y());
+            result.setLine(middle(selfLine.p2().x(), selfLine.p1().x()), selfLine.p1().y(),
+                           middle(otherLine.p2().x(), otherLine.p1().x()), otherLine.p1().y());
             break;
 
         case Uml::Region::West:
             // Find other's line with largest X values
-            for (i = 0; i < otherLastIndex; i++) {
-                QPointF current(other.at(i));
-                if (current.x() > otherPoint1.x()) {
-                    otherIndex = i;
-                    otherPoint1 = current;
-                }
-            }
-            prev = prevPoint(otherIndex, other);
-            next = nextPoint(otherIndex, other);
-            if (prev.x() > next.x()) {
-                otherPoint2 = otherPoint1;
-                otherPoint1 = prev;
-            } else {
-                otherPoint2 = next;
-            }
+            otherLine = findLine(other, X, Largest, selfRect);
             // Find own line with smallest X values
-            for (i = 0; i < selfLastIndex; i++) {
-                QPointF current(self.at(i));
-                if (current.x() < selfPoint1.x()) {
-                    selfIndex = i;
-                    selfPoint1 = current;
-                }
-            }
-            prev = prevPoint(selfIndex, self);
-            next = nextPoint(selfIndex, self);
-            if (prev.x() < next.x()) {
-                selfPoint2 = selfPoint1;
-                selfPoint1 = prev;
-            } else {
-                selfPoint2 = next;
-            }
+            selfLine = findLine(self, X, Smallest, otherRect);
             // Use the middle value of the Y values
-            result.setLine(selfPoint1.x(), middle(selfPoint2.y() ,selfPoint1.y()),
-                           otherPoint1.x(), middle(otherPoint2.y() ,otherPoint1.y()));
+            result.setLine(selfLine.p1().x(), middle(selfLine.p2().y(), selfLine.p1().y()),
+                           otherLine.p1().x(), middle(otherLine.p2().y(), otherLine.p1().y()));
             break;
 
         case Uml::Region::East:
             // Find other's line with smallest X values
-            for (i = 0; i < otherLastIndex; i++) {
-                QPointF current(other.at(i));
-                if (current.x() < otherPoint1.x()) {
-                    otherIndex = i;
-                    otherPoint1 = current;
-                }
-            }
-            prev = prevPoint(otherIndex, other);
-            next = nextPoint(otherIndex, other);
-            if (prev.x() < next.x()) {
-                otherPoint2 = otherPoint1;
-                otherPoint1 = prev;
-            } else {
-                otherPoint2 = next;
-            }
+            otherLine = findLine(other, X, Smallest, selfRect);
             // Find own line with largest X values
-            for (i = 0; i < selfLastIndex; i++) {
-                QPointF current(self.at(i));
-                if (current.x() > selfPoint1.x()) {
-                    selfIndex = i;
-                    selfPoint1 = current;
-                }
-            }
-            prev = prevPoint(selfIndex, self);
-            next = nextPoint(selfIndex, self);
-            if (prev.x() > next.x()) {
-                selfPoint2 = selfPoint1;
-                selfPoint1 = prev;
-            } else {
-                selfPoint2 = next;
-            }
+            selfLine = findLine(self, X, Largest, otherRect);
             // Use the middle value of the Y values
-            result.setLine(selfPoint1.x(), middle(selfPoint2.y() ,selfPoint1.y()),
-                           otherPoint1.x(), middle(otherPoint2.y() ,otherPoint1.y()));
+            result.setLine(selfLine.p1().x(), middle(selfLine.p2().y(), selfLine.p1().y()),
+                           otherLine.p1().x(), middle(otherLine.p2().y(), otherLine.p1().y()));
             break;
 
         case Uml::Region::NorthWest:
             // Find other's point with largest X and largest Y value
             for (i = 0; i < otherLastIndex; i++) {
                 QPointF current(other.at(i));
-                if (current.x() >= otherPoint1.x() && current.y() >= otherPoint1.y()) {
-                    otherIndex = i;
-                    otherPoint1 = current;
+                if (current.x() + current.y() >= otherPoint.x() + otherPoint.y()) {
+                    otherPoint = current;
                 }
             }
             // Find own point with smallest X and smallest Y value
             for (i = 0; i < selfLastIndex; i++) {
                 QPointF current(self.at(i));
-                if (current.x() <= selfPoint1.x() && current.y() <= selfPoint1.y()) {
-                    selfIndex = i;
-                    selfPoint1 = current;
+                if (current.x() + current.y() <= selfPoint.x() + selfPoint.y()) {
+                    selfPoint = current;
                 }
             }
-            result.setPoints(selfPoint1, otherPoint1);
+            result.setPoints(selfPoint, otherPoint);
             break;
 
         case Uml::Region::SouthWest:
             // Find other's point with largest X and smallest Y value
             for (i = 0; i < otherLastIndex; i++) {
                 QPointF current(other.at(i));
-                if (current.x() >= otherPoint1.x() && current.y() <= otherPoint1.y()) {
-                    otherIndex = i;
-                    otherPoint1 = current;
+                if (current.x() >= otherPoint.x() && current.y() <= otherPoint.y()) {
+                    otherPoint = current;
                 }
             }
             // Find own point with smallest X and largest Y value
             for (i = 0; i < selfLastIndex; i++) {
                 QPointF current(self.at(i));
-                if (current.x() <= selfPoint1.x() && current.y() >= selfPoint1.y()) {
-                    selfIndex = i;
-                    selfPoint1 = current;
+                if (current.x() <= selfPoint.x() && current.y() >= selfPoint.y()) {
+                    selfPoint = current;
                 }
             }
-            result.setPoints(selfPoint1, otherPoint1);
+            result.setPoints(selfPoint, otherPoint);
             break;
 
         case Uml::Region::NorthEast:
             // Find other's point with smallest X and largest Y value
             for (i = 0; i < otherLastIndex; i++) {
                 QPointF current(other.at(i));
-                if (current.x() <= otherPoint1.x() && current.y() >= otherPoint1.y()) {
-                    otherIndex = i;
-                    otherPoint1 = current;
+                if (current.x() <= otherPoint.x() && current.y() >= otherPoint.y()) {
+                    otherPoint = current;
                 }
             }
             // Find own point with largest X and smallest Y value
             for (i = 0; i < selfLastIndex; i++) {
                 QPointF current(self.at(i));
-                if (current.x() >= selfPoint1.x() && current.y() <= selfPoint1.y()) {
-                    selfIndex = i;
-                    selfPoint1 = current;
+                if (current.x() >= selfPoint.x() && current.y() <= selfPoint.y()) {
+                    selfPoint = current;
                 }
             }
-            result.setPoints(selfPoint1, otherPoint1);
+            result.setPoints(selfPoint, otherPoint);
             break;
 
         case Uml::Region::SouthEast:
             // Find other's point with smallest X and smallest Y value
             for (i = 0; i < otherLastIndex; i++) {
                 QPointF current(other.at(i));
-                if (current.x() <= otherPoint1.x() && current.y() <= otherPoint1.y()) {
-                    otherIndex = i;
-                    otherPoint1 = current;
+                if (current.x() + current.y() <= otherPoint.x() + otherPoint.y()) {
+                    otherPoint = current;
                 }
             }
             // Find own point with largest X and largest Y value
             for (i = 0; i < selfLastIndex; i++) {
                 QPointF current(self.at(i));
-                if (current.x() >= selfPoint1.x() && current.y() >= selfPoint1.y()) {
-                    selfIndex = i;
-                    selfPoint1 = current;
+                if (current.x() + current.y() >= selfPoint.x() + selfPoint.y()) {
+                    selfPoint = current;
                 }
             }
-            result.setPoints(selfPoint1, otherPoint1);
+            result.setPoints(selfPoint, otherPoint);
             break;
 
         default:

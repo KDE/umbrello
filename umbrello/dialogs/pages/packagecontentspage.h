@@ -12,7 +12,6 @@
 
 #include "dialogpagebase.h"
 
-class ListPopupMenu;
 class UMLPackage;
 class QGroupBox;
 class QListWidget;

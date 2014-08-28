@@ -16,8 +16,6 @@
 #include <QDomElement>
 #include <QUndoCommand>
 
-class UMLDoc;
-class UMLView;
 class UMLFolder;
 
 namespace Uml

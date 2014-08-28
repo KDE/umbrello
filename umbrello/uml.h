@@ -41,14 +41,12 @@ class KRecentFilesAction;
 class KToggleAction;
 class KTabWidget;
 class KMenu;
-class KMenuBar;
 class KUndoStack;
 class KAction;
 
 // Qt forward declarations
 class QStackedWidget;
 class QToolButton;
-class QCustomEvent;
 class QDockWidget;
 class QVBoxLayout;
 class QKeyEvent;
