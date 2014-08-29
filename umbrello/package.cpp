@@ -265,7 +265,7 @@ UMLObject * UMLPackage::findObjectById(Uml::ID::Type id)
 }
 
 /**
- * Append all packages from this packaed (and those from nested packeges)
+ * Append all packages from this package (and those from nested packages)
  * to the given UMLPackageList.
  *
  * @param packages        The list to append to
@@ -277,8 +277,8 @@ void UMLPackage::appendPackages(UMLPackageList& packages, bool includeNested)
     for (UMLObjectListIt oit(m_objects); oit.hasNext();) {
         UMLObject *o = oit.next();
         ObjectType ot = o->baseType();
-        if (ot == ot_Package) {
-            packages.append((UMLPackage *)o);
+        if (ot == ot_Package || ot == ot_Folder) {
+            packages.append(static_cast<UMLPackage*>(o));
             if (includeNested) {
                UMLPackage *inner = static_cast<UMLPackage*>(o);
                inner->appendPackages(packages);

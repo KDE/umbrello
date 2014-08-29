@@ -158,7 +158,9 @@ UMLView *UMLFolder::findView(Uml::ID::Type id)
     }
 
     UMLView* v = 0;
-    foreach (UMLObject* o, m_objects) {
+    UMLPackageList packages;
+    appendPackages(packages);
+    foreach (UMLPackage *o, packages) {
         if (o->baseType() != UMLObject::ot_Folder) {
             continue;
         }
