@@ -169,7 +169,7 @@ void UMLDoc::addView(UMLView *view)
         uError() << "view folder is not set";
         return;
     }
-    DEBUG(DBG_SRC) << view->umlScene()->name() << " to folder " << *f;
+    DEBUG(DBG_SRC) << view->umlScene()->name() << " to folder " << *f << " (" << f->name() << ")";
     f->addView(view);
 
     UMLApp * pApp = UMLApp::app();
