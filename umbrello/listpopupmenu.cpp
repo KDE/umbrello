@@ -1213,6 +1213,9 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
         insert(mt_DrawAsCircle, i18n("Draw as Circle"), CHECKABLE);
         setActionChecked(mt_DrawAsCircle, c->visualProperty(ClassifierWidget::DrawAsCircle));
         insert(mt_ChangeToClass, i18n("Change into Class"));
+    } else if (type == WidgetBase::wt_Class && c->umlObject() && c->umlObject()->stereotype() == QLatin1String("class-or-package")) {
+            insert(mt_ChangeToClass, i18n("Change into Class"));
+            insert(mt_ChangeToPackage, i18n("Change into Package"));
     } else {
         insert(mt_Refactoring, Icon_Utils::SmallIcon(Icon_Utils::it_Refactor), i18n("Refactor"));
         insert(mt_ViewCode, Icon_Utils::SmallIcon(Icon_Utils::it_View_Code), i18n("View Code"));
@@ -1691,6 +1694,14 @@ void ListPopupMenu::setupMenu(MenuType type)
             insert(mt_Show);
         addSeparator();
         insert(mt_Import_Class);
+        addSeparator();
+        if (m_TriggerObjectType == tot_Object) {
+            UMLObject *o = m_TriggerObject.m_Object;
+            if (o && o->stereotype() == QLatin1String("class-or-package")) {
+                insert(mt_ChangeToClass, i18n("Change into Class"));
+                insert(mt_ChangeToPackage, i18n("Change into Package"));
+            }
+        }
         addSeparator();
         insert(mt_Properties);
         break;

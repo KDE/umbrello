@@ -23,7 +23,7 @@ umbr-coll-message-synchronous.png  umbr-coll-message-asynchronous.png
 umbr-message-synchronous.png  umbr-message-asynchronous.png
 note.png pin.png object_node.png object.png  
 startlogo.png  template.png  text.png  refactor.png  
-class.png  uniassociation.png  usecase.png
+class.png class-or-package.png uniassociation.png  usecase.png
 category.png child2category.png category2parent.png branch.png
 activity-fork.png  state-fork.png  package.png  artifact.png  
 box.png  node.png  port.png  entity.png  relationship.png

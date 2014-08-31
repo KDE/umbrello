@@ -26,6 +26,7 @@
 #include "template.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "umllistview.h"
 #include "umlobject.h"
 #include "umbrellosettings.h"
 
@@ -239,19 +240,10 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
                         parentPkg = static_cast<UMLPackage*>(o);
                         continue;
                     }
-                    int wantNamespace = KMessageBox::Yes;
-                    const Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
-                    if (pl == Uml::ProgrammingLanguage::Cpp) {
-                        // We know std and Qt are namespaces.
-                        if (scopeName != QLatin1String("std") && scopeName != QLatin1String("Qt")) {
-                            wantNamespace = KMessageBox::questionYesNo(NULL,
-                                        i18n("Is the scope %1 a namespace or a class?", scopeName),
-                                        i18n("C++ Import Requests Your Help"),
-                                        KGuiItem(i18nc("namespace scope", "Namespace")), KGuiItem(i18nc("class scope", "Class")));
-                        }
-                    }
-                    UMLObject::ObjectType ot = (wantNamespace == KMessageBox::Yes ? UMLObject::ot_Package : UMLObject::ot_Class);
-                    o = Object_Factory::createUMLObject(ot, scopeName, parentPkg);
+                    o = Object_Factory::createUMLObject(UMLObject::ot_Class, scopeName, parentPkg);
+                    o->setStereotypeCmd(QLatin1String("class-or-package"));
+                    UMLListViewItem *item = UMLApp::app()->listView()->findUMLObject(o);
+                    item->updateObject();
                     parentPkg = static_cast<UMLPackage*>(o);
                     Model_Utils::treeViewSetCurrentItem(o);
                 }
