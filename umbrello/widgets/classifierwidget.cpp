@@ -878,6 +878,8 @@ QSize ClassifierWidget::calculateAsCircleSize() const
 
 void ClassifierWidget::drawAsPackage(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
+    Q_UNUSED(option);
+
     int w = width();
     int h = height();
     QFont font = UMLWidget::font();
