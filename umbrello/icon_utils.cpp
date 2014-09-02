@@ -499,6 +499,8 @@ QString toString(IconType type)
             return QLatin1String("hi64-app-umbrello.png");
         case it_Document_Edit:
             return QLatin1String("document-edit");
+        case it_ClassOrPackage:
+            return QLatin1String("class-or-package");
         default:
             return QString();
     }

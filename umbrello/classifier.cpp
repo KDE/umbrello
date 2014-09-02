@@ -99,6 +99,11 @@ void UMLClassifier::setBaseType(UMLObject::ObjectType ot)
             UMLObject::m_bAbstract = false;
             newIcon = Icon_Utils::it_Datatype;
             break;
+        case ot_Package:
+            UMLObject::setStereotypeCmd(QLatin1String("package"));
+            UMLObject::m_bAbstract = false;
+            newIcon = Icon_Utils::it_Package;
+            break;
         default:
             uError() << "cannot set to type " << ot;
             return;
@@ -1417,6 +1422,10 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
             break;
         case UMLObject::ot_Datatype:
             tag = QLatin1String("UML:DataType");
+            break;
+        case UMLObject::ot_Package:
+            UMLPackage::saveToXMI(qDoc, qElement);
+            return;
             break;
         default:
             uError() << "internal error: basetype is " << m_BaseType;

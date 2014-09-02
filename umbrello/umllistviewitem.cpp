@@ -382,6 +382,10 @@ void UMLListViewItem::updateObject()
         icon = Model_Utils::convert_LVT_IT(m_type);
         break;
 
+    case UMLObject::ot_Class:
+        icon = Model_Utils::convert_LVT_IT(m_type, m_object);
+        break;
+
     default:
         icon = Model_Utils::convert_LVT_IT(m_type);
         break;
@@ -395,7 +399,8 @@ void UMLListViewItem::updateObject()
  */
 void UMLListViewItem::updateFolder()
 {
-    Icon_Utils::IconType icon = Model_Utils::convert_LVT_IT(m_type);
+    Icon_Utils::IconType icon = Model_Utils::convert_LVT_IT(m_type, m_object);
+
     if (icon) {
         if (Model_Utils::typeIsFolder(m_type))
             icon = (Icon_Utils::IconType)((int)icon + (int)isExpanded());

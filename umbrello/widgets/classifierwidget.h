@@ -48,12 +48,14 @@ public:
         ShowAttributes         = 0x20,
         DrawAsCircle           = 0x40,
         ShowOperationSignature = 0x60,  ///< only in setter
-        ShowAttributeSignature = 0x80   ///< only in setter
+        ShowAttributeSignature = 0x80,   ///< only in setter
+        DrawAsPackage          = 0x100,
     };
 
     Q_DECLARE_FLAGS(VisualProperties, VisualProperty)
 
     ClassifierWidget(UMLScene * scene, UMLClassifier * o);
+    ClassifierWidget(UMLScene * scene, UMLPackage * o);
     virtual ~ClassifierWidget();
 
     UMLClassifier *classifier() const;
@@ -84,6 +86,7 @@ public:
 
     void changeToClass();
     void changeToInterface();
+    void changeToPackage();
 
     AssociationWidget *classAssociationWidget() const;
     void setClassAssociationWidget(AssociationWidget *assocwidget);
@@ -115,6 +118,9 @@ private:
 
     void drawAsCircle(QPainter *p, const QStyleOptionGraphicsItem *option);
     QSize calculateAsCircleSize() const;
+
+    void drawAsPackage(QPainter *painter, const QStyleOptionGraphicsItem *option);
+    QSize calculateAsPackageSize() const;
 
     int displayedMembers(UMLObject::ObjectType ot) const;
     void drawMembers(QPainter *painter, UMLObject::ObjectType ot, Uml::SignatureType::Enum sigType,

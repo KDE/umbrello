@@ -87,7 +87,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
         break;
     case UMLObject::ot_Folder:
     case UMLObject::ot_Package:
-        newWidget = new PackageWidget(scene, static_cast<UMLPackage*>(o));
+        newWidget = new ClassifierWidget(scene, static_cast<UMLPackage*>(o));
         break;
     case UMLObject::ot_Component:
         newWidget = new ComponentWidget(scene, static_cast<UMLComponent*>(o));
@@ -255,7 +255,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
                 widget = new ClassifierWidget(scene, static_cast<UMLClassifier*>(o));
         } else if (tag == QLatin1String("packagewidget")) {
             if (validateObjType(UMLObject::ot_Package, o, id))
-                widget = new PackageWidget(scene, static_cast<UMLPackage*>(o));
+                widget = new ClassifierWidget(scene, static_cast<UMLPackage*>(o));
         } else if (tag == QLatin1String("componentwidget")) {
             if (validateObjType(UMLObject::ot_Component, o, id))
                 widget = new ComponentWidget(scene, static_cast<UMLComponent*>(o));
