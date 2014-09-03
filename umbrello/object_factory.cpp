@@ -208,7 +208,7 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
     if (!n.isEmpty()) {
         UMLObject *o = doc->findUMLObject(n, type, parentPkg);
         if (o == NULL) {
-            o = createNewUMLObject(type, n, parentPkg, solicitNewName);
+            o = createNewUMLObject(type, n, parentPkg);
             return o;
         }
         if (!solicitNewName) {
