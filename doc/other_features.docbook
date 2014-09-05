@@ -10,7 +10,7 @@ Apart from offering you the normal copy, cut and paste functionality that you wo
 objects between different diagrams, &umbrello; can copy the objects as PNG pictures so that you can
 insert them into any other type of document. You do not need to do anything special to use this feature,
 just select an object from a diagram (Class, Actor, &etc;) and copy it (<keycombo>&Ctrl;<keycap>C</keycap></keycombo>,
- or using the menu), then open a &kword; document (or any program into which you can paste images) and select <guimenuitem>Paste</guimenuitem>. This is a great feature
+ or using the menu), then open a <application>Calligra Words</application> document (or any program into which you can paste images) and select <guimenuitem>Paste</guimenuitem>. This is a great feature
 to export parts of your diagram as simple pictures.
 </para>
 </sect2>

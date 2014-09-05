@@ -360,9 +360,9 @@ the class properties from the Tree View this page is missing since such Display 
 in that case</para>
 </sect3>
 <sect3 id="class-color-page">
-<title>Class Color Page</title>
+<title>Class Style Page</title>
 <para>
-In the <guilabel>Widget Color</guilabel> page you can configure the colors you want for the line
+In the <guilabel>Widget Style</guilabel> page you can configure the colors you want for the line
 and the fill of the widget. This option obviously makes sense only for classes displayed in diagrams,
 and is missing if you open the class' properties dialog from the Tree View.
 </para>
