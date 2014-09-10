@@ -455,7 +455,20 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
         break;
 
     case ListPopupMenu::mt_Export_Image:
-        m_doc->findView(currItem->ID())->umlScene()->getImageExporter()->exportView();
+        {
+            const Uml::ID::Type id = currItem->ID();
+            UMLView *view = m_doc->findView(id);
+            if (view) {
+                if (view->umlScene())
+                    view->umlScene()->getImageExporter()->exportView();
+                else
+                    uError() << "ListPopupMenu::mt_Export_Image: view " << Uml::ID::toString(id)
+                             << " umlScene() is NULL";
+            } else {
+                uError() << "ListPopupMenu::mt_Export_Image: m_doc->findView("
+                         << Uml::ID::toString(id) << " returns NULL";
+            }
+        }
         break;
 
     case ListPopupMenu::mt_Externalize_Folder:
