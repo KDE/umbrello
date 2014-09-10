@@ -78,7 +78,16 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
 
     if (fromView) {
         m_type = clip4;
-        UMLScene *scene = UMLApp::app()->currentView()->umlScene();
+        UMLView *view = UMLApp::app()->currentView();
+        if (view == NULL) {
+            uError() << "UMLApp::app()->currentView() is NULL";
+            return NULL;
+        }
+        UMLScene *scene = view->umlScene();
+        if (scene == NULL) {
+            uError() << "currentView umlScene() is NULL";
+            return NULL;
+        }
         scene->checkSelections();
         m_WidgetList = scene->selectedWidgetsExt();
         //if there is no selected widget then there is no copy action
@@ -345,7 +354,7 @@ void UMLClipboard::checkItemForCopyType(UMLListViewItem* item, bool & withDiagra
         if (view)
             m_ViewList.append(view);
         else
-            uError() << "doc->findView(" << Uml::ID:toString(item->ID()) << ") returns NULL";
+            uError() << "doc->findView(" << Uml::ID::toString(item->ID()) << ") returns NULL";
     } else if (Model_Utils::typeIsFolder(type)) {
         onlyAttsOps = false;
         for (int i =0; i < item->childCount(); i++) {
