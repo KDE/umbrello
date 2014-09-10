@@ -305,9 +305,9 @@ void UMLClipboard::setCopyType(UMLListViewItemList& selectedItems)
     foreach (UMLListViewItem* item, selectedItems) {
         checkItemForCopyType(item, withDiagrams, withObjects, onlyAttsOps);
     }
-    if(onlyAttsOps) {
+    if (onlyAttsOps) {
         m_type = clip5;
-    } else if(withDiagrams) {
+    } else if (withDiagrams) {
         m_type = clip2;
     } else if(withObjects) {
         m_type = clip1;
@@ -342,7 +342,10 @@ void UMLClipboard::checkItemForCopyType(UMLListViewItem* item, bool & withDiagra
         withDiagrams = true;
         onlyAttsOps = false;
         view = doc->findView(item->ID());
-        m_ViewList.append(view);
+        if (view)
+            m_ViewList.append(view);
+        else
+            uError() << "doc->findView(" << Uml::ID:toString(item->ID()) << ") returns NULL";
     } else if (Model_Utils::typeIsFolder(type)) {
         onlyAttsOps = false;
         for (int i =0; i < item->childCount(); i++) {
