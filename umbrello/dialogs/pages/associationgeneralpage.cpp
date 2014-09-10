@@ -220,7 +220,7 @@ void AssociationGeneralPage::updateObject()
         Uml::AssociationType::Enum newType = m_AssocTypes[comboBoxItem];
         m_pAssociationWidget->setAssociationType(newType);
         m_pAssociationWidget->setDocumentation(m_doc->toPlainText());
-        if (m_pStereoChkB->isChecked()) {
+        if (m_pStereoChkB && m_pStereoChkB->isChecked()) {
             QString stereo = m_pAssocNameComB->currentText();
             m_pAssociationWidget->setStereotype(stereo);
         } else {
