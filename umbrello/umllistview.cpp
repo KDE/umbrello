@@ -834,6 +834,8 @@ void UMLListView::slotDiagramCreated(Uml::ID::Type id)
             item->setSelected(true);
             UMLApp::app()->docWindow()->showDocumentation(scene, false);
         }
+    } else {
+        uError() << "UmlDoc::findView(" << Uml::ID::toString(id) << ") returns NULL";
     }
 }
 
