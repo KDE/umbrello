@@ -88,7 +88,7 @@ UMLDoc::UMLDoc()
     m_Doc(QString()),
     m_pAutoSaveTimer(0),
     m_nViewID(Uml::ID::None),
-    m_bTypesAreResolved(false),
+    m_bTypesAreResolved(true),
     m_pCurrentRoot(0),
     m_bClosing(false)
 {
@@ -358,7 +358,6 @@ void UMLDoc::closeDocument()
         */
     }
     m_bClosing = false;
-    m_bTypesAreResolved = false;
 }
 
 /**
@@ -443,6 +442,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
         KTar archive(tmpfile, mimetype);
         if (archive.open(QIODevice::ReadOnly) == false) {
             KMessageBox::error(0, i18n("The file %1 seems to be corrupted.", url.pathOrUrl()), i18n("Load Error"));
+            KIO::NetAccess::removeTempFile(tmpfile);
             m_doc_url.setFileName(i18n("Untitled"));
             m_bLoading = false;
             newDocument();
@@ -481,6 +481,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
             if (entry == 0) {
                 KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.", url.pathOrUrl()),
                                    i18n("Load Error"));
+                KIO::NetAccess::removeTempFile(tmpfile);
                 m_doc_url.setFileName(i18n("Untitled"));
                 m_bLoading = false;
                 newDocument();
@@ -493,6 +494,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
             if (fileEntry == 0) {
                 KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.", url.pathOrUrl()),
                                    i18n("Load Error"));
+                KIO::NetAccess::removeTempFile(tmpfile);
                 m_doc_url.setFileName(i18n("Untitled"));
                 m_bLoading = false;
                 newDocument();
@@ -507,11 +509,13 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
             if(!xmi_file.open(QIODevice::ReadOnly)) {
                 KMessageBox::error(0, i18n("There was a problem loading the extracted file: %1", url.pathOrUrl()),
                                    i18n("Load Error"));
+                KIO::NetAccess::removeTempFile(tmpfile);
                 m_doc_url.setFileName(i18n("Untitled"));
                 m_bLoading = false;
                 newDocument();
                 return false;
             }
+            m_bTypesAreResolved = false;
             status = loadFromXMI(xmi_file, ENC_UNKNOWN);
 
             // close the extracted file and the temporary directory
@@ -519,6 +523,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
         } else {
             KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.", url.pathOrUrl()),
                                i18n("Load Error"));
+            KIO::NetAccess::removeTempFile(tmpfile);
             m_doc_url.setFileName(i18n("Untitled"));
             m_bLoading = false;
             newDocument();
@@ -528,54 +533,49 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
         archive.close();
     } else {
         // no, it seems to be an ordinary file
-        if(!file.open(QIODevice::ReadOnly)) {
+        if (!file.open(QIODevice::ReadOnly)) {
             KMessageBox::error(0, i18n("There was a problem loading file: %1", url.pathOrUrl()),
                                i18n("Load Error"));
+            KIO::NetAccess::removeTempFile(tmpfile);
             m_doc_url.setFileName(i18n("Untitled"));
             m_bLoading = false;
             newDocument();
             return false;
         }
         if (filetype.endsWith(QLatin1String(".mdl"))) {
+            m_doc_url.setFileName(i18n("Untitled"));
+            m_bTypesAreResolved = false;
             status = Import_Rose::loadFromMDL(file);
             if (status) {
-                m_doc_url.setFileName(i18n("Untitled"));
                 if (UMLApp::app()->currentView() == 0) {
                     QString name = createDiagramName(Uml::DiagramType::Class, false);
                     createDiagram(m_root[Uml::ModelType::Logical], Uml::DiagramType::Class, name);
                     setCurrentRoot(Uml::ModelType::Logical);
                 }
             }
-            else
-                newDocument();
         }
         else if (filetype.endsWith(QLatin1String(".zargo"))) {
             m_doc_url.setFileName(i18n("Untitled"));
             status = Import_Argo::loadFromZArgoFile(file);
-            if (!status) {
-                KMessageBox::error(0, i18n("There was a problem loading file: %1", url.pathOrUrl()),
-                                       i18n("Load Error"));
-                m_bLoading = false;
-                newDocument();
-                return false;
-            }
         }
         else {
+            m_bTypesAreResolved = false;
             status = loadFromXMI(file, ENC_UNKNOWN);
         }
     }
 
-    file.close();
+    if (file.isOpen())
+        file.close();
     KIO::NetAccess::removeTempFile(tmpfile);
+    m_bLoading = false;
+    m_bTypesAreResolved = true;
     if (!status) {
         KMessageBox::error(0, i18n("There was a problem loading file: %1", url.pathOrUrl()),
                            i18n("Load Error"));
-        m_bLoading = false;
         newDocument();
         return false;
     }
     setModified(false);
-    m_bLoading = false;
     initSaveTimer();
 
     UMLApp::app()->enableUndoAction(false);
@@ -1243,7 +1243,7 @@ QString UMLDoc::uniqueViewName(const Uml::DiagramType::Enum type)
  */
 bool UMLDoc::loading() const
 {
-    return m_bLoading;
+    return m_bLoading || !m_bTypesAreResolved;
 }
 
 /**
@@ -2152,7 +2152,6 @@ void UMLDoc::resolveTypes()
     if (m_bTypesAreResolved) {
         return;
     }
-    m_bTypesAreResolved = true;
     writeToStatusBar(i18n("Resolving object references..."));
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
        UMLFolder *obj = m_root[i];
@@ -2162,6 +2161,7 @@ void UMLDoc::resolveTypes()
 #endif
         obj->resolveRef();
     }
+    m_bTypesAreResolved = true;
     qApp->processEvents();  // give UI events a chance
 }
 
