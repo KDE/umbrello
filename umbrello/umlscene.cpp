@@ -917,7 +917,8 @@ void UMLScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
  */
 void UMLScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 {
-    m_pToolBarState->mouseDoubleClick(event);
+    if (!m_doc->loading())
+        m_pToolBarState->mouseDoubleClick(event);
     if (!event->isAccepted()) {
         // show properties dialog of the scene
         if (m_view->showPropDialog() == true) {
