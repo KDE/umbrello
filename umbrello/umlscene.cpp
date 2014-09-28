@@ -890,7 +890,7 @@ void UMLScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
     UMLWidget* widget = widgetAt(event->scenePos());
     if (widget) {
         DEBUG(DBG_SRC) << "widget = " << widget->name() << " / type = " << widget->baseTypeStr();
-        UMLApp::app()->docWindow()->showDocumentation(widget, true);
+        UMLApp::app()->docWindow()->showDocumentation(widget);
         event->accept();
     }
     else {
@@ -905,7 +905,7 @@ void UMLScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
         //:TODO: UMLApp::app()->docWindow()->showDocumentation(umlObject, true);
         else {
             // clicking on an empty space in the diagram with arrow tool
-            UMLApp::app()->docWindow()->showDocumentation(this, true);
+            UMLApp::app()->docWindow()->showDocumentation(this);
             event->accept();
         }
     }
@@ -917,7 +917,8 @@ void UMLScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
  */
 void UMLScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 {
-    m_pToolBarState->mouseDoubleClick(event);
+    if (!m_doc->loading())
+        m_pToolBarState->mouseDoubleClick(event);
     if (!event->isAccepted()) {
         // show properties dialog of the scene
         if (m_view->showPropDialog() == true) {

@@ -457,7 +457,6 @@ UMLPackage* handleControlledUnit(PetalNode *node, const QString& name,
         return NULL;
     }
     UMLPackage *controlledUnit = loadFromMDL(file, parentPkg);
-    file.close();
     return controlledUnit;
 }
 

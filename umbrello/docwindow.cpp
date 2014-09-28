@@ -91,17 +91,21 @@ void DocWindow::showDocumentation(UMLObject * object, bool overwrite)
         reset();
         return;
     }
-    if (object == m_pUMLObject) {
-        if (overwrite) {
-            updateDocumentation(true);
-        }
-        else {
+
+    if (m_Showing == st_UMLObject && object == m_pUMLObject) {
+        if (!overwrite) {
             return;
+        }
+    }
+    else if (m_Showing == st_UMLWidget && object == m_pUMLWidget->umlObject()) {
+        if (!overwrite) {
+            updateDocumentation();
         }
     }
     else {
         updateDocumentation(true);
     }
+
     m_Showing = st_UMLObject;
     m_pUMLObject = object;
     m_docTE->setText(m_pUMLObject->doc());
@@ -123,17 +127,21 @@ void DocWindow::showDocumentation(UMLScene * scene, bool overwrite)
         reset();
         return;
     }
-    if (scene == m_pUMLScene) {
-        if (overwrite) {
-            updateDocumentation(true);
-        }
-        else {
+
+    if (m_Showing == st_UMLScene && scene == m_pUMLScene) {
+        if (!overwrite) {
             return;
+        }
+    }
+    else if (m_Showing == st_UMLWidget && scene == m_pUMLWidget->umlScene()) {
+        if (!overwrite) {
+            updateDocumentation();
         }
     }
     else {
         updateDocumentation(true);
     }
+
     m_Showing = st_UMLScene;
     m_pUMLScene = scene;
     m_docTE->setText(m_pUMLScene->documentation());
@@ -151,17 +159,28 @@ void DocWindow::showDocumentation(UMLWidget * widget, bool overwrite)
         reset();
         return;
     }
-    if (widget == m_pUMLWidget) {
-        if (overwrite) {
-            updateDocumentation(true);
-        }
-        else {
+
+    if (m_Showing == st_UMLWidget && widget == m_pUMLWidget) {
+        if (!overwrite) {
             return;
+        }
+    }
+    else if (m_Showing == st_UMLObject && widget->umlObject() == m_pUMLObject)
+    {
+        if (!overwrite) {
+            updateDocumentation();
+        }
+    }
+    else if (m_Showing == st_UMLScene && widget->umlScene() == m_pUMLScene)
+    {
+        if (!overwrite) {
+            updateDocumentation();
         }
     }
     else {
         updateDocumentation(true);
     }
+
     m_Showing = st_UMLWidget;
     m_pUMLWidget = widget;
     m_docTE->setText(m_pUMLWidget->documentation());
