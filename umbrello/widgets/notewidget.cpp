@@ -232,7 +232,7 @@ void NoteWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
  */
 void NoteWidget::rename()
 {
-    UMLApp::app()->docWindow()->showDocumentation(this, true);
+    UMLApp::app()->docWindow()->showDocumentation(this);
     UMLApp::app()->docWindow()->setFocus();
 }
 
