@@ -434,6 +434,7 @@ void AssociationWidget::setText(FloatingTextWidget *ft, const QString &text)
  */
 void AssociationWidget::showPropertiesDialog()
 {
+    UMLApp::app()->docWindow()->updateDocumentation();
     QPointer<AssociationPropertiesDialog> dlg = new AssociationPropertiesDialog(static_cast<QWidget*>(m_scene->activeView()), this);
     if (dlg->exec()) {
         //rules built into these functions to stop updating incorrect values
