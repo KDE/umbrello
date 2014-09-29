@@ -2,7 +2,7 @@ project(umbrello)
 
 set(VERSION_MAJOR "2")
 set(VERSION_MINOR "14")
-set(VERSION_PATCH "1")
+set(VERSION_PATCH "99")
 
 cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 
