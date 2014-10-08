@@ -159,7 +159,7 @@ set(libcodegenerator_SRCS
     codegenerators/xml/xmlcodecomment.cpp
 )
 
-kde4_add_ui_files(  libcodegenerator_SRCS
+qt5_wrap_ui(  libcodegenerator_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/cpp/cppcodegenerationformbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/ruby/rubycodegenerationformbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/d/dcodegenerationformbase.ui
@@ -224,7 +224,7 @@ set(libdialogs_SRCS
     dialogs/pages/umlwidgetstylepage.cpp
 )
 
-kde4_add_ui_files(  libdialogs_SRCS
+qt5_wrap_ui(  libdialogs_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codeviewerdialogbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codevieweroptionsbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/exportallviewsdialogbase.ui
@@ -246,7 +246,7 @@ set(libcodegenwizard_SRCS
     codegenwizard/codegenerationwizard.cpp
 )
 
-kde4_add_ui_files(  libcodegenwizard_SRCS
+qt5_wrap_ui(  libcodegenwizard_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/codegenselectpage.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/codegenoptionspage.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/codegenstatuspage.ui
@@ -259,7 +259,7 @@ set(libcodeimpwizard_SRCS
     codeimpwizard/codeimportingwizard.cpp
 )
 
-kde4_add_ui_files(  libcodeimpwizard_SRCS
+qt5_wrap_ui(  libcodeimpwizard_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/codeimpwizard/codeimpselectpage.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/codeimpwizard/codeimpstatuspage.ui
 )
@@ -363,6 +363,7 @@ set(libwidgets_SRCS
     widgets/seqlinewidget.cpp
     widgets/signalwidget.cpp
     widgets/statewidget.cpp
+
     widgets/toolbarstateonewidget.cpp
     widgets/umlwidget.cpp
     widgets/usecasewidget.cpp
@@ -455,7 +456,7 @@ set(libumbrello_SRCS
     umlappprivate.cpp
 )
 
-kde4_add_kcfg_files(umbrello_SRCS umbrellosettings.kcfgc)
+kconfig_add_kcfg_files(umbrello_SRCS umbrellosettings.kcfgc)
 
 set(umbrello_SRCS
     ${umbrello_SRCS}
@@ -476,9 +477,15 @@ set(umbrello_SRCS
     ${libumbrello_SRCS}
 )
 
-kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi*-app-umbrello.png")
-kde4_add_executable(umbrello ${umbrello_SRCS})
-target_link_libraries(umbrello ${KDE4_KFILE_LIBS} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${KDE4_KTEXTEDITOR_LIBS})
+#kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi*-app-umbrello.png")
+add_executable(umbrello ${umbrello_SRCS})
+target_link_libraries(umbrello
+    Qt5::Widgets
+    Qt5::DBus
+    KF5::CoreAddons
+    KF5::Config
+    KF5::KDELibs4Support
+    ${KDE4_KFILE_LIBS} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${KDE4_KTEXTEDITOR_LIBS})
 install(TARGETS umbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files #############
@@ -497,5 +504,5 @@ install( DIRECTORY
     DESTINATION ${DATA_INSTALL_DIR}/umbrello
     PATTERN .svn EXCLUDE )
 
-kde4_install_icons( ${ICON_INSTALL_DIR} )
+ecm_install_icons( ${ICON_INSTALL_DIR} )
 
