@@ -101,5 +101,3 @@ void RubyCodeClassFieldDeclarationBlock::updateContent()
 
     setText(body);
 }
-
-#include "rubycodeclassfielddeclarationblock.moc"

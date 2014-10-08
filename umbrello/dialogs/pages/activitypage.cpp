@@ -350,5 +350,3 @@ void ActivityPage::enableWidgets(bool state)
     m_pDeleteActivityButton->setEnabled(true);
     m_pRenameButton->setEnabled(true);
 }
-
-#include "activitypage.moc"

@@ -785,6 +785,3 @@ void AdaWriter::finalizeRun()
         delete file;
     }
 }
-
-
-#include "adawriter.moc"

@@ -316,5 +316,3 @@ void UMLEntityAttributeDialog::slotAutoIncrementStateChanged(bool checked)
     }
 
 }
-
-#include "umlentityattributedialog.moc"

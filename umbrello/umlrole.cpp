@@ -393,5 +393,3 @@ bool UMLRole::load(QDomElement & element)
     blockSignals(false);
     return true;
 }
-
-#include "umlrole.moc"

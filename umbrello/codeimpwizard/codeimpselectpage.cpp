@@ -443,5 +443,3 @@ void CodeImpSelectPage::updateSelectionCounter()
     QList<QFileInfo> files = selectedFiles();
     ui_filesNumLabel->setText(QString::number(files.size()));
 }
-
-#include "codeimpselectpage.moc"

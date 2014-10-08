@@ -99,5 +99,3 @@ void CodeViewerDialog::languageChange()
     Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
     setWindowTitle(i18n("Code Viewer - %1", Uml::ProgrammingLanguage::toString(pl)));
 }
-
-#include "codeviewerdialog.moc"

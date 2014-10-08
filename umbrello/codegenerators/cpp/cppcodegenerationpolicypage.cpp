@@ -94,6 +94,3 @@ void CPPCodeGenerationPolicyPage::apply()
     // now send out modified code content signal
     common->emitModifiedCodeContentSig();
 }
-
-
-#include "cppcodegenerationpolicypage.moc"

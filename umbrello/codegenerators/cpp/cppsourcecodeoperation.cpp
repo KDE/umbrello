@@ -108,5 +108,3 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
     }
 
 }
-
-#include "cppsourcecodeoperation.moc"

@@ -230,5 +230,3 @@ void ActivityDialog::showParameterActivity()
         m_GenPageWidgets.preLE->setText(m_pActivityWidget->preconditionText());
     }
 }
-
-#include "activitydialog.moc"

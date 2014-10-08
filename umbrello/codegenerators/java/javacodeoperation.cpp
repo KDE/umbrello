@@ -113,5 +113,3 @@ int JavaCodeOperation::lastEditableLine()
     // an interface.
     return 0;
 }
-
-#include "javacodeoperation.moc"

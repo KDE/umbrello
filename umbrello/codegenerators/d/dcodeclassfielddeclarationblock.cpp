@@ -102,5 +102,3 @@ void DCodeClassFieldDeclarationBlock::updateContent()
     setText(body + QLatin1Char(';'));
 
 }
-
-#include "dcodeclassfielddeclarationblock.moc"

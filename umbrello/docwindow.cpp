@@ -413,5 +413,3 @@ QLabel* DocWindow::createPixmapLabel()
     label->setAlignment(Qt::AlignCenter);
     return label;
 }
-
-#include "docwindow.moc"

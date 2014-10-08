@@ -1633,6 +1633,3 @@ UMLClassifierList UMLClassifier::findAssocClassifierObjsInRoles (UMLAssociationL
     return classifiers;
 }
 */
-
-
-#include "classifier.moc"

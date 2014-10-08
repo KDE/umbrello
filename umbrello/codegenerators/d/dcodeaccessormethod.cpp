@@ -202,5 +202,3 @@ void DCodeAccessorMethod::update()
     updateMethodDeclaration();
     updateContent();
 }
-
-#include "dcodeaccessormethod.moc"

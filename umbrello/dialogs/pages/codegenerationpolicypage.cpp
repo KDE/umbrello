@@ -19,7 +19,7 @@
 #include "codegenerationpolicypage.h"
 
 // qt/kde includes
-#include <qlabel.h>
+#include <QLabel>
 #include <klocale.h>
 
 // local includes
@@ -41,11 +41,13 @@ CodeGenerationPolicyPage::~CodeGenerationPolicyPage()
     this->disconnect();
 }
 
-void CodeGenerationPolicyPage::apply() {
+void CodeGenerationPolicyPage::apply()
+{
     // do nothing in vanilla version
 }
 
-void CodeGenerationPolicyPage::setDefaults() { }
-
-#include "codegenerationpolicypage.moc"
+void CodeGenerationPolicyPage::setDefaults()
+{
+    // do nothing
+}
 

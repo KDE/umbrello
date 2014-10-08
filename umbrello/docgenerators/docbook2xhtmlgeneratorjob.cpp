@@ -102,7 +102,3 @@ void Docbook2XhtmlGeneratorJob::run()
 
   emit xhtmlGenerated(tmpXhtml.fileName());
 }
-
-#include "docbook2xhtmlgeneratorjob.moc"
-
-

@@ -134,5 +134,3 @@ int DCodeOperation::lastEditableLine()
 
     return 0;
 }
-
-#include "dcodeoperation.moc"

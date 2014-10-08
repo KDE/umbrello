@@ -329,5 +329,3 @@ void ParameterPropertiesDialog::slotOk()
         m_pAtt->setInitialValue(getInitialValue()); // set the initial value
     }
 }
-
-#include "parameterpropertiesdialog.moc"

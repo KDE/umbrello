@@ -129,6 +129,3 @@ void CPPSourceCodeDocument::updateContent()
 
     // constructors and other operations are handled by the "addCodeOperation" method above.
 }
-
-
-#include "cppsourcecodedocument.moc"

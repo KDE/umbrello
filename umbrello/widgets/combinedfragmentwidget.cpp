@@ -421,5 +421,3 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
         UMLWidget::slotMenuSelection(action);
     }
 }
-
-#include "combinedfragmentwidget.moc"

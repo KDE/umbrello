@@ -204,5 +204,3 @@ void JavaCodeAccessorMethod::update()
     updateMethodDeclaration();
     updateContent();
 }
-
-#include "javacodeaccessormethod.moc"

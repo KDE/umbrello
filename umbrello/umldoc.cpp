@@ -3087,5 +3087,3 @@ bool UMLDoc::tagEq (const QString& inTag, const QString& inPattern)
     QString tagEnd = tag.section(QLatin1Char('.'), -patSections);
     return (tagEnd.toLower() == pattern.toLower());
 }
-
-#include "umldoc.moc"

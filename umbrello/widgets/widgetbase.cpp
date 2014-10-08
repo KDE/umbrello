@@ -988,5 +988,3 @@ QString WidgetBase::toString(WidgetType wt)
 {
     return QLatin1String(ENUM_NAME(WidgetBase, WidgetType, wt));
 }
-
-#include "widgetbase.moc"

@@ -363,7 +363,6 @@ set(libwidgets_SRCS
     widgets/seqlinewidget.cpp
     widgets/signalwidget.cpp
     widgets/statewidget.cpp
-
     widgets/toolbarstateonewidget.cpp
     widgets/umlwidget.cpp
     widgets/usecasewidget.cpp

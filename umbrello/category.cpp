@@ -98,5 +98,3 @@ void UMLCategory::setType(Category_Type type)
     m_CategoryType = type;
     emitModified();
 }
-
-#include "category.moc"

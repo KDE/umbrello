@@ -183,5 +183,3 @@ bool FloatingDashLineWidget::loadFromXMI(QDomElement & qElement)
     DEBUG(DBG_SRC) << "m_y......." << m_y;
     return true;
 }
-
-#include "floatingdashlinewidget.moc"

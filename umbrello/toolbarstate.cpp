@@ -555,5 +555,3 @@ FloatingDashLineWidget* ToolBarState::floatingLineAt(const QPointF& pos)
 
     return floatingline;
 }
-
-#include "toolbarstate.moc"

@@ -258,5 +258,3 @@ bool SelectOperationDialog::autoIncrementSequence()
 {
    return m_pOpAS->isChecked();
 }
-
-#include "selectoperationdialog.moc"

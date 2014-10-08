@@ -1091,5 +1091,3 @@ QDebug operator<<(QDebug out, const UMLObject& obj)
         << ", type= " << UMLObject::toString(obj.m_BaseType);
     return out.space();
 }
-
-#include "umlobject.moc"

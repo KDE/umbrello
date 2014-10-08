@@ -1392,5 +1392,3 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
 
 //    return m_pMenu;
 //}
-
-#include "messagewidget.moc"

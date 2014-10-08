@@ -856,5 +856,3 @@ QStringList ValaWriter::reservedKeywords() const
 
     return keywords;
 }
-
-#include "valawriter.moc"

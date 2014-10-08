@@ -203,5 +203,3 @@ QSizeF ComponentWidget::minimumSize() const
 
     return QSizeF(width, height);
 }
-
-#include "componentwidget.moc"

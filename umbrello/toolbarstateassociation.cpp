@@ -328,5 +328,3 @@ void ToolBarStateAssociation::cleanAssociation()
     delete m_associationLine;
     m_associationLine = 0;
 }
-
-#include "toolbarstateassociation.moc"

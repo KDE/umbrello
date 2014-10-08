@@ -121,5 +121,3 @@ void PostgreSQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeL
     }
 
 }
-
-#include "postgresqlwriter.moc"

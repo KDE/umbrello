@@ -277,5 +277,3 @@ bool UMLEntityAttribute::showPropertiesDialog(QWidget* parent)
     UMLEntityAttributeDialog dialog(parent, this);
     return dialog.exec();
 }
-
-#include "entityattribute.moc"

@@ -312,5 +312,3 @@ QPointF UMLView::center()
 {
     return m_currentCenterPoint;
 }
-
-#include "umlview.moc"

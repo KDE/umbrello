@@ -477,5 +477,3 @@ QStringList RubyWriter::reservedKeywords() const
 
     return keywords;
 }
-
-#include "rubywriter.moc"

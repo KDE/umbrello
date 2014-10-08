@@ -607,6 +607,3 @@ void RubyClassifierCodeDocument::updateContent()
     else
         privOcomment->setWriteOutText(true);
 }
-
-
-#include "rubyclassifiercodedocument.moc"

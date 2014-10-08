@@ -542,5 +542,3 @@ QDebug operator<<(QDebug out, const UMLFolder& item)
         << ", diagrams=" << item.m_diagrams.count();
     return out.space();
 }
-
-#include "folder.moc"

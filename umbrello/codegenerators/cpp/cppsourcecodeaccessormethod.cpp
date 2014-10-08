@@ -150,5 +150,3 @@ void CPPSourceCodeAccessorMethod::updateMethodDeclaration()
         setWriteOutText(false);
 
 }
-
-#include "cppsourcecodeaccessormethod.moc"

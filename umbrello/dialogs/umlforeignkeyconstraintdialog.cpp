@@ -460,6 +460,3 @@ void UMLForeignKeyConstraintDialog::slotResetWidgetState()
         m_ColumnWidgets.removePB->setEnabled(false);
     }
 }
-
-#include "umlforeignkeyconstraintdialog.moc"
-

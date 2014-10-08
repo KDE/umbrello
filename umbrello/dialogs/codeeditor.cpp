@@ -1511,5 +1511,3 @@ void CodeEditor::rebuildView(int startCursorPos)
 //:TODO:    int new_nrof_para = paragraphs() -1;
 //:TODO:    setCursorPosition((startCursorPos < new_nrof_para ? startCursorPos : 0), 0);  //:TODO: crashes the application
 }
-
-#include "codeeditor.moc"

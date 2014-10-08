@@ -120,5 +120,3 @@ void AssociationPropertiesDialog::setupPages()
     m_pChooser->setSampleText(QString::fromLatin1("Association font"));
     layout->addWidget(m_pChooser);
 }
-
-#include "associationpropertiesdialog.moc"

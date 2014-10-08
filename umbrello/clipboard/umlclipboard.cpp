@@ -751,5 +751,3 @@ void UMLClipboard::pasteItemAlreadyExists()
                              "have been pasted."),
                         i18n("Paste Error"));
 }
-
-#include "umlclipboard.moc"

@@ -65,5 +65,3 @@ bool UMLNode::load(QDomElement&)
 {
     return true;
 }
-
-#include "node.moc"

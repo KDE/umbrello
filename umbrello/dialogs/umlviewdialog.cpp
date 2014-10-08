@@ -206,5 +206,3 @@ void UMLViewDialog::applyPage(KPageWidgetItem *item)
         m_pScene->setOptionState(m_options);
     }
 }
-
-#include "umlviewdialog.moc"

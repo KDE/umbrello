@@ -136,6 +136,3 @@ void DClassDeclarationBlock::init (DClassifierCodeDocument *parentDoc, const QSt
 
     setEndText(QLatin1String(QLatin1String("}")));
 }
-
-
-#include "dclassdeclarationblock.moc"

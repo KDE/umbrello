@@ -52,9 +52,6 @@ find_package(KF5 REQUIRED COMPONENTS
   XmlGui
 )
 
-#include(KDE4Defaults)
-#include(MacroLibrary)
-
 message(STATUS "Using automoc4 version ${AUTOMOC4_VERSION}")
 message(STATUS "Using cmake version ${CMAKE_VERSION}")
 
@@ -69,7 +66,9 @@ find_package(LibXml2)
 
 add_definitions (${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 include_directories(
-    
+    ${CMAKE_SOURCE_DIR}
+    ${CMAKE_BINARY_DIR}
+    ${CMAKE_INSTALL_PREFIX}/include/KF5  #FIXME
 )
 
 #macro_display_feature_log()

@@ -64,5 +64,3 @@ bool UMLActor::load(QDomElement& element)
     Q_UNUSED(element);
     return true;
 }
-
-#include "actor.moc"

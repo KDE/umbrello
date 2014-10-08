@@ -205,5 +205,3 @@ int RubyCodeOperation::lastEditableLine()
     // an interface.
     return 0;
 }
-
-#include "rubycodeoperation.moc"

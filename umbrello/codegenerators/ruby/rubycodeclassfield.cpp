@@ -90,5 +90,3 @@ QString RubyCodeClassField::getTypeName ()
 {
     return RubyCodeGenerator::cppToRubyType(CodeClassField::getTypeName());
 }
-
-#include "rubycodeclassfield.moc"

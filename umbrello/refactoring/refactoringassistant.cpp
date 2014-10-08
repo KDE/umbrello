@@ -860,5 +860,3 @@ DEBUG(DBG_SRC) << "oldClassifier=" << oldClassifier->name() << " / newClassifier
 //    emit moved();
     refactor(m_umlObject);  //:TODO:fischer
 }
-
-#include "refactoringassistant.moc"

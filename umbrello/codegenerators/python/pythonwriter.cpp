@@ -475,5 +475,3 @@ QStringList PythonWriter::reservedKeywords() const
 
     return keywords;
 }
-
-#include "pythonwriter.moc"

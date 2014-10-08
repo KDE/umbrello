@@ -828,5 +828,3 @@ void CPPHeaderCodeDocument::updateContent()
     QString defTextEnd = QLatin1String("#endif //") + hashDefine + QLatin1String("_H");
     addOrUpdateTaggedCodeBlockWithComments(QLatin1String("hashDefBlockEnd"), defTextEnd, QString(), 0, false);
 }
-
-#include "cppheadercodedocument.moc"

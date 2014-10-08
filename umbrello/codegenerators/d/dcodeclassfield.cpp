@@ -92,5 +92,3 @@ QString DCodeClassField::getTypeName()
 {
     return DCodeGenerator::fixTypeName(CodeClassField::getTypeName());
 }
-
-#include "dcodeclassfield.moc"

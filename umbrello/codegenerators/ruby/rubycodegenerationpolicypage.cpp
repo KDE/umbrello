@@ -59,5 +59,3 @@ void RubyCodeGenerationPolicyPage::apply()
     // now send out modified code content signal
     common->emitModifiedCodeContentSig();
 }
-
-#include "rubycodegenerationpolicypage.moc"

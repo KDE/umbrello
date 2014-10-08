@@ -133,5 +133,3 @@ void CPPHeaderClassDeclarationBlock::init (CPPHeaderCodeDocument *parentDoc, con
 
     setEndText(QLatin1String("};"));
 }
-
-#include "cppheaderclassdeclarationblock.moc"

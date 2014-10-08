@@ -324,5 +324,3 @@ QStringList JSWriter::reservedKeywords() const
 
     return keywords;
 }
-
-#include "jswriter.moc"

@@ -401,5 +401,3 @@ void ClassPropertiesDialog::setupFontPage()
     m_pChooser = new KFontChooser((QWidget*)page, KFontChooser::NoDisplayFlags, QStringList(), 0);
     m_pChooser->setFont(m_pWidget->font());
 }
-
-#include "classpropertiesdialog.moc"

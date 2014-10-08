@@ -138,5 +138,3 @@ void ClassAssociationsPage::slotMenuSelection(QAction* action)
         uDebug() << "MenuType " << ListPopupMenu::toString(id) << " not implemented";
     }
 }
-
-#include "classassociationspage.moc"

@@ -535,6 +535,3 @@ void JavaClassifierCodeDocument::updateContent()
     else
         ocomment->setWriteOutText(true);
 }
-
-
-#include "javaclassifiercodedocument.moc"

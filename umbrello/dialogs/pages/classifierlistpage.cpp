@@ -855,6 +855,3 @@ void ClassifierListPage::hideArrowButtons(bool hide)
     m_pDownArrowB->setVisible(state);
     m_pBottomArrowB->setVisible(state) ;
 }
-
-#include "classifierlistpage.moc"
-

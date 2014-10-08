@@ -55,5 +55,3 @@ void CPPHeaderCodeClassFieldDeclarationBlock::updateContent()
     QString body = staticValue + QLatin1Char(' ') + typeName + QLatin1Char(' ') + fieldName + QLatin1Char(';');
     setText(body);
 }
-
-#include "cppheadercodeclassfielddeclarationblock.moc"

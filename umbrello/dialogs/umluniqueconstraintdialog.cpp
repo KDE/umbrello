@@ -290,6 +290,3 @@ void UMLUniqueConstraintDialog::slotResetWidgetState()
         m_pAddPB->setEnabled(false);
     }
 }
-
-#include "umluniqueconstraintdialog.moc"
-

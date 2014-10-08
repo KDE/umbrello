@@ -286,5 +286,3 @@ QStringList DCodeGenerator::reservedKeywords() const
 
     return keywords;
 }
-
-#include "dcodegenerator.moc"

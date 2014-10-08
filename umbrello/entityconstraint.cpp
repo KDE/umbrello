@@ -72,6 +72,3 @@ void UMLEntityConstraint::copyInto(UMLObject *lhs) const
     // call the parent first.
     UMLClassifierListItem::copyInto(lhs);
 }
-
-#include "entityconstraint.moc"
-

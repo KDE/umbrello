@@ -873,5 +873,3 @@ QStringList XMLSchemaWriter::reservedKeywords() const
 
     return keywords;
 }
-
-#include "xmlschemawriter.moc"

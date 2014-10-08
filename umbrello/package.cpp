@@ -445,5 +445,3 @@ bool UMLPackage::load(QDomElement& element)
     }
     return true;
 }
-
-#include "package.moc"

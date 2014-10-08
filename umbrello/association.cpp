@@ -725,5 +725,3 @@ void UMLAssociation::init(Uml::AssociationType::Enum type, UMLObject *roleAObj, 
     m_pRole[RoleType::A] = new UMLRole (this, roleAObj, RoleType::A);
     m_pRole[RoleType::B] = new UMLRole (this, roleBObj, RoleType::B);
 }
-
-#include "association.moc"

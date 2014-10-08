@@ -119,5 +119,3 @@ void RubyClassDeclarationBlock::init (RubyClassifierCodeDocument *parentDoc, con
 
     setEndText(QLatin1String("end"));
 }
-
-#include "rubyclassdeclarationblock.moc"

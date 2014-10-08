@@ -228,5 +228,3 @@ void AssociationGeneralPage::updateObject()
         }
     }
 }
-
-#include "associationgeneralpage.moc"

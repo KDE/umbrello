@@ -196,5 +196,3 @@ void StateDialog::setupActivityPage()
     m_pActivityPage = new ActivityPage(activityPage, m_pStateWidget);
     activityLayout->addWidget(m_pActivityPage);
 }
-
-#include "statedialog.moc"

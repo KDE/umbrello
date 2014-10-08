@@ -279,5 +279,3 @@ void UMLAttributeDialog::insertTypesSorted(const QString& type)
     }
     m_pTypeCB->completionObject()->addItem(type);
 }
-
-#include "umlattributedialog.moc"

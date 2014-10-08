@@ -375,5 +375,3 @@ bool PinPortBase::loadFromXMI(QDomElement & qElement)
     }
     return true;
 }
-
-#include "pinportbase.moc"

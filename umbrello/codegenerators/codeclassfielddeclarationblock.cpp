@@ -165,5 +165,3 @@ void CodeClassFieldDeclarationBlock::init (CodeClassField * parentCF)
     setCanDelete(false);
     connect(m_parentclassfield, SIGNAL(modified()), this, SLOT(syncToParent()));
 }
-
-#include "codeclassfielddeclarationblock.moc"

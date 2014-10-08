@@ -715,5 +715,3 @@ UMLClassifierListItem* UMLEntity::makeChildObject(const QString& xmiTag)
     }
     return pObject;
 }
-
-#include "entity.moc"

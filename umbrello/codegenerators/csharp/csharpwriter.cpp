@@ -788,6 +788,3 @@ QStringList CSharpWriter::reservedKeywords() const
 
     return keywords;
 }
-
-#include "csharpwriter.moc"
-

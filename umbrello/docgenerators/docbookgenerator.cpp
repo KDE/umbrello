@@ -127,6 +127,3 @@ void DocbookGenerator::threadFinished()
     delete docbookGeneratorJob;
     docbookGeneratorJob = 0;
 }
-
-
-#include "docbookgenerator.moc"

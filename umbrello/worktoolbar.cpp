@@ -469,5 +469,3 @@ void WorkToolBar::setupActions()
             action->setToolTip(action->text());
     }
 }
-
-#include "worktoolbar.moc"

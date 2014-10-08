@@ -96,5 +96,3 @@ bool OverwriteDialog::applyToAllRemaining()
 {
     return m_applyToAllRemaining->isChecked();
 }
-
-#include "overwritedialog.moc"

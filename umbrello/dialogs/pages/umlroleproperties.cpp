@@ -111,5 +111,3 @@ void UMLRoleProperties::updateObject()
 
     } //end if m_pRole
 }
-
-#include "umlroleproperties.moc"

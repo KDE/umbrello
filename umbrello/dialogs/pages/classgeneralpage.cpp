@@ -540,5 +540,3 @@ void ClassGeneralPage::slotActorToggled(bool state)
         m_pMultiCB->setEnabled(!state);
     }
 }
-
-#include "classgeneralpage.moc"

@@ -206,5 +206,3 @@ QStringList RubyCodeGenerator::reservedKeywords() const
 
     return keywords;
 }
-
-#include "rubycodegenerator.moc"

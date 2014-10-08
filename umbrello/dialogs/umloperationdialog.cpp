@@ -577,5 +577,3 @@ void UMLOperationDialog::insertStereotypesSorted(const QString& type)
     }
     m_pStereoTypeCB->completionObject()->addItem(type);
 }
-
-#include "umloperationdialog.moc"

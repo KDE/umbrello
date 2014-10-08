@@ -284,5 +284,3 @@ void CodeParameter::initFields(ClassifierCodeDocument * doc, UMLObject * obj)
 
     connect(m_parentObject, SIGNAL(modified()), this, SLOT(syncToParent()));
 }
-
-#include "codeparameter.moc"

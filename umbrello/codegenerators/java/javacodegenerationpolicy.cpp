@@ -169,5 +169,3 @@ void JavaCodeGenerationPolicy::init()
 
     blockSignals(false);
 }
-
-#include "javacodegenerationpolicy.moc"

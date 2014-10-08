@@ -70,5 +70,3 @@ void DCodeGenerationPolicyPage::apply()
     // now send out modified code content signal
     commonPolicy->emitModifiedCodeContentSig();
 }
-
-#include "dcodegenerationpolicypage.moc"

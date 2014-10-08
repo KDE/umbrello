@@ -153,6 +153,3 @@ void CodeOperation::updateContent()
     // Empty. Unlike codeaccessor methods for most (all?) languages
     // we don't auto-generate content for operations
 }
-
-
-#include "codeoperation.moc"

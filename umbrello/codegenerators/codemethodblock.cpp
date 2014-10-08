@@ -178,5 +178,3 @@ void CodeMethodBlock::syncToParent()
 
     updateContent();
 }
-
-#include "codemethodblock.moc"

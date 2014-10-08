@@ -298,5 +298,3 @@ UMLClassifierListItem* UMLEnum::makeChildObject(const QString& xmiTag)
     }
     return pObject;
 }
-
-#include "enum.moc"

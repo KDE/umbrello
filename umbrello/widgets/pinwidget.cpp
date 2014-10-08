@@ -87,5 +87,3 @@ void PinWidget::slotMenuSelection(QAction* action)
         PinPortBase::slotMenuSelection(action);
     }
 }
-
-#include "pinwidget.moc"

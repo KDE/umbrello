@@ -691,5 +691,3 @@ bool ObjectWidget::loadFromXMI(QDomElement& qElement)
     m_showDestruction = (bool)decon.toInt();
     return true;
 }
-
-#include "objectwidget.moc"

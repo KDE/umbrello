@@ -139,6 +139,3 @@ void JavaClassDeclarationBlock::init (JavaClassifierCodeDocument *parentDoc, con
     getComment()->setText(comment);
     setEndText(QLatin1String("}"));
 }
-
-
-#include "javaclassdeclarationblock.moc"

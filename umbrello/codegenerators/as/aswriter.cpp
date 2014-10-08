@@ -795,5 +795,3 @@ QStringList ASWriter::reservedKeywords() const
 
     return keywords;
 }
-
-#include "aswriter.moc"

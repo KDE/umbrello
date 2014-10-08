@@ -105,5 +105,3 @@ bool RegionWidget::loadFromXMI(QDomElement& qElement)
     setDocumentation(qElement.attribute(QLatin1String("documentation")));
     return true;
 }
-
-#include "regionwidget.moc"

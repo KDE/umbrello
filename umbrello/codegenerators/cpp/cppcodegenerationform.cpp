@@ -333,5 +333,3 @@ Qt::CheckState CPPCodeGenerationForm::toCheckState(bool value)
         return Qt::Unchecked;
     }
 }
-
-#include "cppcodegenerationform.moc"

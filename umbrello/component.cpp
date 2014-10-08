@@ -123,5 +123,3 @@ bool UMLComponent::getExecutable()
 {
     return m_executable;
 }
-
-#include "component.moc"

@@ -543,5 +543,3 @@ void DClassifierCodeDocument::updateContent()
         ocomment->setWriteOutText(true);
 
 }
-
-#include "dclassifiercodedocument.moc"

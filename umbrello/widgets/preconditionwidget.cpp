@@ -319,5 +319,3 @@ void PreconditionWidget::loadObjectWidget()
         );
     }
 }
-
-#include "preconditionwidget.moc"

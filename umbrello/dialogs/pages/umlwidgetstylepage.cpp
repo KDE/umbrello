@@ -266,5 +266,3 @@ void UMLWidgetStylePage::updateUMLWidget()
         }
     }
 }
-
-#include "umlwidgetstylepage.moc"

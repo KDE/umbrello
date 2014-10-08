@@ -189,5 +189,3 @@ void CodeAccessorMethod::initFields(CodeClassField * parentClassField)
 
     connect(m_parentclassfield, SIGNAL(modified()), this, SLOT(syncToParent()));
 }
-
-#include "codeaccessormethod.moc"

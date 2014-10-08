@@ -782,6 +782,3 @@ TextBlock * ClassifierCodeDocument::findCodeClassFieldTextBlockByTag (const QStr
     // if we get here, we failed.
     return (TextBlock*) NULL;
 }
-
-
-#include "classifiercodedocument.moc"

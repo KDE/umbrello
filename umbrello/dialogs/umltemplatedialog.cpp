@@ -186,5 +186,3 @@ void UMLTemplateDialog::slotOk()
         accept();
     }
 }
-
-#include "umltemplatedialog.moc"

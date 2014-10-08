@@ -151,5 +151,3 @@ void CPPHeaderCodeAccessorMethod::updateMethodDeclaration()
 
     setOverallIndentationLevel(1);
 }
-
-#include "cppheadercodeaccessormethod.moc"

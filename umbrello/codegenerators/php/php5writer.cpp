@@ -3450,7 +3450,3 @@ QStringList Php5Writer::reservedKeywords() const
 
     return keywords;
 }
-
-
-#include "php5writer.moc"
-

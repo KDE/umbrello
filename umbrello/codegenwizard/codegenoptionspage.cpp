@@ -340,5 +340,3 @@ QString CodeGenOptionsPage::getLanguage()
 {
     return ui_SelectLanguageBox->currentText();
 }
-
-#include "codegenoptionspage.moc"

@@ -4359,5 +4359,3 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement)
         return false;
     }
 }
-
-#include "associationwidget.moc"

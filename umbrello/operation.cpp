@@ -608,5 +608,3 @@ bool UMLOperation::load(QDomElement & element)
     }//end while
     return true;
 }
-
-#include "operation.moc"

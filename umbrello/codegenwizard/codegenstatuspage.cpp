@@ -224,5 +224,3 @@ void CodeGenStatusPage::loggerExport()
         }
     }
 }
-
-#include "codegenstatuspage.moc"

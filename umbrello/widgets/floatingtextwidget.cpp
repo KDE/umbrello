@@ -818,5 +818,3 @@ void FloatingTextWidget::setMessageText()
     }
     setVisible(!text().isEmpty());
 }
-
-#include "floatingtextwidget.moc"

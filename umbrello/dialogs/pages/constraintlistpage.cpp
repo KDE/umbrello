@@ -245,5 +245,3 @@ UMLClassifierListItemList ConstraintListPage::getItemList()
 {
     return m_pClassifier->getFilteredList(UMLObject::ot_EntityConstraint);
 }
-
-#include "constraintlistpage.moc"

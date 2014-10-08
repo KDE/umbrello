@@ -157,5 +157,3 @@ void UMLCheckConstraint::init()
     m_BaseType = UMLObject::ot_CheckConstraint;
     m_CheckCondition.clear();
 }
-
-#include "checkconstraint.moc"
