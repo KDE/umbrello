@@ -103,7 +103,7 @@
 #include <cmath>
 
 /** Static pointer, holding the last created instance. */
-UMLApp* UMLApp::s_instance;
+UMLApp* UMLApp::s_instance = 0;
 
 /**
  * Searches for a menu with the given name.

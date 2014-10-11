@@ -58,6 +58,8 @@ class QPushButton;
 class QLabel;
 class QListWidget;
 class QSlider;
+class QPrinter;
+
 class UMLAppPrivate;
 
 /**

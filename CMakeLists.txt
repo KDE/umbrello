@@ -12,7 +12,11 @@ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 #set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
 set(QT_MIN_VERSION "5.2.0")
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Xml Test) 
+find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
+    Core
+    Widgets
+    Xml
+    Test)
 
 include(KDEInstallDirs)
 include(KDECompilerSettings)
@@ -68,8 +72,19 @@ add_definitions (${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 include_directories(
     ${CMAKE_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
-    ${CMAKE_INSTALL_PREFIX}/include/KF5  #FIXME
+    ${CMAKE_INSTALL_PREFIX}/include/KF5             #FIXME
+    /opt/project-neon5/include/KF5/KConfigGui       #FIXME
+    /opt/project-neon5/include/KF5/KDELibs4Support  #FIXME
+    /opt/project-neon5/include/KF5/KConfigCore      #FIXME
+    /opt/project-neon5/include/KF5/KWidgetsAddons   #FIXME
+    /opt/project-neon5/include/KF5/KI18n            #FIXME
+    /opt/project-neon5/include/KF5/KXmlGui          #FIXME
+    /opt/project-neon5/include/KF5/KCompletion      #FIXME
+    /opt/project-neon5/include/KF5/KTextWidgets     #FIXME
+    /opt/project-neon5/include/KF5/SonnetUi         #FIXME
+    /opt/project-neon5/include/KF5/KAuth            #FIXME
 )
+message(STATUS "===========> ${CMAKE_INSTALL_PREFIX}")
 
 #macro_display_feature_log()
 

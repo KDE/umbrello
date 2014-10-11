@@ -480,9 +480,12 @@ set(umbrello_SRCS
 add_executable(umbrello ${umbrello_SRCS})
 target_link_libraries(umbrello
     Qt5::Widgets
+    Qt5::Xml
     Qt5::DBus
+    Qt5::PrintSupport
     KF5::CoreAddons
     KF5::Config
+#    KF5::TextEditor
     KF5::KDELibs4Support
     ${KDE4_KFILE_LIBS} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${KDE4_KTEXTEDITOR_LIBS})
 install(TARGETS umbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
