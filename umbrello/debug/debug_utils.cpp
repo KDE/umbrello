@@ -25,9 +25,10 @@
 
 #include <QFileInfo>
 
+Q_LOGGING_CATEGORY(UMBRELLO, "umbrello")
+
 Tracer* Tracer::m_instance = 0;
 Tracer::MapType *Tracer::m_classes = 0;
-
 
 Tracer* Tracer::instance()
 {
@@ -44,9 +45,14 @@ Tracer* Tracer::instance()
 Tracer::Tracer(QWidget *parent)
   : QTreeWidget(parent)
 {
+    //TODO: can be removed in Qt 5.3
+    QLoggingCategory::setFilterRules(QStringLiteral("umbrello.debug = true"));
+
     // in case no one called registerClass() before
-    if (!m_classes)
+    if (!m_classes) {
         m_classes = new Tracer::MapType;
+    }
+
     setRootIsDecorated(true);
     setAlternatingRowColors(true);
     setHeaderLabel(i18n("Class Name"));

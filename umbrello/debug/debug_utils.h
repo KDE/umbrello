@@ -24,6 +24,8 @@
 
 #include <QMetaEnum>
 #include <QTreeWidget>
+#include <QLoggingCategory>
+Q_DECLARE_LOGGING_CATEGORY(UMBRELLO)
 
 /**
  * @short The singleton class for switching on or off debug messages.
@@ -99,12 +101,10 @@ private:
     explicit Tracer(QWidget *parent = 0);
 };
 
-#include <kdebug.h>
-
 // convenience macros for console output to the Umbrello area
-#define uDebug()   kDebug(8060)
-#define uError()   kError(8060)
-#define uWarning() kWarning(8060)
+#define uDebug()   qCDebug(UMBRELLO)
+#define uError()   qCCritical(UMBRELLO)
+#define uWarning() qCWarning(UMBRELLO)
 
 #define DBG_SRC  QString::fromLatin1(metaObject()->className())
 #define DEBUG_SHOW_FILTER() Tracer::instance()->show()
