@@ -25,8 +25,6 @@
 #include "debug_utils.h"
 
 #include <kiconloader.h>
-#include <kicon.h>
-
 
 namespace Icon_Utils {
 
@@ -75,9 +73,9 @@ QPixmap UserIcon(IconType type)
  * @param type   the identification of the icon
  * @return       the wanted icon
  */
-KIcon DesktopIcon(IconType type)
+QIcon DesktopIcon(IconType type)
 {
-    return KIcon(DesktopIcon(toString(type)));
+    return DesktopIcon(toString(type));
 }
 
 /**
@@ -97,7 +95,7 @@ QCursor Cursor(IconType type)
  * @param dt   the diagram type
  * @return     the wanted icon
  */
-KIcon iconSet(Uml::DiagramType::Enum dt)
+QIcon iconSet(Uml::DiagramType::Enum dt)
 {
     switch (dt) {
         case Uml::DiagramType::UseCase:
@@ -121,7 +119,7 @@ KIcon iconSet(Uml::DiagramType::Enum dt)
         default:
             uDebug() << "Widget_Utils::iconSet: unknown diagram type "
                      << Uml::DiagramType::toString(dt);
-            return KIcon();
+            return QIcon();
     }
 }
 

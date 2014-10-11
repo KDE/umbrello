@@ -22,9 +22,8 @@
 
 #include "basictypes.h"
 
-#include <kicon.h>
-
 #include <QCursor>
+#include <QIcon>
 #include <QPixmap>
 
 /**
@@ -229,13 +228,13 @@ namespace Icon_Utils {
     QPixmap MainBarIcon(IconType type);
     QPixmap UserIcon(IconType type);
 
-    KIcon DesktopIcon(IconType type);
+    QIcon DesktopIcon(IconType type);
 
     QCursor Cursor(IconType type);
 
     QString toString(IconType type);
 
-    KIcon iconSet(Uml::DiagramType::Enum dt);
+    QIcon iconSet(Uml::DiagramType::Enum dt);
 
 }  // namespace
 
