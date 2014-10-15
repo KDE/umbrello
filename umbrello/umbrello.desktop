@@ -125,5 +125,5 @@ GenericName[uk]=Засіб моделювання UML
 GenericName[x-test]=xxUML Modellerxx
 GenericName[zh_CN]=UML 建模工具
 GenericName[zh_TW]=UML Modeller
-MimeType=application/x-uml;
+MimeType=application/x-uml;text/x-xmi;
 Categories=Qt;KDE;Development;
