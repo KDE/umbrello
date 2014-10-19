@@ -33,11 +33,12 @@
  * Constructor.
  */
 DocbookGenerator::DocbookGenerator()
+  : m_docbookGeneratorJob(0),
+    m_pStatus(true),
+    m_pThreadFinished(false)
+
 {
-  umlDoc = UMLApp::app()->document();
-  m_pStatus = true;
-  m_pThreadFinished = false;
-  docbookGeneratorJob = 0;
+  m_umlDoc = UMLApp::app()->document();
 }
 
 /**
@@ -58,7 +59,7 @@ DocbookGenerator::~DocbookGenerator()
  */
 bool DocbookGenerator::generateDocbookForProject()
 {
-  KUrl url = umlDoc->url();
+  KUrl url = m_umlDoc->url();
   QString fileName = url.fileName();
   fileName.remove(QRegExp(QLatin1String(".xmi$")));
   url.setFileName(fileName);
@@ -74,10 +75,10 @@ bool DocbookGenerator::generateDocbookForProject()
  * @todo better handling of error conditions
  * @return true if saving is successful and false otherwise.
  */
-void DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDir)
+void DocbookGenerator::generateDocbookForProjectInto(const QUrl& destDir)
 {
     m_destDir = destDir;
-    umlDoc->writeToStatusBar(i18n("Exporting all views..."));
+    m_umlDoc->writeToStatusBar(i18n("Exporting all views..."));
 
     QStringList errors = UMLViewImageExporterModel().exportAllViews(
         UMLViewImageExporterModel::mimeTypeToImageType(QLatin1String("image/png")), destDir, false);
@@ -86,30 +87,29 @@ void DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDir)
         return;
     }
 
-    umlDoc->writeToStatusBar(i18n("Generating Docbook..."));
+    m_umlDoc->writeToStatusBar(i18n("Generating Docbook..."));
 
-    docbookGeneratorJob = new DocbookGeneratorJob(this);
-    connect(docbookGeneratorJob, SIGNAL(docbookGenerated(QString)), this, SLOT(slotDocbookGenerationFinished(QString)));
-    connect(docbookGeneratorJob, SIGNAL(finished()), this, SLOT(threadFinished()));
+    m_docbookGeneratorJob = new DocbookGeneratorJob(this);
+    connect(m_docbookGeneratorJob, SIGNAL(docbookGenerated(QString)), this, SLOT(slotDocbookGenerationFinished(QString)));
+    connect(m_docbookGeneratorJob, SIGNAL(finished()), this, SLOT(threadFinished()));
     uDebug()<<"Threading";
-    docbookGeneratorJob->start();
+    m_docbookGeneratorJob->start();
 }
 
 void DocbookGenerator::slotDocbookGenerationFinished(const QString& tmpFileName)
 {
     uDebug() << "Generation Finished" << tmpFileName;
-    KUrl url = umlDoc->url();
+    QUrl url = m_umlDoc->url();
     QString fileName = url.fileName();
     fileName.replace(QRegExp(QLatin1String(".xmi$")), QLatin1String(".docbook"));
-    url.setPath(m_destDir.path());
-    url.addPath(fileName);
+    url.setPath(m_destDir.path() + QLatin1Char('/') + fileName);
 
     KIO::Job* job = KIO::file_copy(KUrl::fromPath(tmpFileName), url, -1, KIO::Overwrite | KIO::HideProgressInfo);
     if (KIO::NetAccess::synchronousRun(job, (QWidget*)UMLApp::app())) {
-        umlDoc->writeToStatusBar(i18n("Docbook Generation Complete..."));
+        m_umlDoc->writeToStatusBar(i18n("Docbook Generation Complete..."));
         m_pStatus = true;
     } else {
-        umlDoc->writeToStatusBar(i18n("Docbook Generation Failed..."));
+        m_umlDoc->writeToStatusBar(i18n("Docbook Generation Failed..."));
         m_pStatus = false;
     }
 
@@ -124,6 +124,6 @@ void DocbookGenerator::slotDocbookGenerationFinished(const QString& tmpFileName)
 void DocbookGenerator::threadFinished()
 {
     m_pThreadFinished = true;
-    delete docbookGeneratorJob;
-    docbookGeneratorJob = 0;
+    delete m_docbookGeneratorJob;
+    m_docbookGeneratorJob = 0;
 }

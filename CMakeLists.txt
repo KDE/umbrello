@@ -8,15 +8,7 @@ cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 
 # we need some parts of the ECM CMake helpers
 find_package(ECM 1.1.0 REQUIRED NO_MODULE)
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
-#set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
-
-set(QT_MIN_VERSION "5.2.0")
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
-    Core
-    Widgets
-    Xml
-    Test)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
 
 include(KDEInstallDirs)
 include(KDECompilerSettings)
@@ -24,6 +16,47 @@ include(KDECMakeSettings)
 include(FeatureSummary)
 include(ECMInstallIcons)
 include(ECMSetupVersion)
+
+# search packages used by Qt
+set(QT_MIN_VERSION "5.2.0")
+find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS
+    Core
+    DBus
+    Gui
+    PrintSupport
+    Svg
+    Test
+    Widgets
+    Xml
+)
+
+# search packages used by KDE
+find_package(KF5 REQUIRED COMPONENTS
+    Archive
+    Auth
+    Completion
+    Config
+    CoreAddons
+    DocTools
+    GuiAddons
+    I18n
+    IconThemes
+    Init
+    KDELibs4Support
+    KIO
+    Parts
+    Service
+    TextEditor
+    WindowSystem
+    WidgetsAddons
+    XmlGui
+)
+
+# use some compile flags
+add_definitions(
+    -DQT_NO_SIGNAL_SLOTS_KEYWORDS
+    -DQT_NO_URL_CAST_FROM_STRING
+)
 
 # set default umbrello version
 # umbrello version could be overridden by cmake command line using -DUMBRELLO_VERSION_STRING=major.minor.patch
@@ -45,54 +78,38 @@ endif()
 message(STATUS "Using umbrello version ${UMBRELLO_VERSION_STRING}")
 add_definitions(-DUMBRELLO_VERSION_STRING="${UMBRELLO_VERSION_STRING}")
 
-# search packages used by KDE
-find_package(KF5 REQUIRED COMPONENTS
-  Config
-  DocTools
-  GuiAddons
-  I18n
-  Init
-  WindowSystem
-  XmlGui
-)
-
 message(STATUS "Using automoc4 version ${AUTOMOC4_VERSION}")
 message(STATUS "Using cmake version ${CMAKE_VERSION}")
 
-# The FindKDE4.cmake module sets _KDE4_PLATFORM_DEFINITIONS with
-# definitions like _GNU_SOURCE that are needed on each platform.
-#set(CMAKE_REQUIRED_DEFINITIONS ${_KDE4_PLATFORM_DEFINITIONS} -DQT_STRICT_ITERATORS)
-
 find_package(LibXslt)
-#macro_log_feature(LIBXSLT_FOUND "LibXSLT" "A library to transform XMLfiles into other XML files" #"http://xmlsoft.org/XSLT" FALSE "" "Required to build Umbrello.")
-find_package(LibXml2)
-#macro_log_feature(LIBXML2_FOUND "LibXML2" "Libraries used to develop XML applications" "http://xmlsoft.org" FALSE "" #"Required to build Umbrello.")
+set_package_properties(LibXslt PROPERTIES
+    DESCRIPTION "A library to transform XMLfiles into other XML files."
+    URL "http://xmlsoft.org/XSLT"
+    TYPE REQUIRED)
 
-add_definitions (${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
+find_package(LibXml2)
+set_package_properties(LibXml2 PROPERTIES
+    DESCRIPTION "Libraries used to develop XML applications."
+    URL "http://xmlsoft.org"
+    TYPE REQUIRED)
+
 include_directories(
     ${CMAKE_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
-    ${CMAKE_INSTALL_PREFIX}/include/KF5             #FIXME
-    /opt/project-neon5/include/KF5/KConfigGui       #FIXME
-    /opt/project-neon5/include/KF5/KDELibs4Support  #FIXME
     /opt/project-neon5/include/KF5/KConfigCore      #FIXME
-    /opt/project-neon5/include/KF5/KWidgetsAddons   #FIXME
-    /opt/project-neon5/include/KF5/KI18n            #FIXME
-    /opt/project-neon5/include/KF5/KXmlGui          #FIXME
-    /opt/project-neon5/include/KF5/KCompletion      #FIXME
+    /opt/project-neon5/include/KF5/KConfigGui       #FIXME
+    /opt/project-neon5/include/KF5/KConfigWidgets   #FIXME
+    /opt/project-neon5/include/KF5/KDELibs4Support  #FIXME
+    /opt/project-neon5/include/KF5/KIOCore          #FIXME
+    /opt/project-neon5/include/KF5/KIOFileWidgets   #FIXME
+    /opt/project-neon5/include/KF5/KIOWidgets       #FIXME
     /opt/project-neon5/include/KF5/KTextWidgets     #FIXME
     /opt/project-neon5/include/KF5/SonnetUi         #FIXME
-    /opt/project-neon5/include/KF5/KAuth            #FIXME
 )
-message(STATUS "===========> ${CMAKE_INSTALL_PREFIX}")
-
-#macro_display_feature_log()
-
-#KDE4_NO_ENABLE_FINAL(umbrello)
 
 if(LIBXSLT_FOUND AND LIBXML2_FOUND)
-    add_subdirectory( umbrello )
-    add_subdirectory( doc )
+    add_subdirectory(umbrello)
+    add_subdirectory(doc)
     # do we build the unit tests
     if(KDE4_BUILD_TESTS)
         ENABLE_TESTING()
@@ -101,3 +118,5 @@ if(LIBXSLT_FOUND AND LIBXML2_FOUND)
 endif(LIBXSLT_FOUND AND LIBXML2_FOUND)
 
 set(KDE4_BUILD_TESTS ON)  # for unit tests
+
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

@@ -25,6 +25,7 @@
 #include "layoutgenerator.h"
 
 #include <kfiledialog.h>
+#include <klocale.h>
 #include <kvbox.h>
 
 //TODO don't do that, but it's better than hardcoded in the functions body

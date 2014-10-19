@@ -1336,7 +1336,7 @@ ListPopupMenu* ListPopupMenu::menuFromAction(QAction *action)
 {
     if (action) {
         QVariant value = dataFromAction(dt_MenuPointer, action);
-        if (qVariantCanConvert<ListPopupMenu*>(value)) {
+        if (value.canConvert<ListPopupMenu*>()) {
             return qvariant_cast<ListPopupMenu*>(value);
         }
     }

@@ -13,20 +13,25 @@
 #include "umlviewimageexportermodel.h"
 
 // kde includes
-#include <KMimeType>
-#include <klocalizedstring.h>
+#include <KLocalizedString>
+
+// qt includes
+#include <QMimeDatabase>
+#include <QMimeType>
 
 static QStringList mime2KdeFilter(const QStringList &mimeTypes, QString *allExtensions = 0)
 {
     const KUrl emptyUrl;
     QStringList kdeFilter;
     QStringList allExt;
+    QMimeDatabase db;
     foreach(const QString& mimeType, mimeTypes) {
-        KMimeType::Ptr mime(KMimeType::mimeType(mimeType));
-        if (mime) {
-            allExt += mime->patterns();
-            kdeFilter.append(mime->patterns().join(QLatin1String(" ")) + QLatin1Char('|') +
-            mime->comment(emptyUrl));
+        QMimeType mime(db.mimeTypeForName(mimeType));
+        if (mime.isValid()) {
+            allExt += mime.globPatterns();
+            kdeFilter.append(mime.globPatterns().join(QLatin1String(" ")) + QLatin1Char('|') +
+//FIXME KF5            mime.comment(emptyUrl));
+                mime.comment());
         }
         else if (mimeType == QString::fromLatin1("image/x-dot")) {
             allExt += QString::fromLatin1("*.dot");
@@ -58,7 +63,9 @@ int UMLFileDialog::exec()
 
 void UMLFileDialog::setCaption(const QString &caption)
 {
+#if 0 //FIXME KF5
     m_dialog->setCaption(caption);
+#endif
 }
 
 void UMLFileDialog::setOperationMode(KFileDialog::OperationMode mode)

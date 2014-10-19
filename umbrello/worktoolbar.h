@@ -20,7 +20,7 @@
 #include <QPixmap>
 
 class QMainWindow;
-class KAction;
+class QAction;
 
 /**
  * This is the toolbar that is displayed on the right-hand side of the program
@@ -124,7 +124,7 @@ private:
 
     typedef QMap<Uml::DiagramType::Enum, ToolBar_Buttons> OldToolMap;
     typedef QMap<ToolBar_Buttons, QCursor> CursorMap;
-    typedef QMap<ToolBar_Buttons, KAction*> ActionsMap;
+    typedef QMap<ToolBar_Buttons, QAction*> ActionsMap;
 
     ToolBar_Buttons          m_CurrentButtonID;
     OldToolMap               m_map;

@@ -19,7 +19,6 @@
 
 #include <klocale.h>
 #include <kcolorbutton.h>
-#include <KIntSpinBox>
 
 #include <QCheckBox>
 #include <QGridLayout>
@@ -27,6 +26,7 @@
 #include <QLabel>
 #include <QLayout>
 #include <QPushButton>
+#include <QSpinBox>
 #include <QVBoxLayout>
 
 /**
@@ -161,7 +161,10 @@ void UMLWidgetStylePage::init()
     m_lineWidthL = new QLabel(i18nc("line width", "Line &width:"), m_pStyleGB);
     styleLayout->addWidget(m_lineWidthL, ++row, 0);
 
-    m_lineWidthB = new KIntSpinBox(0, 10, 1, 0, m_pStyleGB);
+    m_lineWidthB = new QSpinBox(m_pStyleGB);
+    m_lineWidthB->setRange(0, 10);
+    m_lineWidthB->setSingleStep(1);
+    m_lineWidthB->setValue(0);
     styleLayout->addWidget(m_lineWidthB, row, 1);
 
     m_lineWidthDefaultB = new QPushButton(i18nc("default line width button", "Defa&ult"), m_pStyleGB) ;

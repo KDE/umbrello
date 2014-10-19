@@ -13,12 +13,12 @@
 
 #include "dialogpagebase.h"
 
-class KIntSpinBox;
 class KLineEdit;
 class KComboBox;
-class QGroupBox;
 class QCheckBox;
+class QGroupBox;
 class QLabel;
+class QSpinBox;
 
 /**
  * A dialog page to display auto layouts options
@@ -46,7 +46,7 @@ protected:
         QGroupBox * autosaveGB;
         QGroupBox * startupGB;
 
-        KIntSpinBox * timeISB;
+        QSpinBox * timeISB;
         KComboBox * diagramKB;
         KComboBox * languageKB;
 

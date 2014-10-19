@@ -17,7 +17,7 @@
 #include <QRect>
 
 // forward declarations
-class KUrl;
+class QUrl;
 
 /**
  * Exports an UMLView in various image formats.
@@ -42,14 +42,14 @@ public:
     UMLViewImageExporterModel();
     virtual ~UMLViewImageExporterModel();
 
-    QStringList exportAllViews(const QString &imageType, const KUrl &directory, bool useFolders) const;
-    QString exportView(UMLScene* scene, const QString &imageType, const KUrl &url) const;
+    QStringList exportAllViews(const QString &imageType, const QUrl &directory, bool useFolders) const;
+    QString exportView(UMLScene* scene, const QString &imageType, const QUrl &url) const;
 
 private:
 
     QString getDiagramFileName(UMLScene* scene, const QString &imageType, bool useFolders = false) const;
 
-    bool prepareDirectory(const KUrl &url) const;
+    bool prepareDirectory(const QUrl &url) const;
 
     bool exportViewTo(UMLScene* scene, const QString &imageType, const QString &fileName) const;
     bool exportViewToDot(UMLScene* scene, const QString &fileName) const;

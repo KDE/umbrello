@@ -13,6 +13,9 @@
 class UMLScene;
 #include <QHash>
 #include <QPointF>
+#include <QString>
+
+class QStringList;
 
 #define DOTGENERATOR_DEBUG
 /**

@@ -19,9 +19,10 @@
 #include "umlview.h"
 
 // kde include files
+#include <kicon.h>
 #include <klocale.h>
-#include <KAction>
-#include <KActionCollection>
+#include <kaction.h>
+#include <kactioncollection.h>
 
 // qt include files
 #include <QToolButton>
@@ -65,7 +66,7 @@ WorkToolBar::~WorkToolBar()
  */
 QAction* WorkToolBar::insertHotBtn(ToolBar_Buttons tbb)
 {
-    KAction *action = m_actions[tbb];
+    QAction *action = m_actions[tbb];
     addAction(action);
     action->setChecked(true);
     return action;
@@ -377,7 +378,7 @@ void WorkToolBar::loadPixmaps()
     for (uint i = 0; i < n_buttonInfos; ++i) {
         const ButtonInfo& info = buttonInfo[i];
         QString key = QLatin1String(ENUM_NAME(WorkToolBar, ToolBar_Buttons, info.tbb));
-        KAction *action = collection->addAction(key, this, info.slotName);
+        QAction *action = collection->addAction(key, this, info.slotName);
         action->setIcon(KIcon(Icon_Utils::BarIcon(info.icon)));
         action->setText(info.btnName);
         m_actions[info.tbb] = action;

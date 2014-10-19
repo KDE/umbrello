@@ -110,7 +110,9 @@ void UMLEntityAttributeDialog::setupDialog()
     valuesLayout->addWidget(m_pAttributesL, 7, 0);
 
     m_pAttributesCB = new KComboBox(true, m_pValuesGB);
+#if 0 //FIXME KF5
     m_pAttributesCB->setCompletionMode(KGlobalSettings::CompletionPopup);
+#endif
     valuesLayout->addWidget(m_pAttributesCB, 7, 1);
     m_pTypeL->setBuddy(m_pAttributesCB);
 
@@ -156,7 +158,9 @@ void UMLEntityAttributeDialog::setupDialog()
     }
 
     m_pTypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
+#if 0 //FIXME KF5
     m_pTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
+#endif
     insertTypesSorted(m_pEntityAttribute->getTypeName());
 
     m_pNameLE->setFocus();

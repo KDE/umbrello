@@ -29,12 +29,12 @@
 #include <kstandarddirs.h>
 #include <klocale.h>
 
-#include <QTextOStream>
+#include <QTextStream>
 
 extern int xmlLoadExtDtdDefaultValue;
 
-DocbookGeneratorJob::DocbookGeneratorJob(QObject* parent):
-        QThread(parent)
+DocbookGeneratorJob::DocbookGeneratorJob(QObject* parent)
+  : QThread(parent)
 {
 }
 

@@ -184,7 +184,9 @@ void UMLOperationDialog::setupDialog()
     m_pDownButton->setEnabled(false);
 
     m_pRtypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
+#if 0 //FIXME KF5
     m_pRtypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
+#endif
     // add the return types
     insertTypesSorted(m_operation->getTypeName());
 
@@ -214,7 +216,9 @@ void UMLOperationDialog::setupDialog()
 
     // manage stereotypes
     m_pStereoTypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
+#if 0 //FIXME KF5
     m_pStereoTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
+#endif
     insertStereotypesSorted(m_operation->stereotype());
 
     // setup parm list box signals

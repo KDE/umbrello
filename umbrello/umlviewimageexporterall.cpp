@@ -64,7 +64,7 @@ void UMLViewImageExporterAll::exportAllViews()
     // default url can't be set when creating the action because the
     // document wasn't loaded
     if (m_dialog->m_kURL->url().isEmpty()) {
-        m_dialog->m_kURL->setUrl(umlDoc->url().directory());
+        m_dialog->m_kURL->setUrl(QUrl(umlDoc->url().directory()));
     }
 
     if (m_dialog->exec() == QDialog::Rejected) {

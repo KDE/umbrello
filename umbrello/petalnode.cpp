@@ -26,7 +26,7 @@ public:
         level++;
         *this << className
               << "(\n"
-              << QString().fill(QLatin1Char('.'), level).toAscii().constData()
+              << QString().fill(QLatin1Char('.'), level).toLatin1().constData()
               ;
     }
 
@@ -34,7 +34,7 @@ public:
     {
         --level;
         *this << "\n"
-              << QString().fill(QLatin1Char(','), level).toAscii().constData()
+              << QString().fill(QLatin1Char(','), level).toLatin1().constData()
               << ")";
               ;
     }

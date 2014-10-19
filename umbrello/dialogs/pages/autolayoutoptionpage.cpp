@@ -15,9 +15,8 @@
 #include "layoutgenerator.h"
 
 // kde includes
-#include <KFileDialog>
 #include <KLineEdit>
-#include <KLocale>
+#include <KLocalizedString>
 
 // qt includes
 #include <QCheckBox>

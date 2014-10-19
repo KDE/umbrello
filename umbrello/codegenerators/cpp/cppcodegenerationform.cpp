@@ -84,7 +84,7 @@ CPPCodeGenerationForm::~CPPCodeGenerationForm()
 void CPPCodeGenerationForm::browseClicked()
 {
     QString button = sender()->objectName();
-    QString file = KFileDialog::getOpenFileName(KUrl(), QLatin1String("*.h"), this, QLatin1String("Get Header File"));
+    QString file = KFileDialog::getOpenFileName(QUrl(), QLatin1String("*.h"), this, QLatin1String("Get Header File"));
 
     if (file.isEmpty()) {
         return;

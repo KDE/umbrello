@@ -712,9 +712,9 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
             // now remove the original file
 #ifdef Q_WS_WIN
             tmpfile.setAutoRemove(true);
-            KIO::FileCopyJob* fcj = KIO::file_copy(tmpfile.fileName(), url, -1, KIO::Overwrite);
+            KIO::FileCopyJob* fcj = KIO::file_copy(QUrl::fromLocalFile(tmpfile.fileName()), url, -1, KIO::Overwrite);
 #else
-            KIO::FileCopyJob* fcj = KIO::file_move(tmpfile.fileName(), url, -1, KIO::Overwrite);
+            KIO::FileCopyJob* fcj = KIO::file_move(QUrl::fromLocalFile(tmpfile.fileName()), url, -1, KIO::Overwrite);
 #endif
             if (KIO::NetAccess::synchronousRun(fcj, (QWidget*)UMLApp::app()) == false) {
                 KMessageBox::error(0, i18n("There was a problem saving file: %1", url.pathOrUrl()), i18n("Save Error"));

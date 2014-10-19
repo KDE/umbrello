@@ -25,7 +25,7 @@
 
 class LexerCache;
 
-class CachedLexedFile : public KShared, public CacheNode
+class CachedLexedFile : public QSharedData, public CacheNode
 {
 public:
     ///@todo add and manage the set of included files
@@ -113,7 +113,7 @@ private:
     */
 };
 
-typedef KSharedPtr<CachedLexedFile>  CachedLexedFilePointer;
+typedef QExplicitlySharedDataPointer<CachedLexedFile>  CachedLexedFilePointer;
 
 struct CachedLexedFilePointerCompare {
     bool operator() (const CachedLexedFilePointer& lhs, const CachedLexedFilePointer& rhs) const

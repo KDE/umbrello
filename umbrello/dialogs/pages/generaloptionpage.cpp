@@ -17,18 +17,18 @@
 
 // kde includes
 #include <KComboBox>
-#include <KDialog>
-#include <KIntSpinBox>
 #include <KLineEdit>
-#include <KLocale>
+#include <KLocalizedString>
 
 // qt includes
 #include <QCheckBox>
+#include <QDialog>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QLabel>
 #include <QPushButton>
 #include <QRadioButton>
+#include <QSpinBox>
 
 /**
  * Constructor.
@@ -38,7 +38,10 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
   : DialogPageBase(parent)
 {
     Settings::OptionState &optionState = Settings::optionState();
-    int spacingHint = static_cast<KDialog*>(parent)->spacingHint();
+#if 0 //FIXME KF5
+    int spacingHint = static_cast<QDialog*>(parent)->spacingHint();
+#endif
+    int spacingHint = 2;
     // Set up undo setting
     m_GeneralWidgets.miscGB = new QGroupBox(i18nc("miscellaneous group box", "Miscellaneous"), parent);
 
@@ -80,7 +83,10 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     m_GeneralWidgets.autosaveL = new QLabel(i18n("Select auto-save time interval (mins):"), m_GeneralWidgets.autosaveGB);
     autosaveLayout->addWidget(m_GeneralWidgets.autosaveL, 1, 0);
 
-    m_GeneralWidgets.timeISB = new KIntSpinBox(1, 600, 1, optionState.generalState.autosavetime, m_GeneralWidgets.autosaveGB);
+    m_GeneralWidgets.timeISB = new QSpinBox(m_GeneralWidgets.autosaveGB);
+    m_GeneralWidgets.timeISB->setRange(1, 600);
+    m_GeneralWidgets.timeISB->setSingleStep(1);
+    m_GeneralWidgets.timeISB->setValue(optionState.generalState.autosavetime);
     m_GeneralWidgets.timeISB->setEnabled(optionState.generalState.autosave);
     autosaveLayout->addWidget(m_GeneralWidgets.timeISB, 1, 1);
 
@@ -112,7 +118,9 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     startupLayout->addWidget(m_GeneralWidgets.startL, 1, 0);
 
     m_GeneralWidgets.diagramKB = new KComboBox(m_GeneralWidgets.startupGB);
+#if 0 //FIXME KF5
     m_GeneralWidgets.diagramKB->setCompletionMode(KGlobalSettings::CompletionPopup);
+#endif
     startupLayout->addWidget(m_GeneralWidgets.diagramKB, 1, 1);
 
     // start at 1 because we don't allow No Diagram any more
@@ -130,7 +138,9 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     startupLayout->addWidget(m_GeneralWidgets.defaultLanguageL, 2, 0);
 
     m_GeneralWidgets.languageKB = new KComboBox(m_GeneralWidgets.startupGB);
+#if 0 //FIXME KF5
     m_GeneralWidgets.languageKB->setCompletionMode(KGlobalSettings::CompletionPopup);
+#endif
     startupLayout->addWidget(m_GeneralWidgets.languageKB, 2, 1);
 
     int indexCounter = 0;

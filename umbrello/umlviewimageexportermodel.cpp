@@ -197,7 +197,7 @@ UMLViewImageExporterModel::~UMLViewImageExporterModel()
  * @return A QStringList with all the error messages that occurred during export.
  *         If the list is empty, all the views were exported successfully.
  */
-QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, const KUrl &directory, bool useFolders) const
+QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, const QUrl &directory, bool useFolders) const
 {
     UMLApp *app = UMLApp::app();
 
@@ -206,12 +206,11 @@ QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, 
 
     UMLViewList views = app->document()->viewIterator();
     foreach (UMLView *view, views) {
-        KUrl url = directory;
-        url.addPath(getDiagramFileName(view->umlScene(), imageType, useFolders));
+        QUrl url(directory.path() + QLatin1Char('/') +
+                 getDiagramFileName(view->umlScene(), imageType, useFolders));
 
         QString returnString = exportView(view->umlScene(), imageType, url);
         if (!returnString.isNull()) {
-            // [PORT]
             errors.append(view->umlScene()->name() + QLatin1String(": ") + returnString);
         }
     }
@@ -234,7 +233,7 @@ QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, 
  * @return  The error message if some problem occurred when exporting, or
  *          QString() if all went fine.
  */
-QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &imageType, const KUrl &url) const
+QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &imageType, const QUrl &url) const
 {
     if (!scene) {
         return i18n("Empty scene");
@@ -242,7 +241,7 @@ QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &im
 
     // create the needed directories
     if (!prepareDirectory(url)) {
-        return i18n("Cannot create directory: %1", url.directory());
+        return i18n("Cannot create directory: %1", url.path());
     }
 
     // The fileName will be used when exporting the image. If the url isn't local,
@@ -309,16 +308,16 @@ QString UMLViewImageExporterModel::getDiagramFileName(UMLScene* scene, const QSt
  * @return True if the operation was successful,
  *         false if the directory didn't exist and couldn't be created.
  */
-bool UMLViewImageExporterModel::prepareDirectory(const KUrl &url) const
+bool UMLViewImageExporterModel::prepareDirectory(const QUrl &url) const
 {
-    // the KUrl is copied to get protocol, user and so on and then the path is cleaned
-    KUrl directory = url;
+    // the QUrl is copied to get protocol, user and so on and then the path is cleaned
+    QUrl directory = url;
     directory.setPath(QString());
 
     // creates the directory and any needed parent directories
-    QStringList dirs = url.directory().split(QDir::separator(), QString::SkipEmptyParts);
+    QStringList dirs = url.path().split(QDir::separator(), QString::SkipEmptyParts);
     for (QStringList::ConstIterator it = dirs.constBegin() ; it != dirs.constEnd(); ++it) {
-        directory.addPath(*it);
+        directory.setPath(directory.path() + QLatin1Char('/') + *it);
 
         if (!KIO::NetAccess::exists(directory, KIO::NetAccess::SourceSide, UMLApp::app())) {
 
@@ -428,7 +427,9 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLScene* scene, const QString &
         printer = new QPrinter(QPrinter::ScreenResolution);
     }
     printer->setOutputFileName(fileName);
+#if 0 //FIXME KF5
     printer->setOutputFormat(QPrinter::PostScriptFormat);
+#endif
     printer->setColorMode(QPrinter::Color);
 
     // do not call printer.setup(); because we want no user

@@ -17,10 +17,11 @@
 #include "uml.h"
 
 // kde includes
+#include <kdialog.h>
+#include <kglobal.h>
 #include <ktexteditor/configinterface.h>
 #include <ktexteditor/document.h>
 #include <ktexteditor/editor.h>
-#include <ktexteditor/editorchooser.h>
 #include <ktexteditor/view.h>
 
 // qt includes
@@ -56,7 +57,7 @@ public:
         view(0),
         document(0)
     {
-        editor = KTextEditor::EditorChooser::editor();
+        editor = KTextEditor::Editor::instance();
         logWindow = new QListWidget;
         connect(logWindow, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(slotLogWindowItemDoubleClicked(QListWidgetItem *)));
     }
@@ -72,7 +73,7 @@ public slots:
 
         document = editor->createDocument(0);
         view = document->createView(parent);
-        view->document()->openUrl(columns[0]);
+        view->document()->openUrl(QUrl(columns[0]));
         view->document()->setReadWrite(false);
         view->setCursorPosition(KTextEditor::Cursor(columns[1].toInt()-1,columns[2].toInt()));
         KTextEditor::ConfigInterface *iface = qobject_cast<KTextEditor::ConfigInterface*>(view);

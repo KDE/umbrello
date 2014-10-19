@@ -1352,7 +1352,7 @@ void Symbol::alignTo(const QLineF& to)
     QLineF translatedAxis = origAxis.translated(toMapped.p2() - origAxis.p2());
 
     qreal angle = translatedAxis.angleTo(toMapped);
-    rotate(-angle);
+    setRotation(rotation() - angle);
 
     QPointF delta = to.p2() - mapToParent(symbolEndPoints().second);
     moveBy(delta.x(), delta.y());

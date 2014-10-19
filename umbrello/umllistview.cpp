@@ -68,6 +68,7 @@
 #include <ktabwidget.h>
 
 // qt includes
+#include <QDrag>
 #include <QDropEvent>
 #include <QEvent>
 #include <QFocusEvent>
@@ -481,8 +482,10 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
             }
             // configure & show the file dialog
             const QString rootDir(m_doc->url().directory());
-            QPointer<KFileDialog> fileDialog = new KFileDialog(rootDir, QLatin1String("*.xml"), this);
+            QPointer<KFileDialog> fileDialog = new KFileDialog(QUrl(rootDir), QLatin1String("*.xml"), this);
+#if 0 //FIXME KF5
             fileDialog->setCaption(i18n("Externalize Folder"));
+#endif
             fileDialog->setOperationMode(KFileDialog::Other);
             // set a sensible default filename
             QString defaultFilename = current->text(0).toLower();

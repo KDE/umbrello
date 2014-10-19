@@ -14,8 +14,9 @@
 #include "basictypes.h"
 
 #include <kxmlguiwindow.h>
-#include <kurl.h>
 #include <ksharedconfig.h>
+
+#include <QUrl>
 
 // forward declaration of the UML classes
 class CodeDocument;
@@ -89,7 +90,7 @@ public:
 
     static UMLApp* app();
 
-    void openDocumentFile(const KUrl& url=KUrl());
+    void openDocumentFile(const QUrl& url=QUrl());
 
     void newDocument();
 
@@ -201,7 +202,7 @@ public slots:
 
     void slotFileNew();
     void slotFileOpen();
-    void slotFileOpenRecent(const KUrl& url);
+    void slotFileOpenRecent(const QUrl& url);
     void slotFileSave();
     bool slotFileSaveAs();
     void slotFileClose();
@@ -396,8 +397,8 @@ private:
     QAction* zoom100Action;
 
     QAction* m_langAct[Uml::ProgrammingLanguage::Reserved];
-    KAction* deleteSelectedWidget;
-    KAction* deleteDiagram;
+    QAction* deleteSelectedWidget;
+    QAction* deleteDiagram;
 
     QToolButton* m_newSessionButton;
     KMenu* m_diagramMenu;

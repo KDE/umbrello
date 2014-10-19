@@ -23,7 +23,6 @@
 // kde includes
 #include <KConfigGroup>
 #include <KDesktopFile>
-#include <KStandardDirs>
 
 // qt includes
 #include <QFile>
@@ -31,7 +30,8 @@
 #include <QProcess>
 #include <QRectF>
 #include <QRegExp>
-#include <QString>
+#include <QStandardPaths>
+#include <QStringList>
 #include <QTemporaryFile>
 #include <QTextStream>
 
@@ -185,9 +185,7 @@ void DotGenerator::setUseFullNodeLabels(bool state)
 bool DotGenerator::availableConfigFiles(UMLScene *scene, QHash<QString, QString> &configFiles)
 {
     QString diagramType = Uml::DiagramType::toString(scene->type()).toLower();
-    KStandardDirs dirs;
-
-    QStringList fileNames = dirs.findAllResources("data", QString::fromLatin1("umbrello/layouts/%1*.desktop").arg(diagramType));
+    QStringList fileNames = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QString::fromLatin1("umbrello/layouts/%1*.desktop").arg(diagramType));
     foreach(const QString &fileName, fileNames) {
         QFileInfo fi(fileName);
         QString baseName;
@@ -221,7 +219,7 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
 
     QString configFileName;
     foreach(const QString &fileName, fileNames) {
-        configFileName = KStandardDirs::locate("data", QString::fromLatin1("umbrello/layouts/%1").arg(fileName));
+        configFileName = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QString::fromLatin1("umbrello/layouts/%1").arg(fileName));
         if (!configFileName.isEmpty())
             break;
     }

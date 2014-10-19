@@ -11,16 +11,18 @@
 #include "finddialog.h"
 
 FindDialog::FindDialog(QWidget *parent) :
-    KDialog(parent)
+    QDialog(parent)
 {
-    setupUi(mainWidget());
+    setupUi(window());
 
+#if 0 //FIXME KF5
     setCaption(i18n("Find"));
     setButtons(User1 | Cancel);
     setDefaultButton(User1);
     setButtonText(User1, i18n("Search"));
-    setModal(true);
     showButtonSeparator(true);
+#endif
+    setModal(true);
     ui_treeView->setChecked(true);
 }
 
@@ -45,14 +47,16 @@ FindDialog::Filter FindDialog::filter()
 
 void FindDialog::slotButtonClicked(int button)
 {
-    if (button == KDialog::User1)
+#if 0 //FIXME KF5
+    if (button == QDialog::User1)
        accept();
     else
-       KDialog::slotButtonClicked(button);
+       QDialog::slotButtonClicked(button);
+#endif
 }
 
 void FindDialog::showEvent(QShowEvent *event)
 {
     ui_searchTerm->setFocus();
-    KDialog::showEvent(event);
+    QDialog::showEvent(event);
 }

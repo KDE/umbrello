@@ -13,14 +13,14 @@
 
 #include "ui_finddialog.h"
 
-#include <KDialog>
+#include <QDialog>
 
 /**
   * Class FindDialog provides the ui part for selecting find attributes.
   *
   * @author: Ralf Habacker <ralf.habacker@freenet.de>
   */
-class FindDialog : public KDialog, private Ui::FindDialog
+class FindDialog : public QDialog, private Ui::FindDialog
 {
     Q_OBJECT
 

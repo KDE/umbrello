@@ -18,12 +18,12 @@
 
 // kde includes
 #include <klocale.h>
-#include <KTempDir>
 #include <KZip>
 
 // qt includes
 #include <QFile>
 #include <QStringList>
+#include <QTemporaryDir>
 #include <QXmlStreamReader>
 
 static void reportError(const QXmlStreamReader &xml, const KZip &zipFile, const QString &fileName)
@@ -42,7 +42,7 @@ bool Import_Argo::loadFromArgoFile(const KZip &zipFile, const QString &fileName)
 
     while (!xml.atEnd()) {
         xml.readNext();
-        if (xml.name() == "member") {
+        if (xml.name() == QLatin1String("member")) {
             QXmlStreamAttributes attributes = xml.attributes();
             QString type = attributes.value(QLatin1String("type")).toString();
             QString name = attributes.value(QLatin1String("name")).toString();
@@ -109,11 +109,11 @@ bool Import_Argo::loadFromXMIFile(const KZip &zipFile, const QString &fileName)
     if (!file)
         return false;
 
-    KTempDir tmpDir;
+    QTemporaryDir tmpDir;
     tmpDir.setAutoRemove(true);
-    file->copyTo(tmpDir.name());
+    file->copyTo(tmpDir.path());
 
-    QFile xmiFile(tmpDir.name() + file->name());
+    QFile xmiFile(tmpDir.path() + QLatin1Char('/') + file->name());
     if(!xmiFile.open(QIODevice::ReadOnly)) {
         return false;
     }

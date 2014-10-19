@@ -29,7 +29,7 @@
 #include <kstandarddirs.h>
 #include <klocale.h>
 
-#include <QTextOStream>
+#include <QTextStream>
 
 extern int xmlLoadExtDtdDefaultValue;
 
@@ -38,7 +38,7 @@ extern int xmlLoadExtDtdDefaultValue;
  * @param docBookUrl The Url of the Docbook that is to be converted to XHtml
  * @param parent     Parent object for QThread constructor
  */
-Docbook2XhtmlGeneratorJob::Docbook2XhtmlGeneratorJob(KUrl& docBookUrl, QObject* parent)
+Docbook2XhtmlGeneratorJob::Docbook2XhtmlGeneratorJob(QUrl& docBookUrl, QObject* parent)
     :QThread(parent), m_docbookUrl(docBookUrl)
 {
 }

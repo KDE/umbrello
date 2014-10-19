@@ -12,8 +12,7 @@
 #define DOCBOOK2XHTMLGENERATORJOB_H
 
 #include <QThread>
-
-#include <kurl.h>
+#include <QUrl>
 
 /**
  * This class is used to generate XHTML from Docbook.
@@ -28,13 +27,13 @@ class Docbook2XhtmlGeneratorJob : public QThread
 {
     Q_OBJECT
   public:
-    Docbook2XhtmlGeneratorJob(KUrl& docBookUrl, QObject* parent);
+    Docbook2XhtmlGeneratorJob(QUrl& docBookUrl, QObject* parent);
 
   protected:
      void run();
 
   private:
-     KUrl m_docbookUrl;
+     QUrl m_docbookUrl;
 
   signals:
      void xhtmlGenerated(const QString&);

@@ -20,7 +20,7 @@
 #ifndef __ast_h
 #define __ast_h
 
-#include <KSharedPtr>
+#include <QExplicitlySharedDataPointer>
 
 #include <memory>
 #include <QString>
@@ -1893,10 +1893,10 @@ private:
 };
 
 
-class TranslationUnitAST: public AST, public KShared
+class TranslationUnitAST: public AST, public QSharedData
 {
 public:
-    typedef KSharedPtr<TranslationUnitAST> Node;
+    typedef QExplicitlySharedDataPointer<TranslationUnitAST> Node;
     enum { Type = NodeType_TranslationUnit };
 
     DECLARE_ALLOC(TranslationUnitAST)

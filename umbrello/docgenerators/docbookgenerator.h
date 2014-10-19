@@ -12,11 +12,11 @@
 #ifndef DOCBOOKGENERATOR_H
 #define DOCBOOKGENERATOR_H
 
-#include <kurl.h>
 #include <QObject>
+#include <QUrl>
 
-class UMLDoc;
 class DocbookGeneratorJob;
+class UMLDoc;
 
 /**
  * class DocbookGenerator is a documentation generator for UML documents.
@@ -37,7 +37,7 @@ class DocbookGenerator : public QObject
     virtual ~DocbookGenerator();
 
     bool generateDocbookForProject();
-    void generateDocbookForProjectInto(const KUrl& destDir);
+    void generateDocbookForProjectInto(const QUrl& destDir);
 
   signals:
 
@@ -51,12 +51,11 @@ class DocbookGenerator : public QObject
 
   private:
 
-    DocbookGeneratorJob* docbookGeneratorJob;
-
+    DocbookGeneratorJob* m_docbookGeneratorJob;
     bool m_pStatus;
     bool m_pThreadFinished;
-    KUrl m_destDir;
-    UMLDoc* umlDoc;
+    QUrl m_destDir;
+    UMLDoc* m_umlDoc;
 };
 
 #endif // DOCBOOKGENERATOR_H

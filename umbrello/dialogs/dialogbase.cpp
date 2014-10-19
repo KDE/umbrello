@@ -18,7 +18,7 @@
 #include "umlwidgetstylepage.h"
 
 #include <KFontChooser>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KPageDialog>
 #include <KPageWidget>
 
@@ -41,6 +41,7 @@ DialogBase::DialogBase(QWidget *parent, bool withDefaultButton)
 {
     if (m_useDialog) {
         m_pageDialog = new KPageDialog(parent);
+#if 0 //FIXME KF5
         KDialog::ButtonCodes buttons = KDialog::Ok | KDialog::Apply | KDialog::Cancel | KDialog::Help;
         if (withDefaultButton)
             buttons |=  KDialog::Default;
@@ -50,6 +51,7 @@ DialogBase::DialogBase(QWidget *parent, bool withDefaultButton)
         m_pageDialog->setFaceType(KPageDialog::List);
         m_pageDialog->setModal(true);
         m_pageDialog->setHelp(QString::fromLatin1("umbrello/index.html"), QString());
+#endif
         connect(m_pageDialog, SIGNAL(okClicked()), this, SLOT(slotOkClicked()));
         connect(m_pageDialog, SIGNAL(applyClicked()), this, SLOT(slotApplyClicked()));
         connect(m_pageDialog, SIGNAL(defaultClicked()), this, SLOT(slotDefaultClicked()));
@@ -134,8 +136,10 @@ void DialogBase::saveStylePageData(UMLWidget *widget)
 
 void DialogBase::setCaption(const QString &caption)
 {
+#if 0 //FIXME KF5
     if (m_pageDialog)
         m_pageDialog->setCaption(caption);
+#endif
 }
 
 void DialogBase::accept()
@@ -168,7 +172,10 @@ void DialogBase::addPage(KPageWidgetItem *page)
 
 int DialogBase::spacingHint()
 {
+#if 0 //FIXME KF5
     return KDialog::spacingHint();
+#endif
+    return 0;
 }
 
 int DialogBase::exec()

@@ -278,7 +278,9 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
     // manage stereotypes
     m_pStereoTypeCB->setDuplicatesEnabled(false);  // only allow one of each type in box
+#if 0 //FIXME KF5
     m_pStereoTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
+#endif
     Dialog_Utils::insertStereotypesSorted(m_pStereoTypeCB, m_pObject->stereotype());
 
     m_doc->setLineWrapMode(QTextEdit::WidgetWidth);
@@ -392,7 +394,9 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget
     m_pNameLayout->addWidget(m_pStereoTypeCB, 1, 1);
 
     m_pStereoTypeCB->setItemText(m_pStereoTypeCB->currentIndex(), widget->umlObject()->stereotype());
+#if 0 //FIXME KF5
     m_pStereoTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
+#endif
 
     m_pInstanceL = new QLabel(this);
     m_pInstanceL->setText(i18n("Instance name:"));

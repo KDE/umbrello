@@ -12,10 +12,10 @@
 #ifndef XHTMLGENERATOR_H
 #define XHTMLGENERATOR_H
 
-#include <kurl.h>
 #include <ktempdir.h>
 
 #include <QObject>
+#include <QUrl>
 
 class UMLDoc;
 
@@ -41,7 +41,7 @@ public:
     virtual ~XhtmlGenerator();
 
     bool generateXhtmlForProject();
-    bool generateXhtmlForProjectInto(const KUrl& destDir);
+    bool generateXhtmlForProjectInto(const QUrl& destDir);
 
 signals:
 
@@ -61,7 +61,7 @@ private:
     bool m_pStatus;
     bool m_pThreadFinished;
 
-    KUrl m_destDir;  ///< Destination directory where the final documentation will be written.
+    QUrl m_destDir;  ///< Destination directory where the final documentation will be written.
     UMLDoc* m_umlDoc;
 };
 

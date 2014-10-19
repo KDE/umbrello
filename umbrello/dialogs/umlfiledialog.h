@@ -12,6 +12,7 @@
 #define UMLFILEDIALOG_H
 
 #include <kfiledialog.h>
+#include <kurl.h>
 
 /**
  * Wrapper class for KFileDialog supporting graphviz *.dot files.

@@ -21,11 +21,11 @@
  */
 class WidgetBase;
 class KColorButton;
-class KIntSpinBox;
 class QLabel;
 class QPushButton;
 class QCheckBox;
 class QGroupBox;
+class QSpinBox;
 
 class UMLWidgetStylePage : public QWidget
 {
@@ -75,7 +75,7 @@ protected:
     KColorButton * m_pFillColorB;
     KColorButton * m_BackgroundColorB;
     KColorButton * m_GridDotColorB;
-    KIntSpinBox * m_lineWidthB;
+    QSpinBox * m_lineWidthB;
 
 private:
     void init();

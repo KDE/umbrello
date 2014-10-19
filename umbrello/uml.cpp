@@ -64,7 +64,8 @@
 #include <kconfig.h>
 #include <kcursor.h>
 #include <kfiledialog.h>
-#include <KInputDialog>
+#include <kicon.h>
+#include <kinputdialog.h>
 #include <klocale.h>
 #include <kmenubar.h>
 #include <kmessagebox.h>
@@ -86,7 +87,6 @@
 #include <QKeyEvent>
 #include <QLabel>
 #include <QMenu>
-#include <QMenuItem>
 #include <QPointer>
 #include <QPrinter>
 #include <QPrintDialog>
@@ -235,7 +235,7 @@ void UMLApp::initActions()
 {
     QAction* fileNew = KStandardAction::openNew(this, SLOT(slotFileNew()), actionCollection());
     QAction* fileOpen = KStandardAction::open(this, SLOT(slotFileOpen()), actionCollection());
-    fileOpenRecent = KStandardAction::openRecent(this, SLOT(slotFileOpenRecent(KUrl)), actionCollection());
+    fileOpenRecent = KStandardAction::openRecent(this, SLOT(slotFileOpenRecent(QUrl)), actionCollection());
     QAction* fileSave = KStandardAction::save(this, SLOT(slotFileSave()), actionCollection());
     QAction* fileSaveAs = KStandardAction::saveAs(this, SLOT(slotFileSaveAs()), actionCollection());
     QAction* fileClose = KStandardAction::close(this, SLOT(slotFileClose()), actionCollection());
@@ -244,18 +244,14 @@ void UMLApp::initActions()
     KStandardAction::findNext(this, SLOT(slotFindNext()), actionCollection());
     KStandardAction::findPrev(this, SLOT(slotFindPrevious()), actionCollection());
     printPreview = KStandardAction::printPreview(this, SLOT(slotPrintPreview()), actionCollection());
-#if QT_VERSION >= 0x040600
     filePrint->setPriority(QAction::LowPriority);  // icon only
     printPreview->setPriority(QAction::LowPriority);  // icon only
-#endif
     QAction* fileQuit = KStandardAction::quit(this, SLOT(slotFileQuit()), actionCollection());
 
     editUndo = m_pUndoStack->createUndoAction(actionCollection());
     editRedo = m_pUndoStack->createRedoAction(actionCollection());
-#if QT_VERSION >= 0x040600
     editUndo->setPriority(QAction::LowPriority);   // icon only
     editRedo->setPriority(QAction::LowPriority);   // icon only
-#endif
 
     disconnect(m_pUndoStack, SIGNAL(undoTextChanged(QString)), editUndo, 0);
     disconnect(m_pUndoStack, SIGNAL(redoTextChanged(QString)), editRedo, 0);
@@ -540,14 +536,14 @@ void UMLApp::initActions()
 
     QString moveTabLeftString = i18n("&Move Tab Left");
     QString moveTabRightString = i18n("&Move Tab Right");
-    KAction* moveTabLeft = actionCollection()->addAction(QLatin1String("move_tab_left"));
+    QAction* moveTabLeft = actionCollection()->addAction(QLatin1String("move_tab_left"));
     moveTabLeft->setIcon(Icon_Utils::SmallIcon(QApplication::layoutDirection() ? Icon_Utils::it_Go_Next : Icon_Utils::it_Go_Previous));
     moveTabLeft->setText(QApplication::layoutDirection() ? moveTabRightString : moveTabLeftString);
     moveTabLeft->setShortcut(QApplication::layoutDirection() ?
                  QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left));
     connect(moveTabLeft, SIGNAL(triggered(bool)), this, SLOT(slotMoveTabLeft()));
 
-    KAction* moveTabRight = actionCollection()->addAction(QLatin1String("move_tab_right"));
+    QAction* moveTabRight = actionCollection()->addAction(QLatin1String("move_tab_right"));
     moveTabRight->setIcon(Icon_Utils::SmallIcon(QApplication::layoutDirection() ? Icon_Utils::it_Go_Previous : Icon_Utils::it_Go_Next));
     moveTabRight->setText(QApplication::layoutDirection() ? moveTabLeftString : moveTabRightString);
     moveTabRight->setShortcut(QApplication::layoutDirection() ?
@@ -556,13 +552,13 @@ void UMLApp::initActions()
 
     QString selectTabLeftString = i18n("Select Diagram on Left");
     QString selectTabRightString = i18n("Select Diagram on Right");
-    KAction* changeTabLeft = actionCollection()->addAction(QLatin1String("previous_tab"));
+    QAction* changeTabLeft = actionCollection()->addAction(QLatin1String("previous_tab"));
     changeTabLeft->setText(QApplication::layoutDirection() ? selectTabRightString : selectTabLeftString);
     changeTabLeft->setShortcut(QApplication::layoutDirection() ?
                    QKeySequence(Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::SHIFT+Qt::Key_Left));
     connect(changeTabLeft, SIGNAL(triggered(bool)), this, SLOT(slotChangeTabLeft()));
 
-    KAction* changeTabRight = actionCollection()->addAction(QLatin1String("next_tab"));
+    QAction* changeTabRight = actionCollection()->addAction(QLatin1String("next_tab"));
     changeTabRight->setText(QApplication::layoutDirection() ? selectTabLeftString : selectTabRightString);
     changeTabRight->setShortcut(QApplication::layoutDirection() ?
                     QKeySequence(Qt::SHIFT+Qt::Key_Left) : QKeySequence(Qt::SHIFT+Qt::Key_Right));
@@ -891,7 +887,7 @@ void UMLApp::initView()
 /**
  * Opens a file specified by commandline option.
  */
-void UMLApp::openDocumentFile(const KUrl& url)
+void UMLApp::openDocumentFile(const QUrl& url)
 {
     slotStatusMsg(i18n("Opening file..."));
 
@@ -1087,13 +1083,13 @@ void UMLApp::saveProperties(KConfigGroup & cfg)
     if (m_doc->url().fileName() != i18n("Untitled") && !m_doc->isModified()) {
         // saving to tempfile not necessary
     } else {
-        KUrl url = m_doc->url();
+        QUrl url = m_doc->url();
         cfg.writePathEntry("filename", url.url());
         cfg.writeEntry("modified", m_doc->isModified());
         QString tempname = kapp->tempSaveName(url.url());  //:TODO: change this - deprecated
-        QString tempurl = KUrl::toPercentEncoding(tempname);
+        QString tempurl = QUrl::toPercentEncoding(tempname);
 
-        KUrl _url(tempurl);
+        QUrl _url(tempurl);
         m_doc->saveDocument(_url);
     }
 */
@@ -1112,12 +1108,12 @@ void UMLApp::readProperties(const KConfigGroup & cfg)     //:TODO: applyMainWind
     Q_UNUSED(cfg);
 /*
     QString filename = cfg.readPathEntry("filename", QString());
-    KUrl url(filename);
+    QUrl url(filename);
     bool modified = cfg.readEntry("modified", false);
     if (modified) {
         bool canRecover;
         QString tempname = kapp->checkRecoverFile(filename, canRecover);
-        KUrl _url(tempname);
+        QUrl _url(tempname);
 
         if (canRecover) {
             m_doc->openDocument(_url);
@@ -1193,7 +1189,7 @@ void UMLApp::slotFileOpen()
         // here saving wasn't successful
     } 
     else {
-        KUrl url=KFileDialog::getOpenUrl(KUrl(),
+        QUrl url = KFileDialog::getOpenUrl(QUrl(),
             i18n("*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl *.zargo|All Supported Files (*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.mdl, *.zargo)\n"
                  "*.xmi|Uncompressed XMI Files (*.xmi)\n"
                  "*.xmi.tgz|Gzip Compressed XMI Files (*.xmi.tgz)\n"
@@ -1219,12 +1215,12 @@ void UMLApp::slotFileOpen()
 /**
  * Opens a file from the recent files menu.
  */
-void UMLApp::slotFileOpenRecent(const KUrl& url)
+void UMLApp::slotFileOpenRecent(const QUrl& url)
 {
     slotStatusMsg(i18n("Opening file..."));
     m_loading = true;
 
-    KUrl oldUrl = m_doc->url();
+    QUrl oldUrl = m_doc->url();
 
     if (!m_doc->saveModified()) {
         // here saving wasn't successful
@@ -1269,16 +1265,16 @@ bool UMLApp::slotFileSaveAs()
 {
     slotStatusMsg(i18n("Saving file with a new filename..."));
     bool cont = true;
-    KUrl url;
+    QUrl url;
     QString ext;
     while (cont) {
-        url=KFileDialog::getSaveUrl(KUrl(), i18n("*.xmi|XMI File\n*.xmi.tgz|Gzip Compressed XMI File\n*.xmi.tar.bz2|Bzip2 Compressed XMI File\n*|All Files"), this, i18n("Save As"));
+        url=KFileDialog::getSaveUrl(QUrl(), i18n("*.xmi|XMI File\n*.xmi.tgz|Gzip Compressed XMI File\n*.xmi.tar.bz2|Bzip2 Compressed XMI File\n*|All Files"), this, i18n("Save As"));
         if (url.isEmpty()) {
             cont = false;
         }
         else {
             // now check that we have a file extension; standard will be plain xmi
-            //QString file = url.path(KUrl::RemoveTrailingSlash);
+            //QString file = url.path(QUrl::RemoveTrailingSlash);
             //QFileInfo info(file);
             //ext = info.completeSuffix();
             //if (ext != "xmi" && ext != "xmi.tgz" && ext != "xmi.tar.bz2")
@@ -1287,7 +1283,7 @@ bool UMLApp::slotFileSaveAs()
             //    ext = "xmi";
             //}
             if (url.isLocalFile()) {
-                QString file = url.toLocalFile(KUrl::RemoveTrailingSlash);
+                QString file = url.toLocalFile();
 
                 if (QFile::exists(file)) {
                     int want_save = KMessageBox::warningContinueCancel(this, i18n("The file %1 exists.\nDo you wish to overwrite it?", url.toLocalFile()), 
@@ -1830,7 +1826,7 @@ bool UMLApp::canDecode(const QMimeData* mimeData)
 {
     QStringList supportedFormats = mimeData->formats();
     foreach(const QString &format, supportedFormats) {
-        QByteArray fba = format.toAscii();
+        QByteArray fba = format.toLatin1();
         const char* f = fba.constData();
         if (!qstrnicmp(f,"application/x-uml-clip", 22)) {
             //FIXME need to test for clip1, clip2, clip3, clip4 or clip5
@@ -2630,7 +2626,7 @@ void UMLApp::slotImportClass()
     QString f = filters.join(QLatin1String(" ")) + QLatin1String("|") +
                              Uml::ProgrammingLanguage::toExtensionsDescription(UMLApp::app()->activeLanguage());
 
-    QStringList files = KFileDialog::getOpenFileNames(KUrl(), f, this, i18n("Select file(s) to import:"));
+    QStringList files = KFileDialog::getOpenFileNames(QUrl(), f, this, i18n("Select file(s) to import:"));
     if (!files.isEmpty()) {
         importFiles(&files);
     }
@@ -2659,7 +2655,7 @@ void getFiles(QStringList& files, const QString& path, QStringList& filters)
 void UMLApp::slotImportProject()
 {
     QStringList listFile;
-    QString dir = KFileDialog::getExistingDirectory(KUrl(),this, i18n("Select directory to import:"));
+    QString dir = KFileDialog::getExistingDirectory(QUrl(),this, i18n("Select directory to import:"));
     if (!dir.isEmpty()) {
         QStringList filter = Uml::ProgrammingLanguage::toExtensions(UMLApp::app()->activeLanguage());
         getFiles(listFile, dir, filter);

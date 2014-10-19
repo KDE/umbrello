@@ -24,14 +24,14 @@
  * @param parent The parent of the dialog.
  * @param name The internal name.
  *
- * @see KDialog::KDialog
+ * @see QDialog::QDialog
  */
 ExportAllViewsDialog::ExportAllViewsDialog(QWidget* parent, const char* name)
-  : KDialog(parent)
+  : QDialog(parent)
 {
     setObjectName(QString::fromLatin1(name));
     setModal(false);
-    setupUi(mainWidget());
+    setupUi(window());
 
     // create and initialize m_imageType
     m_imageType = new KFileFilterCombo(this);

@@ -830,7 +830,7 @@ int Lexer::macroPrimary()
 {
     readWhiteSpaces(false);
     int result = 0;
-    switch (currentChar().toAscii()) {
+    switch (currentChar().toLatin1()) {
     case '(':
         nextChar();
         result = macroExpression();

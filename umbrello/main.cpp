@@ -22,18 +22,12 @@
 #include <kapplication.h>
 #include <kcmdlineargs.h>
 #include <kconfig.h>
-#include <klocale.h>
+#include <klocalizedstring.h>
 #include <ktip.h>
 #include <kwindowsystem.h>
 
 #include <unistd.h>
 #include <stdio.h>
-
-/**
- * Description for this application
- */
-static const char description[] =
-    I18N_NOOP("Umbrello UML Modeller");
 
 /**
  * Determines if the application GUI should be shown based on command line arguments.
@@ -65,13 +59,20 @@ void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt);
 
 int main(int argc, char *argv[])
 {
-    KAboutData aboutData("umbrello", 0, ki18n("Umbrello UML Modeller"),
-                          umbrelloVersion(), ki18n(description), KAboutData::License_GPL,
-                          ki18n("(c) 2001 Paul Hensgen, (c) 2002-2014 Umbrello UML Modeller Authors"), KLocalizedString(),
-                          "http://umbrello.kde.org/");
-    aboutData.addAuthor(ki18n("Paul Hensgen"), KLocalizedString(), "phensgen@users.sourceforge.net");
-    aboutData.addAuthor(ki18n("Umbrello UML Modeller Authors"), KLocalizedString(), "umbrello-devel@kde.org");
-    KCmdLineArgs::init(argc, argv, &aboutData);
+    QApplication app(argc, argv);
+
+    KAboutData aboutData(QStringLiteral("umbrello"),
+                         i18n("Umbrello UML Modeller"),
+                         QLatin1String(umbrelloVersion()),
+                         i18n("Umbrello - Visual development environment for software"
+                              "based on the industry standard Unified Modeling Language (UML)."),
+                         KAboutLicense::GPL,
+                         i18n("(c) 2001 Paul Hensgen, (c) 2002-2014 Umbrello UML Modeller Authors"),
+                         QString(),
+                         QStringLiteral("http://umbrello.kde.org"));
+    aboutData.addAuthor(i18n("Paul Hensgen"), QString(), QStringLiteral("phensgen@users.sourceforge.net"));
+    aboutData.addAuthor(i18n("Umbrello UML Modeller Authors"), QString(), QStringLiteral("umbrello-devel@kde.org"));
+    KAboutData::setApplicationData(aboutData);
 
     KCmdLineOptions options;
     options.add("+[File]", ki18n("File to open"));
@@ -84,7 +85,6 @@ int main(int argc, char *argv[])
 
     // NOTE: for deprecated net.sf.umbrello dbus service name
     // aboutData.setOrganizationDomain("sf.net");
-    KApplication app;
     if (app.isSessionRestored()) {
         kRestoreMainWindows< UMLApp >();
     } else {

@@ -93,7 +93,7 @@ void CppImport::feedTheModel(const QString& fileName)
         }
     }
     ParsedFilePointer ast = ms_driver->translationUnit(fileName);
-    if (ast.isNull()) {
+    if (!ast) {
         uError() << fileName << " not found in list of parsed files";
         return;
     }

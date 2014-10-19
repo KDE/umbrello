@@ -432,6 +432,7 @@ set(libumbrello_SRCS
     toolbarstateother.cpp
     toolbarstatepool.cpp
     uml.cpp
+    umlappprivate.cpp
     umlattributelist.cpp
     umlcanvasobject.cpp
     umlclassifierlistitemlist.cpp
@@ -452,7 +453,6 @@ set(libumbrello_SRCS
     uniqueid.cpp
     usecase.cpp
     worktoolbar.cpp
-    umlappprivate.cpp
 )
 
 kconfig_add_kcfg_files(umbrello_SRCS umbrellosettings.kcfgc)
@@ -483,11 +483,23 @@ target_link_libraries(umbrello
     Qt5::Xml
     Qt5::DBus
     Qt5::PrintSupport
+    Qt5::Svg
+    KF5::Archive
+    KF5::Auth
+    KF5::Completion
+#    KF5::Config
     KF5::CoreAddons
-    KF5::Config
-#    KF5::TextEditor
+    KF5::I18n
+    KF5::IconThemes
+    KF5::GuiAddons
+    KF5::TextEditor
+    KF5::WidgetsAddons
+    KF5::WindowSystem
+    KF5::XmlGui
+    ${LIBXSLT_LIBRARIES}
+    ${LIBXML2_LIBRARIES}
     KF5::KDELibs4Support
-    ${KDE4_KFILE_LIBS} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${KDE4_KTEXTEDITOR_LIBS})
+)
 install(TARGETS umbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files #############

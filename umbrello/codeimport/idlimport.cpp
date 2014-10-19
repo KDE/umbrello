@@ -24,11 +24,11 @@
 #include "umlpackagelist.h"
 
 // kde includes
-#include <KStandardDirs>
 
 // qt includes
 #include <QProcess>
 #include <QRegExp>
+#include <QStandardPaths>
 #include <QStringList>
 
 #include <stdio.h>
@@ -49,17 +49,17 @@ IDLImport::IDLImport(CodeImpThread* thread) : NativeImportBase(QLatin1String("//
     }
 
     QStringList arguments;
-    QString executable = KStandardDirs::findExe(QLatin1String("cpp"));
+    QString executable = QStandardPaths::findExecutable(QLatin1String("cpp"));
     if (!executable.isEmpty()) {
         arguments << QLatin1String("-C");   // -C means "preserve comments"
     }
 #ifdef Q_WS_WIN
     else {
-        executable = KStandardDirs::findExe(QLatin1String("cl"));
+        executable = QStandardPaths::findExecutable(QLatin1String("cl"));
         if (executable.isEmpty()) {
             QString path = QLatin1String(qgetenv("VS100COMNTOOLS").constData());
             if (!path.isEmpty())
-                executable = KStandardDirs::findExe(QLatin1String("cl"), path + QLatin1String("/../../VC/bin"));
+                executable = QStandardPaths::findExecutable(QLatin1String("cl"), path + QLatin1String("/../../VC/bin"));
         }
         if (!executable.isEmpty()) {
             arguments << QLatin1String("-E");   // -E means "preprocess to stdout"

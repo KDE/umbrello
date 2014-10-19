@@ -13,6 +13,8 @@
 // application specific includes
 #include "ui_exportallviewsdialogbase.h"
 
+#include <QDialog>
+
 // KDE forward declarations
 class KFileFilterCombo;
 
@@ -24,7 +26,7 @@ class KFileFilterCombo;
  * The KFileFilterCombo is declared here instead of in the .ui file because QT
  * Designer and uic don't recognize it.
  */
-class ExportAllViewsDialog : public KDialog, private Ui::ExportAllViewsDialogBase
+class ExportAllViewsDialog : public QDialog, private Ui::ExportAllViewsDialogBase
 {
   Q_OBJECT
 

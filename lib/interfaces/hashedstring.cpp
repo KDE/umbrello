@@ -61,7 +61,7 @@ void HashedString::initHash()
 }
 
 
-class HashedStringSetData : public KShared
+class HashedStringSetData : public QSharedData
 {
 public:
 #ifdef USE_HASHMAP
@@ -177,7 +177,9 @@ void HashedStringSet::makeDataPrivate()
         m_data = new HashedStringSetData();
         return ;
     }
+#if 0 //FIXME KF5
     if (m_data.count() != 1)
+#endif
         m_data = new HashedStringSetData(*m_data);
 }
 

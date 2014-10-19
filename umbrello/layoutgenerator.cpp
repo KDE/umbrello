@@ -21,8 +21,7 @@
 // kde includes
 #include <KConfigGroup>
 #include <KDesktopFile>
-#include <KLocale>
-#include <KStandardDirs>
+#include <KLocalizedString>
 
 // qt includes
 #include <QDir>
@@ -31,6 +30,7 @@
 #include <QProcess>
 #include <QRegExp>
 #include <QString>
+#include <QStandardPaths>
 #include <QTemporaryFile>
 //#include <QTextStream>
 
@@ -99,7 +99,7 @@ bool LayoutGenerator::isEnabled()
  */
 QString LayoutGenerator::currentDotPath()
 {
-    QString executable = KStandardDirs::findExe(QLatin1String("dot"));
+    QString executable = QStandardPaths::findExecutable(QLatin1String("dot"));
     if (!executable.isEmpty()) {
         QFileInfo fi(executable);
         return fi.absolutePath();
@@ -284,9 +284,8 @@ bool LayoutGenerator::apply(UMLScene *scene)
 bool LayoutGenerator::availableConfigFiles(UMLScene *scene, QHash<QString,QString> &configFiles)
 {
     QString diagramType = Uml::DiagramType::toString(scene->type()).toLower();
-    KStandardDirs dirs;
 
-    QStringList fileNames = dirs.findAllResources("data", QString::fromLatin1("umbrello/layouts/%1*.desktop").arg(diagramType));
+    QStringList fileNames = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QString::fromLatin1("umbrello/layouts/%1*.desktop").arg(diagramType));
     foreach(const QString &fileName, fileNames) {
         QFileInfo fi(fileName);
         QString baseName;
