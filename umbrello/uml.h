@@ -43,9 +43,9 @@ class KToggleAction;
 class KTabWidget;
 class KMenu;
 class KUndoStack;
-class KAction;
 
 // Qt forward declarations
+class QAction;
 class QStackedWidget;
 class QToolButton;
 class QDockWidget;
@@ -72,7 +72,7 @@ class UMLAppPrivate;
  *   - tab widget
  * The current view handling is set as an option. 
  * UMLApp reimplements the methods that KMainWindow provides for main window handling and supports
- * full session management as well as using KActions.
+ * full session management as well as using QActions.
  * 
  * @see KMainWindow
  * @see KApplication
@@ -370,7 +370,7 @@ private:
     QUndoView*   m_pQUndoView;         ///< Undo / Redo Viewer
     RefactoringAssistant* m_refactoringAssist;  ///< Refactoring assistant.
 
-    // KAction pointers to enable/disable actions
+    // QAction pointers to enable/disable actions
     KRecentFilesAction* fileOpenRecent;
     QAction* printPreview;
     QAction* filePrint;

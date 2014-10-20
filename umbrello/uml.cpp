@@ -56,7 +56,6 @@
 #include "umlscene.h"
 
 // kde includes
-#include <kaction.h>
 #include <kactioncollection.h>
 #include <kstandardaction.h>
 #include <ktoggleaction.h>
@@ -227,7 +226,7 @@ void UMLApp::setProgLangAction(Uml::ProgrammingLanguage::Enum pl, const char* na
 }
 
 /**
- * Initializes the KActions and the status bar of the application 
+ * Initializes the QActions and the status bar of the application
  * and calls setupGUI().
  * Note: Check also the file umbrelloui.rc and add actions there too.
  */

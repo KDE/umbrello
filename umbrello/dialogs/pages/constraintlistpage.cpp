@@ -24,12 +24,12 @@
 #include "umldoc.h"
 #include "uniqueconstraint.h"
 
-#include <kaction.h>
 #include <kdialogbuttonbox.h>
 #include <klocale.h>
 #include <kmenu.h>
 #include <kpushbutton.h>
 
+#include <QAction>
 #include <QApplication>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -69,19 +69,19 @@ ConstraintListPage::~ConstraintListPage()
 
 void ConstraintListPage::setupActions()
 {
-    newUniqueConstraintAction = new KAction(i18n("Unique Constraint..."), this);
+    newUniqueConstraintAction = new QAction(i18n("Unique Constraint..."), this);
     connect(newUniqueConstraintAction, SIGNAL(triggered(bool)),
              this, SLOT(slotNewUniqueConstraint()));
 
-    newPrimaryKeyConstraintAction = new KAction(i18n("Primary Key Constraint..."), this);
+    newPrimaryKeyConstraintAction = new QAction(i18n("Primary Key Constraint..."), this);
     connect(newPrimaryKeyConstraintAction, SIGNAL(triggered(bool)),
              this, SLOT(slotNewPrimaryKeyConstraint()));
 
-    newForeignKeyConstraintAction = new KAction(i18n("Foreign Key Constraint..."), this);
+    newForeignKeyConstraintAction = new QAction(i18n("Foreign Key Constraint..."), this);
     connect(newForeignKeyConstraintAction, SIGNAL(triggered(bool)),
              this, SLOT(slotNewForeignKeyConstraint()));
 
-    newCheckConstraintAction = new KAction(i18n("Check Constraint..."), this);
+    newCheckConstraintAction = new QAction(i18n("Check Constraint..."), this);
     connect(newCheckConstraintAction, SIGNAL(triggered(bool)),
              this, SLOT(slotNewCheckConstraint()));
 }

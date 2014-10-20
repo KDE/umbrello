@@ -36,7 +36,6 @@
 #include "umloperationdialog.h"
 
 // kde includes
-#include <kaction.h>
 #include <klocale.h>
 #include <kmenu.h>
 
@@ -782,13 +781,13 @@ KMenu * CodeEditor::createPopup()
     TextBlock * tb = m_selectedTextBlock;
     if (tb) {
         if (tb->getWriteOutText()) {
-            KAction* hideAct = new KAction(i18n("Hide"), this);
+            QAction* hideAct = new QAction(i18n("Hide"), this);
             hideAct->setShortcut(Qt::Key_H);
             connect(hideAct, SIGNAL(triggered()), this, SLOT(slotChangeSelectedBlockView()));
             menu->addAction(hideAct);
         }
         else {
-            KAction* showAct = new KAction(i18n("Show"), this);
+            QAction* showAct = new QAction(i18n("Show"), this);
             showAct->setShortcut(Qt::Key_S);
             connect(showAct, SIGNAL(triggered()), this, SLOT(slotChangeSelectedBlockView()));
             menu->addAction(showAct);
@@ -797,13 +796,13 @@ KMenu * CodeEditor::createPopup()
         CodeBlockWithComments * cb = dynamic_cast<CodeBlockWithComments*>(tb);
         if (cb) {
             if (cb->getComment()->getWriteOutText()) {
-                KAction* hideCommAct = new KAction(i18n("Hide Comment"), this);
+                QAction* hideCommAct = new QAction(i18n("Hide Comment"), this);
                 hideCommAct->setShortcut(Qt::CTRL + Qt::Key_H);
                 connect(hideCommAct, SIGNAL(triggered()), this, SLOT(slotChangeSelectedBlockCommentView()));
                 menu->addAction(hideCommAct);
             }
             else {
-                KAction* showCommAct = new KAction(i18n("Show Comment"), this);
+                QAction* showCommAct = new QAction(i18n("Show Comment"), this);
                 showCommAct->setShortcut(Qt::CTRL + Qt::Key_S);
                 connect(showCommAct, SIGNAL(triggered()), this, SLOT(slotChangeSelectedBlockCommentView()));
                 menu->addAction(showCommAct);
@@ -811,29 +810,29 @@ KMenu * CodeEditor::createPopup()
         }
         menu->addSeparator();
 
-        KAction* insCodeBeforeAct = new KAction(i18n("Insert Code Block Before"), this);
+        QAction* insCodeBeforeAct = new QAction(i18n("Insert Code Block Before"), this);
         insCodeBeforeAct->setShortcut(Qt::CTRL + Qt::Key_B);
         connect(insCodeBeforeAct, SIGNAL(triggered()), this, SLOT(slotInsertCodeBlockBeforeSelected()));
         menu->addAction(insCodeBeforeAct);
 
-        KAction* insCodeAfterAct = new KAction(i18n("Insert Code Block After"), this);
+        QAction* insCodeAfterAct = new QAction(i18n("Insert Code Block After"), this);
         insCodeAfterAct->setShortcut(Qt::CTRL + Qt::Key_A);
         connect(insCodeAfterAct, SIGNAL(triggered()), this, SLOT(slotInsertCodeBlockAfterSelected()));
         menu->addAction(insCodeAfterAct);
 
         menu->addSeparator();
 
-        KAction* copyAct = new KAction(i18n("Copy"), this);
+        QAction* copyAct = new QAction(i18n("Copy"), this);
         copyAct->setShortcut(Qt::CTRL + Qt::Key_C);
         connect(copyAct, SIGNAL(triggered()), this, SLOT(slotCopyTextBlock()));
         menu->addAction(copyAct);
 
-        KAction* pasteAct = new KAction(i18n("Paste"), this);
+        QAction* pasteAct = new QAction(i18n("Paste"), this);
         pasteAct->setShortcut(Qt::CTRL + Qt::Key_V);
         connect(pasteAct, SIGNAL(triggered()), this, SLOT(slotPasteTextBlock()));
         menu->addAction(pasteAct);
 
-        KAction* cutAct = new KAction(i18n("Cut"), this);
+        QAction* cutAct = new QAction(i18n("Cut"), this);
         cutAct->setShortcut(Qt::CTRL + Qt::Key_X);
         connect(cutAct, SIGNAL(triggered()), this, SLOT(slotCutTextBlock()));
         menu->addAction(cutAct);

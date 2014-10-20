@@ -18,7 +18,7 @@
 //qt  includes
 #include <QWidget>
 
-class KAction;
+class QAction;
 class KMenu;
 
 /**
@@ -39,10 +39,10 @@ public:
 
 private:
 
-    KAction* newUniqueConstraintAction;
-    KAction* newPrimaryKeyConstraintAction;
-    KAction* newForeignKeyConstraintAction;
-    KAction* newCheckConstraintAction;
+    QAction* newUniqueConstraintAction;
+    QAction* newPrimaryKeyConstraintAction;
+    QAction* newForeignKeyConstraintAction;
+    QAction* newCheckConstraintAction;
 
     void setupActions();
 

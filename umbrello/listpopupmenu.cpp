@@ -2008,7 +2008,7 @@ QAction* ListPopupMenu::getAction(MenuType idx)
 // /**
 //  * Get the MenuType from the action.
 //  */
-// ListPopupMenu::MenuType ListPopupMenu::getMenuType(KAction* action)
+// ListPopupMenu::MenuType ListPopupMenu::getMenuType(QAction* action)
 // {
 //     return m_actions.key(action);
 // }
