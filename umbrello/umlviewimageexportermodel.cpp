@@ -22,7 +22,6 @@
 
 // kde include files
 #include <klocale.h>
-#include <ktemporaryfile.h>
 #include <kio/netaccess.h>
 
 // include files for Qt
@@ -36,6 +35,7 @@
 #include <QRect>
 #include <QRegExp>
 #include <QSvgGenerator>
+#include <QTemporaryFile>
 
 // system includes
 #include <cmath>
@@ -248,7 +248,7 @@ QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &im
     // the fileName is the name of a temporal local file to export the image to, and then
     // upload it to its destiny
     QString fileName;
-    KTemporaryFile tmpFile;
+    QTemporaryFile tmpFile;
     if (url.isLocalFile()) {
         fileName = url.toLocalFile();
     } else {

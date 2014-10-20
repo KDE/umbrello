@@ -18,7 +18,6 @@
 #include "umlviewimageexportermodel.h"
 
 #include <klocale.h>
-#include <ktemporaryfile.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 #include <kio/netaccess.h>
@@ -27,6 +26,7 @@
 #include <QApplication>
 #include <QFile>
 #include <QRegExp>
+#include <QTemporaryFile>
 #include <QTextStream>
 
 /**

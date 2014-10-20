@@ -25,10 +25,11 @@
 #include <libxslt/transform.h>
 #include <libxslt/xsltutils.h>
 
-#include <ktemporaryfile.h>
+#include <kglobal.h>
 #include <kstandarddirs.h>
 #include <klocale.h>
 
+#include <QTemporaryFile>
 #include <QTextStream>
 
 extern int xmlLoadExtDtdDefaultValue;
@@ -47,7 +48,7 @@ void DocbookGeneratorJob::run()
     QString xmi;
     QTextStream xmiStream(&xmi, QIODevice::WriteOnly);
 
-    KTemporaryFile file; // we need this tmp file if we are writing to a remote file
+    QTemporaryFile file; // we need this tmp file if we are writing to a remote file
     file.setAutoRemove(false);
 
     // lets open the file for writing
@@ -73,7 +74,7 @@ void DocbookGeneratorJob::run()
     doc = xmlParseFile((const char*)(file.fileName().toUtf8()));
     res = xsltApplyStylesheet(cur, doc, params);
 
-    KTemporaryFile tmpDocBook;
+    QTemporaryFile tmpDocBook;
     tmpDocBook.setAutoRemove(false);
     tmpDocBook.open();
 

@@ -71,7 +71,6 @@
 #include "widgetlist_utils.h"
 
 //kde include files
-#include <ktemporaryfile.h>
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
 #include <kcursor.h>
@@ -86,6 +85,7 @@
 #include <QPrinter>
 #include <QString>
 #include <QStringList>
+#include <QTemporaryFile>
 
 // system includes
 #include <cmath>  // for ceil

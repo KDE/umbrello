@@ -25,10 +25,11 @@
 #include <libxslt/transform.h>
 #include <libxslt/xsltutils.h>
 
-#include <ktemporaryfile.h>
+#include <kglobal.h>
 #include <kstandarddirs.h>
 #include <klocale.h>
 
+#include <QTemporaryFile>
 #include <QTextStream>
 
 extern int xmlLoadExtDtdDefaultValue;
@@ -70,7 +71,7 @@ void Docbook2XhtmlGeneratorJob::run()
     localXsl = QLatin1String("href=\"file://") + localXsl + QLatin1String("\"");
     xslt.replace(QRegExp(QLatin1String("href=\"http://[^\"]*\"")), localXsl);
   }
-  KTemporaryFile tmpXsl;
+  QTemporaryFile tmpXsl;
   tmpXsl.setAutoRemove(false);
   tmpXsl.open();
   QTextStream str (&tmpXsl);
@@ -86,7 +87,7 @@ void Docbook2XhtmlGeneratorJob::run()
   uDebug() << "Applying stylesheet ";
   res = xsltApplyStylesheet(cur, doc, params);
 
-  KTemporaryFile tmpXhtml;
+  QTemporaryFile tmpXhtml;
   tmpXhtml.setAutoRemove(false);
   tmpXhtml.open();
 
