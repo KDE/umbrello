@@ -40,7 +40,6 @@ class DiagramPrintPage;
 class KActionMenu;
 class KRecentFilesAction;
 class KToggleAction;
-class KUndoStack;
 
 // Qt forward declarations
 class QAction;
@@ -59,6 +58,7 @@ class QLabel;
 class QListWidget;
 class QSlider;
 class QTabWidget;
+class QUndoStack;
 
 class UMLAppPrivate;
 
@@ -447,7 +447,7 @@ private:
      */
     XhtmlGenerator* m_xhtmlGenerator;
 
-    KUndoStack* m_pUndoStack;  ///< UndoStack used to store actions, to provide Undo/Redo feature.
+    QUndoStack* m_pUndoStack;  ///< UndoStack used to store actions, to provide Undo/Redo feature.
     bool m_undoEnabled; ///< Undo enabled flag
 
     bool m_hasBegunMacro;  ///< Macro creation flag.

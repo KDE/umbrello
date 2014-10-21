@@ -73,7 +73,6 @@
 #include <kxmlguifactory.h>
 #include <kapplication.h>
 #include <kdeprintdialog.h>
-#include <kundostack.h>
 #include <kstatusbar.h>
 
 // qt includes
@@ -94,6 +93,7 @@
 #include <QTabWidget>
 #include <QTimer>
 #include <QToolButton>
+#include <QUndoStack>
 #include <QUndoView>
 #include <QListWidget>
 
@@ -146,7 +146,7 @@ UMLApp::UMLApp(QWidget* parent)
     m_settingsDialog(0),
     m_imageExporterAll(new UMLViewImageExporterAll()),
     m_xhtmlGenerator(0),
-    m_pUndoStack(new KUndoStack(this)),
+    m_pUndoStack(new QUndoStack(this)),
     m_hasBegunMacro(false),
     m_printSettings(0),
     m_printer(new QPrinter())
