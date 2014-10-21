@@ -63,7 +63,6 @@
 #include <kconfig.h>
 #include <kcursor.h>
 #include <kfiledialog.h>
-#include <kicon.h>
 #include <kinputdialog.h>
 #include <klocale.h>
 #include <kmenubar.h>
@@ -748,7 +747,7 @@ void UMLApp::initStatusBar()
     statusBar()->addPermanentWidget(defaultZoomWdg);
 
     m_pZoomOutPB = new QPushButton(this);
-    m_pZoomOutPB->setIcon(KIcon(QLatin1String("zoom-out")));
+    m_pZoomOutPB->setIcon(QIcon(QLatin1String("zoom-out")));
     m_pZoomOutPB->setFlat(true);
     m_pZoomOutPB->setMaximumSize(30, 30);
     statusBar()->addPermanentWidget(m_pZoomOutPB);
@@ -766,7 +765,7 @@ void UMLApp::initStatusBar()
     statusBar()->addPermanentWidget(m_pZoomSlider);
 
     m_pZoomInPB = new QPushButton(this);
-    m_pZoomInPB->setIcon(KIcon(QLatin1String("zoom-in")));
+    m_pZoomInPB->setIcon(QIcon(QLatin1String("zoom-in")));
     m_pZoomInPB->setFlat(true);
     m_pZoomInPB->setMaximumSize(30, 30);
     statusBar()->addPermanentWidget(m_pZoomInPB);

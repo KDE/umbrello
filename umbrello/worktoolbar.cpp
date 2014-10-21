@@ -19,7 +19,6 @@
 #include "umlview.h"
 
 // kde include files
-#include <kicon.h>
 #include <klocale.h>
 #include <kaction.h>
 #include <kactioncollection.h>
@@ -379,7 +378,7 @@ void WorkToolBar::loadPixmaps()
         const ButtonInfo& info = buttonInfo[i];
         QString key = QLatin1String(ENUM_NAME(WorkToolBar, ToolBar_Buttons, info.tbb));
         QAction *action = collection->addAction(key, this, info.slotName);
-        action->setIcon(KIcon(Icon_Utils::BarIcon(info.icon)));
+        action->setIcon(Icon_Utils::BarIcon(info.icon));
         action->setText(info.btnName);
         m_actions[info.tbb] = action;
         m_cursors[info.tbb] = Icon_Utils::Cursor(info.icon);
