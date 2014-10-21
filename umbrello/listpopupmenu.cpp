@@ -57,7 +57,7 @@ const bool CHECKABLE = true;
  * @param view     The UMLView object
  */
 ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, UMLView * view)
-  : KMenu(parent), m_isListView(false)
+  : QMenu(parent), m_isListView(false)
 {
     m_TriggerObject.m_View = view;
     m_TriggerObjectType = tot_View;
@@ -73,7 +73,7 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, UMLView * view)
  * @param widget   The WidgetBase object.
  */
 ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, WidgetBase *widget)
-  : KMenu(parent), m_isListView(false)
+  : QMenu(parent), m_isListView(false)
 {
     m_TriggerObject.m_Widget = widget;
     m_TriggerObjectType = tot_Widget;
@@ -89,7 +89,7 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, WidgetBase *widget)
  * @param object   The UMLObject of the ListViewItem
  */
 ListPopupMenu::ListPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type, UMLObject* object)
-  : KMenu(parent), m_isListView(true)
+  : QMenu(parent), m_isListView(true)
 {
     m_TriggerObject.m_Object = object;
     m_TriggerObjectType = tot_Object;
@@ -289,7 +289,7 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type
  * @param uniqueType The type of widget shared by all selected widgets
  */
 ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object, bool multi, WidgetBase::WidgetType uniqueType)
-  : KMenu(parent)
+  : QMenu(parent)
 {
     m_TriggerObject.m_Widget = object;
     m_TriggerObjectType = tot_Widget;
@@ -347,7 +347,7 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
 
     case WidgetBase::wt_Category:
        {
-         KMenu* m = makeCategoryTypeMenu(
+         QMenu* m = makeCategoryTypeMenu(
                         static_cast<UMLCategory*>(object->umlObject()));
          m->setTitle(i18n("Category Type"));
          addMenu(m);
@@ -627,7 +627,7 @@ void ListPopupMenu::insertMultiSelectionMenu(WidgetBase::WidgetType uniqueType)
 {
     insertSubMenuAlign();
 
-    KMenu* color = new KMenu(i18nc("color menu", "Color"), this);
+    QMenu* color = new QMenu(i18nc("color menu", "Color"), this);
     insert(mt_Line_Color_Selection, color, Icon_Utils::SmallIcon(Icon_Utils::it_Color_Line), i18n("Line Color..."));
     insert(mt_Fill_Color_Selection, color, Icon_Utils::SmallIcon(Icon_Utils::it_Color_Fill), i18n("Fill Color..."));
     insert(mt_Set_Use_Fill_Color_Selection, color, i18n("Use Fill Color"));
@@ -745,9 +745,9 @@ void ListPopupMenu::insert(MenuType m)
  * Shortcut for the frequently used addAction() calls.
  *
  * @param m      The MenuType for which to insert a menu item.
- * @param menu   The KMenu for which to insert a menu item.
+ * @param menu   The QMenu for which to insert a menu item.
  */
-void ListPopupMenu::insert(const MenuType m, KMenu* menu)
+void ListPopupMenu::insert(const MenuType m, QMenu* menu)
 {
     Q_ASSERT(menu != NULL);
     switch (m) {
@@ -855,11 +855,11 @@ void ListPopupMenu::insert(const MenuType m, const QString & text, const bool ch
  * Shortcut for the frequently used addAction() calls.
  *
  * @param m      The MenuType for which to insert a menu item.
- * @param menu   The KMenu for which to insert a menu item.
+ * @param menu   The QMenu for which to insert a menu item.
  * @param icon   The icon for this action.
  * @param text   The text for this action.
  */
-void ListPopupMenu::insert(const MenuType m, KMenu* menu, const QIcon & icon, const QString & text)
+void ListPopupMenu::insert(const MenuType m, QMenu* menu, const QIcon & icon, const QString & text)
 {
     m_actions[m] = menu->addAction(icon, text);
 }
@@ -868,11 +868,11 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu, const QIcon & icon, co
  * Shortcut for the frequently used addAction() calls.
  *
  * @param m      The MenuType for which to insert a menu item.
- * @param menu   The KMenu for which to insert a menu item.
+ * @param menu   The QMenu for which to insert a menu item.
  * @param text   The text for this action.
  * @param checkable   Sets the action to checkable.
  */
-void ListPopupMenu::insert(const MenuType m, KMenu* menu, const QString & text, const bool checkable)
+void ListPopupMenu::insert(const MenuType m, QMenu* menu, const QString & text, const bool checkable)
 {
     m_actions[m] = menu->addAction(text);
     if (checkable) {
@@ -918,7 +918,7 @@ void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
  */
 void ListPopupMenu::insertContainerItems(bool folderAndDiagrams)
 {
-    KMenu* menu = new KMenu(i18nc("new container menu", "New"), this);
+    QMenu* menu = new QMenu(i18nc("new container menu", "New"), this);
     menu->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_New));
     if (folderAndDiagrams)
         insert(mt_Logical_Folder, menu, Icon_Utils::BarIcon(Icon_Utils::it_Folder), i18n("Folder"));
@@ -1011,7 +1011,7 @@ void ListPopupMenu::insertAssociationTextItem(const QString &label, MenuType mt)
  */
 void ListPopupMenu::insertSubMenuLayout(AssociationLine *associationLine)
 {
-    KMenu* layout = new KMenu(i18nc("Layout menu", "Layout"), this);
+    QMenu* layout = new QMenu(i18nc("Layout menu", "Layout"), this);
     insert(mt_LayoutPolyline, layout, i18n("Polyline"), true);
     insert(mt_LayoutDirect, layout, i18n("Direct"), true);
     insert(mt_LayoutSpline, layout, i18n("Spline"), true);
@@ -1112,7 +1112,7 @@ void ListPopupMenu::makeClassifierShowPopup(ClassifierWidget *c)
     WidgetBase::WidgetType type = c->baseType();
     ClassifierWidget *cls = NULL;
 
-    KMenu* show = new KMenu(i18n("Show"), this);
+    QMenu* show = new QMenu(i18n("Show"), this);
     show->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Show));
     if (type == WidgetBase::wt_Class) {
         cls = static_cast<ClassifierWidget*>(c);
@@ -1149,10 +1149,10 @@ void ListPopupMenu::makeClassifierShowPopup(ClassifierWidget *c)
  */
 void ListPopupMenu::makeMultiClassifierShowPopup(WidgetBase::WidgetType type)
 {
-    KMenu* show = new KMenu(i18n("Show"), this);
+    QMenu* show = new QMenu(i18n("Show"), this);
     show->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Show));
 
-    KMenu* attributes = new KMenu(i18n("Attributes"), this);
+    QMenu* attributes = new QMenu(i18n("Attributes"), this);
     if (type == WidgetBase::wt_Class) {
         insert(mt_Show_Attributes_Selection, attributes, i18n("Show"));
         insert(mt_Hide_Attributes_Selection, attributes, i18n("Hide"));
@@ -1161,27 +1161,27 @@ void ListPopupMenu::makeMultiClassifierShowPopup(WidgetBase::WidgetType type)
     }
     show->addMenu(attributes);
 
-    KMenu* operations = new KMenu(i18n("Operations"), this);
+    QMenu* operations = new QMenu(i18n("Operations"), this);
     insert(mt_Show_Operations_Selection, operations, i18n("Show"));
     insert(mt_Hide_Operations_Selection, operations, i18n("Hide"));
     insert(mt_Show_Operation_Signature_Selection, operations, i18n("Show Signatures"));
     insert(mt_Hide_Operation_Signature_Selection, operations, i18n("Hide Signatures"));
     show->addMenu(operations);
 
-    KMenu* visibility = new KMenu(i18n("Visibility"), this);
+    QMenu* visibility = new QMenu(i18n("Visibility"), this);
     insert(mt_Show_Visibility_Selection, visibility, i18n("Show"));
     insert(mt_Hide_Visibility_Selection, visibility, i18n("Hide"));
     insert(mt_Hide_NonPublic_Selection, visibility, i18n("Hide Non-public members"));
     insert(mt_Show_NonPublic_Selection, visibility, i18n("Show Non-public members"));
     show->addMenu(visibility);
 
-    KMenu* packages = new KMenu(i18n("Packages"), this);
+    QMenu* packages = new QMenu(i18n("Packages"), this);
     insert(mt_Show_Packages_Selection, packages, i18n("Show"));
     insert(mt_Hide_Packages_Selection, packages, i18n("Hide"));
     show->addMenu(packages);
 
     if (type == WidgetBase::wt_Class) {
-        KMenu* stereotypes = new KMenu(i18n("Stereotypes"), this);
+        QMenu* stereotypes = new QMenu(i18n("Stereotypes"), this);
         insert(mt_Show_Stereotypes_Selection, stereotypes, i18n("Show"));
         insert(mt_Hide_Stereotypes_Selection, stereotypes, i18n("Hide"));
         show->addMenu(stereotypes);
@@ -1195,7 +1195,7 @@ void ListPopupMenu::makeMultiClassifierShowPopup(WidgetBase::WidgetType type)
 void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
 {
     WidgetBase::WidgetType type = c->baseType();
-    KMenu* menu = new KMenu(i18nc("new classifier menu", "New"), this);
+    QMenu* menu = new QMenu(i18nc("new classifier menu", "New"), this);
     menu->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_New));
     if (type == WidgetBase::wt_Class)
         insert(mt_Attribute, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Attribute), i18n("Attribute..."));
@@ -1248,7 +1248,7 @@ ListPopupMenu::MenuType ListPopupMenu::typeFromAction(QAction *action)
  */
 void ListPopupMenu::insertSubMenuAlign()
 {
-    KMenu* alignment = new KMenu(i18nc("align menu", "Align"), this);
+    QMenu* alignment = new QMenu(i18nc("align menu", "Align"), this);
     insert(mt_Align_Right, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_Right), i18n("Align Right"));
     insert(mt_Align_Left, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_Left), i18n("Align Left"));
     insert(mt_Align_Top, alignment, Icon_Utils::SmallIcon(Icon_Utils::it_Align_Top), i18n("Align Top"));
@@ -1269,7 +1269,7 @@ void ListPopupMenu::insertSubMenuAlign()
  */
 void ListPopupMenu::insertSubMenuColor(bool fc)
 {
-    KMenu* color = new KMenu(i18nc("color menu", "Color"), this);
+    QMenu* color = new QMenu(i18nc("color menu", "Color"), this);
     insert(mt_Line_Color, color, Icon_Utils::SmallIcon(Icon_Utils::it_Color_Line), i18n("Line Color..."));
     insert(mt_Fill_Color, color, Icon_Utils::SmallIcon(Icon_Utils::it_Color_Fill), i18n("Fill Color..."));
     insert(mt_Use_Fill_Color, color, i18n("Use Fill Color"), CHECKABLE);
@@ -1350,7 +1350,7 @@ ListPopupMenu* ListPopupMenu::menuFromAction(QAction *action)
  */
 void ListPopupMenu::insertSubMenuNew(MenuType type)
 {
-    KMenu* menu = new KMenu(i18nc("new sub menu", "New"), this);
+    QMenu* menu = new QMenu(i18nc("new sub menu", "New"), this);
     menu->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_New));
     switch (type) {
         case mt_Deployment_View:
@@ -1776,7 +1776,7 @@ void ListPopupMenu::setupMenu(MenuType type)
                 uError() << "Invalid Trigger Object Type Set for Use Case Diagram " << m_TriggerObjectType;
                 return;
             }
-            KMenu* menu = makeCategoryTypeMenu(static_cast<UMLCategory*>(m_TriggerObject.m_Object));
+            QMenu* menu = makeCategoryTypeMenu(static_cast<UMLCategory*>(m_TriggerObject.m_Object));
             menu->setTitle(i18n("Category Type"));
             addMenu(menu);
             insertStdItems(false);
@@ -1984,9 +1984,9 @@ void ListPopupMenu::setupDiagramMenu(UMLView* view)
  * Creates a popup menu for a single category Object
  * @param category The UMLCategory for which the category menu is created
  */
-KMenu* ListPopupMenu::makeCategoryTypeMenu(UMLCategory* category)
+QMenu* ListPopupMenu::makeCategoryTypeMenu(UMLCategory* category)
 {
-    KMenu* catTypeMenu = new KMenu(this);
+    QMenu* catTypeMenu = new QMenu(this);
     insert(mt_DisjointSpecialisation, catTypeMenu, i18n("Disjoint(Specialisation)"), CHECKABLE);
     insert(mt_OverlappingSpecialisation, catTypeMenu, i18n("Overlapping(Specialisation)"), CHECKABLE);
     insert(mt_Union, catTypeMenu, i18n("Union"), CHECKABLE);

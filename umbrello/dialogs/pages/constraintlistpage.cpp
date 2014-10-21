@@ -26,12 +26,12 @@
 
 #include <kdialogbuttonbox.h>
 #include <klocale.h>
-#include <kmenu.h>
 #include <kpushbutton.h>
 
 #include <QAction>
 #include <QApplication>
 #include <QHBoxLayout>
+#include <QMenu>
 #include <QVBoxLayout>
 
 /**
@@ -48,7 +48,7 @@ ConstraintListPage::ConstraintListPage(QWidget* parent, UMLClassifier* classifie
 {
     setupActions();
 
-    buttonMenu = new KMenu(this);
+    buttonMenu = new QMenu(this);
     // add a button menu
     m_pNewClassifierListItemButton->setMenu(buttonMenu);
     buttonMenu->addAction(newPrimaryKeyConstraintAction);

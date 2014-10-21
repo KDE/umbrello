@@ -27,8 +27,8 @@ class CodeClassFieldDeclarationBlock;
 class CodeMethodBlock;
 class CodeBlockWithComments;
 class HierarchicalCodeBlock;
-class KMenu;
 class QLabel;
+class QMenu;
 class TextBlock;
 class UMLObject;
 
@@ -93,7 +93,7 @@ protected:
 
     void loadFromDocument();
 
-    KMenu * createPopup();
+    QMenu * createPopup();
 
 private:
     QString            m_parentDocName;

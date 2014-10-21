@@ -19,7 +19,7 @@
 #include <QWidget>
 
 class QAction;
-class KMenu;
+class QMenu;
 
 /**
  * A dialog page to display entity constraint properties.
@@ -58,7 +58,7 @@ protected:
 
     bool greaterThan(UMLObject::ObjectType ct1, UMLObject::ObjectType ct2);
 
-    KMenu* buttonMenu;
+    QMenu* buttonMenu;
 
 };
 

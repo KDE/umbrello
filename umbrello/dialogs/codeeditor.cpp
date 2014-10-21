@@ -37,7 +37,6 @@
 
 // kde includes
 #include <klocale.h>
-#include <kmenu.h>
 
 // qt includes
 #include <QBrush>
@@ -763,7 +762,7 @@ void CodeEditor::slotInsertCodeBlockAfterSelected()
  */
 void CodeEditor::contextMenuEvent(QContextMenuEvent * event)
 {
-    KMenu* menu = createPopup();
+    QMenu* menu = createPopup();
     menu->exec(event->globalPos());
     delete menu;
 }
@@ -772,11 +771,11 @@ void CodeEditor::contextMenuEvent(QContextMenuEvent * event)
  * Create the popup menu.
  * @return   the popup menu
  */
-KMenu * CodeEditor::createPopup()
+QMenu * CodeEditor::createPopup()
 {
     DEBUG(DBG_SRC) << "called...";
 
-    KMenu * menu = new KMenu(this);
+    QMenu * menu = new QMenu(this);
 
     TextBlock * tb = m_selectedTextBlock;
     if (tb) {

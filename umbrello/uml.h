@@ -41,7 +41,6 @@ class KActionMenu;
 class KRecentFilesAction;
 class KToggleAction;
 class KTabWidget;
-class KMenu;
 class KUndoStack;
 
 // Qt forward declarations
@@ -401,7 +400,7 @@ private:
     QAction* deleteDiagram;
 
     QToolButton* m_newSessionButton;
-    KMenu* m_diagramMenu;
+    QMenu* m_diagramMenu;
     WorkToolBar* m_toolsbar;
     QTimer* m_clipTimer;
     QTimer* m_copyTimer;
