@@ -25,11 +25,11 @@
 #include "umldoc.h"
 
 #include <kcombobox.h>
-#include <kdialogbuttonbox.h>
 #include <klineedit.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
+#include <QDialogButtonBox>
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -116,11 +116,11 @@ void UMLUniqueConstraintDialog::setupDialog()
     comboButtonHBoxLayout->addWidget(m_pAttributeCB);
 
     //the action buttons
-    KDialogButtonBox* buttonBox = new KDialogButtonBox(m_pAttributeListGB);
-    m_pAddPB = buttonBox->addButton(i18n("&Add"), KDialogButtonBox::ActionRole, this,
-                          SLOT(slotAddAttribute()));
-    m_pRemovePB = buttonBox->addButton(i18n("&Delete"), KDialogButtonBox::ActionRole, this,
-                          SLOT(slotDeleteAttribute()));
+    QDialogButtonBox* buttonBox = new QDialogButtonBox(m_pAttributeListGB);
+    m_pAddPB = buttonBox->addButton(i18n("&Add"), QDialogButtonBox::ActionRole);
+    connect(m_pAddPB, SIGNAL(clicked()), this, SLOT(slotAddAttribute()));
+    m_pRemovePB = buttonBox->addButton(i18n("&Delete"), QDialogButtonBox::ActionRole);
+    connect(m_pRemovePB, SIGNAL(clicked()), this, SLOT(slotDeleteAttribute()));
 
     comboButtonHBoxLayout->addWidget(buttonBox);
 

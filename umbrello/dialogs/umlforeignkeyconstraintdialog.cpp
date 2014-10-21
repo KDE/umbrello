@@ -30,13 +30,13 @@
 #include "icon_utils.h"
 
 #include <kcombobox.h>
-#include <kdialogbuttonbox.h>
 #include <klineedit.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kvbox.h>
 
 #include <QApplication>
+#include <QDialogButtonBox>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QHBoxLayout>
@@ -309,11 +309,11 @@ void UMLForeignKeyConstraintDialog::setupColumnPage()
     m_ColumnWidgets.referencedColumnCB = new KComboBox(page);
     columnsLayout->addWidget(m_ColumnWidgets.referencedColumnCB, 1, 1);
 
-    KDialogButtonBox* buttonBox = new KDialogButtonBox(page);
-    m_ColumnWidgets.addPB = buttonBox->addButton(i18n("&Add"), KDialogButtonBox::ActionRole, this,
-                            SLOT(slotAddPair()));
-    m_ColumnWidgets.removePB = buttonBox->addButton(i18n("&Delete"), KDialogButtonBox::ActionRole, this,
-                               SLOT(slotDeletePair()));
+    QDialogButtonBox* buttonBox = new QDialogButtonBox(page);
+    m_ColumnWidgets.addPB = buttonBox->addButton(i18n("&Add"), QDialogButtonBox::ActionRole);
+    connect(m_ColumnWidgets.addPB, SIGNAL(clicked()), this, SLOT(slotAddPair()));
+    m_ColumnWidgets.removePB = buttonBox->addButton(i18n("&Delete"), QDialogButtonBox::ActionRole);
+    connect(m_ColumnWidgets.removePB, SIGNAL(clicked()), this, SLOT(slotDeletePair()));
 
     columnsLayout->addWidget(buttonBox, 2, 1);
 

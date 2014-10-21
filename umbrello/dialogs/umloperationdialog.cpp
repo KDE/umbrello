@@ -32,10 +32,10 @@
 #include <kcombobox.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kdialogbuttonbox.h>
 
 //qt includes
 #include <QCheckBox>
+#include <QDialogButtonBox>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QHBoxLayout>
@@ -160,13 +160,13 @@ void UMLOperationDialog::setupDialog()
     m_pDownButton->setEnabled(false);
     buttonLayout->addWidget(m_pDownButton);
 
-    KDialogButtonBox* buttonBox = new KDialogButtonBox(m_pParmsGB);
-    buttonBox->addButton(i18n("Ne&w Parameter..."), KDialogButtonBox::ActionRole,
-                          this, SLOT(slotNewParameter()));
-    m_pDeleteButton = buttonBox->addButton(i18n("&Delete"), KDialogButtonBox::ActionRole,
-                                            this, SLOT(slotDeleteParameter()));
-    m_pPropertiesButton = buttonBox->addButton(i18n("&Properties"), KDialogButtonBox::ActionRole,
-                          this, SLOT(slotParameterProperties()));
+    QDialogButtonBox* buttonBox = new QDialogButtonBox(m_pParmsGB);
+    QPushButton* newParam = buttonBox->addButton(i18n("Ne&w Parameter..."), QDialogButtonBox::ActionRole);
+    connect(newParam, SIGNAL(clicked()), this, SLOT(slotNewParameter()));
+    m_pDeleteButton = buttonBox->addButton(i18n("&Delete"), QDialogButtonBox::ActionRole);
+    connect(m_pDeleteButton, SIGNAL(clicked()), this, SLOT(slotDeleteParameter()));
+    m_pPropertiesButton = buttonBox->addButton(i18n("&Properties"), QDialogButtonBox::ActionRole);
+    connect(m_pPropertiesButton, SIGNAL(clicked()), this, SLOT(slotParameterProperties()));
 
     parmsHBoxLayout->addWidget(m_pParmsLW);
     parmsHBoxLayout->addLayout(buttonLayout);

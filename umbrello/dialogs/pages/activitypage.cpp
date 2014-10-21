@@ -17,8 +17,8 @@
 
 #include <kinputdialog.h>
 #include <klocale.h>
-#include <kdialogbuttonbox.h>
 
+#include <QDialogButtonBox>
 #include <QHBoxLayout>
 #include <QGridLayout>
 #include <QGroupBox>
@@ -98,13 +98,13 @@ void ActivityPage::setupPage()
     m_pBottomArrowB->setToolTip(i18n("Move selected item to the bottom"));
     buttonLayout->addWidget(m_pBottomArrowB);
 
-    KDialogButtonBox* buttonBox = new KDialogButtonBox(m_pActivityGB);
-    buttonBox->addButton(i18n("New Activity..."), KDialogButtonBox::ActionRole,
-                          this, SLOT(slotNewActivity()));
-    m_pDeleteActivityButton = buttonBox->addButton(i18n("Delete"), KDialogButtonBox::ActionRole,
-                              this, SLOT(slotDelete()));
-    m_pRenameButton = buttonBox->addButton(i18n("Rename"), KDialogButtonBox::ActionRole,
-                                            this, SLOT(slotRename()));
+    QDialogButtonBox* buttonBox = new QDialogButtonBox(m_pActivityGB);
+    QPushButton* newActivity = buttonBox->addButton(i18n("New Activity..."), QDialogButtonBox::ActionRole);
+    connect(newActivity, SIGNAL(clicked()), this, SLOT(slotNewActivity()));
+    m_pDeleteActivityButton = buttonBox->addButton(i18n("Delete"), QDialogButtonBox::ActionRole);
+    connect(m_pDeleteActivityButton, SIGNAL(clicked()), this, SLOT(slotDelete()));
+    m_pRenameButton = buttonBox->addButton(i18n("Rename"), QDialogButtonBox::ActionRole);
+    connect(m_pRenameButton, SIGNAL(clicked()), this, SLOT(slotRename()));
     listVBoxLayout->addWidget(buttonBox);
 
     mainLayout->addWidget(m_pActivityGB);
