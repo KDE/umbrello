@@ -28,7 +28,6 @@
 
 #include <kdialogbuttonbox.h>
 #include <klocale.h>
-#include <ktabwidget.h>
 #include <ktextedit.h>
 
 #include <QApplication>
@@ -36,6 +35,7 @@
 #include <QHBoxLayout>
 #include <QListWidget>
 #include <QPushButton>
+#include <QTabWidget>
 #include <QToolButton>
 #include <QVBoxLayout>
 
@@ -222,7 +222,7 @@ void ClassifierListPage::setupDocumentationGroup(int margin)
     if (m_itemType == UMLObject::ot_Operation) {
         m_docTE = new KTextEdit();
         m_pCodeTE = new CodeTextEdit();
-        KTabWidget* tabWidget = new KTabWidget();
+        QTabWidget* tabWidget = new QTabWidget();
         tabWidget->addTab(m_docTE, i18n("Comment"));
         tabWidget->addTab(m_pCodeTE, i18n("Source Code"));
         docLayout->addWidget(tabWidget);

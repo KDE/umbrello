@@ -40,7 +40,6 @@ class DiagramPrintPage;
 class KActionMenu;
 class KRecentFilesAction;
 class KToggleAction;
-class KTabWidget;
 class KUndoStack;
 
 // Qt forward declarations
@@ -54,11 +53,12 @@ class QMenu;
 class QMimeData;
 class QUndoCommand;
 class QUndoView;
+class QPrinter;
 class QPushButton;
 class QLabel;
 class QListWidget;
 class QSlider;
-class QPrinter;
+class QTabWidget;
 
 class UMLAppPrivate;
 
@@ -143,7 +143,7 @@ public:
 
     bool editCutCopy(bool bFromView);
 
-    KTabWidget *tabWidget();
+    QTabWidget *tabWidget();
 
     QString statusBarMsg();
 
@@ -417,7 +417,7 @@ private:
      * Shows, and is parent of, all the UMLViews (diagrams)
      * if tabbed diagrams are enabled.
      */
-    KTabWidget* m_tabWidget;
+    QTabWidget* m_tabWidget;
 
     /**
      * Layout supports the dynamic management of the diagram representation (tabbed/stacked)

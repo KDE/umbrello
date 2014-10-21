@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<!-- <?xml version="1.0" encoding="UTF-8"?> -->
 <ui version="4.0">
  <class>CodeGenOptionsPage</class>
  <widget class="QWidget" name="CodeGenOptionsPage">
@@ -21,7 +21,7 @@
   </property>
   <layout class="QVBoxLayout">
    <item>
-    <widget class="KTabWidget" name="ui_tabWidgetMain">
+    <widget class="QTabWidget" name="ui_tabWidgetMain">
      <property name="enabled">
       <bool>true</bool>
      </property>
@@ -361,12 +361,6 @@ is empty</string>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KTabWidget</class>
-   <extends>QTabWidget</extends>
-   <header>ktabwidget.h</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <includes>

@@ -18,7 +18,7 @@
   </property>
   <layout class="QVBoxLayout">
    <item>
-    <widget class="KTabWidget" name="ui_tabWidget">
+    <widget class="QTabWidget" name="ui_tabWidget">
      <property name="currentIndex">
       <number>0</number>
      </property>
@@ -119,14 +119,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KTabWidget</class>
-   <extends>QTabWidget</extends>
-   <header>ktabwidget.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

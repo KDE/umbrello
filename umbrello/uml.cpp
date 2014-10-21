@@ -69,7 +69,6 @@
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 #include <ktip.h>
-#include <ktabwidget.h>
 #include <kactionmenu.h>
 #include <kmenu.h>
 #include <kxmlguifactory.h>
@@ -93,6 +92,7 @@
 #include <QRegExp>
 #include <QSlider>
 #include <QStackedWidget>
+#include <QTabWidget>
 #include <QTimer>
 #include <QToolButton>
 #include <QUndoView>
@@ -793,9 +793,12 @@ void UMLApp::initView()
     m_viewStack = new QStackedWidget(this);
 
     // Prepare Tabbed Diagram Representation
-    m_tabWidget = new KTabWidget(this);
+    m_tabWidget = new QTabWidget(this);
+#if 0  //FIXME KF5
     m_tabWidget->setAutomaticResizeTabs(true);
+#endif
     m_tabWidget->setTabsClosable(true);
+    m_tabWidget->setMovable(true);
     connect(m_tabWidget, SIGNAL(closeRequest(QWidget*)), SLOT(slotCloseDiagram(QWidget*)));
 
     m_newSessionButton = new QToolButton(m_tabWidget);
@@ -3085,7 +3088,7 @@ void UMLApp::slotChangeTabRight()
 }
 
 /* for debugging only
-static void showTabTexts(KTabWidget* tabWidget)
+static void showTabTexts(QTabWidget* tabWidget)
 {
     QString out = QLatin1String("tab texts ");
     for (int i = 0; i < tabWidget->count(); ++i) {
@@ -3110,7 +3113,9 @@ void UMLApp::slotMoveTabLeft()
     else {
         to = m_tabWidget->count() - 1;
     }
+#if 0  //FIXME KF5
     m_tabWidget->moveTab(from, to);
+#endif
 }
 
 /**
@@ -3128,7 +3133,9 @@ void UMLApp::slotMoveTabRight()
     else {
         to = 0;
     }
+#if 0  //FIXME KF5
     m_tabWidget->moveTab(from, to);
+#endif
 }
 
 /**
@@ -3149,7 +3156,7 @@ void UMLApp::slotXhtmlDocGenerationFinished(bool status)
 /**
  * Return the tab widget.
  */
-KTabWidget* UMLApp::tabWidget()
+QTabWidget* UMLApp::tabWidget()
 {
     return m_tabWidget;
 }
