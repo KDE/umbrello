@@ -54,7 +54,6 @@
 #include <ktar.h>
 #include <ktempdir.h>
 #include <kinputdialog.h>
-#include <ktabwidget.h>
 #include <kapplication.h>
 
 // qt includes

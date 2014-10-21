@@ -20,7 +20,6 @@
 
 // kde include files
 #include <klocale.h>
-#include <kaction.h>
 #include <kactioncollection.h>
 
 // qt include files

@@ -65,7 +65,6 @@
 #include <kmessagebox.h>
 #include <kinputdialog.h>
 #include <kapplication.h>
-#include <ktabwidget.h>
 
 // qt includes
 #include <QDrag>

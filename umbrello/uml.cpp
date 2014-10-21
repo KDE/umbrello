@@ -70,7 +70,6 @@
 #include <kstandarddirs.h>
 #include <ktip.h>
 #include <kactionmenu.h>
-#include <kmenu.h>
 #include <kxmlguifactory.h>
 #include <kapplication.h>
 #include <kdeprintdialog.h>
