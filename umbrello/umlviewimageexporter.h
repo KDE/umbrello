@@ -13,9 +13,8 @@
 
 #include "umlviewimageexportermodel.h"
 
-#include <kurl.h>
-
 #include <QString>
+#include <QUrl>
 
 class UMLScene;
 class UMLFileDialog;
@@ -34,13 +33,13 @@ public:
 
     void exportView();
 
-    KUrl    getImageURL() const { return m_imageURL; }
+    QUrl    getImageURL() const { return m_imageURL; }
     QString getImageMimeType() const { return m_imageMimeType; }
 
 private:
 
     UMLScene* m_scene;          ///< The scene to export.
-    KUrl      m_imageURL;       ///< The URL used to save the image.
+    QUrl      m_imageURL;       ///< The URL used to save the image.
     QString   m_imageMimeType;  ///< The mime type used to save the image.
 
     bool getParametersFromUser();

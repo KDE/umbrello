@@ -12,7 +12,8 @@
 #define UMLFILEDIALOG_H
 
 #include <kfiledialog.h>
-#include <kurl.h>
+
+#include <QUrl>
 
 /**
  * Wrapper class for KFileDialog supporting graphviz *.dot files.
@@ -27,14 +28,14 @@ class UMLFileDialog : public QObject
 {
     Q_OBJECT
 public:
-    UMLFileDialog(const KUrl &startDir, const QString &filter, QWidget *parent, QWidget *widget=0);
+    UMLFileDialog(const QUrl &startDir, const QString &filter, QWidget *parent, QWidget *widget=0);
     ~UMLFileDialog();
 
     int exec();
     void setCaption(const QString &caption);
     void setOperationMode(KFileDialog::OperationMode mode);
-    void setUrl(const KUrl &url, bool clearforward=true);
-    KUrl selectedUrl();
+    void setUrl(const QUrl &url, bool clearforward=true);
+    QUrl selectedUrl();
     void setSelection(const QString &name);
     void setMimeFilter(const QStringList &types, const QString &defaultType=QString());
     QString currentMimeFilter();

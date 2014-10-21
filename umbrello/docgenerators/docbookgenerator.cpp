@@ -59,10 +59,10 @@ DocbookGenerator::~DocbookGenerator()
  */
 bool DocbookGenerator::generateDocbookForProject()
 {
-  KUrl url = m_umlDoc->url();
+  QUrl url = m_umlDoc->url();
   QString fileName = url.fileName();
   fileName.remove(QRegExp(QLatin1String(".xmi$")));
-  url.setFileName(fileName);
+  url.setPath(url.path() + QLatin1Char('/') + fileName);
   uDebug() << "Exporting to directory: " << url;
   generateDocbookForProjectInto(url);
   return true;
@@ -104,7 +104,7 @@ void DocbookGenerator::slotDocbookGenerationFinished(const QString& tmpFileName)
     fileName.replace(QRegExp(QLatin1String(".xmi$")), QLatin1String(".docbook"));
     url.setPath(m_destDir.path() + QLatin1Char('/') + fileName);
 
-    KIO::Job* job = KIO::file_copy(KUrl::fromPath(tmpFileName), url, -1, KIO::Overwrite | KIO::HideProgressInfo);
+    KIO::Job* job = KIO::file_copy(QUrl(tmpFileName), url, -1, KIO::Overwrite | KIO::HideProgressInfo);
     if (KIO::NetAccess::synchronousRun(job, (QWidget*)UMLApp::app())) {
         m_umlDoc->writeToStatusBar(i18n("Docbook Generation Complete..."));
         m_pStatus = true;

@@ -21,7 +21,7 @@
 
 static QStringList mime2KdeFilter(const QStringList &mimeTypes, QString *allExtensions = 0)
 {
-    const KUrl emptyUrl;
+    const QUrl emptyUrl;
     QStringList kdeFilter;
     QStringList allExt;
     QMimeDatabase db;
@@ -46,7 +46,7 @@ static QStringList mime2KdeFilter(const QStringList &mimeTypes, QString *allExte
 }
 
 
-UMLFileDialog::UMLFileDialog(const KUrl &startDir, const QString &filter, QWidget *parent, QWidget *widget)
+UMLFileDialog::UMLFileDialog(const QUrl &startDir, const QString &filter, QWidget *parent, QWidget *widget)
   : m_dialog(new KFileDialog(startDir, filter, parent, widget))
 {
 }
@@ -73,12 +73,12 @@ void UMLFileDialog::setOperationMode(KFileDialog::OperationMode mode)
     m_dialog->setOperationMode(mode);
 }
 
-void UMLFileDialog::setUrl(const KUrl &url, bool clearforward)
+void UMLFileDialog::setUrl(const QUrl &url, bool clearforward)
 {
     m_dialog->setUrl(url, clearforward);
 }
 
-KUrl UMLFileDialog::selectedUrl()
+QUrl UMLFileDialog::selectedUrl()
 {
     return m_dialog->selectedUrl();
 }
@@ -104,7 +104,7 @@ void UMLFileDialog::setMimeFilter(const QStringList &types, const QString &defau
  */
 QString UMLFileDialog::currentMimeFilter()
 {
-    KUrl url = m_dialog->selectedUrl();
+    QUrl url = m_dialog->selectedUrl();
     QFileInfo fi(url.toLocalFile());
     return UMLViewImageExporterModel::imageTypeToMimeType(fi.suffix());
 }

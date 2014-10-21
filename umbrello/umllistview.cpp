@@ -481,7 +481,7 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
                 return;
             }
             // configure & show the file dialog
-            const QString rootDir(m_doc->url().directory());
+            const QString rootDir(m_doc->url().adjusted(QUrl::RemoveFilename).path());
             QPointer<KFileDialog> fileDialog = new KFileDialog(QUrl(rootDir), QLatin1String("*.xml"), this);
 #if 0 //FIXME KF5
             fileDialog->setCaption(i18n("Externalize Folder"));
@@ -492,7 +492,7 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
             defaultFilename.replace(QRegExp(QLatin1String("\\W+")), QLatin1String("_"));
             defaultFilename.append(QLatin1String(".xml"));  // default extension
             fileDialog->setSelection(defaultFilename);
-            KUrl selURL;
+            QUrl selURL;
             if (fileDialog->exec() == QDialog::Accepted) {
                 selURL = fileDialog->selectedUrl();
             }

@@ -24,8 +24,8 @@
 #include "umlstereotypelist.h"
 #include "umlpackagelist.h"
 
-// kde includes
-#include <kurl.h>
+// qt includes
+#include <QUrl>
 
 // system includes
 #include <typeinfo>
@@ -85,11 +85,11 @@ public:
 
     bool newDocument();
     void closeDocument();
-    bool openDocument(const KUrl& url, const char *format = 0);
-    bool saveDocument(const KUrl& url, const char *format = 0);
+    bool openDocument(const QUrl& url, const char *format = 0);
+    bool saveDocument(const QUrl& url, const char *format = 0);
 
-    const KUrl& url() const;
-    void setUrl(const KUrl& url);
+    const QUrl& url() const;
+    void setUrl(const QUrl& url);
 
     void setupSignals();
 
@@ -223,6 +223,7 @@ public:
 private:
     void initSaveTimer();
     void createDatatypeFolder();
+    void setFileName(QUrl url, const QString& name);
 
     /**
      * Array of predefined root folders.
@@ -248,7 +249,7 @@ private:
     Uml::ID::Type m_modelID; ///< xmi.id of this model in the <UML:Model>
     int m_count;   ///< auxiliary counter for the progress bar
     bool m_modified;
-    KUrl m_doc_url;
+    QUrl m_doc_url;
 
     /**
      * Contains all the UMLObject id changes of paste session.

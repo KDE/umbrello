@@ -960,7 +960,7 @@ void UMLApp::saveOptions()
         UmbrelloSettings::setLastFile(QString());
     }
     else {
-        UmbrelloSettings::setLastFile(m_doc->url().prettyUrl());
+        UmbrelloSettings::setLastFile(m_doc->url().toDisplayString());
     }
 
     UmbrelloSettings::setImageMimeType(imageMimeType());
@@ -1426,7 +1426,7 @@ void UMLApp::slotFilePrint()
 
     QPrintDialog *printDialog =
                   KdePrint::createPrintDialog(m_printer, QList<QWidget*>() << m_printSettings, this);
-    printDialog->setWindowTitle(i18n("Print %1", m_doc->url().prettyUrl()));
+    printDialog->setWindowTitle(i18n("Print %1", m_doc->url().toDisplayString()));
 
     if (printDialog->exec()) {
         m_doc->print(m_printer, m_printSettings);

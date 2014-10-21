@@ -19,7 +19,6 @@
 
 // kde include files
 #include <klocale.h>
-#include <kurl.h>
 #include <kurlrequester.h>
 #include <kfilefiltercombo.h>
 #include <kmessagebox.h>
@@ -64,7 +63,9 @@ void UMLViewImageExporterAll::exportAllViews()
     // default url can't be set when creating the action because the
     // document wasn't loaded
     if (m_dialog->m_kURL->url().isEmpty()) {
-        m_dialog->m_kURL->setUrl(QUrl(umlDoc->url().directory()));
+        QUrl directory(umlDoc->url());
+        directory.adjusted(QUrl::RemoveFilename);
+        m_dialog->m_kURL->setUrl(directory);
     }
 
     if (m_dialog->exec() == QDialog::Rejected) {
@@ -77,7 +78,7 @@ void UMLViewImageExporterAll::exportAllViews()
     umlDoc->writeToStatusBar(i18n("Exporting all views..."));
     QStringList errors = UMLViewImageExporterModel().exportAllViews(
                                 UMLViewImageExporterModel::mimeTypeToImageType(m_dialog->m_imageType->currentFilter()),
-                                KUrl(m_dialog->m_kURL->url()), m_dialog->m_useFolders->isChecked());
+                                QUrl(m_dialog->m_kURL->url()), m_dialog->m_useFolders->isChecked());
     if (!errors.empty()) {
         KMessageBox::errorList(app, i18n("Some errors happened when exporting the images:"), errors);
     }

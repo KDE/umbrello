@@ -22,7 +22,6 @@
 //kde include files
 #include <klocale.h>
 #include <kfiledialog.h>
-#include <kurl.h>
 #include <kmessagebox.h>
 #include <kio/netaccess.h>
 
@@ -102,7 +101,7 @@ bool UMLViewImageExporter::prepareExport()
         // check if the file exists
         if (KIO::NetAccess::exists(m_imageURL, KIO::NetAccess::SourceSide, UMLApp::app())) {
             int wantSave = KMessageBox::warningContinueCancel(0,
-                                i18n("The selected file %1 exists.\nDo you want to overwrite it?", m_imageURL.pathOrUrl()),
+                                i18n("The selected file %1 exists.\nDo you want to overwrite it?", m_imageURL.url(QUrl::PreferLocalFile)),
                                 i18n("File Already Exists"), KGuiItem(i18n("&Overwrite")));
             if (wantSave == KMessageBox::Continue) {
                 exportPrepared = true;
@@ -127,7 +126,7 @@ bool UMLViewImageExporter::getParametersFromUser()
     bool success = true;
 
     // configure & show the file dialog
-    KUrl url;
+    QUrl url;
     QPointer<UMLFileDialog> dialog = new UMLFileDialog(url, QString(), UMLApp::app());
     prepareFileDialog(dialog);
     dialog->exec();
@@ -168,11 +167,10 @@ void UMLViewImageExporter::prepareFileDialog(UMLFileDialog *fileDialog)
 
     // set a sensible default filename
     if (m_imageURL.isEmpty()) {
-        KUrl docURL = UMLApp::app()->document()->url();
-        KUrl directory = docURL;
-        directory.setPath(docURL.directory());
+        QUrl docURL = UMLApp::app()->document()->url();
+        docURL.adjusted(QUrl::RemoveFilename);
 
-        fileDialog->setUrl(directory);
+        fileDialog->setUrl(docURL);
         fileDialog->setSelection(m_scene->name() + QLatin1Char('.') + UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType));
     } else {
         fileDialog->setUrl(m_imageURL);

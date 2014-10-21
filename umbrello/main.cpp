@@ -139,7 +139,7 @@ void initDocument(KCmdLineArgs *args)
         bool last = UmbrelloSettings::loadlast();
         QString file = UmbrelloSettings::lastFile();
         if(last && !file.isEmpty()) {
-            UMLApp::app()->openDocumentFile(KUrl(file));
+            UMLApp::app()->openDocumentFile(QUrl(file));
         } else {
             UMLApp::app()->newDocument();
         }
@@ -153,17 +153,17 @@ void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt)
 
     // export to the specified directory, or the directory where the file is saved
     // if no directory was specified
-    KUrl directory;
+    QUrl directory;
     QStringList directoryOpt = args->getOptionList("directory");
     if (directoryOpt.size() > 0) {
         directory = KCmdLineArgs::makeURL(directoryOpt.last().toLocal8Bit());
     } else {
-        directory = KUrl(UMLApp::app()->document()->url().directory());
+        directory = UMLApp::app()->document()->url().adjusted(QUrl::RemoveFilename);
     }
 
     bool useFolders = args->isSet("use-folders");
 
-    uDebug() << "directory: " << directory.prettyUrl();
+    uDebug() << "directory: " << directory.toDisplayString();
 
     // the event is posted so when the Qt loop begins it's processed. UMLApp process this event executing
     // the method it provides for exporting the views. Once all the views were exported, a quit event

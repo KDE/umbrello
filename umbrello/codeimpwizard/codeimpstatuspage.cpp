@@ -327,7 +327,7 @@ void CodeImpStatusPage::loggerClear()
 void CodeImpStatusPage::loggerExport()
 {
     const QString caption = i18n("Umbrello Code Import - Logger Export");
-    QString fileName = KFileDialog::getSaveFileName(KUrl(), QString(), 0, caption);
+    QString fileName = KFileDialog::getSaveFileName(QUrl(), QString(), 0, caption);
     if (!fileName.isEmpty()) {
         QFile file(fileName);
         if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
