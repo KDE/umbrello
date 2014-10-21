@@ -262,7 +262,7 @@ public slots:
     void slotSelectAll();
     void slotDeleteSelected();
     void slotDeleteDiagram();
-    void slotCloseDiagram(QWidget* tab);
+    void slotCloseDiagram(int index);
     void slotGenerateAllCode();
 
     void slotSetZoom(QAction* action);
@@ -277,7 +277,7 @@ public slots:
     void slotEditUndo();
     void slotEditRedo();
 
-    void slotTabChanged(QWidget* tab);
+    void slotTabChanged(int index);
     void slotChangeTabLeft();
     void slotChangeTabRight();
     void slotMoveTabLeft();

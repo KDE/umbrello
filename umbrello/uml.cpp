@@ -798,7 +798,7 @@ void UMLApp::initView()
 #endif
     m_tabWidget->setTabsClosable(true);
     m_tabWidget->setMovable(true);
-    connect(m_tabWidget, SIGNAL(closeRequest(QWidget*)), SLOT(slotCloseDiagram(QWidget*)));
+    connect(m_tabWidget, SIGNAL(tabCloseRequested(int)), SLOT(slotCloseDiagram(int)));
 
     m_newSessionButton = new QToolButton(m_tabWidget);
     m_newSessionButton->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Tab_New));
@@ -807,8 +807,9 @@ void UMLApp::initView()
     m_newSessionButton->setPopupMode(QToolButton::InstantPopup);
     m_newSessionButton->setMenu(newDiagram->menu());
 
-    connect(m_tabWidget, SIGNAL(currentChanged(QWidget*)), SLOT(slotTabChanged(QWidget*)));
-    connect(m_tabWidget, SIGNAL(contextMenu(QWidget*,QPoint)), m_doc, SLOT(slotDiagramPopupMenu(QWidget*,QPoint)));
+    connect(m_tabWidget, SIGNAL(currentChanged(int)), SLOT(slotTabChanged(int)));
+    m_tabWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(m_tabWidget, SIGNAL(customContextMenuRequested(QPoint)), m_doc, SLOT(slotDiagramPopupMenu(QWidget*,QPoint))); //FIXME KF5
     m_tabWidget->setCornerWidget(m_newSessionButton, Qt::TopLeftCorner);
     m_newSessionButton->installEventFilter(this);
 
@@ -2763,16 +2764,16 @@ void UMLApp::slotDeleteDiagram()
 
 /**
  * Close the current diagram. Clicked on tab close button.
- * @param tab   Widget's tab to close
+ * @param index   widget's index to close
  */
-void UMLApp::slotCloseDiagram(QWidget* tab)
+void UMLApp::slotCloseDiagram(int index)
 {
-    if (tab) {
-        UMLView* view = (UMLView*)tab;
+    UMLView* view = (UMLView*)m_tabWidget->widget(index);
+    if (view) {
         if (view != currentView()) {
             setCurrentView(view);
         }
-        m_tabWidget->removeTab(m_tabWidget->indexOf(view));
+        m_tabWidget->removeTab(index);
         view->umlScene()->setIsOpen(false);
     }
 }
@@ -2961,10 +2962,10 @@ void UMLApp::setCurrentView(UMLView* view, bool updateTreeView)
             m_tabWidget->setTabToolTip(tabIndex, view->umlScene()->name());
         }
         if (!updateTreeView)
-            disconnect(m_tabWidget, SIGNAL(currentChanged(QWidget*)), this, SLOT(slotTabChanged(QWidget*)));
+            disconnect(m_tabWidget, SIGNAL(currentChanged(int)), this, SLOT(slotTabChanged(int)));
         m_tabWidget->setCurrentIndex(tabIndex);
         if (!updateTreeView)
-            connect(m_tabWidget, SIGNAL(currentChanged(QWidget*)), SLOT(slotTabChanged(QWidget*)));
+            connect(m_tabWidget, SIGNAL(currentChanged(int)), SLOT(slotTabChanged(int)));
     }
     else {
         if (m_viewStack->indexOf(view) < 0) {
@@ -3016,11 +3017,11 @@ QString UMLApp::imageMimeType() const
 
 /**
  * Called when the tab has changed.
- * @param tab   The changed tab widget
+ * @param index   the index of the changed tab widget
  */
-void UMLApp::slotTabChanged(QWidget* tab)
+void UMLApp::slotTabChanged(int index)
 {
-    UMLView* view = (UMLView*)tab;
+    UMLView* view = (UMLView*)m_tabWidget->widget(index);
     if (view) {
         m_doc->changeCurrentView(view->umlScene()->ID());
     }
