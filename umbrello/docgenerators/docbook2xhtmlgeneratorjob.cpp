@@ -26,9 +26,9 @@
 #include <libxslt/xsltutils.h>
 
 #include <kglobal.h>
-#include <kstandarddirs.h>
 #include <klocale.h>
 
+#include <QStandardPaths>
 #include <QTemporaryFile>
 #include <QTextStream>
 
@@ -56,7 +56,7 @@ void Docbook2XhtmlGeneratorJob::run()
 
   umlDoc->writeToStatusBar(i18n("Exporting to XHTML..."));
 
-  QString xsltFileName(KGlobal::dirs()->findResource("appdata", QLatin1String("docbook2xhtml.xsl")));
+  QString xsltFileName(QStandardPaths::locate(QStandardPaths::DataLocation, QLatin1String("docbook2xhtml.xsl")));
   uDebug() << "XSLT file is'" << xsltFileName << "'";
   QFile xsltFile(xsltFileName);
   xsltFile.open(QIODevice::ReadOnly);
@@ -64,7 +64,7 @@ void Docbook2XhtmlGeneratorJob::run()
   uDebug() << "XSLT is'" << xslt << "'";
   xsltFile.close();
 
-  QString localXsl = KGlobal::dirs()->findResource("data", QLatin1String("ksgmltools2/docbook/xsl/html/docbook.xsl"));
+  QString localXsl = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("ksgmltools2/docbook/xsl/html/docbook.xsl"));
   uDebug() << "Local xsl is'" << localXsl << "'";
   if (!localXsl.isEmpty())
   {

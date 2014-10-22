@@ -66,7 +66,7 @@ void DocbookGeneratorJob::run()
     int nbparams = 0;
     params[nbparams] = NULL;
 
-    QString xsltFile(KGlobal::dirs()->findResource("appdata", QLatin1String("xmi2docbook.xsl")));
+    QString xsltFile(QStandardPaths::locate(QStandardPaths::DataLocation, QLatin1String("xmi2docbook.xsl")));
 
     xmlSubstituteEntitiesDefault(1);
     xmlLoadExtDtdDefaultValue = 1;
