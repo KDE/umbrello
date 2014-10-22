@@ -12,8 +12,6 @@
 #ifndef XHTMLGENERATOR_H
 #define XHTMLGENERATOR_H
 
-#include <ktempdir.h>
-
 #include <QObject>
 #include <QUrl>
 

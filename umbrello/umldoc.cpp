@@ -52,7 +52,6 @@
 #include <kmessagebox.h>
 #include <kmimetype.h>
 #include <ktar.h>
-#include <ktempdir.h>
 #include <kinputdialog.h>
 #include <kapplication.h>
 
@@ -65,6 +64,7 @@
 #include <QPainter>
 #include <QPrinter>
 #include <QRegExp>
+#include <QTemporaryDir>
 #include <QTemporaryFile>
 #include <QTextStream>
 #include <QTimer>
@@ -471,7 +471,7 @@ bool UMLDoc::openDocument(const QUrl& url, const char* format /* =0 */)
 
         // if we found an XMI file, we have to extract it to a temporary file
         if (foundXMI == true) {
-            KTempDir tmp_dir;
+            QTemporaryDir tmp_dir;
             KArchiveEntry * entry;
             KArchiveFile * fileEntry;
 
@@ -501,10 +501,10 @@ bool UMLDoc::openDocument(const QUrl& url, const char* format /* =0 */)
             }
 
             // now we can extract the file to the temporary directory
-            fileEntry->copyTo(tmp_dir.name());
+            fileEntry->copyTo(tmp_dir.path() + QLatin1Char('/'));
 
             // now open the extracted file for reading
-            QFile xmi_file(tmp_dir.name() + *it);
+            QFile xmi_file(tmp_dir.path() + QLatin1Char('/') + *it);
             if(!xmi_file.open(QIODevice::ReadOnly)) {
                 KMessageBox::error(0, i18n("There was a problem loading the extracted file: %1", url.url(QUrl::PreferLocalFile)),
                                    i18n("Load Error"));
