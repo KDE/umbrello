@@ -26,9 +26,9 @@
 
 // kde includes
 #include <klocale.h>
-#include <kinputdialog.h>
 
 // qt includes
+#include <QInputDialog>
 #include <QPointer>
 #include <QPainter>
 #include <QValidator>
@@ -163,13 +163,12 @@ void ObjectWidget::slotMenuSelection(QAction* action)
         {
             bool ok;
             QRegExpValidator* validator = new QRegExpValidator(QRegExp(QLatin1String(".*")), 0);
-            QString name = KInputDialog::getText
-                   (i18n("Rename Object"),
-                    i18n("Enter object name:"),
-                    m_instanceName,
-                    &ok,
-                    m_scene->activeView(),
-                    validator);
+            QString name = QInputDialog::getText(m_scene->activeView(),
+                                                 i18n("Rename Object"),
+                                                 i18n("Enter object name:"),
+                                                 QLineEdit::Normal,
+                                                 m_instanceName,
+                                                 &ok);  //FIXME KF5   ", validator);"
             if (ok) {
                 m_instanceName = name;
                 updateGeometry();

@@ -25,10 +25,10 @@
 
 // kde includes
 #include <klocale.h>
-#include <kinputdialog.h>
 
 // qt includes
 #include <QEvent>
+#include <QInputDialog>
 #include <QPolygon>
 
 /**
@@ -323,8 +323,10 @@ void SignalWidget::slotMenuSelection(QAction* action)
         {
             bool ok = false;
             QString name = m_Text;
-            name = KInputDialog::getText(i18n("Enter signal name"),
+            name = QInputDialog::getText(Q_NULLPTR,
+                                         i18n("Enter signal name"),
                                          i18n("Enter the signal name :"),
+                                         QLineEdit::Normal,
                                          m_Text, &ok);
             if (ok && name.length() > 0) {
                 setName(name);

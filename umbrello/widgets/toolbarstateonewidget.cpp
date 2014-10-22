@@ -32,7 +32,9 @@
 // kde includes
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kinputdialog.h>
+
+// qt includes
+#include <QInputDialog>
 
 // using namespace Uml;
 
@@ -189,8 +191,11 @@ void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject)
             // Create the widget. Some setup functions can remove the widget.
         } else if (m_firstObject->baseType() == WidgetBase::wt_Component) {
             bool pressedOK = false;
-            QString name = KInputDialog::getText(i18n("Enter Port Name"), i18n("Enter the port"), i18n("new port"),
-                                                 &pressedOK, UMLApp::app());
+            QString name = QInputDialog::getText(UMLApp::app(),
+                                                 i18n("Enter Port Name"), i18n("Enter the port"),
+                                                 QLineEdit::Normal,
+                                                 i18n("new port"),
+                                                 &pressedOK);
             if (pressedOK) {
                 UMLPackage* component = static_cast<UMLPackage*>(m_firstObject->umlObject());
                 UMLObject *port = Object_Factory::createUMLObject(UMLObject::ot_Port, name, component);

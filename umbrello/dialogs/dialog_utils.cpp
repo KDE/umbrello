@@ -18,7 +18,6 @@
 #include "umlwidget.h"
 
 // kde includes
-#include <kinputdialog.h>
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <klineedit.h>
@@ -26,6 +25,7 @@
 
 // qt includes
 #include <QGridLayout>
+#include <QInputDialog>
 #include <QLabel>
 #include <QLineEdit>
 
@@ -69,7 +69,10 @@ void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
 {
     bool pressedOK = false;
 
-    QString name = KInputDialog::getText(dialogTitle, dialogPrompt, defaultName, &pressedOK, UMLApp::app());
+    QString name = QInputDialog::getText(UMLApp::app(),
+                                         dialogTitle, dialogPrompt,
+                                         QLineEdit::Normal,
+                                         defaultName, &pressedOK);
 
     if (pressedOK) {
         targetWidget->setName(name);

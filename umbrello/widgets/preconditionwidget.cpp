@@ -21,10 +21,10 @@
 #include "idchangelog.h"
 
 // kde includes
-#include <kinputdialog.h>
 #include <klocale.h>
 
 // qt includes
+#include <QInputDialog>
 #include <QPainter>
 
 DEBUG_REGISTER_DISABLED(PreconditionWidget)
@@ -256,9 +256,11 @@ void PreconditionWidget::slotMenuSelection(QAction* action)
         {
             bool ok = false;
             QString text = name();
-            text = KInputDialog::getText(i18n("Enter Precondition Name"),
-                                          i18n("Enter the precondition :"),
-                                          text, &ok);
+            text = QInputDialog::getText(Q_NULLPTR,
+                                         i18n("Enter Precondition Name"),
+                                         i18n("Enter the precondition :"),
+                                         QLineEdit::Normal,
+                                         text, &ok);
             if (ok && !text.isEmpty()) {
                 setName(text);
             }

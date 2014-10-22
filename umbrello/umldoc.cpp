@@ -52,7 +52,6 @@
 #include <kmessagebox.h>
 #include <kmimetype.h>
 #include <ktar.h>
-#include <kinputdialog.h>
 #include <kapplication.h>
 
 // qt includes
@@ -61,6 +60,7 @@
 #include <QDir>
 #include <QDomDocument>
 #include <QDomElement>
+#include <QInputDialog>
 #include <QPainter>
 #include <QPrinter>
 #include <QRegExp>
@@ -1278,8 +1278,10 @@ QString UMLDoc::createDiagramName(Uml::DiagramType::Enum type, bool askForName /
 
     while (true) {
         if (askForName)  {
-            name = KInputDialog::getText(i18nc("diagram name", "Name"), i18n("Enter name:"),
-                                         defaultName, &ok, (QWidget*)UMLApp::app());
+            name = QInputDialog::getText(UMLApp::app(),
+                                         i18nc("diagram name", "Name"), i18n("Enter name:"),
+                                         QLineEdit::Normal,
+                                         defaultName, &ok);
         }
         if (!ok)  {
             break;
@@ -1350,7 +1352,10 @@ void UMLDoc::renameDiagram(Uml::ID::Type id)
 
     QString oldName= view->umlScene()->name();
     while (true) {
-        QString name = KInputDialog::getText(i18nc("renaming diagram", "Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)UMLApp::app());
+        QString name = QInputDialog::getText(UMLApp::app(),
+                                             i18nc("renaming diagram", "Name"), i18n("Enter name:"),
+                                             QLineEdit::Normal,
+                                             oldName, &ok);
 
         if (!ok) {
             break;
@@ -1381,7 +1386,10 @@ void UMLDoc::renameUMLObject(UMLObject *o)
     bool ok = false;
     QString oldName= o->name();
     while (true) {
-        QString name = KInputDialog::getText(i18nc("renaming uml object", "Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)UMLApp::app());
+        QString name = QInputDialog::getText(UMLApp::app(),
+                                             i18nc("renaming uml object", "Name"), i18n("Enter name:"),
+                                             QLineEdit::Normal,
+                                             oldName, &ok);
         if (!ok)  {
             break;
         }
@@ -1415,7 +1423,10 @@ void UMLDoc::renameChildUMLObject(UMLObject *o)
 
     QString oldName= o->name();
     while (true) {
-        QString name = KInputDialog::getText(i18nc("renaming child uml object", "Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)UMLApp::app());
+        QString name = QInputDialog::getText(UMLApp::app(),
+                                             i18nc("renaming child uml object", "Name"), i18n("Enter name:"),
+                                             QLineEdit::Normal,
+                                             oldName, &ok);
         if (!ok) {
             break;
         }

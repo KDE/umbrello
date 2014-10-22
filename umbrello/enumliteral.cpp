@@ -10,8 +10,9 @@
 
 #include "enumliteral.h"
 
-#include <kinputdialog.h>
 #include <klocale.h>
+
+#include <QInputDialog>
 
 /**
  * Sets up an enum literal.
@@ -101,7 +102,10 @@ bool UMLEnumLiteral::load(QDomElement& element)
 bool UMLEnumLiteral::showPropertiesDialog(QWidget* parent)
 {
     bool ok;
-    QString enumName = KInputDialog::getText(i18nc("enum name", "Name"), i18n("Enter name:"), name(), &ok, parent);
+    QString enumName = QInputDialog::getText(parent,
+                                             i18nc("enum name", "Name"), i18n("Enter name:"),
+                                             QLineEdit::Normal,
+                                             name(), &ok);
     if (ok && !enumName.isEmpty())  {
         setName(enumName);
         return true;

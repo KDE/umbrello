@@ -23,9 +23,9 @@
 // kde includes
 #include <klocale.h>
 #include <kcolordialog.h>
-#include <kinputdialog.h>
 
 // qt includes
+#include <QInputDialog>
 #include <QPainter>
 
 NoteWidget * NoteWidget::s_pCurrentNote;
@@ -184,8 +184,9 @@ void NoteWidget::askForNoteType(UMLWidget* &targetWidget)
                                                   << i18n("Postcondition")
                                                   << i18n("Transformation");
     bool pressedOK = false;
-    QString type = KInputDialog::getItem (i18n("Note Type"), i18n("Select the Note Type"), list,
-                                          0, false, &pressedOK, UMLApp::app());
+    QString type = QInputDialog::getItem (UMLApp::app(),
+                                          i18n("Note Type"), i18n("Select the Note Type"), list,
+                                          0, false, &pressedOK);
 
     if (pressedOK) {
         dynamic_cast<NoteWidget*>(targetWidget)->setNoteType(type);

@@ -75,11 +75,11 @@
 #include <kmessagebox.h>
 #include <kcursor.h>
 #include <kfiledialog.h>
-#include <kinputdialog.h>
 #include <klocale.h>
 
 // include files for Qt
 #include <QColor>
+#include <QInputDialog>
 #include <QPainter>
 #include <QPixmap>
 #include <QPrinter>
@@ -3042,9 +3042,12 @@ void UMLScene::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_State:
         {
             bool ok = false;
-            QString name = KInputDialog::getText(i18n("Enter State Name"),
+            QString name = QInputDialog::getText(UMLApp::app(),
+                                                 i18n("Enter State Name"),
                                                  i18n("Enter the name of the new state:"),
-                                                 i18n("new state"), &ok, UMLApp::app());
+                                                 QLineEdit::Normal,
+                                                 i18n("new state"),
+                                                 &ok);
             if (ok) {
                 StateWidget* state = new StateWidget(this);
                 state->setName(name);
@@ -3077,9 +3080,12 @@ void UMLScene::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Activity:
         {
             bool ok = false;
-            QString name = KInputDialog::getText(i18n("Enter Activity Name"),
+            QString name = QInputDialog::getText(UMLApp::app(),
+                                                 i18n("Enter Activity Name"),
                                                  i18n("Enter the name of the new activity:"),
-                                                 i18n("new activity"), &ok, UMLApp::app());
+                                                 QLineEdit::Normal,
+                                                 i18n("new activity"),
+                                                 &ok);
             if (ok) {
                 ActivityWidget* activity = new ActivityWidget(this, ActivityWidget::Normal);
                 activity->setName(name);
@@ -3115,9 +3121,12 @@ void UMLScene::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Rename:
         {
             bool ok = false;
-            QString newName = KInputDialog::getText(i18n("Enter Diagram Name"),
+            QString newName = QInputDialog::getText(UMLApp::app(),
+                                                    i18n("Enter Diagram Name"),
                                                     i18n("Enter the new name of the diagram:"),
-                                                    name(), &ok, UMLApp::app());
+                                                    QLineEdit::Normal,
+                                                    name(),
+                                                    &ok);
             if (ok) {
                 setName(newName);
                 m_doc->signalDiagramRenamed(activeView());

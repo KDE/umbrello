@@ -19,10 +19,10 @@
 #include "activitywidget.h"
 
 // kde includes
-#include <kinputdialog.h>
 #include <klocale.h>
 
 // qt includes
+#include <QInputDialog>
 #include <QPainter>
 
 DEBUG_REGISTER_DISABLED(PinWidget)
@@ -74,8 +74,10 @@ void PinWidget::slotMenuSelection(QAction* action)
         {
             bool ok = false;
             QString name = m_Text;
-            name = KInputDialog::getText(i18n("Enter Pin Name"),
+            name = QInputDialog::getText(Q_NULLPTR,
+                                         i18n("Enter Pin Name"),
                                          i18n("Enter the pin name :"),
+                                         QLineEdit::Normal,
                                          m_Text, &ok);
             if (ok) {
                 setName(name);

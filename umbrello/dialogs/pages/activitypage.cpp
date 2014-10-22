@@ -15,13 +15,13 @@
 #include "statewidget.h"
 #include "uml.h"
 
-#include <kinputdialog.h>
 #include <klocale.h>
 
 #include <QDialogButtonBox>
 #include <QHBoxLayout>
 #include <QGridLayout>
 #include <QGroupBox>
+#include <QInputDialog>
 #include <QLayout>
 #include <QPushButton>
 #include <QStringList>
@@ -172,8 +172,11 @@ void ActivityPage::slotMenuSelection(QAction* action)
 void ActivityPage::slotNewActivity()
 {
     bool ok = false;
-    QString name = KInputDialog::getText(i18n("New Activity"),
-        i18n("Enter the name of the new activity:"), i18n("new activity"), &ok, UMLApp::app());
+    QString name = QInputDialog::getText(UMLApp::app(),
+                                         i18n("New Activity"),
+                                         i18n("Enter the name of the new activity:"),
+                                         QLineEdit::Normal,
+                                         i18n("new activity"), &ok);
     if (ok && name.length() > 0) {
         m_pActivityLW->addItem(name);
         m_pActivityLW->setCurrentRow(m_pActivityLW->count() - 1);
@@ -195,7 +198,11 @@ void ActivityPage::slotRename()
     bool ok = false;
     QString name = m_pActivityLW->currentItem()->text();
     QString oldName = name;
-    name = KInputDialog::getText(i18n("Rename Activity"), i18n("Enter the new name of the activity:"), name, &ok, UMLApp::app());
+    name = QInputDialog::getText(UMLApp::app(),
+                                 i18n("Rename Activity"),
+                                 i18n("Enter the new name of the activity:"),
+                                 QLineEdit::Normal,
+                                 name, &ok);
     if (ok && name.length() > 0) {
         QListWidgetItem* item = m_pActivityLW->currentItem();
         item->setText(name);

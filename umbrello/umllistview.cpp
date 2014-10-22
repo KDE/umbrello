@@ -63,7 +63,6 @@
 #include <kfiledialog.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kinputdialog.h>
 #include <kapplication.h>
 
 // qt includes
@@ -71,6 +70,7 @@
 #include <QDropEvent>
 #include <QEvent>
 #include <QFocusEvent>
+#include <QInputDialog>
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QPointer>
@@ -555,9 +555,11 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
     case ListPopupMenu::mt_Model:
         {
             bool ok = false;
-            QString name = KInputDialog::getText(i18n("Enter Model Name"),
+            QString name = QInputDialog::getText(UMLApp::app(),
+                                                 i18n("Enter Model Name"),
                                                  i18n("Enter the new name of the model:"),
-                                                 m_doc->name(), &ok, UMLApp::app());
+                                                 QLineEdit::Normal,
+                                                 m_doc->name(), &ok);
             if (ok) {
                 setTitle(0, name);
                 m_doc->setName(name);

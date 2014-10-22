@@ -24,9 +24,9 @@
 
 // kde includes
 #include <klocale.h>
-#include <kinputdialog.h>
 
 // qt includes
+#include <QInputDialog>
 #include <QPointer>
 
 /**
@@ -480,9 +480,11 @@ void StateWidget::slotMenuSelection(QAction* action)
     ListPopupMenu::MenuType sel = ListPopupMenu::typeFromAction(action);
     switch(sel) {
     case ListPopupMenu::mt_Rename:
-        nameNew = KInputDialog::getText(i18n("Enter State Name"),
-                                         i18n("Enter the name of the new state:"),
-                                         name(), &ok);
+        nameNew = QInputDialog::getText(Q_NULLPTR,
+                                        i18n("Enter State Name"),
+                                        i18n("Enter the name of the new state:"),
+                                        QLineEdit::Normal,
+                                        name(), &ok);
         if (ok && nameNew.length() > 0) {
             setName(nameNew);
         }
@@ -493,9 +495,11 @@ void StateWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_New_Activity:
-        nameNew = KInputDialog::getText(i18n("Enter Activity"),
-                                         i18n("Enter the name of the new activity:"),
-                                         i18n("new activity"), &ok);
+        nameNew = QInputDialog::getText(Q_NULLPTR,
+                                        i18n("Enter Activity"),
+                                        i18n("Enter the name of the new activity:"),
+                                        QLineEdit::Normal,
+                                        i18n("new activity"), &ok);
         if (ok && nameNew.length() > 0) {
             addActivity(nameNew);
         }

@@ -24,10 +24,10 @@
 
 // kde includes
 #include <klocale.h>
-#include <kinputdialog.h>
 #include <kdialog.h>
 
 // qt includes
+#include <QInputDialog>
 #include <QPainter>
 #include <QPointer>
 
@@ -234,9 +234,11 @@ void ObjectNodeWidget::slotMenuSelection(QAction* action)
         {
             bool ok = false;
             QString text = name();
-            text = KInputDialog::getText(i18n("Enter Object Node Name"),
-                                          i18n("Enter the name of the object node :"),
-                                          name(), &ok);
+            text = QInputDialog::getText(Q_NULLPTR,
+                                         i18n("Enter Object Node Name"),
+                                         i18n("Enter the name of the object node :"),
+                                         QLineEdit::Normal,
+                                         name(), &ok);
             if (ok && !text.isEmpty()) {
                 setName(text);
             }
@@ -308,7 +310,9 @@ void ObjectNodeWidget::askForObjectNodeType(UMLWidget* &targetWidget)
                              << QLatin1String("Data store")
                              << QLatin1String("Object Flow");
 
-    QString type = KInputDialog::getItem (i18n("Select Object node type"),  i18n("Select the object node type"), list, current, false, &pressedOK, UMLApp::app());
+    QString type = QInputDialog::getItem (UMLApp::app(),
+                                          i18n("Select Object node type"),  i18n("Select the object node type"),
+                                          list, current, false, &pressedOK);
 
     if (pressedOK) {
         dynamic_cast<ObjectNodeWidget*>(targetWidget)->setObjectNodeType(type);
@@ -334,7 +338,10 @@ void ObjectNodeWidget::askForObjectNodeType(UMLWidget* &targetWidget)
 void ObjectNodeWidget::askStateForWidget()
 {
     bool pressedOK = false;
-    QString state = KInputDialog::getText(i18n("Enter Object Flow State"), i18n("Enter State (keep '-' if there is no state for the object) "), i18n("-"), &pressedOK, UMLApp::app());
+    QString state = QInputDialog::getText(UMLApp::app(),
+                                          i18n("Enter Object Flow State"), i18n("Enter State (keep '-' if there is no state for the object) "),
+                                          QLineEdit::Normal,
+                                          i18n("-"), &pressedOK);
 
     if (pressedOK) {
         setState(state);

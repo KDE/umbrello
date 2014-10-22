@@ -23,10 +23,11 @@
 
 // kde includes
 #include <klocale.h>
-#include <kinputdialog.h>
 
 // qt includes
+#include <QInputDialog>
 #include <QPointer>
+
 /**
  * Creates a Activity widget.
  *
@@ -369,8 +370,10 @@ void ActivityWidget::slotMenuSelection(QAction* action)
         {
             bool ok = false;
             QString n = name();
-            n = KInputDialog::getText(i18n("Enter Activity Name"),
+            n = QInputDialog::getText(Q_NULLPTR,
+                                      i18n("Enter Activity Name"),
                                       i18n("Enter the name of the new activity:"),
+                                      QLineEdit::Normal,
                                       n, &ok);
             if (ok && !n.isEmpty()) {
                 setName(n);

@@ -32,10 +32,10 @@
 
 // kde includes
 #include <kfontdialog.h>
-#include <kinputdialog.h>
 #include <klocale.h>
 
 // qt includes
+#include <QInputDialog>
 #include <QPointer>
 #include <QRegExp>
 #include <QPainter>
@@ -202,7 +202,10 @@ void FloatingTextWidget::setTextcmd(const QString &t)
 void FloatingTextWidget::showChangeTextDialog()
 {
     bool ok = false;
-    QString newText = KInputDialog::getText(i18n("Change Text"), i18n("Enter new text:"), text(), &ok, m_scene->activeView());
+    QString newText = QInputDialog::getText(m_scene->activeView(),
+                                            i18n("Change Text"), i18n("Enter new text:"),
+                                            QLineEdit::Normal,
+                                            text(), &ok);
 
     if (ok && newText != text() && isTextValid(newText)) {
         setText(newText);
@@ -406,7 +409,10 @@ void FloatingTextWidget::handleRename()
         t = i18n("ERROR");
     }
     bool ok = false;
-    QString newText = KInputDialog::getText(i18n("Rename"), t, text(), &ok, m_scene->activeView(), &v);
+    QString newText = QInputDialog::getText(m_scene->activeView(),
+                                            i18n("Rename"), t,
+                                            QLineEdit::Normal,
+                                            text(), &ok);       //FIXME KF5  ", &v);"
     if (!ok || newText == text()) {
         return;
     }
@@ -757,9 +763,11 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
             UMLClassifier* c = m_linkWidget->operationOwner();
             if (c == 0) {
                 bool ok = false;
-                QString opText = KInputDialog::getText(i18nc("operation name", "Name"),
+                QString opText = QInputDialog::getText(m_scene->activeView(),
+                                                       i18nc("operation name", "Name"),
                                                        i18n("Enter operation name:"),
-                                                       text(), &ok, m_scene->activeView());
+                                                       QLineEdit::Normal,
+                                                       text(), &ok);
                 if (ok)
                     m_linkWidget->setCustomOpText(opText);
                 return;

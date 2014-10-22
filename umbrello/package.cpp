@@ -23,8 +23,10 @@
 
 // kde includes
 #include <klocale.h>
-#include <kinputdialog.h>
 #include <kmessagebox.h>
+
+// qt includes
+#include <QInputDialog>
 
 using namespace Uml;
 
@@ -163,9 +165,11 @@ bool UMLPackage::addObject(UMLObject *pObject)
          QString prevName = name;
          name = Model_Utils::uniqObjectName(pObject->baseType(), this);
          bool ok = true;
-         name = KInputDialog::getText(i18nc("object name", "Name"),
+         name = QInputDialog::getText((QWidget*)UMLApp::app(),
+                                      i18nc("object name", "Name"),
                                       i18n("An object with the name %1\nalready exists in the package %2.\nPlease enter a new name:", prevName, this->name()),
-                                      name, &ok, (QWidget*)UMLApp::app());
+                                      QLineEdit::Normal,
+                                      name, &ok);
          if (!ok) {
             name = oldName;
             continue;

@@ -18,7 +18,9 @@
 
 // kde includes
 #include <klocale.h>
-#include <kinputdialog.h>
+
+// qt includes
+#include <QInputDialog>
 
 
 /**
@@ -108,7 +110,10 @@ void UMLStereotype::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 bool UMLStereotype::showPropertiesDialog(QWidget* parent)
 {
     bool ok;
-    QString stereoTypeName = KInputDialog::getText(i18n("Stereotype"), i18n("Enter name:"), name(), &ok, parent);
+    QString stereoTypeName = QInputDialog::getText(parent,
+                                                   i18n("Stereotype"), i18n("Enter name:"),
+                                                   QLineEdit::Normal,
+                                                   name(), &ok);
     if (ok) {
         setName(stereoTypeName);
     }

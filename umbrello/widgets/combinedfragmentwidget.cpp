@@ -21,10 +21,11 @@
 #include "umlview.h"
 
 // kde includes
-#include <klocale.h>
 #include <kinputdialog.h>
+#include <klocale.h>
 
 // qt includes
+#include <QInputDialog>
 #include <QPainter>
 #include <QString>
 
@@ -404,13 +405,22 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
             QString name = m_Text;
 
             if (m_CombinedFragment == Alt) {
-                name = KInputDialog::getText(i18n("Enter first alternative"), i18n("Enter first alternative :"), m_Text, &ok);
+                name = QInputDialog::getText(Q_NULLPTR,
+                                             i18n("Enter first alternative"), i18n("Enter first alternative :"),
+                                             QLineEdit::Normal,
+                                             m_Text, &ok);
             }
             else if (m_CombinedFragment == Ref) {
-            name = KInputDialog::getText(i18n("Enter referenced diagram name"), i18n("Enter referenced diagram name :"), m_Text, &ok);
+            name = QInputDialog::getText(Q_NULLPTR,
+                                         i18n("Enter referenced diagram name"), i18n("Enter referenced diagram name :"),
+                                         QLineEdit::Normal,
+                                         m_Text, &ok);
             }
             else if (m_CombinedFragment == Loop) {
-            name = KInputDialog::getText(i18n("Enter the guard of the loop"), i18n("Enter the guard of the loop:"), m_Text, &ok);
+            name = QInputDialog::getText(Q_NULLPTR,
+                                         i18n("Enter the guard of the loop"), i18n("Enter the guard of the loop:"),
+                                         QLineEdit::Normal,
+                                         m_Text, &ok);
             }
             if (ok && name.length() > 0)
                 m_Text = name;

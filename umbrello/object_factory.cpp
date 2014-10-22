@@ -44,10 +44,10 @@
 // kde includes
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kinputdialog.h>
 
 // qt includes
 #include <QApplication>
+#include <QInputDialog>
 #include <QRegExp>
 #include <QStringList>
 
@@ -233,7 +233,10 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
 
     bool ok = false;
     while (bValidNameEntered == false) {
-        name = KInputDialog::getText(i18nc("UMLObject name", "Name"), i18n("Enter name:"), name, &ok, (QWidget*)UMLApp::app());
+        name = QInputDialog::getText(UMLApp::app(),
+                                     i18nc("UMLObject name", "Name"), i18n("Enter name:"),
+                                     QLineEdit::Normal,
+                                     name, &ok);
         if (!ok) {
             return 0;
         }
