@@ -133,7 +133,7 @@ UMLApp::UMLApp(QWidget* parent)
     m_codegen(0),
     m_commoncodegenpolicy(new CodeGenerationPolicy()),
     m_policyext(0),
-    m_config(KGlobal::config()),
+    m_config(KSharedConfig::openConfig()),
     m_view(0),
     m_doc(new UMLDoc()),
     m_listView(0),
