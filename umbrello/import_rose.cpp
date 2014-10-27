@@ -313,6 +313,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
         QString name;
         if (nt == PetalNode::nt_object && !stringOrNodeOpener.contains(QRegExp(QLatin1String("^[A-Za-z]")))) {
             uError() << loc() << "unexpected line " << line;
+            delete node;
             return NULL;
         }
         PetalNode::StringOrNode value;
@@ -354,8 +355,10 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
                 value.string = extractValue(tokens, stream);
             } else {
                 value.node = readAttributes(tokens, stream);
-                if (value.node == NULL)
+                if (value.node == NULL) {
+                    delete node;
                     return NULL;
+                }
             }
             PetalNode::NameValue attr(name, value);
             attrs.append(attr);
