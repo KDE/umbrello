@@ -18,7 +18,6 @@
 
 // kde includes
 #include <kdialog.h>
-#include <kglobal.h>
 #include <ktexteditor/configinterface.h>
 #include <ktexteditor/document.h>
 #include <ktexteditor/editor.h>

@@ -10,8 +10,6 @@
 
 #include "optionstate.h"
 
-#include <kglobal.h>
-
 namespace Settings {
 
     /*
@@ -20,7 +18,7 @@ namespace Settings {
      * which occurs due to creation of QFont objects before
      * QApplication object is created.
      */
-    K_GLOBAL_STATIC(OptionState, opState)
+    Q_GLOBAL_STATIC(OptionState, opState)
 
     OptionState& optionState()
     {

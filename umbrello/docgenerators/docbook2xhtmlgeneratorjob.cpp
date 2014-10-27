@@ -25,7 +25,6 @@
 #include <libxslt/transform.h>
 #include <libxslt/xsltutils.h>
 
-#include <kglobal.h>
 #include <klocale.h>
 
 #include <QStandardPaths>
