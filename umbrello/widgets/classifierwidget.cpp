@@ -819,8 +819,8 @@ void ClassifierWidget::drawAsCircle(QPainter *painter, const QStyleOptionGraphic
 {
     const int w = width();
 
-    painter->drawEllipse(w/2 - CIRCLE_SIZE/2, SOCKET_INCREMENT / 2, CIRCLE_SIZE, CIRCLE_SIZE);
     if (m_Assocs.size() > 1) {
+        painter->drawEllipse(w/2 - CIRCLE_SIZE/2, SOCKET_INCREMENT / 2, CIRCLE_SIZE, CIRCLE_SIZE);
         // Draw socket for required interface.
         const qreal angleSpan = 180;   // 360.0 / (m_Assocs.size() + 1.0);
         const int arcDiameter = CIRCLE_SIZE + SOCKET_INCREMENT;
@@ -876,6 +876,8 @@ void ClassifierWidget::drawAsCircle(QPainter *painter, const QStyleOptionGraphic
             }
         }
     }
+    else
+        painter->drawEllipse(w/2 - CIRCLE_SIZE/2, 0, CIRCLE_SIZE, CIRCLE_SIZE);
 
     UMLWidget::paint(painter, option);
 }
