@@ -65,3 +65,5 @@ if(LIBXSLT_FOUND AND LIBXML2_FOUND)
         add_subdirectory(unittests)
     endif(KDE4_BUILD_TESTS)
 endif(LIBXSLT_FOUND AND LIBXML2_FOUND)
+
+add_subdirectory(tools)
