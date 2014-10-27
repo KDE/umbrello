@@ -1,32 +1,65 @@
 #!/bin/sh
 #
 # create language specific screenshots
-# 
-# author Ralf Habacker
 #
-export DISPLAY=:1
+#
+# requirements:
+# - xvfb (opensuse:xorg-x11-server package) or
+# - xvnc (opensuse:xorg-x11-xvnc package)
+# - umbrello compiled from git master or 14.12 branch (need support for --show-diagram command line option)
+# - did run maintainer/create-screenshots.xmi to create doc/screenshots-$lang.xmi
+#
+# run this script from umbrello source root dir
+#
+# author: Ralf Habacker <ralf.habacker@freenet.de>
+#
+function startX {
+	Xvnc $DISPLAY -screen 0 $SCREEN\x$SCREENDEPTH -securitytypes None &
+	#Xvfb $DISPLAY -screen 0 $SCREEN\x$SCREENDEPTH &
+	vfb_pid=$!
+}
+
+function stopX {
+	kill -s KILL $xvfb_pid
+}
+
+langs="de"
+
+export DISPLAY=:8
 UMBRELLO=../umbrello-build/umbrello/umbrello
-XMIFILE=doc/screenshots-de.xmi
+
 SCREEN=1024x530
 SCREENDEPTH=24
-DIAGRAMS=" activity-diagram class-diagram collaboration-diagram entity-relationship-diagram state-diagram sequence-diagram use-case-diagram"
+DIAGRAMS="activity-diagram class-diagram collaboration-diagram entity-relationship-diagram state-diagram sequence-diagram use-case-diagram"
 
-Xvfb :1 -screen 0 $SCREEN\x$SCREENDEPTH &
-xvfb_pid=$!
+startX
+
+# make temp dir
 TMPDIR=/tmp/umbrello
 if ! test -d $TMPDIR; then
     mkdir -p $TMPDIR
 else
     rm -rf $TMPDIR/*
 fi
-$UMBRELLO $XMIFILE --export png -directory $TMPDIR
-for i in `echo $DIAGRAMS`; do
-    $UMBRELLO $XMIFILE --geometry $SCREEN+0+0 --show-diagram $i &
-    umbrello_pid=$!
-    sleep 5
-    xwd -root | convert - $TMPDIR/umbrello-$i-$SCREEN.jpg
-    kill -s KILL $umbrello_pid
+
+for lang in `echo $langs`; do
+	if ! test -d $TMPDIR/$lang; then
+		mkdir -p $TMPDIR/$lang
+	fi
+	# export ???
+	XMIFILE=doc/screenshots-$lang.xmi
+	$UMBRELLO $XMIFILE --export png -directory $TMPDIR/$lang
+	for i in `echo $DIAGRAMS`; do
+		# export diagrams
+		$UMBRELLO $XMIFILE --geometry $SCREEN+0+0 --show-diagram $i &
+		umbrello_pid=$!
+		sleep 5
+		xwd -root | convert - $TMPDIR/$lang/umbrello-$i-$SCREEN.jpg
+		kill -s KILL $umbrello_pid
+	done
 done
-kill -s KILL $xvfb_pid
 
+stopX
 
+echo "Move images from $TMPDIR/$lang to the target location."
+#rm -rf $TMPDIR
