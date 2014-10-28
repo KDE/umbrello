@@ -1,0 +1,22 @@
+#!/bin/sh
+#
+# generate language specifix screenshots-xx.xmi files
+#
+# author: Ralf Habacker <ralf.habacker@freenet.de>
+#
+_s=$(readlink -f $0)
+_p=$(dirname $_s)
+root=$(dirname $_p)
+
+docdir=$root/doc
+langs="de"
+
+xmi2pot $docdir/screenshots.xmi > $docdir/screenshots.pot
+for lang in `echo $langs`; do
+    cp $docdir/screenshots-$lang.po $docdir/screenshots-$lang.po.bak
+    msgmerge $docdir/screenshots-$lang.po.bak $docdir/screenshots.pot > $docdir/screenshots-$lang.po
+    po2xmi $docdir/screenshots.xmi $docdir/screenshots-$lang.po > $docdir/screenshots-$lang.xmi
+done
+
+
+
