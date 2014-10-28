@@ -1,0 +1,838 @@
+# SOME DESCRIPTIVE TITLE.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-04-29 20:36+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: floatingtext:text floatingtext:text floatingtext:text floatingtext:text
+#: screenshots.xmi:693 screenshots.xmi:702 screenshots.xmi:726 screenshots.xmi:727
+#, no-c-format
+msgid "*"
+msgstr ""
+
+#. Tag: floatingtext:text
+#: screenshots.xmi:189
+#, no-c-format
+msgid "0..*"
+msgstr ""
+
+#. Tag: floatingtext:text floatingtext:text floatingtext:text floatingtext:text floatingtext:text
+#: screenshots.xmi:188 screenshots.xmi:692 screenshots.xmi:701 screenshots.xmi:710 screenshots.xmi:718
+#, no-c-format
+msgid "1"
+msgstr ""
+
+#. Tag: EntityAttribute:name
+#: screenshots.xmi:624
+#, no-c-format
+msgid "AccNo"
+msgstr ""
+
+#. Tag: Entity:name
+#: screenshots.xmi:623
+#, no-c-format
+msgid "Account"
+msgstr ""
+
+#. Tag: activitywidget:activityname activitywidget:activityname
+#: screenshots.xmi:271 screenshots.xmi:277
+#, no-c-format
+msgid "Activity"
+msgstr ""
+
+#. Tag: diagram:name listitem:label
+#: screenshots.xmi:268 screenshots.xmi:772
+#, no-c-format
+msgid "Activity Diagram"
+msgstr ""
+
+#. Tag: EntityAttribute:name EntityAttribute:name EntityAttribute:name
+#: screenshots.xmi:621 screenshots.xmi:629 screenshots.xmi:659
+#, no-c-format
+msgid "Address"
+msgstr ""
+
+#. Tag: EntityAttribute:name
+#: screenshots.xmi:634
+#, no-c-format
+msgid "Amount"
+msgstr ""
+
+#. Tag: EntityAttribute:name
+#: screenshots.xmi:625
+#, no-c-format
+msgid "Balance"
+msgstr ""
+
+#. Tag: Entity:name
+#: screenshots.xmi:618
+#, no-c-format
+msgid "Bank"
+msgstr ""
+
+#. Tag: Entity:name
+#: screenshots.xmi:628
+#, no-c-format
+msgid "Bank-Branch"
+msgstr ""
+
+#. Tag: Class:name
+#: screenshots.xmi:56
+#, no-c-format
+msgid "Body"
+msgstr ""
+
+#. Tag: UseCase:name
+#: screenshots.xmi:490
+#, no-c-format
+msgid "Book flight"
+msgstr ""
+
+#. Tag: UseCase:name
+#: screenshots.xmi:491
+#, no-c-format
+msgid "Book flight at Travel Agency"
+msgstr ""
+
+#. Tag: UseCase:name
+#: screenshots.xmi:489
+#, no-c-format
+msgid "Book flight via phone"
+msgstr ""
+
+#. Tag: EntityAttribute:name
+#: screenshots.xmi:630
+#, no-c-format
+msgid "BranchNo"
+msgstr ""
+
+#. Tag: floatingtext:text
+#: screenshots.xmi:272
+#, no-c-format
+msgid "Business Process: Make Reservation"
+msgstr ""
+
+#. Tag: Actor:name
+#: screenshots.xmi:487
+#, no-c-format
+msgid "Call center agent"
+msgstr ""
+
+#. Tag: activitywidget:activityname
+#: screenshots.xmi:270
+#, no-c-format
+msgid "Check available space"
+msgstr ""
+
+#. Tag: diagram:name listitem:label
+#: screenshots.xmi:160 screenshots.xmi:774
+#, no-c-format
+msgid "Class Diagram"
+msgstr ""
+
+#. Tag: EntityAttribute:name
+#: screenshots.xmi:619
+#, no-c-format
+msgid "Code"
+msgstr ""
+
+#. Tag: diagram:name listitem:label
+#: screenshots.xmi:400 screenshots.xmi:775
+#, no-c-format
+msgid "Collaboration Diagram"
+msgstr ""
+
+#. Tag: Model:name
+#: screenshots.xmi:610
+#, no-c-format
+msgid "Component View"
+msgstr ""
+
+#. Tag: activitywidget:activityname
+#: screenshots.xmi:275
+#, no-c-format
+msgid "Confirm reservation to customer"
+msgstr ""
+
+#. Tag: Actor:name Entity:name
+#: screenshots.xmi:488 screenshots.xmi:655
+#, no-c-format
+msgid "Customer"
+msgstr ""
+
+#. Tag: Package:name
+#: screenshots.xmi:18
+#, no-c-format
+msgid "Datatypes"
+msgstr ""
+
+#. Tag: Model:name
+#: screenshots.xmi:613
+#, no-c-format
+msgid "Deployment View"
+msgstr ""
+
+#. Tag: floatingtext:text
+#: screenshots.xmi:264
+#, no-c-format
+msgid "Destroy"
+msgstr ""
+
+#. Tag: Class:name
+#: screenshots.xmi:116
+#, no-c-format
+msgid "Dispatcher"
+msgstr ""
+
+#. Tag: diagram:name listitem:label
+#: screenshots.xmi:676 screenshots.xmi:764
+#, no-c-format
+msgid "Entity Relationship Diagram"
+msgstr ""
+
+#. Tag: Model:name
+#: screenshots.xmi:616
+#, no-c-format
+msgid "Entity Relationship Model"
+msgstr ""
+
+#. Tag: Actor:name
+#: screenshots.xmi:486
+#, no-c-format
+msgid "Flight booker"
+msgstr ""
+
+#. Tag: Class:name
+#: screenshots.xmi:39
+#, no-c-format
+msgid "Header"
+msgstr ""
+
+#. Tag: activitywidget:activityname
+#: screenshots.xmi:273
+#, no-c-format
+msgid "Identify customer"
+msgstr ""
+
+#. Tag: notewidget:text
+#: screenshots.xmi:274
+#, no-c-format
+msgid "If not existing Customer, first go to \"Register Customer\""
+msgstr ""
+
+#. Tag: Association:name floatingtext:text
+#: screenshots.xmi:69 screenshots.xmi:187
+#, no-c-format
+msgid "Incoming requests"
+msgstr ""
+
+#. Tag: floatingtext:text
+#: screenshots.xmi:228
+#, no-c-format
+msgid "Listen"
+msgstr ""
+
+#. Tag: statewidget:statename
+#: screenshots.xmi:210
+#, no-c-format
+msgid "Listening"
+msgstr ""
+
+#. Tag: Operation:name
+#: screenshots.xmi:77
+#, no-c-format
+msgid "LoadWorker"
+msgstr ""
+
+#. Tag: floatingtext:text floatingtext:text
+#: screenshots.xmi:392 screenshots.xmi:449
+#, no-c-format
+msgid "LoadWorker(job : Transaction) : Worker"
+msgstr ""
+
+#. Tag: Entity:name
+#: screenshots.xmi:632
+#, no-c-format
+msgid "Loan"
+msgstr ""
+
+#. Tag: EntityAttribute:name
+#: screenshots.xmi:633
+#, no-c-format
+msgid "LoanNo"
+msgstr ""
+
+#. Tag: Model:name
+#: screenshots.xmi:16
+#, no-c-format
+msgid "Logical View"
+msgstr ""
+
+#. Tag: Class:name
+#: screenshots.xmi:102
+#, no-c-format
+msgid "Map"
+msgstr ""
+
+#. Tag: EntityAttribute:name EntityAttribute:name
+#: screenshots.xmi:620 screenshots.xmi:658
+#, no-c-format
+msgid "Name"
+msgstr ""
+
+#. Tag: EntityAttribute:name
+#: screenshots.xmi:657
+#, no-c-format
+msgid "Phone"
+msgstr ""
+
+#. Tag: floatingtext:text
+#: screenshots.xmi:351
+#, no-c-format
+msgid "Process successfull finished"
+msgstr ""
+
+#. Tag: floatingtext:text
+#: screenshots.xmi:242
+#, no-c-format
+msgid "Processing done"
+msgstr ""
+
+#. Tag: Class:name
+#: screenshots.xmi:91
+#, no-c-format
+msgid "Queue"
+msgstr ""
+
+#. Tag: statewidget:statename
+#: screenshots.xmi:207
+#, no-c-format
+msgid "Ready"
+msgstr ""
+
+#. Tag: Class:name
+#: screenshots.xmi:122
+#, no-c-format
+msgid "ReceiverThread"
+msgstr ""
+
+#. Tag: Class:name
+#: screenshots.xmi:54
+#, no-c-format
+msgid "Request"
+msgstr ""
+
+#. Tag: floatingtext:text
+#: screenshots.xmi:235
+#, no-c-format
+msgid "Request arrived"
+msgstr ""
+
+#. Tag: Class:name
+#: screenshots.xmi:34
+#, no-c-format
+msgid "Requests:Queue"
+msgstr ""
+
+#. Tag: floatingtext:text
+#: screenshots.xmi:344
+#, no-c-format
+msgid "Reservation canceled"
+msgstr ""
+
+#. Tag: activitywidget:activityname
+#: screenshots.xmi:276
+#, no-c-format
+msgid "Reserve"
+msgstr ""
+
+#. Tag: EntityAttribute:name
+#: screenshots.xmi:656
+#, no-c-format
+msgid "SSN"
+msgstr ""
+
+#. Tag: Class:name
+#: screenshots.xmi:138
+#, no-c-format
+msgid "SecurityServer"
+msgstr ""
+
+#. Tag: Class:name
+#: screenshots.xmi:117
+#, no-c-format
+msgid "SenderThread"
+msgstr ""
+
+#. Tag: diagram:name listitem:label
+#: screenshots.xmi:377 screenshots.xmi:820
+#, no-c-format
+msgid "Sequence Diagram"
+msgstr ""
+
+#. Tag: Class:name
+#: screenshots.xmi:55
+#, no-c-format
+msgid "Server"
+msgstr ""
+
+#. Tag: floatingtext:text
+#: screenshots.xmi:221
+#, no-c-format
+msgid "Start"
+msgstr ""
+
+#. Tag: statewidget:statename statewidget:statename
+#: screenshots.xmi:195 screenshots.xmi:204
+#, no-c-format
+msgid "State"
+msgstr ""
+
+#. Tag: diagram:name listitem:label
+#: screenshots.xmi:193 screenshots.xmi:822
+#, no-c-format
+msgid "State Diagram"
+msgstr ""
+
+#. Tag: floatingtext:text floatingtext:text
+#: screenshots.xmi:249 screenshots.xmi:257
+#, no-c-format
+msgid "Stop"
+msgstr ""
+
+#. Tag: statewidget:statename
+#: screenshots.xmi:198
+#, no-c-format
+msgid "Stopped"
+msgstr ""
+
+#. Tag: Class:name
+#: screenshots.xmi:127
+#, no-c-format
+msgid "TCPServer"
+msgstr ""
+
+#. Tag: activitywidget:activityname
+#: screenshots.xmi:278
+#, no-c-format
+msgid "Take reservation wish"
+msgstr ""
+
+#. Tag: Class:name
+#: screenshots.xmi:90
+#, no-c-format
+msgid "Transaction"
+msgstr ""
+
+#. Tag: Class:name EntityAttribute:name EntityAttribute:name
+#: screenshots.xmi:154 screenshots.xmi:626 screenshots.xmi:635
+#, no-c-format
+msgid "Type"
+msgstr ""
+
+#. Tag: Model:name
+#: screenshots.xmi:12
+#, no-c-format
+msgid "UML-Modell"
+msgstr ""
+
+#. Tag: diagram:name listitem:label
+#: screenshots.xmi:543 screenshots.xmi:849
+#, no-c-format
+msgid "Use Case Diagram"
+msgstr ""
+
+#. Tag: Model:name
+#: screenshots.xmi:484
+#, no-c-format
+msgid "Use Case View"
+msgstr ""
+
+#. Tag: Class:name
+#: screenshots.xmi:85
+#, no-c-format
+msgid "Worker"
+msgstr ""
+
+#. Tag: Class:name
+#: screenshots.xmi:75
+#, no-c-format
+msgid "WorkerManager"
+msgstr ""
+
+#. Tag: statewidget:statename
+#: screenshots.xmi:201
+#, no-c-format
+msgid "Working"
+msgstr ""
+
+#. Tag: floatingtext:text
+#: screenshots.xmi:324
+#, no-c-format
+msgid "authentification failed"
+msgstr ""
+
+#. Tag: floatingtext:text
+#: screenshots.xmi:297
+#, no-c-format
+msgid "book reservation"
+msgstr ""
+
+#. Tag: DataType:name
+#: screenshots.xmi:22
+#, no-c-format
+msgid "bool"
+msgstr ""
+
+#. Tag: Parameter:name
+#: screenshots.xmi:49
+#, no-c-format
+msgid "c"
+msgstr ""
+
+#. Tag: Operation:name
+#: screenshots.xmi:146
+#, no-c-format
+msgid "canExecute"
+msgstr ""
+
+#. Tag: floatingtext:text
+#: screenshots.xmi:477
+#, no-c-format
+msgid "canExecute(session : undef, job : undef)"
+msgstr ""
+
+#. Tag: floatingtext:text
+#: screenshots.xmi:358
+#, no-c-format
+msgid "cancel"
+msgstr ""
+
+#. Tag: DataType:name
+#: screenshots.xmi:21
+#, no-c-format
+msgid "char"
+msgstr ""
+
+#. Tag: Attribute:name
+#: screenshots.xmi:41
+#, no-c-format
+msgid "code"
+msgstr ""
+
+#. Tag: objectwidget:instancename
+#: screenshots.xmi:410
+#, no-c-format
+msgid "connections_data_in"
+msgstr ""
+
+#. Tag: floatingtext:text
+#: screenshots.xmi:316
+#, no-c-format
+msgid "customer identified"
+msgstr ""
+
+#. Tag: Stereotype:name
+#: screenshots.xmi:15
+#, no-c-format
+msgid "datatype"
+msgstr ""
+
+#. Tag: DataType:name
+#: screenshots.xmi:24
+#, no-c-format
+msgid "double"
+msgstr ""
+
+#. Tag: DataType:name
+#: screenshots.xmi:23
+#, no-c-format
+msgid "float"
+msgstr ""
+
+#. Tag: Stereotype:name
+#: screenshots.xmi:14
+#, no-c-format
+msgid "folder"
+msgstr ""
+
+#. Tag: Operation:name
+#: screenshots.xmi:42
+#, no-c-format
+msgid "getCode"
+msgstr ""
+
+#. Tag: Association:name floatingtext:text
+#: screenshots.xmi:649 screenshots.xmi:709
+#, no-c-format
+msgid "gives"
+msgstr ""
+
+#. Tag: Association:name Association:name floatingtext:text floatingtext:text
+#: screenshots.xmi:637 screenshots.xmi:643 screenshots.xmi:691 screenshots.xmi:700
+#, no-c-format
+msgid "has"
+msgstr ""
+
+#. Tag: Operation:name
+#: screenshots.xmi:109
+#, no-c-format
+msgid "hasKey"
+msgstr ""
+
+#. Tag: Association:name floatingtext:text
+#: screenshots.xmi:667 screenshots.xmi:725
+#, no-c-format
+msgid "holds"
+msgstr ""
+
+#. Tag: DataType:name
+#: screenshots.xmi:20
+#, no-c-format
+msgid "int"
+msgstr ""
+
+#. Tag: Parameter:name Parameter:name
+#: screenshots.xmi:80 screenshots.xmi:149
+#, no-c-format
+msgid "job"
+msgstr ""
+
+#. Tag: Parameter:name Parameter:name
+#: screenshots.xmi:106 screenshots.xmi:111
+#, no-c-format
+msgid "key"
+msgstr ""
+
+#. Tag: Operation:name
+#: screenshots.xmi:140
+#, no-c-format
+msgid "login"
+msgstr ""
+
+#. Tag: DataType:name
+#: screenshots.xmi:26
+#, no-c-format
+msgid "long"
+msgstr ""
+
+#. Tag: Parameter:name
+#: screenshots.xmi:96
+#, no-c-format
+msgid "m"
+msgstr ""
+
+#. Tag: Attribute:name
+#: screenshots.xmi:130
+#, no-c-format
+msgid "m_backlog"
+msgstr ""
+
+#. Tag: Attribute:name
+#: screenshots.xmi:133
+#, no-c-format
+msgid "m_name"
+msgstr ""
+
+#. Tag: Attribute:name
+#: screenshots.xmi:129
+#, no-c-format
+msgid "m_port"
+msgstr ""
+
+#. Tag: Attribute:name
+#: screenshots.xmi:132
+#, no-c-format
+msgid "m_receiver_count"
+msgstr ""
+
+#. Tag: Attribute:name
+#: screenshots.xmi:131
+#, no-c-format
+msgid "m_sender_count"
+msgstr ""
+
+#. Tag: Attribute:name
+#: screenshots.xmi:93
+#, no-c-format
+msgid "m_size"
+msgstr ""
+
+#. Tag: Class:name
+#: screenshots.xmi:156
+#, no-c-format
+msgid "new_class"
+msgstr ""
+
+#. Tag: floatingtext:text
+#: screenshots.xmi:373
+#, no-c-format
+msgid "no space available"
+msgstr ""
+
+#. Tag: floatingtext:text
+#: screenshots.xmi:331
+#, no-c-format
+msgid "ok"
+msgstr ""
+
+#. Tag: Operation:name
+#: screenshots.xmi:104
+#, no-c-format
+msgid "operator[]"
+msgstr ""
+
+#. Tag: Parameter:name
+#: screenshots.xmi:143
+#, no-c-format
+msgid "password"
+msgstr ""
+
+#. Tag: Operation:name Operation:name
+#: screenshots.xmi:36 screenshots.xmi:99
+#, no-c-format
+msgid "receive"
+msgstr ""
+
+#. Tag: floatingtext:text floatingtext:text floatingtext:text floatingtext:text
+#: screenshots.xmi:386 screenshots.xmi:428 screenshots.xmi:442 screenshots.xmi:463
+#, no-c-format
+msgid "receive()"
+msgstr ""
+
+#. Tag: objectwidget:instancename
+#: screenshots.xmi:407
+#, no-c-format
+msgid "requests"
+msgstr ""
+
+#. Tag: objectwidget:instancename
+#: screenshots.xmi:402
+#, no-c-format
+msgid "responses"
+msgstr ""
+
+#. Tag: floatingtext:text
+#: screenshots.xmi:389
+#, no-c-format
+msgid "return"
+msgstr ""
+
+#. Tag: Operation:name Operation:name
+#: screenshots.xmi:119 screenshots.xmi:124
+#, no-c-format
+msgid "run"
+msgstr ""
+
+#. Tag: Operation:name
+#: screenshots.xmi:94
+#, no-c-format
+msgid "send"
+msgstr ""
+
+#. Tag: floatingtext:text floatingtext:text floatingtext:text
+#: screenshots.xmi:421 screenshots.xmi:435 screenshots.xmi:470
+#, no-c-format
+msgid "send(m : Type)"
+msgstr ""
+
+#. Tag: Parameter:name
+#: screenshots.xmi:148
+#, no-c-format
+msgid "session"
+msgstr ""
+
+#. Tag: objectwidget:instancename
+#: screenshots.xmi:403
+#, no-c-format
+msgid "session_map"
+msgstr ""
+
+#. Tag: Operation:name
+#: screenshots.xmi:47
+#, no-c-format
+msgid "setCode"
+msgstr ""
+
+#. Tag: DataType:name
+#: screenshots.xmi:25
+#, no-c-format
+msgid "short"
+msgstr ""
+
+#. Tag: Operation:name
+#: screenshots.xmi:135
+#, no-c-format
+msgid "shutdown"
+msgstr ""
+
+#. Tag: Operation:name
+#: screenshots.xmi:134
+#, no-c-format
+msgid "start"
+msgstr ""
+
+#. Tag: DataType:name Class:name
+#: screenshots.xmi:30 screenshots.xmi:155
+#, no-c-format
+msgid "string"
+msgstr ""
+
+#. Tag: Association:name floatingtext:text
+#: screenshots.xmi:661 screenshots.xmi:717
+#, no-c-format
+msgid "takes"
+msgstr ""
+
+#. Tag: DataType:name
+#: screenshots.xmi:31
+#, no-c-format
+msgid "undef"
+msgstr ""
+
+#. Tag: DataType:name
+#: screenshots.xmi:27
+#, no-c-format
+msgid "unsigned int"
+msgstr ""
+
+#. Tag: DataType:name
+#: screenshots.xmi:29
+#, no-c-format
+msgid "unsigned long"
+msgstr ""
+
+#. Tag: DataType:name
+#: screenshots.xmi:28
+#, no-c-format
+msgid "unsigned short"
+msgstr ""
+
+#. Tag: Parameter:name
+#: screenshots.xmi:142
+#, no-c-format
+msgid "user"
+msgstr ""
+
+#. Tag: Operation:name
+#: screenshots.xmi:87
+#, no-c-format
+msgid "work"
+msgstr ""
+
+#. Tag: floatingtext:text floatingtext:text
+#: screenshots.xmi:395 screenshots.xmi:456
+#, no-c-format
+msgid "work()"
+msgstr ""
+
