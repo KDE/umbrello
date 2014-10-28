@@ -61,12 +61,6 @@ private:
     QString m_text;
 
     /**
-     * Value added to the y-coordinate of the combined fragment
-     * to obtain the y-coordinate of the dash line
-     */
-    int m_y;
-
-    /**
      * Minimum value of the Y-coordinate of the dash line
      * (= y-coordinate of the combined fragment)
      */
