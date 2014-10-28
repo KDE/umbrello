@@ -41,13 +41,6 @@ public:
     QStringList defaultDatatypes();
 
 private:
-
-    /**
-     * We do not want to write the comment "Private methods" twice
-     * not sure whether this is php specific.
-     */
-    bool bPrivateSectionCommentIsWritten;
-
     void writeOperations(UMLClassifier *c, QTextStream &perl);
     void writeOperations(const QString &classname, UMLOperationList &opList,
                          QTextStream &perl);
