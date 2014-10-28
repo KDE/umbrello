@@ -109,7 +109,8 @@ static const char *reserved_words[] = {
  * Constructor.
  */
 ValaWriter::ValaWriter()
- : SimpleCodeGenerator()
+ : SimpleCodeGenerator(),
+   m_unnamedRoles(0)
 {
 }
 
