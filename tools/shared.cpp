@@ -35,7 +35,7 @@ QDebug operator <<(QDebug out, const QXmlStreamAttribute &a)
 using namespace std;
 
 /**
- * Return list of xmi file attributes containing language informations.
+ * Return list of xmi file attributes containing language information.
  *
  * @return list of xmi element attributes
  */
@@ -53,7 +53,7 @@ QStringList XMILanguagesAttributes()
  * @param fileName file to extract attributes from
  * @param attributes List with attribute names to extract
  * @param result map with extracted results
- * @return true successfull extraction
+ * @return true successful extraction
  * @return false extraction failure
  */
 bool extractAttributesFromXMI(const char *fileName, const QStringList &attributes, POMap &result)
