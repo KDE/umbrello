@@ -15,7 +15,6 @@
 #include <iostream>
 #include <qfileinfo.h>
 #include <qdatetime.h>
-#include <qdatetime.h>
 
 #include <QStringList>
 #include <QXmlStreamReader>
