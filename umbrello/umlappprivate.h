@@ -17,15 +17,16 @@
 #include "uml.h"
 
 // kde includes
-#include <kdialog.h>
 #include <ktexteditor/configinterface.h>
 #include <ktexteditor/document.h>
 #include <ktexteditor/editor.h>
 #include <ktexteditor/view.h>
 
 // qt includes
+#include <QDialog>
 #include <QFile>
 #include <QFileInfo>
+#include <QGridLayout>
 #include <QListWidget>
 #include <QObject>
 
@@ -79,8 +80,10 @@ public slots:
         if(iface)
             iface->setConfigValue(QString::fromLatin1("line-numbers"), true);
 
-        KDialog *dialog = new KDialog(parent);
-        dialog->setMainWidget(view);
+        QDialog *dialog = new QDialog(parent);
+        QGridLayout *layout = new QGridLayout();
+        layout->addWidget(view, 0, 0);
+        dialog->setLayout(layout);
         dialog->setMinimumSize(800, 800);
         dialog->exec();
         delete dialog;

@@ -12,6 +12,7 @@
 #include "parameterpropertiesdialog.h"
 
 // local includes
+#include "attribute.h"
 #include "classifier.h"
 #include "debug_utils.h"
 #include "umltemplatelist.h"
@@ -22,8 +23,11 @@
 #include "stereotype.h"
 
 // kde includes
+#include <kcombobox.h>
+#include <klineedit.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <ktextedit.h>
 
 // qt includes
 #include <QComboBox>
@@ -42,13 +46,10 @@
  * @param attr     the parameter to represent
  */
 ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * doc, UMLAttribute * attr)
-        : KDialog(parent)
+        : QDialog(parent)
 {
-    setCaption(i18n("Parameter Properties"));
-    setButtons(Help | Ok | Cancel);
-    setDefaultButton(Ok);
+    setWindowTitle(i18n("Parameter Properties"));
     setModal(true);
-    showButtonSeparator(true);
 
     m_pUmldoc = doc;
     m_pAtt = attr;
@@ -62,13 +63,12 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
     int margin = fontMetrics().height();
     setMinimumSize(300, 400);
     //disableResize();
-    QFrame *frame = new QFrame(this);
-    setMainWidget(frame);
-    QVBoxLayout * topLayout = new QVBoxLayout(frame);
+    QVBoxLayout * topLayout = new QVBoxLayout();
     topLayout->setSpacing(10);
     topLayout->setMargin(margin);
+    setLayout(topLayout);
 
-    m_pParmGB = new QGroupBox(i18n("Properties"), frame);
+    m_pParmGB = new QGroupBox(i18n("Properties"));
     topLayout->addWidget(m_pParmGB);
 
     QGridLayout * propLayout = new QGridLayout(m_pParmGB);
@@ -95,24 +95,24 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
     m_pStereoTypeCB = new KComboBox(true, m_pParmGB);
     propLayout->addWidget(m_pStereoTypeCB, 3, 1);
 
-    m_pKind =  new QGroupBox(i18n("Passing Direction"), frame);
-    m_pKind->setToolTip(i18n("\"in\" is a readonly parameter, \"out\" is a writeonly parameter and \"inout\" is a parameter for reading and writing."));
+    m_pKindGB =  new QGroupBox(i18n("Passing Direction"));
+    m_pKindGB->setToolTip(i18n("\"in\" is a readonly parameter, \"out\" is a writeonly parameter and \"inout\" is a parameter for reading and writing."));
 
-    QHBoxLayout * kindLayout = new QHBoxLayout(m_pKind);
+    QHBoxLayout * kindLayout = new QHBoxLayout(m_pKindGB);
     kindLayout->setMargin(margin);
 
-    m_pIn =  new QRadioButton(QString::fromLatin1("in"), m_pKind);
+    m_pIn =  new QRadioButton(QString::fromLatin1("in"), m_pKindGB);
     kindLayout->addWidget(m_pIn);
 
-    m_pInOut =  new QRadioButton(QString::fromLatin1("inout"), m_pKind);
+    m_pInOut =  new QRadioButton(QString::fromLatin1("inout"), m_pKindGB);
     kindLayout->addWidget(m_pInOut);
 
-    m_pOut =  new QRadioButton(QString::fromLatin1("out"), m_pKind);
+    m_pOut =  new QRadioButton(QString::fromLatin1("out"), m_pKindGB);
     kindLayout->addWidget(m_pOut);
 
-    topLayout->addWidget(m_pKind);
+    topLayout->addWidget(m_pKindGB);
 
-    m_docGB = new QGroupBox(i18n("Documentation"), frame);
+    m_docGB = new QGroupBox(i18n("Documentation"));
     QHBoxLayout * docLayout = new QHBoxLayout(m_docGB);
     docLayout->setMargin(margin);
 
@@ -120,7 +120,24 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
     m_doc->setWordWrapMode(QTextOption::WordWrap);
     m_doc->setText(text);
     docLayout->addWidget(m_doc);
+
     topLayout->addWidget(m_docGB);
+
+#if 0 //FIXME KF5
+//    setDefaultButton(Ok);
+//    showButtonSeparator(true);
+#endif
+    m_buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
+                                       QDialogButtonBox::Cancel |
+                                       QDialogButtonBox::Help);
+    connect(m_buttonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
+    connect(m_buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(m_buttonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(slotButtonClicked(QAbstractButton*)));
+#if 0 //FIXME KF5
+//    connect(buttonBox, SIGNAL(helpRequested()), this, SLOT(...));
+#endif
+
+    topLayout->addWidget(m_buttonBox);
 
     // Check the proper Kind radiobutton.
     if (attr) {
@@ -155,13 +172,12 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
     }
 
     // set tab order
-    setTabOrder(m_pKind, m_pTypeCB);
+    setTabOrder(m_pKindGB, m_pTypeCB);
     setTabOrder(m_pTypeCB, m_pNameLE);
     setTabOrder(m_pNameLE, m_pInitialLE);
     setTabOrder(m_pInitialLE, m_pStereoTypeCB);
     setTabOrder(m_pStereoTypeCB, m_pIn);
     setTabOrder(m_pIn, m_doc);
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
     m_pNameLE->setFocus();
 }
 
@@ -170,6 +186,30 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
  */
 ParameterPropertiesDialog::~ParameterPropertiesDialog()
 {
+}
+
+/**
+ * Returns the documentation.
+ * @return  Returns the documentation.
+ */
+QString ParameterPropertiesDialog::getDoc()
+{
+    return m_doc->toPlainText();
+}
+
+QString ParameterPropertiesDialog::getName()
+{
+    return m_pNameLE->text();
+}
+
+QString ParameterPropertiesDialog::getInitialValue()
+{
+    return m_pInitialLE->text();
+}
+
+QString ParameterPropertiesDialog::getTypeName()
+{
+    return m_pTypeCB->currentText();
 }
 
 /**
@@ -276,14 +316,15 @@ bool ParameterPropertiesDialog::validate()
  * Activated when a button is clicked
  * @param button The button that was clicked
  */
-void ParameterPropertiesDialog::slotButtonClicked(int button)
+void ParameterPropertiesDialog::slotButtonClicked(QAbstractButton* button)
 {
-    if (button == KDialog::Ok) {
+    uDebug() << "ParameterPropertiesDialog::slotButtonClicked - " << button->text();
+    if (m_buttonBox->buttonRole(button) == QDialogButtonBox::AcceptRole) {
         if (!validate()) {
             return;
         }
     }
-    KDialog::slotButtonClicked(button);
+//FIXME KF5    QDialog::slotButtonClicked(button);
 }
 
 /**
@@ -331,5 +372,7 @@ void ParameterPropertiesDialog::slotOk()
 
         m_pAtt->setDoc(getDoc()); // set the documentation
         m_pAtt->setInitialValue(getInitialValue()); // set the initial value
+
+        accept();
     }
 }

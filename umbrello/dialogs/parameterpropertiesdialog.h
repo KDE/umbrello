@@ -11,17 +11,20 @@
 #ifndef PARAMETERPROPERTIESDIALOG_H
 #define PARAMETERPROPERTIESDIALOG_H
 
-#include "attribute.h"
+#include "basictypes.h"
 
-#include <kdialog.h>
-#include <klineedit.h>
-#include <kcombobox.h>
-#include <ktextedit.h>
+#include <QDialog>
 
-class UMLDoc;
+class KComboBox;
+class KLineEdit;
+class KTextEdit;
+class QAbstractButton;
+class QDialogButtonBox;
 class QGroupBox;
 class QLabel;
 class QRadioButton;
+class UMLAttribute;
+class UMLDoc;
 
 /**
  * Displays a dialog box that displays properties of a parameter.
@@ -32,40 +35,21 @@ class QRadioButton;
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class ParameterPropertiesDialog : public KDialog
+class ParameterPropertiesDialog : public QDialog
 {
     Q_OBJECT
 public:
-
     ParameterPropertiesDialog(QWidget * parent, UMLDoc * doc, UMLAttribute * attr);
     ~ParameterPropertiesDialog();
 
 public slots:
-
     void slotOk();
 
 protected:
-
-    /**
-     * Returns the documentation.
-     * @return  Returns the documentation.
-     */
-    QString getDoc() {
-        return m_doc->toPlainText();
-    }
-
-    QString getName() {
-        return m_pNameLE->text();
-    }
-
-    QString getInitialValue() {
-        return m_pInitialLE->text();
-    }
-
-    QString getTypeName() {
-        return m_pTypeCB->currentText();
-    }
-
+    QString getDoc();
+    QString getName();
+    QString getInitialValue();
+    QString getTypeName();
     Uml::ParameterDirection::Enum getParmKind();
 
     void insertTypesSorted(const QString& type = QString());
@@ -75,19 +59,20 @@ protected:
     bool validate();
 
 protected slots:
-
-    virtual void slotButtonClicked(int button);
+    virtual void slotButtonClicked(QAbstractButton *button);
 
 private:
-    QGroupBox * m_pParmGB, * m_docGB;
-    QGroupBox *m_pKind;
-    QRadioButton * m_pIn, * m_pOut, *m_pInOut;
-    QLabel * m_pTypeL, * m_pNameL, * m_pInitialL, * m_pStereoTypeL;
-    KComboBox * m_pTypeCB, * m_pStereoTypeCB;
-    KLineEdit * m_pNameLE, * m_pInitialLE;
-    KTextEdit * m_doc;
-    UMLDoc * m_pUmldoc;
-    UMLAttribute * m_pAtt;
+    QGroupBox *m_pParmGB;
+    QGroupBox *m_docGB;
+    QGroupBox *m_pKindGB;
+    QRadioButton *m_pIn, *m_pOut, *m_pInOut;
+    QLabel *m_pTypeL, *m_pNameL, *m_pInitialL, *m_pStereoTypeL;
+    KComboBox *m_pTypeCB, *m_pStereoTypeCB;
+    KLineEdit *m_pNameLE, *m_pInitialLE;
+    KTextEdit *m_doc;
+    QDialogButtonBox *m_buttonBox;
+    UMLDoc *m_pUmldoc;
+    UMLAttribute *m_pAtt;
 };
 
 #endif
