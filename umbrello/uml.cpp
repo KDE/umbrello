@@ -793,9 +793,6 @@ void UMLApp::initView()
 
     // Prepare Tabbed Diagram Representation
     m_tabWidget = new QTabWidget(this);
-#if 0  //FIXME KF5
-    m_tabWidget->setAutomaticResizeTabs(true);
-#endif
     m_tabWidget->setTabsClosable(true);
     m_tabWidget->setMovable(true);
     connect(m_tabWidget, SIGNAL(tabCloseRequested(int)), SLOT(slotCloseDiagram(int)));

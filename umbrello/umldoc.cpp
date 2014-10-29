@@ -368,6 +368,7 @@ bool UMLDoc::newDocument()
 {
     closeDocument();
     UMLApp::app()->setCurrentView(0);
+    DEBUG(DBG_SRC) << "UMLDoc::newDocument ************* " << m_doc_url;  //FIXME KF5
     setFileName(m_doc_url, i18n("Untitled"));
     //see if we need to start with a new diagram
     Settings::OptionState optionState = Settings::optionState();
@@ -402,6 +403,7 @@ bool UMLDoc::newDocument()
 bool UMLDoc::openDocument(const QUrl& url, const char* format /* =0 */)
 {
     Q_UNUSED(format);
+    DEBUG(DBG_SRC) << "UMLDoc::openDocument ************* " << url;  //FIXME KF5
     if (url.fileName().length() == 0) {
         newDocument();
         return false;
@@ -595,6 +597,7 @@ bool UMLDoc::openDocument(const QUrl& url, const char* format /* =0 */)
 bool UMLDoc::saveDocument(const QUrl& url, const char * format)
 {
     Q_UNUSED(format);
+    DEBUG(DBG_SRC) << "UMLDoc::saveDocument ************* " << url;  //FIXME KF5
     m_doc_url = url;
     bool uploaded = true;
 
@@ -612,6 +615,7 @@ bool UMLDoc::saveDocument(const QUrl& url, const char * format)
     } else {
         fileFormat = QLatin1String("xmi");
     }
+    DEBUG(DBG_SRC) << "UMLDoc::saveDocument ************* file format = " << fileFormat;  //FIXME KF5
 
     initSaveTimer();
 
@@ -2986,7 +2990,7 @@ void UMLDoc::addDefaultDatatypes()
     for (QStringList::Iterator it = entries.begin(); it != end; ++it) {
         createDatatype(*it);
     }
-    UMLApp::app()->listView()->closeDatatypesFolder();
+//FIXME KF5    UMLApp::app()->listView()->closeDatatypesFolder();
 }
 
 /**
@@ -3100,6 +3104,7 @@ bool UMLDoc::tagEq (const QString& inTag, const QString& inPattern)
  */
 void UMLDoc::setFileName(QUrl url, const QString& name)
 {
+DEBUG(DBG_SRC) << "UMLDoc::setFileName ************* " << url << "  " << name;  //FIXME KF5
     url.adjusted(QUrl::RemoveFilename);
     url.setPath(url.path() + name);
 }
