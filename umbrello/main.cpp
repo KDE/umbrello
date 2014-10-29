@@ -19,12 +19,13 @@
 
 // kde includes
 #include <kaboutdata.h>
-#include <kapplication.h>
 #include <kcmdlineargs.h>
 #include <kconfig.h>
 #include <klocalizedstring.h>
 #include <ktip.h>
 #include <kwindowsystem.h>
+
+#include <QApplication>
 
 #include <unistd.h>
 #include <stdio.h>
@@ -168,6 +169,6 @@ void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt)
     // the event is posted so when the Qt loop begins it's processed. UMLApp process this event executing
     // the method it provides for exporting the views. Once all the views were exported, a quit event
     // is sent and the app finishes without user interaction
-    kapp->postEvent(UMLApp::app(), new CmdLineExportAllViewsEvent(extension, directory, useFolders));
+    qApp->postEvent(UMLApp::app(), new CmdLineExportAllViewsEvent(extension, directory, useFolders));
 }
 

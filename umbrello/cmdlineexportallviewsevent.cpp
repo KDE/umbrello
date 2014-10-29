@@ -16,10 +16,8 @@
 #include "uml.h"
 #include "umlviewimageexportermodel.h"
 
-// kde includes
-#include <kapplication.h>
-
 // qt includes
+#include <QApplication>
 #include <QCloseEvent>
 #include <QStringList>
 
@@ -73,5 +71,5 @@ void CmdLineExportAllViewsEvent::exportAllViews()
         }
     }
 
-    kapp->quit();
+    qApp->quit();
 }

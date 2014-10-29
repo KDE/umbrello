@@ -71,11 +71,11 @@
 #include <ktip.h>
 #include <kactionmenu.h>
 #include <kxmlguifactory.h>
-#include <kapplication.h>
 #include <kdeprintdialog.h>
 #include <kstatusbar.h>
 
 // qt includes
+#include <QApplication>
 #include <QClipboard>
 #include <QDesktopWidget>
 #include <QDockWidget>
@@ -1070,7 +1070,7 @@ void UMLApp::readOptions()
  * Saves the window properties for each open window
  * during session end to the session config file,
  * including saving the currently opened file by a
- * temporary filename provided by KApplication.
+ * temporary filename provided by QApplication.
  * @see KMainWindow#saveProperties
  */
 void UMLApp::saveProperties(KConfigGroup & cfg)
@@ -1084,7 +1084,7 @@ void UMLApp::saveProperties(KConfigGroup & cfg)
         QUrl url = m_doc->url();
         cfg.writePathEntry("filename", url.url());
         cfg.writeEntry("modified", m_doc->isModified());
-        QString tempname = kapp->tempSaveName(url.url());  //:TODO: change this - deprecated
+        QString tempname = qApp->tempSaveName(url.url());  //:TODO: change this - deprecated
         QString tempurl = QUrl::toPercentEncoding(tempname);
 
         QUrl _url(tempurl);
@@ -1110,7 +1110,7 @@ void UMLApp::readProperties(const KConfigGroup & cfg)     //:TODO: applyMainWind
     bool modified = cfg.readEntry("modified", false);
     if (modified) {
         bool canRecover;
-        QString tempname = kapp->checkRecoverFile(filename, canRecover);
+        QString tempname = qApp->checkRecoverFile(filename, canRecover);
         QUrl _url(tempname);
 
         if (canRecover) {

@@ -63,9 +63,9 @@
 #include <kfiledialog.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kapplication.h>
 
 // qt includes
+#include <QApplication>
 #include <QDrag>
 #include <QDropEvent>
 #include <QEvent>

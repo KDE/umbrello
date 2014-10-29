@@ -74,7 +74,7 @@ class UMLAppPrivate;
  * full session management as well as using QActions.
  * 
  * @see KMainWindow
- * @see KApplication
+ * @see QApplication
  * @see KConfig
  *
  * @author Paul Hensgen <phensgen@techie.com>

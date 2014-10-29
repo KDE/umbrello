@@ -52,9 +52,9 @@
 #include <kmessagebox.h>
 #include <kmimetype.h>
 #include <ktar.h>
-#include <kapplication.h>
 
 // qt includes
+#include <QApplication>
 #include <QBuffer>
 #include <QDateTime>
 #include <QDir>
