@@ -78,7 +78,7 @@ bool extractAttributesFromXMI(const char *fileName, const QStringList &attribute
             if (value.isEmpty())
                 continue;
 
-            QString tagName = xmlReader.name().toString() + ":" + attributeName;
+            QString tagName = xmlReader.name().toString() + ':' + attributeName;
             QString key = value;
             if (result.contains(key)) {
                 result[key].lineNumbers.append(xmlReader.lineNumber());
@@ -110,9 +110,9 @@ QString toXMLCharacterEntities(QString s)
 {
     s.replace("\\n", "&#xa");
     s.replace("\\\"", "&qout;");
-    s.replace("&", "&amp;");
-    s.replace("<", "&lt;");
-    s.replace(">", "&gt;");
+    s.replace('&', "&amp;");
+    s.replace('<', "&lt;");
+    s.replace('>', "&gt;");
     return s;
 }
 
