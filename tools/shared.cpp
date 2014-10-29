@@ -182,11 +182,11 @@ bool fetchPoFile(const QString &fileName, TranslationMap &map)
     while (!in.atEnd()) {
         QString line = in.readLine();
         // handle multilines
-        if (line.startsWith("msgid")) {
+        if (line.startsWith(QLatin1String("msgid"))) {
             key = line.mid(7,line.length()-7-1);
             if (key.isEmpty())
                 multiLineID = true;
-        } else if (line.startsWith("msgstr")) {
+        } else if (line.startsWith(QLatin1String("msgstr"))) {
             value = line.mid(8, line.length()-8-1);
             if (multiLineID && !key.isEmpty() && value.isEmpty())
                 multiLineValue = true;
