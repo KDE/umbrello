@@ -140,7 +140,7 @@ QString toGetTextString(const QString &message)
         QStringList::ConstIterator last = list.constEnd();
         if (!list.isEmpty())
             --last;
-        for (QStringList::ConstIterator it = list.constBegin(); it != list.constEnd(); it++) {
+        for (QStringList::ConstIterator it = list.constBegin(); it != list.constEnd(); ++it) {
             line = *it;
             if (!line.isEmpty()) {
                 result += "      \"" + escape(line);

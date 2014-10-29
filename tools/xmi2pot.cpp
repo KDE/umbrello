@@ -64,7 +64,7 @@ int main( int argc, char **argv )
         cout << "#. Tag: " << (*it).tagNames.join(" ").toUtf8().data() << endl;
         cout << "#: ";
         for (QList<int>::ConstIterator it2 =
-                 (*it).lineNumbers.constBegin(); it2 != (*it).lineNumbers.constEnd(); it2++) {
+                 (*it).lineNumbers.constBegin(); it2 != (*it).lineNumbers.constEnd(); ++it2) {
             if (it2 != (*it).lineNumbers.constBegin())
                 cout << " ";
             cout << fname.toUtf8().data() << ":" << (*it2);
