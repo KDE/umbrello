@@ -24,7 +24,6 @@
 
 // kde includes
 #include <klocale.h>
-#include <kdialog.h>
 
 // qt includes
 #include <QInputDialog>
@@ -352,5 +351,5 @@ void ObjectNodeWidget::askStateForWidget()
 
 void ObjectNodeWidget::slotOk()
 {
-     //   KDialog::accept();
+     //   QDialog::accept();
 }
