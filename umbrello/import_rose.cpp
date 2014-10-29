@@ -498,11 +498,14 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
         return NULL;
 
     if (parentPkg) {
-        return petalTree2Uml(root, parentPkg);
+        UMLPackage *child = petalTree2Uml(root, parentPkg);
+        delete root;
+        return child;
     }
 
     if (root->name() != QLatin1String("Design")) {
         uError() << "expecting root name Design";
+        delete root;
         return NULL;
     }
     Import_Utils::assignUniqueIdOnCreation(false);
@@ -536,6 +539,7 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
                                      QLatin1String("ProcsNDevs"), QLatin1String("Processes"));
 
     //***************************       wrap up        ********************************
+    delete root;
     umldoc->setCurrentRoot(Uml::ModelType::Logical);
     Import_Utils::assignUniqueIdOnCreation(true);
     umldoc->resolveTypes();
