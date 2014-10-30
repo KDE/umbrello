@@ -1040,7 +1040,7 @@ void UMLApp::saveOptions()
     UmbrelloSettings::setCreateArtifacts(optionState.codeImportState.createArtifacts);
     UmbrelloSettings::setResolveDependencies(optionState.codeImportState.resolveDependencies);
 
-    UmbrelloSettings::self()->writeConfig();
+    UmbrelloSettings::self()->save();
 }
 
 /**
@@ -2060,7 +2060,7 @@ void UMLApp::readOptionState()
 {
     Settings::OptionState& optionState = Settings::optionState();
 
-    UmbrelloSettings::self()->readConfig();
+    UmbrelloSettings::self()->load();
     optionState.generalState.undo = UmbrelloSettings::undo();
     optionState.generalState.tabdiagrams = UmbrelloSettings::tabdiagrams();
     optionState.generalState.newcodegen = UmbrelloSettings::newcodegen();
