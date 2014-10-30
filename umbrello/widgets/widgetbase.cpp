@@ -20,9 +20,9 @@
 #include "umlscene.h"
 
 #include <kcolordialog.h>
-#include <kfontdialog.h>
 
 #include <QAction>
+#include <QFontDialog>
 #include <QPointer>
 
 /**
@@ -897,8 +897,9 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
 
     case ListPopupMenu::mt_Change_Font:
     case ListPopupMenu::mt_Change_Font_Selection: {
-        QFont newFont = font();
-        if (KFontDialog::getFont(newFont, KFontChooser::NoDisplayFlags, 0) == KFontDialog::Accepted) {
+        bool ok = false;
+        QFont newFont = QFontDialog::getFont(&ok, font());
+        if (ok) {
             if (sel == ListPopupMenu::mt_Change_Font_Selection) {
                 m_scene->selectionSetFont(newFont);
             } else {

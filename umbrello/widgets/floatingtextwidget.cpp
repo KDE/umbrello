@@ -31,10 +31,10 @@
 #include "umlview.h"
 
 // kde includes
-#include <kfontdialog.h>
 #include <klocale.h>
 
 // qt includes
+#include <QFontDialog>
 #include <QInputDialog>
 #include <QPointer>
 #include <QRegExp>
@@ -790,9 +790,10 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Change_Font:
         {
-            QFont fnt = font();
-            if(KFontDialog::getFont(fnt, KFontChooser::NoDisplayFlags, m_scene->activeView())) {
-                if(m_textRole == Uml::TextRole::Floating || m_textRole == Uml::TextRole::Seq_Message) {
+            bool ok = false;
+            QFont fnt = QFontDialog::getFont(&ok, font(), m_scene->activeView());
+            if (ok) {
+                if (m_textRole == Uml::TextRole::Floating || m_textRole == Uml::TextRole::Seq_Message) {
                     setFont(fnt);
                 } else if (m_linkWidget) {
                     m_linkWidget->lwSetFont(fnt);

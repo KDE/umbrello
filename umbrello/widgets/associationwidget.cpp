@@ -36,11 +36,11 @@
 #include "widget_utils.h"
 
 // kde includes
-#include <kfontdialog.h>
 #include <klocale.h>
 #include <kcolordialog.h>
 
 // qt includes
+#include <QFontDialog>
 #include <QInputDialog>
 #include <QPainterPath>
 #include <QPointer>
@@ -3092,9 +3092,11 @@ void AssociationWidget::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Change_Font:
         {
-            QFont fnt = font();
-            if (KFontDialog::getFont(fnt, KFontChooser::NoDisplayFlags, m_scene->activeView()))
+            bool ok = false;
+            QFont fnt = QFontDialog::getFont(&ok, font(), m_scene->activeView());
+            if (ok) {
                 lwSetFont(fnt);
+            }
         }
         break;
 
