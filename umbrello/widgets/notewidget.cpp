@@ -22,7 +22,6 @@
 
 // kde includes
 #include <klocale.h>
-#include <kcolordialog.h>
 
 // qt includes
 #include <QInputDialog>

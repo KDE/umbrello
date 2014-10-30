@@ -19,9 +19,8 @@
 #include "umlobject.h"
 #include "umlscene.h"
 
-#include <kcolordialog.h>
-
 #include <QAction>
+#include <QColorDialog>
 #include <QFontDialog>
 #include <QPointer>
 
@@ -789,8 +788,8 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
 
     case ListPopupMenu::mt_Line_Color:
     case ListPopupMenu::mt_Line_Color_Selection:
-        newColor = lineColor();
-        if (KColorDialog::getColor(newColor)) {
+        newColor = QColorDialog::getColor(lineColor());
+        if (newColor != lineColor()) {
             if (sel == ListPopupMenu::mt_Line_Color_Selection) {
                 umlScene()->selectionSetLineColor(newColor);
             } else {
@@ -803,8 +802,8 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
 
     case ListPopupMenu::mt_Fill_Color:
     case ListPopupMenu::mt_Fill_Color_Selection:
-        newColor = fillColor();
-        if (KColorDialog::getColor(newColor)) {
+        newColor = QColorDialog::getColor(fillColor());
+        if (newColor != fillColor()) {
             if (sel == ListPopupMenu::mt_Fill_Color_Selection) {
                 umlScene()->selectionSetFillColor(newColor);
             } else {

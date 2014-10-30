@@ -37,9 +37,9 @@
 
 // kde includes
 #include <klocale.h>
-#include <kcolordialog.h>
 
 // qt includes
+#include <QColorDialog>
 #include <QFontDialog>
 #include <QInputDialog>
 #include <QPainterPath>
@@ -3102,8 +3102,8 @@ void AssociationWidget::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Line_Color:
         {
-            QColor newColor;
-            if (KColorDialog::getColor(newColor)) {
+            QColor newColor = QColorDialog::getColor(lineColor());
+            if (newColor != lineColor()) {
                 m_scene->selectionSetLineColor(newColor);
                 umlDoc()->setModified(true);
             }

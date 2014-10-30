@@ -30,7 +30,6 @@
 #include "uniqueid.h"
 
 // kde includes
-#include <kcolordialog.h>
 #include <kfontdialog.h>
 #include <klocale.h>
 #include <kmessagebox.h>
