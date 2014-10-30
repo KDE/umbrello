@@ -22,7 +22,6 @@
 #include <kvbox.h>
 #include <klineedit.h>
 #include <klocale.h>
-#include <kfontdialog.h>
 #include <ktextedit.h>
 
 // qt includes
