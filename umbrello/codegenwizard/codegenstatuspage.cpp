@@ -26,7 +26,6 @@
 #include "umldoc.h"
 
 //kde includes
-#include <knuminput.h>
 #include <kfiledialog.h>
 #include <klocale.h>
 #include <kmessagebox.h>

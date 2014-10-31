@@ -28,6 +28,8 @@
 #include <klocale.h>
 #include <kvbox.h>
 
+#include <QSpinBox>
+
 //TODO don't do that, but it's better than hardcoded in the functions body
 #define FILL_COLOR QColor(255, 255, 192) 
 #define LINK_COLOR Qt::red
@@ -115,7 +117,11 @@ void SettingsDialog::setupUIPage()
     m_UiWidgets.lineWidthCB = new QCheckBox(i18n("Custom line width:"), m_UiWidgets.colorGB);
     colorLayout->addWidget(m_UiWidgets.lineWidthCB, 5, 0);
 
-    m_UiWidgets.lineWidthB = new KIntSpinBox(0, 10, 1, m_pOptionState->uiState.lineWidth, m_UiWidgets.colorGB);
+    m_UiWidgets.lineWidthB = new QSpinBox(m_UiWidgets.colorGB);
+    m_UiWidgets.lineWidthB->setMinimum(0);
+    m_UiWidgets.lineWidthB->setMaximum(10);
+    m_UiWidgets.lineWidthB->setSingleStep(1);
+    m_UiWidgets.lineWidthB->setValue(m_pOptionState->uiState.lineWidth);
     colorLayout->addWidget(m_UiWidgets.lineWidthB, 5, 1);
     
     m_UiWidgets.useFillColorCB = new QCheckBox(i18n("&Use fill color"), m_UiWidgets.colorGB);

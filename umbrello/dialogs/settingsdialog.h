@@ -18,7 +18,6 @@
 #include <kcombobox.h>
 #include <kfontdialog.h>
 #include <kcolorbutton.h>
-#include <knuminput.h>
 #include <klineedit.h>
 
 // qt includes
@@ -28,13 +27,14 @@
 #include <QPushButton>
 #include <QRadioButton>
 
-class UMLWidgetStylePage;
 class AutoLayoutOptionPage;
 class ClassOptionsPage;
 class CodeImportOptionsPage;
 class CodeGenOptionsPage;
 class CodeViewerOptionsPage;
 class GeneralOptionPage;
+class QSpinBox;
+class UMLWidgetStylePage;
 
 /**
  * @author Paul Hensgen
@@ -75,7 +75,7 @@ private:
         KColorButton * fillColorB;
         KColorButton * gridColorB;
         KColorButton * bgColorB;
-        KIntSpinBox  * lineWidthB;
+        QSpinBox     * lineWidthB;
 
         QCheckBox * useFillColorCB;
     }
