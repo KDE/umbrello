@@ -13,7 +13,6 @@
 
 // application specific includes
 #include "dotgenerator.h"
-#include "umlfiledialog.h"
 #include "umlviewimageexportermodel.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -21,11 +20,11 @@
 
 //kde include files
 #include <klocale.h>
-#include <kfiledialog.h>
 #include <kmessagebox.h>
 #include <kio/netaccess.h>
 
 // Qt include files
+#include <QFileDialog>
 #include <QPointer>
 #include <QString>
 #include <QStringList>
@@ -126,21 +125,22 @@ bool UMLViewImageExporter::getParametersFromUser()
     bool success = true;
 
     // configure & show the file dialog
-    QUrl url;
-    QPointer<UMLFileDialog> dialog = new UMLFileDialog(url, QString(), UMLApp::app());
+    QPointer<QFileDialog> dialog = new QFileDialog(UMLApp::app());
     prepareFileDialog(dialog);
     dialog->exec();
 
-    if (dialog->selectedUrl().isEmpty()) {
+    if (dialog->selectedUrls().isEmpty()) {
         success = false;
     }
     else {
         m_scene->clearSelected();   // Thanks to Peter Soetens for the idea
 
         // update image url and mime type
-        m_imageMimeType = dialog->currentMimeFilter();
+        QStringList mimeTypeFilters = dialog->mimeTypeFilters();
+        m_imageMimeType = mimeTypeFilters[0];  //FIXME KF5
         UMLApp::app()->setImageMimeType(m_imageMimeType);
-        m_imageURL = dialog->selectedUrl();
+        QList<QUrl> selectedUrls = dialog->selectedUrls();
+        m_imageURL = selectedUrls[0];  //FIXME KF5
     }
     delete dialog;
     return success;
@@ -152,7 +152,7 @@ bool UMLViewImageExporter::getParametersFromUser()
  *
  * @param fileDialog The dialog to prepare.
  */
-void UMLViewImageExporter::prepareFileDialog(UMLFileDialog *fileDialog)
+void UMLViewImageExporter::prepareFileDialog(QFileDialog *fileDialog)
 {
     // get all supported mime types
     QStringList mimeTypes = UMLViewImageExporterModel::supportedMimeTypes();
@@ -161,19 +161,17 @@ void UMLViewImageExporter::prepareFileDialog(UMLFileDialog *fileDialog)
     if (!DotGenerator::availableConfigFiles(m_scene, configFiles) || configFiles.size() == 0)
         mimeTypes.removeOne(QLatin1String("image/x-dot"));
 
-    fileDialog->setCaption(i18n("Save As"));
-    fileDialog->setOperationMode(KFileDialog::Saving);
-    fileDialog->setMimeFilter(mimeTypes, m_imageMimeType);
+    fileDialog->setWindowTitle(i18n("Save As"));
+    fileDialog->setAcceptMode(QFileDialog::AcceptSave);
+    fileDialog->setMimeTypeFilters(mimeTypes);
 
     // set a sensible default filename
     if (m_imageURL.isEmpty()) {
         QUrl docURL = UMLApp::app()->document()->url();
         docURL.adjusted(QUrl::RemoveFilename);
 
-        fileDialog->setUrl(docURL);
-        fileDialog->setSelection(m_scene->name() + QLatin1Char('.') + UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType));
+        fileDialog->selectFile(docURL.path() + m_scene->name() + QLatin1Char('.') + UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType));
     } else {
-        fileDialog->setUrl(m_imageURL);
-        fileDialog->setSelection(m_imageURL.fileName());
+        fileDialog->selectFile(m_imageURL.path() + m_imageURL.fileName());
     }
 }

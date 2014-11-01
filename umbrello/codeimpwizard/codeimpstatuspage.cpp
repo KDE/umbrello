@@ -34,11 +34,11 @@
 #include "umllistview.h"
 
 //kde includes
-#include <kfiledialog.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
 //qt includes
+#include <QFileDialog>
 #include <QListWidget>
 #include <QTimer>
 
@@ -327,7 +327,7 @@ void CodeImpStatusPage::loggerClear()
 void CodeImpStatusPage::loggerExport()
 {
     const QString caption = i18n("Umbrello Code Import - Logger Export");
-    QString fileName = KFileDialog::getSaveFileName(QUrl(), QString(), 0, caption);
+    QString fileName = QFileDialog::getSaveFileName(wizard(), caption);
     if (!fileName.isEmpty()) {
         QFile file(fileName);
         if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {

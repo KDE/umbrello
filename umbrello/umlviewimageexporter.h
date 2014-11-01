@@ -17,7 +17,7 @@
 #include <QUrl>
 
 class UMLScene;
-class UMLFileDialog;
+class QFileDialog;
 
 /**
  * Exports the scene as an image.
@@ -45,7 +45,7 @@ private:
     bool getParametersFromUser();
 
     bool prepareExport();
-    void prepareFileDialog(UMLFileDialog *fileDialog);
+    void prepareFileDialog(QFileDialog *fileDialog);
 
 };
 

@@ -62,7 +62,6 @@
 #include <krecentfilesaction.h>
 #include <kconfig.h>
 #include <kcursor.h>
-#include <kfiledialog.h>
 #include <kinputdialog.h>
 #include <klocale.h>
 #include <kmenubar.h>
@@ -79,6 +78,7 @@
 #include <QClipboard>
 #include <QDesktopWidget>
 #include <QDockWidget>
+#include <QFileDialog>
 #include <QKeyEvent>
 #include <QLabel>
 #include <QMenu>
@@ -1187,14 +1187,13 @@ void UMLApp::slotFileOpen()
         // here saving wasn't successful
     } 
     else {
-        QUrl url = KFileDialog::getOpenUrl(QUrl(),
+        QUrl url = QFileDialog::getOpenFileUrl(this, i18n("Open File"), QUrl(),
             i18n("*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl *.zargo|All Supported Files (*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.mdl, *.zargo)\n"
                  "*.xmi|Uncompressed XMI Files (*.xmi)\n"
                  "*.xmi.tgz|Gzip Compressed XMI Files (*.xmi.tgz)\n"
                  "*.xmi.tar.bz2|Bzip2 Compressed XMI Files (*.xmi.tar.bz2)\n"
                  "*.mdl|Rose model files (*.mdl)\n"
-                 "*.zargo|Compressed argo Files(*.zargo)\n"
-                 ), this, i18n("Open File"));
+                 "*.zargo|Compressed argo Files(*.zargo)\n"));
         if (!url.isEmpty()) {
             m_listView->setSortingEnabled(false);
             if (m_doc->openDocument(url)) {
@@ -1266,7 +1265,8 @@ bool UMLApp::slotFileSaveAs()
     QUrl url;
     QString ext;
     while (cont) {
-        url=KFileDialog::getSaveUrl(QUrl(), i18n("*.xmi|XMI File\n*.xmi.tgz|Gzip Compressed XMI File\n*.xmi.tar.bz2|Bzip2 Compressed XMI File\n*|All Files"), this, i18n("Save As"));
+        url = QFileDialog::getSaveFileUrl(this, i18n("Save As"), QUrl(),
+                                      i18n("*.xmi|XMI File\n*.xmi.tgz|Gzip Compressed XMI File\n*.xmi.tar.bz2|Bzip2 Compressed XMI File\n*|All Files"));
         if (url.isEmpty()) {
             cont = false;
         }
@@ -2624,7 +2624,7 @@ void UMLApp::slotImportClass()
     QString f = filters.join(QLatin1String(" ")) + QLatin1String("|") +
                              Uml::ProgrammingLanguage::toExtensionsDescription(UMLApp::app()->activeLanguage());
 
-    QStringList files = KFileDialog::getOpenFileNames(QUrl(), f, this, i18n("Select file(s) to import:"));
+    QStringList files = QFileDialog::getOpenFileNames(this, i18n("Select file(s) to import:"), QString(), f);
     if (!files.isEmpty()) {
         importFiles(&files);
     }
@@ -2653,7 +2653,7 @@ void getFiles(QStringList& files, const QString& path, QStringList& filters)
 void UMLApp::slotImportProject()
 {
     QStringList listFile;
-    QString dir = KFileDialog::getExistingDirectory(QUrl(),this, i18n("Select directory to import:"));
+    QString dir = QFileDialog::getExistingDirectory(this, i18n("Select directory to import:"));
     if (!dir.isEmpty()) {
         QStringList filter = Uml::ProgrammingLanguage::toExtensions(UMLApp::app()->activeLanguage());
         getFiles(listFile, dir, filter);

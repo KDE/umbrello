@@ -22,11 +22,11 @@
 #include "uml.h"
 
 // kde includes
-#include <kfiledialog.h>
 #include <kmessagebox.h>
 #include <klocale.h>
 
 // qt includes
+#include <QFileDialog>
 
 
 /**
@@ -319,7 +319,7 @@ void CodeGenOptionsPage::changeLanguage()
 void CodeGenOptionsPage::browseClicked()
 {
     QString button = sender()->objectName();
-    QString dir = KFileDialog::getExistingDirectory();
+    QString dir = QFileDialog::getExistingDirectory(this);
     if (dir.isEmpty()) {
         return;
     }

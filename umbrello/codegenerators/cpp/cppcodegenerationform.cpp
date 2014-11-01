@@ -12,12 +12,12 @@
 #include "cppcodegenerationform.h"
 
 // kde includes
-#include <kfiledialog.h>
 #include <klocale.h>
 #include <kcombobox.h>
 #include <kmessagebox.h>
 
 // qt includes
+#include <QFileDialog>
 #include <QLabel>
 #include <QListWidget>
 #include <QRegExp>
@@ -84,7 +84,7 @@ CPPCodeGenerationForm::~CPPCodeGenerationForm()
 void CPPCodeGenerationForm::browseClicked()
 {
     QString button = sender()->objectName();
-    QString file = KFileDialog::getOpenFileName(QUrl(), QLatin1String("*.h"), this, QLatin1String("Get Header File"));
+    QString file = QFileDialog::getOpenFileName(this, QLatin1String("Get Header File"), QString(), QLatin1String("*.h"));
 
     if (file.isEmpty()) {
         return;

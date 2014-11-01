@@ -60,7 +60,6 @@
 #include "object_factory.h"
 
 // kde includes
-#include <kfiledialog.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
@@ -69,6 +68,7 @@
 #include <QDrag>
 #include <QDropEvent>
 #include <QEvent>
+#include <QFileDialog>
 #include <QFocusEvent>
 #include <QInputDialog>
 #include <QKeyEvent>
@@ -481,24 +481,20 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
             }
             // configure & show the file dialog
             const QString rootDir(m_doc->url().adjusted(QUrl::RemoveFilename).path());
-            QPointer<KFileDialog> fileDialog = new KFileDialog(QUrl(rootDir), QLatin1String("*.xml"), this);
-#if 0 //FIXME KF5
-            fileDialog->setCaption(i18n("Externalize Folder"));
-#endif
-            fileDialog->setOperationMode(KFileDialog::Other);
+            QPointer<QFileDialog> fileDialog = new QFileDialog(this, i18n("Externalize Folder"), rootDir, QLatin1String("*.xml"));
             // set a sensible default filename
             QString defaultFilename = current->text(0).toLower();
             defaultFilename.replace(QRegExp(QLatin1String("\\W+")), QLatin1String("_"));
             defaultFilename.append(QLatin1String(".xml"));  // default extension
-            fileDialog->setSelection(defaultFilename);
-            QUrl selURL;
+            fileDialog->selectFile(defaultFilename);
+            QList<QUrl> selURL;
             if (fileDialog->exec() == QDialog::Accepted) {
-                selURL = fileDialog->selectedUrl();
+                selURL = fileDialog->selectedUrls();
             }
             delete fileDialog;
             if (selURL.isEmpty())
                 return;
-            QString path = selURL.toLocalFile();
+            QString path = selURL[0].toLocalFile();
             QString fileName = path;
             if (fileName.startsWith(rootDir)) {
                 fileName.remove(rootDir);
