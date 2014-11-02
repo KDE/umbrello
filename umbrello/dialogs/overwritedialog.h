@@ -11,7 +11,7 @@
 #ifndef OVERWRITEDIALOG_H
 #define OVERWRITEDIALOG_H
 
-#include <kdialog.h>
+#include <QDialog>
 
 class QCheckBox;
 
@@ -26,12 +26,10 @@ class QCheckBox;
  * @author Jonathan Riddell <jr@jriddell.org>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class OverwriteDialog: public KDialog
+class OverwriteDialog: public QDialog
 {
     Q_OBJECT
-
 public:
-
     OverwriteDialog(const QString& fileName, const QString& outputDirectory,
                       bool applyToAllRemaining, QWidget* parent=0);
     ~OverwriteDialog();
@@ -39,12 +37,8 @@ public:
     bool applyToAllRemaining();
 
 protected slots:
-
     virtual void slotOk();
-
     virtual void slotApply();
-
-
     virtual void slotCancel();
 
 private:

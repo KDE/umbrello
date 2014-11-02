@@ -42,6 +42,7 @@
 #include <QLabel>
 #include <QLayout>
 #include <QListWidget>
+#include <QListWidgetItem>
 #include <QPointer>
 #include <QPushButton>
 #include <QRadioButton>
@@ -52,20 +53,14 @@
  * Constructor.
  */
 UMLOperationDialog::UMLOperationDialog(QWidget * parent, UMLOperation * pOperation)
-  : KDialog(parent)
+  : QDialog(parent),
+    m_operation(pOperation),
+    m_doc(UMLApp::app()->document()),
+    m_menu(0)
 {
-    setCaption(i18n("Operation Properties"));
-    setButtons(Help | Ok | Cancel);
-    setDefaultButton(Ok);
+    setWindowTitle(i18n("Operation Properties"));
     setModal(true);
-    showButtonSeparator(true);
-
-    m_operation = pOperation;
-    m_doc = UMLApp::app()->document();
-    m_menu = 0;
     setupDialog();
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
 }
 
 /**
@@ -80,12 +75,12 @@ UMLOperationDialog::~UMLOperationDialog()
  */
 void UMLOperationDialog::setupDialog()
 {
-    QFrame *frame = new QFrame(this);
-    setMainWidget(frame);
     int margin = fontMetrics().height();
-    QVBoxLayout * topLayout = new QVBoxLayout(frame);
 
-    m_pGenGB = new QGroupBox(i18n("General Properties"), frame);
+    QVBoxLayout *topLayout = new QVBoxLayout();
+    setLayout(topLayout);
+
+    m_pGenGB = new QGroupBox(i18n("General Properties"));
     QGridLayout * genLayout = new QGridLayout(m_pGenGB);
     genLayout->setColumnStretch(1, 1);
     genLayout->setColumnStretch(3, 1);
@@ -95,8 +90,8 @@ void UMLOperationDialog::setupDialog()
     genLayout->setSpacing(10);
 
     Dialog_Utils::makeLabeledEditField(genLayout, 0,
-                                    m_pNameL, i18nc("operation name", "&Name:"),
-                                    m_pNameLE, m_operation->name());
+                                       m_pNameL, i18nc("operation name", "&Name:"),
+                                       m_pNameLE, m_operation->name());
 
     m_pRtypeL = new QLabel(i18n("&Type:"), m_pGenGB);
     genLayout->addWidget(m_pRtypeL, 0, 2);
@@ -120,7 +115,7 @@ void UMLOperationDialog::setupDialog()
     m_pQueryCB->setChecked(m_operation->getConst());
     genLayout->addWidget(m_pQueryCB, 2, 2);
 
-    m_pScopeGB = new QGroupBox(i18n("Visibility"), frame);
+    m_pScopeGB = new QGroupBox(i18n("Visibility"));
 
     QHBoxLayout * scopeLayout = new QHBoxLayout(m_pScopeGB);
     scopeLayout->setMargin(margin);
@@ -137,7 +132,7 @@ void UMLOperationDialog::setupDialog()
     m_pImplementationRB = new QRadioButton(i18n("I&mplementation"), m_pScopeGB);
     scopeLayout->addWidget(m_pImplementationRB);
 
-    m_pParmsGB = new QGroupBox(i18n("Parameters"), frame);
+    m_pParmsGB = new QGroupBox(i18n("Parameters"));
     QVBoxLayout* parmsLayout = new QVBoxLayout(m_pParmsGB);
     parmsLayout->setMargin(margin);
     parmsLayout->setSpacing(10);
@@ -184,9 +179,6 @@ void UMLOperationDialog::setupDialog()
     m_pDownButton->setEnabled(false);
 
     m_pRtypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
-#if 0 //FIXME KF5
-    m_pRtypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
     // add the return types
     insertTypesSorted(m_operation->getTypeName());
 
@@ -216,9 +208,6 @@ void UMLOperationDialog::setupDialog()
 
     // manage stereotypes
     m_pStereoTypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
-#if 0 //FIXME KF5
-    m_pStereoTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
     insertStereotypesSorted(m_operation->stereotype());
 
     // setup parm list box signals
@@ -233,13 +222,16 @@ void UMLOperationDialog::setupDialog()
             this, SLOT(slotParmDoubleClick(QListWidgetItem*)));
 
     m_pNameLE->setFocus();
-    connect(m_pNameLE, SIGNAL(textChanged(QString)), SLOT(slotNameChanged(QString)));
-    slotNameChanged(m_pNameLE->text());
-}
 
-void UMLOperationDialog::slotNameChanged(const QString &_text)
-{
-    enableButtonOk(!_text.isEmpty());
+//FIXME KF5
+//    setButtons(Help | Ok | Cancel);
+//    setDefaultButton(Ok);
+//    showButtonSeparator(true);
+    QDialogButtonBox* dlgButtonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
+                                                          QDialogButtonBox::Cancel);
+    connect(dlgButtonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
+    connect(dlgButtonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    topLayout->addWidget(dlgButtonBox);
 }
 
 void UMLOperationDialog::slotParmRightButtonPressed(const QPoint &p)
@@ -491,15 +483,6 @@ bool UMLOperationDialog::apply()
     m_operation->setConst(m_pQueryCB->isChecked());
 
     return true;
-}
-
-/**
- * I don't think this is used, but if we had an apply button
- * it would slot into here.
- */
-void UMLOperationDialog::slotApply()
-{
-    apply();
 }
 
 void UMLOperationDialog::slotOk()

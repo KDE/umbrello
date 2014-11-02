@@ -18,41 +18,51 @@
 #include "umlrole.h"
 #include "umlroleproperties.h"
 
-UMLRoleDialog::UMLRoleDialog(QWidget * parent, UMLRole * pRole)
-  : KDialog(parent)
+/**
+ * Constructor.
+ */
+UMLRoleDialog::UMLRoleDialog(QWidget *parent, UMLRole *pRole)
+  : QDialog(parent),
+    m_pRole(pRole)
 {
-    setCaption(i18n("Role Properties"));
-    setButtons(Help | Ok | Cancel);
-    setDefaultButton(Ok);
+    setWindowTitle(i18n("Role Properties"));
     setModal(true);
-    showButtonSeparator(true);
-    m_pRole = pRole;
     setupDialog();
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
 }
 
+/**
+ * Destructor.
+ */
 UMLRoleDialog::~UMLRoleDialog()
 {
 }
 
 /**
- *   Sets up the dialog
+ * Sets up the dialog.
  */
 void UMLRoleDialog::setupDialog()
 {
-    // UMLRoleDialogLayout = new QGridLayout(this, 1, 1, 11, 6, "UMLRoleLayout");
+    QVBoxLayout *topLayout = new QVBoxLayout();
+    setLayout(topLayout);
+
+//   UMLRoleDialogLayout = new QGridLayout(this, 1, 1, 11, 6, "UMLRoleLayout");
     m_pRoleProps = new UMLRoleProperties(this, m_pRole);
-    setMainWidget(m_pRoleProps);
+    topLayout->addWidget(m_pRoleProps);
 
     resize(QSize(425, 620).expandedTo(minimumSizeHint()));
 
-    //  topLayout->addWidget(m_pParmsGB);
+//    topLayout->addWidget(m_pParmsGB);
+
+//FIXME KF5
+//    setButtons(Help | Ok | Cancel);
+//    setDefaultButton(Ok);
+//    showButtonSeparator(true);
+    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
 }
 
 /**
  * Checks if changes are valid and applies them if they are,
- * else returns false
+ * else returns false.
  */
 bool UMLRoleDialog::apply()
 {
@@ -64,16 +74,7 @@ bool UMLRoleDialog::apply()
 }
 
 /**
- * I don't think this is used, but if we had an apply button
- * it would slot into here
- */
-void UMLRoleDialog::slotApply()
-{
-    apply();
-}
-
-/**
- * Used when the OK button is clicked.  Calls apply()
+ * Used when the OK button is clicked. Calls apply().
  */
 void UMLRoleDialog::slotOk()
 {

@@ -118,9 +118,6 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     startupLayout->addWidget(m_GeneralWidgets.startL, 1, 0);
 
     m_GeneralWidgets.diagramKB = new KComboBox(m_GeneralWidgets.startupGB);
-#if 0 //FIXME KF5
-    m_GeneralWidgets.diagramKB->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
     startupLayout->addWidget(m_GeneralWidgets.diagramKB, 1, 1);
 
     // start at 1 because we don't allow No Diagram any more
@@ -138,9 +135,6 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     startupLayout->addWidget(m_GeneralWidgets.defaultLanguageL, 2, 0);
 
     m_GeneralWidgets.languageKB = new KComboBox(m_GeneralWidgets.startupGB);
-#if 0 //FIXME KF5
-    m_GeneralWidgets.languageKB->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
     startupLayout->addWidget(m_GeneralWidgets.languageKB, 2, 1);
 
     int indexCounter = 0;

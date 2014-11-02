@@ -8,12 +8,11 @@
  *   Umbrello UML Modeller Authors <umbrello-devel@kde.org>                *
  ***************************************************************************/
 
-
 #ifndef UMLROLEDIALOG_H
 #define UMLROLEDIALOG_H
 
-//kde includes
-#include <kdialog.h>
+//qt includes
+#include <QDialog>
 
 /**
  * @author Paul Hensgen
@@ -21,40 +20,24 @@
 class UMLRole;
 class UMLRoleProperties;
 
-class UMLRoleDialog : public KDialog
+class UMLRoleDialog : public QDialog
 {
     Q_OBJECT
 public:
-
-    /**
-     *   Constructor
-     */
-    UMLRoleDialog(QWidget * parent, UMLRole * pRole);
-
-    /**
-     *   Deconstructor
-     */
+    UMLRoleDialog(QWidget *parent, UMLRole *pRole);
     ~UMLRoleDialog();
 
 protected:
-
     void setupDialog();
 
     bool apply();
 
-    /**
-     * The role to represent.
-     */
-    UMLRole * m_pRole;
+    UMLRole *m_pRole;  //< The role to represent.
 
 private:
-
-    UMLRoleProperties * m_pRoleProps;
+    UMLRoleProperties *m_pRoleProps;
 
 public slots:
-
-    void slotApply();
-
     void slotOk();
 };
 

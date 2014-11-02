@@ -19,7 +19,7 @@
 #include "umlscene.h"
 
 //kde include files
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kmessagebox.h>
 #include <kio/netaccess.h>
 

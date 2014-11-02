@@ -167,7 +167,7 @@ void CodeEditor::editTextBlock(TextBlock * tBlock, int para)
 
                 if ((at = dynamic_cast<UMLAttribute*>(obj))) {
                     QPointer<UMLAttributeDialog> dlg = new UMLAttributeDialog(this, at);
-                    if (dlg->exec() == KDialog::Accepted) {
+                    if (dlg->exec() == QDialog::Accepted) {
                         rebuildView(para);
                     }
                     delete dlg;
@@ -179,7 +179,7 @@ void CodeEditor::editTextBlock(TextBlock * tBlock, int para)
                 }
                 else if ((role = dynamic_cast<UMLRole*>(obj))) {
                     QPointer<UMLRoleDialog> dlg = new UMLRoleDialog(this, role);
-                    if (dlg->exec() == KDialog::Accepted) {
+                    if (dlg->exec() == QDialog::Accepted) {
                         rebuildView(para);
                     }
                     delete dlg;
@@ -188,7 +188,7 @@ void CodeEditor::editTextBlock(TextBlock * tBlock, int para)
                     //else if((cop = dynamic_cast<CodeOperation*>(tBlock)))
                 {
                     QPointer<UMLOperationDialog> dlg = new UMLOperationDialog(this, op);
-                    if (dlg->exec() == KDialog::Accepted) {
+                    if (dlg->exec() == QDialog::Accepted) {
                         rebuildView(para);
                     }
                     delete dlg;

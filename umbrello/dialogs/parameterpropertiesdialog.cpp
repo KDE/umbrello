@@ -154,9 +154,6 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
     // manage types
     m_pTypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
     m_pTypeCB->setEditable(true);
-#if 0 //FIXME KF5
-    m_pTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
     //    m_pTypeCB->setCompleter(...);
     if (attr) {
         insertTypesSorted(attr->getTypeName());
@@ -164,9 +161,6 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
 
     // manage stereotypes
     m_pStereoTypeCB->setDuplicatesEnabled(false); //only allow one of each type in box
-#if 0 //FIXME KF5
-    m_pStereoTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
     if (m_pAtt) {
         insertStereotypesSorted(m_pAtt->stereotype());
     }

@@ -131,9 +131,6 @@ void UMLAttributeDialog::setupDialog()
     }
 
     m_pTypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
-#if 0 //FIXME KF5
-    m_pTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
 
     //now add the Concepts
     insertTypesSorted(m_pAttribute->getTypeName());

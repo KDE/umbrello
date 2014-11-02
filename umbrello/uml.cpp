@@ -81,6 +81,7 @@
 #include <QFileDialog>
 #include <QKeyEvent>
 #include <QLabel>
+#include <QListWidget>
 #include <QMenu>
 #include <QPointer>
 #include <QPrinter>
@@ -95,7 +96,6 @@
 #include <QToolButton>
 #include <QUndoStack>
 #include <QUndoView>
-#include <QListWidget>
 
 #include <cmath>
 
@@ -1373,13 +1373,22 @@ bool UMLApp::slotPrintSettings()
     }
     m_printSettings = new DiagramPrintPage(0, m_doc);
 
-    QPointer<KDialog> dlg = new KDialog();
-    dlg->setMainWidget(m_printSettings);
+    QPointer<QDialog> dlg = new QDialog();
+    QVBoxLayout *layout = new QVBoxLayout();
+    layout->addWidget(m_printSettings);
+
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
+                                                       QDialogButtonBox::Cancel);
+    connect(buttonBox, SIGNAL(accepted()), dlg, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), dlg, SLOT(reject()));
+    layout->addWidget(buttonBox);
+
+    dlg->setLayout(layout);
 
     bool result = dlg->exec() == QDialog::Accepted;
 
     // keep settings
-    dlg->setMainWidget(0);
+    layout->removeWidget(m_printSettings);
     m_printSettings->setParent(0);
 
     delete dlg;

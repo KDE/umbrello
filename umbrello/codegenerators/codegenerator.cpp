@@ -33,11 +33,11 @@
 // kde includes
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kdialog.h>
 
 // qt includes
 #include <QApplication>
 #include <QDateTime>
+#include <QDialog>
 #include <QDir>
 #include <QDomDocument>
 #include <QDomElement>
@@ -534,7 +534,7 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
         break;
     case CodeGenerationPolicy::Ask:            //ask if we can overwrite
         switch(overwriteDialog->exec()) {
-        case KDialog::Yes:  //overwrite file
+        case QDialog::Accepted:  //overwrite file
             if (overwriteDialog->applyToAllRemaining()) {
                 pol->setOverwritePolicy(CodeGenerationPolicy::Ok);
                 filename = name + extension;
@@ -543,22 +543,23 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
                 m_applyToAllRemaining = false;
             }
             break;
-        case KDialog::No: //generate similar name
-            suffix = 1;
-            while (1) {
-                filename = name + QLatin1String("__") + QString::number(suffix) + extension;
-                if (!outputDirectory.exists(filename))
-                    break;
-                suffix++;
-            }
-            if (overwriteDialog->applyToAllRemaining()) {
-                pol->setOverwritePolicy(CodeGenerationPolicy::Never);
-            }
-            else {
-                m_applyToAllRemaining = false;
-            }
-            break;
-        case KDialog::Cancel: //don't output anything
+//FIXME KF5
+//        case KDialog::No: //generate similar name
+//            suffix = 1;
+//            while (1) {
+//                filename = name + QLatin1String("__") + QString::number(suffix) + extension;
+//                if (!outputDirectory.exists(filename))
+//                    break;
+//                suffix++;
+//            }
+//            if (overwriteDialog->applyToAllRemaining()) {
+//                pol->setOverwritePolicy(CodeGenerationPolicy::Never);
+//            }
+//            else {
+//                m_applyToAllRemaining = false;
+//            }
+//            break;
+        case QDialog::Rejected: //don't output anything
             if (overwriteDialog->applyToAllRemaining()) {
                 pol->setOverwritePolicy(CodeGenerationPolicy::Cancel);
             }

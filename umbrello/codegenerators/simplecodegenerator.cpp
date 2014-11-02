@@ -28,11 +28,11 @@
 // kde includes
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kdialog.h>
 
 // qt includes
 #include <QApplication>
 #include <QDateTime>
+#include <QDialog>
 #include <QDir>
 #include <QPointer>
 #include <QRegExp>
@@ -188,20 +188,21 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
                 m_applyToAllRemaining = false;
             }
             break;
-        case KDialog::No: //generate similar name
-            suffix = 1;
-            while (1) {
-                filename = name + QLatin1String("__") + QString::number(suffix) + ext;
-                if (!outputDir.exists(filename))
-                    break;
-                suffix++;
-            }
-            if (overwriteDialog->applyToAllRemaining()) {
-                commonPolicy->setOverwritePolicy(CodeGenerationPolicy::Never);
-            } else {
-                m_applyToAllRemaining = false;
-            }
-            break;
+//FIXME KF5
+//        case KDialog::No: //generate similar name
+//            suffix = 1;
+//            while (1) {
+//                filename = name + QLatin1String("__") + QString::number(suffix) + ext;
+//                if (!outputDir.exists(filename))
+//                    break;
+//                suffix++;
+//            }
+//            if (overwriteDialog->applyToAllRemaining()) {
+//                commonPolicy->setOverwritePolicy(CodeGenerationPolicy::Never);
+//            } else {
+//                m_applyToAllRemaining = false;
+//            }
+//            break;
         case QDialog::Rejected: //don't output anything
             if (overwriteDialog->applyToAllRemaining()) {
                 commonPolicy->setOverwritePolicy(CodeGenerationPolicy::Cancel);

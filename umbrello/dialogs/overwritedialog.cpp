@@ -16,8 +16,10 @@
 
 // qt includes
 #include <QCheckBox>
+#include <QDialogButtonBox>
 #include <QLabel>
 #include <QLayout>
+#include <QPushButton>
 #include <QVBoxLayout>
 
 /**
@@ -27,34 +29,33 @@ OverwriteDialog::OverwriteDialog(
         const QString& fileName,
         const QString& outputDirectory,
         bool applyToAllRemaining, QWidget* parent)
-  : KDialog(parent)
+  : QDialog(parent)
 {
-    setCaption(i18n("Destination File Already Exists"));
-    setButtons(Ok | Apply | Cancel);
-    setDefaultButton(Yes);
+    setWindowTitle(i18n("Destination File Already Exists"));
     setModal(true);
-    showButtonSeparator(true);
 
-    QFrame *frame = new QFrame(this);
-    setMainWidget(frame);
-
-    QVBoxLayout* layout = new QVBoxLayout(frame);
-    layout->setSpacing(spacingHint());
+    QVBoxLayout* layout = new QVBoxLayout();
+//FIXME KF5    layout->setSpacing(spacingHint());
     layout->setMargin(0);
+    setLayout(layout);
 
-    QLabel* dialogueLabel = new QLabel(i18n("The file %1 already exists in %2.\n\nUmbrello can overwrite the file, generate a similar\nfile name or not generate this file.", fileName, outputDirectory), frame);
+    QLabel* dialogueLabel = new QLabel(i18n("The file %1 already exists in %2.\n\nUmbrello can overwrite the file, generate a similar\nfile name or not generate this file.", fileName, outputDirectory));
     layout->addWidget(dialogueLabel);
 
-    m_applyToAllRemaining = new QCheckBox(i18n("&Apply to all remaining files"), frame);
+    m_applyToAllRemaining = new QCheckBox(i18n("&Apply to all remaining files"));
     m_applyToAllRemaining->setChecked(applyToAllRemaining);
     layout->addWidget(m_applyToAllRemaining);
 
-    setButtonText(KDialog::Ok, i18n("&Overwrite"));
-    setButtonText(KDialog::Apply, i18n("&Generate Similar File Name"));
-    setButtonText(KDialog::Cancel, i18n("&Do Not Generate File"));
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
-    connect(this, SIGNAL(cancelClicked()), this, SLOT(slotCancel()));
+    QDialogButtonBox *buttonBox = new QDialogButtonBox();
+    buttonBox->addButton(i18n("&Overwrite"), QDialogButtonBox::AcceptRole);
+//FIXME KF5    QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+//FIXME KF5    okButton->setDefault(true);
+    buttonBox->addButton(i18n("&Generate Similar File Name"), QDialogButtonBox::ApplyRole);
+    buttonBox->addButton(i18n("&Do Not Generate File"), QDialogButtonBox::RejectRole);
+
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
+//FIXME KF5    connect(buttonBox, SIGNAL(clicked()), this, SLOT(slotApply()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(slotCancel()));
 }
 
 /**
@@ -70,7 +71,7 @@ OverwriteDialog::~OverwriteDialog()
  */
 void OverwriteDialog::slotOk()
 {
-    done(Yes);
+    accept();
 }
 
 /**
@@ -78,7 +79,7 @@ void OverwriteDialog::slotOk()
  */
 void OverwriteDialog::slotApply()
 {
-    done(No);
+//FIXME KF5    done(No);
 }
 
 /**
@@ -86,7 +87,7 @@ void OverwriteDialog::slotApply()
  */
 void OverwriteDialog::slotCancel()
 {
-    done(Cancel);
+    reject();
 }
 
 /**

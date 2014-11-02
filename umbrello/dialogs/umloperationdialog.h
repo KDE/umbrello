@@ -11,16 +11,14 @@
 #ifndef UMLOPERATIONDIALOG_H
 #define UMLOPERATIONDIALOG_H
 
-//kde includes
-#include <kdialog.h>
-
 //qt includes
-#include <QListWidgetItem>
+#include <QDialog>
 
 class UMLOperation;
 class ListPopupMenu;
 class QGroupBox;
 class QListWidget;
+class QListWidgetItem;
 class QLabel;
 class QRadioButton;
 class QPushButton;
@@ -34,7 +32,7 @@ class QToolButton;
  * @author Paul Hensgen
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class UMLOperationDialog : public KDialog
+class UMLOperationDialog : public QDialog
 {
     Q_OBJECT
 public:
@@ -87,13 +85,8 @@ public slots:
     void slotParameterProperties();
     void slotParameterUp();
     void slotParameterDown();
-
     void slotParamsBoxClicked(QListWidgetItem* parameterItem);
-
-    void slotApply();
-
     void slotOk();
-    void slotNameChanged(const QString &);
 
 };
 
