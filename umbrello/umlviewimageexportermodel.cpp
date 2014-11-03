@@ -23,6 +23,7 @@
 // kde include files
 #include <klocale.h>
 #include <kio/netaccess.h>
+#include <KIO/MkdirJob>
 
 // include files for Qt
 #include <QApplication>
@@ -321,7 +322,8 @@ bool UMLViewImageExporterModel::prepareDirectory(const QUrl &url) const
 
         if (!KIO::NetAccess::exists(directory, KIO::NetAccess::SourceSide, UMLApp::app())) {
 
-            if (!KIO::NetAccess::mkdir(directory, UMLApp::app())) {
+            KIO::MkdirJob* job = KIO::mkdir(directory);
+            if (!job->exec()) {
                 return false;
             }
         }

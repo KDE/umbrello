@@ -491,6 +491,7 @@ target_link_libraries(umbrello
     KF5::I18n
     KF5::IconThemes
     KF5::GuiAddons
+    KF5::KIOCore
     KF5::TextEditor
     KF5::WidgetsAddons
     KF5::WindowSystem
