@@ -11,8 +11,8 @@
 #ifndef UMLCHECKCONSTRAINTDIALOG_H
 #define UMLCHECKCONSTRAINTDIALOG_H
 
-//kde includes
-#include <kdialog.h>
+// qt includes
+#include <QDialog>
 
 class UMLDoc;
 class UMLCheckConstraint;
@@ -27,49 +27,30 @@ class QLabel;
  * @author Sharan Rao
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class UMLCheckConstraintDialog : public KDialog
+class UMLCheckConstraintDialog : public QDialog
 {
     Q_OBJECT
 public:
-
-    /**
-     *  Sets up the UMLCheckConstraintDialog
-     *
-     *  @param parent   The parent to the UMLUniqueConstraintDialog.
-     *  @param pUniqueConstraint The Unique Constraint to show the properties of.
-     */
     UMLCheckConstraintDialog(QWidget* parent, UMLCheckConstraint* pUniqueConstraint);
-
-    /**
-     *  Standard destructor
-     */
     ~UMLCheckConstraintDialog();
 
 protected:
-
     void setupDialog();
 
     bool apply();
 
 private:
-
     UMLCheckConstraint* m_pCheckConstraint;
 
-    /**
-     * The UMLDocument where all objects live
-     */
-    UMLDoc* m_doc;
+    UMLDoc* m_doc;  //< the UMLDocument where all objects live
 
-    /**
-     * The GUI widgets
-     */
+    // the GUI widgets
     QLabel* m_pNameL;
     KLineEdit* m_pNameLE;
     QLabel* m_pCheckConditionL;
     KTextEdit* m_pCheckConditionTE;
 
 public slots:
-
     void slotOk();
 
 };

@@ -11,7 +11,7 @@
 #ifndef UMLENTITYATTRIBUTEDIALOG_H
 #define UMLENTITYATTRIBUTEDIALOG_H
 
-#include <kdialog.h>
+#include <QDialog>
 
 class QCheckBox;
 class QGroupBox;
@@ -25,7 +25,7 @@ class KLineEdit;
  * @author Jonathan Riddell
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class UMLEntityAttributeDialog : public KDialog
+class UMLEntityAttributeDialog : public QDialog
 {
     Q_OBJECT
 public:
@@ -33,19 +33,14 @@ public:
     ~UMLEntityAttributeDialog();
 
 protected:
-
     void setupDialog();
 
     bool apply();
 
     void insertTypesSorted(const QString& type = QString());
-
     void insertAttribute(const QString& type, int index = -1);
 
-    /**
-     * The EntityAttribute to represent.
-     */
-    UMLEntityAttribute * m_pEntityAttribute;
+    UMLEntityAttribute * m_pEntityAttribute;  //< the EntityAttribute to represent
 
     //GUI Widgets
     QGroupBox * m_pAttsGB, * m_pValuesGB;
@@ -59,13 +54,8 @@ protected:
     QCheckBox* m_pNullCB;
 
 public slots:
-
     void slotAutoIncrementStateChanged(bool checked);
-
-    void slotApply();
-
     void slotOk();
-    void slotNameChanged(const QString &);
 };
 
 #endif

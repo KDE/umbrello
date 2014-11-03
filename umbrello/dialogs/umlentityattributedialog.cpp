@@ -31,6 +31,7 @@
 // qt includes
 #include <QApplication>
 #include <QCheckBox>
+#include <QDialogButtonBox>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QHBoxLayout>
@@ -40,17 +41,12 @@
 #include <QVBoxLayout>
 
 UMLEntityAttributeDialog::UMLEntityAttributeDialog(QWidget * pParent, UMLEntityAttribute * pEntityAttribute)
-        : KDialog(pParent)
+  : QDialog(pParent),
+    m_pEntityAttribute(pEntityAttribute)
 {
-    setCaption(i18n("Entity Attribute Properties"));
-    setButtons(Help | Ok | Cancel);
-    setDefaultButton(Ok);
+    setWindowTitle(i18n("Entity Attribute Properties"));
     setModal(true);
-    showButtonSeparator(true);
-    m_pEntityAttribute = pEntityAttribute;
     setupDialog();
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
 }
 
 UMLEntityAttributeDialog::~UMLEntityAttributeDialog()
@@ -63,11 +59,11 @@ UMLEntityAttributeDialog::~UMLEntityAttributeDialog()
 void UMLEntityAttributeDialog::setupDialog()
 {
     int margin = fontMetrics().height();
-    QFrame *frame = new QFrame(this);
-    setMainWidget(frame);
-    QVBoxLayout * mainLayout = new QVBoxLayout(frame);
 
-    m_pValuesGB = new QGroupBox(i18n("General Properties"), frame);
+    QVBoxLayout * mainLayout = new QVBoxLayout();
+    setLayout(mainLayout);
+
+    m_pValuesGB = new QGroupBox(i18n("General Properties"));
     QGridLayout * valuesLayout = new QGridLayout(m_pValuesGB);
     valuesLayout->setMargin(margin);
     valuesLayout->setSpacing(10);
@@ -120,7 +116,7 @@ void UMLEntityAttributeDialog::setupDialog()
 
     mainLayout->addWidget(m_pValuesGB);
 
-    m_pScopeGB = new QGroupBox(i18n("Indexing"), frame);
+    m_pScopeGB = new QGroupBox(i18n("Indexing"));
     QHBoxLayout* scopeLayout = new QHBoxLayout(m_pScopeGB);
     scopeLayout->setMargin(margin);
 
@@ -158,14 +154,13 @@ void UMLEntityAttributeDialog::setupDialog()
     insertTypesSorted(m_pEntityAttribute->getTypeName());
 
     m_pNameLE->setFocus();
-    connect(m_pNameLE, SIGNAL(textChanged(QString)), SLOT(slotNameChanged(QString)));
     connect(m_pAutoIncrementCB, SIGNAL(clicked(bool)), this, SLOT(slotAutoIncrementStateChanged(bool)));
-    slotNameChanged(m_pNameLE->text());
-}
 
-void UMLEntityAttributeDialog::slotNameChanged(const QString &_text)
-{
-    enableButtonOk(!_text.isEmpty());
+    QDialogButtonBox *buttonBox = new QDialogButtonBox();
+    buttonBox->setStandardButtons(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    mainLayout->addWidget(buttonBox);
 }
 
 /**
@@ -235,15 +230,6 @@ bool UMLEntityAttributeDialog::apply()
     }
     m_pEntityAttribute->setType(classifier);
     return true;
-}
-
-/**
- * I don't think this is used, but if we had an apply button
- * it would slot into here.
- */
-void UMLEntityAttributeDialog::slotApply()
-{
-    apply();
 }
 
 /**

@@ -26,6 +26,7 @@
 
 // qt includes
 #include <QComboBox>
+#include <QDialogButtonBox>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QLabel>
@@ -33,17 +34,12 @@
 #include <QVBoxLayout>
 
 UMLTemplateDialog::UMLTemplateDialog(QWidget* pParent, UMLTemplate* pTemplate)
-        : KDialog(pParent)
+  : QDialog(pParent),
+    m_pTemplate(pTemplate)
 {
-    m_pTemplate = pTemplate;
-    setCaption(i18n("Template Properties"));
-    setButtons(Help | Ok | Cancel);
-    setDefaultButton(Ok);
+    setWindowTitle(i18n("Template Properties"));
     setModal(true);
-    showButtonSeparator(true);
     setupDialog();
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
 }
 
 UMLTemplateDialog::~UMLTemplateDialog()
@@ -57,11 +53,10 @@ void UMLTemplateDialog::setupDialog()
 {
     int margin = fontMetrics().height();
 
-    QFrame *frame = new QFrame(this);
-    setMainWidget(frame);
-    QVBoxLayout* mainLayout = new QVBoxLayout(frame);
+    QVBoxLayout* mainLayout = new QVBoxLayout();
+    setLayout(mainLayout);
 
-    m_pValuesGB = new QGroupBox(i18n("General Properties"), frame);
+    m_pValuesGB = new QGroupBox(i18n("General Properties"));
     QGridLayout* valuesLayout = new QGridLayout(m_pValuesGB);
     valuesLayout->setMargin(margin);
     valuesLayout->setSpacing(10);
@@ -89,6 +84,12 @@ void UMLTemplateDialog::setupDialog()
     insertTypesSorted(m_pTemplate->getTypeName());
 
     m_pNameLE->setFocus();
+
+    QDialogButtonBox *buttonBox = new QDialogButtonBox();
+    buttonBox->setStandardButtons(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    mainLayout->addWidget(buttonBox);
 }
 
 /**
@@ -168,16 +169,7 @@ bool UMLTemplateDialog::apply()
 }
 
 /**
- * I don't think this is used, but if we had an apply button
- * it would slot into here
- */
-void UMLTemplateDialog::slotApply()
-{
-    apply();
-}
-
-/**
- * Used when the OK button is clicked.  Calls apply()
+ * Used when the OK button is clicked. Calls apply()
  */
 void UMLTemplateDialog::slotOk()
 {

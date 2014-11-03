@@ -11,7 +11,7 @@
 #ifndef UMLTEMPLATEDIALOG_H
 #define UMLTEMPLATEDIALOG_H
 
-#include <kdialog.h>
+#include <QDialog>
 
 class KComboBox;
 class KLineEdit;
@@ -25,7 +25,7 @@ class UMLTemplate;
  * @author Jonathan Riddell
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class UMLTemplateDialog : public KDialog
+class UMLTemplateDialog : public QDialog
 {
     Q_OBJECT
 public:
@@ -33,15 +33,11 @@ public:
     ~UMLTemplateDialog();
 
 protected:
-
     void setupDialog();
 
     bool apply();
 
-    /**
-     *   The Attribute to represent
-     */
-    UMLTemplate* m_pTemplate;
+    UMLTemplate* m_pTemplate;  //< the Attribute to represent
 
     // GUI Widgets
     QGroupBox *m_pValuesGB;
@@ -50,13 +46,9 @@ protected:
     KLineEdit *m_pNameLE, *m_pStereoTypeLE;
 
 public slots:
-
-    void slotApply();
-
     void slotOk();
 
 protected:
-
     void insertTypesSorted(const QString& type = QString());
 
 };

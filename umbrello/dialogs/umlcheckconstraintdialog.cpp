@@ -20,26 +20,30 @@
 #include <klineedit.h>
 
 // qt includes
+#include <QDialogButtonBox>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QVBoxLayout>
 
+/**
+ *  Sets up the UMLCheckConstraintDialog.
+ *
+ *  @param parent   The parent to the UMLUniqueConstraintDialog.
+ *  @param pUniqueConstraint The Unique Constraint to show the properties of.
+ */
 UMLCheckConstraintDialog::UMLCheckConstraintDialog(QWidget* parent, UMLCheckConstraint* pCheckConstraint)
-  : KDialog(parent)
+  : QDialog(parent),
+    m_pCheckConstraint(pCheckConstraint),
+    m_doc(UMLApp::app()->document())
 {
-    setCaption(i18n("Check Constraint Properties"));
-    setButtons(Help | Ok | Cancel);
-    setDefaultButton(Ok);
+    setWindowTitle(i18n("Check Constraint Properties"));
     setModal(true);
-    showButtonSeparator(true);
-
-    m_pCheckConstraint = pCheckConstraint;
-    m_doc = UMLApp::app()->document();
-
     setupDialog();
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
 }
 
+/**
+ *  Standard destructor.
+ */
 UMLCheckConstraintDialog::~UMLCheckConstraintDialog()
 {
 }
@@ -49,19 +53,17 @@ UMLCheckConstraintDialog::~UMLCheckConstraintDialog()
  */
 void UMLCheckConstraintDialog::setupDialog()
 {
-    QFrame *frame = new QFrame(this);
-    setMainWidget(frame);
-
     //main layout contains the name fields, the text field
-    QVBoxLayout* mainLayout = new QVBoxLayout(frame);
+    QVBoxLayout* mainLayout = new QVBoxLayout();
     mainLayout->setSpacing(15);
+    setLayout(mainLayout);
 
     // layout to hold the name label and line edit
     QHBoxLayout* nameLayout = new QHBoxLayout();
     mainLayout->addItem(nameLayout);
 
     // name label
-    m_pNameL = new QLabel(i18nc("name label", "Name"), this);
+    m_pNameL = new QLabel(i18nc("name label", "Name"));
     nameLayout->addWidget(m_pNameL);
     // name lineEdit
     m_pNameLE = new KLineEdit(this);
@@ -70,10 +72,10 @@ void UMLCheckConstraintDialog::setupDialog()
     QVBoxLayout* checkConditionLayout = new QVBoxLayout();
     mainLayout->addItem(checkConditionLayout);
 
-    m_pCheckConditionL = new QLabel(i18n("Check Condition :"), frame);
+    m_pCheckConditionL = new QLabel(i18n("Check Condition :"));
     checkConditionLayout->addWidget(m_pCheckConditionL);
 
-    m_pCheckConditionTE = new KTextEdit(frame);
+    m_pCheckConditionTE = new KTextEdit();
     checkConditionLayout->addWidget(m_pCheckConditionTE);
 
     // set text of text edit
@@ -81,6 +83,12 @@ void UMLCheckConstraintDialog::setupDialog()
 
     // set text of label
     m_pNameLE->setText(m_pCheckConstraint->name());
+
+    QDialogButtonBox *buttonBox = new QDialogButtonBox();
+    buttonBox->setStandardButtons(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    mainLayout->addWidget(buttonBox);
 }
 
 /**
