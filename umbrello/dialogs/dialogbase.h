@@ -22,6 +22,7 @@
 //forward declarations
 class KFontChooser;
 class KPageDialog;
+class QAbstractButton;
 class QFrame;
 class UMLWidget;
 class UMLWidgetStylePage;
@@ -68,6 +69,8 @@ signals:
 
 private slots:
     void slotOkClicked();
+    void slotHelpClicked();
+    void slotButtonClicked(QAbstractButton *button);
     void slotApplyClicked();
     void slotDefaultClicked();
 

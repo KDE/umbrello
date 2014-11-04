@@ -12,6 +12,7 @@
 #include "dialogbase.h"
 
 // local includes
+#include "debug_utils.h"
 #include "icon_utils.h"
 #include "uml.h"
 #include "umlwidget.h"
@@ -23,11 +24,16 @@
 #include <KPageWidget>
 
 // qt includes
+#include <QAbstractButton>
 #include <QApplication>
+#include <QDialogButtonBox>
 #include <QDockWidget>
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QKeyEvent>
+#include <QPushButton>
+
+DEBUG_REGISTER(DialogBase)
 
 /**
  * Constructor
@@ -41,20 +47,24 @@ DialogBase::DialogBase(QWidget *parent, bool withDefaultButton)
 {
     if (m_useDialog) {
         m_pageDialog = new KPageDialog(parent);
-#if 0 //FIXME KF5
-        KDialog::ButtonCodes buttons = KDialog::Ok | KDialog::Apply | KDialog::Cancel | KDialog::Help;
-        if (withDefaultButton)
-            buttons |=  KDialog::Default;
-        m_pageDialog->setButtons(buttons);
-        m_pageDialog->setDefaultButton(KDialog::Ok);
-        m_pageDialog->showButtonSeparator(true);
-        m_pageDialog->setFaceType(KPageDialog::List);
         m_pageDialog->setModal(true);
+        m_pageDialog->setFaceType(KPageDialog::List);
+        m_pageDialog->setStandardButtons(QDialogButtonBox::Ok |
+                                         QDialogButtonBox::Apply |
+                                         QDialogButtonBox::Cancel |
+                                         QDialogButtonBox::Help);
+        QDialogButtonBox * dlgButtonBox = m_pageDialog->findChild<QDialogButtonBox*>(QLatin1String("buttonbox"));
+        if (withDefaultButton) {
+            QPushButton *defaultButton = new QPushButton(i18n("Default"));
+            m_pageDialog->addActionButton(defaultButton);
+            connect(defaultButton, SIGNAL(clicked()), this, SLOT(slotDefaultClicked()));
+        }
+#if 0 //FIXME KF5
         m_pageDialog->setHelp(QString::fromLatin1("umbrello/index.html"), QString());
 #endif
-        connect(m_pageDialog, SIGNAL(okClicked()), this, SLOT(slotOkClicked()));
-        connect(m_pageDialog, SIGNAL(applyClicked()), this, SLOT(slotApplyClicked()));
-        connect(m_pageDialog, SIGNAL(defaultClicked()), this, SLOT(slotDefaultClicked()));
+        connect(m_pageDialog, SIGNAL(accepted()), this, SLOT(slotOkClicked()));
+        connect(dlgButtonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(slotButtonClicked(QAbstractButton*)));
+        connect(dlgButtonBox, SIGNAL(helpRequested()), this, SLOT(slotHelpClicked()));
     } else {
         m_pageWidget = new KPageWidget(this);
         m_pageWidget->setFaceType(KPageView::Tree);
@@ -136,22 +146,23 @@ void DialogBase::saveStylePageData(UMLWidget *widget)
 
 void DialogBase::setCaption(const QString &caption)
 {
-#if 0 //FIXME KF5
-    if (m_pageDialog)
-        m_pageDialog->setCaption(caption);
-#endif
+    if (m_pageDialog) {
+        m_pageDialog->setWindowTitle(caption);
+    }
 }
 
 void DialogBase::accept()
 {
-    if (m_pageDialog)
-        m_pageDialog->accept();
+//FIXME KF%
+//    if (m_pageDialog)
+//        m_pageDialog->accept();
 }
 
 void DialogBase::reject()
 {
-    if (m_pageDialog)
-        m_pageDialog->reject();
+//FIXME KF%
+//    if (m_pageDialog)
+//        m_pageDialog->reject();
 }
 
 KPageWidgetItem *DialogBase::currentPage()
@@ -173,7 +184,7 @@ void DialogBase::addPage(KPageWidgetItem *page)
 int DialogBase::spacingHint()
 {
 #if 0 //FIXME KF5
-    return KDialog::spacingHint();
+    return QDialog::spacingHint();
 #endif
     return 0;
 }
@@ -219,6 +230,29 @@ void DialogBase::slotApplyClicked()
 void DialogBase::slotDefaultClicked()
 {
     emit defaultClicked();
+}
+
+void DialogBase::slotHelpClicked()
+{
+    DEBUG(DBG_SRC)  << "HELP clicked...directly handled";
+}
+
+void DialogBase::slotButtonClicked(QAbstractButton *button)
+{
+    if (button == (QAbstractButton*)m_pageDialog->button(QDialogButtonBox::Apply)) {
+        DEBUG(DBG_SRC)  << "APPLY clicked...";
+        slotApplyClicked();
+    }
+//    else if (button == (QAbstractButton*)m_pageDialog->button(QDialogButtonBox::Default)) {
+//        DEBUG(DBG_SRC)  << "DEFAULT clicked...";
+//        slotDefaultClicked();
+//    }
+    else if (button == (QAbstractButton*)m_pageDialog->button(QDialogButtonBox::Help)) {
+        DEBUG(DBG_SRC)  << "HELP clicked...";
+    }
+    else {
+        DEBUG(DBG_SRC)  << "Button clicked with unhandled role.";
+    }
 }
 
 /**

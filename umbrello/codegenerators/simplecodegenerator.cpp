@@ -189,7 +189,7 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
             }
             break;
 //FIXME KF5
-//        case KDialog::No: //generate similar name
+//        case QDialog::No: //generate similar name
 //            suffix = 1;
 //            while (1) {
 //                filename = name + QLatin1String("__") + QString::number(suffix) + ext;
