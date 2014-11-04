@@ -11,7 +11,7 @@
 #ifndef SELECTOPERATIONDIALOG_H
 #define SELECTOPERATIONDIALOG_H
 
-#include <kdialog.h>
+#include <QDialog>
 
 class KComboBox;
 class KLineEdit;
@@ -28,7 +28,7 @@ class UMLView;
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class SelectOperationDialog : public KDialog
+class SelectOperationDialog : public QDialog
 {
     Q_OBJECT
 public:
@@ -45,9 +45,7 @@ public:
     void setAutoIncrementSequence(bool state);
 
     void setSeqNumber(const QString &num);
-
     void setCustomOp(const QString &op);
-
     bool setClassOp(const QString &op);
 
 protected:

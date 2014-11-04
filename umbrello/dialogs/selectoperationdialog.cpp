@@ -28,6 +28,7 @@
 
 // qt includes
 #include <QCheckBox>
+#include <QDialogButtonBox>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QLabel>
@@ -48,24 +49,19 @@ bool caseInsensitiveLessThan(const UMLOperation *s1, const UMLOperation *s2)
  *  @param  enableAutoIncrement Flag to enable auto increment checkbox
  */
 SelectOperationDialog::SelectOperationDialog(UMLView *parent, UMLClassifier * c, bool enableAutoIncrement)
-   : KDialog(parent), m_pView(parent), m_classifier(c)
+   : QDialog(parent), m_pView(parent), m_classifier(c)
 {
-    setCaption(i18n("Select Operation"));
-    setButtons(Ok | Cancel);
-    setDefaultButton(Yes);
+    setWindowTitle(i18n("Select Operation"));
     setModal(true);
-    showButtonSeparator(true);
 
-    QFrame *frame = new QFrame(this);
-    setMainWidget(frame);
+    QVBoxLayout * topLayout = new QVBoxLayout();
+    setLayout(topLayout);
 
-    QVBoxLayout * topLayout = new QVBoxLayout(frame);
-
-    m_pOpGB = new QGroupBox(i18n("Select Operation"), frame);
+    m_pOpGB = new QGroupBox(i18n("Select Operation"));
     topLayout->addWidget(m_pOpGB);
 
     QGridLayout * mainLayout = new QGridLayout(m_pOpGB);
-    mainLayout->setSpacing(spacingHint());
+//FIXME KF5    mainLayout->setSpacing(spacingHint());
     mainLayout->setMargin(fontMetrics().height());
 
     Dialog_Utils::makeLabeledEditField(mainLayout, 0,
@@ -96,7 +92,13 @@ SelectOperationDialog::SelectOperationDialog(UMLView *parent, UMLClassifier * c,
     connect(m_pOpLE, SIGNAL(textChanged(QString)), this, SLOT(slotTextChanged(QString)));
     mainLayout->addWidget(m_pOpLE, 2, 1, 1, 2);
     setupOperationsList();
-    enableButtonOk(false);
+//FIXME KF5    enableButtonOk(false);
+
+    QDialogButtonBox* dlgButtonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
+                                                          QDialogButtonBox::Cancel);
+    connect(dlgButtonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(dlgButtonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    mainLayout->addWidget(dlgButtonBox);
 }
 
 /**
@@ -161,7 +163,7 @@ void SelectOperationDialog::slotNewOperation()
         return;
     setupOperationsList();
     setClassOp(op->toString(Uml::SignatureType::SigNoVis));
-    enableButtonOk(true);
+//FIXME KF5    enableButtonOk(true);
 }
 
 /**
@@ -172,7 +174,7 @@ void SelectOperationDialog::slotIndexChanged(int index)
     if (index != -1) {
         m_pOpLE->setText(QString());
         m_id = OP;
-        enableButtonOk(true);
+//FIXME KF5        enableButtonOk(true);
     }
 }
 
@@ -184,7 +186,7 @@ void SelectOperationDialog::slotTextChanged(const QString &text)
     if (!text.isEmpty()) {
         m_pOpCB->setCurrentIndex(-1);
         m_id = CUSTOM;
-        enableButtonOk(true);
+//FIXME KF5        enableButtonOk(true);
     }
 }
 

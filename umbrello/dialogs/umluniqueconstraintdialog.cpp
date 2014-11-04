@@ -43,19 +43,13 @@
  *  @param pUniqueConstraint The Unique Constraint to show the properties of.
  */
 UMLUniqueConstraintDialog::UMLUniqueConstraintDialog(QWidget* parent, UMLUniqueConstraint* pUniqueConstraint)
-  : KDialog(parent),
+  : QDialog(parent),
     m_pUniqueConstraint(pUniqueConstraint),
     m_doc(UMLApp::app()->document())
 {
-    setCaption(i18n("Unique Constraint Properties"));
-    setButtons(Help | Ok | Apply | Cancel);
-    setDefaultButton(Ok);
+    setWindowTitle(i18n("Unique Constraint Properties"));
     setModal(true);
-    showButtonSeparator(true);
-
     setupDialog();
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
 }
 
 /**
@@ -70,8 +64,6 @@ UMLUniqueConstraintDialog::~UMLUniqueConstraintDialog()
  */
 void UMLUniqueConstraintDialog::setupDialog()
 {
-    QFrame *frame = new QFrame(this);
-    setMainWidget(frame);
     int margin = fontMetrics().height();
 
     // what do we need,
@@ -80,8 +72,9 @@ void UMLUniqueConstraintDialog::setupDialog()
     // a combo box, two push buttons, yeah that's it.
     // start
     //main layout contains the name fields, the column group box
-    QVBoxLayout* mainLayout = new QVBoxLayout(frame);
+    QVBoxLayout* mainLayout = new QVBoxLayout();
     mainLayout->setSpacing(10);
+    setLayout(mainLayout);
 
     // layout to hold the name label and line edit
     QHBoxLayout* nameLayout = new QHBoxLayout();
@@ -96,7 +89,7 @@ void UMLUniqueConstraintDialog::setupDialog()
 
     // group box to hold the column details
     // top group box, contains a vertical layout with list box above and buttons below
-    m_pAttributeListGB = new QGroupBox(i18n("Attribute Details"), frame);
+    m_pAttributeListGB = new QGroupBox(i18n("Attribute Details"));
     mainLayout->addWidget(m_pAttributeListGB);
 
     QVBoxLayout* listVBoxLayout = new QVBoxLayout(m_pAttributeListGB);
@@ -160,6 +153,14 @@ void UMLUniqueConstraintDialog::setupDialog()
     slotResetWidgetState();
 
     connect(m_pAttributeListLW, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotResetWidgetState()));
+
+    QDialogButtonBox* dlgButtonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
+                                                          QDialogButtonBox::Apply |
+                                                          QDialogButtonBox::Cancel);
+    connect(dlgButtonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
+//FIXME KF5    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
+    connect(dlgButtonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    mainLayout->addWidget(dlgButtonBox);
 }
 
 /**

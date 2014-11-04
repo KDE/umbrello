@@ -21,7 +21,7 @@ class QCheckBox;
  * or cancel.  Gives an option to apply the choice to all remaining files.
  *
  * Uses OK and Apply buttons but overrides their text and behaviour, probably
- * better to use user defined buttons but I couldn't work out how.  KDialogBase guru needed.
+ * better to use user defined buttons but I couldn't work out how.
  *
  * @author Jonathan Riddell <jr@jriddell.org>
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org

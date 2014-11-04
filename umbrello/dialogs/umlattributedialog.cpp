@@ -39,14 +39,11 @@
 #include <QVBoxLayout>
 
 UMLAttributeDialog::UMLAttributeDialog(QWidget * pParent, UMLAttribute * pAttribute)
-        : KDialog(pParent)
+  : QDialog(pParent),
+    m_pAttribute(pAttribute)
 {
-    setCaption(i18n("Attribute Properties"));
-    setButtons(Help | Ok | Cancel);
-    setDefaultButton(Ok);
+    setWindowTitle(i18n("Attribute Properties"));
     setModal(true);
-    showButtonSeparator(true);
-    m_pAttribute = pAttribute;
     setupDialog();
 }
 
@@ -61,11 +58,10 @@ void UMLAttributeDialog::setupDialog()
 {
     int margin = fontMetrics().height();
 
-    QFrame * frame = new QFrame(this);
-    setMainWidget(frame);
-    QVBoxLayout * mainLayout = new QVBoxLayout(frame);
+    QVBoxLayout * mainLayout = new QVBoxLayout();
+    setLayout(mainLayout);
 
-    m_pValuesGB = new QGroupBox(i18n("General Properties"), frame);
+    m_pValuesGB = new QGroupBox(i18n("General Properties"));
     QGridLayout * valuesLayout = new QGridLayout(m_pValuesGB);
     valuesLayout->setMargin(margin);
     valuesLayout->setSpacing(10);
@@ -95,7 +91,7 @@ void UMLAttributeDialog::setupDialog()
 
     mainLayout->addWidget(m_pValuesGB);
 
-    m_pScopeGB = new QGroupBox(i18n("Visibility"), frame);
+    m_pScopeGB = new QGroupBox(i18n("Visibility"));
     QHBoxLayout * scopeLayout = new QHBoxLayout(m_pScopeGB);
     scopeLayout->setMargin(margin);
 
@@ -136,15 +132,12 @@ void UMLAttributeDialog::setupDialog()
     insertTypesSorted(m_pAttribute->getTypeName());
 
     m_pNameLE->setFocus();
-    connect(m_pNameLE, SIGNAL(textChanged(QString)), SLOT(slotNameChanged(QString)));
-    slotNameChanged(m_pNameLE->text());
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
-}
 
-void UMLAttributeDialog::slotNameChanged(const QString &_text)
-{
-    enableButtonOk(!_text.isEmpty());
+    QDialogButtonBox* dlgButtonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
+                                                          QDialogButtonBox::Cancel);
+    connect(dlgButtonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
+    connect(dlgButtonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    mainLayout->addWidget(dlgButtonBox);
 }
 
 /**
@@ -229,15 +222,6 @@ bool UMLAttributeDialog::apply()
     }
     m_pAttribute->setType(classifier);
     return true;
-}
-
-/**
- * I don't think this is used, but if we had an apply button
- * it would slot into here
- */
-void UMLAttributeDialog::slotApply()
-{
-    apply();
 }
 
 /**

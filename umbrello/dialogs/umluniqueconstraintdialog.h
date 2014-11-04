@@ -14,8 +14,8 @@
 //app includes
 #include "umlentityattributelist.h"
 
-//kde includes
-#include <kdialog.h>
+//qt includes
+#include <QDialog>
 
 class UMLDoc;
 class UMLUniqueConstraint;
@@ -33,7 +33,7 @@ class QPushButton;
  * @author Sharan Rao
  * Bugs and comments to umbrello-devel@kde.org or http://bugs.kde.org
  */
-class UMLUniqueConstraintDialog : public KDialog
+class UMLUniqueConstraintDialog : public QDialog
 {
     Q_OBJECT
 public:
@@ -49,7 +49,7 @@ private:
     UMLUniqueConstraint *m_pUniqueConstraint;
     UMLDoc              *m_doc;  ///< the UMLDocument where all objects live
 
-    /* GUI Widgets */
+    // GUI Widgets
     QGroupBox* m_pAttributeListGB;
     QLabel* m_pNameL;
     KLineEdit* m_pNameLE;
@@ -57,7 +57,7 @@ private:
     KComboBox* m_pAttributeCB;
     QPushButton* m_pAddPB, *m_pRemovePB;
 
-    /* local cache */
+    // local cache
     UMLEntityAttributeList m_pEntityAttributeList;
     UMLEntityAttributeList m_pConstraintAttributeList;
 
