@@ -517,6 +517,3 @@ install( DIRECTORY
     layouts
     DESTINATION ${DATA_INSTALL_DIR}/umbrello
     PATTERN .svn EXCLUDE )
-
-ecm_install_icons( ${ICON_INSTALL_DIR} )
-
