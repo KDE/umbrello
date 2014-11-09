@@ -287,4 +287,4 @@ void TEST_classifier::test_getUniAssociationToBeImplemented()
 }
 
 QTEST_MAIN(TEST_classifier)
-#include "test_classifier.moc"
+#include "TEST_classifier.moc"

@@ -1,9 +1,9 @@
-IF( KDE4_BUILD_TESTS )
+include(ECMMarkAsTest)
 
-  set( EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR} )
-  set( SRC_PATH ../umbrello )
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
+set(SRC_PATH ../umbrello)
 
-  include_directories(
+include_directories(
       ${LIBXML2_INCLUDE_DIR}
       ${LIBXSLT_INCLUDE_DIR}
       ${CMAKE_SOURCE_DIR}
@@ -38,32 +38,42 @@ IF( KDE4_BUILD_TESTS )
       ${SRC_PATH}/refactoring
       ${SRC_PATH}/widgets
       ${CMAKE_CURRENT_BINARY_DIR}
-      ${KDE4_INCLUDES}
-  )
+)
 
-  link_directories(
-      ${CMAKE_CURRENT_BINARY_DIR}/../umbrello/umbrello
-      ${CMAKE_CURRENT_BINARY_DIR}/../umbrello/umbrello/CMakeFiles/umbrello.dir
-      ${CMAKE_CURRENT_BINARY_DIR}/../umbrello/umbrello/CMakeFiles/umbrello.dir/dialogs
+# unit test for basictypes.cpp
+message(STATUS "Unit test: basictypes")
+add_executable(TEST_basictypes  ${SRC_PATH}/basictypes.cpp TEST_basictypes.cpp)    #FIXME KF5
+target_link_libraries(TEST_basictypes Qt5::Test Qt5::Widgets KF5::I18n)
+add_test(TEST_basictypes TEST_basictypes)
 
-  )
+# unit test for classifier.cpp
+#message(STATUS "Unit test: classifier")
+#add_executable(TEST_classifier  ${SRC_PATH}/classifier.cpp TEST_classifier.cpp)    #FIXME KF5
+#target_link_libraries(TEST_classifier Qt5::Test Qt5::Widgets Qt5::Xml KF5::I18n KF5::XmlGui)
+#add_test(TEST_classifier TEST_classifier)
 
-  MACRO(UNIT_TESTS)
-      FOREACH(_className ${ARGN})
-          MESSAGE(STATUS "Unit test: ${_className}")
-          set(_testName TEST_${_className})
-          kde4_add_unit_test(${_testName} TESTNAME umbrello-${_testName} NOGUI ${_testName}.cpp
-              ${SRC_PATH}/${_className}.cpp)
-          target_link_libraries(${_testName} ${QT_QTTEST_LIBRARY}
-              ${KDE4_KFILE_LIBS} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES})
-      ENDFOREACH(_className)
-  ENDMACRO(UNIT_TESTS)
+# unit test for cppwriter.cpp
+#message(STATUS "Unit test: cppwriter")
+#add_executable(TEST_cppwriter  ${SRC_PATH}/codegenerators/cpp/cppwriter.cpp TEST_cppwriter.cpp)    #FIXME KF5
+#target_link_libraries(TEST_cppwriter Qt5::Test Qt5::Widgets Qt5::Xml KF5::I18n KF5::XmlGui)
+#add_test(TEST_cppwriter TEST_cppwriter)
 
-  unit_tests(
-      basictypes
-#      classifier
-#      cppwriter
-#      pythonwriter
-  )
+# unit test for pythonwriter.cpp
+#message(STATUS "Unit test: pythonwriter")
+#add_executable(TEST_pythonwriter  ${SRC_PATH}/codegenerators/python/pythonwriter.cpp TEST_pythonwriter.cpp)    #FIXME KF5
+#target_link_libraries(TEST_pythonwriter Qt5::Test Qt5::Widgets Qt5::Xml KF5::I18n KF5::XmlGui)
+#add_test(TEST_pythonwriter TEST_pythonwriter)
 
-ENDIF( KDE4_BUILD_TESTS )
+# run ctest after building all unit tests
+macro(add_unit_test target unittests)
+    set(UNIT_TEST_TARGETS ${UNIT_TEST_TARGETS} ${unittests} PARENT_SCOPE)
+    add_test(target ${CMAKE_CURRENT_BINARY_DIR}/unittests)
+endmacro(add_unit_test)
+
+add_custom_target(all_tests ALL
+                  DEPENDS ${UNIT_TEST_TARGETS})
+add_custom_command(TARGET all_tests
+    COMMENT "Run unit tests -----------------------------"
+    POST_BUILD
+    COMMAND ctest ARGS
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR})

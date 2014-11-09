@@ -8,7 +8,7 @@ cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 
 # we need some parts of the ECM CMake helpers
 find_package(ECM 1.1.0 REQUIRED NO_MODULE)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
 
 include(KDEInstallDirs)
 include(KDECompilerSettings)
@@ -16,6 +16,7 @@ include(KDECMakeSettings)
 include(FeatureSummary)
 include(ECMInstallIcons)
 include(ECMSetupVersion)
+include(ECMOptionalAddSubdirectory)
 
 # search packages used by Qt
 set(QT_MIN_VERSION "5.2.0")
@@ -42,7 +43,7 @@ find_package(KF5 REQUIRED COMPONENTS
     I18n
     IconThemes
     Init
-    KDELibs4Support
+    KDELibs4Support  # TODO: Port away from this
     KIO
     Parts
     Service
@@ -110,13 +111,9 @@ include_directories(
 if(LIBXSLT_FOUND AND LIBXML2_FOUND)
     add_subdirectory(umbrello)
     add_subdirectory(doc)
-    # do we build the unit tests
-    if(KDE4_BUILD_TESTS)
-        ENABLE_TESTING()
-        add_subdirectory(unittests)
-    endif(KDE4_BUILD_TESTS)
 endif(LIBXSLT_FOUND AND LIBXML2_FOUND)
 
-set(KDE4_BUILD_TESTS ON)  # for unit tests
+# for automatic unit tests
+ecm_optional_add_subdirectory(unittests)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

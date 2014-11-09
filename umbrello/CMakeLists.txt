@@ -475,7 +475,6 @@ set(umbrello_SRCS
     ${libumbrello_SRCS}
 )
 
-#kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi*-app-umbrello.png")
 add_executable(umbrello ${umbrello_SRCS})
 target_link_libraries(umbrello
     Qt5::Widgets

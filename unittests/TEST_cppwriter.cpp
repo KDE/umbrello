@@ -86,4 +86,4 @@ void TEST_cppwriter::test_defaultDatatypes()
 }
 
 QTEST_MAIN(TEST_cppwriter)
-#include "test_cppwriter.moc"
+#include "TEST_cppwriter.moc"

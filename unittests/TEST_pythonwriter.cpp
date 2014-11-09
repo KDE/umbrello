@@ -77,4 +77,4 @@ void TEST_pythonwriter::test_toBeImplemented()
 }
 
 QTEST_MAIN(TEST_pythonwriter)
-#include "test_pythonwriter.moc"
+#include "TEST_pythonwriter.moc"
