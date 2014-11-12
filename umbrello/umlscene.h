@@ -251,8 +251,6 @@ public:
 
     void setClassWidgetOptions(ClassOptionsPage * page);
 
-    void checkSelections();
-
     WidgetBase::WidgetType getUniqueSelectionType();
 
     void clearDiagram();

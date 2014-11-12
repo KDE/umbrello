@@ -1661,8 +1661,6 @@ void UMLScene::selectWidget(UMLWidget* widget, QRectF* rect)
         MessageWidget * mw = dynamic_cast<MessageWidget*>(lw);
         if (mw) {
             makeSelected(mw);
-            makeSelected(mw->objectWidget(Uml::RoleType::A));
-            makeSelected(mw->objectWidget(Uml::RoleType::B));
         } else if (t != Uml::TextRole::Floating) {
             AssociationWidget * a = dynamic_cast<AssociationWidget*>(lw);
             if (a)
@@ -3218,44 +3216,6 @@ void UMLScene::setClassWidgetOptions(ClassOptionsPage * page)
             page->apply();
         }
     }
-}
-
-/**
- * Call before copying/cutting selected widgets.  This will make sure
- * any associations/message selected will make sure both the widgets
- * widgets they are connected to are selected.
- */
-void UMLScene::checkSelections()
-{
-    UMLWidget * pWA = 0, * pWB = 0;
-    //check messages
-    foreach(UMLWidget *pTemp, selectedWidgets()) {
-        if (pTemp->baseType() == WidgetBase::wt_Message && pTemp->isSelected()) {
-            MessageWidget * pMessage = static_cast<MessageWidget *>(pTemp);
-            pWA = pMessage->objectWidget(Uml::RoleType::A);
-            pWB = pMessage->objectWidget(Uml::RoleType::B);
-            if (!pWA->isSelected()) {
-                pWA->setSelectedFlag(true);
-            }
-            if (!pWB->isSelected()) {
-                pWB->setSelectedFlag(true);
-            }
-        }//end if
-    }//end for
-    //check Associations
-
-    foreach(AssociationWidget *pAssoc, m_AssociationList) {
-        if (pAssoc->isSelected()) {
-            pWA = pAssoc->widgetForRole(Uml::RoleType::A);
-            pWB = pAssoc->widgetForRole(Uml::RoleType::B);
-            if (!pWA->isSelected()) {
-                pWA->setSelectedFlag(true);
-            }
-            if (!pWB->isSelected()) {
-                pWB->setSelectedFlag(true);
-            }
-        }//end if
-    }//end foreach
 }
 
 /**

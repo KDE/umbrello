@@ -21,6 +21,7 @@
 #include "enum.h"
 #include "entity.h"
 #include "floatingtextwidget.h"
+#include "messagewidget.h"
 #include "operation.h"
 #include "template.h"
 #include "enumliteral.h"
@@ -88,7 +89,6 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
             uError() << "currentView umlScene() is NULL";
             return NULL;
         }
-        scene->checkSelections();
         m_WidgetList = scene->selectedWidgetsExt();
         //if there is no selected widget then there is no copy action
         if (!m_WidgetList.count()) {
@@ -96,6 +96,9 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
         }
         m_AssociationList = scene->selectedAssocs();
         scene->copyAsImage(png);
+
+        // Clip4 needs related widgets.
+        addRelatedWidgets();
 
         // Clip4 needs UMLObjects because it's possible the UMLObject
         // is no longer there when pasting this mime data. This happens for
@@ -215,6 +218,43 @@ bool UMLClipboard::paste(const QMimeData* data)
     }
     doc->endPaste();
     return result;
+}
+
+/**
+ * Fills object list based on a selection of widgets
+ *
+ * @param UMLWidgetList& widgets
+ */
+void UMLClipboard::addRelatedWidgets()
+{
+    UMLWidgetList relatedWidgets;
+    UMLWidget *pWA =0, *pWB = 0;
+
+    foreach (UMLWidget* widget, m_WidgetList) {
+        if (widget->baseType() == WidgetBase::wt_Message) {
+            MessageWidget * pMessage = static_cast<MessageWidget *>(widget);
+            pWA = (UMLWidget*)pMessage->objectWidget(Uml::RoleType::A);
+            pWB = (UMLWidget*)pMessage->objectWidget(Uml::RoleType::B);
+            if (!relatedWidgets.contains(pWA))
+                relatedWidgets.append(pWA);
+            if (!relatedWidgets.contains(pWB))
+                relatedWidgets.append(pWB);
+        }
+    }
+
+    foreach(AssociationWidget *pAssoc, m_AssociationList) {
+        pWA = pAssoc->widgetForRole(Uml::RoleType::A);
+        pWB = pAssoc->widgetForRole(Uml::RoleType::B);
+        if (!relatedWidgets.contains(pWA))
+            relatedWidgets.append(pWA);
+        if (!relatedWidgets.contains(pWB))
+            relatedWidgets.append(pWB);
+    }
+
+    foreach(UMLWidget *widget, relatedWidgets) {
+        if (!m_WidgetList.contains(widget))
+            m_WidgetList.append(widget);
+    }
 }
 
 /**
