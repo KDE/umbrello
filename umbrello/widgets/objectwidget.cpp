@@ -73,6 +73,7 @@ ObjectWidget::ObjectWidget(UMLScene * scene, UMLObject *o)
  */
 ObjectWidget::~ObjectWidget()
 {
+    cleanup();
 }
 
 /**
