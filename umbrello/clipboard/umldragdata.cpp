@@ -16,6 +16,7 @@
 #include "classifier.h"
 #include "cmds.h"
 #include "debug_utils.h"
+#include "floatingtextwidget.h"
 #include "folder.h"
 #include "idchangelog.h"
 #include "model_utils.h"
