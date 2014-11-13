@@ -21,7 +21,6 @@
 #include <klineedit.h>
 #include <klocale.h>
 #include <ktextedit.h>
-#include <kvbox.h>
 
 //qt includes
 #include <QCheckBox>
@@ -42,7 +41,6 @@ ActivityDialog::ActivityDialog(QWidget * parent, ActivityWidget * pWidget)
 {
     setCaption(i18n("Properties"));
     setupPages();
-
     connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
     connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
 }
@@ -137,13 +135,17 @@ void ActivityDialog::setupGeneralPage()
     QString types[ ] = { i18n("Initial activity"), i18n("Activity"), i18n("End activity"), i18n("Final activity"), i18n("Branch/Merge"), i18n("Invoke action"), i18n("Parameter activity") };
     ActivityWidget::ActivityType type = m_pActivityWidget->activityType();
 
-    KVBox *page = new KVBox();
+    QWidget *page = new QWidget();
+    QVBoxLayout* topLayout = new QVBoxLayout();
+    page->setLayout(topLayout);
+
     pageItemGeneral = new KPageWidgetItem(page, i18nc("general properties page", "General"));
     pageItemGeneral->setHeader(i18n("General Properties"));
     pageItemGeneral->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General));
     addPage(pageItemGeneral);
 
-    m_GenPageWidgets.generalGB = new QGroupBox(i18n("Properties"), (QWidget *)page);
+    m_GenPageWidgets.generalGB = new QGroupBox(i18n("Properties"));
+    topLayout->addWidget(m_GenPageWidgets.generalGB);
 
     QGridLayout * generalLayout = new QGridLayout(m_GenPageWidgets.generalGB);
     generalLayout->setSpacing(spacingHint());
@@ -171,13 +173,13 @@ void ActivityDialog::setupGeneralPage()
     m_GenPageWidgets.postL->hide();
     m_GenPageWidgets.postLE->hide();
 
-    m_GenPageWidgets.NormalRB = new QRadioButton(i18n("&Normal activity"), (QWidget *)page);
+    m_GenPageWidgets.NormalRB = new QRadioButton(i18n("&Normal activity"));
     generalLayout->addWidget(m_GenPageWidgets.NormalRB);
 
-    m_GenPageWidgets.InvokRB = new QRadioButton(i18n("&Invoke action "), (QWidget *)page);
+    m_GenPageWidgets.InvokRB = new QRadioButton(i18n("&Invoke action "));
     generalLayout->addWidget(m_GenPageWidgets.InvokRB);
 
-    m_GenPageWidgets.ParamRB = new QRadioButton(i18n("&Parameter activity node"), (QWidget *)page);
+    m_GenPageWidgets.ParamRB = new QRadioButton(i18n("&Parameter activity node"));
     generalLayout->addWidget(m_GenPageWidgets.ParamRB);
 
     if (type == ActivityWidget::Param)
@@ -197,7 +199,8 @@ void ActivityDialog::setupGeneralPage()
 
     m_GenPageWidgets.ParamRB->setChecked (newType == ActivityWidget::Param);
 
-    m_GenPageWidgets.docGB = new QGroupBox(i18n("Documentation"), (QWidget *)page);
+    m_GenPageWidgets.docGB = new QGroupBox(i18n("Documentation"));
+    topLayout->addWidget(m_GenPageWidgets.docGB);
 
     QHBoxLayout * docLayout = new QHBoxLayout(m_GenPageWidgets.docGB);
     docLayout->setSpacing(spacingHint());

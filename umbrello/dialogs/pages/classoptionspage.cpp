@@ -120,7 +120,6 @@ void ClassOptionsPage::setupPage()
 
     QVBoxLayout * topLayout = new QVBoxLayout(this);
 
-    topLayout->setSpacing(6);
     m_visibilityGB = new QGroupBox(i18n("Show"), this);
     topLayout->addWidget(m_visibilityGB);
     QGridLayout * visibilityLayout = new QGridLayout(m_visibilityGB);
@@ -187,7 +186,6 @@ void ClassOptionsPage::setupPageFromScene()
 
     QVBoxLayout * topLayout = new QVBoxLayout(this);
 
-    topLayout->setSpacing(6);
     m_visibilityGB = new QGroupBox(i18n("Show"), this);
     topLayout->addWidget(m_visibilityGB);
     QGridLayout * visibilityLayout = new QGridLayout(m_visibilityGB);
@@ -209,7 +207,6 @@ void ClassOptionsPage::setupClassPageOption()
 
     QVBoxLayout * topLayout = new QVBoxLayout(this);
 
-    topLayout->setSpacing(6);
     m_visibilityGB = new QGroupBox(i18n("Show"), this);
     topLayout->addWidget(m_visibilityGB);
     QGridLayout * visibilityLayout = new QGridLayout(m_visibilityGB);
@@ -254,7 +251,8 @@ void ClassOptionsPage::setupClassPageOption()
     visibilityLayout->addWidget(m_showPublicOnlyCB, 4, 1);
 
     if (!m_isDiagram) {
-        m_scopeGB = new QGroupBox(i18n("Starting Scope"), parentWidget());
+        m_scopeGB = new QGroupBox(i18n("Starting Scope"));
+        topLayout->addWidget(m_scopeGB);
         QGridLayout * scopeLayout = new QGridLayout(m_scopeGB);
         scopeLayout->setSpacing(10);
         scopeLayout->setMargin(fontMetrics().height());

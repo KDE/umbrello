@@ -31,7 +31,6 @@
 // kde includes
 #include <kfontdialog.h>
 #include <klocale.h>
-#include <kvbox.h>
 
 // qt includes
 #include <QFrame>
@@ -377,10 +376,10 @@ void ClassPropertiesDialog::setupAssociationsPage()
 void ClassPropertiesDialog::setupInstancePages()
 {
     QFrame* page = createPage(i18nc("instance general settings page name", "General"), i18n("General Settings"),
-                               Icon_Utils::it_Properties_General);
-    QHBoxLayout* genLayout = new QHBoxLayout(page);
+                              Icon_Utils::it_Properties_General);
     page->setMinimumSize(310, 330);
     m_pGenPage = new ClassGeneralPage(m_doc, page, m_pWidget);
+    QHBoxLayout* genLayout = new QHBoxLayout(page);
     genLayout->addWidget(m_pGenPage);
     m_pAssocPage = 0;
 }
@@ -393,11 +392,13 @@ void ClassPropertiesDialog::setupFontPage()
     if (!m_pWidget) {
         return;
     }
-    KVBox* page = new KVBox();
+    QWidget *page = new QWidget();
+    QVBoxLayout *topLayout = new QVBoxLayout(page);
     KPageWidgetItem *pageItem = new KPageWidgetItem(page, i18n("Font"));
     pageItem->setHeader(i18n("Font Settings"));
     pageItem->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font));
     addPage(pageItem);
-    m_pChooser = new KFontChooser((QWidget*)page, KFontChooser::NoDisplayFlags, QStringList(), 0);
+    m_pChooser = new KFontChooser(page, KFontChooser::NoDisplayFlags, QStringList(), 0);
     m_pChooser->setFont(m_pWidget->font());
+    topLayout->addWidget(m_pChooser);
 }

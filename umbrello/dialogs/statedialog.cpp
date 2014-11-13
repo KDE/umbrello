@@ -19,7 +19,6 @@
 #include "icon_utils.h"
 
 // kde includes
-#include <kvbox.h>
 #include <klineedit.h>
 #include <klocale.h>
 #include <ktextedit.h>
@@ -109,13 +108,17 @@ void StateDialog::setupGeneralPage()
 {
     StateWidget::StateType type = m_pStateWidget->stateType();
 
-    KVBox * page = new KVBox();
+    QWidget* page = new QWidget();
+    QVBoxLayout* topLayout = new QVBoxLayout();
+    page->setLayout(topLayout);
+
     pageGeneral = new KPageWidgetItem(page, i18nc("general page", "General"));
     pageGeneral->setHeader(i18n("General Properties"));
     pageGeneral->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General));
     addPage(pageGeneral);
 
-    m_GenPageWidgets.generalGB = new QGroupBox(i18n("Properties"), (QWidget *)page);
+    m_GenPageWidgets.generalGB = new QGroupBox(i18n("Properties"));
+    topLayout->addWidget(m_GenPageWidgets.generalGB);
 
     QGridLayout * generalLayout = new QGridLayout(m_GenPageWidgets.generalGB);
     generalLayout->setSpacing(spacingHint());
@@ -163,7 +166,8 @@ void StateDialog::setupGeneralPage()
                                     m_GenPageWidgets.nameL, i18n("State name:"),
                                     m_GenPageWidgets.nameLE);
 
-    m_GenPageWidgets.docGB = new QGroupBox(i18n("Documentation"), (QWidget *)page);
+    m_GenPageWidgets.docGB = new QGroupBox(i18n("Documentation"));
+    topLayout->addWidget(m_GenPageWidgets.docGB);
 
     QHBoxLayout * docLayout = new QHBoxLayout(m_GenPageWidgets.docGB);
     docLayout->setSpacing(spacingHint());

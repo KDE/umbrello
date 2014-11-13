@@ -24,10 +24,13 @@
 #include "icon_utils.h"
 #include "layoutgenerator.h"
 
+#include <kcolorbutton.h>
 #include <kfiledialog.h>
+#include <kfontdialog.h>
 #include <klocale.h>
-#include <kvbox.h>
 
+#include <QCheckBox>
+#include <QGroupBox>
 #include <QSpinBox>
 
 //TODO don't do that, but it's better than hardcoded in the functions body
@@ -175,78 +178,92 @@ void SettingsDialog::setupUIPage()
 void SettingsDialog::setupGeneralPage()
 {
     //setup General page
-    KVBox * page = new KVBox();
+    QWidget *page = new QWidget();
+    QVBoxLayout *topLayout = new QVBoxLayout(page);
     pageGeneral = new KPageWidgetItem(page, i18nc("general settings page", "General"));
     pageGeneral->setHeader(i18n("General Settings"));
     pageGeneral->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General));
     addPage(pageGeneral);
     m_pGeneralPage = new GeneralOptionPage(page);
+    topLayout->addWidget(m_pGeneralPage);
 }
 
 void SettingsDialog::setupClassPage()
 {
     //setup class settings page
-    KVBox * page = new KVBox();
+    QWidget *page = new QWidget();
+    QVBoxLayout *topLayout = new QVBoxLayout(page);
     pageClass = new KPageWidgetItem(page, i18nc("class settings page", "Class"));
     pageClass->setHeader(i18n("Class Settings"));
     pageClass->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Class));
     addPage(pageClass);
     m_pClassPage = new ClassOptionsPage(page, m_pOptionState, false);
+    topLayout->addWidget(m_pClassPage);
 }
 
 void SettingsDialog::setupCodeImportPage()
 {
     //setup code importer settings page
-    KVBox * page = new KVBox();
+    QWidget *page = new QWidget();
+    QVBoxLayout *topLayout = new QVBoxLayout(page);
     pageCodeImport = new KPageWidgetItem(page, i18n("Code Importer"));
     pageCodeImport->setHeader(i18n("Code Import Settings"));
     pageCodeImport->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_CodeImport));
     addPage(pageCodeImport);
     m_pCodeImportPage = new CodeImportOptionsPage(page);
+    topLayout->addWidget(m_pCodeImportPage);
 }
 
 void SettingsDialog::setupCodeGenPage()
 {
     //setup code generation settings page
-    KVBox * page = new KVBox();
+    QWidget *page = new QWidget();
+    QVBoxLayout *topLayout = new QVBoxLayout(page);
     pageCodeGen = new KPageWidgetItem(page, i18n("Code Generation"));
     pageCodeGen->setHeader(i18n("Code Generation Settings"));
     pageCodeGen->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_CodeGeneration));
     addPage(pageCodeGen);
     m_pCodeGenPage = new CodeGenOptionsPage(page);
     connect(m_pCodeGenPage, SIGNAL(languageChanged()), this, SLOT(slotApply()));
+    topLayout->addWidget(m_pCodeGenPage);
 }
 
 void SettingsDialog::setupCodeViewerPage(Settings::CodeViewerState options)
 {
     //setup code generation settings page
-    KVBox * page = new KVBox();
+    QWidget *page = new QWidget();
+    QVBoxLayout *topLayout = new QVBoxLayout(page);
     pageCodeViewer = new KPageWidgetItem(page, i18n("Code Viewer"));
     pageCodeViewer->setHeader(i18n("Code Viewer Settings"));
     pageCodeViewer->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_CodeViewer));
     addPage(pageCodeViewer);
     m_pCodeViewerPage = new CodeViewerOptionsPage(options, page);
+    topLayout->addWidget(m_pCodeViewerPage);
 }
 
 void SettingsDialog::setupFontPage()
 {
-    KVBox * page = new KVBox();
+    QWidget *page = new QWidget();
+    QVBoxLayout *topLayout = new QVBoxLayout(page);
     pageFont = new KPageWidgetItem(page, i18n("Font"));
     pageFont->setHeader(i18n("Font Settings"));
     pageFont->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font));
     addPage(pageFont);
     m_FontWidgets.chooser = new KFontChooser(page,  KFontChooser::NoDisplayFlags, QStringList(), 0);
     m_FontWidgets.chooser->setFont(m_pOptionState->uiState.font);
+    topLayout->addWidget(m_FontWidgets.chooser);
 }
 
 void SettingsDialog::setupAutoLayoutPage()
 {
-    KVBox * page = new KVBox();
+    QWidget *page = new QWidget();
+    QVBoxLayout *topLayout = new QVBoxLayout(page);
     pageAutoLayout = new KPageWidgetItem(page, i18n("Auto Layout"));
     pageAutoLayout->setHeader(i18n("Auto Layout Settings"));
     pageAutoLayout->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_AutoLayout));
     addPage(pageAutoLayout);
     m_pAutoLayoutPage = new AutoLayoutOptionPage(page);
+    topLayout->addWidget(m_pAutoLayoutPage);
 }
 
 void SettingsDialog::slotApply()

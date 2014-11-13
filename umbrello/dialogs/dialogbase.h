@@ -80,7 +80,6 @@ protected:
     KPageWidgetItem *m_pageItem;
     KPageDialog *m_pageDialog;
     KPageWidget *m_pageWidget;
-    bool m_useDialog;
     bool m_isModified;
     virtual void keyPressEvent(QKeyEvent *event);
 };

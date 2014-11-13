@@ -22,7 +22,6 @@
 #include <klineedit.h>
 #include <klocale.h>
 #include <ktextedit.h>
-#include <kvbox.h>
 
 // qt includes
 #include <QCheckBox>
@@ -132,13 +131,15 @@ void ObjectNodeDialog::setupGeneralPage()
     types << i18n("Central Buffer") << i18n("Data Store") << i18n("ObjectFlow");
     ObjectNodeWidget::ObjectNodeType type = m_pObjectNodeWidget->objectNodeType();
 
-    KVBox *page = new KVBox();
+    QWidget *page = new QWidget();
+    QVBoxLayout *topLayout = new QVBoxLayout(page);
     pageItemGeneral = new KPageWidgetItem(page, i18n("General"));
     pageItemGeneral->setHeader(i18n("General Properties"));
     pageItemGeneral->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General));
     addPage(pageItemGeneral);
 
-    m_GenPageWidgets.generalGB = new QGroupBox(i18nc("properties group title", "Properties"), (QWidget *)page);
+    m_GenPageWidgets.generalGB = new QGroupBox(i18nc("properties group title", "Properties"));
+    topLayout->addWidget(m_GenPageWidgets.generalGB);
 
     QGridLayout * generalLayout = new QGridLayout(m_GenPageWidgets.generalGB);
     generalLayout->setSpacing(spacingHint());
@@ -166,13 +167,13 @@ void ObjectNodeDialog::setupGeneralPage()
     m_GenPageWidgets.stateL->hide();
     m_GenPageWidgets.stateLE->hide();
 
-    m_GenPageWidgets.bufferRB = new QRadioButton(i18n("&Central Buffer"), (QWidget *)page);
+    m_GenPageWidgets.bufferRB = new QRadioButton(i18n("&Central Buffer"));
     generalLayout->addWidget(m_GenPageWidgets.bufferRB);
 
-    m_GenPageWidgets.dataRB = new QRadioButton(i18n("&Data Store "), (QWidget *)page);
+    m_GenPageWidgets.dataRB = new QRadioButton(i18n("&Data Store "));
     generalLayout->addWidget(m_GenPageWidgets.dataRB);
 
-    m_GenPageWidgets.flowRB = new QRadioButton(i18n("&Object Flow"), (QWidget *)page);
+    m_GenPageWidgets.flowRB = new QRadioButton(i18n("&Object Flow"));
     generalLayout->addWidget(m_GenPageWidgets.flowRB);
 
     if (type == ObjectNodeWidget::Flow)
@@ -190,7 +191,8 @@ void ObjectNodeDialog::setupGeneralPage()
     m_GenPageWidgets.dataRB->setChecked (newType == ObjectNodeWidget::Data);
     m_GenPageWidgets.flowRB->setChecked (newType == ObjectNodeWidget::Flow);
 
-    m_GenPageWidgets.docGB = new QGroupBox(i18n("Documentation"), (QWidget *)page);
+    m_GenPageWidgets.docGB = new QGroupBox(i18n("Documentation"));
+    topLayout->addWidget(m_GenPageWidgets.docGB);
 
     QHBoxLayout * docLayout = new QHBoxLayout(m_GenPageWidgets.docGB);
     docLayout->setSpacing(spacingHint());

@@ -14,25 +14,16 @@
 #include "dialogbase.h"
 #include "optionstate.h"
 
-// kde includes
-#include <kcombobox.h>
-#include <kfontdialog.h>
-#include <kcolorbutton.h>
-#include <klineedit.h>
-
-// qt includes
-#include <QCheckBox>
-#include <QGroupBox>
-#include <QLabel>
-#include <QPushButton>
-#include <QRadioButton>
-
 class AutoLayoutOptionPage;
 class ClassOptionsPage;
 class CodeImportOptionsPage;
 class CodeGenOptionsPage;
 class CodeViewerOptionsPage;
 class GeneralOptionPage;
+class KColorButton;
+class KFontChooser;
+class QCheckBox;
+class QGroupBox;
 class QSpinBox;
 class UMLWidgetStylePage;
 
@@ -78,8 +69,7 @@ private:
         QSpinBox     * lineWidthB;
 
         QCheckBox * useFillColorCB;
-    }
-    ;//end struct UIWidgets
+    };//end struct UIWidgets
 
     struct FontWidgets {
         KFontChooser * chooser;

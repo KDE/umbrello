@@ -42,10 +42,13 @@ DialogBase::DialogBase(QWidget *parent, bool withDefaultButton)
   : QWidget(parent),
     m_pageDialog(0),
     m_pageWidget(0),
-    m_useDialog(strcmp(parent->metaObject()->className(),"PropertiesWindow") != 0),
     m_isModified(false)
 {
-    if (m_useDialog) {
+    bool useDialog = false;
+    if (parent) {
+        useDialog = (strcmp(parent->metaObject()->className(),"PropertiesWindow") != 0);
+    }
+    if (useDialog) {
         m_pageDialog = new KPageDialog(parent);
         m_pageDialog->setModal(true);
         m_pageDialog->setFaceType(KPageDialog::List);

@@ -16,8 +16,8 @@
 // app includes
 #include "codegenerator.h"
 #include "codegenerationpolicypage.h"
-#include "codegenerators/codegenfactory.h"
-#include "codegenerators/codegenpolicyext.h"
+#include "codegenfactory.h"
+#include "codegenpolicyext.h"
 #include "defaultcodegenpolicypage.h"
 #include "uml.h"
 
@@ -34,7 +34,7 @@
  * @param parent   the parent (wizard) of this wizard page
  */
 CodeGenOptionsPage::CodeGenOptionsPage(QWidget *parent)
-    : QWizardPage(parent)
+  : QWizardPage(parent)
 {
     setTitle(i18n("Code Generation Options"));
     setSubTitle(i18n("Adjust code generation options."));

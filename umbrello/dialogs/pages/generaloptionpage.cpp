@@ -12,6 +12,7 @@
 #include "generaloptionpage.h"
 
 // local includes
+#include "debug_utils.h"
 #include "dialog_utils.h"
 #include "optionstate.h"
 
@@ -37,13 +38,16 @@
 GeneralOptionPage::GeneralOptionPage(QWidget* parent)
   : DialogPageBase(parent)
 {
+    QVBoxLayout* topLayout = new QVBoxLayout(this);
+
     Settings::OptionState &optionState = Settings::optionState();
 #if 0 //FIXME KF5
     int spacingHint = static_cast<QDialog*>(parent)->spacingHint();
 #endif
     int spacingHint = 2;
     // Set up undo setting
-    m_GeneralWidgets.miscGB = new QGroupBox(i18nc("miscellaneous group box", "Miscellaneous"), parent);
+    m_GeneralWidgets.miscGB = new QGroupBox(i18nc("miscellaneous group box", "Miscellaneous"));
+    topLayout->addWidget(m_GeneralWidgets.miscGB);
 
     QGridLayout * miscLayout = new QGridLayout(m_GeneralWidgets.miscGB);
     miscLayout->setSpacing(spacingHint);
@@ -70,7 +74,8 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     miscLayout->addWidget(m_GeneralWidgets.footerPrintingCB, 2, 0);
 
     //setup autosave settings
-    m_GeneralWidgets.autosaveGB = new QGroupBox(i18n("Autosave"), parent);
+    m_GeneralWidgets.autosaveGB = new QGroupBox(i18n("Autosave"));
+    topLayout->addWidget(m_GeneralWidgets.autosaveGB);
 
     QGridLayout * autosaveLayout = new QGridLayout(m_GeneralWidgets.autosaveGB);
     autosaveLayout->setSpacing(spacingHint);
@@ -104,7 +109,8 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     m_GeneralWidgets.autosaveSuffixT->setToolTip(autoSaveSuffixToolTip);
 
     //setup startup settings
-    m_GeneralWidgets.startupGB = new QGroupBox(i18n("Startup"), parent);
+    m_GeneralWidgets.startupGB = new QGroupBox(i18n("Startup"));
+    topLayout->addWidget(m_GeneralWidgets.startupGB);
 
     QGridLayout * startupLayout = new QGridLayout(m_GeneralWidgets.startupGB);
     startupLayout->setSpacing(spacingHint);

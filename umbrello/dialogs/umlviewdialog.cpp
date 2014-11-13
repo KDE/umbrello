@@ -26,7 +26,6 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kfontdialog.h>
-#include <kvbox.h>
 
 // qt includes
 #include <QFrame>
@@ -88,13 +87,16 @@ void UMLViewDialog::setupPages()
  */
 void UMLViewDialog::setupDiagramPropertiesPage()
 {
-    KVBox *page = new KVBox();
+    QWidget *page = new QWidget();
+    QVBoxLayout *topLayout = new QVBoxLayout(page);
+
     m_pageDiagramItem = new KPageWidgetItem(page, i18nc("general settings page", "General"));
     m_pageDiagramItem->setHeader(i18n("General Settings"));
     m_pageDiagramItem->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General));
     addPage(m_pageDiagramItem);
 
     m_diagramPropertiesPage = new DiagramPropertiesPage(page, m_pScene);
+    topLayout->addWidget(m_diagramPropertiesPage);
 }
 
 /**
@@ -109,7 +111,6 @@ void UMLViewDialog::setupDisplayPage()
         m_pScene->type() != Uml::DiagramType::Sequence) {
         return;
     }
-
 
     QFrame * newPage = new QFrame();
     m_pageDisplayItem = new KPageWidgetItem(newPage, i18nc("classes display options page", "Display"));
@@ -133,15 +134,15 @@ void UMLViewDialog::setupDisplayPage()
  */
 void UMLViewDialog::setupStylePage()
 {
-    QFrame * stylePage = new QFrame();
-    m_pageStyleItem = new KPageWidgetItem(stylePage, i18nc("diagram style page", "Style"));
+    QFrame * page = new QFrame();
+    QHBoxLayout *topLayout = new QHBoxLayout(page);
+    m_pageStyleItem = new KPageWidgetItem(page, i18nc("diagram style page", "Style"));
     m_pageStyleItem->setHeader(i18n("Diagram Style"));
     m_pageStyleItem->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Color));
     addPage(m_pageStyleItem);
 
-    QHBoxLayout * m_pStyleLayout = new QHBoxLayout(stylePage);
-    m_pStylePage = new UMLWidgetStylePage(stylePage, &m_options);
-    m_pStyleLayout->addWidget(m_pStylePage);
+    m_pStylePage = new UMLWidgetStylePage(page, &m_options);
+    topLayout->addWidget(m_pStylePage);
 }
 
 /**
@@ -149,14 +150,17 @@ void UMLViewDialog::setupStylePage()
  */
 void UMLViewDialog::setupFontPage()
 {
-    KVBox *page = new KVBox();
+    QFrame *page = new QFrame();
+    QVBoxLayout *topLayout = new QVBoxLayout(page);
+
     m_pageFontItem = new KPageWidgetItem(page, i18n("Font"));
     m_pageFontItem->setHeader(i18n("Font Settings"));
     m_pageFontItem->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font));
     addPage(m_pageFontItem);
 
-    m_pChooser = new KFontChooser((QWidget*)page, KFontChooser::NoDisplayFlags, QStringList(), 0);
+    m_pChooser = new KFontChooser(page, KFontChooser::NoDisplayFlags, QStringList(), 0);
     m_pChooser->setFont(m_pScene->optionState().uiState.font);
+    topLayout->addWidget(m_pChooser);
 }
 
 /**
