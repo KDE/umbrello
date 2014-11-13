@@ -24,6 +24,7 @@
 
 class UMLClassifier;
 class UMLListView;
+class UMLScene;
 class QPixmap;
 
 /**
@@ -45,7 +46,7 @@ public:
     explicit UMLDragData(UMLListViewItemList& UMLListViewItems, QWidget* dragSource = 0);
 
     UMLDragData(UMLObjectList& Objects, UMLWidgetList& Widgets, AssociationWidgetList& Associations,
-            QPixmap& PngImage, Uml::DiagramType::Enum dType, QWidget* dragSource = 0);
+            QPixmap& PngImage, UMLScene *scene, QWidget* dragSource = 0);
 
     UMLDragData(UMLObjectList& Objects, int, QWidget* dragSource = 0);
 
@@ -92,7 +93,7 @@ public:
     void setUMLDataClip4(UMLObjectList& Objects,
                          UMLWidgetList& WidgetDatas,
                          AssociationWidgetList& Associations, QPixmap& PngImage,
-                         Uml::DiagramType::Enum dType);
+                         UMLScene *scene);
 
     void setUMLDataClip5(UMLObjectList& Objects);
 
