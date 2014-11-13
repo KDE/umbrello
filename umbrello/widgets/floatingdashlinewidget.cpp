@@ -34,9 +34,9 @@ DEBUG_REGISTER_DISABLED(FloatingDashLineWidget)
  */
 FloatingDashLineWidget::FloatingDashLineWidget(UMLScene * scene, Uml::ID::Type id, CombinedFragmentWidget *parent)
   : UMLWidget(scene, WidgetBase::wt_FloatingDashLine, id),
-    m_parent(parent),
     m_yMin(0),
-    m_yMax(0)
+    m_yMax(0),
+    m_parent(parent)
 {
     m_resizable = false;
     m_Text = QString();

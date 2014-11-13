@@ -536,10 +536,15 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
         if (widget) {
             // Generate a new unique 'local ID' so a second widget for the same
             // UMLObject can be distinguished from the first widget
-            widget->setLocalID(
-                doc->assignNewID(widget->localID())
-            );
+            widget->setLocalID(doc->assignNewID(widget->localID()));
 
+            if (widget->baseType() == WidgetBase::wt_Message) {
+                MessageWidget *w = static_cast<MessageWidget*>(widget);
+                if (w && w->floatingTextWidget()) {
+                    w->floatingTextWidget()->setLocalID(doc->assignNewID(w->floatingTextWidget()->localID()));
+                    w->floatingTextWidget()->setID(doc->assignNewID(w->floatingTextWidget()->id()));
+                }
+            }
             // Add the widget to the UMLWidgetList for reference in
             // UMLClipboard
             widgets.append(widget);
