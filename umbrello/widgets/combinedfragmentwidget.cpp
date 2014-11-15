@@ -21,7 +21,6 @@
 #include "umlview.h"
 
 // kde includes
-#include <kinputdialog.h>
 #include <klocale.h>
 
 // qt includes
@@ -279,7 +278,6 @@ void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, cons
     const QString& dialogPrompt, const QString& defaultName)
 {
     Q_UNUSED(defaultName);
-    bool pressedOK = false;
     const QStringList list = QStringList()
                              << QLatin1String("Reference")
                              << QLatin1String("Option")
@@ -290,17 +288,20 @@ void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, cons
                              << QLatin1String("Assertion")
                              << QLatin1String("Alternative")
                              << QLatin1String("Parallel") ;
-    const QStringList select = list;
-    QStringList result = KInputDialog::getItemList (dialogTitle, dialogPrompt, list, select, false, &pressedOK, UMLApp::app());
-
-    if (pressedOK) {
-        QString type = result.join(QString());
-        dynamic_cast<CombinedFragmentWidget*>(targetWidget)->setCombinedFragmentType(type);
-        if (type == QLatin1String("Reference"))
+    QInputDialog *inputDlg = new QInputDialog();
+    inputDlg->setComboBoxItems(list);
+    inputDlg->setOptions(QInputDialog::UseListViewForComboBoxItems);
+    inputDlg->setWindowTitle(dialogTitle);
+    inputDlg->setLabelText(dialogPrompt);
+    bool pressedOK = inputDlg->exec();
+    QString result = inputDlg->textValue();
+    if (pressedOK && !result.isEmpty()) {
+        dynamic_cast<CombinedFragmentWidget*>(targetWidget)->setCombinedFragmentType(result);
+        if (result == QLatin1String("Reference"))
             Dialog_Utils::askNameForWidget(targetWidget, i18n("Enter the name of the diagram referenced"), i18n("Enter the name of the diagram referenced"), i18n("Diagram name"));
-        else if (type == QLatin1String(QLatin1String("Loop")))
+        else if (result == QLatin1String(QLatin1String("Loop")))
             Dialog_Utils::askNameForWidget(targetWidget, i18n("Enter the guard of the loop"), i18n("Enter the guard of the loop"), i18n("-"));
-        else if (type == QLatin1String("Alternative"))
+        else if (result == QLatin1String("Alternative"))
             Dialog_Utils::askNameForWidget(targetWidget, i18n("Enter the first alternative name"), i18n("Enter the first alternative name"), i18n("-"));
     } else {
         targetWidget->cleanup();
