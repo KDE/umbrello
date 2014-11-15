@@ -66,7 +66,6 @@
 #include <klocale.h>
 #include <kmenubar.h>
 #include <kmessagebox.h>
-#include <kstandarddirs.h>
 #include <ktip.h>
 #include <kactionmenu.h>
 #include <kxmlguifactory.h>

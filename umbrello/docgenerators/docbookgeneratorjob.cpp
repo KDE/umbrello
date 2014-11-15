@@ -25,7 +25,6 @@
 #include <libxslt/transform.h>
 #include <libxslt/xsltutils.h>
 
-#include <kstandarddirs.h>
 #include <klocale.h>
 
 #include <QTemporaryFile>
