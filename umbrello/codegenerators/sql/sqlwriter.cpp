@@ -174,6 +174,7 @@ static const char *reserved_words[] = {
 };
 
 SQLWriter::SQLWriter()
+    : m_pEntity(0)
 {
 }
 

@@ -30,7 +30,8 @@
  * @param o       The UMLObject this will be representing.
  */
 PackageWidget::PackageWidget(UMLScene * scene, UMLPackage *o)
-  : UMLWidget(scene, WidgetBase::wt_Package, o)
+  : UMLWidget(scene, WidgetBase::wt_Package, o),
+    m_pMenu(0)
 {
     setSize(100, 30);
     setZValue(1);  // above box but below UMLWidget because may embed widgets

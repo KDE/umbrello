@@ -59,8 +59,6 @@ protected:
     virtual void setAttributesFromNode (QDomElement & element);
 
 private:
-
-    UMLOperation * m_parentOperation;
     void init (UMLOperation * parentOp);
 
 };

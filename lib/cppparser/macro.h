@@ -128,8 +128,28 @@ public:
     typedef QString Argument;
 
 public:
-    Macro(bool hasArguments = false) : m_idHashValid(false), m_valueHashValid(false), m_line(0), m_column(0), m_hasArguments(hasArguments), m_isUndefMacro(false) {}
-    Macro(const QString &n, const QString &b) : m_idHashValid(false), m_valueHashValid(false), m_name(n), m_line(0), m_column(0), m_body(b), m_hasArguments(false), m_isUndefMacro(false) {}
+    Macro(bool hasArguments = false)
+        : m_idHashValid(false),
+          m_valueHashValid(false),
+          m_idHash(0),
+          m_valueHash(0),
+          m_line(0),
+          m_column(0),
+          m_hasArguments(hasArguments),
+          m_isUndefMacro(false)
+    {}
+    Macro(const QString &n, const QString &b)
+        : m_idHashValid(false),
+          m_valueHashValid(false),
+          m_idHash(0),
+          m_valueHash(0),
+          m_name(n),
+          m_line(0),
+          m_column(0),
+          m_body(b),
+          m_hasArguments(false),
+          m_isUndefMacro(false)
+    {}
 
     //Sorts the macros by their hash-value, then by their name.
     class NameArgCompare {
@@ -205,13 +225,19 @@ public:
     };
 
     Macro(const Macro& source)
-        : m_idHashValid(source.m_idHashValid), m_valueHashValid(source.m_valueHashValid), m_idHash(source.m_idHash), m_valueHash(source.m_valueHash), m_name(source.m_name),
+        : m_idHashValid(source.m_idHashValid),
+          m_valueHashValid(source.m_valueHashValid),
+          m_idHash(source.m_idHash),
+          m_valueHash(source.m_valueHash),
+          m_name(source.m_name),
           m_fileName(source.m_fileName),
           m_line(source.m_line),
           m_column(source.m_column),
           m_body(source.m_body),
           m_hasArguments(source.m_hasArguments),
-          m_argumentList(source.m_argumentList), m_isUndefMacro(source.m_isUndefMacro) {}
+          m_argumentList(source.m_argumentList),
+          m_isUndefMacro(source.m_isUndefMacro)
+    {}
 
     Macro& operator = (const Macro& source)
     {

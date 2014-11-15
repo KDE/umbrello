@@ -35,9 +35,6 @@ public:
     virtual QStringList reservedKeywords() const;
 
 private:
-
-    bool bPrivateSectionCommentIsWritten;  ///< write the comment "Private methods" only once
-
     void writeOperations(UMLClassifier *c, QTextStream &php);
     void writeOperations(const QString& classname,
                          UMLOperationList &opList,

@@ -37,12 +37,6 @@ public:
     virtual QStringList reservedKeywords() const;
 
 private:
-
-    /**
-     * We do not want to write the comment "Private methods" twice.
-     */
-    bool bPrivateSectionCommentIsWritten;
-
     void writeOperations(QString classname, UMLOperationList *opList, QTextStream &as);
     void writeAssociation(QString& classname, UMLAssociationList& assoclist, QTextStream &as);
 

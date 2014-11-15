@@ -102,7 +102,8 @@ static const char *reserved_words[] = {
 };
 
 CSharpWriter::CSharpWriter()
- : SimpleCodeGenerator()
+ : SimpleCodeGenerator(),
+   m_unnamedRoles(0)
 {
 }
 

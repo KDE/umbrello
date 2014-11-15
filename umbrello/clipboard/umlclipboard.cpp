@@ -161,7 +161,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
         if (png) {
             UMLView *view = UMLApp::app()->currentView();
             data = new UMLDragData(m_ObjectList, m_WidgetList,
-                                   m_AssociationList, *png, view->umlScene()->type());
+                                   m_AssociationList, *png, view->umlScene());
         } else {
             return 0;
         }

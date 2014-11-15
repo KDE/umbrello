@@ -34,6 +34,8 @@ DEBUG_REGISTER_DISABLED(FloatingDashLineWidget)
  */
 FloatingDashLineWidget::FloatingDashLineWidget(UMLScene * scene, Uml::ID::Type id, CombinedFragmentWidget *parent)
   : UMLWidget(scene, WidgetBase::wt_FloatingDashLine, id),
+    m_yMin(0),
+    m_yMax(0),
     m_parent(parent)
 {
     m_resizable = false;
@@ -183,6 +185,5 @@ bool FloatingDashLineWidget::loadFromXMI(QDomElement & qElement)
     m_yMax = qElement.attribute(QLatin1String("maxY")).toFloat();
     m_yMin = qElement.attribute(QLatin1String("minY")).toFloat();
     m_Text = qElement.attribute(QLatin1String("text"));
-    DEBUG(DBG_SRC) << "m_y......." << m_y;
     return true;
 }

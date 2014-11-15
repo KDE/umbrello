@@ -1305,8 +1305,10 @@ void MessageWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     QDomElement messageElement = qDoc.createElement(QLatin1String("messagewidget"));
     UMLWidget::saveToXMI(qDoc, messageElement);
     LinkWidget::saveToXMI(qDoc, messageElement);
-    messageElement.setAttribute(QLatin1String("widgetaid"), Uml::ID::toString(m_pOw[Uml::RoleType::A]->localID()));
-    messageElement.setAttribute(QLatin1String("widgetbid"), Uml::ID::toString(m_pOw[Uml::RoleType::B]->localID()));
+    if (m_pOw[Uml::RoleType::A])
+        messageElement.setAttribute(QLatin1String("widgetaid"), Uml::ID::toString(m_pOw[Uml::RoleType::A]->localID()));
+    if (m_pOw[Uml::RoleType::B])
+        messageElement.setAttribute(QLatin1String("widgetbid"), Uml::ID::toString(m_pOw[Uml::RoleType::B]->localID()));
     UMLOperation *pOperation = operation();
     if (pOperation)
         messageElement.setAttribute(QLatin1String("operation"), Uml::ID::toString(pOperation->id()));

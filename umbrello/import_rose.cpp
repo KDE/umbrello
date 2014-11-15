@@ -313,6 +313,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
         QString name;
         if (nt == PetalNode::nt_object && !stringOrNodeOpener.contains(QRegExp(QLatin1String("^[A-Za-z]")))) {
             uError() << loc() << "unexpected line " << line;
+            delete node;
             return NULL;
         }
         PetalNode::StringOrNode value;
@@ -354,8 +355,10 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
                 value.string = extractValue(tokens, stream);
             } else {
                 value.node = readAttributes(tokens, stream);
-                if (value.node == NULL)
+                if (value.node == NULL) {
+                    delete node;
                     return NULL;
+                }
             }
             PetalNode::NameValue attr(name, value);
             attrs.append(attr);
@@ -495,11 +498,14 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
         return NULL;
 
     if (parentPkg) {
-        return petalTree2Uml(root, parentPkg);
+        UMLPackage *child = petalTree2Uml(root, parentPkg);
+        delete root;
+        return child;
     }
 
     if (root->name() != QLatin1String("Design")) {
         uError() << "expecting root name Design";
+        delete root;
         return NULL;
     }
     Import_Utils::assignUniqueIdOnCreation(false);
@@ -533,6 +539,7 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
                                      QLatin1String("ProcsNDevs"), QLatin1String("Processes"));
 
     //***************************       wrap up        ********************************
+    delete root;
     umldoc->setCurrentRoot(Uml::ModelType::Logical);
     Import_Utils::assignUniqueIdOnCreation(true);
     umldoc->resolveTypes();

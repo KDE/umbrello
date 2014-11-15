@@ -30,6 +30,7 @@ CodeBlockWithComments::CodeBlockWithComments (CodeDocument * parent, const QStri
 
 CodeBlockWithComments::~CodeBlockWithComments ()
 {
+    delete m_comment;
 }
 
 /**

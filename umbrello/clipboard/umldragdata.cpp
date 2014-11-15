@@ -16,6 +16,7 @@
 #include "classifier.h"
 #include "cmds.h"
 #include "debug_utils.h"
+#include "floatingtextwidget.h"
 #include "folder.h"
 #include "idchangelog.h"
 #include "model_utils.h"
@@ -77,11 +78,11 @@ UMLDragData::UMLDragData(UMLListViewItemList& umlListViewItems,
  * "application/x-uml-clip4
  */
 UMLDragData::UMLDragData(UMLObjectList& objects,
-                 UMLWidgetList& widgets, AssociationWidgetList& associationDatas,
-                 QPixmap& pngImage, Uml::DiagramType::Enum dType, QWidget* dragSource /* = 0 */)
+                         UMLWidgetList& widgets, AssociationWidgetList& associationDatas,
+                         QPixmap& pngImage, UMLScene* scene, QWidget* dragSource /* = 0 */)
 {
     Q_UNUSED(dragSource);
-    setUMLDataClip4(objects, widgets, associationDatas, pngImage, dType);
+    setUMLDataClip4(objects, widgets, associationDatas, pngImage, scene);
 }
 
 /**
@@ -189,11 +190,12 @@ void UMLDragData::setUMLDataClip3(UMLListViewItemList& umlListViewItems)
  * its respective ListView Items
  */
 void UMLDragData::setUMLDataClip4(UMLObjectList& objects, UMLWidgetList& widgets, AssociationWidgetList& associations,
-                              QPixmap& pngImage, Uml::DiagramType::Enum dType)
+                                  QPixmap& pngImage, UMLScene *scene)
 {
     QDomDocument domDoc;
     QDomElement xmiclip = domDoc.createElement(QLatin1String("xmiclip"));
-    xmiclip.setAttribute(QLatin1String("diagramtype"), dType);
+    xmiclip.setAttribute(QLatin1String("diagramtype"), scene->type());
+    xmiclip.setAttribute(QLatin1String("diagramid"), Uml::ID::toString(scene->ID()));
     domDoc.appendChild(xmiclip);
     QDomElement objectsTag = domDoc.createElement(QLatin1String("umlobjects"));
     xmiclip.appendChild(objectsTag);
@@ -517,6 +519,15 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
         return false;
     }
 
+    UMLDoc *doc = UMLApp::app()->document();
+    UMLView *view = UMLApp::app()->currentView();
+    UMLScene *scene = view->umlScene();
+
+    QString sourceDiagramID = root.attribute(QLatin1String("diagramid"), QLatin1String(""));
+    UMLView *sourceView = doc->findView(Uml::ID::fromString(sourceDiagramID));
+
+    bool pasteToDiagramCopiedFrom = sourceView && sourceView->umlScene()->ID() == scene->ID();
+
     // Load widgets
     QDomNode widgetsNode = objectsNode.nextSibling();
     QDomNode widgetNode = widgetsNode.firstChild();
@@ -526,20 +537,28 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
         return false;
     }
 
-    UMLDoc *doc = UMLApp::app()->document();
-    UMLView *view = UMLApp::app()->currentView();
-    UMLScene *scene = view->umlScene();
-
     while (!widgetElement.isNull()) {
 
         UMLWidget* widget = scene->loadWidgetFromXMI(widgetElement);
         if (widget) {
+            if (pasteToDiagramCopiedFrom && widget->baseType() == WidgetBase::wt_Object) {
+                delete widget;
+                widgetNode = widgetNode.nextSibling();
+                widgetElement = widgetNode.toElement();
+                continue;
+            }
+
             // Generate a new unique 'local ID' so a second widget for the same
             // UMLObject can be distinguished from the first widget
-            widget->setLocalID(
-                doc->assignNewID(widget->localID())
-            );
+            widget->setLocalID(doc->assignNewID(widget->localID()));
 
+            if (widget->baseType() == WidgetBase::wt_Message) {
+                MessageWidget *w = static_cast<MessageWidget*>(widget);
+                if (w && w->floatingTextWidget()) {
+                    w->floatingTextWidget()->setLocalID(doc->assignNewID(w->floatingTextWidget()->localID()));
+                    w->floatingTextWidget()->setID(doc->assignNewID(w->floatingTextWidget()->id()));
+                }
+            }
             // Add the widget to the UMLWidgetList for reference in
             // UMLClipboard
             widgets.append(widget);
@@ -555,15 +574,17 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
 
     // Make sure all object widgets are loaded before adding messages or
     // preconditions
-    foreach (UMLWidget* widget, widgets) {
-        if (widget->baseType() == WidgetBase::wt_Object) {
-            executeCreateWidgetCommand(widget);
+    if (!pasteToDiagramCopiedFrom) {
+        foreach (UMLWidget* widget, widgets) {
+            if (widget->baseType() == WidgetBase::wt_Object) {
+                executeCreateWidgetCommand(widget);
+            }
         }
     }
 
     // Now add all remaining widgets
     foreach (UMLWidget* widget, widgets) {
-        if (widget->baseType() == WidgetBase::wt_Message) {
+        if (!pasteToDiagramCopiedFrom && widget->baseType() == WidgetBase::wt_Message) {
             MessageWidget* message = dynamic_cast<MessageWidget*>(widget);
             message->resolveObjectWidget(log);
         }

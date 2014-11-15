@@ -1,7 +1,7 @@
 project(umbrello)
 
 set(VERSION_MAJOR "2")
-set(VERSION_MINOR "14")
+set(VERSION_MINOR "15")
 set(VERSION_PATCH "99")
 
 cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
@@ -111,6 +111,7 @@ include_directories(
 if(LIBXSLT_FOUND AND LIBXML2_FOUND)
     add_subdirectory(umbrello)
     add_subdirectory(doc)
+add_subdirectory(tools)
 endif(LIBXSLT_FOUND AND LIBXML2_FOUND)
 
 # for automatic unit tests

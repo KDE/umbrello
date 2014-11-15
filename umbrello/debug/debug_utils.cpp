@@ -138,6 +138,30 @@ void Tracer::update(const QString &name)
     }
 }
 
+QMap<QString,Qt::CheckState> states;
+
+/**
+ * Update check box of parent items.
+ *
+ * @param parent parent widget item
+ */
+void Tracer::updateParentItemCheckBox(QTreeWidgetItem* parent)
+{
+    int selectedCount = 0;
+    for(int i = 0; i < parent->childCount(); i++) {
+        if (parent->child(i)->checkState(0) == Qt::Checked)
+            selectedCount++;
+    }
+    if (selectedCount == parent->childCount())
+        parent->setCheckState(0, Qt::Checked);
+    else if (selectedCount == 0)
+        parent->setCheckState(0, Qt::Unchecked);
+    else
+        parent->setCheckState(0, Qt::PartiallyChecked);
+
+    states[parent->text(0)] = parent->checkState(0);
+}
+
 /**
  * Fill tree widget with collected classes.
  */
@@ -152,6 +176,8 @@ void Tracer::showEvent(QShowEvent* e)
         QTreeWidgetItem* topLevel = 0;
         if (items.size() == 0) {
             topLevel = new QTreeWidgetItem(QStringList(i.value().filePath));
+            topLevel->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+            updateParentItemCheckBox(topLevel);
             addTopLevelItem(topLevel);
         }
         else
@@ -161,6 +187,32 @@ void Tracer::showEvent(QShowEvent* e)
         item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
         item->setCheckState(0, i.value().state ? Qt::Checked : Qt::Unchecked);
     }
+
+    for(int i = 0; i < topLevelItemCount(); i++)
+        updateParentItemCheckBox(topLevelItem(i));
+}
+
+/**
+ */
+void Tracer::slotParentItemClicked(QTreeWidgetItem* parent)
+{
+    // @TODO parent->checkState(0) do not return the correct state
+    // Qt::CheckState state = parent->checkState(0);
+    Qt::CheckState state = states[parent->text(0)];
+    if (state == Qt::PartiallyChecked || state == Qt::Unchecked) {
+        for(int i = 0; i < parent->childCount(); i++) {
+            QString text = parent->child(i)->text(0);
+            (*m_classes)[text].state = true;
+            parent->child(i)->setCheckState(0, (*m_classes)[text].state ? Qt::Checked : Qt::Unchecked);
+        }
+    } else if (state == Qt::Checked) {
+        for(int i = 0; i < parent->childCount(); i++) {
+            QString text = parent->child(i)->text(0);
+            (*m_classes)[text].state = false;
+            parent->child(i)->setCheckState(0, (*m_classes)[text].state ? Qt::Checked : Qt::Unchecked);
+        }
+    }
+    updateParentItemCheckBox(parent);
 }
 
 /**
@@ -172,5 +224,11 @@ void Tracer::slotItemClicked(QTreeWidgetItem* item, int column)
 {
     Q_UNUSED(column);
 
-    (*m_classes)[item->text(0)].state = !(*m_classes)[item->text(0)].state;
+    if (item->parent()) {
+        (*m_classes)[item->text(0)].state = !(*m_classes)[item->text(0)].state;
+        item->setCheckState(0, (*m_classes)[item->text(0)].state ? Qt::Checked : Qt::Unchecked);
+        updateParentItemCheckBox(item->parent());
+        return;
+    }
+    slotParentItemClicked(item);
 }

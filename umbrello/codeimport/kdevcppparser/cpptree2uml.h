@@ -28,6 +28,7 @@ public:
     explicit CppTree2Uml(const QString& fileName, CodeImpThread* thread = 0);
     virtual ~CppTree2Uml();
 
+    void clear();
     //FileDom file() { return m_file; }
 
     // translation-unit

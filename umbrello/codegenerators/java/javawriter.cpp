@@ -32,6 +32,7 @@
  * Constructor, initialises a couple of variables.
  */
 JavaWriter::JavaWriter()
+    : m_isInterface(false)
 {
     m_startline = m_endl + m_indentation;
 }

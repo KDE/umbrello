@@ -73,6 +73,7 @@ ObjectWidget::ObjectWidget(UMLScene * scene, UMLObject *o)
  */
 ObjectWidget::~ObjectWidget()
 {
+    cleanup();
 }
 
 /**
@@ -380,6 +381,7 @@ void ObjectWidget::cleanup()
     if(m_pLine) {
         m_pLine->cleanup();
         delete m_pLine;
+        m_pLine = 0;
     }
 }
 

@@ -79,9 +79,11 @@ public:
 
 protected:
     void update(const QString &name);
+    void updateParentItemCheckBox(QTreeWidgetItem *parent);
     virtual void showEvent(QShowEvent*);
 
 private slots:
+    void slotParentItemClicked(QTreeWidgetItem *parent);
     void slotItemClicked(QTreeWidgetItem* item, int column);
 
 private:
