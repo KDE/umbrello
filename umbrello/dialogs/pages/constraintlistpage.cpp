@@ -26,12 +26,12 @@
 
 #include <kdialogbuttonbox.h>
 #include <klocale.h>
-#include <kpushbutton.h>
 
 #include <QAction>
 #include <QApplication>
 #include <QHBoxLayout>
 #include <QMenu>
+#include <QPushButton>
 #include <QVBoxLayout>
 
 /**
