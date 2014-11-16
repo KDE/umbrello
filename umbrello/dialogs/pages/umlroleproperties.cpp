@@ -11,16 +11,27 @@
 // own header
 #include "umlroleproperties.h"
 
+#include "umlrole.h"
+
 // kde includes
 #include <klocale.h>
 
-UMLRoleProperties::UMLRoleProperties (QWidget *parent, UMLRole *role)
-        : UMLRolePropertiesBase (parent)
+/**
+ *  Sets up the UMLRoleProperties.
+ *
+ *  @param  parent  The parent widget to the UMLRoleProperties.
+ *  @param  role    The UMLRole to display the properties of.
+ */
+UMLRoleProperties::UMLRoleProperties(QWidget *parent, UMLRole *role)
+  : UMLRolePropertiesBase (parent)
 {
     m_pRole = role;
     constructWidget();
 }
 
+/**
+ *  Standard destructor.
+ */
 UMLRoleProperties::~UMLRoleProperties()
 {
 }

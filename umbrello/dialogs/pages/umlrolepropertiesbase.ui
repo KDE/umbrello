@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>UMLRolePropertiesBase</class>
- <widget class="QWidget" name="UMLRolePropertiesBase" >
-  <property name="geometry" >
+ <widget class="QWidget" name="UMLRolePropertiesBase">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,52 +10,52 @@
     <height>540</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout">
    <item>
-    <widget class="QGroupBox" name="ui_propsGroupBox" >
-     <property name="title" >
+    <widget class="QGroupBox" name="ui_propsGroupBox">
+     <property name="title">
       <string>Role Properties</string>
      </property>
-     <layout class="QGridLayout" >
-      <item row="0" column="0" >
-       <layout class="QGridLayout" >
-        <property name="leftMargin" >
+     <layout class="QGridLayout">
+      <item row="0" column="0">
+       <layout class="QGridLayout">
+        <property name="leftMargin">
          <number>0</number>
         </property>
-        <property name="topMargin" >
+        <property name="topMargin">
          <number>0</number>
         </property>
-        <property name="rightMargin" >
+        <property name="rightMargin">
          <number>0</number>
         </property>
-        <property name="bottomMargin" >
+        <property name="bottomMargin">
          <number>0</number>
         </property>
-        <item row="0" column="0" >
-         <widget class="QLabel" name="ui_labelRoleName" >
-          <property name="text" >
+        <item row="0" column="0">
+         <widget class="QLabel" name="ui_labelRoleName">
+          <property name="text">
            <string>Rolename:</string>
           </property>
-          <property name="wordWrap" >
+          <property name="wordWrap">
            <bool>false</bool>
           </property>
          </widget>
         </item>
-        <item row="0" column="1" >
-         <widget class="KLineEdit" name="ui_pRoleLE" />
+        <item row="0" column="1">
+         <widget class="KLineEdit" name="ui_pRoleLE"/>
         </item>
-        <item row="1" column="0" >
-         <widget class="QLabel" name="ui_labelMultiplicity" >
-          <property name="text" >
+        <item row="1" column="0">
+         <widget class="QLabel" name="ui_labelMultiplicity">
+          <property name="text">
            <string>Multiplicity:</string>
           </property>
-          <property name="wordWrap" >
+          <property name="wordWrap">
            <bool>false</bool>
           </property>
          </widget>
         </item>
-        <item row="1" column="1" >
-         <widget class="KLineEdit" name="ui_pMultiLE" />
+        <item row="1" column="1">
+         <widget class="KLineEdit" name="ui_pMultiLE"/>
         </item>
        </layout>
       </item>
@@ -62,38 +63,38 @@
     </widget>
    </item>
    <item>
-    <widget class="KButtonGroup" name="ui_visibilityButtonGroup" >
-     <property name="title" >
+    <widget class="QGroupBox" name="ui_visibilityGroupBox">
+     <property name="title">
       <string>Role Visibility</string>
      </property>
-     <layout class="QHBoxLayout" >
+     <layout class="QHBoxLayout">
       <item>
-       <widget class="QRadioButton" name="ui_pPublicRB" >
-        <property name="text" >
+       <widget class="QRadioButton" name="ui_pPublicRB">
+        <property name="text">
          <string>Public</string>
         </property>
-        <property name="checked" >
+        <property name="checked">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="ui_pPrivateRB" >
-        <property name="text" >
+       <widget class="QRadioButton" name="ui_pPrivateRB">
+        <property name="text">
          <string>Private</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="ui_pProtectedRB" >
-        <property name="text" >
+       <widget class="QRadioButton" name="ui_pProtectedRB">
+        <property name="text">
          <string>Protected</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="ui_pImplementationRB" >
-        <property name="text" >
+       <widget class="QRadioButton" name="ui_pImplementationRB">
+        <property name="text">
          <string>Implementation</string>
         </property>
        </widget>
@@ -102,31 +103,31 @@
     </widget>
    </item>
    <item>
-    <widget class="KButtonGroup" name="ui_changeabilityButtonGroup" >
-     <property name="title" >
+    <widget class="QGroupBox" name="ui_changeabilityGroupBox">
+     <property name="title">
       <string>Role Changeability</string>
      </property>
-     <layout class="QHBoxLayout" >
+     <layout class="QHBoxLayout">
       <item>
-       <widget class="QRadioButton" name="ui_pChangeableRB" >
-        <property name="text" >
+       <widget class="QRadioButton" name="ui_pChangeableRB">
+        <property name="text">
          <string>Changeable</string>
         </property>
-        <property name="checked" >
+        <property name="checked">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="ui_pFrozenRB" >
-        <property name="text" >
+       <widget class="QRadioButton" name="ui_pFrozenRB">
+        <property name="text">
          <string>Frozen</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="ui_pAddOnlyRB" >
-        <property name="text" >
+       <widget class="QRadioButton" name="ui_pAddOnlyRB">
+        <property name="text">
          <string>Add only</string>
         </property>
        </widget>
@@ -135,26 +136,20 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="ui_groupBoxDocumentation" >
-     <property name="title" >
+    <widget class="QGroupBox" name="ui_groupBoxDocumentation">
+     <property name="title">
       <string>Documentation</string>
      </property>
-     <layout class="QVBoxLayout" >
+     <layout class="QVBoxLayout">
       <item>
-       <widget class="KTextEdit" name="ui_pDocTE" />
+       <widget class="KTextEdit" name="ui_pDocTE"/>
       </item>
      </layout>
     </widget>
    </item>
   </layout>
  </widget>
-  <customwidgets>
-  <customwidget>
-   <class>KButtonGroup</class>
-   <extends>QGroupBox</extends>
-   <header>kbuttongroup.h</header>
-   <container>1</container>
-  </customwidget>
+ <customwidgets>
   <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>

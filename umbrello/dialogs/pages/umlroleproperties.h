@@ -12,7 +12,8 @@
 
 #include "dialogpagebase.h"
 #include "ui_umlrolepropertiesbase.h"
-#include "umlrole.h"
+
+class UMLRole;
 
 class UMLRolePropertiesBase : public DialogPageBase, public Ui::UMLRolePropertiesBase
 {
@@ -32,18 +33,7 @@ class UMLRoleProperties : public UMLRolePropertiesBase
 {
     Q_OBJECT
 public:
-
-    /**
-     *  Sets up the UMLRoleProperties.
-     *
-     *  @param  parent  The parent widget to the UMLRoleProperties.
-     *  @param  role    The UMLRole to display the properties of.
-     */
     UMLRoleProperties(QWidget *parent, UMLRole *role);
-
-    /**
-     *  Standard deconstructor.
-     */
     ~UMLRoleProperties();
 
     void updateObject();
