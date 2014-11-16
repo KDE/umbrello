@@ -19,6 +19,7 @@
 #include "classoptionspage.h"
 #include "componentwidget.h"
 #include "constraintlistpage.h"
+#include "debug_utils.h"
 #include "entity.h"
 #include "objectwidget.h"
 #include "packagecontentspage.h"
@@ -195,7 +196,8 @@ void ClassPropertiesDialog::slotApply()
         m_pStylePage->updateUMLWidget();
     }
     if (m_pWidget) {
-        m_pWidget->setFont(m_pChooser->font());
+        uDebug() << "setting font " << m_pChooser->currentFont().toString();
+        m_pWidget->setFont(m_pChooser->currentFont());
     }
 }
 

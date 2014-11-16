@@ -26,7 +26,7 @@ CodeViewerOptionsPage::CodeViewerOptionsPage(Settings::CodeViewerState options, 
 
     // set widget stuff
     /*
-        fontChooser->setFont(options.font);
+        fontChooser->setCurrentFont(options.font);
         selectColorButton->setColor (options.selectedColor);
         fontColorButton->setColor (options.fontColor);
         paperColorButton->setColor (options.paperColor);
@@ -49,7 +49,7 @@ void CodeViewerOptionsPage::apply()
         m_options.selectedColor = selectColorButton->color();
         m_options.paperColor = paperColorButton->color();
         m_options.fontColor = fontColorButton->color();
-        m_options.font = fontChooser->font();
+        m_options.font = fontChooser->currentFont();
      */
     emit applyClicked();
 }

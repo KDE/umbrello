@@ -297,7 +297,7 @@ void SettingsDialog::slotDefault()
     }
     else if (current == pageFont)
     {
-        m_FontWidgets.chooser->setFont(parentWidget()->font());
+        m_FontWidgets.chooser->setCurrentFont(parentWidget()->font());
     }
     else if (current == pageUserInterface)
     {
@@ -330,16 +330,14 @@ void SettingsDialog::slotDefault()
 void SettingsDialog::applyPage(KPageWidgetItem*item)
 {
     m_bChangesApplied = true;
-    if (item == pageGeneral)
-    {
+    if (item == pageGeneral) {
         m_pGeneralPage->apply();
     }
-    else if (item == pageFont)
-    {
-        m_pOptionState->uiState.font = m_FontWidgets.chooser->font();
+    else if (item == pageFont) {
+        uDebug() << "setting font " << m_FontWidgets.chooser->currentFont().toString();
+        m_pOptionState->uiState.font = m_FontWidgets.chooser->currentFont();
     }
-    else if (item == pageUserInterface)
-    {
+    else if (item == pageUserInterface) {
         m_pOptionState->uiState.useFillColor = m_UiWidgets.useFillColorCB->isChecked();
         m_pOptionState->uiState.fillColor = m_UiWidgets.fillColorB->color();
         m_pOptionState->uiState.textColor = m_UiWidgets.textColorB->color();
@@ -348,25 +346,20 @@ void SettingsDialog::applyPage(KPageWidgetItem*item)
         m_pOptionState->uiState.backgroundColor = m_UiWidgets.bgColorB->color();
         m_pOptionState->uiState.gridDotColor = m_UiWidgets.gridColorB->color();
     }
-    else if (item == pageClass)
-    {
+    else if (item == pageClass) {
         m_pClassPage->apply();
     }
-    else if (item == pageCodeImport)
-    {
+    else if (item == pageCodeImport) {
         m_pCodeImportPage->apply();
     }
-    else if (item == pageCodeGen)
-    {
+    else if (item == pageCodeGen) {
         m_pCodeGenPage->apply();
     }
-    else if (item == pageCodeViewer)
-    {
+    else if (item == pageCodeViewer) {
         m_pCodeViewerPage->apply();
         m_pOptionState->codeViewerState = m_pCodeViewerPage->getOptions();
     }
-    else if (item == pageAutoLayout)
-    {
+    else if (item == pageAutoLayout) {
         m_pAutoLayoutPage->apply();
     }
 }

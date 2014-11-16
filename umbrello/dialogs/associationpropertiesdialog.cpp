@@ -29,7 +29,6 @@
 // kde includes
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kvbox.h>
 
 // qt includes
 #include <QFrame>
@@ -86,7 +85,8 @@ void AssociationPropertiesDialog::slotApply()
     }
 
     if (m_pAssoc) {
-        m_pAssoc->lwSetFont(m_pChooser->font());
+        uDebug() << "setting font " << m_pChooser->currentFont().toString();
+        m_pAssoc->lwSetFont(m_pChooser->currentFont());
     }
 }
 
