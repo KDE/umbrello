@@ -74,7 +74,6 @@
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
 #include <kcursor.h>
-#include <kfiledialog.h>
 #include <klocale.h>
 
 // include files for Qt
