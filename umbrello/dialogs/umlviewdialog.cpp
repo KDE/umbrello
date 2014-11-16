@@ -25,10 +25,10 @@
 // kde includes
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kfontdialog.h>
 
 // qt includes
 #include <QFrame>
+#include <QFontDialog>
 #include <QHBoxLayout>
 
 /**
@@ -158,8 +158,9 @@ void UMLViewDialog::setupFontPage()
     m_pageFontItem->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font));
     addPage(m_pageFontItem);
 
-    m_pChooser = new KFontChooser(page, KFontChooser::NoDisplayFlags, QStringList(), 0);
-    m_pChooser->setFont(m_pScene->optionState().uiState.font);
+    m_pChooser = new QFontDialog();
+    m_pChooser->setCurrentFont(m_pScene->optionState().uiState.font);
+    m_pChooser->setOption(QFontDialog::NoButtons);
     topLayout->addWidget(m_pChooser);
 }
 

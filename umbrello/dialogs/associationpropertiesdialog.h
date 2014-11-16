@@ -16,7 +16,7 @@
 class AssociationWidget;
 class AssociationRolePage;
 class AssociationGeneralPage;
-class KFontChooser;
+class QFontDialog;
 class UMLWidgetStylePage;
 
 /**
@@ -42,10 +42,10 @@ protected slots:
 
 private:
     AssociationGeneralPage *m_pGenPage;
-    AssociationRolePage *m_pRolePage;
-    UMLWidgetStylePage *m_pStylePage;
-    KFontChooser       *m_pChooser;
-    AssociationWidget  *m_pAssoc;
+    AssociationRolePage    *m_pRolePage;
+    UMLWidgetStylePage     *m_pStylePage;
+    QFontDialog            *m_pChooser;
+    AssociationWidget      *m_pAssoc;
 
 };
 

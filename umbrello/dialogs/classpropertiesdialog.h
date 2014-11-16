@@ -18,9 +18,9 @@ class ClassGeneralPage;
 class ClassifierListPage;
 class ClassOptionsPage;
 class ConstraintListPage;
-class KFontChooser;
 class PackageContentsPage;
 class ObjectWidget;
+class QFontDialog;
 class UMLDoc;
 class UMLObject;
 class UMLWidget;
@@ -67,7 +67,7 @@ protected:
     void setupFontPage();
 
 private:
-    KFontChooser*        m_pChooser;
+    QFontDialog*         m_pChooser;
     ClassGeneralPage*    m_pGenPage;
     ClassifierListPage*  m_pAttPage;
     ClassifierListPage*  m_pOpsPage;

@@ -20,10 +20,10 @@
 
 class ClassOptionsPage;
 class DiagramPropertiesPage;
+class QFontDialog;
 class UMLScene;
 class UMLView;
 class UMLWidgetStylePage;
-class KFontChooser;
 
 /**
  * @author Paul Hensgen
@@ -52,7 +52,7 @@ protected:
 
     UMLScene*              m_pScene;  ///< the scene to represent
     Settings::OptionState  m_options;
-    KFontChooser*          m_pChooser;
+    QFontDialog*           m_pChooser;
     DiagramPropertiesPage* m_diagramPropertiesPage;
     ClassOptionsPage*      m_pOptionsPage;
     UMLWidgetStylePage*    m_pStylePage;

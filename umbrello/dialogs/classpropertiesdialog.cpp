@@ -29,10 +29,10 @@
 #include "umlwidgetstylepage.h"
 
 // kde includes
-#include <kfontdialog.h>
 #include <klocale.h>
 
 // qt includes
+#include <QFontDialog>
 #include <QFrame>
 #include <QHBoxLayout>
 
@@ -134,6 +134,7 @@ void ClassPropertiesDialog::init()
     m_pEntityConstraintPage = 0;
     m_pOptionsPage = 0;
     m_pStylePage = 0;
+    m_pChooser = 0;
     m_doc = UMLApp::app()->document();
 }
 
@@ -398,7 +399,8 @@ void ClassPropertiesDialog::setupFontPage()
     pageItem->setHeader(i18n("Font Settings"));
     pageItem->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font));
     addPage(pageItem);
-    m_pChooser = new KFontChooser(page, KFontChooser::NoDisplayFlags, QStringList(), 0);
-    m_pChooser->setFont(m_pWidget->font());
+    m_pChooser = new QFontDialog();
+    m_pChooser->setCurrentFont(m_pWidget->font());
+    m_pChooser->setOption(QFontDialog::NoButtons);
     topLayout->addWidget(m_pChooser);
 }

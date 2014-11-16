@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>CodeViewerOptionsBase</class>
- <widget class="QWidget" name="CodeViewerOptionsBase" >
-  <property name="geometry" >
+ <widget class="QWidget" name="CodeViewerOptionsBase">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,53 +10,46 @@
     <height>545</height>
    </rect>
   </property>
-  <layout class="QGridLayout" >
-   <item row="0" column="0" >
-    <widget class="KFontChooser" name="fontChooser" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="MinimumExpanding" hsizetype="Minimum" >
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-    </widget>
+  <layout class="QGridLayout">
+   <item row="1" column="0">
+    <widget class="QFontComboBox" name="fontChooser"/>
    </item>
-   <item row="1" column="0" >
-    <widget class="QGroupBox" name="colorGroupBox" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+   <item row="2" column="0">
+    <widget class="QGroupBox" name="colorGroupBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="title" >
+     <property name="title">
       <string>Colors</string>
      </property>
-     <layout class="QGridLayout" >
-      <item row="0" column="0" >
-       <layout class="QGridLayout" >
-        <item row="0" column="2" >
-         <widget class="QLabel" name="fontLabel" >
-          <property name="sizePolicy" >
-           <sizepolicy vsizetype="Preferred" hsizetype="Minimum" >
+     <layout class="QGridLayout">
+      <item row="0" column="0">
+       <layout class="QGridLayout">
+        <item row="0" column="2">
+         <widget class="QLabel" name="fontLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Font:</string>
           </property>
-          <property name="wordWrap" >
+          <property name="wordWrap">
            <bool>false</bool>
           </property>
          </widget>
         </item>
-        <item row="0" column="5" >
-         <widget class="KColorButton" name="selectColorButton" >
-          <property name="text" >
+        <item row="0" column="5">
+         <widget class="KColorButton" name="selectColorButton">
+          <property name="text">
            <string/>
           </property>
-          <property name="color" >
+          <property name="color" stdset="0">
            <color>
             <red>255</red>
             <green>255</green>
@@ -64,28 +58,28 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="0" >
-         <widget class="QLabel" name="paperLabel" >
-          <property name="sizePolicy" >
-           <sizepolicy vsizetype="Preferred" hsizetype="Minimum" >
+        <item row="0" column="0">
+         <widget class="QLabel" name="paperLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Paper:</string>
           </property>
-          <property name="wordWrap" >
+          <property name="wordWrap">
            <bool>false</bool>
           </property>
          </widget>
         </item>
-        <item row="0" column="1" >
-         <widget class="KColorButton" name="paperColorButton" >
-          <property name="text" >
+        <item row="0" column="1">
+         <widget class="KColorButton" name="paperColorButton">
+          <property name="text">
            <string/>
           </property>
-          <property name="color" >
+          <property name="color" stdset="0">
            <color>
             <red>255</red>
             <green>255</green>
@@ -94,34 +88,34 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="4" >
-         <widget class="QLabel" name="selectedLabel" >
-          <property name="sizePolicy" >
-           <sizepolicy vsizetype="Preferred" hsizetype="Minimum" >
+        <item row="0" column="4">
+         <widget class="QLabel" name="selectedLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Selected:</string>
           </property>
-          <property name="wordWrap" >
+          <property name="wordWrap">
            <bool>false</bool>
           </property>
          </widget>
         </item>
-        <item row="0" column="3" >
-         <widget class="KColorButton" name="fontColorButton" >
-          <property name="sizePolicy" >
-           <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+        <item row="0" column="3">
+         <widget class="KColorButton" name="fontColorButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="text" >
+          <property name="text">
            <string/>
           </property>
-          <property name="color" >
+          <property name="color" stdset="0">
            <color>
             <red>0</red>
             <green>0</green>
@@ -132,20 +126,20 @@
         </item>
        </layout>
       </item>
-      <item row="1" column="0" >
-       <layout class="QGridLayout" >
-        <item row="1" column="3" >
-         <widget class="KColorButton" name="nonEditBlockColorButton" >
-          <property name="sizePolicy" >
-           <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+      <item row="1" column="0">
+       <layout class="QGridLayout">
+        <item row="1" column="3">
+         <widget class="KColorButton" name="nonEditBlockColorButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="text" >
+          <property name="text">
            <string/>
           </property>
-          <property name="color" >
+          <property name="color" stdset="0">
            <color>
             <red>213</red>
             <green>213</green>
@@ -154,20 +148,20 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="0" colspan="4" >
-         <layout class="QGridLayout" >
-          <item row="0" column="3" >
-           <widget class="KColorButton" name="m_hiddenBlockColorButton" >
-            <property name="sizePolicy" >
-             <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+        <item row="0" column="0" colspan="4">
+         <layout class="QGridLayout">
+          <item row="0" column="3">
+           <widget class="KColorButton" name="m_hiddenBlockColorButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="text" >
+            <property name="text">
              <string/>
             </property>
-            <property name="color" >
+            <property name="color" stdset="0">
              <color>
               <red>166</red>
               <green>254</green>
@@ -176,18 +170,18 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="1" >
-           <widget class="KColorButton" name="umlObjectColorButton" >
-            <property name="sizePolicy" >
-             <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+          <item row="0" column="1">
+           <widget class="KColorButton" name="umlObjectColorButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="text" >
+            <property name="text">
              <string/>
             </property>
-            <property name="color" >
+            <property name="color" stdset="0">
              <color>
               <red>255</red>
               <green>170</green>
@@ -196,68 +190,68 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="textLabel1" >
-            <property name="sizePolicy" >
-             <sizepolicy vsizetype="Preferred" hsizetype="Minimum" >
+          <item row="0" column="0">
+           <widget class="QLabel" name="textLabel1">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="text" >
-             <string>&lt;p align="right">UML object block:&lt;/p></string>
+            <property name="text">
+             <string>&lt;p align=&quot;right&quot;&gt;UML object block:&lt;/p&gt;</string>
             </property>
-            <property name="wordWrap" >
+            <property name="wordWrap">
              <bool>false</bool>
             </property>
            </widget>
           </item>
-          <item row="0" column="2" >
-           <widget class="QLabel" name="textLabel1_2" >
-            <property name="sizePolicy" >
-             <sizepolicy vsizetype="Preferred" hsizetype="Minimum" >
+          <item row="0" column="2">
+           <widget class="QLabel" name="textLabel1_2">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="text" >
-             <string>&lt;p align="right">Hidden block:&lt;/p></string>
+            <property name="text">
+             <string>&lt;p align=&quot;right&quot;&gt;Hidden block:&lt;/p&gt;</string>
             </property>
-            <property name="wordWrap" >
+            <property name="wordWrap">
              <bool>false</bool>
             </property>
            </widget>
           </item>
          </layout>
         </item>
-        <item row="1" column="2" >
-         <widget class="QLabel" name="textLabel2" >
-          <property name="sizePolicy" >
-           <sizepolicy vsizetype="Preferred" hsizetype="Minimum" >
+        <item row="1" column="2">
+         <widget class="QLabel" name="textLabel2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="text" >
-           <string>&lt;p align="right">Uneditable text:&lt;/p></string>
+          <property name="text">
+           <string>&lt;p align=&quot;right&quot;&gt;Uneditable text:&lt;/p&gt;</string>
           </property>
-          <property name="wordWrap" >
+          <property name="wordWrap">
            <bool>false</bool>
           </property>
          </widget>
         </item>
-        <item row="1" column="1" >
-         <widget class="KColorButton" name="editBlockColorButton" >
-          <property name="sizePolicy" >
-           <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+        <item row="1" column="1">
+         <widget class="KColorButton" name="editBlockColorButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="text" >
+          <property name="text">
            <string/>
           </property>
-          <property name="color" >
+          <property name="color" stdset="0">
            <color>
             <red>255</red>
             <green>170</green>
@@ -266,18 +260,18 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="0" >
-         <widget class="QLabel" name="textLabel3" >
-          <property name="sizePolicy" >
-           <sizepolicy vsizetype="Preferred" hsizetype="Minimum" >
+        <item row="1" column="0">
+         <widget class="QLabel" name="textLabel3">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="text" >
-           <string>&lt;p align="right">Editable text:&lt;/p></string>
+          <property name="text">
+           <string>&lt;p align=&quot;right&quot;&gt;Editable text:&lt;/p&gt;</string>
           </property>
-          <property name="wordWrap" >
+          <property name="wordWrap">
            <bool>false</bool>
           </property>
          </widget>
@@ -295,14 +289,9 @@
    <extends>QPushButton</extends>
    <header>kcolorbutton.h</header>
   </customwidget>
-  <customwidget>
-   <class>KFontChooser</class>
-   <extends>QWidget</extends>
-   <header>kfontdialog.h</header>
-  </customwidget>
  </customwidgets>
  <includes>
-  <include location="local" >kcolorbutton.h</include>
+  <include location="local">kcolorbutton.h</include>
  </includes>
  <resources/>
  <connections/>

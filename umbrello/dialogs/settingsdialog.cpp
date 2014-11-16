@@ -26,10 +26,10 @@
 
 #include <kcolorbutton.h>
 #include <kfiledialog.h>
-#include <kfontdialog.h>
 #include <klocale.h>
 
 #include <QCheckBox>
+#include <QFontDialog>
 #include <QGroupBox>
 #include <QSpinBox>
 
@@ -249,8 +249,9 @@ void SettingsDialog::setupFontPage()
     pageFont->setHeader(i18n("Font Settings"));
     pageFont->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font));
     addPage(pageFont);
-    m_FontWidgets.chooser = new KFontChooser(page,  KFontChooser::NoDisplayFlags, QStringList(), 0);
-    m_FontWidgets.chooser->setFont(m_pOptionState->uiState.font);
+    m_FontWidgets.chooser = new QFontDialog();
+    m_FontWidgets.chooser->setCurrentFont(parentWidget()->font());
+    m_FontWidgets.chooser->setOption(QFontDialog::NoButtons);
     topLayout->addWidget(m_FontWidgets.chooser);
 }
 

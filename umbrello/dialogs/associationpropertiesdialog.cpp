@@ -27,13 +27,13 @@
 #include "umlwidgetstylepage.h"
 
 // kde includes
-#include <kfontdialog.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kvbox.h>
 
 // qt includes
 #include <QFrame>
+#include <QFontDialog>
 #include <QLabel>
 #include <QLayout>
 #include <QHBoxLayout>
@@ -115,8 +115,8 @@ void AssociationPropertiesDialog::setupPages()
     // font page
     page = createPage(i18nc("font page name", "Font"), i18n("Font Settings"), Icon_Utils::it_Properties_Font);
     layout = new QHBoxLayout(page);
-    m_pChooser = new KFontChooser(page, KFontChooser::NoDisplayFlags, QStringList(), false);
-    m_pChooser->setFont(m_pAssoc->font());
-    m_pChooser->setSampleText(QString::fromLatin1("Association font"));
+    m_pChooser = new QFontDialog();
+    m_pChooser->setCurrentFont(m_pAssoc->font());
+    m_pChooser->setOption(QFontDialog::NoButtons);
     layout->addWidget(m_pChooser);
 }

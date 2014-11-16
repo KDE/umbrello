@@ -21,8 +21,8 @@ class CodeGenOptionsPage;
 class CodeViewerOptionsPage;
 class GeneralOptionPage;
 class KColorButton;
-class KFontChooser;
 class QCheckBox;
+class QFontDialog;
 class QGroupBox;
 class QSpinBox;
 class UMLWidgetStylePage;
@@ -72,7 +72,7 @@ private:
     };//end struct UIWidgets
 
     struct FontWidgets {
-        KFontChooser * chooser;
+        QFontDialog * chooser;
     };
 
     //private methods
