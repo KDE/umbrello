@@ -14,8 +14,6 @@
 #include <QUndoCommand>
 #include <QUndoStack>
 
-#include <kundostack.h>
-
 #include "cmds/cmd_createDiagram.h"
 #include "cmds/cmd_handleRename.h"
 #include "cmds/cmd_removeDiagram.h"

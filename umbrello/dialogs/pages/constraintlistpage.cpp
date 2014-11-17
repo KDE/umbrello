@@ -24,7 +24,6 @@
 #include "umldoc.h"
 #include "uniqueconstraint.h"
 
-#include <kdialogbuttonbox.h>
 #include <klocale.h>
 
 #include <QAction>
