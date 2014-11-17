@@ -16,7 +16,6 @@
 #define LEXERCACHE_H
 #include <hashedstring.h>
 #include "macro.h"
-#include <kdebug.h>
 #include <qdatetime.h>
 #include <qfileinfo.h>
 #include "cachemanager.h"

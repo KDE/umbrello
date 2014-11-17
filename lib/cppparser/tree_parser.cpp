@@ -21,8 +21,6 @@
 #include "debug_utils.h"
 #include "driver.h"
 
-#include <kdebug.h>
-
 #define DBG_TPAR  DEBUG(QLatin1String("TreeParser"))
 DEBUG_REGISTER_DISABLED(TreeParser)
 

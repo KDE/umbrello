@@ -19,7 +19,6 @@
 
 #include "ast.h"
 #include <QStringList>
-#include <kdebug.h>
 
 QString nodeTypeToString(int type)
 {
