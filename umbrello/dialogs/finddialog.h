@@ -23,7 +23,6 @@
 class FindDialog : public QDialog, private Ui::FindDialog
 {
     Q_OBJECT
-
 public:
     typedef enum { TreeView, CurrentDiagram, AllDiagrams } Filter;
     explicit FindDialog(QWidget *parent = 0);
@@ -31,11 +30,6 @@ public:
     QString text();
     Filter filter();
 
-protected:
-    void showEvent(QShowEvent *event);
-
-private slots:
-    virtual void slotButtonClicked(int button);
 };
 
 #endif // FINDDIALOG_H

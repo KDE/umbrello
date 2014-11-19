@@ -10,19 +10,29 @@
 
 #include "finddialog.h"
 
-FindDialog::FindDialog(QWidget *parent) :
-    QDialog(parent)
+#include <KLocalizedString>
+
+#include <QDialogButtonBox>
+#include <QPushButton>
+
+FindDialog::FindDialog(QWidget *parent)
+  : QDialog(parent)
 {
     setupUi(window());
 
-#if 0 //FIXME KF5
-    setCaption(i18n("Find"));
-    setButtons(User1 | Cancel);
-    setDefaultButton(User1);
-    setButtonText(User1, i18n("Search"));
-    showButtonSeparator(true);
-#endif
+    setWindowTitle(i18n("Find"));
     setModal(true);
+
+    QDialogButtonBox* dlgButtonBox = new QDialogButtonBox();
+    QPushButton* searchBtn = dlgButtonBox->addButton(i18n("Search"), QDialogButtonBox::AcceptRole);
+    searchBtn->setDefault(true);
+    QPushButton* cancelBtn = dlgButtonBox->addButton(i18n("Cancel"), QDialogButtonBox::RejectRole);
+    cancelBtn->setAutoDefault(false);
+    layout()->addWidget(dlgButtonBox);
+
+    connect(searchBtn, SIGNAL(clicked()), this, SLOT(accept()));
+    connect(cancelBtn, SIGNAL(clicked()), this, SLOT(reject()));
+
     ui_treeView->setChecked(true);
 }
 
@@ -43,20 +53,4 @@ FindDialog::Filter FindDialog::filter()
         return CurrentDiagram;
     else
         return AllDiagrams;
-}
-
-void FindDialog::slotButtonClicked(int button)
-{
-#if 0 //FIXME KF5
-    if (button == QDialog::User1)
-       accept();
-    else
-       QDialog::slotButtonClicked(button);
-#endif
-}
-
-void FindDialog::showEvent(QShowEvent *event)
-{
-    ui_searchTerm->setFocus();
-    QDialog::showEvent(event);
 }
