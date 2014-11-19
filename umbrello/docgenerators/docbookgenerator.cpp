@@ -21,6 +21,7 @@
 #include <kmessagebox.h>
 #include <kio/netaccess.h>
 #include <kio/job.h>
+#include <kjobwidgets.h>
 
 #include <QApplication>
 #include <QFile>
@@ -104,7 +105,9 @@ void DocbookGenerator::slotDocbookGenerationFinished(const QString& tmpFileName)
     url.setPath(m_destDir.path() + QLatin1Char('/') + fileName);
 
     KIO::Job* job = KIO::file_copy(QUrl(tmpFileName), url, -1, KIO::Overwrite | KIO::HideProgressInfo);
-    if (KIO::NetAccess::synchronousRun(job, (QWidget*)UMLApp::app())) {
+    KJobWidgets::setWindow(job, (QWidget*)UMLApp::app());
+    job->exec();
+    if (!job->error()) {
         m_umlDoc->writeToStatusBar(i18n("Docbook Generation Complete..."));
         m_pStatus = true;
     } else {

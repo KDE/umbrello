@@ -52,6 +52,7 @@
 #include <kmessagebox.h>
 #include <kmimetype.h>
 #include <ktar.h>
+#include <kjobwidgets.h>
 
 // qt includes
 #include <QApplication>
@@ -719,7 +720,9 @@ bool UMLDoc::saveDocument(const QUrl& url, const char * format)
 #else
             KIO::FileCopyJob* fcj = KIO::file_move(QUrl::fromLocalFile(tmpfile.fileName()), url, -1, KIO::Overwrite);
 #endif
-            if (KIO::NetAccess::synchronousRun(fcj, (QWidget*)UMLApp::app()) == false) {
+            KJobWidgets::setWindow(fcj, (QWidget*)UMLApp::app());
+            fcj->exec();
+            if (fcj->error()) {
                 KMessageBox::error(0, i18n("There was a problem saving file: %1", url.url(QUrl::PreferLocalFile)), i18n("Save Error"));
                 setFileName(m_doc_url, i18n("Untitled"));
                 return false;

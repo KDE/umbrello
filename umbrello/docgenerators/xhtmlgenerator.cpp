@@ -22,6 +22,7 @@
 #include <kmessagebox.h>
 #include <kio/netaccess.h>
 #include <kio/job.h>
+#include <kjobwidgets.h>
 
 #include <QApplication>
 #include <QFile>
@@ -127,7 +128,9 @@ void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
     url.setPath(m_destDir.path() + QLatin1Char('/') + fileName);
 
     KIO::Job* htmlCopyJob = KIO::file_copy(QUrl::fromLocalFile(tmpFileName), url, -1, KIO::Overwrite | KIO::HideProgressInfo);
-    if (KIO::NetAccess::synchronousRun(htmlCopyJob, (QWidget*)UMLApp::app())) {
+    KJobWidgets::setWindow(htmlCopyJob, (QWidget*)UMLApp::app());
+    htmlCopyJob->exec();
+    if (!htmlCopyJob->error()) {
         m_umlDoc->writeToStatusBar(i18n("XHTML Generation Complete..."));
     } else {
         m_pStatus = false;
@@ -141,7 +144,9 @@ void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
     cssUrl.setPath(cssUrl.path() + QLatin1Char('/') + QLatin1String("xmi.css"));
     KIO::Job* cssJob = KIO::file_copy(QUrl::fromLocalFile(cssFileName), cssUrl, -1, KIO::Overwrite | KIO::HideProgressInfo);
 
-    if (KIO::NetAccess::synchronousRun(cssJob, (QWidget*)UMLApp::app())) {
+    KJobWidgets::setWindow(cssJob, (QWidget*)UMLApp::app());
+    cssJob->exec();
+    if (!cssJob->error()) {
         m_umlDoc->writeToStatusBar(i18n("Finished Copying CSS..."));
         m_pStatus = true;
     } else {
