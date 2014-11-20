@@ -18,14 +18,15 @@
 #include "umbrellosettings.h"
 
 // kde includes
-#include <kaboutdata.h>
-#include <kcmdlineargs.h>
+#include <KAboutData>
 #include <kconfig.h>
-#include <klocalizedstring.h>
+#include <KLocalizedString>
 #include <ktip.h>
 #include <kwindowsystem.h>
 
 #include <QApplication>
+#include <QCommandLineParser>
+#include <QStringList>
 
 #include <unistd.h>
 #include <stdio.h>
@@ -37,7 +38,7 @@
  * @param args The command line arguments given.
  * @return True if the GUI should be shown, false otherwise.
  */
-bool getShowGUI(KCmdLineArgs *args);
+bool showGUI(QCommandLineParser *parser);
 
 /**
  * Initializes the document used by the application.
@@ -47,7 +48,7 @@ bool getShowGUI(KCmdLineArgs *args);
  *
  * @param args The command line arguments given.
  */
-void initDocument(KCmdLineArgs *args);
+void initDocument(QCommandLineParser *parser);
 
 /**
  * Export all the views in the document using the command line args set by the user.
@@ -56,7 +57,14 @@ void initDocument(KCmdLineArgs *args);
  * @param args The command line arguments given.
  * @param exportOpt A list containing all the "export" arguments given.
  */
-void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt);
+void exportAllViews(QCommandLineParser *parser, const QStringList &exportOpt);
+
+static const QString URL            = QStringLiteral("url");
+static const QString EXPORT         = QStringLiteral("export");
+static const QString EXPORT_FORMATS = QStringLiteral("export-formats");
+static const QString IMPORT_FILES   = QStringLiteral("import-files");
+static const QString USE_FOLDERS    = QStringLiteral("use-folders");
+static const QString DIRECTORY      = QStringLiteral("directory");
 
 int main(int argc, char *argv[])
 {
@@ -65,77 +73,108 @@ int main(int argc, char *argv[])
     KAboutData aboutData(QStringLiteral("umbrello"),
                          i18n("Umbrello UML Modeller"),
                          QLatin1String(umbrelloVersion()),
-                         i18n("Umbrello - Visual development environment for software"
-                              "based on the industry standard Unified Modeling Language (UML)."),
+                         i18n("Umbrello – Visual development environment for software,"
+                              "based on the industry standard Unified Modelling Language (UML).<br/>"
+                              "See also <a href=’http://www.omg.org/spec/’>http://www.omg.org/spec/</a>."),
                          KAboutLicense::GPL,
-                         i18n("(c) 2001 Paul Hensgen, (c) 2002-2014 Umbrello UML Modeller Authors"),
+                         i18n("Copyright © 2001 Paul Hensgen,\nCopyright © 2002-2014 Umbrello UML Modeller Authors"),
                          QString(),
                          QStringLiteral("http://umbrello.kde.org"));
-    aboutData.addAuthor(i18n("Paul Hensgen"), QString(), QStringLiteral("phensgen@users.sourceforge.net"));
-    aboutData.addAuthor(i18n("Umbrello UML Modeller Authors"), QString(), QStringLiteral("umbrello-devel@kde.org"));
+
+    aboutData.addAuthor(i18n("Paul Hensgen"), i18n("Author of initial version."), QString());
+    aboutData.addAuthor(i18n("Umbrello UML Modeller Authors"), QString(), QStringLiteral("umbrella-devel@kde.org"));
+
+    // authors with more than 200 commits: git shortlog -seu | sort -g
+    aboutData.addCredit(i18n("Oliver Kellogg"),
+                        i18n("Bug fixing, porting work, code cleanup, new features."),
+                        QStringLiteral("okellogg@users.sourceforge.de"));
+    aboutData.addCredit(i18n("Ralf Habacker"),
+                        i18n("Bug fixing, porting work, code cleanup, new features."),
+                        QStringLiteral("ralf@freenet.de"));
+    aboutData.addCredit(i18n("Andi Fischer"),
+                        i18n("Porting work, code cleanup, new features."),
+                        QStringLiteral("andi.fischer@hispeed.ch"));
+    aboutData.addCredit(i18n("Jonathan Riddell"),
+                        i18n("Current maintainer."),
+                        QStringLiteral("jr@jriddell.org"));
+    aboutData.addCredit(i18n("Brian Thomas"),
+                        i18n("A lot of work for C++ and Java code generation. Codeeditor."),
+                        QStringLiteral("thomas@mail630.gsfc.nasa.gov"));
+
     KAboutData::setApplicationData(aboutData);
 
-    KCmdLineOptions options;
-    options.add("+[File]", ki18n("File to open"));
-    options.add("export <extension>", ki18n("export diagrams to extension and exit"));
-    options.add("export-formats", ki18n("list available export extensions"));
-    options.add("directory <url>", ki18n("the local directory to save the exported diagrams in"), I18N_NOOP("the directory of the file"));
-    options.add("import-files", ki18n("import files"));
-    options.add("use-folders", ki18n("keep the tree structure used to store the views in the document in the target directory"));
-    KCmdLineArgs::addCmdLineOptions(options); // Add our own options.
+    QCommandLineParser* parser = new QCommandLineParser;
+    parser->addHelpOption();
+    parser->addVersionOption();
+    parser->addOption(
+                QCommandLineOption(URL, i18n("File to open.")));
+    parser->addOption(
+                QCommandLineOption(EXPORT, i18n("Export diagrams to extension and exit.")));
+    parser->addOption(
+                QCommandLineOption(EXPORT_FORMATS, i18n("List available export extensions.")));
+    parser->addOption(
+                QCommandLineOption(DIRECTORY, i18n("The local directory to save the exported diagrams in.")));  //FIXME KF5  , I18N_NOOP("the directory of the file")));
+    parser->addOption(
+                QCommandLineOption(IMPORT_FILES, i18n("Import files.")));
+    parser->addOption(
+                QCommandLineOption(USE_FOLDERS, i18n("Keep the tree structure used to store the views in the document in the target directory.")));
+    aboutData.setupCommandLine(parser);
 
-    // NOTE: for deprecated net.sf.umbrello dbus service name
-    // aboutData.setOrganizationDomain("sf.net");
+    parser->process(app);
+
+    aboutData.processCommandLine(parser);
+
     if (app.isSessionRestored()) {
-        kRestoreMainWindows< UMLApp >();
+        kRestoreMainWindows<UMLApp>();
     } else {
-        KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-
-        if (args->isSet("export-formats")) {
-            foreach(const QString& type, UMLViewImageExporterModel::supportedImageTypes())
+        if (parser->isSet(EXPORT_FORMATS)) {
+            foreach(const QString& type, UMLViewImageExporterModel::supportedImageTypes()) {
                 fprintf(stdout, "%s\n", qPrintable(type));
+            }
             return 0;
         }
 
-        bool showGUI = getShowGUI(args);
         UMLApp* uml = new UMLApp();
         app.processEvents();
 
-        if (showGUI) {
+        if (showGUI(parser)) {
             uml->show();
         }
 
-        if (args->isSet("import-files") && args->count() > 0) {
-            QStringList importList;
-            for (int i = 0; i < args->count(); i++)
-                importList.append(args->url(i).toLocalFile());
-            uml->newDocument();
-            uml->importFiles(&importList);
-        } else
-            initDocument(args);
-
+        if (parser->isSet(IMPORT_FILES)) {
+            QStringList importList = parser->values(IMPORT_FILES);
+            if (importList.size() > 0) {
+                uml->newDocument();
+                uml->importFiles(&importList);
+            }
+        }
+        else {
+            initDocument(parser);
+        }
 
         // export option
-        QStringList exportOpt = args->getOptionList("export");
+        QStringList exportOpt = parser->values(EXPORT);
         if (exportOpt.size() > 0) {
-             exportAllViews(args, exportOpt);
+             exportAllViews(parser, exportOpt);
         }
     }
+
     return app.exec();
 }
 
-bool getShowGUI(KCmdLineArgs *args)
+bool showGUI(QCommandLineParser *parser)
 {
-    if (args->getOptionList("export").size() > 0 || args->isSet("export-formats")) {
+    if (parser->isSet(EXPORT) || parser->isSet(EXPORT_FORMATS)) {
         return false;
     }
     return true;
 }
 
-void initDocument(KCmdLineArgs *args)
+void initDocument(QCommandLineParser *parser)
 {
-    if (args->count()) {
-        UMLApp::app()->openDocumentFile(args->url(0));
+    if (parser->isSet(URL)) {
+        QString url = parser->value(URL);
+        UMLApp::app()->openDocumentFile(QUrl(url));
     } else {
         bool last = UmbrelloSettings::loadlast();
         QString file = UmbrelloSettings::lastFile();
@@ -147,7 +186,7 @@ void initDocument(KCmdLineArgs *args)
     }
 }
 
-void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt)
+void exportAllViews(QCommandLineParser *parser, const QStringList &exportOpt)
 {
     QString extension(exportOpt.last());
     uDebug() << "extension: " << extension;
@@ -155,14 +194,14 @@ void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt)
     // export to the specified directory, or the directory where the file is saved
     // if no directory was specified
     QUrl directory;
-    QStringList directoryOpt = args->getOptionList("directory");
+    QString directoryOpt = parser->value(DIRECTORY);
     if (directoryOpt.size() > 0) {
-        directory = KCmdLineArgs::makeURL(directoryOpt.last().toLocal8Bit());
+        directory = QUrl(directoryOpt);    //FIXME KF5  .toLocal8Bit());
     } else {
         directory = UMLApp::app()->document()->url().adjusted(QUrl::RemoveFilename);
     }
 
-    bool useFolders = args->isSet("use-folders");
+    bool useFolders = parser->isSet(USE_FOLDERS);
 
     uDebug() << "directory: " << directory.toDisplayString();
 
@@ -171,4 +210,3 @@ void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt)
     // is sent and the app finishes without user interaction
     qApp->postEvent(UMLApp::app(), new CmdLineExportAllViewsEvent(extension, directory, useFolders));
 }
-
