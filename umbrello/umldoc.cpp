@@ -50,7 +50,6 @@
 #include <kio/netaccess.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kmimetype.h>
 #include <ktar.h>
 #include <kjobwidgets.h>
 
@@ -62,6 +61,7 @@
 #include <QDomDocument>
 #include <QDomElement>
 #include <QInputDialog>
+#include <QMimeDatabase>
 #include <QPainter>
 #include <QPrinter>
 #include <QRegExp>
@@ -464,7 +464,8 @@ bool UMLDoc::openDocument(const QUrl& url, const char* format /* =0 */)
             // only check files, we do not go in subdirectories
             if (rootDir->entry(*it)->isFile() == true) {
                 // we found a file, check the mimetype
-                entryMimeType = KMimeType::findByPath(*it, 0, true)->name();
+                QMimeDatabase db;
+                entryMimeType = db.mimeTypeForFile(*it, QMimeDatabase::MatchExtension).name();
                 if (entryMimeType == QLatin1String("application/x-uml")) {
                     foundXMI = true;
                     break;
