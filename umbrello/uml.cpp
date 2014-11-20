@@ -64,13 +64,11 @@
 #include <kcursor.h>
 #include <kinputdialog.h>
 #include <klocale.h>
-#include <kmenubar.h>
 #include <kmessagebox.h>
 #include <ktip.h>
 #include <kactionmenu.h>
 #include <kxmlguifactory.h>
 #include <kdeprintdialog.h>
-#include <kstatusbar.h>
 
 // qt includes
 #include <QApplication>
@@ -90,6 +88,7 @@
 #include <QRegExp>
 #include <QSlider>
 #include <QStackedWidget>
+#include <QStatusBar>
 #include <QTabWidget>
 #include <QTimer>
 #include <QToolButton>
