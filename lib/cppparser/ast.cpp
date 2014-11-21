@@ -213,7 +213,7 @@ void NameAST::setGlobal(bool b)
 
 void NameAST::setUnqualifiedName(ClassOrNamespaceNameAST::Node& unqualifiedName)
 {
-    m_unqualifiedName = unqualifiedName;
+    m_unqualifiedName = std::move(unqualifiedName);
     if (m_unqualifiedName.get()) m_unqualifiedName->setParent(this);
 }
 
@@ -272,19 +272,19 @@ LinkageSpecificationAST::LinkageSpecificationAST()
 
 void LinkageSpecificationAST::setExternType(AST::Node& externType)
 {
-    m_externType = externType;
+    m_externType = std::move(externType);
     if (m_externType.get()) m_externType->setParent(this);
 }
 
 void LinkageSpecificationAST::setLinkageBody(LinkageBodyAST::Node& linkageBody)
 {
-    m_linkageBody = linkageBody;
+    m_linkageBody = std::move(linkageBody);
     if (m_linkageBody.get()) m_linkageBody->setParent(this);
 }
 
 void LinkageSpecificationAST::setDeclaration(DeclarationAST::Node& decl)
 {
-    m_declaration = decl;
+    m_declaration = std::move(decl);
     if (m_declaration.get()) m_declaration->setParent(this);
 }
 
@@ -309,13 +309,13 @@ NamespaceAST::NamespaceAST()
 
 void NamespaceAST::setNamespaceName(AST::Node& namespaceName)
 {
-    m_namespaceName = namespaceName;
+    m_namespaceName = std::move(namespaceName);
     if (m_namespaceName.get()) m_namespaceName->setParent(this);
 }
 
 void NamespaceAST::setLinkageBody(LinkageBodyAST::Node& linkageBody)
 {
-    m_linkageBody = linkageBody;
+    m_linkageBody = std::move(linkageBody);
     if (m_linkageBody.get()) m_linkageBody->setParent(this);
 }
 
@@ -327,13 +327,13 @@ NamespaceAliasAST::NamespaceAliasAST()
 
 void NamespaceAliasAST::setNamespaceName(AST::Node& namespaceName)
 {
-    m_namespaceName = namespaceName;
+    m_namespaceName = std::move(namespaceName);
     if (m_namespaceName.get()) m_namespaceName->setParent(this);
 }
 
 void NamespaceAliasAST::setAliasName(NameAST::Node& name)
 {
-    m_aliasName = name;
+    m_aliasName = std::move(name);
     if (m_aliasName.get()) m_aliasName->setParent(this);
 }
 
@@ -344,13 +344,13 @@ UsingAST::UsingAST()
 
 void UsingAST::setTypeName(AST::Node& typeName)
 {
-    m_typeName = typeName;
+    m_typeName = std::move(typeName);
     if (m_typeName.get()) m_typeName->setParent(this);
 }
 
 void UsingAST::setName(NameAST::Node& name)
 {
-    m_name = name;
+    m_name = std::move(name);
     if (m_name.get()) m_name->setParent(this);
 }
 
@@ -361,7 +361,7 @@ UsingDirectiveAST::UsingDirectiveAST()
 
 void UsingDirectiveAST::setName(NameAST::Node& name)
 {
-    m_name = name;
+    m_name = std::move(name);
     if (m_name.get()) m_name->setParent(this);
 }
 
@@ -371,19 +371,19 @@ TypedefAST::TypedefAST()
 
 void TypeSpecifierAST::setName(NameAST::Node& name)
 {
-    m_name = name;
+    m_name = std::move(name);
     if (m_name.get()) m_name->setParent(this);
 }
 
 void TypedefAST::setTypeSpec(TypeSpecifierAST::Node& typeSpec)
 {
-    m_typeSpec = typeSpec;
+    m_typeSpec = std::move(typeSpec);
     if (m_typeSpec.get()) m_typeSpec->setParent(this);
 }
 
 void TypedefAST::setInitDeclaratorList(InitDeclaratorListAST::Node& initDeclaratorList)
 {
-    m_initDeclaratorList = initDeclaratorList;
+    m_initDeclaratorList = std::move(initDeclaratorList);
     if (m_initDeclaratorList.get()) m_initDeclaratorList->setParent(this);
 }
 
@@ -419,19 +419,19 @@ TemplateDeclarationAST::TemplateDeclarationAST()
 
 void TemplateDeclarationAST::setExported(AST::Node& exported)
 {
-    m_exported = exported;
+    m_exported = std::move(exported);
     if (m_exported.get()) m_exported->setParent(this);
 }
 
 void TemplateDeclarationAST::setTemplateParameterList(TemplateParameterListAST::Node& templateParameterList)
 {
-    m_templateParameterList = templateParameterList;
+    m_templateParameterList = std::move(templateParameterList);
     if (m_templateParameterList.get()) m_templateParameterList->setParent(this);
 }
 
 void TemplateDeclarationAST::setDeclaration(DeclarationAST::Node& declaration)
 {
-    m_declaration = declaration;
+    m_declaration = std::move(declaration);
     if (m_declaration.get()) m_declaration->setParent(this);
 }
 
@@ -442,13 +442,13 @@ ClassOrNamespaceNameAST::ClassOrNamespaceNameAST()
 
 void ClassOrNamespaceNameAST::setName(AST::Node& name)
 {
-    m_name = name;
+    m_name = std::move(name);
     if (m_name.get()) m_name->setParent(this);
 }
 
 void ClassOrNamespaceNameAST::setTemplateArgumentList(TemplateArgumentListAST::Node& templateArgumentList)
 {
-    m_templateArgumentList = templateArgumentList;
+    m_templateArgumentList = std::move(templateArgumentList);
     if (m_templateArgumentList.get()) m_templateArgumentList->setParent(this);
 }
 
@@ -471,13 +471,13 @@ TypeSpecifierAST::TypeSpecifierAST()
 
 void TypeSpecifierAST::setCvQualify(GroupAST::Node& cvQualify)
 {
-    m_cvQualify = cvQualify;
+    m_cvQualify = std::move(cvQualify);
     if (m_cvQualify.get()) m_cvQualify->setParent(this);
 }
 
 void TypeSpecifierAST::setCv2Qualify(GroupAST::Node& cv2Qualify)
 {
-    m_cv2Qualify = cv2Qualify;
+    m_cv2Qualify = std::move(cv2Qualify);
     if (m_cv2Qualify.get()) m_cv2Qualify->setParent(this);
 }
 
@@ -504,7 +504,7 @@ ClassSpecifierAST::ClassSpecifierAST()
 
 void ClassSpecifierAST::setClassKey(AST::Node& classKey)
 {
-    m_classKey = classKey;
+    m_classKey = std::move(classKey);
     if (m_classKey.get()) m_classKey->setParent(this);
 }
 
@@ -519,7 +519,7 @@ void ClassSpecifierAST::addDeclaration(DeclarationAST::Node& declaration)
 
 void ClassSpecifierAST::setBaseClause(BaseClauseAST::Node& baseClause)
 {
-    m_baseClause = baseClause;
+    m_baseClause = std::move(baseClause);
     if (m_baseClause.get()) m_baseClause->setParent(this);
 }
 
@@ -545,7 +545,7 @@ ElaboratedTypeSpecifierAST::ElaboratedTypeSpecifierAST()
 
 void ElaboratedTypeSpecifierAST::setKind(AST::Node& kind)
 {
-    m_kind = kind;
+    m_kind = std::move(kind);
     if (m_kind.get()) m_kind->setParent(this);
 }
 
@@ -569,13 +569,13 @@ EnumeratorAST::EnumeratorAST()
 
 void EnumeratorAST::setId(AST::Node& id)
 {
-    m_id = id;
+    m_id = std::move(id);
     if (m_id.get()) m_id->setParent(this);
 }
 
 void EnumeratorAST::setExpr(AST::Node& expr)
 {
-    m_expr = expr;
+    m_expr = std::move(expr);
     if (m_expr.get()) m_expr->setParent(this);
 }
 
@@ -600,19 +600,19 @@ BaseSpecifierAST::BaseSpecifierAST()
 
 void BaseSpecifierAST::setIsVirtual(AST::Node& isVirtual)
 {
-    m_isVirtual = isVirtual;
+    m_isVirtual = std::move(isVirtual);
     if (m_isVirtual.get()) m_isVirtual->setParent(this);
 }
 
 void BaseSpecifierAST::setAccess(AST::Node& access)
 {
-    m_access = access;
+    m_access = std::move(access);
     if (m_access.get()) m_access->setParent(this);
 }
 
 void BaseSpecifierAST::setName(NameAST::Node& name)
 {
-    m_name = name;
+    m_name = std::move(name);
     if (m_name.get()) m_name->setParent(this);
 }
 
@@ -623,31 +623,31 @@ SimpleDeclarationAST::SimpleDeclarationAST()
 
 void SimpleDeclarationAST::setFunctionSpecifier(GroupAST::Node& functionSpecifier)
 {
-    m_functionSpecifier = functionSpecifier;
+    m_functionSpecifier = std::move(functionSpecifier);
     if (m_functionSpecifier.get()) m_functionSpecifier->setParent(this);
 }
 
 void SimpleDeclarationAST::setStorageSpecifier(GroupAST::Node& storageSpecifier)
 {
-    m_storageSpecifier = storageSpecifier;
+    m_storageSpecifier = std::move(storageSpecifier);
     if (m_storageSpecifier.get()) m_storageSpecifier->setParent(this);
 }
 
 void SimpleDeclarationAST::setTypeSpec(TypeSpecifierAST::Node& typeSpec)
 {
-    m_typeSpec = typeSpec;
+    m_typeSpec = std::move(typeSpec);
     if (m_typeSpec.get()) m_typeSpec->setParent(this);
 }
 
 void SimpleDeclarationAST::setInitDeclaratorList(InitDeclaratorListAST::Node& initDeclaratorList)
 {
-    m_initDeclaratorList = initDeclaratorList;
+    m_initDeclaratorList = std::move(initDeclaratorList);
     if (m_initDeclaratorList.get()) m_initDeclaratorList->setParent(this);
 }
 
 void SimpleDeclarationAST::setWinDeclSpec(GroupAST::Node& winDeclSpec)
 {
-    m_winDeclSpec = winDeclSpec;
+    m_winDeclSpec = std::move(winDeclSpec);
     if (m_winDeclSpec.get()) m_winDeclSpec->setParent(this);
 }
 
@@ -673,19 +673,19 @@ DeclaratorAST::DeclaratorAST()
 
 void DeclaratorAST::setSubDeclarator(DeclaratorAST::Node& subDeclarator)
 {
-    m_subDeclarator = subDeclarator;
+    m_subDeclarator = std::move(subDeclarator);
     if (m_subDeclarator.get()) m_subDeclarator->setParent(this);
 }
 
 void DeclaratorAST::setDeclaratorId(NameAST::Node& declaratorId)
 {
-    m_declaratorId = declaratorId;
+    m_declaratorId = std::move(declaratorId);
     if (m_declaratorId.get()) m_declaratorId->setParent(this);
 }
 
 void DeclaratorAST::setBitfieldInitialization(AST::Node& bitfieldInitialization)
 {
-    m_bitfieldInitialization = bitfieldInitialization;
+    m_bitfieldInitialization = std::move(bitfieldInitialization);
     if (m_bitfieldInitialization.get()) m_bitfieldInitialization->setParent(this);
 }
 
@@ -700,19 +700,19 @@ void DeclaratorAST::addArrayDimension(AST::Node& arrayDimension)
 
 void DeclaratorAST::setParameterDeclarationClause(AUTO_PTR<class ParameterDeclarationClauseAST>& parameterDeclarationClause)
 {
-    m_parameterDeclarationClause = parameterDeclarationClause;
+    m_parameterDeclarationClause = std::move(parameterDeclarationClause);
     if (m_parameterDeclarationClause.get()) m_parameterDeclarationClause->setParent(this);
 }
 
 void DeclaratorAST::setConstant(AST::Node& constant)
 {
-    m_constant = constant;
+    m_constant = std::move(constant);
     if (m_constant.get()) m_constant->setParent(this);
 }
 
 void DeclaratorAST::setExceptionSpecification(GroupAST::Node& exceptionSpecification)
 {
-    m_exceptionSpecification = exceptionSpecification;
+    m_exceptionSpecification = std::move(exceptionSpecification);
     if (m_exceptionSpecification.get()) m_exceptionSpecification->setParent(this);
 }
 
@@ -732,13 +732,13 @@ InitDeclaratorAST::InitDeclaratorAST()
 
 void InitDeclaratorAST::setDeclarator(DeclaratorAST::Node& declarator)
 {
-    m_declarator = declarator;
+    m_declarator = std::move(declarator);
     if (m_declarator.get()) m_declarator->setParent(this);
 }
 
 void InitDeclaratorAST::setInitializer(AST::Node& initializer)
 {
-    m_initializer = initializer;
+    m_initializer = std::move(initializer);
     if (m_initializer.get()) m_initializer->setParent(this);
 }
 
@@ -749,37 +749,37 @@ FunctionDefinitionAST::FunctionDefinitionAST()
 
 void FunctionDefinitionAST::setFunctionSpecifier(GroupAST::Node& functionSpecifier)
 {
-    m_functionSpecifier = functionSpecifier;
+    m_functionSpecifier = std::move(functionSpecifier);
     if (m_functionSpecifier.get()) m_functionSpecifier->setParent(this);
 }
 
 void FunctionDefinitionAST::setStorageSpecifier(GroupAST::Node& storageSpecifier)
 {
-    m_storageSpecifier = storageSpecifier;
+    m_storageSpecifier = std::move(storageSpecifier);
     if (m_storageSpecifier.get()) m_storageSpecifier->setParent(this);
 }
 
 void FunctionDefinitionAST::setTypeSpec(TypeSpecifierAST::Node& typeSpec)
 {
-    m_typeSpec = typeSpec;
+    m_typeSpec = std::move(typeSpec);
     if (m_typeSpec.get()) m_typeSpec->setParent(this);
 }
 
 void FunctionDefinitionAST::setInitDeclarator(InitDeclaratorAST::Node& initDeclarator)
 {
-    m_initDeclarator = initDeclarator;
+    m_initDeclarator = std::move(initDeclarator);
     if (m_initDeclarator.get()) m_initDeclarator->setParent(this);
 }
 
 void FunctionDefinitionAST::setFunctionBody(StatementListAST::Node& functionBody)
 {
-    m_functionBody = functionBody;
+    m_functionBody = std::move(functionBody);
     if (m_functionBody.get()) m_functionBody->setParent(this);
 }
 
 void FunctionDefinitionAST::setWinDeclSpec(GroupAST::Node& winDeclSpec)
 {
-    m_winDeclSpec = winDeclSpec;
+    m_winDeclSpec = std::move(winDeclSpec);
     if (m_winDeclSpec.get()) m_winDeclSpec->setParent(this);
 }
 
@@ -804,19 +804,19 @@ IfStatementAST::IfStatementAST()
 
 void IfStatementAST::setCondition(ConditionAST::Node& condition)
 {
-    m_condition = condition;
+    m_condition = std::move(condition);
     if (m_condition.get()) m_condition->setParent(this);
 }
 
 void IfStatementAST::setStatement(StatementAST::Node& statement)
 {
-    m_statement = statement;
+    m_statement = std::move(statement);
     if (m_statement.get()) m_statement->setParent(this);
 }
 
 void IfStatementAST::setElseStatement(StatementAST::Node& elseStatement)
 {
-    m_elseStatement = elseStatement;
+    m_elseStatement = std::move(elseStatement);
     if (m_elseStatement.get()) m_elseStatement->setParent(this);
 }
 
@@ -827,13 +827,13 @@ WhileStatementAST::WhileStatementAST()
 
 void WhileStatementAST::setCondition(ConditionAST::Node& condition)
 {
-    m_condition = condition;
+    m_condition = std::move(condition);
     if (m_condition.get()) m_condition->setParent(this);
 }
 
 void WhileStatementAST::setStatement(StatementAST::Node& statement)
 {
-    m_statement = statement;
+    m_statement = std::move(statement);
     if (m_statement.get()) m_statement->setParent(this);
 }
 
@@ -844,13 +844,13 @@ DoStatementAST::DoStatementAST()
 
 void DoStatementAST::setCondition(ConditionAST::Node& condition)
 {
-    m_condition = condition;
+    m_condition = std::move(condition);
     if (m_condition.get()) m_condition->setParent(this);
 }
 
 void DoStatementAST::setStatement(StatementAST::Node& statement)
 {
-    m_statement = statement;
+    m_statement = std::move(statement);
     if (m_statement.get()) m_statement->setParent(this);
 }
 
@@ -861,25 +861,25 @@ ForStatementAST::ForStatementAST()
 
 void ForStatementAST::setCondition(ConditionAST::Node& condition)
 {
-    m_condition = condition;
+    m_condition = std::move(condition);
     if (m_condition.get()) m_condition->setParent(this);
 }
 
 void ForStatementAST::setExpression(AST::Node& expression)
 {
-    m_expression = expression;
+    m_expression = std::move(expression);
     if (m_expression.get()) m_expression->setParent(this);
 }
 
 void ForStatementAST::setStatement(StatementAST::Node& statement)
 {
-    m_statement = statement;
+    m_statement = std::move(statement);
     if (m_statement.get()) m_statement->setParent(this);
 }
 
 void ForStatementAST::setInitStatement(StatementAST::Node& initStatement)
 {
-    m_initStatement = initStatement;
+    m_initStatement = std::move(initStatement);
     if (m_initStatement.get()) m_initStatement->setParent(this);
 }
 
@@ -890,19 +890,19 @@ ForEachStatementAST::ForEachStatementAST()
 
 void ForEachStatementAST::setExpression(AST::Node& expression)
 {
-    m_expression = expression;
+    m_expression = std::move(expression);
     if (m_expression.get()) m_expression->setParent(this);
 }
 
 void ForEachStatementAST::setStatement(StatementAST::Node& statement)
 {
-    m_statement = statement;
+    m_statement = std::move(statement);
     if (m_statement.get()) m_statement->setParent(this);
 }
 
 void ForEachStatementAST::setInitStatement(StatementAST::Node& initStatement)
 {
-    m_initStatement = initStatement;
+    m_initStatement = std::move(initStatement);
     if (m_initStatement.get()) m_initStatement->setParent(this);
 }
 
@@ -913,13 +913,13 @@ SwitchStatementAST::SwitchStatementAST()
 
 void SwitchStatementAST::setCondition(ConditionAST::Node& condition)
 {
-    m_condition = condition;
+    m_condition = std::move(condition);
     if (m_condition.get()) m_condition->setParent(this);
 }
 
 void SwitchStatementAST::setStatement(StatementAST::Node& statement)
 {
-    m_statement = statement;
+    m_statement = std::move(statement);
     if (m_statement.get()) m_statement->setParent(this);
 }
 
@@ -944,13 +944,13 @@ CatchStatementAST::CatchStatementAST()
 
 void CatchStatementAST::setCondition(ConditionAST::Node& condition)
 {
-    m_condition = condition;
+    m_condition = std::move(condition);
     if (m_condition.get()) m_condition->setParent(this);
 }
 
 void CatchStatementAST::setStatement(StatementAST::Node& statement)
 {
-    m_statement = statement;
+    m_statement = std::move(statement);
     if (m_statement.get()) m_statement->setParent(this);
 }
 
@@ -961,13 +961,13 @@ TryBlockStatementAST::TryBlockStatementAST()
 
 void TryBlockStatementAST::setStatement(StatementAST::Node& statement)
 {
-    m_statement = statement;
+    m_statement = std::move(statement);
     if (m_statement.get()) m_statement->setParent(this);
 }
 
 void TryBlockStatementAST::setCatchStatementList(CatchStatementListAST::Node& statementList)
 {
-    m_catchStatementList = statementList;
+    m_catchStatementList = std::move(statementList);
     if (m_catchStatementList.get()) m_catchStatementList->setParent(this);
 }
 
@@ -978,7 +978,7 @@ DeclarationStatementAST::DeclarationStatementAST()
 
 void DeclarationStatementAST::setDeclaration(DeclarationAST::Node& declaration)
 {
-    m_declaration = declaration;
+    m_declaration = std::move(declaration);
     if (m_declaration.get()) m_declaration->setParent(this);
 }
 
@@ -989,7 +989,7 @@ ExpressionStatementAST::ExpressionStatementAST()
 
 void ExpressionStatementAST::setExpression(AST::Node& expression)
 {
-    m_expression = expression;
+    m_expression = std::move(expression);
     if (m_expression.get()) m_expression->setParent(this);
 }
 
@@ -1001,19 +1001,19 @@ ParameterDeclarationAST::ParameterDeclarationAST()
 
 void ParameterDeclarationAST::setTypeSpec(TypeSpecifierAST::Node& typeSpec)
 {
-    m_typeSpec = typeSpec;
+    m_typeSpec = std::move(typeSpec);
     if (m_typeSpec.get()) m_typeSpec->setParent(this);
 }
 
 void ParameterDeclarationAST::setDeclarator(DeclaratorAST::Node& declarator)
 {
-    m_declarator = declarator;
+    m_declarator = std::move(declarator);
     if (m_declarator.get()) m_declarator->setParent(this);
 }
 
 void ParameterDeclarationAST::setExpression(AST::Node& expression)
 {
-    m_expression = expression;
+    m_expression = std::move(expression);
     if (m_expression.get()) m_expression->setParent(this);
 }
 
@@ -1063,13 +1063,13 @@ ParameterDeclarationClauseAST::ParameterDeclarationClauseAST()
 
 void ParameterDeclarationClauseAST::setParameterDeclarationList(ParameterDeclarationListAST::Node& parameterDeclarationList)
 {
-    m_parameterDeclarationList = parameterDeclarationList;
+    m_parameterDeclarationList = std::move(parameterDeclarationList);
     if (m_parameterDeclarationList.get()) m_parameterDeclarationList->setParent(this);
 }
 
 void ParameterDeclarationClauseAST::setEllipsis(AST::Node& ellipsis)
 {
-    m_ellipsis = ellipsis;
+    m_ellipsis = std::move(ellipsis);
     if (m_ellipsis.get()) m_ellipsis->setParent(this);
 }
 
@@ -1140,25 +1140,25 @@ TypeParameterAST::TypeParameterAST()
 
 void TypeParameterAST::setKind(AST::Node& kind)
 {
-    m_kind = kind;
+    m_kind = std::move(kind);
     if (m_kind.get()) m_kind->setParent(this);
 }
 
 void TypeParameterAST::setTemplateParameterList(AUTO_PTR<class TemplateParameterListAST>& templateParameterList)
 {
-    m_templateParameterList = templateParameterList;
+    m_templateParameterList = std::move(templateParameterList);
     if (m_templateParameterList.get()) m_templateParameterList->setParent(this);
 }
 
 void TypeParameterAST::setName(NameAST::Node& name)
 {
-    m_name = name;
+    m_name = std::move(name);
     if (m_name.get()) m_name->setParent(this);
 }
 
 void TypeParameterAST::setTypeId(AST::Node& typeId)
 {
-    m_typeId = typeId;
+    m_typeId = std::move(typeId);
     if (m_typeId.get()) m_typeId->setParent(this);
 }
 
@@ -1169,13 +1169,13 @@ TemplateParameterAST::TemplateParameterAST()
 
 void TemplateParameterAST::setTypeParameter(TypeParameterAST::Node& typeParameter)
 {
-    m_typeParameter = typeParameter;
+    m_typeParameter = std::move(typeParameter);
     if (m_typeParameter.get()) m_typeParameter->setParent(this);
 }
 
 void TemplateParameterAST::setTypeValueParameter(ParameterDeclarationAST::Node& typeValueParameter)
 {
-    m_typeValueParameter = typeValueParameter;
+    m_typeValueParameter = std::move(typeValueParameter);
     if (m_typeValueParameter.get()) m_typeValueParameter->setParent(this);
 }
 
@@ -1200,24 +1200,24 @@ ConditionAST::ConditionAST()
 
 void ConditionAST::setTypeSpec(TypeSpecifierAST::Node& typeSpec)
 {
-    m_typeSpec = typeSpec;
+    m_typeSpec = std::move(typeSpec);
     if (m_typeSpec.get()) m_typeSpec->setParent(this);
 }
 
 void ConditionAST::setDeclarator(DeclaratorAST::Node& declarator)
 {
-    m_declarator = declarator;
+    m_declarator = std::move(declarator);
     if (m_declarator.get()) m_declarator->setParent(this);
 }
 
 void ConditionAST::setExpression(AST::Node& expression)
 {
-    m_expression = expression;
+    m_expression = std::move(expression);
     if (m_expression.get()) m_expression->setParent(this);
 }
 
 void ClassSpecifierAST::setWinDeclSpec(GroupAST::Node & winDeclSpec)
 {
-    m_winDeclSpec = winDeclSpec;
+    m_winDeclSpec = std::move(winDeclSpec);
     if (m_winDeclSpec.get()) m_winDeclSpec->setParent(this);
 }
