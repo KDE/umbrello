@@ -24,7 +24,7 @@
 
 // kde includes
 #include <khelpmenu.h>
-#include <klocale.h>
+#include <KLocalizedString>
 
 // qt includes
 #include <QVBoxLayout>

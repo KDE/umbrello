@@ -14,7 +14,7 @@
 #include "umlrole.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 
 /**
  *  Sets up the UMLRoleProperties.

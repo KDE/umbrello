@@ -22,7 +22,7 @@
 
 // kde includes
 #include <kcombobox.h>
-#include <klocale.h>
+#include <KLocalizedString>
 
 // qt includes
 #include <QGroupBox>

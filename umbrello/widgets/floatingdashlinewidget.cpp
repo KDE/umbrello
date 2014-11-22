@@ -9,16 +9,16 @@
  ***************************************************************************/
 // own header
 #include "floatingdashlinewidget.h"
-#include "combinedfragmentwidget.h"
-
-//kde includes
-#include <klocale.h>
 
 //app includes
+#include "combinedfragmentwidget.h"
 #include "debug_utils.h"
 #include "umlview.h"
 #include "widget_utils.h"
 #include "listpopupmenu.h"
+
+//kde includes
+#include <KLocalizedString>
 
 // qt includes
 #include <QInputDialog>

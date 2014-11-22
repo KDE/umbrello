@@ -11,8 +11,6 @@
 #ifndef UMBRELLO_VERSION_H
 #define UMBRELLO_VERSION_H
 
-#include <kdeversion.h>
-
 inline QByteArray umbrelloVersion()
 {
 #ifdef UMBRELLO_VERSION_STRING

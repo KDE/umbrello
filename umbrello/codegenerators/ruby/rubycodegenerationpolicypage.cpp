@@ -18,7 +18,7 @@
 #include "uml.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 
 RubyCodeGenerationPolicyPage::RubyCodeGenerationPolicyPage(QWidget *parent, const char *name, RubyCodeGenerationPolicy * policy)
   : CodeGenerationPolicyPage(parent, name, policy)

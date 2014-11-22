@@ -15,7 +15,7 @@
 #include "umlscene.h"
 #include "umlview.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 
 namespace Uml
 {

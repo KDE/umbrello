@@ -10,7 +10,7 @@
 
 #include "enumliteral.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include <QInputDialog>
 

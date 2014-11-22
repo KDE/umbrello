@@ -485,7 +485,6 @@ target_link_libraries(umbrello
     KF5::Archive
     KF5::Auth
     KF5::Completion
-#    KF5::Config
     KF5::CoreAddons
     KF5::I18n
     KF5::IconThemes
@@ -497,7 +496,6 @@ target_link_libraries(umbrello
     KF5::XmlGui
     ${LIBXSLT_LIBRARIES}
     ${LIBXML2_LIBRARIES}
-    KF5::KDELibs4Support
 )
 install(TARGETS umbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
 

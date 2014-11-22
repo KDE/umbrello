@@ -18,10 +18,10 @@
 #include "umldoc.h"
 
 // kde include files
-#include <klocale.h>
-#include <kurlrequester.h>
-#include <kfilefiltercombo.h>
-#include <kmessagebox.h>
+#include <KComboBox>  // TODO: hide this by changing the API of exportallviewsdialog
+#include <KLocalizedString>
+#include <KUrlRequester>
+#include <KMessageBox>
 
 // Qt include files 
 #include <QString>
@@ -72,12 +72,12 @@ void UMLViewImageExporterAll::exportAllViews()
         return;
     }
 
-    app->setImageMimeType(m_dialog->m_imageType->currentFilter());
+    app->setImageMimeType(m_dialog->m_imageType->currentText());
 
     // export all views
     umlDoc->writeToStatusBar(i18n("Exporting all views..."));
     QStringList errors = UMLViewImageExporterModel().exportAllViews(
-                                UMLViewImageExporterModel::mimeTypeToImageType(m_dialog->m_imageType->currentFilter()),
+                                UMLViewImageExporterModel::mimeTypeToImageType(m_dialog->m_imageType->currentText()),
                                 QUrl(m_dialog->m_kURL->url()), m_dialog->m_useFolders->isChecked());
     if (!errors.empty()) {
         KMessageBox::errorList(app, i18n("Some errors happened when exporting the images:"), errors);

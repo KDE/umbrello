@@ -16,7 +16,7 @@
 #include "uml.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 
 JavaCodeGenerationPolicyPage::JavaCodeGenerationPolicyPage(QWidget *parent, const char *name, JavaCodeGenerationPolicy * policy)
   : CodeGenerationPolicyPage(parent, name, policy)

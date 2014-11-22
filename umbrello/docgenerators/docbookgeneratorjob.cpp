@@ -25,7 +25,7 @@
 #include <libxslt/transform.h>
 #include <libxslt/xsltutils.h>
 
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include <QTemporaryFile>
 #include <QTextStream>

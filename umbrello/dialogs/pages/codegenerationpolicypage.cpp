@@ -19,8 +19,8 @@
 #include "codegenerationpolicypage.h"
 
 // qt/kde includes
+#include <KLocalizedString>
 #include <QLabel>
-#include <klocale.h>
 
 // local includes
 #include "../codegenerationpolicy.h"

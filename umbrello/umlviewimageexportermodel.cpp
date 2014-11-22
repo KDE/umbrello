@@ -21,8 +21,9 @@
 #include "umlview.h"
 
 // kde include files
-#include <klocale.h>
-#include <kio/netaccess.h>
+#include <KIO/Job>
+#include <KJobWidgets>
+#include <KLocalizedString>
 #include <KIO/MkdirJob>
 
 // include files for Qt
@@ -269,7 +270,10 @@ QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &im
 
     // if the file wasn't local, upload the temp file to the target
     if (!url.isLocalFile()) {
-        if (!KIO::NetAccess::upload(tmpFile.fileName(), url, UMLApp::app())) {
+        KIO::FileCopyJob *job = KIO::file_copy(QUrl::fromLocalFile(tmpFile.fileName()), url);
+        KJobWidgets::setWindow(job, UMLApp::app());
+        job->exec();
+        if (job->error()) {
             return i18n("There was a problem saving file: %1", url.path());
         }
     }
@@ -320,7 +324,10 @@ bool UMLViewImageExporterModel::prepareDirectory(const QUrl &url) const
     for (QStringList::ConstIterator it = dirs.constBegin() ; it != dirs.constEnd(); ++it) {
         directory.setPath(directory.path() + QLatin1Char('/') + *it);
 
-        if (!KIO::NetAccess::exists(directory, KIO::NetAccess::SourceSide, UMLApp::app())) {
+        KIO::StatJob *statJob = KIO::stat(directory, KIO::StatJob::SourceSide, 0);
+        KJobWidgets::setWindow(statJob, UMLApp::app());
+        statJob->exec();
+        if (statJob->error()) {
 
             KIO::MkdirJob* job = KIO::mkdir(directory);
             if (!job->exec()) {

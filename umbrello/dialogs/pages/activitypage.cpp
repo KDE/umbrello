@@ -15,7 +15,7 @@
 #include "statewidget.h"
 #include "uml.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include <QDialogButtonBox>
 #include <QHBoxLayout>

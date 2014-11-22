@@ -30,7 +30,7 @@
 //kde includes
 #include <klineedit.h>
 #include <kcombobox.h>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kmessagebox.h>
 
 //qt includes

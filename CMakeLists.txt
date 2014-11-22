@@ -43,7 +43,6 @@ find_package(KF5 REQUIRED COMPONENTS
     I18n
     IconThemes
     Init
-    KDELibs4Support  # TODO: Port away from this
     KIO
     Parts
     Service
@@ -100,7 +99,6 @@ include_directories(
     /opt/project-neon5/include/KF5/KConfigCore      #FIXME
     /opt/project-neon5/include/KF5/KConfigGui       #FIXME
     /opt/project-neon5/include/KF5/KConfigWidgets   #FIXME
-    /opt/project-neon5/include/KF5/KDELibs4Support  #FIXME
     /opt/project-neon5/include/KF5/KIOCore          #FIXME
     /opt/project-neon5/include/KF5/KIOFileWidgets   #FIXME
     /opt/project-neon5/include/KF5/KIOWidgets       #FIXME
@@ -111,7 +109,7 @@ include_directories(
 if(LIBXSLT_FOUND AND LIBXML2_FOUND)
     add_subdirectory(umbrello)
     add_subdirectory(doc)
-add_subdirectory(tools)
+    add_subdirectory(tools)
 endif(LIBXSLT_FOUND AND LIBXML2_FOUND)
 
 # for automatic unit tests

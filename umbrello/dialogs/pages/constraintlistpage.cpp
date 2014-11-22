@@ -24,7 +24,7 @@
 #include "umldoc.h"
 #include "uniqueconstraint.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include <QAction>
 #include <QApplication>

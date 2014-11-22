@@ -12,8 +12,8 @@
 #include "exportallviewsdialog.h"
 
 // kde include files
-#include <kfilefiltercombo.h>
-#include <klocale.h>
+#include <KComboBox>
+#include <KLocalizedString>
 
 // application specific includes
 #include "umlviewimageexportermodel.h"
@@ -34,15 +34,15 @@ ExportAllViewsDialog::ExportAllViewsDialog(QWidget* parent, const char* name)
     setupUi(window());
 
     // create and initialize m_imageType
-    m_imageType = new KFileFilterCombo(this);
+    m_imageType = new KComboBox(this);
     QSizePolicy sp(QSizePolicy::Preferred, QSizePolicy::Fixed);
     sp.setHorizontalStretch(0);
     sp.setVerticalStretch(0);
     sp.setHeightForWidth(m_imageType->sizePolicy().hasHeightForWidth());
     m_imageType->setSizePolicy(sp);
     m_imageType->setEditable(false);
-
-    m_imageType->setMimeFilter(UMLViewImageExporterModel::supportedMimeTypes(), QString::fromLatin1("image/png"));
+    m_imageType->addItems(UMLViewImageExporterModel::supportedMimeTypes());
+    m_imageType->setCurrentText(QString::fromLatin1("image/png"));
 
     // Cannot give an object name to the layout when using QtDesigner,
     // therefore go and use an editor and add it by hand.

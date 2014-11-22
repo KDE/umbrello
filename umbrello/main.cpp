@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
                          QString(),
                          QStringLiteral("http://umbrello.kde.org"));
 
-    aboutData.addAuthor(i18n("Paul Hensgen"), i18n("Author of initial version."), QString());
+    aboutData.addAuthor(i18n("Paul Hensgen"), i18n("Author of initial version."), QStringLiteral("phensgen@users.sourceforge.net"));
     aboutData.addAuthor(i18n("Umbrello UML Modeller Authors"), QString(), QStringLiteral("umbrella-devel@kde.org"));
 
     // authors with more than 200 commits: git shortlog -seu | sort -g

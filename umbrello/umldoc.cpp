@@ -46,12 +46,11 @@
 #include "worktoolbar.h"
 
 // kde includes
-#include <kio/job.h>
-#include <kio/netaccess.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-#include <ktar.h>
-#include <kjobwidgets.h>
+#include <KIO/Job>
+#include <KJobWidgets>
+#include <KLocalizedString>
+#include <KMessageBox>
+#include <KTar>
 
 // qt includes
 #include <QApplication>
@@ -417,10 +416,12 @@ bool UMLDoc::openDocument(const QUrl& url, const char* format /* =0 */)
     // as it sets m_bLoading to false after it was temporarily
     // changed to true to block recording of changes in redo-buffer
     m_bLoading = true;
-    QString tmpfile;
-    KIO::NetAccess::download(url, tmpfile, UMLApp::app());
-    QFile file(tmpfile);
-    if (!file.exists()) {
+    QUrl tmpfile;
+    KIO::FileCopyJob *job = KIO::file_copy(url, tmpfile);
+    KJobWidgets::setWindow(job, UMLApp::app());
+    job->exec();
+    QFile file(tmpfile.toLocalFile());
+    if (job->error() || !file.exists()) {
         KMessageBox::error(0, i18n("The file %1 does not exist.", url.url(QUrl::PreferLocalFile)), i18n("Load Error"));
         setFileName(m_doc_url, i18n("Untitled"));
         m_bLoading = false;
@@ -441,10 +442,10 @@ bool UMLDoc::openDocument(const QUrl& url, const char* format /* =0 */)
     }
 
     if (mimetype.isEmpty() == false) {
-        KTar archive(tmpfile, mimetype);
+        KTar archive(tmpfile.toLocalFile(), mimetype);
         if (archive.open(QIODevice::ReadOnly) == false) {
             KMessageBox::error(0, i18n("The file %1 seems to be corrupted.", url.url(QUrl::PreferLocalFile)), i18n("Load Error"));
-            KIO::NetAccess::removeTempFile(tmpfile);
+            KIO::file_delete(tmpfile);
             setFileName(m_doc_url, i18n("Untitled"));
             m_bLoading = false;
             newDocument();
@@ -484,7 +485,7 @@ bool UMLDoc::openDocument(const QUrl& url, const char* format /* =0 */)
             if (entry == 0) {
                 KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.", url.url(QUrl::PreferLocalFile)),
                                    i18n("Load Error"));
-                KIO::NetAccess::removeTempFile(tmpfile);
+                KIO::file_delete(tmpfile);
                 setFileName(m_doc_url, i18n("Untitled"));
                 m_bLoading = false;
                 newDocument();
@@ -497,7 +498,7 @@ bool UMLDoc::openDocument(const QUrl& url, const char* format /* =0 */)
             if (fileEntry == 0) {
                 KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.", url.url(QUrl::PreferLocalFile)),
                                    i18n("Load Error"));
-                KIO::NetAccess::removeTempFile(tmpfile);
+                KIO::file_delete(tmpfile);
                 setFileName(m_doc_url, i18n("Untitled"));
                 m_bLoading = false;
                 newDocument();
@@ -512,7 +513,7 @@ bool UMLDoc::openDocument(const QUrl& url, const char* format /* =0 */)
             if(!xmi_file.open(QIODevice::ReadOnly)) {
                 KMessageBox::error(0, i18n("There was a problem loading the extracted file: %1", url.url(QUrl::PreferLocalFile)),
                                    i18n("Load Error"));
-                KIO::NetAccess::removeTempFile(tmpfile);
+                KIO::file_delete(tmpfile);
                 setFileName(m_doc_url, i18n("Untitled"));
                 m_bLoading = false;
                 newDocument();
@@ -526,7 +527,7 @@ bool UMLDoc::openDocument(const QUrl& url, const char* format /* =0 */)
         } else {
             KMessageBox::error(0, i18n("There was no XMI file found in the compressed file %1.", url.url(QUrl::PreferLocalFile)),
                                i18n("Load Error"));
-            KIO::NetAccess::removeTempFile(tmpfile);
+            KIO::file_delete(tmpfile);
             setFileName(m_doc_url, i18n("Untitled"));
             m_bLoading = false;
             newDocument();
@@ -539,7 +540,7 @@ bool UMLDoc::openDocument(const QUrl& url, const char* format /* =0 */)
         if (!file.open(QIODevice::ReadOnly)) {
             KMessageBox::error(0, i18n("There was a problem loading file: %1", url.url(QUrl::PreferLocalFile)),
                                i18n("Load Error"));
-            KIO::NetAccess::removeTempFile(tmpfile);
+            KIO::file_delete(tmpfile);
             setFileName(m_doc_url, i18n("Untitled"));
             m_bLoading = false;
             newDocument();
@@ -569,7 +570,7 @@ bool UMLDoc::openDocument(const QUrl& url, const char* format /* =0 */)
 
     if (file.isOpen())
         file.close();
-    KIO::NetAccess::removeTempFile(tmpfile);
+    KIO::file_delete(tmpfile);
     m_bLoading = false;
     m_bTypesAreResolved = true;
     if (!status) {
@@ -680,7 +681,10 @@ bool UMLDoc::saveDocument(const QUrl& url, const char * format)
 
         // now we have to check, if we have to upload the file
         if (!url.isLocalFile()) {
-            uploaded = KIO::NetAccess::upload(tmp_tgz_file.fileName(), m_doc_url, UMLApp::app());
+            KIO::FileCopyJob *job = KIO::file_copy(QUrl::fromLocalFile(tmp_tgz_file.fileName()), m_doc_url);
+            KJobWidgets::setWindow(job, UMLApp::app());
+            job->exec();
+            uploaded = !job->error();
         }
 
         // now the archive was written to disk (or remote) so we can delete the
@@ -711,7 +715,10 @@ bool UMLDoc::saveDocument(const QUrl& url, const char * format)
 
         // if it is a remote file, we have to upload the tmp file
         if (!url.isLocalFile()) {
-            uploaded = KIO::NetAccess::upload(tmpfile.fileName(), m_doc_url, UMLApp::app());
+            KIO::FileCopyJob *job = KIO::file_copy(QUrl::fromLocalFile(tmpfile.fileName()), m_doc_url);
+            KJobWidgets::setWindow(job, UMLApp::app());
+            job->exec();
+            uploaded = !job->error();
         }
         else {
             // now remove the original file

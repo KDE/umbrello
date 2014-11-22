@@ -42,7 +42,7 @@
 #include "widgetbase.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kactioncollection.h>
 
 DEBUG_REGISTER_DISABLED(ListPopupMenu)

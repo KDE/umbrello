@@ -38,7 +38,7 @@
 
 // kde includes
 #include <kmessagebox.h>
-#include <klocale.h>
+#include <KLocalizedString>
 
 // qt includes
 #include <QMimeData>

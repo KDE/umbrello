@@ -71,10 +71,9 @@
 #include "widgetlist_utils.h"
 
 //kde include files
-#include <kio/netaccess.h>
 #include <kmessagebox.h>
 #include <kcursor.h>
-#include <klocale.h>
+#include <KLocalizedString>
 
 // include files for Qt
 #include <QColor>

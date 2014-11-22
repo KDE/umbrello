@@ -10,7 +10,7 @@
 
 #include "port.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 
 /**
  * Sets up a Port.

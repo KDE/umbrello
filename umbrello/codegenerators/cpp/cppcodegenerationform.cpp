@@ -12,7 +12,7 @@
 #include "cppcodegenerationform.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kcombobox.h>
 #include <kmessagebox.h>
 

@@ -12,7 +12,7 @@
 #include "association.h"
 #include "clipboard/idchangelog.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 
 /**
  * Sets up an Artifact.

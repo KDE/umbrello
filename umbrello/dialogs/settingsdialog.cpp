@@ -25,7 +25,7 @@
 #include "layoutgenerator.h"
 
 #include <kcolorbutton.h>
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include <QCheckBox>
 #include <QFontDialog>

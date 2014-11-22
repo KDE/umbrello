@@ -22,7 +22,7 @@
 #include "umldoc.h"
 #include "umloperationdialog.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kmessagebox.h>
 
 #include <QApplication>

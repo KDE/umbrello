@@ -16,7 +16,7 @@
 #include "debug_utils.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 
 namespace Uml
 {

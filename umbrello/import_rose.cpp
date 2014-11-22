@@ -21,7 +21,7 @@
 #include "petaltree2uml.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 
 // qt includes
 #include <QMessageBox>

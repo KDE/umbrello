@@ -19,7 +19,7 @@
 
 // kde includes
 #include <kmessagebox.h>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <klineedit.h>
 #include <kcombobox.h>
 

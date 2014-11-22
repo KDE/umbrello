@@ -18,7 +18,7 @@
 #include "widgetbase.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 #include <KComboBox>
 
 // qt includes

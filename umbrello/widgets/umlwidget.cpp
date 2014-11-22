@@ -30,7 +30,7 @@
 #include "uniqueid.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kmessagebox.h>
 
 // qt includes

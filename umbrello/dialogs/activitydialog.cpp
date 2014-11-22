@@ -19,7 +19,7 @@
 
 //kde includes
 #include <klineedit.h>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <ktextedit.h>
 
 //qt includes

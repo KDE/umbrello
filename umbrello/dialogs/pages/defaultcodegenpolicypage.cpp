@@ -13,8 +13,8 @@
 #include "defaultcodegenpolicypage.h"
 
 // qt/kde includes
+#include <KLocalizedString>
 #include <QLabel>
-#include <klocale.h>
 
 /**
  * This is the page which comes up IF there is no special options for the

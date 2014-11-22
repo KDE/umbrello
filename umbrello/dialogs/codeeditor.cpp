@@ -36,7 +36,7 @@
 #include "umloperationdialog.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 
 // qt includes
 #include <QBrush>

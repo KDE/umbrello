@@ -10,15 +10,17 @@
 
 // own header
 #include "component.h"
+
 // app includes
 #include "association.h"
 #include "debug_utils.h"
 #include "object_factory.h"
 #include "model_utils.h"
-#include "clipboard/idchangelog.h"
+#include "idchangelog.h"
 #include "umldoc.h"
+
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 
 /**
  * Sets up a Component.

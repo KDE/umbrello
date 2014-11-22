@@ -18,7 +18,7 @@
 */
 
 #include "errors.h"
-#include <klocale.h>
+#include <KLocalizedString>
 
 Error& Errors::_InternalError()
 {

@@ -16,7 +16,7 @@
 #include <QDialog>
 
 // KDE forward declarations
-class KFileFilterCombo;
+class KComboBox;
 
 /**
  * Dialog for collecting the "Export all views" params.
@@ -38,7 +38,7 @@ public:
 
 private:
 
-    KFileFilterCombo* m_imageType;  ///< The image type selected.
+    KComboBox* m_imageType;  ///< The image type selected.
 
 protected slots:
 

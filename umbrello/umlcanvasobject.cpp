@@ -24,7 +24,7 @@
 #include "idchangelog.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 
 DEBUG_REGISTER_DISABLED(UMLCanvasObject)
 

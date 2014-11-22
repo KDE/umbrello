@@ -62,13 +62,11 @@
 #include <krecentfilesaction.h>
 #include <kconfig.h>
 #include <kcursor.h>
-#include <kinputdialog.h>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kmessagebox.h>
 #include <ktip.h>
 #include <kactionmenu.h>
 #include <kxmlguifactory.h>
-#include <kdeprintdialog.h>
 
 // qt includes
 #include <QApplication>
@@ -1430,8 +1428,7 @@ void UMLApp::slotFilePrint()
     if (!slotPrintSettings())
         return;
 
-    QPrintDialog *printDialog =
-                  KdePrint::createPrintDialog(m_printer, QList<QWidget*>() << m_printSettings, this);
+    QPrintDialog *printDialog = new QPrintDialog(m_printer, this);   //FIXME KF5  , QList<QWidget*>() << m_printSettings);
     printDialog->setWindowTitle(i18n("Print %1", m_doc->url().toDisplayString()));
 
     if (printDialog->exec()) {

@@ -17,7 +17,7 @@
 #include "umlview.h"
 #include "widgetbase.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kcolorbutton.h>
 
 #include <QCheckBox>

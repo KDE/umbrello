@@ -12,7 +12,7 @@
 #include "umlroledialog.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 
 // app includes
 #include "umlrole.h"

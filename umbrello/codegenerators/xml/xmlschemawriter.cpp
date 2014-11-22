@@ -16,7 +16,7 @@
 #include "operation.h"
 #include "umldoc.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kmessagebox.h>
 
 #include <QFile>

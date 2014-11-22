@@ -16,7 +16,7 @@
 #include "umlclassifierlistitemlist.h"
 #include "umlentityattributelist.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include <QList>
 #include <QTextStream>

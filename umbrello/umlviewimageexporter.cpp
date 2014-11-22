@@ -19,9 +19,10 @@
 #include "umlscene.h"
 
 //kde include files
+#include <KIO/Job>
+#include <KJobWidgets>
 #include <KLocalizedString>
-#include <kmessagebox.h>
-#include <kio/netaccess.h>
+#include <KMessageBox>
 
 // Qt include files
 #include <QFileDialog>
@@ -98,7 +99,10 @@ bool UMLViewImageExporter::prepareExport()
         }
 
         // check if the file exists
-        if (KIO::NetAccess::exists(m_imageURL, KIO::NetAccess::SourceSide, UMLApp::app())) {
+        KIO::StatJob *job = KIO::stat(m_imageURL, KIO::StatJob::SourceSide, 0);
+        KJobWidgets::setWindow(job, UMLApp::app());
+        job->exec();
+        if (!job->error()) {
             int wantSave = KMessageBox::warningContinueCancel(0,
                                 i18n("The selected file %1 exists.\nDo you want to overwrite it?", m_imageURL.url(QUrl::PreferLocalFile)),
                                 i18n("File Already Exists"), KGuiItem(i18n("&Overwrite")));

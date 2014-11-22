@@ -20,7 +20,7 @@
 #include "umldoc.h"
 
 // kde includes
-#include <klocale.h>
+#include <KLocalizedString>
 
 /**
  * Constructor.

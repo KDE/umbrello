@@ -17,9 +17,8 @@
 #include "umldoc.h"
 #include "umlviewimageexportermodel.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kmessagebox.h>
-#include <kio/netaccess.h>
 #include <kio/job.h>
 #include <kjobwidgets.h>
 

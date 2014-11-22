@@ -10,7 +10,7 @@
 
 #include "node.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 
 /**
  * Sets up a Node.

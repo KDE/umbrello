@@ -26,7 +26,7 @@
 #include "entityattribute.h"
 #include "object_factory.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 #include <ktextedit.h>
 
 #include <QApplication>
