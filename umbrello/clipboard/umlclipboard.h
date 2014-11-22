@@ -70,6 +70,7 @@ private:
     UMLCopyType m_type; ///< Type of copy operation to perform.
 
 private:
+    void addRelatedWidgets();
 
     void fillObjectListForWidgets(UMLWidgetList& widgets);
 
